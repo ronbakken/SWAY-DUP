@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Xamarin.Forms;
-// using Xamarin.FormsMaps;
+using Xamarin.Forms.Maps;
 
 namespace infx
 {
@@ -18,12 +18,34 @@ namespace infx
 			Button testButton = new Button {
 				Text = "Hello world",
 			};
-			Content = new StackLayout {
+
+			RelativeLayout layout = new RelativeLayout();
+
+			layout.Children.Add(new Map(),
+				Constraint.Constant(0),
+				Constraint.Constant(0),
+				Constraint.RelativeToParent((parent) => {
+					return parent.Width;
+				}), Constraint.RelativeToParent((parent) => {
+					return parent.Height;
+				}));
+
+			/*
+			layout.Children.Add(new StackLayout {
 				Children = {
 					testButton,
 				}
-			};
+			}, Constraint.Constant(0),
+				Constraint.Constant(0),
+				Constraint.RelativeToParent((parent) => {
+					return parent.Width;
+				}), Constraint.RelativeToParent((parent) => {
+					return parent.Height;
+				}));*/
+
 			testButton.Clicked += TestButton_Clicked;
+
+			Content = layout;
 		}
 
 		private void TestButton_Clicked(object sender, EventArgs e)

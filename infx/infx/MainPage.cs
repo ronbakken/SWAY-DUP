@@ -103,7 +103,7 @@ namespace infx
 		private void SelectBusiness_Clicked(object sender, EventArgs e)
 		{
 			/*Application.Current.MainPage.?*/
-			Navigation.PushAsync(new MainPage());
+			// Navigation.PushAsync(new MainPage());
 		}
 
 		private void SelectInfluencer_Clicked(object sender, EventArgs e)
