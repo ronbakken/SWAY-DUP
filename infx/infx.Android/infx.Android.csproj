@@ -85,7 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\infx\infx.csproj">
-      <Project>{DE260392-80E2-4497-A5A6-5A5EF010844E}</Project>
+      <Project>{8d8cfb6c-48dd-49a7-a19f-49effea7bdb3}</Project>
       <Name>infx</Name>
     </ProjectReference>
   </ItemGroup>
