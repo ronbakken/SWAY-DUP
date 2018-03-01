@@ -12,8 +12,8 @@ namespace infx
 		public App ()
 		{
 			InitializeComponent();
-
-			MainPage = new infx.MainNavigation();
+			
+			MainPage = new NavigationPage(new InfluencerMain());
 		}
 
 		protected override void OnStart ()

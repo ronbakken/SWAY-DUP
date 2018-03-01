@@ -19,6 +19,7 @@ namespace infx
 
 		public MainPage()
 		{
+			Title = AppResources.OnboardingTitle;
 			title = new Label {
 				Text = AppResources.OnboardingTitle.ToUpper(),
 				Opacity = .0,
@@ -109,8 +110,11 @@ namespace infx
 		{
 			// Navigation.PushAsync(new MainPage());
 			// Application.Current.MainPage = new NavigationPage();
-			Device.BeginInvokeOnMainThread(() => {
-				Application.Current.MainPage = new ContentPage();
+			Device.BeginInvokeOnMainThread(async () => {
+				InputTransparent = true;
+				Page next = new NavigationPage(new InfluencerMain());
+				await Content.FadeTo(0.0, 1500);
+				Application.Current.MainPage = next;
 			});
 		}
 
@@ -118,12 +122,14 @@ namespace infx
 		{
 			Appearing -= MainPage_Appearing;
 			Device.BeginInvokeOnMainThread(async () => {
+				InputTransparent = true;
 				await hi.FadeTo(1.0, 2000);
 				await selectType.FadeTo(1.0, 2000);
 				var titleFade = title.FadeTo(1.0, 1000);
 				var stepFade = step.FadeTo(1.0, 1000);
 				await selectInfluencer.FadeTo(1.0, 250);
 				await selectBusiness.FadeTo(1.0, 250);
+				InputTransparent = false;
 				await titleFade;
 				await stepFade;
 			});
