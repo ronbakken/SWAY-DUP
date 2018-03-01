@@ -11,7 +11,7 @@ namespace infx
 	public class MainPage : ContentPage
 	{
 		Label title;
-		Label step1;
+		Label step;
 		Label hi;
 		Label selectType;
 		Button selectInfluencer;
@@ -21,13 +21,15 @@ namespace infx
 		{
 			title = new Label {
 				Text = AppResources.OnboardingTitle.ToUpper(),
+				Opacity = .0,
 				TextColor = Palette.AccentColor,
 				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.0,
 				FontAttributes = FontAttributes.Bold,
 			};
-			step1 = new Label {
+			step = new Label {
 				Text = AppResources.OnboardingStep1,
+				Opacity = .0,
 				TextColor = Palette.AccentColor,
 				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 2.0
@@ -46,11 +48,11 @@ namespace infx
 				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.25,
 			};
-			selectInfluencer = new Button {
+			selectInfluencer = new RoundedButton {
 				Text = AppResources.OnboardingSelectInfluencer.ToUpper(),
 				Opacity = .0,
 			};
-			selectBusiness = new Button {
+			selectBusiness = new RoundedButton {
 				Text = AppResources.OnboardingSelectBusiness.ToUpper(),
 				Opacity = .0,
 			};
@@ -64,7 +66,7 @@ namespace infx
 						HorizontalOptions = LayoutOptions.FillAndExpand,
 						Children = {
 							title,
-							step1,
+							step,
 						}
 					},
 					new StackLayout {
@@ -102,8 +104,12 @@ namespace infx
 			Device.BeginInvokeOnMainThread(async () => {
 				await hi.FadeTo(1.0, 2000);
 				await selectType.FadeTo(1.0, 2000);
+				var titleFade = title.FadeTo(1.0, 1000);
+				var stepFade = step.FadeTo(1.0, 1000);
 				await selectInfluencer.FadeTo(1.0, 250);
 				await selectBusiness.FadeTo(1.0, 250);
+				await titleFade;
+				await stepFade;
 			});
 		}
 	}
