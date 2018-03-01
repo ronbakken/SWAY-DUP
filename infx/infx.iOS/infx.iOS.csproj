@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C4FBC707-5F77-4549-A5C6-6FDF1D5FBE45}</ProjectGuid>
+    <ProjectGuid>{A39BCE5D-E023-4E52-81CC-E42730CE999E}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>infx.iOS</RootNamespace>
@@ -122,5 +122,10 @@
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.122203" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="..\infx\infx.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\infx\infx.csproj">
+      <Project>{DE260392-80E2-4497-A5A6-5A5EF010844E}</Project>
+      <Name>infx</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

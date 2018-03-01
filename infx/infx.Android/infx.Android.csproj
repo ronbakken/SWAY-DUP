@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{20A1ED69-5782-4CCF-B67C-0B32B928D4CC}</ProjectGuid>
+    <ProjectGuid>{C6D2256A-D6F0-40BD-9A4E-439286546371}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>infx.Droid</RootNamespace>
@@ -80,8 +80,13 @@
     </AndroidResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\infx\infx.csproj">
+      <Project>{DE260392-80E2-4497-A5A6-5A5EF010844E}</Project>
+      <Name>infx</Name>
+    </ProjectReference>
+  </ItemGroup>
 
-  <Import Project="..\infx\infx.projitems" Label="Shared" />
 
  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
