@@ -10,7 +10,7 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(infx.GenericButton), typeof(infx.iOS.RoundedButtonRenderer))]
+[assembly: ExportRenderer(typeof(infx.RoundedButton), typeof(infx.iOS.RoundedButtonRenderer))]
 namespace infx.iOS
 {
 	public class RoundedButtonRenderer : ButtonRenderer

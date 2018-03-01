@@ -13,7 +13,7 @@ namespace infx
 		{
 			InitializeComponent();
 
-			MainPage = new infx.MainPage();
+			MainPage = new infx.MainNavigation();
 		}
 
 		protected override void OnStart ()

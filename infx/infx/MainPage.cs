@@ -95,7 +95,23 @@ namespace infx
 				}
 			};
 			Appearing += MainPage_Appearing;
-			
+			selectInfluencer.Clicked += SelectInfluencer_Clicked;
+			selectBusiness.Clicked += SelectBusiness_Clicked;
+		}
+
+		private void SelectBusiness_Clicked(object sender, EventArgs e)
+		{
+			/*Application.Current.MainPage.?*/
+			Navigation.PushAsync(new MainPage());
+		}
+
+		private void SelectInfluencer_Clicked(object sender, EventArgs e)
+		{
+			// Navigation.PushAsync(new MainPage());
+			// Application.Current.MainPage = new NavigationPage();
+			Device.BeginInvokeOnMainThread(() => {
+				Application.Current.MainPage = new ContentPage();
+			});
 		}
 
 		private void MainPage_Appearing(object sender, EventArgs e)
@@ -114,3 +130,4 @@ namespace infx
 		}
 	}
 }
+ 
