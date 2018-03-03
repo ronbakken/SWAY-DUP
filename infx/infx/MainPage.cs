@@ -23,7 +23,7 @@ namespace infx
 			title = new Label {
 				Text = AppResources.OnboardingTitle.ToUpper(),
 				Opacity = .0,
-				TextColor = Palette.AccentColor,
+				TextColor = Palette.Primary,
 				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.0,
 				FontAttributes = FontAttributes.Bold,
@@ -31,27 +31,28 @@ namespace infx
 			step = new Label {
 				Text = AppResources.OnboardingStep1,
 				Opacity = .0,
-				TextColor = Palette.AccentColor,
+				TextColor = Palette.Primary,
 				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 2.0
 			};
 			hi = new Label {
 				Text = AppResources.OnboardingHi,
 				Opacity = .0,
-				TextColor = Palette.AccentColor,
+				TextColor = Palette.Primary,
 				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.25,
 			};
 			selectType = new Label {
 				Text = AppResources.OnboardingSelectType,
 				Opacity = .0,
-				TextColor = Palette.AccentColor,
+				TextColor = Palette.Primary,
 				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.25,
 			};
 			selectInfluencer = new RoundedButton {
 				Text = AppResources.OnboardingSelectInfluencer.ToUpper(),
 				Opacity = .0,
+				// Padding = new Thickness(Device.GetNamedSize(NamedSize.Medium, typeof(Thickness))),
 			};
 			selectBusiness = new RoundedButton {
 				Text = AppResources.OnboardingSelectBusiness.ToUpper(),
