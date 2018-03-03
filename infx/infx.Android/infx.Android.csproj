@@ -58,6 +58,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Widgets\CustomMapRenderer.cs" />
     <Compile Include="Widgets\RoundedButtonRenderer.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />

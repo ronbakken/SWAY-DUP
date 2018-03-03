@@ -10,18 +10,28 @@ namespace infx
 {
 	public class InfluencerMain : ContentPage
 	{
+		CustomMap map;
+
 		public InfluencerMain ()
 		{
 			Title = "INF";
 			NavigationPage.SetHasNavigationBar(this, false);
 
+			Button profile = new RoundedButton {
+				Text = "PROFILE",
+			};
+
 			Button testButton = new Button {
-				Text = "Hello world",
+				Text = "TEST",
 			};
 
 			RelativeLayout layout = new RelativeLayout();
 
-			layout.Children.Add(new Map(),
+			map = new CustomMap {
+				MapType = MapType.Street
+			};
+
+			layout.Children.Add(map,
 				Constraint.Constant(0),
 				Constraint.Constant(0),
 				Constraint.RelativeToParent((parent) => {
@@ -30,6 +40,15 @@ namespace infx
 					return parent.Height;
 				}));
 
+			layout.Children.Add(profile,
+				Constraint.RelativeToView(map, (parent, sibling) => {
+					return sibling.Width - 150;
+				}),
+				Constraint.RelativeToView(map, (parent, sibling) => {
+					return sibling.Height - 150;
+				}),
+				Constraint.Constant(100),
+				Constraint.Constant(100));
 			/*
 			layout.Children.Add(new StackLayout {
 				Children = {
@@ -42,8 +61,6 @@ namespace infx
 				}), Constraint.RelativeToParent((parent) => {
 					return parent.Height;
 				}));*/
-
-			testButton.Clicked += TestButton_Clicked;
 
 			Content = layout;
 		}
