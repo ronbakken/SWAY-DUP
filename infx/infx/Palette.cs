@@ -8,6 +8,6 @@ namespace infx
 {
 	static class Palette
 	{
-		public static Color Primary = new Color(33.0 / 255.0, 150.0 / 255.0, 243 / 255.0);
+		public static Color AccentColor = new Color(46.0 / 255.0, 156.0 / 255.0, 251.0 / 255.0);
 	}
 }
