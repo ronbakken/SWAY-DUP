@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Support.V4.Content;
 
 namespace infx.Droid
 {
@@ -21,6 +22,24 @@ namespace infx.Droid
 
 			global::Xamarin.FormsMaps.Init(this, bundle);
 			global::Xamarin.Forms.Forms.Init(this, bundle);
+
+			Palette.Primary = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.primaryColor));
+			Palette.PrimaryLight = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.primaryLightColor));
+			Palette.PrimaryDark = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.primaryDarkColor));
+			Palette.Secondary = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.secondaryColor));
+			Palette.SecondaryLight = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.secondaryLightColor));
+			Palette.SecondaryDark = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.secondaryDarkColor));
+			Palette.PrimaryText = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.primaryTextColor));
+			Palette.SecondaryText = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.secondaryTextColor));
+			
 			LoadApplication(new App());
 		}
 	}
