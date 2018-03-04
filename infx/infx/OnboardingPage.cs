@@ -29,7 +29,7 @@ namespace infx
 		public OnboardingPage()
 		{
 			Title = AppResources.OnboardingTitle;
-			BackgroundColor = Palette.Primary;
+			
 			title = new OnboardingLabel {
 				Text = AppResources.OnboardingTitle.ToUpper(),
 				Opacity = .0,
@@ -60,9 +60,12 @@ namespace infx
 				Opacity = .0,
 			};
 			Content = new StackLayout {
+				Opacity = .0,
+				BackgroundColor = Palette.Primary,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				Margin = new Thickness(Device.GetNamedSize(NamedSize.Medium, typeof(Thickness))),
+				// Margin = new Thickness(Device.GetNamedSize(NamedSize.Medium, typeof(Thickness))),
+				Padding = new Thickness(Device.GetNamedSize(NamedSize.Medium, typeof(Thickness))),
 				Children = {
 					new StackLayout {
 						VerticalOptions = LayoutOptions.Start,
@@ -125,6 +128,7 @@ namespace infx
 			Appearing -= OnboardingPage_Appearing;
 			Device.BeginInvokeOnMainThread(async () => {
 				InputTransparent = true;
+				await Content.FadeTo(1.0, 250);
 				await hi.FadeTo(1.0, 2000);
 				await selectType.FadeTo(1.0, 2000);
 				var titleFade = title.FadeTo(1.0, 1000);
