@@ -11,7 +11,7 @@ namespace infx
 	{
 		public MainNavigation()
 		{
-			PushAsync(new MainPage());
+			PushAsync(new OnboardingPage());
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace infx
 			Title = "INF";
 			NavigationPage.SetHasNavigationBar(this, false);
 
-			Button profile = new RoundedButton {
+			Button profile = new OnboardingButton {
 				Text = "PROFILE",
 			};
 
@@ -68,7 +68,7 @@ namespace infx
 		private void TestButton_Clicked(object sender, EventArgs e)
 		{
 			Device.BeginInvokeOnMainThread(() => {
-				// Application.Current.MainPage = new MainPage();
+				// Application.Current.OnboardingPage = new OnboardingPage();
 				Navigation.PushAsync(new ContentPage());
 			});
 		}

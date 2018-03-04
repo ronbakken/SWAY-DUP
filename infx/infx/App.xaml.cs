@@ -13,7 +13,7 @@ namespace infx
 		{
 			InitializeComponent();
 
-			MainPage = new MainPage(); // new NavigationPage(new InfluencerMain());
+			MainPage = new OnboardingPage(); // new NavigationPage(new InfluencerMain());
 		}
 
 		protected override void OnStart ()

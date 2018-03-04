@@ -23,7 +23,7 @@
 	<key>MinimumOSVersion</key>
 	<string>10.3</string>
 	<key>CFBundleDisplayName</key>
-	<string>infx</string>
+	<string>INF</string>
 	<key>CFBundleIdentifier</key>
 	<string>space.no-break.infx</string>
 	<key>CFBundleVersion</key>
@@ -50,9 +50,13 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>infx</string>
-  <key>NSLocationAlwaysUsageDescription</key>
-  <string>INF wants to use your location to connect you with nearby offers.</string>
-  <key>NSLocationWhenInUseUsageDescription</key>
-  <string>INF is using your location.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>INF wants to use your location to connect you with nearby offers.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>INF is using your location.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>iconize-fontawesome.ttf</string>
+	</array>
 </dict>
 </plist>

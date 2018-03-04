@@ -10,10 +10,10 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(infx.RoundedButton), typeof(infx.iOS.RoundedButtonRenderer))]
+[assembly: ExportRenderer(typeof(infx.OnboardingButton), typeof(infx.iOS.OnboardingButtonRenderer))]
 namespace infx.iOS
 {
-	public class RoundedButtonRenderer : ButtonRenderer
+	public class OnboardingButtonRenderer : ButtonRenderer
 	{
 		protected override void OnElementChanged(ElementChangedEventArgs<Button> e)
 		{
@@ -21,7 +21,7 @@ namespace infx.iOS
 
 			if (Control != null)
 			{
-				var button = (RoundedButton)e.NewElement;
+				var button = (OnboardingButton)e.NewElement;
 
 				button.SizeChanged += (s, args) => {
 					var radius = Math.Min(button.Width, button.Height) / 2.0;

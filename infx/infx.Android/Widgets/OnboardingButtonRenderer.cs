@@ -15,12 +15,12 @@ using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(infx.RoundedButton), typeof(infx.Droid.RoundedButtonRenderer))]
+[assembly: ExportRenderer(typeof(infx.OnboardingButton), typeof(infx.Droid.OnboardingButtonRenderer))]
 namespace infx.Droid
 {
-	public class RoundedButtonRenderer : ButtonRenderer
+	public class OnboardingButtonRenderer : ButtonRenderer
 	{
-		public RoundedButtonRenderer(Context context) : base(context)
+		public OnboardingButtonRenderer(Context context) : base(context)
 		{
 
 		}
@@ -33,7 +33,7 @@ namespace infx.Droid
 
 			if (Control != null)
 			{
-				var button = (RoundedButton)e.NewElement;
+				var button = (OnboardingButton)e.NewElement;
 
 				button.SizeChanged += (s, args) => {
 					var radius = (float)Math.Min(button.Width, button.Height);
@@ -49,8 +49,9 @@ namespace infx.Droid
 					// Create a drawable for the button's pressed state
 					_pressed = new Android.Graphics.Drawables.GradientDrawable();
 					// var highlight = Context.ObtainStyledAttributes(new int[] { Android.Resource.Attribute.ColorActivatedHighlight }).GetColor(0, Android.Graphics.Color.Gray);
-					if (button.TextColor != Color.Default)
-						_pressed.SetColor(button.TextColor.MultiplyAlpha(0.5).ToAndroid());
+					//if (button.TextColor != Color.Default)
+					//	_pressed.SetColor(button.TextColor.MultiplyAlpha(0.5).ToAndroid());
+					_pressed.SetColor(Palette.SecondaryDark.ToAndroid());
 					_pressed.SetCornerRadius(radius);
 					if (button.BorderColor != Color.Default)
 						_pressed.SetStroke((int)button.BorderWidth, button.BorderColor.ToAndroid());

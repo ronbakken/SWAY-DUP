@@ -8,7 +8,16 @@ using Xamarin.Forms;
 
 namespace infx
 {
-	public class MainPage : ContentPage
+	public class OnboardingLabel : Label
+	{
+		public OnboardingLabel()
+		{
+			TextColor = Palette.PrimaryText;
+			HorizontalOptions = LayoutOptions.Center;
+		}
+	}
+
+	public class OnboardingPage : ContentPage
 	{
 		Label title;
 		Label step;
@@ -17,44 +26,36 @@ namespace infx
 		Button selectInfluencer;
 		Button selectBusiness;
 
-		public MainPage()
+		public OnboardingPage()
 		{
 			Title = AppResources.OnboardingTitle;
-			title = new Label {
+			BackgroundColor = Palette.Primary;
+			title = new OnboardingLabel {
 				Text = AppResources.OnboardingTitle.ToUpper(),
 				Opacity = .0,
-				TextColor = Palette.Primary,
-				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.0,
 				FontAttributes = FontAttributes.Bold,
 			};
-			step = new Label {
+			step = new OnboardingLabel {
 				Text = AppResources.OnboardingStep1,
 				Opacity = .0,
-				TextColor = Palette.Primary,
-				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 2.0
 			};
-			hi = new Label {
+			hi = new OnboardingLabel {
 				Text = AppResources.OnboardingHi,
 				Opacity = .0,
-				TextColor = Palette.Primary,
-				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.25,
 			};
-			selectType = new Label {
+			selectType = new OnboardingLabel {
 				Text = AppResources.OnboardingSelectType,
 				Opacity = .0,
-				TextColor = Palette.Primary,
-				HorizontalOptions = LayoutOptions.Center,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.25,
 			};
-			selectInfluencer = new RoundedButton {
+			selectInfluencer = new OnboardingButton {
 				Text = AppResources.OnboardingSelectInfluencer.ToUpper(),
 				Opacity = .0,
-				// Padding = new Thickness(Device.GetNamedSize(NamedSize.Medium, typeof(Thickness))),
 			};
-			selectBusiness = new RoundedButton {
+			selectBusiness = new OnboardingButton {
 				Text = AppResources.OnboardingSelectBusiness.ToUpper(),
 				Opacity = .0,
 			};
@@ -96,21 +97,21 @@ namespace infx
 					},
 				}
 			};
-			Appearing += MainPage_Appearing;
+			Appearing += OnboardingPage_Appearing;
 			selectInfluencer.Clicked += SelectInfluencer_Clicked;
 			selectBusiness.Clicked += SelectBusiness_Clicked;
 		}
 
 		private void SelectBusiness_Clicked(object sender, EventArgs e)
 		{
-			/*Application.Current.MainPage.?*/
-			// Navigation.PushAsync(new MainPage());
+			/*Application.Current.OnboardingPage.?*/
+			// Navigation.PushAsync(new OnboardingPage());
 		}
 
 		private void SelectInfluencer_Clicked(object sender, EventArgs e)
 		{
-			// Navigation.PushAsync(new MainPage());
-			// Application.Current.MainPage = new NavigationPage();
+			// Navigation.PushAsync(new OnboardingPage());
+			// Application.Current.OnboardingPage = new NavigationPage();
 			Device.BeginInvokeOnMainThread(async () => {
 				InputTransparent = true;
 				Page next = new NavigationPage(new InfluencerMain());
@@ -119,9 +120,9 @@ namespace infx
 			});
 		}
 
-		private void MainPage_Appearing(object sender, EventArgs e)
+		private void OnboardingPage_Appearing(object sender, EventArgs e)
 		{
-			Appearing -= MainPage_Appearing;
+			Appearing -= OnboardingPage_Appearing;
 			Device.BeginInvokeOnMainThread(async () => {
 				InputTransparent = true;
 				await hi.FadeTo(1.0, 2000);
