@@ -25,7 +25,8 @@ namespace infx
 				Text = "TEST",
 			};
 
-			RelativeLayout layout = new RelativeLayout();
+			RelativeLayout layout = new RelativeLayout {
+			};
 
 			map = new CustomMap {
 				MapType = MapType.Street
@@ -63,6 +64,14 @@ namespace infx
 				}));*/
 
 			Content = layout;
+			Appearing += InfluencerMain_Appearing;
+		}
+
+		private void InfluencerMain_Appearing(object sender, EventArgs e)
+		{
+			Appearing -= InfluencerMain_Appearing;
+			Device.BeginInvokeOnMainThread(async () => {
+			});
 		}
 
 		private void TestButton_Clicked(object sender, EventArgs e)

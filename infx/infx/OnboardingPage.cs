@@ -29,6 +29,7 @@ namespace infx
 		public OnboardingPage()
 		{
 			Title = AppResources.OnboardingTitle;
+			// BackgroundColor = Palette.BackgroundInverse;
 			
 			title = new OnboardingLabel {
 				Text = AppResources.OnboardingTitle.ToUpper(),
@@ -60,7 +61,7 @@ namespace infx
 				Opacity = .0,
 			};
 			Content = new StackLayout {
-				Opacity = .0,
+				// Opacity = .0,
 				BackgroundColor = Palette.Primary,
 				VerticalOptions = LayoutOptions.FillAndExpand,
 				HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -118,6 +119,7 @@ namespace infx
 			Device.BeginInvokeOnMainThread(async () => {
 				InputTransparent = true;
 				Page next = new NavigationPage(new InfluencerMain());
+				// BackgroundColor = Palette.Background;
 				await Content.FadeTo(0.0, 1500);
 				Application.Current.MainPage = next;
 			});
@@ -128,7 +130,7 @@ namespace infx
 			Appearing -= OnboardingPage_Appearing;
 			Device.BeginInvokeOnMainThread(async () => {
 				InputTransparent = true;
-				await Content.FadeTo(1.0, 250);
+				// await Content.FadeTo(1.0, 250);
 				await hi.FadeTo(1.0, 2000);
 				await selectType.FadeTo(1.0, 2000);
 				var titleFade = title.FadeTo(1.0, 1000);

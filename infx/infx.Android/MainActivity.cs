@@ -10,7 +10,7 @@ using Android.Support.V4.Content;
 
 namespace infx.Droid
 {
-	[Activity(Label = "infx", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity(Label = "infx", Icon = "@drawable/icon", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 	{
 		protected override void OnCreate(Bundle bundle)
@@ -43,7 +43,15 @@ namespace infx.Droid
 				Resource.Color.primaryTextColor));
 			Palette.SecondaryText = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
 				Resource.Color.secondaryTextColor));
-			
+			Palette.Foreground = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.foreground_material_light));
+			Palette.ForegroundInverse = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.foreground_material_dark));
+			Palette.Background = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.background_material_light));
+			Palette.BackgroundInverse = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.background_material_dark));
+
 			LoadApplication(new App());
 		}
 	}

@@ -6,12 +6,14 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
-using Android.Gms.Maps;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
+
+using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -25,7 +27,7 @@ namespace infx.Droid
 	{
 		public CustomMapRenderer(Context context) : base(context)
 		{
-			
+
 		}
 
 		protected override void OnMapReady(GoogleMap map)
@@ -33,6 +35,7 @@ namespace infx.Droid
 			map.UiSettings.ZoomControlsEnabled = false;
 			map.UiSettings.MyLocationButtonEnabled = false;
 			map.UiSettings.RotateGesturesEnabled = false;
+			map.SetMapStyle(MapStyleOptions.LoadRawResourceStyle(Context, Resource.Raw.MapLight));
 		}
 	}
 }
