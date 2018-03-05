@@ -25,7 +25,9 @@ namespace infx.iOS
 			global::Xamarin.FormsMaps.Init();
 			global::Xamarin.Forms.Forms.Init();
 
-			FormsPlugin.Iconize.iOS.IconControls.Init();
+			// Plugin.Iconize.Iconize.Init();
+			
+			Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
 
 			LoadApplication(new App());
 

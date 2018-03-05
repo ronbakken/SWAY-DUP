@@ -23,7 +23,9 @@ namespace infx.Droid
 			global::Xamarin.FormsMaps.Init(this, bundle);
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
-			FormsPlugin.Iconize.Droid.IconControls.Init(Resource.Id.toolbar); //, Resource.Id.tabs);
+			Plugin.Iconize.Iconize.Init(Resource.Id.toolbar, Resource.Id.sliding_tabs);
+
+			Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
 
 			Palette.Primary = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
 				Resource.Color.primaryColor));

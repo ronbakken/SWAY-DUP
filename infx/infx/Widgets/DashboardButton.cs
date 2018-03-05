@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using Xamarin.Forms;
-using FormsPlugin.Iconize;
+using Plugin.Iconize;
 
 namespace infx
 {
@@ -12,6 +12,7 @@ namespace infx
 		public DashboardButton()
 		{
 			TextColor = Palette.Primary;
+			FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Button));
 		}
 	}
 }

@@ -138,4 +138,8 @@
   <data name="OnboardingTitle" xml:space="preserve">
     <value>Onboarding</value>
   </data>
+  <data name="SearchPlaceholder" xml:space="preserve">
+    <value>What are you looking for?</value>
+    <comment>Search bar placeholder text</comment>
+  </data>
 </root>

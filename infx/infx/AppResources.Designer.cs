@@ -113,5 +113,14 @@ namespace infx {
                 return ResourceManager.GetString("OnboardingTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to What are you looking for?.
+        /// </summary>
+        internal static string SearchPlaceholder {
+            get {
+                return ResourceManager.GetString("SearchPlaceholder", resourceCulture);
+            }
+        }
     }
 }
