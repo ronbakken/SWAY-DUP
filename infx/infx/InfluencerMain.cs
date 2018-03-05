@@ -93,21 +93,23 @@ namespace infx
 
 			Content = layout;
 			Appearing += InfluencerMain_Appearing;
+
+			offers.Clicked += Offers_Clicked;
+		}
+
+		private void Offers_Clicked(object sender, EventArgs e)
+		{
+			Device.BeginInvokeOnMainThread(() => {
+				Navigation.PushAsync(new InfluencerOffers());
+			});
 		}
 
 		private void InfluencerMain_Appearing(object sender, EventArgs e)
 		{
 			Appearing -= InfluencerMain_Appearing;
-			Device.BeginInvokeOnMainThread(async () => {
-			});
-		}
-
-		private void TestButton_Clicked(object sender, EventArgs e)
-		{
-			Device.BeginInvokeOnMainThread(() => {
-				// Application.Current.OnboardingPage = new OnboardingPage();
-				Navigation.PushAsync(new ContentPage());
-			});
+			/*Device.BeginInvokeOnMainThread(async () => {
+				// ...
+			});*/
 		}
 	}
 }

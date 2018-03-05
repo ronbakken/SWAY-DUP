@@ -61,6 +61,42 @@ namespace infx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} others are interested.
+        /// </summary>
+        internal static string OffersAppliedInterest {
+            get {
+                return ResourceManager.GetString("OffersAppliedInterest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pending.
+        /// </summary>
+        internal static string OffersAppliedPending {
+            get {
+                return ResourceManager.GetString("OffersAppliedPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Applied.
+        /// </summary>
+        internal static string OffersAppliedTitle {
+            get {
+                return ResourceManager.GetString("OffersAppliedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Offers.
+        /// </summary>
+        internal static string OffersTitle {
+            get {
+                return ResourceManager.GetString("OffersTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hi there!.
         /// </summary>
         internal static string OnboardingHi {
