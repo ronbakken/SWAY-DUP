@@ -29,7 +29,7 @@
   <style name="MainTheme.Splash" parent ="Theme.AppCompat.Light.NoActionBar">
     <item name="android:windowBackground">@drawable/SplashScreen</item>
     <item name="windowNoTitle">true</item>
-    <item name="android:windowFullscreen">true</item>
+    <!--<item name="android:windowFullscreen">true</item>-->
   </style>
 
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">

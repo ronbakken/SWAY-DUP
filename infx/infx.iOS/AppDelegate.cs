@@ -22,8 +22,6 @@ namespace infx.iOS
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
-			Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
-
 			global::Xamarin.FormsMaps.Init();
 			global::Xamarin.Forms.Forms.Init();
 

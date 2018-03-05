@@ -50,14 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xam.FormsPlugin.Iconize">
-      <Version>1.0.10</Version>
-    </PackageReference>
-    <PackageReference Include="Xam.Plugin.Iconize">
-      <Version>1.0.10</Version>
-    </PackageReference>
     <PackageReference Include="Xam.Plugin.Iconize.FontAwesome">
-      <Version>1.0.10</Version>
+      <Version>2.0.0.37-beta</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="2.5.0.280555" />
     <PackageReference Include="Xamarin.Android.Support.Design" Version="26.1.0.1" />

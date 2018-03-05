@@ -13,6 +13,8 @@ namespace infx
 		{
 			InitializeComponent();
 
+			Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
+
 			MainPage = new OnboardingPage(); // new NavigationPage(new InfluencerMain());
 		}
 

@@ -17,8 +17,8 @@ namespace infx
 			Title = "INF";
 			NavigationPage.SetHasNavigationBar(this, false);
 
-			Button profile = new OnboardingButton {
-				Text = "PROFILE",
+			DashboardButton profile = new DashboardButton {
+				Text = "{fa-code}",
 			};
 
 			Button testButton = new Button {
@@ -46,7 +46,7 @@ namespace infx
 					return sibling.Width - 150;
 				}),
 				Constraint.RelativeToView(map, (parent, sibling) => {
-					return sibling.Height - 150;
+					return 100;
 				}),
 				Constraint.Constant(100),
 				Constraint.Constant(100));

@@ -13,7 +13,7 @@ namespace infx
 			BackgroundColor = Palette.PrimaryDark;
 			BorderColor = Palette.Secondary;
 			TextColor = Palette.PrimaryText;
-			BorderWidth = 2.0;
+			// BorderWidth = 2.0;
 		}
 	}
 }
