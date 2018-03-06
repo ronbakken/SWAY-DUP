@@ -22,16 +22,28 @@ namespace infx
 		public class OfferCell : ViewCell
 		{
 			Label title;
+			Label text;
 			Image image = null;
 
 			public OfferCell()
 			{
-				title = new Label { Text = "Hello world" };
+				title = new Label {
+					Text = "Hello world",
+					TextColor = Palette.Foreground,
+					FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
+					FontAttributes = FontAttributes.Bold,
+				};
+				text = new Label {
+					Text = "Hello world"
+				};
 				image = new Image();
 				View = new StackLayout {
+					HorizontalOptions = LayoutOptions.FillAndExpand,
+					VerticalOptions = LayoutOptions.FillAndExpand,
 					Children = {
 						title,
 						image,
+						text,
 					},
 				};
 			}
@@ -43,7 +55,7 @@ namespace infx
 				OfferData data = BindingContext as OfferData;
 				if (data != null)
 				{
-					title.Text = data.Title;
+					title.Text = data.Title + " @ " + data.Business;
 					image.Source = data.ImageUrl;
 				}
 			}
@@ -54,6 +66,7 @@ namespace infx
 			ListView listView = new ListView {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,
+				RowHeight = 150,
 				ItemTemplate = new DataTemplate(() => {
 					return new OfferCell();
 				}),
@@ -71,13 +84,24 @@ namespace infx
 			List<OfferData> data = new List<OfferData>();
 			data.Add(new OfferData {
 				Business = "Big Kahuna",
+				ImageUrl = "https://avatars3.githubusercontent.com/u/28218293?s=72&v=4",
 				Title = "Free Dinner",
 			});
 			data.Add(new OfferData {
 				Business = "Flying Steak",
+				ImageUrl = "https://avatars3.githubusercontent.com/u/28218293?s=72&v=4",
 				Title = "Also Free Dinner",
 			});
 			listView.ItemsSource = data;
+
+			listView.ItemTapped += ListView_ItemTapped;
+			
+		}
+
+		private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+		{
+			OfferData data = e.Item as OfferData;
+			Navigation.PushAsync(new ContentPage { Title = data.Title + " @ " + data.Business });
 		}
 	}
 }

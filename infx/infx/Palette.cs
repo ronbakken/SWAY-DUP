@@ -18,6 +18,7 @@ namespace infx
 		public static Color SecondaryDark = Color.FromRgb(0xc7, 0x94, 0x00);
 		public static Color PrimaryText = Color.FromRgb(0xff, 0xff, 0xff);
 		public static Color SecondaryText = Color.FromRgb(0x00, 0x00, 0x00);
+		public static Color MapBackground = Color.FromRgb(0xEC, 0xE9, 0xE1);
 		public static Color Foreground = Color.Black;
 		public static Color ForegroundInverse = Color.White;
 		public static Color Background = Color.White;

@@ -118,8 +118,15 @@ namespace infx
 			// Application.Current.OnboardingPage = new NavigationPage();
 			Device.BeginInvokeOnMainThread(async () => {
 				InputTransparent = true;
-				Page next = new NavigationPage(new InfluencerMain());
-				// BackgroundColor = Palette.Background;
+				InfluencerMain main = new InfluencerMain();
+				NavigationPage next = new NavigationPage(main) {
+					BackgroundColor = Palette.MapBackground,
+				};
+				BackgroundColor = Palette.MapBackground;
+				Device.BeginInvokeOnMainThread(async () => {
+					await Task.Delay(5000);
+					next.BackgroundColor = Color.Default;
+				});
 				await Content.FadeTo(0.0, 1500);
 				Application.Current.MainPage = next;
 			});

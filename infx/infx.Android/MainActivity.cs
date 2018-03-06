@@ -43,6 +43,8 @@ namespace infx.Droid
 				Resource.Color.primaryTextColor));
 			Palette.SecondaryText = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
 				Resource.Color.secondaryTextColor));
+			Palette.MapBackground = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.mapBackgroundColor));
 			Palette.Foreground = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
 				Resource.Color.foreground_material_light));
 			Palette.ForegroundInverse = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
