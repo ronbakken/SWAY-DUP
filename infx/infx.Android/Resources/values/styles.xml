@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-
   <style name="MainTheme" parent="MainTheme.Base">
+    
   </style>
   
   <!-- Base theme applied no matter what API -->
@@ -24,15 +24,25 @@
 
     <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
     <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+
+    <item name="android:colorControlHighlight">@color/primaryLightColor</item>
+    <item name="android:colorActivatedHighlight">@color/secondaryColor</item>
+    <item name="android:colorPressedHighlight">@color/secondaryColor</item>
+    <item name="android:colorLongPressedHighlight">@color/secondaryColor</item>
+    <item name="android:colorFocusedHighlight">@color/secondaryColor</item>
+    
   </style>
 
   <style name="MainTheme.Splash" parent ="Theme.AppCompat.Light.NoActionBar">
     <item name="android:windowBackground">@drawable/SplashScreen</item>
     <item name="windowNoTitle">true</item>
     <!--<item name="android:windowFullscreen">true</item>-->
+    
   </style>
 
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
     <item name="colorAccent">@color/secondaryColor</item>
+    
   </style>
+  
 </resources>

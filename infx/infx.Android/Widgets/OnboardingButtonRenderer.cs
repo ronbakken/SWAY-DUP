@@ -51,7 +51,8 @@ namespace infx.Droid
 					// var highlight = Context.ObtainStyledAttributes(new int[] { Android.Resource.Attribute.ColorActivatedHighlight }).GetColor(0, Android.Graphics.Color.Gray);
 					//if (button.TextColor != Color.Default)
 					//	_pressed.SetColor(button.TextColor.MultiplyAlpha(0.5).ToAndroid());
-					_pressed.SetColor(Palette.SecondaryDark.ToAndroid());
+					//_pressed.SetColor(Palette.SecondaryDark.ToAndroid());
+					_pressed.SetColor(Palette.PrimaryLight.ToAndroid());
 					_pressed.SetCornerRadius(radius);
 					if (button.BorderColor != Color.Default)
 						_pressed.SetStroke((int)button.BorderWidth, button.BorderColor.ToAndroid());
