@@ -114,19 +114,10 @@ namespace infx
 
 		private void SelectInfluencer_Clicked(object sender, EventArgs e)
 		{
-			// Navigation.PushAsync(new OnboardingPage());
-			// Application.Current.OnboardingPage = new NavigationPage();
 			Device.BeginInvokeOnMainThread(async () => {
 				InputTransparent = true;
-				InfluencerMain main = new InfluencerMain();
-				NavigationPage next = new NavigationPage(main) {
-					BackgroundColor = Palette.MapBackground,
-				};
 				BackgroundColor = Palette.MapBackground;
-				Device.BeginInvokeOnMainThread(async () => {
-					await Task.Delay(5000);
-					next.BackgroundColor = Color.Default;
-				});
+				Page next = (Application.Current as App).PrepareInfluencerMain();
 				await Content.FadeTo(0.0, 1500);
 				Application.Current.MainPage = next;
 			});
@@ -137,7 +128,6 @@ namespace infx
 			Appearing -= OnboardingPage_Appearing;
 			Device.BeginInvokeOnMainThread(async () => {
 				InputTransparent = true;
-				// await Content.FadeTo(1.0, 250);
 				await hi.FadeTo(1.0, 2000);
 				await selectType.FadeTo(1.0, 2000);
 				var titleFade = title.FadeTo(1.0, 1000);

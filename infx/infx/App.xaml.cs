@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace infx
@@ -12,8 +12,7 @@ namespace infx
 		public App ()
 		{
 			InitializeComponent();
-
-			MainPage = new OnboardingPage(); // new NavigationPage(new InfluencerMain());
+			MainPage = PrepareOnboarding();
 		}
 
 		protected override void OnStart ()
@@ -29,6 +28,24 @@ namespace infx
 		protected override void OnResume ()
 		{
 			// Handle when your app resumes
+		}
+
+		public Page PrepareOnboarding()
+		{
+			return new OnboardingPage();
+		}
+
+		public Page PrepareInfluencerMain()
+		{
+			InfluencerMain main = new InfluencerMain();
+			NavigationPage next = new NavigationPage(main) {
+				BackgroundColor = Palette.MapBackground,
+			};
+			Device.BeginInvokeOnMainThread(async () => {
+				await Task.Delay(5000);
+				next.BackgroundColor = Color.Default;
+			});
+			return next;
 		}
 	}
 }
