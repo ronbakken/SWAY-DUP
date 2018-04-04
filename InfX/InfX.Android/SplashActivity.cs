@@ -12,7 +12,7 @@ using Android.Util;
 using System.Threading.Tasks;
 using Android.Content;
 
-namespace infx.Droid
+namespace InfX.Droid
 {
 	[Activity(Theme = "@style/MainTheme.Splash", MainLauncher = true, NoHistory = true)]
 	public class SplashActivity : AppCompatActivity

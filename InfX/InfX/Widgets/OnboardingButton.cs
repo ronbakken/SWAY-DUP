@@ -4,7 +4,7 @@ using System.Text;
 
 using Xamarin.Forms;
 
-namespace infx
+namespace InfX
 {
 	public class OnboardingButton : Button
 	{

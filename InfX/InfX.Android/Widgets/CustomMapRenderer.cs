@@ -20,8 +20,8 @@ using Xamarin.Forms.Maps;
 using Xamarin.Forms.Maps.Android;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(infx.CustomMap), typeof(infx.Droid.CustomMapRenderer))]
-namespace infx.Droid
+[assembly: ExportRenderer(typeof(InfX.CustomMap), typeof(InfX.Droid.CustomMapRenderer))]
+namespace InfX.Droid
 {
 	public class CustomMapRenderer : MapRenderer
 	{

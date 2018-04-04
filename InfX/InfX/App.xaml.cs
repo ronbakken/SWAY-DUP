@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace infx
+namespace InfX
 {
 	public partial class App : Application
 	{

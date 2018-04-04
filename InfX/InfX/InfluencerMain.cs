@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
-namespace infx
+namespace InfX
 {
 	public class InfluencerMain : ContentPage
 	{

@@ -5,7 +5,7 @@ using System.Text;
 using Xamarin.Forms;
 using Plugin.Iconize;
 
-namespace infx
+namespace InfX
 {
     class DashboardButton : IconButton
 	{

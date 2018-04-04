@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace infx.iOS
+namespace InfX.iOS
 {
 	public class Application
 	{

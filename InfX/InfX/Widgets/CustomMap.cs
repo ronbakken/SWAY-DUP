@@ -5,7 +5,7 @@ using System.Text;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
-namespace infx
+namespace InfX
 {
 	public class CustomMap : Map
 	{

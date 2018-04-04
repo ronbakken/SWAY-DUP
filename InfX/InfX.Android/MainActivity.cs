@@ -8,9 +8,9 @@ using Android.Widget;
 using Android.OS;
 using Android.Support.V4.Content;
 
-namespace infx.Droid
+namespace InfX.Droid
 {
-	[Activity(Label = "infx", Icon = "@drawable/icon", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity(Label = "InfX", Icon = "@drawable/icon", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
 	{
 		protected override void OnCreate(Bundle bundle)

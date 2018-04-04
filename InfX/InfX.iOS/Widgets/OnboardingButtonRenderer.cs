@@ -10,8 +10,8 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(infx.OnboardingButton), typeof(infx.iOS.OnboardingButtonRenderer))]
-namespace infx.iOS
+[assembly: ExportRenderer(typeof(InfX.OnboardingButton), typeof(InfX.iOS.OnboardingButtonRenderer))]
+namespace InfX.iOS
 {
 	public class OnboardingButtonRenderer : ButtonRenderer
 	{

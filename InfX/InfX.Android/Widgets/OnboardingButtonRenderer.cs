@@ -15,8 +15,8 @@ using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(infx.OnboardingButton), typeof(infx.Droid.OnboardingButtonRenderer))]
-namespace infx.Droid
+[assembly: ExportRenderer(typeof(InfX.OnboardingButton), typeof(InfX.Droid.OnboardingButtonRenderer))]
+namespace InfX.Droid
 {
 	public class OnboardingButtonRenderer : ButtonRenderer
 	{

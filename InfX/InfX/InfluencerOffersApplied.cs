@@ -5,7 +5,7 @@ using System.Text;
 
 using Xamarin.Forms;
 
-namespace infx
+namespace InfX
 {
 	class OfferData
 	{
