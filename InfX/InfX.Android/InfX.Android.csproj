@@ -6,8 +6,8 @@
     <ProjectGuid>{C6D2256A-D6F0-40BD-9A4E-439286546371}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>infx.Droid</RootNamespace>
-    <AssemblyName>infx.Android</AssemblyName>
+    <RootNamespace>InfX.Droid</RootNamespace>
+    <AssemblyName>InfX.Android</AssemblyName>
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
@@ -94,9 +94,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\infx\infx.csproj">
+    <ProjectReference Include="..\InfX\InfX.csproj">
       <Project>{8d8cfb6c-48dd-49a7-a19f-49effea7bdb3}</Project>
-      <Name>infx</Name>
+      <Name>InfX</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

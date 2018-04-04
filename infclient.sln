@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "infx.Android", "infx\infx.Android\infx.Android.csproj", "{C6D2256A-D6F0-40BD-9A4E-439286546371}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfX.Android", "InfX\InfX.Android\InfX.Android.csproj", "{C6D2256A-D6F0-40BD-9A4E-439286546371}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "infx.iOS", "infx\infx.iOS\infx.iOS.csproj", "{A39BCE5D-E023-4E52-81CC-E42730CE999E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfX.iOS", "InfX\InfX.iOS\InfX.iOS.csproj", "{A39BCE5D-E023-4E52-81CC-E42730CE999E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "infx", "infx\infx\infx.csproj", "{8D8CFB6C-48DD-49A7-A19F-49EFFEA7BDB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfX", "InfX\InfX\InfX.csproj", "{8D8CFB6C-48DD-49A7-A19F-49EFFEA7BDB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,9 +8,9 @@
     <ProjectGuid>{A39BCE5D-E023-4E52-81CC-E42730CE999E}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>infx.iOS</RootNamespace>
+    <RootNamespace>InfX.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>infx.iOS</AssemblyName>
+    <AssemblyName>InfX.iOS</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -131,9 +131,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\infx\infx.csproj">
+    <ProjectReference Include="..\InfX\InfX.csproj">
       <Project>{8d8cfb6c-48dd-49a7-a19f-49effea7bdb3}</Project>
-      <Name>infx</Name>
+      <Name>InfX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
