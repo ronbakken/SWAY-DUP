@@ -14,7 +14,7 @@ using Android.Content;
 
 namespace InfX.Droid
 {
-	[Activity(Theme = "@style/MainTheme.Splash", MainLauncher = true, NoHistory = true)]
+	[Activity(Label = "INF", Icon = "@drawable/icon", Theme = "@style/MainTheme.Splash", MainLauncher = true, NoHistory = true)]
 	public class SplashActivity : AppCompatActivity
 	{
 		static readonly string TAG = "X:" + typeof(SplashActivity).Name;
