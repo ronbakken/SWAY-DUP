@@ -4,25 +4,17 @@ using System.Linq;
 using System.Text;
 
 using Xamarin.Forms;
+using ImageCircle.Forms.Plugin.Abstractions;
 
 namespace InfX
 {
-	class OfferData
-	{
-		public string Business;
-		public string ImageUrl;
-		public Xamarin.Forms.Maps.Position Position;
-		public string Title;
-		public string Description;
-		public string Reward;
-	}
-
 	public class InfluencerOffersApplied : ContentPage
 	{
-		public class OfferCell : ViewCell
+		class OfferCell : ViewCell
 		{
 			Label title;
-			Label text;
+			Label business;
+			Label reward;
 			Image image = null;
 
 			public OfferCell()
@@ -30,20 +22,53 @@ namespace InfX
 				title = new Label {
 					Text = "Hello world",
 					TextColor = Palette.Foreground,
+					FontSize = Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+					FontAttributes = FontAttributes.Bold,
+					HorizontalOptions = LayoutOptions.StartAndExpand,
+					VerticalOptions = LayoutOptions.Start,
+				};
+				business = new Label {
+					Text = "Hello world",
+					// TextColor = Palette.Foreground,
 					FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
 					FontAttributes = FontAttributes.Bold,
+					HorizontalOptions = LayoutOptions.StartAndExpand,
 				};
-				text = new Label {
+				reward = new Label {
 					Text = "Hello world"
 				};
-				image = new Image();
+				image = new CircleImage {
+					HorizontalOptions = LayoutOptions.Start,
+					VerticalOptions = LayoutOptions.Center,
+					HeightRequest = 93,
+					WidthRequest = 93,
+					Aspect = Aspect.AspectFill,
+					// Margin = new Thickness(Device.GetNamedSize(NamedSize.Medium, typeof(Thickness))),
+				};
 				View = new StackLayout {
+					Margin = new Thickness(Device.GetNamedSize(NamedSize.Micro, typeof(Thickness)), 0.0),
 					HorizontalOptions = LayoutOptions.FillAndExpand,
 					VerticalOptions = LayoutOptions.FillAndExpand,
 					Children = {
 						title,
-						image,
-						text,
+						new StackLayout {
+							// Margin = new Thickness(0.0, Device.GetNamedSize(NamedSize.Micro, typeof(Thickness))),
+							HorizontalOptions = LayoutOptions.FillAndExpand,
+							VerticalOptions = LayoutOptions.StartAndExpand,
+							Orientation = StackOrientation.Horizontal,
+							Children = {
+								image,
+								new StackLayout {
+									Margin = new Thickness(Device.GetNamedSize(NamedSize.Micro, typeof(Thickness)), 0.0),
+									HorizontalOptions = LayoutOptions.StartAndExpand,
+									VerticalOptions = LayoutOptions.FillAndExpand,
+									Children = {
+										business,
+										reward,
+									},
+								},
+							},
+						},
 					},
 				};
 			}
@@ -55,7 +80,9 @@ namespace InfX
 				OfferData data = BindingContext as OfferData;
 				if (data != null)
 				{
-					title.Text = data.Title + " @ " + data.Business;
+					title.Text = data.Title;
+					business.Text = data.Business;
+					reward.Text = data.Reward;
 					image.Source = data.ImageUrl;
 				}
 			}
@@ -82,23 +109,22 @@ namespace InfX
 			};
 
 			List<OfferData> data = new List<OfferData>();
-			data.Add(new OfferData {
-				Business = "Big Kahuna",
-				ImageUrl = "https://avatars3.githubusercontent.com/u/28218293?s=72&v=4",
-				Title = "Free Dinner",
-			});
-			data.Add(new OfferData {
-				Business = "Flying Steak",
-				ImageUrl = "https://avatars3.githubusercontent.com/u/28218293?s=72&v=4",
-				Title = "Also Free Dinner",
-			});
+			data.Add(DummyData.Offers[0]);
+			data.Add(DummyData.Offers[2]);
+			data.Add(DummyData.Offers[4]);
 			listView.ItemsSource = data;
 
 			listView.ItemTapped += ListView_ItemTapped;
+            listView.ItemTapped += ResetListViewSelection;
 			
 		}
 
-		private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void ResetListViewSelection(object sender, ItemTappedEventArgs e)
+        {
+            (sender as ListView).SelectedItem = null;
+        }
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
 		{
 			OfferData data = e.Item as OfferData;
 			Navigation.PushAsync(new ContentPage { Title = data.Title + " @ " + data.Business });

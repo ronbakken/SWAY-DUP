@@ -29,6 +29,8 @@ namespace InfX.iOS
 			
 			Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
 
+			ImageCircle.Forms.Plugin.iOS.ImageCircleRenderer.Init();
+
 			LoadApplication(new App());
 
 			return base.FinishedLaunching(app, options);

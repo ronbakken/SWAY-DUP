@@ -128,8 +128,8 @@ namespace InfX
 			Appearing -= OnboardingPage_Appearing;
 			Device.BeginInvokeOnMainThread(async () => {
 				InputTransparent = true;
-				await hi.FadeTo(1.0, 2000);
-				await selectType.FadeTo(1.0, 2000);
+                await hi.FadeTo(1.0, 2500); // 2000
+                await selectType.FadeTo(1.0, 2000);
 				var titleFade = title.FadeTo(1.0, 1000);
 				var stepFade = step.FadeTo(1.0, 1000);
 				await selectInfluencer.FadeTo(1.0, 250);

@@ -54,6 +54,8 @@ namespace InfX.Droid
 			Palette.BackgroundInverse = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
 				Resource.Color.background_material_dark));
 
+			ImageCircle.Forms.Plugin.Droid.ImageCircleRenderer.Init();
+
 			LoadApplication(new App());
 		}
 	}
