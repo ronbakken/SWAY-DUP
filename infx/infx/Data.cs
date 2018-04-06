@@ -6,6 +6,7 @@ namespace InfX
 {
 	public class OfferData
 	{
+		public int Id;
 		public string Category;
 		public string Title;
 		public string Business;
@@ -18,10 +19,16 @@ namespace InfX
 		public int Applicants;
 	}
 
+	public class OfferDataDetail : OfferData
+	{
+		public string Address;
+	}
+
 	public static class DummyData
 	{
 		public static OfferData[] Offers = {
 			new OfferData {
+				Id = 0,
 				Category = "Food",
 				Title = "Finest Burger Weekend",
 				Business = "Big Kahuna",
@@ -33,6 +40,7 @@ namespace InfX
 				Applicants = 3,
 			},
 			new OfferData {
+				Id = 1,
 				Category = "Food",
 				Title = "Burger Weekend Fries",
 				Business = "Big Kahuna",
@@ -44,6 +52,7 @@ namespace InfX
 				Applicants = 12,
 			},
 			new OfferData {
+				Id = 2,
 				Category = "Food",
 				Title = "Fishing Season",
 				Business = "Fried Willy",
@@ -55,6 +64,7 @@ namespace InfX
 				Applicants = 12,
 			},
 			new OfferData {
+				Id = 3,
 				Category = "Politics",
 				Title = "Make America Great Again",
 				Business = "Honest Campaigns Inc.",
@@ -66,6 +76,7 @@ namespace InfX
 				Applicants = 510,
 			},
 			new OfferData {
+				Id = 4,
 				Category = "Fashion",
 				Title = "Photography Contest",
 				Business = "The Pink Panty",

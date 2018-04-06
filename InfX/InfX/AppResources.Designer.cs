@@ -61,6 +61,15 @@ namespace InfX {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        internal static string OffersActiveTitle {
+            get {
+                return ResourceManager.GetString("OffersActiveTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} others are interested.
         /// </summary>
         internal static string OffersAppliedInterest {
@@ -84,6 +93,24 @@ namespace InfX {
         internal static string OffersAppliedTitle {
             get {
                 return ResourceManager.GetString("OffersAppliedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Direct.
+        /// </summary>
+        internal static string OffersDirectTitle {
+            get {
+                return ResourceManager.GetString("OffersDirectTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to History.
+        /// </summary>
+        internal static string OffersHistoryTitle {
+            get {
+                return ResourceManager.GetString("OffersHistoryTitle", resourceCulture);
             }
         }
         

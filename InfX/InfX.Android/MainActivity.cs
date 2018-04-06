@@ -53,6 +53,10 @@ namespace InfX.Droid
 				Resource.Color.background_material_light));
 			Palette.BackgroundInverse = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
 				Resource.Color.background_material_dark));
+			Palette.TextPrimary = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.primary_text_default_material_light));
+			Palette.TextSecondary = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
+				Resource.Color.secondary_text_default_material_light));
 
 			ImageCircle.Forms.Plugin.Droid.ImageCircleRenderer.Init();
 
@@ -61,3 +65,6 @@ namespace InfX.Droid
 	}
 }
 
+/*    <color name="primary_text_default_material_light">#de000000</color>
+    <color name="secondary_text_default_material_light">#8a000000</color>
+*/

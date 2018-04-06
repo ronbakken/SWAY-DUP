@@ -13,7 +13,9 @@ namespace InfX
 		{
 			Title = AppResources.OffersTitle;
 			Children.Add(new InfluencerOffersApplied());
-			Children.Add(new OnboardingPage());
+			Children.Add(new InfluencerOffersDirect());
+			Children.Add(new InfluencerOffersActive());
+			Children.Add(new InfluencerOffersHistory());
 		}
 	}
 }
