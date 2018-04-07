@@ -22,7 +22,67 @@ namespace InfX
 		Label deliverables;
 		Label reward;
 
-		public InfluencerOfferDetail(OfferData offerData)
+		View IconizedLine(string icon, View content)
+		{
+			Plugin.Iconize.IconLabel iconLabel = new Plugin.Iconize.IconLabel {
+				Text = icon,
+				TextColor = Palette.Secondary,
+				FontSize = Sizes.Icon,
+				WidthRequest = Sizes.Icon,
+				// HeightRequest = Sizes.Icon,
+				HorizontalOptions = LayoutOptions.Center,
+				VerticalOptions = LayoutOptions.CenterAndExpand,
+				HorizontalTextAlignment = TextAlignment.Center,
+				VerticalTextAlignment = TextAlignment.Center,
+			};
+			return new StackLayout {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.Start,
+				Margin = new Thickness(0.0),
+				Padding = new Thickness(0.0),
+				Spacing = Sizes.MarginEdge,
+				Orientation = StackOrientation.Horizontal,
+				Children = {
+					new ContentView {
+						HorizontalOptions = LayoutOptions.Start,
+						VerticalOptions = LayoutOptions.CenterAndExpand,
+						WidthRequest = Sizes.Icon,
+						// HeightRequest = Sizes.Icon,
+						MinimumWidthRequest = Sizes.Icon,
+						MinimumHeightRequest = Sizes.Icon,
+						Padding = new Thickness(0.0, 0.0, Sizes.AvatarMedium - Sizes.Icon, 0.0),
+						Content = iconLabel,
+					},
+					content,
+				},
+			};
+		}
+
+		View HelpfulLine(string help, View content)
+		{
+			Label label = new Label {
+				Text = help,
+				TextColor = Palette.TextPrimary,
+				WidthRequest = Sizes.AvatarMedium,
+				MinimumWidthRequest = Sizes.AvatarMedium,
+				HorizontalOptions = LayoutOptions.Start,
+				VerticalOptions = LayoutOptions.Start,
+			};
+			return new StackLayout {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.Start,
+				Margin = new Thickness(0.0),
+				Padding = new Thickness(0.0),
+				Spacing = Sizes.MarginEdge,
+				Orientation = StackOrientation.Horizontal,
+				Children = {
+					label,
+					content,
+				},
+			};
+		}
+
+		public InfluencerOfferDetail(InfluencerOfferData offerData)
 		{
 			Title = offerData.Title;
 
@@ -48,14 +108,14 @@ namespace InfX
 				// TextColor = Palette.TextPrimary,
 				TextColor = Palette.PrimaryText, // .MultiplyAlpha(Palette.TextPrimary.A),
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
-				HorizontalOptions = LayoutOptions.FillAndExpand,
+				HorizontalOptions = LayoutOptions.StartAndExpand,
 				VerticalOptions = LayoutOptions.Start,
 			};
 			address = new Label {
 				Text = "...",
 				TextColor = Palette.PrimaryText, // .MultiplyAlpha(Palette.TextSecondary.A),
 				FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
-				HorizontalOptions = LayoutOptions.FillAndExpand,
+				HorizontalOptions = LayoutOptions.StartAndExpand,
 				VerticalOptions = LayoutOptions.StartAndExpand,
 			};
 
@@ -77,14 +137,21 @@ namespace InfX
 
 			description = new Label {
 				Text = offerData.Description,
-				HorizontalOptions = LayoutOptions.FillAndExpand,
+				HorizontalOptions = LayoutOptions.StartAndExpand,
 				VerticalOptions = LayoutOptions.Start,
+				TextColor = Palette.TextPrimary,
 			};
 			deliverables = new Label {
-				Text = offerData.Deliverables
+				Text = offerData.Deliverables,
+				HorizontalOptions = LayoutOptions.StartAndExpand,
+				VerticalOptions = LayoutOptions.Start,
+				TextColor = Palette.TextSecondary,
 			};
 			reward = new Label {
-				Text = offerData.Reward
+				Text = offerData.Reward,
+				HorizontalOptions = LayoutOptions.StartAndExpand,
+				VerticalOptions = LayoutOptions.Start,
+				TextColor = Palette.TextSecondary,
 			};
 
 			Content = new ScrollView {
@@ -128,11 +195,13 @@ namespace InfX
 							VerticalOptions = LayoutOptions.StartAndExpand,
 							Margin = new Thickness(0.0),
 							Padding = new Thickness(Sizes.MarginEdge),
-							Spacing = Sizes.MarginText,
+							Spacing = Sizes.MarginEdge,
 							Children = {
 								description,
-								deliverables,
-								reward
+								// IconizedLine("fa-truck", deliverables),
+								// IconizedLine("fa-gift", reward),
+								HelpfulLine("Deliver", deliverables),
+								HelpfulLine("Reward", reward),
 							},
 						},
 					},
@@ -142,7 +211,7 @@ namespace InfX
 			SetOfferDataDetail(DummyData.Offers[offerData.Id]);
 		}
 
-		public void SetOfferDataDetail(OfferDataDetail offerDataDetail)
+		public void SetOfferDataDetail(InfluencerOfferDataDetail offerDataDetail)
 		{
 			address.Text = offerDataDetail.Address;
 			avatar.Source = offerDataDetail.AvatarUrl;

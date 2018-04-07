@@ -4,7 +4,7 @@ using System.Text;
 
 namespace InfX
 {
-	public class OfferData
+	public class InfluencerOfferData
 	{
 		public int Id;
 		public string Category;
@@ -19,7 +19,7 @@ namespace InfX
 		public int Applicants;
 	}
 
-	public class OfferDataDetail : OfferData
+	public class InfluencerOfferDataDetail : InfluencerOfferData
 	{
 		public string Address;
 		public string AvatarUrl;
@@ -27,8 +27,8 @@ namespace InfX
 
 	public static class DummyData
 	{
-		public static OfferDataDetail[] Offers = {
-			new OfferDataDetail {
+		public static InfluencerOfferDataDetail[] Offers = {
+			new InfluencerOfferDataDetail {
 				Id = 0,
 				Category = "Food",
 				Title = "Finest Burger Weekend",
@@ -43,7 +43,7 @@ namespace InfX
 				Address = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
 				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg",
 			},
-			new OfferDataDetail {
+			new InfluencerOfferDataDetail {
 				Id = 1,
 				Category = "Food",
 				Title = "Burger Weekend Fries",
@@ -58,7 +58,7 @@ namespace InfX
 				Address = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
 				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg",
 			},
-			new OfferDataDetail {
+			new InfluencerOfferDataDetail {
 				Id = 2,
 				Category = "Food",
 				Title = "Fishing Season",
@@ -73,7 +73,7 @@ namespace InfX
 				Address = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
 				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg",
 			},
-			new OfferDataDetail {
+			new InfluencerOfferDataDetail {
 				Id = 3,
 				Category = "Politics",
 				Title = "Make America Great Again",
@@ -88,7 +88,7 @@ namespace InfX
 				Address = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
 				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg",
 			},
-			new OfferDataDetail {
+			new InfluencerOfferDataDetail {
 				Id = 4,
 				Category = "Fashion",
 				Title = "Photography Contest",

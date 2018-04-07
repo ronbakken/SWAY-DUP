@@ -27,6 +27,7 @@ namespace InfX
 					// FontAttributes = FontAttributes.Bold,
 					HorizontalOptions = LayoutOptions.StartAndExpand,
 					VerticalOptions = LayoutOptions.StartAndExpand,
+					LineBreakMode = LineBreakMode.TailTruncation,
 				};
 				business = new Label {
 					Text = "...",
@@ -35,6 +36,7 @@ namespace InfX
 					// FontAttributes = FontAttributes.Bold,
 					HorizontalOptions = LayoutOptions.FillAndExpand,
 					VerticalOptions = LayoutOptions.FillAndExpand,
+					LineBreakMode = LineBreakMode.TailTruncation,
 				};
 				deliverables = new Label {
 					Text = "..."
@@ -91,7 +93,7 @@ namespace InfX
 			{
 				base.OnBindingContextChanged();
 
-				OfferData data = BindingContext as OfferData;
+				InfluencerOfferData data = BindingContext as InfluencerOfferData;
 				if (data != null)
 				{
 					title.Text = data.Title;
@@ -123,7 +125,7 @@ namespace InfX
 				}
 			};
 
-			List<OfferData> data = new List<OfferData>();
+			List<InfluencerOfferData> data = new List<InfluencerOfferData>();
 			data.Add(DummyData.Offers[0]);
 			data.Add(DummyData.Offers[2]);
 			data.Add(DummyData.Offers[4]);
@@ -141,7 +143,7 @@ namespace InfX
 
         private void ShowOfferDetail(object sender, ItemTappedEventArgs e)
 		{
-			OfferData data = e.Item as OfferData;
+			InfluencerOfferData data = e.Item as InfluencerOfferData;
 			Navigation.PushAsync(new InfluencerOfferDetail(data));
 		}
 	}
