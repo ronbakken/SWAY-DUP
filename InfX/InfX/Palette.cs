@@ -30,6 +30,12 @@ namespace InfX
 	static public class Sizes
 	{
 		// Material
-		public static double 
+		// https://material.io/guidelines/layout/metrics-keylines.html
+		public static double MarginEdge = 16;
+		public static double MarginElement = 8;
+		public static double MarginText = 4;
+		public static double AvatarSmall = 32;
+		public static double AvatarMedium = 64;
+		public static double ElementLarge = 160;
 	}
 }

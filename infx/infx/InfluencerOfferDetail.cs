@@ -29,7 +29,7 @@ namespace InfX
 			image = new Image {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.Start,
-				HeightRequest = 150,
+				HeightRequest = Sizes.ElementLarge,
 				Aspect = Aspect.AspectFill,
 				Source = offerData.ImageUrl
 			};
@@ -37,8 +37,8 @@ namespace InfX
 			activityIndicator = new ActivityIndicator {
 				HorizontalOptions = LayoutOptions.End,
 				VerticalOptions = LayoutOptions.Center,
-				HeightRequest = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 2.0,
-				WidthRequest = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 2.0,
+				HeightRequest = Sizes.AvatarSmall,
+				WidthRequest = Sizes.AvatarSmall,
 				Color = Palette.Secondary,
 				IsRunning = true,
 			};
@@ -62,8 +62,8 @@ namespace InfX
 			avatar = new CircleImage {
 				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.Center,
-				HeightRequest = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 3.0,
-				WidthRequest = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 3.0,
+				HeightRequest = Sizes.AvatarMedium,
+				WidthRequest = Sizes.AvatarMedium,
 				Aspect = Aspect.AspectFill,
 				BorderColor = new Color(
 						Palette.Background.R * (1.0 - Palette.Secondary.A) + Palette.Secondary.R * Palette.Secondary.A,
@@ -84,49 +84,53 @@ namespace InfX
 				Text = offerData.Reward
 			};
 
-			Content = new StackLayout {
+			Content = new ScrollView {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.StartAndExpand,
-				Spacing = 0.0,
-				Margin = new Thickness(0.0),
-				Padding = new Thickness(0.0),
-				Children = {
-					image,
-					new StackLayout {
-						HorizontalOptions = LayoutOptions.FillAndExpand,
-						VerticalOptions = LayoutOptions.StartAndExpand,
-						BackgroundColor = Palette.PrimaryLight,
-						Margin = new Thickness(0.0),
-						Padding = new Thickness(Device.GetNamedSize(NamedSize.Small, typeof(Thickness))),
-						Spacing = Device.GetNamedSize(NamedSize.Small, typeof(Thickness)),
-						Orientation = StackOrientation.Horizontal,
-						Children = {
-							avatar,
-							new StackLayout {
-								HorizontalOptions = LayoutOptions.FillAndExpand,
-								VerticalOptions = LayoutOptions.FillAndExpand,
-								BackgroundColor = Palette.PrimaryLight,
-								Margin = new Thickness(0.0),
-								Padding = new Thickness(0.0),
-								Spacing = 0.0,
-								Children = {
-									business,
-									address,
+				Content = new StackLayout {
+					HorizontalOptions = LayoutOptions.FillAndExpand,
+					VerticalOptions = LayoutOptions.StartAndExpand,
+					Spacing = 0.0,
+					Margin = new Thickness(0.0),
+					Padding = new Thickness(0.0),
+					Children = {
+						image,
+						new StackLayout {
+							HorizontalOptions = LayoutOptions.FillAndExpand,
+							VerticalOptions = LayoutOptions.StartAndExpand,
+							BackgroundColor = Palette.PrimaryLight,
+							Margin = new Thickness(0.0),
+							Padding = new Thickness(Sizes.MarginEdge),
+							Spacing = Sizes.MarginEdge,
+							Orientation = StackOrientation.Horizontal,
+							Children = {
+								avatar,
+								new StackLayout {
+									HorizontalOptions = LayoutOptions.FillAndExpand,
+									VerticalOptions = LayoutOptions.FillAndExpand,
+									BackgroundColor = Palette.PrimaryLight,
+									Margin = new Thickness(0.0),
+									Padding = new Thickness(0.0),
+									Spacing = 0.0,
+									Children = {
+										business,
+										address,
+									},
 								},
+								activityIndicator,
 							},
-							activityIndicator,
 						},
-					},
-					new StackLayout {
-						HorizontalOptions = LayoutOptions.FillAndExpand,
-						VerticalOptions = LayoutOptions.StartAndExpand,
-						Margin = new Thickness(0.0),
-						Padding = new Thickness(Device.GetNamedSize(NamedSize.Small, typeof(Thickness))),
-						Spacing = Device.GetNamedSize(NamedSize.Micro, typeof(Thickness)) * 0.5,
-						Children = {
-							description,
-							deliverables,
-							reward
+						new StackLayout {
+							HorizontalOptions = LayoutOptions.FillAndExpand,
+							VerticalOptions = LayoutOptions.StartAndExpand,
+							Margin = new Thickness(0.0),
+							Padding = new Thickness(Sizes.MarginEdge),
+							Spacing = Sizes.MarginText,
+							Children = {
+								description,
+								deliverables,
+								reward
+							},
 						},
 					},
 				},

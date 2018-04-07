@@ -101,7 +101,7 @@ namespace InfX
 				Applicants = 9,
 
 				Address = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
-				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg",
+				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/butt.jpg",
 			},
 		};
 	}
