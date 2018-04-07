@@ -11,8 +11,8 @@ namespace InfX
 	{
 		public App ()
 		{
-			InitializeComponent();
-			MainPage = PrepareOnboarding();
+			// MainPage = PrepareOnboarding();
+			MainPage = PrepareInfluencerMain();
 		}
 
 		protected override void OnStart ()

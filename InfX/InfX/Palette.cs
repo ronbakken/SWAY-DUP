@@ -26,4 +26,10 @@ namespace InfX
 		public static Color TextPrimary = Color.FromRgb(0x80, 0x80, 0x80);
 		public static Color TextSecondary = Color.FromRgb(0x80, 0x80, 0x80);
 	}
+
+	static public class Sizes
+	{
+		// Material
+		public static double 
+	}
 }

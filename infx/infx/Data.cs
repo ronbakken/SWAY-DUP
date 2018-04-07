@@ -22,12 +22,13 @@ namespace InfX
 	public class OfferDataDetail : OfferData
 	{
 		public string Address;
+		public string AvatarUrl;
 	}
 
 	public static class DummyData
 	{
-		public static OfferData[] Offers = {
-			new OfferData {
+		public static OfferDataDetail[] Offers = {
+			new OfferDataDetail {
 				Id = 0,
 				Category = "Food",
 				Title = "Finest Burger Weekend",
@@ -38,8 +39,11 @@ namespace InfX
 				Reward = "Free dinner + $150",
 				Deliverables = "Posts with photography across social media.",
 				Applicants = 3,
+
+				Address = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
+				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg",
 			},
-			new OfferData {
+			new OfferDataDetail {
 				Id = 1,
 				Category = "Food",
 				Title = "Burger Weekend Fries",
@@ -50,8 +54,11 @@ namespace InfX
 				Reward = "Free Poke Fries",
 				Deliverables = "Posts with photography across social media.",
 				Applicants = 12,
+
+				Address = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
+				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg",
 			},
-			new OfferData {
+			new OfferDataDetail {
 				Id = 2,
 				Category = "Food",
 				Title = "Fishing Season",
@@ -62,8 +69,11 @@ namespace InfX
 				Reward = "Free dinner",
 				Deliverables = "Posts with photography across social media.",
 				Applicants = 12,
+
+				Address = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
+				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg",
 			},
-			new OfferData {
+			new OfferDataDetail {
 				Id = 3,
 				Category = "Politics",
 				Title = "Make America Great Again",
@@ -74,8 +84,11 @@ namespace InfX
 				Reward = "$3.50",
 				Deliverables = "Post on Facebook and share posts of other participants.",
 				Applicants = 510,
+
+				Address = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
+				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg",
 			},
-			new OfferData {
+			new OfferDataDetail {
 				Id = 4,
 				Category = "Fashion",
 				Title = "Photography Contest",
@@ -86,6 +99,9 @@ namespace InfX
 				Reward = "Pack of 12 striped pink panties",
 				Deliverables = "Series of blog posts and photography albums on social media.",
 				Applicants = 9,
+
+				Address = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
+				AvatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg",
 			},
 		};
 	}
