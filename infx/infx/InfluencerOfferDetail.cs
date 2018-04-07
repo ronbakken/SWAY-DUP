@@ -46,30 +46,33 @@ namespace InfX
 			business = new Label {
 				Text = offerData.Business,
 				// TextColor = Palette.TextPrimary,
-				TextColor = Palette.PrimaryText,
+				TextColor = Palette.PrimaryText, // .MultiplyAlpha(Palette.TextPrimary.A),
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				VerticalOptions = LayoutOptions.StartAndExpand,
+				VerticalOptions = LayoutOptions.Start,
 			};
 			address = new Label {
 				Text = "...",
-				TextColor = Palette.PrimaryText,
+				TextColor = Palette.PrimaryText, // .MultiplyAlpha(Palette.TextSecondary.A),
 				FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
 				HorizontalOptions = LayoutOptions.FillAndExpand,
-				VerticalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.StartAndExpand,
 			};
 
 			avatar = new CircleImage {
 				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.Center,
-				HeightRequest = Sizes.AvatarMedium,
-				WidthRequest = Sizes.AvatarMedium,
+				HeightRequest = Sizes.AvatarMedium, // + 16.0,
+				WidthRequest = Sizes.AvatarMedium, // + 16.0,
 				Aspect = Aspect.AspectFill,
 				BorderColor = new Color(
-						Palette.Background.R * (1.0 - Palette.Secondary.A) + Palette.Secondary.R * Palette.Secondary.A,
-						Palette.Background.G * (1.0 - Palette.Secondary.A) + Palette.Secondary.G * Palette.Secondary.A,
-						Palette.Background.B * (1.0 - Palette.Secondary.A) + Palette.Secondary.B * Palette.Secondary.A),
-				BorderThickness = 1.0f,
+						Palette.Primary.R * (1.0 - Palette.PrimaryText.A) + Palette.PrimaryText.R * Palette.PrimaryText.A,
+						Palette.Primary.G * (1.0 - Palette.PrimaryText.A) + Palette.PrimaryText.G * Palette.PrimaryText.A,
+						Palette.Primary.B * (1.0 - Palette.PrimaryText.A) + Palette.PrimaryText.B * Palette.PrimaryText.A),
+				BorderThickness = 0.5f,
+				/* Margin = new Thickness(-8.0),
+				BorderColor = Palette.Primary,
+				BorderThickness = 8.0f, */
 			};
 
 			description = new Label {
@@ -111,7 +114,7 @@ namespace InfX
 									BackgroundColor = Palette.PrimaryLight,
 									Margin = new Thickness(0.0),
 									Padding = new Thickness(0.0),
-									Spacing = 0.0,
+									Spacing = Sizes.MarginText,
 									Children = {
 										business,
 										address,
