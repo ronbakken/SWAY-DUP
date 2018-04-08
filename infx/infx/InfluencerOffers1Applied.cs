@@ -128,7 +128,7 @@ namespace InfX
 			List<InfluencerOfferData> data = new List<InfluencerOfferData>();
 			data.Add(DummyData.Offers[0]);
 			data.Add(DummyData.Offers[2]);
-			data.Add(DummyData.Offers[4]);
+			data.Add(DummyData.Offers[3]);
 			listView.ItemsSource = data;
 
 			listView.ItemTapped += ShowOfferDetail;

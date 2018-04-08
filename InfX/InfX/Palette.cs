@@ -35,7 +35,8 @@ namespace InfX
 		public static double MarginElement = 8;
 		public static double MarginText = 4;
 		public static double AvatarSmall = 32;
-		public static double AvatarMedium = 64;
+		public static double AvatarMedium = 40;
+		public static double AvatarLarge = 64;
 		public static double ElementLarge = 160;
 		public static double Icon = 24;
 		public static double IconTarget = 48;

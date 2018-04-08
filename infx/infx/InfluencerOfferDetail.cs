@@ -5,11 +5,14 @@ using System.Text;
 
 using Xamarin.Forms;
 using ImageCircle.Forms.Plugin.Abstractions;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace InfX
 {
 	public class InfluencerOfferDetail : ContentPage
 	{
+		InfluencerOfferData offerData;
+
 		Image image;
 
 		ActivityIndicator activityIndicator;
@@ -26,7 +29,8 @@ namespace InfX
 		{
 			Plugin.Iconize.IconLabel iconLabel = new Plugin.Iconize.IconLabel {
 				Text = icon,
-				TextColor = Palette.Secondary,
+				// TextColor = Palette.Secondary,
+				TextColor = Palette.TextSecondary,
 				FontSize = Sizes.Icon,
 				WidthRequest = Sizes.Icon,
 				// HeightRequest = Sizes.Icon,
@@ -85,6 +89,7 @@ namespace InfX
 		public InfluencerOfferDetail(InfluencerOfferData offerData)
 		{
 			Title = offerData.Title;
+			this.offerData = offerData;
 
 			image = new Image {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -105,15 +110,14 @@ namespace InfX
 
 			business = new Label {
 				Text = offerData.Business,
-				// TextColor = Palette.TextPrimary,
-				TextColor = Palette.PrimaryText, // .MultiplyAlpha(Palette.TextPrimary.A),
+				TextColor = Palette.PrimaryText,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
 				HorizontalOptions = LayoutOptions.StartAndExpand,
 				VerticalOptions = LayoutOptions.Start,
 			};
 			address = new Label {
 				Text = "...",
-				TextColor = Palette.PrimaryText, // .MultiplyAlpha(Palette.TextSecondary.A),
+				TextColor = Palette.PrimaryText,
 				FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
 				HorizontalOptions = LayoutOptions.StartAndExpand,
 				VerticalOptions = LayoutOptions.StartAndExpand,
@@ -122,17 +126,14 @@ namespace InfX
 			avatar = new CircleImage {
 				HorizontalOptions = LayoutOptions.Start,
 				VerticalOptions = LayoutOptions.Center,
-				HeightRequest = Sizes.AvatarMedium, // + 16.0,
-				WidthRequest = Sizes.AvatarMedium, // + 16.0,
+				HeightRequest = Sizes.AvatarLarge,
+				WidthRequest = Sizes.AvatarLarge,
 				Aspect = Aspect.AspectFill,
 				BorderColor = new Color(
 						Palette.Primary.R * (1.0 - Palette.PrimaryText.A) + Palette.PrimaryText.R * Palette.PrimaryText.A,
 						Palette.Primary.G * (1.0 - Palette.PrimaryText.A) + Palette.PrimaryText.G * Palette.PrimaryText.A,
 						Palette.Primary.B * (1.0 - Palette.PrimaryText.A) + Palette.PrimaryText.B * Palette.PrimaryText.A),
-				BorderThickness = 0.5f,
-				/* Margin = new Thickness(-8.0),
-				BorderColor = Palette.Primary,
-				BorderThickness = 8.0f, */
+				BorderThickness = 1.0f,
 			};
 
 			description = new Label {
@@ -145,14 +146,37 @@ namespace InfX
 				Text = offerData.Deliverables,
 				HorizontalOptions = LayoutOptions.StartAndExpand,
 				VerticalOptions = LayoutOptions.Start,
-				TextColor = Palette.TextSecondary,
+				TextColor = Palette.TextPrimary,
 			};
 			reward = new Label {
 				Text = offerData.Reward,
 				HorizontalOptions = LayoutOptions.StartAndExpand,
 				VerticalOptions = LayoutOptions.Start,
-				TextColor = Palette.TextSecondary,
+				TextColor = Palette.TextPrimary,
 			};
+
+			Label counterOfferLabel = new Label {
+				Text = "Tell us what you can offer more",
+				HorizontalOptions = LayoutOptions.StartAndExpand,
+				VerticalOptions = LayoutOptions.Start,
+				TextColor = Palette.TextSecondary,
+				Margin = new Thickness(0.0),
+			};
+			Editor counterOffer = new Editor {
+				HorizontalOptions = LayoutOptions.FillAndExpand,
+				VerticalOptions = LayoutOptions.Start,
+				Margin = new Thickness(-4.0, -4.0 - Device.GetNamedSize(NamedSize.Micro, typeof(Label)), -4.0, -4.0),
+				HeightRequest = Sizes.ElementLarge,
+				Keyboard = Keyboard.Chat,
+			};
+			Xamarin.Forms.Button apply = new Xamarin.Forms.Button {
+				HorizontalOptions = LayoutOptions.EndAndExpand,
+				VerticalOptions = LayoutOptions.Start,
+				Text = "Apply",
+				TextColor = Palette.PrimaryText,
+				BackgroundColor = Palette.Primary,
+			};
+			apply.Clicked += ApplyOffer; ;
 
 			Content = new ScrollView {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -198,10 +222,22 @@ namespace InfX
 							Spacing = Sizes.MarginEdge,
 							Children = {
 								description,
-								// IconizedLine("fa-truck", deliverables),
-								// IconizedLine("fa-gift", reward),
-								HelpfulLine("Deliver", deliverables),
-								HelpfulLine("Reward", reward),
+								IconizedLine("fa-truck", deliverables),
+								IconizedLine("fa-gift", reward),
+								// HelpfulLine("Deliver", deliverables),
+								// HelpfulLine("Reward", reward),
+								new StackLayout {
+									HorizontalOptions = LayoutOptions.FillAndExpand,
+									VerticalOptions = LayoutOptions.StartAndExpand,
+									Margin = new Thickness(0.0),
+									Padding = new Thickness(0.0),
+									Spacing = Sizes.MarginText,
+									Children = {
+										counterOfferLabel,
+										counterOffer,
+										apply,
+									},
+								},
 							},
 						},
 					},
@@ -209,6 +245,12 @@ namespace InfX
 			};
 
 			SetOfferDataDetail(DummyData.Offers[offerData.Id]);
+			App.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+		}
+
+		private void ApplyOffer(object sender, EventArgs e)
+		{
+			offerData.Status = InfluencerOfferStatus.Applied;
 		}
 
 		public void SetOfferDataDetail(InfluencerOfferDataDetail offerDataDetail)
