@@ -12,7 +12,8 @@ namespace InfX
 		public App ()
 		{
 			// MainPage = PrepareOnboarding();
-			MainPage = PrepareInfluencerMain();
+			// MainPage = PrepareInfluencerMain();
+			MainPage = new BusinessOfferCreate();
 		}
 
 		protected override void OnStart ()

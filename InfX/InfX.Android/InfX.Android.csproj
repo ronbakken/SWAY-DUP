@@ -53,6 +53,9 @@
     <PackageReference Include="Xam.Plugin.Iconize.FontAwesome">
       <Version>2.0.0.37-beta</Version>
     </PackageReference>
+    <PackageReference Include="Xam.Plugin.Media">
+      <Version>3.1.3</Version>
+    </PackageReference>
     <PackageReference Include="Xam.Plugins.Forms.ImageCircle">
       <Version>2.0.2</Version>
     </PackageReference>
@@ -79,6 +82,9 @@
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\raw\MapDark.json" />
     <AndroidResource Include="Resources\raw\MapLight.json" />
+    <AndroidResource Include="Resources\xml\file_paths.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />
@@ -112,6 +118,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\SplashScreen.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\placeholder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

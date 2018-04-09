@@ -25,6 +25,7 @@ namespace InfX
 		public static Color BackgroundInverse = Color.Black;
 		public static Color TextPrimary = Color.FromRgb(0x80, 0x80, 0x80);
 		public static Color TextSecondary = Color.FromRgb(0x80, 0x80, 0x80);
+		public static Color ButtonBackground = Color.FromRgb(0xD6, 0xD6, 0xD6);
 	}
 
 	static public class Sizes

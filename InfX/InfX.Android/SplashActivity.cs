@@ -21,6 +21,7 @@ namespace InfX.Droid
 
 		public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
 		{
+			Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
 			base.OnCreate(savedInstanceState, persistentState);
 		}
 		

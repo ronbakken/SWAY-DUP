@@ -8,6 +8,9 @@ using Android.Widget;
 using Android.OS;
 using Android.Support.V4.Content;
 
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+
 namespace InfX.Droid
 {
 	[Activity(Label = "INF", Icon = "@drawable/icon", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
@@ -15,6 +18,8 @@ namespace InfX.Droid
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
+			Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
+			
 			TabLayoutResource = Resource.Layout.Tabbar;
 			ToolbarResource = Resource.Layout.Toolbar;
 
@@ -62,9 +67,10 @@ namespace InfX.Droid
 
 			LoadApplication(new App());
 		}
+
+		public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+		{
+			PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
 	}
 }
-
-/*    <color name="primary_text_default_material_light">#de000000</color>
-    <color name="secondary_text_default_material_light">#8a000000</color>
-*/
