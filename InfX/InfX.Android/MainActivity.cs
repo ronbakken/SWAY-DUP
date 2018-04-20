@@ -28,6 +28,8 @@ namespace InfX.Droid
 			global::Xamarin.FormsMaps.Init(this, bundle);
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
+			RoundedBoxView.Forms.Plugin.Droid.RoundedBoxViewRenderer.Init();
+
 			Plugin.Iconize.Iconize.Init(Resource.Id.toolbar, Resource.Id.sliding_tabs);
 
 			Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());

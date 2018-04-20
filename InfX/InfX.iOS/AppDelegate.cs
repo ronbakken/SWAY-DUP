@@ -25,8 +25,9 @@ namespace InfX.iOS
 			global::Xamarin.FormsMaps.Init();
 			global::Xamarin.Forms.Forms.Init();
 
+			RoundedBoxView.Forms.Plugin.iOSUnified.RoundedBoxViewRenderer.Init();
 			// Plugin.Iconize.Iconize.Init();
-			
+
 			Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
 
 			ImageCircle.Forms.Plugin.iOS.ImageCircleRenderer.Init();

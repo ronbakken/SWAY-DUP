@@ -116,7 +116,7 @@ namespace InfX
 				}),
 			};
 
-			Title = AppResources.OffersAppliedTitle;
+			Title = LanguageResources.OffersAppliedTitle;
 			Content = new StackLayout {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,

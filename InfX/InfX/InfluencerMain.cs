@@ -30,7 +30,7 @@ namespace InfX
 			};
 
 			SearchBar searchBar = new SearchBar {
-				Placeholder = AppResources.SearchPlaceholder,
+				Placeholder = LanguageResources.SearchPlaceholder,
 			};
 
 			RelativeLayout layout = new RelativeLayout {

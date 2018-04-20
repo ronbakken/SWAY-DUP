@@ -41,5 +41,6 @@ namespace InfX
 		public static double ElementLarge = 160;
 		public static double Icon = 24;
 		public static double IconTarget = 48;
+		public static double ChipHeight = 32;
 	}
 }

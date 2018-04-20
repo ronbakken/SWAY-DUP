@@ -28,36 +28,36 @@ namespace InfX
 
 		public OnboardingPage()
 		{
-			Title = AppResources.OnboardingTitle;
+			Title = LanguageResources.OnboardingTitle;
 			// BackgroundColor = Palette.BackgroundInverse;
 			
 			title = new OnboardingLabel {
-				Text = AppResources.OnboardingTitle.ToUpper(),
+				Text = LanguageResources.OnboardingTitle.ToUpper(),
 				Opacity = .0,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.0,
 				FontAttributes = FontAttributes.Bold,
 			};
 			step = new OnboardingLabel {
-				Text = AppResources.OnboardingStep1,
+				Text = LanguageResources.OnboardingStep1,
 				Opacity = .0,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 2.0
 			};
 			hi = new OnboardingLabel {
-				Text = AppResources.OnboardingHi,
+				Text = LanguageResources.OnboardingHi,
 				Opacity = .0,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.25,
 			};
 			selectType = new OnboardingLabel {
-				Text = AppResources.OnboardingSelectType,
+				Text = LanguageResources.OnboardingSelectType,
 				Opacity = .0,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)) * 1.25,
 			};
 			selectInfluencer = new OnboardingButton {
-				Text = AppResources.OnboardingSelectInfluencer.ToUpper(),
+				Text = LanguageResources.OnboardingSelectInfluencer.ToUpper(),
 				Opacity = .0,
 			};
 			selectBusiness = new OnboardingButton {
-				Text = AppResources.OnboardingSelectBusiness.ToUpper(),
+				Text = LanguageResources.OnboardingSelectBusiness.ToUpper(),
 				Opacity = .0,
 			};
 			Content = new StackLayout {

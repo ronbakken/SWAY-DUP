@@ -12,7 +12,7 @@ namespace InfX
 	{
 		public InfluencerOffersActive()
 		{
-			Title = AppResources.OffersActiveTitle;
+			Title = LanguageResources.OffersActiveTitle;
 			Content = new StackLayout {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
 				VerticalOptions = LayoutOptions.FillAndExpand,

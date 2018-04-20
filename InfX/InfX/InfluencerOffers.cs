@@ -11,7 +11,7 @@ namespace InfX
 	{
 		public InfluencerOffers ()
 		{
-			Title = AppResources.OffersTitle;
+			Title = LanguageResources.OffersTitle;
 			Children.Add(new InfluencerOffersApplied());
 			Children.Add(new InfluencerOffersDirect());
 			Children.Add(new InfluencerOffersActive());
