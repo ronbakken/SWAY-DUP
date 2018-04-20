@@ -110,5 +110,13 @@ namespace InfX
 				VerticalOptions = LayoutOptions.CenterAndExpand,
 			});
 		}
+
+		public void UpdateCounters(int[] followers)
+		{
+			for (int i = 0; i < (int)SocialPlatform.Nb; ++i)
+			{
+				Entries[i].Followers = followers[i];
+			}
+		}
 	}
 }

@@ -4,6 +4,8 @@ using System.Text;
 
 namespace InfX
 {
+	/* Data for a business offer as seen by an influencer */
+
 	public enum InfluencerOfferStatus
 	{
 		New,

@@ -29,7 +29,7 @@ namespace InfX
 		WrapLayout layout;
 
 		HashSet<string> tags;
-		string[] Tags
+		public string[] Tags
 		{
 			get
 			{
@@ -60,7 +60,7 @@ namespace InfX
 		}
 
 		bool readOnly = true;
-		bool ReadOnly
+		public bool ReadOnly
 		{
 			get
 			{

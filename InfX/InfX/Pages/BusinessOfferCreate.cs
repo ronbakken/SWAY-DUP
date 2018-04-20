@@ -13,7 +13,7 @@ namespace InfX
 	{
 		Image image;
 
-		public BusinessOfferCreate ()
+		public BusinessOfferCreate()
 		{
 			Title = "Create Offer";
 

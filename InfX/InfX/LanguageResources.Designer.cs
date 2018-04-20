@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace InfX.Resources {
+namespace InfX {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace InfX.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("InfX.Resources.LanguageResources", typeof(LanguageResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("InfX.LanguageResources", typeof(LanguageResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
