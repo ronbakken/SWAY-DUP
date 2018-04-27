@@ -32,6 +32,8 @@ namespace InfX.Droid
 
 			Plugin.Iconize.Iconize.Init(Resource.Id.toolbar, Resource.Id.sliding_tabs);
 			Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
+			
+			App.CacheDir = ApplicationContext.CacheDir.AbsolutePath;
 
 			Palette.Primary = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
 				Resource.Color.primaryColor));

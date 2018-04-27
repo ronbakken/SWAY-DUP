@@ -25,6 +25,11 @@ namespace InfX.iOS
 			global::Xamarin.FormsMaps.Init();
 			global::Xamarin.Forms.Forms.Init();
 
+			string documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+			string cache = System.IO.Path.Combine(documents, "..", "Library", "Caches");
+			string tmp = System.IO.Path.Combine(documents, "..", "tmp");
+			App.CacheDir = cache;
+
 			RoundedBoxView.Forms.Plugin.iOSUnified.RoundedBoxViewRenderer.Init();
 			ImageCircle.Forms.Plugin.iOS.ImageCircleRenderer.Init();
 			AiForms.Renderers.iOS.SettingsViewInit.Init();

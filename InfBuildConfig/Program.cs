@@ -26,6 +26,7 @@ namespace InfBuildConfig
 			IniData categoriesIni = parser.ReadFile(categoriesFile);
 
 			uint magic = 0x00A000A0;
+			uint barrier = 0x494E46A0;
 			int version = 1;
 			bw.Write(magic);
 			bw.Write(version);
@@ -86,6 +87,8 @@ namespace InfBuildConfig
 					bw.Write(str, 0, str.Length);
 				}
 			}
+
+			bw.Write(barrier);
 
 			bw.Flush();
 			fs.Flush();

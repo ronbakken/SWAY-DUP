@@ -18,6 +18,11 @@
     <Compile Update="App.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
+    <Compile Update="ConfigResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ConfigResource.resx</DependentUpon>
+    </Compile>
     <Compile Update="LanguageResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -29,6 +34,10 @@
   </ItemGroup> 
 
   <ItemGroup>
+    <EmbeddedResource Update="ConfigResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConfigResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="LanguageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LanguageResources.Designer.cs</LastGenOutput>
