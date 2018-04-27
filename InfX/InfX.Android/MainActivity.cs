@@ -31,7 +31,6 @@ namespace InfX.Droid
 			RoundedBoxView.Forms.Plugin.Droid.RoundedBoxViewRenderer.Init();
 
 			Plugin.Iconize.Iconize.Init(Resource.Id.toolbar, Resource.Id.sliding_tabs);
-
 			Plugin.Iconize.Iconize.With(new Plugin.Iconize.Fonts.FontAwesomeModule());
 
 			Palette.Primary = Xamarin.Forms.Color.FromUint((uint)ContextCompat.GetColor(this,
