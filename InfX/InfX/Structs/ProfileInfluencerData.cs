@@ -10,7 +10,7 @@ namespace InfX
     {
 		public string Id;
 
-		public string FullName;
+		public string Name;
 		public string Location;
 
 		public string[] ImageUrls;

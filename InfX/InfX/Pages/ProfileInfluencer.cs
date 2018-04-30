@@ -21,7 +21,7 @@ namespace InfX
 
 		ActivityIndicator activityIndicator;
 
-		Label fullName;
+		Label name;
 		Label location;
 		Image avatar;
 
@@ -34,7 +34,7 @@ namespace InfX
 			this.data = data;
 			this.me = me;
 
-			Title = me ? "My Profile" : data.FullName;
+			Title = me ? "My Profile" : data.Name;
 
 			image = new Image {
 				HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -54,8 +54,8 @@ namespace InfX
 				IsRunning = true,
 			};
 
-			fullName = new Label {
-				Text = data.FullName,
+			name = new Label {
+				Text = data.Name,
 				TextColor = Palette.PrimaryText,
 				FontSize = Device.GetNamedSize(NamedSize.Medium, typeof(Label)),
 				HorizontalOptions = LayoutOptions.StartAndExpand,
@@ -127,7 +127,7 @@ namespace InfX
 									Padding = new Thickness(0.0),
 									Spacing = Sizes.MarginText,
 									Children = {
-										fullName,
+										name,
 										location,
 									},
 								},
@@ -154,12 +154,12 @@ namespace InfX
 		public void UpdateData()
 		{
 			if (!me)
-				Title = data.FullName;
+				Title = data.Name;
 
 			if (data.ImageUrls.Length > 0)
 				image.Source = data.ImageUrls[0];
 
-			fullName.Text = data.FullName;
+			name.Text = data.Name;
 			location.Text = data.Location;
 
 			avatar.Source = data.AvatarUrl;

@@ -117,53 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="FilterOffersTitle" xml:space="preserve">
-    <value>Filter</value>
-  </data>
-  <data name="OffersActiveTitle" xml:space="preserve">
-    <value>Active</value>
-  </data>
-  <data name="OffersAppliedInterest" xml:space="preserve">
-    <value>{0} others are interested</value>
-  </data>
-  <data name="OffersAppliedPending" xml:space="preserve">
-    <value>Pending</value>
-  </data>
-  <data name="OffersAppliedTitle" xml:space="preserve">
-    <value>Applied</value>
-  </data>
-  <data name="OffersDirectTitle" xml:space="preserve">
-    <value>Direct</value>
-  </data>
-  <data name="OffersHistoryTitle" xml:space="preserve">
-    <value>History</value>
-  </data>
-  <data name="OffersTitle" xml:space="preserve">
-    <value>Offers</value>
-  </data>
-  <data name="OnboardingHi" xml:space="preserve">
-    <value>Hi there!</value>
-  </data>
-  <data name="OnboardingSelectBusiness" xml:space="preserve">
-    <value>I am a business</value>
-    <comment>(button)</comment>
-  </data>
-  <data name="OnboardingSelectInfluencer" xml:space="preserve">
-    <value>I am an influencer</value>
-    <comment>(button)</comment>
-  </data>
-  <data name="OnboardingSelectType" xml:space="preserve">
-    <value>How do you see yourself?</value>
-    <comment>In a mirror</comment>
-  </data>
-  <data name="OnboardingStep1" xml:space="preserve">
-    <value>Step 1/3</value>
-  </data>
-  <data name="OnboardingTitle" xml:space="preserve">
-    <value>Onboarding</value>
-  </data>
-  <data name="SearchPlaceholder" xml:space="preserve">
-    <value>What are you looking for?</value>
-    <comment>Search bar placeholder text</comment>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Config" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\infbuildconfig\data\config.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

@@ -61,6 +61,15 @@ namespace InfX {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        internal static string FilterOffersTitle {
+            get {
+                return ResourceManager.GetString("FilterOffersTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active.
         /// </summary>
         internal static string OffersActiveTitle {
