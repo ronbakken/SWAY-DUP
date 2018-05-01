@@ -41,17 +41,20 @@ namespace InfX
     {
 		public static void LoadCategories(BinaryReader config)
 		{
-			Categories = new CategoryInfo[config.ReadInt16()][];
+			Categories = new CategoryInfo[2][];
+			Categories[0] = new CategoryInfo[] { EmptyCategory };
+			Categories[1] = new CategoryInfo[] { new CategoryInfo("Fashion") };
+			/*Categories = new CategoryInfo[config.ReadInt16()][];
 			for (int i = 0; i < Categories.Length; ++i)
 			{
 				Categories[i] = new CategoryInfo[config.ReadInt16()];
-				for (int j = 0; j < Categories[i].Length; ++i)
+				for (int j = 0; j < Categories[i].Length; ++j)
 				{
 					byte[] utf8 = config.ReadBytes(config.ReadInt16());
 					string label = Encoding.UTF8.GetString(utf8);
 					Categories[i][j] = new CategoryInfo(label);
 				}
-			}
+			}*/
 		}
 
 		public static readonly CategoryInfo EmptyCategory = new CategoryInfo("");

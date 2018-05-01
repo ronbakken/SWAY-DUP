@@ -53,6 +53,7 @@ namespace InfX
 
 		public App()
 		{
+			new DirectoryInfo(Path.Combine(CacheDir, "static")).Create();
 			string configName = "config." + ConfigVersion + ".bin"; // Increment of version forces re-sync on any update
 			string configPath = Path.Combine(CacheDir, "static", configName);
 			copyConfigResource(configPath);
