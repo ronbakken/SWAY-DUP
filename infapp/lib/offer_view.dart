@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-import 'caroussel_app_bar.dart';
+import 'carousel_app_bar.dart';
+import 'dark_container.dart';
 
 class OfferView extends StatelessWidget {
   @override
@@ -19,12 +20,15 @@ class OfferView extends StatelessWidget {
           ),
           new SliverList(
             delegate: new SliverChildListDelegate([
-              new ListTile(
-                leading: new CircleAvatar(
-                  backgroundImage: new NetworkImage('https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg')
+              new DarkContainer(
+                child: new ListTile(
+                  //enabled: true,
+                  leading: new CircleAvatar(
+                    backgroundImage: new NetworkImage('https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg')
+                  ),
+                  title: new Text("Fried Willy"),
+                  subtitle: new Text("1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024"),
                 ),
-                title: new Text("Fried Willy"),
-                subtitle: new Text("1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024"),
               ),
               new Divider(),
               new ListTile(
