@@ -9,12 +9,11 @@ class CarouselAppBar extends SliverAppBar {
       title: title,
     expandedHeight: MediaQuery.of(context).size.width * 9.0 / 16.0,
     flexibleSpace: new FlexibleSpaceBar(
-      background: _buildBackground(new PageController(), imageUrls),
+      background: _buildBackground(new PageController(), context, imageUrls),
     ),
   );
 
-  static Widget _buildBackground(controller, List<String> imageUrls) {
-    print("Build Background");
+  static Widget _buildBackground(controller, BuildContext context, List<String> imageUrls) {
     List<Widget> images = new List<Widget>();
     for (String imageUrl in imageUrls) {
       images.add(new AspectRatio(
@@ -28,45 +27,48 @@ class CarouselAppBar extends SliverAppBar {
     }
     return new AspectRatio(
       aspectRatio: 16.0 / 9.0,
-      child: new Stack(
-        children: <Widget>[
-          /*images[0],*/
-          new Stack(
-            alignment: FractionalOffset.bottomCenter,
-            children: <Widget>[
-              new PageView.builder(
-                controller: controller,
-                itemCount: images.length,
-                itemBuilder: (_, int i) => images[i],
-              ),
-              new Container(
-                margin: new EdgeInsets.only(
-                  top: 16.0,
-                  bottom: 16.0,
+      child: new Container(
+        color: Theme.of(context).primaryColorDark,
+        child: new Stack(
+          children: <Widget>[
+            images.length == 1 ? images[0]
+            : new Stack(
+              alignment: FractionalOffset.bottomCenter,
+              children: <Widget>[
+                new PageView.builder(
+                  controller: controller,
+                  itemCount: images.length,
+                  itemBuilder: (_, int i) => images[i],
                 ),
-                child: new CircleIndicator(
-                  controller, images.length, 
-                  3.0, Colors.white70, Colors.white
+                new Container(
+                  margin: new EdgeInsets.only(
+                    top: 16.0,
+                    bottom: 16.0,
+                  ),
+                  child: new CircleIndicator(
+                    controller, images.length, 
+                    3.0, Colors.white70, Colors.white
+                  ),
                 ),
-              ),
-            ],
-          ),
-          new AspectRatio(
-            aspectRatio: 16.0 / 4.0,
-            child: new ConstrainedBox(
-              constraints: new BoxConstraints.expand(),
-              child: new DecoratedBox(
-                decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: <Color>[Colors.black45, Colors.transparent]
+              ],
+            ),
+            new AspectRatio(
+              aspectRatio: 16.0 / 4.0,
+              child: new ConstrainedBox(
+                constraints: new BoxConstraints.expand(),
+                child: new DecoratedBox(
+                  decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: <Color>[Colors.black45, Colors.transparent]
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ]
+          ]
+        ),
       ),
     );
   }
