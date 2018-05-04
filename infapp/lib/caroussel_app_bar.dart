@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:circle_indicator/circle_indicator.dart';
 
 class CarouselAppBar extends SliverAppBar {
   CarouselAppBar({ Key key, BuildContext context, Widget title, List<String> imageUrls }) : 
@@ -8,11 +9,11 @@ class CarouselAppBar extends SliverAppBar {
       title: title,
     expandedHeight: MediaQuery.of(context).size.width * 9.0 / 16.0,
     flexibleSpace: new FlexibleSpaceBar(
-      background: _buildBackground(imageUrls),
+      background: _buildBackground(new PageController(), imageUrls),
     ),
   );
 
-  static Widget _buildBackground(List<String> imageUrls) {
+  static Widget _buildBackground(controller, List<String> imageUrls) {
     print("Build Background");
     List<Widget> images = new List<Widget>();
     for (String imageUrl in imageUrls) {
@@ -29,7 +30,27 @@ class CarouselAppBar extends SliverAppBar {
       aspectRatio: 16.0 / 9.0,
       child: new Stack(
         children: <Widget>[
-          images[0],
+          /*images[0],*/
+          new Stack(
+            alignment: FractionalOffset.bottomCenter,
+            children: <Widget>[
+              new PageView.builder(
+                controller: controller,
+                itemCount: images.length,
+                itemBuilder: (_, int i) => images[i],
+              ),
+              new Container(
+                margin: new EdgeInsets.only(
+                  top: 16.0,
+                  bottom: 16.0,
+                ),
+                child: new CircleIndicator(
+                  controller, images.length, 
+                  3.0, Colors.white70, Colors.white
+                ),
+              ),
+            ],
+          ),
           new AspectRatio(
             aspectRatio: 16.0 / 4.0,
             child: new ConstrainedBox(
