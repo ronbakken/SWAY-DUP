@@ -27,7 +27,7 @@ class MeepMeep extends StatelessWidget { // stateless widget is just a widget th
     );
   }
 }
-
+/*
 class MagicScaffold extends StatelessWidget {
   const MagicScaffold({
     Key key,
@@ -68,7 +68,7 @@ class MagicScaffold extends StatelessWidget {
     }
   }
 }
-
+*/
 class DemoHomePage extends StatefulWidget { // stateful widget is basically a widget with private data
   @override
   _DemoHomePageState createState() => new _DemoHomePageState();

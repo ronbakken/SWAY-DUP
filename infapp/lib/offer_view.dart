@@ -52,7 +52,6 @@ class OfferView extends StatelessWidget {
                   subtitle: new Text(businessLocation),
                 ),
               ),
-              new Divider(),
               new ListTile(
                 title: new Text(offerDescription, style: Theme.of(context).textTheme.body1 ),
               ),

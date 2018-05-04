@@ -1,4 +1,4 @@
-package com.example.infapp;
+package net.nbspou.infapp;
 
 import android.os.Bundle;
 

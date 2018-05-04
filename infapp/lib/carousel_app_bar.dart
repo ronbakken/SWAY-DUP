@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:circle_indicator/circle_indicator.dart';
 
 class CarouselAppBar extends SliverAppBar {
-  CarouselAppBar({ Key key, BuildContext context, Widget title, List<String> imageUrls }) : 
+  CarouselAppBar({ 
+    Key key, 
+    BuildContext context, 
+    Widget title, 
+    List<String> imageUrls }) : 
   super(
     key: key,
     pinned: true,
