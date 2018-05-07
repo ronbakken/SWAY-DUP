@@ -65,7 +65,8 @@ class _ReadonlyConfigCategories extends ConfigCategories with ReadonlyMessageMix
 
 class Config extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('Config')
-    ..a<ConfigCategories>(1, 'categories', PbFieldType.OM, ConfigCategories.getDefault, ConfigCategories.create)
+    ..a<int>(1, 'version', PbFieldType.O3)
+    ..a<ConfigCategories>(2, 'categories', PbFieldType.OM, ConfigCategories.getDefault, ConfigCategories.create)
     ..hasRequiredFields = false
   ;
 
@@ -85,10 +86,15 @@ class Config extends GeneratedMessage {
     if (v is! Config) checkItemFailed(v, 'Config');
   }
 
-  ConfigCategories get categories => $_getN(0);
-  set categories(ConfigCategories v) { setField(1, v); }
-  bool hasCategories() => $_has(0);
-  void clearCategories() => clearField(1);
+  int get version => $_get(0, 0);
+  set version(int v) { $_setUnsignedInt32(0, v); }
+  bool hasVersion() => $_has(0);
+  void clearVersion() => clearField(1);
+
+  ConfigCategories get categories => $_getN(1);
+  set categories(ConfigCategories v) { setField(2, v); }
+  bool hasCategories() => $_has(1);
+  void clearCategories() => clearField(2);
 }
 
 class _ReadonlyConfig extends Config with ReadonlyMessageMixin {}

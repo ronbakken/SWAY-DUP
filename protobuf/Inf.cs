@@ -24,16 +24,17 @@ namespace InfX {
           string.Concat(
             "CglpbmYucHJvdG8iJQoTQ29uZmlnU3ViQ2F0ZWdvcmllcxIOCgZsYWJlbHMY",
             "ASADKAkiNQoQQ29uZmlnQ2F0ZWdvcmllcxIhCgNzdWIYASADKAsyFC5Db25m",
-            "aWdTdWJDYXRlZ29yaWVzIi8KBkNvbmZpZxIlCgpjYXRlZ29yaWVzGAEgASgL",
-            "MhEuQ29uZmlnQ2F0ZWdvcmllcyInCgpDYXRlZ29yeUlkEgwKBG1haW4YASAB",
-            "KAUSCwoDc3ViGAIgASgFIikKDUNhdGVnb3J5SWRTZXQSGAoDaWRzGAEgAygL",
-            "MgsuQ2F0ZWdvcnlJZEIHqgIESW5mWGIGcHJvdG8z"));
+            "aWdTdWJDYXRlZ29yaWVzIkAKBkNvbmZpZxIPCgd2ZXJzaW9uGAEgASgFEiUK",
+            "CmNhdGVnb3JpZXMYAiABKAsyES5Db25maWdDYXRlZ29yaWVzIicKCkNhdGVn",
+            "b3J5SWQSDAoEbWFpbhgBIAEoBRILCgNzdWIYAiABKAUiKQoNQ2F0ZWdvcnlJ",
+            "ZFNldBIYCgNpZHMYASADKAsyCy5DYXRlZ29yeUlkQgeqAgRJbmZYYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.Config), global::InfX.Config.Parser, new[]{ "Categories" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.Config), global::InfX.Config.Parser, new[]{ "Version", "Categories" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryIdSet), global::InfX.CategoryIdSet.Parser, new[]{ "Ids" }, null, null, null)
           }));
@@ -284,6 +285,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Config(Config other) : this() {
+      version_ = other.version_;
       Categories = other.categories_ != null ? other.Categories.Clone() : null;
     }
 
@@ -292,8 +294,19 @@ namespace InfX {
       return new Config(this);
     }
 
+    /// <summary>Field number for the "version" field.</summary>
+    public const int VersionFieldNumber = 1;
+    private int version_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Version {
+      get { return version_; }
+      set {
+        version_ = value;
+      }
+    }
+
     /// <summary>Field number for the "categories" field.</summary>
-    public const int CategoriesFieldNumber = 1;
+    public const int CategoriesFieldNumber = 2;
     private global::InfX.ConfigCategories categories_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::InfX.ConfigCategories Categories {
@@ -316,6 +329,7 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Version != other.Version) return false;
       if (!object.Equals(Categories, other.Categories)) return false;
       return true;
     }
@@ -323,6 +337,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      if (Version != 0) hash ^= Version.GetHashCode();
       if (categories_ != null) hash ^= Categories.GetHashCode();
       return hash;
     }
@@ -334,8 +349,12 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
+      if (Version != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Version);
+      }
       if (categories_ != null) {
-        output.WriteRawTag(10);
+        output.WriteRawTag(18);
         output.WriteMessage(Categories);
       }
     }
@@ -343,6 +362,9 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      if (Version != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Version);
+      }
       if (categories_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Categories);
       }
@@ -353,6 +375,9 @@ namespace InfX {
     public void MergeFrom(Config other) {
       if (other == null) {
         return;
+      }
+      if (other.Version != 0) {
+        Version = other.Version;
       }
       if (other.categories_ != null) {
         if (categories_ == null) {
@@ -370,7 +395,11 @@ namespace InfX {
           default:
             input.SkipLastField();
             break;
-          case 10: {
+          case 8: {
+            Version = input.ReadInt32();
+            break;
+          }
+          case 18: {
             if (categories_ == null) {
               categories_ = new global::InfX.ConfigCategories();
             }
