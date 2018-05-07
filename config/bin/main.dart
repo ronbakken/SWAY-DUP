@@ -61,6 +61,7 @@ Future<ConfigCategories> generateConfigCategories() async {
 
 generateConfig() async {
   Config config = new Config();
+  config.version = 2;
   config.categories = await generateConfigCategories();
   print(config.writeToJson());
   Uint8List configBuffer = config.writeToBuffer();
