@@ -2,14 +2,25 @@ syntax = "proto3";
 
 option csharp_namespace = "InfX";
 
+message ConfigSubCategories {
+  repeated string label = 1;
+}
+
+message ConfigCategories {
+  repeated ConfigSubCategories sub = 1;
+}
+
 message Config {
-  message SubCategories {
-    repeated string label = 1;
-  }
-  message Categories {
-    repeated SubCategories sub = 1;
-  }
-  Categories categories = 1;
+  ConfigCategories categories = 1;
+}
+
+message CategoryId {
+  int32 main = 1;
+  int32 sub = 2;
+}
+
+message CategoryIdSet {
+  repeated CategoryId ids = 1;
 }
 
 /* end of file */
