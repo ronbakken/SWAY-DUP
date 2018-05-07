@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+package inf;
+
+message ConfigCategories {
+  message SubCategories {
+    repeated string label = 1;
+  }
+  repeated SubCategories categories = 1;
+}
+
+/* end of file */
