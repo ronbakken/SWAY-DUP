@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+option csharp_namespace = InfX;
+
 message Config {
   message SubCategories {
     repeated string label = 1;
