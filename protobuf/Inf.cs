@@ -22,16 +22,16 @@ namespace InfX {
     static InfReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "CglpbmYucHJvdG8iJAoTQ29uZmlnU3ViQ2F0ZWdvcmllcxINCgVsYWJlbBgB",
-            "IAMoCSI1ChBDb25maWdDYXRlZ29yaWVzEiEKA3N1YhgBIAMoCzIULkNvbmZp",
-            "Z1N1YkNhdGVnb3JpZXMiLwoGQ29uZmlnEiUKCmNhdGVnb3JpZXMYASABKAsy",
-            "ES5Db25maWdDYXRlZ29yaWVzIicKCkNhdGVnb3J5SWQSDAoEbWFpbhgBIAEo",
-            "BRILCgNzdWIYAiABKAUiKQoNQ2F0ZWdvcnlJZFNldBIYCgNpZHMYASADKAsy",
-            "Cy5DYXRlZ29yeUlkQgeqAgRJbmZYYgZwcm90bzM="));
+            "CglpbmYucHJvdG8iJQoTQ29uZmlnU3ViQ2F0ZWdvcmllcxIOCgZsYWJlbHMY",
+            "ASADKAkiNQoQQ29uZmlnQ2F0ZWdvcmllcxIhCgNzdWIYASADKAsyFC5Db25m",
+            "aWdTdWJDYXRlZ29yaWVzIi8KBkNvbmZpZxIlCgpjYXRlZ29yaWVzGAEgASgL",
+            "MhEuQ29uZmlnQ2F0ZWdvcmllcyInCgpDYXRlZ29yeUlkEgwKBG1haW4YASAB",
+            "KAUSCwoDc3ViGAIgASgFIikKDUNhdGVnb3J5SWRTZXQSGAoDaWRzGAEgAygL",
+            "MgsuQ2F0ZWdvcnlJZEIHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Label" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.Config), global::InfX.Config.Parser, new[]{ "Categories" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
@@ -66,7 +66,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ConfigSubCategories(ConfigSubCategories other) : this() {
-      label_ = other.label_.Clone();
+      labels_ = other.labels_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -74,14 +74,14 @@ namespace InfX {
       return new ConfigSubCategories(this);
     }
 
-    /// <summary>Field number for the "label" field.</summary>
-    public const int LabelFieldNumber = 1;
-    private static readonly pb::FieldCodec<string> _repeated_label_codec
+    /// <summary>Field number for the "labels" field.</summary>
+    public const int LabelsFieldNumber = 1;
+    private static readonly pb::FieldCodec<string> _repeated_labels_codec
         = pb::FieldCodec.ForString(10);
-    private readonly pbc::RepeatedField<string> label_ = new pbc::RepeatedField<string>();
+    private readonly pbc::RepeatedField<string> labels_ = new pbc::RepeatedField<string>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<string> Label {
-      get { return label_; }
+    public pbc::RepeatedField<string> Labels {
+      get { return labels_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -97,14 +97,14 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!label_.Equals(other.label_)) return false;
+      if(!labels_.Equals(other.labels_)) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= label_.GetHashCode();
+      hash ^= labels_.GetHashCode();
       return hash;
     }
 
@@ -115,13 +115,13 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      label_.WriteTo(output, _repeated_label_codec);
+      labels_.WriteTo(output, _repeated_labels_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      size += label_.CalculateSize(_repeated_label_codec);
+      size += labels_.CalculateSize(_repeated_labels_codec);
       return size;
     }
 
@@ -130,7 +130,7 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      label_.Add(other.label_);
+      labels_.Add(other.labels_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -142,7 +142,7 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 10: {
-            label_.AddEntriesFrom(input, _repeated_label_codec);
+            labels_.AddEntriesFrom(input, _repeated_labels_codec);
             break;
           }
         }

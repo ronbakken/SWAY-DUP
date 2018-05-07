@@ -11,7 +11,7 @@ import 'package:protobuf/protobuf.dart';
 
 class ConfigSubCategories extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ConfigSubCategories')
-    ..pPS(1, 'label')
+    ..pPS(1, 'labels')
     ..hasRequiredFields = false
   ;
 
@@ -31,7 +31,7 @@ class ConfigSubCategories extends GeneratedMessage {
     if (v is! ConfigSubCategories) checkItemFailed(v, 'ConfigSubCategories');
   }
 
-  List<String> get label => $_getList(0);
+  List<String> get labels => $_getList(0);
 }
 
 class _ReadonlyConfigSubCategories extends ConfigSubCategories with ReadonlyMessageMixin {}
