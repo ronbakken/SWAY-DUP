@@ -9,63 +9,63 @@ import 'dart:core' show int, bool, double, String, List, override;
 
 import 'package:protobuf/protobuf.dart';
 
-class Config_SubCategories extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('Config_SubCategories')
+class ConfigSubCategories extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('ConfigSubCategories')
     ..pPS(1, 'label')
     ..hasRequiredFields = false
   ;
 
-  Config_SubCategories() : super();
-  Config_SubCategories.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  Config_SubCategories.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  Config_SubCategories clone() => new Config_SubCategories()..mergeFromMessage(this);
+  ConfigSubCategories() : super();
+  ConfigSubCategories.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  ConfigSubCategories.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  ConfigSubCategories clone() => new ConfigSubCategories()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static Config_SubCategories create() => new Config_SubCategories();
-  static PbList<Config_SubCategories> createRepeated() => new PbList<Config_SubCategories>();
-  static Config_SubCategories getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfig_SubCategories();
+  static ConfigSubCategories create() => new ConfigSubCategories();
+  static PbList<ConfigSubCategories> createRepeated() => new PbList<ConfigSubCategories>();
+  static ConfigSubCategories getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfigSubCategories();
     return _defaultInstance;
   }
-  static Config_SubCategories _defaultInstance;
-  static void $checkItem(Config_SubCategories v) {
-    if (v is! Config_SubCategories) checkItemFailed(v, 'Config_SubCategories');
+  static ConfigSubCategories _defaultInstance;
+  static void $checkItem(ConfigSubCategories v) {
+    if (v is! ConfigSubCategories) checkItemFailed(v, 'ConfigSubCategories');
   }
 
   List<String> get label => $_getList(0);
 }
 
-class _ReadonlyConfig_SubCategories extends Config_SubCategories with ReadonlyMessageMixin {}
+class _ReadonlyConfigSubCategories extends ConfigSubCategories with ReadonlyMessageMixin {}
 
-class Config_Categories extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('Config_Categories')
-    ..pp<Config_SubCategories>(1, 'sub', PbFieldType.PM, Config_SubCategories.$checkItem, Config_SubCategories.create)
+class ConfigCategories extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('ConfigCategories')
+    ..pp<ConfigSubCategories>(1, 'sub', PbFieldType.PM, ConfigSubCategories.$checkItem, ConfigSubCategories.create)
     ..hasRequiredFields = false
   ;
 
-  Config_Categories() : super();
-  Config_Categories.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  Config_Categories.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  Config_Categories clone() => new Config_Categories()..mergeFromMessage(this);
+  ConfigCategories() : super();
+  ConfigCategories.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  ConfigCategories.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  ConfigCategories clone() => new ConfigCategories()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static Config_Categories create() => new Config_Categories();
-  static PbList<Config_Categories> createRepeated() => new PbList<Config_Categories>();
-  static Config_Categories getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfig_Categories();
+  static ConfigCategories create() => new ConfigCategories();
+  static PbList<ConfigCategories> createRepeated() => new PbList<ConfigCategories>();
+  static ConfigCategories getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfigCategories();
     return _defaultInstance;
   }
-  static Config_Categories _defaultInstance;
-  static void $checkItem(Config_Categories v) {
-    if (v is! Config_Categories) checkItemFailed(v, 'Config_Categories');
+  static ConfigCategories _defaultInstance;
+  static void $checkItem(ConfigCategories v) {
+    if (v is! ConfigCategories) checkItemFailed(v, 'ConfigCategories');
   }
 
-  List<Config_SubCategories> get sub => $_getList(0);
+  List<ConfigSubCategories> get sub => $_getList(0);
 }
 
-class _ReadonlyConfig_Categories extends Config_Categories with ReadonlyMessageMixin {}
+class _ReadonlyConfigCategories extends ConfigCategories with ReadonlyMessageMixin {}
 
 class Config extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('Config')
-    ..a<Config_Categories>(1, 'categories', PbFieldType.OM, Config_Categories.getDefault, Config_Categories.create)
+    ..a<ConfigCategories>(1, 'categories', PbFieldType.OM, ConfigCategories.getDefault, ConfigCategories.create)
     ..hasRequiredFields = false
   ;
 
@@ -85,11 +85,74 @@ class Config extends GeneratedMessage {
     if (v is! Config) checkItemFailed(v, 'Config');
   }
 
-  Config_Categories get categories => $_getN(0);
-  set categories(Config_Categories v) { setField(1, v); }
+  ConfigCategories get categories => $_getN(0);
+  set categories(ConfigCategories v) { setField(1, v); }
   bool hasCategories() => $_has(0);
   void clearCategories() => clearField(1);
 }
 
 class _ReadonlyConfig extends Config with ReadonlyMessageMixin {}
+
+class CategoryId extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('CategoryId')
+    ..a<int>(1, 'main', PbFieldType.O3)
+    ..a<int>(2, 'sub', PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  CategoryId() : super();
+  CategoryId.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  CategoryId.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  CategoryId clone() => new CategoryId()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static CategoryId create() => new CategoryId();
+  static PbList<CategoryId> createRepeated() => new PbList<CategoryId>();
+  static CategoryId getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyCategoryId();
+    return _defaultInstance;
+  }
+  static CategoryId _defaultInstance;
+  static void $checkItem(CategoryId v) {
+    if (v is! CategoryId) checkItemFailed(v, 'CategoryId');
+  }
+
+  int get main => $_get(0, 0);
+  set main(int v) { $_setUnsignedInt32(0, v); }
+  bool hasMain() => $_has(0);
+  void clearMain() => clearField(1);
+
+  int get sub => $_get(1, 0);
+  set sub(int v) { $_setUnsignedInt32(1, v); }
+  bool hasSub() => $_has(1);
+  void clearSub() => clearField(2);
+}
+
+class _ReadonlyCategoryId extends CategoryId with ReadonlyMessageMixin {}
+
+class CategoryIdSet extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('CategoryIdSet')
+    ..pp<CategoryId>(1, 'ids', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
+    ..hasRequiredFields = false
+  ;
+
+  CategoryIdSet() : super();
+  CategoryIdSet.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  CategoryIdSet.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  CategoryIdSet clone() => new CategoryIdSet()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static CategoryIdSet create() => new CategoryIdSet();
+  static PbList<CategoryIdSet> createRepeated() => new PbList<CategoryIdSet>();
+  static CategoryIdSet getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyCategoryIdSet();
+    return _defaultInstance;
+  }
+  static CategoryIdSet _defaultInstance;
+  static void $checkItem(CategoryIdSet v) {
+    if (v is! CategoryIdSet) checkItemFailed(v, 'CategoryIdSet');
+  }
+
+  List<CategoryId> get ids => $_getList(0);
+}
+
+class _ReadonlyCategoryIdSet extends CategoryIdSet with ReadonlyMessageMixin {}
 
