@@ -11,7 +11,7 @@ message ConfigCategories {
 }
 
 message Config {
-  int32 version [ default = 2 ];
+  int32 version [ default = 2 ] = 2;
   ConfigCategories categories = 1;
 }
 
