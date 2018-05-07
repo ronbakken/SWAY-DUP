@@ -11,6 +11,8 @@ dependencies:
 
   circle_indicator: ^0.0.7
 
+  protobuf: ^0.7.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

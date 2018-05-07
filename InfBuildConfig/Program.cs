@@ -25,6 +25,8 @@ namespace InfBuildConfig
 			FileIniDataParser parser = new FileIniDataParser();
 			IniData categoriesIni = parser.ReadFile(categoriesFile);
 
+			// new InfX.Config().Categories.Sub.
+
 			uint magic = 0x00A000A0;
 			uint barrier = 0x494E46A0;
 			int version = 1;
