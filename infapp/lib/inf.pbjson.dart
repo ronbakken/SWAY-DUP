@@ -7,7 +7,7 @@ library inf_pbjson;
 const ConfigSubCategories$json = const {
   '1': 'ConfigSubCategories',
   '2': const [
-    const {'1': 'label', '3': 1, '4': 3, '5': 9, '10': 'label'},
+    const {'1': 'labels', '3': 1, '4': 3, '5': 9, '10': 'labels'},
   ],
 };
 
