@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'dart:typed_data';
 import "package:ini/ini.dart" as ini;
 
 // import 'package:config/config.dart' as config;
@@ -62,6 +63,8 @@ generateConfig() async {
   Config config = new Config();
   config.categories = await generateConfigCategories();
   print(config.writeToJson());
+  Uint8List configBuffer = config.writeToBuffer();
+  new File("config.bin").writeAsBytes(configBuffer, flush: true);
 }
 
 main(List<String> arguments) {
