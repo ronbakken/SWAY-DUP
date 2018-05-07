@@ -42,13 +42,13 @@ Future<ConfigCategories> generateConfigCategories() async {
     }
 		++nbSubCategories;
 
-    subCategories.label.add(section);
+    subCategories.labels.add(section);
 
     for (int sub = 1; sub < nbSubCategories; ++sub) {
       if (iniCategories.hasOption(section, sub.toString())) {
-        subCategories.label.add(iniCategories.get(section, sub.toString()));
+        subCategories.labels.add(iniCategories.get(section, sub.toString()));
       } else {
-        subCategories.label.add("");
+        subCategories.labels.add("");
       }
     }
 
