@@ -19,6 +19,8 @@ class DemoApp extends StatelessWidget {
         primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
         primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
         buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        // Generate A200 on http://mcg.mbitson.com/!
+        accentColor: new Color.fromARGB(0xff, 0x52, 0xFF, 0x88), // 52FF88
       ),
       home: new DemoHomePage(), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), // 
     );
