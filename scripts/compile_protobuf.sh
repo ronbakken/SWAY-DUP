@@ -21,7 +21,6 @@ cd scripts
 
 cd ../../infclient
 git pull
-cp ../infserver/protobuf/Inf.cs InfBuildConfig/Inf.cs
 cp ../infserver/protobuf/*.dart infapp/lib/
 git add *
 git commit -m "Update protobuf"
