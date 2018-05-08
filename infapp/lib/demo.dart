@@ -20,7 +20,7 @@ class DemoApp extends StatelessWidget {
         primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
         buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
       ),
-      home: new DemoHomePage(),
+      home: new DemoHomePage(), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), // 
     );
   }
 }

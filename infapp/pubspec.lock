@@ -116,6 +116,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
+  formler:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: "5a06fa147d3ad35a7fb168facf3f50d37d3d20d3"
+      url: "git://github.com/nbspou/formler.git"
+    source: git
+    version: "0.1.2"
   front_end:
     dependency: transitive
     description:
@@ -228,6 +237,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.0"
+  oauth1:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: master
+      resolved-ref: d83b7eba40c41353393b4ef89857bcf238c3764e
+      url: "git://github.com/nbspou/dart-oauth1.git"
+    source: git
+    version: "0.3.1"
   package_config:
     dependency: transitive
     description:
@@ -380,6 +398,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.5"
+  unittest:
+    dependency: transitive
+    description:
+      name: unittest
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.7"
   utf:
     dependency: transitive
     description:
@@ -387,6 +412,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.0+4"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   vector_math:
     dependency: transitive
     description:

@@ -16,6 +16,16 @@ dependencies:
   flutter_webview_plugin: ^0.1.5
   http: ^0.11.3+13
 
+  oauth1:
+    git: 
+      url: git://github.com/nbspou/dart-oauth1.git
+      ref: master
+
+  formler:
+    git:
+      url: git://github.com/nbspou/formler.git
+      ref: master
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

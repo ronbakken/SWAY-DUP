@@ -95,7 +95,12 @@ class OnboardingSocial extends StatelessWidget {
                                       image: new AssetImage('assets/logo_appbar.png')
                                     ),
                                     centerTitle: true,
-                                  )
+                                  ),
+                                  onSuccess: (token, verifier) {
+                                    print("Success: ");
+                                    print(token);
+                                    print(verifier);
+                                  },
                                 );
                               },
                             )
