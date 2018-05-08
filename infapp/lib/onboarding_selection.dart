@@ -13,6 +13,23 @@ class OnboardingSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> text = [
+      new Container(
+        margin: new EdgeInsets.all(8.0),
+        child: new Text(
+          "Hi!",
+          style: Theme.of(context).textTheme.display4,
+        ),
+      ),
+      new Container(
+        margin: new EdgeInsets.all(8.0),
+        child: new Text(
+        "How do you see yourself?",
+          style: Theme.of(context).textTheme.display1,
+          textAlign: TextAlign.center,
+        ),
+      )
+    ];
     return new Scaffold(
       appBar: new AppBar(
         title: new Image(
@@ -26,20 +43,16 @@ class OnboardingSelection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            new Container(
-              margin: new EdgeInsets.all(8.0),
-              child: new Text(
-                "Hi!",
-                style: Theme.of(context).textTheme.display4,
-              ),
-            ),
-            new Container(
-              margin: new EdgeInsets.all(8.0),
-              child: new Text(
-              "How do you see yourself?",
-                style: Theme.of(context).textTheme.display1,
-                textAlign: TextAlign.center,
-              ),
+            ((MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
+              ? new Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: text,
+              ) : new Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: text,
+              )
             ),
             new Column(
               children: [
