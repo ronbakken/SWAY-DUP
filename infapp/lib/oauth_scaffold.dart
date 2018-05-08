@@ -78,7 +78,6 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context).pop();
               },
             ),
           ],
@@ -112,7 +111,8 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
         _url =  widget.host + widget.authenticateUrl + "?oauth_token=" + Uri.encodeComponent(tokenRes.credentials.token);
       });
     } catch (e) {
-      _authError();
+      await _authError();
+      Navigator.of(context).pop();
     }
   }
 
@@ -133,21 +133,35 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     _onUrlChanged.cancel();
     // WORKAROUND (kaetemi): When webview has keyboard focus, it is not released when closing the WebviewScaffold
     _focusScope.requestFocus(new FocusNode());
+    _flutterWebviewPlugin.close();
     super.dispose();
   }
 
-  void _urlChanged(String url) {
+  _urlChanged(String url) async {
     if (mounted) {
       // print(url);
       // https://net.no-break.space/?oauth_token=6VK2rwAAAAAA5_oKAAABYz85WYA&oauth_verifier=L4XzyddrSLXTwi4F5XknXbmwVVuhb165
       if (url.startsWith(widget.callbackUrl)) {
         Uri uri = Uri.parse(url);
         if (widget.onSuccess != null && uri.queryParameters.containsKey('oauth_token') && uri.queryParameters.containsKey('oauth_verifier')) {
+          // Got a valid token
+          print("Authorization success");
           widget.onSuccess(uri.queryParameters['oauth_token'], uri.queryParameters['oauth_verifier']);
           Navigator.of(context).pop();
         } else {
-          _authError();
+          // Authorization canceled
+          print("Authorization canceled: " + widget.host);
+          setState(() { _ready = false; });
+          await _authError();
+          Navigator.of(context).pop();
         }
+      } else if (!url.startsWith(widget.host)) {
+        // Only allow API url
+        // TODO: Also allow T&C and Privacy Policy urls!
+        print("Url not allowed: " + widget.host);
+        setState(() { _ready = false; });
+        await _authError();
+        Navigator.of(context).pop();
       }
     }
   }
@@ -158,6 +172,17 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     if (!_ready) {
       return new Scaffold(
         appBar: widget.appBar,
+        body: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                new CircularProgressIndicator(),
+              ]
+            ),
+          ]
+        ),
       );
     }
     return new WebviewScaffold(
