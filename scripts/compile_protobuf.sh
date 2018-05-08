@@ -7,6 +7,9 @@ git add *
 cd ../config
 cp ../protobuf/*.dart lib/
 git add *
+cd ../api
+cp ../protobuf/*.dart lib/
+git add *
 cd ..
 git commit -m "Update protobuf"
 cd config
