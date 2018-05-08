@@ -100,31 +100,47 @@ class _DemoHomePageState extends State<DemoHomePage> {
       appBar: new AppBar(
         title: new Text('INF UI Demo!'),
       ),
-      drawer: new Drawer(
-        child: new ListView(
-          children: <Widget>[
-            new FlatButton(
-              child: new Row(
-                children: [
-                  new Text('Meep meep')
-                ],
-              ),
-              onPressed: () { setState(() { Navigator.of(context).pop(); _body = new MeepMeep(); }); },
+      drawer: new Builder(
+        builder: (BuildContext context) {
+          ScaffoldState scaffold = Scaffold.of(context);
+          return new Drawer(
+            child: new ListView(
+              children: <Widget>[
+                new FlatButton(
+                  child: new Row(
+                    children: [
+                      new Text('Meep meep')
+                    ],
+                  ),
+                  onPressed: () { setState(() { Navigator.of(context).pop(); _body = new MeepMeep(); }); },
+                ),
+                new FlatButton(
+                  child: new Row(children: [ new Text('Onboarding Selection') ] ),
+                  onPressed: () { setState(() { Navigator.of(context).pop(); _body = new OnboardingSelection(
+                    onInfluencer: () {
+                      scaffold.showSnackBar(new SnackBar(
+                        content: new Text("You're an influencer!"),
+                      )); 
+                    },
+                    onBusiness: () {
+                      scaffold.showSnackBar(new SnackBar(
+                        content: new Text("You're a business!"),
+                      )); 
+                    },
+                  ); }); },
+                ),
+                new FlatButton(
+                  child: new Row(children: [ new Text('Influencer Dashboard') ] ),
+                  onPressed: () { setState(() { Navigator.of(context).pop(); _body = new InfluencerDashboard(); }); },
+                ),
+                new FlatButton(
+                  child: new Row(children: [ new Text('Offer View') ] ),
+                  onPressed: () { setState(() { Navigator.of(context).pop(); _body = new OfferView(); }); },
+                ),
+              ],
             ),
-            new FlatButton(
-              child: new Row(children: [ new Text('Onboarding Selection') ] ),
-              onPressed: () { setState(() { Navigator.of(context).pop(); _body = new OnboardingSelection(); }); },
-            ),
-            new FlatButton(
-              child: new Row(children: [ new Text('Influencer Dashboard') ] ),
-              onPressed: () { setState(() { Navigator.of(context).pop(); _body = new InfluencerDashboard(); }); },
-            ),
-            new FlatButton(
-              child: new Row(children: [ new Text('Offer View') ] ),
-              onPressed: () { setState(() { Navigator.of(context).pop(); _body = new OfferView(); }); },
-            ),
-          ],
-        )
+          );
+        }
       ),
       body: _body,
     );

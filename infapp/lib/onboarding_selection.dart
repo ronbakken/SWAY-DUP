@@ -1,6 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingSelection extends StatelessWidget {
+  const OnboardingSelection({
+    Key key,
+    @required this.onInfluencer,
+    @required this.onBusiness,
+  }) : super(key: key);
+  
+  final VoidCallback onInfluencer;
+  final VoidCallback onBusiness;
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -36,7 +46,7 @@ class OnboardingSelection extends StatelessWidget {
                         new Text("I am an influencer".toUpperCase())
                       ]
                     ),
-                    onPressed: () => {},
+                    onPressed: onInfluencer,
                   )
                 ),
                 new Container(
@@ -48,7 +58,7 @@ class OnboardingSelection extends StatelessWidget {
                         new Text("I am a business".toUpperCase())
                       ]
                     ),
-                    onPressed: () => {},
+                    onPressed: onBusiness,
                   )
                 ),
               ],
