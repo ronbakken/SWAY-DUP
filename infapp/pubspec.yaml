@@ -40,6 +40,8 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.io/assets-and-images/#from-packages
   assets:
+    - assets/config.bin
+    - assets/logo_appbar.png
     - assets/placeholder_photo.png
 
   # To add custom fonts to your application, add a fonts section here,

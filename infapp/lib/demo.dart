@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'onboarding_selection.dart' show OnboardingSelection;
 import 'influencer_dashboard.dart' show InfluencerDashboard;
 import 'offer_view.dart' show OfferView;
 
@@ -9,7 +10,14 @@ class DemoApp extends StatelessWidget {
     return new MaterialApp(
       title: 'INF UI Demo',
       theme: new ThemeData(
-        primarySwatch: Colors.green,
+        brightness: Brightness.dark, // This makes things dark!
+        primarySwatch: Colors.blueGrey, // This is just defaults, no need to change!
+      ).copyWith(
+        // Generate these values on https://material.io/color/!
+        primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+        primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+        buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
       ),
       home: new DemoHomePage(),
     );
@@ -102,6 +110,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 ],
               ),
               onPressed: () { setState(() { Navigator.of(context).pop(); _body = new MeepMeep(); }); },
+            ),
+            new FlatButton(
+              child: new Row(children: [ new Text('Onboarding Selection') ] ),
+              onPressed: () { setState(() { Navigator.of(context).pop(); _body = new OnboardingSelection(); }); },
             ),
             new FlatButton(
               child: new Row(children: [ new Text('Influencer Dashboard') ] ),
