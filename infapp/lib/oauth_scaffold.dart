@@ -13,14 +13,12 @@ class OAuthScaffold extends StatefulWidget { // stateful widget is basically a w
   const OAuthScaffold({
     Key key,
     this.appBar,
-    this.consumerKey = "dJBat7EvZlqUuC7qsl9Gi0Kk1",
-    this.consumerSecret = "gwJSX2xyqOic8VLoPHu8zncfh1xogwWKBWrroVoNfwM4X70n0m",
-    this.host = "https://api.twitter.com",
+    @required this.consumerKey,
+    @required this.consumerSecret,
+    @required this.host,
     this.requestTokenUrl = "/oauth/request_token",
-    // this.authorizeUrl = "/oauth/authorize", // Not necessary?
-    // this.accessTokenUrl = "/oauth/access_token", // Not necessary?
     this.authenticateUrl = "/oauth/authenticate",
-    this.callbackUrl = "https://net.no-break.space",
+    @required this.callbackUrl,
     @required this.onSuccess,
   }) : super(key: key);
 
@@ -31,8 +29,6 @@ class OAuthScaffold extends StatefulWidget { // stateful widget is basically a w
 
   final String host;
   final String requestTokenUrl;
-  // final String authorizeUrl;
-  // final String accessTokenUrl;
   final String authenticateUrl;
 
   /// When the OAuth mechanism browses to this URL, we assume success.
@@ -111,6 +107,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
         _url =  widget.host + widget.authenticateUrl + "?oauth_token=" + Uri.encodeComponent(tokenRes.credentials.token);
       });
     } catch (e) {
+      print(e);
       await _authError();
       Navigator.of(context).pop();
     }
@@ -139,8 +136,6 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
 
   _urlChanged(String url) async {
     if (mounted) {
-      // print(url);
-      // https://net.no-break.space/?oauth_token=6VK2rwAAAAAA5_oKAAABYz85WYA&oauth_verifier=L4XzyddrSLXTwi4F5XknXbmwVVuhb165
       if (url.startsWith(widget.callbackUrl)) {
         Uri uri = Uri.parse(url);
         if (widget.onSuccess != null && uri.queryParameters.containsKey('oauth_token') && uri.queryParameters.containsKey('oauth_verifier')) {
@@ -193,46 +188,3 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
 }
 
 /* end of file */
-
-  
-  //String _nonce;
-/*
-  String _getSignatureParams() {
-    return 'oauth_callback=${Uri.encodeComponent(widget.callbackUrl)}&'
-           'oauth_consumer_key=${Uri.encodeComponent(widget.consumerKey)}&'
-           'oauth_nonce=${Uri.encodeComponent(_nonce)}&'
-           'oauth_signature_method=HMAC-SHA1&'
-           'oauth_timestamp=${Uri.encodeComponent((new DateTime.now().millisecondsSinceEpoch / 1000).floor().toString())}&'
-           'oauth_version=1.0';
-  }
-
-  String _getSignatureBase() {
-    return 'POST'
-           '&${Uri.encodeComponent(widget.host + widget.requestToken)}'
-           '&${Uri.encodeComponent(_getSignatureParams())}';
-  }
-
-  String _getAuthorizationHeader() {
-    String signatureBase = _getSignatureBase();
-    return 'OAuth '
-           'oauth_callback="${Uri.encodeComponent(widget.callbackUrl)}", '
-           'oauth_consumer_key="${Uri.encodeComponent(widget.consumerKey)}", '
-           'oauth_nonce="${Uri.encodeComponent(_nonce)}", '
-           'oauth_signature="hello", '
-           'oauth_signature_method="HMAC-SHA1", '
-           'oauth_timestamp="${Uri.encodeComponent((new DateTime.now().millisecondsSinceEpoch / 1000).floor().toString())}", '
-           'oauth_version="1.0"';
-  }
-*/
-    /*Utf8Codec utf8codec = new Utf8Codec();
-    Base64Codec base64codec = new Base64Codec.urlSafe();
-    _nonce = base64codec.encode(utf8codec.encode(new DateTime.now().millisecondsSinceEpoch.toString()));*/
-    
-    /*String authorizationHeader = _getAuthorizationHeader();
-    print(authorizationHeader);*/
-    /*http.Response tokenRes = await http.post(
-      widget.host + widget.requestToken,
-      headers: {
-        "Authorization": authorizationHeader
-      }
-    );*/

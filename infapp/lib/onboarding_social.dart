@@ -8,7 +8,7 @@ import 'oauth/token.dart' as oauth;
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-import 'oauth_scaffold.dart';
+import 'oauth_scaffold_presets.dart';
 
 enum AccountType {
   Influencer,
@@ -89,7 +89,7 @@ class OnboardingSocial extends StatelessWidget {
                             context,
                             new MaterialPageRoute(
                               builder: (context) {
-                                return new OAuthScaffold(
+                                return new OAuthScaffoldTwitter(
                                   appBar: new AppBar(
                                     title: new Image(
                                       image: new AssetImage('assets/logo_appbar.png')
