@@ -26,14 +26,20 @@ class OnboardingSelection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            new Text(
-              "Hi!",
-              style: Theme.of(context).textTheme.display4,
+            new Container(
+              margin: new EdgeInsets.all(8.0),
+              child: new Text(
+                "Hi!",
+                style: Theme.of(context).textTheme.display4,
+              ),
             ),
-            new Text(
+            new Container(
+              margin: new EdgeInsets.all(8.0),
+              child: new Text(
               "How do you see yourself?",
-              style: Theme.of(context).textTheme.display1,
-              textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.display1,
+                textAlign: TextAlign.center,
+              ),
             ),
             new Column(
               children: [
@@ -55,7 +61,7 @@ class OnboardingSelection extends StatelessWidget {
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        new Text("I am a business".toUpperCase())
+                        new Text("I need an influencer for my business".toUpperCase())
                       ]
                     ),
                     onPressed: onBusiness,

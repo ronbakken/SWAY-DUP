@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'onboarding_selection.dart' show OnboardingSelection;
+import 'onboarding_social.dart' show OnboardingSocial, AccountType;
 import 'influencer_dashboard.dart' show InfluencerDashboard;
 import 'offer_view.dart' show OfferView;
 
@@ -125,6 +126,17 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     onBusiness: () {
                       scaffold.showSnackBar(new SnackBar(
                         content: new Text("You're a business!"),
+                      )); 
+                    },
+                  ); }); },
+                ),
+                new FlatButton(
+                  child: new Row(children: [ new Text('Onboarding Social') ] ),
+                  onPressed: () { setState(() { Navigator.of(context).pop(); _body = new OnboardingSocial(
+                    accountType: AccountType.Influencer,
+                    onTwitter: () {
+                      scaffold.showSnackBar(new SnackBar(
+                        content: new Text("You're a twat!"),
                       )); 
                     },
                   ); }); },
