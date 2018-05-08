@@ -1,6 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'oauth/flutter_auth.dart' as oauth;
+import 'oauth/config.dart' as oauth;
+import 'oauth/oauth.dart' as oauth;
+import 'oauth/token.dart' as oauth;
+
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+
+import 'oauth_scaffold.dart';
+
 enum AccountType {
   Influencer,
   Business
@@ -60,8 +69,39 @@ class OnboardingSocial extends StatelessWidget {
                             new Text("Twitter".toUpperCase())
                           ]
                         ),
-                        onPressed: onTwitter,
-                      )
+                        onPressed: () async {
+                          /*
+                          print("OAuth");
+                          final oauth.OAuth flutterOAuth = new oauth.FlutterOAuth(new oauth.Config(
+                            "https://api.twitter.com/oauth/authorize",
+                            "https://api.twitter.com/oauth/request_token",
+                            "dJBat7EvZlqUuC7qsl9Gi0Kk1",
+                            "gwJSX2xyqOic8VLoPHu8zncfh1xogwWKBWrroVoNfwM4X70n0m",
+                            "https://no-break.space",
+                            "code"));
+                          print("Let's go!");
+                          oauth.Token token = await flutterOAuth.performAuthorization();
+                          String accessToken = token.accessToken;
+                          print(accessToken);
+                          onTwitter();
+                          */
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) {
+                                return new OAuthScaffold(
+                                  appBar: new AppBar(
+                                    title: new Image(
+                                      image: new AssetImage('assets/logo_appbar.png')
+                                    ),
+                                    centerTitle: true,
+                                  )
+                                );
+                              },
+                            )
+                          );
+                        },
+                      ),
                     ),
                     new Container(
                       margin: new EdgeInsets.all(8.0),
