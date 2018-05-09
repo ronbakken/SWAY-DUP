@@ -5,23 +5,82 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'oauth_scaffold_presets.dart';
 
+import 'inf.pb.dart';
+
 enum AccountType {
   Influencer,
   Business
+}
+
+class NetOAuthState {
+  const NetOAuthState({
+    @required this.valid,
+  });
+
+  final bool valid;
 }
 
 class OnboardingSocial extends StatelessWidget {
   const OnboardingSocial({
     Key key,
     @required this.accountType,
-    @required this.onTwitter,
+    @required List<ConfigOAuthProvider> this.oauthProviders,
+    @required List<NetOAuthState> this.oauthState,
+    // @required this.onTwitter,
   }) : super(key: key);
 
-  final AccountType accountType;  
-  final VoidCallback onTwitter;
+  final AccountType accountType; 
+  final List<ConfigOAuthProvider> oauthProviders;
+  final List<NetOAuthState> oauthState;
+  // final VoidCallback onTwitter;
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> oauthButtons = new List<Widget>();
+    print("OAuth Providers: " + oauthProviders.length.toString());
+    for (int i = 0; i < oauthProviders.length; ++i) {
+      ConfigOAuthProvider cfg = oauthProviders[i];
+      if (cfg.visible) {
+        Widget r = new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            new Icon(new IconData(cfg.fontAwesomeBrand, fontFamily: 'FontAwesomeBrands', fontPackage: 'font_awesome_flutter')),
+            new Text(cfg.label.toUpperCase()),
+            new Icon(FontAwesomeIcons.signInAlt),
+          ]
+        );
+        var p = cfg.enabled ? () async {
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) {
+                return new OAuthScaffoldTwitter(
+                  appBar: new AppBar(
+                    title: new Image(
+                      image: new AssetImage('assets/logo_appbar.png')
+                    ),
+                    centerTitle: true,
+                  ),
+                  onSuccess: (token, verifier) {
+                    print("Success: ");
+                    print(token);
+                    print(verifier);
+                  },
+                );
+              },
+            )
+          );
+        } : null;
+        Widget w = new Container(
+          margin: new EdgeInsets.all(8.0),
+          child: new RaisedButton(
+            child: r,
+            onPressed: p,
+          ),
+        );
+        oauthButtons.add(w);
+      }
+    }
     return new Scaffold(
       appBar: new AppBar(
         title: new Image(
@@ -54,7 +113,8 @@ class OnboardingSocial extends StatelessWidget {
                   ),
                 ),
                 new Column(
-                  children: [
+                  children: oauthButtons, //[
+                    /*
                     new Container(
                       margin: new EdgeInsets.all(8.0),
                       child: new RaisedButton(
@@ -67,21 +127,6 @@ class OnboardingSocial extends StatelessWidget {
                           ]
                         ),
                         onPressed: () async {
-                          /*
-                          print("OAuth");
-                          final oauth.OAuth flutterOAuth = new oauth.FlutterOAuth(new oauth.Config(
-                            "https://api.twitter.com/oauth/authorize",
-                            "https://api.twitter.com/oauth/request_token",
-                            "dJBat7EvZlqUuC7qsl9Gi0Kk1",
-                            "gwJSX2xyqOic8VLoPHu8zncfh1xogwWKBWrroVoNfwM4X70n0m",
-                            "https://no-break.space",
-                            "code"));
-                          print("Let's go!");
-                          oauth.Token token = await flutterOAuth.performAuthorization();
-                          String accessToken = token.accessToken;
-                          print(accessToken);
-                          onTwitter();
-                          */
                           Navigator.push(
                             context,
                             new MaterialPageRoute(
@@ -151,8 +196,8 @@ class OnboardingSocial extends StatelessWidget {
                           ]
                         ),
                       )
-                    ),
-                  ],
+                    ),*/
+                  //],
                 ),
               ],
             ),

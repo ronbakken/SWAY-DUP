@@ -1,29 +1,42 @@
 import 'package:flutter/material.dart';
 
+import 'config_manager.dart' show ConfigManager;
 import 'onboarding_selection.dart' show OnboardingSelection;
 import 'onboarding_social.dart' show OnboardingSocial, AccountType;
 import 'influencer_dashboard.dart' show InfluencerDashboard;
 import 'offer_view.dart' show OfferView;
 import 'offer_create.dart' show OfferCreate;
 
+import 'inf.pb.dart';
+
 class DemoApp extends StatelessWidget {
+  const DemoApp({
+    Key key,
+    this.startupConfig
+  }) : super(key: key);
+
+  final Config startupConfig;
+
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: '*** INF UI Demo ***',
-      theme: new ThemeData(
-        brightness: Brightness.dark, // This makes things dark!
-        primarySwatch: Colors.blueGrey, // This is just defaults, no need to change!
-      ).copyWith(
-        // Generate these values on https://material.io/color/!
-        primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-        primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-        primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
-        buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-        // Generate A200 on http://mcg.mbitson.com/!
-        accentColor: new Color.fromARGB(0xff, 0x52, 0xFF, 0x88), // 52FF88
+    return new ConfigManager(
+      startupConfig: startupConfig,
+      child: new MaterialApp(
+        title: '*** INF UI Demo ***',
+        theme: new ThemeData(
+          brightness: Brightness.dark, // This makes things dark!
+          primarySwatch: Colors.blueGrey, // This is just defaults, no need to change!
+        ).copyWith(
+          // Generate these values on https://material.io/color/!
+          primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+          primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+          primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+          buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+          // Generate A200 on http://mcg.mbitson.com/!
+          accentColor: new Color.fromARGB(0xff, 0x52, 0xFF, 0x88), // 52FF88
+        ),
+        home: new DemoHomePage(), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), // 
       ),
-      home: new DemoHomePage(), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), // 
     );
   }
 }
@@ -97,11 +110,7 @@ class DemoHomePage extends StatelessWidget {
                   builder: (context) {
                     return new OnboardingSocial(
                       accountType: AccountType.Influencer,
-                      onTwitter: () {
-                        /*scaffold.showSnackBar(new SnackBar(
-                          content: new Text("You're a twat!"),
-                        )); */
-                      },
+                      oauthProviders: ConfigManager.of(context).oauthProviders.all,
                     );
                   },
                 )
