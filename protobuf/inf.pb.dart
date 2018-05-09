@@ -206,9 +206,10 @@ class _ReadonlyConfigOAuthProviders extends ConfigOAuthProviders with ReadonlyMe
 
 class Config extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('Config')
-    ..a<int>(1, 'version', PbFieldType.O3)
+    ..a<int>(1, 'clientVersion', PbFieldType.O3)
     ..a<ConfigCategories>(2, 'categories', PbFieldType.OM, ConfigCategories.getDefault, ConfigCategories.create)
     ..a<ConfigOAuthProviders>(3, 'oauthProviders', PbFieldType.OM, ConfigOAuthProviders.getDefault, ConfigOAuthProviders.create)
+    ..pPS(4, 'downloadUrls')
     ..hasRequiredFields = false
   ;
 
@@ -228,10 +229,10 @@ class Config extends GeneratedMessage {
     if (v is! Config) checkItemFailed(v, 'Config');
   }
 
-  int get version => $_get(0, 0);
-  set version(int v) { $_setUnsignedInt32(0, v); }
-  bool hasVersion() => $_has(0);
-  void clearVersion() => clearField(1);
+  int get clientVersion => $_get(0, 0);
+  set clientVersion(int v) { $_setUnsignedInt32(0, v); }
+  bool hasClientVersion() => $_has(0);
+  void clearClientVersion() => clearField(1);
 
   ConfigCategories get categories => $_getN(1);
   set categories(ConfigCategories v) { setField(2, v); }
@@ -242,6 +243,8 @@ class Config extends GeneratedMessage {
   set oauthProviders(ConfigOAuthProviders v) { setField(3, v); }
   bool hasOauthProviders() => $_has(2);
   void clearOauthProviders() => clearField(3);
+
+  List<String> get downloadUrls => $_getList(3);
 }
 
 class _ReadonlyConfig extends Config with ReadonlyMessageMixin {}
