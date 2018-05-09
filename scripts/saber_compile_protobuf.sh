@@ -1,1 +1,1 @@
-ssh inf@saber.devinf.net 'cd infserver/scripts && ./compile_protobuf.sh'
+ssh inf@saber.devinf.net 'cd infserver/scripts && git pull && ./compile_protobuf.sh'
