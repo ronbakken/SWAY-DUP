@@ -24,17 +24,26 @@ namespace InfX {
           string.Concat(
             "CglpbmYucHJvdG8iJQoTQ29uZmlnU3ViQ2F0ZWdvcmllcxIOCgZsYWJlbHMY",
             "ASADKAkiNQoQQ29uZmlnQ2F0ZWdvcmllcxIhCgNzdWIYASADKAsyFC5Db25m",
-            "aWdTdWJDYXRlZ29yaWVzIkAKBkNvbmZpZxIPCgd2ZXJzaW9uGAEgASgFEiUK",
-            "CmNhdGVnb3JpZXMYAiABKAsyES5Db25maWdDYXRlZ29yaWVzIicKCkNhdGVn",
-            "b3J5SWQSDAoEbWFpbhgBIAEoBRILCgNzdWIYAiABKAUiKQoNQ2F0ZWdvcnlJ",
-            "ZFNldBIYCgNpZHMYASADKAsyCy5DYXRlZ29yeUlkQgeqAgRJbmZYYgZwcm90",
-            "bzM="));
+            "aWdTdWJDYXRlZ29yaWVzIsgBChNDb25maWdPQXV0aFByb3ZpZGVyEg8KB3Zp",
+            "c2libGUYASABKAgSDwoHZW5hYmxlZBgCIAEoCBINCgVsYWJlbBgDIAEoCRIM",
+            "CgRob3N0GAQgASgJEhcKD3JlcXVlc3RUb2tlblVybBgFIAEoCRIXCg9hdXRo",
+            "ZW50aWNhdGVVcmwYBiABKAkSEwoLY2FsbGJhY2tVcmwYByABKAkSEwoLY29u",
+            "c3VtZXJLZXkYCCABKAkSFgoOY29uc3VtZXJTZWNyZXQYCSABKAkiRgoUQ29u",
+            "ZmlnT0F1dGhQcm92aWRlcnMSIQoDYWxsGAEgAygLMhQuQ29uZmlnT0F1dGhQ",
+            "cm92aWRlchILCgNrZXkYAiABKAkibwoGQ29uZmlnEg8KB3ZlcnNpb24YASAB",
+            "KAUSJQoKY2F0ZWdvcmllcxgCIAEoCzIRLkNvbmZpZ0NhdGVnb3JpZXMSLQoO",
+            "b2F1dGhQcm92aWRlcnMYAyABKAsyFS5Db25maWdPQXV0aFByb3ZpZGVycyIn",
+            "CgpDYXRlZ29yeUlkEgwKBG1haW4YASABKAUSCwoDc3ViGAIgASgFIikKDUNh",
+            "dGVnb3J5SWRTZXQSGAoDaWRzGAEgAygLMgsuQ2F0ZWdvcnlJZEIHqgIESW5m",
+            "WGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.Config), global::InfX.Config.Parser, new[]{ "Version", "Categories" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "Host", "RequestTokenUrl", "AuthenticateUrl", "CallbackUrl", "ConsumerKey", "ConsumerSecret" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All", "Key" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.Config), global::InfX.Config.Parser, new[]{ "Version", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryIdSet), global::InfX.CategoryIdSet.Parser, new[]{ "Ids" }, null, null, null)
           }));
@@ -261,6 +270,502 @@ namespace InfX {
 
   }
 
+  public sealed partial class ConfigOAuthProvider : pb::IMessage<ConfigOAuthProvider> {
+    private static readonly pb::MessageParser<ConfigOAuthProvider> _parser = new pb::MessageParser<ConfigOAuthProvider>(() => new ConfigOAuthProvider());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<ConfigOAuthProvider> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ConfigOAuthProvider() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ConfigOAuthProvider(ConfigOAuthProvider other) : this() {
+      visible_ = other.visible_;
+      enabled_ = other.enabled_;
+      label_ = other.label_;
+      host_ = other.host_;
+      requestTokenUrl_ = other.requestTokenUrl_;
+      authenticateUrl_ = other.authenticateUrl_;
+      callbackUrl_ = other.callbackUrl_;
+      consumerKey_ = other.consumerKey_;
+      consumerSecret_ = other.consumerSecret_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ConfigOAuthProvider Clone() {
+      return new ConfigOAuthProvider(this);
+    }
+
+    /// <summary>Field number for the "visible" field.</summary>
+    public const int VisibleFieldNumber = 1;
+    private bool visible_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Visible {
+      get { return visible_; }
+      set {
+        visible_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "enabled" field.</summary>
+    public const int EnabledFieldNumber = 2;
+    private bool enabled_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Enabled {
+      get { return enabled_; }
+      set {
+        enabled_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "label" field.</summary>
+    public const int LabelFieldNumber = 3;
+    private string label_ = "";
+    /// <summary>
+    /// / Visual name
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Label {
+      get { return label_; }
+      set {
+        label_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "host" field.</summary>
+    public const int HostFieldNumber = 4;
+    private string host_ = "";
+    /// <summary>
+    /// / API endpoints of the OAuth provider
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Host {
+      get { return host_; }
+      set {
+        host_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "requestTokenUrl" field.</summary>
+    public const int RequestTokenUrlFieldNumber = 5;
+    private string requestTokenUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RequestTokenUrl {
+      get { return requestTokenUrl_; }
+      set {
+        requestTokenUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "authenticateUrl" field.</summary>
+    public const int AuthenticateUrlFieldNumber = 6;
+    private string authenticateUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AuthenticateUrl {
+      get { return authenticateUrl_; }
+      set {
+        authenticateUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "callbackUrl" field.</summary>
+    public const int CallbackUrlFieldNumber = 7;
+    private string callbackUrl_ = "";
+    /// <summary>
+    /// / Url that will be used to detect login success by the app
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CallbackUrl {
+      get { return callbackUrl_; }
+      set {
+        callbackUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "consumerKey" field.</summary>
+    public const int ConsumerKeyFieldNumber = 8;
+    private string consumerKey_ = "";
+    /// <summary>
+    /// / Generated by the OAuth provider, not really secret
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ConsumerKey {
+      get { return consumerKey_; }
+      set {
+        consumerKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "consumerSecret" field.</summary>
+    public const int ConsumerSecretFieldNumber = 9;
+    private string consumerSecret_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ConsumerSecret {
+      get { return consumerSecret_; }
+      set {
+        consumerSecret_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as ConfigOAuthProvider);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ConfigOAuthProvider other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Visible != other.Visible) return false;
+      if (Enabled != other.Enabled) return false;
+      if (Label != other.Label) return false;
+      if (Host != other.Host) return false;
+      if (RequestTokenUrl != other.RequestTokenUrl) return false;
+      if (AuthenticateUrl != other.AuthenticateUrl) return false;
+      if (CallbackUrl != other.CallbackUrl) return false;
+      if (ConsumerKey != other.ConsumerKey) return false;
+      if (ConsumerSecret != other.ConsumerSecret) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Visible != false) hash ^= Visible.GetHashCode();
+      if (Enabled != false) hash ^= Enabled.GetHashCode();
+      if (Label.Length != 0) hash ^= Label.GetHashCode();
+      if (Host.Length != 0) hash ^= Host.GetHashCode();
+      if (RequestTokenUrl.Length != 0) hash ^= RequestTokenUrl.GetHashCode();
+      if (AuthenticateUrl.Length != 0) hash ^= AuthenticateUrl.GetHashCode();
+      if (CallbackUrl.Length != 0) hash ^= CallbackUrl.GetHashCode();
+      if (ConsumerKey.Length != 0) hash ^= ConsumerKey.GetHashCode();
+      if (ConsumerSecret.Length != 0) hash ^= ConsumerSecret.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Visible != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(Visible);
+      }
+      if (Enabled != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(Enabled);
+      }
+      if (Label.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Label);
+      }
+      if (Host.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Host);
+      }
+      if (RequestTokenUrl.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(RequestTokenUrl);
+      }
+      if (AuthenticateUrl.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(AuthenticateUrl);
+      }
+      if (CallbackUrl.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(CallbackUrl);
+      }
+      if (ConsumerKey.Length != 0) {
+        output.WriteRawTag(66);
+        output.WriteString(ConsumerKey);
+      }
+      if (ConsumerSecret.Length != 0) {
+        output.WriteRawTag(74);
+        output.WriteString(ConsumerSecret);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Visible != false) {
+        size += 1 + 1;
+      }
+      if (Enabled != false) {
+        size += 1 + 1;
+      }
+      if (Label.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Label);
+      }
+      if (Host.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Host);
+      }
+      if (RequestTokenUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RequestTokenUrl);
+      }
+      if (AuthenticateUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthenticateUrl);
+      }
+      if (CallbackUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CallbackUrl);
+      }
+      if (ConsumerKey.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ConsumerKey);
+      }
+      if (ConsumerSecret.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ConsumerSecret);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(ConfigOAuthProvider other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Visible != false) {
+        Visible = other.Visible;
+      }
+      if (other.Enabled != false) {
+        Enabled = other.Enabled;
+      }
+      if (other.Label.Length != 0) {
+        Label = other.Label;
+      }
+      if (other.Host.Length != 0) {
+        Host = other.Host;
+      }
+      if (other.RequestTokenUrl.Length != 0) {
+        RequestTokenUrl = other.RequestTokenUrl;
+      }
+      if (other.AuthenticateUrl.Length != 0) {
+        AuthenticateUrl = other.AuthenticateUrl;
+      }
+      if (other.CallbackUrl.Length != 0) {
+        CallbackUrl = other.CallbackUrl;
+      }
+      if (other.ConsumerKey.Length != 0) {
+        ConsumerKey = other.ConsumerKey;
+      }
+      if (other.ConsumerSecret.Length != 0) {
+        ConsumerSecret = other.ConsumerSecret;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            Visible = input.ReadBool();
+            break;
+          }
+          case 16: {
+            Enabled = input.ReadBool();
+            break;
+          }
+          case 26: {
+            Label = input.ReadString();
+            break;
+          }
+          case 34: {
+            Host = input.ReadString();
+            break;
+          }
+          case 42: {
+            RequestTokenUrl = input.ReadString();
+            break;
+          }
+          case 50: {
+            AuthenticateUrl = input.ReadString();
+            break;
+          }
+          case 58: {
+            CallbackUrl = input.ReadString();
+            break;
+          }
+          case 66: {
+            ConsumerKey = input.ReadString();
+            break;
+          }
+          case 74: {
+            ConsumerSecret = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class ConfigOAuthProviders : pb::IMessage<ConfigOAuthProviders> {
+    private static readonly pb::MessageParser<ConfigOAuthProviders> _parser = new pb::MessageParser<ConfigOAuthProviders>(() => new ConfigOAuthProviders());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<ConfigOAuthProviders> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ConfigOAuthProviders() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ConfigOAuthProviders(ConfigOAuthProviders other) : this() {
+      all_ = other.all_.Clone();
+      key_ = other.key_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ConfigOAuthProviders Clone() {
+      return new ConfigOAuthProviders(this);
+    }
+
+    /// <summary>Field number for the "all" field.</summary>
+    public const int AllFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::InfX.ConfigOAuthProvider> _repeated_all_codec
+        = pb::FieldCodec.ForMessage(10, global::InfX.ConfigOAuthProvider.Parser);
+    private readonly pbc::RepeatedField<global::InfX.ConfigOAuthProvider> all_ = new pbc::RepeatedField<global::InfX.ConfigOAuthProvider>();
+    /// <summary>
+    /// / List of all OAuthProviders
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::InfX.ConfigOAuthProvider> All {
+      get { return all_; }
+    }
+
+    /// <summary>Field number for the "key" field.</summary>
+    public const int KeyFieldNumber = 2;
+    private string key_ = "";
+    /// <summary>
+    /// / This AES-256 key decrypts the OAuth keys
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Key {
+      get { return key_; }
+      set {
+        key_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as ConfigOAuthProviders);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(ConfigOAuthProviders other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if(!all_.Equals(other.all_)) return false;
+      if (Key != other.Key) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      hash ^= all_.GetHashCode();
+      if (Key.Length != 0) hash ^= Key.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      all_.WriteTo(output, _repeated_all_codec);
+      if (Key.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Key);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      size += all_.CalculateSize(_repeated_all_codec);
+      if (Key.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Key);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(ConfigOAuthProviders other) {
+      if (other == null) {
+        return;
+      }
+      all_.Add(other.all_);
+      if (other.Key.Length != 0) {
+        Key = other.Key;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            all_.AddEntriesFrom(input, _repeated_all_codec);
+            break;
+          }
+          case 18: {
+            Key = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class Config : pb::IMessage<Config> {
     private static readonly pb::MessageParser<Config> _parser = new pb::MessageParser<Config>(() => new Config());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -268,7 +773,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[2]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -287,6 +792,7 @@ namespace InfX {
     public Config(Config other) : this() {
       version_ = other.version_;
       Categories = other.categories_ != null ? other.Categories.Clone() : null;
+      OauthProviders = other.oauthProviders_ != null ? other.OauthProviders.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -316,6 +822,17 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "oauthProviders" field.</summary>
+    public const int OauthProvidersFieldNumber = 3;
+    private global::InfX.ConfigOAuthProviders oauthProviders_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.ConfigOAuthProviders OauthProviders {
+      get { return oauthProviders_; }
+      set {
+        oauthProviders_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Config);
@@ -331,6 +848,7 @@ namespace InfX {
       }
       if (Version != other.Version) return false;
       if (!object.Equals(Categories, other.Categories)) return false;
+      if (!object.Equals(OauthProviders, other.OauthProviders)) return false;
       return true;
     }
 
@@ -339,6 +857,7 @@ namespace InfX {
       int hash = 1;
       if (Version != 0) hash ^= Version.GetHashCode();
       if (categories_ != null) hash ^= Categories.GetHashCode();
+      if (oauthProviders_ != null) hash ^= OauthProviders.GetHashCode();
       return hash;
     }
 
@@ -357,6 +876,10 @@ namespace InfX {
         output.WriteRawTag(18);
         output.WriteMessage(Categories);
       }
+      if (oauthProviders_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(OauthProviders);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -367,6 +890,9 @@ namespace InfX {
       }
       if (categories_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Categories);
+      }
+      if (oauthProviders_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(OauthProviders);
       }
       return size;
     }
@@ -384,6 +910,12 @@ namespace InfX {
           categories_ = new global::InfX.ConfigCategories();
         }
         Categories.MergeFrom(other.Categories);
+      }
+      if (other.oauthProviders_ != null) {
+        if (oauthProviders_ == null) {
+          oauthProviders_ = new global::InfX.ConfigOAuthProviders();
+        }
+        OauthProviders.MergeFrom(other.OauthProviders);
       }
     }
 
@@ -406,6 +938,13 @@ namespace InfX {
             input.ReadMessage(categories_);
             break;
           }
+          case 26: {
+            if (oauthProviders_ == null) {
+              oauthProviders_ = new global::InfX.ConfigOAuthProviders();
+            }
+            input.ReadMessage(oauthProviders_);
+            break;
+          }
         }
       }
     }
@@ -419,7 +958,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[3]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -564,7 +1103,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[4]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
