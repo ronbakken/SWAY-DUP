@@ -43,9 +43,16 @@ message ConfigOAuthProviders {
 }
 
 message Config {
-  int32 version = 1;
+  /// If this goes up in a config, the client must be updated
+  int32 clientVersion = 1;
+  
+  /// URLs where the config can be downloaded
+  repeated string downloadUrls = 4;
+  
+  /// Configuration data
   ConfigCategories categories = 2;
   ConfigOAuthProviders oauthProviders = 3;
+  
 }
 
 message CategoryId {
