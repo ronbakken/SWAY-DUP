@@ -32,12 +32,12 @@ namespace InfX {
             "a1VybBgJIAEoCRITCgtjb25zdW1lcktleRgKIAEoCRIWCg5jb25zdW1lclNl",
             "Y3JldBgLIAEoCRIQCghjbGllbnRJZBgMIAEoCRIOCgZuYXRpdmUYDSABKAki",
             "RgoUQ29uZmlnT0F1dGhQcm92aWRlcnMSIQoDYWxsGAEgAygLMhQuQ29uZmln",
-            "T0F1dGhQcm92aWRlchILCgNrZXkYAiABKAkibwoGQ29uZmlnEg8KB3ZlcnNp",
-            "b24YASABKAUSJQoKY2F0ZWdvcmllcxgCIAEoCzIRLkNvbmZpZ0NhdGVnb3Jp",
-            "ZXMSLQoOb2F1dGhQcm92aWRlcnMYAyABKAsyFS5Db25maWdPQXV0aFByb3Zp",
-            "ZGVycyInCgpDYXRlZ29yeUlkEgwKBG1haW4YASABKAUSCwoDc3ViGAIgASgF",
-            "IikKDUNhdGVnb3J5SWRTZXQSGAoDaWRzGAEgAygLMgsuQ2F0ZWdvcnlJZEIH",
-            "qgIESW5mWGIGcHJvdG8z"));
+            "T0F1dGhQcm92aWRlchILCgNrZXkYAiABKAkiiwEKBkNvbmZpZxIVCg1jbGll",
+            "bnRWZXJzaW9uGAEgASgFEhQKDGRvd25sb2FkVXJscxgEIAMoCRIlCgpjYXRl",
+            "Z29yaWVzGAIgASgLMhEuQ29uZmlnQ2F0ZWdvcmllcxItCg5vYXV0aFByb3Zp",
+            "ZGVycxgDIAEoCzIVLkNvbmZpZ09BdXRoUHJvdmlkZXJzIicKCkNhdGVnb3J5",
+            "SWQSDAoEbWFpbhgBIAEoBRILCgNzdWIYAiABKAUiKQoNQ2F0ZWdvcnlJZFNl",
+            "dBIYCgNpZHMYASADKAsyCy5DYXRlZ29yeUlkQgeqAgRJbmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -45,7 +45,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "Native" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All", "Key" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.Config), global::InfX.Config.Parser, new[]{ "Version", "Categories", "OauthProviders" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.Config), global::InfX.Config.Parser, new[]{ "ClientVersion", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryIdSet), global::InfX.CategoryIdSet.Parser, new[]{ "Ids" }, null, null, null)
           }));
@@ -944,7 +944,8 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public Config(Config other) : this() {
-      version_ = other.version_;
+      clientVersion_ = other.clientVersion_;
+      downloadUrls_ = other.downloadUrls_.Clone();
       Categories = other.categories_ != null ? other.Categories.Clone() : null;
       OauthProviders = other.oauthProviders_ != null ? other.OauthProviders.Clone() : null;
     }
@@ -954,20 +955,39 @@ namespace InfX {
       return new Config(this);
     }
 
-    /// <summary>Field number for the "version" field.</summary>
-    public const int VersionFieldNumber = 1;
-    private int version_;
+    /// <summary>Field number for the "clientVersion" field.</summary>
+    public const int ClientVersionFieldNumber = 1;
+    private int clientVersion_;
+    /// <summary>
+    /// / If this goes up in a config, the client must be updated
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Version {
-      get { return version_; }
+    public int ClientVersion {
+      get { return clientVersion_; }
       set {
-        version_ = value;
+        clientVersion_ = value;
       }
+    }
+
+    /// <summary>Field number for the "downloadUrls" field.</summary>
+    public const int DownloadUrlsFieldNumber = 4;
+    private static readonly pb::FieldCodec<string> _repeated_downloadUrls_codec
+        = pb::FieldCodec.ForString(34);
+    private readonly pbc::RepeatedField<string> downloadUrls_ = new pbc::RepeatedField<string>();
+    /// <summary>
+    /// / URLs where the config can be downloaded
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> DownloadUrls {
+      get { return downloadUrls_; }
     }
 
     /// <summary>Field number for the "categories" field.</summary>
     public const int CategoriesFieldNumber = 2;
     private global::InfX.ConfigCategories categories_;
+    /// <summary>
+    /// / Configuration data
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::InfX.ConfigCategories Categories {
       get { return categories_; }
@@ -1000,7 +1020,8 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Version != other.Version) return false;
+      if (ClientVersion != other.ClientVersion) return false;
+      if(!downloadUrls_.Equals(other.downloadUrls_)) return false;
       if (!object.Equals(Categories, other.Categories)) return false;
       if (!object.Equals(OauthProviders, other.OauthProviders)) return false;
       return true;
@@ -1009,7 +1030,8 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Version != 0) hash ^= Version.GetHashCode();
+      if (ClientVersion != 0) hash ^= ClientVersion.GetHashCode();
+      hash ^= downloadUrls_.GetHashCode();
       if (categories_ != null) hash ^= Categories.GetHashCode();
       if (oauthProviders_ != null) hash ^= OauthProviders.GetHashCode();
       return hash;
@@ -1022,9 +1044,9 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Version != 0) {
+      if (ClientVersion != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(Version);
+        output.WriteInt32(ClientVersion);
       }
       if (categories_ != null) {
         output.WriteRawTag(18);
@@ -1034,14 +1056,16 @@ namespace InfX {
         output.WriteRawTag(26);
         output.WriteMessage(OauthProviders);
       }
+      downloadUrls_.WriteTo(output, _repeated_downloadUrls_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Version != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Version);
+      if (ClientVersion != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ClientVersion);
       }
+      size += downloadUrls_.CalculateSize(_repeated_downloadUrls_codec);
       if (categories_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Categories);
       }
@@ -1056,9 +1080,10 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.Version != 0) {
-        Version = other.Version;
+      if (other.ClientVersion != 0) {
+        ClientVersion = other.ClientVersion;
       }
+      downloadUrls_.Add(other.downloadUrls_);
       if (other.categories_ != null) {
         if (categories_ == null) {
           categories_ = new global::InfX.ConfigCategories();
@@ -1082,7 +1107,7 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 8: {
-            Version = input.ReadInt32();
+            ClientVersion = input.ReadInt32();
             break;
           }
           case 18: {
@@ -1097,6 +1122,10 @@ namespace InfX {
               oauthProviders_ = new global::InfX.ConfigOAuthProviders();
             }
             input.ReadMessage(oauthProviders_);
+            break;
+          }
+          case 34: {
+            downloadUrls_.AddEntriesFrom(input, _repeated_downloadUrls_codec);
             break;
           }
         }
