@@ -123,7 +123,7 @@ Future<ConfigCategories> generateConfigOAuthProviders() async {
 
 generateConfig() async {
   Config config = new Config();
-  config.version = 2;
+  config.clientVersion = 2;
   config.categories = await generateConfigCategories();
   config.oauthProviders = await generateConfigOAuthProviders();
   print(config.writeToJson());

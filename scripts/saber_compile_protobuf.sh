@@ -1,1 +1,1 @@
-ssh inf@saber.devinf.net 'cd infserver/scripts && git pull && ./compile_protobuf.sh'
+ssh inf@saber.devinf.net 'PATH="$PATH:/usr/lib/dart/bin:$HOME/.pub-cache/bin" && cd infserver/scripts && git pull && ./compile_protobuf.sh'
