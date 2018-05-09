@@ -24,25 +24,26 @@ namespace InfX {
           string.Concat(
             "CglpbmYucHJvdG8iJQoTQ29uZmlnU3ViQ2F0ZWdvcmllcxIOCgZsYWJlbHMY",
             "ASADKAkiNQoQQ29uZmlnQ2F0ZWdvcmllcxIhCgNzdWIYASADKAsyFC5Db25m",
-            "aWdTdWJDYXRlZ29yaWVzIo4CChNDb25maWdPQXV0aFByb3ZpZGVyEg8KB3Zp",
-            "c2libGUYASABKAgSDwoHZW5hYmxlZBgCIAEoCBINCgVsYWJlbBgDIAEoCRIM",
-            "CgRob3N0GAQgASgJEhcKD3JlcXVlc3RUb2tlblVybBgFIAEoCRIXCg9hdXRo",
-            "ZW50aWNhdGVVcmwYBiABKAkSDwoHYXV0aFVybBgHIAEoCRIRCglhdXRoUXVl",
-            "cnkYCCABKAkSEwoLY2FsbGJhY2tVcmwYCSABKAkSEwoLY29uc3VtZXJLZXkY",
-            "CiABKAkSFgoOY29uc3VtZXJTZWNyZXQYCyABKAkSEAoIY2xpZW50SWQYDCAB",
-            "KAkSDgoGbmF0aXZlGA0gASgJIkYKFENvbmZpZ09BdXRoUHJvdmlkZXJzEiEK",
-            "A2FsbBgBIAMoCzIULkNvbmZpZ09BdXRoUHJvdmlkZXISCwoDa2V5GAIgASgJ",
-            "Im8KBkNvbmZpZxIPCgd2ZXJzaW9uGAEgASgFEiUKCmNhdGVnb3JpZXMYAiAB",
-            "KAsyES5Db25maWdDYXRlZ29yaWVzEi0KDm9hdXRoUHJvdmlkZXJzGAMgASgL",
-            "MhUuQ29uZmlnT0F1dGhQcm92aWRlcnMiJwoKQ2F0ZWdvcnlJZBIMCgRtYWlu",
-            "GAEgASgFEgsKA3N1YhgCIAEoBSIpCg1DYXRlZ29yeUlkU2V0EhgKA2lkcxgB",
-            "IAMoCzILLkNhdGVnb3J5SWRCB6oCBEluZlhiBnByb3RvMw=="));
+            "aWdTdWJDYXRlZ29yaWVzIqgCChNDb25maWdPQXV0aFByb3ZpZGVyEg8KB3Zp",
+            "c2libGUYASABKAgSDwoHZW5hYmxlZBgCIAEoCBINCgVsYWJlbBgDIAEoCRIY",
+            "ChBmb250QXdlc29tZUJyYW5kGA4gASgFEgwKBGhvc3QYBCABKAkSFwoPcmVx",
+            "dWVzdFRva2VuVXJsGAUgASgJEhcKD2F1dGhlbnRpY2F0ZVVybBgGIAEoCRIP",
+            "CgdhdXRoVXJsGAcgASgJEhEKCWF1dGhRdWVyeRgIIAEoCRITCgtjYWxsYmFj",
+            "a1VybBgJIAEoCRITCgtjb25zdW1lcktleRgKIAEoCRIWCg5jb25zdW1lclNl",
+            "Y3JldBgLIAEoCRIQCghjbGllbnRJZBgMIAEoCRIOCgZuYXRpdmUYDSABKAki",
+            "RgoUQ29uZmlnT0F1dGhQcm92aWRlcnMSIQoDYWxsGAEgAygLMhQuQ29uZmln",
+            "T0F1dGhQcm92aWRlchILCgNrZXkYAiABKAkibwoGQ29uZmlnEg8KB3ZlcnNp",
+            "b24YASABKAUSJQoKY2F0ZWdvcmllcxgCIAEoCzIRLkNvbmZpZ0NhdGVnb3Jp",
+            "ZXMSLQoOb2F1dGhQcm92aWRlcnMYAyABKAsyFS5Db25maWdPQXV0aFByb3Zp",
+            "ZGVycyInCgpDYXRlZ29yeUlkEgwKBG1haW4YASABKAUSCwoDc3ViGAIgASgF",
+            "IikKDUNhdGVnb3J5SWRTZXQSGAoDaWRzGAEgAygLMgsuQ2F0ZWdvcnlJZEIH",
+            "qgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "Native" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "Native" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All", "Key" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.Config), global::InfX.Config.Parser, new[]{ "Version", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
@@ -298,6 +299,7 @@ namespace InfX {
       visible_ = other.visible_;
       enabled_ = other.enabled_;
       label_ = other.label_;
+      fontAwesomeBrand_ = other.fontAwesomeBrand_;
       host_ = other.host_;
       requestTokenUrl_ = other.requestTokenUrl_;
       authenticateUrl_ = other.authenticateUrl_;
@@ -348,6 +350,17 @@ namespace InfX {
       get { return label_; }
       set {
         label_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "fontAwesomeBrand" field.</summary>
+    public const int FontAwesomeBrandFieldNumber = 14;
+    private int fontAwesomeBrand_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int FontAwesomeBrand {
+      get { return fontAwesomeBrand_; }
+      set {
+        fontAwesomeBrand_ = value;
       }
     }
 
@@ -498,6 +511,7 @@ namespace InfX {
       if (Visible != other.Visible) return false;
       if (Enabled != other.Enabled) return false;
       if (Label != other.Label) return false;
+      if (FontAwesomeBrand != other.FontAwesomeBrand) return false;
       if (Host != other.Host) return false;
       if (RequestTokenUrl != other.RequestTokenUrl) return false;
       if (AuthenticateUrl != other.AuthenticateUrl) return false;
@@ -517,6 +531,7 @@ namespace InfX {
       if (Visible != false) hash ^= Visible.GetHashCode();
       if (Enabled != false) hash ^= Enabled.GetHashCode();
       if (Label.Length != 0) hash ^= Label.GetHashCode();
+      if (FontAwesomeBrand != 0) hash ^= FontAwesomeBrand.GetHashCode();
       if (Host.Length != 0) hash ^= Host.GetHashCode();
       if (RequestTokenUrl.Length != 0) hash ^= RequestTokenUrl.GetHashCode();
       if (AuthenticateUrl.Length != 0) hash ^= AuthenticateUrl.GetHashCode();
@@ -589,6 +604,10 @@ namespace InfX {
         output.WriteRawTag(106);
         output.WriteString(Native);
       }
+      if (FontAwesomeBrand != 0) {
+        output.WriteRawTag(112);
+        output.WriteInt32(FontAwesomeBrand);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -602,6 +621,9 @@ namespace InfX {
       }
       if (Label.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Label);
+      }
+      if (FontAwesomeBrand != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(FontAwesomeBrand);
       }
       if (Host.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Host);
@@ -649,6 +671,9 @@ namespace InfX {
       }
       if (other.Label.Length != 0) {
         Label = other.Label;
+      }
+      if (other.FontAwesomeBrand != 0) {
+        FontAwesomeBrand = other.FontAwesomeBrand;
       }
       if (other.Host.Length != 0) {
         Host = other.Host;
@@ -740,6 +765,10 @@ namespace InfX {
           }
           case 106: {
             Native = input.ReadString();
+            break;
+          }
+          case 112: {
+            FontAwesomeBrand = input.ReadInt32();
             break;
           }
         }
