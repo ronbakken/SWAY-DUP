@@ -78,6 +78,7 @@ class ConfigOAuthProvider extends GeneratedMessage {
     ..aOS(11, 'consumerSecret')
     ..aOS(12, 'clientId')
     ..aOS(13, 'native')
+    ..a<int>(14, 'fontAwesomeBrand', PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -161,6 +162,11 @@ class ConfigOAuthProvider extends GeneratedMessage {
   set native(String v) { $_setString(12, v); }
   bool hasNative() => $_has(12);
   void clearNative() => clearField(13);
+
+  int get fontAwesomeBrand => $_get(13, 0);
+  set fontAwesomeBrand(int v) { $_setUnsignedInt32(13, v); }
+  bool hasFontAwesomeBrand() => $_has(13);
+  void clearFontAwesomeBrand() => clearField(14);
 }
 
 class _ReadonlyConfigOAuthProvider extends ConfigOAuthProvider with ReadonlyMessageMixin {}
