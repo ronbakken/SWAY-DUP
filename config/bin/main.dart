@@ -96,8 +96,8 @@ Future<ConfigCategories> generateConfigOAuthProviders() async {
     }
     
     String section = entryMap[i];
-    if (cfg.hasOption(section, 'visible')) entry.visible = int.parse(cfg.get(section, 'visible'));
-    if (cfg.hasOption(section, 'enabled')) entry.enabled = int.parse(cfg.get(section, 'enabled'));
+    if (cfg.hasOption(section, 'visible')) entry.visible = (int.parse(cfg.get(section, 'visible')) == 1);
+    if (cfg.hasOption(section, 'enabled')) entry.enabled = (int.parse(cfg.get(section, 'enabled')) == 1);
     entry.label = section;
     if (cfg.hasOption(section, 'fontAwesomeBrand')) entry.fontAwesomeBrand = int.parse(cfg.get(section, 'fontAwesomeBrand'));
     if (cfg.hasOption(section, 'host')) entry.host = cfg.get(section, 'host');
