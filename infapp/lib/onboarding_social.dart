@@ -1,12 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'oauth/flutter_auth.dart' as oauth;
-import 'oauth/config.dart' as oauth;
-import 'oauth/oauth.dart' as oauth;
-import 'oauth/token.dart' as oauth;
-
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'oauth_scaffold_presets.dart';
 
@@ -64,9 +59,11 @@ class OnboardingSocial extends StatelessWidget {
                       margin: new EdgeInsets.all(8.0),
                       child: new RaisedButton(
                         child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            new Text("Twitter".toUpperCase())
+                            new Icon(new IconData(0xf099, fontFamily: 'FontAwesomeBrands', fontPackage: 'font_awesome_flutter')),
+                            new Text("Twitter".toUpperCase()),
+                            new Icon(FontAwesomeIcons.signInAlt),
                           ]
                         ),
                         onPressed: () async {
@@ -110,13 +107,16 @@ class OnboardingSocial extends StatelessWidget {
                     ),
                     new Container(
                       margin: new EdgeInsets.all(8.0),
-                      child: new RaisedButton(
+                      child: new FlatButton(
                         child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            new Text("Facebook".toUpperCase())
+                            new Icon(new IconData(0xf09a, fontFamily: 'FontAwesomeBrands', fontPackage: 'font_awesome_flutter')),
+                            new Text("Facebook".toUpperCase()),
+                            new Icon(FontAwesomeIcons.checkCircle),
                           ]
                         ),
+                        onPressed: null,
                       )
                     ),
                     new Container(

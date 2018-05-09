@@ -116,15 +116,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
-  formler:
+  font_awesome_flutter:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: "5a06fa147d3ad35a7fb168facf3f50d37d3d20d3"
-      url: "git://github.com/nbspou/formler.git"
-    source: git
-    version: "0.1.2"
+      name: font_awesome_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.0"
   front_end:
     dependency: transitive
     description:
@@ -241,8 +239,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: master
-      resolved-ref: d83b7eba40c41353393b4ef89857bcf238c3764e
+      ref: "fork/nbspou"
+      resolved-ref: f000f62502de0ce96c5fb67df7dd9d32f0b733c5
       url: "git://github.com/nbspou/dart-oauth1.git"
     source: git
     version: "0.3.1"

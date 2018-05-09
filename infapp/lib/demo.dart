@@ -4,6 +4,7 @@ import 'onboarding_selection.dart' show OnboardingSelection;
 import 'onboarding_social.dart' show OnboardingSocial, AccountType;
 import 'influencer_dashboard.dart' show InfluencerDashboard;
 import 'offer_view.dart' show OfferView;
+import 'offer_create.dart' show OfferCreate;
 
 class DemoApp extends StatelessWidget {
   @override
@@ -171,6 +172,19 @@ class DemoHomePage extends StatelessWidget {
                 )
               );
             },*/
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('Offer Create') ] ),
+            onPressed: () { 
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new OfferCreate();
+                  },
+                )
+              );
+            },
           ),
         ],
       ),
