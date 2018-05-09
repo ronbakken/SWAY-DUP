@@ -15,6 +15,7 @@ message ConfigOAuthProvider {
   bool enabled = 2;
   /// Visual name
   string label = 3;
+  int32 fontAwesomeBrand = 14;
   /// API endpoints of the OAuth provider
   string host = 4;
   /// API endpoints for Twitter-like OAuth
