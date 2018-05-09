@@ -24,24 +24,25 @@ namespace InfX {
           string.Concat(
             "CglpbmYucHJvdG8iJQoTQ29uZmlnU3ViQ2F0ZWdvcmllcxIOCgZsYWJlbHMY",
             "ASADKAkiNQoQQ29uZmlnQ2F0ZWdvcmllcxIhCgNzdWIYASADKAsyFC5Db25m",
-            "aWdTdWJDYXRlZ29yaWVzIsgBChNDb25maWdPQXV0aFByb3ZpZGVyEg8KB3Zp",
+            "aWdTdWJDYXRlZ29yaWVzIo4CChNDb25maWdPQXV0aFByb3ZpZGVyEg8KB3Zp",
             "c2libGUYASABKAgSDwoHZW5hYmxlZBgCIAEoCBINCgVsYWJlbBgDIAEoCRIM",
             "CgRob3N0GAQgASgJEhcKD3JlcXVlc3RUb2tlblVybBgFIAEoCRIXCg9hdXRo",
-            "ZW50aWNhdGVVcmwYBiABKAkSEwoLY2FsbGJhY2tVcmwYByABKAkSEwoLY29u",
-            "c3VtZXJLZXkYCCABKAkSFgoOY29uc3VtZXJTZWNyZXQYCSABKAkiRgoUQ29u",
-            "ZmlnT0F1dGhQcm92aWRlcnMSIQoDYWxsGAEgAygLMhQuQ29uZmlnT0F1dGhQ",
-            "cm92aWRlchILCgNrZXkYAiABKAkibwoGQ29uZmlnEg8KB3ZlcnNpb24YASAB",
-            "KAUSJQoKY2F0ZWdvcmllcxgCIAEoCzIRLkNvbmZpZ0NhdGVnb3JpZXMSLQoO",
-            "b2F1dGhQcm92aWRlcnMYAyABKAsyFS5Db25maWdPQXV0aFByb3ZpZGVycyIn",
-            "CgpDYXRlZ29yeUlkEgwKBG1haW4YASABKAUSCwoDc3ViGAIgASgFIikKDUNh",
-            "dGVnb3J5SWRTZXQSGAoDaWRzGAEgAygLMgsuQ2F0ZWdvcnlJZEIHqgIESW5m",
-            "WGIGcHJvdG8z"));
+            "ZW50aWNhdGVVcmwYBiABKAkSDwoHYXV0aFVybBgHIAEoCRIRCglhdXRoUXVl",
+            "cnkYCCABKAkSEwoLY2FsbGJhY2tVcmwYCSABKAkSEwoLY29uc3VtZXJLZXkY",
+            "CiABKAkSFgoOY29uc3VtZXJTZWNyZXQYCyABKAkSEAoIY2xpZW50SWQYDCAB",
+            "KAkSDgoGbmF0aXZlGA0gASgJIkYKFENvbmZpZ09BdXRoUHJvdmlkZXJzEiEK",
+            "A2FsbBgBIAMoCzIULkNvbmZpZ09BdXRoUHJvdmlkZXISCwoDa2V5GAIgASgJ",
+            "Im8KBkNvbmZpZxIPCgd2ZXJzaW9uGAEgASgFEiUKCmNhdGVnb3JpZXMYAiAB",
+            "KAsyES5Db25maWdDYXRlZ29yaWVzEi0KDm9hdXRoUHJvdmlkZXJzGAMgASgL",
+            "MhUuQ29uZmlnT0F1dGhQcm92aWRlcnMiJwoKQ2F0ZWdvcnlJZBIMCgRtYWlu",
+            "GAEgASgFEgsKA3N1YhgCIAEoBSIpCg1DYXRlZ29yeUlkU2V0EhgKA2lkcxgB",
+            "IAMoCzILLkNhdGVnb3J5SWRCB6oCBEluZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "Host", "RequestTokenUrl", "AuthenticateUrl", "CallbackUrl", "ConsumerKey", "ConsumerSecret" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "Native" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All", "Key" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.Config), global::InfX.Config.Parser, new[]{ "Version", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
@@ -300,9 +301,13 @@ namespace InfX {
       host_ = other.host_;
       requestTokenUrl_ = other.requestTokenUrl_;
       authenticateUrl_ = other.authenticateUrl_;
+      authUrl_ = other.authUrl_;
+      authQuery_ = other.authQuery_;
       callbackUrl_ = other.callbackUrl_;
       consumerKey_ = other.consumerKey_;
       consumerSecret_ = other.consumerSecret_;
+      clientId_ = other.clientId_;
+      native_ = other.native_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -363,6 +368,9 @@ namespace InfX {
     /// <summary>Field number for the "requestTokenUrl" field.</summary>
     public const int RequestTokenUrlFieldNumber = 5;
     private string requestTokenUrl_ = "";
+    /// <summary>
+    /// / API endpoints for Twitter-like OAuth
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string RequestTokenUrl {
       get { return requestTokenUrl_; }
@@ -382,8 +390,33 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "authUrl" field.</summary>
+    public const int AuthUrlFieldNumber = 7;
+    private string authUrl_ = "";
+    /// <summary>
+    /// / API endpoints for Spotify-like OAuth
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AuthUrl {
+      get { return authUrl_; }
+      set {
+        authUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "authQuery" field.</summary>
+    public const int AuthQueryFieldNumber = 8;
+    private string authQuery_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AuthQuery {
+      get { return authQuery_; }
+      set {
+        authQuery_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "callbackUrl" field.</summary>
-    public const int CallbackUrlFieldNumber = 7;
+    public const int CallbackUrlFieldNumber = 9;
     private string callbackUrl_ = "";
     /// <summary>
     /// / Url that will be used to detect login success by the app
@@ -397,10 +430,10 @@ namespace InfX {
     }
 
     /// <summary>Field number for the "consumerKey" field.</summary>
-    public const int ConsumerKeyFieldNumber = 8;
+    public const int ConsumerKeyFieldNumber = 10;
     private string consumerKey_ = "";
     /// <summary>
-    /// / Generated by the OAuth provider, not really secret
+    /// / Generated by the OAuth provider, not really secret, Twitter-like
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string ConsumerKey {
@@ -411,13 +444,41 @@ namespace InfX {
     }
 
     /// <summary>Field number for the "consumerSecret" field.</summary>
-    public const int ConsumerSecretFieldNumber = 9;
+    public const int ConsumerSecretFieldNumber = 11;
     private string consumerSecret_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string ConsumerSecret {
       get { return consumerSecret_; }
       set {
         consumerSecret_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "clientId" field.</summary>
+    public const int ClientIdFieldNumber = 12;
+    private string clientId_ = "";
+    /// <summary>
+    /// / From OAuth provider, Spotify-like, may not include clientSecret
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ClientId {
+      get { return clientId_; }
+      set {
+        clientId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "native" field.</summary>
+    public const int NativeFieldNumber = 13;
+    private string native_ = "";
+    /// <summary>
+    /// / Request settings
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Native {
+      get { return native_; }
+      set {
+        native_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -440,9 +501,13 @@ namespace InfX {
       if (Host != other.Host) return false;
       if (RequestTokenUrl != other.RequestTokenUrl) return false;
       if (AuthenticateUrl != other.AuthenticateUrl) return false;
+      if (AuthUrl != other.AuthUrl) return false;
+      if (AuthQuery != other.AuthQuery) return false;
       if (CallbackUrl != other.CallbackUrl) return false;
       if (ConsumerKey != other.ConsumerKey) return false;
       if (ConsumerSecret != other.ConsumerSecret) return false;
+      if (ClientId != other.ClientId) return false;
+      if (Native != other.Native) return false;
       return true;
     }
 
@@ -455,9 +520,13 @@ namespace InfX {
       if (Host.Length != 0) hash ^= Host.GetHashCode();
       if (RequestTokenUrl.Length != 0) hash ^= RequestTokenUrl.GetHashCode();
       if (AuthenticateUrl.Length != 0) hash ^= AuthenticateUrl.GetHashCode();
+      if (AuthUrl.Length != 0) hash ^= AuthUrl.GetHashCode();
+      if (AuthQuery.Length != 0) hash ^= AuthQuery.GetHashCode();
       if (CallbackUrl.Length != 0) hash ^= CallbackUrl.GetHashCode();
       if (ConsumerKey.Length != 0) hash ^= ConsumerKey.GetHashCode();
       if (ConsumerSecret.Length != 0) hash ^= ConsumerSecret.GetHashCode();
+      if (ClientId.Length != 0) hash ^= ClientId.GetHashCode();
+      if (Native.Length != 0) hash ^= Native.GetHashCode();
       return hash;
     }
 
@@ -492,17 +561,33 @@ namespace InfX {
         output.WriteRawTag(50);
         output.WriteString(AuthenticateUrl);
       }
-      if (CallbackUrl.Length != 0) {
+      if (AuthUrl.Length != 0) {
         output.WriteRawTag(58);
+        output.WriteString(AuthUrl);
+      }
+      if (AuthQuery.Length != 0) {
+        output.WriteRawTag(66);
+        output.WriteString(AuthQuery);
+      }
+      if (CallbackUrl.Length != 0) {
+        output.WriteRawTag(74);
         output.WriteString(CallbackUrl);
       }
       if (ConsumerKey.Length != 0) {
-        output.WriteRawTag(66);
+        output.WriteRawTag(82);
         output.WriteString(ConsumerKey);
       }
       if (ConsumerSecret.Length != 0) {
-        output.WriteRawTag(74);
+        output.WriteRawTag(90);
         output.WriteString(ConsumerSecret);
+      }
+      if (ClientId.Length != 0) {
+        output.WriteRawTag(98);
+        output.WriteString(ClientId);
+      }
+      if (Native.Length != 0) {
+        output.WriteRawTag(106);
+        output.WriteString(Native);
       }
     }
 
@@ -527,6 +612,12 @@ namespace InfX {
       if (AuthenticateUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthenticateUrl);
       }
+      if (AuthUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthUrl);
+      }
+      if (AuthQuery.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthQuery);
+      }
       if (CallbackUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(CallbackUrl);
       }
@@ -535,6 +626,12 @@ namespace InfX {
       }
       if (ConsumerSecret.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ConsumerSecret);
+      }
+      if (ClientId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ClientId);
+      }
+      if (Native.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Native);
       }
       return size;
     }
@@ -562,6 +659,12 @@ namespace InfX {
       if (other.AuthenticateUrl.Length != 0) {
         AuthenticateUrl = other.AuthenticateUrl;
       }
+      if (other.AuthUrl.Length != 0) {
+        AuthUrl = other.AuthUrl;
+      }
+      if (other.AuthQuery.Length != 0) {
+        AuthQuery = other.AuthQuery;
+      }
       if (other.CallbackUrl.Length != 0) {
         CallbackUrl = other.CallbackUrl;
       }
@@ -570,6 +673,12 @@ namespace InfX {
       }
       if (other.ConsumerSecret.Length != 0) {
         ConsumerSecret = other.ConsumerSecret;
+      }
+      if (other.ClientId.Length != 0) {
+        ClientId = other.ClientId;
+      }
+      if (other.Native.Length != 0) {
+        Native = other.Native;
       }
     }
 
@@ -606,15 +715,31 @@ namespace InfX {
             break;
           }
           case 58: {
-            CallbackUrl = input.ReadString();
+            AuthUrl = input.ReadString();
             break;
           }
           case 66: {
-            ConsumerKey = input.ReadString();
+            AuthQuery = input.ReadString();
             break;
           }
           case 74: {
+            CallbackUrl = input.ReadString();
+            break;
+          }
+          case 82: {
+            ConsumerKey = input.ReadString();
+            break;
+          }
+          case 90: {
             ConsumerSecret = input.ReadString();
+            break;
+          }
+          case 98: {
+            ClientId = input.ReadString();
+            break;
+          }
+          case 106: {
+            Native = input.ReadString();
             break;
           }
         }
