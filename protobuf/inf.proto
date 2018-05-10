@@ -1,6 +1,15 @@
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 syntax = "proto3";
 
 option csharp_namespace = "InfX";
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 message ConfigSubCategories {
   repeated string labels = 1;
@@ -42,7 +51,7 @@ message ConfigOAuthProviders {
   string key = 2;
 }
 
-message Config {
+message ConfigData {
   /// If this goes up in a config, the client must be updated
   int32 clientVersion = 1;
   
@@ -55,6 +64,10 @@ message Config {
   
 }
 
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 message CategoryId {
   int32 main = 1;
   int32 sub = 2;
@@ -62,6 +75,62 @@ message CategoryId {
 
 message CategoryIdSet {
   repeated CategoryId ids = 1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// Type of message
+enum NetMessageType {
+  UNKNOWN = 0,
+  CLIENT_IDENTIFY = 1,
+}
+
+// TODO: proto3 has Any type, check if supported by dart protobuf compiler
+/* message NetMessageHeader {
+  NetMessageType type = 1;
+  int32 requestSeq = 2; // This message is a request, the response will have the same identifier under the response parameter
+  int32 responseSeq = 3; // This is a response, using the identifier from the request it is responding to
+} */
+
+// Generic rejection
+message NetResRejected {
+  string rejectReason = 1;
+}
+
+// Client requests the server permission to upload an image
+// The server may delete the image later if it is never used
+message NetReqImageUpload {
+  string fileName = 1;
+  int32 fileSize = 2;
+  string sha256 = 3;
+}
+
+// Request parameters to be used by the client verbatim for uploading
+message NetResImageUpload {
+  string requestMethod = 1;
+  string requestUrl = 2;
+  string headerContentType = 3;
+  string headerContentLength = 3;
+  string headerHost = 4;
+  string headerXAmzDate = 5;
+  string headerXAmzStorageClass = 6;
+  string headerAuthorization = 7;
+}
+
+// Message to create offer
+message NetReqCreateOffer {
+  string title = 1;
+  repeated string imageIds = 2;
+  string description = 3;
+  string deliverables = 4;
+  string reward = 5;
+}
+
+// Response to successful offer creation
+message NetResCreateOffer {
+  int32 id = 1;
 }
 
 /* end of file */
