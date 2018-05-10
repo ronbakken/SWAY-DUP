@@ -67,16 +67,15 @@ class _OfferCreateState extends State<OfferCreate> {
   _submitPressed() async {
     final form = _formKey.currentState;
     if (form.validate()) {
+      form.save();
+      // Upload image
+      // Handle callback
       // ...
     }
-    // Upload image
-    // Handle callback
   }
   
   bool _validFormData() {
-    return _image != null
-        /*&& widget.onCreateOffer != null*/
-        /*&& form.validate()*/;
+    return _image != null;
   }
 
   @override
