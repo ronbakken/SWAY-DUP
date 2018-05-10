@@ -74,7 +74,7 @@ class OnboardingSelection extends StatelessWidget {
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        new Text("I need an influencer for my business".toUpperCase())
+                        new Text("I need an influencer".toUpperCase())
                       ]
                     ),
                     onPressed: onBusiness,

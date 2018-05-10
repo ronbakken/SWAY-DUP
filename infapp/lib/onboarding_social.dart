@@ -24,8 +24,8 @@ class OnboardingSocial extends StatelessWidget {
   const OnboardingSocial({
     Key key,
     @required this.accountType,
-    @required List<ConfigOAuthProvider> this.oauthProviders,
-    @required List<NetOAuthState> this.oauthState,
+    @required this.oauthProviders,
+    @required this.oauthState,
     // @required this.onTwitter,
   }) : super(key: key);
 
@@ -99,7 +99,7 @@ class OnboardingSocial extends StatelessWidget {
                 new Container(
                   margin: new EdgeInsets.all(8.0),
                   child: new Text(
-                    accountType == AccountType.Influencer ? "You are now an influencer!" : "You are now a business!",
+                    accountType == AccountType.Influencer ? "You are now an influencer!" : "You are now in business!",
                     style: Theme.of(context).textTheme.display1,
                     textAlign: TextAlign.center,
                   ),
