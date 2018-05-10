@@ -21,6 +21,9 @@ dependencies:
     git: 
       url: git://github.com/nbspou/dart-oauth1.git
       ref: fork/nbspou
+  
+  # 0.4.1 crashes
+  image_picker: 0.3.1
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +55,7 @@ flutter:
     - assets/config.bin
     - assets/logo_appbar.png
     - assets/placeholder_photo.png
+    - assets/placeholder_photo_select.png
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

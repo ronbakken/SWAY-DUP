@@ -39,14 +39,21 @@ class _ConfigManagerState extends State<ConfigManager> {
     Config config = new Config();
     config.mergeFromBuffer(configData.buffer.asUint8List());
     setState(() {
-      print("Reloaded config from file");
+      print("[INF] Reloaded config from file");
       this.config = config;
     });
     downloadConfig();
   }
 
   downloadConfig() async {
-    print("Downloading updated config...");
+    print("[INF] Downloading updated config... ***TODO***");
+    var downloadUrls = new Set<String>();
+    downloadUrls.addAll(config.downloadUrls);
+    downloadUrls.addAll(widget.startupConfig.downloadUrls);
+    // TODO: Download config
+    // TODO: On failure, see if there's a config in cache, use that
+    // TODO: Only use cached config if version is okay
+    // TODO: Try download again as soon as there is a network connection (re-schedule a few times every minute, I suppose...)
   }
 
   @override
@@ -88,7 +95,7 @@ class _InheritedConfigManager extends InheritedWidget {
   final Config config;
 
   @override
-  bool updateShouldNotify(_InheritedConfigManager old) => config!= old.config;
+  bool updateShouldNotify(_InheritedConfigManager old) => config != old.config;
 }
 
 /* end of file */

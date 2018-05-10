@@ -26,14 +26,19 @@ class DemoApp extends StatelessWidget {
         theme: new ThemeData(
           brightness: Brightness.dark, // This makes things dark!
           primarySwatch: Colors.blueGrey, // This is just defaults, no need to change!
+          disabledColor: Colors.white12, // Dark fix
+          primaryColorBrightness: Brightness.dark,
+          accentColorBrightness: Brightness.dark,
         ).copyWith(
           // Generate these values on https://material.io/color/!
           primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
           primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
           primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
           buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-          // Generate A200 on http://mcg.mbitson.com/!
-          accentColor: new Color.fromARGB(0xff, 0x52, 0xFF, 0x88), // 52FF88
+          // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
+          accentColor: new Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
+          // Grayscale of primaryColor
+          unselectedWidgetColor: new Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
         ),
         home: new DemoHomePage(), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), // 
       ),
