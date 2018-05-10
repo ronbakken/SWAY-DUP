@@ -6,6 +6,7 @@ import 'onboarding_social.dart' show OnboardingSocial, AccountType;
 import 'influencer_dashboard.dart' show InfluencerDashboard;
 import 'offer_view.dart' show OfferView;
 import 'offer_create.dart' show OfferCreate;
+import 'dashboard_business.dart' show DashboardBusiness;
 
 import 'inf.pb.dart';
 
@@ -195,6 +196,19 @@ class DemoHomePage extends StatelessWidget {
                 new MaterialPageRoute(
                   builder: (context) {
                     return new OfferCreate();
+                  },
+                )
+              );
+            },
+          ),
+          new RaisedButton(
+            child: new Row(children: [ new Text('Dashboard Business') ] ),
+            onPressed: () { 
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new DashboardBusiness();
                   },
                 )
               );
