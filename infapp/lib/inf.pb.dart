@@ -7,6 +7,7 @@ library inf;
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
 export 'inf.pbenum.dart';
@@ -511,7 +512,7 @@ class _ReadonlyNetReqCreateOffer extends NetReqCreateOffer with ReadonlyMessageM
 
 class NetResCreateOffer extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetResCreateOffer')
-    ..a<int>(1, 'id', PbFieldType.O3)
+    ..aInt64(1, 'id')
     ..hasRequiredFields = false
   ;
 
@@ -531,8 +532,8 @@ class NetResCreateOffer extends GeneratedMessage {
     if (v is! NetResCreateOffer) checkItemFailed(v, 'NetResCreateOffer');
   }
 
-  int get id => $_get(0, 0);
-  set id(int v) { $_setUnsignedInt32(0, v); }
+  Int64 get id => $_getI64(0);
+  set id(Int64 v) { $_setInt64(0, v); }
   bool hasId() => $_has(0);
   void clearId() => clearField(1);
 }
