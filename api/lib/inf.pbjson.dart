@@ -4,6 +4,14 @@
 // ignore_for_file: non_constant_identifier_names,library_prefixes
 library inf_pbjson;
 
+const NetMessageType$json = const {
+  '1': 'NetMessageType',
+  '2': const [
+    const {'1': 'UNKNOWN', '2': 0},
+    const {'1': 'CLIENT_IDENTIFY', '2': 1},
+  ],
+};
+
 const ConfigSubCategories$json = const {
   '1': 'ConfigSubCategories',
   '2': const [
@@ -46,8 +54,8 @@ const ConfigOAuthProviders$json = const {
   ],
 };
 
-const Config$json = const {
-  '1': 'Config',
+const ConfigData$json = const {
+  '1': 'ConfigData',
   '2': const [
     const {'1': 'clientVersion', '3': 1, '4': 1, '5': 5, '10': 'clientVersion'},
     const {'1': 'downloadUrls', '3': 4, '4': 3, '5': 9, '10': 'downloadUrls'},
@@ -68,6 +76,54 @@ const CategoryIdSet$json = const {
   '1': 'CategoryIdSet',
   '2': const [
     const {'1': 'ids', '3': 1, '4': 3, '5': 11, '6': '.CategoryId', '10': 'ids'},
+  ],
+};
+
+const NetResRejected$json = const {
+  '1': 'NetResRejected',
+  '2': const [
+    const {'1': 'rejectReason', '3': 1, '4': 1, '5': 9, '10': 'rejectReason'},
+  ],
+};
+
+const NetReqImageUpload$json = const {
+  '1': 'NetReqImageUpload',
+  '2': const [
+    const {'1': 'fileName', '3': 1, '4': 1, '5': 9, '10': 'fileName'},
+    const {'1': 'fileSize', '3': 2, '4': 1, '5': 5, '10': 'fileSize'},
+    const {'1': 'sha256', '3': 3, '4': 1, '5': 9, '10': 'sha256'},
+  ],
+};
+
+const NetResImageUpload$json = const {
+  '1': 'NetResImageUpload',
+  '2': const [
+    const {'1': 'requestMethod', '3': 1, '4': 1, '5': 9, '10': 'requestMethod'},
+    const {'1': 'requestUrl', '3': 2, '4': 1, '5': 9, '10': 'requestUrl'},
+    const {'1': 'headerContentType', '3': 3, '4': 1, '5': 9, '10': 'headerContentType'},
+    const {'1': 'headerContentLength', '3': 4, '4': 1, '5': 9, '10': 'headerContentLength'},
+    const {'1': 'headerHost', '3': 5, '4': 1, '5': 9, '10': 'headerHost'},
+    const {'1': 'headerXAmzDate', '3': 6, '4': 1, '5': 9, '10': 'headerXAmzDate'},
+    const {'1': 'headerXAmzStorageClass', '3': 7, '4': 1, '5': 9, '10': 'headerXAmzStorageClass'},
+    const {'1': 'headerAuthorization', '3': 8, '4': 1, '5': 9, '10': 'headerAuthorization'},
+  ],
+};
+
+const NetReqCreateOffer$json = const {
+  '1': 'NetReqCreateOffer',
+  '2': const [
+    const {'1': 'title', '3': 1, '4': 1, '5': 9, '10': 'title'},
+    const {'1': 'imageIds', '3': 2, '4': 3, '5': 9, '10': 'imageIds'},
+    const {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'deliverables', '3': 4, '4': 1, '5': 9, '10': 'deliverables'},
+    const {'1': 'reward', '3': 5, '4': 1, '5': 9, '10': 'reward'},
+  ],
+};
+
+const NetResCreateOffer$json = const {
+  '1': 'NetResCreateOffer',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
   ],
 };
 
