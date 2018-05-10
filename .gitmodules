@@ -1,0 +1,3 @@
+[submodule "flutter_map"]
+	path = flutter_map
+	url = https://github.com/nbspou/flutter_map.git
