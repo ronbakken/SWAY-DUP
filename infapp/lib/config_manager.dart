@@ -19,10 +19,10 @@ class ConfigManager extends StatefulWidget {
     this.child,
   }) : super(key: key);
 
-  final Config startupConfig;
+  final ConfigData startupConfig;
   final Widget child;
 
-  static Config of(BuildContext context) {
+  static ConfigData of(BuildContext context) {
     final _InheritedConfigManager inherited = context.inheritFromWidgetOfExactType(_InheritedConfigManager);
     return inherited != null ? inherited.config : null;
   }
@@ -32,11 +32,11 @@ class ConfigManager extends StatefulWidget {
 }
 
 class _ConfigManagerState extends State<ConfigManager> {
-  Config config;
+  ConfigData config;
 
   reloadConfig() async {
     var configData = await rootBundle.load('assets/config.bin');
-    Config config = new Config();
+    ConfigData config = new ConfigData();
     config.mergeFromBuffer(configData.buffer.asUint8List());
     setState(() {
       print("[INF] Reloaded config from file");
@@ -92,7 +92,7 @@ class _InheritedConfigManager extends InheritedWidget {
   }) : /*assert(config != null),*/
        super(key: key, child: child);
 
-  final Config config;
+  final ConfigData config;
 
   @override
   bool updateShouldNotify(_InheritedConfigManager old) => config != old.config;

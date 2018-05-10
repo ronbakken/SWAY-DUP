@@ -15,7 +15,7 @@ class DemoApp extends StatelessWidget {
     this.startupConfig
   }) : super(key: key);
 
-  final Config startupConfig;
+  final ConfigData startupConfig;
 
   @override
   Widget build(BuildContext context) {
