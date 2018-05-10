@@ -83,8 +83,8 @@ message CategoryIdSet {
 
 // Type of message
 enum NetMessageType {
-  UNKNOWN = 0,
-  CLIENT_IDENTIFY = 1,
+  UNKNOWN = 0;
+  CLIENT_IDENTIFY = 1;
 }
 
 // TODO: proto3 has Any type, check if supported by dart protobuf compiler
@@ -112,11 +112,11 @@ message NetResImageUpload {
   string requestMethod = 1;
   string requestUrl = 2;
   string headerContentType = 3;
-  string headerContentLength = 3;
-  string headerHost = 4;
-  string headerXAmzDate = 5;
-  string headerXAmzStorageClass = 6;
-  string headerAuthorization = 7;
+  string headerContentLength = 4;
+  string headerHost = 5;
+  string headerXAmzDate = 6;
+  string headerXAmzStorageClass = 7;
+  string headerAuthorization = 8;
 }
 
 // Message to create offer

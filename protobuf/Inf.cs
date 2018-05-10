@@ -32,27 +32,55 @@ namespace InfX {
             "a1VybBgJIAEoCRITCgtjb25zdW1lcktleRgKIAEoCRIWCg5jb25zdW1lclNl",
             "Y3JldBgLIAEoCRIQCghjbGllbnRJZBgMIAEoCRIOCgZuYXRpdmUYDSABKAki",
             "RgoUQ29uZmlnT0F1dGhQcm92aWRlcnMSIQoDYWxsGAEgAygLMhQuQ29uZmln",
-            "T0F1dGhQcm92aWRlchILCgNrZXkYAiABKAkiiwEKBkNvbmZpZxIVCg1jbGll",
-            "bnRWZXJzaW9uGAEgASgFEhQKDGRvd25sb2FkVXJscxgEIAMoCRIlCgpjYXRl",
-            "Z29yaWVzGAIgASgLMhEuQ29uZmlnQ2F0ZWdvcmllcxItCg5vYXV0aFByb3Zp",
-            "ZGVycxgDIAEoCzIVLkNvbmZpZ09BdXRoUHJvdmlkZXJzIicKCkNhdGVnb3J5",
-            "SWQSDAoEbWFpbhgBIAEoBRILCgNzdWIYAiABKAUiKQoNQ2F0ZWdvcnlJZFNl",
-            "dBIYCgNpZHMYASADKAsyCy5DYXRlZ29yeUlkQgeqAgRJbmZYYgZwcm90bzM="));
+            "T0F1dGhQcm92aWRlchILCgNrZXkYAiABKAkijwEKCkNvbmZpZ0RhdGESFQoN",
+            "Y2xpZW50VmVyc2lvbhgBIAEoBRIUCgxkb3dubG9hZFVybHMYBCADKAkSJQoK",
+            "Y2F0ZWdvcmllcxgCIAEoCzIRLkNvbmZpZ0NhdGVnb3JpZXMSLQoOb2F1dGhQ",
+            "cm92aWRlcnMYAyABKAsyFS5Db25maWdPQXV0aFByb3ZpZGVycyInCgpDYXRl",
+            "Z29yeUlkEgwKBG1haW4YASABKAUSCwoDc3ViGAIgASgFIikKDUNhdGVnb3J5",
+            "SWRTZXQSGAoDaWRzGAEgAygLMgsuQ2F0ZWdvcnlJZCImCg5OZXRSZXNSZWpl",
+            "Y3RlZBIUCgxyZWplY3RSZWFzb24YASABKAkiRwoRTmV0UmVxSW1hZ2VVcGxv",
+            "YWQSEAoIZmlsZU5hbWUYASABKAkSEAoIZmlsZVNpemUYAiABKAUSDgoGc2hh",
+            "MjU2GAMgASgJIt8BChFOZXRSZXNJbWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0",
+            "aG9kGAEgASgJEhIKCnJlcXVlc3RVcmwYAiABKAkSGQoRaGVhZGVyQ29udGVu",
+            "dFR5cGUYAyABKAkSGwoTaGVhZGVyQ29udGVudExlbmd0aBgEIAEoCRISCgpo",
+            "ZWFkZXJIb3N0GAUgASgJEhYKDmhlYWRlclhBbXpEYXRlGAYgASgJEh4KFmhl",
+            "YWRlclhBbXpTdG9yYWdlQ2xhc3MYByABKAkSGwoTaGVhZGVyQXV0aG9yaXph",
+            "dGlvbhgIIAEoCSJvChFOZXRSZXFDcmVhdGVPZmZlchINCgV0aXRsZRgBIAEo",
+            "CRIQCghpbWFnZUlkcxgCIAMoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIUCgxk",
+            "ZWxpdmVyYWJsZXMYBCABKAkSDgoGcmV3YXJkGAUgASgJIh8KEU5ldFJlc0Ny",
+            "ZWF0ZU9mZmVyEgoKAmlkGAEgASgFKjIKDk5ldE1lc3NhZ2VUeXBlEgsKB1VO",
+            "S05PV04QABITCg9DTElFTlRfSURFTlRJRlkQAUIHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.NetMessageType), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "Native" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All", "Key" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.Config), global::InfX.Config.Parser, new[]{ "ClientVersion", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryIdSet), global::InfX.CategoryIdSet.Parser, new[]{ "Ids" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryIdSet), global::InfX.CategoryIdSet.Parser, new[]{ "Ids" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResRejected), global::InfX.NetResRejected.Parser, new[]{ "RejectReason" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqImageUpload), global::InfX.NetReqImageUpload.Parser, new[]{ "FileName", "FileSize", "Sha256" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResImageUpload), global::InfX.NetResImageUpload.Parser, new[]{ "RequestMethod", "RequestUrl", "HeaderContentType", "HeaderContentLength", "HeaderHost", "HeaderXAmzDate", "HeaderXAmzStorageClass", "HeaderAuthorization" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Title", "ImageIds", "Description", "Deliverables", "Reward" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResCreateOffer), global::InfX.NetResCreateOffer.Parser, new[]{ "Id" }, null, null, null)
           }));
     }
     #endregion
 
   }
+  #region Enums
+  /// <summary>
+  ///  Type of message
+  /// </summary>
+  public enum NetMessageType {
+    [pbr::OriginalName("UNKNOWN")] Unknown = 0,
+    [pbr::OriginalName("CLIENT_IDENTIFY")] ClientIdentify = 1,
+  }
+
+  #endregion
+
   #region Messages
   public sealed partial class ConfigSubCategories : pb::IMessage<ConfigSubCategories> {
     private static readonly pb::MessageParser<ConfigSubCategories> _parser = new pb::MessageParser<ConfigSubCategories>(() => new ConfigSubCategories());
@@ -920,10 +948,10 @@ namespace InfX {
 
   }
 
-  public sealed partial class Config : pb::IMessage<Config> {
-    private static readonly pb::MessageParser<Config> _parser = new pb::MessageParser<Config>(() => new Config());
+  public sealed partial class ConfigData : pb::IMessage<ConfigData> {
+    private static readonly pb::MessageParser<ConfigData> _parser = new pb::MessageParser<ConfigData>(() => new ConfigData());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<Config> Parser { get { return _parser; } }
+    public static pb::MessageParser<ConfigData> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -936,14 +964,14 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Config() {
+    public ConfigData() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Config(Config other) : this() {
+    public ConfigData(ConfigData other) : this() {
       clientVersion_ = other.clientVersion_;
       downloadUrls_ = other.downloadUrls_.Clone();
       Categories = other.categories_ != null ? other.Categories.Clone() : null;
@@ -951,8 +979,8 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Config Clone() {
-      return new Config(this);
+    public ConfigData Clone() {
+      return new ConfigData(this);
     }
 
     /// <summary>Field number for the "clientVersion" field.</summary>
@@ -1009,11 +1037,11 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as Config);
+      return Equals(other as ConfigData);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(Config other) {
+    public bool Equals(ConfigData other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1076,7 +1104,7 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(Config other) {
+    public void MergeFrom(ConfigData other) {
       if (other == null) {
         return;
       }
@@ -1380,6 +1408,963 @@ namespace InfX {
             break;
           case 10: {
             ids_.AddEntriesFrom(input, _repeated_ids_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Generic rejection
+  /// </summary>
+  public sealed partial class NetResRejected : pb::IMessage<NetResRejected> {
+    private static readonly pb::MessageParser<NetResRejected> _parser = new pb::MessageParser<NetResRejected>(() => new NetResRejected());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetResRejected> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[7]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResRejected() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResRejected(NetResRejected other) : this() {
+      rejectReason_ = other.rejectReason_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResRejected Clone() {
+      return new NetResRejected(this);
+    }
+
+    /// <summary>Field number for the "rejectReason" field.</summary>
+    public const int RejectReasonFieldNumber = 1;
+    private string rejectReason_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RejectReason {
+      get { return rejectReason_; }
+      set {
+        rejectReason_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetResRejected);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetResRejected other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (RejectReason != other.RejectReason) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (RejectReason.Length != 0) hash ^= RejectReason.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RejectReason.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RejectReason);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (RejectReason.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RejectReason);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetResRejected other) {
+      if (other == null) {
+        return;
+      }
+      if (other.RejectReason.Length != 0) {
+        RejectReason = other.RejectReason;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            RejectReason = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Client requests the server permission to upload an image
+  ///  The server may delete the image later if it is never used
+  /// </summary>
+  public sealed partial class NetReqImageUpload : pb::IMessage<NetReqImageUpload> {
+    private static readonly pb::MessageParser<NetReqImageUpload> _parser = new pb::MessageParser<NetReqImageUpload>(() => new NetReqImageUpload());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetReqImageUpload> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[8]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetReqImageUpload() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetReqImageUpload(NetReqImageUpload other) : this() {
+      fileName_ = other.fileName_;
+      fileSize_ = other.fileSize_;
+      sha256_ = other.sha256_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetReqImageUpload Clone() {
+      return new NetReqImageUpload(this);
+    }
+
+    /// <summary>Field number for the "fileName" field.</summary>
+    public const int FileNameFieldNumber = 1;
+    private string fileName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string FileName {
+      get { return fileName_; }
+      set {
+        fileName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "fileSize" field.</summary>
+    public const int FileSizeFieldNumber = 2;
+    private int fileSize_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int FileSize {
+      get { return fileSize_; }
+      set {
+        fileSize_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "sha256" field.</summary>
+    public const int Sha256FieldNumber = 3;
+    private string sha256_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Sha256 {
+      get { return sha256_; }
+      set {
+        sha256_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetReqImageUpload);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetReqImageUpload other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (FileName != other.FileName) return false;
+      if (FileSize != other.FileSize) return false;
+      if (Sha256 != other.Sha256) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (FileName.Length != 0) hash ^= FileName.GetHashCode();
+      if (FileSize != 0) hash ^= FileSize.GetHashCode();
+      if (Sha256.Length != 0) hash ^= Sha256.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (FileName.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(FileName);
+      }
+      if (FileSize != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(FileSize);
+      }
+      if (Sha256.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Sha256);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (FileName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(FileName);
+      }
+      if (FileSize != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(FileSize);
+      }
+      if (Sha256.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Sha256);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetReqImageUpload other) {
+      if (other == null) {
+        return;
+      }
+      if (other.FileName.Length != 0) {
+        FileName = other.FileName;
+      }
+      if (other.FileSize != 0) {
+        FileSize = other.FileSize;
+      }
+      if (other.Sha256.Length != 0) {
+        Sha256 = other.Sha256;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            FileName = input.ReadString();
+            break;
+          }
+          case 16: {
+            FileSize = input.ReadInt32();
+            break;
+          }
+          case 26: {
+            Sha256 = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Request parameters to be used by the client verbatim for uploading
+  /// </summary>
+  public sealed partial class NetResImageUpload : pb::IMessage<NetResImageUpload> {
+    private static readonly pb::MessageParser<NetResImageUpload> _parser = new pb::MessageParser<NetResImageUpload>(() => new NetResImageUpload());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetResImageUpload> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResImageUpload() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResImageUpload(NetResImageUpload other) : this() {
+      requestMethod_ = other.requestMethod_;
+      requestUrl_ = other.requestUrl_;
+      headerContentType_ = other.headerContentType_;
+      headerContentLength_ = other.headerContentLength_;
+      headerHost_ = other.headerHost_;
+      headerXAmzDate_ = other.headerXAmzDate_;
+      headerXAmzStorageClass_ = other.headerXAmzStorageClass_;
+      headerAuthorization_ = other.headerAuthorization_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResImageUpload Clone() {
+      return new NetResImageUpload(this);
+    }
+
+    /// <summary>Field number for the "requestMethod" field.</summary>
+    public const int RequestMethodFieldNumber = 1;
+    private string requestMethod_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RequestMethod {
+      get { return requestMethod_; }
+      set {
+        requestMethod_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "requestUrl" field.</summary>
+    public const int RequestUrlFieldNumber = 2;
+    private string requestUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RequestUrl {
+      get { return requestUrl_; }
+      set {
+        requestUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "headerContentType" field.</summary>
+    public const int HeaderContentTypeFieldNumber = 3;
+    private string headerContentType_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string HeaderContentType {
+      get { return headerContentType_; }
+      set {
+        headerContentType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "headerContentLength" field.</summary>
+    public const int HeaderContentLengthFieldNumber = 4;
+    private string headerContentLength_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string HeaderContentLength {
+      get { return headerContentLength_; }
+      set {
+        headerContentLength_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "headerHost" field.</summary>
+    public const int HeaderHostFieldNumber = 5;
+    private string headerHost_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string HeaderHost {
+      get { return headerHost_; }
+      set {
+        headerHost_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "headerXAmzDate" field.</summary>
+    public const int HeaderXAmzDateFieldNumber = 6;
+    private string headerXAmzDate_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string HeaderXAmzDate {
+      get { return headerXAmzDate_; }
+      set {
+        headerXAmzDate_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "headerXAmzStorageClass" field.</summary>
+    public const int HeaderXAmzStorageClassFieldNumber = 7;
+    private string headerXAmzStorageClass_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string HeaderXAmzStorageClass {
+      get { return headerXAmzStorageClass_; }
+      set {
+        headerXAmzStorageClass_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "headerAuthorization" field.</summary>
+    public const int HeaderAuthorizationFieldNumber = 8;
+    private string headerAuthorization_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string HeaderAuthorization {
+      get { return headerAuthorization_; }
+      set {
+        headerAuthorization_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetResImageUpload);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetResImageUpload other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (RequestMethod != other.RequestMethod) return false;
+      if (RequestUrl != other.RequestUrl) return false;
+      if (HeaderContentType != other.HeaderContentType) return false;
+      if (HeaderContentLength != other.HeaderContentLength) return false;
+      if (HeaderHost != other.HeaderHost) return false;
+      if (HeaderXAmzDate != other.HeaderXAmzDate) return false;
+      if (HeaderXAmzStorageClass != other.HeaderXAmzStorageClass) return false;
+      if (HeaderAuthorization != other.HeaderAuthorization) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (RequestMethod.Length != 0) hash ^= RequestMethod.GetHashCode();
+      if (RequestUrl.Length != 0) hash ^= RequestUrl.GetHashCode();
+      if (HeaderContentType.Length != 0) hash ^= HeaderContentType.GetHashCode();
+      if (HeaderContentLength.Length != 0) hash ^= HeaderContentLength.GetHashCode();
+      if (HeaderHost.Length != 0) hash ^= HeaderHost.GetHashCode();
+      if (HeaderXAmzDate.Length != 0) hash ^= HeaderXAmzDate.GetHashCode();
+      if (HeaderXAmzStorageClass.Length != 0) hash ^= HeaderXAmzStorageClass.GetHashCode();
+      if (HeaderAuthorization.Length != 0) hash ^= HeaderAuthorization.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RequestMethod.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RequestMethod);
+      }
+      if (RequestUrl.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(RequestUrl);
+      }
+      if (HeaderContentType.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(HeaderContentType);
+      }
+      if (HeaderContentLength.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(HeaderContentLength);
+      }
+      if (HeaderHost.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(HeaderHost);
+      }
+      if (HeaderXAmzDate.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(HeaderXAmzDate);
+      }
+      if (HeaderXAmzStorageClass.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(HeaderXAmzStorageClass);
+      }
+      if (HeaderAuthorization.Length != 0) {
+        output.WriteRawTag(66);
+        output.WriteString(HeaderAuthorization);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (RequestMethod.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RequestMethod);
+      }
+      if (RequestUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RequestUrl);
+      }
+      if (HeaderContentType.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderContentType);
+      }
+      if (HeaderContentLength.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderContentLength);
+      }
+      if (HeaderHost.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderHost);
+      }
+      if (HeaderXAmzDate.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderXAmzDate);
+      }
+      if (HeaderXAmzStorageClass.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderXAmzStorageClass);
+      }
+      if (HeaderAuthorization.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderAuthorization);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetResImageUpload other) {
+      if (other == null) {
+        return;
+      }
+      if (other.RequestMethod.Length != 0) {
+        RequestMethod = other.RequestMethod;
+      }
+      if (other.RequestUrl.Length != 0) {
+        RequestUrl = other.RequestUrl;
+      }
+      if (other.HeaderContentType.Length != 0) {
+        HeaderContentType = other.HeaderContentType;
+      }
+      if (other.HeaderContentLength.Length != 0) {
+        HeaderContentLength = other.HeaderContentLength;
+      }
+      if (other.HeaderHost.Length != 0) {
+        HeaderHost = other.HeaderHost;
+      }
+      if (other.HeaderXAmzDate.Length != 0) {
+        HeaderXAmzDate = other.HeaderXAmzDate;
+      }
+      if (other.HeaderXAmzStorageClass.Length != 0) {
+        HeaderXAmzStorageClass = other.HeaderXAmzStorageClass;
+      }
+      if (other.HeaderAuthorization.Length != 0) {
+        HeaderAuthorization = other.HeaderAuthorization;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            RequestMethod = input.ReadString();
+            break;
+          }
+          case 18: {
+            RequestUrl = input.ReadString();
+            break;
+          }
+          case 26: {
+            HeaderContentType = input.ReadString();
+            break;
+          }
+          case 34: {
+            HeaderContentLength = input.ReadString();
+            break;
+          }
+          case 42: {
+            HeaderHost = input.ReadString();
+            break;
+          }
+          case 50: {
+            HeaderXAmzDate = input.ReadString();
+            break;
+          }
+          case 58: {
+            HeaderXAmzStorageClass = input.ReadString();
+            break;
+          }
+          case 66: {
+            HeaderAuthorization = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Message to create offer
+  /// </summary>
+  public sealed partial class NetReqCreateOffer : pb::IMessage<NetReqCreateOffer> {
+    private static readonly pb::MessageParser<NetReqCreateOffer> _parser = new pb::MessageParser<NetReqCreateOffer>(() => new NetReqCreateOffer());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetReqCreateOffer> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[10]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetReqCreateOffer() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetReqCreateOffer(NetReqCreateOffer other) : this() {
+      title_ = other.title_;
+      imageIds_ = other.imageIds_.Clone();
+      description_ = other.description_;
+      deliverables_ = other.deliverables_;
+      reward_ = other.reward_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetReqCreateOffer Clone() {
+      return new NetReqCreateOffer(this);
+    }
+
+    /// <summary>Field number for the "title" field.</summary>
+    public const int TitleFieldNumber = 1;
+    private string title_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Title {
+      get { return title_; }
+      set {
+        title_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "imageIds" field.</summary>
+    public const int ImageIdsFieldNumber = 2;
+    private static readonly pb::FieldCodec<string> _repeated_imageIds_codec
+        = pb::FieldCodec.ForString(18);
+    private readonly pbc::RepeatedField<string> imageIds_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> ImageIds {
+      get { return imageIds_; }
+    }
+
+    /// <summary>Field number for the "description" field.</summary>
+    public const int DescriptionFieldNumber = 3;
+    private string description_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Description {
+      get { return description_; }
+      set {
+        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "deliverables" field.</summary>
+    public const int DeliverablesFieldNumber = 4;
+    private string deliverables_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Deliverables {
+      get { return deliverables_; }
+      set {
+        deliverables_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "reward" field.</summary>
+    public const int RewardFieldNumber = 5;
+    private string reward_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Reward {
+      get { return reward_; }
+      set {
+        reward_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetReqCreateOffer);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetReqCreateOffer other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Title != other.Title) return false;
+      if(!imageIds_.Equals(other.imageIds_)) return false;
+      if (Description != other.Description) return false;
+      if (Deliverables != other.Deliverables) return false;
+      if (Reward != other.Reward) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Title.Length != 0) hash ^= Title.GetHashCode();
+      hash ^= imageIds_.GetHashCode();
+      if (Description.Length != 0) hash ^= Description.GetHashCode();
+      if (Deliverables.Length != 0) hash ^= Deliverables.GetHashCode();
+      if (Reward.Length != 0) hash ^= Reward.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Title.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Title);
+      }
+      imageIds_.WriteTo(output, _repeated_imageIds_codec);
+      if (Description.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Description);
+      }
+      if (Deliverables.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Deliverables);
+      }
+      if (Reward.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Reward);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Title.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Title);
+      }
+      size += imageIds_.CalculateSize(_repeated_imageIds_codec);
+      if (Description.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+      }
+      if (Deliverables.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Deliverables);
+      }
+      if (Reward.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Reward);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetReqCreateOffer other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Title.Length != 0) {
+        Title = other.Title;
+      }
+      imageIds_.Add(other.imageIds_);
+      if (other.Description.Length != 0) {
+        Description = other.Description;
+      }
+      if (other.Deliverables.Length != 0) {
+        Deliverables = other.Deliverables;
+      }
+      if (other.Reward.Length != 0) {
+        Reward = other.Reward;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            Title = input.ReadString();
+            break;
+          }
+          case 18: {
+            imageIds_.AddEntriesFrom(input, _repeated_imageIds_codec);
+            break;
+          }
+          case 26: {
+            Description = input.ReadString();
+            break;
+          }
+          case 34: {
+            Deliverables = input.ReadString();
+            break;
+          }
+          case 42: {
+            Reward = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Response to successful offer creation
+  /// </summary>
+  public sealed partial class NetResCreateOffer : pb::IMessage<NetResCreateOffer> {
+    private static readonly pb::MessageParser<NetResCreateOffer> _parser = new pb::MessageParser<NetResCreateOffer>(() => new NetResCreateOffer());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetResCreateOffer> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[11]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResCreateOffer() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResCreateOffer(NetResCreateOffer other) : this() {
+      id_ = other.id_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResCreateOffer Clone() {
+      return new NetResCreateOffer(this);
+    }
+
+    /// <summary>Field number for the "id" field.</summary>
+    public const int IdFieldNumber = 1;
+    private int id_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Id {
+      get { return id_; }
+      set {
+        id_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetResCreateOffer);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetResCreateOffer other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Id != other.Id) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Id != 0) hash ^= Id.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Id != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Id);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetResCreateOffer other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Id != 0) {
+        Id = other.Id;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            Id = input.ReadInt32();
             break;
           }
         }
