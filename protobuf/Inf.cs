@@ -48,7 +48,7 @@ namespace InfX {
             "dGlvbhgIIAEoCSJvChFOZXRSZXFDcmVhdGVPZmZlchINCgV0aXRsZRgBIAEo",
             "CRIQCghpbWFnZUlkcxgCIAMoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIUCgxk",
             "ZWxpdmVyYWJsZXMYBCABKAkSDgoGcmV3YXJkGAUgASgJIh8KEU5ldFJlc0Ny",
-            "ZWF0ZU9mZmVyEgoKAmlkGAEgASgFKjIKDk5ldE1lc3NhZ2VUeXBlEgsKB1VO",
+            "ZWF0ZU9mZmVyEgoKAmlkGAEgASgDKjIKDk5ldE1lc3NhZ2VUeXBlEgsKB1VO",
             "S05PV04QABITCg9DTElFTlRfSURFTlRJRlkQAUIHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
@@ -1577,6 +1577,9 @@ namespace InfX {
     /// <summary>Field number for the "fileName" field.</summary>
     public const int FileNameFieldNumber = 1;
     private string fileName_ = "";
+    /// <summary>
+    ///  File information
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string FileName {
       get { return fileName_; }
@@ -1599,6 +1602,9 @@ namespace InfX {
     /// <summary>Field number for the "sha256" field.</summary>
     public const int Sha256FieldNumber = 3;
     private string sha256_ = "";
+    /// <summary>
+    ///  Hashed file contents
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Sha256 {
       get { return sha256_; }
@@ -2290,9 +2296,12 @@ namespace InfX {
 
     /// <summary>Field number for the "id" field.</summary>
     public const int IdFieldNumber = 1;
-    private int id_;
+    private long id_;
+    /// <summary>
+    ///  Identifier of the offer on the server
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Id {
+    public long Id {
       get { return id_; }
       set {
         id_ = value;
@@ -2319,7 +2328,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Id != 0) hash ^= Id.GetHashCode();
+      if (Id != 0L) hash ^= Id.GetHashCode();
       return hash;
     }
 
@@ -2330,17 +2339,17 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Id != 0) {
+      if (Id != 0L) {
         output.WriteRawTag(8);
-        output.WriteInt32(Id);
+        output.WriteInt64(Id);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Id != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
+      if (Id != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Id);
       }
       return size;
     }
@@ -2350,7 +2359,7 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.Id != 0) {
+      if (other.Id != 0L) {
         Id = other.Id;
       }
     }
@@ -2364,7 +2373,7 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 8: {
-            Id = input.ReadInt32();
+            Id = input.ReadInt64();
             break;
           }
         }
