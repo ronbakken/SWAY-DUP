@@ -123,7 +123,7 @@ const NetReqCreateOffer$json = const {
 const NetResCreateOffer$json = const {
   '1': 'NetResCreateOffer',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
+    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
   ],
 };
 
