@@ -85,6 +85,7 @@ message CategoryIdSet {
 enum NetMessageType {
   UNKNOWN = 0;
   CLIENT_IDENTIFY = 1;
+  
 }
 
 // TODO: proto3 has Any type, check if supported by dart protobuf compiler
@@ -102,9 +103,13 @@ message NetResRejected {
 // Client requests the server permission to upload an image
 // The server may delete the image later if it is never used
 message NetReqImageUpload {
+  // File information
   string fileName = 1;
   int32 fileSize = 2;
+  
+  // Hashed file contents
   string sha256 = 3;
+  
 }
 
 // Request parameters to be used by the client verbatim for uploading
@@ -117,6 +122,7 @@ message NetResImageUpload {
   string headerXAmzDate = 6;
   string headerXAmzStorageClass = 7;
   string headerAuthorization = 8;
+  
 }
 
 // Message to create offer
@@ -126,11 +132,14 @@ message NetReqCreateOffer {
   string description = 3;
   string deliverables = 4;
   string reward = 5;
+  
 }
 
 // Response to successful offer creation
 message NetResCreateOffer {
-  int32 id = 1;
+  // Identifier of the offer on the server
+  int64 id = 1;
+  
 }
 
 /* end of file */
