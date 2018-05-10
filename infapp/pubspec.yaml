@@ -22,7 +22,8 @@ dependencies:
       url: git://github.com/nbspou/dart-oauth1.git
       ref: fork/nbspou
 
-  flutter_map: ^0.0.4
+  flutter_map: # ^0.0.4
+    path: ../flutter_map/flutter_map/
   
   # 0.4.1 crashes
   image_picker: 0.3.1
