@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart'; 
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -36,6 +37,8 @@ class _DashboardBusinessState extends State<DashboardBusiness> {
             ),
             layers: [
               new TileLayerOptions(
+                backgroundColor: new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
+                placeholderImage: new MemoryImage(kTransparentImage),
                 urlTemplate: "https://api.tiles.mapbox.com/v4/"
                   "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
                 additionalOptions: {

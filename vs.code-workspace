@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "infapp"
+		},
+		{
+			"path": "flutter_map\\flutter_map",
+			"name": "flutter_map"
+		}
+	],
+	"settings": {}
+}
