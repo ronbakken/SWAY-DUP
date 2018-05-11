@@ -73,8 +73,69 @@ message CategoryId {
   int32 sub = 2;
 }
 
+/*
 message CategoryIdSet {
   repeated CategoryId ids = 1;
+}
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+message DataInfluencer {
+  int64 id = 1;
+  string name = 2;
+  string location = 3;
+  string avatarUrl = 4;
+  repeated CategoryId categories = 5;
+  double lat = 6;
+  double lng = 7;
+  
+}
+
+message DataBusiness {
+  int64 id = 1;
+  string name = 2;
+  string location = 3;
+  string avatarUrl = 4;
+  repeated CategoryId categories = 5;
+  double lat = 6;
+  double lng = 7;
+  
+}
+
+message DataOffer {
+  int64 id = 1;
+  DataBusiness business = 2;
+  string title = 3;
+  repeated string imageUrls = 4;
+  repeated CategoryId categories = 5;
+  double lat = 6;
+  double lng = 7;
+  string description = 8;
+  string deliverables = 9;
+  string reward = 10;
+  
+}
+
+message DataApplicant {
+  int64 id = 1;
+  DataOffer offer = 2;
+  DataInfluencer influencer = 3;
+  // bool influencer accepted/delivered/...
+  // bool business accepted/received service/...
+  // datetime schedule etc
+  
+}
+
+message DataChat {
+  int64 applicantId; // One chat per applicant
+  int64 sequenceId; // Sequential identifier in the chat stream
+  int64 keyId; // Deduplication client-side (ghost entry)
+  bool outgoing; // Outgoing or incoming message
+  string text; // The written text
+  
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,11 +188,16 @@ message NetResImageUpload {
 
 // Message to create offer
 message NetReqCreateOffer {
+  DataOffer offer = 1;
+  repeated string imageIds = 2;
+  
+  /*
   string title = 1;
   repeated string imageIds = 2;
   string description = 3;
   string deliverables = 4;
   string reward = 5;
+  */
   
 }
 
