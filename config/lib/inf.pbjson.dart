@@ -72,10 +72,65 @@ const CategoryId$json = const {
   ],
 };
 
-const CategoryIdSet$json = const {
-  '1': 'CategoryIdSet',
+const DataInfluencer$json = const {
+  '1': 'DataInfluencer',
   '2': const [
-    const {'1': 'ids', '3': 1, '4': 3, '5': 11, '6': '.CategoryId', '10': 'ids'},
+    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'location', '3': 3, '4': 1, '5': 9, '10': 'location'},
+    const {'1': 'avatarUrl', '3': 4, '4': 1, '5': 9, '10': 'avatarUrl'},
+    const {'1': 'categories', '3': 5, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
+    const {'1': 'lat', '3': 6, '4': 1, '5': 1, '10': 'lat'},
+    const {'1': 'lng', '3': 7, '4': 1, '5': 1, '10': 'lng'},
+  ],
+};
+
+const DataBusiness$json = const {
+  '1': 'DataBusiness',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'location', '3': 3, '4': 1, '5': 9, '10': 'location'},
+    const {'1': 'avatarUrl', '3': 4, '4': 1, '5': 9, '10': 'avatarUrl'},
+    const {'1': 'categories', '3': 5, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
+    const {'1': 'lat', '3': 6, '4': 1, '5': 1, '10': 'lat'},
+    const {'1': 'lng', '3': 7, '4': 1, '5': 1, '10': 'lng'},
+  ],
+};
+
+const DataOffer$json = const {
+  '1': 'DataOffer',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
+    const {'1': 'business', '3': 2, '4': 1, '5': 11, '6': '.DataBusiness', '10': 'business'},
+    const {'1': 'title', '3': 3, '4': 1, '5': 9, '10': 'title'},
+    const {'1': 'imageUrls', '3': 4, '4': 3, '5': 9, '10': 'imageUrls'},
+    const {'1': 'categories', '3': 5, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
+    const {'1': 'lat', '3': 6, '4': 1, '5': 1, '10': 'lat'},
+    const {'1': 'lng', '3': 7, '4': 1, '5': 1, '10': 'lng'},
+    const {'1': 'description', '3': 8, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'deliverables', '3': 9, '4': 1, '5': 9, '10': 'deliverables'},
+    const {'1': 'reward', '3': 10, '4': 1, '5': 9, '10': 'reward'},
+  ],
+};
+
+const DataApplicant$json = const {
+  '1': 'DataApplicant',
+  '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
+    const {'1': 'offer', '3': 2, '4': 1, '5': 11, '6': '.DataOffer', '10': 'offer'},
+    const {'1': 'influencer', '3': 3, '4': 1, '5': 11, '6': '.DataInfluencer', '10': 'influencer'},
+  ],
+};
+
+const DataChat$json = const {
+  '1': 'DataChat',
+  '2': const [
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 3, '10': 'applicantId'},
+    const {'1': 'sequenceId', '3': 2, '4': 1, '5': 3, '10': 'sequenceId'},
+    const {'1': 'keyId', '3': 3, '4': 1, '5': 3, '10': 'keyId'},
+    const {'1': 'outgoing', '3': 4, '4': 1, '5': 8, '10': 'outgoing'},
+    const {'1': 'text', '3': 5, '4': 1, '5': 9, '10': 'text'},
   ],
 };
 
@@ -112,11 +167,8 @@ const NetResImageUpload$json = const {
 const NetReqCreateOffer$json = const {
   '1': 'NetReqCreateOffer',
   '2': const [
-    const {'1': 'title', '3': 1, '4': 1, '5': 9, '10': 'title'},
+    const {'1': 'offer', '3': 1, '4': 1, '5': 11, '6': '.DataOffer', '10': 'offer'},
     const {'1': 'imageIds', '3': 2, '4': 3, '5': 9, '10': 'imageIds'},
-    const {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
-    const {'1': 'deliverables', '3': 4, '4': 1, '5': 9, '10': 'deliverables'},
-    const {'1': 'reward', '3': 5, '4': 1, '5': 9, '10': 'reward'},
   ],
 };
 
