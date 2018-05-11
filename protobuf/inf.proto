@@ -130,11 +130,11 @@ message DataApplicant {
 }
 
 message DataChat {
-  int64 applicantId; // One chat per applicant
-  int64 sequenceId; // Sequential identifier in the chat stream
-  int64 keyId; // Deduplication client-side (ghost entry)
-  bool outgoing; // Outgoing or incoming message
-  string text; // The written text
+  int64 applicantId = 1; // One chat per applicant
+  int64 sequenceId = 2; // Sequential identifier in the chat stream
+  int64 keyId = 3; // Deduplication client-side (ghost entry)
+  bool outgoing = 4; // Outgoing or incoming message
+  string text = 5; // The written text
   
 }
 
