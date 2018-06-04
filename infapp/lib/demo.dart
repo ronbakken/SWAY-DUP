@@ -125,7 +125,7 @@ class DemoHomePage extends StatelessWidget {
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Influencer Dashboard') ] ),
-            /*onPressed: () { 
+            onPressed: () { 
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -134,7 +134,7 @@ class DemoHomePage extends StatelessWidget {
                   },
                 )
               );
-            },*/
+            },
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Offer View') ] ),
