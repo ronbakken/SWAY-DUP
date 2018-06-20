@@ -12,8 +12,11 @@ class FollowerWidget extends StatelessWidget
       child: new Column(
         children: <Widget>[
           // Icon
+          // TODO: Changeable Icon
           new Icon(Icons.face),
+
           // Number of Followers
+          // TODO: Updateable value
           new Text("10"),
         ],
       ),
