@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'follower_count.dart';
+import 'carousel_app_bar.dart';
 
 class BusinessProfileView extends StatelessWidget {
 
@@ -8,7 +9,7 @@ class BusinessProfileView extends StatelessWidget {
     Key key,
     this.self,
     this.businessTitle,
-    this.businessImageUrls,
+    this.businessImageUrl = 'https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg', 
     this.businessLocation,
     this.businessDescription,
   }) : super(key: key);
@@ -18,7 +19,7 @@ class BusinessProfileView extends StatelessWidget {
 
   // Information of the business to be shown on the page
   final String businessTitle;
-  final List<String> businessImageUrls;
+  final String businessImageUrl;
   final String businessLocation;
   final String businessDescription;
 
@@ -47,7 +48,22 @@ class BusinessProfileView extends StatelessWidget {
 
       /// Set the body to the business profile itself.
       /// Similar styling to Offer View
-      body: null,
+      body: new Container(
+        padding: const EdgeInsets.all(32.0),
+        child: new Column(
+          children: <Widget>[
+            new Center(
+              child: new CircleAvatar(
+                radius: 64.0,
+                backgroundImage: new NetworkImage(businessImageUrl),
+              ),
+            ),
+            new Center(
+              child: new Text(businessTitle),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
