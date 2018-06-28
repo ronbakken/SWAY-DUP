@@ -7,7 +7,7 @@ packages:
       name: ansicolor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.9"
+    version: "0.0.10"
   async:
     dependency: transitive
     description:
@@ -63,7 +63,7 @@ packages:
       name: crypto
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.5"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -96,7 +96,7 @@ packages:
       name: flutter_webview_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.5"
+    version: "0.1.6"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -159,7 +159,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.2+1"
+    version: "0.12.3"
   meta:
     dependency: transitive
     description:
@@ -182,7 +182,7 @@ packages:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.1"
+    version: "1.6.0"
   protobuf:
     dependency: "direct main"
     description:
@@ -287,5 +287,5 @@ packages:
     source: hosted
     version: "2.0.6"
 sdks:
-  dart: ">=2.0.0-dev.28.0 <=2.0.0-dev.54.0.flutter-46ab040e58"
+  dart: ">=2.0.0-dev.35.0 <=2.0.0-dev.58.0.flutter-f981f09760"
   flutter: ">=0.1.4 <2.0.0"

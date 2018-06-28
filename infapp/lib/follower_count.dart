@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 /// Account and display the social media's Brand Icon along with
 /// the account user's number of followers
 class FollowerWidget extends StatelessWidget
-{
+{ 
   @override
   Widget build(BuildContext context){
     return new Container(
