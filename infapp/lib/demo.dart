@@ -7,6 +7,7 @@ import 'influencer_dashboard.dart' show InfluencerDashboard;
 import 'offer_view.dart' show OfferView;
 import 'offer_create.dart' show OfferCreate;
 import 'dashboard_business.dart' show DashboardBusiness;
+import 'profile_business.dart' show BusinessProfileView;
 
 import 'inf.pb.dart';
 
@@ -139,16 +140,16 @@ class DemoHomePage extends StatelessWidget {
           ),
           new FlatButton(
             child: new Row(children: [ new Text('View Business Profile (Self)') ] ),
-            /*onPressed: () { 
+            onPressed: () { 
               Navigator.push(
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new BusinessProfile();
+                    return new BusinessProfileView(self: true);
                   },
                 )
               );
-            },*/
+            },
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Edit Business Profile (Self)') ] ),
