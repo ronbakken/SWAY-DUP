@@ -145,7 +145,10 @@ class DemoHomePage extends StatelessWidget {
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new BusinessProfileView(self: true);
+                    return new BusinessProfileView(
+                      self: true,
+                      businessTitle: 'Big Kahuna Burger',
+                      );
                   },
                 )
               );
