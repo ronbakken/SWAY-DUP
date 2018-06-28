@@ -70,18 +70,12 @@ class DemoHomePage extends StatelessWidget {
       ),
       body: new ListView(
         children: <Widget>[
-          new FlatButton(
-            child: new Row( children: [ new Text('Meep meep') ] ),
-            onPressed: () { 
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    return new MeepMeep();
-                  },
-                )
-              );
-            },
+          ///
+          /// The Portion for the On boarding UI
+          ///
+           new RaisedButton(
+            child: new Row( children: [ new Text('Onboarding UI') ] ),
+            onPressed: (){},
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Onboarding Selection') ] ),
@@ -107,7 +101,7 @@ class DemoHomePage extends StatelessWidget {
               );
             },
           ),
-          new RaisedButton(
+          new FlatButton(
             child: new Row(children: [ new Text('Onboarding Social') ] ),
             onPressed: () { 
               Navigator.push(
@@ -115,7 +109,7 @@ class DemoHomePage extends StatelessWidget {
                 new MaterialPageRoute(
                   builder: (context) {
                     return new OnboardingSocial(
-                      accountType: AccountType.Influencer,
+                      accountType: AccountType.Business,
                       oauthProviders: ConfigManager.of(context).oauthProviders.all,
                     );
                   },
@@ -123,47 +117,28 @@ class DemoHomePage extends StatelessWidget {
               );
             },
           ),
-          new FlatButton(
-            child: new Row(children: [ new Text('Influencer Dashboard') ] ),
+          ///
+          /// The Portion for the Business UI
+          ///
+          new RaisedButton(
+            child: new Row( children: [ new Text('Business') ] ),
+            onPressed: (){},
+          ),
+         new FlatButton(
+            child: new Row(children: [ new Text('Business Dashboard') ] ),
             onPressed: () { 
               Navigator.push(
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new InfluencerDashboard();
+                    return new DashboardBusiness();
                   },
                 )
               );
             },
           ),
           new FlatButton(
-            child: new Row(children: [ new Text('Offer View') ] ),
-            onPressed: () { 
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    return new OfferView();
-                  },
-                )
-              );
-            },
-          ),
-          new FlatButton(
-            child: new Row(children: [ new Text('Influencer Profile') ] ),
-            /*onPressed: () { 
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    return new InfluencerProfile();
-                  },
-                )
-              );
-            },*/
-          ),
-          new FlatButton(
-            child: new Row(children: [ new Text('Business Profile') ] ),
+            child: new Row(children: [ new Text('View Business Profile (Self)') ] ),
             /*onPressed: () { 
               Navigator.push(
                 context,
@@ -176,13 +151,26 @@ class DemoHomePage extends StatelessWidget {
             },*/
           ),
           new FlatButton(
-            child: new Row(children: [ new Text('Applicant View') ] ),
+            child: new Row(children: [ new Text('Edit Business Profile (Self)') ] ),
             /*onPressed: () { 
               Navigator.push(
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new ApplicantView();
+                    return new BusinessProfile();
+                  },
+                )
+              );
+            },*/
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('View Influencer Profile') ] ),
+            /*onPressed: () { 
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new BusinessProfile();
                   },
                 )
               );
@@ -201,18 +189,98 @@ class DemoHomePage extends StatelessWidget {
               );
             },
           ),
+          new FlatButton(
+            child: new Row(children: [ new Text('Offer Edit') ] ),
+            onPressed: null,
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('Applicant Chat') ] ),
+            onPressed: null,
+          ),
+          ///
+          /// The Portion for the Influencer UI
+          ///
           new RaisedButton(
-            child: new Row(children: [ new Text('Dashboard Business') ] ),
+            child: new Row( children: [ new Text('Influencer') ] ),
+            onPressed: (){},
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('Influencer Dashboard') ] ),
+            /*onPressed: () { 
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new InfluencerProfile();
+                  },
+                )
+              );
+            },*/
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('View Influencer Profile (Self)') ] ),
+            /*onPressed: () { 
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new InfluencerProfile();
+                  },
+                )
+              );
+            },*/
+          ),
+           new FlatButton(
+            child: new Row(children: [ new Text('Edit Influencer Profile (Self)') ] ),
+            /*onPressed: () { 
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new InfluencerProfile();
+                  },
+                )
+              );
+            },*/
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('Offer View') ] ),
             onPressed: () { 
               Navigator.push(
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new DashboardBusiness();
+                    return new OfferView();
                   },
                 )
               );
             },
+          ),
+           new FlatButton(
+            child: new Row(children: [ new Text('View Business Profile') ] ),
+            /*onPressed: () { 
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new InfluencerProfile();
+                  },
+                )
+              );
+            },*/
+          ),
+           new FlatButton(
+            child: new Row(children: [ new Text('Business Chat') ] ),
+            /*onPressed: () { 
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new InfluencerProfile();
+                  },
+                )
+              );
+            },*/
           ),
         ],
       ),
