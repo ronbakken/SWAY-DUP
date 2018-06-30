@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'follower_count.dart';
 import 'carousel_app_bar.dart';
+import 'dark_container.dart';
 
 class BusinessProfileView extends StatelessWidget {
 
@@ -9,7 +10,7 @@ class BusinessProfileView extends StatelessWidget {
     Key key,
     this.self,
     this.businessTitle,
-    this.businessImageUrl = 'https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg', 
+    this.businessImageUrl = const ['https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg'], 
     this.businessLocation,
     this.businessDescription,
   }) : super(key: key);
@@ -19,11 +20,11 @@ class BusinessProfileView extends StatelessWidget {
 
   // Information of the business to be shown on the page
   final String businessTitle;
-  final String businessImageUrl;
+  final List<String> businessImageUrl;
   final String businessLocation;
   final String businessDescription;
 
-
+	final String businessAvatarUrl = 'https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg';
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -48,22 +49,44 @@ class BusinessProfileView extends StatelessWidget {
 
       /// Set the body to the business profile itself.
       /// Similar styling to Offer View
-      body: new Container(
-        padding: const EdgeInsets.all(32.0),
-        child: new Column(
-          children: <Widget>[
-            new Center(
-              child: new CircleAvatar(
-                radius: 64.0,
-                backgroundImage: new NetworkImage(businessImageUrl),
+			body: new CustomScrollView(
+				slivers: <Widget>[
+					new CarouselAppBar(
+						context: context,
+            title: new Text(businessTitle),
+						imageUrls: businessImageUrl,
+					),
+					new SliverList(
+						delegate: new SliverChildListDelegate([
+							new DarkContainer(
+                child: new ListTile(
+                  enabled: true,
+                  leading: new CircleAvatar(
+                    backgroundImage: new NetworkImage(businessAvatarUrl)
+                  ),
+                  title: new Text(businessTitle),
+                  subtitle: new Text(businessLocation),
+                ),
               ),
-            ),
-            new Center(
-              child: new Text(businessTitle),
-            ),
-          ],
-        ),
-      ),
+              new Row(
+								mainAxisAlignment: MainAxisAlignment.center,
+								children: <Widget>[
+									new FollowerWidget(),
+									new FollowerWidget(),
+									new FollowerWidget(),
+									new FollowerWidget(),
+									new FollowerWidget(),
+									new FollowerWidget(),
+								],
+							),
+							new Divider(),
+							new ListTile(
+                title: new Text(businessDescription.toUpperCase(), style: Theme.of(context).textTheme.body1, textAlign: TextAlign.center, ),
+              ),
+						]),
+					),
+				],
+			),
     );
   }
 }

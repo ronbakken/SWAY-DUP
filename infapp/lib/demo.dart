@@ -148,6 +148,8 @@ class DemoHomePage extends StatelessWidget {
                     return new BusinessProfileView(
                       self: true,
                       businessTitle: 'Big Kahuna Burger',
+                      businessLocation: "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
+                      businessDescription: "This is the tasty burger worth dying for",
                       );
                   },
                 )
