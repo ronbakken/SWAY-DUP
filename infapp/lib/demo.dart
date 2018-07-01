@@ -7,8 +7,7 @@ import 'influencer_dashboard.dart' show InfluencerDashboard;
 import 'offer_view.dart' show OfferView;
 import 'offer_create.dart' show OfferCreate;
 import 'dashboard_business.dart' show DashboardBusiness;
-import 'profile_business.dart' show BusinessProfileView;
-import 'profile_influencer.dart' show InfluencerProfileView;
+import 'profile_view.dart' show ProfileView;
 
 import 'inf.pb.dart';
 
@@ -146,11 +145,11 @@ class DemoHomePage extends StatelessWidget {
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new BusinessProfileView(
+                    return new ProfileView(
                       self: true,
-                      businessTitle: 'Big Kahuna Burger',
-                      businessLocation: "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
-                      businessDescription: "This is the tasty burger worth dying for",
+                      profileName: 'Big Kahuna Burger',
+                      profileLocation: "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
+                      profileDescription: "This is the tasty burger worth dying for",
                       );
                   },
                 )
@@ -231,10 +230,11 @@ class DemoHomePage extends StatelessWidget {
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new InfluencerProfileView(
-                      influencerTitle: 'John Doe',
-                      influencerLocation: 'San Francisco, California',
-                      influencerDescription: "Hi! My name is John. I'm a creative geek and love fast food. I also dig Pokemons",
+                    return new ProfileView(
+                      self: true,
+                      profileName: 'John Doe',
+                      profileLocation: 'San Francisco, California',
+                      profileDescription: "Hi! My name is John. I'm a creative geek and love fast food. I also dig Pokemons",
                     );
                   },
                 )
