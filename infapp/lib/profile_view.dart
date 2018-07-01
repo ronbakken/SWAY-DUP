@@ -49,6 +49,7 @@ class ProfileView extends StatelessWidget {
             title: new Text(profileName),
 
             // Check whether to display the edit button Edit button
+            // TODO: Refactor
             actions: <Widget>[ 
               self ? 
               // If profile is self, Display the Edit button

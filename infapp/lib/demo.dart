@@ -150,7 +150,7 @@ class DemoHomePage extends StatelessWidget {
                       profileName: 'Big Kahuna Burger',
                       profileLocation: "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
                       profileDescription: "This is the tasty burger worth dying for",
-                      );
+                    );
                   },
                 )
               );
@@ -171,16 +171,21 @@ class DemoHomePage extends StatelessWidget {
           ),
           new FlatButton(
             child: new Row(children: [ new Text('View Influencer Profile') ] ),
-            /*onPressed: () { 
+            onPressed: () { 
               Navigator.push(
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new BusinessProfile();
+                    return new ProfileView(
+                      self: false,
+                      profileName: 'John Doe',
+                      profileLocation: 'San Francisco, California',
+                      profileDescription: "Hi! My name is John. I'm a creative geek and love fast food. I also dig Pokemons",
+                    );
                   },
                 )
               );
-            },*/
+            },
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Offer Create') ] ),
@@ -269,16 +274,21 @@ class DemoHomePage extends StatelessWidget {
           ),
            new FlatButton(
             child: new Row(children: [ new Text('View Business Profile') ] ),
-            /*onPressed: () { 
+            onPressed: () { 
               Navigator.push(
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new InfluencerProfile();
+                    return new ProfileView(
+                      self: false,
+                      profileName: 'Big Kahuna Burger',
+                      profileLocation: "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
+                      profileDescription: "This is the tasty burger worth dying for",
+                    );
                   },
                 )
               );
-            },*/
+            },
           ),
            new FlatButton(
             child: new Row(children: [ new Text('Business Chat') ] ),
