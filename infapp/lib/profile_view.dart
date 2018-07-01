@@ -48,6 +48,19 @@ class ProfileView extends StatelessWidget {
 						 // Set the title of the page to the name of the business
             title: new Text(profileName),
 
+            // Check whether to display the edit button Edit button
+            actions: <Widget>[ 
+              self ? 
+              // If profile is self, Display the Edit button
+              new IconButton(
+                icon: new  Icon(Icons.edit),
+                onPressed: () => print("Edit Profile"),
+              ) :
+
+              // if not, display an empty container
+              new Container(),
+            ],
+
 						// Header Pictures of the
 						imageUrls: profileImageUrls,
 					),

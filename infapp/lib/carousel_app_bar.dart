@@ -6,15 +6,17 @@ class CarouselAppBar extends SliverAppBar {
     Key key, 
     BuildContext context, 
     Widget title, 
+    List<Widget> actions,
     List<String> imageUrls }) : 
   super(
     key: key,
     pinned: true,
-      title: title,
+    title: title,
     expandedHeight: MediaQuery.of(context).size.width * 9.0 / 16.0,
     flexibleSpace: new FlexibleSpaceBar(
       background: _buildBackground(new PageController(), context, imageUrls),
     ),
+    actions: actions,
   );
 
   static Widget _buildBackground(controller, BuildContext context, List<String> imageUrls) {
