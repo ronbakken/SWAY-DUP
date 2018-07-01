@@ -8,6 +8,7 @@ import 'offer_view.dart' show OfferView;
 import 'offer_create.dart' show OfferCreate;
 import 'dashboard_business.dart' show DashboardBusiness;
 import 'profile_business.dart' show BusinessProfileView;
+import 'profile_influencer.dart' show InfluencerProfileView;
 
 import 'inf.pb.dart';
 
@@ -225,16 +226,20 @@ class DemoHomePage extends StatelessWidget {
           ),
           new FlatButton(
             child: new Row(children: [ new Text('View Influencer Profile (Self)') ] ),
-            /*onPressed: () { 
+            onPressed: () { 
               Navigator.push(
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new InfluencerProfile();
+                    return new InfluencerProfileView(
+                      influencerTitle: 'John Doe',
+                      influencerLocation: 'San Francisco, California',
+                      influencerDescription: "Hi! My name is John. I'm a creative geek and love fast food. I also dig Pokemons",
+                    );
                   },
                 )
               );
-            },*/
+            },
           ),
            new FlatButton(
             child: new Row(children: [ new Text('Edit Influencer Profile (Self)') ] ),
