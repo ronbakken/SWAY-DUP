@@ -74,9 +74,10 @@ class DemoHomePage extends StatelessWidget {
           ///
           /// The Portion for the On boarding UI
           ///
-           new RaisedButton(
-            child: new Row( children: [ new Text('Onboarding UI') ] ),
-            onPressed: (){},
+          new Divider(),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [ new Text('Onboarding UI', style: Theme.of(context).textTheme.subhead), ]
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Onboarding Selection') ] ),
@@ -121,13 +122,14 @@ class DemoHomePage extends StatelessWidget {
           ///
           /// The Portion for the Business UI
           ///
-          new RaisedButton(
-            child: new Row( children: [ new Text('Business') ] ),
-            onPressed: (){},
+          new Divider(),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [ new Text('Business UI', style: Theme.of(context).textTheme.subhead), ]
           ),
-         new FlatButton(
+          new FlatButton(
             child: new Row(children: [ new Text('Business Dashboard') ] ),
-            onPressed: () { 
+            onPressed: () {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -211,9 +213,10 @@ class DemoHomePage extends StatelessWidget {
           ///
           /// The Portion for the Influencer UI
           ///
-          new RaisedButton(
-            child: new Row( children: [ new Text('Influencer') ] ),
-            onPressed: (){},
+          new Divider(),
+          new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [ new Text('Influencer UI', style: Theme.of(context).textTheme.subhead), ]
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Influencer Dashboard') ] ),
@@ -246,7 +249,7 @@ class DemoHomePage extends StatelessWidget {
               );
             },
           ),
-           new FlatButton(
+          new FlatButton(
             child: new Row(children: [ new Text('Edit Influencer Profile (Self)') ] ),
             /*onPressed: () { 
               Navigator.push(
@@ -272,7 +275,7 @@ class DemoHomePage extends StatelessWidget {
               );
             },
           ),
-           new FlatButton(
+          new FlatButton(
             child: new Row(children: [ new Text('View Business Profile') ] ),
             onPressed: () { 
               Navigator.push(
@@ -290,7 +293,7 @@ class DemoHomePage extends StatelessWidget {
               );
             },
           ),
-           new FlatButton(
+          new FlatButton(
             child: new Row(children: [ new Text('Business Chat') ] ),
             /*onPressed: () { 
               Navigator.push(
@@ -303,6 +306,7 @@ class DemoHomePage extends StatelessWidget {
               );
             },*/
           ),
+          new Divider(),
         ],
       ),
     );
