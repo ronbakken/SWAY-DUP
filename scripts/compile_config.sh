@@ -1,7 +1,7 @@
 #!/bin/sh
 set -x
 
-cd ~/infcommon/
+cd ~/infcommon
 git pull
 git commit -m "Update"
 
