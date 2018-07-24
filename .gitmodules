@@ -1,3 +1,6 @@
 [submodule "sqljocky5"]
 	path = sqljocky5
 	url = git@github.com:nbspou/sqljocky5.git
+[submodule "dospace"]
+	path = dospace
+	url = git@github.com:nbspou/dospace.git
