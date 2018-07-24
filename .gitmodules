@@ -1,0 +1,3 @@
+[submodule "sqljocky5"]
+	path = sqljocky5
+	url = git@github.com:nbspou/sqljocky5.git
