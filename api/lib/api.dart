@@ -1,3 +1,15 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// https://pub.dartlang.org/packages/sqljocky5
+// INSERT INTO `business_accounts` (`business_id`, `name`, `home_address`, `home_gps`) VALUES (NULL, 'Kahuna Burger', 'Los Angeles', GeomFromText('POINT(0 0)'));
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -6,16 +18,42 @@
 import 'dart:io';
 import 'dart:async';
 
-import 'package:config/inf.pb.dart';
+import 'package:api/inf.pb.dart';
+import 'package:sqljocky5/sqljocky.dart' as sqljocky;
+// import 'package:postgres/postgres.dart' as postgres;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+/*
 String spacesKey = "HMQRKHJSER2PJL7LB6LC";
 String spacesSecret = "oAoQ2QHtMvRCHvkNIk1SRWrtdzYPWWLFj0pKWd84fic";
+*/
 
-void prepareRequest(String filePath, int size) {
+run() async {
+  sqljocky.ConnectionPool pool = new sqljocky.ConnectionPool(
+    host: 'mariadb.devinf.net', port: 3306,
+    user: 'devinf', password: 'fCaxEcbE7YrOJ7YY',
+    db: 'inf', max: 5);
+  var results = await pool.query('SELECT name FROM business_accounts');
+  results.forEach((row) async {
+    print('Name: ${row[0]}');
+    
+    var results2 = await pool.query('SELECT name FROM business_accounts');
+    results2.forEach((row) {
+      print('Name: ${row[0]}');
+    });
+    
+  });
+  
+  /*
+  var connection = new postgres.PostgreSQLConnection("localhost", 5432, "dart_test", username: "dart", password: "dart");
+  await connection.open();
+  */
+}
+
+//void prepareRequest(String filePath, int size) {
   /*
   PUT /example.txt HTTP/1.1
   
@@ -65,11 +103,7 @@ void prepareRequest(String filePath, int size) {
   
 
   */
-}
-
-run() async {
-    
-}
+//}
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
