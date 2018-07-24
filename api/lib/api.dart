@@ -27,8 +27,9 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 ////////////////////////////////////////////////////////////////////////////////
 
 /*
-String spacesKey = "HMQRKHJSER2PJL7LB6LC";
-String spacesSecret = "oAoQ2QHtMvRCHvkNIk1SRWrtdzYPWWLFj0pKWd84fic";
+devinf-api
+AUGKNEZGFQVUROSP2CB7
+AK8dfZ8nD+QYl6Nz662YMa2oSjrG/uUmXte8t4ojd70
 */
 
 run() async {
