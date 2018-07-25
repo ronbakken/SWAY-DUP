@@ -1,8 +1,10 @@
 #!/bin/sh
 set -x
 
+
 cd ~/infcommon/
 git pull --recurse-submodules
+git add *
 git commit -m "Update protobuf"
 
 cd protobuf
@@ -21,8 +23,10 @@ git commit -m "Compile protobuf"
 git push
 git status
 
+
 cd ~/infclient
 git pull --recurse-submodules
+git add *
 git commit -m "Update protobuf"
 
 cp ~/infcommon/protobuf/*.dart infapp/lib/
@@ -31,5 +35,19 @@ git commit -m "Compile protobuf"
 
 git push
 git status
+
+
+cd ~/infserver
+git pull --recurse-submodules
+git add *
+git commit -m "Update protobuf"
+
+cp ~/infcommon/protobuf/*.dart api/lib/
+git add *
+git commit -m "Compile protobuf"
+
+git push
+git status
+
 
 cd ~/infcommon/scripts
