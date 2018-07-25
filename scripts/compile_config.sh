@@ -16,7 +16,7 @@ git push
 git status
 
 cd ~/infclient
-git pull
+git pull --recurse-submodules
 git commit -m "Update"
 
 cp ~/infcommon/config/config.bin infapp/assets/config.bin

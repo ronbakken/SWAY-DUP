@@ -2,10 +2,10 @@
 set -x
 
 cd ~/infclient
-git pull
+git pull --recurse-submodules
 
 cd ~/infserver
-git pull
+git pull --recurse-submodules
 
 cd ~/infcommon
-git pull
+git pull --recurse-submodules

@@ -2,7 +2,7 @@
 set -x
 
 cd ~/infcommon/
-git pull
+git pull --recurse-submodules
 git commit -m "Update protobuf"
 
 cd protobuf
@@ -22,7 +22,7 @@ git push
 git status
 
 cd ~/infclient
-git pull
+git pull --recurse-submodules
 git commit -m "Update protobuf"
 
 cp ~/infcommon/protobuf/*.dart infapp/lib/
