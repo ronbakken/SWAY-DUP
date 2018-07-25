@@ -61,12 +61,21 @@ namespace InfX {
             "BiABKAkSHgoWaGVhZGVyWEFtelN0b3JhZ2VDbGFzcxgHIAEoCRIbChNoZWFk",
             "ZXJBdXRob3JpemF0aW9uGAggASgJIkAKEU5ldFJlcUNyZWF0ZU9mZmVyEhkK",
             "BW9mZmVyGAEgASgLMgouRGF0YU9mZmVyEhAKCGltYWdlSWRzGAIgAygJIh8K",
-            "EU5ldFJlc0NyZWF0ZU9mZmVyEgoKAmlkGAEgASgDKjIKDk5ldE1lc3NhZ2VU",
-            "eXBlEgsKB1VOS05PV04QABITCg9DTElFTlRfSURFTlRJRlkQAUIHqgIESW5m",
+            "EU5ldFJlc0NyZWF0ZU9mZmVyEgoKAmlkGAEgASgDKkEKC0FjY291bnRUeXBl",
+            "Eg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVT",
+            "SU5FU1MQAiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
+            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
+            "R0FTX1JFQURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FE",
+            "TUlOEAUSCwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFz",
+            "b24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5O",
+            "RUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVE",
+            "EAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUS",
+            "FQoRR0FTUl9SRVFVSVJFX0lORk8QBio6Cg5OZXRNZXNzYWdlVHlwZRIPCgtO",
+            "TVRfVU5LTk9XThAAEhcKE05NVF9DTElFTlRfSURFTlRJRlkQAUIHqgIESW5m",
             "WGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.NetMessageType), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NetMessageType), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "Native" }, null, null, null),
@@ -89,12 +98,66 @@ namespace InfX {
 
   }
   #region Enums
+  public enum AccountType {
+    [pbr::OriginalName("AT_UNKNOWN")] AtUnknown = 0,
+    [pbr::OriginalName("AT_INFLUENCER")] AtInfluencer = 1,
+    [pbr::OriginalName("AT_BUSINESS")] AtBusiness = 2,
+  }
+
+  /// <summary>
+  /// / Global account state. Higher value means more access. 
+  /// / Should always check using a >= compare, except for GAS_INITIALIZE case
+  /// </summary>
+  public enum GlobalAccountState {
+    [pbr::OriginalName("GAS_INITIALIZE")] GasInitialize = 0,
+    [pbr::OriginalName("GAS_BLOCKED")] GasBlocked = 1,
+    [pbr::OriginalName("GAS_READ_ONLY")] GasReadOnly = 2,
+    [pbr::OriginalName("GAS_READ_WRITE")] GasReadWrite = 3,
+    [pbr::OriginalName("GAS_MODERATOR")] GasModerator = 4,
+    [pbr::OriginalName("GAS_ADMIN")] GasAdmin = 5,
+    [pbr::OriginalName("GAS_GOD")] GasGod = 6,
+  }
+
+  /// <summary>
+  /// / Global account state reason. These are for user message only. Not functional.
+  /// </summary>
+  public enum GlobalAccountStateReason {
+    /// <summary>
+    ///  User is a new account
+    /// </summary>
+    [pbr::OriginalName("GASR_NEW_ACCOUNT")] GasrNewAccount = 0,
+    /// <summary>
+    ///  User is disallowed from the service
+    /// </summary>
+    [pbr::OriginalName("GASR_ACCOUNT_BANNED")] GasrAccountBanned = 1,
+    /// <summary>
+    ///  User account creation request was denied. Contact support
+    /// </summary>
+    [pbr::OriginalName("GASR_CREATE_DENIED")] GasrCreateDenied = 2,
+    /// <summary>
+    ///  User account was approved
+    /// </summary>
+    [pbr::OriginalName("GASR_APPROVED")] GasrApproved = 3,
+    /// <summary>
+    ///  User account was automatically approved for demonstration purpose
+    /// </summary>
+    [pbr::OriginalName("GASR_DEMO_APPROVED")] GasrDemoApproved = 4,
+    /// <summary>
+    ///  User account approval is pending
+    /// </summary>
+    [pbr::OriginalName("GASR_PENDING")] GasrPending = 5,
+    /// <summary>
+    ///  More information is required from the user to approve their account
+    /// </summary>
+    [pbr::OriginalName("GASR_REQUIRE_INFO")] GasrRequireInfo = 6,
+  }
+
   /// <summary>
   ///  Type of message
   /// </summary>
   public enum NetMessageType {
-    [pbr::OriginalName("UNKNOWN")] Unknown = 0,
-    [pbr::OriginalName("CLIENT_IDENTIFY")] ClientIdentify = 1,
+    [pbr::OriginalName("NMT_UNKNOWN")] NmtUnknown = 0,
+    [pbr::OriginalName("NMT_CLIENT_IDENTIFY")] NmtClientIdentify = 1,
   }
 
   #endregion

@@ -83,6 +83,42 @@ message CategoryIdSet {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+enum AccountType {
+  AT_UNKNOWN = 0;
+  AT_INFLUENCER = 1;
+  AT_BUSINESS = 2;
+  
+}
+
+/// Global account state. Higher value means more access. 
+/// Should always check using a >= compare, except for GAS_INITIALIZE case
+enum GlobalAccountState {
+  GAS_INITIALIZE = 0;
+  GAS_BLOCKED = 1;
+  GAS_READ_ONLY = 2;
+  GAS_READ_WRITE = 3;
+  GAS_MODERATOR = 4;
+  GAS_ADMIN = 5;
+  GAS_GOD = 6;
+  
+}
+
+/// Global account state reason. These are for user message only. Not functional.
+enum GlobalAccountStateReason {
+  GASR_NEW_ACCOUNT = 0; // User is a new account
+  GASR_ACCOUNT_BANNED = 1; // User is disallowed from the service
+  GASR_CREATE_DENIED = 2; // User account creation request was denied. Contact support
+  GASR_APPROVED = 3; // User account was approved
+  GASR_DEMO_APPROVED = 4; // User account was automatically approved for demonstration purpose
+  GASR_PENDING = 5; // User account approval is pending
+  GASR_REQUIRE_INFO = 6; // More information is required from the user to approve their account
+  
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 message DataInfluencer {
   int64 id = 1;
   string name = 2;
@@ -144,8 +180,8 @@ message DataChat {
 
 // Type of message
 enum NetMessageType {
-  UNKNOWN = 0;
-  CLIENT_IDENTIFY = 1;
+  NMT_UNKNOWN = 0;
+  NMT_CLIENT_IDENTIFY = 1;
   
 }
 
