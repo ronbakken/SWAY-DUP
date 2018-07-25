@@ -2,7 +2,6 @@
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library inf;
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
@@ -167,7 +166,7 @@ class ConfigOAuthProvider extends GeneratedMessage {
   void clearNative() => clearField(13);
 
   int get fontAwesomeBrand => $_get(13, 0);
-  set fontAwesomeBrand(int v) { $_setUnsignedInt32(13, v); }
+  set fontAwesomeBrand(int v) { $_setSignedInt32(13, v); }
   bool hasFontAwesomeBrand() => $_has(13);
   void clearFontAwesomeBrand() => clearField(14);
 }
@@ -233,7 +232,7 @@ class ConfigData extends GeneratedMessage {
   }
 
   int get clientVersion => $_get(0, 0);
-  set clientVersion(int v) { $_setUnsignedInt32(0, v); }
+  set clientVersion(int v) { $_setSignedInt32(0, v); }
   bool hasClientVersion() => $_has(0);
   void clearClientVersion() => clearField(1);
 
@@ -276,12 +275,12 @@ class CategoryId extends GeneratedMessage {
   }
 
   int get main => $_get(0, 0);
-  set main(int v) { $_setUnsignedInt32(0, v); }
+  set main(int v) { $_setSignedInt32(0, v); }
   bool hasMain() => $_has(0);
   void clearMain() => clearField(1);
 
   int get sub => $_get(1, 0);
-  set sub(int v) { $_setUnsignedInt32(1, v); }
+  set sub(int v) { $_setSignedInt32(1, v); }
   bool hasSub() => $_has(1);
   void clearSub() => clearField(2);
 }
@@ -648,7 +647,7 @@ class NetReqImageUpload extends GeneratedMessage {
   void clearFileName() => clearField(1);
 
   int get fileSize => $_get(1, 0);
-  set fileSize(int v) { $_setUnsignedInt32(1, v); }
+  set fileSize(int v) { $_setSignedInt32(1, v); }
   bool hasFileSize() => $_has(1);
   void clearFileSize() => clearField(2);
 

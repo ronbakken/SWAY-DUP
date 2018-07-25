@@ -2,13 +2,47 @@
 //  Generated code. Do not modify.
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
-library inf_pbjson;
+
+const AccountType$json = const {
+  '1': 'AccountType',
+  '2': const [
+    const {'1': 'AT_UNKNOWN', '2': 0},
+    const {'1': 'AT_INFLUENCER', '2': 1},
+    const {'1': 'AT_BUSINESS', '2': 2},
+  ],
+};
+
+const GlobalAccountState$json = const {
+  '1': 'GlobalAccountState',
+  '2': const [
+    const {'1': 'GAS_INITIALIZE', '2': 0},
+    const {'1': 'GAS_BLOCKED', '2': 1},
+    const {'1': 'GAS_READ_ONLY', '2': 2},
+    const {'1': 'GAS_READ_WRITE', '2': 3},
+    const {'1': 'GAS_MODERATOR', '2': 4},
+    const {'1': 'GAS_ADMIN', '2': 5},
+    const {'1': 'GAS_GOD', '2': 6},
+  ],
+};
+
+const GlobalAccountStateReason$json = const {
+  '1': 'GlobalAccountStateReason',
+  '2': const [
+    const {'1': 'GASR_NEW_ACCOUNT', '2': 0},
+    const {'1': 'GASR_ACCOUNT_BANNED', '2': 1},
+    const {'1': 'GASR_CREATE_DENIED', '2': 2},
+    const {'1': 'GASR_APPROVED', '2': 3},
+    const {'1': 'GASR_DEMO_APPROVED', '2': 4},
+    const {'1': 'GASR_PENDING', '2': 5},
+    const {'1': 'GASR_REQUIRE_INFO', '2': 6},
+  ],
+};
 
 const NetMessageType$json = const {
   '1': 'NetMessageType',
   '2': const [
-    const {'1': 'UNKNOWN', '2': 0},
-    const {'1': 'CLIENT_IDENTIFY', '2': 1},
+    const {'1': 'NMT_UNKNOWN', '2': 0},
+    const {'1': 'NMT_CLIENT_IDENTIFY', '2': 1},
   ],
 };
 
