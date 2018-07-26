@@ -4,3 +4,6 @@
 [submodule "dospace"]
 	path = dospace
 	url = git@github.com:nbspou/dospace.git
+[submodule "wstalk"]
+	path = wstalk
+	url = git@github.com:nbspou/wstalk.git
