@@ -3,7 +3,7 @@ set -x
 
 
 cd ~/infcommon
-git pull
+git pull --recurse-submodules
 git add *
 git commit -m "Update"
 
