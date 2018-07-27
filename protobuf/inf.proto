@@ -41,7 +41,7 @@ message ConfigOAuthProvider {
   /// From OAuth provider, Spotify-like, may not include clientSecret
   string clientId = 12;
   /// Request settings
-  string native = 13;
+  string nativeAuth = 13;
 }
 
 message ConfigOAuthProviders {
