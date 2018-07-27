@@ -24,61 +24,61 @@ namespace InfX {
           string.Concat(
             "CglpbmYucHJvdG8iJQoTQ29uZmlnU3ViQ2F0ZWdvcmllcxIOCgZsYWJlbHMY",
             "ASADKAkiNQoQQ29uZmlnQ2F0ZWdvcmllcxIhCgNzdWIYASADKAsyFC5Db25m",
-            "aWdTdWJDYXRlZ29yaWVzIqgCChNDb25maWdPQXV0aFByb3ZpZGVyEg8KB3Zp",
+            "aWdTdWJDYXRlZ29yaWVzIqwCChNDb25maWdPQXV0aFByb3ZpZGVyEg8KB3Zp",
             "c2libGUYASABKAgSDwoHZW5hYmxlZBgCIAEoCBINCgVsYWJlbBgDIAEoCRIY",
             "ChBmb250QXdlc29tZUJyYW5kGA4gASgFEgwKBGhvc3QYBCABKAkSFwoPcmVx",
             "dWVzdFRva2VuVXJsGAUgASgJEhcKD2F1dGhlbnRpY2F0ZVVybBgGIAEoCRIP",
             "CgdhdXRoVXJsGAcgASgJEhEKCWF1dGhRdWVyeRgIIAEoCRITCgtjYWxsYmFj",
             "a1VybBgJIAEoCRITCgtjb25zdW1lcktleRgKIAEoCRIWCg5jb25zdW1lclNl",
-            "Y3JldBgLIAEoCRIQCghjbGllbnRJZBgMIAEoCRIOCgZuYXRpdmUYDSABKAki",
-            "RgoUQ29uZmlnT0F1dGhQcm92aWRlcnMSIQoDYWxsGAEgAygLMhQuQ29uZmln",
-            "T0F1dGhQcm92aWRlchILCgNrZXkYAiABKAkiogEKCkNvbmZpZ0RhdGESFQoN",
-            "Y2xpZW50VmVyc2lvbhgBIAEoBRIRCgl0aW1lc3RhbXAYBSABKAMSFAoMZG93",
-            "bmxvYWRVcmxzGAQgAygJEiUKCmNhdGVnb3JpZXMYAiABKAsyES5Db25maWdD",
-            "YXRlZ29yaWVzEi0KDm9hdXRoUHJvdmlkZXJzGAMgASgLMhUuQ29uZmlnT0F1",
-            "dGhQcm92aWRlcnMiJwoKQ2F0ZWdvcnlJZBIMCgRtYWluGAEgASgFEgsKA3N1",
-            "YhgCIAEoBSKKAQoORGF0YUluZmx1ZW5jZXISCgoCaWQYASABKAMSDAoEbmFt",
-            "ZRgCIAEoCRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0YXJVcmwYBCABKAkS",
-            "HwoKY2F0ZWdvcmllcxgFIAMoCzILLkNhdGVnb3J5SWQSCwoDbGF0GAYgASgB",
-            "EgsKA2xuZxgHIAEoASKIAQoMRGF0YUJ1c2luZXNzEgoKAmlkGAEgASgDEgwK",
+            "Y3JldBgLIAEoCRIQCghjbGllbnRJZBgMIAEoCRISCgpuYXRpdmVBdXRoGA0g",
+            "ASgJIkYKFENvbmZpZ09BdXRoUHJvdmlkZXJzEiEKA2FsbBgBIAMoCzIULkNv",
+            "bmZpZ09BdXRoUHJvdmlkZXISCwoDa2V5GAIgASgJIqIBCgpDb25maWdEYXRh",
+            "EhUKDWNsaWVudFZlcnNpb24YASABKAUSEQoJdGltZXN0YW1wGAUgASgDEhQK",
+            "DGRvd25sb2FkVXJscxgEIAMoCRIlCgpjYXRlZ29yaWVzGAIgASgLMhEuQ29u",
+            "ZmlnQ2F0ZWdvcmllcxItCg5vYXV0aFByb3ZpZGVycxgDIAEoCzIVLkNvbmZp",
+            "Z09BdXRoUHJvdmlkZXJzIicKCkNhdGVnb3J5SWQSDAoEbWFpbhgBIAEoBRIL",
+            "CgNzdWIYAiABKAUiigEKDkRhdGFJbmZsdWVuY2VyEgoKAmlkGAEgASgDEgwK",
             "BG5hbWUYAiABKAkSEAoIbG9jYXRpb24YAyABKAkSEQoJYXZhdGFyVXJsGAQg",
             "ASgJEh8KCmNhdGVnb3JpZXMYBSADKAsyCy5DYXRlZ29yeUlkEgsKA2xhdBgG",
-            "IAEoARILCgNsbmcYByABKAEi0AEKCURhdGFPZmZlchIKCgJpZBgBIAEoAxIf",
-            "CghidXNpbmVzcxgCIAEoCzINLkRhdGFCdXNpbmVzcxINCgV0aXRsZRgDIAEo",
-            "CRIRCglpbWFnZVVybHMYBCADKAkSHwoKY2F0ZWdvcmllcxgFIAMoCzILLkNh",
-            "dGVnb3J5SWQSCwoDbGF0GAYgASgBEgsKA2xuZxgHIAEoARITCgtkZXNjcmlw",
-            "dGlvbhgIIAEoCRIUCgxkZWxpdmVyYWJsZXMYCSABKAkSDgoGcmV3YXJkGAog",
-            "ASgJIlsKDURhdGFBcHBsaWNhbnQSCgoCaWQYASABKAMSGQoFb2ZmZXIYAiAB",
-            "KAsyCi5EYXRhT2ZmZXISIwoKaW5mbHVlbmNlchgDIAEoCzIPLkRhdGFJbmZs",
-            "dWVuY2VyImIKCERhdGFDaGF0EhMKC2FwcGxpY2FudElkGAEgASgDEhIKCnNl",
-            "cXVlbmNlSWQYAiABKAMSDQoFa2V5SWQYAyABKAMSEAoIb3V0Z29pbmcYBCAB",
-            "KAgSDAoEdGV4dBgFIAEoCSImCg5OZXRSZXNSZWplY3RlZBIUCgxyZWplY3RS",
-            "ZWFzb24YASABKAkiRwoRTmV0UmVxSW1hZ2VVcGxvYWQSEAoIZmlsZU5hbWUY",
-            "ASABKAkSEAoIZmlsZVNpemUYAiABKAUSDgoGc2hhMjU2GAMgASgJIt8BChFO",
-            "ZXRSZXNJbWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJEhIKCnJl",
-            "cXVlc3RVcmwYAiABKAkSGQoRaGVhZGVyQ29udGVudFR5cGUYAyABKAkSGwoT",
-            "aGVhZGVyQ29udGVudExlbmd0aBgEIAEoCRISCgpoZWFkZXJIb3N0GAUgASgJ",
-            "EhYKDmhlYWRlclhBbXpEYXRlGAYgASgJEh4KFmhlYWRlclhBbXpTdG9yYWdl",
-            "Q2xhc3MYByABKAkSGwoTaGVhZGVyQXV0aG9yaXphdGlvbhgIIAEoCSJAChFO",
-            "ZXRSZXFDcmVhdGVPZmZlchIZCgVvZmZlchgBIAEoCzIKLkRhdGFPZmZlchIQ",
-            "CghpbWFnZUlkcxgCIAMoCSIfChFOZXRSZXNDcmVhdGVPZmZlchIKCgJpZBgB",
-            "IAEoAypBCgtBY2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5G",
-            "TFVFTkNFUhABEg8KC0FUX0JVU0lORVNTEAIqjwEKEkdsb2JhbEFjY291bnRT",
-            "dGF0ZRISCg5HQVNfSU5JVElBTElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoN",
-            "R0FTX1JFQURfT05MWRACEhIKDkdBU19SRUFEX1dSSVRFEAMSEQoNR0FTX01P",
-            "REVSQVRPUhAEEg0KCUdBU19BRE1JThAFEgsKB0dBU19HT0QQBiq1AQoYR2xv",
-            "YmFsQWNjb3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIX",
-            "ChNHQVNSX0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVE",
-            "EAISEQoNR0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAE",
-            "EhAKDEdBU1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqOgoO",
-            "TmV0TWVzc2FnZVR5cGUSDwoLTk1UX1VOS05PV04QABIXChNOTVRfQ0xJRU5U",
-            "X0lERU5USUZZEAFCB6oCBEluZlhiBnByb3RvMw=="));
+            "IAEoARILCgNsbmcYByABKAEiiAEKDERhdGFCdXNpbmVzcxIKCgJpZBgBIAEo",
+            "AxIMCgRuYW1lGAIgASgJEhAKCGxvY2F0aW9uGAMgASgJEhEKCWF2YXRhclVy",
+            "bBgEIAEoCRIfCgpjYXRlZ29yaWVzGAUgAygLMgsuQ2F0ZWdvcnlJZBILCgNs",
+            "YXQYBiABKAESCwoDbG5nGAcgASgBItABCglEYXRhT2ZmZXISCgoCaWQYASAB",
+            "KAMSHwoIYnVzaW5lc3MYAiABKAsyDS5EYXRhQnVzaW5lc3MSDQoFdGl0bGUY",
+            "AyABKAkSEQoJaW1hZ2VVcmxzGAQgAygJEh8KCmNhdGVnb3JpZXMYBSADKAsy",
+            "Cy5DYXRlZ29yeUlkEgsKA2xhdBgGIAEoARILCgNsbmcYByABKAESEwoLZGVz",
+            "Y3JpcHRpb24YCCABKAkSFAoMZGVsaXZlcmFibGVzGAkgASgJEg4KBnJld2Fy",
+            "ZBgKIAEoCSJbCg1EYXRhQXBwbGljYW50EgoKAmlkGAEgASgDEhkKBW9mZmVy",
+            "GAIgASgLMgouRGF0YU9mZmVyEiMKCmluZmx1ZW5jZXIYAyABKAsyDy5EYXRh",
+            "SW5mbHVlbmNlciJiCghEYXRhQ2hhdBITCgthcHBsaWNhbnRJZBgBIAEoAxIS",
+            "CgpzZXF1ZW5jZUlkGAIgASgDEg0KBWtleUlkGAMgASgDEhAKCG91dGdvaW5n",
+            "GAQgASgIEgwKBHRleHQYBSABKAkiJgoOTmV0UmVzUmVqZWN0ZWQSFAoMcmVq",
+            "ZWN0UmVhc29uGAEgASgJIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZpbGVO",
+            "YW1lGAEgASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEoCSLf",
+            "AQoRTmV0UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEoCRIS",
+            "CgpyZXF1ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMgASgJ",
+            "EhsKE2hlYWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9zdBgF",
+            "IAEoCRIWCg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16U3Rv",
+            "cmFnZUNsYXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCABKAki",
+            "QAoRTmV0UmVxQ3JlYXRlT2ZmZXISGQoFb2ZmZXIYASABKAsyCi5EYXRhT2Zm",
+            "ZXISEAoIaW1hZ2VJZHMYAiADKAkiHwoRTmV0UmVzQ3JlYXRlT2ZmZXISCgoC",
+            "aWQYASABKAMqQQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFU",
+            "X0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACKo8BChJHbG9iYWxBY2Nv",
+            "dW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tFRBAB",
+            "EhEKDUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklURRADEhEKDUdB",
+            "U19NT0RFUkFUT1IQBBINCglHQVNfQURNSU4QBRILCgdHQVNfR09EEAYqtQEK",
+            "GEdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5U",
+            "EAASFwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RF",
+            "TklFRBACEhEKDUdBU1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9W",
+            "RUQQBBIQCgxHQVNSX1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAG",
+            "KjoKDk5ldE1lc3NhZ2VUeXBlEg8KC05NVF9VTktOT1dOEAASFwoTTk1UX0NM",
+            "SUVOVF9JREVOVElGWRABQgeqAgRJbmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NetMessageType), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "Native" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "NativeAuth" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All", "Key" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "Timestamp", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
@@ -418,7 +418,7 @@ namespace InfX {
       consumerKey_ = other.consumerKey_;
       consumerSecret_ = other.consumerSecret_;
       clientId_ = other.clientId_;
-      native_ = other.native_;
+      nativeAuth_ = other.nativeAuth_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -590,17 +590,17 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "native" field.</summary>
-    public const int NativeFieldNumber = 13;
-    private string native_ = "";
+    /// <summary>Field number for the "nativeAuth" field.</summary>
+    public const int NativeAuthFieldNumber = 13;
+    private string nativeAuth_ = "";
     /// <summary>
     /// / Request settings
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Native {
-      get { return native_; }
+    public string NativeAuth {
+      get { return nativeAuth_; }
       set {
-        native_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        nativeAuth_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -630,7 +630,7 @@ namespace InfX {
       if (ConsumerKey != other.ConsumerKey) return false;
       if (ConsumerSecret != other.ConsumerSecret) return false;
       if (ClientId != other.ClientId) return false;
-      if (Native != other.Native) return false;
+      if (NativeAuth != other.NativeAuth) return false;
       return true;
     }
 
@@ -650,7 +650,7 @@ namespace InfX {
       if (ConsumerKey.Length != 0) hash ^= ConsumerKey.GetHashCode();
       if (ConsumerSecret.Length != 0) hash ^= ConsumerSecret.GetHashCode();
       if (ClientId.Length != 0) hash ^= ClientId.GetHashCode();
-      if (Native.Length != 0) hash ^= Native.GetHashCode();
+      if (NativeAuth.Length != 0) hash ^= NativeAuth.GetHashCode();
       return hash;
     }
 
@@ -709,9 +709,9 @@ namespace InfX {
         output.WriteRawTag(98);
         output.WriteString(ClientId);
       }
-      if (Native.Length != 0) {
+      if (NativeAuth.Length != 0) {
         output.WriteRawTag(106);
-        output.WriteString(Native);
+        output.WriteString(NativeAuth);
       }
       if (FontAwesomeBrand != 0) {
         output.WriteRawTag(112);
@@ -761,8 +761,8 @@ namespace InfX {
       if (ClientId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ClientId);
       }
-      if (Native.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Native);
+      if (NativeAuth.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(NativeAuth);
       }
       return size;
     }
@@ -811,8 +811,8 @@ namespace InfX {
       if (other.ClientId.Length != 0) {
         ClientId = other.ClientId;
       }
-      if (other.Native.Length != 0) {
-        Native = other.Native;
+      if (other.NativeAuth.Length != 0) {
+        NativeAuth = other.NativeAuth;
       }
     }
 
@@ -873,7 +873,7 @@ namespace InfX {
             break;
           }
           case 106: {
-            Native = input.ReadString();
+            NativeAuth = input.ReadString();
             break;
           }
           case 112: {
