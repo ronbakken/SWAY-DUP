@@ -9,6 +9,8 @@ import 'dart:core' show int, bool, double, String, List, override;
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart';
 
+import 'inf.pbenum.dart';
+
 export 'inf.pbenum.dart';
 
 class ConfigSubCategories extends GeneratedMessage {
@@ -593,35 +595,386 @@ class DataChat extends GeneratedMessage {
 
 class _ReadonlyDataChat extends DataChat with ReadonlyMessageMixin {}
 
-class NetResRejected extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetResRejected')
-    ..aOS(1, 'rejectReason')
+class DataSocialMedia extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('DataSocialMedia')
+    ..aOB(1, 'connected')
+    ..a<int>(2, 'followers', PbFieldType.O3)
+    ..a<int>(3, 'following', PbFieldType.O3)
+    ..aOS(4, 'userName')
+    ..aOS(5, 'displayName')
     ..hasRequiredFields = false
   ;
 
-  NetResRejected() : super();
-  NetResRejected.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetResRejected.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NetResRejected clone() => new NetResRejected()..mergeFromMessage(this);
+  DataSocialMedia() : super();
+  DataSocialMedia.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  DataSocialMedia.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataSocialMedia clone() => new DataSocialMedia()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetResRejected create() => new NetResRejected();
-  static PbList<NetResRejected> createRepeated() => new PbList<NetResRejected>();
-  static NetResRejected getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetResRejected();
+  static DataSocialMedia create() => new DataSocialMedia();
+  static PbList<DataSocialMedia> createRepeated() => new PbList<DataSocialMedia>();
+  static DataSocialMedia getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataSocialMedia();
     return _defaultInstance;
   }
-  static NetResRejected _defaultInstance;
-  static void $checkItem(NetResRejected v) {
-    if (v is! NetResRejected) checkItemFailed(v, 'NetResRejected');
+  static DataSocialMedia _defaultInstance;
+  static void $checkItem(DataSocialMedia v) {
+    if (v is! DataSocialMedia) checkItemFailed(v, 'DataSocialMedia');
   }
 
-  String get rejectReason => $_getS(0, '');
-  set rejectReason(String v) { $_setString(0, v); }
-  bool hasRejectReason() => $_has(0);
-  void clearRejectReason() => clearField(1);
+  bool get connected => $_get(0, false);
+  set connected(bool v) { $_setBool(0, v); }
+  bool hasConnected() => $_has(0);
+  void clearConnected() => clearField(1);
+
+  int get followers => $_get(1, 0);
+  set followers(int v) { $_setSignedInt32(1, v); }
+  bool hasFollowers() => $_has(1);
+  void clearFollowers() => clearField(2);
+
+  int get following => $_get(2, 0);
+  set following(int v) { $_setSignedInt32(2, v); }
+  bool hasFollowing() => $_has(2);
+  void clearFollowing() => clearField(3);
+
+  String get userName => $_getS(3, '');
+  set userName(String v) { $_setString(3, v); }
+  bool hasUserName() => $_has(3);
+  void clearUserName() => clearField(4);
+
+  String get displayName => $_getS(4, '');
+  set displayName(String v) { $_setString(4, v); }
+  bool hasDisplayName() => $_has(4);
+  void clearDisplayName() => clearField(5);
 }
 
-class _ReadonlyNetResRejected extends NetResRejected with ReadonlyMessageMixin {}
+class _ReadonlyDataSocialMedia extends DataSocialMedia with ReadonlyMessageMixin {}
+
+class NetDeviceAuthCreateReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthCreateReq')
+    ..a<List<int>>(1, 'pubKey', PbFieldType.OY)
+    ..aOS(2, 'name')
+    ..aOS(3, 'info')
+    ..hasRequiredFields = false
+  ;
+
+  NetDeviceAuthCreateReq() : super();
+  NetDeviceAuthCreateReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetDeviceAuthCreateReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetDeviceAuthCreateReq clone() => new NetDeviceAuthCreateReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetDeviceAuthCreateReq create() => new NetDeviceAuthCreateReq();
+  static PbList<NetDeviceAuthCreateReq> createRepeated() => new PbList<NetDeviceAuthCreateReq>();
+  static NetDeviceAuthCreateReq getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetDeviceAuthCreateReq();
+    return _defaultInstance;
+  }
+  static NetDeviceAuthCreateReq _defaultInstance;
+  static void $checkItem(NetDeviceAuthCreateReq v) {
+    if (v is! NetDeviceAuthCreateReq) checkItemFailed(v, 'NetDeviceAuthCreateReq');
+  }
+
+  List<int> get pubKey => $_getN(0);
+  set pubKey(List<int> v) { $_setBytes(0, v); }
+  bool hasPubKey() => $_has(0);
+  void clearPubKey() => clearField(1);
+
+  String get name => $_getS(1, '');
+  set name(String v) { $_setString(1, v); }
+  bool hasName() => $_has(1);
+  void clearName() => clearField(2);
+
+  String get info => $_getS(2, '');
+  set info(String v) { $_setString(2, v); }
+  bool hasInfo() => $_has(2);
+  void clearInfo() => clearField(3);
+}
+
+class _ReadonlyNetDeviceAuthCreateReq extends NetDeviceAuthCreateReq with ReadonlyMessageMixin {}
+
+class NetDeviceAuthChallengeReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthChallengeReq')
+    ..a<int>(1, 'deviceId', PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  NetDeviceAuthChallengeReq() : super();
+  NetDeviceAuthChallengeReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetDeviceAuthChallengeReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetDeviceAuthChallengeReq clone() => new NetDeviceAuthChallengeReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetDeviceAuthChallengeReq create() => new NetDeviceAuthChallengeReq();
+  static PbList<NetDeviceAuthChallengeReq> createRepeated() => new PbList<NetDeviceAuthChallengeReq>();
+  static NetDeviceAuthChallengeReq getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetDeviceAuthChallengeReq();
+    return _defaultInstance;
+  }
+  static NetDeviceAuthChallengeReq _defaultInstance;
+  static void $checkItem(NetDeviceAuthChallengeReq v) {
+    if (v is! NetDeviceAuthChallengeReq) checkItemFailed(v, 'NetDeviceAuthChallengeReq');
+  }
+
+  int get deviceId => $_get(0, 0);
+  set deviceId(int v) { $_setSignedInt32(0, v); }
+  bool hasDeviceId() => $_has(0);
+  void clearDeviceId() => clearField(1);
+}
+
+class _ReadonlyNetDeviceAuthChallengeReq extends NetDeviceAuthChallengeReq with ReadonlyMessageMixin {}
+
+class NetDeviceAuthChallengeResReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthChallengeResReq')
+    ..a<List<int>>(1, 'challenge', PbFieldType.OY)
+    ..hasRequiredFields = false
+  ;
+
+  NetDeviceAuthChallengeResReq() : super();
+  NetDeviceAuthChallengeResReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetDeviceAuthChallengeResReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetDeviceAuthChallengeResReq clone() => new NetDeviceAuthChallengeResReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetDeviceAuthChallengeResReq create() => new NetDeviceAuthChallengeResReq();
+  static PbList<NetDeviceAuthChallengeResReq> createRepeated() => new PbList<NetDeviceAuthChallengeResReq>();
+  static NetDeviceAuthChallengeResReq getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetDeviceAuthChallengeResReq();
+    return _defaultInstance;
+  }
+  static NetDeviceAuthChallengeResReq _defaultInstance;
+  static void $checkItem(NetDeviceAuthChallengeResReq v) {
+    if (v is! NetDeviceAuthChallengeResReq) checkItemFailed(v, 'NetDeviceAuthChallengeResReq');
+  }
+
+  List<int> get challenge => $_getN(0);
+  set challenge(List<int> v) { $_setBytes(0, v); }
+  bool hasChallenge() => $_has(0);
+  void clearChallenge() => clearField(1);
+}
+
+class _ReadonlyNetDeviceAuthChallengeResReq extends NetDeviceAuthChallengeResReq with ReadonlyMessageMixin {}
+
+class NetDeviceAuthSignatureResReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthSignatureResReq')
+    ..a<List<int>>(1, 'signature', PbFieldType.OY)
+    ..hasRequiredFields = false
+  ;
+
+  NetDeviceAuthSignatureResReq() : super();
+  NetDeviceAuthSignatureResReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetDeviceAuthSignatureResReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetDeviceAuthSignatureResReq clone() => new NetDeviceAuthSignatureResReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetDeviceAuthSignatureResReq create() => new NetDeviceAuthSignatureResReq();
+  static PbList<NetDeviceAuthSignatureResReq> createRepeated() => new PbList<NetDeviceAuthSignatureResReq>();
+  static NetDeviceAuthSignatureResReq getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetDeviceAuthSignatureResReq();
+    return _defaultInstance;
+  }
+  static NetDeviceAuthSignatureResReq _defaultInstance;
+  static void $checkItem(NetDeviceAuthSignatureResReq v) {
+    if (v is! NetDeviceAuthSignatureResReq) checkItemFailed(v, 'NetDeviceAuthSignatureResReq');
+  }
+
+  List<int> get signature => $_getN(0);
+  set signature(List<int> v) { $_setBytes(0, v); }
+  bool hasSignature() => $_has(0);
+  void clearSignature() => clearField(1);
+}
+
+class _ReadonlyNetDeviceAuthSignatureResReq extends NetDeviceAuthSignatureResReq with ReadonlyMessageMixin {}
+
+class NetDeviceAuthState extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthState')
+    ..a<int>(1, 'deviceId', PbFieldType.O3)
+    ..a<int>(2, 'accountId', PbFieldType.O3)
+    ..e<AccountType>(3, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN, AccountType.valueOf, AccountType.values)
+    ..e<GlobalAccountState>(4, 'globalAccountState', PbFieldType.OE, GlobalAccountState.GAS_INITIALIZE, GlobalAccountState.valueOf, GlobalAccountState.values)
+    ..e<GlobalAccountStateReason>(5, 'globalAccountStateReason', PbFieldType.OE, GlobalAccountStateReason.GASR_NEW_ACCOUNT, GlobalAccountStateReason.valueOf, GlobalAccountStateReason.values)
+    ..pp<DataSocialMedia>(6, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
+    ..hasRequiredFields = false
+  ;
+
+  NetDeviceAuthState() : super();
+  NetDeviceAuthState.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetDeviceAuthState.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetDeviceAuthState clone() => new NetDeviceAuthState()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetDeviceAuthState create() => new NetDeviceAuthState();
+  static PbList<NetDeviceAuthState> createRepeated() => new PbList<NetDeviceAuthState>();
+  static NetDeviceAuthState getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetDeviceAuthState();
+    return _defaultInstance;
+  }
+  static NetDeviceAuthState _defaultInstance;
+  static void $checkItem(NetDeviceAuthState v) {
+    if (v is! NetDeviceAuthState) checkItemFailed(v, 'NetDeviceAuthState');
+  }
+
+  int get deviceId => $_get(0, 0);
+  set deviceId(int v) { $_setSignedInt32(0, v); }
+  bool hasDeviceId() => $_has(0);
+  void clearDeviceId() => clearField(1);
+
+  int get accountId => $_get(1, 0);
+  set accountId(int v) { $_setSignedInt32(1, v); }
+  bool hasAccountId() => $_has(1);
+  void clearAccountId() => clearField(2);
+
+  AccountType get accountType => $_getN(2);
+  set accountType(AccountType v) { setField(3, v); }
+  bool hasAccountType() => $_has(2);
+  void clearAccountType() => clearField(3);
+
+  GlobalAccountState get globalAccountState => $_getN(3);
+  set globalAccountState(GlobalAccountState v) { setField(4, v); }
+  bool hasGlobalAccountState() => $_has(3);
+  void clearGlobalAccountState() => clearField(4);
+
+  GlobalAccountStateReason get globalAccountStateReason => $_getN(4);
+  set globalAccountStateReason(GlobalAccountStateReason v) { setField(5, v); }
+  bool hasGlobalAccountStateReason() => $_has(4);
+  void clearGlobalAccountStateReason() => clearField(5);
+
+  List<DataSocialMedia> get socialMedia => $_getList(5);
+}
+
+class _ReadonlyNetDeviceAuthState extends NetDeviceAuthState with ReadonlyMessageMixin {}
+
+class NetSetAccountType extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetSetAccountType')
+    ..e<AccountType>(1, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN, AccountType.valueOf, AccountType.values)
+    ..hasRequiredFields = false
+  ;
+
+  NetSetAccountType() : super();
+  NetSetAccountType.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetSetAccountType.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetSetAccountType clone() => new NetSetAccountType()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetSetAccountType create() => new NetSetAccountType();
+  static PbList<NetSetAccountType> createRepeated() => new PbList<NetSetAccountType>();
+  static NetSetAccountType getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetSetAccountType();
+    return _defaultInstance;
+  }
+  static NetSetAccountType _defaultInstance;
+  static void $checkItem(NetSetAccountType v) {
+    if (v is! NetSetAccountType) checkItemFailed(v, 'NetSetAccountType');
+  }
+
+  AccountType get accountType => $_getN(0);
+  set accountType(AccountType v) { setField(1, v); }
+  bool hasAccountType() => $_has(0);
+  void clearAccountType() => clearField(1);
+}
+
+class _ReadonlyNetSetAccountType extends NetSetAccountType with ReadonlyMessageMixin {}
+
+class NetOAuthConnectReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetOAuthConnectReq')
+    ..a<int>(1, 'oauthProvider', PbFieldType.O3)
+    ..aOS(2, 'oauthSignature')
+    ..hasRequiredFields = false
+  ;
+
+  NetOAuthConnectReq() : super();
+  NetOAuthConnectReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetOAuthConnectReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetOAuthConnectReq clone() => new NetOAuthConnectReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetOAuthConnectReq create() => new NetOAuthConnectReq();
+  static PbList<NetOAuthConnectReq> createRepeated() => new PbList<NetOAuthConnectReq>();
+  static NetOAuthConnectReq getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetOAuthConnectReq();
+    return _defaultInstance;
+  }
+  static NetOAuthConnectReq _defaultInstance;
+  static void $checkItem(NetOAuthConnectReq v) {
+    if (v is! NetOAuthConnectReq) checkItemFailed(v, 'NetOAuthConnectReq');
+  }
+
+  int get oauthProvider => $_get(0, 0);
+  set oauthProvider(int v) { $_setSignedInt32(0, v); }
+  bool hasOauthProvider() => $_has(0);
+  void clearOauthProvider() => clearField(1);
+
+  String get oauthSignature => $_getS(1, '');
+  set oauthSignature(String v) { $_setString(1, v); }
+  bool hasOauthSignature() => $_has(1);
+  void clearOauthSignature() => clearField(2);
+}
+
+class _ReadonlyNetOAuthConnectReq extends NetOAuthConnectReq with ReadonlyMessageMixin {}
+
+class NetOAuthConnectRes extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetOAuthConnectRes')
+    ..a<DataSocialMedia>(1, 'socialMedia', PbFieldType.OM, DataSocialMedia.getDefault, DataSocialMedia.create)
+    ..hasRequiredFields = false
+  ;
+
+  NetOAuthConnectRes() : super();
+  NetOAuthConnectRes.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetOAuthConnectRes.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetOAuthConnectRes clone() => new NetOAuthConnectRes()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetOAuthConnectRes create() => new NetOAuthConnectRes();
+  static PbList<NetOAuthConnectRes> createRepeated() => new PbList<NetOAuthConnectRes>();
+  static NetOAuthConnectRes getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetOAuthConnectRes();
+    return _defaultInstance;
+  }
+  static NetOAuthConnectRes _defaultInstance;
+  static void $checkItem(NetOAuthConnectRes v) {
+    if (v is! NetOAuthConnectRes) checkItemFailed(v, 'NetOAuthConnectRes');
+  }
+
+  DataSocialMedia get socialMedia => $_getN(0);
+  set socialMedia(DataSocialMedia v) { setField(1, v); }
+  bool hasSocialMedia() => $_has(0);
+  void clearSocialMedia() => clearField(1);
+}
+
+class _ReadonlyNetOAuthConnectRes extends NetOAuthConnectRes with ReadonlyMessageMixin {}
+
+class NetAccountCreateReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetAccountCreateReq')
+    ..aOS(1, 'name')
+    ..a<double>(2, 'lat', PbFieldType.OF)
+    ..a<double>(3, 'lng', PbFieldType.OF)
+    ..hasRequiredFields = false
+  ;
+
+  NetAccountCreateReq() : super();
+  NetAccountCreateReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetAccountCreateReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetAccountCreateReq clone() => new NetAccountCreateReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetAccountCreateReq create() => new NetAccountCreateReq();
+  static PbList<NetAccountCreateReq> createRepeated() => new PbList<NetAccountCreateReq>();
+  static NetAccountCreateReq getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetAccountCreateReq();
+    return _defaultInstance;
+  }
+  static NetAccountCreateReq _defaultInstance;
+  static void $checkItem(NetAccountCreateReq v) {
+    if (v is! NetAccountCreateReq) checkItemFailed(v, 'NetAccountCreateReq');
+  }
+
+  String get name => $_getS(0, '');
+  set name(String v) { $_setString(0, v); }
+  bool hasName() => $_has(0);
+  void clearName() => clearField(1);
+
+  double get lat => $_getN(1);
+  set lat(double v) { $_setFloat(1, v); }
+  bool hasLat() => $_has(1);
+  void clearLat() => clearField(2);
+
+  double get lng => $_getN(2);
+  set lng(double v) { $_setFloat(2, v); }
+  bool hasLng() => $_has(2);
+  void clearLng() => clearField(3);
+}
+
+class _ReadonlyNetAccountCreateReq extends NetAccountCreateReq with ReadonlyMessageMixin {}
 
 class NetReqImageUpload extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetReqImageUpload')
