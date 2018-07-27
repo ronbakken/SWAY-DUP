@@ -5,6 +5,7 @@
 
 import 'dart:io';
 import 'dart:async';
+import 'dart:fixnum';
 
 import 'dart:typed_data';
 import "package:ini/ini.dart" as ini;
