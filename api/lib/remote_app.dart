@@ -50,13 +50,13 @@ class RemoteApp {
         sqljocky.RetainedConnection connection = await sql.getConnection();
         try {
           // Create a new device in the devices table of the database
-          /*sqljocky.Results insert = */ await connection.prepareExecute(
+          await connection.prepareExecute(
             "INSERT INTO `devices` (`aes_key`, `name`, `info`) VALUES (?, ?, ?)", 
-            [ pb.pubKey, pb.name, pb.info ]);
+            [ pb.aesKey, pb.name, pb.info ]);
           sqljocky.Results lastInsertedId = await connection.query("SELECT LAST_INSERT_ID()");
           await for (sqljocky.Row row in lastInsertedId) {
             deviceId = row[0];
-            print("Inserted device_id $deviceId with pub_key '${pb.pubKey}'");
+            print("Inserted device_id $deviceId with aes_key '${pb.aesKey}'");
           }
         } catch (ex) {
           print("Failed to create device:");
