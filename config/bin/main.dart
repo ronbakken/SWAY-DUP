@@ -5,10 +5,10 @@
 
 import 'dart:io';
 import 'dart:async';
-import 'dart:fixnum';
 
 import 'dart:typed_data';
 import "package:ini/ini.dart" as ini;
+import 'package:fixnum/fixnum.dart';
 
 // import 'package:config/config.dart' as config;
 import 'package:config/inf.pb.dart';
