@@ -21,6 +21,9 @@ import 'dart:async';
 import 'package:api/inf.pb.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 // import 'package:postgres/postgres.dart' as postgres;
+import 'package:wstalk/wstalk.dart';
+
+import 'remote_app.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,12 +45,87 @@ selfTestSql(sqljocky.ConnectionPool sql) async { // ⚠️✔️❌🛑 // Emoji
   }
 }
 
+selfTestTalk() async {
+  TalkSocket ts;
+  try {
+    ts = await TalkSocket.connect("ws://localhost:9090/ws");
+    Future listen = ts.listen();
+    for (int i = 0; i < 3; ++i) {
+      await ts.ping();
+    }
+    ts.close();
+    await listen;
+    print("[✔️] WSTalk Self Test");
+  } catch (ex) {
+    print("[❌] WSTalk Self Test:");
+    print(ex);
+  }
+  if (ts != null) {
+    ts.close();
+  }
+}
+
 run() async {
+  // Run SQL client
   sqljocky.ConnectionPool sql = new sqljocky.ConnectionPool(
     host: 'mariadb.devinf.net', port: 3306,
     user: 'devinf', password: 'fCaxEcbE7YrOJ7YY',
     db: 'inf', max: 5);
   selfTestSql(sql);
+
+  // Listen to websocket
+  HttpServer server = await HttpServer.bind('127.0.0.1', 9090);
+  () async {
+    await for (HttpRequest request in server) {
+      if (request.uri.path == '/ws') {
+        // Upgrade to WSTalk socket
+        TalkSocket ts;
+        try {
+          WebSocket ws = await WebSocketTransformer.upgrade(request);
+          ts = new TalkSocket(ws);
+          RemoteApp remoteApp;
+          ts.stream(TalkSocket.encode("INFAPP")).listen((TalkMessage message) {
+            if (remoteApp == null) {
+              remoteApp = new RemoteApp(sql, ts);
+            }
+          });
+          // Listen
+          () async {
+            try {
+              await ts.listen(); // Any exception will ultimately fall down to here
+            } catch (ex) {
+              print("Exception from remote app:");
+              print(ex);
+            }
+            ts.close();
+            if (remoteApp != null) {
+              remoteApp.close();
+              remoteApp = null;
+            }
+          }();
+        } catch (ex) {
+          print("Exception from incoming connection:");
+          print(ex);
+          ts.close();
+        }
+      } else {
+        try {
+          request.response.statusCode = HttpStatus.FORBIDDEN;
+          request.response.close();
+        } catch (ex) {
+          print("Exception responding to invalid request:");
+          print(ex);
+        }
+      }
+    }
+    print("Server exited");
+  }();
+  selfTestTalk();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 /*
   var results = await pool.query('SELECT name FROM business_accounts');
@@ -61,10 +139,5 @@ run() async {
     
   });
   */
-}
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 
 /* end of file */

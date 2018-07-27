@@ -11,7 +11,8 @@ dependencies:
   protobuf: ^0.7.2
   sqljocky5: # ^1.0.0
     path: ../sqljocky5/
-#  postgres: ^1.0.0-beta.1
+  wstalk:
+    path: ../wstalk/
 
 dev_dependencies:
   test: ^1.0.0
