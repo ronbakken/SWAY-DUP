@@ -38,14 +38,6 @@ const GlobalAccountStateReason$json = const {
   ],
 };
 
-const NetMessageType$json = const {
-  '1': 'NetMessageType',
-  '2': const [
-    const {'1': 'NMT_UNKNOWN', '2': 0},
-    const {'1': 'NMT_CLIENT_IDENTIFY', '2': 1},
-  ],
-};
-
 const ConfigSubCategories$json = const {
   '1': 'ConfigSubCategories',
   '2': const [
@@ -169,10 +161,87 @@ const DataChat$json = const {
   ],
 };
 
-const NetResRejected$json = const {
-  '1': 'NetResRejected',
+const DataSocialMedia$json = const {
+  '1': 'DataSocialMedia',
   '2': const [
-    const {'1': 'rejectReason', '3': 1, '4': 1, '5': 9, '10': 'rejectReason'},
+    const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
+    const {'1': 'followers', '3': 2, '4': 1, '5': 5, '10': 'followers'},
+    const {'1': 'following', '3': 3, '4': 1, '5': 5, '10': 'following'},
+    const {'1': 'userName', '3': 4, '4': 1, '5': 9, '10': 'userName'},
+    const {'1': 'displayName', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
+  ],
+};
+
+const NetDeviceAuthCreateReq$json = const {
+  '1': 'NetDeviceAuthCreateReq',
+  '2': const [
+    const {'1': 'pubKey', '3': 1, '4': 1, '5': 12, '10': 'pubKey'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'info', '3': 3, '4': 1, '5': 9, '10': 'info'},
+  ],
+};
+
+const NetDeviceAuthChallengeReq$json = const {
+  '1': 'NetDeviceAuthChallengeReq',
+  '2': const [
+    const {'1': 'deviceId', '3': 1, '4': 1, '5': 5, '10': 'deviceId'},
+  ],
+};
+
+const NetDeviceAuthChallengeResReq$json = const {
+  '1': 'NetDeviceAuthChallengeResReq',
+  '2': const [
+    const {'1': 'challenge', '3': 1, '4': 1, '5': 12, '10': 'challenge'},
+  ],
+};
+
+const NetDeviceAuthSignatureResReq$json = const {
+  '1': 'NetDeviceAuthSignatureResReq',
+  '2': const [
+    const {'1': 'signature', '3': 1, '4': 1, '5': 12, '10': 'signature'},
+  ],
+};
+
+const NetDeviceAuthState$json = const {
+  '1': 'NetDeviceAuthState',
+  '2': const [
+    const {'1': 'deviceId', '3': 1, '4': 1, '5': 5, '10': 'deviceId'},
+    const {'1': 'accountId', '3': 2, '4': 1, '5': 5, '10': 'accountId'},
+    const {'1': 'accountType', '3': 3, '4': 1, '5': 14, '6': '.AccountType', '10': 'accountType'},
+    const {'1': 'globalAccountState', '3': 4, '4': 1, '5': 14, '6': '.GlobalAccountState', '10': 'globalAccountState'},
+    const {'1': 'globalAccountStateReason', '3': 5, '4': 1, '5': 14, '6': '.GlobalAccountStateReason', '10': 'globalAccountStateReason'},
+    const {'1': 'socialMedia', '3': 6, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
+  ],
+};
+
+const NetSetAccountType$json = const {
+  '1': 'NetSetAccountType',
+  '2': const [
+    const {'1': 'accountType', '3': 1, '4': 1, '5': 14, '6': '.AccountType', '10': 'accountType'},
+  ],
+};
+
+const NetOAuthConnectReq$json = const {
+  '1': 'NetOAuthConnectReq',
+  '2': const [
+    const {'1': 'oauthProvider', '3': 1, '4': 1, '5': 5, '10': 'oauthProvider'},
+    const {'1': 'oauthSignature', '3': 2, '4': 1, '5': 9, '10': 'oauthSignature'},
+  ],
+};
+
+const NetOAuthConnectRes$json = const {
+  '1': 'NetOAuthConnectRes',
+  '2': const [
+    const {'1': 'socialMedia', '3': 1, '4': 1, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
+  ],
+};
+
+const NetAccountCreateReq$json = const {
+  '1': 'NetAccountCreateReq',
+  '2': const [
+    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'lat', '3': 2, '4': 1, '5': 2, '10': 'lat'},
+    const {'1': 'lng', '3': 3, '4': 1, '5': 2, '10': 'lng'},
   ],
 };
 
