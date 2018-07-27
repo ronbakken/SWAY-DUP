@@ -205,8 +205,8 @@ message DataSocialState {
 // Name: DA_CREAT
 // Response: NetDeviceAuthState
 message NetDeviceAuthCreateReq {
-  // Public key for future authentication (RSA)
-  bytes pubKey = 1;
+  // Public key for future authentication (AES-256)
+  bytes aesKey = 1;
   
   // Device information for developers
   string name = 2;
