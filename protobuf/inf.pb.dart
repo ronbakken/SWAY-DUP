@@ -651,7 +651,7 @@ class _ReadonlyDataSocialMedia extends DataSocialMedia with ReadonlyMessageMixin
 
 class NetDeviceAuthCreateReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthCreateReq')
-    ..a<List<int>>(1, 'pubKey', PbFieldType.OY)
+    ..a<List<int>>(1, 'aesKey', PbFieldType.OY)
     ..aOS(2, 'name')
     ..aOS(3, 'info')
     ..hasRequiredFields = false
@@ -673,10 +673,10 @@ class NetDeviceAuthCreateReq extends GeneratedMessage {
     if (v is! NetDeviceAuthCreateReq) checkItemFailed(v, 'NetDeviceAuthCreateReq');
   }
 
-  List<int> get pubKey => $_getN(0);
-  set pubKey(List<int> v) { $_setBytes(0, v); }
-  bool hasPubKey() => $_has(0);
-  void clearPubKey() => clearField(1);
+  List<int> get aesKey => $_getN(0);
+  set aesKey(List<int> v) { $_setBytes(0, v); }
+  bool hasAesKey() => $_has(0);
+  void clearAesKey() => clearField(1);
 
   String get name => $_getS(1, '');
   set name(String v) { $_setString(1, v); }

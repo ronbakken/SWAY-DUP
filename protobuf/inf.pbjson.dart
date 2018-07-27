@@ -175,7 +175,7 @@ const DataSocialMedia$json = const {
 const NetDeviceAuthCreateReq$json = const {
   '1': 'NetDeviceAuthCreateReq',
   '2': const [
-    const {'1': 'pubKey', '3': 1, '4': 1, '5': 12, '10': 'pubKey'},
+    const {'1': 'aesKey', '3': 1, '4': 1, '5': 12, '10': 'aesKey'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'info', '3': 3, '4': 1, '5': 9, '10': 'info'},
   ],

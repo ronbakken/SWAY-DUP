@@ -55,7 +55,7 @@ namespace InfX {
             "GAQgASgIEgwKBHRleHQYBSABKAkicQoPRGF0YVNvY2lhbE1lZGlhEhEKCWNv",
             "bm5lY3RlZBgBIAEoCBIRCglmb2xsb3dlcnMYAiABKAUSEQoJZm9sbG93aW5n",
             "GAMgASgFEhAKCHVzZXJOYW1lGAQgASgJEhMKC2Rpc3BsYXlOYW1lGAUgASgJ",
-            "IkQKFk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoGcHViS2V5GAEgASgMEgwK",
+            "IkQKFk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoGYWVzS2V5GAEgASgMEgwK",
             "BG5hbWUYAiABKAkSDAoEaW5mbxgDIAEoCSItChlOZXREZXZpY2VBdXRoQ2hh",
             "bGxlbmdlUmVxEhAKCGRldmljZUlkGAEgASgFIjEKHE5ldERldmljZUF1dGhD",
             "aGFsbGVuZ2VSZXNSZXESEQoJY2hhbGxlbmdlGAEgASgMIjEKHE5ldERldmlj",
@@ -104,7 +104,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "Id", "Offer", "Influencer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Followers", "Following", "UserName", "DisplayName" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "PubKey", "Name", "Info" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeResReq), global::InfX.NetDeviceAuthChallengeResReq.Parser, new[]{ "Challenge" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthSignatureResReq), global::InfX.NetDeviceAuthSignatureResReq.Parser, new[]{ "Signature" }, null, null, null),
@@ -3041,7 +3041,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetDeviceAuthCreateReq(NetDeviceAuthCreateReq other) : this() {
-      pubKey_ = other.pubKey_;
+      aesKey_ = other.aesKey_;
       name_ = other.name_;
       info_ = other.info_;
     }
@@ -3051,17 +3051,17 @@ namespace InfX {
       return new NetDeviceAuthCreateReq(this);
     }
 
-    /// <summary>Field number for the "pubKey" field.</summary>
-    public const int PubKeyFieldNumber = 1;
-    private pb::ByteString pubKey_ = pb::ByteString.Empty;
+    /// <summary>Field number for the "aesKey" field.</summary>
+    public const int AesKeyFieldNumber = 1;
+    private pb::ByteString aesKey_ = pb::ByteString.Empty;
     /// <summary>
-    ///  Public key for future authentication (RSA)
+    ///  Public key for future authentication (AES-256)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString PubKey {
-      get { return pubKey_; }
+    public pb::ByteString AesKey {
+      get { return aesKey_; }
       set {
-        pubKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        aesKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -3103,7 +3103,7 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (PubKey != other.PubKey) return false;
+      if (AesKey != other.AesKey) return false;
       if (Name != other.Name) return false;
       if (Info != other.Info) return false;
       return true;
@@ -3112,7 +3112,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (PubKey.Length != 0) hash ^= PubKey.GetHashCode();
+      if (AesKey.Length != 0) hash ^= AesKey.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Info.Length != 0) hash ^= Info.GetHashCode();
       return hash;
@@ -3125,9 +3125,9 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (PubKey.Length != 0) {
+      if (AesKey.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteBytes(PubKey);
+        output.WriteBytes(AesKey);
       }
       if (Name.Length != 0) {
         output.WriteRawTag(18);
@@ -3142,8 +3142,8 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (PubKey.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(PubKey);
+      if (AesKey.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(AesKey);
       }
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -3159,8 +3159,8 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.PubKey.Length != 0) {
-        PubKey = other.PubKey;
+      if (other.AesKey.Length != 0) {
+        AesKey = other.AesKey;
       }
       if (other.Name.Length != 0) {
         Name = other.Name;
@@ -3179,7 +3179,7 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 10: {
-            PubKey = input.ReadBytes();
+            AesKey = input.ReadBytes();
             break;
           }
           case 18: {
