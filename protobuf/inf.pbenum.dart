@@ -83,21 +83,3 @@ class GlobalAccountStateReason extends ProtobufEnum {
   const GlobalAccountStateReason._(int v, String n) : super(v, n);
 }
 
-class NetMessageType extends ProtobufEnum {
-  static const NetMessageType NMT_UNKNOWN = const NetMessageType._(0, 'NMT_UNKNOWN');
-  static const NetMessageType NMT_CLIENT_IDENTIFY = const NetMessageType._(1, 'NMT_CLIENT_IDENTIFY');
-
-  static const List<NetMessageType> values = const <NetMessageType> [
-    NMT_UNKNOWN,
-    NMT_CLIENT_IDENTIFY,
-  ];
-
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static NetMessageType valueOf(int value) => _byValue[value] as NetMessageType;
-  static void $checkItem(NetMessageType v) {
-    if (v is! NetMessageType) checkItemFailed(v, 'NetMessageType');
-  }
-
-  const NetMessageType._(int v, String n) : super(v, n);
-}
-

@@ -52,30 +52,46 @@ namespace InfX {
             "GAIgASgLMgouRGF0YU9mZmVyEiMKCmluZmx1ZW5jZXIYAyABKAsyDy5EYXRh",
             "SW5mbHVlbmNlciJiCghEYXRhQ2hhdBITCgthcHBsaWNhbnRJZBgBIAEoAxIS",
             "CgpzZXF1ZW5jZUlkGAIgASgDEg0KBWtleUlkGAMgASgDEhAKCG91dGdvaW5n",
-            "GAQgASgIEgwKBHRleHQYBSABKAkiJgoOTmV0UmVzUmVqZWN0ZWQSFAoMcmVq",
-            "ZWN0UmVhc29uGAEgASgJIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZpbGVO",
-            "YW1lGAEgASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEoCSLf",
-            "AQoRTmV0UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEoCRIS",
-            "CgpyZXF1ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMgASgJ",
-            "EhsKE2hlYWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9zdBgF",
-            "IAEoCRIWCg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16U3Rv",
-            "cmFnZUNsYXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCABKAki",
-            "QAoRTmV0UmVxQ3JlYXRlT2ZmZXISGQoFb2ZmZXIYASABKAsyCi5EYXRhT2Zm",
-            "ZXISEAoIaW1hZ2VJZHMYAiADKAkiHwoRTmV0UmVzQ3JlYXRlT2ZmZXISCgoC",
-            "aWQYASABKAMqQQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFU",
-            "X0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACKo8BChJHbG9iYWxBY2Nv",
-            "dW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tFRBAB",
-            "EhEKDUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklURRADEhEKDUdB",
-            "U19NT0RFUkFUT1IQBBINCglHQVNfQURNSU4QBRILCgdHQVNfR09EEAYqtQEK",
-            "GEdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5U",
-            "EAASFwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RF",
-            "TklFRBACEhEKDUdBU1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9W",
-            "RUQQBBIQCgxHQVNSX1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAG",
-            "KjoKDk5ldE1lc3NhZ2VUeXBlEg8KC05NVF9VTktOT1dOEAASFwoTTk1UX0NM",
-            "SUVOVF9JREVOVElGWRABQgeqAgRJbmZYYgZwcm90bzM="));
+            "GAQgASgIEgwKBHRleHQYBSABKAkicQoPRGF0YVNvY2lhbE1lZGlhEhEKCWNv",
+            "bm5lY3RlZBgBIAEoCBIRCglmb2xsb3dlcnMYAiABKAUSEQoJZm9sbG93aW5n",
+            "GAMgASgFEhAKCHVzZXJOYW1lGAQgASgJEhMKC2Rpc3BsYXlOYW1lGAUgASgJ",
+            "IkQKFk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoGcHViS2V5GAEgASgMEgwK",
+            "BG5hbWUYAiABKAkSDAoEaW5mbxgDIAEoCSItChlOZXREZXZpY2VBdXRoQ2hh",
+            "bGxlbmdlUmVxEhAKCGRldmljZUlkGAEgASgFIjEKHE5ldERldmljZUF1dGhD",
+            "aGFsbGVuZ2VSZXNSZXESEQoJY2hhbGxlbmdlGAEgASgMIjEKHE5ldERldmlj",
+            "ZUF1dGhTaWduYXR1cmVSZXNSZXESEQoJc2lnbmF0dXJlGAEgASgMIvEBChJO",
+            "ZXREZXZpY2VBdXRoU3RhdGUSEAoIZGV2aWNlSWQYASABKAUSEQoJYWNjb3Vu",
+            "dElkGAIgASgFEiEKC2FjY291bnRUeXBlGAMgASgOMgwuQWNjb3VudFR5cGUS",
+            "LwoSZ2xvYmFsQWNjb3VudFN0YXRlGAQgASgOMhMuR2xvYmFsQWNjb3VudFN0",
+            "YXRlEjsKGGdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhgFIAEoDjIZLkdsb2Jh",
+            "bEFjY291bnRTdGF0ZVJlYXNvbhIlCgtzb2NpYWxNZWRpYRgGIAMoCzIQLkRh",
+            "dGFTb2NpYWxNZWRpYSI2ChFOZXRTZXRBY2NvdW50VHlwZRIhCgthY2NvdW50",
+            "VHlwZRgBIAEoDjIMLkFjY291bnRUeXBlIkMKEk5ldE9BdXRoQ29ubmVjdFJl",
+            "cRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFEhYKDm9hdXRoU2lnbmF0dXJlGAIg",
+            "ASgJIjsKEk5ldE9BdXRoQ29ubmVjdFJlcxIlCgtzb2NpYWxNZWRpYRgBIAEo",
+            "CzIQLkRhdGFTb2NpYWxNZWRpYSI9ChNOZXRBY2NvdW50Q3JlYXRlUmVxEgwK",
+            "BG5hbWUYASABKAkSCwoDbGF0GAIgASgCEgsKA2xuZxgDIAEoAiJHChFOZXRS",
+            "ZXFJbWFnZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghmaWxlU2l6ZRgC",
+            "IAEoBRIOCgZzaGEyNTYYAyABKAki3wEKEU5ldFJlc0ltYWdlVXBsb2FkEhUK",
+            "DXJlcXVlc3RNZXRob2QYASABKAkSEgoKcmVxdWVzdFVybBgCIAEoCRIZChFo",
+            "ZWFkZXJDb250ZW50VHlwZRgDIAEoCRIbChNoZWFkZXJDb250ZW50TGVuZ3Ro",
+            "GAQgASgJEhIKCmhlYWRlckhvc3QYBSABKAkSFgoOaGVhZGVyWEFtekRhdGUY",
+            "BiABKAkSHgoWaGVhZGVyWEFtelN0b3JhZ2VDbGFzcxgHIAEoCRIbChNoZWFk",
+            "ZXJBdXRob3JpemF0aW9uGAggASgJIkAKEU5ldFJlcUNyZWF0ZU9mZmVyEhkK",
+            "BW9mZmVyGAEgASgLMgouRGF0YU9mZmVyEhAKCGltYWdlSWRzGAIgAygJIh8K",
+            "EU5ldFJlc0NyZWF0ZU9mZmVyEgoKAmlkGAEgASgDKkEKC0FjY291bnRUeXBl",
+            "Eg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVT",
+            "SU5FU1MQAiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
+            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
+            "R0FTX1JFQURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FE",
+            "TUlOEAUSCwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFz",
+            "b24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5O",
+            "RUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVE",
+            "EAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUS",
+            "FQoRR0FTUl9SRVFVSVJFX0lORk8QBkIHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NetMessageType), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "NativeAuth" }, null, null, null),
@@ -87,7 +103,16 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOffer), global::InfX.DataOffer.Parser, new[]{ "Id", "Business", "Title", "ImageUrls", "Categories", "Lat", "Lng", "Description", "Deliverables", "Reward" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "Id", "Offer", "Influencer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResRejected), global::InfX.NetResRejected.Parser, new[]{ "RejectReason" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Followers", "Following", "UserName", "DisplayName" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "PubKey", "Name", "Info" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeResReq), global::InfX.NetDeviceAuthChallengeResReq.Parser, new[]{ "Challenge" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthSignatureResReq), global::InfX.NetDeviceAuthSignatureResReq.Parser, new[]{ "Signature" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthState), global::InfX.NetDeviceAuthState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason", "SocialMedia" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetAccountType), global::InfX.NetSetAccountType.Parser, new[]{ "AccountType" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectReq), global::InfX.NetOAuthConnectReq.Parser, new[]{ "OauthProvider", "OauthSignature" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectRes), global::InfX.NetOAuthConnectRes.Parser, new[]{ "SocialMedia" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Name", "Lat", "Lng" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqImageUpload), global::InfX.NetReqImageUpload.Parser, new[]{ "FileName", "FileSize", "Sha256" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResImageUpload), global::InfX.NetResImageUpload.Parser, new[]{ "RequestMethod", "RequestUrl", "HeaderContentType", "HeaderContentLength", "HeaderHost", "HeaderXAmzDate", "HeaderXAmzStorageClass", "HeaderAuthorization" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Offer", "ImageIds" }, null, null, null),
@@ -150,14 +175,6 @@ namespace InfX {
     ///  More information is required from the user to approve their account
     /// </summary>
     [pbr::OriginalName("GASR_REQUIRE_INFO")] GasrRequireInfo = 6,
-  }
-
-  /// <summary>
-  ///  Type of message
-  /// </summary>
-  public enum NetMessageType {
-    [pbr::OriginalName("NMT_UNKNOWN")] NmtUnknown = 0,
-    [pbr::OriginalName("NMT_CLIENT_IDENTIFY")] NmtClientIdentify = 1,
   }
 
   #endregion
@@ -2766,13 +2783,10 @@ namespace InfX {
 
   }
 
-  /// <summary>
-  ///  Generic rejection
-  /// </summary>
-  public sealed partial class NetResRejected : pb::IMessage<NetResRejected> {
-    private static readonly pb::MessageParser<NetResRejected> _parser = new pb::MessageParser<NetResRejected>(() => new NetResRejected());
+  public sealed partial class DataSocialMedia : pb::IMessage<DataSocialMedia> {
+    private static readonly pb::MessageParser<DataSocialMedia> _parser = new pb::MessageParser<DataSocialMedia>(() => new DataSocialMedia());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetResRejected> Parser { get { return _parser; } }
+    public static pb::MessageParser<DataSocialMedia> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -2785,54 +2799,110 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResRejected() {
+    public DataSocialMedia() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResRejected(NetResRejected other) : this() {
-      rejectReason_ = other.rejectReason_;
+    public DataSocialMedia(DataSocialMedia other) : this() {
+      connected_ = other.connected_;
+      followers_ = other.followers_;
+      following_ = other.following_;
+      userName_ = other.userName_;
+      displayName_ = other.displayName_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResRejected Clone() {
-      return new NetResRejected(this);
+    public DataSocialMedia Clone() {
+      return new DataSocialMedia(this);
     }
 
-    /// <summary>Field number for the "rejectReason" field.</summary>
-    public const int RejectReasonFieldNumber = 1;
-    private string rejectReason_ = "";
+    /// <summary>Field number for the "connected" field.</summary>
+    public const int ConnectedFieldNumber = 1;
+    private bool connected_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string RejectReason {
-      get { return rejectReason_; }
+    public bool Connected {
+      get { return connected_; }
       set {
-        rejectReason_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        connected_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "followers" field.</summary>
+    public const int FollowersFieldNumber = 2;
+    private int followers_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Followers {
+      get { return followers_; }
+      set {
+        followers_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "following" field.</summary>
+    public const int FollowingFieldNumber = 3;
+    private int following_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Following {
+      get { return following_; }
+      set {
+        following_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "userName" field.</summary>
+    public const int UserNameFieldNumber = 4;
+    private string userName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string UserName {
+      get { return userName_; }
+      set {
+        userName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "displayName" field.</summary>
+    public const int DisplayNameFieldNumber = 5;
+    private string displayName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string DisplayName {
+      get { return displayName_; }
+      set {
+        displayName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as NetResRejected);
+      return Equals(other as DataSocialMedia);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetResRejected other) {
+    public bool Equals(DataSocialMedia other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (RejectReason != other.RejectReason) return false;
+      if (Connected != other.Connected) return false;
+      if (Followers != other.Followers) return false;
+      if (Following != other.Following) return false;
+      if (UserName != other.UserName) return false;
+      if (DisplayName != other.DisplayName) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RejectReason.Length != 0) hash ^= RejectReason.GetHashCode();
+      if (Connected != false) hash ^= Connected.GetHashCode();
+      if (Followers != 0) hash ^= Followers.GetHashCode();
+      if (Following != 0) hash ^= Following.GetHashCode();
+      if (UserName.Length != 0) hash ^= UserName.GetHashCode();
+      if (DisplayName.Length != 0) hash ^= DisplayName.GetHashCode();
       return hash;
     }
 
@@ -2843,28 +2913,260 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RejectReason.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(RejectReason);
+      if (Connected != false) {
+        output.WriteRawTag(8);
+        output.WriteBool(Connected);
+      }
+      if (Followers != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Followers);
+      }
+      if (Following != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Following);
+      }
+      if (UserName.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(UserName);
+      }
+      if (DisplayName.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(DisplayName);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RejectReason.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(RejectReason);
+      if (Connected != false) {
+        size += 1 + 1;
+      }
+      if (Followers != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Followers);
+      }
+      if (Following != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Following);
+      }
+      if (UserName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(UserName);
+      }
+      if (DisplayName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(DisplayName);
       }
       return size;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetResRejected other) {
+    public void MergeFrom(DataSocialMedia other) {
       if (other == null) {
         return;
       }
-      if (other.RejectReason.Length != 0) {
-        RejectReason = other.RejectReason;
+      if (other.Connected != false) {
+        Connected = other.Connected;
+      }
+      if (other.Followers != 0) {
+        Followers = other.Followers;
+      }
+      if (other.Following != 0) {
+        Following = other.Following;
+      }
+      if (other.UserName.Length != 0) {
+        UserName = other.UserName;
+      }
+      if (other.DisplayName.Length != 0) {
+        DisplayName = other.DisplayName;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            Connected = input.ReadBool();
+            break;
+          }
+          case 16: {
+            Followers = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            Following = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            UserName = input.ReadString();
+            break;
+          }
+          case 42: {
+            DisplayName = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Sends some info from https://pub.dartlang.org/packages/device_info#-readme-tab-
+  ///  Name: DA_CREAT
+  ///  Response: NetDeviceAuthState
+  /// </summary>
+  public sealed partial class NetDeviceAuthCreateReq : pb::IMessage<NetDeviceAuthCreateReq> {
+    private static readonly pb::MessageParser<NetDeviceAuthCreateReq> _parser = new pb::MessageParser<NetDeviceAuthCreateReq>(() => new NetDeviceAuthCreateReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetDeviceAuthCreateReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[12]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthCreateReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthCreateReq(NetDeviceAuthCreateReq other) : this() {
+      pubKey_ = other.pubKey_;
+      name_ = other.name_;
+      info_ = other.info_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthCreateReq Clone() {
+      return new NetDeviceAuthCreateReq(this);
+    }
+
+    /// <summary>Field number for the "pubKey" field.</summary>
+    public const int PubKeyFieldNumber = 1;
+    private pb::ByteString pubKey_ = pb::ByteString.Empty;
+    /// <summary>
+    ///  Public key for future authentication (RSA)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString PubKey {
+      get { return pubKey_; }
+      set {
+        pubKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 2;
+    private string name_ = "";
+    /// <summary>
+    ///  Device information for developers
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "info" field.</summary>
+    public const int InfoFieldNumber = 3;
+    private string info_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Info {
+      get { return info_; }
+      set {
+        info_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetDeviceAuthCreateReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetDeviceAuthCreateReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (PubKey != other.PubKey) return false;
+      if (Name != other.Name) return false;
+      if (Info != other.Info) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (PubKey.Length != 0) hash ^= PubKey.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Info.Length != 0) hash ^= Info.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (PubKey.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteBytes(PubKey);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (Info.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Info);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (PubKey.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(PubKey);
+      }
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Info.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Info);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetDeviceAuthCreateReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.PubKey.Length != 0) {
+        PubKey = other.PubKey;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Info.Length != 0) {
+        Info = other.Info;
       }
     }
 
@@ -2877,7 +3179,1227 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 10: {
-            RejectReason = input.ReadString();
+            PubKey = input.ReadBytes();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 26: {
+            Info = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Device requires an authentication challenge
+  ///  Name: DA_CHALL
+  ///  Response: NetDevAuthChallengeResReq
+  /// </summary>
+  public sealed partial class NetDeviceAuthChallengeReq : pb::IMessage<NetDeviceAuthChallengeReq> {
+    private static readonly pb::MessageParser<NetDeviceAuthChallengeReq> _parser = new pb::MessageParser<NetDeviceAuthChallengeReq>(() => new NetDeviceAuthChallengeReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetDeviceAuthChallengeReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[13]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthChallengeReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthChallengeReq(NetDeviceAuthChallengeReq other) : this() {
+      deviceId_ = other.deviceId_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthChallengeReq Clone() {
+      return new NetDeviceAuthChallengeReq(this);
+    }
+
+    /// <summary>Field number for the "deviceId" field.</summary>
+    public const int DeviceIdFieldNumber = 1;
+    private int deviceId_;
+    /// <summary>
+    ///  Id of the device that wants to authenticate
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int DeviceId {
+      get { return deviceId_; }
+      set {
+        deviceId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetDeviceAuthChallengeReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetDeviceAuthChallengeReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (DeviceId != other.DeviceId) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (DeviceId != 0) hash ^= DeviceId.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (DeviceId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(DeviceId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (DeviceId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DeviceId);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetDeviceAuthChallengeReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.DeviceId != 0) {
+        DeviceId = other.DeviceId;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            DeviceId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Server supplies challenge for the device
+  ///  Name: DA_R_CHA
+  ///  Response: NetDeviceAuthResReq
+  /// </summary>
+  public sealed partial class NetDeviceAuthChallengeResReq : pb::IMessage<NetDeviceAuthChallengeResReq> {
+    private static readonly pb::MessageParser<NetDeviceAuthChallengeResReq> _parser = new pb::MessageParser<NetDeviceAuthChallengeResReq>(() => new NetDeviceAuthChallengeResReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetDeviceAuthChallengeResReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[14]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthChallengeResReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthChallengeResReq(NetDeviceAuthChallengeResReq other) : this() {
+      challenge_ = other.challenge_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthChallengeResReq Clone() {
+      return new NetDeviceAuthChallengeResReq(this);
+    }
+
+    /// <summary>Field number for the "challenge" field.</summary>
+    public const int ChallengeFieldNumber = 1;
+    private pb::ByteString challenge_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString Challenge {
+      get { return challenge_; }
+      set {
+        challenge_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetDeviceAuthChallengeResReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetDeviceAuthChallengeResReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Challenge != other.Challenge) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Challenge.Length != 0) hash ^= Challenge.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Challenge.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteBytes(Challenge);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Challenge.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Challenge);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetDeviceAuthChallengeResReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Challenge.Length != 0) {
+        Challenge = other.Challenge;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            Challenge = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  App completes the challenge
+  ///  Name: DA_R_SIG
+  ///  Response: NetDeviceAuthState
+  /// </summary>
+  public sealed partial class NetDeviceAuthSignatureResReq : pb::IMessage<NetDeviceAuthSignatureResReq> {
+    private static readonly pb::MessageParser<NetDeviceAuthSignatureResReq> _parser = new pb::MessageParser<NetDeviceAuthSignatureResReq>(() => new NetDeviceAuthSignatureResReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetDeviceAuthSignatureResReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[15]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthSignatureResReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthSignatureResReq(NetDeviceAuthSignatureResReq other) : this() {
+      signature_ = other.signature_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthSignatureResReq Clone() {
+      return new NetDeviceAuthSignatureResReq(this);
+    }
+
+    /// <summary>Field number for the "signature" field.</summary>
+    public const int SignatureFieldNumber = 1;
+    private pb::ByteString signature_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString Signature {
+      get { return signature_; }
+      set {
+        signature_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetDeviceAuthSignatureResReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetDeviceAuthSignatureResReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Signature != other.Signature) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Signature.Length != 0) hash ^= Signature.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Signature.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteBytes(Signature);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Signature.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Signature);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetDeviceAuthSignatureResReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Signature.Length != 0) {
+        Signature = other.Signature;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            Signature = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Create or auth result
+  ///  Name: DA_STATE
+  /// </summary>
+  public sealed partial class NetDeviceAuthState : pb::IMessage<NetDeviceAuthState> {
+    private static readonly pb::MessageParser<NetDeviceAuthState> _parser = new pb::MessageParser<NetDeviceAuthState>(() => new NetDeviceAuthState());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetDeviceAuthState> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[16]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthState() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthState(NetDeviceAuthState other) : this() {
+      deviceId_ = other.deviceId_;
+      accountId_ = other.accountId_;
+      accountType_ = other.accountType_;
+      globalAccountState_ = other.globalAccountState_;
+      globalAccountStateReason_ = other.globalAccountStateReason_;
+      socialMedia_ = other.socialMedia_.Clone();
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetDeviceAuthState Clone() {
+      return new NetDeviceAuthState(this);
+    }
+
+    /// <summary>Field number for the "deviceId" field.</summary>
+    public const int DeviceIdFieldNumber = 1;
+    private int deviceId_;
+    /// <summary>
+    ///  Device ID. If 0, authentication failed, and the client must create a new account
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int DeviceId {
+      get { return deviceId_; }
+      set {
+        deviceId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "accountId" field.</summary>
+    public const int AccountIdFieldNumber = 2;
+    private int accountId_;
+    /// <summary>
+    ///  Account ID. If 0, proceed with account creation
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int AccountId {
+      get { return accountId_; }
+      set {
+        accountId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "accountType" field.</summary>
+    public const int AccountTypeFieldNumber = 3;
+    private global::InfX.AccountType accountType_ = 0;
+    /// <summary>
+    ///  Account type. If not AT_UNKNOWN, account creation may bypass type selection
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.AccountType AccountType {
+      get { return accountType_; }
+      set {
+        accountType_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "globalAccountState" field.</summary>
+    public const int GlobalAccountStateFieldNumber = 4;
+    private global::InfX.GlobalAccountState globalAccountState_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.GlobalAccountState GlobalAccountState {
+      get { return globalAccountState_; }
+      set {
+        globalAccountState_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "globalAccountStateReason" field.</summary>
+    public const int GlobalAccountStateReasonFieldNumber = 5;
+    private global::InfX.GlobalAccountStateReason globalAccountStateReason_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.GlobalAccountStateReason GlobalAccountStateReason {
+      get { return globalAccountStateReason_; }
+      set {
+        globalAccountStateReason_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "socialMedia" field.</summary>
+    public const int SocialMediaFieldNumber = 6;
+    private static readonly pb::FieldCodec<global::InfX.DataSocialMedia> _repeated_socialMedia_codec
+        = pb::FieldCodec.ForMessage(50, global::InfX.DataSocialMedia.Parser);
+    private readonly pbc::RepeatedField<global::InfX.DataSocialMedia> socialMedia_ = new pbc::RepeatedField<global::InfX.DataSocialMedia>();
+    /// <summary>
+    ///  Social media state
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::InfX.DataSocialMedia> SocialMedia {
+      get { return socialMedia_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetDeviceAuthState);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetDeviceAuthState other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (DeviceId != other.DeviceId) return false;
+      if (AccountId != other.AccountId) return false;
+      if (AccountType != other.AccountType) return false;
+      if (GlobalAccountState != other.GlobalAccountState) return false;
+      if (GlobalAccountStateReason != other.GlobalAccountStateReason) return false;
+      if(!socialMedia_.Equals(other.socialMedia_)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (DeviceId != 0) hash ^= DeviceId.GetHashCode();
+      if (AccountId != 0) hash ^= AccountId.GetHashCode();
+      if (AccountType != 0) hash ^= AccountType.GetHashCode();
+      if (GlobalAccountState != 0) hash ^= GlobalAccountState.GetHashCode();
+      if (GlobalAccountStateReason != 0) hash ^= GlobalAccountStateReason.GetHashCode();
+      hash ^= socialMedia_.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (DeviceId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(DeviceId);
+      }
+      if (AccountId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(AccountId);
+      }
+      if (AccountType != 0) {
+        output.WriteRawTag(24);
+        output.WriteEnum((int) AccountType);
+      }
+      if (GlobalAccountState != 0) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) GlobalAccountState);
+      }
+      if (GlobalAccountStateReason != 0) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) GlobalAccountStateReason);
+      }
+      socialMedia_.WriteTo(output, _repeated_socialMedia_codec);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (DeviceId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DeviceId);
+      }
+      if (AccountId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountId);
+      }
+      if (AccountType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) AccountType);
+      }
+      if (GlobalAccountState != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) GlobalAccountState);
+      }
+      if (GlobalAccountStateReason != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) GlobalAccountStateReason);
+      }
+      size += socialMedia_.CalculateSize(_repeated_socialMedia_codec);
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetDeviceAuthState other) {
+      if (other == null) {
+        return;
+      }
+      if (other.DeviceId != 0) {
+        DeviceId = other.DeviceId;
+      }
+      if (other.AccountId != 0) {
+        AccountId = other.AccountId;
+      }
+      if (other.AccountType != 0) {
+        AccountType = other.AccountType;
+      }
+      if (other.GlobalAccountState != 0) {
+        GlobalAccountState = other.GlobalAccountState;
+      }
+      if (other.GlobalAccountStateReason != 0) {
+        GlobalAccountStateReason = other.GlobalAccountStateReason;
+      }
+      socialMedia_.Add(other.socialMedia_);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            DeviceId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            AccountId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            accountType_ = (global::InfX.AccountType) input.ReadEnum();
+            break;
+          }
+          case 32: {
+            globalAccountState_ = (global::InfX.GlobalAccountState) input.ReadEnum();
+            break;
+          }
+          case 40: {
+            globalAccountStateReason_ = (global::InfX.GlobalAccountStateReason) input.ReadEnum();
+            break;
+          }
+          case 50: {
+            socialMedia_.AddEntriesFrom(input, _repeated_socialMedia_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  App requests the server to set the account type
+  ///  Special case when going backwards in the onboarding process
+  ///  Valid when account_id == 0
+  ///  Removes all OAuth associated with the device
+  ///  Name: A_SETTYP
+  /// </summary>
+  public sealed partial class NetSetAccountType : pb::IMessage<NetSetAccountType> {
+    private static readonly pb::MessageParser<NetSetAccountType> _parser = new pb::MessageParser<NetSetAccountType>(() => new NetSetAccountType());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetSetAccountType> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[17]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetSetAccountType() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetSetAccountType(NetSetAccountType other) : this() {
+      accountType_ = other.accountType_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetSetAccountType Clone() {
+      return new NetSetAccountType(this);
+    }
+
+    /// <summary>Field number for the "accountType" field.</summary>
+    public const int AccountTypeFieldNumber = 1;
+    private global::InfX.AccountType accountType_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.AccountType AccountType {
+      get { return accountType_; }
+      set {
+        accountType_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetSetAccountType);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetSetAccountType other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (AccountType != other.AccountType) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (AccountType != 0) hash ^= AccountType.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (AccountType != 0) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) AccountType);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (AccountType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) AccountType);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetSetAccountType other) {
+      if (other == null) {
+        return;
+      }
+      if (other.AccountType != 0) {
+        AccountType = other.AccountType;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            accountType_ = (global::InfX.AccountType) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  App adds another OAuth provider to the account
+  ///  Name: OA_CONNE
+  /// </summary>
+  public sealed partial class NetOAuthConnectReq : pb::IMessage<NetOAuthConnectReq> {
+    private static readonly pb::MessageParser<NetOAuthConnectReq> _parser = new pb::MessageParser<NetOAuthConnectReq>(() => new NetOAuthConnectReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetOAuthConnectReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[18]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthConnectReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthConnectReq(NetOAuthConnectReq other) : this() {
+      oauthProvider_ = other.oauthProvider_;
+      oauthSignature_ = other.oauthSignature_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthConnectReq Clone() {
+      return new NetOAuthConnectReq(this);
+    }
+
+    /// <summary>Field number for the "oauthProvider" field.</summary>
+    public const int OauthProviderFieldNumber = 1;
+    private int oauthProvider_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int OauthProvider {
+      get { return oauthProvider_; }
+      set {
+        oauthProvider_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "oauthSignature" field.</summary>
+    public const int OauthSignatureFieldNumber = 2;
+    private string oauthSignature_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string OauthSignature {
+      get { return oauthSignature_; }
+      set {
+        oauthSignature_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetOAuthConnectReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetOAuthConnectReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (OauthProvider != other.OauthProvider) return false;
+      if (OauthSignature != other.OauthSignature) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (OauthProvider != 0) hash ^= OauthProvider.GetHashCode();
+      if (OauthSignature.Length != 0) hash ^= OauthSignature.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (OauthProvider != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(OauthProvider);
+      }
+      if (OauthSignature.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(OauthSignature);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (OauthProvider != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OauthProvider);
+      }
+      if (OauthSignature.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(OauthSignature);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetOAuthConnectReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.OauthProvider != 0) {
+        OauthProvider = other.OauthProvider;
+      }
+      if (other.OauthSignature.Length != 0) {
+        OauthSignature = other.OauthSignature;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            OauthProvider = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            OauthSignature = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Oauth addition result
+  ///  Name: OA_R_CON
+  /// </summary>
+  public sealed partial class NetOAuthConnectRes : pb::IMessage<NetOAuthConnectRes> {
+    private static readonly pb::MessageParser<NetOAuthConnectRes> _parser = new pb::MessageParser<NetOAuthConnectRes>(() => new NetOAuthConnectRes());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetOAuthConnectRes> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[19]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthConnectRes() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthConnectRes(NetOAuthConnectRes other) : this() {
+      SocialMedia = other.socialMedia_ != null ? other.SocialMedia.Clone() : null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthConnectRes Clone() {
+      return new NetOAuthConnectRes(this);
+    }
+
+    /// <summary>Field number for the "socialMedia" field.</summary>
+    public const int SocialMediaFieldNumber = 1;
+    private global::InfX.DataSocialMedia socialMedia_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.DataSocialMedia SocialMedia {
+      get { return socialMedia_; }
+      set {
+        socialMedia_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetOAuthConnectRes);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetOAuthConnectRes other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(SocialMedia, other.SocialMedia)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (socialMedia_ != null) hash ^= SocialMedia.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (socialMedia_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(SocialMedia);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (socialMedia_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(SocialMedia);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetOAuthConnectRes other) {
+      if (other == null) {
+        return;
+      }
+      if (other.socialMedia_ != null) {
+        if (socialMedia_ == null) {
+          socialMedia_ = new global::InfX.DataSocialMedia();
+        }
+        SocialMedia.MergeFrom(other.SocialMedia);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            if (socialMedia_ == null) {
+              socialMedia_ = new global::InfX.DataSocialMedia();
+            }
+            input.ReadMessage(socialMedia_);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Create account
+  ///  Response: NetDeviceAuthState
+  ///  Name: A_CREATE
+  /// </summary>
+  public sealed partial class NetAccountCreateReq : pb::IMessage<NetAccountCreateReq> {
+    private static readonly pb::MessageParser<NetAccountCreateReq> _parser = new pb::MessageParser<NetAccountCreateReq>(() => new NetAccountCreateReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetAccountCreateReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[20]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetAccountCreateReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetAccountCreateReq(NetAccountCreateReq other) : this() {
+      name_ = other.name_;
+      lat_ = other.lat_;
+      lng_ = other.lng_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetAccountCreateReq Clone() {
+      return new NetAccountCreateReq(this);
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 1;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "lat" field.</summary>
+    public const int LatFieldNumber = 2;
+    private float lat_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float Lat {
+      get { return lat_; }
+      set {
+        lat_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "lng" field.</summary>
+    public const int LngFieldNumber = 3;
+    private float lng_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float Lng {
+      get { return lng_; }
+      set {
+        lng_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetAccountCreateReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetAccountCreateReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Name != other.Name) return false;
+      if (Lat != other.Lat) return false;
+      if (Lng != other.Lng) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Lat != 0F) hash ^= Lat.GetHashCode();
+      if (Lng != 0F) hash ^= Lng.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Name.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Name);
+      }
+      if (Lat != 0F) {
+        output.WriteRawTag(21);
+        output.WriteFloat(Lat);
+      }
+      if (Lng != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(Lng);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Lat != 0F) {
+        size += 1 + 4;
+      }
+      if (Lng != 0F) {
+        size += 1 + 4;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetAccountCreateReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Lat != 0F) {
+        Lat = other.Lat;
+      }
+      if (other.Lng != 0F) {
+        Lng = other.Lng;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            Name = input.ReadString();
+            break;
+          }
+          case 21: {
+            Lat = input.ReadFloat();
+            break;
+          }
+          case 29: {
+            Lng = input.ReadFloat();
             break;
           }
         }
@@ -2897,7 +4419,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[12]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3079,7 +4601,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[13]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[22]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3395,7 +4917,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[14]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[23]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3541,7 +5063,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[15]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[24]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

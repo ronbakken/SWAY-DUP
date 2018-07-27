@@ -67,6 +67,7 @@ message ConfigData {
   
 }
 
+// end of config file format messages.
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -177,28 +178,128 @@ message DataChat {
   
 }
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-// Type of message
-enum NetMessageType {
-  NMT_UNKNOWN = 0;
-  NMT_CLIENT_IDENTIFY = 1;
+message DataSocialMedia {
+  bool connected = 1;
+  int32 followers = 2;
+  int32 following = 3;
+  string userName = 4;
+  string displayName = 5;
   
 }
 
-// TODO: proto3 has Any type, check if supported by dart protobuf compiler
-/* message NetMessageHeader {
-  NetMessageType type = 1;
-  int32 requestSeq = 2; // This message is a request, the response will have the same identifier under the response parameter
-  int32 responseSeq = 3; // This is a response, using the identifier from the request it is responding to
-} */
+/*
+message DataSocialState {
+  repeated NetSocialMedia media = 1;
+  
+}*/
 
-// Generic rejection
-message NetResRejected {
-  string rejectReason = 1;
+// end of generalized data format messages.
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// Protobuf types list:
+// https://developers.google.com/protocol-buffers/docs/proto?csw=1#scalar
+
+// Sends some info from https://pub.dartlang.org/packages/device_info#-readme-tab-
+// Name: DA_CREAT
+// Response: NetDeviceAuthState
+message NetDeviceAuthCreateReq {
+  // Public key for future authentication (RSA)
+  bytes pubKey = 1;
+  
+  // Device information for developers
+  string name = 2;
+  string info = 3;
+  
 }
+
+// Device requires an authentication challenge
+// Name: DA_CHALL
+// Response: NetDevAuthChallengeResReq
+message NetDeviceAuthChallengeReq {
+  // Id of the device that wants to authenticate
+  int32 deviceId = 1;
+  
+}
+
+// Server supplies challenge for the device
+// Name: DA_R_CHA
+// Response: NetDeviceAuthResReq
+message NetDeviceAuthChallengeResReq {
+  bytes challenge = 1;
+  
+}
+
+// App completes the challenge
+// Name: DA_R_SIG
+// Response: NetDeviceAuthState
+message NetDeviceAuthSignatureResReq {
+  bytes signature = 1;
+  
+}
+
+// Create or auth result
+// Name: DA_STATE
+message NetDeviceAuthState {
+  // Device ID. If 0, authentication failed, and the client must create a new account
+  int32 deviceId = 1;
+  
+  // Account ID. If 0, proceed with account creation
+  int32 accountId = 2;
+  
+  // Account type. If not AT_UNKNOWN, account creation may bypass type selection
+  AccountType accountType = 3;
+  
+  GlobalAccountState globalAccountState = 4;
+  GlobalAccountStateReason globalAccountStateReason = 5;
+  
+  // Social media state
+  repeated DataSocialMedia socialMedia = 6;
+  
+}
+
+// App requests the server to set the account type
+// Special case when going backwards in the onboarding process
+// Valid when account_id == 0
+// Removes all OAuth associated with the device
+// Name: A_SETTYP
+message NetSetAccountType {
+  AccountType accountType = 1;
+  
+}
+
+// App adds another OAuth provider to the account
+// Name: OA_CONNE
+message NetOAuthConnectReq {
+  int32 oauthProvider = 1;
+  string oauthSignature = 2;
+  
+}
+
+// Oauth addition result
+// Name: OA_R_CON
+message NetOAuthConnectRes {
+  DataSocialMedia socialMedia = 1;
+  
+}
+
+// Create account
+// Response: NetDeviceAuthState
+// Name: A_CREATE
+message NetAccountCreateReq {
+  string name = 1;
+  float lat = 2;
+  float lng = 3;
+  
+}
+
+// end of messages related to authentication.
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
 
 // Client requests the server permission to upload an image
 // The server may delete the image later if it is never used
