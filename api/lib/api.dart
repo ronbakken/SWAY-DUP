@@ -102,7 +102,10 @@ run() async {
               remoteApp.close();
               remoteApp = null;
             }
-          }();
+          }().catchError((ex) {
+            print("Exception listening to app:");
+            print(ex);
+          });
         } catch (ex) {
           print("Exception from incoming connection:");
           print(ex);
@@ -119,7 +122,10 @@ run() async {
       }
     }
     print("Server exited");
-  }();
+  }().catchError((ex) {
+    print("Exception running server:");
+    print(ex);
+  });
   selfTestTalk();
 }
 
