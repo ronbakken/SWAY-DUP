@@ -27,6 +27,9 @@ dependencies:
 
   flutter_map: # ^0.0.4
     path: ../flutter_map/flutter_map/
+
+  wstalk:
+    path: ../wstalk/
   
   # 0.4.1 crashes
   image_picker: 0.3.1
