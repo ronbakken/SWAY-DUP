@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'follower_count.dart';
-import 'carousel_app_bar.dart';
-import 'dark_container.dart';
-import 'config_manager.dart';
+import 'widgets/follower_count.dart';
+import 'widgets/carousel_app_bar.dart';
+import 'widgets/dark_container.dart';
+import 'network/config_manager.dart';
 
 class ProfileView extends StatelessWidget {
 

@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-import 'carousel_app_bar.dart';
-import 'dark_container.dart';
+import 'widgets/carousel_app_bar.dart';
+import 'widgets/dark_container.dart';
 
 class OfferView extends StatelessWidget {
   const OfferView({

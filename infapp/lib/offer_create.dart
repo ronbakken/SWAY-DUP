@@ -1,16 +1,16 @@
-import 'dart:async';
+// import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // https://pub.dartlang.org/packages/image_picker
 import 'package:image_picker/image_picker.dart';
 
-import 'ensure_visible_when_focused.dart';
-import 'inf.pb.dart';
+import 'utility/ensure_visible_when_focused.dart';
+import 'network/inf.pb.dart';
 
 // https://leonid.shevtsov.me/post/demystifying-s3-browser-upload/
 // https://github.com/gjersvik/awsdart // Prepare a signature on the server

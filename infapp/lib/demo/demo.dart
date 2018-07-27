@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'config_manager.dart' show ConfigManager;
-import 'onboarding_selection.dart' show OnboardingSelection;
-import 'onboarding_social.dart' show OnboardingSocial, AccountType;
-import 'influencer_dashboard.dart' show InfluencerDashboard;
-import 'offer_view.dart' show OfferView;
-import 'offer_create.dart' show OfferCreate;
-import 'dashboard_business.dart' show DashboardBusiness;
-import 'profile_view.dart' show ProfileView;
+import '../network/config_manager.dart' show ConfigManager;
+import '../onboarding_selection.dart' show OnboardingSelection;
+import '../onboarding_social.dart' show OnboardingSocial;
+// import '../influencer_dashboard.dart' show InfluencerDashboard;
+import '../offer_view.dart' show OfferView;
+import '../offer_create.dart' show OfferCreate;
+import '../dashboard_business.dart' show DashboardBusiness;
+import '../profile_view.dart' show ProfileView;
 
-import 'inf.pb.dart';
+import '../network/inf.pb.dart';
 
 class DemoApp extends StatelessWidget {
   const DemoApp({
@@ -111,7 +111,7 @@ class DemoHomePage extends StatelessWidget {
                 new MaterialPageRoute(
                   builder: (context) {
                     return new OnboardingSocial(
-                      accountType: AccountType.Business,
+                      accountType: AccountType.AT_BUSINESS,
                       oauthProviders: ConfigManager.of(context).oauthProviders.all,
                     );
                   },

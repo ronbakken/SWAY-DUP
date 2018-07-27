@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'inf.pb.dart';
+import '../network/inf.pb.dart';
 
 /// This widget will take in a specific authenticated Social Media
 /// Account and display the social media's Brand Icon along with

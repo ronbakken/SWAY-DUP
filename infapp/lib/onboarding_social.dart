@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'oauth_scaffold_presets.dart';
+import 'widgets/oauth_scaffold_presets.dart';
 
-import 'inf.pb.dart';
-
-enum AccountType {
-  Influencer,
-  Business
-}
+import 'network/inf.pb.dart';
 
 class NetOAuthState {
   const NetOAuthState({
@@ -99,7 +94,7 @@ class OnboardingSocial extends StatelessWidget {
                 new Container(
                   margin: new EdgeInsets.all(8.0),
                   child: new Text(
-                    accountType == AccountType.Influencer ? "You are now an influencer!" : "You are now in business!",
+                    accountType == AccountType.AT_INFLUENCER ? "You are now an influencer!" : "You are now in business!",
                     style: Theme.of(context).textTheme.display1,
                     textAlign: TextAlign.center,
                   ),
