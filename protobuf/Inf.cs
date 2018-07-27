@@ -32,47 +32,47 @@ namespace InfX {
             "a1VybBgJIAEoCRITCgtjb25zdW1lcktleRgKIAEoCRIWCg5jb25zdW1lclNl",
             "Y3JldBgLIAEoCRIQCghjbGllbnRJZBgMIAEoCRIOCgZuYXRpdmUYDSABKAki",
             "RgoUQ29uZmlnT0F1dGhQcm92aWRlcnMSIQoDYWxsGAEgAygLMhQuQ29uZmln",
-            "T0F1dGhQcm92aWRlchILCgNrZXkYAiABKAkijwEKCkNvbmZpZ0RhdGESFQoN",
-            "Y2xpZW50VmVyc2lvbhgBIAEoBRIUCgxkb3dubG9hZFVybHMYBCADKAkSJQoK",
-            "Y2F0ZWdvcmllcxgCIAEoCzIRLkNvbmZpZ0NhdGVnb3JpZXMSLQoOb2F1dGhQ",
-            "cm92aWRlcnMYAyABKAsyFS5Db25maWdPQXV0aFByb3ZpZGVycyInCgpDYXRl",
-            "Z29yeUlkEgwKBG1haW4YASABKAUSCwoDc3ViGAIgASgFIooBCg5EYXRhSW5m",
-            "bHVlbmNlchIKCgJpZBgBIAEoAxIMCgRuYW1lGAIgASgJEhAKCGxvY2F0aW9u",
-            "GAMgASgJEhEKCWF2YXRhclVybBgEIAEoCRIfCgpjYXRlZ29yaWVzGAUgAygL",
-            "MgsuQ2F0ZWdvcnlJZBILCgNsYXQYBiABKAESCwoDbG5nGAcgASgBIogBCgxE",
-            "YXRhQnVzaW5lc3MSCgoCaWQYASABKAMSDAoEbmFtZRgCIAEoCRIQCghsb2Nh",
-            "dGlvbhgDIAEoCRIRCglhdmF0YXJVcmwYBCABKAkSHwoKY2F0ZWdvcmllcxgF",
-            "IAMoCzILLkNhdGVnb3J5SWQSCwoDbGF0GAYgASgBEgsKA2xuZxgHIAEoASLQ",
-            "AQoJRGF0YU9mZmVyEgoKAmlkGAEgASgDEh8KCGJ1c2luZXNzGAIgASgLMg0u",
-            "RGF0YUJ1c2luZXNzEg0KBXRpdGxlGAMgASgJEhEKCWltYWdlVXJscxgEIAMo",
-            "CRIfCgpjYXRlZ29yaWVzGAUgAygLMgsuQ2F0ZWdvcnlJZBILCgNsYXQYBiAB",
-            "KAESCwoDbG5nGAcgASgBEhMKC2Rlc2NyaXB0aW9uGAggASgJEhQKDGRlbGl2",
-            "ZXJhYmxlcxgJIAEoCRIOCgZyZXdhcmQYCiABKAkiWwoNRGF0YUFwcGxpY2Fu",
-            "dBIKCgJpZBgBIAEoAxIZCgVvZmZlchgCIAEoCzIKLkRhdGFPZmZlchIjCgpp",
-            "bmZsdWVuY2VyGAMgASgLMg8uRGF0YUluZmx1ZW5jZXIiYgoIRGF0YUNoYXQS",
-            "EwoLYXBwbGljYW50SWQYASABKAMSEgoKc2VxdWVuY2VJZBgCIAEoAxINCgVr",
-            "ZXlJZBgDIAEoAxIQCghvdXRnb2luZxgEIAEoCBIMCgR0ZXh0GAUgASgJIiYK",
-            "Dk5ldFJlc1JlamVjdGVkEhQKDHJlamVjdFJlYXNvbhgBIAEoCSJHChFOZXRS",
-            "ZXFJbWFnZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghmaWxlU2l6ZRgC",
-            "IAEoBRIOCgZzaGEyNTYYAyABKAki3wEKEU5ldFJlc0ltYWdlVXBsb2FkEhUK",
-            "DXJlcXVlc3RNZXRob2QYASABKAkSEgoKcmVxdWVzdFVybBgCIAEoCRIZChFo",
-            "ZWFkZXJDb250ZW50VHlwZRgDIAEoCRIbChNoZWFkZXJDb250ZW50TGVuZ3Ro",
-            "GAQgASgJEhIKCmhlYWRlckhvc3QYBSABKAkSFgoOaGVhZGVyWEFtekRhdGUY",
-            "BiABKAkSHgoWaGVhZGVyWEFtelN0b3JhZ2VDbGFzcxgHIAEoCRIbChNoZWFk",
-            "ZXJBdXRob3JpemF0aW9uGAggASgJIkAKEU5ldFJlcUNyZWF0ZU9mZmVyEhkK",
-            "BW9mZmVyGAEgASgLMgouRGF0YU9mZmVyEhAKCGltYWdlSWRzGAIgAygJIh8K",
-            "EU5ldFJlc0NyZWF0ZU9mZmVyEgoKAmlkGAEgASgDKkEKC0FjY291bnRUeXBl",
-            "Eg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVT",
-            "SU5FU1MQAiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
-            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
-            "R0FTX1JFQURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FE",
-            "TUlOEAUSCwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFz",
-            "b24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5O",
-            "RUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVE",
-            "EAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUS",
-            "FQoRR0FTUl9SRVFVSVJFX0lORk8QBio6Cg5OZXRNZXNzYWdlVHlwZRIPCgtO",
-            "TVRfVU5LTk9XThAAEhcKE05NVF9DTElFTlRfSURFTlRJRlkQAUIHqgIESW5m",
-            "WGIGcHJvdG8z"));
+            "T0F1dGhQcm92aWRlchILCgNrZXkYAiABKAkiogEKCkNvbmZpZ0RhdGESFQoN",
+            "Y2xpZW50VmVyc2lvbhgBIAEoBRIRCgl0aW1lc3RhbXAYBSABKAMSFAoMZG93",
+            "bmxvYWRVcmxzGAQgAygJEiUKCmNhdGVnb3JpZXMYAiABKAsyES5Db25maWdD",
+            "YXRlZ29yaWVzEi0KDm9hdXRoUHJvdmlkZXJzGAMgASgLMhUuQ29uZmlnT0F1",
+            "dGhQcm92aWRlcnMiJwoKQ2F0ZWdvcnlJZBIMCgRtYWluGAEgASgFEgsKA3N1",
+            "YhgCIAEoBSKKAQoORGF0YUluZmx1ZW5jZXISCgoCaWQYASABKAMSDAoEbmFt",
+            "ZRgCIAEoCRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0YXJVcmwYBCABKAkS",
+            "HwoKY2F0ZWdvcmllcxgFIAMoCzILLkNhdGVnb3J5SWQSCwoDbGF0GAYgASgB",
+            "EgsKA2xuZxgHIAEoASKIAQoMRGF0YUJ1c2luZXNzEgoKAmlkGAEgASgDEgwK",
+            "BG5hbWUYAiABKAkSEAoIbG9jYXRpb24YAyABKAkSEQoJYXZhdGFyVXJsGAQg",
+            "ASgJEh8KCmNhdGVnb3JpZXMYBSADKAsyCy5DYXRlZ29yeUlkEgsKA2xhdBgG",
+            "IAEoARILCgNsbmcYByABKAEi0AEKCURhdGFPZmZlchIKCgJpZBgBIAEoAxIf",
+            "CghidXNpbmVzcxgCIAEoCzINLkRhdGFCdXNpbmVzcxINCgV0aXRsZRgDIAEo",
+            "CRIRCglpbWFnZVVybHMYBCADKAkSHwoKY2F0ZWdvcmllcxgFIAMoCzILLkNh",
+            "dGVnb3J5SWQSCwoDbGF0GAYgASgBEgsKA2xuZxgHIAEoARITCgtkZXNjcmlw",
+            "dGlvbhgIIAEoCRIUCgxkZWxpdmVyYWJsZXMYCSABKAkSDgoGcmV3YXJkGAog",
+            "ASgJIlsKDURhdGFBcHBsaWNhbnQSCgoCaWQYASABKAMSGQoFb2ZmZXIYAiAB",
+            "KAsyCi5EYXRhT2ZmZXISIwoKaW5mbHVlbmNlchgDIAEoCzIPLkRhdGFJbmZs",
+            "dWVuY2VyImIKCERhdGFDaGF0EhMKC2FwcGxpY2FudElkGAEgASgDEhIKCnNl",
+            "cXVlbmNlSWQYAiABKAMSDQoFa2V5SWQYAyABKAMSEAoIb3V0Z29pbmcYBCAB",
+            "KAgSDAoEdGV4dBgFIAEoCSImCg5OZXRSZXNSZWplY3RlZBIUCgxyZWplY3RS",
+            "ZWFzb24YASABKAkiRwoRTmV0UmVxSW1hZ2VVcGxvYWQSEAoIZmlsZU5hbWUY",
+            "ASABKAkSEAoIZmlsZVNpemUYAiABKAUSDgoGc2hhMjU2GAMgASgJIt8BChFO",
+            "ZXRSZXNJbWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJEhIKCnJl",
+            "cXVlc3RVcmwYAiABKAkSGQoRaGVhZGVyQ29udGVudFR5cGUYAyABKAkSGwoT",
+            "aGVhZGVyQ29udGVudExlbmd0aBgEIAEoCRISCgpoZWFkZXJIb3N0GAUgASgJ",
+            "EhYKDmhlYWRlclhBbXpEYXRlGAYgASgJEh4KFmhlYWRlclhBbXpTdG9yYWdl",
+            "Q2xhc3MYByABKAkSGwoTaGVhZGVyQXV0aG9yaXphdGlvbhgIIAEoCSJAChFO",
+            "ZXRSZXFDcmVhdGVPZmZlchIZCgVvZmZlchgBIAEoCzIKLkRhdGFPZmZlchIQ",
+            "CghpbWFnZUlkcxgCIAMoCSIfChFOZXRSZXNDcmVhdGVPZmZlchIKCgJpZBgB",
+            "IAEoAypBCgtBY2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5G",
+            "TFVFTkNFUhABEg8KC0FUX0JVU0lORVNTEAIqjwEKEkdsb2JhbEFjY291bnRT",
+            "dGF0ZRISCg5HQVNfSU5JVElBTElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoN",
+            "R0FTX1JFQURfT05MWRACEhIKDkdBU19SRUFEX1dSSVRFEAMSEQoNR0FTX01P",
+            "REVSQVRPUhAEEg0KCUdBU19BRE1JThAFEgsKB0dBU19HT0QQBiq1AQoYR2xv",
+            "YmFsQWNjb3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIX",
+            "ChNHQVNSX0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVE",
+            "EAISEQoNR0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAE",
+            "EhAKDEdBU1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqOgoO",
+            "TmV0TWVzc2FnZVR5cGUSDwoLTk1UX1VOS05PV04QABIXChNOTVRfQ0xJRU5U",
+            "X0lERU5USUZZEAFCB6oCBEluZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NetMessageType), }, new pbr::GeneratedClrTypeInfo[] {
@@ -80,7 +80,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "Native" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All", "Key" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "Timestamp", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataInfluencer), global::InfX.DataInfluencer.Parser, new[]{ "Id", "Name", "Location", "AvatarUrl", "Categories", "Lat", "Lng" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataBusiness), global::InfX.DataBusiness.Parser, new[]{ "Id", "Name", "Location", "AvatarUrl", "Categories", "Lat", "Lng" }, null, null, null),
@@ -1054,6 +1054,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ConfigData(ConfigData other) : this() {
       clientVersion_ = other.clientVersion_;
+      timestamp_ = other.timestamp_;
       downloadUrls_ = other.downloadUrls_.Clone();
       Categories = other.categories_ != null ? other.Categories.Clone() : null;
       OauthProviders = other.oauthProviders_ != null ? other.OauthProviders.Clone() : null;
@@ -1075,6 +1076,20 @@ namespace InfX {
       get { return clientVersion_; }
       set {
         clientVersion_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "timestamp" field.</summary>
+    public const int TimestampFieldNumber = 5;
+    private long timestamp_;
+    /// <summary>
+    /// / Timestamp when the config was built. Unix epoch UTC milliseconds
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long Timestamp {
+      get { return timestamp_; }
+      set {
+        timestamp_ = value;
       }
     }
 
@@ -1130,6 +1145,7 @@ namespace InfX {
         return true;
       }
       if (ClientVersion != other.ClientVersion) return false;
+      if (Timestamp != other.Timestamp) return false;
       if(!downloadUrls_.Equals(other.downloadUrls_)) return false;
       if (!object.Equals(Categories, other.Categories)) return false;
       if (!object.Equals(OauthProviders, other.OauthProviders)) return false;
@@ -1140,6 +1156,7 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       if (ClientVersion != 0) hash ^= ClientVersion.GetHashCode();
+      if (Timestamp != 0L) hash ^= Timestamp.GetHashCode();
       hash ^= downloadUrls_.GetHashCode();
       if (categories_ != null) hash ^= Categories.GetHashCode();
       if (oauthProviders_ != null) hash ^= OauthProviders.GetHashCode();
@@ -1166,6 +1183,10 @@ namespace InfX {
         output.WriteMessage(OauthProviders);
       }
       downloadUrls_.WriteTo(output, _repeated_downloadUrls_codec);
+      if (Timestamp != 0L) {
+        output.WriteRawTag(40);
+        output.WriteInt64(Timestamp);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1173,6 +1194,9 @@ namespace InfX {
       int size = 0;
       if (ClientVersion != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ClientVersion);
+      }
+      if (Timestamp != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Timestamp);
       }
       size += downloadUrls_.CalculateSize(_repeated_downloadUrls_codec);
       if (categories_ != null) {
@@ -1191,6 +1215,9 @@ namespace InfX {
       }
       if (other.ClientVersion != 0) {
         ClientVersion = other.ClientVersion;
+      }
+      if (other.Timestamp != 0L) {
+        Timestamp = other.Timestamp;
       }
       downloadUrls_.Add(other.downloadUrls_);
       if (other.categories_ != null) {
@@ -1235,6 +1262,10 @@ namespace InfX {
           }
           case 34: {
             downloadUrls_.AddEntriesFrom(input, _repeated_downloadUrls_codec);
+            break;
+          }
+          case 40: {
+            Timestamp = input.ReadInt64();
             break;
           }
         }

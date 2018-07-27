@@ -92,6 +92,7 @@ const ConfigData$json = const {
   '1': 'ConfigData',
   '2': const [
     const {'1': 'clientVersion', '3': 1, '4': 1, '5': 5, '10': 'clientVersion'},
+    const {'1': 'timestamp', '3': 5, '4': 1, '5': 3, '10': 'timestamp'},
     const {'1': 'downloadUrls', '3': 4, '4': 3, '5': 9, '10': 'downloadUrls'},
     const {'1': 'categories', '3': 2, '4': 1, '5': 11, '6': '.ConfigCategories', '10': 'categories'},
     const {'1': 'oauthProviders', '3': 3, '4': 1, '5': 11, '6': '.ConfigOAuthProviders', '10': 'oauthProviders'},
