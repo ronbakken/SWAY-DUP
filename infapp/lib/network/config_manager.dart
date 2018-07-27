@@ -38,10 +38,15 @@ class _ConfigManagerState extends State<ConfigManager> {
     var configData = await rootBundle.load('assets/config.bin');
     ConfigData config = new ConfigData();
     config.mergeFromBuffer(configData.buffer.asUint8List());
-    setState(() {
-      print("[INF] Reloaded config from file");
-      this.config = config;
-    });
+    if (config.timestamp > this.config.timestamp
+      && config.clientVersion == this.config.clientVersion) {
+      setState(() {
+        print("[INF] Reloaded config from APK");
+        this.config = config;
+      });
+    } else {
+        print("[INF] No changes to config detected");
+    }
     downloadConfig();
   }
 

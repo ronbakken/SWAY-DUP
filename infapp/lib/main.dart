@@ -19,7 +19,9 @@ Future<ConfigData> loadConfig() async {
 }
 
 launchApp() async {
+  // Load well-known config from APK
   ConfigData config = await loadConfig();
+  // Run flutter app with the loaded config
   runApp(new DemoApp(
     startupConfig: config,
   ));
