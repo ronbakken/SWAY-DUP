@@ -212,6 +212,7 @@ class ConfigData extends GeneratedMessage {
     ..a<ConfigCategories>(2, 'categories', PbFieldType.OM, ConfigCategories.getDefault, ConfigCategories.create)
     ..a<ConfigOAuthProviders>(3, 'oauthProviders', PbFieldType.OM, ConfigOAuthProviders.getDefault, ConfigOAuthProviders.create)
     ..pPS(4, 'downloadUrls')
+    ..aInt64(5, 'timestamp')
     ..hasRequiredFields = false
   ;
 
@@ -247,6 +248,11 @@ class ConfigData extends GeneratedMessage {
   void clearOauthProviders() => clearField(3);
 
   List<String> get downloadUrls => $_getList(3);
+
+  Int64 get timestamp => $_getI64(4);
+  set timestamp(Int64 v) { $_setInt64(4, v); }
+  bool hasTimestamp() => $_has(4);
+  void clearTimestamp() => clearField(5);
 }
 
 class _ReadonlyConfigData extends ConfigData with ReadonlyMessageMixin {}
