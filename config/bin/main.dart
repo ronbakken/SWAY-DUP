@@ -124,6 +124,7 @@ Future<ConfigCategories> generateConfigOAuthProviders() async {
 generateConfig() async {
   ConfigData config = new ConfigData();
   config.clientVersion = 2;
+  config.timestamp = new DateTime.now().toUtc().millisecondsSinceEpoch;
   config.categories = await generateConfigCategories();
   config.oauthProviders = await generateConfigOAuthProviders();
   print(config.writeToJson());

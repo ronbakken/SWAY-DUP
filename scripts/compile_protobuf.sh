@@ -29,7 +29,7 @@ git pull --recurse-submodules
 git add *
 git commit -m "Update protobuf"
 
-cp ~/infcommon/protobuf/*.dart infapp/lib/
+cp ~/infcommon/protobuf/*.dart infapp/lib/network/
 git add *
 git commit -m "Compile protobuf"
 

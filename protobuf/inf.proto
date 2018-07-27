@@ -55,6 +55,9 @@ message ConfigData {
   /// If this goes up in a config, the client must be updated
   int32 clientVersion = 1;
   
+  /// Timestamp when the config was built. Unix epoch UTC milliseconds
+  int64 timestamp = 5;
+  
   /// URLs where the config can be downloaded
   repeated string downloadUrls = 4;
   
