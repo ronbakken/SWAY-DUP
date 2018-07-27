@@ -79,7 +79,7 @@ class ConfigOAuthProvider extends GeneratedMessage {
     ..aOS(10, 'consumerKey')
     ..aOS(11, 'consumerSecret')
     ..aOS(12, 'clientId')
-    ..aOS(13, 'native')
+    ..aOS(13, 'nativeAuth')
     ..a<int>(14, 'fontAwesomeBrand', PbFieldType.O3)
     ..hasRequiredFields = false
   ;
@@ -160,10 +160,10 @@ class ConfigOAuthProvider extends GeneratedMessage {
   bool hasClientId() => $_has(11);
   void clearClientId() => clearField(12);
 
-  String get native => $_getS(12, '');
-  set native(String v) { $_setString(12, v); }
-  bool hasNative() => $_has(12);
-  void clearNative() => clearField(13);
+  String get nativeAuth => $_getS(12, '');
+  set nativeAuth(String v) { $_setString(12, v); }
+  bool hasNativeAuth() => $_has(12);
+  void clearNativeAuth() => clearField(13);
 
   int get fontAwesomeBrand => $_get(13, 0);
   set fontAwesomeBrand(int v) { $_setSignedInt32(13, v); }

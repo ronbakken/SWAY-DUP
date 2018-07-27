@@ -76,7 +76,7 @@ const ConfigOAuthProvider$json = const {
     const {'1': 'consumerKey', '3': 10, '4': 1, '5': 9, '10': 'consumerKey'},
     const {'1': 'consumerSecret', '3': 11, '4': 1, '5': 9, '10': 'consumerSecret'},
     const {'1': 'clientId', '3': 12, '4': 1, '5': 9, '10': 'clientId'},
-    const {'1': 'native', '3': 13, '4': 1, '5': 9, '10': 'native'},
+    const {'1': 'nativeAuth', '3': 13, '4': 1, '5': 9, '10': 'nativeAuth'},
   ],
 };
 
