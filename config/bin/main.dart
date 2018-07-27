@@ -71,7 +71,7 @@ Future<ConfigCategories> generateConfigCategories() async {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Future<ConfigCategories> generateConfigOAuthProviders() async {
+Future<ConfigOAuthProviders> generateConfigOAuthProviders() async {
   List<String> lines = await new File("oauth_providers.ini").readAsLines();
   ConfigOAuthProviders res = new ConfigOAuthProviders();
   ini.Config cfg = new ini.Config.fromStrings(lines);
@@ -124,7 +124,7 @@ Future<ConfigCategories> generateConfigOAuthProviders() async {
 generateConfig() async {
   ConfigData config = new ConfigData();
   config.clientVersion = 2;
-  config.timestamp = new DateTime.now().toUtc().millisecondsSinceEpoch;
+  config.timestamp = new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch);
   config.categories = await generateConfigCategories();
   config.oauthProviders = await generateConfigOAuthProviders();
   print(config.writeToJson());
