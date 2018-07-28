@@ -161,6 +161,17 @@ const DataChat$json = const {
   ],
 };
 
+const DataAccountState$json = const {
+  '1': 'DataAccountState',
+  '2': const [
+    const {'1': 'deviceId', '3': 1, '4': 1, '5': 5, '10': 'deviceId'},
+    const {'1': 'accountId', '3': 2, '4': 1, '5': 5, '10': 'accountId'},
+    const {'1': 'accountType', '3': 3, '4': 1, '5': 14, '6': '.AccountType', '10': 'accountType'},
+    const {'1': 'globalAccountState', '3': 4, '4': 1, '5': 14, '6': '.GlobalAccountState', '10': 'globalAccountState'},
+    const {'1': 'globalAccountStateReason', '3': 5, '4': 1, '5': 14, '6': '.GlobalAccountStateReason', '10': 'globalAccountStateReason'},
+  ],
+};
+
 const DataSocialMedia$json = const {
   '1': 'DataSocialMedia',
   '2': const [
@@ -205,11 +216,7 @@ const NetDeviceAuthSignatureResReq$json = const {
 const NetDeviceAuthState$json = const {
   '1': 'NetDeviceAuthState',
   '2': const [
-    const {'1': 'deviceId', '3': 1, '4': 1, '5': 5, '10': 'deviceId'},
-    const {'1': 'accountId', '3': 2, '4': 1, '5': 5, '10': 'accountId'},
-    const {'1': 'accountType', '3': 3, '4': 1, '5': 14, '6': '.AccountType', '10': 'accountType'},
-    const {'1': 'globalAccountState', '3': 4, '4': 1, '5': 14, '6': '.GlobalAccountState', '10': 'globalAccountState'},
-    const {'1': 'globalAccountStateReason', '3': 5, '4': 1, '5': 14, '6': '.GlobalAccountStateReason', '10': 'globalAccountStateReason'},
+    const {'1': 'accountState', '3': 7, '4': 1, '5': 11, '6': '.DataAccountState', '10': 'accountState'},
     const {'1': 'socialMedia', '3': 6, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
   ],
 };
