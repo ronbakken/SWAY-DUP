@@ -167,7 +167,7 @@ const DataSocialMedia$json = const {
     const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
     const {'1': 'followers', '3': 2, '4': 1, '5': 5, '10': 'followers'},
     const {'1': 'following', '3': 3, '4': 1, '5': 5, '10': 'following'},
-    const {'1': 'userName', '3': 4, '4': 1, '5': 9, '10': 'userName'},
+    const {'1': 'username', '3': 4, '4': 1, '5': 9, '10': 'username'},
     const {'1': 'displayName', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
   ],
 };
