@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'widgets/oauth_scaffold_presets.dart';
 
+import 'network/config_manager.dart';
 import 'network/inf.pb.dart';
 
 class NetOAuthState {
@@ -31,6 +32,7 @@ class OnboardingSocial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    assert(ConfigManager.of(context) != null);
     List<Widget> oauthButtons = new List<Widget>();
     print("OAuth Providers: " + oauthProviders.length.toString());
     for (int i = 0; i < oauthProviders.length; ++i) {

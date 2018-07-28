@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../network/config_manager.dart' show ConfigManager;
+import '../network/network_manager.dart';
 import '../onboarding_selection.dart' show OnboardingSelection;
 import '../onboarding_social.dart' show OnboardingSocial;
 // import '../influencer_dashboard.dart' show InfluencerDashboard;
@@ -23,27 +24,38 @@ class DemoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new ConfigManager(
+      key: new Key('InfDemo.ConfigManager'),
       startupConfig: startupConfig,
-      child: new MaterialApp(
-        title: '*** INF UI Demo ***',
-        theme: new ThemeData(
-          brightness: Brightness.dark, // This makes things dark!
-          primarySwatch: Colors.blueGrey, // This is just defaults, no need to change!
-          disabledColor: Colors.white12, // Dark fix
-          primaryColorBrightness: Brightness.dark,
-          accentColorBrightness: Brightness.dark,
-        ).copyWith(
-          // Generate these values on https://material.io/color/!
-          primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-          primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-          primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
-          buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-          // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
-          accentColor: new Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
-          // Grayscale of primaryColor
-          unselectedWidgetColor: new Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
+      child: new NetworkManager(
+        key: new Key('InfDemo.NetworkManager'),
+        overrideUri: null, //"ws://192.168.105.2:9090/ws", // Uri of server to connect with
+        localAccountId: 1,
+        // overrideUri: "ws://localhost:9090/ws",
+        child: new MaterialApp(
+          title: '*** INF UI Demo ***',
+          /*builder: (BuildContext context, Widget child) {
+            
+          },*/
+          // debugShowMaterialGrid: true,
+          theme: new ThemeData(
+            brightness: Brightness.dark, // This makes things dark!
+            primarySwatch: Colors.blueGrey, // This is just defaults, no need to change!
+            disabledColor: Colors.white12, // Dark fix
+            primaryColorBrightness: Brightness.dark,
+            accentColorBrightness: Brightness.dark,
+          ).copyWith(
+            // Generate these values on https://material.io/color/!
+            primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+            primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+            primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+            buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+            // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
+            accentColor: new Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
+            // Grayscale of primaryColor
+            unselectedWidgetColor: new Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
+          ),
+          home: new DemoHomePage(), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), // 
         ),
-        home: new DemoHomePage(), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), // 
       ),
     );
   }
@@ -66,6 +78,7 @@ class MeepMeep extends StatelessWidget { // stateless widget is just a widget th
 class DemoHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    assert(ConfigManager.of(context) != null);
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('***INF UI Demo***'),
@@ -111,6 +124,7 @@ class DemoHomePage extends StatelessWidget {
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
+                    assert(ConfigManager.of(context) != null);
                     return new OnboardingSocial(
                       accountType: AccountType.AT_BUSINESS,
                       oauthProviders: ConfigManager.of(context).oauthProviders.all,
@@ -148,6 +162,7 @@ class DemoHomePage extends StatelessWidget {
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
+                    assert(ConfigManager.of(context) != null);
                     return new ProfileView(
                       self: true,
                       profileName: 'Big Kahuna Burger',

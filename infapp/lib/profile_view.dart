@@ -35,6 +35,7 @@ class ProfileView extends StatelessWidget {
 	
 	@override
   Widget build(BuildContext context) {
+    assert(ConfigManager.of(context) != null);
     return new Scaffold(
 
       /// Set the body to the profile itself.

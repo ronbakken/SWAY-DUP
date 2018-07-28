@@ -24,6 +24,7 @@ class ConfigManager extends StatefulWidget {
 
   static ConfigData of(BuildContext context) {
     final _InheritedConfigManager inherited = context.inheritFromWidgetOfExactType(_InheritedConfigManager);
+    //assert(inherited != null);
     return inherited != null ? inherited.config : null;
   }
 
