@@ -10,6 +10,7 @@ import 'package:wstalk/wstalk.dart';
 // import 'package:crypto/crypto.dart';
 import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
+import 'package:synchronized/synchronized.dart';
 
 // TODO: Move sql queries into a separate shared class, to allow prepared statements, and simplify code here
 
@@ -22,6 +23,7 @@ class RemoteApp {
   final TalkSocket ts;
 
   final random = new Random.secure();
+  final lock = new Lock();
 
   int deviceId;
   AccountType accountType;
@@ -156,7 +158,7 @@ class RemoteApp {
       if (deviceId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
         if (accountId != 0) {
-          // TODO: Permit app transactions!
+          transitionToApp();
         } else {
           subscribeOnboarding();
         }
@@ -242,13 +244,15 @@ class RemoteApp {
 
   StreamSubscription<TalkMessage> _netSetAccountType; // A_SETTYP
   netSetAccountType(TalkMessage message) async {
-    assert(accountId == 0);
     assert(deviceId != 0);
     try {
       // Received account type change request
       NetSetAccountType pb = new NetSetAccountType();
       pb.mergeFromBuffer(message.data);
       if (pb.accountType == accountType) {
+        return; // no-op, may ignore
+      }
+      if (accountId != 0) {
         return; // no-op, may ignore
       }
 
@@ -275,15 +279,64 @@ class RemoteApp {
   StreamSubscription<TalkMessage> _netOAuthConnectReq; // OA_CONNE
   static int _netOAuthConnectRes = TalkSocket.encode("OA_R_CON");
   netOAuthConnectReq(TalkMessage message) async { // response: NetOAuthConnectRes
-    assert(accountId == 0);
     assert(deviceId != 0);
     try {
       // Received oauth connection request
       NetOAuthConnectReq pb = new NetOAuthConnectReq();
       pb.mergeFromBuffer(message.data);
+
+      if (pb.oauthProvider >= socialMedia.length) {
+        print("Invalid OAuth provider specified by device $deviceId"); // CRITICAL - DEVELOPER (there are critical issues for developer, also critical issues for operations!)
+      } else if (accountType == AccountType.AT_UNKNOWN) {
+        print("Account type was not yet set by device $deviceId"); // CRITICAL - DEVELOPER
+      //} else if (accountId != 0) {
+        // Race condition, the account was already created before receiving this connection request
+      //  print("OAuth request received but account $accountId already created by $deviceId"); // DEBUG - DEVELOPER
+        // TO/DO: Forward to other handling mechanism - can handle this here normally, just less optimal
+      } else {
+        // First check the OAuth and get the data
+        // ...
+        // Procedure for adding an OAuth connection during onboarding:
+        // - Find existing OAuth, if one exists, there are two situations:
+        //   - The existing OAuth has no account attached - this implies the user aborted onboarding previously and switched device (unusual)
+        //   - The existing OAuth has an account (this is easiest!)
+        // - If one does not exist, just create it, easy!
+        String oauthUserId;
+        int oauthProvider;
+        String username = "nbspou";
+        String displayName = "NO-BREAK SPACE OÜ";
+        int followers = 37;
+        int following = 11;
+        try {
+          await sql.prepareExecute("INSERT INTO `oauth_connections`("
+            "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `device_id`, `username`, `display_name`, `followers`, `following`"
+            ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [ oauthUserId, oauthProvider, accountType.value,
+            accountId, deviceId, username, displayName, followers, following ]);
+        } catch (ex) {
+          print("Failed to insert OAuth, may already be inserted!");
+        }
+        sqljocky.Results selectOAuth = await sql.prepareExecute("SELECT `account_id`, `device_id` FROM `oauth_connections`"
+          "WHERE `oauth_user_id` = ?, `oauth_provider` = ?, `account_type` = ?", [ oauthUserId, oauthProvider, accountType.value ]);
+        int oauthAccountId;
+        int oauthDeviceId;
+        await for (sqljocky.Row row in selectOAuth) {
+          oauthAccountId = row[0];
+          oauthDeviceId = row[1];
+        }
+      }
+
       NetOAuthConnectRes resPb = new NetOAuthConnectRes();
-      resPb.socialMedia.connected = false;
+      if (pb.oauthProvider < socialMedia.length) {
+        resPb.socialMedia = socialMedia[pb.oauthProvider];
+      }
       ts.sendMessage(_netOAuthConnectRes, resPb.writeToBuffer(), reply: message);
+
+      if (accountId != 0) {
+        // The OAuth has an account attached, let's go!
+        unsubscribeOnboarding();
+        await updateDeviceState();
+        sendNetDeviceAuthState();
+      }
     } catch (ex) {
       print("Exception in message '${TalkSocket.decode(message.id)}':");
       print(ex);
@@ -292,77 +345,93 @@ class RemoteApp {
 
   StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE
   netAccountCreateReq(TalkMessage message) async { // response: NetDeviceAuthState
-    assert(accountId == 0);
     assert(deviceId != 0);
     try {
       // Received account creation request
       NetAccountCreateReq pb = new NetAccountCreateReq();
       pb.mergeFromBuffer(message.data);
 
-      // Create account if sufficient data was received
-      String addressName;
-      String addressDetail;
-      String addressApproximate;
-      int addressPostcode;
-      String addressRegionCode;
-      String addressCountryCode;
-      if (!pb.hasLat() || !pb.hasLng()) {
-        // Default to LA
-        // https://www.mapbox.com/api-documentation/#search-for-places
-        pb.lat = 34.0207305;
-        pb.lng = -118.6919159;
-        addressName = "Los Angeles";
-        addressDetail = "Los Angeles, California 90017";
-        addressApproximate = "Los Angeles, California 90017";
-        addressPostcode = 90017;
-        addressRegionCode = "US-CA";
-        addressCountryCode = "US";
-      } else {
-        // detailed place_type may be:
-        // - address
-        // for user search, may get detailed place as well from:
-        // - poi.landmark
-        // - poi
-        // approximate place_type may be:
-        // - neighborhood (downtown)
-        // - (postcode (los angeles, not as user friendly) (skip))
-        // - place (los angeles)
-        // - region (california)
-        // - country (us)
-        // get the name from place_name
-        // strip ", country text" (under context->id starting with country, text)
-        // don't let the user change approximate address, just the detail one
-      }
-      int connectedNb = 0;
-      for (int i = 0; i < socialMedia.length; ++i) {
-        if (socialMedia[i].connected)
-          ++connectedNb;
-      }
-      if (accountType != AccountType.AT_UNKNOWN
-        && connectedNb > 0
-        && pb.name.length > 0) {
-        // Changes sent in a single SQL transaction for reliability
-        sqljocky.Transaction tx = await sql.startTransaction();
-        try {
-          
-          
-          await tx.commit();
-        } catch (ex) {
-          print("Failed to create account:");
-          print(ex);
-          await tx.rollback();
+      if (accountId == 0) {
+        // Create account if sufficient data was received
+        String addressName;
+        String addressDetail;
+        String addressApproximate;
+        int addressPostcode;
+        String addressRegionCode;
+        String addressCountryCode;
+        if (!pb.hasLat() || !pb.hasLng()) {
+          // Default to LA
+          // https://www.mapbox.com/api-documentation/#search-for-places
+          pb.lat = 34.0207305;
+          pb.lng = -118.6919159;
+          addressName = "Los Angeles";
+          addressDetail = "Los Angeles, California 90017";
+          addressApproximate = "Los Angeles, California 90017";
+          addressPostcode = 90017;
+          addressRegionCode = "US-CA";
+          addressCountryCode = "US";
+        } else {
+          // detailed place_type may be:
+          // - address
+          // for user search, may get detailed place as well from:
+          // - poi.landmark
+          // - poi
+          // approximate place_type may be:
+          // - neighborhood (downtown)
+          // - (postcode (los angeles, not as user friendly) (skip))
+          // - place (los angeles)
+          // - region (california)
+          // - country (us)
+          // get the name from place_name
+          // strip ", country text" (under context->id starting with country, text)
+          // don't let the user change approximate address, just the detail one
+        }
+        int connectedNb = 0;
+        for (int i = 0; i < socialMedia.length; ++i) {
+          if (socialMedia[i].connected)
+            ++connectedNb;
+        }
+        if (accountType != AccountType.AT_UNKNOWN
+          && connectedNb > 0
+          && pb.name.length > 0) {
+          // Changes sent in a single SQL transaction for reliability
+          sqljocky.Transaction tx = await sql.startTransaction();
+          try {
+            
+            
+            await tx.commit();
+          } catch (ex) {
+            print("Failed to create account:");
+            print(ex);
+            await tx.rollback();
+          }
+        }
+
+        // await updateDeviceState();
+        if (accountId != 0) {
+          unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
         }
       }
 
       // Send authentication state
-      // await updateDeviceState();
-      if (accountId != 0) {
-        unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
-      }
       sendNetDeviceAuthState(reply: message);
     } catch (ex) {
       print("Exception in message '${TalkSocket.decode(message.id)}':");
       print(ex);
     }
+  }
+
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  // App
+  /////////////////////////////////////////////////////////////////////
+  
+  /// Transitions the user to the app context after registration or login succeeds
+  void transitionToApp() {
+    assert(_netDeviceAuthCreateReq == null);
+    assert(_netAccountCreateReq == null);
+    // TODO: Permit app transactions!
+    // TODO: Fetch social media from SQL and then from remote hosts!
   }
 }

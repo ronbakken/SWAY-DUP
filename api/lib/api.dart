@@ -35,13 +35,21 @@ AUGKNEZGFQVUROSP2CB7
 AK8dfZ8nD+QYl6Nz662YMa2oSjrG/uUmXte8t4ojd70
 */
 
+/*
+TODO: Have two logs - one log for operations, one log for developers
+*/
+
 selfTestSql(sqljocky.ConnectionPool sql) async { // ⚠️✔️❌🛑 // Emojis make code run faster
-  List<sqljocky.Row> selfTest1 = await (await sql.query('SELECT message FROM self_test WHERE self_test_id=1')).toList();
-  if ("${selfTest1[0][0]}" != "Zipper Sorting 😏") {
-    print('[❌] SQL Self Test: expected: "Zipper Sorting 😏", actual: "${selfTest1[0][0]}"');
-    throw selfTest1[0][0];
-  } else {
-    print("[✔️] SQL Self Test");
+  try {
+    List<sqljocky.Row> selfTest1 = await (await sql.query('SELECT message FROM self_test WHERE self_test_id=1')).toList();
+    if ("${selfTest1[0][0]}" != "Zipper Sorting 😏") {
+      print('[❌] SQL Self Test: expected: "Zipper Sorting 😏", actual: "${selfTest1[0][0]}"'); // CRITICAL - OPERATIONS
+    } else {
+      print("[✔️] SQL Self Test");
+    }
+  } catch (ex) {
+    print('[❌] SQL Self Test:'); // CRITICAL - OPERATIONS
+    print(ex);
   }
 }
 
@@ -57,7 +65,7 @@ selfTestTalk() async {
     await listen;
     print("[✔️] WSTalk Self Test");
   } catch (ex) {
-    print("[❌] WSTalk Self Test:");
+    print("[❌] WSTalk Self Test:"); // CRITICAL - OPERATIONS
     print(ex);
   }
   if (ts != null) {

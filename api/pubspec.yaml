@@ -11,6 +11,7 @@ dependencies:
   protobuf: ^0.7.2
   # crypto: ^2.0.6
   pointycastle: ^1.0.0-rc2
+  synchronized: ^1.5.1
   sqljocky5: # ^1.0.0
     path: ../sqljocky5/
   wstalk:
