@@ -81,6 +81,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   /// Authenticate device connection, this process happens as if by magic
   Future<bool> _authenticateDevice(TalkSocket ts) async {
     // Initialize connection
+    print("[INF] Authenticate device");
     ts.sendMessage(TalkSocket.encode("INFAPP"), new Uint8List(0));
 
     // TODO: We'll use an SQLite database to keep the local cache stored
@@ -102,10 +103,12 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   }
 
   Future _networkLoop() async {
+    print("[INF] Start network loop");
     while (true) {
       try {
         do {
           try {
+            print("[INF] Try connect to ${widget.networkManager.overrideUri}");
             _ts = await TalkSocket.connect(widget.networkManager.overrideUri);
           } catch (e) {
             print("[INF] Network cannot connect, retry in 3 seconds: $e");
@@ -114,6 +117,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
             await new Future.delayed(new Duration(seconds: 3));
           }
         } while (true && (_ts == null));
+        Future listen = _ts.listen();
         if (connected == NetworkConnectionState.Offline) {
           connected = NetworkConnectionState.Connecting;
         }
@@ -123,7 +127,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
           _ts.close();
           connected = NetworkConnectionState.Failing;
         });
-        await _ts.listen();
+        await listen;
         _ts = null;
         if (connected == NetworkConnectionState.Ready) {
           connected = NetworkConnectionState.Connecting;
@@ -157,6 +161,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   void reassemble() { 
     super.reassemble();
     // Developer reload
+    if (_ts != null) {
+      print("[INF] Network reload by developer");
+      _ts.close();
+    }
   }
 
   @override
@@ -170,6 +178,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     // Called before build(), may change/update any state here without calling setState()
     super.didUpdateWidget(oldWidget);
     syncConfig();
+    if (_ts != null) {
+      print("[INF] Network reload by config");
+      _ts.close();
+    }
   }
 
   @override

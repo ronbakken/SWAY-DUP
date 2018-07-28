@@ -27,7 +27,7 @@ class DemoApp extends StatelessWidget {
       startupConfig: startupConfig,
       child: new NetworkManager(
         key: new Key('InfDemo.NetworkManager'),
-        overrideUri: "ws://localhost:9090/ws", // Uri of server to connect with
+        overrideUri: "ws://192.168.105.2:9090/ws", // Uri of server to connect with
         // overrideUri: "ws://localhost:9090/ws",
         child: new MaterialApp(
           title: '*** INF UI Demo ***',
