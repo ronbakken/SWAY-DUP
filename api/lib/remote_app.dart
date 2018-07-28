@@ -16,7 +16,7 @@ import 'package:synchronized/synchronized.dart';
 // TODO: Move sql queries into a separate shared class, to allow prepared statements, and simplify code here
 
 class RemoteApp {
-  bool _connected;
+  bool _connected = true;
 
   static const String mapboxToken = "pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqazRwN3h4ODBjM2QzcHA2N2ZzbHoyYm0ifQ.vpwrdXRoCU-nBm-E1KNKdA"; // TODO: Replace with config. This is NBSPOU dev server token
 
@@ -49,6 +49,9 @@ class RemoteApp {
 
   RemoteApp(this.sql, this.ts) {
     devLog.fine("New connection");
+    for (int i = 0; i < socialMedia.length; ++i) {
+      socialMedia[i] = new DataSocialMedia();
+    }
     subscribeAuthentication();
   }
 
@@ -70,6 +73,9 @@ class RemoteApp {
   }
 
   void unsubscribeAuthentication() {
+    if (_netDeviceAuthCreateReq == null) {
+      return;
+    }
     _netDeviceAuthCreateReq.cancel(); _netDeviceAuthCreateReq = null;
     _netDeviceAuthChallengeReq.cancel(); _netDeviceAuthChallengeReq = null;
   }
@@ -79,6 +85,7 @@ class RemoteApp {
     try {
       NetDeviceAuthCreateReq pb = new NetDeviceAuthCreateReq();
       pb.mergeFromBuffer(message.data);
+      String aesKeyStr = base64.encode(pb.aesKey);
       await lock.synchronized(() async {
           if (accountState.deviceId == 0) { // Create only once 🤨😒
             sqljocky.RetainedConnection connection = await sql.getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead device entries
@@ -86,11 +93,11 @@ class RemoteApp {
               // Create a new device in the devices table of the database
               await connection.prepareExecute(
                 "INSERT INTO `devices` (`aes_key`, `name`, `info`) VALUES (?, ?, ?)", 
-                [ pb.aesKey, pb.name, pb.info ]);
+                [ aesKeyStr, pb.name, pb.info ]);
               sqljocky.Results lastInsertedId = await connection.query("SELECT LAST_INSERT_ID()");
               await for (sqljocky.Row row in lastInsertedId) {
                 accountState.deviceId = row[0];
-                devLog.info("Inserted device_id ${accountState.deviceId} with aes_key '${pb.aesKey}'");
+                devLog.info("Inserted device_id ${accountState.deviceId} with aes_key '${aesKeyStr}'");
               }
             } catch (ex) {
               devLog.warning("Failed to create device: $ex");
@@ -102,6 +109,7 @@ class RemoteApp {
             subscribeOnboarding();
           }
       });
+      devLog.fine("Send auth state ${message.request}");
       await sendNetDeviceAuthState(reply: message);
     } catch (ex) {
       devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
@@ -235,12 +243,8 @@ class RemoteApp {
     }
     await lock.synchronized(() async {
       NetDeviceAuthState pb = new NetDeviceAuthState();
-      pb.accountState.deviceId = accountState.deviceId;
-      pb.accountState.accountId = accountState.accountId;
-      pb.accountState.accountType = accountState.accountType;
-      pb.accountState.globalAccountState = accountState.globalAccountState;
-      pb.accountState.globalAccountStateReason = accountState.globalAccountStateReason;
-      pb.socialMedia.setAll(0, socialMedia);
+      pb.accountState = accountState;
+      pb.socialMedia.addAll(socialMedia);
       ts.sendMessage(_netDeviceAuthState, pb.writeToBuffer(), reply: reply);
     });
   }
@@ -258,6 +262,9 @@ class RemoteApp {
   }
 
   void unsubscribeOnboarding() {
+    if (_netSetAccountType == null) {
+      return;
+    }
     _netSetAccountType.cancel(); _netSetAccountType = null;
     _netOAuthConnectReq.cancel(); _netOAuthConnectReq = null;
     _netAccountCreateReq.cancel(); _netAccountCreateReq = null;
