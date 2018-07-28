@@ -16,6 +16,8 @@ import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
 class RemoteApp {
   bool _connected;
 
+  static const String mapboxToken = "pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqazRwN3h4ODBjM2QzcHA2N2ZzbHoyYm0ifQ.vpwrdXRoCU-nBm-E1KNKdA"; // TODO: Replace with config. This is NBSPOU dev server token
+
   final sqljocky.ConnectionPool sql;
   final TalkSocket ts;
 
@@ -40,15 +42,20 @@ class RemoteApp {
     unsubscribeAuthentication();
   }
 
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
   // Authentication messages
+  /////////////////////////////////////////////////////////////////////
+  
   void subscribeAuthentication() {
     _netDeviceAuthCreateReq = ts.stream(TalkSocket.encode("DA_CREAT")).listen(netDeviceAuthCreateReq);
     _netDeviceAuthChallengeReq = ts.stream(TalkSocket.encode("DA_CHALL")).listen(netDeviceAuthChallengeReq);
   }
 
   void unsubscribeAuthentication() {
-    _netDeviceAuthCreateReq.cancel();
-    _netDeviceAuthChallengeReq.cancel();
+    _netDeviceAuthCreateReq.cancel(); _netDeviceAuthCreateReq = null;
+    _netDeviceAuthChallengeReq.cancel(); _netDeviceAuthChallengeReq = null;
   }
 
   StreamSubscription<TalkMessage> _netDeviceAuthCreateReq; // DA_CREAT
@@ -57,7 +64,7 @@ class RemoteApp {
       NetDeviceAuthCreateReq pb = new NetDeviceAuthCreateReq();
       pb.mergeFromBuffer(message.data);
       if (deviceId == 0) { // Create only once 🤨😒
-        sqljocky.RetainedConnection connection = await sql.getConnection();
+        sqljocky.RetainedConnection connection = await sql.getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead device entries
         try {
           // Create a new device in the devices table of the database
           await connection.prepareExecute(
@@ -72,7 +79,11 @@ class RemoteApp {
           print("Failed to create device:");
           print(ex);
         }
-        connection.release();
+        await connection.release();
+      }
+      if (deviceId != 0) {
+        unsubscribeAuthentication(); // No longer respond to authentication messages when OK
+        subscribeOnboarding();
       }
       sendNetDeviceAuthState(reply: message);
     } catch (ex) {
@@ -142,8 +153,13 @@ class RemoteApp {
 
       // Send authentication state
       await updateDeviceState();
-      if (accountId != 0) {
+      if (deviceId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
+        if (accountId != 0) {
+          // TODO: Permit app transactions!
+        } else {
+          subscribeOnboarding();
+        }
       }
       sendNetDeviceAuthState(reply: signatureMessage);
     } catch (ex) {
@@ -206,4 +222,147 @@ class RemoteApp {
     ts.sendMessage(_netDeviceAuthState, pb.writeToBuffer(), reply: reply);
   }
 
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  // Onboarding messages
+  /////////////////////////////////////////////////////////////////////
+  
+  void subscribeOnboarding() {
+    _netSetAccountType = ts.stream(TalkSocket.encode("A_SETTYP")).listen(netSetAccountType);
+    _netOAuthConnectReq = ts.stream(TalkSocket.encode("OA_CONNE")).listen(netOAuthConnectReq);
+    _netAccountCreateReq = ts.stream(TalkSocket.encode("A_CREATE")).listen(netAccountCreateReq);
+  }
+
+  void unsubscribeOnboarding() {
+    _netSetAccountType.cancel(); _netSetAccountType = null;
+    _netOAuthConnectReq.cancel(); _netOAuthConnectReq = null;
+    _netAccountCreateReq.cancel(); _netAccountCreateReq = null;
+  }
+
+  StreamSubscription<TalkMessage> _netSetAccountType; // A_SETTYP
+  netSetAccountType(TalkMessage message) async {
+    assert(accountId == 0);
+    assert(deviceId != 0);
+    try {
+      // Received account type change request
+      NetSetAccountType pb = new NetSetAccountType();
+      pb.mergeFromBuffer(message.data);
+      if (pb.accountType == accountType) {
+        return; // no-op, may ignore
+      }
+
+      sqljocky.Transaction tx = await sql.startTransaction();
+      try {
+        await tx.prepareExecute("DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0", [ deviceId ]);
+        await tx.prepareExecute("UPDATE `devices` SET `account_type` = 1 WHERE `device_id` = 1 AND `account_id` = 0", [ pb.accountType.value, deviceId]);
+        await tx.commit();
+      } catch (ex) {
+        print("Failed to change account type:");
+        print(ex);
+        await tx.rollback();
+      }
+
+      // Send authentication state
+      await updateDeviceState();
+      sendNetDeviceAuthState();
+    } catch (ex) {
+      print("Exception in message '${TalkSocket.decode(message.id)}':");
+      print(ex);
+    }
+  }
+
+  StreamSubscription<TalkMessage> _netOAuthConnectReq; // OA_CONNE
+  static int _netOAuthConnectRes = TalkSocket.encode("OA_R_CON");
+  netOAuthConnectReq(TalkMessage message) async { // response: NetOAuthConnectRes
+    assert(accountId == 0);
+    assert(deviceId != 0);
+    try {
+      // Received oauth connection request
+      NetOAuthConnectReq pb = new NetOAuthConnectReq();
+      pb.mergeFromBuffer(message.data);
+      NetOAuthConnectRes resPb = new NetOAuthConnectRes();
+      resPb.socialMedia.connected = false;
+      ts.sendMessage(_netOAuthConnectRes, resPb.writeToBuffer(), reply: message);
+    } catch (ex) {
+      print("Exception in message '${TalkSocket.decode(message.id)}':");
+      print(ex);
+    }
+  }
+
+  StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE
+  netAccountCreateReq(TalkMessage message) async { // response: NetDeviceAuthState
+    assert(accountId == 0);
+    assert(deviceId != 0);
+    try {
+      // Received account creation request
+      NetAccountCreateReq pb = new NetAccountCreateReq();
+      pb.mergeFromBuffer(message.data);
+
+      // Create account if sufficient data was received
+      String addressName;
+      String addressDetail;
+      String addressApproximate;
+      int addressPostcode;
+      String addressRegionCode;
+      String addressCountryCode;
+      if (!pb.hasLat() || !pb.hasLng()) {
+        // Default to LA
+        // https://www.mapbox.com/api-documentation/#search-for-places
+        pb.lat = 34.0207305;
+        pb.lng = -118.6919159;
+        addressName = "Los Angeles";
+        addressDetail = "Los Angeles, California 90017";
+        addressApproximate = "Los Angeles, California 90017";
+        addressPostcode = 90017;
+        addressRegionCode = "US-CA";
+        addressCountryCode = "US";
+      } else {
+        // detailed place_type may be:
+        // - address
+        // for user search, may get detailed place as well from:
+        // - poi.landmark
+        // - poi
+        // approximate place_type may be:
+        // - neighborhood (downtown)
+        // - (postcode (los angeles, not as user friendly) (skip))
+        // - place (los angeles)
+        // - region (california)
+        // - country (us)
+        // get the name from place_name
+        // strip ", country text" (under context->id starting with country, text)
+        // don't let the user change approximate address, just the detail one
+      }
+      int connectedNb = 0;
+      for (int i = 0; i < socialMedia.length; ++i) {
+        if (socialMedia[i].connected)
+          ++connectedNb;
+      }
+      if (accountType != AccountType.AT_UNKNOWN
+        && connectedNb > 0
+        && pb.name.length > 0) {
+        // Changes sent in a single SQL transaction for reliability
+        sqljocky.Transaction tx = await sql.startTransaction();
+        try {
+          
+          
+          await tx.commit();
+        } catch (ex) {
+          print("Failed to create account:");
+          print(ex);
+          await tx.rollback();
+        }
+      }
+
+      // Send authentication state
+      // await updateDeviceState();
+      if (accountId != 0) {
+        unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
+      }
+      sendNetDeviceAuthState(reply: message);
+    } catch (ex) {
+      print("Exception in message '${TalkSocket.decode(message.id)}':");
+      print(ex);
+    }
+  }
 }
