@@ -178,6 +178,21 @@ message DataChat {
   
 }
 
+message DataAccountState {
+  // Device ID. If 0, authentication failed, and the client must create a new account
+  int32 deviceId = 1;
+  
+  // Account ID. If 0, proceed with account creation
+  int32 accountId = 2;
+  
+  // Account type. If not AT_UNKNOWN, account creation may bypass type selection
+  AccountType accountType = 3;
+  
+  GlobalAccountState globalAccountState = 4;
+  GlobalAccountStateReason globalAccountStateReason = 5;
+  
+}
+
 message DataSocialMedia {
   bool connected = 1;
   int32 followers = 2;
@@ -242,17 +257,7 @@ message NetDeviceAuthSignatureResReq {
 // Create or auth result
 // Name: DA_STATE
 message NetDeviceAuthState {
-  // Device ID. If 0, authentication failed, and the client must create a new account
-  int32 deviceId = 1;
-  
-  // Account ID. If 0, proceed with account creation
-  int32 accountId = 2;
-  
-  // Account type. If not AT_UNKNOWN, account creation may bypass type selection
-  AccountType accountType = 3;
-  
-  GlobalAccountState globalAccountState = 4;
-  GlobalAccountStateReason globalAccountStateReason = 5;
+  DataAccountState accountState = 7;
   
   // Social media state
   repeated DataSocialMedia socialMedia = 6;
