@@ -65,29 +65,31 @@ class RemoteApp {
     try {
       NetDeviceAuthCreateReq pb = new NetDeviceAuthCreateReq();
       pb.mergeFromBuffer(message.data);
-      if (deviceId == 0) { // Create only once 🤨😒
-        sqljocky.RetainedConnection connection = await sql.getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead device entries
-        try {
-          // Create a new device in the devices table of the database
-          await connection.prepareExecute(
-            "INSERT INTO `devices` (`aes_key`, `name`, `info`) VALUES (?, ?, ?)", 
-            [ pb.aesKey, pb.name, pb.info ]);
-          sqljocky.Results lastInsertedId = await connection.query("SELECT LAST_INSERT_ID()");
-          await for (sqljocky.Row row in lastInsertedId) {
-            deviceId = row[0];
-            print("Inserted device_id $deviceId with aes_key '${pb.aesKey}'");
+      await lock.synchronized(() async {
+          if (deviceId == 0) { // Create only once 🤨😒
+            sqljocky.RetainedConnection connection = await sql.getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead device entries
+            try {
+              // Create a new device in the devices table of the database
+              await connection.prepareExecute(
+                "INSERT INTO `devices` (`aes_key`, `name`, `info`) VALUES (?, ?, ?)", 
+                [ pb.aesKey, pb.name, pb.info ]);
+              sqljocky.Results lastInsertedId = await connection.query("SELECT LAST_INSERT_ID()");
+              await for (sqljocky.Row row in lastInsertedId) {
+                deviceId = row[0];
+                print("Inserted device_id $deviceId with aes_key '${pb.aesKey}'");
+              }
+            } catch (ex) {
+              print("Failed to create device:");
+              print(ex);
+            }
+            await connection.release();
           }
-        } catch (ex) {
-          print("Failed to create device:");
-          print(ex);
-        }
-        await connection.release();
-      }
-      if (deviceId != 0) {
-        unsubscribeAuthentication(); // No longer respond to authentication messages when OK
-        subscribeOnboarding();
-      }
-      sendNetDeviceAuthState(reply: message);
+          if (deviceId != 0) {
+            unsubscribeAuthentication(); // No longer respond to authentication messages when OK
+            subscribeOnboarding();
+          }
+      });
+      await sendNetDeviceAuthState(reply: message);
     } catch (ex) {
       print("Exception in message '${TalkSocket.decode(message.id)}':");
       print(ex);
@@ -145,7 +147,11 @@ class RemoteApp {
         if (equals) {
           // Successfully verified signature
           print("Signature verified succesfully for device $attemptDeviceId");
-          deviceId = attemptDeviceId;
+          await lock.synchronized(() async {
+            if (deviceId == 0) {
+              deviceId = attemptDeviceId;
+            }
+          });
         } else {
           print("Signature verification failed for device $attemptDeviceId");
         }
@@ -163,7 +169,7 @@ class RemoteApp {
           subscribeOnboarding();
         }
       }
-      sendNetDeviceAuthState(reply: signatureMessage);
+      await sendNetDeviceAuthState(reply: signatureMessage);
     } catch (ex) {
       print("Exception in message '${TalkSocket.decode(message.id)}':");
       print(ex);
@@ -171,57 +177,61 @@ class RemoteApp {
   }
 
   Future updateDeviceState() async {
-    // First get the account id (and account type, in case the account id has not been created yet)
-    sqljocky.Results deviceResults = await sql.prepareExecute("SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?", [ deviceId ]);
-    await for (sqljocky.Row row in deviceResults) { // one row
-      accountId = row[0]; // VERIFY
-      accountType = AccountType.valueOf(row[1]); // VERIFY
-    }
-    sqljocky.Results mediaResults;
-    if (accountId != 0) {
-      // Get the account information if it exists
-      sqljocky.Results accountResults = await sql.prepareExecute("SELECT `account_type`, `global_account_state`, `global_account_state_reason`, `address_id` FROM `accounts` WHERE `account_id` = ?", [ accountId ]);
-      await for (sqljocky.Row row in accountResults) { // one row
-        accountType = AccountType.valueOf(row[0]); // VERIFY
-        globalAccountState = GlobalAccountState.valueOf(row[1]); // VERIFY
-        globalAccountStateReason = GlobalAccountStateReason.valueOf(row[2]); // VERIFY
-        addressId = row[3]; // VERIFY
+    await lock.synchronized(() async {
+      // First get the account id (and account type, in case the account id has not been created yet)
+      sqljocky.Results deviceResults = await sql.prepareExecute("SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?", [ deviceId ]);
+      await for (sqljocky.Row row in deviceResults) { // one row
+        accountId = row[0]; // VERIFY
+        accountType = AccountType.valueOf(row[1]); // VERIFY
       }
-      mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `username`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `account_id` = ?", [ accountId ]);
-    } else {
-      mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `username`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `device_id` = ?", [ deviceId ]);
-    }
-    List<bool> connected = new List<bool>(socialMedia.length);
-    await for (sqljocky.Row row in mediaResults) {
-      int oauthProvider = row[0];
-      if (oauthProvider < socialMedia.length) {
-        connected[oauthProvider] = true;
-        socialMedia[oauthProvider].userName = row[1].toString();
-        socialMedia[oauthProvider].displayName = row[2].toString();
-        socialMedia[oauthProvider].followers = row[3];
-        socialMedia[oauthProvider].following = row[4];
+      sqljocky.Results mediaResults;
+      if (accountId != 0) {
+        // Get the account information if it exists
+        sqljocky.Results accountResults = await sql.prepareExecute("SELECT `account_type`, `global_account_state`, `global_account_state_reason`, `address_id` FROM `accounts` WHERE `account_id` = ?", [ accountId ]);
+        await for (sqljocky.Row row in accountResults) { // one row
+          accountType = AccountType.valueOf(row[0]); // VERIFY
+          globalAccountState = GlobalAccountState.valueOf(row[1]); // VERIFY
+          globalAccountStateReason = GlobalAccountStateReason.valueOf(row[2]); // VERIFY
+          addressId = row[3]; // VERIFY
+        }
+        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `username`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `account_id` = ?", [ accountId ]);
       } else {
-        print("Unknown social media provider $oauthProvider");
+        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `username`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `device_id` = ?", [ deviceId ]);
       }
-    }
-    for (int i = 0; i < socialMedia.length; ++i) {
-      socialMedia[i].connected = connected[i];
-    }
+      List<bool> connected = new List<bool>(socialMedia.length);
+      await for (sqljocky.Row row in mediaResults) {
+        int oauthProvider = row[0];
+        if (oauthProvider < socialMedia.length) {
+          connected[oauthProvider] = true;
+          socialMedia[oauthProvider].userName = row[1].toString();
+          socialMedia[oauthProvider].displayName = row[2].toString();
+          socialMedia[oauthProvider].followers = row[3];
+          socialMedia[oauthProvider].following = row[4];
+        } else {
+          print("Unknown social media provider $oauthProvider");
+        }
+      }
+      for (int i = 0; i < socialMedia.length; ++i) {
+        socialMedia[i].connected = connected[i];
+      }
+    });
   }
 
   static int _netDeviceAuthState = TalkSocket.encode("DA_STATE");
-  void sendNetDeviceAuthState({ TalkMessage reply }) {
+  Future sendNetDeviceAuthState({ TalkMessage reply }) async {
     if (!_connected) {
       return;
     }
-    NetDeviceAuthState pb = new NetDeviceAuthState();
-    pb.deviceId = deviceId;
-    pb.accountId = accountId;
-    pb.accountType = accountType;
-    pb.globalAccountState = globalAccountState;
-    pb.globalAccountStateReason = globalAccountStateReason;
-    pb.socialMedia.setAll(0, socialMedia);
-    ts.sendMessage(_netDeviceAuthState, pb.writeToBuffer(), reply: reply);
+    await lock.synchronized(() async {
+      NetDeviceAuthState pb = new NetDeviceAuthState();
+      pb.deviceId = deviceId;
+      pb.accountId = accountId;
+      pb.accountType = accountType;
+      pb.globalAccountState = globalAccountState;
+      pb.globalAccountStateReason = globalAccountStateReason;
+      pb.socialMedia.setAll(0, socialMedia);
+      ts.sendMessage(_netDeviceAuthState, pb.writeToBuffer(), reply: reply);
+    });
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -249,27 +259,30 @@ class RemoteApp {
       // Received account type change request
       NetSetAccountType pb = new NetSetAccountType();
       pb.mergeFromBuffer(message.data);
-      if (pb.accountType == accountType) {
-        return; // no-op, may ignore
-      }
-      if (accountId != 0) {
-        return; // no-op, may ignore
-      }
 
-      sqljocky.Transaction tx = await sql.startTransaction();
-      try {
-        await tx.prepareExecute("DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0", [ deviceId ]);
-        await tx.prepareExecute("UPDATE `devices` SET `account_type` = 1 WHERE `device_id` = 1 AND `account_id` = 0", [ pb.accountType.value, deviceId]);
-        await tx.commit();
-      } catch (ex) {
-        print("Failed to change account type:");
-        print(ex);
-        await tx.rollback();
-      }
+      await lock.synchronized(() async {
+        if (pb.accountType == accountType) {
+          return; // no-op, may ignore
+        }
+        if (accountId != 0) {
+          return; // no-op, may ignore
+        }
+
+        sqljocky.Transaction tx = await sql.startTransaction();
+        try {
+          await tx.prepareExecute("DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0", [ deviceId ]);
+          await tx.prepareExecute("UPDATE `devices` SET `account_type` = 1 WHERE `device_id` = 1 AND `account_id` = 0", [ pb.accountType.value, deviceId]);
+          await tx.commit();
+        } catch (ex) {
+          print("Failed to change account type:");
+          print(ex);
+          await tx.rollback();
+        }
+      });
 
       // Send authentication state
       await updateDeviceState();
-      sendNetDeviceAuthState();
+      await sendNetDeviceAuthState();
     } catch (ex) {
       print("Exception in message '${TalkSocket.decode(message.id)}':");
       print(ex);
@@ -323,6 +336,9 @@ class RemoteApp {
           oauthAccountId = row[0];
           oauthDeviceId = row[1];
         }
+        await lock.synchronized(() async {
+          // Decide what to do
+        });
       }
 
       NetOAuthConnectRes resPb = new NetOAuthConnectRes();
@@ -335,7 +351,7 @@ class RemoteApp {
         // The OAuth has an account attached, let's go!
         unsubscribeOnboarding();
         await updateDeviceState();
-        sendNetDeviceAuthState();
+        await sendNetDeviceAuthState();
       }
     } catch (ex) {
       print("Exception in message '${TalkSocket.decode(message.id)}':");
@@ -351,70 +367,72 @@ class RemoteApp {
       NetAccountCreateReq pb = new NetAccountCreateReq();
       pb.mergeFromBuffer(message.data);
 
-      if (accountId == 0) {
-        // Create account if sufficient data was received
-        String addressName;
-        String addressDetail;
-        String addressApproximate;
-        int addressPostcode;
-        String addressRegionCode;
-        String addressCountryCode;
-        if (!pb.hasLat() || !pb.hasLng()) {
-          // Default to LA
-          // https://www.mapbox.com/api-documentation/#search-for-places
-          pb.lat = 34.0207305;
-          pb.lng = -118.6919159;
-          addressName = "Los Angeles";
-          addressDetail = "Los Angeles, California 90017";
-          addressApproximate = "Los Angeles, California 90017";
-          addressPostcode = 90017;
-          addressRegionCode = "US-CA";
-          addressCountryCode = "US";
-        } else {
-          // detailed place_type may be:
-          // - address
-          // for user search, may get detailed place as well from:
-          // - poi.landmark
-          // - poi
-          // approximate place_type may be:
-          // - neighborhood (downtown)
-          // - (postcode (los angeles, not as user friendly) (skip))
-          // - place (los angeles)
-          // - region (california)
-          // - country (us)
-          // get the name from place_name
-          // strip ", country text" (under context->id starting with country, text)
-          // don't let the user change approximate address, just the detail one
-        }
-        int connectedNb = 0;
-        for (int i = 0; i < socialMedia.length; ++i) {
-          if (socialMedia[i].connected)
-            ++connectedNb;
-        }
-        if (accountType != AccountType.AT_UNKNOWN
-          && connectedNb > 0
-          && pb.name.length > 0) {
-          // Changes sent in a single SQL transaction for reliability
-          sqljocky.Transaction tx = await sql.startTransaction();
-          try {
-            
-            
-            await tx.commit();
-          } catch (ex) {
-            print("Failed to create account:");
-            print(ex);
-            await tx.rollback();
+      await lock.synchronized(() async {
+        if (accountId == 0) {
+          // Create account if sufficient data was received
+          String addressName;
+          String addressDetail;
+          String addressApproximate;
+          int addressPostcode;
+          String addressRegionCode;
+          String addressCountryCode;
+          if (!pb.hasLat() || !pb.hasLng()) {
+            // Default to LA
+            // https://www.mapbox.com/api-documentation/#search-for-places
+            pb.lat = 34.0207305;
+            pb.lng = -118.6919159;
+            addressName = "Los Angeles";
+            addressDetail = "Los Angeles, California 90017";
+            addressApproximate = "Los Angeles, California 90017";
+            addressPostcode = 90017;
+            addressRegionCode = "US-CA";
+            addressCountryCode = "US";
+          } else {
+            // detailed place_type may be:
+            // - address
+            // for user search, may get detailed place as well from:
+            // - poi.landmark
+            // - poi
+            // approximate place_type may be:
+            // - neighborhood (downtown)
+            // - (postcode (los angeles, not as user friendly) (skip))
+            // - place (los angeles)
+            // - region (california)
+            // - country (us)
+            // get the name from place_name
+            // strip ", country text" (under context->id starting with country, text)
+            // don't let the user change approximate address, just the detail one
+          }
+          int connectedNb = 0;
+          for (int i = 0; i < socialMedia.length; ++i) {
+            if (socialMedia[i].connected)
+              ++connectedNb;
+          }
+          if (accountType != AccountType.AT_UNKNOWN
+            && connectedNb > 0
+            && pb.name.length > 0) {
+            // Changes sent in a single SQL transaction for reliability
+            sqljocky.Transaction tx = await sql.startTransaction();
+            try {
+              
+              
+              await tx.commit();
+            } catch (ex) {
+              print("Failed to create account:");
+              print(ex);
+              await tx.rollback();
+            }
+          }
+
+          // await updateDeviceState();
+          if (accountId != 0) {
+            unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
           }
         }
-
-        // await updateDeviceState();
-        if (accountId != 0) {
-          unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
-        }
-      }
+      });
 
       // Send authentication state
-      sendNetDeviceAuthState(reply: message);
+      await sendNetDeviceAuthState(reply: message);
     } catch (ex) {
       print("Exception in message '${TalkSocket.decode(message.id)}':");
       print(ex);
