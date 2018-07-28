@@ -52,43 +52,45 @@ namespace InfX {
             "GAIgASgLMgouRGF0YU9mZmVyEiMKCmluZmx1ZW5jZXIYAyABKAsyDy5EYXRh",
             "SW5mbHVlbmNlciJiCghEYXRhQ2hhdBITCgthcHBsaWNhbnRJZBgBIAEoAxIS",
             "CgpzZXF1ZW5jZUlkGAIgASgDEg0KBWtleUlkGAMgASgDEhAKCG91dGdvaW5n",
-            "GAQgASgIEgwKBHRleHQYBSABKAkicQoPRGF0YVNvY2lhbE1lZGlhEhEKCWNv",
-            "bm5lY3RlZBgBIAEoCBIRCglmb2xsb3dlcnMYAiABKAUSEQoJZm9sbG93aW5n",
-            "GAMgASgFEhAKCHVzZXJuYW1lGAQgASgJEhMKC2Rpc3BsYXlOYW1lGAUgASgJ",
-            "IkQKFk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoGYWVzS2V5GAEgASgMEgwK",
-            "BG5hbWUYAiABKAkSDAoEaW5mbxgDIAEoCSItChlOZXREZXZpY2VBdXRoQ2hh",
-            "bGxlbmdlUmVxEhAKCGRldmljZUlkGAEgASgFIjEKHE5ldERldmljZUF1dGhD",
-            "aGFsbGVuZ2VSZXNSZXESEQoJY2hhbGxlbmdlGAEgASgMIjEKHE5ldERldmlj",
-            "ZUF1dGhTaWduYXR1cmVSZXNSZXESEQoJc2lnbmF0dXJlGAEgASgMIvEBChJO",
-            "ZXREZXZpY2VBdXRoU3RhdGUSEAoIZGV2aWNlSWQYASABKAUSEQoJYWNjb3Vu",
-            "dElkGAIgASgFEiEKC2FjY291bnRUeXBlGAMgASgOMgwuQWNjb3VudFR5cGUS",
-            "LwoSZ2xvYmFsQWNjb3VudFN0YXRlGAQgASgOMhMuR2xvYmFsQWNjb3VudFN0",
-            "YXRlEjsKGGdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhgFIAEoDjIZLkdsb2Jh",
-            "bEFjY291bnRTdGF0ZVJlYXNvbhIlCgtzb2NpYWxNZWRpYRgGIAMoCzIQLkRh",
-            "dGFTb2NpYWxNZWRpYSI2ChFOZXRTZXRBY2NvdW50VHlwZRIhCgthY2NvdW50",
-            "VHlwZRgBIAEoDjIMLkFjY291bnRUeXBlIkMKEk5ldE9BdXRoQ29ubmVjdFJl",
-            "cRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFEhYKDm9hdXRoU2lnbmF0dXJlGAIg",
-            "ASgJIjsKEk5ldE9BdXRoQ29ubmVjdFJlcxIlCgtzb2NpYWxNZWRpYRgBIAEo",
-            "CzIQLkRhdGFTb2NpYWxNZWRpYSI9ChNOZXRBY2NvdW50Q3JlYXRlUmVxEgwK",
-            "BG5hbWUYASABKAkSCwoDbGF0GAIgASgCEgsKA2xuZxgDIAEoAiJHChFOZXRS",
-            "ZXFJbWFnZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghmaWxlU2l6ZRgC",
-            "IAEoBRIOCgZzaGEyNTYYAyABKAki3wEKEU5ldFJlc0ltYWdlVXBsb2FkEhUK",
-            "DXJlcXVlc3RNZXRob2QYASABKAkSEgoKcmVxdWVzdFVybBgCIAEoCRIZChFo",
-            "ZWFkZXJDb250ZW50VHlwZRgDIAEoCRIbChNoZWFkZXJDb250ZW50TGVuZ3Ro",
-            "GAQgASgJEhIKCmhlYWRlckhvc3QYBSABKAkSFgoOaGVhZGVyWEFtekRhdGUY",
-            "BiABKAkSHgoWaGVhZGVyWEFtelN0b3JhZ2VDbGFzcxgHIAEoCRIbChNoZWFk",
-            "ZXJBdXRob3JpemF0aW9uGAggASgJIkAKEU5ldFJlcUNyZWF0ZU9mZmVyEhkK",
-            "BW9mZmVyGAEgASgLMgouRGF0YU9mZmVyEhAKCGltYWdlSWRzGAIgAygJIh8K",
-            "EU5ldFJlc0NyZWF0ZU9mZmVyEgoKAmlkGAEgASgDKkEKC0FjY291bnRUeXBl",
-            "Eg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVT",
-            "SU5FU1MQAiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
-            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
-            "R0FTX1JFQURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FE",
-            "TUlOEAUSCwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFz",
-            "b24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5O",
-            "RUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVE",
-            "EAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUS",
-            "FQoRR0FTUl9SRVFVSVJFX0lORk8QBkIHqgIESW5mWGIGcHJvdG8z"));
+            "GAQgASgIEgwKBHRleHQYBSABKAkiyAEKEERhdGFBY2NvdW50U3RhdGUSEAoI",
+            "ZGV2aWNlSWQYASABKAUSEQoJYWNjb3VudElkGAIgASgFEiEKC2FjY291bnRU",
+            "eXBlGAMgASgOMgwuQWNjb3VudFR5cGUSLwoSZ2xvYmFsQWNjb3VudFN0YXRl",
+            "GAQgASgOMhMuR2xvYmFsQWNjb3VudFN0YXRlEjsKGGdsb2JhbEFjY291bnRT",
+            "dGF0ZVJlYXNvbhgFIAEoDjIZLkdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbiJx",
+            "Cg9EYXRhU29jaWFsTWVkaWESEQoJY29ubmVjdGVkGAEgASgIEhEKCWZvbGxv",
+            "d2VycxgCIAEoBRIRCglmb2xsb3dpbmcYAyABKAUSEAoIdXNlcm5hbWUYBCAB",
+            "KAkSEwoLZGlzcGxheU5hbWUYBSABKAkiRAoWTmV0RGV2aWNlQXV0aENyZWF0",
+            "ZVJlcRIOCgZhZXNLZXkYASABKAwSDAoEbmFtZRgCIAEoCRIMCgRpbmZvGAMg",
+            "ASgJIi0KGU5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXESEAoIZGV2aWNlSWQY",
+            "ASABKAUiMQocTmV0RGV2aWNlQXV0aENoYWxsZW5nZVJlc1JlcRIRCgljaGFs",
+            "bGVuZ2UYASABKAwiMQocTmV0RGV2aWNlQXV0aFNpZ25hdHVyZVJlc1JlcRIR",
+            "CglzaWduYXR1cmUYASABKAwiZAoSTmV0RGV2aWNlQXV0aFN0YXRlEicKDGFj",
+            "Y291bnRTdGF0ZRgHIAEoCzIRLkRhdGFBY2NvdW50U3RhdGUSJQoLc29jaWFs",
+            "TWVkaWEYBiADKAsyEC5EYXRhU29jaWFsTWVkaWEiNgoRTmV0U2V0QWNjb3Vu",
+            "dFR5cGUSIQoLYWNjb3VudFR5cGUYASABKA4yDC5BY2NvdW50VHlwZSJDChJO",
+            "ZXRPQXV0aENvbm5lY3RSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBRIWCg5v",
+            "YXV0aFNpZ25hdHVyZRgCIAEoCSI7ChJOZXRPQXV0aENvbm5lY3RSZXMSJQoL",
+            "c29jaWFsTWVkaWEYASABKAsyEC5EYXRhU29jaWFsTWVkaWEiPQoTTmV0QWNj",
+            "b3VudENyZWF0ZVJlcRIMCgRuYW1lGAEgASgJEgsKA2xhdBgCIAEoAhILCgNs",
+            "bmcYAyABKAIiRwoRTmV0UmVxSW1hZ2VVcGxvYWQSEAoIZmlsZU5hbWUYASAB",
+            "KAkSEAoIZmlsZVNpemUYAiABKAUSDgoGc2hhMjU2GAMgASgJIt8BChFOZXRS",
+            "ZXNJbWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJEhIKCnJlcXVl",
+            "c3RVcmwYAiABKAkSGQoRaGVhZGVyQ29udGVudFR5cGUYAyABKAkSGwoTaGVh",
+            "ZGVyQ29udGVudExlbmd0aBgEIAEoCRISCgpoZWFkZXJIb3N0GAUgASgJEhYK",
+            "DmhlYWRlclhBbXpEYXRlGAYgASgJEh4KFmhlYWRlclhBbXpTdG9yYWdlQ2xh",
+            "c3MYByABKAkSGwoTaGVhZGVyQXV0aG9yaXphdGlvbhgIIAEoCSJAChFOZXRS",
+            "ZXFDcmVhdGVPZmZlchIZCgVvZmZlchgBIAEoCzIKLkRhdGFPZmZlchIQCghp",
+            "bWFnZUlkcxgCIAMoCSIfChFOZXRSZXNDcmVhdGVPZmZlchIKCgJpZBgBIAEo",
+            "AypBCgtBY2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5GTFVF",
+            "TkNFUhABEg8KC0FUX0JVU0lORVNTEAIqjwEKEkdsb2JhbEFjY291bnRTdGF0",
+            "ZRISCg5HQVNfSU5JVElBTElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FT",
+            "X1JFQURfT05MWRACEhIKDkdBU19SRUFEX1dSSVRFEAMSEQoNR0FTX01PREVS",
+            "QVRPUhAEEg0KCUdBU19BRE1JThAFEgsKB0dBU19HT0QQBiq1AQoYR2xvYmFs",
+            "QWNjb3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNH",
+            "QVNSX0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAIS",
+            "EQoNR0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAK",
+            "DEdBU1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAZCB6oCBElu",
+            "ZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -103,12 +105,13 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOffer), global::InfX.DataOffer.Parser, new[]{ "Id", "Business", "Title", "ImageUrls", "Categories", "Lat", "Lng", "Description", "Deliverables", "Reward" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "Id", "Offer", "Influencer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Followers", "Following", "Username", "DisplayName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeResReq), global::InfX.NetDeviceAuthChallengeResReq.Parser, new[]{ "Challenge" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthSignatureResReq), global::InfX.NetDeviceAuthSignatureResReq.Parser, new[]{ "Signature" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthState), global::InfX.NetDeviceAuthState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason", "SocialMedia" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthState), global::InfX.NetDeviceAuthState.Parser, new[]{ "AccountState", "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetAccountType), global::InfX.NetSetAccountType.Parser, new[]{ "AccountType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectReq), global::InfX.NetOAuthConnectReq.Parser, new[]{ "OauthProvider", "OauthSignature" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectRes), global::InfX.NetOAuthConnectRes.Parser, new[]{ "SocialMedia" }, null, null, null),
@@ -2783,6 +2786,244 @@ namespace InfX {
 
   }
 
+  public sealed partial class DataAccountState : pb::IMessage<DataAccountState> {
+    private static readonly pb::MessageParser<DataAccountState> _parser = new pb::MessageParser<DataAccountState>(() => new DataAccountState());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DataAccountState> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[11]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataAccountState() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataAccountState(DataAccountState other) : this() {
+      deviceId_ = other.deviceId_;
+      accountId_ = other.accountId_;
+      accountType_ = other.accountType_;
+      globalAccountState_ = other.globalAccountState_;
+      globalAccountStateReason_ = other.globalAccountStateReason_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataAccountState Clone() {
+      return new DataAccountState(this);
+    }
+
+    /// <summary>Field number for the "deviceId" field.</summary>
+    public const int DeviceIdFieldNumber = 1;
+    private int deviceId_;
+    /// <summary>
+    ///  Device ID. If 0, authentication failed, and the client must create a new account
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int DeviceId {
+      get { return deviceId_; }
+      set {
+        deviceId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "accountId" field.</summary>
+    public const int AccountIdFieldNumber = 2;
+    private int accountId_;
+    /// <summary>
+    ///  Account ID. If 0, proceed with account creation
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int AccountId {
+      get { return accountId_; }
+      set {
+        accountId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "accountType" field.</summary>
+    public const int AccountTypeFieldNumber = 3;
+    private global::InfX.AccountType accountType_ = 0;
+    /// <summary>
+    ///  Account type. If not AT_UNKNOWN, account creation may bypass type selection
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.AccountType AccountType {
+      get { return accountType_; }
+      set {
+        accountType_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "globalAccountState" field.</summary>
+    public const int GlobalAccountStateFieldNumber = 4;
+    private global::InfX.GlobalAccountState globalAccountState_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.GlobalAccountState GlobalAccountState {
+      get { return globalAccountState_; }
+      set {
+        globalAccountState_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "globalAccountStateReason" field.</summary>
+    public const int GlobalAccountStateReasonFieldNumber = 5;
+    private global::InfX.GlobalAccountStateReason globalAccountStateReason_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.GlobalAccountStateReason GlobalAccountStateReason {
+      get { return globalAccountStateReason_; }
+      set {
+        globalAccountStateReason_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DataAccountState);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DataAccountState other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (DeviceId != other.DeviceId) return false;
+      if (AccountId != other.AccountId) return false;
+      if (AccountType != other.AccountType) return false;
+      if (GlobalAccountState != other.GlobalAccountState) return false;
+      if (GlobalAccountStateReason != other.GlobalAccountStateReason) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (DeviceId != 0) hash ^= DeviceId.GetHashCode();
+      if (AccountId != 0) hash ^= AccountId.GetHashCode();
+      if (AccountType != 0) hash ^= AccountType.GetHashCode();
+      if (GlobalAccountState != 0) hash ^= GlobalAccountState.GetHashCode();
+      if (GlobalAccountStateReason != 0) hash ^= GlobalAccountStateReason.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (DeviceId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(DeviceId);
+      }
+      if (AccountId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(AccountId);
+      }
+      if (AccountType != 0) {
+        output.WriteRawTag(24);
+        output.WriteEnum((int) AccountType);
+      }
+      if (GlobalAccountState != 0) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) GlobalAccountState);
+      }
+      if (GlobalAccountStateReason != 0) {
+        output.WriteRawTag(40);
+        output.WriteEnum((int) GlobalAccountStateReason);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (DeviceId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DeviceId);
+      }
+      if (AccountId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountId);
+      }
+      if (AccountType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) AccountType);
+      }
+      if (GlobalAccountState != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) GlobalAccountState);
+      }
+      if (GlobalAccountStateReason != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) GlobalAccountStateReason);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DataAccountState other) {
+      if (other == null) {
+        return;
+      }
+      if (other.DeviceId != 0) {
+        DeviceId = other.DeviceId;
+      }
+      if (other.AccountId != 0) {
+        AccountId = other.AccountId;
+      }
+      if (other.AccountType != 0) {
+        AccountType = other.AccountType;
+      }
+      if (other.GlobalAccountState != 0) {
+        GlobalAccountState = other.GlobalAccountState;
+      }
+      if (other.GlobalAccountStateReason != 0) {
+        GlobalAccountStateReason = other.GlobalAccountStateReason;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            DeviceId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            AccountId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            accountType_ = (global::InfX.AccountType) input.ReadEnum();
+            break;
+          }
+          case 32: {
+            globalAccountState_ = (global::InfX.GlobalAccountState) input.ReadEnum();
+            break;
+          }
+          case 40: {
+            globalAccountStateReason_ = (global::InfX.GlobalAccountStateReason) input.ReadEnum();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class DataSocialMedia : pb::IMessage<DataSocialMedia> {
     private static readonly pb::MessageParser<DataSocialMedia> _parser = new pb::MessageParser<DataSocialMedia>(() => new DataSocialMedia());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2790,7 +3031,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[11]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3024,7 +3265,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[12]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3208,7 +3449,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[13]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3333,7 +3574,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[14]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3455,7 +3696,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[15]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3576,7 +3817,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[16]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[17]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3593,11 +3834,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetDeviceAuthState(NetDeviceAuthState other) : this() {
-      deviceId_ = other.deviceId_;
-      accountId_ = other.accountId_;
-      accountType_ = other.accountType_;
-      globalAccountState_ = other.globalAccountState_;
-      globalAccountStateReason_ = other.globalAccountStateReason_;
+      AccountState = other.accountState_ != null ? other.AccountState.Clone() : null;
       socialMedia_ = other.socialMedia_.Clone();
     }
 
@@ -3606,67 +3843,14 @@ namespace InfX {
       return new NetDeviceAuthState(this);
     }
 
-    /// <summary>Field number for the "deviceId" field.</summary>
-    public const int DeviceIdFieldNumber = 1;
-    private int deviceId_;
-    /// <summary>
-    ///  Device ID. If 0, authentication failed, and the client must create a new account
-    /// </summary>
+    /// <summary>Field number for the "accountState" field.</summary>
+    public const int AccountStateFieldNumber = 7;
+    private global::InfX.DataAccountState accountState_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int DeviceId {
-      get { return deviceId_; }
+    public global::InfX.DataAccountState AccountState {
+      get { return accountState_; }
       set {
-        deviceId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "accountId" field.</summary>
-    public const int AccountIdFieldNumber = 2;
-    private int accountId_;
-    /// <summary>
-    ///  Account ID. If 0, proceed with account creation
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int AccountId {
-      get { return accountId_; }
-      set {
-        accountId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "accountType" field.</summary>
-    public const int AccountTypeFieldNumber = 3;
-    private global::InfX.AccountType accountType_ = 0;
-    /// <summary>
-    ///  Account type. If not AT_UNKNOWN, account creation may bypass type selection
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::InfX.AccountType AccountType {
-      get { return accountType_; }
-      set {
-        accountType_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "globalAccountState" field.</summary>
-    public const int GlobalAccountStateFieldNumber = 4;
-    private global::InfX.GlobalAccountState globalAccountState_ = 0;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::InfX.GlobalAccountState GlobalAccountState {
-      get { return globalAccountState_; }
-      set {
-        globalAccountState_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "globalAccountStateReason" field.</summary>
-    public const int GlobalAccountStateReasonFieldNumber = 5;
-    private global::InfX.GlobalAccountStateReason globalAccountStateReason_ = 0;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::InfX.GlobalAccountStateReason GlobalAccountStateReason {
-      get { return globalAccountStateReason_; }
-      set {
-        globalAccountStateReason_ = value;
+        accountState_ = value;
       }
     }
 
@@ -3696,11 +3880,7 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (DeviceId != other.DeviceId) return false;
-      if (AccountId != other.AccountId) return false;
-      if (AccountType != other.AccountType) return false;
-      if (GlobalAccountState != other.GlobalAccountState) return false;
-      if (GlobalAccountStateReason != other.GlobalAccountStateReason) return false;
+      if (!object.Equals(AccountState, other.AccountState)) return false;
       if(!socialMedia_.Equals(other.socialMedia_)) return false;
       return true;
     }
@@ -3708,11 +3888,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (DeviceId != 0) hash ^= DeviceId.GetHashCode();
-      if (AccountId != 0) hash ^= AccountId.GetHashCode();
-      if (AccountType != 0) hash ^= AccountType.GetHashCode();
-      if (GlobalAccountState != 0) hash ^= GlobalAccountState.GetHashCode();
-      if (GlobalAccountStateReason != 0) hash ^= GlobalAccountStateReason.GetHashCode();
+      if (accountState_ != null) hash ^= AccountState.GetHashCode();
       hash ^= socialMedia_.GetHashCode();
       return hash;
     }
@@ -3724,46 +3900,18 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (DeviceId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(DeviceId);
-      }
-      if (AccountId != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(AccountId);
-      }
-      if (AccountType != 0) {
-        output.WriteRawTag(24);
-        output.WriteEnum((int) AccountType);
-      }
-      if (GlobalAccountState != 0) {
-        output.WriteRawTag(32);
-        output.WriteEnum((int) GlobalAccountState);
-      }
-      if (GlobalAccountStateReason != 0) {
-        output.WriteRawTag(40);
-        output.WriteEnum((int) GlobalAccountStateReason);
-      }
       socialMedia_.WriteTo(output, _repeated_socialMedia_codec);
+      if (accountState_ != null) {
+        output.WriteRawTag(58);
+        output.WriteMessage(AccountState);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (DeviceId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DeviceId);
-      }
-      if (AccountId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountId);
-      }
-      if (AccountType != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) AccountType);
-      }
-      if (GlobalAccountState != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) GlobalAccountState);
-      }
-      if (GlobalAccountStateReason != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) GlobalAccountStateReason);
+      if (accountState_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(AccountState);
       }
       size += socialMedia_.CalculateSize(_repeated_socialMedia_codec);
       return size;
@@ -3774,20 +3922,11 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.DeviceId != 0) {
-        DeviceId = other.DeviceId;
-      }
-      if (other.AccountId != 0) {
-        AccountId = other.AccountId;
-      }
-      if (other.AccountType != 0) {
-        AccountType = other.AccountType;
-      }
-      if (other.GlobalAccountState != 0) {
-        GlobalAccountState = other.GlobalAccountState;
-      }
-      if (other.GlobalAccountStateReason != 0) {
-        GlobalAccountStateReason = other.GlobalAccountStateReason;
+      if (other.accountState_ != null) {
+        if (accountState_ == null) {
+          accountState_ = new global::InfX.DataAccountState();
+        }
+        AccountState.MergeFrom(other.AccountState);
       }
       socialMedia_.Add(other.socialMedia_);
     }
@@ -3800,28 +3939,15 @@ namespace InfX {
           default:
             input.SkipLastField();
             break;
-          case 8: {
-            DeviceId = input.ReadInt32();
-            break;
-          }
-          case 16: {
-            AccountId = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            accountType_ = (global::InfX.AccountType) input.ReadEnum();
-            break;
-          }
-          case 32: {
-            globalAccountState_ = (global::InfX.GlobalAccountState) input.ReadEnum();
-            break;
-          }
-          case 40: {
-            globalAccountStateReason_ = (global::InfX.GlobalAccountStateReason) input.ReadEnum();
-            break;
-          }
           case 50: {
             socialMedia_.AddEntriesFrom(input, _repeated_socialMedia_codec);
+            break;
+          }
+          case 58: {
+            if (accountState_ == null) {
+              accountState_ = new global::InfX.DataAccountState();
+            }
+            input.ReadMessage(accountState_);
             break;
           }
         }
@@ -3844,7 +3970,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[17]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[18]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3966,7 +4092,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[18]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4115,7 +4241,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[19]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[20]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4243,7 +4369,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[20]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4420,7 +4546,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[21]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[22]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4602,7 +4728,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[22]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[23]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4918,7 +5044,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[23]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[24]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5064,7 +5190,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[24]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[25]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
