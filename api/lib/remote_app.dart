@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'dart:convert';
 
 import 'package:api/inf.pb.dart';
+import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:wstalk/wstalk.dart';
 // import 'package:crypto/crypto.dart';
@@ -34,6 +35,9 @@ class RemoteApp {
   int addressId;
 
   List<DataSocialMedia> socialMedia = new List<DataSocialMedia>(10); // TODO: Proper length from configuration
+
+  static final Logger opsLog = new Logger('InfOps.RemoteApp');
+  static final Logger devLog = new Logger('InfDev.RemoteApp');
 
   dynamic _remoteAppBusiness;
   dynamic _remoteAppInfluencer;
@@ -80,11 +84,10 @@ class RemoteApp {
               sqljocky.Results lastInsertedId = await connection.query("SELECT LAST_INSERT_ID()");
               await for (sqljocky.Row row in lastInsertedId) {
                 deviceId = row[0];
-                print("Inserted device_id $deviceId with aes_key '${pb.aesKey}'");
+                devLog.info("Inserted device_id $deviceId with aes_key '${pb.aesKey}'");
               }
             } catch (ex) {
-              print("Failed to create device:");
-              print(ex);
+              devLog.warning("Failed to create device: $ex");
             }
             await connection.release();
           }
@@ -95,8 +98,7 @@ class RemoteApp {
       });
       await sendNetDeviceAuthState(reply: message);
     } catch (ex) {
-      print("Exception in message '${TalkSocket.decode(message.id)}':");
-      print(ex);
+      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
     }
   }
 
@@ -125,7 +127,7 @@ class RemoteApp {
         aesKey = base64.decode(row[0].toString());
       }
       if (aesKey.length == 0) {
-        print("AES key missing for device $attemptDeviceId");
+        devLog.severe("AES key missing for device $attemptDeviceId");
       }
 
       // Await signature
@@ -150,17 +152,17 @@ class RemoteApp {
         }
         if (equals) {
           // Successfully verified signature
-          print("Signature verified succesfully for device $attemptDeviceId");
+          opsLog.fine("Signature verified succesfully for device $attemptDeviceId");
           await lock.synchronized(() async {
             if (deviceId == 0) {
               deviceId = attemptDeviceId;
             }
           });
         } else {
-          print("Signature verification failed for device $attemptDeviceId");
+          opsLog.warning("Signature verification failed for device $attemptDeviceId");
         }
       } else if (signaturePb.signature.length == 0) {
-        print("Signature missing from authentication message for device $attemptDeviceId");
+        devLog.severe("Signature missing from authentication message for device $attemptDeviceId");
       }
 
       // Send authentication state
@@ -175,8 +177,7 @@ class RemoteApp {
       }
       await sendNetDeviceAuthState(reply: signatureMessage);
     } catch (ex) {
-      print("Exception in message '${TalkSocket.decode(message.id)}':");
-      print(ex);
+      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
     }
   }
 
@@ -212,7 +213,7 @@ class RemoteApp {
           socialMedia[oauthProvider].followers = row[3];
           socialMedia[oauthProvider].following = row[4];
         } else {
-          print("Unknown social media provider $oauthProvider");
+          devLog.severe("Unknown social media provider $oauthProvider");
         }
       }
       for (int i = 0; i < socialMedia.length; ++i) {
@@ -279,8 +280,7 @@ class RemoteApp {
             await tx.commit();
           });
         } catch (ex) {
-          print("Failed to change account type:");
-          print(ex);
+          devLog.severe("Failed to change account type: $ex");
         }
       });
 
@@ -288,8 +288,7 @@ class RemoteApp {
       await updateDeviceState();
       await sendNetDeviceAuthState();
     } catch (ex) {
-      print("Exception in message '${TalkSocket.decode(message.id)}':");
-      print(ex);
+      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
     }
   }
 
@@ -303,12 +302,12 @@ class RemoteApp {
       pb.mergeFromBuffer(message.data);
 
       if (pb.oauthProvider >= socialMedia.length) {
-        print("Invalid OAuth provider specified by device $deviceId"); // CRITICAL - DEVELOPER (there are critical issues for developer, also critical issues for operations!)
+        devLog.severe("Invalid OAuth provider specified by device $deviceId"); // CRITICAL - DEVELOPER (there are critical issues for developer, also critical issues for operations!)
       } else if (accountType == AccountType.AT_UNKNOWN) {
-        print("Account type was not yet set by device $deviceId"); // CRITICAL - DEVELOPER
+        devLog.severe("Account type was not yet set by device $deviceId"); // CRITICAL - DEVELOPER
       //} else if (accountId != 0) {
         // Race condition, the account was already created before receiving this connection request
-      //  print("OAuth request received but account $accountId already created by $deviceId"); // DEBUG - DEVELOPER
+      //  devLog.fine("OAuth request received but account $accountId already created by $deviceId"); // DEBUG - DEVELOPER
         // TO/DO: Forward to other handling mechanism - can handle this here normally, just less optimal
       } else {
         // First check the OAuth and get the data
@@ -330,7 +329,7 @@ class RemoteApp {
             ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [ oauthUserId, oauthProvider, accountType.value,
             accountId, deviceId, username, displayName, followers, following ]);
         } catch (ex) {
-          print("Failed to insert OAuth, may already be inserted!");
+          devLog.info("Failed to insert OAuth, may already be inserted!");
         }
         sqljocky.Results selectOAuth = await sql.prepareExecute("SELECT `account_id`, `device_id` FROM `oauth_connections`"
           "WHERE `oauth_user_id` = ?, `oauth_provider` = ?, `account_type` = ?", [ oauthUserId, oauthProvider, accountType.value ]);
@@ -340,9 +339,14 @@ class RemoteApp {
           oauthAccountId = row[0];
           oauthDeviceId = row[1];
         }
-        await lock.synchronized(() async {
-          // Decide what to do
-        });
+        if (oauthAccountId != 0 || oauthAccountId != 0)
+        {
+          await lock.synchronized(() async {
+            // Decide what to do
+          });
+        } else {
+          opsLog.severe("Failed to insert or retrieve OAuth ($oauthUserId, $oauthProvider, $accountType), database may have connection issues");
+        }
       }
 
       NetOAuthConnectRes resPb = new NetOAuthConnectRes();
@@ -358,8 +362,7 @@ class RemoteApp {
         await sendNetDeviceAuthState();
       }
     } catch (ex) {
-      print("Exception in message '${TalkSocket.decode(message.id)}':");
-      print(ex);
+      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
     }
   }
 
@@ -422,8 +425,7 @@ class RemoteApp {
                 await tx.commit();
               });
             } catch (ex) {
-              print("Failed to create account:");
-              print(ex);
+              opsLog.severe("Failed to create account: $ex");
             }
           }
 
@@ -438,11 +440,10 @@ class RemoteApp {
       // Send authentication state
       await sendNetDeviceAuthState(reply: message);
       if (accountId == 0) {
-        print("Account was not created for device $deviceId"); // DEVELOPER - DEVELOPMENT CRITICAL
+        devLog.severe("Account was not created for device $deviceId"); // DEVELOPER - DEVELOPMENT CRITICAL
       }
     } catch (ex) {
-      print("Exception in message '${TalkSocket.decode(message.id)}':");
-      print(ex);
+      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
     }
   }
 
@@ -461,6 +462,6 @@ class RemoteApp {
     assert(_remoteAppCommon == null);
     // TODO: Permit app transactions!
     // TODO: Fetch social media from SQL and then from remote hosts!
-    print("Transition device $deviceId to app $accountType");
+    devLog.fine("Transition device $deviceId to app $accountType");
   }
 }
