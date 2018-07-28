@@ -91,7 +91,7 @@ run() async {
   selfTestSql(sql);
 
   // Listen to websocket
-  final HttpServer server = await HttpServer.bind('127.0.0.1', 9090);
+  final HttpServer server = await HttpServer.bind(InternetAddress.anyIPv6, 9090);
   () async {
     await for (HttpRequest request in server) {
       if (request.uri.path == '/ws') {

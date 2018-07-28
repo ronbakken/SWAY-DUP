@@ -34,7 +34,7 @@ class RemoteApp {
   GlobalAccountState globalAccountState;
   GlobalAccountStateReason globalAccountStateReason;
   */
-  DataAccountState accountState;
+  DataAccountState accountState = new DataAccountState();
 
   int addressId;
 
@@ -48,12 +48,14 @@ class RemoteApp {
   dynamic _remoteAppCommon;
 
   RemoteApp(this.sql, this.ts) {
+    devLog.fine("New connection");
     subscribeAuthentication();
   }
 
   void close() {
     _connected = false;
     unsubscribeAuthentication();
+    devLog.fine("Connection closed for device ${accountState.deviceId}");
   }
 
   /////////////////////////////////////////////////////////////////////
