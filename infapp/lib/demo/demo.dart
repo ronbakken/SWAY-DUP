@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inf/network/network_manager.dart';
 
 import '../network/config_manager.dart' show ConfigManager;
+import '../network/network_manager.dart';
 import '../onboarding_selection.dart' show OnboardingSelection;
 import '../onboarding_social.dart' show OnboardingSocial;
 // import '../influencer_dashboard.dart' show InfluencerDashboard;
@@ -28,9 +28,14 @@ class DemoApp extends StatelessWidget {
       child: new NetworkManager(
         key: new Key('InfDemo.NetworkManager'),
         overrideUri: "ws://192.168.105.2:9090/ws", // Uri of server to connect with
+        localAccountId: 1,
         // overrideUri: "ws://localhost:9090/ws",
         child: new MaterialApp(
           title: '*** INF UI Demo ***',
+          /*builder: (BuildContext context, Widget child) {
+            
+          },*/
+          // debugShowMaterialGrid: true,
           theme: new ThemeData(
             brightness: Brightness.dark, // This makes things dark!
             primarySwatch: Colors.blueGrey, // This is just defaults, no need to change!
@@ -72,6 +77,7 @@ class MeepMeep extends StatelessWidget { // stateless widget is just a widget th
 class DemoHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    assert(ConfigManager.of(context) != null);
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('***INF UI Demo***'),
@@ -117,6 +123,7 @@ class DemoHomePage extends StatelessWidget {
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
+                    assert(ConfigManager.of(context) != null);
                     return new OnboardingSocial(
                       accountType: AccountType.AT_BUSINESS,
                       oauthProviders: ConfigManager.of(context).oauthProviders.all,
@@ -154,6 +161,7 @@ class DemoHomePage extends StatelessWidget {
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
+                    assert(ConfigManager.of(context) != null);
                     return new ProfileView(
                       self: true,
                       profileName: 'Big Kahuna Burger',

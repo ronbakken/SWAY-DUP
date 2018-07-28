@@ -22,22 +22,28 @@ class NetworkManager extends StatelessWidget {
   const NetworkManager({
     Key key,
     this.overrideUri,
+    @required this.localAccountId,
     this.child,
   }) : super(key: key);
 
   final String overrideUri;
+  final int localAccountId;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    String ks = key.toString();
-    ConfigData config = ConfigManager.of(context);
-    assert(config != null); ////////// *************************************************** THIS IS FAILING
-    return new _NetworkManagerStateful(
-      key: (key != null && ks.length > 0) ? new Key(ks + '.Stateful') : null,
-      networkManager: this,
-      child: child,
-      config: config,
+    return new Builder(
+      builder: (BuildContext context) {
+        String ks = key.toString();
+        ConfigData config = ConfigManager.of(context);
+        assert(config != null);
+        return new _NetworkManagerStateful(
+          key: (key != null && ks.length > 0) ? new Key('$ks.Stateful') : null,
+          networkManager: this,
+          child: child,
+          config: config,
+        );
+      },
     );
   }
 }
@@ -81,15 +87,17 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     print("[INF] Sync config changes to network");
     if (_config != widget.config) {
       _config = widget.config;
-      socialMedia.length = _config.oauthProviders.all.length; // Match array length
-      for (int i = 0; i < socialMedia.length; ++i) {
-        if (socialMedia[i] == null) {
-          socialMedia[i] = new DataSocialMedia();
+      if (_config != null) {
+        socialMedia.length = _config.oauthProviders.all.length; // Match array length
+        for (int i = 0; i < socialMedia.length; ++i) {
+          if (socialMedia[i] == null) {
+            socialMedia[i] = new DataSocialMedia();
+          }
         }
       }
     }
-    if (widget.config == null) {
-      print("[INF] Widget config is null in sync"); // DEVELOPER - CRITICAL
+    if (_config == null) {
+      print("[INF] Widget config is null in network sync"); // DEVELOPER - CRITICAL
     }
   }
 
@@ -101,7 +109,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     ts.sendMessage(TalkSocket.encode("INFAPP"), new Uint8List(0));
 
     // TODO: We'll use an SQLite database to keep the local cache stored
-    int localAccountId = 1;
+    int localAccountId = widget.networkManager.localAccountId;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String aesKeyPref = 'aes_key_$localAccountId';
     String aesKeyStr;
@@ -133,15 +141,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       setState(() {
         accountState = pbRes.accountState;
         socialMedia = pbRes.socialMedia;
-        if (_config != null) {
-          socialMedia.length = _config.oauthProviders.all.length; // Match array length
-          for (int i = 0; i < socialMedia.length; ++i) {
-            if (socialMedia[i] == null) {
-              socialMedia[i] = new DataSocialMedia();
-            }
+        socialMedia.length = _config.oauthProviders.all.length; // Match array length
+        for (int i = 0; i < socialMedia.length; ++i) {
+          if (socialMedia[i] == null) {
+            socialMedia[i] = new DataSocialMedia();
           }
-        } else {
-          print("[INF] Config is null in network"); // DEVELOPER - CRITICAL
         }
       });
       print("[INF] Device id ${accountState.deviceId}");
@@ -163,12 +167,23 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     // assert(accountState.deviceId != 0);
   }
 
+  bool _netConfigWarning = false;
   Future _networkSession() async {
     try {
+      String uri = widget.networkManager.overrideUri;
+      if (uri == null || uri.length == 0) {
+        if (!_netConfigWarning) {
+          _netConfigWarning = true;
+          print("[INF] No network configuration, not connecting");
+        }
+        await new Future.delayed(new Duration(seconds: 3));
+        return;
+      }
+      _netConfigWarning = false;
       do {
         try {
-          print("[INF] Try connect to ${widget.networkManager.overrideUri}");
-          _ts = await TalkSocket.connect(widget.networkManager.overrideUri);
+          print("[INF] Try connect to $uri");
+          _ts = await TalkSocket.connect(uri);
         } catch (e) {
           print("[INF] Network cannot connect, retry in 3 seconds: $e");
           assert(_ts == null);
@@ -180,24 +195,29 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       if (connected == NetworkConnectionState.Offline) {
         connected = NetworkConnectionState.Connecting;
       }
-      if (_alive) {
-        // Authenticate device, this will set connected = Ready when successful
-        _authenticateDevice(_ts).catchError((e) {
-          print("[INF] Network authentication exception, retry in 3 seconds: $e");
-          connected = NetworkConnectionState.Failing;
-          TalkSocket ts = _ts;
-          _ts = null;
-          () async {
-            await new Future.delayed(new Duration(seconds: 3));
-            if (ts != null) {
-              ts.close();
-            }
-          }().catchError((e) {
-            print("[INF] Fatal network exception, cannot recover: $e");
+      if (_config != null && widget.networkManager.localAccountId != 0) {
+        if (_alive) {
+          // Authenticate device, this will set connected = Ready when successful
+          _authenticateDevice(_ts).catchError((e) {
+            print("[INF] Network authentication exception, retry in 3 seconds: $e");
+            connected = NetworkConnectionState.Failing;
+            TalkSocket ts = _ts;
+            _ts = null;
+            () async {
+              await new Future.delayed(new Duration(seconds: 3));
+              if (ts != null) {
+                ts.close();
+              }
+            }().catchError((e) {
+              print("[INF] Fatal network exception, cannot recover: $e");
+            });
           });
-        });
+        } else {
+          _ts.close();
+        }
       } else {
-        _ts.close();
+        print("[INF] No configuration, connection will remain idle, local account id ${widget.networkManager.localAccountId}");
+        connected = NetworkConnectionState.Failing;
       }
       await listen;
       _ts = null;
@@ -221,6 +241,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     while (_alive) {
       await _networkSession();
     }
+    print("[INF] End network loop");
   }
 
   @override
@@ -253,6 +274,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
 
   @override
   void dispose() {
+    // FIXME: Dispose never gets called, possibly due to circular reference with inherited widget?
     _alive = false;
     if (_ts != null) {
       print("[INF] Dispose network connection");
