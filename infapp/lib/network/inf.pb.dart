@@ -595,6 +595,60 @@ class DataChat extends GeneratedMessage {
 
 class _ReadonlyDataChat extends DataChat with ReadonlyMessageMixin {}
 
+class DataAccountState extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('DataAccountState')
+    ..a<int>(1, 'deviceId', PbFieldType.O3)
+    ..a<int>(2, 'accountId', PbFieldType.O3)
+    ..e<AccountType>(3, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN, AccountType.valueOf, AccountType.values)
+    ..e<GlobalAccountState>(4, 'globalAccountState', PbFieldType.OE, GlobalAccountState.GAS_INITIALIZE, GlobalAccountState.valueOf, GlobalAccountState.values)
+    ..e<GlobalAccountStateReason>(5, 'globalAccountStateReason', PbFieldType.OE, GlobalAccountStateReason.GASR_NEW_ACCOUNT, GlobalAccountStateReason.valueOf, GlobalAccountStateReason.values)
+    ..hasRequiredFields = false
+  ;
+
+  DataAccountState() : super();
+  DataAccountState.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  DataAccountState.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataAccountState clone() => new DataAccountState()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static DataAccountState create() => new DataAccountState();
+  static PbList<DataAccountState> createRepeated() => new PbList<DataAccountState>();
+  static DataAccountState getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataAccountState();
+    return _defaultInstance;
+  }
+  static DataAccountState _defaultInstance;
+  static void $checkItem(DataAccountState v) {
+    if (v is! DataAccountState) checkItemFailed(v, 'DataAccountState');
+  }
+
+  int get deviceId => $_get(0, 0);
+  set deviceId(int v) { $_setSignedInt32(0, v); }
+  bool hasDeviceId() => $_has(0);
+  void clearDeviceId() => clearField(1);
+
+  int get accountId => $_get(1, 0);
+  set accountId(int v) { $_setSignedInt32(1, v); }
+  bool hasAccountId() => $_has(1);
+  void clearAccountId() => clearField(2);
+
+  AccountType get accountType => $_getN(2);
+  set accountType(AccountType v) { setField(3, v); }
+  bool hasAccountType() => $_has(2);
+  void clearAccountType() => clearField(3);
+
+  GlobalAccountState get globalAccountState => $_getN(3);
+  set globalAccountState(GlobalAccountState v) { setField(4, v); }
+  bool hasGlobalAccountState() => $_has(3);
+  void clearGlobalAccountState() => clearField(4);
+
+  GlobalAccountStateReason get globalAccountStateReason => $_getN(4);
+  set globalAccountStateReason(GlobalAccountStateReason v) { setField(5, v); }
+  bool hasGlobalAccountStateReason() => $_has(4);
+  void clearGlobalAccountStateReason() => clearField(5);
+}
+
+class _ReadonlyDataAccountState extends DataAccountState with ReadonlyMessageMixin {}
+
 class DataSocialMedia extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataSocialMedia')
     ..aOB(1, 'connected')
@@ -783,12 +837,8 @@ class _ReadonlyNetDeviceAuthSignatureResReq extends NetDeviceAuthSignatureResReq
 
 class NetDeviceAuthState extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthState')
-    ..a<int>(1, 'deviceId', PbFieldType.O3)
-    ..a<int>(2, 'accountId', PbFieldType.O3)
-    ..e<AccountType>(3, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN, AccountType.valueOf, AccountType.values)
-    ..e<GlobalAccountState>(4, 'globalAccountState', PbFieldType.OE, GlobalAccountState.GAS_INITIALIZE, GlobalAccountState.valueOf, GlobalAccountState.values)
-    ..e<GlobalAccountStateReason>(5, 'globalAccountStateReason', PbFieldType.OE, GlobalAccountStateReason.GASR_NEW_ACCOUNT, GlobalAccountStateReason.valueOf, GlobalAccountStateReason.values)
     ..pp<DataSocialMedia>(6, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
+    ..a<DataAccountState>(7, 'accountState', PbFieldType.OM, DataAccountState.getDefault, DataAccountState.create)
     ..hasRequiredFields = false
   ;
 
@@ -808,32 +858,12 @@ class NetDeviceAuthState extends GeneratedMessage {
     if (v is! NetDeviceAuthState) checkItemFailed(v, 'NetDeviceAuthState');
   }
 
-  int get deviceId => $_get(0, 0);
-  set deviceId(int v) { $_setSignedInt32(0, v); }
-  bool hasDeviceId() => $_has(0);
-  void clearDeviceId() => clearField(1);
+  List<DataSocialMedia> get socialMedia => $_getList(0);
 
-  int get accountId => $_get(1, 0);
-  set accountId(int v) { $_setSignedInt32(1, v); }
-  bool hasAccountId() => $_has(1);
-  void clearAccountId() => clearField(2);
-
-  AccountType get accountType => $_getN(2);
-  set accountType(AccountType v) { setField(3, v); }
-  bool hasAccountType() => $_has(2);
-  void clearAccountType() => clearField(3);
-
-  GlobalAccountState get globalAccountState => $_getN(3);
-  set globalAccountState(GlobalAccountState v) { setField(4, v); }
-  bool hasGlobalAccountState() => $_has(3);
-  void clearGlobalAccountState() => clearField(4);
-
-  GlobalAccountStateReason get globalAccountStateReason => $_getN(4);
-  set globalAccountStateReason(GlobalAccountStateReason v) { setField(5, v); }
-  bool hasGlobalAccountStateReason() => $_has(4);
-  void clearGlobalAccountStateReason() => clearField(5);
-
-  List<DataSocialMedia> get socialMedia => $_getList(5);
+  DataAccountState get accountState => $_getN(1);
+  set accountState(DataAccountState v) { setField(7, v); }
+  bool hasAccountState() => $_has(1);
+  void clearAccountState() => clearField(7);
 }
 
 class _ReadonlyNetDeviceAuthState extends NetDeviceAuthState with ReadonlyMessageMixin {}
