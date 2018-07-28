@@ -182,7 +182,7 @@ message DataSocialMedia {
   bool connected = 1;
   int32 followers = 2;
   int32 following = 3;
-  string userName = 4;
+  string username = 4;
   string displayName = 5;
   
 }
@@ -271,6 +271,7 @@ message NetSetAccountType {
 
 // App adds another OAuth provider to the account
 // Name: OA_CONNE
+// Response: NetOAuthConnectRes
 message NetOAuthConnectReq {
   int32 oauthProvider = 1;
   string oauthSignature = 2;
