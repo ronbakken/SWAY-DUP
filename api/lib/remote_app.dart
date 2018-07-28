@@ -35,6 +35,10 @@ class RemoteApp {
 
   List<DataSocialMedia> socialMedia = new List<DataSocialMedia>(10); // TODO: Proper length from configuration
 
+  dynamic _remoteAppBusiness;
+  dynamic _remoteAppInfluencer;
+  dynamic _remoteAppCommon;
+
   RemoteApp(this.sql, this.ts) {
     subscribeAuthentication();
   }
@@ -268,15 +272,15 @@ class RemoteApp {
           return; // no-op, may ignore
         }
 
-        sqljocky.Transaction tx = await sql.startTransaction();
         try {
-          await tx.prepareExecute("DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0", [ deviceId ]);
-          await tx.prepareExecute("UPDATE `devices` SET `account_type` = 1 WHERE `device_id` = 1 AND `account_id` = 0", [ pb.accountType.value, deviceId]);
-          await tx.commit();
+          await sql.startTransaction((sqljocky.Transaction tx) async {
+            await tx.prepareExecute("DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0", [ deviceId ]);
+            await tx.prepareExecute("UPDATE `devices` SET `account_type` = 1 WHERE `device_id` = 1 AND `account_id` = 0", [ pb.accountType.value, deviceId]);
+            await tx.commit();
+          });
         } catch (ex) {
           print("Failed to change account type:");
           print(ex);
-          await tx.rollback();
         }
       });
 
@@ -412,27 +416,30 @@ class RemoteApp {
             && connectedNb > 0
             && pb.name.length > 0) {
             // Changes sent in a single SQL transaction for reliability
-            sqljocky.Transaction tx = await sql.startTransaction();
             try {
-              
-              
-              await tx.commit();
+              await sql.startTransaction((sqljocky.Transaction tx) async {
+                // ...
+                await tx.commit();
+              });
             } catch (ex) {
               print("Failed to create account:");
               print(ex);
-              await tx.rollback();
             }
           }
 
           // await updateDeviceState();
           if (accountId != 0) {
             unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
+            transitionToApp();
           }
         }
       });
 
       // Send authentication state
       await sendNetDeviceAuthState(reply: message);
+      if (accountId == 0) {
+        print("Account was not created for device $deviceId"); // DEVELOPER - DEVELOPMENT CRITICAL
+      }
     } catch (ex) {
       print("Exception in message '${TalkSocket.decode(message.id)}':");
       print(ex);
@@ -446,10 +453,14 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
   
   /// Transitions the user to the app context after registration or login succeeds
-  void transitionToApp() {
+  Future transitionToApp() {
     assert(_netDeviceAuthCreateReq == null);
     assert(_netAccountCreateReq == null);
+    assert(_remoteAppBusiness == null);
+    assert(_remoteAppInfluencer == null);
+    assert(_remoteAppCommon == null);
     // TODO: Permit app transactions!
     // TODO: Fetch social media from SQL and then from remote hosts!
+    print("Transition device $deviceId to app $accountType");
   }
 }
