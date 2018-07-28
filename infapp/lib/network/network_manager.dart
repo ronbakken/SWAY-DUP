@@ -84,8 +84,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   final random = new Random.secure();
 
   void syncConfig() {
-    print("[INF] Sync config changes to network");
     if (_config != widget.config) {
+      print("[INF] Sync config changes to network");
       _config = widget.config;
       if (_config != null) {
         socialMedia.length = _config.oauthProviders.all.length; // Match array length
