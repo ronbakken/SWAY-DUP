@@ -1,4 +1,4 @@
-name: INF
+name: inf
 description: One million dollars
 
 dependencies:
@@ -19,6 +19,7 @@ dependencies:
 
   # Device info, used during device registration
   device_info: ^0.2.1
+  shared_preferences: ^0.4.2
 
   oauth1:
     git: 
