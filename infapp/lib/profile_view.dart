@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'widgets/follower_count.dart';
+import 'widgets/follower_tray.dart';
 import 'widgets/carousel_app_bar.dart';
 import 'widgets/dark_container.dart';
 import 'network/config_manager.dart';
@@ -17,17 +18,18 @@ class ProfileView extends StatelessWidget {
     ], 
     this.profileLocation,
     this.profileDescription,
+    this.followers,
   }) : super(key: key);
 
   // boolean to check if the profile being viewed is self
   final bool self;
 
-  // Information of the business to be shown on the page
+  // Information of the profile to be shown on the page
   final String profileName;
   final List<String> profileImageUrls;
   final String profileLocation;
   final String profileDescription;
-
+  final List<FollowerWidget> followers;
 	final String profileAvatarUrl = 'https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg';
   
 	
@@ -35,7 +37,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
 
-      /// Set the body to the business profile itself.
+      /// Set the body to the profile itself.
       /// Similar styling to Offer View
 			body: new CustomScrollView(
 				slivers: <Widget>[
@@ -80,18 +82,9 @@ class ProfileView extends StatelessWidget {
               ),
 
 							// Follower Count Tray
-							// TODO: Refactor
-              new Row(
-								mainAxisAlignment: MainAxisAlignment.center,
-								children: <Widget>[
-									new FollowerWidget(oAuthProvider: ConfigManager.of(context).oauthProviders.all[6] ,),
-									new FollowerWidget(oAuthProvider: ConfigManager.of(context).oauthProviders.all[1]),
-									new FollowerWidget(oAuthProvider: ConfigManager.of(context).oauthProviders.all[2]),
-									new FollowerWidget(oAuthProvider: ConfigManager.of(context).oauthProviders.all[3]),
-									new FollowerWidget(oAuthProvider: ConfigManager.of(context).oauthProviders.all[4]),
-									new FollowerWidget(oAuthProvider: ConfigManager.of(context).oauthProviders.all[5]),
-								],
-							),
+              new FollowerTray(
+                followerWidgets: followers
+              ),
 							new Divider(),
 
 							// Description
