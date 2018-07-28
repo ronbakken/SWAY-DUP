@@ -54,7 +54,7 @@ namespace InfX {
             "CgpzZXF1ZW5jZUlkGAIgASgDEg0KBWtleUlkGAMgASgDEhAKCG91dGdvaW5n",
             "GAQgASgIEgwKBHRleHQYBSABKAkicQoPRGF0YVNvY2lhbE1lZGlhEhEKCWNv",
             "bm5lY3RlZBgBIAEoCBIRCglmb2xsb3dlcnMYAiABKAUSEQoJZm9sbG93aW5n",
-            "GAMgASgFEhAKCHVzZXJOYW1lGAQgASgJEhMKC2Rpc3BsYXlOYW1lGAUgASgJ",
+            "GAMgASgFEhAKCHVzZXJuYW1lGAQgASgJEhMKC2Rpc3BsYXlOYW1lGAUgASgJ",
             "IkQKFk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoGYWVzS2V5GAEgASgMEgwK",
             "BG5hbWUYAiABKAkSDAoEaW5mbxgDIAEoCSItChlOZXREZXZpY2VBdXRoQ2hh",
             "bGxlbmdlUmVxEhAKCGRldmljZUlkGAEgASgFIjEKHE5ldERldmljZUF1dGhD",
@@ -103,7 +103,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOffer), global::InfX.DataOffer.Parser, new[]{ "Id", "Business", "Title", "ImageUrls", "Categories", "Lat", "Lng", "Description", "Deliverables", "Reward" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "Id", "Offer", "Influencer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Followers", "Following", "UserName", "DisplayName" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Followers", "Following", "Username", "DisplayName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeResReq), global::InfX.NetDeviceAuthChallengeResReq.Parser, new[]{ "Challenge" }, null, null, null),
@@ -2810,7 +2810,7 @@ namespace InfX {
       connected_ = other.connected_;
       followers_ = other.followers_;
       following_ = other.following_;
-      userName_ = other.userName_;
+      username_ = other.username_;
       displayName_ = other.displayName_;
     }
 
@@ -2852,14 +2852,14 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "userName" field.</summary>
-    public const int UserNameFieldNumber = 4;
-    private string userName_ = "";
+    /// <summary>Field number for the "username" field.</summary>
+    public const int UsernameFieldNumber = 4;
+    private string username_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string UserName {
-      get { return userName_; }
+    public string Username {
+      get { return username_; }
       set {
-        userName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -2890,7 +2890,7 @@ namespace InfX {
       if (Connected != other.Connected) return false;
       if (Followers != other.Followers) return false;
       if (Following != other.Following) return false;
-      if (UserName != other.UserName) return false;
+      if (Username != other.Username) return false;
       if (DisplayName != other.DisplayName) return false;
       return true;
     }
@@ -2901,7 +2901,7 @@ namespace InfX {
       if (Connected != false) hash ^= Connected.GetHashCode();
       if (Followers != 0) hash ^= Followers.GetHashCode();
       if (Following != 0) hash ^= Following.GetHashCode();
-      if (UserName.Length != 0) hash ^= UserName.GetHashCode();
+      if (Username.Length != 0) hash ^= Username.GetHashCode();
       if (DisplayName.Length != 0) hash ^= DisplayName.GetHashCode();
       return hash;
     }
@@ -2925,9 +2925,9 @@ namespace InfX {
         output.WriteRawTag(24);
         output.WriteInt32(Following);
       }
-      if (UserName.Length != 0) {
+      if (Username.Length != 0) {
         output.WriteRawTag(34);
-        output.WriteString(UserName);
+        output.WriteString(Username);
       }
       if (DisplayName.Length != 0) {
         output.WriteRawTag(42);
@@ -2947,8 +2947,8 @@ namespace InfX {
       if (Following != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Following);
       }
-      if (UserName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(UserName);
+      if (Username.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
       }
       if (DisplayName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(DisplayName);
@@ -2970,8 +2970,8 @@ namespace InfX {
       if (other.Following != 0) {
         Following = other.Following;
       }
-      if (other.UserName.Length != 0) {
-        UserName = other.UserName;
+      if (other.Username.Length != 0) {
+        Username = other.Username;
       }
       if (other.DisplayName.Length != 0) {
         DisplayName = other.DisplayName;
@@ -2999,7 +2999,7 @@ namespace InfX {
             break;
           }
           case 34: {
-            UserName = input.ReadString();
+            Username = input.ReadString();
             break;
           }
           case 42: {
@@ -3957,6 +3957,7 @@ namespace InfX {
   /// <summary>
   ///  App adds another OAuth provider to the account
   ///  Name: OA_CONNE
+  ///  Response: NetOAuthConnectRes
   /// </summary>
   public sealed partial class NetOAuthConnectReq : pb::IMessage<NetOAuthConnectReq> {
     private static readonly pb::MessageParser<NetOAuthConnectReq> _parser = new pb::MessageParser<NetOAuthConnectReq>(() => new NetOAuthConnectReq());
