@@ -600,7 +600,7 @@ class DataSocialMedia extends GeneratedMessage {
     ..aOB(1, 'connected')
     ..a<int>(2, 'followers', PbFieldType.O3)
     ..a<int>(3, 'following', PbFieldType.O3)
-    ..aOS(4, 'userName')
+    ..aOS(4, 'username')
     ..aOS(5, 'displayName')
     ..hasRequiredFields = false
   ;
@@ -636,10 +636,10 @@ class DataSocialMedia extends GeneratedMessage {
   bool hasFollowing() => $_has(2);
   void clearFollowing() => clearField(3);
 
-  String get userName => $_getS(3, '');
-  set userName(String v) { $_setString(3, v); }
-  bool hasUserName() => $_has(3);
-  void clearUserName() => clearField(4);
+  String get username => $_getS(3, '');
+  set username(String v) { $_setString(3, v); }
+  bool hasUsername() => $_has(3);
+  void clearUsername() => clearField(4);
 
   String get displayName => $_getS(4, '');
   set displayName(String v) { $_setString(4, v); }
