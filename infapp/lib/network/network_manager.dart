@@ -5,6 +5,8 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
@@ -29,11 +31,13 @@ class NetworkManager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String ks = key.toString();
+    ConfigData config = ConfigManager.of(context);
+    assert(config != null); ////////// *************************************************** THIS IS FAILING
     return new _NetworkManagerStateful(
       key: (key != null && ks.length > 0) ? new Key(ks + '.Stateful') : null,
       networkManager: this,
       child: child,
-      config: ConfigManager.of(context),
+      config: config,
     );
   }
 }
@@ -68,83 +72,161 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   int _changed = 0; // trick to ensure rebuild
   ConfigData _config;
 
+  bool _alive;
   TalkSocket _ts;
+
+  final random = new Random.secure();
 
   void syncConfig() {
     print("[INF] Sync config changes to network");
     if (_config != widget.config) {
       _config = widget.config;
       socialMedia.length = _config.oauthProviders.all.length; // Match array length
+      for (int i = 0; i < socialMedia.length; ++i) {
+        if (socialMedia[i] == null) {
+          socialMedia[i] = new DataSocialMedia();
+        }
+      }
+    }
+    if (widget.config == null) {
+      print("[INF] Widget config is null in sync"); // DEVELOPER - CRITICAL
     }
   }
 
   /// Authenticate device connection, this process happens as if by magic
-  Future<bool> _authenticateDevice(TalkSocket ts) async {
+  Future _authenticateDevice(TalkSocket ts) async {
     // Initialize connection
+    accountState.deviceId = 0;
     print("[INF] Authenticate device");
     ts.sendMessage(TalkSocket.encode("INFAPP"), new Uint8List(0));
 
     // TODO: We'll use an SQLite database to keep the local cache stored
     int localAccountId = 1;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String aesKey;
+    String aesKeyPref = 'aes_key_$localAccountId';
+    String aesKeyStr;
+    Uint8List aesKey;
     try {
-      aesKey = prefs.getString('aes_key_$localAccountId');
+      prefs.setString(aesKeyPref, ''); // DEBUG
+      aesKeyStr = prefs.getString(aesKeyPref);
+      aesKey = base64.decode(aesKeyStr);
     } catch (e) { }
     if (aesKey == null || aesKey.length == 0) {
-      // Authenticate existing device
-      
-    } else {
       // Create new device
+      print("[INF] Create new device");
+      aesKey = new Uint8List(256);
+      for (int i = 0; i < aesKey.length; ++i) {
+        aesKey[i] = random.nextInt(256);
+      }
+      aesKeyStr = base64.encode(aesKey);
+      NetDeviceAuthCreateReq pbReq = new NetDeviceAuthCreateReq();
+      pbReq.aesKey = aesKey;
+      pbReq.name = "default_device";
+      pbReq.info = "{ debug: 'default_info' }";
 
+      TalkMessage res = await ts.sendRequest(TalkSocket.encode("DA_CREAT"), pbReq.writeToBuffer());
+      NetDeviceAuthState pbRes = new NetDeviceAuthState();
+      pbRes.mergeFromBuffer(res.data);
+      if (!_alive) {
+        throw Exception("No longer alive, don't authorize");
+      }
+      setState(() {
+        accountState = pbRes.accountState;
+        socialMedia = pbRes.socialMedia;
+        if (_config != null) {
+          socialMedia.length = _config.oauthProviders.all.length; // Match array length
+          for (int i = 0; i < socialMedia.length; ++i) {
+            if (socialMedia[i] == null) {
+              socialMedia[i] = new DataSocialMedia();
+            }
+          }
+        } else {
+          print("[INF] Config is null in network"); // DEVELOPER - CRITICAL
+        }
+      });
+      print("[INF] Device id ${accountState.deviceId}");
+      if (accountState.deviceId != 0) {
+        prefs.setString(aesKeyPref, aesKeyStr);
+      }
+    } else {
+      // Authenticate existing device
+      print("[INF] Authenticate existing device");
+    }
+    
+    if (accountState.deviceId == 0) {
+      throw new Exception("Authentication did not succeed");
+    } else {
+      print("[INF] Network connection is ready");
+      connected = NetworkConnectionState.Ready;
     }
 
     // assert(accountState.deviceId != 0);
   }
 
-  Future _networkLoop() async {
-    print("[INF] Start network loop");
-    while (true) {
-      try {
-        do {
-          try {
-            print("[INF] Try connect to ${widget.networkManager.overrideUri}");
-            _ts = await TalkSocket.connect(widget.networkManager.overrideUri);
-          } catch (e) {
-            print("[INF] Network cannot connect, retry in 3 seconds: $e");
-            assert(_ts == null);
-            connected = NetworkConnectionState.Offline;
-            await new Future.delayed(new Duration(seconds: 3));
-          }
-        } while (true && (_ts == null));
-        Future listen = _ts.listen();
-        if (connected == NetworkConnectionState.Offline) {
-          connected = NetworkConnectionState.Connecting;
+  Future _networkSession() async {
+    try {
+      do {
+        try {
+          print("[INF] Try connect to ${widget.networkManager.overrideUri}");
+          _ts = await TalkSocket.connect(widget.networkManager.overrideUri);
+        } catch (e) {
+          print("[INF] Network cannot connect, retry in 3 seconds: $e");
+          assert(_ts == null);
+          connected = NetworkConnectionState.Offline;
+          await new Future.delayed(new Duration(seconds: 3));
         }
+      } while (_alive && (_ts == null));
+      Future listen = _ts.listen();
+      if (connected == NetworkConnectionState.Offline) {
+        connected = NetworkConnectionState.Connecting;
+      }
+      if (_alive) {
         // Authenticate device, this will set connected = Ready when successful
         _authenticateDevice(_ts).catchError((e) {
-          print("[INF] Network authentication exception: $e");
-          _ts.close();
+          print("[INF] Network authentication exception, retry in 3 seconds: $e");
           connected = NetworkConnectionState.Failing;
+          TalkSocket ts = _ts;
+          _ts = null;
+          () async {
+            await new Future.delayed(new Duration(seconds: 3));
+            if (ts != null) {
+              ts.close();
+            }
+          }().catchError((e) {
+            print("[INF] Fatal network exception, cannot recover: $e");
+          });
         });
-        await listen;
-        _ts = null;
-        if (connected == NetworkConnectionState.Ready) {
-          connected = NetworkConnectionState.Connecting;
-        }
-      } catch (e) {
-        print("[INF] Network loop exception: $e");
-        TalkSocket ts = _ts;
-        _ts = null;
-        connected = NetworkConnectionState.Failing;
-        ts.close(); // TODO: change code?
+      } else {
+        _ts.close();
       }
+      await listen;
+      _ts = null;
+      print("[INF] Network connection closed");
+      if (connected == NetworkConnectionState.Ready) {
+        connected = NetworkConnectionState.Connecting;
+      }
+    } catch (e) {
+      print("[INF] Network session exception: $e");
+      TalkSocket ts = _ts;
+      _ts = null;
+      connected = NetworkConnectionState.Failing;
+      if (ts != null) {
+        ts.close(); // TODO: close code?
+      }
+    }
+  }
+
+  Future _networkLoop() async {
+    print("[INF] Start network loop");
+    while (_alive) {
+      await _networkSession();
     }
   }
 
   @override
   void initState() {
     super.initState();
+    _alive = true;
 
     // Initialize data
     accountState = new DataAccountState();
@@ -160,16 +242,23 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   @override
   void reassemble() { 
     super.reassemble();
+
     // Developer reload
     if (_ts != null) {
       print("[INF] Network reload by developer");
       _ts.close();
+      _ts = null;
     }
   }
 
   @override
   void dispose() {
-    // ...
+    _alive = false;
+    if (_ts != null) {
+      print("[INF] Dispose network connection");
+      _ts.close();
+      _ts = null;
+    }
     super.dispose();
   }
 
@@ -181,6 +270,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     if (_ts != null) {
       print("[INF] Network reload by config");
       _ts.close();
+      _ts = null;
     }
   }
 
