@@ -26,12 +26,16 @@ class RemoteApp {
   final random = new Random.secure();
   final lock = new Lock();
 
-  int deviceId;
-  AccountType accountType;
-  int accountId;
+  /*
+  int accountState.deviceId;
+  AccountType accountState.accountType;
+  int accountState.accountId;
 
   GlobalAccountState globalAccountState;
   GlobalAccountStateReason globalAccountStateReason;
+  */
+  DataAccountState accountState;
+
   int addressId;
 
   List<DataSocialMedia> socialMedia = new List<DataSocialMedia>(10); // TODO: Proper length from configuration
@@ -74,7 +78,7 @@ class RemoteApp {
       NetDeviceAuthCreateReq pb = new NetDeviceAuthCreateReq();
       pb.mergeFromBuffer(message.data);
       await lock.synchronized(() async {
-          if (deviceId == 0) { // Create only once 🤨😒
+          if (accountState.deviceId == 0) { // Create only once 🤨😒
             sqljocky.RetainedConnection connection = await sql.getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead device entries
             try {
               // Create a new device in the devices table of the database
@@ -83,15 +87,15 @@ class RemoteApp {
                 [ pb.aesKey, pb.name, pb.info ]);
               sqljocky.Results lastInsertedId = await connection.query("SELECT LAST_INSERT_ID()");
               await for (sqljocky.Row row in lastInsertedId) {
-                deviceId = row[0];
-                devLog.info("Inserted device_id $deviceId with aes_key '${pb.aesKey}'");
+                accountState.deviceId = row[0];
+                devLog.info("Inserted device_id ${accountState.deviceId} with aes_key '${pb.aesKey}'");
               }
             } catch (ex) {
               devLog.warning("Failed to create device: $ex");
             }
             await connection.release();
           }
-          if (deviceId != 0) {
+          if (accountState.deviceId != 0) {
             unsubscribeAuthentication(); // No longer respond to authentication messages when OK
             subscribeOnboarding();
           }
@@ -154,8 +158,8 @@ class RemoteApp {
           // Successfully verified signature
           opsLog.fine("Signature verified succesfully for device $attemptDeviceId");
           await lock.synchronized(() async {
-            if (deviceId == 0) {
-              deviceId = attemptDeviceId;
+            if (accountState.deviceId == 0) {
+              accountState.deviceId = attemptDeviceId;
             }
           });
         } else {
@@ -167,9 +171,9 @@ class RemoteApp {
 
       // Send authentication state
       await updateDeviceState();
-      if (deviceId != 0) {
+      if (accountState.deviceId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
-        if (accountId != 0) {
+        if (accountState.accountId != 0) {
           transitionToApp();
         } else {
           subscribeOnboarding();
@@ -184,24 +188,24 @@ class RemoteApp {
   Future updateDeviceState() async {
     await lock.synchronized(() async {
       // First get the account id (and account type, in case the account id has not been created yet)
-      sqljocky.Results deviceResults = await sql.prepareExecute("SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?", [ deviceId ]);
+      sqljocky.Results deviceResults = await sql.prepareExecute("SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?", [ accountState.deviceId ]);
       await for (sqljocky.Row row in deviceResults) { // one row
-        accountId = row[0]; // VERIFY
-        accountType = AccountType.valueOf(row[1]); // VERIFY
+        accountState.accountId = row[0]; // VERIFY
+        accountState.accountType = AccountType.valueOf(row[1]); // VERIFY
       }
       sqljocky.Results mediaResults;
-      if (accountId != 0) {
+      if (accountState.accountId != 0) {
         // Get the account information if it exists
-        sqljocky.Results accountResults = await sql.prepareExecute("SELECT `account_type`, `global_account_state`, `global_account_state_reason`, `address_id` FROM `accounts` WHERE `account_id` = ?", [ accountId ]);
+        sqljocky.Results accountResults = await sql.prepareExecute("SELECT `account_type`, `global_account_state`, `global_account_state_reason`, `address_id` FROM `accounts` WHERE `account_id` = ?", [ accountState.accountId ]);
         await for (sqljocky.Row row in accountResults) { // one row
-          accountType = AccountType.valueOf(row[0]); // VERIFY
-          globalAccountState = GlobalAccountState.valueOf(row[1]); // VERIFY
-          globalAccountStateReason = GlobalAccountStateReason.valueOf(row[2]); // VERIFY
+          accountState.accountType = AccountType.valueOf(row[0]); // VERIFY
+          accountState.globalAccountState = GlobalAccountState.valueOf(row[1]); // VERIFY
+          accountState.globalAccountStateReason = GlobalAccountStateReason.valueOf(row[2]); // VERIFY
           addressId = row[3]; // VERIFY
         }
-        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `username`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `account_id` = ?", [ accountId ]);
+        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `username`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `account_id` = ?", [ accountState.accountId ]);
       } else {
-        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `username`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `device_id` = ?", [ deviceId ]);
+        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `username`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `device_id` = ?", [ accountState.deviceId ]);
       }
       List<bool> connected = new List<bool>(socialMedia.length);
       await for (sqljocky.Row row in mediaResults) {
@@ -229,11 +233,11 @@ class RemoteApp {
     }
     await lock.synchronized(() async {
       NetDeviceAuthState pb = new NetDeviceAuthState();
-      pb.deviceId = deviceId;
-      pb.accountId = accountId;
-      pb.accountType = accountType;
-      pb.globalAccountState = globalAccountState;
-      pb.globalAccountStateReason = globalAccountStateReason;
+      pb.accountState.deviceId = accountState.deviceId;
+      pb.accountState.accountId = accountState.accountId;
+      pb.accountState.accountType = accountState.accountType;
+      pb.accountState.globalAccountState = accountState.globalAccountState;
+      pb.accountState.globalAccountStateReason = accountState.globalAccountStateReason;
       pb.socialMedia.setAll(0, socialMedia);
       ts.sendMessage(_netDeviceAuthState, pb.writeToBuffer(), reply: reply);
     });
@@ -259,24 +263,24 @@ class RemoteApp {
 
   StreamSubscription<TalkMessage> _netSetAccountType; // A_SETTYP
   netSetAccountType(TalkMessage message) async {
-    assert(deviceId != 0);
+    assert(accountState.deviceId != 0);
     try {
       // Received account type change request
       NetSetAccountType pb = new NetSetAccountType();
       pb.mergeFromBuffer(message.data);
 
       await lock.synchronized(() async {
-        if (pb.accountType == accountType) {
+        if (pb.accountType == accountState.accountType) {
           return; // no-op, may ignore
         }
-        if (accountId != 0) {
+        if (accountState.accountId != 0) {
           return; // no-op, may ignore
         }
 
         try {
           await sql.startTransaction((sqljocky.Transaction tx) async {
-            await tx.prepareExecute("DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0", [ deviceId ]);
-            await tx.prepareExecute("UPDATE `devices` SET `account_type` = 1 WHERE `device_id` = 1 AND `account_id` = 0", [ pb.accountType.value, deviceId]);
+            await tx.prepareExecute("DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0", [ accountState.deviceId ]);
+            await tx.prepareExecute("UPDATE `devices` SET `account_type` = 1 WHERE `device_id` = 1 AND `account_id` = 0", [ pb.accountType.value, accountState.deviceId]);
             await tx.commit();
           });
         } catch (ex) {
@@ -295,19 +299,19 @@ class RemoteApp {
   StreamSubscription<TalkMessage> _netOAuthConnectReq; // OA_CONNE
   static int _netOAuthConnectRes = TalkSocket.encode("OA_R_CON");
   netOAuthConnectReq(TalkMessage message) async { // response: NetOAuthConnectRes
-    assert(deviceId != 0);
+    assert(accountState.deviceId != 0);
     try {
       // Received oauth connection request
       NetOAuthConnectReq pb = new NetOAuthConnectReq();
       pb.mergeFromBuffer(message.data);
 
       if (pb.oauthProvider >= socialMedia.length) {
-        devLog.severe("Invalid OAuth provider specified by device $deviceId"); // CRITICAL - DEVELOPER (there are critical issues for developer, also critical issues for operations!)
-      } else if (accountType == AccountType.AT_UNKNOWN) {
-        devLog.severe("Account type was not yet set by device $deviceId"); // CRITICAL - DEVELOPER
-      //} else if (accountId != 0) {
+        devLog.severe("Invalid OAuth provider specified by device ${accountState.deviceId}"); // CRITICAL - DEVELOPER (there are critical issues for developer, also critical issues for operations!)
+      } else if (accountState.accountType == AccountType.AT_UNKNOWN) {
+        devLog.severe("Account type was not yet set by device ${accountState.deviceId}"); // CRITICAL - DEVELOPER
+      //} else if (accountState.accountId != 0) {
         // Race condition, the account was already created before receiving this connection request
-      //  devLog.fine("OAuth request received but account $accountId already created by $deviceId"); // DEBUG - DEVELOPER
+      //  devLog.fine("OAuth request received but account ${accountState.accountId} already created by ${accountState.deviceId}"); // DEBUG - DEVELOPER
         // TO/DO: Forward to other handling mechanism - can handle this here normally, just less optimal
       } else {
         // First check the OAuth and get the data
@@ -326,13 +330,13 @@ class RemoteApp {
         try {
           await sql.prepareExecute("INSERT INTO `oauth_connections`("
             "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `device_id`, `username`, `display_name`, `followers`, `following`"
-            ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [ oauthUserId, oauthProvider, accountType.value,
-            accountId, deviceId, username, displayName, followers, following ]);
+            ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [ oauthUserId, oauthProvider, accountState.accountType.value,
+            accountState.accountId, accountState.deviceId, username, displayName, followers, following ]);
         } catch (ex) {
           devLog.info("Failed to insert OAuth, may already be inserted!");
         }
         sqljocky.Results selectOAuth = await sql.prepareExecute("SELECT `account_id`, `device_id` FROM `oauth_connections`"
-          "WHERE `oauth_user_id` = ?, `oauth_provider` = ?, `account_type` = ?", [ oauthUserId, oauthProvider, accountType.value ]);
+          "WHERE `oauth_user_id` = ?, `oauth_provider` = ?, `account_type` = ?", [ oauthUserId, oauthProvider, accountState.accountType.value ]);
         int oauthAccountId;
         int oauthDeviceId;
         await for (sqljocky.Row row in selectOAuth) {
@@ -345,7 +349,7 @@ class RemoteApp {
             // Decide what to do
           });
         } else {
-          opsLog.severe("Failed to insert or retrieve OAuth ($oauthUserId, $oauthProvider, $accountType), database may have connection issues");
+          opsLog.severe("Failed to insert or retrieve OAuth ($oauthUserId, $oauthProvider, ${accountState.accountType}), database may have connection issues");
         }
       }
 
@@ -355,7 +359,7 @@ class RemoteApp {
       }
       ts.sendMessage(_netOAuthConnectRes, resPb.writeToBuffer(), reply: message);
 
-      if (accountId != 0) {
+      if (accountState.accountId != 0) {
         // The OAuth has an account attached, let's go!
         unsubscribeOnboarding();
         await updateDeviceState();
@@ -368,14 +372,14 @@ class RemoteApp {
 
   StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE
   netAccountCreateReq(TalkMessage message) async { // response: NetDeviceAuthState
-    assert(deviceId != 0);
+    assert(accountState.deviceId != 0);
     try {
       // Received account creation request
       NetAccountCreateReq pb = new NetAccountCreateReq();
       pb.mergeFromBuffer(message.data);
 
       await lock.synchronized(() async {
-        if (accountId == 0) {
+        if (accountState.accountId == 0) {
           // Create account if sufficient data was received
           String addressName;
           String addressDetail;
@@ -415,7 +419,7 @@ class RemoteApp {
             if (socialMedia[i].connected)
               ++connectedNb;
           }
-          if (accountType != AccountType.AT_UNKNOWN
+          if (accountState.accountType != AccountType.AT_UNKNOWN
             && connectedNb > 0
             && pb.name.length > 0) {
             // Changes sent in a single SQL transaction for reliability
@@ -430,7 +434,7 @@ class RemoteApp {
           }
 
           // await updateDeviceState();
-          if (accountId != 0) {
+          if (accountState.accountId != 0) {
             unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
             transitionToApp();
           }
@@ -439,8 +443,8 @@ class RemoteApp {
 
       // Send authentication state
       await sendNetDeviceAuthState(reply: message);
-      if (accountId == 0) {
-        devLog.severe("Account was not created for device $deviceId"); // DEVELOPER - DEVELOPMENT CRITICAL
+      if (accountState.accountId == 0) {
+        devLog.severe("Account was not created for device ${accountState.deviceId}"); // DEVELOPER - DEVELOPMENT CRITICAL
       }
     } catch (ex) {
       devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
@@ -462,6 +466,6 @@ class RemoteApp {
     assert(_remoteAppCommon == null);
     // TODO: Permit app transactions!
     // TODO: Fetch social media from SQL and then from remote hosts!
-    devLog.fine("Transition device $deviceId to app $accountType");
+    devLog.fine("Transition device ${accountState.deviceId} to app ${accountState.accountType}");
   }
 }
