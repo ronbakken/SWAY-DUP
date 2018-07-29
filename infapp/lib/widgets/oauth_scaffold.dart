@@ -16,12 +16,14 @@ class OAuthScaffold extends StatefulWidget { // stateful widget is basically a w
     this.appBar,
     this.onOAuthGetParams,
     this.onOAuthCallbackResult,
+    this.whitelistHosts,
   }) : super(key: key);
 
   final AppBar appBar;
 
   final OAuthGetParams onOAuthGetParams;
   final OAuthCallbackResult onOAuthCallbackResult;
+  final List<String> whitelistHosts;
 
   @override
   _OAuthScaffoldState createState() => new _OAuthScaffoldState();
@@ -124,6 +126,9 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   @override
   void initState() {
     super.initState();
+    for (String host in widget.whitelistHosts) {
+      _hostWhitelist[host] = true;
+    }
     _onUrlChanged = _flutterWebviewPlugin.onUrlChanged.listen(_urlChanged);
     _startRequest().catchError((e) {
       print("OAuth Exception: $e");

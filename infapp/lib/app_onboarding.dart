@@ -28,7 +28,8 @@ class AppOnboarding extends StatelessWidget {
           assert(network != null);
           return new OAuthScaffold(
             onOAuthGetParams: () { return network.getOAuthUrls(oauthProvider); },
-            onOAuthCallbackResult: (String callbackQuery) { return network.connectOAuth(oauthProvider, callbackQuery); }
+            onOAuthCallbackResult: (String callbackQuery) { return network.connectOAuth(oauthProvider, callbackQuery); },
+            whitelistHosts: config.oauthProviders.all[oauthProvider].whitelistHosts,
           );
         },
       ),
