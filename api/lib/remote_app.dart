@@ -231,6 +231,8 @@ class RemoteApp {
         accountState.accountId = row[0]; // VERIFY
         accountState.accountType = AccountType.valueOf(row[1]); // VERIFY
       }
+      List<bool> connected = new List<bool>(socialMedia.length);
+      /*
       sqljocky.Results mediaResults;
       if (accountState.accountId != 0) {
         // Get the account information if it exists
@@ -245,7 +247,6 @@ class RemoteApp {
       } else {
         mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `screen_name`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `device_id` = ?", [ accountState.deviceId ]);
       }
-      List<bool> connected = new List<bool>(socialMedia.length);
       await for (sqljocky.Row row in mediaResults) {
         int oauthProvider = row[0];
         if (oauthProvider < socialMedia.length) {
@@ -258,6 +259,7 @@ class RemoteApp {
           devLog.severe("Unknown social media provider $oauthProvider");
         }
       }
+      */
       for (int i = 0; i < socialMedia.length; ++i) {
         socialMedia[i].connected = connected[i] == true;
       }

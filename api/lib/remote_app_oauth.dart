@@ -53,6 +53,7 @@ class RemoteAppOAuth {
       ConfigOAuthProvider cfg = config.oauthProviders.all[pb.oauthProvider];
       switch (cfg.mechanism) {
         case OAuthMechanism.OAM_OAUTH1: {
+          // Twitter-like
           devLog.finest(cfg.requestTokenUrl);
           devLog.finest(cfg.authenticateUrl);
           devLog.finest(cfg.accessTokenUrl);
@@ -65,6 +66,21 @@ class RemoteAppOAuth {
           var auth = new oauth1.Authorization(clientCredentials, platform);
           oauth1.AuthorizationResponse authRes = await auth.requestTemporaryCredentials(cfg.callbackUrl);
           String authUrl = auth.getResourceOwnerAuthorizationURI(authRes.credentials.token);
+          NetOAuthUrlRes pbRes = new NetOAuthUrlRes();
+          devLog.finest(authUrl);
+          pbRes.authUrl = authUrl;
+          pbRes.callbackUrl = cfg.callbackUrl;
+          ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(), reply: message);
+          break;
+        }
+        case OAuthMechanism.OAM_OAUTH2: {
+          // Facebook, Spotify-like. Much easier (but less standardized)
+          Uri baseUri = Uri.parse(cfg.host + cfg.authUrl);
+          Map<String, String> query = Uri.splitQueryString(cfg.authQuery);
+          query['client_id'] = cfg.clientId;
+          query['redirect_uri'] = cfg.callbackUrl;
+          Uri uri = baseUri.replace(queryParameters: query);
+          String authUrl = "$uri";
           NetOAuthUrlRes pbRes = new NetOAuthUrlRes();
           devLog.finest(authUrl);
           pbRes.authUrl = authUrl;
@@ -102,6 +118,7 @@ class RemoteAppOAuth {
       String screenName;
       switch (cfg.mechanism) {
         case OAuthMechanism.OAM_OAUTH1: {
+          // Twitter-like
           var platform = new oauth1.Platform(
             cfg.host + cfg.requestTokenUrl, 
             cfg.host + cfg.authenticateUrl, 
@@ -215,6 +232,9 @@ class RemoteAppOAuth {
         bool verified = doc['verified'];
         String email = doc['email'];
         devLog.finer("Twitter $oauthUserId: $screenName, $displayName, $location, $description, $url, $followersCount, $followingCount, $postsCount, $verified, $email");
+        break;
+      }
+      case 2: { // Facebook
         break;
       }
     }
