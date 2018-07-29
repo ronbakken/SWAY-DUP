@@ -7,35 +7,27 @@ import 'package:oauth1/oauth1.dart' as oauth1;
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-typedef void OAuthTokenCallback(String oauthToken, String oauthVerifier);
+class OAuthParams {
+  final String authUrl;
+  final String callbackUrl;
+  const OAuthParams(this.authUrl, this.callbackUrl);
+}
+
+typedef Future<OAuthParams> OAuthGetParams();
+typedef Future<bool> OAuthCallbackResult(String callbackQuery);
 
 class OAuthScaffold extends StatefulWidget { // stateful widget is basically a widget with private data
   const OAuthScaffold({
     Key key,
     this.appBar,
-    @required this.consumerKey,
-    @required this.consumerSecret,
-    @required this.host,
-    this.requestTokenUrl = "/oauth/request_token",
-    this.authenticateUrl = "/oauth/authenticate",
-    this.accessTokenUrl = "/oauth/access_token",
-    @required this.callbackUrl,
-    @required this.onSuccess,
+    this.onOAuthGetParams,
+    this.onOAuthCallbackResult,
   }) : super(key: key);
 
   final AppBar appBar;
 
-  final String consumerKey;
-  final String consumerSecret;
-
-  final String host;
-  final String requestTokenUrl;
-  final String authenticateUrl;
-
-  /// When the OAuth mechanism browses to this URL, we assume success.
-  final String callbackUrl;
-
-  final OAuthTokenCallback onSuccess;
+  final OAuthGetParams onOAuthGetParams;
+  final OAuthCallbackResult onOAuthCallbackResult;
 
   @override
   _OAuthScaffoldState createState() => new _OAuthScaffoldState();
@@ -47,9 +39,10 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   final _flutterWebviewPlugin = new FlutterWebviewPlugin();
   StreamSubscription<String> _onUrlChanged;
 
-  String _temporaryToken;
   bool _ready = false;
-  String _url;
+  String _authUrl;
+  String _callbackUrl = "https://invalid.invalid";
+  Map<String, bool> _hostWhitelist = new Map<String, bool>();
 
   Future<Null> _authError() async {
     return showDialog<Null>(
@@ -86,6 +79,18 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
 
   _startRequest() async {
     try {
+      OAuthParams params = await widget.onOAuthGetParams();
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _ready = true;
+        _authUrl = params.authUrl; //widget.host + widget.authenticateUrl + "?oauth_token=" + Uri.encodeComponent(_temporaryToken);
+        _callbackUrl = params.callbackUrl;
+        _hostWhitelist[Uri.parse(_authUrl).host] = true;
+        _hostWhitelist[Uri.parse(_callbackUrl).host] = true;
+      });
+      /*
       var platform = new oauth1.Platform(
         widget.host + widget.requestTokenUrl,
         widget.host + "/", // widget.authorizeUrl,
@@ -113,6 +118,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
         _temporaryToken = tokenRes.credentials.token;
         _url =  widget.host + widget.authenticateUrl + "?oauth_token=" + Uri.encodeComponent(_temporaryToken);
       });
+      */
       return;
     } catch (e) {
       print(e);
@@ -125,7 +131,9 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   void initState() {
     super.initState();
     _onUrlChanged = _flutterWebviewPlugin.onUrlChanged.listen(_urlChanged);
-    _startRequest();
+    _startRequest().onError((e) {
+      print("OAuth Exception: $e");
+    });
   }
 
   @override
@@ -144,9 +152,12 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
 
   _urlChanged(String url) async {
     if (mounted) {
-      if (url.startsWith(widget.callbackUrl)) {
-        Uri uri = Uri.parse(url);
-        if (widget.onSuccess != null && uri.queryParameters.containsKey('oauth_token') && uri.queryParameters.containsKey('oauth_verifier')) {
+      Uri uri = Uri.parse(url);
+      if (url.startsWith(_callbackUrl)) {
+        if (widget.onOAuthCallbackResult != null && await widget.onOAuthCallbackResult(uri.query)) { // uri.queryParameters.containsKey('oauth_token') && uri.queryParameters.containsKey('oauth_verifier')) {
+          print("Authorization success");
+          Navigator.of(context).pop();
+          /*
           // Got a valid token
           if (_temporaryToken == uri.queryParameters['oauth_token']) {
             print("Authorization success");
@@ -160,17 +171,18 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
             await _authError();
             Navigator.of(context).pop();
           }
+          */
         } else {
           // Authorization canceled
-          print("Authorization canceled: " + widget.host);
+          print("Authorization canceled: " + url);
           setState(() { _ready = false; });
           await _authError();
           Navigator.of(context).pop();
         }
-      } else if (!url.startsWith(widget.host)) {
+      } else if (!_hostWhitelist.containsKey(uri.host)) { // url.startsWith(widget.host)) {
         // Only allow API url
         // TODO: Also allow T&C and Privacy Policy urls!
-        print("Url not allowed: " + widget.host);
+        print("Url not allowed: " + url);
         setState(() { _ready = false; });
         await _authError();
         Navigator.of(context).pop();
@@ -198,7 +210,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
       );
     }
     return new WebviewScaffold(
-      url: _url,
+      url: _authUrl,
       appBar: widget.appBar,
     );
   }
