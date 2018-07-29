@@ -5,6 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:logging/logging.dart';
 import 'package:wstalk/wstalk.dart';
@@ -172,14 +173,48 @@ class RemoteAppOAuth {
         var clientCredentials = new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
         var credentials = new oauth1.Credentials(oauthToken, oauthTokenSecret);
         var client = new oauth1.Client(oauth1.SignatureMethods.HMAC_SHA1, clientCredentials, credentials);
-        devLog.finest('show');
-        http.Response res = await client.get("https://api.twitter.com/1.1/users/show.json?user_id=$oauthUserId");
+        // devLog.finest('show');
+        // http.Response res = await client.get("https://api.twitter.com/1.1/users/show.json?user_id=$oauthUserId");
         // https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-verify_credentials
         // https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_email=true
-        devLog.finest(res.body);
+        // devLog.finest(res.body);
+        http.Response res = await client.get("https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_email=true");
         devLog.finest('verify_credentials');
-        res = await client.get("https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_email=true");
         devLog.finest(res.body);
+        dynamic doc = jsonDecode(res.body);
+        if (doc['id_str'] != oauthUserId) {
+          throw new Exception("Mismatching OAuth user: ${doc['id_str']} != $oauthUserId");
+        }
+        String screenName = doc['screen_name'];
+        if (screenName == null) {
+          throw new Exception("Missing screen_name for OAuth user: $oauthUserId");
+        }
+        String displayName = doc['name'];
+        if (displayName == null) {
+          displayName = screenName;
+        }
+        String location = doc['location'];
+        String description = doc['description'];
+        String url = doc['url'];
+        dynamic entities_ = doc['entities'];
+        if (entities_ != null) {
+          dynamic url_ = entities_['url'];
+          if (url_ != null) {
+            dynamic urls_ = url_['urls'];
+            if (urls_ is List && urls_.length > 0 && urls_[0]['url'] == url) {
+              String expandedUrl = urls_[0]['expanded_url'];
+              if (expandedUrl != null) {
+                url = expandedUrl;
+              }
+            }
+          }
+        }
+        int followersCount = doc['followers_count'];
+        int followingCount = doc['friends_count'];
+        int postsCount = doc['statuses_count'];
+        bool verified = doc['verified'];
+        String email = doc['email'];
+        devLog.finer("Twitter $oauthUserId: $screenName, $displayName, $location, $description, $url, $followersCount, $followingCount, $postsCount, $verified, $email");
         break;
       }
     }
@@ -317,6 +352,73 @@ Twitter
   "needs_phone_verification": false
 }
 
+*/
+
+/*
+{
+  "id": 800376685472321500,
+  "id_str": "800376685472321538", ----------- this
+  "name": "Beyond the Curtain",   ----------- this
+  "screen_name": "BeyondTCurtain",----------- this
+  "location": "Orange, CA",       ----------- this
+  "description": "The premier destination for Arts, Fashion and culture.", ----------- this
+  "url": "https:\\/\\/t.co\\/y5oOTSkjW3",
+  "entities": {
+    "url": {
+      "urls": [
+        {
+          "url": "https:\\/\\/t.co\\/y5oOTSkjW3",
+          "expanded_url": "http:\\/\\/www.beyondthecurtain.com",----------- this (the one that matches y5oOTSkjW3 == y5oOTSkjW3)
+          "display_url": "beyondthecurtain.com",
+          "indices": [
+            0,
+            23
+          ]
+        }
+      ]
+    },
+    "description": {
+      "urls": []
+    }
+  },
+  "protected": false,
+  "followers_count": 88, ---------- followers
+  "friends_count": 540,  ---------- following
+  "listed_count": 1,
+  "created_at": "Sun Nov 20 16:34:06 +0000 2016",
+  "favourites_count": 216,
+  "utc_offset": null,
+  "time_zone": null,
+  "geo_enabled": false,
+  "verified": false,     ---------- verified
+  "statuses_count": 158, ---------- posts
+  "lang": "en",
+  "contributors_enabled": false,
+  "is_translator": false,
+  "is_translation_enabled": false,
+  "profile_background_color": "000000",
+  "profile_background_image_url": "http:\\/\\/abs.twimg.com\\/images\\/themes\\/theme1\\/bg.png",
+  "profile_background_image_url_https": "https:\\/\\/abs.twimg.com\\/images\\/themes\\/theme1\\/bg.png",
+  "profile_background_tile": false,
+  "profile_image_url": "http:\\/\\/pbs.twimg.com\\/profile_images\\/804232922978926592\\/p-GnnDk2_normal.jpg",
+  "profile_image_url_https": "https:\\/\\/pbs.twimg.com\\/profile_images\\/804232922978926592\\/p-GnnDk2_normal.jpg",
+  "profile_banner_url": "https:\\/\\/pbs.twimg.com\\/profile_banners\\/800376685472321538\\/1484524628",
+  "profile_link_color": "E81C4F",
+  "profile_sidebar_border_color": "000000",
+  "profile_sidebar_fill_color": "000000",
+  "profile_text_color": "000000",
+  "profile_use_background_image": false,
+  "has_extended_profile": false,
+  "default_profile": false,
+  "default_profile_image": false,
+  "following": false,
+  "follow_request_sent": false,
+  "notifications": false,
+  "translator_type": "none",
+  "suspended": false,
+  "needs_phone_verification": false,
+  "email": "beyondtcurtain@gmail.com" ---------- email
+}
 */
 
 /* end of file */
