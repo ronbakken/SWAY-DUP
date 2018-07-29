@@ -26,6 +26,7 @@ class OAuthScaffoldTwitter extends StatelessWidget {
       host: "https://api.twitter.com",
       requestTokenUrl: "/oauth/request_token",
       authenticateUrl: "/oauth/authenticate",
+      accessTokenUrl: "/oauth/access_token",
       callbackUrl: "https://net.no-break.space",
       consumerKey: consumerKey,
       consumerSecret: consumerSecret,

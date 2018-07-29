@@ -372,6 +372,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     NetSetAccountType pb = new NetSetAccountType();
     pb.accountType = accountType;
     _ts.sendMessage(_netSetAccountType, pb.writeToBuffer());
+    setState(() { accountState.accountType = accountType; }); // Ghost state, the server doesn't send update for this
   }
 }
 

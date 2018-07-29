@@ -26,7 +26,7 @@ class AppOnboarding extends StatelessWidget {
           assert(config != null);
           assert(network != null);
           return new OnboardingSocial(
-            accountType: AccountType.AT_BUSINESS,
+            accountType: network.accountState.accountType,
             oauthProviders: config.oauthProviders.all,
             oauthState: network.socialMedia,
           );

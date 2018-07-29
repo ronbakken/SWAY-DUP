@@ -18,6 +18,7 @@ class OAuthScaffold extends StatefulWidget { // stateful widget is basically a w
     @required this.host,
     this.requestTokenUrl = "/oauth/request_token",
     this.authenticateUrl = "/oauth/authenticate",
+    this.accessTokenUrl = "/oauth/access_token",
     @required this.callbackUrl,
     @required this.onSuccess,
   }) : super(key: key);
@@ -46,6 +47,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   final _flutterWebviewPlugin = new FlutterWebviewPlugin();
   StreamSubscription<String> _onUrlChanged;
 
+  String _temporaryToken;
   bool _ready = false;
   String _url;
 
@@ -98,19 +100,25 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
         clientCredentials,
         platform
       );
+      print("Await temp cred to ${widget.callbackUrl}");
+      // TODO: Can we do this server-side?
       var tokenRes = await authorization.requestTemporaryCredentials(widget.callbackUrl);
+      // authorization.getResourceOwnerAuthorizationURI(temporaryCredentialsIdentifier)
+      print("Got temp cred");
       if (!mounted) {
         return;
       }
       setState(() {
         _ready = true;
-        _url =  widget.host + widget.authenticateUrl + "?oauth_token=" + Uri.encodeComponent(tokenRes.credentials.token);
+        _temporaryToken = tokenRes.credentials.token;
+        _url =  widget.host + widget.authenticateUrl + "?oauth_token=" + Uri.encodeComponent(_temporaryToken);
       });
+      return;
     } catch (e) {
       print(e);
-      await _authError();
-      Navigator.of(context).pop();
     }
+    await _authError();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -140,9 +148,18 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
         Uri uri = Uri.parse(url);
         if (widget.onSuccess != null && uri.queryParameters.containsKey('oauth_token') && uri.queryParameters.containsKey('oauth_verifier')) {
           // Got a valid token
-          print("Authorization success");
-          widget.onSuccess(uri.queryParameters['oauth_token'], uri.queryParameters['oauth_verifier']);
-          Navigator.of(context).pop();
+          if (_temporaryToken == uri.queryParameters['oauth_token']) {
+            print("Authorization success");
+            widget.onSuccess(uri.queryParameters['oauth_token'], uri.queryParameters['oauth_verifier']);
+            Navigator.of(context).pop();
+          } else {
+            print("Authorization failed with mismatching tokens: "
+              "$_temporaryToken != ${uri.queryParameters['oauth_token']}, "
+              "${uri.queryParameters['oauth_verifier']}");
+            setState(() { _ready = false; });
+            await _authError();
+            Navigator.of(context).pop();
+          }
         } else {
           // Authorization canceled
           print("Authorization canceled: " + widget.host);
