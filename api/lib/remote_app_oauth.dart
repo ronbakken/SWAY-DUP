@@ -47,8 +47,8 @@ class RemoteAppOAuth {
     devLog.finest("netOAuthUrlReq");
     NetOAuthUrlReq pb = new NetOAuthUrlReq();
     pb.mergeFromBuffer(message.data);
-    if (pb.oauthProvider < _r.config.oauthProviders.all.length) {
-      ConfigOAuthProvider cfg = _r.config.oauthProviders.all[pb.oauthProvider];
+    if (pb.oauthProvider < config.oauthProviders.all.length) {
+      ConfigOAuthProvider cfg = config.oauthProviders.all[pb.oauthProvider];
       switch (cfg.mechanism) {
         case OAuthMechanism.OAM_OAUTH1: {
           devLog.finest(cfg.requestTokenUrl);
@@ -71,10 +71,12 @@ class RemoteAppOAuth {
           break;
         }
         default: {
+          ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
           throw new Exception("OAuth provider has no supported mechanism specified ${pb.oauthProvider}");
         }
       }
     } else {
+      ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
       throw new Exception("Invalid oauthProvider specified ${pb.oauthProvider}");
     }
   }
@@ -83,6 +85,62 @@ class RemoteAppOAuth {
   static int _netOAuthConnectRes = TalkSocket.encode("OA_R_CON");
   netOAuthConnectReq(TalkMessage message) async {
     devLog.finest("netOAuthConnectReq");
+    NetOAuthConnectReq pb = new NetOAuthConnectReq();
+    pb.mergeFromBuffer(message.data);
+    devLog.finest(pb.callbackQuery);
+    if (pb.oauthProvider < config.oauthProviders.all.length) {
+      ConfigOAuthProvider cfg = config.oauthProviders.all[pb.oauthProvider];
+      NetOAuthConnectRes pbRes = new NetOAuthConnectRes();
+      bool transitionAccount = false;
+      String oauthToken;
+      String oauthTokenSecret;
+      String oauthUserId;
+      String screenName;
+      switch (cfg.mechanism) {
+        case OAuthMechanism.OAM_OAUTH1: {
+          var platform = new oauth1.Platform(
+            cfg.host + cfg.requestTokenUrl, 
+            cfg.host + cfg.authenticateUrl, 
+            cfg.host + cfg.accessTokenUrl, 
+            oauth1.SignatureMethods.HMAC_SHA1);
+          var clientCredentials = new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
+          var auth = new oauth1.Authorization(clientCredentials, platform);
+          // auth.requestTokenCredentials(clientCredentials, verifier);
+          Map<String, String> query = Uri.splitQueryString(pb.callbackQuery);
+          if (query.containsKey('oauth_token') && query.containsKey('oauth_verifier')) {
+            var credentials = new oauth1.Credentials(query['oauth_token'], ''); // oauth_token_secret can be left blank it seems
+            oauth1.AuthorizationResponse authRes = await auth.requestTokenCredentials(credentials, query['oauth_verifier']);
+            devLog.finest(authRes.credentials.token);
+            devLog.finest(authRes.credentials.tokenSecret);
+            devLog.finest(authRes.optionalParameters);
+            oauthToken = authRes.credentials.token;
+            oauthTokenSecret = authRes.credentials.tokenSecret;
+            oauthUserId = authRes.optionalParameters['user_id'];
+            screenName = authRes.optionalParameters['user_id'];
+          } else {
+            devLog.finer("Query doesn't contain the required parameters: ${pb.callbackQuery}");
+          }
+          break;
+        }
+        default: {
+          ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
+          throw new Exception("OAuth provider has no supported mechanism specified ${pb.oauthProvider}");
+        }
+      }
+      // Simply send update of specific social media
+      pbRes.socialMedia = _r.socialMedia[pb.oauthProvider];
+      ts.sendMessage(_netOAuthConnectRes, pbRes.writeToBuffer(), reply: message);
+      devLog.finest("OAuth connected: ${pbRes.socialMedia.connected}");
+      if (transitionAccount) {
+        // Account was found during connection, transition
+        _r.unsubscribeOnboarding();
+        await _r.updateDeviceState();
+        await _r.transitionToApp();
+      }
+    } else {
+      ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
+      throw new Exception("Invalid oauthProvider specified ${pb.oauthProvider}");
+    }
   }
 
 }

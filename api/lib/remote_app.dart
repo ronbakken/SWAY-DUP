@@ -46,7 +46,7 @@ class RemoteApp {
 
   int addressId;
 
-  List<DataSocialMedia> socialMedia = new List<DataSocialMedia>(10); // TODO: Proper length from configuration
+  List<DataSocialMedia> socialMedia; // TODO: Proper length from configuration
 
   static final Logger opsLog = new Logger('InfOps.RemoteApp');
   static final Logger devLog = new Logger('InfDev.RemoteApp');
@@ -58,6 +58,7 @@ class RemoteApp {
 
   RemoteApp(this.config, this.sql, this.ts) {
     devLog.fine("New connection");
+    socialMedia = new List<DataSocialMedia>(config.oauthProviders.all.length);
     for (int i = 0; i < socialMedia.length; ++i) {
       socialMedia[i] = new DataSocialMedia();
     }
@@ -240,9 +241,9 @@ class RemoteApp {
           accountState.globalAccountStateReason = GlobalAccountStateReason.valueOf(row[2]); // VERIFY
           addressId = row[3]; // VERIFY
         }
-        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `username`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `account_id` = ?", [ accountState.accountId ]);
+        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `screen_name`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `account_id` = ?", [ accountState.accountId ]);
       } else {
-        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `username`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `device_id` = ?", [ accountState.deviceId ]);
+        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `screen_name`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `device_id` = ?", [ accountState.deviceId ]);
       }
       List<bool> connected = new List<bool>(socialMedia.length);
       await for (sqljocky.Row row in mediaResults) {
@@ -538,7 +539,7 @@ I/flutter (26706): OAuth Providers: 8
   // App
   /////////////////////////////////////////////////////////////////////
   
-  /// Transitions the user to the app context after registration or login succeeds
+  /// Transitions the user to the app context after registration or login succeeds. Call from lock
   Future transitionToApp() {
     assert(_netDeviceAuthCreateReq == null);
     assert(_netAccountCreateReq == null);
