@@ -3,6 +3,15 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes
 
+const OAuthMechanism$json = const {
+  '1': 'OAuthMechanism',
+  '2': const [
+    const {'1': 'OAM_NONE', '2': 0},
+    const {'1': 'OAM_OAUTH1', '2': 1},
+    const {'1': 'OAM_OAUTH2', '2': 2},
+  ],
+};
+
 const AccountType$json = const {
   '1': 'AccountType',
   '2': const [
@@ -59,16 +68,18 @@ const ConfigOAuthProvider$json = const {
     const {'1': 'enabled', '3': 2, '4': 1, '5': 8, '10': 'enabled'},
     const {'1': 'label', '3': 3, '4': 1, '5': 9, '10': 'label'},
     const {'1': 'fontAwesomeBrand', '3': 14, '4': 1, '5': 5, '10': 'fontAwesomeBrand'},
+    const {'1': 'mechanism', '3': 15, '4': 1, '5': 14, '6': '.OAuthMechanism', '10': 'mechanism'},
     const {'1': 'host', '3': 4, '4': 1, '5': 9, '10': 'host'},
     const {'1': 'requestTokenUrl', '3': 5, '4': 1, '5': 9, '10': 'requestTokenUrl'},
     const {'1': 'authenticateUrl', '3': 6, '4': 1, '5': 9, '10': 'authenticateUrl'},
-    const {'1': 'authUrl', '3': 7, '4': 1, '5': 9, '10': 'authUrl'},
-    const {'1': 'authQuery', '3': 8, '4': 1, '5': 9, '10': 'authQuery'},
-    const {'1': 'callbackUrl', '3': 9, '4': 1, '5': 9, '10': 'callbackUrl'},
+    const {'1': 'accessTokenUrl', '3': 16, '4': 1, '5': 9, '10': 'accessTokenUrl'},
     const {'1': 'consumerKey', '3': 10, '4': 1, '5': 9, '10': 'consumerKey'},
     const {'1': 'consumerSecret', '3': 11, '4': 1, '5': 9, '10': 'consumerSecret'},
+    const {'1': 'authUrl', '3': 7, '4': 1, '5': 9, '10': 'authUrl'},
+    const {'1': 'authQuery', '3': 8, '4': 1, '5': 9, '10': 'authQuery'},
     const {'1': 'clientId', '3': 12, '4': 1, '5': 9, '10': 'clientId'},
-    const {'1': 'nativeAuth', '3': 13, '4': 1, '5': 9, '10': 'nativeAuth'},
+    const {'1': 'clientSecret', '3': 17, '4': 1, '5': 9, '10': 'clientSecret'},
+    const {'1': 'callbackUrl', '3': 9, '4': 1, '5': 9, '10': 'callbackUrl'},
   ],
 };
 
@@ -76,7 +87,6 @@ const ConfigOAuthProviders$json = const {
   '1': 'ConfigOAuthProviders',
   '2': const [
     const {'1': 'all', '3': 1, '4': 3, '5': 11, '6': '.ConfigOAuthProvider', '10': 'all'},
-    const {'1': 'key', '3': 2, '4': 1, '5': 9, '10': 'key'},
   ],
 };
 

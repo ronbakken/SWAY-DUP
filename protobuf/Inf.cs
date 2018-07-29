@@ -24,80 +24,82 @@ namespace InfX {
           string.Concat(
             "CglpbmYucHJvdG8iJQoTQ29uZmlnU3ViQ2F0ZWdvcmllcxIOCgZsYWJlbHMY",
             "ASADKAkiNQoQQ29uZmlnQ2F0ZWdvcmllcxIhCgNzdWIYASADKAsyFC5Db25m",
-            "aWdTdWJDYXRlZ29yaWVzIqwCChNDb25maWdPQXV0aFByb3ZpZGVyEg8KB3Zp",
+            "aWdTdWJDYXRlZ29yaWVzIuoCChNDb25maWdPQXV0aFByb3ZpZGVyEg8KB3Zp",
             "c2libGUYASABKAgSDwoHZW5hYmxlZBgCIAEoCBINCgVsYWJlbBgDIAEoCRIY",
-            "ChBmb250QXdlc29tZUJyYW5kGA4gASgFEgwKBGhvc3QYBCABKAkSFwoPcmVx",
-            "dWVzdFRva2VuVXJsGAUgASgJEhcKD2F1dGhlbnRpY2F0ZVVybBgGIAEoCRIP",
-            "CgdhdXRoVXJsGAcgASgJEhEKCWF1dGhRdWVyeRgIIAEoCRITCgtjYWxsYmFj",
-            "a1VybBgJIAEoCRITCgtjb25zdW1lcktleRgKIAEoCRIWCg5jb25zdW1lclNl",
-            "Y3JldBgLIAEoCRIQCghjbGllbnRJZBgMIAEoCRISCgpuYXRpdmVBdXRoGA0g",
-            "ASgJIkYKFENvbmZpZ09BdXRoUHJvdmlkZXJzEiEKA2FsbBgBIAMoCzIULkNv",
-            "bmZpZ09BdXRoUHJvdmlkZXISCwoDa2V5GAIgASgJIqIBCgpDb25maWdEYXRh",
-            "EhUKDWNsaWVudFZlcnNpb24YASABKAUSEQoJdGltZXN0YW1wGAUgASgDEhQK",
-            "DGRvd25sb2FkVXJscxgEIAMoCRIlCgpjYXRlZ29yaWVzGAIgASgLMhEuQ29u",
-            "ZmlnQ2F0ZWdvcmllcxItCg5vYXV0aFByb3ZpZGVycxgDIAEoCzIVLkNvbmZp",
-            "Z09BdXRoUHJvdmlkZXJzIicKCkNhdGVnb3J5SWQSDAoEbWFpbhgBIAEoBRIL",
-            "CgNzdWIYAiABKAUiigEKDkRhdGFJbmZsdWVuY2VyEgoKAmlkGAEgASgDEgwK",
-            "BG5hbWUYAiABKAkSEAoIbG9jYXRpb24YAyABKAkSEQoJYXZhdGFyVXJsGAQg",
-            "ASgJEh8KCmNhdGVnb3JpZXMYBSADKAsyCy5DYXRlZ29yeUlkEgsKA2xhdBgG",
-            "IAEoARILCgNsbmcYByABKAEiiAEKDERhdGFCdXNpbmVzcxIKCgJpZBgBIAEo",
+            "ChBmb250QXdlc29tZUJyYW5kGA4gASgFEiIKCW1lY2hhbmlzbRgPIAEoDjIP",
+            "Lk9BdXRoTWVjaGFuaXNtEgwKBGhvc3QYBCABKAkSFwoPcmVxdWVzdFRva2Vu",
+            "VXJsGAUgASgJEhcKD2F1dGhlbnRpY2F0ZVVybBgGIAEoCRIWCg5hY2Nlc3NU",
+            "b2tlblVybBgQIAEoCRITCgtjb25zdW1lcktleRgKIAEoCRIWCg5jb25zdW1l",
+            "clNlY3JldBgLIAEoCRIPCgdhdXRoVXJsGAcgASgJEhEKCWF1dGhRdWVyeRgI",
+            "IAEoCRIQCghjbGllbnRJZBgMIAEoCRIUCgxjbGllbnRTZWNyZXQYESABKAkS",
+            "EwoLY2FsbGJhY2tVcmwYCSABKAkiOQoUQ29uZmlnT0F1dGhQcm92aWRlcnMS",
+            "IQoDYWxsGAEgAygLMhQuQ29uZmlnT0F1dGhQcm92aWRlciKiAQoKQ29uZmln",
+            "RGF0YRIVCg1jbGllbnRWZXJzaW9uGAEgASgFEhEKCXRpbWVzdGFtcBgFIAEo",
+            "AxIUCgxkb3dubG9hZFVybHMYBCADKAkSJQoKY2F0ZWdvcmllcxgCIAEoCzIR",
+            "LkNvbmZpZ0NhdGVnb3JpZXMSLQoOb2F1dGhQcm92aWRlcnMYAyABKAsyFS5D",
+            "b25maWdPQXV0aFByb3ZpZGVycyInCgpDYXRlZ29yeUlkEgwKBG1haW4YASAB",
+            "KAUSCwoDc3ViGAIgASgFIooBCg5EYXRhSW5mbHVlbmNlchIKCgJpZBgBIAEo",
             "AxIMCgRuYW1lGAIgASgJEhAKCGxvY2F0aW9uGAMgASgJEhEKCWF2YXRhclVy",
             "bBgEIAEoCRIfCgpjYXRlZ29yaWVzGAUgAygLMgsuQ2F0ZWdvcnlJZBILCgNs",
-            "YXQYBiABKAESCwoDbG5nGAcgASgBItABCglEYXRhT2ZmZXISCgoCaWQYASAB",
-            "KAMSHwoIYnVzaW5lc3MYAiABKAsyDS5EYXRhQnVzaW5lc3MSDQoFdGl0bGUY",
-            "AyABKAkSEQoJaW1hZ2VVcmxzGAQgAygJEh8KCmNhdGVnb3JpZXMYBSADKAsy",
-            "Cy5DYXRlZ29yeUlkEgsKA2xhdBgGIAEoARILCgNsbmcYByABKAESEwoLZGVz",
-            "Y3JpcHRpb24YCCABKAkSFAoMZGVsaXZlcmFibGVzGAkgASgJEg4KBnJld2Fy",
-            "ZBgKIAEoCSJbCg1EYXRhQXBwbGljYW50EgoKAmlkGAEgASgDEhkKBW9mZmVy",
-            "GAIgASgLMgouRGF0YU9mZmVyEiMKCmluZmx1ZW5jZXIYAyABKAsyDy5EYXRh",
-            "SW5mbHVlbmNlciJiCghEYXRhQ2hhdBITCgthcHBsaWNhbnRJZBgBIAEoAxIS",
-            "CgpzZXF1ZW5jZUlkGAIgASgDEg0KBWtleUlkGAMgASgDEhAKCG91dGdvaW5n",
-            "GAQgASgIEgwKBHRleHQYBSABKAkiyAEKEERhdGFBY2NvdW50U3RhdGUSEAoI",
-            "ZGV2aWNlSWQYASABKAUSEQoJYWNjb3VudElkGAIgASgFEiEKC2FjY291bnRU",
-            "eXBlGAMgASgOMgwuQWNjb3VudFR5cGUSLwoSZ2xvYmFsQWNjb3VudFN0YXRl",
-            "GAQgASgOMhMuR2xvYmFsQWNjb3VudFN0YXRlEjsKGGdsb2JhbEFjY291bnRT",
-            "dGF0ZVJlYXNvbhgFIAEoDjIZLkdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbiJx",
-            "Cg9EYXRhU29jaWFsTWVkaWESEQoJY29ubmVjdGVkGAEgASgIEhEKCWZvbGxv",
-            "d2VycxgCIAEoBRIRCglmb2xsb3dpbmcYAyABKAUSEAoIdXNlcm5hbWUYBCAB",
-            "KAkSEwoLZGlzcGxheU5hbWUYBSABKAkiRAoWTmV0RGV2aWNlQXV0aENyZWF0",
-            "ZVJlcRIOCgZhZXNLZXkYASABKAwSDAoEbmFtZRgCIAEoCRIMCgRpbmZvGAMg",
-            "ASgJIi0KGU5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXESEAoIZGV2aWNlSWQY",
-            "ASABKAUiMQocTmV0RGV2aWNlQXV0aENoYWxsZW5nZVJlc1JlcRIRCgljaGFs",
-            "bGVuZ2UYASABKAwiMQocTmV0RGV2aWNlQXV0aFNpZ25hdHVyZVJlc1JlcRIR",
-            "CglzaWduYXR1cmUYASABKAwiZAoSTmV0RGV2aWNlQXV0aFN0YXRlEicKDGFj",
-            "Y291bnRTdGF0ZRgHIAEoCzIRLkRhdGFBY2NvdW50U3RhdGUSJQoLc29jaWFs",
-            "TWVkaWEYBiADKAsyEC5EYXRhU29jaWFsTWVkaWEiNgoRTmV0U2V0QWNjb3Vu",
-            "dFR5cGUSIQoLYWNjb3VudFR5cGUYASABKA4yDC5BY2NvdW50VHlwZSJDChJO",
-            "ZXRPQXV0aENvbm5lY3RSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBRIWCg5v",
-            "YXV0aFNpZ25hdHVyZRgCIAEoCSI7ChJOZXRPQXV0aENvbm5lY3RSZXMSJQoL",
-            "c29jaWFsTWVkaWEYASABKAsyEC5EYXRhU29jaWFsTWVkaWEiPQoTTmV0QWNj",
-            "b3VudENyZWF0ZVJlcRIMCgRuYW1lGAEgASgJEgsKA2xhdBgCIAEoAhILCgNs",
-            "bmcYAyABKAIiRwoRTmV0UmVxSW1hZ2VVcGxvYWQSEAoIZmlsZU5hbWUYASAB",
-            "KAkSEAoIZmlsZVNpemUYAiABKAUSDgoGc2hhMjU2GAMgASgJIt8BChFOZXRS",
-            "ZXNJbWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJEhIKCnJlcXVl",
-            "c3RVcmwYAiABKAkSGQoRaGVhZGVyQ29udGVudFR5cGUYAyABKAkSGwoTaGVh",
-            "ZGVyQ29udGVudExlbmd0aBgEIAEoCRISCgpoZWFkZXJIb3N0GAUgASgJEhYK",
-            "DmhlYWRlclhBbXpEYXRlGAYgASgJEh4KFmhlYWRlclhBbXpTdG9yYWdlQ2xh",
-            "c3MYByABKAkSGwoTaGVhZGVyQXV0aG9yaXphdGlvbhgIIAEoCSJAChFOZXRS",
-            "ZXFDcmVhdGVPZmZlchIZCgVvZmZlchgBIAEoCzIKLkRhdGFPZmZlchIQCghp",
-            "bWFnZUlkcxgCIAMoCSIfChFOZXRSZXNDcmVhdGVPZmZlchIKCgJpZBgBIAEo",
-            "AypBCgtBY2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5GTFVF",
-            "TkNFUhABEg8KC0FUX0JVU0lORVNTEAIqjwEKEkdsb2JhbEFjY291bnRTdGF0",
-            "ZRISCg5HQVNfSU5JVElBTElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FT",
-            "X1JFQURfT05MWRACEhIKDkdBU19SRUFEX1dSSVRFEAMSEQoNR0FTX01PREVS",
-            "QVRPUhAEEg0KCUdBU19BRE1JThAFEgsKB0dBU19HT0QQBiq1AQoYR2xvYmFs",
-            "QWNjb3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNH",
-            "QVNSX0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAIS",
-            "EQoNR0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAK",
-            "DEdBU1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAZCB6oCBElu",
-            "ZlhiBnByb3RvMw=="));
+            "YXQYBiABKAESCwoDbG5nGAcgASgBIogBCgxEYXRhQnVzaW5lc3MSCgoCaWQY",
+            "ASABKAMSDAoEbmFtZRgCIAEoCRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0",
+            "YXJVcmwYBCABKAkSHwoKY2F0ZWdvcmllcxgFIAMoCzILLkNhdGVnb3J5SWQS",
+            "CwoDbGF0GAYgASgBEgsKA2xuZxgHIAEoASLQAQoJRGF0YU9mZmVyEgoKAmlk",
+            "GAEgASgDEh8KCGJ1c2luZXNzGAIgASgLMg0uRGF0YUJ1c2luZXNzEg0KBXRp",
+            "dGxlGAMgASgJEhEKCWltYWdlVXJscxgEIAMoCRIfCgpjYXRlZ29yaWVzGAUg",
+            "AygLMgsuQ2F0ZWdvcnlJZBILCgNsYXQYBiABKAESCwoDbG5nGAcgASgBEhMK",
+            "C2Rlc2NyaXB0aW9uGAggASgJEhQKDGRlbGl2ZXJhYmxlcxgJIAEoCRIOCgZy",
+            "ZXdhcmQYCiABKAkiWwoNRGF0YUFwcGxpY2FudBIKCgJpZBgBIAEoAxIZCgVv",
+            "ZmZlchgCIAEoCzIKLkRhdGFPZmZlchIjCgppbmZsdWVuY2VyGAMgASgLMg8u",
+            "RGF0YUluZmx1ZW5jZXIiYgoIRGF0YUNoYXQSEwoLYXBwbGljYW50SWQYASAB",
+            "KAMSEgoKc2VxdWVuY2VJZBgCIAEoAxINCgVrZXlJZBgDIAEoAxIQCghvdXRn",
+            "b2luZxgEIAEoCBIMCgR0ZXh0GAUgASgJIsgBChBEYXRhQWNjb3VudFN0YXRl",
+            "EhAKCGRldmljZUlkGAEgASgFEhEKCWFjY291bnRJZBgCIAEoBRIhCgthY2Nv",
+            "dW50VHlwZRgDIAEoDjIMLkFjY291bnRUeXBlEi8KEmdsb2JhbEFjY291bnRT",
+            "dGF0ZRgEIAEoDjITLkdsb2JhbEFjY291bnRTdGF0ZRI7ChhnbG9iYWxBY2Nv",
+            "dW50U3RhdGVSZWFzb24YBSABKA4yGS5HbG9iYWxBY2NvdW50U3RhdGVSZWFz",
+            "b24icQoPRGF0YVNvY2lhbE1lZGlhEhEKCWNvbm5lY3RlZBgBIAEoCBIRCglm",
+            "b2xsb3dlcnMYAiABKAUSEQoJZm9sbG93aW5nGAMgASgFEhAKCHVzZXJuYW1l",
+            "GAQgASgJEhMKC2Rpc3BsYXlOYW1lGAUgASgJIkQKFk5ldERldmljZUF1dGhD",
+            "cmVhdGVSZXESDgoGYWVzS2V5GAEgASgMEgwKBG5hbWUYAiABKAkSDAoEaW5m",
+            "bxgDIAEoCSItChlOZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVxEhAKCGRldmlj",
+            "ZUlkGAEgASgFIjEKHE5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXNSZXESEQoJ",
+            "Y2hhbGxlbmdlGAEgASgMIjEKHE5ldERldmljZUF1dGhTaWduYXR1cmVSZXNS",
+            "ZXESEQoJc2lnbmF0dXJlGAEgASgMImQKEk5ldERldmljZUF1dGhTdGF0ZRIn",
+            "CgxhY2NvdW50U3RhdGUYByABKAsyES5EYXRhQWNjb3VudFN0YXRlEiUKC3Nv",
+            "Y2lhbE1lZGlhGAYgAygLMhAuRGF0YVNvY2lhbE1lZGlhIjYKEU5ldFNldEFj",
+            "Y291bnRUeXBlEiEKC2FjY291bnRUeXBlGAEgASgOMgwuQWNjb3VudFR5cGUi",
+            "QwoSTmV0T0F1dGhDb25uZWN0UmVxEhUKDW9hdXRoUHJvdmlkZXIYASABKAUS",
+            "FgoOb2F1dGhTaWduYXR1cmUYAiABKAkiOwoSTmV0T0F1dGhDb25uZWN0UmVz",
+            "EiUKC3NvY2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lhbE1lZGlhIj0KE05l",
+            "dEFjY291bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRILCgNsYXQYAiABKAIS",
+            "CwoDbG5nGAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZpbGVOYW1l",
+            "GAEgASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEoCSLfAQoR",
+            "TmV0UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEoCRISCgpy",
+            "ZXF1ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMgASgJEhsK",
+            "E2hlYWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9zdBgFIAEo",
+            "CRIWCg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16U3RvcmFn",
+            "ZUNsYXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCABKAkiQAoR",
+            "TmV0UmVxQ3JlYXRlT2ZmZXISGQoFb2ZmZXIYASABKAsyCi5EYXRhT2ZmZXIS",
+            "EAoIaW1hZ2VJZHMYAiADKAkiHwoRTmV0UmVzQ3JlYXRlT2ZmZXISCgoCaWQY",
+            "ASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIOCgpPQU1f",
+            "T0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkEKC0FjY291bnRUeXBlEg4KCkFU",
+            "X1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQ",
+            "AiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFMSVpFEAAS",
+            "DwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoOR0FTX1JF",
+            "QURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FETUlOEAUS",
+            "CwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SFAoQ",
+            "R0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5ORUQQARIW",
+            "ChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVEEAMSFgoS",
+            "R0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUSFQoRR0FT",
+            "Ul9SRVFVSVJFX0lORk8QBkIHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Host", "RequestTokenUrl", "AuthenticateUrl", "AuthUrl", "AuthQuery", "CallbackUrl", "ConsumerKey", "ConsumerSecret", "ClientId", "NativeAuth" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All", "Key" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret", "CallbackUrl" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "Timestamp", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataInfluencer), global::InfX.DataInfluencer.Parser, new[]{ "Id", "Name", "Location", "AvatarUrl", "Categories", "Lat", "Lng" }, null, null, null),
@@ -126,6 +128,18 @@ namespace InfX {
 
   }
   #region Enums
+  public enum OAuthMechanism {
+    [pbr::OriginalName("OAM_NONE")] OamNone = 0,
+    /// <summary>
+    /// / OAuth1, Twitter-like
+    /// </summary>
+    [pbr::OriginalName("OAM_OAUTH1")] OamOauth1 = 1,
+    /// <summary>
+    /// / OAuth2, Spotify-like
+    /// </summary>
+    [pbr::OriginalName("OAM_OAUTH2")] OamOauth2 = 2,
+  }
+
   public enum AccountType {
     [pbr::OriginalName("AT_UNKNOWN")] AtUnknown = 0,
     [pbr::OriginalName("AT_INFLUENCER")] AtInfluencer = 1,
@@ -429,16 +443,18 @@ namespace InfX {
       enabled_ = other.enabled_;
       label_ = other.label_;
       fontAwesomeBrand_ = other.fontAwesomeBrand_;
+      mechanism_ = other.mechanism_;
       host_ = other.host_;
       requestTokenUrl_ = other.requestTokenUrl_;
       authenticateUrl_ = other.authenticateUrl_;
-      authUrl_ = other.authUrl_;
-      authQuery_ = other.authQuery_;
-      callbackUrl_ = other.callbackUrl_;
+      accessTokenUrl_ = other.accessTokenUrl_;
       consumerKey_ = other.consumerKey_;
       consumerSecret_ = other.consumerSecret_;
+      authUrl_ = other.authUrl_;
+      authQuery_ = other.authQuery_;
       clientId_ = other.clientId_;
-      nativeAuth_ = other.nativeAuth_;
+      clientSecret_ = other.clientSecret_;
+      callbackUrl_ = other.callbackUrl_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -449,6 +465,9 @@ namespace InfX {
     /// <summary>Field number for the "visible" field.</summary>
     public const int VisibleFieldNumber = 1;
     private bool visible_;
+    /// <summary>
+    /// / Whether the OAuth provider is visible in the UI
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Visible {
       get { return visible_; }
@@ -460,6 +479,9 @@ namespace InfX {
     /// <summary>Field number for the "enabled" field.</summary>
     public const int EnabledFieldNumber = 2;
     private bool enabled_;
+    /// <summary>
+    /// / Whether the OAuth provider can be used to authenticate
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Enabled {
       get { return enabled_; }
@@ -490,6 +512,20 @@ namespace InfX {
       get { return fontAwesomeBrand_; }
       set {
         fontAwesomeBrand_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "mechanism" field.</summary>
+    public const int MechanismFieldNumber = 15;
+    private global::InfX.OAuthMechanism mechanism_ = 0;
+    /// <summary>
+    /// / OAuth mechanism
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.OAuthMechanism Mechanism {
+      get { return mechanism_; }
+      set {
+        mechanism_ = value;
       }
     }
 
@@ -532,6 +568,42 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "accessTokenUrl" field.</summary>
+    public const int AccessTokenUrlFieldNumber = 16;
+    private string accessTokenUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AccessTokenUrl {
+      get { return accessTokenUrl_; }
+      set {
+        accessTokenUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "consumerKey" field.</summary>
+    public const int ConsumerKeyFieldNumber = 10;
+    private string consumerKey_ = "";
+    /// <summary>
+    /// / Generated by the OAuth provider, Twitter-like
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ConsumerKey {
+      get { return consumerKey_; }
+      set {
+        consumerKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "consumerSecret" field.</summary>
+    public const int ConsumerSecretFieldNumber = 11;
+    private string consumerSecret_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ConsumerSecret {
+      get { return consumerSecret_; }
+      set {
+        consumerSecret_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "authUrl" field.</summary>
     public const int AuthUrlFieldNumber = 7;
     private string authUrl_ = "";
@@ -557,6 +629,31 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "clientId" field.</summary>
+    public const int ClientIdFieldNumber = 12;
+    private string clientId_ = "";
+    /// <summary>
+    /// / From OAuth provider, Spotify-like
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ClientId {
+      get { return clientId_; }
+      set {
+        clientId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "clientSecret" field.</summary>
+    public const int ClientSecretFieldNumber = 17;
+    private string clientSecret_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ClientSecret {
+      get { return clientSecret_; }
+      set {
+        clientSecret_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "callbackUrl" field.</summary>
     public const int CallbackUrlFieldNumber = 9;
     private string callbackUrl_ = "";
@@ -568,59 +665,6 @@ namespace InfX {
       get { return callbackUrl_; }
       set {
         callbackUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "consumerKey" field.</summary>
-    public const int ConsumerKeyFieldNumber = 10;
-    private string consumerKey_ = "";
-    /// <summary>
-    /// / Generated by the OAuth provider, not really secret, Twitter-like
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string ConsumerKey {
-      get { return consumerKey_; }
-      set {
-        consumerKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "consumerSecret" field.</summary>
-    public const int ConsumerSecretFieldNumber = 11;
-    private string consumerSecret_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string ConsumerSecret {
-      get { return consumerSecret_; }
-      set {
-        consumerSecret_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "clientId" field.</summary>
-    public const int ClientIdFieldNumber = 12;
-    private string clientId_ = "";
-    /// <summary>
-    /// / From OAuth provider, Spotify-like, may not include clientSecret
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string ClientId {
-      get { return clientId_; }
-      set {
-        clientId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "nativeAuth" field.</summary>
-    public const int NativeAuthFieldNumber = 13;
-    private string nativeAuth_ = "";
-    /// <summary>
-    /// / Request settings
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string NativeAuth {
-      get { return nativeAuth_; }
-      set {
-        nativeAuth_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -641,16 +685,18 @@ namespace InfX {
       if (Enabled != other.Enabled) return false;
       if (Label != other.Label) return false;
       if (FontAwesomeBrand != other.FontAwesomeBrand) return false;
+      if (Mechanism != other.Mechanism) return false;
       if (Host != other.Host) return false;
       if (RequestTokenUrl != other.RequestTokenUrl) return false;
       if (AuthenticateUrl != other.AuthenticateUrl) return false;
-      if (AuthUrl != other.AuthUrl) return false;
-      if (AuthQuery != other.AuthQuery) return false;
-      if (CallbackUrl != other.CallbackUrl) return false;
+      if (AccessTokenUrl != other.AccessTokenUrl) return false;
       if (ConsumerKey != other.ConsumerKey) return false;
       if (ConsumerSecret != other.ConsumerSecret) return false;
+      if (AuthUrl != other.AuthUrl) return false;
+      if (AuthQuery != other.AuthQuery) return false;
       if (ClientId != other.ClientId) return false;
-      if (NativeAuth != other.NativeAuth) return false;
+      if (ClientSecret != other.ClientSecret) return false;
+      if (CallbackUrl != other.CallbackUrl) return false;
       return true;
     }
 
@@ -661,16 +707,18 @@ namespace InfX {
       if (Enabled != false) hash ^= Enabled.GetHashCode();
       if (Label.Length != 0) hash ^= Label.GetHashCode();
       if (FontAwesomeBrand != 0) hash ^= FontAwesomeBrand.GetHashCode();
+      if (Mechanism != 0) hash ^= Mechanism.GetHashCode();
       if (Host.Length != 0) hash ^= Host.GetHashCode();
       if (RequestTokenUrl.Length != 0) hash ^= RequestTokenUrl.GetHashCode();
       if (AuthenticateUrl.Length != 0) hash ^= AuthenticateUrl.GetHashCode();
-      if (AuthUrl.Length != 0) hash ^= AuthUrl.GetHashCode();
-      if (AuthQuery.Length != 0) hash ^= AuthQuery.GetHashCode();
-      if (CallbackUrl.Length != 0) hash ^= CallbackUrl.GetHashCode();
+      if (AccessTokenUrl.Length != 0) hash ^= AccessTokenUrl.GetHashCode();
       if (ConsumerKey.Length != 0) hash ^= ConsumerKey.GetHashCode();
       if (ConsumerSecret.Length != 0) hash ^= ConsumerSecret.GetHashCode();
+      if (AuthUrl.Length != 0) hash ^= AuthUrl.GetHashCode();
+      if (AuthQuery.Length != 0) hash ^= AuthQuery.GetHashCode();
       if (ClientId.Length != 0) hash ^= ClientId.GetHashCode();
-      if (NativeAuth.Length != 0) hash ^= NativeAuth.GetHashCode();
+      if (ClientSecret.Length != 0) hash ^= ClientSecret.GetHashCode();
+      if (CallbackUrl.Length != 0) hash ^= CallbackUrl.GetHashCode();
       return hash;
     }
 
@@ -729,13 +777,21 @@ namespace InfX {
         output.WriteRawTag(98);
         output.WriteString(ClientId);
       }
-      if (NativeAuth.Length != 0) {
-        output.WriteRawTag(106);
-        output.WriteString(NativeAuth);
-      }
       if (FontAwesomeBrand != 0) {
         output.WriteRawTag(112);
         output.WriteInt32(FontAwesomeBrand);
+      }
+      if (Mechanism != 0) {
+        output.WriteRawTag(120);
+        output.WriteEnum((int) Mechanism);
+      }
+      if (AccessTokenUrl.Length != 0) {
+        output.WriteRawTag(130, 1);
+        output.WriteString(AccessTokenUrl);
+      }
+      if (ClientSecret.Length != 0) {
+        output.WriteRawTag(138, 1);
+        output.WriteString(ClientSecret);
       }
     }
 
@@ -754,6 +810,9 @@ namespace InfX {
       if (FontAwesomeBrand != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(FontAwesomeBrand);
       }
+      if (Mechanism != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Mechanism);
+      }
       if (Host.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Host);
       }
@@ -763,14 +822,8 @@ namespace InfX {
       if (AuthenticateUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthenticateUrl);
       }
-      if (AuthUrl.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthUrl);
-      }
-      if (AuthQuery.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthQuery);
-      }
-      if (CallbackUrl.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(CallbackUrl);
+      if (AccessTokenUrl.Length != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeStringSize(AccessTokenUrl);
       }
       if (ConsumerKey.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ConsumerKey);
@@ -778,11 +831,20 @@ namespace InfX {
       if (ConsumerSecret.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ConsumerSecret);
       }
+      if (AuthUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthUrl);
+      }
+      if (AuthQuery.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthQuery);
+      }
       if (ClientId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ClientId);
       }
-      if (NativeAuth.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(NativeAuth);
+      if (ClientSecret.Length != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeStringSize(ClientSecret);
+      }
+      if (CallbackUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CallbackUrl);
       }
       return size;
     }
@@ -804,6 +866,9 @@ namespace InfX {
       if (other.FontAwesomeBrand != 0) {
         FontAwesomeBrand = other.FontAwesomeBrand;
       }
+      if (other.Mechanism != 0) {
+        Mechanism = other.Mechanism;
+      }
       if (other.Host.Length != 0) {
         Host = other.Host;
       }
@@ -813,14 +878,8 @@ namespace InfX {
       if (other.AuthenticateUrl.Length != 0) {
         AuthenticateUrl = other.AuthenticateUrl;
       }
-      if (other.AuthUrl.Length != 0) {
-        AuthUrl = other.AuthUrl;
-      }
-      if (other.AuthQuery.Length != 0) {
-        AuthQuery = other.AuthQuery;
-      }
-      if (other.CallbackUrl.Length != 0) {
-        CallbackUrl = other.CallbackUrl;
+      if (other.AccessTokenUrl.Length != 0) {
+        AccessTokenUrl = other.AccessTokenUrl;
       }
       if (other.ConsumerKey.Length != 0) {
         ConsumerKey = other.ConsumerKey;
@@ -828,11 +887,20 @@ namespace InfX {
       if (other.ConsumerSecret.Length != 0) {
         ConsumerSecret = other.ConsumerSecret;
       }
+      if (other.AuthUrl.Length != 0) {
+        AuthUrl = other.AuthUrl;
+      }
+      if (other.AuthQuery.Length != 0) {
+        AuthQuery = other.AuthQuery;
+      }
       if (other.ClientId.Length != 0) {
         ClientId = other.ClientId;
       }
-      if (other.NativeAuth.Length != 0) {
-        NativeAuth = other.NativeAuth;
+      if (other.ClientSecret.Length != 0) {
+        ClientSecret = other.ClientSecret;
+      }
+      if (other.CallbackUrl.Length != 0) {
+        CallbackUrl = other.CallbackUrl;
       }
     }
 
@@ -892,12 +960,20 @@ namespace InfX {
             ClientId = input.ReadString();
             break;
           }
-          case 106: {
-            NativeAuth = input.ReadString();
-            break;
-          }
           case 112: {
             FontAwesomeBrand = input.ReadInt32();
+            break;
+          }
+          case 120: {
+            mechanism_ = (global::InfX.OAuthMechanism) input.ReadEnum();
+            break;
+          }
+          case 130: {
+            AccessTokenUrl = input.ReadString();
+            break;
+          }
+          case 138: {
+            ClientSecret = input.ReadString();
             break;
           }
         }
@@ -931,7 +1007,6 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ConfigOAuthProviders(ConfigOAuthProviders other) : this() {
       all_ = other.all_.Clone();
-      key_ = other.key_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -952,20 +1027,6 @@ namespace InfX {
       get { return all_; }
     }
 
-    /// <summary>Field number for the "key" field.</summary>
-    public const int KeyFieldNumber = 2;
-    private string key_ = "";
-    /// <summary>
-    /// / This AES-256 key decrypts the OAuth keys
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Key {
-      get { return key_; }
-      set {
-        key_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as ConfigOAuthProviders);
@@ -980,7 +1041,6 @@ namespace InfX {
         return true;
       }
       if(!all_.Equals(other.all_)) return false;
-      if (Key != other.Key) return false;
       return true;
     }
 
@@ -988,7 +1048,6 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       hash ^= all_.GetHashCode();
-      if (Key.Length != 0) hash ^= Key.GetHashCode();
       return hash;
     }
 
@@ -1000,19 +1059,12 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
       all_.WriteTo(output, _repeated_all_codec);
-      if (Key.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Key);
-      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
       size += all_.CalculateSize(_repeated_all_codec);
-      if (Key.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Key);
-      }
       return size;
     }
 
@@ -1022,9 +1074,6 @@ namespace InfX {
         return;
       }
       all_.Add(other.all_);
-      if (other.Key.Length != 0) {
-        Key = other.Key;
-      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1037,10 +1086,6 @@ namespace InfX {
             break;
           case 10: {
             all_.AddEntriesFrom(input, _repeated_all_codec);
-            break;
-          }
-          case 18: {
-            Key = input.ReadString();
             break;
           }
         }
@@ -3565,7 +3610,7 @@ namespace InfX {
   /// <summary>
   ///  Server supplies challenge for the device
   ///  Name: DA_R_CHA
-  ///  Response: NetDeviceAuthResReq
+  ///  Response: NetDeviceAuthSignatureResReq
   /// </summary>
   public sealed partial class NetDeviceAuthChallengeResReq : pb::IMessage<NetDeviceAuthChallengeResReq> {
     private static readonly pb::MessageParser<NetDeviceAuthChallengeResReq> _parser = new pb::MessageParser<NetDeviceAuthChallengeResReq>(() => new NetDeviceAuthChallengeResReq());
