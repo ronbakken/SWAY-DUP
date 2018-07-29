@@ -294,12 +294,29 @@ message NetSetAccountType {
   
 }
 
+// App requests OAuth url
+// Name: OA_URLRE
+// Response: NetOAuthUrlRes
+message NetOAuthUrlReq {
+  int32 oauthProvider = 1;
+  
+}
+
+// App requests OAuth url
+// Name: OA_R_URL
+// Response: NetOAuthUrlRes
+message NetOAuthUrlRes {
+  String authUrl = 1;
+  String callbackUrl = 2;
+  
+}
+
 // App adds another OAuth provider to the account
 // Name: OA_CONNE
 // Response: NetOAuthConnectRes
 message NetOAuthConnectReq {
   int32 oauthProvider = 1;
-  string oauthSignature = 2;
+  string callbackQuery = 2;
   
 }
 
