@@ -250,7 +250,7 @@ class RemoteApp {
         int oauthProvider = row[0];
         if (oauthProvider < socialMedia.length) {
           connected[oauthProvider] = true;
-          socialMedia[oauthProvider].username = row[1].toString();
+          socialMedia[oauthProvider].screenName = row[1].toString();
           socialMedia[oauthProvider].displayName = row[2].toString();
           socialMedia[oauthProvider].followers = row[3];
           socialMedia[oauthProvider].following = row[4];
