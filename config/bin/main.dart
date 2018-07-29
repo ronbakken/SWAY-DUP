@@ -109,7 +109,7 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
           if (cfg.hasOption(section, 'callbackUrl')) entry.callbackUrl = cfg.get(section, 'callbackUrl');
           if (cfg.hasOption(section, 'requestTokenUrl')) entry.requestTokenUrl = cfg.get(section, 'requestTokenUrl');
           if (cfg.hasOption(section, 'authenticateUrl')) entry.authenticateUrl = cfg.get(section, 'authenticateUrl');
-          if (cfg.hasOption(section, 'accessTokenUrl')) entry.authenticateUrl = cfg.get(section, 'accessTokenUrl');
+          if (cfg.hasOption(section, 'accessTokenUrl')) entry.accessTokenUrl = cfg.get(section, 'accessTokenUrl');
           if (cfg.hasOption(section, 'consumerKey')) entry.consumerKey = cfg.get(section, 'consumerKey');
           if (cfg.hasOption(section, 'consumerSecret')) entry.consumerSecret = cfg.get(section, 'consumerSecret');
           break;
