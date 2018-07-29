@@ -7,13 +7,9 @@ import 'package:oauth1/oauth1.dart' as oauth1;
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-class OAuthParams {
-  final String authUrl;
-  final String callbackUrl;
-  const OAuthParams(this.authUrl, this.callbackUrl);
-}
+import '../network/inf.pb.dart';
 
-typedef Future<OAuthParams> OAuthGetParams();
+typedef Future<NetOAuthUrlRes> OAuthGetParams();
 typedef Future<bool> OAuthCallbackResult(String callbackQuery);
 
 class OAuthScaffold extends StatefulWidget { // stateful widget is basically a widget with private data
@@ -79,7 +75,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
 
   _startRequest() async {
     try {
-      OAuthParams params = await widget.onOAuthGetParams();
+      NetOAuthUrlRes params = await widget.onOAuthGetParams();
       if (!mounted) {
         return;
       }
@@ -211,7 +207,12 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     }
     return new WebviewScaffold(
       url: _authUrl,
-      appBar: widget.appBar,
+      appBar: widget.appBar != null ? widget.appBar : new AppBar(
+        title: new Image(
+          image: new AssetImage('assets/logo_appbar.png')
+        ),
+        centerTitle: true,
+      ),
     );
   }
 }

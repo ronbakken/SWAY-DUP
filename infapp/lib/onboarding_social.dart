@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'widgets/oauth_scaffold_presets.dart';
-
 import 'network/config_manager.dart';
 import 'network/inf.pb.dart';
+
+typedef void OAuthSelection(int oauthProvider);
 
 class OnboardingSocial extends StatelessWidget {
   const OnboardingSocial({
@@ -14,13 +14,14 @@ class OnboardingSocial extends StatelessWidget {
     @required this.accountType,
     @required this.oauthProviders,
     @required this.oauthState,
-    // @required this.onTwitter,
+    @required this.onOAuthSelected,
   }) : super(key: key);
 
   final AccountType accountType; 
   final List<ConfigOAuthProvider> oauthProviders;
   final List<DataSocialMedia> oauthState;
-  // final VoidCallback onTwitter;
+
+  final OAuthSelection onOAuthSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -38,28 +39,7 @@ class OnboardingSocial extends StatelessWidget {
             new Icon(FontAwesomeIcons.signInAlt),
           ]
         );
-        var p = cfg.enabled ? () async {
-          Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (context) {
-                return new OAuthScaffoldTwitter(
-                  appBar: new AppBar(
-                    title: new Image(
-                      image: new AssetImage('assets/logo_appbar.png')
-                    ),
-                    centerTitle: true,
-                  ),
-                  onSuccess: (token, verifier) {
-                    print("Success: ");
-                    print(token);
-                    print(verifier);
-                  },
-                );
-              },
-            )
-          );
-        } : null;
+        var p = (cfg.enabled && onOAuthSelected != null) ? () { onOAuthSelected(i); } : null;
         Widget w = new Container(
           margin: new EdgeInsets.all(8.0),
           child: new RaisedButton(
@@ -102,91 +82,7 @@ class OnboardingSocial extends StatelessWidget {
                   ),
                 ),
                 new Column(
-                  children: oauthButtons, //[
-                    /*
-                    new Container(
-                      margin: new EdgeInsets.all(8.0),
-                      child: new RaisedButton(
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            new Icon(new IconData(0xf099, fontFamily: 'FontAwesomeBrands', fontPackage: 'font_awesome_flutter')),
-                            new Text("Twitter".toUpperCase()),
-                            new Icon(FontAwesomeIcons.signInAlt),
-                          ]
-                        ),
-                        onPressed: () async {
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) {
-                                return new OAuthScaffoldTwitter(
-                                  appBar: new AppBar(
-                                    title: new Image(
-                                      image: new AssetImage('assets/logo_appbar.png')
-                                    ),
-                                    centerTitle: true,
-                                  ),
-                                  onSuccess: (token, verifier) {
-                                    print("Success: ");
-                                    print(token);
-                                    print(verifier);
-                                  },
-                                );
-                              },
-                            )
-                          );
-                        },
-                      ),
-                    ),
-                    new Container(
-                      margin: new EdgeInsets.all(8.0),
-                      child: new FlatButton(
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            new Icon(new IconData(0xf09a, fontFamily: 'FontAwesomeBrands', fontPackage: 'font_awesome_flutter')),
-                            new Text("Facebook".toUpperCase()),
-                            new Icon(FontAwesomeIcons.checkCircle),
-                          ]
-                        ),
-                        onPressed: null,
-                      )
-                    ),
-                    new Container(
-                      margin: new EdgeInsets.all(8.0),
-                      child: new RaisedButton(
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            new Text("Instagram".toUpperCase())
-                          ]
-                        ),
-                      )
-                    ),
-                    new Container(
-                      margin: new EdgeInsets.all(8.0),
-                      child: new RaisedButton(
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            new Text("Google".toUpperCase())
-                          ]
-                        ),
-                      )
-                    ),
-                    new Container(
-                      margin: new EdgeInsets.all(8.0),
-                      child: new RaisedButton(
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            new Text("Twitch".toUpperCase())
-                          ]
-                        ),
-                      )
-                    ),*/
-                  //],
+                  children: oauthButtons,
                 ),
               ],
             ),

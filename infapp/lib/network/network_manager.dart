@@ -366,6 +366,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     );
   }
 
+  /* Device Registration */
   static int _netSetAccountType = TalkSocket.encode("A_SETTYP");
   @override
   void setAccountType(AccountType accountType) {
@@ -373,6 +374,37 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     pb.accountType = accountType;
     _ts.sendMessage(_netSetAccountType, pb.writeToBuffer());
     setState(() { accountState.accountType = accountType; }); // Ghost state, the server doesn't send update for this
+  }
+
+  /* OAuth */
+  static int _netOAuthUrlReq = TalkSocket.encode("OA_URLRE");
+  @override
+  Future<NetOAuthUrlRes> getOAuthUrls(int oauthProvider) async {
+    NetOAuthUrlReq pb = new NetOAuthUrlReq();
+    pb.oauthProvider = oauthProvider;
+    TalkMessage res = await _ts.sendRequest(_netOAuthUrlReq, pb.writeToBuffer());
+    NetOAuthUrlRes resPb = new NetOAuthUrlRes();
+    resPb.mergeFromBuffer(res.data);
+    return resPb;
+  }
+
+  static int _netOAuthConnectReq = TalkSocket.encode("OA_CONNE");
+  @override
+  Future<bool> connectOAuth(int oauthProvider, String callbackQuery) async {
+    NetOAuthConnectReq pb = new NetOAuthConnectReq();
+    pb.oauthProvider = oauthProvider;
+    pb.callbackQuery = callbackQuery;
+    TalkMessage res = await _ts.sendRequest(_netOAuthConnectReq, pb.writeToBuffer());
+    NetOAuthConnectRes resPb = new NetOAuthConnectRes();
+    resPb.mergeFromBuffer(res.data);
+    // Result contains the updated data, so needs to be put into the state
+    if (oauthProvider < socialMedia.length && resPb.socialMedia != null) {
+      setState(() {
+        socialMedia[oauthProvider] = resPb.socialMedia;
+      });
+    }
+    // Return just whether connected or not
+    return resPb.socialMedia.connected;
   }
 }
 
@@ -401,6 +433,7 @@ enum NetworkConnectionState {
 }
 
 abstract class NetworkInterface {
+  /* Cached Data */
   /// Cached account state. Use this data directly from your build function
   DataAccountState accountState;
 
@@ -410,7 +443,16 @@ abstract class NetworkInterface {
   /// Whether we are connected to the network.
   NetworkConnectionState connected;
 
+  /* Device Registration */
+  /// Set account type. Only possible when not yet created.
   void setAccountType(AccountType accountType);
+
+  /* OAuth */
+  /// Get the URLs to use for the OAuth process
+  Future<NetOAuthUrlRes> getOAuthUrls(int oauthProvider);
+
+  /// Try to connect an OAuth provider with the received callback query
+  Future<bool> connectOAuth(int oauthProvider, String callbackQuery);
 
 }
 
