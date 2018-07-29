@@ -7,6 +7,26 @@
 import 'dart:core' show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart';
 
+class OAuthMechanism extends ProtobufEnum {
+  static const OAuthMechanism OAM_NONE = const OAuthMechanism._(0, 'OAM_NONE');
+  static const OAuthMechanism OAM_OAUTH1 = const OAuthMechanism._(1, 'OAM_OAUTH1');
+  static const OAuthMechanism OAM_OAUTH2 = const OAuthMechanism._(2, 'OAM_OAUTH2');
+
+  static const List<OAuthMechanism> values = const <OAuthMechanism> [
+    OAM_NONE,
+    OAM_OAUTH1,
+    OAM_OAUTH2,
+  ];
+
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static OAuthMechanism valueOf(int value) => _byValue[value] as OAuthMechanism;
+  static void $checkItem(OAuthMechanism v) {
+    if (v is! OAuthMechanism) checkItemFailed(v, 'OAuthMechanism');
+  }
+
+  const OAuthMechanism._(int v, String n) : super(v, n);
+}
+
 class AccountType extends ProtobufEnum {
   static const AccountType AT_UNKNOWN = const AccountType._(0, 'AT_UNKNOWN');
   static const AccountType AT_INFLUENCER = const AccountType._(1, 'AT_INFLUENCER');
