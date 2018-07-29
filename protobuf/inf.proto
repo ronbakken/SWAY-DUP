@@ -20,6 +20,7 @@ message ConfigCategories {
 }
 
 enum OAuthMechanism {
+  OAM_NONE = 0;
   /// OAuth1, Twitter-like
   OAM_OAUTH1 = 1;
   /// OAuth2, Spotify-like
