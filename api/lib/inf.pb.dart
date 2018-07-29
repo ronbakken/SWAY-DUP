@@ -904,10 +904,76 @@ class NetSetAccountType extends GeneratedMessage {
 
 class _ReadonlyNetSetAccountType extends NetSetAccountType with ReadonlyMessageMixin {}
 
+class NetOAuthUrlReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetOAuthUrlReq')
+    ..a<int>(1, 'oauthProvider', PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  NetOAuthUrlReq() : super();
+  NetOAuthUrlReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetOAuthUrlReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetOAuthUrlReq clone() => new NetOAuthUrlReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetOAuthUrlReq create() => new NetOAuthUrlReq();
+  static PbList<NetOAuthUrlReq> createRepeated() => new PbList<NetOAuthUrlReq>();
+  static NetOAuthUrlReq getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetOAuthUrlReq();
+    return _defaultInstance;
+  }
+  static NetOAuthUrlReq _defaultInstance;
+  static void $checkItem(NetOAuthUrlReq v) {
+    if (v is! NetOAuthUrlReq) checkItemFailed(v, 'NetOAuthUrlReq');
+  }
+
+  int get oauthProvider => $_get(0, 0);
+  set oauthProvider(int v) { $_setSignedInt32(0, v); }
+  bool hasOauthProvider() => $_has(0);
+  void clearOauthProvider() => clearField(1);
+}
+
+class _ReadonlyNetOAuthUrlReq extends NetOAuthUrlReq with ReadonlyMessageMixin {}
+
+class NetOAuthUrlRes extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetOAuthUrlRes')
+    ..aOS(1, 'authUrl')
+    ..aOS(2, 'callbackUrl')
+    ..hasRequiredFields = false
+  ;
+
+  NetOAuthUrlRes() : super();
+  NetOAuthUrlRes.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  NetOAuthUrlRes.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetOAuthUrlRes clone() => new NetOAuthUrlRes()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetOAuthUrlRes create() => new NetOAuthUrlRes();
+  static PbList<NetOAuthUrlRes> createRepeated() => new PbList<NetOAuthUrlRes>();
+  static NetOAuthUrlRes getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetOAuthUrlRes();
+    return _defaultInstance;
+  }
+  static NetOAuthUrlRes _defaultInstance;
+  static void $checkItem(NetOAuthUrlRes v) {
+    if (v is! NetOAuthUrlRes) checkItemFailed(v, 'NetOAuthUrlRes');
+  }
+
+  String get authUrl => $_getS(0, '');
+  set authUrl(String v) { $_setString(0, v); }
+  bool hasAuthUrl() => $_has(0);
+  void clearAuthUrl() => clearField(1);
+
+  String get callbackUrl => $_getS(1, '');
+  set callbackUrl(String v) { $_setString(1, v); }
+  bool hasCallbackUrl() => $_has(1);
+  void clearCallbackUrl() => clearField(2);
+}
+
+class _ReadonlyNetOAuthUrlRes extends NetOAuthUrlRes with ReadonlyMessageMixin {}
+
 class NetOAuthConnectReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetOAuthConnectReq')
     ..a<int>(1, 'oauthProvider', PbFieldType.O3)
-    ..aOS(2, 'oauthSignature')
+    ..aOS(2, 'callbackQuery')
     ..hasRequiredFields = false
   ;
 
@@ -932,10 +998,10 @@ class NetOAuthConnectReq extends GeneratedMessage {
   bool hasOauthProvider() => $_has(0);
   void clearOauthProvider() => clearField(1);
 
-  String get oauthSignature => $_getS(1, '');
-  set oauthSignature(String v) { $_setString(1, v); }
-  bool hasOauthSignature() => $_has(1);
-  void clearOauthSignature() => clearField(2);
+  String get callbackQuery => $_getS(1, '');
+  set callbackQuery(String v) { $_setString(1, v); }
+  bool hasCallbackQuery() => $_has(1);
+  void clearCallbackQuery() => clearField(2);
 }
 
 class _ReadonlyNetOAuthConnectReq extends NetOAuthConnectReq with ReadonlyMessageMixin {}
