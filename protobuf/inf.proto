@@ -217,7 +217,7 @@ message DataSocialMedia {
   bool connected = 1;
   int32 followers = 2;
   int32 following = 3;
-  string username = 4;
+  string screenName = 4;
   string displayName = 5;
   
 }
@@ -320,7 +320,7 @@ message NetOAuthConnectReq {
   
 }
 
-// Oauth addition result
+// OAuth addition result
 // Name: OA_R_CON
 message NetOAuthConnectRes {
   DataSocialMedia socialMedia = 1;
