@@ -84,7 +84,7 @@ class ProfileView extends StatelessWidget {
 
 							// Follower Count Tray
               new FollowerTray(
-                followerWidgets: followers
+                oAuthProviders: ConfigManager.of(context).oauthProviders.all,
               ),
 							new Divider(),
 

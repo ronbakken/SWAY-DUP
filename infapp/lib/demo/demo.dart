@@ -168,11 +168,6 @@ class DemoHomePage extends StatelessWidget {
                       profileName: 'Big Kahuna Burger',
                       profileLocation: "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
                       profileDescription: "This is the tasty burger worth dying for",
-                      followers: <FollowerWidget> [
-                        new FollowerWidget( oAuthProvider: ConfigManager.of(context).oauthProviders.all[1]),
-                        new FollowerWidget( oAuthProvider: ConfigManager.of(context).oauthProviders.all[2]),
-                        new FollowerWidget( oAuthProvider: ConfigManager.of(context).oauthProviders.all[3]),
-                      ]
                     );
                   },
                 )
@@ -264,11 +259,6 @@ class DemoHomePage extends StatelessWidget {
                       profileName: 'John Doe',
                       profileLocation: 'San Francisco, California',
                       profileDescription: "Hi! My name is John. I'm a creative geek and love fast food. I also dig Pokemons",
-                      followers: <FollowerWidget> [
-                        new FollowerWidget( oAuthProvider: ConfigManager.of(context).oauthProviders.all[1]),
-                        new FollowerWidget( oAuthProvider: ConfigManager.of(context).oauthProviders.all[2]),
-                        new FollowerWidget( oAuthProvider: ConfigManager.of(context).oauthProviders.all[3]),
-                      ]
                     );
                   },
                 )
