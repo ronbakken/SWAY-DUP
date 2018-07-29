@@ -3,6 +3,7 @@ import 'oauth_scaffold.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/*
 class OAuthScaffoldTwitter extends StatelessWidget {
   const OAuthScaffoldTwitter({
     Key key,
@@ -26,6 +27,7 @@ class OAuthScaffoldTwitter extends StatelessWidget {
       host: "https://api.twitter.com",
       requestTokenUrl: "/oauth/request_token",
       authenticateUrl: "/oauth/authenticate",
+      accessTokenUrl: "/oauth/access_token",
       callbackUrl: "https://net.no-break.space",
       consumerKey: consumerKey,
       consumerSecret: consumerSecret,
@@ -33,5 +35,6 @@ class OAuthScaffoldTwitter extends StatelessWidget {
     );
   }
 }
+*/
 
 /* end of file */

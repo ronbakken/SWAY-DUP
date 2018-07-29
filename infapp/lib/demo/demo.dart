@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../network/inf.pb.dart';
 import '../network/config_manager.dart' show ConfigManager;
 import '../network/network_manager.dart';
+
+import '../app_switch.dart';
 import '../onboarding_selection.dart' show OnboardingSelection;
 import '../onboarding_social.dart' show OnboardingSocial;
 // import '../influencer_dashboard.dart' show InfluencerDashboard;
@@ -11,25 +14,38 @@ import '../dashboard_business.dart' show DashboardBusiness;
 import '../profile_view.dart' show ProfileView;
 import '../widgets/follower_count.dart' show FollowerWidget;
 
-import '../network/inf.pb.dart';
-
-class DemoApp extends StatelessWidget {
+class DemoApp extends StatefulWidget {
   const DemoApp({
     Key key,
     this.startupConfig
   }) : super(key: key);
-
+  
   final ConfigData startupConfig;
+
+  @override
+  _DemoAppState createState() => new _DemoAppState();
+}
+
+class _DemoAppState extends State<DemoApp> {
+  String overrideUri = ''; // "ws://192.168.105.2:9090/ws" (empty string disables connect, null uses config)
+  int localAccountId = 0; // 1
+
+  void setServer(String uri, int localAccountId) {
+    setState((){
+      this.overrideUri = uri;
+      this.localAccountId = localAccountId;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return new ConfigManager(
       key: new Key('InfDemo.ConfigManager'),
-      startupConfig: startupConfig,
+      startupConfig: widget.startupConfig,
       child: new NetworkManager(
         key: new Key('InfDemo.NetworkManager'),
-        overrideUri: null, //"ws://192.168.105.2:9090/ws", // Uri of server to connect with
-        localAccountId: 1,
+        overrideUri: overrideUri, // Uri of server to connect with
+        localAccountId: localAccountId,
         // overrideUri: "ws://localhost:9090/ws",
         child: new MaterialApp(
           title: '*** INF UI Demo ***',
@@ -54,7 +70,7 @@ class DemoApp extends StatelessWidget {
             // Grayscale of primaryColor
             unselectedWidgetColor: new Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
           ),
-          home: new DemoHomePage(), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), // 
+          home: localAccountId != 0 ? new AppSwitch() : new DemoHomePage(onSetServer : setServer), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), // 
         ),
       ),
     );
@@ -76,6 +92,10 @@ class MeepMeep extends StatelessWidget { // stateless widget is just a widget th
 }
 
 class DemoHomePage extends StatelessWidget {
+  final Function onSetServer;
+
+  const DemoHomePage({ this.onSetServer });
+
   @override
   Widget build(BuildContext context) {
     assert(ConfigManager.of(context) != null);
@@ -85,6 +105,22 @@ class DemoHomePage extends StatelessWidget {
       ),
       body: new ListView(
         children: <Widget>[
+          ///
+          /// Demo entry
+          ///
+          new Divider(),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [ new Text('Demo', style: Theme.of(context).textTheme.subhead), ]
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('Localhost 1 (Genymotion Emulator)') ] ),
+            onPressed: () { onSetServer("ws://192.168.105.2:9090/ws", 1); }, // 1&2 = mariadb.devinf.net 
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('Localhost 2 (Genymotion Emulator)') ] ),
+            onPressed: () { onSetServer("ws://192.168.105.2:9090/ws", 2); }, // 1&2 = mariadb.devinf.net 
+          ),
           ///
           /// The Portion for the On boarding UI
           ///

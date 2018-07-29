@@ -9,6 +9,9 @@
 		},
 		{
 			"path": "wstalk"
+		},
+		{
+			"path": "dart-oauth1"
 		}
 	],
 	"settings": {}
