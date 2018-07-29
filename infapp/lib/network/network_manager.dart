@@ -6,6 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -14,6 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:wstalk/wstalk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:device_info/device_info.dart';
+import 'package:pointycastle/pointycastle.dart' as pointycastle;
+import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
 
 import 'config_manager.dart';
 import 'inf.pb.dart';
@@ -32,18 +36,14 @@ class NetworkManager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Builder(
-      builder: (BuildContext context) {
-        String ks = key.toString();
-        ConfigData config = ConfigManager.of(context);
-        assert(config != null);
-        return new _NetworkManagerStateful(
-          key: (key != null && ks.length > 0) ? new Key('$ks.Stateful') : null,
-          networkManager: this,
-          child: child,
-          config: config,
-        );
-      },
+    String ks = key.toString();
+    ConfigData config = ConfigManager.of(context);
+    assert(config != null);
+    return new _NetworkManagerStateful(
+      key: (key != null && ks.length > 0) ? new Key('$ks.Stateful') : null,
+      networkManager: this,
+      child: child,
+      config: config,
     );
   }
 }
@@ -101,6 +101,19 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     }
   }
 
+  void receivedAuthDeviceState(NetDeviceAuthState pb) {
+    setState(() {
+      accountState = pb.accountState;
+      socialMedia = pb.socialMedia;
+      socialMedia.length = _config.oauthProviders.all.length; // Match array length
+      for (int i = 0; i < socialMedia.length; ++i) {
+        if (socialMedia[i] == null) {
+          socialMedia[i] = new DataSocialMedia();
+        }
+      }
+    });
+  }
+
   /// Authenticate device connection, this process happens as if by magic
   Future _authenticateDevice(TalkSocket ts) async {
     // Initialize connection
@@ -109,27 +122,43 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     ts.sendMessage(TalkSocket.encode("INFAPP"), new Uint8List(0));
 
     // TODO: We'll use an SQLite database to keep the local cache stored
+    DeviceInfoPlugin deviceInfo = new DeviceInfoPlugin();
+    String deviceName = "unknown_device";
+    try {
+      if (Platform.isAndroid) {
+        var info = await deviceInfo.androidInfo;
+        deviceName = info.model;
+      } else if (Platform.isIOS) {
+        var info = await deviceInfo.iosInfo;
+        deviceName = info.name;
+      }
+    } catch (ex) {
+      print('[INF] Failed to get device name');
+    }
     int localAccountId = widget.networkManager.localAccountId;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String aesKeyPref = 'aes_key_$localAccountId';
+    String deviceIdPref = 'device_id_$localAccountId';
     String aesKeyStr;
     Uint8List aesKey;
+    int attemptDeviceId = 0;
     try {
-      prefs.setString(aesKeyPref, ''); // DEBUG
+      // prefs.setString(aesKeyPref, ''); // DEBUG: Reset profile
       aesKeyStr = prefs.getString(aesKeyPref);
       aesKey = base64.decode(aesKeyStr);
+      attemptDeviceId = prefs.getInt(deviceIdPref);
     } catch (e) { }
-    if (aesKey == null || aesKey.length == 0) {
+    if (aesKey == null || aesKey.length == 0 || attemptDeviceId == null || attemptDeviceId == 0) {
       // Create new device
       print("[INF] Create new device");
-      aesKey = new Uint8List(256);
+      aesKey = new Uint8List(32);
       for (int i = 0; i < aesKey.length; ++i) {
         aesKey[i] = random.nextInt(256);
       }
       aesKeyStr = base64.encode(aesKey);
       NetDeviceAuthCreateReq pbReq = new NetDeviceAuthCreateReq();
       pbReq.aesKey = aesKey;
-      pbReq.name = "default_device";
+      pbReq.name = deviceName;
       pbReq.info = "{ debug: 'default_info' }";
 
       TalkMessage res = await ts.sendRequest(TalkSocket.encode("DA_CREAT"), pbReq.writeToBuffer());
@@ -138,23 +167,43 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       if (!_alive) {
         throw Exception("No longer alive, don't authorize");
       }
-      setState(() {
-        accountState = pbRes.accountState;
-        socialMedia = pbRes.socialMedia;
-        socialMedia.length = _config.oauthProviders.all.length; // Match array length
-        for (int i = 0; i < socialMedia.length; ++i) {
-          if (socialMedia[i] == null) {
-            socialMedia[i] = new DataSocialMedia();
-          }
-        }
-      });
+      receivedAuthDeviceState(pbRes);
       print("[INF] Device id ${accountState.deviceId}");
       if (accountState.deviceId != 0) {
         prefs.setString(aesKeyPref, aesKeyStr);
+        prefs.setInt(deviceIdPref, accountState.deviceId);
       }
     } else {
       // Authenticate existing device
-      print("[INF] Authenticate existing device");
+      print("[INF] Authenticate existing device $attemptDeviceId");
+
+      NetDeviceAuthChallengeReq pbChallengeReq = new NetDeviceAuthChallengeReq();
+      pbChallengeReq.deviceId = attemptDeviceId;
+      TalkMessage msgChallengeResReq = await ts.sendRequest(TalkSocket.encode("DA_CHALL"), pbChallengeReq.writeToBuffer());
+      NetDeviceAuthChallengeResReq pbChallengeResReq = new NetDeviceAuthChallengeResReq();
+      pbChallengeResReq.mergeFromBuffer(msgChallengeResReq.data);
+
+      // Sign challenge
+      var keyParameter = new pointycastle.KeyParameter(aesKey);
+      var aesFastEngine = new pointycastle.AESFastEngine();
+      aesFastEngine..reset()..init(true, keyParameter);
+      Uint8List challenge = pbChallengeResReq.challenge;
+      Uint8List signature = new Uint8List(challenge.length);
+      for (int offset = 0; offset < challenge.length;) {
+        offset += aesFastEngine.processBlock(challenge, offset, signature, offset);
+      }
+
+      // Send signature, wait for device status
+      NetDeviceAuthSignatureResReq pbSignature = new NetDeviceAuthSignatureResReq();
+      pbSignature.signature = signature;
+      TalkMessage res = await ts.sendRequest(TalkSocket.encode("DA_R_SIG"), pbSignature.writeToBuffer(), reply: msgChallengeResReq);
+      NetDeviceAuthState pbRes = new NetDeviceAuthState();
+      pbRes.mergeFromBuffer(res.data);
+      if (!_alive) {
+        throw Exception("No longer alive, don't authorize");
+      }
+      receivedAuthDeviceState(pbRes);
+      print("[INF] Device id ${accountState.deviceId}");
     }
     
     if (accountState.deviceId == 0) {
@@ -204,7 +253,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
             TalkSocket ts = _ts;
             _ts = null;
             () async {
+              print("[INF] Wait");
               await new Future.delayed(new Duration(seconds: 3));
+              print("[INF] Retry now");
               if (ts != null) {
                 ts.close();
               }
@@ -274,7 +325,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
 
   @override
   void dispose() {
-    // FIXME: Dispose never gets called, possibly due to circular reference with inherited widget?
     _alive = false;
     if (_ts != null) {
       print("[INF] Dispose network connection");
