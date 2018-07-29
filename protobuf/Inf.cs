@@ -58,43 +58,43 @@ namespace InfX {
             "dW50VHlwZRgDIAEoDjIMLkFjY291bnRUeXBlEi8KEmdsb2JhbEFjY291bnRT",
             "dGF0ZRgEIAEoDjITLkdsb2JhbEFjY291bnRTdGF0ZRI7ChhnbG9iYWxBY2Nv",
             "dW50U3RhdGVSZWFzb24YBSABKA4yGS5HbG9iYWxBY2NvdW50U3RhdGVSZWFz",
-            "b24icQoPRGF0YVNvY2lhbE1lZGlhEhEKCWNvbm5lY3RlZBgBIAEoCBIRCglm",
-            "b2xsb3dlcnMYAiABKAUSEQoJZm9sbG93aW5nGAMgASgFEhAKCHVzZXJuYW1l",
-            "GAQgASgJEhMKC2Rpc3BsYXlOYW1lGAUgASgJIkQKFk5ldERldmljZUF1dGhD",
-            "cmVhdGVSZXESDgoGYWVzS2V5GAEgASgMEgwKBG5hbWUYAiABKAkSDAoEaW5m",
-            "bxgDIAEoCSItChlOZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVxEhAKCGRldmlj",
-            "ZUlkGAEgASgFIjEKHE5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXNSZXESEQoJ",
-            "Y2hhbGxlbmdlGAEgASgMIjEKHE5ldERldmljZUF1dGhTaWduYXR1cmVSZXNS",
-            "ZXESEQoJc2lnbmF0dXJlGAEgASgMImQKEk5ldERldmljZUF1dGhTdGF0ZRIn",
-            "CgxhY2NvdW50U3RhdGUYByABKAsyES5EYXRhQWNjb3VudFN0YXRlEiUKC3Nv",
-            "Y2lhbE1lZGlhGAYgAygLMhAuRGF0YVNvY2lhbE1lZGlhIjYKEU5ldFNldEFj",
-            "Y291bnRUeXBlEiEKC2FjY291bnRUeXBlGAEgASgOMgwuQWNjb3VudFR5cGUi",
-            "JwoOTmV0T0F1dGhVcmxSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBSI2Cg5O",
-            "ZXRPQXV0aFVybFJlcxIPCgdhdXRoVXJsGAEgASgJEhMKC2NhbGxiYWNrVXJs",
-            "GAIgASgJIkIKEk5ldE9BdXRoQ29ubmVjdFJlcRIVCg1vYXV0aFByb3ZpZGVy",
-            "GAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAkiOwoSTmV0T0F1dGhDb25u",
-            "ZWN0UmVzEiUKC3NvY2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lhbE1lZGlh",
-            "Ij0KE05ldEFjY291bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRILCgNsYXQY",
-            "AiABKAISCwoDbG5nGAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZp",
-            "bGVOYW1lGAEgASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEo",
-            "CSLfAQoRTmV0UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEo",
-            "CRISCgpyZXF1ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMg",
-            "ASgJEhsKE2hlYWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9z",
-            "dBgFIAEoCRIWCg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16",
-            "U3RvcmFnZUNsYXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCAB",
-            "KAkiQAoRTmV0UmVxQ3JlYXRlT2ZmZXISGQoFb2ZmZXIYASABKAsyCi5EYXRh",
-            "T2ZmZXISEAoIaW1hZ2VJZHMYAiADKAkiHwoRTmV0UmVzQ3JlYXRlT2ZmZXIS",
-            "CgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIO",
-            "CgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkEKC0FjY291bnRUeXBl",
-            "Eg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVT",
-            "SU5FU1MQAiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
-            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
-            "R0FTX1JFQURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FE",
-            "TUlOEAUSCwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFz",
-            "b24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5O",
-            "RUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVE",
-            "EAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUS",
-            "FQoRR0FTUl9SRVFVSVJFX0lORk8QBkIHqgIESW5mWGIGcHJvdG8z"));
+            "b24icwoPRGF0YVNvY2lhbE1lZGlhEhEKCWNvbm5lY3RlZBgBIAEoCBIRCglm",
+            "b2xsb3dlcnMYAiABKAUSEQoJZm9sbG93aW5nGAMgASgFEhIKCnNjcmVlbk5h",
+            "bWUYBCABKAkSEwoLZGlzcGxheU5hbWUYBSABKAkiRAoWTmV0RGV2aWNlQXV0",
+            "aENyZWF0ZVJlcRIOCgZhZXNLZXkYASABKAwSDAoEbmFtZRgCIAEoCRIMCgRp",
+            "bmZvGAMgASgJIi0KGU5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXESEAoIZGV2",
+            "aWNlSWQYASABKAUiMQocTmV0RGV2aWNlQXV0aENoYWxsZW5nZVJlc1JlcRIR",
+            "CgljaGFsbGVuZ2UYASABKAwiMQocTmV0RGV2aWNlQXV0aFNpZ25hdHVyZVJl",
+            "c1JlcRIRCglzaWduYXR1cmUYASABKAwiZAoSTmV0RGV2aWNlQXV0aFN0YXRl",
+            "EicKDGFjY291bnRTdGF0ZRgHIAEoCzIRLkRhdGFBY2NvdW50U3RhdGUSJQoL",
+            "c29jaWFsTWVkaWEYBiADKAsyEC5EYXRhU29jaWFsTWVkaWEiNgoRTmV0U2V0",
+            "QWNjb3VudFR5cGUSIQoLYWNjb3VudFR5cGUYASABKA4yDC5BY2NvdW50VHlw",
+            "ZSInCg5OZXRPQXV0aFVybFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFIjYK",
+            "Dk5ldE9BdXRoVXJsUmVzEg8KB2F1dGhVcmwYASABKAkSEwoLY2FsbGJhY2tV",
+            "cmwYAiABKAkiQgoSTmV0T0F1dGhDb25uZWN0UmVxEhUKDW9hdXRoUHJvdmlk",
+            "ZXIYASABKAUSFQoNY2FsbGJhY2tRdWVyeRgCIAEoCSI7ChJOZXRPQXV0aENv",
+            "bm5lY3RSZXMSJQoLc29jaWFsTWVkaWEYASABKAsyEC5EYXRhU29jaWFsTWVk",
+            "aWEiPQoTTmV0QWNjb3VudENyZWF0ZVJlcRIMCgRuYW1lGAEgASgJEgsKA2xh",
+            "dBgCIAEoAhILCgNsbmcYAyABKAIiRwoRTmV0UmVxSW1hZ2VVcGxvYWQSEAoI",
+            "ZmlsZU5hbWUYASABKAkSEAoIZmlsZVNpemUYAiABKAUSDgoGc2hhMjU2GAMg",
+            "ASgJIt8BChFOZXRSZXNJbWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEg",
+            "ASgJEhIKCnJlcXVlc3RVcmwYAiABKAkSGQoRaGVhZGVyQ29udGVudFR5cGUY",
+            "AyABKAkSGwoTaGVhZGVyQ29udGVudExlbmd0aBgEIAEoCRISCgpoZWFkZXJI",
+            "b3N0GAUgASgJEhYKDmhlYWRlclhBbXpEYXRlGAYgASgJEh4KFmhlYWRlclhB",
+            "bXpTdG9yYWdlQ2xhc3MYByABKAkSGwoTaGVhZGVyQXV0aG9yaXphdGlvbhgI",
+            "IAEoCSJAChFOZXRSZXFDcmVhdGVPZmZlchIZCgVvZmZlchgBIAEoCzIKLkRh",
+            "dGFPZmZlchIQCghpbWFnZUlkcxgCIAMoCSIfChFOZXRSZXNDcmVhdGVPZmZl",
+            "chIKCgJpZBgBIAEoAyo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAA",
+            "Eg4KCk9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQQoLQWNjb3VudFR5",
+            "cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFUX0lORkxVRU5DRVIQARIPCgtBVF9C",
+            "VVNJTkVTUxACKo8BChJHbG9iYWxBY2NvdW50U3RhdGUSEgoOR0FTX0lOSVRJ",
+            "QUxJWkUQABIPCgtHQVNfQkxPQ0tFRBABEhEKDUdBU19SRUFEX09OTFkQAhIS",
+            "Cg5HQVNfUkVBRF9XUklURRADEhEKDUdBU19NT0RFUkFUT1IQBBINCglHQVNf",
+            "QURNSU4QBRILCgdHQVNfR09EEAYqtQEKGEdsb2JhbEFjY291bnRTdGF0ZVJl",
+            "YXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAASFwoTR0FTUl9BQ0NPVU5UX0JB",
+            "Tk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklFRBACEhEKDUdBU1JfQVBQUk9W",
+            "RUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQBBIQCgxHQVNSX1BFTkRJTkcQ",
+            "BRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGQgeqAgRJbmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -110,7 +110,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "Id", "Offer", "Influencer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Followers", "Following", "Username", "DisplayName" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Followers", "Following", "ScreenName", "DisplayName" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeResReq), global::InfX.NetDeviceAuthChallengeResReq.Parser, new[]{ "Challenge" }, null, null, null),
@@ -3100,7 +3100,7 @@ namespace InfX {
       connected_ = other.connected_;
       followers_ = other.followers_;
       following_ = other.following_;
-      username_ = other.username_;
+      screenName_ = other.screenName_;
       displayName_ = other.displayName_;
     }
 
@@ -3142,14 +3142,14 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "username" field.</summary>
-    public const int UsernameFieldNumber = 4;
-    private string username_ = "";
+    /// <summary>Field number for the "screenName" field.</summary>
+    public const int ScreenNameFieldNumber = 4;
+    private string screenName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Username {
-      get { return username_; }
+    public string ScreenName {
+      get { return screenName_; }
       set {
-        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        screenName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -3180,7 +3180,7 @@ namespace InfX {
       if (Connected != other.Connected) return false;
       if (Followers != other.Followers) return false;
       if (Following != other.Following) return false;
-      if (Username != other.Username) return false;
+      if (ScreenName != other.ScreenName) return false;
       if (DisplayName != other.DisplayName) return false;
       return true;
     }
@@ -3191,7 +3191,7 @@ namespace InfX {
       if (Connected != false) hash ^= Connected.GetHashCode();
       if (Followers != 0) hash ^= Followers.GetHashCode();
       if (Following != 0) hash ^= Following.GetHashCode();
-      if (Username.Length != 0) hash ^= Username.GetHashCode();
+      if (ScreenName.Length != 0) hash ^= ScreenName.GetHashCode();
       if (DisplayName.Length != 0) hash ^= DisplayName.GetHashCode();
       return hash;
     }
@@ -3215,9 +3215,9 @@ namespace InfX {
         output.WriteRawTag(24);
         output.WriteInt32(Following);
       }
-      if (Username.Length != 0) {
+      if (ScreenName.Length != 0) {
         output.WriteRawTag(34);
-        output.WriteString(Username);
+        output.WriteString(ScreenName);
       }
       if (DisplayName.Length != 0) {
         output.WriteRawTag(42);
@@ -3237,8 +3237,8 @@ namespace InfX {
       if (Following != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Following);
       }
-      if (Username.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
+      if (ScreenName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ScreenName);
       }
       if (DisplayName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(DisplayName);
@@ -3260,8 +3260,8 @@ namespace InfX {
       if (other.Following != 0) {
         Following = other.Following;
       }
-      if (other.Username.Length != 0) {
-        Username = other.Username;
+      if (other.ScreenName.Length != 0) {
+        ScreenName = other.ScreenName;
       }
       if (other.DisplayName.Length != 0) {
         DisplayName = other.DisplayName;
@@ -3289,7 +3289,7 @@ namespace InfX {
             break;
           }
           case 34: {
-            Username = input.ReadString();
+            ScreenName = input.ReadString();
             break;
           }
           case 42: {
@@ -4552,7 +4552,7 @@ namespace InfX {
   }
 
   /// <summary>
-  ///  Oauth addition result
+  ///  OAuth addition result
   ///  Name: OA_R_CON
   /// </summary>
   public sealed partial class NetOAuthConnectRes : pb::IMessage<NetOAuthConnectRes> {
