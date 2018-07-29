@@ -288,6 +288,7 @@ class RemoteApp {
       // Received account type change request
       NetSetAccountType pb = new NetSetAccountType();
       pb.mergeFromBuffer(message.data);
+      devLog.finest("NetSetAccountType ${pb.accountType}");
 
       await lock.synchronized(() async {
         if (pb.accountType == accountState.accountType) {
