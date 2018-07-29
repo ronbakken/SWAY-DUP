@@ -63,6 +63,10 @@ message ConfigOAuthProvider {
   /// From OAuth provider, Spotify-like
   string clientId = 12;
   string clientSecret = 17;
+  
+  /// Whitelisted hosts during authentication
+  repeated string whitelistHosts = 18;
+  
 }
 
 message ConfigOAuthProviders {
