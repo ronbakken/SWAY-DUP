@@ -81,8 +81,10 @@ class ConfigOAuthProvider extends GeneratedMessage {
     ..aOS(10, 'consumerKey')
     ..aOS(11, 'consumerSecret')
     ..aOS(12, 'clientId')
-    ..aOS(13, 'nativeAuth')
     ..a<int>(14, 'fontAwesomeBrand', PbFieldType.O3)
+    ..e<OAuthMechanism>(15, 'mechanism', PbFieldType.OE, OAuthMechanism.OAM_NONE, OAuthMechanism.valueOf, OAuthMechanism.values)
+    ..aOS(16, 'accessTokenUrl')
+    ..aOS(17, 'clientSecret')
     ..hasRequiredFields = false
   ;
 
@@ -162,15 +164,25 @@ class ConfigOAuthProvider extends GeneratedMessage {
   bool hasClientId() => $_has(11);
   void clearClientId() => clearField(12);
 
-  String get nativeAuth => $_getS(12, '');
-  set nativeAuth(String v) { $_setString(12, v); }
-  bool hasNativeAuth() => $_has(12);
-  void clearNativeAuth() => clearField(13);
-
-  int get fontAwesomeBrand => $_get(13, 0);
-  set fontAwesomeBrand(int v) { $_setSignedInt32(13, v); }
-  bool hasFontAwesomeBrand() => $_has(13);
+  int get fontAwesomeBrand => $_get(12, 0);
+  set fontAwesomeBrand(int v) { $_setSignedInt32(12, v); }
+  bool hasFontAwesomeBrand() => $_has(12);
   void clearFontAwesomeBrand() => clearField(14);
+
+  OAuthMechanism get mechanism => $_getN(13);
+  set mechanism(OAuthMechanism v) { setField(15, v); }
+  bool hasMechanism() => $_has(13);
+  void clearMechanism() => clearField(15);
+
+  String get accessTokenUrl => $_getS(14, '');
+  set accessTokenUrl(String v) { $_setString(14, v); }
+  bool hasAccessTokenUrl() => $_has(14);
+  void clearAccessTokenUrl() => clearField(16);
+
+  String get clientSecret => $_getS(15, '');
+  set clientSecret(String v) { $_setString(15, v); }
+  bool hasClientSecret() => $_has(15);
+  void clearClientSecret() => clearField(17);
 }
 
 class _ReadonlyConfigOAuthProvider extends ConfigOAuthProvider with ReadonlyMessageMixin {}
@@ -178,7 +190,6 @@ class _ReadonlyConfigOAuthProvider extends ConfigOAuthProvider with ReadonlyMess
 class ConfigOAuthProviders extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ConfigOAuthProviders')
     ..pp<ConfigOAuthProvider>(1, 'all', PbFieldType.PM, ConfigOAuthProvider.$checkItem, ConfigOAuthProvider.create)
-    ..aOS(2, 'key')
     ..hasRequiredFields = false
   ;
 
@@ -199,11 +210,6 @@ class ConfigOAuthProviders extends GeneratedMessage {
   }
 
   List<ConfigOAuthProvider> get all => $_getList(0);
-
-  String get key => $_getS(1, '');
-  set key(String v) { $_setString(1, v); }
-  bool hasKey() => $_has(1);
-  void clearKey() => clearField(2);
 }
 
 class _ReadonlyConfigOAuthProviders extends ConfigOAuthProviders with ReadonlyMessageMixin {}
