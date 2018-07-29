@@ -365,6 +365,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       child: widget.child,
     );
   }
+
+  static int _netSetAccountType = TalkSocket.encode("A_SETTYP");
+  @override
+  void setAccountType(AccountType accountType) {
+    NetSetAccountType pb = new NetSetAccountType();
+    pb.accountType = accountType;
+    _ts.sendMessage(_netSetAccountType, pb.writeToBuffer());
+  }
 }
 
 class _InheritedNetworkManager extends InheritedWidget {
@@ -391,7 +399,7 @@ enum NetworkConnectionState {
   Ready
 }
 
-class NetworkInterface {
+abstract class NetworkInterface {
   /// Cached account state. Use this data directly from your build function
   DataAccountState accountState;
 
@@ -400,6 +408,8 @@ class NetworkInterface {
 
   /// Whether we are connected to the network.
   NetworkConnectionState connected;
+
+  void setAccountType(AccountType accountType);
 
 }
 

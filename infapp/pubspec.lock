@@ -208,7 +208,7 @@ packages:
       name: flutter_webview_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.6"
+    version: "0.1.5"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -345,11 +345,9 @@ packages:
   oauth1:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "fork/nbspou"
-      resolved-ref: f000f62502de0ce96c5fb67df7dd9d32f0b733c5
-      url: "git://github.com/nbspou/dart-oauth1.git"
-    source: git
+      path: "..\\dart-oauth1"
+      relative: true
+    source: path
     version: "0.3.1"
   package_config:
     dependency: transitive

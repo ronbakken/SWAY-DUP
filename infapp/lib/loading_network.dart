@@ -14,6 +14,12 @@ class LoadingNetwork extends StatelessWidget {
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
     assert(network != null);
+    if (network.connected == NetworkConnectionState.Failing) {
+      return Text("Technical issues");
+    }
+    if (network.connected == NetworkConnectionState.Offline) {
+      return Text("Cannot connect to server");
+    }
     return Text("Loading network");
   }
 }

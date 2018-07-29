@@ -8,14 +8,6 @@ import 'widgets/oauth_scaffold_presets.dart';
 import 'network/config_manager.dart';
 import 'network/inf.pb.dart';
 
-class NetOAuthState {
-  const NetOAuthState({
-    @required this.valid,
-  });
-
-  final bool valid;
-}
-
 class OnboardingSocial extends StatelessWidget {
   const OnboardingSocial({
     Key key,
@@ -27,7 +19,7 @@ class OnboardingSocial extends StatelessWidget {
 
   final AccountType accountType; 
   final List<ConfigOAuthProvider> oauthProviders;
-  final List<NetOAuthState> oauthState;
+  final List<DataSocialMedia> oauthState;
   // final VoidCallback onTwitter;
 
   @override
