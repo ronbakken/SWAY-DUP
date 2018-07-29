@@ -301,7 +301,7 @@ class RemoteApp {
         try {
           await sql.startTransaction((sqljocky.Transaction tx) async {
             await tx.prepareExecute("DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0", [ accountState.deviceId ]);
-            await tx.prepareExecute("UPDATE `devices` SET `account_type` = 1 WHERE `device_id` = 1 AND `account_id` = 0", [ pb.accountType.value, accountState.deviceId]);
+            await tx.prepareExecute("UPDATE `devices` SET `account_type` = ? WHERE `device_id` = ? AND `account_id` = 0", [ pb.accountType.value, accountState.deviceId]);
             await tx.commit();
           });
         } catch (ex) {
@@ -336,7 +336,46 @@ class RemoteApp {
         // TO/DO: Forward to other handling mechanism - can handle this here normally, just less optimal
       } else {
         // First check the OAuth and get the data
-        // ...
+        
+        /*
+        // nbspou
+I/chromium(24593): ", source: https://api.twitter.com/oauth/authenticate?oauth_token=nrbd1wAAAAAA5_oKAAABZOP7dpI (0)
+I/flutter (24593): Authorization success
+I/flutter (24593): Success:
+I/flutter (24593): nrbd1wAAAAAA5_oKAAABZOP7dpI
+I/flutter (24593): aEekwxXd2hlMNrAFIzpq29FPtBHHyIHY
+// ['oauth_token'], uri.queryParameters['oauth_verifier']
+
+  // beyondtcurtain
+  https://api.twitter.com/oauth/authenticate?oauth_token=MAAuAAAAAAAA5_oKAAABZOQQItM (0)
+,c768 tcontext=u:object_r:system_data_file:s0:c512,c768 tclass=dir permissive=1
+I/flutter (26706): Authorization success
+I/flutter (26706): Success:
+I/flutter (26706): MAAuAAAAAAAA5_oKAAABZOQQItM
+I/flutter (26706): Hgpkpp5Fkjh1KWnnD97jOHKiZPl9bpeb
+I/flutter (26706): OAuth Providers: 8
+
+/flutter (26706): Authorization success
+: https://api.twitter.com/oauth/authenticate?oauth_token=tgaumAAAAAAA5_oKAAABZOQREl8 (0)
+I/flutter (26706): Success:
+I/flutter (26706): tgaumAAAAAAA5_oKAAABZOQREl8
+I/flutter (26706): yyKPvHFCpWLk8nbfRD6oulkjkJYd9wse
+I/flutter (26706): OAuth Providers: 8
+
+/flutter (26706): Authorization success
+I/flutter (26706): Success:
+I/flutter (26706): wwDI0QAAAAAA5_oKAAABZOQYsJc
+I/flutter (26706): eTEcxq7n8qjuEEUgJfKedNA2m4qRcPjJ
+I/flutter (26706): OAuth Providers: 8
+
+        */
+        
+
+
+
+
+
+
         // Procedure for adding an OAuth connection during onboarding:
         // - Find existing OAuth, if one exists, there are two situations:
         //   - The existing OAuth has no account attached - this implies the user aborted onboarding previously and switched device (unusual)
