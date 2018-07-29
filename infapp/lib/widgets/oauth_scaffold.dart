@@ -71,7 +71,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     );
   }
 
-  _startRequest() async {
+  Future _startRequest() async {
     try {
       NetOAuthUrlRes params = await widget.onOAuthGetParams();
       if (!mounted) {
@@ -125,7 +125,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   void initState() {
     super.initState();
     _onUrlChanged = _flutterWebviewPlugin.onUrlChanged.listen(_urlChanged);
-    _startRequest().onError((e) {
+    _startRequest().catchError((e) {
       print("OAuth Exception: $e");
     });
   }
