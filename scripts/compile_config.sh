@@ -31,4 +31,17 @@ git push
 git status
 
 
+cd ~/infserver
+git pull --recurse-submodules
+git add *
+git commit -m "Update"
+
+cp ~/infcommon/config/config_server.bin api/assets/config_server.bin
+git add *
+git commit -m "Build config"
+
+git push
+git status
+
+
 cd ~/infcommon/scripts

@@ -44,6 +44,9 @@ message ConfigOAuthProvider {
   /// API endpoints of the OAuth provider
   string host = 4;
   
+  /// Url that will be used to detect login success by the app
+  string callbackUrl = 9;
+  
   /// API endpoints for Twitter-like OAuth
   string requestTokenUrl = 5; // If request token is not set, the alternate mechanism is used
   string authenticateUrl = 6;
@@ -60,9 +63,6 @@ message ConfigOAuthProvider {
   /// From OAuth provider, Spotify-like
   string clientId = 12;
   string clientSecret = 17;
-  
-  /// Url that will be used to detect login success by the app
-  string callbackUrl = 9;
 }
 
 message ConfigOAuthProviders {
