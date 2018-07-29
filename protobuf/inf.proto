@@ -27,8 +27,12 @@ enum OAuthMechanism {
 }
 
 message ConfigOAuthProvider {
+  /// Whether the OAuth provider is visible in the UI
   bool visible = 1;
+  
+  /// Whether the OAuth provider can be used to authenticate
   bool enabled = 2;
+  
   /// Visual name
   string label = 3;
   int32 fontAwesomeBrand = 14;
@@ -52,8 +56,9 @@ message ConfigOAuthProvider {
   string authUrl = 7;
   string authQuery = 8;
   
-  /// From OAuth provider, Spotify-like, may not include clientSecret
+  /// From OAuth provider, Spotify-like
   string clientId = 12;
+  string clientSecret = 17;
   
   /// Url that will be used to detect login success by the app
   string callbackUrl = 9;
