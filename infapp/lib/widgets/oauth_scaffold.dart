@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:oauth1/oauth1.dart' as oauth1;
-
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 import '../network/inf.pb.dart';

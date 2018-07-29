@@ -22,8 +22,8 @@ dependencies:
   shared_preferences: ^0.4.2
   pointycastle: ^1.0.0-rc2
 
-  oauth1:
-    path: ../dart-oauth1/
+  # oauth1:
+  #   path: ../dart-oauth1/
 
   flutter_map: # ^0.0.4
     path: ../flutter_map/flutter_map/

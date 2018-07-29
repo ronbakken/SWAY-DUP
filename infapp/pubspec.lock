@@ -342,13 +342,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.6+2"
-  oauth1:
-    dependency: "direct main"
-    description:
-      path: "..\\dart-oauth1"
-      relative: true
-    source: path
-    version: "0.3.1"
   package_config:
     dependency: transitive
     description:
@@ -508,13 +501,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.5"
-  unittest:
-    dependency: transitive
-    description:
-      name: unittest
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.11.7"
   utf:
     dependency: transitive
     description:
@@ -522,13 +508,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.0+5"
-  uuid:
-    dependency: transitive
-    description:
-      name: uuid
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   validate:
     dependency: transitive
     description:
