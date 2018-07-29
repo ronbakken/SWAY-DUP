@@ -27,12 +27,12 @@ namespace InfX {
             "aWdTdWJDYXRlZ29yaWVzIuoCChNDb25maWdPQXV0aFByb3ZpZGVyEg8KB3Zp",
             "c2libGUYASABKAgSDwoHZW5hYmxlZBgCIAEoCBINCgVsYWJlbBgDIAEoCRIY",
             "ChBmb250QXdlc29tZUJyYW5kGA4gASgFEiIKCW1lY2hhbmlzbRgPIAEoDjIP",
-            "Lk9BdXRoTWVjaGFuaXNtEgwKBGhvc3QYBCABKAkSFwoPcmVxdWVzdFRva2Vu",
-            "VXJsGAUgASgJEhcKD2F1dGhlbnRpY2F0ZVVybBgGIAEoCRIWCg5hY2Nlc3NU",
-            "b2tlblVybBgQIAEoCRITCgtjb25zdW1lcktleRgKIAEoCRIWCg5jb25zdW1l",
-            "clNlY3JldBgLIAEoCRIPCgdhdXRoVXJsGAcgASgJEhEKCWF1dGhRdWVyeRgI",
-            "IAEoCRIQCghjbGllbnRJZBgMIAEoCRIUCgxjbGllbnRTZWNyZXQYESABKAkS",
-            "EwoLY2FsbGJhY2tVcmwYCSABKAkiOQoUQ29uZmlnT0F1dGhQcm92aWRlcnMS",
+            "Lk9BdXRoTWVjaGFuaXNtEgwKBGhvc3QYBCABKAkSEwoLY2FsbGJhY2tVcmwY",
+            "CSABKAkSFwoPcmVxdWVzdFRva2VuVXJsGAUgASgJEhcKD2F1dGhlbnRpY2F0",
+            "ZVVybBgGIAEoCRIWCg5hY2Nlc3NUb2tlblVybBgQIAEoCRITCgtjb25zdW1l",
+            "cktleRgKIAEoCRIWCg5jb25zdW1lclNlY3JldBgLIAEoCRIPCgdhdXRoVXJs",
+            "GAcgASgJEhEKCWF1dGhRdWVyeRgIIAEoCRIQCghjbGllbnRJZBgMIAEoCRIU",
+            "CgxjbGllbnRTZWNyZXQYESABKAkiOQoUQ29uZmlnT0F1dGhQcm92aWRlcnMS",
             "IQoDYWxsGAEgAygLMhQuQ29uZmlnT0F1dGhQcm92aWRlciKiAQoKQ29uZmln",
             "RGF0YRIVCg1jbGllbnRWZXJzaW9uGAEgASgFEhEKCXRpbWVzdGFtcBgFIAEo",
             "AxIUCgxkb3dubG9hZFVybHMYBCADKAkSJQoKY2F0ZWdvcmllcxgCIAEoCzIR",
@@ -69,36 +69,38 @@ namespace InfX {
             "CgxhY2NvdW50U3RhdGUYByABKAsyES5EYXRhQWNjb3VudFN0YXRlEiUKC3Nv",
             "Y2lhbE1lZGlhGAYgAygLMhAuRGF0YVNvY2lhbE1lZGlhIjYKEU5ldFNldEFj",
             "Y291bnRUeXBlEiEKC2FjY291bnRUeXBlGAEgASgOMgwuQWNjb3VudFR5cGUi",
-            "QwoSTmV0T0F1dGhDb25uZWN0UmVxEhUKDW9hdXRoUHJvdmlkZXIYASABKAUS",
-            "FgoOb2F1dGhTaWduYXR1cmUYAiABKAkiOwoSTmV0T0F1dGhDb25uZWN0UmVz",
-            "EiUKC3NvY2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lhbE1lZGlhIj0KE05l",
-            "dEFjY291bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRILCgNsYXQYAiABKAIS",
-            "CwoDbG5nGAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZpbGVOYW1l",
-            "GAEgASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEoCSLfAQoR",
-            "TmV0UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEoCRISCgpy",
-            "ZXF1ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMgASgJEhsK",
-            "E2hlYWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9zdBgFIAEo",
-            "CRIWCg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16U3RvcmFn",
-            "ZUNsYXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCABKAkiQAoR",
-            "TmV0UmVxQ3JlYXRlT2ZmZXISGQoFb2ZmZXIYASABKAsyCi5EYXRhT2ZmZXIS",
-            "EAoIaW1hZ2VJZHMYAiADKAkiHwoRTmV0UmVzQ3JlYXRlT2ZmZXISCgoCaWQY",
-            "ASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIOCgpPQU1f",
-            "T0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkEKC0FjY291bnRUeXBlEg4KCkFU",
-            "X1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQ",
-            "AiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFMSVpFEAAS",
-            "DwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoOR0FTX1JF",
-            "QURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FETUlOEAUS",
-            "CwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SFAoQ",
-            "R0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5ORUQQARIW",
-            "ChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVEEAMSFgoS",
-            "R0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUSFQoRR0FT",
-            "Ul9SRVFVSVJFX0lORk8QBkIHqgIESW5mWGIGcHJvdG8z"));
+            "JwoOTmV0T0F1dGhVcmxSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBSI2Cg5O",
+            "ZXRPQXV0aFVybFJlcxIPCgdhdXRoVXJsGAEgASgJEhMKC2NhbGxiYWNrVXJs",
+            "GAIgASgJIkIKEk5ldE9BdXRoQ29ubmVjdFJlcRIVCg1vYXV0aFByb3ZpZGVy",
+            "GAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAkiOwoSTmV0T0F1dGhDb25u",
+            "ZWN0UmVzEiUKC3NvY2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lhbE1lZGlh",
+            "Ij0KE05ldEFjY291bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRILCgNsYXQY",
+            "AiABKAISCwoDbG5nGAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZp",
+            "bGVOYW1lGAEgASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEo",
+            "CSLfAQoRTmV0UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEo",
+            "CRISCgpyZXF1ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMg",
+            "ASgJEhsKE2hlYWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9z",
+            "dBgFIAEoCRIWCg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16",
+            "U3RvcmFnZUNsYXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCAB",
+            "KAkiQAoRTmV0UmVxQ3JlYXRlT2ZmZXISGQoFb2ZmZXIYASABKAsyCi5EYXRh",
+            "T2ZmZXISEAoIaW1hZ2VJZHMYAiADKAkiHwoRTmV0UmVzQ3JlYXRlT2ZmZXIS",
+            "CgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIO",
+            "CgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkEKC0FjY291bnRUeXBl",
+            "Eg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVT",
+            "SU5FU1MQAiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
+            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
+            "R0FTX1JFQURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FE",
+            "TUlOEAUSCwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFz",
+            "b24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5O",
+            "RUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVE",
+            "EAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUS",
+            "FQoRR0FTUl9SRVFVSVJFX0lORk8QBkIHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret", "CallbackUrl" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "CallbackUrl", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "Timestamp", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
@@ -115,7 +117,9 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthSignatureResReq), global::InfX.NetDeviceAuthSignatureResReq.Parser, new[]{ "Signature" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthState), global::InfX.NetDeviceAuthState.Parser, new[]{ "AccountState", "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetAccountType), global::InfX.NetSetAccountType.Parser, new[]{ "AccountType" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectReq), global::InfX.NetOAuthConnectReq.Parser, new[]{ "OauthProvider", "OauthSignature" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthUrlReq), global::InfX.NetOAuthUrlReq.Parser, new[]{ "OauthProvider" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthUrlRes), global::InfX.NetOAuthUrlRes.Parser, new[]{ "AuthUrl", "CallbackUrl" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectReq), global::InfX.NetOAuthConnectReq.Parser, new[]{ "OauthProvider", "CallbackQuery" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectRes), global::InfX.NetOAuthConnectRes.Parser, new[]{ "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Name", "Lat", "Lng" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqImageUpload), global::InfX.NetReqImageUpload.Parser, new[]{ "FileName", "FileSize", "Sha256" }, null, null, null),
@@ -445,6 +449,7 @@ namespace InfX {
       fontAwesomeBrand_ = other.fontAwesomeBrand_;
       mechanism_ = other.mechanism_;
       host_ = other.host_;
+      callbackUrl_ = other.callbackUrl_;
       requestTokenUrl_ = other.requestTokenUrl_;
       authenticateUrl_ = other.authenticateUrl_;
       accessTokenUrl_ = other.accessTokenUrl_;
@@ -454,7 +459,6 @@ namespace InfX {
       authQuery_ = other.authQuery_;
       clientId_ = other.clientId_;
       clientSecret_ = other.clientSecret_;
-      callbackUrl_ = other.callbackUrl_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -540,6 +544,20 @@ namespace InfX {
       get { return host_; }
       set {
         host_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "callbackUrl" field.</summary>
+    public const int CallbackUrlFieldNumber = 9;
+    private string callbackUrl_ = "";
+    /// <summary>
+    /// / Url that will be used to detect login success by the app
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CallbackUrl {
+      get { return callbackUrl_; }
+      set {
+        callbackUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -654,20 +672,6 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "callbackUrl" field.</summary>
-    public const int CallbackUrlFieldNumber = 9;
-    private string callbackUrl_ = "";
-    /// <summary>
-    /// / Url that will be used to detect login success by the app
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string CallbackUrl {
-      get { return callbackUrl_; }
-      set {
-        callbackUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as ConfigOAuthProvider);
@@ -687,6 +691,7 @@ namespace InfX {
       if (FontAwesomeBrand != other.FontAwesomeBrand) return false;
       if (Mechanism != other.Mechanism) return false;
       if (Host != other.Host) return false;
+      if (CallbackUrl != other.CallbackUrl) return false;
       if (RequestTokenUrl != other.RequestTokenUrl) return false;
       if (AuthenticateUrl != other.AuthenticateUrl) return false;
       if (AccessTokenUrl != other.AccessTokenUrl) return false;
@@ -696,7 +701,6 @@ namespace InfX {
       if (AuthQuery != other.AuthQuery) return false;
       if (ClientId != other.ClientId) return false;
       if (ClientSecret != other.ClientSecret) return false;
-      if (CallbackUrl != other.CallbackUrl) return false;
       return true;
     }
 
@@ -709,6 +713,7 @@ namespace InfX {
       if (FontAwesomeBrand != 0) hash ^= FontAwesomeBrand.GetHashCode();
       if (Mechanism != 0) hash ^= Mechanism.GetHashCode();
       if (Host.Length != 0) hash ^= Host.GetHashCode();
+      if (CallbackUrl.Length != 0) hash ^= CallbackUrl.GetHashCode();
       if (RequestTokenUrl.Length != 0) hash ^= RequestTokenUrl.GetHashCode();
       if (AuthenticateUrl.Length != 0) hash ^= AuthenticateUrl.GetHashCode();
       if (AccessTokenUrl.Length != 0) hash ^= AccessTokenUrl.GetHashCode();
@@ -718,7 +723,6 @@ namespace InfX {
       if (AuthQuery.Length != 0) hash ^= AuthQuery.GetHashCode();
       if (ClientId.Length != 0) hash ^= ClientId.GetHashCode();
       if (ClientSecret.Length != 0) hash ^= ClientSecret.GetHashCode();
-      if (CallbackUrl.Length != 0) hash ^= CallbackUrl.GetHashCode();
       return hash;
     }
 
@@ -816,6 +820,9 @@ namespace InfX {
       if (Host.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Host);
       }
+      if (CallbackUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CallbackUrl);
+      }
       if (RequestTokenUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(RequestTokenUrl);
       }
@@ -843,9 +850,6 @@ namespace InfX {
       if (ClientSecret.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(ClientSecret);
       }
-      if (CallbackUrl.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(CallbackUrl);
-      }
       return size;
     }
 
@@ -871,6 +875,9 @@ namespace InfX {
       }
       if (other.Host.Length != 0) {
         Host = other.Host;
+      }
+      if (other.CallbackUrl.Length != 0) {
+        CallbackUrl = other.CallbackUrl;
       }
       if (other.RequestTokenUrl.Length != 0) {
         RequestTokenUrl = other.RequestTokenUrl;
@@ -898,9 +905,6 @@ namespace InfX {
       }
       if (other.ClientSecret.Length != 0) {
         ClientSecret = other.ClientSecret;
-      }
-      if (other.CallbackUrl.Length != 0) {
-        CallbackUrl = other.CallbackUrl;
       }
     }
 
@@ -4126,6 +4130,278 @@ namespace InfX {
   }
 
   /// <summary>
+  ///  App requests OAuth url
+  ///  Name: OA_URLRE
+  ///  Response: NetOAuthUrlRes
+  /// </summary>
+  public sealed partial class NetOAuthUrlReq : pb::IMessage<NetOAuthUrlReq> {
+    private static readonly pb::MessageParser<NetOAuthUrlReq> _parser = new pb::MessageParser<NetOAuthUrlReq>(() => new NetOAuthUrlReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetOAuthUrlReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[19]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthUrlReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthUrlReq(NetOAuthUrlReq other) : this() {
+      oauthProvider_ = other.oauthProvider_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthUrlReq Clone() {
+      return new NetOAuthUrlReq(this);
+    }
+
+    /// <summary>Field number for the "oauthProvider" field.</summary>
+    public const int OauthProviderFieldNumber = 1;
+    private int oauthProvider_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int OauthProvider {
+      get { return oauthProvider_; }
+      set {
+        oauthProvider_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetOAuthUrlReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetOAuthUrlReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (OauthProvider != other.OauthProvider) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (OauthProvider != 0) hash ^= OauthProvider.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (OauthProvider != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(OauthProvider);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (OauthProvider != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OauthProvider);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetOAuthUrlReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.OauthProvider != 0) {
+        OauthProvider = other.OauthProvider;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            OauthProvider = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  App requests OAuth url
+  ///  Name: OA_R_URL
+  ///  Response: NetOAuthUrlRes
+  /// </summary>
+  public sealed partial class NetOAuthUrlRes : pb::IMessage<NetOAuthUrlRes> {
+    private static readonly pb::MessageParser<NetOAuthUrlRes> _parser = new pb::MessageParser<NetOAuthUrlRes>(() => new NetOAuthUrlRes());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetOAuthUrlRes> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[20]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthUrlRes() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthUrlRes(NetOAuthUrlRes other) : this() {
+      authUrl_ = other.authUrl_;
+      callbackUrl_ = other.callbackUrl_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOAuthUrlRes Clone() {
+      return new NetOAuthUrlRes(this);
+    }
+
+    /// <summary>Field number for the "authUrl" field.</summary>
+    public const int AuthUrlFieldNumber = 1;
+    private string authUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AuthUrl {
+      get { return authUrl_; }
+      set {
+        authUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "callbackUrl" field.</summary>
+    public const int CallbackUrlFieldNumber = 2;
+    private string callbackUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CallbackUrl {
+      get { return callbackUrl_; }
+      set {
+        callbackUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetOAuthUrlRes);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetOAuthUrlRes other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (AuthUrl != other.AuthUrl) return false;
+      if (CallbackUrl != other.CallbackUrl) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (AuthUrl.Length != 0) hash ^= AuthUrl.GetHashCode();
+      if (CallbackUrl.Length != 0) hash ^= CallbackUrl.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (AuthUrl.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(AuthUrl);
+      }
+      if (CallbackUrl.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(CallbackUrl);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (AuthUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AuthUrl);
+      }
+      if (CallbackUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CallbackUrl);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetOAuthUrlRes other) {
+      if (other == null) {
+        return;
+      }
+      if (other.AuthUrl.Length != 0) {
+        AuthUrl = other.AuthUrl;
+      }
+      if (other.CallbackUrl.Length != 0) {
+        CallbackUrl = other.CallbackUrl;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            AuthUrl = input.ReadString();
+            break;
+          }
+          case 18: {
+            CallbackUrl = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
   ///  App adds another OAuth provider to the account
   ///  Name: OA_CONNE
   ///  Response: NetOAuthConnectRes
@@ -4137,7 +4413,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[19]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4155,7 +4431,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetOAuthConnectReq(NetOAuthConnectReq other) : this() {
       oauthProvider_ = other.oauthProvider_;
-      oauthSignature_ = other.oauthSignature_;
+      callbackQuery_ = other.callbackQuery_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4174,14 +4450,14 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "oauthSignature" field.</summary>
-    public const int OauthSignatureFieldNumber = 2;
-    private string oauthSignature_ = "";
+    /// <summary>Field number for the "callbackQuery" field.</summary>
+    public const int CallbackQueryFieldNumber = 2;
+    private string callbackQuery_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string OauthSignature {
-      get { return oauthSignature_; }
+    public string CallbackQuery {
+      get { return callbackQuery_; }
       set {
-        oauthSignature_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        callbackQuery_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -4199,7 +4475,7 @@ namespace InfX {
         return true;
       }
       if (OauthProvider != other.OauthProvider) return false;
-      if (OauthSignature != other.OauthSignature) return false;
+      if (CallbackQuery != other.CallbackQuery) return false;
       return true;
     }
 
@@ -4207,7 +4483,7 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       if (OauthProvider != 0) hash ^= OauthProvider.GetHashCode();
-      if (OauthSignature.Length != 0) hash ^= OauthSignature.GetHashCode();
+      if (CallbackQuery.Length != 0) hash ^= CallbackQuery.GetHashCode();
       return hash;
     }
 
@@ -4222,9 +4498,9 @@ namespace InfX {
         output.WriteRawTag(8);
         output.WriteInt32(OauthProvider);
       }
-      if (OauthSignature.Length != 0) {
+      if (CallbackQuery.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(OauthSignature);
+        output.WriteString(CallbackQuery);
       }
     }
 
@@ -4234,8 +4510,8 @@ namespace InfX {
       if (OauthProvider != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(OauthProvider);
       }
-      if (OauthSignature.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(OauthSignature);
+      if (CallbackQuery.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CallbackQuery);
       }
       return size;
     }
@@ -4248,8 +4524,8 @@ namespace InfX {
       if (other.OauthProvider != 0) {
         OauthProvider = other.OauthProvider;
       }
-      if (other.OauthSignature.Length != 0) {
-        OauthSignature = other.OauthSignature;
+      if (other.CallbackQuery.Length != 0) {
+        CallbackQuery = other.CallbackQuery;
       }
     }
 
@@ -4266,7 +4542,7 @@ namespace InfX {
             break;
           }
           case 18: {
-            OauthSignature = input.ReadString();
+            CallbackQuery = input.ReadString();
             break;
           }
         }
@@ -4286,7 +4562,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[20]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[22]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4414,7 +4690,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[21]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[23]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4591,7 +4867,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[22]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[24]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4773,7 +5049,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[23]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[25]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5089,7 +5365,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[24]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[26]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5235,7 +5511,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[25]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[27]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

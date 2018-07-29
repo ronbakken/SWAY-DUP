@@ -70,6 +70,7 @@ const ConfigOAuthProvider$json = const {
     const {'1': 'fontAwesomeBrand', '3': 14, '4': 1, '5': 5, '10': 'fontAwesomeBrand'},
     const {'1': 'mechanism', '3': 15, '4': 1, '5': 14, '6': '.OAuthMechanism', '10': 'mechanism'},
     const {'1': 'host', '3': 4, '4': 1, '5': 9, '10': 'host'},
+    const {'1': 'callbackUrl', '3': 9, '4': 1, '5': 9, '10': 'callbackUrl'},
     const {'1': 'requestTokenUrl', '3': 5, '4': 1, '5': 9, '10': 'requestTokenUrl'},
     const {'1': 'authenticateUrl', '3': 6, '4': 1, '5': 9, '10': 'authenticateUrl'},
     const {'1': 'accessTokenUrl', '3': 16, '4': 1, '5': 9, '10': 'accessTokenUrl'},
@@ -79,7 +80,6 @@ const ConfigOAuthProvider$json = const {
     const {'1': 'authQuery', '3': 8, '4': 1, '5': 9, '10': 'authQuery'},
     const {'1': 'clientId', '3': 12, '4': 1, '5': 9, '10': 'clientId'},
     const {'1': 'clientSecret', '3': 17, '4': 1, '5': 9, '10': 'clientSecret'},
-    const {'1': 'callbackUrl', '3': 9, '4': 1, '5': 9, '10': 'callbackUrl'},
   ],
 };
 
@@ -238,11 +238,26 @@ const NetSetAccountType$json = const {
   ],
 };
 
+const NetOAuthUrlReq$json = const {
+  '1': 'NetOAuthUrlReq',
+  '2': const [
+    const {'1': 'oauthProvider', '3': 1, '4': 1, '5': 5, '10': 'oauthProvider'},
+  ],
+};
+
+const NetOAuthUrlRes$json = const {
+  '1': 'NetOAuthUrlRes',
+  '2': const [
+    const {'1': 'authUrl', '3': 1, '4': 1, '5': 9, '10': 'authUrl'},
+    const {'1': 'callbackUrl', '3': 2, '4': 1, '5': 9, '10': 'callbackUrl'},
+  ],
+};
+
 const NetOAuthConnectReq$json = const {
   '1': 'NetOAuthConnectReq',
   '2': const [
     const {'1': 'oauthProvider', '3': 1, '4': 1, '5': 5, '10': 'oauthProvider'},
-    const {'1': 'oauthSignature', '3': 2, '4': 1, '5': 9, '10': 'oauthSignature'},
+    const {'1': 'callbackQuery', '3': 2, '4': 1, '5': 9, '10': 'callbackQuery'},
   ],
 };
 
