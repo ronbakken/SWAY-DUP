@@ -85,6 +85,7 @@ class ConfigOAuthProvider extends GeneratedMessage {
     ..e<OAuthMechanism>(15, 'mechanism', PbFieldType.OE, OAuthMechanism.OAM_NONE, OAuthMechanism.valueOf, OAuthMechanism.values)
     ..aOS(16, 'accessTokenUrl')
     ..aOS(17, 'clientSecret')
+    ..pPS(18, 'whitelistHosts')
     ..hasRequiredFields = false
   ;
 
@@ -183,6 +184,8 @@ class ConfigOAuthProvider extends GeneratedMessage {
   set clientSecret(String v) { $_setString(15, v); }
   bool hasClientSecret() => $_has(15);
   void clearClientSecret() => clearField(17);
+
+  List<String> get whitelistHosts => $_getList(16);
 }
 
 class _ReadonlyConfigOAuthProvider extends ConfigOAuthProvider with ReadonlyMessageMixin {}
