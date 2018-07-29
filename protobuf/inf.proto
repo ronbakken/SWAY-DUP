@@ -306,8 +306,8 @@ message NetOAuthUrlReq {
 // Name: OA_R_URL
 // Response: NetOAuthUrlRes
 message NetOAuthUrlRes {
-  String authUrl = 1;
-  String callbackUrl = 2;
+  string authUrl = 1;
+  string callbackUrl = 2;
   
 }
 
