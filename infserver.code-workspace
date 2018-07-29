@@ -13,7 +13,10 @@
 			"path": "wstalk"
 		},
 		{
-			"path": "..\\infcommon\\config"
+			"path": "dart-oauth1"
+		},
+		{
+			"path": "X:\\source\\infcommon\\config"
 		}
 	]
 }

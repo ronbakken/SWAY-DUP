@@ -7,3 +7,6 @@
 [submodule "wstalk"]
 	path = wstalk
 	url = git@github.com:nbspou/wstalk.git
+[submodule "dart-oauth1"]
+	path = dart-oauth1
+	url = git@github.com:nbspou/dart-oauth1.git
