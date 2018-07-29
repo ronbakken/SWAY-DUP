@@ -125,6 +125,10 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
         }
       }
     }
+    if (cfg.hasOption(section, 'whitelistHosts')) {
+      String whitelistHosts = cfg.get(section, 'whitelistHosts');
+      entry.whitelistHosts.addAll(whitelistHosts.split(','));
+    }
     
     res.all.add(entry);
 	}
