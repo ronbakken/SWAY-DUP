@@ -80,6 +80,7 @@ const ConfigOAuthProvider$json = const {
     const {'1': 'authQuery', '3': 8, '4': 1, '5': 9, '10': 'authQuery'},
     const {'1': 'clientId', '3': 12, '4': 1, '5': 9, '10': 'clientId'},
     const {'1': 'clientSecret', '3': 17, '4': 1, '5': 9, '10': 'clientSecret'},
+    const {'1': 'whitelistHosts', '3': 18, '4': 3, '5': 9, '10': 'whitelistHosts'},
   ],
 };
 
