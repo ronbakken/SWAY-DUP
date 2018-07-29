@@ -68,8 +68,12 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
   
   void subscribeAuthentication() {
-    _netDeviceAuthCreateReq = ts.stream(TalkSocket.encode("DA_CREAT")).listen(netDeviceAuthCreateReq);
-    _netDeviceAuthChallengeReq = ts.stream(TalkSocket.encode("DA_CHALL")).listen(netDeviceAuthChallengeReq);
+    try {
+      _netDeviceAuthCreateReq = ts.stream(TalkSocket.encode("DA_CREAT")).listen(netDeviceAuthCreateReq);
+      _netDeviceAuthChallengeReq = ts.stream(TalkSocket.encode("DA_CHALL")).listen(netDeviceAuthChallengeReq);
+    } catch (e) {
+      devLog.warning("Failed to subscribe to Authentication: $e");
+    }
   }
 
   void unsubscribeAuthentication() {
@@ -145,6 +149,7 @@ class RemoteApp {
       }
 
       // Await signature
+      devLog.fine("Await signature");
       TalkMessage signatureMessage = await signatureMessageFuture;
       NetDeviceAuthSignatureResReq signaturePb = new NetDeviceAuthSignatureResReq();
       signaturePb.mergeFromBuffer(signatureMessage.data);
@@ -180,6 +185,7 @@ class RemoteApp {
       }
 
       // Send authentication state
+      devLog.fine("Await device state");
       await updateDeviceState();
       if (accountState.deviceId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
@@ -190,6 +196,7 @@ class RemoteApp {
         }
       }
       await sendNetDeviceAuthState(reply: signatureMessage);
+      devLog.fine("Device authenticated");
     } catch (ex) {
       devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
     }
@@ -231,7 +238,7 @@ class RemoteApp {
         }
       }
       for (int i = 0; i < socialMedia.length; ++i) {
-        socialMedia[i].connected = connected[i];
+        socialMedia[i].connected = connected[i] == true;
       }
     });
   }
@@ -256,9 +263,13 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
   
   void subscribeOnboarding() {
-    _netSetAccountType = ts.stream(TalkSocket.encode("A_SETTYP")).listen(netSetAccountType);
-    _netOAuthConnectReq = ts.stream(TalkSocket.encode("OA_CONNE")).listen(netOAuthConnectReq);
-    _netAccountCreateReq = ts.stream(TalkSocket.encode("A_CREATE")).listen(netAccountCreateReq);
+    try {
+      _netSetAccountType = ts.stream(TalkSocket.encode("A_SETTYP")).listen(netSetAccountType);
+      _netOAuthConnectReq = ts.stream(TalkSocket.encode("OA_CONNE")).listen(netOAuthConnectReq);
+      _netAccountCreateReq = ts.stream(TalkSocket.encode("A_CREATE")).listen(netAccountCreateReq);
+    } catch (e) {
+      devLog.warning("Failed to subscribe to Onboarding: $e");
+    }
   }
 
   void unsubscribeOnboarding() {
