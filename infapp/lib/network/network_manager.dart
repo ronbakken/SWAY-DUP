@@ -34,6 +34,11 @@ class NetworkManager extends StatelessWidget {
   final int localAccountId;
   final Widget child;
 
+  static NetworkInterface of(BuildContext context) {
+    final _InheritedNetworkManager inherited = context.inheritFromWidgetOfExactType(_InheritedNetworkManager);
+    return inherited != null ? inherited.networkInterface : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     String ks = key.toString();
@@ -60,11 +65,6 @@ class _NetworkManagerStateful extends StatefulWidget {
   final Widget child;
   final ConfigData config;
 
-  static NetworkInterface of(BuildContext context) {
-    final _InheritedNetworkManager inherited = context.inheritFromWidgetOfExactType(_InheritedNetworkManager);
-    return inherited != null ? inherited.networkInterface : null;
-  }
-
   @override
   _NetworkManagerState createState() => new _NetworkManagerState();
 }
@@ -84,6 +84,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   final random = new Random.secure();
 
   void syncConfig() {
+    // May only be called from a setState block
     if (_config != widget.config) {
       print("[INF] Sync config changes to network");
       _config = widget.config;
@@ -95,6 +96,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
           }
         }
       }
+      ++_changed;
     }
     if (_config == null) {
       print("[INF] Widget config is null in network sync"); // DEVELOPER - CRITICAL
@@ -114,13 +116,13 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
           socialMedia[i] = new DataSocialMedia();
         }
       }
+      ++_changed;
     });
   }
 
   /// Authenticate device connection, this process happens as if by magic
   Future _authenticateDevice(TalkSocket ts) async {
     // Initialize connection
-    accountState.deviceId = 0;
     print("[INF] Authenticate device");
     ts.sendMessage(TalkSocket.encode("INFAPP"), new Uint8List(0));
 
@@ -152,10 +154,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       aesKeyStr = prefs.getString(aesKeyPref);
       aesKey = base64.decode(aesKeyStr);
       attemptDeviceId = prefs.getInt(deviceIdPref);
+      if (attemptDeviceId != accountState.deviceId) {
+        accountState.deviceId = 0;
+      }
     } catch (e) { }
     if (aesKey == null || aesKey.length == 0 || attemptDeviceId == null || attemptDeviceId == 0) {
       // Create new device
       print("[INF] Create new device");
+      accountState.deviceId = 0;
       aesKey = new Uint8List(32);
       for (int i = 0; i < aesKey.length; ++i) {
         aesKey[i] = random.nextInt(256);
@@ -215,7 +221,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       throw new Exception("Authentication did not succeed");
     } else {
       print("[INF] Network connection is ready");
-      connected = NetworkConnectionState.Ready;
+      setState(() { connected = NetworkConnectionState.Ready; ++_changed; });
     }
 
     // assert(accountState.deviceId != 0);
@@ -241,20 +247,20 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
         } catch (e) {
           print("[INF] Network cannot connect, retry in 3 seconds: $e");
           assert(_ts == null);
-          connected = NetworkConnectionState.Offline;
+          setState(() { connected = NetworkConnectionState.Offline; ++_changed; });
           await new Future.delayed(new Duration(seconds: 3));
         }
       } while (_alive && (_ts == null));
       Future listen = _ts.listen();
       if (connected == NetworkConnectionState.Offline) {
-        connected = NetworkConnectionState.Connecting;
+        setState(() { connected = NetworkConnectionState.Connecting; ++_changed; });
       }
       if (_config != null && widget.networkManager.localAccountId != 0) {
         if (_alive) {
           // Authenticate device, this will set connected = Ready when successful
           _authenticateDevice(_ts).catchError((e) {
             print("[INF] Network authentication exception, retry in 3 seconds: $e");
-            connected = NetworkConnectionState.Failing;
+            setState(() { connected = NetworkConnectionState.Failing; ++_changed; });
             TalkSocket ts = _ts;
             _ts = null;
             () async {
@@ -273,19 +279,19 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
         }
       } else {
         print("[INF] No configuration, connection will remain idle, local account id ${widget.networkManager.localAccountId}");
-        connected = NetworkConnectionState.Failing;
+        setState(() { connected = NetworkConnectionState.Failing; ++_changed; });
       }
       await listen;
       _ts = null;
       print("[INF] Network connection closed");
       if (connected == NetworkConnectionState.Ready) {
-        connected = NetworkConnectionState.Connecting;
+        setState(() { connected = NetworkConnectionState.Connecting; ++_changed; });
       }
     } catch (e) {
       print("[INF] Network session exception: $e");
       TalkSocket ts = _ts;
       _ts = null;
-      connected = NetworkConnectionState.Failing;
+      setState(() { connected = NetworkConnectionState.Failing; ++_changed; });
       if (ts != null) {
         ts.close(); // TODO: close code?
       }
@@ -355,7 +361,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     return new _InheritedNetworkManager(
       key: (widget.key != null && ks.length > 0) ? new Key(ks + '.Inherited') : null,
       networkInterface: this,
-      changed: _changed++,
+      changed: _changed,
       child: widget.child,
     );
   }
@@ -374,21 +380,7 @@ class _InheritedNetworkManager extends InheritedWidget {
   
   @override
   bool updateShouldNotify(_InheritedNetworkManager old) {
-    if (networkInterface.accountState != old.networkInterface.accountState) {
-      return true;
-    }
-    if (networkInterface.socialMedia != old.networkInterface.socialMedia) {
-      return true;
-    }
-    if (networkInterface.socialMedia.length != old.networkInterface.socialMedia.length) {
-      return true;
-    }
-    for (int i = 0; i < networkInterface.socialMedia.length; ++i) {
-      if (networkInterface.socialMedia[i] != old.networkInterface.socialMedia[i]) {
-        return true;
-      }
-    }
-    return false;
+    return this.changed != old.changed;
   }
 }
 
