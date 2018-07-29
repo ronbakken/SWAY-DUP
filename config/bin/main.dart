@@ -17,7 +17,7 @@ import 'package:config/inf.pb.dart';
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Future<ConfigCategories> generateConfigCategories() async {
+Future<ConfigCategories> generateConfigCategories(bool server) async {
   List<String> lines = await new File("categories.ini").readAsLines();
   ConfigCategories categories = new ConfigCategories();
   ini.Config iniCategories = new ini.Config.fromStrings(lines);
@@ -72,7 +72,7 @@ Future<ConfigCategories> generateConfigCategories() async {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Future<ConfigOAuthProviders> generateConfigOAuthProviders() async {
+Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
   List<String> lines = await new File("oauth_providers.ini").readAsLines();
   ConfigOAuthProviders res = new ConfigOAuthProviders();
   ini.Config cfg = new ini.Config.fromStrings(lines);
@@ -101,16 +101,30 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders() async {
     if (cfg.hasOption(section, 'enabled')) entry.enabled = (int.parse(cfg.get(section, 'enabled')) == 1);
     entry.label = section;
     if (cfg.hasOption(section, 'fontAwesomeBrand')) entry.fontAwesomeBrand = int.parse(cfg.get(section, 'fontAwesomeBrand'));
-    if (cfg.hasOption(section, 'host')) entry.host = cfg.get(section, 'host');
-    if (cfg.hasOption(section, 'requestTokenUrl')) entry.requestTokenUrl = cfg.get(section, 'requestTokenUrl');
-    if (cfg.hasOption(section, 'authenticateUrl')) entry.authenticateUrl = cfg.get(section, 'authenticateUrl');
-    if (cfg.hasOption(section, 'authUrl')) entry.authUrl = cfg.get(section, 'authUrl');
-    if (cfg.hasOption(section, 'authQuery')) entry.authQuery = cfg.get(section, 'authQuery');
-    if (cfg.hasOption(section, 'callbackUrl')) entry.callbackUrl = cfg.get(section, 'callbackUrl');
-    if (cfg.hasOption(section, 'consumerKey')) entry.consumerKey = cfg.get(section, 'consumerKey');
-    if (cfg.hasOption(section, 'consumerSecret')) entry.consumerSecret = cfg.get(section, 'consumerSecret');
-    if (cfg.hasOption(section, 'clientId')) entry.clientId = cfg.get(section, 'clientId');
-    if (cfg.hasOption(section, 'nativeAuth')) entry.nativeAuth = cfg.get(section, 'nativeAuth');
+    if (cfg.hasOption(section, 'mechanism')) entry.mechanism = OAuthMechanism.valueOf(int.parse(cfg.get(section, 'mechanism')));
+    if (server) {
+      switch (entry.mechanism) {
+        case OAuthMechanism.OAM_OAUTH1: {
+          if (cfg.hasOption(section, 'host')) entry.host = cfg.get(section, 'host');
+          if (cfg.hasOption(section, 'callbackUrl')) entry.callbackUrl = cfg.get(section, 'callbackUrl');
+          if (cfg.hasOption(section, 'requestTokenUrl')) entry.requestTokenUrl = cfg.get(section, 'requestTokenUrl');
+          if (cfg.hasOption(section, 'authenticateUrl')) entry.authenticateUrl = cfg.get(section, 'authenticateUrl');
+          if (cfg.hasOption(section, 'accessTokenUrl')) entry.authenticateUrl = cfg.get(section, 'accessTokenUrl');
+          if (cfg.hasOption(section, 'consumerKey')) entry.consumerKey = cfg.get(section, 'consumerKey');
+          if (cfg.hasOption(section, 'consumerSecret')) entry.consumerSecret = cfg.get(section, 'consumerSecret');
+          break;
+        }
+        case OAuthMechanism.OAM_OAUTH2: {
+          if (cfg.hasOption(section, 'host')) entry.host = cfg.get(section, 'host');
+          if (cfg.hasOption(section, 'callbackUrl')) entry.callbackUrl = cfg.get(section, 'callbackUrl');
+          if (cfg.hasOption(section, 'authUrl')) entry.authUrl = cfg.get(section, 'authUrl');
+          if (cfg.hasOption(section, 'authQuery')) entry.authQuery = cfg.get(section, 'authQuery');
+          if (cfg.hasOption(section, 'clientId')) entry.clientId = cfg.get(section, 'clientId');
+          if (cfg.hasOption(section, 'clientSecret')) entry.clientSecret = cfg.get(section, 'clientSecret');
+          break;
+        }
+      }
+    }
     
     res.all.add(entry);
 	}
@@ -122,19 +136,20 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders() async {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-generateConfig() async {
+generateConfig(bool server) async {
   ConfigData config = new ConfigData();
   config.clientVersion = 2;
   config.timestamp = new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch);
-  config.categories = await generateConfigCategories();
-  config.oauthProviders = await generateConfigOAuthProviders();
+  config.categories = await generateConfigCategories(server);
+  config.oauthProviders = await generateConfigOAuthProviders(server);
   print(config.writeToJson());
   Uint8List configBuffer = config.writeToBuffer();
-  new File("config.bin").writeAsBytes(configBuffer, flush: true);
+  new File(server ? "config_server.bin" : "config.bin").writeAsBytes(configBuffer, flush: true);
 }
 
 main(List<String> arguments) {
-  generateConfig();
+  generateConfig(false);
+  generateConfig(true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
