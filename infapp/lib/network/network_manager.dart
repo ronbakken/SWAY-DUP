@@ -71,8 +71,8 @@ class _NetworkManagerStateful extends StatefulWidget {
 
 class _NetworkManagerState extends State<_NetworkManagerStateful> implements NetworkInterface {  
   // see NetworkInterface
-  DataAccountState accountState;
-  List<DataSocialMedia> socialMedia;
+  DataAccountState accountState = new DataAccountState();
+  List<DataSocialMedia> socialMedia = new List<DataSocialMedia>();
   NetworkConnectionState connected = NetworkConnectionState.Connecting;
 
   int _changed = 0; // trick to ensure rebuild
@@ -101,8 +101,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     }
   }
 
-  void receivedAuthDeviceState(NetDeviceAuthState pb) {
+  void receivedDeviceAuthState(NetDeviceAuthState pb) {
     setState(() {
+      if (pb.accountState.accountId != accountState.accountId) {
+        // Any cache cleanup may be done here when switching accounts
+      }
       accountState = pb.accountState;
       socialMedia = pb.socialMedia;
       socialMedia.length = _config.oauthProviders.all.length; // Match array length
@@ -135,6 +138,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     } catch (ex) {
       print('[INF] Failed to get device name');
     }
+
+    // Original plan was to use an assymetric key pair, but the generation was too slow. Hence just using a symmetric AES key for now
     int localAccountId = widget.networkManager.localAccountId;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String aesKeyPref = 'aes_key_$localAccountId';
@@ -167,7 +172,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       if (!_alive) {
         throw Exception("No longer alive, don't authorize");
       }
-      receivedAuthDeviceState(pbRes);
+      receivedDeviceAuthState(pbRes);
       print("[INF] Device id ${accountState.deviceId}");
       if (accountState.deviceId != 0) {
         prefs.setString(aesKeyPref, aesKeyStr);
@@ -202,7 +207,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       if (!_alive) {
         throw Exception("No longer alive, don't authorize");
       }
-      receivedAuthDeviceState(pbRes);
+      receivedDeviceAuthState(pbRes);
       print("[INF] Device id ${accountState.deviceId}");
     }
     
@@ -301,8 +306,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     _alive = true;
 
     // Initialize data
-    accountState = new DataAccountState();
-    socialMedia = new List<DataSocialMedia>();
     syncConfig();
 
     // Start network loop
