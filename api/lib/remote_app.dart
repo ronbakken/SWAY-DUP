@@ -1,3 +1,8 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
 
 import 'dart:async';
 import 'dart:math';
@@ -13,6 +18,8 @@ import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
 import 'package:synchronized/synchronized.dart';
 
+import 'remote_app_oauth.dart';
+
 // TODO: Move sql queries into a separate shared class, to allow prepared statements, and simplify code here
 
 class RemoteApp {
@@ -20,6 +27,7 @@ class RemoteApp {
 
   static const String mapboxToken = "pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqazRwN3h4ODBjM2QzcHA2N2ZzbHoyYm0ifQ.vpwrdXRoCU-nBm-E1KNKdA"; // TODO: Replace with config. This is NBSPOU dev server token
 
+  final ConfigData config;
   final sqljocky.ConnectionPool sql;
   final TalkSocket ts;
 
@@ -43,11 +51,12 @@ class RemoteApp {
   static final Logger opsLog = new Logger('InfOps.RemoteApp');
   static final Logger devLog = new Logger('InfDev.RemoteApp');
 
+  RemoteAppOAuth _remoteAppOAuth;
   dynamic _remoteAppBusiness;
   dynamic _remoteAppInfluencer;
   dynamic _remoteAppCommon;
 
-  RemoteApp(this.sql, this.ts) {
+  RemoteApp(this.config, this.sql, this.ts) {
     devLog.fine("New connection");
     for (int i = 0; i < socialMedia.length; ++i) {
       socialMedia[i] = new DataSocialMedia();
@@ -55,10 +64,21 @@ class RemoteApp {
     subscribeAuthentication();
   }
 
-  void close() {
+  void dispose() {
     _connected = false;
     unsubscribeAuthentication();
+    unsubscribeOnboarding();
+    if (_remoteAppOAuth != null) {
+      _remoteAppOAuth.dispose();
+      _remoteAppOAuth = null;
+    }
     devLog.fine("Connection closed for device ${accountState.deviceId}");
+  }
+
+  void subscribeOAuth() {
+    if (_remoteAppOAuth == null) {
+      _remoteAppOAuth = new RemoteAppOAuth(this);
+    }
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -190,7 +210,7 @@ class RemoteApp {
       if (accountState.deviceId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
         if (accountState.accountId != 0) {
-          transitionToApp();
+          await transitionToApp(); // Fetches all of the state data
         } else {
           subscribeOnboarding();
         }
@@ -265,8 +285,9 @@ class RemoteApp {
   void subscribeOnboarding() {
     try {
       _netSetAccountType = ts.stream(TalkSocket.encode("A_SETTYP")).listen(netSetAccountType);
-      _netOAuthConnectReq = ts.stream(TalkSocket.encode("OA_CONNE")).listen(netOAuthConnectReq);
+      // _netOAuthConnectReq = ts.stream(TalkSocket.encode("OA_CONNE")).listen(netOAuthConnectReq);
       _netAccountCreateReq = ts.stream(TalkSocket.encode("A_CREATE")).listen(netAccountCreateReq);
+      subscribeOAuth();
     } catch (e) {
       devLog.warning("Failed to subscribe to Onboarding: $e");
     }
@@ -277,7 +298,7 @@ class RemoteApp {
       return;
     }
     _netSetAccountType.cancel(); _netSetAccountType = null;
-    _netOAuthConnectReq.cancel(); _netOAuthConnectReq = null;
+    // _netOAuthConnectReq.cancel(); _netOAuthConnectReq = null;
     _netAccountCreateReq.cancel(); _netAccountCreateReq = null;
   }
 
@@ -316,7 +337,7 @@ class RemoteApp {
       devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
     }
   }
-
+/*
   StreamSubscription<TalkMessage> _netOAuthConnectReq; // OA_CONNE
   static int _netOAuthConnectRes = TalkSocket.encode("OA_R_CON");
   netOAuthConnectReq(TalkMessage message) async { // response: NetOAuthConnectRes
@@ -337,7 +358,7 @@ class RemoteApp {
       } else {
         // First check the OAuth and get the data
         
-        /*
+        / *
         // nbspou
 I/chromium(24593): ", source: https://api.twitter.com/oauth/authenticate?oauth_token=nrbd1wAAAAAA5_oKAAABZOP7dpI (0)
 I/flutter (24593): Authorization success
@@ -368,7 +389,7 @@ I/flutter (26706): wwDI0QAAAAAA5_oKAAABZOQYsJc
 I/flutter (26706): eTEcxq7n8qjuEEUgJfKedNA2m4qRcPjJ
 I/flutter (26706): OAuth Providers: 8
 
-        */
+        * /
         
 
 
@@ -428,7 +449,7 @@ I/flutter (26706): OAuth Providers: 8
     } catch (ex) {
       devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
     }
-  }
+  }*/
 
   StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE
   netAccountCreateReq(TalkMessage message) async { // response: NetDeviceAuthState
@@ -496,7 +517,7 @@ I/flutter (26706): OAuth Providers: 8
           // await updateDeviceState();
           if (accountState.accountId != 0) {
             unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
-            transitionToApp();
+            await transitionToApp();
           }
         }
       });
@@ -524,8 +545,13 @@ I/flutter (26706): OAuth Providers: 8
     assert(_remoteAppBusiness == null);
     assert(_remoteAppInfluencer == null);
     assert(_remoteAppCommon == null);
+    assert(accountState.deviceId != null);
+    assert(accountState.accountId != 0);
     // TODO: Permit app transactions!
     // TODO: Fetch social media from SQL and then from remote hosts!
     devLog.fine("Transition device ${accountState.deviceId} to app ${accountState.accountType}");
+    subscribeOAuth();
   }
 }
+
+/* end of file */

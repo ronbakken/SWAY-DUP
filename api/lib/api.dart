@@ -17,6 +17,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:io';
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:api/inf.pb.dart';
 import 'package:logging/logging.dart';
@@ -83,6 +84,11 @@ run() async {
   new Logger('InfDev').level = Level.ALL;
   new Logger('SqlJocky').level = Level.WARNING;
 
+  // Server Configuration
+  Uint8List configBytes = await new File("assets/config_server.bin").readAsBytes();
+  ConfigData config = new ConfigData();
+  config.mergeFromBuffer(configBytes);
+
   // Run SQL client
   final sqljocky.ConnectionPool sql = new sqljocky.ConnectionPool(
     host: 'mariadb.devinf.net', port: 3306,
@@ -103,7 +109,7 @@ run() async {
           RemoteApp remoteApp;
           ts.stream(TalkSocket.encode("INFAPP")).listen((TalkMessage message) {
             if (remoteApp == null) {
-              remoteApp = new RemoteApp(sql, ts);
+              remoteApp = new RemoteApp(config, sql, ts);
             }
           });
           // Listen
@@ -116,7 +122,7 @@ run() async {
             }
             ts.close();
             if (remoteApp != null) {
-              remoteApp.close();
+              remoteApp.dispose();
               remoteApp = null;
             }
           }().catchError((ex) {
