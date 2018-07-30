@@ -319,6 +319,7 @@ class DataSocialMedia extends GeneratedMessage {
     ..aOB(11, 'verified')
     ..aOS(12, 'email')
     ..aOS(13, 'profileUrl')
+    ..aOS(14, 'avatarUrl')
     ..hasRequiredFields = false
   ;
 
@@ -402,6 +403,11 @@ class DataSocialMedia extends GeneratedMessage {
   set profileUrl(String v) { $_setString(12, v); }
   bool hasProfileUrl() => $_has(12);
   void clearProfileUrl() => clearField(13);
+
+  String get avatarUrl => $_getS(13, '');
+  set avatarUrl(String v) { $_setString(13, v); }
+  bool hasAvatarUrl() => $_has(13);
+  void clearAvatarUrl() => clearField(14);
 }
 
 class _ReadonlyDataSocialMedia extends DataSocialMedia with ReadonlyMessageMixin {}
