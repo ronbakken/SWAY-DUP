@@ -27,6 +27,26 @@ class OAuthMechanism extends ProtobufEnum {
   const OAuthMechanism._(int v, String n) : super(v, n);
 }
 
+class OAuthProviderIds extends ProtobufEnum {
+  static const OAuthProviderIds OAP_NONE = const OAuthProviderIds._(0, 'OAP_NONE');
+  static const OAuthProviderIds OAP_TWITTER = const OAuthProviderIds._(1, 'OAP_TWITTER');
+  static const OAuthProviderIds OAP_FACEBOOK = const OAuthProviderIds._(2, 'OAP_FACEBOOK');
+
+  static const List<OAuthProviderIds> values = const <OAuthProviderIds> [
+    OAP_NONE,
+    OAP_TWITTER,
+    OAP_FACEBOOK,
+  ];
+
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static OAuthProviderIds valueOf(int value) => _byValue[value] as OAuthProviderIds;
+  static void $checkItem(OAuthProviderIds v) {
+    if (v is! OAuthProviderIds) checkItemFailed(v, 'OAuthProviderIds');
+  }
+
+  const OAuthProviderIds._(int v, String n) : super(v, n);
+}
+
 class AccountType extends ProtobufEnum {
   static const AccountType AT_UNKNOWN = const AccountType._(0, 'AT_UNKNOWN');
   static const AccountType AT_INFLUENCER = const AccountType._(1, 'AT_INFLUENCER');
