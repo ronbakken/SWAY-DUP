@@ -119,6 +119,17 @@ const CategoryId$json = const {
   ],
 };
 
+const DataSocialMedia$json = const {
+  '1': 'DataSocialMedia',
+  '2': const [
+    const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
+    const {'1': 'followers', '3': 2, '4': 1, '5': 5, '10': 'followers'},
+    const {'1': 'following', '3': 3, '4': 1, '5': 5, '10': 'following'},
+    const {'1': 'screenName', '3': 4, '4': 1, '5': 9, '10': 'screenName'},
+    const {'1': 'displayName', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
+  ],
+};
+
 const DataInfluencer$json = const {
   '1': 'DataInfluencer',
   '2': const [
@@ -129,6 +140,7 @@ const DataInfluencer$json = const {
     const {'1': 'categories', '3': 5, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
     const {'1': 'lat', '3': 6, '4': 1, '5': 1, '10': 'lat'},
     const {'1': 'lng', '3': 7, '4': 1, '5': 1, '10': 'lng'},
+    const {'1': 'socialMedia', '3': 8, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
   ],
 };
 
@@ -142,6 +154,7 @@ const DataBusiness$json = const {
     const {'1': 'categories', '3': 5, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
     const {'1': 'lat', '3': 6, '4': 1, '5': 1, '10': 'lat'},
     const {'1': 'lng', '3': 7, '4': 1, '5': 1, '10': 'lng'},
+    const {'1': 'socialMedia', '3': 8, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
   ],
 };
 
@@ -189,17 +202,6 @@ const DataAccountState$json = const {
     const {'1': 'accountType', '3': 3, '4': 1, '5': 14, '6': '.AccountType', '10': 'accountType'},
     const {'1': 'globalAccountState', '3': 4, '4': 1, '5': 14, '6': '.GlobalAccountState', '10': 'globalAccountState'},
     const {'1': 'globalAccountStateReason', '3': 5, '4': 1, '5': 14, '6': '.GlobalAccountStateReason', '10': 'globalAccountStateReason'},
-  ],
-};
-
-const DataSocialMedia$json = const {
-  '1': 'DataSocialMedia',
-  '2': const [
-    const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
-    const {'1': 'followers', '3': 2, '4': 1, '5': 5, '10': 'followers'},
-    const {'1': 'following', '3': 3, '4': 1, '5': 5, '10': 'following'},
-    const {'1': 'screenName', '3': 4, '4': 1, '5': 9, '10': 'screenName'},
-    const {'1': 'displayName', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
   ],
 };
 
