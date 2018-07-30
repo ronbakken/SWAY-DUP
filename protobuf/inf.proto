@@ -27,6 +27,12 @@ enum OAuthMechanism {
   OAM_OAUTH2 = 2;
 }
 
+enum OAuthProviderIds {
+  OAP_NONE = 0;
+  OAP_TWITTER = 1;
+  OAP_FACEBOOK = 2;
+}
+
 message ConfigOAuthProvider {
   /// Whether the OAuth provider is visible in the UI
   bool visible = 1;
