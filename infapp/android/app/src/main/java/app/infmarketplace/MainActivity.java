@@ -1,4 +1,4 @@
-package net.nbspou.infapp;
+package app.infmarketplace;
 
 import android.os.Bundle;
 
