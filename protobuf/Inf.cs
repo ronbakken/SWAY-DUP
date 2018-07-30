@@ -86,19 +86,20 @@ namespace InfX {
             "ZmZlchIZCgVvZmZlchgBIAEoCzIKLkRhdGFPZmZlchIQCghpbWFnZUlkcxgC",
             "IAMoCSIfChFOZXRSZXNDcmVhdGVPZmZlchIKCgJpZBgBIAEoAyo+Cg5PQXV0",
             "aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAAEg4KCk9BTV9PQVVUSDEQARIOCgpP",
-            "QU1fT0FVVEgyEAIqQQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAAEhEK",
-            "DUFUX0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACKo8BChJHbG9iYWxB",
-            "Y2NvdW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tF",
-            "RBABEhEKDUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklURRADEhEK",
-            "DUdBU19NT0RFUkFUT1IQBBINCglHQVNfQURNSU4QBRILCgdHQVNfR09EEAYq",
-            "tQEKGEdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NP",
-            "VU5UEAASFwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRF",
-            "X0RFTklFRBACEhEKDUdBU1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQ",
-            "Uk9WRUQQBBIQCgxHQVNSX1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVfSU5G",
-            "TxAGQgeqAgRJbmZYYgZwcm90bzM="));
+            "QU1fT0FVVEgyEAIqQwoQT0F1dGhQcm92aWRlcklkcxIMCghPQVBfTk9ORRAA",
+            "Eg8KC09BUF9UV0lUVEVSEAESEAoMT0FQX0ZBQ0VCT09LEAIqQQoLQWNjb3Vu",
+            "dFR5cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFUX0lORkxVRU5DRVIQARIPCgtB",
+            "VF9CVVNJTkVTUxACKo8BChJHbG9iYWxBY2NvdW50U3RhdGUSEgoOR0FTX0lO",
+            "SVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tFRBABEhEKDUdBU19SRUFEX09OTFkQ",
+            "AhISCg5HQVNfUkVBRF9XUklURRADEhEKDUdBU19NT0RFUkFUT1IQBBINCglH",
+            "QVNfQURNSU4QBRILCgdHQVNfR09EEAYqtQEKGEdsb2JhbEFjY291bnRTdGF0",
+            "ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAASFwoTR0FTUl9BQ0NPVU5U",
+            "X0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklFRBACEhEKDUdBU1JfQVBQ",
+            "Uk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQBBIQCgxHQVNSX1BFTkRJ",
+            "TkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGQgeqAgRJbmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "CallbackUrl", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret", "WhitelistHosts" }, null, null, null),
@@ -143,6 +144,12 @@ namespace InfX {
     /// / OAuth2, Spotify-like
     /// </summary>
     [pbr::OriginalName("OAM_OAUTH2")] OamOauth2 = 2,
+  }
+
+  public enum OAuthProviderIds {
+    [pbr::OriginalName("OAP_NONE")] OapNone = 0,
+    [pbr::OriginalName("OAP_TWITTER")] OapTwitter = 1,
+    [pbr::OriginalName("OAP_FACEBOOK")] OapFacebook = 2,
   }
 
   public enum AccountType {

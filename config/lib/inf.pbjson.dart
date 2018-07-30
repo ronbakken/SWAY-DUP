@@ -12,6 +12,15 @@ const OAuthMechanism$json = const {
   ],
 };
 
+const OAuthProviderIds$json = const {
+  '1': 'OAuthProviderIds',
+  '2': const [
+    const {'1': 'OAP_NONE', '2': 0},
+    const {'1': 'OAP_TWITTER', '2': 1},
+    const {'1': 'OAP_FACEBOOK', '2': 2},
+  ],
+};
+
 const AccountType$json = const {
   '1': 'AccountType',
   '2': const [
