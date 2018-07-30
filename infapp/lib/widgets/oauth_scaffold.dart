@@ -41,6 +41,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   Map<String, bool> _hostWhitelist = new Map<String, bool>();
 
   Future<Null> _authError() async {
+    _focusScope.requestFocus(new FocusNode());
     return showDialog<Null>(
       context: context,
       barrierDismissible: false, // user must tap button!
