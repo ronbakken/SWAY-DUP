@@ -117,6 +117,7 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
         case OAuthMechanism.OAM_OAUTH2: {
           if (cfg.hasOption(section, 'host')) entry.host = cfg.get(section, 'host');
           if (cfg.hasOption(section, 'callbackUrl')) entry.callbackUrl = cfg.get(section, 'callbackUrl');
+          if (cfg.hasOption(section, 'accessTokenUrl')) entry.accessTokenUrl = cfg.get(section, 'accessTokenUrl');
           if (cfg.hasOption(section, 'authUrl')) entry.authUrl = cfg.get(section, 'authUrl');
           if (cfg.hasOption(section, 'authQuery')) entry.authQuery = cfg.get(section, 'authQuery');
           if (cfg.hasOption(section, 'clientId')) entry.clientId = cfg.get(section, 'clientId');
