@@ -45,66 +45,66 @@ namespace InfX {
             "CgN1cmwYCCABKAkSDQoFZW1haWwYDCABKAkSFAoMZnJpZW5kc0NvdW50GAkg",
             "ASgFEhYKDmZvbGxvd2Vyc0NvdW50GAIgASgFEhYKDmZvbGxvd2luZ0NvdW50",
             "GAMgASgFEhIKCnBvc3RzQ291bnQYCiABKAUSEAoIdmVyaWZpZWQYCyABKAgi",
-            "XwoURGF0YU9BdXRoQ3JlZGVudGlhbHMSEgoKb2F1dGhUb2tlbhgBIAEoCRIY",
-            "ChBvYXV0aFRva2VuU2VjcmV0GAIgASgJEhkKEW9hdXRoVG9rZW5FeHBpcmVz",
-            "GAMgASgFIrEBCg5EYXRhSW5mbHVlbmNlchIKCgJpZBgBIAEoAxIMCgRuYW1l",
-            "GAIgASgJEhAKCGxvY2F0aW9uGAMgASgJEhEKCWF2YXRhclVybBgEIAEoCRIf",
-            "CgpjYXRlZ29yaWVzGAUgAygLMgsuQ2F0ZWdvcnlJZBILCgNsYXQYBiABKAES",
-            "CwoDbG5nGAcgASgBEiUKC3NvY2lhbE1lZGlhGAggAygLMhAuRGF0YVNvY2lh",
-            "bE1lZGlhIq8BCgxEYXRhQnVzaW5lc3MSCgoCaWQYASABKAMSDAoEbmFtZRgC",
-            "IAEoCRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0YXJVcmwYBCABKAkSHwoK",
-            "Y2F0ZWdvcmllcxgFIAMoCzILLkNhdGVnb3J5SWQSCwoDbGF0GAYgASgBEgsK",
-            "A2xuZxgHIAEoARIlCgtzb2NpYWxNZWRpYRgIIAMoCzIQLkRhdGFTb2NpYWxN",
-            "ZWRpYSLQAQoJRGF0YU9mZmVyEgoKAmlkGAEgASgDEh8KCGJ1c2luZXNzGAIg",
-            "ASgLMg0uRGF0YUJ1c2luZXNzEg0KBXRpdGxlGAMgASgJEhEKCWltYWdlVXJs",
-            "cxgEIAMoCRIfCgpjYXRlZ29yaWVzGAUgAygLMgsuQ2F0ZWdvcnlJZBILCgNs",
-            "YXQYBiABKAESCwoDbG5nGAcgASgBEhMKC2Rlc2NyaXB0aW9uGAggASgJEhQK",
-            "DGRlbGl2ZXJhYmxlcxgJIAEoCRIOCgZyZXdhcmQYCiABKAkiWwoNRGF0YUFw",
-            "cGxpY2FudBIKCgJpZBgBIAEoAxIZCgVvZmZlchgCIAEoCzIKLkRhdGFPZmZl",
-            "chIjCgppbmZsdWVuY2VyGAMgASgLMg8uRGF0YUluZmx1ZW5jZXIiYgoIRGF0",
-            "YUNoYXQSEwoLYXBwbGljYW50SWQYASABKAMSEgoKc2VxdWVuY2VJZBgCIAEo",
-            "AxINCgVrZXlJZBgDIAEoAxIQCghvdXRnb2luZxgEIAEoCBIMCgR0ZXh0GAUg",
-            "ASgJIsgBChBEYXRhQWNjb3VudFN0YXRlEhAKCGRldmljZUlkGAEgASgFEhEK",
-            "CWFjY291bnRJZBgCIAEoBRIhCgthY2NvdW50VHlwZRgDIAEoDjIMLkFjY291",
-            "bnRUeXBlEi8KEmdsb2JhbEFjY291bnRTdGF0ZRgEIAEoDjITLkdsb2JhbEFj",
-            "Y291bnRTdGF0ZRI7ChhnbG9iYWxBY2NvdW50U3RhdGVSZWFzb24YBSABKA4y",
-            "GS5HbG9iYWxBY2NvdW50U3RhdGVSZWFzb24iRAoWTmV0RGV2aWNlQXV0aENy",
-            "ZWF0ZVJlcRIOCgZhZXNLZXkYASABKAwSDAoEbmFtZRgCIAEoCRIMCgRpbmZv",
-            "GAMgASgJIi0KGU5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXESEAoIZGV2aWNl",
-            "SWQYASABKAUiMQocTmV0RGV2aWNlQXV0aENoYWxsZW5nZVJlc1JlcRIRCglj",
-            "aGFsbGVuZ2UYASABKAwiMQocTmV0RGV2aWNlQXV0aFNpZ25hdHVyZVJlc1Jl",
-            "cRIRCglzaWduYXR1cmUYASABKAwiZAoSTmV0RGV2aWNlQXV0aFN0YXRlEicK",
-            "DGFjY291bnRTdGF0ZRgHIAEoCzIRLkRhdGFBY2NvdW50U3RhdGUSJQoLc29j",
-            "aWFsTWVkaWEYBiADKAsyEC5EYXRhU29jaWFsTWVkaWEiNgoRTmV0U2V0QWNj",
-            "b3VudFR5cGUSIQoLYWNjb3VudFR5cGUYASABKA4yDC5BY2NvdW50VHlwZSIn",
-            "Cg5OZXRPQXV0aFVybFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFIjYKDk5l",
-            "dE9BdXRoVXJsUmVzEg8KB2F1dGhVcmwYASABKAkSEwoLY2FsbGJhY2tVcmwY",
-            "AiABKAkiQgoSTmV0T0F1dGhDb25uZWN0UmVxEhUKDW9hdXRoUHJvdmlkZXIY",
-            "ASABKAUSFQoNY2FsbGJhY2tRdWVyeRgCIAEoCSI7ChJOZXRPQXV0aENvbm5l",
-            "Y3RSZXMSJQoLc29jaWFsTWVkaWEYASABKAsyEC5EYXRhU29jaWFsTWVkaWEi",
-            "PQoTTmV0QWNjb3VudENyZWF0ZVJlcRIMCgRuYW1lGAEgASgJEgsKA2xhdBgC",
-            "IAEoAhILCgNsbmcYAyABKAIiRwoRTmV0UmVxSW1hZ2VVcGxvYWQSEAoIZmls",
-            "ZU5hbWUYASABKAkSEAoIZmlsZVNpemUYAiABKAUSDgoGc2hhMjU2GAMgASgJ",
-            "It8BChFOZXRSZXNJbWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJ",
-            "EhIKCnJlcXVlc3RVcmwYAiABKAkSGQoRaGVhZGVyQ29udGVudFR5cGUYAyAB",
-            "KAkSGwoTaGVhZGVyQ29udGVudExlbmd0aBgEIAEoCRISCgpoZWFkZXJIb3N0",
-            "GAUgASgJEhYKDmhlYWRlclhBbXpEYXRlGAYgASgJEh4KFmhlYWRlclhBbXpT",
-            "dG9yYWdlQ2xhc3MYByABKAkSGwoTaGVhZGVyQXV0aG9yaXphdGlvbhgIIAEo",
-            "CSJAChFOZXRSZXFDcmVhdGVPZmZlchIZCgVvZmZlchgBIAEoCzIKLkRhdGFP",
-            "ZmZlchIQCghpbWFnZUlkcxgCIAMoCSIfChFOZXRSZXNDcmVhdGVPZmZlchIK",
-            "CgJpZBgBIAEoAyo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAAEg4K",
-            "Ck9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQcm92aWRl",
-            "cklkcxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoMT0FQX0ZB",
-            "Q0VCT09LEAIqQQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFU",
-            "X0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACKo8BChJHbG9iYWxBY2Nv",
-            "dW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tFRBAB",
-            "EhEKDUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklURRADEhEKDUdB",
-            "U19NT0RFUkFUT1IQBBINCglHQVNfQURNSU4QBRILCgdHQVNfR09EEAYqtQEK",
-            "GEdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5U",
-            "EAASFwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RF",
-            "TklFRBACEhEKDUdBU1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9W",
-            "RUQQBBIQCgxHQVNSX1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAG",
-            "QgeqAgRJbmZYYgZwcm90bzM="));
+            "YAoURGF0YU9BdXRoQ3JlZGVudGlhbHMSDgoGdXNlcklkGAQgASgJEg0KBXRv",
+            "a2VuGAEgASgJEhMKC3Rva2VuU2VjcmV0GAIgASgJEhQKDHRva2VuRXhwaXJl",
+            "cxgDIAEoBSKxAQoORGF0YUluZmx1ZW5jZXISCgoCaWQYASABKAMSDAoEbmFt",
+            "ZRgCIAEoCRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0YXJVcmwYBCABKAkS",
+            "HwoKY2F0ZWdvcmllcxgFIAMoCzILLkNhdGVnb3J5SWQSCwoDbGF0GAYgASgB",
+            "EgsKA2xuZxgHIAEoARIlCgtzb2NpYWxNZWRpYRgIIAMoCzIQLkRhdGFTb2Np",
+            "YWxNZWRpYSKvAQoMRGF0YUJ1c2luZXNzEgoKAmlkGAEgASgDEgwKBG5hbWUY",
+            "AiABKAkSEAoIbG9jYXRpb24YAyABKAkSEQoJYXZhdGFyVXJsGAQgASgJEh8K",
+            "CmNhdGVnb3JpZXMYBSADKAsyCy5DYXRlZ29yeUlkEgsKA2xhdBgGIAEoARIL",
+            "CgNsbmcYByABKAESJQoLc29jaWFsTWVkaWEYCCADKAsyEC5EYXRhU29jaWFs",
+            "TWVkaWEi0AEKCURhdGFPZmZlchIKCgJpZBgBIAEoAxIfCghidXNpbmVzcxgC",
+            "IAEoCzINLkRhdGFCdXNpbmVzcxINCgV0aXRsZRgDIAEoCRIRCglpbWFnZVVy",
+            "bHMYBCADKAkSHwoKY2F0ZWdvcmllcxgFIAMoCzILLkNhdGVnb3J5SWQSCwoD",
+            "bGF0GAYgASgBEgsKA2xuZxgHIAEoARITCgtkZXNjcmlwdGlvbhgIIAEoCRIU",
+            "CgxkZWxpdmVyYWJsZXMYCSABKAkSDgoGcmV3YXJkGAogASgJIlsKDURhdGFB",
+            "cHBsaWNhbnQSCgoCaWQYASABKAMSGQoFb2ZmZXIYAiABKAsyCi5EYXRhT2Zm",
+            "ZXISIwoKaW5mbHVlbmNlchgDIAEoCzIPLkRhdGFJbmZsdWVuY2VyImIKCERh",
+            "dGFDaGF0EhMKC2FwcGxpY2FudElkGAEgASgDEhIKCnNlcXVlbmNlSWQYAiAB",
+            "KAMSDQoFa2V5SWQYAyABKAMSEAoIb3V0Z29pbmcYBCABKAgSDAoEdGV4dBgF",
+            "IAEoCSLIAQoQRGF0YUFjY291bnRTdGF0ZRIQCghkZXZpY2VJZBgBIAEoBRIR",
+            "CglhY2NvdW50SWQYAiABKAUSIQoLYWNjb3VudFR5cGUYAyABKA4yDC5BY2Nv",
+            "dW50VHlwZRIvChJnbG9iYWxBY2NvdW50U3RhdGUYBCABKA4yEy5HbG9iYWxB",
+            "Y2NvdW50U3RhdGUSOwoYZ2xvYmFsQWNjb3VudFN0YXRlUmVhc29uGAUgASgO",
+            "MhkuR2xvYmFsQWNjb3VudFN0YXRlUmVhc29uIkQKFk5ldERldmljZUF1dGhD",
+            "cmVhdGVSZXESDgoGYWVzS2V5GAEgASgMEgwKBG5hbWUYAiABKAkSDAoEaW5m",
+            "bxgDIAEoCSItChlOZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVxEhAKCGRldmlj",
+            "ZUlkGAEgASgFIjEKHE5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXNSZXESEQoJ",
+            "Y2hhbGxlbmdlGAEgASgMIjEKHE5ldERldmljZUF1dGhTaWduYXR1cmVSZXNS",
+            "ZXESEQoJc2lnbmF0dXJlGAEgASgMImQKEk5ldERldmljZUF1dGhTdGF0ZRIn",
+            "CgxhY2NvdW50U3RhdGUYByABKAsyES5EYXRhQWNjb3VudFN0YXRlEiUKC3Nv",
+            "Y2lhbE1lZGlhGAYgAygLMhAuRGF0YVNvY2lhbE1lZGlhIjYKEU5ldFNldEFj",
+            "Y291bnRUeXBlEiEKC2FjY291bnRUeXBlGAEgASgOMgwuQWNjb3VudFR5cGUi",
+            "JwoOTmV0T0F1dGhVcmxSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBSI2Cg5O",
+            "ZXRPQXV0aFVybFJlcxIPCgdhdXRoVXJsGAEgASgJEhMKC2NhbGxiYWNrVXJs",
+            "GAIgASgJIkIKEk5ldE9BdXRoQ29ubmVjdFJlcRIVCg1vYXV0aFByb3ZpZGVy",
+            "GAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAkiOwoSTmV0T0F1dGhDb25u",
+            "ZWN0UmVzEiUKC3NvY2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lhbE1lZGlh",
+            "Ij0KE05ldEFjY291bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRILCgNsYXQY",
+            "AiABKAISCwoDbG5nGAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZp",
+            "bGVOYW1lGAEgASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEo",
+            "CSLfAQoRTmV0UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEo",
+            "CRISCgpyZXF1ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMg",
+            "ASgJEhsKE2hlYWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9z",
+            "dBgFIAEoCRIWCg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16",
+            "U3RvcmFnZUNsYXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCAB",
+            "KAkiQAoRTmV0UmVxQ3JlYXRlT2ZmZXISGQoFb2ZmZXIYASABKAsyCi5EYXRh",
+            "T2ZmZXISEAoIaW1hZ2VJZHMYAiADKAkiHwoRTmV0UmVzQ3JlYXRlT2ZmZXIS",
+            "CgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIO",
+            "CgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJvdmlk",
+            "ZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9BUF9G",
+            "QUNFQk9PSxACKkEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04QABIRCg1B",
+            "VF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAiqPAQoSR2xvYmFsQWNj",
+            "b3VudFN0YXRlEhIKDkdBU19JTklUSUFMSVpFEAASDwoLR0FTX0JMT0NLRUQQ",
+            "ARIRCg1HQVNfUkVBRF9PTkxZEAISEgoOR0FTX1JFQURfV1JJVEUQAxIRCg1H",
+            "QVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FETUlOEAUSCwoHR0FTX0dPRBAGKrUB",
+            "ChhHbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdfQUNDT1VO",
+            "VBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NSRUFURV9E",
+            "RU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1PX0FQUFJP",
+            "VkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJFX0lORk8Q",
+            "BkIHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -115,7 +115,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "Timestamp", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "ScreenName", "DisplayName", "ProfileUrl", "Description", "Location", "Url", "Email", "FriendsCount", "FollowersCount", "FollowingCount", "PostsCount", "Verified" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOAuthCredentials), global::InfX.DataOAuthCredentials.Parser, new[]{ "OauthToken", "OauthTokenSecret", "OauthTokenExpires" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOAuthCredentials), global::InfX.DataOAuthCredentials.Parser, new[]{ "UserId", "Token", "TokenSecret", "TokenExpires" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataInfluencer), global::InfX.DataInfluencer.Parser, new[]{ "Id", "Name", "Location", "AvatarUrl", "Categories", "Lat", "Lng", "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataBusiness), global::InfX.DataBusiness.Parser, new[]{ "Id", "Name", "Location", "AvatarUrl", "Categories", "Lat", "Lng", "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOffer), global::InfX.DataOffer.Parser, new[]{ "Id", "Business", "Title", "ImageUrls", "Categories", "Lat", "Lng", "Description", "Deliverables", "Reward" }, null, null, null),
@@ -2023,9 +2023,10 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public DataOAuthCredentials(DataOAuthCredentials other) : this() {
-      oauthToken_ = other.oauthToken_;
-      oauthTokenSecret_ = other.oauthTokenSecret_;
-      oauthTokenExpires_ = other.oauthTokenExpires_;
+      userId_ = other.userId_;
+      token_ = other.token_;
+      tokenSecret_ = other.tokenSecret_;
+      tokenExpires_ = other.tokenExpires_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2033,45 +2034,59 @@ namespace InfX {
       return new DataOAuthCredentials(this);
     }
 
-    /// <summary>Field number for the "oauthToken" field.</summary>
-    public const int OauthTokenFieldNumber = 1;
-    private string oauthToken_ = "";
+    /// <summary>Field number for the "userId" field.</summary>
+    public const int UserIdFieldNumber = 4;
+    private string userId_ = "";
+    /// <summary>
+    /// / User id
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string UserId {
+      get { return userId_; }
+      set {
+        userId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "token" field.</summary>
+    public const int TokenFieldNumber = 1;
+    private string token_ = "";
     /// <summary>
     /// / Token for OAuth1 and OAuth2
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string OauthToken {
-      get { return oauthToken_; }
+    public string Token {
+      get { return token_; }
       set {
-        oauthToken_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        token_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "oauthTokenSecret" field.</summary>
-    public const int OauthTokenSecretFieldNumber = 2;
-    private string oauthTokenSecret_ = "";
+    /// <summary>Field number for the "tokenSecret" field.</summary>
+    public const int TokenSecretFieldNumber = 2;
+    private string tokenSecret_ = "";
     /// <summary>
     /// / Secret token for OAuth1. May be empty string for OAuth2
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string OauthTokenSecret {
-      get { return oauthTokenSecret_; }
+    public string TokenSecret {
+      get { return tokenSecret_; }
       set {
-        oauthTokenSecret_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        tokenSecret_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "oauthTokenExpires" field.</summary>
-    public const int OauthTokenExpiresFieldNumber = 3;
-    private int oauthTokenExpires_;
+    /// <summary>Field number for the "tokenExpires" field.</summary>
+    public const int TokenExpiresFieldNumber = 3;
+    private int tokenExpires_;
     /// <summary>
     /// / Expiration timestamp in seconds. No expiration if 0
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int OauthTokenExpires {
-      get { return oauthTokenExpires_; }
+    public int TokenExpires {
+      get { return tokenExpires_; }
       set {
-        oauthTokenExpires_ = value;
+        tokenExpires_ = value;
       }
     }
 
@@ -2088,18 +2103,20 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (OauthToken != other.OauthToken) return false;
-      if (OauthTokenSecret != other.OauthTokenSecret) return false;
-      if (OauthTokenExpires != other.OauthTokenExpires) return false;
+      if (UserId != other.UserId) return false;
+      if (Token != other.Token) return false;
+      if (TokenSecret != other.TokenSecret) return false;
+      if (TokenExpires != other.TokenExpires) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (OauthToken.Length != 0) hash ^= OauthToken.GetHashCode();
-      if (OauthTokenSecret.Length != 0) hash ^= OauthTokenSecret.GetHashCode();
-      if (OauthTokenExpires != 0) hash ^= OauthTokenExpires.GetHashCode();
+      if (UserId.Length != 0) hash ^= UserId.GetHashCode();
+      if (Token.Length != 0) hash ^= Token.GetHashCode();
+      if (TokenSecret.Length != 0) hash ^= TokenSecret.GetHashCode();
+      if (TokenExpires != 0) hash ^= TokenExpires.GetHashCode();
       return hash;
     }
 
@@ -2110,31 +2127,38 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (OauthToken.Length != 0) {
+      if (Token.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(OauthToken);
+        output.WriteString(Token);
       }
-      if (OauthTokenSecret.Length != 0) {
+      if (TokenSecret.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(OauthTokenSecret);
+        output.WriteString(TokenSecret);
       }
-      if (OauthTokenExpires != 0) {
+      if (TokenExpires != 0) {
         output.WriteRawTag(24);
-        output.WriteInt32(OauthTokenExpires);
+        output.WriteInt32(TokenExpires);
+      }
+      if (UserId.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(UserId);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (OauthToken.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(OauthToken);
+      if (UserId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(UserId);
       }
-      if (OauthTokenSecret.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(OauthTokenSecret);
+      if (Token.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Token);
       }
-      if (OauthTokenExpires != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OauthTokenExpires);
+      if (TokenSecret.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TokenSecret);
+      }
+      if (TokenExpires != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(TokenExpires);
       }
       return size;
     }
@@ -2144,14 +2168,17 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.OauthToken.Length != 0) {
-        OauthToken = other.OauthToken;
+      if (other.UserId.Length != 0) {
+        UserId = other.UserId;
       }
-      if (other.OauthTokenSecret.Length != 0) {
-        OauthTokenSecret = other.OauthTokenSecret;
+      if (other.Token.Length != 0) {
+        Token = other.Token;
       }
-      if (other.OauthTokenExpires != 0) {
-        OauthTokenExpires = other.OauthTokenExpires;
+      if (other.TokenSecret.Length != 0) {
+        TokenSecret = other.TokenSecret;
+      }
+      if (other.TokenExpires != 0) {
+        TokenExpires = other.TokenExpires;
       }
     }
 
@@ -2164,15 +2191,19 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 10: {
-            OauthToken = input.ReadString();
+            Token = input.ReadString();
             break;
           }
           case 18: {
-            OauthTokenSecret = input.ReadString();
+            TokenSecret = input.ReadString();
             break;
           }
           case 24: {
-            OauthTokenExpires = input.ReadInt32();
+            TokenExpires = input.ReadInt32();
+            break;
+          }
+          case 34: {
+            UserId = input.ReadString();
             break;
           }
         }
