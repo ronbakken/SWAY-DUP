@@ -408,9 +408,10 @@ class _ReadonlyDataSocialMedia extends DataSocialMedia with ReadonlyMessageMixin
 
 class DataOAuthCredentials extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataOAuthCredentials')
-    ..aOS(1, 'oauthToken')
-    ..aOS(2, 'oauthTokenSecret')
-    ..a<int>(3, 'oauthTokenExpires', PbFieldType.O3)
+    ..aOS(1, 'token')
+    ..aOS(2, 'tokenSecret')
+    ..a<int>(3, 'tokenExpires', PbFieldType.O3)
+    ..aOS(4, 'userId')
     ..hasRequiredFields = false
   ;
 
@@ -430,20 +431,25 @@ class DataOAuthCredentials extends GeneratedMessage {
     if (v is! DataOAuthCredentials) checkItemFailed(v, 'DataOAuthCredentials');
   }
 
-  String get oauthToken => $_getS(0, '');
-  set oauthToken(String v) { $_setString(0, v); }
-  bool hasOauthToken() => $_has(0);
-  void clearOauthToken() => clearField(1);
+  String get token => $_getS(0, '');
+  set token(String v) { $_setString(0, v); }
+  bool hasToken() => $_has(0);
+  void clearToken() => clearField(1);
 
-  String get oauthTokenSecret => $_getS(1, '');
-  set oauthTokenSecret(String v) { $_setString(1, v); }
-  bool hasOauthTokenSecret() => $_has(1);
-  void clearOauthTokenSecret() => clearField(2);
+  String get tokenSecret => $_getS(1, '');
+  set tokenSecret(String v) { $_setString(1, v); }
+  bool hasTokenSecret() => $_has(1);
+  void clearTokenSecret() => clearField(2);
 
-  int get oauthTokenExpires => $_get(2, 0);
-  set oauthTokenExpires(int v) { $_setSignedInt32(2, v); }
-  bool hasOauthTokenExpires() => $_has(2);
-  void clearOauthTokenExpires() => clearField(3);
+  int get tokenExpires => $_get(2, 0);
+  set tokenExpires(int v) { $_setSignedInt32(2, v); }
+  bool hasTokenExpires() => $_has(2);
+  void clearTokenExpires() => clearField(3);
+
+  String get userId => $_getS(3, '');
+  set userId(String v) { $_setString(3, v); }
+  bool hasUserId() => $_has(3);
+  void clearUserId() => clearField(4);
 }
 
 class _ReadonlyDataOAuthCredentials extends DataOAuthCredentials with ReadonlyMessageMixin {}

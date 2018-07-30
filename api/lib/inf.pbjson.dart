@@ -141,9 +141,10 @@ const DataSocialMedia$json = const {
 const DataOAuthCredentials$json = const {
   '1': 'DataOAuthCredentials',
   '2': const [
-    const {'1': 'oauthToken', '3': 1, '4': 1, '5': 9, '10': 'oauthToken'},
-    const {'1': 'oauthTokenSecret', '3': 2, '4': 1, '5': 9, '10': 'oauthTokenSecret'},
-    const {'1': 'oauthTokenExpires', '3': 3, '4': 1, '5': 5, '10': 'oauthTokenExpires'},
+    const {'1': 'userId', '3': 4, '4': 1, '5': 9, '10': 'userId'},
+    const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
+    const {'1': 'tokenSecret', '3': 2, '4': 1, '5': 9, '10': 'tokenSecret'},
+    const {'1': 'tokenExpires', '3': 3, '4': 1, '5': 5, '10': 'tokenExpires'},
   ],
 };
 
