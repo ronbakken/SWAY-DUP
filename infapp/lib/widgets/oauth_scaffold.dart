@@ -150,43 +150,51 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   }
 
   _urlChanged(String url) async {
-    if (mounted) {
-      Uri uri = Uri.parse(url);
-      if (url.startsWith(_callbackUrl)) {
-        if (widget.onOAuthCallbackResult != null && await widget.onOAuthCallbackResult(uri.query)) { // uri.queryParameters.containsKey('oauth_token') && uri.queryParameters.containsKey('oauth_verifier')) {
-          print("Authorization success");
-          Navigator.of(context).pop();
-          /*
-          // Got a valid token
-          if (_temporaryToken == uri.queryParameters['oauth_token']) {
+    try {
+      if (mounted) {
+        Uri uri = Uri.parse(url);
+        if (url.startsWith(_callbackUrl)) {
+          if (widget.onOAuthCallbackResult != null && await widget.onOAuthCallbackResult(uri.query)) { // uri.queryParameters.containsKey('oauth_token') && uri.queryParameters.containsKey('oauth_verifier')) {
             print("Authorization success");
-            widget.onSuccess(uri.queryParameters['oauth_token'], uri.queryParameters['oauth_verifier']);
             Navigator.of(context).pop();
+            /*
+            // Got a valid token
+            if (_temporaryToken == uri.queryParameters['oauth_token']) {
+              print("Authorization success");
+              widget.onSuccess(uri.queryParameters['oauth_token'], uri.queryParameters['oauth_verifier']);
+              Navigator.of(context).pop();
+            } else {
+              print("Authorization failed with mismatching tokens: "
+                "$_temporaryToken != ${uri.queryParameters['oauth_token']}, "
+                "${uri.queryParameters['oauth_verifier']}");
+              setState(() { _ready = false; });
+              await _authError();
+              Navigator.of(context).pop();
+            }
+            */
           } else {
-            print("Authorization failed with mismatching tokens: "
-              "$_temporaryToken != ${uri.queryParameters['oauth_token']}, "
-              "${uri.queryParameters['oauth_verifier']}");
+            // Authorization canceled
+            print("Authorization canceled: " + url);
             setState(() { _ready = false; });
             await _authError();
             Navigator.of(context).pop();
           }
-          */
-        } else {
-          // Authorization canceled
-          print("Authorization canceled: " + url);
+        } else if (!_hostWhitelist.containsKey(uri.host)) { // url.startsWith(widget.host)) {
+          // Only allow API url
+          // TODO: Also allow T&C and Privacy Policy urls!
+          print("Url not allowed: " + url);
           setState(() { _ready = false; });
           await _authError();
           Navigator.of(context).pop();
         }
-      } else if (!_hostWhitelist.containsKey(uri.host)) { // url.startsWith(widget.host)) {
-        // Only allow API url
-        // TODO: Also allow T&C and Privacy Policy urls!
-        print("Url not allowed: " + url);
-        setState(() { _ready = false; });
-        await _authError();
-        Navigator.of(context).pop();
       }
+      return;
+    } catch (e) {
+      print(e);
     }
+    setState(() { _ready = false; });
+    await _authError();
+    Navigator.of(context).pop();
   }
 
   @override
