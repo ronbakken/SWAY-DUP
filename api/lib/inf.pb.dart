@@ -307,10 +307,18 @@ class _ReadonlyCategoryId extends CategoryId with ReadonlyMessageMixin {}
 class DataSocialMedia extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataSocialMedia')
     ..aOB(1, 'connected')
-    ..a<int>(2, 'followers', PbFieldType.O3)
-    ..a<int>(3, 'following', PbFieldType.O3)
+    ..a<int>(2, 'followersCount', PbFieldType.O3)
+    ..a<int>(3, 'followingCount', PbFieldType.O3)
     ..aOS(4, 'screenName')
     ..aOS(5, 'displayName')
+    ..aOS(6, 'description')
+    ..aOS(7, 'location')
+    ..aOS(8, 'url')
+    ..a<int>(9, 'friendsCount', PbFieldType.O3)
+    ..a<int>(10, 'postsCount', PbFieldType.O3)
+    ..aOB(11, 'verified')
+    ..aOS(12, 'email')
+    ..aOS(13, 'profileUrl')
     ..hasRequiredFields = false
   ;
 
@@ -335,15 +343,15 @@ class DataSocialMedia extends GeneratedMessage {
   bool hasConnected() => $_has(0);
   void clearConnected() => clearField(1);
 
-  int get followers => $_get(1, 0);
-  set followers(int v) { $_setSignedInt32(1, v); }
-  bool hasFollowers() => $_has(1);
-  void clearFollowers() => clearField(2);
+  int get followersCount => $_get(1, 0);
+  set followersCount(int v) { $_setSignedInt32(1, v); }
+  bool hasFollowersCount() => $_has(1);
+  void clearFollowersCount() => clearField(2);
 
-  int get following => $_get(2, 0);
-  set following(int v) { $_setSignedInt32(2, v); }
-  bool hasFollowing() => $_has(2);
-  void clearFollowing() => clearField(3);
+  int get followingCount => $_get(2, 0);
+  set followingCount(int v) { $_setSignedInt32(2, v); }
+  bool hasFollowingCount() => $_has(2);
+  void clearFollowingCount() => clearField(3);
 
   String get screenName => $_getS(3, '');
   set screenName(String v) { $_setString(3, v); }
@@ -354,6 +362,46 @@ class DataSocialMedia extends GeneratedMessage {
   set displayName(String v) { $_setString(4, v); }
   bool hasDisplayName() => $_has(4);
   void clearDisplayName() => clearField(5);
+
+  String get description => $_getS(5, '');
+  set description(String v) { $_setString(5, v); }
+  bool hasDescription() => $_has(5);
+  void clearDescription() => clearField(6);
+
+  String get location => $_getS(6, '');
+  set location(String v) { $_setString(6, v); }
+  bool hasLocation() => $_has(6);
+  void clearLocation() => clearField(7);
+
+  String get url => $_getS(7, '');
+  set url(String v) { $_setString(7, v); }
+  bool hasUrl() => $_has(7);
+  void clearUrl() => clearField(8);
+
+  int get friendsCount => $_get(8, 0);
+  set friendsCount(int v) { $_setSignedInt32(8, v); }
+  bool hasFriendsCount() => $_has(8);
+  void clearFriendsCount() => clearField(9);
+
+  int get postsCount => $_get(9, 0);
+  set postsCount(int v) { $_setSignedInt32(9, v); }
+  bool hasPostsCount() => $_has(9);
+  void clearPostsCount() => clearField(10);
+
+  bool get verified => $_get(10, false);
+  set verified(bool v) { $_setBool(10, v); }
+  bool hasVerified() => $_has(10);
+  void clearVerified() => clearField(11);
+
+  String get email => $_getS(11, '');
+  set email(String v) { $_setString(11, v); }
+  bool hasEmail() => $_has(11);
+  void clearEmail() => clearField(12);
+
+  String get profileUrl => $_getS(12, '');
+  set profileUrl(String v) { $_setString(12, v); }
+  bool hasProfileUrl() => $_has(12);
+  void clearProfileUrl() => clearField(13);
 }
 
 class _ReadonlyDataSocialMedia extends DataSocialMedia with ReadonlyMessageMixin {}
