@@ -304,6 +304,60 @@ class CategoryId extends GeneratedMessage {
 
 class _ReadonlyCategoryId extends CategoryId with ReadonlyMessageMixin {}
 
+class DataSocialMedia extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('DataSocialMedia')
+    ..aOB(1, 'connected')
+    ..a<int>(2, 'followers', PbFieldType.O3)
+    ..a<int>(3, 'following', PbFieldType.O3)
+    ..aOS(4, 'screenName')
+    ..aOS(5, 'displayName')
+    ..hasRequiredFields = false
+  ;
+
+  DataSocialMedia() : super();
+  DataSocialMedia.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  DataSocialMedia.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataSocialMedia clone() => new DataSocialMedia()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static DataSocialMedia create() => new DataSocialMedia();
+  static PbList<DataSocialMedia> createRepeated() => new PbList<DataSocialMedia>();
+  static DataSocialMedia getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataSocialMedia();
+    return _defaultInstance;
+  }
+  static DataSocialMedia _defaultInstance;
+  static void $checkItem(DataSocialMedia v) {
+    if (v is! DataSocialMedia) checkItemFailed(v, 'DataSocialMedia');
+  }
+
+  bool get connected => $_get(0, false);
+  set connected(bool v) { $_setBool(0, v); }
+  bool hasConnected() => $_has(0);
+  void clearConnected() => clearField(1);
+
+  int get followers => $_get(1, 0);
+  set followers(int v) { $_setSignedInt32(1, v); }
+  bool hasFollowers() => $_has(1);
+  void clearFollowers() => clearField(2);
+
+  int get following => $_get(2, 0);
+  set following(int v) { $_setSignedInt32(2, v); }
+  bool hasFollowing() => $_has(2);
+  void clearFollowing() => clearField(3);
+
+  String get screenName => $_getS(3, '');
+  set screenName(String v) { $_setString(3, v); }
+  bool hasScreenName() => $_has(3);
+  void clearScreenName() => clearField(4);
+
+  String get displayName => $_getS(4, '');
+  set displayName(String v) { $_setString(4, v); }
+  bool hasDisplayName() => $_has(4);
+  void clearDisplayName() => clearField(5);
+}
+
+class _ReadonlyDataSocialMedia extends DataSocialMedia with ReadonlyMessageMixin {}
+
 class DataInfluencer extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataInfluencer')
     ..aInt64(1, 'id')
@@ -313,6 +367,7 @@ class DataInfluencer extends GeneratedMessage {
     ..pp<CategoryId>(5, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
     ..a<double>(6, 'lat', PbFieldType.OD)
     ..a<double>(7, 'lng', PbFieldType.OD)
+    ..pp<DataSocialMedia>(8, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
     ..hasRequiredFields = false
   ;
 
@@ -363,6 +418,8 @@ class DataInfluencer extends GeneratedMessage {
   set lng(double v) { $_setDouble(6, v); }
   bool hasLng() => $_has(6);
   void clearLng() => clearField(7);
+
+  List<DataSocialMedia> get socialMedia => $_getList(7);
 }
 
 class _ReadonlyDataInfluencer extends DataInfluencer with ReadonlyMessageMixin {}
@@ -376,6 +433,7 @@ class DataBusiness extends GeneratedMessage {
     ..pp<CategoryId>(5, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
     ..a<double>(6, 'lat', PbFieldType.OD)
     ..a<double>(7, 'lng', PbFieldType.OD)
+    ..pp<DataSocialMedia>(8, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
     ..hasRequiredFields = false
   ;
 
@@ -426,6 +484,8 @@ class DataBusiness extends GeneratedMessage {
   set lng(double v) { $_setDouble(6, v); }
   bool hasLng() => $_has(6);
   void clearLng() => clearField(7);
+
+  List<DataSocialMedia> get socialMedia => $_getList(7);
 }
 
 class _ReadonlyDataBusiness extends DataBusiness with ReadonlyMessageMixin {}
@@ -657,60 +717,6 @@ class DataAccountState extends GeneratedMessage {
 }
 
 class _ReadonlyDataAccountState extends DataAccountState with ReadonlyMessageMixin {}
-
-class DataSocialMedia extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataSocialMedia')
-    ..aOB(1, 'connected')
-    ..a<int>(2, 'followers', PbFieldType.O3)
-    ..a<int>(3, 'following', PbFieldType.O3)
-    ..aOS(4, 'screenName')
-    ..aOS(5, 'displayName')
-    ..hasRequiredFields = false
-  ;
-
-  DataSocialMedia() : super();
-  DataSocialMedia.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataSocialMedia.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  DataSocialMedia clone() => new DataSocialMedia()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static DataSocialMedia create() => new DataSocialMedia();
-  static PbList<DataSocialMedia> createRepeated() => new PbList<DataSocialMedia>();
-  static DataSocialMedia getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataSocialMedia();
-    return _defaultInstance;
-  }
-  static DataSocialMedia _defaultInstance;
-  static void $checkItem(DataSocialMedia v) {
-    if (v is! DataSocialMedia) checkItemFailed(v, 'DataSocialMedia');
-  }
-
-  bool get connected => $_get(0, false);
-  set connected(bool v) { $_setBool(0, v); }
-  bool hasConnected() => $_has(0);
-  void clearConnected() => clearField(1);
-
-  int get followers => $_get(1, 0);
-  set followers(int v) { $_setSignedInt32(1, v); }
-  bool hasFollowers() => $_has(1);
-  void clearFollowers() => clearField(2);
-
-  int get following => $_get(2, 0);
-  set following(int v) { $_setSignedInt32(2, v); }
-  bool hasFollowing() => $_has(2);
-  void clearFollowing() => clearField(3);
-
-  String get screenName => $_getS(3, '');
-  set screenName(String v) { $_setString(3, v); }
-  bool hasScreenName() => $_has(3);
-  void clearScreenName() => clearField(4);
-
-  String get displayName => $_getS(4, '');
-  set displayName(String v) { $_setString(4, v); }
-  bool hasDisplayName() => $_has(4);
-  void clearDisplayName() => clearField(5);
-}
-
-class _ReadonlyDataSocialMedia extends DataSocialMedia with ReadonlyMessageMixin {}
 
 class NetDeviceAuthCreateReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthCreateReq')
