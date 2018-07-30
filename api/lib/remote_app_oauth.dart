@@ -26,6 +26,8 @@ class RemoteAppOAuth {
   static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
   static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
 
+  static final http.Client httpClient = new http.Client();
+
   RemoteAppOAuth(this._r) {
     _netOAuthUrlReq = _r.safeListen("OA_URLRE", netOAuthUrlReq);
     _netOAuthConnectReq = _r.safeListen("OA_CONNE", netOAuthConnectReq);
@@ -75,7 +77,7 @@ class RemoteAppOAuth {
         }
         case OAuthMechanism.OAM_OAUTH2: {
           // Facebook, Spotify-like. Much easier (but less standardized)
-          Uri baseUri = Uri.parse(cfg.host + cfg.authUrl);
+          Uri baseUri = Uri.parse(cfg.authUrl);
           Map<String, String> query = Uri.splitQueryString(cfg.authQuery);
           query['client_id'] = cfg.clientId;
           query['redirect_uri'] = cfg.callbackUrl;
@@ -110,10 +112,12 @@ class RemoteAppOAuth {
       int oauthProvider = pb.oauthProvider;
       ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
       NetOAuthConnectRes pbRes = new NetOAuthConnectRes();
+      Map<String, String> query = Uri.splitQueryString(pb.callbackQuery);
       bool transitionAccount = false;
       bool connected = false;
       String oauthToken;
       String oauthTokenSecret;
+      int oauthTokenExpires;
       String oauthUserId;
       String screenName;
       switch (cfg.mechanism) {
@@ -127,7 +131,6 @@ class RemoteAppOAuth {
           var clientCredentials = new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
           var auth = new oauth1.Authorization(clientCredentials, platform);
           // auth.requestTokenCredentials(clientCredentials, verifier);
-          Map<String, String> query = Uri.splitQueryString(pb.callbackQuery);
           if (query.containsKey('oauth_token') && query.containsKey('oauth_verifier')) {
             var credentials = new oauth1.Credentials(query['oauth_token'], ''); // oauth_token_secret can be left blank it seems
             oauth1.AuthorizationResponse authRes = await auth.requestTokenCredentials(credentials, query['oauth_verifier']);
@@ -137,8 +140,55 @@ class RemoteAppOAuth {
             devLog.finest(authRes.optionalParameters);
             oauthToken = authRes.credentials.token;
             oauthTokenSecret = authRes.credentials.tokenSecret;
+            oauthTokenExpires = 0;
             oauthUserId = authRes.optionalParameters['user_id'];
             screenName = authRes.optionalParameters['screen_name'];
+          } else {
+            devLog.finer("Query doesn't contain the required parameters: ${pb.callbackQuery}");
+          }
+          break;
+        }
+        case OAuthMechanism.OAM_OAUTH2: {
+          // Facebook, Spotify-like. Much easier (but less standardized)
+          if (query.containsKey('code')) {
+            // Facebook-like
+            Uri baseUri = Uri.parse(cfg.host + cfg.accessTokenUrl);
+            var requestQuery = new Map<String, String>();
+            requestQuery['client_id'] = cfg.clientId;
+            requestQuery['client_secret'] = cfg.clientSecret;
+            requestQuery['redirect_uri'] = cfg.callbackUrl;
+            requestQuery['code'] = query['code'];
+            /* this returns { "access_token": {access-token}, "token_type": {type}, "expires_in":  {seconds-til-expiration} } */
+            http.Response accessTokenRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
+            dynamic accessTokenDoc = json.decode(accessTokenRes.body);
+            assert(accessTokenDoc['token_type'] == 'bearer');
+            assert(accessTokenDoc['expires_in'] > 5000000);
+            assert(accessTokenDoc['access_token'] != null);
+            print(accessTokenDoc);
+            oauthToken = accessTokenDoc['access_token'];
+            oauthTokenSecret = '';
+            oauthTokenExpires = (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) + accessTokenDoc['expires_in'];
+            if (oauthToken != null && oauthProvider == OAuthProviderIds.OAP_FACEBOOK.value) { // Facebook
+              baseUri = Uri.parse(cfg.host + "/v3.1/debug_token");
+              requestQuery = new Map<String, String>();
+              requestQuery['input_token'] = "$oauthToken";
+              requestQuery['access_token'] = "${cfg.clientId}|${cfg.clientSecret}";
+              http.Response debugTokenRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
+              dynamic debugTokenDoc = json.decode(debugTokenRes.body);
+              print(debugTokenDoc);
+              dynamic debugData = debugTokenDoc['data'];
+              if (debugData['app_id'] != cfg.clientId) {
+                opsLog.warning("User specified invalid app (expect ${cfg.clientId}) $debugTokenDoc");
+                break;
+              }
+              if (debugData['is_valid'] != true) {
+                opsLog.warning("User token not valid $debugTokenDoc");
+                break;
+              }
+              oauthUserId = debugData['user_id'];
+              print(oauthTokenExpires);
+              oauthTokenExpires = debugData['expires_at'];
+            }
           } else {
             devLog.finer("Query doesn't contain the required parameters: ${pb.callbackQuery}");
           }
@@ -153,14 +203,17 @@ class RemoteAppOAuth {
         // Attempt to process valid OAuth transaction.
         // Sets connected true if successfully added to device.
         // Sets transitionAccount if logged in to an account instead.
+        // There's another situation where media is already connected and we're just updating tokens
+        await fetchSocialMedia(oauthProvider, oauthUserId, oauthToken, oauthTokenSecret); // FOR TESTING PURPOSE -- REMOVE THIS LINE
       }
-                        await refreshSocialMedia(oauthProvider, oauthUserId, oauthToken, oauthTokenSecret); // FOR TESTING PURPOSE -- REMOVE THIS LINE
       // Connected
       if (connected) {
-        await refreshSocialMedia(oauthProvider, oauthUserId, oauthToken, oauthTokenSecret);
+        // DataSocialMedia dataSocialMedia = await fetchSocialMedia(oauthProvider, oauthUserId, oauthToken, oauthTokenSecret);
         _r.socialMedia[oauthProvider].connected = true;
         if (_r.socialMedia[oauthProvider].screenName == null || _r.socialMedia[oauthProvider].screenName.length == 0) {
-          _r.socialMedia[oauthProvider].screenName = screenName;
+          if (screenName != null && screenName.length > 0) {
+            _r.socialMedia[oauthProvider].screenName = screenName;
+          }
         }
       }
       // Simply send update of this specific social media
@@ -179,14 +232,16 @@ class RemoteAppOAuth {
     }
   }
 
-  Future refreshSocialMedia(int oauthProvider, String oauthUserId, String oauthToken, String oauthTokenSecret) async {
+  Future<DataSocialMedia> fetchSocialMedia(int oauthProvider, String oauthUserId, String oauthToken, String oauthTokenSecret) async {
+    devLog.finest("fetchSocialMedia: $oauthProvider, $oauthUserId, $oauthToken, $oauthTokenSecret");
+    DataSocialMedia dataSocialMedia = new DataSocialMedia();
     // Fetch social media stats from the oauth provider. Then store them in the database. Then set them here.
     // Get display name, screen name, followers, following, avatar, banner image
-    switch (oauthProvider) {
-      case 1: { // Twitter
+    ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
+    switch (OAuthProviderIds.valueOf(oauthProvider)) {
+      case OAuthProviderIds.OAP_TWITTER: { // Twitter
         // https://api.twitter.com/1.1/users/show.json?user_id=12345
         devLog.finest("Twitter");
-        ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
         var clientCredentials = new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
         var credentials = new oauth1.Credentials(oauthToken, oauthTokenSecret);
         var client = new oauth1.Client(oauth1.SignatureMethods.HMAC_SHA1, clientCredentials, credentials);
@@ -198,48 +253,136 @@ class RemoteAppOAuth {
         http.Response res = await client.get("https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_email=true");
         devLog.finest('verify_credentials');
         devLog.finest(res.body);
-        dynamic doc = jsonDecode(res.body);
+        dynamic doc = json.decode(res.body);
         if (doc['id_str'] != oauthUserId) {
           throw new Exception("Mismatching OAuth user: ${doc['id_str']} != $oauthUserId");
         }
-        String screenName = doc['screen_name'];
-        if (screenName == null) {
-          throw new Exception("Missing screen_name for OAuth user: $oauthUserId");
-        }
-        String displayName = doc['name'];
-        if (displayName == null) {
-          displayName = screenName;
-        }
-        String location = doc['location'];
-        String description = doc['description'];
-        String url = doc['url'];
+        if (doc['screen_name'] != null) dataSocialMedia.screenName = doc['screen_name'];
+        if (doc['name'] != null) dataSocialMedia.displayName = doc['name'];
+        if (doc['location'] != null) dataSocialMedia.location = doc['location'];
+        if (doc['description'] != null) dataSocialMedia.description = doc['description'];
+        if (doc['url'] != null) dataSocialMedia.url = doc['url'];
         dynamic entities_ = doc['entities'];
         if (entities_ != null) {
           dynamic url_ = entities_['url'];
           if (url_ != null) {
             dynamic urls_ = url_['urls'];
-            if (urls_ is List && urls_.length > 0 && urls_[0]['url'] == url) {
+            if (urls_ is List && urls_.length > 0 && urls_[0]['url'] == dataSocialMedia.url) {
               String expandedUrl = urls_[0]['expanded_url'];
               if (expandedUrl != null) {
-                url = expandedUrl;
+                dataSocialMedia.url = expandedUrl;
               }
             }
           }
         }
-        int followersCount = doc['followers_count'];
-        int followingCount = doc['friends_count'];
-        int postsCount = doc['statuses_count'];
-        bool verified = doc['verified'];
-        String email = doc['email'];
-        devLog.finer("Twitter $oauthUserId: $screenName, $displayName, $location, $description, $url, $followersCount, $followingCount, $postsCount, $verified, $email");
+        dataSocialMedia.followersCount = doc['followers_count'];
+        dataSocialMedia.followingCount = doc['friends_count'];
+        dataSocialMedia.postsCount = doc['statuses_count'];
+        dataSocialMedia.verified = doc['verified'];
+        dataSocialMedia.email = doc['email'];
+        dataSocialMedia.connected = true;
         break;
       }
-      case 2: { // Facebook
+      case OAuthProviderIds.OAP_FACEBOOK: { // Facebook
+        Uri baseUri;
+        Map<String, String> requestQuery = new Map<String, String>();
+        requestQuery['access_token'] = oauthToken;
+
+        // Need "Page Public Content Access"
+
+        // User info
+        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthUserId);
+        requestQuery['fields'] = "name,email,link,picture"; // ,location,address,hometown // cover,subscribers,subscribedto is deprecated
+        http.Response userRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
+        dynamic userDoc = json.decode(userRes.body);
+        devLog.finest(userDoc);
+
+        if (userDoc['id'] != oauthUserId) {
+          throw new Exception("Mismatching OAuth user: ${userDoc['id']} != $oauthUserId");
+        }
+
+        if (userDoc['name'] != null) dataSocialMedia.displayName = userDoc['name'];
+        if (userDoc['link'] != null) dataSocialMedia.profileUrl = userDoc['link'];
+        if (userDoc['email'] != null) dataSocialMedia.profileUrl = userDoc['email'];
+
+        dynamic picture = userDoc['picture'];
+        if (picture != null) {
+          dynamic data = picture['data'];
+          if (data != null) {
+            dynamic url = data['url'];
+            if (url != null) dataSocialMedia.avatarUrl = url;
+            // devLog.fine("Facebook avatar: $url");
+          }
+        }
+
+        /*
+        devLog.finest(userDoc['link']);
+        if (userDoc['link'] != null) {
+          // Trick to find the screen name
+          http.Response linkRes = await httpClient.get(Uri.parse(userDoc['link']));
+          linkRes.isRedirect
+        }
+        */
+
+        // Friend count
+        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthUserId + "/friends");
+        requestQuery['fields'] = "summary";
+        requestQuery['summary'] = "total_count";
+        http.Response friendsRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
+        dynamic friendsDoc = json.decode(friendsRes.body);
+        devLog.finest(friendsDoc);
+
+        dynamic friendsSummary = friendsDoc['summary'];
+        if (friendsSummary != null) {
+          dynamic totalCount = friendsSummary['total_count'];
+          if (totalCount != null) dataSocialMedia.friendsCount = totalCount;
+        }
+
+        dataSocialMedia.connected = true;
+
+        // int followingCount = friendsDoc["summary"]["total_count"];
+
+        // List the pages that the user controls
+        /*
+        baseUri = Uri.parse(cfg.host + "/v3.1/me/accounts");
+        requestQuery['fields'] = "data,summary";
+        requestQuery['summary'] = "total_count";
+        http.Response accountsRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
+        dynamic accountsDoc = json.decode(accountsRes.body);
+        devLog.finest(accountsDoc);
+        */
+
+/*
+        // List the pages that the user controls
+        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthUserId + "/businesses");
+        requestQuery['fields'] = "data,summary";
+        requestQuery['summary'] = "total_count";
+        http.Response accountsRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
+        dynamic accountsDoc = json.decode(accountsRes.body);
+        devLog.finest(accountsDoc);*/
+
+/*
+
+        // Other
+        baseUri = Uri.parse(cfg.host + "/v2.7/smhackapp");
+        requestQuery['fields'] = "id,name,fan_count,picture,is_verified";
+        http.Response hackRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
+        dynamic hackDoc = json.decode(hackRes.body);
+        devLog.finest(hackDoc);
+        // https://graph.facebook.com/v2.7/smhackapp?fields=id,name,fan_count,picture,is_verified&access_token=
+
+        // Test page
+        baseUri = Uri.parse(cfg.host + "/v3.1/SheraJanWedding");
+        http.Response testRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
+        dynamic testDoc = json.decode(testRes.body);
+        devLog.finest(testDoc);
+*/
+
         break;
       }
     }
+    devLog.finer("${OAuthProviderIds.valueOf(oauthProvider)}: $oauthUserId: $dataSocialMedia");
   }
-
 }
 
 /*
@@ -439,6 +582,28 @@ Twitter
   "needs_phone_verification": false,
   "email": "beyondtcurtain@gmail.com" ---------- email
 }
+*/
+
+/*
+
+Facebook OAuth returns giant a code like
+
+code=AQAw5lF_gdhmUaJNtLM0HFPwOjEg3DtHXsZYc3xWI4f5PUohbMapxb7wp7Ma2sQD3s
+TybdSuz7lw8Db_4-zvkmCcUdaJjWkQ8GF1g-20UyCylzpBpUR06KUygOhoChSJWx9cKdoTz
+2mKdNLLay9FKkX7g8J_j5kVuEmVrvBjxAp8_S_hnNdWSawNgWtqqwDkI8Gaqk7moiWr2qyy
+YofGjZRarGeaR3Cznt3Ns8zK2NXLTBdSj_MOMuSM1R7HGesHoay7xRadgBQLUsSKAaiKP32
+bruhXggmeyTTWBFXEOgmguqg6aoF284BTWPseOuxQS84
+
+*/
+
+/*
+
+Then output for social media info from Facebook is like
+
+InfDev.RemoteAppOAuth: FINEST: 2018-07-30 15:18:57.172739: {name: Jan Boon, email: kaetemi@gmail.com, link: https://www.facebook.com/app_scoped_user_id/YXNpZADpBWEhuQ3d6OVZAnMHpoLU40cy1yUEhlX3I0Q095YXZAZAYTg5QXNxU094UDlwRzItdzc1a2FMbWtJODFLQWgwazVDbWo3a0FPQzRzSXZAUeTBlZAUpOVHBlTHV6ZATVGU0psOE0yblM2N24xdQZDZD/, picture: {data: {height: 50, is_silhouette: false, url: https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10155696703021547&height=50&width=50&ext=1535527137&hash=AeT1N0Rc2Zx1tHBz, width: 50}}, id: 10155696703021547}
+InfDev.RemoteAppOAuth: FINEST: 2018-07-30 15:18:57.474171: {data: [], summary: {total_count: 220}}
+InfDev.RemoteAppOAuth: FINEST: 2018-07-30 15:18:57.758358: {data: [{id: 1137023473103283}, {id: 1296007253750622}], paging: {cursors: {before: MTEzNzAyMzQ3MzEwMzI4MwZDZD, after: MTI5NjAwNzI1Mzc1MDYyMgZDZD}}, summary: {total_count: 2}}
+
 */
 
 /* end of file */
