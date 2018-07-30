@@ -123,10 +123,18 @@ const DataSocialMedia$json = const {
   '1': 'DataSocialMedia',
   '2': const [
     const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
-    const {'1': 'followers', '3': 2, '4': 1, '5': 5, '10': 'followers'},
-    const {'1': 'following', '3': 3, '4': 1, '5': 5, '10': 'following'},
     const {'1': 'screenName', '3': 4, '4': 1, '5': 9, '10': 'screenName'},
     const {'1': 'displayName', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
+    const {'1': 'profileUrl', '3': 13, '4': 1, '5': 9, '10': 'profileUrl'},
+    const {'1': 'description', '3': 6, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'location', '3': 7, '4': 1, '5': 9, '10': 'location'},
+    const {'1': 'url', '3': 8, '4': 1, '5': 9, '10': 'url'},
+    const {'1': 'email', '3': 12, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'friendsCount', '3': 9, '4': 1, '5': 5, '10': 'friendsCount'},
+    const {'1': 'followersCount', '3': 2, '4': 1, '5': 5, '10': 'followersCount'},
+    const {'1': 'followingCount', '3': 3, '4': 1, '5': 5, '10': 'followingCount'},
+    const {'1': 'postsCount', '3': 10, '4': 1, '5': 5, '10': 'postsCount'},
+    const {'1': 'verified', '3': 11, '4': 1, '5': 8, '10': 'verified'},
   ],
 };
 
