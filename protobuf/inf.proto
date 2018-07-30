@@ -154,6 +154,15 @@ enum GlobalAccountStateReason {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+message DataSocialMedia {
+  bool connected = 1;
+  int32 followers = 2;
+  int32 following = 3;
+  string screenName = 4;
+  string displayName = 5;
+  
+}
+
 message DataInfluencer {
   int64 id = 1;
   string name = 2;
@@ -162,6 +171,7 @@ message DataInfluencer {
   repeated CategoryId categories = 5;
   double lat = 6;
   double lng = 7;
+  repeated DataSocialMedia socialMedia = 8;
   
 }
 
@@ -173,6 +183,7 @@ message DataBusiness {
   repeated CategoryId categories = 5;
   double lat = 6;
   double lng = 7;
+  repeated DataSocialMedia socialMedia = 8;
   
 }
 
@@ -221,15 +232,6 @@ message DataAccountState {
   
   GlobalAccountState globalAccountState = 4;
   GlobalAccountStateReason globalAccountStateReason = 5;
-  
-}
-
-message DataSocialMedia {
-  bool connected = 1;
-  int32 followers = 2;
-  int32 following = 3;
-  string screenName = 4;
-  string displayName = 5;
   
 }
 
