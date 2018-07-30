@@ -138,6 +138,15 @@ const DataSocialMedia$json = const {
   ],
 };
 
+const DataOAuthCredentials$json = const {
+  '1': 'DataOAuthCredentials',
+  '2': const [
+    const {'1': 'oauthToken', '3': 1, '4': 1, '5': 9, '10': 'oauthToken'},
+    const {'1': 'oauthTokenSecret', '3': 2, '4': 1, '5': 9, '10': 'oauthTokenSecret'},
+    const {'1': 'oauthTokenExpires', '3': 3, '4': 1, '5': 5, '10': 'oauthTokenExpires'},
+  ],
+};
+
 const DataInfluencer$json = const {
   '1': 'DataInfluencer',
   '2': const [
