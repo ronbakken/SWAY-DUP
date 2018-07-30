@@ -91,12 +91,12 @@ class RemoteAppOAuth {
           break;
         }
         default: {
-          ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
+          ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", message);
           throw new Exception("OAuth provider has no supported mechanism specified ${pb.oauthProvider}");
         }
       }
     } else {
-      ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
+      ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", message);
       throw new Exception("Invalid oauthProvider specified ${pb.oauthProvider}");
     }
   }
@@ -106,13 +106,6 @@ class RemoteAppOAuth {
     devLog.finest("Fetch OAuth Credentials: OAuth Provider: $oauthProvider, Callback Query: $callbackQuery");
     ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
     Map<String, String> query = Uri.splitQueryString(callbackQuery);
-    /*bool transitionAccount = false;
-    bool connected = false;
-    String oauthToken;
-    String oauthTokenSecret;
-    int oauthTokenExpires;
-    String oauthUserId;
-    String screenName;*/
     DataOAuthCredentials oauthCredentials = new DataOAuthCredentials();
     switch (cfg.mechanism) {
       case OAuthMechanism.OAM_OAUTH1: {
@@ -207,6 +200,7 @@ class RemoteAppOAuth {
       int oauthProvider = pb.oauthProvider;
       DataOAuthCredentials oauthCredentials;
 
+      ts.sendExtend(message);
       dynamic exception;
       try {
         oauthCredentials = await fetchOAuthCredentials(oauthProvider, pb.callbackQuery);
@@ -214,35 +208,110 @@ class RemoteAppOAuth {
         exception = ex;
       }
 
-      bool transitionAccount = false;
-      bool connected = false;
+      // bool transitionAccount = false;
+      // bool connected = false;
 
       ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
       NetOAuthConnectRes pbRes = new NetOAuthConnectRes();
 
+      bool inserted = false;
+      bool takeover = false;
+      bool refreshed = false;
       if (oauthCredentials != null) {
         // Attempt to process valid OAuth transaction.
         // Sets connected true if successfully added to device.
         // Sets transitionAccount if logged in to an account instead.
         // There's another situation where media is already connected and we're just updating tokens
-        await fetchSocialMedia(oauthProvider, oauthCredentials); // FOR TESTING PURPOSE -- REMOVE THIS LINE
-      }
-      // Connected
-      if (connected) {
-        // DataSocialMedia dataSocialMedia = await fetchSocialMedia(oauthProvider, oauthCredentials);
-        _r.socialMedia[oauthProvider].connected = true;
-        /*if (_r.socialMedia[oauthProvider].screenName == null || _r.socialMedia[oauthProvider].screenName.length == 0) {
-          if (screenName != null && screenName.length > 0) {
-            _r.socialMedia[oauthProvider].screenName = screenName;
+        // await fetchSocialMedia(oauthProvider, oauthCredentials); // FOR TESTING PURPOSE -- REMOVE THIS LINE
+
+        // Insert the data we have
+        try {
+          ts.sendExtend(message);
+          sqljocky.Results insertRes = await sql.prepareExecute("INSERT INTO `oauth_connections`("
+            "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `device_id`, `oauth_token`, `oauth_token_secret`, `oauth_token_expires`"
+            ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
+            [ oauthCredentials.userId.toString(), oauthProvider.toInt(), _r.accountState.accountType.value.toInt(), 
+            _r.accountState.accountId.toInt(), _r.accountState.deviceId.toInt(),
+            oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toString() ]);
+            inserted = insertRes.affectedRows > 0;
+            devLog.finest("Inserted new OAuth connection: $inserted");
+        } on TalkException {
+          rethrow;
+        } catch (ex) { // This is permitted to fail
+          devLog.finest("Atomical (INSERT INTO `oauth_connections`) Exception: $ex");
+        }
+
+        // Alternative is to update a previously pending connection that has account_id = 0
+        if (!inserted) {
+          try {
+            if (_r.accountState.accountId == 0) { // Attempt to login to an existing account, or regain a lost connection
+              devLog.finest("Try takeover");
+              ts.sendExtend(message);
+              String query = "UPDATE `oauth_connections` "
+                "SET `updated` = CURRENT_TIMESTAMP(), `device_id` = ?, "
+                "`oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
+                "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?";
+              sqljocky.Results updateRes = await sql.prepareExecute(query,
+                [ _r.accountState.deviceId.toInt(), 
+                oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toString(),
+                oauthCredentials.userId.toString(), oauthProvider.toInt(), _r.accountState.accountType.value.toInt() ]);
+              takeover = (updateRes.affectedRows > 0) && (_r.accountState.accountId == 0); // Also check for account state
+              devLog.finest(updateRes.affectedRows);
+              devLog.finest("Attempt to takeover OAuth connection: $takeover");
+            }
+            if (takeover) { // Find out if we are logged into an account now
+              devLog.finest("Verify takeover");
+              ts.sendExtend(message);
+              sqljocky.Results connectionRes = await sql.prepareExecute("SELECT `account_id` FROM `oauth_connections` "
+                "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?", 
+                [ oauthCredentials.userId.toString(), oauthProvider.toInt(), _r.accountState.accountType.value.toInt() ]);
+              int takeoverAccountId = 0;
+              await for (sqljocky.Row row in connectionRes) {
+                takeoverAccountId = row[0];
+              }
+              takeover = (_r.accountState.accountId == 0) && (takeoverAccountId != 0);
+              if (takeover) {
+                _r.accountState.accountId = takeoverAccountId;
+              }
+              refreshed = !takeover; // If not anymore a takeover, then simply refreshed by deviceId
+            }
+            if (!takeover && !refreshed) { // In case account state changed, or in case the user is simply refreshing tokens
+              devLog.finest("Try refresh");
+              ts.sendExtend(message);
+              String query = "UPDATE `oauth_connections` "
+                "SET `updated` = CURRENT_TIMESTAMP(), `account_id` = ?, `device_id` = ?, `oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
+                "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
+              sqljocky.Results updateRes = await sql.prepareExecute(query,
+                [ _r.accountState.accountId.toInt(), _r.accountState.deviceId.toInt(), 
+                oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toString(),
+                oauthCredentials.userId.toString(), oauthProvider.toInt(), _r.accountState.accountType.value.toInt(), _r.accountState.accountId.toInt() ]);
+              refreshed = updateRes.affectedRows > 0;
+              devLog.finest("Attempt to refresh OAuth tokens: $refreshed");
+            }
+          } on TalkException {
+            rethrow;
+          } catch (ex) {
+            devLog.finest("Atomical (UPDATE `oauth_connections`) Exception: $ex");
           }
-        }*/
+        }
       }
+
+      devLog.finest("itf: $inserted, $takeover, $refreshed");
+      if (inserted || takeover || refreshed) {
+        ts.sendExtend(message);
+        DataSocialMedia dataSocialMedia = await fetchSocialMedia(oauthProvider, oauthCredentials);
+        // TODO: Write fetched social media data to SQL database
+        _r.socialMedia[oauthProvider].mergeFromMessage(dataSocialMedia);
+        _r.socialMedia[oauthProvider].connected = true;
+      }
+
       // Simply send update of this specific social media
       pbRes.socialMedia = _r.socialMedia[oauthProvider];
       ts.sendMessage(_netOAuthConnectRes, pbRes.writeToBuffer(), reply: message);
       devLog.finest("OAuth connected: ${pbRes.socialMedia.connected}");
-      if (transitionAccount) {
+      if (takeover) {
         // Account was found during connection, transition
+        ts.sendExtend(message);
         _r.unsubscribeOnboarding();
         await _r.updateDeviceState();
         await _r.transitionToApp();
@@ -252,7 +321,7 @@ class RemoteAppOAuth {
         throw exception;
       }
     } else {
-      ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
+      ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", message);
       throw new Exception("Invalid oauthProvider specified ${pb.oauthProvider}");
     }
   }
@@ -407,6 +476,7 @@ class RemoteAppOAuth {
       }
     }
     devLog.finer("${OAuthProviderIds.valueOf(oauthProvider)}: ${oauthCredentials.userId}: $dataSocialMedia");
+    return dataSocialMedia;
   }
 }
 

@@ -83,6 +83,7 @@ run() async {
   new Logger('InfOps').level = Level.ALL;
   new Logger('InfDev').level = Level.ALL;
   new Logger('SqlJocky').level = Level.WARNING;
+  new Logger('SqlJocky.BufferedSocket').level = Level.WARNING;
 
   // Server Configuration
   Uint8List configBytes = await new File("assets/config_server.bin").readAsBytes();
