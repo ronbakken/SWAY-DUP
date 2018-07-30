@@ -172,7 +172,7 @@ message DataSocialMedia {
   string email = 12;
   
   /* Use the largest of either friendsCount or followersCount for boasting. */
-  int32 friendsCount = 9
+  int32 friendsCount = 9;
   int32 followersCount = 2;
   int32 followingCount = 3;
   
