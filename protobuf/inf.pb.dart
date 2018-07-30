@@ -406,6 +406,48 @@ class DataSocialMedia extends GeneratedMessage {
 
 class _ReadonlyDataSocialMedia extends DataSocialMedia with ReadonlyMessageMixin {}
 
+class DataOAuthCredentials extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('DataOAuthCredentials')
+    ..aOS(1, 'oauthToken')
+    ..aOS(2, 'oauthTokenSecret')
+    ..a<int>(3, 'oauthTokenExpires', PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  DataOAuthCredentials() : super();
+  DataOAuthCredentials.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  DataOAuthCredentials.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataOAuthCredentials clone() => new DataOAuthCredentials()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static DataOAuthCredentials create() => new DataOAuthCredentials();
+  static PbList<DataOAuthCredentials> createRepeated() => new PbList<DataOAuthCredentials>();
+  static DataOAuthCredentials getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataOAuthCredentials();
+    return _defaultInstance;
+  }
+  static DataOAuthCredentials _defaultInstance;
+  static void $checkItem(DataOAuthCredentials v) {
+    if (v is! DataOAuthCredentials) checkItemFailed(v, 'DataOAuthCredentials');
+  }
+
+  String get oauthToken => $_getS(0, '');
+  set oauthToken(String v) { $_setString(0, v); }
+  bool hasOauthToken() => $_has(0);
+  void clearOauthToken() => clearField(1);
+
+  String get oauthTokenSecret => $_getS(1, '');
+  set oauthTokenSecret(String v) { $_setString(1, v); }
+  bool hasOauthTokenSecret() => $_has(1);
+  void clearOauthTokenSecret() => clearField(2);
+
+  int get oauthTokenExpires => $_get(2, 0);
+  set oauthTokenExpires(int v) { $_setSignedInt32(2, v); }
+  bool hasOauthTokenExpires() => $_has(2);
+  void clearOauthTokenExpires() => clearField(3);
+}
+
+class _ReadonlyDataOAuthCredentials extends DataOAuthCredentials with ReadonlyMessageMixin {}
+
 class DataInfluencer extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataInfluencer')
     ..aInt64(1, 'id')
