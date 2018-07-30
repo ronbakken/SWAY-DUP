@@ -27,8 +27,8 @@ class RemoteAppOAuth {
   static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
 
   RemoteAppOAuth(this._r) {
-    _netOAuthUrlReq = ts.stream(TalkSocket.encode("OA_URLRE")).listen(netOAuthUrlReq);
-    _netOAuthConnectReq = ts.stream(TalkSocket.encode("OA_CONNE")).listen(netOAuthConnectReq);
+    _netOAuthUrlReq = _r.safeListen("OA_URLRE", netOAuthUrlReq);
+    _netOAuthConnectReq = _r.safeListen("OA_CONNE", netOAuthConnectReq);
   }
 
   void dispose() {

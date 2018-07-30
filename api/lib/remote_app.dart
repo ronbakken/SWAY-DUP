@@ -76,6 +76,19 @@ class RemoteApp {
     devLog.fine("Connection closed for device ${accountState.deviceId}");
   }
 
+  StreamSubscription<TalkMessage> safeListen(String id, Future onData(TalkMessage message)) {
+    if (_connected) {
+      return ts.stream(TalkSocket.encode(id)).listen((TalkMessage message) async {
+        try {
+          await onData(message);
+        } catch (ex) {
+          devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
+        }
+      });
+    }
+    return null;
+  }
+
   void subscribeOAuth() {
     if (_remoteAppOAuth == null) {
       _remoteAppOAuth = new RemoteAppOAuth(this);
