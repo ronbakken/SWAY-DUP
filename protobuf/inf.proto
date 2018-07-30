@@ -156,10 +156,29 @@ enum GlobalAccountStateReason {
 
 message DataSocialMedia {
   bool connected = 1;
-  int32 followers = 2;
-  int32 following = 3;
+  
+  /* Names. Use whichever one is not empty. Prefer displayName. */
+  /// Screen name, eg. Twitter account name
   string screenName = 4;
+  /// Display name, eg. Facebook full name
   string displayName = 5;
+  
+  /* Further info. May have null values. Most data isn't always shared. */
+  /// Url to the actual social media profile
+  string profileUrl = 13;
+  string description = 6;
+  string location = 7;
+  string url = 8;
+  string email = 12;
+  
+  /* Use the largest of either friendsCount or followersCount for boasting. */
+  int32 friendsCount = 9
+  int32 followersCount = 2;
+  int32 followingCount = 3;
+  
+  int32 postsCount = 10;
+  
+  bool verified = 11;
   
 }
 
