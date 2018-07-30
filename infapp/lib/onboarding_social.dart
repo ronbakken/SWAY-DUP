@@ -30,7 +30,7 @@ class OnboardingSocial extends StatelessWidget {
     print("OAuth Providers: " + oauthProviders.length.toString());
     for (int i = 0; i < oauthProviders.length; ++i) {
       ConfigOAuthProvider cfg = oauthProviders[i];
-      if (cfg.visible) {
+      if (cfg.visible && cfg.mechanism != OAuthMechanism.OAM_NONE) {
         Widget r = new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

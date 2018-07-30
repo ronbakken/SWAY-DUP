@@ -109,7 +109,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
         // Any cache cleanup may be done here when switching accounts
       }
       accountState = pb.accountState;
-      socialMedia = pb.socialMedia;
+      socialMedia = new List<DataSocialMedia>();
+      socialMedia.addAll(pb.socialMedia);
       socialMedia.length = _config.oauthProviders.all.length; // Match array length
       for (int i = 0; i < socialMedia.length; ++i) {
         if (socialMedia[i] == null) {
