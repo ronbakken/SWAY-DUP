@@ -165,6 +165,7 @@ message DataSocialMedia {
   
   /* Further info. May have null values. Most data isn't always shared. */
   /// Url to the actual social media profile
+  string avatarUrl = 14;
   string profileUrl = 13;
   string description = 6;
   string location = 7;
