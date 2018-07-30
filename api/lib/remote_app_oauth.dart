@@ -101,120 +101,141 @@ class RemoteAppOAuth {
     }
   }
 
+  /// Fetches access token credentials for a user from an OAuth provider by auth callback query
+  Future<DataOAuthCredentials> fetchOAuthCredentials(int oauthProvider, String callbackQuery) async {
+    devLog.finest("Fetch OAuth Credentials: OAuth Provider: $oauthProvider, Callback Query: $callbackQuery");
+    ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
+    Map<String, String> query = Uri.splitQueryString(callbackQuery);
+    /*bool transitionAccount = false;
+    bool connected = false;
+    String oauthToken;
+    String oauthTokenSecret;
+    int oauthTokenExpires;
+    String oauthUserId;
+    String screenName;*/
+    DataOAuthCredentials oauthCredentials = new DataOAuthCredentials();
+    switch (cfg.mechanism) {
+      case OAuthMechanism.OAM_OAUTH1: {
+        // Twitter-like
+        var platform = new oauth1.Platform(
+          cfg.host + cfg.requestTokenUrl, 
+          cfg.host + cfg.authenticateUrl, 
+          cfg.host + cfg.accessTokenUrl, 
+          oauth1.SignatureMethods.HMAC_SHA1);
+        var clientCredentials = new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
+        var auth = new oauth1.Authorization(clientCredentials, platform);
+        // auth.requestTokenCredentials(clientCredentials, verifier);
+        if (query.containsKey('oauth_token') && query.containsKey('oauth_verifier')) {
+          var credentials = new oauth1.Credentials(query['oauth_token'], ''); // oauth_token_secret can be left blank it seems
+          oauth1.AuthorizationResponse authRes = await auth.requestTokenCredentials(credentials, query['oauth_verifier']);
+          // For Twitter, these "Access Tokens" don't expire
+          devLog.finest(authRes.credentials.token);
+          devLog.finest(authRes.credentials.tokenSecret);
+          devLog.finest(authRes.optionalParameters);
+          oauthCredentials.token = authRes.credentials.token;
+          oauthCredentials.tokenSecret = authRes.credentials.tokenSecret;
+          oauthCredentials.tokenExpires = 0;
+          oauthCredentials.userId = authRes.optionalParameters['user_id'];
+          // screenName = authRes.optionalParameters['screen_name']; // DISCARDED
+        } else {
+          devLog.warning("Query doesn't contain the required parameters: ${callbackQuery}");
+        }
+        break;
+      }
+      case OAuthMechanism.OAM_OAUTH2: {
+        // Facebook, Spotify-like. Much easier (but less standardized)
+        if (query.containsKey('code')) {
+          // Facebook-like
+          Uri baseUri = Uri.parse(cfg.host + cfg.accessTokenUrl);
+          var requestQuery = new Map<String, String>();
+          requestQuery['client_id'] = cfg.clientId;
+          requestQuery['client_secret'] = cfg.clientSecret;
+          requestQuery['redirect_uri'] = cfg.callbackUrl;
+          requestQuery['code'] = query['code'];
+          /* this returns { "access_token": {access-token}, "token_type": {type}, "expires_in":  {seconds-til-expiration} } */
+          http.Response accessTokenRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
+          dynamic accessTokenDoc = json.decode(accessTokenRes.body);
+          assert(accessTokenDoc['token_type'] == 'bearer');
+          assert(accessTokenDoc['expires_in'] > 5000000);
+          assert(accessTokenDoc['access_token'] != null);
+          print(accessTokenDoc);
+          oauthCredentials.token = accessTokenDoc['access_token'];
+          oauthCredentials.tokenSecret = '';
+          oauthCredentials.tokenExpires = (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) + accessTokenDoc['expires_in'];
+          if (oauthCredentials.token != null && oauthProvider == OAuthProviderIds.OAP_FACEBOOK.value) { // Facebook
+            baseUri = Uri.parse(cfg.host + "/v3.1/debug_token");
+            requestQuery = new Map<String, String>();
+            requestQuery['input_token'] = "${oauthCredentials.token}";
+            requestQuery['access_token'] = "${cfg.clientId}|${cfg.clientSecret}";
+            http.Response debugTokenRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
+            dynamic debugTokenDoc = json.decode(debugTokenRes.body);
+            print(debugTokenDoc);
+            dynamic debugData = debugTokenDoc['data'];
+            if (debugData['app_id'] != cfg.clientId) {
+              opsLog.warning("User specified invalid app (expect ${cfg.clientId}) $debugTokenDoc");
+              break;
+            }
+            if (debugData['is_valid'] != true) {
+              opsLog.warning("User token not valid $debugTokenDoc");
+              break;
+            }
+            oauthCredentials.userId = debugData['user_id'];
+            oauthCredentials.tokenExpires = debugData['expires_at'];
+          }
+        } else {
+          devLog.warning("Query doesn't contain the required parameters: ${callbackQuery}");
+        }
+        break;
+      }
+      default: {
+        // ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
+        throw new Exception("OAuth provider has no supported mechanism specified ${oauthProvider}");
+      }
+    }
+    print("OAuth Credentials: $oauthCredentials");
+    return (oauthCredentials.userId != null && oauthCredentials.userId.length > 0) ? oauthCredentials : null;
+  }
+
   StreamSubscription<TalkMessage> _netOAuthConnectReq; // OA_CONNE
   static int _netOAuthConnectRes = TalkSocket.encode("OA_R_CON");
   netOAuthConnectReq(TalkMessage message) async {
     devLog.finest("netOAuthConnectReq");
     NetOAuthConnectReq pb = new NetOAuthConnectReq();
     pb.mergeFromBuffer(message.data);
-    devLog.finest(pb.callbackQuery);
+    // devLog.finest(pb.callbackQuery);
     if (pb.oauthProvider < config.oauthProviders.all.length) {
       int oauthProvider = pb.oauthProvider;
-      ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
-      NetOAuthConnectRes pbRes = new NetOAuthConnectRes();
-      Map<String, String> query = Uri.splitQueryString(pb.callbackQuery);
+      DataOAuthCredentials oauthCredentials;
+
+      dynamic exception;
+      try {
+        oauthCredentials = await fetchOAuthCredentials(oauthProvider, pb.callbackQuery);
+      } catch (ex) {
+        exception = ex;
+      }
+
       bool transitionAccount = false;
       bool connected = false;
-      String oauthToken;
-      String oauthTokenSecret;
-      int oauthTokenExpires;
-      String oauthUserId;
-      String screenName;
-      switch (cfg.mechanism) {
-        case OAuthMechanism.OAM_OAUTH1: {
-          // Twitter-like
-          var platform = new oauth1.Platform(
-            cfg.host + cfg.requestTokenUrl, 
-            cfg.host + cfg.authenticateUrl, 
-            cfg.host + cfg.accessTokenUrl, 
-            oauth1.SignatureMethods.HMAC_SHA1);
-          var clientCredentials = new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
-          var auth = new oauth1.Authorization(clientCredentials, platform);
-          // auth.requestTokenCredentials(clientCredentials, verifier);
-          if (query.containsKey('oauth_token') && query.containsKey('oauth_verifier')) {
-            var credentials = new oauth1.Credentials(query['oauth_token'], ''); // oauth_token_secret can be left blank it seems
-            oauth1.AuthorizationResponse authRes = await auth.requestTokenCredentials(credentials, query['oauth_verifier']);
-            // For Twitter, these "Access Tokens" don't expire
-            devLog.finest(authRes.credentials.token);
-            devLog.finest(authRes.credentials.tokenSecret);
-            devLog.finest(authRes.optionalParameters);
-            oauthToken = authRes.credentials.token;
-            oauthTokenSecret = authRes.credentials.tokenSecret;
-            oauthTokenExpires = 0;
-            oauthUserId = authRes.optionalParameters['user_id'];
-            screenName = authRes.optionalParameters['screen_name'];
-          } else {
-            devLog.finer("Query doesn't contain the required parameters: ${pb.callbackQuery}");
-          }
-          break;
-        }
-        case OAuthMechanism.OAM_OAUTH2: {
-          // Facebook, Spotify-like. Much easier (but less standardized)
-          if (query.containsKey('code')) {
-            // Facebook-like
-            Uri baseUri = Uri.parse(cfg.host + cfg.accessTokenUrl);
-            var requestQuery = new Map<String, String>();
-            requestQuery['client_id'] = cfg.clientId;
-            requestQuery['client_secret'] = cfg.clientSecret;
-            requestQuery['redirect_uri'] = cfg.callbackUrl;
-            requestQuery['code'] = query['code'];
-            /* this returns { "access_token": {access-token}, "token_type": {type}, "expires_in":  {seconds-til-expiration} } */
-            http.Response accessTokenRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
-            dynamic accessTokenDoc = json.decode(accessTokenRes.body);
-            assert(accessTokenDoc['token_type'] == 'bearer');
-            assert(accessTokenDoc['expires_in'] > 5000000);
-            assert(accessTokenDoc['access_token'] != null);
-            print(accessTokenDoc);
-            oauthToken = accessTokenDoc['access_token'];
-            oauthTokenSecret = '';
-            oauthTokenExpires = (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) + accessTokenDoc['expires_in'];
-            if (oauthToken != null && oauthProvider == OAuthProviderIds.OAP_FACEBOOK.value) { // Facebook
-              baseUri = Uri.parse(cfg.host + "/v3.1/debug_token");
-              requestQuery = new Map<String, String>();
-              requestQuery['input_token'] = "$oauthToken";
-              requestQuery['access_token'] = "${cfg.clientId}|${cfg.clientSecret}";
-              http.Response debugTokenRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
-              dynamic debugTokenDoc = json.decode(debugTokenRes.body);
-              print(debugTokenDoc);
-              dynamic debugData = debugTokenDoc['data'];
-              if (debugData['app_id'] != cfg.clientId) {
-                opsLog.warning("User specified invalid app (expect ${cfg.clientId}) $debugTokenDoc");
-                break;
-              }
-              if (debugData['is_valid'] != true) {
-                opsLog.warning("User token not valid $debugTokenDoc");
-                break;
-              }
-              oauthUserId = debugData['user_id'];
-              print(oauthTokenExpires);
-              oauthTokenExpires = debugData['expires_at'];
-            }
-          } else {
-            devLog.finer("Query doesn't contain the required parameters: ${pb.callbackQuery}");
-          }
-          break;
-        }
-        default: {
-          ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
-          throw new Exception("OAuth provider has no supported mechanism specified ${pb.oauthProvider}");
-        }
-      }
-      if (oauthUserId != null && oauthUserId.length != 0) {
+
+      ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
+      NetOAuthConnectRes pbRes = new NetOAuthConnectRes();
+
+      if (oauthCredentials != null) {
         // Attempt to process valid OAuth transaction.
         // Sets connected true if successfully added to device.
         // Sets transitionAccount if logged in to an account instead.
         // There's another situation where media is already connected and we're just updating tokens
-        await fetchSocialMedia(oauthProvider, oauthUserId, oauthToken, oauthTokenSecret); // FOR TESTING PURPOSE -- REMOVE THIS LINE
+        await fetchSocialMedia(oauthProvider, oauthCredentials); // FOR TESTING PURPOSE -- REMOVE THIS LINE
       }
       // Connected
       if (connected) {
-        // DataSocialMedia dataSocialMedia = await fetchSocialMedia(oauthProvider, oauthUserId, oauthToken, oauthTokenSecret);
+        // DataSocialMedia dataSocialMedia = await fetchSocialMedia(oauthProvider, oauthCredentials);
         _r.socialMedia[oauthProvider].connected = true;
-        if (_r.socialMedia[oauthProvider].screenName == null || _r.socialMedia[oauthProvider].screenName.length == 0) {
+        /*if (_r.socialMedia[oauthProvider].screenName == null || _r.socialMedia[oauthProvider].screenName.length == 0) {
           if (screenName != null && screenName.length > 0) {
             _r.socialMedia[oauthProvider].screenName = screenName;
           }
-        }
+        }*/
       }
       // Simply send update of this specific social media
       pbRes.socialMedia = _r.socialMedia[oauthProvider];
@@ -226,14 +247,18 @@ class RemoteAppOAuth {
         await _r.updateDeviceState();
         await _r.transitionToApp();
       }
+
+      if (exception != null) {
+        throw exception;
+      }
     } else {
       ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
       throw new Exception("Invalid oauthProvider specified ${pb.oauthProvider}");
     }
   }
 
-  Future<DataSocialMedia> fetchSocialMedia(int oauthProvider, String oauthUserId, String oauthToken, String oauthTokenSecret) async {
-    devLog.finest("fetchSocialMedia: $oauthProvider, $oauthUserId, $oauthToken, $oauthTokenSecret");
+  Future<DataSocialMedia> fetchSocialMedia(int oauthProvider, DataOAuthCredentials oauthCredentials) async {
+    devLog.finest("fetchSocialMedia: $oauthProvider, ${oauthCredentials.userId}, ${oauthCredentials.token}, ${oauthCredentials.tokenSecret}");
     DataSocialMedia dataSocialMedia = new DataSocialMedia();
     // Fetch social media stats from the oauth provider. Then store them in the database. Then set them here.
     // Get display name, screen name, followers, following, avatar, banner image
@@ -243,7 +268,7 @@ class RemoteAppOAuth {
         // https://api.twitter.com/1.1/users/show.json?user_id=12345
         devLog.finest("Twitter");
         var clientCredentials = new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
-        var credentials = new oauth1.Credentials(oauthToken, oauthTokenSecret);
+        var credentials = new oauth1.Credentials(oauthCredentials.token, oauthCredentials.tokenSecret);
         var client = new oauth1.Client(oauth1.SignatureMethods.HMAC_SHA1, clientCredentials, credentials);
         // devLog.finest('show');
         // http.Response res = await client.get("https://api.twitter.com/1.1/users/show.json?user_id=$oauthUserId");
@@ -254,8 +279,8 @@ class RemoteAppOAuth {
         devLog.finest('verify_credentials');
         devLog.finest(res.body);
         dynamic doc = json.decode(res.body);
-        if (doc['id_str'] != oauthUserId) {
-          throw new Exception("Mismatching OAuth user: ${doc['id_str']} != $oauthUserId");
+        if (doc['id_str'] != oauthCredentials.userId) {
+          throw new Exception("Mismatching OAuth user: ${doc['id_str']} != ${oauthCredentials.userId}");
         }
         if (doc['screen_name'] != null) dataSocialMedia.screenName = doc['screen_name'];
         if (doc['name'] != null) dataSocialMedia.displayName = doc['name'];
@@ -286,19 +311,19 @@ class RemoteAppOAuth {
       case OAuthProviderIds.OAP_FACEBOOK: { // Facebook
         Uri baseUri;
         Map<String, String> requestQuery = new Map<String, String>();
-        requestQuery['access_token'] = oauthToken;
+        requestQuery['access_token'] = oauthCredentials.token;
 
         // Need "Page Public Content Access"
 
         // User info
-        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthUserId);
+        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthCredentials.userId);
         requestQuery['fields'] = "name,email,link,picture"; // ,location,address,hometown // cover,subscribers,subscribedto is deprecated
         http.Response userRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
         dynamic userDoc = json.decode(userRes.body);
         devLog.finest(userDoc);
 
-        if (userDoc['id'] != oauthUserId) {
-          throw new Exception("Mismatching OAuth user: ${userDoc['id']} != $oauthUserId");
+        if (userDoc['id'] != oauthCredentials.userId) {
+          throw new Exception("Mismatching OAuth user: ${userDoc['id']} != ${oauthCredentials.userId}");
         }
 
         if (userDoc['name'] != null) dataSocialMedia.displayName = userDoc['name'];
@@ -325,7 +350,7 @@ class RemoteAppOAuth {
         */
 
         // Friend count
-        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthUserId + "/friends");
+        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthCredentials.userId + "/friends");
         requestQuery['fields'] = "summary";
         requestQuery['summary'] = "total_count";
         http.Response friendsRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
@@ -381,7 +406,7 @@ class RemoteAppOAuth {
         break;
       }
     }
-    devLog.finer("${OAuthProviderIds.valueOf(oauthProvider)}: $oauthUserId: $dataSocialMedia");
+    devLog.finer("${OAuthProviderIds.valueOf(oauthProvider)}: ${oauthCredentials.userId}: $dataSocialMedia");
   }
 }
 
