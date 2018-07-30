@@ -38,67 +38,71 @@ namespace InfX {
             "GAEgASgFEhEKCXRpbWVzdGFtcBgFIAEoAxIUCgxkb3dubG9hZFVybHMYBCAD",
             "KAkSJQoKY2F0ZWdvcmllcxgCIAEoCzIRLkNvbmZpZ0NhdGVnb3JpZXMSLQoO",
             "b2F1dGhQcm92aWRlcnMYAyABKAsyFS5Db25maWdPQXV0aFByb3ZpZGVycyIn",
-            "CgpDYXRlZ29yeUlkEgwKBG1haW4YASABKAUSCwoDc3ViGAIgASgFInMKD0Rh",
-            "dGFTb2NpYWxNZWRpYRIRCgljb25uZWN0ZWQYASABKAgSEQoJZm9sbG93ZXJz",
-            "GAIgASgFEhEKCWZvbGxvd2luZxgDIAEoBRISCgpzY3JlZW5OYW1lGAQgASgJ",
-            "EhMKC2Rpc3BsYXlOYW1lGAUgASgJIrEBCg5EYXRhSW5mbHVlbmNlchIKCgJp",
-            "ZBgBIAEoAxIMCgRuYW1lGAIgASgJEhAKCGxvY2F0aW9uGAMgASgJEhEKCWF2",
-            "YXRhclVybBgEIAEoCRIfCgpjYXRlZ29yaWVzGAUgAygLMgsuQ2F0ZWdvcnlJ",
-            "ZBILCgNsYXQYBiABKAESCwoDbG5nGAcgASgBEiUKC3NvY2lhbE1lZGlhGAgg",
-            "AygLMhAuRGF0YVNvY2lhbE1lZGlhIq8BCgxEYXRhQnVzaW5lc3MSCgoCaWQY",
-            "ASABKAMSDAoEbmFtZRgCIAEoCRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0",
-            "YXJVcmwYBCABKAkSHwoKY2F0ZWdvcmllcxgFIAMoCzILLkNhdGVnb3J5SWQS",
-            "CwoDbGF0GAYgASgBEgsKA2xuZxgHIAEoARIlCgtzb2NpYWxNZWRpYRgIIAMo",
-            "CzIQLkRhdGFTb2NpYWxNZWRpYSLQAQoJRGF0YU9mZmVyEgoKAmlkGAEgASgD",
-            "Eh8KCGJ1c2luZXNzGAIgASgLMg0uRGF0YUJ1c2luZXNzEg0KBXRpdGxlGAMg",
-            "ASgJEhEKCWltYWdlVXJscxgEIAMoCRIfCgpjYXRlZ29yaWVzGAUgAygLMgsu",
-            "Q2F0ZWdvcnlJZBILCgNsYXQYBiABKAESCwoDbG5nGAcgASgBEhMKC2Rlc2Ny",
-            "aXB0aW9uGAggASgJEhQKDGRlbGl2ZXJhYmxlcxgJIAEoCRIOCgZyZXdhcmQY",
-            "CiABKAkiWwoNRGF0YUFwcGxpY2FudBIKCgJpZBgBIAEoAxIZCgVvZmZlchgC",
-            "IAEoCzIKLkRhdGFPZmZlchIjCgppbmZsdWVuY2VyGAMgASgLMg8uRGF0YUlu",
-            "Zmx1ZW5jZXIiYgoIRGF0YUNoYXQSEwoLYXBwbGljYW50SWQYASABKAMSEgoK",
-            "c2VxdWVuY2VJZBgCIAEoAxINCgVrZXlJZBgDIAEoAxIQCghvdXRnb2luZxgE",
-            "IAEoCBIMCgR0ZXh0GAUgASgJIsgBChBEYXRhQWNjb3VudFN0YXRlEhAKCGRl",
-            "dmljZUlkGAEgASgFEhEKCWFjY291bnRJZBgCIAEoBRIhCgthY2NvdW50VHlw",
-            "ZRgDIAEoDjIMLkFjY291bnRUeXBlEi8KEmdsb2JhbEFjY291bnRTdGF0ZRgE",
-            "IAEoDjITLkdsb2JhbEFjY291bnRTdGF0ZRI7ChhnbG9iYWxBY2NvdW50U3Rh",
-            "dGVSZWFzb24YBSABKA4yGS5HbG9iYWxBY2NvdW50U3RhdGVSZWFzb24iRAoW",
-            "TmV0RGV2aWNlQXV0aENyZWF0ZVJlcRIOCgZhZXNLZXkYASABKAwSDAoEbmFt",
-            "ZRgCIAEoCRIMCgRpbmZvGAMgASgJIi0KGU5ldERldmljZUF1dGhDaGFsbGVu",
-            "Z2VSZXESEAoIZGV2aWNlSWQYASABKAUiMQocTmV0RGV2aWNlQXV0aENoYWxs",
-            "ZW5nZVJlc1JlcRIRCgljaGFsbGVuZ2UYASABKAwiMQocTmV0RGV2aWNlQXV0",
-            "aFNpZ25hdHVyZVJlc1JlcRIRCglzaWduYXR1cmUYASABKAwiZAoSTmV0RGV2",
-            "aWNlQXV0aFN0YXRlEicKDGFjY291bnRTdGF0ZRgHIAEoCzIRLkRhdGFBY2Nv",
-            "dW50U3RhdGUSJQoLc29jaWFsTWVkaWEYBiADKAsyEC5EYXRhU29jaWFsTWVk",
-            "aWEiNgoRTmV0U2V0QWNjb3VudFR5cGUSIQoLYWNjb3VudFR5cGUYASABKA4y",
-            "DC5BY2NvdW50VHlwZSInCg5OZXRPQXV0aFVybFJlcRIVCg1vYXV0aFByb3Zp",
-            "ZGVyGAEgASgFIjYKDk5ldE9BdXRoVXJsUmVzEg8KB2F1dGhVcmwYASABKAkS",
-            "EwoLY2FsbGJhY2tVcmwYAiABKAkiQgoSTmV0T0F1dGhDb25uZWN0UmVxEhUK",
-            "DW9hdXRoUHJvdmlkZXIYASABKAUSFQoNY2FsbGJhY2tRdWVyeRgCIAEoCSI7",
-            "ChJOZXRPQXV0aENvbm5lY3RSZXMSJQoLc29jaWFsTWVkaWEYASABKAsyEC5E",
-            "YXRhU29jaWFsTWVkaWEiPQoTTmV0QWNjb3VudENyZWF0ZVJlcRIMCgRuYW1l",
-            "GAEgASgJEgsKA2xhdBgCIAEoAhILCgNsbmcYAyABKAIiRwoRTmV0UmVxSW1h",
-            "Z2VVcGxvYWQSEAoIZmlsZU5hbWUYASABKAkSEAoIZmlsZVNpemUYAiABKAUS",
-            "DgoGc2hhMjU2GAMgASgJIt8BChFOZXRSZXNJbWFnZVVwbG9hZBIVCg1yZXF1",
-            "ZXN0TWV0aG9kGAEgASgJEhIKCnJlcXVlc3RVcmwYAiABKAkSGQoRaGVhZGVy",
-            "Q29udGVudFR5cGUYAyABKAkSGwoTaGVhZGVyQ29udGVudExlbmd0aBgEIAEo",
-            "CRISCgpoZWFkZXJIb3N0GAUgASgJEhYKDmhlYWRlclhBbXpEYXRlGAYgASgJ",
-            "Eh4KFmhlYWRlclhBbXpTdG9yYWdlQ2xhc3MYByABKAkSGwoTaGVhZGVyQXV0",
-            "aG9yaXphdGlvbhgIIAEoCSJAChFOZXRSZXFDcmVhdGVPZmZlchIZCgVvZmZl",
-            "chgBIAEoCzIKLkRhdGFPZmZlchIQCghpbWFnZUlkcxgCIAMoCSIfChFOZXRS",
-            "ZXNDcmVhdGVPZmZlchIKCgJpZBgBIAEoAyo+Cg5PQXV0aE1lY2hhbmlzbRIM",
-            "CghPQU1fTk9ORRAAEg4KCk9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIq",
-            "QwoQT0F1dGhQcm92aWRlcklkcxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lU",
-            "VEVSEAESEAoMT0FQX0ZBQ0VCT09LEAIqQQoLQWNjb3VudFR5cGUSDgoKQVRf",
-            "VU5LTk9XThAAEhEKDUFUX0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxAC",
-            "Ko8BChJHbG9iYWxBY2NvdW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIP",
-            "CgtHQVNfQkxPQ0tFRBABEhEKDUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVB",
-            "RF9XUklURRADEhEKDUdBU19NT0RFUkFUT1IQBBINCglHQVNfQURNSU4QBRIL",
-            "CgdHQVNfR09EEAYqtQEKGEdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIUChBH",
-            "QVNSX05FV19BQ0NPVU5UEAASFwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBABEhYK",
-            "EkdBU1JfQ1JFQVRFX0RFTklFRBACEhEKDUdBU1JfQVBQUk9WRUQQAxIWChJH",
-            "QVNSX0RFTU9fQVBQUk9WRUQQBBIQCgxHQVNSX1BFTkRJTkcQBRIVChFHQVNS",
-            "X1JFUVVJUkVfSU5GTxAGQgeqAgRJbmZYYgZwcm90bzM="));
+            "CgpDYXRlZ29yeUlkEgwKBG1haW4YASABKAUSCwoDc3ViGAIgASgFIpACCg9E",
+            "YXRhU29jaWFsTWVkaWESEQoJY29ubmVjdGVkGAEgASgIEhIKCnNjcmVlbk5h",
+            "bWUYBCABKAkSEwoLZGlzcGxheU5hbWUYBSABKAkSEgoKcHJvZmlsZVVybBgN",
+            "IAEoCRITCgtkZXNjcmlwdGlvbhgGIAEoCRIQCghsb2NhdGlvbhgHIAEoCRIL",
+            "CgN1cmwYCCABKAkSDQoFZW1haWwYDCABKAkSFAoMZnJpZW5kc0NvdW50GAkg",
+            "ASgFEhYKDmZvbGxvd2Vyc0NvdW50GAIgASgFEhYKDmZvbGxvd2luZ0NvdW50",
+            "GAMgASgFEhIKCnBvc3RzQ291bnQYCiABKAUSEAoIdmVyaWZpZWQYCyABKAgi",
+            "sQEKDkRhdGFJbmZsdWVuY2VyEgoKAmlkGAEgASgDEgwKBG5hbWUYAiABKAkS",
+            "EAoIbG9jYXRpb24YAyABKAkSEQoJYXZhdGFyVXJsGAQgASgJEh8KCmNhdGVn",
+            "b3JpZXMYBSADKAsyCy5DYXRlZ29yeUlkEgsKA2xhdBgGIAEoARILCgNsbmcY",
+            "ByABKAESJQoLc29jaWFsTWVkaWEYCCADKAsyEC5EYXRhU29jaWFsTWVkaWEi",
+            "rwEKDERhdGFCdXNpbmVzcxIKCgJpZBgBIAEoAxIMCgRuYW1lGAIgASgJEhAK",
+            "CGxvY2F0aW9uGAMgASgJEhEKCWF2YXRhclVybBgEIAEoCRIfCgpjYXRlZ29y",
+            "aWVzGAUgAygLMgsuQ2F0ZWdvcnlJZBILCgNsYXQYBiABKAESCwoDbG5nGAcg",
+            "ASgBEiUKC3NvY2lhbE1lZGlhGAggAygLMhAuRGF0YVNvY2lhbE1lZGlhItAB",
+            "CglEYXRhT2ZmZXISCgoCaWQYASABKAMSHwoIYnVzaW5lc3MYAiABKAsyDS5E",
+            "YXRhQnVzaW5lc3MSDQoFdGl0bGUYAyABKAkSEQoJaW1hZ2VVcmxzGAQgAygJ",
+            "Eh8KCmNhdGVnb3JpZXMYBSADKAsyCy5DYXRlZ29yeUlkEgsKA2xhdBgGIAEo",
+            "ARILCgNsbmcYByABKAESEwoLZGVzY3JpcHRpb24YCCABKAkSFAoMZGVsaXZl",
+            "cmFibGVzGAkgASgJEg4KBnJld2FyZBgKIAEoCSJbCg1EYXRhQXBwbGljYW50",
+            "EgoKAmlkGAEgASgDEhkKBW9mZmVyGAIgASgLMgouRGF0YU9mZmVyEiMKCmlu",
+            "Zmx1ZW5jZXIYAyABKAsyDy5EYXRhSW5mbHVlbmNlciJiCghEYXRhQ2hhdBIT",
+            "CgthcHBsaWNhbnRJZBgBIAEoAxISCgpzZXF1ZW5jZUlkGAIgASgDEg0KBWtl",
+            "eUlkGAMgASgDEhAKCG91dGdvaW5nGAQgASgIEgwKBHRleHQYBSABKAkiyAEK",
+            "EERhdGFBY2NvdW50U3RhdGUSEAoIZGV2aWNlSWQYASABKAUSEQoJYWNjb3Vu",
+            "dElkGAIgASgFEiEKC2FjY291bnRUeXBlGAMgASgOMgwuQWNjb3VudFR5cGUS",
+            "LwoSZ2xvYmFsQWNjb3VudFN0YXRlGAQgASgOMhMuR2xvYmFsQWNjb3VudFN0",
+            "YXRlEjsKGGdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhgFIAEoDjIZLkdsb2Jh",
+            "bEFjY291bnRTdGF0ZVJlYXNvbiJEChZOZXREZXZpY2VBdXRoQ3JlYXRlUmVx",
+            "Eg4KBmFlc0tleRgBIAEoDBIMCgRuYW1lGAIgASgJEgwKBGluZm8YAyABKAki",
+            "LQoZTmV0RGV2aWNlQXV0aENoYWxsZW5nZVJlcRIQCghkZXZpY2VJZBgBIAEo",
+            "BSIxChxOZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVzUmVxEhEKCWNoYWxsZW5n",
+            "ZRgBIAEoDCIxChxOZXREZXZpY2VBdXRoU2lnbmF0dXJlUmVzUmVxEhEKCXNp",
+            "Z25hdHVyZRgBIAEoDCJkChJOZXREZXZpY2VBdXRoU3RhdGUSJwoMYWNjb3Vu",
+            "dFN0YXRlGAcgASgLMhEuRGF0YUFjY291bnRTdGF0ZRIlCgtzb2NpYWxNZWRp",
+            "YRgGIAMoCzIQLkRhdGFTb2NpYWxNZWRpYSI2ChFOZXRTZXRBY2NvdW50VHlw",
+            "ZRIhCgthY2NvdW50VHlwZRgBIAEoDjIMLkFjY291bnRUeXBlIicKDk5ldE9B",
+            "dXRoVXJsUmVxEhUKDW9hdXRoUHJvdmlkZXIYASABKAUiNgoOTmV0T0F1dGhV",
+            "cmxSZXMSDwoHYXV0aFVybBgBIAEoCRITCgtjYWxsYmFja1VybBgCIAEoCSJC",
+            "ChJOZXRPQXV0aENvbm5lY3RSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBRIV",
+            "Cg1jYWxsYmFja1F1ZXJ5GAIgASgJIjsKEk5ldE9BdXRoQ29ubmVjdFJlcxIl",
+            "Cgtzb2NpYWxNZWRpYRgBIAEoCzIQLkRhdGFTb2NpYWxNZWRpYSI9ChNOZXRB",
+            "Y2NvdW50Q3JlYXRlUmVxEgwKBG5hbWUYASABKAkSCwoDbGF0GAIgASgCEgsK",
+            "A2xuZxgDIAEoAiJHChFOZXRSZXFJbWFnZVVwbG9hZBIQCghmaWxlTmFtZRgB",
+            "IAEoCRIQCghmaWxlU2l6ZRgCIAEoBRIOCgZzaGEyNTYYAyABKAki3wEKEU5l",
+            "dFJlc0ltYWdlVXBsb2FkEhUKDXJlcXVlc3RNZXRob2QYASABKAkSEgoKcmVx",
+            "dWVzdFVybBgCIAEoCRIZChFoZWFkZXJDb250ZW50VHlwZRgDIAEoCRIbChNo",
+            "ZWFkZXJDb250ZW50TGVuZ3RoGAQgASgJEhIKCmhlYWRlckhvc3QYBSABKAkS",
+            "FgoOaGVhZGVyWEFtekRhdGUYBiABKAkSHgoWaGVhZGVyWEFtelN0b3JhZ2VD",
+            "bGFzcxgHIAEoCRIbChNoZWFkZXJBdXRob3JpemF0aW9uGAggASgJIkAKEU5l",
+            "dFJlcUNyZWF0ZU9mZmVyEhkKBW9mZmVyGAEgASgLMgouRGF0YU9mZmVyEhAK",
+            "CGltYWdlSWRzGAIgAygJIh8KEU5ldFJlc0NyZWF0ZU9mZmVyEgoKAmlkGAEg",
+            "ASgDKj4KDk9BdXRoTWVjaGFuaXNtEgwKCE9BTV9OT05FEAASDgoKT0FNX09B",
+            "VVRIMRABEg4KCk9BTV9PQVVUSDIQAipDChBPQXV0aFByb3ZpZGVySWRzEgwK",
+            "CE9BUF9OT05FEAASDwoLT0FQX1RXSVRURVIQARIQCgxPQVBfRkFDRUJPT0sQ",
+            "AipBCgtBY2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5GTFVF",
+            "TkNFUhABEg8KC0FUX0JVU0lORVNTEAIqjwEKEkdsb2JhbEFjY291bnRTdGF0",
+            "ZRISCg5HQVNfSU5JVElBTElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FT",
+            "X1JFQURfT05MWRACEhIKDkdBU19SRUFEX1dSSVRFEAMSEQoNR0FTX01PREVS",
+            "QVRPUhAEEg0KCUdBU19BRE1JThAFEgsKB0dBU19HT0QQBiq1AQoYR2xvYmFs",
+            "QWNjb3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNH",
+            "QVNSX0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAIS",
+            "EQoNR0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAK",
+            "DEdBU1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAZCB6oCBElu",
+            "ZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -108,7 +112,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "Timestamp", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Followers", "Following", "ScreenName", "DisplayName" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "ScreenName", "DisplayName", "ProfileUrl", "Description", "Location", "Url", "Email", "FriendsCount", "FollowersCount", "FollowingCount", "PostsCount", "Verified" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataInfluencer), global::InfX.DataInfluencer.Parser, new[]{ "Id", "Name", "Location", "AvatarUrl", "Categories", "Lat", "Lng", "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataBusiness), global::InfX.DataBusiness.Parser, new[]{ "Id", "Name", "Location", "AvatarUrl", "Categories", "Lat", "Lng", "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOffer), global::InfX.DataOffer.Parser, new[]{ "Id", "Business", "Title", "ImageUrls", "Categories", "Lat", "Lng", "Description", "Deliverables", "Reward" }, null, null, null),
@@ -1549,10 +1553,18 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public DataSocialMedia(DataSocialMedia other) : this() {
       connected_ = other.connected_;
-      followers_ = other.followers_;
-      following_ = other.following_;
       screenName_ = other.screenName_;
       displayName_ = other.displayName_;
+      profileUrl_ = other.profileUrl_;
+      description_ = other.description_;
+      location_ = other.location_;
+      url_ = other.url_;
+      email_ = other.email_;
+      friendsCount_ = other.friendsCount_;
+      followersCount_ = other.followersCount_;
+      followingCount_ = other.followingCount_;
+      postsCount_ = other.postsCount_;
+      verified_ = other.verified_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1571,31 +1583,12 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "followers" field.</summary>
-    public const int FollowersFieldNumber = 2;
-    private int followers_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Followers {
-      get { return followers_; }
-      set {
-        followers_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "following" field.</summary>
-    public const int FollowingFieldNumber = 3;
-    private int following_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Following {
-      get { return following_; }
-      set {
-        following_ = value;
-      }
-    }
-
     /// <summary>Field number for the "screenName" field.</summary>
     public const int ScreenNameFieldNumber = 4;
     private string screenName_ = "";
+    /// <summary>
+    /// / Screen name, eg. Twitter account name
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string ScreenName {
       get { return screenName_; }
@@ -1607,11 +1600,130 @@ namespace InfX {
     /// <summary>Field number for the "displayName" field.</summary>
     public const int DisplayNameFieldNumber = 5;
     private string displayName_ = "";
+    /// <summary>
+    /// / Display name, eg. Facebook full name
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string DisplayName {
       get { return displayName_; }
       set {
         displayName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "profileUrl" field.</summary>
+    public const int ProfileUrlFieldNumber = 13;
+    private string profileUrl_ = "";
+    /// <summary>
+    /// / Url to the actual social media profile
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ProfileUrl {
+      get { return profileUrl_; }
+      set {
+        profileUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "description" field.</summary>
+    public const int DescriptionFieldNumber = 6;
+    private string description_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Description {
+      get { return description_; }
+      set {
+        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "location" field.</summary>
+    public const int LocationFieldNumber = 7;
+    private string location_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Location {
+      get { return location_; }
+      set {
+        location_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "url" field.</summary>
+    public const int UrlFieldNumber = 8;
+    private string url_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Url {
+      get { return url_; }
+      set {
+        url_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "email" field.</summary>
+    public const int EmailFieldNumber = 12;
+    private string email_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Email {
+      get { return email_; }
+      set {
+        email_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "friendsCount" field.</summary>
+    public const int FriendsCountFieldNumber = 9;
+    private int friendsCount_;
+    /// <summary>
+    ///  Use the largest of either friendsCount or followersCount for boasting. 
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int FriendsCount {
+      get { return friendsCount_; }
+      set {
+        friendsCount_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "followersCount" field.</summary>
+    public const int FollowersCountFieldNumber = 2;
+    private int followersCount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int FollowersCount {
+      get { return followersCount_; }
+      set {
+        followersCount_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "followingCount" field.</summary>
+    public const int FollowingCountFieldNumber = 3;
+    private int followingCount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int FollowingCount {
+      get { return followingCount_; }
+      set {
+        followingCount_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "postsCount" field.</summary>
+    public const int PostsCountFieldNumber = 10;
+    private int postsCount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int PostsCount {
+      get { return postsCount_; }
+      set {
+        postsCount_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "verified" field.</summary>
+    public const int VerifiedFieldNumber = 11;
+    private bool verified_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Verified {
+      get { return verified_; }
+      set {
+        verified_ = value;
       }
     }
 
@@ -1629,10 +1741,18 @@ namespace InfX {
         return true;
       }
       if (Connected != other.Connected) return false;
-      if (Followers != other.Followers) return false;
-      if (Following != other.Following) return false;
       if (ScreenName != other.ScreenName) return false;
       if (DisplayName != other.DisplayName) return false;
+      if (ProfileUrl != other.ProfileUrl) return false;
+      if (Description != other.Description) return false;
+      if (Location != other.Location) return false;
+      if (Url != other.Url) return false;
+      if (Email != other.Email) return false;
+      if (FriendsCount != other.FriendsCount) return false;
+      if (FollowersCount != other.FollowersCount) return false;
+      if (FollowingCount != other.FollowingCount) return false;
+      if (PostsCount != other.PostsCount) return false;
+      if (Verified != other.Verified) return false;
       return true;
     }
 
@@ -1640,10 +1760,18 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       if (Connected != false) hash ^= Connected.GetHashCode();
-      if (Followers != 0) hash ^= Followers.GetHashCode();
-      if (Following != 0) hash ^= Following.GetHashCode();
       if (ScreenName.Length != 0) hash ^= ScreenName.GetHashCode();
       if (DisplayName.Length != 0) hash ^= DisplayName.GetHashCode();
+      if (ProfileUrl.Length != 0) hash ^= ProfileUrl.GetHashCode();
+      if (Description.Length != 0) hash ^= Description.GetHashCode();
+      if (Location.Length != 0) hash ^= Location.GetHashCode();
+      if (Url.Length != 0) hash ^= Url.GetHashCode();
+      if (Email.Length != 0) hash ^= Email.GetHashCode();
+      if (FriendsCount != 0) hash ^= FriendsCount.GetHashCode();
+      if (FollowersCount != 0) hash ^= FollowersCount.GetHashCode();
+      if (FollowingCount != 0) hash ^= FollowingCount.GetHashCode();
+      if (PostsCount != 0) hash ^= PostsCount.GetHashCode();
+      if (Verified != false) hash ^= Verified.GetHashCode();
       return hash;
     }
 
@@ -1658,13 +1786,13 @@ namespace InfX {
         output.WriteRawTag(8);
         output.WriteBool(Connected);
       }
-      if (Followers != 0) {
+      if (FollowersCount != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(Followers);
+        output.WriteInt32(FollowersCount);
       }
-      if (Following != 0) {
+      if (FollowingCount != 0) {
         output.WriteRawTag(24);
-        output.WriteInt32(Following);
+        output.WriteInt32(FollowingCount);
       }
       if (ScreenName.Length != 0) {
         output.WriteRawTag(34);
@@ -1674,6 +1802,38 @@ namespace InfX {
         output.WriteRawTag(42);
         output.WriteString(DisplayName);
       }
+      if (Description.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(Description);
+      }
+      if (Location.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(Location);
+      }
+      if (Url.Length != 0) {
+        output.WriteRawTag(66);
+        output.WriteString(Url);
+      }
+      if (FriendsCount != 0) {
+        output.WriteRawTag(72);
+        output.WriteInt32(FriendsCount);
+      }
+      if (PostsCount != 0) {
+        output.WriteRawTag(80);
+        output.WriteInt32(PostsCount);
+      }
+      if (Verified != false) {
+        output.WriteRawTag(88);
+        output.WriteBool(Verified);
+      }
+      if (Email.Length != 0) {
+        output.WriteRawTag(98);
+        output.WriteString(Email);
+      }
+      if (ProfileUrl.Length != 0) {
+        output.WriteRawTag(106);
+        output.WriteString(ProfileUrl);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1682,17 +1842,41 @@ namespace InfX {
       if (Connected != false) {
         size += 1 + 1;
       }
-      if (Followers != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Followers);
-      }
-      if (Following != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Following);
-      }
       if (ScreenName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ScreenName);
       }
       if (DisplayName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(DisplayName);
+      }
+      if (ProfileUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ProfileUrl);
+      }
+      if (Description.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+      }
+      if (Location.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Location);
+      }
+      if (Url.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Url);
+      }
+      if (Email.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Email);
+      }
+      if (FriendsCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(FriendsCount);
+      }
+      if (FollowersCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(FollowersCount);
+      }
+      if (FollowingCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(FollowingCount);
+      }
+      if (PostsCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PostsCount);
+      }
+      if (Verified != false) {
+        size += 1 + 1;
       }
       return size;
     }
@@ -1705,17 +1889,41 @@ namespace InfX {
       if (other.Connected != false) {
         Connected = other.Connected;
       }
-      if (other.Followers != 0) {
-        Followers = other.Followers;
-      }
-      if (other.Following != 0) {
-        Following = other.Following;
-      }
       if (other.ScreenName.Length != 0) {
         ScreenName = other.ScreenName;
       }
       if (other.DisplayName.Length != 0) {
         DisplayName = other.DisplayName;
+      }
+      if (other.ProfileUrl.Length != 0) {
+        ProfileUrl = other.ProfileUrl;
+      }
+      if (other.Description.Length != 0) {
+        Description = other.Description;
+      }
+      if (other.Location.Length != 0) {
+        Location = other.Location;
+      }
+      if (other.Url.Length != 0) {
+        Url = other.Url;
+      }
+      if (other.Email.Length != 0) {
+        Email = other.Email;
+      }
+      if (other.FriendsCount != 0) {
+        FriendsCount = other.FriendsCount;
+      }
+      if (other.FollowersCount != 0) {
+        FollowersCount = other.FollowersCount;
+      }
+      if (other.FollowingCount != 0) {
+        FollowingCount = other.FollowingCount;
+      }
+      if (other.PostsCount != 0) {
+        PostsCount = other.PostsCount;
+      }
+      if (other.Verified != false) {
+        Verified = other.Verified;
       }
     }
 
@@ -1732,11 +1940,11 @@ namespace InfX {
             break;
           }
           case 16: {
-            Followers = input.ReadInt32();
+            FollowersCount = input.ReadInt32();
             break;
           }
           case 24: {
-            Following = input.ReadInt32();
+            FollowingCount = input.ReadInt32();
             break;
           }
           case 34: {
@@ -1745,6 +1953,38 @@ namespace InfX {
           }
           case 42: {
             DisplayName = input.ReadString();
+            break;
+          }
+          case 50: {
+            Description = input.ReadString();
+            break;
+          }
+          case 58: {
+            Location = input.ReadString();
+            break;
+          }
+          case 66: {
+            Url = input.ReadString();
+            break;
+          }
+          case 72: {
+            FriendsCount = input.ReadInt32();
+            break;
+          }
+          case 80: {
+            PostsCount = input.ReadInt32();
+            break;
+          }
+          case 88: {
+            Verified = input.ReadBool();
+            break;
+          }
+          case 98: {
+            Email = input.ReadString();
+            break;
+          }
+          case 106: {
+            ProfileUrl = input.ReadString();
             break;
           }
         }
