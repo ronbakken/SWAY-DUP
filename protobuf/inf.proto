@@ -179,7 +179,18 @@ message DataSocialMedia {
   int32 postsCount = 10;
   
   bool verified = 11;
+}
+
+message DataOAuthCredentials {
+  /* Server info, never shared with client */
+  /// Token for OAuth1 and OAuth2
+  string oauthToken = 1;
   
+  /// Secret token for OAuth1. May be empty string for OAuth2
+  string oauthTokenSecret = 2;
+  
+  /// Expiration timestamp in seconds. No expiration if 0
+  int32 oauthTokenExpires = 3;
 }
 
 message DataInfluencer {
