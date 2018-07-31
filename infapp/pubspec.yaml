@@ -34,7 +34,7 @@ dependencies:
   # 0.4.1 crashes
   image_picker: 0.3.1
 
-dev_dependencies:
+# dev_dependencies:
   # flutter_test:
   #   sdk: flutter
 
