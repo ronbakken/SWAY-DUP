@@ -286,7 +286,7 @@ message DataAccountDetail {
   
 }
 
-messqge DataAccount {
+message DataAccount {
   DataAccountState state = 1;
   DataAccountSummary summary = 2;
   DataAccountDetail detail = 3;
