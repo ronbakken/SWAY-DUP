@@ -16,6 +16,27 @@ import '../dashboard_business.dart' show DashboardBusiness;
 import '../profile_view.dart' show ProfileView;
 // import '../widgets/follower_count.dart' show FollowerWidget;
 
+// temporary structure - use single DataAccountState structure, field visibility depending
+class DataAccountState2 {
+  // old fields from DataAccountState, fields as-is from account table
+  int deviceId = 0; // deviceId is private
+  int accountId = 0;
+  AccountType accountType = AccountType.AT_UNKNOWN;
+  GlobalAccountState globalAccountState = GlobalAccountState.GAS_INITIALIZE;
+  GlobalAccountStateReason globalAccountStateReason = GlobalAccountStateReason.GASR_NEW_ACCOUNT;
+
+  // old fields from DataInfluencer, fetched summary from various tables
+  String name = ''; // from account table
+  String avatarUrl = ''; // from account table
+  String location = ''; // from location table, depending on detail
+
+  // detail
+  List<String> bannerUrls = new List<String>(); // from uploaded media table
+  List<CategoryId> categories = new List<CategoryId>(); // from categories table
+  List<DataSocialMedia> socialMedia = new List<DataSocialMedia>(); // from social media table + oauth table
+
+}
+
 class DemoApp extends StatefulWidget {
   const DemoApp({
     Key key,
@@ -108,7 +129,7 @@ class DemoHomePage extends StatefulWidget {
 
 class _DemoHomePageState extends State<DemoHomePage> {
   
-  List<DataSocialMedia> demoSocialMedia = new List<DataSocialMedia>()..length = 12;
+  DataAccountState2 demoAccount = new DataAccountState2();
   final Random random = new Random();
 
   @override
@@ -123,10 +144,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
     super.didChangeDependencies();
     ConfigData config = ConfigManager.of(context);
     assert(config != null);
-    demoSocialMedia.length = config.oauthProviders.all.length;
-    for (int i = 0; i < demoSocialMedia.length; ++i) {
-      if (demoSocialMedia[i] == null) {
-        demoSocialMedia[i] = new DataSocialMedia();
+    demoAccount.socialMedia.length = config.oauthProviders.all.length;
+    for (int i = 0; i < demoAccount.socialMedia.length; ++i) {
+      if (demoAccount.socialMedia[i] == null) {
+        demoAccount.socialMedia[i] = new DataSocialMedia();
       }
     }
   }
@@ -173,11 +194,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
                   builder: (context) {
                     return new OnboardingSelection(
                       onInfluencer: () {
-                        /*scaffold.showSnackBar(new SnackBar(
+                        demoAccount.accountType = AccountType.AT_INFLUENCER;
+                        /* Scaffold.of(context).showSnackBar(new SnackBar(
                           content: new Text("You're an influencer!"),
-                        )); */
+                        )); */ // Tricky: context here is route context, not the scaffold of the onboarding selection
                       },
                       onBusiness: () {
+                        demoAccount.accountType = AccountType.AT_BUSINESS;
                         /* scaffold.showSnackBar(new SnackBar(
                           content: new Text("You're a business!"),
                         )); */
@@ -199,16 +222,16 @@ class _DemoHomePageState extends State<DemoHomePage> {
                       builder: (context, setState) {
                         assert(ConfigManager.of(context) != null);
                         return new OnboardingSocial(
-                          accountType: AccountType.AT_BUSINESS,
+                          accountType: demoAccount.accountType,
                           oauthProviders: ConfigManager.of(context).oauthProviders.all,
                           onOAuthSelected: (int oauthProvider) {
                             setState(() {
-                              demoSocialMedia[oauthProvider].connected = true;
-                              demoSocialMedia[oauthProvider].followersCount = random.nextInt(100000);
-                              demoSocialMedia[oauthProvider].friendsCount = random.nextInt(100000);
+                              demoAccount.socialMedia[oauthProvider].connected = true;
+                              demoAccount.socialMedia[oauthProvider].followersCount = random.nextInt(100000);
+                              demoAccount.socialMedia[oauthProvider].friendsCount = random.nextInt(100000);
                             });
                           },
-                          oauthState: demoSocialMedia, // () { return demoSocialMedia; }(),
+                          oauthState: demoAccount.socialMedia, // () { return demoSocialMedia; }(),
                           onSignUp: () { },
                         );
                       },
@@ -219,10 +242,11 @@ class _DemoHomePageState extends State<DemoHomePage> {
             },
           ),
           new FlatButton(
-            child: new Row(children: [ new Text('Reset Social') ] ),
+            child: new Row(children: [ new Text('Reset Onboarding') ] ),
             onPressed: () {
-              for (int i = 0; i < demoSocialMedia.length; ++i) {
-                demoSocialMedia[i] = new DataSocialMedia();
+              demoAccount.accountType = AccountType.AT_UNKNOWN;
+              for (int i = 0; i < demoAccount.socialMedia.length; ++i) {
+                demoAccount.socialMedia[i] = new DataSocialMedia();
               }
             },
           ),
