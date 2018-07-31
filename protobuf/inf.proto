@@ -273,7 +273,7 @@ message DataAccountState {
 
 message DataAccountSummary {
   string name = 1;
-  string description = 2
+  string description = 2;
   string location = 3;
   string avatarUrl = 4;
   
