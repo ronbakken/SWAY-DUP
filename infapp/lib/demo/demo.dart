@@ -12,7 +12,7 @@ import '../offer_view.dart' show OfferView;
 import '../offer_create.dart' show OfferCreate;
 import '../dashboard_business.dart' show DashboardBusiness;
 import '../profile_view.dart' show ProfileView;
-import '../widgets/follower_count.dart' show FollowerWidget;
+// import '../widgets/follower_count.dart' show FollowerWidget;
 
 class DemoApp extends StatefulWidget {
   const DemoApp({
