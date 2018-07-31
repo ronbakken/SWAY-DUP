@@ -460,142 +460,10 @@ class DataOAuthCredentials extends GeneratedMessage {
 
 class _ReadonlyDataOAuthCredentials extends DataOAuthCredentials with ReadonlyMessageMixin {}
 
-class DataInfluencer extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataInfluencer')
-    ..aInt64(1, 'id')
-    ..aOS(2, 'name')
-    ..aOS(3, 'location')
-    ..aOS(4, 'avatarUrl')
-    ..pp<CategoryId>(5, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
-    ..a<double>(6, 'lat', PbFieldType.OD)
-    ..a<double>(7, 'lng', PbFieldType.OD)
-    ..pp<DataSocialMedia>(8, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
-    ..hasRequiredFields = false
-  ;
-
-  DataInfluencer() : super();
-  DataInfluencer.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataInfluencer.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  DataInfluencer clone() => new DataInfluencer()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static DataInfluencer create() => new DataInfluencer();
-  static PbList<DataInfluencer> createRepeated() => new PbList<DataInfluencer>();
-  static DataInfluencer getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataInfluencer();
-    return _defaultInstance;
-  }
-  static DataInfluencer _defaultInstance;
-  static void $checkItem(DataInfluencer v) {
-    if (v is! DataInfluencer) checkItemFailed(v, 'DataInfluencer');
-  }
-
-  Int64 get id => $_getI64(0);
-  set id(Int64 v) { $_setInt64(0, v); }
-  bool hasId() => $_has(0);
-  void clearId() => clearField(1);
-
-  String get name => $_getS(1, '');
-  set name(String v) { $_setString(1, v); }
-  bool hasName() => $_has(1);
-  void clearName() => clearField(2);
-
-  String get location => $_getS(2, '');
-  set location(String v) { $_setString(2, v); }
-  bool hasLocation() => $_has(2);
-  void clearLocation() => clearField(3);
-
-  String get avatarUrl => $_getS(3, '');
-  set avatarUrl(String v) { $_setString(3, v); }
-  bool hasAvatarUrl() => $_has(3);
-  void clearAvatarUrl() => clearField(4);
-
-  List<CategoryId> get categories => $_getList(4);
-
-  double get lat => $_getN(5);
-  set lat(double v) { $_setDouble(5, v); }
-  bool hasLat() => $_has(5);
-  void clearLat() => clearField(6);
-
-  double get lng => $_getN(6);
-  set lng(double v) { $_setDouble(6, v); }
-  bool hasLng() => $_has(6);
-  void clearLng() => clearField(7);
-
-  List<DataSocialMedia> get socialMedia => $_getList(7);
-}
-
-class _ReadonlyDataInfluencer extends DataInfluencer with ReadonlyMessageMixin {}
-
-class DataBusiness extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataBusiness')
-    ..aInt64(1, 'id')
-    ..aOS(2, 'name')
-    ..aOS(3, 'location')
-    ..aOS(4, 'avatarUrl')
-    ..pp<CategoryId>(5, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
-    ..a<double>(6, 'lat', PbFieldType.OD)
-    ..a<double>(7, 'lng', PbFieldType.OD)
-    ..pp<DataSocialMedia>(8, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
-    ..hasRequiredFields = false
-  ;
-
-  DataBusiness() : super();
-  DataBusiness.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataBusiness.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  DataBusiness clone() => new DataBusiness()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static DataBusiness create() => new DataBusiness();
-  static PbList<DataBusiness> createRepeated() => new PbList<DataBusiness>();
-  static DataBusiness getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataBusiness();
-    return _defaultInstance;
-  }
-  static DataBusiness _defaultInstance;
-  static void $checkItem(DataBusiness v) {
-    if (v is! DataBusiness) checkItemFailed(v, 'DataBusiness');
-  }
-
-  Int64 get id => $_getI64(0);
-  set id(Int64 v) { $_setInt64(0, v); }
-  bool hasId() => $_has(0);
-  void clearId() => clearField(1);
-
-  String get name => $_getS(1, '');
-  set name(String v) { $_setString(1, v); }
-  bool hasName() => $_has(1);
-  void clearName() => clearField(2);
-
-  String get location => $_getS(2, '');
-  set location(String v) { $_setString(2, v); }
-  bool hasLocation() => $_has(2);
-  void clearLocation() => clearField(3);
-
-  String get avatarUrl => $_getS(3, '');
-  set avatarUrl(String v) { $_setString(3, v); }
-  bool hasAvatarUrl() => $_has(3);
-  void clearAvatarUrl() => clearField(4);
-
-  List<CategoryId> get categories => $_getList(4);
-
-  double get lat => $_getN(5);
-  set lat(double v) { $_setDouble(5, v); }
-  bool hasLat() => $_has(5);
-  void clearLat() => clearField(6);
-
-  double get lng => $_getN(6);
-  set lng(double v) { $_setDouble(6, v); }
-  bool hasLng() => $_has(6);
-  void clearLng() => clearField(7);
-
-  List<DataSocialMedia> get socialMedia => $_getList(7);
-}
-
-class _ReadonlyDataBusiness extends DataBusiness with ReadonlyMessageMixin {}
-
 class DataOffer extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataOffer')
     ..aInt64(1, 'id')
-    ..a<DataBusiness>(2, 'business', PbFieldType.OM, DataBusiness.getDefault, DataBusiness.create)
+    ..a<DataAccount>(2, 'business', PbFieldType.OM, DataAccount.getDefault, DataAccount.create)
     ..aOS(3, 'title')
     ..pPS(4, 'imageUrls')
     ..pp<CategoryId>(5, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
@@ -628,8 +496,8 @@ class DataOffer extends GeneratedMessage {
   bool hasId() => $_has(0);
   void clearId() => clearField(1);
 
-  DataBusiness get business => $_getN(1);
-  set business(DataBusiness v) { setField(2, v); }
+  DataAccount get business => $_getN(1);
+  set business(DataAccount v) { setField(2, v); }
   bool hasBusiness() => $_has(1);
   void clearBusiness() => clearField(2);
 
@@ -674,7 +542,7 @@ class DataApplicant extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataApplicant')
     ..aInt64(1, 'id')
     ..a<DataOffer>(2, 'offer', PbFieldType.OM, DataOffer.getDefault, DataOffer.create)
-    ..a<DataInfluencer>(3, 'influencer', PbFieldType.OM, DataInfluencer.getDefault, DataInfluencer.create)
+    ..a<DataAccount>(3, 'influencer', PbFieldType.OM, DataAccount.getDefault, DataAccount.create)
     ..hasRequiredFields = false
   ;
 
@@ -704,8 +572,8 @@ class DataApplicant extends GeneratedMessage {
   bool hasOffer() => $_has(1);
   void clearOffer() => clearField(2);
 
-  DataInfluencer get influencer => $_getN(2);
-  set influencer(DataInfluencer v) { setField(3, v); }
+  DataAccount get influencer => $_getN(2);
+  set influencer(DataAccount v) { setField(3, v); }
   bool hasInfluencer() => $_has(2);
   void clearInfluencer() => clearField(3);
 }
@@ -819,6 +687,129 @@ class DataAccountState extends GeneratedMessage {
 }
 
 class _ReadonlyDataAccountState extends DataAccountState with ReadonlyMessageMixin {}
+
+class DataAccountSummary extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('DataAccountSummary')
+    ..aOS(1, 'name')
+    ..aOS(2, 'description')
+    ..aOS(3, 'location')
+    ..aOS(4, 'avatarUrl')
+    ..hasRequiredFields = false
+  ;
+
+  DataAccountSummary() : super();
+  DataAccountSummary.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  DataAccountSummary.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataAccountSummary clone() => new DataAccountSummary()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static DataAccountSummary create() => new DataAccountSummary();
+  static PbList<DataAccountSummary> createRepeated() => new PbList<DataAccountSummary>();
+  static DataAccountSummary getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataAccountSummary();
+    return _defaultInstance;
+  }
+  static DataAccountSummary _defaultInstance;
+  static void $checkItem(DataAccountSummary v) {
+    if (v is! DataAccountSummary) checkItemFailed(v, 'DataAccountSummary');
+  }
+
+  String get name => $_getS(0, '');
+  set name(String v) { $_setString(0, v); }
+  bool hasName() => $_has(0);
+  void clearName() => clearField(1);
+
+  String get description => $_getS(1, '');
+  set description(String v) { $_setString(1, v); }
+  bool hasDescription() => $_has(1);
+  void clearDescription() => clearField(2);
+
+  String get location => $_getS(2, '');
+  set location(String v) { $_setString(2, v); }
+  bool hasLocation() => $_has(2);
+  void clearLocation() => clearField(3);
+
+  String get avatarUrl => $_getS(3, '');
+  set avatarUrl(String v) { $_setString(3, v); }
+  bool hasAvatarUrl() => $_has(3);
+  void clearAvatarUrl() => clearField(4);
+}
+
+class _ReadonlyDataAccountSummary extends DataAccountSummary with ReadonlyMessageMixin {}
+
+class DataAccountDetail extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('DataAccountDetail')
+    ..pPS(1, 'coverUrls')
+    ..pp<CategoryId>(2, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
+    ..pp<DataSocialMedia>(3, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
+    ..hasRequiredFields = false
+  ;
+
+  DataAccountDetail() : super();
+  DataAccountDetail.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  DataAccountDetail.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataAccountDetail clone() => new DataAccountDetail()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static DataAccountDetail create() => new DataAccountDetail();
+  static PbList<DataAccountDetail> createRepeated() => new PbList<DataAccountDetail>();
+  static DataAccountDetail getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataAccountDetail();
+    return _defaultInstance;
+  }
+  static DataAccountDetail _defaultInstance;
+  static void $checkItem(DataAccountDetail v) {
+    if (v is! DataAccountDetail) checkItemFailed(v, 'DataAccountDetail');
+  }
+
+  List<String> get coverUrls => $_getList(0);
+
+  List<CategoryId> get categories => $_getList(1);
+
+  List<DataSocialMedia> get socialMedia => $_getList(2);
+}
+
+class _ReadonlyDataAccountDetail extends DataAccountDetail with ReadonlyMessageMixin {}
+
+class DataAccount extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('DataAccount')
+    ..a<DataAccountState>(1, 'state', PbFieldType.OM, DataAccountState.getDefault, DataAccountState.create)
+    ..a<DataAccountSummary>(2, 'summary', PbFieldType.OM, DataAccountSummary.getDefault, DataAccountSummary.create)
+    ..a<DataAccountDetail>(3, 'detail', PbFieldType.OM, DataAccountDetail.getDefault, DataAccountDetail.create)
+    ..hasRequiredFields = false
+  ;
+
+  DataAccount() : super();
+  DataAccount.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  DataAccount.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataAccount clone() => new DataAccount()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static DataAccount create() => new DataAccount();
+  static PbList<DataAccount> createRepeated() => new PbList<DataAccount>();
+  static DataAccount getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataAccount();
+    return _defaultInstance;
+  }
+  static DataAccount _defaultInstance;
+  static void $checkItem(DataAccount v) {
+    if (v is! DataAccount) checkItemFailed(v, 'DataAccount');
+  }
+
+  DataAccountState get state => $_getN(0);
+  set state(DataAccountState v) { setField(1, v); }
+  bool hasState() => $_has(0);
+  void clearState() => clearField(1);
+
+  DataAccountSummary get summary => $_getN(1);
+  set summary(DataAccountSummary v) { setField(2, v); }
+  bool hasSummary() => $_has(1);
+  void clearSummary() => clearField(2);
+
+  DataAccountDetail get detail => $_getN(2);
+  set detail(DataAccountDetail v) { setField(3, v); }
+  bool hasDetail() => $_has(2);
+  void clearDetail() => clearField(3);
+}
+
+class _ReadonlyDataAccount extends DataAccount with ReadonlyMessageMixin {}
 
 class NetDeviceAuthCreateReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthCreateReq')
