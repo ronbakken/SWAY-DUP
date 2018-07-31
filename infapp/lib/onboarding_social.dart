@@ -15,6 +15,7 @@ class OnboardingSocial extends StatelessWidget {
     @required this.oauthProviders,
     @required this.oauthState,
     @required this.onOAuthSelected,
+    @required this.onSignUp,
   }) : super(key: key);
 
   final AccountType accountType; 
@@ -22,29 +23,39 @@ class OnboardingSocial extends StatelessWidget {
   final List<DataSocialMedia> oauthState;
 
   final OAuthSelection onOAuthSelected;
+  final VoidCallback onSignUp;
 
   @override
   Widget build(BuildContext context) {
     assert(ConfigManager.of(context) != null);
     List<Widget> oauthButtons = new List<Widget>();
     print("OAuth Providers: " + oauthProviders.length.toString());
-    for (int i = 0; i < oauthProviders.length; ++i) {
+    int nbButtons = oauthProviders.length < oauthState.length ? oauthProviders.length : oauthState.length;
+    bool connected = false;
+    for (int i = 0; i < nbButtons; ++i) {
       ConfigOAuthProvider cfg = oauthProviders[i];
       if (cfg.visible && cfg.mechanism != OAuthMechanism.OAM_NONE) {
+        if (oauthState[i].connected) {
+          connected = true;
+        }
         Widget r = new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             new Icon(new IconData(cfg.fontAwesomeBrand, fontFamily: 'FontAwesomeBrands', fontPackage: 'font_awesome_flutter')),
             new Text(cfg.label.toUpperCase()),
-            new Icon(FontAwesomeIcons.signInAlt),
+            new Icon(oauthState[i].connected ? FontAwesomeIcons.checkCircle : FontAwesomeIcons.signInAlt),
           ]
         );
-        var p = (cfg.enabled && onOAuthSelected != null) ? () { onOAuthSelected(i); } : null;
         Widget w = new Container(
           margin: new EdgeInsets.all(8.0),
-          child: new RaisedButton(
-            child: r,
-            onPressed: p,
+          child: (oauthState[i].connected 
+            ? new FlatButton(
+              child: r,
+              onPressed: null,
+            ) : new RaisedButton(
+              child: r,
+              onPressed: (cfg.enabled && onOAuthSelected != null) ? () { onOAuthSelected(i); } : null,
+            )
           ),
         );
         oauthButtons.add(w);
@@ -83,6 +94,23 @@ class OnboardingSocial extends StatelessWidget {
                 ),
                 new Column(
                   children: oauthButtons,
+                ),
+                new Container(
+                  margin: new EdgeInsets.all(8.0),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      new RaisedButton(
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            new Text("Sign up".toUpperCase()),
+                          ],
+                        ),
+                        onPressed: connected ? onSignUp : null,
+                      )
+                    ],
+                  )
                 ),
               ],
             ),

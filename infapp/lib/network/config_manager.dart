@@ -12,6 +12,26 @@ import 'package:flutter/services.dart' show rootBundle;
 
 import 'inf.pb.dart';
 
+String translateGlobalAccountStateReason(GlobalAccountStateReason globalAccountStateReason) {
+  switch (globalAccountStateReason) {
+    case GlobalAccountStateReason.GASR_NEW_ACCOUNT:
+      return "Your INF Marketplace account status can not be loaded at the moment."; // // "Your account has not yet been created."; // This is a bug
+    case GlobalAccountStateReason.GASR_ACCOUNT_BANNED:
+      return "Your INF Marketplace account has been banned. Please contact support.";
+    case GlobalAccountStateReason.GASR_CREATE_DENIED:
+      return "Your INF Marketplace account was not approved. Please contact support.";
+    case GlobalAccountStateReason.GASR_APPROVED:
+      return "Welcome to the INF Marketplace. Your account has been approved. Congratulations!";
+    case GlobalAccountStateReason.GASR_DEMO_APPROVED:
+      return "Welcome to the INF Marketplace. We are delighted to have you as an early tester!";
+    case GlobalAccountStateReason.GASR_PENDING:
+      return "Your INF Marketplace account is pending approval. Hold on tight!";
+    case GlobalAccountStateReason.GASR_REQUIRE_INFO:
+      return "We require more information to process your INF Marketplace account. Please contact support.";
+  }
+  return "There is an issue with your INF Marketplace account. Please contact support.";
+}
+
 class ConfigManager extends StatefulWidget {
   const ConfigManager({
     Key key,

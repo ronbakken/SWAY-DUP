@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../network/inf.pb.dart';
@@ -91,10 +93,43 @@ class MeepMeep extends StatelessWidget { // stateless widget is just a widget th
   }
 }
 
-class DemoHomePage extends StatelessWidget {
+
+class DemoHomePage extends StatefulWidget {
+  const DemoHomePage({
+    Key key,
+    this.onSetServer
+  }) : super(key: key);
+  
   final Function onSetServer;
 
-  const DemoHomePage({ this.onSetServer });
+  @override
+  _DemoHomePageState createState() => new _DemoHomePageState();
+}
+
+class _DemoHomePageState extends State<DemoHomePage> {
+  
+  List<DataSocialMedia> demoSocialMedia = new List<DataSocialMedia>()..length = 12;
+  final Random random = new Random();
+
+  @override
+  void initState() {
+    super.initState();
+    // ...
+    
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ConfigData config = ConfigManager.of(context);
+    assert(config != null);
+    demoSocialMedia.length = config.oauthProviders.all.length;
+    for (int i = 0; i < demoSocialMedia.length; ++i) {
+      if (demoSocialMedia[i] == null) {
+        demoSocialMedia[i] = new DataSocialMedia();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,11 +150,11 @@ class DemoHomePage extends StatelessWidget {
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Localhost 1 (Genymotion Emulator)') ] ),
-            onPressed: () { onSetServer("ws://192.168.105.2:9090/ws", 1); }, // 1&2 = mariadb.devinf.net 
+            onPressed: () { widget.onSetServer("ws://192.168.105.2:9090/ws", 1); }, // 1&2 = mariadb.devinf.net 
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Localhost 2 (Genymotion Emulator)') ] ),
-            onPressed: () { onSetServer("ws://192.168.105.2:9090/ws", 2); }, // 1&2 = mariadb.devinf.net 
+            onPressed: () { widget.onSetServer("ws://192.168.105.2:9090/ws", 2); }, // 1&2 = mariadb.devinf.net 
           ),
           ///
           /// The Portion for the On boarding UI
@@ -160,14 +195,35 @@ class DemoHomePage extends StatelessWidget {
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    assert(ConfigManager.of(context) != null);
-                    return new OnboardingSocial(
-                      accountType: AccountType.AT_BUSINESS,
-                      oauthProviders: ConfigManager.of(context).oauthProviders.all,
+                    return new StatefulBuilder(
+                      builder: (context, setState) {
+                        assert(ConfigManager.of(context) != null);
+                        return new OnboardingSocial(
+                          accountType: AccountType.AT_BUSINESS,
+                          oauthProviders: ConfigManager.of(context).oauthProviders.all,
+                          onOAuthSelected: (int oauthProvider) {
+                            setState(() {
+                              demoSocialMedia[oauthProvider].connected = true;
+                              demoSocialMedia[oauthProvider].followersCount = random.nextInt(100000);
+                              demoSocialMedia[oauthProvider].friendsCount = random.nextInt(100000);
+                            });
+                          },
+                          oauthState: demoSocialMedia, // () { return demoSocialMedia; }(),
+                          onSignUp: () { },
+                        );
+                      },
                     );
                   },
                 )
               );
+            },
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('Reset Social') ] ),
+            onPressed: () {
+              for (int i = 0; i < demoSocialMedia.length; ++i) {
+                demoSocialMedia[i] = new DataSocialMedia();
+              }
             },
           ),
           ///

@@ -18,7 +18,7 @@ import 'onboarding_social.dart';
 // Onboarding sequence
 class AppOnboarding extends StatelessWidget {
   void navigateToOAuth(BuildContext context, int oauthProvider) {
-    Navigator.push(
+    Navigator.push( // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
       new MaterialPageRoute(
         builder: (context) {
@@ -37,7 +37,7 @@ class AppOnboarding extends StatelessWidget {
   }
 
   void navigateToSocial(BuildContext context) {
-    Navigator.push(
+    Navigator.push( // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
       new MaterialPageRoute(
         builder: (context) {
