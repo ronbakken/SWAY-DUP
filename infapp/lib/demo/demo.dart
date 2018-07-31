@@ -27,6 +27,7 @@ class DataAccountState2 {
 
   // old fields from DataInfluencer, fetched summary from various tables
   String name = ''; // from account table
+  String description = ''; // from account table
   String avatarUrl = ''; // from account table
   String location = ''; // from location table, depending on detail
 
@@ -227,12 +228,19 @@ class _DemoHomePageState extends State<DemoHomePage> {
                           onOAuthSelected: (int oauthProvider) {
                             setState(() {
                               demoAccount.socialMedia[oauthProvider].connected = true;
-                              demoAccount.socialMedia[oauthProvider].followersCount = random.nextInt(100000);
-                              demoAccount.socialMedia[oauthProvider].friendsCount = random.nextInt(100000);
+                              demoAccount.socialMedia[oauthProvider].followersCount = random.nextInt(1000000);
+                              demoAccount.socialMedia[oauthProvider].friendsCount = random.nextInt(1000000);
                             });
                           },
                           oauthState: demoAccount.socialMedia, // () { return demoSocialMedia; }(),
-                          onSignUp: () { },
+                          onSignUp: () { 
+                            demoAccount.accountId = random.nextInt(1000000) + 1;
+                            demoAccount.name = "John Smith";
+                            demoAccount.avatarUrl = '';
+                            demoAccount.location = "Cardiff, London";
+                            demoAccount.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
+                            demoAccount.globalAccountStateReason = GlobalAccountStateReason.GASR_DEMO_APPROVED;
+                          },
                         );
                       },
                     );
@@ -244,7 +252,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('Reset Onboarding') ] ),
             onPressed: () {
+              demoAccount.accountId = 0;
               demoAccount.accountType = AccountType.AT_UNKNOWN;
+              demoAccount.name = '';
+              demoAccount.avatarUrl = '';
+              demoAccount.location = '';
+              demoAccount.globalAccountState = GlobalAccountState.GAS_INITIALIZE;
+              demoAccount.globalAccountStateReason = GlobalAccountStateReason.GASR_NEW_ACCOUNT;
               for (int i = 0; i < demoAccount.socialMedia.length; ++i) {
                 demoAccount.socialMedia[i] = new DataSocialMedia();
               }
@@ -274,6 +288,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('View Business Profile (Self)') ] ),
             onPressed: () { 
+              demoAccount.accountType = AccountType.AT_BUSINESS;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -293,6 +308,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('Edit Business Profile (Self)') ] ),
             /*onPressed: () { 
+              demoAccount.accountType = AccountType.AT_BUSINESS;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -306,6 +322,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('View Influencer Profile') ] ),
             onPressed: () { 
+              demoAccount.accountType = AccountType.AT_INFLUENCER;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -366,6 +383,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('View Influencer Profile (Self)') ] ),
             onPressed: () { 
+              demoAccount.accountType = AccountType.AT_INFLUENCER;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -384,6 +402,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('Edit Influencer Profile (Self)') ] ),
             /*onPressed: () { 
+              demoAccount.accountType = AccountType.AT_INFLUENCER;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -410,6 +429,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('View Business Profile') ] ),
             onPressed: () { 
+              demoAccount.accountType = AccountType.AT_BUSINESS;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
