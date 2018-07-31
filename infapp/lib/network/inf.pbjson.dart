@@ -149,39 +149,11 @@ const DataOAuthCredentials$json = const {
   ],
 };
 
-const DataInfluencer$json = const {
-  '1': 'DataInfluencer',
-  '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
-    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'location', '3': 3, '4': 1, '5': 9, '10': 'location'},
-    const {'1': 'avatarUrl', '3': 4, '4': 1, '5': 9, '10': 'avatarUrl'},
-    const {'1': 'categories', '3': 5, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
-    const {'1': 'lat', '3': 6, '4': 1, '5': 1, '10': 'lat'},
-    const {'1': 'lng', '3': 7, '4': 1, '5': 1, '10': 'lng'},
-    const {'1': 'socialMedia', '3': 8, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
-  ],
-};
-
-const DataBusiness$json = const {
-  '1': 'DataBusiness',
-  '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
-    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'location', '3': 3, '4': 1, '5': 9, '10': 'location'},
-    const {'1': 'avatarUrl', '3': 4, '4': 1, '5': 9, '10': 'avatarUrl'},
-    const {'1': 'categories', '3': 5, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
-    const {'1': 'lat', '3': 6, '4': 1, '5': 1, '10': 'lat'},
-    const {'1': 'lng', '3': 7, '4': 1, '5': 1, '10': 'lng'},
-    const {'1': 'socialMedia', '3': 8, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
-  ],
-};
-
 const DataOffer$json = const {
   '1': 'DataOffer',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
-    const {'1': 'business', '3': 2, '4': 1, '5': 11, '6': '.DataBusiness', '10': 'business'},
+    const {'1': 'business', '3': 2, '4': 1, '5': 11, '6': '.DataAccount', '10': 'business'},
     const {'1': 'title', '3': 3, '4': 1, '5': 9, '10': 'title'},
     const {'1': 'imageUrls', '3': 4, '4': 3, '5': 9, '10': 'imageUrls'},
     const {'1': 'categories', '3': 5, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
@@ -198,7 +170,7 @@ const DataApplicant$json = const {
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
     const {'1': 'offer', '3': 2, '4': 1, '5': 11, '6': '.DataOffer', '10': 'offer'},
-    const {'1': 'influencer', '3': 3, '4': 1, '5': 11, '6': '.DataInfluencer', '10': 'influencer'},
+    const {'1': 'influencer', '3': 3, '4': 1, '5': 11, '6': '.DataAccount', '10': 'influencer'},
   ],
 };
 
@@ -221,6 +193,34 @@ const DataAccountState$json = const {
     const {'1': 'accountType', '3': 3, '4': 1, '5': 14, '6': '.AccountType', '10': 'accountType'},
     const {'1': 'globalAccountState', '3': 4, '4': 1, '5': 14, '6': '.GlobalAccountState', '10': 'globalAccountState'},
     const {'1': 'globalAccountStateReason', '3': 5, '4': 1, '5': 14, '6': '.GlobalAccountStateReason', '10': 'globalAccountStateReason'},
+  ],
+};
+
+const DataAccountSummary$json = const {
+  '1': 'DataAccountSummary',
+  '2': const [
+    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'description', '3': 2, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'location', '3': 3, '4': 1, '5': 9, '10': 'location'},
+    const {'1': 'avatarUrl', '3': 4, '4': 1, '5': 9, '10': 'avatarUrl'},
+  ],
+};
+
+const DataAccountDetail$json = const {
+  '1': 'DataAccountDetail',
+  '2': const [
+    const {'1': 'coverUrls', '3': 1, '4': 3, '5': 9, '10': 'coverUrls'},
+    const {'1': 'categories', '3': 2, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
+    const {'1': 'socialMedia', '3': 3, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
+  ],
+};
+
+const DataAccount$json = const {
+  '1': 'DataAccount',
+  '2': const [
+    const {'1': 'state', '3': 1, '4': 1, '5': 11, '6': '.DataAccountState', '10': 'state'},
+    const {'1': 'summary', '3': 2, '4': 1, '5': 11, '6': '.DataAccountSummary', '10': 'summary'},
+    const {'1': 'detail', '3': 3, '4': 1, '5': 11, '6': '.DataAccountDetail', '10': 'detail'},
   ],
 };
 
