@@ -9,7 +9,6 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:convert';
 
-import 'package:api/inf.pb.dart';
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:wstalk/wstalk.dart';
@@ -18,6 +17,7 @@ import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
 import 'package:synchronized/synchronized.dart';
 
+import 'inf.pb.dart';
 import 'remote_app_oauth.dart';
 
 // TODO: Move sql queries into a separate shared class, to allow prepared statements, and simplify code here

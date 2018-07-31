@@ -19,12 +19,12 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:api/inf.pb.dart';
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 // import 'package:postgres/postgres.dart' as postgres;
 import 'package:wstalk/wstalk.dart';
 
+import 'inf.pb.dart';
 import 'remote_app.dart';
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -16,7 +16,7 @@
 			"path": "dart-oauth1"
 		},
 		{
-			"path": "X:\\source\\infcommon\\config"
+			"path": "..\\infcommon\\config"
 		}
 	]
 }
