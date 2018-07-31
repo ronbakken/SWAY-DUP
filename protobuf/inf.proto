@@ -225,7 +225,7 @@ message DataBusiness {
 
 message DataOffer {
   int64 id = 1;
-  DataBusiness business = 2;
+  DataAccount business = 2;
   string title = 3;
   repeated string imageUrls = 4;
   repeated CategoryId categories = 5;
@@ -240,7 +240,7 @@ message DataOffer {
 message DataApplicant {
   int64 id = 1;
   DataOffer offer = 2;
-  DataInfluencer influencer = 3;
+  DataAccount influencer = 3;
   // bool influencer accepted/delivered/...
   // bool business accepted/received service/...
   // datetime schedule etc
