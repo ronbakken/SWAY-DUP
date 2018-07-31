@@ -1,6 +1,6 @@
 [submodule "flutter_map"]
 	path = flutter_map
-	url = https://github.com/nbspou/flutter_map.git
+	url = git@github.com:nbspou/flutter_map.git
 [submodule "wstalk"]
 	path = wstalk
 	url = git@github.com:nbspou/wstalk.git
