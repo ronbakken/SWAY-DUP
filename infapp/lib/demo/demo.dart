@@ -14,6 +14,7 @@ import '../onboarding_social.dart' show OnboardingSocial;
 import '../offer_view.dart' show OfferView;
 import '../offer_create.dart' show OfferCreate;
 import '../dashboard_business.dart' show DashboardBusiness;
+import '../nearby_influencers.dart';
 import '../profile_view.dart' show ProfileView;
 // import '../widgets/follower_count.dart' show FollowerWidget;
 
@@ -377,6 +378,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
                   builder: (context) {
                     return new DashboardBusiness(
                       account: demoAccount,
+                      onMakeAnOffer: () { },
+                      onNavigateProfile: () { },
+                      map: new NearbyInfluencers(),
                     );
                   },
                 )
