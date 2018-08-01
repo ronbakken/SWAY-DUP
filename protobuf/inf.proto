@@ -262,9 +262,9 @@ message DataLocation {
 }
 
 message DataApplicant {
-  int64 id = 1;
-  DataOffer offer = 2;
-  DataAccount influencer = 3;
+  int64 applicantId = 1;
+  int64 offerId = 2;
+  int32 accountId = 3;
   // bool influencer accepted/delivered/...
   // bool business accepted/received service/...
   // datetime schedule etc
