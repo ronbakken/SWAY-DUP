@@ -163,6 +163,22 @@ enum NotificationFlags {
   
 }
 
+enum BusinessOfferState {
+  BOS_DRAFT = 0;
+  BOS_OPEN = 1; // Open and awaiting new applicants
+  BOS_ACTIVE = 2; // Active but no longer accepting applicants
+  BOS_CLOSED = 3;
+  
+}
+
+enum BusinessOfferStateReason {
+  BOSR_NEW_OFFER = 0;
+  BOSR_USER_CLOSED = 1; // You have closed this offer.
+  BOSR_TOS_VIOLATION = 2; // This offer violates the Terms of Service
+  BOSR_COMPLETED = 3; // This offer has been completed by all applicants
+  
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -210,17 +226,38 @@ message DataOAuthCredentials {
   
 }
 
-message DataOffer {
-  int64 id = 1;
-  DataAccount business = 2;
-  string title = 3;
-  repeated string imageUrls = 4;
-  repeated CategoryId categories = 5;
-  double lat = 6;
-  double lng = 7;
-  string description = 8;
-  string deliverables = 9;
-  string reward = 10;
+message DataBusinessOffer {
+  int64 offerId = 1;
+  int32 accountId = 2;
+  int32 locationId = 3;
+  
+  string title = 4;
+  string description = 5;
+  string avatarUrl = 6;
+  
+  string deliverables = 7;
+  string reward = 8;
+  string location = 9;
+  
+  repeated string coverUrls = 10;
+  repeated CategoryId categories = 11;
+  
+  BusinessOfferState state = 12;
+  BusinessOfferStateReason stateReason = 13;
+  int32 applicantsNew = 14;
+  int32 applicantsAccepted = 15;
+  int32 applicantsCompleted = 16;
+  int32 applicantsRefused = 17;
+  
+}
+
+message DataLocation {
+  int32 locationId = 1;
+  string name = 2;
+  string address = 3;
+  string avatarUrl = 6;
+  double lat = 4;
+  double lng = 5;
   
 }
 
@@ -253,8 +290,8 @@ message DataAccountState {
   // Account type. If not AT_UNKNOWN, account creation may bypass type selection
   AccountType accountType = 3;
   
-  GlobalAccountState globalAccountState = 4;
-  GlobalAccountStateReason globalAccountStateReason = 5;
+  GlobalAccountState globalAccountState = 4; // TODO: Rename to globalState
+  GlobalAccountStateReason globalAccountStateReason = 5; // TODO: Rename to globalStateReason
   
   NotificationFlags notificationFlags = 6;
   
