@@ -66,6 +66,26 @@ const NotificationFlags$json = const {
   ],
 };
 
+const BusinessOfferState$json = const {
+  '1': 'BusinessOfferState',
+  '2': const [
+    const {'1': 'BOS_DRAFT', '2': 0},
+    const {'1': 'BOS_OPEN', '2': 1},
+    const {'1': 'BOS_ACTIVE', '2': 2},
+    const {'1': 'BOS_CLOSED', '2': 3},
+  ],
+};
+
+const BusinessOfferStateReason$json = const {
+  '1': 'BusinessOfferStateReason',
+  '2': const [
+    const {'1': 'BOSR_NEW_OFFER', '2': 0},
+    const {'1': 'BOSR_USER_CLOSED', '2': 1},
+    const {'1': 'BOSR_TOS_VIOLATION', '2': 2},
+    const {'1': 'BOSR_COMPLETED', '2': 3},
+  ],
+};
+
 const ConfigSubCategories$json = const {
   '1': 'ConfigSubCategories',
   '2': const [
@@ -159,28 +179,47 @@ const DataOAuthCredentials$json = const {
   ],
 };
 
-const DataOffer$json = const {
-  '1': 'DataOffer',
+const DataBusinessOffer$json = const {
+  '1': 'DataBusinessOffer',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
-    const {'1': 'business', '3': 2, '4': 1, '5': 11, '6': '.DataAccount', '10': 'business'},
-    const {'1': 'title', '3': 3, '4': 1, '5': 9, '10': 'title'},
-    const {'1': 'imageUrls', '3': 4, '4': 3, '5': 9, '10': 'imageUrls'},
-    const {'1': 'categories', '3': 5, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
-    const {'1': 'lat', '3': 6, '4': 1, '5': 1, '10': 'lat'},
-    const {'1': 'lng', '3': 7, '4': 1, '5': 1, '10': 'lng'},
-    const {'1': 'description', '3': 8, '4': 1, '5': 9, '10': 'description'},
-    const {'1': 'deliverables', '3': 9, '4': 1, '5': 9, '10': 'deliverables'},
-    const {'1': 'reward', '3': 10, '4': 1, '5': 9, '10': 'reward'},
+    const {'1': 'offerId', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
+    const {'1': 'accountId', '3': 2, '4': 1, '5': 5, '10': 'accountId'},
+    const {'1': 'locationId', '3': 3, '4': 1, '5': 5, '10': 'locationId'},
+    const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
+    const {'1': 'description', '3': 5, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'avatarUrl', '3': 6, '4': 1, '5': 9, '10': 'avatarUrl'},
+    const {'1': 'deliverables', '3': 7, '4': 1, '5': 9, '10': 'deliverables'},
+    const {'1': 'reward', '3': 8, '4': 1, '5': 9, '10': 'reward'},
+    const {'1': 'location', '3': 9, '4': 1, '5': 9, '10': 'location'},
+    const {'1': 'coverUrls', '3': 10, '4': 3, '5': 9, '10': 'coverUrls'},
+    const {'1': 'categories', '3': 11, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
+    const {'1': 'state', '3': 12, '4': 1, '5': 14, '6': '.BusinessOfferState', '10': 'state'},
+    const {'1': 'stateReason', '3': 13, '4': 1, '5': 14, '6': '.BusinessOfferStateReason', '10': 'stateReason'},
+    const {'1': 'applicantsNew', '3': 14, '4': 1, '5': 5, '10': 'applicantsNew'},
+    const {'1': 'applicantsAccepted', '3': 15, '4': 1, '5': 5, '10': 'applicantsAccepted'},
+    const {'1': 'applicantsCompleted', '3': 16, '4': 1, '5': 5, '10': 'applicantsCompleted'},
+    const {'1': 'applicantsRefused', '3': 17, '4': 1, '5': 5, '10': 'applicantsRefused'},
+  ],
+};
+
+const DataLocation$json = const {
+  '1': 'DataLocation',
+  '2': const [
+    const {'1': 'locationId', '3': 1, '4': 1, '5': 5, '10': 'locationId'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'address', '3': 3, '4': 1, '5': 9, '10': 'address'},
+    const {'1': 'avatarUrl', '3': 6, '4': 1, '5': 9, '10': 'avatarUrl'},
+    const {'1': 'lat', '3': 4, '4': 1, '5': 1, '10': 'lat'},
+    const {'1': 'lng', '3': 5, '4': 1, '5': 1, '10': 'lng'},
   ],
 };
 
 const DataApplicant$json = const {
   '1': 'DataApplicant',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
-    const {'1': 'offer', '3': 2, '4': 1, '5': 11, '6': '.DataOffer', '10': 'offer'},
-    const {'1': 'influencer', '3': 3, '4': 1, '5': 11, '6': '.DataAccount', '10': 'influencer'},
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 3, '10': 'applicantId'},
+    const {'1': 'offerId', '3': 2, '4': 1, '5': 3, '10': 'offerId'},
+    const {'1': 'accountId', '3': 3, '4': 1, '5': 5, '10': 'accountId'},
   ],
 };
 
@@ -345,8 +384,7 @@ const NetResImageUpload$json = const {
 const NetReqCreateOffer$json = const {
   '1': 'NetReqCreateOffer',
   '2': const [
-    const {'1': 'offer', '3': 1, '4': 1, '5': 11, '6': '.DataOffer', '10': 'offer'},
-    const {'1': 'imageIds', '3': 2, '4': 3, '5': 9, '10': 'imageIds'},
+    const {'1': 'offer', '3': 1, '4': 1, '5': 11, '6': '.DataBusinessOffer', '10': 'offer'},
   ],
 };
 

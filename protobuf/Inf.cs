@@ -47,70 +47,81 @@ namespace InfX {
             "BRIWCg5mb2xsb3dpbmdDb3VudBgDIAEoBRISCgpwb3N0c0NvdW50GAogASgF",
             "EhAKCHZlcmlmaWVkGAsgASgIImAKFERhdGFPQXV0aENyZWRlbnRpYWxzEg4K",
             "BnVzZXJJZBgEIAEoCRINCgV0b2tlbhgBIAEoCRITCgt0b2tlblNlY3JldBgC",
-            "IAEoCRIUCgx0b2tlbkV4cGlyZXMYAyABKAUizwEKCURhdGFPZmZlchIKCgJp",
-            "ZBgBIAEoAxIeCghidXNpbmVzcxgCIAEoCzIMLkRhdGFBY2NvdW50Eg0KBXRp",
-            "dGxlGAMgASgJEhEKCWltYWdlVXJscxgEIAMoCRIfCgpjYXRlZ29yaWVzGAUg",
-            "AygLMgsuQ2F0ZWdvcnlJZBILCgNsYXQYBiABKAESCwoDbG5nGAcgASgBEhMK",
-            "C2Rlc2NyaXB0aW9uGAggASgJEhQKDGRlbGl2ZXJhYmxlcxgJIAEoCRIOCgZy",
-            "ZXdhcmQYCiABKAkiWAoNRGF0YUFwcGxpY2FudBIKCgJpZBgBIAEoAxIZCgVv",
-            "ZmZlchgCIAEoCzIKLkRhdGFPZmZlchIgCgppbmZsdWVuY2VyGAMgASgLMgwu",
-            "RGF0YUFjY291bnQiYgoIRGF0YUNoYXQSEwoLYXBwbGljYW50SWQYASABKAMS",
-            "EgoKc2VxdWVuY2VJZBgCIAEoAxINCgVrZXlJZBgDIAEoAxIQCghvdXRnb2lu",
-            "ZxgEIAEoCBIMCgR0ZXh0GAUgASgJIvcBChBEYXRhQWNjb3VudFN0YXRlEhAK",
-            "CGRldmljZUlkGAEgASgFEhEKCWFjY291bnRJZBgCIAEoBRIhCgthY2NvdW50",
-            "VHlwZRgDIAEoDjIMLkFjY291bnRUeXBlEi8KEmdsb2JhbEFjY291bnRTdGF0",
-            "ZRgEIAEoDjITLkdsb2JhbEFjY291bnRTdGF0ZRI7ChhnbG9iYWxBY2NvdW50",
-            "U3RhdGVSZWFzb24YBSABKA4yGS5HbG9iYWxBY2NvdW50U3RhdGVSZWFzb24S",
-            "LQoRbm90aWZpY2F0aW9uRmxhZ3MYBiABKA4yEi5Ob3RpZmljYXRpb25GbGFn",
-            "cyJcChJEYXRhQWNjb3VudFN1bW1hcnkSDAoEbmFtZRgBIAEoCRITCgtkZXNj",
-            "cmlwdGlvbhgCIAEoCRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0YXJVcmwY",
-            "BCABKAkibgoRRGF0YUFjY291bnREZXRhaWwSEQoJY292ZXJVcmxzGAEgAygJ",
-            "Eh8KCmNhdGVnb3JpZXMYAiADKAsyCy5DYXRlZ29yeUlkEiUKC3NvY2lhbE1l",
-            "ZGlhGAMgAygLMhAuRGF0YVNvY2lhbE1lZGlhInkKC0RhdGFBY2NvdW50EiAK",
-            "BXN0YXRlGAEgASgLMhEuRGF0YUFjY291bnRTdGF0ZRIkCgdzdW1tYXJ5GAIg",
-            "ASgLMhMuRGF0YUFjY291bnRTdW1tYXJ5EiIKBmRldGFpbBgDIAEoCzISLkRh",
-            "dGFBY2NvdW50RGV0YWlsIkQKFk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoG",
-            "YWVzS2V5GAEgASgMEgwKBG5hbWUYAiABKAkSDAoEaW5mbxgDIAEoCSItChlO",
-            "ZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVxEhAKCGRldmljZUlkGAEgASgFIjEK",
-            "HE5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXNSZXESEQoJY2hhbGxlbmdlGAEg",
-            "ASgMIjEKHE5ldERldmljZUF1dGhTaWduYXR1cmVSZXNSZXESEQoJc2lnbmF0",
-            "dXJlGAEgASgMImQKEk5ldERldmljZUF1dGhTdGF0ZRInCgxhY2NvdW50U3Rh",
-            "dGUYByABKAsyES5EYXRhQWNjb3VudFN0YXRlEiUKC3NvY2lhbE1lZGlhGAYg",
-            "AygLMhAuRGF0YVNvY2lhbE1lZGlhIjYKEU5ldFNldEFjY291bnRUeXBlEiEK",
-            "C2FjY291bnRUeXBlGAEgASgOMgwuQWNjb3VudFR5cGUiJwoOTmV0T0F1dGhV",
-            "cmxSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBSI2Cg5OZXRPQXV0aFVybFJl",
-            "cxIPCgdhdXRoVXJsGAEgASgJEhMKC2NhbGxiYWNrVXJsGAIgASgJIkIKEk5l",
-            "dE9BdXRoQ29ubmVjdFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFEhUKDWNh",
-            "bGxiYWNrUXVlcnkYAiABKAkiOwoSTmV0T0F1dGhDb25uZWN0UmVzEiUKC3Nv",
-            "Y2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lhbE1lZGlhIj0KE05ldEFjY291",
-            "bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRILCgNsYXQYAiABKAISCwoDbG5n",
-            "GAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZpbGVOYW1lGAEgASgJ",
-            "EhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEoCSLfAQoRTmV0UmVz",
-            "SW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEoCRISCgpyZXF1ZXN0",
-            "VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMgASgJEhsKE2hlYWRl",
-            "ckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9zdBgFIAEoCRIWCg5o",
-            "ZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16U3RvcmFnZUNsYXNz",
-            "GAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCABKAkiQAoRTmV0UmVx",
-            "Q3JlYXRlT2ZmZXISGQoFb2ZmZXIYASABKAsyCi5EYXRhT2ZmZXISEAoIaW1h",
-            "Z2VJZHMYAiADKAkiHwoRTmV0UmVzQ3JlYXRlT2ZmZXISCgoCaWQYASABKAMq",
-            "PgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIOCgpPQU1fT0FVVEgx",
-            "EAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJvdmlkZXJJZHMSDAoIT0FQ",
-            "X05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9BUF9GQUNFQk9PSxACKkEK",
-            "C0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VS",
-            "EAESDwoLQVRfQlVTSU5FU1MQAiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIK",
-            "DkdBU19JTklUSUFMSVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVB",
-            "RF9PTkxZEAISEgoOR0FTX1JFQURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9S",
-            "EAQSDQoJR0FTX0FETUlOEAUSCwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2Nv",
-            "dW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1Jf",
-            "QUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1H",
-            "QVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FT",
-            "Ul9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJFX0lORk8QBipuChFOb3RpZmlj",
-            "YXRpb25GbGFncxIUChBORl9BQ0NPVU5UX1NUQVRFEAASGAoUTkZfTUFLRV9B",
-            "Tl9PRkZFUl9GQUIQARIWChJORl9VTlJFQURfTUVTU0FHRVMQAhIRCg1ORl9D",
-            "U19SRVFVRVNUEANCB6oCBEluZlhiBnByb3RvMw=="));
+            "IAEoCRIUCgx0b2tlbkV4cGlyZXMYAyABKAUirQMKEURhdGFCdXNpbmVzc09m",
+            "ZmVyEg8KB29mZmVySWQYASABKAMSEQoJYWNjb3VudElkGAIgASgFEhIKCmxv",
+            "Y2F0aW9uSWQYAyABKAUSDQoFdGl0bGUYBCABKAkSEwoLZGVzY3JpcHRpb24Y",
+            "BSABKAkSEQoJYXZhdGFyVXJsGAYgASgJEhQKDGRlbGl2ZXJhYmxlcxgHIAEo",
+            "CRIOCgZyZXdhcmQYCCABKAkSEAoIbG9jYXRpb24YCSABKAkSEQoJY292ZXJV",
+            "cmxzGAogAygJEh8KCmNhdGVnb3JpZXMYCyADKAsyCy5DYXRlZ29yeUlkEiIK",
+            "BXN0YXRlGAwgASgOMhMuQnVzaW5lc3NPZmZlclN0YXRlEi4KC3N0YXRlUmVh",
+            "c29uGA0gASgOMhkuQnVzaW5lc3NPZmZlclN0YXRlUmVhc29uEhUKDWFwcGxp",
+            "Y2FudHNOZXcYDiABKAUSGgoSYXBwbGljYW50c0FjY2VwdGVkGA8gASgFEhsK",
+            "E2FwcGxpY2FudHNDb21wbGV0ZWQYECABKAUSGQoRYXBwbGljYW50c1JlZnVz",
+            "ZWQYESABKAUibgoMRGF0YUxvY2F0aW9uEhIKCmxvY2F0aW9uSWQYASABKAUS",
+            "DAoEbmFtZRgCIAEoCRIPCgdhZGRyZXNzGAMgASgJEhEKCWF2YXRhclVybBgG",
+            "IAEoCRILCgNsYXQYBCABKAESCwoDbG5nGAUgASgBIkgKDURhdGFBcHBsaWNh",
+            "bnQSEwoLYXBwbGljYW50SWQYASABKAMSDwoHb2ZmZXJJZBgCIAEoAxIRCglh",
+            "Y2NvdW50SWQYAyABKAUiYgoIRGF0YUNoYXQSEwoLYXBwbGljYW50SWQYASAB",
+            "KAMSEgoKc2VxdWVuY2VJZBgCIAEoAxINCgVrZXlJZBgDIAEoAxIQCghvdXRn",
+            "b2luZxgEIAEoCBIMCgR0ZXh0GAUgASgJIvcBChBEYXRhQWNjb3VudFN0YXRl",
+            "EhAKCGRldmljZUlkGAEgASgFEhEKCWFjY291bnRJZBgCIAEoBRIhCgthY2Nv",
+            "dW50VHlwZRgDIAEoDjIMLkFjY291bnRUeXBlEi8KEmdsb2JhbEFjY291bnRT",
+            "dGF0ZRgEIAEoDjITLkdsb2JhbEFjY291bnRTdGF0ZRI7ChhnbG9iYWxBY2Nv",
+            "dW50U3RhdGVSZWFzb24YBSABKA4yGS5HbG9iYWxBY2NvdW50U3RhdGVSZWFz",
+            "b24SLQoRbm90aWZpY2F0aW9uRmxhZ3MYBiABKA4yEi5Ob3RpZmljYXRpb25G",
+            "bGFncyJcChJEYXRhQWNjb3VudFN1bW1hcnkSDAoEbmFtZRgBIAEoCRITCgtk",
+            "ZXNjcmlwdGlvbhgCIAEoCRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0YXJV",
+            "cmwYBCABKAkibgoRRGF0YUFjY291bnREZXRhaWwSEQoJY292ZXJVcmxzGAEg",
+            "AygJEh8KCmNhdGVnb3JpZXMYAiADKAsyCy5DYXRlZ29yeUlkEiUKC3NvY2lh",
+            "bE1lZGlhGAMgAygLMhAuRGF0YVNvY2lhbE1lZGlhInkKC0RhdGFBY2NvdW50",
+            "EiAKBXN0YXRlGAEgASgLMhEuRGF0YUFjY291bnRTdGF0ZRIkCgdzdW1tYXJ5",
+            "GAIgASgLMhMuRGF0YUFjY291bnRTdW1tYXJ5EiIKBmRldGFpbBgDIAEoCzIS",
+            "LkRhdGFBY2NvdW50RGV0YWlsIkQKFk5ldERldmljZUF1dGhDcmVhdGVSZXES",
+            "DgoGYWVzS2V5GAEgASgMEgwKBG5hbWUYAiABKAkSDAoEaW5mbxgDIAEoCSIt",
+            "ChlOZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVxEhAKCGRldmljZUlkGAEgASgF",
+            "IjEKHE5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXNSZXESEQoJY2hhbGxlbmdl",
+            "GAEgASgMIjEKHE5ldERldmljZUF1dGhTaWduYXR1cmVSZXNSZXESEQoJc2ln",
+            "bmF0dXJlGAEgASgMImQKEk5ldERldmljZUF1dGhTdGF0ZRInCgxhY2NvdW50",
+            "U3RhdGUYByABKAsyES5EYXRhQWNjb3VudFN0YXRlEiUKC3NvY2lhbE1lZGlh",
+            "GAYgAygLMhAuRGF0YVNvY2lhbE1lZGlhIjYKEU5ldFNldEFjY291bnRUeXBl",
+            "EiEKC2FjY291bnRUeXBlGAEgASgOMgwuQWNjb3VudFR5cGUiJwoOTmV0T0F1",
+            "dGhVcmxSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBSI2Cg5OZXRPQXV0aFVy",
+            "bFJlcxIPCgdhdXRoVXJsGAEgASgJEhMKC2NhbGxiYWNrVXJsGAIgASgJIkIK",
+            "Ek5ldE9BdXRoQ29ubmVjdFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFEhUK",
+            "DWNhbGxiYWNrUXVlcnkYAiABKAkiOwoSTmV0T0F1dGhDb25uZWN0UmVzEiUK",
+            "C3NvY2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lhbE1lZGlhIj0KE05ldEFj",
+            "Y291bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRILCgNsYXQYAiABKAISCwoD",
+            "bG5nGAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZpbGVOYW1lGAEg",
+            "ASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEoCSLfAQoRTmV0",
+            "UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEoCRISCgpyZXF1",
+            "ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMgASgJEhsKE2hl",
+            "YWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9zdBgFIAEoCRIW",
+            "Cg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16U3RvcmFnZUNs",
+            "YXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCABKAkiNgoRTmV0",
+            "UmVxQ3JlYXRlT2ZmZXISIQoFb2ZmZXIYASABKAsyEi5EYXRhQnVzaW5lc3NP",
+            "ZmZlciIfChFOZXRSZXNDcmVhdGVPZmZlchIKCgJpZBgBIAEoAyo+Cg5PQXV0",
+            "aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAAEg4KCk9BTV9PQVVUSDEQARIOCgpP",
+            "QU1fT0FVVEgyEAIqQwoQT0F1dGhQcm92aWRlcklkcxIMCghPQVBfTk9ORRAA",
+            "Eg8KC09BUF9UV0lUVEVSEAESEAoMT0FQX0ZBQ0VCT09LEAIqQQoLQWNjb3Vu",
+            "dFR5cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFUX0lORkxVRU5DRVIQARIPCgtB",
+            "VF9CVVNJTkVTUxACKo8BChJHbG9iYWxBY2NvdW50U3RhdGUSEgoOR0FTX0lO",
+            "SVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tFRBABEhEKDUdBU19SRUFEX09OTFkQ",
+            "AhISCg5HQVNfUkVBRF9XUklURRADEhEKDUdBU19NT0RFUkFUT1IQBBINCglH",
+            "QVNfQURNSU4QBRILCgdHQVNfR09EEAYqtQEKGEdsb2JhbEFjY291bnRTdGF0",
+            "ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAASFwoTR0FTUl9BQ0NPVU5U",
+            "X0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklFRBACEhEKDUdBU1JfQVBQ",
+            "Uk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQBBIQCgxHQVNSX1BFTkRJ",
+            "TkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGKm4KEU5vdGlmaWNhdGlvbkZs",
+            "YWdzEhQKEE5GX0FDQ09VTlRfU1RBVEUQABIYChRORl9NQUtFX0FOX09GRkVS",
+            "X0ZBQhABEhYKEk5GX1VOUkVBRF9NRVNTQUdFUxACEhEKDU5GX0NTX1JFUVVF",
+            "U1QQAypRChJCdXNpbmVzc09mZmVyU3RhdGUSDQoJQk9TX0RSQUZUEAASDAoI",
+            "Qk9TX09QRU4QARIOCgpCT1NfQUNUSVZFEAISDgoKQk9TX0NMT1NFRBADKnAK",
+            "GEJ1c2luZXNzT2ZmZXJTdGF0ZVJlYXNvbhISCg5CT1NSX05FV19PRkZFUhAA",
+            "EhQKEEJPU1JfVVNFUl9DTE9TRUQQARIWChJCT1NSX1RPU19WSU9MQVRJT04Q",
+            "AhISCg5CT1NSX0NPTVBMRVRFRBADQgeqAgRJbmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "CallbackUrl", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret", "WhitelistHosts" }, null, null, null),
@@ -119,8 +130,9 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "ScreenName", "DisplayName", "AvatarUrl", "ProfileUrl", "Description", "Location", "Url", "Email", "FriendsCount", "FollowersCount", "FollowingCount", "PostsCount", "Verified" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOAuthCredentials), global::InfX.DataOAuthCredentials.Parser, new[]{ "UserId", "Token", "TokenSecret", "TokenExpires" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOffer), global::InfX.DataOffer.Parser, new[]{ "Id", "Business", "Title", "ImageUrls", "Categories", "Lat", "Lng", "Description", "Deliverables", "Reward" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "Id", "Offer", "Influencer" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataBusinessOffer), global::InfX.DataBusinessOffer.Parser, new[]{ "OfferId", "AccountId", "LocationId", "Title", "Description", "AvatarUrl", "Deliverables", "Reward", "Location", "CoverUrls", "Categories", "State", "StateReason", "ApplicantsNew", "ApplicantsAccepted", "ApplicantsCompleted", "ApplicantsRefused" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataLocation), global::InfX.DataLocation.Parser, new[]{ "LocationId", "Name", "Address", "AvatarUrl", "Lat", "Lng" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "AccountId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason", "NotificationFlags" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarUrl" }, null, null, null),
@@ -139,7 +151,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Name", "Lat", "Lng" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqImageUpload), global::InfX.NetReqImageUpload.Parser, new[]{ "FileName", "FileSize", "Sha256" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResImageUpload), global::InfX.NetResImageUpload.Parser, new[]{ "RequestMethod", "RequestUrl", "HeaderContentType", "HeaderContentLength", "HeaderHost", "HeaderXAmzDate", "HeaderXAmzStorageClass", "HeaderAuthorization" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Offer", "ImageIds" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Offer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResCreateOffer), global::InfX.NetResCreateOffer.Parser, new[]{ "Id" }, null, null, null)
           }));
     }
@@ -242,6 +254,35 @@ namespace InfX {
     /// / Customer support requesting attention (may interpret as duplicate of  NF_ACCOUNT_STATUS if GASR_REQUIRE_INFO)
     /// </summary>
     [pbr::OriginalName("NF_CS_REQUEST")] NfCsRequest = 3,
+  }
+
+  public enum BusinessOfferState {
+    [pbr::OriginalName("BOS_DRAFT")] BosDraft = 0,
+    /// <summary>
+    ///  Open and awaiting new applicants
+    /// </summary>
+    [pbr::OriginalName("BOS_OPEN")] BosOpen = 1,
+    /// <summary>
+    ///  Active but no longer accepting applicants
+    /// </summary>
+    [pbr::OriginalName("BOS_ACTIVE")] BosActive = 2,
+    [pbr::OriginalName("BOS_CLOSED")] BosClosed = 3,
+  }
+
+  public enum BusinessOfferStateReason {
+    [pbr::OriginalName("BOSR_NEW_OFFER")] BosrNewOffer = 0,
+    /// <summary>
+    ///  You have closed this offer.
+    /// </summary>
+    [pbr::OriginalName("BOSR_USER_CLOSED")] BosrUserClosed = 1,
+    /// <summary>
+    ///  This offer violates the Terms of Service
+    /// </summary>
+    [pbr::OriginalName("BOSR_TOS_VIOLATION")] BosrTosViolation = 2,
+    /// <summary>
+    ///  This offer has been completed by all applicants
+    /// </summary>
+    [pbr::OriginalName("BOSR_COMPLETED")] BosrCompleted = 3,
   }
 
   #endregion
@@ -2269,10 +2310,10 @@ namespace InfX {
 
   }
 
-  public sealed partial class DataOffer : pb::IMessage<DataOffer> {
-    private static readonly pb::MessageParser<DataOffer> _parser = new pb::MessageParser<DataOffer>(() => new DataOffer());
+  public sealed partial class DataBusinessOffer : pb::IMessage<DataBusinessOffer> {
+    private static readonly pb::MessageParser<DataBusinessOffer> _parser = new pb::MessageParser<DataBusinessOffer>(() => new DataBusinessOffer());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<DataOffer> Parser { get { return _parser; } }
+    public static pb::MessageParser<DataBusinessOffer> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -2285,55 +2326,73 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataOffer() {
+    public DataBusinessOffer() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataOffer(DataOffer other) : this() {
-      id_ = other.id_;
-      Business = other.business_ != null ? other.Business.Clone() : null;
+    public DataBusinessOffer(DataBusinessOffer other) : this() {
+      offerId_ = other.offerId_;
+      accountId_ = other.accountId_;
+      locationId_ = other.locationId_;
       title_ = other.title_;
-      imageUrls_ = other.imageUrls_.Clone();
-      categories_ = other.categories_.Clone();
-      lat_ = other.lat_;
-      lng_ = other.lng_;
       description_ = other.description_;
+      avatarUrl_ = other.avatarUrl_;
       deliverables_ = other.deliverables_;
       reward_ = other.reward_;
+      location_ = other.location_;
+      coverUrls_ = other.coverUrls_.Clone();
+      categories_ = other.categories_.Clone();
+      state_ = other.state_;
+      stateReason_ = other.stateReason_;
+      applicantsNew_ = other.applicantsNew_;
+      applicantsAccepted_ = other.applicantsAccepted_;
+      applicantsCompleted_ = other.applicantsCompleted_;
+      applicantsRefused_ = other.applicantsRefused_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataOffer Clone() {
-      return new DataOffer(this);
+    public DataBusinessOffer Clone() {
+      return new DataBusinessOffer(this);
     }
 
-    /// <summary>Field number for the "id" field.</summary>
-    public const int IdFieldNumber = 1;
-    private long id_;
+    /// <summary>Field number for the "offerId" field.</summary>
+    public const int OfferIdFieldNumber = 1;
+    private long offerId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long Id {
-      get { return id_; }
+    public long OfferId {
+      get { return offerId_; }
       set {
-        id_ = value;
+        offerId_ = value;
       }
     }
 
-    /// <summary>Field number for the "business" field.</summary>
-    public const int BusinessFieldNumber = 2;
-    private global::InfX.DataAccount business_;
+    /// <summary>Field number for the "accountId" field.</summary>
+    public const int AccountIdFieldNumber = 2;
+    private int accountId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::InfX.DataAccount Business {
-      get { return business_; }
+    public int AccountId {
+      get { return accountId_; }
       set {
-        business_ = value;
+        accountId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "locationId" field.</summary>
+    public const int LocationIdFieldNumber = 3;
+    private int locationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int LocationId {
+      get { return locationId_; }
+      set {
+        locationId_ = value;
       }
     }
 
     /// <summary>Field number for the "title" field.</summary>
-    public const int TitleFieldNumber = 3;
+    public const int TitleFieldNumber = 4;
     private string title_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Title {
@@ -2343,50 +2402,8 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "imageUrls" field.</summary>
-    public const int ImageUrlsFieldNumber = 4;
-    private static readonly pb::FieldCodec<string> _repeated_imageUrls_codec
-        = pb::FieldCodec.ForString(34);
-    private readonly pbc::RepeatedField<string> imageUrls_ = new pbc::RepeatedField<string>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<string> ImageUrls {
-      get { return imageUrls_; }
-    }
-
-    /// <summary>Field number for the "categories" field.</summary>
-    public const int CategoriesFieldNumber = 5;
-    private static readonly pb::FieldCodec<global::InfX.CategoryId> _repeated_categories_codec
-        = pb::FieldCodec.ForMessage(42, global::InfX.CategoryId.Parser);
-    private readonly pbc::RepeatedField<global::InfX.CategoryId> categories_ = new pbc::RepeatedField<global::InfX.CategoryId>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::InfX.CategoryId> Categories {
-      get { return categories_; }
-    }
-
-    /// <summary>Field number for the "lat" field.</summary>
-    public const int LatFieldNumber = 6;
-    private double lat_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public double Lat {
-      get { return lat_; }
-      set {
-        lat_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "lng" field.</summary>
-    public const int LngFieldNumber = 7;
-    private double lng_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public double Lng {
-      get { return lng_; }
-      set {
-        lng_ = value;
-      }
-    }
-
     /// <summary>Field number for the "description" field.</summary>
-    public const int DescriptionFieldNumber = 8;
+    public const int DescriptionFieldNumber = 5;
     private string description_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Description {
@@ -2396,8 +2413,19 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "avatarUrl" field.</summary>
+    public const int AvatarUrlFieldNumber = 6;
+    private string avatarUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AvatarUrl {
+      get { return avatarUrl_; }
+      set {
+        avatarUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "deliverables" field.</summary>
-    public const int DeliverablesFieldNumber = 9;
+    public const int DeliverablesFieldNumber = 7;
     private string deliverables_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Deliverables {
@@ -2408,7 +2436,7 @@ namespace InfX {
     }
 
     /// <summary>Field number for the "reward" field.</summary>
-    public const int RewardFieldNumber = 10;
+    public const int RewardFieldNumber = 8;
     private string reward_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Reward {
@@ -2418,45 +2446,156 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "location" field.</summary>
+    public const int LocationFieldNumber = 9;
+    private string location_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as DataOffer);
+    public string Location {
+      get { return location_; }
+      set {
+        location_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "coverUrls" field.</summary>
+    public const int CoverUrlsFieldNumber = 10;
+    private static readonly pb::FieldCodec<string> _repeated_coverUrls_codec
+        = pb::FieldCodec.ForString(82);
+    private readonly pbc::RepeatedField<string> coverUrls_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> CoverUrls {
+      get { return coverUrls_; }
+    }
+
+    /// <summary>Field number for the "categories" field.</summary>
+    public const int CategoriesFieldNumber = 11;
+    private static readonly pb::FieldCodec<global::InfX.CategoryId> _repeated_categories_codec
+        = pb::FieldCodec.ForMessage(90, global::InfX.CategoryId.Parser);
+    private readonly pbc::RepeatedField<global::InfX.CategoryId> categories_ = new pbc::RepeatedField<global::InfX.CategoryId>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::InfX.CategoryId> Categories {
+      get { return categories_; }
+    }
+
+    /// <summary>Field number for the "state" field.</summary>
+    public const int StateFieldNumber = 12;
+    private global::InfX.BusinessOfferState state_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.BusinessOfferState State {
+      get { return state_; }
+      set {
+        state_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "stateReason" field.</summary>
+    public const int StateReasonFieldNumber = 13;
+    private global::InfX.BusinessOfferStateReason stateReason_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.BusinessOfferStateReason StateReason {
+      get { return stateReason_; }
+      set {
+        stateReason_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "applicantsNew" field.</summary>
+    public const int ApplicantsNewFieldNumber = 14;
+    private int applicantsNew_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantsNew {
+      get { return applicantsNew_; }
+      set {
+        applicantsNew_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "applicantsAccepted" field.</summary>
+    public const int ApplicantsAcceptedFieldNumber = 15;
+    private int applicantsAccepted_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantsAccepted {
+      get { return applicantsAccepted_; }
+      set {
+        applicantsAccepted_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "applicantsCompleted" field.</summary>
+    public const int ApplicantsCompletedFieldNumber = 16;
+    private int applicantsCompleted_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantsCompleted {
+      get { return applicantsCompleted_; }
+      set {
+        applicantsCompleted_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "applicantsRefused" field.</summary>
+    public const int ApplicantsRefusedFieldNumber = 17;
+    private int applicantsRefused_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantsRefused {
+      get { return applicantsRefused_; }
+      set {
+        applicantsRefused_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(DataOffer other) {
+    public override bool Equals(object other) {
+      return Equals(other as DataBusinessOffer);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DataBusinessOffer other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Id != other.Id) return false;
-      if (!object.Equals(Business, other.Business)) return false;
+      if (OfferId != other.OfferId) return false;
+      if (AccountId != other.AccountId) return false;
+      if (LocationId != other.LocationId) return false;
       if (Title != other.Title) return false;
-      if(!imageUrls_.Equals(other.imageUrls_)) return false;
-      if(!categories_.Equals(other.categories_)) return false;
-      if (Lat != other.Lat) return false;
-      if (Lng != other.Lng) return false;
       if (Description != other.Description) return false;
+      if (AvatarUrl != other.AvatarUrl) return false;
       if (Deliverables != other.Deliverables) return false;
       if (Reward != other.Reward) return false;
+      if (Location != other.Location) return false;
+      if(!coverUrls_.Equals(other.coverUrls_)) return false;
+      if(!categories_.Equals(other.categories_)) return false;
+      if (State != other.State) return false;
+      if (StateReason != other.StateReason) return false;
+      if (ApplicantsNew != other.ApplicantsNew) return false;
+      if (ApplicantsAccepted != other.ApplicantsAccepted) return false;
+      if (ApplicantsCompleted != other.ApplicantsCompleted) return false;
+      if (ApplicantsRefused != other.ApplicantsRefused) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Id != 0L) hash ^= Id.GetHashCode();
-      if (business_ != null) hash ^= Business.GetHashCode();
+      if (OfferId != 0L) hash ^= OfferId.GetHashCode();
+      if (AccountId != 0) hash ^= AccountId.GetHashCode();
+      if (LocationId != 0) hash ^= LocationId.GetHashCode();
       if (Title.Length != 0) hash ^= Title.GetHashCode();
-      hash ^= imageUrls_.GetHashCode();
-      hash ^= categories_.GetHashCode();
-      if (Lat != 0D) hash ^= Lat.GetHashCode();
-      if (Lng != 0D) hash ^= Lng.GetHashCode();
       if (Description.Length != 0) hash ^= Description.GetHashCode();
+      if (AvatarUrl.Length != 0) hash ^= AvatarUrl.GetHashCode();
       if (Deliverables.Length != 0) hash ^= Deliverables.GetHashCode();
       if (Reward.Length != 0) hash ^= Reward.GetHashCode();
+      if (Location.Length != 0) hash ^= Location.GetHashCode();
+      hash ^= coverUrls_.GetHashCode();
+      hash ^= categories_.GetHashCode();
+      if (State != 0) hash ^= State.GetHashCode();
+      if (StateReason != 0) hash ^= StateReason.GetHashCode();
+      if (ApplicantsNew != 0) hash ^= ApplicantsNew.GetHashCode();
+      if (ApplicantsAccepted != 0) hash ^= ApplicantsAccepted.GetHashCode();
+      if (ApplicantsCompleted != 0) hash ^= ApplicantsCompleted.GetHashCode();
+      if (ApplicantsRefused != 0) hash ^= ApplicantsRefused.GetHashCode();
       return hash;
     }
 
@@ -2467,64 +2606,90 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Id != 0L) {
+      if (OfferId != 0L) {
         output.WriteRawTag(8);
-        output.WriteInt64(Id);
+        output.WriteInt64(OfferId);
       }
-      if (business_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Business);
+      if (AccountId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(AccountId);
+      }
+      if (LocationId != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(LocationId);
       }
       if (Title.Length != 0) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(34);
         output.WriteString(Title);
       }
-      imageUrls_.WriteTo(output, _repeated_imageUrls_codec);
-      categories_.WriteTo(output, _repeated_categories_codec);
-      if (Lat != 0D) {
-        output.WriteRawTag(49);
-        output.WriteDouble(Lat);
-      }
-      if (Lng != 0D) {
-        output.WriteRawTag(57);
-        output.WriteDouble(Lng);
-      }
       if (Description.Length != 0) {
-        output.WriteRawTag(66);
+        output.WriteRawTag(42);
         output.WriteString(Description);
       }
+      if (AvatarUrl.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(AvatarUrl);
+      }
       if (Deliverables.Length != 0) {
-        output.WriteRawTag(74);
+        output.WriteRawTag(58);
         output.WriteString(Deliverables);
       }
       if (Reward.Length != 0) {
-        output.WriteRawTag(82);
+        output.WriteRawTag(66);
         output.WriteString(Reward);
+      }
+      if (Location.Length != 0) {
+        output.WriteRawTag(74);
+        output.WriteString(Location);
+      }
+      coverUrls_.WriteTo(output, _repeated_coverUrls_codec);
+      categories_.WriteTo(output, _repeated_categories_codec);
+      if (State != 0) {
+        output.WriteRawTag(96);
+        output.WriteEnum((int) State);
+      }
+      if (StateReason != 0) {
+        output.WriteRawTag(104);
+        output.WriteEnum((int) StateReason);
+      }
+      if (ApplicantsNew != 0) {
+        output.WriteRawTag(112);
+        output.WriteInt32(ApplicantsNew);
+      }
+      if (ApplicantsAccepted != 0) {
+        output.WriteRawTag(120);
+        output.WriteInt32(ApplicantsAccepted);
+      }
+      if (ApplicantsCompleted != 0) {
+        output.WriteRawTag(128, 1);
+        output.WriteInt32(ApplicantsCompleted);
+      }
+      if (ApplicantsRefused != 0) {
+        output.WriteRawTag(136, 1);
+        output.WriteInt32(ApplicantsRefused);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Id != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Id);
+      if (OfferId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(OfferId);
       }
-      if (business_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Business);
+      if (AccountId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountId);
+      }
+      if (LocationId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(LocationId);
       }
       if (Title.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Title);
       }
-      size += imageUrls_.CalculateSize(_repeated_imageUrls_codec);
-      size += categories_.CalculateSize(_repeated_categories_codec);
-      if (Lat != 0D) {
-        size += 1 + 8;
-      }
-      if (Lng != 0D) {
-        size += 1 + 8;
-      }
       if (Description.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+      }
+      if (AvatarUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarUrl);
       }
       if (Deliverables.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Deliverables);
@@ -2532,42 +2697,83 @@ namespace InfX {
       if (Reward.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Reward);
       }
+      if (Location.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Location);
+      }
+      size += coverUrls_.CalculateSize(_repeated_coverUrls_codec);
+      size += categories_.CalculateSize(_repeated_categories_codec);
+      if (State != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) State);
+      }
+      if (StateReason != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) StateReason);
+      }
+      if (ApplicantsNew != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantsNew);
+      }
+      if (ApplicantsAccepted != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantsAccepted);
+      }
+      if (ApplicantsCompleted != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(ApplicantsCompleted);
+      }
+      if (ApplicantsRefused != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(ApplicantsRefused);
+      }
       return size;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(DataOffer other) {
+    public void MergeFrom(DataBusinessOffer other) {
       if (other == null) {
         return;
       }
-      if (other.Id != 0L) {
-        Id = other.Id;
+      if (other.OfferId != 0L) {
+        OfferId = other.OfferId;
       }
-      if (other.business_ != null) {
-        if (business_ == null) {
-          business_ = new global::InfX.DataAccount();
-        }
-        Business.MergeFrom(other.Business);
+      if (other.AccountId != 0) {
+        AccountId = other.AccountId;
+      }
+      if (other.LocationId != 0) {
+        LocationId = other.LocationId;
       }
       if (other.Title.Length != 0) {
         Title = other.Title;
       }
-      imageUrls_.Add(other.imageUrls_);
-      categories_.Add(other.categories_);
-      if (other.Lat != 0D) {
-        Lat = other.Lat;
-      }
-      if (other.Lng != 0D) {
-        Lng = other.Lng;
-      }
       if (other.Description.Length != 0) {
         Description = other.Description;
+      }
+      if (other.AvatarUrl.Length != 0) {
+        AvatarUrl = other.AvatarUrl;
       }
       if (other.Deliverables.Length != 0) {
         Deliverables = other.Deliverables;
       }
       if (other.Reward.Length != 0) {
         Reward = other.Reward;
+      }
+      if (other.Location.Length != 0) {
+        Location = other.Location;
+      }
+      coverUrls_.Add(other.coverUrls_);
+      categories_.Add(other.categories_);
+      if (other.State != 0) {
+        State = other.State;
+      }
+      if (other.StateReason != 0) {
+        StateReason = other.StateReason;
+      }
+      if (other.ApplicantsNew != 0) {
+        ApplicantsNew = other.ApplicantsNew;
+      }
+      if (other.ApplicantsAccepted != 0) {
+        ApplicantsAccepted = other.ApplicantsAccepted;
+      }
+      if (other.ApplicantsCompleted != 0) {
+        ApplicantsCompleted = other.ApplicantsCompleted;
+      }
+      if (other.ApplicantsRefused != 0) {
+        ApplicantsRefused = other.ApplicantsRefused;
       }
     }
 
@@ -2580,46 +2786,328 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 8: {
-            Id = input.ReadInt64();
+            OfferId = input.ReadInt64();
             break;
           }
-          case 18: {
-            if (business_ == null) {
-              business_ = new global::InfX.DataAccount();
-            }
-            input.ReadMessage(business_);
+          case 16: {
+            AccountId = input.ReadInt32();
             break;
           }
-          case 26: {
-            Title = input.ReadString();
+          case 24: {
+            LocationId = input.ReadInt32();
             break;
           }
           case 34: {
-            imageUrls_.AddEntriesFrom(input, _repeated_imageUrls_codec);
+            Title = input.ReadString();
             break;
           }
           case 42: {
-            categories_.AddEntriesFrom(input, _repeated_categories_codec);
-            break;
-          }
-          case 49: {
-            Lat = input.ReadDouble();
-            break;
-          }
-          case 57: {
-            Lng = input.ReadDouble();
-            break;
-          }
-          case 66: {
             Description = input.ReadString();
             break;
           }
-          case 74: {
+          case 50: {
+            AvatarUrl = input.ReadString();
+            break;
+          }
+          case 58: {
             Deliverables = input.ReadString();
             break;
           }
-          case 82: {
+          case 66: {
             Reward = input.ReadString();
+            break;
+          }
+          case 74: {
+            Location = input.ReadString();
+            break;
+          }
+          case 82: {
+            coverUrls_.AddEntriesFrom(input, _repeated_coverUrls_codec);
+            break;
+          }
+          case 90: {
+            categories_.AddEntriesFrom(input, _repeated_categories_codec);
+            break;
+          }
+          case 96: {
+            state_ = (global::InfX.BusinessOfferState) input.ReadEnum();
+            break;
+          }
+          case 104: {
+            stateReason_ = (global::InfX.BusinessOfferStateReason) input.ReadEnum();
+            break;
+          }
+          case 112: {
+            ApplicantsNew = input.ReadInt32();
+            break;
+          }
+          case 120: {
+            ApplicantsAccepted = input.ReadInt32();
+            break;
+          }
+          case 128: {
+            ApplicantsCompleted = input.ReadInt32();
+            break;
+          }
+          case 136: {
+            ApplicantsRefused = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DataLocation : pb::IMessage<DataLocation> {
+    private static readonly pb::MessageParser<DataLocation> _parser = new pb::MessageParser<DataLocation>(() => new DataLocation());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DataLocation> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[9]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataLocation() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataLocation(DataLocation other) : this() {
+      locationId_ = other.locationId_;
+      name_ = other.name_;
+      address_ = other.address_;
+      avatarUrl_ = other.avatarUrl_;
+      lat_ = other.lat_;
+      lng_ = other.lng_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataLocation Clone() {
+      return new DataLocation(this);
+    }
+
+    /// <summary>Field number for the "locationId" field.</summary>
+    public const int LocationIdFieldNumber = 1;
+    private int locationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int LocationId {
+      get { return locationId_; }
+      set {
+        locationId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 2;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "address" field.</summary>
+    public const int AddressFieldNumber = 3;
+    private string address_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Address {
+      get { return address_; }
+      set {
+        address_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "avatarUrl" field.</summary>
+    public const int AvatarUrlFieldNumber = 6;
+    private string avatarUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AvatarUrl {
+      get { return avatarUrl_; }
+      set {
+        avatarUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "lat" field.</summary>
+    public const int LatFieldNumber = 4;
+    private double lat_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double Lat {
+      get { return lat_; }
+      set {
+        lat_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "lng" field.</summary>
+    public const int LngFieldNumber = 5;
+    private double lng_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double Lng {
+      get { return lng_; }
+      set {
+        lng_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DataLocation);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DataLocation other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (LocationId != other.LocationId) return false;
+      if (Name != other.Name) return false;
+      if (Address != other.Address) return false;
+      if (AvatarUrl != other.AvatarUrl) return false;
+      if (Lat != other.Lat) return false;
+      if (Lng != other.Lng) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (LocationId != 0) hash ^= LocationId.GetHashCode();
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Address.Length != 0) hash ^= Address.GetHashCode();
+      if (AvatarUrl.Length != 0) hash ^= AvatarUrl.GetHashCode();
+      if (Lat != 0D) hash ^= Lat.GetHashCode();
+      if (Lng != 0D) hash ^= Lng.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (LocationId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(LocationId);
+      }
+      if (Name.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Name);
+      }
+      if (Address.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Address);
+      }
+      if (Lat != 0D) {
+        output.WriteRawTag(33);
+        output.WriteDouble(Lat);
+      }
+      if (Lng != 0D) {
+        output.WriteRawTag(41);
+        output.WriteDouble(Lng);
+      }
+      if (AvatarUrl.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(AvatarUrl);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (LocationId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(LocationId);
+      }
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Address.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Address);
+      }
+      if (AvatarUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarUrl);
+      }
+      if (Lat != 0D) {
+        size += 1 + 8;
+      }
+      if (Lng != 0D) {
+        size += 1 + 8;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DataLocation other) {
+      if (other == null) {
+        return;
+      }
+      if (other.LocationId != 0) {
+        LocationId = other.LocationId;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Address.Length != 0) {
+        Address = other.Address;
+      }
+      if (other.AvatarUrl.Length != 0) {
+        AvatarUrl = other.AvatarUrl;
+      }
+      if (other.Lat != 0D) {
+        Lat = other.Lat;
+      }
+      if (other.Lng != 0D) {
+        Lng = other.Lng;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            LocationId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            Name = input.ReadString();
+            break;
+          }
+          case 26: {
+            Address = input.ReadString();
+            break;
+          }
+          case 33: {
+            Lat = input.ReadDouble();
+            break;
+          }
+          case 41: {
+            Lng = input.ReadDouble();
+            break;
+          }
+          case 50: {
+            AvatarUrl = input.ReadString();
             break;
           }
         }
@@ -2635,7 +3123,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[9]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2652,9 +3140,9 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public DataApplicant(DataApplicant other) : this() {
-      id_ = other.id_;
-      Offer = other.offer_ != null ? other.Offer.Clone() : null;
-      Influencer = other.influencer_ != null ? other.Influencer.Clone() : null;
+      applicantId_ = other.applicantId_;
+      offerId_ = other.offerId_;
+      accountId_ = other.accountId_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2662,41 +3150,41 @@ namespace InfX {
       return new DataApplicant(this);
     }
 
-    /// <summary>Field number for the "id" field.</summary>
-    public const int IdFieldNumber = 1;
-    private long id_;
+    /// <summary>Field number for the "applicantId" field.</summary>
+    public const int ApplicantIdFieldNumber = 1;
+    private long applicantId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long Id {
-      get { return id_; }
+    public long ApplicantId {
+      get { return applicantId_; }
       set {
-        id_ = value;
+        applicantId_ = value;
       }
     }
 
-    /// <summary>Field number for the "offer" field.</summary>
-    public const int OfferFieldNumber = 2;
-    private global::InfX.DataOffer offer_;
+    /// <summary>Field number for the "offerId" field.</summary>
+    public const int OfferIdFieldNumber = 2;
+    private long offerId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::InfX.DataOffer Offer {
-      get { return offer_; }
+    public long OfferId {
+      get { return offerId_; }
       set {
-        offer_ = value;
+        offerId_ = value;
       }
     }
 
-    /// <summary>Field number for the "influencer" field.</summary>
-    public const int InfluencerFieldNumber = 3;
-    private global::InfX.DataAccount influencer_;
+    /// <summary>Field number for the "accountId" field.</summary>
+    public const int AccountIdFieldNumber = 3;
+    private int accountId_;
     /// <summary>
     ///  bool influencer accepted/delivered/...
     ///  bool business accepted/received service/...
     ///  datetime schedule etc
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::InfX.DataAccount Influencer {
-      get { return influencer_; }
+    public int AccountId {
+      get { return accountId_; }
       set {
-        influencer_ = value;
+        accountId_ = value;
       }
     }
 
@@ -2713,18 +3201,18 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Id != other.Id) return false;
-      if (!object.Equals(Offer, other.Offer)) return false;
-      if (!object.Equals(Influencer, other.Influencer)) return false;
+      if (ApplicantId != other.ApplicantId) return false;
+      if (OfferId != other.OfferId) return false;
+      if (AccountId != other.AccountId) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Id != 0L) hash ^= Id.GetHashCode();
-      if (offer_ != null) hash ^= Offer.GetHashCode();
-      if (influencer_ != null) hash ^= Influencer.GetHashCode();
+      if (ApplicantId != 0L) hash ^= ApplicantId.GetHashCode();
+      if (OfferId != 0L) hash ^= OfferId.GetHashCode();
+      if (AccountId != 0) hash ^= AccountId.GetHashCode();
       return hash;
     }
 
@@ -2735,31 +3223,31 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Id != 0L) {
+      if (ApplicantId != 0L) {
         output.WriteRawTag(8);
-        output.WriteInt64(Id);
+        output.WriteInt64(ApplicantId);
       }
-      if (offer_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(Offer);
+      if (OfferId != 0L) {
+        output.WriteRawTag(16);
+        output.WriteInt64(OfferId);
       }
-      if (influencer_ != null) {
-        output.WriteRawTag(26);
-        output.WriteMessage(Influencer);
+      if (AccountId != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(AccountId);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Id != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Id);
+      if (ApplicantId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ApplicantId);
       }
-      if (offer_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Offer);
+      if (OfferId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(OfferId);
       }
-      if (influencer_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Influencer);
+      if (AccountId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountId);
       }
       return size;
     }
@@ -2769,20 +3257,14 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.Id != 0L) {
-        Id = other.Id;
+      if (other.ApplicantId != 0L) {
+        ApplicantId = other.ApplicantId;
       }
-      if (other.offer_ != null) {
-        if (offer_ == null) {
-          offer_ = new global::InfX.DataOffer();
-        }
-        Offer.MergeFrom(other.Offer);
+      if (other.OfferId != 0L) {
+        OfferId = other.OfferId;
       }
-      if (other.influencer_ != null) {
-        if (influencer_ == null) {
-          influencer_ = new global::InfX.DataAccount();
-        }
-        Influencer.MergeFrom(other.Influencer);
+      if (other.AccountId != 0) {
+        AccountId = other.AccountId;
       }
     }
 
@@ -2795,21 +3277,15 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 8: {
-            Id = input.ReadInt64();
+            ApplicantId = input.ReadInt64();
             break;
           }
-          case 18: {
-            if (offer_ == null) {
-              offer_ = new global::InfX.DataOffer();
-            }
-            input.ReadMessage(offer_);
+          case 16: {
+            OfferId = input.ReadInt64();
             break;
           }
-          case 26: {
-            if (influencer_ == null) {
-              influencer_ = new global::InfX.DataAccount();
-            }
-            input.ReadMessage(influencer_);
+          case 24: {
+            AccountId = input.ReadInt32();
             break;
           }
         }
@@ -2825,7 +3301,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[10]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3069,7 +3545,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[11]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3144,6 +3620,9 @@ namespace InfX {
     /// <summary>Field number for the "globalAccountState" field.</summary>
     public const int GlobalAccountStateFieldNumber = 4;
     private global::InfX.GlobalAccountState globalAccountState_ = 0;
+    /// <summary>
+    ///  TODO: Rename to globalState
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::InfX.GlobalAccountState GlobalAccountState {
       get { return globalAccountState_; }
@@ -3155,6 +3634,9 @@ namespace InfX {
     /// <summary>Field number for the "globalAccountStateReason" field.</summary>
     public const int GlobalAccountStateReasonFieldNumber = 5;
     private global::InfX.GlobalAccountStateReason globalAccountStateReason_ = 0;
+    /// <summary>
+    ///  TODO: Rename to globalStateReason
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::InfX.GlobalAccountStateReason GlobalAccountStateReason {
       get { return globalAccountStateReason_; }
@@ -3335,7 +3817,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[12]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3536,7 +4018,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[13]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3685,7 +4167,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[14]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3881,7 +4363,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[15]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4065,7 +4547,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[16]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[17]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4190,7 +4672,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[17]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[18]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4312,7 +4794,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[18]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4433,7 +4915,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[19]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[20]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4586,7 +5068,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[20]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4708,7 +5190,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[21]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[22]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4830,7 +5312,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[22]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[23]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4980,7 +5462,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[23]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[24]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5129,7 +5611,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[24]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[25]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5257,7 +5739,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[25]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[26]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5434,7 +5916,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[26]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[27]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5616,7 +6098,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[27]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[28]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5932,7 +6414,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[28]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[29]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5950,7 +6432,6 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetReqCreateOffer(NetReqCreateOffer other) : this() {
       Offer = other.offer_ != null ? other.Offer.Clone() : null;
-      imageIds_ = other.imageIds_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5960,23 +6441,16 @@ namespace InfX {
 
     /// <summary>Field number for the "offer" field.</summary>
     public const int OfferFieldNumber = 1;
-    private global::InfX.DataOffer offer_;
+    private global::InfX.DataBusinessOffer offer_;
+    /// <summary>
+    ///  repeated string imageIds = 2;
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::InfX.DataOffer Offer {
+    public global::InfX.DataBusinessOffer Offer {
       get { return offer_; }
       set {
         offer_ = value;
       }
-    }
-
-    /// <summary>Field number for the "imageIds" field.</summary>
-    public const int ImageIdsFieldNumber = 2;
-    private static readonly pb::FieldCodec<string> _repeated_imageIds_codec
-        = pb::FieldCodec.ForString(18);
-    private readonly pbc::RepeatedField<string> imageIds_ = new pbc::RepeatedField<string>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<string> ImageIds {
-      get { return imageIds_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5993,7 +6467,6 @@ namespace InfX {
         return true;
       }
       if (!object.Equals(Offer, other.Offer)) return false;
-      if(!imageIds_.Equals(other.imageIds_)) return false;
       return true;
     }
 
@@ -6001,7 +6474,6 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       if (offer_ != null) hash ^= Offer.GetHashCode();
-      hash ^= imageIds_.GetHashCode();
       return hash;
     }
 
@@ -6016,7 +6488,6 @@ namespace InfX {
         output.WriteRawTag(10);
         output.WriteMessage(Offer);
       }
-      imageIds_.WriteTo(output, _repeated_imageIds_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6025,7 +6496,6 @@ namespace InfX {
       if (offer_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Offer);
       }
-      size += imageIds_.CalculateSize(_repeated_imageIds_codec);
       return size;
     }
 
@@ -6036,11 +6506,10 @@ namespace InfX {
       }
       if (other.offer_ != null) {
         if (offer_ == null) {
-          offer_ = new global::InfX.DataOffer();
+          offer_ = new global::InfX.DataBusinessOffer();
         }
         Offer.MergeFrom(other.Offer);
       }
-      imageIds_.Add(other.imageIds_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6053,13 +6522,9 @@ namespace InfX {
             break;
           case 10: {
             if (offer_ == null) {
-              offer_ = new global::InfX.DataOffer();
+              offer_ = new global::InfX.DataBusinessOffer();
             }
             input.ReadMessage(offer_);
-            break;
-          }
-          case 18: {
-            imageIds_.AddEntriesFrom(input, _repeated_imageIds_codec);
             break;
           }
         }
@@ -6078,7 +6543,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[29]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[30]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
