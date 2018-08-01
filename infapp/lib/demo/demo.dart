@@ -16,28 +16,6 @@ import '../dashboard_business.dart' show DashboardBusiness;
 import '../profile_view.dart' show ProfileView;
 // import '../widgets/follower_count.dart' show FollowerWidget;
 
-// temporary structure - use single DataAccountState structure, field visibility depending
-class DataAccountState2 {
-  // old fields from DataAccountState, fields as-is from account table
-  int deviceId = 0; // deviceId is private
-  int accountId = 0;
-  AccountType accountType = AccountType.AT_UNKNOWN;
-  GlobalAccountState globalAccountState = GlobalAccountState.GAS_INITIALIZE;
-  GlobalAccountStateReason globalAccountStateReason = GlobalAccountStateReason.GASR_NEW_ACCOUNT;
-
-  // old fields from DataInfluencer, fetched summary from various tables
-  String name = ''; // from account table
-  String description = ''; // from account table
-  String avatarUrl = ''; // from account table
-  String location = ''; // from location table, depending on detail
-
-  // detail
-  List<String> bannerUrls = new List<String>(); // from uploaded media table
-  List<CategoryId> categories = new List<CategoryId>(); // from categories table
-  List<DataSocialMedia> socialMedia = new List<DataSocialMedia>(); // from social media table + oauth table
-
-}
-
 class DemoApp extends StatefulWidget {
   const DemoApp({
     Key key,
@@ -130,13 +108,17 @@ class DemoHomePage extends StatefulWidget {
 
 class _DemoHomePageState extends State<DemoHomePage> {
   
-  DataAccountState2 demoAccount = new DataAccountState2();
+  DataAccount demoAccount = new DataAccount();
   final Random random = new Random();
 
   @override
   void initState() {
     super.initState();
-    // ...
+    //demoAccount.detail.socialMedia = new List<SocialMedia>();
+    
+    demoAccount.state = new DataAccountState();
+    demoAccount.summary = new DataAccountSummary();
+    demoAccount.detail = new DataAccountDetail(); // Important: Need to initialize fields, or they are read only
     
   }
 
@@ -144,13 +126,12 @@ class _DemoHomePageState extends State<DemoHomePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     ConfigData config = ConfigManager.of(context);
+   //demoAccount.detail = new DataAccountDetail();
     assert(config != null);
-    demoAccount.socialMedia.length = config.oauthProviders.all.length;
-    for (int i = 0; i < demoAccount.socialMedia.length; ++i) {
-      if (demoAccount.socialMedia[i] == null) {
-        demoAccount.socialMedia[i] = new DataSocialMedia();
-      }
+    for (int i = demoAccount.detail.socialMedia.length; i < config.oauthProviders.all.length; ++i) {
+      demoAccount.detail.socialMedia.add(new DataSocialMedia()); // Important: PB lists can only be extended using add
     }
+    demoAccount.detail.socialMedia.length = config.oauthProviders.all.length;
   }
 
   @override
@@ -195,13 +176,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
                   builder: (context) {
                     return new OnboardingSelection(
                       onInfluencer: () {
-                        demoAccount.accountType = AccountType.AT_INFLUENCER;
+                        demoAccount.state.accountType = AccountType.AT_INFLUENCER;
                         /* Scaffold.of(context).showSnackBar(new SnackBar(
                           content: new Text("You're an influencer!"),
                         )); */ // Tricky: context here is route context, not the scaffold of the onboarding selection
                       },
                       onBusiness: () {
-                        demoAccount.accountType = AccountType.AT_BUSINESS;
+                        demoAccount.state.accountType = AccountType.AT_BUSINESS;
                         /* scaffold.showSnackBar(new SnackBar(
                           content: new Text("You're a business!"),
                         )); */
@@ -223,23 +204,23 @@ class _DemoHomePageState extends State<DemoHomePage> {
                       builder: (context, setState) {
                         assert(ConfigManager.of(context) != null);
                         return new OnboardingSocial(
-                          accountType: demoAccount.accountType,
+                          accountType: demoAccount.state.accountType,
                           oauthProviders: ConfigManager.of(context).oauthProviders.all,
                           onOAuthSelected: (int oauthProvider) {
                             setState(() {
-                              demoAccount.socialMedia[oauthProvider].connected = true;
-                              demoAccount.socialMedia[oauthProvider].followersCount = random.nextInt(1000000);
-                              demoAccount.socialMedia[oauthProvider].friendsCount = random.nextInt(1000000);
+                              demoAccount.detail.socialMedia[oauthProvider].connected = true;
+                              demoAccount.detail.socialMedia[oauthProvider].followersCount = random.nextInt(1000000);
+                              demoAccount.detail.socialMedia[oauthProvider].friendsCount = random.nextInt(1000000);
                             });
                           },
-                          oauthState: demoAccount.socialMedia, // () { return demoSocialMedia; }(),
+                          oauthState: demoAccount.detail.socialMedia, // () { return demoSocialMedia; }(),
                           onSignUp: () { 
-                            demoAccount.accountId = random.nextInt(1000000) + 1;
-                            demoAccount.name = "John Smith";
-                            demoAccount.avatarUrl = '';
-                            demoAccount.location = "Cardiff, London";
-                            demoAccount.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
-                            demoAccount.globalAccountStateReason = GlobalAccountStateReason.GASR_DEMO_APPROVED;
+                            demoAccount.state.accountId = random.nextInt(1000000) + 1;
+                            demoAccount.summary.name = "John Smith";
+                            demoAccount.summary.avatarUrl = '';
+                            demoAccount.summary.location = "Cardiff, London";
+                            demoAccount.state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
+                            demoAccount.state.globalAccountStateReason = GlobalAccountStateReason.GASR_DEMO_APPROVED;
                           },
                         );
                       },
@@ -252,15 +233,15 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('Reset Onboarding') ] ),
             onPressed: () {
-              demoAccount.accountId = 0;
-              demoAccount.accountType = AccountType.AT_UNKNOWN;
-              demoAccount.name = '';
-              demoAccount.avatarUrl = '';
-              demoAccount.location = '';
-              demoAccount.globalAccountState = GlobalAccountState.GAS_INITIALIZE;
-              demoAccount.globalAccountStateReason = GlobalAccountStateReason.GASR_NEW_ACCOUNT;
-              for (int i = 0; i < demoAccount.socialMedia.length; ++i) {
-                demoAccount.socialMedia[i] = new DataSocialMedia();
+              demoAccount.state.accountId = 0;
+              demoAccount.state.accountType = AccountType.AT_UNKNOWN;
+              demoAccount.summary.name = '';
+              demoAccount.summary.avatarUrl = '';
+              demoAccount.summary.location = '';
+              demoAccount.state.globalAccountState = GlobalAccountState.GAS_INITIALIZE;
+              demoAccount.state.globalAccountStateReason = GlobalAccountStateReason.GASR_NEW_ACCOUNT;
+              for (int i = 0; i < demoAccount.detail.socialMedia.length; ++i) {
+                demoAccount.detail.socialMedia[i] = new DataSocialMedia();
               }
             },
           ),
@@ -288,7 +269,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('View Business Profile (Self)') ] ),
             onPressed: () { 
-              demoAccount.accountType = AccountType.AT_BUSINESS;
+              demoAccount.state.accountType = AccountType.AT_BUSINESS;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -322,7 +303,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('View Influencer Profile') ] ),
             onPressed: () { 
-              demoAccount.accountType = AccountType.AT_INFLUENCER;
+              demoAccount.state.accountType = AccountType.AT_INFLUENCER;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -383,7 +364,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('View Influencer Profile (Self)') ] ),
             onPressed: () { 
-              demoAccount.accountType = AccountType.AT_INFLUENCER;
+              demoAccount.state.accountType = AccountType.AT_INFLUENCER;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -429,7 +410,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('View Business Profile') ] ),
             onPressed: () { 
-              demoAccount.accountType = AccountType.AT_BUSINESS;
+              demoAccount.state.accountType = AccountType.AT_BUSINESS;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
