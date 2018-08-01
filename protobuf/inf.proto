@@ -256,7 +256,7 @@ message DataAccountState {
   GlobalAccountState globalAccountState = 4;
   GlobalAccountStateReason globalAccountStateReason = 5;
   
-  NotificationFlags = 6;
+  NotificationFlags notificationFlags = 6;
   
 }
 
