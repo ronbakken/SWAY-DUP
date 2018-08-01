@@ -1,31 +1,21 @@
 import 'package:flutter/material.dart';
 
-import '../network/config_manager.dart';
-import '../profile/profile_edit.dart';
-
+// Widget for editing a page
 class EditButton extends StatelessWidget {
 
   // Constructor
   EditButton({
     Key key,
+    this.onEditPressed,
   }) : super(key: key);
 	
-  // TODO: Refactor
+  final VoidCallback onEditPressed;
+
   @override
   Widget build(BuildContext context) {
     return new IconButton(
       icon: new Icon(Icons.edit),
-      onPressed: () { 
-        Navigator.push( 
-          context,
-          new MaterialPageRoute( 
-            builder: (context) {
-              assert(ConfigManager.of(context) != null);
-              return new ProfileEdit();
-            },
-          ), 
-        );
-      }
+      onPressed: onEditPressed,
     );
   }
 }
