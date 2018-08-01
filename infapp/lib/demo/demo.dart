@@ -111,6 +111,52 @@ class _DemoHomePageState extends State<DemoHomePage> {
   DataAccount demoAccount = new DataAccount();
   final Random random = new Random();
 
+  List<DataAccount> sampleAccounts = new List<DataAccount>();
+  List<DataBusinessOffer> sampleBusinessOffers = new List<DataBusinessOffer>();
+
+  void generateSamples() {
+    sampleAccounts.length = 3;
+    for (int i = 0; i < sampleAccounts.length; ++i) {
+      if (sampleAccounts[i] == null) {
+        sampleAccounts[i] = new DataAccount();
+        sampleAccounts[i].state = new DataAccountState();
+        sampleAccounts[i].summary = new DataAccountSummary();
+        sampleAccounts[i].detail = new DataAccountDetail();
+      }
+    }
+    sampleAccounts[1].state.accountId = 1;
+    sampleAccounts[1].state.accountType = AccountType.AT_BUSINESS;
+    sampleAccounts[1].state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
+    sampleAccounts[1].summary.name = "Big Kahuna";
+    sampleAccounts[1].summary.description = "The best burgers in the known universe. As far as we know.";
+    sampleAccounts[1].summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
+    sampleAccounts[1].summary.location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+    sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
+    sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg");
+    sampleAccounts[2].state.accountId = 1;
+    sampleAccounts[2].state.accountType = AccountType.AT_BUSINESS;
+    sampleAccounts[2].state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
+    sampleAccounts[2].summary.name = "Fried Willy";
+    sampleAccounts[2].summary.description = "We don't prepare dolphins.";
+    sampleAccounts[2].summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg";
+    sampleAccounts[2].summary.location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+    sampleAccounts[2].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
+    sampleAccounts[2].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg");
+  }
+
+  void generateSamplesSocial() {
+    sampleAccounts[1].detail.socialMedia[1].connected = true;
+    sampleAccounts[1].detail.socialMedia[1].followersCount = 986;
+    sampleAccounts[1].detail.socialMedia[4].connected = true;
+    sampleAccounts[1].detail.socialMedia[4].followersCount = 212;
+    sampleAccounts[1].detail.socialMedia[5].connected = true;
+    sampleAccounts[1].detail.socialMedia[5].followersCount = 5;
+    sampleAccounts[2].detail.socialMedia[2].connected = true;
+    sampleAccounts[2].detail.socialMedia[2].friendsCount = 156;
+    sampleAccounts[2].detail.socialMedia[3].connected = true;
+    sampleAccounts[2].detail.socialMedia[3].followersCount = 5432;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -120,6 +166,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     demoAccount.summary = new DataAccountSummary();
     demoAccount.detail = new DataAccountDetail(); // Important: Need to initialize fields, or they are read only
     
+    generateSamples();
   }
 
   @override
@@ -132,6 +179,19 @@ class _DemoHomePageState extends State<DemoHomePage> {
       demoAccount.detail.socialMedia.add(new DataSocialMedia()); // Important: PB lists can only be extended using add
     }
     demoAccount.detail.socialMedia.length = config.oauthProviders.all.length; // Reduce
+    for (int j = 0; j < sampleAccounts.length; ++j) {
+      for (int i = sampleAccounts[j].detail.socialMedia.length; i < config.oauthProviders.all.length; ++i) { // Add
+        sampleAccounts[j].detail.socialMedia.add(new DataSocialMedia()); // Important: PB lists can only be extended using add
+      }
+      sampleAccounts[j].detail.socialMedia.length = config.oauthProviders.all.length; // Reduce
+    }
+    generateSamplesSocial();
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    generateSamples();
   }
 
   @override
