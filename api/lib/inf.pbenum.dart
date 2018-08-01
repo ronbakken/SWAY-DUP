@@ -145,3 +145,47 @@ class NotificationFlags extends ProtobufEnum {
   const NotificationFlags._(int v, String n) : super(v, n);
 }
 
+class BusinessOfferState extends ProtobufEnum {
+  static const BusinessOfferState BOS_DRAFT = const BusinessOfferState._(0, 'BOS_DRAFT');
+  static const BusinessOfferState BOS_OPEN = const BusinessOfferState._(1, 'BOS_OPEN');
+  static const BusinessOfferState BOS_ACTIVE = const BusinessOfferState._(2, 'BOS_ACTIVE');
+  static const BusinessOfferState BOS_CLOSED = const BusinessOfferState._(3, 'BOS_CLOSED');
+
+  static const List<BusinessOfferState> values = const <BusinessOfferState> [
+    BOS_DRAFT,
+    BOS_OPEN,
+    BOS_ACTIVE,
+    BOS_CLOSED,
+  ];
+
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static BusinessOfferState valueOf(int value) => _byValue[value] as BusinessOfferState;
+  static void $checkItem(BusinessOfferState v) {
+    if (v is! BusinessOfferState) checkItemFailed(v, 'BusinessOfferState');
+  }
+
+  const BusinessOfferState._(int v, String n) : super(v, n);
+}
+
+class BusinessOfferStateReason extends ProtobufEnum {
+  static const BusinessOfferStateReason BOSR_NEW_OFFER = const BusinessOfferStateReason._(0, 'BOSR_NEW_OFFER');
+  static const BusinessOfferStateReason BOSR_USER_CLOSED = const BusinessOfferStateReason._(1, 'BOSR_USER_CLOSED');
+  static const BusinessOfferStateReason BOSR_TOS_VIOLATION = const BusinessOfferStateReason._(2, 'BOSR_TOS_VIOLATION');
+  static const BusinessOfferStateReason BOSR_COMPLETED = const BusinessOfferStateReason._(3, 'BOSR_COMPLETED');
+
+  static const List<BusinessOfferStateReason> values = const <BusinessOfferStateReason> [
+    BOSR_NEW_OFFER,
+    BOSR_USER_CLOSED,
+    BOSR_TOS_VIOLATION,
+    BOSR_COMPLETED,
+  ];
+
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static BusinessOfferStateReason valueOf(int value) => _byValue[value] as BusinessOfferStateReason;
+  static void $checkItem(BusinessOfferStateReason v) {
+    if (v is! BusinessOfferStateReason) checkItemFailed(v, 'BusinessOfferStateReason');
+  }
+
+  const BusinessOfferStateReason._(int v, String n) : super(v, n);
+}
+
