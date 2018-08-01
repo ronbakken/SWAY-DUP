@@ -56,58 +56,61 @@ namespace InfX {
             "ZmZlchgCIAEoCzIKLkRhdGFPZmZlchIgCgppbmZsdWVuY2VyGAMgASgLMgwu",
             "RGF0YUFjY291bnQiYgoIRGF0YUNoYXQSEwoLYXBwbGljYW50SWQYASABKAMS",
             "EgoKc2VxdWVuY2VJZBgCIAEoAxINCgVrZXlJZBgDIAEoAxIQCghvdXRnb2lu",
-            "ZxgEIAEoCBIMCgR0ZXh0GAUgASgJIsgBChBEYXRhQWNjb3VudFN0YXRlEhAK",
+            "ZxgEIAEoCBIMCgR0ZXh0GAUgASgJIvcBChBEYXRhQWNjb3VudFN0YXRlEhAK",
             "CGRldmljZUlkGAEgASgFEhEKCWFjY291bnRJZBgCIAEoBRIhCgthY2NvdW50",
             "VHlwZRgDIAEoDjIMLkFjY291bnRUeXBlEi8KEmdsb2JhbEFjY291bnRTdGF0",
             "ZRgEIAEoDjITLkdsb2JhbEFjY291bnRTdGF0ZRI7ChhnbG9iYWxBY2NvdW50",
-            "U3RhdGVSZWFzb24YBSABKA4yGS5HbG9iYWxBY2NvdW50U3RhdGVSZWFzb24i",
-            "XAoSRGF0YUFjY291bnRTdW1tYXJ5EgwKBG5hbWUYASABKAkSEwoLZGVzY3Jp",
-            "cHRpb24YAiABKAkSEAoIbG9jYXRpb24YAyABKAkSEQoJYXZhdGFyVXJsGAQg",
-            "ASgJIm4KEURhdGFBY2NvdW50RGV0YWlsEhEKCWNvdmVyVXJscxgBIAMoCRIf",
-            "CgpjYXRlZ29yaWVzGAIgAygLMgsuQ2F0ZWdvcnlJZBIlCgtzb2NpYWxNZWRp",
-            "YRgDIAMoCzIQLkRhdGFTb2NpYWxNZWRpYSJ5CgtEYXRhQWNjb3VudBIgCgVz",
-            "dGF0ZRgBIAEoCzIRLkRhdGFBY2NvdW50U3RhdGUSJAoHc3VtbWFyeRgCIAEo",
-            "CzITLkRhdGFBY2NvdW50U3VtbWFyeRIiCgZkZXRhaWwYAyABKAsyEi5EYXRh",
-            "QWNjb3VudERldGFpbCJEChZOZXREZXZpY2VBdXRoQ3JlYXRlUmVxEg4KBmFl",
-            "c0tleRgBIAEoDBIMCgRuYW1lGAIgASgJEgwKBGluZm8YAyABKAkiLQoZTmV0",
-            "RGV2aWNlQXV0aENoYWxsZW5nZVJlcRIQCghkZXZpY2VJZBgBIAEoBSIxChxO",
-            "ZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVzUmVxEhEKCWNoYWxsZW5nZRgBIAEo",
-            "DCIxChxOZXREZXZpY2VBdXRoU2lnbmF0dXJlUmVzUmVxEhEKCXNpZ25hdHVy",
-            "ZRgBIAEoDCJkChJOZXREZXZpY2VBdXRoU3RhdGUSJwoMYWNjb3VudFN0YXRl",
-            "GAcgASgLMhEuRGF0YUFjY291bnRTdGF0ZRIlCgtzb2NpYWxNZWRpYRgGIAMo",
-            "CzIQLkRhdGFTb2NpYWxNZWRpYSI2ChFOZXRTZXRBY2NvdW50VHlwZRIhCgth",
-            "Y2NvdW50VHlwZRgBIAEoDjIMLkFjY291bnRUeXBlIicKDk5ldE9BdXRoVXJs",
-            "UmVxEhUKDW9hdXRoUHJvdmlkZXIYASABKAUiNgoOTmV0T0F1dGhVcmxSZXMS",
-            "DwoHYXV0aFVybBgBIAEoCRITCgtjYWxsYmFja1VybBgCIAEoCSJCChJOZXRP",
-            "QXV0aENvbm5lY3RSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBRIVCg1jYWxs",
-            "YmFja1F1ZXJ5GAIgASgJIjsKEk5ldE9BdXRoQ29ubmVjdFJlcxIlCgtzb2Np",
-            "YWxNZWRpYRgBIAEoCzIQLkRhdGFTb2NpYWxNZWRpYSI9ChNOZXRBY2NvdW50",
-            "Q3JlYXRlUmVxEgwKBG5hbWUYASABKAkSCwoDbGF0GAIgASgCEgsKA2xuZxgD",
-            "IAEoAiJHChFOZXRSZXFJbWFnZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQ",
-            "CghmaWxlU2l6ZRgCIAEoBRIOCgZzaGEyNTYYAyABKAki3wEKEU5ldFJlc0lt",
-            "YWdlVXBsb2FkEhUKDXJlcXVlc3RNZXRob2QYASABKAkSEgoKcmVxdWVzdFVy",
-            "bBgCIAEoCRIZChFoZWFkZXJDb250ZW50VHlwZRgDIAEoCRIbChNoZWFkZXJD",
-            "b250ZW50TGVuZ3RoGAQgASgJEhIKCmhlYWRlckhvc3QYBSABKAkSFgoOaGVh",
-            "ZGVyWEFtekRhdGUYBiABKAkSHgoWaGVhZGVyWEFtelN0b3JhZ2VDbGFzcxgH",
-            "IAEoCRIbChNoZWFkZXJBdXRob3JpemF0aW9uGAggASgJIkAKEU5ldFJlcUNy",
-            "ZWF0ZU9mZmVyEhkKBW9mZmVyGAEgASgLMgouRGF0YU9mZmVyEhAKCGltYWdl",
-            "SWRzGAIgAygJIh8KEU5ldFJlc0NyZWF0ZU9mZmVyEgoKAmlkGAEgASgDKj4K",
-            "Dk9BdXRoTWVjaGFuaXNtEgwKCE9BTV9OT05FEAASDgoKT0FNX09BVVRIMRAB",
-            "Eg4KCk9BTV9PQVVUSDIQAipDChBPQXV0aFByb3ZpZGVySWRzEgwKCE9BUF9O",
-            "T05FEAASDwoLT0FQX1RXSVRURVIQARIQCgxPQVBfRkFDRUJPT0sQAipBCgtB",
-            "Y2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5GTFVFTkNFUhAB",
-            "Eg8KC0FUX0JVU0lORVNTEAIqjwEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5H",
-            "QVNfSU5JVElBTElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURf",
-            "T05MWRACEhIKDkdBU19SRUFEX1dSSVRFEAMSEQoNR0FTX01PREVSQVRPUhAE",
-            "Eg0KCUdBU19BRE1JThAFEgsKB0dBU19HT0QQBiq1AQoYR2xvYmFsQWNjb3Vu",
-            "dFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNHQVNSX0FD",
-            "Q09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAISEQoNR0FT",
-            "Ul9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAKDEdBU1Jf",
-            "UEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAZCB6oCBEluZlhiBnBy",
-            "b3RvMw=="));
+            "U3RhdGVSZWFzb24YBSABKA4yGS5HbG9iYWxBY2NvdW50U3RhdGVSZWFzb24S",
+            "LQoRbm90aWZpY2F0aW9uRmxhZ3MYBiABKA4yEi5Ob3RpZmljYXRpb25GbGFn",
+            "cyJcChJEYXRhQWNjb3VudFN1bW1hcnkSDAoEbmFtZRgBIAEoCRITCgtkZXNj",
+            "cmlwdGlvbhgCIAEoCRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0YXJVcmwY",
+            "BCABKAkibgoRRGF0YUFjY291bnREZXRhaWwSEQoJY292ZXJVcmxzGAEgAygJ",
+            "Eh8KCmNhdGVnb3JpZXMYAiADKAsyCy5DYXRlZ29yeUlkEiUKC3NvY2lhbE1l",
+            "ZGlhGAMgAygLMhAuRGF0YVNvY2lhbE1lZGlhInkKC0RhdGFBY2NvdW50EiAK",
+            "BXN0YXRlGAEgASgLMhEuRGF0YUFjY291bnRTdGF0ZRIkCgdzdW1tYXJ5GAIg",
+            "ASgLMhMuRGF0YUFjY291bnRTdW1tYXJ5EiIKBmRldGFpbBgDIAEoCzISLkRh",
+            "dGFBY2NvdW50RGV0YWlsIkQKFk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoG",
+            "YWVzS2V5GAEgASgMEgwKBG5hbWUYAiABKAkSDAoEaW5mbxgDIAEoCSItChlO",
+            "ZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVxEhAKCGRldmljZUlkGAEgASgFIjEK",
+            "HE5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXNSZXESEQoJY2hhbGxlbmdlGAEg",
+            "ASgMIjEKHE5ldERldmljZUF1dGhTaWduYXR1cmVSZXNSZXESEQoJc2lnbmF0",
+            "dXJlGAEgASgMImQKEk5ldERldmljZUF1dGhTdGF0ZRInCgxhY2NvdW50U3Rh",
+            "dGUYByABKAsyES5EYXRhQWNjb3VudFN0YXRlEiUKC3NvY2lhbE1lZGlhGAYg",
+            "AygLMhAuRGF0YVNvY2lhbE1lZGlhIjYKEU5ldFNldEFjY291bnRUeXBlEiEK",
+            "C2FjY291bnRUeXBlGAEgASgOMgwuQWNjb3VudFR5cGUiJwoOTmV0T0F1dGhV",
+            "cmxSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBSI2Cg5OZXRPQXV0aFVybFJl",
+            "cxIPCgdhdXRoVXJsGAEgASgJEhMKC2NhbGxiYWNrVXJsGAIgASgJIkIKEk5l",
+            "dE9BdXRoQ29ubmVjdFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFEhUKDWNh",
+            "bGxiYWNrUXVlcnkYAiABKAkiOwoSTmV0T0F1dGhDb25uZWN0UmVzEiUKC3Nv",
+            "Y2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lhbE1lZGlhIj0KE05ldEFjY291",
+            "bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRILCgNsYXQYAiABKAISCwoDbG5n",
+            "GAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZpbGVOYW1lGAEgASgJ",
+            "EhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEoCSLfAQoRTmV0UmVz",
+            "SW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEoCRISCgpyZXF1ZXN0",
+            "VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMgASgJEhsKE2hlYWRl",
+            "ckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9zdBgFIAEoCRIWCg5o",
+            "ZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16U3RvcmFnZUNsYXNz",
+            "GAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCABKAkiQAoRTmV0UmVx",
+            "Q3JlYXRlT2ZmZXISGQoFb2ZmZXIYASABKAsyCi5EYXRhT2ZmZXISEAoIaW1h",
+            "Z2VJZHMYAiADKAkiHwoRTmV0UmVzQ3JlYXRlT2ZmZXISCgoCaWQYASABKAMq",
+            "PgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIOCgpPQU1fT0FVVEgx",
+            "EAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJvdmlkZXJJZHMSDAoIT0FQ",
+            "X05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9BUF9GQUNFQk9PSxACKkEK",
+            "C0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VS",
+            "EAESDwoLQVRfQlVTSU5FU1MQAiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIK",
+            "DkdBU19JTklUSUFMSVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVB",
+            "RF9PTkxZEAISEgoOR0FTX1JFQURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9S",
+            "EAQSDQoJR0FTX0FETUlOEAUSCwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2Nv",
+            "dW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1Jf",
+            "QUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1H",
+            "QVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FT",
+            "Ul9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJFX0lORk8QBipuChFOb3RpZmlj",
+            "YXRpb25GbGFncxIUChBORl9BQ0NPVU5UX1NUQVRFEAASGAoUTkZfTUFLRV9B",
+            "Tl9PRkZFUl9GQUIQARIWChJORl9VTlJFQURfTUVTU0FHRVMQAhIRCg1ORl9D",
+            "U19SRVFVRVNUEANCB6oCBEluZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "CallbackUrl", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret", "WhitelistHosts" }, null, null, null),
@@ -119,7 +122,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOffer), global::InfX.DataOffer.Parser, new[]{ "Id", "Business", "Title", "ImageUrls", "Categories", "Lat", "Lng", "Description", "Deliverables", "Reward" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "Id", "Offer", "Influencer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason", "NotificationFlags" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "CoverUrls", "Categories", "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
@@ -217,6 +220,28 @@ namespace InfX {
     ///  More information is required from the user to approve their account
     /// </summary>
     [pbr::OriginalName("GASR_REQUIRE_INFO")] GasrRequireInfo = 6,
+  }
+
+  /// <summary>
+  /// / NotificationFlags are set at login and may be sent through GCM as well
+  /// </summary>
+  public enum NotificationFlags {
+    /// <summary>
+    /// / Set whenever GAS changed (wipe after dismissed)
+    /// </summary>
+    [pbr::OriginalName("NF_ACCOUNT_STATE")] NfAccountState = 0,
+    /// <summary>
+    /// / Set for new users to learn, pops help message to FAB (wipe on dismissed)
+    /// </summary>
+    [pbr::OriginalName("NF_MAKE_AN_OFFER_FAB")] NfMakeAnOfferFab = 1,
+    /// <summary>
+    /// / There are new unread messages from other users (wipe when opening message tab)
+    /// </summary>
+    [pbr::OriginalName("NF_UNREAD_MESSAGES")] NfUnreadMessages = 2,
+    /// <summary>
+    /// / Customer support requesting attention (may interpret as duplicate of  NF_ACCOUNT_STATUS if GASR_REQUIRE_INFO)
+    /// </summary>
+    [pbr::OriginalName("NF_CS_REQUEST")] NfCsRequest = 3,
   }
 
   #endregion
@@ -3066,6 +3091,7 @@ namespace InfX {
       accountType_ = other.accountType_;
       globalAccountState_ = other.globalAccountState_;
       globalAccountStateReason_ = other.globalAccountStateReason_;
+      notificationFlags_ = other.notificationFlags_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3137,6 +3163,17 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "notificationFlags" field.</summary>
+    public const int NotificationFlagsFieldNumber = 6;
+    private global::InfX.NotificationFlags notificationFlags_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.NotificationFlags NotificationFlags {
+      get { return notificationFlags_; }
+      set {
+        notificationFlags_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as DataAccountState);
@@ -3155,6 +3192,7 @@ namespace InfX {
       if (AccountType != other.AccountType) return false;
       if (GlobalAccountState != other.GlobalAccountState) return false;
       if (GlobalAccountStateReason != other.GlobalAccountStateReason) return false;
+      if (NotificationFlags != other.NotificationFlags) return false;
       return true;
     }
 
@@ -3166,6 +3204,7 @@ namespace InfX {
       if (AccountType != 0) hash ^= AccountType.GetHashCode();
       if (GlobalAccountState != 0) hash ^= GlobalAccountState.GetHashCode();
       if (GlobalAccountStateReason != 0) hash ^= GlobalAccountStateReason.GetHashCode();
+      if (NotificationFlags != 0) hash ^= NotificationFlags.GetHashCode();
       return hash;
     }
 
@@ -3196,6 +3235,10 @@ namespace InfX {
         output.WriteRawTag(40);
         output.WriteEnum((int) GlobalAccountStateReason);
       }
+      if (NotificationFlags != 0) {
+        output.WriteRawTag(48);
+        output.WriteEnum((int) NotificationFlags);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3215,6 +3258,9 @@ namespace InfX {
       }
       if (GlobalAccountStateReason != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) GlobalAccountStateReason);
+      }
+      if (NotificationFlags != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) NotificationFlags);
       }
       return size;
     }
@@ -3238,6 +3284,9 @@ namespace InfX {
       }
       if (other.GlobalAccountStateReason != 0) {
         GlobalAccountStateReason = other.GlobalAccountStateReason;
+      }
+      if (other.NotificationFlags != 0) {
+        NotificationFlags = other.NotificationFlags;
       }
     }
 
@@ -3267,6 +3316,10 @@ namespace InfX {
           }
           case 40: {
             globalAccountStateReason_ = (global::InfX.GlobalAccountStateReason) input.ReadEnum();
+            break;
+          }
+          case 48: {
+            notificationFlags_ = (global::InfX.NotificationFlags) input.ReadEnum();
             break;
           }
         }
