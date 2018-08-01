@@ -150,6 +150,17 @@ enum GlobalAccountStateReason {
   
 }
 
+/// NotificationFlags are set at login and may be sent through GCM as well
+enum NotificationFlags {
+  /// Set whenever GAS changed (wipe after dismissed)
+  NF_ACCOUNT_STATUS = 0;
+  /// Set for new users to learn, pops help message to FAB (wipe on dismissed)
+  NF_MAKE_AN_OFFER_FAB = 1;
+  /// There are new unread messages from other users (wipe when opening message tab)
+  NF_UNREAD_MESSAGES = 2;
+  
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,32 +208,6 @@ message DataOAuthCredentials {
   
 }
 
-/*
-message DataInfluencer {
-  int64 id = 1;
-  string name = 2;
-  string location = 3;
-  string avatarUrl = 4;
-  repeated CategoryId categories = 5;
-  double lat = 6;
-  double lng = 7;
-  repeated DataSocialMedia socialMedia = 8;
-  
-}
-
-message DataBusiness {
-  int64 id = 1;
-  string name = 2;
-  string location = 3;
-  string avatarUrl = 4;
-  repeated CategoryId categories = 5;
-  double lat = 6;
-  double lng = 7;
-  repeated DataSocialMedia socialMedia = 8;
-  
-}
-*/
-
 message DataOffer {
   int64 id = 1;
   DataAccount business = 2;
@@ -268,6 +253,8 @@ message DataAccountState {
   
   GlobalAccountState globalAccountState = 4;
   GlobalAccountStateReason globalAccountStateReason = 5;
+  
+  NotificationFlags = 6;
   
 }
 
