@@ -37,7 +37,9 @@ dependencies:
 # dev_dependencies:
   # flutter_test:
   #   sdk: flutter
-
+  
+# Search bar
+  flutter_search_bar: "^2.0.2"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
