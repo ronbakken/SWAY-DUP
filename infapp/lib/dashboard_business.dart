@@ -11,6 +11,8 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 
+import 'network/inf.pb.dart';
+
 // import 'network/inf.pb.dart';
 
 // pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA
@@ -18,13 +20,26 @@ import 'package:flutter_map/flutter_map.dart';
 class DashboardBusiness extends StatefulWidget {
   const DashboardBusiness({
     Key key,
+    @required this.account,
+    @required this.onMakeAnOffer,
   }) : super(key: key);
+
+  final DataAccount account;
+  final VoidCallback onMakeAnOffer;
 
   @override
   _DashboardBusinessState createState() => new _DashboardBusinessState();
 }
 
 class _DashboardBusinessState extends State<DashboardBusiness> {
+  int _currentTab;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentTab = 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -79,6 +94,7 @@ class _DashboardBusinessState extends State<DashboardBusiness> {
                               padding: new EdgeInsets.all(16.0),
                               icon: new Icon(Icons.menu),
                               onPressed: () => Scaffold.of(context).openDrawer(),
+                              tooltip: "Open navigation menu",
                             ),
                           ),
                           new Flexible(
@@ -102,6 +118,7 @@ class _DashboardBusinessState extends State<DashboardBusiness> {
                               padding: new EdgeInsets.all(16.0),
                               icon: new Icon(Icons.search),
                               onPressed: () { },
+                              tooltip: "Search for nearby influencers",
                             ),
                           ),
                         ],
@@ -122,7 +139,7 @@ class _DashboardBusinessState extends State<DashboardBusiness> {
           )*/
         ],
       ),
-      floatingActionButton: new FloatingActionButton(
+      floatingActionButton: _currentTab == 2 ? null : new FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         tooltip: 'Make an offer',
         child: new Row(
@@ -131,17 +148,44 @@ class _DashboardBusinessState extends State<DashboardBusiness> {
             new Icon(Icons.add),
           ]
         ),
-        onPressed: () => { },
+        onPressed: widget.onMakeAnOffer,
       ),
       drawer: new Drawer(
         child: new Column(
           children: [
-            new Text("Hello world")
+            new Material(
+              elevation: 4.0, // TODO: Verify this matches AppBar
+              color: Theme.of(context).primaryColor,
+              child: new AspectRatio(
+                aspectRatio: 16.0 / 9.0,
+                child: new Stack(
+                  children: [
+                    widget.account.detail.coverUrls.length > 0 ? new FadeInImage.assetNetwork(
+                      placeholder: 'assets/placeholder_photo.png',
+                      image: widget.account.detail.coverUrls[0],
+                      fit: BoxFit.cover
+                    ) : new Image(image: new AssetImage('assets/placeholder_photo.png')),
+                    new SafeArea(
+                      child: new Text("Hello world")
+                    )
+                  ]
+                )
+              )
+            ),
           ]
         ),
       ),
+      appBar: _currentTab != 0 ? new AppBar(
+        title: new Text(_currentTab == 1 ? "Offers" : "Applicants"),
+      ) : null,
       bottomNavigationBar: new BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        currentIndex: _currentTab,
+        onTap: (int index) {
+          setState(() {
+            _currentTab = index;
+          });
+        },
         items: [
           new BottomNavigationBarItem(
             icon: new Icon(Icons.map),

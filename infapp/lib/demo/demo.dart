@@ -375,7 +375,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new DashboardBusiness();
+                    return new DashboardBusiness(
+                      account: demoAccount,
+                    );
                   },
                 )
               );
