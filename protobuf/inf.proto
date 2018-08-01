@@ -468,8 +468,8 @@ message NetResImageUpload {
 
 // Message to create offer
 message NetReqCreateOffer {
-  DataOffer offer = 1;
-  repeated string imageIds = 2;
+  DataBusinessOffer offer = 1;
+  // repeated string imageIds = 2;
   
   /*
   string title = 1;
