@@ -11,8 +11,12 @@ class ProfilePicture extends StatelessWidget {
 
 	@override
   Widget build(BuildContext context) =>
-    new CircleAvatar( 
-      backgroundImage: new NetworkImage(imageUrl),
-      radius: 75.0,
+    new Container(
+      padding: const EdgeInsets.all(32.0),
+       child: new CircleAvatar( 
+        backgroundImage: new NetworkImage(imageUrl),
+        radius: 75.0,
+      ),
     );
+    
 }
