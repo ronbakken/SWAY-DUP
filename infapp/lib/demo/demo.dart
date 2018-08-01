@@ -128,10 +128,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
     ConfigData config = ConfigManager.of(context);
    //demoAccount.detail = new DataAccountDetail();
     assert(config != null);
-    for (int i = demoAccount.detail.socialMedia.length; i < config.oauthProviders.all.length; ++i) {
+    for (int i = demoAccount.detail.socialMedia.length; i < config.oauthProviders.all.length; ++i) { // Add
       demoAccount.detail.socialMedia.add(new DataSocialMedia()); // Important: PB lists can only be extended using add
     }
-    demoAccount.detail.socialMedia.length = config.oauthProviders.all.length;
+    demoAccount.detail.socialMedia.length = config.oauthProviders.all.length; // Reduce
   }
 
   @override
