@@ -153,11 +153,13 @@ enum GlobalAccountStateReason {
 /// NotificationFlags are set at login and may be sent through GCM as well
 enum NotificationFlags {
   /// Set whenever GAS changed (wipe after dismissed)
-  NF_ACCOUNT_STATUS = 0;
+  NF_ACCOUNT_STATE = 0;
   /// Set for new users to learn, pops help message to FAB (wipe on dismissed)
   NF_MAKE_AN_OFFER_FAB = 1;
   /// There are new unread messages from other users (wipe when opening message tab)
   NF_UNREAD_MESSAGES = 2;
+  /// Customer support requesting attention (may interpret as duplicate of  NF_ACCOUNT_STATUS if GASR_REQUIRE_INFO)
+  NF_CS_REQUEST = 3;
   
 }
 
