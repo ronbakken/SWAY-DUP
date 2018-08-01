@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import '../network/config_manager.dart';
 import 'profile_picture.dart';
 import '../widgets/follower_tray.dart';
-
+import '../widgets/edit_button.dart';
 import '../network/inf.pb.dart';
 
+// TODO: Change to a stateful Widget and Cleanup
 class ProfileView extends StatelessWidget {
 
   // Constructor
@@ -22,6 +23,9 @@ class ProfileView extends StatelessWidget {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(dataAccount.summary.name + "'s Profile"),
+        actions: <Widget>[
+          new EditButton(),
+        ],
       ),
       body: new Column(
         children: <Widget>[
