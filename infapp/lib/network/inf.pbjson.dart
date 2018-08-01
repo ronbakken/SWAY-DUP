@@ -56,6 +56,16 @@ const GlobalAccountStateReason$json = const {
   ],
 };
 
+const NotificationFlags$json = const {
+  '1': 'NotificationFlags',
+  '2': const [
+    const {'1': 'NF_ACCOUNT_STATE', '2': 0},
+    const {'1': 'NF_MAKE_AN_OFFER_FAB', '2': 1},
+    const {'1': 'NF_UNREAD_MESSAGES', '2': 2},
+    const {'1': 'NF_CS_REQUEST', '2': 3},
+  ],
+};
+
 const ConfigSubCategories$json = const {
   '1': 'ConfigSubCategories',
   '2': const [
@@ -193,6 +203,7 @@ const DataAccountState$json = const {
     const {'1': 'accountType', '3': 3, '4': 1, '5': 14, '6': '.AccountType', '10': 'accountType'},
     const {'1': 'globalAccountState', '3': 4, '4': 1, '5': 14, '6': '.GlobalAccountState', '10': 'globalAccountState'},
     const {'1': 'globalAccountStateReason', '3': 5, '4': 1, '5': 14, '6': '.GlobalAccountStateReason', '10': 'globalAccountStateReason'},
+    const {'1': 'notificationFlags', '3': 6, '4': 1, '5': 14, '6': '.NotificationFlags', '10': 'notificationFlags'},
   ],
 };
 
