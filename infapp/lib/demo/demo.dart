@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 
 import '../network/inf.pb.dart';
@@ -124,6 +125,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
         sampleAccounts[i].detail = new DataAccountDetail();
       }
     }
+    
     sampleAccounts[1].state.accountId = 1;
     sampleAccounts[1].state.accountType = AccountType.AT_BUSINESS;
     sampleAccounts[1].state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
@@ -131,17 +133,69 @@ class _DemoHomePageState extends State<DemoHomePage> {
     sampleAccounts[1].summary.description = "The best burgers in the known universe. As far as we know.";
     sampleAccounts[1].summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
     sampleAccounts[1].summary.location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
-    sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
-    sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg");
-    sampleAccounts[2].state.accountId = 1;
+    sampleAccounts[1].detail.coverUrls.length = 0;
+    sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+    
+    sampleAccounts[2].state.accountId = 2;
     sampleAccounts[2].state.accountType = AccountType.AT_BUSINESS;
     sampleAccounts[2].state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
     sampleAccounts[2].summary.name = "Fried Willy";
     sampleAccounts[2].summary.description = "We don't prepare dolphins.";
     sampleAccounts[2].summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg";
     sampleAccounts[2].summary.location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+    sampleAccounts[2].detail.coverUrls.length = 0;
     sampleAccounts[2].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
-    sampleAccounts[2].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg");
+    sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg");
+    
+    sampleBusinessOffers.length = 4;
+    for (int i = 0; i < sampleBusinessOffers.length; ++i) {
+      if (sampleBusinessOffers[i] == null) {
+        sampleBusinessOffers[i] = new DataBusinessOffer();
+      }
+    }
+
+    sampleBusinessOffers[1].offerId = new Int64(1);
+    sampleBusinessOffers[1].accountId = 1;
+    sampleBusinessOffers[1].state = BusinessOfferState.BOS_OPEN;
+    sampleBusinessOffers[1].stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER;
+    sampleBusinessOffers[1].title = "Finest Burger Weekend";
+    sampleBusinessOffers[1].description = "We'd like to expose the finest foods in our very busy restaurant to a wide audience.";
+    sampleBusinessOffers[1].avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg";
+    sampleBusinessOffers[1].reward = "Free dinner + \$150";
+    sampleBusinessOffers[1].deliverables = "Posts with photography across social media.";
+    sampleBusinessOffers[1].location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+    sampleBusinessOffers[1].coverUrls.length = 0;
+    sampleBusinessOffers[1].coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+    sampleBusinessOffers[1].applicantsNew = 3;
+    sampleBusinessOffers[1].applicantsRefused = 1;
+
+    sampleBusinessOffers[2].offerId = new Int64(2);
+    sampleBusinessOffers[2].accountId = 1;
+    sampleBusinessOffers[2].state = BusinessOfferState.BOS_OPEN;
+    sampleBusinessOffers[2].stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER;
+    sampleBusinessOffers[2].title = "Burger Weekend Fries";
+    sampleBusinessOffers[2].description = "We need some table fillers to make our restaurant look very busy this weekend.";
+    sampleBusinessOffers[2].avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg";
+    sampleBusinessOffers[2].reward = "Free Poke Fries";
+    sampleBusinessOffers[2].deliverables = "Posts with photography across social media.";
+    sampleBusinessOffers[2].location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+    sampleBusinessOffers[2].applicantsNew = 3;
+    sampleBusinessOffers[2].applicantsAccepted = 7;
+    sampleBusinessOffers[2].applicantsRefused = 1;
+
+    sampleBusinessOffers[3].offerId = new Int64(3);
+    sampleBusinessOffers[3].accountId = 2;
+    sampleBusinessOffers[3].state = BusinessOfferState.BOS_CLOSED;
+    sampleBusinessOffers[3].stateReason = BusinessOfferStateReason.BOSR_COMPLETED;
+    sampleBusinessOffers[3].title = "Fishing Season";
+    sampleBusinessOffers[3].description = "Looking to catch more customers during the fishing season.";
+    sampleBusinessOffers[3].avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/rally.jpg";
+    sampleBusinessOffers[3].reward = "Free dinner";
+    sampleBusinessOffers[3].deliverables = "Posts with photography across social media.";
+    sampleBusinessOffers[3].location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+    sampleBusinessOffers[3].applicantsCompleted = 1;
+    sampleBusinessOffers[3].applicantsRefused = 17;
+
   }
 
   void generateSamplesSocial() {
@@ -277,6 +331,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                           onSignUp: () { 
                             demoAccount.state.accountId = random.nextInt(1000000) + 1;
                             demoAccount.summary.name = "John Smith";
+                            demoAccount.summary.description = "I'm here for the food.";
                             demoAccount.summary.avatarUrl = '';
                             demoAccount.summary.location = "Cardiff, London";
                             demoAccount.state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
@@ -393,6 +448,23 @@ class _DemoHomePageState extends State<DemoHomePage> {
             },
           ),
           new FlatButton(
+            child: new Row(children: [ new Text('Offer View (Self)') ] ),
+            onPressed: () { 
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new OfferView(
+                      businessOffer: sampleBusinessOffers[1],
+                      businessAccount: demoAccount,
+                      account: demoAccount,
+                    );
+                  },
+                )
+              );
+            },
+          ),
+          new FlatButton(
             child: new Row(children: [ new Text('Offer Edit') ] ),
             onPressed: null,
           ),
@@ -461,7 +533,11 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 context,
                 new MaterialPageRoute(
                   builder: (context) {
-                    return new OfferView();
+                    return new OfferView(
+                      businessOffer: sampleBusinessOffers[1],
+                      businessAccount: sampleAccounts[1],
+                      account: demoAccount,
+                    );
                   },
                 )
               );

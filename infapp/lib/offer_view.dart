@@ -1,34 +1,21 @@
 
 import 'package:flutter/material.dart';
 
+import 'network/inf.pb.dart';
 import 'widgets/carousel_app_bar.dart';
 import 'widgets/dark_container.dart';
 
 class OfferView extends StatelessWidget {
   const OfferView({
     Key key,
-    this.offerTitle = "Fishing Season",
-    this.offerImageUrls = const [
-      'https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg',
-      'https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg',
-    ],
-    this.offerDescription = "Looking to catch more customers during the fishing season.",
-    this.offerDeliverables = "Posts with photography across social media.",
-    this.offerRewards = "Free dinner",
-    this.businessName = "Big Kahuna",
-    this.businessAvatarUrl = 'https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg',
-    this.businessLocation = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
+    @required this.businessOffer,
+    @required this.businessAccount,
+    @required this.account,
   }) : super(key: key);
 
-  final String offerTitle;
-  final List<String> offerImageUrls;
-  final String offerDescription;
-  final String offerDeliverables;
-  final String offerRewards;
-
-  final String businessName;
-  final String businessAvatarUrl;
-  final String businessLocation;
+  final DataBusinessOffer businessOffer;
+  final DataAccount businessAccount;
+  final DataAccount account;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +24,8 @@ class OfferView extends StatelessWidget {
         slivers: <Widget>[
           new CarouselAppBar(
             context: context,
-            title: new Text(offerTitle),
-            imageUrls: offerImageUrls,
+            title: new Text(businessOffer.title),
+            imageUrls: businessOffer.coverUrls,
           ),
           new SliverList(
             delegate: new SliverChildListDelegate([
@@ -46,32 +33,30 @@ class OfferView extends StatelessWidget {
                 child: new ListTile(
                   //enabled: true,
                   leading: new CircleAvatar(
-                    backgroundImage: new NetworkImage(businessAvatarUrl)
+                    backgroundImage: businessAccount.summary.avatarUrl.length > 0
+                      ? new NetworkImage(businessAccount.summary.avatarUrl) : null
                   ),
-                  title: new Text(businessName),
-                  subtitle: new Text(businessLocation),
+                  title: new Text(businessAccount.summary.name),
+                  subtitle: new Text(businessAccount.summary.description.length > 0
+                    ? businessAccount.summary.description : businessAccount.summary.location),
                 ),
               ),
               new ListTile(
-                title: new Text(offerDescription, style: Theme.of(context).textTheme.body1 ),
+                title: new Text(businessOffer.description, style: Theme.of(context).textTheme.body1 ),
               ),
               new ListTile(
                 leading: new Icon(Icons.work),
-                title: new Text(offerDeliverables, style: Theme.of(context).textTheme.body1 ),
+                title: new Text(businessOffer.deliverables, style: Theme.of(context).textTheme.body1 ),
               ),
               new ListTile(
                 leading: new Icon(Icons.redeem),
-                title: new Text(offerRewards, style: Theme.of(context).textTheme.body1 ),
-              ),
-              new Divider(),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+                title: new Text(businessOffer.reward, style: Theme.of(context).textTheme.body1 ),
               ),
               new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+                leading: new Icon(Icons.pin_drop),
+                title: new Text(businessOffer.location, style: Theme.of(context).textTheme.body1 ),
               ),
+              /*new Divider(),
               new ListTile(
                 leading: new Icon(Icons.redeem),
                 title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
@@ -80,6 +65,14 @@ class OfferView extends StatelessWidget {
                 leading: new Icon(Icons.redeem),
                 title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
               ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),*/
             ]),
           ),
         ],
