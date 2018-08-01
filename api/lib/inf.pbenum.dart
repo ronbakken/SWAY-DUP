@@ -123,3 +123,25 @@ class GlobalAccountStateReason extends ProtobufEnum {
   const GlobalAccountStateReason._(int v, String n) : super(v, n);
 }
 
+class NotificationFlags extends ProtobufEnum {
+  static const NotificationFlags NF_ACCOUNT_STATE = const NotificationFlags._(0, 'NF_ACCOUNT_STATE');
+  static const NotificationFlags NF_MAKE_AN_OFFER_FAB = const NotificationFlags._(1, 'NF_MAKE_AN_OFFER_FAB');
+  static const NotificationFlags NF_UNREAD_MESSAGES = const NotificationFlags._(2, 'NF_UNREAD_MESSAGES');
+  static const NotificationFlags NF_CS_REQUEST = const NotificationFlags._(3, 'NF_CS_REQUEST');
+
+  static const List<NotificationFlags> values = const <NotificationFlags> [
+    NF_ACCOUNT_STATE,
+    NF_MAKE_AN_OFFER_FAB,
+    NF_UNREAD_MESSAGES,
+    NF_CS_REQUEST,
+  ];
+
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static NotificationFlags valueOf(int value) => _byValue[value] as NotificationFlags;
+  static void $checkItem(NotificationFlags v) {
+    if (v is! NotificationFlags) checkItemFailed(v, 'NotificationFlags');
+  }
+
+  const NotificationFlags._(int v, String n) : super(v, n);
+}
+

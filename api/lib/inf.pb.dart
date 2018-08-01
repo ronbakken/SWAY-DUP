@@ -641,6 +641,7 @@ class DataAccountState extends GeneratedMessage {
     ..e<AccountType>(3, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN, AccountType.valueOf, AccountType.values)
     ..e<GlobalAccountState>(4, 'globalAccountState', PbFieldType.OE, GlobalAccountState.GAS_INITIALIZE, GlobalAccountState.valueOf, GlobalAccountState.values)
     ..e<GlobalAccountStateReason>(5, 'globalAccountStateReason', PbFieldType.OE, GlobalAccountStateReason.GASR_NEW_ACCOUNT, GlobalAccountStateReason.valueOf, GlobalAccountStateReason.values)
+    ..e<NotificationFlags>(6, 'notificationFlags', PbFieldType.OE, NotificationFlags.NF_ACCOUNT_STATE, NotificationFlags.valueOf, NotificationFlags.values)
     ..hasRequiredFields = false
   ;
 
@@ -684,6 +685,11 @@ class DataAccountState extends GeneratedMessage {
   set globalAccountStateReason(GlobalAccountStateReason v) { setField(5, v); }
   bool hasGlobalAccountStateReason() => $_has(4);
   void clearGlobalAccountStateReason() => clearField(5);
+
+  NotificationFlags get notificationFlags => $_getN(5);
+  set notificationFlags(NotificationFlags v) { setField(6, v); }
+  bool hasNotificationFlags() => $_has(5);
+  void clearNotificationFlags() => clearField(6);
 }
 
 class _ReadonlyDataAccountState extends DataAccountState with ReadonlyMessageMixin {}
