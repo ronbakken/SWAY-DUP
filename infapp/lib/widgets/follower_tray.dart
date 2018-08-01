@@ -31,9 +31,12 @@ class FollowerTray extends StatelessWidget
       }
     }
 
-    return new Row(
-			mainAxisAlignment: MainAxisAlignment.center,
-			children: followerWidgets,
-		);
+    return new Container(
+      padding: const EdgeInsets.all(16.0),
+      child: new Row(
+			    mainAxisAlignment: MainAxisAlignment.center,
+			    children: followerWidgets,
+		  ),
+    );
   }
 }
