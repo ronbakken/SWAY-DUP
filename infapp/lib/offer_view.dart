@@ -34,7 +34,8 @@ class OfferView extends StatelessWidget {
                   //enabled: true,
                   leading: new CircleAvatar(
                     backgroundImage: businessAccount.summary.avatarUrl.length > 0
-                      ? new NetworkImage(businessAccount.summary.avatarUrl) : null
+                      ? new NetworkImage(businessAccount.summary.avatarUrl) : null,
+                      backgroundColor: Colors.primaries[businessAccount.summary.name.hashCode % Colors.primaries.length].shade300
                   ),
                   title: new Text(businessAccount.summary.name),
                   subtitle: new Text(businessAccount.summary.description.length > 0

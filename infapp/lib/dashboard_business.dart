@@ -21,8 +21,11 @@ class DashboardBusiness extends StatefulWidget {
     @required this.onNavigateProfile,
     @required this.onMakeAnOffer,
     @required this.map,
-    @required this.offers,
-    @required this.applicants,
+    @required this.offersCurrent,
+    @required this.offersHistory,
+    @required this.applicantsApplying,
+    @required this.applicantsAccepted,
+    @required this.applicantsHistory,
   }) : super(key: key);
 
   final DataAccount account;
@@ -30,26 +33,54 @@ class DashboardBusiness extends StatefulWidget {
   final VoidCallback onMakeAnOffer;
 
   final Widget map;
-  final Widget offers;
-  final Widget applicants;
+  final Widget offersCurrent;
+  final Widget offersHistory;
+  final Widget applicantsApplying;
+  final Widget applicantsAccepted;
+  final Widget applicantsHistory;
 
   @override
   _DashboardBusinessState createState() => new _DashboardBusinessState();
 }
 
-class _DashboardBusinessState extends State<DashboardBusiness> {
+class _DashboardBusinessState extends State<DashboardBusiness> with TickerProviderStateMixin {
   int _currentTab;
+  TabController _tabControllerOffers;
+  TabController _tabControllerApplicants;
+  TabController _tabControllerTabs;
 
   @override
   void initState() {
     super.initState();
     _currentTab = 0;
+    _tabControllerOffers = new TabController(
+      length: 2,
+      vsync: this,
+    );
+    _tabControllerApplicants = new TabController(
+      length: 3,
+      vsync: this,
+    );
+    _tabControllerTabs = new TabController(
+      length: 3,
+      vsync: this,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: _currentTab == 1 ? widget.offers : (_currentTab == 2 ? widget.applicants : widget.map),
+      body: _currentTab == 1 
+        ? new TabBarView(
+          key: new Key('TabViewOffers'),
+          controller: _tabControllerOffers,
+          children: [ widget.offersCurrent, widget.offersHistory ],
+        ) : (_currentTab == 2 
+        ? new TabBarView(
+          key: new Key('TabViewApplicants'),
+          controller: _tabControllerApplicants,
+          children: [ widget.applicantsApplying, widget.applicantsAccepted, widget.applicantsHistory ],
+        ) : widget.map),
       floatingActionButton: _currentTab == 2 ? null : new FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         tooltip: 'Make an offer',
@@ -109,6 +140,16 @@ class _DashboardBusinessState extends State<DashboardBusiness> {
       ),
       appBar: _currentTab != 0 ? new AppBar(
         title: new Text(_currentTab == 1 ? "Offers" : "Applicants"),
+        bottom: _currentTab == 1 
+          ? new TabBar(key: new Key('TabBarOffers'), controller: _tabControllerOffers, tabs: [
+            new Tab(text: "Current".toUpperCase()), 
+            new Tab(text: "History".toUpperCase()) 
+          ])
+          : new TabBar(key: new Key('TabBarApplicants'), controller: _tabControllerApplicants, tabs: [ 
+            new Tab(text: "Applying".toUpperCase()), 
+            new Tab(text: "Accepted".toUpperCase()), 
+            new Tab(text: "History".toUpperCase())
+          ]),
       ) : null,
       bottomNavigationBar: new BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -117,6 +158,11 @@ class _DashboardBusinessState extends State<DashboardBusiness> {
           setState(() {
             _currentTab = index;
           });
+          _tabControllerTabs.index = index;
+          _tabControllerOffers.offset = 0.0;
+          // _tabControllerOffers.index = 0;
+          _tabControllerApplicants.offset = 0.0;
+          // _tabControllerApplicants.index = 0;
         },
         items: [
           new BottomNavigationBarItem(

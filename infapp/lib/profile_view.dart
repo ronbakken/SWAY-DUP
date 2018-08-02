@@ -76,7 +76,10 @@ class ProfileView extends StatelessWidget {
 							// business name, location and display picture
 							new DarkContainer(
                 child: new ListTile(
-                  leading: new CircleAvatar( backgroundImage: new NetworkImage(profileAvatarUrl) ),
+                  leading: new CircleAvatar(
+                    backgroundImage: new NetworkImage(profileAvatarUrl),
+                    backgroundColor: Colors.primaries[profileName.hashCode % Colors.primaries.length].shade300,
+                  ),
                   title: new Text(profileName),
                   subtitle: new Text(profileLocation),
                 ),

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 
+import '../business_offer_list.dart';
 import '../network/inf.pb.dart';
 import '../network/config_manager.dart' show ConfigManager;
 import '../network/network_manager.dart';
@@ -381,6 +382,20 @@ class _DemoHomePageState extends State<DemoHomePage> {
                       onMakeAnOffer: () { },
                       onNavigateProfile: () { },
                       map: new NearbyInfluencers(),
+                      offersCurrent: new BusinessOfferList(
+                        businessOffers: [
+                          sampleBusinessOffers[1],
+                          sampleBusinessOffers[2],
+                        ],
+                      ),
+                      offersHistory: new BusinessOfferList(
+                        businessOffers: [
+                          sampleBusinessOffers[3],
+                        ],
+                      ),
+                      applicantsApplying: new Text("Applying"),
+                      applicantsAccepted: new Text("Accepted"),
+                      applicantsHistory: new Text("History"),
                     );
                   },
                 )
