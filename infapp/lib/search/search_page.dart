@@ -46,8 +46,8 @@ class _SearchPageState extends State<SearchScreen>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: _buildAppBar(context) ,
-      body: new Text(""),
+      appBar: searchBar.build(context),
+      body: new Text(sampleText),
     );
   }
 
