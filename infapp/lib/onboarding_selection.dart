@@ -59,6 +59,7 @@ class OnboardingSelection extends StatelessWidget {
                 new Container(
                   margin: new EdgeInsets.all(8.0),
                   child: new RaisedButton(
+                    shape: new StadiumBorder(),
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -71,6 +72,7 @@ class OnboardingSelection extends StatelessWidget {
                 new Container(
                   margin: new EdgeInsets.all(8.0),
                   child: new RaisedButton(
+                    shape: new StadiumBorder(),
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

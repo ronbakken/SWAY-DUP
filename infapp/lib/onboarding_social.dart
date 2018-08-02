@@ -50,9 +50,11 @@ class OnboardingSocial extends StatelessWidget {
           margin: new EdgeInsets.all(8.0),
           child: (oauthState[i].connected 
             ? new FlatButton(
+              shape: new StadiumBorder(),
               child: r,
               onPressed: null,
             ) : new RaisedButton(
+              shape: new StadiumBorder(),
               child: r,
               onPressed: (cfg.enabled && onOAuthSelected != null) ? () { onOAuthSelected(i); } : null,
             )
@@ -101,6 +103,7 @@ class OnboardingSocial extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       new RaisedButton(
+                        shape: new StadiumBorder(),
                         child: new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

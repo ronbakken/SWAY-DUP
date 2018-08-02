@@ -12,7 +12,7 @@ class CarouselAppBar extends SliverAppBar {
     key: key,
     pinned: true,
     title: title,
-    expandedHeight: MediaQuery.of(context).size.width * 9.0 / 16.0,
+    expandedHeight: (MediaQuery.of(context).size.width * 9.0 / 16.0 - 3.9) ~/ 4 * 4.0,
     flexibleSpace: new FlexibleSpaceBar(
       background: _buildBackground(new PageController(), context, imageUrls),
     ),
@@ -34,7 +34,7 @@ class CarouselAppBar extends SliverAppBar {
     return new AspectRatio(
       aspectRatio: 16.0 / 9.0,
       child: new Container(
-        color: Theme.of(context).primaryColorDark,
+        // color: Theme.of(context).primaryColor,
         child: new Stack(
           children: <Widget>[
             images.length == 1 ? images[0]

@@ -10,8 +10,9 @@ class DarkContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      color: Theme.of(context).primaryColorDark,
+    return new Material(
+      elevation: 4.0,
+      color: Theme.of(context).primaryColor,
       child: new Theme(
         data: Theme.of(context).copyWith(
           textTheme: Theme.of(context).primaryTextTheme,

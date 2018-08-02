@@ -26,11 +26,18 @@ class OfferView extends StatelessWidget {
             context: context,
             title: new Text(businessOffer.title),
             imageUrls: businessOffer.coverUrls,
+            actions: [
+              new IconButton(
+                icon: new Icon(Icons.share),
+                onPressed: () { },
+              )
+            ],
           ),
           new SliverList(
             delegate: new SliverChildListDelegate([
               new DarkContainer(
                 child: new ListTile(
+                  isThreeLine: true, //-------------------
                   //enabled: true,
                   leading: new CircleAvatar(
                     backgroundImage: businessAccount.summary.avatarUrl.length > 0
@@ -42,6 +49,56 @@ class OfferView extends StatelessWidget {
                     ? businessAccount.summary.description : businessAccount.summary.location),
                 ),
               ),
+              new Container(
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    new IconButton(
+                      iconSize: 68.0,
+                      highlightColor: Colors.transparent,
+                      icon: new Column(
+                        children: [
+                          new Container(
+                            padding: new EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 16.0),
+                            child: new Icon(Icons.remove_circle, size: 24.0),
+                          ),
+                          new Text("End".toUpperCase()),
+                        ],
+                      ),
+                      onPressed: () { },
+                    ),
+                    new IconButton(
+                      iconSize: 68.0,
+                      highlightColor: Colors.transparent,
+                      icon: new Column(
+                        children: [
+                          new Container(
+                            padding: new EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 16.0),
+                            child: new Icon(Icons.edit, size: 24.0),
+                          ),
+                          new Text("Edit".toUpperCase()),
+                        ],
+                      ),
+                      onPressed: () { },
+                    ),
+                    new IconButton(
+                      iconSize: 68.0,
+                      highlightColor: Colors.transparent,
+                      icon: new Column(
+                        children: [
+                          new Container(
+                            padding: new EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 16.0),
+                            child: new Icon(Icons.inbox, size: 24.0),
+                          ),
+                          new Text("Applic".toUpperCase()),
+                        ],
+                      ),
+                      onPressed: () { },
+                    ),
+                  ]
+                ),
+              ),
+              new Divider(),
               new ListTile(
                 title: new Text(businessOffer.description, style: Theme.of(context).textTheme.body1 ),
               ),
@@ -57,7 +114,7 @@ class OfferView extends StatelessWidget {
                 leading: new Icon(Icons.pin_drop),
                 title: new Text(businessOffer.location, style: Theme.of(context).textTheme.body1 ),
               ),
-              /*new Divider(),
+              new Divider(),
               new ListTile(
                 leading: new Icon(Icons.redeem),
                 title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
@@ -73,7 +130,51 @@ class OfferView extends StatelessWidget {
               new ListTile(
                 leading: new Icon(Icons.redeem),
                 title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
-              ),*/
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
+              new ListTile(
+                leading: new Icon(Icons.redeem),
+                title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
+              ),
             ]),
           ),
         ],
