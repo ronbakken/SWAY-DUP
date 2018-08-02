@@ -7,15 +7,15 @@ import '../network/inf.pb.dart';
 /// the account user's number of followers
 class FollowerWidget extends StatelessWidget
 { 
-
   FollowerWidget({
     Key key, 
     this.oAuthProvider,
+    this.followerCount = 10,
     }) :super (key: key);
 
   // The Social media where to get the followers from
-  // TODO: Refactor
   final ConfigOAuthProvider oAuthProvider;
+  final int followerCount;
 
   @override
   Widget build(BuildContext context){
@@ -24,7 +24,6 @@ class FollowerWidget extends StatelessWidget
       child: new Column(
         children: <Widget>[
           // Icon
-          // TODO: Changeable Icon
           new Icon(
             new IconData(
               this.oAuthProvider.fontAwesomeBrand, 
@@ -34,10 +33,10 @@ class FollowerWidget extends StatelessWidget
           ),
 
           // Number of Followers
-          // TODO: Updateable value
-          new Text("10"),
+          new Text(followerCount.toString()),
         ],
       ),
     );
   }
 }
+

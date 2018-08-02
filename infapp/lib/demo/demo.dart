@@ -16,7 +16,7 @@ import '../offer_view.dart' show OfferView;
 import '../offer_create.dart' show OfferCreate;
 import '../dashboard_business.dart' show DashboardBusiness;
 import '../nearby_influencers.dart';
-import '../profile_view.dart' show ProfileView;
+import '../profile/profile_view.dart' show ProfileView;
 // import '../widgets/follower_count.dart' show FollowerWidget;
 
 class DemoApp extends StatefulWidget {
@@ -334,7 +334,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                             demoAccount.state.accountId = random.nextInt(1000000) + 1;
                             demoAccount.summary.name = "John Smith";
                             demoAccount.summary.description = "I'm here for the food.";
-                            demoAccount.summary.avatarUrl = '';
+                            demoAccount.summary.avatarUrl = 'https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg';
                             demoAccount.summary.location = "Cardiff, London";
                             demoAccount.state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
                             demoAccount.state.globalAccountStateReason = GlobalAccountStateReason.GASR_DEMO_APPROVED;
@@ -411,14 +411,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 new MaterialPageRoute(
                   builder: (context) {
                     assert(ConfigManager.of(context) != null);
-                    return new ProfileView(
-                      self: true,
-                      profileName: 'Big Kahuna Burger',
-                      profileLocation: "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
-                      profileDescription: "This is the tasty burger worth dying for",
-                    );
+                    return new ProfileView( dataAccount: demoAccount,);
                   },
-                )
+                ) 
               );
             },
           ),
@@ -445,10 +440,6 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 new MaterialPageRoute(
                   builder: (context) {
                     return new ProfileView(
-                      self: false,
-                      profileName: 'John Doe',
-                      profileLocation: 'San Francisco, California',
-                      profileDescription: "Hi! My name is John. I'm a creative geek and love fast food. I also dig Pokemons",
                     );
                   },
                 )
@@ -523,10 +514,6 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 new MaterialPageRoute(
                   builder: (context) {
                     return new ProfileView(
-                      self: true,
-                      profileName: 'John Doe',
-                      profileLocation: 'San Francisco, California',
-                      profileDescription: "Hi! My name is John. I'm a creative geek and love fast food. I also dig Pokemons",
                     );
                   },
                 )
@@ -573,10 +560,6 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 new MaterialPageRoute(
                   builder: (context) {
                     return new ProfileView(
-                      self: false,
-                      profileName: 'Big Kahuna Burger',
-                      profileLocation: "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024",
-                      profileDescription: "This is the tasty burger worth dying for",
                     );
                   },
                 )
