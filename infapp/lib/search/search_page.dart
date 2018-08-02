@@ -8,7 +8,7 @@ class SearchScreen extends StatefulWidget
 {
   SearchScreen(this.account);
 
-  final DataAccount account;
+  final List<DataAccount> account;
   @override
   _SearchPageState createState() => new _SearchPageState();
 }
@@ -27,7 +27,7 @@ class _SearchPageState extends State<SearchScreen>
   TextEditingController textController = new TextEditingController();
 
   List<DataAccount> searchResults = new List<DataAccount>();
-
+  
   @override
   void initState() {
     // Initialize the Parent
@@ -48,13 +48,26 @@ class _SearchPageState extends State<SearchScreen>
       subject.add(textController.text);
     });
     subject.stream.listen(_setResults);
-
-    searchResults.add(widget.account);
   }
 
+  // TODO: PRIORITIZE REFACTOR 
+  // Currently O(n^2)
   void _setResults(String textSearch) {
+    bool rightAccount = true;
     setState(() {
-      // TODO: Update Results 
+      searchResults.clear();
+
+      for(int i = 1; i < widget.account.length; i++) {
+        rightAccount = true;
+        for(int j = 0; j < textSearch.length; j++) {
+          
+          if(!(widget.account[i].summary.name[j].toLowerCase() == textSearch[j].toLowerCase())) {
+            rightAccount = false;
+            break;
+          }
+        }
+        if(rightAccount) searchResults.add(widget.account[i]);
+      }
     });
   }
   
