@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:rxdart/rxdart.dart';
+import '../network/inf.pb.dart';
+import 'search_item.dart';
 
 class SearchScreen extends StatefulWidget 
 {
+  SearchScreen(this.account);
 
+  final DataAccount account;
   @override
   _SearchPageState createState() => new _SearchPageState();
 }
@@ -22,8 +26,7 @@ class _SearchPageState extends State<SearchScreen>
   // Search Bar Controller
   TextEditingController textController = new TextEditingController();
 
-
-  String sampleText = "";
+  List<DataAccount> searchResults = new List<DataAccount>();
 
   @override
   void initState() {
@@ -45,11 +48,13 @@ class _SearchPageState extends State<SearchScreen>
       subject.add(textController.text);
     });
     subject.stream.listen(_setResults);
+
+    searchResults.add(widget.account);
   }
 
   void _setResults(String textSearch) {
     setState(() {
-      sampleText = textSearch;
+      // TODO: Update Results 
     });
   }
   
@@ -59,14 +64,18 @@ class _SearchPageState extends State<SearchScreen>
       // We want the appbar to change to a 
       // search field whenever we press the Search Icon
       appBar: searchBar.build(context),
-      body: new Text(sampleText),
+      body: new ListView.builder(
+        itemCount: searchResults.length,
+        itemBuilder: (context, index) =>
+                    new SearchItemCard(item: searchResults[index]),
+      )
     );
   }
 
   // The default AppBar displayed before searching
   AppBar _buildAppBar(BuildContext context) {
     return new AppBar(
-      title: Text('Search Profile'),
+      title: new Text('Search Profile'),
       actions: [searchBar.getSearchAction(context)]
     );
   } 

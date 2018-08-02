@@ -413,7 +413,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 new MaterialPageRoute(
                   builder: (context) {
                     assert(ConfigManager.of(context) != null);
-                    return new SearchScreen();
+                    return new SearchScreen(demoAccount);
                   },
                 ) 
               );
