@@ -17,6 +17,8 @@ import '../offer_create.dart' show OfferCreate;
 import '../dashboard_business.dart' show DashboardBusiness;
 import '../nearby_influencers.dart';
 import '../profile/profile_view.dart' show ProfileView;
+import '../search/search_button.dart';
+import '../search/search_page.dart';
 // import '../widgets/follower_count.dart' show FollowerWidget;
 
 class DemoApp extends StatefulWidget {
@@ -411,7 +413,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                 new MaterialPageRoute(
                   builder: (context) {
                     assert(ConfigManager.of(context) != null);
-                    return new ProfileView( dataAccount: demoAccount,);
+                    return new SearchScreen();
                   },
                 ) 
               );
