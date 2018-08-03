@@ -96,6 +96,14 @@ class _SearchPageState extends State<SearchScreen>
     // Wait for server
     await searchRequest;
     searchInProgress = true;
+
+    // TODO: widget.accountResults has changed OR will change after searchInProgress
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // TODO: This is called anytime before build, do the search re-filtering here if necessary
   }
   
   @override
