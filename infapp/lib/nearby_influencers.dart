@@ -6,10 +6,17 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 
+import 'search/search_page.dart';
+
+typedef void SearchPressedCallback(String searchQuery);
+
 class NearbyInfluencers extends StatefulWidget {
   const NearbyInfluencers({
     Key key,
+    @required this.onSearchPressed,
   }) : super(key: key);
+
+  final SearchPressedCallback onSearchPressed;
 
   @override
   _NearbyInfluencersState createState() => new _NearbyInfluencersState();
@@ -92,7 +99,7 @@ class _NearbyInfluencersState extends State<NearbyInfluencers> {
                             // color: Theme.of(context).accentColor,
                             padding: new EdgeInsets.all(16.0),
                             icon: new Icon(Icons.search),
-                            onPressed: () { },
+                            onPressed: () { widget.onSearchPressed("Fix me"); }, // TODO: Add text controller to TextField and take input from there
                             tooltip: "Search for nearby influencers",
                           ),
                         ),

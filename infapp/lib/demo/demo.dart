@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:fixnum/fixnum.dart';
@@ -258,12 +259,25 @@ class _DemoHomePageState extends State<DemoHomePage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('***INF UI Demo***'),
-        actions: <Widget>[ 
-          new SearchButton( onSearchPressed: () { transitionPage(context, new SearchScreen(sampleAccounts)); } )
+        actions: [ 
+          new SearchButton(
+            onSearchPressed: () {
+              transitionPage(context, 
+                new SearchScreen(
+                  accountResults: sampleAccounts, 
+                  initialSearchQuery: "Test initial query",
+                  onSearchRequest: (String searchQuery) async {
+                    // This is just a dummy search that doesn't do anything
+                    return await new Future.delayed(new Duration(seconds: 2));
+                  },
+                )
+              );
+            }
+          )
         ],
       ),
       body: new ListView(
-        children: <Widget>[
+        children: [
           ///
           /// Demo entry
           ///
@@ -382,7 +396,20 @@ class _DemoHomePageState extends State<DemoHomePage> {
                       account: demoAccount,
                       onMakeAnOffer: () { },
                       onNavigateProfile: () { },
-                      map: new NearbyInfluencers(),
+                      map: new NearbyInfluencers(
+                        onSearchPressed: (String searchQuery) {
+                          transitionPage(context, 
+                            new SearchScreen(
+                              accountResults: sampleAccounts, 
+                              initialSearchQuery: searchQuery,
+                              onSearchRequest: (String searchQuery) async {
+                                // This is just a dummy search that doesn't do anything
+                                return await new Future.delayed(new Duration(seconds: 2));
+                              },
+                            )
+                          );
+                        },
+                      ),
                       offersCurrent: new BusinessOfferList(
                         businessOffers: [
                           sampleBusinessOffers[1],

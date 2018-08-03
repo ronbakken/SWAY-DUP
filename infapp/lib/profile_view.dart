@@ -77,7 +77,7 @@ class ProfileView extends StatelessWidget {
 							new DarkContainer(
                 child: new ListTile(
                   leading: new CircleAvatar(
-                    backgroundImage: new NetworkImage(profileAvatarUrl),
+                    backgroundImage: profileAvatarUrl?.length != 0 ? new NetworkImage(profileAvatarUrl) : null,
                     backgroundColor: Colors.primaries[profileName.hashCode % Colors.primaries.length].shade300,
                   ),
                   title: new Text(profileName),
