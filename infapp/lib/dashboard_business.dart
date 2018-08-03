@@ -20,6 +20,7 @@ class DashboardBusiness extends StatefulWidget {
     @required this.account,
     @required this.onNavigateProfile,
     @required this.onMakeAnOffer,
+    @required this.onSearchPressed,
     @required this.map,
     @required this.offersCurrent,
     @required this.offersHistory,
@@ -31,6 +32,8 @@ class DashboardBusiness extends StatefulWidget {
   final DataAccount account;
   final VoidCallback onNavigateProfile;
   final VoidCallback onMakeAnOffer;
+
+  final VoidCallback onSearchPressed;
 
   final Widget map;
   final Widget offersCurrent;

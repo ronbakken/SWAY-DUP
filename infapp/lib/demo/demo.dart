@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:fixnum/fixnum.dart';
@@ -11,12 +12,15 @@ import '../network/network_manager.dart';
 import '../app_switch.dart';
 import '../onboarding_selection.dart' show OnboardingSelection;
 import '../onboarding_social.dart' show OnboardingSocial;
-// import '../influencer_dashboard.dart' show InfluencerDashboard;
+import '../page_transition.dart';
 import '../offer_view.dart' show OfferView;
 import '../offer_create.dart' show OfferCreate;
 import '../dashboard_business.dart' show DashboardBusiness;
 import '../nearby_influencers.dart';
 import '../profile/profile_view.dart' show ProfileView;
+import '../profile/profile_edit.dart' show ProfileEdit;
+import '../search/search_button.dart';
+import '../search/search_page.dart';
 // import '../widgets/follower_count.dart' show FollowerWidget;
 
 class DemoApp extends StatefulWidget {
@@ -256,9 +260,25 @@ class _DemoHomePageState extends State<DemoHomePage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('***INF UI Demo***'),
+        actions: [ 
+          new SearchButton(
+            onSearchPressed: () {
+              transitionPage(context, 
+                new SearchScreen(
+                  accountResults: sampleAccounts, 
+                  initialSearchQuery: "Test initial query",
+                  onSearchRequest: (String searchQuery) async {
+                    // This is just a dummy search that doesn't do anything
+                    return await new Future.delayed(new Duration(seconds: 2));
+                  },
+                )
+              );
+            }
+          )
+        ],
       ),
       body: new ListView(
-        children: <Widget>[
+        children: [
           ///
           /// Demo entry
           ///
@@ -286,24 +306,20 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('Onboarding Selection') ] ),
             onPressed: () { 
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    return new OnboardingSelection(
-                      onInfluencer: () {
-                        demoAccount.state.accountType = AccountType.AT_INFLUENCER;
+              transitionPage(
+                context, 
+                new OnboardingSelection(
+                  onInfluencer: () {
+                    demoAccount.state.accountType = AccountType.AT_INFLUENCER;
                         /* Scaffold.of(context).showSnackBar(new SnackBar(
                           content: new Text("You're an influencer!"),
                         )); */ // Tricky: context here is route context, not the scaffold of the onboarding selection
-                      },
-                      onBusiness: () {
-                        demoAccount.state.accountType = AccountType.AT_BUSINESS;
+                  },
+                  onBusiness: () {
+                    demoAccount.state.accountType = AccountType.AT_BUSINESS;
                         /* scaffold.showSnackBar(new SnackBar(
                           content: new Text("You're a business!"),
                         )); */
-                      },
-                    );
                   },
                 )
               );
@@ -381,7 +397,20 @@ class _DemoHomePageState extends State<DemoHomePage> {
                       account: demoAccount,
                       onMakeAnOffer: () { },
                       onNavigateProfile: () { },
-                      map: new NearbyInfluencers(),
+                      map: new NearbyInfluencers(
+                        onSearchPressed: (String searchQuery) {
+                          transitionPage(context, 
+                            new SearchScreen(
+                              accountResults: sampleAccounts, 
+                              initialSearchQuery: searchQuery,
+                              onSearchRequest: (String searchQuery) async {
+                                // This is just a dummy search that doesn't do anything
+                                return await new Future.delayed(new Duration(seconds: 2));
+                              },
+                            )
+                          );
+                        },
+                      ),
                       offersCurrent: new BusinessOfferList(
                         businessOffers: [
                           sampleBusinessOffers[1],
@@ -406,44 +435,21 @@ class _DemoHomePageState extends State<DemoHomePage> {
             child: new Row(children: [ new Text('View Business Profile (Self)') ] ),
             onPressed: () { 
               demoAccount.state.accountType = AccountType.AT_BUSINESS;
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    assert(ConfigManager.of(context) != null);
-                    return new ProfileView( dataAccount: demoAccount,);
-                  },
-                ) 
-              );
+              transitionPage(context, new ProfileView( dataAccount: demoAccount,));
             },
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Edit Business Profile (Self)') ] ),
-            /*onPressed: () { 
-              demoAccount.accountType = AccountType.AT_BUSINESS;
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    return new BusinessProfile();
-                  },
-                )
-              );
-            },*/
+            onPressed: () { 
+              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              transitionPage(context, new ProfileEdit( dataAccount: demoAccount,));
+            },
           ),
           new FlatButton(
             child: new Row(children: [ new Text('View Influencer Profile') ] ),
             onPressed: () { 
               demoAccount.state.accountType = AccountType.AT_INFLUENCER;
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    return new ProfileView(
-                    );
-                  },
-                )
-              );
+              transitionPage(context, new ProfileView( dataAccount: demoAccount,));
             },
           ),
           new FlatButton(
@@ -462,17 +468,11 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('Offer View (Self)') ] ),
             onPressed: () { 
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    return new OfferView(
+              transitionPage(context, new OfferView(
                       businessOffer: sampleBusinessOffers[1],
                       businessAccount: demoAccount,
                       account: demoAccount,
-                    );
-                  },
-                )
+                    )
               );
             },
           ),
@@ -509,15 +509,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
             child: new Row(children: [ new Text('View Influencer Profile (Self)') ] ),
             onPressed: () { 
               demoAccount.state.accountType = AccountType.AT_INFLUENCER;
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    return new ProfileView(
-                    );
-                  },
-                )
-              );
+              transitionPage(context, new ProfileView(dataAccount: demoAccount,));
             },
           ),
           new FlatButton(
@@ -555,15 +547,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
             child: new Row(children: [ new Text('View Business Profile') ] ),
             onPressed: () { 
               demoAccount.state.accountType = AccountType.AT_BUSINESS;
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    return new ProfileView(
-                    );
-                  },
-                )
-              );
+              transitionPage(context, new ProfileView(dataAccount: demoAccount,));
             },
           ),
           new FlatButton(

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 // Widget for editing a page
-class EditButton extends StatelessWidget {
+class SearchButton extends StatelessWidget {
 
   // Constructor
-  EditButton({
+  SearchButton({
     Key key,
-    this.onEditPressed,
+    this.onSearchPressed,
   }) : super(key: key);
 	
-  final VoidCallback onEditPressed;
+  final VoidCallback onSearchPressed;
 
   @override
   Widget build(BuildContext context) {
     return new IconButton(
-      icon: new Icon(Icons.edit),
-      onPressed: onEditPressed,
+      icon: new Icon(Icons.search),
+      onPressed: onSearchPressed,
     );
   }
 }
