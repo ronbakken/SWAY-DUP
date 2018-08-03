@@ -28,6 +28,12 @@ class _ProfileEditState extends State<ProfileEdit>
   TextEditingController _locationController;
   TextEditingController _descriptionController;
 
+   @override
+  void initState() {
+    // Initialize the Parent
+    super.initState();
+
+  }
 
   void _submitPressed()
    {
@@ -50,16 +56,22 @@ class _ProfileEditState extends State<ProfileEdit>
         children: <Widget>[
           new TextField(
             controller: _nameController,
+            decoration: new InputDecoration(labelText: 'Name'),
             onChanged: (value) { _name = value; },
           ),
+          new Container(padding: const EdgeInsets.all(12.0),),
           new TextField(
             controller: _locationController,
+            decoration: new InputDecoration(labelText: 'Location'),
             onChanged: (value) { _location = value; },
           ),
+          new Container(padding: const EdgeInsets.all(12.0),),
           new TextField(
             controller: _descriptionController,
+            decoration: new InputDecoration(labelText: 'Description'),
             onChanged: (value) { _description = value; },
           ),
+          new Container(padding: const EdgeInsets.all(12.0),),
           new RaisedButton(
             child: new Text("SUBMIT"),
             onPressed: _submitPressed,
