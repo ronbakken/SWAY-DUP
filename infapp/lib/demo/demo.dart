@@ -415,7 +415,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
             child: new Row(children: [ new Text('Edit Business Profile (Self)') ] ),
             onPressed: () { 
               demoAccount.state.accountType = AccountType.AT_BUSINESS;
-              transitionPage(context, new ProfileEdit());
+              transitionPage(context, new ProfileEdit( dataAccount: demoAccount,));
             },
           ),
           new FlatButton(
