@@ -17,6 +17,7 @@ import '../offer_create.dart' show OfferCreate;
 import '../dashboard_business.dart' show DashboardBusiness;
 import '../nearby_influencers.dart';
 import '../profile/profile_view.dart' show ProfileView;
+import '../profile/profile_edit.dart' show ProfileEdit;
 import '../search/search_button.dart';
 import '../search/search_page.dart';
 // import '../widgets/follower_count.dart' show FollowerWidget;
@@ -412,17 +413,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Edit Business Profile (Self)') ] ),
-            /*onPressed: () { 
-              demoAccount.accountType = AccountType.AT_BUSINESS;
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    return new BusinessProfile();
-                  },
-                )
-              );
-            },*/
+            onPressed: () { 
+              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              transitionPage(context, new ProfileEdit());
+            },
           ),
           new FlatButton(
             child: new Row(children: [ new Text('View Influencer Profile') ] ),
