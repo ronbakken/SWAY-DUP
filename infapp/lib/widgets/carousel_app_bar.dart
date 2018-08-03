@@ -12,7 +12,7 @@ class CarouselAppBar extends SliverAppBar {
     key: key,
     pinned: true,
     title: title,
-    expandedHeight: (MediaQuery.of(context).size.width * 9.0 / 16.0 - 3.9) ~/ 4 * 4.0,
+    expandedHeight: (MediaQuery.of(context).size.width * 9.0 / 16.0) ~/ 4 * 4.0,
     flexibleSpace: new FlexibleSpaceBar(
       background: _buildBackground(new PageController(), context, imageUrls),
     ),
@@ -22,25 +22,20 @@ class CarouselAppBar extends SliverAppBar {
   static Widget _buildBackground(controller, BuildContext context, List<String> imageUrls) {
     List<Widget> images = new List<Widget>();
     for (String imageUrl in imageUrls) {
-      images.add(new AspectRatio(
-        aspectRatio: 16.0 / 9.0,
-        child: new FadeInImage.assetNetwork(
+      images.add(new FadeInImage.assetNetwork(
           placeholder: 'assets/placeholder_photo.png',
           image: imageUrl,
           fit: BoxFit.cover
-        ),
       ));
     }
-    return new AspectRatio(
-      aspectRatio: 16.0 / 9.0,
-      child: new Container(
-        // color: Theme.of(context).primaryColor,
-        child: new Stack(
-          children: <Widget>[
-            images.length == 1 ? images[0]
-            : new Stack(
+    return new Container(
+      // color: Theme.of(context).primaryColor,
+      child: new Stack(
+        children: [
+          new Positioned.fill(
+            child: images.length == 1 ? images[0] : new Stack(
               alignment: FractionalOffset.bottomCenter,
-              children: <Widget>[
+              children: [
                 new PageView.builder(
                   controller: controller,
                   itemCount: images.length,
@@ -58,23 +53,23 @@ class CarouselAppBar extends SliverAppBar {
                 ),
               ],
             ),
-            new AspectRatio(
-              aspectRatio: 16.0 / 4.0,
-              child: new ConstrainedBox(
-                constraints: new BoxConstraints.expand(),
-                child: new DecoratedBox(
-                  decoration: new BoxDecoration(
-                    gradient: new LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[Colors.black45, Colors.transparent]
-                    ),
+          ),
+          new AspectRatio(
+            aspectRatio: 16.0 / 4.0,
+            child: new ConstrainedBox(
+              constraints: new BoxConstraints.expand(),
+              child: new DecoratedBox(
+                decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[Colors.black45, Colors.transparent]
                   ),
                 ),
               ),
             ),
-          ]
-        ),
+          ),
+        ]
       ),
     );
   }

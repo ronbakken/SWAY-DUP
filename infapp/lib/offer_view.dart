@@ -37,7 +37,7 @@ class OfferView extends StatelessWidget {
             delegate: new SliverChildListDelegate([
               new DarkContainer(
                 child: new ListTile(
-                  isThreeLine: true, //-------------------
+                  //isThreeLine: true, //-------------------
                   //enabled: true,
                   leading: new CircleAvatar(
                     backgroundImage: businessAccount.summary.avatarUrl.length > 0
