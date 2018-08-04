@@ -2,23 +2,20 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
-import 'package:rxdart/rxdart.dart';
+// import 'package:rxdart/rxdart.dart';
 import '../network/inf.pb.dart';
 import 'search_item.dart';
 
-typedef Future SearchRequestCallback(String searchQuery);
+typedef Future<List<DataAccount>> SearchRequestCallback(String searchQuery);
 
 class SearchScreen extends StatefulWidget 
 {
-  SearchScreen({Key key, this.initialSearchQuery, this.accountResults, this.onSearchRequest}) : super(key: key);
+  SearchScreen({Key key, this.initialSearchQuery, this.onSearchRequest}) : super(key: key);
 
   // Initial search query, only used when the widget state is created
   final String initialSearchQuery;
 
-  // Account search results, as returned by the server. Client may optimize further on the go
-  final List<DataAccount> accountResults;
-
-  // This is called when the search button is pressed, will tell the network to fetch new results
+  // This is called when the search button is pressed, will tell the network to fetch new results. Returns asynchronously when new results are received
   final SearchRequestCallback onSearchRequest;
 
   @override
@@ -31,12 +28,12 @@ class _SearchPageState extends State<SearchScreen>
   SearchBar searchBar;
 
   // Search is in progress (awaiting network results)
-  bool searchInProgress;
+  bool searchInProgress = false;
 
   // Subject that will contain the Search String and Stream
   // the results 
   // TODO: Find an efficient way to do this
-  PublishSubject<String> subject = new PublishSubject<String>();
+  //PublishSubject<String> subject = new PublishSubject<String>();
   
   // Search Bar Controller
   TextEditingController textController = new TextEditingController();
@@ -56,21 +53,68 @@ class _SearchPageState extends State<SearchScreen>
         controller: textController,
         setState: setState,
         buildDefaultAppBar: _buildAppBar,
-        onSubmitted: subject.add
+        // onSubmitted: _beginSearch
     );
     
     // We want to Start the search as soon as the user
     // is typing. The search results will update based
     // on the text controller
-    textController.addListener(() {
+    textController.addListener(_beginSearch);
+    /*textController.addListener(() {
       subject.add(textController.text);
     });
-    subject.stream.listen(_setResults);
+    subject.stream.listen(_setResults);*/
   }
+
+  String lastSearchQuery = '';
+  bool searchAgain = false;
 
   // TODO: PRIORITIZE REFACTOR 
   // Currently O(n^2)
-  void _setResults(String textSearch) async {
+  Future<Null> _beginSearch() async {
+    String searchQuery = textController.text;
+    // Can only have one search in progress, the stream doesn't seem to wait for this call to finish.....
+    if (searchInProgress) {
+      // Flag to re-run the search
+      searchAgain = true;
+      print("Search $searchQuery later");
+      return;
+    }
+    if (searchQuery == lastSearchQuery) {
+      // Ignore the event if we already searched with the latest query.
+      print("Ignore duplicate $searchQuery search");
+      return;
+    }
+    lastSearchQuery = searchQuery;
+    // Initiate the search
+    print("Searching $searchQuery");
+    Future<List<DataAccount>> searchResReq = widget.onSearchRequest(searchQuery);
+    // Flag search in progress
+    setState(() {
+      searchInProgress = true;
+      // Filter results locally
+      // TODO: May skip this if it's too harsh compared to the natural search result from the server
+      /*searchResults.removeWhere((DataAccount data) {
+        return !data.summary.name.toLowerCase().contains(textSearch.toLowerCase());
+      });*/
+    });
+    // Wait for the search results asynchronously
+    List<DataAccount> searchRes = await searchResReq;
+    if (!mounted) {
+      // Abort if already closed
+      return;
+    }
+    setState(() {
+      searchInProgress = false;
+      searchResults = searchRes;
+    });
+    if (searchAgain != null) {
+      searchAgain = false;
+      print("Searching again");
+      await _beginSearch();
+    }
+
+    /*
     bool rightAccount = true;
 
     // Search on server
@@ -98,12 +142,7 @@ class _SearchPageState extends State<SearchScreen>
     searchInProgress = true;
 
     // TODO: widget.accountResults has changed OR will change after searchInProgress
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // TODO: This is called anytime before build, do the search re-filtering here if necessary
+    */
   }
   
   @override
@@ -112,6 +151,7 @@ class _SearchPageState extends State<SearchScreen>
       // We want the appbar to change to a 
       // search field whenever we press the Search Icon
       appBar: searchBar.build(context),
+      bottomNavigationBar: searchInProgress ? new Text("Search in progress '$lastSearchQuery'...") : null, // TODO: For testing purpose. Make it nice
       body: new ListView.builder(
         itemCount: searchResults.length,
         itemBuilder: (context, index) =>

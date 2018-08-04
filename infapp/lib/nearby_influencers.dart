@@ -23,6 +23,14 @@ class NearbyInfluencers extends StatefulWidget {
 }
 
 class _NearbyInfluencersState extends State<NearbyInfluencers> {
+  TextEditingController _searchTextController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchTextController = new TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Stack(
@@ -84,6 +92,7 @@ class _NearbyInfluencersState extends State<NearbyInfluencers> {
                           child: new Padding(
                             padding: new EdgeInsets.all(0.0),
                             child: new TextField(
+                              controller: _searchTextController,
                               decoration: new InputDecoration(
                                 // TODO: Better track focus of this input!!! (remove focus when keyboard is closed)
                                 hintText: 'Find nearby influencers...'
@@ -99,7 +108,7 @@ class _NearbyInfluencersState extends State<NearbyInfluencers> {
                             // color: Theme.of(context).accentColor,
                             padding: new EdgeInsets.all(16.0),
                             icon: new Icon(Icons.search),
-                            onPressed: () { widget.onSearchPressed("Fix me"); }, // TODO: Add text controller to TextField and take input from there
+                            onPressed: () { widget.onSearchPressed(_searchTextController.text); },
                             tooltip: "Search for nearby influencers",
                           ),
                         ),

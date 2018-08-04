@@ -265,11 +265,24 @@ class _DemoHomePageState extends State<DemoHomePage> {
             onSearchPressed: () {
               transitionPage(context, 
                 new SearchScreen(
-                  accountResults: sampleAccounts, 
                   initialSearchQuery: "Test initial query",
                   onSearchRequest: (String searchQuery) async {
-                    // This is just a dummy search that doesn't do anything
-                    return await new Future.delayed(new Duration(seconds: 2));
+                    // This is just a dummy search that doesn't do anything but return a shuffled list of accounts and add a dummy account
+                    await new Future.delayed(new Duration(seconds: 2));
+                    DataAccount data = new DataAccount();
+                    data.state = new DataAccountState();
+                    data.summary = new DataAccountSummary();
+                    data.detail = new DataAccountDetail();
+                    data.state.accountId = random.nextInt(500) + 10;
+                    data.state.accountType = AccountType.AT_BUSINESS;
+                    data.state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
+                    data.summary.name = "Name: $searchQuery";
+                    data.summary.description = "Description: $searchQuery";
+                    data.summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
+                    data.summary.location = "Location";
+                    data.detail.coverUrls.length = 0;
+                    data.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+                    return sampleAccounts.toList()..removeAt(0)..shuffle()..insert(0, data);
                   },
                 )
               );
@@ -401,11 +414,24 @@ class _DemoHomePageState extends State<DemoHomePage> {
                         onSearchPressed: (String searchQuery) {
                           transitionPage(context, 
                             new SearchScreen(
-                              accountResults: sampleAccounts, 
                               initialSearchQuery: searchQuery,
                               onSearchRequest: (String searchQuery) async {
                                 // This is just a dummy search that doesn't do anything
-                                return await new Future.delayed(new Duration(seconds: 2));
+                                await new Future.delayed(new Duration(seconds: 2));
+                                DataAccount data = new DataAccount();
+                                data.state = new DataAccountState();
+                                data.summary = new DataAccountSummary();
+                                data.detail = new DataAccountDetail();
+                                data.state.accountId = random.nextInt(500) + 10;
+                                data.state.accountType = AccountType.AT_BUSINESS;
+                                data.state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
+                                data.summary.name = "Name: $searchQuery";
+                                data.summary.description = "Description: $searchQuery";
+                                data.summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
+                                data.summary.location = "Location";
+                                data.detail.coverUrls.length = 0;
+                                data.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+                                return sampleAccounts.toList()..removeAt(0)..shuffle()..insert(0, data);
                               },
                             )
                           );
