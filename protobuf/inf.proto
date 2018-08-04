@@ -340,6 +340,9 @@ message NetDeviceAuthCreateReq {
   // Public key for future authentication (AES-256)
   bytes aesKey = 1;
   
+  // Common identifier for the device in case of multiple accounts
+  bytes commonDeviceId = 4;
+  
   // Device information for developers
   string name = 2;
   string info = 3;
