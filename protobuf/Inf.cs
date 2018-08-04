@@ -76,49 +76,50 @@ namespace InfX {
             "bE1lZGlhGAMgAygLMhAuRGF0YVNvY2lhbE1lZGlhInkKC0RhdGFBY2NvdW50",
             "EiAKBXN0YXRlGAEgASgLMhEuRGF0YUFjY291bnRTdGF0ZRIkCgdzdW1tYXJ5",
             "GAIgASgLMhMuRGF0YUFjY291bnRTdW1tYXJ5EiIKBmRldGFpbBgDIAEoCzIS",
-            "LkRhdGFBY2NvdW50RGV0YWlsIkQKFk5ldERldmljZUF1dGhDcmVhdGVSZXES",
-            "DgoGYWVzS2V5GAEgASgMEgwKBG5hbWUYAiABKAkSDAoEaW5mbxgDIAEoCSIt",
-            "ChlOZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVxEhAKCGRldmljZUlkGAEgASgF",
-            "IjEKHE5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXNSZXESEQoJY2hhbGxlbmdl",
-            "GAEgASgMIjEKHE5ldERldmljZUF1dGhTaWduYXR1cmVSZXNSZXESEQoJc2ln",
-            "bmF0dXJlGAEgASgMImQKEk5ldERldmljZUF1dGhTdGF0ZRInCgxhY2NvdW50",
-            "U3RhdGUYByABKAsyES5EYXRhQWNjb3VudFN0YXRlEiUKC3NvY2lhbE1lZGlh",
-            "GAYgAygLMhAuRGF0YVNvY2lhbE1lZGlhIjYKEU5ldFNldEFjY291bnRUeXBl",
-            "EiEKC2FjY291bnRUeXBlGAEgASgOMgwuQWNjb3VudFR5cGUiJwoOTmV0T0F1",
-            "dGhVcmxSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBSI2Cg5OZXRPQXV0aFVy",
-            "bFJlcxIPCgdhdXRoVXJsGAEgASgJEhMKC2NhbGxiYWNrVXJsGAIgASgJIkIK",
-            "Ek5ldE9BdXRoQ29ubmVjdFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFEhUK",
-            "DWNhbGxiYWNrUXVlcnkYAiABKAkiOwoSTmV0T0F1dGhDb25uZWN0UmVzEiUK",
-            "C3NvY2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lhbE1lZGlhIj0KE05ldEFj",
-            "Y291bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRILCgNsYXQYAiABKAISCwoD",
-            "bG5nGAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAKCGZpbGVOYW1lGAEg",
-            "ASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgDIAEoCSLfAQoRTmV0",
-            "UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhvZBgBIAEoCRISCgpyZXF1",
-            "ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRUeXBlGAMgASgJEhsKE2hl",
-            "YWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVhZGVySG9zdBgFIAEoCRIW",
-            "Cg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFkZXJYQW16U3RvcmFnZUNs",
-            "YXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRpb24YCCABKAkiNgoRTmV0",
-            "UmVxQ3JlYXRlT2ZmZXISIQoFb2ZmZXIYASABKAsyEi5EYXRhQnVzaW5lc3NP",
-            "ZmZlciIfChFOZXRSZXNDcmVhdGVPZmZlchIKCgJpZBgBIAEoAyo+Cg5PQXV0",
-            "aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAAEg4KCk9BTV9PQVVUSDEQARIOCgpP",
-            "QU1fT0FVVEgyEAIqQwoQT0F1dGhQcm92aWRlcklkcxIMCghPQVBfTk9ORRAA",
-            "Eg8KC09BUF9UV0lUVEVSEAESEAoMT0FQX0ZBQ0VCT09LEAIqQQoLQWNjb3Vu",
-            "dFR5cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFUX0lORkxVRU5DRVIQARIPCgtB",
-            "VF9CVVNJTkVTUxACKo8BChJHbG9iYWxBY2NvdW50U3RhdGUSEgoOR0FTX0lO",
-            "SVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tFRBABEhEKDUdBU19SRUFEX09OTFkQ",
-            "AhISCg5HQVNfUkVBRF9XUklURRADEhEKDUdBU19NT0RFUkFUT1IQBBINCglH",
-            "QVNfQURNSU4QBRILCgdHQVNfR09EEAYqtQEKGEdsb2JhbEFjY291bnRTdGF0",
-            "ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAASFwoTR0FTUl9BQ0NPVU5U",
-            "X0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklFRBACEhEKDUdBU1JfQVBQ",
-            "Uk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQBBIQCgxHQVNSX1BFTkRJ",
-            "TkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGKm4KEU5vdGlmaWNhdGlvbkZs",
-            "YWdzEhQKEE5GX0FDQ09VTlRfU1RBVEUQABIYChRORl9NQUtFX0FOX09GRkVS",
-            "X0ZBQhABEhYKEk5GX1VOUkVBRF9NRVNTQUdFUxACEhEKDU5GX0NTX1JFUVVF",
-            "U1QQAypRChJCdXNpbmVzc09mZmVyU3RhdGUSDQoJQk9TX0RSQUZUEAASDAoI",
-            "Qk9TX09QRU4QARIOCgpCT1NfQUNUSVZFEAISDgoKQk9TX0NMT1NFRBADKnAK",
-            "GEJ1c2luZXNzT2ZmZXJTdGF0ZVJlYXNvbhISCg5CT1NSX05FV19PRkZFUhAA",
-            "EhQKEEJPU1JfVVNFUl9DTE9TRUQQARIWChJCT1NSX1RPU19WSU9MQVRJT04Q",
-            "AhISCg5CT1NSX0NPTVBMRVRFRBADQgeqAgRJbmZYYgZwcm90bzM="));
+            "LkRhdGFBY2NvdW50RGV0YWlsIlwKFk5ldERldmljZUF1dGhDcmVhdGVSZXES",
+            "DgoGYWVzS2V5GAEgASgMEhYKDmNvbW1vbkRldmljZUlkGAQgASgMEgwKBG5h",
+            "bWUYAiABKAkSDAoEaW5mbxgDIAEoCSItChlOZXREZXZpY2VBdXRoQ2hhbGxl",
+            "bmdlUmVxEhAKCGRldmljZUlkGAEgASgFIjEKHE5ldERldmljZUF1dGhDaGFs",
+            "bGVuZ2VSZXNSZXESEQoJY2hhbGxlbmdlGAEgASgMIjEKHE5ldERldmljZUF1",
+            "dGhTaWduYXR1cmVSZXNSZXESEQoJc2lnbmF0dXJlGAEgASgMImQKEk5ldERl",
+            "dmljZUF1dGhTdGF0ZRInCgxhY2NvdW50U3RhdGUYByABKAsyES5EYXRhQWNj",
+            "b3VudFN0YXRlEiUKC3NvY2lhbE1lZGlhGAYgAygLMhAuRGF0YVNvY2lhbE1l",
+            "ZGlhIjYKEU5ldFNldEFjY291bnRUeXBlEiEKC2FjY291bnRUeXBlGAEgASgO",
+            "MgwuQWNjb3VudFR5cGUiJwoOTmV0T0F1dGhVcmxSZXESFQoNb2F1dGhQcm92",
+            "aWRlchgBIAEoBSI2Cg5OZXRPQXV0aFVybFJlcxIPCgdhdXRoVXJsGAEgASgJ",
+            "EhMKC2NhbGxiYWNrVXJsGAIgASgJIkIKEk5ldE9BdXRoQ29ubmVjdFJlcRIV",
+            "Cg1vYXV0aFByb3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAki",
+            "OwoSTmV0T0F1dGhDb25uZWN0UmVzEiUKC3NvY2lhbE1lZGlhGAEgASgLMhAu",
+            "RGF0YVNvY2lhbE1lZGlhIj0KE05ldEFjY291bnRDcmVhdGVSZXESDAoEbmFt",
+            "ZRgBIAEoCRILCgNsYXQYAiABKAISCwoDbG5nGAMgASgCIkcKEU5ldFJlcUlt",
+            "YWdlVXBsb2FkEhAKCGZpbGVOYW1lGAEgASgJEhAKCGZpbGVTaXplGAIgASgF",
+            "Eg4KBnNoYTI1NhgDIAEoCSLfAQoRTmV0UmVzSW1hZ2VVcGxvYWQSFQoNcmVx",
+            "dWVzdE1ldGhvZBgBIAEoCRISCgpyZXF1ZXN0VXJsGAIgASgJEhkKEWhlYWRl",
+            "ckNvbnRlbnRUeXBlGAMgASgJEhsKE2hlYWRlckNvbnRlbnRMZW5ndGgYBCAB",
+            "KAkSEgoKaGVhZGVySG9zdBgFIAEoCRIWCg5oZWFkZXJYQW16RGF0ZRgGIAEo",
+            "CRIeChZoZWFkZXJYQW16U3RvcmFnZUNsYXNzGAcgASgJEhsKE2hlYWRlckF1",
+            "dGhvcml6YXRpb24YCCABKAkiNgoRTmV0UmVxQ3JlYXRlT2ZmZXISIQoFb2Zm",
+            "ZXIYASABKAsyEi5EYXRhQnVzaW5lc3NPZmZlciIfChFOZXRSZXNDcmVhdGVP",
+            "ZmZlchIKCgJpZBgBIAEoAyo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9O",
+            "RRAAEg4KCk9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQ",
+            "cm92aWRlcklkcxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoM",
+            "T0FQX0ZBQ0VCT09LEAIqQQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAA",
+            "EhEKDUFUX0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACKo8BChJHbG9i",
+            "YWxBY2NvdW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNfQkxP",
+            "Q0tFRBABEhEKDUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklURRAD",
+            "EhEKDUdBU19NT0RFUkFUT1IQBBINCglHQVNfQURNSU4QBRILCgdHQVNfR09E",
+            "EAYqtQEKGEdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19B",
+            "Q0NPVU5UEAASFwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JF",
+            "QVRFX0RFTklFRBACEhEKDUdBU1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9f",
+            "QVBQUk9WRUQQBBIQCgxHQVNSX1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVf",
+            "SU5GTxAGKm4KEU5vdGlmaWNhdGlvbkZsYWdzEhQKEE5GX0FDQ09VTlRfU1RB",
+            "VEUQABIYChRORl9NQUtFX0FOX09GRkVSX0ZBQhABEhYKEk5GX1VOUkVBRF9N",
+            "RVNTQUdFUxACEhEKDU5GX0NTX1JFUVVFU1QQAypRChJCdXNpbmVzc09mZmVy",
+            "U3RhdGUSDQoJQk9TX0RSQUZUEAASDAoIQk9TX09QRU4QARIOCgpCT1NfQUNU",
+            "SVZFEAISDgoKQk9TX0NMT1NFRBADKnAKGEJ1c2luZXNzT2ZmZXJTdGF0ZVJl",
+            "YXNvbhISCg5CT1NSX05FV19PRkZFUhAAEhQKEEJPU1JfVVNFUl9DTE9TRUQQ",
+            "ARIWChJCT1NSX1RPU19WSU9MQVRJT04QAhISCg5CT1NSX0NPTVBMRVRFRBAD",
+            "QgeqAgRJbmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -138,7 +139,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "CoverUrls", "Categories", "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "Name", "Info" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "CommonDeviceId", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeResReq), global::InfX.NetDeviceAuthChallengeResReq.Parser, new[]{ "Challenge" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthSignatureResReq), global::InfX.NetDeviceAuthSignatureResReq.Parser, new[]{ "Signature" }, null, null, null),
@@ -4381,6 +4382,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetDeviceAuthCreateReq(NetDeviceAuthCreateReq other) : this() {
       aesKey_ = other.aesKey_;
+      commonDeviceId_ = other.commonDeviceId_;
       name_ = other.name_;
       info_ = other.info_;
     }
@@ -4401,6 +4403,20 @@ namespace InfX {
       get { return aesKey_; }
       set {
         aesKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "commonDeviceId" field.</summary>
+    public const int CommonDeviceIdFieldNumber = 4;
+    private pb::ByteString commonDeviceId_ = pb::ByteString.Empty;
+    /// <summary>
+    ///  Common identifier for the device in case of multiple accounts
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString CommonDeviceId {
+      get { return commonDeviceId_; }
+      set {
+        commonDeviceId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -4443,6 +4459,7 @@ namespace InfX {
         return true;
       }
       if (AesKey != other.AesKey) return false;
+      if (CommonDeviceId != other.CommonDeviceId) return false;
       if (Name != other.Name) return false;
       if (Info != other.Info) return false;
       return true;
@@ -4452,6 +4469,7 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       if (AesKey.Length != 0) hash ^= AesKey.GetHashCode();
+      if (CommonDeviceId.Length != 0) hash ^= CommonDeviceId.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Info.Length != 0) hash ^= Info.GetHashCode();
       return hash;
@@ -4476,6 +4494,10 @@ namespace InfX {
         output.WriteRawTag(26);
         output.WriteString(Info);
       }
+      if (CommonDeviceId.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteBytes(CommonDeviceId);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4483,6 +4505,9 @@ namespace InfX {
       int size = 0;
       if (AesKey.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(AesKey);
+      }
+      if (CommonDeviceId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(CommonDeviceId);
       }
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -4500,6 +4525,9 @@ namespace InfX {
       }
       if (other.AesKey.Length != 0) {
         AesKey = other.AesKey;
+      }
+      if (other.CommonDeviceId.Length != 0) {
+        CommonDeviceId = other.CommonDeviceId;
       }
       if (other.Name.Length != 0) {
         Name = other.Name;
@@ -4527,6 +4555,10 @@ namespace InfX {
           }
           case 26: {
             Info = input.ReadString();
+            break;
+          }
+          case 34: {
+            CommonDeviceId = input.ReadBytes();
             break;
           }
         }

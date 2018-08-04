@@ -924,6 +924,7 @@ class NetDeviceAuthCreateReq extends GeneratedMessage {
     ..a<List<int>>(1, 'aesKey', PbFieldType.OY)
     ..aOS(2, 'name')
     ..aOS(3, 'info')
+    ..a<List<int>>(4, 'commonDeviceId', PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -957,6 +958,11 @@ class NetDeviceAuthCreateReq extends GeneratedMessage {
   set info(String v) { $_setString(2, v); }
   bool hasInfo() => $_has(2);
   void clearInfo() => clearField(3);
+
+  List<int> get commonDeviceId => $_getN(3);
+  set commonDeviceId(List<int> v) { $_setBytes(3, v); }
+  bool hasCommonDeviceId() => $_has(3);
+  void clearCommonDeviceId() => clearField(4);
 }
 
 class _ReadonlyNetDeviceAuthCreateReq extends NetDeviceAuthCreateReq with ReadonlyMessageMixin {}

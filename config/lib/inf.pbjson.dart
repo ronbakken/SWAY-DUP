@@ -278,6 +278,7 @@ const NetDeviceAuthCreateReq$json = const {
   '1': 'NetDeviceAuthCreateReq',
   '2': const [
     const {'1': 'aesKey', '3': 1, '4': 1, '5': 12, '10': 'aesKey'},
+    const {'1': 'commonDeviceId', '3': 4, '4': 1, '5': 12, '10': 'commonDeviceId'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'info', '3': 3, '4': 1, '5': 9, '10': 'info'},
   ],
