@@ -95,18 +95,18 @@ class _DashboardBusinessState extends State<DashboardBusiness> with TickerProvid
       drawer: new Drawer(
         child: new Column(
           children: [
-            new Material(
-              elevation: 4.0, // TODO: Verify this matches AppBar
-              color: Theme.of(context).primaryColor,
-              child: new AspectRatio(
-                aspectRatio: 16.0 / 9.0,
+            new AspectRatio(
+              aspectRatio: 16.0 / 9.0,
+              child: new Material(
+                elevation: 4.0, // TODO: Verify this matches AppBar
+                color: Theme.of(context).primaryColor,
                 child: new Stack(
                   children: [
-                    widget.account.detail.coverUrls.length > 0 ? new FadeInImage.assetNetwork(
+                    new Positioned.fill(child: widget.account.detail.coverUrls.length > 0 ? new FadeInImage.assetNetwork(
                       placeholder: 'assets/placeholder_photo.png',
                       image: widget.account.detail.coverUrls[0],
                       fit: BoxFit.cover
-                    ) : new Image(image: new AssetImage('assets/placeholder_photo.png')),
+                    ) : new Image(image: new AssetImage('assets/placeholder_photo.png'), fit: BoxFit.cover)),
                     new SafeArea(
                       // child: new Text("Hello world"),
                       child: new Align(

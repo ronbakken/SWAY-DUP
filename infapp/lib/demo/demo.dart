@@ -363,7 +363,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
                             demoAccount.state.accountId = random.nextInt(1000000) + 1;
                             demoAccount.summary.name = "John Smith";
                             demoAccount.summary.description = "I'm here for the food.";
-                            demoAccount.summary.avatarUrl = 'https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg';
+                            demoAccount.summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg";
+                            demoAccount.detail.coverUrls.length = 0;
+                            demoAccount.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg");
                             demoAccount.summary.location = "Cardiff, London";
                             demoAccount.state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
                             demoAccount.state.globalAccountStateReason = GlobalAccountStateReason.GASR_DEMO_APPROVED;
@@ -377,13 +379,15 @@ class _DemoHomePageState extends State<DemoHomePage> {
             },
           ),
           new FlatButton(
-            child: new Row(children: [ new Text('Reset Onboarding') ] ),
+            child: new Row(children: [ new Text("Reset Onboarding") ] ),
             onPressed: () {
               demoAccount.state.accountId = 0;
               demoAccount.state.accountType = AccountType.AT_UNKNOWN;
               demoAccount.summary.name = '';
+              demoAccount.summary.description = '';
               demoAccount.summary.avatarUrl = '';
               demoAccount.summary.location = '';
+              demoAccount.detail.coverUrls.length = 0;
               demoAccount.state.globalAccountState = GlobalAccountState.GAS_INITIALIZE;
               demoAccount.state.globalAccountStateReason = GlobalAccountStateReason.GASR_NEW_ACCOUNT;
               for (int i = 0; i < demoAccount.detail.socialMedia.length; ++i) {
