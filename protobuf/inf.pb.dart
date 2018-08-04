@@ -1065,8 +1065,7 @@ class _ReadonlyNetDeviceAuthSignatureResReq extends NetDeviceAuthSignatureResReq
 
 class NetDeviceAuthState extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthState')
-    ..pp<DataSocialMedia>(6, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
-    ..a<DataAccountState>(7, 'accountState', PbFieldType.OM, DataAccountState.getDefault, DataAccountState.create)
+    ..a<DataAccount>(8, 'data', PbFieldType.OM, DataAccount.getDefault, DataAccount.create)
     ..hasRequiredFields = false
   ;
 
@@ -1086,12 +1085,10 @@ class NetDeviceAuthState extends GeneratedMessage {
     if (v is! NetDeviceAuthState) checkItemFailed(v, 'NetDeviceAuthState');
   }
 
-  List<DataSocialMedia> get socialMedia => $_getList(0);
-
-  DataAccountState get accountState => $_getN(1);
-  set accountState(DataAccountState v) { setField(7, v); }
-  bool hasAccountState() => $_has(1);
-  void clearAccountState() => clearField(7);
+  DataAccount get data => $_getN(0);
+  set data(DataAccount v) { setField(8, v); }
+  bool hasData() => $_has(0);
+  void clearData() => clearField(8);
 }
 
 class _ReadonlyNetDeviceAuthState extends NetDeviceAuthState with ReadonlyMessageMixin {}

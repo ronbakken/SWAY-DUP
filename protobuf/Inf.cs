@@ -82,44 +82,43 @@ namespace InfX {
             "dERldmljZUF1dGhDaGFsbGVuZ2VSZXESEAoIZGV2aWNlSWQYASABKAUiMQoc",
             "TmV0RGV2aWNlQXV0aENoYWxsZW5nZVJlc1JlcRIRCgljaGFsbGVuZ2UYASAB",
             "KAwiMQocTmV0RGV2aWNlQXV0aFNpZ25hdHVyZVJlc1JlcRIRCglzaWduYXR1",
-            "cmUYASABKAwiZAoSTmV0RGV2aWNlQXV0aFN0YXRlEicKDGFjY291bnRTdGF0",
-            "ZRgHIAEoCzIRLkRhdGFBY2NvdW50U3RhdGUSJQoLc29jaWFsTWVkaWEYBiAD",
-            "KAsyEC5EYXRhU29jaWFsTWVkaWEiNgoRTmV0U2V0QWNjb3VudFR5cGUSIQoL",
-            "YWNjb3VudFR5cGUYASABKA4yDC5BY2NvdW50VHlwZSInCg5OZXRPQXV0aFVy",
-            "bFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFIjYKDk5ldE9BdXRoVXJsUmVz",
-            "Eg8KB2F1dGhVcmwYASABKAkSEwoLY2FsbGJhY2tVcmwYAiABKAkiQgoSTmV0",
-            "T0F1dGhDb25uZWN0UmVxEhUKDW9hdXRoUHJvdmlkZXIYASABKAUSFQoNY2Fs",
-            "bGJhY2tRdWVyeRgCIAEoCSI7ChJOZXRPQXV0aENvbm5lY3RSZXMSJQoLc29j",
-            "aWFsTWVkaWEYASABKAsyEC5EYXRhU29jaWFsTWVkaWEiPQoTTmV0QWNjb3Vu",
-            "dENyZWF0ZVJlcRIMCgRuYW1lGAEgASgJEgsKA2xhdBgCIAEoAhILCgNsbmcY",
-            "AyABKAIiRwoRTmV0UmVxSW1hZ2VVcGxvYWQSEAoIZmlsZU5hbWUYASABKAkS",
-            "EAoIZmlsZVNpemUYAiABKAUSDgoGc2hhMjU2GAMgASgJIt8BChFOZXRSZXNJ",
-            "bWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJEhIKCnJlcXVlc3RV",
-            "cmwYAiABKAkSGQoRaGVhZGVyQ29udGVudFR5cGUYAyABKAkSGwoTaGVhZGVy",
-            "Q29udGVudExlbmd0aBgEIAEoCRISCgpoZWFkZXJIb3N0GAUgASgJEhYKDmhl",
-            "YWRlclhBbXpEYXRlGAYgASgJEh4KFmhlYWRlclhBbXpTdG9yYWdlQ2xhc3MY",
-            "ByABKAkSGwoTaGVhZGVyQXV0aG9yaXphdGlvbhgIIAEoCSI2ChFOZXRSZXFD",
-            "cmVhdGVPZmZlchIhCgVvZmZlchgBIAEoCzISLkRhdGFCdXNpbmVzc09mZmVy",
-            "Ih8KEU5ldFJlc0NyZWF0ZU9mZmVyEgoKAmlkGAEgASgDKj4KDk9BdXRoTWVj",
-            "aGFuaXNtEgwKCE9BTV9OT05FEAASDgoKT0FNX09BVVRIMRABEg4KCk9BTV9P",
-            "QVVUSDIQAipDChBPQXV0aFByb3ZpZGVySWRzEgwKCE9BUF9OT05FEAASDwoL",
-            "T0FQX1RXSVRURVIQARIQCgxPQVBfRkFDRUJPT0sQAipBCgtBY2NvdW50VHlw",
-            "ZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5GTFVFTkNFUhABEg8KC0FUX0JV",
-            "U0lORVNTEAIqjwEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5HQVNfSU5JVElB",
-            "TElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURfT05MWRACEhIK",
-            "DkdBU19SRUFEX1dSSVRFEAMSEQoNR0FTX01PREVSQVRPUhAEEg0KCUdBU19B",
-            "RE1JThAFEgsKB0dBU19HT0QQBiq1AQoYR2xvYmFsQWNjb3VudFN0YXRlUmVh",
-            "c29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNHQVNSX0FDQ09VTlRfQkFO",
-            "TkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAISEQoNR0FTUl9BUFBST1ZF",
-            "RBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAKDEdBU1JfUEVORElORxAF",
-            "EhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90aWZpY2F0aW9uRmxhZ3MS",
-            "FAoQTkZfQUNDT1VOVF9TVEFURRAAEhgKFE5GX01BS0VfQU5fT0ZGRVJfRkFC",
-            "EAESFgoSTkZfVU5SRUFEX01FU1NBR0VTEAISEQoNTkZfQ1NfUkVRVUVTVBAD",
-            "KlEKEkJ1c2luZXNzT2ZmZXJTdGF0ZRINCglCT1NfRFJBRlQQABIMCghCT1Nf",
-            "T1BFThABEg4KCkJPU19BQ1RJVkUQAhIOCgpCT1NfQ0xPU0VEEAMqcAoYQnVz",
-            "aW5lc3NPZmZlclN0YXRlUmVhc29uEhIKDkJPU1JfTkVXX09GRkVSEAASFAoQ",
-            "Qk9TUl9VU0VSX0NMT1NFRBABEhYKEkJPU1JfVE9TX1ZJT0xBVElPThACEhIK",
-            "DkJPU1JfQ09NUExFVEVEEANCB6oCBEluZlhiBnByb3RvMw=="));
+            "cmUYASABKAwiMAoSTmV0RGV2aWNlQXV0aFN0YXRlEhoKBGRhdGEYCCABKAsy",
+            "DC5EYXRhQWNjb3VudCI2ChFOZXRTZXRBY2NvdW50VHlwZRIhCgthY2NvdW50",
+            "VHlwZRgBIAEoDjIMLkFjY291bnRUeXBlIicKDk5ldE9BdXRoVXJsUmVxEhUK",
+            "DW9hdXRoUHJvdmlkZXIYASABKAUiNgoOTmV0T0F1dGhVcmxSZXMSDwoHYXV0",
+            "aFVybBgBIAEoCRITCgtjYWxsYmFja1VybBgCIAEoCSJCChJOZXRPQXV0aENv",
+            "bm5lY3RSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBRIVCg1jYWxsYmFja1F1",
+            "ZXJ5GAIgASgJIjsKEk5ldE9BdXRoQ29ubmVjdFJlcxIlCgtzb2NpYWxNZWRp",
+            "YRgBIAEoCzIQLkRhdGFTb2NpYWxNZWRpYSI9ChNOZXRBY2NvdW50Q3JlYXRl",
+            "UmVxEgwKBG5hbWUYASABKAkSCwoDbGF0GAIgASgCEgsKA2xuZxgDIAEoAiJH",
+            "ChFOZXRSZXFJbWFnZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghmaWxl",
+            "U2l6ZRgCIAEoBRIOCgZzaGEyNTYYAyABKAki3wEKEU5ldFJlc0ltYWdlVXBs",
+            "b2FkEhUKDXJlcXVlc3RNZXRob2QYASABKAkSEgoKcmVxdWVzdFVybBgCIAEo",
+            "CRIZChFoZWFkZXJDb250ZW50VHlwZRgDIAEoCRIbChNoZWFkZXJDb250ZW50",
+            "TGVuZ3RoGAQgASgJEhIKCmhlYWRlckhvc3QYBSABKAkSFgoOaGVhZGVyWEFt",
+            "ekRhdGUYBiABKAkSHgoWaGVhZGVyWEFtelN0b3JhZ2VDbGFzcxgHIAEoCRIb",
+            "ChNoZWFkZXJBdXRob3JpemF0aW9uGAggASgJIjYKEU5ldFJlcUNyZWF0ZU9m",
+            "ZmVyEiEKBW9mZmVyGAEgASgLMhIuRGF0YUJ1c2luZXNzT2ZmZXIiHwoRTmV0",
+            "UmVzQ3JlYXRlT2ZmZXISCgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20S",
+            "DAoIT0FNX05PTkUQABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhAC",
+            "KkMKEE9BdXRoUHJvdmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJ",
+            "VFRFUhABEhAKDE9BUF9GQUNFQk9PSxACKkEKC0FjY291bnRUeXBlEg4KCkFU",
+            "X1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQ",
+            "AiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFMSVpFEAAS",
+            "DwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoOR0FTX1JF",
+            "QURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FETUlOEAUS",
+            "CwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SFAoQ",
+            "R0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5ORUQQARIW",
+            "ChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVEEAMSFgoS",
+            "R0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUSFQoRR0FT",
+            "Ul9SRVFVSVJFX0lORk8QBipuChFOb3RpZmljYXRpb25GbGFncxIUChBORl9B",
+            "Q0NPVU5UX1NUQVRFEAASGAoUTkZfTUFLRV9BTl9PRkZFUl9GQUIQARIWChJO",
+            "Rl9VTlJFQURfTUVTU0FHRVMQAhIRCg1ORl9DU19SRVFVRVNUEAMqUQoSQnVz",
+            "aW5lc3NPZmZlclN0YXRlEg0KCUJPU19EUkFGVBAAEgwKCEJPU19PUEVOEAES",
+            "DgoKQk9TX0FDVElWRRACEg4KCkJPU19DTE9TRUQQAypwChhCdXNpbmVzc09m",
+            "ZmVyU3RhdGVSZWFzb24SEgoOQk9TUl9ORVdfT0ZGRVIQABIUChBCT1NSX1VT",
+            "RVJfQ0xPU0VEEAESFgoSQk9TUl9UT1NfVklPTEFUSU9OEAISEgoOQk9TUl9D",
+            "T01QTEVURUQQA0IHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -143,7 +142,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeResReq), global::InfX.NetDeviceAuthChallengeResReq.Parser, new[]{ "Challenge" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthSignatureResReq), global::InfX.NetDeviceAuthSignatureResReq.Parser, new[]{ "Signature" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthState), global::InfX.NetDeviceAuthState.Parser, new[]{ "AccountState", "SocialMedia" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthState), global::InfX.NetDeviceAuthState.Parser, new[]{ "Data" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetAccountType), global::InfX.NetSetAccountType.Parser, new[]{ "AccountType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthUrlReq), global::InfX.NetOAuthUrlReq.Parser, new[]{ "OauthProvider" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthUrlRes), global::InfX.NetOAuthUrlRes.Parser, new[]{ "AuthUrl", "CallbackUrl" }, null, null, null),
@@ -4998,8 +4997,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetDeviceAuthState(NetDeviceAuthState other) : this() {
-      AccountState = other.accountState_ != null ? other.AccountState.Clone() : null;
-      socialMedia_ = other.socialMedia_.Clone();
+      Data = other.data_ != null ? other.Data.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5007,28 +5005,18 @@ namespace InfX {
       return new NetDeviceAuthState(this);
     }
 
-    /// <summary>Field number for the "accountState" field.</summary>
-    public const int AccountStateFieldNumber = 7;
-    private global::InfX.DataAccountState accountState_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::InfX.DataAccountState AccountState {
-      get { return accountState_; }
-      set {
-        accountState_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "socialMedia" field.</summary>
-    public const int SocialMediaFieldNumber = 6;
-    private static readonly pb::FieldCodec<global::InfX.DataSocialMedia> _repeated_socialMedia_codec
-        = pb::FieldCodec.ForMessage(50, global::InfX.DataSocialMedia.Parser);
-    private readonly pbc::RepeatedField<global::InfX.DataSocialMedia> socialMedia_ = new pbc::RepeatedField<global::InfX.DataSocialMedia>();
+    /// <summary>Field number for the "data" field.</summary>
+    public const int DataFieldNumber = 8;
+    private global::InfX.DataAccount data_;
     /// <summary>
-    ///  Social media state
+    /// / Whole account data
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::InfX.DataSocialMedia> SocialMedia {
-      get { return socialMedia_; }
+    public global::InfX.DataAccount Data {
+      get { return data_; }
+      set {
+        data_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5044,16 +5032,14 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(AccountState, other.AccountState)) return false;
-      if(!socialMedia_.Equals(other.socialMedia_)) return false;
+      if (!object.Equals(Data, other.Data)) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (accountState_ != null) hash ^= AccountState.GetHashCode();
-      hash ^= socialMedia_.GetHashCode();
+      if (data_ != null) hash ^= Data.GetHashCode();
       return hash;
     }
 
@@ -5064,20 +5050,18 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      socialMedia_.WriteTo(output, _repeated_socialMedia_codec);
-      if (accountState_ != null) {
-        output.WriteRawTag(58);
-        output.WriteMessage(AccountState);
+      if (data_ != null) {
+        output.WriteRawTag(66);
+        output.WriteMessage(Data);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (accountState_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(AccountState);
+      if (data_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Data);
       }
-      size += socialMedia_.CalculateSize(_repeated_socialMedia_codec);
       return size;
     }
 
@@ -5086,13 +5070,12 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.accountState_ != null) {
-        if (accountState_ == null) {
-          accountState_ = new global::InfX.DataAccountState();
+      if (other.data_ != null) {
+        if (data_ == null) {
+          data_ = new global::InfX.DataAccount();
         }
-        AccountState.MergeFrom(other.AccountState);
+        Data.MergeFrom(other.Data);
       }
-      socialMedia_.Add(other.socialMedia_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5103,15 +5086,11 @@ namespace InfX {
           default:
             input.SkipLastField();
             break;
-          case 50: {
-            socialMedia_.AddEntriesFrom(input, _repeated_socialMedia_codec);
-            break;
-          }
-          case 58: {
-            if (accountState_ == null) {
-              accountState_ = new global::InfX.DataAccountState();
+          case 66: {
+            if (data_ == null) {
+              data_ = new global::InfX.DataAccount();
             }
-            input.ReadMessage(accountState_);
+            input.ReadMessage(data_);
             break;
           }
         }
