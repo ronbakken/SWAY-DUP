@@ -28,8 +28,8 @@ class RemoteAppOAuth {
 
   static final http.Client httpClient = new http.Client();
 
-  DataAccount get data { return _r.data; }
-  List<DataSocialMedia> get socialMedia { return _r.data.detail.socialMedia; }
+  DataAccount get account { return _r.account; }
+  List<DataSocialMedia> get socialMedia { return _r.account.detail.socialMedia; }
 
   RemoteAppOAuth(this._r) {
     _netOAuthUrlReq = _r.safeListen("OA_URLRE", netOAuthUrlReq);
@@ -233,8 +233,8 @@ class RemoteAppOAuth {
           sqljocky.Results insertRes = await sql.prepareExecute("INSERT INTO `oauth_connections`("
             "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `device_id`, `oauth_token`, `oauth_token_secret`, `oauth_token_expires`"
             ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
-            [ oauthCredentials.userId.toString(), oauthProvider.toInt(), _r.accountState.accountType.value.toInt(), 
-            _r.accountState.accountId.toInt(), _r.accountState.deviceId.toInt(),
+            [ oauthCredentials.userId.toString(), oauthProvider.toInt(), account.state.accountType.value.toInt(), 
+            account.state.accountId.toInt(), account.state.deviceId.toInt(),
             oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toString() ]);
             inserted = insertRes.affectedRows > 0;
             devLog.finest("Inserted new OAuth connection: $inserted");
@@ -247,7 +247,7 @@ class RemoteAppOAuth {
         // Alternative is to update a previously pending connection that has account_id = 0
         if (!inserted) {
           try {
-            if (_r.accountState.accountId == 0) { // Attempt to login to an existing account, or regain a lost connection
+            if (account.state.accountId == 0) { // Attempt to login to an existing account, or regain a lost connection
               devLog.finest("Try takeover");
               ts.sendExtend(message);
               String query = "UPDATE `oauth_connections` "
@@ -255,10 +255,10 @@ class RemoteAppOAuth {
                 "`oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                 "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?";
               sqljocky.Results updateRes = await sql.prepareExecute(query,
-                [ _r.accountState.deviceId.toInt(), 
+                [ account.state.deviceId.toInt(), 
                 oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toString(),
-                oauthCredentials.userId.toString(), oauthProvider.toInt(), _r.accountState.accountType.value.toInt() ]);
-              takeover = (updateRes.affectedRows > 0) && (_r.accountState.accountId == 0); // Also check for account state
+                oauthCredentials.userId.toString(), oauthProvider.toInt(), account.state.accountType.value.toInt() ]);
+              takeover = (updateRes.affectedRows > 0) && (account.state.accountId == 0); // Also check for account state
               devLog.finest(updateRes.affectedRows);
               devLog.finest("Attempt to takeover OAuth connection: $takeover");
             }
@@ -267,14 +267,14 @@ class RemoteAppOAuth {
               ts.sendExtend(message);
               sqljocky.Results connectionRes = await sql.prepareExecute("SELECT `account_id` FROM `oauth_connections` "
                 "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?", 
-                [ oauthCredentials.userId.toString(), oauthProvider.toInt(), _r.accountState.accountType.value.toInt() ]);
+                [ oauthCredentials.userId.toString(), oauthProvider.toInt(), account.state.accountType.value.toInt() ]);
               int takeoverAccountId = 0;
               await for (sqljocky.Row row in connectionRes) {
                 takeoverAccountId = row[0];
               }
-              takeover = (_r.accountState.accountId == 0) && (takeoverAccountId != 0);
+              takeover = (account.state.accountId == 0) && (takeoverAccountId != 0);
               if (takeover) {
-                _r.accountState.accountId = takeoverAccountId;
+                account.state.accountId = takeoverAccountId;
               }
               refreshed = !takeover; // If not anymore a takeover, then simply refreshed by deviceId
             }
@@ -285,9 +285,9 @@ class RemoteAppOAuth {
                 "SET `updated` = CURRENT_TIMESTAMP(), `account_id` = ?, `device_id` = ?, `oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                 "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
               sqljocky.Results updateRes = await sql.prepareExecute(query,
-                [ _r.accountState.accountId.toInt(), _r.accountState.deviceId.toInt(), 
+                [ account.state.accountId.toInt(), account.state.deviceId.toInt(), 
                 oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toString(),
-                oauthCredentials.userId.toString(), oauthProvider.toInt(), _r.accountState.accountType.value.toInt(), _r.accountState.accountId.toInt() ]);
+                oauthCredentials.userId.toString(), oauthProvider.toInt(), account.state.accountType.value.toInt(), account.state.accountId.toInt() ]);
               refreshed = updateRes.affectedRows > 0;
               devLog.finest("Attempt to refresh OAuth tokens: $refreshed");
             }
@@ -304,12 +304,12 @@ class RemoteAppOAuth {
         ts.sendExtend(message);
         DataSocialMedia dataSocialMedia = await fetchSocialMedia(oauthProvider, oauthCredentials);
         // TODO: Write fetched social media data to SQL database
-        _r.socialMedia[oauthProvider].mergeFromMessage(dataSocialMedia);
-        _r.socialMedia[oauthProvider].connected = true;
+        socialMedia[oauthProvider].mergeFromMessage(dataSocialMedia);
+        socialMedia[oauthProvider].connected = true;
       }
 
       // Simply send update of this specific social media
-      pbRes.socialMedia = _r.socialMedia[oauthProvider];
+      pbRes.socialMedia = socialMedia[oauthProvider];
       ts.sendMessage(_netOAuthConnectRes, pbRes.writeToBuffer(), replying: message);
       devLog.finest("OAuth connected: ${pbRes.socialMedia.connected}");
       if (takeover) {
