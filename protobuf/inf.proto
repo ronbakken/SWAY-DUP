@@ -185,7 +185,10 @@ enum BusinessOfferStateReason {
 
 // This message may not contain 'repeated' due to usage of 'mergeFromMessage'
 message DataSocialMedia {
+  /// Social media is connected to the account
   bool connected = 1;
+  /// Token for connection is expired, data outdated and user must re-connect by OAuth
+  bool expired = 15;
   
   /* Names. Use whichever one is not empty. Prefer displayName. */
   /// Screen name, eg. Twitter account name
