@@ -17,16 +17,16 @@ class AppSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
     assert(network != null);
-    if (network.accountState.deviceId == 0) {
+    if (network.account.state.deviceId == 0) {
       return new LoadingNetwork();
     }
-    if (network.accountState.accountId == 0) {
+    if (network.account.state.accountId == 0) {
       return new AppOnboarding();
     }
-    if (network.accountState.accountType == AccountType.AT_INFLUENCER) {
+    if (network.account.state.accountType == AccountType.AT_INFLUENCER) {
       return new Text("Influencer");
     }
-    if (network.accountState.accountType == AccountType.AT_BUSINESS) {
+    if (network.account.state.accountType == AccountType.AT_BUSINESS) {
       return new Text("Business");
     }
     throw new Exception("Invalid account state");
