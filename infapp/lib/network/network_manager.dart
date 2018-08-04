@@ -141,9 +141,27 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       print('[INF] Failed to get device name');
     }
 
+    // Basic info from preferences
+    // Generate a common device id to identify devices with mutiple accounts
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String commonDeviceIdStr;
+    try {
+      commonDeviceIdStr = prefs.getString('common_device_id');
+    } catch (e) { }
+    Uint8List commonDeviceId;
+    if (commonDeviceIdStr == null || commonDeviceIdStr.length == 0) {
+      commonDeviceId = new Uint8List(32);
+      for (int i = 0; i < commonDeviceId.length; ++i) {
+        commonDeviceId[i] = random.nextInt(256);
+      }
+      commonDeviceIdStr = base64.encode(commonDeviceId);
+      prefs.setString('common_device_id', commonDeviceIdStr);
+    } else {
+      commonDeviceId = base64.decode(commonDeviceIdStr);
+    }
+
     // Original plan was to use an assymetric key pair, but the generation was too slow. Hence just using a symmetric AES key for now
     int localAccountId = widget.networkManager.localAccountId;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     String aesKeyPref = 'aes_key_$localAccountId';
     String deviceIdPref = 'device_id_$localAccountId';
     String aesKeyStr;
@@ -169,6 +187,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       aesKeyStr = base64.encode(aesKey);
       NetDeviceAuthCreateReq pbReq = new NetDeviceAuthCreateReq();
       pbReq.aesKey = aesKey;
+      pbReq.commonDeviceId = commonDeviceId;
       pbReq.name = deviceName;
       pbReq.info = "{ debug: 'default_info' }";
 
