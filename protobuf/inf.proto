@@ -381,7 +381,7 @@ message NetDeviceAuthSignatureResReq {
 // Name: DA_STATE
 message NetDeviceAuthState {
   /// Whole account data
-  DataAccount data;
+  DataAccount data = 8;
   
 }
 
