@@ -43,7 +43,7 @@ class OnboardingSocial extends StatelessWidget {
           children: [
             new Icon(new IconData(cfg.fontAwesomeBrand, fontFamily: 'FontAwesomeBrands', fontPackage: 'font_awesome_flutter')),
             new Text(cfg.label.toUpperCase()),
-            new Icon(oauthState[i].connected ? FontAwesomeIcons.checkCircle : FontAwesomeIcons.signInAlt),
+            new Icon((oauthState[i].connected && !oauthState[i].expired) ? FontAwesomeIcons.checkCircle : FontAwesomeIcons.signInAlt),
           ]
         );
         Widget w = new Container(

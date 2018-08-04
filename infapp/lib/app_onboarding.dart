@@ -43,6 +43,7 @@ class AppOnboarding extends StatelessWidget {
         builder: (context) {
           ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
+          bool canSignUp = network.account.detail.socialMedia.any((DataSocialMedia data) => (data.connected && !data.expired));
           assert(config != null);
           assert(network != null);
           return new OnboardingSocial(
@@ -50,6 +51,7 @@ class AppOnboarding extends StatelessWidget {
             oauthProviders: config.oauthProviders.all,
             oauthState: network.account.detail.socialMedia,
             onOAuthSelected: (network.connected == NetworkConnectionState.Ready) ? (int oauthProvider) { navigateToOAuth(context, oauthProvider); } : null,
+            onSignUp: canSignUp ? () { /*Scaffold.of(context).showSnackBar(new SnackBar(content: new Text("Todo")));*/ } : null,
           );
         },
       )
