@@ -380,10 +380,8 @@ message NetDeviceAuthSignatureResReq {
 // Create or auth result
 // Name: DA_STATE
 message NetDeviceAuthState {
-  DataAccountState accountState = 7;
-  
-  // Social media state
-  repeated DataSocialMedia socialMedia = 6;
+  /// Whole account data
+  DataAccount data;
   
 }
 
