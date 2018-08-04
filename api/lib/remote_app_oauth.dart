@@ -28,6 +28,9 @@ class RemoteAppOAuth {
 
   static final http.Client httpClient = new http.Client();
 
+  DataAccount get data { return _r.data; }
+  List<DataSocialMedia> get socialMedia { return _r.data.detail.socialMedia; }
+
   RemoteAppOAuth(this._r) {
     _netOAuthUrlReq = _r.safeListen("OA_URLRE", netOAuthUrlReq);
     _netOAuthConnectReq = _r.safeListen("OA_CONNE", netOAuthConnectReq);
@@ -72,7 +75,7 @@ class RemoteAppOAuth {
           devLog.finest(authUrl);
           pbRes.authUrl = authUrl;
           pbRes.callbackUrl = cfg.callbackUrl;
-          ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(), reply: message);
+          ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(), replying: message);
           break;
         }
         case OAuthMechanism.OAM_OAUTH2: {
@@ -87,7 +90,7 @@ class RemoteAppOAuth {
           devLog.finest(authUrl);
           pbRes.authUrl = authUrl;
           pbRes.callbackUrl = cfg.callbackUrl;
-          ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(), reply: message);
+          ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(), replying: message);
           break;
         }
         default: {
@@ -181,7 +184,7 @@ class RemoteAppOAuth {
         break;
       }
       default: {
-        // ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", reply: message);
+        // ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", replying: message);
         throw new Exception("OAuth provider has no supported mechanism specified ${oauthProvider}");
       }
     }
@@ -307,7 +310,7 @@ class RemoteAppOAuth {
 
       // Simply send update of this specific social media
       pbRes.socialMedia = _r.socialMedia[oauthProvider];
-      ts.sendMessage(_netOAuthConnectRes, pbRes.writeToBuffer(), reply: message);
+      ts.sendMessage(_netOAuthConnectRes, pbRes.writeToBuffer(), replying: message);
       devLog.finest("OAuth connected: ${pbRes.socialMedia.connected}");
       if (takeover) {
         // Account was found during connection, transition
