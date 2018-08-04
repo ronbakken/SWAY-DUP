@@ -95,6 +95,14 @@ class _OfferCreateState extends State<OfferCreate> {
             ),
           ),
           new RaisedButton(
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.only(
+                topLeft: new Radius.circular(4.0),
+                topRight: new Radius.circular(4.0),
+                bottomLeft: new Radius.circular(16.0),
+                bottomRight: new Radius.circular(16.0),
+              ), 
+            ),
             color: _image == null ? Theme.of(context).buttonColor : Theme.of(context).unselectedWidgetColor,
             child: new Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

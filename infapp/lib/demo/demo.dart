@@ -48,6 +48,32 @@ class _DemoAppState extends State<DemoApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Set base colors
+    ThemeData theme = new ThemeData(
+      brightness: Brightness.dark, // This makes things dark!
+      primarySwatch: Colors.blueGrey, // This is just defaults, no need to change!
+      disabledColor: Colors.white12, // Dark fix
+      primaryColorBrightness: Brightness.dark,
+      accentColorBrightness: Brightness.dark,
+    );
+    // Adjust colors
+    theme = theme.copyWith(
+      // Generate these values on https://material.io/color/!
+      primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+      primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+      primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+      buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+      // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
+      accentColor: new Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
+      // Grayscale of primaryColor
+      unselectedWidgetColor: new Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
+    );
+    // Adjust widget themes
+    theme = theme.copyWith(
+      buttonTheme: theme.buttonTheme.copyWith(
+        shape: new StadiumBorder(),
+      ),
+    );
     return new ConfigManager(
       key: new Key('InfDemo.ConfigManager'),
       startupConfig: widget.startupConfig,
@@ -62,23 +88,7 @@ class _DemoAppState extends State<DemoApp> {
             
           },*/
           // debugShowMaterialGrid: true,
-          theme: new ThemeData(
-            brightness: Brightness.dark, // This makes things dark!
-            primarySwatch: Colors.blueGrey, // This is just defaults, no need to change!
-            disabledColor: Colors.white12, // Dark fix
-            primaryColorBrightness: Brightness.dark,
-            accentColorBrightness: Brightness.dark,
-          ).copyWith(
-            // Generate these values on https://material.io/color/!
-            primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-            primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-            primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
-            buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-            // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
-            accentColor: new Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
-            // Grayscale of primaryColor
-            unselectedWidgetColor: new Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
-          ),
+          theme: theme,
           home: localAccountId != 0 ? new AppSwitch() : new DemoHomePage(onSetServer : setServer), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), // 
         ),
       ),
