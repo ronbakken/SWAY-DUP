@@ -309,8 +309,7 @@ const NetDeviceAuthSignatureResReq$json = const {
 const NetDeviceAuthState$json = const {
   '1': 'NetDeviceAuthState',
   '2': const [
-    const {'1': 'accountState', '3': 7, '4': 1, '5': 11, '6': '.DataAccountState', '10': 'accountState'},
-    const {'1': 'socialMedia', '3': 6, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
+    const {'1': 'data', '3': 8, '4': 1, '5': 11, '6': '.DataAccount', '10': 'data'},
   ],
 };
 
