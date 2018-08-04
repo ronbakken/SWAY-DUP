@@ -200,6 +200,7 @@ class RemoteApp {
       // Await signature
       devLog.fine("Await signature");
       TalkMessage signatureMessage = await signatureMessageFuture;
+      ts.sendExtend(signatureMessage);
       NetDeviceAuthSignatureResReq signaturePb = new NetDeviceAuthSignatureResReq();
       signaturePb.mergeFromBuffer(signatureMessage.data);
       if (aesKey.length > 0 && signaturePb.signature.length > 0) {
@@ -235,10 +236,12 @@ class RemoteApp {
 
       // Send authentication state
       devLog.fine("Await device state");
+      ts.sendExtend(signatureMessage);
       await updateDeviceState();
       if (account.state.deviceId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
         if (account.state.accountId != 0) {
+          ts.sendExtend(signatureMessage);
           await transitionToApp(); // Fetches all of the state data
         } else {
           subscribeOnboarding();

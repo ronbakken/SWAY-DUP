@@ -301,6 +301,19 @@ class RemoteAppOAuth {
 
       devLog.finest("itf: $inserted, $takeover, $refreshed");
       if (inserted || takeover || refreshed) {
+        // Wipe any other previously connected accounts to avoid inconsistent data
+        // Happens after addition to ensure race condition will prioritize deletion
+        ts.sendExtend(message);
+        if (account.state.accountId != 0) {
+          String query = "DELETE FROM `oauth_connections` WHERE `account_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
+          await sql.prepareExecute(query, [ account.state.accountId.toInt(), oauthCredentials.userId.toString(), oauthProvider.toInt() ]);
+        }
+        if (account.state.deviceId != 0) {
+          String query = "DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
+          await sql.prepareExecute(query, [ account.state.deviceId.toInt(), oauthCredentials.userId.toString(), oauthProvider.toInt() ]);
+        }
+
+        // Fetch useful data from social media
         ts.sendExtend(message);
         DataSocialMedia dataSocialMedia = await fetchSocialMedia(oauthProvider, oauthCredentials);
         // TODO: Write fetched social media data to SQL database
