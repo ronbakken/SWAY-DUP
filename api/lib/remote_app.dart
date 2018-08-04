@@ -130,8 +130,8 @@ class RemoteApp {
             try {
               // Create a new device in the devices table of the database
               await connection.prepareExecute(
-                "INSERT INTO `devices` (`aes_key`, `name`, `info`) VALUES (?, ?, ?)", 
-                [ aesKeyStr, pb.name, pb.info ]);
+                "INSERT INTO `devices` (`aes_key`, `common_device_id`, `name`, `info`) VALUES (?, ?, ?, ?)", 
+                [ aesKeyStr, base64.decode(pb.commonDeviceId), pb.name, pb.info ]);
               sqljocky.Results lastInsertedId = await connection.query("SELECT LAST_INSERT_ID()");
               await for (sqljocky.Row row in lastInsertedId) {
                 accountState.deviceId = row[0];
