@@ -70,8 +70,8 @@ class _NetworkManagerStateful extends StatefulWidget {
 
 class _NetworkManagerState extends State<_NetworkManagerStateful> implements NetworkInterface {  
   // see NetworkInterface
-  DataAccountState accountState = new DataAccountState();
-  List<DataSocialMedia> socialMedia = new List<DataSocialMedia>();
+
+  DataAccount account;
   NetworkConnectionState connected = NetworkConnectionState.Connecting;
 
   int _changed = 0; // trick to ensure rebuild
@@ -88,12 +88,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       print("[INF] Sync config changes to network");
       _config = widget.config;
       if (_config != null) {
-        socialMedia.length = _config.oauthProviders.all.length; // Match array length
-        for (int i = 0; i < socialMedia.length; ++i) {
-          if (socialMedia[i] == null) {
-            socialMedia[i] = new DataSocialMedia();
-          }
+        // Match array length
+        for (int i = account.detail.socialMedia.length; i < _config.oauthProviders.all.length; ++i) {
+          account.detail.socialMedia.add(new DataSocialMedia());
         }
+        account.detail.socialMedia.length = _config.oauthProviders.all.length;
       }
       ++_changed;
     }
@@ -104,18 +103,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
 
   void receivedDeviceAuthState(NetDeviceAuthState pb) {
     setState(() {
-      if (pb.accountState.accountId != accountState.accountId) {
+      if (pb.data.state.accountId != account.state.accountId) {
         // Any cache cleanup may be done here when switching accounts
       }
-      accountState = pb.accountState;
-      socialMedia = new List<DataSocialMedia>();
-      socialMedia.addAll(pb.socialMedia);
-      socialMedia.length = _config.oauthProviders.all.length; // Match array length
-      for (int i = 0; i < socialMedia.length; ++i) {
-        if (socialMedia[i] == null) {
-          socialMedia[i] = new DataSocialMedia();
-        }
+      account = pb.data;
+      for (int i = account.detail.socialMedia.length; i < _config.oauthProviders.all.length; ++i) {
+        account.detail.socialMedia.add(new DataSocialMedia());
       }
+      account.detail.socialMedia.length = _config.oauthProviders.all.length;
       ++_changed;
     });
   }
@@ -172,14 +167,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       aesKeyStr = prefs.getString(aesKeyPref);
       aesKey = base64.decode(aesKeyStr);
       attemptDeviceId = prefs.getInt(deviceIdPref);
-      if (attemptDeviceId != accountState.deviceId) {
-        accountState.deviceId = 0;
+      if (attemptDeviceId != account.state.deviceId) {
+        account.state.deviceId = 0;
       }
     } catch (e) { }
     if (aesKey == null || aesKey.length == 0 || attemptDeviceId == null || attemptDeviceId == 0) {
       // Create new device
       print("[INF] Create new device");
-      accountState.deviceId = 0;
+      account.state.deviceId = 0;
       aesKey = new Uint8List(32);
       for (int i = 0; i < aesKey.length; ++i) {
         aesKey[i] = random.nextInt(256);
@@ -198,10 +193,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
         throw Exception("No longer alive, don't authorize");
       }
       receivedDeviceAuthState(pbRes);
-      print("[INF] Device id ${accountState.deviceId}");
-      if (accountState.deviceId != 0) {
+      print("[INF] Device id ${account.state.deviceId}");
+      if (account.state.deviceId != 0) {
         prefs.setString(aesKeyPref, aesKeyStr);
-        prefs.setInt(deviceIdPref, accountState.deviceId);
+        prefs.setInt(deviceIdPref, account.state.deviceId);
       }
     } else {
       // Authenticate existing device
@@ -226,17 +221,17 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       // Send signature, wait for device status
       NetDeviceAuthSignatureResReq pbSignature = new NetDeviceAuthSignatureResReq();
       pbSignature.signature = signature;
-      TalkMessage res = await ts.sendRequest(TalkSocket.encode("DA_R_SIG"), pbSignature.writeToBuffer(), reply: msgChallengeResReq);
+      TalkMessage res = await ts.sendRequest(TalkSocket.encode("DA_R_SIG"), pbSignature.writeToBuffer(), replying: msgChallengeResReq);
       NetDeviceAuthState pbRes = new NetDeviceAuthState();
       pbRes.mergeFromBuffer(res.data);
       if (!_alive) {
         throw Exception("No longer alive, don't authorize");
       }
       receivedDeviceAuthState(pbRes);
-      print("[INF] Device id ${accountState.deviceId}");
+      print("[INF] Device id ${account.state.deviceId}");
     }
     
-    if (accountState.deviceId == 0) {
+    if (account.state.deviceId == 0) {
       throw new Exception("Authentication did not succeed");
     } else {
       print("[INF] Network connection is ready");
@@ -331,6 +326,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     _alive = true;
 
     // Initialize data
+    account = new DataAccount();
+    account.state = new DataAccountState();
+    account.summary = new DataAccountSummary();
+    account.detail = new DataAccountDetail();
     syncConfig();
 
     // Start network loop
@@ -392,7 +391,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     NetSetAccountType pb = new NetSetAccountType();
     pb.accountType = accountType;
     _ts.sendMessage(_netSetAccountType, pb.writeToBuffer());
-    setState(() { accountState.accountType = accountType; }); // Ghost state, the server doesn't send update for this
+    setState(() { account.state.accountType = accountType; }); // Ghost state, the server doesn't send update for this
   }
 
   /* OAuth */
@@ -417,9 +416,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     NetOAuthConnectRes resPb = new NetOAuthConnectRes();
     resPb.mergeFromBuffer(res.data);
     // Result contains the updated data, so needs to be put into the state
-    if (oauthProvider < socialMedia.length && resPb.socialMedia != null) {
+    if (oauthProvider < account.detail.socialMedia.length && resPb.socialMedia != null) {
       setState(() {
-        socialMedia[oauthProvider] = resPb.socialMedia;
+        account.detail.socialMedia[oauthProvider] = resPb.socialMedia;
       });
     }
     // Return just whether connected or not
@@ -454,10 +453,7 @@ enum NetworkConnectionState {
 abstract class NetworkInterface {
   /* Cached Data */
   /// Cached account state. Use this data directly from your build function
-  DataAccountState accountState;
-
-  /// Cached social media information. Use this data directly from your build function
-  List<DataSocialMedia> socialMedia;
+  DataAccount account;
 
   /// Whether we are connected to the network.
   NetworkConnectionState connected;
