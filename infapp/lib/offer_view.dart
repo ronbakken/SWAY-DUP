@@ -11,11 +11,21 @@ class OfferView extends StatelessWidget {
     @required this.businessOffer,
     @required this.businessAccount,
     @required this.account,
+    this.onSharePressed,
+    this.onEndPressed,
+    this.onEditPressed,
+    this.onApplicantsPressed,
   }) : super(key: key);
 
   final DataBusinessOffer businessOffer;
   final DataAccount businessAccount;
   final DataAccount account;
+
+  final VoidCallback onSharePressed;
+
+  final VoidCallback onEndPressed;
+  final VoidCallback onEditPressed;
+  final VoidCallback onApplicantsPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +37,11 @@ class OfferView extends StatelessWidget {
             title: new Text(businessOffer.title),
             imageUrls: businessOffer.coverUrls,
             actions: [
-              new IconButton(
+              onSharePressed == null ? null : new IconButton(
                 icon: new Icon(Icons.share),
                 onPressed: () { },
               )
-            ],
+            ]..removeWhere((Widget w) => w == null),
           ),
           new SliverList(
             delegate: new SliverChildListDelegate([
@@ -44,61 +54,88 @@ class OfferView extends StatelessWidget {
                       ? new NetworkImage(businessAccount.summary.avatarUrl) : null,
                       backgroundColor: Colors.primaries[businessAccount.summary.name.hashCode % Colors.primaries.length].shade300
                   ),
-                  title: new Text(businessAccount.summary.name),
+                  title: new Text(businessAccount.summary.name, maxLines: 1, overflow: TextOverflow.fade),
                   subtitle: new Text(businessAccount.summary.description.length > 0
-                    ? businessAccount.summary.description : businessAccount.summary.location),
+                    ? businessAccount.summary.description : businessAccount.summary.location, maxLines: 1, overflow: TextOverflow.ellipsis),
                 ),
               ),
-              new Container(
+              onEndPressed == null && onEditPressed == null && onApplicantsPressed == null ? null : new Container(
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    new IconButton(
-                      iconSize: 68.0,
+                    onEndPressed == null ? null : new IconButton(
+                      iconSize: 56.0,
                       highlightColor: Colors.transparent,
                       icon: new Column(
                         children: [
                           new Container(
-                            padding: new EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 16.0),
+                            padding: new EdgeInsets.all(8.0),
                             child: new Icon(Icons.remove_circle, size: 24.0),
                           ),
-                          new Text("End".toUpperCase()),
+                          new Text("End".toUpperCase(), maxLines: 1),
                         ],
                       ),
-                      onPressed: () { },
+                      onPressed: () async { 
+                        await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return new AlertDialog(
+                              title: new Text('End Your Offer'),
+                              content: new SingleChildScrollView(
+                                child: new ListBody(
+                                  children: [
+                                    new Text("Are you sure you would like to end this offer?\n\n"
+                                      "This will remove the offer from influencer search results."
+                                      "The offer will remain standing for current applicants."),
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                new FlatButton(
+                                  child: new Text("End This Offer".toUpperCase()),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    onEndPressed();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     ),
-                    new IconButton(
-                      iconSize: 68.0,
+                    onEditPressed == null ? null : new IconButton(
+                      iconSize: 56.0,
                       highlightColor: Colors.transparent,
                       icon: new Column(
                         children: [
                           new Container(
-                            padding: new EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 16.0),
+                            padding: new EdgeInsets.all(8.0),
                             child: new Icon(Icons.edit, size: 24.0),
                           ),
-                          new Text("Edit".toUpperCase()),
+                          new Text("Edit".toUpperCase(), maxLines: 1),
                         ],
                       ),
-                      onPressed: () { },
+                      onPressed: onEditPressed,
                     ),
-                    new IconButton(
-                      iconSize: 68.0,
+                    onApplicantsPressed == null ? null : new IconButton( // TODO: Refactor to not use IconButton
+                      iconSize: 56.0,
                       highlightColor: Colors.transparent,
                       icon: new Column(
                         children: [
                           new Container(
-                            padding: new EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 16.0),
+                            padding: new EdgeInsets.all(8.0),
                             child: new Icon(Icons.inbox, size: 24.0),
                           ),
-                          new Text("Applic".toUpperCase()),
+                          new Text("Applicants".toUpperCase(), maxLines: 1, overflow: TextOverflow.ellipsis), // FIXME: IconButton width is insufficient
                         ],
                       ),
-                      onPressed: () { },
+                      onPressed: onApplicantsPressed,
                     ),
-                  ]
+                  ]..removeWhere((Widget w) => w == null)
                 ),
               ),
-              new Divider(),
+              onEndPressed == null && onEditPressed == null && onApplicantsPressed == null ? null : new Divider(),
               new ListTile(
                 title: new Text(businessOffer.description, style: Theme.of(context).textTheme.body1 ),
               ),
@@ -175,7 +212,7 @@ class OfferView extends StatelessWidget {
                 leading: new Icon(Icons.redeem),
                 title: new Text("Free dinner", style: Theme.of(context).textTheme.body1 ),
               ),
-            ]),
+            ]..removeWhere((Widget w) => w == null)),
           ),
         ],
       ),

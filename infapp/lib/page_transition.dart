@@ -5,6 +5,7 @@ Widget _fadeAnimation(BuildContext context, Animation<double> animation, Animati
   return new FadeTransition(opacity: animation, child: child);
 }
 
+// FIXME: [widget] is built using the passed [context] rather than by the [pageBuilder] context. This is against the Flutter API and will break things
 void transitionPage(BuildContext context, Widget widget) {
   Navigator
     .of(context)

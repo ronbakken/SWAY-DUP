@@ -494,11 +494,20 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [ new Text('Offer View (Self)') ] ),
             onPressed: () { 
-              transitionPage(context, new OfferView(
+              Navigator.push(context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new OfferView(
                       businessOffer: sampleBusinessOffers[1],
                       businessAccount: demoAccount,
                       account: demoAccount,
-                    )
+                      onSharePressed: () { },
+                      onEndPressed: () { },
+                      onEditPressed: () { },
+                      onApplicantsPressed: () { },
+                    );
+                  },
+                )
               );
             },
           ),
