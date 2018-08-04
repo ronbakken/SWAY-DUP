@@ -320,6 +320,7 @@ class DataSocialMedia extends GeneratedMessage {
     ..aOS(12, 'email')
     ..aOS(13, 'profileUrl')
     ..aOS(14, 'avatarUrl')
+    ..aOB(15, 'expired')
     ..hasRequiredFields = false
   ;
 
@@ -408,6 +409,11 @@ class DataSocialMedia extends GeneratedMessage {
   set avatarUrl(String v) { $_setString(13, v); }
   bool hasAvatarUrl() => $_has(13);
   void clearAvatarUrl() => clearField(14);
+
+  bool get expired => $_get(14, false);
+  set expired(bool v) { $_setBool(14, v); }
+  bool hasExpired() => $_has(14);
+  void clearExpired() => clearField(15);
 }
 
 class _ReadonlyDataSocialMedia extends DataSocialMedia with ReadonlyMessageMixin {}
