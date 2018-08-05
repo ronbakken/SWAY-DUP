@@ -21,6 +21,7 @@ import '../profile/profile_view.dart' show ProfileView;
 import '../profile/profile_edit.dart' show ProfileEdit;
 import '../search/search_button.dart';
 import '../search/search_page.dart';
+import '../debug_account.dart';
 // import '../widgets/follower_count.dart' show FollowerWidget;
 
 class DemoApp extends StatefulWidget {
@@ -403,6 +404,21 @@ class _DemoHomePageState extends State<DemoHomePage> {
               for (int i = 0; i < demoAccount.detail.socialMedia.length; ++i) {
                 demoAccount.detail.socialMedia[i] = new DataSocialMedia();
               }
+            },
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text("Debug Account") ] ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) {
+                    return new DebugAccount(
+                      account: demoAccount,
+                    );
+                  },
+                )
+              );
             },
           ),
           ///
