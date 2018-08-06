@@ -56,7 +56,7 @@ selfTestTalk() async {
   TalkSocket ts;
   try {
     ts = await TalkSocket.connect("ws://localhost:9090/ws");
-    Future listen = ts.listen();
+    Future<Null> listen = ts.listen();
     for (int i = 0; i < 3; ++i) {
       await ts.ping();
     }

@@ -90,7 +90,7 @@ class RemoteApp {
     devLog.fine("Connection closed for device ${account.state.deviceId}");
   }
 
-  StreamSubscription<TalkMessage> safeListen(String id, Future onData(TalkMessage message)) {
+  StreamSubscription<TalkMessage> safeListen(String id, Future<void> onData(TalkMessage message)) {
     if (_connected) {
       return ts.stream(TalkSocket.encode(id)).listen((TalkMessage message) async {
         try {
@@ -254,7 +254,7 @@ class RemoteApp {
     }
   }
 
-  Future updateDeviceState() async {
+  Future<Null> updateDeviceState() async {
     await lock.synchronized(() async {
       // First get the account id (and account type, in case the account id has not been created yet)
       sqljocky.Results deviceResults = await sql.prepareExecute("SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?", [ account.state.deviceId.toInt() ]);
@@ -298,7 +298,7 @@ class RemoteApp {
   }
 
   static int _netDeviceAuthState = TalkSocket.encode("DA_STATE");
-  Future sendNetDeviceAuthState({ TalkMessage replying }) async {
+  Future<Null> sendNetDeviceAuthState({ TalkMessage replying }) async {
     if (!_connected) {
       return;
     }
@@ -572,7 +572,7 @@ I/flutter (26706): OAuth Providers: 8
   /////////////////////////////////////////////////////////////////////
   
   /// Transitions the user to the app context after registration or login succeeds. Call from lock
-  Future transitionToApp() {
+  Future<Null> transitionToApp() {
     assert(_netDeviceAuthCreateReq == null);
     assert(_netAccountCreateReq == null);
     assert(_remoteAppBusiness == null);

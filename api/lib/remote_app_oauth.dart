@@ -286,7 +286,7 @@ class RemoteAppOAuth {
                 "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
               sqljocky.Results updateRes = await sql.prepareExecute(query,
                 [ account.state.accountId.toInt(), account.state.deviceId.toInt(), 
-                oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toString(),
+                oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toInt(),
                 oauthCredentials.userId.toString(), oauthProvider.toInt(), account.state.accountType.value.toInt(), account.state.accountId.toInt() ]);
               refreshed = updateRes.affectedRows > 0;
               devLog.finest("Attempt to refresh OAuth tokens: $refreshed");
@@ -341,6 +341,8 @@ class RemoteAppOAuth {
       throw new Exception("Invalid oauthProvider specified ${pb.oauthProvider}");
     }
   }
+
+  
 
   Future<DataSocialMedia> fetchSocialMedia(int oauthProvider, DataOAuthCredentials oauthCredentials) async {
     devLog.finest("fetchSocialMedia: $oauthProvider, ${oauthCredentials.userId}, ${oauthCredentials.token}, ${oauthCredentials.tokenSecret}");
@@ -413,7 +415,7 @@ class RemoteAppOAuth {
 
         if (userDoc['name'] != null) dataSocialMedia.displayName = userDoc['name'];
         if (userDoc['link'] != null) dataSocialMedia.profileUrl = userDoc['link'];
-        if (userDoc['email'] != null) dataSocialMedia.profileUrl = userDoc['email'];
+        if (userDoc['email'] != null) dataSocialMedia.email = userDoc['email'];
 
         dynamic picture = userDoc['picture'];
         if (picture != null) {
