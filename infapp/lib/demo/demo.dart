@@ -150,8 +150,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
     sampleAccounts[1].summary.description = "The best burgers in the known universe. As far as we know.";
     sampleAccounts[1].summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
     sampleAccounts[1].summary.location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
-    sampleAccounts[1].detail.coverUrls.length = 0;
-    sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+    // sampleAccounts[1].detail.coverUrls.length = 0;
+    // sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
     
     sampleAccounts[2].state.accountId = 2;
     sampleAccounts[2].state.accountType = AccountType.AT_BUSINESS;
@@ -160,9 +160,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
     sampleAccounts[2].summary.description = "We don't prepare dolphins.";
     sampleAccounts[2].summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg";
     sampleAccounts[2].summary.location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
-    sampleAccounts[2].detail.coverUrls.length = 0;
-    sampleAccounts[2].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
-    sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg");
+    // sampleAccounts[2].detail.coverUrls.length = 0;
+    // sampleAccounts[2].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
+    // sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg");
     
     sampleBusinessOffers.length = 4;
     for (int i = 0; i < sampleBusinessOffers.length; ++i) {
@@ -291,8 +291,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     data.summary.description = "Description: $searchQuery";
                     data.summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
                     data.summary.location = "Location";
-                    data.detail.coverUrls.length = 0;
-                    data.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+                    // data.detail.coverUrls.length = 0;
+                    // data.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
                     return sampleAccounts.toList()..removeAt(0)..shuffle()..insert(0, data);
                   },
                 )
@@ -375,8 +375,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                             demoAccount.summary.name = "John Smith";
                             demoAccount.summary.description = "I'm here for the food.";
                             demoAccount.summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg";
-                            demoAccount.detail.coverUrls.length = 0;
-                            demoAccount.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg");
+                            // demoAccount.detail.coverUrls.length = 0;
+                            // demoAccount.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg");
                             demoAccount.summary.location = "Cardiff, London";
                             demoAccount.state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
                             demoAccount.state.globalAccountStateReason = GlobalAccountStateReason.GASR_DEMO_APPROVED;
@@ -398,7 +398,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
               demoAccount.summary.description = '';
               demoAccount.summary.avatarUrl = '';
               demoAccount.summary.location = '';
-              demoAccount.detail.coverUrls.length = 0;
+              // demoAccount.detail.coverUrls.length = 0;
               demoAccount.state.globalAccountState = GlobalAccountState.GAS_INITIALIZE;
               demoAccount.state.globalAccountStateReason = GlobalAccountStateReason.GASR_NEW_ACCOUNT;
               for (int i = 0; i < demoAccount.detail.socialMedia.length; ++i) {
@@ -459,8 +459,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                                 data.summary.description = "Description: $searchQuery";
                                 data.summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
                                 data.summary.location = "Location";
-                                data.detail.coverUrls.length = 0;
-                                data.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+                                // data.detail.coverUrls.length = 0;
+                                // data.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
                                 return sampleAccounts.toList()..removeAt(0)..shuffle()..insert(0, data);
                               },
                             )

@@ -102,9 +102,9 @@ class _DashboardBusinessState extends State<DashboardBusiness> with TickerProvid
                 color: Theme.of(context).primaryColor,
                 child: new Stack(
                   children: [
-                    new Positioned.fill(child: widget.account.detail.coverUrls.length > 0 ? new FadeInImage.assetNetwork(
+                    new Positioned.fill(child: widget.account.summary.avatarUrl.length > 0 ? new FadeInImage.assetNetwork(
                       placeholder: 'assets/placeholder_photo.png',
-                      image: widget.account.detail.coverUrls[0],
+                      image: widget.account.summary.avatarUrl,
                       fit: BoxFit.cover
                     ) : new Image(image: new AssetImage('assets/placeholder_photo.png'), fit: BoxFit.cover)),
                     new SafeArea(

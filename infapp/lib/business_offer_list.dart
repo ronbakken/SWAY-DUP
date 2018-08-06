@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 import 'network/inf.pb.dart';
 
-// TODO: This will have the infinite scroll mechanism
+// TODO: This will have the infinite scroll mechanism (long term...)
 
 class BusinessOfferList extends StatelessWidget {
   final List<DataBusinessOffer> businessOffers;
@@ -19,6 +19,7 @@ class BusinessOfferList extends StatelessWidget {
 
   Widget buildTags(BuildContext context, DataBusinessOffer data) {
     List<Widget> tags = new List<Widget>();
+    // Instead of showing 0 new applicants, show an informative message instead while still accepting new applicants!
     if (data.applicantsNew == 0 /* && data.applicantsAccepted == 0 */ && data.state == BusinessOfferState.BOS_OPEN) {
       tags.add(new Chip(
         label: new Text("awaiting applicants")

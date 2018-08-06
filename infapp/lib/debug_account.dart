@@ -34,8 +34,7 @@ class DebugAccount extends StatelessWidget {
           new Text("avatarUrl: ${account.summary.avatarUrl}"),
           new Divider(),
           new Text("Detail", style: Theme.of(context).textTheme.display1),
-        ]..addAll(account.detail.coverUrls.map((coverUrl) => new Text("coverUrls: $coverUrl")))
-        ..addAll(account.detail.categories.map((categoryId) {
+        ]..addAll(account.detail.categories.map((categoryId) {
           return new Text("categories: TODO");
         }))
         ..addAll(account.detail.socialMedia.map((socialMedia) {
