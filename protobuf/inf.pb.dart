@@ -852,7 +852,6 @@ class _ReadonlyDataAccountSummary extends DataAccountSummary with ReadonlyMessag
 
 class DataAccountDetail extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataAccountDetail')
-    ..pPS(1, 'coverUrls')
     ..pp<CategoryId>(2, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
     ..pp<DataSocialMedia>(3, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
     ..hasRequiredFields = false
@@ -874,11 +873,9 @@ class DataAccountDetail extends GeneratedMessage {
     if (v is! DataAccountDetail) checkItemFailed(v, 'DataAccountDetail');
   }
 
-  List<String> get coverUrls => $_getList(0);
+  List<CategoryId> get categories => $_getList(0);
 
-  List<CategoryId> get categories => $_getList(1);
-
-  List<DataSocialMedia> get socialMedia => $_getList(2);
+  List<DataSocialMedia> get socialMedia => $_getList(1);
 }
 
 class _ReadonlyDataAccountDetail extends DataAccountDetail with ReadonlyMessageMixin {}

@@ -260,7 +260,6 @@ const DataAccountSummary$json = const {
 const DataAccountDetail$json = const {
   '1': 'DataAccountDetail',
   '2': const [
-    const {'1': 'coverUrls', '3': 1, '4': 3, '5': 9, '10': 'coverUrls'},
     const {'1': 'categories', '3': 2, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
     const {'1': 'socialMedia', '3': 3, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
   ],

@@ -71,54 +71,54 @@ namespace InfX {
             "bEFjY291bnRTdGF0ZVJlYXNvbhItChFub3RpZmljYXRpb25GbGFncxgGIAEo",
             "DjISLk5vdGlmaWNhdGlvbkZsYWdzIlwKEkRhdGFBY2NvdW50U3VtbWFyeRIM",
             "CgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhAKCGxvY2F0aW9u",
-            "GAMgASgJEhEKCWF2YXRhclVybBgEIAEoCSJuChFEYXRhQWNjb3VudERldGFp",
-            "bBIRCgljb3ZlclVybHMYASADKAkSHwoKY2F0ZWdvcmllcxgCIAMoCzILLkNh",
-            "dGVnb3J5SWQSJQoLc29jaWFsTWVkaWEYAyADKAsyEC5EYXRhU29jaWFsTWVk",
-            "aWEieQoLRGF0YUFjY291bnQSIAoFc3RhdGUYASABKAsyES5EYXRhQWNjb3Vu",
-            "dFN0YXRlEiQKB3N1bW1hcnkYAiABKAsyEy5EYXRhQWNjb3VudFN1bW1hcnkS",
-            "IgoGZGV0YWlsGAMgASgLMhIuRGF0YUFjY291bnREZXRhaWwiXAoWTmV0RGV2",
-            "aWNlQXV0aENyZWF0ZVJlcRIOCgZhZXNLZXkYASABKAwSFgoOY29tbW9uRGV2",
-            "aWNlSWQYBCABKAwSDAoEbmFtZRgCIAEoCRIMCgRpbmZvGAMgASgJIi0KGU5l",
-            "dERldmljZUF1dGhDaGFsbGVuZ2VSZXESEAoIZGV2aWNlSWQYASABKAUiMQoc",
-            "TmV0RGV2aWNlQXV0aENoYWxsZW5nZVJlc1JlcRIRCgljaGFsbGVuZ2UYASAB",
-            "KAwiMQocTmV0RGV2aWNlQXV0aFNpZ25hdHVyZVJlc1JlcRIRCglzaWduYXR1",
-            "cmUYASABKAwiMAoSTmV0RGV2aWNlQXV0aFN0YXRlEhoKBGRhdGEYCCABKAsy",
-            "DC5EYXRhQWNjb3VudCI2ChFOZXRTZXRBY2NvdW50VHlwZRIhCgthY2NvdW50",
-            "VHlwZRgBIAEoDjIMLkFjY291bnRUeXBlIicKDk5ldE9BdXRoVXJsUmVxEhUK",
-            "DW9hdXRoUHJvdmlkZXIYASABKAUiNgoOTmV0T0F1dGhVcmxSZXMSDwoHYXV0",
-            "aFVybBgBIAEoCRITCgtjYWxsYmFja1VybBgCIAEoCSJCChJOZXRPQXV0aENv",
-            "bm5lY3RSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBRIVCg1jYWxsYmFja1F1",
-            "ZXJ5GAIgASgJIjsKEk5ldE9BdXRoQ29ubmVjdFJlcxIlCgtzb2NpYWxNZWRp",
-            "YRgBIAEoCzIQLkRhdGFTb2NpYWxNZWRpYSI9ChNOZXRBY2NvdW50Q3JlYXRl",
-            "UmVxEgwKBG5hbWUYASABKAkSCwoDbGF0GAIgASgCEgsKA2xuZxgDIAEoAiJH",
-            "ChFOZXRSZXFJbWFnZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghmaWxl",
-            "U2l6ZRgCIAEoBRIOCgZzaGEyNTYYAyABKAki3wEKEU5ldFJlc0ltYWdlVXBs",
-            "b2FkEhUKDXJlcXVlc3RNZXRob2QYASABKAkSEgoKcmVxdWVzdFVybBgCIAEo",
-            "CRIZChFoZWFkZXJDb250ZW50VHlwZRgDIAEoCRIbChNoZWFkZXJDb250ZW50",
-            "TGVuZ3RoGAQgASgJEhIKCmhlYWRlckhvc3QYBSABKAkSFgoOaGVhZGVyWEFt",
-            "ekRhdGUYBiABKAkSHgoWaGVhZGVyWEFtelN0b3JhZ2VDbGFzcxgHIAEoCRIb",
-            "ChNoZWFkZXJBdXRob3JpemF0aW9uGAggASgJIjYKEU5ldFJlcUNyZWF0ZU9m",
-            "ZmVyEiEKBW9mZmVyGAEgASgLMhIuRGF0YUJ1c2luZXNzT2ZmZXIiHwoRTmV0",
-            "UmVzQ3JlYXRlT2ZmZXISCgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20S",
-            "DAoIT0FNX05PTkUQABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhAC",
-            "KkMKEE9BdXRoUHJvdmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJ",
-            "VFRFUhABEhAKDE9BUF9GQUNFQk9PSxACKkEKC0FjY291bnRUeXBlEg4KCkFU",
-            "X1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQ",
-            "AiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFMSVpFEAAS",
-            "DwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoOR0FTX1JF",
-            "QURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FETUlOEAUS",
-            "CwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SFAoQ",
-            "R0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5ORUQQARIW",
-            "ChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVEEAMSFgoS",
-            "R0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUSFQoRR0FT",
-            "Ul9SRVFVSVJFX0lORk8QBipuChFOb3RpZmljYXRpb25GbGFncxIUChBORl9B",
-            "Q0NPVU5UX1NUQVRFEAASGAoUTkZfTUFLRV9BTl9PRkZFUl9GQUIQARIWChJO",
-            "Rl9VTlJFQURfTUVTU0FHRVMQAhIRCg1ORl9DU19SRVFVRVNUEAMqUQoSQnVz",
-            "aW5lc3NPZmZlclN0YXRlEg0KCUJPU19EUkFGVBAAEgwKCEJPU19PUEVOEAES",
-            "DgoKQk9TX0FDVElWRRACEg4KCkJPU19DTE9TRUQQAypwChhCdXNpbmVzc09m",
-            "ZmVyU3RhdGVSZWFzb24SEgoOQk9TUl9ORVdfT0ZGRVIQABIUChBCT1NSX1VT",
-            "RVJfQ0xPU0VEEAESFgoSQk9TUl9UT1NfVklPTEFUSU9OEAISEgoOQk9TUl9D",
-            "T01QTEVURUQQA0IHqgIESW5mWGIGcHJvdG8z"));
+            "GAMgASgJEhEKCWF2YXRhclVybBgEIAEoCSJbChFEYXRhQWNjb3VudERldGFp",
+            "bBIfCgpjYXRlZ29yaWVzGAIgAygLMgsuQ2F0ZWdvcnlJZBIlCgtzb2NpYWxN",
+            "ZWRpYRgDIAMoCzIQLkRhdGFTb2NpYWxNZWRpYSJ5CgtEYXRhQWNjb3VudBIg",
+            "CgVzdGF0ZRgBIAEoCzIRLkRhdGFBY2NvdW50U3RhdGUSJAoHc3VtbWFyeRgC",
+            "IAEoCzITLkRhdGFBY2NvdW50U3VtbWFyeRIiCgZkZXRhaWwYAyABKAsyEi5E",
+            "YXRhQWNjb3VudERldGFpbCJcChZOZXREZXZpY2VBdXRoQ3JlYXRlUmVxEg4K",
+            "BmFlc0tleRgBIAEoDBIWCg5jb21tb25EZXZpY2VJZBgEIAEoDBIMCgRuYW1l",
+            "GAIgASgJEgwKBGluZm8YAyABKAkiLQoZTmV0RGV2aWNlQXV0aENoYWxsZW5n",
+            "ZVJlcRIQCghkZXZpY2VJZBgBIAEoBSIxChxOZXREZXZpY2VBdXRoQ2hhbGxl",
+            "bmdlUmVzUmVxEhEKCWNoYWxsZW5nZRgBIAEoDCIxChxOZXREZXZpY2VBdXRo",
+            "U2lnbmF0dXJlUmVzUmVxEhEKCXNpZ25hdHVyZRgBIAEoDCIwChJOZXREZXZp",
+            "Y2VBdXRoU3RhdGUSGgoEZGF0YRgIIAEoCzIMLkRhdGFBY2NvdW50IjYKEU5l",
+            "dFNldEFjY291bnRUeXBlEiEKC2FjY291bnRUeXBlGAEgASgOMgwuQWNjb3Vu",
+            "dFR5cGUiJwoOTmV0T0F1dGhVcmxSZXESFQoNb2F1dGhQcm92aWRlchgBIAEo",
+            "BSI2Cg5OZXRPQXV0aFVybFJlcxIPCgdhdXRoVXJsGAEgASgJEhMKC2NhbGxi",
+            "YWNrVXJsGAIgASgJIkIKEk5ldE9BdXRoQ29ubmVjdFJlcRIVCg1vYXV0aFBy",
+            "b3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAkiOwoSTmV0T0F1",
+            "dGhDb25uZWN0UmVzEiUKC3NvY2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lh",
+            "bE1lZGlhIj0KE05ldEFjY291bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRIL",
+            "CgNsYXQYAiABKAISCwoDbG5nGAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2Fk",
+            "EhAKCGZpbGVOYW1lGAEgASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1",
+            "NhgDIAEoCSLfAQoRTmV0UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhv",
+            "ZBgBIAEoCRISCgpyZXF1ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRU",
+            "eXBlGAMgASgJEhsKE2hlYWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVh",
+            "ZGVySG9zdBgFIAEoCRIWCg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFk",
+            "ZXJYQW16U3RvcmFnZUNsYXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRp",
+            "b24YCCABKAkiNgoRTmV0UmVxQ3JlYXRlT2ZmZXISIQoFb2ZmZXIYASABKAsy",
+            "Ei5EYXRhQnVzaW5lc3NPZmZlciIfChFOZXRSZXNDcmVhdGVPZmZlchIKCgJp",
+            "ZBgBIAEoAyo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAAEg4KCk9B",
+            "TV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQcm92aWRlcklk",
+            "cxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoMT0FQX0ZBQ0VC",
+            "T09LEAIqQQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFUX0lO",
+            "RkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACKo8BChJHbG9iYWxBY2NvdW50",
+            "U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tFRBABEhEK",
+            "DUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklURRADEhEKDUdBU19N",
+            "T0RFUkFUT1IQBBINCglHQVNfQURNSU4QBRILCgdHQVNfR09EEAYqtQEKGEds",
+            "b2JhbEFjY291bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAAS",
+            "FwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklF",
+            "RBACEhEKDUdBU1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQ",
+            "BBIQCgxHQVNSX1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGKm4K",
+            "EU5vdGlmaWNhdGlvbkZsYWdzEhQKEE5GX0FDQ09VTlRfU1RBVEUQABIYChRO",
+            "Rl9NQUtFX0FOX09GRkVSX0ZBQhABEhYKEk5GX1VOUkVBRF9NRVNTQUdFUxAC",
+            "EhEKDU5GX0NTX1JFUVVFU1QQAypRChJCdXNpbmVzc09mZmVyU3RhdGUSDQoJ",
+            "Qk9TX0RSQUZUEAASDAoIQk9TX09QRU4QARIOCgpCT1NfQUNUSVZFEAISDgoK",
+            "Qk9TX0NMT1NFRBADKnAKGEJ1c2luZXNzT2ZmZXJTdGF0ZVJlYXNvbhISCg5C",
+            "T1NSX05FV19PRkZFUhAAEhQKEEJPU1JfVVNFUl9DTE9TRUQQARIWChJCT1NS",
+            "X1RPU19WSU9MQVRJT04QAhISCg5CT1NSX0NPTVBMRVRFRBADQgeqAgRJbmZY",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -136,7 +136,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason", "NotificationFlags" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarUrl" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "CoverUrls", "Categories", "SocialMedia" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "CommonDeviceId", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
@@ -4069,7 +4069,6 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public DataAccountDetail(DataAccountDetail other) : this() {
-      coverUrls_ = other.coverUrls_.Clone();
       categories_ = other.categories_.Clone();
       socialMedia_ = other.socialMedia_.Clone();
     }
@@ -4079,21 +4078,14 @@ namespace InfX {
       return new DataAccountDetail(this);
     }
 
-    /// <summary>Field number for the "coverUrls" field.</summary>
-    public const int CoverUrlsFieldNumber = 1;
-    private static readonly pb::FieldCodec<string> _repeated_coverUrls_codec
-        = pb::FieldCodec.ForString(10);
-    private readonly pbc::RepeatedField<string> coverUrls_ = new pbc::RepeatedField<string>();
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<string> CoverUrls {
-      get { return coverUrls_; }
-    }
-
     /// <summary>Field number for the "categories" field.</summary>
     public const int CategoriesFieldNumber = 2;
     private static readonly pb::FieldCodec<global::InfX.CategoryId> _repeated_categories_codec
         = pb::FieldCodec.ForMessage(18, global::InfX.CategoryId.Parser);
     private readonly pbc::RepeatedField<global::InfX.CategoryId> categories_ = new pbc::RepeatedField<global::InfX.CategoryId>();
+    /// <summary>
+    ///  repeated string coverUrls = 1;
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::InfX.CategoryId> Categories {
       get { return categories_; }
@@ -4122,7 +4114,6 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!coverUrls_.Equals(other.coverUrls_)) return false;
       if(!categories_.Equals(other.categories_)) return false;
       if(!socialMedia_.Equals(other.socialMedia_)) return false;
       return true;
@@ -4131,7 +4122,6 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= coverUrls_.GetHashCode();
       hash ^= categories_.GetHashCode();
       hash ^= socialMedia_.GetHashCode();
       return hash;
@@ -4144,7 +4134,6 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      coverUrls_.WriteTo(output, _repeated_coverUrls_codec);
       categories_.WriteTo(output, _repeated_categories_codec);
       socialMedia_.WriteTo(output, _repeated_socialMedia_codec);
     }
@@ -4152,7 +4141,6 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      size += coverUrls_.CalculateSize(_repeated_coverUrls_codec);
       size += categories_.CalculateSize(_repeated_categories_codec);
       size += socialMedia_.CalculateSize(_repeated_socialMedia_codec);
       return size;
@@ -4163,7 +4151,6 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      coverUrls_.Add(other.coverUrls_);
       categories_.Add(other.categories_);
       socialMedia_.Add(other.socialMedia_);
     }
@@ -4176,10 +4163,6 @@ namespace InfX {
           default:
             input.SkipLastField();
             break;
-          case 10: {
-            coverUrls_.AddEntriesFrom(input, _repeated_coverUrls_codec);
-            break;
-          }
           case 18: {
             categories_.AddEntriesFrom(input, _repeated_categories_codec);
             break;
