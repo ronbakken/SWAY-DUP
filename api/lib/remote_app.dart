@@ -296,6 +296,7 @@ class RemoteApp {
         account.state.accountType = AccountType.valueOf(row[1].toInt()); // VERIFY
       }
       // Find all connected social media accounts
+      List<bool> connectedProviders = new List<bool>(account.detail.socialMedia.length);
       sqljocky.Results connectionResults = await sql.prepareExecute(
         "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE `${account.state.accountId == 0 ? 'device_id' : 'account_id'}` = ?", 
         [ account.state.accountId == 0 ? account.state.deviceId.toInt() : account.state.accountId.toInt() ]);
@@ -308,8 +309,15 @@ class RemoteApp {
         if (oauthProvider < account.detail.socialMedia.length) {
           account.detail.socialMedia[oauthProvider] = await fetchCachedSocialMedia(oauthUserId, oauthProvider);
           account.detail.socialMedia[oauthProvider].expired = expired;
+          connectedProviders[oauthProvider] = account.detail.socialMedia[oauthProvider].connected;
         } else {
           devLog.severe("Invalid attempt to update device state with no device id, skip, this indicates an incorrent database entry caused by a bug");
+        }
+      }
+      // Wipe any lost accounts
+      for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+        if (!connectedProviders[i] && account.detail.socialMedia[i].connected) {
+          account.detail.socialMedia[i] = new DataSocialMedia(); // Wipe
         }
       }
     });
@@ -382,6 +390,7 @@ class RemoteApp {
       });
 
       // Send authentication state
+      devLog.finest("Send authentication state");
       await updateDeviceState();
       await sendNetDeviceAuthState();
     } catch (ex) {
