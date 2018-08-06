@@ -219,6 +219,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     }
     return new WebviewScaffold(
       url: _authUrl,
+      clearCookies: true,
       appBar: widget.appBar != null ? widget.appBar : new AppBar(
         title: new Image(
           image: new AssetImage('assets/logo_appbar.png')
