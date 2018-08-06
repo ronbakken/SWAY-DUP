@@ -236,9 +236,20 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     } else {
       print("[INF] Network connection is ready");
       setState(() { connected = NetworkConnectionState.Ready; ++_changed; });
+      
+      // Register all listeners
+      ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState);
     }
 
     // assert(accountState.deviceId != 0);
+  }
+
+  void _netDeviceAuthState(TalkMessage message) {
+    NetDeviceAuthState pb = new NetDeviceAuthState();
+    pb.mergeFromBuffer(message.data);
+    setState(() {
+      account = pb.data;
+    });
   }
 
   bool _netConfigWarning = false;
@@ -391,7 +402,16 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     NetSetAccountType pb = new NetSetAccountType();
     pb.accountType = accountType;
     _ts.sendMessage(_netSetAccountType, pb.writeToBuffer());
-    setState(() { account.state.accountType = accountType; }); // Ghost state, the server doesn't send update for this
+    setState(() {
+      // Cancel all social media logins on change, server update on this gets there later
+      if (account.state.accountType != accountType) {
+        for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+          account.detail.socialMedia[i].connected = false;
+        }
+      }
+      // Ghost state, the server doesn't send update for this
+      account.state.accountType = accountType;
+    });
   }
 
   /* OAuth */
