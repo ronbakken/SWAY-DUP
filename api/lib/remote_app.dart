@@ -304,8 +304,8 @@ class RemoteApp {
       }
       // Find all connected social media accounts
       List<bool> connectedProviders = new List<bool>(account.detail.socialMedia.length);
-      sqljocky.Results connectionResults = await sql.prepareExecute(
-        "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE `${account.state.accountId == 0 ? 'device_id' : 'account_id'}` = ?", 
+      sqljocky.Results connectionResults = await sql.prepareExecute( // The additional `account_id` = 0 here is required in order not to load halfway failed connected devices
+        "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.state.accountId == 0 ? '`account_id` = 0 AND `device_id`' : '`account_id`'} = ?", 
         [ account.state.accountId == 0 ? account.state.deviceId.toInt() : account.state.accountId.toInt() ]);
       List<sqljocky.Row> connectionRows = await connectionResults.toList(); // Load to avoid blocking connections recursively
       for (sqljocky.Row row in connectionRows) {

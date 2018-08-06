@@ -341,14 +341,18 @@ class RemoteAppOAuth {
 
       if (takeover) {
         // Account was found during connection, transition
-        // ts.sendExtend(message);
         _r.unsubscribeOnboarding();
         // Load all device state
         await _r.updateDeviceState();
         // Send all state to user
         await _r.sendNetDeviceAuthState();
-        // Transition to app
-        await _r.transitionToApp();
+        if (account.state.accountId != 0) {
+          // Transition to app
+          await _r.transitionToApp();
+        } else {
+          devLog.severe("Takeover but account id is 0, this is a fatal bug, disconnecting user now");
+          ts.close();
+        }
       }
 
       if (exception != null) {
