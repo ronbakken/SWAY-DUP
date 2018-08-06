@@ -292,8 +292,15 @@ class RemoteApp {
       // First get the account id (and account type, in case the account id has not been created yet)
       sqljocky.Results deviceResults = await sql.prepareExecute("SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?", [ account.state.deviceId.toInt() ]);
       await for (sqljocky.Row row in deviceResults) { // one row
-        account.state.accountId = row[0].toInt(); // VERIFY
-        account.state.accountType = AccountType.valueOf(row[1].toInt()); // VERIFY
+        if (account.state.accountId != 0 && account.state.accountId != row[0].toInt()) {
+          devLog.severe("Device account id changed, ignore, this is a bug, this should never happen");
+        }
+        account.state.accountId = row[0].toInt();
+        account.state.accountType = AccountType.valueOf(row[1].toInt());
+      }
+      // Fetch account-specific info (overwrites device accountType, although it cannot possibly be different)
+      if (account.state.accountId != 0) {
+        // TODO
       }
       // Find all connected social media accounts
       List<bool> connectedProviders = new List<bool>(account.detail.socialMedia.length);
@@ -304,8 +311,8 @@ class RemoteApp {
       for (sqljocky.Row row in connectionRows) {
         String oauthUserId = row[0].toString();
         int oauthProvider = row[1].toInt();
-        int oauthTokenExpires = row[2];
-        bool expired = row[3] || oauthTokenExpires >= (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+        int oauthTokenExpires = row[2].toInt();
+        bool expired = row[3].toInt() != 0 || oauthTokenExpires >= (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
         if (oauthProvider < account.detail.socialMedia.length) {
           account.detail.socialMedia[oauthProvider] = await fetchCachedSocialMedia(oauthUserId, oauthProvider);
           account.detail.socialMedia[oauthProvider].expired = expired;

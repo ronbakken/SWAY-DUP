@@ -270,11 +270,19 @@ class RemoteAppOAuth {
                 [ oauthCredentials.userId.toString(), oauthProvider.toInt(), account.state.accountType.value.toInt() ]);
               int takeoverAccountId = 0;
               await for (sqljocky.Row row in connectionRes) {
-                takeoverAccountId = row[0];
+                takeoverAccountId = row[0].toInt();
               }
               takeover = (account.state.accountId == 0) && (takeoverAccountId != 0);
               if (takeover) {
-                account.state.accountId = takeoverAccountId;
+                // updateDeviceState loads the new state from the database into account.state.accountId
+                devLog.finest("Takeover, existing account $takeoverAccountId on device ${account.state.deviceId}");
+                String query = "UPDATE `devices` "
+                  "SET `account_id` = ? "
+                  "WHERE `device_id` = ? AND `account_id` = 0";
+                ts.sendExtend(message);
+                await sql.prepareExecute(query, [ takeoverAccountId.toInt(), account.state.deviceId.toInt() ]);
+                // NOTE: Technically, here we may escalate any OAuth connections of this device to the account, 
+                // as long as the account has no connections yet for the connected providers (long-term)
               }
               refreshed = !takeover; // If not anymore a takeover, then simply refreshed by deviceId
               devLog.finest("refreshed: $refreshed, takeover: $takeover");
