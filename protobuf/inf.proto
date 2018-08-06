@@ -309,7 +309,7 @@ message DataAccountSummary {
 }
 
 message DataAccountDetail {
-  repeated string coverUrls = 1;
+  // repeated string coverUrls = 1;
   repeated CategoryId categories = 2;
   repeated DataSocialMedia socialMedia = 3;
   
