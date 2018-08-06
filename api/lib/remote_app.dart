@@ -377,14 +377,17 @@ class RemoteApp {
       pb.mergeFromBuffer(message.data);
       devLog.finest("NetSetAccountType ${pb.accountType}");
 
+      bool update = false;
       await lock.synchronized(() async {
         if (pb.accountType == account.state.accountType) {
+          devLog.finest("no-op");
           return; // no-op, may ignore
         }
         if (account.state.accountId != 0) {
+          devLog.finest("no-op");
           return; // no-op, may ignore
         }
-
+        update = true;
         try {
           await sql.startTransaction((sqljocky.Transaction tx) async {
             await tx.prepareExecute("DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0", [ account.state.deviceId ]);
@@ -397,9 +400,12 @@ class RemoteApp {
       });
 
       // Send authentication state
-      devLog.finest("Send authentication state");
-      await updateDeviceState();
-      await sendNetDeviceAuthState();
+      if (update) {
+        devLog.finest("Send authentication state, account type is ${account.state.accountType} (set ${pb.accountType})");
+        await updateDeviceState();
+        await sendNetDeviceAuthState();
+        devLog.finest("Account type is now ${account.state.accountType} (set ${pb.accountType})");
+      }
     } catch (ex) {
       devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
     }
