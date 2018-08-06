@@ -277,6 +277,7 @@ class RemoteAppOAuth {
                 account.state.accountId = takeoverAccountId;
               }
               refreshed = !takeover; // If not anymore a takeover, then simply refreshed by deviceId
+              devLog.finest("refreshed: $refreshed, takeover: $takeover");
             }
             if (!takeover && !refreshed) { // In case account state changed, or in case the user is simply refreshing tokens
               devLog.finest("Try refresh");
@@ -316,7 +317,11 @@ class RemoteAppOAuth {
         // Fetch useful data from social media
         ts.sendExtend(message);
         DataSocialMedia dataSocialMedia = await fetchSocialMedia(oauthProvider, oauthCredentials);
-        // TODO: Write fetched social media data to SQL database
+
+        // Write fetched social media data to SQL database
+        ts.sendExtend(message);
+        await cacheSocialMedia(oauthCredentials.userId, oauthProvider, dataSocialMedia);
+
         socialMedia[oauthProvider].mergeFromMessage(dataSocialMedia);
         socialMedia[oauthProvider].connected = true;
       }
@@ -325,11 +330,16 @@ class RemoteAppOAuth {
       pbRes.socialMedia = socialMedia[oauthProvider];
       ts.sendMessage(_netOAuthConnectRes, pbRes.writeToBuffer(), replying: message);
       devLog.finest("OAuth connected: ${pbRes.socialMedia.connected}");
+
       if (takeover) {
         // Account was found during connection, transition
-        ts.sendExtend(message);
+        // ts.sendExtend(message);
         _r.unsubscribeOnboarding();
+        // Load all device state
         await _r.updateDeviceState();
+        // Send all state to user
+        await _r.sendNetDeviceAuthState();
+        // Transition to app
         await _r.transitionToApp();
       }
 
@@ -341,8 +351,6 @@ class RemoteAppOAuth {
       throw new Exception("Invalid oauthProvider specified ${pb.oauthProvider}");
     }
   }
-
-  
 
   Future<DataSocialMedia> fetchSocialMedia(int oauthProvider, DataOAuthCredentials oauthCredentials) async {
     devLog.finest("fetchSocialMedia: $oauthProvider, ${oauthCredentials.userId}, ${oauthCredentials.token}, ${oauthCredentials.tokenSecret}");
@@ -371,6 +379,8 @@ class RemoteAppOAuth {
         }
         if (doc['screen_name'] != null) dataSocialMedia.screenName = doc['screen_name'];
         if (doc['name'] != null) dataSocialMedia.displayName = doc['name'];
+        if (doc['profile_image_url'] != null && doc['default_profile_image'] != true) dataSocialMedia.avatarUrl = doc['profile_image_url'];
+        if (doc['screen_name'] != null) dataSocialMedia.profileUrl = "https://twitter.com/${doc['screen_name']}";
         if (doc['location'] != null) dataSocialMedia.location = doc['location'];
         if (doc['description'] != null) dataSocialMedia.description = doc['description'];
         if (doc['url'] != null) dataSocialMedia.url = doc['url'];
@@ -495,6 +505,59 @@ class RemoteAppOAuth {
     }
     devLog.finer("${OAuthProviderIds.valueOf(oauthProvider)}: ${oauthCredentials.userId}: $dataSocialMedia");
     return dataSocialMedia;
+  }
+  
+  Future<Null> cacheSocialMedia(String oauthUserId, int oauthProvider, DataSocialMedia dataSocialMedia) async {
+    Map<String, String> stringValues = new Map<String, String>();
+    Map<String, int> intValues = new Map<String, int>();
+    if (dataSocialMedia.screenName.length > 0) stringValues['screen_name'] = dataSocialMedia.screenName;
+    if (dataSocialMedia.displayName.length > 0) stringValues['display_name'] = dataSocialMedia.displayName;
+    if (dataSocialMedia.avatarUrl.length > 0) stringValues['avatar_url'] = dataSocialMedia.avatarUrl;
+    if (dataSocialMedia.profileUrl.length > 0) stringValues['profile_url'] = dataSocialMedia.profileUrl;
+    if (dataSocialMedia.description.length > 0) stringValues['description'] = dataSocialMedia.description;
+    if (dataSocialMedia.location.length > 0) stringValues['location'] = dataSocialMedia.location;
+    if (dataSocialMedia.url.length > 0) stringValues['url'] = dataSocialMedia.url;
+    if (dataSocialMedia.email.length > 0) stringValues['email'] = dataSocialMedia.email;
+    if (dataSocialMedia.friendsCount > 0) intValues['friends_count'] = dataSocialMedia.friendsCount;
+    if (dataSocialMedia.followersCount > 0) intValues['followers_count'] = dataSocialMedia.followersCount;
+    if (dataSocialMedia.followingCount > 0) intValues['following_count'] = dataSocialMedia.followingCount;
+    if (dataSocialMedia.postsCount > 0) intValues['posts_count'] = dataSocialMedia.postsCount;
+    if (dataSocialMedia.hasVerified()) intValues['verified'] = dataSocialMedia.verified ? 1 : 0;
+    bool comma = false;
+    String queryNames = '';
+    String queryValues = '';
+    String queryUpdates = '';
+    List<dynamic> queryParams = new List<dynamic>();
+    for (MapEntry<String, String> v in stringValues.entries) {
+      if (comma) {
+        queryNames += ', ';
+        queryValues += ', ';
+        queryUpdates += ', ';
+      } else {
+        comma = true;
+      }
+      queryNames += '`${v.key}`';
+      queryValues += '?';
+      queryUpdates += '`${v.key}` = ?';
+      queryParams.add(v.value);
+    }
+    for (MapEntry<String, int> v in intValues.entries) {
+      if (comma) {
+        queryNames += ', ';
+        queryValues += ', ';
+        queryUpdates += ', ';
+      } else {
+        comma = true;
+      }
+      queryNames += '`${v.key}`';
+      queryValues += '?';
+      queryUpdates += '`${v.key}` = ?';
+      queryParams.add(v.value);
+    }
+    if (comma) {
+      String query = "INSERT INTO `social_media`(`oauth_user_id`, `oauth_provider`, $queryNames) VALUES (?, ?, $queryValues) ON DUPLICATE KEY UPDATE $queryUpdates";
+      await sql.prepareExecute(query, [ oauthUserId.toString(), oauthProvider.toInt() ]..addAll(queryParams)..addAll(queryParams));
+    }
   }
 }
 

@@ -254,45 +254,63 @@ class RemoteApp {
     }
   }
 
+  Future<DataSocialMedia> fetchCachedSocialMedia(String oauthUserId, int oauthProvider) async {
+    sqljocky.Results results = await sql.prepareExecute(
+      "SELECT `screen_name`, `display_name`, `avatar_url`, `profile_url`, " // 0123
+      "`description`, `location`, `url`, `email`, `friends_count`, `followers_count`, " // 456789
+      "`following_count`, `posts_count`, `verified` " // 10 11 12
+      "FROM `social_media` "
+      "WHERE `oauth_user_id` = ? AND `oauth_provider` = ?",
+      [ oauthUserId.toString(), oauthProvider.toInt() ]);
+    DataSocialMedia dataSocialMedia = new DataSocialMedia();
+    await for (sqljocky.Row row in results) { // one row
+      if (row[0] != null) dataSocialMedia.screenName = row[0].toString();
+      if (row[1] != null) dataSocialMedia.displayName = row[1].toString();
+      if (row[2] != null) dataSocialMedia.avatarUrl = row[2].toString();
+      if (row[3] != null) dataSocialMedia.profileUrl = row[3].toString();
+      if (row[4] != null) dataSocialMedia.description = row[4].toString();
+      if (row[5] != null) dataSocialMedia.location = row[5].toString();
+      if (row[6] != null) dataSocialMedia.url = row[6].toString();
+      if (row[7] != null) dataSocialMedia.email = row[7].toString();
+      dataSocialMedia.friendsCount = row[8].toInt();
+      dataSocialMedia.followersCount = row[9].toInt();
+      dataSocialMedia.followingCount = row[10].toInt();
+      dataSocialMedia.postsCount = row[11].toInt();
+      dataSocialMedia.verified = row[12].toInt() != 0;
+      dataSocialMedia.connected = true;
+      devLog.finest("fetchCachedSocialMedia: $dataSocialMedia");
+    }
+    return dataSocialMedia;
+  }
+
   Future<Null> updateDeviceState() async {
+    if (account.state.deviceId == 0) {
+      devLog.severe("Invalid attempt to update device state with no device id, skip, this is a bug");
+      return;
+    }
     await lock.synchronized(() async {
       // First get the account id (and account type, in case the account id has not been created yet)
       sqljocky.Results deviceResults = await sql.prepareExecute("SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?", [ account.state.deviceId.toInt() ]);
       await for (sqljocky.Row row in deviceResults) { // one row
-        account.state.accountId = row[0]; // VERIFY
-        account.state.accountType = AccountType.valueOf(row[1]); // VERIFY
+        account.state.accountId = row[0].toInt(); // VERIFY
+        account.state.accountType = AccountType.valueOf(row[1].toInt()); // VERIFY
       }
-      List<bool> connected = new List<bool>(account.detail.socialMedia.length);
-      /*
-      sqljocky.Results mediaResults;
-      if (account.state.accountId != 0) {
-        // Get the account information if it exists
-        sqljocky.Results accountResults = await sql.prepareExecute("SELECT `account_type`, `global_account_state`, `global_account_state_reason`, `address_id` FROM `accounts` WHERE `account_id` = ?", [ account.state.accountId ]);
-        await for (sqljocky.Row row in accountResults) { // one row
-          account.state.accountType = AccountType.valueOf(row[0]); // VERIFY
-          account.state.globalAccountState = GlobalAccountState.valueOf(row[1]); // VERIFY
-          account.state.globalAccountStateReason = GlobalAccountStateReason.valueOf(row[2]); // VERIFY
-          addressId = row[3]; // VERIFY
-        }
-        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `screen_name`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `account_id` = ?", [ account.state.accountId ]);
-      } else {
-        mediaResults = await sql.prepareExecute("SELECT `oauth_provider`, `screen_name`, `display_name`, `followers`, `following` FROM `oauth_connections` WHERE `device_id` = ?", [ account.state.deviceId ]);
-      }
-      await for (sqljocky.Row row in mediaResults) {
-        int oauthProvider = row[0];
-        if (oauthProvider < socialMedia.length) {
-          connected[oauthProvider] = true;
-          socialMedia[oauthProvider].screenName = row[1].toString();
-          socialMedia[oauthProvider].displayName = row[2].toString();
-          socialMedia[oauthProvider].followers = row[3];
-          socialMedia[oauthProvider].following = row[4];
+      // Find all connected social media accounts
+      sqljocky.Results connectionResults = await sql.prepareExecute(
+        "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE `${account.state.accountId == 0 ? 'device_id' : 'account_id'}` = ?", 
+        [ account.state.accountId == 0 ? account.state.deviceId.toInt() : account.state.accountId.toInt() ]);
+      List<sqljocky.Row> connectionRows = await connectionResults.toList(); // Load to avoid blocking connections recursively
+      for (sqljocky.Row row in connectionRows) {
+        String oauthUserId = row[0].toString();
+        int oauthProvider = row[1].toInt();
+        int oauthTokenExpires = row[2];
+        bool expired = row[3] || oauthTokenExpires >= (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+        if (oauthProvider < account.detail.socialMedia.length) {
+          account.detail.socialMedia[oauthProvider] = await fetchCachedSocialMedia(oauthUserId, oauthProvider);
+          account.detail.socialMedia[oauthProvider].expired = expired;
         } else {
-          devLog.severe("Unknown social media provider $oauthProvider");
+          devLog.severe("Invalid attempt to update device state with no device id, skip, this indicates an incorrent database entry caused by a bug");
         }
-      }
-      */
-      for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-        account.detail.socialMedia[i].connected = connected[i] == true;
       }
     });
   }
