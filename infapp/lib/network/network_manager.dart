@@ -247,9 +247,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   void _netDeviceAuthState(TalkMessage message) {
     NetDeviceAuthState pb = new NetDeviceAuthState();
     pb.mergeFromBuffer(message.data);
-    setState(() {
-      account = pb.data;
-    });
+    receivedDeviceAuthState(pb);
   }
 
   bool _netConfigWarning = false;

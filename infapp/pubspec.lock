@@ -542,7 +542,7 @@ packages:
       path: "..\\wstalk"
       relative: true
     source: path
-    version: "1.1.2"
+    version: "1.2.1"
   yaml:
     dependency: transitive
     description:
