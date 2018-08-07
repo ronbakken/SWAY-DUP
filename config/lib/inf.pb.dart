@@ -854,6 +854,8 @@ class DataAccountDetail extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataAccountDetail')
     ..pp<CategoryId>(2, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
     ..pp<DataSocialMedia>(3, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
+    ..a<double>(4, 'lat', PbFieldType.OD)
+    ..a<double>(5, 'lng', PbFieldType.OD)
     ..hasRequiredFields = false
   ;
 
@@ -876,6 +878,16 @@ class DataAccountDetail extends GeneratedMessage {
   List<CategoryId> get categories => $_getList(0);
 
   List<DataSocialMedia> get socialMedia => $_getList(1);
+
+  double get lat => $_getN(2);
+  set lat(double v) { $_setDouble(2, v); }
+  bool hasLat() => $_has(2);
+  void clearLat() => clearField(4);
+
+  double get lng => $_getN(3);
+  set lng(double v) { $_setDouble(3, v); }
+  bool hasLng() => $_has(3);
+  void clearLng() => clearField(5);
 }
 
 class _ReadonlyDataAccountDetail extends DataAccountDetail with ReadonlyMessageMixin {}

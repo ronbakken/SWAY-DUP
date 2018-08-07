@@ -71,54 +71,54 @@ namespace InfX {
             "bEFjY291bnRTdGF0ZVJlYXNvbhItChFub3RpZmljYXRpb25GbGFncxgGIAEo",
             "DjISLk5vdGlmaWNhdGlvbkZsYWdzIlwKEkRhdGFBY2NvdW50U3VtbWFyeRIM",
             "CgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhAKCGxvY2F0aW9u",
-            "GAMgASgJEhEKCWF2YXRhclVybBgEIAEoCSJbChFEYXRhQWNjb3VudERldGFp",
+            "GAMgASgJEhEKCWF2YXRhclVybBgEIAEoCSJ1ChFEYXRhQWNjb3VudERldGFp",
             "bBIfCgpjYXRlZ29yaWVzGAIgAygLMgsuQ2F0ZWdvcnlJZBIlCgtzb2NpYWxN",
-            "ZWRpYRgDIAMoCzIQLkRhdGFTb2NpYWxNZWRpYSJ5CgtEYXRhQWNjb3VudBIg",
-            "CgVzdGF0ZRgBIAEoCzIRLkRhdGFBY2NvdW50U3RhdGUSJAoHc3VtbWFyeRgC",
-            "IAEoCzITLkRhdGFBY2NvdW50U3VtbWFyeRIiCgZkZXRhaWwYAyABKAsyEi5E",
-            "YXRhQWNjb3VudERldGFpbCJcChZOZXREZXZpY2VBdXRoQ3JlYXRlUmVxEg4K",
-            "BmFlc0tleRgBIAEoDBIWCg5jb21tb25EZXZpY2VJZBgEIAEoDBIMCgRuYW1l",
-            "GAIgASgJEgwKBGluZm8YAyABKAkiLQoZTmV0RGV2aWNlQXV0aENoYWxsZW5n",
-            "ZVJlcRIQCghkZXZpY2VJZBgBIAEoBSIxChxOZXREZXZpY2VBdXRoQ2hhbGxl",
-            "bmdlUmVzUmVxEhEKCWNoYWxsZW5nZRgBIAEoDCIxChxOZXREZXZpY2VBdXRo",
-            "U2lnbmF0dXJlUmVzUmVxEhEKCXNpZ25hdHVyZRgBIAEoDCIwChJOZXREZXZp",
-            "Y2VBdXRoU3RhdGUSGgoEZGF0YRgIIAEoCzIMLkRhdGFBY2NvdW50IjYKEU5l",
-            "dFNldEFjY291bnRUeXBlEiEKC2FjY291bnRUeXBlGAEgASgOMgwuQWNjb3Vu",
-            "dFR5cGUiJwoOTmV0T0F1dGhVcmxSZXESFQoNb2F1dGhQcm92aWRlchgBIAEo",
-            "BSI2Cg5OZXRPQXV0aFVybFJlcxIPCgdhdXRoVXJsGAEgASgJEhMKC2NhbGxi",
-            "YWNrVXJsGAIgASgJIkIKEk5ldE9BdXRoQ29ubmVjdFJlcRIVCg1vYXV0aFBy",
-            "b3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAkiOwoSTmV0T0F1",
-            "dGhDb25uZWN0UmVzEiUKC3NvY2lhbE1lZGlhGAEgASgLMhAuRGF0YVNvY2lh",
-            "bE1lZGlhIj0KE05ldEFjY291bnRDcmVhdGVSZXESDAoEbmFtZRgBIAEoCRIL",
-            "CgNsYXQYAiABKAISCwoDbG5nGAMgASgCIkcKEU5ldFJlcUltYWdlVXBsb2Fk",
-            "EhAKCGZpbGVOYW1lGAEgASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1",
-            "NhgDIAEoCSLfAQoRTmV0UmVzSW1hZ2VVcGxvYWQSFQoNcmVxdWVzdE1ldGhv",
-            "ZBgBIAEoCRISCgpyZXF1ZXN0VXJsGAIgASgJEhkKEWhlYWRlckNvbnRlbnRU",
-            "eXBlGAMgASgJEhsKE2hlYWRlckNvbnRlbnRMZW5ndGgYBCABKAkSEgoKaGVh",
-            "ZGVySG9zdBgFIAEoCRIWCg5oZWFkZXJYQW16RGF0ZRgGIAEoCRIeChZoZWFk",
-            "ZXJYQW16U3RvcmFnZUNsYXNzGAcgASgJEhsKE2hlYWRlckF1dGhvcml6YXRp",
-            "b24YCCABKAkiNgoRTmV0UmVxQ3JlYXRlT2ZmZXISIQoFb2ZmZXIYASABKAsy",
-            "Ei5EYXRhQnVzaW5lc3NPZmZlciIfChFOZXRSZXNDcmVhdGVPZmZlchIKCgJp",
-            "ZBgBIAEoAyo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAAEg4KCk9B",
-            "TV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQcm92aWRlcklk",
-            "cxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoMT0FQX0ZBQ0VC",
-            "T09LEAIqQQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFUX0lO",
-            "RkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACKo8BChJHbG9iYWxBY2NvdW50",
-            "U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tFRBABEhEK",
-            "DUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklURRADEhEKDUdBU19N",
-            "T0RFUkFUT1IQBBINCglHQVNfQURNSU4QBRILCgdHQVNfR09EEAYqtQEKGEds",
-            "b2JhbEFjY291bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAAS",
-            "FwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklF",
-            "RBACEhEKDUdBU1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQ",
-            "BBIQCgxHQVNSX1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGKm4K",
-            "EU5vdGlmaWNhdGlvbkZsYWdzEhQKEE5GX0FDQ09VTlRfU1RBVEUQABIYChRO",
-            "Rl9NQUtFX0FOX09GRkVSX0ZBQhABEhYKEk5GX1VOUkVBRF9NRVNTQUdFUxAC",
-            "EhEKDU5GX0NTX1JFUVVFU1QQAypRChJCdXNpbmVzc09mZmVyU3RhdGUSDQoJ",
-            "Qk9TX0RSQUZUEAASDAoIQk9TX09QRU4QARIOCgpCT1NfQUNUSVZFEAISDgoK",
-            "Qk9TX0NMT1NFRBADKnAKGEJ1c2luZXNzT2ZmZXJTdGF0ZVJlYXNvbhISCg5C",
-            "T1NSX05FV19PRkZFUhAAEhQKEEJPU1JfVVNFUl9DTE9TRUQQARIWChJCT1NS",
-            "X1RPU19WSU9MQVRJT04QAhISCg5CT1NSX0NPTVBMRVRFRBADQgeqAgRJbmZY",
-            "YgZwcm90bzM="));
+            "ZWRpYRgDIAMoCzIQLkRhdGFTb2NpYWxNZWRpYRILCgNsYXQYBCABKAESCwoD",
+            "bG5nGAUgASgBInkKC0RhdGFBY2NvdW50EiAKBXN0YXRlGAEgASgLMhEuRGF0",
+            "YUFjY291bnRTdGF0ZRIkCgdzdW1tYXJ5GAIgASgLMhMuRGF0YUFjY291bnRT",
+            "dW1tYXJ5EiIKBmRldGFpbBgDIAEoCzISLkRhdGFBY2NvdW50RGV0YWlsIlwK",
+            "Fk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoGYWVzS2V5GAEgASgMEhYKDmNv",
+            "bW1vbkRldmljZUlkGAQgASgMEgwKBG5hbWUYAiABKAkSDAoEaW5mbxgDIAEo",
+            "CSItChlOZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVxEhAKCGRldmljZUlkGAEg",
+            "ASgFIjEKHE5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXNSZXESEQoJY2hhbGxl",
+            "bmdlGAEgASgMIjEKHE5ldERldmljZUF1dGhTaWduYXR1cmVSZXNSZXESEQoJ",
+            "c2lnbmF0dXJlGAEgASgMIjAKEk5ldERldmljZUF1dGhTdGF0ZRIaCgRkYXRh",
+            "GAggASgLMgwuRGF0YUFjY291bnQiNgoRTmV0U2V0QWNjb3VudFR5cGUSIQoL",
+            "YWNjb3VudFR5cGUYASABKA4yDC5BY2NvdW50VHlwZSInCg5OZXRPQXV0aFVy",
+            "bFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFIjYKDk5ldE9BdXRoVXJsUmVz",
+            "Eg8KB2F1dGhVcmwYASABKAkSEwoLY2FsbGJhY2tVcmwYAiABKAkiQgoSTmV0",
+            "T0F1dGhDb25uZWN0UmVxEhUKDW9hdXRoUHJvdmlkZXIYASABKAUSFQoNY2Fs",
+            "bGJhY2tRdWVyeRgCIAEoCSI7ChJOZXRPQXV0aENvbm5lY3RSZXMSJQoLc29j",
+            "aWFsTWVkaWEYASABKAsyEC5EYXRhU29jaWFsTWVkaWEiPQoTTmV0QWNjb3Vu",
+            "dENyZWF0ZVJlcRIMCgRuYW1lGAEgASgJEgsKA2xhdBgCIAEoAhILCgNsbmcY",
+            "AyABKAIiRwoRTmV0UmVxSW1hZ2VVcGxvYWQSEAoIZmlsZU5hbWUYASABKAkS",
+            "EAoIZmlsZVNpemUYAiABKAUSDgoGc2hhMjU2GAMgASgJIt8BChFOZXRSZXNJ",
+            "bWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJEhIKCnJlcXVlc3RV",
+            "cmwYAiABKAkSGQoRaGVhZGVyQ29udGVudFR5cGUYAyABKAkSGwoTaGVhZGVy",
+            "Q29udGVudExlbmd0aBgEIAEoCRISCgpoZWFkZXJIb3N0GAUgASgJEhYKDmhl",
+            "YWRlclhBbXpEYXRlGAYgASgJEh4KFmhlYWRlclhBbXpTdG9yYWdlQ2xhc3MY",
+            "ByABKAkSGwoTaGVhZGVyQXV0aG9yaXphdGlvbhgIIAEoCSI2ChFOZXRSZXFD",
+            "cmVhdGVPZmZlchIhCgVvZmZlchgBIAEoCzISLkRhdGFCdXNpbmVzc09mZmVy",
+            "Ih8KEU5ldFJlc0NyZWF0ZU9mZmVyEgoKAmlkGAEgASgDKj4KDk9BdXRoTWVj",
+            "aGFuaXNtEgwKCE9BTV9OT05FEAASDgoKT0FNX09BVVRIMRABEg4KCk9BTV9P",
+            "QVVUSDIQAipDChBPQXV0aFByb3ZpZGVySWRzEgwKCE9BUF9OT05FEAASDwoL",
+            "T0FQX1RXSVRURVIQARIQCgxPQVBfRkFDRUJPT0sQAipBCgtBY2NvdW50VHlw",
+            "ZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5GTFVFTkNFUhABEg8KC0FUX0JV",
+            "U0lORVNTEAIqjwEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5HQVNfSU5JVElB",
+            "TElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURfT05MWRACEhIK",
+            "DkdBU19SRUFEX1dSSVRFEAMSEQoNR0FTX01PREVSQVRPUhAEEg0KCUdBU19B",
+            "RE1JThAFEgsKB0dBU19HT0QQBiq1AQoYR2xvYmFsQWNjb3VudFN0YXRlUmVh",
+            "c29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNHQVNSX0FDQ09VTlRfQkFO",
+            "TkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAISEQoNR0FTUl9BUFBST1ZF",
+            "RBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAKDEdBU1JfUEVORElORxAF",
+            "EhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90aWZpY2F0aW9uRmxhZ3MS",
+            "FAoQTkZfQUNDT1VOVF9TVEFURRAAEhgKFE5GX01BS0VfQU5fT0ZGRVJfRkFC",
+            "EAESFgoSTkZfVU5SRUFEX01FU1NBR0VTEAISEQoNTkZfQ1NfUkVRVUVTVBAD",
+            "KlEKEkJ1c2luZXNzT2ZmZXJTdGF0ZRINCglCT1NfRFJBRlQQABIMCghCT1Nf",
+            "T1BFThABEg4KCkJPU19BQ1RJVkUQAhIOCgpCT1NfQ0xPU0VEEAMqcAoYQnVz",
+            "aW5lc3NPZmZlclN0YXRlUmVhc29uEhIKDkJPU1JfTkVXX09GRkVSEAASFAoQ",
+            "Qk9TUl9VU0VSX0NMT1NFRBABEhYKEkJPU1JfVE9TX1ZJT0xBVElPThACEhIK",
+            "DkJPU1JfQ09NUExFVEVEEANCB6oCBEluZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -136,7 +136,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason", "NotificationFlags" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarUrl" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "Lat", "Lng" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "CommonDeviceId", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
@@ -4071,6 +4071,8 @@ namespace InfX {
     public DataAccountDetail(DataAccountDetail other) : this() {
       categories_ = other.categories_.Clone();
       socialMedia_ = other.socialMedia_.Clone();
+      lat_ = other.lat_;
+      lng_ = other.lng_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4101,6 +4103,28 @@ namespace InfX {
       get { return socialMedia_; }
     }
 
+    /// <summary>Field number for the "lat" field.</summary>
+    public const int LatFieldNumber = 4;
+    private double lat_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double Lat {
+      get { return lat_; }
+      set {
+        lat_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "lng" field.</summary>
+    public const int LngFieldNumber = 5;
+    private double lng_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double Lng {
+      get { return lng_; }
+      set {
+        lng_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as DataAccountDetail);
@@ -4116,6 +4140,8 @@ namespace InfX {
       }
       if(!categories_.Equals(other.categories_)) return false;
       if(!socialMedia_.Equals(other.socialMedia_)) return false;
+      if (Lat != other.Lat) return false;
+      if (Lng != other.Lng) return false;
       return true;
     }
 
@@ -4124,6 +4150,8 @@ namespace InfX {
       int hash = 1;
       hash ^= categories_.GetHashCode();
       hash ^= socialMedia_.GetHashCode();
+      if (Lat != 0D) hash ^= Lat.GetHashCode();
+      if (Lng != 0D) hash ^= Lng.GetHashCode();
       return hash;
     }
 
@@ -4136,6 +4164,14 @@ namespace InfX {
     public void WriteTo(pb::CodedOutputStream output) {
       categories_.WriteTo(output, _repeated_categories_codec);
       socialMedia_.WriteTo(output, _repeated_socialMedia_codec);
+      if (Lat != 0D) {
+        output.WriteRawTag(33);
+        output.WriteDouble(Lat);
+      }
+      if (Lng != 0D) {
+        output.WriteRawTag(41);
+        output.WriteDouble(Lng);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4143,6 +4179,12 @@ namespace InfX {
       int size = 0;
       size += categories_.CalculateSize(_repeated_categories_codec);
       size += socialMedia_.CalculateSize(_repeated_socialMedia_codec);
+      if (Lat != 0D) {
+        size += 1 + 8;
+      }
+      if (Lng != 0D) {
+        size += 1 + 8;
+      }
       return size;
     }
 
@@ -4153,6 +4195,12 @@ namespace InfX {
       }
       categories_.Add(other.categories_);
       socialMedia_.Add(other.socialMedia_);
+      if (other.Lat != 0D) {
+        Lat = other.Lat;
+      }
+      if (other.Lng != 0D) {
+        Lng = other.Lng;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4169,6 +4217,14 @@ namespace InfX {
           }
           case 26: {
             socialMedia_.AddEntriesFrom(input, _repeated_socialMedia_codec);
+            break;
+          }
+          case 33: {
+            Lat = input.ReadDouble();
+            break;
+          }
+          case 41: {
+            Lng = input.ReadDouble();
             break;
           }
         }
