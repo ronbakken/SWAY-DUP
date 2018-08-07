@@ -74,8 +74,8 @@ class _ConfigManagerState extends State<ConfigManager> {
   downloadConfig() async {
     print("[INF] Downloading updated config... ***TODO***");
     var downloadUrls = new Set<String>();
-    downloadUrls.addAll(config.downloadUrls);
-    downloadUrls.addAll(widget.startupConfig.downloadUrls);
+    downloadUrls.add(config.services.configUrl);
+    downloadUrls.add(widget.startupConfig.services.configUrl);
     // TODO: Download config
     // TODO: On failure, see if there's a config in cache, use that
     // TODO: Only use cached config if version is okay
