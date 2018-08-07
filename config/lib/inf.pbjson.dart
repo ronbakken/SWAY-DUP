@@ -96,7 +96,7 @@ const ConfigSubCategories$json = const {
 const ConfigCategories$json = const {
   '1': 'ConfigCategories',
   '2': const [
-    const {'1': 'sub', '3': 1, '4': 3, '5': 11, '6': '.ConfigSubCategories', '10': 'sub'},
+    const {'1': 'sub', '3': 1, '4': 3, '5': 11, '6': '.inf.ConfigSubCategories', '10': 'sub'},
   ],
 };
 
@@ -107,7 +107,7 @@ const ConfigOAuthProvider$json = const {
     const {'1': 'enabled', '3': 2, '4': 1, '5': 8, '10': 'enabled'},
     const {'1': 'label', '3': 3, '4': 1, '5': 9, '10': 'label'},
     const {'1': 'fontAwesomeBrand', '3': 14, '4': 1, '5': 5, '10': 'fontAwesomeBrand'},
-    const {'1': 'mechanism', '3': 15, '4': 1, '5': 14, '6': '.OAuthMechanism', '10': 'mechanism'},
+    const {'1': 'mechanism', '3': 15, '4': 1, '5': 14, '6': '.inf.OAuthMechanism', '10': 'mechanism'},
     const {'1': 'host', '3': 4, '4': 1, '5': 9, '10': 'host'},
     const {'1': 'callbackUrl', '3': 9, '4': 1, '5': 9, '10': 'callbackUrl'},
     const {'1': 'requestTokenUrl', '3': 5, '4': 1, '5': 9, '10': 'requestTokenUrl'},
@@ -126,7 +126,20 @@ const ConfigOAuthProvider$json = const {
 const ConfigOAuthProviders$json = const {
   '1': 'ConfigOAuthProviders',
   '2': const [
-    const {'1': 'all', '3': 1, '4': 3, '5': 11, '6': '.ConfigOAuthProvider', '10': 'all'},
+    const {'1': 'all', '3': 1, '4': 3, '5': 11, '6': '.inf.ConfigOAuthProvider', '10': 'all'},
+  ],
+};
+
+const ConfigServices$json = const {
+  '1': 'ConfigServices',
+  '2': const [
+    const {'1': 'mapboxApi', '3': 1, '4': 1, '5': 9, '10': 'mapboxApi'},
+    const {'1': 'mapboxUrlTemplate', '3': 2, '4': 1, '5': 9, '10': 'mapboxUrlTemplate'},
+    const {'1': 'mapboxToken', '3': 3, '4': 1, '5': 9, '10': 'mapboxToken'},
+    const {'1': 'spacesRegion', '3': 4, '4': 1, '5': 9, '10': 'spacesRegion'},
+    const {'1': 'spacesKey', '3': 5, '4': 1, '5': 9, '10': 'spacesKey'},
+    const {'1': 'spacesSecret', '3': 6, '4': 1, '5': 9, '10': 'spacesSecret'},
+    const {'1': 'spacesBucket', '3': 7, '4': 1, '5': 9, '10': 'spacesBucket'},
   ],
 };
 
@@ -136,8 +149,8 @@ const ConfigData$json = const {
     const {'1': 'clientVersion', '3': 1, '4': 1, '5': 5, '10': 'clientVersion'},
     const {'1': 'timestamp', '3': 5, '4': 1, '5': 3, '10': 'timestamp'},
     const {'1': 'downloadUrls', '3': 4, '4': 3, '5': 9, '10': 'downloadUrls'},
-    const {'1': 'categories', '3': 2, '4': 1, '5': 11, '6': '.ConfigCategories', '10': 'categories'},
-    const {'1': 'oauthProviders', '3': 3, '4': 1, '5': 11, '6': '.ConfigOAuthProviders', '10': 'oauthProviders'},
+    const {'1': 'categories', '3': 2, '4': 1, '5': 11, '6': '.inf.ConfigCategories', '10': 'categories'},
+    const {'1': 'oauthProviders', '3': 3, '4': 1, '5': 11, '6': '.inf.ConfigOAuthProviders', '10': 'oauthProviders'},
   ],
 };
 
@@ -193,9 +206,9 @@ const DataBusinessOffer$json = const {
     const {'1': 'reward', '3': 8, '4': 1, '5': 9, '10': 'reward'},
     const {'1': 'location', '3': 9, '4': 1, '5': 9, '10': 'location'},
     const {'1': 'coverUrls', '3': 10, '4': 3, '5': 9, '10': 'coverUrls'},
-    const {'1': 'categories', '3': 11, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
-    const {'1': 'state', '3': 12, '4': 1, '5': 14, '6': '.BusinessOfferState', '10': 'state'},
-    const {'1': 'stateReason', '3': 13, '4': 1, '5': 14, '6': '.BusinessOfferStateReason', '10': 'stateReason'},
+    const {'1': 'categories', '3': 11, '4': 3, '5': 11, '6': '.inf.CategoryId', '10': 'categories'},
+    const {'1': 'state', '3': 12, '4': 1, '5': 14, '6': '.inf.BusinessOfferState', '10': 'state'},
+    const {'1': 'stateReason', '3': 13, '4': 1, '5': 14, '6': '.inf.BusinessOfferStateReason', '10': 'stateReason'},
     const {'1': 'applicantsNew', '3': 14, '4': 1, '5': 5, '10': 'applicantsNew'},
     const {'1': 'applicantsAccepted', '3': 15, '4': 1, '5': 5, '10': 'applicantsAccepted'},
     const {'1': 'applicantsCompleted', '3': 16, '4': 1, '5': 5, '10': 'applicantsCompleted'},
@@ -240,10 +253,10 @@ const DataAccountState$json = const {
   '2': const [
     const {'1': 'deviceId', '3': 1, '4': 1, '5': 5, '10': 'deviceId'},
     const {'1': 'accountId', '3': 2, '4': 1, '5': 5, '10': 'accountId'},
-    const {'1': 'accountType', '3': 3, '4': 1, '5': 14, '6': '.AccountType', '10': 'accountType'},
-    const {'1': 'globalAccountState', '3': 4, '4': 1, '5': 14, '6': '.GlobalAccountState', '10': 'globalAccountState'},
-    const {'1': 'globalAccountStateReason', '3': 5, '4': 1, '5': 14, '6': '.GlobalAccountStateReason', '10': 'globalAccountStateReason'},
-    const {'1': 'notificationFlags', '3': 6, '4': 1, '5': 14, '6': '.NotificationFlags', '10': 'notificationFlags'},
+    const {'1': 'accountType', '3': 3, '4': 1, '5': 14, '6': '.inf.AccountType', '10': 'accountType'},
+    const {'1': 'globalAccountState', '3': 4, '4': 1, '5': 14, '6': '.inf.GlobalAccountState', '10': 'globalAccountState'},
+    const {'1': 'globalAccountStateReason', '3': 5, '4': 1, '5': 14, '6': '.inf.GlobalAccountStateReason', '10': 'globalAccountStateReason'},
+    const {'1': 'notificationFlags', '3': 6, '4': 1, '5': 14, '6': '.inf.NotificationFlags', '10': 'notificationFlags'},
   ],
 };
 
@@ -260,8 +273,8 @@ const DataAccountSummary$json = const {
 const DataAccountDetail$json = const {
   '1': 'DataAccountDetail',
   '2': const [
-    const {'1': 'categories', '3': 2, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
-    const {'1': 'socialMedia', '3': 3, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
+    const {'1': 'categories', '3': 2, '4': 3, '5': 11, '6': '.inf.CategoryId', '10': 'categories'},
+    const {'1': 'socialMedia', '3': 3, '4': 3, '5': 11, '6': '.inf.DataSocialMedia', '10': 'socialMedia'},
     const {'1': 'lat', '3': 4, '4': 1, '5': 1, '10': 'lat'},
     const {'1': 'lng', '3': 5, '4': 1, '5': 1, '10': 'lng'},
   ],
@@ -270,9 +283,9 @@ const DataAccountDetail$json = const {
 const DataAccount$json = const {
   '1': 'DataAccount',
   '2': const [
-    const {'1': 'state', '3': 1, '4': 1, '5': 11, '6': '.DataAccountState', '10': 'state'},
-    const {'1': 'summary', '3': 2, '4': 1, '5': 11, '6': '.DataAccountSummary', '10': 'summary'},
-    const {'1': 'detail', '3': 3, '4': 1, '5': 11, '6': '.DataAccountDetail', '10': 'detail'},
+    const {'1': 'state', '3': 1, '4': 1, '5': 11, '6': '.inf.DataAccountState', '10': 'state'},
+    const {'1': 'summary', '3': 2, '4': 1, '5': 11, '6': '.inf.DataAccountSummary', '10': 'summary'},
+    const {'1': 'detail', '3': 3, '4': 1, '5': 11, '6': '.inf.DataAccountDetail', '10': 'detail'},
   ],
 };
 
@@ -310,14 +323,14 @@ const NetDeviceAuthSignatureResReq$json = const {
 const NetDeviceAuthState$json = const {
   '1': 'NetDeviceAuthState',
   '2': const [
-    const {'1': 'data', '3': 8, '4': 1, '5': 11, '6': '.DataAccount', '10': 'data'},
+    const {'1': 'data', '3': 8, '4': 1, '5': 11, '6': '.inf.DataAccount', '10': 'data'},
   ],
 };
 
 const NetSetAccountType$json = const {
   '1': 'NetSetAccountType',
   '2': const [
-    const {'1': 'accountType', '3': 1, '4': 1, '5': 14, '6': '.AccountType', '10': 'accountType'},
+    const {'1': 'accountType', '3': 1, '4': 1, '5': 14, '6': '.inf.AccountType', '10': 'accountType'},
   ],
 };
 
@@ -347,7 +360,7 @@ const NetOAuthConnectReq$json = const {
 const NetOAuthConnectRes$json = const {
   '1': 'NetOAuthConnectRes',
   '2': const [
-    const {'1': 'socialMedia', '3': 1, '4': 1, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
+    const {'1': 'socialMedia', '3': 1, '4': 1, '5': 11, '6': '.inf.DataSocialMedia', '10': 'socialMedia'},
   ],
 };
 
@@ -386,7 +399,7 @@ const NetResImageUpload$json = const {
 const NetReqCreateOffer$json = const {
   '1': 'NetReqCreateOffer',
   '2': const [
-    const {'1': 'offer', '3': 1, '4': 1, '5': 11, '6': '.DataBusinessOffer', '10': 'offer'},
+    const {'1': 'offer', '3': 1, '4': 1, '5': 11, '6': '.inf.DataBusinessOffer', '10': 'offer'},
   ],
 };
 

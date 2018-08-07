@@ -217,6 +217,72 @@ class ConfigOAuthProviders extends GeneratedMessage {
 
 class _ReadonlyConfigOAuthProviders extends ConfigOAuthProviders with ReadonlyMessageMixin {}
 
+class ConfigServices extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('ConfigServices')
+    ..aOS(1, 'mapboxApi')
+    ..aOS(2, 'mapboxUrlTemplate')
+    ..aOS(3, 'mapboxToken')
+    ..aOS(4, 'spacesRegion')
+    ..aOS(5, 'spacesKey')
+    ..aOS(6, 'spacesSecret')
+    ..aOS(7, 'spacesBucket')
+    ..hasRequiredFields = false
+  ;
+
+  ConfigServices() : super();
+  ConfigServices.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  ConfigServices.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  ConfigServices clone() => new ConfigServices()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static ConfigServices create() => new ConfigServices();
+  static PbList<ConfigServices> createRepeated() => new PbList<ConfigServices>();
+  static ConfigServices getDefault() {
+    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfigServices();
+    return _defaultInstance;
+  }
+  static ConfigServices _defaultInstance;
+  static void $checkItem(ConfigServices v) {
+    if (v is! ConfigServices) checkItemFailed(v, 'ConfigServices');
+  }
+
+  String get mapboxApi => $_getS(0, '');
+  set mapboxApi(String v) { $_setString(0, v); }
+  bool hasMapboxApi() => $_has(0);
+  void clearMapboxApi() => clearField(1);
+
+  String get mapboxUrlTemplate => $_getS(1, '');
+  set mapboxUrlTemplate(String v) { $_setString(1, v); }
+  bool hasMapboxUrlTemplate() => $_has(1);
+  void clearMapboxUrlTemplate() => clearField(2);
+
+  String get mapboxToken => $_getS(2, '');
+  set mapboxToken(String v) { $_setString(2, v); }
+  bool hasMapboxToken() => $_has(2);
+  void clearMapboxToken() => clearField(3);
+
+  String get spacesRegion => $_getS(3, '');
+  set spacesRegion(String v) { $_setString(3, v); }
+  bool hasSpacesRegion() => $_has(3);
+  void clearSpacesRegion() => clearField(4);
+
+  String get spacesKey => $_getS(4, '');
+  set spacesKey(String v) { $_setString(4, v); }
+  bool hasSpacesKey() => $_has(4);
+  void clearSpacesKey() => clearField(5);
+
+  String get spacesSecret => $_getS(5, '');
+  set spacesSecret(String v) { $_setString(5, v); }
+  bool hasSpacesSecret() => $_has(5);
+  void clearSpacesSecret() => clearField(6);
+
+  String get spacesBucket => $_getS(6, '');
+  set spacesBucket(String v) { $_setString(6, v); }
+  bool hasSpacesBucket() => $_has(6);
+  void clearSpacesBucket() => clearField(7);
+}
+
+class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {}
+
 class ConfigData extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ConfigData')
     ..a<int>(1, 'clientVersion', PbFieldType.O3)
