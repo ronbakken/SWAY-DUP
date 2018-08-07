@@ -90,8 +90,8 @@ namespace InfX {
             "T0F1dGhDb25uZWN0UmVxEhUKDW9hdXRoUHJvdmlkZXIYASABKAUSFQoNY2Fs",
             "bGJhY2tRdWVyeRgCIAEoCSI7ChJOZXRPQXV0aENvbm5lY3RSZXMSJQoLc29j",
             "aWFsTWVkaWEYASABKAsyEC5EYXRhU29jaWFsTWVkaWEiPQoTTmV0QWNjb3Vu",
-            "dENyZWF0ZVJlcRIMCgRuYW1lGAEgASgJEgsKA2xhdBgCIAEoAhILCgNsbmcY",
-            "AyABKAIiRwoRTmV0UmVxSW1hZ2VVcGxvYWQSEAoIZmlsZU5hbWUYASABKAkS",
+            "dENyZWF0ZVJlcRIMCgRuYW1lGAEgASgJEgsKA2xhdBgCIAEoARILCgNsbmcY",
+            "AyABKAEiRwoRTmV0UmVxSW1hZ2VVcGxvYWQSEAoIZmlsZU5hbWUYASABKAkS",
             "EAoIZmlsZVNpemUYAiABKAUSDgoGc2hhMjU2GAMgASgJIt8BChFOZXRSZXNJ",
             "bWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJEhIKCnJlcXVlc3RV",
             "cmwYAiABKAkSGQoRaGVhZGVyQ29udGVudFR5cGUYAyABKAkSGwoTaGVhZGVy",
@@ -5863,9 +5863,9 @@ namespace InfX {
 
     /// <summary>Field number for the "lat" field.</summary>
     public const int LatFieldNumber = 2;
-    private float lat_;
+    private double lat_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public float Lat {
+    public double Lat {
       get { return lat_; }
       set {
         lat_ = value;
@@ -5874,9 +5874,9 @@ namespace InfX {
 
     /// <summary>Field number for the "lng" field.</summary>
     public const int LngFieldNumber = 3;
-    private float lng_;
+    private double lng_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public float Lng {
+    public double Lng {
       get { return lng_; }
       set {
         lng_ = value;
@@ -5906,8 +5906,8 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       if (Name.Length != 0) hash ^= Name.GetHashCode();
-      if (Lat != 0F) hash ^= Lat.GetHashCode();
-      if (Lng != 0F) hash ^= Lng.GetHashCode();
+      if (Lat != 0D) hash ^= Lat.GetHashCode();
+      if (Lng != 0D) hash ^= Lng.GetHashCode();
       return hash;
     }
 
@@ -5922,13 +5922,13 @@ namespace InfX {
         output.WriteRawTag(10);
         output.WriteString(Name);
       }
-      if (Lat != 0F) {
-        output.WriteRawTag(21);
-        output.WriteFloat(Lat);
+      if (Lat != 0D) {
+        output.WriteRawTag(17);
+        output.WriteDouble(Lat);
       }
-      if (Lng != 0F) {
-        output.WriteRawTag(29);
-        output.WriteFloat(Lng);
+      if (Lng != 0D) {
+        output.WriteRawTag(25);
+        output.WriteDouble(Lng);
       }
     }
 
@@ -5938,11 +5938,11 @@ namespace InfX {
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (Lat != 0F) {
-        size += 1 + 4;
+      if (Lat != 0D) {
+        size += 1 + 8;
       }
-      if (Lng != 0F) {
-        size += 1 + 4;
+      if (Lng != 0D) {
+        size += 1 + 8;
       }
       return size;
     }
@@ -5955,10 +5955,10 @@ namespace InfX {
       if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.Lat != 0F) {
+      if (other.Lat != 0D) {
         Lat = other.Lat;
       }
-      if (other.Lng != 0F) {
+      if (other.Lng != 0D) {
         Lng = other.Lng;
       }
     }
@@ -5975,12 +5975,12 @@ namespace InfX {
             Name = input.ReadString();
             break;
           }
-          case 21: {
-            Lat = input.ReadFloat();
+          case 17: {
+            Lat = input.ReadDouble();
             break;
           }
-          case 29: {
-            Lng = input.ReadFloat();
+          case 25: {
+            Lng = input.ReadDouble();
             break;
           }
         }

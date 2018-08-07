@@ -355,8 +355,8 @@ const NetAccountCreateReq$json = const {
   '1': 'NetAccountCreateReq',
   '2': const [
     const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'lat', '3': 2, '4': 1, '5': 2, '10': 'lat'},
-    const {'1': 'lng', '3': 3, '4': 1, '5': 2, '10': 'lng'},
+    const {'1': 'lat', '3': 2, '4': 1, '5': 1, '10': 'lat'},
+    const {'1': 'lng', '3': 3, '4': 1, '5': 1, '10': 'lng'},
   ],
 };
 
