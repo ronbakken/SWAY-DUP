@@ -312,6 +312,8 @@ message DataAccountDetail {
   // repeated string coverUrls = 1;
   repeated CategoryId categories = 2;
   repeated DataSocialMedia socialMedia = 3;
+  double lat = 4;
+  double lng = 5;
   
 }
 
