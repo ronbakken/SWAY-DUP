@@ -1267,8 +1267,8 @@ class _ReadonlyNetOAuthConnectRes extends NetOAuthConnectRes with ReadonlyMessag
 class NetAccountCreateReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetAccountCreateReq')
     ..aOS(1, 'name')
-    ..a<double>(2, 'lat', PbFieldType.OF)
-    ..a<double>(3, 'lng', PbFieldType.OF)
+    ..a<double>(2, 'lat', PbFieldType.OD)
+    ..a<double>(3, 'lng', PbFieldType.OD)
     ..hasRequiredFields = false
   ;
 
@@ -1294,12 +1294,12 @@ class NetAccountCreateReq extends GeneratedMessage {
   void clearName() => clearField(1);
 
   double get lat => $_getN(1);
-  set lat(double v) { $_setFloat(1, v); }
+  set lat(double v) { $_setDouble(1, v); }
   bool hasLat() => $_has(1);
   void clearLat() => clearField(2);
 
   double get lng => $_getN(2);
-  set lng(double v) { $_setFloat(2, v); }
+  set lng(double v) { $_setDouble(2, v); }
   bool hasLng() => $_has(2);
   void clearLng() => clearField(3);
 }
