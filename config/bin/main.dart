@@ -147,6 +147,7 @@ generateConfig(bool server) async {
   config.timestamp = new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch);
   config.categories = await generateConfigCategories(server);
   config.oauthProviders = await generateConfigOAuthProviders(server);
+  config.services = await generateConfigServices(server);
   print(config.writeToJson());
   Uint8List configBuffer = config.writeToBuffer();
   new File(server ? "config_server.bin" : "config.bin").writeAsBytes(configBuffer, flush: true);
