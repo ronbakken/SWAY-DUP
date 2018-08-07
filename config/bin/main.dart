@@ -141,6 +141,37 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+Future<ConfigServices> generateConfigServices(bool server) async {
+  List<String> lines = await new File("services.ini").readAsLines();
+  ConfigServices res = new ConfigServices();
+  ini.Config cfg = new ini.Config.fromStrings(lines);
+  
+  for (String section in cfg.sections()) {
+    if (section == "Common" || 
+      (section == "Server" && server) ||
+      (section == "Client" && !server)) {
+
+      if (cfg.hasOption(section, 'apiHosts')) res.apiHosts.addAll(cfg.get(section, 'apiHosts').split(','));
+      if (cfg.hasOption(section, 'configUrl')) res.configUrl = cfg.get(section, 'configUrl');
+
+      if (cfg.hasOption(section, 'mapboxApi')) res.mapboxApi = cfg.get(section, 'mapboxApi');
+      if (cfg.hasOption(section, 'mapboxUrlTemplate')) res.mapboxUrlTemplate = cfg.get(section, 'mapboxUrlTemplate');
+      if (cfg.hasOption(section, 'mapboxToken')) res.mapboxToken = cfg.get(section, 'mapboxToken');
+
+      if (cfg.hasOption(section, 'spacesRegion')) res.mapboxApi = cfg.get(section, 'spacesRegion');
+      if (cfg.hasOption(section, 'spacesKey')) res.mapboxUrlTemplate = cfg.get(section, 'spacesKey');
+      if (cfg.hasOption(section, 'spacesSecret')) res.mapboxToken = cfg.get(section, 'spacesSecret');
+      if (cfg.hasOption(section, 'spacesBucket')) res.mapboxToken = cfg.get(section, 'spacesBucket');
+    }
+  }
+
+  return res;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 generateConfig(bool server) async {
   ConfigData config = new ConfigData();
   config.clientVersion = 2;
