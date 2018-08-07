@@ -262,6 +262,8 @@ const DataAccountDetail$json = const {
   '2': const [
     const {'1': 'categories', '3': 2, '4': 3, '5': 11, '6': '.CategoryId', '10': 'categories'},
     const {'1': 'socialMedia', '3': 3, '4': 3, '5': 11, '6': '.DataSocialMedia', '10': 'socialMedia'},
+    const {'1': 'lat', '3': 4, '4': 1, '5': 1, '10': 'lat'},
+    const {'1': 'lng', '3': 5, '4': 1, '5': 1, '10': 'lng'},
   ],
 };
 
