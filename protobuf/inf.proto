@@ -82,6 +82,20 @@ message ConfigOAuthProviders {
   
 }
 
+message ConfigServices {
+  // MapBox
+  string mapboxApi = 1;
+  string mapboxUrlTemplate = 2;
+  string mapboxToken = 3;
+  
+  // DigitalOcean Spaces
+  string spacesRegion;
+  string spacesKey;
+  string spacesSecret;
+  string spacesBucket;
+  
+}
+
 message ConfigData {
   /// If this goes up in a config, the client must be updated
   int32 clientVersion = 1;
