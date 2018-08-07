@@ -90,10 +90,10 @@ message ConfigServices {
   string mapboxToken = 3;
   
   // DigitalOcean Spaces
-  string spacesRegion;
-  string spacesKey;
-  string spacesSecret;
-  string spacesBucket;
+  string spacesRegion = 4;
+  string spacesKey = 5;
+  string spacesSecret = 6;
+  string spacesBucket = 7;
   
 }
 
