@@ -226,6 +226,8 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(5, 'spacesKey')
     ..aOS(6, 'spacesSecret')
     ..aOS(7, 'spacesBucket')
+    ..pPS(8, 'apiHosts')
+    ..aOS(9, 'configUrl')
     ..hasRequiredFields = false
   ;
 
@@ -279,6 +281,13 @@ class ConfigServices extends GeneratedMessage {
   set spacesBucket(String v) { $_setString(6, v); }
   bool hasSpacesBucket() => $_has(6);
   void clearSpacesBucket() => clearField(7);
+
+  List<String> get apiHosts => $_getList(7);
+
+  String get configUrl => $_getS(8, '');
+  set configUrl(String v) { $_setString(8, v); }
+  bool hasConfigUrl() => $_has(8);
+  void clearConfigUrl() => clearField(9);
 }
 
 class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {}
@@ -288,8 +297,8 @@ class ConfigData extends GeneratedMessage {
     ..a<int>(1, 'clientVersion', PbFieldType.O3)
     ..a<ConfigCategories>(2, 'categories', PbFieldType.OM, ConfigCategories.getDefault, ConfigCategories.create)
     ..a<ConfigOAuthProviders>(3, 'oauthProviders', PbFieldType.OM, ConfigOAuthProviders.getDefault, ConfigOAuthProviders.create)
-    ..pPS(4, 'downloadUrls')
     ..aInt64(5, 'timestamp')
+    ..a<ConfigServices>(6, 'services', PbFieldType.OM, ConfigServices.getDefault, ConfigServices.create)
     ..hasRequiredFields = false
   ;
 
@@ -324,12 +333,15 @@ class ConfigData extends GeneratedMessage {
   bool hasOauthProviders() => $_has(2);
   void clearOauthProviders() => clearField(3);
 
-  List<String> get downloadUrls => $_getList(3);
-
-  Int64 get timestamp => $_getI64(4);
-  set timestamp(Int64 v) { $_setInt64(4, v); }
-  bool hasTimestamp() => $_has(4);
+  Int64 get timestamp => $_getI64(3);
+  set timestamp(Int64 v) { $_setInt64(3, v); }
+  bool hasTimestamp() => $_has(3);
   void clearTimestamp() => clearField(5);
+
+  ConfigServices get services => $_getN(4);
+  set services(ConfigServices v) { setField(6, v); }
+  bool hasServices() => $_has(4);
+  void clearServices() => clearField(6);
 }
 
 class _ReadonlyConfigData extends ConfigData with ReadonlyMessageMixin {}
@@ -1413,78 +1425,6 @@ class NetReqImageUpload extends GeneratedMessage {
 }
 
 class _ReadonlyNetReqImageUpload extends NetReqImageUpload with ReadonlyMessageMixin {}
-
-class NetResImageUpload extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetResImageUpload')
-    ..aOS(1, 'requestMethod')
-    ..aOS(2, 'requestUrl')
-    ..aOS(3, 'headerContentType')
-    ..aOS(4, 'headerContentLength')
-    ..aOS(5, 'headerHost')
-    ..aOS(6, 'headerXAmzDate')
-    ..aOS(7, 'headerXAmzStorageClass')
-    ..aOS(8, 'headerAuthorization')
-    ..hasRequiredFields = false
-  ;
-
-  NetResImageUpload() : super();
-  NetResImageUpload.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetResImageUpload.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NetResImageUpload clone() => new NetResImageUpload()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static NetResImageUpload create() => new NetResImageUpload();
-  static PbList<NetResImageUpload> createRepeated() => new PbList<NetResImageUpload>();
-  static NetResImageUpload getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetResImageUpload();
-    return _defaultInstance;
-  }
-  static NetResImageUpload _defaultInstance;
-  static void $checkItem(NetResImageUpload v) {
-    if (v is! NetResImageUpload) checkItemFailed(v, 'NetResImageUpload');
-  }
-
-  String get requestMethod => $_getS(0, '');
-  set requestMethod(String v) { $_setString(0, v); }
-  bool hasRequestMethod() => $_has(0);
-  void clearRequestMethod() => clearField(1);
-
-  String get requestUrl => $_getS(1, '');
-  set requestUrl(String v) { $_setString(1, v); }
-  bool hasRequestUrl() => $_has(1);
-  void clearRequestUrl() => clearField(2);
-
-  String get headerContentType => $_getS(2, '');
-  set headerContentType(String v) { $_setString(2, v); }
-  bool hasHeaderContentType() => $_has(2);
-  void clearHeaderContentType() => clearField(3);
-
-  String get headerContentLength => $_getS(3, '');
-  set headerContentLength(String v) { $_setString(3, v); }
-  bool hasHeaderContentLength() => $_has(3);
-  void clearHeaderContentLength() => clearField(4);
-
-  String get headerHost => $_getS(4, '');
-  set headerHost(String v) { $_setString(4, v); }
-  bool hasHeaderHost() => $_has(4);
-  void clearHeaderHost() => clearField(5);
-
-  String get headerXAmzDate => $_getS(5, '');
-  set headerXAmzDate(String v) { $_setString(5, v); }
-  bool hasHeaderXAmzDate() => $_has(5);
-  void clearHeaderXAmzDate() => clearField(6);
-
-  String get headerXAmzStorageClass => $_getS(6, '');
-  set headerXAmzStorageClass(String v) { $_setString(6, v); }
-  bool hasHeaderXAmzStorageClass() => $_has(6);
-  void clearHeaderXAmzStorageClass() => clearField(7);
-
-  String get headerAuthorization => $_getS(7, '');
-  set headerAuthorization(String v) { $_setString(7, v); }
-  bool hasHeaderAuthorization() => $_has(7);
-  void clearHeaderAuthorization() => clearField(8);
-}
-
-class _ReadonlyNetResImageUpload extends NetResImageUpload with ReadonlyMessageMixin {}
 
 class NetReqCreateOffer extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetReqCreateOffer')

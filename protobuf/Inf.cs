@@ -34,97 +34,93 @@ namespace InfX {
             "KAkSDwoHYXV0aFVybBgHIAEoCRIRCglhdXRoUXVlcnkYCCABKAkSEAoIY2xp",
             "ZW50SWQYDCABKAkSFAoMY2xpZW50U2VjcmV0GBEgASgJEhYKDndoaXRlbGlz",
             "dEhvc3RzGBIgAygJIj0KFENvbmZpZ09BdXRoUHJvdmlkZXJzEiUKA2FsbBgB",
-            "IAMoCzIYLmluZi5Db25maWdPQXV0aFByb3ZpZGVyIqgBCg5Db25maWdTZXJ2",
-            "aWNlcxIRCgltYXBib3hBcGkYASABKAkSGQoRbWFwYm94VXJsVGVtcGxhdGUY",
-            "AiABKAkSEwoLbWFwYm94VG9rZW4YAyABKAkSFAoMc3BhY2VzUmVnaW9uGAQg",
-            "ASgJEhEKCXNwYWNlc0tleRgFIAEoCRIUCgxzcGFjZXNTZWNyZXQYBiABKAkS",
-            "FAoMc3BhY2VzQnVja2V0GAcgASgJIqoBCgpDb25maWdEYXRhEhUKDWNsaWVu",
-            "dFZlcnNpb24YASABKAUSEQoJdGltZXN0YW1wGAUgASgDEhQKDGRvd25sb2Fk",
-            "VXJscxgEIAMoCRIpCgpjYXRlZ29yaWVzGAIgASgLMhUuaW5mLkNvbmZpZ0Nh",
-            "dGVnb3JpZXMSMQoOb2F1dGhQcm92aWRlcnMYAyABKAsyGS5pbmYuQ29uZmln",
-            "T0F1dGhQcm92aWRlcnMiJwoKQ2F0ZWdvcnlJZBIMCgRtYWluGAEgASgFEgsK",
-            "A3N1YhgCIAEoBSK0AgoPRGF0YVNvY2lhbE1lZGlhEhEKCWNvbm5lY3RlZBgB",
-            "IAEoCBIPCgdleHBpcmVkGA8gASgIEhIKCnNjcmVlbk5hbWUYBCABKAkSEwoL",
-            "ZGlzcGxheU5hbWUYBSABKAkSEQoJYXZhdGFyVXJsGA4gASgJEhIKCnByb2Zp",
-            "bGVVcmwYDSABKAkSEwoLZGVzY3JpcHRpb24YBiABKAkSEAoIbG9jYXRpb24Y",
-            "ByABKAkSCwoDdXJsGAggASgJEg0KBWVtYWlsGAwgASgJEhQKDGZyaWVuZHND",
-            "b3VudBgJIAEoBRIWCg5mb2xsb3dlcnNDb3VudBgCIAEoBRIWCg5mb2xsb3dp",
-            "bmdDb3VudBgDIAEoBRISCgpwb3N0c0NvdW50GAogASgFEhAKCHZlcmlmaWVk",
-            "GAsgASgIImAKFERhdGFPQXV0aENyZWRlbnRpYWxzEg4KBnVzZXJJZBgEIAEo",
-            "CRINCgV0b2tlbhgBIAEoCRITCgt0b2tlblNlY3JldBgCIAEoCRIUCgx0b2tl",
-            "bkV4cGlyZXMYAyABKAUiuQMKEURhdGFCdXNpbmVzc09mZmVyEg8KB29mZmVy",
-            "SWQYASABKAMSEQoJYWNjb3VudElkGAIgASgFEhIKCmxvY2F0aW9uSWQYAyAB",
-            "KAUSDQoFdGl0bGUYBCABKAkSEwoLZGVzY3JpcHRpb24YBSABKAkSEQoJYXZh",
-            "dGFyVXJsGAYgASgJEhQKDGRlbGl2ZXJhYmxlcxgHIAEoCRIOCgZyZXdhcmQY",
-            "CCABKAkSEAoIbG9jYXRpb24YCSABKAkSEQoJY292ZXJVcmxzGAogAygJEiMK",
-            "CmNhdGVnb3JpZXMYCyADKAsyDy5pbmYuQ2F0ZWdvcnlJZBImCgVzdGF0ZRgM",
-            "IAEoDjIXLmluZi5CdXNpbmVzc09mZmVyU3RhdGUSMgoLc3RhdGVSZWFzb24Y",
-            "DSABKA4yHS5pbmYuQnVzaW5lc3NPZmZlclN0YXRlUmVhc29uEhUKDWFwcGxp",
-            "Y2FudHNOZXcYDiABKAUSGgoSYXBwbGljYW50c0FjY2VwdGVkGA8gASgFEhsK",
-            "E2FwcGxpY2FudHNDb21wbGV0ZWQYECABKAUSGQoRYXBwbGljYW50c1JlZnVz",
-            "ZWQYESABKAUibgoMRGF0YUxvY2F0aW9uEhIKCmxvY2F0aW9uSWQYASABKAUS",
-            "DAoEbmFtZRgCIAEoCRIPCgdhZGRyZXNzGAMgASgJEhEKCWF2YXRhclVybBgG",
-            "IAEoCRILCgNsYXQYBCABKAESCwoDbG5nGAUgASgBIkgKDURhdGFBcHBsaWNh",
-            "bnQSEwoLYXBwbGljYW50SWQYASABKAMSDwoHb2ZmZXJJZBgCIAEoAxIRCglh",
-            "Y2NvdW50SWQYAyABKAUiYgoIRGF0YUNoYXQSEwoLYXBwbGljYW50SWQYASAB",
-            "KAMSEgoKc2VxdWVuY2VJZBgCIAEoAxINCgVrZXlJZBgDIAEoAxIQCghvdXRn",
-            "b2luZxgEIAEoCBIMCgR0ZXh0GAUgASgJIocCChBEYXRhQWNjb3VudFN0YXRl",
-            "EhAKCGRldmljZUlkGAEgASgFEhEKCWFjY291bnRJZBgCIAEoBRIlCgthY2Nv",
-            "dW50VHlwZRgDIAEoDjIQLmluZi5BY2NvdW50VHlwZRIzChJnbG9iYWxBY2Nv",
-            "dW50U3RhdGUYBCABKA4yFy5pbmYuR2xvYmFsQWNjb3VudFN0YXRlEj8KGGds",
-            "b2JhbEFjY291bnRTdGF0ZVJlYXNvbhgFIAEoDjIdLmluZi5HbG9iYWxBY2Nv",
-            "dW50U3RhdGVSZWFzb24SMQoRbm90aWZpY2F0aW9uRmxhZ3MYBiABKA4yFi5p",
-            "bmYuTm90aWZpY2F0aW9uRmxhZ3MiXAoSRGF0YUFjY291bnRTdW1tYXJ5EgwK",
-            "BG5hbWUYASABKAkSEwoLZGVzY3JpcHRpb24YAiABKAkSEAoIbG9jYXRpb24Y",
-            "AyABKAkSEQoJYXZhdGFyVXJsGAQgASgJIn0KEURhdGFBY2NvdW50RGV0YWls",
-            "EiMKCmNhdGVnb3JpZXMYAiADKAsyDy5pbmYuQ2F0ZWdvcnlJZBIpCgtzb2Np",
-            "YWxNZWRpYRgDIAMoCzIULmluZi5EYXRhU29jaWFsTWVkaWESCwoDbGF0GAQg",
-            "ASgBEgsKA2xuZxgFIAEoASKFAQoLRGF0YUFjY291bnQSJAoFc3RhdGUYASAB",
-            "KAsyFS5pbmYuRGF0YUFjY291bnRTdGF0ZRIoCgdzdW1tYXJ5GAIgASgLMhcu",
-            "aW5mLkRhdGFBY2NvdW50U3VtbWFyeRImCgZkZXRhaWwYAyABKAsyFi5pbmYu",
-            "RGF0YUFjY291bnREZXRhaWwiXAoWTmV0RGV2aWNlQXV0aENyZWF0ZVJlcRIO",
-            "CgZhZXNLZXkYASABKAwSFgoOY29tbW9uRGV2aWNlSWQYBCABKAwSDAoEbmFt",
-            "ZRgCIAEoCRIMCgRpbmZvGAMgASgJIi0KGU5ldERldmljZUF1dGhDaGFsbGVu",
-            "Z2VSZXESEAoIZGV2aWNlSWQYASABKAUiMQocTmV0RGV2aWNlQXV0aENoYWxs",
-            "ZW5nZVJlc1JlcRIRCgljaGFsbGVuZ2UYASABKAwiMQocTmV0RGV2aWNlQXV0",
-            "aFNpZ25hdHVyZVJlc1JlcRIRCglzaWduYXR1cmUYASABKAwiNAoSTmV0RGV2",
-            "aWNlQXV0aFN0YXRlEh4KBGRhdGEYCCABKAsyEC5pbmYuRGF0YUFjY291bnQi",
-            "OgoRTmV0U2V0QWNjb3VudFR5cGUSJQoLYWNjb3VudFR5cGUYASABKA4yEC5p",
-            "bmYuQWNjb3VudFR5cGUiJwoOTmV0T0F1dGhVcmxSZXESFQoNb2F1dGhQcm92",
-            "aWRlchgBIAEoBSI2Cg5OZXRPQXV0aFVybFJlcxIPCgdhdXRoVXJsGAEgASgJ",
-            "EhMKC2NhbGxiYWNrVXJsGAIgASgJIkIKEk5ldE9BdXRoQ29ubmVjdFJlcRIV",
-            "Cg1vYXV0aFByb3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAki",
-            "PwoSTmV0T0F1dGhDb25uZWN0UmVzEikKC3NvY2lhbE1lZGlhGAEgASgLMhQu",
-            "aW5mLkRhdGFTb2NpYWxNZWRpYSI9ChNOZXRBY2NvdW50Q3JlYXRlUmVxEgwK",
-            "BG5hbWUYASABKAkSCwoDbGF0GAIgASgBEgsKA2xuZxgDIAEoASJHChFOZXRS",
-            "ZXFJbWFnZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghmaWxlU2l6ZRgC",
-            "IAEoBRIOCgZzaGEyNTYYAyABKAki3wEKEU5ldFJlc0ltYWdlVXBsb2FkEhUK",
-            "DXJlcXVlc3RNZXRob2QYASABKAkSEgoKcmVxdWVzdFVybBgCIAEoCRIZChFo",
-            "ZWFkZXJDb250ZW50VHlwZRgDIAEoCRIbChNoZWFkZXJDb250ZW50TGVuZ3Ro",
-            "GAQgASgJEhIKCmhlYWRlckhvc3QYBSABKAkSFgoOaGVhZGVyWEFtekRhdGUY",
-            "BiABKAkSHgoWaGVhZGVyWEFtelN0b3JhZ2VDbGFzcxgHIAEoCRIbChNoZWFk",
-            "ZXJBdXRob3JpemF0aW9uGAggASgJIjoKEU5ldFJlcUNyZWF0ZU9mZmVyEiUK",
-            "BW9mZmVyGAEgASgLMhYuaW5mLkRhdGFCdXNpbmVzc09mZmVyIh8KEU5ldFJl",
-            "c0NyZWF0ZU9mZmVyEgoKAmlkGAEgASgDKj4KDk9BdXRoTWVjaGFuaXNtEgwK",
-            "CE9BTV9OT05FEAASDgoKT0FNX09BVVRIMRABEg4KCk9BTV9PQVVUSDIQAipD",
-            "ChBPQXV0aFByb3ZpZGVySWRzEgwKCE9BUF9OT05FEAASDwoLT0FQX1RXSVRU",
-            "RVIQARIQCgxPQVBfRkFDRUJPT0sQAipBCgtBY2NvdW50VHlwZRIOCgpBVF9V",
-            "TktOT1dOEAASEQoNQVRfSU5GTFVFTkNFUhABEg8KC0FUX0JVU0lORVNTEAIq",
-            "jwEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5HQVNfSU5JVElBTElaRRAAEg8K",
-            "C0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURfT05MWRACEhIKDkdBU19SRUFE",
-            "X1dSSVRFEAMSEQoNR0FTX01PREVSQVRPUhAEEg0KCUdBU19BRE1JThAFEgsK",
-            "B0dBU19HT0QQBiq1AQoYR2xvYmFsQWNjb3VudFN0YXRlUmVhc29uEhQKEEdB",
-            "U1JfTkVXX0FDQ09VTlQQABIXChNHQVNSX0FDQ09VTlRfQkFOTkVEEAESFgoS",
-            "R0FTUl9DUkVBVEVfREVOSUVEEAISEQoNR0FTUl9BUFBST1ZFRBADEhYKEkdB",
-            "U1JfREVNT19BUFBST1ZFRBAEEhAKDEdBU1JfUEVORElORxAFEhUKEUdBU1Jf",
-            "UkVRVUlSRV9JTkZPEAYqbgoRTm90aWZpY2F0aW9uRmxhZ3MSFAoQTkZfQUND",
-            "T1VOVF9TVEFURRAAEhgKFE5GX01BS0VfQU5fT0ZGRVJfRkFCEAESFgoSTkZf",
-            "VU5SRUFEX01FU1NBR0VTEAISEQoNTkZfQ1NfUkVRVUVTVBADKlEKEkJ1c2lu",
-            "ZXNzT2ZmZXJTdGF0ZRINCglCT1NfRFJBRlQQABIMCghCT1NfT1BFThABEg4K",
-            "CkJPU19BQ1RJVkUQAhIOCgpCT1NfQ0xPU0VEEAMqcAoYQnVzaW5lc3NPZmZl",
-            "clN0YXRlUmVhc29uEhIKDkJPU1JfTkVXX09GRkVSEAASFAoQQk9TUl9VU0VS",
-            "X0NMT1NFRBABEhYKEkJPU1JfVE9TX1ZJT0xBVElPThACEhIKDkJPU1JfQ09N",
-            "UExFVEVEEANCB6oCBEluZlhiBnByb3RvMw=="));
+            "IAMoCzIYLmluZi5Db25maWdPQXV0aFByb3ZpZGVyIs0BCg5Db25maWdTZXJ2",
+            "aWNlcxIQCghhcGlIb3N0cxgIIAMoCRIRCgljb25maWdVcmwYCSABKAkSEQoJ",
+            "bWFwYm94QXBpGAEgASgJEhkKEW1hcGJveFVybFRlbXBsYXRlGAIgASgJEhMK",
+            "C21hcGJveFRva2VuGAMgASgJEhQKDHNwYWNlc1JlZ2lvbhgEIAEoCRIRCglz",
+            "cGFjZXNLZXkYBSABKAkSFAoMc3BhY2VzU2VjcmV0GAYgASgJEhQKDHNwYWNl",
+            "c0J1Y2tldBgHIAEoCSK7AQoKQ29uZmlnRGF0YRIVCg1jbGllbnRWZXJzaW9u",
+            "GAEgASgFEhEKCXRpbWVzdGFtcBgFIAEoAxIpCgpjYXRlZ29yaWVzGAIgASgL",
+            "MhUuaW5mLkNvbmZpZ0NhdGVnb3JpZXMSMQoOb2F1dGhQcm92aWRlcnMYAyAB",
+            "KAsyGS5pbmYuQ29uZmlnT0F1dGhQcm92aWRlcnMSJQoIc2VydmljZXMYBiAB",
+            "KAsyEy5pbmYuQ29uZmlnU2VydmljZXMiJwoKQ2F0ZWdvcnlJZBIMCgRtYWlu",
+            "GAEgASgFEgsKA3N1YhgCIAEoBSK0AgoPRGF0YVNvY2lhbE1lZGlhEhEKCWNv",
+            "bm5lY3RlZBgBIAEoCBIPCgdleHBpcmVkGA8gASgIEhIKCnNjcmVlbk5hbWUY",
+            "BCABKAkSEwoLZGlzcGxheU5hbWUYBSABKAkSEQoJYXZhdGFyVXJsGA4gASgJ",
+            "EhIKCnByb2ZpbGVVcmwYDSABKAkSEwoLZGVzY3JpcHRpb24YBiABKAkSEAoI",
+            "bG9jYXRpb24YByABKAkSCwoDdXJsGAggASgJEg0KBWVtYWlsGAwgASgJEhQK",
+            "DGZyaWVuZHNDb3VudBgJIAEoBRIWCg5mb2xsb3dlcnNDb3VudBgCIAEoBRIW",
+            "Cg5mb2xsb3dpbmdDb3VudBgDIAEoBRISCgpwb3N0c0NvdW50GAogASgFEhAK",
+            "CHZlcmlmaWVkGAsgASgIImAKFERhdGFPQXV0aENyZWRlbnRpYWxzEg4KBnVz",
+            "ZXJJZBgEIAEoCRINCgV0b2tlbhgBIAEoCRITCgt0b2tlblNlY3JldBgCIAEo",
+            "CRIUCgx0b2tlbkV4cGlyZXMYAyABKAUiuQMKEURhdGFCdXNpbmVzc09mZmVy",
+            "Eg8KB29mZmVySWQYASABKAMSEQoJYWNjb3VudElkGAIgASgFEhIKCmxvY2F0",
+            "aW9uSWQYAyABKAUSDQoFdGl0bGUYBCABKAkSEwoLZGVzY3JpcHRpb24YBSAB",
+            "KAkSEQoJYXZhdGFyVXJsGAYgASgJEhQKDGRlbGl2ZXJhYmxlcxgHIAEoCRIO",
+            "CgZyZXdhcmQYCCABKAkSEAoIbG9jYXRpb24YCSABKAkSEQoJY292ZXJVcmxz",
+            "GAogAygJEiMKCmNhdGVnb3JpZXMYCyADKAsyDy5pbmYuQ2F0ZWdvcnlJZBIm",
+            "CgVzdGF0ZRgMIAEoDjIXLmluZi5CdXNpbmVzc09mZmVyU3RhdGUSMgoLc3Rh",
+            "dGVSZWFzb24YDSABKA4yHS5pbmYuQnVzaW5lc3NPZmZlclN0YXRlUmVhc29u",
+            "EhUKDWFwcGxpY2FudHNOZXcYDiABKAUSGgoSYXBwbGljYW50c0FjY2VwdGVk",
+            "GA8gASgFEhsKE2FwcGxpY2FudHNDb21wbGV0ZWQYECABKAUSGQoRYXBwbGlj",
+            "YW50c1JlZnVzZWQYESABKAUibgoMRGF0YUxvY2F0aW9uEhIKCmxvY2F0aW9u",
+            "SWQYASABKAUSDAoEbmFtZRgCIAEoCRIPCgdhZGRyZXNzGAMgASgJEhEKCWF2",
+            "YXRhclVybBgGIAEoCRILCgNsYXQYBCABKAESCwoDbG5nGAUgASgBIkgKDURh",
+            "dGFBcHBsaWNhbnQSEwoLYXBwbGljYW50SWQYASABKAMSDwoHb2ZmZXJJZBgC",
+            "IAEoAxIRCglhY2NvdW50SWQYAyABKAUiYgoIRGF0YUNoYXQSEwoLYXBwbGlj",
+            "YW50SWQYASABKAMSEgoKc2VxdWVuY2VJZBgCIAEoAxINCgVrZXlJZBgDIAEo",
+            "AxIQCghvdXRnb2luZxgEIAEoCBIMCgR0ZXh0GAUgASgJIocCChBEYXRhQWNj",
+            "b3VudFN0YXRlEhAKCGRldmljZUlkGAEgASgFEhEKCWFjY291bnRJZBgCIAEo",
+            "BRIlCgthY2NvdW50VHlwZRgDIAEoDjIQLmluZi5BY2NvdW50VHlwZRIzChJn",
+            "bG9iYWxBY2NvdW50U3RhdGUYBCABKA4yFy5pbmYuR2xvYmFsQWNjb3VudFN0",
+            "YXRlEj8KGGdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhgFIAEoDjIdLmluZi5H",
+            "bG9iYWxBY2NvdW50U3RhdGVSZWFzb24SMQoRbm90aWZpY2F0aW9uRmxhZ3MY",
+            "BiABKA4yFi5pbmYuTm90aWZpY2F0aW9uRmxhZ3MiXAoSRGF0YUFjY291bnRT",
+            "dW1tYXJ5EgwKBG5hbWUYASABKAkSEwoLZGVzY3JpcHRpb24YAiABKAkSEAoI",
+            "bG9jYXRpb24YAyABKAkSEQoJYXZhdGFyVXJsGAQgASgJIn0KEURhdGFBY2Nv",
+            "dW50RGV0YWlsEiMKCmNhdGVnb3JpZXMYAiADKAsyDy5pbmYuQ2F0ZWdvcnlJ",
+            "ZBIpCgtzb2NpYWxNZWRpYRgDIAMoCzIULmluZi5EYXRhU29jaWFsTWVkaWES",
+            "CwoDbGF0GAQgASgBEgsKA2xuZxgFIAEoASKFAQoLRGF0YUFjY291bnQSJAoF",
+            "c3RhdGUYASABKAsyFS5pbmYuRGF0YUFjY291bnRTdGF0ZRIoCgdzdW1tYXJ5",
+            "GAIgASgLMhcuaW5mLkRhdGFBY2NvdW50U3VtbWFyeRImCgZkZXRhaWwYAyAB",
+            "KAsyFi5pbmYuRGF0YUFjY291bnREZXRhaWwiXAoWTmV0RGV2aWNlQXV0aENy",
+            "ZWF0ZVJlcRIOCgZhZXNLZXkYASABKAwSFgoOY29tbW9uRGV2aWNlSWQYBCAB",
+            "KAwSDAoEbmFtZRgCIAEoCRIMCgRpbmZvGAMgASgJIi0KGU5ldERldmljZUF1",
+            "dGhDaGFsbGVuZ2VSZXESEAoIZGV2aWNlSWQYASABKAUiMQocTmV0RGV2aWNl",
+            "QXV0aENoYWxsZW5nZVJlc1JlcRIRCgljaGFsbGVuZ2UYASABKAwiMQocTmV0",
+            "RGV2aWNlQXV0aFNpZ25hdHVyZVJlc1JlcRIRCglzaWduYXR1cmUYASABKAwi",
+            "NAoSTmV0RGV2aWNlQXV0aFN0YXRlEh4KBGRhdGEYCCABKAsyEC5pbmYuRGF0",
+            "YUFjY291bnQiOgoRTmV0U2V0QWNjb3VudFR5cGUSJQoLYWNjb3VudFR5cGUY",
+            "ASABKA4yEC5pbmYuQWNjb3VudFR5cGUiJwoOTmV0T0F1dGhVcmxSZXESFQoN",
+            "b2F1dGhQcm92aWRlchgBIAEoBSI2Cg5OZXRPQXV0aFVybFJlcxIPCgdhdXRo",
+            "VXJsGAEgASgJEhMKC2NhbGxiYWNrVXJsGAIgASgJIkIKEk5ldE9BdXRoQ29u",
+            "bmVjdFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVl",
+            "cnkYAiABKAkiPwoSTmV0T0F1dGhDb25uZWN0UmVzEikKC3NvY2lhbE1lZGlh",
+            "GAEgASgLMhQuaW5mLkRhdGFTb2NpYWxNZWRpYSI9ChNOZXRBY2NvdW50Q3Jl",
+            "YXRlUmVxEgwKBG5hbWUYASABKAkSCwoDbGF0GAIgASgBEgsKA2xuZxgDIAEo",
+            "ASJHChFOZXRSZXFJbWFnZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghm",
+            "aWxlU2l6ZRgCIAEoBRIOCgZzaGEyNTYYAyABKAkiOgoRTmV0UmVxQ3JlYXRl",
+            "T2ZmZXISJQoFb2ZmZXIYASABKAsyFi5pbmYuRGF0YUJ1c2luZXNzT2ZmZXIi",
+            "HwoRTmV0UmVzQ3JlYXRlT2ZmZXISCgoCaWQYASABKAMqPgoOT0F1dGhNZWNo",
+            "YW5pc20SDAoIT0FNX05PTkUQABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09B",
+            "VVRIMhACKkMKEE9BdXRoUHJvdmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtP",
+            "QVBfVFdJVFRFUhABEhAKDE9BUF9GQUNFQk9PSxACKkEKC0FjY291bnRUeXBl",
+            "Eg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVT",
+            "SU5FU1MQAiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
+            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
+            "R0FTX1JFQURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FE",
+            "TUlOEAUSCwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFz",
+            "b24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5O",
+            "RUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVE",
+            "EAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUS",
+            "FQoRR0FTUl9SRVFVSVJFX0lORk8QBipuChFOb3RpZmljYXRpb25GbGFncxIU",
+            "ChBORl9BQ0NPVU5UX1NUQVRFEAASGAoUTkZfTUFLRV9BTl9PRkZFUl9GQUIQ",
+            "ARIWChJORl9VTlJFQURfTUVTU0FHRVMQAhIRCg1ORl9DU19SRVFVRVNUEAMq",
+            "UQoSQnVzaW5lc3NPZmZlclN0YXRlEg0KCUJPU19EUkFGVBAAEgwKCEJPU19P",
+            "UEVOEAESDgoKQk9TX0FDVElWRRACEg4KCkJPU19DTE9TRUQQAypwChhCdXNp",
+            "bmVzc09mZmVyU3RhdGVSZWFzb24SEgoOQk9TUl9ORVdfT0ZGRVIQABIUChBC",
+            "T1NSX1VTRVJfQ0xPU0VEEAESFgoSQk9TUl9UT1NfVklPTEFUSU9OEAISEgoO",
+            "Qk9TUl9DT01QTEVURUQQA0IHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -132,8 +128,8 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "CallbackUrl", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret", "WhitelistHosts" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigServices), global::InfX.ConfigServices.Parser, new[]{ "MapboxApi", "MapboxUrlTemplate", "MapboxToken", "SpacesRegion", "SpacesKey", "SpacesSecret", "SpacesBucket" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "Timestamp", "DownloadUrls", "Categories", "OauthProviders" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigServices), global::InfX.ConfigServices.Parser, new[]{ "ApiHosts", "ConfigUrl", "MapboxApi", "MapboxUrlTemplate", "MapboxToken", "SpacesRegion", "SpacesKey", "SpacesSecret", "SpacesBucket" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "Timestamp", "Categories", "OauthProviders", "Services" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Expired", "ScreenName", "DisplayName", "AvatarUrl", "ProfileUrl", "Description", "Location", "Url", "Email", "FriendsCount", "FollowersCount", "FollowingCount", "PostsCount", "Verified" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOAuthCredentials), global::InfX.DataOAuthCredentials.Parser, new[]{ "UserId", "Token", "TokenSecret", "TokenExpires" }, null, null, null),
@@ -157,7 +153,6 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectRes), global::InfX.NetOAuthConnectRes.Parser, new[]{ "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Name", "Lat", "Lng" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqImageUpload), global::InfX.NetReqImageUpload.Parser, new[]{ "FileName", "FileSize", "Sha256" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResImageUpload), global::InfX.NetResImageUpload.Parser, new[]{ "RequestMethod", "RequestUrl", "HeaderContentType", "HeaderContentLength", "HeaderHost", "HeaderXAmzDate", "HeaderXAmzStorageClass", "HeaderAuthorization" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Offer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResCreateOffer), global::InfX.NetResCreateOffer.Parser, new[]{ "Id" }, null, null, null)
           }));
@@ -1239,6 +1234,8 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ConfigServices(ConfigServices other) : this() {
+      apiHosts_ = other.apiHosts_.Clone();
+      configUrl_ = other.configUrl_;
       mapboxApi_ = other.mapboxApi_;
       mapboxUrlTemplate_ = other.mapboxUrlTemplate_;
       mapboxToken_ = other.mapboxToken_;
@@ -1251,6 +1248,30 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ConfigServices Clone() {
       return new ConfigServices(this);
+    }
+
+    /// <summary>Field number for the "apiHosts" field.</summary>
+    public const int ApiHostsFieldNumber = 8;
+    private static readonly pb::FieldCodec<string> _repeated_apiHosts_codec
+        = pb::FieldCodec.ForString(66);
+    private readonly pbc::RepeatedField<string> apiHosts_ = new pbc::RepeatedField<string>();
+    /// <summary>
+    ///  INF
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> ApiHosts {
+      get { return apiHosts_; }
+    }
+
+    /// <summary>Field number for the "configUrl" field.</summary>
+    public const int ConfigUrlFieldNumber = 9;
+    private string configUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ConfigUrl {
+      get { return configUrl_; }
+      set {
+        configUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
     }
 
     /// <summary>Field number for the "mapboxApi" field.</summary>
@@ -1349,6 +1370,8 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if(!apiHosts_.Equals(other.apiHosts_)) return false;
+      if (ConfigUrl != other.ConfigUrl) return false;
       if (MapboxApi != other.MapboxApi) return false;
       if (MapboxUrlTemplate != other.MapboxUrlTemplate) return false;
       if (MapboxToken != other.MapboxToken) return false;
@@ -1362,6 +1385,8 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
+      hash ^= apiHosts_.GetHashCode();
+      if (ConfigUrl.Length != 0) hash ^= ConfigUrl.GetHashCode();
       if (MapboxApi.Length != 0) hash ^= MapboxApi.GetHashCode();
       if (MapboxUrlTemplate.Length != 0) hash ^= MapboxUrlTemplate.GetHashCode();
       if (MapboxToken.Length != 0) hash ^= MapboxToken.GetHashCode();
@@ -1407,11 +1432,20 @@ namespace InfX {
         output.WriteRawTag(58);
         output.WriteString(SpacesBucket);
       }
+      apiHosts_.WriteTo(output, _repeated_apiHosts_codec);
+      if (ConfigUrl.Length != 0) {
+        output.WriteRawTag(74);
+        output.WriteString(ConfigUrl);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
+      size += apiHosts_.CalculateSize(_repeated_apiHosts_codec);
+      if (ConfigUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ConfigUrl);
+      }
       if (MapboxApi.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(MapboxApi);
       }
@@ -1440,6 +1474,10 @@ namespace InfX {
     public void MergeFrom(ConfigServices other) {
       if (other == null) {
         return;
+      }
+      apiHosts_.Add(other.apiHosts_);
+      if (other.ConfigUrl.Length != 0) {
+        ConfigUrl = other.ConfigUrl;
       }
       if (other.MapboxApi.Length != 0) {
         MapboxApi = other.MapboxApi;
@@ -1500,6 +1538,14 @@ namespace InfX {
             SpacesBucket = input.ReadString();
             break;
           }
+          case 66: {
+            apiHosts_.AddEntriesFrom(input, _repeated_apiHosts_codec);
+            break;
+          }
+          case 74: {
+            ConfigUrl = input.ReadString();
+            break;
+          }
         }
       }
     }
@@ -1532,9 +1578,9 @@ namespace InfX {
     public ConfigData(ConfigData other) : this() {
       clientVersion_ = other.clientVersion_;
       timestamp_ = other.timestamp_;
-      downloadUrls_ = other.downloadUrls_.Clone();
       Categories = other.categories_ != null ? other.Categories.Clone() : null;
       OauthProviders = other.oauthProviders_ != null ? other.OauthProviders.Clone() : null;
+      Services = other.services_ != null ? other.Services.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1570,19 +1616,6 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "downloadUrls" field.</summary>
-    public const int DownloadUrlsFieldNumber = 4;
-    private static readonly pb::FieldCodec<string> _repeated_downloadUrls_codec
-        = pb::FieldCodec.ForString(34);
-    private readonly pbc::RepeatedField<string> downloadUrls_ = new pbc::RepeatedField<string>();
-    /// <summary>
-    /// / URLs where the config can be downloaded
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<string> DownloadUrls {
-      get { return downloadUrls_; }
-    }
-
     /// <summary>Field number for the "categories" field.</summary>
     public const int CategoriesFieldNumber = 2;
     private global::InfX.ConfigCategories categories_;
@@ -1608,6 +1641,17 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "services" field.</summary>
+    public const int ServicesFieldNumber = 6;
+    private global::InfX.ConfigServices services_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.ConfigServices Services {
+      get { return services_; }
+      set {
+        services_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as ConfigData);
@@ -1623,9 +1667,9 @@ namespace InfX {
       }
       if (ClientVersion != other.ClientVersion) return false;
       if (Timestamp != other.Timestamp) return false;
-      if(!downloadUrls_.Equals(other.downloadUrls_)) return false;
       if (!object.Equals(Categories, other.Categories)) return false;
       if (!object.Equals(OauthProviders, other.OauthProviders)) return false;
+      if (!object.Equals(Services, other.Services)) return false;
       return true;
     }
 
@@ -1634,9 +1678,9 @@ namespace InfX {
       int hash = 1;
       if (ClientVersion != 0) hash ^= ClientVersion.GetHashCode();
       if (Timestamp != 0L) hash ^= Timestamp.GetHashCode();
-      hash ^= downloadUrls_.GetHashCode();
       if (categories_ != null) hash ^= Categories.GetHashCode();
       if (oauthProviders_ != null) hash ^= OauthProviders.GetHashCode();
+      if (services_ != null) hash ^= Services.GetHashCode();
       return hash;
     }
 
@@ -1659,10 +1703,13 @@ namespace InfX {
         output.WriteRawTag(26);
         output.WriteMessage(OauthProviders);
       }
-      downloadUrls_.WriteTo(output, _repeated_downloadUrls_codec);
       if (Timestamp != 0L) {
         output.WriteRawTag(40);
         output.WriteInt64(Timestamp);
+      }
+      if (services_ != null) {
+        output.WriteRawTag(50);
+        output.WriteMessage(Services);
       }
     }
 
@@ -1675,12 +1722,14 @@ namespace InfX {
       if (Timestamp != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(Timestamp);
       }
-      size += downloadUrls_.CalculateSize(_repeated_downloadUrls_codec);
       if (categories_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Categories);
       }
       if (oauthProviders_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(OauthProviders);
+      }
+      if (services_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Services);
       }
       return size;
     }
@@ -1696,7 +1745,6 @@ namespace InfX {
       if (other.Timestamp != 0L) {
         Timestamp = other.Timestamp;
       }
-      downloadUrls_.Add(other.downloadUrls_);
       if (other.categories_ != null) {
         if (categories_ == null) {
           categories_ = new global::InfX.ConfigCategories();
@@ -1708,6 +1756,12 @@ namespace InfX {
           oauthProviders_ = new global::InfX.ConfigOAuthProviders();
         }
         OauthProviders.MergeFrom(other.OauthProviders);
+      }
+      if (other.services_ != null) {
+        if (services_ == null) {
+          services_ = new global::InfX.ConfigServices();
+        }
+        Services.MergeFrom(other.Services);
       }
     }
 
@@ -1737,12 +1791,15 @@ namespace InfX {
             input.ReadMessage(oauthProviders_);
             break;
           }
-          case 34: {
-            downloadUrls_.AddEntriesFrom(input, _repeated_downloadUrls_codec);
-            break;
-          }
           case 40: {
             Timestamp = input.ReadInt64();
+            break;
+          }
+          case 50: {
+            if (services_ == null) {
+              services_ = new global::InfX.ConfigServices();
+            }
+            input.ReadMessage(services_);
             break;
           }
         }
@@ -6471,322 +6528,6 @@ namespace InfX {
   }
 
   /// <summary>
-  ///  Request parameters to be used by the client verbatim for uploading
-  /// </summary>
-  public sealed partial class NetResImageUpload : pb::IMessage<NetResImageUpload> {
-    private static readonly pb::MessageParser<NetResImageUpload> _parser = new pb::MessageParser<NetResImageUpload>(() => new NetResImageUpload());
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetResImageUpload> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[29]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResImageUpload() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResImageUpload(NetResImageUpload other) : this() {
-      requestMethod_ = other.requestMethod_;
-      requestUrl_ = other.requestUrl_;
-      headerContentType_ = other.headerContentType_;
-      headerContentLength_ = other.headerContentLength_;
-      headerHost_ = other.headerHost_;
-      headerXAmzDate_ = other.headerXAmzDate_;
-      headerXAmzStorageClass_ = other.headerXAmzStorageClass_;
-      headerAuthorization_ = other.headerAuthorization_;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResImageUpload Clone() {
-      return new NetResImageUpload(this);
-    }
-
-    /// <summary>Field number for the "requestMethod" field.</summary>
-    public const int RequestMethodFieldNumber = 1;
-    private string requestMethod_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string RequestMethod {
-      get { return requestMethod_; }
-      set {
-        requestMethod_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "requestUrl" field.</summary>
-    public const int RequestUrlFieldNumber = 2;
-    private string requestUrl_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string RequestUrl {
-      get { return requestUrl_; }
-      set {
-        requestUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "headerContentType" field.</summary>
-    public const int HeaderContentTypeFieldNumber = 3;
-    private string headerContentType_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string HeaderContentType {
-      get { return headerContentType_; }
-      set {
-        headerContentType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "headerContentLength" field.</summary>
-    public const int HeaderContentLengthFieldNumber = 4;
-    private string headerContentLength_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string HeaderContentLength {
-      get { return headerContentLength_; }
-      set {
-        headerContentLength_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "headerHost" field.</summary>
-    public const int HeaderHostFieldNumber = 5;
-    private string headerHost_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string HeaderHost {
-      get { return headerHost_; }
-      set {
-        headerHost_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "headerXAmzDate" field.</summary>
-    public const int HeaderXAmzDateFieldNumber = 6;
-    private string headerXAmzDate_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string HeaderXAmzDate {
-      get { return headerXAmzDate_; }
-      set {
-        headerXAmzDate_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "headerXAmzStorageClass" field.</summary>
-    public const int HeaderXAmzStorageClassFieldNumber = 7;
-    private string headerXAmzStorageClass_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string HeaderXAmzStorageClass {
-      get { return headerXAmzStorageClass_; }
-      set {
-        headerXAmzStorageClass_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    /// <summary>Field number for the "headerAuthorization" field.</summary>
-    public const int HeaderAuthorizationFieldNumber = 8;
-    private string headerAuthorization_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string HeaderAuthorization {
-      get { return headerAuthorization_; }
-      set {
-        headerAuthorization_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as NetResImageUpload);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetResImageUpload other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (RequestMethod != other.RequestMethod) return false;
-      if (RequestUrl != other.RequestUrl) return false;
-      if (HeaderContentType != other.HeaderContentType) return false;
-      if (HeaderContentLength != other.HeaderContentLength) return false;
-      if (HeaderHost != other.HeaderHost) return false;
-      if (HeaderXAmzDate != other.HeaderXAmzDate) return false;
-      if (HeaderXAmzStorageClass != other.HeaderXAmzStorageClass) return false;
-      if (HeaderAuthorization != other.HeaderAuthorization) return false;
-      return true;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (RequestMethod.Length != 0) hash ^= RequestMethod.GetHashCode();
-      if (RequestUrl.Length != 0) hash ^= RequestUrl.GetHashCode();
-      if (HeaderContentType.Length != 0) hash ^= HeaderContentType.GetHashCode();
-      if (HeaderContentLength.Length != 0) hash ^= HeaderContentLength.GetHashCode();
-      if (HeaderHost.Length != 0) hash ^= HeaderHost.GetHashCode();
-      if (HeaderXAmzDate.Length != 0) hash ^= HeaderXAmzDate.GetHashCode();
-      if (HeaderXAmzStorageClass.Length != 0) hash ^= HeaderXAmzStorageClass.GetHashCode();
-      if (HeaderAuthorization.Length != 0) hash ^= HeaderAuthorization.GetHashCode();
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (RequestMethod.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(RequestMethod);
-      }
-      if (RequestUrl.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(RequestUrl);
-      }
-      if (HeaderContentType.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(HeaderContentType);
-      }
-      if (HeaderContentLength.Length != 0) {
-        output.WriteRawTag(34);
-        output.WriteString(HeaderContentLength);
-      }
-      if (HeaderHost.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(HeaderHost);
-      }
-      if (HeaderXAmzDate.Length != 0) {
-        output.WriteRawTag(50);
-        output.WriteString(HeaderXAmzDate);
-      }
-      if (HeaderXAmzStorageClass.Length != 0) {
-        output.WriteRawTag(58);
-        output.WriteString(HeaderXAmzStorageClass);
-      }
-      if (HeaderAuthorization.Length != 0) {
-        output.WriteRawTag(66);
-        output.WriteString(HeaderAuthorization);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (RequestMethod.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(RequestMethod);
-      }
-      if (RequestUrl.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(RequestUrl);
-      }
-      if (HeaderContentType.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderContentType);
-      }
-      if (HeaderContentLength.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderContentLength);
-      }
-      if (HeaderHost.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderHost);
-      }
-      if (HeaderXAmzDate.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderXAmzDate);
-      }
-      if (HeaderXAmzStorageClass.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderXAmzStorageClass);
-      }
-      if (HeaderAuthorization.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(HeaderAuthorization);
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetResImageUpload other) {
-      if (other == null) {
-        return;
-      }
-      if (other.RequestMethod.Length != 0) {
-        RequestMethod = other.RequestMethod;
-      }
-      if (other.RequestUrl.Length != 0) {
-        RequestUrl = other.RequestUrl;
-      }
-      if (other.HeaderContentType.Length != 0) {
-        HeaderContentType = other.HeaderContentType;
-      }
-      if (other.HeaderContentLength.Length != 0) {
-        HeaderContentLength = other.HeaderContentLength;
-      }
-      if (other.HeaderHost.Length != 0) {
-        HeaderHost = other.HeaderHost;
-      }
-      if (other.HeaderXAmzDate.Length != 0) {
-        HeaderXAmzDate = other.HeaderXAmzDate;
-      }
-      if (other.HeaderXAmzStorageClass.Length != 0) {
-        HeaderXAmzStorageClass = other.HeaderXAmzStorageClass;
-      }
-      if (other.HeaderAuthorization.Length != 0) {
-        HeaderAuthorization = other.HeaderAuthorization;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            input.SkipLastField();
-            break;
-          case 10: {
-            RequestMethod = input.ReadString();
-            break;
-          }
-          case 18: {
-            RequestUrl = input.ReadString();
-            break;
-          }
-          case 26: {
-            HeaderContentType = input.ReadString();
-            break;
-          }
-          case 34: {
-            HeaderContentLength = input.ReadString();
-            break;
-          }
-          case 42: {
-            HeaderHost = input.ReadString();
-            break;
-          }
-          case 50: {
-            HeaderXAmzDate = input.ReadString();
-            break;
-          }
-          case 58: {
-            HeaderXAmzStorageClass = input.ReadString();
-            break;
-          }
-          case 66: {
-            HeaderAuthorization = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
-  /// <summary>
   ///  Message to create offer
   /// </summary>
   public sealed partial class NetReqCreateOffer : pb::IMessage<NetReqCreateOffer> {
@@ -6796,7 +6537,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[30]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[29]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6925,7 +6666,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[31]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[30]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

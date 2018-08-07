@@ -133,6 +133,8 @@ const ConfigOAuthProviders$json = const {
 const ConfigServices$json = const {
   '1': 'ConfigServices',
   '2': const [
+    const {'1': 'apiHosts', '3': 8, '4': 3, '5': 9, '10': 'apiHosts'},
+    const {'1': 'configUrl', '3': 9, '4': 1, '5': 9, '10': 'configUrl'},
     const {'1': 'mapboxApi', '3': 1, '4': 1, '5': 9, '10': 'mapboxApi'},
     const {'1': 'mapboxUrlTemplate', '3': 2, '4': 1, '5': 9, '10': 'mapboxUrlTemplate'},
     const {'1': 'mapboxToken', '3': 3, '4': 1, '5': 9, '10': 'mapboxToken'},
@@ -148,9 +150,9 @@ const ConfigData$json = const {
   '2': const [
     const {'1': 'clientVersion', '3': 1, '4': 1, '5': 5, '10': 'clientVersion'},
     const {'1': 'timestamp', '3': 5, '4': 1, '5': 3, '10': 'timestamp'},
-    const {'1': 'downloadUrls', '3': 4, '4': 3, '5': 9, '10': 'downloadUrls'},
     const {'1': 'categories', '3': 2, '4': 1, '5': 11, '6': '.inf.ConfigCategories', '10': 'categories'},
     const {'1': 'oauthProviders', '3': 3, '4': 1, '5': 11, '6': '.inf.ConfigOAuthProviders', '10': 'oauthProviders'},
+    const {'1': 'services', '3': 6, '4': 1, '5': 11, '6': '.inf.ConfigServices', '10': 'services'},
   ],
 };
 
@@ -379,20 +381,6 @@ const NetReqImageUpload$json = const {
     const {'1': 'fileName', '3': 1, '4': 1, '5': 9, '10': 'fileName'},
     const {'1': 'fileSize', '3': 2, '4': 1, '5': 5, '10': 'fileSize'},
     const {'1': 'sha256', '3': 3, '4': 1, '5': 9, '10': 'sha256'},
-  ],
-};
-
-const NetResImageUpload$json = const {
-  '1': 'NetResImageUpload',
-  '2': const [
-    const {'1': 'requestMethod', '3': 1, '4': 1, '5': 9, '10': 'requestMethod'},
-    const {'1': 'requestUrl', '3': 2, '4': 1, '5': 9, '10': 'requestUrl'},
-    const {'1': 'headerContentType', '3': 3, '4': 1, '5': 9, '10': 'headerContentType'},
-    const {'1': 'headerContentLength', '3': 4, '4': 1, '5': 9, '10': 'headerContentLength'},
-    const {'1': 'headerHost', '3': 5, '4': 1, '5': 9, '10': 'headerHost'},
-    const {'1': 'headerXAmzDate', '3': 6, '4': 1, '5': 9, '10': 'headerXAmzDate'},
-    const {'1': 'headerXAmzStorageClass', '3': 7, '4': 1, '5': 9, '10': 'headerXAmzStorageClass'},
-    const {'1': 'headerAuthorization', '3': 8, '4': 1, '5': 9, '10': 'headerAuthorization'},
   ],
 };
 

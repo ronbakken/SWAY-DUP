@@ -84,6 +84,10 @@ message ConfigOAuthProviders {
 }
 
 message ConfigServices {
+  // INF
+  repeated string apiHosts = 8;
+  string configUrl = 9;
+  
   // MapBox
   string mapboxApi = 1;
   string mapboxUrlTemplate = 2;
@@ -104,12 +108,10 @@ message ConfigData {
   /// Timestamp when the config was built. Unix epoch UTC milliseconds
   int64 timestamp = 5;
   
-  /// URLs where the config can be downloaded
-  repeated string downloadUrls = 4;
-  
   /// Configuration data
   ConfigCategories categories = 2;
   ConfigOAuthProviders oauthProviders = 3;
+  ConfigServices services = 6;
   
 }
 
@@ -474,8 +476,10 @@ message NetReqImageUpload {
   
 }
 
+/*
 // Request parameters to be used by the client verbatim for uploading
 message NetResImageUpload {
+  / *
   string requestMethod = 1;
   string requestUrl = 2;
   string headerContentType = 3;
@@ -484,8 +488,10 @@ message NetResImageUpload {
   string headerXAmzDate = 6;
   string headerXAmzStorageClass = 7;
   string headerAuthorization = 8;
+  * /
+  bytes preSignedRequest = 9;
   
-}
+}*/
 
 // Message to create offer
 message NetReqCreateOffer {
