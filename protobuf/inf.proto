@@ -435,8 +435,8 @@ message NetOAuthConnectRes {
 // Name: A_CREATE
 message NetAccountCreateReq {
   string name = 1;
-  float lat = 2;
-  float lng = 3;
+  double lat = 2;
+  double lng = 3;
   
 }
 
