@@ -190,6 +190,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.1"
+  dospace:
+    dependency: "direct main"
+    description:
+      name: dospace
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.5"
+  executor:
+    dependency: transitive
+    description:
+      name: executor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   fixnum:
     dependency: transitive
     description:
@@ -208,7 +222,7 @@ packages:
       path: "..\\flutter_map\\flutter_map"
       relative: true
     source: path
-    version: "0.0.6"
+    version: "0.0.11+1"
   flutter_search_bar:
     dependency: "direct main"
     description:
@@ -237,6 +251,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.0-alpha.9"
+  geolocator:
+    dependency: "direct main"
+    description:
+      name: geolocator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.0"
   glob:
     dependency: transitive
     description:
@@ -265,6 +286,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.11.3+16"
+  http_client:
+    dependency: transitive
+    description:
+      name: http_client
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.4+1"
   http_multi_server:
     dependency: transitive
     description:
@@ -320,7 +348,7 @@ packages:
       name: latlong
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.5"
+    version: "0.5.3"
   logging:
     dependency: transitive
     description:
@@ -377,6 +405,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.0"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.7.7"
   plugin:
     dependency: transitive
     description:
@@ -404,7 +439,7 @@ packages:
       name: protobuf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.7.2"
+    version: "0.9.0+1"
   quiver:
     dependency: transitive
     description:
@@ -543,6 +578,13 @@ packages:
       relative: true
     source: path
     version: "1.2.1"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   yaml:
     dependency: transitive
     description:

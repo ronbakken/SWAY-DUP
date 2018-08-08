@@ -10,7 +10,7 @@ dependencies:
   cupertino_icons: ^0.1.0
   font_awesome_flutter: ^6.0.0
 
-  protobuf: ^0.7.2
+  protobuf: ^0.9.0+1
 
   circle_indicator: ^0.0.7
 
@@ -30,6 +30,9 @@ dependencies:
 
   wstalk:
     path: ../wstalk/
+
+  dospace: ^0.9.5
+  geolocator: ^1.4.0
   
   # 0.4.1 crashes
   image_picker: 0.3.1
