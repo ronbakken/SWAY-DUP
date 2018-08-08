@@ -23,6 +23,7 @@ import '../search/search_button.dart';
 import '../search/search_page.dart';
 import '../debug_account.dart';
 // import '../widgets/follower_count.dart' show FollowerWidget;
+import 'package:geolocator/geolocator.dart';
 
 class DemoApp extends StatefulWidget {
   const DemoApp({
@@ -370,7 +371,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                             });
                           },
                           oauthState: demoAccount.detail.socialMedia, // () { return demoSocialMedia; }(),
-                          onSignUp: () { 
+                          onSignUp: () async { 
                             demoAccount.state.accountId = random.nextInt(1000000) + 1;
                             demoAccount.summary.name = "John Smith";
                             demoAccount.summary.description = "I'm here for the food.";
@@ -380,6 +381,17 @@ class _DemoHomePageState extends State<DemoHomePage> {
                             demoAccount.summary.location = "Cardiff, London";
                             demoAccount.state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
                             demoAccount.state.globalAccountStateReason = GlobalAccountStateReason.GASR_DEMO_APPROVED;
+                            // print("Get pos");
+                            try {
+                              Position position = await Geolocator().getLastKnownPosition(LocationAccuracy.medium);
+                              print('test');
+                              print(position?.toMap()); // May be null
+                            } catch (ex) {
+                              print(ex); // Or fail to give permissions
+                              // PlatformException(PERMISSION_DENIED, Access to location data denied, null)
+                            }
+                            await new Future.delayed(new Duration(seconds: 3));
+                            () async { await null; Navigator.pop(context); }(); // Trickery to execute after this function
                           },
                         );
                       },

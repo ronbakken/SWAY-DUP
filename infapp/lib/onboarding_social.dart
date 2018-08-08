@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -5,8 +7,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'network/config_manager.dart';
 import 'network/inf.pb.dart';
-
-typedef void OAuthSelection(int oauthProvider);
 
 class OnboardingSocial extends StatelessWidget {
   const OnboardingSocial({
@@ -22,8 +22,8 @@ class OnboardingSocial extends StatelessWidget {
   final List<ConfigOAuthProvider> oauthProviders;
   final List<DataSocialMedia> oauthState;
 
-  final OAuthSelection onOAuthSelected;
-  final VoidCallback onSignUp;
+  final void Function(int oauthProvider) onOAuthSelected;
+  final Future<Null> Function() onSignUp;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,42 @@ class OnboardingSocial extends StatelessWidget {
                             new Text("Sign up".toUpperCase()),
                           ],
                         ),
-                        onPressed: connected ? onSignUp : null,
+                        onPressed: connected && onSignUp != null ? () async {
+                          bool keepDialog = true;
+                          () async {
+                            do {
+                              // Keep showing the progress dialog until we let it be gone.
+                              // Necessary in case the user presses the back button.
+                              await showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return new Dialog(
+                                    child: new Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        new Container(
+                                          padding: new EdgeInsets.all(24.0), 
+                                          child: new CircularProgressIndicator() 
+                                        ),
+                                        new Text("Signing up..."),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              );
+                            } while (keepDialog);
+                          }();
+                          // Wait for the sign up process to complete
+                          await onSignUp();
+                          // We may close the dialog now
+                          keepDialog = false;
+                          // Normally we would close the dialog, 
+                          // but here we drop the navigator stack entirely,
+                          // so popping the navigator may occur on the wrong context
+                          // TODO: Verify the behaviour, the signing up may re-pop onto the dashboard
+                          // Navigator.pop(context);
+                        } : null,
                       )
                     ],
                   )
