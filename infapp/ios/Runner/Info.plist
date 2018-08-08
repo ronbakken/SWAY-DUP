@@ -46,8 +46,14 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Require access to pictures library to access pictures</string>
+	<string>Require access to pictures library to access pictures that may be posted on your profile or deals.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Require access to camera to take pictures</string>
+	<string>Require access to camera to take pictures that may be posted on your profile or deals.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open in order to match ongoing deals.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to your location when in the background in order to track the completion status of ongoing deals.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs access to your location when open and in the background in order to track the completion status of ongoing deal.</string>
 </dict>
 </plist>
