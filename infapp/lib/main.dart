@@ -5,11 +5,12 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
-import 'demo/demo.dart' show DemoApp;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-import 'network/inf.pb.dart';
+// WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
+import 'package:inf/demo/demo.dart' show DemoApp;
+import 'package:inf/network/inf.pb.dart';
 
 Future<ConfigData> loadConfig() async {
   var configData = await rootBundle.load('assets/config.bin');
