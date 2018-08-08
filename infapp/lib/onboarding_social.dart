@@ -112,29 +112,35 @@ class OnboardingSocial extends StatelessWidget {
                         ),
                         onPressed: connected && onSignUp != null ? () async {
                           bool keepDialog = true;
+                          NavigatorState navigator = Navigator.of(context, rootNavigator: true);
                           () async {
-                            do {
-                              // Keep showing the progress dialog until we let it be gone.
-                              // Necessary in case the user presses the back button.
-                              await showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return new Dialog(
-                                    child: new Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        new Container(
-                                          padding: new EdgeInsets.all(24.0), 
-                                          child: new CircularProgressIndicator() 
-                                        ),
-                                        new Text("Signing up..."),
-                                      ],
-                                    ),
-                                  );
-                                }
-                              );
-                            } while (keepDialog);
+                            try {
+                              do {
+                                // Keep showing the progress dialog until we let it be gone.
+                                // Necessary in case the user presses the back button.
+                                await showDialog(
+                                  context: context, // FIXME: No guarantee that context is still valid
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return new Dialog(
+                                      child: new Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          new Container(
+                                            padding: new EdgeInsets.all(24.0), 
+                                            child: new CircularProgressIndicator() 
+                                          ),
+                                          new Text("Signing up..."),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                );
+                              } while (keepDialog);
+                            } catch (ex) {
+                              // Odd case: parent was closed. This causes showDialog with current context to fail
+                              print(ex);
+                            }
                           }();
                           // Wait for the sign up process to complete
                           await onSignUp();
@@ -144,7 +150,7 @@ class OnboardingSocial extends StatelessWidget {
                           // but here we drop the navigator stack entirely,
                           // so popping the navigator may occur on the wrong context
                           // TODO: Verify the behaviour, the signing up may re-pop onto the dashboard
-                          // Navigator.pop(context);
+                          navigator.pop();
                         } : null,
                       )
                     ],

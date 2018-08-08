@@ -391,7 +391,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                               // PlatformException(PERMISSION_DENIED, Access to location data denied, null)
                             }
                             await new Future.delayed(new Duration(seconds: 3));
-                            () async { await null; Navigator.pop(context); }(); // Trickery to execute after this function
+                            print('ok');
+                            // () async { await null; Navigator.pop(context); }(); // Trickery to execute after this function
                           },
                         );
                       },
