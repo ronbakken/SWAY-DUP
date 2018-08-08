@@ -2,6 +2,9 @@
 set -x
 
 
+# pub global activate protoc_plugin
+
+
 cd ~/infcommon/
 git pull --recurse-submodules
 git add *
