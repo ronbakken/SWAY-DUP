@@ -8,8 +8,8 @@ git add *
 git commit -m "Update"
 
 cd config
-pub get
-pub upgrade
+# pub get
+# pub upgrade
 dart bin/main.dart
 git add *
 git commit -m "Build config"
