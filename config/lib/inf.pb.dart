@@ -692,10 +692,14 @@ class DataLocation extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataLocation')
     ..a<int>(1, 'locationId', PbFieldType.O3)
     ..aOS(2, 'name')
-    ..aOS(3, 'address')
     ..a<double>(4, 'latitude', PbFieldType.OD)
     ..a<double>(5, 'longitude', PbFieldType.OD)
     ..aOS(6, 'avatarUrl')
+    ..aOS(7, 'approximate')
+    ..aOS(8, 'detail')
+    ..aOS(9, 'postcode')
+    ..aOS(10, 'regionCode')
+    ..aOS(11, 'countryCode')
     ..hasRequiredFields = false
   ;
 
@@ -725,25 +729,45 @@ class DataLocation extends GeneratedMessage {
   bool hasName() => $_has(1);
   void clearName() => clearField(2);
 
-  String get address => $_getS(2, '');
-  set address(String v) { $_setString(2, v); }
-  bool hasAddress() => $_has(2);
-  void clearAddress() => clearField(3);
-
-  double get latitude => $_getN(3);
-  set latitude(double v) { $_setDouble(3, v); }
-  bool hasLatitude() => $_has(3);
+  double get latitude => $_getN(2);
+  set latitude(double v) { $_setDouble(2, v); }
+  bool hasLatitude() => $_has(2);
   void clearLatitude() => clearField(4);
 
-  double get longitude => $_getN(4);
-  set longitude(double v) { $_setDouble(4, v); }
-  bool hasLongitude() => $_has(4);
+  double get longitude => $_getN(3);
+  set longitude(double v) { $_setDouble(3, v); }
+  bool hasLongitude() => $_has(3);
   void clearLongitude() => clearField(5);
 
-  String get avatarUrl => $_getS(5, '');
-  set avatarUrl(String v) { $_setString(5, v); }
-  bool hasAvatarUrl() => $_has(5);
+  String get avatarUrl => $_getS(4, '');
+  set avatarUrl(String v) { $_setString(4, v); }
+  bool hasAvatarUrl() => $_has(4);
   void clearAvatarUrl() => clearField(6);
+
+  String get approximate => $_getS(5, '');
+  set approximate(String v) { $_setString(5, v); }
+  bool hasApproximate() => $_has(5);
+  void clearApproximate() => clearField(7);
+
+  String get detail => $_getS(6, '');
+  set detail(String v) { $_setString(6, v); }
+  bool hasDetail() => $_has(6);
+  void clearDetail() => clearField(8);
+
+  String get postcode => $_getS(7, '');
+  set postcode(String v) { $_setString(7, v); }
+  bool hasPostcode() => $_has(7);
+  void clearPostcode() => clearField(9);
+
+  String get regionCode => $_getS(8, '');
+  set regionCode(String v) { $_setString(8, v); }
+  bool hasRegionCode() => $_has(8);
+  void clearRegionCode() => clearField(10);
+
+  String get countryCode => $_getS(9, '');
+  set countryCode(String v) { $_setString(9, v); }
+  bool hasCountryCode() => $_has(9);
+  void clearCountryCode() => clearField(11);
 }
 
 class _ReadonlyDataLocation extends DataLocation with ReadonlyMessageMixin {}
