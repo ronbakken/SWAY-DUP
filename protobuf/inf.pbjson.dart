@@ -135,6 +135,8 @@ const ConfigServices$json = const {
   '2': const [
     const {'1': 'apiHosts', '3': 8, '4': 3, '5': 9, '10': 'apiHosts'},
     const {'1': 'configUrl', '3': 9, '4': 1, '5': 9, '10': 'configUrl'},
+    const {'1': 'termsOfServiceUrl', '3': 10, '4': 1, '5': 9, '10': 'termsOfServiceUrl'},
+    const {'1': 'privacyPolicyUrl', '3': 11, '4': 1, '5': 9, '10': 'privacyPolicyUrl'},
     const {'1': 'mapboxApi', '3': 1, '4': 1, '5': 9, '10': 'mapboxApi'},
     const {'1': 'mapboxUrlTemplate', '3': 2, '4': 1, '5': 9, '10': 'mapboxUrlTemplate'},
     const {'1': 'mapboxToken', '3': 3, '4': 1, '5': 9, '10': 'mapboxToken'},

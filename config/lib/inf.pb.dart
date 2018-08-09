@@ -228,6 +228,8 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(7, 'spacesBucket')
     ..pPS(8, 'apiHosts')
     ..aOS(9, 'configUrl')
+    ..aOS(10, 'termsOfServiceUrl')
+    ..aOS(11, 'privacyPolicyUrl')
     ..hasRequiredFields = false
   ;
 
@@ -288,6 +290,16 @@ class ConfigServices extends GeneratedMessage {
   set configUrl(String v) { $_setString(8, v); }
   bool hasConfigUrl() => $_has(8);
   void clearConfigUrl() => clearField(9);
+
+  String get termsOfServiceUrl => $_getS(9, '');
+  set termsOfServiceUrl(String v) { $_setString(9, v); }
+  bool hasTermsOfServiceUrl() => $_has(9);
+  void clearTermsOfServiceUrl() => clearField(10);
+
+  String get privacyPolicyUrl => $_getS(10, '');
+  set privacyPolicyUrl(String v) { $_setString(10, v); }
+  bool hasPrivacyPolicyUrl() => $_has(10);
+  void clearPrivacyPolicyUrl() => clearField(11);
 }
 
 class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {}
