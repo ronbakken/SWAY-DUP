@@ -153,6 +153,8 @@ Future<ConfigServices> generateConfigServices(bool server) async {
 
       if (cfg.hasOption(section, 'apiHosts')) res.apiHosts.addAll(cfg.get(section, 'apiHosts').split(','));
       if (cfg.hasOption(section, 'configUrl')) res.configUrl = cfg.get(section, 'configUrl');
+      if (cfg.hasOption(section, 'termsOfServiceUrl')) res.termsOfServiceUrl = cfg.get(section, 'termsOfServiceUrl');
+      if (cfg.hasOption(section, 'privacyPolicyUrl')) res.privacyPolicyUrl = cfg.get(section, 'privacyPolicyUrl');
 
       if (cfg.hasOption(section, 'mapboxApi')) res.mapboxApi = cfg.get(section, 'mapboxApi');
       if (cfg.hasOption(section, 'mapboxUrlTemplate')) res.mapboxUrlTemplate = cfg.get(section, 'mapboxUrlTemplate');

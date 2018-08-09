@@ -87,6 +87,8 @@ message ConfigServices {
   // INF
   repeated string apiHosts = 8;
   string configUrl = 9;
+  string termsOfServiceUrl = 10;
+  string privacyPolicyUrl = 11;
   
   // MapBox
   string mapboxApi = 1;
