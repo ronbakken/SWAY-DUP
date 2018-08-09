@@ -63,64 +63,65 @@ namespace InfX {
             "dGVSZWFzb24YDSABKA4yHS5pbmYuQnVzaW5lc3NPZmZlclN0YXRlUmVhc29u",
             "EhUKDWFwcGxpY2FudHNOZXcYDiABKAUSGgoSYXBwbGljYW50c0FjY2VwdGVk",
             "GA8gASgFEhsKE2FwcGxpY2FudHNDb21wbGV0ZWQYECABKAUSGQoRYXBwbGlj",
-            "YW50c1JlZnVzZWQYESABKAUibgoMRGF0YUxvY2F0aW9uEhIKCmxvY2F0aW9u",
+            "YW50c1JlZnVzZWQYESABKAUieQoMRGF0YUxvY2F0aW9uEhIKCmxvY2F0aW9u",
             "SWQYASABKAUSDAoEbmFtZRgCIAEoCRIPCgdhZGRyZXNzGAMgASgJEhEKCWF2",
-            "YXRhclVybBgGIAEoCRILCgNsYXQYBCABKAESCwoDbG5nGAUgASgBIkgKDURh",
-            "dGFBcHBsaWNhbnQSEwoLYXBwbGljYW50SWQYASABKAMSDwoHb2ZmZXJJZBgC",
-            "IAEoAxIRCglhY2NvdW50SWQYAyABKAUiYgoIRGF0YUNoYXQSEwoLYXBwbGlj",
-            "YW50SWQYASABKAMSEgoKc2VxdWVuY2VJZBgCIAEoAxINCgVrZXlJZBgDIAEo",
-            "AxIQCghvdXRnb2luZxgEIAEoCBIMCgR0ZXh0GAUgASgJIocCChBEYXRhQWNj",
-            "b3VudFN0YXRlEhAKCGRldmljZUlkGAEgASgFEhEKCWFjY291bnRJZBgCIAEo",
-            "BRIlCgthY2NvdW50VHlwZRgDIAEoDjIQLmluZi5BY2NvdW50VHlwZRIzChJn",
-            "bG9iYWxBY2NvdW50U3RhdGUYBCABKA4yFy5pbmYuR2xvYmFsQWNjb3VudFN0",
-            "YXRlEj8KGGdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhgFIAEoDjIdLmluZi5H",
-            "bG9iYWxBY2NvdW50U3RhdGVSZWFzb24SMQoRbm90aWZpY2F0aW9uRmxhZ3MY",
-            "BiABKA4yFi5pbmYuTm90aWZpY2F0aW9uRmxhZ3MiXAoSRGF0YUFjY291bnRT",
-            "dW1tYXJ5EgwKBG5hbWUYASABKAkSEwoLZGVzY3JpcHRpb24YAiABKAkSEAoI",
-            "bG9jYXRpb24YAyABKAkSEQoJYXZhdGFyVXJsGAQgASgJIn0KEURhdGFBY2Nv",
-            "dW50RGV0YWlsEiMKCmNhdGVnb3JpZXMYAiADKAsyDy5pbmYuQ2F0ZWdvcnlJ",
-            "ZBIpCgtzb2NpYWxNZWRpYRgDIAMoCzIULmluZi5EYXRhU29jaWFsTWVkaWES",
-            "CwoDbGF0GAQgASgBEgsKA2xuZxgFIAEoASKFAQoLRGF0YUFjY291bnQSJAoF",
-            "c3RhdGUYASABKAsyFS5pbmYuRGF0YUFjY291bnRTdGF0ZRIoCgdzdW1tYXJ5",
-            "GAIgASgLMhcuaW5mLkRhdGFBY2NvdW50U3VtbWFyeRImCgZkZXRhaWwYAyAB",
-            "KAsyFi5pbmYuRGF0YUFjY291bnREZXRhaWwiXAoWTmV0RGV2aWNlQXV0aENy",
-            "ZWF0ZVJlcRIOCgZhZXNLZXkYASABKAwSFgoOY29tbW9uRGV2aWNlSWQYBCAB",
-            "KAwSDAoEbmFtZRgCIAEoCRIMCgRpbmZvGAMgASgJIi0KGU5ldERldmljZUF1",
-            "dGhDaGFsbGVuZ2VSZXESEAoIZGV2aWNlSWQYASABKAUiMQocTmV0RGV2aWNl",
-            "QXV0aENoYWxsZW5nZVJlc1JlcRIRCgljaGFsbGVuZ2UYASABKAwiMQocTmV0",
-            "RGV2aWNlQXV0aFNpZ25hdHVyZVJlc1JlcRIRCglzaWduYXR1cmUYASABKAwi",
-            "NAoSTmV0RGV2aWNlQXV0aFN0YXRlEh4KBGRhdGEYCCABKAsyEC5pbmYuRGF0",
-            "YUFjY291bnQiOgoRTmV0U2V0QWNjb3VudFR5cGUSJQoLYWNjb3VudFR5cGUY",
-            "ASABKA4yEC5pbmYuQWNjb3VudFR5cGUiJwoOTmV0T0F1dGhVcmxSZXESFQoN",
-            "b2F1dGhQcm92aWRlchgBIAEoBSI2Cg5OZXRPQXV0aFVybFJlcxIPCgdhdXRo",
-            "VXJsGAEgASgJEhMKC2NhbGxiYWNrVXJsGAIgASgJIkIKEk5ldE9BdXRoQ29u",
-            "bmVjdFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVl",
-            "cnkYAiABKAkiPwoSTmV0T0F1dGhDb25uZWN0UmVzEikKC3NvY2lhbE1lZGlh",
-            "GAEgASgLMhQuaW5mLkRhdGFTb2NpYWxNZWRpYSI9ChNOZXRBY2NvdW50Q3Jl",
-            "YXRlUmVxEgwKBG5hbWUYASABKAkSCwoDbGF0GAIgASgBEgsKA2xuZxgDIAEo",
-            "ASJHChFOZXRSZXFJbWFnZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghm",
-            "aWxlU2l6ZRgCIAEoBRIOCgZzaGEyNTYYAyABKAkiOgoRTmV0UmVxQ3JlYXRl",
-            "T2ZmZXISJQoFb2ZmZXIYASABKAsyFi5pbmYuRGF0YUJ1c2luZXNzT2ZmZXIi",
-            "HwoRTmV0UmVzQ3JlYXRlT2ZmZXISCgoCaWQYASABKAMqPgoOT0F1dGhNZWNo",
-            "YW5pc20SDAoIT0FNX05PTkUQABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09B",
-            "VVRIMhACKkMKEE9BdXRoUHJvdmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtP",
-            "QVBfVFdJVFRFUhABEhAKDE9BUF9GQUNFQk9PSxACKkEKC0FjY291bnRUeXBl",
-            "Eg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVT",
-            "SU5FU1MQAiqPAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
-            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
-            "R0FTX1JFQURfV1JJVEUQAxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FE",
-            "TUlOEAUSCwoHR0FTX0dPRBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFz",
-            "b24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5O",
-            "RUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVE",
-            "EAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUS",
-            "FQoRR0FTUl9SRVFVSVJFX0lORk8QBipuChFOb3RpZmljYXRpb25GbGFncxIU",
-            "ChBORl9BQ0NPVU5UX1NUQVRFEAASGAoUTkZfTUFLRV9BTl9PRkZFUl9GQUIQ",
-            "ARIWChJORl9VTlJFQURfTUVTU0FHRVMQAhIRCg1ORl9DU19SRVFVRVNUEAMq",
-            "UQoSQnVzaW5lc3NPZmZlclN0YXRlEg0KCUJPU19EUkFGVBAAEgwKCEJPU19P",
-            "UEVOEAESDgoKQk9TX0FDVElWRRACEg4KCkJPU19DTE9TRUQQAypwChhCdXNp",
-            "bmVzc09mZmVyU3RhdGVSZWFzb24SEgoOQk9TUl9ORVdfT0ZGRVIQABIUChBC",
-            "T1NSX1VTRVJfQ0xPU0VEEAESFgoSQk9TUl9UT1NfVklPTEFUSU9OEAISEgoO",
-            "Qk9TUl9DT01QTEVURUQQA0IHqgIESW5mWGIGcHJvdG8z"));
+            "YXRhclVybBgGIAEoCRIQCghsYXRpdHVkZRgEIAEoARIRCglsb25naXR1ZGUY",
+            "BSABKAEiSAoNRGF0YUFwcGxpY2FudBITCgthcHBsaWNhbnRJZBgBIAEoAxIP",
+            "CgdvZmZlcklkGAIgASgDEhEKCWFjY291bnRJZBgDIAEoBSJiCghEYXRhQ2hh",
+            "dBITCgthcHBsaWNhbnRJZBgBIAEoAxISCgpzZXF1ZW5jZUlkGAIgASgDEg0K",
+            "BWtleUlkGAMgASgDEhAKCG91dGdvaW5nGAQgASgIEgwKBHRleHQYBSABKAki",
+            "hwIKEERhdGFBY2NvdW50U3RhdGUSEAoIZGV2aWNlSWQYASABKAUSEQoJYWNj",
+            "b3VudElkGAIgASgFEiUKC2FjY291bnRUeXBlGAMgASgOMhAuaW5mLkFjY291",
+            "bnRUeXBlEjMKEmdsb2JhbEFjY291bnRTdGF0ZRgEIAEoDjIXLmluZi5HbG9i",
+            "YWxBY2NvdW50U3RhdGUSPwoYZ2xvYmFsQWNjb3VudFN0YXRlUmVhc29uGAUg",
+            "ASgOMh0uaW5mLkdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIxChFub3RpZmlj",
+            "YXRpb25GbGFncxgGIAEoDjIWLmluZi5Ob3RpZmljYXRpb25GbGFncyJcChJE",
+            "YXRhQWNjb3VudFN1bW1hcnkSDAoEbmFtZRgBIAEoCRITCgtkZXNjcmlwdGlv",
+            "bhgCIAEoCRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0YXJVcmwYBCABKAki",
+            "iAEKEURhdGFBY2NvdW50RGV0YWlsEiMKCmNhdGVnb3JpZXMYAiADKAsyDy5p",
+            "bmYuQ2F0ZWdvcnlJZBIpCgtzb2NpYWxNZWRpYRgDIAMoCzIULmluZi5EYXRh",
+            "U29jaWFsTWVkaWESEAoIbGF0aXR1ZGUYBCABKAESEQoJbG9uZ2l0dWRlGAUg",
+            "ASgBIoUBCgtEYXRhQWNjb3VudBIkCgVzdGF0ZRgBIAEoCzIVLmluZi5EYXRh",
+            "QWNjb3VudFN0YXRlEigKB3N1bW1hcnkYAiABKAsyFy5pbmYuRGF0YUFjY291",
+            "bnRTdW1tYXJ5EiYKBmRldGFpbBgDIAEoCzIWLmluZi5EYXRhQWNjb3VudERl",
+            "dGFpbCJcChZOZXREZXZpY2VBdXRoQ3JlYXRlUmVxEg4KBmFlc0tleRgBIAEo",
+            "DBIWCg5jb21tb25EZXZpY2VJZBgEIAEoDBIMCgRuYW1lGAIgASgJEgwKBGlu",
+            "Zm8YAyABKAkiLQoZTmV0RGV2aWNlQXV0aENoYWxsZW5nZVJlcRIQCghkZXZp",
+            "Y2VJZBgBIAEoBSIxChxOZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVzUmVxEhEK",
+            "CWNoYWxsZW5nZRgBIAEoDCIxChxOZXREZXZpY2VBdXRoU2lnbmF0dXJlUmVz",
+            "UmVxEhEKCXNpZ25hdHVyZRgBIAEoDCI0ChJOZXREZXZpY2VBdXRoU3RhdGUS",
+            "HgoEZGF0YRgIIAEoCzIQLmluZi5EYXRhQWNjb3VudCI6ChFOZXRTZXRBY2Nv",
+            "dW50VHlwZRIlCgthY2NvdW50VHlwZRgBIAEoDjIQLmluZi5BY2NvdW50VHlw",
+            "ZSInCg5OZXRPQXV0aFVybFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFIjYK",
+            "Dk5ldE9BdXRoVXJsUmVzEg8KB2F1dGhVcmwYASABKAkSEwoLY2FsbGJhY2tV",
+            "cmwYAiABKAkiQgoSTmV0T0F1dGhDb25uZWN0UmVxEhUKDW9hdXRoUHJvdmlk",
+            "ZXIYASABKAUSFQoNY2FsbGJhY2tRdWVyeRgCIAEoCSI/ChJOZXRPQXV0aENv",
+            "bm5lY3RSZXMSKQoLc29jaWFsTWVkaWEYASABKAsyFC5pbmYuRGF0YVNvY2lh",
+            "bE1lZGlhIjoKE05ldEFjY291bnRDcmVhdGVSZXESEAoIbGF0aXR1ZGUYAiAB",
+            "KAESEQoJbG9uZ2l0dWRlGAMgASgBIkcKEU5ldFJlcUltYWdlVXBsb2FkEhAK",
+            "CGZpbGVOYW1lGAEgASgJEhAKCGZpbGVTaXplGAIgASgFEg4KBnNoYTI1NhgD",
+            "IAEoCSI6ChFOZXRSZXFDcmVhdGVPZmZlchIlCgVvZmZlchgBIAEoCzIWLmlu",
+            "Zi5EYXRhQnVzaW5lc3NPZmZlciIfChFOZXRSZXNDcmVhdGVPZmZlchIKCgJp",
+            "ZBgBIAEoAyo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAAEg4KCk9B",
+            "TV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQcm92aWRlcklk",
+            "cxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoMT0FQX0ZBQ0VC",
+            "T09LEAIqQQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFUX0lO",
+            "RkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACKo8BChJHbG9iYWxBY2NvdW50",
+            "U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tFRBABEhEK",
+            "DUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklURRADEhEKDUdBU19N",
+            "T0RFUkFUT1IQBBINCglHQVNfQURNSU4QBRILCgdHQVNfR09EEAYqtQEKGEds",
+            "b2JhbEFjY291bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAAS",
+            "FwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklF",
+            "RBACEhEKDUdBU1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQ",
+            "BBIQCgxHQVNSX1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGKm4K",
+            "EU5vdGlmaWNhdGlvbkZsYWdzEhQKEE5GX0FDQ09VTlRfU1RBVEUQABIYChRO",
+            "Rl9NQUtFX0FOX09GRkVSX0ZBQhABEhYKEk5GX1VOUkVBRF9NRVNTQUdFUxAC",
+            "EhEKDU5GX0NTX1JFUVVFU1QQAypRChJCdXNpbmVzc09mZmVyU3RhdGUSDQoJ",
+            "Qk9TX0RSQUZUEAASDAoIQk9TX09QRU4QARIOCgpCT1NfQUNUSVZFEAISDgoK",
+            "Qk9TX0NMT1NFRBADKnAKGEJ1c2luZXNzT2ZmZXJTdGF0ZVJlYXNvbhISCg5C",
+            "T1NSX05FV19PRkZFUhAAEhQKEEJPU1JfVVNFUl9DTE9TRUQQARIWChJCT1NS",
+            "X1RPU19WSU9MQVRJT04QAhISCg5CT1NSX0NPTVBMRVRFRBADQgeqAgRJbmZY",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -134,12 +135,12 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Expired", "ScreenName", "DisplayName", "AvatarUrl", "ProfileUrl", "Description", "Location", "Url", "Email", "FriendsCount", "FollowersCount", "FollowingCount", "PostsCount", "Verified" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOAuthCredentials), global::InfX.DataOAuthCredentials.Parser, new[]{ "UserId", "Token", "TokenSecret", "TokenExpires" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataBusinessOffer), global::InfX.DataBusinessOffer.Parser, new[]{ "OfferId", "AccountId", "LocationId", "Title", "Description", "AvatarUrl", "Deliverables", "Reward", "Location", "CoverUrls", "Categories", "State", "StateReason", "ApplicantsNew", "ApplicantsAccepted", "ApplicantsCompleted", "ApplicantsRefused" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataLocation), global::InfX.DataLocation.Parser, new[]{ "LocationId", "Name", "Address", "AvatarUrl", "Lat", "Lng" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataLocation), global::InfX.DataLocation.Parser, new[]{ "LocationId", "Name", "Address", "AvatarUrl", "Latitude", "Longitude" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "AccountId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason", "NotificationFlags" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarUrl" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "Lat", "Lng" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "Latitude", "Longitude" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "CommonDeviceId", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
@@ -151,7 +152,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthUrlRes), global::InfX.NetOAuthUrlRes.Parser, new[]{ "AuthUrl", "CallbackUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectReq), global::InfX.NetOAuthConnectReq.Parser, new[]{ "OauthProvider", "CallbackQuery" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectRes), global::InfX.NetOAuthConnectRes.Parser, new[]{ "SocialMedia" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Name", "Lat", "Lng" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Latitude", "Longitude" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqImageUpload), global::InfX.NetReqImageUpload.Parser, new[]{ "FileName", "FileSize", "Sha256" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Offer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResCreateOffer), global::InfX.NetResCreateOffer.Parser, new[]{ "Id" }, null, null, null)
@@ -3276,8 +3277,8 @@ namespace InfX {
       name_ = other.name_;
       address_ = other.address_;
       avatarUrl_ = other.avatarUrl_;
-      lat_ = other.lat_;
-      lng_ = other.lng_;
+      latitude_ = other.latitude_;
+      longitude_ = other.longitude_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3329,25 +3330,25 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "lat" field.</summary>
-    public const int LatFieldNumber = 4;
-    private double lat_;
+    /// <summary>Field number for the "latitude" field.</summary>
+    public const int LatitudeFieldNumber = 4;
+    private double latitude_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public double Lat {
-      get { return lat_; }
+    public double Latitude {
+      get { return latitude_; }
       set {
-        lat_ = value;
+        latitude_ = value;
       }
     }
 
-    /// <summary>Field number for the "lng" field.</summary>
-    public const int LngFieldNumber = 5;
-    private double lng_;
+    /// <summary>Field number for the "longitude" field.</summary>
+    public const int LongitudeFieldNumber = 5;
+    private double longitude_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public double Lng {
-      get { return lng_; }
+    public double Longitude {
+      get { return longitude_; }
       set {
-        lng_ = value;
+        longitude_ = value;
       }
     }
 
@@ -3368,8 +3369,8 @@ namespace InfX {
       if (Name != other.Name) return false;
       if (Address != other.Address) return false;
       if (AvatarUrl != other.AvatarUrl) return false;
-      if (Lat != other.Lat) return false;
-      if (Lng != other.Lng) return false;
+      if (Latitude != other.Latitude) return false;
+      if (Longitude != other.Longitude) return false;
       return true;
     }
 
@@ -3380,8 +3381,8 @@ namespace InfX {
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Address.Length != 0) hash ^= Address.GetHashCode();
       if (AvatarUrl.Length != 0) hash ^= AvatarUrl.GetHashCode();
-      if (Lat != 0D) hash ^= Lat.GetHashCode();
-      if (Lng != 0D) hash ^= Lng.GetHashCode();
+      if (Latitude != 0D) hash ^= Latitude.GetHashCode();
+      if (Longitude != 0D) hash ^= Longitude.GetHashCode();
       return hash;
     }
 
@@ -3404,13 +3405,13 @@ namespace InfX {
         output.WriteRawTag(26);
         output.WriteString(Address);
       }
-      if (Lat != 0D) {
+      if (Latitude != 0D) {
         output.WriteRawTag(33);
-        output.WriteDouble(Lat);
+        output.WriteDouble(Latitude);
       }
-      if (Lng != 0D) {
+      if (Longitude != 0D) {
         output.WriteRawTag(41);
-        output.WriteDouble(Lng);
+        output.WriteDouble(Longitude);
       }
       if (AvatarUrl.Length != 0) {
         output.WriteRawTag(50);
@@ -3433,10 +3434,10 @@ namespace InfX {
       if (AvatarUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarUrl);
       }
-      if (Lat != 0D) {
+      if (Latitude != 0D) {
         size += 1 + 8;
       }
-      if (Lng != 0D) {
+      if (Longitude != 0D) {
         size += 1 + 8;
       }
       return size;
@@ -3459,11 +3460,11 @@ namespace InfX {
       if (other.AvatarUrl.Length != 0) {
         AvatarUrl = other.AvatarUrl;
       }
-      if (other.Lat != 0D) {
-        Lat = other.Lat;
+      if (other.Latitude != 0D) {
+        Latitude = other.Latitude;
       }
-      if (other.Lng != 0D) {
-        Lng = other.Lng;
+      if (other.Longitude != 0D) {
+        Longitude = other.Longitude;
       }
     }
 
@@ -3488,11 +3489,11 @@ namespace InfX {
             break;
           }
           case 33: {
-            Lat = input.ReadDouble();
+            Latitude = input.ReadDouble();
             break;
           }
           case 41: {
-            Lng = input.ReadDouble();
+            Longitude = input.ReadDouble();
             break;
           }
           case 50: {
@@ -4426,8 +4427,8 @@ namespace InfX {
     public DataAccountDetail(DataAccountDetail other) : this() {
       categories_ = other.categories_.Clone();
       socialMedia_ = other.socialMedia_.Clone();
-      lat_ = other.lat_;
-      lng_ = other.lng_;
+      latitude_ = other.latitude_;
+      longitude_ = other.longitude_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4458,25 +4459,25 @@ namespace InfX {
       get { return socialMedia_; }
     }
 
-    /// <summary>Field number for the "lat" field.</summary>
-    public const int LatFieldNumber = 4;
-    private double lat_;
+    /// <summary>Field number for the "latitude" field.</summary>
+    public const int LatitudeFieldNumber = 4;
+    private double latitude_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public double Lat {
-      get { return lat_; }
+    public double Latitude {
+      get { return latitude_; }
       set {
-        lat_ = value;
+        latitude_ = value;
       }
     }
 
-    /// <summary>Field number for the "lng" field.</summary>
-    public const int LngFieldNumber = 5;
-    private double lng_;
+    /// <summary>Field number for the "longitude" field.</summary>
+    public const int LongitudeFieldNumber = 5;
+    private double longitude_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public double Lng {
-      get { return lng_; }
+    public double Longitude {
+      get { return longitude_; }
       set {
-        lng_ = value;
+        longitude_ = value;
       }
     }
 
@@ -4495,8 +4496,8 @@ namespace InfX {
       }
       if(!categories_.Equals(other.categories_)) return false;
       if(!socialMedia_.Equals(other.socialMedia_)) return false;
-      if (Lat != other.Lat) return false;
-      if (Lng != other.Lng) return false;
+      if (Latitude != other.Latitude) return false;
+      if (Longitude != other.Longitude) return false;
       return true;
     }
 
@@ -4505,8 +4506,8 @@ namespace InfX {
       int hash = 1;
       hash ^= categories_.GetHashCode();
       hash ^= socialMedia_.GetHashCode();
-      if (Lat != 0D) hash ^= Lat.GetHashCode();
-      if (Lng != 0D) hash ^= Lng.GetHashCode();
+      if (Latitude != 0D) hash ^= Latitude.GetHashCode();
+      if (Longitude != 0D) hash ^= Longitude.GetHashCode();
       return hash;
     }
 
@@ -4519,13 +4520,13 @@ namespace InfX {
     public void WriteTo(pb::CodedOutputStream output) {
       categories_.WriteTo(output, _repeated_categories_codec);
       socialMedia_.WriteTo(output, _repeated_socialMedia_codec);
-      if (Lat != 0D) {
+      if (Latitude != 0D) {
         output.WriteRawTag(33);
-        output.WriteDouble(Lat);
+        output.WriteDouble(Latitude);
       }
-      if (Lng != 0D) {
+      if (Longitude != 0D) {
         output.WriteRawTag(41);
-        output.WriteDouble(Lng);
+        output.WriteDouble(Longitude);
       }
     }
 
@@ -4534,10 +4535,10 @@ namespace InfX {
       int size = 0;
       size += categories_.CalculateSize(_repeated_categories_codec);
       size += socialMedia_.CalculateSize(_repeated_socialMedia_codec);
-      if (Lat != 0D) {
+      if (Latitude != 0D) {
         size += 1 + 8;
       }
-      if (Lng != 0D) {
+      if (Longitude != 0D) {
         size += 1 + 8;
       }
       return size;
@@ -4550,11 +4551,11 @@ namespace InfX {
       }
       categories_.Add(other.categories_);
       socialMedia_.Add(other.socialMedia_);
-      if (other.Lat != 0D) {
-        Lat = other.Lat;
+      if (other.Latitude != 0D) {
+        Latitude = other.Latitude;
       }
-      if (other.Lng != 0D) {
-        Lng = other.Lng;
+      if (other.Longitude != 0D) {
+        Longitude = other.Longitude;
       }
     }
 
@@ -4575,11 +4576,11 @@ namespace InfX {
             break;
           }
           case 33: {
-            Lat = input.ReadDouble();
+            Latitude = input.ReadDouble();
             break;
           }
           case 41: {
-            Lng = input.ReadDouble();
+            Longitude = input.ReadDouble();
             break;
           }
         }
@@ -6195,9 +6196,8 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetAccountCreateReq(NetAccountCreateReq other) : this() {
-      name_ = other.name_;
-      lat_ = other.lat_;
-      lng_ = other.lng_;
+      latitude_ = other.latitude_;
+      longitude_ = other.longitude_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6205,36 +6205,25 @@ namespace InfX {
       return new NetAccountCreateReq(this);
     }
 
-    /// <summary>Field number for the "name" field.</summary>
-    public const int NameFieldNumber = 1;
-    private string name_ = "";
+    /// <summary>Field number for the "latitude" field.</summary>
+    public const int LatitudeFieldNumber = 2;
+    private double latitude_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Name {
-      get { return name_; }
+    public double Latitude {
+      get { return latitude_; }
       set {
-        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        latitude_ = value;
       }
     }
 
-    /// <summary>Field number for the "lat" field.</summary>
-    public const int LatFieldNumber = 2;
-    private double lat_;
+    /// <summary>Field number for the "longitude" field.</summary>
+    public const int LongitudeFieldNumber = 3;
+    private double longitude_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public double Lat {
-      get { return lat_; }
+    public double Longitude {
+      get { return longitude_; }
       set {
-        lat_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "lng" field.</summary>
-    public const int LngFieldNumber = 3;
-    private double lng_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public double Lng {
-      get { return lng_; }
-      set {
-        lng_ = value;
+        longitude_ = value;
       }
     }
 
@@ -6251,18 +6240,16 @@ namespace InfX {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Name != other.Name) return false;
-      if (Lat != other.Lat) return false;
-      if (Lng != other.Lng) return false;
+      if (Latitude != other.Latitude) return false;
+      if (Longitude != other.Longitude) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Name.Length != 0) hash ^= Name.GetHashCode();
-      if (Lat != 0D) hash ^= Lat.GetHashCode();
-      if (Lng != 0D) hash ^= Lng.GetHashCode();
+      if (Latitude != 0D) hash ^= Latitude.GetHashCode();
+      if (Longitude != 0D) hash ^= Longitude.GetHashCode();
       return hash;
     }
 
@@ -6273,30 +6260,23 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Name.Length != 0) {
-        output.WriteRawTag(10);
-        output.WriteString(Name);
-      }
-      if (Lat != 0D) {
+      if (Latitude != 0D) {
         output.WriteRawTag(17);
-        output.WriteDouble(Lat);
+        output.WriteDouble(Latitude);
       }
-      if (Lng != 0D) {
+      if (Longitude != 0D) {
         output.WriteRawTag(25);
-        output.WriteDouble(Lng);
+        output.WriteDouble(Longitude);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Name.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
-      }
-      if (Lat != 0D) {
+      if (Latitude != 0D) {
         size += 1 + 8;
       }
-      if (Lng != 0D) {
+      if (Longitude != 0D) {
         size += 1 + 8;
       }
       return size;
@@ -6307,14 +6287,11 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.Name.Length != 0) {
-        Name = other.Name;
+      if (other.Latitude != 0D) {
+        Latitude = other.Latitude;
       }
-      if (other.Lat != 0D) {
-        Lat = other.Lat;
-      }
-      if (other.Lng != 0D) {
-        Lng = other.Lng;
+      if (other.Longitude != 0D) {
+        Longitude = other.Longitude;
       }
     }
 
@@ -6326,16 +6303,12 @@ namespace InfX {
           default:
             input.SkipLastField();
             break;
-          case 10: {
-            Name = input.ReadString();
-            break;
-          }
           case 17: {
-            Lat = input.ReadDouble();
+            Latitude = input.ReadDouble();
             break;
           }
           case 25: {
-            Lng = input.ReadDouble();
+            Longitude = input.ReadDouble();
             break;
           }
         }
