@@ -545,7 +545,12 @@ I/flutter (26706): OAuth Providers: 8
         return;
       }
 
+      const List<int> mediaPriority = const [ 3, 1, 4, 8, 6, 2, 5, 7 ];
+
       // Attempt to get locations
+      // Fetch location info from coordinates
+      // Coordinates may exist in either the GPS data or in the user's IP address
+      // Alternatively we can reverse one from location names in the user's social media
       List<DataLocation> locations = new List<DataLocation>();
       DataLocation gpsLocationRes;
       Future<DataLocation> gpsLocation;
@@ -576,7 +581,8 @@ I/flutter (26706): OAuth Providers: 8
 
       // Also query all social media locations in the meantime, no particular order
       List<Future<DataLocation>> mediaLocations = new List<Future<DataLocation>>();
-      for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+      // for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+      for (int i in mediaPriority) {
         DataSocialMedia socialMedia = account.detail.socialMedia[i];
         if (socialMedia.connected && socialMedia.location != null && socialMedia.location.isNotEmpty) {
           mediaLocations.add(getGeocodingFromName(socialMedia.location).then((DataLocation location) {
@@ -614,10 +620,36 @@ I/flutter (26706): OAuth Providers: 8
         locations.add(location);
       }
 
+      // Build account info
+      String accountName;
+      String accountScreenName;
+      String accountDescription;
+      String accountAvatarUrl;
+      String accountUrl;
+      for (int i in mediaPriority) {
+        DataSocialMedia socialMedia = account.detail.socialMedia[i];
+        if (socialMedia.connected) {
+          if (accountName == null && socialMedia.displayName != null) accountName = socialMedia.displayName;
+          if (accountScreenName == null && socialMedia.screenName != null) accountScreenName = socialMedia.screenName;
+          if (accountDescription == null && socialMedia.description != null) accountDescription = socialMedia.description;
+          if (accountAvatarUrl == null && socialMedia.avatarUrl != null) accountAvatarUrl = socialMedia.avatarUrl;
+          if (accountUrl == null && socialMedia.url != null) accountUrl = socialMedia.url;
+        }
+      }
+      if (accountName == null) {
+        accountName = accountScreenName;
+      }
+      if (accountName == null) {
+        accountName = "Your Name Here";
+      }
+      if (accountDescription == null) {
+        accountDescription = "";
+      }
+
       // Set empty location names to account name
       for (DataLocation location in locations) {
         if (location.name == null || location.name.isEmpty) {
-          location.name = account.summary.name;
+          location.name = accountName;
         }
       }
 
@@ -630,13 +662,6 @@ I/flutter (26706): OAuth Providers: 8
       // Create account if sufficient data was received
       ts.sendExtend(message);
       await lock.synchronized(() async {
-        // Fetch location info from coordinates
-        // Coordinates may exist in either the GPS data or in the user's IP address
-        // Alternatively we can reverse one from location names in the user's social media
-        
-
-        
-
         // Count the number of connected authentication mechanisms
         int connectedNb = 0;
         for (int i = 0; i < account.detail.socialMedia.length; ++i) {
@@ -654,6 +679,7 @@ I/flutter (26706): OAuth Providers: 8
             ts.sendExtend(message);
             await sql.startTransaction((sqljocky.Transaction tx) async {
               // 1. Create the new account entries
+              // tx
               // 2. Update device to LAST_INSERT_ID(), ensure that a row was modified, otherwise rollback (account already created)
               // 3. Update all device authentication connections to LAST_INSERT_ID()
               // 4. Create the new location entries, in reverse (latest one always on top)
@@ -674,6 +700,11 @@ I/flutter (26706): OAuth Providers: 8
         unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
         await transitionToApp(); // TODO: Transitions and subs hould be handled by updateDeviceState preferably...
       }
+      
+      // Non-critical
+      // 1. Download avatar
+      // 2. Upload avatar to Spaces
+      // 3. Update account to refer to avatar
 
       // Send authentication state
       await sendNetDeviceAuthState(replying: message);
