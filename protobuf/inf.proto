@@ -102,6 +102,7 @@ message ConfigServices {
   string spacesBucket = 7;
   
   // IPStack (FreeGeoIP)
+  string ipstackApi = 13;
   string ipstackKey = 12;
   
 }
