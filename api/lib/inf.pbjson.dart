@@ -227,8 +227,12 @@ const DataLocation$json = const {
   '2': const [
     const {'1': 'locationId', '3': 1, '4': 1, '5': 5, '10': 'locationId'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'address', '3': 3, '4': 1, '5': 9, '10': 'address'},
     const {'1': 'avatarUrl', '3': 6, '4': 1, '5': 9, '10': 'avatarUrl'},
+    const {'1': 'approximate', '3': 7, '4': 1, '5': 9, '10': 'approximate'},
+    const {'1': 'detail', '3': 8, '4': 1, '5': 9, '10': 'detail'},
+    const {'1': 'postcode', '3': 9, '4': 1, '5': 9, '10': 'postcode'},
+    const {'1': 'regionCode', '3': 10, '4': 1, '5': 9, '10': 'regionCode'},
+    const {'1': 'countryCode', '3': 11, '4': 1, '5': 9, '10': 'countryCode'},
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
   ],
