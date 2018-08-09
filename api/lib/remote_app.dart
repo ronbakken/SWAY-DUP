@@ -532,20 +532,23 @@ I/flutter (26706): OAuth Providers: 8
       NetAccountCreateReq pb = new NetAccountCreateReq();
       pb.mergeFromBuffer(message.data);
 
+      // Create account if sufficient data was received
+      ts.sendExtend(message);
       await lock.synchronized(() async {
         if (account.state.accountId == 0) {
-          // Create account if sufficient data was received
+          // Fetch location info from coordinates
+          ts.sendExtend(message);
           String addressName;
           String addressDetail;
           String addressApproximate;
           int addressPostcode;
           String addressRegionCode;
           String addressCountryCode;
-          if (!pb.hasLat() || !pb.hasLng()) {
+          if (!pb.hasLatitude() || !pb.hasLongitude() || pb.latitude == 0.0 || pb.longitude == 0.0) {
             // Default to LA
             // https://www.mapbox.com/api-documentation/#search-for-places
-            pb.lat = 34.0207305;
-            pb.lng = -118.6919159;
+            pb.latitude = 34.0207305;
+            pb.longitude = -118.6919159;
             addressName = "Los Angeles";
             addressDetail = "Los Angeles, California 90017";
             addressApproximate = "Los Angeles, California 90017";
@@ -568,38 +571,50 @@ I/flutter (26706): OAuth Providers: 8
             // strip ", country text" (under context->id starting with country, text)
             // don't let the user change approximate address, just the detail one
           }
+
+          // Count the number of connected authentication mechanisms
           int connectedNb = 0;
           for (int i = 0; i < account.detail.socialMedia.length; ++i) {
             if (account.detail.socialMedia[i].connected)
               ++connectedNb;
           }
-          if (account.state.accountType != AccountType.AT_UNKNOWN
-            && connectedNb > 0
-            && pb.name.length > 0) {
+
+          // Validate that the current state is sufficient to create an account
+          if (account.state.accountId == 0
+            && account.state.accountType != AccountType.AT_UNKNOWN
+            && connectedNb > 0) {
             // Changes sent in a single SQL transaction for reliability
             try {
+              // Process the account creation
+              ts.sendExtend(message);
               await sql.startTransaction((sqljocky.Transaction tx) async {
-                // ...
+                // 1. Create the new account entry
+                // 2. Update device to LAST_INSERT_ID(), ensure that a row was modified, otherwise rollback (account already created)
+                // 3. Update all device authentication connections to LAST_INSERT_ID()
                 await tx.commit();
               });
             } catch (ex) {
               opsLog.severe("Failed to create account: $ex");
             }
           }
-
-          // await updateDeviceState();
-          if (account.state.accountId != 0) {
-            unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
-            await transitionToApp();
-          }
         }
       });
+
+      // Update state
+      ts.sendExtend(message);
+      await updateDeviceState();
+      if (account.state.accountId != 0) {
+        ts.sendExtend(message);
+        unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
+        await transitionToApp(); // TODO: Transitions and subs hould be handled by updateDeviceState preferably...
+      }
 
       // Send authentication state
       await sendNetDeviceAuthState(replying: message);
       if (account.state.accountId == 0) {
         devLog.severe("Account was not created for device ${account.state.deviceId}"); // DEVELOPER - DEVELOPMENT CRITICAL
       }
+
     } catch (ex) {
       devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
     }
