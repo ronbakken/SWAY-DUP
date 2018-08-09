@@ -982,6 +982,7 @@ class DataAccountDetail extends GeneratedMessage {
     ..pp<DataSocialMedia>(3, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
     ..a<double>(4, 'latitude', PbFieldType.OD)
     ..a<double>(5, 'longitude', PbFieldType.OD)
+    ..aOS(6, 'url')
     ..hasRequiredFields = false
   ;
 
@@ -1014,6 +1015,11 @@ class DataAccountDetail extends GeneratedMessage {
   set longitude(double v) { $_setDouble(3, v); }
   bool hasLongitude() => $_has(3);
   void clearLongitude() => clearField(5);
+
+  String get url => $_getS(4, '');
+  set url(String v) { $_setString(4, v); }
+  bool hasUrl() => $_has(4);
+  void clearUrl() => clearField(6);
 }
 
 class _ReadonlyDataAccountDetail extends DataAccountDetail with ReadonlyMessageMixin {}
