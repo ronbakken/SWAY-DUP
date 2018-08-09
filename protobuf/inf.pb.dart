@@ -231,6 +231,7 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(10, 'termsOfServiceUrl')
     ..aOS(11, 'privacyPolicyUrl')
     ..aOS(12, 'ipstackKey')
+    ..aOS(13, 'ipstackApi')
     ..hasRequiredFields = false
   ;
 
@@ -306,6 +307,11 @@ class ConfigServices extends GeneratedMessage {
   set ipstackKey(String v) { $_setString(11, v); }
   bool hasIpstackKey() => $_has(11);
   void clearIpstackKey() => clearField(12);
+
+  String get ipstackApi => $_getS(12, '');
+  set ipstackApi(String v) { $_setString(12, v); }
+  bool hasIpstackApi() => $_has(12);
+  void clearIpstackApi() => clearField(13);
 }
 
 class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {}
