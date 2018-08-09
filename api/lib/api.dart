@@ -110,7 +110,10 @@ run() async {
           RemoteApp remoteApp;
           ts.stream(TalkSocket.encode("INFAPP")).listen((TalkMessage message) {
             if (remoteApp == null) {
-              remoteApp = new RemoteApp(config, sql, ts);
+              String ipAddress = request.connectionInfo.remoteAddress.address;
+              String xRealIP = request.headers.value('x-real-ip');
+              remoteApp = new RemoteApp(config, sql, ts, 
+                ipAddress: xRealIP != null ? xRealIP : ipAddress);
             }
           });
           // Listen

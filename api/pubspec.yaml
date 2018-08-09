@@ -12,6 +12,7 @@ dependencies:
   logging: ^0.11.3+2
   # crypto: ^2.0.6
   pointycastle: ^1.0.0-rc2
+  http_client: ^0.4.4+1
   synchronized: ^1.5.1
   sqljocky5: # ^1.0.0
     path: ../sqljocky5/

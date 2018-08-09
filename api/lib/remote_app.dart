@@ -5,16 +5,19 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:convert';
 
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:wstalk/wstalk.dart';
 // import 'package:crypto/crypto.dart';
 import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
+import 'package:http_client/console.dart' as http;
 import 'package:synchronized/synchronized.dart';
 
 import 'inf.pb.dart';
@@ -25,11 +28,11 @@ import 'remote_app_oauth.dart';
 class RemoteApp {
   bool _connected = true;
 
-  static const String mapboxToken = "pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqazRwN3h4ODBjM2QzcHA2N2ZzbHoyYm0ifQ.vpwrdXRoCU-nBm-E1KNKdA"; // TODO: Replace with config. This is NBSPOU dev server token
-
   final ConfigData config;
   final sqljocky.ConnectionPool sql;
   final TalkSocket ts;
+
+  final String ipAddress;
 
   final random = new Random.secure();
 
@@ -58,12 +61,15 @@ class RemoteApp {
   static final Logger opsLog = new Logger('InfOps.RemoteApp');
   static final Logger devLog = new Logger('InfDev.RemoteApp');
 
+  final http.Client httpClient = new http.ConsoleClient();
+
   RemoteAppOAuth _remoteAppOAuth;
   dynamic _remoteAppBusiness;
   dynamic _remoteAppInfluencer;
   dynamic _remoteAppCommon;
 
-  RemoteApp(this.config, this.sql, this.ts) {
+  RemoteApp(this.config, this.sql, this.ts, { 
+    @required this.ipAddress }) {
     devLog.fine("New connection");
 
     account = new DataAccount();
@@ -236,8 +242,7 @@ class RemoteApp {
 
       // Send authentication state
       devLog.fine("Await device state");
-      ts.sendExtend(signatureMessage);
-      await updateDeviceState();
+      await updateDeviceState(extend: () { ts.sendExtend(signatureMessage); });
       if (account.state.deviceId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
         if (account.state.accountId != 0) {
@@ -283,13 +288,14 @@ class RemoteApp {
     return dataSocialMedia;
   }
 
-  Future<Null> updateDeviceState() async {
+  Future<Null> updateDeviceState({ Function() extend }) async {
     if (account.state.deviceId == 0) {
       devLog.severe("Invalid attempt to update device state with no device id, skip, this is a bug");
       return;
     }
     await lock.synchronized(() async {
       // First get the account id (and account type, in case the account id has not been created yet)
+      if (extend != null) extend();
       sqljocky.Results deviceResults = await sql.prepareExecute("SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?", [ account.state.deviceId.toInt() ]);
       await for (sqljocky.Row row in deviceResults) { // one row
         if (account.state.accountId != 0 && account.state.accountId != row[0].toInt()) {
@@ -303,6 +309,7 @@ class RemoteApp {
         // TODO
       }
       // Find all connected social media accounts
+      if (extend != null) extend();
       List<bool> connectedProviders = new List<bool>(account.detail.socialMedia.length);
       sqljocky.Results connectionResults = await sql.prepareExecute( // The additional `account_id` = 0 here is required in order not to load halfway failed connected devices
         "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.state.accountId == 0 ? '`account_id` = 0 AND `device_id`' : '`account_id`'} = ?", 
@@ -531,71 +538,130 @@ I/flutter (26706): OAuth Providers: 8
       // Received account creation request
       NetAccountCreateReq pb = new NetAccountCreateReq();
       pb.mergeFromBuffer(message.data);
+      devLog.finest("NetAccountCreateReq: $pb");
+      devLog.finest("ipAddress: $ipAddress");
+      if (account.state.accountId != 0) {
+        devLog.info("Skip create account, already has one");
+        return;
+      }
+
+      // Attempt to get locations
+      List<DataLocation> locations = new List<DataLocation>();
+      DataLocation gpsLocationRes;
+      Future<DataLocation> gpsLocation;
+      if (pb.latitude != null && pb.longitude != null && pb.latitude != 0.0 && pb.longitude != 0.0) {
+        gpsLocation = getGeocodingFromGPS(pb.latitude, pb.longitude).then((DataLocation location) {
+          devLog.finest("GPS: $location");
+          gpsLocationRes = location;
+        }).catchError((ex) {
+          devLog.severe("GPS Geocoding Exception: $ex");
+        });
+      }
+      DataLocation geoIPLocationRes;
+      Future<DataLocation> geoIPLocation = getGeoIPLocation(ipAddress).then((DataLocation location) {
+        devLog.finest("GeoIP: $location");
+        geoIPLocationRes = location;
+        // locations.add(location);
+      }).catchError((ex) {
+        devLog.severe("GeoIP Location Exception: $ex");
+      });
+
+      // Wait for GPS Geocoding
+      // Using await like this doesn't catch exceptions, so required to put handlers in advance -_-
+      ts.sendExtend(message);
+      if (gpsLocation != null) {
+        await gpsLocation;
+        if (gpsLocationRes != null) locations.add(gpsLocationRes);
+      }
+
+      // Also query all social media locations in the meantime, no particular order
+      List<Future<DataLocation>> mediaLocations = new List<Future<DataLocation>>();
+      for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+        DataSocialMedia socialMedia = account.detail.socialMedia[i];
+        if (socialMedia.connected && socialMedia.location != null && socialMedia.location.isNotEmpty) {
+          mediaLocations.add(getGeocodingFromName(socialMedia.location).then((DataLocation location) {
+            devLog.finest("${config.oauthProviders.all[i].label}: ${socialMedia.displayName}: $location");
+            location.name = socialMedia.displayName;
+            locations.add(location);
+          }).catchError((ex) {
+            devLog.severe("${config.oauthProviders.all[i].label}: Geocoding Exception: $ex");
+          }));
+        }
+      }
+
+      // Wait for all social media
+      for (Future<DataLocation> futureLocation in mediaLocations) {
+        ts.sendExtend(message);
+        await futureLocation;
+      }
+
+      // Wait for GeoIP
+      await geoIPLocation;
+      if (geoIPLocationRes != null) locations.add(geoIPLocationRes);
+
+      // Fallback location
+      if (locations.isEmpty) {
+        devLog.severe("Using fallback location for account ${account.state.accountId}");
+        DataLocation location = new DataLocation();
+        location.name = "Los Angeles";
+        location.approximate = "Los Angeles, California 90017";
+        location.detail = "Los Angeles, California 90017";
+        location.postcode = "90017";
+        location.regionCode = "US-CA";
+        location.countryCode = "US";
+        location.latitude = 34.0207305;
+        location.longitude = -118.6919159;
+        locations.add(location);
+      }
+
+      // Set empty location names to account name
+      for (DataLocation location in locations) {
+        if (location.name == null || location.name.isEmpty) {
+          location.name = account.summary.name;
+        }
+      }
+
+      // One more check
+      if (account.state.accountId != 0) {
+        devLog.info("Skip create account, already has one");
+        return;
+      }
 
       // Create account if sufficient data was received
       ts.sendExtend(message);
       await lock.synchronized(() async {
-        if (account.state.accountId == 0) {
-          // Fetch location info from coordinates
-          ts.sendExtend(message);
-          String addressName;
-          String addressDetail;
-          String addressApproximate;
-          int addressPostcode;
-          String addressRegionCode;
-          String addressCountryCode;
-          if (!pb.hasLatitude() || !pb.hasLongitude() || pb.latitude == 0.0 || pb.longitude == 0.0) {
-            // Default to LA
-            // https://www.mapbox.com/api-documentation/#search-for-places
-            pb.latitude = 34.0207305;
-            pb.longitude = -118.6919159;
-            addressName = "Los Angeles";
-            addressDetail = "Los Angeles, California 90017";
-            addressApproximate = "Los Angeles, California 90017";
-            addressPostcode = 90017;
-            addressRegionCode = "US-CA";
-            addressCountryCode = "US";
-          } else {
-            // detailed place_type may be:
-            // - address
-            // for user search, may get detailed place as well from:
-            // - poi.landmark
-            // - poi
-            // approximate place_type may be:
-            // - neighborhood (downtown)
-            // - (postcode (los angeles, not as user friendly) (skip))
-            // - place (los angeles)
-            // - region (california)
-            // - country (us)
-            // get the name from place_name
-            // strip ", country text" (under context->id starting with country, text)
-            // don't let the user change approximate address, just the detail one
-          }
+        // Fetch location info from coordinates
+        // Coordinates may exist in either the GPS data or in the user's IP address
+        // Alternatively we can reverse one from location names in the user's social media
+        
 
-          // Count the number of connected authentication mechanisms
-          int connectedNb = 0;
-          for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-            if (account.detail.socialMedia[i].connected)
-              ++connectedNb;
-          }
+        
 
-          // Validate that the current state is sufficient to create an account
-          if (account.state.accountId == 0
-            && account.state.accountType != AccountType.AT_UNKNOWN
-            && connectedNb > 0) {
-            // Changes sent in a single SQL transaction for reliability
-            try {
-              // Process the account creation
-              ts.sendExtend(message);
-              await sql.startTransaction((sqljocky.Transaction tx) async {
-                // 1. Create the new account entry
-                // 2. Update device to LAST_INSERT_ID(), ensure that a row was modified, otherwise rollback (account already created)
-                // 3. Update all device authentication connections to LAST_INSERT_ID()
-                await tx.commit();
-              });
-            } catch (ex) {
-              opsLog.severe("Failed to create account: $ex");
-            }
+        // Count the number of connected authentication mechanisms
+        int connectedNb = 0;
+        for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+          if (account.detail.socialMedia[i].connected)
+            ++connectedNb;
+        }
+
+        // Validate that the current state is sufficient to create an account
+        if (account.state.accountId == 0
+          && account.state.accountType != AccountType.AT_UNKNOWN
+          && connectedNb > 0) {
+          // Changes sent in a single SQL transaction for reliability
+          try {
+            // Process the account creation
+            ts.sendExtend(message);
+            await sql.startTransaction((sqljocky.Transaction tx) async {
+              // 1. Create the new account entries
+              // 2. Update device to LAST_INSERT_ID(), ensure that a row was modified, otherwise rollback (account already created)
+              // 3. Update all device authentication connections to LAST_INSERT_ID()
+              // 4. Create the new location entries, in reverse (latest one always on top)
+              // 5. Update account to first (last added) location with LAST_INSERT_ID()
+              await tx.commit();
+            });
+          } catch (ex) {
+            opsLog.severe("Failed to create account: $ex");
           }
         }
       });
@@ -623,6 +689,236 @@ I/flutter (26706): OAuth Providers: 8
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
+  // Utility
+  /////////////////////////////////////////////////////////////////////
+  
+  Future<DataLocation> getGeoIPLocation(String ipAddress) async {
+    DataLocation location = new DataLocation();
+    // location.name = ''; // User name
+    // location.avatarUrl = ''; // View of the establishment
+
+    // Fetch info
+    http.Request request = new http.Request('GET', 
+      config.services.ipstackApi + '/' + Uri.encodeComponent(ipAddress) 
+      + '?access_key=' + config.services.ipstackKey);
+    http.Response response = await httpClient.send(request);
+    BytesBuilder builder = new BytesBuilder(copy: false);
+    await response.body.forEach(builder.add);
+    String body = utf8.decode(builder.toBytes());
+    if (response.statusCode != 200) {
+      throw new Exception(response.reasonPhrase);
+    }
+    dynamic doc = json.decode(body);
+    if (doc['latitude'] == null || doc['longitude'] == null) {
+      throw new Exception("No GeoIP information for '$ipAddress'");
+    }
+
+    // Not very localized, but works for US
+    location.approximate = "${doc['city']}, ${doc['region_name']} ${doc['zip']}";
+    location.detail = location.approximate;
+    location.postcode = doc['zip'];
+    location.regionCode = doc['region_code'];
+    location.countryCode = doc['country_code'];
+    location.latitude = doc['latitude'];
+    location.longitude = doc['longitude'];
+
+    return location;
+  }
+
+  Future<DataLocation> getGeocodingFromGPS(double latitude, double longitude) async {
+    // /geocoding/v5/{mode}/{longitude},{latitude}.json
+    // /geocoding/v5/{mode}/{query}.json
+    String url = "${config.services.mapboxApi}/geocoding/v5/"
+      "mapbox.places/$longitude,$latitude.json?"
+      "access_token=${config.services.mapboxToken}";
+
+    // Fetch info
+    http.Request request = new http.Request('GET', url);
+    http.Response response = await httpClient.send(request);
+    BytesBuilder builder = new BytesBuilder(copy: false);
+    await response.body.forEach(builder.add);
+    String body = utf8.decode(builder.toBytes());
+    if (response.statusCode != 200) {
+      throw new Exception(response.reasonPhrase);
+    }
+    dynamic doc = json.decode(body);
+    if (doc['query'] == null || doc['query'][0] == null || doc['query'][1] == null) {
+      throw new Exception("No geocoding information for '$longitude,$latitude'");
+    }
+    dynamic features = doc['features'];
+    if (features == null || features.length == 0) {
+      throw new Exception("No geocoding features at '$longitude,$latitude'");
+    }
+
+    // detailed place_type may be:
+    // - address
+    // for user search, may get detailed place as well from:
+    // - poi.landmark
+    // - poi
+    // approximate place_type may be:
+    // - neighborhood (downtown)
+    // - (postcode (los angeles, not as user friendly) (skip))
+    // - place (los angeles)
+    // - region (california)
+    // - country (us)
+    // get the name from place_name
+    // strip ", country text" (under context->id starting with country, text)
+    // don't let the user change approximate address, just the detail one
+    dynamic featureDetail;
+    dynamic featureApproximate;
+    dynamic featureRegion;
+    dynamic featurePostcode;
+    dynamic featureCountry;
+    // new List<String>().any((String v) => [ "address", "poi.landmark", "poi" ].contains(v));
+    for (dynamic feature in features) {
+      dynamic placeType = feature['place_type'];
+      if (featureDetail == null && placeType.any((String v) => const [ "address", "poi.landmark", "poi" ].contains(v))) {
+        featureDetail = feature;
+      } else if (featureApproximate == null && placeType.any((String v) => const [ "locality", "neighborhood", "place" ].contains(v))) {
+        featureApproximate = feature;
+      } else if (featureRegion == null && placeType.any((String v) => const [ "region" ].contains(v))) {
+        featureRegion = feature;
+      } else if (featurePostcode == null && placeType.any((String v) => const [ "postcode" ].contains(v))) {
+        featurePostcode = feature;
+      } else if (featureCountry == null && placeType.any((String v) => const [ "country" ].contains(v))) {
+        featureCountry = feature;
+      }
+    }
+    if (featureCountry == null) {
+      throw new Exception("Geocoding not in a country at '$longitude,$latitude'");
+    }
+    if (featureRegion == null) {
+      featureRegion = featureCountry;
+    }
+    if (featureApproximate == null) {
+      featureApproximate = featureRegion;
+    }
+    if (featureDetail == null) {
+      featureDetail = featureApproximate;
+    }
+
+    // Entry
+    String country = featureCountry['text'];
+    DataLocation location = new DataLocation();
+    location.approximate = featureApproximate['place_name'].replaceAll(', United States', '');
+    location.detail = featureDetail['place_name'].replaceAll(', United States', '');
+    if (featurePostcode != null) location.postcode = featurePostcode['text'];
+    location.regionCode = featureRegion['properties']['short_code'];
+    location.countryCode = featureCountry['properties']['short_code'];
+    location.latitude = latitude;
+    location.longitude = longitude;
+    return location;
+  }
+
+  Future<DataLocation> getGeocodingFromName(String name) async {
+    // /geocoding/v5/{mode}/{longitude},{latitude}.json
+    // /geocoding/v5/{mode}/{query}.json
+    String url = "${config.services.mapboxApi}/geocoding/v5/"
+      "mapbox.places/${Uri.encodeComponent(name)}.json?"
+      "access_token=${config.services.mapboxToken}";
+
+    // Fetch info
+    http.Request request = new http.Request('GET', url);
+    http.Response response = await httpClient.send(request);
+    BytesBuilder builder = new BytesBuilder(copy: false);
+    await response.body.forEach(builder.add);
+    String body = utf8.decode(builder.toBytes());
+    if (response.statusCode != 200) {
+      throw new Exception(response.reasonPhrase);
+    }
+    dynamic doc = json.decode(body);
+    if (doc['query'] == null || doc['query'][0] == null || doc['query'][1] == null) {
+      throw new Exception("No geocoding information for '$name'");
+    }
+    dynamic features = doc['features'];
+    if (features == null || features.length == 0) {
+      throw new Exception("No geocoding features at '$name'");
+    }
+
+    // detailed place_type may be:
+    // - address
+    // for user search, may get detailed place as well from:
+    // - poi.landmark
+    // - poi
+    // approximate place_type may be:
+    // - neighborhood (downtown)
+    // - (postcode (los angeles, not as user friendly) (skip))
+    // - place (los angeles)
+    // - region (california)
+    // - country (us)
+    // get the name from place_name
+    // strip ", country text" (under context->id starting with country, text)
+    // don't let the user change approximate address, just the detail one
+    dynamic featureDetail;
+    dynamic featureApproximate;
+    dynamic featureRegion;
+    dynamic featurePostcode;
+    dynamic featureCountry;
+    // new List<String>().any((String v) => [ "address", "poi.landmark", "poi" ].contains(v));
+    for (dynamic feature in features) {
+      dynamic placeType = feature['place_type'];
+      if (featureDetail == null && placeType.any((String v) => const [ "address", "poi.landmark", "poi" ].contains(v))) {
+        featureDetail = feature;
+      } else if (featureApproximate == null && placeType.any((String v) => const [ "locality", "neighborhood", "place" ].contains(v))) {
+        featureApproximate = feature;
+      } else if (featureRegion == null && placeType.any((String v) => const [ "region" ].contains(v))) {
+        featureRegion = feature;
+      } else if (featurePostcode == null && placeType.any((String v) => const [ "postcode" ].contains(v))) {
+        featurePostcode = feature;
+      } else if (featureCountry == null && placeType.any((String v) => const [ "country" ].contains(v))) {
+        featureCountry = feature;
+      }
+    }
+    
+    if (featureApproximate == null) {
+      featureApproximate = featureRegion;
+    }
+    featureDetail = featureApproximate; // Override
+
+    if (featureDetail == null) {
+      throw new Exception("No approximate geocoding found at '$name'");
+    }
+
+    dynamic contextPostcode;
+    dynamic contextRegion;
+    dynamic contextCountry;
+    if (featureCountry == null) {
+      for (dynamic context in featureDetail['context']) {
+        if (contextPostcode == null && context['id'].toString().startsWith('postcode.')) {
+          contextPostcode = context;
+        } else if (contextCountry == null && context['id'].toString().startsWith('country.')) {
+          contextCountry = context;
+        } else if (contextRegion == null && context['id'].toString().startsWith('region.')) {
+          contextRegion = context;
+        } 
+      }
+    }
+
+    if (contextRegion == null) {
+      contextRegion = contextCountry;
+    }
+
+    if (contextCountry == null && featureCountry == null) {
+      throw new Exception("Geocoding not in a country at '$name'");
+    }
+
+    // Entry
+    String country = featureCountry == null ? contextCountry['text'] : featureCountry['text'];
+    DataLocation location = new DataLocation();
+    location.approximate = featureApproximate['place_name'].replaceAll(', United States', '');
+    location.detail = featureDetail['place_name'].replaceAll(', United States', '');
+    if (contextPostcode != null)location.postcode = contextPostcode['text'];
+    else if (featurePostcode != null) location.postcode = featurePostcode['text'];
+    location.regionCode = featureRegion == null ? contextRegion['short_code'] : featureRegion['properties']['short_code'];
+    location.countryCode = featureCountry == null ? contextCountry['short_code'] : featureCountry['properties']['short_code'];
+    location.latitude = featureDetail['center'][1];
+    location.longitude = featureDetail['center'][0];
+    return location;
+  }
+
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
   // App
   /////////////////////////////////////////////////////////////////////
   
@@ -641,5 +937,44 @@ I/flutter (26706): OAuth Providers: 8
     subscribeOAuth();
   }
 }
+
+/*
+
+Example GeoJSON:
+
+{
+  "ip": "49.145.22.242",
+  "type": "ipv4",
+  "continent_code": "AS",
+  "continent_name": "Asia",
+  "country_code": "PH",
+  "country_name": "Philippines",
+  "region_code": "05",
+  "region_name": "Bicol",
+  "city": "Lagonoy",
+  "zip": "4425",
+  "latitude": 13.7386,
+  "longitude": 123.5206,
+  "location": {
+    "geoname_id": 1708078,
+    "capital": "Manila",
+    "languages": [
+      {
+        "code": "en",
+        "name": "English",
+        "native": "English"
+      }
+    ],
+    "country_flag": "http://assets.ipstack.com/flags/ph.svg",
+    "country_flag_emoji": "🇵🇭",
+    "country_flag_emoji_unicode": "U+1F1F5 U+1F1ED",
+    "calling_code": "63",
+    "is_eu": false
+  }
+}
+
+
+*/
+
 
 /* end of file */
