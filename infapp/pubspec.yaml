@@ -33,6 +33,7 @@ dependencies:
 
   dospace: ^0.9.5
   geolocator: ^1.4.0
+  url_launcher: ^3.0.3
   
   # 0.4.1 crashes
   image_picker: 0.3.1

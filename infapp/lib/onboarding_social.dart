@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inf/utility/progress_dialog.dart';
 
@@ -17,6 +19,8 @@ class OnboardingSocial extends StatelessWidget {
     @required this.oauthState,
     @required this.onOAuthSelected,
     @required this.onSignUp,
+    @required this.termsOfServiceUrl,
+    @required this.privacyPolicyUrl,
   }) : super(key: key);
 
   final AccountType accountType; 
@@ -25,6 +29,9 @@ class OnboardingSocial extends StatelessWidget {
 
   final void Function(int oauthProvider) onOAuthSelected;
   final Future<Null> Function() onSignUp;
+
+  final String termsOfServiceUrl;
+  final String privacyPolicyUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +119,67 @@ class OnboardingSocial extends StatelessWidget {
                           ],
                         ),
                         onPressed: connected && onSignUp != null ? () async {
+                          bool accepted = false;
+                          await showDialog<Null>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return new AlertDialog(
+                                title: new Text('INF Marketplace LLC'),
+                                content: new SingleChildScrollView(
+                                  child: new RichText(
+                                    text: new TextSpan(
+                                      children: [
+                                        new TextSpan(
+                                          text: "By signing up to our service you confirm that you have read and agree to our ",
+                                        ),
+                                        new TextSpan(
+                                          text: "Terms of Service",
+                                          // style: new TextStyle(color: Colors.blue),
+                                          style: Theme.of(context).textTheme.button.copyWith(color: Theme.of(context).accentColor),
+                                          recognizer: new TapGestureRecognizer()..onTap = () { 
+                                            launch(termsOfServiceUrl); 
+                                          },
+                                        ),
+                                        new TextSpan(
+                                          text: " and ",
+                                        ),
+                                        new TextSpan(
+                                          text: "Privacy Policy",
+                                          // style: new TextStyle(color: Colors.blue),
+                                          style: Theme.of(context).textTheme.button.copyWith(color: Theme.of(context).accentColor),
+                                          recognizer: new TapGestureRecognizer()..onTap = () { 
+                                            launch(privacyPolicyUrl); 
+                                          },
+                                        ),
+                                        new TextSpan(
+                                          text: ".",
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  new FlatButton(
+                                    child: new Text("Back".toUpperCase()),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  new FlatButton(
+                                    child: new Text("I agree".toUpperCase()),
+                                    onPressed: () {
+                                      accepted = true;
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          if (!accepted) {
+                            return;
+                          }
+                          // Show progress dialog
                           var progressDialog = showProgressDialog(
                             context: context,
                             builder: (BuildContext context) {

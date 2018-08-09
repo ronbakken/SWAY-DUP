@@ -371,6 +371,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                             });
                           },
                           oauthState: demoAccount.detail.socialMedia, // () { return demoSocialMedia; }(),
+                          termsOfServiceUrl: ConfigManager.of(context).services.termsOfServiceUrl,
+                          privacyPolicyUrl: ConfigManager.of(context).services.privacyPolicyUrl,
                           onSignUp: () async { 
                             demoAccount.state.accountId = random.nextInt(1000000) + 1;
                             demoAccount.summary.name = "John Smith";
@@ -385,12 +387,13 @@ class _DemoHomePageState extends State<DemoHomePage> {
                             try {
                               Position position = await Geolocator().getLastKnownPosition(LocationAccuracy.medium);
                               print('test');
-                              print(position?.toMap()); // May be null
+                              print(position?.latitude); // May be null
+                              print(position?.longitude); // May be null
                             } catch (ex) {
                               print(ex); // Or fail to give permissions
                               // PlatformException(PERMISSION_DENIED, Access to location data denied, null)
                             }
-                            await new Future.delayed(new Duration(seconds: 3));
+                            await new Future.delayed(new Duration(seconds: 1));
                             print('ok');
                             // () async { await null; Navigator.pop(context); }(); // Trickery to execute after this function
                           },
