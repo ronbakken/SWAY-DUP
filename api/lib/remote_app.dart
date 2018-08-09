@@ -679,15 +679,68 @@ I/flutter (26706): OAuth Providers: 8
             ts.sendExtend(message);
             await sql.startTransaction((sqljocky.Transaction tx) async {
               // 1. Create the new account entries
-              // tx
               // 2. Update device to LAST_INSERT_ID(), ensure that a row was modified, otherwise rollback (account already created)
               // 3. Update all device authentication connections to LAST_INSERT_ID()
               // 4. Create the new location entries, in reverse (latest one always on top)
               // 5. Update account to first (last added) location with LAST_INSERT_ID()
+              // 1.
+              // TODO: Add notify flags field to SQL
+              ts.sendExtend(message);
+              sqljocky.Results res1 = await tx.prepareExecute("INSERT INTO `accounts`("
+                "`name`, `account_type`, "
+                "`global_account_state`, `global_account_state_reason`, "
+                "`description`, `url`" // avatarUrl is set later
+                ") VALUES (?, ?, ?, ?, ?, ?)", 
+                [ accountName.toString(), account.state.accountType.value.toInt(),
+                // GlobalAccountState.GAS_READ_ONLY.value.toInt(), GlobalAccountStateReason.GASR_PENDING.value.toInt(),
+                GlobalAccountState.GAS_READ_WRITE.value.toInt(), GlobalAccountStateReason.GASR_DEMO_APPROVED.value.toInt(),
+                accountDescription.toString(), accountUrl ]);
+              if (res1.affectedRows == 0) throw new Exception("Account was not inserted");
+              int accountId = res1.insertId;
+              if (accountId == 0) throw new Exception("Invalid accountId");
+              // 2.
+              ts.sendExtend(message);
+              sqljocky.Results res2 = await tx.prepareExecute("UPDATE `devices` SET `account_id` = LAST_INSERT_ID() "
+                "WHERE `device_id` = ? AND `account_id` = 0", [ account.state.deviceId.toInt() ]);
+              if (res2.affectedRows == 0) throw new Exception("Device was not updated");
+              // 3.
+              ts.sendExtend(message);
+              sqljocky.Results res3 = await tx.prepareExecute("UPDATE `oauth_connections` SET `account_id` = LAST_INSERT_ID() "
+                "WHERE `device_id` = ? AND `account_id` = 0", [ account.state.deviceId.toInt() ]);
+              if (res3.affectedRows == 0) throw new Exception("Social media was not updated");
+              // 4.
+              /* sqljocky.Results lastInsertedId = await tx.query("SELECT LAST_INSERT_ID()");
+              int accountId = 0;
+              await for (sqljocky.Row row in lastInsertedId) {
+                accountId = row[0];
+                devLog.info("Inserted account_id $accountId");
+              }
+              if (accountId == 0) throw new Exception("Invalid accountId"); */
+              for (DataLocation location in locations.reversed) {
+                ts.sendExtend(message);
+                sqljocky.Results res4 = await tx.prepareExecute("INSERT INTO `addressbook`("
+                  "`account_id`, `name`, `detail`, `approximate`, "
+                  "`postcode`, `region_code`, `country_code`, `point`) "
+                  "VALUES (?, ?, ?, ?, ?, ?, ?, "
+                  "PointFromText('POINT(${location.longitude} ${location.latitude})'))", [
+                    accountId.toInt(), location.name.toString(), location.detail.toString(), location.approximate.toString(),
+                    location.postcode == null ? null : location.postcode.toString(), 
+                    location.regionCode.toString(), location.countryCode.toString()
+                ]);
+                if (res4.affectedRows == 0) throw new Exception("Location was not inserted");
+                devLog.finest("Inserted location");
+              }
+              devLog.finest("Inserted locations");
+              // 5.
+              ts.sendExtend(message);
+              sqljocky.Results res5 = await tx.prepareExecute("UPDATE `accounts` SET `location_id` = LAST_INSERT_ID() "
+                "WHERE `account_id` = ?", [ accountId.toInt() ]);
+              if (res5.affectedRows == 0) throw new Exception("Account was not updated with location");
+              devLog.fine("Finished setting up account $accountId");
               await tx.commit();
             });
           } catch (ex) {
-            opsLog.severe("Failed to create account: $ex");
+            opsLog.severe("Failed to create account for device ${account.state.deviceId}: $ex");
           }
         }
       });
