@@ -110,6 +110,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   }
 
   void receivedDeviceAuthState(NetDeviceAuthState pb) {
+    print("NetDeviceAuthState: $pb");
     setState(() {
       if (pb.data.state.accountId != account.state.accountId) {
         // Any cache cleanup may be done here when switching accounts

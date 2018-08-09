@@ -17,7 +17,16 @@ import 'onboarding_selection.dart';
 import 'onboarding_social.dart';
 
 // Onboarding sequence
-class AppOnboarding extends StatelessWidget {
+class AppOnboarding extends StatefulWidget {
+  const AppOnboarding({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  _AppOnboardingState createState() => new _AppOnboardingState();
+}
+
+class _AppOnboardingState extends State<AppOnboarding> {
   void navigateToOAuth(BuildContext context, int oauthProvider) {
     Navigator.push( // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
@@ -38,7 +47,6 @@ class AppOnboarding extends StatelessWidget {
   }
 
   void navigateToSocial(BuildContext context) {
-    BuildContext rootContext = context;
     Navigator.push( // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
       new MaterialPageRoute(
@@ -58,6 +66,7 @@ class AppOnboarding extends StatelessWidget {
             onSignUp: canSignUp && (network.connected == NetworkConnectionState.Ready) ? () async {
               // Get user position
               Position position;
+              NavigatorState navigator = Navigator.of(context);
               try {
                 position = await Geolocator().getLastKnownPosition(LocationAccuracy.medium);
               } catch (ex) {
@@ -72,10 +81,14 @@ class AppOnboarding extends StatelessWidget {
               } catch (ex) {
                 print(ex);
               }
-              if (!success) {
+              if (success) {
+                while (navigator.canPop()) {
+                  navigator.pop();
+                }
+              } else if (this.mounted) {
                 // Failed to sign up
                 await showDialog<Null>(
-                  context: rootContext, // use the proper context
+                  context: this.context,
                   builder: (BuildContext context) {
                     return new AlertDialog(
                       title: new Text('Sign Up Failed'),
