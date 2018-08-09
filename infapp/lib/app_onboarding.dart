@@ -82,9 +82,9 @@ class _AppOnboardingState extends State<AppOnboarding> {
                 print(ex);
               }
               if (success) {
-                while (navigator.canPop()) {
+                //while (navigator.canPop()) {
                   navigator.pop();
-                }
+                //}
               } else if (this.mounted) {
                 // Failed to sign up
                 await showDialog<Null>(

@@ -10,6 +10,7 @@ import 'network/inf.pb.dart';
 import 'network/network_manager.dart';
 import 'loading_network.dart';
 import 'app_onboarding.dart';
+import 'debug_account.dart';
 
 // Switches between app home depending on the network state
 class AppSwitch extends StatelessWidget {
@@ -24,10 +25,10 @@ class AppSwitch extends StatelessWidget {
       return new AppOnboarding();
     }
     if (network.account.state.accountType == AccountType.AT_INFLUENCER) {
-      return new Text("Influencer");
+      return new DebugAccount(account: network.account);
     }
     if (network.account.state.accountType == AccountType.AT_BUSINESS) {
-      return new Text("Business");
+      return new DebugAccount(account: network.account);
     }
     throw new Exception("Invalid account state");
   }

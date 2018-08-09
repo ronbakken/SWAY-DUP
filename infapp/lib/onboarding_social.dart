@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:inf/utility/progress_dialog.dart';
 
 import 'network/config_manager.dart';
 import 'network/inf.pb.dart';
+import 'utility/progress_dialog.dart';
 
 class OnboardingSocial extends StatelessWidget {
   const OnboardingSocial({
