@@ -52,6 +52,14 @@ class NetworkManager extends StatelessWidget {
   }
 }
 
+class NetworkException implements Exception {
+  final String message;
+  const NetworkException(this.message);
+  String toString() {
+    return "NetworkException { message: \"$message\" }";
+  }
+}
+
 class _NetworkManagerStateful extends StatefulWidget {
   const _NetworkManagerStateful({
     Key key,
@@ -437,10 +445,28 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     if (oauthProvider < account.detail.socialMedia.length && resPb.socialMedia != null) {
       setState(() {
         account.detail.socialMedia[oauthProvider] = resPb.socialMedia;
+        ++_changed;
       });
     }
     // Return just whether connected or not
     return resPb.socialMedia.connected;
+  }
+
+  static int _netAccountCreateReq = TalkSocket.encode("A_CREATE");
+  @override
+  Future<Null> createAccount(double latitude, double longitude) async {
+    NetAccountCreateReq pb = new NetAccountCreateReq();
+    if (latitude != null && latitude != 0.0 && longitude != null && longitude != 0.0) {
+      pb.latitude = latitude;
+      pb.longitude = longitude;
+    }
+    TalkMessage res = await _ts.sendRequest(_netAccountCreateReq, pb.writeToBuffer());
+    NetDeviceAuthState resPb = new NetDeviceAuthState();
+    resPb.mergeFromBuffer(res.data);
+    receivedDeviceAuthState(resPb);
+    if (account.state.accountId == 0) {
+      throw new NetworkException("No account has been created");
+    }
   }
 }
 
@@ -486,6 +512,9 @@ abstract class NetworkInterface {
 
   /// Try to connect an OAuth provider with the received callback query
   Future<bool> connectOAuth(int oauthProvider, String callbackQuery);
+
+  /// Create an account
+  Future<Null> createAccount(double latitude, double longitude);
 
 }
 

@@ -17,22 +17,22 @@ class OnboardingSocial extends StatelessWidget {
     @required this.accountType,
     @required this.oauthProviders,
     @required this.oauthState,
-    @required this.onOAuthSelected,
-    @required this.onSignUp,
     @required this.termsOfServiceUrl,
     @required this.privacyPolicyUrl,
+    @required this.onOAuthSelected,
+    @required this.onSignUp,
   }) : super(key: key);
 
   final AccountType accountType; 
   final List<ConfigOAuthProvider> oauthProviders;
   final List<DataSocialMedia> oauthState;
 
-  final void Function(int oauthProvider) onOAuthSelected;
-  final Future<Null> Function() onSignUp;
-
   final String termsOfServiceUrl;
   final String privacyPolicyUrl;
 
+  final void Function(int oauthProvider) onOAuthSelected;
+  final Future<Null> Function() onSignUp;
+  
   @override
   Widget build(BuildContext context) {
     assert(ConfigManager.of(context) != null);

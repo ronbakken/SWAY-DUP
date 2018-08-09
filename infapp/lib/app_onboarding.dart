@@ -6,6 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'network/inf.pb.dart';
 import 'network/config_manager.dart';
@@ -37,6 +38,7 @@ class AppOnboarding extends StatelessWidget {
   }
 
   void navigateToSocial(BuildContext context) {
+    BuildContext rootContext = context;
     Navigator.push( // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
       new MaterialPageRoute(
@@ -50,8 +52,59 @@ class AppOnboarding extends StatelessWidget {
             accountType: network.account.state.accountType,
             oauthProviders: config.oauthProviders.all,
             oauthState: network.account.detail.socialMedia,
+            termsOfServiceUrl: config.services.termsOfServiceUrl,
+            privacyPolicyUrl: config.services.privacyPolicyUrl,
             onOAuthSelected: (network.connected == NetworkConnectionState.Ready) ? (int oauthProvider) { navigateToOAuth(context, oauthProvider); } : null,
-            onSignUp: canSignUp ? () { /*Scaffold.of(context).showSnackBar(new SnackBar(content: new Text("Todo")));*/ } : null,
+            onSignUp: canSignUp && (network.connected == NetworkConnectionState.Ready) ? () async {
+              // Get user position
+              Position position;
+              try {
+                position = await Geolocator().getLastKnownPosition(LocationAccuracy.medium);
+              } catch (ex) {
+                print(ex); // Or fail to give permissions
+                // PlatformException(PERMISSION_DENIED, Access to location data denied, null)
+              }
+              // Create account
+              bool success = false;
+              try {
+                await network.createAccount(position?.latitude, position?.longitude);
+                success = true;
+              } catch (ex) {
+                print(ex);
+              }
+              if (!success) {
+                // Failed to sign up
+                await showDialog<Null>(
+                  context: rootContext, // use the proper context
+                  builder: (BuildContext context) {
+                    return new AlertDialog(
+                      title: new Text('Sign Up Failed'),
+                      content: new SingleChildScrollView(
+                        child: new ListBody(
+                          children: <Widget>[
+                            new Text('An error has occured.'),
+                            new Text('Please try again later.'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              new Text('Ok'.toUpperCase())
+                            ],
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
+            } : null,
           );
         },
       )

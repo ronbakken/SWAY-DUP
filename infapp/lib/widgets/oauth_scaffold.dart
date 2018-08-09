@@ -44,7 +44,6 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     _focusScope.requestFocus(new FocusNode());
     return showDialog<Null>(
       context: context,
-      barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return new AlertDialog(
           title: new Text('Authorization Failed'),
@@ -61,7 +60,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  new Text('Ok')
+                  new Text('Ok'.toUpperCase())
                 ],
               ),
               onPressed: () {
