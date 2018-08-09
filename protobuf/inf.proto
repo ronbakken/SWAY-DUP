@@ -279,9 +279,16 @@ message DataBusinessOffer {
 
 message DataLocation {
   int32 locationId = 1;
+  
   string name = 2;
-  string address = 3;
   string avatarUrl = 6;
+  
+  string approximate = 7;
+  string detail = 8;
+  string postcode = 9;
+  string regionCode = 10;
+  string countryCode = 11;
+  
   double latitude = 4;
   double longitude = 5;
   
