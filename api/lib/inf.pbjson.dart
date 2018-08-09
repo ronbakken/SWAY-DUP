@@ -144,6 +144,7 @@ const ConfigServices$json = const {
     const {'1': 'spacesKey', '3': 5, '4': 1, '5': 9, '10': 'spacesKey'},
     const {'1': 'spacesSecret', '3': 6, '4': 1, '5': 9, '10': 'spacesSecret'},
     const {'1': 'spacesBucket', '3': 7, '4': 1, '5': 9, '10': 'spacesBucket'},
+    const {'1': 'ipstackKey', '3': 12, '4': 1, '5': 9, '10': 'ipstackKey'},
   ],
 };
 
