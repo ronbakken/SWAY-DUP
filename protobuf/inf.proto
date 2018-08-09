@@ -276,8 +276,8 @@ message DataLocation {
   string name = 2;
   string address = 3;
   string avatarUrl = 6;
-  double lat = 4;
-  double lng = 5;
+  double latitude = 4;
+  double longitude = 5;
   
 }
 
@@ -329,8 +329,8 @@ message DataAccountDetail {
   // repeated string coverUrls = 1;
   repeated CategoryId categories = 2;
   repeated DataSocialMedia socialMedia = 3;
-  double lat = 4;
-  double lng = 5;
+  double latitude = 4;
+  double longitude = 5;
   
 }
 
@@ -451,9 +451,8 @@ message NetOAuthConnectRes {
 // Response: NetDeviceAuthState
 // Name: A_CREATE
 message NetAccountCreateReq {
-  string name = 1;
-  double lat = 2;
-  double lng = 3;
+  double latitude = 2;
+  double longitude = 3;
   
 }
 
