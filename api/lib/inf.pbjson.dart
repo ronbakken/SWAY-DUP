@@ -225,8 +225,8 @@ const DataLocation$json = const {
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'address', '3': 3, '4': 1, '5': 9, '10': 'address'},
     const {'1': 'avatarUrl', '3': 6, '4': 1, '5': 9, '10': 'avatarUrl'},
-    const {'1': 'lat', '3': 4, '4': 1, '5': 1, '10': 'lat'},
-    const {'1': 'lng', '3': 5, '4': 1, '5': 1, '10': 'lng'},
+    const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
+    const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
   ],
 };
 
@@ -277,8 +277,8 @@ const DataAccountDetail$json = const {
   '2': const [
     const {'1': 'categories', '3': 2, '4': 3, '5': 11, '6': '.inf.CategoryId', '10': 'categories'},
     const {'1': 'socialMedia', '3': 3, '4': 3, '5': 11, '6': '.inf.DataSocialMedia', '10': 'socialMedia'},
-    const {'1': 'lat', '3': 4, '4': 1, '5': 1, '10': 'lat'},
-    const {'1': 'lng', '3': 5, '4': 1, '5': 1, '10': 'lng'},
+    const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
+    const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
   ],
 };
 
@@ -369,9 +369,8 @@ const NetOAuthConnectRes$json = const {
 const NetAccountCreateReq$json = const {
   '1': 'NetAccountCreateReq',
   '2': const [
-    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'lat', '3': 2, '4': 1, '5': 1, '10': 'lat'},
-    const {'1': 'lng', '3': 3, '4': 1, '5': 1, '10': 'lng'},
+    const {'1': 'latitude', '3': 2, '4': 1, '5': 1, '10': 'latitude'},
+    const {'1': 'longitude', '3': 3, '4': 1, '5': 1, '10': 'longitude'},
   ],
 };
 

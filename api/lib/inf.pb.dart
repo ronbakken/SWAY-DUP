@@ -669,8 +669,8 @@ class DataLocation extends GeneratedMessage {
     ..a<int>(1, 'locationId', PbFieldType.O3)
     ..aOS(2, 'name')
     ..aOS(3, 'address')
-    ..a<double>(4, 'lat', PbFieldType.OD)
-    ..a<double>(5, 'lng', PbFieldType.OD)
+    ..a<double>(4, 'latitude', PbFieldType.OD)
+    ..a<double>(5, 'longitude', PbFieldType.OD)
     ..aOS(6, 'avatarUrl')
     ..hasRequiredFields = false
   ;
@@ -706,15 +706,15 @@ class DataLocation extends GeneratedMessage {
   bool hasAddress() => $_has(2);
   void clearAddress() => clearField(3);
 
-  double get lat => $_getN(3);
-  set lat(double v) { $_setDouble(3, v); }
-  bool hasLat() => $_has(3);
-  void clearLat() => clearField(4);
+  double get latitude => $_getN(3);
+  set latitude(double v) { $_setDouble(3, v); }
+  bool hasLatitude() => $_has(3);
+  void clearLatitude() => clearField(4);
 
-  double get lng => $_getN(4);
-  set lng(double v) { $_setDouble(4, v); }
-  bool hasLng() => $_has(4);
-  void clearLng() => clearField(5);
+  double get longitude => $_getN(4);
+  set longitude(double v) { $_setDouble(4, v); }
+  bool hasLongitude() => $_has(4);
+  void clearLongitude() => clearField(5);
 
   String get avatarUrl => $_getS(5, '');
   set avatarUrl(String v) { $_setString(5, v); }
@@ -932,8 +932,8 @@ class DataAccountDetail extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataAccountDetail')
     ..pp<CategoryId>(2, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
     ..pp<DataSocialMedia>(3, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
-    ..a<double>(4, 'lat', PbFieldType.OD)
-    ..a<double>(5, 'lng', PbFieldType.OD)
+    ..a<double>(4, 'latitude', PbFieldType.OD)
+    ..a<double>(5, 'longitude', PbFieldType.OD)
     ..hasRequiredFields = false
   ;
 
@@ -957,15 +957,15 @@ class DataAccountDetail extends GeneratedMessage {
 
   List<DataSocialMedia> get socialMedia => $_getList(1);
 
-  double get lat => $_getN(2);
-  set lat(double v) { $_setDouble(2, v); }
-  bool hasLat() => $_has(2);
-  void clearLat() => clearField(4);
+  double get latitude => $_getN(2);
+  set latitude(double v) { $_setDouble(2, v); }
+  bool hasLatitude() => $_has(2);
+  void clearLatitude() => clearField(4);
 
-  double get lng => $_getN(3);
-  set lng(double v) { $_setDouble(3, v); }
-  bool hasLng() => $_has(3);
-  void clearLng() => clearField(5);
+  double get longitude => $_getN(3);
+  set longitude(double v) { $_setDouble(3, v); }
+  bool hasLongitude() => $_has(3);
+  void clearLongitude() => clearField(5);
 }
 
 class _ReadonlyDataAccountDetail extends DataAccountDetail with ReadonlyMessageMixin {}
@@ -1344,9 +1344,8 @@ class _ReadonlyNetOAuthConnectRes extends NetOAuthConnectRes with ReadonlyMessag
 
 class NetAccountCreateReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetAccountCreateReq')
-    ..aOS(1, 'name')
-    ..a<double>(2, 'lat', PbFieldType.OD)
-    ..a<double>(3, 'lng', PbFieldType.OD)
+    ..a<double>(2, 'latitude', PbFieldType.OD)
+    ..a<double>(3, 'longitude', PbFieldType.OD)
     ..hasRequiredFields = false
   ;
 
@@ -1366,20 +1365,15 @@ class NetAccountCreateReq extends GeneratedMessage {
     if (v is! NetAccountCreateReq) checkItemFailed(v, 'NetAccountCreateReq');
   }
 
-  String get name => $_getS(0, '');
-  set name(String v) { $_setString(0, v); }
-  bool hasName() => $_has(0);
-  void clearName() => clearField(1);
+  double get latitude => $_getN(0);
+  set latitude(double v) { $_setDouble(0, v); }
+  bool hasLatitude() => $_has(0);
+  void clearLatitude() => clearField(2);
 
-  double get lat => $_getN(1);
-  set lat(double v) { $_setDouble(1, v); }
-  bool hasLat() => $_has(1);
-  void clearLat() => clearField(2);
-
-  double get lng => $_getN(2);
-  set lng(double v) { $_setDouble(2, v); }
-  bool hasLng() => $_has(2);
-  void clearLng() => clearField(3);
+  double get longitude => $_getN(1);
+  set longitude(double v) { $_setDouble(1, v); }
+  bool hasLongitude() => $_has(1);
+  void clearLongitude() => clearField(3);
 }
 
 class _ReadonlyNetAccountCreateReq extends NetAccountCreateReq with ReadonlyMessageMixin {}
