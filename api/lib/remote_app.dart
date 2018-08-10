@@ -306,6 +306,7 @@ class RemoteApp {
       }
       // Fetch account-specific info (overwrites device accountType, although it cannot possibly be different)
       if (account.state.accountId != 0) {
+        if (extend != null) extend();
         sqljocky.Results accountResults = await sql.prepareExecute(
           "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
           "`description`, `location_id`, `avatar_url`, `url` FROM `accounts` "
@@ -322,6 +323,7 @@ class RemoteApp {
           if (row[7] != null) account.detail.url = row[7].toString();
         }
         if (locationId != null && locationId != 0) {
+          if (extend != null) extend();
           sqljocky.Results locationResults = await sql.prepareExecute(
             "SELECT `${account.state.accountType == AccountType.AT_BUSINESS ? 'detail' : 'approximate'}` FROM `addressbook` "
             "WHERE `location_id` = ?", [ locationId.toInt() ]);
