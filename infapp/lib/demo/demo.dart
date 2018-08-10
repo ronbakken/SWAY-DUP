@@ -314,11 +314,19 @@ class _DemoHomePageState extends State<DemoHomePage> {
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Localhost 1 (Genymotion Emulator)') ] ),
-            onPressed: () { widget.onSetServer("ws://192.168.167.2:9090/ws", 1); }, // 105 = athena, 167 = air
+            onPressed: () { widget.onSetServer("ws://192.168.167.2:8090/api", 1); }, // 105 = athena, 167 = air
           ),
           new FlatButton(
             child: new Row(children: [ new Text('Localhost 2 (Genymotion Emulator)') ] ),
-            onPressed: () { widget.onSetServer("ws://192.168.167.2:9090/ws", 2); }, // 1&2 = mariadb.devinf.net 
+            onPressed: () { widget.onSetServer("ws://192.168.167.2:8090/api", 2); }, // 1&2 = mariadb.devinf.net 
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('Excalibur 1') ] ),
+            onPressed: () { widget.onSetServer("wss://excalibur.devinf.net/api", 1); }, // 105 = athena, 167 = air
+          ),
+          new FlatButton(
+            child: new Row(children: [ new Text('Excalibur 2') ] ),
+            onPressed: () { widget.onSetServer("wss://excalibur.devinf.net/api", 2); }, // 1&2 = mariadb.devinf.net 
           ),
           ///
           /// The Portion for the On boarding UI
