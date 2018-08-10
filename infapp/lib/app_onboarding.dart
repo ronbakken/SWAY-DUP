@@ -58,7 +58,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
             // Need to implement cleaner navigation
             () async { await null; navigator.popUntil(ModalRoute.withName(Navigator.defaultRouteName)); }();
           }
-          bool canSignUp = (network.account.state.accountId != 0) && network.account.detail.socialMedia.any((DataSocialMedia data) => (data.connected && !data.expired));
+          bool canSignUp = (network.account.state.accountId == 0) && network.account.detail.socialMedia.any((DataSocialMedia data) => (data.connected && !data.expired));
           assert(config != null);
           assert(network != null);
           return new OnboardingSocial(
