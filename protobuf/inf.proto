@@ -101,7 +101,10 @@ message ConfigServices {
   string spacesSecret = 6;
   string spacesBucket = 7;
   
+  // Cloudinary (Url Templates)
   string cloudinaryUrl = 19;
+  string cloudinaryThumbnailUrl = 20;
+  string cloudinaryCoverUrl = 21;
   
   // IPStack (FreeGeoIP)
   string ipstackApi = 13;
@@ -343,7 +346,7 @@ message DataAccountSummary {
   string name = 1;
   string description = 2;
   string location = 3;
-  string avatarUrl = 4;
+  string avatarThumbnailUrl = 4;
   
 }
 
@@ -351,6 +354,7 @@ message DataAccountDetail {
   // repeated string coverUrls = 1;
   repeated CategoryId categories = 2;
   repeated DataSocialMedia socialMedia = 3;
+  string avatarCoverUrl = 7; // Higher resolution, but same as avatarThumbnailUrl
   string url = 6;
   double latitude = 4;
   double longitude = 5;

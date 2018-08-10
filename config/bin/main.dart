@@ -166,6 +166,8 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'spacesBucket')) res.spacesBucket = cfg.get(section, 'spacesBucket');
       
       if (cfg.hasOption(section, 'cloudinaryUrl')) res.cloudinaryUrl = cfg.get(section, 'cloudinaryUrl');
+      if (cfg.hasOption(section, 'cloudinaryThumbnailUrl')) res.cloudinaryThumbnailUrl = cfg.get(section, 'cloudinaryThumbnailUrl');
+      if (cfg.hasOption(section, 'cloudinaryCoverUrl')) res.cloudinaryCoverUrl = cfg.get(section, 'cloudinaryCoverUrl');
       
       if (cfg.hasOption(section, 'ipstackApi')) res.ipstackApi = cfg.get(section, 'ipstackApi');
       if (cfg.hasOption(section, 'ipstackKey')) res.ipstackKey = cfg.get(section, 'ipstackKey');
