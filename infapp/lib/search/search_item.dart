@@ -18,7 +18,7 @@ class SearchItemCard extends StatelessWidget {
         child: new Row(
           children: <Widget>[
             new CircleAvatar(
-              backgroundImage: new NetworkImage(item.summary.avatarUrl),
+              backgroundImage: new NetworkImage(item.summary.avatarThumbnailUrl),
               radius: 30.0,
             ),
             new Container(
