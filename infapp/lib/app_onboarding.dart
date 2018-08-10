@@ -53,7 +53,12 @@ class _AppOnboardingState extends State<AppOnboarding> {
         builder: (context) {
           ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
-          bool canSignUp = network.account.detail.socialMedia.any((DataSocialMedia data) => (data.connected && !data.expired));
+          NavigatorState navigator = Navigator.of(context);
+          if (network.account.state.accountId != 0) {
+            // Need to implement cleaner navigation
+            () async { await null; navigator.popUntil(ModalRoute.withName(Navigator.defaultRouteName)); }();
+          }
+          bool canSignUp = (network.account.state.accountId != 0) && network.account.detail.socialMedia.any((DataSocialMedia data) => (data.connected && !data.expired));
           assert(config != null);
           assert(network != null);
           return new OnboardingSocial(
@@ -83,7 +88,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
               }
               if (success) {
                 //while (navigator.canPop()) {
-                  navigator.pop();
+                //  navigator.pop();
                 //}
               } else if (this.mounted) {
                 // Failed to sign up
