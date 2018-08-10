@@ -55,7 +55,7 @@ selfTestTalk() async {
   final Logger opsLog = new Logger('InfOps.SelfTest');
   TalkSocket ts;
   try {
-    ts = await TalkSocket.connect("ws://localhost:9090/ws");
+    ts = await TalkSocket.connect("ws://localhost:8090/api");
     Future<Null> listen = ts.listen();
     for (int i = 0; i < 3; ++i) {
       await ts.ping();
