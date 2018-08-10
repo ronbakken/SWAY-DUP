@@ -306,7 +306,36 @@ class RemoteApp {
       }
       // Fetch account-specific info (overwrites device accountType, although it cannot possibly be different)
       if (account.state.accountId != 0) {
-        // TODO
+        sqljocky.Results accountResults = await sql.prepareExecute(
+          "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
+          "`description`, `location_id`, `avatar_url`, `url` FROM `accounts` "
+          "WHERE `account_id` = ?", [ account.state.accountId.toInt() ]);
+        int locationId;
+        await for (sqljocky.Row row in accountResults) { // one 
+          account.summary.name = row[0].toString();
+          account.state.accountType = AccountType.valueOf(row[1].toInt());
+          account.state.globalAccountState = GlobalAccountState.valueOf(row[2].toInt());
+          account.state.globalAccountStateReason = GlobalAccountStateReason.valueOf(row[3].toInt());
+          account.summary.description = row[4].toString();
+          locationId = row[5].toInt();
+          if (row[6] != null) account.summary.avatarUrl = row[6].toString();
+          if (row[7] != null) account.detail.url = row[7].toString();
+        }
+        if (locationId != null && locationId != 0) {
+          sqljocky.Results locationResults = await sql.prepareExecute(
+            "SELECT `${account.state.accountType == AccountType.AT_BUSINESS ? 'detail' : 'approximate'}` FROM `addressbook` "
+            "WHERE `location_id` = ?", [ locationId.toInt() ]);
+          await for (sqljocky.Row row in locationResults) { // one
+            account.summary.location = row[0].toString();
+          }
+          if (account.summary.location == null) {
+            devLog.severe("Account ${account.state.accountId} has an unknown location_id set");
+            account.summary.location = "Earth";
+          }
+        } else {
+          devLog.severe("Account ${account.state.accountId} does not have a location_id set");
+          account.summary.location = "Earth";
+        }
       }
       // Find all connected social media accounts
       if (extend != null) extend();
