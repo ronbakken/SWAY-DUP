@@ -144,8 +144,14 @@ const ConfigServices$json = const {
     const {'1': 'spacesKey', '3': 5, '4': 1, '5': 9, '10': 'spacesKey'},
     const {'1': 'spacesSecret', '3': 6, '4': 1, '5': 9, '10': 'spacesSecret'},
     const {'1': 'spacesBucket', '3': 7, '4': 1, '5': 9, '10': 'spacesBucket'},
+    const {'1': 'cloudinaryUrl', '3': 19, '4': 1, '5': 9, '10': 'cloudinaryUrl'},
     const {'1': 'ipstackApi', '3': 13, '4': 1, '5': 9, '10': 'ipstackApi'},
     const {'1': 'ipstackKey', '3': 12, '4': 1, '5': 9, '10': 'ipstackKey'},
+    const {'1': 'mariadbHost', '3': 14, '4': 1, '5': 9, '10': 'mariadbHost'},
+    const {'1': 'mariadbPort', '3': 15, '4': 1, '5': 5, '10': 'mariadbPort'},
+    const {'1': 'mariadbUser', '3': 16, '4': 1, '5': 9, '10': 'mariadbUser'},
+    const {'1': 'mariadbPassword', '3': 17, '4': 1, '5': 9, '10': 'mariadbPassword'},
+    const {'1': 'mariadbDatabase', '3': 18, '4': 1, '5': 9, '10': 'mariadbDatabase'},
   ],
 };
 

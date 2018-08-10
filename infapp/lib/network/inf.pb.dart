@@ -232,6 +232,12 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(11, 'privacyPolicyUrl')
     ..aOS(12, 'ipstackKey')
     ..aOS(13, 'ipstackApi')
+    ..aOS(14, 'mariadbHost')
+    ..a<int>(15, 'mariadbPort', PbFieldType.O3)
+    ..aOS(16, 'mariadbUser')
+    ..aOS(17, 'mariadbPassword')
+    ..aOS(18, 'mariadbDatabase')
+    ..aOS(19, 'cloudinaryUrl')
     ..hasRequiredFields = false
   ;
 
@@ -312,6 +318,36 @@ class ConfigServices extends GeneratedMessage {
   set ipstackApi(String v) { $_setString(12, v); }
   bool hasIpstackApi() => $_has(12);
   void clearIpstackApi() => clearField(13);
+
+  String get mariadbHost => $_getS(13, '');
+  set mariadbHost(String v) { $_setString(13, v); }
+  bool hasMariadbHost() => $_has(13);
+  void clearMariadbHost() => clearField(14);
+
+  int get mariadbPort => $_get(14, 0);
+  set mariadbPort(int v) { $_setSignedInt32(14, v); }
+  bool hasMariadbPort() => $_has(14);
+  void clearMariadbPort() => clearField(15);
+
+  String get mariadbUser => $_getS(15, '');
+  set mariadbUser(String v) { $_setString(15, v); }
+  bool hasMariadbUser() => $_has(15);
+  void clearMariadbUser() => clearField(16);
+
+  String get mariadbPassword => $_getS(16, '');
+  set mariadbPassword(String v) { $_setString(16, v); }
+  bool hasMariadbPassword() => $_has(16);
+  void clearMariadbPassword() => clearField(17);
+
+  String get mariadbDatabase => $_getS(17, '');
+  set mariadbDatabase(String v) { $_setString(17, v); }
+  bool hasMariadbDatabase() => $_has(17);
+  void clearMariadbDatabase() => clearField(18);
+
+  String get cloudinaryUrl => $_getS(18, '');
+  set cloudinaryUrl(String v) { $_setString(18, v); }
+  bool hasCloudinaryUrl() => $_has(18);
+  void clearCloudinaryUrl() => clearField(19);
 }
 
 class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {}
