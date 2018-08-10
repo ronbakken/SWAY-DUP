@@ -101,9 +101,18 @@ message ConfigServices {
   string spacesSecret = 6;
   string spacesBucket = 7;
   
+  string cloudinaryUrl = 19;
+  
   // IPStack (FreeGeoIP)
   string ipstackApi = 13;
   string ipstackKey = 12;
+  
+  // MariaDB (MySQL)
+  string mariadbHost = 14;
+  int32 mariadbPort = 15;
+  string mariadbUser = 16;
+  string mariadbPassword = 17;
+  string mariadbDatabase = 18;
   
 }
 

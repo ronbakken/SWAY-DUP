@@ -165,8 +165,16 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'spacesSecret')) res.spacesSecret = cfg.get(section, 'spacesSecret');
       if (cfg.hasOption(section, 'spacesBucket')) res.spacesBucket = cfg.get(section, 'spacesBucket');
       
+      if (cfg.hasOption(section, 'cloudinaryUrl')) res.cloudinaryUrl = cfg.get(section, 'cloudinaryUrl');
+      
       if (cfg.hasOption(section, 'ipstackApi')) res.ipstackApi = cfg.get(section, 'ipstackApi');
       if (cfg.hasOption(section, 'ipstackKey')) res.ipstackKey = cfg.get(section, 'ipstackKey');
+      
+      if (cfg.hasOption(section, 'mariadbHost')) res.mariadbHost = cfg.get(section, 'mariadbHost');
+      if (cfg.hasOption(section, 'mariadbPort')) res.mariadbPort = cfg.get(section, 'mariadbPort').toInt();
+      if (cfg.hasOption(section, 'mariadbUser')) res.mariadbUser = cfg.get(section, 'mariadbUser');
+      if (cfg.hasOption(section, 'mariadbPassword')) res.mariadbPassword = cfg.get(section, 'mariadbPassword');
+      if (cfg.hasOption(section, 'mariadbDatabase')) res.mariadbDatabase = cfg.get(section, 'mariadbDatabase');
     }
   }
 
