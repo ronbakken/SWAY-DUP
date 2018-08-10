@@ -173,7 +173,7 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'ipstackKey')) res.ipstackKey = cfg.get(section, 'ipstackKey');
       
       if (cfg.hasOption(section, 'mariadbHost')) res.mariadbHost = cfg.get(section, 'mariadbHost');
-      if (cfg.hasOption(section, 'mariadbPort')) res.mariadbPort = cfg.get(section, 'mariadbPort').toInt();
+      if (cfg.hasOption(section, 'mariadbPort')) res.mariadbPort = int.parse(cfg.get(section, 'mariadbPort'));
       if (cfg.hasOption(section, 'mariadbUser')) res.mariadbUser = cfg.get(section, 'mariadbUser');
       if (cfg.hasOption(section, 'mariadbPassword')) res.mariadbPassword = cfg.get(section, 'mariadbPassword');
       if (cfg.hasOption(section, 'mariadbDatabase')) res.mariadbDatabase = cfg.get(section, 'mariadbDatabase');
