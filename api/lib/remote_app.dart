@@ -158,8 +158,8 @@ class RemoteApp {
                 account.state.deviceId = row[0];
                 devLog.info("Inserted device_id ${account.state.deviceId} with aes_key '${aesKeyStr}'");
               }
-            } catch (ex) {
-              devLog.warning("Failed to create device: $ex");
+            } catch (error, stack) {
+              devLog.warning("Failed to create device: $error\n$stack");
             }
             await connection.release();
           }
@@ -432,8 +432,8 @@ class RemoteApp {
             await tx.prepareExecute("UPDATE `devices` SET `account_type` = ? WHERE `device_id` = ? AND `account_id` = 0", [ pb.accountType.value, account.state.deviceId]);
             await tx.commit();
           });
-        } catch (ex) {
-          devLog.severe("Failed to change account type: $ex");
+        } catch (error, stack) {
+          devLog.severe("Failed to change account type: $error\n$stack");
         }
       });
 
@@ -524,7 +524,7 @@ I/flutter (26706): OAuth Providers: 8
             "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `device_id`, `username`, `display_name`, `followers`, `following`"
             ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [ oauthUserId, oauthProvider, account.state.accountType.value,
             account.state.accountId, account.state.deviceId, username, displayName, followers, following ]);
-        } catch (ex) {
+        } catch (error, stack) {
           devLog.info("Failed to insert OAuth, may already be inserted!");
         }
         sqljocky.Results selectOAuth = await sql.prepareExecute("SELECT `account_id`, `device_id` FROM `oauth_connections`"
@@ -770,8 +770,8 @@ I/flutter (26706): OAuth Providers: 8
               devLog.fine("Finished setting up account $accountId");
               await tx.commit();
             });
-          } catch (ex) {
-            opsLog.severe("Failed to create account for device ${account.state.deviceId}: $ex");
+          } catch (error, stack) {
+            opsLog.severe("Failed to create account for device ${account.state.deviceId}: $error\n$stack");
           }
         }
       });
