@@ -29,7 +29,7 @@ class ProfileView extends StatelessWidget {
       ),
       body: new Column(
         children: <Widget>[
-          new Center( child: new ProfilePicture( imageUrl: dataAccount.summary.avatarUrl)),
+          new Center( child: new ProfilePicture( imageUrl: dataAccount.detail.avatarCoverUrl != null ? dataAccount.detail.avatarCoverUrl : dataAccount.summary.avatarThumbnailUrl)),
           new Center( child: new Text(dataAccount.summary.name, style: Theme.of(context).textTheme.headline,),),
           new Center( child: new Text(dataAccount.summary.location, style: Theme.of(context).textTheme.body2,),),
           new FollowerTray( oAuthProviders: ConfigManager.of(context).oauthProviders.all, socialMedia: dataAccount.detail.socialMedia,),

@@ -149,7 +149,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     sampleAccounts[1].state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
     sampleAccounts[1].summary.name = "Big Kahuna";
     sampleAccounts[1].summary.description = "The best burgers in the known universe. As far as we know.";
-    sampleAccounts[1].summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
+    sampleAccounts[1].summary.avatarThumbnailUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
     sampleAccounts[1].summary.location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
     // sampleAccounts[1].detail.coverUrls.length = 0;
     // sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
@@ -159,7 +159,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     sampleAccounts[2].state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
     sampleAccounts[2].summary.name = "Fried Willy";
     sampleAccounts[2].summary.description = "We don't prepare dolphins.";
-    sampleAccounts[2].summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg";
+    sampleAccounts[2].summary.avatarThumbnailUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg";
     sampleAccounts[2].summary.location = "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
     // sampleAccounts[2].detail.coverUrls.length = 0;
     // sampleAccounts[2].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
@@ -290,7 +290,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     data.state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
                     data.summary.name = "Name: $searchQuery";
                     data.summary.description = "Description: $searchQuery";
-                    data.summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
+                    data.summary.avatarThumbnailUrl = "https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/kahuna.jpg";
                     data.summary.location = "Location";
                     // data.detail.coverUrls.length = 0;
                     // data.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
@@ -385,7 +385,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                             demoAccount.state.accountId = random.nextInt(1000000) + 1;
                             demoAccount.summary.name = "John Smith";
                             demoAccount.summary.description = "I'm here for the food.";
-                            demoAccount.summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg";
+                            demoAccount.summary.avatarThumbnailUrl = "https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/friesjpg";
+                            demoAccount.detail.avatarCoverUrl = "https://res.cloudinary.com/inf-marketplace/image/upload/c_limit,h_1440,w_1440,q_auto/dev/demo/fries.jpg";
                             // demoAccount.detail.coverUrls.length = 0;
                             // demoAccount.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg");
                             demoAccount.summary.location = "Cardiff, London";
@@ -420,8 +421,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
               demoAccount.state.accountType = AccountType.AT_UNKNOWN;
               demoAccount.summary.name = '';
               demoAccount.summary.description = '';
-              demoAccount.summary.avatarUrl = '';
+              demoAccount.summary.avatarThumbnailUrl = '';
               demoAccount.summary.location = '';
+              demoAccount.detail.avatarCoverUrl = '';
               // demoAccount.detail.coverUrls.length = 0;
               demoAccount.state.globalAccountState = GlobalAccountState.GAS_INITIALIZE;
               demoAccount.state.globalAccountStateReason = GlobalAccountStateReason.GASR_NEW_ACCOUNT;
@@ -481,7 +483,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                                 data.state.globalAccountState = GlobalAccountState.GAS_READ_WRITE;
                                 data.summary.name = "Name: $searchQuery";
                                 data.summary.description = "Description: $searchQuery";
-                                data.summary.avatarUrl = "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
+                                data.summary.avatarThumbnailUrl = "https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/kahuna.jpg";
                                 data.summary.location = "Location";
                                 // data.detail.coverUrls.length = 0;
                                 // data.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
