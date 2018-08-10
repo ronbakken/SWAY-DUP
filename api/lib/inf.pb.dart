@@ -238,6 +238,8 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(17, 'mariadbPassword')
     ..aOS(18, 'mariadbDatabase')
     ..aOS(19, 'cloudinaryUrl')
+    ..aOS(20, 'cloudinaryThumbnailUrl')
+    ..aOS(21, 'cloudinaryCoverUrl')
     ..hasRequiredFields = false
   ;
 
@@ -348,6 +350,16 @@ class ConfigServices extends GeneratedMessage {
   set cloudinaryUrl(String v) { $_setString(18, v); }
   bool hasCloudinaryUrl() => $_has(18);
   void clearCloudinaryUrl() => clearField(19);
+
+  String get cloudinaryThumbnailUrl => $_getS(19, '');
+  set cloudinaryThumbnailUrl(String v) { $_setString(19, v); }
+  bool hasCloudinaryThumbnailUrl() => $_has(19);
+  void clearCloudinaryThumbnailUrl() => clearField(20);
+
+  String get cloudinaryCoverUrl => $_getS(20, '');
+  set cloudinaryCoverUrl(String v) { $_setString(20, v); }
+  bool hasCloudinaryCoverUrl() => $_has(20);
+  void clearCloudinaryCoverUrl() => clearField(21);
 }
 
 class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {}
@@ -969,7 +981,7 @@ class DataAccountSummary extends GeneratedMessage {
     ..aOS(1, 'name')
     ..aOS(2, 'description')
     ..aOS(3, 'location')
-    ..aOS(4, 'avatarUrl')
+    ..aOS(4, 'avatarThumbnailUrl')
     ..hasRequiredFields = false
   ;
 
@@ -1004,10 +1016,10 @@ class DataAccountSummary extends GeneratedMessage {
   bool hasLocation() => $_has(2);
   void clearLocation() => clearField(3);
 
-  String get avatarUrl => $_getS(3, '');
-  set avatarUrl(String v) { $_setString(3, v); }
-  bool hasAvatarUrl() => $_has(3);
-  void clearAvatarUrl() => clearField(4);
+  String get avatarThumbnailUrl => $_getS(3, '');
+  set avatarThumbnailUrl(String v) { $_setString(3, v); }
+  bool hasAvatarThumbnailUrl() => $_has(3);
+  void clearAvatarThumbnailUrl() => clearField(4);
 }
 
 class _ReadonlyDataAccountSummary extends DataAccountSummary with ReadonlyMessageMixin {}
@@ -1019,6 +1031,7 @@ class DataAccountDetail extends GeneratedMessage {
     ..a<double>(4, 'latitude', PbFieldType.OD)
     ..a<double>(5, 'longitude', PbFieldType.OD)
     ..aOS(6, 'url')
+    ..aOS(7, 'avatarCoverUrl')
     ..hasRequiredFields = false
   ;
 
@@ -1056,6 +1069,11 @@ class DataAccountDetail extends GeneratedMessage {
   set url(String v) { $_setString(4, v); }
   bool hasUrl() => $_has(4);
   void clearUrl() => clearField(6);
+
+  String get avatarCoverUrl => $_getS(5, '');
+  set avatarCoverUrl(String v) { $_setString(5, v); }
+  bool hasAvatarCoverUrl() => $_has(5);
+  void clearAvatarCoverUrl() => clearField(7);
 }
 
 class _ReadonlyDataAccountDetail extends DataAccountDetail with ReadonlyMessageMixin {}
