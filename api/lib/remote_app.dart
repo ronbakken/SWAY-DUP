@@ -10,6 +10,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
@@ -19,6 +20,8 @@ import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
 import 'package:http_client/console.dart' as http;
 import 'package:synchronized/synchronized.dart';
+import 'package:mime/mime.dart';
+import 'package:dospace/dospace.dart' as dospace;
 
 import 'inf.pb.dart';
 import 'remote_app_oauth.dart';
@@ -30,6 +33,7 @@ class RemoteApp {
 
   final ConfigData config;
   final sqljocky.ConnectionPool sql;
+  final dospace.Bucket bucket;
   final TalkSocket ts;
 
   final String ipAddress;
@@ -68,7 +72,7 @@ class RemoteApp {
   dynamic _remoteAppInfluencer;
   dynamic _remoteAppCommon;
 
-  RemoteApp(this.config, this.sql, this.ts, { 
+  RemoteApp(this.config, this.sql, this.bucket, this.ts, { 
     @required this.ipAddress }) {
     devLog.fine("New connection");
 
@@ -463,119 +467,6 @@ class RemoteApp {
       devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
     }
   }
-/*
-  StreamSubscription<TalkMessage> _netOAuthConnectReq; // OA_CONNE
-  static int _netOAuthConnectRes = TalkSocket.encode("OA_R_CON");
-  netOAuthConnectReq(TalkMessage message) async { // response: NetOAuthConnectRes
-    assert(account.state.deviceId != 0);
-    try {
-      // Received oauth connection request
-      NetOAuthConnectReq pb = new NetOAuthConnectReq();
-      pb.mergeFromBuffer(message.data);
-
-      if (pb.oauthProvider >= socialMedia.length) {
-        devLog.severe("Invalid OAuth provider specified by device ${account.state.deviceId}"); // CRITICAL - DEVELOPER (there are critical issues for developer, also critical issues for operations!)
-      } else if (account.state.accountType == AccountType.AT_UNKNOWN) {
-        devLog.severe("Account type was not yet set by device ${account.state.deviceId}"); // CRITICAL - DEVELOPER
-      //} else if (account.state.accountId != 0) {
-        // Race condition, the account was already created before receiving this connection request
-      //  devLog.fine("OAuth request received but account ${account.state.accountId} already created by ${account.state.deviceId}"); // DEBUG - DEVELOPER
-        // TO/DO: Forward to other handling mechanism - can handle this here normally, just less optimal
-      } else {
-        // First check the OAuth and get the data
-        
-        / *
-        // nbspou
-I/chromium(24593): ", source: https://api.twitter.com/oauth/authenticate?oauth_token=nrbd1wAAAAAA5_oKAAABZOP7dpI (0)
-I/flutter (24593): Authorization success
-I/flutter (24593): Success:
-I/flutter (24593): nrbd1wAAAAAA5_oKAAABZOP7dpI
-I/flutter (24593): aEekwxXd2hlMNrAFIzpq29FPtBHHyIHY
-// ['oauth_token'], uri.queryParameters['oauth_verifier']
-
-  // beyondtcurtain
-  https://api.twitter.com/oauth/authenticate?oauth_token=MAAuAAAAAAAA5_oKAAABZOQQItM (0)
-,c768 tcontext=u:object_r:system_data_file:s0:c512,c768 tclass=dir permissive=1
-I/flutter (26706): Authorization success
-I/flutter (26706): Success:
-I/flutter (26706): MAAuAAAAAAAA5_oKAAABZOQQItM
-I/flutter (26706): Hgpkpp5Fkjh1KWnnD97jOHKiZPl9bpeb
-I/flutter (26706): OAuth Providers: 8
-
-/flutter (26706): Authorization success
-: https://api.twitter.com/oauth/authenticate?oauth_token=tgaumAAAAAAA5_oKAAABZOQREl8 (0)
-I/flutter (26706): Success:
-I/flutter (26706): tgaumAAAAAAA5_oKAAABZOQREl8
-I/flutter (26706): yyKPvHFCpWLk8nbfRD6oulkjkJYd9wse
-I/flutter (26706): OAuth Providers: 8
-
-/flutter (26706): Authorization success
-I/flutter (26706): Success:
-I/flutter (26706): wwDI0QAAAAAA5_oKAAABZOQYsJc
-I/flutter (26706): eTEcxq7n8qjuEEUgJfKedNA2m4qRcPjJ
-I/flutter (26706): OAuth Providers: 8
-
-        * /
-        
-
-
-
-
-
-
-        // Procedure for adding an OAuth connection during onboarding:
-        // - Find existing OAuth, if one exists, there are two situations:
-        //   - The existing OAuth has no account attached - this implies the user aborted onboarding previously and switched device (unusual)
-        //   - The existing OAuth has an account (this is easiest!)
-        // - If one does not exist, just create it, easy!
-        String oauthUserId;
-        int oauthProvider;
-        String username = "nbspou";
-        String displayName = "NO-BREAK SPACE OÜ";
-        int followers = 37;
-        int following = 11;
-        try {
-          await sql.prepareExecute("INSERT INTO `oauth_connections`("
-            "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `device_id`, `username`, `display_name`, `followers`, `following`"
-            ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [ oauthUserId, oauthProvider, account.state.accountType.value,
-            account.state.accountId, account.state.deviceId, username, displayName, followers, following ]);
-        } catch (error, stack) {
-          devLog.info("Failed to insert OAuth, may already be inserted!");
-        }
-        sqljocky.Results selectOAuth = await sql.prepareExecute("SELECT `account_id`, `device_id` FROM `oauth_connections`"
-          "WHERE `oauth_user_id` = ?, `oauth_provider` = ?, `account_type` = ?", [ oauthUserId, oauthProvider, account.state.accountType.value ]);
-        int oauthAccountId;
-        int oauthDeviceId;
-        await for (sqljocky.Row row in selectOAuth) {
-          oauthAccountId = row[0];
-          oauthDeviceId = row[1];
-        }
-        if (oauthAccountId != 0 || oauthAccountId != 0)
-        {
-          await lock.synchronized(() async {
-            // Decide what to do
-          });
-        } else {
-          opsLog.severe("Failed to insert or retrieve OAuth ($oauthUserId, $oauthProvider, ${account.state.accountType}), database may have connection issues");
-        }
-      }
-
-      NetOAuthConnectRes resPb = new NetOAuthConnectRes();
-      if (pb.oauthProvider < socialMedia.length) {
-        resPb.socialMedia = socialMedia[pb.oauthProvider];
-      }
-      ts.sendMessage(_netOAuthConnectRes, resPb.writeToBuffer(), replying: message);
-
-      if (account.state.accountId != 0) {
-        // The OAuth has an account attached, let's go!
-        unsubscribeOnboarding();
-        await updateDeviceState();
-        await sendNetDeviceAuthState();
-      }
-    } catch (error, stack) {
-      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
-    }
-  }*/
 
   StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE
   Future<void> netAccountCreateReq(TalkMessage message) async { // response: NetDeviceAuthState
@@ -804,6 +695,19 @@ I/flutter (26706): OAuth Providers: 8
       // 1. Download avatar
       // 2. Upload avatar to Spaces
       // 3. Update account to refer to avatar
+      try {
+        if (account.state.accountId != 0 && accountAvatarUrl != null && accountAvatarUrl.length > 0) {
+          ts.sendExtend(message);
+          String avatarKey = await downloadUserImage(account.state.accountId, accountAvatarUrl);
+          ts.sendExtend(message);
+          await sql.prepareExecute("UPDATE `accounts` SET `avatar_key` = ? "
+            "WHERE `account_id` = ?", [ avatarKey.toString(), account.state.accountId.toInt() ]);
+          account.summary.avatarThumbnailUrl = makeCloudinaryThumbnailUrl(avatarKey);
+          account.detail.avatarCoverUrl = makeCloudinaryCoverUrl(avatarKey);
+        }
+      } catch (error, stack) {
+        devLog.severe("Exception downloading avatar '$accountAvatarUrl': $error\n$stack");
+      }
 
       // Send authentication state
       await sendNetDeviceAuthState(replying: message);
@@ -1072,6 +976,35 @@ I/flutter (26706): OAuth Providers: 8
     location.latitude = featureDetail['center'][1];
     location.longitude = featureDetail['center'][0];
     return location;
+  }
+
+  /// Downloads user image, returns key
+  Future<String> downloadUserImage(int accountId, String url) async {
+    // Fetch image to memory
+    Uri uri = Uri.parse(url);
+    http.Request request = new http.Request('GET', uri);
+    http.Response response = await httpClient.send(request);
+    BytesBuilder builder = new BytesBuilder(copy: false);
+    await response.body.forEach(builder.add);
+    Uint8List body = builder.toBytes();
+    if (response.statusCode != 200) {
+      throw new Exception(response.reasonPhrase);
+    }
+
+    // Get mime type
+    String contentType = new MimeTypeResolver().lookup(url, headerBytes: body);
+    if (contentType == null) {
+      contentType = 'application/octet-stream';
+      devLog.severe("Image '$url' does not have a detectable MIME type");
+    }
+
+    // Get hash and generate filename
+    int lastIndex = uri.path.lastIndexOf('.');
+    String uriExt = lastIndex > 0 ? uri.path.substring(lastIndex + 1) : '';
+    Digest contentSha256 = sha256.convert(body);
+    String key = "user/$accountId/$contentSha256" + (uriExt.length > 0 ? ('.' + uriExt) : '.bin');
+    bucket.uploadData(key, body, contentType, dospace.Permissions.public, contentSha256: contentSha256);
+    return key;
   }
 
   /////////////////////////////////////////////////////////////////////

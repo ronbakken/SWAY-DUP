@@ -23,6 +23,7 @@ import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 // import 'package:postgres/postgres.dart' as postgres;
 import 'package:wstalk/wstalk.dart';
+import 'package:dospace/dospace.dart' as dospace;
 
 import 'inf.pb.dart';
 import 'remote_app.dart';
@@ -92,10 +93,18 @@ run() async {
 
   // Run SQL client
   final sqljocky.ConnectionPool sql = new sqljocky.ConnectionPool(
-    host: 'mariadb.devinf.net', port: 3306,
-    user: 'devinf', password: 'fCaxEcbE7YrOJ7YY',
-    db: 'inf', max: 5);
+    host: config.services.mariadbHost, port: config.services.mariadbPort,
+    user: config.services.mariadbUser, password: config.services.mariadbPassword,
+    db: config.services.mariadbDatabase, max: 5);
   selfTestSql(sql);
+
+  // Spaces
+  final dospace.Spaces spaces = new dospace.Spaces(
+    region: config.services.spacesRegion,
+    accessKey: config.services.spacesKey,
+    secretKey: config.services.spacesSecret,
+  );
+  final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
 
   // Listen to websocket
   final HttpServer server = await HttpServer.bind(InternetAddress.anyIPv6, 8090);
@@ -114,7 +123,7 @@ run() async {
             if (remoteApp == null) {
               String ipAddress = request.connectionInfo.remoteAddress.address;
               String xRealIP = request.headers.value('x-real-ip');
-              remoteApp = new RemoteApp(config, sql, ts, 
+              remoteApp = new RemoteApp(config, sql, bucket, ts, 
                 ipAddress: xRealIP != null ? xRealIP : ipAddress);
             }
           });

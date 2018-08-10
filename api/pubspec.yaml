@@ -21,6 +21,8 @@ dependencies:
     path: ../wstalk/
   oauth1:
     path: ../dart-oauth1/
+  dospace:
+    path: ../dospace/
 
 dev_dependencies:
   test: ^1.0.0
