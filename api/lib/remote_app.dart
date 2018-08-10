@@ -101,8 +101,8 @@ class RemoteApp {
       return ts.stream(TalkSocket.encode(id)).listen((TalkMessage message) async {
         try {
           await onData(message);
-        } catch (ex) {
-          devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
+        } catch (error, stack) {
+          devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
         }
       });
     }
@@ -139,7 +139,7 @@ class RemoteApp {
   }
 
   StreamSubscription<TalkMessage> _netDeviceAuthCreateReq; // DA_CREAT
-  netDeviceAuthCreateReq(TalkMessage message) async {
+  Future<void> netDeviceAuthCreateReq(TalkMessage message) async {
     try {
       NetDeviceAuthCreateReq pb = new NetDeviceAuthCreateReq();
       pb.mergeFromBuffer(message.data);
@@ -170,14 +170,14 @@ class RemoteApp {
       });
       devLog.fine("Send auth state ${message.request}");
       await sendNetDeviceAuthState(replying: message);
-    } catch (ex) {
-      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
+    } catch (error, stack) {
+      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
     }
   }
 
   StreamSubscription<TalkMessage> _netDeviceAuthChallengeReq; // DA_CHALL
   static int _netDeviceAuthChallengeResReq = TalkSocket.encode("DA_R_CHA");
-  netDeviceAuthChallengeReq(TalkMessage message) async {
+  Future<void> netDeviceAuthChallengeReq(TalkMessage message) async {
     try {
       // Received authentication request
       NetDeviceAuthChallengeReq pb = new NetDeviceAuthChallengeReq();
@@ -254,8 +254,8 @@ class RemoteApp {
       }
       await sendNetDeviceAuthState(replying: signatureMessage);
       devLog.fine("Device authenticated");
-    } catch (ex) {
-      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
+    } catch (error, stack) {
+      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
     }
   }
 
@@ -330,7 +330,7 @@ class RemoteApp {
       }
       // Wipe any lost accounts
       for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-        if (!connectedProviders[i] && account.detail.socialMedia[i].connected) {
+        if (connectedProviders[i] != true && (account.detail.socialMedia[i].connected == true)) {
           account.detail.socialMedia[i] = new DataSocialMedia(); // Wipe
         }
       }
@@ -361,8 +361,8 @@ class RemoteApp {
       // _netOAuthConnectReq = ts.stream(TalkSocket.encode("OA_CONNE")).listen(netOAuthConnectReq);
       _netAccountCreateReq = ts.stream(TalkSocket.encode("A_CREATE")).listen(netAccountCreateReq);
       subscribeOAuth();
-    } catch (e) {
-      devLog.warning("Failed to subscribe to Onboarding: $e");
+    } catch (error, stack) {
+      devLog.warning("Failed to subscribe to Onboarding: $error\n$stack");
     }
   }
 
@@ -376,7 +376,7 @@ class RemoteApp {
   }
 
   StreamSubscription<TalkMessage> _netSetAccountType; // A_SETTYP
-  netSetAccountType(TalkMessage message) async {
+  Future<void> netSetAccountType(TalkMessage message) async {
     assert(account.state.deviceId != 0);
     try {
       // Received account type change request
@@ -413,8 +413,8 @@ class RemoteApp {
         await sendNetDeviceAuthState();
         devLog.finest("Account type is now ${account.state.accountType} (set ${pb.accountType})");
       }
-    } catch (ex) {
-      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
+    } catch (error, stack) {
+      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
     }
   }
 /*
@@ -526,13 +526,13 @@ I/flutter (26706): OAuth Providers: 8
         await updateDeviceState();
         await sendNetDeviceAuthState();
       }
-    } catch (ex) {
-      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
+    } catch (error, stack) {
+      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
     }
   }*/
 
   StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE
-  netAccountCreateReq(TalkMessage message) async { // response: NetDeviceAuthState
+  Future<void> netAccountCreateReq(TalkMessage message) async { // response: NetDeviceAuthState
     assert(account.state.deviceId != 0);
     try {
       // Received account creation request
@@ -553,22 +553,22 @@ I/flutter (26706): OAuth Providers: 8
       // Alternatively we can reverse one from location names in the user's social media
       List<DataLocation> locations = new List<DataLocation>();
       DataLocation gpsLocationRes;
-      Future<DataLocation> gpsLocation;
+      Future<dynamic> gpsLocation;
       if (pb.latitude != null && pb.longitude != null && pb.latitude != 0.0 && pb.longitude != 0.0) {
         gpsLocation = getGeocodingFromGPS(pb.latitude, pb.longitude).then((DataLocation location) {
           devLog.finest("GPS: $location");
           gpsLocationRes = location;
-        }).catchError((ex) {
-          devLog.severe("GPS Geocoding Exception: $ex");
+        }).catchError((error, stack) {
+          devLog.severe("GPS Geocoding Exception: $error\n$stack");
         });
       }
       DataLocation geoIPLocationRes;
-      Future<DataLocation> geoIPLocation = getGeoIPLocation(ipAddress).then((DataLocation location) {
+      Future<dynamic> geoIPLocation = getGeoIPLocation(ipAddress).then((DataLocation location) {
         devLog.finest("GeoIP: $location");
         geoIPLocationRes = location;
         // locations.add(location);
-      }).catchError((ex) {
-        devLog.severe("GeoIP Location Exception: $ex");
+      }).catchError((error, stack) {
+        devLog.severe("GeoIP Location Exception: $error\n$stack");
       });
 
       // Wait for GPS Geocoding
@@ -580,7 +580,7 @@ I/flutter (26706): OAuth Providers: 8
       }
 
       // Also query all social media locations in the meantime, no particular order
-      List<Future<DataLocation>> mediaLocations = new List<Future<DataLocation>>();
+      List<Future<dynamic>> mediaLocations = new List<Future<dynamic>>();
       // for (int i = 0; i < account.detail.socialMedia.length; ++i) {
       for (int i in mediaPriority) {
         DataSocialMedia socialMedia = account.detail.socialMedia[i];
@@ -589,14 +589,14 @@ I/flutter (26706): OAuth Providers: 8
             devLog.finest("${config.oauthProviders.all[i].label}: ${socialMedia.displayName}: $location");
             location.name = socialMedia.displayName;
             locations.add(location);
-          }).catchError((ex) {
-            devLog.severe("${config.oauthProviders.all[i].label}: Geocoding Exception: $ex");
+          }).catchError((error, stack) {
+            devLog.severe("${config.oauthProviders.all[i].label}: Geocoding Exception: $error\n$stack");
           }));
         }
       }
 
       // Wait for all social media
-      for (Future<DataLocation> futureLocation in mediaLocations) {
+      for (Future<dynamic> futureLocation in mediaLocations) {
         ts.sendExtend(message);
         await futureLocation;
       }
@@ -765,8 +765,8 @@ I/flutter (26706): OAuth Providers: 8
         devLog.severe("Account was not created for device ${account.state.deviceId}"); // DEVELOPER - DEVELOPMENT CRITICAL
       }
 
-    } catch (ex) {
-      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $ex");
+    } catch (error, stack) {
+      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
     }
   }
 
@@ -796,13 +796,41 @@ I/flutter (26706): OAuth Providers: 8
     if (doc['latitude'] == null || doc['longitude'] == null) {
       throw new Exception("No GeoIP information for '$ipAddress'");
     }
+    if (doc['country_code'] == null) {
+      throw new Exception("GeoIP information for '$ipAddress' not in a country");
+    }
 
     // Not very localized, but works for US
-    location.approximate = "${doc['city']}, ${doc['region_name']} ${doc['zip']}";
-    location.detail = location.approximate;
-    location.postcode = doc['zip'];
-    location.regionCode = doc['region_code'];
-    location.countryCode = doc['country_code'];
+    String approximate = ''; // "${doc['city']}, ${doc['region_name']} ${doc['zip']}";
+    if (doc['city'] != null && doc['city'] != 'Singapore') {
+      approximate = doc['city'];
+    }
+    if (doc['region_name'] != null) {
+      if (approximate.length > 0) {
+        approximate = approximate + ', ';
+      }
+      approximate = approximate + doc['region_name'];
+      if (doc['zip'] != null) {
+        approximate = approximate + ' ' + doc['zip'];
+      }
+    }
+    if (approximate.length == 0 || doc['country_code'].toLowerCase() != 'us') {
+      if (doc['country_name'] != null) {
+        if (approximate.length > 0) {
+          approximate = approximate + ', ';
+        }
+        approximate = approximate + doc['country_name'];
+      }
+    }
+    if (approximate.length == 0) {
+       throw new Exception("Insufficient GeoIP information for '$ipAddress'");
+    }
+    location.approximate = approximate;
+    location.detail = approximate;
+    if (doc['zip'] != null) location.postcode = doc['zip'];
+    if (doc['region_code'] != null) location.regionCode = doc['region_code'];
+    else location.regionCode = doc['country_code'].toLowerCase();
+    location.countryCode = doc['country_code'].toLowerCase();
     location.latitude = doc['latitude'];
     location.longitude = doc['longitude'];
 
@@ -856,15 +884,15 @@ I/flutter (26706): OAuth Providers: 8
     // new List<String>().any((String v) => [ "address", "poi.landmark", "poi" ].contains(v));
     for (dynamic feature in features) {
       dynamic placeType = feature['place_type'];
-      if (featureDetail == null && placeType.any((String v) => const [ "address", "poi.landmark", "poi" ].contains(v))) {
+      if (featureDetail == null && placeType.any((dynamic v) => const [ "address", "poi.landmark", "poi" ].contains(v.toString()))) {
         featureDetail = feature;
-      } else if (featureApproximate == null && placeType.any((String v) => const [ "locality", "neighborhood", "place" ].contains(v))) {
+      } else if (featureApproximate == null && placeType.any((dynamic v) => const [ "locality", "neighborhood", "place" ].contains(v.toString()))) {
         featureApproximate = feature;
-      } else if (featureRegion == null && placeType.any((String v) => const [ "region" ].contains(v))) {
+      } else if (featureRegion == null && placeType.any((dynamic v) => const [ "region" ].contains(v.toString()))) {
         featureRegion = feature;
-      } else if (featurePostcode == null && placeType.any((String v) => const [ "postcode" ].contains(v))) {
+      } else if (featurePostcode == null && placeType.any((dynamic v) => const [ "postcode" ].contains(v.toString()))) {
         featurePostcode = feature;
-      } else if (featureCountry == null && placeType.any((String v) => const [ "country" ].contains(v))) {
+      } else if (featureCountry == null && placeType.any((dynamic v) => const [ "country" ].contains(v.toString()))) {
         featureCountry = feature;
       }
     }
@@ -941,15 +969,15 @@ I/flutter (26706): OAuth Providers: 8
     // new List<String>().any((String v) => [ "address", "poi.landmark", "poi" ].contains(v));
     for (dynamic feature in features) {
       dynamic placeType = feature['place_type'];
-      if (featureDetail == null && placeType.any((String v) => const [ "address", "poi.landmark", "poi" ].contains(v))) {
+      if (featureDetail == null && placeType.any((dynamic v) => const [ "address", "poi.landmark", "poi" ].contains(v.toString()))) {
         featureDetail = feature;
-      } else if (featureApproximate == null && placeType.any((String v) => const [ "locality", "neighborhood", "place" ].contains(v))) {
+      } else if (featureApproximate == null && placeType.any((dynamic v) => const [ "locality", "neighborhood", "place" ].contains(v.toString()))) {
         featureApproximate = feature;
-      } else if (featureRegion == null && placeType.any((String v) => const [ "region" ].contains(v))) {
+      } else if (featureRegion == null && placeType.any((dynamic v) => const [ "region" ].contains(v.toString()))) {
         featureRegion = feature;
-      } else if (featurePostcode == null && placeType.any((String v) => const [ "postcode" ].contains(v))) {
+      } else if (featurePostcode == null && placeType.any((dynamic v) => const [ "postcode" ].contains(v.toString()))) {
         featurePostcode = feature;
-      } else if (featureCountry == null && placeType.any((String v) => const [ "country" ].contains(v))) {
+      } else if (featureCountry == null && placeType.any((dynamic v) => const [ "country" ].contains(v.toString()))) {
         featureCountry = feature;
       }
     }

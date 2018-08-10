@@ -50,7 +50,7 @@ class RemoteAppOAuth {
 
   StreamSubscription<TalkMessage> _netOAuthUrlReq; // OA_URLRE
   static int _netOAuthUrlRes = TalkSocket.encode("OA_R_URL");
-  netOAuthUrlReq(TalkMessage message) async {
+  Future<void> netOAuthUrlReq(TalkMessage message) async {
     devLog.finest("netOAuthUrlReq");
     NetOAuthUrlReq pb = new NetOAuthUrlReq();
     pb.mergeFromBuffer(message.data);
@@ -194,7 +194,7 @@ class RemoteAppOAuth {
 
   StreamSubscription<TalkMessage> _netOAuthConnectReq; // OA_CONNE
   static int _netOAuthConnectRes = TalkSocket.encode("OA_R_CON");
-  netOAuthConnectReq(TalkMessage message) async {
+  Future<void> netOAuthConnectReq(TalkMessage message) async {
     devLog.finest("netOAuthConnectReq");
     NetOAuthConnectReq pb = new NetOAuthConnectReq();
     pb.mergeFromBuffer(message.data);

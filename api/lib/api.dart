@@ -101,7 +101,9 @@ run() async {
   final HttpServer server = await HttpServer.bind(InternetAddress.anyIPv6, 8090);
   () async {
     await for (HttpRequest request in server) {
-      if (request.uri.path == '/api') {
+      print(request.uri.path);
+      print(request.headers);
+      if (request.uri.path == '/api' || request.uri.path == '/api/') {
         // Upgrade to WSTalk socket
         TalkSocket ts;
         try {
