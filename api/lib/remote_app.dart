@@ -259,6 +259,18 @@ class RemoteApp {
     }
   }
 
+  String makeCloudinaryThumbnailUrl(String key) {
+    int lastIndex = key.lastIndexOf('.');
+    String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex): key;
+    return config.services.cloudinaryThumbnailUrl.replaceAll('{key}', key).replaceAll('{keyNoExt}', keyNoExt);
+  }
+
+  String makeCloudinaryCoverUrl(String key) {
+    int lastIndex = key.lastIndexOf('.');
+    String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex): key;
+    return config.services.cloudinaryCoverUrl.replaceAll('{key}', key).replaceAll('{keyNoExt}', keyNoExt);
+  }
+
   Future<DataSocialMedia> fetchCachedSocialMedia(String oauthUserId, int oauthProvider) async {
     sqljocky.Results results = await sql.prepareExecute(
       "SELECT `screen_name`, `display_name`, `avatar_url`, `profile_url`, " // 0123
@@ -319,7 +331,10 @@ class RemoteApp {
           account.state.globalAccountStateReason = GlobalAccountStateReason.valueOf(row[3].toInt());
           account.summary.description = row[4].toString();
           locationId = row[5].toInt();
-          if (row[6] != null) account.summary.avatarUrl = config.services.cloudinaryUrl + '/' + row[6].toString();
+          if (row[6] != null) {
+            account.summary.avatarThumbnailUrl = makeCloudinaryThumbnailUrl(row[6].toString());
+            account.detail.avatarCoverUrl = makeCloudinaryCoverUrl(row[6].toString());
+          }
           if (row[7] != null) account.detail.url = row[7].toString();
         }
         if (locationId != null && locationId != 0) {
