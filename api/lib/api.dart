@@ -98,10 +98,10 @@ run() async {
   selfTestSql(sql);
 
   // Listen to websocket
-  final HttpServer server = await HttpServer.bind(InternetAddress.anyIPv6, 9090);
+  final HttpServer server = await HttpServer.bind(InternetAddress.anyIPv6, 8090);
   () async {
     await for (HttpRequest request in server) {
-      if (request.uri.path == '/ws') {
+      if (request.uri.path == '/api') {
         // Upgrade to WSTalk socket
         TalkSocket ts;
         try {
