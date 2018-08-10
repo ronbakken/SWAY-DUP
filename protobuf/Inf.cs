@@ -34,101 +34,103 @@ namespace InfX {
             "KAkSDwoHYXV0aFVybBgHIAEoCRIRCglhdXRoUXVlcnkYCCABKAkSEAoIY2xp",
             "ZW50SWQYDCABKAkSFAoMY2xpZW50U2VjcmV0GBEgASgJEhYKDndoaXRlbGlz",
             "dEhvc3RzGBIgAygJIj0KFENvbmZpZ09BdXRoUHJvdmlkZXJzEiUKA2FsbBgB",
-            "IAMoCzIYLmluZi5Db25maWdPQXV0aFByb3ZpZGVyIrIDCg5Db25maWdTZXJ2",
+            "IAMoCzIYLmluZi5Db25maWdPQXV0aFByb3ZpZGVyIu4DCg5Db25maWdTZXJ2",
             "aWNlcxIQCghhcGlIb3N0cxgIIAMoCRIRCgljb25maWdVcmwYCSABKAkSGQoR",
             "dGVybXNPZlNlcnZpY2VVcmwYCiABKAkSGAoQcHJpdmFjeVBvbGljeVVybBgL",
             "IAEoCRIRCgltYXBib3hBcGkYASABKAkSGQoRbWFwYm94VXJsVGVtcGxhdGUY",
             "AiABKAkSEwoLbWFwYm94VG9rZW4YAyABKAkSFAoMc3BhY2VzUmVnaW9uGAQg",
             "ASgJEhEKCXNwYWNlc0tleRgFIAEoCRIUCgxzcGFjZXNTZWNyZXQYBiABKAkS",
             "FAoMc3BhY2VzQnVja2V0GAcgASgJEhUKDWNsb3VkaW5hcnlVcmwYEyABKAkS",
-            "EgoKaXBzdGFja0FwaRgNIAEoCRISCgppcHN0YWNrS2V5GAwgASgJEhMKC21h",
-            "cmlhZGJIb3N0GA4gASgJEhMKC21hcmlhZGJQb3J0GA8gASgFEhMKC21hcmlh",
-            "ZGJVc2VyGBAgASgJEhcKD21hcmlhZGJQYXNzd29yZBgRIAEoCRIXCg9tYXJp",
-            "YWRiRGF0YWJhc2UYEiABKAkiuwEKCkNvbmZpZ0RhdGESFQoNY2xpZW50VmVy",
-            "c2lvbhgBIAEoBRIRCgl0aW1lc3RhbXAYBSABKAMSKQoKY2F0ZWdvcmllcxgC",
-            "IAEoCzIVLmluZi5Db25maWdDYXRlZ29yaWVzEjEKDm9hdXRoUHJvdmlkZXJz",
-            "GAMgASgLMhkuaW5mLkNvbmZpZ09BdXRoUHJvdmlkZXJzEiUKCHNlcnZpY2Vz",
-            "GAYgASgLMhMuaW5mLkNvbmZpZ1NlcnZpY2VzIicKCkNhdGVnb3J5SWQSDAoE",
-            "bWFpbhgBIAEoBRILCgNzdWIYAiABKAUitAIKD0RhdGFTb2NpYWxNZWRpYRIR",
-            "Cgljb25uZWN0ZWQYASABKAgSDwoHZXhwaXJlZBgPIAEoCBISCgpzY3JlZW5O",
-            "YW1lGAQgASgJEhMKC2Rpc3BsYXlOYW1lGAUgASgJEhEKCWF2YXRhclVybBgO",
-            "IAEoCRISCgpwcm9maWxlVXJsGA0gASgJEhMKC2Rlc2NyaXB0aW9uGAYgASgJ",
-            "EhAKCGxvY2F0aW9uGAcgASgJEgsKA3VybBgIIAEoCRINCgVlbWFpbBgMIAEo",
-            "CRIUCgxmcmllbmRzQ291bnQYCSABKAUSFgoOZm9sbG93ZXJzQ291bnQYAiAB",
-            "KAUSFgoOZm9sbG93aW5nQ291bnQYAyABKAUSEgoKcG9zdHNDb3VudBgKIAEo",
-            "BRIQCgh2ZXJpZmllZBgLIAEoCCJgChREYXRhT0F1dGhDcmVkZW50aWFscxIO",
-            "CgZ1c2VySWQYBCABKAkSDQoFdG9rZW4YASABKAkSEwoLdG9rZW5TZWNyZXQY",
-            "AiABKAkSFAoMdG9rZW5FeHBpcmVzGAMgASgFIrkDChFEYXRhQnVzaW5lc3NP",
-            "ZmZlchIPCgdvZmZlcklkGAEgASgDEhEKCWFjY291bnRJZBgCIAEoBRISCgps",
-            "b2NhdGlvbklkGAMgASgFEg0KBXRpdGxlGAQgASgJEhMKC2Rlc2NyaXB0aW9u",
-            "GAUgASgJEhEKCWF2YXRhclVybBgGIAEoCRIUCgxkZWxpdmVyYWJsZXMYByAB",
-            "KAkSDgoGcmV3YXJkGAggASgJEhAKCGxvY2F0aW9uGAkgASgJEhEKCWNvdmVy",
-            "VXJscxgKIAMoCRIjCgpjYXRlZ29yaWVzGAsgAygLMg8uaW5mLkNhdGVnb3J5",
-            "SWQSJgoFc3RhdGUYDCABKA4yFy5pbmYuQnVzaW5lc3NPZmZlclN0YXRlEjIK",
-            "C3N0YXRlUmVhc29uGA0gASgOMh0uaW5mLkJ1c2luZXNzT2ZmZXJTdGF0ZVJl",
-            "YXNvbhIVCg1hcHBsaWNhbnRzTmV3GA4gASgFEhoKEmFwcGxpY2FudHNBY2Nl",
-            "cHRlZBgPIAEoBRIbChNhcHBsaWNhbnRzQ29tcGxldGVkGBAgASgFEhkKEWFw",
-            "cGxpY2FudHNSZWZ1c2VkGBEgASgFIsgBCgxEYXRhTG9jYXRpb24SEgoKbG9j",
-            "YXRpb25JZBgBIAEoBRIMCgRuYW1lGAIgASgJEhEKCWF2YXRhclVybBgGIAEo",
-            "CRITCgthcHByb3hpbWF0ZRgHIAEoCRIOCgZkZXRhaWwYCCABKAkSEAoIcG9z",
-            "dGNvZGUYCSABKAkSEgoKcmVnaW9uQ29kZRgKIAEoCRITCgtjb3VudHJ5Q29k",
-            "ZRgLIAEoCRIQCghsYXRpdHVkZRgEIAEoARIRCglsb25naXR1ZGUYBSABKAEi",
-            "SAoNRGF0YUFwcGxpY2FudBITCgthcHBsaWNhbnRJZBgBIAEoAxIPCgdvZmZl",
-            "cklkGAIgASgDEhEKCWFjY291bnRJZBgDIAEoBSJiCghEYXRhQ2hhdBITCgth",
-            "cHBsaWNhbnRJZBgBIAEoAxISCgpzZXF1ZW5jZUlkGAIgASgDEg0KBWtleUlk",
-            "GAMgASgDEhAKCG91dGdvaW5nGAQgASgIEgwKBHRleHQYBSABKAkihwIKEERh",
-            "dGFBY2NvdW50U3RhdGUSEAoIZGV2aWNlSWQYASABKAUSEQoJYWNjb3VudElk",
-            "GAIgASgFEiUKC2FjY291bnRUeXBlGAMgASgOMhAuaW5mLkFjY291bnRUeXBl",
-            "EjMKEmdsb2JhbEFjY291bnRTdGF0ZRgEIAEoDjIXLmluZi5HbG9iYWxBY2Nv",
-            "dW50U3RhdGUSPwoYZ2xvYmFsQWNjb3VudFN0YXRlUmVhc29uGAUgASgOMh0u",
-            "aW5mLkdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIxChFub3RpZmljYXRpb25G",
-            "bGFncxgGIAEoDjIWLmluZi5Ob3RpZmljYXRpb25GbGFncyJcChJEYXRhQWNj",
-            "b3VudFN1bW1hcnkSDAoEbmFtZRgBIAEoCRITCgtkZXNjcmlwdGlvbhgCIAEo",
-            "CRIQCghsb2NhdGlvbhgDIAEoCRIRCglhdmF0YXJVcmwYBCABKAkilQEKEURh",
-            "dGFBY2NvdW50RGV0YWlsEiMKCmNhdGVnb3JpZXMYAiADKAsyDy5pbmYuQ2F0",
-            "ZWdvcnlJZBIpCgtzb2NpYWxNZWRpYRgDIAMoCzIULmluZi5EYXRhU29jaWFs",
-            "TWVkaWESCwoDdXJsGAYgASgJEhAKCGxhdGl0dWRlGAQgASgBEhEKCWxvbmdp",
-            "dHVkZRgFIAEoASKFAQoLRGF0YUFjY291bnQSJAoFc3RhdGUYASABKAsyFS5p",
-            "bmYuRGF0YUFjY291bnRTdGF0ZRIoCgdzdW1tYXJ5GAIgASgLMhcuaW5mLkRh",
-            "dGFBY2NvdW50U3VtbWFyeRImCgZkZXRhaWwYAyABKAsyFi5pbmYuRGF0YUFj",
-            "Y291bnREZXRhaWwiXAoWTmV0RGV2aWNlQXV0aENyZWF0ZVJlcRIOCgZhZXNL",
-            "ZXkYASABKAwSFgoOY29tbW9uRGV2aWNlSWQYBCABKAwSDAoEbmFtZRgCIAEo",
-            "CRIMCgRpbmZvGAMgASgJIi0KGU5ldERldmljZUF1dGhDaGFsbGVuZ2VSZXES",
-            "EAoIZGV2aWNlSWQYASABKAUiMQocTmV0RGV2aWNlQXV0aENoYWxsZW5nZVJl",
-            "c1JlcRIRCgljaGFsbGVuZ2UYASABKAwiMQocTmV0RGV2aWNlQXV0aFNpZ25h",
-            "dHVyZVJlc1JlcRIRCglzaWduYXR1cmUYASABKAwiNAoSTmV0RGV2aWNlQXV0",
-            "aFN0YXRlEh4KBGRhdGEYCCABKAsyEC5pbmYuRGF0YUFjY291bnQiOgoRTmV0",
-            "U2V0QWNjb3VudFR5cGUSJQoLYWNjb3VudFR5cGUYASABKA4yEC5pbmYuQWNj",
-            "b3VudFR5cGUiJwoOTmV0T0F1dGhVcmxSZXESFQoNb2F1dGhQcm92aWRlchgB",
-            "IAEoBSI2Cg5OZXRPQXV0aFVybFJlcxIPCgdhdXRoVXJsGAEgASgJEhMKC2Nh",
-            "bGxiYWNrVXJsGAIgASgJIkIKEk5ldE9BdXRoQ29ubmVjdFJlcRIVCg1vYXV0",
-            "aFByb3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAkiPwoSTmV0",
-            "T0F1dGhDb25uZWN0UmVzEikKC3NvY2lhbE1lZGlhGAEgASgLMhQuaW5mLkRh",
-            "dGFTb2NpYWxNZWRpYSI6ChNOZXRBY2NvdW50Q3JlYXRlUmVxEhAKCGxhdGl0",
-            "dWRlGAIgASgBEhEKCWxvbmdpdHVkZRgDIAEoASJHChFOZXRSZXFJbWFnZVVw",
-            "bG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghmaWxlU2l6ZRgCIAEoBRIOCgZz",
-            "aGEyNTYYAyABKAkiOgoRTmV0UmVxQ3JlYXRlT2ZmZXISJQoFb2ZmZXIYASAB",
-            "KAsyFi5pbmYuRGF0YUJ1c2luZXNzT2ZmZXIiHwoRTmV0UmVzQ3JlYXRlT2Zm",
-            "ZXISCgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQ",
-            "ABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJv",
-            "dmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9B",
-            "UF9GQUNFQk9PSxACKkEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04QABIR",
-            "Cg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAiqPAQoSR2xvYmFs",
-            "QWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFMSVpFEAASDwoLR0FTX0JMT0NL",
-            "RUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoOR0FTX1JFQURfV1JJVEUQAxIR",
-            "Cg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FETUlOEAUSCwoHR0FTX0dPRBAG",
-            "KrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdfQUND",
-            "T1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NSRUFU",
-            "RV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1PX0FQ",
-            "UFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJFX0lO",
-            "Rk8QBipuChFOb3RpZmljYXRpb25GbGFncxIUChBORl9BQ0NPVU5UX1NUQVRF",
-            "EAASGAoUTkZfTUFLRV9BTl9PRkZFUl9GQUIQARIWChJORl9VTlJFQURfTUVT",
-            "U0FHRVMQAhIRCg1ORl9DU19SRVFVRVNUEAMqUQoSQnVzaW5lc3NPZmZlclN0",
-            "YXRlEg0KCUJPU19EUkFGVBAAEgwKCEJPU19PUEVOEAESDgoKQk9TX0FDVElW",
-            "RRACEg4KCkJPU19DTE9TRUQQAypwChhCdXNpbmVzc09mZmVyU3RhdGVSZWFz",
-            "b24SEgoOQk9TUl9ORVdfT0ZGRVIQABIUChBCT1NSX1VTRVJfQ0xPU0VEEAES",
-            "FgoSQk9TUl9UT1NfVklPTEFUSU9OEAISEgoOQk9TUl9DT01QTEVURUQQA0IH",
-            "qgIESW5mWGIGcHJvdG8z"));
+            "HgoWY2xvdWRpbmFyeVRodW1ibmFpbFVybBgUIAEoCRIaChJjbG91ZGluYXJ5",
+            "Q292ZXJVcmwYFSABKAkSEgoKaXBzdGFja0FwaRgNIAEoCRISCgppcHN0YWNr",
+            "S2V5GAwgASgJEhMKC21hcmlhZGJIb3N0GA4gASgJEhMKC21hcmlhZGJQb3J0",
+            "GA8gASgFEhMKC21hcmlhZGJVc2VyGBAgASgJEhcKD21hcmlhZGJQYXNzd29y",
+            "ZBgRIAEoCRIXCg9tYXJpYWRiRGF0YWJhc2UYEiABKAkiuwEKCkNvbmZpZ0Rh",
+            "dGESFQoNY2xpZW50VmVyc2lvbhgBIAEoBRIRCgl0aW1lc3RhbXAYBSABKAMS",
+            "KQoKY2F0ZWdvcmllcxgCIAEoCzIVLmluZi5Db25maWdDYXRlZ29yaWVzEjEK",
+            "Dm9hdXRoUHJvdmlkZXJzGAMgASgLMhkuaW5mLkNvbmZpZ09BdXRoUHJvdmlk",
+            "ZXJzEiUKCHNlcnZpY2VzGAYgASgLMhMuaW5mLkNvbmZpZ1NlcnZpY2VzIicK",
+            "CkNhdGVnb3J5SWQSDAoEbWFpbhgBIAEoBRILCgNzdWIYAiABKAUitAIKD0Rh",
+            "dGFTb2NpYWxNZWRpYRIRCgljb25uZWN0ZWQYASABKAgSDwoHZXhwaXJlZBgP",
+            "IAEoCBISCgpzY3JlZW5OYW1lGAQgASgJEhMKC2Rpc3BsYXlOYW1lGAUgASgJ",
+            "EhEKCWF2YXRhclVybBgOIAEoCRISCgpwcm9maWxlVXJsGA0gASgJEhMKC2Rl",
+            "c2NyaXB0aW9uGAYgASgJEhAKCGxvY2F0aW9uGAcgASgJEgsKA3VybBgIIAEo",
+            "CRINCgVlbWFpbBgMIAEoCRIUCgxmcmllbmRzQ291bnQYCSABKAUSFgoOZm9s",
+            "bG93ZXJzQ291bnQYAiABKAUSFgoOZm9sbG93aW5nQ291bnQYAyABKAUSEgoK",
+            "cG9zdHNDb3VudBgKIAEoBRIQCgh2ZXJpZmllZBgLIAEoCCJgChREYXRhT0F1",
+            "dGhDcmVkZW50aWFscxIOCgZ1c2VySWQYBCABKAkSDQoFdG9rZW4YASABKAkS",
+            "EwoLdG9rZW5TZWNyZXQYAiABKAkSFAoMdG9rZW5FeHBpcmVzGAMgASgFIrkD",
+            "ChFEYXRhQnVzaW5lc3NPZmZlchIPCgdvZmZlcklkGAEgASgDEhEKCWFjY291",
+            "bnRJZBgCIAEoBRISCgpsb2NhdGlvbklkGAMgASgFEg0KBXRpdGxlGAQgASgJ",
+            "EhMKC2Rlc2NyaXB0aW9uGAUgASgJEhEKCWF2YXRhclVybBgGIAEoCRIUCgxk",
+            "ZWxpdmVyYWJsZXMYByABKAkSDgoGcmV3YXJkGAggASgJEhAKCGxvY2F0aW9u",
+            "GAkgASgJEhEKCWNvdmVyVXJscxgKIAMoCRIjCgpjYXRlZ29yaWVzGAsgAygL",
+            "Mg8uaW5mLkNhdGVnb3J5SWQSJgoFc3RhdGUYDCABKA4yFy5pbmYuQnVzaW5l",
+            "c3NPZmZlclN0YXRlEjIKC3N0YXRlUmVhc29uGA0gASgOMh0uaW5mLkJ1c2lu",
+            "ZXNzT2ZmZXJTdGF0ZVJlYXNvbhIVCg1hcHBsaWNhbnRzTmV3GA4gASgFEhoK",
+            "EmFwcGxpY2FudHNBY2NlcHRlZBgPIAEoBRIbChNhcHBsaWNhbnRzQ29tcGxl",
+            "dGVkGBAgASgFEhkKEWFwcGxpY2FudHNSZWZ1c2VkGBEgASgFIsgBCgxEYXRh",
+            "TG9jYXRpb24SEgoKbG9jYXRpb25JZBgBIAEoBRIMCgRuYW1lGAIgASgJEhEK",
+            "CWF2YXRhclVybBgGIAEoCRITCgthcHByb3hpbWF0ZRgHIAEoCRIOCgZkZXRh",
+            "aWwYCCABKAkSEAoIcG9zdGNvZGUYCSABKAkSEgoKcmVnaW9uQ29kZRgKIAEo",
+            "CRITCgtjb3VudHJ5Q29kZRgLIAEoCRIQCghsYXRpdHVkZRgEIAEoARIRCgls",
+            "b25naXR1ZGUYBSABKAEiSAoNRGF0YUFwcGxpY2FudBITCgthcHBsaWNhbnRJ",
+            "ZBgBIAEoAxIPCgdvZmZlcklkGAIgASgDEhEKCWFjY291bnRJZBgDIAEoBSJi",
+            "CghEYXRhQ2hhdBITCgthcHBsaWNhbnRJZBgBIAEoAxISCgpzZXF1ZW5jZUlk",
+            "GAIgASgDEg0KBWtleUlkGAMgASgDEhAKCG91dGdvaW5nGAQgASgIEgwKBHRl",
+            "eHQYBSABKAkihwIKEERhdGFBY2NvdW50U3RhdGUSEAoIZGV2aWNlSWQYASAB",
+            "KAUSEQoJYWNjb3VudElkGAIgASgFEiUKC2FjY291bnRUeXBlGAMgASgOMhAu",
+            "aW5mLkFjY291bnRUeXBlEjMKEmdsb2JhbEFjY291bnRTdGF0ZRgEIAEoDjIX",
+            "LmluZi5HbG9iYWxBY2NvdW50U3RhdGUSPwoYZ2xvYmFsQWNjb3VudFN0YXRl",
+            "UmVhc29uGAUgASgOMh0uaW5mLkdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIx",
+            "ChFub3RpZmljYXRpb25GbGFncxgGIAEoDjIWLmluZi5Ob3RpZmljYXRpb25G",
+            "bGFncyJlChJEYXRhQWNjb3VudFN1bW1hcnkSDAoEbmFtZRgBIAEoCRITCgtk",
+            "ZXNjcmlwdGlvbhgCIAEoCRIQCghsb2NhdGlvbhgDIAEoCRIaChJhdmF0YXJU",
+            "aHVtYm5haWxVcmwYBCABKAkirQEKEURhdGFBY2NvdW50RGV0YWlsEiMKCmNh",
+            "dGVnb3JpZXMYAiADKAsyDy5pbmYuQ2F0ZWdvcnlJZBIpCgtzb2NpYWxNZWRp",
+            "YRgDIAMoCzIULmluZi5EYXRhU29jaWFsTWVkaWESFgoOYXZhdGFyQ292ZXJV",
+            "cmwYByABKAkSCwoDdXJsGAYgASgJEhAKCGxhdGl0dWRlGAQgASgBEhEKCWxv",
+            "bmdpdHVkZRgFIAEoASKFAQoLRGF0YUFjY291bnQSJAoFc3RhdGUYASABKAsy",
+            "FS5pbmYuRGF0YUFjY291bnRTdGF0ZRIoCgdzdW1tYXJ5GAIgASgLMhcuaW5m",
+            "LkRhdGFBY2NvdW50U3VtbWFyeRImCgZkZXRhaWwYAyABKAsyFi5pbmYuRGF0",
+            "YUFjY291bnREZXRhaWwiXAoWTmV0RGV2aWNlQXV0aENyZWF0ZVJlcRIOCgZh",
+            "ZXNLZXkYASABKAwSFgoOY29tbW9uRGV2aWNlSWQYBCABKAwSDAoEbmFtZRgC",
+            "IAEoCRIMCgRpbmZvGAMgASgJIi0KGU5ldERldmljZUF1dGhDaGFsbGVuZ2VS",
+            "ZXESEAoIZGV2aWNlSWQYASABKAUiMQocTmV0RGV2aWNlQXV0aENoYWxsZW5n",
+            "ZVJlc1JlcRIRCgljaGFsbGVuZ2UYASABKAwiMQocTmV0RGV2aWNlQXV0aFNp",
+            "Z25hdHVyZVJlc1JlcRIRCglzaWduYXR1cmUYASABKAwiNAoSTmV0RGV2aWNl",
+            "QXV0aFN0YXRlEh4KBGRhdGEYCCABKAsyEC5pbmYuRGF0YUFjY291bnQiOgoR",
+            "TmV0U2V0QWNjb3VudFR5cGUSJQoLYWNjb3VudFR5cGUYASABKA4yEC5pbmYu",
+            "QWNjb3VudFR5cGUiJwoOTmV0T0F1dGhVcmxSZXESFQoNb2F1dGhQcm92aWRl",
+            "chgBIAEoBSI2Cg5OZXRPQXV0aFVybFJlcxIPCgdhdXRoVXJsGAEgASgJEhMK",
+            "C2NhbGxiYWNrVXJsGAIgASgJIkIKEk5ldE9BdXRoQ29ubmVjdFJlcRIVCg1v",
+            "YXV0aFByb3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAkiPwoS",
+            "TmV0T0F1dGhDb25uZWN0UmVzEikKC3NvY2lhbE1lZGlhGAEgASgLMhQuaW5m",
+            "LkRhdGFTb2NpYWxNZWRpYSI6ChNOZXRBY2NvdW50Q3JlYXRlUmVxEhAKCGxh",
+            "dGl0dWRlGAIgASgBEhEKCWxvbmdpdHVkZRgDIAEoASJHChFOZXRSZXFJbWFn",
+            "ZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghmaWxlU2l6ZRgCIAEoBRIO",
+            "CgZzaGEyNTYYAyABKAkiOgoRTmV0UmVxQ3JlYXRlT2ZmZXISJQoFb2ZmZXIY",
+            "ASABKAsyFi5pbmYuRGF0YUJ1c2luZXNzT2ZmZXIiHwoRTmV0UmVzQ3JlYXRl",
+            "T2ZmZXISCgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05P",
+            "TkUQABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRo",
+            "UHJvdmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAK",
+            "DE9BUF9GQUNFQk9PSxACKkEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04Q",
+            "ABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAiqPAQoSR2xv",
+            "YmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFMSVpFEAASDwoLR0FTX0JM",
+            "T0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoOR0FTX1JFQURfV1JJVEUQ",
+            "AxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FETUlOEAUSCwoHR0FTX0dP",
+            "RBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdf",
+            "QUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NS",
+            "RUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1P",
+            "X0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJF",
+            "X0lORk8QBipuChFOb3RpZmljYXRpb25GbGFncxIUChBORl9BQ0NPVU5UX1NU",
+            "QVRFEAASGAoUTkZfTUFLRV9BTl9PRkZFUl9GQUIQARIWChJORl9VTlJFQURf",
+            "TUVTU0FHRVMQAhIRCg1ORl9DU19SRVFVRVNUEAMqUQoSQnVzaW5lc3NPZmZl",
+            "clN0YXRlEg0KCUJPU19EUkFGVBAAEgwKCEJPU19PUEVOEAESDgoKQk9TX0FD",
+            "VElWRRACEg4KCkJPU19DTE9TRUQQAypwChhCdXNpbmVzc09mZmVyU3RhdGVS",
+            "ZWFzb24SEgoOQk9TUl9ORVdfT0ZGRVIQABIUChBCT1NSX1VTRVJfQ0xPU0VE",
+            "EAESFgoSQk9TUl9UT1NfVklPTEFUSU9OEAISEgoOQk9TUl9DT01QTEVURUQQ",
+            "A0IHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -136,7 +138,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "CallbackUrl", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret", "WhitelistHosts" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigServices), global::InfX.ConfigServices.Parser, new[]{ "ApiHosts", "ConfigUrl", "TermsOfServiceUrl", "PrivacyPolicyUrl", "MapboxApi", "MapboxUrlTemplate", "MapboxToken", "SpacesRegion", "SpacesKey", "SpacesSecret", "SpacesBucket", "CloudinaryUrl", "IpstackApi", "IpstackKey", "MariadbHost", "MariadbPort", "MariadbUser", "MariadbPassword", "MariadbDatabase" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigServices), global::InfX.ConfigServices.Parser, new[]{ "ApiHosts", "ConfigUrl", "TermsOfServiceUrl", "PrivacyPolicyUrl", "MapboxApi", "MapboxUrlTemplate", "MapboxToken", "SpacesRegion", "SpacesKey", "SpacesSecret", "SpacesBucket", "CloudinaryUrl", "CloudinaryThumbnailUrl", "CloudinaryCoverUrl", "IpstackApi", "IpstackKey", "MariadbHost", "MariadbPort", "MariadbUser", "MariadbPassword", "MariadbDatabase" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "Timestamp", "Categories", "OauthProviders", "Services" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.CategoryId), global::InfX.CategoryId.Parser, new[]{ "Main", "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Expired", "ScreenName", "DisplayName", "AvatarUrl", "ProfileUrl", "Description", "Location", "Url", "Email", "FriendsCount", "FollowersCount", "FollowingCount", "PostsCount", "Verified" }, null, null, null),
@@ -146,8 +148,8 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "AccountId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason", "NotificationFlags" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarUrl" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "Url", "Latitude", "Longitude" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarThumbnailUrl" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "AvatarCoverUrl", "Url", "Latitude", "Longitude" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "CommonDeviceId", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
@@ -1254,6 +1256,8 @@ namespace InfX {
       spacesSecret_ = other.spacesSecret_;
       spacesBucket_ = other.spacesBucket_;
       cloudinaryUrl_ = other.cloudinaryUrl_;
+      cloudinaryThumbnailUrl_ = other.cloudinaryThumbnailUrl_;
+      cloudinaryCoverUrl_ = other.cloudinaryCoverUrl_;
       ipstackApi_ = other.ipstackApi_;
       ipstackKey_ = other.ipstackKey_;
       mariadbHost_ = other.mariadbHost_;
@@ -1400,11 +1404,36 @@ namespace InfX {
     /// <summary>Field number for the "cloudinaryUrl" field.</summary>
     public const int CloudinaryUrlFieldNumber = 19;
     private string cloudinaryUrl_ = "";
+    /// <summary>
+    ///  Cloudinary (Url Templates)
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string CloudinaryUrl {
       get { return cloudinaryUrl_; }
       set {
         cloudinaryUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "cloudinaryThumbnailUrl" field.</summary>
+    public const int CloudinaryThumbnailUrlFieldNumber = 20;
+    private string cloudinaryThumbnailUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CloudinaryThumbnailUrl {
+      get { return cloudinaryThumbnailUrl_; }
+      set {
+        cloudinaryThumbnailUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "cloudinaryCoverUrl" field.</summary>
+    public const int CloudinaryCoverUrlFieldNumber = 21;
+    private string cloudinaryCoverUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CloudinaryCoverUrl {
+      get { return cloudinaryCoverUrl_; }
+      set {
+        cloudinaryCoverUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -1516,6 +1545,8 @@ namespace InfX {
       if (SpacesSecret != other.SpacesSecret) return false;
       if (SpacesBucket != other.SpacesBucket) return false;
       if (CloudinaryUrl != other.CloudinaryUrl) return false;
+      if (CloudinaryThumbnailUrl != other.CloudinaryThumbnailUrl) return false;
+      if (CloudinaryCoverUrl != other.CloudinaryCoverUrl) return false;
       if (IpstackApi != other.IpstackApi) return false;
       if (IpstackKey != other.IpstackKey) return false;
       if (MariadbHost != other.MariadbHost) return false;
@@ -1541,6 +1572,8 @@ namespace InfX {
       if (SpacesSecret.Length != 0) hash ^= SpacesSecret.GetHashCode();
       if (SpacesBucket.Length != 0) hash ^= SpacesBucket.GetHashCode();
       if (CloudinaryUrl.Length != 0) hash ^= CloudinaryUrl.GetHashCode();
+      if (CloudinaryThumbnailUrl.Length != 0) hash ^= CloudinaryThumbnailUrl.GetHashCode();
+      if (CloudinaryCoverUrl.Length != 0) hash ^= CloudinaryCoverUrl.GetHashCode();
       if (IpstackApi.Length != 0) hash ^= IpstackApi.GetHashCode();
       if (IpstackKey.Length != 0) hash ^= IpstackKey.GetHashCode();
       if (MariadbHost.Length != 0) hash ^= MariadbHost.GetHashCode();
@@ -1631,6 +1664,14 @@ namespace InfX {
         output.WriteRawTag(154, 1);
         output.WriteString(CloudinaryUrl);
       }
+      if (CloudinaryThumbnailUrl.Length != 0) {
+        output.WriteRawTag(162, 1);
+        output.WriteString(CloudinaryThumbnailUrl);
+      }
+      if (CloudinaryCoverUrl.Length != 0) {
+        output.WriteRawTag(170, 1);
+        output.WriteString(CloudinaryCoverUrl);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1669,6 +1710,12 @@ namespace InfX {
       }
       if (CloudinaryUrl.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(CloudinaryUrl);
+      }
+      if (CloudinaryThumbnailUrl.Length != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeStringSize(CloudinaryThumbnailUrl);
+      }
+      if (CloudinaryCoverUrl.Length != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeStringSize(CloudinaryCoverUrl);
       }
       if (IpstackApi.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(IpstackApi);
@@ -1732,6 +1779,12 @@ namespace InfX {
       }
       if (other.CloudinaryUrl.Length != 0) {
         CloudinaryUrl = other.CloudinaryUrl;
+      }
+      if (other.CloudinaryThumbnailUrl.Length != 0) {
+        CloudinaryThumbnailUrl = other.CloudinaryThumbnailUrl;
+      }
+      if (other.CloudinaryCoverUrl.Length != 0) {
+        CloudinaryCoverUrl = other.CloudinaryCoverUrl;
       }
       if (other.IpstackApi.Length != 0) {
         IpstackApi = other.IpstackApi;
@@ -1838,6 +1891,14 @@ namespace InfX {
           }
           case 154: {
             CloudinaryUrl = input.ReadString();
+            break;
+          }
+          case 162: {
+            CloudinaryThumbnailUrl = input.ReadString();
+            break;
+          }
+          case 170: {
+            CloudinaryCoverUrl = input.ReadString();
             break;
           }
         }
@@ -4632,7 +4693,7 @@ namespace InfX {
       name_ = other.name_;
       description_ = other.description_;
       location_ = other.location_;
-      avatarUrl_ = other.avatarUrl_;
+      avatarThumbnailUrl_ = other.avatarThumbnailUrl_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4673,14 +4734,14 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "avatarUrl" field.</summary>
-    public const int AvatarUrlFieldNumber = 4;
-    private string avatarUrl_ = "";
+    /// <summary>Field number for the "avatarThumbnailUrl" field.</summary>
+    public const int AvatarThumbnailUrlFieldNumber = 4;
+    private string avatarThumbnailUrl_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string AvatarUrl {
-      get { return avatarUrl_; }
+    public string AvatarThumbnailUrl {
+      get { return avatarThumbnailUrl_; }
       set {
-        avatarUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        avatarThumbnailUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -4700,7 +4761,7 @@ namespace InfX {
       if (Name != other.Name) return false;
       if (Description != other.Description) return false;
       if (Location != other.Location) return false;
-      if (AvatarUrl != other.AvatarUrl) return false;
+      if (AvatarThumbnailUrl != other.AvatarThumbnailUrl) return false;
       return true;
     }
 
@@ -4710,7 +4771,7 @@ namespace InfX {
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Description.Length != 0) hash ^= Description.GetHashCode();
       if (Location.Length != 0) hash ^= Location.GetHashCode();
-      if (AvatarUrl.Length != 0) hash ^= AvatarUrl.GetHashCode();
+      if (AvatarThumbnailUrl.Length != 0) hash ^= AvatarThumbnailUrl.GetHashCode();
       return hash;
     }
 
@@ -4733,9 +4794,9 @@ namespace InfX {
         output.WriteRawTag(26);
         output.WriteString(Location);
       }
-      if (AvatarUrl.Length != 0) {
+      if (AvatarThumbnailUrl.Length != 0) {
         output.WriteRawTag(34);
-        output.WriteString(AvatarUrl);
+        output.WriteString(AvatarThumbnailUrl);
       }
     }
 
@@ -4751,8 +4812,8 @@ namespace InfX {
       if (Location.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Location);
       }
-      if (AvatarUrl.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarUrl);
+      if (AvatarThumbnailUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarThumbnailUrl);
       }
       return size;
     }
@@ -4771,8 +4832,8 @@ namespace InfX {
       if (other.Location.Length != 0) {
         Location = other.Location;
       }
-      if (other.AvatarUrl.Length != 0) {
-        AvatarUrl = other.AvatarUrl;
+      if (other.AvatarThumbnailUrl.Length != 0) {
+        AvatarThumbnailUrl = other.AvatarThumbnailUrl;
       }
     }
 
@@ -4797,7 +4858,7 @@ namespace InfX {
             break;
           }
           case 34: {
-            AvatarUrl = input.ReadString();
+            AvatarThumbnailUrl = input.ReadString();
             break;
           }
         }
@@ -4832,6 +4893,7 @@ namespace InfX {
     public DataAccountDetail(DataAccountDetail other) : this() {
       categories_ = other.categories_.Clone();
       socialMedia_ = other.socialMedia_.Clone();
+      avatarCoverUrl_ = other.avatarCoverUrl_;
       url_ = other.url_;
       latitude_ = other.latitude_;
       longitude_ = other.longitude_;
@@ -4863,6 +4925,20 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::InfX.DataSocialMedia> SocialMedia {
       get { return socialMedia_; }
+    }
+
+    /// <summary>Field number for the "avatarCoverUrl" field.</summary>
+    public const int AvatarCoverUrlFieldNumber = 7;
+    private string avatarCoverUrl_ = "";
+    /// <summary>
+    ///  Higher resolution, but same as avatarThumbnailUrl
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AvatarCoverUrl {
+      get { return avatarCoverUrl_; }
+      set {
+        avatarCoverUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
     }
 
     /// <summary>Field number for the "url" field.</summary>
@@ -4913,6 +4989,7 @@ namespace InfX {
       }
       if(!categories_.Equals(other.categories_)) return false;
       if(!socialMedia_.Equals(other.socialMedia_)) return false;
+      if (AvatarCoverUrl != other.AvatarCoverUrl) return false;
       if (Url != other.Url) return false;
       if (Latitude != other.Latitude) return false;
       if (Longitude != other.Longitude) return false;
@@ -4924,6 +5001,7 @@ namespace InfX {
       int hash = 1;
       hash ^= categories_.GetHashCode();
       hash ^= socialMedia_.GetHashCode();
+      if (AvatarCoverUrl.Length != 0) hash ^= AvatarCoverUrl.GetHashCode();
       if (Url.Length != 0) hash ^= Url.GetHashCode();
       if (Latitude != 0D) hash ^= Latitude.GetHashCode();
       if (Longitude != 0D) hash ^= Longitude.GetHashCode();
@@ -4951,6 +5029,10 @@ namespace InfX {
         output.WriteRawTag(50);
         output.WriteString(Url);
       }
+      if (AvatarCoverUrl.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(AvatarCoverUrl);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4958,6 +5040,9 @@ namespace InfX {
       int size = 0;
       size += categories_.CalculateSize(_repeated_categories_codec);
       size += socialMedia_.CalculateSize(_repeated_socialMedia_codec);
+      if (AvatarCoverUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarCoverUrl);
+      }
       if (Url.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Url);
       }
@@ -4977,6 +5062,9 @@ namespace InfX {
       }
       categories_.Add(other.categories_);
       socialMedia_.Add(other.socialMedia_);
+      if (other.AvatarCoverUrl.Length != 0) {
+        AvatarCoverUrl = other.AvatarCoverUrl;
+      }
       if (other.Url.Length != 0) {
         Url = other.Url;
       }
@@ -5014,6 +5102,10 @@ namespace InfX {
           }
           case 50: {
             Url = input.ReadString();
+            break;
+          }
+          case 58: {
+            AvatarCoverUrl = input.ReadString();
             break;
           }
         }
