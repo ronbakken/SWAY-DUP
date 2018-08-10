@@ -309,7 +309,7 @@ class RemoteApp {
         if (extend != null) extend();
         sqljocky.Results accountResults = await sql.prepareExecute(
           "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
-          "`description`, `location_id`, `avatar_url`, `url` FROM `accounts` "
+          "`description`, `location_id`, `avatar_key`, `url` FROM `accounts` "
           "WHERE `account_id` = ?", [ account.state.accountId.toInt() ]);
         int locationId;
         await for (sqljocky.Row row in accountResults) { // one 
@@ -319,7 +319,7 @@ class RemoteApp {
           account.state.globalAccountStateReason = GlobalAccountStateReason.valueOf(row[3].toInt());
           account.summary.description = row[4].toString();
           locationId = row[5].toInt();
-          if (row[6] != null) account.summary.avatarUrl = row[6].toString();
+          if (row[6] != null) account.summary.avatarUrl = config.services.cloudinaryUrl + '/' + row[6].toString();
           if (row[7] != null) account.detail.url = row[7].toString();
         }
         if (locationId != null && locationId != 0) {
