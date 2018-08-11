@@ -1001,6 +1001,12 @@ class RemoteApp {
     // Get hash and generate filename
     int lastIndex = uri.path.lastIndexOf('.');
     String uriExt = lastIndex > 0 ? uri.path.substring(lastIndex + 1) : '';
+    if (uriExt.length == 0) {
+      switch (contentType) {
+        case 'image/jpeg': uriExt = 'jpg'; break;
+        case 'image/png': uriExt = 'png'; break;
+      }
+    }
     Digest contentSha256 = sha256.convert(body);
     String key = "user/$accountId/$contentSha256" + (uriExt.length > 0 ? ('.' + uriExt) : '.bin');
     bucket.uploadData(key, body, contentType, dospace.Permissions.public, contentSha256: contentSha256);
