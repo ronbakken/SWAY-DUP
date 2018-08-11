@@ -391,7 +391,7 @@ class RemoteAppOAuth {
         }
         if (doc['screen_name'] != null) dataSocialMedia.screenName = doc['screen_name'];
         if (doc['name'] != null) dataSocialMedia.displayName = doc['name'];
-        if (doc['profile_image_url'] != null && doc['default_profile_image'] != true) dataSocialMedia.avatarUrl = doc['profile_image_url'];
+        if (doc['profile_image_url'] != null && doc['default_profile_image'] != true) dataSocialMedia.avatarUrl = doc['profile_image_url'].replaceAll('_normal', '');
         if (doc['screen_name'] != null) dataSocialMedia.profileUrl = "https://twitter.com/${doc['screen_name']}";
         if (doc['location'] != null) dataSocialMedia.location = doc['location'];
         if (doc['description'] != null) dataSocialMedia.description = doc['description'];
