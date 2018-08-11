@@ -425,8 +425,8 @@ class RemoteAppOAuth {
         // Need "Page Public Content Access"
 
         // User info
-        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthCredentials.userId);
-        requestQuery['fields'] = "name,email,link,picture"; // ,location,address,hometown // cover,subscribers,subscribedto is deprecated
+        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthCredentials.userId); // Try fields=picture.height(961) to get highest resolution avatar
+        requestQuery['fields'] = "name,email,link,picture.height(1440)"; // ,location,address,hometown // cover,subscribers,subscribedto is deprecated
         http.Response userRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
         dynamic userDoc = json.decode(userRes.body);
         devLog.finest(userDoc);
