@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../business_offer_list.dart';
 import '../network/inf.pb.dart';
@@ -22,8 +23,7 @@ import '../profile/profile_edit.dart' show ProfileEdit;
 import '../search/search_button.dart';
 import '../search/search_page.dart';
 import '../debug_account.dart';
-// import '../widgets/follower_count.dart' show FollowerWidget;
-import 'package:geolocator/geolocator.dart';
+
 
 class DemoApp extends StatefulWidget {
   const DemoApp({
