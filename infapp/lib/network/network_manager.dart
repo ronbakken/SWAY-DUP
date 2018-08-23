@@ -34,7 +34,8 @@ class NetworkManager extends StatelessWidget {
   final Widget child;
 
   static NetworkInterface of(BuildContext context) {
-    final _InheritedNetworkManager inherited = context.inheritFromWidgetOfExactType(_InheritedNetworkManager);
+    final _InheritedNetworkManager inherited =
+        context.inheritFromWidgetOfExactType(_InheritedNetworkManager);
     return inherited != null ? inherited.networkInterface : null;
   }
 
@@ -76,7 +77,8 @@ class _NetworkManagerStateful extends StatefulWidget {
   _NetworkManagerState createState() => new _NetworkManagerState();
 }
 
-class _NetworkManagerState extends State<_NetworkManagerStateful> implements NetworkInterface {  
+class _NetworkManagerState extends State<_NetworkManagerStateful>
+    implements NetworkInterface {
   // see NetworkInterface
 
   DataAccount account;
@@ -97,7 +99,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       _config = widget.config;
       if (_config != null) {
         // Match array length
-        for (int i = account.detail.socialMedia.length; i < _config.oauthProviders.all.length; ++i) {
+        for (int i = account.detail.socialMedia.length;
+            i < _config.oauthProviders.all.length;
+            ++i) {
           account.detail.socialMedia.add(new DataSocialMedia());
         }
         account.detail.socialMedia.length = _config.oauthProviders.all.length;
@@ -105,7 +109,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       ++_changed;
     }
     if (_config == null) {
-      print("[INF] Widget config is null in network sync"); // DEVELOPER - CRITICAL
+      print(
+          "[INF] Widget config is null in network sync"); // DEVELOPER - CRITICAL
     }
   }
 
@@ -116,7 +121,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
         // Any cache cleanup may be done here when switching accounts
       }
       account = pb.data;
-      for (int i = account.detail.socialMedia.length; i < _config.oauthProviders.all.length; ++i) {
+      for (int i = account.detail.socialMedia.length;
+          i < _config.oauthProviders.all.length;
+          ++i) {
         account.detail.socialMedia.add(new DataSocialMedia());
       }
       account.detail.socialMedia.length = _config.oauthProviders.all.length;
@@ -151,7 +158,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     String commonDeviceIdStr;
     try {
       commonDeviceIdStr = prefs.getString('common_device_id');
-    } catch (e) { }
+    } catch (e) {}
     Uint8List commonDeviceId;
     if (commonDeviceIdStr == null || commonDeviceIdStr.length == 0) {
       commonDeviceId = new Uint8List(32);
@@ -179,8 +186,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       if (attemptDeviceId != account.state.deviceId) {
         account.state.deviceId = 0;
       }
-    } catch (e) { }
-    if (aesKey == null || aesKey.length == 0 || attemptDeviceId == null || attemptDeviceId == 0) {
+    } catch (e) {}
+    if (aesKey == null ||
+        aesKey.length == 0 ||
+        attemptDeviceId == null ||
+        attemptDeviceId == 0) {
       // Create new device
       print("[INF] Create new device");
       account.state.deviceId = 0;
@@ -195,7 +205,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       pbReq.name = deviceName;
       pbReq.info = "{ debug: 'default_info' }";
 
-      TalkMessage res = await ts.sendRequest(TalkSocket.encode("DA_CREAT"), pbReq.writeToBuffer());
+      TalkMessage res = await ts.sendRequest(
+          TalkSocket.encode("DA_CREAT"), pbReq.writeToBuffer());
       NetDeviceAuthState pbRes = new NetDeviceAuthState();
       pbRes.mergeFromBuffer(res.data);
       if (!_alive) {
@@ -211,26 +222,35 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       // Authenticate existing device
       print("[INF] Authenticate existing device $attemptDeviceId");
 
-      NetDeviceAuthChallengeReq pbChallengeReq = new NetDeviceAuthChallengeReq();
+      NetDeviceAuthChallengeReq pbChallengeReq =
+          new NetDeviceAuthChallengeReq();
       pbChallengeReq.deviceId = attemptDeviceId;
-      TalkMessage msgChallengeResReq = await ts.sendRequest(TalkSocket.encode("DA_CHALL"), pbChallengeReq.writeToBuffer());
-      NetDeviceAuthChallengeResReq pbChallengeResReq = new NetDeviceAuthChallengeResReq();
+      TalkMessage msgChallengeResReq = await ts.sendRequest(
+          TalkSocket.encode("DA_CHALL"), pbChallengeReq.writeToBuffer());
+      NetDeviceAuthChallengeResReq pbChallengeResReq =
+          new NetDeviceAuthChallengeResReq();
       pbChallengeResReq.mergeFromBuffer(msgChallengeResReq.data);
 
       // Sign challenge
       var keyParameter = new pointycastle.KeyParameter(aesKey);
       var aesFastEngine = new pointycastle.AESFastEngine();
-      aesFastEngine..reset()..init(true, keyParameter);
+      aesFastEngine
+        ..reset()
+        ..init(true, keyParameter);
       Uint8List challenge = pbChallengeResReq.challenge;
       Uint8List signature = new Uint8List(challenge.length);
       for (int offset = 0; offset < challenge.length;) {
-        offset += aesFastEngine.processBlock(challenge, offset, signature, offset);
+        offset +=
+            aesFastEngine.processBlock(challenge, offset, signature, offset);
       }
 
       // Send signature, wait for device status
-      NetDeviceAuthSignatureResReq pbSignature = new NetDeviceAuthSignatureResReq();
+      NetDeviceAuthSignatureResReq pbSignature =
+          new NetDeviceAuthSignatureResReq();
       pbSignature.signature = signature;
-      TalkMessage res = await ts.sendRequest(TalkSocket.encode("DA_R_SIG"), pbSignature.writeToBuffer(), replying: msgChallengeResReq);
+      TalkMessage res = await ts.sendRequest(
+          TalkSocket.encode("DA_R_SIG"), pbSignature.writeToBuffer(),
+          replying: msgChallengeResReq);
       NetDeviceAuthState pbRes = new NetDeviceAuthState();
       pbRes.mergeFromBuffer(res.data);
       if (!_alive) {
@@ -239,13 +259,16 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
       receivedDeviceAuthState(pbRes);
       print("[INF] Device id ${account.state.deviceId}");
     }
-    
+
     if (account.state.deviceId == 0) {
       throw new Exception("Authentication did not succeed");
     } else {
       print("[INF] Network connection is ready");
-      setState(() { connected = NetworkConnectionState.Ready; ++_changed; });
-      
+      setState(() {
+        connected = NetworkConnectionState.Ready;
+        ++_changed;
+      });
+
       // Register all listeners
       ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState);
     }
@@ -279,20 +302,30 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
         } catch (e) {
           print("[INF] Network cannot connect, retry in 3 seconds: $e");
           assert(_ts == null);
-          setState(() { connected = NetworkConnectionState.Offline; ++_changed; });
+          setState(() {
+            connected = NetworkConnectionState.Offline;
+            ++_changed;
+          });
           await new Future.delayed(new Duration(seconds: 3));
         }
       } while (_alive && (_ts == null));
       Future listen = _ts.listen();
       if (connected == NetworkConnectionState.Offline) {
-        setState(() { connected = NetworkConnectionState.Connecting; ++_changed; });
+        setState(() {
+          connected = NetworkConnectionState.Connecting;
+          ++_changed;
+        });
       }
       if (_config != null && widget.networkManager.localAccountId != 0) {
         if (_alive) {
           // Authenticate device, this will set connected = Ready when successful
           _authenticateDevice(_ts).catchError((e) {
-            print("[INF] Network authentication exception, retry in 3 seconds: $e");
-            setState(() { connected = NetworkConnectionState.Failing; ++_changed; });
+            print(
+                "[INF] Network authentication exception, retry in 3 seconds: $e");
+            setState(() {
+              connected = NetworkConnectionState.Failing;
+              ++_changed;
+            });
             TalkSocket ts = _ts;
             _ts = null;
             () async {
@@ -302,7 +335,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
               if (ts != null) {
                 ts.close();
               }
-            }().catchError((e) {
+            }()
+                .catchError((e) {
               print("[INF] Fatal network exception, cannot recover: $e");
             });
           });
@@ -310,20 +344,30 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
           _ts.close();
         }
       } else {
-        print("[INF] No configuration, connection will remain idle, local account id ${widget.networkManager.localAccountId}");
-        setState(() { connected = NetworkConnectionState.Failing; ++_changed; });
+        print(
+            "[INF] No configuration, connection will remain idle, local account id ${widget.networkManager.localAccountId}");
+        setState(() {
+          connected = NetworkConnectionState.Failing;
+          ++_changed;
+        });
       }
       await listen;
       _ts = null;
       print("[INF] Network connection closed");
       if (connected == NetworkConnectionState.Ready) {
-        setState(() { connected = NetworkConnectionState.Connecting; ++_changed; });
+        setState(() {
+          connected = NetworkConnectionState.Connecting;
+          ++_changed;
+        });
       }
     } catch (e) {
       print("[INF] Network session exception: $e");
       TalkSocket ts = _ts;
       _ts = null;
-      setState(() { connected = NetworkConnectionState.Failing; ++_changed; });
+      setState(() {
+        connected = NetworkConnectionState.Failing;
+        ++_changed;
+      });
       if (ts != null) {
         ts.close(); // TODO: close code?
       }
@@ -357,7 +401,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   }
 
   @override
-  void reassemble() { 
+  void reassemble() {
     super.reassemble();
 
     // Developer reload
@@ -395,7 +439,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   Widget build(BuildContext context) {
     String ks = widget.key.toString();
     return new _InheritedNetworkManager(
-      key: (widget.key != null && ks.length > 0) ? new Key(ks + '.Inherited') : null,
+      key: (widget.key != null && ks.length > 0)
+          ? new Key(ks + '.Inherited')
+          : null,
       networkInterface: this,
       changed: _changed,
       child: widget.child,
@@ -427,7 +473,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   Future<NetOAuthUrlRes> getOAuthUrls(int oauthProvider) async {
     NetOAuthUrlReq pb = new NetOAuthUrlReq();
     pb.oauthProvider = oauthProvider;
-    TalkMessage res = await _ts.sendRequest(_netOAuthUrlReq, pb.writeToBuffer());
+    TalkMessage res =
+        await _ts.sendRequest(_netOAuthUrlReq, pb.writeToBuffer());
     NetOAuthUrlRes resPb = new NetOAuthUrlRes();
     resPb.mergeFromBuffer(res.data);
     return resPb;
@@ -439,11 +486,13 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
     NetOAuthConnectReq pb = new NetOAuthConnectReq();
     pb.oauthProvider = oauthProvider;
     pb.callbackQuery = callbackQuery;
-    TalkMessage res = await _ts.sendRequest(_netOAuthConnectReq, pb.writeToBuffer());
+    TalkMessage res =
+        await _ts.sendRequest(_netOAuthConnectReq, pb.writeToBuffer());
     NetOAuthConnectRes resPb = new NetOAuthConnectRes();
     resPb.mergeFromBuffer(res.data);
     // Result contains the updated data, so needs to be put into the state
-    if (oauthProvider < account.detail.socialMedia.length && resPb.socialMedia != null) {
+    if (oauthProvider < account.detail.socialMedia.length &&
+        resPb.socialMedia != null) {
       setState(() {
         account.detail.socialMedia[oauthProvider] = resPb.socialMedia;
         ++_changed;
@@ -457,11 +506,15 @@ class _NetworkManagerState extends State<_NetworkManagerStateful> implements Net
   @override
   Future<Null> createAccount(double latitude, double longitude) async {
     NetAccountCreateReq pb = new NetAccountCreateReq();
-    if (latitude != null && latitude != 0.0 && longitude != null && longitude != 0.0) {
+    if (latitude != null &&
+        latitude != 0.0 &&
+        longitude != null &&
+        longitude != 0.0) {
       pb.latitude = latitude;
       pb.longitude = longitude;
     }
-    TalkMessage res = await _ts.sendRequest(_netAccountCreateReq, pb.writeToBuffer());
+    TalkMessage res =
+        await _ts.sendRequest(_netAccountCreateReq, pb.writeToBuffer());
     NetDeviceAuthState resPb = new NetDeviceAuthState();
     resPb.mergeFromBuffer(res.data);
     receivedDeviceAuthState(resPb);
@@ -481,19 +534,14 @@ class _InheritedNetworkManager extends InheritedWidget {
 
   final NetworkInterface networkInterface; // NetworkInterface remains!
   final int changed;
-  
+
   @override
   bool updateShouldNotify(_InheritedNetworkManager old) {
     return this.changed != old.changed;
   }
 }
 
-enum NetworkConnectionState {
-  Connecting,
-  Failing,
-  Offline,
-  Ready
-}
+enum NetworkConnectionState { Connecting, Failing, Offline, Ready }
 
 abstract class NetworkInterface {
   /* Cached Data */
@@ -516,7 +564,6 @@ abstract class NetworkInterface {
 
   /// Create an account
   Future<Null> createAccount(double latitude, double longitude);
-
 }
 
 /* end of file */

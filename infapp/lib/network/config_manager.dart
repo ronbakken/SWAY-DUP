@@ -12,7 +12,8 @@ import 'package:flutter/services.dart' show rootBundle;
 
 import 'inf.pb.dart';
 
-String translateGlobalAccountStateReason(GlobalAccountStateReason globalAccountStateReason) {
+String translateGlobalAccountStateReason(
+    GlobalAccountStateReason globalAccountStateReason) {
   switch (globalAccountStateReason) {
     case GlobalAccountStateReason.GASR_NEW_ACCOUNT:
       return "Your INF Marketplace account status can not be loaded at the moment."; // // "Your account has not yet been created."; // This is a bug
@@ -43,7 +44,8 @@ class ConfigManager extends StatefulWidget {
   final Widget child;
 
   static ConfigData of(BuildContext context) {
-    final _InheritedConfigManager inherited = context.inheritFromWidgetOfExactType(_InheritedConfigManager);
+    final _InheritedConfigManager inherited =
+        context.inheritFromWidgetOfExactType(_InheritedConfigManager);
     //assert(inherited != null);
     return inherited != null ? inherited.config : null;
   }
@@ -59,14 +61,14 @@ class _ConfigManagerState extends State<ConfigManager> {
     var configData = await rootBundle.load('assets/config.bin');
     ConfigData config = new ConfigData();
     config.mergeFromBuffer(configData.buffer.asUint8List());
-    if (config.timestamp > this.config.timestamp
-      && config.clientVersion == this.config.clientVersion) {
+    if (config.timestamp > this.config.timestamp &&
+        config.clientVersion == this.config.clientVersion) {
       setState(() {
         print("[INF] Reloaded config from APK");
         this.config = config;
       });
     } else {
-        print("[INF] No changes to config detected");
+      print("[INF] No changes to config detected");
     }
     downloadConfig();
   }
@@ -90,7 +92,7 @@ class _ConfigManagerState extends State<ConfigManager> {
   }
 
   @override
-  void reassemble() { 
+  void reassemble() {
     super.reassemble();
     reloadConfig();
   }
@@ -116,7 +118,7 @@ class _InheritedConfigManager extends InheritedWidget {
     @required this.config,
     @required Widget child,
   }) : /*assert(config != null),*/
-       super(key: key, child: child);
+        super(key: key, child: child);
 
   final ConfigData config;
 

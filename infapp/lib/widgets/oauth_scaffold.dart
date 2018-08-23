@@ -10,7 +10,8 @@ import '../network/inf.pb.dart';
 typedef Future<NetOAuthUrlRes> OAuthGetParams();
 typedef Future<bool> OAuthCallbackResult(String callbackQuery);
 
-class OAuthScaffold extends StatefulWidget { // stateful widget is basically a widget with private data
+class OAuthScaffold extends StatefulWidget {
+  // stateful widget is basically a widget with private data
   const OAuthScaffold({
     Key key,
     this.appBar,
@@ -59,9 +60,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
             new FlatButton(
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  new Text('Ok'.toUpperCase())
-                ],
+                children: [new Text('Ok'.toUpperCase())],
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -81,7 +80,8 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
       }
       setState(() {
         _ready = true;
-        _authUrl = params.authUrl; //widget.host + widget.authenticateUrl + "?oauth_token=" + Uri.encodeComponent(_temporaryToken);
+        _authUrl = params
+            .authUrl; //widget.host + widget.authenticateUrl + "?oauth_token=" + Uri.encodeComponent(_temporaryToken);
         _callbackUrl = params.callbackUrl;
         _hostWhitelist[Uri.parse(_authUrl).host] = true;
         _hostWhitelist[Uri.parse(_callbackUrl).host] = true;
@@ -136,7 +136,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   }
 
   @override
-  void reassemble() { 
+  void reassemble() {
     super.reassemble();
   }
 
@@ -154,7 +154,9 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
       if (mounted) {
         Uri uri = Uri.parse(url);
         if (url.startsWith(_callbackUrl)) {
-          if (widget.onOAuthCallbackResult != null && await widget.onOAuthCallbackResult(uri.query)) { // uri.queryParameters.containsKey('oauth_token') && uri.queryParameters.containsKey('oauth_verifier')) {
+          if (widget.onOAuthCallbackResult != null &&
+              await widget.onOAuthCallbackResult(uri.query)) {
+            // uri.queryParameters.containsKey('oauth_token') && uri.queryParameters.containsKey('oauth_verifier')) {
             print("Authorization success");
             Navigator.of(context).pop();
             /*
@@ -175,15 +177,20 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
           } else {
             // Authorization canceled
             print("Authorization canceled: " + url);
-            setState(() { _ready = false; });
+            setState(() {
+              _ready = false;
+            });
             await _authError();
             Navigator.of(context).pop();
           }
-        } else if (!_hostWhitelist.containsKey(uri.host)) { // url.startsWith(widget.host)) {
+        } else if (!_hostWhitelist.containsKey(uri.host)) {
+          // url.startsWith(widget.host)) {
           // Only allow API url
           // TODO: Also allow T&C and Privacy Policy urls!
           print("Url not allowed: " + url);
-          setState(() { _ready = false; });
+          setState(() {
+            _ready = false;
+          });
           await _authError();
           Navigator.of(context).pop();
         }
@@ -192,7 +199,9 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     } catch (e) {
       print(e);
     }
-    setState(() { _ready = false; });
+    setState(() {
+      _ready = false;
+    });
     await _authError();
     Navigator.of(context).pop();
   }
@@ -203,28 +212,23 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     if (!_ready) {
       return new Scaffold(
         appBar: widget.appBar,
-        body: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                new CircularProgressIndicator(),
-              ]
-            ),
-          ]
-        ),
+        body:
+            new Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          new Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            new CircularProgressIndicator(),
+          ]),
+        ]),
       );
     }
     return new WebviewScaffold(
       url: _authUrl,
       clearCookies: true,
-      appBar: widget.appBar != null ? widget.appBar : new AppBar(
-        title: new Image(
-          image: new AssetImage('assets/logo_appbar.png')
-        ),
-        centerTitle: true,
-      ),
+      appBar: widget.appBar != null
+          ? widget.appBar
+          : new AppBar(
+              title: new Image(image: new AssetImage('assets/logo_appbar.png')),
+              centerTitle: true,
+            ),
     );
   }
 }

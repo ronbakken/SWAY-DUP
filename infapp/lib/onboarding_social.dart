@@ -23,7 +23,7 @@ class OnboardingSocial extends StatelessWidget {
     @required this.onSignUp,
   }) : super(key: key);
 
-  final AccountType accountType; 
+  final AccountType accountType;
   final List<ConfigOAuthProvider> oauthProviders;
   final List<DataSocialMedia> oauthState;
 
@@ -32,13 +32,15 @@ class OnboardingSocial extends StatelessWidget {
 
   final void Function(int oauthProvider) onOAuthSelected;
   final Future<Null> Function() onSignUp;
-  
+
   @override
   Widget build(BuildContext context) {
     assert(ConfigManager.of(context) != null);
     List<Widget> oauthButtons = new List<Widget>();
     print("OAuth Providers: " + oauthProviders.length.toString());
-    int nbButtons = oauthProviders.length < oauthState.length ? oauthProviders.length : oauthState.length;
+    int nbButtons = oauthProviders.length < oauthState.length
+        ? oauthProviders.length
+        : oauthState.length;
     bool connected = false;
     for (int i = 0; i < nbButtons; ++i) {
       ConfigOAuthProvider cfg = oauthProviders[i];
@@ -47,35 +49,40 @@ class OnboardingSocial extends StatelessWidget {
           connected = true;
         }
         Widget r = new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            new Icon(new IconData(cfg.fontAwesomeBrand, fontFamily: 'FontAwesomeBrands', fontPackage: 'font_awesome_flutter')),
-            new Text(cfg.label.toUpperCase()),
-            new Icon((oauthState[i].connected && !oauthState[i].expired) ? FontAwesomeIcons.checkCircle : FontAwesomeIcons.signInAlt),
-          ]
-        );
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              new Icon(new IconData(cfg.fontAwesomeBrand,
+                  fontFamily: 'FontAwesomeBrands',
+                  fontPackage: 'font_awesome_flutter')),
+              new Text(cfg.label.toUpperCase()),
+              new Icon((oauthState[i].connected && !oauthState[i].expired)
+                  ? FontAwesomeIcons.checkCircle
+                  : FontAwesomeIcons.signInAlt),
+            ]);
         Widget w = new Container(
           margin: new EdgeInsets.all(8.0),
-          child: (oauthState[i].connected 
-            ? new FlatButton(
-              // shape: new StadiumBorder(),
-              child: r,
-              onPressed: null,
-            ) : new RaisedButton(
-              // shape: new StadiumBorder(),
-              child: r,
-              onPressed: (cfg.enabled && onOAuthSelected != null) ? () { onOAuthSelected(i); } : null,
-            )
-          ),
+          child: (oauthState[i].connected
+              ? new FlatButton(
+                  // shape: new StadiumBorder(),
+                  child: r,
+                  onPressed: null,
+                )
+              : new RaisedButton(
+                  // shape: new StadiumBorder(),
+                  child: r,
+                  onPressed: (cfg.enabled && onOAuthSelected != null)
+                      ? () {
+                          onOAuthSelected(i);
+                        }
+                      : null,
+                )),
         );
         oauthButtons.add(w);
       }
     }
     return new Scaffold(
       appBar: new AppBar(
-        title: new Image(
-          image: new AssetImage('assets/logo_appbar.png')
-        ),
+        title: new Image(image: new AssetImage('assets/logo_appbar.png')),
         centerTitle: true,
       ),
       body: new ListView(
@@ -89,7 +96,9 @@ class OnboardingSocial extends StatelessWidget {
                 new Container(
                   margin: new EdgeInsets.all(8.0),
                   child: new Text(
-                    accountType == AccountType.AT_INFLUENCER ? "You are now an influencer!" : "You are now in business!",
+                    accountType == AccountType.AT_INFLUENCER
+                        ? "You are now an influencer!"
+                        : "You are now in business!",
                     style: Theme.of(context).textTheme.display1,
                     textAlign: TextAlign.center,
                   ),
@@ -106,105 +115,127 @@ class OnboardingSocial extends StatelessWidget {
                   children: oauthButtons,
                 ),
                 new Container(
-                  margin: new EdgeInsets.all(8.0),
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      new RaisedButton(
-                        // shape: new StadiumBorder(),
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            new Text("Sign up".toUpperCase()),
-                          ],
-                        ),
-                        onPressed: connected && onSignUp != null ? () async {
-                          bool accepted = false;
-                          await showDialog<Null>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return new AlertDialog(
-                                title: new Text('INF Marketplace LLC'),
-                                content: new SingleChildScrollView(
-                                  child: new RichText(
-                                    text: new TextSpan(
-                                      children: [
-                                        new TextSpan(
-                                          text: "By signing up to our service you confirm that you have read and agree to our ",
+                    margin: new EdgeInsets.all(8.0),
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        new RaisedButton(
+                          // shape: new StadiumBorder(),
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              new Text("Sign up".toUpperCase()),
+                            ],
+                          ),
+                          onPressed: connected && onSignUp != null
+                              ? () async {
+                                  bool accepted = false;
+                                  await showDialog<Null>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return new AlertDialog(
+                                        title: new Text('INF Marketplace LLC'),
+                                        content: new SingleChildScrollView(
+                                          child: new RichText(
+                                            text: new TextSpan(
+                                              children: [
+                                                new TextSpan(
+                                                  text:
+                                                      "By signing up to our service you confirm that you have read and agree to our ",
+                                                ),
+                                                new TextSpan(
+                                                  text: "Terms of Service",
+                                                  // style: new TextStyle(color: Colors.blue),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .button
+                                                      .copyWith(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .accentColor),
+                                                  recognizer:
+                                                      new TapGestureRecognizer()
+                                                        ..onTap = () {
+                                                          launch(
+                                                              termsOfServiceUrl);
+                                                        },
+                                                ),
+                                                new TextSpan(
+                                                  text: " and ",
+                                                ),
+                                                new TextSpan(
+                                                  text: "Privacy Policy",
+                                                  // style: new TextStyle(color: Colors.blue),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .button
+                                                      .copyWith(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .accentColor),
+                                                  recognizer:
+                                                      new TapGestureRecognizer()
+                                                        ..onTap = () {
+                                                          launch(
+                                                              privacyPolicyUrl);
+                                                        },
+                                                ),
+                                                new TextSpan(
+                                                  text: ".",
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                        new TextSpan(
-                                          text: "Terms of Service",
-                                          // style: new TextStyle(color: Colors.blue),
-                                          style: Theme.of(context).textTheme.button.copyWith(color: Theme.of(context).accentColor),
-                                          recognizer: new TapGestureRecognizer()..onTap = () { 
-                                            launch(termsOfServiceUrl); 
-                                          },
-                                        ),
-                                        new TextSpan(
-                                          text: " and ",
-                                        ),
-                                        new TextSpan(
-                                          text: "Privacy Policy",
-                                          // style: new TextStyle(color: Colors.blue),
-                                          style: Theme.of(context).textTheme.button.copyWith(color: Theme.of(context).accentColor),
-                                          recognizer: new TapGestureRecognizer()..onTap = () { 
-                                            launch(privacyPolicyUrl); 
-                                          },
-                                        ),
-                                        new TextSpan(
-                                          text: ".",
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                actions: <Widget>[
-                                  new FlatButton(
-                                    child: new Text("Back".toUpperCase()),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
+                                        actions: <Widget>[
+                                          new FlatButton(
+                                            child:
+                                                new Text("Back".toUpperCase()),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          new FlatButton(
+                                            child: new Text(
+                                                "I agree".toUpperCase()),
+                                            onPressed: () {
+                                              accepted = true;
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
                                     },
-                                  ),
-                                  new FlatButton(
-                                    child: new Text("I agree".toUpperCase()),
-                                    onPressed: () {
-                                      accepted = true;
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                          if (!accepted) {
-                            return;
-                          }
-                          // Show progress dialog
-                          var progressDialog = showProgressDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return new Dialog(
-                                child: new Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    new Container(
-                                      padding: new EdgeInsets.all(24.0), 
-                                      child: new CircularProgressIndicator() 
-                                    ),
-                                    new Text("Signing up..."),
-                                  ],
-                                ),
-                              );
-                            }
-                          );
-                          // Wait for the sign up process to complete
-                          await onSignUp();
-                          closeProgressDialog(progressDialog);
-                        } : null,
-                      )
-                    ],
-                  )
-                ),
+                                  );
+                                  if (!accepted) {
+                                    return;
+                                  }
+                                  // Show progress dialog
+                                  var progressDialog = showProgressDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return new Dialog(
+                                          child: new Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              new Container(
+                                                  padding:
+                                                      new EdgeInsets.all(24.0),
+                                                  child:
+                                                      new CircularProgressIndicator()),
+                                              new Text("Signing up..."),
+                                            ],
+                                          ),
+                                        );
+                                      });
+                                  // Wait for the sign up process to complete
+                                  await onSignUp();
+                                  closeProgressDialog(progressDialog);
+                                }
+                              : null,
+                        )
+                      ],
+                    )),
               ],
             ),
           ),

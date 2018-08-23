@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import '../network/inf.pb.dart';
 
 class SearchItemCard extends StatelessWidget {
-
   final DataAccount item;
 
   SearchItemCard({
     Key key,
     this.item,
-  }) : super (key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,8 @@ class SearchItemCard extends StatelessWidget {
         child: new Row(
           children: <Widget>[
             new CircleAvatar(
-              backgroundImage: new NetworkImage(item.summary.avatarThumbnailUrl),
+              backgroundImage:
+                  new NetworkImage(item.summary.avatarThumbnailUrl),
               radius: 30.0,
             ),
             new Container(
@@ -38,9 +38,9 @@ class SearchItemCard extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(4.0))),
                     child: new Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: new Text(
-                        item.state.accountType.toString(),
-                        style: TextStyle(color: Theme.of(context).accentColor)),
+                      child: new Text(item.state.accountType.toString(),
+                          style:
+                              TextStyle(color: Theme.of(context).accentColor)),
                     ),
                   ),
                   new Container(

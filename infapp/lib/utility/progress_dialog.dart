@@ -10,9 +10,9 @@ class _DialogRoute extends PopupRoute {
     this.barrierLabel,
     @required this.child,
     RouteSettings settings,
-  }) : assert(barrierDismissible != null),
-       _barrierDismissible = barrierDismissible,
-       super(settings: settings);
+  })  : assert(barrierDismissible != null),
+        _barrierDismissible = barrierDismissible,
+        super(settings: settings);
 
   final Widget child;
   final ThemeData theme;
@@ -31,32 +31,28 @@ class _DialogRoute extends PopupRoute {
   final String barrierLabel;
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
     return new SafeArea(
-      child: new Builder(
-        builder: (BuildContext context) {
-          final Widget annotatedChild = new Semantics(
-            child: child,
-            scopesRoute: true,
-            explicitChildNodes: true,
-          );
-          return theme != null
+      child: new Builder(builder: (BuildContext context) {
+        final Widget annotatedChild = new Semantics(
+          child: child,
+          scopesRoute: true,
+          explicitChildNodes: true,
+        );
+        return theme != null
             ? new Theme(data: theme, child: annotatedChild)
             : annotatedChild;
-        }
-      ),
+      }),
     );
   }
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
     return new FadeTransition(
-      opacity: new CurvedAnimation(
-        parent: animation,
-        curve: Curves.easeOut
-      ),
-      child: child
-    );
+        opacity: new CurvedAnimation(parent: animation, curve: Curves.easeOut),
+        child: child);
   }
 }
 
@@ -86,9 +82,9 @@ dynamic showProgressDialog({
         barrierDismissible: false,
         barrierLabel: localizations.modalBarrierDismissLabel,
       ));
-    } while (ref == _currentProgressDialog
-      && navigator == _navigator
-      && navigator.mounted);
+    } while (ref == _currentProgressDialog &&
+        navigator == _navigator &&
+        navigator.mounted);
     if (navigator == _navigator && !navigator.mounted) {
       _navigator = null;
     }

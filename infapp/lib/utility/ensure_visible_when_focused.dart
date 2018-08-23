@@ -6,15 +6,15 @@ import 'package:meta/meta.dart';
 ///
 /// Helper class that ensures a Widget is visible when it has the focus
 /// For example, for a TextFormField when the keyboard is displayed
-/// 
+///
 /// How to use it:
-/// 
+///
 /// In the class that implements the Form,
 ///   Instantiate a FocusNode
 ///   FocusNode _focusNode = new FocusNode();
-/// 
+///
 /// In the build(BuildContext context), wrap the TextFormField as follows:
-/// 
+///
 ///   new EnsureVisibleWhenFocused(
 ///     focusNode: _focusNode,
 ///     child: new TextFormField(
@@ -22,11 +22,11 @@ import 'package:meta/meta.dart';
 ///       focusNode: _focusNode,
 ///     ),
 ///   ),
-/// 
+///
 /// Initial source code written by Collin Jackson.
 /// Extended (see highlighting) to cover the case when the keyboard is dismissed and the
 /// user clicks the TextFormField/TextField which still has the focus.
-/// 
+///
 class EnsureVisibleWhenFocused extends StatefulWidget {
   const EnsureVisibleWhenFocused({
     Key key,
@@ -53,23 +53,24 @@ class EnsureVisibleWhenFocused extends StatefulWidget {
   final Duration duration;
 
   @override
-  _EnsureVisibleWhenFocusedState createState() => new _EnsureVisibleWhenFocusedState();
+  _EnsureVisibleWhenFocusedState createState() =>
+      new _EnsureVisibleWhenFocusedState();
 }
 
 ///
 /// We implement the WidgetsBindingObserver to be notified of any change to the window metrics
 ///
-class _EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused> with WidgetsBindingObserver  {
-
+class _EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused>
+    with WidgetsBindingObserver {
   @override
-  void initState(){
+  void initState() {
     super.initState();
     widget.focusNode.addListener(_ensureVisible);
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
-  void dispose(){
+  void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     widget.focusNode.removeListener(_ensureVisible);
     super.dispose();
@@ -81,10 +82,10 @@ class _EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused> wit
   /// It is the opportunity to check if the field has the focus
   /// and to ensure it is fully visible in the viewport when
   /// the keyboard is displayed
-  /// 
+  ///
   @override
-  void didChangeMetrics(){
-    if (widget.focusNode.hasFocus){
+  void didChangeMetrics() {
+    if (widget.focusNode.hasFocus) {
       _ensureVisible();
     }
   }
@@ -94,7 +95,7 @@ class _EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused> wit
     await new Future.delayed(const Duration(milliseconds: 300));
 
     // No need to go any further if the node has not the focus
-    if (!widget.focusNode.hasFocus){
+    if (!widget.focusNode.hasFocus) {
       return;
     }
 
@@ -114,14 +115,14 @@ class _EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused> wit
     if (position.pixels > viewport.getOffsetToReveal(object, 0.0)) {
       // Move down to the top of the viewport
       alignment = 0.0;
-    } else if (position.pixels < viewport.getOffsetToReveal(object, 1.0)){
+    } else if (position.pixels < viewport.getOffsetToReveal(object, 1.0)) {
       // Move up to the bottom of the viewport
       alignment = 1.0;
     } else {
       // No scrolling is necessary to reveal the child
       return;
     }
-    
+
     position.ensureVisible(
       object,
       alignment: alignment,

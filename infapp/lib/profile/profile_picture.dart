@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 
 class ProfilePicture extends StatefulWidget {
-
   ProfilePicture({
     Key key,
     this.imageUrl,
   }) : super(key: key);
-	
+
   final String imageUrl;
 
   @override
-  _ProfilePictureState createState() => new _ProfilePictureState();  
+  _ProfilePictureState createState() => new _ProfilePictureState();
 }
 
-class _ProfilePictureState extends State<ProfilePicture>
-{
-	@override
-  Widget build(BuildContext context) =>
-    new Container(
-      padding: const EdgeInsets.all(32.0),
-       child: new CircleAvatar( 
-        backgroundImage: new NetworkImage(widget.imageUrl),
-        radius: 75.0,
-      ),
-    );
+class _ProfilePictureState extends State<ProfilePicture> {
+  @override
+  Widget build(BuildContext context) => new Container(
+        padding: const EdgeInsets.all(32.0),
+        child: new CircleAvatar(
+          backgroundImage: new NetworkImage(widget.imageUrl),
+          radius: 75.0,
+        ),
+      );
 }

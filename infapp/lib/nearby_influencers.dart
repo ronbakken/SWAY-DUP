@@ -45,9 +45,10 @@ class _NearbyInfluencersState extends State<NearbyInfluencers> {
               backgroundColor: new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
               placeholderImage: new MemoryImage(kTransparentImage),
               urlTemplate: "https://api.tiles.mapbox.com/v4/"
-                "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+                  "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
               additionalOptions: {
-                'accessToken': 'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
+                'accessToken':
+                    'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
                 'id': 'mapbox.dark',
               },
             ),
@@ -69,54 +70,53 @@ class _NearbyInfluencersState extends State<NearbyInfluencers> {
         new SafeArea(
           child: new Builder(
             builder: (context) {
-              return new Stack(
-                children: [
-                  new Align(
-                    alignment: Alignment.topCenter,
-                    child: new Row(
-                      children: [
-                        new Material(
-                          type: MaterialType.circle,
-                          color: Colors.transparent,
-                          child: new IconButton(
-                            // splashColor: Theme.of(context).accentColor,
-                            // color: Theme.of(context).accentColor,
-                            padding: new EdgeInsets.all(16.0),
-                            icon: new Icon(Icons.menu),
-                            onPressed: () => Scaffold.of(context).openDrawer(),
-                            tooltip: "Open navigation menu",
-                          ),
+              return new Stack(children: [
+                new Align(
+                  alignment: Alignment.topCenter,
+                  child: new Row(
+                    children: [
+                      new Material(
+                        type: MaterialType.circle,
+                        color: Colors.transparent,
+                        child: new IconButton(
+                          // splashColor: Theme.of(context).accentColor,
+                          // color: Theme.of(context).accentColor,
+                          padding: new EdgeInsets.all(16.0),
+                          icon: new Icon(Icons.menu),
+                          onPressed: () => Scaffold.of(context).openDrawer(),
+                          tooltip: "Open navigation menu",
                         ),
-                        new Flexible(
-                          fit: FlexFit.tight,
-                          child: new Padding(
-                            padding: new EdgeInsets.all(0.0),
-                            child: new TextField(
-                              controller: _searchTextController,
-                              decoration: new InputDecoration(
+                      ),
+                      new Flexible(
+                        fit: FlexFit.tight,
+                        child: new Padding(
+                          padding: new EdgeInsets.all(0.0),
+                          child: new TextField(
+                            controller: _searchTextController,
+                            decoration: new InputDecoration(
                                 // TODO: Better track focus of this input!!! (remove focus when keyboard is closed)
-                                hintText: 'Find nearby influencers...'
-                              ),
-                            ),
+                                hintText: 'Find nearby influencers...'),
                           ),
                         ),
-                        new Material(
-                          type: MaterialType.circle,
-                          color: Colors.transparent,
-                          child: new IconButton(
-                            // splashColor: Theme.of(context).accentColor,
-                            // color: Theme.of(context).accentColor,
-                            padding: new EdgeInsets.all(16.0),
-                            icon: new Icon(Icons.search),
-                            onPressed: () { widget.onSearchPressed(_searchTextController.text); },
-                            tooltip: "Search for nearby influencers",
-                          ),
+                      ),
+                      new Material(
+                        type: MaterialType.circle,
+                        color: Colors.transparent,
+                        child: new IconButton(
+                          // splashColor: Theme.of(context).accentColor,
+                          // color: Theme.of(context).accentColor,
+                          padding: new EdgeInsets.all(16.0),
+                          icon: new Icon(Icons.search),
+                          onPressed: () {
+                            widget.onSearchPressed(_searchTextController.text);
+                          },
+                          tooltip: "Search for nearby influencers",
                         ),
-                      ],
-                    ),
-                  )
-                ]
-              );
+                      ),
+                    ],
+                  ),
+                )
+              ]);
             },
           ),
         ),

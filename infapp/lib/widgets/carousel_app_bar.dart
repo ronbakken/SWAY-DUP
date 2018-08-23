@@ -2,75 +2,74 @@ import 'package:flutter/material.dart';
 import 'package:circle_indicator/circle_indicator.dart';
 
 class CarouselAppBar extends SliverAppBar {
-  CarouselAppBar({ 
-    Key key, 
-    BuildContext context, 
-    Widget title, 
-    List<Widget> actions,
-    List<String> imageUrls }) : 
-  super(
-    key: key,
-    pinned: true,
-    title: title,
-    expandedHeight: (MediaQuery.of(context).size.width * 9.0 / 16.0) ~/ 4 * 4.0,
-    flexibleSpace: new FlexibleSpaceBar(
-      background: _buildBackground(new PageController(), context, imageUrls),
-    ),
-    actions: actions,
-  );
+  CarouselAppBar(
+      {Key key,
+      BuildContext context,
+      Widget title,
+      List<Widget> actions,
+      List<String> imageUrls})
+      : super(
+          key: key,
+          pinned: true,
+          title: title,
+          expandedHeight:
+              (MediaQuery.of(context).size.width * 9.0 / 16.0) ~/ 4 * 4.0,
+          flexibleSpace: new FlexibleSpaceBar(
+            background:
+                _buildBackground(new PageController(), context, imageUrls),
+          ),
+          actions: actions,
+        );
 
-  static Widget _buildBackground(controller, BuildContext context, List<String> imageUrls) {
+  static Widget _buildBackground(
+      controller, BuildContext context, List<String> imageUrls) {
     List<Widget> images = new List<Widget>();
     for (String imageUrl in imageUrls) {
       images.add(new FadeInImage.assetNetwork(
           placeholder: 'assets/placeholder_photo.png',
           image: imageUrl,
-          fit: BoxFit.cover
-      ));
+          fit: BoxFit.cover));
     }
     return new Container(
       // color: Theme.of(context).primaryColor,
-      child: new Stack(
-        children: [
-          new Positioned.fill(
-            child: images.length == 1 ? images[0] : new Stack(
-              alignment: FractionalOffset.bottomCenter,
-              children: [
-                new PageView.builder(
-                  controller: controller,
-                  itemCount: images.length,
-                  itemBuilder: (_, int i) => images[i],
+      child: new Stack(children: [
+        new Positioned.fill(
+          child: images.length == 1
+              ? images[0]
+              : new Stack(
+                  alignment: FractionalOffset.bottomCenter,
+                  children: [
+                    new PageView.builder(
+                      controller: controller,
+                      itemCount: images.length,
+                      itemBuilder: (_, int i) => images[i],
+                    ),
+                    new Container(
+                      margin: new EdgeInsets.only(
+                        top: 16.0,
+                        bottom: 16.0,
+                      ),
+                      child: new CircleIndicator(controller, images.length, 3.0,
+                          Colors.white70, Colors.white),
+                    ),
+                  ],
                 ),
-                new Container(
-                  margin: new EdgeInsets.only(
-                    top: 16.0,
-                    bottom: 16.0,
-                  ),
-                  child: new CircleIndicator(
-                    controller, images.length, 
-                    3.0, Colors.white70, Colors.white
-                  ),
-                ),
-              ],
-            ),
-          ),
-          new AspectRatio(
-            aspectRatio: 16.0 / 4.0,
-            child: new ConstrainedBox(
-              constraints: new BoxConstraints.expand(),
-              child: new DecoratedBox(
-                decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
+        ),
+        new AspectRatio(
+          aspectRatio: 16.0 / 4.0,
+          child: new ConstrainedBox(
+            constraints: new BoxConstraints.expand(),
+            child: new DecoratedBox(
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: <Color>[Colors.black45, Colors.transparent]
-                  ),
-                ),
+                    colors: <Color>[Colors.black45, Colors.transparent]),
               ),
             ),
           ),
-        ]
-      ),
+        ),
+      ]),
     );
   }
 }

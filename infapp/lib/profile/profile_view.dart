@@ -8,16 +8,15 @@ import '../network/inf.pb.dart';
 
 // TODO: Change to a stateful Widget and Cleanup
 class ProfileView extends StatelessWidget {
-
   // Constructor
   ProfileView({
     Key key,
     this.dataAccount,
   }) : super(key: key);
-	
+
   final DataAccount dataAccount;
 
-	@override
+  @override
   Widget build(BuildContext context) {
     assert(ConfigManager.of(context) != null);
     return new Scaffold(
@@ -29,11 +28,33 @@ class ProfileView extends StatelessWidget {
       ),
       body: new Column(
         children: <Widget>[
-          new Center( child: new ProfilePicture( imageUrl: dataAccount.detail.avatarCoverUrl != null ? dataAccount.detail.avatarCoverUrl : dataAccount.summary.avatarThumbnailUrl)),
-          new Center( child: new Text(dataAccount.summary.name, style: Theme.of(context).textTheme.headline,),),
-          new Center( child: new Text(dataAccount.summary.location, style: Theme.of(context).textTheme.body2,),),
-          new FollowerTray( oAuthProviders: ConfigManager.of(context).oauthProviders.all, socialMedia: dataAccount.detail.socialMedia,),
-          new Center( child: new Text(dataAccount.summary.description, style: Theme.of(context).textTheme.body1,),),
+          new Center(
+              child: new ProfilePicture(
+                  imageUrl: dataAccount.detail.avatarCoverUrl != null
+                      ? dataAccount.detail.avatarCoverUrl
+                      : dataAccount.summary.avatarThumbnailUrl)),
+          new Center(
+            child: new Text(
+              dataAccount.summary.name,
+              style: Theme.of(context).textTheme.headline,
+            ),
+          ),
+          new Center(
+            child: new Text(
+              dataAccount.summary.location,
+              style: Theme.of(context).textTheme.body2,
+            ),
+          ),
+          new FollowerTray(
+            oAuthProviders: ConfigManager.of(context).oauthProviders.all,
+            socialMedia: dataAccount.detail.socialMedia,
+          ),
+          new Center(
+            child: new Text(
+              dataAccount.summary.description,
+              style: Theme.of(context).textTheme.body1,
+            ),
+          ),
         ],
       ),
     );

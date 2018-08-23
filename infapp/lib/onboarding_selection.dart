@@ -7,7 +7,7 @@ class OnboardingSelection extends StatelessWidget {
     @required this.onInfluencer,
     @required this.onBusiness,
   }) : super(key: key);
-  
+
   final VoidCallback onInfluencer;
   final VoidCallback onBusiness;
 
@@ -24,7 +24,7 @@ class OnboardingSelection extends StatelessWidget {
       new Container(
         margin: new EdgeInsets.all(8.0),
         child: new Text(
-        "How do you see yourself?",
+          "How do you see yourself?",
           style: Theme.of(context).textTheme.display1,
           textAlign: TextAlign.center,
         ),
@@ -32,9 +32,7 @@ class OnboardingSelection extends StatelessWidget {
     ];
     return new Scaffold(
       appBar: new AppBar(
-        title: new Image(
-          image: new AssetImage('assets/logo_appbar.png')
-        ),
+        title: new Image(image: new AssetImage('assets/logo_appbar.png')),
         centerTitle: true,
       ),
       body: new Container(
@@ -43,45 +41,42 @@ class OnboardingSelection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ((MediaQuery.of(context).size.height > MediaQuery.of(context).size.width)
-              ? new Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: text,
-              ) : new Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: text,
-              )
-            ),
+            ((MediaQuery.of(context).size.height >
+                    MediaQuery.of(context).size.width)
+                ? new Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: text,
+                  )
+                : new Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: text,
+                  )),
             new Column(
               children: [
                 new Container(
-                  margin: new EdgeInsets.all(8.0),
-                  child: new RaisedButton(
-                    // shape: new StadiumBorder(),
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        new Text("I am an influencer".toUpperCase())
-                      ]
-                    ),
-                    onPressed: onInfluencer,
-                  )
-                ),
+                    margin: new EdgeInsets.all(8.0),
+                    child: new RaisedButton(
+                      // shape: new StadiumBorder(),
+                      child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            new Text("I am an influencer".toUpperCase())
+                          ]),
+                      onPressed: onInfluencer,
+                    )),
                 new Container(
-                  margin: new EdgeInsets.all(8.0),
-                  child: new RaisedButton(
-                    // shape: new StadiumBorder(),
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        new Text("I need an influencer".toUpperCase())
-                      ]
-                    ),
-                    onPressed: onBusiness,
-                  )
-                ),
+                    margin: new EdgeInsets.all(8.0),
+                    child: new RaisedButton(
+                      // shape: new StadiumBorder(),
+                      child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            new Text("I need an influencer".toUpperCase())
+                          ]),
+                      onPressed: onBusiness,
+                    )),
               ],
             ),
           ],

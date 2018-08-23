@@ -8,9 +8,9 @@ import 'search_item.dart';
 
 typedef Future<List<DataAccount>> SearchRequestCallback(String searchQuery);
 
-class SearchScreen extends StatefulWidget 
-{
-  SearchScreen({Key key, this.initialSearchQuery, this.onSearchRequest}) : super(key: key);
+class SearchScreen extends StatefulWidget {
+  SearchScreen({Key key, this.initialSearchQuery, this.onSearchRequest})
+      : super(key: key);
 
   // Initial search query, only used when the widget state is created
   final String initialSearchQuery;
@@ -22,8 +22,7 @@ class SearchScreen extends StatefulWidget
   _SearchPageState createState() => new _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchScreen> 
-{
+class _SearchPageState extends State<SearchScreen> {
   // The Search bar that will be shown on the appbar
   SearchBar searchBar;
 
@@ -31,15 +30,15 @@ class _SearchPageState extends State<SearchScreen>
   bool searchInProgress = false;
 
   // Subject that will contain the Search String and Stream
-  // the results 
+  // the results
   // TODO: Find an efficient way to do this
   //PublishSubject<String> subject = new PublishSubject<String>();
-  
+
   // Search Bar Controller
   TextEditingController textController = new TextEditingController();
 
   List<DataAccount> searchResults = new List<DataAccount>();
-  
+
   @override
   void initState() {
     // Initialize the Parent
@@ -50,12 +49,12 @@ class _SearchPageState extends State<SearchScreen>
 
     // Initialize Tne Search Barasad
     searchBar = new SearchBar(
-        controller: textController,
-        setState: setState,
-        buildDefaultAppBar: _buildAppBar,
-        // onSubmitted: _beginSearch
+      controller: textController,
+      setState: setState,
+      buildDefaultAppBar: _buildAppBar,
+      // onSubmitted: _beginSearch
     );
-    
+
     // We want to Start the search as soon as the user
     // is typing. The search results will update based
     // on the text controller
@@ -69,7 +68,7 @@ class _SearchPageState extends State<SearchScreen>
   String lastSearchQuery = '';
   bool searchAgain = false;
 
-  // TODO: PRIORITIZE REFACTOR 
+  // TODO: PRIORITIZE REFACTOR
   // Currently O(n^2)
   Future<Null> _beginSearch() async {
     String searchQuery = textController.text;
@@ -88,7 +87,8 @@ class _SearchPageState extends State<SearchScreen>
     lastSearchQuery = searchQuery;
     // Initiate the search
     print("Searching $searchQuery");
-    Future<List<DataAccount>> searchResReq = widget.onSearchRequest(searchQuery);
+    Future<List<DataAccount>> searchResReq =
+        widget.onSearchRequest(searchQuery);
     // Flag search in progress
     setState(() {
       searchInProgress = true;
@@ -144,27 +144,27 @@ class _SearchPageState extends State<SearchScreen>
     // TODO: widget.accountResults has changed OR will change after searchInProgress
     */
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      // We want the appbar to change to a 
-      // search field whenever we press the Search Icon
-      appBar: searchBar.build(context),
-      bottomNavigationBar: searchInProgress ? new Text("Search in progress '$lastSearchQuery'...") : null, // TODO: For testing purpose. Make it nice
-      body: new ListView.builder(
-        itemCount: searchResults.length,
-        itemBuilder: (context, index) =>
-          new SearchItemCard(item: searchResults[index]),
-      )
-    );
+        // We want the appbar to change to a
+        // search field whenever we press the Search Icon
+        appBar: searchBar.build(context),
+        bottomNavigationBar: searchInProgress
+            ? new Text("Search in progress '$lastSearchQuery'...")
+            : null, // TODO: For testing purpose. Make it nice
+        body: new ListView.builder(
+          itemCount: searchResults.length,
+          itemBuilder: (context, index) =>
+              new SearchItemCard(item: searchResults[index]),
+        ));
   }
 
   // The default AppBar displayed before searching
   AppBar _buildAppBar(BuildContext context) {
     return new AppBar(
-      title: new Text('Search Profile'),
-      actions: [searchBar.getSearchAction(context)]
-    );
-  } 
+        title: new Text('Search Profile'),
+        actions: [searchBar.getSearchAction(context)]);
+  }
 }

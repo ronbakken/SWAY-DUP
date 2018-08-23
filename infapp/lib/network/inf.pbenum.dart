@@ -9,10 +9,12 @@ import 'package:protobuf/protobuf.dart';
 
 class OAuthMechanism extends ProtobufEnum {
   static const OAuthMechanism OAM_NONE = const OAuthMechanism._(0, 'OAM_NONE');
-  static const OAuthMechanism OAM_OAUTH1 = const OAuthMechanism._(1, 'OAM_OAUTH1');
-  static const OAuthMechanism OAM_OAUTH2 = const OAuthMechanism._(2, 'OAM_OAUTH2');
+  static const OAuthMechanism OAM_OAUTH1 =
+      const OAuthMechanism._(1, 'OAM_OAUTH1');
+  static const OAuthMechanism OAM_OAUTH2 =
+      const OAuthMechanism._(2, 'OAM_OAUTH2');
 
-  static const List<OAuthMechanism> values = const <OAuthMechanism> [
+  static const List<OAuthMechanism> values = const <OAuthMechanism>[
     OAM_NONE,
     OAM_OAUTH1,
     OAM_OAUTH2,
@@ -28,18 +30,22 @@ class OAuthMechanism extends ProtobufEnum {
 }
 
 class OAuthProviderIds extends ProtobufEnum {
-  static const OAuthProviderIds OAP_NONE = const OAuthProviderIds._(0, 'OAP_NONE');
-  static const OAuthProviderIds OAP_TWITTER = const OAuthProviderIds._(1, 'OAP_TWITTER');
-  static const OAuthProviderIds OAP_FACEBOOK = const OAuthProviderIds._(2, 'OAP_FACEBOOK');
+  static const OAuthProviderIds OAP_NONE =
+      const OAuthProviderIds._(0, 'OAP_NONE');
+  static const OAuthProviderIds OAP_TWITTER =
+      const OAuthProviderIds._(1, 'OAP_TWITTER');
+  static const OAuthProviderIds OAP_FACEBOOK =
+      const OAuthProviderIds._(2, 'OAP_FACEBOOK');
 
-  static const List<OAuthProviderIds> values = const <OAuthProviderIds> [
+  static const List<OAuthProviderIds> values = const <OAuthProviderIds>[
     OAP_NONE,
     OAP_TWITTER,
     OAP_FACEBOOK,
   ];
 
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static OAuthProviderIds valueOf(int value) => _byValue[value] as OAuthProviderIds;
+  static OAuthProviderIds valueOf(int value) =>
+      _byValue[value] as OAuthProviderIds;
   static void $checkItem(OAuthProviderIds v) {
     if (v is! OAuthProviderIds) checkItemFailed(v, 'OAuthProviderIds');
   }
@@ -49,10 +55,11 @@ class OAuthProviderIds extends ProtobufEnum {
 
 class AccountType extends ProtobufEnum {
   static const AccountType AT_UNKNOWN = const AccountType._(0, 'AT_UNKNOWN');
-  static const AccountType AT_INFLUENCER = const AccountType._(1, 'AT_INFLUENCER');
+  static const AccountType AT_INFLUENCER =
+      const AccountType._(1, 'AT_INFLUENCER');
   static const AccountType AT_BUSINESS = const AccountType._(2, 'AT_BUSINESS');
 
-  static const List<AccountType> values = const <AccountType> [
+  static const List<AccountType> values = const <AccountType>[
     AT_UNKNOWN,
     AT_INFLUENCER,
     AT_BUSINESS,
@@ -68,15 +75,22 @@ class AccountType extends ProtobufEnum {
 }
 
 class GlobalAccountState extends ProtobufEnum {
-  static const GlobalAccountState GAS_INITIALIZE = const GlobalAccountState._(0, 'GAS_INITIALIZE');
-  static const GlobalAccountState GAS_BLOCKED = const GlobalAccountState._(1, 'GAS_BLOCKED');
-  static const GlobalAccountState GAS_READ_ONLY = const GlobalAccountState._(2, 'GAS_READ_ONLY');
-  static const GlobalAccountState GAS_READ_WRITE = const GlobalAccountState._(3, 'GAS_READ_WRITE');
-  static const GlobalAccountState GAS_MODERATOR = const GlobalAccountState._(4, 'GAS_MODERATOR');
-  static const GlobalAccountState GAS_ADMIN = const GlobalAccountState._(5, 'GAS_ADMIN');
-  static const GlobalAccountState GAS_GOD = const GlobalAccountState._(6, 'GAS_GOD');
+  static const GlobalAccountState GAS_INITIALIZE =
+      const GlobalAccountState._(0, 'GAS_INITIALIZE');
+  static const GlobalAccountState GAS_BLOCKED =
+      const GlobalAccountState._(1, 'GAS_BLOCKED');
+  static const GlobalAccountState GAS_READ_ONLY =
+      const GlobalAccountState._(2, 'GAS_READ_ONLY');
+  static const GlobalAccountState GAS_READ_WRITE =
+      const GlobalAccountState._(3, 'GAS_READ_WRITE');
+  static const GlobalAccountState GAS_MODERATOR =
+      const GlobalAccountState._(4, 'GAS_MODERATOR');
+  static const GlobalAccountState GAS_ADMIN =
+      const GlobalAccountState._(5, 'GAS_ADMIN');
+  static const GlobalAccountState GAS_GOD =
+      const GlobalAccountState._(6, 'GAS_GOD');
 
-  static const List<GlobalAccountState> values = const <GlobalAccountState> [
+  static const List<GlobalAccountState> values = const <GlobalAccountState>[
     GAS_INITIALIZE,
     GAS_BLOCKED,
     GAS_READ_ONLY,
@@ -87,7 +101,8 @@ class GlobalAccountState extends ProtobufEnum {
   ];
 
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static GlobalAccountState valueOf(int value) => _byValue[value] as GlobalAccountState;
+  static GlobalAccountState valueOf(int value) =>
+      _byValue[value] as GlobalAccountState;
   static void $checkItem(GlobalAccountState v) {
     if (v is! GlobalAccountState) checkItemFailed(v, 'GlobalAccountState');
   }
@@ -96,15 +111,23 @@ class GlobalAccountState extends ProtobufEnum {
 }
 
 class GlobalAccountStateReason extends ProtobufEnum {
-  static const GlobalAccountStateReason GASR_NEW_ACCOUNT = const GlobalAccountStateReason._(0, 'GASR_NEW_ACCOUNT');
-  static const GlobalAccountStateReason GASR_ACCOUNT_BANNED = const GlobalAccountStateReason._(1, 'GASR_ACCOUNT_BANNED');
-  static const GlobalAccountStateReason GASR_CREATE_DENIED = const GlobalAccountStateReason._(2, 'GASR_CREATE_DENIED');
-  static const GlobalAccountStateReason GASR_APPROVED = const GlobalAccountStateReason._(3, 'GASR_APPROVED');
-  static const GlobalAccountStateReason GASR_DEMO_APPROVED = const GlobalAccountStateReason._(4, 'GASR_DEMO_APPROVED');
-  static const GlobalAccountStateReason GASR_PENDING = const GlobalAccountStateReason._(5, 'GASR_PENDING');
-  static const GlobalAccountStateReason GASR_REQUIRE_INFO = const GlobalAccountStateReason._(6, 'GASR_REQUIRE_INFO');
+  static const GlobalAccountStateReason GASR_NEW_ACCOUNT =
+      const GlobalAccountStateReason._(0, 'GASR_NEW_ACCOUNT');
+  static const GlobalAccountStateReason GASR_ACCOUNT_BANNED =
+      const GlobalAccountStateReason._(1, 'GASR_ACCOUNT_BANNED');
+  static const GlobalAccountStateReason GASR_CREATE_DENIED =
+      const GlobalAccountStateReason._(2, 'GASR_CREATE_DENIED');
+  static const GlobalAccountStateReason GASR_APPROVED =
+      const GlobalAccountStateReason._(3, 'GASR_APPROVED');
+  static const GlobalAccountStateReason GASR_DEMO_APPROVED =
+      const GlobalAccountStateReason._(4, 'GASR_DEMO_APPROVED');
+  static const GlobalAccountStateReason GASR_PENDING =
+      const GlobalAccountStateReason._(5, 'GASR_PENDING');
+  static const GlobalAccountStateReason GASR_REQUIRE_INFO =
+      const GlobalAccountStateReason._(6, 'GASR_REQUIRE_INFO');
 
-  static const List<GlobalAccountStateReason> values = const <GlobalAccountStateReason> [
+  static const List<GlobalAccountStateReason> values =
+      const <GlobalAccountStateReason>[
     GASR_NEW_ACCOUNT,
     GASR_ACCOUNT_BANNED,
     GASR_CREATE_DENIED,
@@ -115,21 +138,27 @@ class GlobalAccountStateReason extends ProtobufEnum {
   ];
 
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static GlobalAccountStateReason valueOf(int value) => _byValue[value] as GlobalAccountStateReason;
+  static GlobalAccountStateReason valueOf(int value) =>
+      _byValue[value] as GlobalAccountStateReason;
   static void $checkItem(GlobalAccountStateReason v) {
-    if (v is! GlobalAccountStateReason) checkItemFailed(v, 'GlobalAccountStateReason');
+    if (v is! GlobalAccountStateReason)
+      checkItemFailed(v, 'GlobalAccountStateReason');
   }
 
   const GlobalAccountStateReason._(int v, String n) : super(v, n);
 }
 
 class NotificationFlags extends ProtobufEnum {
-  static const NotificationFlags NF_ACCOUNT_STATE = const NotificationFlags._(0, 'NF_ACCOUNT_STATE');
-  static const NotificationFlags NF_MAKE_AN_OFFER_FAB = const NotificationFlags._(1, 'NF_MAKE_AN_OFFER_FAB');
-  static const NotificationFlags NF_UNREAD_MESSAGES = const NotificationFlags._(2, 'NF_UNREAD_MESSAGES');
-  static const NotificationFlags NF_CS_REQUEST = const NotificationFlags._(3, 'NF_CS_REQUEST');
+  static const NotificationFlags NF_ACCOUNT_STATE =
+      const NotificationFlags._(0, 'NF_ACCOUNT_STATE');
+  static const NotificationFlags NF_MAKE_AN_OFFER_FAB =
+      const NotificationFlags._(1, 'NF_MAKE_AN_OFFER_FAB');
+  static const NotificationFlags NF_UNREAD_MESSAGES =
+      const NotificationFlags._(2, 'NF_UNREAD_MESSAGES');
+  static const NotificationFlags NF_CS_REQUEST =
+      const NotificationFlags._(3, 'NF_CS_REQUEST');
 
-  static const List<NotificationFlags> values = const <NotificationFlags> [
+  static const List<NotificationFlags> values = const <NotificationFlags>[
     NF_ACCOUNT_STATE,
     NF_MAKE_AN_OFFER_FAB,
     NF_UNREAD_MESSAGES,
@@ -137,7 +166,8 @@ class NotificationFlags extends ProtobufEnum {
   ];
 
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static NotificationFlags valueOf(int value) => _byValue[value] as NotificationFlags;
+  static NotificationFlags valueOf(int value) =>
+      _byValue[value] as NotificationFlags;
   static void $checkItem(NotificationFlags v) {
     if (v is! NotificationFlags) checkItemFailed(v, 'NotificationFlags');
   }
@@ -146,12 +176,16 @@ class NotificationFlags extends ProtobufEnum {
 }
 
 class BusinessOfferState extends ProtobufEnum {
-  static const BusinessOfferState BOS_DRAFT = const BusinessOfferState._(0, 'BOS_DRAFT');
-  static const BusinessOfferState BOS_OPEN = const BusinessOfferState._(1, 'BOS_OPEN');
-  static const BusinessOfferState BOS_ACTIVE = const BusinessOfferState._(2, 'BOS_ACTIVE');
-  static const BusinessOfferState BOS_CLOSED = const BusinessOfferState._(3, 'BOS_CLOSED');
+  static const BusinessOfferState BOS_DRAFT =
+      const BusinessOfferState._(0, 'BOS_DRAFT');
+  static const BusinessOfferState BOS_OPEN =
+      const BusinessOfferState._(1, 'BOS_OPEN');
+  static const BusinessOfferState BOS_ACTIVE =
+      const BusinessOfferState._(2, 'BOS_ACTIVE');
+  static const BusinessOfferState BOS_CLOSED =
+      const BusinessOfferState._(3, 'BOS_CLOSED');
 
-  static const List<BusinessOfferState> values = const <BusinessOfferState> [
+  static const List<BusinessOfferState> values = const <BusinessOfferState>[
     BOS_DRAFT,
     BOS_OPEN,
     BOS_ACTIVE,
@@ -159,7 +193,8 @@ class BusinessOfferState extends ProtobufEnum {
   ];
 
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static BusinessOfferState valueOf(int value) => _byValue[value] as BusinessOfferState;
+  static BusinessOfferState valueOf(int value) =>
+      _byValue[value] as BusinessOfferState;
   static void $checkItem(BusinessOfferState v) {
     if (v is! BusinessOfferState) checkItemFailed(v, 'BusinessOfferState');
   }
@@ -168,12 +203,17 @@ class BusinessOfferState extends ProtobufEnum {
 }
 
 class BusinessOfferStateReason extends ProtobufEnum {
-  static const BusinessOfferStateReason BOSR_NEW_OFFER = const BusinessOfferStateReason._(0, 'BOSR_NEW_OFFER');
-  static const BusinessOfferStateReason BOSR_USER_CLOSED = const BusinessOfferStateReason._(1, 'BOSR_USER_CLOSED');
-  static const BusinessOfferStateReason BOSR_TOS_VIOLATION = const BusinessOfferStateReason._(2, 'BOSR_TOS_VIOLATION');
-  static const BusinessOfferStateReason BOSR_COMPLETED = const BusinessOfferStateReason._(3, 'BOSR_COMPLETED');
+  static const BusinessOfferStateReason BOSR_NEW_OFFER =
+      const BusinessOfferStateReason._(0, 'BOSR_NEW_OFFER');
+  static const BusinessOfferStateReason BOSR_USER_CLOSED =
+      const BusinessOfferStateReason._(1, 'BOSR_USER_CLOSED');
+  static const BusinessOfferStateReason BOSR_TOS_VIOLATION =
+      const BusinessOfferStateReason._(2, 'BOSR_TOS_VIOLATION');
+  static const BusinessOfferStateReason BOSR_COMPLETED =
+      const BusinessOfferStateReason._(3, 'BOSR_COMPLETED');
 
-  static const List<BusinessOfferStateReason> values = const <BusinessOfferStateReason> [
+  static const List<BusinessOfferStateReason> values =
+      const <BusinessOfferStateReason>[
     BOSR_NEW_OFFER,
     BOSR_USER_CLOSED,
     BOSR_TOS_VIOLATION,
@@ -181,11 +221,12 @@ class BusinessOfferStateReason extends ProtobufEnum {
   ];
 
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static BusinessOfferStateReason valueOf(int value) => _byValue[value] as BusinessOfferStateReason;
+  static BusinessOfferStateReason valueOf(int value) =>
+      _byValue[value] as BusinessOfferStateReason;
   static void $checkItem(BusinessOfferStateReason v) {
-    if (v is! BusinessOfferStateReason) checkItemFailed(v, 'BusinessOfferStateReason');
+    if (v is! BusinessOfferStateReason)
+      checkItemFailed(v, 'BusinessOfferStateReason');
   }
 
   const BusinessOfferStateReason._(int v, String n) : super(v, n);
 }
-

@@ -58,7 +58,7 @@ class _OfferCreateState extends State<OfferCreate> {
   TextEditingController _descriptionController;
   TextEditingController _deliverablesController;
   TextEditingController _rewardController;
-  
+
   final FocusNode _titleNode = new FocusNode();
   final FocusNode _descriptionNode = new FocusNode();
   final FocusNode _deliverablesNode = new FocusNode();
@@ -73,7 +73,7 @@ class _OfferCreateState extends State<OfferCreate> {
       // ...
     }
   }
-  
+
   bool _validFormData() {
     return _image != null;
   }
@@ -90,9 +90,10 @@ class _OfferCreateState extends State<OfferCreate> {
           new AspectRatio(
             aspectRatio: 16.0 / 9.0,
             child: new Image(
-              fit: BoxFit.cover,
-              image: _image == null ? new AssetImage('assets/placeholder_photo_select.png') : _image
-            ),
+                fit: BoxFit.cover,
+                image: _image == null
+                    ? new AssetImage('assets/placeholder_photo_select.png')
+                    : _image),
           ),
           new RaisedButton(
             shape: new RoundedRectangleBorder(
@@ -101,9 +102,11 @@ class _OfferCreateState extends State<OfferCreate> {
                 topRight: new Radius.circular(4.0),
                 bottomLeft: new Radius.circular(16.0),
                 bottomRight: new Radius.circular(16.0),
-              ), 
+              ),
             ),
-            color: _image == null ? Theme.of(context).buttonColor : Theme.of(context).unselectedWidgetColor,
+            color: _image == null
+                ? Theme.of(context).buttonColor
+                : Theme.of(context).unselectedWidgetColor,
             child: new Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -113,7 +116,8 @@ class _OfferCreateState extends State<OfferCreate> {
               ],
             ),
             onPressed: () async {
-              File image = await ImagePicker.pickImage(source: ImageSource.askUser);
+              File image =
+                  await ImagePicker.pickImage(source: ImageSource.askUser);
               if (image != null) {
                 setState(() {
                   // _imageFile = image;
@@ -133,7 +137,8 @@ class _OfferCreateState extends State<OfferCreate> {
                     controller: _titleController,
                     maxLines: 1,
                     decoration: new InputDecoration(labelText: 'Title'),
-                    validator: (val) => val.trim().isEmpty ? 'Missing title' : null,
+                    validator: (val) =>
+                        val.trim().isEmpty ? 'Missing title' : null,
                     onSaved: (val) => _title = val,
                   ),
                 ),
@@ -144,7 +149,9 @@ class _OfferCreateState extends State<OfferCreate> {
                     controller: _descriptionController,
                     maxLines: 4,
                     decoration: new InputDecoration(labelText: 'Description'),
-                    validator: (val) => val.trim().length < 20 ? 'Description must be longer' : null,
+                    validator: (val) => val.trim().length < 20
+                        ? 'Description must be longer'
+                        : null,
                     onSaved: (val) => _description = val,
                   ),
                 ),
@@ -155,51 +162,53 @@ class _OfferCreateState extends State<OfferCreate> {
                     controller: _deliverablesController,
                     maxLines: 2,
                     decoration: new InputDecoration(labelText: 'Deliverables'),
-                    validator: (val) => val.trim().length < 4 ? 'Deliverables must be filled in' : null,
+                    validator: (val) => val.trim().length < 4
+                        ? 'Deliverables must be filled in'
+                        : null,
                     onSaved: (val) => _deliverables = val,
                   ),
                 ),
                 new EnsureVisibleWhenFocused(
                   focusNode: _rewardNode,
-                    child: new TextFormField(
+                  child: new TextFormField(
                     focusNode: _rewardNode,
                     controller: _rewardController,
                     maxLines: 2,
                     decoration: new InputDecoration(labelText: 'Reward'),
-                    validator: (val) => val.trim().length < 4 ? 'Reward must be filled in' : null,
+                    validator: (val) => val.trim().length < 4
+                        ? 'Reward must be filled in'
+                        : null,
                     onSaved: (val) => _reward = val,
                   ),
                 ),
-              ].map<Widget>((v) => new Container(
-                padding: new EdgeInsets.only(bottom: 8.0),
-                child: v
-              )).toList(),
+              ]
+                  .map<Widget>((v) => new Container(
+                      padding: new EdgeInsets.only(bottom: 8.0), child: v))
+                  .toList(),
             ),
           )
-        ].map<Widget>((v) => new Container(
-          padding: new EdgeInsets.all(8.0),
-          child: v
-        )).toList()..addAll([
-          
-        ])..addAll([
-          new Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              new RaisedButton(
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        ]
+            .map<Widget>((v) =>
+                new Container(padding: new EdgeInsets.all(8.0), child: v))
+            .toList()
+              ..addAll([])
+              ..addAll([
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    new Text("Make offer".toUpperCase()),
+                    new RaisedButton(
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          new Text("Make offer".toUpperCase()),
+                        ],
+                      ),
+                      onPressed: _validFormData() ? _submitPressed : null,
+                    )
                   ],
-                ),
-                onPressed: _validFormData() ? _submitPressed : null,
-              )
-            ],
-          )
-        ].map<Widget>((v) => new Container(
-          padding: new EdgeInsets.all(8.0),
-          child: v
-        ))),
+                )
+              ].map<Widget>((v) =>
+                  new Container(padding: new EdgeInsets.all(8.0), child: v))),
       ),
     );
   }

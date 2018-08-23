@@ -3,40 +3,35 @@ import 'package:flutter/material.dart';
 import 'follower_count.dart';
 import '../network/inf.pb.dart';
 
-
-class FollowerTray extends StatelessWidget
-{ 
+class FollowerTray extends StatelessWidget {
   FollowerTray({
-    Key key, 
+    Key key,
     this.oAuthProviders,
     this.socialMedia,
-    }) :super (key: key);
+  }) : super(key: key);
 
   final List<ConfigOAuthProvider> oAuthProviders;
   final List<DataSocialMedia> socialMedia;
 
   @override
-  Widget build(BuildContext context){
-
+  Widget build(BuildContext context) {
     List<FollowerWidget> followerWidgets = new List<FollowerWidget>();
-    
+
     for (int i = 1; i < socialMedia.length; i++) {
-      if(socialMedia[i].connected) {
-        followerWidgets.add(
-          new FollowerWidget(
-            oAuthProvider: oAuthProviders[i], 
-            followerCount: socialMedia[i].followersCount,
-          )
-        );
+      if (socialMedia[i].connected) {
+        followerWidgets.add(new FollowerWidget(
+          oAuthProvider: oAuthProviders[i],
+          followerCount: socialMedia[i].followersCount,
+        ));
       }
     }
 
     return new Container(
       padding: const EdgeInsets.all(16.0),
       child: new Row(
-			    mainAxisAlignment: MainAxisAlignment.center,
-			    children: followerWidgets,
-		  ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: followerWidgets,
+      ),
     );
   }
 }
