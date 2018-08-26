@@ -16,20 +16,27 @@ export 'inf.pbenum.dart';
 class ConfigSubCategories extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ConfigSubCategories')
     ..pPS(1, 'labels')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   ConfigSubCategories() : super();
-  ConfigSubCategories.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  ConfigSubCategories.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  ConfigSubCategories clone() => new ConfigSubCategories()..mergeFromMessage(this);
+  ConfigSubCategories.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ConfigSubCategories.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  ConfigSubCategories clone() =>
+      new ConfigSubCategories()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static ConfigSubCategories create() => new ConfigSubCategories();
-  static PbList<ConfigSubCategories> createRepeated() => new PbList<ConfigSubCategories>();
+  static PbList<ConfigSubCategories> createRepeated() =>
+      new PbList<ConfigSubCategories>();
   static ConfigSubCategories getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfigSubCategories();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyConfigSubCategories();
     return _defaultInstance;
   }
+
   static ConfigSubCategories _defaultInstance;
   static void $checkItem(ConfigSubCategories v) {
     if (v is! ConfigSubCategories) checkItemFailed(v, 'ConfigSubCategories');
@@ -38,25 +45,33 @@ class ConfigSubCategories extends GeneratedMessage {
   List<String> get labels => $_getList(0);
 }
 
-class _ReadonlyConfigSubCategories extends ConfigSubCategories with ReadonlyMessageMixin {}
+class _ReadonlyConfigSubCategories extends ConfigSubCategories
+    with ReadonlyMessageMixin {}
 
 class ConfigCategories extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ConfigCategories')
-    ..pp<ConfigSubCategories>(1, 'sub', PbFieldType.PM, ConfigSubCategories.$checkItem, ConfigSubCategories.create)
-    ..hasRequiredFields = false
-  ;
+    ..pp<ConfigSubCategories>(1, 'sub', PbFieldType.PM,
+        ConfigSubCategories.$checkItem, ConfigSubCategories.create)
+    ..hasRequiredFields = false;
 
   ConfigCategories() : super();
-  ConfigCategories.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  ConfigCategories.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  ConfigCategories.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ConfigCategories.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   ConfigCategories clone() => new ConfigCategories()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static ConfigCategories create() => new ConfigCategories();
-  static PbList<ConfigCategories> createRepeated() => new PbList<ConfigCategories>();
+  static PbList<ConfigCategories> createRepeated() =>
+      new PbList<ConfigCategories>();
   static ConfigCategories getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfigCategories();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyConfigCategories();
     return _defaultInstance;
   }
+
   static ConfigCategories _defaultInstance;
   static void $checkItem(ConfigCategories v) {
     if (v is! ConfigCategories) checkItemFailed(v, 'ConfigCategories');
@@ -65,7 +80,8 @@ class ConfigCategories extends GeneratedMessage {
   List<ConfigSubCategories> get sub => $_getList(0);
 }
 
-class _ReadonlyConfigCategories extends ConfigCategories with ReadonlyMessageMixin {}
+class _ReadonlyConfigCategories extends ConfigCategories
+    with ReadonlyMessageMixin {}
 
 class ConfigOAuthProvider extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ConfigOAuthProvider')
@@ -82,131 +98,196 @@ class ConfigOAuthProvider extends GeneratedMessage {
     ..aOS(11, 'consumerSecret')
     ..aOS(12, 'clientId')
     ..a<int>(14, 'fontAwesomeBrand', PbFieldType.O3)
-    ..e<OAuthMechanism>(15, 'mechanism', PbFieldType.OE, OAuthMechanism.OAM_NONE, OAuthMechanism.valueOf, OAuthMechanism.values)
+    ..e<OAuthMechanism>(15, 'mechanism', PbFieldType.OE,
+        OAuthMechanism.OAM_NONE, OAuthMechanism.valueOf, OAuthMechanism.values)
     ..aOS(16, 'accessTokenUrl')
     ..aOS(17, 'clientSecret')
     ..pPS(18, 'whitelistHosts')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
-  ConfigOAuthProvider.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  ConfigOAuthProvider.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  ConfigOAuthProvider clone() => new ConfigOAuthProvider()..mergeFromMessage(this);
+  ConfigOAuthProvider.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ConfigOAuthProvider.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  ConfigOAuthProvider clone() =>
+      new ConfigOAuthProvider()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static ConfigOAuthProvider create() => new ConfigOAuthProvider();
-  static PbList<ConfigOAuthProvider> createRepeated() => new PbList<ConfigOAuthProvider>();
+  static PbList<ConfigOAuthProvider> createRepeated() =>
+      new PbList<ConfigOAuthProvider>();
   static ConfigOAuthProvider getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfigOAuthProvider();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyConfigOAuthProvider();
     return _defaultInstance;
   }
+
   static ConfigOAuthProvider _defaultInstance;
   static void $checkItem(ConfigOAuthProvider v) {
     if (v is! ConfigOAuthProvider) checkItemFailed(v, 'ConfigOAuthProvider');
   }
 
   bool get visible => $_get(0, false);
-  set visible(bool v) { $_setBool(0, v); }
+  set visible(bool v) {
+    $_setBool(0, v);
+  }
+
   bool hasVisible() => $_has(0);
   void clearVisible() => clearField(1);
 
   bool get enabled => $_get(1, false);
-  set enabled(bool v) { $_setBool(1, v); }
+  set enabled(bool v) {
+    $_setBool(1, v);
+  }
+
   bool hasEnabled() => $_has(1);
   void clearEnabled() => clearField(2);
 
   String get label => $_getS(2, '');
-  set label(String v) { $_setString(2, v); }
+  set label(String v) {
+    $_setString(2, v);
+  }
+
   bool hasLabel() => $_has(2);
   void clearLabel() => clearField(3);
 
   String get host => $_getS(3, '');
-  set host(String v) { $_setString(3, v); }
+  set host(String v) {
+    $_setString(3, v);
+  }
+
   bool hasHost() => $_has(3);
   void clearHost() => clearField(4);
 
   String get requestTokenUrl => $_getS(4, '');
-  set requestTokenUrl(String v) { $_setString(4, v); }
+  set requestTokenUrl(String v) {
+    $_setString(4, v);
+  }
+
   bool hasRequestTokenUrl() => $_has(4);
   void clearRequestTokenUrl() => clearField(5);
 
   String get authenticateUrl => $_getS(5, '');
-  set authenticateUrl(String v) { $_setString(5, v); }
+  set authenticateUrl(String v) {
+    $_setString(5, v);
+  }
+
   bool hasAuthenticateUrl() => $_has(5);
   void clearAuthenticateUrl() => clearField(6);
 
   String get authUrl => $_getS(6, '');
-  set authUrl(String v) { $_setString(6, v); }
+  set authUrl(String v) {
+    $_setString(6, v);
+  }
+
   bool hasAuthUrl() => $_has(6);
   void clearAuthUrl() => clearField(7);
 
   String get authQuery => $_getS(7, '');
-  set authQuery(String v) { $_setString(7, v); }
+  set authQuery(String v) {
+    $_setString(7, v);
+  }
+
   bool hasAuthQuery() => $_has(7);
   void clearAuthQuery() => clearField(8);
 
   String get callbackUrl => $_getS(8, '');
-  set callbackUrl(String v) { $_setString(8, v); }
+  set callbackUrl(String v) {
+    $_setString(8, v);
+  }
+
   bool hasCallbackUrl() => $_has(8);
   void clearCallbackUrl() => clearField(9);
 
   String get consumerKey => $_getS(9, '');
-  set consumerKey(String v) { $_setString(9, v); }
+  set consumerKey(String v) {
+    $_setString(9, v);
+  }
+
   bool hasConsumerKey() => $_has(9);
   void clearConsumerKey() => clearField(10);
 
   String get consumerSecret => $_getS(10, '');
-  set consumerSecret(String v) { $_setString(10, v); }
+  set consumerSecret(String v) {
+    $_setString(10, v);
+  }
+
   bool hasConsumerSecret() => $_has(10);
   void clearConsumerSecret() => clearField(11);
 
   String get clientId => $_getS(11, '');
-  set clientId(String v) { $_setString(11, v); }
+  set clientId(String v) {
+    $_setString(11, v);
+  }
+
   bool hasClientId() => $_has(11);
   void clearClientId() => clearField(12);
 
   int get fontAwesomeBrand => $_get(12, 0);
-  set fontAwesomeBrand(int v) { $_setSignedInt32(12, v); }
+  set fontAwesomeBrand(int v) {
+    $_setSignedInt32(12, v);
+  }
+
   bool hasFontAwesomeBrand() => $_has(12);
   void clearFontAwesomeBrand() => clearField(14);
 
   OAuthMechanism get mechanism => $_getN(13);
-  set mechanism(OAuthMechanism v) { setField(15, v); }
+  set mechanism(OAuthMechanism v) {
+    setField(15, v);
+  }
+
   bool hasMechanism() => $_has(13);
   void clearMechanism() => clearField(15);
 
   String get accessTokenUrl => $_getS(14, '');
-  set accessTokenUrl(String v) { $_setString(14, v); }
+  set accessTokenUrl(String v) {
+    $_setString(14, v);
+  }
+
   bool hasAccessTokenUrl() => $_has(14);
   void clearAccessTokenUrl() => clearField(16);
 
   String get clientSecret => $_getS(15, '');
-  set clientSecret(String v) { $_setString(15, v); }
+  set clientSecret(String v) {
+    $_setString(15, v);
+  }
+
   bool hasClientSecret() => $_has(15);
   void clearClientSecret() => clearField(17);
 
   List<String> get whitelistHosts => $_getList(16);
 }
 
-class _ReadonlyConfigOAuthProvider extends ConfigOAuthProvider with ReadonlyMessageMixin {}
+class _ReadonlyConfigOAuthProvider extends ConfigOAuthProvider
+    with ReadonlyMessageMixin {}
 
 class ConfigOAuthProviders extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ConfigOAuthProviders')
-    ..pp<ConfigOAuthProvider>(1, 'all', PbFieldType.PM, ConfigOAuthProvider.$checkItem, ConfigOAuthProvider.create)
-    ..hasRequiredFields = false
-  ;
+    ..pp<ConfigOAuthProvider>(1, 'all', PbFieldType.PM,
+        ConfigOAuthProvider.$checkItem, ConfigOAuthProvider.create)
+    ..hasRequiredFields = false;
 
   ConfigOAuthProviders() : super();
-  ConfigOAuthProviders.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  ConfigOAuthProviders.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  ConfigOAuthProviders clone() => new ConfigOAuthProviders()..mergeFromMessage(this);
+  ConfigOAuthProviders.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ConfigOAuthProviders.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  ConfigOAuthProviders clone() =>
+      new ConfigOAuthProviders()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static ConfigOAuthProviders create() => new ConfigOAuthProviders();
-  static PbList<ConfigOAuthProviders> createRepeated() => new PbList<ConfigOAuthProviders>();
+  static PbList<ConfigOAuthProviders> createRepeated() =>
+      new PbList<ConfigOAuthProviders>();
   static ConfigOAuthProviders getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfigOAuthProviders();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyConfigOAuthProviders();
     return _defaultInstance;
   }
+
   static ConfigOAuthProviders _defaultInstance;
   static void $checkItem(ConfigOAuthProviders v) {
     if (v is! ConfigOAuthProviders) checkItemFailed(v, 'ConfigOAuthProviders');
@@ -215,7 +296,8 @@ class ConfigOAuthProviders extends GeneratedMessage {
   List<ConfigOAuthProvider> get all => $_getList(0);
 }
 
-class _ReadonlyConfigOAuthProviders extends ConfigOAuthProviders with ReadonlyMessageMixin {}
+class _ReadonlyConfigOAuthProviders extends ConfigOAuthProviders
+    with ReadonlyMessageMixin {}
 
 class ConfigServices extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ConfigServices')
@@ -240,143 +322,215 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(19, 'cloudinaryUrl')
     ..aOS(20, 'cloudinaryThumbnailUrl')
     ..aOS(21, 'cloudinaryCoverUrl')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   ConfigServices() : super();
-  ConfigServices.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  ConfigServices.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  ConfigServices.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ConfigServices.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   ConfigServices clone() => new ConfigServices()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static ConfigServices create() => new ConfigServices();
-  static PbList<ConfigServices> createRepeated() => new PbList<ConfigServices>();
+  static PbList<ConfigServices> createRepeated() =>
+      new PbList<ConfigServices>();
   static ConfigServices getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfigServices();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyConfigServices();
     return _defaultInstance;
   }
+
   static ConfigServices _defaultInstance;
   static void $checkItem(ConfigServices v) {
     if (v is! ConfigServices) checkItemFailed(v, 'ConfigServices');
   }
 
   String get mapboxApi => $_getS(0, '');
-  set mapboxApi(String v) { $_setString(0, v); }
+  set mapboxApi(String v) {
+    $_setString(0, v);
+  }
+
   bool hasMapboxApi() => $_has(0);
   void clearMapboxApi() => clearField(1);
 
   String get mapboxUrlTemplate => $_getS(1, '');
-  set mapboxUrlTemplate(String v) { $_setString(1, v); }
+  set mapboxUrlTemplate(String v) {
+    $_setString(1, v);
+  }
+
   bool hasMapboxUrlTemplate() => $_has(1);
   void clearMapboxUrlTemplate() => clearField(2);
 
   String get mapboxToken => $_getS(2, '');
-  set mapboxToken(String v) { $_setString(2, v); }
+  set mapboxToken(String v) {
+    $_setString(2, v);
+  }
+
   bool hasMapboxToken() => $_has(2);
   void clearMapboxToken() => clearField(3);
 
   String get spacesRegion => $_getS(3, '');
-  set spacesRegion(String v) { $_setString(3, v); }
+  set spacesRegion(String v) {
+    $_setString(3, v);
+  }
+
   bool hasSpacesRegion() => $_has(3);
   void clearSpacesRegion() => clearField(4);
 
   String get spacesKey => $_getS(4, '');
-  set spacesKey(String v) { $_setString(4, v); }
+  set spacesKey(String v) {
+    $_setString(4, v);
+  }
+
   bool hasSpacesKey() => $_has(4);
   void clearSpacesKey() => clearField(5);
 
   String get spacesSecret => $_getS(5, '');
-  set spacesSecret(String v) { $_setString(5, v); }
+  set spacesSecret(String v) {
+    $_setString(5, v);
+  }
+
   bool hasSpacesSecret() => $_has(5);
   void clearSpacesSecret() => clearField(6);
 
   String get spacesBucket => $_getS(6, '');
-  set spacesBucket(String v) { $_setString(6, v); }
+  set spacesBucket(String v) {
+    $_setString(6, v);
+  }
+
   bool hasSpacesBucket() => $_has(6);
   void clearSpacesBucket() => clearField(7);
 
   List<String> get apiHosts => $_getList(7);
 
   String get configUrl => $_getS(8, '');
-  set configUrl(String v) { $_setString(8, v); }
+  set configUrl(String v) {
+    $_setString(8, v);
+  }
+
   bool hasConfigUrl() => $_has(8);
   void clearConfigUrl() => clearField(9);
 
   String get termsOfServiceUrl => $_getS(9, '');
-  set termsOfServiceUrl(String v) { $_setString(9, v); }
+  set termsOfServiceUrl(String v) {
+    $_setString(9, v);
+  }
+
   bool hasTermsOfServiceUrl() => $_has(9);
   void clearTermsOfServiceUrl() => clearField(10);
 
   String get privacyPolicyUrl => $_getS(10, '');
-  set privacyPolicyUrl(String v) { $_setString(10, v); }
+  set privacyPolicyUrl(String v) {
+    $_setString(10, v);
+  }
+
   bool hasPrivacyPolicyUrl() => $_has(10);
   void clearPrivacyPolicyUrl() => clearField(11);
 
   String get ipstackKey => $_getS(11, '');
-  set ipstackKey(String v) { $_setString(11, v); }
+  set ipstackKey(String v) {
+    $_setString(11, v);
+  }
+
   bool hasIpstackKey() => $_has(11);
   void clearIpstackKey() => clearField(12);
 
   String get ipstackApi => $_getS(12, '');
-  set ipstackApi(String v) { $_setString(12, v); }
+  set ipstackApi(String v) {
+    $_setString(12, v);
+  }
+
   bool hasIpstackApi() => $_has(12);
   void clearIpstackApi() => clearField(13);
 
   String get mariadbHost => $_getS(13, '');
-  set mariadbHost(String v) { $_setString(13, v); }
+  set mariadbHost(String v) {
+    $_setString(13, v);
+  }
+
   bool hasMariadbHost() => $_has(13);
   void clearMariadbHost() => clearField(14);
 
   int get mariadbPort => $_get(14, 0);
-  set mariadbPort(int v) { $_setSignedInt32(14, v); }
+  set mariadbPort(int v) {
+    $_setSignedInt32(14, v);
+  }
+
   bool hasMariadbPort() => $_has(14);
   void clearMariadbPort() => clearField(15);
 
   String get mariadbUser => $_getS(15, '');
-  set mariadbUser(String v) { $_setString(15, v); }
+  set mariadbUser(String v) {
+    $_setString(15, v);
+  }
+
   bool hasMariadbUser() => $_has(15);
   void clearMariadbUser() => clearField(16);
 
   String get mariadbPassword => $_getS(16, '');
-  set mariadbPassword(String v) { $_setString(16, v); }
+  set mariadbPassword(String v) {
+    $_setString(16, v);
+  }
+
   bool hasMariadbPassword() => $_has(16);
   void clearMariadbPassword() => clearField(17);
 
   String get mariadbDatabase => $_getS(17, '');
-  set mariadbDatabase(String v) { $_setString(17, v); }
+  set mariadbDatabase(String v) {
+    $_setString(17, v);
+  }
+
   bool hasMariadbDatabase() => $_has(17);
   void clearMariadbDatabase() => clearField(18);
 
   String get cloudinaryUrl => $_getS(18, '');
-  set cloudinaryUrl(String v) { $_setString(18, v); }
+  set cloudinaryUrl(String v) {
+    $_setString(18, v);
+  }
+
   bool hasCloudinaryUrl() => $_has(18);
   void clearCloudinaryUrl() => clearField(19);
 
   String get cloudinaryThumbnailUrl => $_getS(19, '');
-  set cloudinaryThumbnailUrl(String v) { $_setString(19, v); }
+  set cloudinaryThumbnailUrl(String v) {
+    $_setString(19, v);
+  }
+
   bool hasCloudinaryThumbnailUrl() => $_has(19);
   void clearCloudinaryThumbnailUrl() => clearField(20);
 
   String get cloudinaryCoverUrl => $_getS(20, '');
-  set cloudinaryCoverUrl(String v) { $_setString(20, v); }
+  set cloudinaryCoverUrl(String v) {
+    $_setString(20, v);
+  }
+
   bool hasCloudinaryCoverUrl() => $_has(20);
   void clearCloudinaryCoverUrl() => clearField(21);
 }
 
-class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {}
+class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {
+}
 
 class ConfigData extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('ConfigData')
     ..a<int>(1, 'clientVersion', PbFieldType.O3)
-    ..a<ConfigCategories>(2, 'categories', PbFieldType.OM, ConfigCategories.getDefault, ConfigCategories.create)
-    ..a<ConfigOAuthProviders>(3, 'oauthProviders', PbFieldType.OM, ConfigOAuthProviders.getDefault, ConfigOAuthProviders.create)
+    ..a<ConfigCategories>(2, 'categories', PbFieldType.OM,
+        ConfigCategories.getDefault, ConfigCategories.create)
+    ..a<ConfigOAuthProviders>(3, 'oauthProviders', PbFieldType.OM,
+        ConfigOAuthProviders.getDefault, ConfigOAuthProviders.create)
     ..aInt64(5, 'timestamp')
-    ..a<ConfigServices>(6, 'services', PbFieldType.OM, ConfigServices.getDefault, ConfigServices.create)
-    ..hasRequiredFields = false
-  ;
+    ..a<ConfigServices>(6, 'services', PbFieldType.OM,
+        ConfigServices.getDefault, ConfigServices.create)
+    ..hasRequiredFields = false;
 
   ConfigData() : super();
-  ConfigData.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  ConfigData.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  ConfigData.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ConfigData.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   ConfigData clone() => new ConfigData()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static ConfigData create() => new ConfigData();
@@ -385,33 +539,49 @@ class ConfigData extends GeneratedMessage {
     if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfigData();
     return _defaultInstance;
   }
+
   static ConfigData _defaultInstance;
   static void $checkItem(ConfigData v) {
     if (v is! ConfigData) checkItemFailed(v, 'ConfigData');
   }
 
   int get clientVersion => $_get(0, 0);
-  set clientVersion(int v) { $_setSignedInt32(0, v); }
+  set clientVersion(int v) {
+    $_setSignedInt32(0, v);
+  }
+
   bool hasClientVersion() => $_has(0);
   void clearClientVersion() => clearField(1);
 
   ConfigCategories get categories => $_getN(1);
-  set categories(ConfigCategories v) { setField(2, v); }
+  set categories(ConfigCategories v) {
+    setField(2, v);
+  }
+
   bool hasCategories() => $_has(1);
   void clearCategories() => clearField(2);
 
   ConfigOAuthProviders get oauthProviders => $_getN(2);
-  set oauthProviders(ConfigOAuthProviders v) { setField(3, v); }
+  set oauthProviders(ConfigOAuthProviders v) {
+    setField(3, v);
+  }
+
   bool hasOauthProviders() => $_has(2);
   void clearOauthProviders() => clearField(3);
 
   Int64 get timestamp => $_getI64(3);
-  set timestamp(Int64 v) { $_setInt64(3, v); }
+  set timestamp(Int64 v) {
+    $_setInt64(3, v);
+  }
+
   bool hasTimestamp() => $_has(3);
   void clearTimestamp() => clearField(5);
 
   ConfigServices get services => $_getN(4);
-  set services(ConfigServices v) { setField(6, v); }
+  set services(ConfigServices v) {
+    setField(6, v);
+  }
+
   bool hasServices() => $_has(4);
   void clearServices() => clearField(6);
 }
@@ -422,12 +592,14 @@ class CategoryId extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('CategoryId')
     ..a<int>(1, 'main', PbFieldType.O3)
     ..a<int>(2, 'sub', PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   CategoryId() : super();
-  CategoryId.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  CategoryId.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  CategoryId.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  CategoryId.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   CategoryId clone() => new CategoryId()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static CategoryId create() => new CategoryId();
@@ -436,18 +608,25 @@ class CategoryId extends GeneratedMessage {
     if (_defaultInstance == null) _defaultInstance = new _ReadonlyCategoryId();
     return _defaultInstance;
   }
+
   static CategoryId _defaultInstance;
   static void $checkItem(CategoryId v) {
     if (v is! CategoryId) checkItemFailed(v, 'CategoryId');
   }
 
   int get main => $_get(0, 0);
-  set main(int v) { $_setSignedInt32(0, v); }
+  set main(int v) {
+    $_setSignedInt32(0, v);
+  }
+
   bool hasMain() => $_has(0);
   void clearMain() => clearField(1);
 
   int get sub => $_get(1, 0);
-  set sub(int v) { $_setSignedInt32(1, v); }
+  set sub(int v) {
+    $_setSignedInt32(1, v);
+  }
+
   bool hasSub() => $_has(1);
   void clearSub() => clearField(2);
 }
@@ -471,102 +650,154 @@ class DataSocialMedia extends GeneratedMessage {
     ..aOS(13, 'profileUrl')
     ..aOS(14, 'avatarUrl')
     ..aOB(15, 'expired')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   DataSocialMedia() : super();
-  DataSocialMedia.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataSocialMedia.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataSocialMedia.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataSocialMedia.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   DataSocialMedia clone() => new DataSocialMedia()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static DataSocialMedia create() => new DataSocialMedia();
-  static PbList<DataSocialMedia> createRepeated() => new PbList<DataSocialMedia>();
+  static PbList<DataSocialMedia> createRepeated() =>
+      new PbList<DataSocialMedia>();
   static DataSocialMedia getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataSocialMedia();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyDataSocialMedia();
     return _defaultInstance;
   }
+
   static DataSocialMedia _defaultInstance;
   static void $checkItem(DataSocialMedia v) {
     if (v is! DataSocialMedia) checkItemFailed(v, 'DataSocialMedia');
   }
 
   bool get connected => $_get(0, false);
-  set connected(bool v) { $_setBool(0, v); }
+  set connected(bool v) {
+    $_setBool(0, v);
+  }
+
   bool hasConnected() => $_has(0);
   void clearConnected() => clearField(1);
 
   int get followersCount => $_get(1, 0);
-  set followersCount(int v) { $_setSignedInt32(1, v); }
+  set followersCount(int v) {
+    $_setSignedInt32(1, v);
+  }
+
   bool hasFollowersCount() => $_has(1);
   void clearFollowersCount() => clearField(2);
 
   int get followingCount => $_get(2, 0);
-  set followingCount(int v) { $_setSignedInt32(2, v); }
+  set followingCount(int v) {
+    $_setSignedInt32(2, v);
+  }
+
   bool hasFollowingCount() => $_has(2);
   void clearFollowingCount() => clearField(3);
 
   String get screenName => $_getS(3, '');
-  set screenName(String v) { $_setString(3, v); }
+  set screenName(String v) {
+    $_setString(3, v);
+  }
+
   bool hasScreenName() => $_has(3);
   void clearScreenName() => clearField(4);
 
   String get displayName => $_getS(4, '');
-  set displayName(String v) { $_setString(4, v); }
+  set displayName(String v) {
+    $_setString(4, v);
+  }
+
   bool hasDisplayName() => $_has(4);
   void clearDisplayName() => clearField(5);
 
   String get description => $_getS(5, '');
-  set description(String v) { $_setString(5, v); }
+  set description(String v) {
+    $_setString(5, v);
+  }
+
   bool hasDescription() => $_has(5);
   void clearDescription() => clearField(6);
 
   String get location => $_getS(6, '');
-  set location(String v) { $_setString(6, v); }
+  set location(String v) {
+    $_setString(6, v);
+  }
+
   bool hasLocation() => $_has(6);
   void clearLocation() => clearField(7);
 
   String get url => $_getS(7, '');
-  set url(String v) { $_setString(7, v); }
+  set url(String v) {
+    $_setString(7, v);
+  }
+
   bool hasUrl() => $_has(7);
   void clearUrl() => clearField(8);
 
   int get friendsCount => $_get(8, 0);
-  set friendsCount(int v) { $_setSignedInt32(8, v); }
+  set friendsCount(int v) {
+    $_setSignedInt32(8, v);
+  }
+
   bool hasFriendsCount() => $_has(8);
   void clearFriendsCount() => clearField(9);
 
   int get postsCount => $_get(9, 0);
-  set postsCount(int v) { $_setSignedInt32(9, v); }
+  set postsCount(int v) {
+    $_setSignedInt32(9, v);
+  }
+
   bool hasPostsCount() => $_has(9);
   void clearPostsCount() => clearField(10);
 
   bool get verified => $_get(10, false);
-  set verified(bool v) { $_setBool(10, v); }
+  set verified(bool v) {
+    $_setBool(10, v);
+  }
+
   bool hasVerified() => $_has(10);
   void clearVerified() => clearField(11);
 
   String get email => $_getS(11, '');
-  set email(String v) { $_setString(11, v); }
+  set email(String v) {
+    $_setString(11, v);
+  }
+
   bool hasEmail() => $_has(11);
   void clearEmail() => clearField(12);
 
   String get profileUrl => $_getS(12, '');
-  set profileUrl(String v) { $_setString(12, v); }
+  set profileUrl(String v) {
+    $_setString(12, v);
+  }
+
   bool hasProfileUrl() => $_has(12);
   void clearProfileUrl() => clearField(13);
 
   String get avatarUrl => $_getS(13, '');
-  set avatarUrl(String v) { $_setString(13, v); }
+  set avatarUrl(String v) {
+    $_setString(13, v);
+  }
+
   bool hasAvatarUrl() => $_has(13);
   void clearAvatarUrl() => clearField(14);
 
   bool get expired => $_get(14, false);
-  set expired(bool v) { $_setBool(14, v); }
+  set expired(bool v) {
+    $_setBool(14, v);
+  }
+
   bool hasExpired() => $_has(14);
   void clearExpired() => clearField(15);
 }
 
-class _ReadonlyDataSocialMedia extends DataSocialMedia with ReadonlyMessageMixin {}
+class _ReadonlyDataSocialMedia extends DataSocialMedia
+    with ReadonlyMessageMixin {}
 
 class DataOAuthCredentials extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataOAuthCredentials')
@@ -574,47 +805,67 @@ class DataOAuthCredentials extends GeneratedMessage {
     ..aOS(2, 'tokenSecret')
     ..a<int>(3, 'tokenExpires', PbFieldType.O3)
     ..aOS(4, 'userId')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   DataOAuthCredentials() : super();
-  DataOAuthCredentials.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataOAuthCredentials.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  DataOAuthCredentials clone() => new DataOAuthCredentials()..mergeFromMessage(this);
+  DataOAuthCredentials.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataOAuthCredentials.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataOAuthCredentials clone() =>
+      new DataOAuthCredentials()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static DataOAuthCredentials create() => new DataOAuthCredentials();
-  static PbList<DataOAuthCredentials> createRepeated() => new PbList<DataOAuthCredentials>();
+  static PbList<DataOAuthCredentials> createRepeated() =>
+      new PbList<DataOAuthCredentials>();
   static DataOAuthCredentials getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataOAuthCredentials();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyDataOAuthCredentials();
     return _defaultInstance;
   }
+
   static DataOAuthCredentials _defaultInstance;
   static void $checkItem(DataOAuthCredentials v) {
     if (v is! DataOAuthCredentials) checkItemFailed(v, 'DataOAuthCredentials');
   }
 
   String get token => $_getS(0, '');
-  set token(String v) { $_setString(0, v); }
+  set token(String v) {
+    $_setString(0, v);
+  }
+
   bool hasToken() => $_has(0);
   void clearToken() => clearField(1);
 
   String get tokenSecret => $_getS(1, '');
-  set tokenSecret(String v) { $_setString(1, v); }
+  set tokenSecret(String v) {
+    $_setString(1, v);
+  }
+
   bool hasTokenSecret() => $_has(1);
   void clearTokenSecret() => clearField(2);
 
   int get tokenExpires => $_get(2, 0);
-  set tokenExpires(int v) { $_setSignedInt32(2, v); }
+  set tokenExpires(int v) {
+    $_setSignedInt32(2, v);
+  }
+
   bool hasTokenExpires() => $_has(2);
   void clearTokenExpires() => clearField(3);
 
   String get userId => $_getS(3, '');
-  set userId(String v) { $_setString(3, v); }
+  set userId(String v) {
+    $_setString(3, v);
+  }
+
   bool hasUserId() => $_has(3);
   void clearUserId() => clearField(4);
 }
 
-class _ReadonlyDataOAuthCredentials extends DataOAuthCredentials with ReadonlyMessageMixin {}
+class _ReadonlyDataOAuthCredentials extends DataOAuthCredentials
+    with ReadonlyMessageMixin {}
 
 class DataBusinessOffer extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataBusinessOffer')
@@ -628,74 +879,120 @@ class DataBusinessOffer extends GeneratedMessage {
     ..aOS(8, 'reward')
     ..aOS(9, 'location')
     ..pPS(10, 'coverUrls')
-    ..pp<CategoryId>(11, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
-    ..e<BusinessOfferState>(12, 'state', PbFieldType.OE, BusinessOfferState.BOS_DRAFT, BusinessOfferState.valueOf, BusinessOfferState.values)
-    ..e<BusinessOfferStateReason>(13, 'stateReason', PbFieldType.OE, BusinessOfferStateReason.BOSR_NEW_OFFER, BusinessOfferStateReason.valueOf, BusinessOfferStateReason.values)
+    ..pp<CategoryId>(11, 'categories', PbFieldType.PM, CategoryId.$checkItem,
+        CategoryId.create)
+    ..e<BusinessOfferState>(
+        12,
+        'state',
+        PbFieldType.OE,
+        BusinessOfferState.BOS_DRAFT,
+        BusinessOfferState.valueOf,
+        BusinessOfferState.values)
+    ..e<BusinessOfferStateReason>(
+        13,
+        'stateReason',
+        PbFieldType.OE,
+        BusinessOfferStateReason.BOSR_NEW_OFFER,
+        BusinessOfferStateReason.valueOf,
+        BusinessOfferStateReason.values)
     ..a<int>(14, 'applicantsNew', PbFieldType.O3)
     ..a<int>(15, 'applicantsAccepted', PbFieldType.O3)
     ..a<int>(16, 'applicantsCompleted', PbFieldType.O3)
     ..a<int>(17, 'applicantsRefused', PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   DataBusinessOffer() : super();
-  DataBusinessOffer.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataBusinessOffer.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataBusinessOffer.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataBusinessOffer.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   DataBusinessOffer clone() => new DataBusinessOffer()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static DataBusinessOffer create() => new DataBusinessOffer();
-  static PbList<DataBusinessOffer> createRepeated() => new PbList<DataBusinessOffer>();
+  static PbList<DataBusinessOffer> createRepeated() =>
+      new PbList<DataBusinessOffer>();
   static DataBusinessOffer getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataBusinessOffer();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyDataBusinessOffer();
     return _defaultInstance;
   }
+
   static DataBusinessOffer _defaultInstance;
   static void $checkItem(DataBusinessOffer v) {
     if (v is! DataBusinessOffer) checkItemFailed(v, 'DataBusinessOffer');
   }
 
   Int64 get offerId => $_getI64(0);
-  set offerId(Int64 v) { $_setInt64(0, v); }
+  set offerId(Int64 v) {
+    $_setInt64(0, v);
+  }
+
   bool hasOfferId() => $_has(0);
   void clearOfferId() => clearField(1);
 
   int get accountId => $_get(1, 0);
-  set accountId(int v) { $_setSignedInt32(1, v); }
+  set accountId(int v) {
+    $_setSignedInt32(1, v);
+  }
+
   bool hasAccountId() => $_has(1);
   void clearAccountId() => clearField(2);
 
   int get locationId => $_get(2, 0);
-  set locationId(int v) { $_setSignedInt32(2, v); }
+  set locationId(int v) {
+    $_setSignedInt32(2, v);
+  }
+
   bool hasLocationId() => $_has(2);
   void clearLocationId() => clearField(3);
 
   String get title => $_getS(3, '');
-  set title(String v) { $_setString(3, v); }
+  set title(String v) {
+    $_setString(3, v);
+  }
+
   bool hasTitle() => $_has(3);
   void clearTitle() => clearField(4);
 
   String get description => $_getS(4, '');
-  set description(String v) { $_setString(4, v); }
+  set description(String v) {
+    $_setString(4, v);
+  }
+
   bool hasDescription() => $_has(4);
   void clearDescription() => clearField(5);
 
   String get avatarUrl => $_getS(5, '');
-  set avatarUrl(String v) { $_setString(5, v); }
+  set avatarUrl(String v) {
+    $_setString(5, v);
+  }
+
   bool hasAvatarUrl() => $_has(5);
   void clearAvatarUrl() => clearField(6);
 
   String get deliverables => $_getS(6, '');
-  set deliverables(String v) { $_setString(6, v); }
+  set deliverables(String v) {
+    $_setString(6, v);
+  }
+
   bool hasDeliverables() => $_has(6);
   void clearDeliverables() => clearField(7);
 
   String get reward => $_getS(7, '');
-  set reward(String v) { $_setString(7, v); }
+  set reward(String v) {
+    $_setString(7, v);
+  }
+
   bool hasReward() => $_has(7);
   void clearReward() => clearField(8);
 
   String get location => $_getS(8, '');
-  set location(String v) { $_setString(8, v); }
+  set location(String v) {
+    $_setString(8, v);
+  }
+
   bool hasLocation() => $_has(8);
   void clearLocation() => clearField(9);
 
@@ -704,37 +1001,56 @@ class DataBusinessOffer extends GeneratedMessage {
   List<CategoryId> get categories => $_getList(10);
 
   BusinessOfferState get state => $_getN(11);
-  set state(BusinessOfferState v) { setField(12, v); }
+  set state(BusinessOfferState v) {
+    setField(12, v);
+  }
+
   bool hasState() => $_has(11);
   void clearState() => clearField(12);
 
   BusinessOfferStateReason get stateReason => $_getN(12);
-  set stateReason(BusinessOfferStateReason v) { setField(13, v); }
+  set stateReason(BusinessOfferStateReason v) {
+    setField(13, v);
+  }
+
   bool hasStateReason() => $_has(12);
   void clearStateReason() => clearField(13);
 
   int get applicantsNew => $_get(13, 0);
-  set applicantsNew(int v) { $_setSignedInt32(13, v); }
+  set applicantsNew(int v) {
+    $_setSignedInt32(13, v);
+  }
+
   bool hasApplicantsNew() => $_has(13);
   void clearApplicantsNew() => clearField(14);
 
   int get applicantsAccepted => $_get(14, 0);
-  set applicantsAccepted(int v) { $_setSignedInt32(14, v); }
+  set applicantsAccepted(int v) {
+    $_setSignedInt32(14, v);
+  }
+
   bool hasApplicantsAccepted() => $_has(14);
   void clearApplicantsAccepted() => clearField(15);
 
   int get applicantsCompleted => $_get(15, 0);
-  set applicantsCompleted(int v) { $_setSignedInt32(15, v); }
+  set applicantsCompleted(int v) {
+    $_setSignedInt32(15, v);
+  }
+
   bool hasApplicantsCompleted() => $_has(15);
   void clearApplicantsCompleted() => clearField(16);
 
   int get applicantsRefused => $_get(16, 0);
-  set applicantsRefused(int v) { $_setSignedInt32(16, v); }
+  set applicantsRefused(int v) {
+    $_setSignedInt32(16, v);
+  }
+
   bool hasApplicantsRefused() => $_has(16);
   void clearApplicantsRefused() => clearField(17);
 }
 
-class _ReadonlyDataBusinessOffer extends DataBusinessOffer with ReadonlyMessageMixin {}
+class _ReadonlyDataBusinessOffer extends DataBusinessOffer
+    with ReadonlyMessageMixin {}
 
 class DataLocation extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataLocation')
@@ -748,72 +1064,107 @@ class DataLocation extends GeneratedMessage {
     ..aOS(9, 'postcode')
     ..aOS(10, 'regionCode')
     ..aOS(11, 'countryCode')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   DataLocation() : super();
-  DataLocation.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataLocation.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataLocation.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataLocation.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   DataLocation clone() => new DataLocation()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static DataLocation create() => new DataLocation();
   static PbList<DataLocation> createRepeated() => new PbList<DataLocation>();
   static DataLocation getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataLocation();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyDataLocation();
     return _defaultInstance;
   }
+
   static DataLocation _defaultInstance;
   static void $checkItem(DataLocation v) {
     if (v is! DataLocation) checkItemFailed(v, 'DataLocation');
   }
 
   int get locationId => $_get(0, 0);
-  set locationId(int v) { $_setSignedInt32(0, v); }
+  set locationId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
   bool hasLocationId() => $_has(0);
   void clearLocationId() => clearField(1);
 
   String get name => $_getS(1, '');
-  set name(String v) { $_setString(1, v); }
+  set name(String v) {
+    $_setString(1, v);
+  }
+
   bool hasName() => $_has(1);
   void clearName() => clearField(2);
 
   double get latitude => $_getN(2);
-  set latitude(double v) { $_setDouble(2, v); }
+  set latitude(double v) {
+    $_setDouble(2, v);
+  }
+
   bool hasLatitude() => $_has(2);
   void clearLatitude() => clearField(4);
 
   double get longitude => $_getN(3);
-  set longitude(double v) { $_setDouble(3, v); }
+  set longitude(double v) {
+    $_setDouble(3, v);
+  }
+
   bool hasLongitude() => $_has(3);
   void clearLongitude() => clearField(5);
 
   String get avatarUrl => $_getS(4, '');
-  set avatarUrl(String v) { $_setString(4, v); }
+  set avatarUrl(String v) {
+    $_setString(4, v);
+  }
+
   bool hasAvatarUrl() => $_has(4);
   void clearAvatarUrl() => clearField(6);
 
   String get approximate => $_getS(5, '');
-  set approximate(String v) { $_setString(5, v); }
+  set approximate(String v) {
+    $_setString(5, v);
+  }
+
   bool hasApproximate() => $_has(5);
   void clearApproximate() => clearField(7);
 
   String get detail => $_getS(6, '');
-  set detail(String v) { $_setString(6, v); }
+  set detail(String v) {
+    $_setString(6, v);
+  }
+
   bool hasDetail() => $_has(6);
   void clearDetail() => clearField(8);
 
   String get postcode => $_getS(7, '');
-  set postcode(String v) { $_setString(7, v); }
+  set postcode(String v) {
+    $_setString(7, v);
+  }
+
   bool hasPostcode() => $_has(7);
   void clearPostcode() => clearField(9);
 
   String get regionCode => $_getS(8, '');
-  set regionCode(String v) { $_setString(8, v); }
+  set regionCode(String v) {
+    $_setString(8, v);
+  }
+
   bool hasRegionCode() => $_has(8);
   void clearRegionCode() => clearField(10);
 
   String get countryCode => $_getS(9, '');
-  set countryCode(String v) { $_setString(9, v); }
+  set countryCode(String v) {
+    $_setString(9, v);
+  }
+
   bool hasCountryCode() => $_has(9);
   void clearCountryCode() => clearField(11);
 }
@@ -825,37 +1176,51 @@ class DataApplicant extends GeneratedMessage {
     ..aInt64(1, 'applicantId')
     ..aInt64(2, 'offerId')
     ..a<int>(3, 'accountId', PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   DataApplicant() : super();
-  DataApplicant.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataApplicant.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataApplicant.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataApplicant.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   DataApplicant clone() => new DataApplicant()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static DataApplicant create() => new DataApplicant();
   static PbList<DataApplicant> createRepeated() => new PbList<DataApplicant>();
   static DataApplicant getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataApplicant();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyDataApplicant();
     return _defaultInstance;
   }
+
   static DataApplicant _defaultInstance;
   static void $checkItem(DataApplicant v) {
     if (v is! DataApplicant) checkItemFailed(v, 'DataApplicant');
   }
 
   Int64 get applicantId => $_getI64(0);
-  set applicantId(Int64 v) { $_setInt64(0, v); }
+  set applicantId(Int64 v) {
+    $_setInt64(0, v);
+  }
+
   bool hasApplicantId() => $_has(0);
   void clearApplicantId() => clearField(1);
 
   Int64 get offerId => $_getI64(1);
-  set offerId(Int64 v) { $_setInt64(1, v); }
+  set offerId(Int64 v) {
+    $_setInt64(1, v);
+  }
+
   bool hasOfferId() => $_has(1);
   void clearOfferId() => clearField(2);
 
   int get accountId => $_get(2, 0);
-  set accountId(int v) { $_setSignedInt32(2, v); }
+  set accountId(int v) {
+    $_setSignedInt32(2, v);
+  }
+
   bool hasAccountId() => $_has(2);
   void clearAccountId() => clearField(3);
 }
@@ -869,12 +1234,14 @@ class DataChat extends GeneratedMessage {
     ..aInt64(3, 'keyId')
     ..aOB(4, 'outgoing')
     ..aOS(5, 'text')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   DataChat() : super();
-  DataChat.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataChat.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataChat.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataChat.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   DataChat clone() => new DataChat()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static DataChat create() => new DataChat();
@@ -883,33 +1250,49 @@ class DataChat extends GeneratedMessage {
     if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataChat();
     return _defaultInstance;
   }
+
   static DataChat _defaultInstance;
   static void $checkItem(DataChat v) {
     if (v is! DataChat) checkItemFailed(v, 'DataChat');
   }
 
   Int64 get applicantId => $_getI64(0);
-  set applicantId(Int64 v) { $_setInt64(0, v); }
+  set applicantId(Int64 v) {
+    $_setInt64(0, v);
+  }
+
   bool hasApplicantId() => $_has(0);
   void clearApplicantId() => clearField(1);
 
   Int64 get sequenceId => $_getI64(1);
-  set sequenceId(Int64 v) { $_setInt64(1, v); }
+  set sequenceId(Int64 v) {
+    $_setInt64(1, v);
+  }
+
   bool hasSequenceId() => $_has(1);
   void clearSequenceId() => clearField(2);
 
   Int64 get keyId => $_getI64(2);
-  set keyId(Int64 v) { $_setInt64(2, v); }
+  set keyId(Int64 v) {
+    $_setInt64(2, v);
+  }
+
   bool hasKeyId() => $_has(2);
   void clearKeyId() => clearField(3);
 
   bool get outgoing => $_get(3, false);
-  set outgoing(bool v) { $_setBool(3, v); }
+  set outgoing(bool v) {
+    $_setBool(3, v);
+  }
+
   bool hasOutgoing() => $_has(3);
   void clearOutgoing() => clearField(4);
 
   String get text => $_getS(4, '');
-  set text(String v) { $_setString(4, v); }
+  set text(String v) {
+    $_setString(4, v);
+  }
+
   bool hasText() => $_has(4);
   void clearText() => clearField(5);
 }
@@ -920,61 +1303,105 @@ class DataAccountState extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataAccountState')
     ..a<int>(1, 'deviceId', PbFieldType.O3)
     ..a<int>(2, 'accountId', PbFieldType.O3)
-    ..e<AccountType>(3, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN, AccountType.valueOf, AccountType.values)
-    ..e<GlobalAccountState>(4, 'globalAccountState', PbFieldType.OE, GlobalAccountState.GAS_INITIALIZE, GlobalAccountState.valueOf, GlobalAccountState.values)
-    ..e<GlobalAccountStateReason>(5, 'globalAccountStateReason', PbFieldType.OE, GlobalAccountStateReason.GASR_NEW_ACCOUNT, GlobalAccountStateReason.valueOf, GlobalAccountStateReason.values)
-    ..e<NotificationFlags>(6, 'notificationFlags', PbFieldType.OE, NotificationFlags.NF_ACCOUNT_STATE, NotificationFlags.valueOf, NotificationFlags.values)
-    ..hasRequiredFields = false
-  ;
+    ..e<AccountType>(3, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN,
+        AccountType.valueOf, AccountType.values)
+    ..e<GlobalAccountState>(
+        4,
+        'globalAccountState',
+        PbFieldType.OE,
+        GlobalAccountState.GAS_INITIALIZE,
+        GlobalAccountState.valueOf,
+        GlobalAccountState.values)
+    ..e<GlobalAccountStateReason>(
+        5,
+        'globalAccountStateReason',
+        PbFieldType.OE,
+        GlobalAccountStateReason.GASR_NEW_ACCOUNT,
+        GlobalAccountStateReason.valueOf,
+        GlobalAccountStateReason.values)
+    ..e<NotificationFlags>(
+        6,
+        'notificationFlags',
+        PbFieldType.OE,
+        NotificationFlags.NF_ACCOUNT_STATE,
+        NotificationFlags.valueOf,
+        NotificationFlags.values)
+    ..hasRequiredFields = false;
 
   DataAccountState() : super();
-  DataAccountState.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataAccountState.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataAccountState.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataAccountState.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   DataAccountState clone() => new DataAccountState()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static DataAccountState create() => new DataAccountState();
-  static PbList<DataAccountState> createRepeated() => new PbList<DataAccountState>();
+  static PbList<DataAccountState> createRepeated() =>
+      new PbList<DataAccountState>();
   static DataAccountState getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataAccountState();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyDataAccountState();
     return _defaultInstance;
   }
+
   static DataAccountState _defaultInstance;
   static void $checkItem(DataAccountState v) {
     if (v is! DataAccountState) checkItemFailed(v, 'DataAccountState');
   }
 
   int get deviceId => $_get(0, 0);
-  set deviceId(int v) { $_setSignedInt32(0, v); }
+  set deviceId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
   bool hasDeviceId() => $_has(0);
   void clearDeviceId() => clearField(1);
 
   int get accountId => $_get(1, 0);
-  set accountId(int v) { $_setSignedInt32(1, v); }
+  set accountId(int v) {
+    $_setSignedInt32(1, v);
+  }
+
   bool hasAccountId() => $_has(1);
   void clearAccountId() => clearField(2);
 
   AccountType get accountType => $_getN(2);
-  set accountType(AccountType v) { setField(3, v); }
+  set accountType(AccountType v) {
+    setField(3, v);
+  }
+
   bool hasAccountType() => $_has(2);
   void clearAccountType() => clearField(3);
 
   GlobalAccountState get globalAccountState => $_getN(3);
-  set globalAccountState(GlobalAccountState v) { setField(4, v); }
+  set globalAccountState(GlobalAccountState v) {
+    setField(4, v);
+  }
+
   bool hasGlobalAccountState() => $_has(3);
   void clearGlobalAccountState() => clearField(4);
 
   GlobalAccountStateReason get globalAccountStateReason => $_getN(4);
-  set globalAccountStateReason(GlobalAccountStateReason v) { setField(5, v); }
+  set globalAccountStateReason(GlobalAccountStateReason v) {
+    setField(5, v);
+  }
+
   bool hasGlobalAccountStateReason() => $_has(4);
   void clearGlobalAccountStateReason() => clearField(5);
 
   NotificationFlags get notificationFlags => $_getN(5);
-  set notificationFlags(NotificationFlags v) { setField(6, v); }
+  set notificationFlags(NotificationFlags v) {
+    setField(6, v);
+  }
+
   bool hasNotificationFlags() => $_has(5);
   void clearNotificationFlags() => clearField(6);
 }
 
-class _ReadonlyDataAccountState extends DataAccountState with ReadonlyMessageMixin {}
+class _ReadonlyDataAccountState extends DataAccountState
+    with ReadonlyMessageMixin {}
 
 class DataAccountSummary extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataAccountSummary')
@@ -982,70 +1409,98 @@ class DataAccountSummary extends GeneratedMessage {
     ..aOS(2, 'description')
     ..aOS(3, 'location')
     ..aOS(4, 'avatarThumbnailUrl')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   DataAccountSummary() : super();
-  DataAccountSummary.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataAccountSummary.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  DataAccountSummary clone() => new DataAccountSummary()..mergeFromMessage(this);
+  DataAccountSummary.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataAccountSummary.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataAccountSummary clone() =>
+      new DataAccountSummary()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static DataAccountSummary create() => new DataAccountSummary();
-  static PbList<DataAccountSummary> createRepeated() => new PbList<DataAccountSummary>();
+  static PbList<DataAccountSummary> createRepeated() =>
+      new PbList<DataAccountSummary>();
   static DataAccountSummary getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataAccountSummary();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyDataAccountSummary();
     return _defaultInstance;
   }
+
   static DataAccountSummary _defaultInstance;
   static void $checkItem(DataAccountSummary v) {
     if (v is! DataAccountSummary) checkItemFailed(v, 'DataAccountSummary');
   }
 
   String get name => $_getS(0, '');
-  set name(String v) { $_setString(0, v); }
+  set name(String v) {
+    $_setString(0, v);
+  }
+
   bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
   String get description => $_getS(1, '');
-  set description(String v) { $_setString(1, v); }
+  set description(String v) {
+    $_setString(1, v);
+  }
+
   bool hasDescription() => $_has(1);
   void clearDescription() => clearField(2);
 
   String get location => $_getS(2, '');
-  set location(String v) { $_setString(2, v); }
+  set location(String v) {
+    $_setString(2, v);
+  }
+
   bool hasLocation() => $_has(2);
   void clearLocation() => clearField(3);
 
   String get avatarThumbnailUrl => $_getS(3, '');
-  set avatarThumbnailUrl(String v) { $_setString(3, v); }
+  set avatarThumbnailUrl(String v) {
+    $_setString(3, v);
+  }
+
   bool hasAvatarThumbnailUrl() => $_has(3);
   void clearAvatarThumbnailUrl() => clearField(4);
 }
 
-class _ReadonlyDataAccountSummary extends DataAccountSummary with ReadonlyMessageMixin {}
+class _ReadonlyDataAccountSummary extends DataAccountSummary
+    with ReadonlyMessageMixin {}
 
 class DataAccountDetail extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataAccountDetail')
-    ..pp<CategoryId>(2, 'categories', PbFieldType.PM, CategoryId.$checkItem, CategoryId.create)
-    ..pp<DataSocialMedia>(3, 'socialMedia', PbFieldType.PM, DataSocialMedia.$checkItem, DataSocialMedia.create)
+    ..pp<CategoryId>(2, 'categories', PbFieldType.PM, CategoryId.$checkItem,
+        CategoryId.create)
+    ..pp<DataSocialMedia>(3, 'socialMedia', PbFieldType.PM,
+        DataSocialMedia.$checkItem, DataSocialMedia.create)
     ..a<double>(4, 'latitude', PbFieldType.OD)
     ..a<double>(5, 'longitude', PbFieldType.OD)
     ..aOS(6, 'url')
     ..aOS(7, 'avatarCoverUrl')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   DataAccountDetail() : super();
-  DataAccountDetail.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataAccountDetail.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataAccountDetail.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataAccountDetail.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   DataAccountDetail clone() => new DataAccountDetail()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static DataAccountDetail create() => new DataAccountDetail();
-  static PbList<DataAccountDetail> createRepeated() => new PbList<DataAccountDetail>();
+  static PbList<DataAccountDetail> createRepeated() =>
+      new PbList<DataAccountDetail>();
   static DataAccountDetail getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataAccountDetail();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyDataAccountDetail();
     return _defaultInstance;
   }
+
   static DataAccountDetail _defaultInstance;
   static void $checkItem(DataAccountDetail v) {
     if (v is! DataAccountDetail) checkItemFailed(v, 'DataAccountDetail');
@@ -1056,39 +1511,58 @@ class DataAccountDetail extends GeneratedMessage {
   List<DataSocialMedia> get socialMedia => $_getList(1);
 
   double get latitude => $_getN(2);
-  set latitude(double v) { $_setDouble(2, v); }
+  set latitude(double v) {
+    $_setDouble(2, v);
+  }
+
   bool hasLatitude() => $_has(2);
   void clearLatitude() => clearField(4);
 
   double get longitude => $_getN(3);
-  set longitude(double v) { $_setDouble(3, v); }
+  set longitude(double v) {
+    $_setDouble(3, v);
+  }
+
   bool hasLongitude() => $_has(3);
   void clearLongitude() => clearField(5);
 
   String get url => $_getS(4, '');
-  set url(String v) { $_setString(4, v); }
+  set url(String v) {
+    $_setString(4, v);
+  }
+
   bool hasUrl() => $_has(4);
   void clearUrl() => clearField(6);
 
   String get avatarCoverUrl => $_getS(5, '');
-  set avatarCoverUrl(String v) { $_setString(5, v); }
+  set avatarCoverUrl(String v) {
+    $_setString(5, v);
+  }
+
   bool hasAvatarCoverUrl() => $_has(5);
   void clearAvatarCoverUrl() => clearField(7);
 }
 
-class _ReadonlyDataAccountDetail extends DataAccountDetail with ReadonlyMessageMixin {}
+class _ReadonlyDataAccountDetail extends DataAccountDetail
+    with ReadonlyMessageMixin {}
 
 class DataAccount extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataAccount')
-    ..a<DataAccountState>(1, 'state', PbFieldType.OM, DataAccountState.getDefault, DataAccountState.create)
-    ..a<DataAccountSummary>(2, 'summary', PbFieldType.OM, DataAccountSummary.getDefault, DataAccountSummary.create)
-    ..a<DataAccountDetail>(3, 'detail', PbFieldType.OM, DataAccountDetail.getDefault, DataAccountDetail.create)
-    ..hasRequiredFields = false
-  ;
+    ..a<DataAccountState>(1, 'state', PbFieldType.OM,
+        DataAccountState.getDefault, DataAccountState.create)
+    ..a<DataAccountSummary>(2, 'summary', PbFieldType.OM,
+        DataAccountSummary.getDefault, DataAccountSummary.create)
+    ..a<DataAccountDetail>(3, 'detail', PbFieldType.OM,
+        DataAccountDetail.getDefault, DataAccountDetail.create)
+    ..hasRequiredFields = false;
 
   DataAccount() : super();
-  DataAccount.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DataAccount.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DataAccount.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataAccount.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   DataAccount clone() => new DataAccount()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static DataAccount create() => new DataAccount();
@@ -1097,23 +1571,33 @@ class DataAccount extends GeneratedMessage {
     if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataAccount();
     return _defaultInstance;
   }
+
   static DataAccount _defaultInstance;
   static void $checkItem(DataAccount v) {
     if (v is! DataAccount) checkItemFailed(v, 'DataAccount');
   }
 
   DataAccountState get state => $_getN(0);
-  set state(DataAccountState v) { setField(1, v); }
+  set state(DataAccountState v) {
+    setField(1, v);
+  }
+
   bool hasState() => $_has(0);
   void clearState() => clearField(1);
 
   DataAccountSummary get summary => $_getN(1);
-  set summary(DataAccountSummary v) { setField(2, v); }
+  set summary(DataAccountSummary v) {
+    setField(2, v);
+  }
+
   bool hasSummary() => $_has(1);
   void clearSummary() => clearField(2);
 
   DataAccountDetail get detail => $_getN(2);
-  set detail(DataAccountDetail v) { setField(3, v); }
+  set detail(DataAccountDetail v) {
+    setField(3, v);
+  }
+
   bool hasDetail() => $_has(2);
   void clearDetail() => clearField(3);
 }
@@ -1126,465 +1610,646 @@ class NetDeviceAuthCreateReq extends GeneratedMessage {
     ..aOS(2, 'name')
     ..aOS(3, 'info')
     ..a<List<int>>(4, 'commonDeviceId', PbFieldType.OY)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   NetDeviceAuthCreateReq() : super();
-  NetDeviceAuthCreateReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetDeviceAuthCreateReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NetDeviceAuthCreateReq clone() => new NetDeviceAuthCreateReq()..mergeFromMessage(this);
+  NetDeviceAuthCreateReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetDeviceAuthCreateReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetDeviceAuthCreateReq clone() =>
+      new NetDeviceAuthCreateReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetDeviceAuthCreateReq create() => new NetDeviceAuthCreateReq();
-  static PbList<NetDeviceAuthCreateReq> createRepeated() => new PbList<NetDeviceAuthCreateReq>();
+  static PbList<NetDeviceAuthCreateReq> createRepeated() =>
+      new PbList<NetDeviceAuthCreateReq>();
   static NetDeviceAuthCreateReq getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetDeviceAuthCreateReq();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetDeviceAuthCreateReq();
     return _defaultInstance;
   }
+
   static NetDeviceAuthCreateReq _defaultInstance;
   static void $checkItem(NetDeviceAuthCreateReq v) {
-    if (v is! NetDeviceAuthCreateReq) checkItemFailed(v, 'NetDeviceAuthCreateReq');
+    if (v is! NetDeviceAuthCreateReq)
+      checkItemFailed(v, 'NetDeviceAuthCreateReq');
   }
 
   List<int> get aesKey => $_getN(0);
-  set aesKey(List<int> v) { $_setBytes(0, v); }
+  set aesKey(List<int> v) {
+    $_setBytes(0, v);
+  }
+
   bool hasAesKey() => $_has(0);
   void clearAesKey() => clearField(1);
 
   String get name => $_getS(1, '');
-  set name(String v) { $_setString(1, v); }
+  set name(String v) {
+    $_setString(1, v);
+  }
+
   bool hasName() => $_has(1);
   void clearName() => clearField(2);
 
   String get info => $_getS(2, '');
-  set info(String v) { $_setString(2, v); }
+  set info(String v) {
+    $_setString(2, v);
+  }
+
   bool hasInfo() => $_has(2);
   void clearInfo() => clearField(3);
 
   List<int> get commonDeviceId => $_getN(3);
-  set commonDeviceId(List<int> v) { $_setBytes(3, v); }
+  set commonDeviceId(List<int> v) {
+    $_setBytes(3, v);
+  }
+
   bool hasCommonDeviceId() => $_has(3);
   void clearCommonDeviceId() => clearField(4);
 }
 
-class _ReadonlyNetDeviceAuthCreateReq extends NetDeviceAuthCreateReq with ReadonlyMessageMixin {}
+class _ReadonlyNetDeviceAuthCreateReq extends NetDeviceAuthCreateReq
+    with ReadonlyMessageMixin {}
 
 class NetDeviceAuthChallengeReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthChallengeReq')
     ..a<int>(1, 'deviceId', PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   NetDeviceAuthChallengeReq() : super();
-  NetDeviceAuthChallengeReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetDeviceAuthChallengeReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NetDeviceAuthChallengeReq clone() => new NetDeviceAuthChallengeReq()..mergeFromMessage(this);
+  NetDeviceAuthChallengeReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetDeviceAuthChallengeReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetDeviceAuthChallengeReq clone() =>
+      new NetDeviceAuthChallengeReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetDeviceAuthChallengeReq create() => new NetDeviceAuthChallengeReq();
-  static PbList<NetDeviceAuthChallengeReq> createRepeated() => new PbList<NetDeviceAuthChallengeReq>();
+  static PbList<NetDeviceAuthChallengeReq> createRepeated() =>
+      new PbList<NetDeviceAuthChallengeReq>();
   static NetDeviceAuthChallengeReq getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetDeviceAuthChallengeReq();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetDeviceAuthChallengeReq();
     return _defaultInstance;
   }
+
   static NetDeviceAuthChallengeReq _defaultInstance;
   static void $checkItem(NetDeviceAuthChallengeReq v) {
-    if (v is! NetDeviceAuthChallengeReq) checkItemFailed(v, 'NetDeviceAuthChallengeReq');
+    if (v is! NetDeviceAuthChallengeReq)
+      checkItemFailed(v, 'NetDeviceAuthChallengeReq');
   }
 
   int get deviceId => $_get(0, 0);
-  set deviceId(int v) { $_setSignedInt32(0, v); }
+  set deviceId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
   bool hasDeviceId() => $_has(0);
   void clearDeviceId() => clearField(1);
 }
 
-class _ReadonlyNetDeviceAuthChallengeReq extends NetDeviceAuthChallengeReq with ReadonlyMessageMixin {}
+class _ReadonlyNetDeviceAuthChallengeReq extends NetDeviceAuthChallengeReq
+    with ReadonlyMessageMixin {}
 
 class NetDeviceAuthChallengeResReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthChallengeResReq')
     ..a<List<int>>(1, 'challenge', PbFieldType.OY)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   NetDeviceAuthChallengeResReq() : super();
-  NetDeviceAuthChallengeResReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetDeviceAuthChallengeResReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NetDeviceAuthChallengeResReq clone() => new NetDeviceAuthChallengeResReq()..mergeFromMessage(this);
+  NetDeviceAuthChallengeResReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetDeviceAuthChallengeResReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetDeviceAuthChallengeResReq clone() =>
+      new NetDeviceAuthChallengeResReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetDeviceAuthChallengeResReq create() => new NetDeviceAuthChallengeResReq();
-  static PbList<NetDeviceAuthChallengeResReq> createRepeated() => new PbList<NetDeviceAuthChallengeResReq>();
+  static NetDeviceAuthChallengeResReq create() =>
+      new NetDeviceAuthChallengeResReq();
+  static PbList<NetDeviceAuthChallengeResReq> createRepeated() =>
+      new PbList<NetDeviceAuthChallengeResReq>();
   static NetDeviceAuthChallengeResReq getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetDeviceAuthChallengeResReq();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetDeviceAuthChallengeResReq();
     return _defaultInstance;
   }
+
   static NetDeviceAuthChallengeResReq _defaultInstance;
   static void $checkItem(NetDeviceAuthChallengeResReq v) {
-    if (v is! NetDeviceAuthChallengeResReq) checkItemFailed(v, 'NetDeviceAuthChallengeResReq');
+    if (v is! NetDeviceAuthChallengeResReq)
+      checkItemFailed(v, 'NetDeviceAuthChallengeResReq');
   }
 
   List<int> get challenge => $_getN(0);
-  set challenge(List<int> v) { $_setBytes(0, v); }
+  set challenge(List<int> v) {
+    $_setBytes(0, v);
+  }
+
   bool hasChallenge() => $_has(0);
   void clearChallenge() => clearField(1);
 }
 
-class _ReadonlyNetDeviceAuthChallengeResReq extends NetDeviceAuthChallengeResReq with ReadonlyMessageMixin {}
+class _ReadonlyNetDeviceAuthChallengeResReq extends NetDeviceAuthChallengeResReq
+    with ReadonlyMessageMixin {}
 
 class NetDeviceAuthSignatureResReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthSignatureResReq')
     ..a<List<int>>(1, 'signature', PbFieldType.OY)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   NetDeviceAuthSignatureResReq() : super();
-  NetDeviceAuthSignatureResReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetDeviceAuthSignatureResReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NetDeviceAuthSignatureResReq clone() => new NetDeviceAuthSignatureResReq()..mergeFromMessage(this);
+  NetDeviceAuthSignatureResReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetDeviceAuthSignatureResReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetDeviceAuthSignatureResReq clone() =>
+      new NetDeviceAuthSignatureResReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetDeviceAuthSignatureResReq create() => new NetDeviceAuthSignatureResReq();
-  static PbList<NetDeviceAuthSignatureResReq> createRepeated() => new PbList<NetDeviceAuthSignatureResReq>();
+  static NetDeviceAuthSignatureResReq create() =>
+      new NetDeviceAuthSignatureResReq();
+  static PbList<NetDeviceAuthSignatureResReq> createRepeated() =>
+      new PbList<NetDeviceAuthSignatureResReq>();
   static NetDeviceAuthSignatureResReq getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetDeviceAuthSignatureResReq();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetDeviceAuthSignatureResReq();
     return _defaultInstance;
   }
+
   static NetDeviceAuthSignatureResReq _defaultInstance;
   static void $checkItem(NetDeviceAuthSignatureResReq v) {
-    if (v is! NetDeviceAuthSignatureResReq) checkItemFailed(v, 'NetDeviceAuthSignatureResReq');
+    if (v is! NetDeviceAuthSignatureResReq)
+      checkItemFailed(v, 'NetDeviceAuthSignatureResReq');
   }
 
   List<int> get signature => $_getN(0);
-  set signature(List<int> v) { $_setBytes(0, v); }
+  set signature(List<int> v) {
+    $_setBytes(0, v);
+  }
+
   bool hasSignature() => $_has(0);
   void clearSignature() => clearField(1);
 }
 
-class _ReadonlyNetDeviceAuthSignatureResReq extends NetDeviceAuthSignatureResReq with ReadonlyMessageMixin {}
+class _ReadonlyNetDeviceAuthSignatureResReq extends NetDeviceAuthSignatureResReq
+    with ReadonlyMessageMixin {}
 
 class NetDeviceAuthState extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthState')
-    ..a<DataAccount>(8, 'data', PbFieldType.OM, DataAccount.getDefault, DataAccount.create)
-    ..hasRequiredFields = false
-  ;
+    ..a<DataAccount>(
+        8, 'data', PbFieldType.OM, DataAccount.getDefault, DataAccount.create)
+    ..hasRequiredFields = false;
 
   NetDeviceAuthState() : super();
-  NetDeviceAuthState.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetDeviceAuthState.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NetDeviceAuthState clone() => new NetDeviceAuthState()..mergeFromMessage(this);
+  NetDeviceAuthState.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetDeviceAuthState.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetDeviceAuthState clone() =>
+      new NetDeviceAuthState()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetDeviceAuthState create() => new NetDeviceAuthState();
-  static PbList<NetDeviceAuthState> createRepeated() => new PbList<NetDeviceAuthState>();
+  static PbList<NetDeviceAuthState> createRepeated() =>
+      new PbList<NetDeviceAuthState>();
   static NetDeviceAuthState getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetDeviceAuthState();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetDeviceAuthState();
     return _defaultInstance;
   }
+
   static NetDeviceAuthState _defaultInstance;
   static void $checkItem(NetDeviceAuthState v) {
     if (v is! NetDeviceAuthState) checkItemFailed(v, 'NetDeviceAuthState');
   }
 
   DataAccount get data => $_getN(0);
-  set data(DataAccount v) { setField(8, v); }
+  set data(DataAccount v) {
+    setField(8, v);
+  }
+
   bool hasData() => $_has(0);
   void clearData() => clearField(8);
 }
 
-class _ReadonlyNetDeviceAuthState extends NetDeviceAuthState with ReadonlyMessageMixin {}
+class _ReadonlyNetDeviceAuthState extends NetDeviceAuthState
+    with ReadonlyMessageMixin {}
 
 class NetSetAccountType extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetSetAccountType')
-    ..e<AccountType>(1, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN, AccountType.valueOf, AccountType.values)
-    ..hasRequiredFields = false
-  ;
+    ..e<AccountType>(1, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN,
+        AccountType.valueOf, AccountType.values)
+    ..hasRequiredFields = false;
 
   NetSetAccountType() : super();
-  NetSetAccountType.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetSetAccountType.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetSetAccountType.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetSetAccountType.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   NetSetAccountType clone() => new NetSetAccountType()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetSetAccountType create() => new NetSetAccountType();
-  static PbList<NetSetAccountType> createRepeated() => new PbList<NetSetAccountType>();
+  static PbList<NetSetAccountType> createRepeated() =>
+      new PbList<NetSetAccountType>();
   static NetSetAccountType getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetSetAccountType();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetSetAccountType();
     return _defaultInstance;
   }
+
   static NetSetAccountType _defaultInstance;
   static void $checkItem(NetSetAccountType v) {
     if (v is! NetSetAccountType) checkItemFailed(v, 'NetSetAccountType');
   }
 
   AccountType get accountType => $_getN(0);
-  set accountType(AccountType v) { setField(1, v); }
+  set accountType(AccountType v) {
+    setField(1, v);
+  }
+
   bool hasAccountType() => $_has(0);
   void clearAccountType() => clearField(1);
 }
 
-class _ReadonlyNetSetAccountType extends NetSetAccountType with ReadonlyMessageMixin {}
+class _ReadonlyNetSetAccountType extends NetSetAccountType
+    with ReadonlyMessageMixin {}
 
 class NetOAuthUrlReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetOAuthUrlReq')
     ..a<int>(1, 'oauthProvider', PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   NetOAuthUrlReq() : super();
-  NetOAuthUrlReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetOAuthUrlReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetOAuthUrlReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetOAuthUrlReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   NetOAuthUrlReq clone() => new NetOAuthUrlReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetOAuthUrlReq create() => new NetOAuthUrlReq();
-  static PbList<NetOAuthUrlReq> createRepeated() => new PbList<NetOAuthUrlReq>();
+  static PbList<NetOAuthUrlReq> createRepeated() =>
+      new PbList<NetOAuthUrlReq>();
   static NetOAuthUrlReq getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetOAuthUrlReq();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetOAuthUrlReq();
     return _defaultInstance;
   }
+
   static NetOAuthUrlReq _defaultInstance;
   static void $checkItem(NetOAuthUrlReq v) {
     if (v is! NetOAuthUrlReq) checkItemFailed(v, 'NetOAuthUrlReq');
   }
 
   int get oauthProvider => $_get(0, 0);
-  set oauthProvider(int v) { $_setSignedInt32(0, v); }
+  set oauthProvider(int v) {
+    $_setSignedInt32(0, v);
+  }
+
   bool hasOauthProvider() => $_has(0);
   void clearOauthProvider() => clearField(1);
 }
 
-class _ReadonlyNetOAuthUrlReq extends NetOAuthUrlReq with ReadonlyMessageMixin {}
+class _ReadonlyNetOAuthUrlReq extends NetOAuthUrlReq with ReadonlyMessageMixin {
+}
 
 class NetOAuthUrlRes extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetOAuthUrlRes')
     ..aOS(1, 'authUrl')
     ..aOS(2, 'callbackUrl')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   NetOAuthUrlRes() : super();
-  NetOAuthUrlRes.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetOAuthUrlRes.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetOAuthUrlRes.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetOAuthUrlRes.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   NetOAuthUrlRes clone() => new NetOAuthUrlRes()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetOAuthUrlRes create() => new NetOAuthUrlRes();
-  static PbList<NetOAuthUrlRes> createRepeated() => new PbList<NetOAuthUrlRes>();
+  static PbList<NetOAuthUrlRes> createRepeated() =>
+      new PbList<NetOAuthUrlRes>();
   static NetOAuthUrlRes getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetOAuthUrlRes();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetOAuthUrlRes();
     return _defaultInstance;
   }
+
   static NetOAuthUrlRes _defaultInstance;
   static void $checkItem(NetOAuthUrlRes v) {
     if (v is! NetOAuthUrlRes) checkItemFailed(v, 'NetOAuthUrlRes');
   }
 
   String get authUrl => $_getS(0, '');
-  set authUrl(String v) { $_setString(0, v); }
+  set authUrl(String v) {
+    $_setString(0, v);
+  }
+
   bool hasAuthUrl() => $_has(0);
   void clearAuthUrl() => clearField(1);
 
   String get callbackUrl => $_getS(1, '');
-  set callbackUrl(String v) { $_setString(1, v); }
+  set callbackUrl(String v) {
+    $_setString(1, v);
+  }
+
   bool hasCallbackUrl() => $_has(1);
   void clearCallbackUrl() => clearField(2);
 }
 
-class _ReadonlyNetOAuthUrlRes extends NetOAuthUrlRes with ReadonlyMessageMixin {}
+class _ReadonlyNetOAuthUrlRes extends NetOAuthUrlRes with ReadonlyMessageMixin {
+}
 
 class NetOAuthConnectReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetOAuthConnectReq')
     ..a<int>(1, 'oauthProvider', PbFieldType.O3)
     ..aOS(2, 'callbackQuery')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   NetOAuthConnectReq() : super();
-  NetOAuthConnectReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetOAuthConnectReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NetOAuthConnectReq clone() => new NetOAuthConnectReq()..mergeFromMessage(this);
+  NetOAuthConnectReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetOAuthConnectReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetOAuthConnectReq clone() =>
+      new NetOAuthConnectReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetOAuthConnectReq create() => new NetOAuthConnectReq();
-  static PbList<NetOAuthConnectReq> createRepeated() => new PbList<NetOAuthConnectReq>();
+  static PbList<NetOAuthConnectReq> createRepeated() =>
+      new PbList<NetOAuthConnectReq>();
   static NetOAuthConnectReq getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetOAuthConnectReq();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetOAuthConnectReq();
     return _defaultInstance;
   }
+
   static NetOAuthConnectReq _defaultInstance;
   static void $checkItem(NetOAuthConnectReq v) {
     if (v is! NetOAuthConnectReq) checkItemFailed(v, 'NetOAuthConnectReq');
   }
 
   int get oauthProvider => $_get(0, 0);
-  set oauthProvider(int v) { $_setSignedInt32(0, v); }
+  set oauthProvider(int v) {
+    $_setSignedInt32(0, v);
+  }
+
   bool hasOauthProvider() => $_has(0);
   void clearOauthProvider() => clearField(1);
 
   String get callbackQuery => $_getS(1, '');
-  set callbackQuery(String v) { $_setString(1, v); }
+  set callbackQuery(String v) {
+    $_setString(1, v);
+  }
+
   bool hasCallbackQuery() => $_has(1);
   void clearCallbackQuery() => clearField(2);
 }
 
-class _ReadonlyNetOAuthConnectReq extends NetOAuthConnectReq with ReadonlyMessageMixin {}
+class _ReadonlyNetOAuthConnectReq extends NetOAuthConnectReq
+    with ReadonlyMessageMixin {}
 
 class NetOAuthConnectRes extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetOAuthConnectRes')
-    ..a<DataSocialMedia>(1, 'socialMedia', PbFieldType.OM, DataSocialMedia.getDefault, DataSocialMedia.create)
-    ..hasRequiredFields = false
-  ;
+    ..a<DataSocialMedia>(1, 'socialMedia', PbFieldType.OM,
+        DataSocialMedia.getDefault, DataSocialMedia.create)
+    ..hasRequiredFields = false;
 
   NetOAuthConnectRes() : super();
-  NetOAuthConnectRes.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetOAuthConnectRes.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NetOAuthConnectRes clone() => new NetOAuthConnectRes()..mergeFromMessage(this);
+  NetOAuthConnectRes.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetOAuthConnectRes.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetOAuthConnectRes clone() =>
+      new NetOAuthConnectRes()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetOAuthConnectRes create() => new NetOAuthConnectRes();
-  static PbList<NetOAuthConnectRes> createRepeated() => new PbList<NetOAuthConnectRes>();
+  static PbList<NetOAuthConnectRes> createRepeated() =>
+      new PbList<NetOAuthConnectRes>();
   static NetOAuthConnectRes getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetOAuthConnectRes();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetOAuthConnectRes();
     return _defaultInstance;
   }
+
   static NetOAuthConnectRes _defaultInstance;
   static void $checkItem(NetOAuthConnectRes v) {
     if (v is! NetOAuthConnectRes) checkItemFailed(v, 'NetOAuthConnectRes');
   }
 
   DataSocialMedia get socialMedia => $_getN(0);
-  set socialMedia(DataSocialMedia v) { setField(1, v); }
+  set socialMedia(DataSocialMedia v) {
+    setField(1, v);
+  }
+
   bool hasSocialMedia() => $_has(0);
   void clearSocialMedia() => clearField(1);
 }
 
-class _ReadonlyNetOAuthConnectRes extends NetOAuthConnectRes with ReadonlyMessageMixin {}
+class _ReadonlyNetOAuthConnectRes extends NetOAuthConnectRes
+    with ReadonlyMessageMixin {}
 
 class NetAccountCreateReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetAccountCreateReq')
     ..a<double>(2, 'latitude', PbFieldType.OD)
     ..a<double>(3, 'longitude', PbFieldType.OD)
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   NetAccountCreateReq() : super();
-  NetAccountCreateReq.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetAccountCreateReq.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NetAccountCreateReq clone() => new NetAccountCreateReq()..mergeFromMessage(this);
+  NetAccountCreateReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetAccountCreateReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetAccountCreateReq clone() =>
+      new NetAccountCreateReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetAccountCreateReq create() => new NetAccountCreateReq();
-  static PbList<NetAccountCreateReq> createRepeated() => new PbList<NetAccountCreateReq>();
+  static PbList<NetAccountCreateReq> createRepeated() =>
+      new PbList<NetAccountCreateReq>();
   static NetAccountCreateReq getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetAccountCreateReq();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetAccountCreateReq();
     return _defaultInstance;
   }
+
   static NetAccountCreateReq _defaultInstance;
   static void $checkItem(NetAccountCreateReq v) {
     if (v is! NetAccountCreateReq) checkItemFailed(v, 'NetAccountCreateReq');
   }
 
   double get latitude => $_getN(0);
-  set latitude(double v) { $_setDouble(0, v); }
+  set latitude(double v) {
+    $_setDouble(0, v);
+  }
+
   bool hasLatitude() => $_has(0);
   void clearLatitude() => clearField(2);
 
   double get longitude => $_getN(1);
-  set longitude(double v) { $_setDouble(1, v); }
+  set longitude(double v) {
+    $_setDouble(1, v);
+  }
+
   bool hasLongitude() => $_has(1);
   void clearLongitude() => clearField(3);
 }
 
-class _ReadonlyNetAccountCreateReq extends NetAccountCreateReq with ReadonlyMessageMixin {}
+class _ReadonlyNetAccountCreateReq extends NetAccountCreateReq
+    with ReadonlyMessageMixin {}
 
 class NetReqImageUpload extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetReqImageUpload')
     ..aOS(1, 'fileName')
     ..a<int>(2, 'fileSize', PbFieldType.O3)
     ..aOS(3, 'sha256')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   NetReqImageUpload() : super();
-  NetReqImageUpload.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetReqImageUpload.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetReqImageUpload.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetReqImageUpload.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   NetReqImageUpload clone() => new NetReqImageUpload()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetReqImageUpload create() => new NetReqImageUpload();
-  static PbList<NetReqImageUpload> createRepeated() => new PbList<NetReqImageUpload>();
+  static PbList<NetReqImageUpload> createRepeated() =>
+      new PbList<NetReqImageUpload>();
   static NetReqImageUpload getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetReqImageUpload();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetReqImageUpload();
     return _defaultInstance;
   }
+
   static NetReqImageUpload _defaultInstance;
   static void $checkItem(NetReqImageUpload v) {
     if (v is! NetReqImageUpload) checkItemFailed(v, 'NetReqImageUpload');
   }
 
   String get fileName => $_getS(0, '');
-  set fileName(String v) { $_setString(0, v); }
+  set fileName(String v) {
+    $_setString(0, v);
+  }
+
   bool hasFileName() => $_has(0);
   void clearFileName() => clearField(1);
 
   int get fileSize => $_get(1, 0);
-  set fileSize(int v) { $_setSignedInt32(1, v); }
+  set fileSize(int v) {
+    $_setSignedInt32(1, v);
+  }
+
   bool hasFileSize() => $_has(1);
   void clearFileSize() => clearField(2);
 
   String get sha256 => $_getS(2, '');
-  set sha256(String v) { $_setString(2, v); }
+  set sha256(String v) {
+    $_setString(2, v);
+  }
+
   bool hasSha256() => $_has(2);
   void clearSha256() => clearField(3);
 }
 
-class _ReadonlyNetReqImageUpload extends NetReqImageUpload with ReadonlyMessageMixin {}
+class _ReadonlyNetReqImageUpload extends NetReqImageUpload
+    with ReadonlyMessageMixin {}
 
 class NetReqCreateOffer extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetReqCreateOffer')
-    ..a<DataBusinessOffer>(1, 'offer', PbFieldType.OM, DataBusinessOffer.getDefault, DataBusinessOffer.create)
-    ..hasRequiredFields = false
-  ;
+    ..a<DataBusinessOffer>(1, 'offer', PbFieldType.OM,
+        DataBusinessOffer.getDefault, DataBusinessOffer.create)
+    ..hasRequiredFields = false;
 
   NetReqCreateOffer() : super();
-  NetReqCreateOffer.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetReqCreateOffer.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetReqCreateOffer.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetReqCreateOffer.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   NetReqCreateOffer clone() => new NetReqCreateOffer()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetReqCreateOffer create() => new NetReqCreateOffer();
-  static PbList<NetReqCreateOffer> createRepeated() => new PbList<NetReqCreateOffer>();
+  static PbList<NetReqCreateOffer> createRepeated() =>
+      new PbList<NetReqCreateOffer>();
   static NetReqCreateOffer getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetReqCreateOffer();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetReqCreateOffer();
     return _defaultInstance;
   }
+
   static NetReqCreateOffer _defaultInstance;
   static void $checkItem(NetReqCreateOffer v) {
     if (v is! NetReqCreateOffer) checkItemFailed(v, 'NetReqCreateOffer');
   }
 
   DataBusinessOffer get offer => $_getN(0);
-  set offer(DataBusinessOffer v) { setField(1, v); }
+  set offer(DataBusinessOffer v) {
+    setField(1, v);
+  }
+
   bool hasOffer() => $_has(0);
   void clearOffer() => clearField(1);
 }
 
-class _ReadonlyNetReqCreateOffer extends NetReqCreateOffer with ReadonlyMessageMixin {}
+class _ReadonlyNetReqCreateOffer extends NetReqCreateOffer
+    with ReadonlyMessageMixin {}
 
 class NetResCreateOffer extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetResCreateOffer')
     ..aInt64(1, 'id')
-    ..hasRequiredFields = false
-  ;
+    ..hasRequiredFields = false;
 
   NetResCreateOffer() : super();
-  NetResCreateOffer.fromBuffer(List<int> i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NetResCreateOffer.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  NetResCreateOffer.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetResCreateOffer.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
   NetResCreateOffer clone() => new NetResCreateOffer()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
   static NetResCreateOffer create() => new NetResCreateOffer();
-  static PbList<NetResCreateOffer> createRepeated() => new PbList<NetResCreateOffer>();
+  static PbList<NetResCreateOffer> createRepeated() =>
+      new PbList<NetResCreateOffer>();
   static NetResCreateOffer getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyNetResCreateOffer();
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetResCreateOffer();
     return _defaultInstance;
   }
+
   static NetResCreateOffer _defaultInstance;
   static void $checkItem(NetResCreateOffer v) {
     if (v is! NetResCreateOffer) checkItemFailed(v, 'NetResCreateOffer');
   }
 
   Int64 get id => $_getI64(0);
-  set id(Int64 v) { $_setInt64(0, v); }
+  set id(Int64 v) {
+    $_setInt64(0, v);
+  }
+
   bool hasId() => $_has(0);
   void clearId() => clearField(1);
 }
 
-class _ReadonlyNetResCreateOffer extends NetResCreateOffer with ReadonlyMessageMixin {}
-
+class _ReadonlyNetResCreateOffer extends NetResCreateOffer
+    with ReadonlyMessageMixin {}
