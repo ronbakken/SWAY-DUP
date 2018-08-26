@@ -60,7 +60,7 @@ class OnboardingSocial extends StatelessWidget {
                   : FontAwesomeIcons.signInAlt),
             ]);
         Widget w = new Container(
-          margin: new EdgeInsets.all(8.0),
+          margin: new EdgeInsets.symmetric(horizontal: 8.0),
           child: (oauthState[i].connected
               ? new FlatButton(
                   // shape: new StadiumBorder(),

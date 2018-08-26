@@ -56,7 +56,7 @@ class OnboardingSelection extends StatelessWidget {
             new Column(
               children: [
                 new Container(
-                    margin: new EdgeInsets.all(8.0),
+                    margin: new EdgeInsets.symmetric(horizontal: 8.0),
                     child: new RaisedButton(
                       // shape: new StadiumBorder(),
                       child: new Row(
@@ -67,7 +67,7 @@ class OnboardingSelection extends StatelessWidget {
                       onPressed: onInfluencer,
                     )),
                 new Container(
-                    margin: new EdgeInsets.all(8.0),
+                    margin: new EdgeInsets.symmetric(horizontal: 8.0),
                     child: new RaisedButton(
                       // shape: new StadiumBorder(),
                       child: new Row(
