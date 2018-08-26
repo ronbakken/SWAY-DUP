@@ -157,6 +157,7 @@ enum AccountType {
   AT_UNKNOWN = 0;
   AT_INFLUENCER = 1;
   AT_BUSINESS = 2;
+  AT_SUPPORT = 3;
   
 }
 
@@ -167,9 +168,10 @@ enum GlobalAccountState {
   GAS_BLOCKED = 1;
   GAS_READ_ONLY = 2;
   GAS_READ_WRITE = 3;
-  GAS_MODERATOR = 4;
-  GAS_ADMIN = 5;
-  GAS_GOD = 6;
+  GAS_DEBUG = 4;
+  GAS_SUPPORT = 5;
+  GAS_MANAGER = 6;
+  GAS_GOD = 7;
   
 }
 
