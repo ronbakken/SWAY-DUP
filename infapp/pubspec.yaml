@@ -8,13 +8,14 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.0
-  font_awesome_flutter: ^6.0.0
+  font_awesome_flutter: ^8.0.0
 
   protobuf: ^0.9.0+1
 
-  circle_indicator: ^0.0.7
+  circle_indicator:
+    git: git@github.com:nbspou/circle_indicator.git
 
-  flutter_webview_plugin: 0.1.5
+  flutter_webview_plugin: ^0.2.1+2
   http: ^0.11.3+13
 
   # Device info, used during device registration
@@ -31,7 +32,7 @@ dependencies:
   wstalk:
     path: ../wstalk/
 
-  dospace: ^0.9.5
+  # dospace: ^0.9.5
   geolocator: ^1.4.0
   url_launcher: ^3.0.3
   
@@ -43,7 +44,8 @@ dependencies:
   #   sdk: flutter
   
 # Search bar
-  flutter_search_bar: "^2.0.2"
+  ## bad pubspec.yaml
+  # flutter_search_bar: "^2.0.2"
 
   # rxdart: "^0.16.5"
 # For information on the generic Dart part of this file, see the

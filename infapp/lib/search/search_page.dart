@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_search_bar/flutter_search_bar.dart';
+// import 'package:flutter_search_bar/flutter_search_bar.dart';
 // import 'package:rxdart/rxdart.dart';
 import '../network/inf.pb.dart';
 import 'search_item.dart';
@@ -24,7 +24,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchPageState extends State<SearchScreen> {
   // The Search bar that will be shown on the appbar
-  SearchBar searchBar;
+  // SearchBar searchBar;
 
   // Search is in progress (awaiting network results)
   bool searchInProgress = false;
@@ -48,12 +48,12 @@ class _SearchPageState extends State<SearchScreen> {
     textController.text = widget.initialSearchQuery;
 
     // Initialize Tne Search Barasad
-    searchBar = new SearchBar(
+    /*searchBar = new SearchBar(
       controller: textController,
       setState: setState,
       buildDefaultAppBar: _buildAppBar,
       // onSubmitted: _beginSearch
-    );
+    );*/
 
     // We want to Start the search as soon as the user
     // is typing. The search results will update based
@@ -150,7 +150,7 @@ class _SearchPageState extends State<SearchScreen> {
     return new Scaffold(
         // We want the appbar to change to a
         // search field whenever we press the Search Icon
-        appBar: searchBar.build(context),
+        //appBar: searchBar.build(context),
         bottomNavigationBar: searchInProgress
             ? new Text("Search in progress '$lastSearchQuery'...")
             : null, // TODO: For testing purpose. Make it nice
@@ -165,6 +165,7 @@ class _SearchPageState extends State<SearchScreen> {
   AppBar _buildAppBar(BuildContext context) {
     return new AppBar(
         title: new Text('Search Profile'),
-        actions: [searchBar.getSearchAction(context)]);
+        //actions: [searchBar.getSearchAction(context)]
+        );
   }
 }
