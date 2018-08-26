@@ -114,23 +114,24 @@ namespace InfX {
             "T2ZmZXISCgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05P",
             "TkUQABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRo",
             "UHJvdmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAK",
-            "DE9BUF9GQUNFQk9PSxACKkEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04Q",
-            "ABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAiqPAQoSR2xv",
-            "YmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFMSVpFEAASDwoLR0FTX0JM",
-            "T0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoOR0FTX1JFQURfV1JJVEUQ",
-            "AxIRCg1HQVNfTU9ERVJBVE9SEAQSDQoJR0FTX0FETUlOEAUSCwoHR0FTX0dP",
-            "RBAGKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdf",
-            "QUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NS",
-            "RUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1P",
-            "X0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJF",
-            "X0lORk8QBipuChFOb3RpZmljYXRpb25GbGFncxIUChBORl9BQ0NPVU5UX1NU",
-            "QVRFEAASGAoUTkZfTUFLRV9BTl9PRkZFUl9GQUIQARIWChJORl9VTlJFQURf",
-            "TUVTU0FHRVMQAhIRCg1ORl9DU19SRVFVRVNUEAMqUQoSQnVzaW5lc3NPZmZl",
-            "clN0YXRlEg0KCUJPU19EUkFGVBAAEgwKCEJPU19PUEVOEAESDgoKQk9TX0FD",
-            "VElWRRACEg4KCkJPU19DTE9TRUQQAypwChhCdXNpbmVzc09mZmVyU3RhdGVS",
-            "ZWFzb24SEgoOQk9TUl9ORVdfT0ZGRVIQABIUChBCT1NSX1VTRVJfQ0xPU0VE",
-            "EAESFgoSQk9TUl9UT1NfVklPTEFUSU9OEAISEgoOQk9TUl9DT01QTEVURUQQ",
-            "A0IHqgIESW5mWGIGcHJvdG8z"));
+            "DE9BUF9GQUNFQk9PSxACKlEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04Q",
+            "ABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAhIOCgpBVF9T",
+            "VVBQT1JUEAMqngEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5HQVNfSU5JVElB",
+            "TElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURfT05MWRACEhIK",
+            "DkdBU19SRUFEX1dSSVRFEAMSDQoJR0FTX0RFQlVHEAQSDwoLR0FTX1NVUFBP",
+            "UlQQBRIPCgtHQVNfTUFOQUdFUhAGEgsKB0dBU19HT0QQByq1AQoYR2xvYmFs",
+            "QWNjb3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNH",
+            "QVNSX0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAIS",
+            "EQoNR0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAK",
+            "DEdBU1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90",
+            "aWZpY2F0aW9uRmxhZ3MSFAoQTkZfQUNDT1VOVF9TVEFURRAAEhgKFE5GX01B",
+            "S0VfQU5fT0ZGRVJfRkFCEAESFgoSTkZfVU5SRUFEX01FU1NBR0VTEAISEQoN",
+            "TkZfQ1NfUkVRVUVTVBADKlEKEkJ1c2luZXNzT2ZmZXJTdGF0ZRINCglCT1Nf",
+            "RFJBRlQQABIMCghCT1NfT1BFThABEg4KCkJPU19BQ1RJVkUQAhIOCgpCT1Nf",
+            "Q0xPU0VEEAMqcAoYQnVzaW5lc3NPZmZlclN0YXRlUmVhc29uEhIKDkJPU1Jf",
+            "TkVXX09GRkVSEAASFAoQQk9TUl9VU0VSX0NMT1NFRBABEhYKEkJPU1JfVE9T",
+            "X1ZJT0xBVElPThACEhIKDkJPU1JfQ09NUExFVEVEEANCB6oCBEluZlhiBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -196,6 +197,7 @@ namespace InfX {
     [pbr::OriginalName("AT_UNKNOWN")] AtUnknown = 0,
     [pbr::OriginalName("AT_INFLUENCER")] AtInfluencer = 1,
     [pbr::OriginalName("AT_BUSINESS")] AtBusiness = 2,
+    [pbr::OriginalName("AT_SUPPORT")] AtSupport = 3,
   }
 
   /// <summary>
@@ -207,9 +209,10 @@ namespace InfX {
     [pbr::OriginalName("GAS_BLOCKED")] GasBlocked = 1,
     [pbr::OriginalName("GAS_READ_ONLY")] GasReadOnly = 2,
     [pbr::OriginalName("GAS_READ_WRITE")] GasReadWrite = 3,
-    [pbr::OriginalName("GAS_MODERATOR")] GasModerator = 4,
-    [pbr::OriginalName("GAS_ADMIN")] GasAdmin = 5,
-    [pbr::OriginalName("GAS_GOD")] GasGod = 6,
+    [pbr::OriginalName("GAS_DEBUG")] GasDebug = 4,
+    [pbr::OriginalName("GAS_SUPPORT")] GasSupport = 5,
+    [pbr::OriginalName("GAS_MANAGER")] GasManager = 6,
+    [pbr::OriginalName("GAS_GOD")] GasGod = 7,
   }
 
   /// <summary>

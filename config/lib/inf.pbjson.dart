@@ -27,6 +27,7 @@ const AccountType$json = const {
     const {'1': 'AT_UNKNOWN', '2': 0},
     const {'1': 'AT_INFLUENCER', '2': 1},
     const {'1': 'AT_BUSINESS', '2': 2},
+    const {'1': 'AT_SUPPORT', '2': 3},
   ],
 };
 
@@ -37,9 +38,10 @@ const GlobalAccountState$json = const {
     const {'1': 'GAS_BLOCKED', '2': 1},
     const {'1': 'GAS_READ_ONLY', '2': 2},
     const {'1': 'GAS_READ_WRITE', '2': 3},
-    const {'1': 'GAS_MODERATOR', '2': 4},
-    const {'1': 'GAS_ADMIN', '2': 5},
-    const {'1': 'GAS_GOD', '2': 6},
+    const {'1': 'GAS_DEBUG', '2': 4},
+    const {'1': 'GAS_SUPPORT', '2': 5},
+    const {'1': 'GAS_MANAGER', '2': 6},
+    const {'1': 'GAS_GOD', '2': 7},
   ],
 };
 
