@@ -58,11 +58,13 @@ class AccountType extends ProtobufEnum {
   static const AccountType AT_INFLUENCER =
       const AccountType._(1, 'AT_INFLUENCER');
   static const AccountType AT_BUSINESS = const AccountType._(2, 'AT_BUSINESS');
+  static const AccountType AT_SUPPORT = const AccountType._(3, 'AT_SUPPORT');
 
   static const List<AccountType> values = const <AccountType>[
     AT_UNKNOWN,
     AT_INFLUENCER,
     AT_BUSINESS,
+    AT_SUPPORT,
   ];
 
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
@@ -83,20 +85,23 @@ class GlobalAccountState extends ProtobufEnum {
       const GlobalAccountState._(2, 'GAS_READ_ONLY');
   static const GlobalAccountState GAS_READ_WRITE =
       const GlobalAccountState._(3, 'GAS_READ_WRITE');
-  static const GlobalAccountState GAS_MODERATOR =
-      const GlobalAccountState._(4, 'GAS_MODERATOR');
-  static const GlobalAccountState GAS_ADMIN =
-      const GlobalAccountState._(5, 'GAS_ADMIN');
+  static const GlobalAccountState GAS_DEBUG =
+      const GlobalAccountState._(4, 'GAS_DEBUG');
+  static const GlobalAccountState GAS_SUPPORT =
+      const GlobalAccountState._(5, 'GAS_SUPPORT');
+  static const GlobalAccountState GAS_MANAGER =
+      const GlobalAccountState._(6, 'GAS_MANAGER');
   static const GlobalAccountState GAS_GOD =
-      const GlobalAccountState._(6, 'GAS_GOD');
+      const GlobalAccountState._(7, 'GAS_GOD');
 
   static const List<GlobalAccountState> values = const <GlobalAccountState>[
     GAS_INITIALIZE,
     GAS_BLOCKED,
     GAS_READ_ONLY,
     GAS_READ_WRITE,
-    GAS_MODERATOR,
-    GAS_ADMIN,
+    GAS_DEBUG,
+    GAS_SUPPORT,
+    GAS_MANAGER,
     GAS_GOD,
   ];
 
