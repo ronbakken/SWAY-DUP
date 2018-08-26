@@ -348,14 +348,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
             child: new Row(
                 children: [new Text('Localhost 1 (Genymotion Emulator)')]),
             onPressed: () {
-              widget.onSetServer("ws://192.168.167.2:8090/api", 1);
+              widget.onSetServer("ws://192.168.56.1:8090/api", 1);
             }, // 105 = athena, 167 = air
           ),
           new FlatButton(
             child: new Row(
                 children: [new Text('Localhost 2 (Genymotion Emulator)')]),
             onPressed: () {
-              widget.onSetServer("ws://192.168.167.2:8090/api", 2);
+              widget.onSetServer("ws://192.168.56.1:8090/api", 2);
             }, // 1&2 = mariadb.devinf.net
           ),
           new FlatButton(
