@@ -72,8 +72,8 @@ class RemoteApp {
   dynamic _remoteAppInfluencer;
   dynamic _remoteAppCommon;
 
-  RemoteApp(this.config, this.sql, this.bucket, this.ts, { 
-    @required this.ipAddress }) {
+  RemoteApp(this.config, this.sql, this.bucket, this.ts,
+      {@required this.ipAddress}) {
     devLog.fine("New connection");
 
     account = new DataAccount();
@@ -100,13 +100,17 @@ class RemoteApp {
     devLog.fine("Connection closed for device ${account.state.deviceId}");
   }
 
-  StreamSubscription<TalkMessage> safeListen(String id, Future<void> onData(TalkMessage message)) {
+  StreamSubscription<TalkMessage> safeListen(
+      String id, Future<void> onData(TalkMessage message)) {
     if (_connected) {
-      return ts.stream(TalkSocket.encode(id)).listen((TalkMessage message) async {
+      return ts
+          .stream(TalkSocket.encode(id))
+          .listen((TalkMessage message) async {
         try {
           await onData(message);
         } catch (error, stack) {
-          devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
+          devLog.severe(
+              "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
         }
       });
     }
@@ -124,11 +128,15 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
   // Authentication messages
   /////////////////////////////////////////////////////////////////////
-  
+
   void subscribeAuthentication() {
     try {
-      _netDeviceAuthCreateReq = ts.stream(TalkSocket.encode("DA_CREAT")).listen(netDeviceAuthCreateReq);
-      _netDeviceAuthChallengeReq = ts.stream(TalkSocket.encode("DA_CHALL")).listen(netDeviceAuthChallengeReq);
+      _netDeviceAuthCreateReq = ts
+          .stream(TalkSocket.encode("DA_CREAT"))
+          .listen(netDeviceAuthCreateReq);
+      _netDeviceAuthChallengeReq = ts
+          .stream(TalkSocket.encode("DA_CHALL"))
+          .listen(netDeviceAuthChallengeReq);
     } catch (e) {
       devLog.warning("Failed to subscribe to Authentication: $e");
     }
@@ -138,8 +146,10 @@ class RemoteApp {
     if (_netDeviceAuthCreateReq == null) {
       return;
     }
-    _netDeviceAuthCreateReq.cancel(); _netDeviceAuthCreateReq = null;
-    _netDeviceAuthChallengeReq.cancel(); _netDeviceAuthChallengeReq = null;
+    _netDeviceAuthCreateReq.cancel();
+    _netDeviceAuthCreateReq = null;
+    _netDeviceAuthChallengeReq.cancel();
+    _netDeviceAuthChallengeReq = null;
   }
 
   StreamSubscription<TalkMessage> _netDeviceAuthCreateReq; // DA_CREAT
@@ -149,33 +159,43 @@ class RemoteApp {
       pb.mergeFromBuffer(message.data);
       String aesKeyStr = base64.encode(pb.aesKey);
       await lock.synchronized(() async {
-          if (account.state.deviceId == 0) { // Create only once 🤨😒
-            sqljocky.RetainedConnection connection = await sql.getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead device entries
-            try {
-              // Create a new device in the devices table of the database
-              ts.sendExtend(message);
-              await connection.prepareExecute(
-                "INSERT INTO `devices` (`aes_key`, `common_device_id`, `name`, `info`) VALUES (?, ?, ?, ?)", 
-                [ aesKeyStr, base64.encode(pb.commonDeviceId), pb.name, pb.info ]);
-              sqljocky.Results lastInsertedId = await connection.query("SELECT LAST_INSERT_ID()");
-              await for (sqljocky.Row row in lastInsertedId) {
-                account.state.deviceId = row[0];
-                devLog.info("Inserted device_id ${account.state.deviceId} with aes_key '${aesKeyStr}'");
-              }
-            } catch (error, stack) {
-              devLog.warning("Failed to create device: $error\n$stack");
+        if (account.state.deviceId == 0) {
+          // Create only once 🤨😒
+          sqljocky.RetainedConnection connection = await sql
+              .getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead device entries
+          try {
+            // Create a new device in the devices table of the database
+            ts.sendExtend(message);
+            await connection.prepareExecute(
+                "INSERT INTO `devices` (`aes_key`, `common_device_id`, `name`, `info`) VALUES (?, ?, ?, ?)",
+                [
+                  aesKeyStr,
+                  base64.encode(pb.commonDeviceId),
+                  pb.name,
+                  pb.info
+                ]);
+            sqljocky.Results lastInsertedId =
+                await connection.query("SELECT LAST_INSERT_ID()");
+            await for (sqljocky.Row row in lastInsertedId) {
+              account.state.deviceId = row[0];
+              devLog.info(
+                  "Inserted device_id ${account.state.deviceId} with aes_key '${aesKeyStr}'");
             }
-            await connection.release();
+          } catch (error, stack) {
+            devLog.warning("Failed to create device: $error\n$stack");
           }
-          if (account.state.deviceId != 0) {
-            unsubscribeAuthentication(); // No longer respond to authentication messages when OK
-            subscribeOnboarding();
-          }
+          await connection.release();
+        }
+        if (account.state.deviceId != 0) {
+          unsubscribeAuthentication(); // No longer respond to authentication messages when OK
+          subscribeOnboarding();
+        }
       });
       devLog.fine("Send auth state ${message.request}");
       await sendNetDeviceAuthState(replying: message);
     } catch (error, stack) {
-      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
+      devLog.severe(
+          "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
     }
   }
 
@@ -193,13 +213,18 @@ class RemoteApp {
       for (int i = 0; i < challenge.length; ++i) {
         challenge[i] = random.nextInt(256);
       }
-      NetDeviceAuthChallengeResReq challengePb = new NetDeviceAuthChallengeResReq();
+      NetDeviceAuthChallengeResReq challengePb =
+          new NetDeviceAuthChallengeResReq();
       challengePb.challenge = challenge;
-      Future<TalkMessage> signatureMessageFuture = ts.sendRequest(_netDeviceAuthChallengeResReq, challengePb.writeToBuffer(), replying: message);
-      
+      Future<TalkMessage> signatureMessageFuture = ts.sendRequest(
+          _netDeviceAuthChallengeResReq, challengePb.writeToBuffer(),
+          replying: message);
+
       // Get the pub_key from the device that can be used to decrypt the signed challenge
-      sqljocky.Results pubKeyResults = await sql.prepareExecute("SELECT `aes_key` FROM `devices` WHERE `device_id` = ?", [ attemptDeviceId ]);
-      Uint8List aesKey;// = base64.decode(input)
+      sqljocky.Results pubKeyResults = await sql.prepareExecute(
+          "SELECT `aes_key` FROM `devices` WHERE `device_id` = ?",
+          [attemptDeviceId]);
+      Uint8List aesKey; // = base64.decode(input)
       await for (sqljocky.Row row in pubKeyResults) {
         aesKey = base64.decode(row[0].toString());
       }
@@ -211,16 +236,20 @@ class RemoteApp {
       devLog.fine("Await signature");
       TalkMessage signatureMessage = await signatureMessageFuture;
       ts.sendExtend(signatureMessage);
-      NetDeviceAuthSignatureResReq signaturePb = new NetDeviceAuthSignatureResReq();
+      NetDeviceAuthSignatureResReq signaturePb =
+          new NetDeviceAuthSignatureResReq();
       signaturePb.mergeFromBuffer(signatureMessage.data);
       if (aesKey.length > 0 && signaturePb.signature.length > 0) {
         // Verify signature
         var keyParameter = new pointycastle.KeyParameter(aesKey);
         var aesFastEngine = new pointycastle.AESFastEngine();
-        aesFastEngine..reset()..init(false, keyParameter);
+        aesFastEngine
+          ..reset()
+          ..init(false, keyParameter);
         var decrypted = new Uint8List(signaturePb.signature.length);
         for (int offset = 0; offset < signaturePb.signature.length;) {
-          offset += aesFastEngine.processBlock(signaturePb.signature, offset, decrypted, offset);
+          offset += aesFastEngine.processBlock(
+              signaturePb.signature, offset, decrypted, offset);
         }
         bool equals = true;
         for (int i = 0; i < challenge.length; ++i) {
@@ -231,22 +260,27 @@ class RemoteApp {
         }
         if (equals) {
           // Successfully verified signature
-          opsLog.fine("Signature verified succesfully for device $attemptDeviceId");
+          opsLog.fine(
+              "Signature verified succesfully for device $attemptDeviceId");
           await lock.synchronized(() async {
             if (account.state.deviceId == 0) {
               account.state.deviceId = attemptDeviceId;
             }
           });
         } else {
-          opsLog.warning("Signature verification failed for device $attemptDeviceId");
+          opsLog.warning(
+              "Signature verification failed for device $attemptDeviceId");
         }
       } else if (signaturePb.signature.length == 0) {
-        devLog.severe("Signature missing from authentication message for device $attemptDeviceId");
+        devLog.severe(
+            "Signature missing from authentication message for device $attemptDeviceId");
       }
 
       // Send authentication state
       devLog.fine("Await device state");
-      await updateDeviceState(extend: () { ts.sendExtend(signatureMessage); });
+      await updateDeviceState(extend: () {
+        ts.sendExtend(signatureMessage);
+      });
       if (account.state.deviceId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
         if (account.state.accountId != 0) {
@@ -259,32 +293,39 @@ class RemoteApp {
       await sendNetDeviceAuthState(replying: signatureMessage);
       devLog.fine("Device authenticated");
     } catch (error, stack) {
-      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
+      devLog.severe(
+          "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
     }
   }
 
   String makeCloudinaryThumbnailUrl(String key) {
     int lastIndex = key.lastIndexOf('.');
-    String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex): key;
-    return config.services.cloudinaryThumbnailUrl.replaceAll('{key}', key).replaceAll('{keyNoExt}', keyNoExt);
+    String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
+    return config.services.cloudinaryThumbnailUrl
+        .replaceAll('{key}', key)
+        .replaceAll('{keyNoExt}', keyNoExt);
   }
 
   String makeCloudinaryCoverUrl(String key) {
     int lastIndex = key.lastIndexOf('.');
-    String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex): key;
-    return config.services.cloudinaryCoverUrl.replaceAll('{key}', key).replaceAll('{keyNoExt}', keyNoExt);
+    String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
+    return config.services.cloudinaryCoverUrl
+        .replaceAll('{key}', key)
+        .replaceAll('{keyNoExt}', keyNoExt);
   }
 
-  Future<DataSocialMedia> fetchCachedSocialMedia(String oauthUserId, int oauthProvider) async {
+  Future<DataSocialMedia> fetchCachedSocialMedia(
+      String oauthUserId, int oauthProvider) async {
     sqljocky.Results results = await sql.prepareExecute(
-      "SELECT `screen_name`, `display_name`, `avatar_url`, `profile_url`, " // 0123
-      "`description`, `location`, `url`, `email`, `friends_count`, `followers_count`, " // 456789
-      "`following_count`, `posts_count`, `verified` " // 10 11 12
-      "FROM `social_media` "
-      "WHERE `oauth_user_id` = ? AND `oauth_provider` = ?",
-      [ oauthUserId.toString(), oauthProvider.toInt() ]);
+        "SELECT `screen_name`, `display_name`, `avatar_url`, `profile_url`, " // 0123
+        "`description`, `location`, `url`, `email`, `friends_count`, `followers_count`, " // 456789
+        "`following_count`, `posts_count`, `verified` " // 10 11 12
+        "FROM `social_media` "
+        "WHERE `oauth_user_id` = ? AND `oauth_provider` = ?",
+        [oauthUserId.toString(), oauthProvider.toInt()]);
     DataSocialMedia dataSocialMedia = new DataSocialMedia();
-    await for (sqljocky.Row row in results) { // one row
+    await for (sqljocky.Row row in results) {
+      // one row
       if (row[0] != null) dataSocialMedia.screenName = row[0].toString();
       if (row[1] != null) dataSocialMedia.displayName = row[1].toString();
       if (row[2] != null) dataSocialMedia.avatarUrl = row[2].toString();
@@ -304,18 +345,24 @@ class RemoteApp {
     return dataSocialMedia;
   }
 
-  Future<Null> updateDeviceState({ Function() extend }) async {
+  Future<Null> updateDeviceState({Function() extend}) async {
     if (account.state.deviceId == 0) {
-      devLog.severe("Invalid attempt to update device state with no device id, skip, this is a bug");
+      devLog.severe(
+          "Invalid attempt to update device state with no device id, skip, this is a bug");
       return;
     }
     await lock.synchronized(() async {
       // First get the account id (and account type, in case the account id has not been created yet)
       if (extend != null) extend();
-      sqljocky.Results deviceResults = await sql.prepareExecute("SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?", [ account.state.deviceId.toInt() ]);
-      await for (sqljocky.Row row in deviceResults) { // one row
-        if (account.state.accountId != 0 && account.state.accountId != row[0].toInt()) {
-          devLog.severe("Device account id changed, ignore, this is a bug, this should never happen");
+      sqljocky.Results deviceResults = await sql.prepareExecute(
+          "SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?",
+          [account.state.deviceId.toInt()]);
+      await for (sqljocky.Row row in deviceResults) {
+        // one row
+        if (account.state.accountId != 0 &&
+            account.state.accountId != row[0].toInt()) {
+          devLog.severe(
+              "Device account id changed, ignore, this is a bug, this should never happen");
         }
         account.state.accountId = row[0].toInt();
         account.state.accountType = AccountType.valueOf(row[1].toInt());
@@ -324,63 +371,86 @@ class RemoteApp {
       if (account.state.accountId != 0) {
         if (extend != null) extend();
         sqljocky.Results accountResults = await sql.prepareExecute(
-          "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
-          "`description`, `location_id`, `avatar_key`, `url` FROM `accounts` "
-          "WHERE `account_id` = ?", [ account.state.accountId.toInt() ]);
+            "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
+            "`description`, `location_id`, `avatar_key`, `url` FROM `accounts` "
+            "WHERE `account_id` = ?",
+            [account.state.accountId.toInt()]);
         int locationId;
-        await for (sqljocky.Row row in accountResults) { // one 
+        await for (sqljocky.Row row in accountResults) {
+          // one
           account.summary.name = row[0].toString();
           account.state.accountType = AccountType.valueOf(row[1].toInt());
-          account.state.globalAccountState = GlobalAccountState.valueOf(row[2].toInt());
-          account.state.globalAccountStateReason = GlobalAccountStateReason.valueOf(row[3].toInt());
+          account.state.globalAccountState =
+              GlobalAccountState.valueOf(row[2].toInt());
+          account.state.globalAccountStateReason =
+              GlobalAccountStateReason.valueOf(row[3].toInt());
           account.summary.description = row[4].toString();
           locationId = row[5].toInt();
           if (row[6] != null) {
-            account.summary.avatarThumbnailUrl = makeCloudinaryThumbnailUrl(row[6].toString());
-            account.detail.avatarCoverUrl = makeCloudinaryCoverUrl(row[6].toString());
+            account.summary.avatarThumbnailUrl =
+                makeCloudinaryThumbnailUrl(row[6].toString());
+            account.detail.avatarCoverUrl =
+                makeCloudinaryCoverUrl(row[6].toString());
           }
           if (row[7] != null) account.detail.url = row[7].toString();
         }
         if (locationId != null && locationId != 0) {
           if (extend != null) extend();
           sqljocky.Results locationResults = await sql.prepareExecute(
-            "SELECT `${account.state.accountType == AccountType.AT_BUSINESS ? 'detail' : 'approximate'}` FROM `addressbook` "
-            "WHERE `location_id` = ?", [ locationId.toInt() ]);
-          await for (sqljocky.Row row in locationResults) { // one
+              "SELECT `${account.state.accountType == AccountType.AT_BUSINESS ? 'detail' : 'approximate'}` FROM `addressbook` "
+              "WHERE `location_id` = ?",
+              [locationId.toInt()]);
+          await for (sqljocky.Row row in locationResults) {
+            // one
             account.summary.location = row[0].toString();
           }
           if (account.summary.location == null) {
-            devLog.severe("Account ${account.state.accountId} has an unknown location_id set");
+            devLog.severe(
+                "Account ${account.state.accountId} has an unknown location_id set");
             account.summary.location = "Earth";
           }
         } else {
-          devLog.severe("Account ${account.state.accountId} does not have a location_id set");
+          devLog.severe(
+              "Account ${account.state.accountId} does not have a location_id set");
           account.summary.location = "Earth";
         }
       }
       // Find all connected social media accounts
       if (extend != null) extend();
-      List<bool> connectedProviders = new List<bool>(account.detail.socialMedia.length);
-      sqljocky.Results connectionResults = await sql.prepareExecute( // The additional `account_id` = 0 here is required in order not to load halfway failed connected devices
-        "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.state.accountId == 0 ? '`account_id` = 0 AND `device_id`' : '`account_id`'} = ?", 
-        [ account.state.accountId == 0 ? account.state.deviceId.toInt() : account.state.accountId.toInt() ]);
-      List<sqljocky.Row> connectionRows = await connectionResults.toList(); // Load to avoid blocking connections recursively
+      List<bool> connectedProviders =
+          new List<bool>(account.detail.socialMedia.length);
+      sqljocky.Results connectionResults = await sql.prepareExecute(
+          // The additional `account_id` = 0 here is required in order not to load halfway failed connected devices
+          "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.state.accountId == 0 ? '`account_id` = 0 AND `device_id`' : '`account_id`'} = ?",
+          [
+            account.state.accountId == 0
+                ? account.state.deviceId.toInt()
+                : account.state.accountId.toInt()
+          ]);
+      List<sqljocky.Row> connectionRows = await connectionResults
+          .toList(); // Load to avoid blocking connections recursively
       for (sqljocky.Row row in connectionRows) {
         String oauthUserId = row[0].toString();
         int oauthProvider = row[1].toInt();
         int oauthTokenExpires = row[2].toInt();
-        bool expired = row[3].toInt() != 0 || oauthTokenExpires >= (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+        bool expired = row[3].toInt() != 0 ||
+            oauthTokenExpires >=
+                (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
         if (oauthProvider < account.detail.socialMedia.length) {
-          account.detail.socialMedia[oauthProvider] = await fetchCachedSocialMedia(oauthUserId, oauthProvider);
+          account.detail.socialMedia[oauthProvider] =
+              await fetchCachedSocialMedia(oauthUserId, oauthProvider);
           account.detail.socialMedia[oauthProvider].expired = expired;
-          connectedProviders[oauthProvider] = account.detail.socialMedia[oauthProvider].connected;
+          connectedProviders[oauthProvider] =
+              account.detail.socialMedia[oauthProvider].connected;
         } else {
-          devLog.severe("Invalid attempt to update device state with no device id, skip, this indicates an incorrent database entry caused by a bug");
+          devLog.severe(
+              "Invalid attempt to update device state with no device id, skip, this indicates an incorrent database entry caused by a bug");
         }
       }
       // Wipe any lost accounts
       for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-        if (connectedProviders[i] != true && (account.detail.socialMedia[i].connected == true)) {
+        if (connectedProviders[i] != true &&
+            (account.detail.socialMedia[i].connected == true)) {
           account.detail.socialMedia[i] = new DataSocialMedia(); // Wipe
         }
       }
@@ -388,14 +458,15 @@ class RemoteApp {
   }
 
   static int _netDeviceAuthState = TalkSocket.encode("DA_STATE");
-  Future<Null> sendNetDeviceAuthState({ TalkMessage replying }) async {
+  Future<Null> sendNetDeviceAuthState({TalkMessage replying}) async {
     if (!_connected) {
       return;
     }
     await lock.synchronized(() async {
       NetDeviceAuthState pb = new NetDeviceAuthState();
       pb.data = account;
-      ts.sendMessage(_netDeviceAuthState, pb.writeToBuffer(), replying: replying);
+      ts.sendMessage(_netDeviceAuthState, pb.writeToBuffer(),
+          replying: replying);
     });
   }
 
@@ -404,12 +475,14 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
   // Onboarding messages
   /////////////////////////////////////////////////////////////////////
-  
+
   void subscribeOnboarding() {
     try {
-      _netSetAccountType = ts.stream(TalkSocket.encode("A_SETTYP")).listen(netSetAccountType);
+      _netSetAccountType =
+          ts.stream(TalkSocket.encode("A_SETTYP")).listen(netSetAccountType);
       // _netOAuthConnectReq = ts.stream(TalkSocket.encode("OA_CONNE")).listen(netOAuthConnectReq);
-      _netAccountCreateReq = ts.stream(TalkSocket.encode("A_CREATE")).listen(netAccountCreateReq);
+      _netAccountCreateReq =
+          ts.stream(TalkSocket.encode("A_CREATE")).listen(netAccountCreateReq);
       subscribeOAuth();
     } catch (error, stack) {
       devLog.warning("Failed to subscribe to Onboarding: $error\n$stack");
@@ -420,9 +493,11 @@ class RemoteApp {
     if (_netSetAccountType == null) {
       return;
     }
-    _netSetAccountType.cancel(); _netSetAccountType = null;
+    _netSetAccountType.cancel();
+    _netSetAccountType = null;
     // _netOAuthConnectReq.cancel(); _netOAuthConnectReq = null;
-    _netAccountCreateReq.cancel(); _netAccountCreateReq = null;
+    _netAccountCreateReq.cancel();
+    _netAccountCreateReq = null;
   }
 
   StreamSubscription<TalkMessage> _netSetAccountType; // A_SETTYP
@@ -447,8 +522,12 @@ class RemoteApp {
         update = true;
         try {
           await sql.startTransaction((sqljocky.Transaction tx) async {
-            await tx.prepareExecute("DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0", [ account.state.deviceId ]);
-            await tx.prepareExecute("UPDATE `devices` SET `account_type` = ? WHERE `device_id` = ? AND `account_id` = 0", [ pb.accountType.value, account.state.deviceId]);
+            await tx.prepareExecute(
+                "DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `account_id` = 0",
+                [account.state.deviceId]);
+            await tx.prepareExecute(
+                "UPDATE `devices` SET `account_type` = ? WHERE `device_id` = ? AND `account_id` = 0",
+                [pb.accountType.value, account.state.deviceId]);
             await tx.commit();
           });
         } catch (error, stack) {
@@ -458,18 +537,22 @@ class RemoteApp {
 
       // Send authentication state
       if (update) {
-        devLog.finest("Send authentication state, account type is ${account.state.accountType} (set ${pb.accountType})");
+        devLog.finest(
+            "Send authentication state, account type is ${account.state.accountType} (set ${pb.accountType})");
         await updateDeviceState();
         await sendNetDeviceAuthState();
-        devLog.finest("Account type is now ${account.state.accountType} (set ${pb.accountType})");
+        devLog.finest(
+            "Account type is now ${account.state.accountType} (set ${pb.accountType})");
       }
     } catch (error, stack) {
-      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
+      devLog.severe(
+          "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
     }
   }
 
   StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE
-  Future<void> netAccountCreateReq(TalkMessage message) async { // response: NetDeviceAuthState
+  Future<void> netAccountCreateReq(TalkMessage message) async {
+    // response: NetDeviceAuthState
     assert(account.state.deviceId != 0);
     try {
       // Received account creation request
@@ -482,7 +565,7 @@ class RemoteApp {
         return;
       }
 
-      const List<int> mediaPriority = const [ 3, 1, 4, 8, 6, 2, 5, 7 ];
+      const List<int> mediaPriority = const [3, 1, 4, 8, 6, 2, 5, 7];
 
       // Attempt to get locations
       // Fetch location info from coordinates
@@ -491,8 +574,12 @@ class RemoteApp {
       List<DataLocation> locations = new List<DataLocation>();
       DataLocation gpsLocationRes;
       Future<dynamic> gpsLocation;
-      if (pb.latitude != null && pb.longitude != null && pb.latitude != 0.0 && pb.longitude != 0.0) {
-        gpsLocation = getGeocodingFromGPS(pb.latitude, pb.longitude).then((DataLocation location) {
+      if (pb.latitude != null &&
+          pb.longitude != null &&
+          pb.latitude != 0.0 &&
+          pb.longitude != 0.0) {
+        gpsLocation = getGeocodingFromGPS(pb.latitude, pb.longitude)
+            .then((DataLocation location) {
           devLog.finest("GPS: $location");
           gpsLocationRes = location;
         }).catchError((error, stack) {
@@ -500,7 +587,8 @@ class RemoteApp {
         });
       }
       DataLocation geoIPLocationRes;
-      Future<dynamic> geoIPLocation = getGeoIPLocation(ipAddress).then((DataLocation location) {
+      Future<dynamic> geoIPLocation =
+          getGeoIPLocation(ipAddress).then((DataLocation location) {
         devLog.finest("GeoIP: $location");
         geoIPLocationRes = location;
         // locations.add(location);
@@ -521,13 +609,18 @@ class RemoteApp {
       // for (int i = 0; i < account.detail.socialMedia.length; ++i) {
       for (int i in mediaPriority) {
         DataSocialMedia socialMedia = account.detail.socialMedia[i];
-        if (socialMedia.connected && socialMedia.location != null && socialMedia.location.isNotEmpty) {
-          mediaLocations.add(getGeocodingFromName(socialMedia.location).then((DataLocation location) {
-            devLog.finest("${config.oauthProviders.all[i].label}: ${socialMedia.displayName}: $location");
+        if (socialMedia.connected &&
+            socialMedia.location != null &&
+            socialMedia.location.isNotEmpty) {
+          mediaLocations.add(getGeocodingFromName(socialMedia.location)
+              .then((DataLocation location) {
+            devLog.finest(
+                "${config.oauthProviders.all[i].label}: ${socialMedia.displayName}: $location");
             location.name = socialMedia.displayName;
             locations.add(location);
           }).catchError((error, stack) {
-            devLog.severe("${config.oauthProviders.all[i].label}: Geocoding Exception: $error\n$stack");
+            devLog.severe(
+                "${config.oauthProviders.all[i].label}: Geocoding Exception: $error\n$stack");
           }));
         }
       }
@@ -544,7 +637,8 @@ class RemoteApp {
 
       // Fallback location
       if (locations.isEmpty) {
-        devLog.severe("Using fallback location for account ${account.state.accountId}");
+        devLog.severe(
+            "Using fallback location for account ${account.state.accountId}");
         DataLocation location = new DataLocation();
         location.name = "Los Angeles";
         location.approximate = "Los Angeles, California 90017";
@@ -566,11 +660,16 @@ class RemoteApp {
       for (int i in mediaPriority) {
         DataSocialMedia socialMedia = account.detail.socialMedia[i];
         if (socialMedia.connected) {
-          if (accountName == null && socialMedia.displayName != null) accountName = socialMedia.displayName;
-          if (accountScreenName == null && socialMedia.screenName != null) accountScreenName = socialMedia.screenName;
-          if (accountDescription == null && socialMedia.description != null) accountDescription = socialMedia.description;
-          if (accountAvatarUrl == null && socialMedia.avatarUrl != null) accountAvatarUrl = socialMedia.avatarUrl;
-          if (accountUrl == null && socialMedia.url != null) accountUrl = socialMedia.url;
+          if (accountName == null && socialMedia.displayName != null)
+            accountName = socialMedia.displayName;
+          if (accountScreenName == null && socialMedia.screenName != null)
+            accountScreenName = socialMedia.screenName;
+          if (accountDescription == null && socialMedia.description != null)
+            accountDescription = socialMedia.description;
+          if (accountAvatarUrl == null && socialMedia.avatarUrl != null)
+            accountAvatarUrl = socialMedia.avatarUrl;
+          if (accountUrl == null && socialMedia.url != null)
+            accountUrl = socialMedia.url;
         }
       }
       if (accountName == null) {
@@ -602,14 +701,13 @@ class RemoteApp {
         // Count the number of connected authentication mechanisms
         int connectedNb = 0;
         for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-          if (account.detail.socialMedia[i].connected)
-            ++connectedNb;
+          if (account.detail.socialMedia[i].connected) ++connectedNb;
         }
 
         // Validate that the current state is sufficient to create an account
-        if (account.state.accountId == 0
-          && account.state.accountType != AccountType.AT_UNKNOWN
-          && connectedNb > 0) {
+        if (account.state.accountId == 0 &&
+            account.state.accountType != AccountType.AT_UNKNOWN &&
+            connectedNb > 0) {
           // Changes sent in a single SQL transaction for reliability
           try {
             // Process the account creation
@@ -623,28 +721,40 @@ class RemoteApp {
               // 1.
               // TODO: Add notify flags field to SQL
               ts.sendExtend(message);
-              sqljocky.Results res1 = await tx.prepareExecute("INSERT INTO `accounts`("
-                "`name`, `account_type`, "
-                "`global_account_state`, `global_account_state_reason`, "
-                "`description`, `url`" // avatarUrl is set later
-                ") VALUES (?, ?, ?, ?, ?, ?)", 
-                [ accountName.toString(), account.state.accountType.value.toInt(),
-                // GlobalAccountState.GAS_READ_ONLY.value.toInt(), GlobalAccountStateReason.GASR_PENDING.value.toInt(),
-                GlobalAccountState.GAS_READ_WRITE.value.toInt(), GlobalAccountStateReason.GASR_DEMO_APPROVED.value.toInt(),
-                accountDescription.toString(), accountUrl ]);
-              if (res1.affectedRows == 0) throw new Exception("Account was not inserted");
+              sqljocky.Results res1 = await tx.prepareExecute(
+                  "INSERT INTO `accounts`("
+                  "`name`, `account_type`, "
+                  "`global_account_state`, `global_account_state_reason`, "
+                  "`description`, `url`" // avatarUrl is set later
+                  ") VALUES (?, ?, ?, ?, ?, ?)",
+                  [
+                    accountName.toString(),
+                    account.state.accountType.value.toInt(),
+                    // GlobalAccountState.GAS_READ_ONLY.value.toInt(), GlobalAccountStateReason.GASR_PENDING.value.toInt(),
+                    GlobalAccountState.GAS_READ_WRITE.value.toInt(),
+                    GlobalAccountStateReason.GASR_DEMO_APPROVED.value.toInt(),
+                    accountDescription.toString(), accountUrl
+                  ]);
+              if (res1.affectedRows == 0)
+                throw new Exception("Account was not inserted");
               int accountId = res1.insertId;
               if (accountId == 0) throw new Exception("Invalid accountId");
               // 2.
               ts.sendExtend(message);
-              sqljocky.Results res2 = await tx.prepareExecute("UPDATE `devices` SET `account_id` = LAST_INSERT_ID() "
-                "WHERE `device_id` = ? AND `account_id` = 0", [ account.state.deviceId.toInt() ]);
-              if (res2.affectedRows == 0) throw new Exception("Device was not updated");
+              sqljocky.Results res2 = await tx.prepareExecute(
+                  "UPDATE `devices` SET `account_id` = LAST_INSERT_ID() "
+                  "WHERE `device_id` = ? AND `account_id` = 0",
+                  [account.state.deviceId.toInt()]);
+              if (res2.affectedRows == 0)
+                throw new Exception("Device was not updated");
               // 3.
               ts.sendExtend(message);
-              sqljocky.Results res3 = await tx.prepareExecute("UPDATE `oauth_connections` SET `account_id` = LAST_INSERT_ID() "
-                "WHERE `device_id` = ? AND `account_id` = 0", [ account.state.deviceId.toInt() ]);
-              if (res3.affectedRows == 0) throw new Exception("Social media was not updated");
+              sqljocky.Results res3 = await tx.prepareExecute(
+                  "UPDATE `oauth_connections` SET `account_id` = LAST_INSERT_ID() "
+                  "WHERE `device_id` = ? AND `account_id` = 0",
+                  [account.state.deviceId.toInt()]);
+              if (res3.affectedRows == 0)
+                throw new Exception("Social media was not updated");
               // 4.
               /* sqljocky.Results lastInsertedId = await tx.query("SELECT LAST_INSERT_ID()");
               int accountId = 0;
@@ -655,29 +765,42 @@ class RemoteApp {
               if (accountId == 0) throw new Exception("Invalid accountId"); */
               for (DataLocation location in locations.reversed) {
                 ts.sendExtend(message);
-                sqljocky.Results res4 = await tx.prepareExecute("INSERT INTO `addressbook`("
-                  "`account_id`, `name`, `detail`, `approximate`, "
-                  "`postcode`, `region_code`, `country_code`, `point`) "
-                  "VALUES (?, ?, ?, ?, ?, ?, ?, "
-                  "PointFromText('POINT(${location.longitude} ${location.latitude})'))", [
-                    accountId.toInt(), location.name.toString(), location.detail.toString(), location.approximate.toString(),
-                    location.postcode == null ? null : location.postcode.toString(), 
-                    location.regionCode.toString(), location.countryCode.toString()
-                ]);
-                if (res4.affectedRows == 0) throw new Exception("Location was not inserted");
+                sqljocky.Results res4 = await tx.prepareExecute(
+                    "INSERT INTO `addressbook`("
+                    "`account_id`, `name`, `detail`, `approximate`, "
+                    "`postcode`, `region_code`, `country_code`, `point`) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, "
+                    "PointFromText('POINT(${location.longitude} ${location.latitude})'))",
+                    [
+                      accountId.toInt(),
+                      location.name.toString(),
+                      location.detail.toString(),
+                      location.approximate.toString(),
+                      location.postcode == null
+                          ? null
+                          : location.postcode.toString(),
+                      location.regionCode.toString(),
+                      location.countryCode.toString()
+                    ]);
+                if (res4.affectedRows == 0)
+                  throw new Exception("Location was not inserted");
                 devLog.finest("Inserted location");
               }
               devLog.finest("Inserted locations");
               // 5.
               ts.sendExtend(message);
-              sqljocky.Results res5 = await tx.prepareExecute("UPDATE `accounts` SET `location_id` = LAST_INSERT_ID() "
-                "WHERE `account_id` = ?", [ accountId.toInt() ]);
-              if (res5.affectedRows == 0) throw new Exception("Account was not updated with location");
+              sqljocky.Results res5 = await tx.prepareExecute(
+                  "UPDATE `accounts` SET `location_id` = LAST_INSERT_ID() "
+                  "WHERE `account_id` = ?",
+                  [accountId.toInt()]);
+              if (res5.affectedRows == 0)
+                throw new Exception("Account was not updated with location");
               devLog.fine("Finished setting up account $accountId");
               await tx.commit();
             });
           } catch (error, stack) {
-            opsLog.severe("Failed to create account for device ${account.state.deviceId}: $error\n$stack");
+            opsLog.severe(
+                "Failed to create account for device ${account.state.deviceId}: $error\n$stack");
           }
         }
       });
@@ -690,33 +813,41 @@ class RemoteApp {
         unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
         await transitionToApp(); // TODO: Transitions and subs hould be handled by updateDeviceState preferably...
       }
-      
+
       // Non-critical
       // 1. Download avatar
       // 2. Upload avatar to Spaces
       // 3. Update account to refer to avatar
       try {
-        if (account.state.accountId != 0 && accountAvatarUrl != null && accountAvatarUrl.length > 0) {
+        if (account.state.accountId != 0 &&
+            accountAvatarUrl != null &&
+            accountAvatarUrl.length > 0) {
           ts.sendExtend(message);
-          String avatarKey = await downloadUserImage(account.state.accountId, accountAvatarUrl);
+          String avatarKey = await downloadUserImage(
+              account.state.accountId, accountAvatarUrl);
           ts.sendExtend(message);
-          await sql.prepareExecute("UPDATE `accounts` SET `avatar_key` = ? "
-            "WHERE `account_id` = ?", [ avatarKey.toString(), account.state.accountId.toInt() ]);
-          account.summary.avatarThumbnailUrl = makeCloudinaryThumbnailUrl(avatarKey);
+          await sql.prepareExecute(
+              "UPDATE `accounts` SET `avatar_key` = ? "
+              "WHERE `account_id` = ?",
+              [avatarKey.toString(), account.state.accountId.toInt()]);
+          account.summary.avatarThumbnailUrl =
+              makeCloudinaryThumbnailUrl(avatarKey);
           account.detail.avatarCoverUrl = makeCloudinaryCoverUrl(avatarKey);
         }
       } catch (error, stack) {
-        devLog.severe("Exception downloading avatar '$accountAvatarUrl': $error\n$stack");
+        devLog.severe(
+            "Exception downloading avatar '$accountAvatarUrl': $error\n$stack");
       }
 
       // Send authentication state
       await sendNetDeviceAuthState(replying: message);
       if (account.state.accountId == 0) {
-        devLog.severe("Account was not created for device ${account.state.deviceId}"); // DEVELOPER - DEVELOPMENT CRITICAL
+        devLog.severe(
+            "Account was not created for device ${account.state.deviceId}"); // DEVELOPER - DEVELOPMENT CRITICAL
       }
-
     } catch (error, stack) {
-      devLog.severe("Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
+      devLog.severe(
+          "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
     }
   }
 
@@ -725,16 +856,20 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
   // Utility
   /////////////////////////////////////////////////////////////////////
-  
+
   Future<DataLocation> getGeoIPLocation(String ipAddress) async {
     DataLocation location = new DataLocation();
     // location.name = ''; // User name
     // location.avatarUrl = ''; // View of the establishment
 
     // Fetch info
-    http.Request request = new http.Request('GET', 
-      config.services.ipstackApi + '/' + Uri.encodeComponent(ipAddress) 
-      + '?access_key=' + config.services.ipstackKey);
+    http.Request request = new http.Request(
+        'GET',
+        config.services.ipstackApi +
+            '/' +
+            Uri.encodeComponent(ipAddress) +
+            '?access_key=' +
+            config.services.ipstackKey);
     http.Response response = await httpClient.send(request);
     BytesBuilder builder = new BytesBuilder(copy: false);
     await response.body.forEach(builder.add);
@@ -747,11 +882,13 @@ class RemoteApp {
       throw new Exception("No GeoIP information for '$ipAddress'");
     }
     if (doc['country_code'] == null) {
-      throw new Exception("GeoIP information for '$ipAddress' not in a country");
+      throw new Exception(
+          "GeoIP information for '$ipAddress' not in a country");
     }
 
     // Not very localized, but works for US
-    String approximate = ''; // "${doc['city']}, ${doc['region_name']} ${doc['zip']}";
+    String approximate =
+        ''; // "${doc['city']}, ${doc['region_name']} ${doc['zip']}";
     if (doc['city'] != null && doc['city'] != 'Singapore') {
       approximate = doc['city'];
     }
@@ -773,13 +910,15 @@ class RemoteApp {
       }
     }
     if (approximate.length == 0) {
-       throw new Exception("Insufficient GeoIP information for '$ipAddress'");
+      throw new Exception("Insufficient GeoIP information for '$ipAddress'");
     }
     location.approximate = approximate;
     location.detail = approximate;
     if (doc['zip'] != null) location.postcode = doc['zip'];
-    if (doc['region_code'] != null) location.regionCode = doc['region_code'];
-    else location.regionCode = doc['country_code'].toLowerCase();
+    if (doc['region_code'] != null)
+      location.regionCode = doc['region_code'];
+    else
+      location.regionCode = doc['country_code'].toLowerCase();
     location.countryCode = doc['country_code'].toLowerCase();
     location.latitude = doc['latitude'];
     location.longitude = doc['longitude'];
@@ -787,12 +926,13 @@ class RemoteApp {
     return location;
   }
 
-  Future<DataLocation> getGeocodingFromGPS(double latitude, double longitude) async {
+  Future<DataLocation> getGeocodingFromGPS(
+      double latitude, double longitude) async {
     // /geocoding/v5/{mode}/{longitude},{latitude}.json
     // /geocoding/v5/{mode}/{query}.json
     String url = "${config.services.mapboxApi}/geocoding/v5/"
-      "mapbox.places/$longitude,$latitude.json?"
-      "access_token=${config.services.mapboxToken}";
+        "mapbox.places/$longitude,$latitude.json?"
+        "access_token=${config.services.mapboxToken}";
 
     // Fetch info
     http.Request request = new http.Request('GET', url);
@@ -804,8 +944,11 @@ class RemoteApp {
       throw new Exception(response.reasonPhrase);
     }
     dynamic doc = json.decode(body);
-    if (doc['query'] == null || doc['query'][0] == null || doc['query'][1] == null) {
-      throw new Exception("No geocoding information for '$longitude,$latitude'");
+    if (doc['query'] == null ||
+        doc['query'][0] == null ||
+        doc['query'][1] == null) {
+      throw new Exception(
+          "No geocoding information for '$longitude,$latitude'");
     }
     dynamic features = doc['features'];
     if (features == null || features.length == 0) {
@@ -834,20 +977,34 @@ class RemoteApp {
     // new List<String>().any((String v) => [ "address", "poi.landmark", "poi" ].contains(v));
     for (dynamic feature in features) {
       dynamic placeType = feature['place_type'];
-      if (featureDetail == null && placeType.any((dynamic v) => const [ "address", "poi.landmark", "poi" ].contains(v.toString()))) {
+      if (featureDetail == null &&
+          placeType.any((dynamic v) => const ["address", "poi.landmark", "poi"]
+              .contains(v.toString()))) {
         featureDetail = feature;
-      } else if (featureApproximate == null && placeType.any((dynamic v) => const [ "locality", "neighborhood", "place" ].contains(v.toString()))) {
+      } else if (featureApproximate == null &&
+          placeType.any((dynamic v) => const [
+                "locality",
+                "neighborhood",
+                "place"
+              ].contains(v.toString()))) {
         featureApproximate = feature;
-      } else if (featureRegion == null && placeType.any((dynamic v) => const [ "region" ].contains(v.toString()))) {
+      } else if (featureRegion == null &&
+          placeType
+              .any((dynamic v) => const ["region"].contains(v.toString()))) {
         featureRegion = feature;
-      } else if (featurePostcode == null && placeType.any((dynamic v) => const [ "postcode" ].contains(v.toString()))) {
+      } else if (featurePostcode == null &&
+          placeType
+              .any((dynamic v) => const ["postcode"].contains(v.toString()))) {
         featurePostcode = feature;
-      } else if (featureCountry == null && placeType.any((dynamic v) => const [ "country" ].contains(v.toString()))) {
+      } else if (featureCountry == null &&
+          placeType
+              .any((dynamic v) => const ["country"].contains(v.toString()))) {
         featureCountry = feature;
       }
     }
     if (featureCountry == null) {
-      throw new Exception("Geocoding not in a country at '$longitude,$latitude'");
+      throw new Exception(
+          "Geocoding not in a country at '$longitude,$latitude'");
     }
     if (featureRegion == null) {
       featureRegion = featureCountry;
@@ -862,8 +1019,10 @@ class RemoteApp {
     // Entry
     String country = featureCountry['text'];
     DataLocation location = new DataLocation();
-    location.approximate = featureApproximate['place_name'].replaceAll(', United States', '');
-    location.detail = featureDetail['place_name'].replaceAll(', United States', '');
+    location.approximate =
+        featureApproximate['place_name'].replaceAll(', United States', '');
+    location.detail =
+        featureDetail['place_name'].replaceAll(', United States', '');
     if (featurePostcode != null) location.postcode = featurePostcode['text'];
     location.regionCode = featureRegion['properties']['short_code'];
     location.countryCode = featureCountry['properties']['short_code'];
@@ -876,8 +1035,8 @@ class RemoteApp {
     // /geocoding/v5/{mode}/{longitude},{latitude}.json
     // /geocoding/v5/{mode}/{query}.json
     String url = "${config.services.mapboxApi}/geocoding/v5/"
-      "mapbox.places/${Uri.encodeComponent(name)}.json?"
-      "access_token=${config.services.mapboxToken}";
+        "mapbox.places/${Uri.encodeComponent(name)}.json?"
+        "access_token=${config.services.mapboxToken}";
 
     // Fetch info
     http.Request request = new http.Request('GET', url);
@@ -889,7 +1048,9 @@ class RemoteApp {
       throw new Exception(response.reasonPhrase);
     }
     dynamic doc = json.decode(body);
-    if (doc['query'] == null || doc['query'][0] == null || doc['query'][1] == null) {
+    if (doc['query'] == null ||
+        doc['query'][0] == null ||
+        doc['query'][1] == null) {
       throw new Exception("No geocoding information for '$name'");
     }
     dynamic features = doc['features'];
@@ -919,19 +1080,32 @@ class RemoteApp {
     // new List<String>().any((String v) => [ "address", "poi.landmark", "poi" ].contains(v));
     for (dynamic feature in features) {
       dynamic placeType = feature['place_type'];
-      if (featureDetail == null && placeType.any((dynamic v) => const [ "address", "poi.landmark", "poi" ].contains(v.toString()))) {
+      if (featureDetail == null &&
+          placeType.any((dynamic v) => const ["address", "poi.landmark", "poi"]
+              .contains(v.toString()))) {
         featureDetail = feature;
-      } else if (featureApproximate == null && placeType.any((dynamic v) => const [ "locality", "neighborhood", "place" ].contains(v.toString()))) {
+      } else if (featureApproximate == null &&
+          placeType.any((dynamic v) => const [
+                "locality",
+                "neighborhood",
+                "place"
+              ].contains(v.toString()))) {
         featureApproximate = feature;
-      } else if (featureRegion == null && placeType.any((dynamic v) => const [ "region" ].contains(v.toString()))) {
+      } else if (featureRegion == null &&
+          placeType
+              .any((dynamic v) => const ["region"].contains(v.toString()))) {
         featureRegion = feature;
-      } else if (featurePostcode == null && placeType.any((dynamic v) => const [ "postcode" ].contains(v.toString()))) {
+      } else if (featurePostcode == null &&
+          placeType
+              .any((dynamic v) => const ["postcode"].contains(v.toString()))) {
         featurePostcode = feature;
-      } else if (featureCountry == null && placeType.any((dynamic v) => const [ "country" ].contains(v.toString()))) {
+      } else if (featureCountry == null &&
+          placeType
+              .any((dynamic v) => const ["country"].contains(v.toString()))) {
         featureCountry = feature;
       }
     }
-    
+
     if (featureApproximate == null) {
       featureApproximate = featureRegion;
     }
@@ -946,13 +1120,16 @@ class RemoteApp {
     dynamic contextCountry;
     if (featureCountry == null) {
       for (dynamic context in featureDetail['context']) {
-        if (contextPostcode == null && context['id'].toString().startsWith('postcode.')) {
+        if (contextPostcode == null &&
+            context['id'].toString().startsWith('postcode.')) {
           contextPostcode = context;
-        } else if (contextCountry == null && context['id'].toString().startsWith('country.')) {
+        } else if (contextCountry == null &&
+            context['id'].toString().startsWith('country.')) {
           contextCountry = context;
-        } else if (contextRegion == null && context['id'].toString().startsWith('region.')) {
+        } else if (contextRegion == null &&
+            context['id'].toString().startsWith('region.')) {
           contextRegion = context;
-        } 
+        }
       }
     }
 
@@ -965,14 +1142,24 @@ class RemoteApp {
     }
 
     // Entry
-    String country = featureCountry == null ? contextCountry['text'] : featureCountry['text'];
+    String country = featureCountry == null
+        ? contextCountry['text']
+        : featureCountry['text'];
     DataLocation location = new DataLocation();
-    location.approximate = featureApproximate['place_name'].replaceAll(', United States', '');
-    location.detail = featureDetail['place_name'].replaceAll(', United States', '');
-    if (contextPostcode != null)location.postcode = contextPostcode['text'];
-    else if (featurePostcode != null) location.postcode = featurePostcode['text'];
-    location.regionCode = featureRegion == null ? contextRegion['short_code'] : featureRegion['properties']['short_code'];
-    location.countryCode = featureCountry == null ? contextCountry['short_code'] : featureCountry['properties']['short_code'];
+    location.approximate =
+        featureApproximate['place_name'].replaceAll(', United States', '');
+    location.detail =
+        featureDetail['place_name'].replaceAll(', United States', '');
+    if (contextPostcode != null)
+      location.postcode = contextPostcode['text'];
+    else if (featurePostcode != null)
+      location.postcode = featurePostcode['text'];
+    location.regionCode = featureRegion == null
+        ? contextRegion['short_code']
+        : featureRegion['properties']['short_code'];
+    location.countryCode = featureCountry == null
+        ? contextCountry['short_code']
+        : featureCountry['properties']['short_code'];
     location.latitude = featureDetail['center'][1];
     location.longitude = featureDetail['center'][0];
     return location;
@@ -1003,13 +1190,19 @@ class RemoteApp {
     String uriExt = lastIndex > 0 ? uri.path.substring(lastIndex + 1) : '';
     if (uriExt.length == 0) {
       switch (contentType) {
-        case 'image/jpeg': uriExt = 'jpg'; break;
-        case 'image/png': uriExt = 'png'; break;
+        case 'image/jpeg':
+          uriExt = 'jpg';
+          break;
+        case 'image/png':
+          uriExt = 'png';
+          break;
       }
     }
     Digest contentSha256 = sha256.convert(body);
-    String key = "user/$accountId/$contentSha256" + (uriExt.length > 0 ? ('.' + uriExt) : '.bin');
-    bucket.uploadData(key, body, contentType, dospace.Permissions.public, contentSha256: contentSha256);
+    String key = "user/$accountId/$contentSha256" +
+        (uriExt.length > 0 ? ('.' + uriExt) : '.bin');
+    bucket.uploadData(key, body, contentType, dospace.Permissions.public,
+        contentSha256: contentSha256);
     return key;
   }
 
@@ -1018,7 +1211,7 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
   // App
   /////////////////////////////////////////////////////////////////////
-  
+
   /// Transitions the user to the app context after registration or login succeeds. Call from lock
   Future<Null> transitionToApp() {
     assert(_netDeviceAuthCreateReq == null);
@@ -1030,7 +1223,8 @@ class RemoteApp {
     assert(account.state.accountId != 0);
     // TODO: Permit app transactions!
     // TODO: Fetch social media from SQL and then from remote hosts!
-    devLog.fine("Transition device ${account.state.deviceId} to app ${account.state.accountType}");
+    devLog.fine(
+        "Transition device ${account.state.deviceId} to app ${account.state.accountType}");
     subscribeOAuth();
   }
 }
@@ -1072,6 +1266,5 @@ Example GeoJSON:
 
 
 */
-
 
 /* end of file */

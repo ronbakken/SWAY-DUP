@@ -19,17 +19,30 @@ import 'remote_app.dart';
 
 class RemoteAppOAuth {
   RemoteApp _r;
-  ConfigData get config { return _r.config; }
-  sqljocky.ConnectionPool get sql { return _r.sql; }
-  TalkSocket get ts { return _r.ts; }
+  ConfigData get config {
+    return _r.config;
+  }
+
+  sqljocky.ConnectionPool get sql {
+    return _r.sql;
+  }
+
+  TalkSocket get ts {
+    return _r.ts;
+  }
 
   static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
   static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
 
   static final http.Client httpClient = new http.Client();
 
-  DataAccount get account { return _r.account; }
-  List<DataSocialMedia> get socialMedia { return _r.account.detail.socialMedia; }
+  DataAccount get account {
+    return _r.account;
+  }
+
+  List<DataSocialMedia> get socialMedia {
+    return _r.account.detail.socialMedia;
+  }
 
   RemoteAppOAuth(this._r) {
     _netOAuthUrlReq = _r.safeListen("OA_URLRE", netOAuthUrlReq);
@@ -57,139 +70,175 @@ class RemoteAppOAuth {
     if (pb.oauthProvider < config.oauthProviders.all.length) {
       ConfigOAuthProvider cfg = config.oauthProviders.all[pb.oauthProvider];
       switch (cfg.mechanism) {
-        case OAuthMechanism.OAM_OAUTH1: {
-          // Twitter-like
-          devLog.finest(cfg.requestTokenUrl);
-          devLog.finest(cfg.authenticateUrl);
-          devLog.finest(cfg.accessTokenUrl);
-          var platform = new oauth1.Platform(
-            cfg.host + cfg.requestTokenUrl, 
-            cfg.host + cfg.authenticateUrl, 
-            cfg.host + cfg.accessTokenUrl, 
-            oauth1.SignatureMethods.HMAC_SHA1);
-          var clientCredentials = new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
-          var auth = new oauth1.Authorization(clientCredentials, platform);
-          oauth1.AuthorizationResponse authRes = await auth.requestTemporaryCredentials(cfg.callbackUrl);
-          String authUrl = auth.getResourceOwnerAuthorizationURI(authRes.credentials.token);
-          NetOAuthUrlRes pbRes = new NetOAuthUrlRes();
-          devLog.finest(authUrl);
-          pbRes.authUrl = authUrl;
-          pbRes.callbackUrl = cfg.callbackUrl;
-          ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(), replying: message);
-          break;
-        }
-        case OAuthMechanism.OAM_OAUTH2: {
-          // Facebook, Spotify-like. Much easier (but less standardized)
-          Uri baseUri = Uri.parse(cfg.authUrl);
-          Map<String, String> query = Uri.splitQueryString(cfg.authQuery);
-          query['client_id'] = cfg.clientId;
-          query['redirect_uri'] = cfg.callbackUrl;
-          Uri uri = baseUri.replace(queryParameters: query);
-          String authUrl = "$uri";
-          NetOAuthUrlRes pbRes = new NetOAuthUrlRes();
-          devLog.finest(authUrl);
-          pbRes.authUrl = authUrl;
-          pbRes.callbackUrl = cfg.callbackUrl;
-          ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(), replying: message);
-          break;
-        }
-        default: {
-          ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", message);
-          throw new Exception("OAuth provider has no supported mechanism specified ${pb.oauthProvider}");
-        }
+        case OAuthMechanism.OAM_OAUTH1:
+          {
+            // Twitter-like
+            devLog.finest(cfg.requestTokenUrl);
+            devLog.finest(cfg.authenticateUrl);
+            devLog.finest(cfg.accessTokenUrl);
+            var platform = new oauth1.Platform(
+                cfg.host + cfg.requestTokenUrl,
+                cfg.host + cfg.authenticateUrl,
+                cfg.host + cfg.accessTokenUrl,
+                oauth1.SignatureMethods.HMAC_SHA1);
+            var clientCredentials = new oauth1.ClientCredentials(
+                cfg.consumerKey, cfg.consumerSecret);
+            var auth = new oauth1.Authorization(clientCredentials, platform);
+            oauth1.AuthorizationResponse authRes =
+                await auth.requestTemporaryCredentials(cfg.callbackUrl);
+            String authUrl = auth
+                .getResourceOwnerAuthorizationURI(authRes.credentials.token);
+            NetOAuthUrlRes pbRes = new NetOAuthUrlRes();
+            devLog.finest(authUrl);
+            pbRes.authUrl = authUrl;
+            pbRes.callbackUrl = cfg.callbackUrl;
+            ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(),
+                replying: message);
+            break;
+          }
+        case OAuthMechanism.OAM_OAUTH2:
+          {
+            // Facebook, Spotify-like. Much easier (but less standardized)
+            Uri baseUri = Uri.parse(cfg.authUrl);
+            Map<String, String> query = Uri.splitQueryString(cfg.authQuery);
+            query['client_id'] = cfg.clientId;
+            query['redirect_uri'] = cfg.callbackUrl;
+            Uri uri = baseUri.replace(queryParameters: query);
+            String authUrl = "$uri";
+            NetOAuthUrlRes pbRes = new NetOAuthUrlRes();
+            devLog.finest(authUrl);
+            pbRes.authUrl = authUrl;
+            pbRes.callbackUrl = cfg.callbackUrl;
+            ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(),
+                replying: message);
+            break;
+          }
+        default:
+          {
+            ts.sendException(
+                "Invalid oauthProvider specified: ${pb.oauthProvider}",
+                message);
+            throw new Exception(
+                "OAuth provider has no supported mechanism specified ${pb.oauthProvider}");
+          }
       }
     } else {
-      ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", message);
-      throw new Exception("Invalid oauthProvider specified ${pb.oauthProvider}");
+      ts.sendException(
+          "Invalid oauthProvider specified: ${pb.oauthProvider}", message);
+      throw new Exception(
+          "Invalid oauthProvider specified ${pb.oauthProvider}");
     }
   }
 
   /// Fetches access token credentials for a user from an OAuth provider by auth callback query
-  Future<DataOAuthCredentials> fetchOAuthCredentials(int oauthProvider, String callbackQuery) async {
-    devLog.finest("Fetch OAuth Credentials: OAuth Provider: $oauthProvider, Callback Query: $callbackQuery");
+  Future<DataOAuthCredentials> fetchOAuthCredentials(
+      int oauthProvider, String callbackQuery) async {
+    devLog.finest(
+        "Fetch OAuth Credentials: OAuth Provider: $oauthProvider, Callback Query: $callbackQuery");
     ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
     Map<String, String> query = Uri.splitQueryString(callbackQuery);
     DataOAuthCredentials oauthCredentials = new DataOAuthCredentials();
     switch (cfg.mechanism) {
-      case OAuthMechanism.OAM_OAUTH1: {
-        // Twitter-like
-        var platform = new oauth1.Platform(
-          cfg.host + cfg.requestTokenUrl, 
-          cfg.host + cfg.authenticateUrl, 
-          cfg.host + cfg.accessTokenUrl, 
-          oauth1.SignatureMethods.HMAC_SHA1);
-        var clientCredentials = new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
-        var auth = new oauth1.Authorization(clientCredentials, platform);
-        // auth.requestTokenCredentials(clientCredentials, verifier);
-        if (query.containsKey('oauth_token') && query.containsKey('oauth_verifier')) {
-          var credentials = new oauth1.Credentials(query['oauth_token'], ''); // oauth_token_secret can be left blank it seems
-          oauth1.AuthorizationResponse authRes = await auth.requestTokenCredentials(credentials, query['oauth_verifier']);
-          // For Twitter, these "Access Tokens" don't expire
-          devLog.finest(authRes.credentials.token);
-          devLog.finest(authRes.credentials.tokenSecret);
-          devLog.finest(authRes.optionalParameters);
-          oauthCredentials.token = authRes.credentials.token;
-          oauthCredentials.tokenSecret = authRes.credentials.tokenSecret;
-          oauthCredentials.tokenExpires = 0;
-          oauthCredentials.userId = authRes.optionalParameters['user_id'];
-          // screenName = authRes.optionalParameters['screen_name']; // DISCARDED
-        } else {
-          devLog.warning("Query doesn't contain the required parameters: ${callbackQuery}");
-        }
-        break;
-      }
-      case OAuthMechanism.OAM_OAUTH2: {
-        // Facebook, Spotify-like. Much easier (but less standardized)
-        if (query.containsKey('code')) {
-          // Facebook-like
-          Uri baseUri = Uri.parse(cfg.host + cfg.accessTokenUrl);
-          var requestQuery = new Map<String, String>();
-          requestQuery['client_id'] = cfg.clientId;
-          requestQuery['client_secret'] = cfg.clientSecret;
-          requestQuery['redirect_uri'] = cfg.callbackUrl;
-          requestQuery['code'] = query['code'];
-          /* this returns { "access_token": {access-token}, "token_type": {type}, "expires_in":  {seconds-til-expiration} } */
-          http.Response accessTokenRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
-          dynamic accessTokenDoc = json.decode(accessTokenRes.body);
-          assert(accessTokenDoc['token_type'] == 'bearer');
-          assert(accessTokenDoc['expires_in'] > 5000000);
-          assert(accessTokenDoc['access_token'] != null);
-          print(accessTokenDoc);
-          oauthCredentials.token = accessTokenDoc['access_token'];
-          oauthCredentials.tokenSecret = '';
-          oauthCredentials.tokenExpires = (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) + accessTokenDoc['expires_in'];
-          if (oauthCredentials.token != null && oauthProvider == OAuthProviderIds.OAP_FACEBOOK.value) { // Facebook
-            baseUri = Uri.parse(cfg.host + "/v3.1/debug_token");
-            requestQuery = new Map<String, String>();
-            requestQuery['input_token'] = "${oauthCredentials.token}";
-            requestQuery['access_token'] = "${cfg.clientId}|${cfg.clientSecret}";
-            http.Response debugTokenRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
-            dynamic debugTokenDoc = json.decode(debugTokenRes.body);
-            print(debugTokenDoc);
-            dynamic debugData = debugTokenDoc['data'];
-            if (debugData['app_id'] != cfg.clientId) {
-              opsLog.warning("User specified invalid app (expect ${cfg.clientId}) $debugTokenDoc");
-              break;
-            }
-            if (debugData['is_valid'] != true) {
-              opsLog.warning("User token not valid $debugTokenDoc");
-              break;
-            }
-            oauthCredentials.userId = debugData['user_id'];
-            oauthCredentials.tokenExpires = debugData['expires_at'];
+      case OAuthMechanism.OAM_OAUTH1:
+        {
+          // Twitter-like
+          var platform = new oauth1.Platform(
+              cfg.host + cfg.requestTokenUrl,
+              cfg.host + cfg.authenticateUrl,
+              cfg.host + cfg.accessTokenUrl,
+              oauth1.SignatureMethods.HMAC_SHA1);
+          var clientCredentials =
+              new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
+          var auth = new oauth1.Authorization(clientCredentials, platform);
+          // auth.requestTokenCredentials(clientCredentials, verifier);
+          if (query.containsKey('oauth_token') &&
+              query.containsKey('oauth_verifier')) {
+            var credentials = new oauth1.Credentials(query['oauth_token'],
+                ''); // oauth_token_secret can be left blank it seems
+            oauth1.AuthorizationResponse authRes = await auth
+                .requestTokenCredentials(credentials, query['oauth_verifier']);
+            // For Twitter, these "Access Tokens" don't expire
+            devLog.finest(authRes.credentials.token);
+            devLog.finest(authRes.credentials.tokenSecret);
+            devLog.finest(authRes.optionalParameters);
+            oauthCredentials.token = authRes.credentials.token;
+            oauthCredentials.tokenSecret = authRes.credentials.tokenSecret;
+            oauthCredentials.tokenExpires = 0;
+            oauthCredentials.userId = authRes.optionalParameters['user_id'];
+            // screenName = authRes.optionalParameters['screen_name']; // DISCARDED
+          } else {
+            devLog.warning(
+                "Query doesn't contain the required parameters: ${callbackQuery}");
           }
-        } else {
-          devLog.warning("Query doesn't contain the required parameters: ${callbackQuery}");
+          break;
         }
-        break;
-      }
-      default: {
-        // ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", replying: message);
-        throw new Exception("OAuth provider has no supported mechanism specified ${oauthProvider}");
-      }
+      case OAuthMechanism.OAM_OAUTH2:
+        {
+          // Facebook, Spotify-like. Much easier (but less standardized)
+          if (query.containsKey('code')) {
+            // Facebook-like
+            Uri baseUri = Uri.parse(cfg.host + cfg.accessTokenUrl);
+            var requestQuery = new Map<String, String>();
+            requestQuery['client_id'] = cfg.clientId;
+            requestQuery['client_secret'] = cfg.clientSecret;
+            requestQuery['redirect_uri'] = cfg.callbackUrl;
+            requestQuery['code'] = query['code'];
+            /* this returns { "access_token": {access-token}, "token_type": {type}, "expires_in":  {seconds-til-expiration} } */
+            http.Response accessTokenRes = await httpClient
+                .get(baseUri.replace(queryParameters: requestQuery));
+            dynamic accessTokenDoc = json.decode(accessTokenRes.body);
+            assert(accessTokenDoc['token_type'] == 'bearer');
+            assert(accessTokenDoc['expires_in'] > 5000000);
+            assert(accessTokenDoc['access_token'] != null);
+            print(accessTokenDoc);
+            oauthCredentials.token = accessTokenDoc['access_token'];
+            oauthCredentials.tokenSecret = '';
+            oauthCredentials.tokenExpires =
+                (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) +
+                    accessTokenDoc['expires_in'];
+            if (oauthCredentials.token != null &&
+                oauthProvider == OAuthProviderIds.OAP_FACEBOOK.value) {
+              // Facebook
+              baseUri = Uri.parse(cfg.host + "/v3.1/debug_token");
+              requestQuery = new Map<String, String>();
+              requestQuery['input_token'] = "${oauthCredentials.token}";
+              requestQuery['access_token'] =
+                  "${cfg.clientId}|${cfg.clientSecret}";
+              http.Response debugTokenRes = await httpClient
+                  .get(baseUri.replace(queryParameters: requestQuery));
+              dynamic debugTokenDoc = json.decode(debugTokenRes.body);
+              print(debugTokenDoc);
+              dynamic debugData = debugTokenDoc['data'];
+              if (debugData['app_id'] != cfg.clientId) {
+                opsLog.warning(
+                    "User specified invalid app (expect ${cfg.clientId}) $debugTokenDoc");
+                break;
+              }
+              if (debugData['is_valid'] != true) {
+                opsLog.warning("User token not valid $debugTokenDoc");
+                break;
+              }
+              oauthCredentials.userId = debugData['user_id'];
+              oauthCredentials.tokenExpires = debugData['expires_at'];
+            }
+          } else {
+            devLog.warning(
+                "Query doesn't contain the required parameters: ${callbackQuery}");
+          }
+          break;
+        }
+      default:
+        {
+          // ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", replying: message);
+          throw new Exception(
+              "OAuth provider has no supported mechanism specified ${oauthProvider}");
+        }
     }
     print("OAuth Credentials: $oauthCredentials");
-    return (oauthCredentials.userId != null && oauthCredentials.userId.length > 0) ? oauthCredentials : null;
+    return (oauthCredentials.userId != null &&
+            oauthCredentials.userId.length > 0)
+        ? oauthCredentials
+        : null;
   }
 
   StreamSubscription<TalkMessage> _netOAuthConnectReq; // OA_CONNE
@@ -206,7 +255,8 @@ class RemoteAppOAuth {
       ts.sendExtend(message);
       dynamic exception;
       try {
-        oauthCredentials = await fetchOAuthCredentials(oauthProvider, pb.callbackQuery);
+        oauthCredentials =
+            await fetchOAuthCredentials(oauthProvider, pb.callbackQuery);
       } catch (ex) {
         exception = ex;
       }
@@ -230,80 +280,119 @@ class RemoteAppOAuth {
         // Insert the data we have
         try {
           ts.sendExtend(message);
-          sqljocky.Results insertRes = await sql.prepareExecute("INSERT INTO `oauth_connections`("
-            "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `device_id`, `oauth_token`, `oauth_token_secret`, `oauth_token_expires`"
-            ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
-            [ oauthCredentials.userId.toString(), oauthProvider.toInt(), account.state.accountType.value.toInt(), 
-            account.state.accountId.toInt(), account.state.deviceId.toInt(),
-            oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toString() ]);
-            inserted = insertRes.affectedRows > 0;
-            devLog.finest("Inserted new OAuth connection: $inserted");
+          sqljocky.Results insertRes = await sql.prepareExecute(
+              "INSERT INTO `oauth_connections`("
+              "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `device_id`, `oauth_token`, `oauth_token_secret`, `oauth_token_expires`"
+              ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+              [
+                oauthCredentials.userId.toString(),
+                oauthProvider.toInt(),
+                account.state.accountType.value.toInt(),
+                account.state.accountId.toInt(),
+                account.state.deviceId.toInt(),
+                oauthCredentials.token.toString(),
+                oauthCredentials.tokenSecret.toString(),
+                oauthCredentials.tokenExpires.toString()
+              ]);
+          inserted = insertRes.affectedRows > 0;
+          devLog.finest("Inserted new OAuth connection: $inserted");
         } on TalkException {
           rethrow;
-        } catch (ex) { // This is permitted to fail
-          devLog.finest("Atomical (INSERT INTO `oauth_connections`) Exception: $ex");
+        } catch (ex) {
+          // This is permitted to fail
+          devLog.finest(
+              "Atomical (INSERT INTO `oauth_connections`) Exception: $ex");
         }
 
         // Alternative is to update a previously pending connection that has account_id = 0
         if (!inserted) {
           try {
-            if (account.state.accountId == 0) { // Attempt to login to an existing account, or regain a lost connection
+            if (account.state.accountId == 0) {
+              // Attempt to login to an existing account, or regain a lost connection
               devLog.finest("Try takeover");
               ts.sendExtend(message);
               String query = "UPDATE `oauth_connections` "
-                "SET `updated` = CURRENT_TIMESTAMP(), `device_id` = ?, "
-                "`oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
-                "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?";
-              sqljocky.Results updateRes = await sql.prepareExecute(query,
-                [ account.state.deviceId.toInt(), 
-                oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toString(),
-                oauthCredentials.userId.toString(), oauthProvider.toInt(), account.state.accountType.value.toInt() ]);
-              takeover = (updateRes.affectedRows > 0) && (account.state.accountId == 0); // Also check for account state
+                  "SET `updated` = CURRENT_TIMESTAMP(), `device_id` = ?, "
+                  "`oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
+                  "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?";
+              sqljocky.Results updateRes = await sql.prepareExecute(query, [
+                account.state.deviceId.toInt(),
+                oauthCredentials.token.toString(),
+                oauthCredentials.tokenSecret.toString(),
+                oauthCredentials.tokenExpires.toString(),
+                oauthCredentials.userId.toString(),
+                oauthProvider.toInt(),
+                account.state.accountType.value.toInt()
+              ]);
+              takeover = (updateRes.affectedRows > 0) &&
+                  (account.state.accountId ==
+                      0); // Also check for account state
               devLog.finest(updateRes.affectedRows);
               devLog.finest("Attempt to takeover OAuth connection: $takeover");
             }
-            if (takeover) { // Find out if we are logged into an account now
+            if (takeover) {
+              // Find out if we are logged into an account now
               devLog.finest("Verify takeover");
               ts.sendExtend(message);
-              sqljocky.Results connectionRes = await sql.prepareExecute("SELECT `account_id` FROM `oauth_connections` "
-                "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?", 
-                [ oauthCredentials.userId.toString(), oauthProvider.toInt(), account.state.accountType.value.toInt() ]);
+              sqljocky.Results connectionRes = await sql.prepareExecute(
+                  "SELECT `account_id` FROM `oauth_connections` "
+                  "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?",
+                  [
+                    oauthCredentials.userId.toString(),
+                    oauthProvider.toInt(),
+                    account.state.accountType.value.toInt()
+                  ]);
               int takeoverAccountId = 0;
               await for (sqljocky.Row row in connectionRes) {
                 takeoverAccountId = row[0].toInt();
               }
-              takeover = (account.state.accountId == 0) && (takeoverAccountId != 0);
+              takeover =
+                  (account.state.accountId == 0) && (takeoverAccountId != 0);
               if (takeover) {
                 // updateDeviceState loads the new state from the database into account.state.accountId
-                devLog.finest("Takeover, existing account $takeoverAccountId on device ${account.state.deviceId}");
+                devLog.finest(
+                    "Takeover, existing account $takeoverAccountId on device ${account.state.deviceId}");
                 String query = "UPDATE `devices` "
-                  "SET `account_id` = ? "
-                  "WHERE `device_id` = ? AND `account_id` = 0";
+                    "SET `account_id` = ? "
+                    "WHERE `device_id` = ? AND `account_id` = 0";
                 ts.sendExtend(message);
-                await sql.prepareExecute(query, [ takeoverAccountId.toInt(), account.state.deviceId.toInt() ]);
-                // NOTE: Technically, here we may escalate any OAuth connections of this device to the account, 
+                await sql.prepareExecute(query, [
+                  takeoverAccountId.toInt(),
+                  account.state.deviceId.toInt()
+                ]);
+                // NOTE: Technically, here we may escalate any OAuth connections of this device to the account,
                 // as long as the account has no connections yet for the connected providers (long-term)
               }
-              refreshed = !takeover; // If not anymore a takeover, then simply refreshed by deviceId
+              refreshed =
+                  !takeover; // If not anymore a takeover, then simply refreshed by deviceId
               devLog.finest("refreshed: $refreshed, takeover: $takeover");
             }
-            if (!takeover && !refreshed) { // In case account state changed, or in case the user is simply refreshing tokens
+            if (!takeover && !refreshed) {
+              // In case account state changed, or in case the user is simply refreshing tokens
               devLog.finest("Try refresh");
               ts.sendExtend(message);
               String query = "UPDATE `oauth_connections` "
-                "SET `updated` = CURRENT_TIMESTAMP(), `account_id` = ?, `device_id` = ?, `oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
-                "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
-              sqljocky.Results updateRes = await sql.prepareExecute(query,
-                [ account.state.accountId.toInt(), account.state.deviceId.toInt(), 
-                oauthCredentials.token.toString(), oauthCredentials.tokenSecret.toString(), oauthCredentials.tokenExpires.toInt(),
-                oauthCredentials.userId.toString(), oauthProvider.toInt(), account.state.accountType.value.toInt(), account.state.accountId.toInt() ]);
+                  "SET `updated` = CURRENT_TIMESTAMP(), `account_id` = ?, `device_id` = ?, `oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
+                  "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
+              sqljocky.Results updateRes = await sql.prepareExecute(query, [
+                account.state.accountId.toInt(),
+                account.state.deviceId.toInt(),
+                oauthCredentials.token.toString(),
+                oauthCredentials.tokenSecret.toString(),
+                oauthCredentials.tokenExpires.toInt(),
+                oauthCredentials.userId.toString(),
+                oauthProvider.toInt(),
+                account.state.accountType.value.toInt(),
+                account.state.accountId.toInt()
+              ]);
               refreshed = updateRes.affectedRows > 0;
               devLog.finest("Attempt to refresh OAuth tokens: $refreshed");
             }
           } on TalkException {
             rethrow;
           } catch (ex) {
-            devLog.finest("Atomical (UPDATE `oauth_connections`) Exception: $ex");
+            devLog
+                .finest("Atomical (UPDATE `oauth_connections`) Exception: $ex");
           }
         }
       }
@@ -314,21 +403,33 @@ class RemoteAppOAuth {
         // Happens after addition to ensure race condition will prioritize deletion
         ts.sendExtend(message);
         if (account.state.accountId != 0) {
-          String query = "DELETE FROM `oauth_connections` WHERE `account_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
-          await sql.prepareExecute(query, [ account.state.accountId.toInt(), oauthCredentials.userId.toString(), oauthProvider.toInt() ]);
+          String query =
+              "DELETE FROM `oauth_connections` WHERE `account_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
+          await sql.prepareExecute(query, [
+            account.state.accountId.toInt(),
+            oauthCredentials.userId.toString(),
+            oauthProvider.toInt()
+          ]);
         }
         if (account.state.deviceId != 0) {
-          String query = "DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
-          await sql.prepareExecute(query, [ account.state.deviceId.toInt(), oauthCredentials.userId.toString(), oauthProvider.toInt() ]);
+          String query =
+              "DELETE FROM `oauth_connections` WHERE `device_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
+          await sql.prepareExecute(query, [
+            account.state.deviceId.toInt(),
+            oauthCredentials.userId.toString(),
+            oauthProvider.toInt()
+          ]);
         }
 
         // Fetch useful data from social media
         ts.sendExtend(message);
-        DataSocialMedia dataSocialMedia = await fetchSocialMedia(oauthProvider, oauthCredentials);
+        DataSocialMedia dataSocialMedia =
+            await fetchSocialMedia(oauthProvider, oauthCredentials);
 
         // Write fetched social media data to SQL database
         ts.sendExtend(message);
-        await cacheSocialMedia(oauthCredentials.userId, oauthProvider, dataSocialMedia);
+        await cacheSocialMedia(
+            oauthCredentials.userId, oauthProvider, dataSocialMedia);
 
         socialMedia[oauthProvider].mergeFromMessage(dataSocialMedia);
         socialMedia[oauthProvider].connected = true;
@@ -336,7 +437,8 @@ class RemoteAppOAuth {
 
       // Simply send update of this specific social media
       pbRes.socialMedia = socialMedia[oauthProvider];
-      ts.sendMessage(_netOAuthConnectRes, pbRes.writeToBuffer(), replying: message);
+      ts.sendMessage(_netOAuthConnectRes, pbRes.writeToBuffer(),
+          replying: message);
       devLog.finest("OAuth connected: ${pbRes.socialMedia.connected}");
 
       if (takeover) {
@@ -350,7 +452,8 @@ class RemoteAppOAuth {
           // Transition to app
           await _r.transitionToApp();
         } else {
-          devLog.severe("Takeover but account id is 0, this is a fatal bug, disconnecting user now");
+          devLog.severe(
+              "Takeover but account id is 0, this is a fatal bug, disconnecting user now");
           ts.close();
         }
       }
@@ -359,97 +462,129 @@ class RemoteAppOAuth {
         throw exception;
       }
     } else {
-      ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", message);
-      throw new Exception("Invalid oauthProvider specified ${pb.oauthProvider}");
+      ts.sendException(
+          "Invalid oauthProvider specified: ${pb.oauthProvider}", message);
+      throw new Exception(
+          "Invalid oauthProvider specified ${pb.oauthProvider}");
     }
   }
 
-  Future<DataSocialMedia> fetchSocialMedia(int oauthProvider, DataOAuthCredentials oauthCredentials) async {
-    devLog.finest("fetchSocialMedia: $oauthProvider, ${oauthCredentials.userId}, ${oauthCredentials.token}, ${oauthCredentials.tokenSecret}");
+  Future<DataSocialMedia> fetchSocialMedia(
+      int oauthProvider, DataOAuthCredentials oauthCredentials) async {
+    devLog.finest(
+        "fetchSocialMedia: $oauthProvider, ${oauthCredentials.userId}, ${oauthCredentials.token}, ${oauthCredentials.tokenSecret}");
     DataSocialMedia dataSocialMedia = new DataSocialMedia();
     // Fetch social media stats from the oauth provider. Then store them in the database. Then set them here.
     // Get display name, screen name, followers, following, avatar, banner image
     ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
     switch (OAuthProviderIds.valueOf(oauthProvider)) {
-      case OAuthProviderIds.OAP_TWITTER: { // Twitter
-        // https://api.twitter.com/1.1/users/show.json?user_id=12345
-        devLog.finest("Twitter");
-        var clientCredentials = new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
-        var credentials = new oauth1.Credentials(oauthCredentials.token, oauthCredentials.tokenSecret);
-        var client = new oauth1.Client(oauth1.SignatureMethods.HMAC_SHA1, clientCredentials, credentials);
-        // devLog.finest('show');
-        // http.Response res = await client.get("https://api.twitter.com/1.1/users/show.json?user_id=$oauthUserId");
-        // https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-verify_credentials
-        // https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_email=true
-        // devLog.finest(res.body);
-        http.Response res = await client.get("https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_email=true");
-        devLog.finest('verify_credentials');
-        devLog.finest(res.body);
-        dynamic doc = json.decode(res.body);
-        if (doc['id_str'] != oauthCredentials.userId) {
-          throw new Exception("Mismatching OAuth user: ${doc['id_str']} != ${oauthCredentials.userId}");
-        }
-        if (doc['screen_name'] != null) dataSocialMedia.screenName = doc['screen_name'];
-        if (doc['name'] != null) dataSocialMedia.displayName = doc['name'];
-        if (doc['profile_image_url'] != null && doc['default_profile_image'] != true) dataSocialMedia.avatarUrl = doc['profile_image_url'].toString().replaceAll('_normal', '');
-        if (doc['screen_name'] != null) dataSocialMedia.profileUrl = "https://twitter.com/${doc['screen_name']}";
-        if (doc['location'] != null) dataSocialMedia.location = doc['location'];
-        if (doc['description'] != null) dataSocialMedia.description = doc['description'];
-        if (doc['url'] != null) dataSocialMedia.url = doc['url'];
-        dynamic entities_ = doc['entities'];
-        if (entities_ != null) {
-          dynamic url_ = entities_['url'];
-          if (url_ != null) {
-            dynamic urls_ = url_['urls'];
-            if (urls_ is List && urls_.length > 0 && urls_[0]['url'] == dataSocialMedia.url) {
-              String expandedUrl = urls_[0]['expanded_url'];
-              if (expandedUrl != null) {
-                dataSocialMedia.url = expandedUrl;
+      case OAuthProviderIds.OAP_TWITTER:
+        {
+          // Twitter
+          // https://api.twitter.com/1.1/users/show.json?user_id=12345
+          devLog.finest("Twitter");
+          var clientCredentials =
+              new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
+          var credentials = new oauth1.Credentials(
+              oauthCredentials.token, oauthCredentials.tokenSecret);
+          var client = new oauth1.Client(oauth1.SignatureMethods.HMAC_SHA1,
+              clientCredentials, credentials);
+          // devLog.finest('show');
+          // http.Response res = await client.get("https://api.twitter.com/1.1/users/show.json?user_id=$oauthUserId");
+          // https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-verify_credentials
+          // https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_email=true
+          // devLog.finest(res.body);
+          http.Response res = await client.get(
+              "https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_email=true");
+          devLog.finest('verify_credentials');
+          devLog.finest(res.body);
+          dynamic doc = json.decode(res.body);
+          if (doc['id_str'] != oauthCredentials.userId) {
+            throw new Exception(
+                "Mismatching OAuth user: ${doc['id_str']} != ${oauthCredentials.userId}");
+          }
+          if (doc['screen_name'] != null)
+            dataSocialMedia.screenName = doc['screen_name'];
+          if (doc['name'] != null) dataSocialMedia.displayName = doc['name'];
+          if (doc['profile_image_url'] != null &&
+              doc['default_profile_image'] != true)
+            dataSocialMedia.avatarUrl =
+                doc['profile_image_url'].toString().replaceAll('_normal', '');
+          if (doc['screen_name'] != null)
+            dataSocialMedia.profileUrl =
+                "https://twitter.com/${doc['screen_name']}";
+          if (doc['location'] != null)
+            dataSocialMedia.location = doc['location'];
+          if (doc['description'] != null)
+            dataSocialMedia.description = doc['description'];
+          if (doc['url'] != null) dataSocialMedia.url = doc['url'];
+          dynamic entities_ = doc['entities'];
+          if (entities_ != null) {
+            dynamic url_ = entities_['url'];
+            if (url_ != null) {
+              dynamic urls_ = url_['urls'];
+              if (urls_ is List &&
+                  urls_.length > 0 &&
+                  urls_[0]['url'] == dataSocialMedia.url) {
+                String expandedUrl = urls_[0]['expanded_url'];
+                if (expandedUrl != null) {
+                  dataSocialMedia.url = expandedUrl;
+                }
               }
             }
           }
+          dataSocialMedia.followersCount = doc['followers_count'];
+          dataSocialMedia.followingCount = doc['friends_count'];
+          dataSocialMedia.postsCount = doc['statuses_count'];
+          dataSocialMedia.verified = doc['verified'];
+          dataSocialMedia.email = doc['email'];
+          dataSocialMedia.connected = true;
+          break;
         }
-        dataSocialMedia.followersCount = doc['followers_count'];
-        dataSocialMedia.followingCount = doc['friends_count'];
-        dataSocialMedia.postsCount = doc['statuses_count'];
-        dataSocialMedia.verified = doc['verified'];
-        dataSocialMedia.email = doc['email'];
-        dataSocialMedia.connected = true;
-        break;
-      }
-      case OAuthProviderIds.OAP_FACEBOOK: { // Facebook
-        Uri baseUri;
-        Map<String, String> requestQuery = new Map<String, String>();
-        requestQuery['access_token'] = oauthCredentials.token;
+      case OAuthProviderIds.OAP_FACEBOOK:
+        {
+          // Facebook
+          Uri baseUri;
+          Map<String, String> requestQuery = new Map<String, String>();
+          requestQuery['access_token'] = oauthCredentials.token;
 
-        // Need "Page Public Content Access"
+          // Need "Page Public Content Access"
 
-        // User info
-        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthCredentials.userId); // Try fields=picture.height(961) to get highest resolution avatar
-        requestQuery['fields'] = "name,email,link,picture.height(1440)"; // ,location,address,hometown // cover,subscribers,subscribedto is deprecated
-        http.Response userRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
-        dynamic userDoc = json.decode(userRes.body);
-        devLog.finest(userDoc);
+          // User info
+          baseUri = Uri.parse(cfg.host +
+              "/v3.1/" +
+              oauthCredentials
+                  .userId); // Try fields=picture.height(961) to get highest resolution avatar
+          requestQuery['fields'] =
+              "name,email,link,picture.height(1440)"; // ,location,address,hometown // cover,subscribers,subscribedto is deprecated
+          http.Response userRes = await httpClient
+              .get(baseUri.replace(queryParameters: requestQuery));
+          dynamic userDoc = json.decode(userRes.body);
+          devLog.finest(userDoc);
 
-        if (userDoc['id'] != oauthCredentials.userId) {
-          throw new Exception("Mismatching OAuth user: ${userDoc['id']} != ${oauthCredentials.userId}");
-        }
-
-        if (userDoc['name'] != null) dataSocialMedia.displayName = userDoc['name'];
-        if (userDoc['link'] != null) dataSocialMedia.profileUrl = userDoc['link'];
-        if (userDoc['email'] != null) dataSocialMedia.email = userDoc['email'];
-
-        dynamic picture = userDoc['picture'];
-        if (picture != null) {
-          dynamic data = picture['data'];
-          if (data != null) {
-            dynamic url = data['url'];
-            if (url != null) dataSocialMedia.avatarUrl = url;
-            // devLog.fine("Facebook avatar: $url");
+          if (userDoc['id'] != oauthCredentials.userId) {
+            throw new Exception(
+                "Mismatching OAuth user: ${userDoc['id']} != ${oauthCredentials.userId}");
           }
-        }
 
-        /*
+          if (userDoc['name'] != null)
+            dataSocialMedia.displayName = userDoc['name'];
+          if (userDoc['link'] != null)
+            dataSocialMedia.profileUrl = userDoc['link'];
+          if (userDoc['email'] != null)
+            dataSocialMedia.email = userDoc['email'];
+
+          dynamic picture = userDoc['picture'];
+          if (picture != null) {
+            dynamic data = picture['data'];
+            if (data != null) {
+              dynamic url = data['url'];
+              if (url != null) dataSocialMedia.avatarUrl = url;
+              // devLog.fine("Facebook avatar: $url");
+            }
+          }
+
+          /*
         devLog.finest(userDoc['link']);
         if (userDoc['link'] != null) {
           // Trick to find the screen name
@@ -458,26 +593,28 @@ class RemoteAppOAuth {
         }
         */
 
-        // Friend count
-        baseUri = Uri.parse(cfg.host + "/v3.1/" + oauthCredentials.userId + "/friends");
-        requestQuery['fields'] = "summary";
-        requestQuery['summary'] = "total_count";
-        http.Response friendsRes = await httpClient.get(baseUri.replace(queryParameters: requestQuery));
-        dynamic friendsDoc = json.decode(friendsRes.body);
-        devLog.finest(friendsDoc);
+          // Friend count
+          baseUri = Uri.parse(
+              cfg.host + "/v3.1/" + oauthCredentials.userId + "/friends");
+          requestQuery['fields'] = "summary";
+          requestQuery['summary'] = "total_count";
+          http.Response friendsRes = await httpClient
+              .get(baseUri.replace(queryParameters: requestQuery));
+          dynamic friendsDoc = json.decode(friendsRes.body);
+          devLog.finest(friendsDoc);
 
-        dynamic friendsSummary = friendsDoc['summary'];
-        if (friendsSummary != null) {
-          dynamic totalCount = friendsSummary['total_count'];
-          if (totalCount != null) dataSocialMedia.friendsCount = totalCount;
-        }
+          dynamic friendsSummary = friendsDoc['summary'];
+          if (friendsSummary != null) {
+            dynamic totalCount = friendsSummary['total_count'];
+            if (totalCount != null) dataSocialMedia.friendsCount = totalCount;
+          }
 
-        dataSocialMedia.connected = true;
+          dataSocialMedia.connected = true;
 
-        // int followingCount = friendsDoc["summary"]["total_count"];
+          // int followingCount = friendsDoc["summary"]["total_count"];
 
-        // List the pages that the user controls
-        /*
+          // List the pages that the user controls
+          /*
         baseUri = Uri.parse(cfg.host + "/v3.1/me/accounts");
         requestQuery['fields'] = "data,summary";
         requestQuery['summary'] = "total_count";
@@ -512,29 +649,44 @@ class RemoteAppOAuth {
         devLog.finest(testDoc);
 */
 
-        break;
-      }
+          break;
+        }
     }
-    devLog.finer("${OAuthProviderIds.valueOf(oauthProvider)}: ${oauthCredentials.userId}: $dataSocialMedia");
+    devLog.finer(
+        "${OAuthProviderIds.valueOf(oauthProvider)}: ${oauthCredentials.userId}: $dataSocialMedia");
     return dataSocialMedia;
   }
-  
-  Future<Null> cacheSocialMedia(String oauthUserId, int oauthProvider, DataSocialMedia dataSocialMedia) async {
+
+  Future<Null> cacheSocialMedia(String oauthUserId, int oauthProvider,
+      DataSocialMedia dataSocialMedia) async {
     Map<String, String> stringValues = new Map<String, String>();
     Map<String, int> intValues = new Map<String, int>();
-    if (dataSocialMedia.screenName.length > 0) stringValues['screen_name'] = dataSocialMedia.screenName;
-    if (dataSocialMedia.displayName.length > 0) stringValues['display_name'] = dataSocialMedia.displayName;
-    if (dataSocialMedia.avatarUrl.length > 0) stringValues['avatar_url'] = dataSocialMedia.avatarUrl;
-    if (dataSocialMedia.profileUrl.length > 0) stringValues['profile_url'] = dataSocialMedia.profileUrl;
-    if (dataSocialMedia.description.length > 0) stringValues['description'] = dataSocialMedia.description;
-    if (dataSocialMedia.location.length > 0) stringValues['location'] = dataSocialMedia.location;
-    if (dataSocialMedia.url.length > 0) stringValues['url'] = dataSocialMedia.url;
-    if (dataSocialMedia.email.length > 0) stringValues['email'] = dataSocialMedia.email;
-    if (dataSocialMedia.friendsCount > 0) intValues['friends_count'] = dataSocialMedia.friendsCount;
-    if (dataSocialMedia.followersCount > 0) intValues['followers_count'] = dataSocialMedia.followersCount;
-    if (dataSocialMedia.followingCount > 0) intValues['following_count'] = dataSocialMedia.followingCount;
-    if (dataSocialMedia.postsCount > 0) intValues['posts_count'] = dataSocialMedia.postsCount;
-    if (dataSocialMedia.hasVerified()) intValues['verified'] = dataSocialMedia.verified ? 1 : 0;
+    if (dataSocialMedia.screenName.length > 0)
+      stringValues['screen_name'] = dataSocialMedia.screenName;
+    if (dataSocialMedia.displayName.length > 0)
+      stringValues['display_name'] = dataSocialMedia.displayName;
+    if (dataSocialMedia.avatarUrl.length > 0)
+      stringValues['avatar_url'] = dataSocialMedia.avatarUrl;
+    if (dataSocialMedia.profileUrl.length > 0)
+      stringValues['profile_url'] = dataSocialMedia.profileUrl;
+    if (dataSocialMedia.description.length > 0)
+      stringValues['description'] = dataSocialMedia.description;
+    if (dataSocialMedia.location.length > 0)
+      stringValues['location'] = dataSocialMedia.location;
+    if (dataSocialMedia.url.length > 0)
+      stringValues['url'] = dataSocialMedia.url;
+    if (dataSocialMedia.email.length > 0)
+      stringValues['email'] = dataSocialMedia.email;
+    if (dataSocialMedia.friendsCount > 0)
+      intValues['friends_count'] = dataSocialMedia.friendsCount;
+    if (dataSocialMedia.followersCount > 0)
+      intValues['followers_count'] = dataSocialMedia.followersCount;
+    if (dataSocialMedia.followingCount > 0)
+      intValues['following_count'] = dataSocialMedia.followingCount;
+    if (dataSocialMedia.postsCount > 0)
+      intValues['posts_count'] = dataSocialMedia.postsCount;
+    if (dataSocialMedia.hasVerified())
+      intValues['verified'] = dataSocialMedia.verified ? 1 : 0;
     bool comma = false;
     String queryNames = '';
     String queryValues = '';
@@ -567,8 +719,13 @@ class RemoteAppOAuth {
       queryParams.add(v.value);
     }
     if (comma) {
-      String query = "INSERT INTO `social_media`(`oauth_user_id`, `oauth_provider`, $queryNames) VALUES (?, ?, $queryValues) ON DUPLICATE KEY UPDATE $queryUpdates";
-      await sql.prepareExecute(query, [ oauthUserId.toString(), oauthProvider.toInt() ]..addAll(queryParams)..addAll(queryParams));
+      String query =
+          "INSERT INTO `social_media`(`oauth_user_id`, `oauth_provider`, $queryNames) VALUES (?, ?, $queryValues) ON DUPLICATE KEY UPDATE $queryUpdates";
+      await sql.prepareExecute(
+          query,
+          [oauthUserId.toString(), oauthProvider.toInt()]
+            ..addAll(queryParams)
+            ..addAll(queryParams));
     }
   }
 }

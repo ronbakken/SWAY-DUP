@@ -38,12 +38,16 @@ AUGKNEZGFQVUROSP2CB7
 AK8dfZ8nD+QYl6Nz662YMa2oSjrG/uUmXte8t4ojd70
 */
 
-selfTestSql(sqljocky.ConnectionPool sql) async { // ⚠️✔️❌🛑 // Emojis make code run faster
+selfTestSql(sqljocky.ConnectionPool sql) async {
+  // ⚠️✔️❌🛑 // Emojis make code run faster
   final Logger opsLog = new Logger('InfOps.SelfTest');
   try {
-    List<sqljocky.Row> selfTest1 = await (await sql.query('SELECT message FROM self_test WHERE self_test_id=1')).toList();
+    List<sqljocky.Row> selfTest1 = await (await sql
+            .query('SELECT message FROM self_test WHERE self_test_id=1'))
+        .toList();
     if ("${selfTest1[0][0]}" != "Zipper Sorting 😏") {
-      opsLog.severe('[❌] SQL Self Test: expected: "Zipper Sorting 😏", actual: "${selfTest1[0][0]}"'); // CRITICAL - OPERATIONS
+      opsLog.severe(
+          '[❌] SQL Self Test: expected: "Zipper Sorting 😏", actual: "${selfTest1[0][0]}"'); // CRITICAL - OPERATIONS
     } else {
       opsLog.info("[✔️] SQL Self Test");
     }
@@ -87,15 +91,19 @@ run() async {
   new Logger('SqlJocky.BufferedSocket').level = Level.WARNING;
 
   // Server Configuration
-  Uint8List configBytes = await new File("assets/config_server.bin").readAsBytes();
+  Uint8List configBytes =
+      await new File("assets/config_server.bin").readAsBytes();
   ConfigData config = new ConfigData();
   config.mergeFromBuffer(configBytes);
 
   // Run SQL client
   final sqljocky.ConnectionPool sql = new sqljocky.ConnectionPool(
-    host: config.services.mariadbHost, port: config.services.mariadbPort,
-    user: config.services.mariadbUser, password: config.services.mariadbPassword,
-    db: config.services.mariadbDatabase, max: 5);
+      host: config.services.mariadbHost,
+      port: config.services.mariadbPort,
+      user: config.services.mariadbUser,
+      password: config.services.mariadbPassword,
+      db: config.services.mariadbDatabase,
+      max: 5);
   selfTestSql(sql);
 
   // Spaces
@@ -107,7 +115,8 @@ run() async {
   final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
 
   // Listen to websocket
-  final HttpServer server = await HttpServer.bind(InternetAddress.anyIPv6, 8090);
+  final HttpServer server =
+      await HttpServer.bind(InternetAddress.anyIPv6, 8090);
   () async {
     await for (HttpRequest request in server) {
       print(request.uri.path);
@@ -123,14 +132,15 @@ run() async {
             if (remoteApp == null) {
               String ipAddress = request.connectionInfo.remoteAddress.address;
               String xRealIP = request.headers.value('x-real-ip');
-              remoteApp = new RemoteApp(config, sql, bucket, ts, 
-                ipAddress: xRealIP != null ? xRealIP : ipAddress);
+              remoteApp = new RemoteApp(config, sql, bucket, ts,
+                  ipAddress: xRealIP != null ? xRealIP : ipAddress);
             }
           });
           // Listen
           () async {
             try {
-              await ts.listen(); // Any exception will ultimately fall down to here
+              await ts
+                  .listen(); // Any exception will ultimately fall down to here
             } catch (ex) {
               print("Exception from remote app:");
               print(ex);
@@ -140,7 +150,8 @@ run() async {
               remoteApp.dispose();
               remoteApp = null;
             }
-          }().catchError((ex) {
+          }()
+              .catchError((ex) {
             print("Exception listening to app:");
             print(ex);
           });
@@ -160,7 +171,8 @@ run() async {
       }
     }
     print("Server exited");
-  }().catchError((ex) {
+  }()
+      .catchError((ex) {
     print("Exception running server:");
     print(ex);
   });
