@@ -726,6 +726,7 @@ class RemoteApp {
               ts.sendExtend(message);
               GlobalAccountState globalAccountState;
               GlobalAccountStateReason globalAccountStateReason;
+              // Initial approval state for accounts is defined here
               switch (account.state.accountType) {
                 case AccountType.AT_BUSINESS:
                 case AccountType.AT_INFLUENCER:
