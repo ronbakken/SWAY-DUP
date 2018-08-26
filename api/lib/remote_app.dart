@@ -713,6 +713,9 @@ class RemoteApp {
             // Process the account creation
             ts.sendExtend(message);
             await sql.startTransaction((sqljocky.Transaction tx) async {
+              if (account.state.accountId != 0) {
+                throw new Exception("Race condition, account already created, not an issue");
+              }
               // 1. Create the new account entries
               // 2. Update device to LAST_INSERT_ID(), ensure that a row was modified, otherwise rollback (account already created)
               // 3. Update all device authentication connections to LAST_INSERT_ID()
@@ -721,6 +724,24 @@ class RemoteApp {
               // 1.
               // TODO: Add notify flags field to SQL
               ts.sendExtend(message);
+              GlobalAccountState globalAccountState;
+              GlobalAccountStateReason globalAccountStateReason;
+              switch (account.state.accountType) {
+                case AccountType.AT_BUSINESS:
+                case AccountType.AT_INFLUENCER:
+                  // globalAccountState = GlobalAccountState.GAS_READ_ONLY;
+                  // globalAccountStateReason = GlobalAccountStateReason.GASR_PENDING;
+                  globalAccountState = GlobalAccountState.GAS_READ_WRITE;
+                  globalAccountStateReason = GlobalAccountStateReason.GASR_DEMO_APPROVED;
+                  break;
+                case AccountType.AT_SUPPORT:
+                  globalAccountState = GlobalAccountState.GAS_BLOCKED;
+                  globalAccountStateReason = GlobalAccountStateReason.GASR_PENDING;
+                  break;
+                default:
+                  opsLog.severe("Attempt to create account with invalid account type ${account.state.accountType} by device ${account.state.deviceId}");
+                  throw new Exception("Attempt to create account with invalid account type");
+              }
               sqljocky.Results res1 = await tx.prepareExecute(
                   "INSERT INTO `accounts`("
                   "`name`, `account_type`, "
@@ -730,9 +751,7 @@ class RemoteApp {
                   [
                     accountName.toString(),
                     account.state.accountType.value.toInt(),
-                    // GlobalAccountState.GAS_READ_ONLY.value.toInt(), GlobalAccountStateReason.GASR_PENDING.value.toInt(),
-                    GlobalAccountState.GAS_READ_WRITE.value.toInt(),
-                    GlobalAccountStateReason.GASR_DEMO_APPROVED.value.toInt(),
+                    globalAccountState.value.toInt(), globalAccountStateReason.value.toInt(), 
                     accountDescription.toString(), accountUrl
                   ]);
               if (res1.affectedRows == 0)
