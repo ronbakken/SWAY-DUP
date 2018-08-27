@@ -91,7 +91,7 @@ packages:
       path: "."
       ref: HEAD
       resolved-ref: "9f0180b8ff220d7d076991f8e4cfc0f4dfec487a"
-      url: "git@github.com:nbspou/circle_indicator.git"
+      url: "https://github.com/nbspou/circle_indicator.git"
     source: git
     version: "0.0.7"
   cli_util:
@@ -301,7 +301,7 @@ packages:
       path: "."
       ref: HEAD
       resolved-ref: "07de4bef3b47f3040be4b6d1cd6a710b2d408a8e"
-      url: "git@github.com:johnpryan/latlong2.git"
+      url: "https://github.com/johnpryan/latlong2.git"
     source: git
     version: "0.6.0"
   logging:

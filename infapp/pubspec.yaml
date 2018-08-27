@@ -13,7 +13,7 @@ dependencies:
   protobuf: ^0.9.0+1
 
   circle_indicator:
-    git: git@github.com:nbspou/circle_indicator.git
+    git: https://github.com/nbspou/circle_indicator.git
 
   flutter_webview_plugin: ^0.2.1+2
   http: ^0.11.3+13
