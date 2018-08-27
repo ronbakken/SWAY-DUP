@@ -899,6 +899,8 @@ class DataBusinessOffer extends GeneratedMessage {
     ..a<int>(15, 'applicantsAccepted', PbFieldType.O3)
     ..a<int>(16, 'applicantsCompleted', PbFieldType.O3)
     ..a<int>(17, 'applicantsRefused', PbFieldType.O3)
+    ..a<double>(18, 'latitude', PbFieldType.OD)
+    ..a<double>(19, 'longitude', PbFieldType.OD)
     ..hasRequiredFields = false;
 
   DataBusinessOffer() : super();
@@ -1047,6 +1049,22 @@ class DataBusinessOffer extends GeneratedMessage {
 
   bool hasApplicantsRefused() => $_has(16);
   void clearApplicantsRefused() => clearField(17);
+
+  double get latitude => $_getN(17);
+  set latitude(double v) {
+    $_setDouble(17, v);
+  }
+
+  bool hasLatitude() => $_has(17);
+  void clearLatitude() => clearField(18);
+
+  double get longitude => $_getN(18);
+  set longitude(double v) {
+    $_setDouble(18, v);
+  }
+
+  bool hasLongitude() => $_has(18);
+  void clearLongitude() => clearField(19);
 }
 
 class _ReadonlyDataBusinessOffer extends DataBusinessOffer
