@@ -502,7 +502,7 @@ message NetUploadImageReq {
   string contentType = 4;
   
   // Hashed file contents
-  string contentSha256 = 3;
+  bytes contentSha256 = 3;
   
 }
 
