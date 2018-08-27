@@ -2118,7 +2118,7 @@ class _ReadonlyNetAccountCreateReq extends NetAccountCreateReq
 class NetUploadImageReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetUploadImageReq')
     ..aOS(1, 'fileName')
-    ..a<int>(2, 'contentSize', PbFieldType.O3)
+    ..a<int>(2, 'contentLength', PbFieldType.O3)
     ..a<List<int>>(3, 'contentSha256', PbFieldType.OY)
     ..aOS(4, 'contentType')
     ..hasRequiredFields = false;
@@ -2154,13 +2154,13 @@ class NetUploadImageReq extends GeneratedMessage {
   bool hasFileName() => $_has(0);
   void clearFileName() => clearField(1);
 
-  int get contentSize => $_get(1, 0);
-  set contentSize(int v) {
+  int get contentLength => $_get(1, 0);
+  set contentLength(int v) {
     $_setSignedInt32(1, v);
   }
 
-  bool hasContentSize() => $_has(1);
-  void clearContentSize() => clearField(2);
+  bool hasContentLength() => $_has(1);
+  void clearContentLength() => clearField(2);
 
   List<int> get contentSha256 => $_getN(2);
   set contentSha256(List<int> v) {

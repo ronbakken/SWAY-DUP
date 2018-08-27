@@ -683,7 +683,7 @@ const NetUploadImageReq$json = const {
   '1': 'NetUploadImageReq',
   '2': const [
     const {'1': 'fileName', '3': 1, '4': 1, '5': 9, '10': 'fileName'},
-    const {'1': 'contentSize', '3': 2, '4': 1, '5': 5, '10': 'contentSize'},
+    const {'1': 'contentLength', '3': 2, '4': 1, '5': 5, '10': 'contentLength'},
     const {'1': 'contentType', '3': 4, '4': 1, '5': 9, '10': 'contentType'},
     const {
       '1': 'contentSha256',

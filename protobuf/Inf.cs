@@ -107,34 +107,35 @@ namespace InfX {
             "YXV0aFByb3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAkiPwoS",
             "TmV0T0F1dGhDb25uZWN0UmVzEikKC3NvY2lhbE1lZGlhGAEgASgLMhQuaW5m",
             "LkRhdGFTb2NpYWxNZWRpYSI6ChNOZXRBY2NvdW50Q3JlYXRlUmVxEhAKCGxh",
-            "dGl0dWRlGAIgASgBEhEKCWxvbmdpdHVkZRgDIAEoASJmChFOZXRVcGxvYWRJ",
-            "bWFnZVJlcRIQCghmaWxlTmFtZRgBIAEoCRITCgtjb250ZW50U2l6ZRgCIAEo",
-            "BRITCgtjb250ZW50VHlwZRgEIAEoCRIVCg1jb250ZW50U2hhMjU2GAMgASgM",
-            "Io0BChFOZXRVcGxvYWRJbWFnZVJlcxIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJ",
-            "EhIKCnJlcXVlc3RVcmwYAiABKAkSEgoKZmlsZUV4aXN0cxgJIAEoCBIRCgl1",
-            "cGxvYWRLZXkYCiABKAkSEAoIY292ZXJVcmwYCyABKAkSFAoMdGh1bWJuYWls",
-            "VXJsGAwgASgJIjoKEU5ldFJlcUNyZWF0ZU9mZmVyEiUKBW9mZmVyGAEgASgL",
-            "MhYuaW5mLkRhdGFCdXNpbmVzc09mZmVyIh8KEU5ldFJlc0NyZWF0ZU9mZmVy",
-            "EgoKAmlkGAEgASgDKj4KDk9BdXRoTWVjaGFuaXNtEgwKCE9BTV9OT05FEAAS",
-            "DgoKT0FNX09BVVRIMRABEg4KCk9BTV9PQVVUSDIQAipDChBPQXV0aFByb3Zp",
-            "ZGVySWRzEgwKCE9BUF9OT05FEAASDwoLT0FQX1RXSVRURVIQARIQCgxPQVBf",
-            "RkFDRUJPT0sQAipRCgtBY2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoN",
-            "QVRfSU5GTFVFTkNFUhABEg8KC0FUX0JVU0lORVNTEAISDgoKQVRfU1VQUE9S",
-            "VBADKp4BChJHbG9iYWxBY2NvdW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQ",
-            "ABIPCgtHQVNfQkxPQ0tFRBABEhEKDUdBU19SRUFEX09OTFkQAhISCg5HQVNf",
-            "UkVBRF9XUklURRADEg0KCUdBU19ERUJVRxAEEg8KC0dBU19TVVBQT1JUEAUS",
-            "DwoLR0FTX01BTkFHRVIQBhILCgdHQVNfR09EEAcqtQEKGEdsb2JhbEFjY291",
-            "bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAASFwoTR0FTUl9B",
-            "Q0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklFRBACEhEKDUdB",
-            "U1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQBBIQCgxHQVNS",
-            "X1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGKm4KEU5vdGlmaWNh",
-            "dGlvbkZsYWdzEhQKEE5GX0FDQ09VTlRfU1RBVEUQABIYChRORl9NQUtFX0FO",
-            "X09GRkVSX0ZBQhABEhYKEk5GX1VOUkVBRF9NRVNTQUdFUxACEhEKDU5GX0NT",
-            "X1JFUVVFU1QQAypRChJCdXNpbmVzc09mZmVyU3RhdGUSDQoJQk9TX0RSQUZU",
-            "EAASDAoIQk9TX09QRU4QARIOCgpCT1NfQUNUSVZFEAISDgoKQk9TX0NMT1NF",
-            "RBADKnAKGEJ1c2luZXNzT2ZmZXJTdGF0ZVJlYXNvbhISCg5CT1NSX05FV19P",
-            "RkZFUhAAEhQKEEJPU1JfVVNFUl9DTE9TRUQQARIWChJCT1NSX1RPU19WSU9M",
-            "QVRJT04QAhISCg5CT1NSX0NPTVBMRVRFRBADQgeqAgRJbmZYYgZwcm90bzM="));
+            "dGl0dWRlGAIgASgBEhEKCWxvbmdpdHVkZRgDIAEoASJoChFOZXRVcGxvYWRJ",
+            "bWFnZVJlcRIQCghmaWxlTmFtZRgBIAEoCRIVCg1jb250ZW50TGVuZ3RoGAIg",
+            "ASgFEhMKC2NvbnRlbnRUeXBlGAQgASgJEhUKDWNvbnRlbnRTaGEyNTYYAyAB",
+            "KAwijQEKEU5ldFVwbG9hZEltYWdlUmVzEhUKDXJlcXVlc3RNZXRob2QYASAB",
+            "KAkSEgoKcmVxdWVzdFVybBgCIAEoCRISCgpmaWxlRXhpc3RzGAkgASgIEhEK",
+            "CXVwbG9hZEtleRgKIAEoCRIQCghjb3ZlclVybBgLIAEoCRIUCgx0aHVtYm5h",
+            "aWxVcmwYDCABKAkiOgoRTmV0UmVxQ3JlYXRlT2ZmZXISJQoFb2ZmZXIYASAB",
+            "KAsyFi5pbmYuRGF0YUJ1c2luZXNzT2ZmZXIiHwoRTmV0UmVzQ3JlYXRlT2Zm",
+            "ZXISCgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQ",
+            "ABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJv",
+            "dmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9B",
+            "UF9GQUNFQk9PSxACKlEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04QABIR",
+            "Cg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAhIOCgpBVF9TVVBQ",
+            "T1JUEAMqngEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5HQVNfSU5JVElBTEla",
+            "RRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURfT05MWRACEhIKDkdB",
+            "U19SRUFEX1dSSVRFEAMSDQoJR0FTX0RFQlVHEAQSDwoLR0FTX1NVUFBPUlQQ",
+            "BRIPCgtHQVNfTUFOQUdFUhAGEgsKB0dBU19HT0QQByq1AQoYR2xvYmFsQWNj",
+            "b3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNHQVNS",
+            "X0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAISEQoN",
+            "R0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAKDEdB",
+            "U1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90aWZp",
+            "Y2F0aW9uRmxhZ3MSFAoQTkZfQUNDT1VOVF9TVEFURRAAEhgKFE5GX01BS0Vf",
+            "QU5fT0ZGRVJfRkFCEAESFgoSTkZfVU5SRUFEX01FU1NBR0VTEAISEQoNTkZf",
+            "Q1NfUkVRVUVTVBADKlEKEkJ1c2luZXNzT2ZmZXJTdGF0ZRINCglCT1NfRFJB",
+            "RlQQABIMCghCT1NfT1BFThABEg4KCkJPU19BQ1RJVkUQAhIOCgpCT1NfQ0xP",
+            "U0VEEAMqcAoYQnVzaW5lc3NPZmZlclN0YXRlUmVhc29uEhIKDkJPU1JfTkVX",
+            "X09GRkVSEAASFAoQQk9TUl9VU0VSX0NMT1NFRBABEhYKEkJPU1JfVE9TX1ZJ",
+            "T0xBVElPThACEhIKDkJPU1JfQ09NUExFVEVEEANCB6oCBEluZlhiBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -166,7 +167,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectReq), global::InfX.NetOAuthConnectReq.Parser, new[]{ "OauthProvider", "CallbackQuery" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectRes), global::InfX.NetOAuthConnectRes.Parser, new[]{ "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Latitude", "Longitude" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageReq), global::InfX.NetUploadImageReq.Parser, new[]{ "FileName", "ContentSize", "ContentType", "ContentSha256" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageReq), global::InfX.NetUploadImageReq.Parser, new[]{ "FileName", "ContentLength", "ContentType", "ContentSha256" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageRes), global::InfX.NetUploadImageRes.Parser, new[]{ "RequestMethod", "RequestUrl", "FileExists", "UploadKey", "CoverUrl", "ThumbnailUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Offer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResCreateOffer), global::InfX.NetResCreateOffer.Parser, new[]{ "Id" }, null, null, null)
@@ -6880,7 +6881,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetUploadImageReq(NetUploadImageReq other) : this() {
       fileName_ = other.fileName_;
-      contentSize_ = other.contentSize_;
+      contentLength_ = other.contentLength_;
       contentType_ = other.contentType_;
       contentSha256_ = other.contentSha256_;
     }
@@ -6904,14 +6905,14 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "contentSize" field.</summary>
-    public const int ContentSizeFieldNumber = 2;
-    private int contentSize_;
+    /// <summary>Field number for the "contentLength" field.</summary>
+    public const int ContentLengthFieldNumber = 2;
+    private int contentLength_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ContentSize {
-      get { return contentSize_; }
+    public int ContentLength {
+      get { return contentLength_; }
       set {
-        contentSize_ = value;
+        contentLength_ = value;
       }
     }
 
@@ -6954,7 +6955,7 @@ namespace InfX {
         return true;
       }
       if (FileName != other.FileName) return false;
-      if (ContentSize != other.ContentSize) return false;
+      if (ContentLength != other.ContentLength) return false;
       if (ContentType != other.ContentType) return false;
       if (ContentSha256 != other.ContentSha256) return false;
       return true;
@@ -6964,7 +6965,7 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       if (FileName.Length != 0) hash ^= FileName.GetHashCode();
-      if (ContentSize != 0) hash ^= ContentSize.GetHashCode();
+      if (ContentLength != 0) hash ^= ContentLength.GetHashCode();
       if (ContentType.Length != 0) hash ^= ContentType.GetHashCode();
       if (ContentSha256.Length != 0) hash ^= ContentSha256.GetHashCode();
       return hash;
@@ -6981,9 +6982,9 @@ namespace InfX {
         output.WriteRawTag(10);
         output.WriteString(FileName);
       }
-      if (ContentSize != 0) {
+      if (ContentLength != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(ContentSize);
+        output.WriteInt32(ContentLength);
       }
       if (ContentSha256.Length != 0) {
         output.WriteRawTag(26);
@@ -7001,8 +7002,8 @@ namespace InfX {
       if (FileName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(FileName);
       }
-      if (ContentSize != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ContentSize);
+      if (ContentLength != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ContentLength);
       }
       if (ContentType.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ContentType);
@@ -7021,8 +7022,8 @@ namespace InfX {
       if (other.FileName.Length != 0) {
         FileName = other.FileName;
       }
-      if (other.ContentSize != 0) {
-        ContentSize = other.ContentSize;
+      if (other.ContentLength != 0) {
+        ContentLength = other.ContentLength;
       }
       if (other.ContentType.Length != 0) {
         ContentType = other.ContentType;
@@ -7045,7 +7046,7 @@ namespace InfX {
             break;
           }
           case 16: {
-            ContentSize = input.ReadInt32();
+            ContentLength = input.ReadInt32();
             break;
           }
           case 26: {
