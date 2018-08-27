@@ -109,7 +109,7 @@ namespace InfX {
             "LkRhdGFTb2NpYWxNZWRpYSI6ChNOZXRBY2NvdW50Q3JlYXRlUmVxEhAKCGxh",
             "dGl0dWRlGAIgASgBEhEKCWxvbmdpdHVkZRgDIAEoASJmChFOZXRVcGxvYWRJ",
             "bWFnZVJlcRIQCghmaWxlTmFtZRgBIAEoCRITCgtjb250ZW50U2l6ZRgCIAEo",
-            "BRITCgtjb250ZW50VHlwZRgEIAEoCRIVCg1jb250ZW50U2hhMjU2GAMgASgJ",
+            "BRITCgtjb250ZW50VHlwZRgEIAEoCRIVCg1jb250ZW50U2hhMjU2GAMgASgM",
             "Io0BChFOZXRVcGxvYWRJbWFnZVJlcxIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJ",
             "EhIKCnJlcXVlc3RVcmwYAiABKAkSEgoKZmlsZUV4aXN0cxgJIAEoCBIRCgl1",
             "cGxvYWRLZXkYCiABKAkSEAoIY292ZXJVcmwYCyABKAkSFAoMdGh1bWJuYWls",
@@ -6928,12 +6928,12 @@ namespace InfX {
 
     /// <summary>Field number for the "contentSha256" field.</summary>
     public const int ContentSha256FieldNumber = 3;
-    private string contentSha256_ = "";
+    private pb::ByteString contentSha256_ = pb::ByteString.Empty;
     /// <summary>
     ///  Hashed file contents
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string ContentSha256 {
+    public pb::ByteString ContentSha256 {
       get { return contentSha256_; }
       set {
         contentSha256_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -6987,7 +6987,7 @@ namespace InfX {
       }
       if (ContentSha256.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(ContentSha256);
+        output.WriteBytes(ContentSha256);
       }
       if (ContentType.Length != 0) {
         output.WriteRawTag(34);
@@ -7008,7 +7008,7 @@ namespace InfX {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ContentType);
       }
       if (ContentSha256.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(ContentSha256);
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ContentSha256);
       }
       return size;
     }
@@ -7049,7 +7049,7 @@ namespace InfX {
             break;
           }
           case 26: {
-            ContentSha256 = input.ReadString();
+            ContentSha256 = input.ReadBytes();
             break;
           }
           case 34: {
