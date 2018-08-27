@@ -526,6 +526,38 @@ message NetUploadImageRes {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+message NetReqSetProfile {
+  // int32 accountId = 1; // for admin, we have a concept of "delegated" requests, so no need to have this option
+  
+  string name = 1;
+  string description = 2;
+  string avatarKey = 4;
+  
+  string url = 6;
+  
+  repeated CategoryId categories = 12;
+  
+  double latitude = 14;
+  double longitude = 15;
+  
+}
+
+message DataAccountDetail {
+  // repeated string coverUrls = 1;
+  repeated CategoryId categories = 2;
+  repeated DataSocialMedia socialMedia = 3;
+  string avatarCoverUrl = 7; // Higher resolution, but same as avatarThumbnailUrl
+  string url = 6;
+  double latitude = 4;
+  double longitude = 5;
+  
+}
+
+// end of messages related to profile editing.
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 // Message to create offer
 message NetReqCreateOffer {
   DataBusinessOffer offer = 1;
