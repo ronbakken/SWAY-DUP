@@ -12,6 +12,8 @@ class ProfilePicture extends StatefulWidget {
   _ProfilePictureState createState() => new _ProfilePictureState();
 }
 
+// TODO: FadeInImage, use Pepijn's placeholders & default background color depending on name
+
 class _ProfilePictureState extends State<ProfilePicture> {
   @override
   Widget build(BuildContext context) => new Container(
