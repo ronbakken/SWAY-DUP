@@ -67,6 +67,16 @@ class RemoteAppBusiness {
   }
 
   //////////////////////////////////////////////////////////////////////////////
+  // Database utilities
+  //////////////////////////////////////////////////////////////////////////////
+  
+  Future<void> updateLocationOfferCount(int locationId) async {
+    // TODO: Only include active offers... :)
+    String updateLocation = "UPDATE `addressbook` SET `offer_count` = (SELECT COUNT(`offer_id`) FROM `offers` WHERE `location_id` = ?) WHERE `location_id` = ?";
+    await sql.prepareExecute(updateLocation, [ locationId, locationId ]);
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
   // Network messages
   //////////////////////////////////////////////////////////////////////////////
   
@@ -90,6 +100,7 @@ class RemoteAppBusiness {
     }
 
     // Insert offer, not so critical
+    // TODO: Set the offer state options... :)
     int locationId = account.detail.locationId.toInt();
     ts.sendExtend(message);
     String insertOffer = "INSERT INTO `offers`(`account_id`, `title`, `description`, `deliverables`, `reward`, `location_id`) "
@@ -121,8 +132,7 @@ class RemoteAppBusiness {
 
     // Update location `offer_count`, not so critical
     ts.sendExtend(message);
-    String updateLocation = "UPDATE `addressbook` SET `offer_count` = (SELECT COUNT(`offer_id`) FROM `offers` WHERE `location_id` = ?) WHERE `location_id` = ?";
-    await sql.prepareExecute(updateLocation, [ locationId, locationId ]);
+    await updateLocationOfferCount(locationId);
 
     // Reply success
     NetCreateOfferRes netCreateOfferRes = new NetCreateOfferRes();
