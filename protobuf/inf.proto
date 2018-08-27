@@ -550,7 +550,7 @@ message NetSetProfile {
 
 // Message to create offer
 // Id: C_OFFERR
-// Response C_R_OFFE
+// Response C_R_OFFE (DataBusinessOffer)
 message NetCreateOfferReq {
   // Basics
   string title = 1;
@@ -560,14 +560,6 @@ message NetCreateOfferReq {
   string reward = 5;
   
   int32 locationId = 6; // 0 being the user's default location -- dropdown selection from user locations if supported
-  
-}
-
-// Response to successful offer creation
-// Id: C_R_OFFE
-message NetCreateOfferRes {
-  // Identifier of the offer on the server
-  int32 offerId = 1;
   
 }
 
