@@ -42,7 +42,7 @@ class RemoteAppUpload {
   DataAccount get account {
     return _r.account;
   }
-  
+
   int get accountId {
     return _r.account.state.accountId;
   }
@@ -59,7 +59,7 @@ class RemoteAppUpload {
   }
 
   void dispose() {
-     if (_netUploadImageReq != null) {
+    if (_netUploadImageReq != null) {
       _netUploadImageReq.cancel();
       _netUploadImageReq = null;
     }
@@ -69,7 +69,7 @@ class RemoteAppUpload {
   //////////////////////////////////////////////////////////////////////////////
   // Network messages
   //////////////////////////////////////////////////////////////////////////////
-  
+
   StreamSubscription<TalkMessage> _netUploadImageReq; // UP_IMAGE
   static int _netUploadImageRes = TalkSocket.encode("OA_R_URL");
   Future<void> netUploadImageReq(TalkMessage message) async {
@@ -78,13 +78,15 @@ class RemoteAppUpload {
     devLog.finest(pb);
 
     if (pb.contentLength > (5 * 1024 * 1204)) {
-      opsLog.warning("User $accountId attempts to upload file of size ${pb.contentLength}, that's too large");
+      opsLog.warning(
+          "User $accountId attempts to upload file of size ${pb.contentLength}, that's too large");
       ts.sendException("Upload size limit exceeded", message);
       return;
     }
 
     if (!pb.contentType.startsWith('image/')) {
-      opsLog.warning("User $accountId attempts to upload file of type ${pb.contentType}, that's not supported");
+      opsLog.warning(
+          "User $accountId attempts to upload file of type ${pb.contentType}, that's not supported");
       ts.sendException("Unsupported file type", message);
       return;
     }
@@ -97,10 +99,11 @@ class RemoteAppUpload {
       case 'image/png':
         uriExt = 'png';
         break;
-      default: {
-        int lastIndex = pb.fileName.lastIndexOf('.');
-        uriExt = lastIndex > 0 ? pb.fileName.substring(lastIndex + 1) : 'bin';
-      }
+      default:
+        {
+          int lastIndex = pb.fileName.lastIndexOf('.');
+          uriExt = lastIndex > 0 ? pb.fileName.substring(lastIndex + 1) : 'bin';
+        }
     }
 
     Digest contentSha256 = new Digest(pb.contentSha256);
@@ -111,7 +114,8 @@ class RemoteAppUpload {
 
     ts.sendExtend(message);
     bool fileExists = false; // TODO: Use HEAD to check for existence
-    await for (dospace.BucketContent bucketContent in bucket.listContents(prefix: key)) {
+    await for (dospace.BucketContent bucketContent
+        in bucket.listContents(prefix: key)) {
       if (bucketContent.key == key) {
         fileExists = true;
       }
@@ -120,7 +124,11 @@ class RemoteAppUpload {
     // Request options
     if (!fileExists) {
       netUploadImageRes.requestMethod = 'PUT';
-      netUploadImageRes.requestUrl = bucket.preSignUpload(key, contentLength: pb.contentLength, contentType: pb.contentType, contentSha256: contentSha256, permissions: dospace.Permissions.public);
+      netUploadImageRes.requestUrl = bucket.preSignUpload(key,
+          contentLength: pb.contentLength,
+          contentType: pb.contentType,
+          contentSha256: contentSha256,
+          permissions: dospace.Permissions.public);
     }
 
     // Result options
@@ -129,6 +137,7 @@ class RemoteAppUpload {
     netUploadImageRes.coverUrl = _r.makeCloudinaryCoverUrl(key);
     netUploadImageRes.thumbnailUrl = _r.makeCloudinaryThumbnailUrl(key);
 
-    ts.sendMessage(_netUploadImageRes, netUploadImageRes.writeToBuffer(), replying: message);
+    ts.sendMessage(_netUploadImageRes, netUploadImageRes.writeToBuffer(),
+        replying: message);
   }
 }
