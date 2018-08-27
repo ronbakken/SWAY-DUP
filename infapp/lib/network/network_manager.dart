@@ -466,6 +466,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       }
       // Ghost state, the server doesn't send update for this
       account.state.accountType = accountType;
+      ++_changed;
     });
   }
 
@@ -561,12 +562,63 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     BytesBuilder responseBuilder = new BytesBuilder(copy: false);
     await httpResponse.forEach(builder.add);
     if (httpResponse.statusCode != 200) {
-      throw new NetworkException("Status code ${httpResponse.statusCode}, response: ${utf8.decode(builder.toBytes())}");
+      throw new NetworkException("Status code ${httpResponse.statusCode}, response: ${utf8.decode(responseBuilder.toBytes())}");
     }
 
     // Upload successful
     return res;
   }
+  
+  static int _netCreateOfferReq = TalkSocket.encode("C_OFFERR");
+  @override
+  Future<DataBusinessOffer> createOffer(NetCreateOfferReq createOfferReq) async {
+    TalkMessage res = await _ts.sendRequest(_netCreateOfferReq, createOfferReq.writeToBuffer());
+    DataBusinessOffer resPb = new DataBusinessOffer();
+    resPb.mergeFromBuffer(res.data);
+    setState(() {
+      // Add resulting offer to known offers
+      _offers[resPb.offerId.toInt()] = resPb;
+      ++_changed;
+    });
+    return resPb;
+  }
+
+  static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
+  @override
+  Future<void> refreshOffers() async {
+    NetLoadOffersReq loadOffersReq = new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
+    await _ts.sendRequest(_netLoadOffersReq, loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
+  }
+
+  Map<int, DataBusinessOffer> _offers;
+
+  @override
+  Map<int, DataBusinessOffer> get offers {
+    if (_offers == null) {
+      _offers = new Map<int, DataBusinessOffer>();
+      if (account.state.accountType == AccountType.AT_BUSINESS) {
+        offersLoading = true;
+        refreshOffers().catchError((error, stack) {
+          print("[INF] Failed to get offers: $error, $stack");
+          new Timer(new Duration(seconds: 3), () {
+            _offers = null; // Not using setState since we don't want to broadcast failure state
+          });
+        }).whenComplete(() {
+          offersLoading = false;
+        });
+      }
+    }
+    return _offers;
+  }
+
+  @override
+  bool offersLoading = false;
+
+/*
+  @override
+  set offers(Map<int, DataBusinessOffer> _offers) {
+    // TODO: implement offers
+  }*/
 }
 
 class _InheritedNetworkManager extends InheritedWidget {
@@ -596,6 +648,12 @@ abstract class NetworkInterface {
   /// Whether we are connected to the network.
   NetworkConnectionState connected;
 
+  /// List of offers owned by this account (applicable for AT_BUSINESS)
+  Map<int, DataBusinessOffer> get offers;
+
+  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
+  bool offersLoading;
+
   /* Device Registration */
   /// Set account type. Only possible when not yet created.
   void setAccountType(AccountType accountType);
@@ -612,6 +670,12 @@ abstract class NetworkInterface {
 
   /// Upload an image. Disregard the returned request options. Throws error in case of failure
   Future<NetUploadImageRes> uploadImage(FileImage fileImage);
+
+  /// Create an offer.
+  Future<DataBusinessOffer> createOffer(NetCreateOfferReq createOfferReq);
+
+  /// Refresh all offers (currently latest offers)
+  Future<void> refreshOffers();
 }
 
 /* end of file */
