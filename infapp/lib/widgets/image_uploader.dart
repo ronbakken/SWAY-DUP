@@ -53,24 +53,39 @@ class _ImageUploaderState extends State<ImageUploader> {
 
   @override
   Widget build(BuildContext context) {
+    Widget image;
+    if (_image != null) {
+      if (_imageUrl != null) {
+        image = new FadeInImage(
+          fit: BoxFit.cover,
+          placeholder: _image,
+          image: new NetworkImage(_imageUrl)
+        );
+      } else {
+        image = new Image(
+          fit: BoxFit.cover,
+          image: _image,
+        );
+      }
+    } else if (widget.initialUrl != null) {
+      image =  new FadeInImage.assetNetwork(
+        fit: BoxFit.cover,
+        placeholder: 'assets/placeholder_photo_select.png',
+        image: widget.initialUrl
+      );
+    } else {
+      image = new Image(
+          fit: BoxFit.cover,
+          image: new AssetImage('assets/placeholder_photo_select.png'),
+        );
+    }
     return new Column(
       children: <Widget>[
         new AspectRatio(
           aspectRatio: 16.0 / 9.0,
           child: new ClipRRect(
             borderRadius: new BorderRadius.all(new Radius.circular(4.0)),
-            child: _imageUrl == null ? Image(
-              fit: BoxFit.cover,
-              image: _image == null
-                ? (widget.initialUrl == null ? new AssetImage('assets/placeholder_photo_select.png') : new FadeInImage(
-              fit: BoxFit.cover,
-                    placeholder: _image,
-                    image: new NetworkImage(widget.initialUrl)))
-                : _image
-              ) : new FadeInImage(
-              fit: BoxFit.cover,
-                    placeholder: _image,
-                    image: new NetworkImage(_imageUrl)),
+            child: image,
           ),
         ),
         new SizedBox(
