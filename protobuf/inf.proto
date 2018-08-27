@@ -563,4 +563,20 @@ message NetCreateOfferReq {
   
 }
 
+// Message to load or refresh offer list
+// Server will send a stream of DataBusinessOffer messages (Id: DB_OFFER)
+// Id: L_OFFERS
+message NetLoadOffers {
+  // Offers with id lower than this (older offers) (ignore if 0)
+  int32 before = 1;
+  
+  // Offers with id higher than this (newer offers) (ignore if 0)
+  int32 after = 2;
+  
+}
+
+// Update offer information, assume the recipient owns this offer (client should check accountId though, in case protocol changes)
+// Id: DB_OFFER
+// message DataBusinessOffer
+
 /* end of file */
