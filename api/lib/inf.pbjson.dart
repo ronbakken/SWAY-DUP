@@ -707,6 +707,26 @@ const NetUploadImageRes$json = const {
   ],
 };
 
+const NetReqSetProfile$json = const {
+  '1': 'NetReqSetProfile',
+  '2': const [
+    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'description', '3': 2, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'avatarKey', '3': 4, '4': 1, '5': 9, '10': 'avatarKey'},
+    const {'1': 'url', '3': 6, '4': 1, '5': 9, '10': 'url'},
+    const {
+      '1': 'categories',
+      '3': 12,
+      '4': 3,
+      '5': 11,
+      '6': '.inf.CategoryId',
+      '10': 'categories'
+    },
+    const {'1': 'latitude', '3': 14, '4': 1, '5': 1, '10': 'latitude'},
+    const {'1': 'longitude', '3': 15, '4': 1, '5': 1, '10': 'longitude'},
+  ],
+};
+
 const NetReqCreateOffer$json = const {
   '1': 'NetReqCreateOffer',
   '2': const [
