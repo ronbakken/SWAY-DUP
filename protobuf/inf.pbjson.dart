@@ -536,6 +536,7 @@ const DataAccountDetail$json = const {
     const {'1': 'url', '3': 6, '4': 1, '5': 9, '10': 'url'},
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
+    const {'1': 'locationId', '3': 8, '4': 1, '5': 5, '10': 'locationId'},
   ],
 };
 
