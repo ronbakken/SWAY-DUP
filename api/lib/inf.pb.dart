@@ -2115,35 +2115,35 @@ class NetAccountCreateReq extends GeneratedMessage {
 class _ReadonlyNetAccountCreateReq extends NetAccountCreateReq
     with ReadonlyMessageMixin {}
 
-class NetReqImageUpload extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetReqImageUpload')
+class NetUploadImageReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetUploadImageReq')
     ..aOS(1, 'fileName')
     ..a<int>(2, 'contentSize', PbFieldType.O3)
     ..aOS(3, 'contentSha256')
     ..aOS(4, 'contentType')
     ..hasRequiredFields = false;
 
-  NetReqImageUpload() : super();
-  NetReqImageUpload.fromBuffer(List<int> i,
+  NetUploadImageReq() : super();
+  NetUploadImageReq.fromBuffer(List<int> i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetReqImageUpload.fromJson(String i,
+  NetUploadImageReq.fromJson(String i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetReqImageUpload clone() => new NetReqImageUpload()..mergeFromMessage(this);
+  NetUploadImageReq clone() => new NetUploadImageReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetReqImageUpload create() => new NetReqImageUpload();
-  static PbList<NetReqImageUpload> createRepeated() =>
-      new PbList<NetReqImageUpload>();
-  static NetReqImageUpload getDefault() {
+  static NetUploadImageReq create() => new NetUploadImageReq();
+  static PbList<NetUploadImageReq> createRepeated() =>
+      new PbList<NetUploadImageReq>();
+  static NetUploadImageReq getDefault() {
     if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetReqImageUpload();
+      _defaultInstance = new _ReadonlyNetUploadImageReq();
     return _defaultInstance;
   }
 
-  static NetReqImageUpload _defaultInstance;
-  static void $checkItem(NetReqImageUpload v) {
-    if (v is! NetReqImageUpload) checkItemFailed(v, 'NetReqImageUpload');
+  static NetUploadImageReq _defaultInstance;
+  static void $checkItem(NetUploadImageReq v) {
+    if (v is! NetUploadImageReq) checkItemFailed(v, 'NetUploadImageReq');
   }
 
   String get fileName => $_getS(0, '');
@@ -2179,11 +2179,11 @@ class NetReqImageUpload extends GeneratedMessage {
   void clearContentType() => clearField(4);
 }
 
-class _ReadonlyNetReqImageUpload extends NetReqImageUpload
+class _ReadonlyNetUploadImageReq extends NetUploadImageReq
     with ReadonlyMessageMixin {}
 
-class NetResImageUpload extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetResImageUpload')
+class NetUploadImageRes extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetUploadImageRes')
     ..aOS(1, 'requestMethod')
     ..aOS(2, 'requestUrl')
     ..aOB(9, 'fileExists')
@@ -2192,27 +2192,27 @@ class NetResImageUpload extends GeneratedMessage {
     ..aOS(12, 'thumbnailUrl')
     ..hasRequiredFields = false;
 
-  NetResImageUpload() : super();
-  NetResImageUpload.fromBuffer(List<int> i,
+  NetUploadImageRes() : super();
+  NetUploadImageRes.fromBuffer(List<int> i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetResImageUpload.fromJson(String i,
+  NetUploadImageRes.fromJson(String i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetResImageUpload clone() => new NetResImageUpload()..mergeFromMessage(this);
+  NetUploadImageRes clone() => new NetUploadImageRes()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetResImageUpload create() => new NetResImageUpload();
-  static PbList<NetResImageUpload> createRepeated() =>
-      new PbList<NetResImageUpload>();
-  static NetResImageUpload getDefault() {
+  static NetUploadImageRes create() => new NetUploadImageRes();
+  static PbList<NetUploadImageRes> createRepeated() =>
+      new PbList<NetUploadImageRes>();
+  static NetUploadImageRes getDefault() {
     if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetResImageUpload();
+      _defaultInstance = new _ReadonlyNetUploadImageRes();
     return _defaultInstance;
   }
 
-  static NetResImageUpload _defaultInstance;
-  static void $checkItem(NetResImageUpload v) {
-    if (v is! NetResImageUpload) checkItemFailed(v, 'NetResImageUpload');
+  static NetUploadImageRes _defaultInstance;
+  static void $checkItem(NetUploadImageRes v) {
+    if (v is! NetUploadImageRes) checkItemFailed(v, 'NetUploadImageRes');
   }
 
   String get requestMethod => $_getS(0, '');
@@ -2264,7 +2264,7 @@ class NetResImageUpload extends GeneratedMessage {
   void clearThumbnailUrl() => clearField(12);
 }
 
-class _ReadonlyNetResImageUpload extends NetResImageUpload
+class _ReadonlyNetUploadImageRes extends NetUploadImageRes
     with ReadonlyMessageMixin {}
 
 class NetReqCreateOffer extends GeneratedMessage {
