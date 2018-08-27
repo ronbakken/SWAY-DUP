@@ -40,7 +40,7 @@ class RemoteAppBusiness {
   }
   
   int get accountId {
-    return _r.account.state.accountId;
+    return _r.account.state.accountId.toInt();
   }
   
   GlobalAccountState get globalAccountState {
@@ -54,14 +54,22 @@ class RemoteAppBusiness {
   static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
   static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
 
+  // Cached list of offers
+  Map<int, DataBusinessOffer> offers = new Map<int, DataBusinessOffer>();
+
   RemoteAppBusiness(this._r) {
     _netCreateOfferReq = _r.saferListen("C_OFFERR", GlobalAccountState.GAS_READ_WRITE, true, netCreateOfferReq);
+    _netLoadOffersReq = _r.saferListen("L_OFFERS", GlobalAccountState.GAS_READ_WRITE, true, netLoadOffersReq);
   }
 
   void dispose() {
      if (_netCreateOfferReq != null) {
       _netCreateOfferReq.cancel();
       _netCreateOfferReq = null;
+    }
+     if (_netLoadOffersReq != null) {
+      _netLoadOffersReq.cancel();
+      _netLoadOffersReq = null;
     }
     _r = null;
   }
@@ -88,6 +96,7 @@ class RemoteAppBusiness {
     devLog.finest(pb);
     
     if (pb.locationId != null && pb.locationId != 0) {
+      // TODO: Fetch location and verify it's owned by this user plus verify that user paid for this feature
       devLog.severe("User $accountId attempt to use non-implemented offer location feature");
       ts.sendException("Location not implemented", message);
       return;
@@ -152,6 +161,8 @@ class RemoteAppBusiness {
     netCreateOfferRes.deliverables = pb.deliverables;
     netCreateOfferRes.reward = pb.reward;
     netCreateOfferRes.location = account.summary.location;
+    netCreateOfferRes.latitude = account.detail.latitude;
+    netCreateOfferRes.longitude = account.detail.longitude;
     netCreateOfferRes.coverUrls.addAll(pb.imageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
     // TODO: categories
     netCreateOfferRes.state = BusinessOfferState.BOS_OPEN;
@@ -160,6 +171,64 @@ class RemoteAppBusiness {
     netCreateOfferRes.applicantsAccepted = 0;
     netCreateOfferRes.applicantsCompleted = 0;
     netCreateOfferRes.applicantsRefused = 0;
+    offers[offerId] = netCreateOfferRes;
     ts.sendMessage(_netCreateOfferRes, netCreateOfferRes.writeToBuffer(), replying: message);
+  }
+
+  StreamSubscription<TalkMessage> _netLoadOffersReq; // C_OFFERR
+  static int _netLoadOffersRes = TalkSocket.encode("L_R_OFFE");
+  Future<void> netLoadOffersReq(TalkMessage message) async {
+    NetLoadOffersReq pb = new NetLoadOffersReq();
+    pb.mergeFromBuffer(message.data);
+
+    // TODO: Limit number of results
+    ts.sendExtend(message);
+    sqljocky.RetainedConnection connection = await sql.getConnection();
+    try {
+      ts.sendExtend(message);
+      sqljocky.Query selectImageKeys = await connection.prepare("SELECT `image_key` FROM `offer_images` WHERE `offer_id` = ?");
+      String selectOffers = "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
+        "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
+        "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point` " // 6 7 8
+        "FROM `offers` "
+        "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
+        "WHERE `offers`.`account_id` = ?";
+      sqljocky.Results offerResults = await sql.prepareExecute(selectOffers, [ accountId ]);
+      await for (sqljocky.Row offerRow in offerResults) {
+        ts.sendExtend(message);
+        DataBusinessOffer offer = new DataBusinessOffer();
+        offer.offerId = offerRow[0];
+        offer.accountId = offerRow[1];
+        offer.locationId = offerRow[6];
+        offer.title = offerRow[2];
+        offer.description = offerRow[3];
+        offer.deliverables = offerRow[4];
+        offer.reward = offerRow[5];
+        offer.location = offerRow[7];
+        offer.latitude = 0.0; // offerRow[8]; // TODO: parse
+        offer.longitude = 0.0; // offerRow[8]; // TODO: parse
+        // offer.coverUrls.addAll(pb.imageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
+        // TODO: categories
+        offer.state = BusinessOfferState.BOS_OPEN; // TODO
+        offer.stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER; // TODO
+        offer.applicantsNew = 0; // TODO
+        offer.applicantsAccepted = 0; // TODO
+        offer.applicantsCompleted = 0; // TODO
+        offer.applicantsRefused = 0; // TODO
+        sqljocky.Results imageKeyResults = await selectImageKeys.execute([offer.offerId.toInt()]);
+        await for (sqljocky.Row imageKeyRow in imageKeyResults) {
+          if (!offer.hasThumbnailUrl()) {
+            offer.thumbnailUrl = _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
+          }
+          offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
+        }
+        offers[offer.offerId] = offer;
+      }
+    } finally {
+      connection.release();
+    }
+
+    NetLoadOffersRes loadOffersRes = new NetLoadOffersRes();
+    ts.sendMessage(_netLoadOffersRes, loadOffersRes.writeToBuffer(), replying: message);
   }
 }
