@@ -121,6 +121,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     setState(() {
       if (pb.data.state.accountId != account.state.accountId) {
         // Any cache cleanup may be done here when switching accounts
+        _offers.clear();
+        _offersLoaded = false;
       }
       account = pb.data;
       for (int i = account.detail.socialMedia.length;
@@ -605,18 +607,19 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     await _ts.sendRequest(_netLoadOffersReq, loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
   }
 
-  Map<int, DataBusinessOffer> _offers;
+  bool _offersLoaded;
+  Map<int, DataBusinessOffer> _offers = new Map<int, DataBusinessOffer>();
 
   @override
   Map<int, DataBusinessOffer> get offers {
-    if (_offers == null) {
-      _offers = new Map<int, DataBusinessOffer>();
+    if (_offersLoaded == false) {
+      _offersLoaded = true;
       if (account.state.accountType == AccountType.AT_BUSINESS) {
         offersLoading = true;
         refreshOffers().catchError((error, stack) {
           print("[INF] Failed to get offers: $error, $stack");
           new Timer(new Duration(seconds: 3), () {
-            _offers = null; // Not using setState since we don't want to broadcast failure state
+            _offersLoaded = false; // Not using setState since we don't want to broadcast failure state
           });
         }).whenComplete(() {
           offersLoading = false;

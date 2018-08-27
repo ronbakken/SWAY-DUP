@@ -15,7 +15,9 @@ import 'network/inf.pb.dart';
 class BusinessOfferList extends StatelessWidget {
   final List<DataBusinessOffer> businessOffers;
 
-  const BusinessOfferList({Key key, this.businessOffers}) : super(key: key);
+  final Future<void> Function() onRefreshOffers;
+
+  const BusinessOfferList({Key key, this.businessOffers, this.onRefreshOffers}) : super(key: key);
 
   Widget buildTags(BuildContext context, DataBusinessOffer data) {
     List<Widget> tags = new List<Widget>();
@@ -92,7 +94,11 @@ class BusinessOfferList extends StatelessWidget {
       child: new RefreshIndicator(
         // key: _refreshIndicatorKey,
         onRefresh: () async {
-          return await new Future.delayed(new Duration(seconds: 2));
+          if (onRefreshOffers == null) {
+            await new Future.delayed(new Duration(seconds: 2));
+          } else {
+            await onRefreshOffers();
+          }
         },
         child: businessOffers == null
             ? new Text("Please wait...")

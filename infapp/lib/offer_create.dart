@@ -91,10 +91,10 @@ class _OfferCreateState extends State<OfferCreate> {
     }
   }
 
-  bool _validFormData() {
+  /*bool _validFormData() {
     // return _image != null;
     return _imageKeyController.text != null && _imageKeyController.text.length > 0;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +125,7 @@ class _OfferCreateState extends State<OfferCreate> {
                     decoration: new InputDecoration(labelText: 'Title'),
                     validator: (val) =>
                         val.trim().isEmpty ? 'Missing title' : null,
-                    onSaved: (val) => _title = val,
+                    onSaved: (val) => setState(() { _title = val; }),
                   ),
                 ),
                 new EnsureVisibleWhenFocused(
@@ -138,7 +138,7 @@ class _OfferCreateState extends State<OfferCreate> {
                     validator: (val) => val.trim().length < 20
                         ? 'Description must be longer'
                         : null,
-                    onSaved: (val) => _description = val,
+                    onSaved: (val) => setState(() { _description = val; }),
                   ),
                 ),
                 new EnsureVisibleWhenFocused(
@@ -151,7 +151,7 @@ class _OfferCreateState extends State<OfferCreate> {
                     validator: (val) => val.trim().length < 4
                         ? 'Deliverables must be filled in'
                         : null,
-                    onSaved: (val) => _deliverables = val,
+                    onSaved: (val) => setState(() { _deliverables = val; }),
                   ),
                 ),
                 new EnsureVisibleWhenFocused(
@@ -164,7 +164,7 @@ class _OfferCreateState extends State<OfferCreate> {
                     validator: (val) => val.trim().length < 4
                         ? 'Reward must be filled in'
                         : null,
-                    onSaved: (val) => _reward = val,
+                    onSaved: (val) => setState(() { _reward = val; }),
                   ),
                 ),
               ]
@@ -184,7 +184,7 @@ class _OfferCreateState extends State<OfferCreate> {
                     new Text("Make offer".toUpperCase()),
                   ],
                 ),
-                onPressed: (_validFormData() && widget.onCreateOffer != null && !_waiting) ? _submitPressed : null,
+                onPressed: (/*_validFormData() &&*/ widget.onCreateOffer != null && !_waiting) ? _submitPressed : null,
               )
             ],
           )

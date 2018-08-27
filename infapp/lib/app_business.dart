@@ -21,6 +21,7 @@ import 'dashboard_business.dart';
 import 'nearby_influencers.dart';
 import 'offer_create.dart';
 import 'offer_view.dart';
+import 'business_offer_list.dart';
 
 // Business user
 class AppBusiness extends StatefulWidget {
@@ -169,6 +170,13 @@ class _AppBusinessState extends State<AppBusiness> {
       map: new Builder(builder: (context) {
         return new NearbyInfluencers(
           onSearchPressed: (String query) { Scaffold.of(context).showSnackBar(new SnackBar(content: new Text("Not yet implemented."))); }
+        );
+      }),
+      offersCurrent: new Builder(builder: (context) {
+        NetworkInterface network = NetworkManager.of(context);
+        return new BusinessOfferList(
+          businessOffers: network.offers.values.toList()..sort((a, b) => a.offerId.compareTo(b.offerId)),
+          onRefreshOffers: network.refreshOffers,
         );
       }),
       onMakeAnOffer: () {
