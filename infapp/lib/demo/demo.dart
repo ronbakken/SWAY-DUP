@@ -579,7 +579,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
               transitionPage(
                   context,
                   new ProfileView(
-                    dataAccount: demoAccount,
+                    account: demoAccount,
                   ));
             },
           ),
@@ -591,7 +591,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
               transitionPage(
                   context,
                   new ProfileEdit(
-                    dataAccount: demoAccount,
+                    account: demoAccount,
                   ));
             },
           ),
@@ -602,7 +602,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
               transitionPage(
                   context,
                   new ProfileView(
-                    dataAccount: demoAccount,
+                    account: demoAccount,
                   ));
             },
           ),
@@ -672,7 +672,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
               transitionPage(
                   context,
                   new ProfileView(
-                    dataAccount: demoAccount,
+                    account: demoAccount,
                   ));
             },
           ),
@@ -712,7 +712,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
               transitionPage(
                   context,
                   new ProfileView(
-                    dataAccount: demoAccount,
+                    account: demoAccount,
                   ));
             },
           ),

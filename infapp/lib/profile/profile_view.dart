@@ -11,47 +11,49 @@ class ProfileView extends StatelessWidget {
   // Constructor
   ProfileView({
     Key key,
-    this.dataAccount,
+    @required this.account,
+    this.onEditPressed,
   }) : super(key: key);
 
-  final DataAccount dataAccount;
+  final DataAccount account;
+  final Function() onEditPressed;
 
   @override
   Widget build(BuildContext context) {
     assert(ConfigManager.of(context) != null);
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(dataAccount.summary.name + "'s Profile"),
-        actions: <Widget>[
-          new EditButton(),
-        ],
+        title: new Text(account.summary.name + "'s Profile"),
+        actions: (onEditPressed != null) ? <Widget>[
+          new EditButton(onEditPressed: onEditPressed),
+        ] : null,
       ),
       body: new Column(
         children: <Widget>[
           new Center(
               child: new ProfilePicture(
-                  imageUrl: dataAccount.detail.avatarCoverUrl != null
-                      ? dataAccount.detail.avatarCoverUrl
-                      : dataAccount.summary.avatarThumbnailUrl)),
+                  imageUrl: account.detail.avatarCoverUrl != null
+                      ? account.detail.avatarCoverUrl
+                      : account.summary.avatarThumbnailUrl)),
           new Center(
             child: new Text(
-              dataAccount.summary.name,
+              account.summary.name,
               style: Theme.of(context).textTheme.headline,
             ),
           ),
           new Center(
             child: new Text(
-              dataAccount.summary.location,
+              account.summary.location,
               style: Theme.of(context).textTheme.body2,
             ),
           ),
           new FollowerTray(
             oAuthProviders: ConfigManager.of(context).oauthProviders.all,
-            socialMedia: dataAccount.detail.socialMedia,
+            socialMedia: account.detail.socialMedia,
           ),
           new Center(
             child: new Text(
-              dataAccount.summary.description,
+              account.summary.description,
               style: Theme.of(context).textTheme.body1,
             ),
           ),

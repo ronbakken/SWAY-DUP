@@ -12,6 +12,9 @@ import 'network/inf.pb.dart';
 import 'network/config_manager.dart';
 import 'network/network_manager.dart';
 
+import 'profile/profile_view.dart';
+import 'profile/profile_edit.dart';
+
 import 'dashboard_business.dart';
 import 'nearby_influencers.dart';
 import 'offer_create.dart';
@@ -42,6 +45,39 @@ class _AppBusinessState extends State<AppBusiness> {
       )
     );
   }
+  
+  void navigateToProfileView(BuildContext context) {
+    Navigator.push(
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      context, new MaterialPageRoute(
+        builder: (context) {
+          ConfigData config = ConfigManager.of(context);
+          NetworkInterface network = NetworkManager.of(context);
+          NavigatorState navigator = Navigator.of(context);
+          return new ProfileView(
+            account: network.account,
+            onEditPressed: () { navigateToProfileEdit(context); }
+          );
+        }
+      )
+    );
+  }
+
+  void navigateToProfileEdit(BuildContext context) {
+    Navigator.push(
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      context, new MaterialPageRoute(
+        builder: (context) {
+          ConfigData config = ConfigManager.of(context);
+          NetworkInterface network = NetworkManager.of(context);
+          NavigatorState navigator = Navigator.of(context);
+          return new ProfileEdit(
+            account: network.account,
+          );
+        }
+      )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +92,9 @@ class _AppBusinessState extends State<AppBusiness> {
       }),
       onMakeAnOffer: () {
         navigateToMakeAnOffer(context);
+      },
+      onNavigateProfile: () {
+        navigateToProfileView(context);
       },
     );
   }

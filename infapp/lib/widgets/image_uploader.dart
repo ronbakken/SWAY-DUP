@@ -20,11 +20,13 @@ import '../utility/progress_dialog.dart';
 class ImageUploader extends StatefulWidget {
   const ImageUploader({
     Key key,
+    this.initialUrl,
     @required this.uploadKey,
     this.onUploadImage
   }) : super(key: key);
 
   // The key of the uploaded image, this value may be sent to the server
+  final String initialUrl;
   final TextEditingController uploadKey;
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
 
@@ -60,7 +62,10 @@ class _ImageUploaderState extends State<ImageUploader> {
             child: _imageUrl == null ? Image(
               fit: BoxFit.cover,
               image: _image == null
-                ? new AssetImage('assets/placeholder_photo_select.png')
+                ? (widget.initialUrl == null ? new AssetImage('assets/placeholder_photo_select.png') : new FadeInImage(
+              fit: BoxFit.cover,
+                    placeholder: _image,
+                    image: new NetworkImage(widget.initialUrl)))
                 : _image
               ) : new FadeInImage(
               fit: BoxFit.cover,
