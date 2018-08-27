@@ -164,8 +164,8 @@ class _SearchPageState extends State<SearchScreen> {
   // The default AppBar displayed before searching
   AppBar _buildAppBar(BuildContext context) {
     return new AppBar(
-        title: new Text('Search Profile'),
-        //actions: [searchBar.getSearchAction(context)]
-        );
+      title: new Text('Search Profile'),
+      //actions: [searchBar.getSearchAction(context)]
+    );
   }
 }

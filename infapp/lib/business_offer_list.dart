@@ -22,7 +22,9 @@ class BusinessOfferList extends StatelessWidget {
     // Instead of showing 0 new applicants, show an informative message instead while still accepting new applicants!
     if (data.applicantsNew == 0 /* && data.applicantsAccepted == 0 */ &&
         data.state == BusinessOfferState.BOS_OPEN) {
-      tags.add(new Chip(materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,label: new Text("awaiting applicants")));
+      tags.add(new Chip(
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          label: new Text("awaiting applicants")));
     }
     if (data.applicantsNew != 0) {
       tags.add(new Chip(
