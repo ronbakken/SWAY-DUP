@@ -176,6 +176,7 @@ class RemoteAppBusiness {
   }
 
   StreamSubscription<TalkMessage> _netLoadOffersReq; // C_OFFERR
+  static int _dataBusinessOffer = TalkSocket.encode("DB_OFFER");
   static int _netLoadOffersRes = TalkSocket.encode("L_R_OFFE");
   Future<void> netLoadOffersReq(TalkMessage message) async {
     NetLoadOffersReq pb = new NetLoadOffersReq();
@@ -192,7 +193,7 @@ class RemoteAppBusiness {
         "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point` " // 6 7 8
         "FROM `offers` "
         "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
-        "WHERE `offers`.`account_id` = ?";
+        "WHERE `offers`.`account_id` = ?"; // TODO: Order highest offer id first
       sqljocky.Results offerResults = await sql.prepareExecute(selectOffers, [ accountId ]);
       await for (sqljocky.Row offerRow in offerResults) {
         ts.sendExtend(message);
@@ -222,7 +223,10 @@ class RemoteAppBusiness {
           }
           offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
         }
+        // Cache offer for use (is this really necessary?)
         offers[offer.offerId] = offer;
+        // Send offer to user
+        ts.sendMessage(_dataBusinessOffer, offer.writeToBuffer());
       }
     } finally {
       connection.release();
