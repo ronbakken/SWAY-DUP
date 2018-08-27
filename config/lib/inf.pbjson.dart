@@ -739,3 +739,11 @@ const NetCreateOfferReq$json = const {
     const {'1': 'locationId', '3': 6, '4': 1, '5': 5, '10': 'locationId'},
   ],
 };
+
+const NetLoadOffers$json = const {
+  '1': 'NetLoadOffers',
+  '2': const [
+    const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
+    const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
+  ],
+};

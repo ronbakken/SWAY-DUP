@@ -120,26 +120,28 @@ namespace InfX {
             "bmdpdHVkZRgPIAEoASKEAQoRTmV0Q3JlYXRlT2ZmZXJSZXESDQoFdGl0bGUY",
             "ASABKAkSEQoJaW1hZ2VLZXlzGAIgAygJEhMKC2Rlc2NyaXB0aW9uGAMgASgJ",
             "EhQKDGRlbGl2ZXJhYmxlcxgEIAEoCRIOCgZyZXdhcmQYBSABKAkSEgoKbG9j",
-            "YXRpb25JZBgGIAEoBSo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAA",
-            "Eg4KCk9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQcm92",
-            "aWRlcklkcxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoMT0FQ",
-            "X0ZBQ0VCT09LEAIqUQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAAEhEK",
-            "DUFUX0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACEg4KCkFUX1NVUFBP",
-            "UlQQAyqeAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFMSVpF",
-            "EAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoOR0FT",
-            "X1JFQURfV1JJVEUQAxINCglHQVNfREVCVUcQBBIPCgtHQVNfU1VQUE9SVBAF",
-            "Eg8KC0dBU19NQU5BR0VSEAYSCwoHR0FTX0dPRBAHKrUBChhHbG9iYWxBY2Nv",
-            "dW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1Jf",
-            "QUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1H",
-            "QVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FT",
-            "Ul9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJFX0lORk8QBipuChFOb3RpZmlj",
-            "YXRpb25GbGFncxIUChBORl9BQ0NPVU5UX1NUQVRFEAASGAoUTkZfTUFLRV9B",
-            "Tl9PRkZFUl9GQUIQARIWChJORl9VTlJFQURfTUVTU0FHRVMQAhIRCg1ORl9D",
-            "U19SRVFVRVNUEAMqUQoSQnVzaW5lc3NPZmZlclN0YXRlEg0KCUJPU19EUkFG",
-            "VBAAEgwKCEJPU19PUEVOEAESDgoKQk9TX0FDVElWRRACEg4KCkJPU19DTE9T",
-            "RUQQAypwChhCdXNpbmVzc09mZmVyU3RhdGVSZWFzb24SEgoOQk9TUl9ORVdf",
-            "T0ZGRVIQABIUChBCT1NSX1VTRVJfQ0xPU0VEEAESFgoSQk9TUl9UT1NfVklP",
-            "TEFUSU9OEAISEgoOQk9TUl9DT01QTEVURUQQA0IHqgIESW5mWGIGcHJvdG8z"));
+            "YXRpb25JZBgGIAEoBSIuCg1OZXRMb2FkT2ZmZXJzEg4KBmJlZm9yZRgBIAEo",
+            "BRINCgVhZnRlchgCIAEoBSo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9O",
+            "RRAAEg4KCk9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQ",
+            "cm92aWRlcklkcxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoM",
+            "T0FQX0ZBQ0VCT09LEAIqUQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAA",
+            "EhEKDUFUX0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACEg4KCkFUX1NV",
+            "UFBPUlQQAyqeAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
+            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
+            "R0FTX1JFQURfV1JJVEUQAxINCglHQVNfREVCVUcQBBIPCgtHQVNfU1VQUE9S",
+            "VBAFEg8KC0dBU19NQU5BR0VSEAYSCwoHR0FTX0dPRBAHKrUBChhHbG9iYWxB",
+            "Y2NvdW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dB",
+            "U1JfQUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIR",
+            "Cg1HQVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoM",
+            "R0FTUl9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJFX0lORk8QBipuChFOb3Rp",
+            "ZmljYXRpb25GbGFncxIUChBORl9BQ0NPVU5UX1NUQVRFEAASGAoUTkZfTUFL",
+            "RV9BTl9PRkZFUl9GQUIQARIWChJORl9VTlJFQURfTUVTU0FHRVMQAhIRCg1O",
+            "Rl9DU19SRVFVRVNUEAMqUQoSQnVzaW5lc3NPZmZlclN0YXRlEg0KCUJPU19E",
+            "UkFGVBAAEgwKCEJPU19PUEVOEAESDgoKQk9TX0FDVElWRRACEg4KCkJPU19D",
+            "TE9TRUQQAypwChhCdXNpbmVzc09mZmVyU3RhdGVSZWFzb24SEgoOQk9TUl9O",
+            "RVdfT0ZGRVIQABIUChBCT1NSX1VTRVJfQ0xPU0VEEAESFgoSQk9TUl9UT1Nf",
+            "VklPTEFUSU9OEAISEgoOQk9TUl9DT01QTEVURUQQA0IHqgIESW5mWGIGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -174,7 +176,8 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageReq), global::InfX.NetUploadImageReq.Parser, new[]{ "FileName", "ContentLength", "ContentType", "ContentSha256" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageRes), global::InfX.NetUploadImageRes.Parser, new[]{ "RequestMethod", "RequestUrl", "FileExists", "UploadKey", "CoverUrl", "ThumbnailUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetProfile), global::InfX.NetSetProfile.Parser, new[]{ "Name", "Description", "AvatarKey", "Url", "Categories", "Latitude", "Longitude" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetCreateOfferReq), global::InfX.NetCreateOfferReq.Parser, new[]{ "Title", "ImageKeys", "Description", "Deliverables", "Reward", "LocationId" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetCreateOfferReq), global::InfX.NetCreateOfferReq.Parser, new[]{ "Title", "ImageKeys", "Description", "Deliverables", "Reward", "LocationId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffers), global::InfX.NetLoadOffers.Parser, new[]{ "Before", "After" }, null, null, null)
           }));
     }
     #endregion
@@ -7903,6 +7906,162 @@ namespace InfX {
           }
           case 48: {
             LocationId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Message to load or refresh offer list
+  ///  Server will send a stream of DataBusinessOffer messages (Id: DB_OFFER)
+  ///  Id: L_OFFERS
+  /// </summary>
+  public sealed partial class NetLoadOffers : pb::IMessage<NetLoadOffers> {
+    private static readonly pb::MessageParser<NetLoadOffers> _parser = new pb::MessageParser<NetLoadOffers>(() => new NetLoadOffers());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetLoadOffers> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[32]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadOffers() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadOffers(NetLoadOffers other) : this() {
+      before_ = other.before_;
+      after_ = other.after_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadOffers Clone() {
+      return new NetLoadOffers(this);
+    }
+
+    /// <summary>Field number for the "before" field.</summary>
+    public const int BeforeFieldNumber = 1;
+    private int before_;
+    /// <summary>
+    ///  Offers with id lower than this (older offers) (ignore if 0)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Before {
+      get { return before_; }
+      set {
+        before_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "after" field.</summary>
+    public const int AfterFieldNumber = 2;
+    private int after_;
+    /// <summary>
+    ///  Offers with id higher than this (newer offers) (ignore if 0)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int After {
+      get { return after_; }
+      set {
+        after_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetLoadOffers);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetLoadOffers other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Before != other.Before) return false;
+      if (After != other.After) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Before != 0) hash ^= Before.GetHashCode();
+      if (After != 0) hash ^= After.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Before != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Before);
+      }
+      if (After != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(After);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Before != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Before);
+      }
+      if (After != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(After);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetLoadOffers other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Before != 0) {
+        Before = other.Before;
+      }
+      if (other.After != 0) {
+        After = other.After;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            Before = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            After = input.ReadInt32();
             break;
           }
         }
