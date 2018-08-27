@@ -492,7 +492,9 @@ message NetAccountCreateReq {
 
 // Client requests the server permission to upload an image
 // The server may delete the image later if it is never used
-message NetReqImageUpload {
+// Name: UP_IMAGE
+// Response: NetResImageUpload
+message NetUploadImageReq {
   // File information
   string fileName = 1;
   
@@ -505,7 +507,8 @@ message NetReqImageUpload {
 }
 
 // Request parameters to be used by the client verbatim for uploading
-message NetResImageUpload {
+// Name: UP_R_IMG
+message NetUploadImageRes {
   // Request options
   string requestMethod = 1;
   string requestUrl = 2;
