@@ -86,6 +86,12 @@ class RemoteAppBusiness {
     NetCreateOfferReq pb = new NetCreateOfferReq();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
+    
+    if (pb.locationId != null && pb.locationId != 0) {
+      devLog.severe("User $accountId attempt to use non-implemented offer location feature");
+      ts.sendException("Location not implemented", message);
+      return;
+    }
 
     if (account.detail.locationId == 0) {
       opsLog.warning("User $accountId has no default location set, cannot create offer");
@@ -135,8 +141,25 @@ class RemoteAppBusiness {
     await updateLocationOfferCount(locationId);
 
     // Reply success
-    NetCreateOfferRes netCreateOfferRes = new NetCreateOfferRes();
+    DataBusinessOffer netCreateOfferRes = new DataBusinessOffer();
     netCreateOfferRes.offerId = offerId;
+    netCreateOfferRes.accountId = accountId;
+    netCreateOfferRes.locationId = locationId;
+    netCreateOfferRes.title = pb.title;
+    netCreateOfferRes.description = pb.description;
+    if (pb.imageKeys.length > 0)
+      netCreateOfferRes.thumbnailUrl = _r.makeCloudinaryThumbnailUrl(pb.imageKeys[0]);
+    netCreateOfferRes.deliverables = pb.deliverables;
+    netCreateOfferRes.reward = pb.reward;
+    netCreateOfferRes.location = account.summary.location;
+    netCreateOfferRes.coverUrls.addAll(pb.imageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
+    // TODO: categories
+    netCreateOfferRes.state = BusinessOfferState.BOS_OPEN;
+    netCreateOfferRes.stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER;
+    netCreateOfferRes.applicantsNew = 0;
+    netCreateOfferRes.applicantsAccepted = 0;
+    netCreateOfferRes.applicantsCompleted = 0;
+    netCreateOfferRes.applicantsRefused = 0;
     ts.sendMessage(_netCreateOfferRes, netCreateOfferRes.writeToBuffer(), replying: message);
   }
 }
