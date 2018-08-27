@@ -358,8 +358,9 @@ message DataAccountDetail {
   repeated DataSocialMedia socialMedia = 3;
   string avatarCoverUrl = 7; // Higher resolution, but same as avatarThumbnailUrl
   string url = 6;
-  double latitude = 4;
-  double longitude = 5;
+  double latitude = 4; // necessary?
+  double longitude = 5; // necessary?
+  int32 locationId = 8;
   
 }
 
