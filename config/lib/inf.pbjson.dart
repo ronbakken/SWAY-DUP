@@ -350,7 +350,7 @@ const DataOAuthCredentials$json = const {
 const DataBusinessOffer$json = const {
   '1': 'DataBusinessOffer',
   '2': const [
-    const {'1': 'offerId', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
+    const {'1': 'offerId', '3': 1, '4': 1, '5': 5, '10': 'offerId'},
     const {'1': 'accountId', '3': 2, '4': 1, '5': 5, '10': 'accountId'},
     const {'1': 'locationId', '3': 3, '4': 1, '5': 5, '10': 'locationId'},
     const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
@@ -434,8 +434,8 @@ const DataLocation$json = const {
 const DataApplicant$json = const {
   '1': 'DataApplicant',
   '2': const [
-    const {'1': 'applicantId', '3': 1, '4': 1, '5': 3, '10': 'applicantId'},
-    const {'1': 'offerId', '3': 2, '4': 1, '5': 3, '10': 'offerId'},
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'offerId', '3': 2, '4': 1, '5': 5, '10': 'offerId'},
     const {'1': 'accountId', '3': 3, '4': 1, '5': 5, '10': 'accountId'},
   ],
 };
@@ -443,9 +443,9 @@ const DataApplicant$json = const {
 const DataChat$json = const {
   '1': 'DataChat',
   '2': const [
-    const {'1': 'applicantId', '3': 1, '4': 1, '5': 3, '10': 'applicantId'},
-    const {'1': 'sequenceId', '3': 2, '4': 1, '5': 3, '10': 'sequenceId'},
-    const {'1': 'keyId', '3': 3, '4': 1, '5': 3, '10': 'keyId'},
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'sequenceId', '3': 2, '4': 1, '5': 5, '10': 'sequenceId'},
+    const {'1': 'keyId', '3': 3, '4': 1, '5': 5, '10': 'keyId'},
     const {'1': 'outgoing', '3': 4, '4': 1, '5': 8, '10': 'outgoing'},
     const {'1': 'text', '3': 5, '4': 1, '5': 9, '10': 'text'},
   ],
@@ -743,6 +743,6 @@ const NetCreateOfferReq$json = const {
 const NetCreateOfferRes$json = const {
   '1': 'NetCreateOfferRes',
   '2': const [
-    const {'1': 'offerId', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
+    const {'1': 'offerId', '3': 1, '4': 1, '5': 5, '10': 'offerId'},
   ],
 };

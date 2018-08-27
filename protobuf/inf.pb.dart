@@ -869,7 +869,7 @@ class _ReadonlyDataOAuthCredentials extends DataOAuthCredentials
 
 class DataBusinessOffer extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataBusinessOffer')
-    ..aInt64(1, 'offerId')
+    ..a<int>(1, 'offerId', PbFieldType.O3)
     ..a<int>(2, 'accountId', PbFieldType.O3)
     ..a<int>(3, 'locationId', PbFieldType.O3)
     ..aOS(4, 'title')
@@ -924,9 +924,9 @@ class DataBusinessOffer extends GeneratedMessage {
     if (v is! DataBusinessOffer) checkItemFailed(v, 'DataBusinessOffer');
   }
 
-  Int64 get offerId => $_getI64(0);
-  set offerId(Int64 v) {
-    $_setInt64(0, v);
+  int get offerId => $_get(0, 0);
+  set offerId(int v) {
+    $_setSignedInt32(0, v);
   }
 
   bool hasOfferId() => $_has(0);
@@ -1173,8 +1173,8 @@ class _ReadonlyDataLocation extends DataLocation with ReadonlyMessageMixin {}
 
 class DataApplicant extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataApplicant')
-    ..aInt64(1, 'applicantId')
-    ..aInt64(2, 'offerId')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..a<int>(2, 'offerId', PbFieldType.O3)
     ..a<int>(3, 'accountId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -1200,17 +1200,17 @@ class DataApplicant extends GeneratedMessage {
     if (v is! DataApplicant) checkItemFailed(v, 'DataApplicant');
   }
 
-  Int64 get applicantId => $_getI64(0);
-  set applicantId(Int64 v) {
-    $_setInt64(0, v);
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
   }
 
   bool hasApplicantId() => $_has(0);
   void clearApplicantId() => clearField(1);
 
-  Int64 get offerId => $_getI64(1);
-  set offerId(Int64 v) {
-    $_setInt64(1, v);
+  int get offerId => $_get(1, 0);
+  set offerId(int v) {
+    $_setSignedInt32(1, v);
   }
 
   bool hasOfferId() => $_has(1);
@@ -1229,9 +1229,9 @@ class _ReadonlyDataApplicant extends DataApplicant with ReadonlyMessageMixin {}
 
 class DataChat extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataChat')
-    ..aInt64(1, 'applicantId')
-    ..aInt64(2, 'sequenceId')
-    ..aInt64(3, 'keyId')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..a<int>(2, 'sequenceId', PbFieldType.O3)
+    ..a<int>(3, 'keyId', PbFieldType.O3)
     ..aOB(4, 'outgoing')
     ..aOS(5, 'text')
     ..hasRequiredFields = false;
@@ -1256,25 +1256,25 @@ class DataChat extends GeneratedMessage {
     if (v is! DataChat) checkItemFailed(v, 'DataChat');
   }
 
-  Int64 get applicantId => $_getI64(0);
-  set applicantId(Int64 v) {
-    $_setInt64(0, v);
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
   }
 
   bool hasApplicantId() => $_has(0);
   void clearApplicantId() => clearField(1);
 
-  Int64 get sequenceId => $_getI64(1);
-  set sequenceId(Int64 v) {
-    $_setInt64(1, v);
+  int get sequenceId => $_get(1, 0);
+  set sequenceId(int v) {
+    $_setSignedInt32(1, v);
   }
 
   bool hasSequenceId() => $_has(1);
   void clearSequenceId() => clearField(2);
 
-  Int64 get keyId => $_getI64(2);
-  set keyId(Int64 v) {
-    $_setInt64(2, v);
+  int get keyId => $_get(2, 0);
+  set keyId(int v) {
+    $_setSignedInt32(2, v);
   }
 
   bool hasKeyId() => $_has(2);
@@ -2444,7 +2444,7 @@ class _ReadonlyNetCreateOfferReq extends NetCreateOfferReq
 
 class NetCreateOfferRes extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetCreateOfferRes')
-    ..aInt64(1, 'offerId')
+    ..a<int>(1, 'offerId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetCreateOfferRes() : super();
@@ -2470,9 +2470,9 @@ class NetCreateOfferRes extends GeneratedMessage {
     if (v is! NetCreateOfferRes) checkItemFailed(v, 'NetCreateOfferRes');
   }
 
-  Int64 get offerId => $_getI64(0);
-  set offerId(Int64 v) {
-    $_setInt64(0, v);
+  int get offerId => $_get(0, 0);
+  set offerId(int v) {
+    $_setSignedInt32(0, v);
   }
 
   bool hasOfferId() => $_has(0);

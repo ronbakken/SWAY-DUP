@@ -60,7 +60,7 @@ namespace InfX {
             "cG9zdHNDb3VudBgKIAEoBRIQCgh2ZXJpZmllZBgLIAEoCCJgChREYXRhT0F1",
             "dGhDcmVkZW50aWFscxIOCgZ1c2VySWQYBCABKAkSDQoFdG9rZW4YASABKAkS",
             "EwoLdG9rZW5TZWNyZXQYAiABKAkSFAoMdG9rZW5FeHBpcmVzGAMgASgFIrkD",
-            "ChFEYXRhQnVzaW5lc3NPZmZlchIPCgdvZmZlcklkGAEgASgDEhEKCWFjY291",
+            "ChFEYXRhQnVzaW5lc3NPZmZlchIPCgdvZmZlcklkGAEgASgFEhEKCWFjY291",
             "bnRJZBgCIAEoBRISCgpsb2NhdGlvbklkGAMgASgFEg0KBXRpdGxlGAQgASgJ",
             "EhMKC2Rlc2NyaXB0aW9uGAUgASgJEhEKCWF2YXRhclVybBgGIAEoCRIUCgxk",
             "ZWxpdmVyYWJsZXMYByABKAkSDgoGcmV3YXJkGAggASgJEhAKCGxvY2F0aW9u",
@@ -75,9 +75,9 @@ namespace InfX {
             "aWwYCCABKAkSEAoIcG9zdGNvZGUYCSABKAkSEgoKcmVnaW9uQ29kZRgKIAEo",
             "CRITCgtjb3VudHJ5Q29kZRgLIAEoCRIQCghsYXRpdHVkZRgEIAEoARIRCgls",
             "b25naXR1ZGUYBSABKAEiSAoNRGF0YUFwcGxpY2FudBITCgthcHBsaWNhbnRJ",
-            "ZBgBIAEoAxIPCgdvZmZlcklkGAIgASgDEhEKCWFjY291bnRJZBgDIAEoBSJi",
-            "CghEYXRhQ2hhdBITCgthcHBsaWNhbnRJZBgBIAEoAxISCgpzZXF1ZW5jZUlk",
-            "GAIgASgDEg0KBWtleUlkGAMgASgDEhAKCG91dGdvaW5nGAQgASgIEgwKBHRl",
+            "ZBgBIAEoBRIPCgdvZmZlcklkGAIgASgFEhEKCWFjY291bnRJZBgDIAEoBSJi",
+            "CghEYXRhQ2hhdBITCgthcHBsaWNhbnRJZBgBIAEoBRISCgpzZXF1ZW5jZUlk",
+            "GAIgASgFEg0KBWtleUlkGAMgASgFEhAKCG91dGdvaW5nGAQgASgIEgwKBHRl",
             "eHQYBSABKAkihwIKEERhdGFBY2NvdW50U3RhdGUSEAoIZGV2aWNlSWQYASAB",
             "KAUSEQoJYWNjb3VudElkGAIgASgFEiUKC2FjY291bnRUeXBlGAMgASgOMhAu",
             "aW5mLkFjY291bnRUeXBlEjMKEmdsb2JhbEFjY291bnRTdGF0ZRgEIAEoDjIX",
@@ -121,7 +121,7 @@ namespace InfX {
             "KAkSEQoJaW1hZ2VLZXlzGAIgAygJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhQK",
             "DGRlbGl2ZXJhYmxlcxgEIAEoCRIOCgZyZXdhcmQYBSABKAkSEgoKbG9jYXRp",
             "b25JZBgGIAEoBSIkChFOZXRDcmVhdGVPZmZlclJlcxIPCgdvZmZlcklkGAEg",
-            "ASgDKj4KDk9BdXRoTWVjaGFuaXNtEgwKCE9BTV9OT05FEAASDgoKT0FNX09B",
+            "ASgFKj4KDk9BdXRoTWVjaGFuaXNtEgwKCE9BTV9OT05FEAASDgoKT0FNX09B",
             "VVRIMRABEg4KCk9BTV9PQVVUSDIQAipDChBPQXV0aFByb3ZpZGVySWRzEgwK",
             "CE9BUF9OT05FEAASDwoLT0FQX1RXSVRURVIQARIQCgxPQVBfRkFDRUJPT0sQ",
             "AipRCgtBY2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5GTFVF",
@@ -3118,9 +3118,9 @@ namespace InfX {
 
     /// <summary>Field number for the "offerId" field.</summary>
     public const int OfferIdFieldNumber = 1;
-    private long offerId_;
+    private int offerId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long OfferId {
+    public int OfferId {
       get { return offerId_; }
       set {
         offerId_ = value;
@@ -3337,7 +3337,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (OfferId != 0L) hash ^= OfferId.GetHashCode();
+      if (OfferId != 0) hash ^= OfferId.GetHashCode();
       if (AccountId != 0) hash ^= AccountId.GetHashCode();
       if (LocationId != 0) hash ^= LocationId.GetHashCode();
       if (Title.Length != 0) hash ^= Title.GetHashCode();
@@ -3364,9 +3364,9 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (OfferId != 0L) {
+      if (OfferId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt64(OfferId);
+        output.WriteInt32(OfferId);
       }
       if (AccountId != 0) {
         output.WriteRawTag(16);
@@ -3431,8 +3431,8 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (OfferId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(OfferId);
+      if (OfferId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OfferId);
       }
       if (AccountId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountId);
@@ -3486,7 +3486,7 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.OfferId != 0L) {
+      if (other.OfferId != 0) {
         OfferId = other.OfferId;
       }
       if (other.AccountId != 0) {
@@ -3544,7 +3544,7 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 8: {
-            OfferId = input.ReadInt64();
+            OfferId = input.ReadInt32();
             break;
           }
           case 16: {
@@ -4022,9 +4022,9 @@ namespace InfX {
 
     /// <summary>Field number for the "applicantId" field.</summary>
     public const int ApplicantIdFieldNumber = 1;
-    private long applicantId_;
+    private int applicantId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long ApplicantId {
+    public int ApplicantId {
       get { return applicantId_; }
       set {
         applicantId_ = value;
@@ -4033,9 +4033,9 @@ namespace InfX {
 
     /// <summary>Field number for the "offerId" field.</summary>
     public const int OfferIdFieldNumber = 2;
-    private long offerId_;
+    private int offerId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long OfferId {
+    public int OfferId {
       get { return offerId_; }
       set {
         offerId_ = value;
@@ -4080,8 +4080,8 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (ApplicantId != 0L) hash ^= ApplicantId.GetHashCode();
-      if (OfferId != 0L) hash ^= OfferId.GetHashCode();
+      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
+      if (OfferId != 0) hash ^= OfferId.GetHashCode();
       if (AccountId != 0) hash ^= AccountId.GetHashCode();
       return hash;
     }
@@ -4093,13 +4093,13 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (ApplicantId != 0L) {
+      if (ApplicantId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt64(ApplicantId);
+        output.WriteInt32(ApplicantId);
       }
-      if (OfferId != 0L) {
+      if (OfferId != 0) {
         output.WriteRawTag(16);
-        output.WriteInt64(OfferId);
+        output.WriteInt32(OfferId);
       }
       if (AccountId != 0) {
         output.WriteRawTag(24);
@@ -4110,11 +4110,11 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (ApplicantId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ApplicantId);
+      if (ApplicantId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
       }
-      if (OfferId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(OfferId);
+      if (OfferId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OfferId);
       }
       if (AccountId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountId);
@@ -4127,10 +4127,10 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.ApplicantId != 0L) {
+      if (other.ApplicantId != 0) {
         ApplicantId = other.ApplicantId;
       }
-      if (other.OfferId != 0L) {
+      if (other.OfferId != 0) {
         OfferId = other.OfferId;
       }
       if (other.AccountId != 0) {
@@ -4147,11 +4147,11 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 8: {
-            ApplicantId = input.ReadInt64();
+            ApplicantId = input.ReadInt32();
             break;
           }
           case 16: {
-            OfferId = input.ReadInt64();
+            OfferId = input.ReadInt32();
             break;
           }
           case 24: {
@@ -4202,12 +4202,12 @@ namespace InfX {
 
     /// <summary>Field number for the "applicantId" field.</summary>
     public const int ApplicantIdFieldNumber = 1;
-    private long applicantId_;
+    private int applicantId_;
     /// <summary>
     ///  One chat per applicant
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long ApplicantId {
+    public int ApplicantId {
       get { return applicantId_; }
       set {
         applicantId_ = value;
@@ -4216,12 +4216,12 @@ namespace InfX {
 
     /// <summary>Field number for the "sequenceId" field.</summary>
     public const int SequenceIdFieldNumber = 2;
-    private long sequenceId_;
+    private int sequenceId_;
     /// <summary>
     ///  Sequential identifier in the chat stream
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long SequenceId {
+    public int SequenceId {
       get { return sequenceId_; }
       set {
         sequenceId_ = value;
@@ -4230,12 +4230,12 @@ namespace InfX {
 
     /// <summary>Field number for the "keyId" field.</summary>
     public const int KeyIdFieldNumber = 3;
-    private long keyId_;
+    private int keyId_;
     /// <summary>
     ///  Deduplication client-side (ghost entry)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long KeyId {
+    public int KeyId {
       get { return keyId_; }
       set {
         keyId_ = value;
@@ -4294,9 +4294,9 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (ApplicantId != 0L) hash ^= ApplicantId.GetHashCode();
-      if (SequenceId != 0L) hash ^= SequenceId.GetHashCode();
-      if (KeyId != 0L) hash ^= KeyId.GetHashCode();
+      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
+      if (SequenceId != 0) hash ^= SequenceId.GetHashCode();
+      if (KeyId != 0) hash ^= KeyId.GetHashCode();
       if (Outgoing != false) hash ^= Outgoing.GetHashCode();
       if (Text.Length != 0) hash ^= Text.GetHashCode();
       return hash;
@@ -4309,17 +4309,17 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (ApplicantId != 0L) {
+      if (ApplicantId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt64(ApplicantId);
+        output.WriteInt32(ApplicantId);
       }
-      if (SequenceId != 0L) {
+      if (SequenceId != 0) {
         output.WriteRawTag(16);
-        output.WriteInt64(SequenceId);
+        output.WriteInt32(SequenceId);
       }
-      if (KeyId != 0L) {
+      if (KeyId != 0) {
         output.WriteRawTag(24);
-        output.WriteInt64(KeyId);
+        output.WriteInt32(KeyId);
       }
       if (Outgoing != false) {
         output.WriteRawTag(32);
@@ -4334,14 +4334,14 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (ApplicantId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ApplicantId);
+      if (ApplicantId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
       }
-      if (SequenceId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(SequenceId);
+      if (SequenceId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SequenceId);
       }
-      if (KeyId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(KeyId);
+      if (KeyId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(KeyId);
       }
       if (Outgoing != false) {
         size += 1 + 1;
@@ -4357,13 +4357,13 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.ApplicantId != 0L) {
+      if (other.ApplicantId != 0) {
         ApplicantId = other.ApplicantId;
       }
-      if (other.SequenceId != 0L) {
+      if (other.SequenceId != 0) {
         SequenceId = other.SequenceId;
       }
-      if (other.KeyId != 0L) {
+      if (other.KeyId != 0) {
         KeyId = other.KeyId;
       }
       if (other.Outgoing != false) {
@@ -4383,15 +4383,15 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 8: {
-            ApplicantId = input.ReadInt64();
+            ApplicantId = input.ReadInt32();
             break;
           }
           case 16: {
-            SequenceId = input.ReadInt64();
+            SequenceId = input.ReadInt32();
             break;
           }
           case 24: {
-            KeyId = input.ReadInt64();
+            KeyId = input.ReadInt32();
             break;
           }
           case 32: {
@@ -7951,12 +7951,12 @@ namespace InfX {
 
     /// <summary>Field number for the "offerId" field.</summary>
     public const int OfferIdFieldNumber = 1;
-    private long offerId_;
+    private int offerId_;
     /// <summary>
     ///  Identifier of the offer on the server
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long OfferId {
+    public int OfferId {
       get { return offerId_; }
       set {
         offerId_ = value;
@@ -7983,7 +7983,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (OfferId != 0L) hash ^= OfferId.GetHashCode();
+      if (OfferId != 0) hash ^= OfferId.GetHashCode();
       return hash;
     }
 
@@ -7994,17 +7994,17 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (OfferId != 0L) {
+      if (OfferId != 0) {
         output.WriteRawTag(8);
-        output.WriteInt64(OfferId);
+        output.WriteInt32(OfferId);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (OfferId != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(OfferId);
+      if (OfferId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OfferId);
       }
       return size;
     }
@@ -8014,7 +8014,7 @@ namespace InfX {
       if (other == null) {
         return;
       }
-      if (other.OfferId != 0L) {
+      if (other.OfferId != 0) {
         OfferId = other.OfferId;
       }
     }
@@ -8028,7 +8028,7 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 8: {
-            OfferId = input.ReadInt64();
+            OfferId = input.ReadInt32();
             break;
           }
         }
