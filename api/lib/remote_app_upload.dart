@@ -130,6 +130,7 @@ class RemoteAppUpload {
     if (!fileExists) {
       netUploadImageRes.requestMethod = 'PUT';
       netUploadImageRes.requestUrl = bucket.preSignUpload(key, contentLength: pb.contentLength, contentType: pb.contentType, contentSha256: contentSha256, permissions: dospace.Permissions.public);
+      devLog.finest(netUploadImageRes.requestUrl);
     }
 
     // Result options
