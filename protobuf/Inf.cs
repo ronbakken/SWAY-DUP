@@ -120,27 +120,26 @@ namespace InfX {
             "dHVkZRgPIAEoASKEAQoRTmV0Q3JlYXRlT2ZmZXJSZXESDQoFdGl0bGUYASAB",
             "KAkSEQoJaW1hZ2VLZXlzGAIgAygJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhQK",
             "DGRlbGl2ZXJhYmxlcxgEIAEoCRIOCgZyZXdhcmQYBSABKAkSEgoKbG9jYXRp",
-            "b25JZBgGIAEoBSIkChFOZXRDcmVhdGVPZmZlclJlcxIPCgdvZmZlcklkGAEg",
-            "ASgFKj4KDk9BdXRoTWVjaGFuaXNtEgwKCE9BTV9OT05FEAASDgoKT0FNX09B",
-            "VVRIMRABEg4KCk9BTV9PQVVUSDIQAipDChBPQXV0aFByb3ZpZGVySWRzEgwK",
-            "CE9BUF9OT05FEAASDwoLT0FQX1RXSVRURVIQARIQCgxPQVBfRkFDRUJPT0sQ",
-            "AipRCgtBY2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5GTFVF",
-            "TkNFUhABEg8KC0FUX0JVU0lORVNTEAISDgoKQVRfU1VQUE9SVBADKp4BChJH",
-            "bG9iYWxBY2NvdW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNf",
-            "QkxPQ0tFRBABEhEKDUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklU",
-            "RRADEg0KCUdBU19ERUJVRxAEEg8KC0dBU19TVVBQT1JUEAUSDwoLR0FTX01B",
-            "TkFHRVIQBhILCgdHQVNfR09EEAcqtQEKGEdsb2JhbEFjY291bnRTdGF0ZVJl",
-            "YXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAASFwoTR0FTUl9BQ0NPVU5UX0JB",
-            "Tk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklFRBACEhEKDUdBU1JfQVBQUk9W",
-            "RUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQBBIQCgxHQVNSX1BFTkRJTkcQ",
-            "BRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGKm4KEU5vdGlmaWNhdGlvbkZsYWdz",
-            "EhQKEE5GX0FDQ09VTlRfU1RBVEUQABIYChRORl9NQUtFX0FOX09GRkVSX0ZB",
-            "QhABEhYKEk5GX1VOUkVBRF9NRVNTQUdFUxACEhEKDU5GX0NTX1JFUVVFU1QQ",
-            "AypRChJCdXNpbmVzc09mZmVyU3RhdGUSDQoJQk9TX0RSQUZUEAASDAoIQk9T",
-            "X09QRU4QARIOCgpCT1NfQUNUSVZFEAISDgoKQk9TX0NMT1NFRBADKnAKGEJ1",
-            "c2luZXNzT2ZmZXJTdGF0ZVJlYXNvbhISCg5CT1NSX05FV19PRkZFUhAAEhQK",
-            "EEJPU1JfVVNFUl9DTE9TRUQQARIWChJCT1NSX1RPU19WSU9MQVRJT04QAhIS",
-            "Cg5CT1NSX0NPTVBMRVRFRBADQgeqAgRJbmZYYgZwcm90bzM="));
+            "b25JZBgGIAEoBSo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAAEg4K",
+            "Ck9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQcm92aWRl",
+            "cklkcxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoMT0FQX0ZB",
+            "Q0VCT09LEAIqUQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFU",
+            "X0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACEg4KCkFUX1NVUFBPUlQQ",
+            "AyqeAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFMSVpFEAAS",
+            "DwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoOR0FTX1JF",
+            "QURfV1JJVEUQAxINCglHQVNfREVCVUcQBBIPCgtHQVNfU1VQUE9SVBAFEg8K",
+            "C0dBU19NQU5BR0VSEAYSCwoHR0FTX0dPRBAHKrUBChhHbG9iYWxBY2NvdW50",
+            "U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dBU1JfQUND",
+            "T1VOVF9CQU5ORUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIRCg1HQVNS",
+            "X0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9Q",
+            "RU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJFX0lORk8QBipuChFOb3RpZmljYXRp",
+            "b25GbGFncxIUChBORl9BQ0NPVU5UX1NUQVRFEAASGAoUTkZfTUFLRV9BTl9P",
+            "RkZFUl9GQUIQARIWChJORl9VTlJFQURfTUVTU0FHRVMQAhIRCg1ORl9DU19S",
+            "RVFVRVNUEAMqUQoSQnVzaW5lc3NPZmZlclN0YXRlEg0KCUJPU19EUkFGVBAA",
+            "EgwKCEJPU19PUEVOEAESDgoKQk9TX0FDVElWRRACEg4KCkJPU19DTE9TRUQQ",
+            "AypwChhCdXNpbmVzc09mZmVyU3RhdGVSZWFzb24SEgoOQk9TUl9ORVdfT0ZG",
+            "RVIQABIUChBCT1NSX1VTRVJfQ0xPU0VEEAESFgoSQk9TUl9UT1NfVklPTEFU",
+            "SU9OEAISEgoOQk9TUl9DT01QTEVURUQQA0IHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -175,8 +174,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageReq), global::InfX.NetUploadImageReq.Parser, new[]{ "FileName", "ContentLength", "ContentType", "ContentSha256" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageRes), global::InfX.NetUploadImageRes.Parser, new[]{ "RequestMethod", "RequestUrl", "FileExists", "UploadKey", "CoverUrl", "ThumbnailUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetProfile), global::InfX.NetSetProfile.Parser, new[]{ "Name", "Description", "AvatarKey", "Url", "Categories", "Latitude", "Longitude" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetCreateOfferReq), global::InfX.NetCreateOfferReq.Parser, new[]{ "Title", "ImageKeys", "Description", "Deliverables", "Reward", "LocationId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetCreateOfferRes), global::InfX.NetCreateOfferRes.Parser, new[]{ "OfferId" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetCreateOfferReq), global::InfX.NetCreateOfferReq.Parser, new[]{ "Title", "ImageKeys", "Description", "Deliverables", "Reward", "LocationId" }, null, null, null)
           }));
     }
     #endregion
@@ -7656,7 +7654,7 @@ namespace InfX {
   /// <summary>
   ///  Message to create offer
   ///  Id: C_OFFERR
-  ///  Response C_R_OFFE
+  ///  Response C_R_OFFE (DataBusinessOffer)
   /// </summary>
   public sealed partial class NetCreateOfferReq : pb::IMessage<NetCreateOfferReq> {
     private static readonly pb::MessageParser<NetCreateOfferReq> _parser = new pb::MessageParser<NetCreateOfferReq>(() => new NetCreateOfferReq());
@@ -7905,130 +7903,6 @@ namespace InfX {
           }
           case 48: {
             LocationId = input.ReadInt32();
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
-  /// <summary>
-  ///  Response to successful offer creation
-  ///  Id: C_R_OFFE
-  /// </summary>
-  public sealed partial class NetCreateOfferRes : pb::IMessage<NetCreateOfferRes> {
-    private static readonly pb::MessageParser<NetCreateOfferRes> _parser = new pb::MessageParser<NetCreateOfferRes>(() => new NetCreateOfferRes());
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetCreateOfferRes> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[32]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetCreateOfferRes() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetCreateOfferRes(NetCreateOfferRes other) : this() {
-      offerId_ = other.offerId_;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetCreateOfferRes Clone() {
-      return new NetCreateOfferRes(this);
-    }
-
-    /// <summary>Field number for the "offerId" field.</summary>
-    public const int OfferIdFieldNumber = 1;
-    private int offerId_;
-    /// <summary>
-    ///  Identifier of the offer on the server
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int OfferId {
-      get { return offerId_; }
-      set {
-        offerId_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as NetCreateOfferRes);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetCreateOfferRes other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (OfferId != other.OfferId) return false;
-      return true;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (OfferId != 0) hash ^= OfferId.GetHashCode();
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (OfferId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(OfferId);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (OfferId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OfferId);
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetCreateOfferRes other) {
-      if (other == null) {
-        return;
-      }
-      if (other.OfferId != 0) {
-        OfferId = other.OfferId;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            input.SkipLastField();
-            break;
-          case 8: {
-            OfferId = input.ReadInt32();
             break;
           }
         }
