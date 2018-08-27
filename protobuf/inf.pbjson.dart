@@ -355,7 +355,7 @@ const DataBusinessOffer$json = const {
     const {'1': 'locationId', '3': 3, '4': 1, '5': 5, '10': 'locationId'},
     const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
     const {'1': 'description', '3': 5, '4': 1, '5': 9, '10': 'description'},
-    const {'1': 'avatarUrl', '3': 6, '4': 1, '5': 9, '10': 'avatarUrl'},
+    const {'1': 'thumbnailUrl', '3': 6, '4': 1, '5': 9, '10': 'thumbnailUrl'},
     const {'1': 'deliverables', '3': 7, '4': 1, '5': 9, '10': 'deliverables'},
     const {'1': 'reward', '3': 8, '4': 1, '5': 9, '10': 'reward'},
     const {'1': 'location', '3': 9, '4': 1, '5': 9, '10': 'location'},
