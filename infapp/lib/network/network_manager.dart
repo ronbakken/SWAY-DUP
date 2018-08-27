@@ -17,6 +17,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
 import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
+import 'package:mime/mime.dart';
+import 'package:crypto/crypto.dart';
 
 import 'config_manager.dart';
 import 'inf.pb.dart';
@@ -522,6 +524,48 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       throw new NetworkException("No account has been created");
     }
   }
+  
+  static int _netUploadImageReq = TalkSocket.encode("UP_IMAGE");
+  @override
+  Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
+    // Build information on file
+    BytesBuilder builder = new BytesBuilder(copy: false);
+    await fileImage.file.openRead(0, 256).forEach(builder.add);
+    Digest contentSha256 = await sha256.bind(fileImage.file.openRead()).first;
+    String contentType = new MimeTypeResolver().lookup(fileImage.file.path, headerBytes: builder.toBytes());
+    int contentLength = await fileImage.file.length();
+
+    NetUploadImageReq req = new NetUploadImageReq();
+    req.fileName = fileImage.file.path;
+    req.contentLength = contentLength;
+    req.contentType = contentType;
+    req.contentSha256 = contentSha256.bytes;
+
+    TalkMessage resMessage = await _ts.sendRequest(_netUploadImageReq, req.writeToBuffer());
+    NetUploadImageRes res = new NetUploadImageRes();
+    res.mergeFromBuffer(resMessage.data);
+
+    if (res.fileExists) {
+      // File already exists, so no need to upload it again
+      return res;
+    }
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest httpRequest = await httpClient.openUrl(res.requestMethod, Uri.parse(res.requestUrl));
+    httpRequest.headers.add("Content-Type", contentType);
+    httpRequest.headers.add("Content-Length", contentLength);
+    await httpRequest.addStream(fileImage.file.openRead());
+    await httpRequest.flush();
+    HttpClientResponse httpResponse = await httpRequest.close();
+    BytesBuilder responseBuilder = new BytesBuilder(copy: false);
+    await httpResponse.forEach(builder.add);
+    if (httpResponse.statusCode != 200) {
+      throw new NetworkException("Status code ${httpResponse.statusCode}, response: ${utf8.decode(builder.toBytes())}");
+    }
+
+    // Upload successful
+    return res;
+  }
 }
 
 class _InheritedNetworkManager extends InheritedWidget {
@@ -564,6 +608,9 @@ abstract class NetworkInterface {
 
   /// Create an account
   Future<Null> createAccount(double latitude, double longitude);
+
+  /// Upload an image. Disregard the returned request options. Throws error in case of failure
+  Future<NetUploadImageRes> uploadImage(FileImage fileImage);
 }
 
 /* end of file */

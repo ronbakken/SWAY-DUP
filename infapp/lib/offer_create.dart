@@ -1,4 +1,5 @@
 // import 'dart:async';
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -6,11 +7,11 @@ import 'package:flutter/material.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-// https://pub.dartlang.org/packages/image_picker
-import 'package:image_picker/image_picker.dart';
 
 import 'utility/ensure_visible_when_focused.dart';
 import 'network/inf.pb.dart';
+
+import 'widgets/image_uploader.dart';
 
 // https://leonid.shevtsov.me/post/demystifying-s3-browser-upload/
 // https://github.com/gjersvik/awsdart // Prepare a signature on the server
@@ -36,9 +37,11 @@ class OfferCreate extends StatefulWidget {
   const OfferCreate({
     Key key,
     @required this.onCreateOffer,
+    this.onUploadImage,
   }) : super(key: key);
 
   final CreateOfferCallback onCreateOffer;
+  final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
 
   @override
   _OfferCreateState createState() => new _OfferCreateState();
@@ -47,13 +50,13 @@ class OfferCreate extends StatefulWidget {
 class _OfferCreateState extends State<OfferCreate> {
   final _formKey = new GlobalKey<FormState>();
 
-  // File _imageFile;
-  FileImage _image;
+  String _imageKey;
   String _title;
   String _description;
   String _deliverables;
   String _reward;
 
+  TextEditingController _imageKeyController;
   TextEditingController _titleController;
   TextEditingController _descriptionController;
   TextEditingController _deliverablesController;
@@ -64,9 +67,10 @@ class _OfferCreateState extends State<OfferCreate> {
   final FocusNode _deliverablesNode = new FocusNode();
   final FocusNode _rewardNode = new FocusNode();
 
-  _submitPressed() async {
+  void _submitPressed() async {
     final form = _formKey.currentState;
     if (form.validate()) {
+      _imageKey = _imageKeyController.text;
       form.save();
       // Upload image
       // Handle callback
@@ -75,7 +79,8 @@ class _OfferCreateState extends State<OfferCreate> {
   }
 
   bool _validFormData() {
-    return _image != null;
+    // return _image != null;
+    return _imageKeyController.text != null && _imageKeyController.text.length > 0;
   }
 
   @override
@@ -87,55 +92,9 @@ class _OfferCreateState extends State<OfferCreate> {
       body: new ListView(
         padding: new EdgeInsets.all(8.0),
         children: [
-          new Column(
-            children: <Widget>[
-              new AspectRatio(
-                aspectRatio: 16.0 / 9.0,
-                child: new ClipRRect(
-                  borderRadius: new BorderRadius.all(new Radius.circular(4.0)),
-                  child: Image(
-                    fit: BoxFit.cover,
-                    image: _image == null
-                        ? new AssetImage('assets/placeholder_photo_select.png')
-                        : _image),
-                ),
-              ),
-              new SizedBox(
-                height: 8.0,
-              ),
-              new RaisedButton(
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.only(
-                    topLeft: new Radius.circular(4.0),
-                    topRight: new Radius.circular(4.0),
-                    bottomLeft: new Radius.circular(16.0),
-                    bottomRight: new Radius.circular(16.0),
-                  ),
-                ),
-                color: _image == null
-                    ? Theme.of(context).buttonColor
-                    : Theme.of(context).unselectedWidgetColor,
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    new Icon(Icons.photo),
-                    new Text("Select Photo".toUpperCase()),
-                    new Icon(_image == null ? Icons.folder_open : Icons.check),
-                  ],
-                ),
-                onPressed: () async {
-                  File image =
-                      await ImagePicker.pickImage(source: ImageSource.askUser);
-                  if (image != null) {
-                    setState(() {
-                      // _imageFile = image;
-                      _image = new FileImage(image);
-                    });
-                  }
-                },
-              ),
-            ],
+          new ImageUploader(
+            uploadKey: _imageKeyController,
+            onUploadImage: widget.onUploadImage,
           ),
           new Form(
             key: _formKey,
