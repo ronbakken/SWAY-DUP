@@ -2441,3 +2441,50 @@ class NetCreateOfferReq extends GeneratedMessage {
 
 class _ReadonlyNetCreateOfferReq extends NetCreateOfferReq
     with ReadonlyMessageMixin {}
+
+class NetLoadOffers extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetLoadOffers')
+    ..a<int>(1, 'before', PbFieldType.O3)
+    ..a<int>(2, 'after', PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  NetLoadOffers() : super();
+  NetLoadOffers.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetLoadOffers.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetLoadOffers clone() => new NetLoadOffers()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetLoadOffers create() => new NetLoadOffers();
+  static PbList<NetLoadOffers> createRepeated() => new PbList<NetLoadOffers>();
+  static NetLoadOffers getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetLoadOffers();
+    return _defaultInstance;
+  }
+
+  static NetLoadOffers _defaultInstance;
+  static void $checkItem(NetLoadOffers v) {
+    if (v is! NetLoadOffers) checkItemFailed(v, 'NetLoadOffers');
+  }
+
+  int get before => $_get(0, 0);
+  set before(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasBefore() => $_has(0);
+  void clearBefore() => clearField(1);
+
+  int get after => $_get(1, 0);
+  set after(int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  bool hasAfter() => $_has(1);
+  void clearAfter() => clearField(2);
+}
+
+class _ReadonlyNetLoadOffers extends NetLoadOffers with ReadonlyMessageMixin {}
