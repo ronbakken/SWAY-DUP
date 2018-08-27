@@ -1481,6 +1481,7 @@ class DataAccountDetail extends GeneratedMessage {
     ..a<double>(5, 'longitude', PbFieldType.OD)
     ..aOS(6, 'url')
     ..aOS(7, 'avatarCoverUrl')
+    ..a<int>(8, 'locationId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataAccountDetail() : super();
@@ -1541,6 +1542,14 @@ class DataAccountDetail extends GeneratedMessage {
 
   bool hasAvatarCoverUrl() => $_has(5);
   void clearAvatarCoverUrl() => clearField(7);
+
+  int get locationId => $_get(6, 0);
+  set locationId(int v) {
+    $_setSignedInt32(6, v);
+  }
+
+  bool hasLocationId() => $_has(6);
+  void clearLocationId() => clearField(8);
 }
 
 class _ReadonlyDataAccountDetail extends DataAccountDetail
