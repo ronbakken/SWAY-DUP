@@ -26,6 +26,7 @@ import 'package:dospace/dospace.dart' as dospace;
 import 'inf.pb.dart';
 import 'remote_app_oauth.dart';
 import 'remote_app_upload.dart';
+import 'remote_app_business.dart';
 
 // TODO: Move sql queries into a separate shared class, to allow prepared statements, and simplify code here
 
@@ -70,7 +71,7 @@ class RemoteApp {
 
   RemoteAppOAuth _remoteAppOAuth;
   RemoteAppUpload _remoteAppUpload;
-  dynamic _remoteAppBusiness;
+  RemoteAppBusiness _remoteAppBusiness;
   dynamic _remoteAppInfluencer;
   dynamic _remoteAppCommon;
 
@@ -103,6 +104,10 @@ class RemoteApp {
       _remoteAppUpload.dispose();
       _remoteAppUpload = null;
     }
+    if (_remoteAppBusiness != null) {
+      _remoteAppBusiness.dispose();
+      _remoteAppBusiness = null;
+    }
     devLog.fine("Connection closed for device ${account.state.deviceId}");
   }
 
@@ -123,6 +128,16 @@ class RemoteApp {
     return null;
   }
 
+  StreamSubscription<TalkMessage> saferListen(
+      String id, GlobalAccountState requiredAccountState, bool replyException, Future<void> onData(TalkMessage message)) {
+    safeListen(id, (TalkMessage message) {
+      if (!requireGlobalAccountState(requiredAccountState, replying: replyException ? message : null)) {
+        return;
+      }
+      onData(message);
+    });
+  }
+
   void subscribeOAuth() {
     if (_remoteAppOAuth == null) {
       _remoteAppOAuth = new RemoteAppOAuth(this);
@@ -132,6 +147,12 @@ class RemoteApp {
   void subscribeUpload() {
     if (_remoteAppUpload == null) {
       _remoteAppUpload = new RemoteAppUpload(this);
+    }
+  }
+
+  void subscribeBusiness() {
+    if (_remoteAppBusiness == null) {
+      _remoteAppBusiness = new RemoteAppBusiness(this);
     }
   }
 
@@ -387,7 +408,7 @@ class RemoteApp {
             "`description`, `location_id`, `avatar_key`, `url` FROM `accounts` "
             "WHERE `account_id` = ?",
             [account.state.accountId.toInt()]);
-        int locationId;
+        // int locationId;
         await for (sqljocky.Row row in accountResults) {
           // one
           account.summary.name = row[0].toString();
@@ -397,7 +418,7 @@ class RemoteApp {
           account.state.globalAccountStateReason =
               GlobalAccountStateReason.valueOf(row[3].toInt());
           account.summary.description = row[4].toString();
-          locationId = row[5].toInt();
+          account.detail.locationId = row[5].toInt();
           if (row[6] != null) {
             account.summary.avatarThumbnailUrl =
                 makeCloudinaryThumbnailUrl(row[6].toString());
@@ -406,12 +427,12 @@ class RemoteApp {
           }
           if (row[7] != null) account.detail.url = row[7].toString();
         }
-        if (locationId != null && locationId != 0) {
+        if (account.detail.locationId != null && account.detail.locationId != 0) {
           if (extend != null) extend();
           sqljocky.Results locationResults = await sql.prepareExecute(
               "SELECT `${account.state.accountType == AccountType.AT_BUSINESS ? 'detail' : 'approximate'}` FROM `addressbook` "
               "WHERE `location_id` = ?",
-              [locationId.toInt()]);
+              [account.detail.locationId.toInt()]);
           await for (sqljocky.Row row in locationResults) {
             // one
             account.summary.location = row[0].toString();
@@ -893,6 +914,23 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
+  // Access
+  /////////////////////////////////////////////////////////////////////
+  
+  bool requireGlobalAccountState(GlobalAccountState globalAccountState, { TalkMessage replying }) {
+    if (account.state.globalAccountState.value < globalAccountState.value) {
+      opsLog.warning("User ${account.state.accountId} is not authorized for $globalAccountState operations");
+      if (replying != null) {
+        ts.sendException("Not authorized", replying);
+      }
+      return false;
+    }
+    return true;
+  }
+
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
   // Utility
   /////////////////////////////////////////////////////////////////////
 
@@ -1280,8 +1318,13 @@ class RemoteApp {
     // TODO: Fetch social media from SQL and then from remote hosts!
     devLog.fine(
         "Transition device ${account.state.deviceId} to app ${account.state.accountType}");
-    subscribeOAuth();
-    subscribeUpload();
+    if (account.state.globalAccountState.value > GlobalAccountState.GAS_BLOCKED.value) {
+      subscribeOAuth();
+      subscribeUpload();
+      if (account.state.accountType == AccountType.AT_BUSINESS) {
+        subscribeBusiness();
+      }
+    }
   }
 }
 

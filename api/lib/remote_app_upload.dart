@@ -59,7 +59,7 @@ class RemoteAppUpload {
   static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
 
   RemoteAppUpload(this._r) {
-    _netUploadImageReq = _r.safeListen("UP_IMAGE", netUploadImageReq);
+    _netUploadImageReq = _r.saferListen("UP_IMAGE", GlobalAccountState.GAS_READ_WRITE, true, netUploadImageReq);
   }
 
   void dispose() {
@@ -80,12 +80,6 @@ class RemoteAppUpload {
     NetUploadImageReq pb = new NetUploadImageReq();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
-
-    if (globalAccountState.value < GlobalAccountState.GAS_READ_WRITE.value) {
-      opsLog.warning("User $accountId is not authorized to upload images");
-      ts.sendException("Not authorized", message);
-      return;
-    }
 
     if (pb.contentLength > (5 * 1024 * 1204)) {
       opsLog.warning("User $accountId attempts to upload file of size ${pb.contentLength}, that's too large");
