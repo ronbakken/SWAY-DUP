@@ -12,12 +12,15 @@ import 'network/inf.pb.dart';
 import 'network/config_manager.dart';
 import 'network/network_manager.dart';
 
+import 'utility/progress_dialog.dart';
+
 import 'profile/profile_view.dart';
 import 'profile/profile_edit.dart';
 
 import 'dashboard_business.dart';
 import 'nearby_influencers.dart';
 import 'offer_create.dart';
+import 'offer_view.dart';
 
 // Business user
 class AppBusiness extends StatefulWidget {
@@ -40,6 +43,84 @@ class _AppBusinessState extends State<AppBusiness> {
           NavigatorState navigator = Navigator.of(context);
           return new OfferCreate(
             onUploadImage: network.uploadImage,
+            onCreateOffer: (NetCreateOfferReq createOffer) async {
+              var progressDialog = showProgressDialog(
+                context: this.context,
+                builder: (BuildContext context) {
+                  return new Dialog(
+                    child: new Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        new Container(
+                            padding:
+                                new EdgeInsets.all(24.0),
+                            child:
+                                new CircularProgressIndicator()),
+                        new Text("Creating offer..."),
+                      ],
+                    ),
+                  );
+                }
+              );
+              DataBusinessOffer offer;
+              try {
+                // Create the offer
+                offer = await network.createOffer(createOffer);
+              } catch (error, stack) {
+                print("[INF] Exception creating offer': $error\n$stack");
+              }
+              closeProgressDialog(progressDialog);
+              if (offer == null) {
+                await showDialog<Null>(
+                  context: this.context,
+                  builder: (BuildContext context) {
+                    return new AlertDialog(
+                      title: new Text('Create Offer Failed'),
+                      content: new SingleChildScrollView(
+                        child: new ListBody(
+                          children: <Widget>[
+                            new Text('An error has occured.'),
+                            new Text('Please try again later.'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [new Text('Ok'.toUpperCase())],
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                Navigator.of(this.context).pop();
+                navigateToOfferView(this.context, network.account, offer);
+              }
+            },
+          );
+        }
+      )
+    );
+  }
+
+  void navigateToOfferView(BuildContext context, DataAccount account, DataBusinessOffer offer) {
+    Navigator.push(
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      context, new MaterialPageRoute(
+        builder: (context) {
+          ConfigData config = ConfigManager.of(context);
+          NetworkInterface network = NetworkManager.of(context);
+          NavigatorState navigator = Navigator.of(context);
+          return new OfferView(
+            account: network.account,
+            businessAccount: account,
+            businessOffer: offer,
           );
         }
       )

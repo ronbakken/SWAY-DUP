@@ -65,14 +65,29 @@ class _OfferCreateState extends State<OfferCreate> {
   final FocusNode _deliverablesNode = new FocusNode();
   final FocusNode _rewardNode = new FocusNode();
 
+  bool _waiting = false;
+
   void _submitPressed() async {
     final form = _formKey.currentState;
     if (form.validate()) {
       _imageKey = _imageKeyController.text;
       form.save();
-      // Upload image
-      // Handle callback
-      // ...
+      NetCreateOfferReq createOffer = new NetCreateOfferReq();
+      createOffer.title = _title;
+      createOffer.imageKeys.add(_imageKey);
+      createOffer.description = _description;
+      createOffer.deliverables = _deliverables;
+      createOffer.reward = _reward;
+      // createOffer.location // Not yet supported
+      setState(() {
+        _waiting = true;
+      });
+      try {
+        await widget.onCreateOffer(createOffer);
+      } finally { }
+      setState(() {
+        _waiting = false;
+      });
     }
   }
 
@@ -169,7 +184,7 @@ class _OfferCreateState extends State<OfferCreate> {
                     new Text("Make offer".toUpperCase()),
                   ],
                 ),
-                onPressed: _validFormData() ? _submitPressed : null,
+                onPressed: (_validFormData() && widget.onCreateOffer != null && !_waiting) ? _submitPressed : null,
               )
             ],
           )

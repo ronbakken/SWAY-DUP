@@ -273,6 +273,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
       // Register all listeners
       ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState);
+      ts.stream(TalkSocket.encode("DB_OFFER")).listen(_dataBusinessOffer);
     }
 
     // assert(accountState.deviceId != 0);
@@ -581,6 +582,20 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       ++_changed;
     });
     return resPb;
+  }
+
+  void _dataBusinessOffer(TalkMessage message) {
+    DataBusinessOffer pb = new DataBusinessOffer();
+    pb.mergeFromBuffer(message.data);
+    if (pb.accountId == account.state.accountId) {
+      setState(() {
+        // Add received offer to known offers
+        _offers[pb.offerId.toInt()] = pb;
+        ++_changed;
+      });
+    } else {
+      print("[INF] Received offer for other account ${pb.accountId}");
+    }
   }
 
   static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
