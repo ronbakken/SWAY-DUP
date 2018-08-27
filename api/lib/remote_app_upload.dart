@@ -46,6 +46,10 @@ class RemoteAppUpload {
   int get accountId {
     return _r.account.state.accountId;
   }
+  
+  GlobalAccountState get globalAccountState {
+    return _r.account.state.globalAccountState;
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   // Construction
@@ -71,11 +75,17 @@ class RemoteAppUpload {
   //////////////////////////////////////////////////////////////////////////////
   
   StreamSubscription<TalkMessage> _netUploadImageReq; // UP_IMAGE
-  static int _netUploadImageRes = TalkSocket.encode("OA_R_URL");
+  static int _netUploadImageRes = TalkSocket.encode("UP_R_IMG");
   Future<void> netUploadImageReq(TalkMessage message) async {
     NetUploadImageReq pb = new NetUploadImageReq();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
+
+    if (globalAccountState.value < GlobalAccountState.GAS_READ_WRITE.value) {
+      opsLog.warning("User $accountId is not authorized to upload images");
+      ts.sendException("Not authorized", message);
+      return;
+    }
 
     if (pb.contentLength > (5 * 1024 * 1204)) {
       opsLog.warning("User $accountId attempts to upload file of size ${pb.contentLength}, that's too large");
@@ -99,13 +109,12 @@ class RemoteAppUpload {
         break;
       default: {
         int lastIndex = pb.fileName.lastIndexOf('.');
-        uriExt = lastIndex > 0 ? pb.fileName.substring(lastIndex + 1) : 'bin';
+        uriExt = lastIndex > 0 ? pb.fileName.substring(lastIndex + 1).toLowerCase() : 'bin';
       }
     }
 
     Digest contentSha256 = new Digest(pb.contentSha256);
-    String key = "user/$accountId/$contentSha256" +
-        (uriExt.length > 0 ? ('.' + uriExt) : '.bin');
+    String key = "user/$accountId/$contentSha256.$uriExt";
 
     NetUploadImageRes netUploadImageRes = new NetUploadImageRes();
 

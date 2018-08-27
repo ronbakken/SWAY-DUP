@@ -25,6 +25,7 @@ import 'package:dospace/dospace.dart' as dospace;
 
 import 'inf.pb.dart';
 import 'remote_app_oauth.dart';
+import 'remote_app_upload.dart';
 
 // TODO: Move sql queries into a separate shared class, to allow prepared statements, and simplify code here
 
@@ -68,6 +69,7 @@ class RemoteApp {
   final http.Client httpClient = new http.ConsoleClient();
 
   RemoteAppOAuth _remoteAppOAuth;
+  RemoteAppUpload _remoteAppUpload;
   dynamic _remoteAppBusiness;
   dynamic _remoteAppInfluencer;
   dynamic _remoteAppCommon;
@@ -97,6 +99,10 @@ class RemoteApp {
       _remoteAppOAuth.dispose();
       _remoteAppOAuth = null;
     }
+    if (_remoteAppUpload != null) {
+      _remoteAppUpload.dispose();
+      _remoteAppUpload = null;
+    }
     devLog.fine("Connection closed for device ${account.state.deviceId}");
   }
 
@@ -120,6 +126,12 @@ class RemoteApp {
   void subscribeOAuth() {
     if (_remoteAppOAuth == null) {
       _remoteAppOAuth = new RemoteAppOAuth(this);
+    }
+  }
+
+  void subscribeUpload() {
+    if (_remoteAppUpload == null) {
+      _remoteAppUpload = new RemoteAppUpload(this);
     }
   }
 
@@ -1206,6 +1218,7 @@ class RemoteApp {
     }
 
     // Get hash and generate filename
+    /*
     int lastIndex = uri.path.lastIndexOf('.');
     String uriExt = lastIndex > 0 ? uri.path.substring(lastIndex + 1) : '';
     if (uriExt.length == 0) {
@@ -1218,9 +1231,24 @@ class RemoteApp {
           break;
       }
     }
+    */
+
+    String uriExt;
+    switch (contentType) {
+      case 'image/jpeg':
+        uriExt = 'jpg';
+        break;
+      case 'image/png':
+        uriExt = 'png';
+        break;
+      default: {
+        int lastIndex = uri.path.lastIndexOf('.');
+        uriExt = lastIndex > 0 ? uri.path.substring(lastIndex + 1).toLowerCase() : 'bin';
+      }
+    }
+
     Digest contentSha256 = sha256.convert(body);
-    String key = "user/$accountId/$contentSha256" +
-        (uriExt.length > 0 ? ('.' + uriExt) : '.bin');
+    String key = "user/$accountId/$contentSha256.$uriExt";
     bucket.uploadData(key, body, contentType, dospace.Permissions.public,
         contentSha256: contentSha256);
     return key;
@@ -1246,6 +1274,7 @@ class RemoteApp {
     devLog.fine(
         "Transition device ${account.state.deviceId} to app ${account.state.accountType}");
     subscribeOAuth();
+    subscribeUpload();
   }
 }
 
