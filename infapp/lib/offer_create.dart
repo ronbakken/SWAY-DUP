@@ -90,11 +90,14 @@ class _OfferCreateState extends State<OfferCreate> {
         title: new Text("Make an offer"),
       ),
       body: new ListView(
-        padding: new EdgeInsets.all(8.0),
+        padding: new EdgeInsets.all(16.0),
         children: [
           new ImageUploader(
             uploadKey: _imageKeyController,
             onUploadImage: widget.onUploadImage,
+          ),
+          new SizedBox(
+            height: 8.0,
           ),
           new Form(
             key: _formKey,
@@ -152,33 +155,27 @@ class _OfferCreateState extends State<OfferCreate> {
                   ),
                 ),
               ]
-              //    .map<Widget>((v) => new Container(
-              //        padding: new EdgeInsets.only(bottom: 8.0), child: v))
-              //    .toList(),
             ),
+          ),
+          new SizedBox(
+            height: 16.0,
+          ),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              new RaisedButton(
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    new Text("Make offer".toUpperCase()),
+                  ],
+                ),
+                onPressed: _validFormData() ? _submitPressed : null,
+              )
+            ],
           )
         ]
-            .map<Widget>((v) =>
-                new Container(padding: new EdgeInsets.all(8.0), child: v))
-            .toList()
-              ..addAll([])
-              ..addAll([
-                new Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    new RaisedButton(
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          new Text("Make offer".toUpperCase()),
-                        ],
-                      ),
-                      onPressed: _validFormData() ? _submitPressed : null,
-                    )
-                  ],
-                )
-              ].map<Widget>((v) =>
-                  new Container(padding: new EdgeInsets.all(8.0), child: v))),
       ),
     );
   }

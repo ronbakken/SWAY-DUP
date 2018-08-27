@@ -7,6 +7,8 @@ import 'profile_view.dart';
 import '../page_transition.dart';
 import '../widgets/image_uploader.dart';
 
+// TODO: Warn when unsaved changes
+
 class ProfileEdit extends StatefulWidget {
   ProfileEdit({
     Key key,
@@ -69,40 +71,48 @@ class _ProfileEditState extends State<ProfileEdit> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Edit Profile"),
+        title: new Text("Modify your profile"),
       ),
       body: new ListView(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           new ImageUploader(
             initialUrl: widget.account.detail.avatarCoverUrl,
             uploadKey: _avatarController,
             onUploadImage: widget.onUploadImage,
           ),
+        new SizedBox(
+          height: 8.0,
+        ),
           new TextField(
             controller: _nameController,
             decoration: new InputDecoration(labelText: 'Name'),
-          ),
-          new Container(
-            padding: const EdgeInsets.all(12.0),
           ),
           new TextField(
             controller: _locationController,
             decoration: new InputDecoration(labelText: 'Location'),
           ),
-          new Container(
-            padding: const EdgeInsets.all(12.0),
-          ),
           new TextField(
             controller: _descriptionController,
             decoration: new InputDecoration(labelText: 'Description'),
           ),
-          new Container(
-            padding: const EdgeInsets.all(12.0),
+          new SizedBox(
+            height: 16.0,
           ),
-          new RaisedButton(
-            child: new Text("Submit".toUpperCase()),
-            onPressed: (widget.onSubmitPressed != null) ? _submitPressed : null,
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              new RaisedButton(
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    new Text("Save your profile".toUpperCase()),
+                  ],
+                ),
+                onPressed: (widget.onSubmitPressed != null) ? _submitPressed : null,
+              )
+            ],
           ),
         ],
       ),

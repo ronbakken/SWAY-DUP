@@ -141,7 +141,11 @@ class _DashboardBusinessState extends State<DashboardBusiness>
                 ),
                 new Text('Profile')
               ]),
-              onPressed: widget.onNavigateProfile)
+              onPressed: (widget.onNavigateProfile != null) ? () {
+                Navigator.pop(context);
+                widget.onNavigateProfile();
+              } : null,
+          ),
         ]),
       ),
       appBar: _currentTab != 0
