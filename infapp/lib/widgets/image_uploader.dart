@@ -57,17 +57,15 @@ class _ImageUploaderState extends State<ImageUploader> {
           aspectRatio: 16.0 / 9.0,
           child: new ClipRRect(
             borderRadius: new BorderRadius.all(new Radius.circular(4.0)),
-            child: Image(
+            child: _imageUrl == null ? Image(
               fit: BoxFit.cover,
               image: _image == null
                 ? new AssetImage('assets/placeholder_photo_select.png')
-                : new FadeInImage(
-                  placeholder: new AssetImage('assets/placeholder_photo_select.png'),
-                  image: (_imageUrl == null ? _image : new FadeInImage(
+                : _image
+              ) : new FadeInImage(
+              fit: BoxFit.cover,
                     placeholder: _image,
-                    image: new NetworkImage(_imageUrl)))
-              ),
-            ),
+                    image: new NetworkImage(_imageUrl)),
           ),
         ),
         new SizedBox(
@@ -96,7 +94,7 @@ class _ImageUploaderState extends State<ImageUploader> {
           ),
           onPressed: () async {
             File image =
-                await ImagePicker.pickImage(source: ImageSource.askUser);
+                await ImagePicker.pickImage(source: ImageSource.gallery);
             if (image != null) {
               setState(() {
                 // _imageFile = image;

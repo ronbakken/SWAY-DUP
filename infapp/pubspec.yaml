@@ -37,7 +37,7 @@ dependencies:
   url_launcher: ^3.0.3
   
   # 0.4.1 crashes
-  image_picker: 0.3.1
+  image_picker: ^0.4.7
   mime: ^0.9.6+2
 
 # dev_dependencies:

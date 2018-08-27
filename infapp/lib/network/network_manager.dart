@@ -554,6 +554,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     HttpClientRequest httpRequest = await httpClient.openUrl(res.requestMethod, Uri.parse(res.requestUrl));
     httpRequest.headers.add("Content-Type", contentType);
     httpRequest.headers.add("Content-Length", contentLength);
+    httpRequest.headers.add('x-amz-acl', 'public-read');
     await httpRequest.addStream(fileImage.file.openRead());
     await httpRequest.flush();
     HttpClientResponse httpResponse = await httpRequest.close();
