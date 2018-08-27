@@ -94,10 +94,11 @@ class _OfferCreateState extends State<OfferCreate> {
                 child: new ClipRRect(
                   borderRadius: new BorderRadius.all(new Radius.circular(4.0)),
                   child: Image(
-                    fit: BoxFit.cover,
-                    image: _image == null
-                        ? new AssetImage('assets/placeholder_photo_select.png')
-                        : _image),
+                      fit: BoxFit.cover,
+                      image: _image == null
+                          ? new AssetImage(
+                              'assets/placeholder_photo_select.png')
+                          : _image),
                 ),
               ),
               new SizedBox(
@@ -139,64 +140,62 @@ class _OfferCreateState extends State<OfferCreate> {
           ),
           new Form(
             key: _formKey,
-            child: new Column(
-              children: [
-                new EnsureVisibleWhenFocused(
+            child: new Column(children: [
+              new EnsureVisibleWhenFocused(
+                focusNode: _titleNode,
+                child: new TextFormField(
                   focusNode: _titleNode,
-                  child: new TextFormField(
-                    focusNode: _titleNode,
-                    controller: _titleController,
-                    maxLines: 1,
-                    decoration: new InputDecoration(labelText: 'Title'),
-                    validator: (val) =>
-                        val.trim().isEmpty ? 'Missing title' : null,
-                    onSaved: (val) => _title = val,
-                  ),
+                  controller: _titleController,
+                  maxLines: 1,
+                  decoration: new InputDecoration(labelText: 'Title'),
+                  validator: (val) =>
+                      val.trim().isEmpty ? 'Missing title' : null,
+                  onSaved: (val) => _title = val,
                 ),
-                new EnsureVisibleWhenFocused(
+              ),
+              new EnsureVisibleWhenFocused(
+                focusNode: _descriptionNode,
+                child: new TextFormField(
                   focusNode: _descriptionNode,
-                  child: new TextFormField(
-                    focusNode: _descriptionNode,
-                    controller: _descriptionController,
-                    maxLines: 4,
-                    decoration: new InputDecoration(labelText: 'Description'),
-                    validator: (val) => val.trim().length < 20
-                        ? 'Description must be longer'
-                        : null,
-                    onSaved: (val) => _description = val,
-                  ),
+                  controller: _descriptionController,
+                  maxLines: 4,
+                  decoration: new InputDecoration(labelText: 'Description'),
+                  validator: (val) => val.trim().length < 20
+                      ? 'Description must be longer'
+                      : null,
+                  onSaved: (val) => _description = val,
                 ),
-                new EnsureVisibleWhenFocused(
+              ),
+              new EnsureVisibleWhenFocused(
+                focusNode: _deliverablesNode,
+                child: new TextFormField(
                   focusNode: _deliverablesNode,
-                  child: new TextFormField(
-                    focusNode: _deliverablesNode,
-                    controller: _deliverablesController,
-                    maxLines: 2,
-                    decoration: new InputDecoration(labelText: 'Deliverables'),
-                    validator: (val) => val.trim().length < 4
-                        ? 'Deliverables must be filled in'
-                        : null,
-                    onSaved: (val) => _deliverables = val,
-                  ),
+                  controller: _deliverablesController,
+                  maxLines: 2,
+                  decoration: new InputDecoration(labelText: 'Deliverables'),
+                  validator: (val) => val.trim().length < 4
+                      ? 'Deliverables must be filled in'
+                      : null,
+                  onSaved: (val) => _deliverables = val,
                 ),
-                new EnsureVisibleWhenFocused(
+              ),
+              new EnsureVisibleWhenFocused(
+                focusNode: _rewardNode,
+                child: new TextFormField(
                   focusNode: _rewardNode,
-                  child: new TextFormField(
-                    focusNode: _rewardNode,
-                    controller: _rewardController,
-                    maxLines: 2,
-                    decoration: new InputDecoration(labelText: 'Reward'),
-                    validator: (val) => val.trim().length < 4
-                        ? 'Reward must be filled in'
-                        : null,
-                    onSaved: (val) => _reward = val,
-                  ),
+                  controller: _rewardController,
+                  maxLines: 2,
+                  decoration: new InputDecoration(labelText: 'Reward'),
+                  validator: (val) =>
+                      val.trim().length < 4 ? 'Reward must be filled in' : null,
+                  onSaved: (val) => _reward = val,
                 ),
-              ]
-              //    .map<Widget>((v) => new Container(
-              //        padding: new EdgeInsets.only(bottom: 8.0), child: v))
-              //    .toList(),
-            ),
+              ),
+            ]
+                //    .map<Widget>((v) => new Container(
+                //        padding: new EdgeInsets.only(bottom: 8.0), child: v))
+                //    .toList(),
+                ),
           )
         ]
             .map<Widget>((v) =>
