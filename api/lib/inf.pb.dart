@@ -2119,7 +2119,7 @@ class NetUploadImageReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetUploadImageReq')
     ..aOS(1, 'fileName')
     ..a<int>(2, 'contentSize', PbFieldType.O3)
-    ..aOS(3, 'contentSha256')
+    ..a<List<int>>(3, 'contentSha256', PbFieldType.OY)
     ..aOS(4, 'contentType')
     ..hasRequiredFields = false;
 
@@ -2162,9 +2162,9 @@ class NetUploadImageReq extends GeneratedMessage {
   bool hasContentSize() => $_has(1);
   void clearContentSize() => clearField(2);
 
-  String get contentSha256 => $_getS(2, '');
-  set contentSha256(String v) {
-    $_setString(2, v);
+  List<int> get contentSha256 => $_getN(2);
+  set contentSha256(List<int> v) {
+    $_setBytes(2, v);
   }
 
   bool hasContentSha256() => $_has(2);
