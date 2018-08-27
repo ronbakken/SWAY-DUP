@@ -278,6 +278,8 @@ message DataBusinessOffer {
   string deliverables = 7;
   string reward = 8;
   string location = 9;
+  double latitude = 18;
+  double longitude = 19;
   
   repeated string coverUrls = 10;
   repeated CategoryId categories = 11;
