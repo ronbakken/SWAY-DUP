@@ -490,36 +490,38 @@ message NetAccountCreateReq {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-
-
 // Client requests the server permission to upload an image
 // The server may delete the image later if it is never used
 message NetReqImageUpload {
   // File information
   string fileName = 1;
-  int32 fileSize = 2;
+  
+  int32 contentSize = 2;
+  string contentType = 4;
   
   // Hashed file contents
-  string sha256 = 3;
+  string contentSha256 = 3;
   
 }
 
-/*
 // Request parameters to be used by the client verbatim for uploading
 message NetResImageUpload {
-  / *
+  // Request options
   string requestMethod = 1;
   string requestUrl = 2;
-  string headerContentType = 3;
-  string headerContentLength = 4;
-  string headerHost = 5;
-  string headerXAmzDate = 6;
-  string headerXAmzStorageClass = 7;
-  string headerAuthorization = 8;
-  * /
-  bytes preSignedRequest = 9;
   
-}*/
+  // Result options
+  bool fileExists = 9; // If true, no need to upload
+  string uploadKey = 10;
+  string coverUrl = 11;
+  string thumbnailUrl = 12;
+  
+}
+
+// end of messages related to image uploading.
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 // Message to create offer
 message NetReqCreateOffer {
