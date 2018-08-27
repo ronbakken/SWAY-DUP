@@ -175,7 +175,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
       }
     }
 
-    sampleBusinessOffers[1].offerId = new Int64(1);
+    sampleBusinessOffers[1].offerId = 1;
     sampleBusinessOffers[1].accountId = 1;
     sampleBusinessOffers[1].state = BusinessOfferState.BOS_OPEN;
     sampleBusinessOffers[1].stateReason =
@@ -197,7 +197,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     sampleBusinessOffers[1].applicantsNew = 3;
     sampleBusinessOffers[1].applicantsRefused = 1;
 
-    sampleBusinessOffers[2].offerId = new Int64(2);
+    sampleBusinessOffers[2].offerId = 2;
     sampleBusinessOffers[2].accountId = 1;
     sampleBusinessOffers[2].state = BusinessOfferState.BOS_OPEN;
     sampleBusinessOffers[2].stateReason =
@@ -216,7 +216,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     sampleBusinessOffers[2].applicantsAccepted = 7;
     sampleBusinessOffers[2].applicantsRefused = 1;
 
-    sampleBusinessOffers[3].offerId = new Int64(3);
+    sampleBusinessOffers[3].offerId = 3;
     sampleBusinessOffers[3].accountId = 2;
     sampleBusinessOffers[3].state = BusinessOfferState.BOS_CLOSED;
     sampleBusinessOffers[3].stateReason =
