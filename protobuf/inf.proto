@@ -267,7 +267,7 @@ message DataOAuthCredentials {
 }
 
 message DataBusinessOffer {
-  int64 offerId = 1;
+  int32 offerId = 1;
   int32 accountId = 2;
   int32 locationId = 3;
   
@@ -309,8 +309,8 @@ message DataLocation {
 }
 
 message DataApplicant {
-  int64 applicantId = 1;
-  int64 offerId = 2;
+  int32 applicantId = 1;
+  int32 offerId = 2;
   int32 accountId = 3;
   // bool influencer accepted/delivered/...
   // bool business accepted/received service/...
@@ -319,9 +319,9 @@ message DataApplicant {
 }
 
 message DataChat {
-  int64 applicantId = 1; // One chat per applicant
-  int64 sequenceId = 2; // Sequential identifier in the chat stream
-  int64 keyId = 3; // Deduplication client-side (ghost entry)
+  int32 applicantId = 1; // One chat per applicant
+  int32 sequenceId = 2; // Sequential identifier in the chat stream
+  int32 keyId = 3; // Deduplication client-side (ghost entry)
   bool outgoing = 4; // Outgoing or incoming message
   string text = 5; // The written text
   
@@ -567,7 +567,7 @@ message NetCreateOfferReq {
 // Id: C_R_OFFE
 message NetCreateOfferRes {
   // Identifier of the offer on the server
-  int64 offerId = 1;
+  int32 offerId = 1;
   
 }
 
