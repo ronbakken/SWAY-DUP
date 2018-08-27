@@ -31,8 +31,6 @@ import 'widgets/image_uploader.dart';
     buttonColor ??= isDark ? primarySwatch[600] : Colors.grey[300];
 */
 
-typedef void CreateOfferCallback(NetReqCreateOffer req);
-
 class OfferCreate extends StatefulWidget {
   const OfferCreate({
     Key key,
@@ -40,7 +38,7 @@ class OfferCreate extends StatefulWidget {
     this.onUploadImage,
   }) : super(key: key);
 
-  final CreateOfferCallback onCreateOffer;
+  final Future<void> Function(NetCreateOfferReq createOffer) onCreateOffer;
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
 
   @override

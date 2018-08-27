@@ -19,7 +19,7 @@ class ProfileEdit extends StatefulWidget {
 
   final DataAccount account;
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
-  final Function(NetReqSetProfile setProfile) onSubmitPressed;
+  final Function(NetSetProfile setProfile) onSubmitPressed;
 
   @override
   _ProfileEditState createState() => new _ProfileEditState();
@@ -57,7 +57,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     */
 
     if (widget.onSubmitPressed != null) {
-      NetReqSetProfile setProfile = new NetReqSetProfile();
+      NetSetProfile setProfile = new NetSetProfile();
       setProfile.avatarKey = _avatarController.text;
       setProfile.name = _nameController.text;
       setProfile.description = _descriptionController.text;
