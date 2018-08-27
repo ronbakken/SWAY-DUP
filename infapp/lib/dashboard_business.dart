@@ -173,14 +173,22 @@ class _DashboardBusinessState extends State<DashboardBusiness>
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentTab,
           onTap: (int index) {
-            setState(() {
-              _currentTab = index;
-            });
-            _tabControllerTabs.index = index;
-            _tabControllerOffers.offset = 0.0;
-            // _tabControllerOffers.index = 0;
-            _tabControllerApplicants.offset = 0.0;
-            // _tabControllerApplicants.index = 0;
+            if (_currentTab == index) {
+              if (index == 1) {
+                _tabControllerOffers.animateTo(0);
+              } else if (index == 2) {
+                _tabControllerApplicants.animateTo(0);
+              }
+            } else {
+              setState(() {
+                _currentTab = index;
+              });
+              _tabControllerTabs.index = index;
+              _tabControllerOffers.offset = 0.0;
+              // _tabControllerOffers.index = 0;
+              _tabControllerApplicants.offset = 0.0;
+              // _tabControllerApplicants.index = 0;
+            }
           },
           items: [
             new BottomNavigationBarItem(
