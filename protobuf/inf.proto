@@ -566,12 +566,28 @@ message NetCreateOfferReq {
 // Message to load or refresh offer list
 // Server will send a stream of DataBusinessOffer messages (Id: DB_OFFER)
 // Id: L_OFFERS
-message NetLoadOffers {
+// Response: NetLoadOffersRes (Id: L_R_OFFE)
+message NetLoadOffersReq {
   // Offers with id lower than this (older offers) (ignore if 0)
   int32 before = 1;
   
   // Offers with id higher than this (newer offers) (ignore if 0)
   int32 after = 2;
+  
+  // Limit (ignore if 0)
+  int32 limit = 3;
+  
+}
+
+// Response which is sent when all DB_OFFER messages have been sent
+// Used by the client to signal to the user that refresh is complete, if refresh was done manually (and to avoid multiple simultaneous loads)
+// Id: L_R_OFFE
+message NetLoadOffersRes {
+  // Oldest offer which was sent
+  int32 oldest = 1;
+  
+  // Newest offer which was sent
+  int32 newest = 2;
   
 }
 
