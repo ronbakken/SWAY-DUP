@@ -687,10 +687,10 @@ class RemoteAppOAuth {
       intValues['posts_count'] = dataSocialMedia.postsCount;
     if (dataSocialMedia.hasVerified())
       intValues['verified'] = dataSocialMedia.verified ? 1 : 0;
-    bool comma = false;
-    String queryNames = '';
-    String queryValues = '';
-    String queryUpdates = '';
+    bool comma = true;
+    String queryNames = '`updated`';
+    String queryValues = 'CURRENT_TIMESTAMP()';
+    String queryUpdates = '`updated` = CURRENT_TIMESTAMP()';
     List<dynamic> queryParams = new List<dynamic>();
     for (MapEntry<String, String> v in stringValues.entries) {
       if (comma) {
