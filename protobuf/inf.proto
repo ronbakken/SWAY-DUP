@@ -273,7 +273,7 @@ message DataBusinessOffer {
   
   string title = 4;
   string description = 5;
-  string avatarUrl = 6;
+  string thumbnailUrl = 6;
   
   string deliverables = 7;
   string reward = 8;
