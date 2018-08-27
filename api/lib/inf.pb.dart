@@ -2267,8 +2267,8 @@ class NetUploadImageRes extends GeneratedMessage {
 class _ReadonlyNetUploadImageRes extends NetUploadImageRes
     with ReadonlyMessageMixin {}
 
-class NetReqSetProfile extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetReqSetProfile')
+class NetSetProfile extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetSetProfile')
     ..aOS(1, 'name')
     ..aOS(2, 'description')
     ..aOS(4, 'avatarKey')
@@ -2279,27 +2279,26 @@ class NetReqSetProfile extends GeneratedMessage {
     ..a<double>(15, 'longitude', PbFieldType.OD)
     ..hasRequiredFields = false;
 
-  NetReqSetProfile() : super();
-  NetReqSetProfile.fromBuffer(List<int> i,
+  NetSetProfile() : super();
+  NetSetProfile.fromBuffer(List<int> i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetReqSetProfile.fromJson(String i,
+  NetSetProfile.fromJson(String i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetReqSetProfile clone() => new NetReqSetProfile()..mergeFromMessage(this);
+  NetSetProfile clone() => new NetSetProfile()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetReqSetProfile create() => new NetReqSetProfile();
-  static PbList<NetReqSetProfile> createRepeated() =>
-      new PbList<NetReqSetProfile>();
-  static NetReqSetProfile getDefault() {
+  static NetSetProfile create() => new NetSetProfile();
+  static PbList<NetSetProfile> createRepeated() => new PbList<NetSetProfile>();
+  static NetSetProfile getDefault() {
     if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetReqSetProfile();
+      _defaultInstance = new _ReadonlyNetSetProfile();
     return _defaultInstance;
   }
 
-  static NetReqSetProfile _defaultInstance;
-  static void $checkItem(NetReqSetProfile v) {
-    if (v is! NetReqSetProfile) checkItemFailed(v, 'NetReqSetProfile');
+  static NetSetProfile _defaultInstance;
+  static void $checkItem(NetSetProfile v) {
+    if (v is! NetSetProfile) checkItemFailed(v, 'NetSetProfile');
   }
 
   String get name => $_getS(0, '');
@@ -2353,86 +2352,123 @@ class NetReqSetProfile extends GeneratedMessage {
   void clearLongitude() => clearField(15);
 }
 
-class _ReadonlyNetReqSetProfile extends NetReqSetProfile
-    with ReadonlyMessageMixin {}
+class _ReadonlyNetSetProfile extends NetSetProfile with ReadonlyMessageMixin {}
 
-class NetReqCreateOffer extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetReqCreateOffer')
-    ..a<DataBusinessOffer>(1, 'offer', PbFieldType.OM,
-        DataBusinessOffer.getDefault, DataBusinessOffer.create)
+class NetCreateOfferReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetCreateOfferReq')
+    ..aOS(1, 'title')
+    ..pPS(2, 'imageKeys')
+    ..aOS(3, 'description')
+    ..aOS(4, 'deliverables')
+    ..aOS(5, 'reward')
+    ..a<int>(6, 'locationId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetReqCreateOffer() : super();
-  NetReqCreateOffer.fromBuffer(List<int> i,
+  NetCreateOfferReq() : super();
+  NetCreateOfferReq.fromBuffer(List<int> i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetReqCreateOffer.fromJson(String i,
+  NetCreateOfferReq.fromJson(String i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetReqCreateOffer clone() => new NetReqCreateOffer()..mergeFromMessage(this);
+  NetCreateOfferReq clone() => new NetCreateOfferReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetReqCreateOffer create() => new NetReqCreateOffer();
-  static PbList<NetReqCreateOffer> createRepeated() =>
-      new PbList<NetReqCreateOffer>();
-  static NetReqCreateOffer getDefault() {
+  static NetCreateOfferReq create() => new NetCreateOfferReq();
+  static PbList<NetCreateOfferReq> createRepeated() =>
+      new PbList<NetCreateOfferReq>();
+  static NetCreateOfferReq getDefault() {
     if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetReqCreateOffer();
+      _defaultInstance = new _ReadonlyNetCreateOfferReq();
     return _defaultInstance;
   }
 
-  static NetReqCreateOffer _defaultInstance;
-  static void $checkItem(NetReqCreateOffer v) {
-    if (v is! NetReqCreateOffer) checkItemFailed(v, 'NetReqCreateOffer');
+  static NetCreateOfferReq _defaultInstance;
+  static void $checkItem(NetCreateOfferReq v) {
+    if (v is! NetCreateOfferReq) checkItemFailed(v, 'NetCreateOfferReq');
   }
 
-  DataBusinessOffer get offer => $_getN(0);
-  set offer(DataBusinessOffer v) {
-    setField(1, v);
+  String get title => $_getS(0, '');
+  set title(String v) {
+    $_setString(0, v);
   }
 
-  bool hasOffer() => $_has(0);
-  void clearOffer() => clearField(1);
+  bool hasTitle() => $_has(0);
+  void clearTitle() => clearField(1);
+
+  List<String> get imageKeys => $_getList(1);
+
+  String get description => $_getS(2, '');
+  set description(String v) {
+    $_setString(2, v);
+  }
+
+  bool hasDescription() => $_has(2);
+  void clearDescription() => clearField(3);
+
+  String get deliverables => $_getS(3, '');
+  set deliverables(String v) {
+    $_setString(3, v);
+  }
+
+  bool hasDeliverables() => $_has(3);
+  void clearDeliverables() => clearField(4);
+
+  String get reward => $_getS(4, '');
+  set reward(String v) {
+    $_setString(4, v);
+  }
+
+  bool hasReward() => $_has(4);
+  void clearReward() => clearField(5);
+
+  int get locationId => $_get(5, 0);
+  set locationId(int v) {
+    $_setSignedInt32(5, v);
+  }
+
+  bool hasLocationId() => $_has(5);
+  void clearLocationId() => clearField(6);
 }
 
-class _ReadonlyNetReqCreateOffer extends NetReqCreateOffer
+class _ReadonlyNetCreateOfferReq extends NetCreateOfferReq
     with ReadonlyMessageMixin {}
 
-class NetResCreateOffer extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetResCreateOffer')
-    ..aInt64(1, 'id')
+class NetCreateOfferRes extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetCreateOfferRes')
+    ..aInt64(1, 'offerId')
     ..hasRequiredFields = false;
 
-  NetResCreateOffer() : super();
-  NetResCreateOffer.fromBuffer(List<int> i,
+  NetCreateOfferRes() : super();
+  NetCreateOfferRes.fromBuffer(List<int> i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetResCreateOffer.fromJson(String i,
+  NetCreateOfferRes.fromJson(String i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetResCreateOffer clone() => new NetResCreateOffer()..mergeFromMessage(this);
+  NetCreateOfferRes clone() => new NetCreateOfferRes()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetResCreateOffer create() => new NetResCreateOffer();
-  static PbList<NetResCreateOffer> createRepeated() =>
-      new PbList<NetResCreateOffer>();
-  static NetResCreateOffer getDefault() {
+  static NetCreateOfferRes create() => new NetCreateOfferRes();
+  static PbList<NetCreateOfferRes> createRepeated() =>
+      new PbList<NetCreateOfferRes>();
+  static NetCreateOfferRes getDefault() {
     if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetResCreateOffer();
+      _defaultInstance = new _ReadonlyNetCreateOfferRes();
     return _defaultInstance;
   }
 
-  static NetResCreateOffer _defaultInstance;
-  static void $checkItem(NetResCreateOffer v) {
-    if (v is! NetResCreateOffer) checkItemFailed(v, 'NetResCreateOffer');
+  static NetCreateOfferRes _defaultInstance;
+  static void $checkItem(NetCreateOfferRes v) {
+    if (v is! NetCreateOfferRes) checkItemFailed(v, 'NetCreateOfferRes');
   }
 
-  Int64 get id => $_getI64(0);
-  set id(Int64 v) {
+  Int64 get offerId => $_getI64(0);
+  set offerId(Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasId() => $_has(0);
-  void clearId() => clearField(1);
+  bool hasOfferId() => $_has(0);
+  void clearOfferId() => clearField(1);
 }
 
-class _ReadonlyNetResCreateOffer extends NetResCreateOffer
+class _ReadonlyNetCreateOfferRes extends NetCreateOfferRes
     with ReadonlyMessageMixin {}
