@@ -120,28 +120,29 @@ namespace InfX {
             "bmdpdHVkZRgPIAEoASKEAQoRTmV0Q3JlYXRlT2ZmZXJSZXESDQoFdGl0bGUY",
             "ASABKAkSEQoJaW1hZ2VLZXlzGAIgAygJEhMKC2Rlc2NyaXB0aW9uGAMgASgJ",
             "EhQKDGRlbGl2ZXJhYmxlcxgEIAEoCRIOCgZyZXdhcmQYBSABKAkSEgoKbG9j",
-            "YXRpb25JZBgGIAEoBSIuCg1OZXRMb2FkT2ZmZXJzEg4KBmJlZm9yZRgBIAEo",
-            "BRINCgVhZnRlchgCIAEoBSo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9O",
-            "RRAAEg4KCk9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQ",
-            "cm92aWRlcklkcxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoM",
-            "T0FQX0ZBQ0VCT09LEAIqUQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAA",
-            "EhEKDUFUX0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACEg4KCkFUX1NV",
-            "UFBPUlQQAyqeAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
-            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
-            "R0FTX1JFQURfV1JJVEUQAxINCglHQVNfREVCVUcQBBIPCgtHQVNfU1VQUE9S",
-            "VBAFEg8KC0dBU19NQU5BR0VSEAYSCwoHR0FTX0dPRBAHKrUBChhHbG9iYWxB",
-            "Y2NvdW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dB",
-            "U1JfQUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIR",
-            "Cg1HQVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoM",
-            "R0FTUl9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJFX0lORk8QBipuChFOb3Rp",
-            "ZmljYXRpb25GbGFncxIUChBORl9BQ0NPVU5UX1NUQVRFEAASGAoUTkZfTUFL",
-            "RV9BTl9PRkZFUl9GQUIQARIWChJORl9VTlJFQURfTUVTU0FHRVMQAhIRCg1O",
-            "Rl9DU19SRVFVRVNUEAMqUQoSQnVzaW5lc3NPZmZlclN0YXRlEg0KCUJPU19E",
-            "UkFGVBAAEgwKCEJPU19PUEVOEAESDgoKQk9TX0FDVElWRRACEg4KCkJPU19D",
-            "TE9TRUQQAypwChhCdXNpbmVzc09mZmVyU3RhdGVSZWFzb24SEgoOQk9TUl9O",
-            "RVdfT0ZGRVIQABIUChBCT1NSX1VTRVJfQ0xPU0VEEAESFgoSQk9TUl9UT1Nf",
-            "VklPTEFUSU9OEAISEgoOQk9TUl9DT01QTEVURUQQA0IHqgIESW5mWGIGcHJv",
-            "dG8z"));
+            "YXRpb25JZBgGIAEoBSJAChBOZXRMb2FkT2ZmZXJzUmVxEg4KBmJlZm9yZRgB",
+            "IAEoBRINCgVhZnRlchgCIAEoBRINCgVsaW1pdBgDIAEoBSIyChBOZXRMb2Fk",
+            "T2ZmZXJzUmVzEg4KBm9sZGVzdBgBIAEoBRIOCgZuZXdlc3QYAiABKAUqPgoO",
+            "T0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIOCgpPQU1fT0FVVEgxEAES",
+            "DgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJvdmlkZXJJZHMSDAoIT0FQX05P",
+            "TkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9BUF9GQUNFQk9PSxACKlEKC0Fj",
+            "Y291bnRUeXBlEg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAES",
+            "DwoLQVRfQlVTSU5FU1MQAhIOCgpBVF9TVVBQT1JUEAMqngEKEkdsb2JhbEFj",
+            "Y291bnRTdGF0ZRISCg5HQVNfSU5JVElBTElaRRAAEg8KC0dBU19CTE9DS0VE",
+            "EAESEQoNR0FTX1JFQURfT05MWRACEhIKDkdBU19SRUFEX1dSSVRFEAMSDQoJ",
+            "R0FTX0RFQlVHEAQSDwoLR0FTX1NVUFBPUlQQBRIPCgtHQVNfTUFOQUdFUhAG",
+            "EgsKB0dBU19HT0QQByq1AQoYR2xvYmFsQWNjb3VudFN0YXRlUmVhc29uEhQK",
+            "EEdBU1JfTkVXX0FDQ09VTlQQABIXChNHQVNSX0FDQ09VTlRfQkFOTkVEEAES",
+            "FgoSR0FTUl9DUkVBVEVfREVOSUVEEAISEQoNR0FTUl9BUFBST1ZFRBADEhYK",
+            "EkdBU1JfREVNT19BUFBST1ZFRBAEEhAKDEdBU1JfUEVORElORxAFEhUKEUdB",
+            "U1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90aWZpY2F0aW9uRmxhZ3MSFAoQTkZf",
+            "QUNDT1VOVF9TVEFURRAAEhgKFE5GX01BS0VfQU5fT0ZGRVJfRkFCEAESFgoS",
+            "TkZfVU5SRUFEX01FU1NBR0VTEAISEQoNTkZfQ1NfUkVRVUVTVBADKlEKEkJ1",
+            "c2luZXNzT2ZmZXJTdGF0ZRINCglCT1NfRFJBRlQQABIMCghCT1NfT1BFThAB",
+            "Eg4KCkJPU19BQ1RJVkUQAhIOCgpCT1NfQ0xPU0VEEAMqcAoYQnVzaW5lc3NP",
+            "ZmZlclN0YXRlUmVhc29uEhIKDkJPU1JfTkVXX09GRkVSEAASFAoQQk9TUl9V",
+            "U0VSX0NMT1NFRBABEhYKEkJPU1JfVE9TX1ZJT0xBVElPThACEhIKDkJPU1Jf",
+            "Q09NUExFVEVEEANCB6oCBEluZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -177,7 +178,8 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageRes), global::InfX.NetUploadImageRes.Parser, new[]{ "RequestMethod", "RequestUrl", "FileExists", "UploadKey", "CoverUrl", "ThumbnailUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetProfile), global::InfX.NetSetProfile.Parser, new[]{ "Name", "Description", "AvatarKey", "Url", "Categories", "Latitude", "Longitude" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetCreateOfferReq), global::InfX.NetCreateOfferReq.Parser, new[]{ "Title", "ImageKeys", "Description", "Deliverables", "Reward", "LocationId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffers), global::InfX.NetLoadOffers.Parser, new[]{ "Before", "After" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffersReq), global::InfX.NetLoadOffersReq.Parser, new[]{ "Before", "After", "Limit" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffersRes), global::InfX.NetLoadOffersRes.Parser, new[]{ "Oldest", "Newest" }, null, null, null)
           }));
     }
     #endregion
@@ -7918,11 +7920,12 @@ namespace InfX {
   ///  Message to load or refresh offer list
   ///  Server will send a stream of DataBusinessOffer messages (Id: DB_OFFER)
   ///  Id: L_OFFERS
+  ///  Response: NetLoadOffersRes (Id: L_R_OFFE)
   /// </summary>
-  public sealed partial class NetLoadOffers : pb::IMessage<NetLoadOffers> {
-    private static readonly pb::MessageParser<NetLoadOffers> _parser = new pb::MessageParser<NetLoadOffers>(() => new NetLoadOffers());
+  public sealed partial class NetLoadOffersReq : pb::IMessage<NetLoadOffersReq> {
+    private static readonly pb::MessageParser<NetLoadOffersReq> _parser = new pb::MessageParser<NetLoadOffersReq>(() => new NetLoadOffersReq());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetLoadOffers> Parser { get { return _parser; } }
+    public static pb::MessageParser<NetLoadOffersReq> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -7935,21 +7938,22 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadOffers() {
+    public NetLoadOffersReq() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadOffers(NetLoadOffers other) : this() {
+    public NetLoadOffersReq(NetLoadOffersReq other) : this() {
       before_ = other.before_;
       after_ = other.after_;
+      limit_ = other.limit_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadOffers Clone() {
-      return new NetLoadOffers(this);
+    public NetLoadOffersReq Clone() {
+      return new NetLoadOffersReq(this);
     }
 
     /// <summary>Field number for the "before" field.</summary>
@@ -7980,13 +7984,27 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "limit" field.</summary>
+    public const int LimitFieldNumber = 3;
+    private int limit_;
+    /// <summary>
+    ///  Limit (ignore if 0)
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as NetLoadOffers);
+    public int Limit {
+      get { return limit_; }
+      set {
+        limit_ = value;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetLoadOffers other) {
+    public override bool Equals(object other) {
+      return Equals(other as NetLoadOffersReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetLoadOffersReq other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -7995,6 +8013,7 @@ namespace InfX {
       }
       if (Before != other.Before) return false;
       if (After != other.After) return false;
+      if (Limit != other.Limit) return false;
       return true;
     }
 
@@ -8003,6 +8022,7 @@ namespace InfX {
       int hash = 1;
       if (Before != 0) hash ^= Before.GetHashCode();
       if (After != 0) hash ^= After.GetHashCode();
+      if (Limit != 0) hash ^= Limit.GetHashCode();
       return hash;
     }
 
@@ -8021,6 +8041,10 @@ namespace InfX {
         output.WriteRawTag(16);
         output.WriteInt32(After);
       }
+      if (Limit != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Limit);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8032,11 +8056,14 @@ namespace InfX {
       if (After != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(After);
       }
+      if (Limit != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Limit);
+      }
       return size;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetLoadOffers other) {
+    public void MergeFrom(NetLoadOffersReq other) {
       if (other == null) {
         return;
       }
@@ -8045,6 +8072,9 @@ namespace InfX {
       }
       if (other.After != 0) {
         After = other.After;
+      }
+      if (other.Limit != 0) {
+        Limit = other.Limit;
       }
     }
 
@@ -8062,6 +8092,166 @@ namespace InfX {
           }
           case 16: {
             After = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            Limit = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Response which is sent when all DB_OFFER messages have been sent
+  ///  Used by the client to signal to the user that refresh is complete, if refresh was done manually (and to avoid multiple simultaneous loads)
+  ///  Id: L_R_OFFE
+  /// </summary>
+  public sealed partial class NetLoadOffersRes : pb::IMessage<NetLoadOffersRes> {
+    private static readonly pb::MessageParser<NetLoadOffersRes> _parser = new pb::MessageParser<NetLoadOffersRes>(() => new NetLoadOffersRes());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetLoadOffersRes> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[33]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadOffersRes() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadOffersRes(NetLoadOffersRes other) : this() {
+      oldest_ = other.oldest_;
+      newest_ = other.newest_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadOffersRes Clone() {
+      return new NetLoadOffersRes(this);
+    }
+
+    /// <summary>Field number for the "oldest" field.</summary>
+    public const int OldestFieldNumber = 1;
+    private int oldest_;
+    /// <summary>
+    ///  Oldest offer which was sent
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Oldest {
+      get { return oldest_; }
+      set {
+        oldest_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "newest" field.</summary>
+    public const int NewestFieldNumber = 2;
+    private int newest_;
+    /// <summary>
+    ///  Newest offer which was sent
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Newest {
+      get { return newest_; }
+      set {
+        newest_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetLoadOffersRes);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetLoadOffersRes other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Oldest != other.Oldest) return false;
+      if (Newest != other.Newest) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Oldest != 0) hash ^= Oldest.GetHashCode();
+      if (Newest != 0) hash ^= Newest.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Oldest != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Oldest);
+      }
+      if (Newest != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Newest);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Oldest != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Oldest);
+      }
+      if (Newest != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Newest);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetLoadOffersRes other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Oldest != 0) {
+        Oldest = other.Oldest;
+      }
+      if (other.Newest != 0) {
+        Newest = other.Newest;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            Oldest = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            Newest = input.ReadInt32();
             break;
           }
         }

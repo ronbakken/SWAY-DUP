@@ -2442,32 +2442,34 @@ class NetCreateOfferReq extends GeneratedMessage {
 class _ReadonlyNetCreateOfferReq extends NetCreateOfferReq
     with ReadonlyMessageMixin {}
 
-class NetLoadOffers extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadOffers')
+class NetLoadOffersReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetLoadOffersReq')
     ..a<int>(1, 'before', PbFieldType.O3)
     ..a<int>(2, 'after', PbFieldType.O3)
+    ..a<int>(3, 'limit', PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetLoadOffers() : super();
-  NetLoadOffers.fromBuffer(List<int> i,
+  NetLoadOffersReq() : super();
+  NetLoadOffersReq.fromBuffer(List<int> i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetLoadOffers.fromJson(String i,
+  NetLoadOffersReq.fromJson(String i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetLoadOffers clone() => new NetLoadOffers()..mergeFromMessage(this);
+  NetLoadOffersReq clone() => new NetLoadOffersReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetLoadOffers create() => new NetLoadOffers();
-  static PbList<NetLoadOffers> createRepeated() => new PbList<NetLoadOffers>();
-  static NetLoadOffers getDefault() {
+  static NetLoadOffersReq create() => new NetLoadOffersReq();
+  static PbList<NetLoadOffersReq> createRepeated() =>
+      new PbList<NetLoadOffersReq>();
+  static NetLoadOffersReq getDefault() {
     if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadOffers();
+      _defaultInstance = new _ReadonlyNetLoadOffersReq();
     return _defaultInstance;
   }
 
-  static NetLoadOffers _defaultInstance;
-  static void $checkItem(NetLoadOffers v) {
-    if (v is! NetLoadOffers) checkItemFailed(v, 'NetLoadOffers');
+  static NetLoadOffersReq _defaultInstance;
+  static void $checkItem(NetLoadOffersReq v) {
+    if (v is! NetLoadOffersReq) checkItemFailed(v, 'NetLoadOffersReq');
   }
 
   int get before => $_get(0, 0);
@@ -2485,6 +2487,64 @@ class NetLoadOffers extends GeneratedMessage {
 
   bool hasAfter() => $_has(1);
   void clearAfter() => clearField(2);
+
+  int get limit => $_get(2, 0);
+  set limit(int v) {
+    $_setSignedInt32(2, v);
+  }
+
+  bool hasLimit() => $_has(2);
+  void clearLimit() => clearField(3);
 }
 
-class _ReadonlyNetLoadOffers extends NetLoadOffers with ReadonlyMessageMixin {}
+class _ReadonlyNetLoadOffersReq extends NetLoadOffersReq
+    with ReadonlyMessageMixin {}
+
+class NetLoadOffersRes extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetLoadOffersRes')
+    ..a<int>(1, 'oldest', PbFieldType.O3)
+    ..a<int>(2, 'newest', PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  NetLoadOffersRes() : super();
+  NetLoadOffersRes.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetLoadOffersRes.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetLoadOffersRes clone() => new NetLoadOffersRes()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetLoadOffersRes create() => new NetLoadOffersRes();
+  static PbList<NetLoadOffersRes> createRepeated() =>
+      new PbList<NetLoadOffersRes>();
+  static NetLoadOffersRes getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetLoadOffersRes();
+    return _defaultInstance;
+  }
+
+  static NetLoadOffersRes _defaultInstance;
+  static void $checkItem(NetLoadOffersRes v) {
+    if (v is! NetLoadOffersRes) checkItemFailed(v, 'NetLoadOffersRes');
+  }
+
+  int get oldest => $_get(0, 0);
+  set oldest(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasOldest() => $_has(0);
+  void clearOldest() => clearField(1);
+
+  int get newest => $_get(1, 0);
+  set newest(int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  bool hasNewest() => $_has(1);
+  void clearNewest() => clearField(2);
+}
+
+class _ReadonlyNetLoadOffersRes extends NetLoadOffersRes
+    with ReadonlyMessageMixin {}
