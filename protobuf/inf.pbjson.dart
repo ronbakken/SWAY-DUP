@@ -679,8 +679,8 @@ const NetAccountCreateReq$json = const {
   ],
 };
 
-const NetReqImageUpload$json = const {
-  '1': 'NetReqImageUpload',
+const NetUploadImageReq$json = const {
+  '1': 'NetUploadImageReq',
   '2': const [
     const {'1': 'fileName', '3': 1, '4': 1, '5': 9, '10': 'fileName'},
     const {'1': 'contentSize', '3': 2, '4': 1, '5': 5, '10': 'contentSize'},
@@ -689,8 +689,8 @@ const NetReqImageUpload$json = const {
   ],
 };
 
-const NetResImageUpload$json = const {
-  '1': 'NetResImageUpload',
+const NetUploadImageRes$json = const {
+  '1': 'NetUploadImageRes',
   '2': const [
     const {'1': 'requestMethod', '3': 1, '4': 1, '5': 9, '10': 'requestMethod'},
     const {'1': 'requestUrl', '3': 2, '4': 1, '5': 9, '10': 'requestUrl'},

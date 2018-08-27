@@ -107,10 +107,10 @@ namespace InfX {
             "YXV0aFByb3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAkiPwoS",
             "TmV0T0F1dGhDb25uZWN0UmVzEikKC3NvY2lhbE1lZGlhGAEgASgLMhQuaW5m",
             "LkRhdGFTb2NpYWxNZWRpYSI6ChNOZXRBY2NvdW50Q3JlYXRlUmVxEhAKCGxh",
-            "dGl0dWRlGAIgASgBEhEKCWxvbmdpdHVkZRgDIAEoASJmChFOZXRSZXFJbWFn",
-            "ZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRITCgtjb250ZW50U2l6ZRgCIAEo",
+            "dGl0dWRlGAIgASgBEhEKCWxvbmdpdHVkZRgDIAEoASJmChFOZXRVcGxvYWRJ",
+            "bWFnZVJlcRIQCghmaWxlTmFtZRgBIAEoCRITCgtjb250ZW50U2l6ZRgCIAEo",
             "BRITCgtjb250ZW50VHlwZRgEIAEoCRIVCg1jb250ZW50U2hhMjU2GAMgASgJ",
-            "Io0BChFOZXRSZXNJbWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJ",
+            "Io0BChFOZXRVcGxvYWRJbWFnZVJlcxIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJ",
             "EhIKCnJlcXVlc3RVcmwYAiABKAkSEgoKZmlsZUV4aXN0cxgJIAEoCBIRCgl1",
             "cGxvYWRLZXkYCiABKAkSEAoIY292ZXJVcmwYCyABKAkSFAoMdGh1bWJuYWls",
             "VXJsGAwgASgJIjoKEU5ldFJlcUNyZWF0ZU9mZmVyEiUKBW9mZmVyGAEgASgL",
@@ -166,8 +166,8 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectReq), global::InfX.NetOAuthConnectReq.Parser, new[]{ "OauthProvider", "CallbackQuery" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectRes), global::InfX.NetOAuthConnectRes.Parser, new[]{ "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Latitude", "Longitude" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqImageUpload), global::InfX.NetReqImageUpload.Parser, new[]{ "FileName", "ContentSize", "ContentType", "ContentSha256" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResImageUpload), global::InfX.NetResImageUpload.Parser, new[]{ "RequestMethod", "RequestUrl", "FileExists", "UploadKey", "CoverUrl", "ThumbnailUrl" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageReq), global::InfX.NetUploadImageReq.Parser, new[]{ "FileName", "ContentSize", "ContentType", "ContentSha256" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageRes), global::InfX.NetUploadImageRes.Parser, new[]{ "RequestMethod", "RequestUrl", "FileExists", "UploadKey", "CoverUrl", "ThumbnailUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Offer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResCreateOffer), global::InfX.NetResCreateOffer.Parser, new[]{ "Id" }, null, null, null)
           }));
@@ -6852,11 +6852,13 @@ namespace InfX {
   /// <summary>
   ///  Client requests the server permission to upload an image
   ///  The server may delete the image later if it is never used
+  ///  Name: UP_IMAGE
+  ///  Response: NetResImageUpload
   /// </summary>
-  public sealed partial class NetReqImageUpload : pb::IMessage<NetReqImageUpload> {
-    private static readonly pb::MessageParser<NetReqImageUpload> _parser = new pb::MessageParser<NetReqImageUpload>(() => new NetReqImageUpload());
+  public sealed partial class NetUploadImageReq : pb::IMessage<NetUploadImageReq> {
+    private static readonly pb::MessageParser<NetUploadImageReq> _parser = new pb::MessageParser<NetUploadImageReq>(() => new NetUploadImageReq());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetReqImageUpload> Parser { get { return _parser; } }
+    public static pb::MessageParser<NetUploadImageReq> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -6869,14 +6871,14 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetReqImageUpload() {
+    public NetUploadImageReq() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetReqImageUpload(NetReqImageUpload other) : this() {
+    public NetUploadImageReq(NetUploadImageReq other) : this() {
       fileName_ = other.fileName_;
       contentSize_ = other.contentSize_;
       contentType_ = other.contentType_;
@@ -6884,8 +6886,8 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetReqImageUpload Clone() {
-      return new NetReqImageUpload(this);
+    public NetUploadImageReq Clone() {
+      return new NetUploadImageReq(this);
     }
 
     /// <summary>Field number for the "fileName" field.</summary>
@@ -6940,11 +6942,11 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as NetReqImageUpload);
+      return Equals(other as NetUploadImageReq);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetReqImageUpload other) {
+    public bool Equals(NetUploadImageReq other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -7012,7 +7014,7 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetReqImageUpload other) {
+    public void MergeFrom(NetUploadImageReq other) {
       if (other == null) {
         return;
       }
@@ -7062,11 +7064,12 @@ namespace InfX {
 
   /// <summary>
   ///  Request parameters to be used by the client verbatim for uploading
+  ///  Name: UP_R_IMG
   /// </summary>
-  public sealed partial class NetResImageUpload : pb::IMessage<NetResImageUpload> {
-    private static readonly pb::MessageParser<NetResImageUpload> _parser = new pb::MessageParser<NetResImageUpload>(() => new NetResImageUpload());
+  public sealed partial class NetUploadImageRes : pb::IMessage<NetUploadImageRes> {
+    private static readonly pb::MessageParser<NetUploadImageRes> _parser = new pb::MessageParser<NetUploadImageRes>(() => new NetUploadImageRes());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetResImageUpload> Parser { get { return _parser; } }
+    public static pb::MessageParser<NetUploadImageRes> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -7079,14 +7082,14 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResImageUpload() {
+    public NetUploadImageRes() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResImageUpload(NetResImageUpload other) : this() {
+    public NetUploadImageRes(NetUploadImageRes other) : this() {
       requestMethod_ = other.requestMethod_;
       requestUrl_ = other.requestUrl_;
       fileExists_ = other.fileExists_;
@@ -7096,8 +7099,8 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResImageUpload Clone() {
-      return new NetResImageUpload(this);
+    public NetUploadImageRes Clone() {
+      return new NetUploadImageRes(this);
     }
 
     /// <summary>Field number for the "requestMethod" field.</summary>
@@ -7174,11 +7177,11 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as NetResImageUpload);
+      return Equals(other as NetUploadImageRes);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetResImageUpload other) {
+    public bool Equals(NetUploadImageRes other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -7264,7 +7267,7 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetResImageUpload other) {
+    public void MergeFrom(NetUploadImageRes other) {
       if (other == null) {
         return;
       }
