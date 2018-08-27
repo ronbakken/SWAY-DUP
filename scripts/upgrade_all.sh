@@ -1,8 +1,8 @@
 #!/bin/sh
 set -x
 
-apt update
-apt upgrade
+sudo apt update
+sudo apt upgrade
 
 pub global activate protoc_plugin
 
