@@ -87,44 +87,55 @@ class _OfferCreateState extends State<OfferCreate> {
       body: new ListView(
         padding: new EdgeInsets.all(8.0),
         children: [
-          new AspectRatio(
-            aspectRatio: 16.0 / 9.0,
-            child: new Image(
-                fit: BoxFit.cover,
-                image: _image == null
-                    ? new AssetImage('assets/placeholder_photo_select.png')
-                    : _image),
-          ),
-          new RaisedButton(
-            shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.only(
-                topLeft: new Radius.circular(4.0),
-                topRight: new Radius.circular(4.0),
-                bottomLeft: new Radius.circular(16.0),
-                bottomRight: new Radius.circular(16.0),
+          new Column(
+            children: <Widget>[
+              new AspectRatio(
+                aspectRatio: 16.0 / 9.0,
+                child: new ClipRRect(
+                  borderRadius: new BorderRadius.all(new Radius.circular(4.0)),
+                  child: Image(
+                    fit: BoxFit.cover,
+                    image: _image == null
+                        ? new AssetImage('assets/placeholder_photo_select.png')
+                        : _image),
+                ),
               ),
-            ),
-            color: _image == null
-                ? Theme.of(context).buttonColor
-                : Theme.of(context).unselectedWidgetColor,
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                new Icon(Icons.photo),
-                new Text("Select Photo".toUpperCase()),
-                new Icon(_image == null ? Icons.folder_open : Icons.check),
-              ],
-            ),
-            onPressed: () async {
-              File image =
-                  await ImagePicker.pickImage(source: ImageSource.askUser);
-              if (image != null) {
-                setState(() {
-                  // _imageFile = image;
-                  _image = new FileImage(image);
-                });
-              }
-            },
+              new SizedBox(
+                height: 8.0,
+              ),
+              new RaisedButton(
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.only(
+                    topLeft: new Radius.circular(4.0),
+                    topRight: new Radius.circular(4.0),
+                    bottomLeft: new Radius.circular(16.0),
+                    bottomRight: new Radius.circular(16.0),
+                  ),
+                ),
+                color: _image == null
+                    ? Theme.of(context).buttonColor
+                    : Theme.of(context).unselectedWidgetColor,
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    new Icon(Icons.photo),
+                    new Text("Select Photo".toUpperCase()),
+                    new Icon(_image == null ? Icons.folder_open : Icons.check),
+                  ],
+                ),
+                onPressed: () async {
+                  File image =
+                      await ImagePicker.pickImage(source: ImageSource.askUser);
+                  if (image != null) {
+                    setState(() {
+                      // _imageFile = image;
+                      _image = new FileImage(image);
+                    });
+                  }
+                },
+              ),
+            ],
           ),
           new Form(
             key: _formKey,
@@ -182,9 +193,9 @@ class _OfferCreateState extends State<OfferCreate> {
                   ),
                 ),
               ]
-                  .map<Widget>((v) => new Container(
-                      padding: new EdgeInsets.only(bottom: 8.0), child: v))
-                  .toList(),
+              //    .map<Widget>((v) => new Container(
+              //        padding: new EdgeInsets.only(bottom: 8.0), child: v))
+              //    .toList(),
             ),
           )
         ]

@@ -22,10 +22,11 @@ class BusinessOfferList extends StatelessWidget {
     // Instead of showing 0 new applicants, show an informative message instead while still accepting new applicants!
     if (data.applicantsNew == 0 /* && data.applicantsAccepted == 0 */ &&
         data.state == BusinessOfferState.BOS_OPEN) {
-      tags.add(new Chip(label: new Text("awaiting applicants")));
+      tags.add(new Chip(materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,label: new Text("awaiting applicants")));
     }
     if (data.applicantsNew != 0) {
       tags.add(new Chip(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         label: new Text("new applicant${data.applicantsNew > 0 ? 's' : ''}"),
         backgroundColor: Colors.blueAccent.shade700,
         avatar: new CircleAvatar(
@@ -35,6 +36,7 @@ class BusinessOfferList extends StatelessWidget {
     }
     if (data.applicantsAccepted != 0) {
       tags.add(new Chip(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         label: new Text("accepted"),
         backgroundColor: Theme.of(context).primaryColor,
         avatar: new CircleAvatar(
@@ -44,6 +46,7 @@ class BusinessOfferList extends StatelessWidget {
     }
     if (data.applicantsCompleted != 0) {
       tags.add(new Chip(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         label: new Text("completed"),
         backgroundColor: Colors.greenAccent.shade700,
         avatar: new CircleAvatar(
@@ -53,6 +56,7 @@ class BusinessOfferList extends StatelessWidget {
     }
     if (data.applicantsRefused != 0) {
       tags.add(new Chip(
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         label: new Text("rejected"),
         backgroundColor: Colors.redAccent,
         avatar: new CircleAvatar(
@@ -63,6 +67,7 @@ class BusinessOfferList extends StatelessWidget {
     return new Container(
       //margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
       child: new Wrap(
+        spacing: 0.0,
         children: tags.map((widget) {
           return new Container(
               margin: EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 0.0), child: widget);
