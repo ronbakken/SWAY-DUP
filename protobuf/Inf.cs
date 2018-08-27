@@ -113,32 +113,34 @@ namespace InfX {
             "KAwijQEKEU5ldFVwbG9hZEltYWdlUmVzEhUKDXJlcXVlc3RNZXRob2QYASAB",
             "KAkSEgoKcmVxdWVzdFVybBgCIAEoCRISCgpmaWxlRXhpc3RzGAkgASgIEhEK",
             "CXVwbG9hZEtleRgKIAEoCRIQCghjb3ZlclVybBgLIAEoCRIUCgx0aHVtYm5h",
-            "aWxVcmwYDCABKAkinwEKEE5ldFJlcVNldFByb2ZpbGUSDAoEbmFtZRgBIAEo",
-            "CRITCgtkZXNjcmlwdGlvbhgCIAEoCRIRCglhdmF0YXJLZXkYBCABKAkSCwoD",
-            "dXJsGAYgASgJEiMKCmNhdGVnb3JpZXMYDCADKAsyDy5pbmYuQ2F0ZWdvcnlJ",
-            "ZBIQCghsYXRpdHVkZRgOIAEoARIRCglsb25naXR1ZGUYDyABKAEiOgoRTmV0",
-            "UmVxQ3JlYXRlT2ZmZXISJQoFb2ZmZXIYASABKAsyFi5pbmYuRGF0YUJ1c2lu",
-            "ZXNzT2ZmZXIiHwoRTmV0UmVzQ3JlYXRlT2ZmZXISCgoCaWQYASABKAMqPgoO",
-            "T0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIOCgpPQU1fT0FVVEgxEAES",
-            "DgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJvdmlkZXJJZHMSDAoIT0FQX05P",
-            "TkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9BUF9GQUNFQk9PSxACKlEKC0Fj",
-            "Y291bnRUeXBlEg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAES",
-            "DwoLQVRfQlVTSU5FU1MQAhIOCgpBVF9TVVBQT1JUEAMqngEKEkdsb2JhbEFj",
-            "Y291bnRTdGF0ZRISCg5HQVNfSU5JVElBTElaRRAAEg8KC0dBU19CTE9DS0VE",
-            "EAESEQoNR0FTX1JFQURfT05MWRACEhIKDkdBU19SRUFEX1dSSVRFEAMSDQoJ",
-            "R0FTX0RFQlVHEAQSDwoLR0FTX1NVUFBPUlQQBRIPCgtHQVNfTUFOQUdFUhAG",
-            "EgsKB0dBU19HT0QQByq1AQoYR2xvYmFsQWNjb3VudFN0YXRlUmVhc29uEhQK",
-            "EEdBU1JfTkVXX0FDQ09VTlQQABIXChNHQVNSX0FDQ09VTlRfQkFOTkVEEAES",
-            "FgoSR0FTUl9DUkVBVEVfREVOSUVEEAISEQoNR0FTUl9BUFBST1ZFRBADEhYK",
-            "EkdBU1JfREVNT19BUFBST1ZFRBAEEhAKDEdBU1JfUEVORElORxAFEhUKEUdB",
-            "U1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90aWZpY2F0aW9uRmxhZ3MSFAoQTkZf",
-            "QUNDT1VOVF9TVEFURRAAEhgKFE5GX01BS0VfQU5fT0ZGRVJfRkFCEAESFgoS",
-            "TkZfVU5SRUFEX01FU1NBR0VTEAISEQoNTkZfQ1NfUkVRVUVTVBADKlEKEkJ1",
-            "c2luZXNzT2ZmZXJTdGF0ZRINCglCT1NfRFJBRlQQABIMCghCT1NfT1BFThAB",
-            "Eg4KCkJPU19BQ1RJVkUQAhIOCgpCT1NfQ0xPU0VEEAMqcAoYQnVzaW5lc3NP",
-            "ZmZlclN0YXRlUmVhc29uEhIKDkJPU1JfTkVXX09GRkVSEAASFAoQQk9TUl9V",
-            "U0VSX0NMT1NFRBABEhYKEkJPU1JfVE9TX1ZJT0xBVElPThACEhIKDkJPU1Jf",
-            "Q09NUExFVEVEEANCB6oCBEluZlhiBnByb3RvMw=="));
+            "aWxVcmwYDCABKAkinAEKDU5ldFNldFByb2ZpbGUSDAoEbmFtZRgBIAEoCRIT",
+            "CgtkZXNjcmlwdGlvbhgCIAEoCRIRCglhdmF0YXJLZXkYBCABKAkSCwoDdXJs",
+            "GAYgASgJEiMKCmNhdGVnb3JpZXMYDCADKAsyDy5pbmYuQ2F0ZWdvcnlJZBIQ",
+            "CghsYXRpdHVkZRgOIAEoARIRCglsb25naXR1ZGUYDyABKAEihAEKEU5ldENy",
+            "ZWF0ZU9mZmVyUmVxEg0KBXRpdGxlGAEgASgJEhEKCWltYWdlS2V5cxgCIAMo",
+            "CRITCgtkZXNjcmlwdGlvbhgDIAEoCRIUCgxkZWxpdmVyYWJsZXMYBCABKAkS",
+            "DgoGcmV3YXJkGAUgASgJEhIKCmxvY2F0aW9uSWQYBiABKAUiJAoRTmV0Q3Jl",
+            "YXRlT2ZmZXJSZXMSDwoHb2ZmZXJJZBgBIAEoAyo+Cg5PQXV0aE1lY2hhbmlz",
+            "bRIMCghPQU1fTk9ORRAAEg4KCk9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgy",
+            "EAIqQwoQT0F1dGhQcm92aWRlcklkcxIMCghPQVBfTk9ORRAAEg8KC09BUF9U",
+            "V0lUVEVSEAESEAoMT0FQX0ZBQ0VCT09LEAIqUQoLQWNjb3VudFR5cGUSDgoK",
+            "QVRfVU5LTk9XThAAEhEKDUFUX0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVT",
+            "UxACEg4KCkFUX1NVUFBPUlQQAyqeAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIK",
+            "DkdBU19JTklUSUFMSVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVB",
+            "RF9PTkxZEAISEgoOR0FTX1JFQURfV1JJVEUQAxINCglHQVNfREVCVUcQBBIP",
+            "CgtHQVNfU1VQUE9SVBAFEg8KC0dBU19NQU5BR0VSEAYSCwoHR0FTX0dPRBAH",
+            "KrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdfQUND",
+            "T1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NSRUFU",
+            "RV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1PX0FQ",
+            "UFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJFX0lO",
+            "Rk8QBipuChFOb3RpZmljYXRpb25GbGFncxIUChBORl9BQ0NPVU5UX1NUQVRF",
+            "EAASGAoUTkZfTUFLRV9BTl9PRkZFUl9GQUIQARIWChJORl9VTlJFQURfTUVT",
+            "U0FHRVMQAhIRCg1ORl9DU19SRVFVRVNUEAMqUQoSQnVzaW5lc3NPZmZlclN0",
+            "YXRlEg0KCUJPU19EUkFGVBAAEgwKCEJPU19PUEVOEAESDgoKQk9TX0FDVElW",
+            "RRACEg4KCkJPU19DTE9TRUQQAypwChhCdXNpbmVzc09mZmVyU3RhdGVSZWFz",
+            "b24SEgoOQk9TUl9ORVdfT0ZGRVIQABIUChBCT1NSX1VTRVJfQ0xPU0VEEAES",
+            "FgoSQk9TUl9UT1NfVklPTEFUSU9OEAISEgoOQk9TUl9DT01QTEVURUQQA0IH",
+            "qgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -172,9 +174,9 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Latitude", "Longitude" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageReq), global::InfX.NetUploadImageReq.Parser, new[]{ "FileName", "ContentLength", "ContentType", "ContentSha256" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageRes), global::InfX.NetUploadImageRes.Parser, new[]{ "RequestMethod", "RequestUrl", "FileExists", "UploadKey", "CoverUrl", "ThumbnailUrl" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqSetProfile), global::InfX.NetReqSetProfile.Parser, new[]{ "Name", "Description", "AvatarKey", "Url", "Categories", "Latitude", "Longitude" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Offer" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResCreateOffer), global::InfX.NetResCreateOffer.Parser, new[]{ "Id" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetProfile), global::InfX.NetSetProfile.Parser, new[]{ "Name", "Description", "AvatarKey", "Url", "Categories", "Latitude", "Longitude" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetCreateOfferReq), global::InfX.NetCreateOfferReq.Parser, new[]{ "Title", "ImageKeys", "Description", "Deliverables", "Reward", "LocationId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetCreateOfferRes), global::InfX.NetCreateOfferRes.Parser, new[]{ "OfferId" }, null, null, null)
           }));
     }
     #endregion
@@ -7335,12 +7337,12 @@ namespace InfX {
   }
 
   /// <summary>
-  ///  int32 accountId = 1; // for admin, we have a concept of "delegated" requests, so no need to have this option
+  ///  Id: S_PROFIL
   /// </summary>
-  public sealed partial class NetReqSetProfile : pb::IMessage<NetReqSetProfile> {
-    private static readonly pb::MessageParser<NetReqSetProfile> _parser = new pb::MessageParser<NetReqSetProfile>(() => new NetReqSetProfile());
+  public sealed partial class NetSetProfile : pb::IMessage<NetSetProfile> {
+    private static readonly pb::MessageParser<NetSetProfile> _parser = new pb::MessageParser<NetSetProfile>(() => new NetSetProfile());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetReqSetProfile> Parser { get { return _parser; } }
+    public static pb::MessageParser<NetSetProfile> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -7353,14 +7355,14 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetReqSetProfile() {
+    public NetSetProfile() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetReqSetProfile(NetReqSetProfile other) : this() {
+    public NetSetProfile(NetSetProfile other) : this() {
       name_ = other.name_;
       description_ = other.description_;
       avatarKey_ = other.avatarKey_;
@@ -7371,13 +7373,16 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetReqSetProfile Clone() {
-      return new NetReqSetProfile(this);
+    public NetSetProfile Clone() {
+      return new NetSetProfile(this);
     }
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 1;
     private string name_ = "";
+    /// <summary>
+    ///  Basics
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string Name {
       get { return name_; }
@@ -7453,11 +7458,11 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as NetReqSetProfile);
+      return Equals(other as NetSetProfile);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetReqSetProfile other) {
+    public bool Equals(NetSetProfile other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -7547,7 +7552,7 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetReqSetProfile other) {
+    public void MergeFrom(NetSetProfile other) {
       if (other == null) {
         return;
       }
@@ -7616,11 +7621,13 @@ namespace InfX {
 
   /// <summary>
   ///  Message to create offer
+  ///  Id: C_OFFERR
+  ///  Response C_R_OFFE
   /// </summary>
-  public sealed partial class NetReqCreateOffer : pb::IMessage<NetReqCreateOffer> {
-    private static readonly pb::MessageParser<NetReqCreateOffer> _parser = new pb::MessageParser<NetReqCreateOffer>(() => new NetReqCreateOffer());
+  public sealed partial class NetCreateOfferReq : pb::IMessage<NetCreateOfferReq> {
+    private static readonly pb::MessageParser<NetCreateOfferReq> _parser = new pb::MessageParser<NetCreateOfferReq>(() => new NetCreateOfferReq());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetReqCreateOffer> Parser { get { return _parser; } }
+    public static pb::MessageParser<NetCreateOfferReq> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -7633,57 +7640,129 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetReqCreateOffer() {
+    public NetCreateOfferReq() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetReqCreateOffer(NetReqCreateOffer other) : this() {
-      Offer = other.offer_ != null ? other.Offer.Clone() : null;
+    public NetCreateOfferReq(NetCreateOfferReq other) : this() {
+      title_ = other.title_;
+      imageKeys_ = other.imageKeys_.Clone();
+      description_ = other.description_;
+      deliverables_ = other.deliverables_;
+      reward_ = other.reward_;
+      locationId_ = other.locationId_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetReqCreateOffer Clone() {
-      return new NetReqCreateOffer(this);
+    public NetCreateOfferReq Clone() {
+      return new NetCreateOfferReq(this);
     }
 
-    /// <summary>Field number for the "offer" field.</summary>
-    public const int OfferFieldNumber = 1;
-    private global::InfX.DataBusinessOffer offer_;
+    /// <summary>Field number for the "title" field.</summary>
+    public const int TitleFieldNumber = 1;
+    private string title_ = "";
     /// <summary>
-    ///  repeated string imageIds = 2;
+    ///  Basics
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::InfX.DataBusinessOffer Offer {
-      get { return offer_; }
+    public string Title {
+      get { return title_; }
       set {
-        offer_ = value;
+        title_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "imageKeys" field.</summary>
+    public const int ImageKeysFieldNumber = 2;
+    private static readonly pb::FieldCodec<string> _repeated_imageKeys_codec
+        = pb::FieldCodec.ForString(18);
+    private readonly pbc::RepeatedField<string> imageKeys_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> ImageKeys {
+      get { return imageKeys_; }
+    }
+
+    /// <summary>Field number for the "description" field.</summary>
+    public const int DescriptionFieldNumber = 3;
+    private string description_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Description {
+      get { return description_; }
+      set {
+        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "deliverables" field.</summary>
+    public const int DeliverablesFieldNumber = 4;
+    private string deliverables_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Deliverables {
+      get { return deliverables_; }
+      set {
+        deliverables_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "reward" field.</summary>
+    public const int RewardFieldNumber = 5;
+    private string reward_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Reward {
+      get { return reward_; }
+      set {
+        reward_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "locationId" field.</summary>
+    public const int LocationIdFieldNumber = 6;
+    private int locationId_;
+    /// <summary>
+    ///  0 being the user's default location -- dropdown selection from user locations if supported
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int LocationId {
+      get { return locationId_; }
+      set {
+        locationId_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as NetReqCreateOffer);
+      return Equals(other as NetCreateOfferReq);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetReqCreateOffer other) {
+    public bool Equals(NetCreateOfferReq other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(Offer, other.Offer)) return false;
+      if (Title != other.Title) return false;
+      if(!imageKeys_.Equals(other.imageKeys_)) return false;
+      if (Description != other.Description) return false;
+      if (Deliverables != other.Deliverables) return false;
+      if (Reward != other.Reward) return false;
+      if (LocationId != other.LocationId) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (offer_ != null) hash ^= Offer.GetHashCode();
+      if (Title.Length != 0) hash ^= Title.GetHashCode();
+      hash ^= imageKeys_.GetHashCode();
+      if (Description.Length != 0) hash ^= Description.GetHashCode();
+      if (Deliverables.Length != 0) hash ^= Deliverables.GetHashCode();
+      if (Reward.Length != 0) hash ^= Reward.GetHashCode();
+      if (LocationId != 0) hash ^= LocationId.GetHashCode();
       return hash;
     }
 
@@ -7694,31 +7773,71 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (offer_ != null) {
+      if (Title.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteMessage(Offer);
+        output.WriteString(Title);
+      }
+      imageKeys_.WriteTo(output, _repeated_imageKeys_codec);
+      if (Description.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Description);
+      }
+      if (Deliverables.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Deliverables);
+      }
+      if (Reward.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Reward);
+      }
+      if (LocationId != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(LocationId);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (offer_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Offer);
+      if (Title.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Title);
+      }
+      size += imageKeys_.CalculateSize(_repeated_imageKeys_codec);
+      if (Description.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+      }
+      if (Deliverables.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Deliverables);
+      }
+      if (Reward.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Reward);
+      }
+      if (LocationId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(LocationId);
       }
       return size;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetReqCreateOffer other) {
+    public void MergeFrom(NetCreateOfferReq other) {
       if (other == null) {
         return;
       }
-      if (other.offer_ != null) {
-        if (offer_ == null) {
-          offer_ = new global::InfX.DataBusinessOffer();
-        }
-        Offer.MergeFrom(other.Offer);
+      if (other.Title.Length != 0) {
+        Title = other.Title;
+      }
+      imageKeys_.Add(other.imageKeys_);
+      if (other.Description.Length != 0) {
+        Description = other.Description;
+      }
+      if (other.Deliverables.Length != 0) {
+        Deliverables = other.Deliverables;
+      }
+      if (other.Reward.Length != 0) {
+        Reward = other.Reward;
+      }
+      if (other.LocationId != 0) {
+        LocationId = other.LocationId;
       }
     }
 
@@ -7731,10 +7850,27 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 10: {
-            if (offer_ == null) {
-              offer_ = new global::InfX.DataBusinessOffer();
-            }
-            input.ReadMessage(offer_);
+            Title = input.ReadString();
+            break;
+          }
+          case 18: {
+            imageKeys_.AddEntriesFrom(input, _repeated_imageKeys_codec);
+            break;
+          }
+          case 26: {
+            Description = input.ReadString();
+            break;
+          }
+          case 34: {
+            Deliverables = input.ReadString();
+            break;
+          }
+          case 42: {
+            Reward = input.ReadString();
+            break;
+          }
+          case 48: {
+            LocationId = input.ReadInt32();
             break;
           }
         }
@@ -7745,11 +7881,12 @@ namespace InfX {
 
   /// <summary>
   ///  Response to successful offer creation
+  ///  Id: C_R_OFFE
   /// </summary>
-  public sealed partial class NetResCreateOffer : pb::IMessage<NetResCreateOffer> {
-    private static readonly pb::MessageParser<NetResCreateOffer> _parser = new pb::MessageParser<NetResCreateOffer>(() => new NetResCreateOffer());
+  public sealed partial class NetCreateOfferRes : pb::IMessage<NetCreateOfferRes> {
+    private static readonly pb::MessageParser<NetCreateOfferRes> _parser = new pb::MessageParser<NetCreateOfferRes>(() => new NetCreateOfferRes());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetResCreateOffer> Parser { get { return _parser; } }
+    public static pb::MessageParser<NetCreateOfferRes> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -7762,57 +7899,57 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResCreateOffer() {
+    public NetCreateOfferRes() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResCreateOffer(NetResCreateOffer other) : this() {
-      id_ = other.id_;
+    public NetCreateOfferRes(NetCreateOfferRes other) : this() {
+      offerId_ = other.offerId_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetResCreateOffer Clone() {
-      return new NetResCreateOffer(this);
+    public NetCreateOfferRes Clone() {
+      return new NetCreateOfferRes(this);
     }
 
-    /// <summary>Field number for the "id" field.</summary>
-    public const int IdFieldNumber = 1;
-    private long id_;
+    /// <summary>Field number for the "offerId" field.</summary>
+    public const int OfferIdFieldNumber = 1;
+    private long offerId_;
     /// <summary>
     ///  Identifier of the offer on the server
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long Id {
-      get { return id_; }
+    public long OfferId {
+      get { return offerId_; }
       set {
-        id_ = value;
+        offerId_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as NetResCreateOffer);
+      return Equals(other as NetCreateOfferRes);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetResCreateOffer other) {
+    public bool Equals(NetCreateOfferRes other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Id != other.Id) return false;
+      if (OfferId != other.OfferId) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (Id != 0L) hash ^= Id.GetHashCode();
+      if (OfferId != 0L) hash ^= OfferId.GetHashCode();
       return hash;
     }
 
@@ -7823,28 +7960,28 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Id != 0L) {
+      if (OfferId != 0L) {
         output.WriteRawTag(8);
-        output.WriteInt64(Id);
+        output.WriteInt64(OfferId);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (Id != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Id);
+      if (OfferId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(OfferId);
       }
       return size;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetResCreateOffer other) {
+    public void MergeFrom(NetCreateOfferRes other) {
       if (other == null) {
         return;
       }
-      if (other.Id != 0L) {
-        Id = other.Id;
+      if (other.OfferId != 0L) {
+        OfferId = other.OfferId;
       }
     }
 
@@ -7857,7 +7994,7 @@ namespace InfX {
             input.SkipLastField();
             break;
           case 8: {
-            Id = input.ReadInt64();
+            OfferId = input.ReadInt64();
             break;
           }
         }

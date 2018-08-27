@@ -707,8 +707,8 @@ const NetUploadImageRes$json = const {
   ],
 };
 
-const NetReqSetProfile$json = const {
-  '1': 'NetReqSetProfile',
+const NetSetProfile$json = const {
+  '1': 'NetSetProfile',
   '2': const [
     const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'description', '3': 2, '4': 1, '5': 9, '10': 'description'},
@@ -727,23 +727,21 @@ const NetReqSetProfile$json = const {
   ],
 };
 
-const NetReqCreateOffer$json = const {
-  '1': 'NetReqCreateOffer',
+const NetCreateOfferReq$json = const {
+  '1': 'NetCreateOfferReq',
   '2': const [
-    const {
-      '1': 'offer',
-      '3': 1,
-      '4': 1,
-      '5': 11,
-      '6': '.inf.DataBusinessOffer',
-      '10': 'offer'
-    },
+    const {'1': 'title', '3': 1, '4': 1, '5': 9, '10': 'title'},
+    const {'1': 'imageKeys', '3': 2, '4': 3, '5': 9, '10': 'imageKeys'},
+    const {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'deliverables', '3': 4, '4': 1, '5': 9, '10': 'deliverables'},
+    const {'1': 'reward', '3': 5, '4': 1, '5': 9, '10': 'reward'},
+    const {'1': 'locationId', '3': 6, '4': 1, '5': 5, '10': 'locationId'},
   ],
 };
 
-const NetResCreateOffer$json = const {
-  '1': 'NetResCreateOffer',
+const NetCreateOfferRes$json = const {
+  '1': 'NetCreateOfferRes',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
+    const {'1': 'offerId', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
   ],
 };
