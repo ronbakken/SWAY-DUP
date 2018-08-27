@@ -874,7 +874,7 @@ class DataBusinessOffer extends GeneratedMessage {
     ..a<int>(3, 'locationId', PbFieldType.O3)
     ..aOS(4, 'title')
     ..aOS(5, 'description')
-    ..aOS(6, 'avatarUrl')
+    ..aOS(6, 'thumbnailUrl')
     ..aOS(7, 'deliverables')
     ..aOS(8, 'reward')
     ..aOS(9, 'location')
@@ -964,13 +964,13 @@ class DataBusinessOffer extends GeneratedMessage {
   bool hasDescription() => $_has(4);
   void clearDescription() => clearField(5);
 
-  String get avatarUrl => $_getS(5, '');
-  set avatarUrl(String v) {
+  String get thumbnailUrl => $_getS(5, '');
+  set thumbnailUrl(String v) {
     $_setString(5, v);
   }
 
-  bool hasAvatarUrl() => $_has(5);
-  void clearAvatarUrl() => clearField(6);
+  bool hasThumbnailUrl() => $_has(5);
+  void clearThumbnailUrl() => clearField(6);
 
   String get deliverables => $_getS(6, '');
   set deliverables(String v) {
