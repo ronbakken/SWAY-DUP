@@ -526,9 +526,9 @@ message NetUploadImageRes {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-message NetReqSetProfile {
-  // int32 accountId = 1; // for admin, we have a concept of "delegated" requests, so no need to have this option
-  
+// Id: S_PROFIL
+message NetSetProfile {
+  // Basics
   string name = 1;
   string description = 2;
   string avatarKey = 4;
@@ -548,24 +548,25 @@ message NetReqSetProfile {
 ////////////////////////////////////////////////////////////////////////////////
 
 // Message to create offer
-message NetReqCreateOffer {
-  DataBusinessOffer offer = 1;
-  // repeated string imageIds = 2;
-  
-  /*
+// Id: C_OFFERR
+// Response C_R_OFFE
+message NetCreateOfferReq {
+  // Basics
   string title = 1;
-  repeated string imageIds = 2;
+  repeated string imageKeys = 2;
   string description = 3;
   string deliverables = 4;
   string reward = 5;
-  */
+  
+  int32 locationId = 6; // 0 being the user's default location -- dropdown selection from user locations if supported
   
 }
 
 // Response to successful offer creation
-message NetResCreateOffer {
+// Id: C_R_OFFE
+message NetCreateOfferRes {
   // Identifier of the offer on the server
-  int64 id = 1;
+  int64 offerId = 1;
   
 }
 
