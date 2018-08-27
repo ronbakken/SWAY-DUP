@@ -23,7 +23,7 @@ class ProfileView extends StatelessWidget {
     assert(ConfigManager.of(context) != null);
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(account.summary.name + "'s Profile"),
+        title: new Text((onEditPressed != null) ? "Your profile" : (account.summary.name + "'s profile")),
         actions: (onEditPressed != null) ? <Widget>[
           new EditButton(onEditPressed: onEditPressed),
         ] : null,
