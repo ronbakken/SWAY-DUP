@@ -2267,6 +2267,95 @@ class NetUploadImageRes extends GeneratedMessage {
 class _ReadonlyNetUploadImageRes extends NetUploadImageRes
     with ReadonlyMessageMixin {}
 
+class NetReqSetProfile extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetReqSetProfile')
+    ..aOS(1, 'name')
+    ..aOS(2, 'description')
+    ..aOS(4, 'avatarKey')
+    ..aOS(6, 'url')
+    ..pp<CategoryId>(12, 'categories', PbFieldType.PM, CategoryId.$checkItem,
+        CategoryId.create)
+    ..a<double>(14, 'latitude', PbFieldType.OD)
+    ..a<double>(15, 'longitude', PbFieldType.OD)
+    ..hasRequiredFields = false;
+
+  NetReqSetProfile() : super();
+  NetReqSetProfile.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetReqSetProfile.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetReqSetProfile clone() => new NetReqSetProfile()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetReqSetProfile create() => new NetReqSetProfile();
+  static PbList<NetReqSetProfile> createRepeated() =>
+      new PbList<NetReqSetProfile>();
+  static NetReqSetProfile getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetReqSetProfile();
+    return _defaultInstance;
+  }
+
+  static NetReqSetProfile _defaultInstance;
+  static void $checkItem(NetReqSetProfile v) {
+    if (v is! NetReqSetProfile) checkItemFailed(v, 'NetReqSetProfile');
+  }
+
+  String get name => $_getS(0, '');
+  set name(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasName() => $_has(0);
+  void clearName() => clearField(1);
+
+  String get description => $_getS(1, '');
+  set description(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasDescription() => $_has(1);
+  void clearDescription() => clearField(2);
+
+  String get avatarKey => $_getS(2, '');
+  set avatarKey(String v) {
+    $_setString(2, v);
+  }
+
+  bool hasAvatarKey() => $_has(2);
+  void clearAvatarKey() => clearField(4);
+
+  String get url => $_getS(3, '');
+  set url(String v) {
+    $_setString(3, v);
+  }
+
+  bool hasUrl() => $_has(3);
+  void clearUrl() => clearField(6);
+
+  List<CategoryId> get categories => $_getList(4);
+
+  double get latitude => $_getN(5);
+  set latitude(double v) {
+    $_setDouble(5, v);
+  }
+
+  bool hasLatitude() => $_has(5);
+  void clearLatitude() => clearField(14);
+
+  double get longitude => $_getN(6);
+  set longitude(double v) {
+    $_setDouble(6, v);
+  }
+
+  bool hasLongitude() => $_has(6);
+  void clearLongitude() => clearField(15);
+}
+
+class _ReadonlyNetReqSetProfile extends NetReqSetProfile
+    with ReadonlyMessageMixin {}
+
 class NetReqCreateOffer extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetReqCreateOffer')
     ..a<DataBusinessOffer>(1, 'offer', PbFieldType.OM,

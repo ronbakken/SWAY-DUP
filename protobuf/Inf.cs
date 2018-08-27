@@ -113,29 +113,32 @@ namespace InfX {
             "KAwijQEKEU5ldFVwbG9hZEltYWdlUmVzEhUKDXJlcXVlc3RNZXRob2QYASAB",
             "KAkSEgoKcmVxdWVzdFVybBgCIAEoCRISCgpmaWxlRXhpc3RzGAkgASgIEhEK",
             "CXVwbG9hZEtleRgKIAEoCRIQCghjb3ZlclVybBgLIAEoCRIUCgx0aHVtYm5h",
-            "aWxVcmwYDCABKAkiOgoRTmV0UmVxQ3JlYXRlT2ZmZXISJQoFb2ZmZXIYASAB",
-            "KAsyFi5pbmYuRGF0YUJ1c2luZXNzT2ZmZXIiHwoRTmV0UmVzQ3JlYXRlT2Zm",
-            "ZXISCgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQ",
-            "ABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJv",
-            "dmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9B",
-            "UF9GQUNFQk9PSxACKlEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04QABIR",
-            "Cg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAhIOCgpBVF9TVVBQ",
-            "T1JUEAMqngEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5HQVNfSU5JVElBTEla",
-            "RRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURfT05MWRACEhIKDkdB",
-            "U19SRUFEX1dSSVRFEAMSDQoJR0FTX0RFQlVHEAQSDwoLR0FTX1NVUFBPUlQQ",
-            "BRIPCgtHQVNfTUFOQUdFUhAGEgsKB0dBU19HT0QQByq1AQoYR2xvYmFsQWNj",
-            "b3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNHQVNS",
-            "X0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAISEQoN",
-            "R0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAKDEdB",
-            "U1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90aWZp",
-            "Y2F0aW9uRmxhZ3MSFAoQTkZfQUNDT1VOVF9TVEFURRAAEhgKFE5GX01BS0Vf",
-            "QU5fT0ZGRVJfRkFCEAESFgoSTkZfVU5SRUFEX01FU1NBR0VTEAISEQoNTkZf",
-            "Q1NfUkVRVUVTVBADKlEKEkJ1c2luZXNzT2ZmZXJTdGF0ZRINCglCT1NfRFJB",
-            "RlQQABIMCghCT1NfT1BFThABEg4KCkJPU19BQ1RJVkUQAhIOCgpCT1NfQ0xP",
-            "U0VEEAMqcAoYQnVzaW5lc3NPZmZlclN0YXRlUmVhc29uEhIKDkJPU1JfTkVX",
-            "X09GRkVSEAASFAoQQk9TUl9VU0VSX0NMT1NFRBABEhYKEkJPU1JfVE9TX1ZJ",
-            "T0xBVElPThACEhIKDkJPU1JfQ09NUExFVEVEEANCB6oCBEluZlhiBnByb3Rv",
-            "Mw=="));
+            "aWxVcmwYDCABKAkinwEKEE5ldFJlcVNldFByb2ZpbGUSDAoEbmFtZRgBIAEo",
+            "CRITCgtkZXNjcmlwdGlvbhgCIAEoCRIRCglhdmF0YXJLZXkYBCABKAkSCwoD",
+            "dXJsGAYgASgJEiMKCmNhdGVnb3JpZXMYDCADKAsyDy5pbmYuQ2F0ZWdvcnlJ",
+            "ZBIQCghsYXRpdHVkZRgOIAEoARIRCglsb25naXR1ZGUYDyABKAEiOgoRTmV0",
+            "UmVxQ3JlYXRlT2ZmZXISJQoFb2ZmZXIYASABKAsyFi5pbmYuRGF0YUJ1c2lu",
+            "ZXNzT2ZmZXIiHwoRTmV0UmVzQ3JlYXRlT2ZmZXISCgoCaWQYASABKAMqPgoO",
+            "T0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIOCgpPQU1fT0FVVEgxEAES",
+            "DgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJvdmlkZXJJZHMSDAoIT0FQX05P",
+            "TkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9BUF9GQUNFQk9PSxACKlEKC0Fj",
+            "Y291bnRUeXBlEg4KCkFUX1VOS05PV04QABIRCg1BVF9JTkZMVUVOQ0VSEAES",
+            "DwoLQVRfQlVTSU5FU1MQAhIOCgpBVF9TVVBQT1JUEAMqngEKEkdsb2JhbEFj",
+            "Y291bnRTdGF0ZRISCg5HQVNfSU5JVElBTElaRRAAEg8KC0dBU19CTE9DS0VE",
+            "EAESEQoNR0FTX1JFQURfT05MWRACEhIKDkdBU19SRUFEX1dSSVRFEAMSDQoJ",
+            "R0FTX0RFQlVHEAQSDwoLR0FTX1NVUFBPUlQQBRIPCgtHQVNfTUFOQUdFUhAG",
+            "EgsKB0dBU19HT0QQByq1AQoYR2xvYmFsQWNjb3VudFN0YXRlUmVhc29uEhQK",
+            "EEdBU1JfTkVXX0FDQ09VTlQQABIXChNHQVNSX0FDQ09VTlRfQkFOTkVEEAES",
+            "FgoSR0FTUl9DUkVBVEVfREVOSUVEEAISEQoNR0FTUl9BUFBST1ZFRBADEhYK",
+            "EkdBU1JfREVNT19BUFBST1ZFRBAEEhAKDEdBU1JfUEVORElORxAFEhUKEUdB",
+            "U1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90aWZpY2F0aW9uRmxhZ3MSFAoQTkZf",
+            "QUNDT1VOVF9TVEFURRAAEhgKFE5GX01BS0VfQU5fT0ZGRVJfRkFCEAESFgoS",
+            "TkZfVU5SRUFEX01FU1NBR0VTEAISEQoNTkZfQ1NfUkVRVUVTVBADKlEKEkJ1",
+            "c2luZXNzT2ZmZXJTdGF0ZRINCglCT1NfRFJBRlQQABIMCghCT1NfT1BFThAB",
+            "Eg4KCkJPU19BQ1RJVkUQAhIOCgpCT1NfQ0xPU0VEEAMqcAoYQnVzaW5lc3NP",
+            "ZmZlclN0YXRlUmVhc29uEhIKDkJPU1JfTkVXX09GRkVSEAASFAoQQk9TUl9V",
+            "U0VSX0NMT1NFRBABEhYKEkJPU1JfVE9TX1ZJT0xBVElPThACEhIKDkJPU1Jf",
+            "Q09NUExFVEVEEANCB6oCBEluZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -169,6 +172,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Latitude", "Longitude" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageReq), global::InfX.NetUploadImageReq.Parser, new[]{ "FileName", "ContentLength", "ContentType", "ContentSha256" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetUploadImageRes), global::InfX.NetUploadImageRes.Parser, new[]{ "RequestMethod", "RequestUrl", "FileExists", "UploadKey", "CoverUrl", "ThumbnailUrl" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqSetProfile), global::InfX.NetReqSetProfile.Parser, new[]{ "Name", "Description", "AvatarKey", "Url", "Categories", "Latitude", "Longitude" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Offer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResCreateOffer), global::InfX.NetResCreateOffer.Parser, new[]{ "Id" }, null, null, null)
           }));
@@ -7331,6 +7335,286 @@ namespace InfX {
   }
 
   /// <summary>
+  ///  int32 accountId = 1; // for admin, we have a concept of "delegated" requests, so no need to have this option
+  /// </summary>
+  public sealed partial class NetReqSetProfile : pb::IMessage<NetReqSetProfile> {
+    private static readonly pb::MessageParser<NetReqSetProfile> _parser = new pb::MessageParser<NetReqSetProfile>(() => new NetReqSetProfile());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetReqSetProfile> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[30]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetReqSetProfile() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetReqSetProfile(NetReqSetProfile other) : this() {
+      name_ = other.name_;
+      description_ = other.description_;
+      avatarKey_ = other.avatarKey_;
+      url_ = other.url_;
+      categories_ = other.categories_.Clone();
+      latitude_ = other.latitude_;
+      longitude_ = other.longitude_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetReqSetProfile Clone() {
+      return new NetReqSetProfile(this);
+    }
+
+    /// <summary>Field number for the "name" field.</summary>
+    public const int NameFieldNumber = 1;
+    private string name_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Name {
+      get { return name_; }
+      set {
+        name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "description" field.</summary>
+    public const int DescriptionFieldNumber = 2;
+    private string description_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Description {
+      get { return description_; }
+      set {
+        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "avatarKey" field.</summary>
+    public const int AvatarKeyFieldNumber = 4;
+    private string avatarKey_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AvatarKey {
+      get { return avatarKey_; }
+      set {
+        avatarKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "url" field.</summary>
+    public const int UrlFieldNumber = 6;
+    private string url_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Url {
+      get { return url_; }
+      set {
+        url_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "categories" field.</summary>
+    public const int CategoriesFieldNumber = 12;
+    private static readonly pb::FieldCodec<global::InfX.CategoryId> _repeated_categories_codec
+        = pb::FieldCodec.ForMessage(98, global::InfX.CategoryId.Parser);
+    private readonly pbc::RepeatedField<global::InfX.CategoryId> categories_ = new pbc::RepeatedField<global::InfX.CategoryId>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::InfX.CategoryId> Categories {
+      get { return categories_; }
+    }
+
+    /// <summary>Field number for the "latitude" field.</summary>
+    public const int LatitudeFieldNumber = 14;
+    private double latitude_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double Latitude {
+      get { return latitude_; }
+      set {
+        latitude_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "longitude" field.</summary>
+    public const int LongitudeFieldNumber = 15;
+    private double longitude_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double Longitude {
+      get { return longitude_; }
+      set {
+        longitude_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetReqSetProfile);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetReqSetProfile other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Name != other.Name) return false;
+      if (Description != other.Description) return false;
+      if (AvatarKey != other.AvatarKey) return false;
+      if (Url != other.Url) return false;
+      if(!categories_.Equals(other.categories_)) return false;
+      if (Latitude != other.Latitude) return false;
+      if (Longitude != other.Longitude) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Name.Length != 0) hash ^= Name.GetHashCode();
+      if (Description.Length != 0) hash ^= Description.GetHashCode();
+      if (AvatarKey.Length != 0) hash ^= AvatarKey.GetHashCode();
+      if (Url.Length != 0) hash ^= Url.GetHashCode();
+      hash ^= categories_.GetHashCode();
+      if (Latitude != 0D) hash ^= Latitude.GetHashCode();
+      if (Longitude != 0D) hash ^= Longitude.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Name.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Name);
+      }
+      if (Description.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Description);
+      }
+      if (AvatarKey.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(AvatarKey);
+      }
+      if (Url.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(Url);
+      }
+      categories_.WriteTo(output, _repeated_categories_codec);
+      if (Latitude != 0D) {
+        output.WriteRawTag(113);
+        output.WriteDouble(Latitude);
+      }
+      if (Longitude != 0D) {
+        output.WriteRawTag(121);
+        output.WriteDouble(Longitude);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Name.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
+      }
+      if (Description.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+      }
+      if (AvatarKey.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarKey);
+      }
+      if (Url.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Url);
+      }
+      size += categories_.CalculateSize(_repeated_categories_codec);
+      if (Latitude != 0D) {
+        size += 1 + 8;
+      }
+      if (Longitude != 0D) {
+        size += 1 + 8;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetReqSetProfile other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Name.Length != 0) {
+        Name = other.Name;
+      }
+      if (other.Description.Length != 0) {
+        Description = other.Description;
+      }
+      if (other.AvatarKey.Length != 0) {
+        AvatarKey = other.AvatarKey;
+      }
+      if (other.Url.Length != 0) {
+        Url = other.Url;
+      }
+      categories_.Add(other.categories_);
+      if (other.Latitude != 0D) {
+        Latitude = other.Latitude;
+      }
+      if (other.Longitude != 0D) {
+        Longitude = other.Longitude;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            Name = input.ReadString();
+            break;
+          }
+          case 18: {
+            Description = input.ReadString();
+            break;
+          }
+          case 34: {
+            AvatarKey = input.ReadString();
+            break;
+          }
+          case 50: {
+            Url = input.ReadString();
+            break;
+          }
+          case 98: {
+            categories_.AddEntriesFrom(input, _repeated_categories_codec);
+            break;
+          }
+          case 113: {
+            Latitude = input.ReadDouble();
+            break;
+          }
+          case 121: {
+            Longitude = input.ReadDouble();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
   ///  Message to create offer
   /// </summary>
   public sealed partial class NetReqCreateOffer : pb::IMessage<NetReqCreateOffer> {
@@ -7340,7 +7624,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[30]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[31]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7469,7 +7753,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[31]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[32]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
