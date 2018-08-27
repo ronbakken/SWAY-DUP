@@ -26,10 +26,10 @@ class ProfileEdit extends StatefulWidget {
 class _ProfileEditState extends State<ProfileEdit> {
   // GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  TextEditingController _avatarController;
-  TextEditingController _nameController;
-  TextEditingController _locationController;
-  TextEditingController _descriptionController;
+  TextEditingController _avatarController = new TextEditingController();
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _locationController = new TextEditingController();
+  TextEditingController _descriptionController = new TextEditingController();
 
   @override
   void initState() {
