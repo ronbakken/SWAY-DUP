@@ -130,11 +130,11 @@ class RemoteApp {
 
   StreamSubscription<TalkMessage> saferListen(
       String id, GlobalAccountState requiredAccountState, bool replyException, Future<void> onData(TalkMessage message)) {
-    safeListen(id, (TalkMessage message) {
+    safeListen(id, (TalkMessage message) async {
       if (!requireGlobalAccountState(requiredAccountState, replying: replyException ? message : null)) {
         return;
       }
-      onData(message);
+      await onData(message);
     });
   }
 

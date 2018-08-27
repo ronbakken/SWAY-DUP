@@ -198,14 +198,14 @@ class RemoteAppBusiness {
       await for (sqljocky.Row offerRow in offerResults) {
         ts.sendExtend(message);
         DataBusinessOffer offer = new DataBusinessOffer();
-        offer.offerId = offerRow[0];
-        offer.accountId = offerRow[1];
-        offer.locationId = offerRow[6];
-        offer.title = offerRow[2];
-        offer.description = offerRow[3];
-        offer.deliverables = offerRow[4];
-        offer.reward = offerRow[5];
-        offer.location = offerRow[7];
+        offer.offerId = offerRow[0].toInt();
+        offer.accountId = offerRow[1].toInt();
+        offer.locationId = offerRow[6].toInt();
+        offer.title = offerRow[2].toString();
+        offer.description = offerRow[3].toString();
+        offer.deliverables = offerRow[4].toString();
+        offer.reward = offerRow[5].toString();
+        offer.location = offerRow[7].toString();
         offer.latitude = 0.0; // offerRow[8]; // TODO: parse
         offer.longitude = 0.0; // offerRow[8]; // TODO: parse
         // offer.coverUrls.addAll(pb.imageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
