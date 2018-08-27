@@ -107,31 +107,34 @@ namespace InfX {
             "YXV0aFByb3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNrUXVlcnkYAiABKAkiPwoS",
             "TmV0T0F1dGhDb25uZWN0UmVzEikKC3NvY2lhbE1lZGlhGAEgASgLMhQuaW5m",
             "LkRhdGFTb2NpYWxNZWRpYSI6ChNOZXRBY2NvdW50Q3JlYXRlUmVxEhAKCGxh",
-            "dGl0dWRlGAIgASgBEhEKCWxvbmdpdHVkZRgDIAEoASJHChFOZXRSZXFJbWFn",
-            "ZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRIQCghmaWxlU2l6ZRgCIAEoBRIO",
-            "CgZzaGEyNTYYAyABKAkiOgoRTmV0UmVxQ3JlYXRlT2ZmZXISJQoFb2ZmZXIY",
-            "ASABKAsyFi5pbmYuRGF0YUJ1c2luZXNzT2ZmZXIiHwoRTmV0UmVzQ3JlYXRl",
-            "T2ZmZXISCgoCaWQYASABKAMqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05P",
-            "TkUQABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRo",
-            "UHJvdmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAK",
-            "DE9BUF9GQUNFQk9PSxACKlEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04Q",
-            "ABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAhIOCgpBVF9T",
-            "VVBQT1JUEAMqngEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5HQVNfSU5JVElB",
-            "TElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURfT05MWRACEhIK",
-            "DkdBU19SRUFEX1dSSVRFEAMSDQoJR0FTX0RFQlVHEAQSDwoLR0FTX1NVUFBP",
-            "UlQQBRIPCgtHQVNfTUFOQUdFUhAGEgsKB0dBU19HT0QQByq1AQoYR2xvYmFs",
-            "QWNjb3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNH",
-            "QVNSX0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAIS",
-            "EQoNR0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAK",
-            "DEdBU1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90",
-            "aWZpY2F0aW9uRmxhZ3MSFAoQTkZfQUNDT1VOVF9TVEFURRAAEhgKFE5GX01B",
-            "S0VfQU5fT0ZGRVJfRkFCEAESFgoSTkZfVU5SRUFEX01FU1NBR0VTEAISEQoN",
-            "TkZfQ1NfUkVRVUVTVBADKlEKEkJ1c2luZXNzT2ZmZXJTdGF0ZRINCglCT1Nf",
-            "RFJBRlQQABIMCghCT1NfT1BFThABEg4KCkJPU19BQ1RJVkUQAhIOCgpCT1Nf",
-            "Q0xPU0VEEAMqcAoYQnVzaW5lc3NPZmZlclN0YXRlUmVhc29uEhIKDkJPU1Jf",
-            "TkVXX09GRkVSEAASFAoQQk9TUl9VU0VSX0NMT1NFRBABEhYKEkJPU1JfVE9T",
-            "X1ZJT0xBVElPThACEhIKDkJPU1JfQ09NUExFVEVEEANCB6oCBEluZlhiBnBy",
-            "b3RvMw=="));
+            "dGl0dWRlGAIgASgBEhEKCWxvbmdpdHVkZRgDIAEoASJmChFOZXRSZXFJbWFn",
+            "ZVVwbG9hZBIQCghmaWxlTmFtZRgBIAEoCRITCgtjb250ZW50U2l6ZRgCIAEo",
+            "BRITCgtjb250ZW50VHlwZRgEIAEoCRIVCg1jb250ZW50U2hhMjU2GAMgASgJ",
+            "Io0BChFOZXRSZXNJbWFnZVVwbG9hZBIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJ",
+            "EhIKCnJlcXVlc3RVcmwYAiABKAkSEgoKZmlsZUV4aXN0cxgJIAEoCBIRCgl1",
+            "cGxvYWRLZXkYCiABKAkSEAoIY292ZXJVcmwYCyABKAkSFAoMdGh1bWJuYWls",
+            "VXJsGAwgASgJIjoKEU5ldFJlcUNyZWF0ZU9mZmVyEiUKBW9mZmVyGAEgASgL",
+            "MhYuaW5mLkRhdGFCdXNpbmVzc09mZmVyIh8KEU5ldFJlc0NyZWF0ZU9mZmVy",
+            "EgoKAmlkGAEgASgDKj4KDk9BdXRoTWVjaGFuaXNtEgwKCE9BTV9OT05FEAAS",
+            "DgoKT0FNX09BVVRIMRABEg4KCk9BTV9PQVVUSDIQAipDChBPQXV0aFByb3Zp",
+            "ZGVySWRzEgwKCE9BUF9OT05FEAASDwoLT0FQX1RXSVRURVIQARIQCgxPQVBf",
+            "RkFDRUJPT0sQAipRCgtBY2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoN",
+            "QVRfSU5GTFVFTkNFUhABEg8KC0FUX0JVU0lORVNTEAISDgoKQVRfU1VQUE9S",
+            "VBADKp4BChJHbG9iYWxBY2NvdW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQ",
+            "ABIPCgtHQVNfQkxPQ0tFRBABEhEKDUdBU19SRUFEX09OTFkQAhISCg5HQVNf",
+            "UkVBRF9XUklURRADEg0KCUdBU19ERUJVRxAEEg8KC0dBU19TVVBQT1JUEAUS",
+            "DwoLR0FTX01BTkFHRVIQBhILCgdHQVNfR09EEAcqtQEKGEdsb2JhbEFjY291",
+            "bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAASFwoTR0FTUl9B",
+            "Q0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklFRBACEhEKDUdB",
+            "U1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQBBIQCgxHQVNS",
+            "X1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGKm4KEU5vdGlmaWNh",
+            "dGlvbkZsYWdzEhQKEE5GX0FDQ09VTlRfU1RBVEUQABIYChRORl9NQUtFX0FO",
+            "X09GRkVSX0ZBQhABEhYKEk5GX1VOUkVBRF9NRVNTQUdFUxACEhEKDU5GX0NT",
+            "X1JFUVVFU1QQAypRChJCdXNpbmVzc09mZmVyU3RhdGUSDQoJQk9TX0RSQUZU",
+            "EAASDAoIQk9TX09QRU4QARIOCgpCT1NfQUNUSVZFEAISDgoKQk9TX0NMT1NF",
+            "RBADKnAKGEJ1c2luZXNzT2ZmZXJTdGF0ZVJlYXNvbhISCg5CT1NSX05FV19P",
+            "RkZFUhAAEhQKEEJPU1JfVVNFUl9DTE9TRUQQARIWChJCT1NSX1RPU19WSU9M",
+            "QVRJT04QAhISCg5CT1NSX0NPTVBMRVRFRBADQgeqAgRJbmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
@@ -163,7 +166,8 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectReq), global::InfX.NetOAuthConnectReq.Parser, new[]{ "OauthProvider", "CallbackQuery" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectRes), global::InfX.NetOAuthConnectRes.Parser, new[]{ "SocialMedia" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetAccountCreateReq), global::InfX.NetAccountCreateReq.Parser, new[]{ "Latitude", "Longitude" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqImageUpload), global::InfX.NetReqImageUpload.Parser, new[]{ "FileName", "FileSize", "Sha256" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqImageUpload), global::InfX.NetReqImageUpload.Parser, new[]{ "FileName", "ContentSize", "ContentType", "ContentSha256" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResImageUpload), global::InfX.NetResImageUpload.Parser, new[]{ "RequestMethod", "RequestUrl", "FileExists", "UploadKey", "CoverUrl", "ThumbnailUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetReqCreateOffer), global::InfX.NetReqCreateOffer.Parser, new[]{ "Offer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetResCreateOffer), global::InfX.NetResCreateOffer.Parser, new[]{ "Id" }, null, null, null)
           }));
@@ -6874,8 +6878,9 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetReqImageUpload(NetReqImageUpload other) : this() {
       fileName_ = other.fileName_;
-      fileSize_ = other.fileSize_;
-      sha256_ = other.sha256_;
+      contentSize_ = other.contentSize_;
+      contentType_ = other.contentType_;
+      contentSha256_ = other.contentSha256_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6897,28 +6902,39 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "fileSize" field.</summary>
-    public const int FileSizeFieldNumber = 2;
-    private int fileSize_;
+    /// <summary>Field number for the "contentSize" field.</summary>
+    public const int ContentSizeFieldNumber = 2;
+    private int contentSize_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int FileSize {
-      get { return fileSize_; }
+    public int ContentSize {
+      get { return contentSize_; }
       set {
-        fileSize_ = value;
+        contentSize_ = value;
       }
     }
 
-    /// <summary>Field number for the "sha256" field.</summary>
-    public const int Sha256FieldNumber = 3;
-    private string sha256_ = "";
+    /// <summary>Field number for the "contentType" field.</summary>
+    public const int ContentTypeFieldNumber = 4;
+    private string contentType_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ContentType {
+      get { return contentType_; }
+      set {
+        contentType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "contentSha256" field.</summary>
+    public const int ContentSha256FieldNumber = 3;
+    private string contentSha256_ = "";
     /// <summary>
     ///  Hashed file contents
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Sha256 {
-      get { return sha256_; }
+    public string ContentSha256 {
+      get { return contentSha256_; }
       set {
-        sha256_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        contentSha256_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -6936,8 +6952,9 @@ namespace InfX {
         return true;
       }
       if (FileName != other.FileName) return false;
-      if (FileSize != other.FileSize) return false;
-      if (Sha256 != other.Sha256) return false;
+      if (ContentSize != other.ContentSize) return false;
+      if (ContentType != other.ContentType) return false;
+      if (ContentSha256 != other.ContentSha256) return false;
       return true;
     }
 
@@ -6945,8 +6962,9 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       if (FileName.Length != 0) hash ^= FileName.GetHashCode();
-      if (FileSize != 0) hash ^= FileSize.GetHashCode();
-      if (Sha256.Length != 0) hash ^= Sha256.GetHashCode();
+      if (ContentSize != 0) hash ^= ContentSize.GetHashCode();
+      if (ContentType.Length != 0) hash ^= ContentType.GetHashCode();
+      if (ContentSha256.Length != 0) hash ^= ContentSha256.GetHashCode();
       return hash;
     }
 
@@ -6961,13 +6979,17 @@ namespace InfX {
         output.WriteRawTag(10);
         output.WriteString(FileName);
       }
-      if (FileSize != 0) {
+      if (ContentSize != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(FileSize);
+        output.WriteInt32(ContentSize);
       }
-      if (Sha256.Length != 0) {
+      if (ContentSha256.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(Sha256);
+        output.WriteString(ContentSha256);
+      }
+      if (ContentType.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(ContentType);
       }
     }
 
@@ -6977,11 +6999,14 @@ namespace InfX {
       if (FileName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(FileName);
       }
-      if (FileSize != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(FileSize);
+      if (ContentSize != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ContentSize);
       }
-      if (Sha256.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Sha256);
+      if (ContentType.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ContentType);
+      }
+      if (ContentSha256.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ContentSha256);
       }
       return size;
     }
@@ -6994,11 +7019,14 @@ namespace InfX {
       if (other.FileName.Length != 0) {
         FileName = other.FileName;
       }
-      if (other.FileSize != 0) {
-        FileSize = other.FileSize;
+      if (other.ContentSize != 0) {
+        ContentSize = other.ContentSize;
       }
-      if (other.Sha256.Length != 0) {
-        Sha256 = other.Sha256;
+      if (other.ContentType.Length != 0) {
+        ContentType = other.ContentType;
+      }
+      if (other.ContentSha256.Length != 0) {
+        ContentSha256 = other.ContentSha256;
       }
     }
 
@@ -7015,11 +7043,281 @@ namespace InfX {
             break;
           }
           case 16: {
-            FileSize = input.ReadInt32();
+            ContentSize = input.ReadInt32();
             break;
           }
           case 26: {
-            Sha256 = input.ReadString();
+            ContentSha256 = input.ReadString();
+            break;
+          }
+          case 34: {
+            ContentType = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Request parameters to be used by the client verbatim for uploading
+  /// </summary>
+  public sealed partial class NetResImageUpload : pb::IMessage<NetResImageUpload> {
+    private static readonly pb::MessageParser<NetResImageUpload> _parser = new pb::MessageParser<NetResImageUpload>(() => new NetResImageUpload());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetResImageUpload> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[29]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResImageUpload() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResImageUpload(NetResImageUpload other) : this() {
+      requestMethod_ = other.requestMethod_;
+      requestUrl_ = other.requestUrl_;
+      fileExists_ = other.fileExists_;
+      uploadKey_ = other.uploadKey_;
+      coverUrl_ = other.coverUrl_;
+      thumbnailUrl_ = other.thumbnailUrl_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetResImageUpload Clone() {
+      return new NetResImageUpload(this);
+    }
+
+    /// <summary>Field number for the "requestMethod" field.</summary>
+    public const int RequestMethodFieldNumber = 1;
+    private string requestMethod_ = "";
+    /// <summary>
+    ///  Request options
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RequestMethod {
+      get { return requestMethod_; }
+      set {
+        requestMethod_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "requestUrl" field.</summary>
+    public const int RequestUrlFieldNumber = 2;
+    private string requestUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RequestUrl {
+      get { return requestUrl_; }
+      set {
+        requestUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "fileExists" field.</summary>
+    public const int FileExistsFieldNumber = 9;
+    private bool fileExists_;
+    /// <summary>
+    ///  Result options
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool FileExists {
+      get { return fileExists_; }
+      set {
+        fileExists_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "uploadKey" field.</summary>
+    public const int UploadKeyFieldNumber = 10;
+    private string uploadKey_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string UploadKey {
+      get { return uploadKey_; }
+      set {
+        uploadKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "coverUrl" field.</summary>
+    public const int CoverUrlFieldNumber = 11;
+    private string coverUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CoverUrl {
+      get { return coverUrl_; }
+      set {
+        coverUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "thumbnailUrl" field.</summary>
+    public const int ThumbnailUrlFieldNumber = 12;
+    private string thumbnailUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ThumbnailUrl {
+      get { return thumbnailUrl_; }
+      set {
+        thumbnailUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetResImageUpload);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetResImageUpload other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (RequestMethod != other.RequestMethod) return false;
+      if (RequestUrl != other.RequestUrl) return false;
+      if (FileExists != other.FileExists) return false;
+      if (UploadKey != other.UploadKey) return false;
+      if (CoverUrl != other.CoverUrl) return false;
+      if (ThumbnailUrl != other.ThumbnailUrl) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (RequestMethod.Length != 0) hash ^= RequestMethod.GetHashCode();
+      if (RequestUrl.Length != 0) hash ^= RequestUrl.GetHashCode();
+      if (FileExists != false) hash ^= FileExists.GetHashCode();
+      if (UploadKey.Length != 0) hash ^= UploadKey.GetHashCode();
+      if (CoverUrl.Length != 0) hash ^= CoverUrl.GetHashCode();
+      if (ThumbnailUrl.Length != 0) hash ^= ThumbnailUrl.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (RequestMethod.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(RequestMethod);
+      }
+      if (RequestUrl.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(RequestUrl);
+      }
+      if (FileExists != false) {
+        output.WriteRawTag(72);
+        output.WriteBool(FileExists);
+      }
+      if (UploadKey.Length != 0) {
+        output.WriteRawTag(82);
+        output.WriteString(UploadKey);
+      }
+      if (CoverUrl.Length != 0) {
+        output.WriteRawTag(90);
+        output.WriteString(CoverUrl);
+      }
+      if (ThumbnailUrl.Length != 0) {
+        output.WriteRawTag(98);
+        output.WriteString(ThumbnailUrl);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (RequestMethod.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RequestMethod);
+      }
+      if (RequestUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RequestUrl);
+      }
+      if (FileExists != false) {
+        size += 1 + 1;
+      }
+      if (UploadKey.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(UploadKey);
+      }
+      if (CoverUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CoverUrl);
+      }
+      if (ThumbnailUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ThumbnailUrl);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetResImageUpload other) {
+      if (other == null) {
+        return;
+      }
+      if (other.RequestMethod.Length != 0) {
+        RequestMethod = other.RequestMethod;
+      }
+      if (other.RequestUrl.Length != 0) {
+        RequestUrl = other.RequestUrl;
+      }
+      if (other.FileExists != false) {
+        FileExists = other.FileExists;
+      }
+      if (other.UploadKey.Length != 0) {
+        UploadKey = other.UploadKey;
+      }
+      if (other.CoverUrl.Length != 0) {
+        CoverUrl = other.CoverUrl;
+      }
+      if (other.ThumbnailUrl.Length != 0) {
+        ThumbnailUrl = other.ThumbnailUrl;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            RequestMethod = input.ReadString();
+            break;
+          }
+          case 18: {
+            RequestUrl = input.ReadString();
+            break;
+          }
+          case 72: {
+            FileExists = input.ReadBool();
+            break;
+          }
+          case 82: {
+            UploadKey = input.ReadString();
+            break;
+          }
+          case 90: {
+            CoverUrl = input.ReadString();
+            break;
+          }
+          case 98: {
+            ThumbnailUrl = input.ReadString();
             break;
           }
         }
@@ -7038,7 +7336,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[29]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[30]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7167,7 +7465,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[30]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[31]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

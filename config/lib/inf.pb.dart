@@ -2118,8 +2118,9 @@ class _ReadonlyNetAccountCreateReq extends NetAccountCreateReq
 class NetReqImageUpload extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetReqImageUpload')
     ..aOS(1, 'fileName')
-    ..a<int>(2, 'fileSize', PbFieldType.O3)
-    ..aOS(3, 'sha256')
+    ..a<int>(2, 'contentSize', PbFieldType.O3)
+    ..aOS(3, 'contentSha256')
+    ..aOS(4, 'contentType')
     ..hasRequiredFields = false;
 
   NetReqImageUpload() : super();
@@ -2153,24 +2154,117 @@ class NetReqImageUpload extends GeneratedMessage {
   bool hasFileName() => $_has(0);
   void clearFileName() => clearField(1);
 
-  int get fileSize => $_get(1, 0);
-  set fileSize(int v) {
+  int get contentSize => $_get(1, 0);
+  set contentSize(int v) {
     $_setSignedInt32(1, v);
   }
 
-  bool hasFileSize() => $_has(1);
-  void clearFileSize() => clearField(2);
+  bool hasContentSize() => $_has(1);
+  void clearContentSize() => clearField(2);
 
-  String get sha256 => $_getS(2, '');
-  set sha256(String v) {
+  String get contentSha256 => $_getS(2, '');
+  set contentSha256(String v) {
     $_setString(2, v);
   }
 
-  bool hasSha256() => $_has(2);
-  void clearSha256() => clearField(3);
+  bool hasContentSha256() => $_has(2);
+  void clearContentSha256() => clearField(3);
+
+  String get contentType => $_getS(3, '');
+  set contentType(String v) {
+    $_setString(3, v);
+  }
+
+  bool hasContentType() => $_has(3);
+  void clearContentType() => clearField(4);
 }
 
 class _ReadonlyNetReqImageUpload extends NetReqImageUpload
+    with ReadonlyMessageMixin {}
+
+class NetResImageUpload extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetResImageUpload')
+    ..aOS(1, 'requestMethod')
+    ..aOS(2, 'requestUrl')
+    ..aOB(9, 'fileExists')
+    ..aOS(10, 'uploadKey')
+    ..aOS(11, 'coverUrl')
+    ..aOS(12, 'thumbnailUrl')
+    ..hasRequiredFields = false;
+
+  NetResImageUpload() : super();
+  NetResImageUpload.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetResImageUpload.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetResImageUpload clone() => new NetResImageUpload()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetResImageUpload create() => new NetResImageUpload();
+  static PbList<NetResImageUpload> createRepeated() =>
+      new PbList<NetResImageUpload>();
+  static NetResImageUpload getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetResImageUpload();
+    return _defaultInstance;
+  }
+
+  static NetResImageUpload _defaultInstance;
+  static void $checkItem(NetResImageUpload v) {
+    if (v is! NetResImageUpload) checkItemFailed(v, 'NetResImageUpload');
+  }
+
+  String get requestMethod => $_getS(0, '');
+  set requestMethod(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasRequestMethod() => $_has(0);
+  void clearRequestMethod() => clearField(1);
+
+  String get requestUrl => $_getS(1, '');
+  set requestUrl(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasRequestUrl() => $_has(1);
+  void clearRequestUrl() => clearField(2);
+
+  bool get fileExists => $_get(2, false);
+  set fileExists(bool v) {
+    $_setBool(2, v);
+  }
+
+  bool hasFileExists() => $_has(2);
+  void clearFileExists() => clearField(9);
+
+  String get uploadKey => $_getS(3, '');
+  set uploadKey(String v) {
+    $_setString(3, v);
+  }
+
+  bool hasUploadKey() => $_has(3);
+  void clearUploadKey() => clearField(10);
+
+  String get coverUrl => $_getS(4, '');
+  set coverUrl(String v) {
+    $_setString(4, v);
+  }
+
+  bool hasCoverUrl() => $_has(4);
+  void clearCoverUrl() => clearField(11);
+
+  String get thumbnailUrl => $_getS(5, '');
+  set thumbnailUrl(String v) {
+    $_setString(5, v);
+  }
+
+  bool hasThumbnailUrl() => $_has(5);
+  void clearThumbnailUrl() => clearField(12);
+}
+
+class _ReadonlyNetResImageUpload extends NetResImageUpload
     with ReadonlyMessageMixin {}
 
 class NetReqCreateOffer extends GeneratedMessage {
