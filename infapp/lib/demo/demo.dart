@@ -183,7 +183,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     sampleBusinessOffers[1].title = "Finest Burger Weekend";
     sampleBusinessOffers[1].description =
         "We'd like to expose the finest foods in our very busy restaurant to a wide audience.";
-    sampleBusinessOffers[1].avatarUrl =
+    sampleBusinessOffers[1].thumbnailUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg";
     sampleBusinessOffers[1].reward = "Free dinner + \$150";
     sampleBusinessOffers[1].deliverables =
@@ -205,7 +205,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     sampleBusinessOffers[2].title = "Burger Weekend Fries";
     sampleBusinessOffers[2].description =
         "We need some table fillers to make our restaurant look very busy this weekend.";
-    sampleBusinessOffers[2].avatarUrl =
+    sampleBusinessOffers[2].thumbnailUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg";
     sampleBusinessOffers[2].reward = "Free Poke Fries";
     sampleBusinessOffers[2].deliverables =
@@ -224,7 +224,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     sampleBusinessOffers[3].title = "Fishing Season";
     sampleBusinessOffers[3].description =
         "Looking to catch more customers during the fishing season.";
-    sampleBusinessOffers[3].avatarUrl =
+    sampleBusinessOffers[3].thumbnailUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/rally.jpg";
     sampleBusinessOffers[3].reward = "Free dinner";
     sampleBusinessOffers[3].deliverables =

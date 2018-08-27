@@ -107,8 +107,8 @@ class BusinessOfferList extends StatelessWidget {
                         new ListTile(
                           isThreeLine: true,
                           leading: new CircleAvatar(
-                            backgroundImage: data.avatarUrl.length > 0
-                                ? new NetworkImage(data.avatarUrl)
+                            backgroundImage: data.thumbnailUrl.length > 0
+                                ? new NetworkImage(data.thumbnailUrl)
                                 : null,
                             /* child: new Text('$index'), */
                             backgroundColor: Colors
