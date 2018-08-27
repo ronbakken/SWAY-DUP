@@ -498,7 +498,7 @@ message NetUploadImageReq {
   // File information
   string fileName = 1;
   
-  int32 contentSize = 2;
+  int32 contentLength = 2;
   string contentType = 4;
   
   // Hashed file contents
