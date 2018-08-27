@@ -740,10 +740,19 @@ const NetCreateOfferReq$json = const {
   ],
 };
 
-const NetLoadOffers$json = const {
-  '1': 'NetLoadOffers',
+const NetLoadOffersReq$json = const {
+  '1': 'NetLoadOffersReq',
   '2': const [
     const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
     const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
+    const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
+  ],
+};
+
+const NetLoadOffersRes$json = const {
+  '1': 'NetLoadOffersRes',
+  '2': const [
+    const {'1': 'oldest', '3': 1, '4': 1, '5': 5, '10': 'oldest'},
+    const {'1': 'newest', '3': 2, '4': 1, '5': 5, '10': 'newest'},
   ],
 };
