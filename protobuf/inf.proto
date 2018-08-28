@@ -240,7 +240,10 @@ enum ApplicantChatMarker {
   ACM_WANT_DEAL = 1; // ${User} wants to make a deal.
   ACM_DEAL_MADE = 2; // A deal has been made. Congratulations!
   ACM_REJECTED = 3; // ${User} has rejected the application.
-  
+  ACM_MARKED_COMPLETE = 4; // ${User} has marked the deal as complete.
+  ACM_COMPLETE = 5; // The offer has been completed. Well done!
+  ACM_MARKED_DISPUTE = 6; // (Disputes are silent, although can be seen :))
+  ACM_RESOLVED = 7; // The dispute has been resolved through customer support. Case closed.
   
 }
 
@@ -702,10 +705,10 @@ message NetChatImageKey {
 message NetApplicantCompletionReq {
   int32 applicantId = 1;
   
-  bool delivered = 2;
+  bool delivered = 2;  // Markings can only be changed under DEAL and DISPUTE stage, ignored otherwise
   bool rewarded = 3;
   
-  int32 rating = 4; // Ignored in case of problem report
+  int32 rating = 4; // Ignored in case of problem report. If both users rate, then offer moves to COMPLETE, even if in DISPUTE
   
   bool dispute = 5;
   string disputeDescription = 6; // Problem description for support. Sent by mail (sql transaction... :))
