@@ -613,32 +613,32 @@ const DataApplicant$json = const {
       '10': 'influencerWantsDeal'
     },
     const {
-      '1': 'influencerSaysDelivered',
+      '1': 'influencerMarkedDelivered',
       '3': 7,
       '4': 1,
       '5': 8,
-      '10': 'influencerSaysDelivered'
+      '10': 'influencerMarkedDelivered'
     },
     const {
-      '1': 'influencerSaysRewarded',
+      '1': 'influencerMarkedRewarded',
       '3': 8,
       '4': 1,
       '5': 8,
-      '10': 'influencerSaysRewarded'
+      '10': 'influencerMarkedRewarded'
     },
     const {
-      '1': 'businessSaysDelivered',
+      '1': 'businessMarkedDelivered',
       '3': 9,
       '4': 1,
       '5': 8,
-      '10': 'businessSaysDelivered'
+      '10': 'businessMarkedDelivered'
     },
     const {
-      '1': 'businessSaysRewarded',
+      '1': 'businessMarkedRewarded',
       '3': 10,
       '4': 1,
       '5': 8,
-      '10': 'businessSaysRewarded'
+      '10': 'businessMarkedRewarded'
     },
     const {
       '1': 'businessGaveRating',
