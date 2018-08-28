@@ -424,7 +424,7 @@ message DataApplicantChat {
   int32 senderId = 2; // Account which sent
   int32 applicantId = 1; // One chat per applicant
   
-  int32 deviceId;
+  int32 deviceId = 11;
   int32 deviceGhostId = 6; // Deduplication client-side (ghost entry)
   
   ApplicantChatType type = 8;
@@ -805,7 +805,7 @@ message NetLoadApplicantChatsRes {
 // Id: L_PROFIL
 // Response: DataAccount (Id: L_R_PROF)
 message NetLoadPublicProfileReq {
-  int32 accountId;
+  int32 accountId = 1;
   
 }
 
