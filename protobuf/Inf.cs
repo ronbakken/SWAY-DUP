@@ -4770,7 +4770,7 @@ namespace InfX {
     public const int LatitudeFieldNumber = 4;
     private double latitude_;
     /// <summary>
-    ///  necessary?
+    ///  bool emailVerified = 10;
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public double Latitude {
