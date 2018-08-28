@@ -88,6 +88,15 @@ const BusinessOfferStateReason$json = const {
   ],
 };
 
+const ApplicantChatType$json = const {
+  '1': 'ApplicantChatType',
+  '2': const [
+    const {'1': 'ACT_PLAIN', '2': 0},
+    const {'1': 'ACT_HAGGLE', '2': 1},
+    const {'1': 'ACT_IMAGE_KEY', '2': 2},
+  ],
+};
+
 const ConfigSubCategories$json = const {
   '1': 'ConfigSubCategories',
   '2': const [
@@ -433,26 +442,6 @@ const DataLocation$json = const {
   ],
 };
 
-const DataApplicant$json = const {
-  '1': 'DataApplicant',
-  '2': const [
-    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
-    const {'1': 'offerId', '3': 2, '4': 1, '5': 5, '10': 'offerId'},
-    const {'1': 'accountId', '3': 3, '4': 1, '5': 5, '10': 'accountId'},
-  ],
-};
-
-const DataChat$json = const {
-  '1': 'DataChat',
-  '2': const [
-    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
-    const {'1': 'sequenceId', '3': 2, '4': 1, '5': 5, '10': 'sequenceId'},
-    const {'1': 'keyId', '3': 3, '4': 1, '5': 5, '10': 'keyId'},
-    const {'1': 'outgoing', '3': 4, '4': 1, '5': 8, '10': 'outgoing'},
-    const {'1': 'text', '3': 5, '4': 1, '5': 9, '10': 'text'},
-  ],
-};
-
 const DataAccountState$json = const {
   '1': 'DataAccountState',
   '2': const [
@@ -569,6 +558,93 @@ const DataAccount$json = const {
       '6': '.inf.DataAccountDetail',
       '10': 'detail'
     },
+  ],
+};
+
+const DataApplicant$json = const {
+  '1': 'DataApplicant',
+  '2': const [
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'offerId', '3': 2, '4': 1, '5': 5, '10': 'offerId'},
+    const {'1': 'accountId', '3': 3, '4': 1, '5': 5, '10': 'accountId'},
+    const {'1': 'haggleChatId', '3': 4, '4': 1, '5': 3, '10': 'haggleChatId'},
+    const {
+      '1': 'businessWantsDeal',
+      '3': 5,
+      '4': 1,
+      '5': 8,
+      '10': 'businessWantsDeal'
+    },
+    const {
+      '1': 'influencerWantsDeal',
+      '3': 6,
+      '4': 1,
+      '5': 8,
+      '10': 'influencerWantsDeal'
+    },
+    const {
+      '1': 'influencerSaysDelivered',
+      '3': 7,
+      '4': 1,
+      '5': 8,
+      '10': 'influencerSaysDelivered'
+    },
+    const {
+      '1': 'influencerSaysRewarded',
+      '3': 8,
+      '4': 1,
+      '5': 8,
+      '10': 'influencerSaysRewarded'
+    },
+    const {
+      '1': 'businessSaysDelivered',
+      '3': 9,
+      '4': 1,
+      '5': 8,
+      '10': 'businessSaysDelivered'
+    },
+    const {
+      '1': 'businessSaysRewarded',
+      '3': 10,
+      '4': 1,
+      '5': 8,
+      '10': 'businessSaysRewarded'
+    },
+    const {
+      '1': 'businessGaveRating',
+      '3': 11,
+      '4': 1,
+      '5': 5,
+      '10': 'businessGaveRating'
+    },
+    const {
+      '1': 'influencerGaveRating',
+      '3': 12,
+      '4': 1,
+      '5': 5,
+      '10': 'influencerGaveRating'
+    },
+  ],
+};
+
+const DataApplicantChat$json = const {
+  '1': 'DataApplicantChat',
+  '2': const [
+    const {'1': 'chatId', '3': 7, '4': 1, '5': 3, '10': 'chatId'},
+    const {'1': 'sent', '3': 10, '4': 1, '5': 3, '10': 'sent'},
+    const {'1': 'senderId', '3': 2, '4': 1, '5': 5, '10': 'senderId'},
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'clientGhostId', '3': 6, '4': 1, '5': 5, '10': 'clientGhostId'},
+    const {
+      '1': 'type',
+      '3': 8,
+      '4': 1,
+      '5': 14,
+      '6': '.inf.ApplicantChatType',
+      '10': 'type'
+    },
+    const {'1': 'text', '3': 5, '4': 1, '5': 9, '10': 'text'},
+    const {'1': 'seen', '3': 9, '4': 1, '5': 8, '10': 'seen'},
   ],
 };
 
