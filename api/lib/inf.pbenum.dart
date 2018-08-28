@@ -243,11 +243,14 @@ class ApplicantChatType extends ProtobufEnum {
       const ApplicantChatType._(1, 'ACT_HAGGLE');
   static const ApplicantChatType ACT_IMAGE_KEY =
       const ApplicantChatType._(2, 'ACT_IMAGE_KEY');
+  static const ApplicantChatType ACT_MARKER =
+      const ApplicantChatType._(3, 'ACT_MARKER');
 
   static const List<ApplicantChatType> values = const <ApplicantChatType>[
     ACT_PLAIN,
     ACT_HAGGLE,
     ACT_IMAGE_KEY,
+    ACT_MARKER,
   ];
 
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
