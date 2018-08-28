@@ -213,6 +213,11 @@ Future<ConfigServices> generateConfigServices(bool server) async {
         res.mariadbPassword = cfg.get(section, 'mariadbPassword');
       if (cfg.hasOption(section, 'mariadbDatabase'))
         res.mariadbDatabase = cfg.get(section, 'mariadbDatabase');
+
+      if (cfg.hasOption(section, 'freshdeskApi'))
+        res.freshdeskApi = cfg.get(section, 'freshdeskApi');
+      if (cfg.hasOption(section, 'freshdeskKey'))
+        res.freshdeskKey = cfg.get(section, 'freshdeskKey');
     }
   }
 

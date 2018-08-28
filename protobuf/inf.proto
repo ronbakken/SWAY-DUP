@@ -117,6 +117,10 @@ message ConfigServices {
   string mariadbPassword = 17;
   string mariadbDatabase = 18;
   
+  // Freshdesk (Support)
+  string freshdeskApi = 22;
+  string freshdeskKey = 23;
+  
 }
 
 message ConfigData {
@@ -218,8 +222,9 @@ enum BusinessOfferStateReason {
 
 enum ApplicantChatType {
   ACT_PLAIN = 0;
-  ACT_HAGGLE = 1; // url-encoded haggle message
+  ACT_HAGGLE = 1; // url-encoded haggle message (deliverable=...&reward=...&remarks=...)
   ACT_IMAGE_KEY = 2;
+  ACT_MARKER = 3; // system marker (id=...)
   
 }
 
