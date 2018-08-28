@@ -132,19 +132,21 @@ class _DashboardBusinessState extends State<DashboardBusiness>
                                 ))))
                   ]))),
           new FlatButton(
-              padding: new EdgeInsets.all(
-                  0.0), // ew EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-              child: new Row(children: [
-                new Container(
-                  margin: new EdgeInsets.all(16.0),
-                  child: new Icon(Icons.account_circle),
-                ),
-                new Text('Profile')
-              ]),
-              onPressed: (widget.onNavigateProfile != null) ? () {
-                Navigator.pop(context);
-                widget.onNavigateProfile();
-              } : null,
+            padding: new EdgeInsets.all(
+                0.0), // ew EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+            child: new Row(children: [
+              new Container(
+                margin: new EdgeInsets.all(16.0),
+                child: new Icon(Icons.account_circle),
+              ),
+              new Text('Profile')
+            ]),
+            onPressed: (widget.onNavigateProfile != null)
+                ? () {
+                    Navigator.pop(context);
+                    widget.onNavigateProfile();
+                  }
+                : null,
           ),
         ]),
       ),

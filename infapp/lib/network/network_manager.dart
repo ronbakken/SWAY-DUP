@@ -412,8 +412,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       if (_ts != null) {
         try {
           await _ts.ping();
-        } catch (error, stack) { 
-          print("[INF] [PING] $error\n$stack"); 
+        } catch (error, stack) {
+          print("[INF] [PING] $error\n$stack");
         }
       }
     });
@@ -542,7 +542,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       throw new NetworkException("No account has been created");
     }
   }
-  
+
   static int _netUploadImageReq = TalkSocket.encode("UP_IMAGE");
   @override
   Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
@@ -550,7 +550,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     BytesBuilder builder = new BytesBuilder(copy: false);
     await fileImage.file.openRead(0, 256).forEach(builder.add);
     Digest contentSha256 = await sha256.bind(fileImage.file.openRead()).first;
-    String contentType = new MimeTypeResolver().lookup(fileImage.file.path, headerBytes: builder.toBytes());
+    String contentType = new MimeTypeResolver()
+        .lookup(fileImage.file.path, headerBytes: builder.toBytes());
     int contentLength = await fileImage.file.length();
 
     NetUploadImageReq req = new NetUploadImageReq();
@@ -559,7 +560,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     req.contentType = contentType;
     req.contentSha256 = contentSha256.bytes;
 
-    TalkMessage resMessage = await _ts.sendRequest(_netUploadImageReq, req.writeToBuffer());
+    TalkMessage resMessage =
+        await _ts.sendRequest(_netUploadImageReq, req.writeToBuffer());
     NetUploadImageRes res = new NetUploadImageRes();
     res.mergeFromBuffer(resMessage.data);
 
@@ -569,7 +571,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
 
     HttpClient httpClient = new HttpClient();
-    HttpClientRequest httpRequest = await httpClient.openUrl(res.requestMethod, Uri.parse(res.requestUrl));
+    HttpClientRequest httpRequest =
+        await httpClient.openUrl(res.requestMethod, Uri.parse(res.requestUrl));
     httpRequest.headers.add("Content-Type", contentType);
     httpRequest.headers.add("Content-Length", contentLength);
     httpRequest.headers.add('x-amz-acl', 'public-read');
@@ -579,17 +582,20 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     BytesBuilder responseBuilder = new BytesBuilder(copy: false);
     await httpResponse.forEach(builder.add);
     if (httpResponse.statusCode != 200) {
-      throw new NetworkException("Status code ${httpResponse.statusCode}, response: ${utf8.decode(responseBuilder.toBytes())}");
+      throw new NetworkException(
+          "Status code ${httpResponse.statusCode}, response: ${utf8.decode(responseBuilder.toBytes())}");
     }
 
     // Upload successful
     return res;
   }
-  
+
   static int _netCreateOfferReq = TalkSocket.encode("C_OFFERR");
   @override
-  Future<DataBusinessOffer> createOffer(NetCreateOfferReq createOfferReq) async {
-    TalkMessage res = await _ts.sendRequest(_netCreateOfferReq, createOfferReq.writeToBuffer());
+  Future<DataBusinessOffer> createOffer(
+      NetCreateOfferReq createOfferReq) async {
+    TalkMessage res = await _ts.sendRequest(
+        _netCreateOfferReq, createOfferReq.writeToBuffer());
     DataBusinessOffer resPb = new DataBusinessOffer();
     resPb.mergeFromBuffer(res.data);
     setState(() {
@@ -617,8 +623,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
   @override
   Future<void> refreshOffers() async {
-    NetLoadOffersReq loadOffersReq = new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    await _ts.sendRequest(_netLoadOffersReq, loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
+    NetLoadOffersReq loadOffersReq =
+        new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
+    await _ts.sendRequest(_netLoadOffersReq,
+        loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
   }
 
   bool _offersLoaded;
@@ -633,7 +641,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         refreshOffers().catchError((error, stack) {
           print("[INF] Failed to get offers: $error, $stack");
           new Timer(new Duration(seconds: 3), () {
-            _offersLoaded = false; // Not using setState since we don't want to broadcast failure state
+            _offersLoaded =
+                false; // Not using setState since we don't want to broadcast failure state
           });
         }).whenComplete(() {
           offersLoading = false;

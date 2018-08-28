@@ -18,12 +18,9 @@ import '../utility/progress_dialog.dart';
 
 // Image uploader
 class ImageUploader extends StatefulWidget {
-  const ImageUploader({
-    Key key,
-    this.initialUrl,
-    @required this.uploadKey,
-    this.onUploadImage
-  }) : super(key: key);
+  const ImageUploader(
+      {Key key, this.initialUrl, @required this.uploadKey, this.onUploadImage})
+      : super(key: key);
 
   // The key of the uploaded image, this value may be sent to the server
   final String initialUrl;
@@ -47,7 +44,8 @@ class _ImageUploaderState extends State<ImageUploader> {
         _imageUrl = res.coverUrl;
       });
     } else {
-      Scaffold.of(context).showSnackBar(new SnackBar(content: new Text("Upload not implemented here")));
+      Scaffold.of(context).showSnackBar(
+          new SnackBar(content: new Text("Upload not implemented here")));
     }
   }
 
@@ -57,10 +55,9 @@ class _ImageUploaderState extends State<ImageUploader> {
     if (_image != null) {
       if (_imageUrl != null) {
         image = new FadeInImage(
-          fit: BoxFit.cover,
-          placeholder: _image,
-          image: new NetworkImage(_imageUrl)
-        );
+            fit: BoxFit.cover,
+            placeholder: _image,
+            image: new NetworkImage(_imageUrl));
       } else {
         image = new Image(
           fit: BoxFit.cover,
@@ -68,16 +65,15 @@ class _ImageUploaderState extends State<ImageUploader> {
         );
       }
     } else if (widget.initialUrl != null) {
-      image =  new FadeInImage.assetNetwork(
-        fit: BoxFit.cover,
-        placeholder: 'assets/placeholder_photo_select.png',
-        image: widget.initialUrl
-      );
+      image = new FadeInImage.assetNetwork(
+          fit: BoxFit.cover,
+          placeholder: 'assets/placeholder_photo_select.png',
+          image: widget.initialUrl);
     } else {
       image = new Image(
-          fit: BoxFit.cover,
-          image: new AssetImage('assets/placeholder_photo_select.png'),
-        );
+        fit: BoxFit.cover,
+        image: new AssetImage('assets/placeholder_photo_select.png'),
+      );
     }
     return new Column(
       children: <Widget>[
@@ -123,22 +119,20 @@ class _ImageUploaderState extends State<ImageUploader> {
               });
               bool success = false;
               var progressDialog = showProgressDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return new Dialog(
-                  child: new Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      new Container(
-                          padding:
-                              new EdgeInsets.all(24.0),
-                          child:
-                              new CircularProgressIndicator()),
-                      new Text("Uploading image..."),
-                    ],
-                  ),
-                );
-              });
+                  context: context,
+                  builder: (BuildContext context) {
+                    return new Dialog(
+                      child: new Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          new Container(
+                              padding: new EdgeInsets.all(24.0),
+                              child: new CircularProgressIndicator()),
+                          new Text("Uploading image..."),
+                        ],
+                      ),
+                    );
+                  });
               try {
                 await uploadImage();
                 success = true;

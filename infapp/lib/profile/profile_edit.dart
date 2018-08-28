@@ -63,7 +63,7 @@ class _ProfileEditState extends State<ProfileEdit> {
       setProfile.description = _descriptionController.text;
       widget.onSubmitPressed(setProfile);
     }
-    
+
     // _location need lat long from map selection
   }
 
@@ -81,9 +81,9 @@ class _ProfileEditState extends State<ProfileEdit> {
             uploadKey: _avatarController,
             onUploadImage: widget.onUploadImage,
           ),
-        new SizedBox(
-          height: 8.0,
-        ),
+          new SizedBox(
+            height: 8.0,
+          ),
           new TextField(
             controller: _nameController,
             decoration: new InputDecoration(labelText: 'Name'),
@@ -110,7 +110,8 @@ class _ProfileEditState extends State<ProfileEdit> {
                     new Text("Save your profile".toUpperCase()),
                   ],
                 ),
-                onPressed: (widget.onSubmitPressed != null) ? _submitPressed : null,
+                onPressed:
+                    (widget.onSubmitPressed != null) ? _submitPressed : null,
               )
             ],
           ),

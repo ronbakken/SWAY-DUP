@@ -18,10 +18,9 @@ class BusinessOfferList extends StatelessWidget {
   final Future<void> Function() onRefreshOffers;
   final Function(DataBusinessOffer offer) onOfferPressed;
 
-  const BusinessOfferList({Key key,
-    this.businessOffers, 
-    this.onRefreshOffers, 
-    this.onOfferPressed}) : super(key: key);
+  const BusinessOfferList(
+      {Key key, this.businessOffers, this.onRefreshOffers, this.onOfferPressed})
+      : super(key: key);
 
   Widget buildTags(BuildContext context, DataBusinessOffer data) {
     List<Widget> tags = new List<Widget>();
@@ -131,7 +130,11 @@ class BusinessOfferList extends StatelessWidget {
                             child: new Text(data.title),
                           ),
                           subtitle: buildTags(context, data),
-                          onTap: onOfferPressed != null ? () { onOfferPressed(data); } : null,
+                          onTap: onOfferPressed != null
+                              ? () {
+                                  onOfferPressed(data);
+                                }
+                              : null,
                         ),
                         new Divider(),
                       ]);

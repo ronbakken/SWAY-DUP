@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
 import 'utility/ensure_visible_when_focused.dart';
 import 'network/inf.pb.dart';
 
@@ -38,7 +37,8 @@ class OfferCreate extends StatefulWidget {
     this.onUploadImage,
   }) : super(key: key);
 
-  final Future<DataBusinessOffer> Function(NetCreateOfferReq createOffer) onCreateOffer;
+  final Future<DataBusinessOffer> Function(NetCreateOfferReq createOffer)
+      onCreateOffer;
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
 
   @override
@@ -103,94 +103,99 @@ class _OfferCreateState extends State<OfferCreate> {
       appBar: new AppBar(
         title: new Text("Make an offer"),
       ),
-      body: new ListView(
-        padding: new EdgeInsets.all(16.0),
-        children: [
-          new ImageUploader(
-            uploadKey: _imageKeyController,
-            onUploadImage: widget.onUploadImage,
-          ),
-          new SizedBox(
-            height: 8.0,
-          ),
-          new Form(
-            key: _formKey,
-            child: new Column(
-              children: [
-                new EnsureVisibleWhenFocused(
-                  focusNode: _titleNode,
-                  child: new TextFormField(
-                    focusNode: _titleNode,
-                    controller: _titleController,
-                    maxLines: 1,
-                    decoration: new InputDecoration(labelText: 'Title'),
-                    validator: (val) =>
-                        val.trim().isEmpty ? 'Missing title' : null,
-                    onSaved: (val) => setState(() { _title = val; }),
-                  ),
-                ),
-                new EnsureVisibleWhenFocused(
-                  focusNode: _descriptionNode,
-                  child: new TextFormField(
-                    focusNode: _descriptionNode,
-                    controller: _descriptionController,
-                    maxLines: 4,
-                    decoration: new InputDecoration(labelText: 'Description'),
-                    validator: (val) => val.trim().length < 20
-                        ? 'Description must be longer'
-                        : null,
-                    onSaved: (val) => setState(() { _description = val; }),
-                  ),
-                ),
-                new EnsureVisibleWhenFocused(
-                  focusNode: _deliverablesNode,
-                  child: new TextFormField(
-                    focusNode: _deliverablesNode,
-                    controller: _deliverablesController,
-                    maxLines: 2,
-                    decoration: new InputDecoration(labelText: 'Deliverables'),
-                    validator: (val) => val.trim().length < 4
-                        ? 'Deliverables must be filled in'
-                        : null,
-                    onSaved: (val) => setState(() { _deliverables = val; }),
-                  ),
-                ),
-                new EnsureVisibleWhenFocused(
-                  focusNode: _rewardNode,
-                  child: new TextFormField(
-                    focusNode: _rewardNode,
-                    controller: _rewardController,
-                    maxLines: 2,
-                    decoration: new InputDecoration(labelText: 'Reward'),
-                    validator: (val) => val.trim().length < 4
-                        ? 'Reward must be filled in'
-                        : null,
-                    onSaved: (val) => setState(() { _reward = val; }),
-                  ),
-                ),
-              ]
+      body: new ListView(padding: new EdgeInsets.all(16.0), children: [
+        new ImageUploader(
+          uploadKey: _imageKeyController,
+          onUploadImage: widget.onUploadImage,
+        ),
+        new SizedBox(
+          height: 8.0,
+        ),
+        new Form(
+          key: _formKey,
+          child: new Column(children: [
+            new EnsureVisibleWhenFocused(
+              focusNode: _titleNode,
+              child: new TextFormField(
+                focusNode: _titleNode,
+                controller: _titleController,
+                maxLines: 1,
+                decoration: new InputDecoration(labelText: 'Title'),
+                validator: (val) => val.trim().isEmpty ? 'Missing title' : null,
+                onSaved: (val) => setState(() {
+                      _title = val;
+                    }),
+              ),
             ),
-          ),
-          new SizedBox(
-            height: 16.0,
-          ),
-          new Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              new RaisedButton(
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    new Text("Make offer".toUpperCase()),
-                  ],
-                ),
-                onPressed: (/*_validFormData() &&*/ widget.onCreateOffer != null && !_waiting) ? _submitPressed : null,
-              )
-            ],
-          )
-        ]
-      ),
+            new EnsureVisibleWhenFocused(
+              focusNode: _descriptionNode,
+              child: new TextFormField(
+                focusNode: _descriptionNode,
+                controller: _descriptionController,
+                maxLines: 4,
+                decoration: new InputDecoration(labelText: 'Description'),
+                validator: (val) => val.trim().length < 20
+                    ? 'Description must be longer'
+                    : null,
+                onSaved: (val) => setState(() {
+                      _description = val;
+                    }),
+              ),
+            ),
+            new EnsureVisibleWhenFocused(
+              focusNode: _deliverablesNode,
+              child: new TextFormField(
+                focusNode: _deliverablesNode,
+                controller: _deliverablesController,
+                maxLines: 2,
+                decoration: new InputDecoration(labelText: 'Deliverables'),
+                validator: (val) => val.trim().length < 4
+                    ? 'Deliverables must be filled in'
+                    : null,
+                onSaved: (val) => setState(() {
+                      _deliverables = val;
+                    }),
+              ),
+            ),
+            new EnsureVisibleWhenFocused(
+              focusNode: _rewardNode,
+              child: new TextFormField(
+                focusNode: _rewardNode,
+                controller: _rewardController,
+                maxLines: 2,
+                decoration: new InputDecoration(labelText: 'Reward'),
+                validator: (val) =>
+                    val.trim().length < 4 ? 'Reward must be filled in' : null,
+                onSaved: (val) => setState(() {
+                      _reward = val;
+                    }),
+              ),
+            ),
+          ]),
+        ),
+        new SizedBox(
+          height: 16.0,
+        ),
+        new Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            new RaisedButton(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  new Text("Make offer".toUpperCase()),
+                ],
+              ),
+              onPressed:
+                  (/*_validFormData() &&*/ widget.onCreateOffer != null &&
+                          !_waiting)
+                      ? _submitPressed
+                      : null,
+            )
+          ],
+        )
+      ]),
     );
   }
 }
