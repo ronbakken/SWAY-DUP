@@ -25,6 +25,7 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:wstalk/wstalk.dart';
 import 'package:dospace/dospace.dart' as dospace;
 
+import 'broadcast_center.dart';
 import 'inf.pb.dart';
 import 'remote_app.dart';
 
@@ -114,6 +115,8 @@ run() async {
   );
   final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
 
+  final BroadcastCenter bc = new BroadcastCenter(config, sql, bucket);
+
   // Listen to websocket
   final HttpServer server =
       await HttpServer.bind(InternetAddress.anyIPv6, 8090);
@@ -132,7 +135,7 @@ run() async {
             if (remoteApp == null) {
               String ipAddress = request.connectionInfo.remoteAddress.address;
               String xRealIP = request.headers.value('x-real-ip');
-              remoteApp = new RemoteApp(config, sql, bucket, ts,
+              remoteApp = new RemoteApp(config, sql, bucket, ts, bc, 
                   ipAddress: xRealIP != null ? xRealIP : ipAddress);
             }
           });
@@ -158,7 +161,9 @@ run() async {
         } catch (ex) {
           print("Exception from incoming connection:");
           print(ex);
-          ts.close();
+          if (ts != null) {
+            ts.close();
+          }
         }
       } else {
         try {

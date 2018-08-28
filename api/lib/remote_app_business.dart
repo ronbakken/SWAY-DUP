@@ -14,6 +14,7 @@ import 'package:wstalk/wstalk.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
+import 'broadcast_center.dart';
 import 'inf.pb.dart';
 import 'remote_app.dart';
 
@@ -35,6 +36,10 @@ class RemoteAppBusiness {
     return _r.ts;
   }
 
+  BroadcastCenter get bc {
+    return _r.bc;
+  }
+
   DataAccount get account {
     return _r.account;
   }
@@ -51,8 +56,8 @@ class RemoteAppBusiness {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
-  static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
+  static final Logger opsLog = new Logger('InfOps.RemoteAppBusiness');
+  static final Logger devLog = new Logger('InfDev.RemoteAppBusiness');
 
   // Cached list of offers
   Map<int, DataBusinessOffer> offers = new Map<int, DataBusinessOffer>();

@@ -24,6 +24,7 @@ import 'package:mime/mime.dart';
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'inf.pb.dart';
+import 'broadcast_center.dart';
 import 'remote_app_oauth.dart';
 import 'remote_app_upload.dart';
 import 'remote_app_business.dart';
@@ -37,6 +38,7 @@ class RemoteApp {
   final sqljocky.ConnectionPool sql;
   final dospace.Bucket bucket;
   final TalkSocket ts;
+  final BroadcastCenter bc;
 
   final String ipAddress;
 
@@ -75,7 +77,7 @@ class RemoteApp {
   dynamic _remoteAppInfluencer;
   dynamic _remoteAppCommon;
 
-  RemoteApp(this.config, this.sql, this.bucket, this.ts,
+  RemoteApp(this.config, this.sql, this.bucket, this.ts, this.bc,
       {@required this.ipAddress}) {
     devLog.fine("New connection");
 
