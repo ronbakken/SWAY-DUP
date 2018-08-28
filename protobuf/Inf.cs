@@ -165,10 +165,12 @@ namespace InfX {
             "aGF0VHlwZRINCglBQ1RfUExBSU4QABIOCgpBQ1RfSEFHR0xFEAESEQoNQUNU",
             "X0lNQUdFX0tFWRACKnEKDkFwcGxpY2FudFN0YXRlEg8KC0FTX0hBR0dMSU5H",
             "EAASCwoHQVNfREVBTBABEg8KC0FTX1JFSkVDVEVEEAISDwoLQVNfQ09NUExF",
-            "VEUQAxIOCgpBU19ESVNQVVRFEAQSDwoLQVNfUkVTT0xWRUQQBSpeChNBcHBs",
-            "aWNhbnRDaGF0TWFya2VyEg8KC0FDTV9BUFBMSUVEEAASEQoNQUNNX1dBTlRf",
-            "REVBTBABEhEKDUFDTV9ERUFMX01BREUQAhIQCgxBQ01fUkVKRUNURUQQA0IH",
-            "qgIESW5mWGIGcHJvdG8z"));
+            "VEUQAxIOCgpBU19ESVNQVVRFEAQSDwoLQVNfUkVTT0xWRUQQBSqzAQoTQXBw",
+            "bGljYW50Q2hhdE1hcmtlchIPCgtBQ01fQVBQTElFRBAAEhEKDUFDTV9XQU5U",
+            "X0RFQUwQARIRCg1BQ01fREVBTF9NQURFEAISEAoMQUNNX1JFSkVDVEVEEAMS",
+            "FwoTQUNNX01BUktFRF9DT01QTEVURRAEEhAKDEFDTV9DT01QTEVURRAFEhYK",
+            "EkFDTV9NQVJLRURfRElTUFVURRAGEhAKDEFDTV9SRVNPTFZFRBAHQgeqAgRJ",
+            "bmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), typeof(global::InfX.ApplicantChatType), typeof(global::InfX.ApplicantState), typeof(global::InfX.ApplicantChatMarker), }, new pbr::GeneratedClrTypeInfo[] {
@@ -380,6 +382,22 @@ namespace InfX {
     ///  ${User} has rejected the application.
     /// </summary>
     [pbr::OriginalName("ACM_REJECTED")] AcmRejected = 3,
+    /// <summary>
+    ///  ${User} has marked the deal as complete.
+    /// </summary>
+    [pbr::OriginalName("ACM_MARKED_COMPLETE")] AcmMarkedComplete = 4,
+    /// <summary>
+    ///  The offer has been completed. Well done!
+    /// </summary>
+    [pbr::OriginalName("ACM_COMPLETE")] AcmComplete = 5,
+    /// <summary>
+    ///  (Disputes are silent, although can be seen :))
+    /// </summary>
+    [pbr::OriginalName("ACM_MARKED_DISPUTE")] AcmMarkedDispute = 6,
+    /// <summary>
+    ///  The dispute has been resolved through customer support. Case closed.
+    /// </summary>
+    [pbr::OriginalName("ACM_RESOLVED")] AcmResolved = 7,
   }
 
   #endregion
@@ -9523,6 +9541,9 @@ namespace InfX {
     /// <summary>Field number for the "delivered" field.</summary>
     public const int DeliveredFieldNumber = 2;
     private bool delivered_;
+    /// <summary>
+    ///  Markings can only be changed under DEAL and DISPUTE stage, ignored otherwise
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Delivered {
       get { return delivered_; }
@@ -9546,7 +9567,7 @@ namespace InfX {
     public const int RatingFieldNumber = 4;
     private int rating_;
     /// <summary>
-    ///  Ignored in case of problem report
+    ///  Ignored in case of problem report. If both users rate, then offer moves to COMPLETE, even if in DISPUTE
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int Rating {
