@@ -97,6 +97,28 @@ const ApplicantChatType$json = const {
   ],
 };
 
+const ApplicantState$json = const {
+  '1': 'ApplicantState',
+  '2': const [
+    const {'1': 'AS_HAGGLING', '2': 0},
+    const {'1': 'AS_DEAL', '2': 1},
+    const {'1': 'AS_REJECTED', '2': 2},
+    const {'1': 'AS_COMPLETE', '2': 3},
+    const {'1': 'AS_DISPUTE', '2': 4},
+    const {'1': 'AS_RESOLVED', '2': 5},
+  ],
+};
+
+const ApplicantChatMarker$json = const {
+  '1': 'ApplicantChatMarker',
+  '2': const [
+    const {'1': 'ACM_APPLIED', '2': 0},
+    const {'1': 'ACM_WANT_DEAL', '2': 1},
+    const {'1': 'ACM_DEAL_MADE', '2': 2},
+    const {'1': 'ACM_REJECTED', '2': 3},
+  ],
+};
+
 const ConfigSubCategories$json = const {
   '1': 'ConfigSubCategories',
   '2': const [
@@ -624,6 +646,28 @@ const DataApplicant$json = const {
       '5': 5,
       '10': 'influencerGaveRating'
     },
+    const {
+      '1': 'businessDisputed',
+      '3': 14,
+      '4': 1,
+      '5': 8,
+      '10': 'businessDisputed'
+    },
+    const {
+      '1': 'influencerDisputed',
+      '3': 15,
+      '4': 1,
+      '5': 8,
+      '10': 'influencerDisputed'
+    },
+    const {
+      '1': 'state',
+      '3': 13,
+      '4': 1,
+      '5': 14,
+      '6': '.inf.ApplicantState',
+      '10': 'state'
+    },
   ],
 };
 
@@ -644,7 +688,7 @@ const DataApplicantChat$json = const {
       '10': 'type'
     },
     const {'1': 'text', '3': 5, '4': 1, '5': 9, '10': 'text'},
-    const {'1': 'seen', '3': 9, '4': 1, '5': 8, '10': 'seen'},
+    const {'1': 'seen', '3': 9, '4': 1, '5': 3, '10': 'seen'},
   ],
 };
 
@@ -832,5 +876,57 @@ const NetLoadOffersRes$json = const {
   '2': const [
     const {'1': 'oldest', '3': 1, '4': 1, '5': 5, '10': 'oldest'},
     const {'1': 'newest', '3': 2, '4': 1, '5': 5, '10': 'newest'},
+  ],
+};
+
+const NetOfferApplyReq$json = const {
+  '1': 'NetOfferApplyReq',
+  '2': const [
+    const {'1': 'offerId', '3': 1, '4': 1, '5': 5, '10': 'offerId'},
+    const {'1': 'remarks', '3': 2, '4': 1, '5': 9, '10': 'remarks'},
+  ],
+};
+
+const NetChatPlain$json = const {
+  '1': 'NetChatPlain',
+  '2': const [
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'text', '3': 6, '4': 1, '5': 9, '10': 'text'},
+  ],
+};
+
+const NetChatHaggle$json = const {
+  '1': 'NetChatHaggle',
+  '2': const [
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'deliverables', '3': 3, '4': 1, '5': 9, '10': 'deliverables'},
+    const {'1': 'reward', '3': 4, '4': 1, '5': 9, '10': 'reward'},
+    const {'1': 'remarks', '3': 2, '4': 1, '5': 9, '10': 'remarks'},
+  ],
+};
+
+const NetChatImageKey$json = const {
+  '1': 'NetChatImageKey',
+  '2': const [
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'imageKey', '3': 5, '4': 1, '5': 9, '10': 'imageKey'},
+  ],
+};
+
+const NetApplicantCompletionReq$json = const {
+  '1': 'NetApplicantCompletionReq',
+  '2': const [
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'delivered', '3': 2, '4': 1, '5': 8, '10': 'delivered'},
+    const {'1': 'rewarded', '3': 3, '4': 1, '5': 8, '10': 'rewarded'},
+    const {'1': 'rating', '3': 4, '4': 1, '5': 5, '10': 'rating'},
+    const {'1': 'dispute', '3': 5, '4': 1, '5': 8, '10': 'dispute'},
+    const {
+      '1': 'disputeDescription',
+      '3': 6,
+      '4': 1,
+      '5': 9,
+      '10': 'disputeDescription'
+    },
   ],
 };

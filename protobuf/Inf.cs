@@ -90,7 +90,7 @@ namespace InfX {
             "b25naXR1ZGUYBSABKAESEgoKbG9jYXRpb25JZBgIIAEoBSKFAQoLRGF0YUFj",
             "Y291bnQSJAoFc3RhdGUYASABKAsyFS5pbmYuRGF0YUFjY291bnRTdGF0ZRIo",
             "CgdzdW1tYXJ5GAIgASgLMhcuaW5mLkRhdGFBY2NvdW50U3VtbWFyeRImCgZk",
-            "ZXRhaWwYAyABKAsyFi5pbmYuRGF0YUFjY291bnREZXRhaWwizgIKDURhdGFB",
+            "ZXRhaWwYAyABKAsyFi5pbmYuRGF0YUFjY291bnREZXRhaWwiqAMKDURhdGFB",
             "cHBsaWNhbnQSEwoLYXBwbGljYW50SWQYASABKAUSDwoHb2ZmZXJJZBgCIAEo",
             "BRIRCglhY2NvdW50SWQYAyABKAUSFAoMaGFnZ2xlQ2hhdElkGAQgASgDEhkK",
             "EWJ1c2luZXNzV2FudHNEZWFsGAUgASgIEhsKE2luZmx1ZW5jZXJXYW50c0Rl",
@@ -98,11 +98,13 @@ namespace InfX {
             "aW5mbHVlbmNlclNheXNSZXdhcmRlZBgIIAEoCBIdChVidXNpbmVzc1NheXNE",
             "ZWxpdmVyZWQYCSABKAgSHAoUYnVzaW5lc3NTYXlzUmV3YXJkZWQYCiABKAgS",
             "GgoSYnVzaW5lc3NHYXZlUmF0aW5nGAsgASgFEhwKFGluZmx1ZW5jZXJHYXZl",
-            "UmF0aW5nGAwgASgFIrEBChFEYXRhQXBwbGljYW50Q2hhdBIOCgZjaGF0SWQY",
+            "UmF0aW5nGAwgASgFEhgKEGJ1c2luZXNzRGlzcHV0ZWQYDiABKAgSGgoSaW5m",
+            "bHVlbmNlckRpc3B1dGVkGA8gASgIEiIKBXN0YXRlGA0gASgOMhMuaW5mLkFw",
+            "cGxpY2FudFN0YXRlIrEBChFEYXRhQXBwbGljYW50Q2hhdBIOCgZjaGF0SWQY",
             "ByABKAMSDAoEc2VudBgKIAEoAxIQCghzZW5kZXJJZBgCIAEoBRITCgthcHBs",
             "aWNhbnRJZBgBIAEoBRIVCg1jbGllbnRHaG9zdElkGAYgASgFEiQKBHR5cGUY",
             "CCABKA4yFi5pbmYuQXBwbGljYW50Q2hhdFR5cGUSDAoEdGV4dBgFIAEoCRIM",
-            "CgRzZWVuGAkgASgIIlwKFk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoGYWVz",
+            "CgRzZWVuGAkgASgDIlwKFk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoGYWVz",
             "S2V5GAEgASgMEhYKDmNvbW1vbkRldmljZUlkGAQgASgMEgwKBG5hbWUYAiAB",
             "KAkSDAoEaW5mbxgDIAEoCSItChlOZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVx",
             "EhAKCGRldmljZUlkGAEgASgFIjEKHE5ldERldmljZUF1dGhDaGFsbGVuZ2VS",
@@ -131,7 +133,16 @@ namespace InfX {
             "BnJld2FyZBgFIAEoCRISCgpsb2NhdGlvbklkGAYgASgFIkAKEE5ldExvYWRP",
             "ZmZlcnNSZXESDgoGYmVmb3JlGAEgASgFEg0KBWFmdGVyGAIgASgFEg0KBWxp",
             "bWl0GAMgASgFIjIKEE5ldExvYWRPZmZlcnNSZXMSDgoGb2xkZXN0GAEgASgF",
-            "Eg4KBm5ld2VzdBgCIAEoBSo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9O",
+            "Eg4KBm5ld2VzdBgCIAEoBSI0ChBOZXRPZmZlckFwcGx5UmVxEg8KB29mZmVy",
+            "SWQYASABKAUSDwoHcmVtYXJrcxgCIAEoCSIxCgxOZXRDaGF0UGxhaW4SEwoL",
+            "YXBwbGljYW50SWQYASABKAUSDAoEdGV4dBgGIAEoCSJbCg1OZXRDaGF0SGFn",
+            "Z2xlEhMKC2FwcGxpY2FudElkGAEgASgFEhQKDGRlbGl2ZXJhYmxlcxgDIAEo",
+            "CRIOCgZyZXdhcmQYBCABKAkSDwoHcmVtYXJrcxgCIAEoCSI4Cg9OZXRDaGF0",
+            "SW1hZ2VLZXkSEwoLYXBwbGljYW50SWQYASABKAUSEAoIaW1hZ2VLZXkYBSAB",
+            "KAkikgEKGU5ldEFwcGxpY2FudENvbXBsZXRpb25SZXESEwoLYXBwbGljYW50",
+            "SWQYASABKAUSEQoJZGVsaXZlcmVkGAIgASgIEhAKCHJld2FyZGVkGAMgASgI",
+            "Eg4KBnJhdGluZxgEIAEoBRIPCgdkaXNwdXRlGAUgASgIEhoKEmRpc3B1dGVE",
+            "ZXNjcmlwdGlvbhgGIAEoCSo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9O",
             "RRAAEg4KCk9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQ",
             "cm92aWRlcklkcxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoM",
             "T0FQX0ZBQ0VCT09LEAIqUQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAA",
@@ -152,10 +163,15 @@ namespace InfX {
             "RVdfT0ZGRVIQABIUChBCT1NSX1VTRVJfQ0xPU0VEEAESFgoSQk9TUl9UT1Nf",
             "VklPTEFUSU9OEAISEgoOQk9TUl9DT01QTEVURUQQAypFChFBcHBsaWNhbnRD",
             "aGF0VHlwZRINCglBQ1RfUExBSU4QABIOCgpBQ1RfSEFHR0xFEAESEQoNQUNU",
-            "X0lNQUdFX0tFWRACQgeqAgRJbmZYYgZwcm90bzM="));
+            "X0lNQUdFX0tFWRACKnEKDkFwcGxpY2FudFN0YXRlEg8KC0FTX0hBR0dMSU5H",
+            "EAASCwoHQVNfREVBTBABEg8KC0FTX1JFSkVDVEVEEAISDwoLQVNfQ09NUExF",
+            "VEUQAxIOCgpBU19ESVNQVVRFEAQSDwoLQVNfUkVTT0xWRUQQBSpeChNBcHBs",
+            "aWNhbnRDaGF0TWFya2VyEg8KC0FDTV9BUFBMSUVEEAASEQoNQUNNX1dBTlRf",
+            "REVBTBABEhEKDUFDTV9ERUFMX01BREUQAhIQCgxBQ01fUkVKRUNURUQQA0IH",
+            "qgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), typeof(global::InfX.ApplicantChatType), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), typeof(global::InfX.ApplicantChatType), typeof(global::InfX.ApplicantState), typeof(global::InfX.ApplicantChatMarker), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "CallbackUrl", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret", "WhitelistHosts" }, null, null, null),
@@ -171,7 +187,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarThumbnailUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "AvatarCoverUrl", "Url", "Latitude", "Longitude", "LocationId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "AccountId", "HaggleChatId", "BusinessWantsDeal", "InfluencerWantsDeal", "InfluencerSaysDelivered", "InfluencerSaysRewarded", "BusinessSaysDelivered", "BusinessSaysRewarded", "BusinessGaveRating", "InfluencerGaveRating" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "AccountId", "HaggleChatId", "BusinessWantsDeal", "InfluencerWantsDeal", "InfluencerSaysDelivered", "InfluencerSaysRewarded", "BusinessSaysDelivered", "BusinessSaysRewarded", "BusinessGaveRating", "InfluencerGaveRating", "BusinessDisputed", "InfluencerDisputed", "State" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicantChat), global::InfX.DataApplicantChat.Parser, new[]{ "ChatId", "Sent", "SenderId", "ApplicantId", "ClientGhostId", "Type", "Text", "Seen" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "CommonDeviceId", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
@@ -189,7 +205,12 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetProfile), global::InfX.NetSetProfile.Parser, new[]{ "Name", "Description", "AvatarKey", "Url", "Categories", "Latitude", "Longitude" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetCreateOfferReq), global::InfX.NetCreateOfferReq.Parser, new[]{ "Title", "ImageKeys", "Description", "Deliverables", "Reward", "LocationId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffersReq), global::InfX.NetLoadOffersReq.Parser, new[]{ "Before", "After", "Limit" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffersRes), global::InfX.NetLoadOffersRes.Parser, new[]{ "Oldest", "Newest" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffersRes), global::InfX.NetLoadOffersRes.Parser, new[]{ "Oldest", "Newest" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOfferApplyReq), global::InfX.NetOfferApplyReq.Parser, new[]{ "OfferId", "Remarks" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetChatPlain), global::InfX.NetChatPlain.Parser, new[]{ "ApplicantId", "Text" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetChatHaggle), global::InfX.NetChatHaggle.Parser, new[]{ "ApplicantId", "Deliverables", "Reward", "Remarks" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetChatImageKey), global::InfX.NetChatImageKey.Parser, new[]{ "ApplicantId", "ImageKey" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetApplicantCompletionReq), global::InfX.NetApplicantCompletionReq.Parser, new[]{ "ApplicantId", "Delivered", "Rewarded", "Rating", "Dispute", "DisputeDescription" }, null, null, null)
           }));
     }
     #endregion
@@ -331,6 +352,34 @@ namespace InfX {
     /// </summary>
     [pbr::OriginalName("ACT_HAGGLE")] ActHaggle = 1,
     [pbr::OriginalName("ACT_IMAGE_KEY")] ActImageKey = 2,
+  }
+
+  public enum ApplicantState {
+    [pbr::OriginalName("AS_HAGGLING")] AsHaggling = 0,
+    [pbr::OriginalName("AS_DEAL")] AsDeal = 1,
+    [pbr::OriginalName("AS_REJECTED")] AsRejected = 2,
+    [pbr::OriginalName("AS_COMPLETE")] AsComplete = 3,
+    [pbr::OriginalName("AS_DISPUTE")] AsDispute = 4,
+    [pbr::OriginalName("AS_RESOLVED")] AsResolved = 5,
+  }
+
+  public enum ApplicantChatMarker {
+    /// <summary>
+    ///  ${User} has applied for ${offer}.
+    /// </summary>
+    [pbr::OriginalName("ACM_APPLIED")] AcmApplied = 0,
+    /// <summary>
+    ///  ${User} wants to make a deal.
+    /// </summary>
+    [pbr::OriginalName("ACM_WANT_DEAL")] AcmWantDeal = 1,
+    /// <summary>
+    ///  A deal has been made. Congratulations!
+    /// </summary>
+    [pbr::OriginalName("ACM_DEAL_MADE")] AcmDealMade = 2,
+    /// <summary>
+    ///  ${User} has rejected the application.
+    /// </summary>
+    [pbr::OriginalName("ACM_REJECTED")] AcmRejected = 3,
   }
 
   #endregion
@@ -5045,6 +5094,9 @@ namespace InfX {
       businessSaysRewarded_ = other.businessSaysRewarded_;
       businessGaveRating_ = other.businessGaveRating_;
       influencerGaveRating_ = other.influencerGaveRating_;
+      businessDisputed_ = other.businessDisputed_;
+      influencerDisputed_ = other.influencerDisputed_;
+      state_ = other.state_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5172,7 +5224,7 @@ namespace InfX {
     public const int BusinessGaveRatingFieldNumber = 11;
     private int businessGaveRating_;
     /// <summary>
-    ///  1 to 5, 0 is no rating given
+    ///  1 to 5, 0 is no rating given (rating given implies complete)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int BusinessGaveRating {
@@ -5190,6 +5242,39 @@ namespace InfX {
       get { return influencerGaveRating_; }
       set {
         influencerGaveRating_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "businessDisputed" field.</summary>
+    public const int BusinessDisputedFieldNumber = 14;
+    private bool businessDisputed_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool BusinessDisputed {
+      get { return businessDisputed_; }
+      set {
+        businessDisputed_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "influencerDisputed" field.</summary>
+    public const int InfluencerDisputedFieldNumber = 15;
+    private bool influencerDisputed_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool InfluencerDisputed {
+      get { return influencerDisputed_; }
+      set {
+        influencerDisputed_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "state" field.</summary>
+    public const int StateFieldNumber = 13;
+    private global::InfX.ApplicantState state_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.ApplicantState State {
+      get { return state_; }
+      set {
+        state_ = value;
       }
     }
 
@@ -5218,6 +5303,9 @@ namespace InfX {
       if (BusinessSaysRewarded != other.BusinessSaysRewarded) return false;
       if (BusinessGaveRating != other.BusinessGaveRating) return false;
       if (InfluencerGaveRating != other.InfluencerGaveRating) return false;
+      if (BusinessDisputed != other.BusinessDisputed) return false;
+      if (InfluencerDisputed != other.InfluencerDisputed) return false;
+      if (State != other.State) return false;
       return true;
     }
 
@@ -5236,6 +5324,9 @@ namespace InfX {
       if (BusinessSaysRewarded != false) hash ^= BusinessSaysRewarded.GetHashCode();
       if (BusinessGaveRating != 0) hash ^= BusinessGaveRating.GetHashCode();
       if (InfluencerGaveRating != 0) hash ^= InfluencerGaveRating.GetHashCode();
+      if (BusinessDisputed != false) hash ^= BusinessDisputed.GetHashCode();
+      if (InfluencerDisputed != false) hash ^= InfluencerDisputed.GetHashCode();
+      if (State != 0) hash ^= State.GetHashCode();
       return hash;
     }
 
@@ -5294,6 +5385,18 @@ namespace InfX {
         output.WriteRawTag(96);
         output.WriteInt32(InfluencerGaveRating);
       }
+      if (State != 0) {
+        output.WriteRawTag(104);
+        output.WriteEnum((int) State);
+      }
+      if (BusinessDisputed != false) {
+        output.WriteRawTag(112);
+        output.WriteBool(BusinessDisputed);
+      }
+      if (InfluencerDisputed != false) {
+        output.WriteRawTag(120);
+        output.WriteBool(InfluencerDisputed);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5334,6 +5437,15 @@ namespace InfX {
       }
       if (InfluencerGaveRating != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(InfluencerGaveRating);
+      }
+      if (BusinessDisputed != false) {
+        size += 1 + 1;
+      }
+      if (InfluencerDisputed != false) {
+        size += 1 + 1;
+      }
+      if (State != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) State);
       }
       return size;
     }
@@ -5378,6 +5490,15 @@ namespace InfX {
       }
       if (other.InfluencerGaveRating != 0) {
         InfluencerGaveRating = other.InfluencerGaveRating;
+      }
+      if (other.BusinessDisputed != false) {
+        BusinessDisputed = other.BusinessDisputed;
+      }
+      if (other.InfluencerDisputed != false) {
+        InfluencerDisputed = other.InfluencerDisputed;
+      }
+      if (other.State != 0) {
+        State = other.State;
       }
     }
 
@@ -5435,6 +5556,18 @@ namespace InfX {
           }
           case 96: {
             InfluencerGaveRating = input.ReadInt32();
+            break;
+          }
+          case 104: {
+            state_ = (global::InfX.ApplicantState) input.ReadEnum();
+            break;
+          }
+          case 112: {
+            BusinessDisputed = input.ReadBool();
+            break;
+          }
+          case 120: {
+            InfluencerDisputed = input.ReadBool();
             break;
           }
         }
@@ -5579,9 +5712,12 @@ namespace InfX {
 
     /// <summary>Field number for the "seen" field.</summary>
     public const int SeenFieldNumber = 9;
-    private bool seen_;
+    private long seen_;
+    /// <summary>
+    ///  0 if not seen
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Seen {
+    public long Seen {
       get { return seen_; }
       set {
         seen_ = value;
@@ -5622,7 +5758,7 @@ namespace InfX {
       if (ClientGhostId != 0) hash ^= ClientGhostId.GetHashCode();
       if (Type != 0) hash ^= Type.GetHashCode();
       if (Text.Length != 0) hash ^= Text.GetHashCode();
-      if (Seen != false) hash ^= Seen.GetHashCode();
+      if (Seen != 0L) hash ^= Seen.GetHashCode();
       return hash;
     }
 
@@ -5657,9 +5793,9 @@ namespace InfX {
         output.WriteRawTag(64);
         output.WriteEnum((int) Type);
       }
-      if (Seen != false) {
+      if (Seen != 0L) {
         output.WriteRawTag(72);
-        output.WriteBool(Seen);
+        output.WriteInt64(Seen);
       }
       if (Sent != 0L) {
         output.WriteRawTag(80);
@@ -5691,8 +5827,8 @@ namespace InfX {
       if (Text.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Text);
       }
-      if (Seen != false) {
-        size += 1 + 1;
+      if (Seen != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Seen);
       }
       return size;
     }
@@ -5723,7 +5859,7 @@ namespace InfX {
       if (other.Text.Length != 0) {
         Text = other.Text;
       }
-      if (other.Seen != false) {
+      if (other.Seen != 0L) {
         Seen = other.Seen;
       }
     }
@@ -5761,7 +5897,7 @@ namespace InfX {
             break;
           }
           case 72: {
-            Seen = input.ReadBool();
+            Seen = input.ReadInt64();
             break;
           }
           case 80: {
@@ -8670,6 +8806,927 @@ namespace InfX {
           }
           case 16: {
             Newest = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Apply for offer
+  ///  Id: O_APPLYY
+  ///  Response: DataApplicant (Id: O_R_APPL) (or exception in case of failure)
+  /// </summary>
+  public sealed partial class NetOfferApplyReq : pb::IMessage<NetOfferApplyReq> {
+    private static readonly pb::MessageParser<NetOfferApplyReq> _parser = new pb::MessageParser<NetOfferApplyReq>(() => new NetOfferApplyReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetOfferApplyReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[34]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOfferApplyReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOfferApplyReq(NetOfferApplyReq other) : this() {
+      offerId_ = other.offerId_;
+      remarks_ = other.remarks_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetOfferApplyReq Clone() {
+      return new NetOfferApplyReq(this);
+    }
+
+    /// <summary>Field number for the "offerId" field.</summary>
+    public const int OfferIdFieldNumber = 1;
+    private int offerId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int OfferId {
+      get { return offerId_; }
+      set {
+        offerId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "remarks" field.</summary>
+    public const int RemarksFieldNumber = 2;
+    private string remarks_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Remarks {
+      get { return remarks_; }
+      set {
+        remarks_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetOfferApplyReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetOfferApplyReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (OfferId != other.OfferId) return false;
+      if (Remarks != other.Remarks) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (OfferId != 0) hash ^= OfferId.GetHashCode();
+      if (Remarks.Length != 0) hash ^= Remarks.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (OfferId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(OfferId);
+      }
+      if (Remarks.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Remarks);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (OfferId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OfferId);
+      }
+      if (Remarks.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Remarks);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetOfferApplyReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.OfferId != 0) {
+        OfferId = other.OfferId;
+      }
+      if (other.Remarks.Length != 0) {
+        Remarks = other.Remarks;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            OfferId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            Remarks = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Send chat plain
+  ///  Id: CH_PLAIN
+  /// </summary>
+  public sealed partial class NetChatPlain : pb::IMessage<NetChatPlain> {
+    private static readonly pb::MessageParser<NetChatPlain> _parser = new pb::MessageParser<NetChatPlain>(() => new NetChatPlain());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetChatPlain> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[35]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetChatPlain() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetChatPlain(NetChatPlain other) : this() {
+      applicantId_ = other.applicantId_;
+      text_ = other.text_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetChatPlain Clone() {
+      return new NetChatPlain(this);
+    }
+
+    /// <summary>Field number for the "applicantId" field.</summary>
+    public const int ApplicantIdFieldNumber = 1;
+    private int applicantId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantId {
+      get { return applicantId_; }
+      set {
+        applicantId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "text" field.</summary>
+    public const int TextFieldNumber = 6;
+    private string text_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Text {
+      get { return text_; }
+      set {
+        text_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetChatPlain);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetChatPlain other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ApplicantId != other.ApplicantId) return false;
+      if (Text != other.Text) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
+      if (Text.Length != 0) hash ^= Text.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ApplicantId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ApplicantId);
+      }
+      if (Text.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(Text);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ApplicantId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
+      }
+      if (Text.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Text);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetChatPlain other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ApplicantId != 0) {
+        ApplicantId = other.ApplicantId;
+      }
+      if (other.Text.Length != 0) {
+        Text = other.Text;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ApplicantId = input.ReadInt32();
+            break;
+          }
+          case 50: {
+            Text = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Send chat haggle (refuse if already accepted by both)
+  ///  Id: CH_HAGGL
+  /// </summary>
+  public sealed partial class NetChatHaggle : pb::IMessage<NetChatHaggle> {
+    private static readonly pb::MessageParser<NetChatHaggle> _parser = new pb::MessageParser<NetChatHaggle>(() => new NetChatHaggle());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetChatHaggle> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[36]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetChatHaggle() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetChatHaggle(NetChatHaggle other) : this() {
+      applicantId_ = other.applicantId_;
+      deliverables_ = other.deliverables_;
+      reward_ = other.reward_;
+      remarks_ = other.remarks_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetChatHaggle Clone() {
+      return new NetChatHaggle(this);
+    }
+
+    /// <summary>Field number for the "applicantId" field.</summary>
+    public const int ApplicantIdFieldNumber = 1;
+    private int applicantId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantId {
+      get { return applicantId_; }
+      set {
+        applicantId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "deliverables" field.</summary>
+    public const int DeliverablesFieldNumber = 3;
+    private string deliverables_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Deliverables {
+      get { return deliverables_; }
+      set {
+        deliverables_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "reward" field.</summary>
+    public const int RewardFieldNumber = 4;
+    private string reward_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Reward {
+      get { return reward_; }
+      set {
+        reward_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "remarks" field.</summary>
+    public const int RemarksFieldNumber = 2;
+    private string remarks_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Remarks {
+      get { return remarks_; }
+      set {
+        remarks_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetChatHaggle);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetChatHaggle other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ApplicantId != other.ApplicantId) return false;
+      if (Deliverables != other.Deliverables) return false;
+      if (Reward != other.Reward) return false;
+      if (Remarks != other.Remarks) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
+      if (Deliverables.Length != 0) hash ^= Deliverables.GetHashCode();
+      if (Reward.Length != 0) hash ^= Reward.GetHashCode();
+      if (Remarks.Length != 0) hash ^= Remarks.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ApplicantId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ApplicantId);
+      }
+      if (Remarks.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Remarks);
+      }
+      if (Deliverables.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Deliverables);
+      }
+      if (Reward.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Reward);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ApplicantId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
+      }
+      if (Deliverables.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Deliverables);
+      }
+      if (Reward.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Reward);
+      }
+      if (Remarks.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Remarks);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetChatHaggle other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ApplicantId != 0) {
+        ApplicantId = other.ApplicantId;
+      }
+      if (other.Deliverables.Length != 0) {
+        Deliverables = other.Deliverables;
+      }
+      if (other.Reward.Length != 0) {
+        Reward = other.Reward;
+      }
+      if (other.Remarks.Length != 0) {
+        Remarks = other.Remarks;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ApplicantId = input.ReadInt32();
+            break;
+          }
+          case 18: {
+            Remarks = input.ReadString();
+            break;
+          }
+          case 26: {
+            Deliverables = input.ReadString();
+            break;
+          }
+          case 34: {
+            Reward = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Send chat image key
+  ///  Id: CH_IMAGE
+  /// </summary>
+  public sealed partial class NetChatImageKey : pb::IMessage<NetChatImageKey> {
+    private static readonly pb::MessageParser<NetChatImageKey> _parser = new pb::MessageParser<NetChatImageKey>(() => new NetChatImageKey());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetChatImageKey> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[37]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetChatImageKey() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetChatImageKey(NetChatImageKey other) : this() {
+      applicantId_ = other.applicantId_;
+      imageKey_ = other.imageKey_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetChatImageKey Clone() {
+      return new NetChatImageKey(this);
+    }
+
+    /// <summary>Field number for the "applicantId" field.</summary>
+    public const int ApplicantIdFieldNumber = 1;
+    private int applicantId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantId {
+      get { return applicantId_; }
+      set {
+        applicantId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "imageKey" field.</summary>
+    public const int ImageKeyFieldNumber = 5;
+    private string imageKey_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ImageKey {
+      get { return imageKey_; }
+      set {
+        imageKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetChatImageKey);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetChatImageKey other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ApplicantId != other.ApplicantId) return false;
+      if (ImageKey != other.ImageKey) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
+      if (ImageKey.Length != 0) hash ^= ImageKey.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ApplicantId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ApplicantId);
+      }
+      if (ImageKey.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(ImageKey);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ApplicantId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
+      }
+      if (ImageKey.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ImageKey);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetChatImageKey other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ApplicantId != 0) {
+        ApplicantId = other.ApplicantId;
+      }
+      if (other.ImageKey.Length != 0) {
+        ImageKey = other.ImageKey;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ApplicantId = input.ReadInt32();
+            break;
+          }
+          case 42: {
+            ImageKey = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Mark as completed OR Report a problem
+  ///  Id: AP_COMPL
+  ///  Response: DataApplicant (Id: AP_R_COM)
+  /// </summary>
+  public sealed partial class NetApplicantCompletionReq : pb::IMessage<NetApplicantCompletionReq> {
+    private static readonly pb::MessageParser<NetApplicantCompletionReq> _parser = new pb::MessageParser<NetApplicantCompletionReq>(() => new NetApplicantCompletionReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetApplicantCompletionReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[38]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetApplicantCompletionReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetApplicantCompletionReq(NetApplicantCompletionReq other) : this() {
+      applicantId_ = other.applicantId_;
+      delivered_ = other.delivered_;
+      rewarded_ = other.rewarded_;
+      rating_ = other.rating_;
+      dispute_ = other.dispute_;
+      disputeDescription_ = other.disputeDescription_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetApplicantCompletionReq Clone() {
+      return new NetApplicantCompletionReq(this);
+    }
+
+    /// <summary>Field number for the "applicantId" field.</summary>
+    public const int ApplicantIdFieldNumber = 1;
+    private int applicantId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantId {
+      get { return applicantId_; }
+      set {
+        applicantId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "delivered" field.</summary>
+    public const int DeliveredFieldNumber = 2;
+    private bool delivered_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Delivered {
+      get { return delivered_; }
+      set {
+        delivered_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "rewarded" field.</summary>
+    public const int RewardedFieldNumber = 3;
+    private bool rewarded_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Rewarded {
+      get { return rewarded_; }
+      set {
+        rewarded_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "rating" field.</summary>
+    public const int RatingFieldNumber = 4;
+    private int rating_;
+    /// <summary>
+    ///  Ignored in case of problem report
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Rating {
+      get { return rating_; }
+      set {
+        rating_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "dispute" field.</summary>
+    public const int DisputeFieldNumber = 5;
+    private bool dispute_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Dispute {
+      get { return dispute_; }
+      set {
+        dispute_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "disputeDescription" field.</summary>
+    public const int DisputeDescriptionFieldNumber = 6;
+    private string disputeDescription_ = "";
+    /// <summary>
+    ///  Problem description for support. Sent by mail (sql transaction... :))
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string DisputeDescription {
+      get { return disputeDescription_; }
+      set {
+        disputeDescription_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetApplicantCompletionReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetApplicantCompletionReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ApplicantId != other.ApplicantId) return false;
+      if (Delivered != other.Delivered) return false;
+      if (Rewarded != other.Rewarded) return false;
+      if (Rating != other.Rating) return false;
+      if (Dispute != other.Dispute) return false;
+      if (DisputeDescription != other.DisputeDescription) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
+      if (Delivered != false) hash ^= Delivered.GetHashCode();
+      if (Rewarded != false) hash ^= Rewarded.GetHashCode();
+      if (Rating != 0) hash ^= Rating.GetHashCode();
+      if (Dispute != false) hash ^= Dispute.GetHashCode();
+      if (DisputeDescription.Length != 0) hash ^= DisputeDescription.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ApplicantId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ApplicantId);
+      }
+      if (Delivered != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(Delivered);
+      }
+      if (Rewarded != false) {
+        output.WriteRawTag(24);
+        output.WriteBool(Rewarded);
+      }
+      if (Rating != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(Rating);
+      }
+      if (Dispute != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(Dispute);
+      }
+      if (DisputeDescription.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(DisputeDescription);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ApplicantId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
+      }
+      if (Delivered != false) {
+        size += 1 + 1;
+      }
+      if (Rewarded != false) {
+        size += 1 + 1;
+      }
+      if (Rating != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Rating);
+      }
+      if (Dispute != false) {
+        size += 1 + 1;
+      }
+      if (DisputeDescription.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(DisputeDescription);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetApplicantCompletionReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ApplicantId != 0) {
+        ApplicantId = other.ApplicantId;
+      }
+      if (other.Delivered != false) {
+        Delivered = other.Delivered;
+      }
+      if (other.Rewarded != false) {
+        Rewarded = other.Rewarded;
+      }
+      if (other.Rating != 0) {
+        Rating = other.Rating;
+      }
+      if (other.Dispute != false) {
+        Dispute = other.Dispute;
+      }
+      if (other.DisputeDescription.Length != 0) {
+        DisputeDescription = other.DisputeDescription;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ApplicantId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            Delivered = input.ReadBool();
+            break;
+          }
+          case 24: {
+            Rewarded = input.ReadBool();
+            break;
+          }
+          case 32: {
+            Rating = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            Dispute = input.ReadBool();
+            break;
+          }
+          case 50: {
+            DisputeDescription = input.ReadString();
             break;
           }
         }
