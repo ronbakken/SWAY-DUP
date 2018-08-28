@@ -703,18 +703,28 @@ class RemoteApp {
       for (int i in mediaPriority) {
         DataSocialMedia socialMedia = account.detail.socialMedia[i];
         if (socialMedia.connected) {
-          if (accountName == null && socialMedia.displayName != null && socialMedia.displayName.isNotEmpty)
+          if (accountName == null &&
+              socialMedia.displayName != null &&
+              socialMedia.displayName.isNotEmpty)
             accountName = socialMedia.displayName;
-          if (accountScreenName == null && socialMedia.screenName != null && socialMedia.screenName.isNotEmpty)
+          if (accountScreenName == null &&
+              socialMedia.screenName != null &&
+              socialMedia.screenName.isNotEmpty)
             accountScreenName = socialMedia.screenName;
-          if (accountDescription == null && socialMedia.description != null && socialMedia.description.isNotEmpty)
+          if (accountDescription == null &&
+              socialMedia.description != null &&
+              socialMedia.description.isNotEmpty)
             accountDescription = socialMedia.description;
-          if (accountAvatarUrl == null && socialMedia.avatarUrl != null && socialMedia.avatarUrl.isNotEmpty)
+          if (accountAvatarUrl == null &&
+              socialMedia.avatarUrl != null &&
+              socialMedia.avatarUrl.isNotEmpty)
             accountAvatarUrl = socialMedia.avatarUrl;
-          if (accountUrl == null && socialMedia.url != null && socialMedia.url.isNotEmpty)
-            accountUrl = socialMedia.url;
-          if (accountEmail == null && socialMedia.email != null && socialMedia.email.isNotEmpty)
-            accountEmail = socialMedia.email;
+          if (accountUrl == null &&
+              socialMedia.url != null &&
+              socialMedia.url.isNotEmpty) accountUrl = socialMedia.url;
+          if (accountEmail == null &&
+              socialMedia.email != null &&
+              socialMedia.email.isNotEmpty) accountEmail = socialMedia.email;
         }
       }
       if (accountName == null) {
@@ -724,32 +734,37 @@ class RemoteApp {
         accountName = "Your Name Here";
       }
       if (accountDescription == null) {
-        List<String> influencerDefaults = 
-        ["Even the most influential influencers are influenced by this inf.",
-        "Always doing the good things for the good people.",
-        "Really always knows everything about what is going on.",
-        "Who needs personality when you have brands.",
-        "Believes even a person can become a product.",
-        "My soul was sold with discount vouchers.",
-        "Believes that there is still room for more pictures of food.",
-        "Prove that freeloading can be a profession.",
-        "Teaches balloon folding to self abusers.",
-        "Free range ranger for sacrificial animals.",
-        "Paints life-size boogie man in children's bedroom closets.",
-        "On-sight plastic surgeon for fashion shows.",
-        "Fred Kazinsky the e-mail bomber.",
-        "Teaches flamboyant shuffling techniques to dull blackjack dealers.",
-        "Sauerkraut unraveler.",];
-        List<String> businessDefaults = ["The best in town",
-        "We know our product, because we made it",
-        "Everything you expect and more",
-        "You will be lovin' it",];
+        List<String> influencerDefaults = [
+          "Even the most influential influencers are influenced by this inf.",
+          "Always doing the good things for the good people.",
+          "Really always knows everything about what is going on.",
+          "Who needs personality when you have brands.",
+          "Believes even a person can become a product.",
+          "My soul was sold with discount vouchers.",
+          "Believes that there is still room for more pictures of food.",
+          "Prove that freeloading can be a profession.",
+          "Teaches balloon folding to self abusers.",
+          "Free range ranger for sacrificial animals.",
+          "Paints life-size boogie man in children's bedroom closets.",
+          "On-sight plastic surgeon for fashion shows.",
+          "Fred Kazinsky the e-mail bomber.",
+          "Teaches flamboyant shuffling techniques to dull blackjack dealers.",
+          "Sauerkraut unraveler.",
+        ];
+        List<String> businessDefaults = [
+          "The best in town",
+          "We know our product, because we made it",
+          "Everything you expect and more",
+          "You will be lovin' it",
+        ];
         switch (account.state.accountType) {
           case AccountType.AT_INFLUENCER:
-            accountDescription = influencerDefaults[random.nextInt(influencerDefaults.length)];
+            accountDescription =
+                influencerDefaults[random.nextInt(influencerDefaults.length)];
             break;
           case AccountType.AT_BUSINESS:
-            accountDescription = businessDefaults[random.nextInt(businessDefaults.length)];
+            accountDescription =
+                businessDefaults[random.nextInt(businessDefaults.length)];
             break;
           case AccountType.AT_SUPPORT:
             accountDescription = "Support Staff";
