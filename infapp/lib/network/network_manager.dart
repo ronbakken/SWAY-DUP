@@ -626,7 +626,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   @override
   Map<int, DataBusinessOffer> get offers {
-    if (_offersLoaded == false) {
+    if (_offersLoaded == false && connected == NetworkConnectionState.Ready) {
       _offersLoaded = true;
       if (account.state.accountType == AccountType.AT_BUSINESS) {
         offersLoading = true;

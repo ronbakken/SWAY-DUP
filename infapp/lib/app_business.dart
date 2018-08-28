@@ -176,12 +176,13 @@ class _AppBusinessState extends State<AppBusiness> {
         NetworkInterface network = NetworkManager.of(context);
         return new BusinessOfferList(
           businessOffers: network.offers.values.toList()..sort((a, b) => a.offerId.compareTo(b.offerId)),
-          onRefreshOffers: network.refreshOffers,
+          onRefreshOffers: (network.connected == NetworkConnectionState.Ready) ? network.refreshOffers : null,
+          onOfferPressed: (DataBusinessOffer offer) { navigateToOfferView(context, network.account, offer); }
         );
       }),
-      onMakeAnOffer: () {
+      onMakeAnOffer: (network.connected == NetworkConnectionState.Ready) ? () {
         navigateToMakeAnOffer(context);
-      },
+      } : null,
       onNavigateProfile: () {
         navigateToProfileView(context);
       },
