@@ -1538,10 +1538,10 @@ class DataApplicant extends GeneratedMessage {
     ..aInt64(4, 'haggleChatId')
     ..aOB(5, 'businessWantsDeal')
     ..aOB(6, 'influencerWantsDeal')
-    ..aOB(7, 'influencerSaysDelivered')
-    ..aOB(8, 'influencerSaysRewarded')
-    ..aOB(9, 'businessSaysDelivered')
-    ..aOB(10, 'businessSaysRewarded')
+    ..aOB(7, 'influencerMarkedDelivered')
+    ..aOB(8, 'influencerMarkedRewarded')
+    ..aOB(9, 'businessMarkedDelivered')
+    ..aOB(10, 'businessMarkedRewarded')
     ..a<int>(11, 'businessGaveRating', PbFieldType.O3)
     ..a<int>(12, 'influencerGaveRating', PbFieldType.O3)
     ..e<ApplicantState>(13, 'state', PbFieldType.OE, ApplicantState.AS_HAGGLING,
@@ -1620,37 +1620,37 @@ class DataApplicant extends GeneratedMessage {
   bool hasInfluencerWantsDeal() => $_has(5);
   void clearInfluencerWantsDeal() => clearField(6);
 
-  bool get influencerSaysDelivered => $_get(6, false);
-  set influencerSaysDelivered(bool v) {
+  bool get influencerMarkedDelivered => $_get(6, false);
+  set influencerMarkedDelivered(bool v) {
     $_setBool(6, v);
   }
 
-  bool hasInfluencerSaysDelivered() => $_has(6);
-  void clearInfluencerSaysDelivered() => clearField(7);
+  bool hasInfluencerMarkedDelivered() => $_has(6);
+  void clearInfluencerMarkedDelivered() => clearField(7);
 
-  bool get influencerSaysRewarded => $_get(7, false);
-  set influencerSaysRewarded(bool v) {
+  bool get influencerMarkedRewarded => $_get(7, false);
+  set influencerMarkedRewarded(bool v) {
     $_setBool(7, v);
   }
 
-  bool hasInfluencerSaysRewarded() => $_has(7);
-  void clearInfluencerSaysRewarded() => clearField(8);
+  bool hasInfluencerMarkedRewarded() => $_has(7);
+  void clearInfluencerMarkedRewarded() => clearField(8);
 
-  bool get businessSaysDelivered => $_get(8, false);
-  set businessSaysDelivered(bool v) {
+  bool get businessMarkedDelivered => $_get(8, false);
+  set businessMarkedDelivered(bool v) {
     $_setBool(8, v);
   }
 
-  bool hasBusinessSaysDelivered() => $_has(8);
-  void clearBusinessSaysDelivered() => clearField(9);
+  bool hasBusinessMarkedDelivered() => $_has(8);
+  void clearBusinessMarkedDelivered() => clearField(9);
 
-  bool get businessSaysRewarded => $_get(9, false);
-  set businessSaysRewarded(bool v) {
+  bool get businessMarkedRewarded => $_get(9, false);
+  set businessMarkedRewarded(bool v) {
     $_setBool(9, v);
   }
 
-  bool hasBusinessSaysRewarded() => $_has(9);
-  void clearBusinessSaysRewarded() => clearField(10);
+  bool hasBusinessMarkedRewarded() => $_has(9);
+  void clearBusinessMarkedRewarded() => clearField(10);
 
   int get businessGaveRating => $_get(10, 0);
   set businessGaveRating(int v) {
