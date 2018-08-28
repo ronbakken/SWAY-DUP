@@ -671,7 +671,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   DataAccount latestAccount(DataAccount account) {
     // Check any caches if we have, otherwise just return
     // TODO: Timestamps...
-    if (account.state.accountId == this.account.state.accountId) { // It's me...
+    if (account.state.accountId == this.account.state.accountId) {
+      // It's me...
       return this.account;
     }
     return account;
@@ -682,7 +683,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer) {
     // Check any caches if we have, otherwise just return
     // TODO: Timestamps...
-    if (_offers.containsKey(offer.offerId)) { // Guaranteed to be the latest
+    if (_offers.containsKey(offer.offerId)) {
+      // Guaranteed to be the latest
       return _offers[offer.offerId];
     }
     return offer;
