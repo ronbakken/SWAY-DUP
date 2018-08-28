@@ -216,6 +216,13 @@ enum BusinessOfferStateReason {
   
 }
 
+enum ApplicantChatType {
+  ACT_PLAIN = 0;
+  ACT_HAGGLE = 1; // url-encoded haggle message
+  ACT_IMAGE_KEY = 2;
+  
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -310,25 +317,6 @@ message DataLocation {
   
 }
 
-message DataApplicant {
-  int32 applicantId = 1;
-  int32 offerId = 2;
-  int32 accountId = 3;
-  // bool influencer accepted/delivered/...
-  // bool business accepted/received service/...
-  // datetime schedule etc
-  
-}
-
-message DataChat {
-  int32 applicantId = 1; // One chat per applicant
-  int32 sequenceId = 2; // Sequential identifier in the chat stream
-  int32 keyId = 3; // Deduplication client-side (ghost entry)
-  bool outgoing = 4; // Outgoing or incoming message
-  string text = 5; // The written text
-  
-}
-
 message DataAccountState {
   // Device ID. If 0, authentication failed, and the client must create a new account
   int32 deviceId = 1;
@@ -370,6 +358,39 @@ message DataAccount {
   DataAccountState state = 1;
   DataAccountSummary summary = 2;
   DataAccountDetail detail = 3;
+  
+}
+
+message DataApplicant {
+  int32 applicantId = 1;
+  int32 offerId = 2;
+  int32 accountId = 3; // Account which applied
+  // datetime schedule etc
+  
+  /// Current chat ID with haggle buttons (deliverables / reward / remarks)
+  int64 haggleChatId = 4;
+  bool businessWantsDeal = 5;
+  bool influencerWantsDeal = 6;
+  
+  bool influencerSaysDelivered = 7;
+  bool influencerSaysRewarded = 8;
+  bool businessSaysDelivered = 9;
+  bool businessSaysRewarded = 10;
+  
+  int32 businessGaveRating = 11; // 1 to 5, 0 is no rating given
+  int32 influencerGaveRating = 12;
+  
+}
+
+message DataApplicantChat {
+  int64 chatId = 7; // Sequential identifier in the chat stream
+  int64 sent = 10; // Sent timestamp
+  int32 senderId = 2; // Account which sent
+  int32 applicantId = 1; // One chat per applicant
+  int32 clientGhostId = 6; // Deduplication client-side (ghost entry)
+  ApplicantChatType type = 8;
+  string text = 5; // The written text
+  bool seen = 9;
   
 }
 
