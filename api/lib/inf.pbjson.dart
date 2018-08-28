@@ -686,7 +686,8 @@ const DataApplicantChat$json = const {
     const {'1': 'sent', '3': 10, '4': 1, '5': 3, '10': 'sent'},
     const {'1': 'senderId', '3': 2, '4': 1, '5': 5, '10': 'senderId'},
     const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
-    const {'1': 'clientGhostId', '3': 6, '4': 1, '5': 5, '10': 'clientGhostId'},
+    const {'1': 'deviceId', '3': 11, '4': 1, '5': 5, '10': 'deviceId'},
+    const {'1': 'deviceGhostId', '3': 6, '4': 1, '5': 5, '10': 'deviceGhostId'},
     const {
       '1': 'type',
       '3': 8,
@@ -899,6 +900,7 @@ const NetChatPlain$json = const {
   '1': 'NetChatPlain',
   '2': const [
     const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'deviceGhostId', '3': 8, '4': 1, '5': 5, '10': 'deviceGhostId'},
     const {'1': 'text', '3': 6, '4': 1, '5': 9, '10': 'text'},
   ],
 };
@@ -907,6 +909,7 @@ const NetChatHaggle$json = const {
   '1': 'NetChatHaggle',
   '2': const [
     const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'deviceGhostId', '3': 8, '4': 1, '5': 5, '10': 'deviceGhostId'},
     const {'1': 'deliverables', '3': 3, '4': 1, '5': 9, '10': 'deliverables'},
     const {'1': 'reward', '3': 4, '4': 1, '5': 9, '10': 'reward'},
     const {'1': 'remarks', '3': 2, '4': 1, '5': 9, '10': 'remarks'},
@@ -917,6 +920,7 @@ const NetChatImageKey$json = const {
   '1': 'NetChatImageKey',
   '2': const [
     const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'deviceGhostId', '3': 8, '4': 1, '5': 5, '10': 'deviceGhostId'},
     const {'1': 'imageKey', '3': 5, '4': 1, '5': 9, '10': 'imageKey'},
   ],
 };
@@ -936,5 +940,48 @@ const NetApplicantCompletionReq$json = const {
       '5': 9,
       '10': 'disputeDescription'
     },
+  ],
+};
+
+const NetLoadApplicantsReq$json = const {
+  '1': 'NetLoadApplicantsReq',
+  '2': const [
+    const {'1': 'offerId', '3': 4, '4': 1, '5': 5, '10': 'offerId'},
+    const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
+    const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
+    const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
+  ],
+};
+
+const NetLoadApplicantsRes$json = const {
+  '1': 'NetLoadApplicantsRes',
+  '2': const [
+    const {'1': 'oldest', '3': 1, '4': 1, '5': 5, '10': 'oldest'},
+    const {'1': 'newest', '3': 2, '4': 1, '5': 5, '10': 'newest'},
+  ],
+};
+
+const NetLoadApplicantChatsReq$json = const {
+  '1': 'NetLoadApplicantChatsReq',
+  '2': const [
+    const {'1': 'applicantId', '3': 5, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
+    const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
+    const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
+  ],
+};
+
+const NetLoadApplicantChatsRes$json = const {
+  '1': 'NetLoadApplicantChatsRes',
+  '2': const [
+    const {'1': 'oldest', '3': 1, '4': 1, '5': 5, '10': 'oldest'},
+    const {'1': 'newest', '3': 2, '4': 1, '5': 5, '10': 'newest'},
+  ],
+};
+
+const NetLoadPublicProfileReq$json = const {
+  '1': 'NetLoadPublicProfileReq',
+  '2': const [
+    const {'1': 'accountId', '3': 1, '4': 1, '5': 5, '10': 'accountId'},
   ],
 };
