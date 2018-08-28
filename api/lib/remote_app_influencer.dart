@@ -248,7 +248,8 @@ class RemoteAppInfluencer {
           // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
           // TODO: categories
           offer.state = BusinessOfferState.valueOf(offerRow[9].toInt());
-          offer.stateReason = BusinessOfferStateReason.valueOf(offerRow[10].toInt());
+          offer.stateReason =
+              BusinessOfferStateReason.valueOf(offerRow[10].toInt());
           sqljocky.Results imageKeyResults =
               await selectImageKeys.execute([offer.offerId.toInt()]);
           await for (sqljocky.Row imageKeyRow in imageKeyResults) {
