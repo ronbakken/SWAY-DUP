@@ -599,18 +599,18 @@ const DataApplicant$json = const {
     const {'1': 'accountId', '3': 3, '4': 1, '5': 5, '10': 'accountId'},
     const {'1': 'haggleChatId', '3': 4, '4': 1, '5': 3, '10': 'haggleChatId'},
     const {
-      '1': 'businessWantsDeal',
-      '3': 5,
-      '4': 1,
-      '5': 8,
-      '10': 'businessWantsDeal'
-    },
-    const {
       '1': 'influencerWantsDeal',
       '3': 6,
       '4': 1,
       '5': 8,
       '10': 'influencerWantsDeal'
+    },
+    const {
+      '1': 'businessWantsDeal',
+      '3': 5,
+      '4': 1,
+      '5': 8,
+      '10': 'businessWantsDeal'
     },
     const {
       '1': 'influencerMarkedDelivered',
@@ -641,13 +641,6 @@ const DataApplicant$json = const {
       '10': 'businessMarkedRewarded'
     },
     const {
-      '1': 'businessGaveRating',
-      '3': 11,
-      '4': 1,
-      '5': 5,
-      '10': 'businessGaveRating'
-    },
-    const {
       '1': 'influencerGaveRating',
       '3': 12,
       '4': 1,
@@ -655,11 +648,11 @@ const DataApplicant$json = const {
       '10': 'influencerGaveRating'
     },
     const {
-      '1': 'businessDisputed',
-      '3': 14,
+      '1': 'businessGaveRating',
+      '3': 11,
       '4': 1,
-      '5': 8,
-      '10': 'businessDisputed'
+      '5': 5,
+      '10': 'businessGaveRating'
     },
     const {
       '1': 'influencerDisputed',
@@ -667,6 +660,13 @@ const DataApplicant$json = const {
       '4': 1,
       '5': 8,
       '10': 'influencerDisputed'
+    },
+    const {
+      '1': 'businessDisputed',
+      '3': 14,
+      '4': 1,
+      '5': 8,
+      '10': 'businessDisputed'
     },
     const {
       '1': 'state',

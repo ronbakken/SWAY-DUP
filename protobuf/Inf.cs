@@ -94,13 +94,13 @@ namespace InfX {
             "bnRTdW1tYXJ5EiYKBmRldGFpbBgDIAEoCzIWLmluZi5EYXRhQWNjb3VudERl",
             "dGFpbCKwAwoNRGF0YUFwcGxpY2FudBITCgthcHBsaWNhbnRJZBgBIAEoBRIP",
             "CgdvZmZlcklkGAIgASgFEhEKCWFjY291bnRJZBgDIAEoBRIUCgxoYWdnbGVD",
-            "aGF0SWQYBCABKAMSGQoRYnVzaW5lc3NXYW50c0RlYWwYBSABKAgSGwoTaW5m",
-            "bHVlbmNlcldhbnRzRGVhbBgGIAEoCBIhChlpbmZsdWVuY2VyTWFya2VkRGVs",
+            "aGF0SWQYBCABKAMSGwoTaW5mbHVlbmNlcldhbnRzRGVhbBgGIAEoCBIZChFi",
+            "dXNpbmVzc1dhbnRzRGVhbBgFIAEoCBIhChlpbmZsdWVuY2VyTWFya2VkRGVs",
             "aXZlcmVkGAcgASgIEiAKGGluZmx1ZW5jZXJNYXJrZWRSZXdhcmRlZBgIIAEo",
             "CBIfChdidXNpbmVzc01hcmtlZERlbGl2ZXJlZBgJIAEoCBIeChZidXNpbmVz",
-            "c01hcmtlZFJld2FyZGVkGAogASgIEhoKEmJ1c2luZXNzR2F2ZVJhdGluZxgL",
-            "IAEoBRIcChRpbmZsdWVuY2VyR2F2ZVJhdGluZxgMIAEoBRIYChBidXNpbmVz",
-            "c0Rpc3B1dGVkGA4gASgIEhoKEmluZmx1ZW5jZXJEaXNwdXRlZBgPIAEoCBIi",
+            "c01hcmtlZFJld2FyZGVkGAogASgIEhwKFGluZmx1ZW5jZXJHYXZlUmF0aW5n",
+            "GAwgASgFEhoKEmJ1c2luZXNzR2F2ZVJhdGluZxgLIAEoBRIaChJpbmZsdWVu",
+            "Y2VyRGlzcHV0ZWQYDyABKAgSGAoQYnVzaW5lc3NEaXNwdXRlZBgOIAEoCBIi",
             "CgVzdGF0ZRgNIAEoDjITLmluZi5BcHBsaWNhbnRTdGF0ZSLDAQoRRGF0YUFw",
             "cGxpY2FudENoYXQSDgoGY2hhdElkGAcgASgDEgwKBHNlbnQYCiABKAMSEAoI",
             "c2VuZGVySWQYAiABKAUSEwoLYXBwbGljYW50SWQYASABKAUSEAoIZGV2aWNl",
@@ -200,7 +200,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarThumbnailUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "AvatarCoverUrl", "Url", "Email", "Latitude", "Longitude", "LocationId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "AccountId", "HaggleChatId", "BusinessWantsDeal", "InfluencerWantsDeal", "InfluencerMarkedDelivered", "InfluencerMarkedRewarded", "BusinessMarkedDelivered", "BusinessMarkedRewarded", "BusinessGaveRating", "InfluencerGaveRating", "BusinessDisputed", "InfluencerDisputed", "State" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "AccountId", "HaggleChatId", "InfluencerWantsDeal", "BusinessWantsDeal", "InfluencerMarkedDelivered", "InfluencerMarkedRewarded", "BusinessMarkedDelivered", "BusinessMarkedRewarded", "InfluencerGaveRating", "BusinessGaveRating", "InfluencerDisputed", "BusinessDisputed", "State" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicantChat), global::InfX.DataApplicantChat.Parser, new[]{ "ChatId", "Sent", "SenderId", "ApplicantId", "DeviceId", "DeviceGhostId", "Type", "Text", "Seen" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "CommonDeviceId", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
@@ -5211,16 +5211,16 @@ namespace InfX {
       offerId_ = other.offerId_;
       accountId_ = other.accountId_;
       haggleChatId_ = other.haggleChatId_;
-      businessWantsDeal_ = other.businessWantsDeal_;
       influencerWantsDeal_ = other.influencerWantsDeal_;
+      businessWantsDeal_ = other.businessWantsDeal_;
       influencerMarkedDelivered_ = other.influencerMarkedDelivered_;
       influencerMarkedRewarded_ = other.influencerMarkedRewarded_;
       businessMarkedDelivered_ = other.businessMarkedDelivered_;
       businessMarkedRewarded_ = other.businessMarkedRewarded_;
-      businessGaveRating_ = other.businessGaveRating_;
       influencerGaveRating_ = other.influencerGaveRating_;
-      businessDisputed_ = other.businessDisputed_;
+      businessGaveRating_ = other.businessGaveRating_;
       influencerDisputed_ = other.influencerDisputed_;
+      businessDisputed_ = other.businessDisputed_;
       state_ = other.state_;
     }
 
@@ -5279,17 +5279,6 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "businessWantsDeal" field.</summary>
-    public const int BusinessWantsDealFieldNumber = 5;
-    private bool businessWantsDeal_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool BusinessWantsDeal {
-      get { return businessWantsDeal_; }
-      set {
-        businessWantsDeal_ = value;
-      }
-    }
-
     /// <summary>Field number for the "influencerWantsDeal" field.</summary>
     public const int InfluencerWantsDealFieldNumber = 6;
     private bool influencerWantsDeal_;
@@ -5298,6 +5287,17 @@ namespace InfX {
       get { return influencerWantsDeal_; }
       set {
         influencerWantsDeal_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "businessWantsDeal" field.</summary>
+    public const int BusinessWantsDealFieldNumber = 5;
+    private bool businessWantsDeal_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool BusinessWantsDeal {
+      get { return businessWantsDeal_; }
+      set {
+        businessWantsDeal_ = value;
       }
     }
 
@@ -5345,6 +5345,17 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "influencerGaveRating" field.</summary>
+    public const int InfluencerGaveRatingFieldNumber = 12;
+    private int influencerGaveRating_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int InfluencerGaveRating {
+      get { return influencerGaveRating_; }
+      set {
+        influencerGaveRating_ = value;
+      }
+    }
+
     /// <summary>Field number for the "businessGaveRating" field.</summary>
     public const int BusinessGaveRatingFieldNumber = 11;
     private int businessGaveRating_;
@@ -5359,14 +5370,14 @@ namespace InfX {
       }
     }
 
-    /// <summary>Field number for the "influencerGaveRating" field.</summary>
-    public const int InfluencerGaveRatingFieldNumber = 12;
-    private int influencerGaveRating_;
+    /// <summary>Field number for the "influencerDisputed" field.</summary>
+    public const int InfluencerDisputedFieldNumber = 15;
+    private bool influencerDisputed_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int InfluencerGaveRating {
-      get { return influencerGaveRating_; }
+    public bool InfluencerDisputed {
+      get { return influencerDisputed_; }
       set {
-        influencerGaveRating_ = value;
+        influencerDisputed_ = value;
       }
     }
 
@@ -5378,17 +5389,6 @@ namespace InfX {
       get { return businessDisputed_; }
       set {
         businessDisputed_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "influencerDisputed" field.</summary>
-    public const int InfluencerDisputedFieldNumber = 15;
-    private bool influencerDisputed_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool InfluencerDisputed {
-      get { return influencerDisputed_; }
-      set {
-        influencerDisputed_ = value;
       }
     }
 
@@ -5420,16 +5420,16 @@ namespace InfX {
       if (OfferId != other.OfferId) return false;
       if (AccountId != other.AccountId) return false;
       if (HaggleChatId != other.HaggleChatId) return false;
-      if (BusinessWantsDeal != other.BusinessWantsDeal) return false;
       if (InfluencerWantsDeal != other.InfluencerWantsDeal) return false;
+      if (BusinessWantsDeal != other.BusinessWantsDeal) return false;
       if (InfluencerMarkedDelivered != other.InfluencerMarkedDelivered) return false;
       if (InfluencerMarkedRewarded != other.InfluencerMarkedRewarded) return false;
       if (BusinessMarkedDelivered != other.BusinessMarkedDelivered) return false;
       if (BusinessMarkedRewarded != other.BusinessMarkedRewarded) return false;
-      if (BusinessGaveRating != other.BusinessGaveRating) return false;
       if (InfluencerGaveRating != other.InfluencerGaveRating) return false;
-      if (BusinessDisputed != other.BusinessDisputed) return false;
+      if (BusinessGaveRating != other.BusinessGaveRating) return false;
       if (InfluencerDisputed != other.InfluencerDisputed) return false;
+      if (BusinessDisputed != other.BusinessDisputed) return false;
       if (State != other.State) return false;
       return true;
     }
@@ -5441,16 +5441,16 @@ namespace InfX {
       if (OfferId != 0) hash ^= OfferId.GetHashCode();
       if (AccountId != 0) hash ^= AccountId.GetHashCode();
       if (HaggleChatId != 0L) hash ^= HaggleChatId.GetHashCode();
-      if (BusinessWantsDeal != false) hash ^= BusinessWantsDeal.GetHashCode();
       if (InfluencerWantsDeal != false) hash ^= InfluencerWantsDeal.GetHashCode();
+      if (BusinessWantsDeal != false) hash ^= BusinessWantsDeal.GetHashCode();
       if (InfluencerMarkedDelivered != false) hash ^= InfluencerMarkedDelivered.GetHashCode();
       if (InfluencerMarkedRewarded != false) hash ^= InfluencerMarkedRewarded.GetHashCode();
       if (BusinessMarkedDelivered != false) hash ^= BusinessMarkedDelivered.GetHashCode();
       if (BusinessMarkedRewarded != false) hash ^= BusinessMarkedRewarded.GetHashCode();
-      if (BusinessGaveRating != 0) hash ^= BusinessGaveRating.GetHashCode();
       if (InfluencerGaveRating != 0) hash ^= InfluencerGaveRating.GetHashCode();
-      if (BusinessDisputed != false) hash ^= BusinessDisputed.GetHashCode();
+      if (BusinessGaveRating != 0) hash ^= BusinessGaveRating.GetHashCode();
       if (InfluencerDisputed != false) hash ^= InfluencerDisputed.GetHashCode();
+      if (BusinessDisputed != false) hash ^= BusinessDisputed.GetHashCode();
       if (State != 0) hash ^= State.GetHashCode();
       return hash;
     }
@@ -5539,10 +5539,10 @@ namespace InfX {
       if (HaggleChatId != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(HaggleChatId);
       }
-      if (BusinessWantsDeal != false) {
+      if (InfluencerWantsDeal != false) {
         size += 1 + 1;
       }
-      if (InfluencerWantsDeal != false) {
+      if (BusinessWantsDeal != false) {
         size += 1 + 1;
       }
       if (InfluencerMarkedDelivered != false) {
@@ -5557,16 +5557,16 @@ namespace InfX {
       if (BusinessMarkedRewarded != false) {
         size += 1 + 1;
       }
-      if (BusinessGaveRating != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(BusinessGaveRating);
-      }
       if (InfluencerGaveRating != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(InfluencerGaveRating);
       }
-      if (BusinessDisputed != false) {
-        size += 1 + 1;
+      if (BusinessGaveRating != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(BusinessGaveRating);
       }
       if (InfluencerDisputed != false) {
+        size += 1 + 1;
+      }
+      if (BusinessDisputed != false) {
         size += 1 + 1;
       }
       if (State != 0) {
@@ -5592,11 +5592,11 @@ namespace InfX {
       if (other.HaggleChatId != 0L) {
         HaggleChatId = other.HaggleChatId;
       }
-      if (other.BusinessWantsDeal != false) {
-        BusinessWantsDeal = other.BusinessWantsDeal;
-      }
       if (other.InfluencerWantsDeal != false) {
         InfluencerWantsDeal = other.InfluencerWantsDeal;
+      }
+      if (other.BusinessWantsDeal != false) {
+        BusinessWantsDeal = other.BusinessWantsDeal;
       }
       if (other.InfluencerMarkedDelivered != false) {
         InfluencerMarkedDelivered = other.InfluencerMarkedDelivered;
@@ -5610,17 +5610,17 @@ namespace InfX {
       if (other.BusinessMarkedRewarded != false) {
         BusinessMarkedRewarded = other.BusinessMarkedRewarded;
       }
-      if (other.BusinessGaveRating != 0) {
-        BusinessGaveRating = other.BusinessGaveRating;
-      }
       if (other.InfluencerGaveRating != 0) {
         InfluencerGaveRating = other.InfluencerGaveRating;
       }
-      if (other.BusinessDisputed != false) {
-        BusinessDisputed = other.BusinessDisputed;
+      if (other.BusinessGaveRating != 0) {
+        BusinessGaveRating = other.BusinessGaveRating;
       }
       if (other.InfluencerDisputed != false) {
         InfluencerDisputed = other.InfluencerDisputed;
+      }
+      if (other.BusinessDisputed != false) {
+        BusinessDisputed = other.BusinessDisputed;
       }
       if (other.State != 0) {
         State = other.State;
@@ -5800,6 +5800,9 @@ namespace InfX {
     /// <summary>Field number for the "deviceId" field.</summary>
     public const int DeviceIdFieldNumber = 11;
     private int deviceId_;
+    /// <summary>
+    ///  Cleared upon forwarding
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int DeviceId {
       get { return deviceId_; }
