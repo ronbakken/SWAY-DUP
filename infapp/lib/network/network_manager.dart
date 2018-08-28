@@ -548,8 +548,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
     // Build information on file
     BytesBuilder builder = new BytesBuilder(copy: false);
-    await fileImage.file.openRead(0, 256).forEach(builder.add);
     Digest contentSha256 = await sha256.bind(fileImage.file.openRead()).first;
+    await fileImage.file.openRead(0, 256).forEach(builder.add);
     String contentType = new MimeTypeResolver()
         .lookup(fileImage.file.path, headerBytes: builder.toBytes());
     int contentLength = await fileImage.file.length();
