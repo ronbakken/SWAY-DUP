@@ -674,7 +674,7 @@ message NetOfferApplyReq {
 // Id: CH_PLAIN
 message NetChatPlain {
   int32 applicantId = 1;
-  string text;
+  string text = 6;
   
 }
 
@@ -702,13 +702,13 @@ message NetChatImageKey {
 message NetApplicantCompletionReq {
   int32 applicantId = 1;
   
-  bool delivered;
-  bool rewarded;
+  bool delivered = 2;
+  bool rewarded = 3;
   
-  int32 rating; // No rating expected in case of problem report
+  int32 rating = 4; // Ignored in case of problem report
   
-  bool reportProblem;
-  string problemDescription; // Problem description for support
+  bool dispute = 5;
+  string disputeDescription = 6; // Problem description for support. Sent by mail (sql transaction... :))
   
 }
 
