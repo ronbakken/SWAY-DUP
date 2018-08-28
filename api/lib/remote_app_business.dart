@@ -146,7 +146,7 @@ class RemoteAppBusiness {
       return;
     }
 
-    List<String> filteredImageKeys = pb.imageKeys.where((imageKey) => imageKey != null && !imageKey.isEmpty).toList();
+    List<String> filteredImageKeys = pb.imageKeys.where((imageKey) => imageKey != null && !imageKey.isEmpty && imageKey.startsWith("user/$accountId/")).toList();
 
     // Insert offer images
     for (String imageKey in filteredImageKeys) {
