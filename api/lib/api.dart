@@ -135,7 +135,7 @@ run() async {
             if (remoteApp == null) {
               String ipAddress = request.connectionInfo.remoteAddress.address;
               String xRealIP = request.headers.value('x-real-ip');
-              remoteApp = new RemoteApp(config, sql, bucket, ts, bc, 
+              remoteApp = new RemoteApp(config, sql, bucket, ts, bc,
                   ipAddress: xRealIP != null ? xRealIP : ipAddress);
             }
           });

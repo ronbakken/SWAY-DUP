@@ -1320,9 +1320,10 @@ class RemoteApp {
 
   /// Transitions the user to the app context after registration or login succeeds. Call from lock
   Future<Null> transitionToApp() {
-    if (_remoteAppBusiness != null ||_remoteAppInfluencer != null) {
+    if (_remoteAppBusiness != null || _remoteAppInfluencer != null) {
       ts.close();
-      throw Exception("Cannot transition twice, forced connection to close due to potential issue");
+      throw Exception(
+          "Cannot transition twice, forced connection to close due to potential issue");
     }
     assert(_netDeviceAuthCreateReq == null);
     assert(_netAccountCreateReq == null);

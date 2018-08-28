@@ -19,7 +19,6 @@ import 'inf.pb.dart';
 import 'remote_app.dart';
 
 class BroadcastCenter {
-  
   final ConfigData config;
   final sqljocky.ConnectionPool sql;
   final dospace.Bucket bucket;
@@ -29,19 +28,18 @@ class BroadcastCenter {
   static final Logger opsLog = new Logger('InfOps.BroadcastCenter');
   static final Logger devLog = new Logger('InfDev.BroadcastCenter');
 
-  BroadcastCenter(this.config, this.sql, this.bucket) {
-  }
+  BroadcastCenter(this.config, this.sql, this.bucket) {}
 
   void accountConnected(RemoteApp remoteApp) {
     accountToRemoteApps.add(remoteApp.account.state.accountId, remoteApp);
   }
 
   void accountDisconnected(RemoteApp remoteApp) {
-    if (accountToRemoteApps.remove(remoteApp.account.state.accountId, remoteApp)) {
+    if (accountToRemoteApps.remove(
+        remoteApp.account.state.accountId, remoteApp)) {
       // ...
     }
   }
-
 }
 
 /* end of file */
