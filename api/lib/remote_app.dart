@@ -95,6 +95,7 @@ class RemoteApp {
   }
 
   void dispose() {
+    bc.accountDisconnected(this);
     _connected = false;
     unsubscribeAuthentication();
     unsubscribeOnboarding();
@@ -1319,6 +1320,10 @@ class RemoteApp {
 
   /// Transitions the user to the app context after registration or login succeeds. Call from lock
   Future<Null> transitionToApp() {
+    if (_remoteAppBusiness != null ||_remoteAppInfluencer != null) {
+      ts.close();
+      throw Exception("Cannot transition twice, forced connection to close due to potential issue");
+    }
     assert(_netDeviceAuthCreateReq == null);
     assert(_netAccountCreateReq == null);
     assert(_remoteAppBusiness == null);
@@ -1337,6 +1342,7 @@ class RemoteApp {
       if (account.state.accountType == AccountType.AT_BUSINESS) {
         subscribeBusiness();
       }
+      bc.accountConnected(this);
     }
   }
 }

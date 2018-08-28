@@ -37,7 +37,9 @@ class BroadcastCenter {
   }
 
   void accountDisconnected(RemoteApp remoteApp) {
-    accountToRemoteApps.remove(remoteApp.account.state.accountId, remoteApp);
+    if (accountToRemoteApps.remove(remoteApp.account.state.accountId, remoteApp)) {
+      // ...
+    }
   }
 
 }
