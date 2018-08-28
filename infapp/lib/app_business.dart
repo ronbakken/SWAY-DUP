@@ -114,8 +114,8 @@ class _AppBusinessState extends State<AppBusiness> {
       NavigatorState navigator = Navigator.of(context);
       return new OfferView(
         account: network.account,
-        businessAccount: account,
-        businessOffer: offer,
+        businessAccount: network.latestAccount(account),
+        businessOffer: network.latestBusinessOffer(offer),
       );
     }));
   }

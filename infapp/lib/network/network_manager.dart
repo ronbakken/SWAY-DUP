@@ -660,6 +660,28 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   set offers(Map<int, DataBusinessOffer> _offers) {
     // TODO: implement offers
   }*/
+
+  /// Ensure to get the latest account data, in case we have it. Not necessary for network.account (unless detached)
+  @override
+  DataAccount latestAccount(DataAccount account) {
+    // Check any caches if we have, otherwise just return
+    // TODO: Timestamps...
+    if (account.state.accountId == this.account.state.accountId) { // It's me...
+      return this.account;
+    }
+    return account;
+  }
+
+  /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
+  @override
+  DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer) {
+    // Check any caches if we have, otherwise just return
+    // TODO: Timestamps...
+    if (_offers.containsKey(offer.offerId)) { // Guaranteed to be the latest
+      return _offers[offer.offerId];
+    }
+    return offer;
+  }
 }
 
 class _InheritedNetworkManager extends InheritedWidget {
@@ -717,6 +739,13 @@ abstract class NetworkInterface {
 
   /// Refresh all offers (currently latest offers)
   Future<void> refreshOffers();
+
+  /// Ensure to get the latest account data, in case we have it. Not necessary for network.account (unless detached)
+  DataAccount latestAccount(DataAccount account);
+
+  /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
+  DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer);
+
 }
 
 /* end of file */
