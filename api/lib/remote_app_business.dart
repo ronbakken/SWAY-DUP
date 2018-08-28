@@ -149,7 +149,7 @@ class RemoteAppBusiness {
     // Insert offer images
     for (String imageKey in pb.imageKeys) {
       if (imageKey != null && !imageKey.isEmpty) {
-      ts.sendExtend(message);
+        ts.sendExtend(message);
         // TODO: Verify the image key actually exists and is owned by the user!
         String insertImage =
             "INSERT INTO `offer_images`(`offer_id`, `image_key`) VALUES (?, ?)";
