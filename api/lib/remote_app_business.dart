@@ -188,48 +188,51 @@ class RemoteAppBusiness {
     try {
       ts.sendExtend(message);
       sqljocky.Query selectImageKeys = await connection.prepare("SELECT `image_key` FROM `offer_images` WHERE `offer_id` = ?");
-      String selectOffers = "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
-        "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
-        "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point` " // 6 7 8
-        "FROM `offers` "
-        "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
-        "WHERE `offers`.`account_id` = ?"; // TODO: Order highest offer id first
-      sqljocky.Results offerResults = await sql.prepareExecute(selectOffers, [ accountId ]);
-      await for (sqljocky.Row offerRow in offerResults) {
-        ts.sendExtend(message);
-        DataBusinessOffer offer = new DataBusinessOffer();
-        offer.offerId = offerRow[0].toInt();
-        offer.accountId = offerRow[1].toInt();
-        offer.locationId = offerRow[6].toInt();
-        offer.title = offerRow[2].toString();
-        offer.description = offerRow[3].toString();
-        offer.deliverables = offerRow[4].toString();
-        offer.reward = offerRow[5].toString();
-        offer.location = offerRow[7].toString();
-        offer.latitude = 0.0; // offerRow[8]; // TODO: parse
-        offer.longitude = 0.0; // offerRow[8]; // TODO: parse
-        // offer.coverUrls.addAll(pb.imageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
-        // TODO: categories
-        offer.state = BusinessOfferState.BOS_OPEN; // TODO
-        offer.stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER; // TODO
-        offer.applicantsNew = 0; // TODO
-        offer.applicantsAccepted = 0; // TODO
-        offer.applicantsCompleted = 0; // TODO
-        offer.applicantsRefused = 0; // TODO
-        sqljocky.Results imageKeyResults = await selectImageKeys.execute([offer.offerId.toInt()]);
-        await for (sqljocky.Row imageKeyRow in imageKeyResults) {
-          if (!offer.hasThumbnailUrl()) {
-            offer.thumbnailUrl = _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
+      try {
+        String selectOffers = "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
+          "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
+          "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point` " // 6 7 8
+          "FROM `offers` "
+          "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
+          "WHERE `offers`.`account_id` = ?"; // TODO: Order highest offer id first
+        sqljocky.Results offerResults = await sql.prepareExecute(selectOffers, [ accountId ]);
+        await for (sqljocky.Row offerRow in offerResults) {
+          ts.sendExtend(message);
+          DataBusinessOffer offer = new DataBusinessOffer();
+          offer.offerId = offerRow[0].toInt();
+          offer.accountId = offerRow[1].toInt();
+          offer.locationId = offerRow[6].toInt();
+          offer.title = offerRow[2].toString();
+          offer.description = offerRow[3].toString();
+          offer.deliverables = offerRow[4].toString();
+          offer.reward = offerRow[5].toString();
+          offer.location = offerRow[7].toString();
+          offer.latitude = 0.0; // offerRow[8]; // TODO: parse
+          offer.longitude = 0.0; // offerRow[8]; // TODO: parse
+          // offer.coverUrls.addAll(pb.imageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
+          // TODO: categories
+          offer.state = BusinessOfferState.BOS_OPEN; // TODO
+          offer.stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER; // TODO
+          offer.applicantsNew = 0; // TODO
+          offer.applicantsAccepted = 0; // TODO
+          offer.applicantsCompleted = 0; // TODO
+          offer.applicantsRefused = 0; // TODO
+          sqljocky.Results imageKeyResults = await selectImageKeys.execute([offer.offerId.toInt()]);
+          await for (sqljocky.Row imageKeyRow in imageKeyResults) {
+            if (!offer.hasThumbnailUrl()) {
+              offer.thumbnailUrl = _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
+            }
+            offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
           }
-          offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
+          // Cache offer for use (is this really necessary?)
+          offers[offer.offerId] = offer;
+          // Send offer to user
+          ts.sendMessage(_dataBusinessOffer, offer.writeToBuffer());
         }
-        // Cache offer for use (is this really necessary?)
-        offers[offer.offerId] = offer;
-        // Send offer to user
-        ts.sendMessage(_dataBusinessOffer, offer.writeToBuffer());
-      }
+        ts.sendExtend(message);
+      } finally { await selectImageKeys.close(); }
     } finally {
-      connection.release();
+      await connection.release();
     }
 
     NetLoadOffersRes loadOffersRes = new NetLoadOffersRes();
