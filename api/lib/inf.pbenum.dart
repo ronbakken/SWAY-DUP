@@ -235,3 +235,27 @@ class BusinessOfferStateReason extends ProtobufEnum {
 
   const BusinessOfferStateReason._(int v, String n) : super(v, n);
 }
+
+class ApplicantChatType extends ProtobufEnum {
+  static const ApplicantChatType ACT_PLAIN =
+      const ApplicantChatType._(0, 'ACT_PLAIN');
+  static const ApplicantChatType ACT_HAGGLE =
+      const ApplicantChatType._(1, 'ACT_HAGGLE');
+  static const ApplicantChatType ACT_IMAGE_KEY =
+      const ApplicantChatType._(2, 'ACT_IMAGE_KEY');
+
+  static const List<ApplicantChatType> values = const <ApplicantChatType>[
+    ACT_PLAIN,
+    ACT_HAGGLE,
+    ACT_IMAGE_KEY,
+  ];
+
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static ApplicantChatType valueOf(int value) =>
+      _byValue[value] as ApplicantChatType;
+  static void $checkItem(ApplicantChatType v) {
+    if (v is! ApplicantChatType) checkItemFailed(v, 'ApplicantChatType');
+  }
+
+  const ApplicantChatType._(int v, String n) : super(v, n);
+}
