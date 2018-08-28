@@ -378,6 +378,7 @@ message DataAccountDetail {
   string avatarCoverUrl = 7; // Higher resolution, but same as avatarThumbnailUrl
   string url = 6;
   string email = 9;
+  // bool emailVerified = 10;
   double latitude = 4; // necessary?
   double longitude = 5; // necessary?
   int32 locationId = 8;
