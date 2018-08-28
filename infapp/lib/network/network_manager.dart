@@ -395,7 +395,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     _alive = true;
 
     // Device ghost id is a semi sequential identifier for identifying messages by device (to ensure all are sent and to avoid duplicates)
-    nextDeviceGhostId = (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF;
+    nextDeviceGhostId =
+        (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF;
 
     // Initialize data
     account = new DataAccount();
@@ -553,7 +554,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
     // Build information on file
     BytesBuilder builder = new BytesBuilder(copy: false);
-    Digest contentSha256 = await sha256.bind(fileImage.file.openRead()).first; // FIXME: This hangs
+    Digest contentSha256 =
+        await sha256.bind(fileImage.file.openRead()).first; // FIXME: This hangs
     await fileImage.file.openRead(0, 256).forEach(builder.add);
     String contentType = new MimeTypeResolver()
         .lookup(fileImage.file.path, headerBytes: builder.toBytes());
