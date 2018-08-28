@@ -148,11 +148,13 @@ class RemoteAppBusiness {
 
     // Insert offer images
     for (String imageKey in pb.imageKeys) {
+      if (imageKey != null && !imageKey.isEmpty) {
       ts.sendExtend(message);
-      // TODO: Verify the image key actually exists and is owned by the user!
-      String insertImage =
-          "INSERT INTO `offer_images`(`offer_id`, `image_key`) VALUES (?, ?)";
-      await sql.prepareExecute(insertImage, [offerId, imageKey.toString()]);
+        // TODO: Verify the image key actually exists and is owned by the user!
+        String insertImage =
+            "INSERT INTO `offer_images`(`offer_id`, `image_key`) VALUES (?, ?)";
+        await sql.prepareExecute(insertImage, [offerId, imageKey.toString()]);
+      }
     }
 
     // Update location `offer_count`, not so critical
