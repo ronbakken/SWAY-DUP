@@ -412,7 +412,7 @@ class RemoteApp {
         if (extend != null) extend();
         sqljocky.Results accountResults = await sql.prepareExecute(
             "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
-            "`description`, `location_id`, `avatar_key`, `url` FROM `accounts` "
+            "`description`, `location_id`, `avatar_key`, `url`, `email` FROM `accounts` "
             "WHERE `account_id` = ?",
             [account.state.accountId.toInt()]);
         // int locationId;
@@ -433,6 +433,7 @@ class RemoteApp {
                 makeCloudinaryCoverUrl(row[6].toString());
           }
           if (row[7] != null) account.detail.url = row[7].toString();
+          if (row[8] != null) account.detail.email = row[8].toString();
         }
         if (account.detail.locationId != null &&
             account.detail.locationId != 0) {
@@ -698,19 +699,22 @@ class RemoteApp {
       String accountDescription;
       String accountAvatarUrl;
       String accountUrl;
+      String accountEmail;
       for (int i in mediaPriority) {
         DataSocialMedia socialMedia = account.detail.socialMedia[i];
         if (socialMedia.connected) {
-          if (accountName == null && socialMedia.displayName != null)
+          if (accountName == null && socialMedia.displayName != null && socialMedia.displayName.isNotEmpty)
             accountName = socialMedia.displayName;
-          if (accountScreenName == null && socialMedia.screenName != null)
+          if (accountScreenName == null && socialMedia.screenName != null && socialMedia.screenName.isNotEmpty)
             accountScreenName = socialMedia.screenName;
-          if (accountDescription == null && socialMedia.description != null)
+          if (accountDescription == null && socialMedia.description != null && socialMedia.description.isNotEmpty)
             accountDescription = socialMedia.description;
-          if (accountAvatarUrl == null && socialMedia.avatarUrl != null)
+          if (accountAvatarUrl == null && socialMedia.avatarUrl != null && socialMedia.avatarUrl.isNotEmpty)
             accountAvatarUrl = socialMedia.avatarUrl;
-          if (accountUrl == null && socialMedia.url != null)
+          if (accountUrl == null && socialMedia.url != null && socialMedia.url.isNotEmpty)
             accountUrl = socialMedia.url;
+          if (accountEmail == null && socialMedia.email != null && socialMedia.email.isNotEmpty)
+            accountEmail = socialMedia.email;
         }
       }
       if (accountName == null) {
@@ -720,7 +724,40 @@ class RemoteApp {
         accountName = "Your Name Here";
       }
       if (accountDescription == null) {
-        accountDescription = "";
+        List<String> influencerDefaults = 
+        ["Even the most influential influencers are influenced by this inf.",
+        "Always doing the good things for the good people.",
+        "Really always knows everything about what is going on.",
+        "Who needs personality when you have brands.",
+        "Believes even a person can become a product.",
+        "My soul was sold with discount vouchers.",
+        "Believes that there is still room for more pictures of food.",
+        "Prove that freeloading can be a profession.",
+        "Teaches balloon folding to self abusers.",
+        "Free range ranger for sacrificial animals.",
+        "Paints life-size boogie man in children's bedroom closets.",
+        "On-sight plastic surgeon for fashion shows.",
+        "Fred Kazinsky the e-mail bomber.",
+        "Teaches flamboyant shuffling techniques to dull blackjack dealers.",
+        "Sauerkraut unraveler.",];
+        List<String> businessDefaults = ["The best in town",
+        "We know our product, because we made it",
+        "Everything you expect and more",
+        "You will be lovin' it",];
+        switch (account.state.accountType) {
+          case AccountType.AT_INFLUENCER:
+            accountDescription = influencerDefaults[random.nextInt(influencerDefaults.length)];
+            break;
+          case AccountType.AT_BUSINESS:
+            accountDescription = businessDefaults[random.nextInt(businessDefaults.length)];
+            break;
+          case AccountType.AT_SUPPORT:
+            accountDescription = "Support Staff";
+            break;
+          default:
+            accountDescription = "";
+            break;
+        }
       }
 
       // Set empty location names to account name
@@ -793,7 +830,7 @@ class RemoteApp {
                   "INSERT INTO `accounts`("
                   "`name`, `account_type`, "
                   "`global_account_state`, `global_account_state_reason`, "
-                  "`description`, `url`" // avatarUrl is set later
+                  "`description`, `url`, `email`" // avatarUrl is set later
                   ") VALUES (?, ?, ?, ?, ?, ?)",
                   [
                     accountName.toString(),
@@ -801,7 +838,8 @@ class RemoteApp {
                     globalAccountState.value.toInt(),
                     globalAccountStateReason.value.toInt(),
                     accountDescription.toString(),
-                    accountUrl
+                    accountUrl,
+                    accountEmail,
                   ]);
               if (res1.affectedRows == 0)
                 throw new Exception("Account was not inserted");
