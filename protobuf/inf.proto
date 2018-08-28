@@ -223,6 +223,27 @@ enum ApplicantChatType {
   
 }
 
+enum ApplicantState {
+  AS_HAGGLING = 0;
+  
+  AS_DEAL = 1;
+  AS_REJECTED = 2;
+  
+  AS_COMPLETE = 3;
+  AS_DISPUTE = 4;
+  AS_RESOLVED = 5;
+  
+}
+
+enum ApplicantChatMarker {
+  ACM_APPLIED = 0; // ${User} has applied for ${offer}.
+  ACM_WANT_DEAL = 1; // ${User} wants to make a deal.
+  ACM_DEAL_MADE = 2; // A deal has been made. Congratulations!
+  ACM_REJECTED = 3; // ${User} has rejected the application.
+  
+  
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -377,8 +398,13 @@ message DataApplicant {
   bool businessSaysDelivered = 9;
   bool businessSaysRewarded = 10;
   
-  int32 businessGaveRating = 11; // 1 to 5, 0 is no rating given
+  int32 businessGaveRating = 11; // 1 to 5, 0 is no rating given (rating given implies complete)
   int32 influencerGaveRating = 12;
+  
+  bool businessDisputed = 14;
+  bool influencerDisputed = 15;
+  
+  ApplicantState state = 13;
   
 }
 
@@ -390,7 +416,7 @@ message DataApplicantChat {
   int32 clientGhostId = 6; // Deduplication client-side (ghost entry)
   ApplicantChatType type = 8;
   string text = 5; // The written text
-  bool seen = 9;
+  int64 seen = 9; // 0 if not seen
   
 }
 
@@ -617,5 +643,78 @@ message NetLoadOffersRes {
 // Update offer information, assume the recipient owns this offer (client should check accountId though, in case protocol changes)
 // Id: DB_OFFER
 // message DataBusinessOffer
+
+// end of messages related to offers.
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// Server notifies client of new DataApplicant (An influencer has applied for your offer!) (Live New) (should also have firebase variants)
+// Id: LN_APPLI
+// Data: DataApplicant
+
+// Server notifies client of new DataApplicantChat (should also have firebase variants)
+// Id: LN_A_CHA
+// Data: DataApplicantChat
+
+// Server updates DataApplicant (Live Update)
+// Id: LU_APPLI
+// Data: DataApplicant
+
+// Apply for offer
+// Id: O_APPLYY
+// Response: DataApplicant (Id: O_R_APPL) (or exception in case of failure)
+message NetOfferApplyReq {
+  int32 offerId = 1;
+  string remarks = 2;
+  
+}
+
+// Send chat plain
+// Id: CH_PLAIN
+message NetChatPlain {
+  int32 applicantId = 1;
+  string text;
+  
+}
+
+// Send chat haggle (refuse if already accepted by both)
+// Id: CH_HAGGL
+message NetChatHaggle {
+  int32 applicantId = 1;
+  string deliverables = 3;
+  string reward = 4;
+  string remarks = 2;
+  
+}
+
+// Send chat image key
+// Id: CH_IMAGE
+message NetChatImageKey {
+  int32 applicantId = 1;
+  string imageKey = 5;
+  
+}
+
+// Mark as completed OR Report a problem
+// Id: AP_COMPL
+// Response: DataApplicant (Id: AP_R_COM)
+message NetApplicantCompletionReq {
+  int32 applicantId = 1;
+  
+  bool delivered;
+  bool rewarded;
+  
+  int32 rating; // No rating expected in case of problem report
+  
+  bool reportProblem;
+  string problemDescription; // Problem description for support
+  
+}
+
+// end of messages related to applicants.
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 /* end of file */
