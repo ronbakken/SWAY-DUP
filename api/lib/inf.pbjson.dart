@@ -116,6 +116,10 @@ const ApplicantChatMarker$json = const {
     const {'1': 'ACM_WANT_DEAL', '2': 1},
     const {'1': 'ACM_DEAL_MADE', '2': 2},
     const {'1': 'ACM_REJECTED', '2': 3},
+    const {'1': 'ACM_MARKED_COMPLETE', '2': 4},
+    const {'1': 'ACM_COMPLETE', '2': 5},
+    const {'1': 'ACM_MARKED_DISPUTE', '2': 6},
+    const {'1': 'ACM_RESOLVED', '2': 7},
   ],
 };
 
