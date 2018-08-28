@@ -423,7 +423,10 @@ message DataApplicantChat {
   int64 sent = 10; // Sent timestamp
   int32 senderId = 2; // Account which sent
   int32 applicantId = 1; // One chat per applicant
-  int32 clientGhostId = 6; // Deduplication client-side (ghost entry)
+  
+  int32 deviceId;
+  int32 deviceGhostId = 6; // Deduplication client-side (ghost entry)
+  
   ApplicantChatType type = 8;
   string text = 5; // The written text
   int64 seen = 9; // 0 if not seen
@@ -684,6 +687,7 @@ message NetOfferApplyReq {
 // Id: CH_PLAIN
 message NetChatPlain {
   int32 applicantId = 1;
+  int32 deviceGhostId = 8;
   string text = 6;
   
 }
@@ -692,6 +696,7 @@ message NetChatPlain {
 // Id: CH_HAGGL
 message NetChatHaggle {
   int32 applicantId = 1;
+  int32 deviceGhostId = 8;
   string deliverables = 3;
   string reward = 4;
   string remarks = 2;
@@ -702,6 +707,7 @@ message NetChatHaggle {
 // Id: CH_IMAGE
 message NetChatImageKey {
   int32 applicantId = 1;
+  int32 deviceGhostId = 8;
   string imageKey = 5;
   
 }
