@@ -674,6 +674,10 @@ message NetLoadOffersRes {
 // Id: LU_APPLI
 // Data: DataApplicant
 
+// Server updates DataApplicantChat (loading)
+// Id: LU_A_CHA
+// Data: DataApplicantChat
+
 // Apply for offer
 // Id: O_APPLYY
 // Response: DataApplicant (Id: O_R_APPL) (or exception in case of failure)
@@ -728,7 +732,84 @@ message NetApplicantCompletionReq {
   
 }
 
+// Message to load or refresh applicant list
+// Server will send a stream of DataApplicant messages (Id: LU_APPLI)
+// Id: L_APPLIC
+// Response: NetLoadApplicantsRes (Id: L_R_APPL)
+message NetLoadApplicantsReq {
+  // Offer for which to send applicants (ignored when requested by influencer)
+  int32 offerId = 4;
+  
+  // Applicants with id lower than this (older applicants) (ignore if 0)
+  int32 before = 1;
+  
+  // Applicants with id higher than this (newer applicants) (ignore if 0)
+  int32 after = 2;
+  
+  // Limit (ignore if 0)
+  int32 limit = 3;
+  
+}
+
+// Response which is sent when all LU_APPLI messages have been sent
+// Used by the client to signal to the user that refresh is complete, if refresh was done manually (and to avoid multiple simultaneous loads)
+// Id: L_R_APPL
+message NetLoadApplicantsRes {
+  // Oldest applicant which was sent
+  int32 oldest = 1;
+  
+  // Newest applicant which was sent
+  int32 newest = 2;
+  
+}
+
+// Message to load or refresh applicant chat list
+// Server will send a stream of DataApplicantChat messages (Id: LU_A_CHA)
+// Id: L_APCHAT
+// Response: NetLoadApplicantsRes (Id: L_R_APCH)
+message NetLoadApplicantChatsReq {
+  // Applicant for which to send chats
+  int32 applicantId = 5;
+  
+  // Applicant chats with id lower than this (older applicant chats) (ignore if 0)
+  int32 before = 1;
+  
+  // Applicant chats with id higher than this (newer applicant chats) (ignore if 0)
+  int32 after = 2;
+  
+  // Limit (ignore if 0)
+  int32 limit = 3;
+  
+}
+
+// Response which is sent when all LU_APPLI messages have been sent
+// Used by the client to signal to the user that refresh is complete, if refresh was done manually (and to avoid multiple simultaneous loads)
+// Id: L_R_APCH
+message NetLoadApplicantChatsRes {
+  // Oldest applicant chat which was sent
+  int32 oldest = 1;
+  
+  // Newest applicant chat which was sent
+  int32 newest = 2;
+  
+}
+
 // end of messages related to applicants.
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// Edit Profile
+
+// Load Public Profile
+// Id: L_PROFIL
+// Response: DataAccount (Id: L_R_PROF)
+message NetLoadPublicProfileReq {
+  int32 accountId;
+  
+}
+
+// end of messages related to profiles.
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
