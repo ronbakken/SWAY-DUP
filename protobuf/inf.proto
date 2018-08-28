@@ -400,19 +400,19 @@ message DataApplicant {
   
   /// Current chat ID with haggle buttons (deliverables / reward / remarks)
   int64 haggleChatId = 4;
-  bool businessWantsDeal = 5;
   bool influencerWantsDeal = 6;
+  bool businessWantsDeal = 5;
   
   bool influencerMarkedDelivered = 7;
   bool influencerMarkedRewarded = 8;
   bool businessMarkedDelivered = 9;
   bool businessMarkedRewarded = 10;
   
-  int32 businessGaveRating = 11; // 1 to 5, 0 is no rating given (rating given implies complete)
   int32 influencerGaveRating = 12;
+  int32 businessGaveRating = 11; // 1 to 5, 0 is no rating given (rating given implies complete)
   
-  bool businessDisputed = 14;
   bool influencerDisputed = 15;
+  bool businessDisputed = 14;
   
   ApplicantState state = 13;
   
@@ -424,7 +424,7 @@ message DataApplicantChat {
   int32 senderId = 2; // Account which sent
   int32 applicantId = 1; // One chat per applicant
   
-  int32 deviceId = 11;
+  int32 deviceId = 11; // Cleared upon forwarding
   int32 deviceGhostId = 6; // Deduplication client-side (ghost entry)
   
   ApplicantChatType type = 8;
