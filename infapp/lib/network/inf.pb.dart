@@ -322,6 +322,8 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(19, 'cloudinaryUrl')
     ..aOS(20, 'cloudinaryThumbnailUrl')
     ..aOS(21, 'cloudinaryCoverUrl')
+    ..aOS(22, 'freshdeskApi')
+    ..aOS(23, 'freshdeskKey')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -508,6 +510,22 @@ class ConfigServices extends GeneratedMessage {
 
   bool hasCloudinaryCoverUrl() => $_has(20);
   void clearCloudinaryCoverUrl() => clearField(21);
+
+  String get freshdeskApi => $_getS(21, '');
+  set freshdeskApi(String v) {
+    $_setString(21, v);
+  }
+
+  bool hasFreshdeskApi() => $_has(21);
+  void clearFreshdeskApi() => clearField(22);
+
+  String get freshdeskKey => $_getS(22, '');
+  set freshdeskKey(String v) {
+    $_setString(22, v);
+  }
+
+  bool hasFreshdeskKey() => $_has(22);
+  void clearFreshdeskKey() => clearField(23);
 }
 
 class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {
