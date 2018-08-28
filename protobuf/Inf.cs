@@ -75,78 +75,87 @@ namespace InfX {
             "YXJVcmwYBiABKAkSEwoLYXBwcm94aW1hdGUYByABKAkSDgoGZGV0YWlsGAgg",
             "ASgJEhAKCHBvc3Rjb2RlGAkgASgJEhIKCnJlZ2lvbkNvZGUYCiABKAkSEwoL",
             "Y291bnRyeUNvZGUYCyABKAkSEAoIbGF0aXR1ZGUYBCABKAESEQoJbG9uZ2l0",
-            "dWRlGAUgASgBIkgKDURhdGFBcHBsaWNhbnQSEwoLYXBwbGljYW50SWQYASAB",
-            "KAUSDwoHb2ZmZXJJZBgCIAEoBRIRCglhY2NvdW50SWQYAyABKAUiYgoIRGF0",
-            "YUNoYXQSEwoLYXBwbGljYW50SWQYASABKAUSEgoKc2VxdWVuY2VJZBgCIAEo",
-            "BRINCgVrZXlJZBgDIAEoBRIQCghvdXRnb2luZxgEIAEoCBIMCgR0ZXh0GAUg",
-            "ASgJIocCChBEYXRhQWNjb3VudFN0YXRlEhAKCGRldmljZUlkGAEgASgFEhEK",
-            "CWFjY291bnRJZBgCIAEoBRIlCgthY2NvdW50VHlwZRgDIAEoDjIQLmluZi5B",
-            "Y2NvdW50VHlwZRIzChJnbG9iYWxBY2NvdW50U3RhdGUYBCABKA4yFy5pbmYu",
-            "R2xvYmFsQWNjb3VudFN0YXRlEj8KGGdsb2JhbEFjY291bnRTdGF0ZVJlYXNv",
-            "bhgFIAEoDjIdLmluZi5HbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SMQoRbm90",
-            "aWZpY2F0aW9uRmxhZ3MYBiABKA4yFi5pbmYuTm90aWZpY2F0aW9uRmxhZ3Mi",
-            "ZQoSRGF0YUFjY291bnRTdW1tYXJ5EgwKBG5hbWUYASABKAkSEwoLZGVzY3Jp",
-            "cHRpb24YAiABKAkSEAoIbG9jYXRpb24YAyABKAkSGgoSYXZhdGFyVGh1bWJu",
-            "YWlsVXJsGAQgASgJIsEBChFEYXRhQWNjb3VudERldGFpbBIjCgpjYXRlZ29y",
-            "aWVzGAIgAygLMg8uaW5mLkNhdGVnb3J5SWQSKQoLc29jaWFsTWVkaWEYAyAD",
-            "KAsyFC5pbmYuRGF0YVNvY2lhbE1lZGlhEhYKDmF2YXRhckNvdmVyVXJsGAcg",
-            "ASgJEgsKA3VybBgGIAEoCRIQCghsYXRpdHVkZRgEIAEoARIRCglsb25naXR1",
-            "ZGUYBSABKAESEgoKbG9jYXRpb25JZBgIIAEoBSKFAQoLRGF0YUFjY291bnQS",
-            "JAoFc3RhdGUYASABKAsyFS5pbmYuRGF0YUFjY291bnRTdGF0ZRIoCgdzdW1t",
-            "YXJ5GAIgASgLMhcuaW5mLkRhdGFBY2NvdW50U3VtbWFyeRImCgZkZXRhaWwY",
-            "AyABKAsyFi5pbmYuRGF0YUFjY291bnREZXRhaWwiXAoWTmV0RGV2aWNlQXV0",
-            "aENyZWF0ZVJlcRIOCgZhZXNLZXkYASABKAwSFgoOY29tbW9uRGV2aWNlSWQY",
-            "BCABKAwSDAoEbmFtZRgCIAEoCRIMCgRpbmZvGAMgASgJIi0KGU5ldERldmlj",
-            "ZUF1dGhDaGFsbGVuZ2VSZXESEAoIZGV2aWNlSWQYASABKAUiMQocTmV0RGV2",
-            "aWNlQXV0aENoYWxsZW5nZVJlc1JlcRIRCgljaGFsbGVuZ2UYASABKAwiMQoc",
-            "TmV0RGV2aWNlQXV0aFNpZ25hdHVyZVJlc1JlcRIRCglzaWduYXR1cmUYASAB",
-            "KAwiNAoSTmV0RGV2aWNlQXV0aFN0YXRlEh4KBGRhdGEYCCABKAsyEC5pbmYu",
-            "RGF0YUFjY291bnQiOgoRTmV0U2V0QWNjb3VudFR5cGUSJQoLYWNjb3VudFR5",
-            "cGUYASABKA4yEC5pbmYuQWNjb3VudFR5cGUiJwoOTmV0T0F1dGhVcmxSZXES",
-            "FQoNb2F1dGhQcm92aWRlchgBIAEoBSI2Cg5OZXRPQXV0aFVybFJlcxIPCgdh",
-            "dXRoVXJsGAEgASgJEhMKC2NhbGxiYWNrVXJsGAIgASgJIkIKEk5ldE9BdXRo",
-            "Q29ubmVjdFJlcRIVCg1vYXV0aFByb3ZpZGVyGAEgASgFEhUKDWNhbGxiYWNr",
-            "UXVlcnkYAiABKAkiPwoSTmV0T0F1dGhDb25uZWN0UmVzEikKC3NvY2lhbE1l",
-            "ZGlhGAEgASgLMhQuaW5mLkRhdGFTb2NpYWxNZWRpYSI6ChNOZXRBY2NvdW50",
-            "Q3JlYXRlUmVxEhAKCGxhdGl0dWRlGAIgASgBEhEKCWxvbmdpdHVkZRgDIAEo",
-            "ASJoChFOZXRVcGxvYWRJbWFnZVJlcRIQCghmaWxlTmFtZRgBIAEoCRIVCg1j",
-            "b250ZW50TGVuZ3RoGAIgASgFEhMKC2NvbnRlbnRUeXBlGAQgASgJEhUKDWNv",
-            "bnRlbnRTaGEyNTYYAyABKAwijQEKEU5ldFVwbG9hZEltYWdlUmVzEhUKDXJl",
-            "cXVlc3RNZXRob2QYASABKAkSEgoKcmVxdWVzdFVybBgCIAEoCRISCgpmaWxl",
-            "RXhpc3RzGAkgASgIEhEKCXVwbG9hZEtleRgKIAEoCRIQCghjb3ZlclVybBgL",
-            "IAEoCRIUCgx0aHVtYm5haWxVcmwYDCABKAkinAEKDU5ldFNldFByb2ZpbGUS",
-            "DAoEbmFtZRgBIAEoCRITCgtkZXNjcmlwdGlvbhgCIAEoCRIRCglhdmF0YXJL",
-            "ZXkYBCABKAkSCwoDdXJsGAYgASgJEiMKCmNhdGVnb3JpZXMYDCADKAsyDy5p",
-            "bmYuQ2F0ZWdvcnlJZBIQCghsYXRpdHVkZRgOIAEoARIRCglsb25naXR1ZGUY",
-            "DyABKAEihAEKEU5ldENyZWF0ZU9mZmVyUmVxEg0KBXRpdGxlGAEgASgJEhEK",
-            "CWltYWdlS2V5cxgCIAMoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIUCgxkZWxp",
-            "dmVyYWJsZXMYBCABKAkSDgoGcmV3YXJkGAUgASgJEhIKCmxvY2F0aW9uSWQY",
-            "BiABKAUiQAoQTmV0TG9hZE9mZmVyc1JlcRIOCgZiZWZvcmUYASABKAUSDQoF",
-            "YWZ0ZXIYAiABKAUSDQoFbGltaXQYAyABKAUiMgoQTmV0TG9hZE9mZmVyc1Jl",
-            "cxIOCgZvbGRlc3QYASABKAUSDgoGbmV3ZXN0GAIgASgFKj4KDk9BdXRoTWVj",
-            "aGFuaXNtEgwKCE9BTV9OT05FEAASDgoKT0FNX09BVVRIMRABEg4KCk9BTV9P",
-            "QVVUSDIQAipDChBPQXV0aFByb3ZpZGVySWRzEgwKCE9BUF9OT05FEAASDwoL",
-            "T0FQX1RXSVRURVIQARIQCgxPQVBfRkFDRUJPT0sQAipRCgtBY2NvdW50VHlw",
-            "ZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5GTFVFTkNFUhABEg8KC0FUX0JV",
-            "U0lORVNTEAISDgoKQVRfU1VQUE9SVBADKp4BChJHbG9iYWxBY2NvdW50U3Rh",
-            "dGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tFRBABEhEKDUdB",
-            "U19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklURRADEg0KCUdBU19ERUJV",
-            "RxAEEg8KC0dBU19TVVBQT1JUEAUSDwoLR0FTX01BTkFHRVIQBhILCgdHQVNf",
-            "R09EEAcqtQEKGEdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05F",
-            "V19BQ0NPVU5UEAASFwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBABEhYKEkdBU1Jf",
-            "Q1JFQVRFX0RFTklFRBACEhEKDUdBU1JfQVBQUk9WRUQQAxIWChJHQVNSX0RF",
-            "TU9fQVBQUk9WRUQQBBIQCgxHQVNSX1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJ",
-            "UkVfSU5GTxAGKm4KEU5vdGlmaWNhdGlvbkZsYWdzEhQKEE5GX0FDQ09VTlRf",
-            "U1RBVEUQABIYChRORl9NQUtFX0FOX09GRkVSX0ZBQhABEhYKEk5GX1VOUkVB",
-            "RF9NRVNTQUdFUxACEhEKDU5GX0NTX1JFUVVFU1QQAypRChJCdXNpbmVzc09m",
-            "ZmVyU3RhdGUSDQoJQk9TX0RSQUZUEAASDAoIQk9TX09QRU4QARIOCgpCT1Nf",
-            "QUNUSVZFEAISDgoKQk9TX0NMT1NFRBADKnAKGEJ1c2luZXNzT2ZmZXJTdGF0",
-            "ZVJlYXNvbhISCg5CT1NSX05FV19PRkZFUhAAEhQKEEJPU1JfVVNFUl9DTE9T",
-            "RUQQARIWChJCT1NSX1RPU19WSU9MQVRJT04QAhISCg5CT1NSX0NPTVBMRVRF",
-            "RBADQgeqAgRJbmZYYgZwcm90bzM="));
+            "dWRlGAUgASgBIocCChBEYXRhQWNjb3VudFN0YXRlEhAKCGRldmljZUlkGAEg",
+            "ASgFEhEKCWFjY291bnRJZBgCIAEoBRIlCgthY2NvdW50VHlwZRgDIAEoDjIQ",
+            "LmluZi5BY2NvdW50VHlwZRIzChJnbG9iYWxBY2NvdW50U3RhdGUYBCABKA4y",
+            "Fy5pbmYuR2xvYmFsQWNjb3VudFN0YXRlEj8KGGdsb2JhbEFjY291bnRTdGF0",
+            "ZVJlYXNvbhgFIAEoDjIdLmluZi5HbG9iYWxBY2NvdW50U3RhdGVSZWFzb24S",
+            "MQoRbm90aWZpY2F0aW9uRmxhZ3MYBiABKA4yFi5pbmYuTm90aWZpY2F0aW9u",
+            "RmxhZ3MiZQoSRGF0YUFjY291bnRTdW1tYXJ5EgwKBG5hbWUYASABKAkSEwoL",
+            "ZGVzY3JpcHRpb24YAiABKAkSEAoIbG9jYXRpb24YAyABKAkSGgoSYXZhdGFy",
+            "VGh1bWJuYWlsVXJsGAQgASgJIsEBChFEYXRhQWNjb3VudERldGFpbBIjCgpj",
+            "YXRlZ29yaWVzGAIgAygLMg8uaW5mLkNhdGVnb3J5SWQSKQoLc29jaWFsTWVk",
+            "aWEYAyADKAsyFC5pbmYuRGF0YVNvY2lhbE1lZGlhEhYKDmF2YXRhckNvdmVy",
+            "VXJsGAcgASgJEgsKA3VybBgGIAEoCRIQCghsYXRpdHVkZRgEIAEoARIRCgls",
+            "b25naXR1ZGUYBSABKAESEgoKbG9jYXRpb25JZBgIIAEoBSKFAQoLRGF0YUFj",
+            "Y291bnQSJAoFc3RhdGUYASABKAsyFS5pbmYuRGF0YUFjY291bnRTdGF0ZRIo",
+            "CgdzdW1tYXJ5GAIgASgLMhcuaW5mLkRhdGFBY2NvdW50U3VtbWFyeRImCgZk",
+            "ZXRhaWwYAyABKAsyFi5pbmYuRGF0YUFjY291bnREZXRhaWwizgIKDURhdGFB",
+            "cHBsaWNhbnQSEwoLYXBwbGljYW50SWQYASABKAUSDwoHb2ZmZXJJZBgCIAEo",
+            "BRIRCglhY2NvdW50SWQYAyABKAUSFAoMaGFnZ2xlQ2hhdElkGAQgASgDEhkK",
+            "EWJ1c2luZXNzV2FudHNEZWFsGAUgASgIEhsKE2luZmx1ZW5jZXJXYW50c0Rl",
+            "YWwYBiABKAgSHwoXaW5mbHVlbmNlclNheXNEZWxpdmVyZWQYByABKAgSHgoW",
+            "aW5mbHVlbmNlclNheXNSZXdhcmRlZBgIIAEoCBIdChVidXNpbmVzc1NheXNE",
+            "ZWxpdmVyZWQYCSABKAgSHAoUYnVzaW5lc3NTYXlzUmV3YXJkZWQYCiABKAgS",
+            "GgoSYnVzaW5lc3NHYXZlUmF0aW5nGAsgASgFEhwKFGluZmx1ZW5jZXJHYXZl",
+            "UmF0aW5nGAwgASgFIrEBChFEYXRhQXBwbGljYW50Q2hhdBIOCgZjaGF0SWQY",
+            "ByABKAMSDAoEc2VudBgKIAEoAxIQCghzZW5kZXJJZBgCIAEoBRITCgthcHBs",
+            "aWNhbnRJZBgBIAEoBRIVCg1jbGllbnRHaG9zdElkGAYgASgFEiQKBHR5cGUY",
+            "CCABKA4yFi5pbmYuQXBwbGljYW50Q2hhdFR5cGUSDAoEdGV4dBgFIAEoCRIM",
+            "CgRzZWVuGAkgASgIIlwKFk5ldERldmljZUF1dGhDcmVhdGVSZXESDgoGYWVz",
+            "S2V5GAEgASgMEhYKDmNvbW1vbkRldmljZUlkGAQgASgMEgwKBG5hbWUYAiAB",
+            "KAkSDAoEaW5mbxgDIAEoCSItChlOZXREZXZpY2VBdXRoQ2hhbGxlbmdlUmVx",
+            "EhAKCGRldmljZUlkGAEgASgFIjEKHE5ldERldmljZUF1dGhDaGFsbGVuZ2VS",
+            "ZXNSZXESEQoJY2hhbGxlbmdlGAEgASgMIjEKHE5ldERldmljZUF1dGhTaWdu",
+            "YXR1cmVSZXNSZXESEQoJc2lnbmF0dXJlGAEgASgMIjQKEk5ldERldmljZUF1",
+            "dGhTdGF0ZRIeCgRkYXRhGAggASgLMhAuaW5mLkRhdGFBY2NvdW50IjoKEU5l",
+            "dFNldEFjY291bnRUeXBlEiUKC2FjY291bnRUeXBlGAEgASgOMhAuaW5mLkFj",
+            "Y291bnRUeXBlIicKDk5ldE9BdXRoVXJsUmVxEhUKDW9hdXRoUHJvdmlkZXIY",
+            "ASABKAUiNgoOTmV0T0F1dGhVcmxSZXMSDwoHYXV0aFVybBgBIAEoCRITCgtj",
+            "YWxsYmFja1VybBgCIAEoCSJCChJOZXRPQXV0aENvbm5lY3RSZXESFQoNb2F1",
+            "dGhQcm92aWRlchgBIAEoBRIVCg1jYWxsYmFja1F1ZXJ5GAIgASgJIj8KEk5l",
+            "dE9BdXRoQ29ubmVjdFJlcxIpCgtzb2NpYWxNZWRpYRgBIAEoCzIULmluZi5E",
+            "YXRhU29jaWFsTWVkaWEiOgoTTmV0QWNjb3VudENyZWF0ZVJlcRIQCghsYXRp",
+            "dHVkZRgCIAEoARIRCglsb25naXR1ZGUYAyABKAEiaAoRTmV0VXBsb2FkSW1h",
+            "Z2VSZXESEAoIZmlsZU5hbWUYASABKAkSFQoNY29udGVudExlbmd0aBgCIAEo",
+            "BRITCgtjb250ZW50VHlwZRgEIAEoCRIVCg1jb250ZW50U2hhMjU2GAMgASgM",
+            "Io0BChFOZXRVcGxvYWRJbWFnZVJlcxIVCg1yZXF1ZXN0TWV0aG9kGAEgASgJ",
+            "EhIKCnJlcXVlc3RVcmwYAiABKAkSEgoKZmlsZUV4aXN0cxgJIAEoCBIRCgl1",
+            "cGxvYWRLZXkYCiABKAkSEAoIY292ZXJVcmwYCyABKAkSFAoMdGh1bWJuYWls",
+            "VXJsGAwgASgJIpwBCg1OZXRTZXRQcm9maWxlEgwKBG5hbWUYASABKAkSEwoL",
+            "ZGVzY3JpcHRpb24YAiABKAkSEQoJYXZhdGFyS2V5GAQgASgJEgsKA3VybBgG",
+            "IAEoCRIjCgpjYXRlZ29yaWVzGAwgAygLMg8uaW5mLkNhdGVnb3J5SWQSEAoI",
+            "bGF0aXR1ZGUYDiABKAESEQoJbG9uZ2l0dWRlGA8gASgBIoQBChFOZXRDcmVh",
+            "dGVPZmZlclJlcRINCgV0aXRsZRgBIAEoCRIRCglpbWFnZUtleXMYAiADKAkS",
+            "EwoLZGVzY3JpcHRpb24YAyABKAkSFAoMZGVsaXZlcmFibGVzGAQgASgJEg4K",
+            "BnJld2FyZBgFIAEoCRISCgpsb2NhdGlvbklkGAYgASgFIkAKEE5ldExvYWRP",
+            "ZmZlcnNSZXESDgoGYmVmb3JlGAEgASgFEg0KBWFmdGVyGAIgASgFEg0KBWxp",
+            "bWl0GAMgASgFIjIKEE5ldExvYWRPZmZlcnNSZXMSDgoGb2xkZXN0GAEgASgF",
+            "Eg4KBm5ld2VzdBgCIAEoBSo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9O",
+            "RRAAEg4KCk9BTV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQ",
+            "cm92aWRlcklkcxIMCghPQVBfTk9ORRAAEg8KC09BUF9UV0lUVEVSEAESEAoM",
+            "T0FQX0ZBQ0VCT09LEAIqUQoLQWNjb3VudFR5cGUSDgoKQVRfVU5LTk9XThAA",
+            "EhEKDUFUX0lORkxVRU5DRVIQARIPCgtBVF9CVVNJTkVTUxACEg4KCkFUX1NV",
+            "UFBPUlQQAyqeAQoSR2xvYmFsQWNjb3VudFN0YXRlEhIKDkdBU19JTklUSUFM",
+            "SVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1HQVNfUkVBRF9PTkxZEAISEgoO",
+            "R0FTX1JFQURfV1JJVEUQAxINCglHQVNfREVCVUcQBBIPCgtHQVNfU1VQUE9S",
+            "VBAFEg8KC0dBU19NQU5BR0VSEAYSCwoHR0FTX0dPRBAHKrUBChhHbG9iYWxB",
+            "Y2NvdW50U3RhdGVSZWFzb24SFAoQR0FTUl9ORVdfQUNDT1VOVBAAEhcKE0dB",
+            "U1JfQUNDT1VOVF9CQU5ORUQQARIWChJHQVNSX0NSRUFURV9ERU5JRUQQAhIR",
+            "Cg1HQVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9ERU1PX0FQUFJPVkVEEAQSEAoM",
+            "R0FTUl9QRU5ESU5HEAUSFQoRR0FTUl9SRVFVSVJFX0lORk8QBipuChFOb3Rp",
+            "ZmljYXRpb25GbGFncxIUChBORl9BQ0NPVU5UX1NUQVRFEAASGAoUTkZfTUFL",
+            "RV9BTl9PRkZFUl9GQUIQARIWChJORl9VTlJFQURfTUVTU0FHRVMQAhIRCg1O",
+            "Rl9DU19SRVFVRVNUEAMqUQoSQnVzaW5lc3NPZmZlclN0YXRlEg0KCUJPU19E",
+            "UkFGVBAAEgwKCEJPU19PUEVOEAESDgoKQk9TX0FDVElWRRACEg4KCkJPU19D",
+            "TE9TRUQQAypwChhCdXNpbmVzc09mZmVyU3RhdGVSZWFzb24SEgoOQk9TUl9O",
+            "RVdfT0ZGRVIQABIUChBCT1NSX1VTRVJfQ0xPU0VEEAESFgoSQk9TUl9UT1Nf",
+            "VklPTEFUSU9OEAISEgoOQk9TUl9DT01QTEVURUQQAypFChFBcHBsaWNhbnRD",
+            "aGF0VHlwZRINCglBQ1RfUExBSU4QABIOCgpBQ1RfSEFHR0xFEAESEQoNQUNU",
+            "X0lNQUdFX0tFWRACQgeqAgRJbmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), }, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), typeof(global::InfX.ApplicantChatType), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigSubCategories), global::InfX.ConfigSubCategories.Parser, new[]{ "Labels" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "CallbackUrl", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret", "WhitelistHosts" }, null, null, null),
@@ -158,12 +167,12 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOAuthCredentials), global::InfX.DataOAuthCredentials.Parser, new[]{ "UserId", "Token", "TokenSecret", "TokenExpires" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataBusinessOffer), global::InfX.DataBusinessOffer.Parser, new[]{ "OfferId", "AccountId", "LocationId", "Title", "Description", "ThumbnailUrl", "Deliverables", "Reward", "Location", "Latitude", "Longitude", "CoverUrls", "Categories", "State", "StateReason", "ApplicantsNew", "ApplicantsAccepted", "ApplicantsCompleted", "ApplicantsRefused" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataLocation), global::InfX.DataLocation.Parser, new[]{ "LocationId", "Name", "AvatarUrl", "Approximate", "Detail", "Postcode", "RegionCode", "CountryCode", "Latitude", "Longitude" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "AccountId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataChat), global::InfX.DataChat.Parser, new[]{ "ApplicantId", "SequenceId", "KeyId", "Outgoing", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason", "NotificationFlags" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarThumbnailUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "AvatarCoverUrl", "Url", "Latitude", "Longitude", "LocationId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "AccountId", "HaggleChatId", "BusinessWantsDeal", "InfluencerWantsDeal", "InfluencerSaysDelivered", "InfluencerSaysRewarded", "BusinessSaysDelivered", "BusinessSaysRewarded", "BusinessGaveRating", "InfluencerGaveRating" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicantChat), global::InfX.DataApplicantChat.Parser, new[]{ "ChatId", "Sent", "SenderId", "ApplicantId", "ClientGhostId", "Type", "Text", "Seen" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthCreateReq), global::InfX.NetDeviceAuthCreateReq.Parser, new[]{ "AesKey", "CommonDeviceId", "Name", "Info" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeReq), global::InfX.NetDeviceAuthChallengeReq.Parser, new[]{ "DeviceId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthChallengeResReq), global::InfX.NetDeviceAuthChallengeResReq.Parser, new[]{ "Challenge" }, null, null, null),
@@ -313,6 +322,15 @@ namespace InfX {
     ///  This offer has been completed by all applicants
     /// </summary>
     [pbr::OriginalName("BOSR_COMPLETED")] BosrCompleted = 3,
+  }
+
+  public enum ApplicantChatType {
+    [pbr::OriginalName("ACT_PLAIN")] ActPlain = 0,
+    /// <summary>
+    ///  url-encoded haggle message
+    /// </summary>
+    [pbr::OriginalName("ACT_HAGGLE")] ActHaggle = 1,
+    [pbr::OriginalName("ACT_IMAGE_KEY")] ActImageKey = 2,
   }
 
   #endregion
@@ -4046,428 +4064,6 @@ namespace InfX {
 
   }
 
-  public sealed partial class DataApplicant : pb::IMessage<DataApplicant> {
-    private static readonly pb::MessageParser<DataApplicant> _parser = new pb::MessageParser<DataApplicant>(() => new DataApplicant());
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<DataApplicant> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[11]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataApplicant() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataApplicant(DataApplicant other) : this() {
-      applicantId_ = other.applicantId_;
-      offerId_ = other.offerId_;
-      accountId_ = other.accountId_;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataApplicant Clone() {
-      return new DataApplicant(this);
-    }
-
-    /// <summary>Field number for the "applicantId" field.</summary>
-    public const int ApplicantIdFieldNumber = 1;
-    private int applicantId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ApplicantId {
-      get { return applicantId_; }
-      set {
-        applicantId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "offerId" field.</summary>
-    public const int OfferIdFieldNumber = 2;
-    private int offerId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int OfferId {
-      get { return offerId_; }
-      set {
-        offerId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "accountId" field.</summary>
-    public const int AccountIdFieldNumber = 3;
-    private int accountId_;
-    /// <summary>
-    ///  bool influencer accepted/delivered/...
-    ///  bool business accepted/received service/...
-    ///  datetime schedule etc
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int AccountId {
-      get { return accountId_; }
-      set {
-        accountId_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as DataApplicant);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(DataApplicant other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (ApplicantId != other.ApplicantId) return false;
-      if (OfferId != other.OfferId) return false;
-      if (AccountId != other.AccountId) return false;
-      return true;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
-      if (OfferId != 0) hash ^= OfferId.GetHashCode();
-      if (AccountId != 0) hash ^= AccountId.GetHashCode();
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (ApplicantId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(ApplicantId);
-      }
-      if (OfferId != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(OfferId);
-      }
-      if (AccountId != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(AccountId);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (ApplicantId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
-      }
-      if (OfferId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OfferId);
-      }
-      if (AccountId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountId);
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(DataApplicant other) {
-      if (other == null) {
-        return;
-      }
-      if (other.ApplicantId != 0) {
-        ApplicantId = other.ApplicantId;
-      }
-      if (other.OfferId != 0) {
-        OfferId = other.OfferId;
-      }
-      if (other.AccountId != 0) {
-        AccountId = other.AccountId;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            input.SkipLastField();
-            break;
-          case 8: {
-            ApplicantId = input.ReadInt32();
-            break;
-          }
-          case 16: {
-            OfferId = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            AccountId = input.ReadInt32();
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
-  public sealed partial class DataChat : pb::IMessage<DataChat> {
-    private static readonly pb::MessageParser<DataChat> _parser = new pb::MessageParser<DataChat>(() => new DataChat());
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<DataChat> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[12]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataChat() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataChat(DataChat other) : this() {
-      applicantId_ = other.applicantId_;
-      sequenceId_ = other.sequenceId_;
-      keyId_ = other.keyId_;
-      outgoing_ = other.outgoing_;
-      text_ = other.text_;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataChat Clone() {
-      return new DataChat(this);
-    }
-
-    /// <summary>Field number for the "applicantId" field.</summary>
-    public const int ApplicantIdFieldNumber = 1;
-    private int applicantId_;
-    /// <summary>
-    ///  One chat per applicant
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ApplicantId {
-      get { return applicantId_; }
-      set {
-        applicantId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "sequenceId" field.</summary>
-    public const int SequenceIdFieldNumber = 2;
-    private int sequenceId_;
-    /// <summary>
-    ///  Sequential identifier in the chat stream
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int SequenceId {
-      get { return sequenceId_; }
-      set {
-        sequenceId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "keyId" field.</summary>
-    public const int KeyIdFieldNumber = 3;
-    private int keyId_;
-    /// <summary>
-    ///  Deduplication client-side (ghost entry)
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int KeyId {
-      get { return keyId_; }
-      set {
-        keyId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "outgoing" field.</summary>
-    public const int OutgoingFieldNumber = 4;
-    private bool outgoing_;
-    /// <summary>
-    ///  Outgoing or incoming message
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Outgoing {
-      get { return outgoing_; }
-      set {
-        outgoing_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "text" field.</summary>
-    public const int TextFieldNumber = 5;
-    private string text_ = "";
-    /// <summary>
-    ///  The written text
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Text {
-      get { return text_; }
-      set {
-        text_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as DataChat);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(DataChat other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (ApplicantId != other.ApplicantId) return false;
-      if (SequenceId != other.SequenceId) return false;
-      if (KeyId != other.KeyId) return false;
-      if (Outgoing != other.Outgoing) return false;
-      if (Text != other.Text) return false;
-      return true;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
-      if (SequenceId != 0) hash ^= SequenceId.GetHashCode();
-      if (KeyId != 0) hash ^= KeyId.GetHashCode();
-      if (Outgoing != false) hash ^= Outgoing.GetHashCode();
-      if (Text.Length != 0) hash ^= Text.GetHashCode();
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (ApplicantId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(ApplicantId);
-      }
-      if (SequenceId != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(SequenceId);
-      }
-      if (KeyId != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(KeyId);
-      }
-      if (Outgoing != false) {
-        output.WriteRawTag(32);
-        output.WriteBool(Outgoing);
-      }
-      if (Text.Length != 0) {
-        output.WriteRawTag(42);
-        output.WriteString(Text);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (ApplicantId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
-      }
-      if (SequenceId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SequenceId);
-      }
-      if (KeyId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(KeyId);
-      }
-      if (Outgoing != false) {
-        size += 1 + 1;
-      }
-      if (Text.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Text);
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(DataChat other) {
-      if (other == null) {
-        return;
-      }
-      if (other.ApplicantId != 0) {
-        ApplicantId = other.ApplicantId;
-      }
-      if (other.SequenceId != 0) {
-        SequenceId = other.SequenceId;
-      }
-      if (other.KeyId != 0) {
-        KeyId = other.KeyId;
-      }
-      if (other.Outgoing != false) {
-        Outgoing = other.Outgoing;
-      }
-      if (other.Text.Length != 0) {
-        Text = other.Text;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            input.SkipLastField();
-            break;
-          case 8: {
-            ApplicantId = input.ReadInt32();
-            break;
-          }
-          case 16: {
-            SequenceId = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            KeyId = input.ReadInt32();
-            break;
-          }
-          case 32: {
-            Outgoing = input.ReadBool();
-            break;
-          }
-          case 42: {
-            Text = input.ReadString();
-            break;
-          }
-        }
-      }
-    }
-
-  }
-
   public sealed partial class DataAccountState : pb::IMessage<DataAccountState> {
     private static readonly pb::MessageParser<DataAccountState> _parser = new pb::MessageParser<DataAccountState>(() => new DataAccountState());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4475,7 +4071,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[13]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4747,7 +4343,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[14]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4948,7 +4544,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[15]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5229,7 +4825,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[16]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5405,6 +5001,771 @@ namespace InfX {
               detail_ = new global::InfX.DataAccountDetail();
             }
             input.ReadMessage(detail_);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DataApplicant : pb::IMessage<DataApplicant> {
+    private static readonly pb::MessageParser<DataApplicant> _parser = new pb::MessageParser<DataApplicant>(() => new DataApplicant());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DataApplicant> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[15]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataApplicant() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataApplicant(DataApplicant other) : this() {
+      applicantId_ = other.applicantId_;
+      offerId_ = other.offerId_;
+      accountId_ = other.accountId_;
+      haggleChatId_ = other.haggleChatId_;
+      businessWantsDeal_ = other.businessWantsDeal_;
+      influencerWantsDeal_ = other.influencerWantsDeal_;
+      influencerSaysDelivered_ = other.influencerSaysDelivered_;
+      influencerSaysRewarded_ = other.influencerSaysRewarded_;
+      businessSaysDelivered_ = other.businessSaysDelivered_;
+      businessSaysRewarded_ = other.businessSaysRewarded_;
+      businessGaveRating_ = other.businessGaveRating_;
+      influencerGaveRating_ = other.influencerGaveRating_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataApplicant Clone() {
+      return new DataApplicant(this);
+    }
+
+    /// <summary>Field number for the "applicantId" field.</summary>
+    public const int ApplicantIdFieldNumber = 1;
+    private int applicantId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantId {
+      get { return applicantId_; }
+      set {
+        applicantId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "offerId" field.</summary>
+    public const int OfferIdFieldNumber = 2;
+    private int offerId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int OfferId {
+      get { return offerId_; }
+      set {
+        offerId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "accountId" field.</summary>
+    public const int AccountIdFieldNumber = 3;
+    private int accountId_;
+    /// <summary>
+    ///  Account which applied
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int AccountId {
+      get { return accountId_; }
+      set {
+        accountId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "haggleChatId" field.</summary>
+    public const int HaggleChatIdFieldNumber = 4;
+    private long haggleChatId_;
+    /// <summary>
+    /// / Current chat ID with haggle buttons (deliverables / reward / remarks)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long HaggleChatId {
+      get { return haggleChatId_; }
+      set {
+        haggleChatId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "businessWantsDeal" field.</summary>
+    public const int BusinessWantsDealFieldNumber = 5;
+    private bool businessWantsDeal_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool BusinessWantsDeal {
+      get { return businessWantsDeal_; }
+      set {
+        businessWantsDeal_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "influencerWantsDeal" field.</summary>
+    public const int InfluencerWantsDealFieldNumber = 6;
+    private bool influencerWantsDeal_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool InfluencerWantsDeal {
+      get { return influencerWantsDeal_; }
+      set {
+        influencerWantsDeal_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "influencerSaysDelivered" field.</summary>
+    public const int InfluencerSaysDeliveredFieldNumber = 7;
+    private bool influencerSaysDelivered_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool InfluencerSaysDelivered {
+      get { return influencerSaysDelivered_; }
+      set {
+        influencerSaysDelivered_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "influencerSaysRewarded" field.</summary>
+    public const int InfluencerSaysRewardedFieldNumber = 8;
+    private bool influencerSaysRewarded_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool InfluencerSaysRewarded {
+      get { return influencerSaysRewarded_; }
+      set {
+        influencerSaysRewarded_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "businessSaysDelivered" field.</summary>
+    public const int BusinessSaysDeliveredFieldNumber = 9;
+    private bool businessSaysDelivered_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool BusinessSaysDelivered {
+      get { return businessSaysDelivered_; }
+      set {
+        businessSaysDelivered_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "businessSaysRewarded" field.</summary>
+    public const int BusinessSaysRewardedFieldNumber = 10;
+    private bool businessSaysRewarded_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool BusinessSaysRewarded {
+      get { return businessSaysRewarded_; }
+      set {
+        businessSaysRewarded_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "businessGaveRating" field.</summary>
+    public const int BusinessGaveRatingFieldNumber = 11;
+    private int businessGaveRating_;
+    /// <summary>
+    ///  1 to 5, 0 is no rating given
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int BusinessGaveRating {
+      get { return businessGaveRating_; }
+      set {
+        businessGaveRating_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "influencerGaveRating" field.</summary>
+    public const int InfluencerGaveRatingFieldNumber = 12;
+    private int influencerGaveRating_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int InfluencerGaveRating {
+      get { return influencerGaveRating_; }
+      set {
+        influencerGaveRating_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DataApplicant);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DataApplicant other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ApplicantId != other.ApplicantId) return false;
+      if (OfferId != other.OfferId) return false;
+      if (AccountId != other.AccountId) return false;
+      if (HaggleChatId != other.HaggleChatId) return false;
+      if (BusinessWantsDeal != other.BusinessWantsDeal) return false;
+      if (InfluencerWantsDeal != other.InfluencerWantsDeal) return false;
+      if (InfluencerSaysDelivered != other.InfluencerSaysDelivered) return false;
+      if (InfluencerSaysRewarded != other.InfluencerSaysRewarded) return false;
+      if (BusinessSaysDelivered != other.BusinessSaysDelivered) return false;
+      if (BusinessSaysRewarded != other.BusinessSaysRewarded) return false;
+      if (BusinessGaveRating != other.BusinessGaveRating) return false;
+      if (InfluencerGaveRating != other.InfluencerGaveRating) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
+      if (OfferId != 0) hash ^= OfferId.GetHashCode();
+      if (AccountId != 0) hash ^= AccountId.GetHashCode();
+      if (HaggleChatId != 0L) hash ^= HaggleChatId.GetHashCode();
+      if (BusinessWantsDeal != false) hash ^= BusinessWantsDeal.GetHashCode();
+      if (InfluencerWantsDeal != false) hash ^= InfluencerWantsDeal.GetHashCode();
+      if (InfluencerSaysDelivered != false) hash ^= InfluencerSaysDelivered.GetHashCode();
+      if (InfluencerSaysRewarded != false) hash ^= InfluencerSaysRewarded.GetHashCode();
+      if (BusinessSaysDelivered != false) hash ^= BusinessSaysDelivered.GetHashCode();
+      if (BusinessSaysRewarded != false) hash ^= BusinessSaysRewarded.GetHashCode();
+      if (BusinessGaveRating != 0) hash ^= BusinessGaveRating.GetHashCode();
+      if (InfluencerGaveRating != 0) hash ^= InfluencerGaveRating.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ApplicantId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ApplicantId);
+      }
+      if (OfferId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(OfferId);
+      }
+      if (AccountId != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(AccountId);
+      }
+      if (HaggleChatId != 0L) {
+        output.WriteRawTag(32);
+        output.WriteInt64(HaggleChatId);
+      }
+      if (BusinessWantsDeal != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(BusinessWantsDeal);
+      }
+      if (InfluencerWantsDeal != false) {
+        output.WriteRawTag(48);
+        output.WriteBool(InfluencerWantsDeal);
+      }
+      if (InfluencerSaysDelivered != false) {
+        output.WriteRawTag(56);
+        output.WriteBool(InfluencerSaysDelivered);
+      }
+      if (InfluencerSaysRewarded != false) {
+        output.WriteRawTag(64);
+        output.WriteBool(InfluencerSaysRewarded);
+      }
+      if (BusinessSaysDelivered != false) {
+        output.WriteRawTag(72);
+        output.WriteBool(BusinessSaysDelivered);
+      }
+      if (BusinessSaysRewarded != false) {
+        output.WriteRawTag(80);
+        output.WriteBool(BusinessSaysRewarded);
+      }
+      if (BusinessGaveRating != 0) {
+        output.WriteRawTag(88);
+        output.WriteInt32(BusinessGaveRating);
+      }
+      if (InfluencerGaveRating != 0) {
+        output.WriteRawTag(96);
+        output.WriteInt32(InfluencerGaveRating);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ApplicantId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
+      }
+      if (OfferId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OfferId);
+      }
+      if (AccountId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(AccountId);
+      }
+      if (HaggleChatId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(HaggleChatId);
+      }
+      if (BusinessWantsDeal != false) {
+        size += 1 + 1;
+      }
+      if (InfluencerWantsDeal != false) {
+        size += 1 + 1;
+      }
+      if (InfluencerSaysDelivered != false) {
+        size += 1 + 1;
+      }
+      if (InfluencerSaysRewarded != false) {
+        size += 1 + 1;
+      }
+      if (BusinessSaysDelivered != false) {
+        size += 1 + 1;
+      }
+      if (BusinessSaysRewarded != false) {
+        size += 1 + 1;
+      }
+      if (BusinessGaveRating != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(BusinessGaveRating);
+      }
+      if (InfluencerGaveRating != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(InfluencerGaveRating);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DataApplicant other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ApplicantId != 0) {
+        ApplicantId = other.ApplicantId;
+      }
+      if (other.OfferId != 0) {
+        OfferId = other.OfferId;
+      }
+      if (other.AccountId != 0) {
+        AccountId = other.AccountId;
+      }
+      if (other.HaggleChatId != 0L) {
+        HaggleChatId = other.HaggleChatId;
+      }
+      if (other.BusinessWantsDeal != false) {
+        BusinessWantsDeal = other.BusinessWantsDeal;
+      }
+      if (other.InfluencerWantsDeal != false) {
+        InfluencerWantsDeal = other.InfluencerWantsDeal;
+      }
+      if (other.InfluencerSaysDelivered != false) {
+        InfluencerSaysDelivered = other.InfluencerSaysDelivered;
+      }
+      if (other.InfluencerSaysRewarded != false) {
+        InfluencerSaysRewarded = other.InfluencerSaysRewarded;
+      }
+      if (other.BusinessSaysDelivered != false) {
+        BusinessSaysDelivered = other.BusinessSaysDelivered;
+      }
+      if (other.BusinessSaysRewarded != false) {
+        BusinessSaysRewarded = other.BusinessSaysRewarded;
+      }
+      if (other.BusinessGaveRating != 0) {
+        BusinessGaveRating = other.BusinessGaveRating;
+      }
+      if (other.InfluencerGaveRating != 0) {
+        InfluencerGaveRating = other.InfluencerGaveRating;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ApplicantId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            OfferId = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            AccountId = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            HaggleChatId = input.ReadInt64();
+            break;
+          }
+          case 40: {
+            BusinessWantsDeal = input.ReadBool();
+            break;
+          }
+          case 48: {
+            InfluencerWantsDeal = input.ReadBool();
+            break;
+          }
+          case 56: {
+            InfluencerSaysDelivered = input.ReadBool();
+            break;
+          }
+          case 64: {
+            InfluencerSaysRewarded = input.ReadBool();
+            break;
+          }
+          case 72: {
+            BusinessSaysDelivered = input.ReadBool();
+            break;
+          }
+          case 80: {
+            BusinessSaysRewarded = input.ReadBool();
+            break;
+          }
+          case 88: {
+            BusinessGaveRating = input.ReadInt32();
+            break;
+          }
+          case 96: {
+            InfluencerGaveRating = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DataApplicantChat : pb::IMessage<DataApplicantChat> {
+    private static readonly pb::MessageParser<DataApplicantChat> _parser = new pb::MessageParser<DataApplicantChat>(() => new DataApplicantChat());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DataApplicantChat> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[16]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataApplicantChat() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataApplicantChat(DataApplicantChat other) : this() {
+      chatId_ = other.chatId_;
+      sent_ = other.sent_;
+      senderId_ = other.senderId_;
+      applicantId_ = other.applicantId_;
+      clientGhostId_ = other.clientGhostId_;
+      type_ = other.type_;
+      text_ = other.text_;
+      seen_ = other.seen_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DataApplicantChat Clone() {
+      return new DataApplicantChat(this);
+    }
+
+    /// <summary>Field number for the "chatId" field.</summary>
+    public const int ChatIdFieldNumber = 7;
+    private long chatId_;
+    /// <summary>
+    ///  Sequential identifier in the chat stream
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long ChatId {
+      get { return chatId_; }
+      set {
+        chatId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "sent" field.</summary>
+    public const int SentFieldNumber = 10;
+    private long sent_;
+    /// <summary>
+    ///  Sent timestamp
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long Sent {
+      get { return sent_; }
+      set {
+        sent_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "senderId" field.</summary>
+    public const int SenderIdFieldNumber = 2;
+    private int senderId_;
+    /// <summary>
+    ///  Account which sent
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SenderId {
+      get { return senderId_; }
+      set {
+        senderId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "applicantId" field.</summary>
+    public const int ApplicantIdFieldNumber = 1;
+    private int applicantId_;
+    /// <summary>
+    ///  One chat per applicant
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantId {
+      get { return applicantId_; }
+      set {
+        applicantId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "clientGhostId" field.</summary>
+    public const int ClientGhostIdFieldNumber = 6;
+    private int clientGhostId_;
+    /// <summary>
+    ///  Deduplication client-side (ghost entry)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ClientGhostId {
+      get { return clientGhostId_; }
+      set {
+        clientGhostId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "type" field.</summary>
+    public const int TypeFieldNumber = 8;
+    private global::InfX.ApplicantChatType type_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::InfX.ApplicantChatType Type {
+      get { return type_; }
+      set {
+        type_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "text" field.</summary>
+    public const int TextFieldNumber = 5;
+    private string text_ = "";
+    /// <summary>
+    ///  The written text
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Text {
+      get { return text_; }
+      set {
+        text_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "seen" field.</summary>
+    public const int SeenFieldNumber = 9;
+    private bool seen_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Seen {
+      get { return seen_; }
+      set {
+        seen_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DataApplicantChat);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DataApplicantChat other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ChatId != other.ChatId) return false;
+      if (Sent != other.Sent) return false;
+      if (SenderId != other.SenderId) return false;
+      if (ApplicantId != other.ApplicantId) return false;
+      if (ClientGhostId != other.ClientGhostId) return false;
+      if (Type != other.Type) return false;
+      if (Text != other.Text) return false;
+      if (Seen != other.Seen) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ChatId != 0L) hash ^= ChatId.GetHashCode();
+      if (Sent != 0L) hash ^= Sent.GetHashCode();
+      if (SenderId != 0) hash ^= SenderId.GetHashCode();
+      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
+      if (ClientGhostId != 0) hash ^= ClientGhostId.GetHashCode();
+      if (Type != 0) hash ^= Type.GetHashCode();
+      if (Text.Length != 0) hash ^= Text.GetHashCode();
+      if (Seen != false) hash ^= Seen.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ApplicantId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ApplicantId);
+      }
+      if (SenderId != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SenderId);
+      }
+      if (Text.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Text);
+      }
+      if (ClientGhostId != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(ClientGhostId);
+      }
+      if (ChatId != 0L) {
+        output.WriteRawTag(56);
+        output.WriteInt64(ChatId);
+      }
+      if (Type != 0) {
+        output.WriteRawTag(64);
+        output.WriteEnum((int) Type);
+      }
+      if (Seen != false) {
+        output.WriteRawTag(72);
+        output.WriteBool(Seen);
+      }
+      if (Sent != 0L) {
+        output.WriteRawTag(80);
+        output.WriteInt64(Sent);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ChatId != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ChatId);
+      }
+      if (Sent != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Sent);
+      }
+      if (SenderId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SenderId);
+      }
+      if (ApplicantId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
+      }
+      if (ClientGhostId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ClientGhostId);
+      }
+      if (Type != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
+      }
+      if (Text.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Text);
+      }
+      if (Seen != false) {
+        size += 1 + 1;
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DataApplicantChat other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ChatId != 0L) {
+        ChatId = other.ChatId;
+      }
+      if (other.Sent != 0L) {
+        Sent = other.Sent;
+      }
+      if (other.SenderId != 0) {
+        SenderId = other.SenderId;
+      }
+      if (other.ApplicantId != 0) {
+        ApplicantId = other.ApplicantId;
+      }
+      if (other.ClientGhostId != 0) {
+        ClientGhostId = other.ClientGhostId;
+      }
+      if (other.Type != 0) {
+        Type = other.Type;
+      }
+      if (other.Text.Length != 0) {
+        Text = other.Text;
+      }
+      if (other.Seen != false) {
+        Seen = other.Seen;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ApplicantId = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            SenderId = input.ReadInt32();
+            break;
+          }
+          case 42: {
+            Text = input.ReadString();
+            break;
+          }
+          case 48: {
+            ClientGhostId = input.ReadInt32();
+            break;
+          }
+          case 56: {
+            ChatId = input.ReadInt64();
+            break;
+          }
+          case 64: {
+            type_ = (global::InfX.ApplicantChatType) input.ReadEnum();
+            break;
+          }
+          case 72: {
+            Seen = input.ReadBool();
+            break;
+          }
+          case 80: {
+            Sent = input.ReadInt64();
             break;
           }
         }

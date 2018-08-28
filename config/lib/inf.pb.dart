@@ -1189,134 +1189,6 @@ class DataLocation extends GeneratedMessage {
 
 class _ReadonlyDataLocation extends DataLocation with ReadonlyMessageMixin {}
 
-class DataApplicant extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataApplicant')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
-    ..a<int>(2, 'offerId', PbFieldType.O3)
-    ..a<int>(3, 'accountId', PbFieldType.O3)
-    ..hasRequiredFields = false;
-
-  DataApplicant() : super();
-  DataApplicant.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  DataApplicant.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  DataApplicant clone() => new DataApplicant()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static DataApplicant create() => new DataApplicant();
-  static PbList<DataApplicant> createRepeated() => new PbList<DataApplicant>();
-  static DataApplicant getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDataApplicant();
-    return _defaultInstance;
-  }
-
-  static DataApplicant _defaultInstance;
-  static void $checkItem(DataApplicant v) {
-    if (v is! DataApplicant) checkItemFailed(v, 'DataApplicant');
-  }
-
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
-    $_setSignedInt32(0, v);
-  }
-
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
-
-  int get offerId => $_get(1, 0);
-  set offerId(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasOfferId() => $_has(1);
-  void clearOfferId() => clearField(2);
-
-  int get accountId => $_get(2, 0);
-  set accountId(int v) {
-    $_setSignedInt32(2, v);
-  }
-
-  bool hasAccountId() => $_has(2);
-  void clearAccountId() => clearField(3);
-}
-
-class _ReadonlyDataApplicant extends DataApplicant with ReadonlyMessageMixin {}
-
-class DataChat extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataChat')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
-    ..a<int>(2, 'sequenceId', PbFieldType.O3)
-    ..a<int>(3, 'keyId', PbFieldType.O3)
-    ..aOB(4, 'outgoing')
-    ..aOS(5, 'text')
-    ..hasRequiredFields = false;
-
-  DataChat() : super();
-  DataChat.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  DataChat.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  DataChat clone() => new DataChat()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static DataChat create() => new DataChat();
-  static PbList<DataChat> createRepeated() => new PbList<DataChat>();
-  static DataChat getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataChat();
-    return _defaultInstance;
-  }
-
-  static DataChat _defaultInstance;
-  static void $checkItem(DataChat v) {
-    if (v is! DataChat) checkItemFailed(v, 'DataChat');
-  }
-
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
-    $_setSignedInt32(0, v);
-  }
-
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
-
-  int get sequenceId => $_get(1, 0);
-  set sequenceId(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasSequenceId() => $_has(1);
-  void clearSequenceId() => clearField(2);
-
-  int get keyId => $_get(2, 0);
-  set keyId(int v) {
-    $_setSignedInt32(2, v);
-  }
-
-  bool hasKeyId() => $_has(2);
-  void clearKeyId() => clearField(3);
-
-  bool get outgoing => $_get(3, false);
-  set outgoing(bool v) {
-    $_setBool(3, v);
-  }
-
-  bool hasOutgoing() => $_has(3);
-  void clearOutgoing() => clearField(4);
-
-  String get text => $_getS(4, '');
-  set text(String v) {
-    $_setString(4, v);
-  }
-
-  bool hasText() => $_has(4);
-  void clearText() => clearField(5);
-}
-
-class _ReadonlyDataChat extends DataChat with ReadonlyMessageMixin {}
-
 class DataAccountState extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataAccountState')
     ..a<int>(1, 'deviceId', PbFieldType.O3)
@@ -1630,6 +1502,252 @@ class DataAccount extends GeneratedMessage {
 }
 
 class _ReadonlyDataAccount extends DataAccount with ReadonlyMessageMixin {}
+
+class DataApplicant extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('DataApplicant')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..a<int>(2, 'offerId', PbFieldType.O3)
+    ..a<int>(3, 'accountId', PbFieldType.O3)
+    ..aInt64(4, 'haggleChatId')
+    ..aOB(5, 'businessWantsDeal')
+    ..aOB(6, 'influencerWantsDeal')
+    ..aOB(7, 'influencerSaysDelivered')
+    ..aOB(8, 'influencerSaysRewarded')
+    ..aOB(9, 'businessSaysDelivered')
+    ..aOB(10, 'businessSaysRewarded')
+    ..a<int>(11, 'businessGaveRating', PbFieldType.O3)
+    ..a<int>(12, 'influencerGaveRating', PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  DataApplicant() : super();
+  DataApplicant.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataApplicant.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataApplicant clone() => new DataApplicant()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static DataApplicant create() => new DataApplicant();
+  static PbList<DataApplicant> createRepeated() => new PbList<DataApplicant>();
+  static DataApplicant getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyDataApplicant();
+    return _defaultInstance;
+  }
+
+  static DataApplicant _defaultInstance;
+  static void $checkItem(DataApplicant v) {
+    if (v is! DataApplicant) checkItemFailed(v, 'DataApplicant');
+  }
+
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
+
+  int get offerId => $_get(1, 0);
+  set offerId(int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  bool hasOfferId() => $_has(1);
+  void clearOfferId() => clearField(2);
+
+  int get accountId => $_get(2, 0);
+  set accountId(int v) {
+    $_setSignedInt32(2, v);
+  }
+
+  bool hasAccountId() => $_has(2);
+  void clearAccountId() => clearField(3);
+
+  Int64 get haggleChatId => $_getI64(3);
+  set haggleChatId(Int64 v) {
+    $_setInt64(3, v);
+  }
+
+  bool hasHaggleChatId() => $_has(3);
+  void clearHaggleChatId() => clearField(4);
+
+  bool get businessWantsDeal => $_get(4, false);
+  set businessWantsDeal(bool v) {
+    $_setBool(4, v);
+  }
+
+  bool hasBusinessWantsDeal() => $_has(4);
+  void clearBusinessWantsDeal() => clearField(5);
+
+  bool get influencerWantsDeal => $_get(5, false);
+  set influencerWantsDeal(bool v) {
+    $_setBool(5, v);
+  }
+
+  bool hasInfluencerWantsDeal() => $_has(5);
+  void clearInfluencerWantsDeal() => clearField(6);
+
+  bool get influencerSaysDelivered => $_get(6, false);
+  set influencerSaysDelivered(bool v) {
+    $_setBool(6, v);
+  }
+
+  bool hasInfluencerSaysDelivered() => $_has(6);
+  void clearInfluencerSaysDelivered() => clearField(7);
+
+  bool get influencerSaysRewarded => $_get(7, false);
+  set influencerSaysRewarded(bool v) {
+    $_setBool(7, v);
+  }
+
+  bool hasInfluencerSaysRewarded() => $_has(7);
+  void clearInfluencerSaysRewarded() => clearField(8);
+
+  bool get businessSaysDelivered => $_get(8, false);
+  set businessSaysDelivered(bool v) {
+    $_setBool(8, v);
+  }
+
+  bool hasBusinessSaysDelivered() => $_has(8);
+  void clearBusinessSaysDelivered() => clearField(9);
+
+  bool get businessSaysRewarded => $_get(9, false);
+  set businessSaysRewarded(bool v) {
+    $_setBool(9, v);
+  }
+
+  bool hasBusinessSaysRewarded() => $_has(9);
+  void clearBusinessSaysRewarded() => clearField(10);
+
+  int get businessGaveRating => $_get(10, 0);
+  set businessGaveRating(int v) {
+    $_setSignedInt32(10, v);
+  }
+
+  bool hasBusinessGaveRating() => $_has(10);
+  void clearBusinessGaveRating() => clearField(11);
+
+  int get influencerGaveRating => $_get(11, 0);
+  set influencerGaveRating(int v) {
+    $_setSignedInt32(11, v);
+  }
+
+  bool hasInfluencerGaveRating() => $_has(11);
+  void clearInfluencerGaveRating() => clearField(12);
+}
+
+class _ReadonlyDataApplicant extends DataApplicant with ReadonlyMessageMixin {}
+
+class DataApplicantChat extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('DataApplicantChat')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..a<int>(2, 'senderId', PbFieldType.O3)
+    ..aOS(5, 'text')
+    ..a<int>(6, 'clientGhostId', PbFieldType.O3)
+    ..aInt64(7, 'chatId')
+    ..e<ApplicantChatType>(
+        8,
+        'type',
+        PbFieldType.OE,
+        ApplicantChatType.ACT_PLAIN,
+        ApplicantChatType.valueOf,
+        ApplicantChatType.values)
+    ..aOB(9, 'seen')
+    ..aInt64(10, 'sent')
+    ..hasRequiredFields = false;
+
+  DataApplicantChat() : super();
+  DataApplicantChat.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataApplicantChat.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataApplicantChat clone() => new DataApplicantChat()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static DataApplicantChat create() => new DataApplicantChat();
+  static PbList<DataApplicantChat> createRepeated() =>
+      new PbList<DataApplicantChat>();
+  static DataApplicantChat getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyDataApplicantChat();
+    return _defaultInstance;
+  }
+
+  static DataApplicantChat _defaultInstance;
+  static void $checkItem(DataApplicantChat v) {
+    if (v is! DataApplicantChat) checkItemFailed(v, 'DataApplicantChat');
+  }
+
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
+
+  int get senderId => $_get(1, 0);
+  set senderId(int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  bool hasSenderId() => $_has(1);
+  void clearSenderId() => clearField(2);
+
+  String get text => $_getS(2, '');
+  set text(String v) {
+    $_setString(2, v);
+  }
+
+  bool hasText() => $_has(2);
+  void clearText() => clearField(5);
+
+  int get clientGhostId => $_get(3, 0);
+  set clientGhostId(int v) {
+    $_setSignedInt32(3, v);
+  }
+
+  bool hasClientGhostId() => $_has(3);
+  void clearClientGhostId() => clearField(6);
+
+  Int64 get chatId => $_getI64(4);
+  set chatId(Int64 v) {
+    $_setInt64(4, v);
+  }
+
+  bool hasChatId() => $_has(4);
+  void clearChatId() => clearField(7);
+
+  ApplicantChatType get type => $_getN(5);
+  set type(ApplicantChatType v) {
+    setField(8, v);
+  }
+
+  bool hasType() => $_has(5);
+  void clearType() => clearField(8);
+
+  bool get seen => $_get(6, false);
+  set seen(bool v) {
+    $_setBool(6, v);
+  }
+
+  bool hasSeen() => $_has(6);
+  void clearSeen() => clearField(9);
+
+  Int64 get sent => $_getI64(7);
+  set sent(Int64 v) {
+    $_setInt64(7, v);
+  }
+
+  bool hasSent() => $_has(7);
+  void clearSent() => clearField(10);
+}
+
+class _ReadonlyDataApplicantChat extends DataApplicantChat
+    with ReadonlyMessageMixin {}
 
 class NetDeviceAuthCreateReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthCreateReq')
