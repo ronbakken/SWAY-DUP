@@ -223,7 +223,8 @@ class RemoteAppBusiness {
             "`offers`.`state`, `offers`.`state_reason` " // 9 10
             "FROM `offers` "
             "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
-            "WHERE `offers`.`account_id` = ?"; // TODO: Order highest offer id first
+            "WHERE `offers`.`account_id` = ? "
+            "ORDER BY `offer_id` DESC";
         sqljocky.Results offerResults =
             await sql.prepareExecute(selectOffers, [accountId]);
         await for (sqljocky.Row offerRow in offerResults) {
@@ -240,13 +241,13 @@ class RemoteAppBusiness {
           print(offerRow[8].toString());
           Uint8List point = offerRow[8];
           if (point != null) {
-            // Attempt to parse point
+            // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
             ByteData data = new ByteData.view(point.buffer);
-            Endian endian = data.getInt8(0) == 0 ? Endian.big : Endian.little;
-            int type = data.getUint32(1, endian = endian);
+            Endian endian = data.getInt8(4) == 0 ? Endian.big : Endian.little;
+            int type = data.getUint32(4 + 1, endian = endian);
             if (type == 1) {
-              offer.latitude = data.getFloat64(5 + 4 + 8, endian = Endian.little);
-              offer.longitude = data.getFloat64(5 + 4, endian = Endian.little);
+              offer.latitude = data.getFloat64(4 + 5 + 8, endian = endian);
+              offer.longitude = data.getFloat64(4 + 5, endian = endian);
             }
           }
           // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
