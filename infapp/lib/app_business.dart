@@ -163,8 +163,9 @@ class _AppBusinessState extends State<AppBusiness> {
       offersCurrent: new Builder(builder: (context) {
         NetworkInterface network = NetworkManager.of(context);
         return new BusinessOfferList(
-            businessOffers: network.offers.values.toList()
-              ..sort((a, b) => a.offerId.compareTo(b.offerId)),
+            businessOffers: network.offers.values
+              .where((offer) => (offer.state != BusinessOfferState.BOS_CLOSED)).toList()
+              ..sort((a, b) => b.offerId.compareTo(a.offerId)),
             onRefreshOffers: (network.connected == NetworkConnectionState.Ready)
                 ? network.refreshOffers
                 : null,
