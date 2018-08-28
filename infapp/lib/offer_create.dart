@@ -91,9 +91,9 @@ class _OfferCreateState extends State<OfferCreate> {
           });
         }
       } else {
-        Scaffold.of(context).showSnackBar(
-          new SnackBar(content: new Text("At least one photo is required to make a new offer."))
-        );
+        Scaffold.of(context).showSnackBar(new SnackBar(
+            content: new Text(
+                "At least one photo is required to make a new offer.")));
       }
     }
   }
@@ -106,11 +106,10 @@ class _OfferCreateState extends State<OfferCreate> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Make an offer"),
-      ),
-      body: new Builder(
-        builder: (context) {
+        appBar: new AppBar(
+          title: new Text("Make an offer"),
+        ),
+        body: new Builder(builder: (context) {
           return new ListView(padding: new EdgeInsets.all(16.0), children: [
             new ImageUploader(
               uploadKey: _imageKeyController,
@@ -129,7 +128,8 @@ class _OfferCreateState extends State<OfferCreate> {
                     controller: _titleController,
                     maxLines: 1,
                     decoration: new InputDecoration(labelText: 'Title'),
-                    validator: (val) => val.trim().isEmpty ? 'Missing title' : null,
+                    validator: (val) =>
+                        val.trim().isEmpty ? 'Missing title' : null,
                     onSaved: (val) => setState(() {
                           _title = val;
                         }),
@@ -172,8 +172,9 @@ class _OfferCreateState extends State<OfferCreate> {
                     controller: _rewardController,
                     maxLines: 2,
                     decoration: new InputDecoration(labelText: 'Reward'),
-                    validator: (val) =>
-                        val.trim().length < 4 ? 'Reward must be filled in' : null,
+                    validator: (val) => val.trim().length < 4
+                        ? 'Reward must be filled in'
+                        : null,
                     onSaved: (val) => setState(() {
                           _reward = val;
                         }),
@@ -198,14 +199,14 @@ class _OfferCreateState extends State<OfferCreate> {
                   onPressed:
                       (/*_validFormData() &&*/ widget.onCreateOffer != null &&
                               !_waiting)
-                          ? () { _submitPressed(context); }
+                          ? () {
+                              _submitPressed(context);
+                            }
                           : null,
                 )
               ],
             )
           ]);
-        }
-      )
-    );
+        }));
   }
 }
