@@ -146,15 +146,15 @@ class RemoteAppBusiness {
       return;
     }
 
+    List<String> filteredImageKeys = pb.imageKeys.where((imageKey) => imageKey != null && !imageKey.isEmpty).toList();
+
     // Insert offer images
-    for (String imageKey in pb.imageKeys) {
-      if (imageKey != null && !imageKey.isEmpty) {
-        ts.sendExtend(message);
-        // TODO: Verify the image key actually exists and is owned by the user!
-        String insertImage =
-            "INSERT INTO `offer_images`(`offer_id`, `image_key`) VALUES (?, ?)";
-        await sql.prepareExecute(insertImage, [offerId, imageKey.toString()]);
-      }
+    for (String imageKey in filteredImageKeys) {
+      ts.sendExtend(message);
+      // TODO: Verify the image key actually exists and is owned by the user!
+      String insertImage =
+          "INSERT INTO `offer_images`(`offer_id`, `image_key`) VALUES (?, ?)";
+      await sql.prepareExecute(insertImage, [offerId, imageKey.toString()]);
     }
 
     // Update location `offer_count`, not so critical
@@ -168,16 +168,16 @@ class RemoteAppBusiness {
     netCreateOfferRes.locationId = locationId;
     netCreateOfferRes.title = pb.title;
     netCreateOfferRes.description = pb.description;
-    if (pb.imageKeys.length > 0)
+    if (filteredImageKeys.length > 0)
       netCreateOfferRes.thumbnailUrl =
-          _r.makeCloudinaryThumbnailUrl(pb.imageKeys[0]);
+          _r.makeCloudinaryThumbnailUrl(filteredImageKeys[0]);
     netCreateOfferRes.deliverables = pb.deliverables;
     netCreateOfferRes.reward = pb.reward;
     netCreateOfferRes.location = account.summary.location;
     netCreateOfferRes.latitude = account.detail.latitude;
     netCreateOfferRes.longitude = account.detail.longitude;
     netCreateOfferRes.coverUrls
-        .addAll(pb.imageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
+        .addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
     // TODO: categories
     netCreateOfferRes.state = BusinessOfferState.BOS_OPEN;
     netCreateOfferRes.stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER;
@@ -227,7 +227,7 @@ class RemoteAppBusiness {
           offer.location = offerRow[7].toString();
           offer.latitude = 0.0; // offerRow[8]; // TODO: parse
           offer.longitude = 0.0; // offerRow[8]; // TODO: parse
-          // offer.coverUrls.addAll(pb.imageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
+          // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
           // TODO: categories
           offer.state = BusinessOfferState.BOS_OPEN; // TODO
           offer.stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER; // TODO
