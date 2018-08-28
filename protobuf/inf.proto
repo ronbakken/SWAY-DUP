@@ -403,10 +403,10 @@ message DataApplicant {
   bool businessWantsDeal = 5;
   bool influencerWantsDeal = 6;
   
-  bool influencerSaysDelivered = 7;
-  bool influencerSaysRewarded = 8;
-  bool businessSaysDelivered = 9;
-  bool businessSaysRewarded = 10;
+  bool influencerMarkedDelivered = 7;
+  bool influencerMarkedRewarded = 8;
+  bool businessMarkedDelivered = 9;
+  bool businessMarkedRewarded = 10;
   
   int32 businessGaveRating = 11; // 1 to 5, 0 is no rating given (rating given implies complete)
   int32 influencerGaveRating = 12;
