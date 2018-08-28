@@ -259,3 +259,73 @@ class ApplicantChatType extends ProtobufEnum {
 
   const ApplicantChatType._(int v, String n) : super(v, n);
 }
+
+class ApplicantState extends ProtobufEnum {
+  static const ApplicantState AS_HAGGLING =
+      const ApplicantState._(0, 'AS_HAGGLING');
+  static const ApplicantState AS_DEAL = const ApplicantState._(1, 'AS_DEAL');
+  static const ApplicantState AS_REJECTED =
+      const ApplicantState._(2, 'AS_REJECTED');
+  static const ApplicantState AS_COMPLETE =
+      const ApplicantState._(3, 'AS_COMPLETE');
+  static const ApplicantState AS_DISPUTE =
+      const ApplicantState._(4, 'AS_DISPUTE');
+  static const ApplicantState AS_RESOLVED =
+      const ApplicantState._(5, 'AS_RESOLVED');
+
+  static const List<ApplicantState> values = const <ApplicantState>[
+    AS_HAGGLING,
+    AS_DEAL,
+    AS_REJECTED,
+    AS_COMPLETE,
+    AS_DISPUTE,
+    AS_RESOLVED,
+  ];
+
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static ApplicantState valueOf(int value) => _byValue[value] as ApplicantState;
+  static void $checkItem(ApplicantState v) {
+    if (v is! ApplicantState) checkItemFailed(v, 'ApplicantState');
+  }
+
+  const ApplicantState._(int v, String n) : super(v, n);
+}
+
+class ApplicantChatMarker extends ProtobufEnum {
+  static const ApplicantChatMarker ACM_APPLIED =
+      const ApplicantChatMarker._(0, 'ACM_APPLIED');
+  static const ApplicantChatMarker ACM_WANT_DEAL =
+      const ApplicantChatMarker._(1, 'ACM_WANT_DEAL');
+  static const ApplicantChatMarker ACM_DEAL_MADE =
+      const ApplicantChatMarker._(2, 'ACM_DEAL_MADE');
+  static const ApplicantChatMarker ACM_REJECTED =
+      const ApplicantChatMarker._(3, 'ACM_REJECTED');
+  static const ApplicantChatMarker ACM_MARKED_COMPLETE =
+      const ApplicantChatMarker._(4, 'ACM_MARKED_COMPLETE');
+  static const ApplicantChatMarker ACM_COMPLETE =
+      const ApplicantChatMarker._(5, 'ACM_COMPLETE');
+  static const ApplicantChatMarker ACM_MARKED_DISPUTE =
+      const ApplicantChatMarker._(6, 'ACM_MARKED_DISPUTE');
+  static const ApplicantChatMarker ACM_RESOLVED =
+      const ApplicantChatMarker._(7, 'ACM_RESOLVED');
+
+  static const List<ApplicantChatMarker> values = const <ApplicantChatMarker>[
+    ACM_APPLIED,
+    ACM_WANT_DEAL,
+    ACM_DEAL_MADE,
+    ACM_REJECTED,
+    ACM_MARKED_COMPLETE,
+    ACM_COMPLETE,
+    ACM_MARKED_DISPUTE,
+    ACM_RESOLVED,
+  ];
+
+  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
+  static ApplicantChatMarker valueOf(int value) =>
+      _byValue[value] as ApplicantChatMarker;
+  static void $checkItem(ApplicantChatMarker v) {
+    if (v is! ApplicantChatMarker) checkItemFailed(v, 'ApplicantChatMarker');
+  }
+
+  const ApplicantChatMarker._(int v, String n) : super(v, n);
+}
