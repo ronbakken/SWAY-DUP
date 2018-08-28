@@ -94,6 +94,7 @@ const ApplicantChatType$json = const {
     const {'1': 'ACT_PLAIN', '2': 0},
     const {'1': 'ACT_HAGGLE', '2': 1},
     const {'1': 'ACT_IMAGE_KEY', '2': 2},
+    const {'1': 'ACT_MARKER', '2': 3},
   ],
 };
 
@@ -296,6 +297,8 @@ const ConfigServices$json = const {
       '5': 9,
       '10': 'mariadbDatabase'
     },
+    const {'1': 'freshdeskApi', '3': 22, '4': 1, '5': 9, '10': 'freshdeskApi'},
+    const {'1': 'freshdeskKey', '3': 23, '4': 1, '5': 9, '10': 'freshdeskKey'},
   ],
 };
 
@@ -551,6 +554,7 @@ const DataAccountDetail$json = const {
       '10': 'avatarCoverUrl'
     },
     const {'1': 'url', '3': 6, '4': 1, '5': 9, '10': 'url'},
+    const {'1': 'email', '3': 9, '4': 1, '5': 9, '10': 'email'},
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
     const {'1': 'locationId', '3': 8, '4': 1, '5': 5, '10': 'locationId'},
