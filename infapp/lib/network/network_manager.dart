@@ -403,6 +403,20 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     _networkLoop().catchError((e) {
       print("[INF] Network loop died: $e");
     });
+
+    new Timer.periodic(new Duration(seconds: 1), (timer) async {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      if (_ts != null) {
+        try {
+          await _ts.ping();
+        } catch (error, stack) { 
+          print("[INF] [PING] $error\n$stack"); 
+        }
+      }
+    });
   }
 
   @override

@@ -84,10 +84,11 @@ class _OfferCreateState extends State<OfferCreate> {
       });
       try {
         await widget.onCreateOffer(createOffer);
-      } finally { }
-      setState(() {
-        _waiting = false;
-      });
+      } finally {
+        setState(() {
+          _waiting = false;
+        });
+      }
     }
   }
 
