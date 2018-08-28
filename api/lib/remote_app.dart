@@ -394,107 +394,112 @@ class RemoteApp {
     await lock.synchronized(() async {
       // First get the account id (and account type, in case the account id has not been created yet)
       if (extend != null) extend();
-      sqljocky.Results deviceResults = await sql.prepareExecute(
-          "SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?",
-          [account.state.deviceId.toInt()]);
-      await for (sqljocky.Row row in deviceResults) {
-        // one row
-        if (account.state.accountId != 0 &&
-            account.state.accountId != row[0].toInt()) {
-          devLog.severe(
-              "Device account id changed, ignore, this is a bug, this should never happen");
-        }
-        account.state.accountId = row[0].toInt();
-        account.state.accountType = AccountType.valueOf(row[1].toInt());
-      }
-      // Fetch account-specific info (overwrites device accountType, although it cannot possibly be different)
-      if (account.state.accountId != 0) {
-        if (extend != null) extend();
-        sqljocky.Results accountResults = await sql.prepareExecute(
-            "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
-            "`description`, `location_id`, `avatar_key`, `url`, `email` FROM `accounts` "
-            "WHERE `account_id` = ?",
-            [account.state.accountId.toInt()]);
-        // int locationId;
-        await for (sqljocky.Row row in accountResults) {
-          // one
-          account.summary.name = row[0].toString();
-          account.state.accountType = AccountType.valueOf(row[1].toInt());
-          account.state.globalAccountState =
-              GlobalAccountState.valueOf(row[2].toInt());
-          account.state.globalAccountStateReason =
-              GlobalAccountStateReason.valueOf(row[3].toInt());
-          account.summary.description = row[4].toString();
-          account.detail.locationId = row[5].toInt();
-          if (row[6] != null) {
-            account.summary.avatarThumbnailUrl =
-                makeCloudinaryThumbnailUrl(row[6].toString());
-            account.detail.avatarCoverUrl =
-                makeCloudinaryCoverUrl(row[6].toString());
-          }
-          if (row[7] != null) account.detail.url = row[7].toString();
-          if (row[8] != null) account.detail.email = row[8].toString();
-        }
-        if (account.detail.locationId != null &&
-            account.detail.locationId != 0) {
-          if (extend != null) extend();
-          sqljocky.Results locationResults = await sql.prepareExecute(
-              "SELECT `${account.state.accountType == AccountType.AT_BUSINESS ? 'detail' : 'approximate'}` FROM `addressbook` "
-              "WHERE `location_id` = ?",
-              [account.detail.locationId.toInt()]);
-          await for (sqljocky.Row row in locationResults) {
-            // one
-            account.summary.location = row[0].toString();
-          }
-          if (account.summary.location == null) {
+      sqljocky.RetainedConnection connection = await sql.getConnection();
+      try {
+        sqljocky.Results deviceResults = await connection.prepareExecute(
+            "SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?",
+            [account.state.deviceId.toInt()]);
+        await for (sqljocky.Row row in deviceResults) {
+          // one row
+          if (account.state.accountId != 0 &&
+              account.state.accountId != row[0].toInt()) {
             devLog.severe(
-                "Account ${account.state.accountId} has an unknown location_id set");
+                "Device account id changed, ignore, this is a bug, this should never happen");
+          }
+          account.state.accountId = row[0].toInt();
+          account.state.accountType = AccountType.valueOf(row[1].toInt());
+        }
+        // Fetch account-specific info (overwrites device accountType, although it cannot possibly be different)
+        if (account.state.accountId != 0) {
+          if (extend != null) extend();
+          sqljocky.Results accountResults = await connection.prepareExecute(
+              "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
+              "`description`, `location_id`, `avatar_key`, `url`, `email` FROM `accounts` "
+              "WHERE `account_id` = ?",
+              [account.state.accountId.toInt()]);
+          // int locationId;
+          await for (sqljocky.Row row in accountResults) {
+            // one
+            account.summary.name = row[0].toString();
+            account.state.accountType = AccountType.valueOf(row[1].toInt());
+            account.state.globalAccountState =
+                GlobalAccountState.valueOf(row[2].toInt());
+            account.state.globalAccountStateReason =
+                GlobalAccountStateReason.valueOf(row[3].toInt());
+            account.summary.description = row[4].toString();
+            account.detail.locationId = row[5].toInt();
+            if (row[6] != null) {
+              account.summary.avatarThumbnailUrl =
+                  makeCloudinaryThumbnailUrl(row[6].toString());
+              account.detail.avatarCoverUrl =
+                  makeCloudinaryCoverUrl(row[6].toString());
+            }
+            if (row[7] != null) account.detail.url = row[7].toString();
+            if (row[8] != null) account.detail.email = row[8].toString();
+          }
+          if (account.detail.locationId != null &&
+              account.detail.locationId != 0) {
+            if (extend != null) extend();
+            sqljocky.Results locationResults = await connection.prepareExecute(
+                "SELECT `${account.state.accountType == AccountType.AT_BUSINESS ? 'detail' : 'approximate'}` FROM `addressbook` "
+                "WHERE `location_id` = ?",
+                [account.detail.locationId.toInt()]);
+            await for (sqljocky.Row row in locationResults) {
+              // one
+              account.summary.location = row[0].toString();
+            }
+            if (account.summary.location == null) {
+              devLog.severe(
+                  "Account ${account.state.accountId} has an unknown location_id set");
+              account.summary.location = "Earth";
+            }
+          } else {
+            devLog.severe(
+                "Account ${account.state.accountId} does not have a location_id set");
             account.summary.location = "Earth";
           }
-        } else {
-          devLog.severe(
-              "Account ${account.state.accountId} does not have a location_id set");
-          account.summary.location = "Earth";
         }
-      }
-      // Find all connected social media accounts
-      if (extend != null) extend();
-      List<bool> connectedProviders =
-          new List<bool>(account.detail.socialMedia.length);
-      sqljocky.Results connectionResults = await sql.prepareExecute(
-          // The additional `account_id` = 0 here is required in order not to load halfway failed connected devices
-          "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.state.accountId == 0 ? '`account_id` = 0 AND `device_id`' : '`account_id`'} = ?",
-          [
-            account.state.accountId == 0
-                ? account.state.deviceId.toInt()
-                : account.state.accountId.toInt()
-          ]);
-      List<sqljocky.Row> connectionRows = await connectionResults
-          .toList(); // Load to avoid blocking connections recursively
-      for (sqljocky.Row row in connectionRows) {
-        String oauthUserId = row[0].toString();
-        int oauthProvider = row[1].toInt();
-        int oauthTokenExpires = row[2].toInt();
-        bool expired = row[3].toInt() != 0 ||
-            oauthTokenExpires >=
-                (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-        if (oauthProvider < account.detail.socialMedia.length) {
-          account.detail.socialMedia[oauthProvider] =
-              await fetchCachedSocialMedia(oauthUserId, oauthProvider);
-          account.detail.socialMedia[oauthProvider].expired = expired;
-          connectedProviders[oauthProvider] =
-              account.detail.socialMedia[oauthProvider].connected;
-        } else {
-          devLog.severe(
-              "Invalid attempt to update device state with no device id, skip, this indicates an incorrent database entry caused by a bug");
+        // Find all connected social media accounts
+        if (extend != null) extend();
+        List<bool> connectedProviders =
+            new List<bool>(account.detail.socialMedia.length);
+        sqljocky.Results connectionResults = await connection.prepareExecute(
+            // The additional `account_id` = 0 here is required in order not to load halfway failed connected devices
+            "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.state.accountId == 0 ? '`account_id` = 0 AND `device_id`' : '`account_id`'} = ?",
+            [
+              account.state.accountId == 0
+                  ? account.state.deviceId.toInt()
+                  : account.state.accountId.toInt()
+            ]);
+        List<sqljocky.Row> connectionRows = await connectionResults
+            .toList(); // Load to avoid blocking connections recursively
+        for (sqljocky.Row row in connectionRows) {
+          String oauthUserId = row[0].toString();
+          int oauthProvider = row[1].toInt();
+          int oauthTokenExpires = row[2].toInt();
+          bool expired = row[3].toInt() != 0 ||
+              oauthTokenExpires >=
+                  (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+          if (oauthProvider < account.detail.socialMedia.length) {
+            account.detail.socialMedia[oauthProvider] =
+                await fetchCachedSocialMedia(oauthUserId, oauthProvider);
+            account.detail.socialMedia[oauthProvider].expired = expired;
+            connectedProviders[oauthProvider] =
+                account.detail.socialMedia[oauthProvider].connected;
+          } else {
+            devLog.severe(
+                "Invalid attempt to update device state with no device id, skip, this indicates an incorrent database entry caused by a bug");
+          }
         }
-      }
-      // Wipe any lost accounts
-      for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-        if (connectedProviders[i] != true &&
-            (account.detail.socialMedia[i].connected == true)) {
-          account.detail.socialMedia[i] = new DataSocialMedia(); // Wipe
+        // Wipe any lost accounts
+        for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+          if (connectedProviders[i] != true &&
+              (account.detail.socialMedia[i].connected == true)) {
+            account.detail.socialMedia[i] = new DataSocialMedia(); // Wipe
+          }
         }
+      } finally {
+        await connection.release();
       }
     });
   }
