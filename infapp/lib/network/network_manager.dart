@@ -746,6 +746,9 @@ abstract class NetworkInterface {
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
   DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer);
 
+  // can also put simple get functions without future to get if available but request - returns dummy based on fallback in case not yet available
+  // DataAccount tryGetAccount(int accountId, { DataAccount fallback }); // simply retry anytime network state updates
+  // etc
 }
 
 /* end of file */
