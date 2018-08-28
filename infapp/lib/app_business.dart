@@ -173,6 +173,19 @@ class _AppBusinessState extends State<AppBusiness> {
               navigateToOfferView(context, network.account, offer);
             });
       }),
+      offersHistory: new Builder(builder: (context) {
+        NetworkInterface network = NetworkManager.of(context);
+        return new BusinessOfferList(
+            businessOffers: network.offers.values
+              .where((offer) => (offer.state == BusinessOfferState.BOS_CLOSED)).toList()
+              ..sort((a, b) => b.offerId.compareTo(a.offerId)),
+            onRefreshOffers: (network.connected == NetworkConnectionState.Ready)
+                ? network.refreshOffers
+                : null,
+            onOfferPressed: (DataBusinessOffer offer) {
+              navigateToOfferView(context, network.account, offer); // account will be able to use a future value provider thingy for not-mine offers
+            });
+      }),
       onMakeAnOffer: (network.connected == NetworkConnectionState.Ready)
           ? () {
               navigateToMakeAnOffer(context);
