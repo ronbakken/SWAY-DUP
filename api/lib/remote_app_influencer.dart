@@ -19,7 +19,7 @@ import 'broadcast_center.dart';
 import 'inf.pb.dart';
 import 'remote_app.dart';
 
-class RemoteAppBusiness {
+class RemoteAppInfluencer {
   //////////////////////////////////////////////////////////////////////////////
   // Inherited properties
   //////////////////////////////////////////////////////////////////////////////
@@ -57,24 +57,21 @@ class RemoteAppBusiness {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.RemoteAppBusiness');
-  static final Logger devLog = new Logger('InfDev.RemoteAppBusiness');
+  static final Logger opsLog = new Logger('InfOps.RemoteAppInfluencer');
+  static final Logger devLog = new Logger('InfDev.RemoteAppInfluencer');
 
-  // Cached list of offers
-  Map<int, DataBusinessOffer> offers = new Map<int, DataBusinessOffer>();
-
-  RemoteAppBusiness(this._r) {
-    _netCreateOfferReq = _r.saferListen(
-        "C_OFFERR", GlobalAccountState.GAS_READ_WRITE, true, netCreateOfferReq);
+  RemoteAppInfluencer(this._r) {
+    /*_netCreateOfferReq = _r.saferListen(
+        "C_OFFERR", GlobalAccountState.GAS_READ_WRITE, true, netCreateOfferReq);*/
     _netLoadOffersReq = _r.saferListen(
         "L_OFFERS", GlobalAccountState.GAS_READ_WRITE, true, netLoadOffersReq);
   }
 
   void dispose() {
-    if (_netCreateOfferReq != null) {
+    /*if (_netCreateOfferReq != null) {
       _netCreateOfferReq.cancel();
       _netCreateOfferReq = null;
-    }
+    }*/
     if (_netLoadOffersReq != null) {
       _netLoadOffersReq.cancel();
       _netLoadOffersReq = null;
@@ -86,18 +83,18 @@ class RemoteAppBusiness {
   // Database utilities
   //////////////////////////////////////////////////////////////////////////////
 
-  Future<void> updateLocationOfferCount(int locationId) async {
+  /*Future<void> updateLocationOfferCount(int locationId) async {
     // TODO: Only include active offers... :)
     String updateLocation =
         "UPDATE `addressbook` SET `offer_count` = (SELECT COUNT(`offer_id`) FROM `offers` WHERE `location_id` = ?) WHERE `location_id` = ?";
     await sql.prepareExecute(updateLocation, [locationId, locationId]);
-  }
+  }*/
 
   //////////////////////////////////////////////////////////////////////////////
   // Network messages
   //////////////////////////////////////////////////////////////////////////////
 
-  StreamSubscription<TalkMessage> _netCreateOfferReq; // C_OFFERR
+  /*StreamSubscription<TalkMessage> _netCreateOfferReq; // C_OFFERR
   static int _netCreateOfferRes = TalkSocket.encode("C_R_OFFE");
   Future<void> netCreateOfferReq(TalkMessage message) async {
     NetCreateOfferReq pb = new NetCreateOfferReq();
@@ -173,7 +170,7 @@ class RemoteAppBusiness {
     await updateLocationOfferCount(locationId);
 
     // Reply success
-    DataBusinessOffer netCreateOfferRes = new DataBusinessOffer();
+    DataInfluencerOffer netCreateOfferRes = new DataInfluencerOffer();
     netCreateOfferRes.offerId = offerId;
     netCreateOfferRes.accountId = accountId;
     netCreateOfferRes.locationId = locationId;
@@ -190,8 +187,8 @@ class RemoteAppBusiness {
     netCreateOfferRes.coverUrls
         .addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
     // TODO: categories
-    netCreateOfferRes.state = BusinessOfferState.BOS_OPEN;
-    netCreateOfferRes.stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER;
+    netCreateOfferRes.state = InfluencerOfferState.BOS_OPEN;
+    netCreateOfferRes.stateReason = InfluencerOfferStateReason.BOSR_NEW_OFFER;
     netCreateOfferRes.applicantsNew = 0;
     netCreateOfferRes.applicantsAccepted = 0;
     netCreateOfferRes.applicantsCompleted = 0;
@@ -199,10 +196,10 @@ class RemoteAppBusiness {
     offers[offerId] = netCreateOfferRes;
     ts.sendMessage(_netCreateOfferRes, netCreateOfferRes.writeToBuffer(),
         replying: message);
-  }
+  }*/
 
   StreamSubscription<TalkMessage> _netLoadOffersReq; // C_OFFERR
-  static int _dataBusinessOffer = TalkSocket.encode("DB_OFFER");
+  static int _dataInfluencerOffer = TalkSocket.encode("DB_OFFER");
   static int _netLoadOffersRes = TalkSocket.encode("L_R_OFFE");
   Future<void> netLoadOffersReq(TalkMessage message) async {
     NetLoadOffersReq pb = new NetLoadOffersReq();
@@ -225,7 +222,7 @@ class RemoteAppBusiness {
             "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
             "WHERE `offers`.`account_id` = ?"; // TODO: Order highest offer id first
         sqljocky.Results offerResults =
-            await sql.prepareExecute(selectOffers, [accountId]);
+            await sql.prepareExecute(selectOffers, []);
         await for (sqljocky.Row offerRow in offerResults) {
           ts.sendExtend(message);
           DataBusinessOffer offer = new DataBusinessOffer();
@@ -237,7 +234,6 @@ class RemoteAppBusiness {
           offer.deliverables = offerRow[4].toString();
           offer.reward = offerRow[5].toString();
           offer.location = offerRow[7].toString();
-          print(offerRow[8].toString());
           Uint8List point = offerRow[8];
           if (point != null) {
             // Attempt to parse point
@@ -252,12 +248,7 @@ class RemoteAppBusiness {
           // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
           // TODO: categories
           offer.state = BusinessOfferState.valueOf(offerRow[9].toInt());
-          offer.stateReason =
-              BusinessOfferStateReason.valueOf(offerRow[10].toInt());
-          offer.applicantsNew = 0; // TODO
-          offer.applicantsAccepted = 0; // TODO
-          offer.applicantsCompleted = 0; // TODO
-          offer.applicantsRefused = 0; // TODO
+          offer.stateReason = BusinessOfferStateReason.valueOf(offerRow[10].toInt());
           sqljocky.Results imageKeyResults =
               await selectImageKeys.execute([offer.offerId.toInt()]);
           await for (sqljocky.Row imageKeyRow in imageKeyResults) {
@@ -268,9 +259,9 @@ class RemoteAppBusiness {
             offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
           }
           // Cache offer for use (is this really necessary?)
-          offers[offer.offerId] = offer;
+          // offers[offer.offerId] = offer;
           // Send offer to user
-          ts.sendMessage(_dataBusinessOffer, offer.writeToBuffer());
+          ts.sendMessage(_dataInfluencerOffer, offer.writeToBuffer());
         }
         ts.sendExtend(message);
       } finally {
