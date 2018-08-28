@@ -752,10 +752,10 @@ class RemoteApp {
           "Sauerkraut unraveler.",
         ];
         List<String> businessDefaults = [
-          "The best in town",
-          "We know our product, because we made it",
-          "Everything you expect and more",
-          "You will be lovin' it",
+          "The best in town.",
+          "We know our product, because we made it.",
+          "Everything you expect and more.",
+          "You will be lovin' it.",
         ];
         switch (account.state.accountType) {
           case AccountType.AT_INFLUENCER:
