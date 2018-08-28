@@ -38,11 +38,11 @@ class RemoteAppBusiness {
   DataAccount get account {
     return _r.account;
   }
-  
+
   int get accountId {
     return _r.account.state.accountId.toInt();
   }
-  
+
   GlobalAccountState get globalAccountState {
     return _r.account.state.globalAccountState;
   }
@@ -58,16 +58,18 @@ class RemoteAppBusiness {
   Map<int, DataBusinessOffer> offers = new Map<int, DataBusinessOffer>();
 
   RemoteAppBusiness(this._r) {
-    _netCreateOfferReq = _r.saferListen("C_OFFERR", GlobalAccountState.GAS_READ_WRITE, true, netCreateOfferReq);
-    _netLoadOffersReq = _r.saferListen("L_OFFERS", GlobalAccountState.GAS_READ_WRITE, true, netLoadOffersReq);
+    _netCreateOfferReq = _r.saferListen(
+        "C_OFFERR", GlobalAccountState.GAS_READ_WRITE, true, netCreateOfferReq);
+    _netLoadOffersReq = _r.saferListen(
+        "L_OFFERS", GlobalAccountState.GAS_READ_WRITE, true, netLoadOffersReq);
   }
 
   void dispose() {
-     if (_netCreateOfferReq != null) {
+    if (_netCreateOfferReq != null) {
       _netCreateOfferReq.cancel();
       _netCreateOfferReq = null;
     }
-     if (_netLoadOffersReq != null) {
+    if (_netLoadOffersReq != null) {
       _netLoadOffersReq.cancel();
       _netLoadOffersReq = null;
     }
@@ -77,38 +79,44 @@ class RemoteAppBusiness {
   //////////////////////////////////////////////////////////////////////////////
   // Database utilities
   //////////////////////////////////////////////////////////////////////////////
-  
+
   Future<void> updateLocationOfferCount(int locationId) async {
     // TODO: Only include active offers... :)
-    String updateLocation = "UPDATE `addressbook` SET `offer_count` = (SELECT COUNT(`offer_id`) FROM `offers` WHERE `location_id` = ?) WHERE `location_id` = ?";
-    await sql.prepareExecute(updateLocation, [ locationId, locationId ]);
+    String updateLocation =
+        "UPDATE `addressbook` SET `offer_count` = (SELECT COUNT(`offer_id`) FROM `offers` WHERE `location_id` = ?) WHERE `location_id` = ?";
+    await sql.prepareExecute(updateLocation, [locationId, locationId]);
   }
 
   //////////////////////////////////////////////////////////////////////////////
   // Network messages
   //////////////////////////////////////////////////////////////////////////////
-  
+
   StreamSubscription<TalkMessage> _netCreateOfferReq; // C_OFFERR
   static int _netCreateOfferRes = TalkSocket.encode("C_R_OFFE");
   Future<void> netCreateOfferReq(TalkMessage message) async {
     NetCreateOfferReq pb = new NetCreateOfferReq();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
-    
+
     if (pb.locationId != null && pb.locationId != 0) {
       // TODO: Fetch location and verify it's owned by this user plus verify that user paid for this feature
-      devLog.severe("User $accountId attempt to use non-implemented offer location feature");
+      devLog.severe(
+          "User $accountId attempt to use non-implemented offer location feature");
       ts.sendException("Location not implemented", message);
       return;
     }
 
     if (account.detail.locationId == 0) {
-      opsLog.warning("User $accountId has no default location set, cannot create offer");
+      opsLog.warning(
+          "User $accountId has no default location set, cannot create offer");
       ts.sendException("No default location set", message);
       return;
     }
 
-    if (pb.title.length == 0 || pb.description.length < 20 || pb.deliverables.length < 4 || pb.reward.length < 4) {
+    if (pb.title.length == 0 ||
+        pb.description.length < 20 ||
+        pb.deliverables.length < 4 ||
+        pb.reward.length < 4) {
       opsLog.warning("User $accountId offer parameters not validated");
       ts.sendException("Not validated", message);
       return;
@@ -118,12 +126,15 @@ class RemoteAppBusiness {
     // TODO: Set the offer state options... :)
     int locationId = account.detail.locationId.toInt();
     ts.sendExtend(message);
-    String insertOffer = "INSERT INTO `offers`(`account_id`, `title`, `description`, `deliverables`, `reward`, `location_id`) "
-      "VALUES (?, ?, ?, ?, ?, ?)";
+    String insertOffer =
+        "INSERT INTO `offers`(`account_id`, `title`, `description`, `deliverables`, `reward`, `location_id`) "
+        "VALUES (?, ?, ?, ?, ?, ?)";
     sqljocky.Results insertRes = await sql.prepareExecute(insertOffer, [
       account.state.accountId.toInt(),
-      pb.title.toString(), pb.description.toString(), 
-      pb.deliverables.toString(), pb.reward.toString(),
+      pb.title.toString(),
+      pb.description.toString(),
+      pb.deliverables.toString(),
+      pb.reward.toString(),
       locationId
     ]);
 
@@ -139,10 +150,9 @@ class RemoteAppBusiness {
     for (String imageKey in pb.imageKeys) {
       ts.sendExtend(message);
       // TODO: Verify the image key actually exists and is owned by the user!
-      String insertImage = "INSERT INTO `offer_images`(`offer_id`, `image_key`) VALUES (?, ?)";
-      await sql.prepareExecute(insertImage, [
-        offerId, imageKey.toString()
-      ]);
+      String insertImage =
+          "INSERT INTO `offer_images`(`offer_id`, `image_key`) VALUES (?, ?)";
+      await sql.prepareExecute(insertImage, [offerId, imageKey.toString()]);
     }
 
     // Update location `offer_count`, not so critical
@@ -157,13 +167,15 @@ class RemoteAppBusiness {
     netCreateOfferRes.title = pb.title;
     netCreateOfferRes.description = pb.description;
     if (pb.imageKeys.length > 0)
-      netCreateOfferRes.thumbnailUrl = _r.makeCloudinaryThumbnailUrl(pb.imageKeys[0]);
+      netCreateOfferRes.thumbnailUrl =
+          _r.makeCloudinaryThumbnailUrl(pb.imageKeys[0]);
     netCreateOfferRes.deliverables = pb.deliverables;
     netCreateOfferRes.reward = pb.reward;
     netCreateOfferRes.location = account.summary.location;
     netCreateOfferRes.latitude = account.detail.latitude;
     netCreateOfferRes.longitude = account.detail.longitude;
-    netCreateOfferRes.coverUrls.addAll(pb.imageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
+    netCreateOfferRes.coverUrls
+        .addAll(pb.imageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
     // TODO: categories
     netCreateOfferRes.state = BusinessOfferState.BOS_OPEN;
     netCreateOfferRes.stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER;
@@ -172,7 +184,8 @@ class RemoteAppBusiness {
     netCreateOfferRes.applicantsCompleted = 0;
     netCreateOfferRes.applicantsRefused = 0;
     offers[offerId] = netCreateOfferRes;
-    ts.sendMessage(_netCreateOfferRes, netCreateOfferRes.writeToBuffer(), replying: message);
+    ts.sendMessage(_netCreateOfferRes, netCreateOfferRes.writeToBuffer(),
+        replying: message);
   }
 
   StreamSubscription<TalkMessage> _netLoadOffersReq; // C_OFFERR
@@ -187,15 +200,18 @@ class RemoteAppBusiness {
     sqljocky.RetainedConnection connection = await sql.getConnection();
     try {
       ts.sendExtend(message);
-      sqljocky.Query selectImageKeys = await connection.prepare("SELECT `image_key` FROM `offer_images` WHERE `offer_id` = ?");
+      sqljocky.Query selectImageKeys = await connection.prepare(
+          "SELECT `image_key` FROM `offer_images` WHERE `offer_id` = ?");
       try {
-        String selectOffers = "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
-          "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
-          "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point` " // 6 7 8
-          "FROM `offers` "
-          "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
-          "WHERE `offers`.`account_id` = ?"; // TODO: Order highest offer id first
-        sqljocky.Results offerResults = await sql.prepareExecute(selectOffers, [ accountId ]);
+        String selectOffers =
+            "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
+            "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
+            "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point` " // 6 7 8
+            "FROM `offers` "
+            "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
+            "WHERE `offers`.`account_id` = ?"; // TODO: Order highest offer id first
+        sqljocky.Results offerResults =
+            await sql.prepareExecute(selectOffers, [accountId]);
         await for (sqljocky.Row offerRow in offerResults) {
           ts.sendExtend(message);
           DataBusinessOffer offer = new DataBusinessOffer();
@@ -217,10 +233,12 @@ class RemoteAppBusiness {
           offer.applicantsAccepted = 0; // TODO
           offer.applicantsCompleted = 0; // TODO
           offer.applicantsRefused = 0; // TODO
-          sqljocky.Results imageKeyResults = await selectImageKeys.execute([offer.offerId.toInt()]);
+          sqljocky.Results imageKeyResults =
+              await selectImageKeys.execute([offer.offerId.toInt()]);
           await for (sqljocky.Row imageKeyRow in imageKeyResults) {
             if (!offer.hasThumbnailUrl()) {
-              offer.thumbnailUrl = _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
+              offer.thumbnailUrl =
+                  _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
             }
             offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
           }
@@ -230,12 +248,15 @@ class RemoteAppBusiness {
           ts.sendMessage(_dataBusinessOffer, offer.writeToBuffer());
         }
         ts.sendExtend(message);
-      } finally { await selectImageKeys.close(); }
+      } finally {
+        await selectImageKeys.close();
+      }
     } finally {
       await connection.release();
     }
 
     NetLoadOffersRes loadOffersRes = new NetLoadOffersRes();
-    ts.sendMessage(_netLoadOffersRes, loadOffersRes.writeToBuffer(), replying: message);
+    ts.sendMessage(_netLoadOffersRes, loadOffersRes.writeToBuffer(),
+        replying: message);
   }
 }

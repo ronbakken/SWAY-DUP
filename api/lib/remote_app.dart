@@ -129,9 +129,13 @@ class RemoteApp {
   }
 
   StreamSubscription<TalkMessage> saferListen(
-      String id, GlobalAccountState requiredAccountState, bool replyException, Future<void> onData(TalkMessage message)) {
+      String id,
+      GlobalAccountState requiredAccountState,
+      bool replyException,
+      Future<void> onData(TalkMessage message)) {
     safeListen(id, (TalkMessage message) async {
-      if (!requireGlobalAccountState(requiredAccountState, replying: replyException ? message : null)) {
+      if (!requireGlobalAccountState(requiredAccountState,
+          replying: replyException ? message : null)) {
         return;
       }
       await onData(message);
@@ -427,7 +431,8 @@ class RemoteApp {
           }
           if (row[7] != null) account.detail.url = row[7].toString();
         }
-        if (account.detail.locationId != null && account.detail.locationId != 0) {
+        if (account.detail.locationId != null &&
+            account.detail.locationId != 0) {
           if (extend != null) extend();
           sqljocky.Results locationResults = await sql.prepareExecute(
               "SELECT `${account.state.accountType == AccountType.AT_BUSINESS ? 'detail' : 'approximate'}` FROM `addressbook` "
@@ -916,10 +921,12 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
   // Access
   /////////////////////////////////////////////////////////////////////
-  
-  bool requireGlobalAccountState(GlobalAccountState globalAccountState, { TalkMessage replying }) {
+
+  bool requireGlobalAccountState(GlobalAccountState globalAccountState,
+      {TalkMessage replying}) {
     if (account.state.globalAccountState.value < globalAccountState.value) {
-      opsLog.warning("User ${account.state.accountId} is not authorized for $globalAccountState operations");
+      opsLog.warning(
+          "User ${account.state.accountId} is not authorized for $globalAccountState operations");
       if (replying != null) {
         ts.sendException("Not authorized", replying);
       }
@@ -1286,10 +1293,13 @@ class RemoteApp {
       case 'image/png':
         uriExt = 'png';
         break;
-      default: {
-        int lastIndex = uri.path.lastIndexOf('.');
-        uriExt = lastIndex > 0 ? uri.path.substring(lastIndex + 1).toLowerCase() : 'bin';
-      }
+      default:
+        {
+          int lastIndex = uri.path.lastIndexOf('.');
+          uriExt = lastIndex > 0
+              ? uri.path.substring(lastIndex + 1).toLowerCase()
+              : 'bin';
+        }
     }
 
     Digest contentSha256 = sha256.convert(body);
@@ -1318,7 +1328,8 @@ class RemoteApp {
     // TODO: Fetch social media from SQL and then from remote hosts!
     devLog.fine(
         "Transition device ${account.state.deviceId} to app ${account.state.accountType}");
-    if (account.state.globalAccountState.value > GlobalAccountState.GAS_BLOCKED.value) {
+    if (account.state.globalAccountState.value >
+        GlobalAccountState.GAS_BLOCKED.value) {
       subscribeOAuth();
       subscribeUpload();
       if (account.state.accountType == AccountType.AT_BUSINESS) {
