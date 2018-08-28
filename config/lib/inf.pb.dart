@@ -1390,6 +1390,7 @@ class DataAccountDetail extends GeneratedMessage {
     ..aOS(6, 'url')
     ..aOS(7, 'avatarCoverUrl')
     ..a<int>(8, 'locationId', PbFieldType.O3)
+    ..aOS(9, 'email')
     ..hasRequiredFields = false;
 
   DataAccountDetail() : super();
@@ -1458,6 +1459,14 @@ class DataAccountDetail extends GeneratedMessage {
 
   bool hasLocationId() => $_has(6);
   void clearLocationId() => clearField(8);
+
+  String get email => $_getS(7, '');
+  set email(String v) {
+    $_setString(7, v);
+  }
+
+  bool hasEmail() => $_has(7);
+  void clearEmail() => clearField(9);
 }
 
 class _ReadonlyDataAccountDetail extends DataAccountDetail
