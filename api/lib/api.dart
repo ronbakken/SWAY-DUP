@@ -29,6 +29,9 @@ import 'broadcast_center.dart';
 import 'inf.pb.dart';
 import 'remote_app.dart';
 
+import 's2geometry/s2cell_id.dart';
+import 's2geometry/s2latlng.dart';
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +81,15 @@ selfTestTalk() async {
 }
 
 run() async {
+  // S2LatLng latLng = new S2LatLng(40.732162, 73.975698);
+  S2LatLng latLng = new S2LatLng(73.975698, 40.732162);
+  S2Point point = latLng.toPoint(); // 89c25973735
+  S2CellId cellId = S2CellId.fromPoint(point);
+  print("Cell ID: ${cellId.toToken()}");
+
+  // -6.080542, 50.976609 should produce 92e6205dd50668fa
+  // 40.732162, 73.975698 should produce 89c25973735
+
   // Logging
   // final Logger opsLog = new Logger('OPS');
   // final Logger devLog = new Logger('DEV');
