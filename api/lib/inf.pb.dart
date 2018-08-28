@@ -1517,6 +1517,10 @@ class DataApplicant extends GeneratedMessage {
     ..aOB(10, 'businessSaysRewarded')
     ..a<int>(11, 'businessGaveRating', PbFieldType.O3)
     ..a<int>(12, 'influencerGaveRating', PbFieldType.O3)
+    ..e<ApplicantState>(13, 'state', PbFieldType.OE, ApplicantState.AS_HAGGLING,
+        ApplicantState.valueOf, ApplicantState.values)
+    ..aOB(14, 'businessDisputed')
+    ..aOB(15, 'influencerDisputed')
     ..hasRequiredFields = false;
 
   DataApplicant() : super();
@@ -1636,6 +1640,30 @@ class DataApplicant extends GeneratedMessage {
 
   bool hasInfluencerGaveRating() => $_has(11);
   void clearInfluencerGaveRating() => clearField(12);
+
+  ApplicantState get state => $_getN(12);
+  set state(ApplicantState v) {
+    setField(13, v);
+  }
+
+  bool hasState() => $_has(12);
+  void clearState() => clearField(13);
+
+  bool get businessDisputed => $_get(13, false);
+  set businessDisputed(bool v) {
+    $_setBool(13, v);
+  }
+
+  bool hasBusinessDisputed() => $_has(13);
+  void clearBusinessDisputed() => clearField(14);
+
+  bool get influencerDisputed => $_get(14, false);
+  set influencerDisputed(bool v) {
+    $_setBool(14, v);
+  }
+
+  bool hasInfluencerDisputed() => $_has(14);
+  void clearInfluencerDisputed() => clearField(15);
 }
 
 class _ReadonlyDataApplicant extends DataApplicant with ReadonlyMessageMixin {}
@@ -1654,7 +1682,7 @@ class DataApplicantChat extends GeneratedMessage {
         ApplicantChatType.ACT_PLAIN,
         ApplicantChatType.valueOf,
         ApplicantChatType.values)
-    ..aOB(9, 'seen')
+    ..aInt64(9, 'seen')
     ..aInt64(10, 'sent')
     ..hasRequiredFields = false;
 
@@ -1729,9 +1757,9 @@ class DataApplicantChat extends GeneratedMessage {
   bool hasType() => $_has(5);
   void clearType() => clearField(8);
 
-  bool get seen => $_get(6, false);
-  set seen(bool v) {
-    $_setBool(6, v);
+  Int64 get seen => $_getI64(6);
+  set seen(Int64 v) {
+    $_setInt64(6, v);
   }
 
   bool hasSeen() => $_has(6);
@@ -2683,4 +2711,301 @@ class NetLoadOffersRes extends GeneratedMessage {
 }
 
 class _ReadonlyNetLoadOffersRes extends NetLoadOffersRes
+    with ReadonlyMessageMixin {}
+
+class NetOfferApplyReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetOfferApplyReq')
+    ..a<int>(1, 'offerId', PbFieldType.O3)
+    ..aOS(2, 'remarks')
+    ..hasRequiredFields = false;
+
+  NetOfferApplyReq() : super();
+  NetOfferApplyReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetOfferApplyReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetOfferApplyReq clone() => new NetOfferApplyReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetOfferApplyReq create() => new NetOfferApplyReq();
+  static PbList<NetOfferApplyReq> createRepeated() =>
+      new PbList<NetOfferApplyReq>();
+  static NetOfferApplyReq getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetOfferApplyReq();
+    return _defaultInstance;
+  }
+
+  static NetOfferApplyReq _defaultInstance;
+  static void $checkItem(NetOfferApplyReq v) {
+    if (v is! NetOfferApplyReq) checkItemFailed(v, 'NetOfferApplyReq');
+  }
+
+  int get offerId => $_get(0, 0);
+  set offerId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasOfferId() => $_has(0);
+  void clearOfferId() => clearField(1);
+
+  String get remarks => $_getS(1, '');
+  set remarks(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasRemarks() => $_has(1);
+  void clearRemarks() => clearField(2);
+}
+
+class _ReadonlyNetOfferApplyReq extends NetOfferApplyReq
+    with ReadonlyMessageMixin {}
+
+class NetChatPlain extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetChatPlain')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..aOS(6, 'text')
+    ..hasRequiredFields = false;
+
+  NetChatPlain() : super();
+  NetChatPlain.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetChatPlain.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetChatPlain clone() => new NetChatPlain()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetChatPlain create() => new NetChatPlain();
+  static PbList<NetChatPlain> createRepeated() => new PbList<NetChatPlain>();
+  static NetChatPlain getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetChatPlain();
+    return _defaultInstance;
+  }
+
+  static NetChatPlain _defaultInstance;
+  static void $checkItem(NetChatPlain v) {
+    if (v is! NetChatPlain) checkItemFailed(v, 'NetChatPlain');
+  }
+
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
+
+  String get text => $_getS(1, '');
+  set text(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasText() => $_has(1);
+  void clearText() => clearField(6);
+}
+
+class _ReadonlyNetChatPlain extends NetChatPlain with ReadonlyMessageMixin {}
+
+class NetChatHaggle extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetChatHaggle')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..aOS(2, 'remarks')
+    ..aOS(3, 'deliverables')
+    ..aOS(4, 'reward')
+    ..hasRequiredFields = false;
+
+  NetChatHaggle() : super();
+  NetChatHaggle.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetChatHaggle.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetChatHaggle clone() => new NetChatHaggle()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetChatHaggle create() => new NetChatHaggle();
+  static PbList<NetChatHaggle> createRepeated() => new PbList<NetChatHaggle>();
+  static NetChatHaggle getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetChatHaggle();
+    return _defaultInstance;
+  }
+
+  static NetChatHaggle _defaultInstance;
+  static void $checkItem(NetChatHaggle v) {
+    if (v is! NetChatHaggle) checkItemFailed(v, 'NetChatHaggle');
+  }
+
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
+
+  String get remarks => $_getS(1, '');
+  set remarks(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasRemarks() => $_has(1);
+  void clearRemarks() => clearField(2);
+
+  String get deliverables => $_getS(2, '');
+  set deliverables(String v) {
+    $_setString(2, v);
+  }
+
+  bool hasDeliverables() => $_has(2);
+  void clearDeliverables() => clearField(3);
+
+  String get reward => $_getS(3, '');
+  set reward(String v) {
+    $_setString(3, v);
+  }
+
+  bool hasReward() => $_has(3);
+  void clearReward() => clearField(4);
+}
+
+class _ReadonlyNetChatHaggle extends NetChatHaggle with ReadonlyMessageMixin {}
+
+class NetChatImageKey extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetChatImageKey')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..aOS(5, 'imageKey')
+    ..hasRequiredFields = false;
+
+  NetChatImageKey() : super();
+  NetChatImageKey.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetChatImageKey.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetChatImageKey clone() => new NetChatImageKey()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetChatImageKey create() => new NetChatImageKey();
+  static PbList<NetChatImageKey> createRepeated() =>
+      new PbList<NetChatImageKey>();
+  static NetChatImageKey getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetChatImageKey();
+    return _defaultInstance;
+  }
+
+  static NetChatImageKey _defaultInstance;
+  static void $checkItem(NetChatImageKey v) {
+    if (v is! NetChatImageKey) checkItemFailed(v, 'NetChatImageKey');
+  }
+
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
+
+  String get imageKey => $_getS(1, '');
+  set imageKey(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasImageKey() => $_has(1);
+  void clearImageKey() => clearField(5);
+}
+
+class _ReadonlyNetChatImageKey extends NetChatImageKey
+    with ReadonlyMessageMixin {}
+
+class NetApplicantCompletionReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetApplicantCompletionReq')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..aOB(2, 'delivered')
+    ..aOB(3, 'rewarded')
+    ..a<int>(4, 'rating', PbFieldType.O3)
+    ..aOB(5, 'dispute')
+    ..aOS(6, 'disputeDescription')
+    ..hasRequiredFields = false;
+
+  NetApplicantCompletionReq() : super();
+  NetApplicantCompletionReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetApplicantCompletionReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetApplicantCompletionReq clone() =>
+      new NetApplicantCompletionReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetApplicantCompletionReq create() => new NetApplicantCompletionReq();
+  static PbList<NetApplicantCompletionReq> createRepeated() =>
+      new PbList<NetApplicantCompletionReq>();
+  static NetApplicantCompletionReq getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetApplicantCompletionReq();
+    return _defaultInstance;
+  }
+
+  static NetApplicantCompletionReq _defaultInstance;
+  static void $checkItem(NetApplicantCompletionReq v) {
+    if (v is! NetApplicantCompletionReq)
+      checkItemFailed(v, 'NetApplicantCompletionReq');
+  }
+
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
+
+  bool get delivered => $_get(1, false);
+  set delivered(bool v) {
+    $_setBool(1, v);
+  }
+
+  bool hasDelivered() => $_has(1);
+  void clearDelivered() => clearField(2);
+
+  bool get rewarded => $_get(2, false);
+  set rewarded(bool v) {
+    $_setBool(2, v);
+  }
+
+  bool hasRewarded() => $_has(2);
+  void clearRewarded() => clearField(3);
+
+  int get rating => $_get(3, 0);
+  set rating(int v) {
+    $_setSignedInt32(3, v);
+  }
+
+  bool hasRating() => $_has(3);
+  void clearRating() => clearField(4);
+
+  bool get dispute => $_get(4, false);
+  set dispute(bool v) {
+    $_setBool(4, v);
+  }
+
+  bool hasDispute() => $_has(4);
+  void clearDispute() => clearField(5);
+
+  String get disputeDescription => $_getS(5, '');
+  set disputeDescription(String v) {
+    $_setString(5, v);
+  }
+
+  bool hasDisputeDescription() => $_has(5);
+  void clearDisputeDescription() => clearField(6);
+}
+
+class _ReadonlyNetApplicantCompletionReq extends NetApplicantCompletionReq
     with ReadonlyMessageMixin {}
