@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+typedef void SearchCallback(String searchQuery);
+
 /// Location Selection Screen that will save 
 /// the user profile's location. It is a stateful Widget
 /// because we want to constantly display the pinpoint
@@ -13,7 +15,7 @@ class LocationSelectionScreen extends StatefulWidget
   }) : super (key: key);
 
   // Callback when the search button is pressed
-  final VoidCallback onSearchPressed;
+  final SearchCallback onSearchPressed;
 
   // Callback when the user confirms the location
   final VoidCallback onConfirmPressed;
@@ -61,7 +63,9 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
     Icon searchIcon = new Icon(Icons.search);
     searchButton = new IconButton(
       icon: searchIcon,
-      onPressed: widget.onSearchPressed,
+      onPressed: () {
+        widget.onSearchPressed(_searchFieldController.text);
+      }
     );
   }
 
@@ -70,6 +74,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
   {
     return new Scaffold(
       appBar: _buildSearchBar(),
+      floatingActionButton: confirmButton,
     );
   }
   
