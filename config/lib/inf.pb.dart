@@ -920,6 +920,7 @@ class DataBusinessOffer extends GeneratedMessage {
     ..a<double>(18, 'latitude', PbFieldType.OD)
     ..a<double>(19, 'longitude', PbFieldType.OD)
     ..a<int>(20, 'locationOfferCount', PbFieldType.O3)
+    ..aOS(21, 'locationName')
     ..hasRequiredFields = false;
 
   DataBusinessOffer() : super();
@@ -1092,6 +1093,14 @@ class DataBusinessOffer extends GeneratedMessage {
 
   bool hasLocationOfferCount() => $_has(19);
   void clearLocationOfferCount() => clearField(20);
+
+  String get locationName => $_getS(20, '');
+  set locationName(String v) {
+    $_setString(20, v);
+  }
+
+  bool hasLocationName() => $_has(20);
+  void clearLocationName() => clearField(21);
 }
 
 class _ReadonlyDataBusinessOffer extends DataBusinessOffer
