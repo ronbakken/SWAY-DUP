@@ -475,6 +475,7 @@ const DataLocation$json = const {
     const {'1': 'countryCode', '3': 11, '4': 1, '5': 9, '10': 'countryCode'},
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
+    const {'1': 's2cellId', '3': 12, '4': 1, '5': 3, '10': 's2cellId'},
   ],
 };
 
