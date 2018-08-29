@@ -76,7 +76,6 @@ class _NearbyOffersState extends State<NearbyOffers> {
               */
               urlTemplate: widget.mapboxUrlTemplate,
               additionalOptions: {'accessToken': widget.mapboxToken},
-              
             ),
             new MarkerLayerOptions(
               markers: [
