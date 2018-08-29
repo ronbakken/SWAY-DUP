@@ -100,7 +100,7 @@ class RemoteAppProfile {
       ts.sendExtend(message);
       sqljocky.Results accountResults = await connection.prepareExecute(
           "SELECT `accounts`.`name`, `accounts`.`account_type`, " // 0 1
-          "`accounts`.`description`, `accounts`.`accounts`.`location_id`, " // 2 3
+          "`accounts`.`description`, `accounts`.`location_id`, " // 2 3
           "`accounts`.`avatar_key`, `accounts`.`url`, " // 4 5
           "`addressbook`.`approximate`, `addressbook`.`detail`, " // 6 7
           "`addressbook`.`point` " // 8
@@ -145,7 +145,7 @@ class RemoteAppProfile {
       // Fetch public social media info
       ts.sendExtend(message);
       sqljocky.Results connectionResults = await connection.prepareExecute(
-          "SELECT `social_media`.`oauth_provider` " // 0
+          "SELECT `social_media`.`oauth_provider`, " // 0
           "`social_media`.`display_name`, `social_media`.`profile_url`, " // 1 2
           "`social_media`.`friends_count`, `social_media`.`followers_count`, " // 3 4
           "`social_media`.`following_count`, `social_media`.`posts_count`, " // 5 6
@@ -164,7 +164,7 @@ class RemoteAppProfile {
         account.detail.socialMedia[oauthProvider].followersCount = row[4].toInt();
         account.detail.socialMedia[oauthProvider].followingCount = row[5].toInt();
         account.detail.socialMedia[oauthProvider].postsCount = row[6].toInt();
-        account.detail.socialMedia[oauthProvider].verified = row[7].toInt();
+        account.detail.socialMedia[oauthProvider].verified = row[7].toInt() != 0;
       }
     } finally {
       connection.release();

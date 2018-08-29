@@ -220,7 +220,7 @@ class RemoteAppBusiness {
             "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
             "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
             "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point`, " // 6 7 8
-            "`offers`.`state`, `offers`.`state_reason` " // 9 10
+            "`offers`.`state`, `offers`.`state_reason`, `addressbook`.`name` " // 9 10 11
             "FROM `offers` "
             "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
             "WHERE `offers`.`account_id` = ? "
@@ -237,6 +237,7 @@ class RemoteAppBusiness {
           offer.description = offerRow[3].toString();
           offer.deliverables = offerRow[4].toString();
           offer.reward = offerRow[5].toString();
+          offer.locationName = offerRow[11].toString();
           offer.location = offerRow[7].toString();
           print(offerRow[8].toString());
           Uint8List point = offerRow[8];

@@ -104,7 +104,7 @@ class RemoteAppInfluencer {
             "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
             "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point`, " // 6 7 8
             "`offers`.`state`, `offers`.`state_reason`, " // 9 10
-            "`addressbook`.`offer_count` `addressbook`.`name` " // 11 12
+            "`addressbook`.`offer_count`, `addressbook`.`name` " // 11 12
             "FROM `offers` "
             "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
             "ORDER BY `offer_id` DESC";
