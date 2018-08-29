@@ -21,6 +21,17 @@ class _LocationSearchPageState extends State<LocationSearchScreen> {
   // Cancel Button 
   IconButton cancelButton;
 
+  // function called when the cancel button is pressed
+  void _resetSearchField()
+  {
+    setState(() {
+       _searchFieldController.text = "";
+      }
+
+      // TODO: clear search cards
+    );
+  }
+
   @override
   void initState() {
     // Initialize the Parent
@@ -36,6 +47,7 @@ class _LocationSearchPageState extends State<LocationSearchScreen> {
     Icon cancelIcon = new Icon(Icons.cancel);
     cancelButton = new IconButton(
       icon: cancelIcon,
+      onPressed: _resetSearchField,
     );
   }
 
