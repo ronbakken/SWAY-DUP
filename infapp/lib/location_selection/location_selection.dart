@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 typedef void SearchCallback(String searchQuery);
 typedef void ConfirmLocationCallback(LatLng locationCoordinates);
@@ -34,6 +35,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
   FloatingActionButton confirmButton;
 
   // Pointer Marker to pin point the target location
+  Marker marker;
 
   // Search Bar to search the location
   TextField searchField;
@@ -60,11 +62,20 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
     );
 
     // Initializer Marker
-    
+    marker = new Marker(
+      point: new LatLng(0.0, 0.0),
+      builder: (ctx) => new Container(
+        child: new Icon(Icons.check),
+      ),
+    );
+
     // Initialize Search Bar
     _searchFieldController = new TextEditingController();
     searchField = new TextField(
       controller: _searchFieldController,
+      decoration: new InputDecoration(
+        hintText: "Select a Location...",
+      ),
     );
 
     // Initialize Search Button
@@ -81,6 +92,26 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
       options: new MapOptions(
         center: new LatLng(0.0, 0.0),
       ),
+      layers: <LayerOptions> [
+        new TileLayerOptions(
+          backgroundColor: new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
+          placeholderImage: new MemoryImage(kTransparentImage),
+          urlTemplate: "https://api.tiles.mapbox.com/v4/"
+            "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+          additionalOptions: {
+            'accessToken':
+              'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
+            'id': 'mapbox.dark',
+          },
+        ),
+        
+         new MarkerLayerOptions(
+              markers: [
+                marker,
+              ],
+            ),
+
+      ],
     );
   }
 
@@ -89,6 +120,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
   {
     return new Scaffold(
       appBar: _buildSearchBar(),
+      body: flutterMap,
       floatingActionButton: confirmButton,
     );
   }
