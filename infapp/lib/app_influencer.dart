@@ -103,20 +103,23 @@ class _AppInfluencerState extends State<AppInfluencer> {
       NetworkInterface network = NetworkManager.of(context);
       NavigatorState navigator = Navigator.of(context);
       return new SearchPageCommon(
-        searchHint: "Find nearby offers...",
-        searchTooltip: "Search for nearby offers",
-        searchQueryController: searchQueryController,
-        onSearchRequest: (String searchQuery) async {
-          await new Future.delayed(new Duration(seconds: 2));
-        },
-        searchResults: network.demoAllOffers.values.map((offer) => new OfferCard(
-          businessOffer: offer,
-          businessAccount: null, // TODO
-          onPressed: () {
-            navigateToOfferView(context, null, offer);
-          }
-        )).toList()..sort((a, b) => b.businessOffer.offerId.compareTo(a.businessOffer.offerId)) //<Widget>[],
-      );
+          searchHint: "Find nearby offers...",
+          searchTooltip: "Search for nearby offers",
+          searchQueryController: searchQueryController,
+          onSearchRequest: (String searchQuery) async {
+            await new Future.delayed(new Duration(seconds: 2));
+          },
+          searchResults: network.demoAllOffers.values
+              .map((offer) => new OfferCard(
+                  businessOffer: offer,
+                  businessAccount: null, // TODO
+                  onPressed: () {
+                    navigateToOfferView(context, null, offer);
+                  }))
+              .toList()
+                ..sort((a, b) => b.businessOffer.offerId
+                    .compareTo(a.businessOffer.offerId)) //<Widget>[],
+          );
     });
   }
 
