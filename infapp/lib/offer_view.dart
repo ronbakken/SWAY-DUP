@@ -52,7 +52,7 @@ class OfferView extends StatelessWidget {
                   //enabled: true,
                   leading: new CircleAvatar(
                       backgroundImage:
-                          businessAccount.summary.avatarThumbnailUrl.length > 0
+                          businessAccount.summary.avatarThumbnailUrl.isNotEmpty
                               ? new NetworkImage(
                                   businessAccount.summary.avatarThumbnailUrl)
                               : null,
@@ -60,10 +60,14 @@ class OfferView extends StatelessWidget {
                           .primaries[businessAccount.summary.name.hashCode %
                               Colors.primaries.length]
                           .shade300),
-                  title: new Text(businessAccount.summary.name,
-                      maxLines: 1, overflow: TextOverflow.fade),
+                  title: new Text(
+                      businessOffer.locationName.isNotEmpty
+                          ? businessOffer.locationName
+                          : businessAccount.summary.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.fade),
                   subtitle: new Text(
-                      businessAccount.summary.description.length > 0
+                      businessAccount.summary.description.isNotEmpty
                           ? businessAccount.summary.description
                           : businessAccount.summary.location,
                       maxLines: 1,
