@@ -17,6 +17,7 @@
 // Jan Boon <kaetemi@no-break.space>
 
 import 'dart:typed_data';
+import 'dart:math';
 
 import 'package:fixnum/fixnum.dart';
 
@@ -60,7 +61,7 @@ int findMSBSetNonZero64(int n) {
 int findLSBSetNonZero(int n) {
   int rc = 31;
   for (int i = 4, shift = 1 << 4; i >= 0; --i) {
-    int x = n << shift;
+    int x = (n << shift) & 0xFFFFFFFF;
     if (x != 0) {
       n = x;
       rc -= shift;
@@ -126,7 +127,7 @@ void _maybeInit() {
 }
 
 int _lsbForLevel(int level) {
-  return 1 << 2 * (_kMaxLevel - level);
+  return 1 << (2 * (_kMaxLevel - level));
 }
 
 // need s2sphere.RegionCoverer
@@ -208,6 +209,102 @@ class S2CellId {
     int shift = (4 * numZeroDigits);
     return hexFormatString(
         (_id >> shift) & ((1 << (64 - shift)) - 1), 16 - numZeroDigits);
+  }
+
+  // lsbForLevel returns the lowest-numbered bit that is on for cells at the given level.
+  // func lsbForLevel(level int) uint64 { return 1 << uint64(2*(maxLevel-level)) }
+
+  // Parent returns the cell at the given level, which must be no greater than the current level.
+  S2CellId parent([int level]) {
+    int lsb = _lsbForLevel(level == null ? this.level - 1 : level);
+    return new S2CellId((_id & -lsb) | lsb);
+  }
+
+  // immediateParent is cheaper than Parent, but assumes !ci.isFace().
+  S2CellId immediateParent() {
+    int nlsb = lsb() << 2;
+    return new S2CellId((_id & -nlsb) | nlsb);
+  }
+
+  // isFace returns whether this is a top-level (face) cell.
+  bool isFace() {
+    return _id & (_lsbForLevel(0) - 1) == 0;
+  }
+
+  // lsb returns the least significant bit that is set.
+  int lsb() {
+    return _id & -_id;
+  }
+
+  S2CellId.fromFaceIJWrap(int face, int i, int j) {
+    // Convert i and j to the coordinates of a leaf cell just beyond the
+    // boundary of this face.  This prevents 32-bit overflow in the case
+    // of finding the neighbors of a face cell.
+    i = max(-1, min(_kMaxSize, i));
+    j = max(-1, min(_kMaxSize, j));
+
+    // We want to wrap these coordinates onto the appropriate adjacent face.
+    // The easiest way to do this is to convert the (i,j) coordinates to (x,y,z)
+    // (which yields a point outside the normal face boundary), and then call
+    // S2::XYZtoFaceUV() to project back onto the correct face.
+    //
+    // The code below converts (i,j) to (si,ti), and then (si,ti) to (u,v) using
+    // the linear projection (u=2*s-1 and v=2*t-1).  (The code further below
+    // converts back using the inverse projection, s=0.5*(u+1) and t=0.5*(v+1).
+    // Any projection would work here, so we use the simplest.)  We also clamp
+    // the (u,v) coordinates so that the point is barely outside the
+    // [-1,1]x[-1,1] face rectangle, since otherwise the reprojection step
+    // (which divides by the new z coordinate) might change the other
+    // coordinates enough so that we end up in the wrong leaf cell.
+    double kScale = 1.0 / _kMaxSize;
+    Uint8List buffer = new Uint8List(8);
+    buffer.buffer.asFloat64List()[0] = 1.0;
+    ++buffer.buffer.asUint64List()[0];
+    double kLimit = buffer.buffer.asFloat64List()[0];
+    // The arithmetic below is designed to avoid 32-bit integer overflows.
+    assert(0 == _kMaxSize % 2);
+    double u =
+        max(-kLimit, min(kLimit, kScale * (2 * (i - _kMaxSize / 2) + 1)));
+    double v =
+        max(-kLimit, min(kLimit, kScale * (2 * (j - _kMaxSize / 2) + 1)));
+
+    // Find the leaf cell coordinates on the adjacent face, and convert
+    // them to a cell id at the appropriate level.
+    S2FaceUV faceUV = xyzToFaceUV(faceUVToXYZ(face, new R2Point(u, v)));
+    _id = new S2CellId.fromFaceIJ(faceUV.face, stToIJ(0.5 * (faceUV.u + 1)),
+            stToIJ(0.5 * (faceUV.v + 1)))
+        ._id;
+  }
+
+  S2CellId.fromFaceIJSame(int face, int i, int j, bool same_face) {
+    if (same_face)
+      _id = new S2CellId.fromFaceIJ(face, i, j)._id;
+    else
+      _id = new S2CellId.fromFaceIJWrap(face, i, j)._id;
+  }
+
+/*
+  List<S2CellId> GetEdgeNeighbors() {
+    int i, j;
+    int level = this.level;
+    int size = getSizeIJ(level);
+    int face = toFaceIJOrientation(i, j, nullptr);
+
+    List<S2CellId> neighbors = new List<S2CellId>(4);
+    // Edges 0, 1, 2, 3 are in the down, right, up, left directions.
+    neighbors[0] =
+        new S2CellId.fromFaceIJSame(face, i, j - size, j - size >= 0).parent(level);
+    neighbors[1] =
+        new S2CellId.fromFaceIJSame(face, i + size, j, i + size < _kMaxSize).parent(level);
+    neighbors[2] =
+        new S2CellId.fromFaceIJSame(face, i, j + size, j + size < _kMaxSize).parent(level);
+    neighbors[3] =
+        new S2CellId.fromFaceIJSame(face, i - size, j, i - size >= 0).parent(level);
+    return neighbors;
+  }*/
+
+  int get level {
+    return _kMaxLevel - (findLSBSetNonZero64(_id) >> 1);
   }
 
   int get id {

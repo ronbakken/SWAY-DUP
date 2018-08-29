@@ -88,6 +88,14 @@ run() async {
   S2CellId cellId = S2CellId.fromPoint(point);
   print("Cell ID: ${cellId.toToken()}");
   print("Cell ID Hex: ${cellId.id.toRadixString(16)}");
+  print("Cell ID Parent: ${cellId.parent().toToken()}");
+  print("Cell ID Parent Parent: ${cellId.parent().parent().toToken()}");
+  print("Cell ID Parent: ${cellId.immediateParent().toToken()}");
+  print("Cell ID Parent Parent: ${cellId.immediateParent().immediateParent().toToken()}");
+  print("Cell ID Level: ${cellId.level}");
+  print("Cell ID Parent Level: ${cellId.parent().level}");
+  print("Cell ID Parent Level: ${cellId.immediateParent().level}");
+  print("Cell ID Parent Parent Level: ${cellId.immediateParent().immediateParent().level}");
 
   // -6.080542, 50.976609 should produce 92e6205dd50668fa
   // 40.732162, 73.975698 should produce 89c25973735

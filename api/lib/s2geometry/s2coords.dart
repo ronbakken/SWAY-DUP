@@ -127,6 +127,8 @@ int getFace(S2Point p) {
 class S2FaceUV {
   int face;
   R2Point uv;
+  double get u { return uv.u; }
+  double get v { return uv.v; }
 }
 
 S2FaceUV xyzToFaceUV(S2Point p) {
