@@ -39,10 +39,16 @@ class _NearbyOffersState extends State<NearbyOffers> {
     super.initState();
     _searchTextController = new TextEditingController();
     _mapController = new MapController();
-    _initialLatLng = new LatLng(
-        // Default location depending on whether GPS is available or not
-        widget.account.detail.latitude,
-        widget.account.detail.longitude);
+    // Default location depending on whether GPS is available or not
+    if (widget.account.detail.latitude != null &&
+        widget.account.detail.longitude != null &&
+        widget.account.detail.latitude != 0.0 &&
+        widget.account.detail.longitude != 0.0) {
+      _initialLatLng = new LatLng(
+          widget.account.detail.latitude, widget.account.detail.longitude);
+    } else {
+      _initialLatLng = new LatLng(34.0207305, -118.6919159);
+    }
   }
 
   @override
@@ -59,6 +65,7 @@ class _NearbyOffersState extends State<NearbyOffers> {
             new TileLayerOptions(
               backgroundColor: new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
               placeholderImage: new MemoryImage(kTransparentImage),
+              /*
               urlTemplate: "https://api.tiles.mapbox.com/v4/"
                   "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
               additionalOptions: {
@@ -66,10 +73,10 @@ class _NearbyOffersState extends State<NearbyOffers> {
                     'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
                 'id': 'mapbox.dark',
               },
-              /*
+              */
               urlTemplate: widget.mapboxUrlTemplate,
               additionalOptions: {'accessToken': widget.mapboxToken},
-              */
+              
             ),
             new MarkerLayerOptions(
               markers: [
