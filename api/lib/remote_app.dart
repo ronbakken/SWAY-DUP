@@ -29,6 +29,7 @@ import 'inf.pb.dart';
 import 'broadcast_center.dart';
 import 'remote_app_oauth.dart';
 import 'remote_app_upload.dart';
+import 'remote_app_profile.dart';
 import 'remote_app_business.dart';
 import 'remote_app_influencer.dart';
 
@@ -76,9 +77,9 @@ class RemoteApp {
 
   RemoteAppOAuth _remoteAppOAuth;
   RemoteAppUpload _remoteAppUpload;
+  RemoteAppProfile _remoteAppProfile;
   RemoteAppBusiness _remoteAppBusiness;
   RemoteAppInfluencer _remoteAppInfluencer;
-  dynamic _remoteAppCommon;
 
   RemoteApp(this.config, this.sql, this.bucket, this.ts, this.bc,
       {@required this.ipAddress}) {
@@ -109,6 +110,10 @@ class RemoteApp {
     if (_remoteAppUpload != null) {
       _remoteAppUpload.dispose();
       _remoteAppUpload = null;
+    }
+    if (_remoteAppProfile != null) {
+      _remoteAppProfile.dispose();
+      _remoteAppProfile = null;
     }
     if (_remoteAppBusiness != null) {
       _remoteAppBusiness.dispose();
@@ -161,6 +166,12 @@ class RemoteApp {
   void subscribeUpload() {
     if (_remoteAppUpload == null) {
       _remoteAppUpload = new RemoteAppUpload(this);
+    }
+  }
+
+  void subscribeProfile() {
+    if (_remoteAppProfile == null) {
+      _remoteAppProfile = new RemoteAppProfile(this);
     }
   }
 
@@ -1426,7 +1437,6 @@ class RemoteApp {
     assert(_netAccountCreateReq == null);
     assert(_remoteAppBusiness == null);
     assert(_remoteAppInfluencer == null);
-    assert(_remoteAppCommon == null);
     assert(account.state.deviceId != null);
     assert(account.state.accountId != 0);
     // TODO: Permit app transactions!
@@ -1437,6 +1447,7 @@ class RemoteApp {
         GlobalAccountState.GAS_BLOCKED.value) {
       subscribeOAuth();
       subscribeUpload();
+      subscribeProfile();
       if (account.state.accountType == AccountType.AT_BUSINESS) {
         subscribeBusiness();
       } else if (account.state.accountType == AccountType.AT_INFLUENCER) {
