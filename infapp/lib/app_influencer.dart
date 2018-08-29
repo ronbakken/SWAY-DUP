@@ -114,7 +114,11 @@ class _AppInfluencerState extends State<AppInfluencer> {
                   businessOffer: offer,
                   onPressed: () {
                     network.backgroundReloadBusinessOffer(offer);
-                    navigateToOfferView(context, network.tryGetPublicProfile(offer.accountId, fallbackOffer: offer), offer);
+                    navigateToOfferView(
+                        context,
+                        network.tryGetPublicProfile(offer.accountId,
+                            fallbackOffer: offer),
+                        offer);
                   }))
               .toList()
                 ..sort((a, b) => b.businessOffer.offerId

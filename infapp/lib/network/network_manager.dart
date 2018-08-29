@@ -791,7 +791,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
     return offer;
   }
-  
+
   /// Reload business offer silently in the background, call when opening a window
   @override
   void backgroundReloadBusinessOffer(DataBusinessOffer offer) {
