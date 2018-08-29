@@ -4,6 +4,8 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,6 +24,9 @@ import 'nearby_offers.dart';
 import 'offer_view.dart';
 import 'business_offer_list.dart';
 import 'debug_account.dart';
+import 'page_transition.dart';
+
+import 'search/search_page_common.dart';
 
 // Influencer user
 class AppInfluencer extends StatefulWidget {
@@ -91,6 +96,21 @@ class _AppInfluencerState extends State<AppInfluencer> {
     }));
   }
 
+  void navigateToSearchOffers(TextEditingController searchQueryController) {
+    fadeToPage(context, (context, animation, secondaryAnimation) {
+      ConfigData config = ConfigManager.of(context);
+      NetworkInterface network = NetworkManager.of(context);
+      NavigatorState navigator = Navigator.of(context);
+      return new SearchPageCommon(
+        searchQueryController: searchQueryController,
+        onSearchRequest: (String searchQuery) async {
+          await new Future.delayed(new Duration(seconds: 2));
+        },
+        searchResults: <Widget>[],
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
@@ -101,9 +121,12 @@ class _AppInfluencerState extends State<AppInfluencer> {
       applicantsTab: 1,
       map: new Builder(builder: (context) {
         NetworkInterface network = NetworkManager.of(context);
-        return new NearbyOffers(onSearchPressed: (String query) {
-          Scaffold.of(context).showSnackBar(
-              new SnackBar(content: new Text("Not yet implemented.")));
+        return new NearbyOffers(
+            onSearchPressed: (TextEditingController searchQuery) {
+          navigateToSearchOffers(searchQuery);
+          // query.text = ":)";
+          // Scaffold.of(context).showSnackBar(
+          //     new SnackBar(content: new Text("Not yet implemented.")));
         });
       }),
       onNavigateProfile: () {

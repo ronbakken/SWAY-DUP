@@ -13,3 +13,10 @@ void transitionPage(BuildContext context, Widget widget) {
     pageBuilder: (context, animation, secondaryAnimation) => widget,
   ));
 }
+
+void fadeToPage(BuildContext context, RoutePageBuilder builder) {
+  Navigator.of(context).push(PageRouteBuilder(
+    transitionsBuilder: _fadeAnimation,
+    pageBuilder: builder,
+  ));
+}

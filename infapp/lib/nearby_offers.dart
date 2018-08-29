@@ -8,15 +8,13 @@ import 'package:flutter_map/flutter_map.dart';
 
 import 'search/search_page.dart';
 
-typedef void SearchPressedCallback(String searchQuery);
-
 class NearbyOffers extends StatefulWidget {
   const NearbyOffers({
     Key key,
     @required this.onSearchPressed,
   }) : super(key: key);
 
-  final SearchPressedCallback onSearchPressed;
+  final Function(TextEditingController searchQuery) onSearchPressed;
 
   @override
   _NearbyOffersState createState() => new _NearbyOffersState();
@@ -95,7 +93,7 @@ class _NearbyOffersState extends State<NearbyOffers> {
                             controller: _searchTextController,
                             decoration: new InputDecoration(
                                 // TODO: Better track focus of this input!!! (remove focus when keyboard is closed)
-                                hintText: 'Find nearby influencers...'),
+                                hintText: 'Find nearby offers...'),
                           ),
                         ),
                       ),
@@ -108,9 +106,9 @@ class _NearbyOffersState extends State<NearbyOffers> {
                           padding: new EdgeInsets.all(16.0),
                           icon: new Icon(Icons.search),
                           onPressed: () {
-                            widget.onSearchPressed(_searchTextController.text);
+                            widget.onSearchPressed(_searchTextController);
                           },
-                          tooltip: "Search for nearby influencers",
+                          tooltip: "Search for nearby offers",
                         ),
                       ),
                     ],

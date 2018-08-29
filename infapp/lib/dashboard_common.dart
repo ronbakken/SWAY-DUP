@@ -85,27 +85,33 @@ class _DashboardCommonState extends State<DashboardCommon>
 
   @override
   Widget build(BuildContext context) {
+    String mapLabel =
+        widget.account.state.accountType == AccountType.AT_INFLUENCER
+            ? "Offers"
+            : "Map";
+    String offersLabel = "Offers";
+    String applicantsLabel =
+        widget.account.state.accountType == AccountType.AT_INFLUENCER
+            ? "Applied"
+            : "Applicants";
     List<BottomNavigationBarItem> tabBarItems =
         new List<BottomNavigationBarItem>(_tabCount);
     if (widget.mapTab != null) {
       tabBarItems[widget.mapTab] = new BottomNavigationBarItem(
         icon: new Icon(Icons.map),
-        title: new Text("Map"),
+        title: new Text(mapLabel),
       );
     }
     if (widget.offersTab != null) {
       tabBarItems[widget.offersTab] = new BottomNavigationBarItem(
         icon: new Icon(Icons.list),
-        title: new Text("Offers"),
+        title: new Text(offersLabel),
       );
     }
     if (widget.applicantsTab != null) {
       tabBarItems[widget.applicantsTab] = new BottomNavigationBarItem(
         icon: new Icon(Icons.inbox),
-        title: new Text(
-            widget.account.state.accountType == AccountType.AT_INFLUENCER
-                ? "Applied"
-                : "Applicants"),
+        title: new Text(applicantsLabel),
       );
     }
     return new Scaffold(
@@ -226,11 +232,8 @@ class _DashboardCommonState extends State<DashboardCommon>
       appBar: _currentTab != widget.mapTab
           ? new AppBar(
               title: new Text(_currentTab == widget.offersTab
-                  ? "Offers"
-                  : (widget.account.state.accountType ==
-                          AccountType.AT_INFLUENCER
-                      ? "Applied"
-                      : "Applicants")),
+                  ? offersLabel
+                  : applicantsLabel),
               bottom: _currentTab == widget.offersTab
                   ? new TabBar(
                       key: new Key('TabBarOffers'),
