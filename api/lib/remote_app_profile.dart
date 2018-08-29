@@ -158,13 +158,20 @@ class RemoteAppProfile {
           [pb.accountId.toInt()]);
       await for (sqljocky.Row row in connectionResults) {
         int oauthProvider = row[0].toInt();
-        if (row[1] != null) account.detail.socialMedia[oauthProvider].displayName = row[1].toString();
-        if (row[2] != null) account.detail.socialMedia[oauthProvider].profileUrl = row[2].toString();
+        if (row[1] != null)
+          account.detail.socialMedia[oauthProvider].displayName =
+              row[1].toString();
+        if (row[2] != null)
+          account.detail.socialMedia[oauthProvider].profileUrl =
+              row[2].toString();
         account.detail.socialMedia[oauthProvider].friendsCount = row[3].toInt();
-        account.detail.socialMedia[oauthProvider].followersCount = row[4].toInt();
-        account.detail.socialMedia[oauthProvider].followingCount = row[5].toInt();
+        account.detail.socialMedia[oauthProvider].followersCount =
+            row[4].toInt();
+        account.detail.socialMedia[oauthProvider].followingCount =
+            row[5].toInt();
         account.detail.socialMedia[oauthProvider].postsCount = row[6].toInt();
-        account.detail.socialMedia[oauthProvider].verified = row[7].toInt() != 0;
+        account.detail.socialMedia[oauthProvider].verified =
+            row[7].toInt() != 0;
       }
     } finally {
       connection.release();
