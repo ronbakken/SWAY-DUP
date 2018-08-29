@@ -791,6 +791,12 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
     return offer;
   }
+  
+  /// Reload business offer silently in the background, call when opening a window
+  @override
+  void backgroundReloadBusinessOffer(DataBusinessOffer offer) {
+    // TODO: Send a background refresh request for this offer
+  }
 
   /////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
@@ -995,6 +1001,9 @@ abstract class NetworkInterface {
 
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
   DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer);
+
+  /// Reload business offer silently in the background, call when opening a window
+  void backgroundReloadBusinessOffer(DataBusinessOffer offer);
 
   /////////////////////////////////////////////////////////////////////////////
   // Get profile

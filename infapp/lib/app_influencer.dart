@@ -113,6 +113,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
               .map((offer) => new OfferCard(
                   businessOffer: offer,
                   onPressed: () {
+                    network.backgroundReloadBusinessOffer(offer);
                     navigateToOfferView(context, network.tryGetPublicProfile(offer.accountId, fallbackOffer: offer), offer);
                   }))
               .toList()
