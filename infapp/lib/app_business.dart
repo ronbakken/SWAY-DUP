@@ -18,7 +18,7 @@ import 'profile/profile_view.dart';
 import 'profile/profile_edit.dart';
 
 import 'dashboard_common.dart';
-import 'nearby_influencers.dart';
+import 'nearby_common.dart';
 import 'offer_create.dart';
 import 'offer_view.dart';
 import 'business_offer_list.dart';
@@ -172,10 +172,14 @@ class _AppBusinessState extends State<AppBusiness> {
       offersTab: 1,
       applicantsTab: 2,
       map: new Builder(builder: (context) {
-        return new NearbyInfluencers(onSearchPressed: (String query) {
-          Scaffold.of(context).showSnackBar(
-              new SnackBar(content: new Text("Not yet implemented.")));
-        });
+        return new NearbyCommon(
+          onSearchPressed: (TextEditingController searchQuery) {
+            Scaffold.of(context).showSnackBar(
+                new SnackBar(content: new Text("Not yet implemented.")));
+          },
+          searchHint: "Find nearby influencers...",
+          searchTooltip: "Search for nearby influencers",
+        );
       }),
       offersCurrent: new Builder(builder: (context) {
         NetworkInterface network = NetworkManager.of(context);

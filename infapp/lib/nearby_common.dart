@@ -13,8 +13,8 @@ import 'network/inf.pb.dart';
 
 import 'package:geolocator/geolocator.dart';
 
-class NearbyOffers extends StatefulWidget {
-  const NearbyOffers({
+class NearbyCommon extends StatefulWidget {
+  const NearbyCommon({
     Key key,
     @required this.onSearchPressed,
     @required this.mapboxUrlTemplate,
@@ -35,10 +35,10 @@ class NearbyOffers extends StatefulWidget {
   final DataAccount account;
 
   @override
-  _NearbyOffersState createState() => new _NearbyOffersState();
+  _NearbyCommonState createState() => new _NearbyCommonState();
 }
 
-class _NearbyOffersState extends State<NearbyOffers> {
+class _NearbyCommonState extends State<NearbyCommon> {
   TextEditingController _searchTextController;
   MapController _mapController;
   LatLng _initialLatLng;

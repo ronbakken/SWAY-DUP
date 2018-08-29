@@ -17,7 +17,7 @@ import '../page_transition.dart';
 import '../offer_view.dart' show OfferView;
 import '../offer_create.dart' show OfferCreate;
 import '../dashboard_common.dart';
-import '../nearby_influencers.dart';
+import '../nearby_common.dart';
 import '../profile/profile_view.dart' show ProfileView;
 import '../profile/profile_edit.dart' show ProfileEdit;
 import '../search/search_button.dart';
@@ -520,12 +520,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     applicantsTab: 2,
                     onMakeAnOffer: () {},
                     onNavigateProfile: () {},
-                    map: new NearbyInfluencers(
-                      onSearchPressed: (String searchQuery) {
+                    map: new NearbyCommon(
+                      searchHint: "Find nearby influencers...",
+                      searchTooltip: "Search for nearby influencers",
+                      onSearchPressed: (TextEditingController searchQuery) {
                         transitionPage(
                             context,
                             new SearchScreen(
-                              initialSearchQuery: searchQuery,
+                              initialSearchQuery: searchQuery.text,
                               onSearchRequest: (String searchQuery) async {
                                 // This is just a dummy search that doesn't do anything
                                 await new Future.delayed(

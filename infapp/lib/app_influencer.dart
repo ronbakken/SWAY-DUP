@@ -20,7 +20,7 @@ import 'profile/profile_view.dart';
 import 'profile/profile_edit.dart';
 
 import 'dashboard_common.dart';
-import 'nearby_offers.dart';
+import 'nearby_common.dart';
 import 'offer_view.dart';
 import 'business_offer_list.dart';
 import 'debug_account.dart';
@@ -124,7 +124,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
       map: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         NetworkInterface network = NetworkManager.of(context);
-        return new NearbyOffers(
+        return new NearbyCommon(
           account: network.account,
           mapboxUrlTemplate: config.services.mapboxUrlTemplate,
           mapboxToken: config.services.mapboxToken,
