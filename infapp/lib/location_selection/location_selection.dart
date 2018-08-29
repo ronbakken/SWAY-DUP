@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 typedef void SearchCallback(String searchQuery);
 
@@ -39,6 +41,9 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
   // Search Button to find the desired location
   IconButton searchButton;
 
+  // The map that will be displayed on the screen
+  FlutterMap flutterMap;
+
   @override
   void initState() {
     // Initialize the Parent
@@ -66,6 +71,13 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
       onPressed: () {
         widget.onSearchPressed(_searchFieldController.text);
       }
+    );
+
+    // Initialize Map
+    flutterMap = new FlutterMap(
+      options: new MapOptions(
+        center: new LatLng(0.0, 0.0),
+      ),
     );
   }
 
