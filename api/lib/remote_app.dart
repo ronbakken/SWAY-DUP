@@ -11,6 +11,7 @@ import 'dart:typed_data';
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
@@ -22,6 +23,7 @@ import 'package:http_client/console.dart' as http;
 import 'package:synchronized/synchronized.dart';
 import 'package:mime/mime.dart';
 import 'package:dospace/dospace.dart' as dospace;
+import 'package:s2geometry/s2geometry.dart';
 
 import 'inf.pb.dart';
 import 'broadcast_center.dart';
@@ -695,6 +697,9 @@ class RemoteApp {
         location.countryCode = "US";
         location.latitude = 34.0207305;
         location.longitude = -118.6919159;
+        location.s2cellId = new Int64(new S2CellId.fromLatLng(
+                new S2LatLng.fromDegrees(location.latitude, location.longitude))
+            .id);
         locations.add(location);
       }
 
@@ -1067,7 +1072,9 @@ class RemoteApp {
     location.countryCode = doc['country_code'].toLowerCase();
     location.latitude = doc['latitude'];
     location.longitude = doc['longitude'];
-
+    location.s2cellId = new Int64(new S2CellId.fromLatLng(
+            new S2LatLng.fromDegrees(location.latitude, location.longitude))
+        .id);
     return location;
   }
 
@@ -1173,6 +1180,9 @@ class RemoteApp {
     location.countryCode = featureCountry['properties']['short_code'];
     location.latitude = latitude;
     location.longitude = longitude;
+    location.s2cellId = new Int64(new S2CellId.fromLatLng(
+            new S2LatLng.fromDegrees(location.latitude, location.longitude))
+        .id);
     return location;
   }
 
@@ -1307,6 +1317,9 @@ class RemoteApp {
         : featureCountry['properties']['short_code'];
     location.latitude = featureDetail['center'][1];
     location.longitude = featureDetail['center'][0];
+    location.s2cellId = new Int64(new S2CellId.fromLatLng(
+            new S2LatLng.fromDegrees(location.latitude, location.longitude))
+        .id);
     return location;
   }
 

@@ -23,6 +23,7 @@ dependencies:
     path: ../dart-oauth1/
   dospace:
     path: ../dospace/
+  s2geometry: ^0.1.1
 
 dev_dependencies:
   test: ^1.0.0

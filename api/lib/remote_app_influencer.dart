@@ -217,7 +217,8 @@ class RemoteAppInfluencer {
             "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
             "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
             "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point`, " // 6 7 8
-            "`offers`.`state`, `offers`.`state_reason` " // 9 10
+            "`offers`.`state`, `offers`.`state_reason`, " // 9 10
+            "`addressbook`.`offer_count` " // 11
             "FROM `offers` "
             "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
             "ORDER BY `offer_id` DESC";
@@ -245,6 +246,7 @@ class RemoteAppInfluencer {
               offer.longitude = data.getFloat64(4 + 5, endian = endian);
             }
           }
+          offer.locationOfferCount = offerRow[11].toInt();
           // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
           // TODO: categories
           offer.state = BusinessOfferState.valueOf(offerRow[9].toInt());
