@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 class LocationSearchScreen extends StatefulWidget {
   LocationSearchScreen({
     Key key,
+    this.searchQuery,
   }) : super(key: key);
+
+  final String searchQuery;
 
   @override
   _LocationSearchPageState createState() => new _LocationSearchPageState();
@@ -24,7 +27,7 @@ class _LocationSearchPageState extends State<LocationSearchScreen> {
     super.initState();
 
     // Initialize Search Field
-    _searchFieldController = new TextEditingController();
+    _searchFieldController = new TextEditingController(text: widget.searchQuery);
     searchField = new TextField(
       controller: _searchFieldController,
     );
@@ -40,7 +43,8 @@ class _LocationSearchPageState extends State<LocationSearchScreen> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Location Search"),
+        title: searchField,
+        actions: <Widget>[ cancelButton ],
       ),
     );
   }

@@ -623,7 +623,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
               demoAccount.state.accountType = AccountType.AT_BUSINESS;
               transitionPage(
                   context,
-                  new LocationSearchScreen(),
+                  new LocationSearchScreen(searchQuery: "Makati",),
               );
             },
           ),
