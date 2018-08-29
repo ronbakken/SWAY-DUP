@@ -7,13 +7,15 @@ class LocationInfluencerScreen extends StatefulWidget
 {
   LocationInfluencerScreen({
     Key key,
+    this.onSearch,
+    this.onConfirm,
   }) : super (key: key);
 
   // function called when the search button is pressed
-  VoidCallback onSearch;
+  final VoidCallback onSearch;
 
   // function called when the confirm button is pressed
-  VoidCallback onConfirm;
+  final VoidCallback onConfirm;
 
   @override
   _LocationInfluencerState createState() => new _LocationInfluencerState();
