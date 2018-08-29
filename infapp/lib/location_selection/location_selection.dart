@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 typedef void SearchCallback(String searchQuery);
+typedef void ConfirmLocationCallback(LatLng locationCoordinates);
 
 /// Location Selection Screen that will save 
 /// the user profile's location. It is a stateful Widget
@@ -20,7 +21,7 @@ class LocationSelectionScreen extends StatefulWidget
   final SearchCallback onSearchPressed;
 
   // Callback when the user confirms the location
-  final VoidCallback onConfirmPressed;
+  final ConfirmLocationCallback onConfirmPressed;
 
   @override
   _LocationSelectionState createState() => new _LocationSelectionState();
@@ -51,7 +52,9 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
 
     // Initialize Confirm Button
     confirmButton = new FloatingActionButton(
-      onPressed: widget.onConfirmPressed,
+      onPressed: () {
+        widget.onConfirmPressed(flutterMap.options.center);
+      },
       backgroundColor: Colors.green,
       child: new Icon(Icons.check),
     );
