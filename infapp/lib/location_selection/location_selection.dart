@@ -62,7 +62,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
     // Initializer Marker
     
     // Initialize Search Bar
-    _searchFieldController = new TextEditingController(text: 'Search Location...');
+    _searchFieldController = new TextEditingController();
     searchField = new TextField(
       controller: _searchFieldController,
     );

@@ -23,7 +23,7 @@ import '../profile/profile_edit.dart' show ProfileEdit;
 import '../search/search_button.dart';
 import '../search/search_page.dart';
 import '../debug_account.dart';
-
+import '../location_selection/location_selection.dart';
 class DemoApp extends StatefulWidget {
   const DemoApp({Key key, this.startupConfig}) : super(key: key);
 
@@ -592,6 +592,25 @@ class _DemoHomePageState extends State<DemoHomePage> {
                   context,
                   new ProfileEdit(
                     account: demoAccount,
+                  ));
+            },
+          ),
+          new FlatButton(
+            child:
+                new Row(children: [new Text('Select Location')]),
+            onPressed: () {
+              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              transitionPage(
+                  context,
+                  new LocationSelectionScreen(
+                    onConfirmPressed: (coordinates) {
+                      print(coordinates.latitude);
+                      print("     ");
+                      print(coordinates.latitude);
+                    },
+                    onSearchPressed: (query) {
+                      print(query);
+                    },
                   ));
             },
           ),
