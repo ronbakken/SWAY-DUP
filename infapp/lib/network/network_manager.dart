@@ -96,6 +96,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   int nextDeviceGhostId;
 
+  List<StreamSubscription<TalkMessage>> _subscriptions =
+      new List<StreamSubscription<TalkMessage>>();
+
   void syncConfig() {
     // May only be called from a setState block
     if (_config != widget.config) {
@@ -125,6 +128,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         // Any cache cleanup may be done here when switching accounts
         _offers.clear();
         _offersLoaded = false;
+        _demoAllOffers.clear();
+        _demoAllOffersLoaded = false;
       }
       account = pb.data;
       for (int i = account.detail.socialMedia.length;
@@ -276,8 +281,13 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       });
 
       // Register all listeners
-      ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState);
-      ts.stream(TalkSocket.encode("DB_OFFER")).listen(_dataBusinessOffer);
+      _subscriptions.add(
+          ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState));
+      _subscriptions.add(
+          ts.stream(TalkSocket.encode("DB_OFFER")).listen(_dataBusinessOffer));
+      _subscriptions.add(ts
+          .stream(TalkSocket.encode("DE_OFFER"))
+          .listen(_demoAllBusinessOffer));
     }
 
     // assert(accountState.deviceId != 0);
@@ -379,6 +389,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         ts.close(); // TODO: close code?
       }
     }
+    _subscriptions.forEach((s) {
+      s.cancel();
+    });
+    _subscriptions.clear();
   }
 
   Future _networkLoop() async {
@@ -549,6 +563,12 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
   }
 
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Image upload
+  /////////////////////////////////////////////////////////////////////////////
+
   static int _netUploadImageReq = TalkSocket.encode("UP_IMAGE");
   @override
   Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
@@ -596,6 +616,15 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     // Upload successful
     return res;
   }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Business offers
+  /////////////////////////////////////////////////////////////////////////////
+
+  @override
+  bool offersLoading = false;
 
   static int _netCreateOfferReq = TalkSocket.encode("C_OFFERR");
   @override
@@ -652,21 +681,80 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
                 false; // Not using setState since we don't want to broadcast failure state
           });
         }).whenComplete(() {
-          offersLoading = false;
+          setState(() {
+            offersLoading = false;
+          });
         });
       }
     }
     return _offers;
   }
-
-  @override
-  bool offersLoading = false;
-
 /*
   @override
   set offers(Map<int, DataBusinessOffer> _offers) {
     // TODO: implement offers
   }*/
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Demo all offers
+  /////////////////////////////////////////////////////////////////////////////
+
+  @override
+  bool demoAllOffersLoading = false;
+
+  bool _demoAllOffersLoaded;
+  Map<int, DataBusinessOffer> _demoAllOffers =
+      new Map<int, DataBusinessOffer>();
+
+  void _demoAllBusinessOffer(TalkMessage message) {
+    DataBusinessOffer pb = new DataBusinessOffer();
+    pb.mergeFromBuffer(message.data);
+    setState(() {
+      // Add received offer to known offers
+      _demoAllOffers[pb.offerId.toInt()] = pb;
+      ++_changed;
+    });
+  }
+
+  // static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
+  @override
+  Future<void> refreshDemoAllOffers() async {
+    NetLoadOffersReq loadOffersReq =
+        new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
+    await _ts.sendRequest(_netLoadOffersReq,
+        loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
+  }
+
+  @override
+  Map<int, DataBusinessOffer> get demoAllOffers {
+    if (_demoAllOffersLoaded == false &&
+        connected == NetworkConnectionState.Ready) {
+      _demoAllOffersLoaded = true;
+      if (account.state.accountType == AccountType.AT_INFLUENCER) {
+        demoAllOffersLoading = true;
+        refreshDemoAllOffers().catchError((error, stack) {
+          print("[INF] Failed to get offers: $error, $stack");
+          new Timer(new Duration(seconds: 3), () {
+            _demoAllOffersLoaded =
+                false; // Not using setState since we don't want to broadcast failure state
+          });
+        }).whenComplete(() {
+          setState(() {
+            demoAllOffersLoading = false;
+          });
+        });
+      }
+    }
+    return _demoAllOffers;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Synchronization utilities
+  /////////////////////////////////////////////////////////////////////////////
 
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.account (unless detached)
   @override
@@ -693,6 +781,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   }
 }
 
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
 class _InheritedNetworkManager extends InheritedWidget {
   const _InheritedNetworkManager({
     Key key,
@@ -710,6 +802,10 @@ class _InheritedNetworkManager extends InheritedWidget {
   }
 }
 
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
 enum NetworkConnectionState { Connecting, Failing, Offline, Ready }
 
 abstract class NetworkInterface {
@@ -720,11 +816,9 @@ abstract class NetworkInterface {
   /// Whether we are connected to the network.
   NetworkConnectionState connected;
 
-  /// List of offers owned by this account (applicable for AT_BUSINESS)
-  Map<int, DataBusinessOffer> get offers;
-
-  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
-  bool offersLoading;
+  /////////////////////////////////////////////////////////////////////////////
+  // Onboarding and OAuth
+  /////////////////////////////////////////////////////////////////////////////
 
   /* Device Registration */
   /// Set account type. Only possible when not yet created.
@@ -740,8 +834,16 @@ abstract class NetworkInterface {
   /// Create an account
   Future<Null> createAccount(double latitude, double longitude);
 
+  /////////////////////////////////////////////////////////////////////////////
+  // Image upload
+  /////////////////////////////////////////////////////////////////////////////
+
   /// Upload an image. Disregard the returned request options. Throws error in case of failure
   Future<NetUploadImageRes> uploadImage(FileImage fileImage);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Business offers
+  /////////////////////////////////////////////////////////////////////////////
 
   /// Create an offer.
   Future<DataBusinessOffer> createOffer(NetCreateOfferReq createOfferReq);
@@ -749,11 +851,38 @@ abstract class NetworkInterface {
   /// Refresh all offers (currently latest offers)
   Future<void> refreshOffers();
 
+  /// List of offers owned by this account (applicable for AT_BUSINESS)
+  Map<int, DataBusinessOffer> get offers;
+
+  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
+  bool offersLoading;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Demo all offers
+  /////////////////////////////////////////////////////////////////////////////
+
+  /// Refresh all offers
+  Future<void> refreshDemoAllOffers();
+
+  /// List of all offers on the server
+  Map<int, DataBusinessOffer> get demoAllOffers;
+
+  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
+  bool demoAllOffersLoading;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Synchronization utilities
+  /////////////////////////////////////////////////////////////////////////////
+
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.account (unless detached)
   DataAccount latestAccount(DataAccount account);
 
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
   DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Get profile
+  /////////////////////////////////////////////////////////////////////////////
 
   // can also put simple get functions without future to get if available but request - returns dummy based on fallback in case not yet available
   // DataAccount tryGetAccount(int accountId, { DataAccount fallback }); // simply retry anytime network state updates

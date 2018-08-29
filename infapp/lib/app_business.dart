@@ -172,11 +172,14 @@ class _AppBusinessState extends State<AppBusiness> {
       offersTab: 1,
       applicantsTab: 2,
       map: new Builder(builder: (context) {
+        ConfigData config = ConfigManager.of(context);
         return new NearbyCommon(
           onSearchPressed: (TextEditingController searchQuery) {
             Scaffold.of(context).showSnackBar(
                 new SnackBar(content: new Text("Not yet implemented.")));
           },
+          mapboxUrlTemplate: config.services.mapboxUrlTemplate,
+          mapboxToken: config.services.mapboxToken,
           searchHint: "Find nearby influencers...",
           searchTooltip: "Search for nearby influencers",
         );

@@ -27,6 +27,7 @@ import 'debug_account.dart';
 import 'page_transition.dart';
 
 import 'search/search_page_common.dart';
+import 'cards/offer_card.dart';
 
 // Influencer user
 class AppInfluencer extends StatefulWidget {
@@ -108,7 +109,13 @@ class _AppInfluencerState extends State<AppInfluencer> {
         onSearchRequest: (String searchQuery) async {
           await new Future.delayed(new Duration(seconds: 2));
         },
-        searchResults: <Widget>[],
+        searchResults: network.demoAllOffers.values.map((offer) => new OfferCard(
+          businessOffer: offer,
+          businessAccount: null, // TODO
+          onPressed: () {
+            navigateToOfferView(context, null, offer);
+          }
+        )).toList()..sort((a, b) => b.businessOffer.offerId.compareTo(a.businessOffer.offerId)) //<Widget>[],
       );
     });
   }
