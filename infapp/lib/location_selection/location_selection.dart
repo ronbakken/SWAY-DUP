@@ -45,6 +45,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
   IconButton searchButton;
 
   // The map that will be displayed on the screen
+  MapController _flutterMapController;
   FlutterMap flutterMap;
 
   @override
@@ -88,10 +89,12 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
     );
 
     // Initialize Map
+    _flutterMapController = new MapController();
     flutterMap = new FlutterMap(
       options: new MapOptions(
         center: new LatLng(0.0, 0.0),
       ),
+      mapController: _flutterMapController,
       layers: <LayerOptions> [
         new TileLayerOptions(
           backgroundColor: new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
@@ -104,12 +107,11 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
             'id': 'mapbox.dark',
           },
         ),
-        
-         new MarkerLayerOptions(
-              markers: [
-                marker,
-              ],
-            ),
+        new MarkerLayerOptions(
+          markers: <Marker> [
+            marker,
+          ],
+        ),
 
       ],
     );
