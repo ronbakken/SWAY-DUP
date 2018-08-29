@@ -41,7 +41,7 @@ class AppInfluencer extends StatefulWidget {
 
 class _AppInfluencerState extends State<AppInfluencer> {
   void navigateToOfferView(
-      BuildContext context, DataAccount account, DataBusinessOffer offer) {
+      BuildContext context, DataBusinessOffer offer) {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
@@ -50,7 +50,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
       NavigatorState navigator = Navigator.of(context);
       return new OfferView(
         account: network.account,
-        businessAccount: network.latestAccount(account),
+        businessAccount: network.tryGetPublicProfile(offer.accountId, fallbackOffer: offer),
         businessOffer: network.latestBusinessOffer(offer),
       );
     }));
@@ -112,9 +112,8 @@ class _AppInfluencerState extends State<AppInfluencer> {
           searchResults: network.demoAllOffers.values
               .map((offer) => new OfferCard(
                   businessOffer: offer,
-                  businessAccount: null, // TODO
                   onPressed: () {
-                    navigateToOfferView(context, null, offer);
+                    navigateToOfferView(context, offer);
                   }))
               .toList()
                 ..sort((a, b) => b.businessOffer.offerId

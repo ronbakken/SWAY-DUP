@@ -765,6 +765,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       // It's me...
       return this.account;
     }
+    if (_cachedAccounts.containsKey(account.state.accountId)) {
+      DataAccount a = _cachedAccounts[account.state.accountId].account;
+      if (a != null) return a;
+    }
     return account;
   }
 
@@ -777,13 +781,120 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       // Guaranteed to be the latest
       return _offers[offer.offerId];
     }
+    if (_demoAllOffers.containsKey(offer.offerId)) {
+      // Should be fairly recent, but may be outdated
+      // return _demoAllOffers[offer.offerId];
+    }
     return offer;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Get profile
+  /////////////////////////////////////////////////////////////////////////////
+
+  Map<int, _CachedDataAccount> _cachedAccounts =
+      new Map<int, _CachedDataAccount>();
+
+  /// Refresh all offers
+  /// @override
+  static int _netLoadPublicProfileReq = TalkSocket.encode("L_PROFIL");
+  Future<DataAccount> getPublicProfile(int accountId) async {
+    print("[INF] Get public profile $accountId");
+    if (accountId == this.account.state.accountId) {
+      // It's me...
+      return this.account;
+    }
+    NetLoadPublicProfileReq pbReq = new NetLoadPublicProfileReq();
+    pbReq.accountId = accountId;
+    TalkMessage message =
+        await _ts.sendRequest(_netLoadPublicProfileReq, pbReq.writeToBuffer());
+    DataAccount account = new DataAccount();
+    account.mergeFromBuffer(message.data);
+    if (account.state.accountId == accountId) {
+      _CachedDataAccount cached;
+      if (!_cachedAccounts.containsKey(account.state.accountId)) {
+        cached = new _CachedDataAccount();
+        cached.loading = false;
+        _cachedAccounts[account.state.accountId] = cached;
+      } else {
+        cached = _cachedAccounts[account.state.accountId];
+        cached.fallback = null;
+      }
+      setState(() {
+        cached.account = account;
+      });
+    } else {
+      print("[INF] Received invalid profile. Critical issue");
+    }
+    return account;
+  }
+
+  @override
+  DataAccount tryGetPublicProfile(int accountId,
+      {DataAccount fallback, DataBusinessOffer fallbackOffer}) {
+    _CachedDataAccount cached;
+    if (accountId == this.account.state.accountId) {
+      // It's me...
+      return this.account;
+    }
+    if (!_cachedAccounts.containsKey(account.state.accountId)) {
+      cached = new _CachedDataAccount();
+      cached.loading = false;
+      _cachedAccounts[account.state.accountId] = cached;
+    } else {
+      cached = _cachedAccounts[account.state.accountId];
+    }
+    if (cached.account != null) {
+      return cached.account;
+    }
+    if (cached.fallback == null) {
+      cached.fallback = new DataAccount();
+      cached.fallback.state = new DataAccountState();
+      cached.fallback.summary = new DataAccountSummary();
+      cached.fallback.detail = new DataAccountDetail();
+      cached.fallback.state.accountId = accountId;
+    }
+    if (fallback != null) {
+      if (fallback.detail.socialMedia.isNotEmpty) {
+        cached.fallback.detail.socialMedia.clear();
+      }
+      cached.fallback.mergeFromMessage(fallback);
+    }
+    if (fallbackOffer != null) {
+      if (cached.fallback.summary.name.isEmpty) {
+        cached.fallback.summary.name = fallbackOffer.locationName;
+      }
+      if (cached.fallback.summary.location.isEmpty) {
+        cached.fallback.summary.location = fallbackOffer.location;
+      }
+    }
+    if (!cached.loading) {
+      cached.loading = true;
+        getPublicProfile(accountId).then((account) {
+          cached.loading = false;
+        }).catchError((error, stack) {
+          print("[INF] Failed to get account: $error, $stack");
+          new Timer(new Duration(seconds: 3), () {
+            cached.loading = false;
+          });
+        });
+    }
+    return cached.fallback;
   }
 }
 
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+class _CachedDataAccount {
+  // TODO: Timestamp
+  bool loading;
+  DataAccount account;
+  DataAccount fallback;
+}
 
 class _InheritedNetworkManager extends InheritedWidget {
   const _InheritedNetworkManager({
@@ -884,9 +995,14 @@ abstract class NetworkInterface {
   // Get profile
   /////////////////////////////////////////////////////////////////////////////
 
-  // can also put simple get functions without future to get if available but request - returns dummy based on fallback in case not yet available
-  // DataAccount tryGetAccount(int accountId, { DataAccount fallback }); // simply retry anytime network state updates
-  // etc
+  /// Refresh all offers
+  Future<void> getPublicProfile(int accountId);
+
+  // Returns dummy based on fallback in case not yet available, otherwise returns cached account
+  DataAccount tryGetPublicProfile(int accountId,
+      {DataAccount fallback,
+      DataBusinessOffer
+          fallbackOffer}); // Simply retry anytime network state updates
 }
 
 /* end of file */

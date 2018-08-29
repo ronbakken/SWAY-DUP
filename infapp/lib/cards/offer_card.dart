@@ -9,13 +9,11 @@ import '../network/inf.pb.dart';
 
 class OfferCard extends StatelessWidget {
   final DataBusinessOffer businessOffer;
-  final DataAccount businessAccount;
   final Function() onPressed;
 
   OfferCard({
     Key key,
     this.businessOffer,
-    this.businessAccount,
     this.onPressed,
   }) : super(key: key);
 
