@@ -314,8 +314,10 @@ message DataBusinessOffer {
   string deliverables = 7;
   string reward = 8;
   string location = 9;
+  
   double latitude = 18;
   double longitude = 19;
+  int32 locationOfferCount = 20; // Number of offers at the same location
   
   repeated string coverUrls = 10;
   repeated CategoryId categories = 11;
@@ -638,6 +640,12 @@ message NetLoadOffersReq {
   
   // Limit (ignore if 0)
   int32 limit = 3;
+  
+  // Search extent (ignore if any 0.O)
+  double latitudeTopLeft = 4;
+  double longitudeTopLeft = 5;
+  double latitudeBottomRight = 6;
+  double longitudeBottomRight = 7;
   
 }
 
