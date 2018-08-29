@@ -885,34 +885,6 @@ const NetLoadOffersReq$json = const {
     const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
     const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
     const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
-    const {
-      '1': 'latitudeTopLeft',
-      '3': 4,
-      '4': 1,
-      '5': 1,
-      '10': 'latitudeTopLeft'
-    },
-    const {
-      '1': 'longitudeTopLeft',
-      '3': 5,
-      '4': 1,
-      '5': 1,
-      '10': 'longitudeTopLeft'
-    },
-    const {
-      '1': 'latitudeBottomRight',
-      '3': 6,
-      '4': 1,
-      '5': 1,
-      '10': 'latitudeBottomRight'
-    },
-    const {
-      '1': 'longitudeBottomRight',
-      '3': 7,
-      '4': 1,
-      '5': 1,
-      '10': 'longitudeBottomRight'
-    },
   ],
 };
 

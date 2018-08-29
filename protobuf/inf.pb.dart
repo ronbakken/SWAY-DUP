@@ -2665,10 +2665,6 @@ class NetLoadOffersReq extends GeneratedMessage {
     ..a<int>(1, 'before', PbFieldType.O3)
     ..a<int>(2, 'after', PbFieldType.O3)
     ..a<int>(3, 'limit', PbFieldType.O3)
-    ..a<double>(4, 'latitudeTopLeft', PbFieldType.OD)
-    ..a<double>(5, 'longitudeTopLeft', PbFieldType.OD)
-    ..a<double>(6, 'latitudeBottomRight', PbFieldType.OD)
-    ..a<double>(7, 'longitudeBottomRight', PbFieldType.OD)
     ..hasRequiredFields = false;
 
   NetLoadOffersReq() : super();
@@ -2717,38 +2713,6 @@ class NetLoadOffersReq extends GeneratedMessage {
 
   bool hasLimit() => $_has(2);
   void clearLimit() => clearField(3);
-
-  double get latitudeTopLeft => $_getN(3);
-  set latitudeTopLeft(double v) {
-    $_setDouble(3, v);
-  }
-
-  bool hasLatitudeTopLeft() => $_has(3);
-  void clearLatitudeTopLeft() => clearField(4);
-
-  double get longitudeTopLeft => $_getN(4);
-  set longitudeTopLeft(double v) {
-    $_setDouble(4, v);
-  }
-
-  bool hasLongitudeTopLeft() => $_has(4);
-  void clearLongitudeTopLeft() => clearField(5);
-
-  double get latitudeBottomRight => $_getN(5);
-  set latitudeBottomRight(double v) {
-    $_setDouble(5, v);
-  }
-
-  bool hasLatitudeBottomRight() => $_has(5);
-  void clearLatitudeBottomRight() => clearField(6);
-
-  double get longitudeBottomRight => $_getN(6);
-  set longitudeBottomRight(double v) {
-    $_setDouble(6, v);
-  }
-
-  bool hasLongitudeBottomRight() => $_has(6);
-  void clearLongitudeBottomRight() => clearField(7);
 }
 
 class _ReadonlyNetLoadOffersReq extends NetLoadOffersReq
