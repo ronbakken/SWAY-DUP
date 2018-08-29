@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import '../network/inf.pb.dart';
 
 class SearchPageCommon extends StatefulWidget {
-  SearchPageCommon(
-      {Key key,
-      @required this.searchQueryController,
-      @required this.onSearchRequest,
-      @required this.searchResults})
-      : super(key: key);
+  SearchPageCommon({
+    Key key,
+    @required this.searchQueryController,
+    @required this.onSearchRequest,
+    @required this.searchResults,
+    @required this.searchHint,
+    @required this.searchTooltip,
+  }) : super(key: key);
 
   // Initial search query, only used when the widget state is created
   final TextEditingController searchQueryController;
@@ -22,6 +24,9 @@ class SearchPageCommon extends StatefulWidget {
 
   // Search results for this query
   final List<Widget> searchResults;
+
+  final String searchHint;
+  final String searchTooltip;
 
   @override
   _SearchPageState createState() => new _SearchPageState();
@@ -96,7 +101,7 @@ class _SearchPageState extends State<SearchPageCommon> {
             controller: widget.searchQueryController,
             decoration: new InputDecoration(
                 // TODO: Better track focus of this input!!! (remove focus when keyboard is closed)
-                hintText: 'Find nearby offers...'),
+                hintText: widget.searchHint),
           ),
           actions: [
             new IconButton(
@@ -105,7 +110,7 @@ class _SearchPageState extends State<SearchPageCommon> {
               padding: new EdgeInsets.all(16.0),
               icon: new Icon(Icons.search),
               onPressed: _search,
-              tooltip: "Search for nearby offers",
+              tooltip: widget.searchTooltip,
             )
           ],
         ),

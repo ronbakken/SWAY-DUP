@@ -102,6 +102,8 @@ class _AppInfluencerState extends State<AppInfluencer> {
       NetworkInterface network = NetworkManager.of(context);
       NavigatorState navigator = Navigator.of(context);
       return new SearchPageCommon(
+        searchHint: "Find nearby offers...",
+        searchTooltip: "Search for nearby offers",
         searchQueryController: searchQueryController,
         onSearchRequest: (String searchQuery) async {
           await new Future.delayed(new Duration(seconds: 2));
@@ -123,15 +125,18 @@ class _AppInfluencerState extends State<AppInfluencer> {
         ConfigData config = ConfigManager.of(context);
         NetworkInterface network = NetworkManager.of(context);
         return new NearbyOffers(
-            account: network.account,
-            mapboxUrlTemplate: config.services.mapboxUrlTemplate,
-            mapboxToken: config.services.mapboxToken,
-            onSearchPressed: (TextEditingController searchQuery) {
-              navigateToSearchOffers(searchQuery);
-              // query.text = ":)";
-              // Scaffold.of(context).showSnackBar(
-              //     new SnackBar(content: new Text("Not yet implemented.")));
-            });
+          account: network.account,
+          mapboxUrlTemplate: config.services.mapboxUrlTemplate,
+          mapboxToken: config.services.mapboxToken,
+          onSearchPressed: (TextEditingController searchQuery) {
+            navigateToSearchOffers(searchQuery);
+            // query.text = ":)";
+            // Scaffold.of(context).showSnackBar(
+            //     new SnackBar(content: new Text("Not yet implemented.")));
+          },
+          searchHint: "Find nearby offers...",
+          searchTooltip: "Search for nearby offers",
+        );
       }),
       onNavigateProfile: () {
         navigateToProfileView(context);

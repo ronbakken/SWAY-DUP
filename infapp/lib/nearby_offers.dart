@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +11,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'search/search_page.dart';
 import 'network/inf.pb.dart';
 
+import 'package:geolocator/geolocator.dart';
+
 class NearbyOffers extends StatefulWidget {
   const NearbyOffers({
     Key key,
@@ -16,12 +20,17 @@ class NearbyOffers extends StatefulWidget {
     @required this.mapboxUrlTemplate,
     @required this.mapboxToken,
     @required this.account,
+    @required this.searchHint,
+    @required this.searchTooltip,
   }) : super(key: key);
 
   final Function(TextEditingController searchQuery) onSearchPressed;
 
   final String mapboxUrlTemplate;
   final String mapboxToken;
+
+  final String searchHint;
+  final String searchTooltip;
 
   final DataAccount account;
 
@@ -33,6 +42,9 @@ class _NearbyOffersState extends State<NearbyOffers> {
   TextEditingController _searchTextController;
   MapController _mapController;
   LatLng _initialLatLng;
+  LatLng _gpsLatLng;
+  Geolocator _geolocator;
+  StreamSubscription<Position> _positionSubscription;
 
   @override
   void initState() {
@@ -40,15 +52,83 @@ class _NearbyOffersState extends State<NearbyOffers> {
     _searchTextController = new TextEditingController();
     _mapController = new MapController();
     // Default location depending on whether GPS is available or not
-    if (widget.account.detail.latitude != null &&
-        widget.account.detail.longitude != null &&
-        widget.account.detail.latitude != 0.0 &&
+    if (widget.account.detail.latitude != 0.0 &&
         widget.account.detail.longitude != 0.0) {
       _initialLatLng = new LatLng(
           widget.account.detail.latitude, widget.account.detail.longitude);
     } else {
       _initialLatLng = new LatLng(34.0207305, -118.6919159);
     }
+    _geolocator = new Geolocator();
+    _positionSubscription = _geolocator.getPositionStream().listen((position) {
+      if (position.latitude != null &&
+          position.longitude != null &&
+          position.latitude != 0.0 &&
+          position.longitude != 0.0) {
+        bool setInitial = _gpsLatLng == null;
+        setState(() {
+          _gpsLatLng = new LatLng(position.latitude, position.longitude);
+        });
+        if (setInitial) _mapController.move(_gpsLatLng, _mapController.zoom);
+      }
+    });
+    () async {
+      Position position = await _geolocator.getLastKnownPosition();
+      if (position.latitude != null &&
+          position.longitude != null &&
+          position.latitude != 0.0 &&
+          position.longitude != 0.0 &&
+          _gpsLatLng == null) {
+        setState(() {
+          _gpsLatLng = new LatLng(position.latitude, position.longitude);
+        });
+        _mapController.move(_gpsLatLng, _mapController.zoom);
+      }
+    }();
+  }
+
+  @override
+  void dispose() {
+    _positionSubscription.cancel();
+    super.dispose();
+  }
+
+  Widget _buildCurrentLocationMarker(BuildContext context) {
+    return new Material(
+      color: Theme.of(context).primaryColor.withAlpha(64),
+      shape: new CircleBorder(),
+      child: new Icon(Icons.gps_fixed,
+          color: Theme.of(context).accentColor.withAlpha(192)),
+    );
+  }
+
+  List<Marker> _buildPositionMarkers(BuildContext context) {
+    List<Marker> markers = new List<Marker>();
+    // Show a marker for each account location (business only)
+    /*
+    if (widget.account.detail.latitude != 0.0 &&
+        widget.account.detail.longitude != 0.0) {
+      markers.add(new Marker(
+        width: 56.0,
+        height: 56.0,
+        point: new LatLng(widget.account.detail.latitude, widget.account.detail.longitude),
+        builder: (ctx) =>
+        new Container(
+          child: new FlutterLogo(),
+        ),
+      ));
+    }
+    */
+    // Show a marker for current location
+    if (_gpsLatLng != null) {
+      markers.add(new Marker(
+        width: 56.0,
+        height: 56.0,
+        point: _gpsLatLng,
+        builder: _buildCurrentLocationMarker,
+      ));
+    }
+    return markers;
   }
 
   @override
@@ -76,20 +156,9 @@ class _NearbyOffersState extends State<NearbyOffers> {
               */
               urlTemplate: widget.mapboxUrlTemplate,
               additionalOptions: {'accessToken': widget.mapboxToken},
-              
             ),
             new MarkerLayerOptions(
-              markers: [
-                /*new Marker(
-                  width: 80.0,
-                  height: 80.0,
-                  point: new LatLng(51.5, -0.09),
-                  builder: (ctx) =>
-                  new Container(
-                    child: new FlutterLogo(),
-                  ),
-                ),*/
-              ],
+              markers: _buildPositionMarkers(context),
             ),
           ],
         ),
@@ -121,7 +190,7 @@ class _NearbyOffersState extends State<NearbyOffers> {
                             controller: _searchTextController,
                             decoration: new InputDecoration(
                                 // TODO: Better track focus of this input!!! (remove focus when keyboard is closed)
-                                hintText: 'Find nearby offers...'),
+                                hintText: widget.searchHint),
                           ),
                         ),
                       ),
@@ -136,7 +205,7 @@ class _NearbyOffersState extends State<NearbyOffers> {
                           onPressed: () {
                             widget.onSearchPressed(_searchTextController);
                           },
-                          tooltip: "Search for nearby offers",
+                          tooltip: widget.searchTooltip,
                         ),
                       ),
                     ],
