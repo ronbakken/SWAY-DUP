@@ -1109,6 +1109,7 @@ class DataLocation extends GeneratedMessage {
     ..aOS(9, 'postcode')
     ..aOS(10, 'regionCode')
     ..aOS(11, 'countryCode')
+    ..aInt64(12, 's2cellId')
     ..hasRequiredFields = false;
 
   DataLocation() : super();
@@ -1212,6 +1213,14 @@ class DataLocation extends GeneratedMessage {
 
   bool hasCountryCode() => $_has(9);
   void clearCountryCode() => clearField(11);
+
+  Int64 get s2cellId => $_getI64(10);
+  set s2cellId(Int64 v) {
+    $_setInt64(10, v);
+  }
+
+  bool hasS2cellId() => $_has(10);
+  void clearS2cellId() => clearField(12);
 }
 
 class _ReadonlyDataLocation extends DataLocation with ReadonlyMessageMixin {}
