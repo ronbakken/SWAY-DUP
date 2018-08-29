@@ -56,8 +56,10 @@ class _OfferCreateState extends State<OfferCreate> {
 
   final TextEditingController _imageKeyController = new TextEditingController();
   final TextEditingController _titleController = new TextEditingController();
-  final TextEditingController _descriptionController = new TextEditingController();
-  final TextEditingController _deliverablesController = new TextEditingController();
+  final TextEditingController _descriptionController =
+      new TextEditingController();
+  final TextEditingController _deliverablesController =
+      new TextEditingController();
   final TextEditingController _rewardController = new TextEditingController();
 
   final FocusNode _titleNode = new FocusNode();
