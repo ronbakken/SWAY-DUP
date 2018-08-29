@@ -24,6 +24,8 @@ import '../search/search_button.dart';
 import '../search/search_page.dart';
 import '../debug_account.dart';
 import '../location_selection/location_selection.dart';
+import '../location_selection/location_search.dart';
+
 class DemoApp extends StatefulWidget {
   const DemoApp({Key key, this.startupConfig}) : super(key: key);
 
@@ -612,6 +614,17 @@ class _DemoHomePageState extends State<DemoHomePage> {
                       print(query);
                     },
                   ));
+            },
+          ),
+          new FlatButton(
+            child:
+                new Row(children: [new Text('Search Location')]),
+            onPressed: () {
+              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              transitionPage(
+                  context,
+                  new LocationSearchScreen(),
+              );
             },
           ),
           new FlatButton(
