@@ -52,6 +52,9 @@ class _AppInfluencerState extends State<AppInfluencer> {
         account: network.account,
         businessAccount: network.latestAccount(account),
         businessOffer: network.latestBusinessOffer(offer),
+        onApply: (remarks) {
+          // TODO: ------------------------------------------------------
+        },
       );
     }));
   }

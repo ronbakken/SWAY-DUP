@@ -1,12 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'network/inf.pb.dart';
 import 'widgets/carousel_app_bar.dart';
 import 'widgets/dark_container.dart';
 
-class OfferView extends StatelessWidget {
+import 'utility/ensure_visible_when_focused.dart';
+
+class OfferView extends StatefulWidget {
   const OfferView({
     Key key,
+    this.onApply,
     @required this.businessOffer,
     @required this.businessAccount,
     @required this.account,
@@ -15,6 +20,8 @@ class OfferView extends StatelessWidget {
     this.onEditPressed,
     this.onApplicantsPressed,
   }) : super(key: key);
+
+  final Future<DataApplicant> Function(String remarks) onApply;
 
   final DataBusinessOffer businessOffer;
   final DataAccount businessAccount;
@@ -27,16 +34,43 @@ class OfferView extends StatelessWidget {
   final VoidCallback onApplicantsPressed;
 
   @override
+  _OfferViewState createState() => new _OfferViewState();
+}
+
+class _OfferViewState extends State<OfferView> {
+  bool _waiting = false;
+  final _formKey = new GlobalKey<FormState>();
+  final TextEditingController _remarksController = new TextEditingController();
+  final FocusNode _remarksNode = new FocusNode();
+
+  void _submitPressed(BuildContext context) async {
+    final form = _formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      setState(() {
+        _waiting = true;
+      });
+      try {
+        await widget.onApply(_remarksController.text);
+      } finally {
+        setState(() {
+          _waiting = false;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new CustomScrollView(
         slivers: <Widget>[
           new CarouselAppBar(
             context: context,
-            title: new Text(businessOffer.title),
-            imageUrls: businessOffer.coverUrls,
+            title: new Text(widget.businessOffer.title),
+            imageUrls: widget.businessOffer.coverUrls,
             actions: [
-              onSharePressed == null
+              widget.onSharePressed == null
                   ? null
                   : new IconButton(
                       icon: new Icon(Icons.share),
@@ -51,38 +85,39 @@ class OfferView extends StatelessWidget {
                   //isThreeLine: true, //-------------------
                   //enabled: true,
                   leading: new CircleAvatar(
-                      backgroundImage:
-                          businessAccount.summary.avatarThumbnailUrl.isNotEmpty
-                              ? new NetworkImage(
-                                  businessAccount.summary.avatarThumbnailUrl)
-                              : null,
+                      backgroundImage: widget.businessAccount.summary
+                              .avatarThumbnailUrl.isNotEmpty
+                          ? new NetworkImage(
+                              widget.businessAccount.summary.avatarThumbnailUrl)
+                          : null,
                       backgroundColor: Colors
-                          .primaries[businessAccount.summary.name.hashCode %
-                              Colors.primaries.length]
+                          .primaries[
+                              widget.businessAccount.summary.name.hashCode %
+                                  Colors.primaries.length]
                           .shade300),
                   title: new Text(
-                      businessOffer.locationName.isNotEmpty
-                          ? businessOffer.locationName
-                          : businessAccount.summary.name,
+                      widget.businessOffer.locationName.isNotEmpty
+                          ? widget.businessOffer.locationName
+                          : widget.businessAccount.summary.name,
                       maxLines: 1,
                       overflow: TextOverflow.fade),
                   subtitle: new Text(
-                      businessAccount.summary.description.isNotEmpty
-                          ? businessAccount.summary.description
-                          : businessAccount.summary.location,
+                      widget.businessAccount.summary.description.isNotEmpty
+                          ? widget.businessAccount.summary.description
+                          : widget.businessAccount.summary.location,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis),
                 ),
               ),
-              onEndPressed == null &&
-                      onEditPressed == null &&
-                      onApplicantsPressed == null
+              widget.onEndPressed == null &&
+                      widget.onEditPressed == null &&
+                      widget.onApplicantsPressed == null
                   ? null
                   : new Container(
                       child: new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            onEndPressed == null
+                            widget.onEndPressed == null
                                 ? null
                                 : new IconButton(
                                     iconSize: 56.0,
@@ -120,7 +155,7 @@ class OfferView extends StatelessWidget {
                                                     .toUpperCase()),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
-                                                  onEndPressed();
+                                                  widget.onEndPressed();
                                                 },
                                               ),
                                             ],
@@ -129,7 +164,7 @@ class OfferView extends StatelessWidget {
                                       );
                                     },
                                   ),
-                            onEditPressed == null
+                            widget.onEditPressed == null
                                 ? null
                                 : new IconButton(
                                     iconSize: 56.0,
@@ -145,9 +180,9 @@ class OfferView extends StatelessWidget {
                                             maxLines: 1),
                                       ],
                                     ),
-                                    onPressed: onEditPressed,
+                                    onPressed: widget.onEditPressed,
                                   ),
-                            onApplicantsPressed == null
+                            widget.onApplicantsPressed == null
                                 ? null
                                 : new IconButton(
                                     // TODO: Refactor to not use IconButton
@@ -166,110 +201,85 @@ class OfferView extends StatelessWidget {
                                                 .ellipsis), // FIXME: IconButton width is insufficient
                                       ],
                                     ),
-                                    onPressed: onApplicantsPressed,
+                                    onPressed: widget.onApplicantsPressed,
                                   ),
                           ]..removeWhere((Widget w) => w == null)),
                     ),
-              onEndPressed == null &&
-                      onEditPressed == null &&
-                      onApplicantsPressed == null
+              widget.onEndPressed == null &&
+                      widget.onEditPressed == null &&
+                      widget.onApplicantsPressed == null
                   ? null
                   : new Divider(),
               new ListTile(
-                title: new Text(businessOffer.description,
+                title: new Text(widget.businessOffer.description,
                     style: Theme.of(context).textTheme.body1),
               ),
               new ListTile(
                 leading: new Icon(Icons.work),
-                title: new Text(businessOffer.deliverables,
+                title: new Text(widget.businessOffer.deliverables,
                     style: Theme.of(context).textTheme.body1),
               ),
               new ListTile(
                 leading: new Icon(Icons.redeem),
-                title: new Text(businessOffer.reward,
+                title: new Text(widget.businessOffer.reward,
                     style: Theme.of(context).textTheme.body1),
               ),
               new ListTile(
                 leading: new Icon(Icons.pin_drop),
-                title: new Text(businessOffer.location,
+                title: new Text(widget.businessOffer.location,
                     style: Theme.of(context).textTheme.body1),
               ),
               new Divider(),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
-              new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Text("Free dinner",
-                    style: Theme.of(context).textTheme.body1),
-              ),
+              widget.account.state.accountType == AccountType.AT_INFLUENCER
+                  ? new Container(
+                    margin: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                      child: new Column(
+                      children: <Widget>[
+                        new Form(
+                          key: _formKey,
+                          child: new Column(children: [
+                            new EnsureVisibleWhenFocused(
+                              focusNode: _remarksNode,
+                              child: new TextFormField(
+                                focusNode: _remarksNode,
+                                controller: _remarksController,
+                                maxLines: 4,
+                                decoration: new InputDecoration(
+                                    labelText:
+                                        'Tell us what you can offer more'),
+                                validator: (val) => val.trim().length < 20
+                                    ? 'Message must be longer'
+                                    : null,
+                              ),
+                            ),
+                          ]),
+                        ),
+                        new SizedBox(
+                          height: 16.0,
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            new RaisedButton(
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              child: new Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  new Text("Apply".toUpperCase()),
+                                ],
+                              ),
+                              onPressed: (widget.onApply != null && !_waiting)
+                                  ? () {
+                                      _submitPressed(context);
+                                    }
+                                  : null,
+                            )
+                          ],
+                        )
+                      ],
+                    ))
+                  : null,
             ]..removeWhere((Widget w) => w == null)),
           ),
         ],
