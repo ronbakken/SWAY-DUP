@@ -13,13 +13,13 @@
 // limitations under the License.
 //
 
-// Ported from C++ s2geometry library by:
+// Ported from the C++ s2geometry and Go geo libraries to Dart by
 // Jan Boon <kaetemi@no-break.space>
 
 import 'dart:math';
 import 'r2point.dart';
 import 's2point.dart';
-import 's2coords_internal.dart';
+import 's2coords_impl.dart';
 
 // This is the number of levels needed to specify a leaf cell.  This
 // constant is defined here so that the S2::Metric class and the conversion

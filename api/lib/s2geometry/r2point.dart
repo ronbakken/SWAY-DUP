@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 
-// Ported from C++ s2geometry library by:
+// Ported from the C++ s2geometry and Go geo libraries to Dart by
 // Jan Boon <kaetemi@no-break.space>
 
 class R2Point {
