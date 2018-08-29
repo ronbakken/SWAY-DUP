@@ -453,11 +453,14 @@ class RemoteApp {
               if (point != null) {
                 // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
                 ByteData data = new ByteData.view(point.buffer);
-                Endian endian = data.getInt8(4) == 0 ? Endian.big : Endian.little;
+                Endian endian =
+                    data.getInt8(4) == 0 ? Endian.big : Endian.little;
                 int type = data.getUint32(4 + 1, endian = endian);
                 if (type == 1) {
-                  account.detail.latitude = data.getFloat64(4 + 5 + 8, endian = endian);
-                  account.detail.longitude = data.getFloat64(4 + 5, endian = endian);
+                  account.detail.latitude =
+                      data.getFloat64(4 + 5 + 8, endian = endian);
+                  account.detail.longitude =
+                      data.getFloat64(4 + 5, endian = endian);
                 }
               }
             }
