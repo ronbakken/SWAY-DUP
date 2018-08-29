@@ -9,6 +9,7 @@ class LocationSelectionScreen extends StatefulWidget
   LocationSelectionScreen({
     Key key,
     this.onSearchPressed,
+    this.onConfirmPressed,
   }) : super (key: key);
 
   // Callback when the search button is pressed
