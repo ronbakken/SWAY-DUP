@@ -642,12 +642,6 @@ message NetLoadOffersReq {
   // Limit (ignore if 0)
   int32 limit = 3;
   
-  // Search extent (ignore if any 0.O)
-  double latitudeTopLeft = 4;
-  double longitudeTopLeft = 5;
-  double latitudeBottomRight = 6;
-  double longitudeBottomRight = 7;
-  
 }
 
 // Response which is sent when all DB_OFFER messages have been sent
