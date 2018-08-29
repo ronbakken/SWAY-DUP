@@ -90,7 +90,7 @@ class RemoteAppInfluencer {
   Future<void> netLoadOffersReq(TalkMessage message) async {
     NetLoadOffersReq pb = new NetLoadOffersReq();
     pb.mergeFromBuffer(message.data);
-
+    devLog.finest(pb);
     // TODO: Limit number of results
     ts.sendExtend(message);
     sqljocky.RetainedConnection connection = await sql.getConnection();
@@ -104,7 +104,7 @@ class RemoteAppInfluencer {
             "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
             "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point`, " // 6 7 8
             "`offers`.`state`, `offers`.`state_reason`, " // 9 10
-            "`addressbook`.`offer_count` " // 11
+            "`addressbook`.`offer_count` `addressbook`.`name` " // 11 12
             "FROM `offers` "
             "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
             "ORDER BY `offer_id` DESC";
@@ -120,6 +120,7 @@ class RemoteAppInfluencer {
           offer.description = offerRow[3].toString();
           offer.deliverables = offerRow[4].toString();
           offer.reward = offerRow[5].toString();
+          offer.locationName = offerRow[12].toString();
           offer.location = offerRow[7].toString();
           Uint8List point = offerRow[8];
           if (point != null) {
@@ -150,6 +151,7 @@ class RemoteAppInfluencer {
           // Cache offer for use (is this really necessary?)
           // offers[offer.offerId] = offer;
           // Send offer to user
+          devLog.finest("Send offer '${offer.title}'");
           ts.sendMessage(_demoAllBusinessOffer, offer.writeToBuffer());
         }
         ts.sendExtend(message);
@@ -160,6 +162,7 @@ class RemoteAppInfluencer {
       await connection.release();
     }
 
+    devLog.finest("Done sending demo offers");
     NetLoadOffersRes loadOffersRes = new NetLoadOffersRes();
     ts.sendMessage(_netLoadOffersRes, loadOffersRes.writeToBuffer(),
         replying: message);

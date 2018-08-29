@@ -30,6 +30,7 @@ import 'broadcast_center.dart';
 import 'remote_app_oauth.dart';
 import 'remote_app_upload.dart';
 import 'remote_app_business.dart';
+import 'remote_app_influencer.dart';
 
 // TODO: Move sql queries into a separate shared class, to allow prepared statements, and simplify code here
 
@@ -76,7 +77,7 @@ class RemoteApp {
   RemoteAppOAuth _remoteAppOAuth;
   RemoteAppUpload _remoteAppUpload;
   RemoteAppBusiness _remoteAppBusiness;
-  dynamic _remoteAppInfluencer;
+  RemoteAppInfluencer _remoteAppInfluencer;
   dynamic _remoteAppCommon;
 
   RemoteApp(this.config, this.sql, this.bucket, this.ts, this.bc,
@@ -112,6 +113,10 @@ class RemoteApp {
     if (_remoteAppBusiness != null) {
       _remoteAppBusiness.dispose();
       _remoteAppBusiness = null;
+    }
+    if (_remoteAppInfluencer != null) {
+      _remoteAppInfluencer.dispose();
+      _remoteAppInfluencer = null;
     }
     devLog.fine("Connection closed for device ${account.state.deviceId}");
   }
@@ -162,6 +167,12 @@ class RemoteApp {
   void subscribeBusiness() {
     if (_remoteAppBusiness == null) {
       _remoteAppBusiness = new RemoteAppBusiness(this);
+    }
+  }
+
+  void subscribeInfluencer() {
+    if (_remoteAppInfluencer == null) {
+      _remoteAppInfluencer = new RemoteAppInfluencer(this);
     }
   }
 
@@ -1405,7 +1416,7 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
 
   /// Transitions the user to the app context after registration or login succeeds. Call from lock
-  Future<Null> transitionToApp() {
+  Future<void> transitionToApp() async {
     if (_remoteAppBusiness != null || _remoteAppInfluencer != null) {
       ts.close();
       throw Exception(
@@ -1428,6 +1439,8 @@ class RemoteApp {
       subscribeUpload();
       if (account.state.accountType == AccountType.AT_BUSINESS) {
         subscribeBusiness();
+      } else if (account.state.accountType == AccountType.AT_INFLUENCER) {
+        subscribeInfluencer();
       }
       bc.accountConnected(this);
     }
