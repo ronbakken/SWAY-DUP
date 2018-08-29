@@ -313,8 +313,10 @@ message DataBusinessOffer {
   
   string deliverables = 7;
   string reward = 8;
-  string location = 9;
   
+  // Embedded business location info
+  string locationName = 21; // Business or location name depending
+  string location = 9;
   double latitude = 18;
   double longitude = 19;
   int32 locationOfferCount = 20; // Number of offers at the same location
