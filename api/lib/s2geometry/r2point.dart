@@ -18,6 +18,7 @@
 
 class R2Point {
   R2Point(this.x, this.y);
+  R2Point.zero() : x = 0.0, y = 0.0;
   double x, y;
   double operator [](int index) {
     switch (index) {

@@ -81,11 +81,13 @@ selfTestTalk() async {
 }
 
 run() async {
-  // S2LatLng latLng = new S2LatLng(40.732162, 73.975698);
-  S2LatLng latLng = new S2LatLng(73.975698, 40.732162);
+  // S2LatLng latLng = new S2LatLng.fromDegrees(40.732162, 73.975698); // getting fb8c157663c46983
+  // S2LatLng latLng = new S2LatLng.fromDegrees(40.732162, 73.975698); // getting 580dc240ac2bca54
+  S2LatLng latLng = new S2LatLng.fromDegrees(49.703498679, 11.770681595); // should be 0x47a1cbd595522b39
   S2Point point = latLng.toPoint(); // 89c25973735
   S2CellId cellId = S2CellId.fromPoint(point);
   print("Cell ID: ${cellId.toToken()}");
+  print("Cell ID Hex: ${cellId.id.toRadixString(16)}");
 
   // -6.080542, 50.976609 should produce 92e6205dd50668fa
   // 40.732162, 73.975698 should produce 89c25973735

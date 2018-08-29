@@ -24,6 +24,7 @@ import 's2coords.dart';
 import 's2coords_internal.dart';
 import 's2point.dart';
 export 's2point.dart';
+import 's2latlng.dart';
 
 // from bits.h, bits.cc
 int log2Floor(int n) {
@@ -86,28 +87,28 @@ const int _kPosBits = 2 * _kMaxLevel + 1;
 const int _kMaxSize = 1 << _kMaxLevel;
 
 const int _kLookupBits = 4;
-Uint16List _lookup_pos = new Uint16List(1 << (2 * _kLookupBits + 2));
-Uint16List _lookup_ij = new Uint16List(1 << (2 * _kLookupBits + 2));
+Uint16List _lookupPos = new Uint16List(1 << (2 * _kLookupBits + 2));
+Uint16List _lookupIJ = new Uint16List(1 << (2 * _kLookupBits + 2));
 
 void _initLookupCell(
-    int level, int i, int j, int orig_orientation, int pos, int orientation) {
+    int level, int i, int j, int origOrientation, int pos, int orientation) {
   if (level == _kLookupBits) {
     int ij = (i << _kLookupBits) + j;
-    _lookup_pos[(ij << 2) + orig_orientation] = (pos << 2) + orientation;
-    _lookup_ij[(pos << 2) + orig_orientation] = (ij << 2) + orientation;
+    _lookupPos[(ij << 2) + origOrientation] = (pos << 2) + orientation;
+    _lookupIJ[(pos << 2) + origOrientation] = (ij << 2) + orientation;
   } else {
     level++;
     i <<= 1;
     j <<= 1;
     pos <<= 2;
     List<int> r = kPosToIJ[orientation];
-    _initLookupCell(level, i + (r[0] >> 1), j + (r[0] & 1), orig_orientation,
+    _initLookupCell(level, i + (r[0] >> 1), j + (r[0] & 1), origOrientation,
         pos, orientation ^ kPosToOrientation[0]);
-    _initLookupCell(level, i + (r[1] >> 1), j + (r[1] & 1), orig_orientation,
+    _initLookupCell(level, i + (r[1] >> 1), j + (r[1] & 1), origOrientation,
         pos + 1, orientation ^ kPosToOrientation[1]);
-    _initLookupCell(level, i + (r[2] >> 1), j + (r[2] & 1), orig_orientation,
+    _initLookupCell(level, i + (r[2] >> 1), j + (r[2] & 1), origOrientation,
         pos + 2, orientation ^ kPosToOrientation[2]);
-    _initLookupCell(level, i + (r[3] >> 1), j + (r[3] & 1), orig_orientation,
+    _initLookupCell(level, i + (r[3] >> 1), j + (r[3] & 1), origOrientation,
         pos + 3, orientation ^ kPosToOrientation[3]);
   }
 }
@@ -124,17 +125,27 @@ void _maybeInit() {
   }
 }
 
+int _lsbForLevel(int level) {
+  return 1 << 2 * (_kMaxLevel - level);
+}
+
 // need s2sphere.RegionCoverer
 
 class S2CellId {
   S2CellId(this._id);
 
   S2CellId.fromPoint(S2Point p) {
+    // ok
     S2FaceUV faceUv = xyzToFaceUV(p);
     int i = stToIJ(uvToST(faceUv.uv.u));
     int j = stToIJ(uvToST(faceUv.uv.v));
     _id = new S2CellId.fromFaceIJ(faceUv.face, i, j).id;
   }
+
+  S2CellId.fromFace(int face) : _id = (face << _kPosBits) + _lsbForLevel(0) {}
+
+  S2CellId.fromLatLng(S2LatLng latLng)
+      : _id = new S2CellId.fromPoint(latLng.toPoint())._id {}
 
   S2CellId.fromFaceIJ(int face, int i, int j) {
     // Initialization if not done yet
@@ -158,33 +169,25 @@ class S2CellId {
     // "iiiijjjjoo" to a 10-bit value of the form "ppppppppoo", where the
     // letters [ijpo] denote bits of "i", "j", Hilbert curve position, and
     // Hilbert curve orientation respectively.
-    var getBits = (int k) {
-      const int mask = (1 << _kLookupBits) - 1;
+    for (int k = 7; k >= 0; --k) {
+      int mask = (1 << _kLookupBits) - 1;
       bits += ((i >> (k * _kLookupBits)) & mask) << (_kLookupBits + 2);
       bits += ((j >> (k * _kLookupBits)) & mask) << 2;
-      bits = _lookup_pos[bits];
-      n |= (bits >> 2) << (k * 2 * _kLookupBits);
+      bits = _lookupPos[bits];
+      n |= (bits >> 2) << ((k) * 2 * _kLookupBits);
       bits &= (kSwapMask | kInvertMask);
-    };
-
-    getBits(7);
-    getBits(6);
-    getBits(5);
-    getBits(4);
-    getBits(3);
-    getBits(2);
-    getBits(1);
-    getBits(0);
+    }
 
     _id = n * 2 + 1;
   }
 
   // Print the num_digits low order hex digits.
   String hexFormatString(int val, int numDigits) {
-    StringBuffer result = new StringBuffer(); // (numDigits, ' ');
+    // StringBuffer result = new StringBuffer(); // (numDigits, ' ');
+    List<int> result = new List<int>.filled(numDigits, ' '.codeUnitAt(0));
     for (; numDigits-- > 0; val >>= 4)
-      result.write("0123456789abcdef"[val & 0xF]);
-    return result.toString();
+      result[numDigits] = "0123456789abcdef".codeUnitAt(val & 0xF);
+    return new String.fromCharCodes(result);
   }
 
   String toToken() {
