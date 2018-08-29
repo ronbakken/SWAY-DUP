@@ -107,9 +107,10 @@ class RemoteAppInfluencer {
             "`addressbook`.`offer_count`, `addressbook`.`name` " // 11 12
             "FROM `offers` "
             "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
+            "WHERE `offers`.`state` = ? "
             "ORDER BY `offer_id` DESC";
         sqljocky.Results offerResults =
-            await sql.prepareExecute(selectOffers, []);
+            await sql.prepareExecute(selectOffers, [BusinessOfferState.BOS_OPEN.value.toInt()]);
         await for (sqljocky.Row offerRow in offerResults) {
           ts.sendExtend(message);
           DataBusinessOffer offer = new DataBusinessOffer();
