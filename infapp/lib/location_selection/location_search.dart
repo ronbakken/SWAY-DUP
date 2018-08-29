@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'location_card.dart';
+
 class LocationSearchScreen extends StatefulWidget {
   LocationSearchScreen({
     Key key,
@@ -58,6 +60,13 @@ class _LocationSearchPageState extends State<LocationSearchScreen> {
         title: searchField,
         actions: <Widget>[ cancelButton ],
       ),
+      body: new ListView.builder(
+        itemCount: 10,
+        itemBuilder: (context,  index) {
+          return new LocationCard();
+        },
+      ),
+
     );
   }
 }

@@ -7,6 +7,6 @@ class LocationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Card();
+    return new Card(child: new Text("data"),);
   }
 }
