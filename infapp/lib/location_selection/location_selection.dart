@@ -56,15 +56,15 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
     // Initialize Confirm Button
     confirmButton = new FloatingActionButton(
       onPressed: () {
-        widget.onConfirmPressed(flutterMap.options.center);
+        widget.onConfirmPressed(_flutterMapController.center);
       },
       backgroundColor: Colors.green,
       child: new Icon(Icons.check),
     );
-
+    
     // Initializer Marker
     marker = new Marker(
-      point: new LatLng(0.0, 0.0),
+      point: new LatLng(14.5438, 121.0115),
       builder: (ctx) => new Container(
         child: new Icon(Icons.check),
       ),
@@ -89,10 +89,11 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
     );
 
     // Initialize Map
+    // TODO: Make marker stay on the center
     _flutterMapController = new MapController();
     flutterMap = new FlutterMap(
       options: new MapOptions(
-        center: new LatLng(0.0, 0.0),
+        center: new LatLng(14.5438, 121.0115),
       ),
       mapController: _flutterMapController,
       layers: <LayerOptions> [

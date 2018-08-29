@@ -606,7 +606,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     onConfirmPressed: (coordinates) {
                       print(coordinates.latitude);
                       print("     ");
-                      print(coordinates.latitude);
+                      print(coordinates.longitude);
                     },
                     onSearchPressed: (query) {
                       print(query);
