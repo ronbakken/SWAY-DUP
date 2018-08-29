@@ -68,6 +68,17 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
   @override
   Widget build(BuildContext context)
   {
-    return new Scaffold();
+    return new Scaffold(
+      appBar: _buildSearchBar(),
+    );
+  }
+  
+  // Appbar that will be a search bar
+  AppBar _buildSearchBar() 
+  {
+    return new AppBar(
+      title: searchField,
+      actions: <Widget>[ searchButton ],
+    );
   }
 }
