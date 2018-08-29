@@ -399,6 +399,13 @@ const DataBusinessOffer$json = const {
     const {'1': 'location', '3': 9, '4': 1, '5': 9, '10': 'location'},
     const {'1': 'latitude', '3': 18, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 19, '4': 1, '5': 1, '10': 'longitude'},
+    const {
+      '1': 'locationOfferCount',
+      '3': 20,
+      '4': 1,
+      '5': 5,
+      '10': 'locationOfferCount'
+    },
     const {'1': 'coverUrls', '3': 10, '4': 3, '5': 9, '10': 'coverUrls'},
     const {
       '1': 'categories',
@@ -877,6 +884,34 @@ const NetLoadOffersReq$json = const {
     const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
     const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
     const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
+    const {
+      '1': 'latitudeTopLeft',
+      '3': 4,
+      '4': 1,
+      '5': 1,
+      '10': 'latitudeTopLeft'
+    },
+    const {
+      '1': 'longitudeTopLeft',
+      '3': 5,
+      '4': 1,
+      '5': 1,
+      '10': 'longitudeTopLeft'
+    },
+    const {
+      '1': 'latitudeBottomRight',
+      '3': 6,
+      '4': 1,
+      '5': 1,
+      '10': 'latitudeBottomRight'
+    },
+    const {
+      '1': 'longitudeBottomRight',
+      '3': 7,
+      '4': 1,
+      '5': 1,
+      '10': 'longitudeBottomRight'
+    },
   ],
 };
 
