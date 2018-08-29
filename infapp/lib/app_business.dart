@@ -17,11 +17,12 @@ import 'utility/progress_dialog.dart';
 import 'profile/profile_view.dart';
 import 'profile/profile_edit.dart';
 
-import 'dashboard_business.dart';
+import 'dashboard_common.dart';
 import 'nearby_influencers.dart';
 import 'offer_create.dart';
 import 'offer_view.dart';
 import 'business_offer_list.dart';
+import 'debug_account.dart';
 
 // Business user
 class AppBusiness extends StatefulWidget {
@@ -120,6 +121,19 @@ class _AppBusinessState extends State<AppBusiness> {
     }));
   }
 
+  void navigateToDebugAccount() {
+    Navigator.push(
+        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+        context, new MaterialPageRoute(builder: (context) {
+      ConfigData config = ConfigManager.of(context);
+      NetworkInterface network = NetworkManager.of(context);
+      NavigatorState navigator = Navigator.of(context);
+      return new DebugAccount(
+        account: network.account,
+      );
+    }));
+  }
+
   void navigateToProfileView(BuildContext context) {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
@@ -152,8 +166,11 @@ class _AppBusinessState extends State<AppBusiness> {
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
     assert(network != null);
-    return new DashboardBusiness(
+    return new DashboardCommon(
       account: network.account,
+      mapTab: 0,
+      offersTab: 1,
+      applicantsTab: 2,
       map: new Builder(builder: (context) {
         return new NearbyInfluencers(onSearchPressed: (String query) {
           Scaffold.of(context).showSnackBar(
@@ -199,6 +216,7 @@ class _AppBusinessState extends State<AppBusiness> {
       onNavigateProfile: () {
         navigateToProfileView(context);
       },
+      onNavigateDebugAccount: navigateToDebugAccount,
     );
   }
 }

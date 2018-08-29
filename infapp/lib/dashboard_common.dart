@@ -1,36 +1,43 @@
 // import 'dart:async';
 // import 'dart:io';
 
+// import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'network/inf.pb.dart';
 
-// import 'network/inf.pb.dart';
-
-// pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA
-
 // TODO: Animate transitions between the three windows
 //       AppBar should slide in appropriately, but sliding of app bar should not impact the underlying widgets layout
 
-class DashboardBusiness extends StatefulWidget {
-  const DashboardBusiness({
+class DashboardCommon extends StatefulWidget {
+  const DashboardCommon({
     Key key,
     @required this.account,
     @required this.onNavigateProfile,
-    @required this.onMakeAnOffer,
-    @required this.map,
-    @required this.offersCurrent,
-    @required this.offersHistory,
-    @required this.applicantsApplying,
-    @required this.applicantsAccepted,
-    @required this.applicantsHistory,
+    @required this.onNavigateDebugAccount,
+    this.onMakeAnOffer,
+    this.map,
+    this.offersCurrent,
+    this.offersHistory,
+    this.applicantsApplying,
+    this.applicantsAccepted,
+    this.applicantsHistory,
+    this.mapTab,
+    this.offersTab,
+    this.applicantsTab,
   }) : super(key: key);
 
+  final mapTab;
+  final offersTab;
+  final applicantsTab;
+
   final DataAccount account;
-  final VoidCallback onNavigateProfile;
-  final VoidCallback onMakeAnOffer;
+  final Function() onNavigateProfile;
+  final Function() onNavigateDebugAccount;
+  final Function() onMakeAnOffer;
 
   final Widget map;
   final Widget offersCurrent;
@@ -40,12 +47,13 @@ class DashboardBusiness extends StatefulWidget {
   final Widget applicantsHistory;
 
   @override
-  _DashboardBusinessState createState() => new _DashboardBusinessState();
+  _DashboardCommonState createState() => new _DashboardCommonState();
 }
 
-class _DashboardBusinessState extends State<DashboardBusiness>
+class _DashboardCommonState extends State<DashboardCommon>
     with TickerProviderStateMixin {
   int _currentTab;
+  int _tabCount;
   TabController _tabControllerOffers;
   TabController _tabControllerApplicants;
   TabController _tabControllerTabs;
@@ -53,6 +61,13 @@ class _DashboardBusinessState extends State<DashboardBusiness>
   @override
   void initState() {
     super.initState();
+    _tabCount = 0;
+    if (widget.mapTab != null && widget.mapTab >= _tabCount)
+      _tabCount = widget.mapTab + 1;
+    if (widget.offersTab != null && widget.offersTab >= _tabCount)
+      _tabCount = widget.offersTab + 1;
+    if (widget.applicantsTab != null && widget.applicantsTab >= _tabCount)
+      _tabCount = widget.applicantsTab + 1;
     _currentTab = 0;
     _tabControllerOffers = new TabController(
       length: 2,
@@ -63,21 +78,44 @@ class _DashboardBusinessState extends State<DashboardBusiness>
       vsync: this,
     );
     _tabControllerTabs = new TabController(
-      length: 3,
+      length: _tabCount,
       vsync: this,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    List<BottomNavigationBarItem> tabBarItems =
+        new List<BottomNavigationBarItem>(_tabCount);
+    if (widget.mapTab != null) {
+      tabBarItems[widget.mapTab] = new BottomNavigationBarItem(
+        icon: new Icon(Icons.map),
+        title: new Text("Map"),
+      );
+    }
+    if (widget.offersTab != null) {
+      tabBarItems[widget.offersTab] = new BottomNavigationBarItem(
+        icon: new Icon(Icons.list),
+        title: new Text("Offers"),
+      );
+    }
+    if (widget.applicantsTab != null) {
+      tabBarItems[widget.applicantsTab] = new BottomNavigationBarItem(
+        icon: new Icon(Icons.inbox),
+        title: new Text(
+            widget.account.state.accountType == AccountType.AT_INFLUENCER
+                ? "Applied"
+                : "Applicants"),
+      );
+    }
     return new Scaffold(
-      body: _currentTab == 1
+      body: _currentTab == widget.offersTab
           ? new TabBarView(
               key: new Key('TabViewOffers'),
               controller: _tabControllerOffers,
               children: [widget.offersCurrent, widget.offersHistory],
             )
-          : (_currentTab == 2
+          : (_currentTab == widget.applicantsTab
               ? new TabBarView(
                   key: new Key('TabViewApplicants'),
                   controller: _tabControllerApplicants,
@@ -88,20 +126,22 @@ class _DashboardBusinessState extends State<DashboardBusiness>
                   ],
                 )
               : widget.map),
-      floatingActionButton: _currentTab == 2
-          ? null
-          : new FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              tooltip: 'Make an offer',
-              child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    new Icon(Icons.add),
-                  ]),
-              onPressed: widget.onMakeAnOffer,
-            ),
+      floatingActionButton:
+          (widget.onMakeAnOffer == null || _currentTab == widget.applicantsTab)
+              ? null
+              : new FloatingActionButton(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  tooltip: 'Make an offer',
+                  child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        new Icon(Icons.add),
+                      ]),
+                  onPressed: widget.onMakeAnOffer,
+                ),
       drawer: new Drawer(
-        child: new Column(children: [
+        child: new Column(
+            children: [
           new AspectRatio(
               aspectRatio: 16.0 / 9.0,
               child: new Material(
@@ -132,8 +172,8 @@ class _DashboardBusinessState extends State<DashboardBusiness>
                                 ))))
                   ]))),
           new FlatButton(
-            padding: new EdgeInsets.all(
-                0.0), // ew EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+            //padding: new EdgeInsets.all(
+            //    0.0), // ew EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
             child: new Row(children: [
               new Container(
                 margin: new EdgeInsets.all(16.0),
@@ -148,12 +188,33 @@ class _DashboardBusinessState extends State<DashboardBusiness>
                   }
                 : null,
           ),
-        ]),
+          (widget.account.state.globalAccountState.value >=
+                  GlobalAccountState.GAS_DEBUG.value)
+              ? new FlatButton(
+                  //padding: new EdgeInsets.all(
+                  //    0.0), // ew EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+                  child: new Row(children: [
+                    new Container(
+                      margin: new EdgeInsets.all(16.0),
+                      child: new Icon(Icons.account_box),
+                    ),
+                    new Text('Debug Account')
+                  ]),
+                  onPressed: (widget.onNavigateDebugAccount != null)
+                      ? () {
+                          Navigator.pop(context);
+                          widget.onNavigateDebugAccount();
+                        }
+                      : null,
+                )
+              : null,
+        ].where((w) => w != null).toList()),
       ),
-      appBar: _currentTab != 0
+      appBar: _currentTab != widget.mapTab
           ? new AppBar(
-              title: new Text(_currentTab == 1 ? "Offers" : "Applicants"),
-              bottom: _currentTab == 1
+              title: new Text(
+                  _currentTab == widget.offersTab ? "Offers" : "Applicants"),
+              bottom: _currentTab == widget.offersTab
                   ? new TabBar(
                       key: new Key('TabBarOffers'),
                       controller: _tabControllerOffers,
@@ -176,40 +237,23 @@ class _DashboardBusinessState extends State<DashboardBusiness>
           currentIndex: _currentTab,
           onTap: (int index) {
             if (_currentTab == index) {
-              if (index == 1) {
+              if (index == widget.offersTab) {
                 _tabControllerOffers.animateTo(0);
-              } else if (index == 2) {
+              } else if (index == widget.applicantsTab) {
                 _tabControllerApplicants.animateTo(0);
               }
             } else {
               setState(() {
                 _currentTab = index;
               });
-              _tabControllerTabs.index = index;
+              _tabControllerTabs.animateTo(index);
               _tabControllerOffers.offset = 0.0;
               // _tabControllerOffers.index = 0;
               _tabControllerApplicants.offset = 0.0;
               // _tabControllerApplicants.index = 0;
             }
           },
-          items: [
-            new BottomNavigationBarItem(
-              icon: new Icon(Icons.map),
-              title: new Text("Map"),
-            ),
-            new BottomNavigationBarItem(
-              icon: new Icon(Icons.list),
-              title: new Text("Offers"),
-            ),
-            new BottomNavigationBarItem(
-              icon: new Icon(Icons.inbox),
-              title: new Text("Applicants"),
-            ),
-            /*new BottomNavigationBarItem(
-            icon: new Icon(Icons.account_circle),
-            title: new Text("Profile"),
-          ),*/
-          ]),
+          items: tabBarItems),
     );
   }
 }

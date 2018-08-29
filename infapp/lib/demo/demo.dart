@@ -16,7 +16,7 @@ import '../onboarding_social.dart' show OnboardingSocial;
 import '../page_transition.dart';
 import '../offer_view.dart' show OfferView;
 import '../offer_create.dart' show OfferCreate;
-import '../dashboard_business.dart' show DashboardBusiness;
+import '../dashboard_common.dart';
 import '../nearby_influencers.dart';
 import '../profile/profile_view.dart' show ProfileView;
 import '../profile/profile_edit.dart' show ProfileEdit;
@@ -513,8 +513,11 @@ class _DemoHomePageState extends State<DemoHomePage> {
             onPressed: () {
               Navigator.push(context, new MaterialPageRoute(
                 builder: (context) {
-                  return new DashboardBusiness(
+                  return new DashboardCommon(
                     account: demoAccount,
+                    mapTab: 0,
+                    offersTab: 1,
+                    applicantsTab: 2,
                     onMakeAnOffer: () {},
                     onNavigateProfile: () {},
                     map: new NearbyInfluencers(
