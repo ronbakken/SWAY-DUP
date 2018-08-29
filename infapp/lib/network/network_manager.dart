@@ -766,8 +766,12 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       return this.account;
     }
     if (_cachedAccounts.containsKey(account.state.accountId)) {
-      DataAccount a = _cachedAccounts[account.state.accountId].account;
-      if (a != null) return a;
+      _CachedDataAccount cached = _cachedAccounts[account.state.accountId];
+      if (cached.account != null) return cached.account;
+      if (!cached.loading) {
+        // Fetch but still use plain account
+        tryGetPublicProfile(account.state.accountId, fallback: account);
+      }
     }
     return account;
   }
@@ -835,16 +839,17 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   DataAccount tryGetPublicProfile(int accountId,
       {DataAccount fallback, DataBusinessOffer fallbackOffer}) {
     _CachedDataAccount cached;
+    // _cachedAccounts.clear();
     if (accountId == this.account.state.accountId) {
       // It's me...
       return this.account;
     }
-    if (!_cachedAccounts.containsKey(account.state.accountId)) {
+    if (!_cachedAccounts.containsKey(accountId)) {
       cached = new _CachedDataAccount();
       cached.loading = false;
-      _cachedAccounts[account.state.accountId] = cached;
+      _cachedAccounts[accountId] = cached;
     } else {
-      cached = _cachedAccounts[account.state.accountId];
+      cached = _cachedAccounts[accountId];
     }
     if (cached.account != null) {
       return cached.account;
@@ -872,14 +877,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
     if (!cached.loading) {
       cached.loading = true;
-        getPublicProfile(accountId).then((account) {
+      getPublicProfile(accountId).then((account) {
+        cached.loading = false;
+      }).catchError((error, stack) {
+        print("[INF] Failed to get account: $error, $stack");
+        new Timer(new Duration(seconds: 3), () {
           cached.loading = false;
-        }).catchError((error, stack) {
-          print("[INF] Failed to get account: $error, $stack");
-          new Timer(new Duration(seconds: 3), () {
-            cached.loading = false;
-          });
         });
+      });
     }
     return cached.fallback;
   }
