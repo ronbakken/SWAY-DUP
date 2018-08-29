@@ -443,12 +443,23 @@ class RemoteApp {
               account.detail.locationId != 0) {
             if (extend != null) extend();
             sqljocky.Results locationResults = await connection.prepareExecute(
-                "SELECT `${account.state.accountType == AccountType.AT_BUSINESS ? 'detail' : 'approximate'}` FROM `addressbook` "
+                "SELECT `${account.state.accountType == AccountType.AT_BUSINESS ? 'detail' : 'approximate'}`, `point` FROM `addressbook` "
                 "WHERE `location_id` = ?",
                 [account.detail.locationId.toInt()]);
             await for (sqljocky.Row row in locationResults) {
               // one
               account.summary.location = row[0].toString();
+              Uint8List point = row[1];
+              if (point != null) {
+                // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
+                ByteData data = new ByteData.view(point.buffer);
+                Endian endian = data.getInt8(4) == 0 ? Endian.big : Endian.little;
+                int type = data.getUint32(4 + 1, endian = endian);
+                if (type == 1) {
+                  account.detail.latitude = data.getFloat64(4 + 5 + 8, endian = endian);
+                  account.detail.longitude = data.getFloat64(4 + 5, endian = endian);
+                }
+              }
             }
             if (account.summary.location == null) {
               devLog.severe(
