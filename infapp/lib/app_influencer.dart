@@ -120,14 +120,18 @@ class _AppInfluencerState extends State<AppInfluencer> {
       mapTab: 0,
       applicantsTab: 1,
       map: new Builder(builder: (context) {
+        ConfigData config = ConfigManager.of(context);
         NetworkInterface network = NetworkManager.of(context);
         return new NearbyOffers(
+            account: network.account,
+            mapboxUrlTemplate: config.services.mapboxUrlTemplate,
+            mapboxToken: config.services.mapboxToken,
             onSearchPressed: (TextEditingController searchQuery) {
-          navigateToSearchOffers(searchQuery);
-          // query.text = ":)";
-          // Scaffold.of(context).showSnackBar(
-          //     new SnackBar(content: new Text("Not yet implemented.")));
-        });
+              navigateToSearchOffers(searchQuery);
+              // query.text = ":)";
+              // Scaffold.of(context).showSnackBar(
+              //     new SnackBar(content: new Text("Not yet implemented.")));
+            });
       }),
       onNavigateProfile: () {
         navigateToProfileView(context);

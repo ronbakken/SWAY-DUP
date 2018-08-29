@@ -7,14 +7,23 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 
 import 'search/search_page.dart';
+import 'network/inf.pb.dart';
 
 class NearbyOffers extends StatefulWidget {
   const NearbyOffers({
     Key key,
     @required this.onSearchPressed,
+    @required this.mapboxUrlTemplate,
+    @required this.mapboxToken,
+    @required this.account,
   }) : super(key: key);
 
   final Function(TextEditingController searchQuery) onSearchPressed;
+
+  final String mapboxUrlTemplate;
+  final String mapboxToken;
+
+  final DataAccount account;
 
   @override
   _NearbyOffersState createState() => new _NearbyOffersState();
@@ -22,11 +31,18 @@ class NearbyOffers extends StatefulWidget {
 
 class _NearbyOffersState extends State<NearbyOffers> {
   TextEditingController _searchTextController;
+  MapController _mapController;
+  LatLng _initialLatLng;
 
   @override
   void initState() {
     super.initState();
     _searchTextController = new TextEditingController();
+    _mapController = new MapController();
+    _initialLatLng = new LatLng(
+        // Default location depending on whether GPS is available or not
+        widget.account.detail.latitude,
+        widget.account.detail.longitude);
   }
 
   @override
@@ -34,8 +50,9 @@ class _NearbyOffersState extends State<NearbyOffers> {
     return new Stack(
       children: [
         new FlutterMap(
+          mapController: _mapController,
           options: new MapOptions(
-            center: new LatLng(51.5, -0.09),
+            center: _initialLatLng,
             zoom: 13.0,
           ),
           layers: [
@@ -49,6 +66,10 @@ class _NearbyOffersState extends State<NearbyOffers> {
                     'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
                 'id': 'mapbox.dark',
               },
+              /*
+              urlTemplate: widget.mapboxUrlTemplate,
+              additionalOptions: {'accessToken': widget.mapboxToken},
+              */
             ),
             new MarkerLayerOptions(
               markers: [
