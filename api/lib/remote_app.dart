@@ -899,9 +899,9 @@ class RemoteApp {
                 sqljocky.Results res4 = await tx.prepareExecute(
                     "INSERT INTO `addressbook`("
                     "`account_id`, `name`, `detail`, `approximate`, "
-                    "`postcode`, `region_code`, `country_code`, `point`) "
+                    "`postcode`, `region_code`, `country_code`, `point`, `s2cell_id`) "
                     "VALUES (?, ?, ?, ?, ?, ?, ?, "
-                    "PointFromText('POINT(${location.longitude} ${location.latitude})'))",
+                    "PointFromText('POINT(${location.longitude} ${location.latitude})'), ?)",
                     [
                       accountId.toInt(),
                       location.name.toString(),
@@ -911,7 +911,8 @@ class RemoteApp {
                           ? null
                           : location.postcode.toString(),
                       location.regionCode.toString(),
-                      location.countryCode.toString()
+                      location.countryCode.toString(),
+                      location.s2cellId.toInt()
                     ]);
                 if (res4.affectedRows == 0)
                   throw new Exception("Location was not inserted");
