@@ -30,9 +30,11 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
   // Pointer Marker to pin point the target location
 
   // Search Bar to search the location
+  TextField searchField;
+  TextEditingController _searchFieldController;
 
   // Search Button to find the desired location
-
+  IconButton searchButton;
 
   @override
   void initState() {
@@ -40,12 +42,26 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
     super.initState();
 
     // Initialize Confirm Button
+    confirmButton = new FloatingActionButton(
+      onPressed: widget.onConfirmPressed,
+      backgroundColor: Colors.green,
+      child: new Icon(Icons.check),
+    );
 
     // Initializer Marker
-
+    
     // Initialize Search Bar
+    _searchFieldController = new TextEditingController(text: 'Search Location...');
+    searchField = new TextField(
+      controller: _searchFieldController,
+    );
 
     // Initialize Search Button
+    Icon searchIcon = new Icon(Icons.search);
+    searchButton = new IconButton(
+      icon: searchIcon,
+      onPressed: widget.onSearchPressed,
+    );
   }
 
   @override
