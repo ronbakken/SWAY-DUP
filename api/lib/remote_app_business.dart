@@ -133,15 +133,16 @@ class RemoteAppBusiness {
     int locationId = account.detail.locationId.toInt();
     ts.sendExtend(message);
     String insertOffer =
-        "INSERT INTO `offers`(`account_id`, `title`, `description`, `deliverables`, `reward`, `location_id`) "
-        "VALUES (?, ?, ?, ?, ?, ?)";
+        "INSERT INTO `offers`(`account_id`, `title`, `description`, `deliverables`, `reward`, `location_id`, `state`) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?)";
     sqljocky.Results insertRes = await sql.prepareExecute(insertOffer, [
       account.state.accountId.toInt(),
       pb.title.toString(),
       pb.description.toString(),
       pb.deliverables.toString(),
       pb.reward.toString(),
-      locationId
+      locationId,
+      BusinessOfferState.BOS_OPEN.value.toInt()
     ]);
 
     // Verify insertion
