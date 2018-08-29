@@ -85,7 +85,7 @@ class RemoteAppInfluencer {
 
   // Demo function to get all offers
   StreamSubscription<TalkMessage> _netLoadOffersReq; // C_OFFERR
-  static int _dataBusinessOffer = TalkSocket.encode("DB_OFFER");
+  static int _demoAllBusinessOffer = TalkSocket.encode("DE_OFFER");
   static int _netLoadOffersRes = TalkSocket.encode("L_R_OFFE");
   Future<void> netLoadOffersReq(TalkMessage message) async {
     NetLoadOffersReq pb = new NetLoadOffersReq();
@@ -150,7 +150,7 @@ class RemoteAppInfluencer {
           // Cache offer for use (is this really necessary?)
           // offers[offer.offerId] = offer;
           // Send offer to user
-          ts.sendMessage(_dataBusinessOffer, offer.writeToBuffer());
+          ts.sendMessage(_demoAllBusinessOffer, offer.writeToBuffer());
         }
         ts.sendExtend(message);
       } finally {
