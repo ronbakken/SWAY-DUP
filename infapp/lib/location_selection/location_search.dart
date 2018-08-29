@@ -74,6 +74,9 @@ class _LocationSearchPageState extends State<LocationSearchScreen> {
         itemBuilder: (context,  index) {
           return new LocationCard(
             onCardTapped: _selectLocation,
+            locationName: "Location $index",
+            addressName: "Adress $index"
+
           );
         },
       ),
