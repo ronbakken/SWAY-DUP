@@ -67,7 +67,7 @@ class RemoteAppBusiness {
     _netCreateOfferReq = _r.saferListen(
         "C_OFFERR", GlobalAccountState.GAS_READ_WRITE, true, netCreateOfferReq);
     _netLoadOffersReq = _r.saferListen(
-        "L_OFFERS", GlobalAccountState.GAS_READ_WRITE, true, netLoadOffersReq);
+        "L_OFFERS", GlobalAccountState.GAS_READ_ONLY, true, netLoadOffersReq);
   }
 
   void dispose() {
