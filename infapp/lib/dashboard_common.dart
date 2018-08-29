@@ -113,16 +113,29 @@ class _DashboardCommonState extends State<DashboardCommon>
           ? new TabBarView(
               key: new Key('TabViewOffers'),
               controller: _tabControllerOffers,
-              children: [widget.offersCurrent, widget.offersHistory],
+              children: [
+                widget.offersCurrent == null
+                    ? new Text("/* Current */")
+                    : widget.offersCurrent,
+                widget.offersHistory == null
+                    ? new Text("/* History */")
+                    : widget.offersHistory
+              ],
             )
           : (_currentTab == widget.applicantsTab
               ? new TabBarView(
                   key: new Key('TabViewApplicants'),
                   controller: _tabControllerApplicants,
                   children: [
-                    widget.applicantsApplying,
-                    widget.applicantsAccepted,
-                    widget.applicantsHistory
+                    widget.applicantsApplying == null
+                        ? new Text("/* Applying */")
+                        : widget.applicantsApplying,
+                    widget.applicantsAccepted == null
+                        ? new Text("/* Accepted */")
+                        : widget.applicantsAccepted,
+                    widget.applicantsHistory == null
+                        ? new Text("/* History */")
+                        : widget.applicantsHistory,
                   ],
                 )
               : widget.map),
@@ -212,8 +225,12 @@ class _DashboardCommonState extends State<DashboardCommon>
       ),
       appBar: _currentTab != widget.mapTab
           ? new AppBar(
-              title: new Text(
-                  _currentTab == widget.offersTab ? "Offers" : "Applicants"),
+              title: new Text(_currentTab == widget.offersTab
+                  ? "Offers"
+                  : (widget.account.state.accountType ==
+                          AccountType.AT_INFLUENCER
+                      ? "Applied"
+                      : "Applicants")),
               bottom: _currentTab == widget.offersTab
                   ? new TabBar(
                       key: new Key('TabBarOffers'),
