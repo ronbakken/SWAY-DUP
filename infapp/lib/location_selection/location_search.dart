@@ -34,6 +34,15 @@ class _LocationSearchPageState extends State<LocationSearchScreen> {
     );
   }
 
+  // Function called when a location card is tapped
+  void _selectLocation(String item) 
+  {
+    setState(() {
+       _searchFieldController.text = item;
+      }
+    );
+  }
+
   @override
   void initState() {
     // Initialize the Parent
@@ -63,7 +72,9 @@ class _LocationSearchPageState extends State<LocationSearchScreen> {
       body: new ListView.builder(
         itemCount: 10,
         itemBuilder: (context,  index) {
-          return new LocationCard();
+          return new LocationCard(
+            onCardTapped: _selectLocation,
+          );
         },
       ),
 
