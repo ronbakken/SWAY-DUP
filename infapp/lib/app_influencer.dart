@@ -107,7 +107,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
           searchTooltip: "Search for nearby offers",
           searchQueryController: searchQueryController,
           onSearchRequest: (String searchQuery) async {
-            await new Future.delayed(new Duration(seconds: 2));
+            await network.refreshDemoAllOffers();
           },
           searchResults: network.demoAllOffers.values
               .map((offer) => new OfferCard(

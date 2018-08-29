@@ -58,13 +58,15 @@ class _SearchPageState extends State<SearchPageCommon> {
     }
     if (searchQuery == lastSearchQuery) {
       // Ignore the event if we already searched with the latest query.
-      print("Ignore duplicate $searchQuery search");
-      return;
+      // print("Ignore duplicate $searchQuery search");
+      // return;
+      print("Not ignoring duplicate $searchQuery search");
     }
     lastSearchQuery = searchQuery;
     if (searchQuery.isEmpty) {
-      print("Ignore empty search");
-      return;
+      // print("Ignore empty search");
+      // return;
+      print("Not ignoring empty search");
     }
     // Initiate the search
     print("Searching $searchQuery");
@@ -81,7 +83,7 @@ class _SearchPageState extends State<SearchPageCommon> {
     setState(() {
       searchInProgress = false;
     });
-    if (searchAgain != null) {
+    if (searchAgain == true) {
       searchAgain = false;
       print("Searching again");
       await _search();
@@ -115,7 +117,7 @@ class _SearchPageState extends State<SearchPageCommon> {
           ],
         ),
         bottomNavigationBar: searchInProgress
-            ? new Text("Search in progress '$lastSearchQuery'...")
+            ? new LinearProgressIndicator() // new Text("Search in progress '$lastSearchQuery'...")
             : null, // TODO: For testing purpose. Make it nice
         body: new ListView(
           children: widget.searchResults,
