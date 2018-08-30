@@ -10,6 +10,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wstalk/wstalk.dart';
@@ -96,6 +97,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   int nextDeviceGhostId;
 
+  bool _firebaseSetup = false;
+  final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+
   List<StreamSubscription<TalkMessage>> _subscriptions =
       new List<StreamSubscription<TalkMessage>>();
 
@@ -121,7 +125,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
   }
 
-  void receivedDeviceAuthState(NetDeviceAuthState pb) {
+  Future<void> receivedDeviceAuthState(NetDeviceAuthState pb) async {
     print("NetDeviceAuthState: $pb");
     setState(() {
       if (pb.data.state.accountId != account.state.accountId) {
@@ -140,10 +144,60 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       account.detail.socialMedia.length = _config.oauthProviders.all.length;
       ++_changed;
     });
+    if (pb.data.state.accountId != 0) {
+      if (!_firebaseSetup) {
+        // Set up Firebase
+        _firebaseSetup = true;
+        _firebaseMessaging.requestNotificationPermissions();
+        _firebaseMessaging.configure(
+          onMessage: _firebaseOnMessage,
+          onLaunch: _firebaseOnLaunch,
+          onResume: _firebaseOnResume,
+        );
+        _firebaseMessaging.onTokenRefresh.listen(
+            _firebaseOnToken); // Ensure network manager is persistent or this may fail
+      }
+      _firebaseOnToken(await _firebaseMessaging.getToken());
+    }
+  }
+
+  void _firebaseOnToken(String token) {
+    if (account.state.accountId != 0) {
+      if (account.state.firebaseToken != token) {
+        account.state.firebaseToken = token;
+        NetSetFirebaseToken setFirebaseToken = new NetSetFirebaseToken();
+        setFirebaseToken.firebaseToken = token;
+        _ts.sendMessage(TalkSocket.encode("SFIREBAT"), setFirebaseToken.writeToBuffer());
+      }
+    }
+  }
+
+  Future<dynamic> _firebaseOnMessage(Map<String, dynamic> data) {
+    print("[INF] Firebase Message Received");
+    // Fired when a message is received when the app is in foreground
+    /*
+DATA='{"notification": {"body": "this is a body","title": "this is a title"}, "priority": "high", "data": {"click_action": "FLUTTER_NOTIFICATION_CLICK", "id": "1", "status": "done"}, "to": "<FCM TOKEN>"}'
+curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X POST -d "$DATA" -H "Authorization: key=<FCM SERVER KEY>"
+    */
+  }
+
+  Future<dynamic> _firebaseOnLaunch(Map<String, dynamic> data) {
+    print("[INF] Firebase Launch Received");
+    // Fired when the app was opened by a message
+    /* When sending a notification message to an Android device, 
+    you need to make sure to set the click_action property of the
+    message to FLUTTER_NOTIFICATION_CLICK. 
+    Otherwise the plugin will be unable to deliver the notification 
+    to your app when the users clicks on it in the system tray. */
+  }
+
+  Future<dynamic> _firebaseOnResume(Map<String, dynamic> data) {
+    print("[INF] Firebase Resume Received");
+    // Fired when the app was opened by a message
   }
 
   /// Authenticate device connection, this process happens as if by magic
-  Future _authenticateDevice(TalkSocket ts) async {
+  Future<void> _authenticateDevice(TalkSocket ts) async {
     // Initialize connection
     print("[INF] Authenticate device");
     ts.sendMessage(TalkSocket.encode("INFAPP"), new Uint8List(0));
@@ -223,7 +277,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       if (!_alive) {
         throw Exception("No longer alive, don't authorize");
       }
-      receivedDeviceAuthState(pbRes);
+      await receivedDeviceAuthState(pbRes);
       print("[INF] Device id ${account.state.deviceId}");
       if (account.state.deviceId != 0) {
         prefs.setString(aesKeyPref, aesKeyStr);
@@ -267,7 +321,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       if (!_alive) {
         throw Exception("No longer alive, don't authorize");
       }
-      receivedDeviceAuthState(pbRes);
+      await receivedDeviceAuthState(pbRes);
       print("[INF] Device id ${account.state.deviceId}");
     }
 
@@ -293,10 +347,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     // assert(accountState.deviceId != 0);
   }
 
-  void _netDeviceAuthState(TalkMessage message) {
+  void _netDeviceAuthState(TalkMessage message) async {
     NetDeviceAuthState pb = new NetDeviceAuthState();
     pb.mergeFromBuffer(message.data);
-    receivedDeviceAuthState(pb);
+    await receivedDeviceAuthState(pb);
   }
 
   bool _netConfigWarning = false;
@@ -557,7 +611,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         await _ts.sendRequest(_netAccountCreateReq, pb.writeToBuffer());
     NetDeviceAuthState resPb = new NetDeviceAuthState();
     resPb.mergeFromBuffer(res.data);
-    receivedDeviceAuthState(resPb);
+    await receivedDeviceAuthState(resPb);
     if (account.state.accountId == 0) {
       throw new NetworkException("No account has been created");
     }
