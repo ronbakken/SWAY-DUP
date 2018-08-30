@@ -2780,6 +2780,7 @@ class NetOfferApplyReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetOfferApplyReq')
     ..a<int>(1, 'offerId', PbFieldType.O3)
     ..aOS(2, 'remarks')
+    ..a<int>(8, 'deviceGhostId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetOfferApplyReq() : super();
@@ -2820,6 +2821,14 @@ class NetOfferApplyReq extends GeneratedMessage {
 
   bool hasRemarks() => $_has(1);
   void clearRemarks() => clearField(2);
+
+  int get deviceGhostId => $_get(2, 0);
+  set deviceGhostId(int v) {
+    $_setSignedInt32(2, v);
+  }
+
+  bool hasDeviceGhostId() => $_has(2);
+  void clearDeviceGhostId() => clearField(8);
 }
 
 class _ReadonlyNetOfferApplyReq extends NetOfferApplyReq
