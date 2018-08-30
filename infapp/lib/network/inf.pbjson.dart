@@ -605,7 +605,20 @@ const DataApplicant$json = const {
   '2': const [
     const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
     const {'1': 'offerId', '3': 2, '4': 1, '5': 5, '10': 'offerId'},
-    const {'1': 'accountId', '3': 3, '4': 1, '5': 5, '10': 'accountId'},
+    const {
+      '1': 'influencerAccountId',
+      '3': 3,
+      '4': 1,
+      '5': 5,
+      '10': 'influencerAccountId'
+    },
+    const {
+      '1': 'businessAccountId',
+      '3': 16,
+      '4': 1,
+      '5': 5,
+      '10': 'businessAccountId'
+    },
     const {'1': 'haggleChatId', '3': 4, '4': 1, '5': 3, '10': 'haggleChatId'},
     const {
       '1': 'influencerWantsDeal',
