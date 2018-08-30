@@ -54,6 +54,7 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
   {
     return new Scaffold(
       appBar: searchBar,
+      body: map,
       floatingActionButton: confirmButton,
     );
   }
@@ -80,6 +81,8 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
 
     // build the map
     marker = new Marker(
+      width: 80.0,
+      height: 80.0,
       point: new LatLng(0.0, 0.0),
       builder: (ctx) => new Container(
         child: new FlutterLogo(),
@@ -93,7 +96,6 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
       ),
       layers: <LayerOptions> [
         new TileLayerOptions(
-          backgroundColor: new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
           urlTemplate: "https://api.tiles.mapbox.com/v4/"
             "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
           additionalOptions: {
