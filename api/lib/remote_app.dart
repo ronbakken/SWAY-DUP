@@ -421,7 +421,7 @@ class RemoteApp {
       sqljocky.RetainedConnection connection = await sql.getConnection();
       try {
         sqljocky.Results deviceResults = await connection.prepareExecute(
-            "SELECT `account_id`, `account_type` FROM `devices` WHERE `device_id` = ?",
+            "SELECT `account_id`, `account_type`, `firebase_instance_id` FROM `devices` WHERE `device_id` = ?",
             [account.state.deviceId.toInt()]);
         await for (sqljocky.Row row in deviceResults) {
           // one row
@@ -432,6 +432,8 @@ class RemoteApp {
           }
           account.state.accountId = row[0].toInt();
           account.state.accountType = AccountType.valueOf(row[1].toInt());
+          if (row[2] != null)
+            account.state.firebaseInstanceId = row[2].toString();
         }
         // Fetch account-specific info (overwrites device accountType, although it cannot possibly be different)
         if (account.state.accountId != 0) {
