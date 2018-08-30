@@ -1288,7 +1288,7 @@ class DataAccountState extends GeneratedMessage {
         NotificationFlags.NF_ACCOUNT_STATE,
         NotificationFlags.valueOf,
         NotificationFlags.values)
-    ..aOS(7, 'firebaseInstanceId')
+    ..aOS(7, 'firebaseToken')
     ..hasRequiredFields = false;
 
   DataAccountState() : super();
@@ -1362,13 +1362,13 @@ class DataAccountState extends GeneratedMessage {
   bool hasNotificationFlags() => $_has(5);
   void clearNotificationFlags() => clearField(6);
 
-  String get firebaseInstanceId => $_getS(6, '');
-  set firebaseInstanceId(String v) {
+  String get firebaseToken => $_getS(6, '');
+  set firebaseToken(String v) {
     $_setString(6, v);
   }
 
-  bool hasFirebaseInstanceId() => $_has(6);
-  void clearFirebaseInstanceId() => clearField(7);
+  bool hasFirebaseToken() => $_has(6);
+  void clearFirebaseToken() => clearField(7);
 }
 
 class _ReadonlyDataAccountState extends DataAccountState
