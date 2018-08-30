@@ -371,7 +371,7 @@ message DataAccountState {
   
   NotificationFlags notificationFlags = 6;
   
-  string firebaseInstanceId = 7;
+  string firebaseToken = 7;
   
 }
 
@@ -518,6 +518,8 @@ message NetSetAccountType {
   AccountType accountType = 1;
   
 }
+
+// App sets device firebase token
 
 // App requests OAuth url
 // Name: OA_URLRE
