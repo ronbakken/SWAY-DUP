@@ -61,7 +61,7 @@ class _DemoAppState extends State<DemoApp> {
       // Generate these values on https://material.io/color/!
       primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
       primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-      primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+      primaryColorDark: Color.lerp(new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30), new Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125),
       buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
       // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
       accentColor: new Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
