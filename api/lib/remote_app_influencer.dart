@@ -65,7 +65,7 @@ class RemoteAppInfluencer {
     _netLoadOffersReq = _r.saferListen(
         "L_OFFERS", GlobalAccountState.GAS_READ_ONLY, true, netLoadOffersReq);
     _netOfferApplyReq = _r.saferListen(
-        "O_APPLYY", GlobalAccountState.GAS_READ_ONLY, true, netLoadOffersReq);
+        "O_APPLYY", GlobalAccountState.GAS_READ_ONLY, true, netOfferApplyReq);
   }
 
   void dispose() {
@@ -178,9 +178,11 @@ class RemoteAppInfluencer {
 
   StreamSubscription<TalkMessage> _netOfferApplyReq; // C_OFFERR
   static int _netOfferApplyRes = TalkSocket.encode("O_R_APPL");
-  Future<void> netnetOfferApplyReqq(TalkMessage message) async {
+  Future<void> netOfferApplyReq(TalkMessage message) async {
     NetOfferApplyReq pb = new NetOfferApplyReq();
     pb.mergeFromBuffer(message.data);
+
+    print ("NetOfferApplyReq: $pb");
 
     DataApplicant applicant = new DataApplicant();
     applicant.offerId = pb.offerId;
@@ -217,7 +219,7 @@ class RemoteAppInfluencer {
 
     String chatText = 'deliverables=${Uri.encodeQueryComponent(deliverables)}&'
         'reward=${Uri.encodeQueryComponent(reward)}&'
-        'remarks=${Uri.encodeQueryComponent(pb.remarks)}';
+        'remarks=${Uri.encodeQueryComponent(pb.remarks.trim())}';
     chat.text = chatText;
 
     ts.sendExtend(message);
@@ -232,7 +234,7 @@ class RemoteAppInfluencer {
         pb.offerId.toInt(),
         accountId,
         businessAccountId,
-        ApplicantState.AS_HAGGLING,
+        ApplicantState.AS_HAGGLING.value,
       ]);
       int applicantId = resultApplicant.insertId;
       if (applicantId == null || applicantId == 0) {
@@ -247,7 +249,7 @@ class RemoteAppInfluencer {
       chatHaggle['deliverables'] = "Deliverables";
       chatHaggle['reward'] = "Reward";
       chatHaggle['remarks'] = pb.remarks;
-      String insertHaggle = "INSERT INTO `applicant_hangling`("
+      String insertHaggle = "INSERT INTO `applicant_haggling`("
           "`sender_id`, `applicant_id`, "
           "`device_id`, `device_ghost_id`, "
           "`type`, `text`) "
@@ -258,7 +260,7 @@ class RemoteAppInfluencer {
         applicantId,
         account.state.deviceId,
         pb.deviceGhostId, // Not actually used for apply chat, but need it for consistency
-        ApplicantChatType.ACT_HAGGLE,
+        ApplicantChatType.ACT_HAGGLE.value,
         chatText,
       ]);
       int haggleChatId = resultHaggle.insertId;
@@ -284,6 +286,8 @@ class RemoteAppInfluencer {
           resultUpdateHaggleChatId.affectedRows == 0) {
         throw new Exception("Failed to update haggle chat id");
       }
+
+      ts.sendExtend(message);
     });
 
     devLog.finest("Applied for offer successfully: $applicant");
@@ -295,8 +299,8 @@ class RemoteAppInfluencer {
     chat.deviceGhostId = 0;
 
     // Broadcast
-    await bc.applicantPosted(account.state.deviceId, applicant);
-    await bc.applicantChatPosted(account.state.deviceId, chat);
+    await bc.applicantPosted(account.state.deviceId, applicant, account);
+    await bc.applicantChatPosted(account.state.deviceId, chat, account);
 
     // TODO: Update offer applicant count
   }
