@@ -156,6 +156,12 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         );
         _firebaseMessaging.onTokenRefresh.listen(
             _firebaseOnToken); // Ensure network manager is persistent or this may fail
+        if (widget.config.services.domain.isNotEmpty) {
+          // Allows to send dev messages under domain_dev topic
+          print("[INF] Domain: ${widget.config.services.domain}");
+          _firebaseMessaging
+              .subscribeToTopic('domain_' + widget.config.services.domain);
+        }
       }
       _firebaseOnToken(await _firebaseMessaging.getToken());
     }
@@ -167,7 +173,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         account.state.firebaseToken = token;
         NetSetFirebaseToken setFirebaseToken = new NetSetFirebaseToken();
         setFirebaseToken.firebaseToken = token;
-        _ts.sendMessage(TalkSocket.encode("SFIREBAT"), setFirebaseToken.writeToBuffer());
+        _ts.sendMessage(
+            TalkSocket.encode("SFIREBAT"), setFirebaseToken.writeToBuffer());
       }
     }
   }
@@ -179,6 +186,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 DATA='{"notification": {"body": "this is a body","title": "this is a title"}, "priority": "high", "data": {"click_action": "FLUTTER_NOTIFICATION_CLICK", "id": "1", "status": "done"}, "to": "<FCM TOKEN>"}'
 curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X POST -d "$DATA" -H "Authorization: key=<FCM SERVER KEY>"
     */
+    print(data);
   }
 
   Future<dynamic> _firebaseOnLaunch(Map<String, dynamic> data) {
