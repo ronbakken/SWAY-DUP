@@ -155,9 +155,9 @@ class _ImageUploaderState extends State<ImageUploader> {
           height: 8.0,
         ),
         new Row(
-                
           children: <Widget>[
-            new Expanded(child:new RaisedButton(
+            new Expanded(
+                child: new RaisedButton(
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.only(
@@ -186,7 +186,8 @@ class _ImageUploaderState extends State<ImageUploader> {
             new SizedBox(
               width: 8.0,
             ),
-            new Expanded(child:new RaisedButton(
+            new Expanded(
+                child: new RaisedButton(
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.only(
@@ -203,7 +204,7 @@ class _ImageUploaderState extends State<ImageUploader> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // new Icon(Icons.photo),
-                 new Text("Camera".toUpperCase()),
+                  new Text("Camera".toUpperCase()),
                   //new SizedBox(width: 8.0),
                   // new Icon(_image == null ? Icons.folder_open : Icons.check),
                   new Icon(Icons.camera),
