@@ -1288,7 +1288,7 @@ class DataAccountState extends GeneratedMessage {
         NotificationFlags.NF_ACCOUNT_STATE,
         NotificationFlags.valueOf,
         NotificationFlags.values)
-    ..aOS(7, 'firebaseInstanceId')
+    ..aOS(7, 'firebaseToken')
     ..hasRequiredFields = false;
 
   DataAccountState() : super();
@@ -1362,13 +1362,13 @@ class DataAccountState extends GeneratedMessage {
   bool hasNotificationFlags() => $_has(5);
   void clearNotificationFlags() => clearField(6);
 
-  String get firebaseInstanceId => $_getS(6, '');
-  set firebaseInstanceId(String v) {
+  String get firebaseToken => $_getS(6, '');
+  set firebaseToken(String v) {
     $_setString(6, v);
   }
 
-  bool hasFirebaseInstanceId() => $_has(6);
-  void clearFirebaseInstanceId() => clearField(7);
+  bool hasFirebaseToken() => $_has(6);
+  void clearFirebaseToken() => clearField(7);
 }
 
 class _ReadonlyDataAccountState extends DataAccountState
@@ -2163,6 +2163,47 @@ class NetSetAccountType extends GeneratedMessage {
 }
 
 class _ReadonlyNetSetAccountType extends NetSetAccountType
+    with ReadonlyMessageMixin {}
+
+class NetSetFirebaseToken extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetSetFirebaseToken')
+    ..aOS(1, 'firebaseToken')
+    ..hasRequiredFields = false;
+
+  NetSetFirebaseToken() : super();
+  NetSetFirebaseToken.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetSetFirebaseToken.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetSetFirebaseToken clone() =>
+      new NetSetFirebaseToken()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetSetFirebaseToken create() => new NetSetFirebaseToken();
+  static PbList<NetSetFirebaseToken> createRepeated() =>
+      new PbList<NetSetFirebaseToken>();
+  static NetSetFirebaseToken getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetSetFirebaseToken();
+    return _defaultInstance;
+  }
+
+  static NetSetFirebaseToken _defaultInstance;
+  static void $checkItem(NetSetFirebaseToken v) {
+    if (v is! NetSetFirebaseToken) checkItemFailed(v, 'NetSetFirebaseToken');
+  }
+
+  String get firebaseToken => $_getS(0, '');
+  set firebaseToken(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasFirebaseToken() => $_has(0);
+  void clearFirebaseToken() => clearField(1);
+}
+
+class _ReadonlyNetSetFirebaseToken extends NetSetFirebaseToken
     with ReadonlyMessageMixin {}
 
 class NetOAuthUrlReq extends GeneratedMessage {

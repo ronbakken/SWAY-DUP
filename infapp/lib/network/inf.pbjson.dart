@@ -532,13 +532,7 @@ const DataAccountState$json = const {
       '6': '.inf.NotificationFlags',
       '10': 'notificationFlags'
     },
-    const {
-      '1': 'firebaseInstanceId',
-      '3': 7,
-      '4': 1,
-      '5': 9,
-      '10': 'firebaseInstanceId'
-    },
+    const {'1': 'firebaseToken', '3': 7, '4': 1, '5': 9, '10': 'firebaseToken'},
   ],
 };
 
@@ -807,6 +801,13 @@ const NetSetAccountType$json = const {
       '6': '.inf.AccountType',
       '10': 'accountType'
     },
+  ],
+};
+
+const NetSetFirebaseToken$json = const {
+  '1': 'NetSetFirebaseToken',
+  '2': const [
+    const {'1': 'firebaseToken', '3': 1, '4': 1, '5': 9, '10': 'firebaseToken'},
   ],
 };
 
