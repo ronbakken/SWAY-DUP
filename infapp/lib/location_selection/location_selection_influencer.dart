@@ -42,12 +42,40 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
   // used to control the map state
   MapController _mapController;
 
+  // Search Appbar
+  AppBar searchBar;
+
   // map to be displayed
   FlutterMap map;
 
   @override
   Widget build(BuildContext context)
   {
-    return new Scaffold();
+    return new Scaffold(
+      appBar: searchBar,
+    );
+  }
+
+  @override
+  void initState() {
+    // Initialize the Parent
+    super.initState();
+
+    // build the Search Bar
+    _searchController = new TextEditingController();
+    search = new TextField(
+      controller: _searchController,
+    );
+    Icon searchIcon = new Icon(Icons.search);
+    searchButton = new IconButton(
+      icon: searchIcon,
+      onPressed: widget.onSearch,
+    );  
+    searchBar = new AppBar(
+      title: search,
+      actions: <Widget>[ searchButton],
+    );
+
+
   }
 }
