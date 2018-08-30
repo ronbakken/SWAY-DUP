@@ -400,7 +400,8 @@ message DataAccount {
 message DataApplicant {
   int32 applicantId = 1;
   int32 offerId = 2;
-  int32 accountId = 3; // Account which applied
+  int32 influencerAccountId = 3; // Account which applied
+  int32 businessAccountId = 16;
   // datetime schedule etc
   
   /// Current chat ID with haggle buttons (deliverables / reward / remarks)
