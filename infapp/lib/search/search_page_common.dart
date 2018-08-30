@@ -75,14 +75,19 @@ class _SearchPageState extends State<SearchPageCommon> {
       searchInProgress = true;
     });
     // Wait for the search to complete asynchronously
-    await widget.onSearchRequest(searchQuery);
+    try {
+      await widget.onSearchRequest(searchQuery);
+    } finally {
+      if (mounted) {
+        setState(() {
+          searchInProgress = false;
+        });
+      }
+    }
     if (!mounted) {
       // Abort if already closed
       return;
     }
-    setState(() {
-      searchInProgress = false;
-    });
     if (searchAgain == true) {
       searchAgain = false;
       print("Searching again");
