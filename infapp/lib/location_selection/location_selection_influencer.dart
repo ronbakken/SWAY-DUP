@@ -54,6 +54,7 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
   {
     return new Scaffold(
       appBar: searchBar,
+      floatingActionButton: confirmButton,
     );
   }
 
@@ -96,6 +97,12 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
           },
         ),
       ],
+    );
+
+    // confirm button
+    confirmButton = new FloatingActionButton(
+      onPressed: widget.onConfirm,
+      child: new Icon(Icons.check),
     );
   }
 }
