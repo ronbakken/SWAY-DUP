@@ -85,6 +85,7 @@ message ConfigOAuthProviders {
 
 message ConfigServices {
   // INF
+  string domain = 24;
   repeated string apiHosts = 8;
   string configUrl = 9;
   string termsOfServiceUrl = 10;
@@ -120,6 +121,10 @@ message ConfigServices {
   // Freshdesk (Support)
   string freshdeskApi = 22;
   string freshdeskKey = 23;
+  
+  // Firebase (Cloud Messaging)
+  string firebaseServerKey = 25;
+  string firebaseSenderId = 26;
   
 }
 

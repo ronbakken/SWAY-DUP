@@ -166,6 +166,8 @@ Future<ConfigServices> generateConfigServices(bool server) async {
     if (section == "Common" ||
         (section == "Server" && server) ||
         (section == "Client" && !server)) {
+      if (cfg.hasOption(section, 'domain'))
+        res.domain = cfg.get(section, 'domain');
       if (cfg.hasOption(section, 'apiHosts'))
         res.apiHosts.addAll(cfg.get(section, 'apiHosts').split(','));
       if (cfg.hasOption(section, 'configUrl'))
@@ -218,6 +220,11 @@ Future<ConfigServices> generateConfigServices(bool server) async {
         res.freshdeskApi = cfg.get(section, 'freshdeskApi');
       if (cfg.hasOption(section, 'freshdeskKey'))
         res.freshdeskKey = cfg.get(section, 'freshdeskKey');
+
+      if (cfg.hasOption(section, 'firebaseServerKey'))
+        res.firebaseServerKey = cfg.get(section, 'firebaseServerKey');
+      if (cfg.hasOption(section, 'firebaseSenderId'))
+        res.firebaseSenderId = cfg.get(section, 'firebaseSenderId');
     }
   }
 
