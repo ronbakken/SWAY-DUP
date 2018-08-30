@@ -25,6 +25,7 @@ import '../search/search_page.dart';
 import '../debug_account.dart';
 import '../location_selection/location_selection.dart';
 import '../location_selection/location_search.dart';
+import '../location_selection/location_selection_influencer.dart';
 
 class DemoApp extends StatefulWidget {
   const DemoApp({Key key, this.startupConfig}) : super(key: key);
@@ -604,14 +605,12 @@ class _DemoHomePageState extends State<DemoHomePage> {
               demoAccount.state.accountType = AccountType.AT_BUSINESS;
               transitionPage(
                   context,
-                  new LocationSelectionScreen(
-                    onConfirmPressed: (coordinates) {
-                      print(coordinates.latitude);
-                      print("     ");
-                      print(coordinates.longitude);
+                  new LocationInfluencerScreen(
+                    onConfirm: () {
+                      print("confirm");
                     },
-                    onSearchPressed: (query) {
-                      print(query);
+                    onSearch: () {
+                      print("search");
                     },
                   ));
             },

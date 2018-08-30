@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 /// Location Selection Screen that will find 
 /// the influencer profile's location.
@@ -76,6 +77,25 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
       actions: <Widget>[ searchButton],
     );
 
-
+    // build the map
+    _mapController = new MapController();
+    map = new FlutterMap(
+      mapController: _mapController,
+      options: new MapOptions(
+        center: new LatLng(0.0, 0.0),
+      ),
+      layers: <LayerOptions> [
+        new TileLayerOptions(
+          backgroundColor: new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
+          urlTemplate: "https://api.tiles.mapbox.com/v4/"
+            "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+          additionalOptions: {
+            'accessToken':
+              'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
+            'id': 'mapbox.dark',
+          },
+        ),
+      ],
+    );
   }
 }
