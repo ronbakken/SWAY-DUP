@@ -150,6 +150,8 @@ class BroadcastCenter {
         senderDeviceId, applicant.influencerAccountId, applicant);
     await _pushApplicantPosted(
         senderDeviceId, applicant.businessAccountId, applicant);
+
+    devLog.fine("Pushed applicant ${applicant.applicantId}");
   }
 
   Future<void> applicantChanged(
@@ -181,6 +183,8 @@ class BroadcastCenter {
         chat.senderId != applicant.businessAccountId)
       // Unusual case, sender is neither of influencer or business...
       await _pushApplicantChatPosted(senderDeviceId, chat.senderId, chat);
+
+    devLog.fine("Pushed applicant chat ${chat.text}");
   }
 
 /*

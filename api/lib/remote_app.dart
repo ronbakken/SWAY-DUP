@@ -636,24 +636,19 @@ class RemoteApp {
     }
   }
 
-  StreamSubscription<TalkMessage> _netSetFirebaseToken; // SFIREBAT
-  Future<void> netSetFirebaseToken(TalkMessage message) async {
+  Future<void> _netSetFirebaseToken(TalkMessage message) async {
     if (account.state.deviceId == 0) return;
-    try {
-      // No validation here, no risk. Messages would just end up elsewhere
-      NetSetFirebaseToken pb = new NetSetFirebaseToken();
-      pb.mergeFromBuffer(message.data);
-      account.state.firebaseToken = pb.firebaseToken;
-      String update =
-          "UPDATE `devices` SET `firebase_token`= ? WHERE `device_id` = ?";
-      await sql.prepareExecute(update, [
-        pb.firebaseToken.toString(),
-        account.state.deviceId.toInt(),
-      ]);
-    } catch (error, stack) {
-      devLog.severe(
-          "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
-    }
+    // No validation here, no risk. Messages would just end up elsewhere
+    NetSetFirebaseToken pb = new NetSetFirebaseToken();
+    pb.mergeFromBuffer(message.data);
+    devLog.finer("Set Firebase Token: $pb");
+    account.state.firebaseToken = pb.firebaseToken;
+    String update =
+        "UPDATE `devices` SET `firebase_token`= ? WHERE `device_id` = ?";
+    await sql.prepareExecute(update, [
+      pb.firebaseToken.toString(),
+      account.state.deviceId.toInt(),
+    ]);
   }
 
   StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE
@@ -1466,6 +1461,7 @@ class RemoteApp {
         "Transition device ${account.state.deviceId} to app ${account.state.accountType}");
     if (account.state.globalAccountState.value >
         GlobalAccountState.GAS_BLOCKED.value) {
+      safeListen("SFIREBAT", _netSetFirebaseToken);
       subscribeOAuth();
       subscribeUpload();
       subscribeProfile();
