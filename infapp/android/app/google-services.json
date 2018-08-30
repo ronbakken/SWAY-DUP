@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1051755311348",
+    "firebase_url": "https://inf-marketplace.firebaseio.com",
+    "project_id": "inf-marketplace",
+    "storage_bucket": "inf-marketplace.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1051755311348:android:be6cadf34e990550",
+        "android_client_info": {
+          "package_name": "app.infmarketplace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1051755311348-82s8kbjt0j27atrd1g8edajcj59kuqme.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSqhm_j5zxdVS8x4L9m5Aym-cpm27ZoEQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
