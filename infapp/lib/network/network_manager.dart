@@ -167,7 +167,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         account.state.firebaseToken = token;
         NetSetFirebaseToken setFirebaseToken = new NetSetFirebaseToken();
         setFirebaseToken.firebaseToken = token;
-        _ts.sendMessage(TalkSocket.encode("SFIREBAT"), setFirebaseToken.writeToBuffer());
+        _ts.sendMessage(
+            TalkSocket.encode("SFIREBAT"), setFirebaseToken.writeToBuffer());
       }
     }
   }
