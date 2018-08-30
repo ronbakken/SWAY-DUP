@@ -290,8 +290,13 @@ class RemoteAppInfluencer {
     ts.sendMessage(_netOfferApplyRes, applicant.writeToBuffer(),
         replying: message);
 
-    await bc.applicantPosted(accountId, applicant);
-    await bc.applicantChatPosted(accountId, chat);
+    // Clear private information from broadcast
+    chat.deviceId = 0;
+    chat.deviceGhostId = 0;
+    
+    // Broadcast
+    await bc.applicantPosted(account.state.deviceId, applicant);
+    await bc.applicantChatPosted(account.state.deviceId, chat);
 
     // TODO: Update offer applicant count
   }
