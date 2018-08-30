@@ -605,12 +605,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
               demoAccount.state.accountType = AccountType.AT_BUSINESS;
               transitionPage(
                   context,
-                  new LocationInfluencerScreen(
-                    onConfirm: () {
-                      print("confirm");
+                  new LocationSelectionScreen(
+                    onConfirmPressed: (coordinates) {
+                      print(coordinates.latitude);
+                      print("     ");
+                      print(coordinates.longitude);
                     },
-                    onSearch: () {
-                      print("search");
+                    onSearchPressed: (query) {
+                      print(query);
                     },
                   ));
             },
