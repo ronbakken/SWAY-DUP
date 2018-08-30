@@ -225,6 +225,10 @@ Future<ConfigServices> generateConfigServices(bool server) async {
         res.firebaseServerKey = cfg.get(section, 'firebaseServerKey');
       if (cfg.hasOption(section, 'firebaseSenderId'))
         res.firebaseSenderId = cfg.get(section, 'firebaseSenderId');
+      if (cfg.hasOption(section, 'firebaseLegacyApi'))
+        res.firebaseLegacyApi = cfg.get(section, 'firebaseLegacyApi');
+      if (cfg.hasOption(section, 'firebaseLegacyServerKey'))
+        res.firebaseLegacyServerKey = cfg.get(section, 'firebaseLegacyServerKey');
     }
   }
 

@@ -125,6 +125,8 @@ message ConfigServices {
   // Firebase (Cloud Messaging)
   string firebaseServerKey = 25;
   string firebaseSenderId = 26;
+  string firebaseLegacyApi = 27;
+  string firebaseLegacyServerKey = 28;
   
 }
 
