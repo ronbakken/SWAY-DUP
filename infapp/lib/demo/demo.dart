@@ -706,8 +706,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     businessAccount: sampleAccounts[1],
                     account: demoAccount,
                     onApply: (remarks) {
-          // TODO: ------------------------------------------------------
-        },
+                      // TODO: ------------------------------------------------------
+                    },
                   );
                 },
               ));

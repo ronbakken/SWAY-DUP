@@ -232,53 +232,53 @@ class _OfferViewState extends State<OfferView> {
               new Divider(),
               widget.account.state.accountType == AccountType.AT_INFLUENCER
                   ? new Container(
-                    margin: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                      margin: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
                       child: new Column(
-                      children: <Widget>[
-                        new Form(
-                          key: _formKey,
-                          child: new Column(children: [
-                            new EnsureVisibleWhenFocused(
-                              focusNode: _remarksNode,
-                              child: new TextFormField(
+                        children: <Widget>[
+                          new Form(
+                            key: _formKey,
+                            child: new Column(children: [
+                              new EnsureVisibleWhenFocused(
                                 focusNode: _remarksNode,
-                                controller: _remarksController,
-                                maxLines: 4,
-                                decoration: new InputDecoration(
-                                    labelText:
-                                        'Tell us what you can offer more'),
-                                validator: (val) => val.trim().length < 20
-                                    ? 'Message must be longer'
+                                child: new TextFormField(
+                                  focusNode: _remarksNode,
+                                  controller: _remarksController,
+                                  maxLines: 4,
+                                  decoration: new InputDecoration(
+                                      labelText:
+                                          'Tell us what you can offer more'),
+                                  validator: (val) => val.trim().length < 20
+                                      ? 'Message must be longer'
+                                      : null,
+                                ),
+                              ),
+                            ]),
+                          ),
+                          new SizedBox(
+                            height: 16.0,
+                          ),
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              new RaisedButton(
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                child: new Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    new Text("Apply".toUpperCase()),
+                                  ],
+                                ),
+                                onPressed: (widget.onApply != null && !_waiting)
+                                    ? () {
+                                        _submitPressed(context);
+                                      }
                                     : null,
-                              ),
-                            ),
-                          ]),
-                        ),
-                        new SizedBox(
-                          height: 16.0,
-                        ),
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            new RaisedButton(
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  new Text("Apply".toUpperCase()),
-                                ],
-                              ),
-                              onPressed: (widget.onApply != null && !_waiting)
-                                  ? () {
-                                      _submitPressed(context);
-                                    }
-                                  : null,
-                            )
-                          ],
-                        )
-                      ],
-                    ))
+                              )
+                            ],
+                          )
+                        ],
+                      ))
                   : null,
             ]..removeWhere((Widget w) => w == null)),
           ),
