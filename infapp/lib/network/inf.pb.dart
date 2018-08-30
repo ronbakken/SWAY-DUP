@@ -1561,7 +1561,7 @@ class DataApplicant extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataApplicant')
     ..a<int>(1, 'applicantId', PbFieldType.O3)
     ..a<int>(2, 'offerId', PbFieldType.O3)
-    ..a<int>(3, 'accountId', PbFieldType.O3)
+    ..a<int>(3, 'influencerAccountId', PbFieldType.O3)
     ..aInt64(4, 'haggleChatId')
     ..aOB(5, 'businessWantsDeal')
     ..aOB(6, 'influencerWantsDeal')
@@ -1575,6 +1575,7 @@ class DataApplicant extends GeneratedMessage {
         ApplicantState.valueOf, ApplicantState.values)
     ..aOB(14, 'businessDisputed')
     ..aOB(15, 'influencerDisputed')
+    ..a<int>(16, 'businessAccountId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataApplicant() : super();
@@ -1615,13 +1616,13 @@ class DataApplicant extends GeneratedMessage {
   bool hasOfferId() => $_has(1);
   void clearOfferId() => clearField(2);
 
-  int get accountId => $_get(2, 0);
-  set accountId(int v) {
+  int get influencerAccountId => $_get(2, 0);
+  set influencerAccountId(int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasAccountId() => $_has(2);
-  void clearAccountId() => clearField(3);
+  bool hasInfluencerAccountId() => $_has(2);
+  void clearInfluencerAccountId() => clearField(3);
 
   Int64 get haggleChatId => $_getI64(3);
   set haggleChatId(Int64 v) {
@@ -1718,6 +1719,14 @@ class DataApplicant extends GeneratedMessage {
 
   bool hasInfluencerDisputed() => $_has(14);
   void clearInfluencerDisputed() => clearField(15);
+
+  int get businessAccountId => $_get(15, 0);
+  set businessAccountId(int v) {
+    $_setSignedInt32(15, v);
+  }
+
+  bool hasBusinessAccountId() => $_has(15);
+  void clearBusinessAccountId() => clearField(16);
 }
 
 class _ReadonlyDataApplicant extends DataApplicant with ReadonlyMessageMixin {}
@@ -2780,6 +2789,7 @@ class NetOfferApplyReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetOfferApplyReq')
     ..a<int>(1, 'offerId', PbFieldType.O3)
     ..aOS(2, 'remarks')
+    ..a<int>(8, 'deviceGhostId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetOfferApplyReq() : super();
@@ -2820,6 +2830,14 @@ class NetOfferApplyReq extends GeneratedMessage {
 
   bool hasRemarks() => $_has(1);
   void clearRemarks() => clearField(2);
+
+  int get deviceGhostId => $_get(2, 0);
+  set deviceGhostId(int v) {
+    $_setSignedInt32(2, v);
+  }
+
+  bool hasDeviceGhostId() => $_has(2);
+  void clearDeviceGhostId() => clearField(8);
 }
 
 class _ReadonlyNetOfferApplyReq extends NetOfferApplyReq
