@@ -804,6 +804,13 @@ const NetSetAccountType$json = const {
   ],
 };
 
+const NetSetFirebaseToken$json = const {
+  '1': 'NetSetFirebaseToken',
+  '2': const [
+    const {'1': 'firebaseToken', '3': 1, '4': 1, '5': 9, '10': 'firebaseToken'},
+  ],
+};
+
 const NetOAuthUrlReq$json = const {
   '1': 'NetOAuthUrlReq',
   '2': const [

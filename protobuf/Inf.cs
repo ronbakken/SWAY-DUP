@@ -118,75 +118,76 @@ namespace InfX {
             "dmljZUF1dGhTaWduYXR1cmVSZXNSZXESEQoJc2lnbmF0dXJlGAEgASgMIjQK",
             "Ek5ldERldmljZUF1dGhTdGF0ZRIeCgRkYXRhGAggASgLMhAuaW5mLkRhdGFB",
             "Y2NvdW50IjoKEU5ldFNldEFjY291bnRUeXBlEiUKC2FjY291bnRUeXBlGAEg",
-            "ASgOMhAuaW5mLkFjY291bnRUeXBlIicKDk5ldE9BdXRoVXJsUmVxEhUKDW9h",
-            "dXRoUHJvdmlkZXIYASABKAUiNgoOTmV0T0F1dGhVcmxSZXMSDwoHYXV0aFVy",
-            "bBgBIAEoCRITCgtjYWxsYmFja1VybBgCIAEoCSJCChJOZXRPQXV0aENvbm5l",
-            "Y3RSZXESFQoNb2F1dGhQcm92aWRlchgBIAEoBRIVCg1jYWxsYmFja1F1ZXJ5",
-            "GAIgASgJIj8KEk5ldE9BdXRoQ29ubmVjdFJlcxIpCgtzb2NpYWxNZWRpYRgB",
-            "IAEoCzIULmluZi5EYXRhU29jaWFsTWVkaWEiOgoTTmV0QWNjb3VudENyZWF0",
-            "ZVJlcRIQCghsYXRpdHVkZRgCIAEoARIRCglsb25naXR1ZGUYAyABKAEiaAoR",
-            "TmV0VXBsb2FkSW1hZ2VSZXESEAoIZmlsZU5hbWUYASABKAkSFQoNY29udGVu",
-            "dExlbmd0aBgCIAEoBRITCgtjb250ZW50VHlwZRgEIAEoCRIVCg1jb250ZW50",
-            "U2hhMjU2GAMgASgMIo0BChFOZXRVcGxvYWRJbWFnZVJlcxIVCg1yZXF1ZXN0",
-            "TWV0aG9kGAEgASgJEhIKCnJlcXVlc3RVcmwYAiABKAkSEgoKZmlsZUV4aXN0",
-            "cxgJIAEoCBIRCgl1cGxvYWRLZXkYCiABKAkSEAoIY292ZXJVcmwYCyABKAkS",
-            "FAoMdGh1bWJuYWlsVXJsGAwgASgJIpwBCg1OZXRTZXRQcm9maWxlEgwKBG5h",
-            "bWUYASABKAkSEwoLZGVzY3JpcHRpb24YAiABKAkSEQoJYXZhdGFyS2V5GAQg",
-            "ASgJEgsKA3VybBgGIAEoCRIjCgpjYXRlZ29yaWVzGAwgAygLMg8uaW5mLkNh",
-            "dGVnb3J5SWQSEAoIbGF0aXR1ZGUYDiABKAESEQoJbG9uZ2l0dWRlGA8gASgB",
-            "IoQBChFOZXRDcmVhdGVPZmZlclJlcRINCgV0aXRsZRgBIAEoCRIRCglpbWFn",
-            "ZUtleXMYAiADKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSFAoMZGVsaXZlcmFi",
-            "bGVzGAQgASgJEg4KBnJld2FyZBgFIAEoCRISCgpsb2NhdGlvbklkGAYgASgF",
-            "IkAKEE5ldExvYWRPZmZlcnNSZXESDgoGYmVmb3JlGAEgASgFEg0KBWFmdGVy",
-            "GAIgASgFEg0KBWxpbWl0GAMgASgFIjIKEE5ldExvYWRPZmZlcnNSZXMSDgoG",
-            "b2xkZXN0GAEgASgFEg4KBm5ld2VzdBgCIAEoBSJLChBOZXRPZmZlckFwcGx5",
-            "UmVxEg8KB29mZmVySWQYASABKAUSFQoNZGV2aWNlR2hvc3RJZBgIIAEoBRIP",
-            "CgdyZW1hcmtzGAIgASgJIkgKDE5ldENoYXRQbGFpbhITCgthcHBsaWNhbnRJ",
-            "ZBgBIAEoBRIVCg1kZXZpY2VHaG9zdElkGAggASgFEgwKBHRleHQYBiABKAki",
-            "cgoNTmV0Q2hhdEhhZ2dsZRITCgthcHBsaWNhbnRJZBgBIAEoBRIVCg1kZXZp",
-            "Y2VHaG9zdElkGAggASgFEhQKDGRlbGl2ZXJhYmxlcxgDIAEoCRIOCgZyZXdh",
-            "cmQYBCABKAkSDwoHcmVtYXJrcxgCIAEoCSJPCg9OZXRDaGF0SW1hZ2VLZXkS",
-            "EwoLYXBwbGljYW50SWQYASABKAUSFQoNZGV2aWNlR2hvc3RJZBgIIAEoBRIQ",
-            "CghpbWFnZUtleRgFIAEoCSKSAQoZTmV0QXBwbGljYW50Q29tcGxldGlvblJl",
-            "cRITCgthcHBsaWNhbnRJZBgBIAEoBRIRCglkZWxpdmVyZWQYAiABKAgSEAoI",
-            "cmV3YXJkZWQYAyABKAgSDgoGcmF0aW5nGAQgASgFEg8KB2Rpc3B1dGUYBSAB",
-            "KAgSGgoSZGlzcHV0ZURlc2NyaXB0aW9uGAYgASgJIlUKFE5ldExvYWRBcHBs",
-            "aWNhbnRzUmVxEg8KB29mZmVySWQYBCABKAUSDgoGYmVmb3JlGAEgASgFEg0K",
-            "BWFmdGVyGAIgASgFEg0KBWxpbWl0GAMgASgFIjYKFE5ldExvYWRBcHBsaWNh",
-            "bnRzUmVzEg4KBm9sZGVzdBgBIAEoBRIOCgZuZXdlc3QYAiABKAUiXQoYTmV0",
-            "TG9hZEFwcGxpY2FudENoYXRzUmVxEhMKC2FwcGxpY2FudElkGAUgASgFEg4K",
-            "BmJlZm9yZRgBIAEoBRINCgVhZnRlchgCIAEoBRINCgVsaW1pdBgDIAEoBSI6",
-            "ChhOZXRMb2FkQXBwbGljYW50Q2hhdHNSZXMSDgoGb2xkZXN0GAEgASgFEg4K",
-            "Bm5ld2VzdBgCIAEoBSIsChdOZXRMb2FkUHVibGljUHJvZmlsZVJlcRIRCglh",
-            "Y2NvdW50SWQYASABKAUqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQ",
-            "ABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJv",
-            "dmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9B",
-            "UF9GQUNFQk9PSxACKlEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04QABIR",
-            "Cg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAhIOCgpBVF9TVVBQ",
-            "T1JUEAMqngEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5HQVNfSU5JVElBTEla",
-            "RRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURfT05MWRACEhIKDkdB",
-            "U19SRUFEX1dSSVRFEAMSDQoJR0FTX0RFQlVHEAQSDwoLR0FTX1NVUFBPUlQQ",
-            "BRIPCgtHQVNfTUFOQUdFUhAGEgsKB0dBU19HT0QQByq1AQoYR2xvYmFsQWNj",
-            "b3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNHQVNS",
-            "X0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAISEQoN",
-            "R0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAKDEdB",
-            "U1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90aWZp",
-            "Y2F0aW9uRmxhZ3MSFAoQTkZfQUNDT1VOVF9TVEFURRAAEhgKFE5GX01BS0Vf",
-            "QU5fT0ZGRVJfRkFCEAESFgoSTkZfVU5SRUFEX01FU1NBR0VTEAISEQoNTkZf",
-            "Q1NfUkVRVUVTVBADKlEKEkJ1c2luZXNzT2ZmZXJTdGF0ZRINCglCT1NfRFJB",
-            "RlQQABIMCghCT1NfT1BFThABEg4KCkJPU19BQ1RJVkUQAhIOCgpCT1NfQ0xP",
-            "U0VEEAMqcAoYQnVzaW5lc3NPZmZlclN0YXRlUmVhc29uEhIKDkJPU1JfTkVX",
-            "X09GRkVSEAASFAoQQk9TUl9VU0VSX0NMT1NFRBABEhYKEkJPU1JfVE9TX1ZJ",
-            "T0xBVElPThACEhIKDkJPU1JfQ09NUExFVEVEEAMqVQoRQXBwbGljYW50Q2hh",
-            "dFR5cGUSDQoJQUNUX1BMQUlOEAASDgoKQUNUX0hBR0dMRRABEhEKDUFDVF9J",
-            "TUFHRV9LRVkQAhIOCgpBQ1RfTUFSS0VSEAMqcQoOQXBwbGljYW50U3RhdGUS",
-            "DwoLQVNfSEFHR0xJTkcQABILCgdBU19ERUFMEAESDwoLQVNfUkVKRUNURUQQ",
-            "AhIPCgtBU19DT01QTEVURRADEg4KCkFTX0RJU1BVVEUQBBIPCgtBU19SRVNP",
-            "TFZFRBAFKrMBChNBcHBsaWNhbnRDaGF0TWFya2VyEg8KC0FDTV9BUFBMSUVE",
-            "EAASEQoNQUNNX1dBTlRfREVBTBABEhEKDUFDTV9ERUFMX01BREUQAhIQCgxB",
-            "Q01fUkVKRUNURUQQAxIXChNBQ01fTUFSS0VEX0NPTVBMRVRFEAQSEAoMQUNN",
-            "X0NPTVBMRVRFEAUSFgoSQUNNX01BUktFRF9ESVNQVVRFEAYSEAoMQUNNX1JF",
-            "U09MVkVEEAdCB6oCBEluZlhiBnByb3RvMw=="));
+            "ASgOMhAuaW5mLkFjY291bnRUeXBlIiwKE05ldFNldEZpcmViYXNlVG9rZW4S",
+            "FQoNZmlyZWJhc2VUb2tlbhgBIAEoCSInCg5OZXRPQXV0aFVybFJlcRIVCg1v",
+            "YXV0aFByb3ZpZGVyGAEgASgFIjYKDk5ldE9BdXRoVXJsUmVzEg8KB2F1dGhV",
+            "cmwYASABKAkSEwoLY2FsbGJhY2tVcmwYAiABKAkiQgoSTmV0T0F1dGhDb25u",
+            "ZWN0UmVxEhUKDW9hdXRoUHJvdmlkZXIYASABKAUSFQoNY2FsbGJhY2tRdWVy",
+            "eRgCIAEoCSI/ChJOZXRPQXV0aENvbm5lY3RSZXMSKQoLc29jaWFsTWVkaWEY",
+            "ASABKAsyFC5pbmYuRGF0YVNvY2lhbE1lZGlhIjoKE05ldEFjY291bnRDcmVh",
+            "dGVSZXESEAoIbGF0aXR1ZGUYAiABKAESEQoJbG9uZ2l0dWRlGAMgASgBImgK",
+            "EU5ldFVwbG9hZEltYWdlUmVxEhAKCGZpbGVOYW1lGAEgASgJEhUKDWNvbnRl",
+            "bnRMZW5ndGgYAiABKAUSEwoLY29udGVudFR5cGUYBCABKAkSFQoNY29udGVu",
+            "dFNoYTI1NhgDIAEoDCKNAQoRTmV0VXBsb2FkSW1hZ2VSZXMSFQoNcmVxdWVz",
+            "dE1ldGhvZBgBIAEoCRISCgpyZXF1ZXN0VXJsGAIgASgJEhIKCmZpbGVFeGlz",
+            "dHMYCSABKAgSEQoJdXBsb2FkS2V5GAogASgJEhAKCGNvdmVyVXJsGAsgASgJ",
+            "EhQKDHRodW1ibmFpbFVybBgMIAEoCSKcAQoNTmV0U2V0UHJvZmlsZRIMCgRu",
+            "YW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhEKCWF2YXRhcktleRgE",
+            "IAEoCRILCgN1cmwYBiABKAkSIwoKY2F0ZWdvcmllcxgMIAMoCzIPLmluZi5D",
+            "YXRlZ29yeUlkEhAKCGxhdGl0dWRlGA4gASgBEhEKCWxvbmdpdHVkZRgPIAEo",
+            "ASKEAQoRTmV0Q3JlYXRlT2ZmZXJSZXESDQoFdGl0bGUYASABKAkSEQoJaW1h",
+            "Z2VLZXlzGAIgAygJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhQKDGRlbGl2ZXJh",
+            "YmxlcxgEIAEoCRIOCgZyZXdhcmQYBSABKAkSEgoKbG9jYXRpb25JZBgGIAEo",
+            "BSJAChBOZXRMb2FkT2ZmZXJzUmVxEg4KBmJlZm9yZRgBIAEoBRINCgVhZnRl",
+            "chgCIAEoBRINCgVsaW1pdBgDIAEoBSIyChBOZXRMb2FkT2ZmZXJzUmVzEg4K",
+            "Bm9sZGVzdBgBIAEoBRIOCgZuZXdlc3QYAiABKAUiSwoQTmV0T2ZmZXJBcHBs",
+            "eVJlcRIPCgdvZmZlcklkGAEgASgFEhUKDWRldmljZUdob3N0SWQYCCABKAUS",
+            "DwoHcmVtYXJrcxgCIAEoCSJICgxOZXRDaGF0UGxhaW4SEwoLYXBwbGljYW50",
+            "SWQYASABKAUSFQoNZGV2aWNlR2hvc3RJZBgIIAEoBRIMCgR0ZXh0GAYgASgJ",
+            "InIKDU5ldENoYXRIYWdnbGUSEwoLYXBwbGljYW50SWQYASABKAUSFQoNZGV2",
+            "aWNlR2hvc3RJZBgIIAEoBRIUCgxkZWxpdmVyYWJsZXMYAyABKAkSDgoGcmV3",
+            "YXJkGAQgASgJEg8KB3JlbWFya3MYAiABKAkiTwoPTmV0Q2hhdEltYWdlS2V5",
+            "EhMKC2FwcGxpY2FudElkGAEgASgFEhUKDWRldmljZUdob3N0SWQYCCABKAUS",
+            "EAoIaW1hZ2VLZXkYBSABKAkikgEKGU5ldEFwcGxpY2FudENvbXBsZXRpb25S",
+            "ZXESEwoLYXBwbGljYW50SWQYASABKAUSEQoJZGVsaXZlcmVkGAIgASgIEhAK",
+            "CHJld2FyZGVkGAMgASgIEg4KBnJhdGluZxgEIAEoBRIPCgdkaXNwdXRlGAUg",
+            "ASgIEhoKEmRpc3B1dGVEZXNjcmlwdGlvbhgGIAEoCSJVChROZXRMb2FkQXBw",
+            "bGljYW50c1JlcRIPCgdvZmZlcklkGAQgASgFEg4KBmJlZm9yZRgBIAEoBRIN",
+            "CgVhZnRlchgCIAEoBRINCgVsaW1pdBgDIAEoBSI2ChROZXRMb2FkQXBwbGlj",
+            "YW50c1JlcxIOCgZvbGRlc3QYASABKAUSDgoGbmV3ZXN0GAIgASgFIl0KGE5l",
+            "dExvYWRBcHBsaWNhbnRDaGF0c1JlcRITCgthcHBsaWNhbnRJZBgFIAEoBRIO",
+            "CgZiZWZvcmUYASABKAUSDQoFYWZ0ZXIYAiABKAUSDQoFbGltaXQYAyABKAUi",
+            "OgoYTmV0TG9hZEFwcGxpY2FudENoYXRzUmVzEg4KBm9sZGVzdBgBIAEoBRIO",
+            "CgZuZXdlc3QYAiABKAUiLAoXTmV0TG9hZFB1YmxpY1Byb2ZpbGVSZXESEQoJ",
+            "YWNjb3VudElkGAEgASgFKj4KDk9BdXRoTWVjaGFuaXNtEgwKCE9BTV9OT05F",
+            "EAASDgoKT0FNX09BVVRIMRABEg4KCk9BTV9PQVVUSDIQAipDChBPQXV0aFBy",
+            "b3ZpZGVySWRzEgwKCE9BUF9OT05FEAASDwoLT0FQX1RXSVRURVIQARIQCgxP",
+            "QVBfRkFDRUJPT0sQAipRCgtBY2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAAS",
+            "EQoNQVRfSU5GTFVFTkNFUhABEg8KC0FUX0JVU0lORVNTEAISDgoKQVRfU1VQ",
+            "UE9SVBADKp4BChJHbG9iYWxBY2NvdW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJ",
+            "WkUQABIPCgtHQVNfQkxPQ0tFRBABEhEKDUdBU19SRUFEX09OTFkQAhISCg5H",
+            "QVNfUkVBRF9XUklURRADEg0KCUdBU19ERUJVRxAEEg8KC0dBU19TVVBQT1JU",
+            "EAUSDwoLR0FTX01BTkFHRVIQBhILCgdHQVNfR09EEAcqtQEKGEdsb2JhbEFj",
+            "Y291bnRTdGF0ZVJlYXNvbhIUChBHQVNSX05FV19BQ0NPVU5UEAASFwoTR0FT",
+            "Ul9BQ0NPVU5UX0JBTk5FRBABEhYKEkdBU1JfQ1JFQVRFX0RFTklFRBACEhEK",
+            "DUdBU1JfQVBQUk9WRUQQAxIWChJHQVNSX0RFTU9fQVBQUk9WRUQQBBIQCgxH",
+            "QVNSX1BFTkRJTkcQBRIVChFHQVNSX1JFUVVJUkVfSU5GTxAGKm4KEU5vdGlm",
+            "aWNhdGlvbkZsYWdzEhQKEE5GX0FDQ09VTlRfU1RBVEUQABIYChRORl9NQUtF",
+            "X0FOX09GRkVSX0ZBQhABEhYKEk5GX1VOUkVBRF9NRVNTQUdFUxACEhEKDU5G",
+            "X0NTX1JFUVVFU1QQAypRChJCdXNpbmVzc09mZmVyU3RhdGUSDQoJQk9TX0RS",
+            "QUZUEAASDAoIQk9TX09QRU4QARIOCgpCT1NfQUNUSVZFEAISDgoKQk9TX0NM",
+            "T1NFRBADKnAKGEJ1c2luZXNzT2ZmZXJTdGF0ZVJlYXNvbhISCg5CT1NSX05F",
+            "V19PRkZFUhAAEhQKEEJPU1JfVVNFUl9DTE9TRUQQARIWChJCT1NSX1RPU19W",
+            "SU9MQVRJT04QAhISCg5CT1NSX0NPTVBMRVRFRBADKlUKEUFwcGxpY2FudENo",
+            "YXRUeXBlEg0KCUFDVF9QTEFJThAAEg4KCkFDVF9IQUdHTEUQARIRCg1BQ1Rf",
+            "SU1BR0VfS0VZEAISDgoKQUNUX01BUktFUhADKnEKDkFwcGxpY2FudFN0YXRl",
+            "Eg8KC0FTX0hBR0dMSU5HEAASCwoHQVNfREVBTBABEg8KC0FTX1JFSkVDVEVE",
+            "EAISDwoLQVNfQ09NUExFVEUQAxIOCgpBU19ESVNQVVRFEAQSDwoLQVNfUkVT",
+            "T0xWRUQQBSqzAQoTQXBwbGljYW50Q2hhdE1hcmtlchIPCgtBQ01fQVBQTElF",
+            "RBAAEhEKDUFDTV9XQU5UX0RFQUwQARIRCg1BQ01fREVBTF9NQURFEAISEAoM",
+            "QUNNX1JFSkVDVEVEEAMSFwoTQUNNX01BUktFRF9DT01QTEVURRAEEhAKDEFD",
+            "TV9DT01QTEVURRAFEhYKEkFDTV9NQVJLRURfRElTUFVURRAGEhAKDEFDTV9S",
+            "RVNPTFZFRBAHQgeqAgRJbmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), typeof(global::InfX.ApplicantChatType), typeof(global::InfX.ApplicantState), typeof(global::InfX.ApplicantChatMarker), }, new pbr::GeneratedClrTypeInfo[] {
@@ -213,6 +214,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthSignatureResReq), global::InfX.NetDeviceAuthSignatureResReq.Parser, new[]{ "Signature" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetDeviceAuthState), global::InfX.NetDeviceAuthState.Parser, new[]{ "Data" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetAccountType), global::InfX.NetSetAccountType.Parser, new[]{ "AccountType" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetSetFirebaseToken), global::InfX.NetSetFirebaseToken.Parser, new[]{ "FirebaseToken" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthUrlReq), global::InfX.NetOAuthUrlReq.Parser, new[]{ "OauthProvider" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthUrlRes), global::InfX.NetOAuthUrlRes.Parser, new[]{ "AuthUrl", "CallbackUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOAuthConnectReq), global::InfX.NetOAuthConnectReq.Parser, new[]{ "OauthProvider", "CallbackQuery" }, null, null, null),
@@ -7146,6 +7148,126 @@ namespace InfX {
   }
 
   /// <summary>
+  ///  App sets device firebase messaging token
+  /// </summary>
+  public sealed partial class NetSetFirebaseToken : pb::IMessage<NetSetFirebaseToken> {
+    private static readonly pb::MessageParser<NetSetFirebaseToken> _parser = new pb::MessageParser<NetSetFirebaseToken>(() => new NetSetFirebaseToken());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetSetFirebaseToken> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[23]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetSetFirebaseToken() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetSetFirebaseToken(NetSetFirebaseToken other) : this() {
+      firebaseToken_ = other.firebaseToken_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetSetFirebaseToken Clone() {
+      return new NetSetFirebaseToken(this);
+    }
+
+    /// <summary>Field number for the "firebaseToken" field.</summary>
+    public const int FirebaseTokenFieldNumber = 1;
+    private string firebaseToken_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string FirebaseToken {
+      get { return firebaseToken_; }
+      set {
+        firebaseToken_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetSetFirebaseToken);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetSetFirebaseToken other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (FirebaseToken != other.FirebaseToken) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (FirebaseToken.Length != 0) hash ^= FirebaseToken.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (FirebaseToken.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(FirebaseToken);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (FirebaseToken.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(FirebaseToken);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetSetFirebaseToken other) {
+      if (other == null) {
+        return;
+      }
+      if (other.FirebaseToken.Length != 0) {
+        FirebaseToken = other.FirebaseToken;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            FirebaseToken = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
   ///  App requests OAuth url
   ///  Name: OA_URLRE
   ///  Response: NetOAuthUrlRes
@@ -7157,7 +7279,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[23]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[24]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7279,7 +7401,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[24]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[25]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7429,7 +7551,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[25]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[26]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7578,7 +7700,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[26]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[27]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7706,7 +7828,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[27]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[28]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7857,7 +7979,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[28]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[29]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8068,7 +8190,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[29]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[30]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8334,7 +8456,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[30]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[31]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8619,7 +8741,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[31]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[32]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8880,7 +9002,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[32]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[33]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9067,7 +9189,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[33]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[34]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9223,7 +9345,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[34]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[35]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9400,7 +9522,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[35]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[36]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9577,7 +9699,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[36]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[37]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9810,7 +9932,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[37]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[38]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9988,7 +10110,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[38]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[39]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10260,7 +10382,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[39]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[40]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10478,7 +10600,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[40]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[41]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10635,7 +10757,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[41]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[42]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10853,7 +10975,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[42]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[43]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11009,7 +11131,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[43]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[44]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
