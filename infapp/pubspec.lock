@@ -49,7 +49,7 @@ packages:
       name: build_resolvers
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.1+1"
+    version: "0.2.2+3"
   build_runner:
     dependency: transitive
     description:
@@ -63,7 +63,7 @@ packages:
       name: build_runner_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.1+4"
+    version: "0.3.1+5"
   built_collection:
     dependency: transitive
     description:
@@ -150,13 +150,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
-  dart2_constant:
-    dependency: transitive
-    description:
-      name: dart2_constant
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2+dart2"
   dart_style:
     dependency: transitive
     description:
@@ -217,7 +210,7 @@ packages:
       name: geolocator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.0"
+    version: "1.6.3"
   glob:
     dependency: transitive
     description:
@@ -238,7 +231,7 @@ packages:
       name: html
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.3+2"
+    version: "0.13.3+3"
   http:
     dependency: "direct main"
     description:
@@ -266,7 +259,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.7"
+    version: "0.4.10"
   intl:
     dependency: transitive
     description:
@@ -353,6 +346,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.2"
+  permission_handler:
+    dependency: transitive
+    description:
+      name: permission_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   plugin:
     dependency: transitive
     description:
@@ -380,7 +380,7 @@ packages:
       name: protobuf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.0+1"
+    version: "0.9.1"
   pub_semver:
     dependency: transitive
     description:
@@ -401,14 +401,14 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.29.0+2"
+    version: "2.0.0+1"
   reflectable:
     dependency: transitive
     description:
       name: reflectable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -469,7 +469,7 @@ packages:
       name: string_scanner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   transparent_image:
     dependency: transitive
     description:
