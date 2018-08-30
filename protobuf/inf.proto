@@ -519,7 +519,10 @@ message NetSetAccountType {
   
 }
 
-// App sets device firebase token
+// App sets device firebase messaging token
+message NetSetFirebaseToken {
+  string firebaseToken = 1;
+}
 
 // App requests OAuth url
 // Name: OA_URLRE
