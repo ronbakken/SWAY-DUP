@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
 import 'package:wstalk/wstalk.dart';
 
@@ -63,12 +64,18 @@ class RemoteAppInfluencer {
   RemoteAppInfluencer(this._r) {
     _netLoadOffersReq = _r.saferListen(
         "L_OFFERS", GlobalAccountState.GAS_READ_ONLY, true, netLoadOffersReq);
+    _netOfferApplyReq = _r.saferListen(
+        "O_APPLYY", GlobalAccountState.GAS_READ_ONLY, true, netLoadOffersReq);
   }
 
   void dispose() {
     if (_netLoadOffersReq != null) {
       _netLoadOffersReq.cancel();
       _netLoadOffersReq = null;
+    }
+    if (_netOfferApplyReq != null) {
+      _netOfferApplyReq.cancel();
+      _netOfferApplyReq = null;
     }
     _r = null;
   }
@@ -167,5 +174,125 @@ class RemoteAppInfluencer {
     NetLoadOffersRes loadOffersRes = new NetLoadOffersRes();
     ts.sendMessage(_netLoadOffersRes, loadOffersRes.writeToBuffer(),
         replying: message);
+  }
+
+  StreamSubscription<TalkMessage> _netOfferApplyReq; // C_OFFERR
+  static int _netOfferApplyRes = TalkSocket.encode("O_R_APPL");
+  Future<void> netnetOfferApplyReqq(TalkMessage message) async {
+    NetOfferApplyReq pb = new NetOfferApplyReq();
+    pb.mergeFromBuffer(message.data);
+
+    DataApplicant applicant = new DataApplicant();
+    applicant.offerId = pb.offerId;
+    applicant.influencerAccountId = accountId;
+    applicant.state = ApplicantState.AS_HAGGLING;
+    DataApplicantChat chat = new DataApplicantChat();
+    chat.senderId = accountId;
+    chat.deviceId = account.state.deviceId;
+    chat.deviceGhostId = pb.deviceGhostId;
+    chat.type = ApplicantChatType.ACT_HAGGLE;
+
+    // Fetch some offer info
+    ts.sendExtend(message);
+    int businessAccountId;
+    String deliverables;
+    String reward;
+    String selectOrder =
+        "SELECT " // Okay to just check `state` here since it's fine if more applications arrive than needed
+        "`account_id`, `deliverables`, `reward`, `state` FROM `offers` WHERE `offer_id` = ?";
+    await for (sqljocky.Row row
+        in await sql.prepareExecute(selectOrder, [pb.offerId])) {
+      businessAccountId = row[0].toInt();
+      deliverables = row[1].toString();
+      reward = row[2].toString();
+      BusinessOfferState state = BusinessOfferState.valueOf(row[3].toInt());
+      if (state != BusinessOfferState.BOS_OPEN) {
+        throw new Exception("Business offer not open for new applications");
+      }
+    }
+    if (businessAccountId == null || businessAccountId == 0) {
+      throw new Exception("Business account for offer not found");
+    }
+    applicant.businessAccountId = businessAccountId;
+
+    String chatText = 'deliverables=${Uri.encodeQueryComponent(deliverables)}&'
+        'reward=${Uri.encodeQueryComponent(reward)}&'
+        'remarks=${Uri.encodeQueryComponent(pb.remarks)}';
+    chat.text = chatText;
+
+    ts.sendExtend(message);
+    await sql.startTransaction((transaction) async {
+      // 1. Insert into applicants
+      ts.sendExtend(message);
+      String insertApplicant = "INSERT INTO `applicants`("
+          "`offer_id`, `influencer_account_id`, `business_account_id`, `state`) "
+          "VALUES (?, ?, ?, ?)";
+      sqljocky.Results resultApplicant =
+          await transaction.prepareExecute(insertApplicant, [
+        pb.offerId.toInt(),
+        accountId,
+        businessAccountId,
+        ApplicantState.AS_HAGGLING,
+      ]);
+      int applicantId = resultApplicant.insertId;
+      if (applicantId == null || applicantId == 0) {
+        throw new Exception("Applicant not inserted");
+      }
+      applicant.applicantId = applicantId;
+      chat.applicantId = applicantId;
+
+      // 2. Insert haggle into chat
+      ts.sendExtend(message);
+      var chatHaggle = new Map<String, String>();
+      chatHaggle['deliverables'] = "Deliverables";
+      chatHaggle['reward'] = "Reward";
+      chatHaggle['remarks'] = pb.remarks;
+      String insertHaggle = "INSERT INTO `applicant_hangling`("
+          "`sender_id`, `applicant_id`, "
+          "`device_id`, `device_ghost_id`, "
+          "`type`, `text`) "
+          "VALUES (?, ?, ?, ?, ?, ?)";
+      sqljocky.Results resultHaggle =
+          await transaction.prepareExecute(insertHaggle, [
+        accountId,
+        applicantId,
+        account.state.deviceId,
+        pb.deviceGhostId, // Not actually used for apply chat, but need it for consistency
+        ApplicantChatType.ACT_HAGGLE,
+        chatText,
+      ]);
+      int haggleChatId = resultHaggle.insertId;
+      if (haggleChatId == null || haggleChatId == 0) {
+        throw new Exception("Haggle chat not inserted");
+      }
+      applicant.haggleChatId = new Int64(haggleChatId);
+      chat.chatId = new Int64(haggleChatId);
+      chat.sent =
+          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+
+      // 3. Update haggle on applicant
+      ts.sendExtend(message);
+      String updateHaggleChatId = "UPDATE `applicants` "
+          "SET `haggle_chat_id` = ? "
+          "WHERE `applicant_id` = ?";
+      sqljocky.Results resultUpdateHaggleChatId =
+          await transaction.prepareExecute(updateHaggleChatId, [
+        haggleChatId,
+        applicantId,
+      ]);
+      if (resultUpdateHaggleChatId.affectedRows == null ||
+          resultUpdateHaggleChatId.affectedRows == 0) {
+        throw new Exception("Failed to update haggle chat id");
+      }
+    });
+
+    devLog.finest("Applied for offer successfully: $applicant");
+    ts.sendMessage(_netOfferApplyRes, applicant.writeToBuffer(),
+        replying: message);
+
+    await bc.applicantPosted(accountId, applicant);
+    await bc.applicantChatPosted(accountId, chat);
+
+    // TODO: Update offer applicant count
   }
 }
