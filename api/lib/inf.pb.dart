@@ -324,6 +324,9 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(21, 'cloudinaryCoverUrl')
     ..aOS(22, 'freshdeskApi')
     ..aOS(23, 'freshdeskKey')
+    ..aOS(24, 'domain')
+    ..aOS(25, 'firebaseServerKey')
+    ..aOS(26, 'firebaseSenderId')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -526,6 +529,30 @@ class ConfigServices extends GeneratedMessage {
 
   bool hasFreshdeskKey() => $_has(22);
   void clearFreshdeskKey() => clearField(23);
+
+  String get domain => $_getS(23, '');
+  set domain(String v) {
+    $_setString(23, v);
+  }
+
+  bool hasDomain() => $_has(23);
+  void clearDomain() => clearField(24);
+
+  String get firebaseServerKey => $_getS(24, '');
+  set firebaseServerKey(String v) {
+    $_setString(24, v);
+  }
+
+  bool hasFirebaseServerKey() => $_has(24);
+  void clearFirebaseServerKey() => clearField(25);
+
+  String get firebaseSenderId => $_getS(25, '');
+  set firebaseSenderId(String v) {
+    $_setString(25, v);
+  }
+
+  bool hasFirebaseSenderId() => $_has(25);
+  void clearFirebaseSenderId() => clearField(26);
 }
 
 class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {
