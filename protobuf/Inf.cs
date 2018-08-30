@@ -136,54 +136,54 @@ namespace InfX {
             "aXZlcmFibGVzGAQgASgJEg4KBnJld2FyZBgFIAEoCRISCgpsb2NhdGlvbklk",
             "GAYgASgFIkAKEE5ldExvYWRPZmZlcnNSZXESDgoGYmVmb3JlGAEgASgFEg0K",
             "BWFmdGVyGAIgASgFEg0KBWxpbWl0GAMgASgFIjIKEE5ldExvYWRPZmZlcnNS",
-            "ZXMSDgoGb2xkZXN0GAEgASgFEg4KBm5ld2VzdBgCIAEoBSI0ChBOZXRPZmZl",
-            "ckFwcGx5UmVxEg8KB29mZmVySWQYASABKAUSDwoHcmVtYXJrcxgCIAEoCSJI",
-            "CgxOZXRDaGF0UGxhaW4SEwoLYXBwbGljYW50SWQYASABKAUSFQoNZGV2aWNl",
-            "R2hvc3RJZBgIIAEoBRIMCgR0ZXh0GAYgASgJInIKDU5ldENoYXRIYWdnbGUS",
-            "EwoLYXBwbGljYW50SWQYASABKAUSFQoNZGV2aWNlR2hvc3RJZBgIIAEoBRIU",
-            "CgxkZWxpdmVyYWJsZXMYAyABKAkSDgoGcmV3YXJkGAQgASgJEg8KB3JlbWFy",
-            "a3MYAiABKAkiTwoPTmV0Q2hhdEltYWdlS2V5EhMKC2FwcGxpY2FudElkGAEg",
-            "ASgFEhUKDWRldmljZUdob3N0SWQYCCABKAUSEAoIaW1hZ2VLZXkYBSABKAki",
-            "kgEKGU5ldEFwcGxpY2FudENvbXBsZXRpb25SZXESEwoLYXBwbGljYW50SWQY",
-            "ASABKAUSEQoJZGVsaXZlcmVkGAIgASgIEhAKCHJld2FyZGVkGAMgASgIEg4K",
-            "BnJhdGluZxgEIAEoBRIPCgdkaXNwdXRlGAUgASgIEhoKEmRpc3B1dGVEZXNj",
-            "cmlwdGlvbhgGIAEoCSJVChROZXRMb2FkQXBwbGljYW50c1JlcRIPCgdvZmZl",
-            "cklkGAQgASgFEg4KBmJlZm9yZRgBIAEoBRINCgVhZnRlchgCIAEoBRINCgVs",
-            "aW1pdBgDIAEoBSI2ChROZXRMb2FkQXBwbGljYW50c1JlcxIOCgZvbGRlc3QY",
-            "ASABKAUSDgoGbmV3ZXN0GAIgASgFIl0KGE5ldExvYWRBcHBsaWNhbnRDaGF0",
-            "c1JlcRITCgthcHBsaWNhbnRJZBgFIAEoBRIOCgZiZWZvcmUYASABKAUSDQoF",
-            "YWZ0ZXIYAiABKAUSDQoFbGltaXQYAyABKAUiOgoYTmV0TG9hZEFwcGxpY2Fu",
-            "dENoYXRzUmVzEg4KBm9sZGVzdBgBIAEoBRIOCgZuZXdlc3QYAiABKAUiLAoX",
-            "TmV0TG9hZFB1YmxpY1Byb2ZpbGVSZXESEQoJYWNjb3VudElkGAEgASgFKj4K",
-            "Dk9BdXRoTWVjaGFuaXNtEgwKCE9BTV9OT05FEAASDgoKT0FNX09BVVRIMRAB",
-            "Eg4KCk9BTV9PQVVUSDIQAipDChBPQXV0aFByb3ZpZGVySWRzEgwKCE9BUF9O",
-            "T05FEAASDwoLT0FQX1RXSVRURVIQARIQCgxPQVBfRkFDRUJPT0sQAipRCgtB",
-            "Y2NvdW50VHlwZRIOCgpBVF9VTktOT1dOEAASEQoNQVRfSU5GTFVFTkNFUhAB",
-            "Eg8KC0FUX0JVU0lORVNTEAISDgoKQVRfU1VQUE9SVBADKp4BChJHbG9iYWxB",
-            "Y2NvdW50U3RhdGUSEgoOR0FTX0lOSVRJQUxJWkUQABIPCgtHQVNfQkxPQ0tF",
-            "RBABEhEKDUdBU19SRUFEX09OTFkQAhISCg5HQVNfUkVBRF9XUklURRADEg0K",
-            "CUdBU19ERUJVRxAEEg8KC0dBU19TVVBQT1JUEAUSDwoLR0FTX01BTkFHRVIQ",
-            "BhILCgdHQVNfR09EEAcqtQEKGEdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhIU",
-            "ChBHQVNSX05FV19BQ0NPVU5UEAASFwoTR0FTUl9BQ0NPVU5UX0JBTk5FRBAB",
-            "EhYKEkdBU1JfQ1JFQVRFX0RFTklFRBACEhEKDUdBU1JfQVBQUk9WRUQQAxIW",
-            "ChJHQVNSX0RFTU9fQVBQUk9WRUQQBBIQCgxHQVNSX1BFTkRJTkcQBRIVChFH",
-            "QVNSX1JFUVVJUkVfSU5GTxAGKm4KEU5vdGlmaWNhdGlvbkZsYWdzEhQKEE5G",
-            "X0FDQ09VTlRfU1RBVEUQABIYChRORl9NQUtFX0FOX09GRkVSX0ZBQhABEhYK",
-            "Ek5GX1VOUkVBRF9NRVNTQUdFUxACEhEKDU5GX0NTX1JFUVVFU1QQAypRChJC",
-            "dXNpbmVzc09mZmVyU3RhdGUSDQoJQk9TX0RSQUZUEAASDAoIQk9TX09QRU4Q",
-            "ARIOCgpCT1NfQUNUSVZFEAISDgoKQk9TX0NMT1NFRBADKnAKGEJ1c2luZXNz",
-            "T2ZmZXJTdGF0ZVJlYXNvbhISCg5CT1NSX05FV19PRkZFUhAAEhQKEEJPU1Jf",
-            "VVNFUl9DTE9TRUQQARIWChJCT1NSX1RPU19WSU9MQVRJT04QAhISCg5CT1NS",
-            "X0NPTVBMRVRFRBADKlUKEUFwcGxpY2FudENoYXRUeXBlEg0KCUFDVF9QTEFJ",
-            "ThAAEg4KCkFDVF9IQUdHTEUQARIRCg1BQ1RfSU1BR0VfS0VZEAISDgoKQUNU",
-            "X01BUktFUhADKnEKDkFwcGxpY2FudFN0YXRlEg8KC0FTX0hBR0dMSU5HEAAS",
-            "CwoHQVNfREVBTBABEg8KC0FTX1JFSkVDVEVEEAISDwoLQVNfQ09NUExFVEUQ",
-            "AxIOCgpBU19ESVNQVVRFEAQSDwoLQVNfUkVTT0xWRUQQBSqzAQoTQXBwbGlj",
-            "YW50Q2hhdE1hcmtlchIPCgtBQ01fQVBQTElFRBAAEhEKDUFDTV9XQU5UX0RF",
-            "QUwQARIRCg1BQ01fREVBTF9NQURFEAISEAoMQUNNX1JFSkVDVEVEEAMSFwoT",
-            "QUNNX01BUktFRF9DT01QTEVURRAEEhAKDEFDTV9DT01QTEVURRAFEhYKEkFD",
-            "TV9NQVJLRURfRElTUFVURRAGEhAKDEFDTV9SRVNPTFZFRBAHQgeqAgRJbmZY",
-            "YgZwcm90bzM="));
+            "ZXMSDgoGb2xkZXN0GAEgASgFEg4KBm5ld2VzdBgCIAEoBSJLChBOZXRPZmZl",
+            "ckFwcGx5UmVxEg8KB29mZmVySWQYASABKAUSFQoNZGV2aWNlR2hvc3RJZBgI",
+            "IAEoBRIPCgdyZW1hcmtzGAIgASgJIkgKDE5ldENoYXRQbGFpbhITCgthcHBs",
+            "aWNhbnRJZBgBIAEoBRIVCg1kZXZpY2VHaG9zdElkGAggASgFEgwKBHRleHQY",
+            "BiABKAkicgoNTmV0Q2hhdEhhZ2dsZRITCgthcHBsaWNhbnRJZBgBIAEoBRIV",
+            "Cg1kZXZpY2VHaG9zdElkGAggASgFEhQKDGRlbGl2ZXJhYmxlcxgDIAEoCRIO",
+            "CgZyZXdhcmQYBCABKAkSDwoHcmVtYXJrcxgCIAEoCSJPCg9OZXRDaGF0SW1h",
+            "Z2VLZXkSEwoLYXBwbGljYW50SWQYASABKAUSFQoNZGV2aWNlR2hvc3RJZBgI",
+            "IAEoBRIQCghpbWFnZUtleRgFIAEoCSKSAQoZTmV0QXBwbGljYW50Q29tcGxl",
+            "dGlvblJlcRITCgthcHBsaWNhbnRJZBgBIAEoBRIRCglkZWxpdmVyZWQYAiAB",
+            "KAgSEAoIcmV3YXJkZWQYAyABKAgSDgoGcmF0aW5nGAQgASgFEg8KB2Rpc3B1",
+            "dGUYBSABKAgSGgoSZGlzcHV0ZURlc2NyaXB0aW9uGAYgASgJIlUKFE5ldExv",
+            "YWRBcHBsaWNhbnRzUmVxEg8KB29mZmVySWQYBCABKAUSDgoGYmVmb3JlGAEg",
+            "ASgFEg0KBWFmdGVyGAIgASgFEg0KBWxpbWl0GAMgASgFIjYKFE5ldExvYWRB",
+            "cHBsaWNhbnRzUmVzEg4KBm9sZGVzdBgBIAEoBRIOCgZuZXdlc3QYAiABKAUi",
+            "XQoYTmV0TG9hZEFwcGxpY2FudENoYXRzUmVxEhMKC2FwcGxpY2FudElkGAUg",
+            "ASgFEg4KBmJlZm9yZRgBIAEoBRINCgVhZnRlchgCIAEoBRINCgVsaW1pdBgD",
+            "IAEoBSI6ChhOZXRMb2FkQXBwbGljYW50Q2hhdHNSZXMSDgoGb2xkZXN0GAEg",
+            "ASgFEg4KBm5ld2VzdBgCIAEoBSIsChdOZXRMb2FkUHVibGljUHJvZmlsZVJl",
+            "cRIRCglhY2NvdW50SWQYASABKAUqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FN",
+            "X05PTkUQABIOCgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkMKEE9B",
+            "dXRoUHJvdmlkZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJVFRFUhAB",
+            "EhAKDE9BUF9GQUNFQk9PSxACKlEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05P",
+            "V04QABIRCg1BVF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAhIOCgpB",
+            "VF9TVVBQT1JUEAMqngEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5HQVNfSU5J",
+            "VElBTElaRRAAEg8KC0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURfT05MWRAC",
+            "EhIKDkdBU19SRUFEX1dSSVRFEAMSDQoJR0FTX0RFQlVHEAQSDwoLR0FTX1NV",
+            "UFBPUlQQBRIPCgtHQVNfTUFOQUdFUhAGEgsKB0dBU19HT0QQByq1AQoYR2xv",
+            "YmFsQWNjb3VudFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIX",
+            "ChNHQVNSX0FDQ09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVE",
+            "EAISEQoNR0FTUl9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAE",
+            "EhAKDEdBU1JfUEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqbgoR",
+            "Tm90aWZpY2F0aW9uRmxhZ3MSFAoQTkZfQUNDT1VOVF9TVEFURRAAEhgKFE5G",
+            "X01BS0VfQU5fT0ZGRVJfRkFCEAESFgoSTkZfVU5SRUFEX01FU1NBR0VTEAIS",
+            "EQoNTkZfQ1NfUkVRVUVTVBADKlEKEkJ1c2luZXNzT2ZmZXJTdGF0ZRINCglC",
+            "T1NfRFJBRlQQABIMCghCT1NfT1BFThABEg4KCkJPU19BQ1RJVkUQAhIOCgpC",
+            "T1NfQ0xPU0VEEAMqcAoYQnVzaW5lc3NPZmZlclN0YXRlUmVhc29uEhIKDkJP",
+            "U1JfTkVXX09GRkVSEAASFAoQQk9TUl9VU0VSX0NMT1NFRBABEhYKEkJPU1Jf",
+            "VE9TX1ZJT0xBVElPThACEhIKDkJPU1JfQ09NUExFVEVEEAMqVQoRQXBwbGlj",
+            "YW50Q2hhdFR5cGUSDQoJQUNUX1BMQUlOEAASDgoKQUNUX0hBR0dMRRABEhEK",
+            "DUFDVF9JTUFHRV9LRVkQAhIOCgpBQ1RfTUFSS0VSEAMqcQoOQXBwbGljYW50",
+            "U3RhdGUSDwoLQVNfSEFHR0xJTkcQABILCgdBU19ERUFMEAESDwoLQVNfUkVK",
+            "RUNURUQQAhIPCgtBU19DT01QTEVURRADEg4KCkFTX0RJU1BVVEUQBBIPCgtB",
+            "U19SRVNPTFZFRBAFKrMBChNBcHBsaWNhbnRDaGF0TWFya2VyEg8KC0FDTV9B",
+            "UFBMSUVEEAASEQoNQUNNX1dBTlRfREVBTBABEhEKDUFDTV9ERUFMX01BREUQ",
+            "AhIQCgxBQ01fUkVKRUNURUQQAxIXChNBQ01fTUFSS0VEX0NPTVBMRVRFEAQS",
+            "EAoMQUNNX0NPTVBMRVRFEAUSFgoSQUNNX01BUktFRF9ESVNQVVRFEAYSEAoM",
+            "QUNNX1JFU09MVkVEEAdCB6oCBEluZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), typeof(global::InfX.ApplicantChatType), typeof(global::InfX.ApplicantState), typeof(global::InfX.ApplicantChatMarker), }, new pbr::GeneratedClrTypeInfo[] {
@@ -221,7 +221,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetCreateOfferReq), global::InfX.NetCreateOfferReq.Parser, new[]{ "Title", "ImageKeys", "Description", "Deliverables", "Reward", "LocationId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffersReq), global::InfX.NetLoadOffersReq.Parser, new[]{ "Before", "After", "Limit" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffersRes), global::InfX.NetLoadOffersRes.Parser, new[]{ "Oldest", "Newest" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOfferApplyReq), global::InfX.NetOfferApplyReq.Parser, new[]{ "OfferId", "Remarks" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOfferApplyReq), global::InfX.NetOfferApplyReq.Parser, new[]{ "OfferId", "DeviceGhostId", "Remarks" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetChatPlain), global::InfX.NetChatPlain.Parser, new[]{ "ApplicantId", "DeviceGhostId", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetChatHaggle), global::InfX.NetChatHaggle.Parser, new[]{ "ApplicantId", "DeviceGhostId", "Deliverables", "Reward", "Remarks" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetChatImageKey), global::InfX.NetChatImageKey.Parser, new[]{ "ApplicantId", "DeviceGhostId", "ImageKey" }, null, null, null),
@@ -9092,6 +9092,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetOfferApplyReq(NetOfferApplyReq other) : this() {
       offerId_ = other.offerId_;
+      deviceGhostId_ = other.deviceGhostId_;
       remarks_ = other.remarks_;
     }
 
@@ -9108,6 +9109,17 @@ namespace InfX {
       get { return offerId_; }
       set {
         offerId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "deviceGhostId" field.</summary>
+    public const int DeviceGhostIdFieldNumber = 8;
+    private int deviceGhostId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int DeviceGhostId {
+      get { return deviceGhostId_; }
+      set {
+        deviceGhostId_ = value;
       }
     }
 
@@ -9136,6 +9148,7 @@ namespace InfX {
         return true;
       }
       if (OfferId != other.OfferId) return false;
+      if (DeviceGhostId != other.DeviceGhostId) return false;
       if (Remarks != other.Remarks) return false;
       return true;
     }
@@ -9144,6 +9157,7 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       if (OfferId != 0) hash ^= OfferId.GetHashCode();
+      if (DeviceGhostId != 0) hash ^= DeviceGhostId.GetHashCode();
       if (Remarks.Length != 0) hash ^= Remarks.GetHashCode();
       return hash;
     }
@@ -9163,6 +9177,10 @@ namespace InfX {
         output.WriteRawTag(18);
         output.WriteString(Remarks);
       }
+      if (DeviceGhostId != 0) {
+        output.WriteRawTag(64);
+        output.WriteInt32(DeviceGhostId);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9170,6 +9188,9 @@ namespace InfX {
       int size = 0;
       if (OfferId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(OfferId);
+      }
+      if (DeviceGhostId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DeviceGhostId);
       }
       if (Remarks.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Remarks);
@@ -9184,6 +9205,9 @@ namespace InfX {
       }
       if (other.OfferId != 0) {
         OfferId = other.OfferId;
+      }
+      if (other.DeviceGhostId != 0) {
+        DeviceGhostId = other.DeviceGhostId;
       }
       if (other.Remarks.Length != 0) {
         Remarks = other.Remarks;
@@ -9204,6 +9228,10 @@ namespace InfX {
           }
           case 18: {
             Remarks = input.ReadString();
+            break;
+          }
+          case 64: {
+            DeviceGhostId = input.ReadInt32();
             break;
           }
         }
