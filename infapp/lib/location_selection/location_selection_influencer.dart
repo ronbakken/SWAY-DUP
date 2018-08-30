@@ -79,6 +79,12 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
     );
 
     // build the map
+    marker = new Marker(
+      point: new LatLng(0.0, 0.0),
+      builder: (ctx) => new Container(
+        child: new FlutterLogo(),
+      ),
+    );
     _mapController = new MapController();
     map = new FlutterMap(
       mapController: _mapController,
@@ -95,6 +101,11 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
               'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
             'id': 'mapbox.dark',
           },
+        ),
+         new MarkerLayerOptions(
+          markers: <Marker> [
+            marker,
+          ],
         ),
       ],
     );
