@@ -228,6 +228,7 @@ const ConfigOAuthProviders$json = const {
 const ConfigServices$json = const {
   '1': 'ConfigServices',
   '2': const [
+    const {'1': 'domain', '3': 24, '4': 1, '5': 9, '10': 'domain'},
     const {'1': 'apiHosts', '3': 8, '4': 3, '5': 9, '10': 'apiHosts'},
     const {'1': 'configUrl', '3': 9, '4': 1, '5': 9, '10': 'configUrl'},
     const {
@@ -299,6 +300,20 @@ const ConfigServices$json = const {
     },
     const {'1': 'freshdeskApi', '3': 22, '4': 1, '5': 9, '10': 'freshdeskApi'},
     const {'1': 'freshdeskKey', '3': 23, '4': 1, '5': 9, '10': 'freshdeskKey'},
+    const {
+      '1': 'firebaseServerKey',
+      '3': 25,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseServerKey'
+    },
+    const {
+      '1': 'firebaseSenderId',
+      '3': 26,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseSenderId'
+    },
   ],
 };
 
