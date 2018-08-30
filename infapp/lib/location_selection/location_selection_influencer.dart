@@ -9,9 +9,12 @@ class LocationInfluencerScreen extends StatefulWidget
     Key key,
   }) : super (key: key);
 
+  // function called when the search button is pressed
   VoidCallback onSearch;
+
+  // function called when the confirm button is pressed
   VoidCallback onConfirm;
-  
+
   @override
   _LocationInfluencerState createState() => new _LocationInfluencerState();
 }
@@ -19,12 +22,25 @@ class LocationInfluencerScreen extends StatefulWidget
 
 class _LocationInfluencerState extends State<LocationInfluencerScreen>
 {
+  // saves the target area
   FloatingActionButton confirmButton;
+
+  // transparent circle that selects area of location
   Marker marker;
+
+  // used when searching something on map
   TextField search;
+
+  // controller for search app bar
   TextEditingController _searchController;
+
+  // search button
   IconButton searchButton;
+
+  // used to control the map state
   MapController _mapController;
+
+  // map to be displayed
   FlutterMap map;
 
   @override
