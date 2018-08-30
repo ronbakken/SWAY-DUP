@@ -520,6 +520,7 @@ message NetSetAccountType {
 }
 
 // App sets device firebase messaging token
+// Name: SFIREBAT
 message NetSetFirebaseToken {
   string firebaseToken = 1;
 }
