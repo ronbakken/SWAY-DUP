@@ -532,6 +532,13 @@ const DataAccountState$json = const {
       '6': '.inf.NotificationFlags',
       '10': 'notificationFlags'
     },
+    const {
+      '1': 'firebaseInstanceId',
+      '3': 7,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseInstanceId'
+    },
   ],
 };
 
