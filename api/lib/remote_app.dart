@@ -432,8 +432,7 @@ class RemoteApp {
           }
           account.state.accountId = row[0].toInt();
           account.state.accountType = AccountType.valueOf(row[1].toInt());
-          if (row[2] != null)
-            account.state.firebaseToken = row[2].toString();
+          if (row[2] != null) account.state.firebaseToken = row[2].toString();
         }
         // Fetch account-specific info (overwrites device accountType, although it cannot possibly be different)
         if (account.state.accountId != 0) {
@@ -631,6 +630,26 @@ class RemoteApp {
         devLog.finest(
             "Account type is now ${account.state.accountType} (set ${pb.accountType})");
       }
+    } catch (error, stack) {
+      devLog.severe(
+          "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
+    }
+  }
+
+  StreamSubscription<TalkMessage> _netSetFirebaseToken; // SFIREBAT
+  Future<void> netSetFirebaseToken(TalkMessage message) async {
+    if (account.state.deviceId == 0) return;
+    try {
+      // No validation here, no risk. Messages would just end up elsewhere
+      NetSetFirebaseToken pb = new NetSetFirebaseToken();
+      pb.mergeFromBuffer(message.data);
+      account.state.firebaseToken = pb.firebaseToken;
+      String update =
+          "UPDATE `devices` SET `firebase_token`= ? WHERE `device_id` = ?";
+      await sql.prepareExecute(update, [
+        pb.firebaseToken.toString(),
+        account.state.deviceId.toInt(),
+      ]);
     } catch (error, stack) {
       devLog.severe(
           "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
