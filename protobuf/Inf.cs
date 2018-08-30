@@ -7149,6 +7149,7 @@ namespace InfX {
 
   /// <summary>
   ///  App sets device firebase messaging token
+  ///  Name: SFIREBAT
   /// </summary>
   public sealed partial class NetSetFirebaseToken : pb::IMessage<NetSetFirebaseToken> {
     private static readonly pb::MessageParser<NetSetFirebaseToken> _parser = new pb::MessageParser<NetSetFirebaseToken>(() => new NetSetFirebaseToken());
