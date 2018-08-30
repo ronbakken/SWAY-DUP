@@ -66,7 +66,8 @@ class BroadcastCenter {
   // Senders
   /////////////////////////////////////////////////////////////////////////////
 
-  Future<void> _push(int senderDeviceId, int receiverAccountId, int id, Uint8List data) async {
+  Future<void> _push(
+      int senderDeviceId, int receiverAccountId, int id, Uint8List data) async {
     // Push to apps connected locally
     for (RemoteApp remoteApp in _accountToRemoteApps[receiverAccountId]) {
       try {
@@ -84,10 +85,11 @@ class BroadcastCenter {
   // TODO: Offer changed: Sends to same account to sync devices when multi devicing...
 
   static int _applicantPosted = TalkSocket.encode("LN_APPLI");
-  Future<void> _pushApplicantPosted(
-      int senderDeviceId, int receiverAccountId, DataApplicant applicant) async {
+  Future<void> _pushApplicantPosted(int senderDeviceId, int receiverAccountId,
+      DataApplicant applicant) async {
     // Push to local apps and and apps on remote servers
-    await _push(senderDeviceId, receiverAccountId, _applicantPosted, applicant.writeToBuffer());
+    await _push(senderDeviceId, receiverAccountId, _applicantPosted,
+        applicant.writeToBuffer());
 
     // TODO: Push Firebase (only if not sent directly?)
   }
@@ -177,7 +179,7 @@ class BroadcastCenter {
         senderDeviceId, applicant.businessAccountId, chat);
     if (chat.senderId != applicant.influencerAccountId &&
         chat.senderId != applicant.businessAccountId)
-        // Unusual case, sender is neither of influencer or business...
+      // Unusual case, sender is neither of influencer or business...
       await _pushApplicantChatPosted(senderDeviceId, chat.senderId, chat);
   }
 

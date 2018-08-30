@@ -293,7 +293,7 @@ class RemoteAppInfluencer {
     // Clear private information from broadcast
     chat.deviceId = 0;
     chat.deviceGhostId = 0;
-    
+
     // Broadcast
     await bc.applicantPosted(account.state.deviceId, applicant);
     await bc.applicantChatPosted(account.state.deviceId, chat);
