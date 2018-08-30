@@ -52,6 +52,7 @@ class _OfferViewState extends State<OfferView> {
       });
       try {
         await widget.onApply(_remarksController.text);
+        _remarksController.text = ''; // Clear text on success
       } finally {
         setState(() {
           _waiting = false;

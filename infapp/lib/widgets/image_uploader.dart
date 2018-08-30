@@ -19,8 +19,14 @@ import '../utility/progress_dialog.dart';
 // Image uploader
 class ImageUploader extends StatefulWidget {
   const ImageUploader(
-      {Key key, this.initialUrl, @required this.uploadKey, this.onUploadImage})
+      {Key key,
+      this.light = false,
+      this.initialUrl,
+      @required this.uploadKey,
+      this.onUploadImage})
       : super(key: key);
+
+  final bool light;
 
   // The key of the uploaded image, this value may be sent to the server
   final String initialUrl;
@@ -118,6 +124,71 @@ class _ImageUploaderState extends State<ImageUploader> {
 
   @override
   Widget build(BuildContext context) {
+    Widget buttons = new Row(
+      children: <Widget>[
+        new Expanded(
+            child: new RaisedButton(
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.only(
+              topLeft: new Radius.circular(widget.light ? 16.0 : 4.0),
+              topRight: new Radius.circular(4.0),
+              bottomLeft: new Radius.circular(16.0),
+              bottomRight: new Radius.circular(4.0),
+            ),
+          ),
+          color: _image == null
+              ? Theme.of(context).buttonColor
+              : Theme.of(context).unselectedWidgetColor,
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              new Icon(Icons.photo),
+              //new SizedBox(width: 8.0),
+              new Text("Gallery".toUpperCase()),
+              // new Icon(_image == null ? Icons.folder_open : Icons.check),
+            ],
+          ),
+          onPressed: () async {
+            await _selectImage(ImageSource.gallery);
+          },
+        )),
+        new SizedBox(
+          width: 8.0,
+        ),
+        new Expanded(
+            child: new RaisedButton(
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.only(
+              topLeft: new Radius.circular(4.0),
+              topRight: new Radius.circular(widget.light ? 16.0 : 4.0),
+              bottomLeft: new Radius.circular(4.0),
+              bottomRight: new Radius.circular(16.0),
+            ),
+          ),
+          color: _image == null
+              ? Theme.of(context).buttonColor
+              : Theme.of(context).unselectedWidgetColor,
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // new Icon(Icons.photo),
+              new Text("Camera".toUpperCase()),
+              //new SizedBox(width: 8.0),
+              // new Icon(_image == null ? Icons.folder_open : Icons.check),
+              new Icon(Icons.camera),
+            ],
+          ),
+          onPressed: () async {
+            await _selectImage(ImageSource.camera);
+          },
+        )),
+      ],
+    );
+    if (widget.light) {
+      return buttons;
+    }
     Widget image;
     if (_image != null) {
       if (_imageUrl != null) {
@@ -154,68 +225,7 @@ class _ImageUploaderState extends State<ImageUploader> {
         new SizedBox(
           height: 8.0,
         ),
-        new Row(
-          children: <Widget>[
-            new Expanded(
-                child: new RaisedButton(
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.only(
-                  topLeft: new Radius.circular(4.0),
-                  topRight: new Radius.circular(4.0),
-                  bottomLeft: new Radius.circular(16.0),
-                  bottomRight: new Radius.circular(4.0),
-                ),
-              ),
-              color: _image == null
-                  ? Theme.of(context).buttonColor
-                  : Theme.of(context).unselectedWidgetColor,
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  new Icon(Icons.photo),
-                  //new SizedBox(width: 8.0),
-                  new Text("Gallery".toUpperCase()),
-                  // new Icon(_image == null ? Icons.folder_open : Icons.check),
-                ],
-              ),
-              onPressed: () async {
-                await _selectImage(ImageSource.gallery);
-              },
-            )),
-            new SizedBox(
-              width: 8.0,
-            ),
-            new Expanded(
-                child: new RaisedButton(
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.only(
-                  topLeft: new Radius.circular(4.0),
-                  topRight: new Radius.circular(4.0),
-                  bottomLeft: new Radius.circular(4.0),
-                  bottomRight: new Radius.circular(16.0),
-                ),
-              ),
-              color: _image == null
-                  ? Theme.of(context).buttonColor
-                  : Theme.of(context).unselectedWidgetColor,
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // new Icon(Icons.photo),
-                  new Text("Camera".toUpperCase()),
-                  //new SizedBox(width: 8.0),
-                  // new Icon(_image == null ? Icons.folder_open : Icons.check),
-                  new Icon(Icons.camera),
-                ],
-              ),
-              onPressed: () async {
-                await _selectImage(ImageSource.camera);
-              },
-            )),
-          ],
-        )
+        buttons,
       ],
     );
   }

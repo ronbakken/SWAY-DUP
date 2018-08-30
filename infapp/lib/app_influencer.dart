@@ -25,6 +25,7 @@ import 'offer_view.dart';
 import 'business_offer_list.dart';
 import 'debug_account.dart';
 import 'page_transition.dart';
+import 'haggle_view.dart';
 
 import 'search/search_page_common.dart';
 import 'cards/offer_card.dart';
@@ -52,9 +53,86 @@ class _AppInfluencerState extends State<AppInfluencer> {
         account: network.account,
         businessAccount: network.latestAccount(account),
         businessOffer: network.latestBusinessOffer(offer),
-        onApply: (remarks) {
-          // TODO: ------------------------------------------------------
+        onApply: (remarks) async {
+          var progressDialog = showProgressDialog(
+              context: this.context,
+              builder: (BuildContext context) {
+                return new Dialog(
+                  child: new Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      new Container(
+                          padding: new EdgeInsets.all(24.0),
+                          child: new CircularProgressIndicator()),
+                      new Text("Applying for offer..."),
+                    ],
+                  ),
+                );
+              });
+          DataApplicant applicant;
+          try {
+            // Create the offer
+            applicant = await network.applyForOffer(offer.offerId, remarks);
+          } catch (error, stack) {
+            print("[INF] Exception applying for offer': $error\n$stack");
+          }
+          closeProgressDialog(progressDialog);
+          if (applicant == null) {
+            // TODO: Request refreshing the offer!!!
+            await showDialog<Null>(
+              context: this.context,
+              builder: (BuildContext context) {
+                return new AlertDialog(
+                  title: new Text('Failed to apply for offer'),
+                  content: new SingleChildScrollView(
+                    child: new ListBody(
+                      children: <Widget>[
+                        new Text('An error has occured.'),
+                        new Text('Please try again later.'),
+                      ],
+                    ),
+                  ),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [new Text('Ok'.toUpperCase())],
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            // Navigator.of(this.context).pop();
+            navigateToApplicantView(
+                applicant,
+                offer,
+                network.tryGetPublicProfile(applicant.businessAccountId),
+                network.tryGetPublicProfile(applicant.influencerAccountId));
+          }
+          return applicant;
         },
+      );
+    }));
+  }
+
+  void navigateToApplicantView(DataApplicant applicant, DataBusinessOffer offer,
+      DataAccount businessAccount, DataAccount influencerAccount) {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      ConfigData config = ConfigManager.of(context);
+      NetworkInterface network = NetworkManager.of(context);
+      NavigatorState navigator = Navigator.of(context);
+      return new HaggleView(
+        account: network.account,
+        businessAccount: network.latestAccount(businessAccount),
+        influencerAccount: network.latestAccount(influencerAccount),
+        applicant: applicant, // TODO: network.latestApplicant(),
+        offer: network.latestBusinessOffer(offer),
       );
     }));
   }

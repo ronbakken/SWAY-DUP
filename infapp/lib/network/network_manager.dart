@@ -956,6 +956,24 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     }
     return cached.fallback;
   }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Haggle
+  /////////////////////////////////////////////////////////////////////////////
+  
+  static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
+  Future<DataApplicant> applyForOffer(int offerId, String remarks) async {
+    NetOfferApplyReq pbReq = new NetOfferApplyReq();
+    pbReq.offerId = offerId;
+    pbReq.deviceGhostId = ++nextDeviceGhostId;
+    pbReq.remarks = remarks;
+    TalkMessage res = await _ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
+    DataApplicant pbRes = new DataApplicant();
+    pbRes.mergeFromBuffer(res.data);
+    return pbRes;
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1079,6 +1097,12 @@ abstract class NetworkInterface {
       {DataAccount fallback,
       DataBusinessOffer
           fallbackOffer}); // Simply retry anytime network state updates
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Haggle
+  /////////////////////////////////////////////////////////////////////////////
+  
+  Future<DataApplicant> applyForOffer(int offerId, String remarks);
 }
 
 /* end of file */
