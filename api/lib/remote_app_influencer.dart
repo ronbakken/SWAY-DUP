@@ -111,13 +111,19 @@ class RemoteAppInfluencer {
             "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
             "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point`, " // 6 7 8
             "`offers`.`state`, `offers`.`state_reason`, " // 9 10
-            "`addressbook`.`offer_count`, `addressbook`.`name` " // 11 12
+            "`addressbook`.`offer_count`, `addressbook`.`name`, " // 11 12
+            // "(SELECT `applicants`.`applicant_id` FROM `applicants` WHERE `applicants`.`offer_id` = `offers`.`offer_id` AND `applicants`.`influencer_account_id` = ?) " // 13
+            "`applicants`.`applicant_id` " // 13
             "FROM `offers` "
             "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
+            "LEFT OUTER JOIN `applicants` "
+            "ON `applicants`.`offer_id` = `offers`.`offer_id` AND `applicants`.`influencer_account_id` = ? "
             "WHERE `offers`.`state` = ? "
             "ORDER BY `offer_id` DESC";
-        sqljocky.Results offerResults = await sql.prepareExecute(
-            selectOffers, [BusinessOfferState.BOS_OPEN.value.toInt()]);
+        sqljocky.Results offerResults = await sql.prepareExecute(selectOffers, [
+          accountId,
+          BusinessOfferState.BOS_OPEN.value.toInt(),
+        ]);
         await for (sqljocky.Row offerRow in offerResults) {
           ts.sendExtend(message);
           DataBusinessOffer offer = new DataBusinessOffer();
@@ -156,6 +162,9 @@ class RemoteAppInfluencer {
             }
             offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
           }
+          if (offerRow[13] != null) {
+            offer.influencerApplicantId = offerRow[13].toInt();
+          }
           // Cache offer for use (is this really necessary?)
           // offers[offer.offerId] = offer;
           // Send offer to user
@@ -182,7 +191,7 @@ class RemoteAppInfluencer {
     NetOfferApplyReq pb = new NetOfferApplyReq();
     pb.mergeFromBuffer(message.data);
 
-    print ("NetOfferApplyReq: $pb");
+    print("NetOfferApplyReq: $pb");
 
     DataApplicant applicant = new DataApplicant();
     applicant.offerId = pb.offerId;
