@@ -301,8 +301,11 @@ class _OfferViewState extends State<OfferView> {
                 title: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    new Text("Description",
-                        style: Theme.of(context).textTheme.caption, textAlign: TextAlign.start,),
+                    new Text(
+                      "Description",
+                      style: Theme.of(context).textTheme.caption,
+                      textAlign: TextAlign.start,
+                    ),
                     new Text(widget.businessOffer.description,
                         style: Theme.of(context).textTheme.body1),
                   ],
@@ -313,8 +316,11 @@ class _OfferViewState extends State<OfferView> {
                 title: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    new Text("Deliverables",
-                        style: Theme.of(context).textTheme.caption, textAlign: TextAlign.start,),
+                    new Text(
+                      "Deliverables",
+                      style: Theme.of(context).textTheme.caption,
+                      textAlign: TextAlign.start,
+                    ),
                     new Text(widget.businessOffer.deliverables,
                         style: Theme.of(context).textTheme.body1),
                   ],
@@ -325,8 +331,11 @@ class _OfferViewState extends State<OfferView> {
                 title: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    new Text("Reward",
-                        style: Theme.of(context).textTheme.caption, textAlign: TextAlign.start,),
+                    new Text(
+                      "Reward",
+                      style: Theme.of(context).textTheme.caption,
+                      textAlign: TextAlign.start,
+                    ),
                     new Text(widget.businessOffer.reward,
                         style: Theme.of(context).textTheme.body1),
                   ],

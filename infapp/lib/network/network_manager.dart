@@ -1084,8 +1084,8 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   Future<void> refreshApplicants() async {
     NetLoadOffersReq req =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    await for (TalkMessage res in _ts.sendStreamRequest(
-        _netLoadApplicantsReq, req.writeToBuffer())) {
+    await for (TalkMessage res
+        in _ts.sendStreamRequest(_netLoadApplicantsReq, req.writeToBuffer())) {
       DataApplicant pb = new DataApplicant();
       pb.mergeFromBuffer(res.data);
       _cacheApplicant(pb);
