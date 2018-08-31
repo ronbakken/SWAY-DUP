@@ -54,7 +54,8 @@ class _AppInfluencerState extends State<AppInfluencer> {
         businessAccount: network.latestAccount(account),
         businessOffer: network.latestBusinessOffer(offer),
         onApplicantPressed: (int applicantId) {
-          // navigateToApplicantView(applicant, offer, businessAccount, influencerAccount)
+          navigateToApplicantView(network.tryGetApplicant(applicantId), offer,
+              account, network.account);
         },
         onApply: (remarks) async {
           var progressDialog = showProgressDialog(

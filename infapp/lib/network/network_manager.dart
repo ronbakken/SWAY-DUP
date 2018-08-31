@@ -983,6 +983,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       _cachedApplicants[applicant.applicantId] = cached;
     }
     setState(() {
+      cached.fallback = null;
       cached.applicant = applicant;
       ++_changed;
     });
@@ -1007,18 +1008,21 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     return pbRes;
   }
 
+  static int _netLoadApplicantReq = TalkSocket.encode("L_APPLIC");
   @override
   Future<DataApplicant> getApplicant(int applicantId) async {
-    //NetLoadApplicantReq pbReq = new NetLoadApplicantReq();
-    //pbReq.applicantId = 
-    //setState(() {
-    //  cached.applicant = applicant;
-    //  ++_changed;
-    //});
-    return new DataApplicant();
+    NetLoadApplicantReq pbReq = new NetLoadApplicantReq();
+    pbReq.applicantId = applicantId;
+    TalkMessage res =
+        await _ts.sendRequest(_netLoadApplicantReq, pbReq.writeToBuffer());
+    DataApplicant applicant = new DataApplicant();
+    applicant.mergeFromBuffer(res.data);
+    _cacheApplicant(applicant);
+    return applicant;
   }
 
-  DataApplicant _tryGetApplicant(int applicantId, [DataApplicant fallback]) {
+  DataApplicant _tryGetApplicant(int applicantId,
+      {DataApplicant fallback, DataBusinessOffer fallbackOffer}) {
     _CachedApplicant cached = _cachedApplicants[applicantId];
     if (cached == null) {
       cached = new _CachedApplicant();
@@ -1039,21 +1043,33 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
           });
         });
       }
-      return fallback;
+      if (cached.fallback == null) {
+        cached.fallback = new DataApplicant();
+        cached.fallback.applicantId = applicantId;
+      }
+      if (fallback != null) {
+        cached.fallback.mergeFromMessage(fallback);
+      }
+      if (fallbackOffer != null) {
+        cached.fallback.offerId = fallbackOffer.offerId;
+        cached.fallback.businessAccountId = fallbackOffer.accountId;
+      }
+      return cached.fallback;
     }
     return cached.applicant;
   }
 
   /// Fetch latest applicant from cache by id, fetch in background if non-existent
   @override
-  DataApplicant tryGetApplicant(int applicantId) {
-    return _tryGetApplicant(applicantId);
+  DataApplicant tryGetApplicant(int applicantId,
+      {DataBusinessOffer fallbackOffer}) {
+    return _tryGetApplicant(applicantId, fallbackOffer: fallbackOffer);
   }
 
   /// Fetch latest applicant from cache, fetch in background if non-existent
   @override
   DataApplicant latestApplicant(DataApplicant applicant) {
-    return _tryGetApplicant(applicant.applicantId, applicant);
+    return _tryGetApplicant(applicant.applicantId, fallback: applicant);
   }
 
   /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
@@ -1075,6 +1091,7 @@ class _CachedDataAccount {
 class _CachedApplicant {
   bool loading = false;
   DataApplicant applicant;
+  DataApplicant fallback;
   bool chatLoading = false;
   bool chatLoaded = false;
   Map<int, DataApplicantChat> chats = new Map<int, DataApplicantChat>();
@@ -1201,7 +1218,8 @@ abstract class NetworkInterface {
   Future<DataApplicant> getApplicant(int applicantId);
 
   /// Fetch latest applicant from cache by id, fetch in background if non-existent and return empty fallback
-  DataApplicant tryGetApplicant(int applicantId);
+  DataApplicant tryGetApplicant(int applicantId,
+      {DataBusinessOffer fallbackOffer});
 
   /// Fetch latest applicant from cache, fetch in background if non-existent and return given fallback
   DataApplicant latestApplicant(DataApplicant applicant);
