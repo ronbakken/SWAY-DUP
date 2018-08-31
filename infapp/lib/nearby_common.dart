@@ -61,7 +61,8 @@ class _NearbyCommonState extends State<NearbyCommon> {
     }
     _geolocator = new Geolocator();
     () async {
-      _positionSubscription = (await _geolocator.getPositionStream()).listen((position) {
+      _positionSubscription =
+          (await _geolocator.getPositionStream()).listen((position) {
         if (position.latitude != null &&
             position.longitude != null &&
             position.latitude != 0.0 &&
