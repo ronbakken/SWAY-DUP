@@ -138,8 +138,8 @@ class BroadcastCenter {
     }
   }
 
-  Future<void> applicantPosted(
-      int senderDeviceId, DataApplicant applicant, DataAccount influencerAccount) async {
+  Future<void> applicantPosted(int senderDeviceId, DataApplicant applicant,
+      DataAccount influencerAccount) async {
     // Store cache
     _applicantToInfluencerBusiness[applicant.applicantId] =
         new _CachedApplicant(
@@ -151,7 +151,8 @@ class BroadcastCenter {
     await _pushApplicantPosted(
         senderDeviceId, applicant.businessAccountId, applicant);
 
-    devLog.fine("Pushed applicant ${applicant.applicantId}: '${influencerAccount.summary.name}'");
+    devLog.fine(
+        "Pushed applicant ${applicant.applicantId}: '${influencerAccount.summary.name}'");
   }
 
   Future<void> applicantChanged(
@@ -168,8 +169,8 @@ class BroadcastCenter {
         senderDeviceId, applicant.businessAccountId, applicant);
   }
 
-  Future<void> applicantChatPosted(
-      int senderDeviceId, DataApplicantChat chat, DataAccount senderAccount) async {
+  Future<void> applicantChatPosted(int senderDeviceId, DataApplicantChat chat,
+      DataAccount senderAccount) async {
     // Get cache
     _CachedApplicant applicant = await _getApplicant(chat.applicantId);
     if (applicant == null) return; // Ignore
@@ -184,7 +185,8 @@ class BroadcastCenter {
       // Unusual case, sender is neither of influencer or business...
       await _pushApplicantChatPosted(senderDeviceId, chat.senderId, chat);
 
-    devLog.fine("Pushed applicant '${senderAccount.summary.name}' chat '${chat.text}'");
+    devLog.fine(
+        "Pushed applicant '${senderAccount.summary.name}' chat '${chat.text}'");
   }
 
 /*

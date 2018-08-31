@@ -182,7 +182,7 @@ class RemoteAppInfluencer {
     NetOfferApplyReq pb = new NetOfferApplyReq();
     pb.mergeFromBuffer(message.data);
 
-    print ("NetOfferApplyReq: $pb");
+    print("NetOfferApplyReq: $pb");
 
     DataApplicant applicant = new DataApplicant();
     applicant.offerId = pb.offerId;
