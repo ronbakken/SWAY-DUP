@@ -25,6 +25,7 @@ class HaggleView extends StatefulWidget {
     @required this.onBeginReport,
     @required this.onBeginMarkCompleted,
     @required this.onUploadImage,
+    @required this.onPressedProfile,
   }) : super(key: key);
 
   final DataAccount account;
@@ -41,14 +42,16 @@ class HaggleView extends StatefulWidget {
   final Function(String text) onSendPlain;
   final Function(String key) onSendImageKey;
 
-  final Function() onBeginHaggle;
-  final Function(int haggleChatId) onWantDeal;
+  final Function(DataApplicantChat haggleChat) onBeginHaggle;
+  final Function(DataApplicantChat haggleChat) onWantDeal;
 
   final Function() onReject;
   final Function() onBeginReport;
   final Function() onBeginMarkCompleted;
 
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
+
+  final Function(DataAccount account) onPressedProfile;
 
   @override
   _HaggleViewState createState() => new _HaggleViewState();
@@ -167,6 +170,7 @@ class _HaggleViewState extends State<HaggleView> {
 
   Widget _buildChatMessage(DataApplicantChat current,
       DataApplicantChat previous, DataApplicantChat next) {
+    bool ghost = current.chatId == 0;
     if (current.type == ApplicantChatType.ACT_MARKER) {
       Map<String, String> query = Uri.splitQueryString(current.text);
       String message;
@@ -399,7 +403,9 @@ class _HaggleViewState extends State<HaggleView> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.account_circle),
-            onPressed: () {},
+            onPressed: () {
+              widget.onPressedProfile(otherAccount);
+            },
           )
         ],
       ),

@@ -132,13 +132,30 @@ class _AppInfluencerState extends State<AppInfluencer> {
       NetworkInterface network = NetworkManager.of(context);
       NavigatorState navigator = Navigator.of(context);
       return new HaggleView(
-        account: network.account,
-        businessAccount: network.latestAccount(businessAccount),
-        influencerAccount: network.latestAccount(influencerAccount),
-        applicant: network.latestApplicant(applicant),
-        offer: network.latestBusinessOffer(offer),
-        chats: network.tryGetApplicantChats(applicant.applicantId),
-        onUploadImage: network.uploadImage,
+          account: network.account,
+          businessAccount: network.latestAccount(businessAccount),
+          influencerAccount: network.latestAccount(influencerAccount),
+          applicant: network.latestApplicant(applicant),
+          offer: network.latestBusinessOffer(offer),
+          chats: network.tryGetApplicantChats(applicant.applicantId),
+          onUploadImage: network.uploadImage,
+          onPressedProfile: (DataAccount account) {
+            navigateToPublicProfile(network.tryGetPublicProfile(
+                account.state.accountId,
+                fallback: account));
+          });
+    }));
+  }
+
+  void navigateToPublicProfile(DataAccount account) {
+    Navigator.push(
+        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+        context, new MaterialPageRoute(builder: (context) {
+      ConfigData config = ConfigManager.of(context);
+      NetworkInterface network = NetworkManager.of(context);
+      NavigatorState navigator = Navigator.of(context);
+      return new ProfileView(
+        account: network.latestAccount(account),
       );
     }));
   }
