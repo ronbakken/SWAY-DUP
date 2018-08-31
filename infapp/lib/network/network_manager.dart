@@ -950,7 +950,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
         cached.fallback.summary.location = fallbackOffer.location;
       }
     }
-    if (!cached.loading) {
+    if (!cached.loading && connected == NetworkConnectionState.Ready) {
       cached.loading = true;
       getPublicProfile(accountId).then((account) {
         cached.loading = false;
@@ -989,7 +989,20 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     });
   }
 
-  void _cacheApplicantChat(DataApplicantChat applicantChat) {}
+  void _cacheApplicantChat(DataApplicantChat chat) {
+    _CachedApplicant cached = _cachedApplicants[chat.applicantId];
+    if (cached == null) {
+      cached = new _CachedApplicant();
+      _cachedApplicants[chat.applicantId] = cached;
+    }
+    setState(() {
+      if (chat.deviceId == account.state.deviceId) {
+        cached.ghostChats.remove(chat.deviceGhostId);
+      }
+      cached.chats[chat.chatId.toInt()] = chat;
+      ++_changed;
+    });
+  }
 
   static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
   @override
@@ -1021,6 +1034,21 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     return applicant;
   }
 
+  static int _netLoadApplicantChatReq = TalkSocket.encode("L_APCHAT");
+  Future<void> _loadApplicantChats(int applicantId) async {
+    NetLoadApplicantChatsReq pbReq = new NetLoadApplicantChatsReq();
+    pbReq.applicantId = applicantId;
+    print(applicantId);
+    await for (TalkMessage res in _ts.sendStreamRequest(
+        _netLoadApplicantChatReq, pbReq.writeToBuffer())) {
+      DataApplicantChat chat = new DataApplicantChat();
+      chat.mergeFromBuffer(res.data);
+      print(chat);
+      _cacheApplicantChat(chat);
+    }
+    print("done");
+  }
+
   DataApplicant _tryGetApplicant(int applicantId,
       {DataApplicant fallback, DataBusinessOffer fallbackOffer}) {
     _CachedApplicant cached = _cachedApplicants[applicantId];
@@ -1029,7 +1057,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       _cachedApplicants[applicantId] = cached;
     }
     if (cached.applicant == null) {
-      if (!cached.loading) {
+      if (!cached.loading && connected == NetworkConnectionState.Ready) {
         cached.loading = true;
         getApplicant(applicantId).then((applicant) {
           cached.loading = false;
@@ -1074,7 +1102,31 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
 
   /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
   @override
-  List<DataApplicantChat> tryGetApplicantChats(int applicantId) {}
+  Iterable<DataApplicantChat> tryGetApplicantChats(int applicantId) {
+    _CachedApplicant cached = _cachedApplicants[applicantId];
+    if (cached == null) {
+      cached = new _CachedApplicant();
+      _cachedApplicants[applicantId] = cached;
+    }
+    if (!cached.chatLoaded && !cached.chatLoading &&
+        connected == NetworkConnectionState.Ready) {
+      print("fetch chat");
+      cached.chatLoading = true;
+      _loadApplicantChats(applicantId).then((applicant) {
+        cached.chatLoading = false;
+        cached.chatLoaded = true;
+      }).catchError((error, stack) {
+        print("[INF] Failed to get applicant chats: $error, $stack");
+        new Timer(new Duration(seconds: 3), () {
+          setState(() {
+            cached.chatLoading = false;
+            ++_changed;
+          });
+        });
+      });
+    }
+    return cached.chats.values.followedBy(cached.ghostChats.values);
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1095,6 +1147,7 @@ class _CachedApplicant {
   bool chatLoading = false;
   bool chatLoaded = false;
   Map<int, DataApplicantChat> chats = new Map<int, DataApplicantChat>();
+  Map<int, DataApplicantChat> ghostChats = new Map<int, DataApplicantChat>();
 }
 
 class _InheritedNetworkManager extends InheritedWidget {
@@ -1225,7 +1278,7 @@ abstract class NetworkInterface {
   DataApplicant latestApplicant(DataApplicant applicant);
 
   /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
-  List<DataApplicantChat> tryGetApplicantChats(int applicantId);
+  Iterable<DataApplicantChat> tryGetApplicantChats(int applicantId);
 }
 
 /* end of file */

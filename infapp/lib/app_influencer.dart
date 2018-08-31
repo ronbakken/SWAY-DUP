@@ -135,8 +135,10 @@ class _AppInfluencerState extends State<AppInfluencer> {
         account: network.account,
         businessAccount: network.latestAccount(businessAccount),
         influencerAccount: network.latestAccount(influencerAccount),
-        applicant: applicant, // TODO: network.latestApplicant(),
+        applicant: network.latestApplicant(applicant),
         offer: network.latestBusinessOffer(offer),
+        chats: network.tryGetApplicantChats(applicant.applicantId),
+        onUploadImage: network.uploadImage,
       );
     }));
   }

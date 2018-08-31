@@ -15,6 +15,16 @@ class HaggleView extends StatefulWidget {
     @required this.influencerAccount,
     @required this.offer,
     @required this.applicant,
+    @required this.chats,
+    @required this.processingAction,
+    @required this.onSendPlain,
+    @required this.onSendImageKey,
+    @required this.onBeginHaggle,
+    @required this.onWantDeal,
+    @required this.onReject,
+    @required this.onBeginReport,
+    @required this.onBeginMarkCompleted,
+    @required this.onUploadImage,
   }) : super(key: key);
 
   final DataAccount account;
@@ -24,6 +34,22 @@ class HaggleView extends StatefulWidget {
   final DataBusinessOffer offer;
   final DataApplicant applicant;
 
+  final Iterable<DataApplicantChat> chats;
+
+  final bool processingAction;
+
+  final Function(String text) onSendPlain;
+  final Function(String key) onSendImageKey;
+
+  final Function() onBeginHaggle;
+  final Function(int haggleChatId) onWantDeal;
+
+  final Function() onReject;
+  final Function() onBeginReport;
+  final Function() onBeginMarkCompleted;
+
+  final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
+
   @override
   _HaggleViewState createState() => new _HaggleViewState();
 }
@@ -32,9 +58,9 @@ class _HaggleViewState extends State<HaggleView> {
   TextEditingController _lineController = new TextEditingController();
   TextEditingController _uploadKey = new TextEditingController();
 
-  void _sendText(String text) {}
+  bool _uploadAttachment = false;
 
-  List<DataApplicantChat> _testingData = new List<DataApplicantChat>();
+  // List<DataApplicantChat> _testingData = new List<DataApplicantChat>();
 
   int get influencerAccountId {
     return widget.influencerAccount.state.accountId;
@@ -55,10 +81,20 @@ class _HaggleViewState extends State<HaggleView> {
     return new DataAccount(); // Blank
   }
 
+  void _uploadKeyChanged() {
+    if (_uploadAttachment && _uploadKey.text.isNotEmpty) {
+      setState(() {
+        _uploadAttachment = false;
+      });
+      widget.onSendImageKey(_uploadKey.text);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-
+    _uploadKey.addListener(_uploadKeyChanged);
+/*
     DataApplicantChat chat;
 
     chat = new DataApplicantChat();
@@ -120,6 +156,13 @@ class _HaggleViewState extends State<HaggleView> {
     chat.text = "Here's a picture of me.";
     chat.chatId = new Int64(7);
     _testingData.add(chat);
+    */
+  }
+
+  @override
+  void dispose() {
+    _uploadKey.removeListener(_uploadKeyChanged);
+    super.dispose();
   }
 
   Widget _buildChatMessage(DataApplicantChat current,
@@ -315,11 +358,19 @@ class _HaggleViewState extends State<HaggleView> {
 
   List<Widget> _buildChatMessages() {
     List<Widget> result = new List<Widget>();
-    for (int i = 0; i < _testingData.length; ++i) {
+    List<DataApplicantChat> chatsSorted = widget.chats.toList();
+    chatsSorted.sort((a, b) {
+      if (a.chatId == 0 && b.chatId != 0) return 1;
+      if (b.chatId == 0 && a.chatId != 0) return -1;
+      if (a.chatId == 0 && b.chatId == 0)
+        return a.deviceGhostId.compareTo(b.deviceGhostId);
+      return a.chatId.compareTo(b.chatId);
+    });
+    for (int i = 0; i < chatsSorted.length; ++i) {
       result.add(_buildChatMessage(
-          _testingData[i],
-          i > 0 ? _testingData[i - 1] : null,
-          i + 1 < _testingData.length ? _testingData[i + 1] : null));
+          chatsSorted[i],
+          i > 0 ? chatsSorted[i - 1] : null,
+          i + 1 < chatsSorted.length ? chatsSorted[i + 1] : null));
     }
     return result;
   }
@@ -383,33 +434,40 @@ class _HaggleViewState extends State<HaggleView> {
             elevation: 8.0,
             child: new Row(
               children: <Widget>[
-                new SizedBox(width: 8.0),
+                new SizedBox(width: _uploadAttachment ? 16.0 : 8.0),
                 new Flexible(
-                  child: new Padding(
-                    padding: new EdgeInsets.symmetric(horizontal: 8.0),
-                    child: new TextField(
-                      controller: _lineController,
-                      onChanged: (text) {
-                        setState(() {});
-                      },
-                      decoration: new InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Send a message...",
-                      ),
-                      onSubmitted: (String msg) {
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                        _sendText(_lineController.text);
-                        _lineController.text = '';
-                      },
-                    ),
-                  ),
+                  child: _uploadAttachment
+                      ? new ImageUploader(
+                          light: true,
+                          uploadKey: _uploadKey,
+                          onUploadImage: widget.onUploadImage,
+                        )
+                      : new Padding(
+                          padding: new EdgeInsets.symmetric(horizontal: 8.0),
+                          child: new TextField(
+                            controller: _lineController,
+                            onChanged: (text) {
+                              setState(() {});
+                            },
+                            decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Send a message...",
+                            ),
+                            onSubmitted: (String msg) {
+                              FocusScope.of(context)
+                                  .requestFocus(new FocusNode());
+                              widget.onSendPlain(_lineController.text);
+                              _lineController.text = '';
+                            },
+                          ),
+                        ),
                 ),
                 // TODO: Animate between these two, like Telegram
                 _lineController.text.isEmpty
                     ? new Builder(builder: (context) {
                         return new IconButton(
                           icon: new Icon(
-                            Icons.attach_file,
+                            _uploadAttachment ? Icons.close : Icons.attach_file,
                             // color: Theme.of(context).primaryColor,
                             color: Theme.of(context)
                                 .primaryTextTheme
@@ -419,8 +477,12 @@ class _HaggleViewState extends State<HaggleView> {
                           onPressed: () {
                             FocusScope.of(context)
                                 .requestFocus(new FocusNode());
+                            setState(() {
+                              _uploadKey.text = '';
+                              _uploadAttachment = !_uploadAttachment;
+                            });
                             // TODO: Maybe use pop up instead
-                            Scaffold.of(context).showBottomSheet((context) {
+                            /*Scaffold.of(context).showBottomSheet((context) {
                               return new Material(
                                 child: Container(
                                   padding: EdgeInsets.all(8.0),
@@ -433,7 +495,7 @@ class _HaggleViewState extends State<HaggleView> {
                                   ),
                                 ),
                               );
-                            });
+                            });*/
                           },
                         );
                       })
@@ -445,7 +507,8 @@ class _HaggleViewState extends State<HaggleView> {
                         ),
                         onPressed: () {
                           FocusScope.of(context).requestFocus(new FocusNode());
-                          _sendText(_lineController.text);
+                          widget.onSendPlain(_lineController.text);
+                          _lineController.text = '';
                         },
                       ),
               ],
