@@ -134,6 +134,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         // Any cache cleanup may be done here when switching accounts
         _offers.clear();
         _offersLoaded = false;
+        _applicants.clear();
+        _applicantsLoaded = false;
         _demoAllOffers.clear();
         _demoAllOffersLoaded = false;
         _cachedApplicants.clear();
@@ -148,6 +150,16 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       ++_changed;
     });
     if (pb.data.state.accountId != 0) {
+      // Mark all caches as dirty, since we may have been offline for a while
+      _offersLoaded = false;
+      _applicantsLoaded = false;
+      _cachedBusinessOffers.values.forEach((cached) {
+        cached.dirty = true;
+      });
+      _cachedApplicants.values.forEach((cached) {
+        cached.dirty = true;
+        cached.chatLoaded = false;
+      });
       if (!_firebaseSetup) {
         // Set up Firebase
         _firebaseSetup = true;
@@ -688,8 +700,25 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   // Business offers
   /////////////////////////////////////////////////////////////////////////////
 
+  Map<int, _CachedBusinessOffer> _cachedBusinessOffers =
+      new Map<int, _CachedBusinessOffer>();
+
   @override
   bool offersLoading = false;
+
+  void _cacheBusinessOffer(DataBusinessOffer offer) {
+    _CachedBusinessOffer cached = _cachedBusinessOffers[offer.offerId];
+    if (cached == null) {
+      cached = new _CachedBusinessOffer();
+      _cachedBusinessOffers[offer.offerId] = cached;
+    }
+    setState(() {
+      cached.fallback = null;
+      cached.offer = offer;
+      cached.dirty = false;
+      ++_changed;
+    });
+  }
 
   static int _netCreateOfferReq = TalkSocket.encode("C_OFFERR");
   @override
@@ -699,6 +728,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
         _netCreateOfferReq, createOfferReq.writeToBuffer());
     DataBusinessOffer resPb = new DataBusinessOffer();
     resPb.mergeFromBuffer(res.data);
+    _cacheBusinessOffer(resPb);
     setState(() {
       // Add resulting offer to known offers
       _offers[resPb.offerId.toInt()] = resPb;
@@ -711,9 +741,11 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     DataBusinessOffer pb = new DataBusinessOffer();
     pb.mergeFromBuffer(message.data);
     if (pb.accountId == account.state.accountId) {
+      _cacheBusinessOffer(pb);
       setState(() {
         // Add received offer to known offers
         _offers[pb.offerId.toInt()] = pb;
+        // TODO: _CachedBusinessOffer
         ++_changed;
       });
     } else {
@@ -776,6 +808,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   void _demoAllBusinessOffer(TalkMessage message) {
     DataBusinessOffer pb = new DataBusinessOffer();
     pb.mergeFromBuffer(message.data);
+    _cacheBusinessOffer(pb);
     setState(() {
       // Add received offer to known offers
       _demoAllOffers[pb.offerId.toInt()] = pb;
@@ -788,8 +821,6 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   Future<void> refreshDemoAllOffers() async {
     NetLoadOffersReq loadOffersReq =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    //await _ts.sendRequest(_netLoadOffersReq,
-    //    loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
     await for (TalkMessage res in _ts.sendStreamRequest(
         _netLoadOffersReq, loadOffersReq.writeToBuffer()))
       _demoAllBusinessOffer(res);
@@ -849,15 +880,58 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   @override
   DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer) {
     // Check any caches if we have, otherwise just return
+    _CachedBusinessOffer cached = _cachedBusinessOffers[offer.offerId];
+    if (cached == null) {
+      cached = new _CachedBusinessOffer();
+      _cachedBusinessOffers[offer.offerId] = cached;
+    }
+    if (cached.offer != null) {
+      return cached.offer;
+    }
+    /*
+    if (cached.offer == null || cached.dirty) {
+      if (!cached.loading && connected == NetworkConnectionState.Ready) {
+        cached.loading = true;
+        getBusinessOffer(offerId).then((offer) {
+          cached.loading = false;
+        }).catchError((error, stack) {
+          print("[INF] Failed to get offer: $error, $stack");
+          new Timer(new Duration(seconds: 3), () {
+            setState(() {
+              cached.loading = false;
+              ++_changed;
+            });
+          });
+        });
+      }
+      if (cached.offer != null) {
+        return cached.offer; // Return dirty
+      }
+      if (cached.fallback == null) {
+        cached.fallback = new DataBusinessOffer();
+        //cached.fallback.applicantId = applicantId;
+      }
+      / *
+      if (fallback != null) {
+        cached.fallback.mergeFromMessage(fallback);
+      }
+      if (fallbackOffer != null) {
+        cached.fallback.offerId = fallbackOffer.offerId;
+        cached.fallback.businessAccountId = fallbackOffer.accountId;
+      }¨
+      $ /
+      return cached.fallback;
+  }*/
+    //return cached.applicant;
     // TODO: Timestamps...
-    if (_offers.containsKey(offer.offerId)) {
+    /*if (_offers.containsKey(offer.offerId)) {
       // Guaranteed to be the latest
       return _offers[offer.offerId];
     }
     if (_demoAllOffers.containsKey(offer.offerId)) {
       // Should be fairly recent, but may be outdated
       // return _demoAllOffers[offer.offerId];
-    }
+    }*/
     return offer;
   }
 
@@ -985,6 +1059,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     setState(() {
       cached.fallback = null;
       cached.applicant = applicant;
+      cached.dirty = false;
       ++_changed;
     });
   }
@@ -1004,21 +1079,74 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     });
   }
 
+  static int _netLoadApplicantsReq = TalkSocket.encode("L_APPLIS");
+  @override
+  Future<void> refreshApplicants() async {
+    NetLoadOffersReq req =
+        new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
+    await for (TalkMessage res in _ts.sendStreamRequest(
+        _netLoadApplicantsReq, req.writeToBuffer())) {
+      DataApplicant pb = new DataApplicant();
+      pb.mergeFromBuffer(res.data);
+      _cacheApplicant(pb);
+      setState(() {
+        // Add received offer to known offers
+        _applicants[pb.applicantId.toInt()] = pb;
+        ++_changed;
+      });
+    }
+  }
+
+  bool applicantsLoading = false;
+  bool _applicantsLoaded = false;
+  Map<int, DataApplicant> _applicants = new Map<int, DataApplicant>();
+
+  @override
+  Iterable<DataApplicant> get applicants {
+    if (_applicantsLoaded == false &&
+        connected == NetworkConnectionState.Ready) {
+      _applicantsLoaded = true;
+      applicantsLoading = true;
+      refreshApplicants().catchError((error, stack) {
+        print("[INF] Failed to get applicants: $error, $stack");
+        new Timer(new Duration(seconds: 3), () {
+          _applicantsLoaded =
+              false; // Not using setState since we don't want to broadcast failure state
+        });
+      }).whenComplete(() {
+        setState(() {
+          applicantsLoading = false;
+        });
+      });
+    }
+    return _applicants.values;
+  }
+
   static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
   @override
   Future<DataApplicant> applyForOffer(int offerId, String remarks) async {
-    NetOfferApplyReq pbReq = new NetOfferApplyReq();
-    pbReq.offerId = offerId;
-    pbReq.deviceGhostId = ++nextDeviceGhostId;
-    pbReq.remarks = remarks;
-    TalkMessage res =
-        await _ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
-    DataApplicant pbRes = new DataApplicant();
-    pbRes.mergeFromBuffer(res.data);
-    DataBusinessOffer demoOffer = _demoAllOffers[offerId];
-    if (demoOffer != null) demoOffer.influencerApplicantId = pbRes.applicantId;
-    _cacheApplicant(pbRes); // FIXME: Chat not cached directly!
-    return pbRes;
+    try {
+      NetOfferApplyReq pbReq = new NetOfferApplyReq();
+      pbReq.offerId = offerId;
+      pbReq.deviceGhostId = ++nextDeviceGhostId;
+      pbReq.remarks = remarks;
+      TalkMessage res =
+          await _ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
+      DataApplicant pbRes = new DataApplicant();
+      pbRes.mergeFromBuffer(res.data);
+      DataBusinessOffer demoOffer = _demoAllOffers[offerId];
+      if (demoOffer != null)
+        demoOffer.influencerApplicantId = pbRes.applicantId;
+      _cacheApplicant(pbRes); // FIXME: Chat not cached directly!
+      return pbRes;
+    } catch (error) {
+      _CachedBusinessOffer cached = _cachedBusinessOffers[offerId];
+      setState(() {
+        cached.dirty = true;
+        ++_changed;
+      });
+      rethrow;
+    }
   }
 
   static int _netLoadApplicantReq = TalkSocket.encode("L_APPLIC");
@@ -1056,7 +1184,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       cached = new _CachedApplicant();
       _cachedApplicants[applicantId] = cached;
     }
-    if (cached.applicant == null) {
+    if (cached.applicant == null || cached.dirty) {
       if (!cached.loading && connected == NetworkConnectionState.Ready) {
         cached.loading = true;
         getApplicant(applicantId).then((applicant) {
@@ -1070,6 +1198,9 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
             });
           });
         });
+      }
+      if (cached.applicant != null) {
+        return cached.applicant; // Return dirty
       }
       if (cached.fallback == null) {
         cached.fallback = new DataApplicant();
@@ -1108,7 +1239,8 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       cached = new _CachedApplicant();
       _cachedApplicants[applicantId] = cached;
     }
-    if (!cached.chatLoaded && !cached.chatLoading &&
+    if (!cached.chatLoaded &&
+        !cached.chatLoading &&
         connected == NetworkConnectionState.Ready) {
       print("fetch chat");
       cached.chatLoading = true;
@@ -1133,6 +1265,13 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+class _CachedBusinessOffer {
+  bool loading; // Request in progress, cleared on cache
+  bool dirty; // May re-request on the network anytime, cleared on cache
+  DataBusinessOffer offer;
+  DataBusinessOffer fallback;
+}
+
 class _CachedDataAccount {
   // TODO: Timestamp
   bool loading;
@@ -1142,6 +1281,7 @@ class _CachedDataAccount {
 
 class _CachedApplicant {
   bool loading = false;
+  bool dirty = false;
   DataApplicant applicant;
   DataApplicant fallback;
   bool chatLoading = false;
@@ -1220,7 +1360,7 @@ abstract class NetworkInterface {
   Map<int, DataBusinessOffer> get offers;
 
   /// Whether [offers] is in the process of loading. Not set by refreshOffers call
-  bool offersLoading;
+  bool get offersLoading;
 
   /////////////////////////////////////////////////////////////////////////////
   // Demo all offers
@@ -1265,6 +1405,16 @@ abstract class NetworkInterface {
   // Haggle
   /////////////////////////////////////////////////////////////////////////////
 
+  /// Refresh all applicants (currently all latest applicants)
+  Future<void> refreshApplicants();
+
+  /// List of applicants for this account (may or may not be complete depending on loading status)
+  Iterable<DataApplicant> get applicants;
+
+  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
+  bool get applicantsLoading;
+
+  /// Apply for an offer
   Future<DataApplicant> applyForOffer(int offerId, String remarks);
 
   /// Get applicant from the server, acts like refresh
