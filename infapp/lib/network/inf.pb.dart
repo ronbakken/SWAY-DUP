@@ -324,6 +324,11 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(21, 'cloudinaryCoverUrl')
     ..aOS(22, 'freshdeskApi')
     ..aOS(23, 'freshdeskKey')
+    ..aOS(24, 'domain')
+    ..aOS(25, 'firebaseServerKey')
+    ..aOS(26, 'firebaseSenderId')
+    ..aOS(27, 'firebaseLegacyApi')
+    ..aOS(28, 'firebaseLegacyServerKey')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -526,6 +531,46 @@ class ConfigServices extends GeneratedMessage {
 
   bool hasFreshdeskKey() => $_has(22);
   void clearFreshdeskKey() => clearField(23);
+
+  String get domain => $_getS(23, '');
+  set domain(String v) {
+    $_setString(23, v);
+  }
+
+  bool hasDomain() => $_has(23);
+  void clearDomain() => clearField(24);
+
+  String get firebaseServerKey => $_getS(24, '');
+  set firebaseServerKey(String v) {
+    $_setString(24, v);
+  }
+
+  bool hasFirebaseServerKey() => $_has(24);
+  void clearFirebaseServerKey() => clearField(25);
+
+  String get firebaseSenderId => $_getS(25, '');
+  set firebaseSenderId(String v) {
+    $_setString(25, v);
+  }
+
+  bool hasFirebaseSenderId() => $_has(25);
+  void clearFirebaseSenderId() => clearField(26);
+
+  String get firebaseLegacyApi => $_getS(26, '');
+  set firebaseLegacyApi(String v) {
+    $_setString(26, v);
+  }
+
+  bool hasFirebaseLegacyApi() => $_has(26);
+  void clearFirebaseLegacyApi() => clearField(27);
+
+  String get firebaseLegacyServerKey => $_getS(27, '');
+  set firebaseLegacyServerKey(String v) {
+    $_setString(27, v);
+  }
+
+  bool hasFirebaseLegacyServerKey() => $_has(27);
+  void clearFirebaseLegacyServerKey() => clearField(28);
 }
 
 class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {
@@ -919,6 +964,9 @@ class DataBusinessOffer extends GeneratedMessage {
     ..a<int>(17, 'applicantsRefused', PbFieldType.O3)
     ..a<double>(18, 'latitude', PbFieldType.OD)
     ..a<double>(19, 'longitude', PbFieldType.OD)
+    ..a<int>(20, 'locationOfferCount', PbFieldType.O3)
+    ..aOS(21, 'locationName')
+    ..a<int>(22, 'influencerApplicantId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataBusinessOffer() : super();
@@ -1083,6 +1131,30 @@ class DataBusinessOffer extends GeneratedMessage {
 
   bool hasLongitude() => $_has(18);
   void clearLongitude() => clearField(19);
+
+  int get locationOfferCount => $_get(19, 0);
+  set locationOfferCount(int v) {
+    $_setSignedInt32(19, v);
+  }
+
+  bool hasLocationOfferCount() => $_has(19);
+  void clearLocationOfferCount() => clearField(20);
+
+  String get locationName => $_getS(20, '');
+  set locationName(String v) {
+    $_setString(20, v);
+  }
+
+  bool hasLocationName() => $_has(20);
+  void clearLocationName() => clearField(21);
+
+  int get influencerApplicantId => $_get(21, 0);
+  set influencerApplicantId(int v) {
+    $_setSignedInt32(21, v);
+  }
+
+  bool hasInfluencerApplicantId() => $_has(21);
+  void clearInfluencerApplicantId() => clearField(22);
 }
 
 class _ReadonlyDataBusinessOffer extends DataBusinessOffer
@@ -1100,6 +1172,7 @@ class DataLocation extends GeneratedMessage {
     ..aOS(9, 'postcode')
     ..aOS(10, 'regionCode')
     ..aOS(11, 'countryCode')
+    ..aInt64(12, 's2cellId')
     ..hasRequiredFields = false;
 
   DataLocation() : super();
@@ -1203,6 +1276,14 @@ class DataLocation extends GeneratedMessage {
 
   bool hasCountryCode() => $_has(9);
   void clearCountryCode() => clearField(11);
+
+  Int64 get s2cellId => $_getI64(10);
+  set s2cellId(Int64 v) {
+    $_setInt64(10, v);
+  }
+
+  bool hasS2cellId() => $_has(10);
+  void clearS2cellId() => clearField(12);
 }
 
 class _ReadonlyDataLocation extends DataLocation with ReadonlyMessageMixin {}
@@ -1234,6 +1315,7 @@ class DataAccountState extends GeneratedMessage {
         NotificationFlags.NF_ACCOUNT_STATE,
         NotificationFlags.valueOf,
         NotificationFlags.values)
+    ..aOS(7, 'firebaseToken')
     ..hasRequiredFields = false;
 
   DataAccountState() : super();
@@ -1306,6 +1388,14 @@ class DataAccountState extends GeneratedMessage {
 
   bool hasNotificationFlags() => $_has(5);
   void clearNotificationFlags() => clearField(6);
+
+  String get firebaseToken => $_getS(6, '');
+  set firebaseToken(String v) {
+    $_setString(6, v);
+  }
+
+  bool hasFirebaseToken() => $_has(6);
+  void clearFirebaseToken() => clearField(7);
 }
 
 class _ReadonlyDataAccountState extends DataAccountState
@@ -1534,7 +1624,7 @@ class DataApplicant extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('DataApplicant')
     ..a<int>(1, 'applicantId', PbFieldType.O3)
     ..a<int>(2, 'offerId', PbFieldType.O3)
-    ..a<int>(3, 'accountId', PbFieldType.O3)
+    ..a<int>(3, 'influencerAccountId', PbFieldType.O3)
     ..aInt64(4, 'haggleChatId')
     ..aOB(5, 'businessWantsDeal')
     ..aOB(6, 'influencerWantsDeal')
@@ -1548,6 +1638,7 @@ class DataApplicant extends GeneratedMessage {
         ApplicantState.valueOf, ApplicantState.values)
     ..aOB(14, 'businessDisputed')
     ..aOB(15, 'influencerDisputed')
+    ..a<int>(16, 'businessAccountId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataApplicant() : super();
@@ -1588,13 +1679,13 @@ class DataApplicant extends GeneratedMessage {
   bool hasOfferId() => $_has(1);
   void clearOfferId() => clearField(2);
 
-  int get accountId => $_get(2, 0);
-  set accountId(int v) {
+  int get influencerAccountId => $_get(2, 0);
+  set influencerAccountId(int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasAccountId() => $_has(2);
-  void clearAccountId() => clearField(3);
+  bool hasInfluencerAccountId() => $_has(2);
+  void clearInfluencerAccountId() => clearField(3);
 
   Int64 get haggleChatId => $_getI64(3);
   set haggleChatId(Int64 v) {
@@ -1691,6 +1782,14 @@ class DataApplicant extends GeneratedMessage {
 
   bool hasInfluencerDisputed() => $_has(14);
   void clearInfluencerDisputed() => clearField(15);
+
+  int get businessAccountId => $_get(15, 0);
+  set businessAccountId(int v) {
+    $_setSignedInt32(15, v);
+  }
+
+  bool hasBusinessAccountId() => $_has(15);
+  void clearBusinessAccountId() => clearField(16);
 }
 
 class _ReadonlyDataApplicant extends DataApplicant with ReadonlyMessageMixin {}
@@ -2091,6 +2190,47 @@ class NetSetAccountType extends GeneratedMessage {
 }
 
 class _ReadonlyNetSetAccountType extends NetSetAccountType
+    with ReadonlyMessageMixin {}
+
+class NetSetFirebaseToken extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetSetFirebaseToken')
+    ..aOS(1, 'firebaseToken')
+    ..hasRequiredFields = false;
+
+  NetSetFirebaseToken() : super();
+  NetSetFirebaseToken.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetSetFirebaseToken.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetSetFirebaseToken clone() =>
+      new NetSetFirebaseToken()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetSetFirebaseToken create() => new NetSetFirebaseToken();
+  static PbList<NetSetFirebaseToken> createRepeated() =>
+      new PbList<NetSetFirebaseToken>();
+  static NetSetFirebaseToken getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetSetFirebaseToken();
+    return _defaultInstance;
+  }
+
+  static NetSetFirebaseToken _defaultInstance;
+  static void $checkItem(NetSetFirebaseToken v) {
+    if (v is! NetSetFirebaseToken) checkItemFailed(v, 'NetSetFirebaseToken');
+  }
+
+  String get firebaseToken => $_getS(0, '');
+  set firebaseToken(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasFirebaseToken() => $_has(0);
+  void clearFirebaseToken() => clearField(1);
+}
+
+class _ReadonlyNetSetFirebaseToken extends NetSetFirebaseToken
     with ReadonlyMessageMixin {}
 
 class NetOAuthUrlReq extends GeneratedMessage {
@@ -2753,6 +2893,7 @@ class NetOfferApplyReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetOfferApplyReq')
     ..a<int>(1, 'offerId', PbFieldType.O3)
     ..aOS(2, 'remarks')
+    ..a<int>(8, 'deviceGhostId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetOfferApplyReq() : super();
@@ -2793,6 +2934,14 @@ class NetOfferApplyReq extends GeneratedMessage {
 
   bool hasRemarks() => $_has(1);
   void clearRemarks() => clearField(2);
+
+  int get deviceGhostId => $_get(2, 0);
+  set deviceGhostId(int v) {
+    $_setSignedInt32(2, v);
+  }
+
+  bool hasDeviceGhostId() => $_has(2);
+  void clearDeviceGhostId() => clearField(8);
 }
 
 class _ReadonlyNetOfferApplyReq extends NetOfferApplyReq
@@ -3141,54 +3290,45 @@ class NetLoadApplicantsReq extends GeneratedMessage {
 class _ReadonlyNetLoadApplicantsReq extends NetLoadApplicantsReq
     with ReadonlyMessageMixin {}
 
-class NetLoadApplicantsRes extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantsRes')
-    ..a<int>(1, 'oldest', PbFieldType.O3)
-    ..a<int>(2, 'newest', PbFieldType.O3)
+class NetLoadApplicantReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantReq')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetLoadApplicantsRes() : super();
-  NetLoadApplicantsRes.fromBuffer(List<int> i,
+  NetLoadApplicantReq() : super();
+  NetLoadApplicantReq.fromBuffer(List<int> i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetLoadApplicantsRes.fromJson(String i,
+  NetLoadApplicantReq.fromJson(String i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetLoadApplicantsRes clone() =>
-      new NetLoadApplicantsRes()..mergeFromMessage(this);
+  NetLoadApplicantReq clone() =>
+      new NetLoadApplicantReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetLoadApplicantsRes create() => new NetLoadApplicantsRes();
-  static PbList<NetLoadApplicantsRes> createRepeated() =>
-      new PbList<NetLoadApplicantsRes>();
-  static NetLoadApplicantsRes getDefault() {
+  static NetLoadApplicantReq create() => new NetLoadApplicantReq();
+  static PbList<NetLoadApplicantReq> createRepeated() =>
+      new PbList<NetLoadApplicantReq>();
+  static NetLoadApplicantReq getDefault() {
     if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadApplicantsRes();
+      _defaultInstance = new _ReadonlyNetLoadApplicantReq();
     return _defaultInstance;
   }
 
-  static NetLoadApplicantsRes _defaultInstance;
-  static void $checkItem(NetLoadApplicantsRes v) {
-    if (v is! NetLoadApplicantsRes) checkItemFailed(v, 'NetLoadApplicantsRes');
+  static NetLoadApplicantReq _defaultInstance;
+  static void $checkItem(NetLoadApplicantReq v) {
+    if (v is! NetLoadApplicantReq) checkItemFailed(v, 'NetLoadApplicantReq');
   }
 
-  int get oldest => $_get(0, 0);
-  set oldest(int v) {
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasOldest() => $_has(0);
-  void clearOldest() => clearField(1);
-
-  int get newest => $_get(1, 0);
-  set newest(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasNewest() => $_has(1);
-  void clearNewest() => clearField(2);
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
 }
 
-class _ReadonlyNetLoadApplicantsRes extends NetLoadApplicantsRes
+class _ReadonlyNetLoadApplicantReq extends NetLoadApplicantReq
     with ReadonlyMessageMixin {}
 
 class NetLoadApplicantChatsReq extends GeneratedMessage {
@@ -3258,57 +3398,6 @@ class NetLoadApplicantChatsReq extends GeneratedMessage {
 }
 
 class _ReadonlyNetLoadApplicantChatsReq extends NetLoadApplicantChatsReq
-    with ReadonlyMessageMixin {}
-
-class NetLoadApplicantChatsRes extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantChatsRes')
-    ..a<int>(1, 'oldest', PbFieldType.O3)
-    ..a<int>(2, 'newest', PbFieldType.O3)
-    ..hasRequiredFields = false;
-
-  NetLoadApplicantChatsRes() : super();
-  NetLoadApplicantChatsRes.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetLoadApplicantChatsRes.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetLoadApplicantChatsRes clone() =>
-      new NetLoadApplicantChatsRes()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static NetLoadApplicantChatsRes create() => new NetLoadApplicantChatsRes();
-  static PbList<NetLoadApplicantChatsRes> createRepeated() =>
-      new PbList<NetLoadApplicantChatsRes>();
-  static NetLoadApplicantChatsRes getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadApplicantChatsRes();
-    return _defaultInstance;
-  }
-
-  static NetLoadApplicantChatsRes _defaultInstance;
-  static void $checkItem(NetLoadApplicantChatsRes v) {
-    if (v is! NetLoadApplicantChatsRes)
-      checkItemFailed(v, 'NetLoadApplicantChatsRes');
-  }
-
-  int get oldest => $_get(0, 0);
-  set oldest(int v) {
-    $_setSignedInt32(0, v);
-  }
-
-  bool hasOldest() => $_has(0);
-  void clearOldest() => clearField(1);
-
-  int get newest => $_get(1, 0);
-  set newest(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasNewest() => $_has(1);
-  void clearNewest() => clearField(2);
-}
-
-class _ReadonlyNetLoadApplicantChatsRes extends NetLoadApplicantChatsRes
     with ReadonlyMessageMixin {}
 
 class NetLoadPublicProfileReq extends GeneratedMessage {

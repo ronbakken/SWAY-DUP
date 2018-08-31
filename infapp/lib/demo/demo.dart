@@ -16,8 +16,8 @@ import '../onboarding_social.dart' show OnboardingSocial;
 import '../page_transition.dart';
 import '../offer_view.dart' show OfferView;
 import '../offer_create.dart' show OfferCreate;
-import '../dashboard_business.dart' show DashboardBusiness;
-import '../nearby_influencers.dart';
+import '../dashboard_common.dart';
+import '../nearby_common.dart';
 import '../profile/profile_view.dart' show ProfileView;
 import '../profile/profile_edit.dart' show ProfileEdit;
 import '../search/search_button.dart';
@@ -25,7 +25,7 @@ import '../search/search_page.dart';
 import '../debug_account.dart';
 import '../location_selection/location_selection.dart';
 import '../location_selection/location_search.dart';
-import '../location_selection/location_selection_influencer.dart';
+//import '../location_selection/location_selection_influencer.dart';
 
 class DemoApp extends StatefulWidget {
   const DemoApp({Key key, this.startupConfig}) : super(key: key);
@@ -64,7 +64,8 @@ class _DemoAppState extends State<DemoApp> {
       // Generate these values on https://material.io/color/!
       primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
       primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-      primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+      primaryColorDark: Color.lerp(new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+          new Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125),
       buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
       // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
       accentColor: new Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
@@ -516,16 +517,21 @@ class _DemoHomePageState extends State<DemoHomePage> {
             onPressed: () {
               Navigator.push(context, new MaterialPageRoute(
                 builder: (context) {
-                  return new DashboardBusiness(
+                  return new DashboardCommon(
                     account: demoAccount,
+                    mapTab: 0,
+                    offersTab: 1,
+                    applicantsTab: 2,
                     onMakeAnOffer: () {},
                     onNavigateProfile: () {},
-                    map: new NearbyInfluencers(
-                      onSearchPressed: (String searchQuery) {
+                    map: new NearbyCommon(
+                      searchHint: "Find nearby influencers...",
+                      searchTooltip: "Search for nearby influencers",
+                      onSearchPressed: (TextEditingController searchQuery) {
                         transitionPage(
                             context,
                             new SearchScreen(
-                              initialSearchQuery: searchQuery,
+                              initialSearchQuery: searchQuery.text,
                               onSearchRequest: (String searchQuery) async {
                                 // This is just a dummy search that doesn't do anything
                                 await new Future.delayed(
@@ -733,6 +739,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     businessOffer: sampleBusinessOffers[1],
                     businessAccount: sampleAccounts[1],
                     account: demoAccount,
+                    onApply: (remarks) {
+                      // TODO: ------------------------------------------------------
+                    },
                   );
                 },
               ));

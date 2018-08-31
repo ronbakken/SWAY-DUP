@@ -164,6 +164,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.1"
+  firebase_messaging:
+    dependency: "direct main"
+    description:
+      name: firebase_messaging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   fixnum:
     dependency: transitive
     description:
@@ -346,6 +353,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.2"
+<<<<<<< HEAD
   permission_handler:
     dependency: transitive
     description:
@@ -353,6 +361,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+=======
+  platform:
+    dependency: transitive
+    description:
+      name: platform
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0"
+>>>>>>> fe95815894966d8c630712de8ade09a3fb0c308a
   plugin:
     dependency: transitive
     description:

@@ -4,6 +4,8 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
@@ -19,32 +21,39 @@ import 'profile/profile_edit.dart';
 
 import 'dashboard_common.dart';
 import 'nearby_common.dart';
-import 'offer_create.dart';
 import 'offer_view.dart';
 import 'business_offer_list.dart';
 import 'debug_account.dart';
+import 'page_transition.dart';
+import 'haggle_view.dart';
 
-// Business user
-class AppBusiness extends StatefulWidget {
-  const AppBusiness({
+import 'search/search_page_common.dart';
+import 'cards/offer_card.dart';
+
+// Influencer user
+class AppInfluencer extends StatefulWidget {
+  const AppInfluencer({
     Key key,
   }) : super(key: key);
 
   @override
-  _AppBusinessState createState() => new _AppBusinessState();
+  _AppInfluencerState createState() => new _AppInfluencerState();
 }
 
-class _AppBusinessState extends State<AppBusiness> {
-  void navigateToMakeAnOffer(BuildContext context) {
+class _AppInfluencerState extends State<AppInfluencer> {
+  void navigateToOfferView(
+      BuildContext context, DataAccount account, DataBusinessOffer offer) {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
       ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
       NavigatorState navigator = Navigator.of(context);
-      return new OfferCreate(
-        onUploadImage: network.uploadImage,
-        onCreateOffer: (NetCreateOfferReq createOffer) async {
+      return new OfferView(
+        account: network.account,
+        businessAccount: network.latestAccount(account),
+        businessOffer: network.latestBusinessOffer(offer),
+        onApply: (remarks) async {
           var progressDialog = showProgressDialog(
               context: this.context,
               builder: (BuildContext context) {
@@ -55,25 +64,26 @@ class _AppBusinessState extends State<AppBusiness> {
                       new Container(
                           padding: new EdgeInsets.all(24.0),
                           child: new CircularProgressIndicator()),
-                      new Text("Creating offer..."),
+                      new Text("Applying for offer..."),
                     ],
                   ),
                 );
               });
-          DataBusinessOffer offer;
+          DataApplicant applicant;
           try {
             // Create the offer
-            offer = await network.createOffer(createOffer);
+            applicant = await network.applyForOffer(offer.offerId, remarks);
           } catch (error, stack) {
-            print("[INF] Exception creating offer': $error\n$stack");
+            print("[INF] Exception applying for offer': $error\n$stack");
           }
           closeProgressDialog(progressDialog);
-          if (offer == null) {
+          if (applicant == null) {
+            // TODO: Request refreshing the offer!!!
             await showDialog<Null>(
               context: this.context,
               builder: (BuildContext context) {
                 return new AlertDialog(
-                  title: new Text('Create Offer Failed'),
+                  title: new Text('Failed to apply for offer'),
                   content: new SingleChildScrollView(
                     child: new ListBody(
                       children: <Widget>[
@@ -97,39 +107,32 @@ class _AppBusinessState extends State<AppBusiness> {
               },
             );
           } else {
-            Navigator.of(this.context).pop();
-            navigateToOfferView(this.context, network.account, offer);
+            // Navigator.of(this.context).pop();
+            navigateToApplicantView(
+                applicant,
+                offer,
+                network.tryGetPublicProfile(applicant.businessAccountId),
+                network.tryGetPublicProfile(applicant.influencerAccountId));
           }
+          return applicant;
         },
       );
     }));
   }
 
-  void navigateToOfferView(
-      BuildContext context, DataAccount account, DataBusinessOffer offer) {
-    Navigator.push(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
+  void navigateToApplicantView(DataApplicant applicant, DataBusinessOffer offer,
+      DataAccount businessAccount, DataAccount influencerAccount) {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
       NavigatorState navigator = Navigator.of(context);
-      return new OfferView(
+      return new HaggleView(
         account: network.account,
-        businessAccount: network.latestAccount(account),
-        businessOffer: network.latestBusinessOffer(offer),
-      );
-    }));
-  }
-
-  void navigateToDebugAccount() {
-    Navigator.push(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
-      ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
-      return new DebugAccount(
-        account: network.account,
+        businessAccount: network.latestAccount(businessAccount),
+        influencerAccount: network.latestAccount(influencerAccount),
+        applicant: applicant, // TODO: network.latestApplicant(),
+        offer: network.latestBusinessOffer(offer),
       );
     }));
   }
@@ -162,6 +165,49 @@ class _AppBusinessState extends State<AppBusiness> {
     }));
   }
 
+  void navigateToDebugAccount() {
+    Navigator.push(
+        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+        context, new MaterialPageRoute(builder: (context) {
+      ConfigData config = ConfigManager.of(context);
+      NetworkInterface network = NetworkManager.of(context);
+      NavigatorState navigator = Navigator.of(context);
+      return new DebugAccount(
+        account: network.account,
+      );
+    }));
+  }
+
+  void navigateToSearchOffers(TextEditingController searchQueryController) {
+    fadeToPage(context, (context, animation, secondaryAnimation) {
+      ConfigData config = ConfigManager.of(context);
+      NetworkInterface network = NetworkManager.of(context);
+      NavigatorState navigator = Navigator.of(context);
+      return new SearchPageCommon(
+          searchHint: "Find nearby offers...",
+          searchTooltip: "Search for nearby offers",
+          searchQueryController: searchQueryController,
+          onSearchRequest: (String searchQuery) async {
+            await network.refreshDemoAllOffers();
+          },
+          searchResults: network.demoAllOffers.values
+              .map((offer) => new OfferCard(
+                  businessOffer: offer,
+                  onPressed: () {
+                    network.backgroundReloadBusinessOffer(offer);
+                    navigateToOfferView(
+                        context,
+                        network.tryGetPublicProfile(offer.accountId,
+                            fallbackOffer: offer),
+                        offer);
+                  }))
+              .toList()
+                ..sort((a, b) => b.businessOffer.offerId
+                    .compareTo(a.businessOffer.offerId)) //<Widget>[],
+          );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
@@ -169,57 +215,24 @@ class _AppBusinessState extends State<AppBusiness> {
     return new DashboardCommon(
       account: network.account,
       mapTab: 0,
-      offersTab: 1,
-      applicantsTab: 2,
+      applicantsTab: 1,
       map: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
+        NetworkInterface network = NetworkManager.of(context);
         return new NearbyCommon(
-          onSearchPressed: (TextEditingController searchQuery) {
-            Scaffold.of(context).showSnackBar(
-                new SnackBar(content: new Text("Not yet implemented.")));
-          },
+          account: network.account,
           mapboxUrlTemplate: config.services.mapboxUrlTemplate,
           mapboxToken: config.services.mapboxToken,
-          searchHint: "Find nearby influencers...",
-          searchTooltip: "Search for nearby influencers",
+          onSearchPressed: (TextEditingController searchQuery) {
+            navigateToSearchOffers(searchQuery);
+            // query.text = ":)";
+            // Scaffold.of(context).showSnackBar(
+            //     new SnackBar(content: new Text("Not yet implemented.")));
+          },
+          searchHint: "Find nearby offers...",
+          searchTooltip: "Search for nearby offers",
         );
       }),
-      offersCurrent: new Builder(builder: (context) {
-        NetworkInterface network = NetworkManager.of(context);
-        return new BusinessOfferList(
-            businessOffers: network.offers.values
-                .where(
-                    (offer) => (offer.state != BusinessOfferState.BOS_CLOSED))
-                .toList()
-                  ..sort((a, b) => b.offerId.compareTo(a.offerId)),
-            onRefreshOffers: (network.connected == NetworkConnectionState.Ready)
-                ? network.refreshOffers
-                : null,
-            onOfferPressed: (DataBusinessOffer offer) {
-              navigateToOfferView(context, network.account, offer);
-            });
-      }),
-      offersHistory: new Builder(builder: (context) {
-        NetworkInterface network = NetworkManager.of(context);
-        return new BusinessOfferList(
-            businessOffers: network.offers.values
-                .where(
-                    (offer) => (offer.state == BusinessOfferState.BOS_CLOSED))
-                .toList()
-                  ..sort((a, b) => b.offerId.compareTo(a.offerId)),
-            onRefreshOffers: (network.connected == NetworkConnectionState.Ready)
-                ? network.refreshOffers
-                : null,
-            onOfferPressed: (DataBusinessOffer offer) {
-              navigateToOfferView(context, network.account,
-                  offer); // account will be able to use a future value provider thingy for not-mine offers
-            });
-      }),
-      onMakeAnOffer: (network.connected == NetworkConnectionState.Ready)
-          ? () {
-              navigateToMakeAnOffer(context);
-            }
-          : null,
       onNavigateProfile: () {
         navigateToProfileView(context);
       },

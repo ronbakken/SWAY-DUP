@@ -25,7 +25,9 @@ class ProfileView extends StatelessWidget {
       appBar: new AppBar(
         title: new Text((onEditPressed != null)
             ? "Your profile"
-            : (account.summary.name + "'s profile")),
+            : account.summary.name.isNotEmpty
+                ? (account.summary.name + "'s profile")
+                : "Profile"),
         actions: (onEditPressed != null)
             ? <Widget>[
                 new EditButton(onEditPressed: onEditPressed),
@@ -36,7 +38,7 @@ class ProfileView extends StatelessWidget {
         children: <Widget>[
           new Center(
               child: new ProfilePicture(
-                  imageUrl: account.detail.avatarCoverUrl != null
+                  imageUrl: account.detail.avatarCoverUrl.isNotEmpty
                       ? account.detail.avatarCoverUrl
                       : account.summary.avatarThumbnailUrl)),
           new Center(

@@ -10,6 +10,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wstalk/wstalk.dart';
@@ -96,6 +97,12 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   int nextDeviceGhostId;
 
+  bool _firebaseSetup = false;
+  final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+
+  List<StreamSubscription<TalkMessage>> _subscriptions =
+      new List<StreamSubscription<TalkMessage>>();
+
   void syncConfig() {
     // May only be called from a setState block
     if (_config != widget.config) {
@@ -118,13 +125,15 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
   }
 
-  void receivedDeviceAuthState(NetDeviceAuthState pb) {
+  Future<void> receivedDeviceAuthState(NetDeviceAuthState pb) async {
     print("NetDeviceAuthState: $pb");
     setState(() {
       if (pb.data.state.accountId != account.state.accountId) {
         // Any cache cleanup may be done here when switching accounts
         _offers.clear();
         _offersLoaded = false;
+        _demoAllOffers.clear();
+        _demoAllOffersLoaded = false;
       }
       account = pb.data;
       for (int i = account.detail.socialMedia.length;
@@ -135,10 +144,68 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       account.detail.socialMedia.length = _config.oauthProviders.all.length;
       ++_changed;
     });
+    if (pb.data.state.accountId != 0) {
+      if (!_firebaseSetup) {
+        // Set up Firebase
+        _firebaseSetup = true;
+        _firebaseMessaging.requestNotificationPermissions();
+        _firebaseMessaging.configure(
+          onMessage: _firebaseOnMessage,
+          onLaunch: _firebaseOnLaunch,
+          onResume: _firebaseOnResume,
+        );
+        _firebaseMessaging.onTokenRefresh.listen(
+            _firebaseOnToken); // Ensure network manager is persistent or this may fail
+        if (widget.config.services.domain.isNotEmpty) {
+          // Allows to send dev messages under domain_dev topic
+          print("[INF] Domain: ${widget.config.services.domain}");
+          _firebaseMessaging
+              .subscribeToTopic('domain_' + widget.config.services.domain);
+        }
+      }
+      _firebaseOnToken(await _firebaseMessaging.getToken());
+    }
+  }
+
+  void _firebaseOnToken(String token) {
+    if (account.state.accountId != 0) {
+      if (account.state.firebaseToken != token) {
+        account.state.firebaseToken = token;
+        NetSetFirebaseToken setFirebaseToken = new NetSetFirebaseToken();
+        setFirebaseToken.firebaseToken = token;
+        _ts.sendMessage(
+            TalkSocket.encode("SFIREBAT"), setFirebaseToken.writeToBuffer());
+      }
+    }
+  }
+
+  Future<dynamic> _firebaseOnMessage(Map<String, dynamic> data) {
+    print("[INF] Firebase Message Received");
+    // Fired when a message is received when the app is in foreground
+    /*
+DATA='{"notification": {"body": "this is a body","title": "this is a title"}, "priority": "high", "data": {"click_action": "FLUTTER_NOTIFICATION_CLICK", "id": "1", "status": "done"}, "to": "<FCM TOKEN>"}'
+curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X POST -d "$DATA" -H "Authorization: key=<FCM SERVER KEY>"
+    */
+    print(data);
+  }
+
+  Future<dynamic> _firebaseOnLaunch(Map<String, dynamic> data) {
+    print("[INF] Firebase Launch Received");
+    // Fired when the app was opened by a message
+    /* When sending a notification message to an Android device, 
+    you need to make sure to set the click_action property of the
+    message to FLUTTER_NOTIFICATION_CLICK. 
+    Otherwise the plugin will be unable to deliver the notification 
+    to your app when the users clicks on it in the system tray. */
+  }
+
+  Future<dynamic> _firebaseOnResume(Map<String, dynamic> data) {
+    print("[INF] Firebase Resume Received");
+    // Fired when the app was opened by a message
   }
 
   /// Authenticate device connection, this process happens as if by magic
-  Future _authenticateDevice(TalkSocket ts) async {
+  Future<void> _authenticateDevice(TalkSocket ts) async {
     // Initialize connection
     print("[INF] Authenticate device");
     ts.sendMessage(TalkSocket.encode("INFAPP"), new Uint8List(0));
@@ -218,7 +285,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       if (!_alive) {
         throw Exception("No longer alive, don't authorize");
       }
-      receivedDeviceAuthState(pbRes);
+      await receivedDeviceAuthState(pbRes);
       print("[INF] Device id ${account.state.deviceId}");
       if (account.state.deviceId != 0) {
         prefs.setString(aesKeyPref, aesKeyStr);
@@ -262,7 +329,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       if (!_alive) {
         throw Exception("No longer alive, don't authorize");
       }
-      receivedDeviceAuthState(pbRes);
+      await receivedDeviceAuthState(pbRes);
       print("[INF] Device id ${account.state.deviceId}");
     }
 
@@ -276,17 +343,22 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       });
 
       // Register all listeners
-      ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState);
-      ts.stream(TalkSocket.encode("DB_OFFER")).listen(_dataBusinessOffer);
+      _subscriptions.add(
+          ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState));
+      _subscriptions.add(
+          ts.stream(TalkSocket.encode("DB_OFFER")).listen(_dataBusinessOffer));
+      //_subscriptions.add(ts
+      //    .stream(TalkSocket.encode("DE_OFFER"))
+      //    .listen(_demoAllBusinessOffer));
     }
 
     // assert(accountState.deviceId != 0);
   }
 
-  void _netDeviceAuthState(TalkMessage message) {
+  void _netDeviceAuthState(TalkMessage message) async {
     NetDeviceAuthState pb = new NetDeviceAuthState();
     pb.mergeFromBuffer(message.data);
-    receivedDeviceAuthState(pb);
+    await receivedDeviceAuthState(pb);
   }
 
   bool _netConfigWarning = false;
@@ -379,6 +451,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         ts.close(); // TODO: close code?
       }
     }
+    _subscriptions.forEach((s) {
+      s.cancel();
+    });
+    _subscriptions.clear();
   }
 
   Future _networkLoop() async {
@@ -543,11 +619,17 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         await _ts.sendRequest(_netAccountCreateReq, pb.writeToBuffer());
     NetDeviceAuthState resPb = new NetDeviceAuthState();
     resPb.mergeFromBuffer(res.data);
-    receivedDeviceAuthState(resPb);
+    await receivedDeviceAuthState(resPb);
     if (account.state.accountId == 0) {
       throw new NetworkException("No account has been created");
     }
   }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Image upload
+  /////////////////////////////////////////////////////////////////////////////
 
   static int _netUploadImageReq = TalkSocket.encode("UP_IMAGE");
   @override
@@ -596,6 +678,15 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     // Upload successful
     return res;
   }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Business offers
+  /////////////////////////////////////////////////////////////////////////////
+
+  @override
+  bool offersLoading = false;
 
   static int _netCreateOfferReq = TalkSocket.encode("C_OFFERR");
   @override
@@ -652,21 +743,84 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
                 false; // Not using setState since we don't want to broadcast failure state
           });
         }).whenComplete(() {
-          offersLoading = false;
+          setState(() {
+            offersLoading = false;
+          });
         });
       }
     }
     return _offers;
   }
-
-  @override
-  bool offersLoading = false;
-
 /*
   @override
   set offers(Map<int, DataBusinessOffer> _offers) {
     // TODO: implement offers
   }*/
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Demo all offers
+  /////////////////////////////////////////////////////////////////////////////
+
+  @override
+  bool demoAllOffersLoading = false;
+
+  bool _demoAllOffersLoaded;
+  Map<int, DataBusinessOffer> _demoAllOffers =
+      new Map<int, DataBusinessOffer>();
+
+  void _demoAllBusinessOffer(TalkMessage message) {
+    DataBusinessOffer pb = new DataBusinessOffer();
+    pb.mergeFromBuffer(message.data);
+    setState(() {
+      // Add received offer to known offers
+      _demoAllOffers[pb.offerId.toInt()] = pb;
+      ++_changed;
+    });
+  }
+
+  // static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
+  @override
+  Future<void> refreshDemoAllOffers() async {
+    NetLoadOffersReq loadOffersReq =
+        new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
+    //await _ts.sendRequest(_netLoadOffersReq,
+    //    loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
+    await for (TalkMessage res in _ts.sendStreamRequest(
+        _netLoadOffersReq, loadOffersReq.writeToBuffer()))
+      _demoAllBusinessOffer(res);
+    print("Refresh done");
+  }
+
+  @override
+  Map<int, DataBusinessOffer> get demoAllOffers {
+    if (_demoAllOffersLoaded == false &&
+        connected == NetworkConnectionState.Ready) {
+      _demoAllOffersLoaded = true;
+      if (account.state.accountType == AccountType.AT_INFLUENCER) {
+        demoAllOffersLoading = true;
+        refreshDemoAllOffers().catchError((error, stack) {
+          print("[INF] Failed to get offers: $error, $stack");
+          new Timer(new Duration(seconds: 3), () {
+            _demoAllOffersLoaded =
+                false; // Not using setState since we don't want to broadcast failure state
+          });
+        }).whenComplete(() {
+          setState(() {
+            demoAllOffersLoading = false;
+          });
+        });
+      }
+    }
+    return _demoAllOffers;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Synchronization utilities
+  /////////////////////////////////////////////////////////////////////////////
 
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.account (unless detached)
   @override
@@ -676,6 +830,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     if (account.state.accountId == this.account.state.accountId) {
       // It's me...
       return this.account;
+    }
+    if (_cachedAccounts.containsKey(account.state.accountId)) {
+      _CachedDataAccount cached = _cachedAccounts[account.state.accountId];
+      if (cached.account != null) return cached.account;
+      if (!cached.loading) {
+        // Fetch but still use plain account
+        tryGetPublicProfile(account.state.accountId, fallback: account);
+      }
     }
     return account;
   }
@@ -689,8 +851,145 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       // Guaranteed to be the latest
       return _offers[offer.offerId];
     }
+    if (_demoAllOffers.containsKey(offer.offerId)) {
+      // Should be fairly recent, but may be outdated
+      // return _demoAllOffers[offer.offerId];
+    }
     return offer;
   }
+
+  /// Reload business offer silently in the background, call when opening a window
+  @override
+  void backgroundReloadBusinessOffer(DataBusinessOffer offer) {
+    // TODO: Send a background refresh request for this offer
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Get profile
+  /////////////////////////////////////////////////////////////////////////////
+
+  Map<int, _CachedDataAccount> _cachedAccounts =
+      new Map<int, _CachedDataAccount>();
+
+  /// Refresh all offers
+  /// @override
+  static int _netLoadPublicProfileReq = TalkSocket.encode("L_PROFIL");
+  Future<DataAccount> getPublicProfile(int accountId) async {
+    print("[INF] Get public profile $accountId");
+    if (accountId == this.account.state.accountId) {
+      // It's me...
+      return this.account;
+    }
+    NetLoadPublicProfileReq pbReq = new NetLoadPublicProfileReq();
+    pbReq.accountId = accountId;
+    TalkMessage message =
+        await _ts.sendRequest(_netLoadPublicProfileReq, pbReq.writeToBuffer());
+    DataAccount account = new DataAccount();
+    account.mergeFromBuffer(message.data);
+    if (account.state.accountId == accountId) {
+      _CachedDataAccount cached;
+      if (!_cachedAccounts.containsKey(account.state.accountId)) {
+        cached = new _CachedDataAccount();
+        cached.loading = false;
+        _cachedAccounts[account.state.accountId] = cached;
+      } else {
+        cached = _cachedAccounts[account.state.accountId];
+        cached.fallback = null;
+      }
+      setState(() {
+        cached.account = account;
+      });
+    } else {
+      print("[INF] Received invalid profile. Critical issue");
+    }
+    return account;
+  }
+
+  @override
+  DataAccount tryGetPublicProfile(int accountId,
+      {DataAccount fallback, DataBusinessOffer fallbackOffer}) {
+    _CachedDataAccount cached;
+    // _cachedAccounts.clear();
+    if (accountId == this.account.state.accountId) {
+      // It's me...
+      return this.account;
+    }
+    if (!_cachedAccounts.containsKey(accountId)) {
+      cached = new _CachedDataAccount();
+      cached.loading = false;
+      _cachedAccounts[accountId] = cached;
+    } else {
+      cached = _cachedAccounts[accountId];
+    }
+    if (cached.account != null) {
+      return cached.account;
+    }
+    if (cached.fallback == null) {
+      cached.fallback = new DataAccount();
+      cached.fallback.state = new DataAccountState();
+      cached.fallback.summary = new DataAccountSummary();
+      cached.fallback.detail = new DataAccountDetail();
+      cached.fallback.state.accountId = accountId;
+    }
+    if (fallback != null) {
+      if (fallback.detail.socialMedia.isNotEmpty) {
+        cached.fallback.detail.socialMedia.clear();
+      }
+      cached.fallback.mergeFromMessage(fallback);
+    }
+    if (fallbackOffer != null) {
+      if (cached.fallback.summary.name.isEmpty) {
+        cached.fallback.summary.name = fallbackOffer.locationName;
+      }
+      if (cached.fallback.summary.location.isEmpty) {
+        cached.fallback.summary.location = fallbackOffer.location;
+      }
+    }
+    if (!cached.loading) {
+      cached.loading = true;
+      getPublicProfile(accountId).then((account) {
+        cached.loading = false;
+      }).catchError((error, stack) {
+        print("[INF] Failed to get account: $error, $stack");
+        new Timer(new Duration(seconds: 3), () {
+          cached.loading = false;
+        });
+      });
+    }
+    return cached.fallback;
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Haggle
+  /////////////////////////////////////////////////////////////////////////////
+
+  static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
+  Future<DataApplicant> applyForOffer(int offerId, String remarks) async {
+    NetOfferApplyReq pbReq = new NetOfferApplyReq();
+    pbReq.offerId = offerId;
+    pbReq.deviceGhostId = ++nextDeviceGhostId;
+    pbReq.remarks = remarks;
+    TalkMessage res =
+        await _ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
+    DataApplicant pbRes = new DataApplicant();
+    pbRes.mergeFromBuffer(res.data);
+    return pbRes;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+class _CachedDataAccount {
+  // TODO: Timestamp
+  bool loading;
+  DataAccount account;
+  DataAccount fallback;
 }
 
 class _InheritedNetworkManager extends InheritedWidget {
@@ -710,6 +1009,10 @@ class _InheritedNetworkManager extends InheritedWidget {
   }
 }
 
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
 enum NetworkConnectionState { Connecting, Failing, Offline, Ready }
 
 abstract class NetworkInterface {
@@ -720,11 +1023,9 @@ abstract class NetworkInterface {
   /// Whether we are connected to the network.
   NetworkConnectionState connected;
 
-  /// List of offers owned by this account (applicable for AT_BUSINESS)
-  Map<int, DataBusinessOffer> get offers;
-
-  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
-  bool offersLoading;
+  /////////////////////////////////////////////////////////////////////////////
+  // Onboarding and OAuth
+  /////////////////////////////////////////////////////////////////////////////
 
   /* Device Registration */
   /// Set account type. Only possible when not yet created.
@@ -740,8 +1041,16 @@ abstract class NetworkInterface {
   /// Create an account
   Future<Null> createAccount(double latitude, double longitude);
 
+  /////////////////////////////////////////////////////////////////////////////
+  // Image upload
+  /////////////////////////////////////////////////////////////////////////////
+
   /// Upload an image. Disregard the returned request options. Throws error in case of failure
   Future<NetUploadImageRes> uploadImage(FileImage fileImage);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Business offers
+  /////////////////////////////////////////////////////////////////////////////
 
   /// Create an offer.
   Future<DataBusinessOffer> createOffer(NetCreateOfferReq createOfferReq);
@@ -749,15 +1058,56 @@ abstract class NetworkInterface {
   /// Refresh all offers (currently latest offers)
   Future<void> refreshOffers();
 
+  /// List of offers owned by this account (applicable for AT_BUSINESS)
+  Map<int, DataBusinessOffer> get offers;
+
+  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
+  bool offersLoading;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Demo all offers
+  /////////////////////////////////////////////////////////////////////////////
+
+  /// Refresh all offers
+  Future<void> refreshDemoAllOffers();
+
+  /// List of all offers on the server
+  Map<int, DataBusinessOffer> get demoAllOffers;
+
+  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
+  bool demoAllOffersLoading;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Synchronization utilities
+  /////////////////////////////////////////////////////////////////////////////
+
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.account (unless detached)
   DataAccount latestAccount(DataAccount account);
 
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
   DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer);
 
-  // can also put simple get functions without future to get if available but request - returns dummy based on fallback in case not yet available
-  // DataAccount tryGetAccount(int accountId, { DataAccount fallback }); // simply retry anytime network state updates
-  // etc
+  /// Reload business offer silently in the background, call when opening a window
+  void backgroundReloadBusinessOffer(DataBusinessOffer offer);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Get profile
+  /////////////////////////////////////////////////////////////////////////////
+
+  /// Refresh all offers
+  Future<void> getPublicProfile(int accountId);
+
+  // Returns dummy based on fallback in case not yet available, otherwise returns cached account
+  DataAccount tryGetPublicProfile(int accountId,
+      {DataAccount fallback,
+      DataBusinessOffer
+          fallbackOffer}); // Simply retry anytime network state updates
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Haggle
+  /////////////////////////////////////////////////////////////////////////////
+
+  Future<DataApplicant> applyForOffer(int offerId, String remarks);
 }
 
 /* end of file */

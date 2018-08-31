@@ -228,6 +228,7 @@ const ConfigOAuthProviders$json = const {
 const ConfigServices$json = const {
   '1': 'ConfigServices',
   '2': const [
+    const {'1': 'domain', '3': 24, '4': 1, '5': 9, '10': 'domain'},
     const {'1': 'apiHosts', '3': 8, '4': 3, '5': 9, '10': 'apiHosts'},
     const {'1': 'configUrl', '3': 9, '4': 1, '5': 9, '10': 'configUrl'},
     const {
@@ -299,6 +300,34 @@ const ConfigServices$json = const {
     },
     const {'1': 'freshdeskApi', '3': 22, '4': 1, '5': 9, '10': 'freshdeskApi'},
     const {'1': 'freshdeskKey', '3': 23, '4': 1, '5': 9, '10': 'freshdeskKey'},
+    const {
+      '1': 'firebaseServerKey',
+      '3': 25,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseServerKey'
+    },
+    const {
+      '1': 'firebaseSenderId',
+      '3': 26,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseSenderId'
+    },
+    const {
+      '1': 'firebaseLegacyApi',
+      '3': 27,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseLegacyApi'
+    },
+    const {
+      '1': 'firebaseLegacyServerKey',
+      '3': 28,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseLegacyServerKey'
+    },
   ],
 };
 
@@ -396,9 +425,17 @@ const DataBusinessOffer$json = const {
     const {'1': 'thumbnailUrl', '3': 6, '4': 1, '5': 9, '10': 'thumbnailUrl'},
     const {'1': 'deliverables', '3': 7, '4': 1, '5': 9, '10': 'deliverables'},
     const {'1': 'reward', '3': 8, '4': 1, '5': 9, '10': 'reward'},
+    const {'1': 'locationName', '3': 21, '4': 1, '5': 9, '10': 'locationName'},
     const {'1': 'location', '3': 9, '4': 1, '5': 9, '10': 'location'},
     const {'1': 'latitude', '3': 18, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 19, '4': 1, '5': 1, '10': 'longitude'},
+    const {
+      '1': 'locationOfferCount',
+      '3': 20,
+      '4': 1,
+      '5': 5,
+      '10': 'locationOfferCount'
+    },
     const {'1': 'coverUrls', '3': 10, '4': 3, '5': 9, '10': 'coverUrls'},
     const {
       '1': 'categories',
@@ -452,6 +489,13 @@ const DataBusinessOffer$json = const {
       '5': 5,
       '10': 'applicantsRefused'
     },
+    const {
+      '1': 'influencerApplicantId',
+      '3': 22,
+      '4': 1,
+      '5': 5,
+      '10': 'influencerApplicantId'
+    },
   ],
 };
 
@@ -468,6 +512,7 @@ const DataLocation$json = const {
     const {'1': 'countryCode', '3': 11, '4': 1, '5': 9, '10': 'countryCode'},
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
+    const {'1': 's2cellId', '3': 12, '4': 1, '5': 3, '10': 's2cellId'},
   ],
 };
 
@@ -508,6 +553,7 @@ const DataAccountState$json = const {
       '6': '.inf.NotificationFlags',
       '10': 'notificationFlags'
     },
+    const {'1': 'firebaseToken', '3': 7, '4': 1, '5': 9, '10': 'firebaseToken'},
   ],
 };
 
@@ -596,7 +642,20 @@ const DataApplicant$json = const {
   '2': const [
     const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
     const {'1': 'offerId', '3': 2, '4': 1, '5': 5, '10': 'offerId'},
-    const {'1': 'accountId', '3': 3, '4': 1, '5': 5, '10': 'accountId'},
+    const {
+      '1': 'influencerAccountId',
+      '3': 3,
+      '4': 1,
+      '5': 5,
+      '10': 'influencerAccountId'
+    },
+    const {
+      '1': 'businessAccountId',
+      '3': 16,
+      '4': 1,
+      '5': 5,
+      '10': 'businessAccountId'
+    },
     const {'1': 'haggleChatId', '3': 4, '4': 1, '5': 3, '10': 'haggleChatId'},
     const {
       '1': 'influencerWantsDeal',
@@ -766,6 +825,13 @@ const NetSetAccountType$json = const {
   ],
 };
 
+const NetSetFirebaseToken$json = const {
+  '1': 'NetSetFirebaseToken',
+  '2': const [
+    const {'1': 'firebaseToken', '3': 1, '4': 1, '5': 9, '10': 'firebaseToken'},
+  ],
+};
+
 const NetOAuthUrlReq$json = const {
   '1': 'NetOAuthUrlReq',
   '2': const [
@@ -892,6 +958,7 @@ const NetOfferApplyReq$json = const {
   '1': 'NetOfferApplyReq',
   '2': const [
     const {'1': 'offerId', '3': 1, '4': 1, '5': 5, '10': 'offerId'},
+    const {'1': 'deviceGhostId', '3': 8, '4': 1, '5': 5, '10': 'deviceGhostId'},
     const {'1': 'remarks', '3': 2, '4': 1, '5': 9, '10': 'remarks'},
   ],
 };
@@ -953,11 +1020,10 @@ const NetLoadApplicantsReq$json = const {
   ],
 };
 
-const NetLoadApplicantsRes$json = const {
-  '1': 'NetLoadApplicantsRes',
+const NetLoadApplicantReq$json = const {
+  '1': 'NetLoadApplicantReq',
   '2': const [
-    const {'1': 'oldest', '3': 1, '4': 1, '5': 5, '10': 'oldest'},
-    const {'1': 'newest', '3': 2, '4': 1, '5': 5, '10': 'newest'},
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
   ],
 };
 
@@ -968,14 +1034,6 @@ const NetLoadApplicantChatsReq$json = const {
     const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
     const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
     const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
-  ],
-};
-
-const NetLoadApplicantChatsRes$json = const {
-  '1': 'NetLoadApplicantChatsRes',
-  '2': const [
-    const {'1': 'oldest', '3': 1, '4': 1, '5': 5, '10': 'oldest'},
-    const {'1': 'newest', '3': 2, '4': 1, '5': 5, '10': 'newest'},
   ],
 };
 
