@@ -226,14 +226,15 @@ class _HaggleViewState extends State<HaggleView> {
                 style: Theme.of(context).textTheme.subhead), // Odd theme
           ],
         );
-        if (true || current.chatId == widget.applicant.haggleChatId) {
+        if (current.chatId == widget.applicant.haggleChatId) {
           content = new Column(
             crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
             children: <Widget>[
               info,
               new SizedBox(height: 12.0),
               new Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment:
+                    mine ? MainAxisAlignment.end : MainAxisAlignment.start,
                 children: <Widget>[
                   new RaisedButton(
                     shape: new RoundedRectangleBorder(
@@ -269,7 +270,21 @@ class _HaggleViewState extends State<HaggleView> {
             ],
           );
         } else {
-          content = info;
+          content = content = new Column(
+            crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
+            children: <Widget>[
+              info,
+              new SizedBox(height: 12.0),
+              new Padding(
+                padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                child: new Text(
+                  "Another offer has been made.",
+                  style: Theme.of(context).textTheme.caption,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          );
         }
       } else {
         content = new Text(current.text,
@@ -340,105 +355,29 @@ class _HaggleViewState extends State<HaggleView> {
       body: new Column(
         children: <Widget>[
           new Material(
-              color: Theme.of(context).cardColor,
-              elevation: 8.0,
-              child: new Column(
-                children: <Widget>[
-                  new OfferCard(businessOffer: widget.offer, inner: true),
-                  new Padding(
-                    padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
-                    child: new Text(
-                      "${getAccount(businessAccountId).summary.name} wants to make a deal.\nHaggle or make a deal?",
-                      style: Theme.of(context).textTheme.caption,
-                      textAlign: TextAlign.center,
-                    ),
+            color: Theme.of(context).cardColor,
+            elevation: 8.0,
+            child: new Column(
+              children: <Widget>[
+                new OfferCard(businessOffer: widget.offer, inner: true),
+                new Padding(
+                  padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                  child: new Text(
+                    "${getAccount(businessAccountId).summary.name} wants to make a deal.\nHaggle or make a deal?",
+                    style: Theme.of(context).textTheme.caption,
+                    textAlign: TextAlign.center,
                   ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
           new Flexible(
             child: new ListView(
               reverse: true,
               padding: new EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
-              children: _buildChatMessages().reversed.toList(), //<Widget>[
-              // _buildChatMessage()
-              /*
-                new Card(
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                  child: new Padding(
-                    padding: new EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0),
-                    child: new Text("ESD 4.5"),
-                  ),
-                ),
-                new Card(
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                  child: new Padding(
-                    padding: new EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0),
-                    child: new Text("ESE 3.0"),
-                  ),
-                ),
-                new Card(
-                  margin:
-                      new EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                  child: new Padding(
-                    padding: new EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 4.0),
-                    child: new Text("BT8XXEMU: BT815"),
-                  ),
-                ),
-                new Padding(
-                  padding:
-                      new EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                  child: new Text("Tralalala"),
-                ),
-                new Dismissible(
-                  key: new Key("dfsanddna"),
-                  child: new Padding(
-                    padding: new EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 4.0),
-                    child: new Text("Tralalala!!!"),
-                  ),
-                  background: new Padding(
-                    padding: new EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 4.0),
-                    child: new Text("Done"),
-                  ),
-                  secondaryBackground: new Padding(
-                    padding: new EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 4.0),
-                    child: new Text("waaah"),
-                  ),
-                  direction: DismissDirection.startToEnd,
-                ),
-                new Padding(
-                  padding:
-                      new EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                  child: new Text("Tralalala"),
-                ),
-                new Padding(
-                  padding:
-                      new EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                  child: new Text("Tralalala"),
-                ),
-                new Padding(
-                  padding:
-                      new EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                  child: new Text("Tralalalaaa"),
-                ),
-                */
-              //],
+              children: _buildChatMessages().reversed.toList(),
             ),
           ),
-          /*new Theme(
-            data: Theme.of(context).copyWith(
-              textTheme: Theme.of(context).primaryTextTheme,
-              iconTheme: Theme.of(context).primaryIconTheme,
-              backgroundColor: Theme.of(context).primaryColor,
-            ),
-            child:*/
           new Material(
             color: Theme.of(context).cardColor,
             elevation: 8.0,

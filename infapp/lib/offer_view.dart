@@ -19,6 +19,7 @@ class OfferView extends StatefulWidget {
     this.onEndPressed,
     this.onEditPressed,
     this.onApplicantsPressed,
+    this.onApplicantPressed,
   }) : super(key: key);
 
   final Future<DataApplicant> Function(String remarks) onApply;
@@ -27,11 +28,13 @@ class OfferView extends StatefulWidget {
   final DataAccount businessAccount;
   final DataAccount account;
 
-  final VoidCallback onSharePressed;
+  final Function() onSharePressed;
 
-  final VoidCallback onEndPressed;
-  final VoidCallback onEditPressed;
-  final VoidCallback onApplicantsPressed;
+  final Function() onEndPressed;
+  final Function() onEditPressed;
+  final Function() onApplicantsPressed;
+
+  final Function(int applicantId) onApplicantPressed;
 
   @override
   _OfferViewState createState() => new _OfferViewState();
@@ -58,6 +61,89 @@ class _OfferViewState extends State<OfferView> {
           _waiting = false;
         });
       }
+    }
+  }
+
+  Widget _buildInfluencerApply(BuildContext context) {
+    if (widget.account.state.accountType == AccountType.AT_INFLUENCER) {
+      if (widget.businessOffer.influencerApplicantId == 0) {
+        return new Container(
+            margin: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+            child: new Column(
+              children: <Widget>[
+                new Form(
+                  key: _formKey,
+                  child: new Column(children: [
+                    new EnsureVisibleWhenFocused(
+                      focusNode: _remarksNode,
+                      child: new TextFormField(
+                        focusNode: _remarksNode,
+                        controller: _remarksController,
+                        maxLines: 4,
+                        decoration: new InputDecoration(
+                            labelText: 'Tell us what you can offer more'),
+                        validator: (val) => val.trim().length < 20
+                            ? 'Message must be longer'
+                            : null,
+                      ),
+                    ),
+                  ]),
+                ),
+                new SizedBox(
+                  height: 16.0,
+                ),
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    new RaisedButton(
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          new Text("Apply".toUpperCase()),
+                        ],
+                      ),
+                      onPressed: (widget.onApply != null && !_waiting)
+                          ? () {
+                              _submitPressed(context);
+                            }
+                          : null,
+                    )
+                  ],
+                ),
+              ],
+            ));
+      } else {
+        return new Container(
+          margin: new EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+          child: new Column(
+            children: <Widget>[
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  new RaisedButton(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        new Text("See your application".toUpperCase()),
+                      ],
+                    ),
+                    onPressed: widget.onApplicantPressed != null
+                        ? () {
+                            widget.onApplicantPressed(
+                                widget.businessOffer.influencerApplicantId);
+                          }
+                        : null,
+                  )
+                ],
+              ),
+            ],
+          ),
+        );
+      }
+    } else {
+      return null;
     }
   }
 
@@ -231,56 +317,7 @@ class _OfferViewState extends State<OfferView> {
                     style: Theme.of(context).textTheme.body1),
               ),
               new Divider(),
-              widget.account.state.accountType == AccountType.AT_INFLUENCER
-                  ? new Container(
-                      margin: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-                      child: new Column(
-                        children: <Widget>[
-                          new Form(
-                            key: _formKey,
-                            child: new Column(children: [
-                              new EnsureVisibleWhenFocused(
-                                focusNode: _remarksNode,
-                                child: new TextFormField(
-                                  focusNode: _remarksNode,
-                                  controller: _remarksController,
-                                  maxLines: 4,
-                                  decoration: new InputDecoration(
-                                      labelText:
-                                          'Tell us what you can offer more'),
-                                  validator: (val) => val.trim().length < 20
-                                      ? 'Message must be longer'
-                                      : null,
-                                ),
-                              ),
-                            ]),
-                          ),
-                          new SizedBox(
-                            height: 16.0,
-                          ),
-                          new Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              new RaisedButton(
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                child: new Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    new Text("Apply".toUpperCase()),
-                                  ],
-                                ),
-                                onPressed: (widget.onApply != null && !_waiting)
-                                    ? () {
-                                        _submitPressed(context);
-                                      }
-                                    : null,
-                              )
-                            ],
-                          )
-                        ],
-                      ))
-                  : null,
+              _buildInfluencerApply(context),
             ]..removeWhere((Widget w) => w == null)),
           ),
         ],

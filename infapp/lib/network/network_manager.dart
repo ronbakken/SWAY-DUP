@@ -24,6 +24,8 @@ import 'package:crypto/crypto.dart';
 import 'config_manager.dart';
 import 'inf.pb.dart';
 
+// TODO: Reassemble should re-merge all protobuf
+
 class NetworkManager extends StatelessWidget {
   const NetworkManager({
     Key key,
@@ -134,6 +136,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         _offersLoaded = false;
         _demoAllOffers.clear();
         _demoAllOffersLoaded = false;
+        _cachedApplicants.clear();
       }
       account = pb.data;
       for (int i = account.detail.socialMedia.length;
@@ -954,7 +957,10 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       }).catchError((error, stack) {
         print("[INF] Failed to get account: $error, $stack");
         new Timer(new Duration(seconds: 3), () {
-          cached.loading = false;
+          setState(() {
+            cached.loading = false;
+            ++_changed;
+          });
         });
       });
     }
@@ -967,7 +973,25 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   // Haggle
   /////////////////////////////////////////////////////////////////////////////
 
+  Map<int, _CachedApplicant> _cachedApplicants =
+      new Map<int, _CachedApplicant>();
+
+  void _cacheApplicant(DataApplicant applicant) {
+    _CachedApplicant cached = _cachedApplicants[applicant.applicantId];
+    if (cached == null) {
+      cached = new _CachedApplicant();
+      _cachedApplicants[applicant.applicantId] = cached;
+    }
+    setState(() {
+      cached.applicant = applicant;
+      ++_changed;
+    });
+  }
+
+  void _cacheApplicantChat(DataApplicantChat applicantChat) {}
+
   static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
+  @override
   Future<DataApplicant> applyForOffer(int offerId, String remarks) async {
     NetOfferApplyReq pbReq = new NetOfferApplyReq();
     pbReq.offerId = offerId;
@@ -977,8 +1001,64 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
         await _ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
     DataApplicant pbRes = new DataApplicant();
     pbRes.mergeFromBuffer(res.data);
+    DataBusinessOffer demoOffer = _demoAllOffers[offerId];
+    if (demoOffer != null) demoOffer.influencerApplicantId = pbRes.applicantId;
+    _cacheApplicant(pbRes); // FIXME: Chat not cached directly!
     return pbRes;
   }
+
+  @override
+  Future<DataApplicant> getApplicant(int applicantId) async {
+    //NetLoadApplicantReq pbReq = new NetLoadApplicantReq();
+    //pbReq.applicantId = 
+    //setState(() {
+    //  cached.applicant = applicant;
+    //  ++_changed;
+    //});
+    return new DataApplicant();
+  }
+
+  DataApplicant _tryGetApplicant(int applicantId, [DataApplicant fallback]) {
+    _CachedApplicant cached = _cachedApplicants[applicantId];
+    if (cached == null) {
+      cached = new _CachedApplicant();
+      _cachedApplicants[applicantId] = cached;
+    }
+    if (cached.applicant == null) {
+      if (!cached.loading) {
+        cached.loading = true;
+        getApplicant(applicantId).then((applicant) {
+          cached.loading = false;
+        }).catchError((error, stack) {
+          print("[INF] Failed to get applicant: $error, $stack");
+          new Timer(new Duration(seconds: 3), () {
+            setState(() {
+              cached.loading = false;
+              ++_changed;
+            });
+          });
+        });
+      }
+      return fallback;
+    }
+    return cached.applicant;
+  }
+
+  /// Fetch latest applicant from cache by id, fetch in background if non-existent
+  @override
+  DataApplicant tryGetApplicant(int applicantId) {
+    return _tryGetApplicant(applicantId);
+  }
+
+  /// Fetch latest applicant from cache, fetch in background if non-existent
+  @override
+  DataApplicant latestApplicant(DataApplicant applicant) {
+    return _tryGetApplicant(applicant.applicantId, applicant);
+  }
+
+  /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
+  @override
+  List<DataApplicantChat> tryGetApplicantChats(int applicantId) {}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -990,6 +1070,14 @@ class _CachedDataAccount {
   bool loading;
   DataAccount account;
   DataAccount fallback;
+}
+
+class _CachedApplicant {
+  bool loading = false;
+  DataApplicant applicant;
+  bool chatLoading = false;
+  bool chatLoaded = false;
+  Map<int, DataApplicantChat> chats = new Map<int, DataApplicantChat>();
 }
 
 class _InheritedNetworkManager extends InheritedWidget {
@@ -1108,6 +1196,18 @@ abstract class NetworkInterface {
   /////////////////////////////////////////////////////////////////////////////
 
   Future<DataApplicant> applyForOffer(int offerId, String remarks);
+
+  /// Get applicant from the server, acts like refresh
+  Future<DataApplicant> getApplicant(int applicantId);
+
+  /// Fetch latest applicant from cache by id, fetch in background if non-existent and return empty fallback
+  DataApplicant tryGetApplicant(int applicantId);
+
+  /// Fetch latest applicant from cache, fetch in background if non-existent and return given fallback
+  DataApplicant latestApplicant(DataApplicant applicant);
+
+  /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
+  List<DataApplicantChat> tryGetApplicantChats(int applicantId);
 }
 
 /* end of file */
