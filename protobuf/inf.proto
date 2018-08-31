@@ -331,12 +331,16 @@ message DataBusinessOffer {
   repeated string coverUrls = 10;
   repeated CategoryId categories = 11;
   
+  // Info for business
   BusinessOfferState state = 12;
   BusinessOfferStateReason stateReason = 13;
   int32 applicantsNew = 14;
   int32 applicantsAccepted = 15;
   int32 applicantsCompleted = 16;
   int32 applicantsRefused = 17;
+  
+  // Info for influencer
+  int32 influencerApplicantId = 22; // So the Offer View knows this offer has already been applied to
   
 }
 
