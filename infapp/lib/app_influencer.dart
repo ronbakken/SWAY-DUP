@@ -26,6 +26,7 @@ import 'business_offer_list.dart';
 import 'debug_account.dart';
 import 'page_transition.dart';
 import 'haggle_view.dart';
+import "applicants_list_placeholder.dart";
 
 import 'search/search_page_common.dart';
 import 'cards/offer_card.dart';
@@ -260,6 +261,11 @@ class _AppInfluencerState extends State<AppInfluencer> {
         navigateToProfileView(context);
       },
       onNavigateDebugAccount: navigateToDebugAccount,
+      applicantsApplying: new Builder(
+        builder: (context) {
+          return new ApplicantsListPlaceholder(applicants: network.applicants);
+        },
+      ),
     );
   }
 }
