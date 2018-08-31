@@ -328,12 +328,15 @@ message DataBusinessOffer {
   double longitude = 19;
   int32 locationOfferCount = 20; // Number of offers at the same location
   
+  // Detail info
   repeated string coverUrls = 10;
   repeated CategoryId categories = 11;
   
-  // Info for business
+  // State
   BusinessOfferState state = 12;
   BusinessOfferStateReason stateReason = 13;
+  
+  // Info for business
   int32 applicantsNew = 14;
   int32 applicantsAccepted = 15;
   int32 applicantsCompleted = 16;
@@ -761,8 +764,7 @@ message NetApplicantCompletionReq {
 
 // Message to load or refresh applicant list
 // Server will send a stream of DataApplicant messages (Id: LU_APPLI)
-// Id: L_APPLIC
-// Response: NetLoadApplicantsRes (Id: L_R_APPL)
+// Id: L_APPLIS
 message NetLoadApplicantsReq {
   // Offer for which to send applicants (ignored when requested by influencer)
   int32 offerId = 4;
@@ -778,6 +780,15 @@ message NetLoadApplicantsReq {
   
 }
 
+// Message to load or refresh applicant list
+// Id: L_APPLIC
+// Response: DataApplicant (Id: LU_APPLI)
+message NetLoadApplicantReq {
+  int32 applicantId = 1;
+  
+}
+
+/*
 // Response which is sent when all LU_APPLI messages have been sent
 // Used by the client to signal to the user that refresh is complete, if refresh was done manually (and to avoid multiple simultaneous loads)
 // Id: L_R_APPL
@@ -789,7 +800,7 @@ message NetLoadApplicantsRes {
   int32 newest = 2;
   
 }
-
+*/
 // Message to load or refresh applicant chat list
 // Server will send a stream of DataApplicantChat messages (Id: LU_A_CHA)
 // Id: L_APCHAT
@@ -809,6 +820,7 @@ message NetLoadApplicantChatsReq {
   
 }
 
+/*
 // Response which is sent when all LU_APPLI messages have been sent
 // Used by the client to signal to the user that refresh is complete, if refresh was done manually (and to avoid multiple simultaneous loads)
 // Id: L_R_APCH
@@ -820,6 +832,7 @@ message NetLoadApplicantChatsRes {
   int32 newest = 2;
   
 }
+*/
 
 // end of messages related to applicants.
 ////////////////////////////////////////////////////////////////////////////////
