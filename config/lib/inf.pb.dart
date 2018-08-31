@@ -327,6 +327,8 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(24, 'domain')
     ..aOS(25, 'firebaseServerKey')
     ..aOS(26, 'firebaseSenderId')
+    ..aOS(27, 'firebaseLegacyApi')
+    ..aOS(28, 'firebaseLegacyServerKey')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -553,6 +555,22 @@ class ConfigServices extends GeneratedMessage {
 
   bool hasFirebaseSenderId() => $_has(25);
   void clearFirebaseSenderId() => clearField(26);
+
+  String get firebaseLegacyApi => $_getS(26, '');
+  set firebaseLegacyApi(String v) {
+    $_setString(26, v);
+  }
+
+  bool hasFirebaseLegacyApi() => $_has(26);
+  void clearFirebaseLegacyApi() => clearField(27);
+
+  String get firebaseLegacyServerKey => $_getS(27, '');
+  set firebaseLegacyServerKey(String v) {
+    $_setString(27, v);
+  }
+
+  bool hasFirebaseLegacyServerKey() => $_has(27);
+  void clearFirebaseLegacyServerKey() => clearField(28);
 }
 
 class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {
@@ -948,6 +966,7 @@ class DataBusinessOffer extends GeneratedMessage {
     ..a<double>(19, 'longitude', PbFieldType.OD)
     ..a<int>(20, 'locationOfferCount', PbFieldType.O3)
     ..aOS(21, 'locationName')
+    ..a<int>(22, 'influencerApplicantId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataBusinessOffer() : super();
@@ -1128,6 +1147,14 @@ class DataBusinessOffer extends GeneratedMessage {
 
   bool hasLocationName() => $_has(20);
   void clearLocationName() => clearField(21);
+
+  int get influencerApplicantId => $_get(21, 0);
+  set influencerApplicantId(int v) {
+    $_setSignedInt32(21, v);
+  }
+
+  bool hasInfluencerApplicantId() => $_has(21);
+  void clearInfluencerApplicantId() => clearField(22);
 }
 
 class _ReadonlyDataBusinessOffer extends DataBusinessOffer
