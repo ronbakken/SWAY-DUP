@@ -314,6 +314,20 @@ const ConfigServices$json = const {
       '5': 9,
       '10': 'firebaseSenderId'
     },
+    const {
+      '1': 'firebaseLegacyApi',
+      '3': 27,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseLegacyApi'
+    },
+    const {
+      '1': 'firebaseLegacyServerKey',
+      '3': 28,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseLegacyServerKey'
+    },
   ],
 };
 
@@ -474,6 +488,13 @@ const DataBusinessOffer$json = const {
       '4': 1,
       '5': 5,
       '10': 'applicantsRefused'
+    },
+    const {
+      '1': 'influencerApplicantId',
+      '3': 22,
+      '4': 1,
+      '5': 5,
+      '10': 'influencerApplicantId'
     },
   ],
 };
