@@ -1108,7 +1108,8 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       cached = new _CachedApplicant();
       _cachedApplicants[applicantId] = cached;
     }
-    if (!cached.chatLoaded && !cached.chatLoading &&
+    if (!cached.chatLoaded &&
+        !cached.chatLoading &&
         connected == NetworkConnectionState.Ready) {
       print("fetch chat");
       cached.chatLoading = true;

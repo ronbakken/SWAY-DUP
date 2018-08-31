@@ -78,8 +78,7 @@ class _HaggleViewState extends State<HaggleView> {
   }
 
   int get otherAccountId {
-    if (influencerAccountId == accountId)
-      return businessAccountId;
+    if (influencerAccountId == accountId) return businessAccountId;
     return influencerAccountId;
   }
 
@@ -394,18 +393,23 @@ class _HaggleViewState extends State<HaggleView> {
     String statusText;
     switch (widget.applicant.state) {
       case ApplicantState.AS_HAGGLING:
-        if (widget.applicant.influencerWantsDeal != widget.applicant.businessWantsDeal) {
-          if ((businessAccountId == accountId && widget.applicant.businessWantsDeal)
-          || (influencerAccountId == accountId && widget.applicant.influencerWantsDeal)) {
+        if (widget.applicant.influencerWantsDeal !=
+            widget.applicant.businessWantsDeal) {
+          if ((businessAccountId == accountId &&
+                  widget.applicant.businessWantsDeal) ||
+              (influencerAccountId == accountId &&
+                  widget.applicant.influencerWantsDeal)) {
             statusText = "You want to make a deal.";
           } else {
-            statusText = "${otherAccount.summary.name} wants to make a deal.\nHaggle or make a deal?";
+            statusText =
+                "${otherAccount.summary.name} wants to make a deal.\nHaggle or make a deal?";
           }
         } else if (!widget.applicant.influencerWantsDeal) {
           // Neither parties have decided yet (no need to check both)
           statusText = "Haggle or make a deal?";
         } else {
-          statusText = "Deal!"; // This text is only shortly visible while waiting for server
+          statusText =
+              "Deal!"; // This text is only shortly visible while waiting for server
         }
         break;
       case ApplicantState.AS_REJECTED:
@@ -415,13 +419,15 @@ class _HaggleViewState extends State<HaggleView> {
         if (accountId == influencerAccountId)
           statusText = "A deal has been made.\nDeliver and get rewarded!";
         else
-          statusText = "A deal has been made.\nStay in touch with your influencer!";
+          statusText =
+              "A deal has been made.\nStay in touch with your influencer!";
         break;
       case ApplicantState.AS_COMPLETE:
         statusText = "This deal has been completed successfully!";
         break;
       case ApplicantState.AS_DISPUTE:
-        statusText = "A dispute is ongoing. You may be contaced by e-mail by our support staff.\nsupport@infmarketplace.app";
+        statusText =
+            "A dispute is ongoing. You may be contaced by e-mail by our support staff.\nsupport@infmarketplace.app";
         break;
       case ApplicantState.AS_RESOLVED:
         statusText = "This deal is now closed.";
@@ -459,14 +465,16 @@ class _HaggleViewState extends State<HaggleView> {
             child: new Column(
               children: <Widget>[
                 new OfferCard(businessOffer: widget.offer, inner: true),
-                statusText != null ? new Padding(
-                  padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
-                  child: new Text(
-                    statusText,
-                    style: Theme.of(context).textTheme.caption,
-                    textAlign: TextAlign.center,
-                  ),
-                ) : null,
+                statusText != null
+                    ? new Padding(
+                        padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                        child: new Text(
+                          statusText,
+                          style: Theme.of(context).textTheme.caption,
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    : null,
               ].where((w) => w != null).toList(),
             ),
           ),
