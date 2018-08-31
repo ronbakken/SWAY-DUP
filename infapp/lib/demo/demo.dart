@@ -23,6 +23,9 @@ import '../profile/profile_edit.dart' show ProfileEdit;
 import '../search/search_button.dart';
 import '../search/search_page.dart';
 import '../debug_account.dart';
+import '../location_selection/location_selection.dart';
+import '../location_selection/location_search.dart';
+//import '../location_selection/location_selection_influencer.dart';
 
 class DemoApp extends StatefulWidget {
   const DemoApp({Key key, this.startupConfig}) : super(key: key);
@@ -599,6 +602,36 @@ class _DemoHomePageState extends State<DemoHomePage> {
                   new ProfileEdit(
                     account: demoAccount,
                   ));
+            },
+          ),
+          new FlatButton(
+            child: new Row(children: [new Text('Select Location')]),
+            onPressed: () {
+              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              transitionPage(
+                  context,
+                  new LocationSelectionScreen(
+                    onConfirmPressed: (coordinates) {
+                      print(coordinates.latitude);
+                      print("     ");
+                      print(coordinates.longitude);
+                    },
+                    onSearchPressed: (query) {
+                      print(query);
+                    },
+                  ));
+            },
+          ),
+          new FlatButton(
+            child: new Row(children: [new Text('Search Location')]),
+            onPressed: () {
+              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              transitionPage(
+                context,
+                new LocationSearchScreen(
+                  searchQuery: "Makati",
+                ),
+              );
             },
           ),
           new FlatButton(
