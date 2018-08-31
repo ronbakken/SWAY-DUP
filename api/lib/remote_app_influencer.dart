@@ -288,6 +288,7 @@ class RemoteAppInfluencer {
       }
 
       ts.sendExtend(message);
+      transaction.commit();
     });
 
     devLog.finest("Applied for offer successfully: $applicant");
