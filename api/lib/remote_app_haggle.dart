@@ -265,11 +265,11 @@ class RemoteAppHaggle {
   //////////////////////////////////////////////////////////////////////////////
   // User actions
   //////////////////////////////////////////////////////////////////////////////
-  
+
   // Client should respond to live updates and posts from broadcast center
   // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
   // Also post to FCM
-  
+
   /*
   final Function(String text) onSendPlain; -> CH_PLAIN
   final Function(String key) onSendImageKey; -> CH_IMAGE
