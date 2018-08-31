@@ -18,15 +18,15 @@ class LocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Card(
       child: new InkWell(
-        onTap: () { 
-          onCardTapped(this.locationName); 
-          
+        onTap: () {
+          onCardTapped(this.locationName);
+
           // TODO: save longitude and latitude
 
           // TODO: go back to map
         },
         child: new Column(
-          children: <Widget> [
+          children: <Widget>[
             new Container(
               padding: const EdgeInsets.all(8.0),
               child: new Text(this.locationName),

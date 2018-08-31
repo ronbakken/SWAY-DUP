@@ -605,8 +605,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
             },
           ),
           new FlatButton(
-            child:
-                new Row(children: [new Text('Select Location')]),
+            child: new Row(children: [new Text('Select Location')]),
             onPressed: () {
               demoAccount.state.accountType = AccountType.AT_BUSINESS;
               transitionPage(
@@ -624,13 +623,14 @@ class _DemoHomePageState extends State<DemoHomePage> {
             },
           ),
           new FlatButton(
-            child:
-                new Row(children: [new Text('Search Location')]),
+            child: new Row(children: [new Text('Search Location')]),
             onPressed: () {
               demoAccount.state.accountType = AccountType.AT_BUSINESS;
               transitionPage(
-                  context,
-                  new LocationSearchScreen(searchQuery: "Makati",),
+                context,
+                new LocationSearchScreen(
+                  searchQuery: "Makati",
+                ),
               );
             },
           ),

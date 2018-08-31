@@ -6,17 +6,16 @@ import 'package:transparent_image/transparent_image.dart';
 typedef void SearchCallback(String searchQuery);
 typedef void ConfirmLocationCallback(LatLng locationCoordinates);
 
-/// Location Selection Screen that will save 
+/// Location Selection Screen that will save
 /// the user profile's location. It is a stateful Widget
 /// because we want to constantly display the pinpoint
 /// location name from the map.
-class LocationSelectionScreen extends StatefulWidget
-{
+class LocationSelectionScreen extends StatefulWidget {
   LocationSelectionScreen({
     Key key,
     this.onSearchPressed,
     this.onConfirmPressed,
-  }) : super (key: key);
+  }) : super(key: key);
 
   // Callback when the search button is pressed
   final SearchCallback onSearchPressed;
@@ -28,9 +27,7 @@ class LocationSelectionScreen extends StatefulWidget
   _LocationSelectionState createState() => new _LocationSelectionState();
 }
 
-
-class _LocationSelectionState extends State<LocationSelectionScreen>
-{
+class _LocationSelectionState extends State<LocationSelectionScreen> {
   // Confirm Button to save the pointer location
   FloatingActionButton confirmButton;
 
@@ -61,13 +58,13 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
       backgroundColor: Colors.green,
       child: new Icon(Icons.check),
     );
-    
+
     // Initializer Marker
     marker = new Marker(
       point: new LatLng(14.5438, 121.0115),
       builder: (ctx) => new Container(
-        child: new Icon(Icons.check),
-      ),
+            child: new Icon(Icons.check),
+          ),
     );
 
     // Initialize Search Bar
@@ -82,11 +79,10 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
     // Initialize Search Button
     Icon searchIcon = new Icon(Icons.search);
     searchButton = new IconButton(
-      icon: searchIcon,
-      onPressed: () {
-        widget.onSearchPressed(_searchFieldController.text);
-      }
-    );
+        icon: searchIcon,
+        onPressed: () {
+          widget.onSearchPressed(_searchFieldController.text);
+        });
 
     // Initialize Map
     // TODO: Make marker stay on the center
@@ -96,44 +92,41 @@ class _LocationSelectionState extends State<LocationSelectionScreen>
         center: new LatLng(14.5438, 121.0115),
       ),
       mapController: _flutterMapController,
-      layers: <LayerOptions> [
+      layers: <LayerOptions>[
         new TileLayerOptions(
           backgroundColor: new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
           placeholderImage: new MemoryImage(kTransparentImage),
           urlTemplate: "https://api.tiles.mapbox.com/v4/"
-            "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+              "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
           additionalOptions: {
             'accessToken':
-              'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
+                'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
             'id': 'mapbox.dark',
           },
         ),
         new MarkerLayerOptions(
-          markers: <Marker> [
+          markers: <Marker>[
             marker,
           ],
         ),
-
       ],
     );
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return new Scaffold(
       appBar: _buildSearchBar(),
       body: flutterMap,
       floatingActionButton: confirmButton,
     );
   }
-  
+
   // Appbar that will be a search bar
-  AppBar _buildSearchBar() 
-  {
+  AppBar _buildSearchBar() {
     return new AppBar(
       title: searchField,
-      actions: <Widget>[ searchButton ],
+      actions: <Widget>[searchButton],
     );
   }
 }

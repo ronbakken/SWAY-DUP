@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-/// Location Selection Screen that will find 
+/// Location Selection Screen that will find
 /// the influencer profile's location.
-class LocationInfluencerScreen extends StatefulWidget
-{
+class LocationInfluencerScreen extends StatefulWidget {
   LocationInfluencerScreen({
     Key key,
     this.onSearch,
     this.onConfirm,
-  }) : super (key: key);
+  }) : super(key: key);
 
   // function called when the search button is pressed
   final VoidCallback onSearch;
@@ -22,9 +21,7 @@ class LocationInfluencerScreen extends StatefulWidget
   _LocationInfluencerState createState() => new _LocationInfluencerState();
 }
 
-
-class _LocationInfluencerState extends State<LocationInfluencerScreen>
-{
+class _LocationInfluencerState extends State<LocationInfluencerScreen> {
   // saves the target area
   FloatingActionButton confirmButton;
 
@@ -50,8 +47,7 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
   FlutterMap map;
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return new Scaffold(
       appBar: searchBar,
       body: map,
@@ -73,10 +69,10 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
     searchButton = new IconButton(
       icon: searchIcon,
       onPressed: widget.onSearch,
-    );  
+    );
     searchBar = new AppBar(
       title: search,
-      actions: <Widget>[ searchButton],
+      actions: <Widget>[searchButton],
     );
 
     // build the map
@@ -85,8 +81,8 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
       height: 80.0,
       point: new LatLng(0.0, 0.0),
       builder: (ctx) => new Container(
-        child: new FlutterLogo(),
-      ),
+            child: new FlutterLogo(),
+          ),
     );
     _mapController = new MapController();
     map = new FlutterMap(
@@ -94,18 +90,18 @@ class _LocationInfluencerState extends State<LocationInfluencerScreen>
       options: new MapOptions(
         center: new LatLng(0.0, 0.0),
       ),
-      layers: <LayerOptions> [
+      layers: <LayerOptions>[
         new TileLayerOptions(
           urlTemplate: "https://api.tiles.mapbox.com/v4/"
-            "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+              "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
           additionalOptions: {
             'accessToken':
-              'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
+                'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
             'id': 'mapbox.dark',
           },
         ),
-         new MarkerLayerOptions(
-          markers: <Marker> [
+        new MarkerLayerOptions(
+          markers: <Marker>[
             marker,
           ],
         ),

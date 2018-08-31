@@ -15,32 +15,28 @@ class LocationSearchScreen extends StatefulWidget {
 }
 
 class _LocationSearchPageState extends State<LocationSearchScreen> {
-
-   // Search Field 
+  // Search Field
   TextField searchField;
   TextEditingController _searchFieldController;
 
-  // Cancel Button 
+  // Cancel Button
   IconButton cancelButton;
 
   // function called when the cancel button is pressed
-  void _resetSearchField()
-  {
+  void _resetSearchField() {
     setState(() {
-       _searchFieldController.text = "";
-      }
+      _searchFieldController.text = "";
+    }
 
-      // TODO: clear search cards
-    );
+        // TODO: clear search cards
+        );
   }
 
   // Function called when a location card is tapped
-  void _selectLocation(String item) 
-  {
+  void _selectLocation(String item) {
     setState(() {
-       _searchFieldController.text = item;
-      }
-    );
+      _searchFieldController.text = item;
+    });
   }
 
   @override
@@ -49,7 +45,8 @@ class _LocationSearchPageState extends State<LocationSearchScreen> {
     super.initState();
 
     // Initialize Search Field
-    _searchFieldController = new TextEditingController(text: widget.searchQuery);
+    _searchFieldController =
+        new TextEditingController(text: widget.searchQuery);
     searchField = new TextField(
       controller: _searchFieldController,
     );
@@ -67,20 +64,17 @@ class _LocationSearchPageState extends State<LocationSearchScreen> {
     return new Scaffold(
       appBar: new AppBar(
         title: searchField,
-        actions: <Widget>[ cancelButton ],
+        actions: <Widget>[cancelButton],
       ),
       body: new ListView.builder(
         itemCount: 10,
-        itemBuilder: (context,  index) {
+        itemBuilder: (context, index) {
           return new LocationCard(
-            onCardTapped: _selectLocation,
-            locationName: "Location $index",
-            addressName: "Adress $index"
-
-          );
+              onCardTapped: _selectLocation,
+              locationName: "Location $index",
+              addressName: "Adress $index");
         },
       ),
-
     );
   }
 }
