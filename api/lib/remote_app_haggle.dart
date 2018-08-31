@@ -79,8 +79,7 @@ class RemoteAppHaggle {
 
   static int _netDataApplicantUpdate = TalkSocket.encode("LU_APPLI");
 
-  static String _applicantSelect =
-      "`applicant_id`, `offer_id`, " // 0 1
+  static String _applicantSelect = "`applicant_id`, `offer_id`, " // 0 1
       "`influencer_account_id`, `business_account_id`, " // 2 3
       "`haggle_chat_id`, " // 4
       "`influencer_wants_deal`, `business_wants_deal`, " // 5 6
@@ -126,7 +125,8 @@ class RemoteAppHaggle {
           "$_applicantSelect"
           "FROM `applicants` "
           "WHERE `applicant_id` = ?";
-      await for (sqljocky.Row row in await connection.prepareExecute(query, [pb.applicantId.toInt()])) {
+      await for (sqljocky.Row row
+          in await connection.prepareExecute(query, [pb.applicantId.toInt()])) {
         applicant = _applicantFromRow(row);
       }
     } finally {
