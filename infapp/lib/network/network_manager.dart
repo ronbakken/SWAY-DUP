@@ -347,9 +347,9 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
           ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState));
       _subscriptions.add(
           ts.stream(TalkSocket.encode("DB_OFFER")).listen(_dataBusinessOffer));
-      _subscriptions.add(ts
-          .stream(TalkSocket.encode("DE_OFFER"))
-          .listen(_demoAllBusinessOffer));
+      //_subscriptions.add(ts
+      //    .stream(TalkSocket.encode("DE_OFFER"))
+      //    .listen(_demoAllBusinessOffer));
     }
 
     // assert(accountState.deviceId != 0);
@@ -785,8 +785,12 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   Future<void> refreshDemoAllOffers() async {
     NetLoadOffersReq loadOffersReq =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    await _ts.sendRequest(_netLoadOffersReq,
-        loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
+    //await _ts.sendRequest(_netLoadOffersReq,
+    //    loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
+    await for (TalkMessage res in _ts.sendStreamRequest(
+        _netLoadOffersReq, loadOffersReq.writeToBuffer()))
+      _demoAllBusinessOffer(res);
+    print("Refresh done");
   }
 
   @override
@@ -962,14 +966,15 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   /////////////////////////////////////////////////////////////////////////////
   // Haggle
   /////////////////////////////////////////////////////////////////////////////
-  
+
   static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
   Future<DataApplicant> applyForOffer(int offerId, String remarks) async {
     NetOfferApplyReq pbReq = new NetOfferApplyReq();
     pbReq.offerId = offerId;
     pbReq.deviceGhostId = ++nextDeviceGhostId;
     pbReq.remarks = remarks;
-    TalkMessage res = await _ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
+    TalkMessage res =
+        await _ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
     DataApplicant pbRes = new DataApplicant();
     pbRes.mergeFromBuffer(res.data);
     return pbRes;
@@ -1101,7 +1106,7 @@ abstract class NetworkInterface {
   /////////////////////////////////////////////////////////////////////////////
   // Haggle
   /////////////////////////////////////////////////////////////////////////////
-  
+
   Future<DataApplicant> applyForOffer(int offerId, String remarks);
 }
 
