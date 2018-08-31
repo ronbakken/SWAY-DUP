@@ -169,7 +169,7 @@ class RemoteAppInfluencer {
           // offers[offer.offerId] = offer;
           // Send offer to user
           devLog.finest("Send offer '${offer.title}'");
-          ts.sendMessage(_demoAllBusinessOffer, offer.writeToBuffer());
+          ts.sendMessage(_demoAllBusinessOffer, offer.writeToBuffer(), replying: message);
         }
         ts.sendExtend(message);
       } finally {
@@ -180,9 +180,10 @@ class RemoteAppInfluencer {
     }
 
     devLog.finest("Done sending demo offers");
-    NetLoadOffersRes loadOffersRes = new NetLoadOffersRes();
-    ts.sendMessage(_netLoadOffersRes, loadOffersRes.writeToBuffer(),
-        replying: message);
+    //NetLoadOffersRes loadOffersRes = new NetLoadOffersRes();
+    //ts.sendMessage(_netLoadOffersRes, loadOffersRes.writeToBuffer(),
+    //    replying: message);
+    ts.sendEndOfStream(message);
   }
 
   StreamSubscription<TalkMessage> _netOfferApplyReq; // C_OFFERR

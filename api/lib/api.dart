@@ -60,17 +60,23 @@ selfTestSql(sqljocky.ConnectionPool sql) async {
 selfTestTalk() async {
   final Logger opsLog = new Logger('InfOps.SelfTest');
   TalkSocket ts;
+  List<int> values = new List<int>();
   try {
     ts = await TalkSocket.connect("ws://localhost:8090/api");
     Future<Null> listen = ts.listen();
     for (int i = 0; i < 3; ++i) {
-      await ts.ping();
+      values.add(await ts.ping());
+    }
+    for (int i = 0; i < 3; ++i) {
+      await for (int dt in ts.multiPing()) {
+        values.add(dt);
+      }
     }
     ts.close();
     await listen;
-    opsLog.info("[✔️] WSTalk Self Test");
+    opsLog.info("[✔️] WSTalk Self Test $values");
   } catch (ex) {
-    opsLog.severe("[❌] WSTalk Self Test: $ex"); // CRITICAL - OPERATIONS
+    opsLog.severe("[❌] WSTalk Self Test $values: $ex"); // CRITICAL - OPERATIONS
   }
   if (ts != null) {
     ts.close();
