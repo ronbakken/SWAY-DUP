@@ -60,20 +60,26 @@ class _NearbyCommonState extends State<NearbyCommon> {
       _initialLatLng = new LatLng(34.0207305, -118.6919159);
     }
     _geolocator = new Geolocator();
-    _positionSubscription = _geolocator.getPositionStream().listen((position) {
-      if (position.latitude != null &&
-          position.longitude != null &&
-          position.latitude != 0.0 &&
-          position.longitude != 0.0) {
-        bool setInitial = _gpsLatLng == null;
-        setState(() {
-          _gpsLatLng = new LatLng(position.latitude, position.longitude);
-        });
-        if (setInitial) _mapController.move(_gpsLatLng, _mapController.zoom);
-      }
-    });
     () async {
+      _positionSubscription = (await _geolocator.getPositionStream()).listen((position) {
+        if (position.latitude != null &&
+            position.longitude != null &&
+            position.latitude != 0.0 &&
+            position.longitude != 0.0) {
+          bool setInitial = _gpsLatLng == null;
+          setState(() {
+            _gpsLatLng = new LatLng(position.latitude, position.longitude);
+          });
+          if (setInitial) _mapController.move(_gpsLatLng, _mapController.zoom);
+        }
+      });
+      if (!mounted) {
+        _positionSubscription.cancel();
+        _positionSubscription = null;
+        return;
+      }
       Position position = await _geolocator.getLastKnownPosition();
+      if (!mounted) return;
       if (position.latitude != null &&
           position.longitude != null &&
           position.latitude != 0.0 &&
@@ -89,7 +95,9 @@ class _NearbyCommonState extends State<NearbyCommon> {
 
   @override
   void dispose() {
-    _positionSubscription.cancel();
+    if (_positionSubscription != null) {
+      _positionSubscription.cancel();
+    }
     super.dispose();
   }
 
