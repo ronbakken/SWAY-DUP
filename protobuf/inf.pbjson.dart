@@ -1020,11 +1020,10 @@ const NetLoadApplicantsReq$json = const {
   ],
 };
 
-const NetLoadApplicantsRes$json = const {
-  '1': 'NetLoadApplicantsRes',
+const NetLoadApplicantReq$json = const {
+  '1': 'NetLoadApplicantReq',
   '2': const [
-    const {'1': 'oldest', '3': 1, '4': 1, '5': 5, '10': 'oldest'},
-    const {'1': 'newest', '3': 2, '4': 1, '5': 5, '10': 'newest'},
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
   ],
 };
 
@@ -1035,14 +1034,6 @@ const NetLoadApplicantChatsReq$json = const {
     const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
     const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
     const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
-  ],
-};
-
-const NetLoadApplicantChatsRes$json = const {
-  '1': 'NetLoadApplicantChatsRes',
-  '2': const [
-    const {'1': 'oldest', '3': 1, '4': 1, '5': 5, '10': 'oldest'},
-    const {'1': 'newest', '3': 2, '4': 1, '5': 5, '10': 'newest'},
   ],
 };
 

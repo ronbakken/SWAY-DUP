@@ -3290,54 +3290,45 @@ class NetLoadApplicantsReq extends GeneratedMessage {
 class _ReadonlyNetLoadApplicantsReq extends NetLoadApplicantsReq
     with ReadonlyMessageMixin {}
 
-class NetLoadApplicantsRes extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantsRes')
-    ..a<int>(1, 'oldest', PbFieldType.O3)
-    ..a<int>(2, 'newest', PbFieldType.O3)
+class NetLoadApplicantReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantReq')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetLoadApplicantsRes() : super();
-  NetLoadApplicantsRes.fromBuffer(List<int> i,
+  NetLoadApplicantReq() : super();
+  NetLoadApplicantReq.fromBuffer(List<int> i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetLoadApplicantsRes.fromJson(String i,
+  NetLoadApplicantReq.fromJson(String i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetLoadApplicantsRes clone() =>
-      new NetLoadApplicantsRes()..mergeFromMessage(this);
+  NetLoadApplicantReq clone() =>
+      new NetLoadApplicantReq()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetLoadApplicantsRes create() => new NetLoadApplicantsRes();
-  static PbList<NetLoadApplicantsRes> createRepeated() =>
-      new PbList<NetLoadApplicantsRes>();
-  static NetLoadApplicantsRes getDefault() {
+  static NetLoadApplicantReq create() => new NetLoadApplicantReq();
+  static PbList<NetLoadApplicantReq> createRepeated() =>
+      new PbList<NetLoadApplicantReq>();
+  static NetLoadApplicantReq getDefault() {
     if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadApplicantsRes();
+      _defaultInstance = new _ReadonlyNetLoadApplicantReq();
     return _defaultInstance;
   }
 
-  static NetLoadApplicantsRes _defaultInstance;
-  static void $checkItem(NetLoadApplicantsRes v) {
-    if (v is! NetLoadApplicantsRes) checkItemFailed(v, 'NetLoadApplicantsRes');
+  static NetLoadApplicantReq _defaultInstance;
+  static void $checkItem(NetLoadApplicantReq v) {
+    if (v is! NetLoadApplicantReq) checkItemFailed(v, 'NetLoadApplicantReq');
   }
 
-  int get oldest => $_get(0, 0);
-  set oldest(int v) {
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasOldest() => $_has(0);
-  void clearOldest() => clearField(1);
-
-  int get newest => $_get(1, 0);
-  set newest(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasNewest() => $_has(1);
-  void clearNewest() => clearField(2);
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
 }
 
-class _ReadonlyNetLoadApplicantsRes extends NetLoadApplicantsRes
+class _ReadonlyNetLoadApplicantReq extends NetLoadApplicantReq
     with ReadonlyMessageMixin {}
 
 class NetLoadApplicantChatsReq extends GeneratedMessage {
@@ -3407,57 +3398,6 @@ class NetLoadApplicantChatsReq extends GeneratedMessage {
 }
 
 class _ReadonlyNetLoadApplicantChatsReq extends NetLoadApplicantChatsReq
-    with ReadonlyMessageMixin {}
-
-class NetLoadApplicantChatsRes extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantChatsRes')
-    ..a<int>(1, 'oldest', PbFieldType.O3)
-    ..a<int>(2, 'newest', PbFieldType.O3)
-    ..hasRequiredFields = false;
-
-  NetLoadApplicantChatsRes() : super();
-  NetLoadApplicantChatsRes.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetLoadApplicantChatsRes.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetLoadApplicantChatsRes clone() =>
-      new NetLoadApplicantChatsRes()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static NetLoadApplicantChatsRes create() => new NetLoadApplicantChatsRes();
-  static PbList<NetLoadApplicantChatsRes> createRepeated() =>
-      new PbList<NetLoadApplicantChatsRes>();
-  static NetLoadApplicantChatsRes getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadApplicantChatsRes();
-    return _defaultInstance;
-  }
-
-  static NetLoadApplicantChatsRes _defaultInstance;
-  static void $checkItem(NetLoadApplicantChatsRes v) {
-    if (v is! NetLoadApplicantChatsRes)
-      checkItemFailed(v, 'NetLoadApplicantChatsRes');
-  }
-
-  int get oldest => $_get(0, 0);
-  set oldest(int v) {
-    $_setSignedInt32(0, v);
-  }
-
-  bool hasOldest() => $_has(0);
-  void clearOldest() => clearField(1);
-
-  int get newest => $_get(1, 0);
-  set newest(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasNewest() => $_has(1);
-  void clearNewest() => clearField(2);
-}
-
-class _ReadonlyNetLoadApplicantChatsRes extends NetLoadApplicantChatsRes
     with ReadonlyMessageMixin {}
 
 class NetLoadPublicProfileReq extends GeneratedMessage {
