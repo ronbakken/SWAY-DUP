@@ -63,12 +63,18 @@ class RemoteAppHaggle {
   RemoteAppHaggle(this._r) {
     _netLoadApplicantReq = _r.saferListen("L_APPLIC",
         GlobalAccountState.GAS_READ_ONLY, true, netLoadApplicantReq);
+    _netLoadApplicantChatsReq = _r.saferListen("L_APCHAT",
+        GlobalAccountState.GAS_READ_ONLY, true, netLoadApplicantChatsReq);
   }
 
   void dispose() {
     if (_netLoadApplicantReq != null) {
       _netLoadApplicantReq.cancel();
       _netLoadApplicantReq = null;
+    }
+    if (_netLoadApplicantChatsReq != null) {
+      _netLoadApplicantChatsReq.cancel();
+      _netLoadApplicantChatsReq = null;
     }
     _r = null;
   }
@@ -78,6 +84,7 @@ class RemoteAppHaggle {
   //////////////////////////////////////////////////////////////////////////////
 
   static int _netDataApplicantUpdate = TalkSocket.encode("LU_APPLI");
+  static int _netDataApplicantChatUpdate = TalkSocket.encode("LU_A_CHA");
 
   static String _applicantSelect = "`applicant_id`, `offer_id`, " // 0 1
       "`influencer_account_id`, `business_account_id`, " // 2 3
@@ -143,5 +150,82 @@ class RemoteAppHaggle {
     } else {
       ts.sendException("Not Authorized", message);
     }
+  }
+
+  // NetLoadApplicantChatsReq
+  StreamSubscription<TalkMessage> _netLoadApplicantChatsReq; // L_APCHAT
+  Future<void> netLoadApplicantChatsReq(TalkMessage message) async {
+    NetLoadApplicantChatsReq pb = new NetLoadApplicantChatsReq();
+    pb.mergeFromBuffer(message.data);
+    devLog.finest(pb);
+
+    int influencerAccountId;
+    int businessAccountId;
+
+    sqljocky.RetainedConnection connection = await sql.getConnection();
+    try {
+      // Fetch applicant
+      ts.sendExtend(message);
+      String query = "SELECT "
+          "`influencer_account_id`, `business_account_id` "
+          "FROM `applicants` "
+          "WHERE `applicant_id` = ?";
+      await for (sqljocky.Row row
+          in await connection.prepareExecute(query, [pb.applicantId.toInt()])) {
+        influencerAccountId = row[0].toInt();
+        businessAccountId = row[1].toInt();
+      }
+      devLog.finest("$influencerAccountId $businessAccountId");
+
+      // Authorize
+      if (businessAccountId == null || influencerAccountId == null) {
+        ts.sendException("Not Found", message);
+        return; // Verify that this does call finally
+      }
+      if (account.state.accountType != AccountType.AT_SUPPORT &&
+          accountId != businessAccountId &&
+          accountId != influencerAccountId) {
+        ts.sendException("Not Authorized", message);
+        return; // Verify that this does call finally
+      }
+
+      // Fetch
+      ts.sendExtend(message);
+      String chatQuery = "SELECT "
+          "`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, " // 0 1
+          "`sender_id`, `device_id`, `device_ghost_id`, " // 2 3 4
+          "`type`, `text`, UNIX_TIMESTAMP(`seen`) AS `seen` " // 5 6 7
+          "FROM `applicant_haggling` "
+          "WHERE `applicant_id` = ?";
+      await for (sqljocky.Row row
+          in await connection.prepareExecute(chatQuery, [
+        pb.applicantId.toInt(),
+      ])) {
+        DataApplicantChat chat = new DataApplicantChat();
+        chat.applicantId = pb.applicantId;
+        chat.chatId = new Int64(row[0].toInt());
+        chat.sent = new Int64(row[1].toInt());
+        chat.senderId = row[2].toInt();
+        int deviceId = row[3].toInt();
+        if (deviceId == account.state.deviceId) {
+          chat.deviceId = deviceId;
+          chat.deviceGhostId = row[4].toInt();
+        }
+        chat.type = ApplicantChatType.valueOf(row[5].toInt());
+        chat.text = row[6].toString();
+        if (row[7] != null) chat.seen = new Int64(row[7].toInt());
+        devLog.finest("${chat.text}");
+        if (chat.type == ApplicantChatType.ACT_IMAGE_KEY) {
+          chat.text = "url=" + Uri.encodeQueryComponent(_r.makeCloudinaryCoverUrl(Uri.splitQueryString(chat.text)['key'].toString()));
+        }
+        ts.sendMessage(_netDataApplicantChatUpdate, chat.writeToBuffer(),
+            replying: message);
+      }
+    } finally {
+      connection.release();
+    }
+
+    // Done
+    ts.sendEndOfStream(message);
   }
 }
