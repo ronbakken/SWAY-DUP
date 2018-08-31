@@ -169,7 +169,8 @@ class RemoteAppInfluencer {
           // offers[offer.offerId] = offer;
           // Send offer to user
           devLog.finest("Send offer '${offer.title}'");
-          ts.sendMessage(_demoAllBusinessOffer, offer.writeToBuffer(), replying: message);
+          ts.sendMessage(_demoAllBusinessOffer, offer.writeToBuffer(),
+              replying: message);
         }
         ts.sendExtend(message);
       } finally {
