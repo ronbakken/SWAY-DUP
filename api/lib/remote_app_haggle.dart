@@ -21,6 +21,8 @@ import 'remote_app.dart';
 
 class RemoteAppHaggle {
   //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Inherited properties
   //////////////////////////////////////////////////////////////////////////////
 
@@ -54,33 +56,36 @@ class RemoteAppHaggle {
   }
 
   //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
   static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
   static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
+  final List<StreamSubscription<dynamic>> _subscriptions =
+      new List<StreamSubscription<dynamic>>();
 
   RemoteAppHaggle(this._r) {
-    _netLoadApplicantReq = _r.saferListen("L_APPLIC",
-        GlobalAccountState.GAS_READ_ONLY, true, netLoadApplicantReq);
-    _netLoadApplicantChatsReq = _r.saferListen("L_APCHAT",
-        GlobalAccountState.GAS_READ_ONLY, true, netLoadApplicantChatsReq);
+    _subscriptions.add(_r.saferListen("L_APPLIC",
+        GlobalAccountState.GAS_READ_ONLY, true, netLoadApplicantReq));
+    _subscriptions.add(_r.saferListen("L_APPLIS",
+        GlobalAccountState.GAS_READ_ONLY, true, netLoadApplicantsReq));
+    _subscriptions.add(_r.saferListen("L_APCHAT",
+        GlobalAccountState.GAS_READ_ONLY, true, netLoadApplicantChatsReq));
   }
 
   void dispose() {
-    if (_netLoadApplicantReq != null) {
-      _netLoadApplicantReq.cancel();
-      _netLoadApplicantReq = null;
-    }
-    if (_netLoadApplicantChatsReq != null) {
-      _netLoadApplicantChatsReq.cancel();
-      _netLoadApplicantChatsReq = null;
-    }
+    _subscriptions.forEach((subscription) {
+      subscription.cancel();
+    });
     _r = null;
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  // Network messages
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // Informational network messages
   //////////////////////////////////////////////////////////////////////////////
 
   static int _netDataApplicantUpdate = TalkSocket.encode("LU_APPLI");
@@ -116,7 +121,6 @@ class RemoteAppHaggle {
     return applicant;
   }
 
-  StreamSubscription<TalkMessage> _netLoadApplicantReq; // L_APPLIC
   Future<void> netLoadApplicantReq(TalkMessage message) async {
     NetLoadApplicantReq pb = new NetLoadApplicantReq();
     pb.mergeFromBuffer(message.data);
@@ -152,8 +156,33 @@ class RemoteAppHaggle {
     }
   }
 
+  Future<void> netLoadApplicantsReq(TalkMessage message) async {
+    NetLoadApplicantsReq pb = new NetLoadApplicantsReq();
+    pb.mergeFromBuffer(message.data);
+    devLog.finest(pb);
+
+    sqljocky.RetainedConnection connection = await sql.getConnection();
+    try {
+      // Fetch applicant
+      ts.sendExtend(message);
+      String query = "SELECT "
+          "$_applicantSelect"
+          "FROM `applicants` "
+          "WHERE `${account.state.accountType == AccountType.AT_BUSINESS ? 'business_account_id' : 'influencer_account_id'}` = ?";
+      await for (sqljocky.Row row
+          in await connection.prepareExecute(query, [accountId])) {
+        ts.sendMessage(
+            _netDataApplicantUpdate, _applicantFromRow(row).writeToBuffer(),
+            replying: message);
+      }
+    } finally {
+      connection.release();
+    }
+
+    ts.sendEndOfStream(message);
+  }
+
   // NetLoadApplicantChatsReq
-  StreamSubscription<TalkMessage> _netLoadApplicantChatsReq; // L_APCHAT
   Future<void> netLoadApplicantChatsReq(TalkMessage message) async {
     NetLoadApplicantChatsReq pb = new NetLoadApplicantChatsReq();
     pb.mergeFromBuffer(message.data);
@@ -216,7 +245,9 @@ class RemoteAppHaggle {
         if (row[7] != null) chat.seen = new Int64(row[7].toInt());
         devLog.finest("${chat.text}");
         if (chat.type == ApplicantChatType.ACT_IMAGE_KEY) {
-          chat.text = "url=" + Uri.encodeQueryComponent(_r.makeCloudinaryCoverUrl(Uri.splitQueryString(chat.text)['key'].toString()));
+          chat.text = "url=" +
+              Uri.encodeQueryComponent(_r.makeCloudinaryCoverUrl(
+                  Uri.splitQueryString(chat.text)['key'].toString()));
         }
         ts.sendMessage(_netDataApplicantChatUpdate, chat.writeToBuffer(),
             replying: message);
@@ -228,4 +259,23 @@ class RemoteAppHaggle {
     // Done
     ts.sendEndOfStream(message);
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // User actions
+  //////////////////////////////////////////////////////////////////////////////
+  
+  /*
+  final Function(String text) onSendPlain;
+  final Function(String key) onSendImageKey;
+
+  final Function(DataApplicantChat haggleChat) onBeginHaggle;
+  final Function(DataApplicantChat haggleChat) onWantDeal;
+
+  final Function() onReject;
+  final Function() onBeginReport;
+  final Function() onBeginMarkCompleted;
+  */
+
 }
