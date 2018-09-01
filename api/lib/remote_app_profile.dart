@@ -172,7 +172,8 @@ class RemoteAppProfile {
         account.detail.socialMedia[oauthProvider].postsCount = row[6].toInt();
         account.detail.socialMedia[oauthProvider].verified =
             row[7].toInt() != 0;
-        account.detail.socialMedia[oauthProvider].connected = true; // TODO: Expired state, TODO: Visibility state
+        account.detail.socialMedia[oauthProvider].connected =
+            true; // TODO: Expired state, TODO: Visibility state
       }
     } finally {
       connection.release();
