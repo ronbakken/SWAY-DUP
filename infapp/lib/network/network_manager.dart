@@ -264,8 +264,8 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
 
     // Original plan was to use an assymetric key pair, but the generation was too slow. Hence just using a symmetric AES key for now
     int localAccountId = widget.networkManager.localAccountId;
-    String aesKeyPref = 'aes_key_$localAccountId';
-    String deviceIdPref = 'device_id_$localAccountId';
+    String aesKeyPref = widget.config.services.domain + '_aes_key_$localAccountId';
+    String deviceIdPref = widget.config.services.domain + '_device_id_$localAccountId';
     String aesKeyStr;
     Uint8List aesKey;
     int attemptDeviceId = 0;
