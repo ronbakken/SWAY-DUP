@@ -77,6 +77,9 @@ flutter:
     - assets/logo_appbar.png
     - assets/placeholder_photo.png
     - assets/placeholder_photo_select.png
+    - assets/placeholder_map_tile.png
+    - assets/default_avatar_influencer.png
+    - assets/default_avatar_business.png
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
