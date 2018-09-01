@@ -123,10 +123,12 @@ class _SearchPageState extends State<SearchPageCommon> {
             )
           ],
         ),
-        bottomSheet: NetworkStatus.buildOptional(context),
-        bottomNavigationBar: searchInProgress
-            ? new LinearProgressIndicator() // new Text("Search in progress '$lastSearchQuery'...")
-            : null, // TODO: For testing purpose. Make it nice
+        bottomSheet: NetworkStatus.buildOptional(
+          context,
+          searchInProgress
+              ? new LinearProgressIndicator() // new Text("Search in progress '$lastSearchQuery'...")
+              : null,
+        ),
         body: new ListView(
           children: widget.searchResults,
         ));

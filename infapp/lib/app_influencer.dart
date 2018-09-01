@@ -212,7 +212,38 @@ class _AppInfluencerState extends State<AppInfluencer> {
           searchTooltip: "Search for nearby offers",
           searchQueryController: searchQueryController,
           onSearchRequest: (String searchQuery) async {
-            await network.refreshDemoAllOffers();
+            try {
+              await network.refreshDemoAllOffers();
+            } catch (error, stack) {
+              await showDialog<Null>(
+                context: this.context,
+                builder: (BuildContext context) {
+                  return new AlertDialog(
+                    title: new Text('Search Failed'),
+                    content: new SingleChildScrollView(
+                      child: new ListBody(
+                        children: <Widget>[
+                          new Text('An error has occured.'),
+                          new Text('Please try again later.'),
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [new Text('Ok'.toUpperCase())],
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+              print("Failed to search for offers: $error\n$stack");
+            }
           },
           searchResults: network.demoAllOffers.values
               .map((offer) => new OfferCard(
