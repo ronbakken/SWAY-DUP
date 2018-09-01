@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'follower_count.dart';
@@ -21,7 +23,7 @@ class FollowerTray extends StatelessWidget {
       if (socialMedia[i].connected) {
         followerWidgets.add(new FollowerWidget(
           oAuthProvider: oAuthProviders[i],
-          followerCount: socialMedia[i].followersCount,
+          followerCount: max(socialMedia[i].followersCount, socialMedia[i].friendsCount),
         ));
       }
     }
