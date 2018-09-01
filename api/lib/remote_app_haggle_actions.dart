@@ -73,6 +73,15 @@ class RemoteAppHaggleActions {
         "CH_HAGGL", GlobalAccountState.GAS_READ_WRITE, true, netChatHaggle));
     _subscriptions.add(_r.saferListen(
         "CH_IMAGE", GlobalAccountState.GAS_READ_WRITE, true, netChatImageKey));
+
+    _subscriptions.add(_r.saferListen("AP_WADEA",
+        GlobalAccountState.GAS_READ_WRITE, true, netApplicantWantDealReq));
+    _subscriptions.add(_r.saferListen("AP_REJEC",
+        GlobalAccountState.GAS_READ_WRITE, true, netApplicantRejectReq));
+    _subscriptions.add(_r.saferListen("AP_REPOR",
+        GlobalAccountState.GAS_READ_WRITE, true, netApplicantReportReq));
+    _subscriptions.add(_r.saferListen("AP_COMPL",
+        GlobalAccountState.GAS_READ_WRITE, true, netApplicantCompletionReq));
   }
 
   void dispose() {
@@ -359,11 +368,13 @@ class RemoteAppHaggleActions {
 
   /*
 
-  final Function(DataApplicantChat haggleChat) onWantDeal; -- not yet defined -- only succeeds if picked chat is the current one
+  final Function(DataApplicantChat haggleChat) onWantDeal; -- AP_WADEA -- NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker-- only succeeds if picked chat is the current one
 
-  final Function() onReject; -- AP_R_COM, NetApplicantCommonRes - reason
-  final Function() onBeginReport; -- not yet defined -- posts to freshdesk // FCM email verification service?
-  final Function() onBeginMarkCompleted; -> AP_COMPL
+  final Function() onReject; -- AP_R_COM, NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker
+  final Function() onBeginReport; AP_REPOR -- NetApplicantCommonRes (Id: AP_R_COM), null, null -- posts to freshdesk // FCM email verification service?
+
+  final Function() onBeginDispute; AP_COMPL -- NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker (silent) -- posts to freshdesk // FCM email verification service?
+  final Function() onBeginMarkCompleted; -> AP_COMPL, NetApplicantCommonRes
   */
 
   //////////////////////////////////////////////////////////////////////////////
@@ -371,4 +382,114 @@ class RemoteAppHaggleActions {
   //////////////////////////////////////////////////////////////////////////////
   // Common actions
   //////////////////////////////////////////////////////////////////////////////
+  
+  static int _netApplicantCommonRes = TalkSocket.encode("AP_R_COM");
+
+  Future<void> netApplicantWantDealReq(TalkMessage message) async {
+    NetApplicantWantDealReq pb = new NetApplicantWantDealReq();
+    pb.mergeFromBuffer(message.data);
+
+    int applicantId = pb.applicantId.toInt();
+    int haggleChatId = pb.haggleChatId.toInt();
+
+    /* No need, already verified by first UPDATE
+    if (!await _verifySender(applicantId, accountId)) {
+      ts.sendException("Verification Failed", message);
+      return;
+    } */
+
+    DataApplicantChat markerChat; // Set upon success
+
+    await sql.startTransaction((transaction) async {
+      // 1. Update deal to reflect the account wants a deal
+      ts.sendExtend(message);
+      String accountWantsDeal =
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? 'influencer_wants_deal'
+              : 'business_wants_deal';
+      String accountAccountId =
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? 'influencer_account_id'
+              : 'business_account_id';
+      String updateWants = "UPDATE `applicants` "
+          "SET `$accountWantsDeal` = 1 "
+          "WHERE `applicant_id` = ? "
+          "AND `haggle_chat_id` = ? "
+          "AND `$accountAccountId` = ?"
+          "AND `state` = ${ApplicantState.AS_HAGGLING.value} "
+          "AND `$accountWantsDeal` = 0";
+      sqljocky.Results resultWants = await transaction
+          .prepareExecute(updateWants, [applicantId, haggleChatId, accountId]);
+      if (resultWants.affectedRows == null || resultWants.affectedRows == 0) {
+        devLog.warning(
+            "Invalid want deal attempt by account '$accountId' on applicant '$applicantId'");
+        return;
+      }
+
+      // 2. Try to see if we're can complete the deal or if it's just one sided
+      ts.sendExtend(message);
+      String updateDeal = "UPDATE `applicants` "
+          "SET `state` = ${ApplicantState.AS_DEAL.value} "
+          "WHERE `applicant_id` = ? "
+          "AND `influencer_wants_deal` = 1 "
+          "AND `business_wants_deal` = 1"
+          "AND `state` = ${ApplicantState.AS_HAGGLING.value}";
+      sqljocky.Results resultDeal =
+          await transaction.prepareExecute(updateWants, [applicantId]);
+      bool dealMade =
+          (resultWants.affectedRows != null && resultWants.affectedRows > 0);
+
+      // 3. Insert marker chat
+      ts.sendExtend(message);
+      DataApplicantChat chat = new DataApplicantChat();
+      chat.sent =
+          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      chat.senderId = accountId;
+      chat.applicantId = applicantId;
+      chat.deviceId = account.state.deviceId;
+      chat.type = ApplicantChatType.ACT_MARKER;
+      chat.text = 'marker=' +
+          (dealMade
+              ? ApplicantChatMarker.ACM_DEAL_MADE.value.toString()
+              : ApplicantChatMarker.ACM_WANT_DEAL.value.toString());
+      if (await _insertChat(transaction, chat)) {
+        ts.sendExtend(message);
+        markerChat = chat;
+        transaction.commit();
+      }
+    });
+
+    if (markerChat == null) {
+      ts.sendException("Not Handled", message);
+    } else {
+      NetApplicantCommonRes res = new NetApplicantCommonRes();
+      DataApplicant applicant =
+        await _r.remoteAppHaggle.getApplicant(applicantId);
+      res.updateApplicant = applicant;
+      res.newChats.add(markerChat); ----------------------------------------------
+      try {
+        ts.sendMessage(_netApplicantCommonRes, res.writeToBuffer(), replying: message);
+      } catch (error, stack) {
+        devLog.severe("$error\n$stack");
+      }
+      // Publish!
+      // ...
+      //_r.bc.applicantChanged(account.state.deviceId, applican
+    }
+  }
+
+  Future<void> netApplicantRejectReq(TalkMessage message) async {
+    NetApplicantRejectReq pb = new NetApplicantRejectReq();
+    pb.mergeFromBuffer(message.data);
+  }
+
+  Future<void> netApplicantReportReq(TalkMessage message) async {
+    NetApplicantReportReq pb = new NetApplicantReportReq();
+    pb.mergeFromBuffer(message.data);
+  }
+
+  Future<void> netApplicantCompletionReq(TalkMessage message) async {
+    NetApplicantCompletionReq pb = new NetApplicantCompletionReq();
+    pb.mergeFromBuffer(message.data);
+  }
 }
