@@ -17,17 +17,15 @@ class LoadingNetwork extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
-    ConfigData config = ConfigManager.of(context); 
+    ConfigData config = ConfigManager.of(context);
     assert(network != null);
     if (network.connected == NetworkConnectionState.Failing) {
       // "Technical issues"
-      return new WebviewScaffold(
-          url: config.services.connectionFailedUrl);
+      return new WebviewScaffold(url: config.services.connectionFailedUrl);
     }
     if (network.connected == NetworkConnectionState.Offline) {
       // "Cannot connect to server"
-      return new WebviewScaffold(
-          url: config.services.connectionFailedUrl);
+      return new WebviewScaffold(url: config.services.connectionFailedUrl);
     }
     return new Scaffold(
       // Loading network
