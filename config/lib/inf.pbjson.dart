@@ -1026,6 +1026,30 @@ const NetChatImageKey$json = const {
   ],
 };
 
+const NetApplicantWantDealReq$json = const {
+  '1': 'NetApplicantWantDealReq',
+  '2': const [
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'haggleChatId', '3': 2, '4': 1, '5': 3, '10': 'haggleChatId'},
+  ],
+};
+
+const NetApplicantRejectReq$json = const {
+  '1': 'NetApplicantRejectReq',
+  '2': const [
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'reason', '3': 2, '4': 1, '5': 9, '10': 'reason'},
+  ],
+};
+
+const NetApplicantReportReq$json = const {
+  '1': 'NetApplicantReportReq',
+  '2': const [
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'text', '3': 2, '4': 1, '5': 9, '10': 'text'},
+  ],
+};
+
 const NetApplicantCompletionReq$json = const {
   '1': 'NetApplicantCompletionReq',
   '2': const [
