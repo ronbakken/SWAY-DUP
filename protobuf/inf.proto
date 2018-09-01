@@ -843,7 +843,7 @@ message NetApplicantCompletionReq {
 // Id: AP_R_COM
 message NetApplicantCommonRes {
   DataApplicant updateApplicant = 1;
-  DataApplicantChat newChats = 2;
+  repeated DataApplicantChat newChats = 2;
   
 }
 
