@@ -717,6 +717,51 @@ message NetOfferApplyReq {
   
 }
 
+// Message to load or refresh applicant list
+// Server will send a stream of DataApplicant messages (Id: LU_APPLI)
+// Id: L_APPLIS
+message NetLoadApplicantsReq {
+  // Offer for which to send applicants (ignored when requested by influencer)
+  int32 offerId = 4;
+  
+  // Applicants with id lower than this (older applicants) (ignore if 0)
+  int32 before = 1;
+  
+  // Applicants with id higher than this (newer applicants) (ignore if 0)
+  int32 after = 2;
+  
+  // Limit (ignore if 0)
+  int32 limit = 3;
+  
+}
+
+// Message to load or refresh applicant list
+// Id: L_APPLIC
+// Response: DataApplicant (Id: LU_APPLI)
+message NetLoadApplicantReq {
+  int32 applicantId = 1;
+  
+}
+
+// Message to load or refresh applicant chat list
+// Server will send a stream of DataApplicantChat messages (Id: LU_A_CHA)
+// Id: L_APCHAT
+// Response: NetLoadApplicantsRes (Id: L_R_APCH)
+message NetLoadApplicantChatsReq {
+  // Applicant for which to send chats
+  int32 applicantId = 5;
+  
+  // Applicant chats with id lower than this (older applicant chats) (ignore if 0)
+  int32 before = 1;
+  
+  // Applicant chats with id higher than this (newer applicant chats) (ignore if 0)
+  int32 after = 2;
+  
+  // Limit (ignore if 0)
+  int32 limit = 3;
+  
+}
+
 // Send chat plain
 // Id: CH_PLAIN
 message NetChatPlain {
@@ -748,7 +793,7 @@ message NetChatImageKey {
 
 // Mark as completed OR Report a problem
 // Id: AP_COMPL
-// Response: DataApplicant (Id: AP_R_COM)
+// Response: NetApplicantCommonRes (Id: AP_R_COM)
 message NetApplicantCompletionReq {
   int32 applicantId = 1;
   
@@ -762,77 +807,17 @@ message NetApplicantCompletionReq {
   
 }
 
-// Message to load or refresh applicant list
-// Server will send a stream of DataApplicant messages (Id: LU_APPLI)
-// Id: L_APPLIS
-message NetLoadApplicantsReq {
-  // Offer for which to send applicants (ignored when requested by influencer)
-  int32 offerId = 4;
-  
-  // Applicants with id lower than this (older applicants) (ignore if 0)
-  int32 before = 1;
-  
-  // Applicants with id higher than this (newer applicants) (ignore if 0)
-  int32 after = 2;
-  
-  // Limit (ignore if 0)
-  int32 limit = 3;
+// Generic response for applicant actions.
+// Always returns the updated applicant info,
+// and optionally new chats generated from the action.
+// In case of an Exception, the client should mark the current applicant
+// and chat data as dirty, and reload it's state
+// Id: AP_R_COM
+message NetApplicantCommonRes {
+  DataApplicant updateApplicant = 1;
+  DataApplicantChat newChats = 2;
   
 }
-
-// Message to load or refresh applicant list
-// Id: L_APPLIC
-// Response: DataApplicant (Id: LU_APPLI)
-message NetLoadApplicantReq {
-  int32 applicantId = 1;
-  
-}
-
-/*
-// Response which is sent when all LU_APPLI messages have been sent
-// Used by the client to signal to the user that refresh is complete, if refresh was done manually (and to avoid multiple simultaneous loads)
-// Id: L_R_APPL
-message NetLoadApplicantsRes {
-  // Oldest applicant which was sent
-  int32 oldest = 1;
-  
-  // Newest applicant which was sent
-  int32 newest = 2;
-  
-}
-*/
-// Message to load or refresh applicant chat list
-// Server will send a stream of DataApplicantChat messages (Id: LU_A_CHA)
-// Id: L_APCHAT
-// Response: NetLoadApplicantsRes (Id: L_R_APCH)
-message NetLoadApplicantChatsReq {
-  // Applicant for which to send chats
-  int32 applicantId = 5;
-  
-  // Applicant chats with id lower than this (older applicant chats) (ignore if 0)
-  int32 before = 1;
-  
-  // Applicant chats with id higher than this (newer applicant chats) (ignore if 0)
-  int32 after = 2;
-  
-  // Limit (ignore if 0)
-  int32 limit = 3;
-  
-}
-
-/*
-// Response which is sent when all LU_APPLI messages have been sent
-// Used by the client to signal to the user that refresh is complete, if refresh was done manually (and to avoid multiple simultaneous loads)
-// Id: L_R_APCH
-message NetLoadApplicantChatsRes {
-  // Oldest applicant chat which was sent
-  int32 oldest = 1;
-  
-  // Newest applicant chat which was sent
-  int32 newest = 2;
-  
-}
-*/
 
 // end of messages related to applicants.
 ////////////////////////////////////////////////////////////////////////////////
