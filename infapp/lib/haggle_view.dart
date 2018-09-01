@@ -458,7 +458,8 @@ class _HaggleViewState extends State<HaggleView> {
           )
         ],
       ),
-      bottomSheet: NetworkStatus.buildOptional(context), // TODO: Also show loading progress for chats
+      bottomSheet: NetworkStatus.buildOptional(
+          context), // TODO: Also show loading progress for chats
       body: new Column(
         children: <Widget>[
           new Material(
