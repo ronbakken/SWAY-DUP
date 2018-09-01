@@ -23,7 +23,8 @@ class FollowerTray extends StatelessWidget {
       if (socialMedia[i].connected) {
         followerWidgets.add(new FollowerWidget(
           oAuthProvider: oAuthProviders[i],
-          followerCount: max(socialMedia[i].followersCount, socialMedia[i].friendsCount),
+          followerCount:
+              max(socialMedia[i].followersCount, socialMedia[i].friendsCount),
         ));
       }
     }

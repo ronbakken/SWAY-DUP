@@ -963,6 +963,33 @@ const NetOfferApplyReq$json = const {
   ],
 };
 
+const NetLoadApplicantsReq$json = const {
+  '1': 'NetLoadApplicantsReq',
+  '2': const [
+    const {'1': 'offerId', '3': 4, '4': 1, '5': 5, '10': 'offerId'},
+    const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
+    const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
+    const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
+  ],
+};
+
+const NetLoadApplicantReq$json = const {
+  '1': 'NetLoadApplicantReq',
+  '2': const [
+    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+  ],
+};
+
+const NetLoadApplicantChatsReq$json = const {
+  '1': 'NetLoadApplicantChatsReq',
+  '2': const [
+    const {'1': 'applicantId', '3': 5, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
+    const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
+    const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
+  ],
+};
+
 const NetChatPlain$json = const {
   '1': 'NetChatPlain',
   '2': const [
@@ -1010,30 +1037,25 @@ const NetApplicantCompletionReq$json = const {
   ],
 };
 
-const NetLoadApplicantsReq$json = const {
-  '1': 'NetLoadApplicantsReq',
+const NetApplicantCommonRes$json = const {
+  '1': 'NetApplicantCommonRes',
   '2': const [
-    const {'1': 'offerId', '3': 4, '4': 1, '5': 5, '10': 'offerId'},
-    const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
-    const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
-    const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
-  ],
-};
-
-const NetLoadApplicantReq$json = const {
-  '1': 'NetLoadApplicantReq',
-  '2': const [
-    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
-  ],
-};
-
-const NetLoadApplicantChatsReq$json = const {
-  '1': 'NetLoadApplicantChatsReq',
-  '2': const [
-    const {'1': 'applicantId', '3': 5, '4': 1, '5': 5, '10': 'applicantId'},
-    const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
-    const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
-    const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
+    const {
+      '1': 'updateApplicant',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.inf.DataApplicant',
+      '10': 'updateApplicant'
+    },
+    const {
+      '1': 'newChats',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.inf.DataApplicantChat',
+      '10': 'newChats'
+    },
   ],
 };
 
