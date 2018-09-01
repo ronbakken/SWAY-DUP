@@ -31,6 +31,7 @@ import 'remote_app_oauth.dart';
 import 'remote_app_upload.dart';
 import 'remote_app_profile.dart';
 import 'remote_app_haggle.dart';
+import 'remote_app_haggle_actions.dart';
 import 'remote_app_business.dart';
 import 'remote_app_influencer.dart';
 
@@ -80,6 +81,7 @@ class RemoteApp {
   RemoteAppUpload _remoteAppUpload;
   RemoteAppProfile _remoteAppProfile;
   RemoteAppHaggle _remoteAppHaggle;
+  RemoteAppHaggleActions _remoteAppHaggleActions;
   RemoteAppBusiness _remoteAppBusiness;
   RemoteAppInfluencer _remoteAppInfluencer;
 
@@ -120,6 +122,10 @@ class RemoteApp {
     if (_remoteAppHaggle != null) {
       _remoteAppHaggle.dispose();
       _remoteAppHaggle = null;
+    }
+    if (_remoteAppHaggleActions != null) {
+      _remoteAppHaggleActions.dispose();
+      _remoteAppHaggleActions = null;
     }
     if (_remoteAppBusiness != null) {
       _remoteAppBusiness.dispose();
@@ -184,6 +190,12 @@ class RemoteApp {
   void subscribeHaggle() {
     if (_remoteAppHaggle == null) {
       _remoteAppHaggle = new RemoteAppHaggle(this);
+    }
+  }
+
+  void subscribeHaggleActions() {
+    if (_remoteAppHaggleActions == null) {
+      _remoteAppHaggleActions = new RemoteAppHaggleActions(this);
     }
   }
 
@@ -1482,6 +1494,7 @@ class RemoteApp {
       subscribeUpload();
       subscribeProfile();
       subscribeHaggle();
+      subscribeHaggleActions();
       if (account.state.accountType == AccountType.AT_BUSINESS) {
         subscribeBusiness();
       } else if (account.state.accountType == AccountType.AT_INFLUENCER) {

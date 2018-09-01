@@ -260,27 +260,4 @@ class RemoteAppHaggle {
     // Done
     ts.sendEndOfStream(message);
   }
-
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  // User actions
-  //////////////////////////////////////////////////////////////////////////////
-
-  // Client should respond to live updates and posts from broadcast center
-  // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
-  // Also post to FCM
-
-  /*
-  final Function(String text) onSendPlain; -> CH_PLAIN
-  final Function(String key) onSendImageKey; -> CH_IMAGE
-
-  final Function(DataApplicantChat haggleChat) onBeginHaggle; -> UI -> CH_HAGGL
-  final Function(DataApplicantChat haggleChat) onWantDeal; -- not yet defined -- only succeeds if picked chat is the current one
-
-  final Function() onReject; -- not yet defined
-  final Function() onBeginReport; -- not yet defined -- posts to freshdesk // FCM email verification service?
-  final Function() onBeginMarkCompleted; -> AP_COMPL
-  */
-
 }
