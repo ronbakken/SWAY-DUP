@@ -245,6 +245,13 @@ const ConfigServices$json = const {
       '5': 9,
       '10': 'privacyPolicyUrl'
     },
+    const {
+      '1': 'connectionFailedUrl',
+      '3': 29,
+      '4': 1,
+      '5': 9,
+      '10': 'connectionFailedUrl'
+    },
     const {'1': 'mapboxApi', '3': 1, '4': 1, '5': 9, '10': 'mapboxApi'},
     const {
       '1': 'mapboxUrlTemplate',
