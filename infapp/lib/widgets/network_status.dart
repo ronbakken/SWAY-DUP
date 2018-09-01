@@ -21,45 +21,54 @@ class NetworkStatus extends StatelessWidget {
     }
   }
 
+  static final _minimalContainer = new Container(width: 0.0, height: 0.0);
+  static final _progressIndicator = new LinearProgressIndicator();
+  static final _offlineBuilder = new Builder(builder: (context) {
+    return new Row(
+      children: <Widget>[
+        new Expanded(
+          child: new Material(
+            color: Theme.of(context).errorColor,
+            child: new Padding(
+              padding: new EdgeInsets.all(8.0),
+              child: Text("Disconnected from the server."),
+            ),
+          ),
+        ),
+      ],
+    );
+  });
+  static final _failingBuilder = new Builder(builder: (context) {
+    return new Row(
+      children: <Widget>[
+        new Expanded(
+          child: new Material(
+            color: Theme.of(context).errorColor,
+            child: new Padding(
+              padding: new EdgeInsets.all(8.0),
+              child: Text("Disconnected from the server."),
+            ),
+          ),
+        ),
+      ],
+    );
+  });
+
   // TODO: Allow combining with another widget (in case multiple bottom sheets are desired)
   @override
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
     switch (network.connected) {
       case NetworkConnectionState.Ready:
-        return new Container(width: 0.0, height: 0.0);
+        return _minimalContainer;
       case NetworkConnectionState.Connecting:
-        return new LinearProgressIndicator();
+        return _progressIndicator;
       case NetworkConnectionState.Offline:
-        return new Row(
-          children: <Widget>[
-            new Expanded(
-              child: new Material(
-                color: Theme.of(context).errorColor,
-                child: new Padding(
-                  padding: new EdgeInsets.all(8.0),
-                  child: Text("Disconnected from the server."),
-                ),
-              ),
-            ),
-          ],
-        );
+        return _offlineBuilder;
       case NetworkConnectionState.Failing:
-        return new Row(
-          children: <Widget>[
-            new Expanded(
-              child: new Material(
-                color: Theme.of(context).errorColor,
-                child: new Padding(
-                  padding: new EdgeInsets.all(8.0),
-                  child: Text("Unable to connect to the server."),
-                ),
-              ),
-            ),
-          ],
-        );
+        return _failingBuilder;
       default:
-        return new Container(width: 0.0, height: 0.0);
+        return _minimalContainer;
     }
   }
 }

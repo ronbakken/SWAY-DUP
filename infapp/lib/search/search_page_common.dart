@@ -97,6 +97,8 @@ class _SearchPageState extends State<SearchPageCommon> {
     }
   }
 
+  static final _progressIndicator = new LinearProgressIndicator();
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -126,7 +128,7 @@ class _SearchPageState extends State<SearchPageCommon> {
         bottomSheet: NetworkStatus.buildOptional(
           context,
           searchInProgress
-              ? new LinearProgressIndicator() // new Text("Search in progress '$lastSearchQuery'...")
+              ? _progressIndicator // new Text("Search in progress '$lastSearchQuery'...")
               : null,
         ),
         body: new ListView(
