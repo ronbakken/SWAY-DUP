@@ -54,7 +54,6 @@ class NetworkStatus extends StatelessWidget {
     );
   });
 
-  // TODO: Allow combining with another widget (in case multiple bottom sheets are desired)
   @override
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
