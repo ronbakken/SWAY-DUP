@@ -153,6 +153,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       // Mark all caches as dirty, since we may have been offline for a while
       _offersLoaded = false;
       _applicantsLoaded = false;
+      _cachedAccounts.values.forEach((cached) {
+        cached.dirty = true;
+      });
       _cachedBusinessOffers.values.forEach((cached) {
         cached.dirty = true;
       });
@@ -981,6 +984,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       }
       setState(() {
         cached.account = account;
+        cached.dirty = false;
       });
     } else {
       print("[INF] Received invalid profile. Critical issue");
@@ -1004,31 +1008,30 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     } else {
       cached = _cachedAccounts[accountId];
     }
-    if (cached.account != null) {
-      return cached.account;
-    }
-    if (cached.fallback == null) {
-      cached.fallback = new DataAccount();
-      cached.fallback.state = new DataAccountState();
-      cached.fallback.summary = new DataAccountSummary();
-      cached.fallback.detail = new DataAccountDetail();
-      cached.fallback.state.accountId = accountId;
-    }
-    if (fallback != null) {
-      if (fallback.detail.socialMedia.isNotEmpty) {
-        cached.fallback.detail.socialMedia.clear();
+    if (cached.account == null) {
+      if (cached.fallback == null) {
+        cached.fallback = new DataAccount();
+        cached.fallback.state = new DataAccountState();
+        cached.fallback.summary = new DataAccountSummary();
+        cached.fallback.detail = new DataAccountDetail();
+        cached.fallback.state.accountId = accountId;
       }
-      cached.fallback.mergeFromMessage(fallback);
-    }
-    if (fallbackOffer != null) {
-      if (cached.fallback.summary.name.isEmpty) {
-        cached.fallback.summary.name = fallbackOffer.locationName;
+      if (fallback != null) {
+        if (fallback.detail.socialMedia.isNotEmpty) {
+          cached.fallback.detail.socialMedia.clear();
+        }
+        cached.fallback.mergeFromMessage(fallback);
       }
-      if (cached.fallback.summary.location.isEmpty) {
-        cached.fallback.summary.location = fallbackOffer.location;
+      if (fallbackOffer != null) {
+        if (cached.fallback.summary.name.isEmpty) {
+          cached.fallback.summary.name = fallbackOffer.locationName;
+        }
+        if (cached.fallback.summary.location.isEmpty) {
+          cached.fallback.summary.location = fallbackOffer.location;
+        }
       }
     }
-    if (!cached.loading && connected == NetworkConnectionState.Ready) {
+    if (cached.account == null || cached.dirty && !cached.loading && connected == NetworkConnectionState.Ready) {
       cached.loading = true;
       getPublicProfile(accountId).then((account) {
         cached.loading = false;
@@ -1041,6 +1044,9 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
           });
         });
       });
+    }
+    if (cached.account != null) {
+      return cached.account;
     }
     return cached.fallback;
   }
@@ -1270,15 +1276,16 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
 ///////////////////////////////////////////////////////////////////////////////
 
 class _CachedBusinessOffer {
-  bool loading; // Request in progress, cleared on cache
-  bool dirty; // May re-request on the network anytime, cleared on cache
+  bool loading = false; // Request in progress, cleared on cache
+  bool dirty = false; // May re-request on the network anytime, cleared on cache
   DataBusinessOffer offer;
   DataBusinessOffer fallback;
 }
 
 class _CachedDataAccount {
   // TODO: Timestamp
-  bool loading;
+  bool loading = false;
+  bool dirty = false;
   DataAccount account;
   DataAccount fallback;
 }
