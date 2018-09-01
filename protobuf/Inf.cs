@@ -165,7 +165,7 @@ namespace InfX {
             "ZXdhcmRlZBgDIAEoCBIOCgZyYXRpbmcYBCABKAUSDwoHZGlzcHV0ZRgFIAEo",
             "CBIaChJkaXNwdXRlRGVzY3JpcHRpb24YBiABKAkibgoVTmV0QXBwbGljYW50",
             "Q29tbW9uUmVzEisKD3VwZGF0ZUFwcGxpY2FudBgBIAEoCzISLmluZi5EYXRh",
-            "QXBwbGljYW50EigKCG5ld0NoYXRzGAIgASgLMhYuaW5mLkRhdGFBcHBsaWNh",
+            "QXBwbGljYW50EigKCG5ld0NoYXRzGAIgAygLMhYuaW5mLkRhdGFBcHBsaWNh",
             "bnRDaGF0IiwKF05ldExvYWRQdWJsaWNQcm9maWxlUmVxEhEKCWFjY291bnRJ",
             "ZBgBIAEoBSo+Cg5PQXV0aE1lY2hhbmlzbRIMCghPQU1fTk9ORRAAEg4KCk9B",
             "TV9PQVVUSDEQARIOCgpPQU1fT0FVVEgyEAIqQwoQT0F1dGhQcm92aWRlcklk",
@@ -11553,7 +11553,7 @@ namespace InfX {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public NetApplicantCommonRes(NetApplicantCommonRes other) : this() {
       UpdateApplicant = other.updateApplicant_ != null ? other.UpdateApplicant.Clone() : null;
-      NewChats = other.newChats_ != null ? other.NewChats.Clone() : null;
+      newChats_ = other.newChats_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11574,13 +11574,12 @@ namespace InfX {
 
     /// <summary>Field number for the "newChats" field.</summary>
     public const int NewChatsFieldNumber = 2;
-    private global::InfX.DataApplicantChat newChats_;
+    private static readonly pb::FieldCodec<global::InfX.DataApplicantChat> _repeated_newChats_codec
+        = pb::FieldCodec.ForMessage(18, global::InfX.DataApplicantChat.Parser);
+    private readonly pbc::RepeatedField<global::InfX.DataApplicantChat> newChats_ = new pbc::RepeatedField<global::InfX.DataApplicantChat>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::InfX.DataApplicantChat NewChats {
+    public pbc::RepeatedField<global::InfX.DataApplicantChat> NewChats {
       get { return newChats_; }
-      set {
-        newChats_ = value;
-      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11597,7 +11596,7 @@ namespace InfX {
         return true;
       }
       if (!object.Equals(UpdateApplicant, other.UpdateApplicant)) return false;
-      if (!object.Equals(NewChats, other.NewChats)) return false;
+      if(!newChats_.Equals(other.newChats_)) return false;
       return true;
     }
 
@@ -11605,7 +11604,7 @@ namespace InfX {
     public override int GetHashCode() {
       int hash = 1;
       if (updateApplicant_ != null) hash ^= UpdateApplicant.GetHashCode();
-      if (newChats_ != null) hash ^= NewChats.GetHashCode();
+      hash ^= newChats_.GetHashCode();
       return hash;
     }
 
@@ -11620,10 +11619,7 @@ namespace InfX {
         output.WriteRawTag(10);
         output.WriteMessage(UpdateApplicant);
       }
-      if (newChats_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(NewChats);
-      }
+      newChats_.WriteTo(output, _repeated_newChats_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11632,9 +11628,7 @@ namespace InfX {
       if (updateApplicant_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(UpdateApplicant);
       }
-      if (newChats_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(NewChats);
-      }
+      size += newChats_.CalculateSize(_repeated_newChats_codec);
       return size;
     }
 
@@ -11649,12 +11643,7 @@ namespace InfX {
         }
         UpdateApplicant.MergeFrom(other.UpdateApplicant);
       }
-      if (other.newChats_ != null) {
-        if (newChats_ == null) {
-          newChats_ = new global::InfX.DataApplicantChat();
-        }
-        NewChats.MergeFrom(other.NewChats);
-      }
+      newChats_.Add(other.newChats_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11673,10 +11662,7 @@ namespace InfX {
             break;
           }
           case 18: {
-            if (newChats_ == null) {
-              newChats_ = new global::InfX.DataApplicantChat();
-            }
-            input.ReadMessage(newChats_);
+            newChats_.AddEntriesFrom(input, _repeated_newChats_codec);
             break;
           }
         }
