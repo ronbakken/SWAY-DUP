@@ -1082,7 +1082,7 @@ const NetApplicantCommonRes$json = const {
     const {
       '1': 'newChats',
       '3': 2,
-      '4': 1,
+      '4': 3,
       '5': 11,
       '6': '.inf.DataApplicantChat',
       '10': 'newChats'

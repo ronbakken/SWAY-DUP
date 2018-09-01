@@ -3566,8 +3566,8 @@ class NetApplicantCommonRes extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetApplicantCommonRes')
     ..a<DataApplicant>(1, 'updateApplicant', PbFieldType.OM,
         DataApplicant.getDefault, DataApplicant.create)
-    ..a<DataApplicantChat>(2, 'newChats', PbFieldType.OM,
-        DataApplicantChat.getDefault, DataApplicantChat.create)
+    ..pp<DataApplicantChat>(2, 'newChats', PbFieldType.PM,
+        DataApplicantChat.$checkItem, DataApplicantChat.create)
     ..hasRequiredFields = false;
 
   NetApplicantCommonRes() : super();
@@ -3603,13 +3603,7 @@ class NetApplicantCommonRes extends GeneratedMessage {
   bool hasUpdateApplicant() => $_has(0);
   void clearUpdateApplicant() => clearField(1);
 
-  DataApplicantChat get newChats => $_getN(1);
-  set newChats(DataApplicantChat v) {
-    setField(2, v);
-  }
-
-  bool hasNewChats() => $_has(1);
-  void clearNewChats() => clearField(2);
+  List<DataApplicantChat> get newChats => $_getList(1);
 }
 
 class _ReadonlyNetApplicantCommonRes extends NetApplicantCommonRes
