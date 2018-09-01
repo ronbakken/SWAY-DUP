@@ -792,9 +792,36 @@ message NetChatImageKey {
   
 }
 
-// Mark as completed OR Report a problem
+// Want deal. Only successful if the haggleChatId is current
+// Id: AP_WADEA
+// Response: NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker
+message NetApplicantWantDealReq {
+  int32 applicantId = 1;
+  int64 haggleChatId = 2;
+  
+}
+
+// Reject an application (closes the chat too)
+// Id: AP_REJEC
+// Response: NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker
+message NetApplicantRejectReq {
+  int32 applicantId = 1;
+  string reason = 2; // Reason part of marker but not shown right now
+  
+}
+
+// Report an application
+// Id: AP_REPOR
+// Response: NetApplicantCommonRes (Id: AP_R_COM), null, null
+message NetApplicantReportReq {
+  int32 applicantId = 1;
+  string text = 2; // Sent to support. Sent by mail (sql transaction... :))
+  
+}
+
+// Mark as completed OR dispute a problem
 // Id: AP_COMPL
-// Response: NetApplicantCommonRes (Id: AP_R_COM)
+// Response: NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker
 message NetApplicantCompletionReq {
   int32 applicantId = 1;
   
@@ -810,7 +837,7 @@ message NetApplicantCompletionReq {
 
 // Generic response for applicant actions.
 // Always returns the updated applicant info,
-// and optionally new chats generated from the action.
+// and optionally new chats generated from the action (ghost-less).
 // In case of an Exception, the client should mark the current applicant
 // and chat data as dirty, and reload it's state
 // Id: AP_R_COM
