@@ -80,7 +80,7 @@ class RemoteApp {
   RemoteAppOAuth _remoteAppOAuth;
   RemoteAppUpload _remoteAppUpload;
   RemoteAppProfile _remoteAppProfile;
-  RemoteAppHaggle _remoteAppHaggle;
+  RemoteAppHaggle remoteAppHaggle;
   RemoteAppHaggleActions _remoteAppHaggleActions;
   RemoteAppBusiness _remoteAppBusiness;
   RemoteAppInfluencer _remoteAppInfluencer;
@@ -119,9 +119,9 @@ class RemoteApp {
       _remoteAppProfile.dispose();
       _remoteAppProfile = null;
     }
-    if (_remoteAppHaggle != null) {
-      _remoteAppHaggle.dispose();
-      _remoteAppHaggle = null;
+    if (remoteAppHaggle != null) {
+      remoteAppHaggle.dispose();
+      remoteAppHaggle = null;
     }
     if (_remoteAppHaggleActions != null) {
       _remoteAppHaggleActions.dispose();
@@ -188,8 +188,8 @@ class RemoteApp {
   }
 
   void subscribeHaggle() {
-    if (_remoteAppHaggle == null) {
-      _remoteAppHaggle = new RemoteAppHaggle(this);
+    if (remoteAppHaggle == null) {
+      remoteAppHaggle = new RemoteAppHaggle(this);
     }
   }
 

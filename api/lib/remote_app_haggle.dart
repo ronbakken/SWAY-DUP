@@ -114,12 +114,30 @@ class RemoteAppHaggle {
     applicant.influencerMarkedRewarded = row[8].toInt() != 0;
     applicant.businessMarkedDelivered = row[9].toInt() != 0;
     applicant.businessMarkedRewarded = row[10].toInt() != 0;
-    applicant.influencerGaveRating = row[11].toInt();
-    applicant.businessGaveRating = row[12].toInt();
+    applicant.influencerGaveRating = row[11].toInt(); // TODO: Maybe just bool
+    applicant.businessGaveRating = row[12].toInt(); // TODO: Maybe just bool
     applicant.influencerDisputed = row[13].toInt() != 0;
     applicant.businessDisputed = row[14].toInt() != 0;
     applicant.state = ApplicantState.valueOf(row[15].toInt());
     return applicant;
+  }
+
+  Future<DataApplicant> getApplicant(int applicantId) async {
+    DataApplicant applicant;
+    String query = "SELECT "
+        "$_applicantSelect"
+        "FROM `applicants` "
+        "WHERE `applicant_id` = ?";
+    await for (sqljocky.Row row
+        in await sql.prepareExecute(query, [applicantId])) {
+      applicant = _applicantFromRow(row);
+    }
+    if (account.state.accountType == AccountType.AT_SUPPORT ||
+        accountId == applicant.businessAccountId ||
+        accountId == applicant.influencerAccountId) {
+      return applicant;
+    }
+    return null;
   }
 
   Future<void> netLoadApplicantReq(TalkMessage message) async {
@@ -209,12 +227,16 @@ class RemoteAppHaggle {
 
       // Authorize
       if (businessAccountId == null || influencerAccountId == null) {
+        opsLog.severe(
+            "Attempt to request invalid applicant chat by account '$accountId'");
         ts.sendException("Not Found", message);
         return; // Verify that this does call finally
       }
       if (account.state.accountType != AccountType.AT_SUPPORT &&
           accountId != businessAccountId &&
           accountId != influencerAccountId) {
+        opsLog.severe(
+            "Attempt to request unauthorized applicant chat by account '$accountId'");
         ts.sendException("Not Authorized", message);
         return; // Verify that this does call finally
       }
