@@ -2947,6 +2947,184 @@ class NetOfferApplyReq extends GeneratedMessage {
 class _ReadonlyNetOfferApplyReq extends NetOfferApplyReq
     with ReadonlyMessageMixin {}
 
+class NetLoadApplicantsReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantsReq')
+    ..a<int>(1, 'before', PbFieldType.O3)
+    ..a<int>(2, 'after', PbFieldType.O3)
+    ..a<int>(3, 'limit', PbFieldType.O3)
+    ..a<int>(4, 'offerId', PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  NetLoadApplicantsReq() : super();
+  NetLoadApplicantsReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetLoadApplicantsReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetLoadApplicantsReq clone() =>
+      new NetLoadApplicantsReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetLoadApplicantsReq create() => new NetLoadApplicantsReq();
+  static PbList<NetLoadApplicantsReq> createRepeated() =>
+      new PbList<NetLoadApplicantsReq>();
+  static NetLoadApplicantsReq getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetLoadApplicantsReq();
+    return _defaultInstance;
+  }
+
+  static NetLoadApplicantsReq _defaultInstance;
+  static void $checkItem(NetLoadApplicantsReq v) {
+    if (v is! NetLoadApplicantsReq) checkItemFailed(v, 'NetLoadApplicantsReq');
+  }
+
+  int get before => $_get(0, 0);
+  set before(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasBefore() => $_has(0);
+  void clearBefore() => clearField(1);
+
+  int get after => $_get(1, 0);
+  set after(int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  bool hasAfter() => $_has(1);
+  void clearAfter() => clearField(2);
+
+  int get limit => $_get(2, 0);
+  set limit(int v) {
+    $_setSignedInt32(2, v);
+  }
+
+  bool hasLimit() => $_has(2);
+  void clearLimit() => clearField(3);
+
+  int get offerId => $_get(3, 0);
+  set offerId(int v) {
+    $_setSignedInt32(3, v);
+  }
+
+  bool hasOfferId() => $_has(3);
+  void clearOfferId() => clearField(4);
+}
+
+class _ReadonlyNetLoadApplicantsReq extends NetLoadApplicantsReq
+    with ReadonlyMessageMixin {}
+
+class NetLoadApplicantReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantReq')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  NetLoadApplicantReq() : super();
+  NetLoadApplicantReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetLoadApplicantReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetLoadApplicantReq clone() =>
+      new NetLoadApplicantReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetLoadApplicantReq create() => new NetLoadApplicantReq();
+  static PbList<NetLoadApplicantReq> createRepeated() =>
+      new PbList<NetLoadApplicantReq>();
+  static NetLoadApplicantReq getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetLoadApplicantReq();
+    return _defaultInstance;
+  }
+
+  static NetLoadApplicantReq _defaultInstance;
+  static void $checkItem(NetLoadApplicantReq v) {
+    if (v is! NetLoadApplicantReq) checkItemFailed(v, 'NetLoadApplicantReq');
+  }
+
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
+}
+
+class _ReadonlyNetLoadApplicantReq extends NetLoadApplicantReq
+    with ReadonlyMessageMixin {}
+
+class NetLoadApplicantChatsReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantChatsReq')
+    ..a<int>(1, 'before', PbFieldType.O3)
+    ..a<int>(2, 'after', PbFieldType.O3)
+    ..a<int>(3, 'limit', PbFieldType.O3)
+    ..a<int>(5, 'applicantId', PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  NetLoadApplicantChatsReq() : super();
+  NetLoadApplicantChatsReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetLoadApplicantChatsReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetLoadApplicantChatsReq clone() =>
+      new NetLoadApplicantChatsReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetLoadApplicantChatsReq create() => new NetLoadApplicantChatsReq();
+  static PbList<NetLoadApplicantChatsReq> createRepeated() =>
+      new PbList<NetLoadApplicantChatsReq>();
+  static NetLoadApplicantChatsReq getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetLoadApplicantChatsReq();
+    return _defaultInstance;
+  }
+
+  static NetLoadApplicantChatsReq _defaultInstance;
+  static void $checkItem(NetLoadApplicantChatsReq v) {
+    if (v is! NetLoadApplicantChatsReq)
+      checkItemFailed(v, 'NetLoadApplicantChatsReq');
+  }
+
+  int get before => $_get(0, 0);
+  set before(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasBefore() => $_has(0);
+  void clearBefore() => clearField(1);
+
+  int get after => $_get(1, 0);
+  set after(int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  bool hasAfter() => $_has(1);
+  void clearAfter() => clearField(2);
+
+  int get limit => $_get(2, 0);
+  set limit(int v) {
+    $_setSignedInt32(2, v);
+  }
+
+  bool hasLimit() => $_has(2);
+  void clearLimit() => clearField(3);
+
+  int get applicantId => $_get(3, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(3, v);
+  }
+
+  bool hasApplicantId() => $_has(3);
+  void clearApplicantId() => clearField(5);
+}
+
+class _ReadonlyNetLoadApplicantChatsReq extends NetLoadApplicantChatsReq
+    with ReadonlyMessageMixin {}
+
 class NetChatPlain extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetChatPlain')
     ..a<int>(1, 'applicantId', PbFieldType.O3)
@@ -3222,182 +3400,57 @@ class NetApplicantCompletionReq extends GeneratedMessage {
 class _ReadonlyNetApplicantCompletionReq extends NetApplicantCompletionReq
     with ReadonlyMessageMixin {}
 
-class NetLoadApplicantsReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantsReq')
-    ..a<int>(1, 'before', PbFieldType.O3)
-    ..a<int>(2, 'after', PbFieldType.O3)
-    ..a<int>(3, 'limit', PbFieldType.O3)
-    ..a<int>(4, 'offerId', PbFieldType.O3)
+class NetApplicantCommonRes extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetApplicantCommonRes')
+    ..a<DataApplicant>(1, 'updateApplicant', PbFieldType.OM,
+        DataApplicant.getDefault, DataApplicant.create)
+    ..a<DataApplicantChat>(2, 'newChats', PbFieldType.OM,
+        DataApplicantChat.getDefault, DataApplicantChat.create)
     ..hasRequiredFields = false;
 
-  NetLoadApplicantsReq() : super();
-  NetLoadApplicantsReq.fromBuffer(List<int> i,
+  NetApplicantCommonRes() : super();
+  NetApplicantCommonRes.fromBuffer(List<int> i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetLoadApplicantsReq.fromJson(String i,
+  NetApplicantCommonRes.fromJson(String i,
       [ExtensionRegistry r = ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetLoadApplicantsReq clone() =>
-      new NetLoadApplicantsReq()..mergeFromMessage(this);
+  NetApplicantCommonRes clone() =>
+      new NetApplicantCommonRes()..mergeFromMessage(this);
   BuilderInfo get info_ => _i;
-  static NetLoadApplicantsReq create() => new NetLoadApplicantsReq();
-  static PbList<NetLoadApplicantsReq> createRepeated() =>
-      new PbList<NetLoadApplicantsReq>();
-  static NetLoadApplicantsReq getDefault() {
+  static NetApplicantCommonRes create() => new NetApplicantCommonRes();
+  static PbList<NetApplicantCommonRes> createRepeated() =>
+      new PbList<NetApplicantCommonRes>();
+  static NetApplicantCommonRes getDefault() {
     if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadApplicantsReq();
+      _defaultInstance = new _ReadonlyNetApplicantCommonRes();
     return _defaultInstance;
   }
 
-  static NetLoadApplicantsReq _defaultInstance;
-  static void $checkItem(NetLoadApplicantsReq v) {
-    if (v is! NetLoadApplicantsReq) checkItemFailed(v, 'NetLoadApplicantsReq');
+  static NetApplicantCommonRes _defaultInstance;
+  static void $checkItem(NetApplicantCommonRes v) {
+    if (v is! NetApplicantCommonRes)
+      checkItemFailed(v, 'NetApplicantCommonRes');
   }
 
-  int get before => $_get(0, 0);
-  set before(int v) {
-    $_setSignedInt32(0, v);
+  DataApplicant get updateApplicant => $_getN(0);
+  set updateApplicant(DataApplicant v) {
+    setField(1, v);
   }
 
-  bool hasBefore() => $_has(0);
-  void clearBefore() => clearField(1);
+  bool hasUpdateApplicant() => $_has(0);
+  void clearUpdateApplicant() => clearField(1);
 
-  int get after => $_get(1, 0);
-  set after(int v) {
-    $_setSignedInt32(1, v);
+  DataApplicantChat get newChats => $_getN(1);
+  set newChats(DataApplicantChat v) {
+    setField(2, v);
   }
 
-  bool hasAfter() => $_has(1);
-  void clearAfter() => clearField(2);
-
-  int get limit => $_get(2, 0);
-  set limit(int v) {
-    $_setSignedInt32(2, v);
-  }
-
-  bool hasLimit() => $_has(2);
-  void clearLimit() => clearField(3);
-
-  int get offerId => $_get(3, 0);
-  set offerId(int v) {
-    $_setSignedInt32(3, v);
-  }
-
-  bool hasOfferId() => $_has(3);
-  void clearOfferId() => clearField(4);
+  bool hasNewChats() => $_has(1);
+  void clearNewChats() => clearField(2);
 }
 
-class _ReadonlyNetLoadApplicantsReq extends NetLoadApplicantsReq
-    with ReadonlyMessageMixin {}
-
-class NetLoadApplicantReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantReq')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
-    ..hasRequiredFields = false;
-
-  NetLoadApplicantReq() : super();
-  NetLoadApplicantReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetLoadApplicantReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetLoadApplicantReq clone() =>
-      new NetLoadApplicantReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static NetLoadApplicantReq create() => new NetLoadApplicantReq();
-  static PbList<NetLoadApplicantReq> createRepeated() =>
-      new PbList<NetLoadApplicantReq>();
-  static NetLoadApplicantReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadApplicantReq();
-    return _defaultInstance;
-  }
-
-  static NetLoadApplicantReq _defaultInstance;
-  static void $checkItem(NetLoadApplicantReq v) {
-    if (v is! NetLoadApplicantReq) checkItemFailed(v, 'NetLoadApplicantReq');
-  }
-
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
-    $_setSignedInt32(0, v);
-  }
-
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
-}
-
-class _ReadonlyNetLoadApplicantReq extends NetLoadApplicantReq
-    with ReadonlyMessageMixin {}
-
-class NetLoadApplicantChatsReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantChatsReq')
-    ..a<int>(1, 'before', PbFieldType.O3)
-    ..a<int>(2, 'after', PbFieldType.O3)
-    ..a<int>(3, 'limit', PbFieldType.O3)
-    ..a<int>(5, 'applicantId', PbFieldType.O3)
-    ..hasRequiredFields = false;
-
-  NetLoadApplicantChatsReq() : super();
-  NetLoadApplicantChatsReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetLoadApplicantChatsReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetLoadApplicantChatsReq clone() =>
-      new NetLoadApplicantChatsReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
-  static NetLoadApplicantChatsReq create() => new NetLoadApplicantChatsReq();
-  static PbList<NetLoadApplicantChatsReq> createRepeated() =>
-      new PbList<NetLoadApplicantChatsReq>();
-  static NetLoadApplicantChatsReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadApplicantChatsReq();
-    return _defaultInstance;
-  }
-
-  static NetLoadApplicantChatsReq _defaultInstance;
-  static void $checkItem(NetLoadApplicantChatsReq v) {
-    if (v is! NetLoadApplicantChatsReq)
-      checkItemFailed(v, 'NetLoadApplicantChatsReq');
-  }
-
-  int get before => $_get(0, 0);
-  set before(int v) {
-    $_setSignedInt32(0, v);
-  }
-
-  bool hasBefore() => $_has(0);
-  void clearBefore() => clearField(1);
-
-  int get after => $_get(1, 0);
-  set after(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasAfter() => $_has(1);
-  void clearAfter() => clearField(2);
-
-  int get limit => $_get(2, 0);
-  set limit(int v) {
-    $_setSignedInt32(2, v);
-  }
-
-  bool hasLimit() => $_has(2);
-  void clearLimit() => clearField(3);
-
-  int get applicantId => $_get(3, 0);
-  set applicantId(int v) {
-    $_setSignedInt32(3, v);
-  }
-
-  bool hasApplicantId() => $_has(3);
-  void clearApplicantId() => clearField(5);
-}
-
-class _ReadonlyNetLoadApplicantChatsReq extends NetLoadApplicantChatsReq
+class _ReadonlyNetApplicantCommonRes extends NetApplicantCommonRes
     with ReadonlyMessageMixin {}
 
 class NetLoadPublicProfileReq extends GeneratedMessage {

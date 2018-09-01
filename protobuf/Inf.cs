@@ -144,50 +144,53 @@ namespace InfX {
             "ZXIYAiABKAUSDQoFbGltaXQYAyABKAUiMgoQTmV0TG9hZE9mZmVyc1JlcxIO",
             "CgZvbGRlc3QYASABKAUSDgoGbmV3ZXN0GAIgASgFIksKEE5ldE9mZmVyQXBw",
             "bHlSZXESDwoHb2ZmZXJJZBgBIAEoBRIVCg1kZXZpY2VHaG9zdElkGAggASgF",
-            "Eg8KB3JlbWFya3MYAiABKAkiSAoMTmV0Q2hhdFBsYWluEhMKC2FwcGxpY2Fu",
-            "dElkGAEgASgFEhUKDWRldmljZUdob3N0SWQYCCABKAUSDAoEdGV4dBgGIAEo",
-            "CSJyCg1OZXRDaGF0SGFnZ2xlEhMKC2FwcGxpY2FudElkGAEgASgFEhUKDWRl",
-            "dmljZUdob3N0SWQYCCABKAUSFAoMZGVsaXZlcmFibGVzGAMgASgJEg4KBnJl",
-            "d2FyZBgEIAEoCRIPCgdyZW1hcmtzGAIgASgJIk8KD05ldENoYXRJbWFnZUtl",
-            "eRITCgthcHBsaWNhbnRJZBgBIAEoBRIVCg1kZXZpY2VHaG9zdElkGAggASgF",
-            "EhAKCGltYWdlS2V5GAUgASgJIpIBChlOZXRBcHBsaWNhbnRDb21wbGV0aW9u",
-            "UmVxEhMKC2FwcGxpY2FudElkGAEgASgFEhEKCWRlbGl2ZXJlZBgCIAEoCBIQ",
-            "CghyZXdhcmRlZBgDIAEoCBIOCgZyYXRpbmcYBCABKAUSDwoHZGlzcHV0ZRgF",
-            "IAEoCBIaChJkaXNwdXRlRGVzY3JpcHRpb24YBiABKAkiVQoUTmV0TG9hZEFw",
-            "cGxpY2FudHNSZXESDwoHb2ZmZXJJZBgEIAEoBRIOCgZiZWZvcmUYASABKAUS",
-            "DQoFYWZ0ZXIYAiABKAUSDQoFbGltaXQYAyABKAUiKgoTTmV0TG9hZEFwcGxp",
-            "Y2FudFJlcRITCgthcHBsaWNhbnRJZBgBIAEoBSJdChhOZXRMb2FkQXBwbGlj",
-            "YW50Q2hhdHNSZXESEwoLYXBwbGljYW50SWQYBSABKAUSDgoGYmVmb3JlGAEg",
-            "ASgFEg0KBWFmdGVyGAIgASgFEg0KBWxpbWl0GAMgASgFIiwKF05ldExvYWRQ",
-            "dWJsaWNQcm9maWxlUmVxEhEKCWFjY291bnRJZBgBIAEoBSo+Cg5PQXV0aE1l",
-            "Y2hhbmlzbRIMCghPQU1fTk9ORRAAEg4KCk9BTV9PQVVUSDEQARIOCgpPQU1f",
-            "T0FVVEgyEAIqQwoQT0F1dGhQcm92aWRlcklkcxIMCghPQVBfTk9ORRAAEg8K",
-            "C09BUF9UV0lUVEVSEAESEAoMT0FQX0ZBQ0VCT09LEAIqUQoLQWNjb3VudFR5",
-            "cGUSDgoKQVRfVU5LTk9XThAAEhEKDUFUX0lORkxVRU5DRVIQARIPCgtBVF9C",
-            "VVNJTkVTUxACEg4KCkFUX1NVUFBPUlQQAyqeAQoSR2xvYmFsQWNjb3VudFN0",
-            "YXRlEhIKDkdBU19JTklUSUFMSVpFEAASDwoLR0FTX0JMT0NLRUQQARIRCg1H",
-            "QVNfUkVBRF9PTkxZEAISEgoOR0FTX1JFQURfV1JJVEUQAxINCglHQVNfREVC",
-            "VUcQBBIPCgtHQVNfU1VQUE9SVBAFEg8KC0dBU19NQU5BR0VSEAYSCwoHR0FT",
-            "X0dPRBAHKrUBChhHbG9iYWxBY2NvdW50U3RhdGVSZWFzb24SFAoQR0FTUl9O",
-            "RVdfQUNDT1VOVBAAEhcKE0dBU1JfQUNDT1VOVF9CQU5ORUQQARIWChJHQVNS",
-            "X0NSRUFURV9ERU5JRUQQAhIRCg1HQVNSX0FQUFJPVkVEEAMSFgoSR0FTUl9E",
-            "RU1PX0FQUFJPVkVEEAQSEAoMR0FTUl9QRU5ESU5HEAUSFQoRR0FTUl9SRVFV",
-            "SVJFX0lORk8QBipuChFOb3RpZmljYXRpb25GbGFncxIUChBORl9BQ0NPVU5U",
-            "X1NUQVRFEAASGAoUTkZfTUFLRV9BTl9PRkZFUl9GQUIQARIWChJORl9VTlJF",
-            "QURfTUVTU0FHRVMQAhIRCg1ORl9DU19SRVFVRVNUEAMqUQoSQnVzaW5lc3NP",
-            "ZmZlclN0YXRlEg0KCUJPU19EUkFGVBAAEgwKCEJPU19PUEVOEAESDgoKQk9T",
-            "X0FDVElWRRACEg4KCkJPU19DTE9TRUQQAypwChhCdXNpbmVzc09mZmVyU3Rh",
-            "dGVSZWFzb24SEgoOQk9TUl9ORVdfT0ZGRVIQABIUChBCT1NSX1VTRVJfQ0xP",
-            "U0VEEAESFgoSQk9TUl9UT1NfVklPTEFUSU9OEAISEgoOQk9TUl9DT01QTEVU",
-            "RUQQAypVChFBcHBsaWNhbnRDaGF0VHlwZRINCglBQ1RfUExBSU4QABIOCgpB",
-            "Q1RfSEFHR0xFEAESEQoNQUNUX0lNQUdFX0tFWRACEg4KCkFDVF9NQVJLRVIQ",
-            "AypxCg5BcHBsaWNhbnRTdGF0ZRIPCgtBU19IQUdHTElORxAAEgsKB0FTX0RF",
-            "QUwQARIPCgtBU19SRUpFQ1RFRBACEg8KC0FTX0NPTVBMRVRFEAMSDgoKQVNf",
-            "RElTUFVURRAEEg8KC0FTX1JFU09MVkVEEAUqswEKE0FwcGxpY2FudENoYXRN",
-            "YXJrZXISDwoLQUNNX0FQUExJRUQQABIRCg1BQ01fV0FOVF9ERUFMEAESEQoN",
-            "QUNNX0RFQUxfTUFERRACEhAKDEFDTV9SRUpFQ1RFRBADEhcKE0FDTV9NQVJL",
-            "RURfQ09NUExFVEUQBBIQCgxBQ01fQ09NUExFVEUQBRIWChJBQ01fTUFSS0VE",
-            "X0RJU1BVVEUQBhIQCgxBQ01fUkVTT0xWRUQQB0IHqgIESW5mWGIGcHJvdG8z"));
+            "Eg8KB3JlbWFya3MYAiABKAkiVQoUTmV0TG9hZEFwcGxpY2FudHNSZXESDwoH",
+            "b2ZmZXJJZBgEIAEoBRIOCgZiZWZvcmUYASABKAUSDQoFYWZ0ZXIYAiABKAUS",
+            "DQoFbGltaXQYAyABKAUiKgoTTmV0TG9hZEFwcGxpY2FudFJlcRITCgthcHBs",
+            "aWNhbnRJZBgBIAEoBSJdChhOZXRMb2FkQXBwbGljYW50Q2hhdHNSZXESEwoL",
+            "YXBwbGljYW50SWQYBSABKAUSDgoGYmVmb3JlGAEgASgFEg0KBWFmdGVyGAIg",
+            "ASgFEg0KBWxpbWl0GAMgASgFIkgKDE5ldENoYXRQbGFpbhITCgthcHBsaWNh",
+            "bnRJZBgBIAEoBRIVCg1kZXZpY2VHaG9zdElkGAggASgFEgwKBHRleHQYBiAB",
+            "KAkicgoNTmV0Q2hhdEhhZ2dsZRITCgthcHBsaWNhbnRJZBgBIAEoBRIVCg1k",
+            "ZXZpY2VHaG9zdElkGAggASgFEhQKDGRlbGl2ZXJhYmxlcxgDIAEoCRIOCgZy",
+            "ZXdhcmQYBCABKAkSDwoHcmVtYXJrcxgCIAEoCSJPCg9OZXRDaGF0SW1hZ2VL",
+            "ZXkSEwoLYXBwbGljYW50SWQYASABKAUSFQoNZGV2aWNlR2hvc3RJZBgIIAEo",
+            "BRIQCghpbWFnZUtleRgFIAEoCSKSAQoZTmV0QXBwbGljYW50Q29tcGxldGlv",
+            "blJlcRITCgthcHBsaWNhbnRJZBgBIAEoBRIRCglkZWxpdmVyZWQYAiABKAgS",
+            "EAoIcmV3YXJkZWQYAyABKAgSDgoGcmF0aW5nGAQgASgFEg8KB2Rpc3B1dGUY",
+            "BSABKAgSGgoSZGlzcHV0ZURlc2NyaXB0aW9uGAYgASgJIm4KFU5ldEFwcGxp",
+            "Y2FudENvbW1vblJlcxIrCg91cGRhdGVBcHBsaWNhbnQYASABKAsyEi5pbmYu",
+            "RGF0YUFwcGxpY2FudBIoCghuZXdDaGF0cxgCIAEoCzIWLmluZi5EYXRhQXBw",
+            "bGljYW50Q2hhdCIsChdOZXRMb2FkUHVibGljUHJvZmlsZVJlcRIRCglhY2Nv",
+            "dW50SWQYASABKAUqPgoOT0F1dGhNZWNoYW5pc20SDAoIT0FNX05PTkUQABIO",
+            "CgpPQU1fT0FVVEgxEAESDgoKT0FNX09BVVRIMhACKkMKEE9BdXRoUHJvdmlk",
+            "ZXJJZHMSDAoIT0FQX05PTkUQABIPCgtPQVBfVFdJVFRFUhABEhAKDE9BUF9G",
+            "QUNFQk9PSxACKlEKC0FjY291bnRUeXBlEg4KCkFUX1VOS05PV04QABIRCg1B",
+            "VF9JTkZMVUVOQ0VSEAESDwoLQVRfQlVTSU5FU1MQAhIOCgpBVF9TVVBQT1JU",
+            "EAMqngEKEkdsb2JhbEFjY291bnRTdGF0ZRISCg5HQVNfSU5JVElBTElaRRAA",
+            "Eg8KC0dBU19CTE9DS0VEEAESEQoNR0FTX1JFQURfT05MWRACEhIKDkdBU19S",
+            "RUFEX1dSSVRFEAMSDQoJR0FTX0RFQlVHEAQSDwoLR0FTX1NVUFBPUlQQBRIP",
+            "CgtHQVNfTUFOQUdFUhAGEgsKB0dBU19HT0QQByq1AQoYR2xvYmFsQWNjb3Vu",
+            "dFN0YXRlUmVhc29uEhQKEEdBU1JfTkVXX0FDQ09VTlQQABIXChNHQVNSX0FD",
+            "Q09VTlRfQkFOTkVEEAESFgoSR0FTUl9DUkVBVEVfREVOSUVEEAISEQoNR0FT",
+            "Ul9BUFBST1ZFRBADEhYKEkdBU1JfREVNT19BUFBST1ZFRBAEEhAKDEdBU1Jf",
+            "UEVORElORxAFEhUKEUdBU1JfUkVRVUlSRV9JTkZPEAYqbgoRTm90aWZpY2F0",
+            "aW9uRmxhZ3MSFAoQTkZfQUNDT1VOVF9TVEFURRAAEhgKFE5GX01BS0VfQU5f",
+            "T0ZGRVJfRkFCEAESFgoSTkZfVU5SRUFEX01FU1NBR0VTEAISEQoNTkZfQ1Nf",
+            "UkVRVUVTVBADKlEKEkJ1c2luZXNzT2ZmZXJTdGF0ZRINCglCT1NfRFJBRlQQ",
+            "ABIMCghCT1NfT1BFThABEg4KCkJPU19BQ1RJVkUQAhIOCgpCT1NfQ0xPU0VE",
+            "EAMqcAoYQnVzaW5lc3NPZmZlclN0YXRlUmVhc29uEhIKDkJPU1JfTkVXX09G",
+            "RkVSEAASFAoQQk9TUl9VU0VSX0NMT1NFRBABEhYKEkJPU1JfVE9TX1ZJT0xB",
+            "VElPThACEhIKDkJPU1JfQ09NUExFVEVEEAMqVQoRQXBwbGljYW50Q2hhdFR5",
+            "cGUSDQoJQUNUX1BMQUlOEAASDgoKQUNUX0hBR0dMRRABEhEKDUFDVF9JTUFH",
+            "RV9LRVkQAhIOCgpBQ1RfTUFSS0VSEAMqcQoOQXBwbGljYW50U3RhdGUSDwoL",
+            "QVNfSEFHR0xJTkcQABILCgdBU19ERUFMEAESDwoLQVNfUkVKRUNURUQQAhIP",
+            "CgtBU19DT01QTEVURRADEg4KCkFTX0RJU1BVVEUQBBIPCgtBU19SRVNPTFZF",
+            "RBAFKrMBChNBcHBsaWNhbnRDaGF0TWFya2VyEg8KC0FDTV9BUFBMSUVEEAAS",
+            "EQoNQUNNX1dBTlRfREVBTBABEhEKDUFDTV9ERUFMX01BREUQAhIQCgxBQ01f",
+            "UkVKRUNURUQQAxIXChNBQ01fTUFSS0VEX0NPTVBMRVRFEAQSEAoMQUNNX0NP",
+            "TVBMRVRFEAUSFgoSQUNNX01BUktFRF9ESVNQVVRFEAYSEAoMQUNNX1JFU09M",
+            "VkVEEAdCB6oCBEluZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::InfX.OAuthMechanism), typeof(global::InfX.OAuthProviderIds), typeof(global::InfX.AccountType), typeof(global::InfX.GlobalAccountState), typeof(global::InfX.GlobalAccountStateReason), typeof(global::InfX.NotificationFlags), typeof(global::InfX.BusinessOfferState), typeof(global::InfX.BusinessOfferStateReason), typeof(global::InfX.ApplicantChatType), typeof(global::InfX.ApplicantState), typeof(global::InfX.ApplicantChatMarker), }, new pbr::GeneratedClrTypeInfo[] {
@@ -227,13 +230,14 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffersReq), global::InfX.NetLoadOffersReq.Parser, new[]{ "Before", "After", "Limit" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadOffersRes), global::InfX.NetLoadOffersRes.Parser, new[]{ "Oldest", "Newest" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetOfferApplyReq), global::InfX.NetOfferApplyReq.Parser, new[]{ "OfferId", "DeviceGhostId", "Remarks" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadApplicantsReq), global::InfX.NetLoadApplicantsReq.Parser, new[]{ "OfferId", "Before", "After", "Limit" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadApplicantReq), global::InfX.NetLoadApplicantReq.Parser, new[]{ "ApplicantId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadApplicantChatsReq), global::InfX.NetLoadApplicantChatsReq.Parser, new[]{ "ApplicantId", "Before", "After", "Limit" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetChatPlain), global::InfX.NetChatPlain.Parser, new[]{ "ApplicantId", "DeviceGhostId", "Text" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetChatHaggle), global::InfX.NetChatHaggle.Parser, new[]{ "ApplicantId", "DeviceGhostId", "Deliverables", "Reward", "Remarks" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetChatImageKey), global::InfX.NetChatImageKey.Parser, new[]{ "ApplicantId", "DeviceGhostId", "ImageKey" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetApplicantCompletionReq), global::InfX.NetApplicantCompletionReq.Parser, new[]{ "ApplicantId", "Delivered", "Rewarded", "Rating", "Dispute", "DisputeDescription" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadApplicantsReq), global::InfX.NetLoadApplicantsReq.Parser, new[]{ "OfferId", "Before", "After", "Limit" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadApplicantReq), global::InfX.NetLoadApplicantReq.Parser, new[]{ "ApplicantId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadApplicantChatsReq), global::InfX.NetLoadApplicantChatsReq.Parser, new[]{ "ApplicantId", "Before", "After", "Limit" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetApplicantCommonRes), global::InfX.NetApplicantCommonRes.Parser, new[]{ "UpdateApplicant", "NewChats" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetLoadPublicProfileReq), global::InfX.NetLoadPublicProfileReq.Parser, new[]{ "AccountId" }, null, null, null)
           }));
     }
@@ -9608,6 +9612,565 @@ namespace InfX {
   }
 
   /// <summary>
+  ///  Message to load or refresh applicant list
+  ///  Server will send a stream of DataApplicant messages (Id: LU_APPLI)
+  ///  Id: L_APPLIS
+  /// </summary>
+  public sealed partial class NetLoadApplicantsReq : pb::IMessage<NetLoadApplicantsReq> {
+    private static readonly pb::MessageParser<NetLoadApplicantsReq> _parser = new pb::MessageParser<NetLoadApplicantsReq>(() => new NetLoadApplicantsReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetLoadApplicantsReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[36]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadApplicantsReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadApplicantsReq(NetLoadApplicantsReq other) : this() {
+      offerId_ = other.offerId_;
+      before_ = other.before_;
+      after_ = other.after_;
+      limit_ = other.limit_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadApplicantsReq Clone() {
+      return new NetLoadApplicantsReq(this);
+    }
+
+    /// <summary>Field number for the "offerId" field.</summary>
+    public const int OfferIdFieldNumber = 4;
+    private int offerId_;
+    /// <summary>
+    ///  Offer for which to send applicants (ignored when requested by influencer)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int OfferId {
+      get { return offerId_; }
+      set {
+        offerId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "before" field.</summary>
+    public const int BeforeFieldNumber = 1;
+    private int before_;
+    /// <summary>
+    ///  Applicants with id lower than this (older applicants) (ignore if 0)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Before {
+      get { return before_; }
+      set {
+        before_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "after" field.</summary>
+    public const int AfterFieldNumber = 2;
+    private int after_;
+    /// <summary>
+    ///  Applicants with id higher than this (newer applicants) (ignore if 0)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int After {
+      get { return after_; }
+      set {
+        after_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "limit" field.</summary>
+    public const int LimitFieldNumber = 3;
+    private int limit_;
+    /// <summary>
+    ///  Limit (ignore if 0)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Limit {
+      get { return limit_; }
+      set {
+        limit_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetLoadApplicantsReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetLoadApplicantsReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (OfferId != other.OfferId) return false;
+      if (Before != other.Before) return false;
+      if (After != other.After) return false;
+      if (Limit != other.Limit) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (OfferId != 0) hash ^= OfferId.GetHashCode();
+      if (Before != 0) hash ^= Before.GetHashCode();
+      if (After != 0) hash ^= After.GetHashCode();
+      if (Limit != 0) hash ^= Limit.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Before != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Before);
+      }
+      if (After != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(After);
+      }
+      if (Limit != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Limit);
+      }
+      if (OfferId != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(OfferId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (OfferId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OfferId);
+      }
+      if (Before != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Before);
+      }
+      if (After != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(After);
+      }
+      if (Limit != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Limit);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetLoadApplicantsReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.OfferId != 0) {
+        OfferId = other.OfferId;
+      }
+      if (other.Before != 0) {
+        Before = other.Before;
+      }
+      if (other.After != 0) {
+        After = other.After;
+      }
+      if (other.Limit != 0) {
+        Limit = other.Limit;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            Before = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            After = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            Limit = input.ReadInt32();
+            break;
+          }
+          case 32: {
+            OfferId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Message to load or refresh applicant list
+  ///  Id: L_APPLIC
+  ///  Response: DataApplicant (Id: LU_APPLI)
+  /// </summary>
+  public sealed partial class NetLoadApplicantReq : pb::IMessage<NetLoadApplicantReq> {
+    private static readonly pb::MessageParser<NetLoadApplicantReq> _parser = new pb::MessageParser<NetLoadApplicantReq>(() => new NetLoadApplicantReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetLoadApplicantReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[37]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadApplicantReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadApplicantReq(NetLoadApplicantReq other) : this() {
+      applicantId_ = other.applicantId_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadApplicantReq Clone() {
+      return new NetLoadApplicantReq(this);
+    }
+
+    /// <summary>Field number for the "applicantId" field.</summary>
+    public const int ApplicantIdFieldNumber = 1;
+    private int applicantId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantId {
+      get { return applicantId_; }
+      set {
+        applicantId_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetLoadApplicantReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetLoadApplicantReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ApplicantId != other.ApplicantId) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (ApplicantId != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(ApplicantId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ApplicantId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetLoadApplicantReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ApplicantId != 0) {
+        ApplicantId = other.ApplicantId;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            ApplicantId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
+  ///  Message to load or refresh applicant chat list
+  ///  Server will send a stream of DataApplicantChat messages (Id: LU_A_CHA)
+  ///  Id: L_APCHAT
+  ///  Response: NetLoadApplicantsRes (Id: L_R_APCH)
+  /// </summary>
+  public sealed partial class NetLoadApplicantChatsReq : pb::IMessage<NetLoadApplicantChatsReq> {
+    private static readonly pb::MessageParser<NetLoadApplicantChatsReq> _parser = new pb::MessageParser<NetLoadApplicantChatsReq>(() => new NetLoadApplicantChatsReq());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<NetLoadApplicantChatsReq> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[38]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadApplicantChatsReq() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadApplicantChatsReq(NetLoadApplicantChatsReq other) : this() {
+      applicantId_ = other.applicantId_;
+      before_ = other.before_;
+      after_ = other.after_;
+      limit_ = other.limit_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public NetLoadApplicantChatsReq Clone() {
+      return new NetLoadApplicantChatsReq(this);
+    }
+
+    /// <summary>Field number for the "applicantId" field.</summary>
+    public const int ApplicantIdFieldNumber = 5;
+    private int applicantId_;
+    /// <summary>
+    ///  Applicant for which to send chats
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int ApplicantId {
+      get { return applicantId_; }
+      set {
+        applicantId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "before" field.</summary>
+    public const int BeforeFieldNumber = 1;
+    private int before_;
+    /// <summary>
+    ///  Applicant chats with id lower than this (older applicant chats) (ignore if 0)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Before {
+      get { return before_; }
+      set {
+        before_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "after" field.</summary>
+    public const int AfterFieldNumber = 2;
+    private int after_;
+    /// <summary>
+    ///  Applicant chats with id higher than this (newer applicant chats) (ignore if 0)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int After {
+      get { return after_; }
+      set {
+        after_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "limit" field.</summary>
+    public const int LimitFieldNumber = 3;
+    private int limit_;
+    /// <summary>
+    ///  Limit (ignore if 0)
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Limit {
+      get { return limit_; }
+      set {
+        limit_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as NetLoadApplicantChatsReq);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(NetLoadApplicantChatsReq other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (ApplicantId != other.ApplicantId) return false;
+      if (Before != other.Before) return false;
+      if (After != other.After) return false;
+      if (Limit != other.Limit) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
+      if (Before != 0) hash ^= Before.GetHashCode();
+      if (After != 0) hash ^= After.GetHashCode();
+      if (Limit != 0) hash ^= Limit.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Before != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Before);
+      }
+      if (After != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(After);
+      }
+      if (Limit != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(Limit);
+      }
+      if (ApplicantId != 0) {
+        output.WriteRawTag(40);
+        output.WriteInt32(ApplicantId);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (ApplicantId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
+      }
+      if (Before != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Before);
+      }
+      if (After != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(After);
+      }
+      if (Limit != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Limit);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(NetLoadApplicantChatsReq other) {
+      if (other == null) {
+        return;
+      }
+      if (other.ApplicantId != 0) {
+        ApplicantId = other.ApplicantId;
+      }
+      if (other.Before != 0) {
+        Before = other.Before;
+      }
+      if (other.After != 0) {
+        After = other.After;
+      }
+      if (other.Limit != 0) {
+        Limit = other.Limit;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            Before = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            After = input.ReadInt32();
+            break;
+          }
+          case 24: {
+            Limit = input.ReadInt32();
+            break;
+          }
+          case 40: {
+            ApplicantId = input.ReadInt32();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  /// <summary>
   ///  Send chat plain
   ///  Id: CH_PLAIN
   /// </summary>
@@ -9618,7 +10181,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[36]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[39]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9795,7 +10358,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[37]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[40]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10028,7 +10591,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[38]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[41]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10197,7 +10760,7 @@ namespace InfX {
   /// <summary>
   ///  Mark as completed OR Report a problem
   ///  Id: AP_COMPL
-  ///  Response: DataApplicant (Id: AP_R_COM)
+  ///  Response: NetApplicantCommonRes (Id: AP_R_COM)
   /// </summary>
   public sealed partial class NetApplicantCompletionReq : pb::IMessage<NetApplicantCompletionReq> {
     private static readonly pb::MessageParser<NetApplicantCompletionReq> _parser = new pb::MessageParser<NetApplicantCompletionReq>(() => new NetApplicantCompletionReq());
@@ -10206,7 +10769,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[39]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[42]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10466,18 +11029,21 @@ namespace InfX {
   }
 
   /// <summary>
-  ///  Message to load or refresh applicant list
-  ///  Server will send a stream of DataApplicant messages (Id: LU_APPLI)
-  ///  Id: L_APPLIS
+  ///  Generic response for applicant actions.
+  ///  Always returns the updated applicant info,
+  ///  and optionally new chats generated from the action.
+  ///  In case of an Exception, the client should mark the current applicant
+  ///  and chat data as dirty, and reload it's state
+  ///  Id: AP_R_COM
   /// </summary>
-  public sealed partial class NetLoadApplicantsReq : pb::IMessage<NetLoadApplicantsReq> {
-    private static readonly pb::MessageParser<NetLoadApplicantsReq> _parser = new pb::MessageParser<NetLoadApplicantsReq>(() => new NetLoadApplicantsReq());
+  public sealed partial class NetApplicantCommonRes : pb::IMessage<NetApplicantCommonRes> {
+    private static readonly pb::MessageParser<NetApplicantCommonRes> _parser = new pb::MessageParser<NetApplicantCommonRes>(() => new NetApplicantCommonRes());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetLoadApplicantsReq> Parser { get { return _parser; } }
+    public static pb::MessageParser<NetApplicantCommonRes> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[40]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[43]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10486,108 +11052,68 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadApplicantsReq() {
+    public NetApplicantCommonRes() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadApplicantsReq(NetLoadApplicantsReq other) : this() {
-      offerId_ = other.offerId_;
-      before_ = other.before_;
-      after_ = other.after_;
-      limit_ = other.limit_;
+    public NetApplicantCommonRes(NetApplicantCommonRes other) : this() {
+      UpdateApplicant = other.updateApplicant_ != null ? other.UpdateApplicant.Clone() : null;
+      NewChats = other.newChats_ != null ? other.NewChats.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadApplicantsReq Clone() {
-      return new NetLoadApplicantsReq(this);
+    public NetApplicantCommonRes Clone() {
+      return new NetApplicantCommonRes(this);
     }
 
-    /// <summary>Field number for the "offerId" field.</summary>
-    public const int OfferIdFieldNumber = 4;
-    private int offerId_;
-    /// <summary>
-    ///  Offer for which to send applicants (ignored when requested by influencer)
-    /// </summary>
+    /// <summary>Field number for the "updateApplicant" field.</summary>
+    public const int UpdateApplicantFieldNumber = 1;
+    private global::InfX.DataApplicant updateApplicant_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int OfferId {
-      get { return offerId_; }
+    public global::InfX.DataApplicant UpdateApplicant {
+      get { return updateApplicant_; }
       set {
-        offerId_ = value;
+        updateApplicant_ = value;
       }
     }
 
-    /// <summary>Field number for the "before" field.</summary>
-    public const int BeforeFieldNumber = 1;
-    private int before_;
-    /// <summary>
-    ///  Applicants with id lower than this (older applicants) (ignore if 0)
-    /// </summary>
+    /// <summary>Field number for the "newChats" field.</summary>
+    public const int NewChatsFieldNumber = 2;
+    private global::InfX.DataApplicantChat newChats_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Before {
-      get { return before_; }
+    public global::InfX.DataApplicantChat NewChats {
+      get { return newChats_; }
       set {
-        before_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "after" field.</summary>
-    public const int AfterFieldNumber = 2;
-    private int after_;
-    /// <summary>
-    ///  Applicants with id higher than this (newer applicants) (ignore if 0)
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int After {
-      get { return after_; }
-      set {
-        after_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "limit" field.</summary>
-    public const int LimitFieldNumber = 3;
-    private int limit_;
-    /// <summary>
-    ///  Limit (ignore if 0)
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Limit {
-      get { return limit_; }
-      set {
-        limit_ = value;
+        newChats_ = value;
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as NetLoadApplicantsReq);
+      return Equals(other as NetApplicantCommonRes);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetLoadApplicantsReq other) {
+    public bool Equals(NetApplicantCommonRes other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (OfferId != other.OfferId) return false;
-      if (Before != other.Before) return false;
-      if (After != other.After) return false;
-      if (Limit != other.Limit) return false;
+      if (!object.Equals(UpdateApplicant, other.UpdateApplicant)) return false;
+      if (!object.Equals(NewChats, other.NewChats)) return false;
       return true;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (OfferId != 0) hash ^= OfferId.GetHashCode();
-      if (Before != 0) hash ^= Before.GetHashCode();
-      if (After != 0) hash ^= After.GetHashCode();
-      if (Limit != 0) hash ^= Limit.GetHashCode();
+      if (updateApplicant_ != null) hash ^= UpdateApplicant.GetHashCode();
+      if (newChats_ != null) hash ^= NewChats.GetHashCode();
       return hash;
     }
 
@@ -10598,399 +11124,44 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (Before != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(Before);
+      if (updateApplicant_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(UpdateApplicant);
       }
-      if (After != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(After);
-      }
-      if (Limit != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(Limit);
-      }
-      if (OfferId != 0) {
-        output.WriteRawTag(32);
-        output.WriteInt32(OfferId);
+      if (newChats_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(NewChats);
       }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (OfferId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(OfferId);
+      if (updateApplicant_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(UpdateApplicant);
       }
-      if (Before != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Before);
-      }
-      if (After != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(After);
-      }
-      if (Limit != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Limit);
+      if (newChats_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(NewChats);
       }
       return size;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetLoadApplicantsReq other) {
+    public void MergeFrom(NetApplicantCommonRes other) {
       if (other == null) {
         return;
       }
-      if (other.OfferId != 0) {
-        OfferId = other.OfferId;
-      }
-      if (other.Before != 0) {
-        Before = other.Before;
-      }
-      if (other.After != 0) {
-        After = other.After;
-      }
-      if (other.Limit != 0) {
-        Limit = other.Limit;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            input.SkipLastField();
-            break;
-          case 8: {
-            Before = input.ReadInt32();
-            break;
-          }
-          case 16: {
-            After = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            Limit = input.ReadInt32();
-            break;
-          }
-          case 32: {
-            OfferId = input.ReadInt32();
-            break;
-          }
+      if (other.updateApplicant_ != null) {
+        if (updateApplicant_ == null) {
+          updateApplicant_ = new global::InfX.DataApplicant();
         }
+        UpdateApplicant.MergeFrom(other.UpdateApplicant);
       }
-    }
-
-  }
-
-  /// <summary>
-  ///  Message to load or refresh applicant list
-  ///  Id: L_APPLIC
-  ///  Response: DataApplicant (Id: LU_APPLI)
-  /// </summary>
-  public sealed partial class NetLoadApplicantReq : pb::IMessage<NetLoadApplicantReq> {
-    private static readonly pb::MessageParser<NetLoadApplicantReq> _parser = new pb::MessageParser<NetLoadApplicantReq>(() => new NetLoadApplicantReq());
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetLoadApplicantReq> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[41]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadApplicantReq() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadApplicantReq(NetLoadApplicantReq other) : this() {
-      applicantId_ = other.applicantId_;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadApplicantReq Clone() {
-      return new NetLoadApplicantReq(this);
-    }
-
-    /// <summary>Field number for the "applicantId" field.</summary>
-    public const int ApplicantIdFieldNumber = 1;
-    private int applicantId_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ApplicantId {
-      get { return applicantId_; }
-      set {
-        applicantId_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as NetLoadApplicantReq);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetLoadApplicantReq other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (ApplicantId != other.ApplicantId) return false;
-      return true;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (ApplicantId != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(ApplicantId);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (ApplicantId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetLoadApplicantReq other) {
-      if (other == null) {
-        return;
-      }
-      if (other.ApplicantId != 0) {
-        ApplicantId = other.ApplicantId;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(pb::CodedInputStream input) {
-      uint tag;
-      while ((tag = input.ReadTag()) != 0) {
-        switch(tag) {
-          default:
-            input.SkipLastField();
-            break;
-          case 8: {
-            ApplicantId = input.ReadInt32();
-            break;
-          }
+      if (other.newChats_ != null) {
+        if (newChats_ == null) {
+          newChats_ = new global::InfX.DataApplicantChat();
         }
-      }
-    }
-
-  }
-
-  /// <summary>
-  ///  Message to load or refresh applicant chat list
-  ///  Server will send a stream of DataApplicantChat messages (Id: LU_A_CHA)
-  ///  Id: L_APCHAT
-  ///  Response: NetLoadApplicantsRes (Id: L_R_APCH)
-  /// </summary>
-  public sealed partial class NetLoadApplicantChatsReq : pb::IMessage<NetLoadApplicantChatsReq> {
-    private static readonly pb::MessageParser<NetLoadApplicantChatsReq> _parser = new pb::MessageParser<NetLoadApplicantChatsReq>(() => new NetLoadApplicantChatsReq());
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetLoadApplicantChatsReq> Parser { get { return _parser; } }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[42]; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    pbr::MessageDescriptor pb::IMessage.Descriptor {
-      get { return Descriptor; }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadApplicantChatsReq() {
-      OnConstruction();
-    }
-
-    partial void OnConstruction();
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadApplicantChatsReq(NetLoadApplicantChatsReq other) : this() {
-      applicantId_ = other.applicantId_;
-      before_ = other.before_;
-      after_ = other.after_;
-      limit_ = other.limit_;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetLoadApplicantChatsReq Clone() {
-      return new NetLoadApplicantChatsReq(this);
-    }
-
-    /// <summary>Field number for the "applicantId" field.</summary>
-    public const int ApplicantIdFieldNumber = 5;
-    private int applicantId_;
-    /// <summary>
-    ///  Applicant for which to send chats
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ApplicantId {
-      get { return applicantId_; }
-      set {
-        applicantId_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "before" field.</summary>
-    public const int BeforeFieldNumber = 1;
-    private int before_;
-    /// <summary>
-    ///  Applicant chats with id lower than this (older applicant chats) (ignore if 0)
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Before {
-      get { return before_; }
-      set {
-        before_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "after" field.</summary>
-    public const int AfterFieldNumber = 2;
-    private int after_;
-    /// <summary>
-    ///  Applicant chats with id higher than this (newer applicant chats) (ignore if 0)
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int After {
-      get { return after_; }
-      set {
-        after_ = value;
-      }
-    }
-
-    /// <summary>Field number for the "limit" field.</summary>
-    public const int LimitFieldNumber = 3;
-    private int limit_;
-    /// <summary>
-    ///  Limit (ignore if 0)
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int Limit {
-      get { return limit_; }
-      set {
-        limit_ = value;
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override bool Equals(object other) {
-      return Equals(other as NetLoadApplicantChatsReq);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetLoadApplicantChatsReq other) {
-      if (ReferenceEquals(other, null)) {
-        return false;
-      }
-      if (ReferenceEquals(other, this)) {
-        return true;
-      }
-      if (ApplicantId != other.ApplicantId) return false;
-      if (Before != other.Before) return false;
-      if (After != other.After) return false;
-      if (Limit != other.Limit) return false;
-      return true;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override int GetHashCode() {
-      int hash = 1;
-      if (ApplicantId != 0) hash ^= ApplicantId.GetHashCode();
-      if (Before != 0) hash ^= Before.GetHashCode();
-      if (After != 0) hash ^= After.GetHashCode();
-      if (Limit != 0) hash ^= Limit.GetHashCode();
-      return hash;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public override string ToString() {
-      return pb::JsonFormatter.ToDiagnosticString(this);
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void WriteTo(pb::CodedOutputStream output) {
-      if (Before != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(Before);
-      }
-      if (After != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(After);
-      }
-      if (Limit != 0) {
-        output.WriteRawTag(24);
-        output.WriteInt32(Limit);
-      }
-      if (ApplicantId != 0) {
-        output.WriteRawTag(40);
-        output.WriteInt32(ApplicantId);
-      }
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int CalculateSize() {
-      int size = 0;
-      if (ApplicantId != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ApplicantId);
-      }
-      if (Before != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Before);
-      }
-      if (After != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(After);
-      }
-      if (Limit != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Limit);
-      }
-      return size;
-    }
-
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetLoadApplicantChatsReq other) {
-      if (other == null) {
-        return;
-      }
-      if (other.ApplicantId != 0) {
-        ApplicantId = other.ApplicantId;
-      }
-      if (other.Before != 0) {
-        Before = other.Before;
-      }
-      if (other.After != 0) {
-        After = other.After;
-      }
-      if (other.Limit != 0) {
-        Limit = other.Limit;
+        NewChats.MergeFrom(other.NewChats);
       }
     }
 
@@ -11002,20 +11173,18 @@ namespace InfX {
           default:
             input.SkipLastField();
             break;
-          case 8: {
-            Before = input.ReadInt32();
+          case 10: {
+            if (updateApplicant_ == null) {
+              updateApplicant_ = new global::InfX.DataApplicant();
+            }
+            input.ReadMessage(updateApplicant_);
             break;
           }
-          case 16: {
-            After = input.ReadInt32();
-            break;
-          }
-          case 24: {
-            Limit = input.ReadInt32();
-            break;
-          }
-          case 40: {
-            ApplicantId = input.ReadInt32();
+          case 18: {
+            if (newChats_ == null) {
+              newChats_ = new global::InfX.DataApplicantChat();
+            }
+            input.ReadMessage(newChats_);
             break;
           }
         }
@@ -11036,7 +11205,7 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::InfX.InfReflection.Descriptor.MessageTypes[43]; }
+      get { return global::InfX.InfReflection.Descriptor.MessageTypes[44]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
