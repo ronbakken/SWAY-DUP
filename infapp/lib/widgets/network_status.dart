@@ -11,8 +11,7 @@ import '../network/network_manager.dart';
 class NetworkStatus extends StatelessWidget {
   NetworkStatus({Key key}) : super(key: key);
 
-  static Widget buildOptional(BuildContext context,
-      [Widget alternative]) {
+  static Widget buildOptional(BuildContext context, [Widget alternative]) {
     NetworkInterface network = NetworkManager.of(context);
     switch (network.connected) {
       case NetworkConnectionState.Ready:
