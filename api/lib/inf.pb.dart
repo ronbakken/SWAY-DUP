@@ -3322,6 +3322,159 @@ class NetChatImageKey extends GeneratedMessage {
 class _ReadonlyNetChatImageKey extends NetChatImageKey
     with ReadonlyMessageMixin {}
 
+class NetApplicantWantDealReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetApplicantWantDealReq')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..aInt64(2, 'haggleChatId')
+    ..hasRequiredFields = false;
+
+  NetApplicantWantDealReq() : super();
+  NetApplicantWantDealReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetApplicantWantDealReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetApplicantWantDealReq clone() =>
+      new NetApplicantWantDealReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetApplicantWantDealReq create() => new NetApplicantWantDealReq();
+  static PbList<NetApplicantWantDealReq> createRepeated() =>
+      new PbList<NetApplicantWantDealReq>();
+  static NetApplicantWantDealReq getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetApplicantWantDealReq();
+    return _defaultInstance;
+  }
+
+  static NetApplicantWantDealReq _defaultInstance;
+  static void $checkItem(NetApplicantWantDealReq v) {
+    if (v is! NetApplicantWantDealReq)
+      checkItemFailed(v, 'NetApplicantWantDealReq');
+  }
+
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
+
+  Int64 get haggleChatId => $_getI64(1);
+  set haggleChatId(Int64 v) {
+    $_setInt64(1, v);
+  }
+
+  bool hasHaggleChatId() => $_has(1);
+  void clearHaggleChatId() => clearField(2);
+}
+
+class _ReadonlyNetApplicantWantDealReq extends NetApplicantWantDealReq
+    with ReadonlyMessageMixin {}
+
+class NetApplicantRejectReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetApplicantRejectReq')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..aOS(2, 'reason')
+    ..hasRequiredFields = false;
+
+  NetApplicantRejectReq() : super();
+  NetApplicantRejectReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetApplicantRejectReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetApplicantRejectReq clone() =>
+      new NetApplicantRejectReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetApplicantRejectReq create() => new NetApplicantRejectReq();
+  static PbList<NetApplicantRejectReq> createRepeated() =>
+      new PbList<NetApplicantRejectReq>();
+  static NetApplicantRejectReq getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetApplicantRejectReq();
+    return _defaultInstance;
+  }
+
+  static NetApplicantRejectReq _defaultInstance;
+  static void $checkItem(NetApplicantRejectReq v) {
+    if (v is! NetApplicantRejectReq)
+      checkItemFailed(v, 'NetApplicantRejectReq');
+  }
+
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
+
+  String get reason => $_getS(1, '');
+  set reason(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasReason() => $_has(1);
+  void clearReason() => clearField(2);
+}
+
+class _ReadonlyNetApplicantRejectReq extends NetApplicantRejectReq
+    with ReadonlyMessageMixin {}
+
+class NetApplicantReportReq extends GeneratedMessage {
+  static final BuilderInfo _i = new BuilderInfo('NetApplicantReportReq')
+    ..a<int>(1, 'applicantId', PbFieldType.O3)
+    ..aOS(2, 'text')
+    ..hasRequiredFields = false;
+
+  NetApplicantReportReq() : super();
+  NetApplicantReportReq.fromBuffer(List<int> i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetApplicantReportReq.fromJson(String i,
+      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetApplicantReportReq clone() =>
+      new NetApplicantReportReq()..mergeFromMessage(this);
+  BuilderInfo get info_ => _i;
+  static NetApplicantReportReq create() => new NetApplicantReportReq();
+  static PbList<NetApplicantReportReq> createRepeated() =>
+      new PbList<NetApplicantReportReq>();
+  static NetApplicantReportReq getDefault() {
+    if (_defaultInstance == null)
+      _defaultInstance = new _ReadonlyNetApplicantReportReq();
+    return _defaultInstance;
+  }
+
+  static NetApplicantReportReq _defaultInstance;
+  static void $checkItem(NetApplicantReportReq v) {
+    if (v is! NetApplicantReportReq)
+      checkItemFailed(v, 'NetApplicantReportReq');
+  }
+
+  int get applicantId => $_get(0, 0);
+  set applicantId(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasApplicantId() => $_has(0);
+  void clearApplicantId() => clearField(1);
+
+  String get text => $_getS(1, '');
+  set text(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasText() => $_has(1);
+  void clearText() => clearField(2);
+}
+
+class _ReadonlyNetApplicantReportReq extends NetApplicantReportReq
+    with ReadonlyMessageMixin {}
+
 class NetApplicantCompletionReq extends GeneratedMessage {
   static final BuilderInfo _i = new BuilderInfo('NetApplicantCompletionReq')
     ..a<int>(1, 'applicantId', PbFieldType.O3)
