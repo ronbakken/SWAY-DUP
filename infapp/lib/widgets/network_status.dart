@@ -18,7 +18,7 @@ class NetworkStatus extends StatelessWidget {
       case NetworkConnectionState.Ready:
         return alternative;
       default:
-        return new NetworkStatus();
+        return new NetworkStatus().build(context);
     }
   }
 
