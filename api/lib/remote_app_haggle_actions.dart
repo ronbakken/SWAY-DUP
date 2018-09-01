@@ -89,7 +89,7 @@ class RemoteAppHaggleActions {
   //////////////////////////////////////////////////////////////////////////////
   // User actions
   //////////////////////////////////////////////////////////////////////////////
-  
+
   // Response messages
   static int _netDataApplicantUpdate = TalkSocket.encode("LU_APPLI");
   static int _netDataApplicantChatUpdate = TalkSocket.encode("LU_A_CHA");
