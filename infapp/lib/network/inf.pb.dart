@@ -329,6 +329,7 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(26, 'firebaseSenderId')
     ..aOS(27, 'firebaseLegacyApi')
     ..aOS(28, 'firebaseLegacyServerKey')
+    ..aOS(29, 'connectionFailedUrl')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -571,6 +572,14 @@ class ConfigServices extends GeneratedMessage {
 
   bool hasFirebaseLegacyServerKey() => $_has(27);
   void clearFirebaseLegacyServerKey() => clearField(28);
+
+  String get connectionFailedUrl => $_getS(28, '');
+  set connectionFailedUrl(String v) {
+    $_setString(28, v);
+  }
+
+  bool hasConnectionFailedUrl() => $_has(28);
+  void clearConnectionFailedUrl() => clearField(29);
 }
 
 class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {
