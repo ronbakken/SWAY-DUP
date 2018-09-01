@@ -90,6 +90,7 @@ message ConfigServices {
   string configUrl = 9;
   string termsOfServiceUrl = 10;
   string privacyPolicyUrl = 11;
+  string connectionFailedUrl = 29;
   
   // MapBox
   string mapboxApi = 1;
