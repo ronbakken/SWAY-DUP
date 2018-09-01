@@ -79,6 +79,7 @@ class RemoteAppHaggle {
     _subscriptions.forEach((subscription) {
       subscription.cancel();
     });
+    _subscriptions.clear();
     _r = null;
   }
 

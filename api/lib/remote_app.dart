@@ -154,7 +154,7 @@ class RemoteApp {
       GlobalAccountState requiredAccountState,
       bool replyException,
       Future<void> onData(TalkMessage message)) {
-    safeListen(id, (TalkMessage message) async {
+    return safeListen(id, (TalkMessage message) async {
       if (!requireGlobalAccountState(requiredAccountState,
           replying: replyException ? message : null)) {
         return;

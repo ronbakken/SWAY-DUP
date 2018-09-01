@@ -88,10 +88,9 @@ class BroadcastCenter {
   Future<void> _pushApplicantPosted(int senderDeviceId, int receiverAccountId,
       DataApplicant applicant) async {
     // Push to local apps and and apps on remote servers
+    // (Applicant creation always causes a first haggle chat to be sent, so no Firebase post)
     await _push(senderDeviceId, receiverAccountId, _applicantPosted,
         applicant.writeToBuffer());
-
-    // TODO: Push Firebase (only if not sent directly?)
   }
 
   static int _applicantChanged = TalkSocket.encode("LU_APPLI");
@@ -110,14 +109,13 @@ class BroadcastCenter {
     await _push(senderDeviceId, receiverAccountId, _applicantChatPosted,
         chat.writeToBuffer());
 
-    // TODO: Push Firebase (only if not sent directly?)
+    // TODO: Push Firebase (even if sent directly, Firebase notifications don't show while the app is running)
   }
 
 /*
   Future<void> _pushApplicantChatSeen(int accountId, DataApplicantChat chat) async {
     // TODO: Push Locally
     // TODO: Push Remote Server
-    // TODO: Push Firebase
   }
   */
 
