@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'network/inf.pb.dart';
 import 'cards/offer_card.dart';
 import 'widgets/image_uploader.dart';
+import 'widgets/network_status.dart';
 
 class HaggleView extends StatefulWidget {
   const HaggleView({
@@ -457,6 +458,7 @@ class _HaggleViewState extends State<HaggleView> {
           )
         ],
       ),
+      bottomSheet: NetworkStatus.buildOptional(context), // TODO: Also show loading progress for chats
       body: new Column(
         children: <Widget>[
           new Material(

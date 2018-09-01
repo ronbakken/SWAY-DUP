@@ -11,6 +11,8 @@ import 'network/config_manager.dart';
 import 'network/inf.pb.dart';
 import 'utility/progress_dialog.dart';
 
+import 'widgets/network_status.dart';
+
 class OnboardingSocial extends StatelessWidget {
   const OnboardingSocial({
     Key key,
@@ -85,6 +87,7 @@ class OnboardingSocial extends StatelessWidget {
         title: new Image(image: new AssetImage('assets/logo_appbar.png')),
         centerTitle: true,
       ),
+      bottomSheet: NetworkStatus.buildOptional(context),
       body: new ListView(
         children: [
           new Container(

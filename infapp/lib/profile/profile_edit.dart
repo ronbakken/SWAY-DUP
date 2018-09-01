@@ -7,6 +7,8 @@ import 'profile_view.dart';
 import '../page_transition.dart';
 import '../widgets/image_uploader.dart';
 
+import '../widgets/network_status.dart';
+
 // TODO: Warn when unsaved changes
 
 class ProfileEdit extends StatefulWidget {
@@ -73,6 +75,7 @@ class _ProfileEditState extends State<ProfileEdit> {
       appBar: new AppBar(
         title: new Text("Modify your profile"),
       ),
+      bottomSheet: NetworkStatus.buildOptional(context),
       body: new ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[

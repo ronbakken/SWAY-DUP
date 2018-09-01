@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../network/inf.pb.dart';
 
+import '../widgets/network_status.dart';
+
 class SearchPageCommon extends StatefulWidget {
   SearchPageCommon({
     Key key,
@@ -121,6 +123,7 @@ class _SearchPageState extends State<SearchPageCommon> {
             )
           ],
         ),
+        bottomSheet: NetworkStatus.buildOptional(context),
         bottomNavigationBar: searchInProgress
             ? new LinearProgressIndicator() // new Text("Search in progress '$lastSearchQuery'...")
             : null, // TODO: For testing purpose. Make it nice

@@ -12,6 +12,8 @@ import 'network/inf.pb.dart';
 
 import 'widgets/image_uploader.dart';
 
+import 'widgets/network_status.dart';
+
 // https://leonid.shevtsov.me/post/demystifying-s3-browser-upload/
 // https://github.com/gjersvik/awsdart // Prepare a signature on the server
 // Simple HTTP POST on the client
@@ -111,6 +113,7 @@ class _OfferCreateState extends State<OfferCreate> {
         appBar: new AppBar(
           title: new Text("Make an offer"),
         ),
+        bottomSheet: NetworkStatus.buildOptional(context),
         body: new Builder(builder: (context) {
           return new ListView(padding: new EdgeInsets.all(16.0), children: [
             new ImageUploader(

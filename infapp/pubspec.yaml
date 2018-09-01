@@ -35,7 +35,7 @@ dependencies:
     path: ../wstalk/
 
   # dospace: ^0.9.5
-  geolocator: ^1.4.0
+  geolocator: ^1.6.3
   url_launcher: ^3.0.3
   
   # 0.4.1 crashes

@@ -4,7 +4,9 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 import 'network/network_manager.dart';
 
@@ -15,12 +17,27 @@ class LoadingNetwork extends StatelessWidget {
     NetworkInterface network = NetworkManager.of(context);
     assert(network != null);
     if (network.connected == NetworkConnectionState.Failing) {
-      return Text("Technical issues");
+      // "Technical issues"
+      return new WebviewScaffold(
+          url: "https://www.infmarketplace.com/connection.html");
     }
     if (network.connected == NetworkConnectionState.Offline) {
-      return Text("Cannot connect to server");
+      // "Cannot connect to server"
+      return new WebviewScaffold(
+          url: "https://www.infmarketplace.com/connection.html");
     }
-    return Text("Loading network");
+    return new Scaffold(
+      // Loading network
+      body: new Row(
+        children: <Widget>[
+          new Column(
+            children: <Widget>[
+              new CircularProgressIndicator(),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 

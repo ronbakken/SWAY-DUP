@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'network/inf.pb.dart';
+import 'widgets/network_status.dart';
 
 // TODO: Animate transitions between the three windows
 //       AppBar should slide in appropriately, but sliding of app bar should not impact the underlying widgets layout
@@ -252,6 +253,7 @@ class _DashboardCommonState extends State<DashboardCommon>
                         ]),
             )
           : null,
+      bottomSheet: NetworkStatus.buildOptional(context),
       bottomNavigationBar: new BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentTab,

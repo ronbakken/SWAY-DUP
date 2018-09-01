@@ -658,12 +658,14 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
         .lookup(fileImage.file.path, headerBytes: builder.toBytes());
     int contentLength = await fileImage.file.length();
 
+    // Create a request to upload the file
     NetUploadImageReq req = new NetUploadImageReq();
     req.fileName = fileImage.file.path;
     req.contentLength = contentLength;
     req.contentType = contentType;
     req.contentSha256 = contentSha256.bytes;
 
+    // Fetch the pre-signed URL from the server
     TalkMessage resMessage =
         await _ts.sendRequest(_netUploadImageReq, req.writeToBuffer());
     NetUploadImageRes res = new NetUploadImageRes();
@@ -674,11 +676,13 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       return res;
     }
 
+    // Upload the file
     HttpClient httpClient = new HttpClient();
     HttpClientRequest httpRequest =
         await httpClient.openUrl(res.requestMethod, Uri.parse(res.requestUrl));
     httpRequest.headers.add("Content-Type", contentType);
     httpRequest.headers.add("Content-Length", contentLength);
+    // FIXME: Spaces doesn't process this option when in pre-signed URL query
     httpRequest.headers.add('x-amz-acl', 'public-read');
     await httpRequest.addStream(fileImage.file.openRead());
     await httpRequest.flush();

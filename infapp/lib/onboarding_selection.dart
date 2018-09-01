@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/network_status.dart';
+
 class OnboardingSelection extends StatelessWidget {
   const OnboardingSelection({
     Key key,
@@ -35,6 +37,7 @@ class OnboardingSelection extends StatelessWidget {
         title: new Image(image: new AssetImage('assets/logo_appbar.png')),
         centerTitle: true,
       ),
+      bottomSheet: NetworkStatus.buildOptional(context),
       body: new Container(
         margin: new EdgeInsets.all(8.0),
         child: new Column(

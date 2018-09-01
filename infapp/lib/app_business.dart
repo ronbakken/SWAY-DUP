@@ -174,6 +174,7 @@ class _AppBusinessState extends State<AppBusiness> {
       map: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         return new NearbyCommon(
+          account: network.account,
           onSearchPressed: (TextEditingController searchQuery) {
             Scaffold.of(context).showSnackBar(
                 new SnackBar(content: new Text("Not yet implemented.")));
