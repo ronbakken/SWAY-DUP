@@ -651,7 +651,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   /////////////////////////////////////////////////////////////////////////////
   // Image upload
   /////////////////////////////////////////////////////////////////////////////
-  
+
   static Digest _getContentSha256(File file) {
     DigestSink convertedSink = new DigestSink();
     ByteConversionSink fileSink = sha256.startChunkedConversion(convertedSink);
