@@ -83,8 +83,12 @@ class _DemoAppState extends State<DemoApp> {
       startupConfig: widget.startupConfig,
       child: new NetworkManager(
         key: new Key('InfDemo.NetworkManager'),
-        overrideUri: widget.startupConfig.services.domain == 'dev' ? overrideUri : null, // Uri of server to connect with
-        localAccountId: widget.startupConfig.services.domain == 'dev' ? localAccountId : null,
+        overrideUri: widget.startupConfig.services.domain == 'dev'
+            ? overrideUri
+            : null, // Uri of server to connect with
+        localAccountId: widget.startupConfig.services.domain == 'dev'
+            ? localAccountId
+            : null,
         // overrideUri: "ws://localhost:9090/ws",
         child: new MaterialApp(
           title: '*** INF UI Demo ***',
@@ -93,7 +97,8 @@ class _DemoAppState extends State<DemoApp> {
           },*/
           // debugShowMaterialGrid: true,
           theme: theme,
-          home: (widget.startupConfig.services.domain != 'dev' || localAccountId != 0)
+          home: (widget.startupConfig.services.domain != 'dev' ||
+                  localAccountId != 0)
               ? new AppSwitch()
               : new DemoHomePage(
                   onSetServer:
