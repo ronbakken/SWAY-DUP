@@ -20,6 +20,7 @@ import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
 import 'package:mime/mime.dart';
 import 'package:crypto/crypto.dart';
+import 'package:crypto/src/digest_sink.dart';
 
 import 'config_manager.dart';
 import 'inf.pb.dart';
@@ -650,14 +651,28 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   /////////////////////////////////////////////////////////////////////////////
   // Image upload
   /////////////////////////////////////////////////////////////////////////////
+  
+  static Digest _getContentSha256(File file) {
+    DigestSink convertedSink = new DigestSink();
+    ByteConversionSink fileSink = sha256.startChunkedConversion(convertedSink);
+    RandomAccessFile readFile = file.openSync(mode: FileMode.read);
+    Uint8List buffer = new Uint8List(65536);
+    int read;
+    while ((read = readFile.readIntoSync(buffer)) > 0) {
+      fileSink.addSlice(buffer, 0, read, false);
+    }
+    fileSink.close();
+    return convertedSink.value;
+  }
 
   static int _netUploadImageReq = TalkSocket.encode("UP_IMAGE");
   @override
   Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
     // Build information on file
     BytesBuilder builder = new BytesBuilder(copy: false);
-    Digest contentSha256 =
-        await sha256.bind(fileImage.file.openRead()).first; // FIXME: This hangs
+    // Digest contentSha256 =
+    //     await sha256.bind(fileImage.file.openRead()).first; // FIXME: This hangs
+    Digest contentSha256 = await compute(_getContentSha256, fileImage.file);
     await fileImage.file.openRead(0, 256).forEach(builder.add);
     String contentType = new MimeTypeResolver()
         .lookup(fileImage.file.path, headerBytes: builder.toBytes());

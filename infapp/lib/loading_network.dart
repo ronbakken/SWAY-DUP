@@ -30,8 +30,10 @@ class LoadingNetwork extends StatelessWidget {
     return new Scaffold(
       // Loading network
       body: new Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               new CircularProgressIndicator(),
             ],
