@@ -24,6 +24,7 @@ class HaggleView extends StatefulWidget {
     @required this.onWantDeal,
     @required this.onReject,
     @required this.onBeginReport,
+    @required this.onBeginMarkDispute,
     @required this.onBeginMarkCompleted,
     @required this.onUploadImage,
     @required this.onPressedProfile,
@@ -48,6 +49,7 @@ class HaggleView extends StatefulWidget {
 
   final Function() onReject;
   final Function() onBeginReport;
+  final Function() onBeginMarkDispute;
   final Function() onBeginMarkCompleted;
 
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
