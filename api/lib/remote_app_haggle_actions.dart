@@ -691,8 +691,7 @@ class RemoteAppHaggleActions {
       chat.applicantId = applicantId;
       chat.deviceId = account.state.deviceId;
       chat.type = ApplicantChatType.ACT_MARKER;
-      chat.text = 'marker=' +
-          marker.value.toString();
+      chat.text = 'marker=' + marker.value.toString();
       if (await _insertChat(transaction, chat)) {
         ts.sendExtend(message);
         markerChat = chat;
