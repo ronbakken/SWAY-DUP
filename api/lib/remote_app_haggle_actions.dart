@@ -534,6 +534,11 @@ class RemoteAppHaggleActions {
       ts.sendException("Not Handled", message);
     } else {
       NetApplicantCommonRes res = new NetApplicantCommonRes();
+      try {
+        ts.sendExtend(message);
+      } catch (error, stack) {
+        devLog.severe("$error\n$stack");
+      }
       DataApplicant applicant =
           await _r.remoteAppHaggle.getApplicant(applicantId);
       res.updateApplicant = applicant;
@@ -566,20 +571,26 @@ class RemoteAppHaggleActions {
 
     // Post to freshdesk
     DataApplicant applicant =
-          await _r.remoteAppHaggle.getApplicant(applicantId);
+        await _r.remoteAppHaggle.getApplicant(applicantId);
 
     HttpClient httpClient = new HttpClient();
-    HttpClientRequest httpRequest = await httpClient.postUrl(Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
+    HttpClientRequest httpRequest = await httpClient
+        .postUrl(Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
     httpRequest.headers.add('Content-Type', 'application/json; charset=utf-8');
-    httpRequest.headers.add('Authorization', 'Basic ' + base64.encode(utf8.encode(config.services.freshdeskKey + ':X')));
+    httpRequest.headers.add(
+        'Authorization',
+        'Basic ' +
+            base64.encode(utf8.encode(config.services.freshdeskKey + ':X')));
 
     Map<String, dynamic> doc = new Map<String, dynamic>();
     doc['name'] = account.summary.name;
     doc['email'] = account.detail.email;
-    doc['subject'] = "Applicant Report [AP $applicantId]";
+    doc['subject'] = "Applicant Report (Ap. $applicantId)";
     doc['type'] = "Applicant Report";
-    doc['description'] = "<h1>Message</h1><p>${htmlEscape.convert(pb.text)}</p><hr><h1>Applicant</h1>${applicant}";
+    doc['description'] =
+        "<h1>Message</h1><p>${htmlEscape.convert(pb.text)}</p><hr><h1>Applicant</h1>${applicant}";
 
+    ts.sendExtend(message);
     httpRequest.write(json.encode(doc));
     await httpRequest.flush();
     HttpClientResponse httpResponse = await httpRequest.close();
@@ -599,6 +610,119 @@ class RemoteAppHaggleActions {
     NetApplicantCompletionReq pb = new NetApplicantCompletionReq();
     pb.mergeFromBuffer(message.data);
 
+    int applicantId = pb.applicantId.toInt();
+
+    DataApplicantChat markerChat; // Set upon successful action
+
     // Completion or dispute
+    await sql.startTransaction((transaction) async {
+      // 1. Update deal to reflect the account wants a deal
+      ts.sendExtend(message);
+      String accountAccountId =
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? 'influencer_account_id'
+              : 'business_account_id';
+      String accountMarkedDelivered =
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? 'influencer_marked_delivered'
+              : 'business_marked_delivered';
+      String accountMarkedRewarded =
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? 'influencer_marked_rewarded'
+              : 'business_marked_rewarded';
+      String accountGaveRating =
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? 'influencer_gave_rating'
+              : 'business_gave_rating';
+      String accountDisputed =
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? 'influencer_disputed'
+              : 'business_disputed';
+      String updateMarkings = "UPDATE `applicants` "
+          "SET `$accountMarkedDelivered` = ?, `$accountMarkedRewarded` = ?" +
+          (pb.rating.toInt() > 0 ? ", `$accountGaveRating` = ?" : '') +
+          (pb.dispute
+              ? ", `$accountDisputed` = 1, `state` = ${ApplicantState.AS_DISPUTE.value}"
+              : '') +
+          " WHERE `applicant_id` = ? "
+          "AND `$accountAccountId` = ?"
+          "AND `state` = ${ApplicantState.AS_DEAL.value} OR `state` = ${ApplicantState.AS_DISPUTE.value}";
+      List<dynamic> parameters = [pb.delivered ? 1 : 0, pb.rewarded ? 1 : 0];
+      if (pb.rating.toInt() > 0) parameters.add(pb.rating.toInt());
+      parameters.addAll([applicantId, accountId]);
+      sqljocky.Results resultMarkings =
+          await transaction.prepareExecute(updateMarkings, parameters);
+      if (resultMarkings.affectedRows == null ||
+          resultMarkings.affectedRows == 0) {
+        devLog.warning(
+            "Invalid reject attempt by account '$accountId' on applicant '$applicantId'");
+        return;
+      }
+
+      bool dealCompleted;
+      if (!pb.dispute) {
+        // 2. Check for deal completion
+        ts.sendExtend(message);
+        String updateCompletion = "UPDATE `applicants` "
+            "SET `state` = ${ApplicantState.AS_COMPLETE.value} "
+            "WHERE `applicant_id` = ? "
+            "AND `influencer_marked_delivered` > 0 AND `influencer_marked_rewarded` > 0 "
+            "AND `business_marked_delivered` > 0 AND `business_marked_rewarded` > 0 "
+            "AND `influencer_gave_rating` > 0 AND `business_gave_rating` > 0 "
+            "AND `state` = ${ApplicantState.AS_DEAL.value}";
+        sqljocky.Results resultCompletion =
+            await transaction.prepareExecute(updateCompletion, [applicantId]);
+        dealCompleted = resultMarkings.affectedRows != null &&
+            resultMarkings.affectedRows != 0;
+      }
+
+      ApplicantChatMarker marker = pb.dispute
+          ? ApplicantChatMarker.ACM_MARKED_DISPUTE
+          : (dealCompleted
+              ? ApplicantChatMarker.ACM_COMPLETE
+              : ApplicantChatMarker.ACM_MARKED_COMPLETE);
+
+      // 2. Insert marker chat
+      ts.sendExtend(message);
+      DataApplicantChat chat = new DataApplicantChat();
+      chat.sent =
+          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      chat.senderId = accountId;
+      chat.applicantId = applicantId;
+      chat.deviceId = account.state.deviceId;
+      chat.type = ApplicantChatType.ACT_MARKER;
+      chat.text = 'marker=' +
+          marker.value.toString();
+      if (await _insertChat(transaction, chat)) {
+        ts.sendExtend(message);
+        markerChat = chat;
+        transaction.commit();
+      }
+    });
+
+    if (markerChat == null) {
+      ts.sendException("Not Handled", message);
+    } else {
+      NetApplicantCommonRes res = new NetApplicantCommonRes();
+      try {
+        ts.sendExtend(message);
+      } catch (error, stack) {
+        devLog.severe("$error\n$stack");
+      }
+      DataApplicant applicant =
+          await _r.remoteAppHaggle.getApplicant(applicantId);
+      res.updateApplicant = applicant;
+      res.newChats.add(markerChat);
+      try {
+        // Send to current user
+        ts.sendMessage(_netApplicantCommonRes, res.writeToBuffer(),
+            replying: message);
+      } catch (error, stack) {
+        devLog.severe("$error\n$stack");
+      }
+      // Publish!
+      _r.bc.applicantChanged(account.state.deviceId, applicant);
+      _r.bc.applicantChatPosted(account.state.deviceId, markerChat, account);
+    }
   }
 }
