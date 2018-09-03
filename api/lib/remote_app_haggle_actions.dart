@@ -590,7 +590,7 @@ class RemoteAppHaggleActions {
     doc['description'] =
         "<h1>Message</h1><p>${htmlEscape.convert(pb.text)}</p><hr><h1>Applicant</h1>${applicant}";
     doc['priority'] = 2;
-          doc['status'] = 2;
+    doc['status'] = 2;
 
     ts.sendExtend(message);
     httpRequest.write(json.encode(doc));
@@ -599,7 +599,8 @@ class RemoteAppHaggleActions {
     BytesBuilder responseBuilder = new BytesBuilder(copy: false);
     await httpResponse.forEach(responseBuilder.add);
     if (httpResponse.statusCode != 200 && httpResponse.statusCode != 201) {
-      devLog.severe("Report post failed: ${utf8.decode(responseBuilder.toBytes())}");
+      devLog.severe(
+          "Report post failed: ${utf8.decode(responseBuilder.toBytes())}");
       ts.sendException("Post Failed", message);
       return;
     }
