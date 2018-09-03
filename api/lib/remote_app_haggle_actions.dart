@@ -6,6 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
@@ -494,8 +495,8 @@ class RemoteAppHaggleActions {
       ts.sendExtend(message);
       String accountAccountId =
           account.state.accountType == AccountType.AT_INFLUENCER
-              ? 'influencer_account_id'
-              : 'business_account_id';
+              ? 'influencer_account_id' // Cancel
+              : 'business_account_id'; // Reject
       String updateWants = "UPDATE `applicants` "
           "SET `state` = ${ApplicantState.AS_REJECTED.value} "
           "WHERE `applicant_id` = ? "
@@ -554,9 +555,40 @@ class RemoteAppHaggleActions {
     NetApplicantReportReq pb = new NetApplicantReportReq();
     pb.mergeFromBuffer(message.data);
 
+    int applicantId = pb.applicantId.toInt();
+
+    if (!await _verifySender(applicantId, accountId)) {
+      ts.sendException("Verification Failed", message);
+      return;
+    }
+
     opsLog.severe("Report: ${pb.text}");
 
-    // TODO: Post to freshdesk
+    // Post to freshdesk
+    DataApplicant applicant =
+          await _r.remoteAppHaggle.getApplicant(applicantId);
+
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest httpRequest = await httpClient.postUrl(Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
+    httpRequest.headers.add('Content-Type', 'application/json; charset=utf-8');
+    httpRequest.headers.add('Authorization', 'Basic ' + base64.encode(utf8.encode(config.services.freshdeskKey + ':X')));
+
+    Map<String, dynamic> doc = new Map<String, dynamic>();
+    doc['name'] = account.summary.name;
+    doc['email'] = account.detail.email;
+    doc['subject'] = "Applicant Report [AP $applicantId]";
+    doc['type'] = "Applicant Report";
+    doc['description'] = "<h1>Message</h1><p>${htmlEscape.convert(pb.text)}</p><hr><h1>Applicant</h1>${applicant}";
+
+    httpRequest.write(json.encode(doc));
+    await httpRequest.flush();
+    HttpClientResponse httpResponse = await httpRequest.close();
+    BytesBuilder responseBuilder = new BytesBuilder(copy: false);
+    await httpResponse.forEach(responseBuilder.add);
+    if (httpResponse.statusCode != 200) {
+      ts.sendException("Post Failed", message);
+      return;
+    }
 
     NetApplicantCommonRes res = new NetApplicantCommonRes();
     ts.sendMessage(_netApplicantCommonRes, res.writeToBuffer(),
