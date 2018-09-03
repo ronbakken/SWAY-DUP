@@ -1289,6 +1289,22 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     }
     return cached.chats.values.followedBy(cached.ghostChats.values);
   }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  // Haggle Actions
+  /////////////////////////////////////////////////////////////////////////////
+
+  static int _netApplicantReportReq = TalkSocket.encode("AP_REPOR");
+  @override
+  Future<void> reportApplicant(int applicantId, String text) async {
+    NetApplicantReportReq pbReq = new NetApplicantReportReq();
+    pbReq.applicantId = applicantId;
+    pbReq.text = text;
+    // Response blank. Exception on issue
+    await _ts.sendRequest(_netApplicantReportReq, pbReq.writeToBuffer());
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1460,6 +1476,13 @@ abstract class NetworkInterface {
 
   /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
   Iterable<DataApplicantChat> tryGetApplicantChats(int applicantId);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Haggle Actions
+  /////////////////////////////////////////////////////////////////////////////
+
+  /// Sends a report about an applicant to support
+  Future<void> reportApplicant(int applicantId, String text);
 }
 
 /* end of file */

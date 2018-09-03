@@ -127,25 +127,34 @@ class _AppInfluencerState extends State<AppInfluencer> {
 
   void navigateToApplicantView(DataApplicant applicant, DataBusinessOffer offer,
       DataAccount businessAccount, DataAccount influencerAccount) {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
-      return new HaggleView(
-          account: network.account,
-          businessAccount: network.latestAccount(businessAccount),
-          influencerAccount: network.latestAccount(influencerAccount),
-          applicant: network.latestApplicant(applicant),
-          offer: network.latestBusinessOffer(offer),
-          chats: network.tryGetApplicantChats(applicant.applicantId),
-          onUploadImage: network.uploadImage,
-          onPressedProfile: (DataAccount account) {
-            navigateToPublicProfile(network.tryGetPublicProfile(
-                account.state.accountId,
-                fallback: account));
-          });
-    }));
+    Navigator.push(
+      context,
+      new MaterialPageRoute(
+        builder: (context) {
+          // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+          ConfigData config = ConfigManager.of(context);
+          NetworkInterface network = NetworkManager.of(context);
+          NavigatorState navigator = Navigator.of(context);
+          return new HaggleView(
+            account: network.account,
+            businessAccount: network.latestAccount(businessAccount),
+            influencerAccount: network.latestAccount(influencerAccount),
+            applicant: network.latestApplicant(applicant),
+            offer: network.latestBusinessOffer(offer),
+            chats: network.tryGetApplicantChats(applicant.applicantId),
+            onUploadImage: network.uploadImage,
+            onPressedProfile: (DataAccount account) {
+              navigateToPublicProfile(network.tryGetPublicProfile(
+                  account.state.accountId,
+                  fallback: account));
+            },
+            onReport: (String message) async {
+              await network.reportApplicant(applicant.applicantId, message);
+            },
+          );
+        },
+      ),
+    );
   }
 
   void navigateToPublicProfile(DataAccount account) {

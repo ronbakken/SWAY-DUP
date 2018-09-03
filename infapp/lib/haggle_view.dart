@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 
+import 'utility/progress_dialog.dart';
 import 'network/inf.pb.dart';
 import 'cards/offer_card.dart';
 import 'widgets/image_uploader.dart';
@@ -23,7 +24,7 @@ class HaggleView extends StatefulWidget {
     @required this.onBeginHaggle,
     @required this.onWantDeal,
     @required this.onReject,
-    @required this.onBeginReport,
+    @required this.onReport,
     @required this.onBeginMarkDispute,
     @required this.onBeginMarkCompleted,
     @required this.onUploadImage,
@@ -48,7 +49,8 @@ class HaggleView extends StatefulWidget {
   final Function(DataApplicantChat haggleChat) onWantDeal;
 
   final Function() onReject;
-  final Function() onBeginReport;
+  final Future<void> Function(String message) onReport;
+  // final Function() onBeginReport;
   final Function() onBeginMarkDispute;
   final Function() onBeginMarkCompleted;
 
@@ -63,6 +65,8 @@ class HaggleView extends StatefulWidget {
 class _HaggleViewState extends State<HaggleView> {
   TextEditingController _lineController = new TextEditingController();
   TextEditingController _uploadKey = new TextEditingController();
+
+  TextEditingController _reportController = new TextEditingController();
 
   bool _uploadAttachment = false;
 
@@ -168,6 +172,124 @@ class _HaggleViewState extends State<HaggleView> {
     chat.chatId = new Int64(7);
     _testingData.add(chat);
     */
+  }
+
+  Future<void> _reportApplicant() async {
+    await showDialog(
+      context: this.context,
+      builder: (BuildContext context) {
+        return new SimpleDialog(
+          title: new Text('Report'),
+          children: [
+            new Padding(
+              padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              child: new TextField(
+                controller: _reportController,
+                maxLines: 4,
+                decoration: new InputDecoration(labelText: 'Message'),
+              ),
+            ),
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                new FlatButton(
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [new Text('Report'.toUpperCase())],
+                  ),
+                  onPressed: () async {
+                    bool success = false;
+                    var progressDialog = showProgressDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return new Dialog(
+                          child: new Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              new Container(
+                                  padding: new EdgeInsets.all(24.0),
+                                  child: new CircularProgressIndicator()),
+                              new Text("Sending report..."),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                    try {
+                      await widget.onReport(_reportController.text);
+                      success = true;
+                    } catch (error, stack) {
+                      print("[INF] Exception sending report': $error\n$stack");
+                    }
+                    closeProgressDialog(progressDialog);
+                    if (!success) {
+                      await showDialog<Null>(
+                        context: this.context,
+                        builder: (BuildContext context) {
+                          return new AlertDialog(
+                            title: new Text('Send Report Failed'),
+                            content: new SingleChildScrollView(
+                              child: new ListBody(
+                                children: <Widget>[
+                                  new Text('An error has occured.'),
+                                  new Text('Please try again later.'),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              new FlatButton(
+                                child: new Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [new Text('Ok'.toUpperCase())],
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      Navigator.of(context).pop();
+                      _reportController.text = "";
+                      await showDialog<Null>(
+                        context: this.context,
+                        builder: (BuildContext context) {
+                          return new AlertDialog(
+                            title: new Text('Report Sent'),
+                            content: new SingleChildScrollView(
+                              child: new ListBody(
+                                children: <Widget>[
+                                  new Text('Your report has been sent.'),
+                                  new Text(
+                                      'Further correspondence on this matter will be done by e-mail.'),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              new FlatButton(
+                                child: new Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [new Text('Ok'.toUpperCase())],
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -457,7 +579,17 @@ class _HaggleViewState extends State<HaggleView> {
             onPressed: () {
               widget.onPressedProfile(otherAccount);
             },
-          )
+          ),
+          new PopupMenuButton(itemBuilder: (BuildContext context) {
+            return <PopupMenuEntry>[
+              new PopupMenuItem(
+                value: _reportApplicant,
+                child: Text("Report"),
+              ),
+            ];
+          }, onSelected: (dynamic f) {
+            f();
+          }),
         ],
       ),
       bottomSheet: NetworkStatus.buildOptional(
