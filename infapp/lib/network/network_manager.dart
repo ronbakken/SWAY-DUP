@@ -708,7 +708,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     await httpRequest.flush();
     HttpClientResponse httpResponse = await httpRequest.close();
     BytesBuilder responseBuilder = new BytesBuilder(copy: false);
-    await httpResponse.forEach(builder.add);
+    await httpResponse.forEach(responseBuilder.add);
     if (httpResponse.statusCode != 200) {
       throw new NetworkException(
           "Status code ${httpResponse.statusCode}, response: ${utf8.decode(responseBuilder.toBytes())}");
