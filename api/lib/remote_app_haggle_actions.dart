@@ -576,7 +576,7 @@ class RemoteAppHaggleActions {
     HttpClient httpClient = new HttpClient();
     HttpClientRequest httpRequest = await httpClient
         .postUrl(Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
-    httpRequest.headers.add('Content-Type', 'application/json; charset=utf-8');
+    httpRequest.headers.add('Content-Type', 'application/json');
     httpRequest.headers.add(
         'Authorization',
         'Basic ' +
@@ -586,9 +586,11 @@ class RemoteAppHaggleActions {
     doc['name'] = account.summary.name;
     doc['email'] = account.detail.email;
     doc['subject'] = "Applicant Report (Ap. $applicantId)";
-    doc['type'] = "Applicant Report";
+    doc['type'] = "Problem";
     doc['description'] =
         "<h1>Message</h1><p>${htmlEscape.convert(pb.text)}</p><hr><h1>Applicant</h1>${applicant}";
+    doc['priority'] = 2;
+          doc['status'] = 2;
 
     ts.sendExtend(message);
     httpRequest.write(json.encode(doc));
@@ -596,7 +598,8 @@ class RemoteAppHaggleActions {
     HttpClientResponse httpResponse = await httpRequest.close();
     BytesBuilder responseBuilder = new BytesBuilder(copy: false);
     await httpResponse.forEach(responseBuilder.add);
-    if (httpResponse.statusCode != 200) {
+    if (httpResponse.statusCode != 200 && httpResponse.statusCode != 201) {
+      devLog.severe("Report post failed: ${utf8.decode(responseBuilder.toBytes())}");
       ts.sendException("Post Failed", message);
       return;
     }
@@ -672,8 +675,8 @@ class RemoteAppHaggleActions {
             "AND `state` = ${ApplicantState.AS_DEAL.value}";
         sqljocky.Results resultCompletion =
             await transaction.prepareExecute(updateCompletion, [applicantId]);
-        dealCompleted = resultMarkings.affectedRows != null &&
-            resultMarkings.affectedRows != 0;
+        dealCompleted = resultCompletion.affectedRows != null &&
+            resultCompletion.affectedRows != 0;
       }
 
       ApplicantChatMarker marker = pb.dispute
@@ -691,10 +694,45 @@ class RemoteAppHaggleActions {
       chat.applicantId = applicantId;
       chat.deviceId = account.state.deviceId;
       chat.type = ApplicantChatType.ACT_MARKER;
-      chat.text = 'marker=' +
-          marker.value.toString();
+      chat.text = 'marker=' + marker.value.toString();
       if (await _insertChat(transaction, chat)) {
         ts.sendExtend(message);
+        if (pb.dispute) {
+          DataApplicant applicant =
+              await _r.remoteAppHaggle.getApplicant(applicantId);
+
+          HttpClient httpClient = new HttpClient();
+          HttpClientRequest httpRequest = await httpClient.postUrl(
+              Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
+          httpRequest.headers
+              .add('Content-Type', 'application/json; charset=utf-8');
+          httpRequest.headers.add(
+              'Authorization',
+              'Basic ' +
+                  base64.encode(
+                      utf8.encode(config.services.freshdeskKey + ':X')));
+
+          Map<String, dynamic> doc = new Map<String, dynamic>();
+          doc['name'] = account.summary.name;
+          doc['email'] = account.detail.email;
+          doc['subject'] = "Applicant Dispute (Ap. $applicantId)";
+          doc['type'] = "Incident";
+          doc['description'] =
+              "<h1>Message</h1><p>${htmlEscape.convert(pb.disputeDescription)}</p><hr><h1>Applicant</h1>${applicant}";
+          doc['priority'] = 3;
+          doc['status'] = 2;
+
+          ts.sendExtend(message);
+          httpRequest.write(json.encode(doc));
+          await httpRequest.flush();
+          HttpClientResponse httpResponse = await httpRequest.close();
+          BytesBuilder responseBuilder = new BytesBuilder(copy: false);
+          await httpResponse.forEach(responseBuilder.add);
+          if (httpResponse.statusCode != 200) {
+            ts.sendException("Post Failed", message);
+            return;
+          }
+        }
         markerChat = chat;
         transaction.commit();
       }
