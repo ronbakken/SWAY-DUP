@@ -566,19 +566,24 @@ class RemoteAppHaggleActions {
 
     // Post to freshdesk
     DataApplicant applicant =
-          await _r.remoteAppHaggle.getApplicant(applicantId);
+        await _r.remoteAppHaggle.getApplicant(applicantId);
 
     HttpClient httpClient = new HttpClient();
-    HttpClientRequest httpRequest = await httpClient.postUrl(Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
+    HttpClientRequest httpRequest = await httpClient
+        .postUrl(Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
     httpRequest.headers.add('Content-Type', 'application/json; charset=utf-8');
-    httpRequest.headers.add('Authorization', 'Basic ' + base64.encode(utf8.encode(config.services.freshdeskKey + ':X')));
+    httpRequest.headers.add(
+        'Authorization',
+        'Basic ' +
+            base64.encode(utf8.encode(config.services.freshdeskKey + ':X')));
 
     Map<String, dynamic> doc = new Map<String, dynamic>();
     doc['name'] = account.summary.name;
     doc['email'] = account.detail.email;
     doc['subject'] = "Applicant Report [AP $applicantId]";
     doc['type'] = "Applicant Report";
-    doc['description'] = "<h1>Message</h1><p>${htmlEscape.convert(pb.text)}</p><hr><h1>Applicant</h1>${applicant}";
+    doc['description'] =
+        "<h1>Message</h1><p>${htmlEscape.convert(pb.text)}</p><hr><h1>Applicant</h1>${applicant}";
 
     httpRequest.write(json.encode(doc));
     await httpRequest.flush();
