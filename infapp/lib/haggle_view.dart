@@ -381,7 +381,7 @@ class _HaggleViewState extends State<HaggleView> {
               ? new ClipRRect(
                   borderRadius: shapeRadius,
                   child: new FadeInImage.assetNetwork(
-                      placeholder: 'assets/placeholder_photo.png',
+                      placeholder: 'assets/placeholder_photo_select.png',
                       image: query['url']))
               : new Material(
                   color: Theme.of(context).cardColor,
