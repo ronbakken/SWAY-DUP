@@ -361,13 +361,14 @@ class _HaggleViewState extends State<HaggleView> {
         next.type != ApplicantChatType.ACT_MARKER;
     Widget card;
     Widget content;
+    BorderRadius shapeRadius = new BorderRadius.only(
+      topLeft: Radius.circular(!mine && preceeded ? 4.0 : 16.0),
+      topRight: Radius.circular(mine && preceeded ? 4.0 : 16.0),
+      bottomLeft: Radius.circular(!mine && followed ? 4.0 : 16.0),
+      bottomRight: Radius.circular(mine && followed ? 4.0 : 16.0),
+    );
     RoundedRectangleBorder shape = new RoundedRectangleBorder(
-      borderRadius: new BorderRadius.only(
-        topLeft: Radius.circular(!mine && preceeded ? 4.0 : 16.0),
-        topRight: Radius.circular(mine && preceeded ? 4.0 : 16.0),
-        bottomLeft: Radius.circular(!mine && followed ? 4.0 : 16.0),
-        bottomRight: Radius.circular(mine && followed ? 4.0 : 16.0),
-      ),
+      borderRadius: shapeRadius,
     );
     if (current.type == ApplicantChatType.ACT_IMAGE_KEY) {
       Map<String, String> query = Uri.splitQueryString(current.text);
@@ -377,13 +378,28 @@ class _HaggleViewState extends State<HaggleView> {
           elevation: 1.0,
           shape: shape,
           child: query['url'] != null
-              ? new FadeInImage.assetNetwork(
-                  placeholder: 'assets/placeholder_photo.png',
-                  image: query['url'])
-              : null,
+              ? new ClipRRect(
+                  borderRadius: shapeRadius,
+                  child: new FadeInImage.assetNetwork(
+                      placeholder: 'assets/placeholder_photo.png',
+                      image: query['url']))
+              : new Material(
+                  color: Theme.of(context).cardColor,
+                  shape: shape,
+                  child: new Padding(
+                    padding: new EdgeInsets.all(8.0),
+                    child: new CircularProgressIndicator(),
+                  ),
+                ),
         ),
       );
     } else {
+      TextStyle messageTextStyle =
+          Theme.of(context).textTheme.subhead; // Odd theme
+      if (current.chatId == 0) {
+        messageTextStyle = messageTextStyle.copyWith(
+            color: messageTextStyle.color.withAlpha(128));
+      }
       if (current.type == ApplicantChatType.ACT_HAGGLE) {
         Map<String, String> query = Uri.splitQueryString(current.text);
         Widget info = new Column(
@@ -391,16 +407,13 @@ class _HaggleViewState extends State<HaggleView> {
           children: <Widget>[
             new Text("Deliverables",
                 style: Theme.of(context).textTheme.caption),
-            new Text(query['deliverables'].toString(),
-                style: Theme.of(context).textTheme.subhead), // Odd theme
+            new Text(query['deliverables'].toString(), style: messageTextStyle),
             new SizedBox(height: 12.0),
             new Text("Reward", style: Theme.of(context).textTheme.caption),
-            new Text(query['reward'].toString(),
-                style: Theme.of(context).textTheme.subhead), // Odd theme
+            new Text(query['reward'].toString(), style: messageTextStyle),
             new SizedBox(height: 12.0),
             new Text("Remarks", style: Theme.of(context).textTheme.caption),
-            new Text(query['remarks'].toString(),
-                style: Theme.of(context).textTheme.subhead), // Odd theme
+            new Text(query['remarks'].toString(), style: messageTextStyle),
           ],
         );
         if (current.chatId == widget.applicant.haggleChatId) {
@@ -446,8 +459,22 @@ class _HaggleViewState extends State<HaggleView> {
               ),
             ],
           );
+        } else if (current.chatId == 0) {
+          content = new Column(
+            crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
+            children: <Widget>[
+              info,
+              new SizedBox(height: 12.0),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  new CircularProgressIndicator(),
+                ],
+              ),
+            ],
+          );
         } else {
-          content = content = new Column(
+          content = new Column(
             crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
             children: <Widget>[
               info,
@@ -464,8 +491,8 @@ class _HaggleViewState extends State<HaggleView> {
           );
         }
       } else {
-        content = new Text(current.text,
-            style: Theme.of(context).textTheme.subhead); // Odd theme
+        // Plain text message
+        content = new Text(current.text, style: messageTextStyle);
       }
       card = new Card(
         color:
@@ -571,7 +598,7 @@ class _HaggleViewState extends State<HaggleView> {
                 .shade300,
           ),
           new SizedBox(width: 8.0),
-          new Text(otherAccount.summary.name),
+          new Text(otherAccount.summary.name, overflow: TextOverflow.clip),
         ]),
         actions: <Widget>[
           new IconButton(

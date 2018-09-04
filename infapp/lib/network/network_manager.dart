@@ -11,6 +11,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wstalk/wstalk.dart';
@@ -371,6 +372,20 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       //_subscriptions.add(ts
       //    .stream(TalkSocket.encode("DE_OFFER"))
       //    .listen(_demoAllBusinessOffer));
+      // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
+      _subscriptions.add(
+          ts.stream(TalkSocket.encode('LN_APPLI')).listen(_liveNewApplicant));
+      _subscriptions.add(ts
+          .stream(TalkSocket.encode('LN_A_CHA'))
+          .listen(_liveNewApplicantChat));
+      _subscriptions.add(ts
+          .stream(TalkSocket.encode('LU_APPLI'))
+          .listen(_liveUpdateApplicant));
+      _subscriptions.add(ts
+          .stream(TalkSocket.encode('LU_A_CHA'))
+          .listen(_liveUpdateApplicantChat));
+
+      _resubmitGhostChats();
     }
 
     // assert(accountState.deviceId != 0);
@@ -1293,6 +1308,50 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   /////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
+  // Haggle Notifications
+  /////////////////////////////////////////////////////////////////////////////
+
+  void _receivedUpdateApplicant(DataApplicant applicant) {
+    _cacheApplicant(applicant);
+  }
+
+  void _receivedUpdateApplicantChat(DataApplicantChat chat) {
+    _cacheApplicantChat(chat);
+  }
+
+  void _notifyNewApplicantChat(DataApplicantChat chat) {
+    // TODO: Notify the user of a new applicant chat message if not own
+    print("[INF] Notify: ${chat.text}");
+  }
+
+  void _liveNewApplicant(TalkMessage message) {
+    DataApplicant pb = new DataApplicant();
+    pb.mergeFromBuffer(message.data);
+    _receivedUpdateApplicant(pb);
+  }
+
+  void _liveNewApplicantChat(TalkMessage message) {
+    DataApplicantChat pb = new DataApplicantChat();
+    pb.mergeFromBuffer(message.data);
+    _receivedUpdateApplicantChat(pb);
+    _notifyNewApplicantChat(pb);
+  }
+
+  void _liveUpdateApplicant(TalkMessage message) {
+    DataApplicant pb = new DataApplicant();
+    pb.mergeFromBuffer(message.data);
+    _receivedUpdateApplicant(pb);
+  }
+
+  void _liveUpdateApplicantChat(TalkMessage message) {
+    DataApplicantChat pb = new DataApplicantChat();
+    pb.mergeFromBuffer(message.data);
+    _receivedUpdateApplicantChat(pb);
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
   // Haggle Actions
   /////////////////////////////////////////////////////////////////////////////
 
@@ -1304,6 +1363,130 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     pbReq.text = text;
     // Response blank. Exception on issue
     await _ts.sendRequest(_netApplicantReportReq, pbReq.writeToBuffer());
+  }
+
+  void _resubmitGhostChats() {
+    for (_CachedApplicant cached in _cachedApplicants.values) {
+      for (DataApplicantChat ghostChat in cached.ghostChats.values) {
+        switch (ghostChat.type) {
+          case ApplicantChatType.ACT_PLAIN:
+            {
+              NetChatPlain pbReq = new NetChatPlain();
+              pbReq.applicantId = ghostChat.applicantId;
+              pbReq.deviceGhostId = ghostChat.deviceGhostId;
+              pbReq.text = ghostChat.text;
+              _ts.sendMessage(_netChatPlain, pbReq.writeToBuffer());
+            }
+            break;
+          case ApplicantChatType.ACT_HAGGLE:
+            {
+              NetChatHaggle pbReq = new NetChatHaggle();
+              pbReq.applicantId = ghostChat.applicantId;
+              pbReq.deviceGhostId = ghostChat.deviceGhostId;
+              Map<String, String> query = Uri.splitQueryString(ghostChat.text);
+              pbReq.deliverables = query['deliverables'];
+              pbReq.reward = query['reward'];
+              pbReq.remarks = query['remarks'];
+              _ts.sendMessage(_netChatHaggle, pbReq.writeToBuffer());
+            }
+            break;
+          case ApplicantChatType.ACT_IMAGE_KEY:
+            {
+              NetChatImageKey pbReq = new NetChatImageKey();
+              pbReq.applicantId = ghostChat.applicantId;
+              pbReq.deviceGhostId = ghostChat.deviceGhostId;
+              Map<String, String> query = Uri.splitQueryString(ghostChat.text);
+              pbReq.imageKey = query['key'];
+              _ts.sendMessage(_netChatImageKey, pbReq.writeToBuffer());
+            }
+            break;
+        }
+      }
+    }
+  }
+
+  void _createGhostChat(
+      int applicantId, int deviceGhostId, ApplicantChatType type, String text) {
+    _CachedApplicant cached = _cachedApplicants[applicantId];
+    if (cached == null) {
+      cached = new _CachedApplicant();
+      _cachedApplicants[applicantId] = cached;
+    }
+    DataApplicantChat ghostChat = new DataApplicantChat();
+    ghostChat.sent =
+        new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+    ghostChat.senderId = account.state.accountId;
+    ghostChat.applicantId = applicantId;
+    ghostChat.deviceId = account.state.deviceId;
+    ghostChat.deviceGhostId = deviceGhostId;
+    ghostChat.type = type;
+    ghostChat.text = text;
+    setState(() {
+      cached.ghostChats[deviceGhostId] = ghostChat;
+      ++_changed;
+    });
+
+    // TODO: Store ghost chats offline
+  }
+
+  static int _netChatPlain = TalkSocket.encode("CH_PLAIN");
+  @override
+  void chatPlain(int applicantId, String text) {
+    int ghostId = ++nextDeviceGhostId;
+    if (connected == NetworkConnectionState.Ready) {
+      NetChatPlain pbReq = new NetChatPlain();
+      pbReq.applicantId = applicantId;
+      pbReq.deviceGhostId = ghostId;
+      pbReq.text = text;
+      _ts.sendMessage(_netChatPlain, pbReq.writeToBuffer());
+    }
+    _createGhostChat(applicantId, ghostId, ApplicantChatType.ACT_PLAIN, text);
+  }
+
+  static int _netChatHaggle = TalkSocket.encode("CH_HAGGLE");
+  @override
+  void chatHaggle(
+      int applicantId, String deliverables, String reward, String remarks) {
+    int ghostId = ++nextDeviceGhostId;
+    if (connected == NetworkConnectionState.Ready) {
+      NetChatHaggle pbReq = new NetChatHaggle();
+      pbReq.applicantId = applicantId;
+      pbReq.deviceGhostId = ghostId;
+      pbReq.deliverables = deliverables;
+      pbReq.reward = reward;
+      pbReq.remarks = remarks;
+      _ts.sendMessage(_netChatHaggle, pbReq.writeToBuffer());
+    }
+    _createGhostChat(
+      applicantId,
+      ghostId,
+      ApplicantChatType.ACT_HAGGLE,
+      "deliverables=" +
+          Uri.encodeQueryComponent(deliverables) +
+          "&reward=" +
+          Uri.encodeQueryComponent(reward) +
+          "&remarks=" +
+          Uri.encodeQueryComponent(remarks),
+    );
+  }
+
+  static int _netChatImageKey = TalkSocket.encode("CH_IMAGE");
+  @override
+  void chatImageKey(int applicantId, String imageKey) {
+    int ghostId = ++nextDeviceGhostId;
+    if (connected == NetworkConnectionState.Ready) {
+      NetChatImageKey pbReq = new NetChatImageKey();
+      pbReq.applicantId = applicantId;
+      pbReq.deviceGhostId = ghostId;
+      pbReq.imageKey = imageKey;
+      _ts.sendMessage(_netChatImageKey, pbReq.writeToBuffer());
+    }
+    _createGhostChat(
+      applicantId,
+      ghostId,
+      ApplicantChatType.ACT_IMAGE_KEY,
+      "key=" + Uri.encodeQueryComponent(imageKey),
+    );
   }
 }
 
@@ -1483,6 +1666,11 @@ abstract class NetworkInterface {
 
   /// Sends a report about an applicant to support
   Future<void> reportApplicant(int applicantId, String text);
+
+  void chatPlain(int applicantId, String text);
+  void chatHaggle(
+      int applicantId, String deliverables, String reward, String remarks);
+  void chatImageKey(int applicantId, String imageKey);
 }
 
 /* end of file */

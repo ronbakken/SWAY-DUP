@@ -151,6 +151,12 @@ class _AppInfluencerState extends State<AppInfluencer> {
             onReport: (String message) async {
               await network.reportApplicant(applicant.applicantId, message);
             },
+            onSendPlain: (String text) {
+              network.chatPlain(applicant.applicantId, text);
+            },
+            onSendImageKey: (String imageKey) {
+              network.chatImageKey(applicant.applicantId, imageKey);
+            },
           );
         },
       ),
