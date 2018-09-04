@@ -256,6 +256,14 @@ class RemoteAppHaggleActions {
   }
 
   Future<void> _publishChat(DataApplicantChat chat) async {
+    if (chat.type == ApplicantChatType.ACT_IMAGE_KEY) {
+      String key = Uri.splitQueryString(chat.text)['key'];
+      if (key != null) {
+        chat.text =
+            'url=' + Uri.encodeQueryComponent(_r.makeCloudinaryCoverUrl(key));
+      }
+    }
+
     // Publish to me
     ts.sendMessage(_netDataApplicantChatNew, chat.writeToBuffer());
 
