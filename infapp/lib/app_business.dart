@@ -23,6 +23,8 @@ import 'offer_create.dart';
 import 'offer_view.dart';
 import 'business_offer_list.dart';
 import 'debug_account.dart';
+import 'applicants_list_placeholder.dart';
+import 'haggle_view.dart';
 
 // Business user
 class AppBusiness extends StatefulWidget {
@@ -121,6 +123,60 @@ class _AppBusinessState extends State<AppBusiness> {
     }));
   }
 
+  void navigateToApplicantView(DataApplicant applicant, DataBusinessOffer offer,
+      DataAccount businessAccount, DataAccount influencerAccount) {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(
+        builder: (context) {
+          // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+          ConfigData config = ConfigManager.of(context);
+          NetworkInterface network = NetworkManager.of(context);
+          NavigatorState navigator = Navigator.of(context);
+          return new HaggleView(
+            account: network.account,
+            businessAccount: network.latestAccount(businessAccount),
+            influencerAccount: network.latestAccount(influencerAccount),
+            applicant: network.latestApplicant(applicant),
+            offer: network.latestBusinessOffer(offer),
+            chats: network.tryGetApplicantChats(applicant.applicantId),
+            onUploadImage: network.uploadImage,
+            onPressedProfile: (DataAccount account) {
+              navigateToPublicProfile(network.tryGetPublicProfile(
+                  account.state.accountId,
+                  fallback: account));
+            },
+            onReport: (String message) async {
+              await network.reportApplicant(applicant.applicantId, message);
+            },
+            onSendPlain: (String text) {
+              network.chatPlain(applicant.applicantId, text);
+            },
+            onSendHaggle: (String deliverables, String reward, String remarks) {
+              network.chatHaggle(applicant.applicantId, deliverables, reward, remarks);
+            },
+            onSendImageKey: (String imageKey) {
+              network.chatImageKey(applicant.applicantId, imageKey);
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  void navigateToPublicProfile(DataAccount account) {
+    Navigator.push(
+        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+        context, new MaterialPageRoute(builder: (context) {
+      ConfigData config = ConfigManager.of(context);
+      NetworkInterface network = NetworkManager.of(context);
+      NavigatorState navigator = Navigator.of(context);
+      return new ProfileView(
+        account: network.latestAccount(account),
+      );
+    }));
+  }
+
   void navigateToDebugAccount() {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
@@ -168,9 +224,9 @@ class _AppBusinessState extends State<AppBusiness> {
     assert(network != null);
     return new DashboardCommon(
       account: network.account,
-      mapTab: 0,
-      offersTab: 1,
-      applicantsTab: 2,
+      mapTab: 2,
+      offersTab: 0,
+      applicantsTab: 1,
       map: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         return new NearbyCommon(
@@ -216,6 +272,20 @@ class _AppBusinessState extends State<AppBusiness> {
                   offer); // account will be able to use a future value provider thingy for not-mine offers
             });
       }),
+      applicantsApplying: new Builder(
+        builder: (context) {
+          return new ApplicantsListPlaceholder(
+            applicants: network.applicants,
+            onApplicantPressed: (applicant) {
+              navigateToApplicantView(
+                  applicant,
+                  network.tryGetBusinessOffer(applicant.offerId),
+                  network.tryGetPublicProfile(applicant.businessAccountId),
+                  network.tryGetPublicProfile(applicant.influencerAccountId));
+            },
+          );
+        },
+      ),
       onMakeAnOffer: (network.connected == NetworkConnectionState.Ready)
           ? () {
               navigateToMakeAnOffer(context);

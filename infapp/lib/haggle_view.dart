@@ -20,8 +20,8 @@ class HaggleView extends StatefulWidget {
     @required this.chats,
     @required this.processingAction,
     @required this.onSendPlain,
+    @required this.onSendHaggle,
     @required this.onSendImageKey,
-    @required this.onBeginHaggle,
     @required this.onWantDeal,
     @required this.onReject,
     @required this.onReport,
@@ -43,9 +43,11 @@ class HaggleView extends StatefulWidget {
   final bool processingAction;
 
   final Function(String text) onSendPlain;
+  final Function(String deliverables, String reward, String rewarks)
+      onSendHaggle;
   final Function(String key) onSendImageKey;
 
-  final Function(DataApplicantChat haggleChat) onBeginHaggle;
+  // final Function(DataApplicantChat haggleChat) onBeginHaggle;
   final Function(DataApplicantChat haggleChat) onWantDeal;
 
   final Function() onReject;
@@ -292,6 +294,70 @@ class _HaggleViewState extends State<HaggleView> {
     );
   }
 
+  Future<void> _haggle(DataApplicantChat chat) async {
+    Map<String, String> query = Uri.splitQueryString(chat.text);
+    TextEditingController haggleDeliverablesController =
+        new TextEditingController();
+    haggleDeliverablesController.text = query['deliverables'].toString();
+    TextEditingController haggleRewardController = new TextEditingController();
+    haggleRewardController.text = query['reward'].toString();
+    TextEditingController haggleRemarksController = new TextEditingController();
+    haggleRemarksController.text = query['remarks'].toString();
+    await showDialog(
+      context: this.context,
+      builder: (BuildContext context) {
+        return new SimpleDialog(
+          // title: new Text('Haggle'),
+          children: [
+            new Padding(
+              padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              child: new TextField(
+                controller: haggleDeliverablesController,
+                maxLines: 2,
+                decoration: new InputDecoration(labelText: 'Deliverables'),
+              ),
+            ),
+            new Padding(
+              padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              child: new TextField(
+                controller: haggleRewardController,
+                maxLines: 2,
+                decoration: new InputDecoration(labelText: 'Reward'),
+              ),
+            ),
+            new Padding(
+              padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              child: new TextField(
+                controller: haggleRemarksController,
+                maxLines: 2,
+                decoration: new InputDecoration(labelText: 'Remarks'),
+              ),
+            ),
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                new FlatButton(
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [new Text('Haggle'.toUpperCase())],
+                  ),
+                  onPressed: () async {
+                    // TODO: Handle failure in case offline
+                    widget.onSendHaggle(
+                        haggleDeliverablesController.text,
+                        haggleRewardController.text,
+                        haggleRemarksController.text);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
     _uploadKey.removeListener(_uploadKeyChanged);
@@ -435,7 +501,9 @@ class _HaggleViewState extends State<HaggleView> {
                         ? Theme.of(context).buttonColor
                         : Theme.of(context).cardColor,
                     child: new Text("Haggle".toUpperCase()),
-                    onPressed: () {},
+                    onPressed: () {
+                      _haggle(current);
+                    },
                   ),
                   new SizedBox(width: 12.0),
                   new RaisedButton(

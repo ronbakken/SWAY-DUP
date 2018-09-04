@@ -154,6 +154,9 @@ class _AppInfluencerState extends State<AppInfluencer> {
             onSendPlain: (String text) {
               network.chatPlain(applicant.applicantId, text);
             },
+            onSendHaggle: (String deliverables, String reward, String remarks) {
+              network.chatHaggle(applicant.applicantId, deliverables, reward, remarks);
+            },
             onSendImageKey: (String imageKey) {
               network.chatImageKey(applicant.applicantId, imageKey);
             },
@@ -309,7 +312,16 @@ class _AppInfluencerState extends State<AppInfluencer> {
       onNavigateDebugAccount: navigateToDebugAccount,
       applicantsApplying: new Builder(
         builder: (context) {
-          return new ApplicantsListPlaceholder(applicants: network.applicants);
+          return new ApplicantsListPlaceholder(
+            applicants: network.applicants,
+            onApplicantPressed: (applicant) {
+              navigateToApplicantView(
+                  applicant,
+                  network.tryGetBusinessOffer(applicant.offerId),
+                  network.tryGetPublicProfile(applicant.businessAccountId),
+                  network.tryGetPublicProfile(applicant.influencerAccountId));
+            },
+          );
         },
       ),
     );

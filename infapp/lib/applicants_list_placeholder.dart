@@ -11,8 +11,11 @@ import 'network/inf.pb.dart';
 class ApplicantsListPlaceholder extends StatelessWidget {
   final Iterable<DataApplicant> applicants;
 
+  final Function(DataApplicant applicant) onApplicantPressed;
+
   ApplicantsListPlaceholder({
     @required this.applicants,
+    @required this.onApplicantPressed,
   });
 
   @override
@@ -24,7 +27,12 @@ class ApplicantsListPlaceholder extends StatelessWidget {
       padding: kMaterialListPadding,
       itemCount: applicantsSorted.length,
       itemBuilder: (BuildContext context, int index) {
-        return new Text(applicantsSorted[index].applicantId.toString());
+        return new RaisedButton(
+          child: new Text(applicantsSorted[index].applicantId.toString()),
+          onPressed: () {
+            onApplicantPressed(applicantsSorted[index]);
+          }
+        );
       },
     );
   }

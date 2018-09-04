@@ -974,6 +974,23 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     return offer;
   }
 
+  // TODO
+  @override
+  DataBusinessOffer tryGetBusinessOffer(int offerId) {
+    _CachedBusinessOffer cached = _cachedBusinessOffers[offerId];
+    if (cached == null) {
+      cached = new _CachedBusinessOffer();
+      _cachedBusinessOffers[offerId] = cached;
+    }
+    if (cached.offer != null) {
+      return cached.offer;
+    }
+    // TODO: Some fallback?
+    DataBusinessOffer offer = new DataBusinessOffer();
+    offer.offerId = offerId;
+    return offer;
+  }
+
   /// Reload business offer silently in the background, call when opening a window
   @override
   void backgroundReloadBusinessOffer(DataBusinessOffer offer) {
@@ -1105,6 +1122,10 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       cached.fallback = null;
       cached.applicant = applicant;
       cached.dirty = false;
+      if (applicant.businessAccountId == account.state.accountId || applicant.influencerAccountId == account.state.accountId) {
+        // Add received offer to known offers
+        _applicants[applicant.applicantId] = applicant;
+      }
       ++_changed;
     });
   }
@@ -1134,11 +1155,6 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       DataApplicant pb = new DataApplicant();
       pb.mergeFromBuffer(res.data);
       _cacheApplicant(pb);
-      setState(() {
-        // Add received offer to known offers
-        _applicants[pb.applicantId.toInt()] = pb;
-        ++_changed;
-      });
     }
   }
 
@@ -1614,6 +1630,9 @@ abstract class NetworkInterface {
 
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
   DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer);
+
+  // TODO
+  DataBusinessOffer tryGetBusinessOffer(int offerId);
 
   /// Reload business offer silently in the background, call when opening a window
   void backgroundReloadBusinessOffer(DataBusinessOffer offer);
