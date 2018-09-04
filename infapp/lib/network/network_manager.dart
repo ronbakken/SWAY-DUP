@@ -1122,7 +1122,8 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       cached.fallback = null;
       cached.applicant = applicant;
       cached.dirty = false;
-      if (applicant.businessAccountId == account.state.accountId || applicant.influencerAccountId == account.state.accountId) {
+      if (applicant.businessAccountId == account.state.accountId ||
+          applicant.influencerAccountId == account.state.accountId) {
         // Add received offer to known offers
         _applicants[applicant.applicantId] = applicant;
       }
