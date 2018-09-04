@@ -531,6 +531,259 @@ class RemoteAppHaggleActions {
           ApplicantChatMarker.ACM_REJECTED.value.toString() +
           '&reason=' +
           Uri.encodeQueryComponent(reason);
+      if (awat applicant =
+        await _r.remoteAppHaggle.getApplicant(applicantId);
+    ts.sendMessage(_netDataApplicantUpdate, applicant.writeToBuffer());
+    _r.bc.applicantChanged(account.state.deviceId, applicant);
+  }
+
+  Future<void> netChatPlain(TalkMessage message) async {
+    NetChatPlain pb = new NetChatPlain();
+    pb.mergeFromBuffer(message.data);
+
+    if (!await _verifySender(pb.applicantId, accountId)) return;
+
+    DataApplicantChat chat = new DataApplicantChat();
+    chat.sent =
+        new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+    chat.senderId = accountId;
+    chat.applicantId = pb.applicantId;
+    chat.deviceId = account.state.deviceId;
+    chat.deviceGhostId = pb.deviceGhostId;
+    chat.type = ApplicantChatType.ACT_PLAIN;
+    chat.text = pb.text;
+
+    await _enterChat(chat);
+  }
+
+  Future<void> netChatHaggle(TalkMessage message) async {
+    NetChatHaggle pb = new NetChatHaggle();
+    pb.mergeFromBuffer(message.data);
+
+    /*
+
+    int influencerAccountId;
+    int businessAccountId;
+    String deliverables;
+    String reward;
+
+    // Fetch applicant
+    String query = "SELECT "
+        "`applicants`.`influencer_account_id`, `applicants`.`business_account_id`, "
+        "`offers`.`deliverables`, `offers`.`reward` "
+        "FROM `applicants` "
+        "INNER JOIN `offers` ON `offers`.`offer_id` = `applicants`.`offer_id` "
+        "WHERE `applicant_id` = ?";
+    await for (sqljocky.Row row
+        in await sql.prepareExecute(query, [pb.applicantId.toInt()])) {
+      influencerAccountId = row[0].toInt();
+      businessAccountId = row[1].toInt();
+      deliverables = row[2].toString();
+      reward = row[3].toString();
+    }
+
+    if (!await _verifySenderMatches(influencerAccountId, businessAccountId, accountId))
+      return;
+
+    */
+
+    if (!await _verifySender(pb.applicantId, accountId)) return;
+
+    DataApplicantChat chat = new DataApplicantChat();
+    chat.sent =
+        new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+    chat.senderId = accountId;
+    chat.applicantId = pb.applicantId;
+    chat.deviceId = account.state.deviceId;
+    chat.deviceGhostId = pb.deviceGhostId;
+    chat.type = ApplicantChatType.ACT_HAGGLE;
+    chat.text =
+        'deliverables=${Uri.encodeQueryComponent(pb.deliverables.trim())}&'
+        'reward=${Uri.encodeQueryComponent(pb.reward.trim())}&'
+        'remarks=${Uri.encodeQueryComponent(pb.remarks.trim())}';
+
+    await _enterChat(chat);
+  }
+
+  Future<void> netChatImageKey(TalkMessage message) async {
+    NetChatImageKey pb = new NetChatImageKey();
+    pb.mergeFromBuffer(message.data);
+
+    if (!await _verifySender(pb.applicantId, accountId)) return;
+
+    DataApplicantChat chat = new DataApplicantChat();
+    chat.sent =
+        new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+    chat.senderId = accountId;
+    chat.applicantId = pb.applicantId;
+    chat.deviceId = account.state.deviceId;
+    chat.deviceGhostId = pb.deviceGhostId;
+    chat.type = ApplicantChatType.ACT_IMAGE_KEY;
+    chat.text = 'key=${Uri.encodeQueryComponent(pb.imageKey.trim())}';
+
+    await _enterChat(chat);
+  }
+
+  // Client should respond to live updates and posts from broadcast center
+  // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
+  // Also post to FCM
+
+  /*
+
+  final Function(DataApplicantChat haggleChat) onWantDeal; -- AP_WADEA -- NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker-- only succeeds if picked chat is the current one
+
+  final Function() onReject; -- AP_R_COM, NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker
+  final Function() onBeginReport; AP_REPOR -- NetApplicantCommonRes (Id: AP_R_COM), null, null -- posts to freshdesk // FCM email verification service?
+
+  final Function() onBeginDispute; AP_COMPL -- NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker (silent) -- posts to freshdesk // FCM email verification service?
+  final Function() onBeginMarkCompleted; -> AP_COMPL, NetApplicantCommonRes
+  */
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // Common actions
+  //////////////////////////////////////////////////////////////////////////////
+
+  static int _netApplicantCommonRes = TalkSocket.encode("AP_R_COM");
+
+  Future<void> netApplicantWantDealReq(TalkMessage message) async {
+    NetApplicantWantDealReq pb = new NetApplicantWantDealReq();
+    pb.mergeFromBuffer(message.data);
+
+    int applicantId = pb.applicantId.toInt();
+    int haggleChatId = pb.haggleChatId.toInt();
+
+    /* No need, already verified by first UPDATE
+    if (!await _verifySender(applicantId, accountId)) {
+      ts.sendException("Verification Failed", message);
+      return;
+    } */
+
+    DataApplicantChat markerChat; // Set upon success
+
+    await sql.startTransaction((transaction) async {
+      // 1. Update deal to reflect the account wants a deal
+      ts.sendExtend(message);
+      String accountWantsDeal =
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? 'influencer_wants_deal'
+              : 'business_wants_deal';
+      String accountAccountId =
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? 'influencer_account_id'
+              : 'business_account_id';
+      String updateWants = "UPDATE `applicants` "
+          "SET `$accountWantsDeal` = 1 "
+          "WHERE `applicant_id` = ? "
+          "AND `haggle_chat_id` = ? "
+          "AND `$accountAccountId` = ? "
+          "AND `state` = ${ApplicantState.AS_HAGGLING.value} "
+          "AND `$accountWantsDeal` = 0";
+      sqljocky.Results resultWants = await transaction
+          .prepareExecute(updateWants, [applicantId, haggleChatId, accountId]);
+      if (resultWants.affectedRows == null || resultWants.affectedRows == 0) {
+        devLog.warning(
+            "Invalid want deal attempt by account '$accountId' on applicant '$applicantId'");
+        return;
+      }
+
+      // 2. Try to see if we're can complete the deal or if it's just one sided
+      ts.sendExtend(message);
+      String updateDeal = "UPDATE `applicants` "
+          "SET `state` = ${ApplicantState.AS_DEAL.value} "
+          "WHERE `applicant_id` = ? "
+          "AND `influencer_wants_deal` = 1 "
+          "AND `business_wants_deal` = 1 "
+          "AND `state` = ${ApplicantState.AS_HAGGLING.value}";
+      sqljocky.Results resultDeal =
+          await transaction.prepareExecute(updateDeal, [applicantId]);
+      bool dealMade =
+          (resultDeal.affectedRows != null && resultDeal.affectedRows > 0);
+
+      // 3. Insert marker chat
+      ts.sendExtend(message);
+      DataApplicantChat chat = new DataApplicantChat();
+      chat.sent =
+          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      chat.senderId = accountId;
+      chat.applicantId = applicantId;
+      chat.deviceId = account.state.deviceId;
+      chat.type = ApplicantChatType.ACT_MARKER;
+      chat.text = 'marker=' +
+          (dealMade
+              ? ApplicantChatMarker.ACM_DEAL_MADE.value.toString()
+              : ApplicantChatMarker.ACM_WANT_DEAL.value.toString());
+      if (await _insertChat(transaction, chat)) {
+        ts.sendExtend(message);
+        markerChat = chat;
+        transaction.commit();
+      }
+    });
+
+    if (markerChat == null) {
+      ts.sendException("Not Handled", message);
+    } else {
+      NetApplicantCommonRes res = new NetApplicantCommonRes();
+      DataApplicant applicant =
+          await _r.remoteAppHaggle.getApplicant(applicantId);
+      res.updateApplicant = applicant;
+      res.newChats.add(markerChat);
+      try {
+        // Send to current user
+        ts.sendMessage(_netApplicantCommonRes, res.writeToBuffer(),
+            replying: message);
+      } catch (error, stack) {
+        devLog.severe("$error\n$stack");
+      }
+      // Publish!
+      _r.bc.applicantChanged(account.state.deviceId, applicant);
+      _r.bc.applicantChatPosted(account.state.deviceId, markerChat, account);
+    }
+  }
+
+  Future<void> netApplicantRejectReq(TalkMessage message) async {
+    NetApplicantRejectReq pb = new NetApplicantRejectReq();
+    pb.mergeFromBuffer(message.data);
+
+    int applicantId = pb.applicantId.toInt();
+    String reason = pb.reason.toString();
+
+    DataApplicantChat markerChat; // Set upon success
+
+    await sql.startTransaction((transaction) async {
+      // 1. Update deal to reflect the account wants a deal
+      ts.sendExtend(message);
+      String accountAccountId =
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? 'influencer_account_id' // Cancel
+              : 'business_account_id'; // Reject
+      String updateWants = "UPDATE `applicants` "
+          "SET `state` = ${ApplicantState.AS_REJECTED.value} "
+          "WHERE `applicant_id` = ? "
+          "AND `$accountAccountId` = ?"
+          "AND `state` = ${ApplicantState.AS_HAGGLING.value}";
+      sqljocky.Results resultWants = await transaction
+          .prepareExecute(updateWants, [applicantId, accountId]);
+      if (resultWants.affectedRows == null || resultWants.affectedRows == 0) {
+        devLog.warning(
+            "Invalid reject attempt by account '$accountId' on applicant '$applicantId'");
+        return;
+      }
+
+      // 2. Insert marker chat
+      ts.sendExtend(message);
+      DataApplicantChat chat = new DataApplicantChat();
+      chat.sent =
+          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      chat.senderId = accountId;
+      chat.applicantId = applicantId;
+      chat.deviceId = account.state.deviceId;
+      chat.type = ApplicantChatType.ACT_MARKER;
+      chat.text = 'marker=' +
+          ApplicantChatMarker.ACM_REJECTED.value.toString() +
+          '&reason=' +
+          Uri.encodeQueryComponent(reason);
       if (await _insertChat(transaction, chat)) {
         ts.sendExtend(message);
         markerChat = chat;
