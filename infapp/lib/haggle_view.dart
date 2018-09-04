@@ -48,7 +48,7 @@ class HaggleView extends StatefulWidget {
   final Function(String key) onSendImageKey;
 
   // final Function(DataApplicantChat haggleChat) onBeginHaggle;
-  final Function(DataApplicantChat haggleChat) onWantDeal;
+  final Future<void> Function(DataApplicantChat haggleChat) onWantDeal;
 
   final Function() onReject;
   final Future<void> Function(String message) onReport;
@@ -294,6 +294,62 @@ class _HaggleViewState extends State<HaggleView> {
     );
   }
 
+  void _wantDeal(DataApplicantChat chat) async {
+    bool success = false;
+    var progressDialog = showProgressDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return new Dialog(
+          child: new Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              new Container(
+                  padding: new EdgeInsets.all(24.0),
+                  child: new CircularProgressIndicator()),
+              new Text("Sending..."),
+            ],
+          ),
+        );
+      },
+    );
+    try {
+      await widget.onWantDeal(chat);
+      success = true;
+    } catch (error, stack) {
+      print("[INF] Exception sending deal': $error\n$stack");
+    }
+    closeProgressDialog(progressDialog);
+    if (!success) {
+      await showDialog<Null>(
+        context: this.context,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: new Text('Deal Failed'),
+            content: new SingleChildScrollView(
+              child: new ListBody(
+                children: <Widget>[
+                  new Text('An error has occured.'),
+                  new Text('Please try again later.'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [new Text('Ok'.toUpperCase())],
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   Future<void> _haggle(DataApplicantChat chat) async {
     Map<String, String> query = Uri.splitQueryString(chat.text);
     TextEditingController haggleDeliverablesController =
@@ -483,50 +539,76 @@ class _HaggleViewState extends State<HaggleView> {
           ],
         );
         if (current.chatId == widget.applicant.haggleChatId) {
-          content = new Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
-            children: <Widget>[
-              info,
-              new SizedBox(height: 12.0),
-              new Row(
-                mainAxisAlignment:
-                    mine ? MainAxisAlignment.end : MainAxisAlignment.start,
-                children: <Widget>[
-                  new RaisedButton(
-                    shape: new RoundedRectangleBorder(
-                        borderRadius:
-                            new BorderRadius.all(new Radius.circular(4.0))),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    color: !mine
-                        ? Theme.of(context).buttonColor
-                        : Theme.of(context).cardColor,
-                    child: new Text("Haggle".toUpperCase()),
-                    onPressed: () {
-                      _haggle(current);
-                    },
+          bool wantDealSent = (accountId == influencerAccountId)
+              ? widget.applicant.influencerWantsDeal
+              : widget.applicant.businessWantsDeal;
+          bool dealMade = widget.applicant.influencerWantsDeal &&
+              widget.applicant.businessWantsDeal;
+          if (dealMade) {
+            content = new Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
+              children: <Widget>[
+                info,
+                new SizedBox(height: 12.0),
+                new Padding(
+                  padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                  child: new Text(
+                    "Deal!",
                   ),
-                  new SizedBox(width: 12.0),
-                  new RaisedButton(
-                    shape: new RoundedRectangleBorder(
-                        borderRadius:
-                            new BorderRadius.all(new Radius.circular(4.0))),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    color: !mine
-                        ? Theme.of(context).buttonColor
-                        : Theme.of(context).cardColor,
-                    child: new Text(
-                      "Make a deal".toUpperCase(),
-                      /*style: Theme.of(context)
+                ),
+              ],
+            );
+          } else {
+            content = new Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
+              children: <Widget>[
+                info,
+                new SizedBox(height: 12.0),
+                new Row(
+                  mainAxisAlignment:
+                      mine ? MainAxisAlignment.end : MainAxisAlignment.start,
+                  children: <Widget>[
+                    new RaisedButton(
+                      shape: new RoundedRectangleBorder(
+                          borderRadius:
+                              new BorderRadius.all(new Radius.circular(4.0))),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      color: !mine
+                          ? Theme.of(context).buttonColor
+                          : Theme.of(context).cardColor,
+                      child: new Text("Haggle".toUpperCase()),
+                      onPressed: () {
+                        _haggle(current);
+                      },
+                    ),
+                    new SizedBox(width: 12.0),
+                    wantDealSent
+                        ? new Text("Awaiting reply.")
+                        : new RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.all(
+                                    new Radius.circular(4.0))),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                            color: !mine
+                                ? Theme.of(context).buttonColor
+                                : Theme.of(context).cardColor,
+                            child: new Text(
+                              "Make a deal".toUpperCase(),
+                              /*style: Theme.of(context)
                         .textTheme
                         .button
                         .copyWith(color: Theme.of(context).accentColor),*/
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-            ],
-          );
+                            ),
+                            onPressed: () {
+                              _wantDeal(current);
+                            },
+                          ),
+                  ],
+                ),
+              ],
+            );
+          }
         } else if (current.chatId == 0) {
           content = new Column(
             crossAxisAlignment: CrossAxisAlignment.start, // Not localized?

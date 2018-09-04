@@ -158,6 +158,9 @@ class _AppBusinessState extends State<AppBusiness> {
             onSendImageKey: (String imageKey) {
               network.chatImageKey(applicant.applicantId, imageKey);
             },
+            onWantDeal: (DataApplicantChat chat) async {
+              await network.wantDeal(chat.applicantId, chat.chatId.toInt());
+            },
           );
         },
       ),

@@ -1122,7 +1122,8 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       cached.fallback = null;
       cached.applicant = applicant;
       cached.dirty = false;
-      if (applicant.businessAccountId == account.state.accountId || applicant.influencerAccountId == account.state.accountId) {
+      if (applicant.businessAccountId == account.state.accountId ||
+          applicant.influencerAccountId == account.state.accountId) {
         // Add received offer to known offers
         _applicants[applicant.applicantId] = applicant;
       }
@@ -1340,6 +1341,14 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     print("[INF] Notify: ${chat.text}");
   }
 
+  void _receivedApplicantCommonRes(NetApplicantCommonRes res) {
+    _receivedUpdateApplicant(res.updateApplicant);
+    for (DataApplicantChat chat in res.newChats) {
+      _receivedUpdateApplicantChat(chat);
+      _notifyNewApplicantChat(chat);
+    }
+  }
+
   void _liveNewApplicant(TalkMessage message) {
     DataApplicant pb = new DataApplicant();
     pb.mergeFromBuffer(message.data);
@@ -1503,6 +1512,18 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       ApplicantChatType.ACT_IMAGE_KEY,
       "key=" + Uri.encodeQueryComponent(imageKey),
     );
+  }
+
+  static int _netApplicantWantDealReq = TalkSocket.encode("AP_WADEA");
+  @override
+  Future<void> wantDeal(int applicantId, int haggleChatId) async {
+    NetApplicantWantDealReq pbReq = NetApplicantWantDealReq();
+    pbReq.applicantId = applicantId;
+    pbReq.haggleChatId = new Int64(haggleChatId);
+    TalkMessage res = await _ts.sendRequest(_netApplicantWantDealReq, pbReq.writeToBuffer());
+    NetApplicantCommonRes pbRes = new NetApplicantCommonRes();
+    pbRes.mergeFromBuffer(res.data);
+    _receivedApplicantCommonRes(pbRes);
   }
 }
 
@@ -1690,6 +1711,8 @@ abstract class NetworkInterface {
   void chatHaggle(
       int applicantId, String deliverables, String reward, String remarks);
   void chatImageKey(int applicantId, String imageKey);
+
+  Future<void> wantDeal(int applicantId, int haggleChatId);
 }
 
 /* end of file */
