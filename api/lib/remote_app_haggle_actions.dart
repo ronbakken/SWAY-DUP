@@ -66,6 +66,7 @@ class RemoteAppHaggleActions {
   static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
   final List<StreamSubscription<dynamic>> _subscriptions =
       new List<StreamSubscription<dynamic>>();
+  int nextFakeGhostId;
 
   RemoteAppHaggleActions(this._r) {
     _subscriptions.add(_r.saferListen(
@@ -83,6 +84,8 @@ class RemoteAppHaggleActions {
         GlobalAccountState.GAS_READ_WRITE, true, netApplicantReportReq));
     _subscriptions.add(_r.saferListen("AP_COMPL",
         GlobalAccountState.GAS_READ_WRITE, true, netApplicantCompletionReq));
+    nextFakeGhostId =
+        ((new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF) | 0x10000000;
   }
 
   void dispose() {
@@ -456,6 +459,7 @@ class RemoteAppHaggleActions {
       chat.senderId = accountId;
       chat.applicantId = applicantId;
       chat.deviceId = account.state.deviceId;
+      chat.deviceGhostId = ++nextFakeGhostId;
       chat.type = ApplicantChatType.ACT_MARKER;
       chat.text = 'marker=' +
           (dealMade
@@ -526,6 +530,7 @@ class RemoteAppHaggleActions {
       chat.senderId = accountId;
       chat.applicantId = applicantId;
       chat.deviceId = account.state.deviceId;
+      chat.deviceGhostId = ++nextFakeGhostId;
       chat.type = ApplicantChatType.ACT_MARKER;
       chat.text = 'marker=' +
           ApplicantChatMarker.ACM_REJECTED.value.toString() +
@@ -702,6 +707,7 @@ class RemoteAppHaggleActions {
       chat.senderId = accountId;
       chat.applicantId = applicantId;
       chat.deviceId = account.state.deviceId;
+      chat.deviceGhostId = ++nextFakeGhostId;
       chat.type = ApplicantChatType.ACT_MARKER;
       chat.text = 'marker=' + marker.value.toString();
       if (await _insertChat(transaction, chat)) {
