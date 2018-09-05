@@ -229,7 +229,7 @@ class RemoteAppHaggleActions {
         if (await _insertChat(transaction, chat)) {
           // Update haggle on applicant
           String updateHaggleChatId = "UPDATE `applicants` "
-              "SET `haggle_chat_id` = ? "
+              "SET `haggle_chat_id` = ?, `influencer_wants_deal` = 0, `business_wants_deal` = 0 "
               "WHERE `applicant_id` = ? AND `state` = ${ApplicantState.AS_HAGGLING.value.toInt()}";
           sqljocky.Results resultUpdateHaggleChatId =
               await transaction.prepareExecute(updateHaggleChatId, [
@@ -255,6 +255,12 @@ class RemoteAppHaggleActions {
       if (chat.type == ApplicantChatType.ACT_HAGGLE) {
         await _changedApplicant(chat.applicantId);
       }
+    } else {
+      // Send placeholder message to erase the ghost id to current device.
+      // This is an unusual race condition case that shouldn't happen.
+      chat.type = ApplicantChatType.ACT_MARKER;
+      chat.text = "marker=" + ApplicantChatMarker.ACM_MESSAGE_DROPPED;
+      ts.sendMessage(_netDataApplicantChatNew, chat.writeToBuffer());
     }
   }
 
