@@ -259,7 +259,7 @@ class RemoteAppHaggleActions {
       // Send placeholder message to erase the ghost id to current device.
       // This is an unusual race condition case that shouldn't happen.
       chat.type = ApplicantChatType.ACT_MARKER;
-      chat.text = "marker=" + ApplicantChatMarker.ACM_MESSAGE_DROPPED.value;
+      chat.text = "marker=" + ApplicantChatMarker.ACM_MESSAGE_DROPPED.value.toString();
       ts.sendMessage(_netDataApplicantChatNew, chat.writeToBuffer());
     }
   }
