@@ -153,7 +153,8 @@ class _AppBusinessState extends State<AppBusiness> {
               network.chatPlain(applicant.applicantId, text);
             },
             onSendHaggle: (String deliverables, String reward, String remarks) {
-              network.chatHaggle(applicant.applicantId, deliverables, reward, remarks);
+              network.chatHaggle(
+                  applicant.applicantId, deliverables, reward, remarks);
             },
             onSendImageKey: (String imageKey) {
               network.chatImageKey(applicant.applicantId, imageKey);

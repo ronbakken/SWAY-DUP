@@ -28,11 +28,10 @@ class ApplicantsListPlaceholder extends StatelessWidget {
       itemCount: applicantsSorted.length,
       itemBuilder: (BuildContext context, int index) {
         return new RaisedButton(
-          child: new Text(applicantsSorted[index].applicantId.toString()),
-          onPressed: () {
-            onApplicantPressed(applicantsSorted[index]);
-          }
-        );
+            child: new Text(applicantsSorted[index].applicantId.toString()),
+            onPressed: () {
+              onApplicantPressed(applicantsSorted[index]);
+            });
       },
     );
   }
