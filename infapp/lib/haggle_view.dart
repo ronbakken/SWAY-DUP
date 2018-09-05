@@ -460,6 +460,9 @@ class _HaggleViewState extends State<HaggleView> {
           message =
               "The dispute has been resolved through customer support. Case closed.";
           break;
+        case ApplicantChatMarker.ACM_MESSAGE_DROPPED:
+          message = "...";
+          break;
         default:
           message = "...";
           break;
