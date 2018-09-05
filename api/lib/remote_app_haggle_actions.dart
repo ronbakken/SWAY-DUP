@@ -85,7 +85,9 @@ class RemoteAppHaggleActions {
     _subscriptions.add(_r.saferListen("AP_COMPL",
         GlobalAccountState.GAS_READ_WRITE, true, netApplicantCompletionReq));
     nextFakeGhostId =
-        ((new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF) | 0x10000000;
+        ((new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) &
+                0xFFFFFFF) |
+            0x10000000;
   }
 
   void dispose() {
@@ -259,7 +261,8 @@ class RemoteAppHaggleActions {
       // Send placeholder message to erase the ghost id to current device.
       // This is an unusual race condition case that shouldn't happen.
       chat.type = ApplicantChatType.ACT_MARKER;
-      chat.text = "marker=" + ApplicantChatMarker.ACM_MESSAGE_DROPPED.value.toString();
+      chat.text =
+          "marker=" + ApplicantChatMarker.ACM_MESSAGE_DROPPED.value.toString();
       ts.sendMessage(_netDataApplicantChatNew, chat.writeToBuffer());
     }
   }
