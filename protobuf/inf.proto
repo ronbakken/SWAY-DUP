@@ -257,6 +257,7 @@ enum ApplicantChatMarker {
   ACM_COMPLETE = 5; // The offer has been completed. Well done!
   ACM_MARKED_DISPUTE = 6; // (Disputes are silent, although can be seen :))
   ACM_RESOLVED = 7; // The dispute has been resolved through customer support. Case closed.
+  ACM_MESSAGE_DROPPED = 8; // Empty message to drop an invalid message. Not stored in database.
   
 }
 
@@ -419,6 +420,11 @@ message DataApplicant {
   int32 offerId = 2;
   int32 influencerAccountId = 3; // Account which applied
   int32 businessAccountId = 16;
+  
+  /// Embedded data
+  String otherName = 17; // Name of the account on the other side of the deal
+  String offerTitle = 18; // Title of the associated offer
+  
   // datetime schedule etc
   
   /// Current chat ID with haggle buttons (deliverables / reward / remarks)
