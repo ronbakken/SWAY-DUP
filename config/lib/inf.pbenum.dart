@@ -311,6 +311,8 @@ class ApplicantChatMarker extends ProtobufEnum {
       const ApplicantChatMarker._(6, 'ACM_MARKED_DISPUTE');
   static const ApplicantChatMarker ACM_RESOLVED =
       const ApplicantChatMarker._(7, 'ACM_RESOLVED');
+  static const ApplicantChatMarker ACM_MESSAGE_DROPPED =
+      const ApplicantChatMarker._(8, 'ACM_MESSAGE_DROPPED');
 
   static const List<ApplicantChatMarker> values = const <ApplicantChatMarker>[
     ACM_APPLIED,
@@ -321,6 +323,7 @@ class ApplicantChatMarker extends ProtobufEnum {
     ACM_COMPLETE,
     ACM_MARKED_DISPUTE,
     ACM_RESOLVED,
+    ACM_MESSAGE_DROPPED,
   ];
 
   static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);

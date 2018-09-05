@@ -121,6 +121,7 @@ const ApplicantChatMarker$json = const {
     const {'1': 'ACM_COMPLETE', '2': 5},
     const {'1': 'ACM_MARKED_DISPUTE', '2': 6},
     const {'1': 'ACM_RESOLVED', '2': 7},
+    const {'1': 'ACM_MESSAGE_DROPPED', '2': 8},
   ],
 };
 
@@ -663,6 +664,15 @@ const DataApplicant$json = const {
       '5': 5,
       '10': 'businessAccountId'
     },
+    const {
+      '1': 'influencerName',
+      '3': 17,
+      '4': 1,
+      '5': 9,
+      '10': 'influencerName'
+    },
+    const {'1': 'businessName', '3': 18, '4': 1, '5': 9, '10': 'businessName'},
+    const {'1': 'offerTitle', '3': 19, '4': 1, '5': 9, '10': 'offerTitle'},
     const {'1': 'haggleChatId', '3': 4, '4': 1, '5': 3, '10': 'haggleChatId'},
     const {
       '1': 'influencerWantsDeal',
