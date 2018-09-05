@@ -422,8 +422,9 @@ message DataApplicant {
   int32 businessAccountId = 16;
   
   /// Embedded data
-  String otherName = 17; // Name of the account on the other side of the deal
-  String offerTitle = 18; // Title of the associated offer
+  string influencerName = 17;
+  string businessName = 18;
+  string offerTitle = 19;
   
   // datetime schedule etc
   
