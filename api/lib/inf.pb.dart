@@ -1648,6 +1648,9 @@ class DataApplicant extends GeneratedMessage {
     ..aOB(14, 'businessDisputed')
     ..aOB(15, 'influencerDisputed')
     ..a<int>(16, 'businessAccountId', PbFieldType.O3)
+    ..aOS(17, 'influencerName')
+    ..aOS(18, 'businessName')
+    ..aOS(19, 'offerTitle')
     ..hasRequiredFields = false;
 
   DataApplicant() : super();
@@ -1799,6 +1802,30 @@ class DataApplicant extends GeneratedMessage {
 
   bool hasBusinessAccountId() => $_has(15);
   void clearBusinessAccountId() => clearField(16);
+
+  String get influencerName => $_getS(16, '');
+  set influencerName(String v) {
+    $_setString(16, v);
+  }
+
+  bool hasInfluencerName() => $_has(16);
+  void clearInfluencerName() => clearField(17);
+
+  String get businessName => $_getS(17, '');
+  set businessName(String v) {
+    $_setString(17, v);
+  }
+
+  bool hasBusinessName() => $_has(17);
+  void clearBusinessName() => clearField(18);
+
+  String get offerTitle => $_getS(18, '');
+  set offerTitle(String v) {
+    $_setString(18, v);
+  }
+
+  bool hasOfferTitle() => $_has(18);
+  void clearOfferTitle() => clearField(19);
 }
 
 class _ReadonlyDataApplicant extends DataApplicant with ReadonlyMessageMixin {}
