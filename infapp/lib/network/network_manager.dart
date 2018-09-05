@@ -1520,7 +1520,8 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     NetApplicantWantDealReq pbReq = NetApplicantWantDealReq();
     pbReq.applicantId = applicantId;
     pbReq.haggleChatId = new Int64(haggleChatId);
-    TalkMessage res = await _ts.sendRequest(_netApplicantWantDealReq, pbReq.writeToBuffer());
+    TalkMessage res =
+        await _ts.sendRequest(_netApplicantWantDealReq, pbReq.writeToBuffer());
     NetApplicantCommonRes pbRes = new NetApplicantCommonRes();
     pbRes.mergeFromBuffer(res.data);
     _receivedApplicantCommonRes(pbRes);
