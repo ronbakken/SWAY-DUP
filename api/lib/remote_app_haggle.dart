@@ -248,7 +248,8 @@ class RemoteAppHaggle {
           "`sender_id`, `device_id`, `device_ghost_id`, " // 2 3 4
           "`type`, `text`, UNIX_TIMESTAMP(`seen`) AS `seen` " // 5 6 7
           "FROM `applicant_haggling` "
-          "WHERE `applicant_id` = ?";
+          "WHERE `applicant_id` = ? "
+          "ORDER BY `chat_id` DESC";
       await for (sqljocky.Row row
           in await connection.prepareExecute(chatQuery, [
         pb.applicantId.toInt(),
