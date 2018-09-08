@@ -186,10 +186,10 @@ packages:
   flutter_map:
     dependency: "direct main"
     description:
-      path: "..\\flutter_map\\flutter_map"
-      relative: true
-    source: path
-    version: "0.0.11+1"
+      name: flutter_map
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   flutter_webview_plugin:
     dependency: "direct main"
     description:
@@ -217,7 +217,7 @@ packages:
       name: geolocator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.4"
+    version: "1.6.5"
   glob:
     dependency: transitive
     description:
@@ -295,15 +295,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.4+1"
-  latlong2:
+  latlong:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "07de4bef3b47f3040be4b6d1cd6a710b2d408a8e"
-      url: "https://github.com/johnpryan/latlong2.git"
-    source: git
-    version: "0.6.0"
+      name: latlong
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.1"
   logging:
     dependency: transitive
     description:
@@ -422,7 +420,7 @@ packages:
       name: reflectable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.5"
+    version: "2.0.6"
   shared_preferences:
     dependency: "direct main"
     description:

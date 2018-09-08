@@ -25,32 +25,21 @@ dependencies:
   shared_preferences: ^0.4.2
   pointycastle: ^1.0.0-rc2
 
-  # oauth1:
-  #   path: ../dart-oauth1/
-
-  flutter_map: # ^0.0.4
-    path: ../flutter_map/flutter_map/
+  flutter_map: ^0.1.1
 
   wstalk:
     path: ../wstalk/
 
-  # dospace: ^0.9.5
   geolocator: ^1.6.3
   url_launcher: ^3.0.3
   
-  # 0.4.1 crashes
   image_picker: ^0.4.7
   mime: ^0.9.6+2
 
 # dev_dependencies:
   # flutter_test:
   #   sdk: flutter
-  
-# Search bar
-  ## bad pubspec.yaml
-  # flutter_search_bar: "^2.0.2"
 
-  # rxdart: "^0.16.5"
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 

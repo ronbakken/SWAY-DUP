@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import 'package:latlong2/latlong.dart';
+import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 
 import 'search/search_page.dart';
