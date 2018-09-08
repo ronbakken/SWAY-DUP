@@ -8,7 +8,7 @@ environment:
   sdk: '>=2.0.0-dev.58.0 <3.0.0'
 
 dependencies:
-  protobuf: ^0.9.0
+  protobuf: ^0.10.2
   ini:
     git: https://github.com/nbspou/dart-ini.git
   fixnum: ^0.10.7
