@@ -170,7 +170,7 @@ packages:
       name: firebase_messaging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "2.0.0"
   fixnum:
     dependency: transitive
     description:
@@ -240,7 +240,7 @@ packages:
     source: hosted
     version: "0.13.3+3"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -392,7 +392,7 @@ packages:
       name: protobuf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.1"
+    version: "0.10.2"
   pub_semver:
     dependency: transitive
     description:

@@ -10,15 +10,14 @@ dependencies:
   cupertino_icons: ^0.1.0
   font_awesome_flutter: ^8.0.0
 
-  firebase_messaging: ^1.0.5
+  firebase_messaging: ^2.0.0
 
-  protobuf: ^0.9.0+1
+  protobuf: ^0.10.2
 
   circle_indicator:
     git: https://github.com/nbspou/circle_indicator.git
 
   flutter_webview_plugin: ^0.2.1+2
-  http: ^0.11.3+13
 
   # Device info, used during device registration
   device_info: ^0.2.1
