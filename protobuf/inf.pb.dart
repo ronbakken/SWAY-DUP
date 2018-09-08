@@ -1,90 +1,84 @@
 ///
 //  Generated code. Do not modify.
+//  source: inf.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
 import 'package:fixnum/fixnum.dart';
-import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'inf.pbenum.dart';
 
 export 'inf.pbenum.dart';
 
-class ConfigSubCategories extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('ConfigSubCategories')
+class ConfigSubCategories extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigSubCategories',
+      package: const $pb.PackageName('inf'))
     ..pPS(1, 'labels')
     ..hasRequiredFields = false;
 
   ConfigSubCategories() : super();
   ConfigSubCategories.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   ConfigSubCategories.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   ConfigSubCategories clone() =>
       new ConfigSubCategories()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  ConfigSubCategories copyWith(void Function(ConfigSubCategories) updates) =>
+      super.copyWith((message) => updates(message as ConfigSubCategories));
+  $pb.BuilderInfo get info_ => _i;
   static ConfigSubCategories create() => new ConfigSubCategories();
-  static PbList<ConfigSubCategories> createRepeated() =>
-      new PbList<ConfigSubCategories>();
-  static ConfigSubCategories getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyConfigSubCategories();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<ConfigSubCategories> createRepeated() =>
+      new $pb.PbList<ConfigSubCategories>();
+  static ConfigSubCategories getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static ConfigSubCategories _defaultInstance;
   static void $checkItem(ConfigSubCategories v) {
-    if (v is! ConfigSubCategories) checkItemFailed(v, 'ConfigSubCategories');
+    if (v is! ConfigSubCategories) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<String> get labels => $_getList(0);
 }
 
-class _ReadonlyConfigSubCategories extends ConfigSubCategories
-    with ReadonlyMessageMixin {}
-
-class ConfigCategories extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('ConfigCategories')
-    ..pp<ConfigSubCategories>(1, 'sub', PbFieldType.PM,
+class ConfigCategories extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigCategories',
+      package: const $pb.PackageName('inf'))
+    ..pp<ConfigSubCategories>(1, 'sub', $pb.PbFieldType.PM,
         ConfigSubCategories.$checkItem, ConfigSubCategories.create)
     ..hasRequiredFields = false;
 
   ConfigCategories() : super();
   ConfigCategories.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   ConfigCategories.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   ConfigCategories clone() => new ConfigCategories()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  ConfigCategories copyWith(void Function(ConfigCategories) updates) =>
+      super.copyWith((message) => updates(message as ConfigCategories));
+  $pb.BuilderInfo get info_ => _i;
   static ConfigCategories create() => new ConfigCategories();
-  static PbList<ConfigCategories> createRepeated() =>
-      new PbList<ConfigCategories>();
-  static ConfigCategories getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyConfigCategories();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<ConfigCategories> createRepeated() =>
+      new $pb.PbList<ConfigCategories>();
+  static ConfigCategories getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static ConfigCategories _defaultInstance;
   static void $checkItem(ConfigCategories v) {
-    if (v is! ConfigCategories) checkItemFailed(v, 'ConfigCategories');
+    if (v is! ConfigCategories) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<ConfigSubCategories> get sub => $_getList(0);
 }
 
-class _ReadonlyConfigCategories extends ConfigCategories
-    with ReadonlyMessageMixin {}
-
-class ConfigOAuthProvider extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('ConfigOAuthProvider')
+class ConfigOAuthProvider extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigOAuthProvider',
+      package: const $pb.PackageName('inf'))
     ..aOB(1, 'visible')
     ..aOB(2, 'enabled')
     ..aOS(3, 'label')
@@ -97,8 +91,8 @@ class ConfigOAuthProvider extends GeneratedMessage {
     ..aOS(10, 'consumerKey')
     ..aOS(11, 'consumerSecret')
     ..aOS(12, 'clientId')
-    ..a<int>(14, 'fontAwesomeBrand', PbFieldType.O3)
-    ..e<OAuthMechanism>(15, 'mechanism', PbFieldType.OE,
+    ..a<int>(14, 'fontAwesomeBrand', $pb.PbFieldType.O3)
+    ..e<OAuthMechanism>(15, 'mechanism', $pb.PbFieldType.OE,
         OAuthMechanism.OAM_NONE, OAuthMechanism.valueOf, OAuthMechanism.values)
     ..aOS(16, 'accessTokenUrl')
     ..aOS(17, 'clientSecret')
@@ -107,26 +101,24 @@ class ConfigOAuthProvider extends GeneratedMessage {
 
   ConfigOAuthProvider() : super();
   ConfigOAuthProvider.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   ConfigOAuthProvider.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   ConfigOAuthProvider clone() =>
       new ConfigOAuthProvider()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  ConfigOAuthProvider copyWith(void Function(ConfigOAuthProvider) updates) =>
+      super.copyWith((message) => updates(message as ConfigOAuthProvider));
+  $pb.BuilderInfo get info_ => _i;
   static ConfigOAuthProvider create() => new ConfigOAuthProvider();
-  static PbList<ConfigOAuthProvider> createRepeated() =>
-      new PbList<ConfigOAuthProvider>();
-  static ConfigOAuthProvider getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyConfigOAuthProvider();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<ConfigOAuthProvider> createRepeated() =>
+      new $pb.PbList<ConfigOAuthProvider>();
+  static ConfigOAuthProvider getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static ConfigOAuthProvider _defaultInstance;
   static void $checkItem(ConfigOAuthProvider v) {
-    if (v is! ConfigOAuthProvider) checkItemFailed(v, 'ConfigOAuthProvider');
+    if (v is! ConfigOAuthProvider) $pb.checkItemFailed(v, _i.messageName);
   }
 
   bool get visible => $_get(0, false);
@@ -260,47 +252,41 @@ class ConfigOAuthProvider extends GeneratedMessage {
   List<String> get whitelistHosts => $_getList(16);
 }
 
-class _ReadonlyConfigOAuthProvider extends ConfigOAuthProvider
-    with ReadonlyMessageMixin {}
-
-class ConfigOAuthProviders extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('ConfigOAuthProviders')
-    ..pp<ConfigOAuthProvider>(1, 'all', PbFieldType.PM,
+class ConfigOAuthProviders extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigOAuthProviders',
+      package: const $pb.PackageName('inf'))
+    ..pp<ConfigOAuthProvider>(1, 'all', $pb.PbFieldType.PM,
         ConfigOAuthProvider.$checkItem, ConfigOAuthProvider.create)
     ..hasRequiredFields = false;
 
   ConfigOAuthProviders() : super();
   ConfigOAuthProviders.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   ConfigOAuthProviders.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   ConfigOAuthProviders clone() =>
       new ConfigOAuthProviders()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  ConfigOAuthProviders copyWith(void Function(ConfigOAuthProviders) updates) =>
+      super.copyWith((message) => updates(message as ConfigOAuthProviders));
+  $pb.BuilderInfo get info_ => _i;
   static ConfigOAuthProviders create() => new ConfigOAuthProviders();
-  static PbList<ConfigOAuthProviders> createRepeated() =>
-      new PbList<ConfigOAuthProviders>();
-  static ConfigOAuthProviders getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyConfigOAuthProviders();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<ConfigOAuthProviders> createRepeated() =>
+      new $pb.PbList<ConfigOAuthProviders>();
+  static ConfigOAuthProviders getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static ConfigOAuthProviders _defaultInstance;
   static void $checkItem(ConfigOAuthProviders v) {
-    if (v is! ConfigOAuthProviders) checkItemFailed(v, 'ConfigOAuthProviders');
+    if (v is! ConfigOAuthProviders) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<ConfigOAuthProvider> get all => $_getList(0);
 }
 
-class _ReadonlyConfigOAuthProviders extends ConfigOAuthProviders
-    with ReadonlyMessageMixin {}
-
-class ConfigServices extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('ConfigServices')
+class ConfigServices extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigServices',
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'mapboxApi')
     ..aOS(2, 'mapboxUrlTemplate')
     ..aOS(3, 'mapboxToken')
@@ -315,7 +301,7 @@ class ConfigServices extends GeneratedMessage {
     ..aOS(12, 'ipstackKey')
     ..aOS(13, 'ipstackApi')
     ..aOS(14, 'mariadbHost')
-    ..a<int>(15, 'mariadbPort', PbFieldType.O3)
+    ..a<int>(15, 'mariadbPort', $pb.PbFieldType.O3)
     ..aOS(16, 'mariadbUser')
     ..aOS(17, 'mariadbPassword')
     ..aOS(18, 'mariadbDatabase')
@@ -334,25 +320,22 @@ class ConfigServices extends GeneratedMessage {
 
   ConfigServices() : super();
   ConfigServices.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   ConfigServices.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   ConfigServices clone() => new ConfigServices()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  ConfigServices copyWith(void Function(ConfigServices) updates) =>
+      super.copyWith((message) => updates(message as ConfigServices));
+  $pb.BuilderInfo get info_ => _i;
   static ConfigServices create() => new ConfigServices();
-  static PbList<ConfigServices> createRepeated() =>
-      new PbList<ConfigServices>();
-  static ConfigServices getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyConfigServices();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<ConfigServices> createRepeated() =>
+      new $pb.PbList<ConfigServices>();
+  static ConfigServices getDefault() => _defaultInstance ??= create()..freeze();
   static ConfigServices _defaultInstance;
   static void $checkItem(ConfigServices v) {
-    if (v is! ConfigServices) checkItemFailed(v, 'ConfigServices');
+    if (v is! ConfigServices) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get mapboxApi => $_getS(0, '');
@@ -582,39 +565,37 @@ class ConfigServices extends GeneratedMessage {
   void clearConnectionFailedUrl() => clearField(29);
 }
 
-class _ReadonlyConfigServices extends ConfigServices with ReadonlyMessageMixin {
-}
-
-class ConfigData extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('ConfigData')
-    ..a<int>(1, 'clientVersion', PbFieldType.O3)
-    ..a<ConfigCategories>(2, 'categories', PbFieldType.OM,
-        ConfigCategories.getDefault, ConfigCategories.create)
-    ..a<ConfigOAuthProviders>(3, 'oauthProviders', PbFieldType.OM,
-        ConfigOAuthProviders.getDefault, ConfigOAuthProviders.create)
-    ..aInt64(5, 'timestamp')
-    ..a<ConfigServices>(6, 'services', PbFieldType.OM,
-        ConfigServices.getDefault, ConfigServices.create)
-    ..hasRequiredFields = false;
+class ConfigData extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('ConfigData', package: const $pb.PackageName('inf'))
+        ..a<int>(1, 'clientVersion', $pb.PbFieldType.O3)
+        ..a<ConfigCategories>(2, 'categories', $pb.PbFieldType.OM,
+            ConfigCategories.getDefault, ConfigCategories.create)
+        ..a<ConfigOAuthProviders>(3, 'oauthProviders', $pb.PbFieldType.OM,
+            ConfigOAuthProviders.getDefault, ConfigOAuthProviders.create)
+        ..aInt64(5, 'timestamp')
+        ..a<ConfigServices>(6, 'services', $pb.PbFieldType.OM,
+            ConfigServices.getDefault, ConfigServices.create)
+        ..hasRequiredFields = false;
 
   ConfigData() : super();
   ConfigData.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  ConfigData.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+  ConfigData.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   ConfigData clone() => new ConfigData()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  ConfigData copyWith(void Function(ConfigData) updates) =>
+      super.copyWith((message) => updates(message as ConfigData));
+  $pb.BuilderInfo get info_ => _i;
   static ConfigData create() => new ConfigData();
-  static PbList<ConfigData> createRepeated() => new PbList<ConfigData>();
-  static ConfigData getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyConfigData();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<ConfigData> createRepeated() =>
+      new $pb.PbList<ConfigData>();
+  static ConfigData getDefault() => _defaultInstance ??= create()..freeze();
   static ConfigData _defaultInstance;
   static void $checkItem(ConfigData v) {
-    if (v is! ConfigData) checkItemFailed(v, 'ConfigData');
+    if (v is! ConfigData) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get clientVersion => $_get(0, 0);
@@ -658,32 +639,31 @@ class ConfigData extends GeneratedMessage {
   void clearServices() => clearField(6);
 }
 
-class _ReadonlyConfigData extends ConfigData with ReadonlyMessageMixin {}
-
-class CategoryId extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('CategoryId')
-    ..a<int>(1, 'main', PbFieldType.O3)
-    ..a<int>(2, 'sub', PbFieldType.O3)
-    ..hasRequiredFields = false;
+class CategoryId extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('CategoryId', package: const $pb.PackageName('inf'))
+        ..a<int>(1, 'main', $pb.PbFieldType.O3)
+        ..a<int>(2, 'sub', $pb.PbFieldType.O3)
+        ..hasRequiredFields = false;
 
   CategoryId() : super();
   CategoryId.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  CategoryId.fromJson(String i, [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+  CategoryId.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   CategoryId clone() => new CategoryId()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  CategoryId copyWith(void Function(CategoryId) updates) =>
+      super.copyWith((message) => updates(message as CategoryId));
+  $pb.BuilderInfo get info_ => _i;
   static CategoryId create() => new CategoryId();
-  static PbList<CategoryId> createRepeated() => new PbList<CategoryId>();
-  static CategoryId getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyCategoryId();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<CategoryId> createRepeated() =>
+      new $pb.PbList<CategoryId>();
+  static CategoryId getDefault() => _defaultInstance ??= create()..freeze();
   static CategoryId _defaultInstance;
   static void $checkItem(CategoryId v) {
-    if (v is! CategoryId) checkItemFailed(v, 'CategoryId');
+    if (v is! CategoryId) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get main => $_get(0, 0);
@@ -703,20 +683,19 @@ class CategoryId extends GeneratedMessage {
   void clearSub() => clearField(2);
 }
 
-class _ReadonlyCategoryId extends CategoryId with ReadonlyMessageMixin {}
-
-class DataSocialMedia extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataSocialMedia')
+class DataSocialMedia extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataSocialMedia',
+      package: const $pb.PackageName('inf'))
     ..aOB(1, 'connected')
-    ..a<int>(2, 'followersCount', PbFieldType.O3)
-    ..a<int>(3, 'followingCount', PbFieldType.O3)
+    ..a<int>(2, 'followersCount', $pb.PbFieldType.O3)
+    ..a<int>(3, 'followingCount', $pb.PbFieldType.O3)
     ..aOS(4, 'screenName')
     ..aOS(5, 'displayName')
     ..aOS(6, 'description')
     ..aOS(7, 'location')
     ..aOS(8, 'url')
-    ..a<int>(9, 'friendsCount', PbFieldType.O3)
-    ..a<int>(10, 'postsCount', PbFieldType.O3)
+    ..a<int>(9, 'friendsCount', $pb.PbFieldType.O3)
+    ..a<int>(10, 'postsCount', $pb.PbFieldType.O3)
     ..aOB(11, 'verified')
     ..aOS(12, 'email')
     ..aOS(13, 'profileUrl')
@@ -726,25 +705,23 @@ class DataSocialMedia extends GeneratedMessage {
 
   DataSocialMedia() : super();
   DataSocialMedia.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   DataSocialMedia.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DataSocialMedia clone() => new DataSocialMedia()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  DataSocialMedia copyWith(void Function(DataSocialMedia) updates) =>
+      super.copyWith((message) => updates(message as DataSocialMedia));
+  $pb.BuilderInfo get info_ => _i;
   static DataSocialMedia create() => new DataSocialMedia();
-  static PbList<DataSocialMedia> createRepeated() =>
-      new PbList<DataSocialMedia>();
-  static DataSocialMedia getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDataSocialMedia();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<DataSocialMedia> createRepeated() =>
+      new $pb.PbList<DataSocialMedia>();
+  static DataSocialMedia getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static DataSocialMedia _defaultInstance;
   static void $checkItem(DataSocialMedia v) {
-    if (v is! DataSocialMedia) checkItemFailed(v, 'DataSocialMedia');
+    if (v is! DataSocialMedia) $pb.checkItemFailed(v, _i.messageName);
   }
 
   bool get connected => $_get(0, false);
@@ -868,39 +845,35 @@ class DataSocialMedia extends GeneratedMessage {
   void clearExpired() => clearField(15);
 }
 
-class _ReadonlyDataSocialMedia extends DataSocialMedia
-    with ReadonlyMessageMixin {}
-
-class DataOAuthCredentials extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataOAuthCredentials')
+class DataOAuthCredentials extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataOAuthCredentials',
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'token')
     ..aOS(2, 'tokenSecret')
-    ..a<int>(3, 'tokenExpires', PbFieldType.O3)
+    ..a<int>(3, 'tokenExpires', $pb.PbFieldType.O3)
     ..aOS(4, 'userId')
     ..hasRequiredFields = false;
 
   DataOAuthCredentials() : super();
   DataOAuthCredentials.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   DataOAuthCredentials.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DataOAuthCredentials clone() =>
       new DataOAuthCredentials()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  DataOAuthCredentials copyWith(void Function(DataOAuthCredentials) updates) =>
+      super.copyWith((message) => updates(message as DataOAuthCredentials));
+  $pb.BuilderInfo get info_ => _i;
   static DataOAuthCredentials create() => new DataOAuthCredentials();
-  static PbList<DataOAuthCredentials> createRepeated() =>
-      new PbList<DataOAuthCredentials>();
-  static DataOAuthCredentials getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDataOAuthCredentials();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<DataOAuthCredentials> createRepeated() =>
+      new $pb.PbList<DataOAuthCredentials>();
+  static DataOAuthCredentials getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static DataOAuthCredentials _defaultInstance;
   static void $checkItem(DataOAuthCredentials v) {
-    if (v is! DataOAuthCredentials) checkItemFailed(v, 'DataOAuthCredentials');
+    if (v is! DataOAuthCredentials) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get token => $_getS(0, '');
@@ -936,14 +909,12 @@ class DataOAuthCredentials extends GeneratedMessage {
   void clearUserId() => clearField(4);
 }
 
-class _ReadonlyDataOAuthCredentials extends DataOAuthCredentials
-    with ReadonlyMessageMixin {}
-
-class DataBusinessOffer extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataBusinessOffer')
-    ..a<int>(1, 'offerId', PbFieldType.O3)
-    ..a<int>(2, 'accountId', PbFieldType.O3)
-    ..a<int>(3, 'locationId', PbFieldType.O3)
+class DataBusinessOffer extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataBusinessOffer',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'offerId', $pb.PbFieldType.O3)
+    ..a<int>(2, 'accountId', $pb.PbFieldType.O3)
+    ..a<int>(3, 'locationId', $pb.PbFieldType.O3)
     ..aOS(4, 'title')
     ..aOS(5, 'description')
     ..aOS(6, 'thumbnailUrl')
@@ -951,54 +922,52 @@ class DataBusinessOffer extends GeneratedMessage {
     ..aOS(8, 'reward')
     ..aOS(9, 'location')
     ..pPS(10, 'coverUrls')
-    ..pp<CategoryId>(11, 'categories', PbFieldType.PM, CategoryId.$checkItem,
-        CategoryId.create)
+    ..pp<CategoryId>(11, 'categories', $pb.PbFieldType.PM,
+        CategoryId.$checkItem, CategoryId.create)
     ..e<BusinessOfferState>(
         12,
         'state',
-        PbFieldType.OE,
+        $pb.PbFieldType.OE,
         BusinessOfferState.BOS_DRAFT,
         BusinessOfferState.valueOf,
         BusinessOfferState.values)
     ..e<BusinessOfferStateReason>(
         13,
         'stateReason',
-        PbFieldType.OE,
+        $pb.PbFieldType.OE,
         BusinessOfferStateReason.BOSR_NEW_OFFER,
         BusinessOfferStateReason.valueOf,
         BusinessOfferStateReason.values)
-    ..a<int>(14, 'applicantsNew', PbFieldType.O3)
-    ..a<int>(15, 'applicantsAccepted', PbFieldType.O3)
-    ..a<int>(16, 'applicantsCompleted', PbFieldType.O3)
-    ..a<int>(17, 'applicantsRefused', PbFieldType.O3)
-    ..a<double>(18, 'latitude', PbFieldType.OD)
-    ..a<double>(19, 'longitude', PbFieldType.OD)
-    ..a<int>(20, 'locationOfferCount', PbFieldType.O3)
+    ..a<int>(14, 'applicantsNew', $pb.PbFieldType.O3)
+    ..a<int>(15, 'applicantsAccepted', $pb.PbFieldType.O3)
+    ..a<int>(16, 'applicantsCompleted', $pb.PbFieldType.O3)
+    ..a<int>(17, 'applicantsRefused', $pb.PbFieldType.O3)
+    ..a<double>(18, 'latitude', $pb.PbFieldType.OD)
+    ..a<double>(19, 'longitude', $pb.PbFieldType.OD)
+    ..a<int>(20, 'locationOfferCount', $pb.PbFieldType.O3)
     ..aOS(21, 'locationName')
-    ..a<int>(22, 'influencerApplicantId', PbFieldType.O3)
+    ..a<int>(22, 'influencerApplicantId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataBusinessOffer() : super();
   DataBusinessOffer.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   DataBusinessOffer.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DataBusinessOffer clone() => new DataBusinessOffer()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  DataBusinessOffer copyWith(void Function(DataBusinessOffer) updates) =>
+      super.copyWith((message) => updates(message as DataBusinessOffer));
+  $pb.BuilderInfo get info_ => _i;
   static DataBusinessOffer create() => new DataBusinessOffer();
-  static PbList<DataBusinessOffer> createRepeated() =>
-      new PbList<DataBusinessOffer>();
-  static DataBusinessOffer getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDataBusinessOffer();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<DataBusinessOffer> createRepeated() =>
+      new $pb.PbList<DataBusinessOffer>();
+  static DataBusinessOffer getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static DataBusinessOffer _defaultInstance;
   static void $checkItem(DataBusinessOffer v) {
-    if (v is! DataBusinessOffer) checkItemFailed(v, 'DataBusinessOffer');
+    if (v is! DataBusinessOffer) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get offerId => $_get(0, 0);
@@ -1166,44 +1135,40 @@ class DataBusinessOffer extends GeneratedMessage {
   void clearInfluencerApplicantId() => clearField(22);
 }
 
-class _ReadonlyDataBusinessOffer extends DataBusinessOffer
-    with ReadonlyMessageMixin {}
-
-class DataLocation extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataLocation')
-    ..a<int>(1, 'locationId', PbFieldType.O3)
-    ..aOS(2, 'name')
-    ..a<double>(4, 'latitude', PbFieldType.OD)
-    ..a<double>(5, 'longitude', PbFieldType.OD)
-    ..aOS(6, 'avatarUrl')
-    ..aOS(7, 'approximate')
-    ..aOS(8, 'detail')
-    ..aOS(9, 'postcode')
-    ..aOS(10, 'regionCode')
-    ..aOS(11, 'countryCode')
-    ..aInt64(12, 's2cellId')
-    ..hasRequiredFields = false;
+class DataLocation extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('DataLocation', package: const $pb.PackageName('inf'))
+        ..a<int>(1, 'locationId', $pb.PbFieldType.O3)
+        ..aOS(2, 'name')
+        ..a<double>(4, 'latitude', $pb.PbFieldType.OD)
+        ..a<double>(5, 'longitude', $pb.PbFieldType.OD)
+        ..aOS(6, 'avatarUrl')
+        ..aOS(7, 'approximate')
+        ..aOS(8, 'detail')
+        ..aOS(9, 'postcode')
+        ..aOS(10, 'regionCode')
+        ..aOS(11, 'countryCode')
+        ..aInt64(12, 's2cellId')
+        ..hasRequiredFields = false;
 
   DataLocation() : super();
   DataLocation.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   DataLocation.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DataLocation clone() => new DataLocation()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  DataLocation copyWith(void Function(DataLocation) updates) =>
+      super.copyWith((message) => updates(message as DataLocation));
+  $pb.BuilderInfo get info_ => _i;
   static DataLocation create() => new DataLocation();
-  static PbList<DataLocation> createRepeated() => new PbList<DataLocation>();
-  static DataLocation getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDataLocation();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<DataLocation> createRepeated() =>
+      new $pb.PbList<DataLocation>();
+  static DataLocation getDefault() => _defaultInstance ??= create()..freeze();
   static DataLocation _defaultInstance;
   static void $checkItem(DataLocation v) {
-    if (v is! DataLocation) checkItemFailed(v, 'DataLocation');
+    if (v is! DataLocation) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get locationId => $_get(0, 0);
@@ -1295,32 +1260,31 @@ class DataLocation extends GeneratedMessage {
   void clearS2cellId() => clearField(12);
 }
 
-class _ReadonlyDataLocation extends DataLocation with ReadonlyMessageMixin {}
-
-class DataAccountState extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataAccountState')
-    ..a<int>(1, 'deviceId', PbFieldType.O3)
-    ..a<int>(2, 'accountId', PbFieldType.O3)
-    ..e<AccountType>(3, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN,
-        AccountType.valueOf, AccountType.values)
+class DataAccountState extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccountState',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'deviceId', $pb.PbFieldType.O3)
+    ..a<int>(2, 'accountId', $pb.PbFieldType.O3)
+    ..e<AccountType>(3, 'accountType', $pb.PbFieldType.OE,
+        AccountType.AT_UNKNOWN, AccountType.valueOf, AccountType.values)
     ..e<GlobalAccountState>(
         4,
         'globalAccountState',
-        PbFieldType.OE,
+        $pb.PbFieldType.OE,
         GlobalAccountState.GAS_INITIALIZE,
         GlobalAccountState.valueOf,
         GlobalAccountState.values)
     ..e<GlobalAccountStateReason>(
         5,
         'globalAccountStateReason',
-        PbFieldType.OE,
+        $pb.PbFieldType.OE,
         GlobalAccountStateReason.GASR_NEW_ACCOUNT,
         GlobalAccountStateReason.valueOf,
         GlobalAccountStateReason.values)
     ..e<NotificationFlags>(
         6,
         'notificationFlags',
-        PbFieldType.OE,
+        $pb.PbFieldType.OE,
         NotificationFlags.NF_ACCOUNT_STATE,
         NotificationFlags.valueOf,
         NotificationFlags.values)
@@ -1329,25 +1293,23 @@ class DataAccountState extends GeneratedMessage {
 
   DataAccountState() : super();
   DataAccountState.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   DataAccountState.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DataAccountState clone() => new DataAccountState()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  DataAccountState copyWith(void Function(DataAccountState) updates) =>
+      super.copyWith((message) => updates(message as DataAccountState));
+  $pb.BuilderInfo get info_ => _i;
   static DataAccountState create() => new DataAccountState();
-  static PbList<DataAccountState> createRepeated() =>
-      new PbList<DataAccountState>();
-  static DataAccountState getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDataAccountState();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<DataAccountState> createRepeated() =>
+      new $pb.PbList<DataAccountState>();
+  static DataAccountState getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static DataAccountState _defaultInstance;
   static void $checkItem(DataAccountState v) {
-    if (v is! DataAccountState) checkItemFailed(v, 'DataAccountState');
+    if (v is! DataAccountState) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get deviceId => $_get(0, 0);
@@ -1407,11 +1369,9 @@ class DataAccountState extends GeneratedMessage {
   void clearFirebaseToken() => clearField(7);
 }
 
-class _ReadonlyDataAccountState extends DataAccountState
-    with ReadonlyMessageMixin {}
-
-class DataAccountSummary extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataAccountSummary')
+class DataAccountSummary extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccountSummary',
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'name')
     ..aOS(2, 'description')
     ..aOS(3, 'location')
@@ -1420,26 +1380,24 @@ class DataAccountSummary extends GeneratedMessage {
 
   DataAccountSummary() : super();
   DataAccountSummary.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   DataAccountSummary.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DataAccountSummary clone() =>
       new DataAccountSummary()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  DataAccountSummary copyWith(void Function(DataAccountSummary) updates) =>
+      super.copyWith((message) => updates(message as DataAccountSummary));
+  $pb.BuilderInfo get info_ => _i;
   static DataAccountSummary create() => new DataAccountSummary();
-  static PbList<DataAccountSummary> createRepeated() =>
-      new PbList<DataAccountSummary>();
-  static DataAccountSummary getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDataAccountSummary();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<DataAccountSummary> createRepeated() =>
+      new $pb.PbList<DataAccountSummary>();
+  static DataAccountSummary getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static DataAccountSummary _defaultInstance;
   static void $checkItem(DataAccountSummary v) {
-    if (v is! DataAccountSummary) checkItemFailed(v, 'DataAccountSummary');
+    if (v is! DataAccountSummary) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get name => $_getS(0, '');
@@ -1475,44 +1433,40 @@ class DataAccountSummary extends GeneratedMessage {
   void clearAvatarThumbnailUrl() => clearField(4);
 }
 
-class _ReadonlyDataAccountSummary extends DataAccountSummary
-    with ReadonlyMessageMixin {}
-
-class DataAccountDetail extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataAccountDetail')
-    ..pp<CategoryId>(2, 'categories', PbFieldType.PM, CategoryId.$checkItem,
+class DataAccountDetail extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccountDetail',
+      package: const $pb.PackageName('inf'))
+    ..pp<CategoryId>(2, 'categories', $pb.PbFieldType.PM, CategoryId.$checkItem,
         CategoryId.create)
-    ..pp<DataSocialMedia>(3, 'socialMedia', PbFieldType.PM,
+    ..pp<DataSocialMedia>(3, 'socialMedia', $pb.PbFieldType.PM,
         DataSocialMedia.$checkItem, DataSocialMedia.create)
-    ..a<double>(4, 'latitude', PbFieldType.OD)
-    ..a<double>(5, 'longitude', PbFieldType.OD)
+    ..a<double>(4, 'latitude', $pb.PbFieldType.OD)
+    ..a<double>(5, 'longitude', $pb.PbFieldType.OD)
     ..aOS(6, 'url')
     ..aOS(7, 'avatarCoverUrl')
-    ..a<int>(8, 'locationId', PbFieldType.O3)
+    ..a<int>(8, 'locationId', $pb.PbFieldType.O3)
     ..aOS(9, 'email')
     ..hasRequiredFields = false;
 
   DataAccountDetail() : super();
   DataAccountDetail.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   DataAccountDetail.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DataAccountDetail clone() => new DataAccountDetail()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  DataAccountDetail copyWith(void Function(DataAccountDetail) updates) =>
+      super.copyWith((message) => updates(message as DataAccountDetail));
+  $pb.BuilderInfo get info_ => _i;
   static DataAccountDetail create() => new DataAccountDetail();
-  static PbList<DataAccountDetail> createRepeated() =>
-      new PbList<DataAccountDetail>();
-  static DataAccountDetail getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDataAccountDetail();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<DataAccountDetail> createRepeated() =>
+      new $pb.PbList<DataAccountDetail>();
+  static DataAccountDetail getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static DataAccountDetail _defaultInstance;
   static void $checkItem(DataAccountDetail v) {
-    if (v is! DataAccountDetail) checkItemFailed(v, 'DataAccountDetail');
+    if (v is! DataAccountDetail) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<CategoryId> get categories => $_getList(0);
@@ -1568,38 +1522,35 @@ class DataAccountDetail extends GeneratedMessage {
   void clearEmail() => clearField(9);
 }
 
-class _ReadonlyDataAccountDetail extends DataAccountDetail
-    with ReadonlyMessageMixin {}
-
-class DataAccount extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataAccount')
-    ..a<DataAccountState>(1, 'state', PbFieldType.OM,
-        DataAccountState.getDefault, DataAccountState.create)
-    ..a<DataAccountSummary>(2, 'summary', PbFieldType.OM,
-        DataAccountSummary.getDefault, DataAccountSummary.create)
-    ..a<DataAccountDetail>(3, 'detail', PbFieldType.OM,
-        DataAccountDetail.getDefault, DataAccountDetail.create)
-    ..hasRequiredFields = false;
+class DataAccount extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('DataAccount', package: const $pb.PackageName('inf'))
+        ..a<DataAccountState>(1, 'state', $pb.PbFieldType.OM,
+            DataAccountState.getDefault, DataAccountState.create)
+        ..a<DataAccountSummary>(2, 'summary', $pb.PbFieldType.OM,
+            DataAccountSummary.getDefault, DataAccountSummary.create)
+        ..a<DataAccountDetail>(3, 'detail', $pb.PbFieldType.OM,
+            DataAccountDetail.getDefault, DataAccountDetail.create)
+        ..hasRequiredFields = false;
 
   DataAccount() : super();
   DataAccount.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   DataAccount.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DataAccount clone() => new DataAccount()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  DataAccount copyWith(void Function(DataAccount) updates) =>
+      super.copyWith((message) => updates(message as DataAccount));
+  $pb.BuilderInfo get info_ => _i;
   static DataAccount create() => new DataAccount();
-  static PbList<DataAccount> createRepeated() => new PbList<DataAccount>();
-  static DataAccount getDefault() {
-    if (_defaultInstance == null) _defaultInstance = new _ReadonlyDataAccount();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<DataAccount> createRepeated() =>
+      new $pb.PbList<DataAccount>();
+  static DataAccount getDefault() => _defaultInstance ??= create()..freeze();
   static DataAccount _defaultInstance;
   static void $checkItem(DataAccount v) {
-    if (v is! DataAccount) checkItemFailed(v, 'DataAccount');
+    if (v is! DataAccount) $pb.checkItemFailed(v, _i.messageName);
   }
 
   DataAccountState get state => $_getN(0);
@@ -1627,13 +1578,12 @@ class DataAccount extends GeneratedMessage {
   void clearDetail() => clearField(3);
 }
 
-class _ReadonlyDataAccount extends DataAccount with ReadonlyMessageMixin {}
-
-class DataApplicant extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataApplicant')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
-    ..a<int>(2, 'offerId', PbFieldType.O3)
-    ..a<int>(3, 'influencerAccountId', PbFieldType.O3)
+class DataApplicant extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataApplicant',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(2, 'offerId', $pb.PbFieldType.O3)
+    ..a<int>(3, 'influencerAccountId', $pb.PbFieldType.O3)
     ..aInt64(4, 'haggleChatId')
     ..aOB(5, 'businessWantsDeal')
     ..aOB(6, 'influencerWantsDeal')
@@ -1641,13 +1591,18 @@ class DataApplicant extends GeneratedMessage {
     ..aOB(8, 'influencerMarkedRewarded')
     ..aOB(9, 'businessMarkedDelivered')
     ..aOB(10, 'businessMarkedRewarded')
-    ..a<int>(11, 'businessGaveRating', PbFieldType.O3)
-    ..a<int>(12, 'influencerGaveRating', PbFieldType.O3)
-    ..e<ApplicantState>(13, 'state', PbFieldType.OE, ApplicantState.AS_HAGGLING,
-        ApplicantState.valueOf, ApplicantState.values)
+    ..a<int>(11, 'businessGaveRating', $pb.PbFieldType.O3)
+    ..a<int>(12, 'influencerGaveRating', $pb.PbFieldType.O3)
+    ..e<ApplicantState>(
+        13,
+        'state',
+        $pb.PbFieldType.OE,
+        ApplicantState.AS_HAGGLING,
+        ApplicantState.valueOf,
+        ApplicantState.values)
     ..aOB(14, 'businessDisputed')
     ..aOB(15, 'influencerDisputed')
-    ..a<int>(16, 'businessAccountId', PbFieldType.O3)
+    ..a<int>(16, 'businessAccountId', $pb.PbFieldType.O3)
     ..aOS(17, 'influencerName')
     ..aOS(18, 'businessName')
     ..aOS(19, 'offerTitle')
@@ -1655,24 +1610,22 @@ class DataApplicant extends GeneratedMessage {
 
   DataApplicant() : super();
   DataApplicant.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   DataApplicant.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DataApplicant clone() => new DataApplicant()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  DataApplicant copyWith(void Function(DataApplicant) updates) =>
+      super.copyWith((message) => updates(message as DataApplicant));
+  $pb.BuilderInfo get info_ => _i;
   static DataApplicant create() => new DataApplicant();
-  static PbList<DataApplicant> createRepeated() => new PbList<DataApplicant>();
-  static DataApplicant getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDataApplicant();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<DataApplicant> createRepeated() =>
+      new $pb.PbList<DataApplicant>();
+  static DataApplicant getDefault() => _defaultInstance ??= create()..freeze();
   static DataApplicant _defaultInstance;
   static void $checkItem(DataApplicant v) {
-    if (v is! DataApplicant) checkItemFailed(v, 'DataApplicant');
+    if (v is! DataApplicant) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -1828,48 +1781,45 @@ class DataApplicant extends GeneratedMessage {
   void clearOfferTitle() => clearField(19);
 }
 
-class _ReadonlyDataApplicant extends DataApplicant with ReadonlyMessageMixin {}
-
-class DataApplicantChat extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('DataApplicantChat')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
-    ..a<int>(2, 'senderId', PbFieldType.O3)
+class DataApplicantChat extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataApplicantChat',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(2, 'senderId', $pb.PbFieldType.O3)
     ..aOS(5, 'text')
-    ..a<int>(6, 'deviceGhostId', PbFieldType.O3)
+    ..a<int>(6, 'deviceGhostId', $pb.PbFieldType.O3)
     ..aInt64(7, 'chatId')
     ..e<ApplicantChatType>(
         8,
         'type',
-        PbFieldType.OE,
+        $pb.PbFieldType.OE,
         ApplicantChatType.ACT_PLAIN,
         ApplicantChatType.valueOf,
         ApplicantChatType.values)
     ..aInt64(9, 'seen')
     ..aInt64(10, 'sent')
-    ..a<int>(11, 'deviceId', PbFieldType.O3)
+    ..a<int>(11, 'deviceId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataApplicantChat() : super();
   DataApplicantChat.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   DataApplicantChat.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   DataApplicantChat clone() => new DataApplicantChat()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  DataApplicantChat copyWith(void Function(DataApplicantChat) updates) =>
+      super.copyWith((message) => updates(message as DataApplicantChat));
+  $pb.BuilderInfo get info_ => _i;
   static DataApplicantChat create() => new DataApplicantChat();
-  static PbList<DataApplicantChat> createRepeated() =>
-      new PbList<DataApplicantChat>();
-  static DataApplicantChat getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyDataApplicantChat();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<DataApplicantChat> createRepeated() =>
+      new $pb.PbList<DataApplicantChat>();
+  static DataApplicantChat getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static DataApplicantChat _defaultInstance;
   static void $checkItem(DataApplicantChat v) {
-    if (v is! DataApplicantChat) checkItemFailed(v, 'DataApplicantChat');
+    if (v is! DataApplicantChat) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -1945,40 +1895,37 @@ class DataApplicantChat extends GeneratedMessage {
   void clearDeviceId() => clearField(11);
 }
 
-class _ReadonlyDataApplicantChat extends DataApplicantChat
-    with ReadonlyMessageMixin {}
-
-class NetDeviceAuthCreateReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthCreateReq')
-    ..a<List<int>>(1, 'aesKey', PbFieldType.OY)
+class NetDeviceAuthCreateReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'NetDeviceAuthCreateReq',
+      package: const $pb.PackageName('inf'))
+    ..a<List<int>>(1, 'aesKey', $pb.PbFieldType.OY)
     ..aOS(2, 'name')
     ..aOS(3, 'info')
-    ..a<List<int>>(4, 'commonDeviceId', PbFieldType.OY)
+    ..a<List<int>>(4, 'commonDeviceId', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
   NetDeviceAuthCreateReq() : super();
   NetDeviceAuthCreateReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetDeviceAuthCreateReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetDeviceAuthCreateReq clone() =>
       new NetDeviceAuthCreateReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetDeviceAuthCreateReq copyWith(
+          void Function(NetDeviceAuthCreateReq) updates) =>
+      super.copyWith((message) => updates(message as NetDeviceAuthCreateReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetDeviceAuthCreateReq create() => new NetDeviceAuthCreateReq();
-  static PbList<NetDeviceAuthCreateReq> createRepeated() =>
-      new PbList<NetDeviceAuthCreateReq>();
-  static NetDeviceAuthCreateReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetDeviceAuthCreateReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetDeviceAuthCreateReq> createRepeated() =>
+      new $pb.PbList<NetDeviceAuthCreateReq>();
+  static NetDeviceAuthCreateReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetDeviceAuthCreateReq _defaultInstance;
   static void $checkItem(NetDeviceAuthCreateReq v) {
-    if (v is! NetDeviceAuthCreateReq)
-      checkItemFailed(v, 'NetDeviceAuthCreateReq');
+    if (v is! NetDeviceAuthCreateReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<int> get aesKey => $_getN(0);
@@ -2014,37 +1961,35 @@ class NetDeviceAuthCreateReq extends GeneratedMessage {
   void clearCommonDeviceId() => clearField(4);
 }
 
-class _ReadonlyNetDeviceAuthCreateReq extends NetDeviceAuthCreateReq
-    with ReadonlyMessageMixin {}
-
-class NetDeviceAuthChallengeReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthChallengeReq')
-    ..a<int>(1, 'deviceId', PbFieldType.O3)
+class NetDeviceAuthChallengeReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'NetDeviceAuthChallengeReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'deviceId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetDeviceAuthChallengeReq() : super();
   NetDeviceAuthChallengeReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetDeviceAuthChallengeReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetDeviceAuthChallengeReq clone() =>
       new NetDeviceAuthChallengeReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetDeviceAuthChallengeReq copyWith(
+          void Function(NetDeviceAuthChallengeReq) updates) =>
+      super
+          .copyWith((message) => updates(message as NetDeviceAuthChallengeReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetDeviceAuthChallengeReq create() => new NetDeviceAuthChallengeReq();
-  static PbList<NetDeviceAuthChallengeReq> createRepeated() =>
-      new PbList<NetDeviceAuthChallengeReq>();
-  static NetDeviceAuthChallengeReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetDeviceAuthChallengeReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetDeviceAuthChallengeReq> createRepeated() =>
+      new $pb.PbList<NetDeviceAuthChallengeReq>();
+  static NetDeviceAuthChallengeReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetDeviceAuthChallengeReq _defaultInstance;
   static void $checkItem(NetDeviceAuthChallengeReq v) {
-    if (v is! NetDeviceAuthChallengeReq)
-      checkItemFailed(v, 'NetDeviceAuthChallengeReq');
+    if (v is! NetDeviceAuthChallengeReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get deviceId => $_get(0, 0);
@@ -2056,38 +2001,37 @@ class NetDeviceAuthChallengeReq extends GeneratedMessage {
   void clearDeviceId() => clearField(1);
 }
 
-class _ReadonlyNetDeviceAuthChallengeReq extends NetDeviceAuthChallengeReq
-    with ReadonlyMessageMixin {}
-
-class NetDeviceAuthChallengeResReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthChallengeResReq')
-    ..a<List<int>>(1, 'challenge', PbFieldType.OY)
+class NetDeviceAuthChallengeResReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'NetDeviceAuthChallengeResReq',
+      package: const $pb.PackageName('inf'))
+    ..a<List<int>>(1, 'challenge', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
   NetDeviceAuthChallengeResReq() : super();
   NetDeviceAuthChallengeResReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetDeviceAuthChallengeResReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetDeviceAuthChallengeResReq clone() =>
       new NetDeviceAuthChallengeResReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetDeviceAuthChallengeResReq copyWith(
+          void Function(NetDeviceAuthChallengeResReq) updates) =>
+      super.copyWith(
+          (message) => updates(message as NetDeviceAuthChallengeResReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetDeviceAuthChallengeResReq create() =>
       new NetDeviceAuthChallengeResReq();
-  static PbList<NetDeviceAuthChallengeResReq> createRepeated() =>
-      new PbList<NetDeviceAuthChallengeResReq>();
-  static NetDeviceAuthChallengeResReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetDeviceAuthChallengeResReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetDeviceAuthChallengeResReq> createRepeated() =>
+      new $pb.PbList<NetDeviceAuthChallengeResReq>();
+  static NetDeviceAuthChallengeResReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetDeviceAuthChallengeResReq _defaultInstance;
   static void $checkItem(NetDeviceAuthChallengeResReq v) {
     if (v is! NetDeviceAuthChallengeResReq)
-      checkItemFailed(v, 'NetDeviceAuthChallengeResReq');
+      $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<int> get challenge => $_getN(0);
@@ -2099,38 +2043,37 @@ class NetDeviceAuthChallengeResReq extends GeneratedMessage {
   void clearChallenge() => clearField(1);
 }
 
-class _ReadonlyNetDeviceAuthChallengeResReq extends NetDeviceAuthChallengeResReq
-    with ReadonlyMessageMixin {}
-
-class NetDeviceAuthSignatureResReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthSignatureResReq')
-    ..a<List<int>>(1, 'signature', PbFieldType.OY)
+class NetDeviceAuthSignatureResReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'NetDeviceAuthSignatureResReq',
+      package: const $pb.PackageName('inf'))
+    ..a<List<int>>(1, 'signature', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
   NetDeviceAuthSignatureResReq() : super();
   NetDeviceAuthSignatureResReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetDeviceAuthSignatureResReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetDeviceAuthSignatureResReq clone() =>
       new NetDeviceAuthSignatureResReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetDeviceAuthSignatureResReq copyWith(
+          void Function(NetDeviceAuthSignatureResReq) updates) =>
+      super.copyWith(
+          (message) => updates(message as NetDeviceAuthSignatureResReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetDeviceAuthSignatureResReq create() =>
       new NetDeviceAuthSignatureResReq();
-  static PbList<NetDeviceAuthSignatureResReq> createRepeated() =>
-      new PbList<NetDeviceAuthSignatureResReq>();
-  static NetDeviceAuthSignatureResReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetDeviceAuthSignatureResReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetDeviceAuthSignatureResReq> createRepeated() =>
+      new $pb.PbList<NetDeviceAuthSignatureResReq>();
+  static NetDeviceAuthSignatureResReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetDeviceAuthSignatureResReq _defaultInstance;
   static void $checkItem(NetDeviceAuthSignatureResReq v) {
     if (v is! NetDeviceAuthSignatureResReq)
-      checkItemFailed(v, 'NetDeviceAuthSignatureResReq');
+      $pb.checkItemFailed(v, _i.messageName);
   }
 
   List<int> get signature => $_getN(0);
@@ -2142,37 +2085,33 @@ class NetDeviceAuthSignatureResReq extends GeneratedMessage {
   void clearSignature() => clearField(1);
 }
 
-class _ReadonlyNetDeviceAuthSignatureResReq extends NetDeviceAuthSignatureResReq
-    with ReadonlyMessageMixin {}
-
-class NetDeviceAuthState extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetDeviceAuthState')
-    ..a<DataAccount>(
-        8, 'data', PbFieldType.OM, DataAccount.getDefault, DataAccount.create)
+class NetDeviceAuthState extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetDeviceAuthState',
+      package: const $pb.PackageName('inf'))
+    ..a<DataAccount>(8, 'data', $pb.PbFieldType.OM, DataAccount.getDefault,
+        DataAccount.create)
     ..hasRequiredFields = false;
 
   NetDeviceAuthState() : super();
   NetDeviceAuthState.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetDeviceAuthState.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetDeviceAuthState clone() =>
       new NetDeviceAuthState()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetDeviceAuthState copyWith(void Function(NetDeviceAuthState) updates) =>
+      super.copyWith((message) => updates(message as NetDeviceAuthState));
+  $pb.BuilderInfo get info_ => _i;
   static NetDeviceAuthState create() => new NetDeviceAuthState();
-  static PbList<NetDeviceAuthState> createRepeated() =>
-      new PbList<NetDeviceAuthState>();
-  static NetDeviceAuthState getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetDeviceAuthState();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetDeviceAuthState> createRepeated() =>
+      new $pb.PbList<NetDeviceAuthState>();
+  static NetDeviceAuthState getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetDeviceAuthState _defaultInstance;
   static void $checkItem(NetDeviceAuthState v) {
-    if (v is! NetDeviceAuthState) checkItemFailed(v, 'NetDeviceAuthState');
+    if (v is! NetDeviceAuthState) $pb.checkItemFailed(v, _i.messageName);
   }
 
   DataAccount get data => $_getN(0);
@@ -2184,36 +2123,32 @@ class NetDeviceAuthState extends GeneratedMessage {
   void clearData() => clearField(8);
 }
 
-class _ReadonlyNetDeviceAuthState extends NetDeviceAuthState
-    with ReadonlyMessageMixin {}
-
-class NetSetAccountType extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetSetAccountType')
-    ..e<AccountType>(1, 'accountType', PbFieldType.OE, AccountType.AT_UNKNOWN,
-        AccountType.valueOf, AccountType.values)
+class NetSetAccountType extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetAccountType',
+      package: const $pb.PackageName('inf'))
+    ..e<AccountType>(1, 'accountType', $pb.PbFieldType.OE,
+        AccountType.AT_UNKNOWN, AccountType.valueOf, AccountType.values)
     ..hasRequiredFields = false;
 
   NetSetAccountType() : super();
   NetSetAccountType.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetSetAccountType.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetSetAccountType clone() => new NetSetAccountType()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetSetAccountType copyWith(void Function(NetSetAccountType) updates) =>
+      super.copyWith((message) => updates(message as NetSetAccountType));
+  $pb.BuilderInfo get info_ => _i;
   static NetSetAccountType create() => new NetSetAccountType();
-  static PbList<NetSetAccountType> createRepeated() =>
-      new PbList<NetSetAccountType>();
-  static NetSetAccountType getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetSetAccountType();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetSetAccountType> createRepeated() =>
+      new $pb.PbList<NetSetAccountType>();
+  static NetSetAccountType getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetSetAccountType _defaultInstance;
   static void $checkItem(NetSetAccountType v) {
-    if (v is! NetSetAccountType) checkItemFailed(v, 'NetSetAccountType');
+    if (v is! NetSetAccountType) $pb.checkItemFailed(v, _i.messageName);
   }
 
   AccountType get accountType => $_getN(0);
@@ -2225,36 +2160,32 @@ class NetSetAccountType extends GeneratedMessage {
   void clearAccountType() => clearField(1);
 }
 
-class _ReadonlyNetSetAccountType extends NetSetAccountType
-    with ReadonlyMessageMixin {}
-
-class NetSetFirebaseToken extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetSetFirebaseToken')
+class NetSetFirebaseToken extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetFirebaseToken',
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'firebaseToken')
     ..hasRequiredFields = false;
 
   NetSetFirebaseToken() : super();
   NetSetFirebaseToken.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetSetFirebaseToken.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetSetFirebaseToken clone() =>
       new NetSetFirebaseToken()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetSetFirebaseToken copyWith(void Function(NetSetFirebaseToken) updates) =>
+      super.copyWith((message) => updates(message as NetSetFirebaseToken));
+  $pb.BuilderInfo get info_ => _i;
   static NetSetFirebaseToken create() => new NetSetFirebaseToken();
-  static PbList<NetSetFirebaseToken> createRepeated() =>
-      new PbList<NetSetFirebaseToken>();
-  static NetSetFirebaseToken getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetSetFirebaseToken();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetSetFirebaseToken> createRepeated() =>
+      new $pb.PbList<NetSetFirebaseToken>();
+  static NetSetFirebaseToken getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetSetFirebaseToken _defaultInstance;
   static void $checkItem(NetSetFirebaseToken v) {
-    if (v is! NetSetFirebaseToken) checkItemFailed(v, 'NetSetFirebaseToken');
+    if (v is! NetSetFirebaseToken) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get firebaseToken => $_getS(0, '');
@@ -2266,35 +2197,30 @@ class NetSetFirebaseToken extends GeneratedMessage {
   void clearFirebaseToken() => clearField(1);
 }
 
-class _ReadonlyNetSetFirebaseToken extends NetSetFirebaseToken
-    with ReadonlyMessageMixin {}
-
-class NetOAuthUrlReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetOAuthUrlReq')
-    ..a<int>(1, 'oauthProvider', PbFieldType.O3)
+class NetOAuthUrlReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthUrlReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetOAuthUrlReq() : super();
   NetOAuthUrlReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetOAuthUrlReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetOAuthUrlReq clone() => new NetOAuthUrlReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetOAuthUrlReq copyWith(void Function(NetOAuthUrlReq) updates) =>
+      super.copyWith((message) => updates(message as NetOAuthUrlReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetOAuthUrlReq create() => new NetOAuthUrlReq();
-  static PbList<NetOAuthUrlReq> createRepeated() =>
-      new PbList<NetOAuthUrlReq>();
-  static NetOAuthUrlReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetOAuthUrlReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetOAuthUrlReq> createRepeated() =>
+      new $pb.PbList<NetOAuthUrlReq>();
+  static NetOAuthUrlReq getDefault() => _defaultInstance ??= create()..freeze();
   static NetOAuthUrlReq _defaultInstance;
   static void $checkItem(NetOAuthUrlReq v) {
-    if (v is! NetOAuthUrlReq) checkItemFailed(v, 'NetOAuthUrlReq');
+    if (v is! NetOAuthUrlReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get oauthProvider => $_get(0, 0);
@@ -2306,36 +2232,31 @@ class NetOAuthUrlReq extends GeneratedMessage {
   void clearOauthProvider() => clearField(1);
 }
 
-class _ReadonlyNetOAuthUrlReq extends NetOAuthUrlReq with ReadonlyMessageMixin {
-}
-
-class NetOAuthUrlRes extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetOAuthUrlRes')
+class NetOAuthUrlRes extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthUrlRes',
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'authUrl')
     ..aOS(2, 'callbackUrl')
     ..hasRequiredFields = false;
 
   NetOAuthUrlRes() : super();
   NetOAuthUrlRes.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetOAuthUrlRes.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetOAuthUrlRes clone() => new NetOAuthUrlRes()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetOAuthUrlRes copyWith(void Function(NetOAuthUrlRes) updates) =>
+      super.copyWith((message) => updates(message as NetOAuthUrlRes));
+  $pb.BuilderInfo get info_ => _i;
   static NetOAuthUrlRes create() => new NetOAuthUrlRes();
-  static PbList<NetOAuthUrlRes> createRepeated() =>
-      new PbList<NetOAuthUrlRes>();
-  static NetOAuthUrlRes getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetOAuthUrlRes();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetOAuthUrlRes> createRepeated() =>
+      new $pb.PbList<NetOAuthUrlRes>();
+  static NetOAuthUrlRes getDefault() => _defaultInstance ??= create()..freeze();
   static NetOAuthUrlRes _defaultInstance;
   static void $checkItem(NetOAuthUrlRes v) {
-    if (v is! NetOAuthUrlRes) checkItemFailed(v, 'NetOAuthUrlRes');
+    if (v is! NetOAuthUrlRes) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get authUrl => $_getS(0, '');
@@ -2355,37 +2276,33 @@ class NetOAuthUrlRes extends GeneratedMessage {
   void clearCallbackUrl() => clearField(2);
 }
 
-class _ReadonlyNetOAuthUrlRes extends NetOAuthUrlRes with ReadonlyMessageMixin {
-}
-
-class NetOAuthConnectReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetOAuthConnectReq')
-    ..a<int>(1, 'oauthProvider', PbFieldType.O3)
+class NetOAuthConnectReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthConnectReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
     ..aOS(2, 'callbackQuery')
     ..hasRequiredFields = false;
 
   NetOAuthConnectReq() : super();
   NetOAuthConnectReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetOAuthConnectReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetOAuthConnectReq clone() =>
       new NetOAuthConnectReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetOAuthConnectReq copyWith(void Function(NetOAuthConnectReq) updates) =>
+      super.copyWith((message) => updates(message as NetOAuthConnectReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetOAuthConnectReq create() => new NetOAuthConnectReq();
-  static PbList<NetOAuthConnectReq> createRepeated() =>
-      new PbList<NetOAuthConnectReq>();
-  static NetOAuthConnectReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetOAuthConnectReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetOAuthConnectReq> createRepeated() =>
+      new $pb.PbList<NetOAuthConnectReq>();
+  static NetOAuthConnectReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetOAuthConnectReq _defaultInstance;
   static void $checkItem(NetOAuthConnectReq v) {
-    if (v is! NetOAuthConnectReq) checkItemFailed(v, 'NetOAuthConnectReq');
+    if (v is! NetOAuthConnectReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get oauthProvider => $_get(0, 0);
@@ -2405,37 +2322,33 @@ class NetOAuthConnectReq extends GeneratedMessage {
   void clearCallbackQuery() => clearField(2);
 }
 
-class _ReadonlyNetOAuthConnectReq extends NetOAuthConnectReq
-    with ReadonlyMessageMixin {}
-
-class NetOAuthConnectRes extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetOAuthConnectRes')
-    ..a<DataSocialMedia>(1, 'socialMedia', PbFieldType.OM,
+class NetOAuthConnectRes extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthConnectRes',
+      package: const $pb.PackageName('inf'))
+    ..a<DataSocialMedia>(1, 'socialMedia', $pb.PbFieldType.OM,
         DataSocialMedia.getDefault, DataSocialMedia.create)
     ..hasRequiredFields = false;
 
   NetOAuthConnectRes() : super();
   NetOAuthConnectRes.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetOAuthConnectRes.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetOAuthConnectRes clone() =>
       new NetOAuthConnectRes()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetOAuthConnectRes copyWith(void Function(NetOAuthConnectRes) updates) =>
+      super.copyWith((message) => updates(message as NetOAuthConnectRes));
+  $pb.BuilderInfo get info_ => _i;
   static NetOAuthConnectRes create() => new NetOAuthConnectRes();
-  static PbList<NetOAuthConnectRes> createRepeated() =>
-      new PbList<NetOAuthConnectRes>();
-  static NetOAuthConnectRes getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetOAuthConnectRes();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetOAuthConnectRes> createRepeated() =>
+      new $pb.PbList<NetOAuthConnectRes>();
+  static NetOAuthConnectRes getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetOAuthConnectRes _defaultInstance;
   static void $checkItem(NetOAuthConnectRes v) {
-    if (v is! NetOAuthConnectRes) checkItemFailed(v, 'NetOAuthConnectRes');
+    if (v is! NetOAuthConnectRes) $pb.checkItemFailed(v, _i.messageName);
   }
 
   DataSocialMedia get socialMedia => $_getN(0);
@@ -2447,37 +2360,33 @@ class NetOAuthConnectRes extends GeneratedMessage {
   void clearSocialMedia() => clearField(1);
 }
 
-class _ReadonlyNetOAuthConnectRes extends NetOAuthConnectRes
-    with ReadonlyMessageMixin {}
-
-class NetAccountCreateReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetAccountCreateReq')
-    ..a<double>(2, 'latitude', PbFieldType.OD)
-    ..a<double>(3, 'longitude', PbFieldType.OD)
+class NetAccountCreateReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountCreateReq',
+      package: const $pb.PackageName('inf'))
+    ..a<double>(2, 'latitude', $pb.PbFieldType.OD)
+    ..a<double>(3, 'longitude', $pb.PbFieldType.OD)
     ..hasRequiredFields = false;
 
   NetAccountCreateReq() : super();
   NetAccountCreateReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetAccountCreateReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetAccountCreateReq clone() =>
       new NetAccountCreateReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetAccountCreateReq copyWith(void Function(NetAccountCreateReq) updates) =>
+      super.copyWith((message) => updates(message as NetAccountCreateReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetAccountCreateReq create() => new NetAccountCreateReq();
-  static PbList<NetAccountCreateReq> createRepeated() =>
-      new PbList<NetAccountCreateReq>();
-  static NetAccountCreateReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetAccountCreateReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetAccountCreateReq> createRepeated() =>
+      new $pb.PbList<NetAccountCreateReq>();
+  static NetAccountCreateReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetAccountCreateReq _defaultInstance;
   static void $checkItem(NetAccountCreateReq v) {
-    if (v is! NetAccountCreateReq) checkItemFailed(v, 'NetAccountCreateReq');
+    if (v is! NetAccountCreateReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   double get latitude => $_getN(0);
@@ -2497,38 +2406,34 @@ class NetAccountCreateReq extends GeneratedMessage {
   void clearLongitude() => clearField(3);
 }
 
-class _ReadonlyNetAccountCreateReq extends NetAccountCreateReq
-    with ReadonlyMessageMixin {}
-
-class NetUploadImageReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetUploadImageReq')
+class NetUploadImageReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetUploadImageReq',
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'fileName')
-    ..a<int>(2, 'contentLength', PbFieldType.O3)
-    ..a<List<int>>(3, 'contentSha256', PbFieldType.OY)
+    ..a<int>(2, 'contentLength', $pb.PbFieldType.O3)
+    ..a<List<int>>(3, 'contentSha256', $pb.PbFieldType.OY)
     ..aOS(4, 'contentType')
     ..hasRequiredFields = false;
 
   NetUploadImageReq() : super();
   NetUploadImageReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetUploadImageReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetUploadImageReq clone() => new NetUploadImageReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetUploadImageReq copyWith(void Function(NetUploadImageReq) updates) =>
+      super.copyWith((message) => updates(message as NetUploadImageReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetUploadImageReq create() => new NetUploadImageReq();
-  static PbList<NetUploadImageReq> createRepeated() =>
-      new PbList<NetUploadImageReq>();
-  static NetUploadImageReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetUploadImageReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetUploadImageReq> createRepeated() =>
+      new $pb.PbList<NetUploadImageReq>();
+  static NetUploadImageReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetUploadImageReq _defaultInstance;
   static void $checkItem(NetUploadImageReq v) {
-    if (v is! NetUploadImageReq) checkItemFailed(v, 'NetUploadImageReq');
+    if (v is! NetUploadImageReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get fileName => $_getS(0, '');
@@ -2564,11 +2469,9 @@ class NetUploadImageReq extends GeneratedMessage {
   void clearContentType() => clearField(4);
 }
 
-class _ReadonlyNetUploadImageReq extends NetUploadImageReq
-    with ReadonlyMessageMixin {}
-
-class NetUploadImageRes extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetUploadImageRes')
+class NetUploadImageRes extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetUploadImageRes',
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'requestMethod')
     ..aOS(2, 'requestUrl')
     ..aOB(9, 'fileExists')
@@ -2579,25 +2482,23 @@ class NetUploadImageRes extends GeneratedMessage {
 
   NetUploadImageRes() : super();
   NetUploadImageRes.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetUploadImageRes.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetUploadImageRes clone() => new NetUploadImageRes()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetUploadImageRes copyWith(void Function(NetUploadImageRes) updates) =>
+      super.copyWith((message) => updates(message as NetUploadImageRes));
+  $pb.BuilderInfo get info_ => _i;
   static NetUploadImageRes create() => new NetUploadImageRes();
-  static PbList<NetUploadImageRes> createRepeated() =>
-      new PbList<NetUploadImageRes>();
-  static NetUploadImageRes getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetUploadImageRes();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetUploadImageRes> createRepeated() =>
+      new $pb.PbList<NetUploadImageRes>();
+  static NetUploadImageRes getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetUploadImageRes _defaultInstance;
   static void $checkItem(NetUploadImageRes v) {
-    if (v is! NetUploadImageRes) checkItemFailed(v, 'NetUploadImageRes');
+    if (v is! NetUploadImageRes) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get requestMethod => $_getS(0, '');
@@ -2649,41 +2550,37 @@ class NetUploadImageRes extends GeneratedMessage {
   void clearThumbnailUrl() => clearField(12);
 }
 
-class _ReadonlyNetUploadImageRes extends NetUploadImageRes
-    with ReadonlyMessageMixin {}
-
-class NetSetProfile extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetSetProfile')
+class NetSetProfile extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetProfile',
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'name')
     ..aOS(2, 'description')
     ..aOS(4, 'avatarKey')
     ..aOS(6, 'url')
-    ..pp<CategoryId>(12, 'categories', PbFieldType.PM, CategoryId.$checkItem,
-        CategoryId.create)
-    ..a<double>(14, 'latitude', PbFieldType.OD)
-    ..a<double>(15, 'longitude', PbFieldType.OD)
+    ..pp<CategoryId>(12, 'categories', $pb.PbFieldType.PM,
+        CategoryId.$checkItem, CategoryId.create)
+    ..a<double>(14, 'latitude', $pb.PbFieldType.OD)
+    ..a<double>(15, 'longitude', $pb.PbFieldType.OD)
     ..hasRequiredFields = false;
 
   NetSetProfile() : super();
   NetSetProfile.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetSetProfile.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetSetProfile clone() => new NetSetProfile()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetSetProfile copyWith(void Function(NetSetProfile) updates) =>
+      super.copyWith((message) => updates(message as NetSetProfile));
+  $pb.BuilderInfo get info_ => _i;
   static NetSetProfile create() => new NetSetProfile();
-  static PbList<NetSetProfile> createRepeated() => new PbList<NetSetProfile>();
-  static NetSetProfile getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetSetProfile();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetSetProfile> createRepeated() =>
+      new $pb.PbList<NetSetProfile>();
+  static NetSetProfile getDefault() => _defaultInstance ??= create()..freeze();
   static NetSetProfile _defaultInstance;
   static void $checkItem(NetSetProfile v) {
-    if (v is! NetSetProfile) checkItemFailed(v, 'NetSetProfile');
+    if (v is! NetSetProfile) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get name => $_getS(0, '');
@@ -2737,39 +2634,36 @@ class NetSetProfile extends GeneratedMessage {
   void clearLongitude() => clearField(15);
 }
 
-class _ReadonlyNetSetProfile extends NetSetProfile with ReadonlyMessageMixin {}
-
-class NetCreateOfferReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetCreateOfferReq')
+class NetCreateOfferReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetCreateOfferReq',
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'title')
     ..pPS(2, 'imageKeys')
     ..aOS(3, 'description')
     ..aOS(4, 'deliverables')
     ..aOS(5, 'reward')
-    ..a<int>(6, 'locationId', PbFieldType.O3)
+    ..a<int>(6, 'locationId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetCreateOfferReq() : super();
   NetCreateOfferReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetCreateOfferReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetCreateOfferReq clone() => new NetCreateOfferReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetCreateOfferReq copyWith(void Function(NetCreateOfferReq) updates) =>
+      super.copyWith((message) => updates(message as NetCreateOfferReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetCreateOfferReq create() => new NetCreateOfferReq();
-  static PbList<NetCreateOfferReq> createRepeated() =>
-      new PbList<NetCreateOfferReq>();
-  static NetCreateOfferReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetCreateOfferReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetCreateOfferReq> createRepeated() =>
+      new $pb.PbList<NetCreateOfferReq>();
+  static NetCreateOfferReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetCreateOfferReq _defaultInstance;
   static void $checkItem(NetCreateOfferReq v) {
-    if (v is! NetCreateOfferReq) checkItemFailed(v, 'NetCreateOfferReq');
+    if (v is! NetCreateOfferReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   String get title => $_getS(0, '');
@@ -2815,37 +2709,33 @@ class NetCreateOfferReq extends GeneratedMessage {
   void clearLocationId() => clearField(6);
 }
 
-class _ReadonlyNetCreateOfferReq extends NetCreateOfferReq
-    with ReadonlyMessageMixin {}
-
-class NetLoadOffersReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadOffersReq')
-    ..a<int>(1, 'before', PbFieldType.O3)
-    ..a<int>(2, 'after', PbFieldType.O3)
-    ..a<int>(3, 'limit', PbFieldType.O3)
+class NetLoadOffersReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadOffersReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'before', $pb.PbFieldType.O3)
+    ..a<int>(2, 'after', $pb.PbFieldType.O3)
+    ..a<int>(3, 'limit', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetLoadOffersReq() : super();
   NetLoadOffersReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetLoadOffersReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetLoadOffersReq clone() => new NetLoadOffersReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetLoadOffersReq copyWith(void Function(NetLoadOffersReq) updates) =>
+      super.copyWith((message) => updates(message as NetLoadOffersReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetLoadOffersReq create() => new NetLoadOffersReq();
-  static PbList<NetLoadOffersReq> createRepeated() =>
-      new PbList<NetLoadOffersReq>();
-  static NetLoadOffersReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadOffersReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetLoadOffersReq> createRepeated() =>
+      new $pb.PbList<NetLoadOffersReq>();
+  static NetLoadOffersReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetLoadOffersReq _defaultInstance;
   static void $checkItem(NetLoadOffersReq v) {
-    if (v is! NetLoadOffersReq) checkItemFailed(v, 'NetLoadOffersReq');
+    if (v is! NetLoadOffersReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get before => $_get(0, 0);
@@ -2873,36 +2763,32 @@ class NetLoadOffersReq extends GeneratedMessage {
   void clearLimit() => clearField(3);
 }
 
-class _ReadonlyNetLoadOffersReq extends NetLoadOffersReq
-    with ReadonlyMessageMixin {}
-
-class NetLoadOffersRes extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadOffersRes')
-    ..a<int>(1, 'oldest', PbFieldType.O3)
-    ..a<int>(2, 'newest', PbFieldType.O3)
+class NetLoadOffersRes extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadOffersRes',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'oldest', $pb.PbFieldType.O3)
+    ..a<int>(2, 'newest', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetLoadOffersRes() : super();
   NetLoadOffersRes.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetLoadOffersRes.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetLoadOffersRes clone() => new NetLoadOffersRes()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetLoadOffersRes copyWith(void Function(NetLoadOffersRes) updates) =>
+      super.copyWith((message) => updates(message as NetLoadOffersRes));
+  $pb.BuilderInfo get info_ => _i;
   static NetLoadOffersRes create() => new NetLoadOffersRes();
-  static PbList<NetLoadOffersRes> createRepeated() =>
-      new PbList<NetLoadOffersRes>();
-  static NetLoadOffersRes getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadOffersRes();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetLoadOffersRes> createRepeated() =>
+      new $pb.PbList<NetLoadOffersRes>();
+  static NetLoadOffersRes getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetLoadOffersRes _defaultInstance;
   static void $checkItem(NetLoadOffersRes v) {
-    if (v is! NetLoadOffersRes) checkItemFailed(v, 'NetLoadOffersRes');
+    if (v is! NetLoadOffersRes) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get oldest => $_get(0, 0);
@@ -2922,37 +2808,33 @@ class NetLoadOffersRes extends GeneratedMessage {
   void clearNewest() => clearField(2);
 }
 
-class _ReadonlyNetLoadOffersRes extends NetLoadOffersRes
-    with ReadonlyMessageMixin {}
-
-class NetOfferApplyReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetOfferApplyReq')
-    ..a<int>(1, 'offerId', PbFieldType.O3)
+class NetOfferApplyReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOfferApplyReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'offerId', $pb.PbFieldType.O3)
     ..aOS(2, 'remarks')
-    ..a<int>(8, 'deviceGhostId', PbFieldType.O3)
+    ..a<int>(8, 'deviceGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetOfferApplyReq() : super();
   NetOfferApplyReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetOfferApplyReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetOfferApplyReq clone() => new NetOfferApplyReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetOfferApplyReq copyWith(void Function(NetOfferApplyReq) updates) =>
+      super.copyWith((message) => updates(message as NetOfferApplyReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetOfferApplyReq create() => new NetOfferApplyReq();
-  static PbList<NetOfferApplyReq> createRepeated() =>
-      new PbList<NetOfferApplyReq>();
-  static NetOfferApplyReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetOfferApplyReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetOfferApplyReq> createRepeated() =>
+      new $pb.PbList<NetOfferApplyReq>();
+  static NetOfferApplyReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetOfferApplyReq _defaultInstance;
   static void $checkItem(NetOfferApplyReq v) {
-    if (v is! NetOfferApplyReq) checkItemFailed(v, 'NetOfferApplyReq');
+    if (v is! NetOfferApplyReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get offerId => $_get(0, 0);
@@ -2980,39 +2862,35 @@ class NetOfferApplyReq extends GeneratedMessage {
   void clearDeviceGhostId() => clearField(8);
 }
 
-class _ReadonlyNetOfferApplyReq extends NetOfferApplyReq
-    with ReadonlyMessageMixin {}
-
-class NetLoadApplicantsReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantsReq')
-    ..a<int>(1, 'before', PbFieldType.O3)
-    ..a<int>(2, 'after', PbFieldType.O3)
-    ..a<int>(3, 'limit', PbFieldType.O3)
-    ..a<int>(4, 'offerId', PbFieldType.O3)
+class NetLoadApplicantsReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadApplicantsReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'before', $pb.PbFieldType.O3)
+    ..a<int>(2, 'after', $pb.PbFieldType.O3)
+    ..a<int>(3, 'limit', $pb.PbFieldType.O3)
+    ..a<int>(4, 'offerId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetLoadApplicantsReq() : super();
   NetLoadApplicantsReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetLoadApplicantsReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetLoadApplicantsReq clone() =>
       new NetLoadApplicantsReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetLoadApplicantsReq copyWith(void Function(NetLoadApplicantsReq) updates) =>
+      super.copyWith((message) => updates(message as NetLoadApplicantsReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetLoadApplicantsReq create() => new NetLoadApplicantsReq();
-  static PbList<NetLoadApplicantsReq> createRepeated() =>
-      new PbList<NetLoadApplicantsReq>();
-  static NetLoadApplicantsReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadApplicantsReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetLoadApplicantsReq> createRepeated() =>
+      new $pb.PbList<NetLoadApplicantsReq>();
+  static NetLoadApplicantsReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetLoadApplicantsReq _defaultInstance;
   static void $checkItem(NetLoadApplicantsReq v) {
-    if (v is! NetLoadApplicantsReq) checkItemFailed(v, 'NetLoadApplicantsReq');
+    if (v is! NetLoadApplicantsReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get before => $_get(0, 0);
@@ -3048,36 +2926,32 @@ class NetLoadApplicantsReq extends GeneratedMessage {
   void clearOfferId() => clearField(4);
 }
 
-class _ReadonlyNetLoadApplicantsReq extends NetLoadApplicantsReq
-    with ReadonlyMessageMixin {}
-
-class NetLoadApplicantReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantReq')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
+class NetLoadApplicantReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadApplicantReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetLoadApplicantReq() : super();
   NetLoadApplicantReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetLoadApplicantReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetLoadApplicantReq clone() =>
       new NetLoadApplicantReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetLoadApplicantReq copyWith(void Function(NetLoadApplicantReq) updates) =>
+      super.copyWith((message) => updates(message as NetLoadApplicantReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetLoadApplicantReq create() => new NetLoadApplicantReq();
-  static PbList<NetLoadApplicantReq> createRepeated() =>
-      new PbList<NetLoadApplicantReq>();
-  static NetLoadApplicantReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadApplicantReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetLoadApplicantReq> createRepeated() =>
+      new $pb.PbList<NetLoadApplicantReq>();
+  static NetLoadApplicantReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetLoadApplicantReq _defaultInstance;
   static void $checkItem(NetLoadApplicantReq v) {
-    if (v is! NetLoadApplicantReq) checkItemFailed(v, 'NetLoadApplicantReq');
+    if (v is! NetLoadApplicantReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -3089,40 +2963,37 @@ class NetLoadApplicantReq extends GeneratedMessage {
   void clearApplicantId() => clearField(1);
 }
 
-class _ReadonlyNetLoadApplicantReq extends NetLoadApplicantReq
-    with ReadonlyMessageMixin {}
-
-class NetLoadApplicantChatsReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadApplicantChatsReq')
-    ..a<int>(1, 'before', PbFieldType.O3)
-    ..a<int>(2, 'after', PbFieldType.O3)
-    ..a<int>(3, 'limit', PbFieldType.O3)
-    ..a<int>(5, 'applicantId', PbFieldType.O3)
+class NetLoadApplicantChatsReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'NetLoadApplicantChatsReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'before', $pb.PbFieldType.O3)
+    ..a<int>(2, 'after', $pb.PbFieldType.O3)
+    ..a<int>(3, 'limit', $pb.PbFieldType.O3)
+    ..a<int>(5, 'applicantId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetLoadApplicantChatsReq() : super();
   NetLoadApplicantChatsReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetLoadApplicantChatsReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetLoadApplicantChatsReq clone() =>
       new NetLoadApplicantChatsReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetLoadApplicantChatsReq copyWith(
+          void Function(NetLoadApplicantChatsReq) updates) =>
+      super.copyWith((message) => updates(message as NetLoadApplicantChatsReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetLoadApplicantChatsReq create() => new NetLoadApplicantChatsReq();
-  static PbList<NetLoadApplicantChatsReq> createRepeated() =>
-      new PbList<NetLoadApplicantChatsReq>();
-  static NetLoadApplicantChatsReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadApplicantChatsReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetLoadApplicantChatsReq> createRepeated() =>
+      new $pb.PbList<NetLoadApplicantChatsReq>();
+  static NetLoadApplicantChatsReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetLoadApplicantChatsReq _defaultInstance;
   static void $checkItem(NetLoadApplicantChatsReq v) {
-    if (v is! NetLoadApplicantChatsReq)
-      checkItemFailed(v, 'NetLoadApplicantChatsReq');
+    if (v is! NetLoadApplicantChatsReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get before => $_get(0, 0);
@@ -3158,36 +3029,32 @@ class NetLoadApplicantChatsReq extends GeneratedMessage {
   void clearApplicantId() => clearField(5);
 }
 
-class _ReadonlyNetLoadApplicantChatsReq extends NetLoadApplicantChatsReq
-    with ReadonlyMessageMixin {}
-
-class NetChatPlain extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetChatPlain')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
-    ..aOS(6, 'text')
-    ..a<int>(8, 'deviceGhostId', PbFieldType.O3)
-    ..hasRequiredFields = false;
+class NetChatPlain extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetChatPlain', package: const $pb.PackageName('inf'))
+        ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+        ..aOS(6, 'text')
+        ..a<int>(8, 'deviceGhostId', $pb.PbFieldType.O3)
+        ..hasRequiredFields = false;
 
   NetChatPlain() : super();
   NetChatPlain.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetChatPlain.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetChatPlain clone() => new NetChatPlain()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetChatPlain copyWith(void Function(NetChatPlain) updates) =>
+      super.copyWith((message) => updates(message as NetChatPlain));
+  $pb.BuilderInfo get info_ => _i;
   static NetChatPlain create() => new NetChatPlain();
-  static PbList<NetChatPlain> createRepeated() => new PbList<NetChatPlain>();
-  static NetChatPlain getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetChatPlain();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetChatPlain> createRepeated() =>
+      new $pb.PbList<NetChatPlain>();
+  static NetChatPlain getDefault() => _defaultInstance ??= create()..freeze();
   static NetChatPlain _defaultInstance;
   static void $checkItem(NetChatPlain v) {
-    if (v is! NetChatPlain) checkItemFailed(v, 'NetChatPlain');
+    if (v is! NetChatPlain) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -3215,37 +3082,34 @@ class NetChatPlain extends GeneratedMessage {
   void clearDeviceGhostId() => clearField(8);
 }
 
-class _ReadonlyNetChatPlain extends NetChatPlain with ReadonlyMessageMixin {}
-
-class NetChatHaggle extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetChatHaggle')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
+class NetChatHaggle extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatHaggle',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
     ..aOS(2, 'remarks')
     ..aOS(3, 'deliverables')
     ..aOS(4, 'reward')
-    ..a<int>(8, 'deviceGhostId', PbFieldType.O3)
+    ..a<int>(8, 'deviceGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetChatHaggle() : super();
   NetChatHaggle.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetChatHaggle.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetChatHaggle clone() => new NetChatHaggle()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetChatHaggle copyWith(void Function(NetChatHaggle) updates) =>
+      super.copyWith((message) => updates(message as NetChatHaggle));
+  $pb.BuilderInfo get info_ => _i;
   static NetChatHaggle create() => new NetChatHaggle();
-  static PbList<NetChatHaggle> createRepeated() => new PbList<NetChatHaggle>();
-  static NetChatHaggle getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetChatHaggle();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetChatHaggle> createRepeated() =>
+      new $pb.PbList<NetChatHaggle>();
+  static NetChatHaggle getDefault() => _defaultInstance ??= create()..freeze();
   static NetChatHaggle _defaultInstance;
   static void $checkItem(NetChatHaggle v) {
-    if (v is! NetChatHaggle) checkItemFailed(v, 'NetChatHaggle');
+    if (v is! NetChatHaggle) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -3289,36 +3153,33 @@ class NetChatHaggle extends GeneratedMessage {
   void clearDeviceGhostId() => clearField(8);
 }
 
-class _ReadonlyNetChatHaggle extends NetChatHaggle with ReadonlyMessageMixin {}
-
-class NetChatImageKey extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetChatImageKey')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
+class NetChatImageKey extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatImageKey',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
     ..aOS(5, 'imageKey')
-    ..a<int>(8, 'deviceGhostId', PbFieldType.O3)
+    ..a<int>(8, 'deviceGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetChatImageKey() : super();
   NetChatImageKey.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetChatImageKey.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetChatImageKey clone() => new NetChatImageKey()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetChatImageKey copyWith(void Function(NetChatImageKey) updates) =>
+      super.copyWith((message) => updates(message as NetChatImageKey));
+  $pb.BuilderInfo get info_ => _i;
   static NetChatImageKey create() => new NetChatImageKey();
-  static PbList<NetChatImageKey> createRepeated() =>
-      new PbList<NetChatImageKey>();
-  static NetChatImageKey getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetChatImageKey();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetChatImageKey> createRepeated() =>
+      new $pb.PbList<NetChatImageKey>();
+  static NetChatImageKey getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetChatImageKey _defaultInstance;
   static void $checkItem(NetChatImageKey v) {
-    if (v is! NetChatImageKey) checkItemFailed(v, 'NetChatImageKey');
+    if (v is! NetChatImageKey) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -3346,38 +3207,35 @@ class NetChatImageKey extends GeneratedMessage {
   void clearDeviceGhostId() => clearField(8);
 }
 
-class _ReadonlyNetChatImageKey extends NetChatImageKey
-    with ReadonlyMessageMixin {}
-
-class NetApplicantWantDealReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetApplicantWantDealReq')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
+class NetApplicantWantDealReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'NetApplicantWantDealReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
     ..aInt64(2, 'haggleChatId')
     ..hasRequiredFields = false;
 
   NetApplicantWantDealReq() : super();
   NetApplicantWantDealReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetApplicantWantDealReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetApplicantWantDealReq clone() =>
       new NetApplicantWantDealReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetApplicantWantDealReq copyWith(
+          void Function(NetApplicantWantDealReq) updates) =>
+      super.copyWith((message) => updates(message as NetApplicantWantDealReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetApplicantWantDealReq create() => new NetApplicantWantDealReq();
-  static PbList<NetApplicantWantDealReq> createRepeated() =>
-      new PbList<NetApplicantWantDealReq>();
-  static NetApplicantWantDealReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetApplicantWantDealReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetApplicantWantDealReq> createRepeated() =>
+      new $pb.PbList<NetApplicantWantDealReq>();
+  static NetApplicantWantDealReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetApplicantWantDealReq _defaultInstance;
   static void $checkItem(NetApplicantWantDealReq v) {
-    if (v is! NetApplicantWantDealReq)
-      checkItemFailed(v, 'NetApplicantWantDealReq');
+    if (v is! NetApplicantWantDealReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -3397,38 +3255,34 @@ class NetApplicantWantDealReq extends GeneratedMessage {
   void clearHaggleChatId() => clearField(2);
 }
 
-class _ReadonlyNetApplicantWantDealReq extends NetApplicantWantDealReq
-    with ReadonlyMessageMixin {}
-
-class NetApplicantRejectReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetApplicantRejectReq')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
+class NetApplicantRejectReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetApplicantRejectReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
     ..aOS(2, 'reason')
     ..hasRequiredFields = false;
 
   NetApplicantRejectReq() : super();
   NetApplicantRejectReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetApplicantRejectReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetApplicantRejectReq clone() =>
       new NetApplicantRejectReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetApplicantRejectReq copyWith(
+          void Function(NetApplicantRejectReq) updates) =>
+      super.copyWith((message) => updates(message as NetApplicantRejectReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetApplicantRejectReq create() => new NetApplicantRejectReq();
-  static PbList<NetApplicantRejectReq> createRepeated() =>
-      new PbList<NetApplicantRejectReq>();
-  static NetApplicantRejectReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetApplicantRejectReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetApplicantRejectReq> createRepeated() =>
+      new $pb.PbList<NetApplicantRejectReq>();
+  static NetApplicantRejectReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetApplicantRejectReq _defaultInstance;
   static void $checkItem(NetApplicantRejectReq v) {
-    if (v is! NetApplicantRejectReq)
-      checkItemFailed(v, 'NetApplicantRejectReq');
+    if (v is! NetApplicantRejectReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -3448,38 +3302,34 @@ class NetApplicantRejectReq extends GeneratedMessage {
   void clearReason() => clearField(2);
 }
 
-class _ReadonlyNetApplicantRejectReq extends NetApplicantRejectReq
-    with ReadonlyMessageMixin {}
-
-class NetApplicantReportReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetApplicantReportReq')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
+class NetApplicantReportReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetApplicantReportReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
     ..aOS(2, 'text')
     ..hasRequiredFields = false;
 
   NetApplicantReportReq() : super();
   NetApplicantReportReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetApplicantReportReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetApplicantReportReq clone() =>
       new NetApplicantReportReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetApplicantReportReq copyWith(
+          void Function(NetApplicantReportReq) updates) =>
+      super.copyWith((message) => updates(message as NetApplicantReportReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetApplicantReportReq create() => new NetApplicantReportReq();
-  static PbList<NetApplicantReportReq> createRepeated() =>
-      new PbList<NetApplicantReportReq>();
-  static NetApplicantReportReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetApplicantReportReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetApplicantReportReq> createRepeated() =>
+      new $pb.PbList<NetApplicantReportReq>();
+  static NetApplicantReportReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetApplicantReportReq _defaultInstance;
   static void $checkItem(NetApplicantReportReq v) {
-    if (v is! NetApplicantReportReq)
-      checkItemFailed(v, 'NetApplicantReportReq');
+    if (v is! NetApplicantReportReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -3499,42 +3349,40 @@ class NetApplicantReportReq extends GeneratedMessage {
   void clearText() => clearField(2);
 }
 
-class _ReadonlyNetApplicantReportReq extends NetApplicantReportReq
-    with ReadonlyMessageMixin {}
-
-class NetApplicantCompletionReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetApplicantCompletionReq')
-    ..a<int>(1, 'applicantId', PbFieldType.O3)
+class NetApplicantCompletionReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'NetApplicantCompletionReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
     ..aOB(2, 'delivered')
     ..aOB(3, 'rewarded')
-    ..a<int>(4, 'rating', PbFieldType.O3)
+    ..a<int>(4, 'rating', $pb.PbFieldType.O3)
     ..aOB(5, 'dispute')
     ..aOS(6, 'disputeDescription')
     ..hasRequiredFields = false;
 
   NetApplicantCompletionReq() : super();
   NetApplicantCompletionReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetApplicantCompletionReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetApplicantCompletionReq clone() =>
       new NetApplicantCompletionReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetApplicantCompletionReq copyWith(
+          void Function(NetApplicantCompletionReq) updates) =>
+      super
+          .copyWith((message) => updates(message as NetApplicantCompletionReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetApplicantCompletionReq create() => new NetApplicantCompletionReq();
-  static PbList<NetApplicantCompletionReq> createRepeated() =>
-      new PbList<NetApplicantCompletionReq>();
-  static NetApplicantCompletionReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetApplicantCompletionReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetApplicantCompletionReq> createRepeated() =>
+      new $pb.PbList<NetApplicantCompletionReq>();
+  static NetApplicantCompletionReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetApplicantCompletionReq _defaultInstance;
   static void $checkItem(NetApplicantCompletionReq v) {
-    if (v is! NetApplicantCompletionReq)
-      checkItemFailed(v, 'NetApplicantCompletionReq');
+    if (v is! NetApplicantCompletionReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -3586,40 +3434,36 @@ class NetApplicantCompletionReq extends GeneratedMessage {
   void clearDisputeDescription() => clearField(6);
 }
 
-class _ReadonlyNetApplicantCompletionReq extends NetApplicantCompletionReq
-    with ReadonlyMessageMixin {}
-
-class NetApplicantCommonRes extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetApplicantCommonRes')
-    ..a<DataApplicant>(1, 'updateApplicant', PbFieldType.OM,
+class NetApplicantCommonRes extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetApplicantCommonRes',
+      package: const $pb.PackageName('inf'))
+    ..a<DataApplicant>(1, 'updateApplicant', $pb.PbFieldType.OM,
         DataApplicant.getDefault, DataApplicant.create)
-    ..pp<DataApplicantChat>(2, 'newChats', PbFieldType.PM,
+    ..pp<DataApplicantChat>(2, 'newChats', $pb.PbFieldType.PM,
         DataApplicantChat.$checkItem, DataApplicantChat.create)
     ..hasRequiredFields = false;
 
   NetApplicantCommonRes() : super();
   NetApplicantCommonRes.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetApplicantCommonRes.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetApplicantCommonRes clone() =>
       new NetApplicantCommonRes()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetApplicantCommonRes copyWith(
+          void Function(NetApplicantCommonRes) updates) =>
+      super.copyWith((message) => updates(message as NetApplicantCommonRes));
+  $pb.BuilderInfo get info_ => _i;
   static NetApplicantCommonRes create() => new NetApplicantCommonRes();
-  static PbList<NetApplicantCommonRes> createRepeated() =>
-      new PbList<NetApplicantCommonRes>();
-  static NetApplicantCommonRes getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetApplicantCommonRes();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetApplicantCommonRes> createRepeated() =>
+      new $pb.PbList<NetApplicantCommonRes>();
+  static NetApplicantCommonRes getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetApplicantCommonRes _defaultInstance;
   static void $checkItem(NetApplicantCommonRes v) {
-    if (v is! NetApplicantCommonRes)
-      checkItemFailed(v, 'NetApplicantCommonRes');
+    if (v is! NetApplicantCommonRes) $pb.checkItemFailed(v, _i.messageName);
   }
 
   DataApplicant get updateApplicant => $_getN(0);
@@ -3633,37 +3477,34 @@ class NetApplicantCommonRes extends GeneratedMessage {
   List<DataApplicantChat> get newChats => $_getList(1);
 }
 
-class _ReadonlyNetApplicantCommonRes extends NetApplicantCommonRes
-    with ReadonlyMessageMixin {}
-
-class NetLoadPublicProfileReq extends GeneratedMessage {
-  static final BuilderInfo _i = new BuilderInfo('NetLoadPublicProfileReq')
-    ..a<int>(1, 'accountId', PbFieldType.O3)
+class NetLoadPublicProfileReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'NetLoadPublicProfileReq',
+      package: const $pb.PackageName('inf'))
+    ..a<int>(1, 'accountId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetLoadPublicProfileReq() : super();
   NetLoadPublicProfileReq.fromBuffer(List<int> i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
   NetLoadPublicProfileReq.fromJson(String i,
-      [ExtensionRegistry r = ExtensionRegistry.EMPTY])
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
   NetLoadPublicProfileReq clone() =>
       new NetLoadPublicProfileReq()..mergeFromMessage(this);
-  BuilderInfo get info_ => _i;
+  NetLoadPublicProfileReq copyWith(
+          void Function(NetLoadPublicProfileReq) updates) =>
+      super.copyWith((message) => updates(message as NetLoadPublicProfileReq));
+  $pb.BuilderInfo get info_ => _i;
   static NetLoadPublicProfileReq create() => new NetLoadPublicProfileReq();
-  static PbList<NetLoadPublicProfileReq> createRepeated() =>
-      new PbList<NetLoadPublicProfileReq>();
-  static NetLoadPublicProfileReq getDefault() {
-    if (_defaultInstance == null)
-      _defaultInstance = new _ReadonlyNetLoadPublicProfileReq();
-    return _defaultInstance;
-  }
-
+  static $pb.PbList<NetLoadPublicProfileReq> createRepeated() =>
+      new $pb.PbList<NetLoadPublicProfileReq>();
+  static NetLoadPublicProfileReq getDefault() =>
+      _defaultInstance ??= create()..freeze();
   static NetLoadPublicProfileReq _defaultInstance;
   static void $checkItem(NetLoadPublicProfileReq v) {
-    if (v is! NetLoadPublicProfileReq)
-      checkItemFailed(v, 'NetLoadPublicProfileReq');
+    if (v is! NetLoadPublicProfileReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get accountId => $_get(0, 0);
@@ -3674,6 +3515,3 @@ class NetLoadPublicProfileReq extends GeneratedMessage {
   bool hasAccountId() => $_has(0);
   void clearAccountId() => clearField(1);
 }
-
-class _ReadonlyNetLoadPublicProfileReq extends NetLoadPublicProfileReq
-    with ReadonlyMessageMixin {}
