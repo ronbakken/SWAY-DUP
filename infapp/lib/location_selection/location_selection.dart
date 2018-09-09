@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:geolocator/geolocator.dart';
 
 typedef void SearchCallback(String searchQuery);
 typedef void ConfirmLocationCallback(LatLng locationCoordinates);
@@ -45,6 +47,9 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   MapController _flutterMapController;
   FlutterMap flutterMap;
 
+  // Geolocation for getting position name on map
+  Geolocator _geolocator;
+
   @override
   void initState() {
     // Initialize the Parent
@@ -61,9 +66,9 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
     // Initializer Marker
     marker = new Marker(
-      point: new LatLng(14.5438, 121.0115),
+      point: new LatLng(14.541530587952687, 121.01074919533015),
       builder: (ctx) => new Container(
-            child: new Icon(Icons.check),
+            child: new Icon(Icons.location_on),
           ),
     );
 
@@ -89,7 +94,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     _flutterMapController = new MapController();
     flutterMap = new FlutterMap(
       options: new MapOptions(
-        center: new LatLng(14.5438, 121.0115),
+        center: new LatLng(14.541530587952687, 121.01074919533015),
       ),
       mapController: _flutterMapController,
       layers: <LayerOptions>[
@@ -111,6 +116,9 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
         ),
       ],
     );
+
+    // Initialize Geolocator
+    _geolocator = new Geolocator();
   }
 
   @override
