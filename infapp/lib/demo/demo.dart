@@ -614,16 +614,21 @@ class _DemoHomePageState extends State<DemoHomePage> {
             onPressed: () {
               demoAccount.state.accountType = AccountType.AT_BUSINESS;
               transitionPage(
-                  context,
-                  new LocationSelectionScreen(
-                    onConfirmPressed: (coordinates) {
-                      print(coordinates);
-              
-                    },
-                    onSearchPressed: (query) {
-                      print(query);
-                    },
-                  ));
+                context,
+                new LocationSelectionScreen(
+                  onConfirmPressed: (coordinates) {
+                    print(coordinates);
+                  },
+                  onSearchPressed: (query) {
+                    transitionPage(
+                      context,
+                      new LocationSearchScreen(
+                        searchQuery: query,
+                      ),
+                    );
+                  },
+                )
+              );
             },
           ),
           new FlatButton(
