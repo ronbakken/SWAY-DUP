@@ -29,6 +29,20 @@ class _CoordinatesToAddressState extends State<CoordinatesToAddress> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Column(
+      children: <Widget>[
+        new TextField(
+          decoration: new InputDecoration(hintText: "latitude,longitude"),
+          controller: _coordinatesTextController,
+        ),
+        new RaisedButton(
+          child: new Text('Look up...'),
+          onPressed: () {
+            _onLookupAddressPressed();
+          },
+        ),
+        new Text(_placemark),
+      ],
+    );
   }
 }
