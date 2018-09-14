@@ -149,14 +149,47 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     // Update the selected placemark
     _selectedPlacemark = placemarks[0];
 
-     // Update Address
-    _placeMarkAddress = _selectedPlacemark.thoroughfare + ", " +
-                        _selectedPlacemark.locality + ", " + 
-                        _selectedPlacemark.administrativeArea + ", " +
-                        _selectedPlacemark.country + ", " +
-                        _selectedPlacemark.postalCode;
+    _composeAddress();
 
     _searchFieldController.text = _placeMarkAddress;
+  }
+
+  void _composeAddress()
+  {
+    // Update Address
+    _placeMarkAddress = "";
+    if ( _selectedPlacemark.thoroughfare != "")
+    {
+      _placeMarkAddress += _selectedPlacemark.thoroughfare + ", ";
+    }
+     if ( _selectedPlacemark.subThoroughfare != "")
+    {
+      _placeMarkAddress += _selectedPlacemark.subThoroughfare + ", ";
+    }
+    if ( _selectedPlacemark.locality != "")
+    {
+      _placeMarkAddress += _selectedPlacemark.locality + ", ";
+    }
+     if ( _selectedPlacemark.subLocality != "")
+    {
+      _placeMarkAddress += _selectedPlacemark.subLocality + ", ";
+    }
+    if ( _selectedPlacemark.administrativeArea != "")
+    {
+      _placeMarkAddress += _selectedPlacemark.administrativeArea + ", ";
+    }
+    if ( _selectedPlacemark.subAdministratieArea != "")
+    {
+      _placeMarkAddress += _selectedPlacemark.subAdministratieArea + ", ";
+    }
+    if ( _selectedPlacemark.country != "")
+    {
+      _placeMarkAddress += _selectedPlacemark.country + ", ";
+    }
+    if ( _selectedPlacemark.postalCode != "")
+    {
+      _placeMarkAddress += _selectedPlacemark.postalCode + ", ";
+    }
   }
 
   @override
