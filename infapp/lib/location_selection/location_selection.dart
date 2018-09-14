@@ -34,7 +34,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   FloatingActionButton confirmButton;
 
   // Pointer Marker to pin point the target location
-  Marker marker;
+  Center centeredMarker;
 
   // Search Bar to search the location
   AppBar searchBar;
@@ -47,6 +47,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   // The map that will be displayed on the screen
   MapController _flutterMapController;
   FlutterMap flutterMap;
+  Stack mapBody;
 
   // Geolocation for getting position name on map
   Geolocator _geolocator;
@@ -69,12 +70,10 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     );
 
     // Initializer Marker
-    marker = new Marker(
-      point: new LatLng(14.541530587952687, 121.01074919533015),
-      builder: (ctx) => new Container(
-            child: new Icon(Icons.location_on),
-          ),
+    centeredMarker = new Center(
+      child: new Icon(Icons.location_on),
     );
+
 
     // Initialize Search Bar
     _searchFieldController = new TextEditingController();
@@ -88,10 +87,11 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     // Initialize Search Button
     Icon searchIcon = new Icon(Icons.search);
     searchButton = new IconButton(
-        icon: searchIcon,
-        onPressed: () {
-          widget.onSearchPressed(_searchFieldController.text);
-        });
+      icon: searchIcon,
+      onPressed: () {
+        widget.onSearchPressed(_searchFieldController.text);
+      }
+    );
 
     // Initialize Appbar
     searchBar = new AppBar(
@@ -119,11 +119,14 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
             'id': 'mapbox.dark',
           },
         ),
-        new MarkerLayerOptions(
-          markers: <Marker>[
-            marker,
-          ],
-        ),
+      ],
+    );
+
+    // Initialize Scaffold's Body
+    mapBody = new Stack(
+      children: <Widget>[
+        flutterMap,
+        centeredMarker,
       ],
     );
   }
@@ -132,7 +135,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: searchBar,
-      body: flutterMap,
+      body: mapBody,
       floatingActionButton: confirmButton,
     );
   }
