@@ -37,6 +37,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   Marker marker;
 
   // Search Bar to search the location
+  AppBar searchBar;
   TextField searchField;
   TextEditingController _searchFieldController;
 
@@ -49,6 +50,9 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
   // Geolocation for getting position name on map
   Geolocator _geolocator;
+
+  // Current selected placemark
+  Placemark _currentPlacemark;
 
   @override
   void initState() {
@@ -89,6 +93,12 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
           widget.onSearchPressed(_searchFieldController.text);
         });
 
+    // Initialize Appbar
+    searchBar = new AppBar(
+      title: searchField,
+      actions: <Widget>[searchButton],
+    );
+
     // Initialize Map
     // TODO: Make marker stay on the center
     _flutterMapController = new MapController();
@@ -105,7 +115,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
               "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
           additionalOptions: {
             'accessToken':
-                'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
+                'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqazRwN3h4ODBjM2QzcHA2N2ZzbHoyYm0ifQ.vpwrdXRoCU-nBm-E1KNKdA',
             'id': 'mapbox.dark',
           },
         ),
@@ -116,25 +126,14 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
         ),
       ],
     );
-
-    // Initialize Geolocator
-    _geolocator = new Geolocator();
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: _buildSearchBar(),
+      appBar: searchBar,
       body: flutterMap,
       floatingActionButton: confirmButton,
-    );
-  }
-
-  // Appbar that will be a search bar
-  AppBar _buildSearchBar() {
-    return new AppBar(
-      title: searchField,
-      actions: <Widget>[searchButton],
     );
   }
 }
