@@ -19,16 +19,16 @@ class _CoordinatesToAddressState extends State<CoordinatesToAddress> {
     List<Placemark> placemarks =
         await _geolocator.placemarkFromCoordinates(latitude, longitude);
 
-      Placemark position = placemarks[0];      
-      _placemark = position.thoroughfare + " " + position.locality;
-      
-    
+    if (placemarks != null && placemarks.length >= 1) {
+      Placemark position = placemarks[0];
+      setState(() {
+        _placemark = position.thoroughfare + ", " + position.locality;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      
-    );
+    return Scaffold();
   }
 }
