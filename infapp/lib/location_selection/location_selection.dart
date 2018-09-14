@@ -6,7 +6,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:geolocator/geolocator.dart';
 
 typedef void SearchCallback(String searchQuery);
-typedef void ConfirmLocationCallback(LatLng locationCoordinates);
+typedef void ConfirmLocationCallback(String location);
 
 /// Location Selection Screen that will save
 /// the user profile's location. It is a stateful Widget
@@ -53,7 +53,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   Geolocator _geolocator;
 
   // Current selected placemark
-  Placemark _currentPlacemark;
+  Placemark _selectedPlacemark;
 
   @override
   void initState() {
@@ -63,7 +63,8 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     // Initialize Confirm Button
     confirmButton = new FloatingActionButton(
       onPressed: () {
-        widget.onConfirmPressed(_flutterMapController.center);
+        _updateSelectedPlacemark();
+        widget.onConfirmPressed(_selectedPlacemark.country);
       },
       backgroundColor: Colors.green,
       child: new Icon(Icons.check),
@@ -73,7 +74,6 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     centeredMarker = new Center(
       child: new Icon(Icons.location_on),
     );
-
 
     // Initialize Search Bar
     _searchFieldController = new TextEditingController();
@@ -129,6 +129,20 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
         centeredMarker,
       ],
     );
+
+    // Initialize Geolocator
+    _geolocator = new Geolocator();
+  }
+
+  // Updates the currently selected location
+  Future _updateSelectedPlacemark() async
+  {
+    // Get the list of placemarks from the center
+    List<Placemark> placemarks = 
+      await _geolocator.placemarkFromCoordinates(_flutterMapController.center.latitude, _flutterMapController.center.longitude);
+
+    // Update the selected placemark
+    _selectedPlacemark = placemarks[0];
   }
 
   @override
