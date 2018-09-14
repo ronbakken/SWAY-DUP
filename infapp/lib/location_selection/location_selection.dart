@@ -64,7 +64,8 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     confirmButton = new FloatingActionButton(
       onPressed: () {
         _updateSelectedPlacemark();
-        widget.onConfirmPressed(_selectedPlacemark.country);
+        _searchFieldController.text = _selectedPlacemark.thoroughfare;
+        widget.onConfirmPressed(_selectedPlacemark.thoroughfare);
       },
       backgroundColor: Colors.green,
       child: new Icon(Icons.check),
