@@ -617,9 +617,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                   context,
                   new LocationSelectionScreen(
                     onConfirmPressed: (coordinates) {
-                      print(coordinates.latitude);
-                      print("     ");
-                      print(coordinates.longitude);
+                      print(coordinates);
+              
                     },
                     onSearchPressed: (query) {
                       print(query);
