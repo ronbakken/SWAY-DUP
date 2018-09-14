@@ -7,7 +7,9 @@ class LookupCoordinatesWidget extends StatefulWidget {
 }
 
 class _LookupCoordinatesState extends State<LookupCoordinatesWidget> {
-  
+  Geolocator _geolocator = new Geolocator();
+  TextEditingController _coordinatesTextController = new TextEditingController();
+  String _placemark = "";
 
   @override
   Widget build(BuildContext context) {
