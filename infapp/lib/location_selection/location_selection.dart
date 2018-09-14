@@ -54,6 +54,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
   // Current selected placemark
   Placemark _selectedPlacemark;
+  String _placeMarkAddress;
 
   @override
   void initState() {
@@ -64,8 +65,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     confirmButton = new FloatingActionButton(
       onPressed: () {
         _updateSelectedPlacemark();
-        _searchFieldController.text = _selectedPlacemark.thoroughfare;
-        widget.onConfirmPressed(_selectedPlacemark.thoroughfare);
+        widget.onConfirmPressed(_placeMarkAddress);
       },
       backgroundColor: Colors.green,
       child: new Icon(Icons.check),
@@ -133,10 +133,14 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
     // Initialize Geolocator
     _geolocator = new Geolocator();
+
+    // Initialize Placemark
+    _updateSelectedPlacemark();
+    _placeMarkAddress = "";
   }
 
   // Updates the currently selected location
-  Future _updateSelectedPlacemark() async
+  void _updateSelectedPlacemark() async
   {
     // Get the list of placemarks from the center
     List<Placemark> placemarks = 
@@ -144,10 +148,13 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
     // Update the selected placemark
     _selectedPlacemark = placemarks[0];
+
+    _searchFieldController.text = _placeMarkAddress;
   }
 
   @override
   Widget build(BuildContext context) {
+    
     return new Scaffold(
       appBar: searchBar,
       body: mapBody,
