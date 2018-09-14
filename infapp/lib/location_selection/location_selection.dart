@@ -149,6 +149,13 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     // Update the selected placemark
     _selectedPlacemark = placemarks[0];
 
+     // Update Address
+    _placeMarkAddress = _selectedPlacemark.thoroughfare + ", " +
+                        _selectedPlacemark.locality + ", " + 
+                        _selectedPlacemark.administrativeArea + ", " +
+                        _selectedPlacemark.country + ", " +
+                        _selectedPlacemark.postalCode;
+
     _searchFieldController.text = _placeMarkAddress;
   }
 
