@@ -3,7 +3,7 @@ import 'package:geolocator/geolocator.dart';
 
 class CoordinatesToAddress extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _CoordinatesToAddressState();
+  _CoordinatesToAddressState createState() => _CoordinatesToAddressState();
 }
 
 class _CoordinatesToAddressState extends State<CoordinatesToAddress> {
