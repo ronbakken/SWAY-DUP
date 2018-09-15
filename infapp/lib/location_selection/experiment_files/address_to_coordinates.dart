@@ -28,8 +28,6 @@ class _AddressToCoordinatesState extends State<AddressToCoordinates> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      
-    );
+    return Scaffold();
   }
 }

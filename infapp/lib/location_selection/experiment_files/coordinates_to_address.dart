@@ -8,7 +8,8 @@ class CoordinatesToAddress extends StatefulWidget {
 
 class _CoordinatesToAddressState extends State<CoordinatesToAddress> {
   Geolocator _geolocator = new Geolocator();
-  TextEditingController _coordinatesTextController = new TextEditingController();
+  TextEditingController _coordinatesTextController =
+      new TextEditingController();
   String _placemark = "";
 
   void _onLookupAddressPressed() async {

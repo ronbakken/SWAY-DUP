@@ -88,11 +88,10 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     // Initialize Search Button
     Icon searchIcon = new Icon(Icons.search);
     searchButton = new IconButton(
-      icon: searchIcon,
-      onPressed: () {
-        widget.onSearchPressed(_searchFieldController.text);
-      }
-    );
+        icon: searchIcon,
+        onPressed: () {
+          widget.onSearchPressed(_searchFieldController.text);
+        });
 
     // Initialize Appbar
     searchBar = new AppBar(
@@ -140,11 +139,11 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   }
 
   // Updates the currently selected location
-  void _updateSelectedPlacemark() async
-  {
+  void _updateSelectedPlacemark() async {
     // Get the list of placemarks from the center
-    List<Placemark> placemarks = 
-      await _geolocator.placemarkFromCoordinates(_flutterMapController.center.latitude, _flutterMapController.center.longitude);
+    List<Placemark> placemarks = await _geolocator.placemarkFromCoordinates(
+        _flutterMapController.center.latitude,
+        _flutterMapController.center.longitude);
 
     // Update the selected placemark
     _selectedPlacemark = placemarks[0];
@@ -154,47 +153,37 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     _searchFieldController.text = _placeMarkAddress;
   }
 
-  void _composeAddress()
-  {
+  void _composeAddress() {
     // Update Address
     _placeMarkAddress = "";
-    if ( _selectedPlacemark.thoroughfare != "")
-    {
+    if (_selectedPlacemark.thoroughfare != "") {
       _placeMarkAddress += _selectedPlacemark.thoroughfare + ", ";
     }
-     if ( _selectedPlacemark.subThoroughfare != "")
-    {
+    if (_selectedPlacemark.subThoroughfare != "") {
       _placeMarkAddress += _selectedPlacemark.subThoroughfare + ", ";
     }
-    if ( _selectedPlacemark.locality != "")
-    {
+    if (_selectedPlacemark.locality != "") {
       _placeMarkAddress += _selectedPlacemark.locality + ", ";
     }
-     if ( _selectedPlacemark.subLocality != "")
-    {
+    if (_selectedPlacemark.subLocality != "") {
       _placeMarkAddress += _selectedPlacemark.subLocality + ", ";
     }
-    if ( _selectedPlacemark.administrativeArea != "")
-    {
+    if (_selectedPlacemark.administrativeArea != "") {
       _placeMarkAddress += _selectedPlacemark.administrativeArea + ", ";
     }
-    if ( _selectedPlacemark.subAdministratieArea != "")
-    {
+    if (_selectedPlacemark.subAdministratieArea != "") {
       _placeMarkAddress += _selectedPlacemark.subAdministratieArea + ", ";
     }
-    if ( _selectedPlacemark.country != "")
-    {
+    if (_selectedPlacemark.country != "") {
       _placeMarkAddress += _selectedPlacemark.country + ", ";
     }
-    if ( _selectedPlacemark.postalCode != "")
-    {
+    if (_selectedPlacemark.postalCode != "") {
       _placeMarkAddress += _selectedPlacemark.postalCode + ", ";
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return new Scaffold(
       appBar: searchBar,
       body: mapBody,
