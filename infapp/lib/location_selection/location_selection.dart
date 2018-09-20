@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
@@ -53,7 +52,6 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   Geolocator _geolocator;
 
   // Current selected placemark
-  Placemark _selectedPlacemark;
   String _placeMarkAddress;
 
   @override
@@ -64,7 +62,6 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     // Initialize Confirm Button
     confirmButton = new FloatingActionButton(
       onPressed: () {
-        _updateSelectedPlacemark();
         widget.onConfirmPressed(_placeMarkAddress);
       },
       backgroundColor: Colors.green,
@@ -132,54 +129,6 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
     // Initialize Geolocator
     _geolocator = new Geolocator();
-
-    // Initialize Placemark
-    _updateSelectedPlacemark();
-    _placeMarkAddress = "";
-  }
-
-  // Updates the currently selected location
-  void _updateSelectedPlacemark() async {
-    // Get the list of placemarks from the center
-    List<Placemark> placemarks = await _geolocator.placemarkFromCoordinates(
-        _flutterMapController.center.latitude,
-        _flutterMapController.center.longitude);
-
-    // Update the selected placemark
-    _selectedPlacemark = placemarks[0];
-
-    _composeAddress();
-
-    _searchFieldController.text = _placeMarkAddress;
-  }
-
-  void _composeAddress() {
-    // Update Address
-    _placeMarkAddress = "";
-    if (_selectedPlacemark.thoroughfare != "") {
-      _placeMarkAddress += _selectedPlacemark.thoroughfare + ", ";
-    }
-    if (_selectedPlacemark.subThoroughfare != "") {
-      _placeMarkAddress += _selectedPlacemark.subThoroughfare + ", ";
-    }
-    if (_selectedPlacemark.locality != "") {
-      _placeMarkAddress += _selectedPlacemark.locality + ", ";
-    }
-    if (_selectedPlacemark.subLocality != "") {
-      _placeMarkAddress += _selectedPlacemark.subLocality + ", ";
-    }
-    if (_selectedPlacemark.administrativeArea != "") {
-      _placeMarkAddress += _selectedPlacemark.administrativeArea + ", ";
-    }
-    if (_selectedPlacemark.subAdministratieArea != "") {
-      _placeMarkAddress += _selectedPlacemark.subAdministratieArea + ", ";
-    }
-    if (_selectedPlacemark.country != "") {
-      _placeMarkAddress += _selectedPlacemark.country + ", ";
-    }
-    if (_selectedPlacemark.postalCode != "") {
-      _placeMarkAddress += _selectedPlacemark.postalCode + ", ";
-    }
   }
 
   @override
