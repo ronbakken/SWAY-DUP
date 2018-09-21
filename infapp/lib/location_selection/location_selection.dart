@@ -100,6 +100,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     _geolocator = new Geolocator();
 
     // Initialize Map
+    // TODO: Make marker stay on the center
     _flutterMapController = new MapController();
     flutterMap = new FlutterMap(
       options: new MapOptions(

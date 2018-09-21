@@ -27,12 +27,6 @@ Future<String> coordinatesToAddress(double latitude, double longitude) async {
   // Decode info from source
   dynamic doc = json.decode(response.body);
 
-  // Get features from info
+  // Get 'features' from info
   dynamic features = doc['features'];
-
-  for (dynamic feature in features) {
-    dynamic placeName = feature['place_name'];
-
-    print(placeName);
-  }
 }
