@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:http/http.dart';
+import 'dart:io';
+import 'dart:convert';
 
 Future<String> coordinatesToAddress(double latitude, double longitude) async {
   // Mapbox endpoint for forward and reverse geocoding
@@ -7,4 +10,13 @@ Future<String> coordinatesToAddress(double latitude, double longitude) async {
   String url = "https://api.mapbox.com/geocoding/v5/"
       "mapbox.places/$longitude,$latitude.json?"
       "access_token=pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqazRwN3h4ODBjM2QzcHA2N2ZzbHoyYm0ifQ.vpwrdXRoCU-nBm-E1KNKdA";
+
+  // Http Request for Geocoding
+  Request request = new Request("GET", Uri.dataFromString(url));
+
+  // Get Response from Geocode Request
+  Response response = await get(url);
+
+  print(response.body);
+
 }
