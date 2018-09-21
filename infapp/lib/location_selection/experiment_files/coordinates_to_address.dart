@@ -1,49 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'dart:async';
 
-class CoordinatesToAddress extends StatefulWidget {
-  @override
-  _CoordinatesToAddressState createState() => _CoordinatesToAddressState();
-}
-
-class _CoordinatesToAddressState extends State<CoordinatesToAddress> {
-  Geolocator _geolocator = new Geolocator();
-  TextEditingController _coordinatesTextController =
-      new TextEditingController();
-  String _placemark = "";
-
-  void _onLookupAddressPressed() async {
-    List<String> coords = _coordinatesTextController.text.split(',');
-    double latitude = double.parse(coords[0]);
-    double longitude = double.parse(coords[1]);
-
-    List<Placemark> placemarks =
-        await _geolocator.placemarkFromCoordinates(latitude, longitude);
-
-    if (placemarks != null && placemarks.length >= 1) {
-      Placemark position = placemarks[0];
-      setState(() {
-        _placemark = position.thoroughfare + ", " + position.locality;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        new TextField(
-          decoration: new InputDecoration(hintText: "latitude,longitude"),
-          controller: _coordinatesTextController,
-        ),
-        new RaisedButton(
-          child: new Text('Look up...'),
-          onPressed: () {
-            _onLookupAddressPressed();
-          },
-        ),
-        new Text(_placemark),
-      ],
-    );
-  }
+Future<String> coordinatesToAddress(double latitude, double longitude) async {
+  // Mapbox endpoint for forward and reverse geocoding
+  // /geocoding/v5/{mode}/{longitude},{latitude}.json
+  // /geocoding/v5/{mode}/{query}.json
+  String url = "https://api.mapbox.com/geocoding/v5/"
+      "mapbox.places/$longitude,$latitude.json?"
+      "access_token=pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqazRwN3h4ODBjM2QzcHA2N2ZzbHoyYm0ifQ.vpwrdXRoCU-nBm-E1KNKdA";
 }
