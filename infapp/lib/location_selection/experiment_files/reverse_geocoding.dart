@@ -3,8 +3,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-import '../../network/inf.pb.dart';
-
 Future<String> coordinatesToAddress(double latitude, double longitude) async {
   // Mapbox endpoint for reverse geocoding
   // /geocoding/v5/{mode}/{longitude},{latitude}.json
@@ -29,4 +27,16 @@ Future<String> coordinatesToAddress(double latitude, double longitude) async {
 
   // Get 'features' from info
   dynamic features = doc['features'];
+
+  // Iterate through each 'feature'
+  for (dynamic feature in features) {
+    // Get place_name of each feature
+    dynamic placeName = feature['place_name'];
+
+    // print for test results
+    print(placeName);
+
+    // return the first place given by the feature
+    return placeName;
+  }
 }
