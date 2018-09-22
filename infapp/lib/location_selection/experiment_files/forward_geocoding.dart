@@ -18,4 +18,7 @@ Future<String> coordinatesToAddress(String address) async {
     // If that call was not successful, throw an error.
     throw Exception('Failed to retrieve location');
   }
+
+  // Decode info from source
+  dynamic doc = json.decode(response.body);
 }
