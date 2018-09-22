@@ -642,18 +642,6 @@ class _DemoHomePageState extends State<DemoHomePage> {
             },
           ),
           new FlatButton(
-            child: new Row(children: [new Text('Search Location')]),
-            onPressed: () {
-              demoAccount.state.accountType = AccountType.AT_BUSINESS;
-              transitionPage(
-                context,
-                new LocationSearchScreen(
-                  searchQuery: "Makati",
-                ),
-              );
-            },
-          ),
-          new FlatButton(
             child: new Row(children: [new Text('View Influencer Profile')]),
             onPressed: () {
               demoAccount.state.accountType = AccountType.AT_INFLUENCER;
