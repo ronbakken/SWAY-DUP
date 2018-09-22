@@ -10,7 +10,7 @@ Future<String> coordinatesToAddress(String address) async {
       "mapbox.places/$address.json?"
       "access_token=pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqazRwN3h4ODBjM2QzcHA2N2ZzbHoyYm0ifQ.vpwrdXRoCU-nBm-E1KNKdA";
 
-  // Get Response from Geocode Request 'GET'
+  // Get Response from Forward Geocode Request 'GET'
   Response response = await get(url);
 
   // Check if connection is successful
@@ -19,6 +19,19 @@ Future<String> coordinatesToAddress(String address) async {
     throw Exception('Failed to retrieve location');
   }
 
-  // Decode info from source
+  // Decode json
   dynamic doc = json.decode(response.body);
+
+  // Get 'features' from info
+  dynamic features = doc['features'];
+
+  // Iterate through each 'feature'
+  for (dynamic feature in features) {
+    // Get place_name
+    dynamic placeName = feature['place_name'];
+
+    // return the first place given by the feature
+    // TODO: Make a list of places for search results
+    return placeName;
+  }
 }
