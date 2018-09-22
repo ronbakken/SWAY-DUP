@@ -40,5 +40,25 @@ class LocationSearch extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     // TODO: Implement Location List
+    // Plceholder data for search List
+    List<String> placeholderData = <String>[
+      "String",
+      "String",
+      "String",
+      "String",
+      "String",
+      "String",
+      "String",
+      "String",
+    ];
+
+    // Return a list of items
+    return new ListView.builder(
+      itemBuilder: (context, index) => new ListTile(
+            leading: new Icon(Icons.location_city),
+            title: new Text(placeholderData[index] + " " + index.toString()),
+          ),
+      itemCount: placeholderData.length,
+    );
   }
 }
