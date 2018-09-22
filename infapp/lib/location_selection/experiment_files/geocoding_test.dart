@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'reverse_geocoding.dart';
 
@@ -11,24 +13,44 @@ class GeocodingTestPage extends StatefulWidget {
 }
 
 class _GeocodingTestPageState extends State<GeocodingTestPage> {
-  String text = "";
+  String address = "";
+  TextEditingController latController = new TextEditingController();
+  TextEditingController longController = new TextEditingController();
 
-  void a() {
+  void convert(double lat, double long) async {
+    address = await coordinatesToAddress(lat, long);
+  }
+
+  void a(double lat, double long) {
     setState(() {
-      coordinatesToAddress(14.541530587952687, 121.01074919533015);
+      convert(lat, long);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text(text)),
+      appBar: new AppBar(title: new Text("Geocode Test")),
       body: new Column(
         children: <Widget>[
-          new Text(text),
+          new TextField(
+            controller: latController,
+            decoration: new InputDecoration(
+              hintText: "Latitude",
+            ),
+          ),
+          new TextField(
+            controller: longController,
+            decoration: new InputDecoration(
+              hintText: "Longitude",
+            ),
+          ),
+          new Text(address),
           new FlatButton(
-            child: new Text("Geocode"),
-            onPressed: a,
+            child: new Text("Reverse Geocode"),
+            onPressed: () {
+              //a(double.parse(latController.text), double.parse(longController.text));
+            },
           ),
         ],
       ),

@@ -26,6 +26,7 @@ import '../debug_account.dart';
 import '../location_selection/location_selection.dart';
 import '../location_selection/location_search.dart';
 //import '../location_selection/location_selection_influencer.dart';
+import '../location_selection/experiment_files/geocoding_test.dart';
 
 class DemoApp extends StatefulWidget {
   const DemoApp({Key key, this.startupConfig}) : super(key: key);
@@ -628,6 +629,16 @@ class _DemoHomePageState extends State<DemoHomePage> {
                       );
                     },
                   ));
+            },
+          ),
+          new FlatButton(
+            child: new Row(children: [new Text('Geocode test')]),
+            onPressed: () {
+              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              transitionPage(
+                context,
+                new GeocodingTestPage(),
+              );
             },
           ),
           new FlatButton(
