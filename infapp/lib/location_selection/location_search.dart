@@ -21,6 +21,13 @@ class LocationSearch extends SearchDelegate<String> {
   @override
   Widget buildLeading(BuildContext context) {
     // TODO: Implement Leading Back Icon
+    return IconButton(
+      icon: new AnimatedIcon(
+        icon: AnimatedIcons.menu_arrow,
+        progress: transitionAnimation,
+      ),
+      onPressed: () {},
+    );
   }
 
   // Action when a List item from search in selected
