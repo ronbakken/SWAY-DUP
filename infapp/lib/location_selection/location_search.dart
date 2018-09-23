@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'experiment_files/forward_geocoding.dart';
 
 class LocationSearch extends SearchDelegate<String> {
-
   List<String> placeNameList = new List<String>();
 
-  void _updatePlaceNameList() async
-  {
+  void _updatePlaceNameList() async {
     placeNameList = await forwardGeocode(query);
   }
 
@@ -61,11 +59,10 @@ class LocationSearch extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     // TODO: Implement Location List
     // Forward Geocode as user types only if query is not empty
-    if (query != "")
-      _updatePlaceNameList();
+    if (query != "") _updatePlaceNameList();
 
     // Recently searched places
-    List<String> recentSearches = <String> [
+    List<String> recentSearches = <String>[
       "Recent 01",
       "Recent 02",
       "Recent 03",
@@ -73,6 +70,8 @@ class LocationSearch extends SearchDelegate<String> {
       "Recent 05",
     ];
 
+    // Final list that will be shown in the list view
+    // show recent searches when user entered epty query
     List<String> searchList = query == "" ? recentSearches : placeNameList;
 
     // Return a list of items
