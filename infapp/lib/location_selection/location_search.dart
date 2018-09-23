@@ -7,12 +7,7 @@ class LocationSearch extends SearchDelegate<String> {
     assert(context != null);
     final ThemeData theme = Theme.of(context);
     assert(theme != null);
-    return theme.copyWith(
-      primaryColor: theme.primaryColor,
-      primaryIconTheme: theme.primaryIconTheme,
-      primaryColorBrightness: theme.primaryColorBrightness,
-      primaryTextTheme: theme.primaryTextTheme,
-    );
+    return theme;
   }
 
   // Actions for Appbar

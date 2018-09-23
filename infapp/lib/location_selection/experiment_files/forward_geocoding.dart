@@ -3,11 +3,12 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-Future<String> coordinatesToAddress(String address) async {
+Future<List<String>> coordinatesToAddress(String address) async {
   // Mapbox endpoint for reverse geocoding
   // /geocoding/v5/{mode}/{address}.json
   String url = "https://api.mapbox.com/geocoding/v5/"
       "mapbox.places/$address.json?"
+      "autocomplete=true&"
       "access_token=pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqazRwN3h4ODBjM2QzcHA2N2ZzbHoyYm0ifQ.vpwrdXRoCU-nBm-E1KNKdA";
 
   // Get Response from Forward Geocode Request 'GET'
@@ -25,13 +26,15 @@ Future<String> coordinatesToAddress(String address) async {
   // Get 'features' from info
   dynamic features = doc['features'];
 
+  // Make a list of places for search results
+  List<String> placeName = new List<String>();
+
   // Iterate through each 'feature'
   for (dynamic feature in features) {
-    // Get place_name
-    dynamic placeName = feature['place_name'];
-
-    // return the first place given by the feature
-    // TODO: Make a list of places for search results
-    return placeName;
+    // Add each placename from features
+    placeName.add(feature['place_name']);
   }
+
+  // return list of places
+  return placeName;
 }
