@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 
 class LocationSearch extends SearchDelegate<String> {
-  
+  // Override AppbarTheme to match with context
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    assert(context != null);
+    final ThemeData theme = Theme.of(context);
+    assert(theme != null);
+    return theme.copyWith(
+      primaryColor: theme.primaryColor,
+      primaryIconTheme: theme.primaryIconTheme,
+      primaryColorBrightness: theme.primaryColorBrightness,
+      primaryTextTheme: theme.primaryTextTheme,
+    );
+  }
+
   // Actions for Appbar
   @override
   List<Widget> buildActions(BuildContext context) {
