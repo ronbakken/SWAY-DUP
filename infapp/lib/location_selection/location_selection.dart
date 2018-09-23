@@ -14,12 +14,12 @@ typedef void ConfirmLocationCallback(String location);
 class LocationSelectionScreen extends StatefulWidget {
   LocationSelectionScreen({
     Key key,
-    this.onSearchPressed,
+    this.onSearch,
     this.onConfirmPressed,
   }) : super(key: key);
 
-  // Callback when the search button is pressed
-  final SearchCallback onSearchPressed;
+  // Callback when the user is typing in the search bar
+  final SearchCallback onSearch;
 
   // Callback when the user confirms the location
   final ConfirmLocationCallback onConfirmPressed;
@@ -39,9 +39,6 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   AppBar searchBar;
   TextField searchField;
   TextEditingController _searchFieldController;
-
-  // Search Button to find the desired location
-  IconButton searchButton;
 
   // The map that will be displayed on the screen
   MapController _flutterMapController;
@@ -81,14 +78,6 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
         hintText: "Select a Location...",
       ),
     );
-
-    // Initialize Search Button
-    Icon searchIcon = new Icon(Icons.search);
-    searchButton = new IconButton(
-        icon: searchIcon,
-        onPressed: () {
-          widget.onSearchPressed(_searchFieldController.text);
-        });
 
     // Initialize Appbar
     searchBar = new AppBar(
