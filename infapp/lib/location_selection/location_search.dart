@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LocationSearch extends SearchDelegate<String> {
+  
   // Actions for Appbar
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -26,7 +27,9 @@ class LocationSearch extends SearchDelegate<String> {
         icon: AnimatedIcons.menu_arrow,
         progress: transitionAnimation,
       ),
-      onPressed: () {},
+      onPressed: () {
+        close(context, null);
+      },
     );
   }
 

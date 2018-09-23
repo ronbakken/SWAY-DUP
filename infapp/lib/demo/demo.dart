@@ -621,12 +621,10 @@ class _DemoHomePageState extends State<DemoHomePage> {
                       print(coordinates);
                     },
                     onSearchPressed: (query) {
-                      transitionPage(
-                        context,
-                        new LocationSearchScreen(
-                          searchQuery: query,
-                        ),
-                      );
+                      showSearch(
+                          context: context,
+                          delegate: new LocationSearch(),
+                          query: query);
                     },
                   ));
             },
