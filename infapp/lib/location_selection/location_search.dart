@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'experiment_files/forward_geocoding.dart';
 
 class LocationSearch extends SearchDelegate<String> {
+
+  List<String> placeNameList = new List<String>();
+
+  void _updatePlaceNameList() async
+  {
+    placeNameList = await forwardGeocode(query);
+  }
+
   // Override AppbarTheme to match with context
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -51,28 +60,28 @@ class LocationSearch extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     // TODO: Implement Location List
-    // Plceholder data for search List
-    List<String> placeholderData = <String>[
-      "String",
-      "String",
-      "String",
-      "String",
-      "String",
-      "String",
-      "String",
-      "String",
+    // Forward Geocode as user types
+    _updatePlaceNameList();
+    
+    List<String> recentSearches = <String> [
+      "Recent 01",
+      "Recent 02",
+      "Recent 03",
+      "Recent 04",
+      "Recent 05",
     ];
+    List<String> searchList = query == "" ? recentSearches : placeNameList;
 
     // Return a list of items
     return new ListView.builder(
       itemBuilder: (context, index) => new ListTile(
             onTap: () {
-              close(context, placeholderData[index] + " " + index.toString());
+              close(context, searchList[index] + " " + index.toString());
             },
             leading: new Icon(Icons.location_city),
-            title: new Text(placeholderData[index] + " " + index.toString()),
+            title: new Text(searchList[index] + " " + index.toString()),
           ),
-      itemCount: placeholderData.length,
+      itemCount: searchList.length,
     );
   }
 }

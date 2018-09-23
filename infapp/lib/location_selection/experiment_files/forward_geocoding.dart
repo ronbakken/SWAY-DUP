@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-Future<List<String>> coordinatesToAddress(String address) async {
+Future<List<String>> forwardGeocode(String address) async {
   // Mapbox endpoint for reverse geocoding
   // /geocoding/v5/{mode}/{address}.json
   String url = "https://api.mapbox.com/geocoding/v5/"
