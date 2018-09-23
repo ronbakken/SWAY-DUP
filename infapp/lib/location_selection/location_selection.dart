@@ -93,7 +93,6 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     // Initialize Appbar
     searchBar = new AppBar(
       title: searchField,
-      actions: <Widget>[searchButton],
     );
 
     // Initialize Geolocator
