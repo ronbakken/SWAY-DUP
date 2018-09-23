@@ -66,6 +66,9 @@ class LocationSearch extends SearchDelegate<String> {
     // Return a list of items
     return new ListView.builder(
       itemBuilder: (context, index) => new ListTile(
+            onTap: () {
+              close(context, placeholderData[index] + " " + index.toString());
+            },
             leading: new Icon(Icons.location_city),
             title: new Text(placeholderData[index] + " " + index.toString()),
           ),
