@@ -47,6 +47,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
   // Geolocation for getting position name on map
   Geolocator _geolocator;
+  LatLng _initialLocation;
 
   // Current selected placemark
   String _placeMarkAddress;
@@ -77,6 +78,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
       decoration: new InputDecoration(
         hintText: "Select a Location...",
       ),
+      onChanged: widget.onSearch,
     );
 
     // Initialize Appbar
@@ -86,7 +88,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
     // Initialize Geolocator
     _geolocator = new Geolocator();
-
+    
     // Initialize Map
     // TODO: Make marker stay on the center
     _flutterMapController = new MapController();
