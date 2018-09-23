@@ -60,9 +60,11 @@ class LocationSearch extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     // TODO: Implement Location List
-    // Forward Geocode as user types
-    _updatePlaceNameList();
-    
+    // Forward Geocode as user types only if query is not empty
+    if (query != "")
+      _updatePlaceNameList();
+
+    // Recently searched places
     List<String> recentSearches = <String> [
       "Recent 01",
       "Recent 02",
@@ -70,16 +72,17 @@ class LocationSearch extends SearchDelegate<String> {
       "Recent 04",
       "Recent 05",
     ];
+
     List<String> searchList = query == "" ? recentSearches : placeNameList;
 
     // Return a list of items
     return new ListView.builder(
       itemBuilder: (context, index) => new ListTile(
             onTap: () {
-              close(context, searchList[index] + " " + index.toString());
+              close(context, searchList[index]);
             },
             leading: new Icon(Icons.location_city),
-            title: new Text(searchList[index] + " " + index.toString()),
+            title: new Text(searchList[index]),
           ),
       itemCount: searchList.length,
     );
