@@ -73,6 +73,9 @@ class LocationSearch extends SearchDelegate<String> {
     // Final list that will be shown in the list view
     // show recent searches when user entered epty query
     List<String> searchList = query == "" ? recentSearches : placeNameList;
+    Icon leading = query == ""
+        ? new Icon(Icons.recent_actors)
+        : new Icon(Icons.location_city);
 
     // Return a list of items
     return new ListView.builder(
@@ -80,7 +83,7 @@ class LocationSearch extends SearchDelegate<String> {
             onTap: () {
               close(context, searchList[index]);
             },
-            leading: new Icon(Icons.location_city),
+            leading: leading,
             title: new Text(searchList[index]),
           ),
       itemCount: searchList.length,
