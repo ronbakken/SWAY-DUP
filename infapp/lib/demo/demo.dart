@@ -620,8 +620,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     onConfirmPressed: (coordinates) {
                       print(coordinates);
                     },
-                    onSearch: (query) {
-                      showSearch(
+                    onSearch: (query) async {
+                      return showSearch(
                           context: context,
                           delegate: new LocationSearch(),
                           query: query);

@@ -4,7 +4,7 @@ import 'package:latlong/latlong.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:geolocator/geolocator.dart';
 
-typedef void SearchCallback(String searchQuery);
+typedef Future<String> SearchCallback(String searchQuery);
 typedef void ConfirmLocationCallback(String location);
 
 /// Location Selection Screen that will save
@@ -52,6 +52,11 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   // Current selected placemark
   String _placeMarkAddress;
 
+  void _onQueryChanged(String query) async
+  {
+    _searchFieldController.text = await widget.onSearch(query);
+  }
+
   @override
   void initState() {
     // Initialize the Parent
@@ -78,7 +83,9 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
       decoration: new InputDecoration(
         hintText: "Select a Location...",
       ),
-      onChanged: widget.onSearch,
+      onChanged: (query) {
+        _onQueryChanged(query);
+      },
     );
 
     // Initialize Appbar
@@ -88,7 +95,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
     // Initialize Geolocator
     _geolocator = new Geolocator();
-    
+
     // Initialize Map
     // TODO: Make marker stay on the center
     _flutterMapController = new MapController();
