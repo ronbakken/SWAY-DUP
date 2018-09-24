@@ -22,4 +22,7 @@ Future<LatLng> getCoordinates(String address) async {
 
   // Decode json
   dynamic doc = json.decode(response.body);
+
+  // Get 'features' from info
+  dynamic features = doc['features'];
 }
