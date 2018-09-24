@@ -66,7 +66,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
       LatLng coordinates = await getCoordinates(_searchFieldController.text);
 
       // then move to that location
-      _flutterMapController.move(coordinates, 50.0);
+      _flutterMapController.move(coordinates, 15.0);
     }
   }
 
@@ -79,6 +79,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     confirmButton = new FloatingActionButton(
       onPressed: () {
         widget.onConfirmPressed(_placeMarkAddress);
+        print(_flutterMapController.zoom);
       },
       backgroundColor: Colors.green,
       child: new Icon(Icons.check),
