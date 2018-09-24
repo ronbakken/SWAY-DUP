@@ -62,10 +62,11 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
     // If user picks a location, center that location
     if (_searchFieldController.text != '') {
+      // Get the coordinates
       LatLng coordinates = await getCoordinates(_searchFieldController.text);
-      _searchFieldController.text = coordinates.latitude.toString() +
-          ", " +
-          coordinates.longitude.toString();
+
+      // then move to that location
+      _flutterMapController.move(coordinates, 50.0);
     }
   }
 
