@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:latlong/latlong.dart';
-
+import 'dart:convert';
 import 'package:http/http.dart';
 
 Future<LatLng> getCoordinates(String address) async {
@@ -19,4 +19,7 @@ Future<LatLng> getCoordinates(String address) async {
     // If that call was not successful, throw an error.
     throw Exception('Failed to retrieve location');
   }
+
+  // Decode json
+  dynamic doc = json.decode(response.body);
 }
