@@ -4,6 +4,7 @@ import 'package:latlong/latlong.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:geolocator/geolocator.dart';
 import 'experiment_files/lookup_address.dart';
+import 'experiment_files/reverse_geocoding.dart';
 
 typedef Future<String> SearchCallback(String searchQuery);
 typedef void ConfirmLocationCallback(String location);
@@ -48,7 +49,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
   // Geolocation for getting position name on map
   Geolocator _geolocator;
-  LatLng _initialLocation;
+  Position _initialLocation;
 
   // Current selected placemark
   String _placeMarkAddress;
@@ -68,6 +69,17 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
       // then move to that location
       _flutterMapController.move(coordinates, 15.0);
     }
+  }
+
+  // Updates center whenever mapos dragged
+  void _onMapDragged(MapPosition position) async {
+    _searchFieldController.text = await coordinatesToAddress(
+        position.center.latitude, position.center.longitude);
+  }
+
+  // get current location
+  void _getInitialPosition() async {
+    _initialLocation = await _geolocator.getCurrentPosition();
   }
 
   @override
@@ -109,13 +121,14 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
     // Initialize Geolocator
     _geolocator = new Geolocator();
+    _getInitialPosition();
 
     // Initialize Map
     _flutterMapController = new MapController();
     flutterMap = new FlutterMap(
       options: new MapOptions(
-        center: new LatLng(14.541530587952687, 121.01074919533015),
-      ),
+          center: new LatLng(14.541530587952687, 121.01074919533015),
+          onPositionChanged: _onMapDragged), // TODO: Fix (Call only when user stops dragging)
       mapController: _flutterMapController,
       layers: <LayerOptions>[
         new TileLayerOptions(
