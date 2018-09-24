@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:geolocator/geolocator.dart';
+import 'experiment_files/lookup_address.dart';
 
 typedef Future<String> SearchCallback(String searchQuery);
 typedef void ConfirmLocationCallback(String location);
@@ -61,7 +62,10 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
     // If user picks a location, center that location
     if (_searchFieldController.text != '') {
-      _searchFieldController.text = "go to point";
+      LatLng coordinates = await getCoordinates(_searchFieldController.text);
+      _searchFieldController.text = coordinates.latitude.toString() +
+          ", " +
+          coordinates.longitude.toString();
     }
   }
 
