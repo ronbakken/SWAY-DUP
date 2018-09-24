@@ -26,6 +26,13 @@ Future<LatLng> getCoordinates(String address) async {
   // Get 'features' from info
   dynamic features = doc['features'];
 
-  // Get coordinated from features
-  dynamic coordinates = features['center'];
+  // Get coordinated from the first feature
+  dynamic coordinates = features[0]['center'];
+
+  print (coordinates[1]);
+  print (coordinates[0]);
+  
+  // return the coordinates
+  // Note the json format is (long, lat), we want to return (lat, long)
+  return new LatLng(coordinates[1], coordinates[0]);
 }
