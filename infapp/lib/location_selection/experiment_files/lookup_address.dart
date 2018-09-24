@@ -25,4 +25,7 @@ Future<LatLng> getCoordinates(String address) async {
 
   // Get 'features' from info
   dynamic features = doc['features'];
+
+  // Get coordinated from features
+  dynamic coordinates = features['center'];
 }
