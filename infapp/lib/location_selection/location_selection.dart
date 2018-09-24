@@ -52,9 +52,17 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   // Current selected placemark
   String _placeMarkAddress;
 
-  void _onQueryChanged(String query) async
-  {
+  // Navigate to search page when user types
+  void _onQueryChanged(String query) async {
+    // Get result from search page
+    // returns blank string if user presses back button on the search page
+    // returns the place name if user selectsa search item
     _searchFieldController.text = await widget.onSearch(query);
+
+    // If user picks a location, center that location
+    if (_searchFieldController.text != '') {
+      _searchFieldController.text = "go to point";
+    }
   }
 
   @override
@@ -97,7 +105,6 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     _geolocator = new Geolocator();
 
     // Initialize Map
-    // TODO: Make marker stay on the center
     _flutterMapController = new MapController();
     flutterMap = new FlutterMap(
       options: new MapOptions(
