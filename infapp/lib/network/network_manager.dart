@@ -205,7 +205,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         setFirebaseToken.firebaseToken = token;
         _ts.sendMessage(
             TalkSocket.encode("SFIREBAT"), setFirebaseToken.writeToBuffer());
-        prefs.setString('firebase_token', oldFirebaseToken);
+        prefs.setString('firebase_token', token);
       }
     }
   }
