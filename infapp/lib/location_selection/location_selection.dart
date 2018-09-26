@@ -129,7 +129,8 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     flutterMap = new FlutterMap(
       options: new MapOptions(
           center: new LatLng(14.541530587952687, 121.01074919533015),
-          onPositionChanged: _onMapDragged), // TODO: Fix (Call only when user stops dragging)
+          onPositionChanged:
+              _onMapDragged), // TODO: Fix (Call only when user stops dragging)
       mapController: _flutterMapController,
       layers: <LayerOptions>[
         new TileLayerOptions(
