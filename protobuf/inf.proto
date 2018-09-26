@@ -540,6 +540,7 @@ message NetSetAccountType {
 // Name: SFIREBAT
 message NetSetFirebaseToken {
   string firebaseToken = 1;
+  string oldFirebaseToken = 2;
 }
 
 // App requests OAuth url
