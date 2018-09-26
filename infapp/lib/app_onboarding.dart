@@ -4,6 +4,8 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,6 +29,53 @@ class AppOnboarding extends StatefulWidget {
 }
 
 class _AppOnboardingState extends State<AppOnboarding> {
+  NetworkInterface _network;
+  StreamSubscription<NotificationNavigateApplicant>
+      _notificationNavigateApplicantSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    if (unhandledNotificationNavigateApplicant != null) {
+      NotificationNavigateApplicant notification =
+          unhandledNotificationNavigateApplicant;
+      unhandledNotificationNavigateApplicant = null;
+      onNotificationNavigateApplicant(notification);
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    NetworkInterface network = NetworkManager.of(context);
+    if (network != _network) {
+      _network = network;
+      if (_notificationNavigateApplicantSubscription != null) {
+        _notificationNavigateApplicantSubscription.cancel();
+        _notificationNavigateApplicantSubscription = null;
+      }
+      _notificationNavigateApplicantSubscription = network
+          .notificationNavigateApplicant
+          .listen(onNotificationNavigateApplicant);
+    }
+    // _config = ConfigManager.of(context);
+  }
+
+  @override
+  void dispose() {
+    if (_notificationNavigateApplicantSubscription != null) {
+      _notificationNavigateApplicantSubscription.cancel();
+      _notificationNavigateApplicantSubscription = null;
+    }
+    super.dispose();
+  }
+
+  void onNotificationNavigateApplicant(
+      NotificationNavigateApplicant notification) {
+    // TODO: Swap domain and account if necessary
+    unhandledNotificationNavigateApplicant = notification;
+  }
+
   void navigateToOAuth(BuildContext context, int oauthProvider) {
     Navigator.push(
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!

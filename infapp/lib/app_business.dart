@@ -4,6 +4,8 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
@@ -37,6 +39,65 @@ class AppBusiness extends StatefulWidget {
 }
 
 class _AppBusinessState extends State<AppBusiness> {
+  NetworkInterface _network;
+  ConfigData _config;
+  StreamSubscription<NotificationNavigateApplicant>
+      _notificationNavigateApplicantSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    if (unhandledNotificationNavigateApplicant != null) {
+      NotificationNavigateApplicant notification =
+          unhandledNotificationNavigateApplicant;
+      unhandledNotificationNavigateApplicant = null;
+      onNotificationNavigateApplicant(notification);
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    NetworkInterface network = NetworkManager.of(context);
+    if (network != _network) {
+      _network = network;
+      if (_notificationNavigateApplicantSubscription != null) {
+        _notificationNavigateApplicantSubscription.cancel();
+        _notificationNavigateApplicantSubscription = null;
+      }
+      _notificationNavigateApplicantSubscription = network
+          .notificationNavigateApplicant
+          .listen(onNotificationNavigateApplicant);
+    }
+    _config = ConfigManager.of(context);
+  }
+
+  @override
+  void dispose() {
+    if (_notificationNavigateApplicantSubscription != null) {
+      _notificationNavigateApplicantSubscription.cancel();
+      _notificationNavigateApplicantSubscription = null;
+    }
+    super.dispose();
+  }
+
+  void onNotificationNavigateApplicant(
+      NotificationNavigateApplicant notification) {
+    if (notification.domain != _config.services.domain ||
+        notification.accountId != _network.account.state.accountId) {
+      // TODO: Swap domain and account if necessary
+      unhandledNotificationNavigateApplicant = notification;
+    } else {
+      // Navigate to applicant
+      DataApplicant applicant =
+          _network.tryGetApplicant(notification.applicantId);
+      //DataBusinessOffer offer = _network.tryGetBusinessOffer(applicant.offerId); // FIXME: Not cached yet, need to add it to the notification data!
+      //DataAccount businessAccount = _network.account;
+      //DataAccount influencerAccount = _network.tryGetApplicant(applicant.influencerAccountId);
+      navigateToApplicantView(applicant, null, null, null);
+    }
+  }
+
   void navigateToMakeAnOffer(BuildContext context) {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
@@ -123,22 +184,65 @@ class _AppBusinessState extends State<AppBusiness> {
     }));
   }
 
+  int applicantViewOpen;
   void navigateToApplicantView(DataApplicant applicant, DataBusinessOffer offer,
       DataAccount businessAccount, DataAccount influencerAccount) {
+    NetworkInterface network = NetworkManager.of(context);
+    if (applicantViewOpen != null) {
+      print("[INF] Pop previous applicant route");
+      Navigator.popUntil(context, (Route<dynamic> route) {
+        return route.settings.name.startsWith('/applicant/' + applicantViewOpen.toString());
+      });
+      Navigator.pop(context);
+    }
+    network.pushSuppressChatNotifications(applicant.applicantId);
+    applicantViewOpen = applicant.applicantId;
     Navigator.push(
       context,
       new MaterialPageRoute(
+        settings: new RouteSettings(name: '/applicant/' + applicant.applicantId.toString()),
         builder: (context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
           ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
           NavigatorState navigator = Navigator.of(context);
+          DataApplicant latestApplicant = network.latestApplicant(applicant);
+          DataBusinessOffer latestOffer =
+              offer != null ? network.latestBusinessOffer(offer) : null;
+          if ((latestOffer == null ||
+                  latestOffer.offerId != latestApplicant.offerId) &&
+              latestApplicant.offerId != 0) {
+            latestOffer =
+                network.tryGetBusinessOffer(latestApplicant.offerId); // TODO
+          }
+          if (latestOffer == null) latestOffer = DataBusinessOffer();
+          DataAccount latestBusinessAccount = businessAccount != null
+              ? network.latestAccount(businessAccount)
+              : network.account;
+          if (latestBusinessAccount.state.accountId !=
+                  latestApplicant.businessAccountId &&
+              latestApplicant.businessAccountId != 0) {
+            latestBusinessAccount =
+                network.tryGetPublicProfile(latestApplicant.businessAccountId);
+          }
+          DataAccount latestInfluencerAccount = influencerAccount != null
+              ? network.latestAccount(influencerAccount)
+              : null;
+          if ((latestInfluencerAccount == null ||
+                  latestInfluencerAccount.state.accountId !=
+                      latestApplicant.influencerAccountId) &&
+              latestApplicant.influencerAccountId != 0) {
+            latestInfluencerAccount = network
+                .tryGetPublicProfile(latestApplicant.influencerAccountId);
+          }
+          if (latestInfluencerAccount == null)
+            latestInfluencerAccount = DataAccount();
           return new HaggleView(
             account: network.account,
-            businessAccount: network.latestAccount(businessAccount),
-            influencerAccount: network.latestAccount(influencerAccount),
-            applicant: network.latestApplicant(applicant),
-            offer: network.latestBusinessOffer(offer),
+            businessAccount: latestBusinessAccount,
+            influencerAccount: latestInfluencerAccount,
+            applicant: latestApplicant,
+            offer: latestOffer,
             chats: network.tryGetApplicantChats(applicant.applicantId),
             onUploadImage: network.uploadImage,
             onPressedProfile: (DataAccount account) {
@@ -165,7 +269,10 @@ class _AppBusinessState extends State<AppBusiness> {
           );
         },
       ),
-    );
+    ).whenComplete(() {
+      applicantViewOpen = null;
+      network.popSuppressChatNotifications();
+    });
   }
 
   void navigateToPublicProfile(DataAccount account) {

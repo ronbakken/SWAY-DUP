@@ -11,6 +11,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,15 @@ import 'config_manager.dart';
 import 'inf.pb.dart';
 
 // TODO: Reassemble should re-merge all protobuf
+
+class NotificationNavigateApplicant {
+  final String domain;
+  final int accountId;
+  final int applicantId;
+  NotificationNavigateApplicant(this.domain, this.accountId, this.applicantId);
+}
+
+NotificationNavigateApplicant unhandledNotificationNavigateApplicant;
 
 class NetworkManager extends StatelessWidget {
   const NetworkManager({
@@ -104,9 +114,13 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   bool _firebaseSetup = false;
   final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  NotificationDetails platformChannelSpecifics;
 
   List<StreamSubscription<TalkMessage>> _subscriptions =
       new List<StreamSubscription<TalkMessage>>();
+
+  List<int> _suppressChatNotifications = new List<int>();
 
   void syncConfig() {
     // May only be called from a setState block
@@ -210,29 +224,98 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
   }
 
-  Future<dynamic> _firebaseOnMessage(Map<String, dynamic> data) {
+  @override
+  void pushSuppressChatNotifications(int applicantId) {
+    _suppressChatNotifications.add(applicantId);
+  }
+
+  @override
+  void popSuppressChatNotifications() {
+    _suppressChatNotifications.removeLast();
+  }
+
+  Future<dynamic> _firebaseOnMessage(Map<String, dynamic> data) async {
     print("[INF] Firebase Message Received");
     // Fired when a message is received when the app is in foreground
-    /*
-DATA='{"notification": {"body": "this is a body","title": "this is a title"}, "priority": "high", "data": {"click_action": "FLUTTER_NOTIFICATION_CLICK", "id": "1", "status": "done"}, "to": "<FCM TOKEN>"}'
-curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X POST -d "$DATA" -H "Authorization: key=<FCM SERVER KEY>"
-    */
     print(data);
+    // Handle all notifications not meant for the current account
+    // And any current notifications which are not surpressed
+    String domain = data['data']['domain'].toString();
+    int accountId = int.tryParse(data['data']['account_id']);
+    int applicantId = int.tryParse(data['data']['applicant_id']);
+    String title = data['notification']['title'];
+    String body = data['notification']['body'];
+    if (_suppressChatNotifications.isEmpty ||
+        _suppressChatNotifications.last != applicantId ||
+        domain != _config.services.domain ||
+        accountId != account.state.accountId) {
+      await flutterLocalNotificationsPlugin.show(
+        applicantId,
+        title,
+        body,
+        platformChannelSpecifics,
+        payload:
+            'domain=$domain&account_id=$accountId&applicant_id=$applicantId',
+      );
+    }
   }
 
-  Future<dynamic> _firebaseOnLaunch(Map<String, dynamic> data) {
-    print("[INF] Firebase Launch Received");
+  Future<dynamic> _firebaseOnLaunch(Map<String, dynamic> data) async {
+    print("[INF] Firebase Launch Received: $data");
     // Fired when the app was opened by a message
-    /* When sending a notification message to an Android device, 
-    you need to make sure to set the click_action property of the
-    message to FLUTTER_NOTIFICATION_CLICK. 
-    Otherwise the plugin will be unable to deliver the notification 
-    to your app when the users clicks on it in the system tray. */
+    if (data['applicant_id'] != null) {
+      _notificationNavigateApplicant(new NotificationNavigateApplicant(
+          data['domain'],
+          int.tryParse(data['account_id']),
+          int.tryParse(data['applicant_id'])));
+    }
   }
 
-  Future<dynamic> _firebaseOnResume(Map<String, dynamic> data) {
-    print("[INF] Firebase Resume Received");
+  Future<dynamic> _firebaseOnResume(Map<String, dynamic> data) async {
+    print("[INF] Firebase Resume Received: $data");
     // Fired when the app was opened by a message
+    /*{collapse_key: app.infmarketplace, 
+    account_id: 10, 
+    applicant_id: 16, 
+    google.original_priority: high, 
+    google.sent_time: 1537966114567, 
+    google.delivered_priority: high, 
+    domain: dev, google.ttl: 2419200, 
+    from: 1051755311348, type: 0, 
+    google.message_id: 0:1537966114577353%ddd1e337ddd1e337, 
+    sender_id: 11}*/
+    if (data['applicant_id'] != null) {
+      _notificationNavigateApplicant(new NotificationNavigateApplicant(
+          data['domain'],
+          int.tryParse(data['account_id']),
+          int.tryParse(data['applicant_id'])));
+    }
+  }
+
+  Future<dynamic> onSelectNotification(String payload) async {
+    if (payload != null) {
+      print('[INF] Local notification payload: ' + payload);
+      /*domain=dev&account_id=10&applicant_id=16*/
+      Map<String, String> data = Uri.splitQueryString(payload);
+      if (data['applicant_id'] != null) {
+        _notificationNavigateApplicant(new NotificationNavigateApplicant(
+            data['domain'],
+            int.tryParse(data['account_id']),
+            int.tryParse(data['applicant_id'])));
+      }
+    }
+  }
+
+  StreamController<NotificationNavigateApplicant>
+      _notificationNavigateApplicantController =
+      new StreamController<NotificationNavigateApplicant>();
+  Stream<NotificationNavigateApplicant> get notificationNavigateApplicant {
+    return _notificationNavigateApplicantController.stream;
+  }
+
+  void _notificationNavigateApplicant(
+      NotificationNavigateApplicant notification) {
+    _notificationNavigateApplicantController.add(notification);
   }
 
   /// Authenticate device connection, this process happens as if by magic
@@ -533,6 +616,22 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     account.summary = new DataAccountSummary();
     account.detail = new DataAccountDetail();
     syncConfig();
+
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    var initializationSettingsAndroid =
+        new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        selectNotification: onSelectNotification);
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'chat', 'Messages', 'Messages received from other users',
+        importance: Importance.Max, priority: Priority.High);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    platformChannelSpecifics = new NotificationDetails(
+        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
     // Start network loop
     _networkLoop().catchError((e) {
@@ -1715,7 +1814,13 @@ abstract class NetworkInterface {
 
   /////////////////////////////////////////////////////////////////////////////
   // Haggle
-  /////////////////////////////////////////////////////////////////////////////
+
+  /// Suppress notifications
+  void pushSuppressChatNotifications(int applicantId);
+  void popSuppressChatNotifications();
+
+  /// Notification actions
+  Stream<NotificationNavigateApplicant> get notificationNavigateApplicant;
 
   /// Refresh all applicants (currently all latest applicants)
   Future<void> refreshApplicants();
