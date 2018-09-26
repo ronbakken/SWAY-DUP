@@ -51,10 +51,15 @@ class _DemoAppState extends State<DemoApp> {
 
   Widget _buildMaterialApp(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
+    // Dark switch
+    /*
     bool dark = network.account.state.accountType == AccountType.AT_BUSINESS ||
         network.account.state.accountId == 0;
+    */
+    bool dark = true;
     // Set base colors
     ThemeData theme = dark
+        // Dark theme
         ? new ThemeData(
             brightness: Brightness.dark, // This makes things dark!
             primarySwatch:
@@ -63,7 +68,10 @@ class _DemoAppState extends State<DemoApp> {
             primaryColorBrightness: Brightness.dark,
             accentColorBrightness: Brightness.dark,
           )
-        : new ThemeData(primarySwatch: Colors.blueGrey);
+        // Light theme
+        : new ThemeData(
+            primarySwatch: Colors.blueGrey,
+          );
     if (dark) {
       // Adjust colors
       theme = theme.copyWith(

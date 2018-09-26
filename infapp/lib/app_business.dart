@@ -349,7 +349,7 @@ class _AppBusinessState extends State<AppBusiness> {
             Scaffold.of(context).showSnackBar(
                 new SnackBar(content: new Text("Not yet implemented.")));
           },
-          mapboxUrlTemplate: config.services.mapboxUrlTemplate,
+          mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark ? config.services.mapboxUrlTemplateDark : config.services.mapboxUrlTemplateLight,
           mapboxToken: config.services.mapboxToken,
           searchHint: "Find nearby influencers...",
           searchTooltip: "Search for nearby influencers",

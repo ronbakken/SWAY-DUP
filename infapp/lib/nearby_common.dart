@@ -154,7 +154,7 @@ class _NearbyCommonState extends State<NearbyCommon> {
           ),
           layers: [
             new TileLayerOptions(
-              backgroundColor: new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
+              backgroundColor: Theme.of(context).brightness == Brightness.light  ?new Color.fromARGB(0xFF, 0xD1, 0xD1, 0xD1) : new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
               placeholderImage: new MemoryImage(kTransparentImage),
               /*
               urlTemplate: "https://api.tiles.mapbox.com/v4/"

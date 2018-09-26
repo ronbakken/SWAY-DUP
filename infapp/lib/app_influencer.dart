@@ -403,7 +403,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
         NetworkInterface network = NetworkManager.of(context);
         return new NearbyCommon(
           account: network.account,
-          mapboxUrlTemplate: config.services.mapboxUrlTemplate,
+          mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark ? config.services.mapboxUrlTemplateDark : config.services.mapboxUrlTemplateLight,
           mapboxToken: config.services.mapboxToken,
           onSearchPressed: (TextEditingController searchQuery) {
             navigateToSearchOffers(searchQuery);
