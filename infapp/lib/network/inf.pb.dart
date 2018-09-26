@@ -2164,6 +2164,7 @@ class NetSetFirebaseToken extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetFirebaseToken',
       package: const $pb.PackageName('inf'))
     ..aOS(1, 'firebaseToken')
+    ..aOS(2, 'oldFirebaseToken')
     ..hasRequiredFields = false;
 
   NetSetFirebaseToken() : super();
@@ -2195,6 +2196,14 @@ class NetSetFirebaseToken extends $pb.GeneratedMessage {
 
   bool hasFirebaseToken() => $_has(0);
   void clearFirebaseToken() => clearField(1);
+
+  String get oldFirebaseToken => $_getS(1, '');
+  set oldFirebaseToken(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasOldFirebaseToken() => $_has(1);
+  void clearOldFirebaseToken() => clearField(2);
 }
 
 class NetOAuthUrlReq extends $pb.GeneratedMessage {
