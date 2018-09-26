@@ -256,11 +256,18 @@ const ConfigServices$json = const {
     },
     const {'1': 'mapboxApi', '3': 1, '4': 1, '5': 9, '10': 'mapboxApi'},
     const {
-      '1': 'mapboxUrlTemplate',
+      '1': 'mapboxUrlTemplateDark',
       '3': 2,
       '4': 1,
       '5': 9,
-      '10': 'mapboxUrlTemplate'
+      '10': 'mapboxUrlTemplateDark'
+    },
+    const {
+      '1': 'mapboxUrlTemplateLight',
+      '3': 30,
+      '4': 1,
+      '5': 9,
+      '10': 'mapboxUrlTemplateLight'
     },
     const {'1': 'mapboxToken', '3': 3, '4': 1, '5': 9, '10': 'mapboxToken'},
     const {'1': 'spacesRegion', '3': 4, '4': 1, '5': 9, '10': 'spacesRegion'},
