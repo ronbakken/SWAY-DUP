@@ -190,6 +190,7 @@ class BroadcastCenter {
       notification['title'] = senderName;
       notification['body'] = chat.text;
       notification['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
+      notification['android_channel_id'] = 'chat';
       Map<String, dynamic> data = new Map<String, dynamic>();
       data['sender_id'] = chat.senderId;
       data['account_id'] = receiverAccountId;
