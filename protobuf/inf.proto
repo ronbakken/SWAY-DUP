@@ -94,7 +94,8 @@ message ConfigServices {
   
   // MapBox
   string mapboxApi = 1;
-  string mapboxUrlTemplate = 2;
+  string mapboxUrlTemplateDark = 2;
+  string mapboxUrlTemplateLight = 30;
   string mapboxToken = 3;
   
   // DigitalOcean Spaces
