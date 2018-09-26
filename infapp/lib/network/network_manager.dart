@@ -85,6 +85,7 @@ class _NetworkManagerStateful extends StatefulWidget {
 }
 
 class _NetworkManagerState extends State<_NetworkManagerStateful>
+    with WidgetsBindingObserver
     implements NetworkInterface {
   // see NetworkInterface
 
@@ -433,8 +434,8 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
           });
           await new Future.delayed(new Duration(seconds: 3));
         }
-      } while (_alive && (_ts == null));
-      Future listen = _ts.listen();
+      } while (_alive && _foreground && (_ts == null));
+      Future<void> listen = _ts.listen();
       if (connected == NetworkConnectionState.Offline) {
         setState(() {
           connected = NetworkConnectionState.Connecting;
@@ -506,6 +507,12 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
   Future _networkLoop() async {
     print("[INF] Start network loop");
     while (_alive) {
+      if (!_foreground) {
+        print("[INF] Awaiting foreground");
+        _awaitingForeground = new Completer<void>();
+        await _awaitingForeground.future;
+        print("[INF] Now in foreground");
+      }
       await _networkSession();
     }
     print("[INF] End network loop");
@@ -531,6 +538,8 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
     _networkLoop().catchError((e) {
       print("[INF] Network loop died: $e");
     });
+
+    WidgetsBinding.instance.addObserver(this);
 
     new Timer.periodic(new Duration(seconds: 1), (timer) async {
       if (!mounted) {
@@ -561,6 +570,7 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _alive = false;
     if (_ts != null) {
       print("[INF] Dispose network connection");
@@ -579,6 +589,27 @@ curl https://fcm.googleapis.com/fcm/send -H "Content-Type:application/json" -X P
       print("[INF] Network reload by config");
       _ts.close();
       _ts = null;
+    }
+  }
+
+  bool _foreground = true;
+  Completer<void> _awaitingForeground;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed &&
+        state != AppLifecycleState.inactive) {
+      _foreground = false;
+      if (_ts != null) {
+        _ts.close();
+        _ts = null;
+      }
+    } else {
+      _foreground = true;
+      if (_awaitingForeground != null) {
+        _awaitingForeground.complete();
+        _awaitingForeground = null;
+      }
     }
   }
 
