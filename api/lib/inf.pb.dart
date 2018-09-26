@@ -288,7 +288,7 @@ class ConfigServices extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigServices',
       package: const $pb.PackageName('inf'))
     ..aOS(1, 'mapboxApi')
-    ..aOS(2, 'mapboxUrlTemplate')
+    ..aOS(2, 'mapboxUrlTemplateDark')
     ..aOS(3, 'mapboxToken')
     ..aOS(4, 'spacesRegion')
     ..aOS(5, 'spacesKey')
@@ -316,6 +316,7 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(27, 'firebaseLegacyApi')
     ..aOS(28, 'firebaseLegacyServerKey')
     ..aOS(29, 'connectionFailedUrl')
+    ..aOS(30, 'mapboxUrlTemplateLight')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -346,13 +347,13 @@ class ConfigServices extends $pb.GeneratedMessage {
   bool hasMapboxApi() => $_has(0);
   void clearMapboxApi() => clearField(1);
 
-  String get mapboxUrlTemplate => $_getS(1, '');
-  set mapboxUrlTemplate(String v) {
+  String get mapboxUrlTemplateDark => $_getS(1, '');
+  set mapboxUrlTemplateDark(String v) {
     $_setString(1, v);
   }
 
-  bool hasMapboxUrlTemplate() => $_has(1);
-  void clearMapboxUrlTemplate() => clearField(2);
+  bool hasMapboxUrlTemplateDark() => $_has(1);
+  void clearMapboxUrlTemplateDark() => clearField(2);
 
   String get mapboxToken => $_getS(2, '');
   set mapboxToken(String v) {
@@ -563,6 +564,14 @@ class ConfigServices extends $pb.GeneratedMessage {
 
   bool hasConnectionFailedUrl() => $_has(28);
   void clearConnectionFailedUrl() => clearField(29);
+
+  String get mapboxUrlTemplateLight => $_getS(29, '');
+  set mapboxUrlTemplateLight(String v) {
+    $_setString(29, v);
+  }
+
+  bool hasMapboxUrlTemplateLight() => $_has(29);
+  void clearMapboxUrlTemplateLight() => clearField(30);
 }
 
 class ConfigData extends $pb.GeneratedMessage {
