@@ -181,7 +181,8 @@ class BroadcastCenter {
 
     // Push Firebase (even if sent directly, Firebase notifications don't show while the app is running)
     // Don't send notifications to the sender
-    if (receiverAccountId != chat.senderId) {// TODO: && !_accountToRemoteApps.contains(receiverAccountId) - once clients disconnect in the background!
+    if (receiverAccountId != chat.senderId) {
+      // TODO: && !_accountToRemoteApps.contains(receiverAccountId) - once clients disconnect in the background!
       String senderName = await _getAccountName(chat.senderId);
       List<String> receiverFirebaseTokens =
           await _getAccountFirebaseTokens(receiverAccountId);
