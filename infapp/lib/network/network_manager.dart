@@ -187,14 +187,24 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
   }
 
-  void _firebaseOnToken(String token) {
+  void _firebaseOnToken(String token) async {
+    // Set firebase token for current account if it has changed
+    // Update it for other accounts as well in case there is a known old token
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String oldFirebaseToken;
+    try {
+      oldFirebaseToken = prefs.getString('firebase_token');
+    } catch (error) {}
     if (account.state.accountId != 0) {
-      if (account.state.firebaseToken != token) {
+      if (account.state.firebaseToken != token || oldFirebaseToken != token) {
         account.state.firebaseToken = token;
         NetSetFirebaseToken setFirebaseToken = new NetSetFirebaseToken();
+        if (oldFirebaseToken != null)
+          setFirebaseToken.oldFirebaseToken = oldFirebaseToken;
         setFirebaseToken.firebaseToken = token;
         _ts.sendMessage(
             TalkSocket.encode("SFIREBAT"), setFirebaseToken.writeToBuffer());
+        prefs.setString('firebase_token', oldFirebaseToken);
       }
     }
   }
