@@ -50,10 +50,10 @@ class _AppOnboardingState extends State<AppOnboarding> {
     NetworkInterface network = NetworkManager.of(context);
     if (network != _network) {
       _network = network;
-      if (_notificationNavigateApplicantSubscription != null) {
+      /*if (_notificationNavigateApplicantSubscription != null) {
         _notificationNavigateApplicantSubscription.cancel();
         _notificationNavigateApplicantSubscription = null;
-      }
+      }*/
       _notificationNavigateApplicantSubscription = network
           .notificationNavigateApplicant
           .listen(onNotificationNavigateApplicant);
@@ -63,10 +63,10 @@ class _AppOnboardingState extends State<AppOnboarding> {
 
   @override
   void dispose() {
-    if (_notificationNavigateApplicantSubscription != null) {
+    /*if (_notificationNavigateApplicantSubscription != null) {
       _notificationNavigateApplicantSubscription.cancel();
       _notificationNavigateApplicantSubscription = null;
-    }
+    }*/
     super.dispose();
   }
 

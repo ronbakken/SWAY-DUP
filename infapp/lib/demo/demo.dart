@@ -49,36 +49,65 @@ class _DemoAppState extends State<DemoApp> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildMaterialApp(BuildContext context) {
+    NetworkInterface network = NetworkManager.of(context);
+    bool dark = network.account.state.accountType == AccountType.AT_BUSINESS ||
+        network.account.state.accountId == 0;
     // Set base colors
-    ThemeData theme = new ThemeData(
-      brightness: Brightness.dark, // This makes things dark!
-      primarySwatch:
-          Colors.blueGrey, // This is just defaults, no need to change!
-      disabledColor: Colors.white12, // Dark fix
-      primaryColorBrightness: Brightness.dark,
-      accentColorBrightness: Brightness.dark,
-    );
-    // Adjust colors
-    theme = theme.copyWith(
-      // Generate these values on https://material.io/color/!
-      primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-      primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-      primaryColorDark: Color.lerp(new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
-          new Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125),
-      buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-      // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
-      accentColor: new Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
-      // Grayscale of primaryColor
-      unselectedWidgetColor: new Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
-    );
+    ThemeData theme = dark
+        ? new ThemeData(
+            brightness: Brightness.dark, // This makes things dark!
+            primarySwatch:
+                Colors.blueGrey, // This is just defaults, no need to change!
+            disabledColor: Colors.white12, // Dark fix
+            primaryColorBrightness: Brightness.dark,
+            accentColorBrightness: Brightness.dark,
+          )
+        : new ThemeData(primarySwatch: Colors.blueGrey);
+    if (dark) {
+      // Adjust colors
+      theme = theme.copyWith(
+        // Generate these values on https://material.io/color/!
+        primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+        primaryColorDark: Color.lerp(new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+            new Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125),
+        buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
+        accentColor: new Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
+        // Grayscale of primaryColor
+        unselectedWidgetColor: new Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
+      );
+    } else {
+      theme = theme.copyWith(
+        // Generate these values on https://material.io/color/!
+        primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+        primaryColorDark: Color.lerp(new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+            new Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125),
+      );
+    }
     // Adjust widget themes
     theme = theme.copyWith(
       buttonTheme: theme.buttonTheme.copyWith(
         shape: new StadiumBorder(),
       ),
     );
+    return new MaterialApp(
+      title: 'INF Marketplace',
+      // debugShowMaterialGrid: true,
+      theme: theme,
+      home: (widget.startupConfig.services.domain != 'dev' ||
+              localAccountId != 0)
+          ? new AppSwitch()
+          : new DemoHomePage(
+              onSetServer:
+                  setServer), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), //
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return new ConfigManager(
       key: new Key('InfDemo.ConfigManager'),
       startupConfig: widget.startupConfig,
@@ -91,19 +120,8 @@ class _DemoAppState extends State<DemoApp> {
             ? localAccountId
             : null,
         // overrideUri: "ws://localhost:9090/ws",
-        child: new MaterialApp(
-          title: '*** INF UI Demo ***',
-          /*builder: (BuildContext context, Widget child) {
-            
-          },*/
-          // debugShowMaterialGrid: true,
-          theme: theme,
-          home: (widget.startupConfig.services.domain != 'dev' ||
-                  localAccountId != 0)
-              ? new AppSwitch()
-              : new DemoHomePage(
-                  onSetServer:
-                      setServer), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), //
+        child: new Builder(
+          builder: _buildMaterialApp,
         ),
       ),
     );

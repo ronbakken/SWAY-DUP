@@ -61,10 +61,10 @@ class _AppBusinessState extends State<AppBusiness> {
     NetworkInterface network = NetworkManager.of(context);
     if (network != _network) {
       _network = network;
-      if (_notificationNavigateApplicantSubscription != null) {
+      /*if (_notificationNavigateApplicantSubscription != null) {
         _notificationNavigateApplicantSubscription.cancel();
         _notificationNavigateApplicantSubscription = null;
-      }
+      }*/
       _notificationNavigateApplicantSubscription = network
           .notificationNavigateApplicant
           .listen(onNotificationNavigateApplicant);
@@ -74,16 +74,17 @@ class _AppBusinessState extends State<AppBusiness> {
 
   @override
   void dispose() {
-    if (_notificationNavigateApplicantSubscription != null) {
+    /*if (_notificationNavigateApplicantSubscription != null) {
       _notificationNavigateApplicantSubscription.cancel();
       _notificationNavigateApplicantSubscription = null;
-    }
+    }*/
     super.dispose();
   }
 
   void onNotificationNavigateApplicant(
       NotificationNavigateApplicant notification) {
-    if (notification.domain != _config.services.domain ||
+    if (!mounted ||
+        notification.domain != _config.services.domain ||
         notification.accountId != _network.account.state.accountId) {
       // TODO: Swap domain and account if necessary
       unhandledNotificationNavigateApplicant = notification;
@@ -191,7 +192,8 @@ class _AppBusinessState extends State<AppBusiness> {
     if (applicantViewOpen != null) {
       print("[INF] Pop previous applicant route");
       Navigator.popUntil(context, (Route<dynamic> route) {
-        return route.settings.name.startsWith('/applicant/' + applicantViewOpen.toString());
+        return route.settings.name
+            .startsWith('/applicant/' + applicantViewOpen.toString());
       });
       Navigator.pop(context);
     }
@@ -200,7 +202,8 @@ class _AppBusinessState extends State<AppBusiness> {
     Navigator.push(
       context,
       new MaterialPageRoute(
-        settings: new RouteSettings(name: '/applicant/' + applicant.applicantId.toString()),
+        settings: new RouteSettings(
+            name: '/applicant/' + applicant.applicantId.toString()),
         builder: (context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
           ConfigData config = ConfigManager.of(context);
