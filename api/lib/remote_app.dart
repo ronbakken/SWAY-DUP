@@ -676,14 +676,16 @@ class RemoteApp {
     ]);
 
     if (pb.hasOldFirebaseToken() && pb.oldFirebaseToken != null) {
-      update = "UPDATE `devices` SET `firebase_token`= ? WHERE `firebase_token` = ?";
+      update =
+          "UPDATE `devices` SET `firebase_token`= ? WHERE `firebase_token` = ?";
       await sql.prepareExecute(update, [
         pb.firebaseToken.toString(),
         pb.oldFirebaseToken.toString(),
       ]);
     }
 
-    bc.accountFirebaseTokensChanged(this); // TODO: Should SELECT all the accounts that were changed (with the new token)
+    bc.accountFirebaseTokensChanged(
+        this); // TODO: Should SELECT all the accounts that were changed (with the new token)
   }
 
   StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE

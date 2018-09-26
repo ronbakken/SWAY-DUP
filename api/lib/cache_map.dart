@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 
 class CacheMapEntry<K, V> extends LinkedListEntry<CacheMapEntry<K, V>> {
@@ -11,7 +10,7 @@ class CacheMapEntry<K, V> extends LinkedListEntry<CacheMapEntry<K, V>> {
 class CacheMap<K, V> {
   Map<K, CacheMapEntry<K, V>> _map = new Map<K, CacheMapEntry<K, V>>();
   LinkedList<CacheMapEntry<K, V>> _list = new LinkedList<CacheMapEntry<K, V>>();
-  
+
   int lifeTime = 15 * 60 * 1000; // 15 minute lifetime
   int entryLimit = 16 * 1024; // 16k entries
 
@@ -32,7 +31,7 @@ class CacheMap<K, V> {
     }
   }
 
-  V operator[](K key) {
+  V operator [](K key) {
     int now = DateTime.now().toUtc().millisecondsSinceEpoch;
     _expire(now);
     CacheMapEntry<K, V> entry = _map[key];
@@ -45,7 +44,7 @@ class CacheMap<K, V> {
     return entry.value;
   }
 
-  void operator[]=(K key, V value) {
+  void operator []=(K key, V value) {
     int now = DateTime.now().toUtc().millisecondsSinceEpoch;
     CacheMapEntry<K, V> entry = new CacheMapEntry<K, V>(key, value);
     entry.accessed = now;

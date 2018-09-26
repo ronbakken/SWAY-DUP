@@ -104,7 +104,8 @@ class BroadcastCenter {
   }
 
   Future<List<String>> _getAccountFirebaseTokens(int accountId) async {
-    _CachedAccountFirebaseTokens cached = _cachedAccountFirebaseTokens[accountId];
+    _CachedAccountFirebaseTokens cached =
+        _cachedAccountFirebaseTokens[accountId];
     if (cached != null) return cached.firebaseTokens;
     await _lockCachedAccountFirebaseTokens.synchronized(() async {
       Set<String> firebaseTokens = new Set<String>();
@@ -182,7 +183,8 @@ class BroadcastCenter {
     // Don't send notifications to the sender
     if (receiverAccountId != chat.senderId) {
       String senderName = await _getAccountName(chat.senderId);
-      List<String> receiverFirebaseTokens = await _getAccountFirebaseTokens(receiverAccountId);
+      List<String> receiverFirebaseTokens =
+          await _getAccountFirebaseTokens(receiverAccountId);
       Map<String, dynamic> notification = new Map<String, dynamic>();
       notification['title'] = senderName;
       notification['body'] = chat.text;
@@ -199,21 +201,25 @@ class BroadcastCenter {
       message['data'] = data;
       String jm = json.encode(message);
       devLog.finest(jm);
-      HttpClientRequest req = await _httpClient.postUrl(Uri.parse(config.services.firebaseLegacyApi));
+      HttpClientRequest req = await _httpClient
+          .postUrl(Uri.parse(config.services.firebaseLegacyApi));
       req.headers.add('Content-Type', 'application/json');
-      req.headers.add('Authorization', 'key=' + config.services.firebaseLegacyServerKey);
+      req.headers.add(
+          'Authorization', 'key=' + config.services.firebaseLegacyServerKey);
       req.add(utf8.encode(jm));
       HttpClientResponse res = await req.close();
       BytesBuilder responseBuilder = new BytesBuilder(copy: false);
       await res.forEach(responseBuilder.add);
       if (res.statusCode != 200) {
-        opsLog.warning("Status code ${res.statusCode}, request: $jm, response: ${utf8.decode(responseBuilder.toBytes())}");
+        opsLog.warning(
+            "Status code ${res.statusCode}, request: $jm, response: ${utf8.decode(responseBuilder.toBytes())}");
       }
       String rs = utf8.decode(responseBuilder.toBytes());
       devLog.finest("Firebase sent OK, response: ${rs}");
       Map<dynamic, dynamic> doc = json.decode(rs);
       if (doc['failure'].toInt() > 0) {
-        devLog.warning("Failed to send Firebase notification to ${doc['failure']} recipient devices, validate all tokens.");
+        devLog.warning(
+            "Failed to send Firebase notification to ${doc['failure']} recipient devices, validate all tokens.");
         // TODO: Validate all registrations
       }
     }
