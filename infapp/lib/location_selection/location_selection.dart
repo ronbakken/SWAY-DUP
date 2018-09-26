@@ -5,6 +5,7 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:geolocator/geolocator.dart';
 import 'experiment_files/lookup_address.dart';
 import 'experiment_files/reverse_geocoding.dart';
+import 'dart:async';
 
 typedef Future<String> SearchCallback(String searchQuery);
 typedef void ConfirmLocationCallback(String location);
