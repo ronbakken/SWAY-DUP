@@ -181,8 +181,10 @@ Future<ConfigServices> generateConfigServices(bool server) async {
 
       if (cfg.hasOption(section, 'mapboxApi'))
         res.mapboxApi = cfg.get(section, 'mapboxApi');
-      if (cfg.hasOption(section, 'mapboxUrlTemplate'))
-        res.mapboxUrlTemplate = cfg.get(section, 'mapboxUrlTemplate');
+      if (cfg.hasOption(section, 'mapboxUrlTemplateDark'))
+        res.mapboxUrlTemplateDark = cfg.get(section, 'mapboxUrlTemplateDark');
+      if (cfg.hasOption(section, 'mapboxUrlTemplateLight'))
+        res.mapboxUrlTemplateLight = cfg.get(section, 'mapboxUrlTemplateLight');
       if (cfg.hasOption(section, 'mapboxToken'))
         res.mapboxToken = cfg.get(section, 'mapboxToken');
 
