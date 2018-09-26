@@ -847,6 +847,13 @@ const NetSetFirebaseToken$json = const {
   '1': 'NetSetFirebaseToken',
   '2': const [
     const {'1': 'firebaseToken', '3': 1, '4': 1, '5': 9, '10': 'firebaseToken'},
+    const {
+      '1': 'oldFirebaseToken',
+      '3': 2,
+      '4': 1,
+      '5': 9,
+      '10': 'oldFirebaseToken'
+    },
   ],
 };
 
