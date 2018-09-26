@@ -190,6 +190,7 @@ class BroadcastCenter {
       Map<String, dynamic> data = new Map<String, dynamic>();
       data['sender_id'] = chat.senderId;
       data['account_id'] = receiverAccountId;
+      data['applicant_id'] = chat.applicantId;
       data['type'] = chat.type.value;
       data['domain'] = config.services.domain;
       Map<String, dynamic> message = new Map<String, dynamic>();
