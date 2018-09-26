@@ -7,6 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:logging/logging.dart';
@@ -15,14 +16,27 @@ import 'package:wstalk/wstalk.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
+import 'package:synchronized/synchronized.dart';
 
 import 'inf.pb.dart';
 import 'remote_app.dart';
+import 'cache_map.dart';
 
 class _CachedApplicant {
   final int influencerAccountId;
   final int businessAccountId;
   _CachedApplicant(this.influencerAccountId, this.businessAccountId);
+}
+
+/// Cached account information with the purpose of sending notifications
+class _CachedAccountName {
+  final String name;
+  _CachedAccountName(this.name);
+}
+
+class _CachedAccountFirebaseTokens {
+  final List<String> firebaseTokens;
+  _CachedAccountFirebaseTokens(this.firebaseTokens);
 }
 
 class BroadcastCenter {
@@ -34,10 +48,20 @@ class BroadcastCenter {
   final sqljocky.ConnectionPool sql;
   final dospace.Bucket bucket;
 
+  final HttpClient _httpClient = new HttpClient();
+
   Multimap<int, RemoteApp> _accountToRemoteApps =
       new Multimap<int, RemoteApp>();
-  Map<int, _CachedApplicant> _applicantToInfluencerBusiness =
-      new Map<int, _CachedApplicant>();
+
+  CacheMap<int, _CachedApplicant> _applicantToInfluencerBusiness =
+      new CacheMap<int, _CachedApplicant>();
+
+  final _lockCachedAccountName = new Lock();
+  CacheMap<int, _CachedAccountName> _cachedAccountName =
+      new CacheMap<int, _CachedAccountName>();
+  final _lockCachedAccountFirebaseTokens = new Lock();
+  CacheMap<int, _CachedAccountFirebaseTokens> _cachedAccountFirebaseTokens =
+      new CacheMap<int, _CachedAccountFirebaseTokens>();
 
   static final Logger opsLog = new Logger('InfOps.BroadcastCenter');
   static final Logger devLog = new Logger('InfDev.BroadcastCenter');
@@ -45,7 +69,7 @@ class BroadcastCenter {
   BroadcastCenter(this.config, this.sql, this.bucket) {}
 
   /////////////////////////////////////////////////////////////////////////////
-  // Caches
+  // Caches (cache non-critical static-ish data only)
   /////////////////////////////////////////////////////////////////////////////
 
   Future<_CachedApplicant> _getApplicant(int applicantId) async {
@@ -60,6 +84,51 @@ class BroadcastCenter {
       _applicantToInfluencerBusiness[applicantId] = applicant;
     }
     return applicant; // May be null if not found
+  }
+
+  Future<String> _getAccountName(int accountId) async {
+    _CachedAccountName cached = _cachedAccountName[accountId];
+    if (cached != null) return cached.name;
+    await _lockCachedAccountName.synchronized(() async {
+      sqljocky.Results res = await sql.prepareExecute(
+          "SELECT `name`"
+          "FROM `accounts` "
+          "WHERE `account_id` = ? ",
+          [accountId.toInt()]);
+      await for (sqljocky.Row row in res) {
+        cached = new _CachedAccountName(row[0].toString());
+        _cachedAccountName[accountId] = cached;
+      }
+    });
+    return cached.name; // May be null if not found
+  }
+
+  Future<List<String>> _getAccountFirebaseTokens(int accountId) async {
+    _CachedAccountFirebaseTokens cached = _cachedAccountFirebaseTokens[accountId];
+    if (cached != null) return cached.firebaseTokens;
+    await _lockCachedAccountFirebaseTokens.synchronized(() async {
+      Set<String> firebaseTokens = new Set<String>();
+      sqljocky.Results res = await sql.prepareExecute(
+          "SELECT `firebase_token`"
+          "FROM `devices` "
+          "WHERE `account_id` = ? ",
+          [accountId.toInt()]);
+      await for (sqljocky.Row row in res) {
+        if (row[0] != null) {
+          String firebaseToken = row[0].toString();
+          firebaseTokens.add(firebaseToken);
+        }
+      }
+      cached = new _CachedAccountFirebaseTokens(firebaseTokens.toList());
+      _cachedAccountFirebaseTokens[accountId] = cached;
+    });
+    return cached.firebaseTokens;
+  }
+
+  void _dirtyAccountFirebaseTokens(int accountId) {
+    _lockCachedAccountFirebaseTokens.synchronized(() async {
+      _cachedAccountFirebaseTokens.remove(accountId);
+    });
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -109,7 +178,45 @@ class BroadcastCenter {
     await _push(senderDeviceId, receiverAccountId, _applicantChatPosted,
         chat.writeToBuffer());
 
-    // TODO: Push Firebase (even if sent directly, Firebase notifications don't show while the app is running)
+    // Push Firebase (even if sent directly, Firebase notifications don't show while the app is running)
+    // Don't send notifications to the sender
+    if (receiverAccountId != chat.senderId) {
+      String senderName = await _getAccountName(chat.senderId);
+      List<String> receiverFirebaseTokens = await _getAccountFirebaseTokens(receiverAccountId);
+      Map<String, dynamic> notification = new Map<String, dynamic>();
+      notification['title'] = senderName;
+      notification['body'] = chat.text;
+      notification['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
+      Map<String, dynamic> data = new Map<String, dynamic>();
+      data['sender_id'] = chat.senderId;
+      data['account_id'] = receiverAccountId;
+      data['type'] = chat.type.value;
+      data['domain'] = config.services.domain;
+      Map<String, dynamic> message = new Map<String, dynamic>();
+      message['registration_ids'] = receiverFirebaseTokens;
+      message['collapse_key'] = 'applicant_id=' + chat.applicantId.toString();
+      message['notification'] = notification;
+      message['data'] = data;
+      String jm = json.encode(message);
+      devLog.finest(jm);
+      HttpClientRequest req = await _httpClient.postUrl(Uri.parse(config.services.firebaseLegacyApi));
+      req.headers.add('Content-Type', 'application/json');
+      req.headers.add('Authorization', 'key=' + config.services.firebaseLegacyServerKey);
+      req.add(utf8.encode(jm));
+      HttpClientResponse res = await req.close();
+      BytesBuilder responseBuilder = new BytesBuilder(copy: false);
+      await res.forEach(responseBuilder.add);
+      if (res.statusCode != 200) {
+        opsLog.warning("Status code ${res.statusCode}, request: $jm, response: ${utf8.decode(responseBuilder.toBytes())}");
+      }
+      String rs = utf8.decode(responseBuilder.toBytes());
+      devLog.finest("Firebase sent OK, response: ${rs}");
+      Map<dynamic, dynamic> doc = json.decode(rs);
+      if (doc['failure'].toInt() > 0) {
+        devLog.warning("Failed to send Firebase notification to ${doc['failure']} recipient devices, validate all tokens.");
+        // TODO: Validate all registrations
+      }
+    }
   }
 
 /*
@@ -134,6 +241,11 @@ class BroadcastCenter {
         remoteApp.account.state.accountId, remoteApp)) {
       // TODO: Signal remote servers (if no more devices for account here)
     }
+  }
+
+  void accountFirebaseTokensChanged(RemoteApp remoteApp) {
+    // TODO: Signal remote servers
+    _dirtyAccountFirebaseTokens(remoteApp.account.state.accountId);
   }
 
   Future<void> applicantPosted(int senderDeviceId, DataApplicant applicant,
