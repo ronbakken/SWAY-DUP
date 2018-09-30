@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 30, 2018 at 11:53 AM
+-- Generation Time: Sep 22, 2018 at 02:12 AM
 -- Server version: 10.3.8-MariaDB-1:10.3.8+maria~bionic
--- PHP Version: 7.2.7-0ubuntu0.18.04.2
+-- PHP Version: 7.2.10-0ubuntu0.18.04.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -94,6 +94,10 @@ CREATE TABLE `applicants` (
   `state` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `applicants`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -112,6 +116,10 @@ CREATE TABLE `applicant_haggling` (
   `seen` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `applicant_haggling`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -126,7 +134,7 @@ CREATE TABLE `devices` (
   `name` text NOT NULL,
   `account_type` int(11) NOT NULL DEFAULT 0,
   `account_id` int(11) NOT NULL DEFAULT 0,
-  `firebase_instance_id` text CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL COMMENT 'TBD',
+  `firebase_token` text CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL COMMENT 'TBD',
   `info` text NOT NULL COMMENT 'Arbitrary information from device, not important'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -242,14 +250,6 @@ CREATE TABLE `social_media` (
 -- Dumping data for table `social_media`
 --
 
-INSERT INTO `social_media` (`oauth_user_id`, `oauth_provider`, `updated`, `screen_name`, `display_name`, `avatar_url`, `profile_url`, `description`, `location`, `url`, `email`, `friends_count`, `followers_count`, `following_count`, `posts_count`, `verified`) VALUES
-('10155420278436734', 2, '2018-08-27 01:03:38', NULL, 'Pepijn Rijnders', 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10155420278436734&height=1440&ext=1536581667&hash=AeQJnZoGuMbCjRpf', 'https://www.facebook.com/app_scoped_user_id/YXNpZADpBWEdFR1d0YWVQSDFzTU1wUDlHTmdydHIxbVpfRWxRR0laQ2U1X045bDlMM21WemFFTlNzV2ZAPMGNaTXRjVHBkLUljQ3lDdXhnT0pRcmhOWmRaaGxXZA3R5dlhlWUJrdHdfSzRMS2tWawZDZD/', NULL, NULL, NULL, 'pepijnrijnders@hotmail.com', 299, 0, 0, 0, 0),
-('10155696703021547', 2, '2018-08-27 01:03:38', NULL, 'Jan Boon', 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10155696703021547&height=1440&ext=1536567017&hash=AeRKK-ZNA86C-lYj', 'https://www.facebook.com/app_scoped_user_id/YXNpZADpBWEZAoVjdma2tlT2kyeUplNFFYdmpUSk1rQzFybVYtYjYyVkk1R284X1JpbkZAmc3oyWnNCN0NBenlBT3c5eC0yR0RiQ2Q2RDR1YUhoSUlCZAVVPZAHlnQl82allyZAE1iX2FSR3FpVjdvegZDZD/', NULL, NULL, NULL, 'kaetemi@gmail.com', 220, 0, 0, 0, 0),
-('29934316', 1, '2018-08-28 00:31:47', 'plattwit', 'David Platt', 'http://pbs.twimg.com/profile_images/131457645/david2.jpg', 'https://twitter.com/plattwit', NULL, 'Los Angeles', NULL, 'david@davidlplatt.com', 0, 177, 24, 33, 0),
-('37972401', 1, '2018-08-29 10:41:25', 'kaetemi', 'Jan Boon', 'http://pbs.twimg.com/profile_images/804102860229275649/_GqXxuGP.jpg', 'https://twitter.com/kaetemi', 'Freelance. Games and software developer.', 'Pasay, Philippines', 'http://www.kaetemi.be/', 'jan.boon@kaetemi.be', 0, 381, 709, 1517, 0),
-('921014179145945089', 1, '2018-08-28 05:55:48', 'No28Games', 'No. 28 Games', 'http://pbs.twimg.com/profile_images/921015068111843329/LcfSG9r_.jpg', 'https://twitter.com/No28Games', 'We know our product, because we made it.', 'Antwerp, Belgium', 'http://no28.games/', 'info@no28.games', 0, 24, 342, 18, 0),
-('953908032160714754', 1, '2018-08-27 01:03:38', 'kennykenken37', 'Kenneth Amiel Santos', 'http://pbs.twimg.com/profile_images/953909620682104833/zbwp_OQQ.jpg', 'https://twitter.com/kennykenken37', NULL, 'Makati City', NULL, 'kennethamiel.santos@gmail.com', 0, 0, 4, 2, 0);
-
 --
 -- Indexes for dumped tables
 --
@@ -334,32 +334,32 @@ ALTER TABLE `social_media` ADD FULLTEXT KEY `fulltext` (`screen_name`,`display_n
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `addressbook`
 --
 ALTER TABLE `addressbook`
-  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `applicants`
 --
 ALTER TABLE `applicants`
-  MODIFY `applicant_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `applicant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `applicant_haggling`
 --
 ALTER TABLE `applicant_haggling`
-  MODIFY `chat_id` bigint(19) NOT NULL AUTO_INCREMENT;
+  MODIFY `chat_id` bigint(19) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=400;
 --
 -- AUTO_INCREMENT for table `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `device_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `offers`
 --
 ALTER TABLE `offers`
-  MODIFY `offer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `offer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `self_test`
 --
