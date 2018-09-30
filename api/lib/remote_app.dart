@@ -25,7 +25,7 @@ import 'package:mime/mime.dart';
 import 'package:dospace/dospace.dart' as dospace;
 import 'package:s2geometry/s2geometry.dart';
 
-import 'inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'broadcast_center.dart';
 import 'remote_app_oauth.dart';
 import 'remote_app_upload.dart';

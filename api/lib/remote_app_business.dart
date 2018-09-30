@@ -16,7 +16,7 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'broadcast_center.dart';
-import 'inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'remote_app.dart';
 
 class RemoteAppBusiness {

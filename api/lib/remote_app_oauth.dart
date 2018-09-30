@@ -14,7 +14,7 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:http/http.dart' as http;
 
-import 'inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'remote_app.dart';
 
 class RemoteAppOAuth {

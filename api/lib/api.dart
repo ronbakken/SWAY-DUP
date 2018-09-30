@@ -26,7 +26,7 @@ import 'package:wstalk/wstalk.dart';
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'broadcast_center.dart';
-import 'inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'remote_app.dart';
 
 ////////////////////////////////////////////////////////////////////////////////

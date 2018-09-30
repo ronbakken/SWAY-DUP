@@ -4,6 +4,12 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+///////////////////////////////////////
+/// DEPRECATED
+/// DEPRECATED
+/// DEPRECATED
+///////////////////////////////////////
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -15,7 +21,7 @@ import 'package:wstalk/wstalk.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
-import 'inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'remote_app.dart';
 
 class RemoteAppProfile {
@@ -79,7 +85,7 @@ class RemoteAppProfile {
   StreamSubscription<TalkMessage> _netLoadPublicProfileReq; // L_PROFIL
   static int _netProfileImageRes = TalkSocket.encode("L_R_PROF");
   Future<void> netLoadPublicProfileReq(TalkMessage message) async {
-    NetLoadPublicProfileReq pb = new NetLoadPublicProfileReq();
+    NetGetProfileReq pb = new NetGetProfileReq();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
 
