@@ -667,12 +667,25 @@ class RemoteApp {
     pb.mergeFromBuffer(message.data);
     devLog.finer("Set Firebase Token: $pb");
     account.state.firebaseToken = pb.firebaseToken;
+
     String update =
         "UPDATE `devices` SET `firebase_token`= ? WHERE `device_id` = ?";
     await sql.prepareExecute(update, [
       pb.firebaseToken.toString(),
       account.state.deviceId.toInt(),
     ]);
+
+    if (pb.hasOldFirebaseToken() && pb.oldFirebaseToken != null) {
+      update =
+          "UPDATE `devices` SET `firebase_token`= ? WHERE `firebase_token` = ?";
+      await sql.prepareExecute(update, [
+        pb.firebaseToken.toString(),
+        pb.oldFirebaseToken.toString(),
+      ]);
+    }
+
+    bc.accountFirebaseTokensChanged(
+        this); // TODO: Should SELECT all the accounts that were changed (with the new token)
   }
 
   StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE

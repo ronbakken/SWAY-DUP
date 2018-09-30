@@ -1,13 +1,14 @@
 ///
 //  Generated code. Do not modify.
+//  source: enum_protobuf.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes
+// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
 // ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME
 import 'dart:core' show int, dynamic, String, List, Map;
-import 'package:protobuf/protobuf.dart';
+import 'package:protobuf/protobuf.dart' as $pb;
 
-class OAuthMechanism extends ProtobufEnum {
+class OAuthMechanism extends $pb.ProtobufEnum {
   static const OAuthMechanism OAM_NONE = const OAuthMechanism._(0, 'OAM_NONE');
   static const OAuthMechanism OAM_OAUTH1 =
       const OAuthMechanism._(1, 'OAM_OAUTH1');
@@ -20,16 +21,17 @@ class OAuthMechanism extends ProtobufEnum {
     OAM_OAUTH2,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static OAuthMechanism valueOf(int value) => _byValue[value] as OAuthMechanism;
+  static final Map<int, OAuthMechanism> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static OAuthMechanism valueOf(int value) => _byValue[value];
   static void $checkItem(OAuthMechanism v) {
-    if (v is! OAuthMechanism) checkItemFailed(v, 'OAuthMechanism');
+    if (v is! OAuthMechanism) $pb.checkItemFailed(v, 'OAuthMechanism');
   }
 
   const OAuthMechanism._(int v, String n) : super(v, n);
 }
 
-class OAuthProviderIds extends ProtobufEnum {
+class OAuthProviderIds extends $pb.ProtobufEnum {
   static const OAuthProviderIds OAP_NONE =
       const OAuthProviderIds._(0, 'OAP_NONE');
   static const OAuthProviderIds OAP_TWITTER =
@@ -43,17 +45,17 @@ class OAuthProviderIds extends ProtobufEnum {
     OAP_FACEBOOK,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static OAuthProviderIds valueOf(int value) =>
-      _byValue[value] as OAuthProviderIds;
+  static final Map<int, OAuthProviderIds> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static OAuthProviderIds valueOf(int value) => _byValue[value];
   static void $checkItem(OAuthProviderIds v) {
-    if (v is! OAuthProviderIds) checkItemFailed(v, 'OAuthProviderIds');
+    if (v is! OAuthProviderIds) $pb.checkItemFailed(v, 'OAuthProviderIds');
   }
 
   const OAuthProviderIds._(int v, String n) : super(v, n);
 }
 
-class AccountType extends ProtobufEnum {
+class AccountType extends $pb.ProtobufEnum {
   static const AccountType AT_UNKNOWN = const AccountType._(0, 'AT_UNKNOWN');
   static const AccountType AT_INFLUENCER =
       const AccountType._(1, 'AT_INFLUENCER');
@@ -67,16 +69,17 @@ class AccountType extends ProtobufEnum {
     AT_SUPPORT,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static AccountType valueOf(int value) => _byValue[value] as AccountType;
+  static final Map<int, AccountType> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static AccountType valueOf(int value) => _byValue[value];
   static void $checkItem(AccountType v) {
-    if (v is! AccountType) checkItemFailed(v, 'AccountType');
+    if (v is! AccountType) $pb.checkItemFailed(v, 'AccountType');
   }
 
   const AccountType._(int v, String n) : super(v, n);
 }
 
-class GlobalAccountState extends ProtobufEnum {
+class GlobalAccountState extends $pb.ProtobufEnum {
   static const GlobalAccountState GAS_INITIALIZE =
       const GlobalAccountState._(0, 'GAS_INITIALIZE');
   static const GlobalAccountState GAS_BLOCKED =
@@ -105,17 +108,17 @@ class GlobalAccountState extends ProtobufEnum {
     GAS_GOD,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static GlobalAccountState valueOf(int value) =>
-      _byValue[value] as GlobalAccountState;
+  static final Map<int, GlobalAccountState> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static GlobalAccountState valueOf(int value) => _byValue[value];
   static void $checkItem(GlobalAccountState v) {
-    if (v is! GlobalAccountState) checkItemFailed(v, 'GlobalAccountState');
+    if (v is! GlobalAccountState) $pb.checkItemFailed(v, 'GlobalAccountState');
   }
 
   const GlobalAccountState._(int v, String n) : super(v, n);
 }
 
-class GlobalAccountStateReason extends ProtobufEnum {
+class GlobalAccountStateReason extends $pb.ProtobufEnum {
   static const GlobalAccountStateReason GASR_NEW_ACCOUNT =
       const GlobalAccountStateReason._(0, 'GASR_NEW_ACCOUNT');
   static const GlobalAccountStateReason GASR_ACCOUNT_BANNED =
@@ -142,18 +145,18 @@ class GlobalAccountStateReason extends ProtobufEnum {
     GASR_REQUIRE_INFO,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static GlobalAccountStateReason valueOf(int value) =>
-      _byValue[value] as GlobalAccountStateReason;
+  static final Map<int, GlobalAccountStateReason> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static GlobalAccountStateReason valueOf(int value) => _byValue[value];
   static void $checkItem(GlobalAccountStateReason v) {
     if (v is! GlobalAccountStateReason)
-      checkItemFailed(v, 'GlobalAccountStateReason');
+      $pb.checkItemFailed(v, 'GlobalAccountStateReason');
   }
 
   const GlobalAccountStateReason._(int v, String n) : super(v, n);
 }
 
-class NotificationFlags extends ProtobufEnum {
+class NotificationFlags extends $pb.ProtobufEnum {
   static const NotificationFlags NF_ACCOUNT_STATE =
       const NotificationFlags._(0, 'NF_ACCOUNT_STATE');
   static const NotificationFlags NF_MAKE_AN_OFFER_FAB =
@@ -170,17 +173,17 @@ class NotificationFlags extends ProtobufEnum {
     NF_CS_REQUEST,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static NotificationFlags valueOf(int value) =>
-      _byValue[value] as NotificationFlags;
+  static final Map<int, NotificationFlags> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static NotificationFlags valueOf(int value) => _byValue[value];
   static void $checkItem(NotificationFlags v) {
-    if (v is! NotificationFlags) checkItemFailed(v, 'NotificationFlags');
+    if (v is! NotificationFlags) $pb.checkItemFailed(v, 'NotificationFlags');
   }
 
   const NotificationFlags._(int v, String n) : super(v, n);
 }
 
-class BusinessOfferState extends ProtobufEnum {
+class BusinessOfferState extends $pb.ProtobufEnum {
   static const BusinessOfferState BOS_DRAFT =
       const BusinessOfferState._(0, 'BOS_DRAFT');
   static const BusinessOfferState BOS_OPEN =
@@ -197,17 +200,17 @@ class BusinessOfferState extends ProtobufEnum {
     BOS_CLOSED,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static BusinessOfferState valueOf(int value) =>
-      _byValue[value] as BusinessOfferState;
+  static final Map<int, BusinessOfferState> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static BusinessOfferState valueOf(int value) => _byValue[value];
   static void $checkItem(BusinessOfferState v) {
-    if (v is! BusinessOfferState) checkItemFailed(v, 'BusinessOfferState');
+    if (v is! BusinessOfferState) $pb.checkItemFailed(v, 'BusinessOfferState');
   }
 
   const BusinessOfferState._(int v, String n) : super(v, n);
 }
 
-class BusinessOfferStateReason extends ProtobufEnum {
+class BusinessOfferStateReason extends $pb.ProtobufEnum {
   static const BusinessOfferStateReason BOSR_NEW_OFFER =
       const BusinessOfferStateReason._(0, 'BOSR_NEW_OFFER');
   static const BusinessOfferStateReason BOSR_USER_CLOSED =
@@ -225,18 +228,18 @@ class BusinessOfferStateReason extends ProtobufEnum {
     BOSR_COMPLETED,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static BusinessOfferStateReason valueOf(int value) =>
-      _byValue[value] as BusinessOfferStateReason;
+  static final Map<int, BusinessOfferStateReason> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static BusinessOfferStateReason valueOf(int value) => _byValue[value];
   static void $checkItem(BusinessOfferStateReason v) {
     if (v is! BusinessOfferStateReason)
-      checkItemFailed(v, 'BusinessOfferStateReason');
+      $pb.checkItemFailed(v, 'BusinessOfferStateReason');
   }
 
   const BusinessOfferStateReason._(int v, String n) : super(v, n);
 }
 
-class ApplicantChatType extends ProtobufEnum {
+class ApplicantChatType extends $pb.ProtobufEnum {
   static const ApplicantChatType ACT_PLAIN =
       const ApplicantChatType._(0, 'ACT_PLAIN');
   static const ApplicantChatType ACT_HAGGLE =
@@ -253,17 +256,17 @@ class ApplicantChatType extends ProtobufEnum {
     ACT_MARKER,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static ApplicantChatType valueOf(int value) =>
-      _byValue[value] as ApplicantChatType;
+  static final Map<int, ApplicantChatType> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static ApplicantChatType valueOf(int value) => _byValue[value];
   static void $checkItem(ApplicantChatType v) {
-    if (v is! ApplicantChatType) checkItemFailed(v, 'ApplicantChatType');
+    if (v is! ApplicantChatType) $pb.checkItemFailed(v, 'ApplicantChatType');
   }
 
   const ApplicantChatType._(int v, String n) : super(v, n);
 }
 
-class ApplicantState extends ProtobufEnum {
+class ApplicantState extends $pb.ProtobufEnum {
   static const ApplicantState AS_HAGGLING =
       const ApplicantState._(0, 'AS_HAGGLING');
   static const ApplicantState AS_DEAL = const ApplicantState._(1, 'AS_DEAL');
@@ -285,16 +288,17 @@ class ApplicantState extends ProtobufEnum {
     AS_RESOLVED,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static ApplicantState valueOf(int value) => _byValue[value] as ApplicantState;
+  static final Map<int, ApplicantState> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static ApplicantState valueOf(int value) => _byValue[value];
   static void $checkItem(ApplicantState v) {
-    if (v is! ApplicantState) checkItemFailed(v, 'ApplicantState');
+    if (v is! ApplicantState) $pb.checkItemFailed(v, 'ApplicantState');
   }
 
   const ApplicantState._(int v, String n) : super(v, n);
 }
 
-class ApplicantChatMarker extends ProtobufEnum {
+class ApplicantChatMarker extends $pb.ProtobufEnum {
   static const ApplicantChatMarker ACM_APPLIED =
       const ApplicantChatMarker._(0, 'ACM_APPLIED');
   static const ApplicantChatMarker ACM_WANT_DEAL =
@@ -326,11 +330,12 @@ class ApplicantChatMarker extends ProtobufEnum {
     ACM_MESSAGE_DROPPED,
   ];
 
-  static final Map<int, dynamic> _byValue = ProtobufEnum.initByValue(values);
-  static ApplicantChatMarker valueOf(int value) =>
-      _byValue[value] as ApplicantChatMarker;
+  static final Map<int, ApplicantChatMarker> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static ApplicantChatMarker valueOf(int value) => _byValue[value];
   static void $checkItem(ApplicantChatMarker v) {
-    if (v is! ApplicantChatMarker) checkItemFailed(v, 'ApplicantChatMarker');
+    if (v is! ApplicantChatMarker)
+      $pb.checkItemFailed(v, 'ApplicantChatMarker');
   }
 
   const ApplicantChatMarker._(int v, String n) : super(v, n);
