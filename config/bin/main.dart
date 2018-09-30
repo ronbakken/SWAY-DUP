@@ -10,7 +10,7 @@ import "package:ini/ini.dart" as ini;
 import 'package:fixnum/fixnum.dart';
 
 // import 'package:config/config.dart' as config;
-import 'package:config/protobuf/config_enum.pb.dart';
+import 'package:config/protobuf/enum_protobuf.pb.dart';
 import 'package:config/protobuf/config_protobuf.pb.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
