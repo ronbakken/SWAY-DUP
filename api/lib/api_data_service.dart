@@ -20,28 +20,20 @@ import 'remote_app.dart';
 
 class ApiDataService {
   final ApiContext _context;
-  
-  ApiDataService(this._context) {
-    
-  }
-  
+
+  ApiDataService(this._context) {}
+
   ApiDataChannel createChannel(RemoteApp remoteApp);
-  
 }
 
 class ApiDataChannel {
   final ApiContext _context;
   final ApiDataService _service;
   final RemoteApp _remote;
-  
-  ApiDataChannel(this._context, this._service, this._remote) {
-    
-  }
-  
-  void onMessage(TalkMessage message) {
-    
-  }
-  
+
+  ApiDataChannel(this._context, this._service, this._remote) {}
+
+  void onMessage(TalkMessage message) {}
 }
 
 /*

@@ -26,10 +26,9 @@ class ApiContext {
   dospace.Spaces spaces;
   dospace.Bucket bucket;
   BroadcastCenter bc;
-  
+
   // Local services
   ApiDataService data;
-  
 }
 
 /*
