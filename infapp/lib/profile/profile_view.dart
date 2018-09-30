@@ -4,7 +4,7 @@ import '../network/config_manager.dart';
 import 'profile_picture.dart';
 import '../widgets/follower_tray.dart';
 import '../widgets/edit_button.dart';
-import '../network/inf.pb.dart';
+import '../protobuf/inf_protobuf.dart';
 
 // TODO: Change to a stateful Widget and Cleanup
 class ProfileView extends StatelessWidget {

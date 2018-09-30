@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../business_offer_list.dart';
-import '../network/inf.pb.dart';
+import '../protobuf/inf_protobuf.dart';
 import '../network/config_manager.dart' show ConfigManager;
 import '../network/network_manager.dart';
 

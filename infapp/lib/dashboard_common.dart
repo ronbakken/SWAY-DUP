@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'network/inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'widgets/network_status.dart';
 
 // TODO: Animate transitions between the three windows

@@ -25,7 +25,7 @@ import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart';
 
 import 'config_manager.dart';
-import 'inf.pb.dart';
+import '../protobuf/inf_protobuf.dart';
 
 // TODO: Reassemble should re-merge all protobuf
 
@@ -1155,7 +1155,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       // It's me...
       return this.account;
     }
-    NetLoadPublicProfileReq pbReq = new NetLoadPublicProfileReq();
+    NetGetProfileReq pbReq = new NetGetProfileReq();
     pbReq.accountId = accountId;
     TalkMessage message =
         await _ts.sendRequest(_netLoadPublicProfileReq, pbReq.writeToBuffer());

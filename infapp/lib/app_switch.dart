@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/widgets.dart';
 
-import 'network/inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'network/network_manager.dart';
 import 'loading_network.dart';
 import 'app_onboarding.dart';

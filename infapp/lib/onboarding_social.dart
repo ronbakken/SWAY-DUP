@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'network/config_manager.dart';
-import 'network/inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'utility/progress_dialog.dart';
 
 import 'widgets/network_status.dart';

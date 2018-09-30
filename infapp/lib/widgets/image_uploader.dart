@@ -13,7 +13,7 @@ import 'package:flutter/widgets.dart';
 // https://pub.dartlang.org/packages/image_picker
 import 'package:image_picker/image_picker.dart';
 
-import '../network/inf.pb.dart';
+import '../protobuf/inf_protobuf.dart';
 import '../utility/progress_dialog.dart';
 
 // Image uploader

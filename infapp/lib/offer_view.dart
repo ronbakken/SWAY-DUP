@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'network/inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'widgets/carousel_app_bar.dart';
 import 'widgets/dark_container.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../network/inf.pb.dart';
+import '../protobuf/inf_protobuf.dart';
 
 /// This widget will take in a specific authenticated Social Media
 /// Account and display the social media's Brand Icon along with

@@ -4,7 +4,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 
 import 'utility/progress_dialog.dart';
-import 'network/inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'cards/offer_card.dart';
 import 'widgets/image_uploader.dart';
 import 'widgets/network_status.dart';

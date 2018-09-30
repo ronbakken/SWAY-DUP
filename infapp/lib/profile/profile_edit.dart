@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../network/inf.pb.dart';
+import '../protobuf/inf_protobuf.dart';
 import 'profile_view.dart';
 import '../page_transition.dart';
 import '../widgets/image_uploader.dart';
@@ -21,7 +21,7 @@ class ProfileEdit extends StatefulWidget {
 
   final DataAccount account;
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
-  final Function(NetSetProfile setProfile) onSubmitPressed;
+  final Function(NetProfileModify setProfile) onSubmitPressed;
 
   @override
   _ProfileEditState createState() => new _ProfileEditState();
@@ -59,7 +59,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     */
 
     if (widget.onSubmitPressed != null) {
-      NetSetProfile setProfile = new NetSetProfile();
+      NetProfileModify setProfile = new NetProfileModify();
       setProfile.avatarKey = _avatarController.text;
       setProfile.name = _nameController.text;
       setProfile.description = _descriptionController.text;
