@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:config/config_protobuf.pb.dart';
+import 'package:config/protobuf/config_protobuf.pb.dart';
 import 'package:dospace/dospace.dart' as dospace;
 
 main() async {
