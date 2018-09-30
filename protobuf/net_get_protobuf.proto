@@ -1,0 +1,64 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "InfX";
+
+// import 'enum_protobuf.proto';
+import 'data_protobuf.proto';
+
+// Load Public Profile
+// Id: L_PROFIL
+// Response: DataAccount (Id: L_R_PROF)
+/*
+message NetLoadPublicProfileReq {
+  int32 accountId = 1;
+  
+}
+*/
+
+// Get Profile
+// Id: GTPROFIL
+// Res: NetGetProfileRes (Id: GTPROF_R)
+message NetGetProfileReq {
+  int32 accountId = 1;
+    
+}
+
+message NetGetProfileRes {
+  DataAccount account = 1;
+  
+}
+
+// Get Offer
+// Id: GTOFFERR
+// Res: NetGetOfferRes (Id: GTOFFE_R)
+message NetGetOfferReq {
+  int32 offerId = 1;
+  
+}
+
+message NetGetOfferRes {
+  DataBusinessOffer offer = 1;
+  
+}
+
+// Get Applicant
+// Id: GTAPPLIC
+// Res: NetGetApplicantRes (Id: GTAPPL_R)
+message NetGetApplicantReq {
+  int32 applicantId = 1;
+  
+}
+
+message NetGetApplicantRes {
+  DataApplicant applicant = 1;
+  
+}
+
+/* end of file */

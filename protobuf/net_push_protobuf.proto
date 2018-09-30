@@ -1,0 +1,32 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "InfX";
+
+// import 'enum_protobuf.proto';
+// import 'data_protobuf.proto';
+
+// Server notifies client of new DataApplicant (An influencer has applied for your offer!)
+// NOTE: This is accompanied by a MARKER DataApplicantChat, the chat marker provides notification
+// Id: LN_APPLI
+// Data: DataApplicant
+
+// Server notifies client of new DataApplicantChat (should also have firebase variants)
+// Id: LN_A_CHA
+// Data: DataApplicantChat
+
+// Server updates DataApplicant (Live Update)
+// Id: LU_APPLI
+// Data: DataApplicant
+
+// Server updates DataApplicantChat (loading)
+// Id: LU_A_CHA
+// Data: DataApplicantChat
+
+/* end of file */

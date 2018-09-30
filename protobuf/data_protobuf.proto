@@ -1,0 +1,212 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "InfX";
+
+import 'enum_protobuf.proto';
+
+// This message MUST NOT contain 'repeated' due to usage of 'mergeFromMessage'
+message DataSocialMedia {
+  /// Social media is connected to the account
+  bool connected = 1;
+  /// Token for connection is expired, data outdated and user must re-connect by OAuth
+  bool expired = 15;
+  
+  /* Names. Use whichever one is not empty. Prefer displayName. */
+  /// Screen name, eg. Twitter account name
+  string screenName = 4;
+  /// Display name, eg. Facebook full name
+  string displayName = 5;
+  
+  /* Further info. May have null values. Most data isn't always shared. */
+  /// Url to the actual social media profile
+  string avatarUrl = 14;
+  string profileUrl = 13;
+  string description = 6;
+  string location = 7;
+  string url = 8;
+  string email = 12;
+  
+  /* Use the largest of either friendsCount or followersCount for boasting. */
+  int32 friendsCount = 9;
+  int32 followersCount = 2;
+  int32 followingCount = 3;
+  
+  int32 postsCount = 10;
+  
+  bool verified = 11;
+  
+}
+
+message DataOAuthCredentials {
+  /* Server info, never shared with client */
+  /// User id
+  string userId = 4;
+  /// Token for OAuth1 and OAuth2
+  string token = 1;
+  /// Secret token for OAuth1. May be empty string for OAuth2
+  string tokenSecret = 2;
+  /// Expiration timestamp in seconds. No expiration if 0
+  int32 tokenExpires = 3;
+  
+}
+
+message DataBusinessOffer {
+  int32 offerId = 1;
+  int32 accountId = 2;
+  int32 locationId = 3;
+  
+  string title = 4;
+  string description = 5;
+  string thumbnailUrl = 6;
+  
+  string deliverables = 7;
+  string reward = 8;
+  
+  // Embedded business location info
+  string locationName = 21; // Business or location name depending
+  string location = 9;
+  double latitude = 18;
+  double longitude = 19;
+  int32 locationOfferCount = 20; // Number of offers at the same location
+  
+  // Detail info
+  repeated string coverUrls = 10;
+  bytes categories = 23;
+  
+  // State
+  BusinessOfferState state = 12;
+  BusinessOfferStateReason stateReason = 13;
+  
+  // Info for business
+  int32 applicantsNew = 14;
+  int32 applicantsAccepted = 15;
+  int32 applicantsCompleted = 16;
+  int32 applicantsRefused = 17;
+  
+  // Info for influencer
+  int32 influencerApplicantId = 22; // So the Offer View knows this offer has already been applied to
+  
+}
+
+message DataLocation {
+  int32 locationId = 1;
+  
+  string name = 2;
+  string avatarUrl = 6;
+  
+  string approximate = 7;
+  string detail = 8;
+  string postcode = 9;
+  string regionCode = 10;
+  string countryCode = 11;
+  
+  double latitude = 4;
+  double longitude = 5;
+  int64 s2cellId = 12;
+  
+}
+
+message DataAccountState {
+  // Device ID. If 0, authentication failed, and the client must create a new account
+  int32 deviceId = 1;
+  
+  // Account ID. If 0, proceed with account creation
+  int32 accountId = 2;
+  
+  // Account type. If not AT_UNKNOWN, account creation may bypass type selection
+  AccountType accountType = 3;
+  
+  GlobalAccountState globalAccountState = 4; // TODO: Rename to globalState
+  GlobalAccountStateReason globalAccountStateReason = 5; // TODO: Rename to globalStateReason
+  
+  NotificationFlags notificationFlags = 6;
+  
+  string firebaseToken = 7;
+  
+}
+
+message DataAccountSummary {
+  string name = 1;
+  string description = 2;
+  string location = 3;
+  string avatarThumbnailUrl = 4;
+  
+}
+
+message DataAccountDetail {
+  // repeated string coverUrls = 1;
+  bytes categories = 11;
+  repeated DataSocialMedia socialMedia = 3;
+  string avatarCoverUrl = 7; // Higher resolution, but same as avatarThumbnailUrl
+  string url = 6;
+  string email = 9;
+  // bool emailVerified = 10;
+  double latitude = 4; // necessary?
+  double longitude = 5; // necessary?
+  int32 locationId = 8;
+  
+}
+
+message DataAccount {
+  DataAccountState state = 1;
+  DataAccountSummary summary = 2;
+  DataAccountDetail detail = 3;
+  
+}
+
+message DataApplicant {
+  int32 applicantId = 1;
+  int32 offerId = 2;
+  int32 influencerAccountId = 3; // Account which applied
+  int32 businessAccountId = 16;
+  
+  /// Embedded data
+  string influencerName = 17;
+  string businessName = 18;
+  string offerTitle = 19;
+  
+  // datetime schedule etc
+  
+  /// Current chat ID with haggle buttons (deliverables / reward / remarks)
+  int64 haggleChatId = 4;
+  bool influencerWantsDeal = 6;
+  bool businessWantsDeal = 5;
+  
+  bool influencerMarkedDelivered = 7;
+  bool influencerMarkedRewarded = 8;
+  bool businessMarkedDelivered = 9;
+  bool businessMarkedRewarded = 10;
+  
+  int32 influencerGaveRating = 12;
+  int32 businessGaveRating = 11; // 1 to 5, 0 is no rating given (rating given implies complete)
+  
+  bool influencerDisputed = 15;
+  bool businessDisputed = 14;
+  
+  ApplicantState state = 13;
+  
+}
+
+message DataApplicantChat {
+  int64 chatId = 7; // Sequential identifier in the chat stream
+  int64 sent = 10; // Sent timestamp
+  int32 senderId = 2; // Account which sent
+  int32 applicantId = 1; // One chat per applicant
+  
+  int32 deviceId = 11; // Cleared upon forwarding
+  int32 deviceGhostId = 6; // Deduplication client-side (ghost entry)
+  
+  ApplicantChatType type = 8;
+  string text = 5; // The written text
+  int64 seen = 9; // 0 if not seen
+  
+}
+
+/* end of file */

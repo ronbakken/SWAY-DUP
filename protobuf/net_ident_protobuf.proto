@@ -1,0 +1,126 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "InfX";
+
+import 'enum_protobuf.proto';
+import 'data_protobuf.proto';
+
+// Protobuf types list:
+// https://developers.google.com/protocol-buffers/docs/proto?csw=1#scalar
+
+// Sends some info from https://pub.dartlang.org/packages/device_info#-readme-tab-
+// Name: DA_CREAT
+// Response: NetDeviceAuthState
+message NetDeviceAuthCreateReq {
+  // Public key for future authentication (AES-256)
+  bytes aesKey = 1;
+  
+  // Common identifier for the device in case of multiple accounts
+  bytes commonDeviceId = 4;
+  
+  // Device information for developers
+  string name = 2;
+  string info = 3;
+  
+}
+
+// Device requires an authentication challenge
+// Name: DA_CHALL
+// Response: NetDevAuthChallengeResReq
+message NetDeviceAuthChallengeReq {
+  // Id of the device that wants to authenticate
+  int32 deviceId = 1;
+  
+}
+
+// Server supplies challenge for the device
+// Name: DA_R_CHA
+// Response: NetDeviceAuthSignatureResReq
+message NetDeviceAuthChallengeResReq {
+  bytes challenge = 1;
+  
+}
+
+// App completes the challenge
+// Name: DA_R_SIG
+// Response: NetDeviceAuthState
+message NetDeviceAuthSignatureResReq {
+  bytes signature = 1;
+  
+}
+
+// Create or auth result
+// Name: DA_STATE
+message NetDeviceAuthState {
+  /// Whole account data
+  DataAccount data = 8;
+  
+}
+
+// App requests the server to set the account type
+// Special case when going backwards in the onboarding process
+// Valid when account_id == 0
+// Removes all OAuth associated with the device
+// Name: A_SETTYP
+message NetSetAccountType {
+  AccountType accountType = 1;
+  
+}
+
+// App sets device firebase messaging token
+// Name: SFIREBAT
+message NetSetFirebaseToken {
+  string firebaseToken = 1;
+  string oldFirebaseToken = 2;
+}
+
+// App requests OAuth url
+// Name: OA_URLRE
+// Response: NetOAuthUrlRes
+message NetOAuthUrlReq {
+  int32 oauthProvider = 1;
+  
+}
+
+// App requests OAuth url
+// Name: OA_R_URL
+// Response: NetOAuthUrlRes
+message NetOAuthUrlRes {
+  string authUrl = 1;
+  string callbackUrl = 2;
+  
+}
+
+// App adds another OAuth provider to the account
+// Name: OA_CONNE
+// Response: NetOAuthConnectRes
+message NetOAuthConnectReq {
+  int32 oauthProvider = 1;
+  string callbackQuery = 2;
+  
+}
+
+// OAuth addition result
+// Name: OA_R_CON
+message NetOAuthConnectRes {
+  DataSocialMedia socialMedia = 1;
+  
+}
+
+// Create account
+// Response: NetDeviceAuthState
+// Name: A_CREATE
+message NetAccountCreateReq {
+  double latitude = 2;
+  double longitude = 3;
+  
+}
+
+/* end of file */

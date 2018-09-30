@@ -1,0 +1,26 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "InfX";
+
+// import 'enum_protobuf.proto';
+// import 'data_protobuf.proto';
+
+// Apply for offer
+// Id: O_APPLYY
+// Response: DataApplicant (Id: O_R_APPL) (or exception in case of failure)
+message NetOfferApplyReq {
+  int32 offerId = 1;
+  int32 deviceGhostId = 8;
+  
+  string remarks = 2;
+  
+}
+
+/* end of file */

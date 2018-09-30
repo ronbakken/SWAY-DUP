@@ -1,0 +1,62 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "InfX";
+
+// import 'enum_protobuf.proto';
+// import 'data_protobuf.proto';
+
+// Message to create offer
+// Id: C_OFFERR
+// Response C_R_OFFE (DataBusinessOffer)
+message NetCreateOfferReq {
+  // Basics
+  string title = 1;
+  repeated string imageKeys = 2;
+  string description = 3;
+  string deliverables = 4;
+  string reward = 5;
+  
+  int32 locationId = 6; // 0 being the user's default location -- dropdown selection from user locations if supported
+  
+}
+
+// Message to load or refresh offer list
+// Server will send a stream of DataBusinessOffer messages (Id: DB_OFFER)
+// Id: L_OFFERS
+// Response: NetLoadOffersRes (Id: L_R_OFFE)
+message NetLoadOffersReq {
+  // Offers with id lower than this (older offers) (ignore if 0)
+  int32 before = 1;
+  
+  // Offers with id higher than this (newer offers) (ignore if 0)
+  int32 after = 2;
+  
+  // Limit (ignore if 0)
+  int32 limit = 3;
+  
+}
+
+// Response which is sent when all DB_OFFER messages have been sent
+// Used by the client to signal to the user that refresh is complete, if refresh was done manually (and to avoid multiple simultaneous loads)
+// Id: L_R_OFFE
+message NetLoadOffersRes {
+  // Oldest offer which was sent
+  int32 oldest = 1;
+  
+  // Newest offer which was sent
+  int32 newest = 2;
+  
+}
+
+// Update offer information, assume the recipient owns this offer (client should check accountId though, in case protocol changes)
+// Id: DB_OFFER
+// message DataBusinessOffer
+
+/* end of file */

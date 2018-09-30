@@ -1,0 +1,32 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "InfX";
+
+// import 'enum_protobuf.proto';
+// import 'data_protobuf.proto';
+
+// Id: PRMODIFY
+message NetProfileModify {
+  // Basics
+  string name = 1;
+  string description = 2;
+  string avatarKey = 4;
+  
+  string url = 6;
+  
+  // repeated CategoryId categories = 12;
+  bytes categories = 16;
+  
+  double latitude = 14;
+  double longitude = 15;
+  
+}
+
+/* end of file */

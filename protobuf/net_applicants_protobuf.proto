@@ -1,0 +1,144 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "InfX";
+
+// import 'enum_protobuf.proto';
+import 'data_protobuf.proto';
+
+// Message to load or refresh applicant list
+// Server will send a stream of DataApplicant messages (Id: LU_APPLI)
+// Id: L_APPLIS
+message NetLoadApplicantsReq {
+  // Offer for which to send applicants (ignored when requested by influencer)
+  int32 offerId = 4;
+  
+  // Applicants with id lower than this (older applicants) (ignore if 0)
+  int32 before = 1;
+  
+  // Applicants with id higher than this (newer applicants) (ignore if 0)
+  int32 after = 2;
+  
+  // Limit (ignore if 0)
+  int32 limit = 3;
+  
+}
+
+// Message to load a specific applicant
+// Id: L_APPLIC
+// Response: DataApplicant (Id: LU_APPLI)
+message NetLoadApplicantReq {
+  int32 applicantId = 1;
+  
+}
+
+// Message to load or refresh applicant chat list
+// Server will send a stream of DataApplicantChat messages (Id: LU_A_CHA)
+// Id: L_APCHAT
+// Response: NetLoadApplicantsRes (Id: L_R_APCH)
+message NetLoadApplicantChatsReq {
+  // Applicant for which to send chats
+  int32 applicantId = 5;
+  
+  // Applicant chats with id lower than this (older applicant chats) (ignore if 0)
+  int32 before = 1;
+  
+  // Applicant chats with id higher than this (newer applicant chats) (ignore if 0)
+  int32 after = 2;
+  
+  // Limit (ignore if 0)
+  int32 limit = 3;
+  
+}
+
+// Send chat plain
+// Id: CH_PLAIN
+message NetChatPlain {
+  int32 applicantId = 1;
+  int32 deviceGhostId = 8;
+  string text = 6;
+  
+}
+
+// Send chat haggle (refuse if already accepted by both)
+// Id: CH_HAGGL
+message NetChatHaggle {
+  int32 applicantId = 1;
+  int32 deviceGhostId = 8;
+  string deliverables = 3;
+  string reward = 4;
+  string remarks = 2;
+  
+}
+
+// Send chat image key
+// Id: CH_IMAGE
+message NetChatImageKey {
+  int32 applicantId = 1;
+  int32 deviceGhostId = 8;
+  string imageKey = 5;
+  
+}
+
+// Want deal. Only successful if the haggleChatId is current
+// Id: AP_WADEA
+// Response: NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker
+message NetApplicantWantDealReq {
+  int32 applicantId = 1;
+  int64 haggleChatId = 2;
+  
+}
+
+// Reject an application (closes the chat too)
+// Id: AP_REJEC
+// Response: NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker
+message NetApplicantRejectReq {
+  int32 applicantId = 1;
+  string reason = 2; // Reason part of marker but not shown right now
+  
+}
+
+// Report an application
+// Id: AP_REPOR
+// Response: NetApplicantCommonRes (Id: AP_R_COM), null, null
+message NetApplicantReportReq {
+  int32 applicantId = 1;
+  string text = 2; // Sent to support. Sent by mail (sql transaction... :))
+  
+}
+
+// Mark as completed OR dispute a problem
+// Id: AP_COMPL
+// Response: NetApplicantCommonRes (Id: AP_R_COM), applicant update + marker
+message NetApplicantCompletionReq {
+  int32 applicantId = 1;
+  
+  bool delivered = 2;  // Markings can only be changed under DEAL and DISPUTE stage, ignored otherwise
+  bool rewarded = 3;
+  
+  int32 rating = 4; // Ignored in case of problem report. If both users rate, then offer moves to COMPLETE, even if in DISPUTE
+  
+  bool dispute = 5;
+  string disputeDescription = 6; // Problem description for support. Sent by mail (sql transaction... :))
+  
+}
+
+// Generic response for applicant actions.
+// Always returns the updated applicant info,
+// and optionally new chats generated from the action (ghost-less).
+// In case of an Exception, the client should mark the current applicant
+// and chat data as dirty, and reload it's state
+// Id: AP_R_COM
+message NetApplicantCommonRes {
+  DataApplicant updateApplicant = 1;
+  repeated DataApplicantChat newChats = 2;
+  
+}
+
+/* end of file */
