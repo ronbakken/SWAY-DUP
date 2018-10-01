@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: inf.proto
+//  source: enum_protobuf.proto
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
@@ -21,9 +21,9 @@ class OAuthMechanism extends $pb.ProtobufEnum {
     OAM_OAUTH2,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, OAuthMechanism> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static OAuthMechanism valueOf(int value) => _byValue[value] as OAuthMechanism;
+  static OAuthMechanism valueOf(int value) => _byValue[value];
   static void $checkItem(OAuthMechanism v) {
     if (v is! OAuthMechanism) $pb.checkItemFailed(v, 'OAuthMechanism');
   }
@@ -45,10 +45,9 @@ class OAuthProviderIds extends $pb.ProtobufEnum {
     OAP_FACEBOOK,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, OAuthProviderIds> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static OAuthProviderIds valueOf(int value) =>
-      _byValue[value] as OAuthProviderIds;
+  static OAuthProviderIds valueOf(int value) => _byValue[value];
   static void $checkItem(OAuthProviderIds v) {
     if (v is! OAuthProviderIds) $pb.checkItemFailed(v, 'OAuthProviderIds');
   }
@@ -70,9 +69,9 @@ class AccountType extends $pb.ProtobufEnum {
     AT_SUPPORT,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, AccountType> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static AccountType valueOf(int value) => _byValue[value] as AccountType;
+  static AccountType valueOf(int value) => _byValue[value];
   static void $checkItem(AccountType v) {
     if (v is! AccountType) $pb.checkItemFailed(v, 'AccountType');
   }
@@ -109,10 +108,9 @@ class GlobalAccountState extends $pb.ProtobufEnum {
     GAS_GOD,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, GlobalAccountState> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static GlobalAccountState valueOf(int value) =>
-      _byValue[value] as GlobalAccountState;
+  static GlobalAccountState valueOf(int value) => _byValue[value];
   static void $checkItem(GlobalAccountState v) {
     if (v is! GlobalAccountState) $pb.checkItemFailed(v, 'GlobalAccountState');
   }
@@ -147,10 +145,9 @@ class GlobalAccountStateReason extends $pb.ProtobufEnum {
     GASR_REQUIRE_INFO,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, GlobalAccountStateReason> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static GlobalAccountStateReason valueOf(int value) =>
-      _byValue[value] as GlobalAccountStateReason;
+  static GlobalAccountStateReason valueOf(int value) => _byValue[value];
   static void $checkItem(GlobalAccountStateReason v) {
     if (v is! GlobalAccountStateReason)
       $pb.checkItemFailed(v, 'GlobalAccountStateReason');
@@ -176,10 +173,9 @@ class NotificationFlags extends $pb.ProtobufEnum {
     NF_CS_REQUEST,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, NotificationFlags> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static NotificationFlags valueOf(int value) =>
-      _byValue[value] as NotificationFlags;
+  static NotificationFlags valueOf(int value) => _byValue[value];
   static void $checkItem(NotificationFlags v) {
     if (v is! NotificationFlags) $pb.checkItemFailed(v, 'NotificationFlags');
   }
@@ -204,10 +200,9 @@ class BusinessOfferState extends $pb.ProtobufEnum {
     BOS_CLOSED,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, BusinessOfferState> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static BusinessOfferState valueOf(int value) =>
-      _byValue[value] as BusinessOfferState;
+  static BusinessOfferState valueOf(int value) => _byValue[value];
   static void $checkItem(BusinessOfferState v) {
     if (v is! BusinessOfferState) $pb.checkItemFailed(v, 'BusinessOfferState');
   }
@@ -233,10 +228,9 @@ class BusinessOfferStateReason extends $pb.ProtobufEnum {
     BOSR_COMPLETED,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, BusinessOfferStateReason> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static BusinessOfferStateReason valueOf(int value) =>
-      _byValue[value] as BusinessOfferStateReason;
+  static BusinessOfferStateReason valueOf(int value) => _byValue[value];
   static void $checkItem(BusinessOfferStateReason v) {
     if (v is! BusinessOfferStateReason)
       $pb.checkItemFailed(v, 'BusinessOfferStateReason');
@@ -262,10 +256,9 @@ class ApplicantChatType extends $pb.ProtobufEnum {
     ACT_MARKER,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, ApplicantChatType> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static ApplicantChatType valueOf(int value) =>
-      _byValue[value] as ApplicantChatType;
+  static ApplicantChatType valueOf(int value) => _byValue[value];
   static void $checkItem(ApplicantChatType v) {
     if (v is! ApplicantChatType) $pb.checkItemFailed(v, 'ApplicantChatType');
   }
@@ -295,9 +288,9 @@ class ApplicantState extends $pb.ProtobufEnum {
     AS_RESOLVED,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, ApplicantState> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static ApplicantState valueOf(int value) => _byValue[value] as ApplicantState;
+  static ApplicantState valueOf(int value) => _byValue[value];
   static void $checkItem(ApplicantState v) {
     if (v is! ApplicantState) $pb.checkItemFailed(v, 'ApplicantState');
   }
@@ -337,10 +330,9 @@ class ApplicantChatMarker extends $pb.ProtobufEnum {
     ACM_MESSAGE_DROPPED,
   ];
 
-  static final Map<int, dynamic> _byValue =
+  static final Map<int, ApplicantChatMarker> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static ApplicantChatMarker valueOf(int value) =>
-      _byValue[value] as ApplicantChatMarker;
+  static ApplicantChatMarker valueOf(int value) => _byValue[value];
   static void $checkItem(ApplicantChatMarker v) {
     if (v is! ApplicantChatMarker)
       $pb.checkItemFailed(v, 'ApplicantChatMarker');

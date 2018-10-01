@@ -9,7 +9,7 @@ import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 
 import 'search/search_page.dart';
-import 'network/inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 
 import 'package:geolocator/geolocator.dart';
 

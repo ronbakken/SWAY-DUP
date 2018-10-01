@@ -28,7 +28,9 @@ dependencies:
   flutter_map: ^0.1.1
 
   wstalk:
-    path: ../wstalk/
+    git:
+      url: https://github.com/nbspou/wstalk.git
+      ref: master
 
   geolocator: ^1.6.3
   url_launcher: ^3.0.3

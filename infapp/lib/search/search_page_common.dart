@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../network/inf.pb.dart';
+import '../protobuf/inf_protobuf.dart';
 
 import '../widgets/network_status.dart';
 

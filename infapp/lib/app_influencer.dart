@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'network/inf.pb.dart';
+import 'protobuf/inf_protobuf.dart';
 import 'network/config_manager.dart';
 import 'network/network_manager.dart';
 

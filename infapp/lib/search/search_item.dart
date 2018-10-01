@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../network/inf.pb.dart';
+import '../protobuf/inf_protobuf.dart';
 
 class SearchItemCard extends StatelessWidget {
   final DataAccount item;
