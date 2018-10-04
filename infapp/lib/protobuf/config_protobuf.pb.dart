@@ -37,7 +37,8 @@ class ConfigSubCategories extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static ConfigSubCategories _defaultInstance;
   static void $checkItem(ConfigSubCategories v) {
-    if (v is! ConfigSubCategories) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! ConfigSubCategories)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<String> get labels => $_getList(0);
@@ -68,7 +69,7 @@ class ConfigCategories extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static ConfigCategories _defaultInstance;
   static void $checkItem(ConfigCategories v) {
-    if (v is! ConfigCategories) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! ConfigCategories) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<ConfigSubCategories> get sub => $_getList(0);
@@ -121,7 +122,8 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static ConfigOAuthProvider _defaultInstance;
   static void $checkItem(ConfigOAuthProvider v) {
-    if (v is! ConfigOAuthProvider) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! ConfigOAuthProvider)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   bool get visible => $_get(0, false);
@@ -281,7 +283,8 @@ class ConfigOAuthProviders extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static ConfigOAuthProviders _defaultInstance;
   static void $checkItem(ConfigOAuthProviders v) {
-    if (v is! ConfigOAuthProviders) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! ConfigOAuthProviders)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<ConfigOAuthProvider> get all => $_getList(0);
@@ -339,7 +342,7 @@ class ConfigServices extends $pb.GeneratedMessage {
   static ConfigServices getDefault() => _defaultInstance ??= create()..freeze();
   static ConfigServices _defaultInstance;
   static void $checkItem(ConfigServices v) {
-    if (v is! ConfigServices) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! ConfigServices) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get mapboxApi => $_getS(0, '');
@@ -607,7 +610,7 @@ class ConfigData extends $pb.GeneratedMessage {
   static ConfigData getDefault() => _defaultInstance ??= create()..freeze();
   static ConfigData _defaultInstance;
   static void $checkItem(ConfigData v) {
-    if (v is! ConfigData) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! ConfigData) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get clientVersion => $_get(0, 0);

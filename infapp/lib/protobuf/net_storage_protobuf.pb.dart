@@ -36,7 +36,8 @@ class NetUploadImageReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetUploadImageReq _defaultInstance;
   static void $checkItem(NetUploadImageReq v) {
-    if (v is! NetUploadImageReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetUploadImageReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get fileName => $_getS(0, '');
@@ -101,7 +102,8 @@ class NetUploadImageRes extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetUploadImageRes _defaultInstance;
   static void $checkItem(NetUploadImageRes v) {
-    if (v is! NetUploadImageRes) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetUploadImageRes)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get requestMethod => $_getS(0, '');

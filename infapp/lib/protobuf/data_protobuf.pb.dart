@@ -50,7 +50,7 @@ class DataSocialMedia extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static DataSocialMedia _defaultInstance;
   static void $checkItem(DataSocialMedia v) {
-    if (v is! DataSocialMedia) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DataSocialMedia) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   bool get connected => $_get(0, false);
@@ -202,7 +202,8 @@ class DataOAuthCredentials extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static DataOAuthCredentials _defaultInstance;
   static void $checkItem(DataOAuthCredentials v) {
-    if (v is! DataOAuthCredentials) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DataOAuthCredentials)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get token => $_getS(0, '');
@@ -295,7 +296,8 @@ class DataBusinessOffer extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static DataBusinessOffer _defaultInstance;
   static void $checkItem(DataBusinessOffer v) {
-    if (v is! DataBusinessOffer) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DataBusinessOffer)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get offerId => $_get(0, 0);
@@ -502,7 +504,7 @@ class DataLocation extends $pb.GeneratedMessage {
   static DataLocation getDefault() => _defaultInstance ??= create()..freeze();
   static DataLocation _defaultInstance;
   static void $checkItem(DataLocation v) {
-    if (v is! DataLocation) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DataLocation) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get locationId => $_get(0, 0);
@@ -648,7 +650,7 @@ class DataAccountState extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static DataAccountState _defaultInstance;
   static void $checkItem(DataAccountState v) {
-    if (v is! DataAccountState) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DataAccountState) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get deviceId => $_get(0, 0);
@@ -736,7 +738,8 @@ class DataAccountSummary extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static DataAccountSummary _defaultInstance;
   static void $checkItem(DataAccountSummary v) {
-    if (v is! DataAccountSummary) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DataAccountSummary)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -804,7 +807,8 @@ class DataAccountDetail extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static DataAccountDetail _defaultInstance;
   static void $checkItem(DataAccountDetail v) {
-    if (v is! DataAccountDetail) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DataAccountDetail)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<DataSocialMedia> get socialMedia => $_getList(0);
@@ -894,7 +898,7 @@ class DataAccount extends $pb.GeneratedMessage {
   static DataAccount getDefault() => _defaultInstance ??= create()..freeze();
   static DataAccount _defaultInstance;
   static void $checkItem(DataAccount v) {
-    if (v is! DataAccount) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DataAccount) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   DataAccountState get state => $_getN(0);
@@ -969,7 +973,7 @@ class DataApplicant extends $pb.GeneratedMessage {
   static DataApplicant getDefault() => _defaultInstance ??= create()..freeze();
   static DataApplicant _defaultInstance;
   static void $checkItem(DataApplicant v) {
-    if (v is! DataApplicant) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DataApplicant) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -1163,7 +1167,8 @@ class DataApplicantChat extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static DataApplicantChat _defaultInstance;
   static void $checkItem(DataApplicantChat v) {
-    if (v is! DataApplicantChat) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! DataApplicantChat)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);

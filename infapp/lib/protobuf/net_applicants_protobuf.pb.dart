@@ -40,7 +40,8 @@ class NetLoadApplicantsReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetLoadApplicantsReq _defaultInstance;
   static void $checkItem(NetLoadApplicantsReq v) {
-    if (v is! NetLoadApplicantsReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetLoadApplicantsReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get before => $_get(0, 0);
@@ -101,7 +102,8 @@ class NetLoadApplicantReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetLoadApplicantReq _defaultInstance;
   static void $checkItem(NetLoadApplicantReq v) {
-    if (v is! NetLoadApplicantReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetLoadApplicantReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -143,7 +145,8 @@ class NetLoadApplicantChatsReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetLoadApplicantChatsReq _defaultInstance;
   static void $checkItem(NetLoadApplicantChatsReq v) {
-    if (v is! NetLoadApplicantChatsReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetLoadApplicantChatsReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get before => $_get(0, 0);
@@ -204,7 +207,7 @@ class NetChatPlain extends $pb.GeneratedMessage {
   static NetChatPlain getDefault() => _defaultInstance ??= create()..freeze();
   static NetChatPlain _defaultInstance;
   static void $checkItem(NetChatPlain v) {
-    if (v is! NetChatPlain) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetChatPlain) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -259,7 +262,7 @@ class NetChatHaggle extends $pb.GeneratedMessage {
   static NetChatHaggle getDefault() => _defaultInstance ??= create()..freeze();
   static NetChatHaggle _defaultInstance;
   static void $checkItem(NetChatHaggle v) {
-    if (v is! NetChatHaggle) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetChatHaggle) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -329,7 +332,7 @@ class NetChatImageKey extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetChatImageKey _defaultInstance;
   static void $checkItem(NetChatImageKey v) {
-    if (v is! NetChatImageKey) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetChatImageKey) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -385,7 +388,8 @@ class NetApplicantWantDealReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetApplicantWantDealReq _defaultInstance;
   static void $checkItem(NetApplicantWantDealReq v) {
-    if (v is! NetApplicantWantDealReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetApplicantWantDealReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -432,7 +436,8 @@ class NetApplicantRejectReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetApplicantRejectReq _defaultInstance;
   static void $checkItem(NetApplicantRejectReq v) {
-    if (v is! NetApplicantRejectReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetApplicantRejectReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -479,7 +484,8 @@ class NetApplicantReportReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetApplicantReportReq _defaultInstance;
   static void $checkItem(NetApplicantReportReq v) {
-    if (v is! NetApplicantReportReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetApplicantReportReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -532,7 +538,8 @@ class NetApplicantCompletionReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetApplicantCompletionReq _defaultInstance;
   static void $checkItem(NetApplicantCompletionReq v) {
-    if (v is! NetApplicantCompletionReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetApplicantCompletionReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -613,7 +620,8 @@ class NetApplicantCommonRes extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetApplicantCommonRes _defaultInstance;
   static void $checkItem(NetApplicantCommonRes v) {
-    if (v is! NetApplicantCommonRes) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetApplicantCommonRes)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   $1.DataApplicant get updateApplicant => $_getN(0);
