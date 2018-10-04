@@ -1061,8 +1061,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     pbReq.offerId = offerId;
     TalkMessage message =
         await _ts.sendRequest(_netGetOfferReq, pbReq.writeToBuffer());
-    DataBusinessOffer offer = new DataBusinessOffer()
-      ..mergeFromBuffer(message.data);
+    DataBusinessOffer offer = (new NetGetOfferRes()
+      ..mergeFromBuffer(message.data)).offer;
     setState(() {
       cached.offer = offer;
       cached.dirty = false;
