@@ -10,7 +10,7 @@ import 'package:flutter/services.dart' show rootBundle;
 
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
 import 'package:inf/demo/demo.dart' show DemoApp;
-import 'package:inf/network/inf.pb.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 Future<ConfigData> loadConfig() async {
   var configData = await rootBundle.load('assets/config.bin');

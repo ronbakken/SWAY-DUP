@@ -1055,77 +1055,67 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     return account;
   }
 
-  /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
-  @override
-  DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer) {
-    // Check any caches if we have, otherwise just return
-    _CachedBusinessOffer cached = _cachedBusinessOffers[offer.offerId];
-    if (cached == null) {
-      cached = new _CachedBusinessOffer();
-      _cachedBusinessOffers[offer.offerId] = cached;
-    }
-    if (cached.offer != null) {
-      return cached.offer;
-    }
-    /*
-    if (cached.offer == null || cached.dirty) {
-      if (!cached.loading && connected == NetworkConnectionState.Ready) {
-        cached.loading = true;
-        getBusinessOffer(offerId).then((offer) {
-          cached.loading = false;
-        }).catchError((error, stack) {
-          print("[INF] Failed to get offer: $error, $stack");
-          new Timer(new Duration(seconds: 3), () {
-            setState(() {
-              cached.loading = false;
-              ++_changed;
-            });
-          });
-        });
-      }
-      if (cached.offer != null) {
-        return cached.offer; // Return dirty
-      }
-      if (cached.fallback == null) {
-        cached.fallback = new DataBusinessOffer();
-        //cached.fallback.applicantId = applicantId;
-      }
-      / *
-      if (fallback != null) {
-        cached.fallback.mergeFromMessage(fallback);
-      }
-      if (fallbackOffer != null) {
-        cached.fallback.offerId = fallbackOffer.offerId;
-        cached.fallback.businessAccountId = fallbackOffer.accountId;
-      }¨
-      $ /
-      return cached.fallback;
-  }*/
-    //return cached.applicant;
-    // TODO: Timestamps...
-    /*if (_offers.containsKey(offer.offerId)) {
-      // Guaranteed to be the latest
-      return _offers[offer.offerId];
-    }
-    if (_demoAllOffers.containsKey(offer.offerId)) {
-      // Should be fairly recent, but may be outdated
-      // return _demoAllOffers[offer.offerId];
-    }*/
+  static int _netGetOfferReq = TalkSocket.encode("GTOFFERR");
+  Future<DataBusinessOffer> _getBusinessOffer(int offerId, _CachedBusinessOffer cached) async {
+    NetGetOfferReq pbReq = new NetGetOfferReq();
+    pbReq.offerId = offerId;
+    TalkMessage message =
+        await _ts.sendRequest(_netGetOfferReq, pbReq.writeToBuffer());
+    DataBusinessOffer offer = new DataBusinessOffer()
+      ..mergeFromBuffer(message.data);
+    setState(() {
+      cached.offer = offer;
+      cached.dirty = false;
+      cached.fallback = null;
+      ++_changed;
+    });
     return offer;
   }
 
-  // TODO
+  Future<void> _backgroundGetBusinessOffer(
+      int offerId, _CachedBusinessOffer cached) async {
+    if (!cached.loading && (cached.dirty || cached.offer == null) && connected == NetworkConnectionState.Ready) {
+      cached.loading = true;
+      _getBusinessOffer(offerId, cached).then((account) {
+        cached.loading = false;
+      }).catchError((error, stack) {
+        print("[INF] Failed to get offer: $error, $stack");
+        new Timer(new Duration(seconds: 3), () {
+          setState(() {
+            cached.loading = false;
+            ++_changed;
+          });
+        });
+      });
+    }
+  }
+
+  /// Ensure to get the latest offer data, in case we have it. Not necessary for network.offers (unless detached)
   @override
-  DataBusinessOffer tryGetBusinessOffer(int offerId) {
+  DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer) {
+    return tryGetBusinessOffer(offer.offerId, fallback: offer);
+  }
+
+  @override
+  DataBusinessOffer tryGetBusinessOffer(
+    int offerId, {
+    DataBusinessOffer fallback,
+  }) {
     _CachedBusinessOffer cached = _cachedBusinessOffers[offerId];
     if (cached == null) {
       cached = new _CachedBusinessOffer();
       _cachedBusinessOffers[offerId] = cached;
     }
+    _backgroundGetBusinessOffer(offerId, cached);
     if (cached.offer != null) {
       return cached.offer;
     }
-    // TODO: Some fallback?
+    if (cached.fallback == null) {
+      cached.fallback = fallback;
+    }
+    if (cached.fallback != null) {
+      return cached.fallback;
+    }
     DataBusinessOffer offer = new DataBusinessOffer();
     offer.offerId = offerId;
     return offer;
@@ -1133,8 +1123,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   /// Reload business offer silently in the background, call when opening a window
   @override
-  void backgroundReloadBusinessOffer(DataBusinessOffer offer) {
-    // TODO: Send a background refresh request for this offer
+  void backgroundReloadBusinessOffer(int offerId) {
+    _CachedBusinessOffer cached = _cachedBusinessOffers[offerId];
+    if (cached == null) {
+      cached = new _CachedBusinessOffer();
+      _cachedBusinessOffers[offerId] = cached;
+    }
+    cached.dirty = true;
+    _backgroundGetBusinessOffer(offerId, cached);
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -1165,7 +1161,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       _CachedDataAccount cached;
       if (!_cachedAccounts.containsKey(account.state.accountId)) {
         cached = new _CachedDataAccount();
-        cached.loading = false;
         _cachedAccounts[account.state.accountId] = cached;
       } else {
         cached = _cachedAccounts[account.state.accountId];
@@ -1192,7 +1187,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
     if (!_cachedAccounts.containsKey(accountId)) {
       cached = new _CachedDataAccount();
-      cached.loading = false;
       _cachedAccounts[accountId] = cached;
     } else {
       cached = _cachedAccounts[accountId];
@@ -1793,11 +1787,14 @@ abstract class NetworkInterface {
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
   DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer);
 
-  // TODO
-  DataBusinessOffer tryGetBusinessOffer(int offerId);
+  /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached business offer
+  DataBusinessOffer tryGetBusinessOffer(
+    int offerId, {
+    DataBusinessOffer fallback,
+  });
 
   /// Reload business offer silently in the background, call when opening a window
-  void backgroundReloadBusinessOffer(DataBusinessOffer offer);
+  void backgroundReloadBusinessOffer(int offerId);
 
   /////////////////////////////////////////////////////////////////////////////
   // Get profile
@@ -1806,11 +1803,12 @@ abstract class NetworkInterface {
   /// Refresh all offers
   Future<void> getPublicProfile(int accountId);
 
-  // Returns dummy based on fallback in case not yet available, otherwise returns cached account
-  DataAccount tryGetPublicProfile(int accountId,
-      {DataAccount fallback,
-      DataBusinessOffer
-          fallbackOffer}); // Simply retry anytime network state updates
+  /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached account
+  DataAccount tryGetPublicProfile(
+    int accountId, {
+    DataAccount fallback,
+    DataBusinessOffer fallbackOffer,
+  }); // Simply retry anytime network state updates
 
   /////////////////////////////////////////////////////////////////////////////
   // Haggle

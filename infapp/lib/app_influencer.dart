@@ -101,6 +101,8 @@ class _AppInfluencerState extends State<AppInfluencer> {
 
   void navigateToOfferView(
       BuildContext context, DataAccount account, DataBusinessOffer offer) {
+    NetworkInterface network = NetworkManager.of(context);
+    network.backgroundReloadBusinessOffer(offer.offerId);
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
@@ -376,7 +378,6 @@ class _AppInfluencerState extends State<AppInfluencer> {
               .map((offer) => new OfferCard(
                   businessOffer: offer,
                   onPressed: () {
-                    network.backgroundReloadBusinessOffer(offer);
                     navigateToOfferView(
                         context,
                         network.tryGetPublicProfile(offer.accountId,
