@@ -35,7 +35,7 @@ class NetOfferApplyReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetOfferApplyReq _defaultInstance;
   static void $checkItem(NetOfferApplyReq v) {
-    if (v is! NetOfferApplyReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetOfferApplyReq) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get offerId => $_get(0, 0);

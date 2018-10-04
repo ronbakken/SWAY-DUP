@@ -35,7 +35,7 @@ class NetGetAccountReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetGetAccountReq _defaultInstance;
   static void $checkItem(NetGetAccountReq v) {
-    if (v is! NetGetAccountReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetGetAccountReq) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get accountId => $_get(0, 0);
@@ -72,7 +72,7 @@ class NetGetAccountRes extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetGetAccountRes _defaultInstance;
   static void $checkItem(NetGetAccountRes v) {
-    if (v is! NetGetAccountRes) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetGetAccountRes) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   $1.DataAccount get account => $_getN(0);
@@ -107,7 +107,7 @@ class NetGetOfferReq extends $pb.GeneratedMessage {
   static NetGetOfferReq getDefault() => _defaultInstance ??= create()..freeze();
   static NetGetOfferReq _defaultInstance;
   static void $checkItem(NetGetOfferReq v) {
-    if (v is! NetGetOfferReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetGetOfferReq) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get offerId => $_get(0, 0);
@@ -143,7 +143,7 @@ class NetGetOfferRes extends $pb.GeneratedMessage {
   static NetGetOfferRes getDefault() => _defaultInstance ??= create()..freeze();
   static NetGetOfferRes _defaultInstance;
   static void $checkItem(NetGetOfferRes v) {
-    if (v is! NetGetOfferRes) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetGetOfferRes) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   $1.DataBusinessOffer get offer => $_getN(0);
@@ -180,7 +180,8 @@ class NetGetApplicantReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetGetApplicantReq _defaultInstance;
   static void $checkItem(NetGetApplicantReq v) {
-    if (v is! NetGetApplicantReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetGetApplicantReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get applicantId => $_get(0, 0);
@@ -218,7 +219,8 @@ class NetGetApplicantRes extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetGetApplicantRes _defaultInstance;
   static void $checkItem(NetGetApplicantRes v) {
-    if (v is! NetGetApplicantRes) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetGetApplicantRes)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   $1.DataApplicant get applicant => $_getN(0);
