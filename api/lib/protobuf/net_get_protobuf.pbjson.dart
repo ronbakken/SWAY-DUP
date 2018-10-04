@@ -4,15 +4,15 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
-const NetGetProfileReq$json = const {
-  '1': 'NetGetProfileReq',
+const NetGetAccountReq$json = const {
+  '1': 'NetGetAccountReq',
   '2': const [
     const {'1': 'accountId', '3': 1, '4': 1, '5': 5, '10': 'accountId'},
   ],
 };
 
-const NetGetProfileRes$json = const {
-  '1': 'NetGetProfileRes',
+const NetGetAccountRes$json = const {
+  '1': 'NetGetAccountRes',
   '2': const [
     const {
       '1': 'account',

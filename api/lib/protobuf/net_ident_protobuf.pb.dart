@@ -43,7 +43,8 @@ class NetDeviceAuthCreateReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetDeviceAuthCreateReq _defaultInstance;
   static void $checkItem(NetDeviceAuthCreateReq v) {
-    if (v is! NetDeviceAuthCreateReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetDeviceAuthCreateReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<int> get aesKey => $_getN(0);
@@ -107,7 +108,8 @@ class NetDeviceAuthChallengeReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetDeviceAuthChallengeReq _defaultInstance;
   static void $checkItem(NetDeviceAuthChallengeReq v) {
-    if (v is! NetDeviceAuthChallengeReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetDeviceAuthChallengeReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get deviceId => $_get(0, 0);
@@ -149,7 +151,7 @@ class NetDeviceAuthChallengeResReq extends $pb.GeneratedMessage {
   static NetDeviceAuthChallengeResReq _defaultInstance;
   static void $checkItem(NetDeviceAuthChallengeResReq v) {
     if (v is! NetDeviceAuthChallengeResReq)
-      $pb.checkItemFailed(v, _i.messageName);
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<int> get challenge => $_getN(0);
@@ -191,7 +193,7 @@ class NetDeviceAuthSignatureResReq extends $pb.GeneratedMessage {
   static NetDeviceAuthSignatureResReq _defaultInstance;
   static void $checkItem(NetDeviceAuthSignatureResReq v) {
     if (v is! NetDeviceAuthSignatureResReq)
-      $pb.checkItemFailed(v, _i.messageName);
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   List<int> get signature => $_getN(0);
@@ -229,7 +231,8 @@ class NetDeviceAuthState extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetDeviceAuthState _defaultInstance;
   static void $checkItem(NetDeviceAuthState v) {
-    if (v is! NetDeviceAuthState) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetDeviceAuthState)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   $1.DataAccount get data => $_getN(0);
@@ -271,7 +274,8 @@ class NetSetAccountType extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetSetAccountType _defaultInstance;
   static void $checkItem(NetSetAccountType v) {
-    if (v is! NetSetAccountType) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetSetAccountType)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   $0.AccountType get accountType => $_getN(0);
@@ -309,7 +313,8 @@ class NetSetFirebaseToken extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetSetFirebaseToken _defaultInstance;
   static void $checkItem(NetSetFirebaseToken v) {
-    if (v is! NetSetFirebaseToken) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetSetFirebaseToken)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get firebaseToken => $_getS(0, '');
@@ -352,7 +357,7 @@ class NetOAuthUrlReq extends $pb.GeneratedMessage {
   static NetOAuthUrlReq getDefault() => _defaultInstance ??= create()..freeze();
   static NetOAuthUrlReq _defaultInstance;
   static void $checkItem(NetOAuthUrlReq v) {
-    if (v is! NetOAuthUrlReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetOAuthUrlReq) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get oauthProvider => $_get(0, 0);
@@ -388,7 +393,7 @@ class NetOAuthUrlRes extends $pb.GeneratedMessage {
   static NetOAuthUrlRes getDefault() => _defaultInstance ??= create()..freeze();
   static NetOAuthUrlRes _defaultInstance;
   static void $checkItem(NetOAuthUrlRes v) {
-    if (v is! NetOAuthUrlRes) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetOAuthUrlRes) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get authUrl => $_getS(0, '');
@@ -434,7 +439,8 @@ class NetOAuthConnectReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetOAuthConnectReq _defaultInstance;
   static void $checkItem(NetOAuthConnectReq v) {
-    if (v is! NetOAuthConnectReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetOAuthConnectReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get oauthProvider => $_get(0, 0);
@@ -480,7 +486,8 @@ class NetOAuthConnectRes extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetOAuthConnectRes _defaultInstance;
   static void $checkItem(NetOAuthConnectRes v) {
-    if (v is! NetOAuthConnectRes) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetOAuthConnectRes)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   $1.DataSocialMedia get socialMedia => $_getN(0);
@@ -518,7 +525,8 @@ class NetAccountCreateReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetAccountCreateReq _defaultInstance;
   static void $checkItem(NetAccountCreateReq v) {
-    if (v is! NetAccountCreateReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetAccountCreateReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   double get latitude => $_getN(0);

@@ -39,7 +39,7 @@ class NetProfileModify extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetProfileModify _defaultInstance;
   static void $checkItem(NetProfileModify v) {
-    if (v is! NetProfileModify) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetProfileModify) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');

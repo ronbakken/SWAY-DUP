@@ -38,7 +38,8 @@ class NetCreateOfferReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetCreateOfferReq _defaultInstance;
   static void $checkItem(NetCreateOfferReq v) {
-    if (v is! NetCreateOfferReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetCreateOfferReq)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get title => $_getS(0, '');
@@ -110,7 +111,7 @@ class NetLoadOffersReq extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetLoadOffersReq _defaultInstance;
   static void $checkItem(NetLoadOffersReq v) {
-    if (v is! NetLoadOffersReq) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetLoadOffersReq) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get before => $_get(0, 0);
@@ -163,7 +164,7 @@ class NetLoadOffersRes extends $pb.GeneratedMessage {
       _defaultInstance ??= create()..freeze();
   static NetLoadOffersRes _defaultInstance;
   static void $checkItem(NetLoadOffersRes v) {
-    if (v is! NetLoadOffersRes) $pb.checkItemFailed(v, _i.messageName);
+    if (v is! NetLoadOffersRes) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get oldest => $_get(0, 0);
