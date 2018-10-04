@@ -91,7 +91,7 @@ class RemoteAppProfile {
   StreamSubscription<TalkMessage> _netLoadPublicProfileReq; // L_PROFIL
   static int _netProfileImageRes = TalkSocket.encode("L_R_PROF");
   Future<void> netLoadPublicProfileReq(TalkMessage message) async {
-    NetGetProfileReq pb = new NetGetProfileReq();
+    NetGetAccountReq pb = new NetGetAccountReq();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
 
