@@ -11,31 +11,31 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'data_protobuf.pb.dart' as $1;
 
-class NetGetProfileReq extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProfileReq',
+class NetGetAccountReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetAccountReq',
       package: const $pb.PackageName('inf'))
     ..a<int>(1, 'accountId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetGetProfileReq() : super();
-  NetGetProfileReq.fromBuffer(List<int> i,
+  NetGetAccountReq() : super();
+  NetGetAccountReq.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetGetProfileReq.fromJson(String i,
+  NetGetAccountReq.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetGetProfileReq clone() => new NetGetProfileReq()..mergeFromMessage(this);
-  NetGetProfileReq copyWith(void Function(NetGetProfileReq) updates) =>
-      super.copyWith((message) => updates(message as NetGetProfileReq));
+  NetGetAccountReq clone() => new NetGetAccountReq()..mergeFromMessage(this);
+  NetGetAccountReq copyWith(void Function(NetGetAccountReq) updates) =>
+      super.copyWith((message) => updates(message as NetGetAccountReq));
   $pb.BuilderInfo get info_ => _i;
-  static NetGetProfileReq create() => new NetGetProfileReq();
-  static $pb.PbList<NetGetProfileReq> createRepeated() =>
-      new $pb.PbList<NetGetProfileReq>();
-  static NetGetProfileReq getDefault() =>
+  static NetGetAccountReq create() => new NetGetAccountReq();
+  static $pb.PbList<NetGetAccountReq> createRepeated() =>
+      new $pb.PbList<NetGetAccountReq>();
+  static NetGetAccountReq getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetGetProfileReq _defaultInstance;
-  static void $checkItem(NetGetProfileReq v) {
-    if (v is! NetGetProfileReq) $pb.checkItemFailed(v, _i.messageName);
+  static NetGetAccountReq _defaultInstance;
+  static void $checkItem(NetGetAccountReq v) {
+    if (v is! NetGetAccountReq) $pb.checkItemFailed(v, _i.messageName);
   }
 
   int get accountId => $_get(0, 0);
@@ -47,32 +47,32 @@ class NetGetProfileReq extends $pb.GeneratedMessage {
   void clearAccountId() => clearField(1);
 }
 
-class NetGetProfileRes extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProfileRes',
+class NetGetAccountRes extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetAccountRes',
       package: const $pb.PackageName('inf'))
     ..a<$1.DataAccount>(1, 'account', $pb.PbFieldType.OM,
         $1.DataAccount.getDefault, $1.DataAccount.create)
     ..hasRequiredFields = false;
 
-  NetGetProfileRes() : super();
-  NetGetProfileRes.fromBuffer(List<int> i,
+  NetGetAccountRes() : super();
+  NetGetAccountRes.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetGetProfileRes.fromJson(String i,
+  NetGetAccountRes.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetGetProfileRes clone() => new NetGetProfileRes()..mergeFromMessage(this);
-  NetGetProfileRes copyWith(void Function(NetGetProfileRes) updates) =>
-      super.copyWith((message) => updates(message as NetGetProfileRes));
+  NetGetAccountRes clone() => new NetGetAccountRes()..mergeFromMessage(this);
+  NetGetAccountRes copyWith(void Function(NetGetAccountRes) updates) =>
+      super.copyWith((message) => updates(message as NetGetAccountRes));
   $pb.BuilderInfo get info_ => _i;
-  static NetGetProfileRes create() => new NetGetProfileRes();
-  static $pb.PbList<NetGetProfileRes> createRepeated() =>
-      new $pb.PbList<NetGetProfileRes>();
-  static NetGetProfileRes getDefault() =>
+  static NetGetAccountRes create() => new NetGetAccountRes();
+  static $pb.PbList<NetGetAccountRes> createRepeated() =>
+      new $pb.PbList<NetGetAccountRes>();
+  static NetGetAccountRes getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetGetProfileRes _defaultInstance;
-  static void $checkItem(NetGetProfileRes v) {
-    if (v is! NetGetProfileRes) $pb.checkItemFailed(v, _i.messageName);
+  static NetGetAccountRes _defaultInstance;
+  static void $checkItem(NetGetAccountRes v) {
+    if (v is! NetGetAccountRes) $pb.checkItemFailed(v, _i.messageName);
   }
 
   $1.DataAccount get account => $_getN(0);

@@ -23,8 +23,8 @@ namespace InfX {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChZuZXRfZ2V0X3Byb3RvYnVmLnByb3RvEgNpbmYaE2RhdGFfcHJvdG9idWYu",
-            "cHJvdG8iJQoQTmV0R2V0UHJvZmlsZVJlcRIRCglhY2NvdW50SWQYASABKAUi",
-            "NQoQTmV0R2V0UHJvZmlsZVJlcxIhCgdhY2NvdW50GAEgASgLMhAuaW5mLkRh",
+            "cHJvdG8iJQoQTmV0R2V0QWNjb3VudFJlcRIRCglhY2NvdW50SWQYASABKAUi",
+            "NQoQTmV0R2V0QWNjb3VudFJlcxIhCgdhY2NvdW50GAEgASgLMhAuaW5mLkRh",
             "dGFBY2NvdW50IiEKDk5ldEdldE9mZmVyUmVxEg8KB29mZmVySWQYASABKAUi",
             "NwoOTmV0R2V0T2ZmZXJSZXMSJQoFb2ZmZXIYASABKAsyFi5pbmYuRGF0YUJ1",
             "c2luZXNzT2ZmZXIiKQoSTmV0R2V0QXBwbGljYW50UmVxEhMKC2FwcGxpY2Fu",
@@ -33,8 +33,8 @@ namespace InfX {
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::InfX.DataProtobufReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetGetProfileReq), global::InfX.NetGetProfileReq.Parser, new[]{ "AccountId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetGetProfileRes), global::InfX.NetGetProfileRes.Parser, new[]{ "Account" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetGetAccountReq), global::InfX.NetGetAccountReq.Parser, new[]{ "AccountId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetGetAccountRes), global::InfX.NetGetAccountRes.Parser, new[]{ "Account" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetGetOfferReq), global::InfX.NetGetOfferReq.Parser, new[]{ "OfferId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetGetOfferRes), global::InfX.NetGetOfferRes.Parser, new[]{ "Offer" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.NetGetApplicantReq), global::InfX.NetGetApplicantReq.Parser, new[]{ "ApplicantId" }, null, null, null),
@@ -46,14 +46,14 @@ namespace InfX {
   }
   #region Messages
   /// <summary>
-  ///  Get Profile
-  ///  Id: GTPROFIL
-  ///  Res: NetGetProfileRes (Id: GTPROF_R)
+  ///  Get Account
+  ///  Id: GTACCOUN
+  ///  Res: NetGetAccountRes (Id: GTACCO_R)
   /// </summary>
-  public sealed partial class NetGetProfileReq : pb::IMessage<NetGetProfileReq> {
-    private static readonly pb::MessageParser<NetGetProfileReq> _parser = new pb::MessageParser<NetGetProfileReq>(() => new NetGetProfileReq());
+  public sealed partial class NetGetAccountReq : pb::IMessage<NetGetAccountReq> {
+    private static readonly pb::MessageParser<NetGetAccountReq> _parser = new pb::MessageParser<NetGetAccountReq>(() => new NetGetAccountReq());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetGetProfileReq> Parser { get { return _parser; } }
+    public static pb::MessageParser<NetGetAccountReq> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -66,20 +66,20 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetGetProfileReq() {
+    public NetGetAccountReq() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetGetProfileReq(NetGetProfileReq other) : this() {
+    public NetGetAccountReq(NetGetAccountReq other) : this() {
       accountId_ = other.accountId_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetGetProfileReq Clone() {
-      return new NetGetProfileReq(this);
+    public NetGetAccountReq Clone() {
+      return new NetGetAccountReq(this);
     }
 
     /// <summary>Field number for the "accountId" field.</summary>
@@ -95,11 +95,11 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as NetGetProfileReq);
+      return Equals(other as NetGetAccountReq);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetGetProfileReq other) {
+    public bool Equals(NetGetAccountReq other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -140,7 +140,7 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetGetProfileReq other) {
+    public void MergeFrom(NetGetAccountReq other) {
       if (other == null) {
         return;
       }
@@ -167,10 +167,10 @@ namespace InfX {
 
   }
 
-  public sealed partial class NetGetProfileRes : pb::IMessage<NetGetProfileRes> {
-    private static readonly pb::MessageParser<NetGetProfileRes> _parser = new pb::MessageParser<NetGetProfileRes>(() => new NetGetProfileRes());
+  public sealed partial class NetGetAccountRes : pb::IMessage<NetGetAccountRes> {
+    private static readonly pb::MessageParser<NetGetAccountRes> _parser = new pb::MessageParser<NetGetAccountRes>(() => new NetGetAccountRes());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<NetGetProfileRes> Parser { get { return _parser; } }
+    public static pb::MessageParser<NetGetAccountRes> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -183,20 +183,20 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetGetProfileRes() {
+    public NetGetAccountRes() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetGetProfileRes(NetGetProfileRes other) : this() {
+    public NetGetAccountRes(NetGetAccountRes other) : this() {
       Account = other.account_ != null ? other.Account.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public NetGetProfileRes Clone() {
-      return new NetGetProfileRes(this);
+    public NetGetAccountRes Clone() {
+      return new NetGetAccountRes(this);
     }
 
     /// <summary>Field number for the "account" field.</summary>
@@ -212,11 +212,11 @@ namespace InfX {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as NetGetProfileRes);
+      return Equals(other as NetGetAccountRes);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(NetGetProfileRes other) {
+    public bool Equals(NetGetAccountRes other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -257,7 +257,7 @@ namespace InfX {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(NetGetProfileRes other) {
+    public void MergeFrom(NetGetAccountRes other) {
       if (other == null) {
         return;
       }
