@@ -1151,7 +1151,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       // It's me...
       return this.account;
     }
-    NetGetProfileReq pbReq = new NetGetProfileReq();
+    NetGetAccountReq pbReq = new NetGetAccountReq();
     pbReq.accountId = accountId;
     TalkMessage message =
         await _ts.sendRequest(_netLoadPublicProfileReq, pbReq.writeToBuffer());
