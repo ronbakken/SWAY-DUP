@@ -67,13 +67,19 @@ class RemoteAppProfile {
 
   RemoteAppProfile(this._r) {
     _netLoadPublicProfileReq = _r.saferListen("L_PROFIL",
-        GlobalAccountState.GAS_READ_WRITE, true, netLoadPublicProfileReq);
+        GlobalAccountState.GAS_READ_ONLY, true, netLoadPublicProfileReq);
+    _netGetOfferReq = _r.saferListen("GTOFFERR",
+        GlobalAccountState.GAS_READ_ONLY, true, netLoadPublicProfileReq);
   }
 
   void dispose() {
     if (_netLoadPublicProfileReq != null) {
       _netLoadPublicProfileReq.cancel();
       _netLoadPublicProfileReq = null;
+    }
+    if (_netGetOfferReq != null) {
+      _netGetOfferReq.cancel();
+      _netGetOfferReq = null;
     }
     _r = null;
   }
@@ -186,6 +192,88 @@ class RemoteAppProfile {
     }
 
     ts.sendMessage(_netProfileImageRes, account.writeToBuffer(),
+        replying: message);
+  }
+
+  StreamSubscription<TalkMessage> _netGetOfferReq;
+  static int _netGetOfferRes = TalkSocket.encode("GTOFFE_R");
+  Future<void> netGetOfferReq(TalkMessage message) async {
+    NetGetOfferReq pb = new NetGetOfferReq()..mergeFromBuffer(message.data);
+    devLog.finest(pb);
+    int offerId = pb.offerId.toInt();
+    DataBusinessOffer offer;
+
+    ts.sendExtend(message);
+    sqljocky.RetainedConnection connection = await sql.getConnection();
+    try {
+      ts.sendExtend(message);
+      sqljocky.Query selectImageKeys = await connection.prepare(
+          "SELECT `image_key` FROM `offer_images` WHERE `offer_id` = ?");
+      try {
+        String selectOffers =
+            "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
+            "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
+            "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point`, " // 6 7 8
+            "`offers`.`state`, `offers`.`state_reason`, `addressbook`.`name` " // 9 10 11
+            "FROM `offers` "
+            "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
+            "WHERE `offers`.`offer_id` = ? "
+            "ORDER BY `offer_id` DESC";
+        sqljocky.Results offerResults =
+            await sql.prepareExecute(selectOffers, [offerId]);
+        await for (sqljocky.Row offerRow in offerResults) {
+          ts.sendExtend(message);
+          offer.offerId = offerRow[0].toInt();
+          offer.accountId = offerRow[1].toInt();
+          offer.locationId = offerRow[6].toInt();
+          offer.title = offerRow[2].toString();
+          offer.description = offerRow[3].toString();
+          offer.deliverables = offerRow[4].toString();
+          offer.reward = offerRow[5].toString();
+          offer.locationName = offerRow[11].toString();
+          offer.location = offerRow[7].toString();
+          print(offerRow[8].toString());
+          Uint8List point = offerRow[8];
+          if (point != null) {
+            // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
+            ByteData data = new ByteData.view(point.buffer);
+            Endian endian = data.getInt8(4) == 0 ? Endian.big : Endian.little;
+            int type = data.getUint32(4 + 1, endian = endian);
+            if (type == 1) {
+              offer.latitude = data.getFloat64(4 + 5 + 8, endian = endian);
+              offer.longitude = data.getFloat64(4 + 5, endian = endian);
+            }
+          }
+          // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
+          // TODO: categories
+          offer.state = BusinessOfferState.valueOf(offerRow[9].toInt());
+          offer.stateReason =
+              BusinessOfferStateReason.valueOf(offerRow[10].toInt());
+          offer.applicantsNew = 0; // TODO
+          offer.applicantsAccepted = 0; // TODO
+          offer.applicantsCompleted = 0; // TODO
+          offer.applicantsRefused = 0; // TODO
+          sqljocky.Results imageKeyResults =
+              await selectImageKeys.execute([offerId]);
+          await for (sqljocky.Row imageKeyRow in imageKeyResults) {
+            if (!offer.hasThumbnailUrl()) {
+              offer.thumbnailUrl =
+                  _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
+            }
+            offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
+          }
+        }
+        ts.sendExtend(message);
+      } finally {
+        await selectImageKeys.close();
+      }
+    } finally {
+      await connection.release();
+    }
+
+    NetGetOfferRes getOffersRes = new NetGetOfferRes();
+    getOffersRes.offer = offer;
+    ts.sendMessage(_netGetOfferRes, getOffersRes.writeToBuffer(),
         replying: message);
   }
 }

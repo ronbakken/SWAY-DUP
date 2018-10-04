@@ -3,7 +3,7 @@ INF Marketplace
 Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
-
+/*
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -35,7 +35,7 @@ class ApiDataChannel {
 
   void onMessage(TalkMessage message) {}
 }
-
+*/
 /*
 class RemoteAppOffer {
   //////////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,7 @@ environment:
   sdk: '>=2.0.0-dev.58.0 <3.0.0'
 
 dependencies:
-  protobuf: ^0.10.3
+  protobuf: ^0.10.4
   logging: ^0.11.3+2
   # crypto: ^2.0.6
   pointycastle: ^1.0.0-rc2
