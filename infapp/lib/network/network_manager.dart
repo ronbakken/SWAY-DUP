@@ -1056,13 +1056,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   }
 
   static int _netGetOfferReq = TalkSocket.encode("GTOFFERR");
-  Future<DataBusinessOffer> _getBusinessOffer(int offerId, _CachedBusinessOffer cached) async {
+  Future<DataBusinessOffer> _getBusinessOffer(
+      int offerId, _CachedBusinessOffer cached) async {
     NetGetOfferReq pbReq = new NetGetOfferReq();
     pbReq.offerId = offerId;
     TalkMessage message =
         await _ts.sendRequest(_netGetOfferReq, pbReq.writeToBuffer());
-    DataBusinessOffer offer = (new NetGetOfferRes()
-      ..mergeFromBuffer(message.data)).offer;
+    DataBusinessOffer offer =
+        (new NetGetOfferRes()..mergeFromBuffer(message.data)).offer;
     setState(() {
       cached.offer = offer;
       cached.dirty = false;
@@ -1074,7 +1075,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   Future<void> _backgroundGetBusinessOffer(
       int offerId, _CachedBusinessOffer cached) async {
-    if (!cached.loading && (cached.dirty || cached.offer == null) && connected == NetworkConnectionState.Ready) {
+    if (!cached.loading &&
+        (cached.dirty || cached.offer == null) &&
+        connected == NetworkConnectionState.Ready) {
       cached.loading = true;
       _getBusinessOffer(offerId, cached).then((offer) {
         cached.loading = false;
