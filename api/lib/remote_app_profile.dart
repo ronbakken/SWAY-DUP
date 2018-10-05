@@ -68,8 +68,8 @@ class RemoteAppProfile {
   RemoteAppProfile(this._r) {
     _netLoadPublicProfileReq = _r.saferListen("L_PROFIL",
         GlobalAccountState.GAS_READ_ONLY, true, netLoadPublicProfileReq);
-    _netGetOfferReq = _r.saferListen("GTOFFERR",
-        GlobalAccountState.GAS_READ_ONLY, true, netGetOfferReq);
+    _netGetOfferReq = _r.saferListen(
+        "GTOFFERR", GlobalAccountState.GAS_READ_ONLY, true, netGetOfferReq);
   }
 
   void dispose() {
