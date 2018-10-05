@@ -69,7 +69,7 @@ class RemoteAppProfile {
     _netLoadPublicProfileReq = _r.saferListen("L_PROFIL",
         GlobalAccountState.GAS_READ_ONLY, true, netLoadPublicProfileReq);
     _netGetOfferReq = _r.saferListen("GTOFFERR",
-        GlobalAccountState.GAS_READ_ONLY, true, netLoadPublicProfileReq);
+        GlobalAccountState.GAS_READ_ONLY, true, netGetOfferReq);
   }
 
   void dispose() {
@@ -223,6 +223,7 @@ class RemoteAppProfile {
             await sql.prepareExecute(selectOffers, [offerId]);
         await for (sqljocky.Row offerRow in offerResults) {
           ts.sendExtend(message);
+          offer = new DataBusinessOffer();
           offer.offerId = offerRow[0].toInt();
           offer.accountId = offerRow[1].toInt();
           offer.locationId = offerRow[6].toInt();
@@ -269,6 +270,11 @@ class RemoteAppProfile {
       }
     } finally {
       await connection.release();
+    }
+
+    if (offer == null) {
+      ts.sendException("Offer not found", message);
+      return;
     }
 
     NetGetOfferRes getOffersRes = new NetGetOfferRes();
