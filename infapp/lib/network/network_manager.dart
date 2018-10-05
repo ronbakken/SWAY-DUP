@@ -1076,7 +1076,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       int offerId, _CachedBusinessOffer cached) async {
     if (!cached.loading && (cached.dirty || cached.offer == null) && connected == NetworkConnectionState.Ready) {
       cached.loading = true;
-      _getBusinessOffer(offerId, cached).then((account) {
+      _getBusinessOffer(offerId, cached).then((offer) {
         cached.loading = false;
       }).catchError((error, stack) {
         print("[INF] Failed to get offer: $error, $stack");
