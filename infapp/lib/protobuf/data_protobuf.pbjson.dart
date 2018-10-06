@@ -12,6 +12,13 @@ const DataSocialMedia$json = const {
     const {'1': 'screenName', '3': 4, '4': 1, '5': 9, '10': 'screenName'},
     const {'1': 'displayName', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
     const {'1': 'avatarUrl', '3': 14, '4': 1, '5': 9, '10': 'avatarUrl'},
+    const {
+      '1': 'blurredAvatarUrl',
+      '3': 16,
+      '4': 1,
+      '5': 9,
+      '10': 'blurredAvatarUrl'
+    },
     const {'1': 'profileUrl', '3': 13, '4': 1, '5': 9, '10': 'profileUrl'},
     const {'1': 'description', '3': 6, '4': 1, '5': 9, '10': 'description'},
     const {'1': 'location', '3': 7, '4': 1, '5': 9, '10': 'location'},
@@ -145,6 +152,13 @@ const DataLocation$json = const {
     const {'1': 'locationId', '3': 1, '4': 1, '5': 5, '10': 'locationId'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'avatarUrl', '3': 6, '4': 1, '5': 9, '10': 'avatarUrl'},
+    const {
+      '1': 'blurredAvatarUrl',
+      '3': 13,
+      '4': 1,
+      '5': 9,
+      '10': 'blurredAvatarUrl'
+    },
     const {'1': 'approximate', '3': 7, '4': 1, '5': 9, '10': 'approximate'},
     const {'1': 'detail', '3': 8, '4': 1, '5': 9, '10': 'detail'},
     const {'1': 'postcode', '3': 9, '4': 1, '5': 9, '10': 'postcode'},
@@ -210,6 +224,13 @@ const DataAccountSummary$json = const {
       '5': 9,
       '10': 'avatarThumbnailUrl'
     },
+    const {
+      '1': 'blurredAvatarThumbnailUrl',
+      '3': 5,
+      '4': 1,
+      '5': 9,
+      '10': 'blurredAvatarThumbnailUrl'
+    },
   ],
 };
 
@@ -231,6 +252,13 @@ const DataAccountDetail$json = const {
       '4': 1,
       '5': 9,
       '10': 'avatarCoverUrl'
+    },
+    const {
+      '1': 'blurredAvatarCoverUrl',
+      '3': 12,
+      '4': 1,
+      '5': 9,
+      '10': 'blurredAvatarCoverUrl'
     },
     const {'1': 'url', '3': 6, '4': 1, '5': 9, '10': 'url'},
     const {'1': 'email', '3': 9, '4': 1, '5': 9, '10': 'email'},
