@@ -15,12 +15,14 @@ class OffersShowcase extends StatefulWidget {
     @required this.onOfferPressed,
     @required this.onOfferCenter,
     @required this.getOffer,
+    @required this.getAccount,
     @required this.offerIds,
   }) : super(key: key);
 
   final Function(DataBusinessOffer offer) onOfferPressed;
   final Function(DataBusinessOffer offer) onOfferCenter;
   final DataBusinessOffer Function(BuildContext context, int offerId) getOffer;
+  final DataAccount Function(BuildContext context, int accountId) getAccount;
   final List<int> offerIds;
 
   @override
@@ -33,12 +35,23 @@ class _OffersShowcaseState extends State<OffersShowcase> {
     int offerId = widget.offerIds[offerIdx];
     print("[INF] Showcase $offerId");
     DataBusinessOffer offer = widget.getOffer(context, offerId);
+    DataAccount account = offer.accountId != 0
+        ? widget.getAccount(context, offer.accountId)
+        : new DataAccount();
     Widget image = buildNetworkImage(
         url: offer.thumbnailUrl, blurredUrl: offer.blurredThumbnailUrl);
-    Widget text = new Text(offer.title.toString(),
-        textAlign: TextAlign.left,
-        overflow: TextOverflow.ellipsis,
-        style: theme.textTheme.subhead);
+    Widget text = new Text(
+      offer.title.toString(),
+      textAlign: TextAlign.left,
+      overflow: TextOverflow.ellipsis,
+      style: theme.textTheme.subhead,
+    );
+    Widget sender = new Text(
+      account.summary?.name.toString(),
+      textAlign: TextAlign.left,
+      overflow: TextOverflow.ellipsis,
+      style: theme.textTheme.caption,
+    );
     Card card = new Card(
       child: new ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -69,19 +82,16 @@ class _OffersShowcaseState extends State<OffersShowcase> {
                 ),
               ],
             ),
-            new Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new Padding(
-                  padding: new EdgeInsets.all(8.0),
-                  child:
-                      text, /*new BackdropFilter(
-                  filter: new ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-                  child: text,
-                ),*/
-                )
-              ],
+            new Padding(
+              padding: new EdgeInsets.all(8.0),
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  text,
+                  sender,
+                ],
+              ),
             ),
             new Material(
               color: Colors.transparent,

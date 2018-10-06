@@ -196,6 +196,10 @@ class _AppBusinessState extends State<AppBusiness> {
             account: network.account,
             businessAccount: network.latestAccount(account),
             businessOffer: network.latestBusinessOffer(offer),
+            onBusinessAccountPressed: () {
+              navigateToPublicProfile(network
+                  .tryGetPublicProfile(offer.accountId, fallback: account));
+            },
           );
         },
       ),

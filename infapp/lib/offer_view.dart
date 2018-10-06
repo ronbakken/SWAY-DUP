@@ -15,6 +15,7 @@ class OfferView extends StatefulWidget {
     @required this.businessOffer,
     @required this.businessAccount,
     @required this.account,
+    this.onBusinessAccountPressed,
     this.onSharePressed,
     this.onEndPressed,
     this.onEditPressed,
@@ -27,6 +28,8 @@ class OfferView extends StatefulWidget {
   final DataBusinessOffer businessOffer;
   final DataAccount businessAccount;
   final DataAccount account;
+
+  final Function() onBusinessAccountPressed;
 
   final Function() onSharePressed;
 
@@ -195,6 +198,7 @@ class _OfferViewState extends State<OfferView> {
                           : widget.businessAccount.summary.location,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis),
+                  onTap: widget.onBusinessAccountPressed,
                 ),
               ),
               widget.onEndPressed == null &&

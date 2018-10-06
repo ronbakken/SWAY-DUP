@@ -133,6 +133,10 @@ class _AppInfluencerState extends State<AppInfluencer> {
             account: network.account,
             businessAccount: network.latestAccount(account),
             businessOffer: network.latestBusinessOffer(offer),
+            onBusinessAccountPressed: () {
+              navigateToPublicProfile(network
+                  .tryGetPublicProfile(offer.accountId, fallback: account));
+            },
             onApplicantPressed: (int applicantId) {
               navigateToApplicantView(network.tryGetApplicant(applicantId),
                   offer, account, network.account);
@@ -480,6 +484,10 @@ class _AppInfluencerState extends State<AppInfluencer> {
                 getOffer: (BuildContext context, int offerId) {
                   NetworkInterface network = NetworkManager.of(context);
                   return network.tryGetBusinessOffer(offerId);
+                },
+                getAccount: (BuildContext context, int accountId) {
+                  NetworkInterface network = NetworkManager.of(context);
+                  return network.tryGetPublicProfile(accountId);
                 },
                 offerIds: network.demoAllOffers.keys.toList(),
                 onOfferPressed: (DataBusinessOffer offer) {
