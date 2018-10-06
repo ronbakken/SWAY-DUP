@@ -303,7 +303,7 @@ namespace InfX {
 
   /// <summary>
   ///  Message to load or refresh offer list
-  ///  Server will send a stream of DataBusinessOffer messages (Id: DB_OFFER)
+  ///  Server will send a stream of NetLoadOffersStream messages (Id: DB_OFFER)
   ///  Id: L_OFFERS
   ///  Response: NetLoadOffersRes (Id: L_R_OFFE)
   /// </summary>
