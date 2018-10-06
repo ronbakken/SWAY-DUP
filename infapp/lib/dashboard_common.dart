@@ -80,11 +80,15 @@ class _DashboardCommonState extends State<DashboardCommon>
       _tabCount = widget.proposalsTab + 1;
     if (widget.agreementsTab != null && widget.agreementsTab >= _tabCount)
       _tabCount = widget.agreementsTab + 1;
-    _currentTab = 0;
-    _tabControllerTabs = new TabController(
-      length: _tabCount,
-      vsync: this,
-    );
+    if (_currentTab == null || _currentTab >= _tabCount) {
+      _currentTab = 0;
+    }
+    if (_tabControllerTabs?.length != _tabCount) {
+      _tabControllerTabs = new TabController(
+        length: _tabCount,
+        vsync: this,
+      );
+    }
   }
 
   void _initTabControllers() {
@@ -112,7 +116,6 @@ class _DashboardCommonState extends State<DashboardCommon>
   @override
   void reassemble() {
     super.reassemble();
-    _initTabControllers();
     _initTabController();
   }
 

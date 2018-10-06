@@ -29,6 +29,7 @@ class HaggleView extends StatefulWidget {
     @required this.onBeginMarkCompleted,
     @required this.onUploadImage,
     @required this.onPressedProfile,
+    @required this.onPressedOffer,
   }) : super(key: key);
 
   final DataAccount account;
@@ -59,6 +60,7 @@ class HaggleView extends StatefulWidget {
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
 
   final Function(DataAccount account) onPressedProfile;
+  final Function(DataBusinessOffer offer) onPressedOffer;
 
   @override
   _HaggleViewState createState() => new _HaggleViewState();
@@ -781,7 +783,7 @@ class _HaggleViewState extends State<HaggleView> {
             elevation: 8.0,
             child: new Column(
               children: <Widget>[
-                new OfferCard(businessOffer: widget.offer, inner: true),
+                new OfferCard(businessOffer: widget.offer, inner: true, onPressed: () { widget.onPressedOffer(widget.offer); },),
                 statusText != null
                     ? new Padding(
                         padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),

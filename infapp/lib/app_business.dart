@@ -162,31 +162,52 @@ class _AppBusinessState extends State<AppBusiness> {
             );
           } else {
             Navigator.of(this.context).pop();
-            navigateToOfferView(this.context, network.account, offer);
+            navigateToOfferView(network.account, offer);
           }
         },
       );
     }));
   }
 
-  void navigateToOfferView(
-      BuildContext context, DataAccount account, DataBusinessOffer offer) {
+  int offerViewCount = 0;
+  int offerViewOpen;
+  void navigateToOfferView(DataAccount account, DataBusinessOffer offer) {
     NetworkInterface network = NetworkManager.of(context);
+    if (offerViewOpen != null) {
+      print("[INF] Pop previous offer route");
+      Navigator.popUntil(context, (Route<dynamic> route) {
+        return route.settings.name
+            .startsWith('/offer/' + offerViewOpen.toString());
+      });
+      Navigator.pop(context);
+    }
     network.backgroundReloadBusinessOffer(offer.offerId);
+    int count = ++offerViewCount;
+    offerViewOpen = offer.offerId;
     Navigator.push(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
-      ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
-      return new OfferView(
-        account: network.account,
-        businessAccount: network.latestAccount(account),
-        businessOffer: network.latestBusinessOffer(offer),
-      );
-    }));
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      context,
+      new MaterialPageRoute(
+        settings: new RouteSettings(name: '/offer/' + offer.offerId.toString()),
+        builder: (context) {
+          ConfigData config = ConfigManager.of(context);
+          NetworkInterface network = NetworkManager.of(context);
+          NavigatorState navigator = Navigator.of(context);
+          return new OfferView(
+            account: network.account,
+            businessAccount: network.latestAccount(account),
+            businessOffer: network.latestBusinessOffer(offer),
+          );
+        },
+      ),
+    ).whenComplete(() {
+      if (count == offerViewCount) {
+        offerViewOpen = null;
+      }
+    });
   }
 
+  int applicantViewCount = 0;
   int applicantViewOpen;
   void navigateToApplicantView(DataApplicant applicant, DataBusinessOffer offer,
       DataAccount businessAccount, DataAccount influencerAccount) {
@@ -199,8 +220,9 @@ class _AppBusinessState extends State<AppBusiness> {
       });
       Navigator.pop(context);
     }
-    network.pushSuppressChatNotifications(applicant.applicantId);
+    int count = ++applicantViewCount;
     applicantViewOpen = applicant.applicantId;
+    bool suppressed = false;
     Navigator.push(
       context,
       new MaterialPageRoute(
@@ -211,6 +233,10 @@ class _AppBusinessState extends State<AppBusiness> {
           ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
           NavigatorState navigator = Navigator.of(context);
+          if (!suppressed) {
+            network.pushSuppressChatNotifications(applicant.applicantId);
+            suppressed = true;
+          }
           DataApplicant latestApplicant = network.latestApplicant(applicant);
           DataBusinessOffer latestOffer =
               offer != null ? network.latestBusinessOffer(offer) : null;
@@ -255,6 +281,12 @@ class _AppBusinessState extends State<AppBusiness> {
                   account.state.accountId,
                   fallback: account));
             },
+            onPressedOffer: (DataBusinessOffer offer) {
+              navigateToOfferView(
+                  network.tryGetPublicProfile(offer.accountId,
+                      fallback: latestBusinessAccount),
+                  offer);
+            },
             onReport: (String message) async {
               await network.reportApplicant(applicant.applicantId, message);
             },
@@ -275,8 +307,12 @@ class _AppBusinessState extends State<AppBusiness> {
         },
       ),
     ).whenComplete(() {
-      applicantViewOpen = null;
-      network.popSuppressChatNotifications();
+      if (count == applicantViewCount) {
+        applicantViewOpen = null;
+      }
+      if (suppressed) {
+        network.popSuppressChatNotifications();
+      }
     });
   }
 
@@ -372,7 +408,7 @@ class _AppBusinessState extends State<AppBusiness> {
                 ? network.refreshOffers
                 : null,
             onOfferPressed: (DataBusinessOffer offer) {
-              navigateToOfferView(context, network.account, offer);
+              navigateToOfferView(network.account, offer);
             });
       }),
       offersHistory: new Builder(builder: (context) {
@@ -387,7 +423,7 @@ class _AppBusinessState extends State<AppBusiness> {
                 ? network.refreshOffers
                 : null,
             onOfferPressed: (DataBusinessOffer offer) {
-              navigateToOfferView(context, network.account,
+              navigateToOfferView(network.account,
                   offer); // account will be able to use a future value provider thingy for not-mine offers
             });
       }),

@@ -20,7 +20,7 @@ class OffersShowcase extends StatefulWidget {
 
   final Function(DataBusinessOffer offer) onOfferPressed;
   final Function(DataBusinessOffer offer) onOfferCenter;
-  final DataBusinessOffer Function(int offerId) getOffer;
+  final DataBusinessOffer Function(BuildContext context, int offerId) getOffer;
   final List<int> offerIds;
 
   @override
@@ -32,7 +32,7 @@ class _OffersShowcaseState extends State<OffersShowcase> {
     ThemeData theme = Theme.of(context);
     int offerId = widget.offerIds[offerIdx];
     print("[INF] Showcase $offerId");
-    DataBusinessOffer offer = widget.getOffer(offerId);
+    DataBusinessOffer offer = widget.getOffer(context, offerId);
     Widget image = buildNetworkImage(
         url: offer.thumbnailUrl, blurredUrl: offer.blurredThumbnailUrl);
     Widget text = new Text(offer.title.toString(),

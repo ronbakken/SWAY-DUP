@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:inf/applicants_list_influencer.dart';
 
 import 'package:inf/offers_showcase.dart';
 import 'package:inf/offers_map.dart';
@@ -104,91 +105,112 @@ class _AppInfluencerState extends State<AppInfluencer> {
     }
   }
 
-  void navigateToOfferView(
-      BuildContext context, DataAccount account, DataBusinessOffer offer) {
+  int offerViewCount = 0;
+  int offerViewOpen;
+  void navigateToOfferView(DataAccount account, DataBusinessOffer offer) {
     NetworkInterface network = NetworkManager.of(context);
+    if (offerViewOpen != null) {
+      print("[INF] Pop previous offer route");
+      Navigator.popUntil(context, (Route<dynamic> route) {
+        return route.settings.name
+            .startsWith('/offer/' + offerViewOpen.toString());
+      });
+      Navigator.pop(context);
+    }
     network.backgroundReloadBusinessOffer(offer.offerId);
+    int count = ++offerViewCount;
+    offerViewOpen = offer.offerId;
     Navigator.push(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
-      ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
-      return new OfferView(
-        account: network.account,
-        businessAccount: network.latestAccount(account),
-        businessOffer: network.latestBusinessOffer(offer),
-        onApplicantPressed: (int applicantId) {
-          navigateToApplicantView(network.tryGetApplicant(applicantId), offer,
-              account, network.account);
-        },
-        onApply: (remarks) async {
-          var progressDialog = showProgressDialog(
-              context: this.context,
-              builder: (BuildContext context) {
-                return new Dialog(
-                  child: new Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      new Container(
-                          padding: new EdgeInsets.all(24.0),
-                          child: new CircularProgressIndicator()),
-                      new Text("Applying for offer..."),
-                    ],
-                  ),
-                );
-              });
-          DataApplicant applicant;
-          try {
-            // Create the offer
-            applicant = await network.applyForOffer(offer.offerId, remarks);
-          } catch (error, stack) {
-            print("[INF] Exception applying for offer': $error\n$stack");
-          }
-          closeProgressDialog(progressDialog);
-          if (applicant == null) {
-            // TODO: Request refreshing the offer!!!
-            await showDialog<Null>(
-              context: this.context,
-              builder: (BuildContext context) {
-                return new AlertDialog(
-                  title: new Text('Failed to apply for offer'),
-                  content: new SingleChildScrollView(
-                    child: new ListBody(
-                      children: <Widget>[
-                        new Text('An error has occured.'),
-                        new Text('Please try again later.'),
-                      ],
-                    ),
-                  ),
-                  actions: <Widget>[
-                    new FlatButton(
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      context,
+      new MaterialPageRoute(
+        settings: new RouteSettings(name: '/offer/' + offer.offerId.toString()),
+        builder: (context) {
+          ConfigData config = ConfigManager.of(context);
+          NetworkInterface network = NetworkManager.of(context);
+          NavigatorState navigator = Navigator.of(context);
+          return new OfferView(
+            account: network.account,
+            businessAccount: network.latestAccount(account),
+            businessOffer: network.latestBusinessOffer(offer),
+            onApplicantPressed: (int applicantId) {
+              navigateToApplicantView(network.tryGetApplicant(applicantId),
+                  offer, account, network.account);
+            },
+            onApply: (remarks) async {
+              var progressDialog = showProgressDialog(
+                  context: this.context,
+                  builder: (BuildContext context) {
+                    return new Dialog(
                       child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [new Text('Ok'.toUpperCase())],
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          new Container(
+                              padding: new EdgeInsets.all(24.0),
+                              child: new CircularProgressIndicator()),
+                          new Text("Applying for offer..."),
+                        ],
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
+                    );
+                  });
+              DataApplicant applicant;
+              try {
+                // Create the offer
+                applicant = await network.applyForOffer(offer.offerId, remarks);
+              } catch (error, stack) {
+                print("[INF] Exception applying for offer': $error\n$stack");
+              }
+              closeProgressDialog(progressDialog);
+              if (applicant == null) {
+                // TODO: Request refreshing the offer!!!
+                await showDialog<Null>(
+                  context: this.context,
+                  builder: (BuildContext context) {
+                    return new AlertDialog(
+                      title: new Text('Failed to apply for offer'),
+                      content: new SingleChildScrollView(
+                        child: new ListBody(
+                          children: <Widget>[
+                            new Text('An error has occured.'),
+                            new Text('Please try again later.'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: new Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [new Text('Ok'.toUpperCase())],
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
                 );
-              },
-            );
-          } else {
-            // Navigator.of(this.context).pop();
-            navigateToApplicantView(
-                applicant,
-                offer,
-                network.tryGetPublicProfile(applicant.businessAccountId),
-                network.tryGetPublicProfile(applicant.influencerAccountId));
-          }
-          return applicant;
+              } else {
+                // Navigator.of(this.context).pop();
+                navigateToApplicantView(
+                    applicant,
+                    offer,
+                    network.tryGetPublicProfile(applicant.businessAccountId),
+                    network.tryGetPublicProfile(applicant.influencerAccountId));
+              }
+              return applicant;
+            },
+          );
         },
-      );
-    }));
+      ),
+    ).whenComplete(() {
+      if (count == offerViewCount) {
+        offerViewOpen = null;
+      }
+    });
   }
 
+  int applicantViewCount = 0;
   int applicantViewOpen;
   void navigateToApplicantView(DataApplicant applicant, DataBusinessOffer offer,
       DataAccount businessAccount, DataAccount influencerAccount) {
@@ -201,8 +223,9 @@ class _AppInfluencerState extends State<AppInfluencer> {
       });
       Navigator.pop(context);
     }
-    network.pushSuppressChatNotifications(applicant.applicantId);
+    int count = ++applicantViewCount;
     applicantViewOpen = applicant.applicantId;
+    bool suppressed = false;
     Navigator.push(
       context,
       new MaterialPageRoute(
@@ -213,6 +236,10 @@ class _AppInfluencerState extends State<AppInfluencer> {
           ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
           NavigatorState navigator = Navigator.of(context);
+          if (!suppressed) {
+            network.pushSuppressChatNotifications(applicant.applicantId);
+            suppressed = true;
+          }
           DataApplicant latestApplicant = network.latestApplicant(applicant);
           DataBusinessOffer latestOffer =
               offer != null ? network.latestBusinessOffer(offer) : null;
@@ -257,6 +284,12 @@ class _AppInfluencerState extends State<AppInfluencer> {
                   account.state.accountId,
                   fallback: account));
             },
+            onPressedOffer: (DataBusinessOffer offer) {
+              navigateToOfferView(
+                  network.tryGetPublicProfile(offer.accountId,
+                      fallback: latestBusinessAccount),
+                  offer);
+            },
             onReport: (String message) async {
               await network.reportApplicant(applicant.applicantId, message);
             },
@@ -277,8 +310,12 @@ class _AppInfluencerState extends State<AppInfluencer> {
         },
       ),
     ).whenComplete(() {
-      applicantViewOpen = null;
-      network.popSuppressChatNotifications();
+      if (count == applicantViewCount) {
+        applicantViewOpen = null;
+      }
+      if (suppressed) {
+        network.popSuppressChatNotifications();
+      }
     });
   }
 
@@ -386,7 +423,6 @@ class _AppInfluencerState extends State<AppInfluencer> {
                   businessOffer: offer,
                   onPressed: () {
                     navigateToOfferView(
-                        context,
                         network.tryGetPublicProfile(offer.accountId,
                             fallbackOffer: offer),
                         offer);
@@ -401,6 +437,29 @@ class _AppInfluencerState extends State<AppInfluencer> {
   MapController _mapController = new MapController();
   bool _mapFilter = false;
   DataBusinessOffer _mapHighlightOffer;
+
+  Widget _buildApplicantList(
+      BuildContext context, bool Function(DataApplicant applicant) test) {
+    NetworkInterface network = NetworkManager.of(context);
+    return new ApplicantsListInfluencer(
+      applicants: network.applicants.where(test),
+      getAccount: (BuildContext context, int accountId) {
+        NetworkInterface network = NetworkManager.of(context);
+        return network.tryGetPublicProfile(accountId);
+      },
+      getBusinessOffer: (BuildContext context, int offerId) {
+        NetworkInterface network = NetworkManager.of(context);
+        return network.tryGetBusinessOffer(offerId);
+      },
+      onApplicantPressed: (applicant) {
+        navigateToApplicantView(
+            applicant,
+            network.tryGetBusinessOffer(applicant.offerId),
+            network.tryGetPublicProfile(applicant.businessAccountId),
+            network.tryGetPublicProfile(applicant.influencerAccountId));
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -418,11 +477,13 @@ class _AppInfluencerState extends State<AppInfluencer> {
             network.demoAllOffers.keys.toList(); // TODO
         Widget showcase = showcaseOfferIds.isNotEmpty
             ? new OffersShowcase(
-                getOffer: (int offerId) => network.tryGetBusinessOffer(offerId),
+                getOffer: (BuildContext context, int offerId) {
+                  NetworkInterface network = NetworkManager.of(context);
+                  return network.tryGetBusinessOffer(offerId);
+                },
                 offerIds: network.demoAllOffers.keys.toList(),
                 onOfferPressed: (DataBusinessOffer offer) {
                   navigateToOfferView(
-                      context,
                       network.tryGetPublicProfile(offer.accountId,
                           fallbackOffer: offer),
                       network.latestBusinessOffer(offer));
@@ -471,7 +532,6 @@ class _AppInfluencerState extends State<AppInfluencer> {
           highlightOffer: _mapHighlightOffer,
           onOfferPressed: (DataBusinessOffer offer) {
             navigateToOfferView(
-                context,
                 network.tryGetPublicProfile(offer.accountId,
                     fallbackOffer: offer),
                 network.latestBusinessOffer(offer));
@@ -496,18 +556,50 @@ class _AppInfluencerState extends State<AppInfluencer> {
         navigateToProfileView(context);
       },
       onNavigateDebugAccount: navigateToDebugAccount,
+      proposalsReceived: new Builder(
+        builder: (context) {
+          return _buildApplicantList(
+              context,
+              (DataApplicant applicant) =>
+                  (applicant.senderAccountId !=
+                      network.account.state.accountId) &&
+                  (applicant.state == ApplicantState.AS_HAGGLING));
+        },
+      ),
       proposalsApplying: new Builder(
         builder: (context) {
-          return new ApplicantsListPlaceholder(
-            applicants: network.applicants,
-            onApplicantPressed: (applicant) {
-              navigateToApplicantView(
-                  applicant,
-                  network.tryGetBusinessOffer(applicant.offerId),
-                  network.tryGetPublicProfile(applicant.businessAccountId),
-                  network.tryGetPublicProfile(applicant.influencerAccountId));
-            },
-          );
+          return _buildApplicantList(
+              context,
+              (DataApplicant applicant) =>
+                  (applicant.senderAccountId ==
+                      network.account.state.accountId) &&
+                  (applicant.state == ApplicantState.AS_HAGGLING));
+        },
+      ),
+      proposalsRejected: new Builder(
+        builder: (context) {
+          return _buildApplicantList(
+              context,
+              (DataApplicant applicant) =>
+                  (applicant.state == ApplicantState.AS_REJECTED));
+        },
+      ),
+      agreementsActive: new Builder(
+        builder: (context) {
+          return _buildApplicantList(
+              context,
+              (DataApplicant applicant) =>
+                  (applicant.state == ApplicantState.AS_DEAL) ||
+                  (applicant.state == ApplicantState.AS_DISPUTE));
+        },
+      ),
+      agreementsHistory: new Builder(
+        builder: (context) {
+          return _buildApplicantList(
+              context,
+              (DataApplicant applicant) =>
+                  (applicant.state == ApplicantState.AS_COMPLETE) ||
+                  (applicant.state == ApplicantState.AS_RESOLVED));
         },
       ),
     );
