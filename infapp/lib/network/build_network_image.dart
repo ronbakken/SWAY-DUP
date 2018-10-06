@@ -66,7 +66,7 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage> {
                 });
               }
             },
-    ); 
+    );
     Widget base = new TransitionToImage(
       blurredImage,
       duration: new Duration(),
