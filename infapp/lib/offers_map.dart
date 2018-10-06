@@ -7,6 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:inf/network/build_network_image.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -31,7 +32,10 @@ class OffersMap extends StatefulWidget {
     @required this.filterTooltip,
     @required this.searchTooltip,
     this.mapController,
-    @required this.bottomSpace,
+    this.bottomSpace = 0.0,
+    @required this.offers,
+    @required this.onOfferPressed,
+    @required this.highlightOffer,
   }) : super(key: key);
 
   final bool filterState;
@@ -50,6 +54,13 @@ class OffersMap extends StatefulWidget {
   final MapController mapController;
   final double bottomSpace;
 
+  /// Temporary
+  final List<DataBusinessOffer> offers;
+
+  // TODO: final Function(S2CellId cellId) getOffer;
+  final Function(DataBusinessOffer offer) onOfferPressed;
+  final DataBusinessOffer highlightOffer;
+
   @override
   _OffersMapState createState() => new _OffersMapState();
 }
@@ -60,18 +71,33 @@ class _OffersMapState extends State<OffersMap> {
   LatLng _gpsLatLng;
   Geolocator _geolocator;
   StreamSubscription<Position> _positionSubscription;
+  List<DataBusinessOffer> _offers;
 
   @override
   void initState() {
     super.initState();
     _mapController = widget.mapController ?? new MapController();
+    _updateOfferList();
+    bool initGps = false;
+    try {
+      if (_mapController.center == null) {
+        initGps = true;
+      } else {
+        _initialLatLng = _mapController.center;
+      }
+    } catch (error) {
+      print("[INF] Need to center map");
+      initGps = true;
+    }
     // Default location depending on whether GPS is available or not
-    if (widget.account.detail.latitude != 0.0 &&
-        widget.account.detail.longitude != 0.0) {
-      _initialLatLng = new LatLng(
-          widget.account.detail.latitude, widget.account.detail.longitude);
-    } else {
-      _initialLatLng = new LatLng(34.0207305, -118.6919159);
+    if (_initialLatLng == null) {
+      if (widget.account.detail.latitude != 0.0 &&
+          widget.account.detail.longitude != 0.0) {
+        _initialLatLng = new LatLng(
+            widget.account.detail.latitude, widget.account.detail.longitude);
+      } else {
+        _initialLatLng = new LatLng(34.0207305, -118.6919159);
+      }
     }
     _geolocator = new Geolocator();
     () async {
@@ -86,7 +112,8 @@ class _OffersMapState extends State<OffersMap> {
           setState(() {
             _gpsLatLng = new LatLng(position.latitude, position.longitude);
           });
-          if (setInitial) _mapController.move(_gpsLatLng, _mapController.zoom);
+          if (setInitial && initGps)
+            _mapController.move(_gpsLatLng, _mapController.zoom);
         }
       });
       if (!mounted) {
@@ -105,7 +132,9 @@ class _OffersMapState extends State<OffersMap> {
         setState(() {
           _gpsLatLng = new LatLng(position.latitude, position.longitude);
         });
-        _mapController.move(_gpsLatLng, _mapController.zoom);
+        if (initGps) {
+          _mapController.move(_gpsLatLng, _mapController.zoom);
+        }
       }
     }();
   }
@@ -121,10 +150,108 @@ class _OffersMapState extends State<OffersMap> {
   @override
   void didUpdateWidget(OffersMap oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (_mapController == oldWidget.mapController || widget.mapController != null) {
+    if (_mapController == oldWidget.mapController ||
+        widget.mapController != null) {
       _mapController = widget.mapController;
     }
     _mapController ??= new MapController();
+    _updateOfferList();
+  }
+
+  void _updateOfferList() {
+    _offers = widget.offers ?? <DataBusinessOffer>[];
+    if (widget.highlightOffer != null) {
+      _offers.insert(0, widget.highlightOffer);
+    }
+  }
+
+  Widget _buildOfferMarker(BuildContext context, DataBusinessOffer offer) {
+    List<Widget> stack = new List<Widget>();
+    if (offer.locationOfferCount > 2) {
+      stack.add(new Padding(
+        padding: EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 0.0),
+        child: new Material(
+          elevation: 4.0,
+          color: Theme.of(context).iconTheme.color.withAlpha(192),
+          shape: new CircleBorder(),
+        ),
+      ));
+    }
+    if (offer.locationOfferCount > 1) {
+      stack.add(new Padding(
+        padding: EdgeInsets.fromLTRB(12.0, 12.0, 4.0, 4.0),
+        child: new Material(
+          elevation: 4.0,
+          color: Theme.of(context).iconTheme.color.withAlpha(192),
+          shape: new CircleBorder(),
+        ),
+      ));
+    }
+    stack.add(new Padding(
+      padding: EdgeInsets.all(8.0),
+      child: new Material(
+        elevation: 4.0,
+        color: Theme.of(context).iconTheme.color.withAlpha(192),
+        shape: new CircleBorder(),
+        child: new ClipOval(
+          child: new Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              new Padding(
+                padding: new EdgeInsets.all(4.0),
+                child: new Material(
+                  elevation: 2.0,
+                  shape: new CircleBorder(),
+                  child: new ClipOval(
+                    child: new Stack(
+                      fit: StackFit.expand,
+                      children: <Widget>[
+                        buildNetworkImage(
+                            url: offer.thumbnailUrl,
+                            blurredUrl: offer.blurredThumbnailUrl),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              new Material(
+                color: Colors.transparent,
+                child: new InkWell(
+                  onTap: () {
+                    widget.onOfferPressed(offer);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ));
+    return new Stack(
+      key: Key('OfferMarker${offer.offerId}'),
+      fit: StackFit.expand,
+      children: stack,
+    );
+  }
+
+  List<Marker> _buildOfferMarkers(BuildContext context) {
+    List<Marker> markers = new List<Marker>();
+    Set<int> locations = new Set<int>();
+    for (DataBusinessOffer offer in _offers) {
+      if (locations.contains(offer.locationId)) {
+        continue;
+      }
+      locations.add(offer.locationId);
+      markers.add(new Marker(
+        width: 56.0 + 16.0,
+        height: 56.0 + 16.0,
+        point: new LatLng(offer.latitude, offer.longitude),
+        builder: (BuildContext context) {
+          return _buildOfferMarker(context, offer);
+        },
+      ));
+    }
+    return markers;
   }
 
   Widget _buildCurrentLocationMarker(BuildContext context) {
@@ -182,20 +309,14 @@ class _OffersMapState extends State<OffersMap> {
                   : new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
               placeholderImage: new AssetImage(
                   'assets/placeholder_map_tile.png'), // new MemoryImage(kTransparentImage),
-              /*
-              urlTemplate: "https://api.tiles.mapbox.com/v4/"
-                  "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
-              additionalOptions: {
-                'accessToken':
-                    'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqaDBidjJkNjNsZmMyd21sbXlqN3k4ejQifQ.N0z3Tq8fg6LPPxOGVWI8VA',
-                'id': 'mapbox.dark',
-              },
-              */
               urlTemplate: widget.mapboxUrlTemplate,
               additionalOptions: {'accessToken': widget.mapboxToken},
             ),
             new MarkerLayerOptions(
               markers: _buildPositionMarkers(context),
+            ),
+            new MarkerLayerOptions(
+              markers: _buildOfferMarkers(context),
             ),
           ],
         ),
@@ -258,7 +379,7 @@ class _OffersMapState extends State<OffersMap> {
                               onPressed: () {
                                 widget.onFilterPressed();
                               },
-                              tooltip: widget.searchTooltip,
+                              tooltip: widget.filterTooltip,
                             ),
                           ),
                         ),
@@ -287,20 +408,28 @@ class _OffersMapState extends State<OffersMap> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       new ClipOval(
-                          child: new Material(
-                            type: MaterialType.circle,
-                            color: Colors.transparent,
-                            child: new IconButton(
-                              padding: new EdgeInsets.all(16.0),
-                              icon: _gpsLatLng == null ? new Icon(Icons.gps_off) : new Icon(Icons.gps_fixed),
-                              color: Theme.of(context).iconTheme.color.withAlpha(192),
-                              onPressed: _gpsLatLng == null ? null : () {
-                                _mapController.move(_gpsLatLng, _mapController.zoom);
-                              },
-                              tooltip: "Center map to your position",
-                            ),
+                        child: new Material(
+                          type: MaterialType.circle,
+                          color: Colors.transparent,
+                          child: new IconButton(
+                            padding: new EdgeInsets.all(16.0),
+                            icon: _gpsLatLng == null
+                                ? new Icon(Icons.gps_off)
+                                : new Icon(Icons.gps_fixed),
+                            color: Theme.of(context)
+                                .iconTheme
+                                .color
+                                .withAlpha(192),
+                            onPressed: _gpsLatLng == null
+                                ? null
+                                : () {
+                                    _mapController.move(
+                                        _gpsLatLng, _mapController.zoom);
+                                  },
+                            tooltip: "Center map to your position",
                           ),
                         ),
+                      ),
                       new SizedBox(height: widget.bottomSpace),
                     ],
                   ),

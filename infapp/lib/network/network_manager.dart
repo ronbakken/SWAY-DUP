@@ -951,7 +951,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       if (account.state.accountType == AccountType.AT_BUSINESS) {
         offersLoading = true;
         refreshOffers().catchError((error, stack) {
-          print("[INF] Failed to get offers: $error, $stack");
+          print("[INF] Failed to get offers: $error");
           new Timer(new Duration(seconds: 3), () {
             _offersLoaded =
                 false; // Not using setState since we don't want to broadcast failure state
@@ -1014,7 +1014,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       if (account.state.accountType == AccountType.AT_INFLUENCER) {
         demoAllOffersLoading = true;
         refreshDemoAllOffers().catchError((error, stack) {
-          print("[INF] Failed to get offers: $error, $stack");
+          print("[INF] Failed to get offers: $error");
           new Timer(new Duration(seconds: 3), () {
             _demoAllOffersLoaded =
                 false; // Not using setState since we don't want to broadcast failure state
@@ -1082,7 +1082,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       _getBusinessOffer(offerId, cached).then((offer) {
         cached.loading = false;
       }).catchError((error, stack) {
-        print("[INF] Failed to get offer $offerId: $error, $stack");
+        print("[INF] Failed to get offer $offerId: $error");
         new Timer(new Duration(seconds: 3), () {
           setState(() {
             cached.loading = false;

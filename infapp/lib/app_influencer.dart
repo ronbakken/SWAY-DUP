@@ -400,6 +400,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
 
   MapController _mapController = new MapController();
   bool _mapFilter = false;
+  DataBusinessOffer _mapHighlightOffer;
 
   @override
   Widget build(BuildContext context) {
@@ -430,6 +431,9 @@ class _AppInfluencerState extends State<AppInfluencer> {
                   _mapController.move(
                       new LatLng(offer.latitude, offer.longitude),
                       _mapController.zoom);
+                  setState(() {
+                    _mapHighlightOffer = offer;
+                  });
                 },
               )
             : null;
@@ -463,6 +467,15 @@ class _AppInfluencerState extends State<AppInfluencer> {
           searchTooltip: "Search for nearby offers",
           mapController: _mapController,
           bottomSpace: (showcase != null) ? 156.0 : 0.0,
+          offers: network.demoAllOffers.values.toList(),
+          highlightOffer: _mapHighlightOffer,
+          onOfferPressed: (DataBusinessOffer offer) {
+            navigateToOfferView(
+                context,
+                network.tryGetPublicProfile(offer.accountId,
+                    fallbackOffer: offer),
+                network.latestBusinessOffer(offer));
+          },
         );
         return showcase != null
             ? new Stack(

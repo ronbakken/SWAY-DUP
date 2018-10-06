@@ -40,30 +40,50 @@ class _OffersShowcaseState extends State<OffersShowcase> {
         overflow: TextOverflow.ellipsis,
         style: theme.textTheme.subhead);
     Card card = new Card(
-      child: new Stack(
-        fit: StackFit.expand, // Important
-        children: <Widget>[
-          new ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-            child: image,
-          ),
-          new Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              new Padding(
-                padding: new EdgeInsets.all(8.0),
-                child:
-                    text, /*new BackdropFilter(
+      child: new ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        child: new Stack(
+          fit: StackFit.expand, // Important
+          children: <Widget>[
+            image,
+            new Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new AspectRatio(
+                  aspectRatio: 3.0 / 1.0,
+                  child: new ConstrainedBox(
+                    constraints: new BoxConstraints.expand(),
+                    child: new DecoratedBox(
+                      decoration: new BoxDecoration(
+                        gradient: new LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: <Color>[
+                              Colors.black45,
+                              Colors.transparent
+                            ]),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            new Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Padding(
+                  padding: new EdgeInsets.all(8.0),
+                  child:
+                      text, /*new BackdropFilter(
                   filter: new ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
                   child: text,
                 ),*/
-              )
-            ],
-          ),
-          new ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-            child: new Material(
+                )
+              ],
+            ),
+            new Material(
               color: Colors.transparent,
               child: new InkWell(
                 onTap: () {
@@ -74,8 +94,8 @@ class _OffersShowcaseState extends State<OffersShowcase> {
                 },
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
     /*return new AspectRatio(
