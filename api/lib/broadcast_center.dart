@@ -25,7 +25,9 @@ import 'cache_map.dart';
 class _CachedApplicant {
   final int influencerAccountId;
   final int businessAccountId;
-  _CachedApplicant(this.influencerAccountId, this.businessAccountId);
+  final int senderAccountId;
+  _CachedApplicant(
+      this.influencerAccountId, this.businessAccountId, this.senderAccountId);
 }
 
 /// Cached account information with the purpose of sending notifications
@@ -76,11 +78,12 @@ class BroadcastCenter {
     _CachedApplicant applicant = _applicantToInfluencerBusiness[applicantId];
     if (applicant != null) return applicant;
     sqljocky.Results res = await sql.prepareExecute(
-        "SELECT `influencer_account_id`, `business_account_id` "
+        "SELECT `influencer_account_id`, `business_account_id`, `sender_account_id` "
         "FROM `applicants` WHERE `applicant_id` = ?",
         [applicantId.toInt()]);
     await for (sqljocky.Row row in res) {
-      applicant = new _CachedApplicant(row[0].toInt(), row[1].toInt());
+      applicant =
+          new _CachedApplicant(row[0].toInt(), row[1].toInt(), row[2].toInt());
       _applicantToInfluencerBusiness[applicantId] = applicant;
     }
     return applicant; // May be null if not found
@@ -261,14 +264,20 @@ class BroadcastCenter {
       DataAccount influencerAccount) async {
     // Store cache
     _applicantToInfluencerBusiness[applicant.applicantId] =
-        new _CachedApplicant(
-            applicant.influencerAccountId, applicant.businessAccountId);
+        new _CachedApplicant(applicant.influencerAccountId,
+            applicant.businessAccountId, applicant.senderAccountId);
 
     // Push notifications
     await _pushApplicantPosted(
         senderDeviceId, applicant.influencerAccountId, applicant);
     await _pushApplicantPosted(
         senderDeviceId, applicant.businessAccountId, applicant);
+    if (applicant.senderAccountId != applicant.influencerAccountId &&
+        applicant.senderAccountId != applicant.businessAccountId &&
+        applicant.senderAccountId != 0 /* Temporary != 0 check */) {
+      await _pushApplicantPosted(
+          senderDeviceId, applicant.senderAccountId, applicant);
+    }
 
     devLog.fine(
         "Pushed applicant ${applicant.applicantId}: '${influencerAccount.summary.name}'");
@@ -278,14 +287,20 @@ class BroadcastCenter {
       int senderDeviceId, DataApplicant applicant) async {
     // Store cache
     _applicantToInfluencerBusiness[applicant.applicantId] =
-        new _CachedApplicant(
-            applicant.influencerAccountId, applicant.businessAccountId);
+        new _CachedApplicant(applicant.influencerAccountId,
+            applicant.businessAccountId, applicant.senderAccountId);
 
     // Push notifications
     await _pushApplicantChanged(
         senderDeviceId, applicant.influencerAccountId, applicant);
     await _pushApplicantChanged(
         senderDeviceId, applicant.businessAccountId, applicant);
+    if (applicant.senderAccountId != applicant.influencerAccountId &&
+        applicant.senderAccountId != applicant.businessAccountId &&
+        applicant.senderAccountId != 0 /* Temporary != 0 check */) {
+      await _pushApplicantChanged(
+          senderDeviceId, applicant.senderAccountId, applicant);
+    }
   }
 
   Future<void> applicantChatPosted(int senderDeviceId, DataApplicantChat chat,

@@ -94,12 +94,12 @@ class RemoteAppHaggle {
 
   static String _applicantSelect = "`applicant_id`, `offer_id`, " // 0 1
       "`influencer_account_id`, `business_account_id`, " // 2 3
-      "`haggle_chat_id`, " // 4
-      "`influencer_wants_deal`, `business_wants_deal`, " // 5 6
-      "`influencer_marked_delivered`, `influencer_marked_rewarded`, " // 7 8
-      "`business_marked_delivered`, `business_marked_rewarded`, " // 9 10
-      "`influencer_gave_rating`, `business_gave_rating`, " // 11 12
-      "`influencer_disputed`, `business_disputed`, " // 13 14
+      "`sender_account_id`, `haggle_chat_id`, " // 4 5
+      "`influencer_wants_deal`, `business_wants_deal`, " // 6 7
+      "`influencer_marked_delivered`, `influencer_marked_rewarded`, " // 8 9
+      "`business_marked_delivered`, `business_marked_rewarded`, " // 10 11
+      "`influencer_gave_rating`, `business_gave_rating`, " // 12 13
+      "`influencer_disputed`, `business_disputed`, " // 14 15
       "`state` "; // 15
   DataApplicant _applicantFromRow(sqljocky.Row row) {
     DataApplicant applicant = new DataApplicant();
@@ -107,18 +107,19 @@ class RemoteAppHaggle {
     applicant.offerId = row[1].toInt();
     applicant.influencerAccountId = row[2].toInt();
     applicant.businessAccountId = row[3].toInt();
-    applicant.haggleChatId = new Int64(row[4].toInt());
-    applicant.influencerWantsDeal = row[5].toInt() != 0;
-    applicant.businessWantsDeal = row[6].toInt() != 0;
-    applicant.influencerMarkedDelivered = row[7].toInt() != 0;
-    applicant.influencerMarkedRewarded = row[8].toInt() != 0;
-    applicant.businessMarkedDelivered = row[9].toInt() != 0;
-    applicant.businessMarkedRewarded = row[10].toInt() != 0;
-    applicant.influencerGaveRating = row[11].toInt(); // TODO: Maybe just bool
-    applicant.businessGaveRating = row[12].toInt(); // TODO: Maybe just bool
-    applicant.influencerDisputed = row[13].toInt() != 0;
-    applicant.businessDisputed = row[14].toInt() != 0;
-    applicant.state = ApplicantState.valueOf(row[15].toInt());
+    applicant.senderAccountId = row[4].toInt();
+    applicant.haggleChatId = new Int64(row[5].toInt());
+    applicant.influencerWantsDeal = row[6].toInt() != 0;
+    applicant.businessWantsDeal = row[7].toInt() != 0;
+    applicant.influencerMarkedDelivered = row[8].toInt() != 0;
+    applicant.influencerMarkedRewarded = row[9].toInt() != 0;
+    applicant.businessMarkedDelivered = row[10].toInt() != 0;
+    applicant.businessMarkedRewarded = row[11].toInt() != 0;
+    applicant.influencerGaveRating = row[12].toInt(); // TODO: Maybe just bool
+    applicant.businessGaveRating = row[13].toInt(); // TODO: Maybe just bool
+    applicant.influencerDisputed = row[14].toInt() != 0;
+    applicant.businessDisputed = row[15].toInt() != 0;
+    applicant.state = ApplicantState.valueOf(row[16].toInt());
     return applicant;
   }
 

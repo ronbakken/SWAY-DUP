@@ -242,13 +242,14 @@ class RemoteAppInfluencer {
       // 1. Insert into applicants
       ts.sendExtend(message);
       String insertApplicant = "INSERT INTO `applicants`("
-          "`offer_id`, `influencer_account_id`, `business_account_id`, `state`) "
-          "VALUES (?, ?, ?, ?)";
+          "`offer_id`, `influencer_account_id`, `business_account_id`, `sender_account_id`, `state`) "
+          "VALUES (?, ?, ?, ?, ?)";
       sqljocky.Results resultApplicant =
           await transaction.prepareExecute(insertApplicant, [
         pb.offerId.toInt(),
         accountId,
         businessAccountId,
+        accountId,
         ApplicantState.AS_HAGGLING.value,
       ]);
       int applicantId = resultApplicant.insertId;
