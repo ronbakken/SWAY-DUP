@@ -1002,6 +1002,7 @@ class DataApplicant extends $pb.GeneratedMessage {
     ..aOS(17, 'influencerName')
     ..aOS(18, 'businessName')
     ..aOS(19, 'offerTitle')
+    ..a<int>(20, 'senderAccountId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataApplicant() : super();
@@ -1175,6 +1176,14 @@ class DataApplicant extends $pb.GeneratedMessage {
 
   bool hasOfferTitle() => $_has(18);
   void clearOfferTitle() => clearField(19);
+
+  int get senderAccountId => $_get(19, 0);
+  set senderAccountId(int v) {
+    $_setSignedInt32(19, v);
+  }
+
+  bool hasSenderAccountId() => $_has(19);
+  void clearSenderAccountId() => clearField(20);
 }
 
 class DataApplicantChat extends $pb.GeneratedMessage {
