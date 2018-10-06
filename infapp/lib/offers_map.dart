@@ -166,7 +166,8 @@ class _OffersMapState extends State<OffersMap> {
               backgroundColor: Theme.of(context).brightness == Brightness.light
                   ? new Color.fromARGB(0xFF, 0xD1, 0xD1, 0xD1)
                   : new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
-              placeholderImage: new AssetImage('assets/placeholder_map_tile.png'), // new MemoryImage(kTransparentImage),
+              placeholderImage: new AssetImage(
+                  'assets/placeholder_map_tile.png'), // new MemoryImage(kTransparentImage),
               /*
               urlTemplate: "https://api.tiles.mapbox.com/v4/"
                   "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
@@ -229,9 +230,13 @@ class _OffersMapState extends State<OffersMap> {
                         new ClipOval(
                           child: new Material(
                             type: MaterialType.circle,
-                            color: widget.filterState == true ? Theme.of(context).primaryColor.withAlpha(128) : Colors.transparent,
+                            color: widget.filterState == true
+                                ? Theme.of(context).primaryColor.withAlpha(128)
+                                : Colors.transparent,
                             child: new IconButton(
-                              color: widget.filterState == true ? Theme.of(context).accentColor : Theme.of(context).iconTheme.color,
+                              color: widget.filterState == true
+                                  ? Theme.of(context).accentColor
+                                  : Theme.of(context).iconTheme.color,
                               padding: new EdgeInsets.all(16.0),
                               icon: new Icon(Icons.filter_list),
                               onPressed: () {
