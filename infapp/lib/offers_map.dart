@@ -364,6 +364,8 @@ class _OffersMapState extends State<OffersMap> {
                             child: new SizedBox(),
                           ),
                         ),
+                        /*
+                        // TEMPORARiLY HIDDEN
                         new ClipOval(
                           child: new Material(
                             type: MaterialType.circle,
@@ -383,6 +385,7 @@ class _OffersMapState extends State<OffersMap> {
                             ),
                           ),
                         ),
+                        */
                         new ClipOval(
                           child: new Material(
                             type: MaterialType.circle,

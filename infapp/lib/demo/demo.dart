@@ -17,7 +17,6 @@ import '../page_transition.dart';
 import '../offer_view.dart' show OfferView;
 import '../offer_create.dart' show OfferCreate;
 import '../dashboard_common.dart';
-import '../nearby_common.dart';
 import '../profile/profile_view.dart' show ProfileView;
 import '../profile/profile_edit.dart' show ProfileEdit;
 import '../search/search_button.dart';
@@ -556,7 +555,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     proposalsTab: 2,
                     onMakeAnOffer: () {},
                     onNavigateProfile: () {},
-                    map: new NearbyCommon(
+                    map: new Text("/* Map */") /*new NearbyCommon(
                       searchHint: "Find nearby influencers...",
                       searchTooltip: "Search for nearby influencers",
                       onSearchPressed: (TextEditingController searchQuery) {
@@ -592,7 +591,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                               },
                             ));
                       },
-                    ),
+                    )*/,
                     offersCurrent: new BusinessOfferList(
                       businessOffers: [
                         sampleBusinessOffers[1],

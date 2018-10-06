@@ -20,7 +20,6 @@ import 'profile/profile_view.dart';
 import 'profile/profile_edit.dart';
 
 import 'dashboard_common.dart';
-import 'nearby_common.dart';
 import 'offer_create.dart';
 import 'offer_view.dart';
 import 'business_offer_list.dart';
@@ -380,7 +379,7 @@ class _AppBusinessState extends State<AppBusiness> {
       offersTab: 0,
       proposalsTab: 1,
       agreementsTab: 2,
-      map: new Builder(builder: (context) {
+      map: new Text("/* Map */"), /*new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         return new NearbyCommon(
           account: network.account,
@@ -395,7 +394,7 @@ class _AppBusinessState extends State<AppBusiness> {
           searchHint: "Find nearby influencers...",
           searchTooltip: "Search for nearby influencers",
         );
-      }),
+      }),*/
       offersCurrent: new Builder(builder: (context) {
         NetworkInterface network = NetworkManager.of(context);
         return new BusinessOfferList(
