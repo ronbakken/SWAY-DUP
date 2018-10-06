@@ -23,8 +23,11 @@ class CarouselAppBar extends SliverAppBar {
           actions: actions,
         );
 
-  static Widget _buildBackground(PageController controller, BuildContext context,
-      List<String> imageUrls, List<String> blurredImageUrls) {
+  static Widget _buildBackground(
+      PageController controller,
+      BuildContext context,
+      List<String> imageUrls,
+      List<String> blurredImageUrls) {
     List<Widget> images = new List<Widget>();
     if (blurredImageUrls == null) {
       for (String imageUrl in imageUrls) {
