@@ -23,77 +23,79 @@ namespace InfX {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNkYXRhX3Byb3RvYnVmLnByb3RvEgNpbmYaE2VudW1fcHJvdG9idWYucHJv",
-            "dG8itAIKD0RhdGFTb2NpYWxNZWRpYRIRCgljb25uZWN0ZWQYASABKAgSDwoH",
+            "dG8izgIKD0RhdGFTb2NpYWxNZWRpYRIRCgljb25uZWN0ZWQYASABKAgSDwoH",
             "ZXhwaXJlZBgPIAEoCBISCgpzY3JlZW5OYW1lGAQgASgJEhMKC2Rpc3BsYXlO",
-            "YW1lGAUgASgJEhEKCWF2YXRhclVybBgOIAEoCRISCgpwcm9maWxlVXJsGA0g",
-            "ASgJEhMKC2Rlc2NyaXB0aW9uGAYgASgJEhAKCGxvY2F0aW9uGAcgASgJEgsK",
-            "A3VybBgIIAEoCRINCgVlbWFpbBgMIAEoCRIUCgxmcmllbmRzQ291bnQYCSAB",
-            "KAUSFgoOZm9sbG93ZXJzQ291bnQYAiABKAUSFgoOZm9sbG93aW5nQ291bnQY",
-            "AyABKAUSEgoKcG9zdHNDb3VudBgKIAEoBRIQCgh2ZXJpZmllZBgLIAEoCCJg",
-            "ChREYXRhT0F1dGhDcmVkZW50aWFscxIOCgZ1c2VySWQYBCABKAkSDQoFdG9r",
-            "ZW4YASABKAkSEwoLdG9rZW5TZWNyZXQYAiABKAkSFAoMdG9rZW5FeHBpcmVz",
-            "GAMgASgFItgEChFEYXRhQnVzaW5lc3NPZmZlchIPCgdvZmZlcklkGAEgASgF",
-            "EhEKCWFjY291bnRJZBgCIAEoBRISCgpsb2NhdGlvbklkGAMgASgFEg0KBXRp",
-            "dGxlGAQgASgJEhMKC2Rlc2NyaXB0aW9uGAUgASgJEhQKDHRodW1ibmFpbFVy",
-            "bBgGIAEoCRIbChNibHVycmVkVGh1bWJuYWlsVXJsGBggASgJEhQKDGRlbGl2",
-            "ZXJhYmxlcxgHIAEoCRIOCgZyZXdhcmQYCCABKAkSFAoMbG9jYXRpb25OYW1l",
-            "GBUgASgJEhAKCGxvY2F0aW9uGAkgASgJEhAKCGxhdGl0dWRlGBIgASgBEhEK",
-            "CWxvbmdpdHVkZRgTIAEoARIaChJsb2NhdGlvbk9mZmVyQ291bnQYFCABKAUS",
-            "EQoJY292ZXJVcmxzGAogAygJEhgKEGJsdXJyZWRDb3ZlclVybHMYGSADKAkS",
-            "EgoKY2F0ZWdvcmllcxgXIAEoDBImCgVzdGF0ZRgMIAEoDjIXLmluZi5CdXNp",
-            "bmVzc09mZmVyU3RhdGUSMgoLc3RhdGVSZWFzb24YDSABKA4yHS5pbmYuQnVz",
-            "aW5lc3NPZmZlclN0YXRlUmVhc29uEhUKDWFwcGxpY2FudHNOZXcYDiABKAUS",
-            "GgoSYXBwbGljYW50c0FjY2VwdGVkGA8gASgFEhsKE2FwcGxpY2FudHNDb21w",
-            "bGV0ZWQYECABKAUSGQoRYXBwbGljYW50c1JlZnVzZWQYESABKAUSHQoVaW5m",
-            "bHVlbmNlckFwcGxpY2FudElkGBYgASgFItoBCgxEYXRhTG9jYXRpb24SEgoK",
-            "bG9jYXRpb25JZBgBIAEoBRIMCgRuYW1lGAIgASgJEhEKCWF2YXRhclVybBgG",
-            "IAEoCRITCgthcHByb3hpbWF0ZRgHIAEoCRIOCgZkZXRhaWwYCCABKAkSEAoI",
-            "cG9zdGNvZGUYCSABKAkSEgoKcmVnaW9uQ29kZRgKIAEoCRITCgtjb3VudHJ5",
-            "Q29kZRgLIAEoCRIQCghsYXRpdHVkZRgEIAEoARIRCglsb25naXR1ZGUYBSAB",
-            "KAESEAoIczJjZWxsSWQYDCABKAMingIKEERhdGFBY2NvdW50U3RhdGUSEAoI",
-            "ZGV2aWNlSWQYASABKAUSEQoJYWNjb3VudElkGAIgASgFEiUKC2FjY291bnRU",
-            "eXBlGAMgASgOMhAuaW5mLkFjY291bnRUeXBlEjMKEmdsb2JhbEFjY291bnRT",
-            "dGF0ZRgEIAEoDjIXLmluZi5HbG9iYWxBY2NvdW50U3RhdGUSPwoYZ2xvYmFs",
-            "QWNjb3VudFN0YXRlUmVhc29uGAUgASgOMh0uaW5mLkdsb2JhbEFjY291bnRT",
-            "dGF0ZVJlYXNvbhIxChFub3RpZmljYXRpb25GbGFncxgGIAEoDjIWLmluZi5O",
-            "b3RpZmljYXRpb25GbGFncxIVCg1maXJlYmFzZVRva2VuGAcgASgJImUKEkRh",
-            "dGFBY2NvdW50U3VtbWFyeRIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9u",
-            "GAIgASgJEhAKCGxvY2F0aW9uGAMgASgJEhoKEmF2YXRhclRodW1ibmFpbFVy",
-            "bBgEIAEoCSK/AQoRRGF0YUFjY291bnREZXRhaWwSEgoKY2F0ZWdvcmllcxgL",
-            "IAEoDBIpCgtzb2NpYWxNZWRpYRgDIAMoCzIULmluZi5EYXRhU29jaWFsTWVk",
-            "aWESFgoOYXZhdGFyQ292ZXJVcmwYByABKAkSCwoDdXJsGAYgASgJEg0KBWVt",
-            "YWlsGAkgASgJEhAKCGxhdGl0dWRlGAQgASgBEhEKCWxvbmdpdHVkZRgFIAEo",
-            "ARISCgpsb2NhdGlvbklkGAggASgFIoUBCgtEYXRhQWNjb3VudBIkCgVzdGF0",
-            "ZRgBIAEoCzIVLmluZi5EYXRhQWNjb3VudFN0YXRlEigKB3N1bW1hcnkYAiAB",
-            "KAsyFy5pbmYuRGF0YUFjY291bnRTdW1tYXJ5EiYKBmRldGFpbBgDIAEoCzIW",
-            "LmluZi5EYXRhQWNjb3VudERldGFpbCKXBAoNRGF0YUFwcGxpY2FudBITCgth",
-            "cHBsaWNhbnRJZBgBIAEoBRIPCgdvZmZlcklkGAIgASgFEhsKE2luZmx1ZW5j",
-            "ZXJBY2NvdW50SWQYAyABKAUSGQoRYnVzaW5lc3NBY2NvdW50SWQYECABKAUS",
-            "FgoOaW5mbHVlbmNlck5hbWUYESABKAkSFAoMYnVzaW5lc3NOYW1lGBIgASgJ",
-            "EhIKCm9mZmVyVGl0bGUYEyABKAkSFAoMaGFnZ2xlQ2hhdElkGAQgASgDEhsK",
-            "E2luZmx1ZW5jZXJXYW50c0RlYWwYBiABKAgSGQoRYnVzaW5lc3NXYW50c0Rl",
-            "YWwYBSABKAgSIQoZaW5mbHVlbmNlck1hcmtlZERlbGl2ZXJlZBgHIAEoCBIg",
-            "ChhpbmZsdWVuY2VyTWFya2VkUmV3YXJkZWQYCCABKAgSHwoXYnVzaW5lc3NN",
-            "YXJrZWREZWxpdmVyZWQYCSABKAgSHgoWYnVzaW5lc3NNYXJrZWRSZXdhcmRl",
-            "ZBgKIAEoCBIcChRpbmZsdWVuY2VyR2F2ZVJhdGluZxgMIAEoBRIaChJidXNp",
-            "bmVzc0dhdmVSYXRpbmcYCyABKAUSGgoSaW5mbHVlbmNlckRpc3B1dGVkGA8g",
-            "ASgIEhgKEGJ1c2luZXNzRGlzcHV0ZWQYDiABKAgSIgoFc3RhdGUYDSABKA4y",
-            "Ey5pbmYuQXBwbGljYW50U3RhdGUiwwEKEURhdGFBcHBsaWNhbnRDaGF0Eg4K",
-            "BmNoYXRJZBgHIAEoAxIMCgRzZW50GAogASgDEhAKCHNlbmRlcklkGAIgASgF",
-            "EhMKC2FwcGxpY2FudElkGAEgASgFEhAKCGRldmljZUlkGAsgASgFEhUKDWRl",
-            "dmljZUdob3N0SWQYBiABKAUSJAoEdHlwZRgIIAEoDjIWLmluZi5BcHBsaWNh",
-            "bnRDaGF0VHlwZRIMCgR0ZXh0GAUgASgJEgwKBHNlZW4YCSABKANCB6oCBElu",
-            "ZlhiBnByb3RvMw=="));
+            "YW1lGAUgASgJEhEKCWF2YXRhclVybBgOIAEoCRIYChBibHVycmVkQXZhdGFy",
+            "VXJsGBAgASgJEhIKCnByb2ZpbGVVcmwYDSABKAkSEwoLZGVzY3JpcHRpb24Y",
+            "BiABKAkSEAoIbG9jYXRpb24YByABKAkSCwoDdXJsGAggASgJEg0KBWVtYWls",
+            "GAwgASgJEhQKDGZyaWVuZHNDb3VudBgJIAEoBRIWCg5mb2xsb3dlcnNDb3Vu",
+            "dBgCIAEoBRIWCg5mb2xsb3dpbmdDb3VudBgDIAEoBRISCgpwb3N0c0NvdW50",
+            "GAogASgFEhAKCHZlcmlmaWVkGAsgASgIImAKFERhdGFPQXV0aENyZWRlbnRp",
+            "YWxzEg4KBnVzZXJJZBgEIAEoCRINCgV0b2tlbhgBIAEoCRITCgt0b2tlblNl",
+            "Y3JldBgCIAEoCRIUCgx0b2tlbkV4cGlyZXMYAyABKAUi2AQKEURhdGFCdXNp",
+            "bmVzc09mZmVyEg8KB29mZmVySWQYASABKAUSEQoJYWNjb3VudElkGAIgASgF",
+            "EhIKCmxvY2F0aW9uSWQYAyABKAUSDQoFdGl0bGUYBCABKAkSEwoLZGVzY3Jp",
+            "cHRpb24YBSABKAkSFAoMdGh1bWJuYWlsVXJsGAYgASgJEhsKE2JsdXJyZWRU",
+            "aHVtYm5haWxVcmwYGCABKAkSFAoMZGVsaXZlcmFibGVzGAcgASgJEg4KBnJl",
+            "d2FyZBgIIAEoCRIUCgxsb2NhdGlvbk5hbWUYFSABKAkSEAoIbG9jYXRpb24Y",
+            "CSABKAkSEAoIbGF0aXR1ZGUYEiABKAESEQoJbG9uZ2l0dWRlGBMgASgBEhoK",
+            "EmxvY2F0aW9uT2ZmZXJDb3VudBgUIAEoBRIRCgljb3ZlclVybHMYCiADKAkS",
+            "GAoQYmx1cnJlZENvdmVyVXJscxgZIAMoCRISCgpjYXRlZ29yaWVzGBcgASgM",
+            "EiYKBXN0YXRlGAwgASgOMhcuaW5mLkJ1c2luZXNzT2ZmZXJTdGF0ZRIyCgtz",
+            "dGF0ZVJlYXNvbhgNIAEoDjIdLmluZi5CdXNpbmVzc09mZmVyU3RhdGVSZWFz",
+            "b24SFQoNYXBwbGljYW50c05ldxgOIAEoBRIaChJhcHBsaWNhbnRzQWNjZXB0",
+            "ZWQYDyABKAUSGwoTYXBwbGljYW50c0NvbXBsZXRlZBgQIAEoBRIZChFhcHBs",
+            "aWNhbnRzUmVmdXNlZBgRIAEoBRIdChVpbmZsdWVuY2VyQXBwbGljYW50SWQY",
+            "FiABKAUi9AEKDERhdGFMb2NhdGlvbhISCgpsb2NhdGlvbklkGAEgASgFEgwK",
+            "BG5hbWUYAiABKAkSEQoJYXZhdGFyVXJsGAYgASgJEhgKEGJsdXJyZWRBdmF0",
+            "YXJVcmwYDSABKAkSEwoLYXBwcm94aW1hdGUYByABKAkSDgoGZGV0YWlsGAgg",
+            "ASgJEhAKCHBvc3Rjb2RlGAkgASgJEhIKCnJlZ2lvbkNvZGUYCiABKAkSEwoL",
+            "Y291bnRyeUNvZGUYCyABKAkSEAoIbGF0aXR1ZGUYBCABKAESEQoJbG9uZ2l0",
+            "dWRlGAUgASgBEhAKCHMyY2VsbElkGAwgASgDIp4CChBEYXRhQWNjb3VudFN0",
+            "YXRlEhAKCGRldmljZUlkGAEgASgFEhEKCWFjY291bnRJZBgCIAEoBRIlCgth",
+            "Y2NvdW50VHlwZRgDIAEoDjIQLmluZi5BY2NvdW50VHlwZRIzChJnbG9iYWxB",
+            "Y2NvdW50U3RhdGUYBCABKA4yFy5pbmYuR2xvYmFsQWNjb3VudFN0YXRlEj8K",
+            "GGdsb2JhbEFjY291bnRTdGF0ZVJlYXNvbhgFIAEoDjIdLmluZi5HbG9iYWxB",
+            "Y2NvdW50U3RhdGVSZWFzb24SMQoRbm90aWZpY2F0aW9uRmxhZ3MYBiABKA4y",
+            "Fi5pbmYuTm90aWZpY2F0aW9uRmxhZ3MSFQoNZmlyZWJhc2VUb2tlbhgHIAEo",
+            "CSKIAQoSRGF0YUFjY291bnRTdW1tYXJ5EgwKBG5hbWUYASABKAkSEwoLZGVz",
+            "Y3JpcHRpb24YAiABKAkSEAoIbG9jYXRpb24YAyABKAkSGgoSYXZhdGFyVGh1",
+            "bWJuYWlsVXJsGAQgASgJEiEKGWJsdXJyZWRBdmF0YXJUaHVtYm5haWxVcmwY",
+            "BSABKAki3gEKEURhdGFBY2NvdW50RGV0YWlsEhIKCmNhdGVnb3JpZXMYCyAB",
+            "KAwSKQoLc29jaWFsTWVkaWEYAyADKAsyFC5pbmYuRGF0YVNvY2lhbE1lZGlh",
+            "EhYKDmF2YXRhckNvdmVyVXJsGAcgASgJEh0KFWJsdXJyZWRBdmF0YXJDb3Zl",
+            "clVybBgMIAEoCRILCgN1cmwYBiABKAkSDQoFZW1haWwYCSABKAkSEAoIbGF0",
+            "aXR1ZGUYBCABKAESEQoJbG9uZ2l0dWRlGAUgASgBEhIKCmxvY2F0aW9uSWQY",
+            "CCABKAUihQEKC0RhdGFBY2NvdW50EiQKBXN0YXRlGAEgASgLMhUuaW5mLkRh",
+            "dGFBY2NvdW50U3RhdGUSKAoHc3VtbWFyeRgCIAEoCzIXLmluZi5EYXRhQWNj",
+            "b3VudFN1bW1hcnkSJgoGZGV0YWlsGAMgASgLMhYuaW5mLkRhdGFBY2NvdW50",
+            "RGV0YWlsIpcECg1EYXRhQXBwbGljYW50EhMKC2FwcGxpY2FudElkGAEgASgF",
+            "Eg8KB29mZmVySWQYAiABKAUSGwoTaW5mbHVlbmNlckFjY291bnRJZBgDIAEo",
+            "BRIZChFidXNpbmVzc0FjY291bnRJZBgQIAEoBRIWCg5pbmZsdWVuY2VyTmFt",
+            "ZRgRIAEoCRIUCgxidXNpbmVzc05hbWUYEiABKAkSEgoKb2ZmZXJUaXRsZRgT",
+            "IAEoCRIUCgxoYWdnbGVDaGF0SWQYBCABKAMSGwoTaW5mbHVlbmNlcldhbnRz",
+            "RGVhbBgGIAEoCBIZChFidXNpbmVzc1dhbnRzRGVhbBgFIAEoCBIhChlpbmZs",
+            "dWVuY2VyTWFya2VkRGVsaXZlcmVkGAcgASgIEiAKGGluZmx1ZW5jZXJNYXJr",
+            "ZWRSZXdhcmRlZBgIIAEoCBIfChdidXNpbmVzc01hcmtlZERlbGl2ZXJlZBgJ",
+            "IAEoCBIeChZidXNpbmVzc01hcmtlZFJld2FyZGVkGAogASgIEhwKFGluZmx1",
+            "ZW5jZXJHYXZlUmF0aW5nGAwgASgFEhoKEmJ1c2luZXNzR2F2ZVJhdGluZxgL",
+            "IAEoBRIaChJpbmZsdWVuY2VyRGlzcHV0ZWQYDyABKAgSGAoQYnVzaW5lc3NE",
+            "aXNwdXRlZBgOIAEoCBIiCgVzdGF0ZRgNIAEoDjITLmluZi5BcHBsaWNhbnRT",
+            "dGF0ZSLDAQoRRGF0YUFwcGxpY2FudENoYXQSDgoGY2hhdElkGAcgASgDEgwK",
+            "BHNlbnQYCiABKAMSEAoIc2VuZGVySWQYAiABKAUSEwoLYXBwbGljYW50SWQY",
+            "ASABKAUSEAoIZGV2aWNlSWQYCyABKAUSFQoNZGV2aWNlR2hvc3RJZBgGIAEo",
+            "BRIkCgR0eXBlGAggASgOMhYuaW5mLkFwcGxpY2FudENoYXRUeXBlEgwKBHRl",
+            "eHQYBSABKAkSDAoEc2VlbhgJIAEoA0IHqgIESW5mWGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::InfX.EnumProtobufReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Expired", "ScreenName", "DisplayName", "AvatarUrl", "ProfileUrl", "Description", "Location", "Url", "Email", "FriendsCount", "FollowersCount", "FollowingCount", "PostsCount", "Verified" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataSocialMedia), global::InfX.DataSocialMedia.Parser, new[]{ "Connected", "Expired", "ScreenName", "DisplayName", "AvatarUrl", "BlurredAvatarUrl", "ProfileUrl", "Description", "Location", "Url", "Email", "FriendsCount", "FollowersCount", "FollowingCount", "PostsCount", "Verified" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataOAuthCredentials), global::InfX.DataOAuthCredentials.Parser, new[]{ "UserId", "Token", "TokenSecret", "TokenExpires" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataBusinessOffer), global::InfX.DataBusinessOffer.Parser, new[]{ "OfferId", "AccountId", "LocationId", "Title", "Description", "ThumbnailUrl", "BlurredThumbnailUrl", "Deliverables", "Reward", "LocationName", "Location", "Latitude", "Longitude", "LocationOfferCount", "CoverUrls", "BlurredCoverUrls", "Categories", "State", "StateReason", "ApplicantsNew", "ApplicantsAccepted", "ApplicantsCompleted", "ApplicantsRefused", "InfluencerApplicantId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataLocation), global::InfX.DataLocation.Parser, new[]{ "LocationId", "Name", "AvatarUrl", "Approximate", "Detail", "Postcode", "RegionCode", "CountryCode", "Latitude", "Longitude", "S2CellId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataLocation), global::InfX.DataLocation.Parser, new[]{ "LocationId", "Name", "AvatarUrl", "BlurredAvatarUrl", "Approximate", "Detail", "Postcode", "RegionCode", "CountryCode", "Latitude", "Longitude", "S2CellId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountState), global::InfX.DataAccountState.Parser, new[]{ "DeviceId", "AccountId", "AccountType", "GlobalAccountState", "GlobalAccountStateReason", "NotificationFlags", "FirebaseToken" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarThumbnailUrl" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "AvatarCoverUrl", "Url", "Email", "Latitude", "Longitude", "LocationId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarThumbnailUrl", "BlurredAvatarThumbnailUrl" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "AvatarCoverUrl", "BlurredAvatarCoverUrl", "Url", "Email", "Latitude", "Longitude", "LocationId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "InfluencerAccountId", "BusinessAccountId", "InfluencerName", "BusinessName", "OfferTitle", "HaggleChatId", "InfluencerWantsDeal", "BusinessWantsDeal", "InfluencerMarkedDelivered", "InfluencerMarkedRewarded", "BusinessMarkedDelivered", "BusinessMarkedRewarded", "InfluencerGaveRating", "BusinessGaveRating", "InfluencerDisputed", "BusinessDisputed", "State" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicantChat), global::InfX.DataApplicantChat.Parser, new[]{ "ChatId", "Sent", "SenderId", "ApplicantId", "DeviceId", "DeviceGhostId", "Type", "Text", "Seen" }, null, null, null)
@@ -135,6 +137,7 @@ namespace InfX {
       screenName_ = other.screenName_;
       displayName_ = other.displayName_;
       avatarUrl_ = other.avatarUrl_;
+      blurredAvatarUrl_ = other.blurredAvatarUrl_;
       profileUrl_ = other.profileUrl_;
       description_ = other.description_;
       location_ = other.location_;
@@ -219,6 +222,17 @@ namespace InfX {
       get { return avatarUrl_; }
       set {
         avatarUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "blurredAvatarUrl" field.</summary>
+    public const int BlurredAvatarUrlFieldNumber = 16;
+    private string blurredAvatarUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string BlurredAvatarUrl {
+      get { return blurredAvatarUrl_; }
+      set {
+        blurredAvatarUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -353,6 +367,7 @@ namespace InfX {
       if (ScreenName != other.ScreenName) return false;
       if (DisplayName != other.DisplayName) return false;
       if (AvatarUrl != other.AvatarUrl) return false;
+      if (BlurredAvatarUrl != other.BlurredAvatarUrl) return false;
       if (ProfileUrl != other.ProfileUrl) return false;
       if (Description != other.Description) return false;
       if (Location != other.Location) return false;
@@ -374,6 +389,7 @@ namespace InfX {
       if (ScreenName.Length != 0) hash ^= ScreenName.GetHashCode();
       if (DisplayName.Length != 0) hash ^= DisplayName.GetHashCode();
       if (AvatarUrl.Length != 0) hash ^= AvatarUrl.GetHashCode();
+      if (BlurredAvatarUrl.Length != 0) hash ^= BlurredAvatarUrl.GetHashCode();
       if (ProfileUrl.Length != 0) hash ^= ProfileUrl.GetHashCode();
       if (Description.Length != 0) hash ^= Description.GetHashCode();
       if (Location.Length != 0) hash ^= Location.GetHashCode();
@@ -454,6 +470,10 @@ namespace InfX {
         output.WriteRawTag(120);
         output.WriteBool(Expired);
       }
+      if (BlurredAvatarUrl.Length != 0) {
+        output.WriteRawTag(130, 1);
+        output.WriteString(BlurredAvatarUrl);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -473,6 +493,9 @@ namespace InfX {
       }
       if (AvatarUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarUrl);
+      }
+      if (BlurredAvatarUrl.Length != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeStringSize(BlurredAvatarUrl);
       }
       if (ProfileUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ProfileUrl);
@@ -526,6 +549,9 @@ namespace InfX {
       }
       if (other.AvatarUrl.Length != 0) {
         AvatarUrl = other.AvatarUrl;
+      }
+      if (other.BlurredAvatarUrl.Length != 0) {
+        BlurredAvatarUrl = other.BlurredAvatarUrl;
       }
       if (other.ProfileUrl.Length != 0) {
         ProfileUrl = other.ProfileUrl;
@@ -625,6 +651,10 @@ namespace InfX {
           }
           case 120: {
             Expired = input.ReadBool();
+            break;
+          }
+          case 130: {
+            BlurredAvatarUrl = input.ReadString();
             break;
           }
         }
@@ -1639,6 +1669,7 @@ namespace InfX {
       locationId_ = other.locationId_;
       name_ = other.name_;
       avatarUrl_ = other.avatarUrl_;
+      blurredAvatarUrl_ = other.blurredAvatarUrl_;
       approximate_ = other.approximate_;
       detail_ = other.detail_;
       postcode_ = other.postcode_;
@@ -1684,6 +1715,17 @@ namespace InfX {
       get { return avatarUrl_; }
       set {
         avatarUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "blurredAvatarUrl" field.</summary>
+    public const int BlurredAvatarUrlFieldNumber = 13;
+    private string blurredAvatarUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string BlurredAvatarUrl {
+      get { return blurredAvatarUrl_; }
+      set {
+        blurredAvatarUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -1791,6 +1833,7 @@ namespace InfX {
       if (LocationId != other.LocationId) return false;
       if (Name != other.Name) return false;
       if (AvatarUrl != other.AvatarUrl) return false;
+      if (BlurredAvatarUrl != other.BlurredAvatarUrl) return false;
       if (Approximate != other.Approximate) return false;
       if (Detail != other.Detail) return false;
       if (Postcode != other.Postcode) return false;
@@ -1808,6 +1851,7 @@ namespace InfX {
       if (LocationId != 0) hash ^= LocationId.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (AvatarUrl.Length != 0) hash ^= AvatarUrl.GetHashCode();
+      if (BlurredAvatarUrl.Length != 0) hash ^= BlurredAvatarUrl.GetHashCode();
       if (Approximate.Length != 0) hash ^= Approximate.GetHashCode();
       if (Detail.Length != 0) hash ^= Detail.GetHashCode();
       if (Postcode.Length != 0) hash ^= Postcode.GetHashCode();
@@ -1870,6 +1914,10 @@ namespace InfX {
         output.WriteRawTag(96);
         output.WriteInt64(S2CellId);
       }
+      if (BlurredAvatarUrl.Length != 0) {
+        output.WriteRawTag(106);
+        output.WriteString(BlurredAvatarUrl);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1883,6 +1931,9 @@ namespace InfX {
       }
       if (AvatarUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarUrl);
+      }
+      if (BlurredAvatarUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(BlurredAvatarUrl);
       }
       if (Approximate.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Approximate);
@@ -1924,6 +1975,9 @@ namespace InfX {
       }
       if (other.AvatarUrl.Length != 0) {
         AvatarUrl = other.AvatarUrl;
+      }
+      if (other.BlurredAvatarUrl.Length != 0) {
+        BlurredAvatarUrl = other.BlurredAvatarUrl;
       }
       if (other.Approximate.Length != 0) {
         Approximate = other.Approximate;
@@ -2001,6 +2055,10 @@ namespace InfX {
           }
           case 96: {
             S2CellId = input.ReadInt64();
+            break;
+          }
+          case 106: {
+            BlurredAvatarUrl = input.ReadString();
             break;
           }
         }
@@ -2337,6 +2395,7 @@ namespace InfX {
       description_ = other.description_;
       location_ = other.location_;
       avatarThumbnailUrl_ = other.avatarThumbnailUrl_;
+      blurredAvatarThumbnailUrl_ = other.blurredAvatarThumbnailUrl_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2388,6 +2447,17 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "blurredAvatarThumbnailUrl" field.</summary>
+    public const int BlurredAvatarThumbnailUrlFieldNumber = 5;
+    private string blurredAvatarThumbnailUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string BlurredAvatarThumbnailUrl {
+      get { return blurredAvatarThumbnailUrl_; }
+      set {
+        blurredAvatarThumbnailUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as DataAccountSummary);
@@ -2405,6 +2475,7 @@ namespace InfX {
       if (Description != other.Description) return false;
       if (Location != other.Location) return false;
       if (AvatarThumbnailUrl != other.AvatarThumbnailUrl) return false;
+      if (BlurredAvatarThumbnailUrl != other.BlurredAvatarThumbnailUrl) return false;
       return true;
     }
 
@@ -2415,6 +2486,7 @@ namespace InfX {
       if (Description.Length != 0) hash ^= Description.GetHashCode();
       if (Location.Length != 0) hash ^= Location.GetHashCode();
       if (AvatarThumbnailUrl.Length != 0) hash ^= AvatarThumbnailUrl.GetHashCode();
+      if (BlurredAvatarThumbnailUrl.Length != 0) hash ^= BlurredAvatarThumbnailUrl.GetHashCode();
       return hash;
     }
 
@@ -2441,6 +2513,10 @@ namespace InfX {
         output.WriteRawTag(34);
         output.WriteString(AvatarThumbnailUrl);
       }
+      if (BlurredAvatarThumbnailUrl.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(BlurredAvatarThumbnailUrl);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2457,6 +2533,9 @@ namespace InfX {
       }
       if (AvatarThumbnailUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarThumbnailUrl);
+      }
+      if (BlurredAvatarThumbnailUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(BlurredAvatarThumbnailUrl);
       }
       return size;
     }
@@ -2477,6 +2556,9 @@ namespace InfX {
       }
       if (other.AvatarThumbnailUrl.Length != 0) {
         AvatarThumbnailUrl = other.AvatarThumbnailUrl;
+      }
+      if (other.BlurredAvatarThumbnailUrl.Length != 0) {
+        BlurredAvatarThumbnailUrl = other.BlurredAvatarThumbnailUrl;
       }
     }
 
@@ -2502,6 +2584,10 @@ namespace InfX {
           }
           case 34: {
             AvatarThumbnailUrl = input.ReadString();
+            break;
+          }
+          case 42: {
+            BlurredAvatarThumbnailUrl = input.ReadString();
             break;
           }
         }
@@ -2537,6 +2623,7 @@ namespace InfX {
       categories_ = other.categories_;
       socialMedia_ = other.socialMedia_.Clone();
       avatarCoverUrl_ = other.avatarCoverUrl_;
+      blurredAvatarCoverUrl_ = other.blurredAvatarCoverUrl_;
       url_ = other.url_;
       email_ = other.email_;
       latitude_ = other.latitude_;
@@ -2584,6 +2671,17 @@ namespace InfX {
       get { return avatarCoverUrl_; }
       set {
         avatarCoverUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "blurredAvatarCoverUrl" field.</summary>
+    public const int BlurredAvatarCoverUrlFieldNumber = 12;
+    private string blurredAvatarCoverUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string BlurredAvatarCoverUrl {
+      get { return blurredAvatarCoverUrl_; }
+      set {
+        blurredAvatarCoverUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -2664,6 +2762,7 @@ namespace InfX {
       if (Categories != other.Categories) return false;
       if(!socialMedia_.Equals(other.socialMedia_)) return false;
       if (AvatarCoverUrl != other.AvatarCoverUrl) return false;
+      if (BlurredAvatarCoverUrl != other.BlurredAvatarCoverUrl) return false;
       if (Url != other.Url) return false;
       if (Email != other.Email) return false;
       if (Latitude != other.Latitude) return false;
@@ -2678,6 +2777,7 @@ namespace InfX {
       if (Categories.Length != 0) hash ^= Categories.GetHashCode();
       hash ^= socialMedia_.GetHashCode();
       if (AvatarCoverUrl.Length != 0) hash ^= AvatarCoverUrl.GetHashCode();
+      if (BlurredAvatarCoverUrl.Length != 0) hash ^= BlurredAvatarCoverUrl.GetHashCode();
       if (Url.Length != 0) hash ^= Url.GetHashCode();
       if (Email.Length != 0) hash ^= Email.GetHashCode();
       if (Latitude != 0D) hash ^= Latitude.GetHashCode();
@@ -2722,6 +2822,10 @@ namespace InfX {
         output.WriteRawTag(90);
         output.WriteBytes(Categories);
       }
+      if (BlurredAvatarCoverUrl.Length != 0) {
+        output.WriteRawTag(98);
+        output.WriteString(BlurredAvatarCoverUrl);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2733,6 +2837,9 @@ namespace InfX {
       size += socialMedia_.CalculateSize(_repeated_socialMedia_codec);
       if (AvatarCoverUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarCoverUrl);
+      }
+      if (BlurredAvatarCoverUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(BlurredAvatarCoverUrl);
       }
       if (Url.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Url);
@@ -2763,6 +2870,9 @@ namespace InfX {
       socialMedia_.Add(other.socialMedia_);
       if (other.AvatarCoverUrl.Length != 0) {
         AvatarCoverUrl = other.AvatarCoverUrl;
+      }
+      if (other.BlurredAvatarCoverUrl.Length != 0) {
+        BlurredAvatarCoverUrl = other.BlurredAvatarCoverUrl;
       }
       if (other.Url.Length != 0) {
         Url = other.Url;
@@ -2819,6 +2929,10 @@ namespace InfX {
           }
           case 90: {
             Categories = input.ReadBytes();
+            break;
+          }
+          case 98: {
+            BlurredAvatarCoverUrl = input.ReadString();
             break;
           }
         }

@@ -30,6 +30,7 @@ class DataSocialMedia extends $pb.GeneratedMessage {
     ..aOS(13, 'profileUrl')
     ..aOS(14, 'avatarUrl')
     ..aOB(15, 'expired')
+    ..aOS(16, 'blurredAvatarUrl')
     ..hasRequiredFields = false;
 
   DataSocialMedia() : super();
@@ -172,6 +173,14 @@ class DataSocialMedia extends $pb.GeneratedMessage {
 
   bool hasExpired() => $_has(14);
   void clearExpired() => clearField(15);
+
+  String get blurredAvatarUrl => $_getS(15, '');
+  set blurredAvatarUrl(String v) {
+    $_setString(15, v);
+  }
+
+  bool hasBlurredAvatarUrl() => $_has(15);
+  void clearBlurredAvatarUrl() => clearField(16);
 }
 
 class DataOAuthCredentials extends $pb.GeneratedMessage {
@@ -497,6 +506,7 @@ class DataLocation extends $pb.GeneratedMessage {
         ..aOS(10, 'regionCode')
         ..aOS(11, 'countryCode')
         ..aInt64(12, 's2cellId')
+        ..aOS(13, 'blurredAvatarUrl')
         ..hasRequiredFields = false;
 
   DataLocation() : super();
@@ -606,6 +616,14 @@ class DataLocation extends $pb.GeneratedMessage {
 
   bool hasS2cellId() => $_has(10);
   void clearS2cellId() => clearField(12);
+
+  String get blurredAvatarUrl => $_getS(11, '');
+  set blurredAvatarUrl(String v) {
+    $_setString(11, v);
+  }
+
+  bool hasBlurredAvatarUrl() => $_has(11);
+  void clearBlurredAvatarUrl() => clearField(13);
 }
 
 class DataAccountState extends $pb.GeneratedMessage {
@@ -729,6 +747,7 @@ class DataAccountSummary extends $pb.GeneratedMessage {
     ..aOS(2, 'description')
     ..aOS(3, 'location')
     ..aOS(4, 'avatarThumbnailUrl')
+    ..aOS(5, 'blurredAvatarThumbnailUrl')
     ..hasRequiredFields = false;
 
   DataAccountSummary() : super();
@@ -785,6 +804,14 @@ class DataAccountSummary extends $pb.GeneratedMessage {
 
   bool hasAvatarThumbnailUrl() => $_has(3);
   void clearAvatarThumbnailUrl() => clearField(4);
+
+  String get blurredAvatarThumbnailUrl => $_getS(4, '');
+  set blurredAvatarThumbnailUrl(String v) {
+    $_setString(4, v);
+  }
+
+  bool hasBlurredAvatarThumbnailUrl() => $_has(4);
+  void clearBlurredAvatarThumbnailUrl() => clearField(5);
 }
 
 class DataAccountDetail extends $pb.GeneratedMessage {
@@ -799,6 +826,7 @@ class DataAccountDetail extends $pb.GeneratedMessage {
     ..a<int>(8, 'locationId', $pb.PbFieldType.O3)
     ..aOS(9, 'email')
     ..a<List<int>>(11, 'categories', $pb.PbFieldType.OY)
+    ..aOS(12, 'blurredAvatarCoverUrl')
     ..hasRequiredFields = false;
 
   DataAccountDetail() : super();
@@ -880,6 +908,14 @@ class DataAccountDetail extends $pb.GeneratedMessage {
 
   bool hasCategories() => $_has(7);
   void clearCategories() => clearField(11);
+
+  String get blurredAvatarCoverUrl => $_getS(8, '');
+  set blurredAvatarCoverUrl(String v) {
+    $_setString(8, v);
+  }
+
+  bool hasBlurredAvatarCoverUrl() => $_has(8);
+  void clearBlurredAvatarCoverUrl() => clearField(12);
 }
 
 class DataAccount extends $pb.GeneratedMessage {
