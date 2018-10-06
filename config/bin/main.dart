@@ -203,11 +203,13 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'cloudinaryThumbnailUrl'))
         res.cloudinaryThumbnailUrl = cfg.get(section, 'cloudinaryThumbnailUrl');
       if (cfg.hasOption(section, 'cloudinaryBlurredThumbnailUrl'))
-        res.cloudinaryBlurredThumbnailUrl = cfg.get(section, 'cloudinaryBlurredThumbnailUrl');
+        res.cloudinaryBlurredThumbnailUrl =
+            cfg.get(section, 'cloudinaryBlurredThumbnailUrl');
       if (cfg.hasOption(section, 'cloudinaryCoverUrl'))
         res.cloudinaryCoverUrl = cfg.get(section, 'cloudinaryCoverUrl');
       if (cfg.hasOption(section, 'cloudinaryBlurredCoverUrl'))
-        res.cloudinaryBlurredCoverUrl = cfg.get(section, 'cloudinaryBlurredCoverUrl');
+        res.cloudinaryBlurredCoverUrl =
+            cfg.get(section, 'cloudinaryBlurredCoverUrl');
 
       if (cfg.hasOption(section, 'ipstackApi'))
         res.ipstackApi = cfg.get(section, 'ipstackApi');
