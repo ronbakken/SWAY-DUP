@@ -172,6 +172,7 @@ message DataApplicant {
   int32 offerId = 2;
   int32 influencerAccountId = 3; // Account which applied
   int32 businessAccountId = 16;
+  int32 senderAccountId = 20; // Either influencer or business sent this
   
   /// Embedded data
   string influencerName = 17;
