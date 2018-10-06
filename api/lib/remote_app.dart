@@ -1080,7 +1080,8 @@ class RemoteApp {
           account.summary.blurredAvatarThumbnailUrl =
               makeCloudinaryBlurredThumbnailUrl(avatarKey);
           account.detail.avatarCoverUrl = makeCloudinaryCoverUrl(avatarKey);
-          account.detail.blurredAvatarCoverUrl = makeCloudinaryBlurredCoverUrl(avatarKey);
+          account.detail.blurredAvatarCoverUrl =
+              makeCloudinaryBlurredCoverUrl(avatarKey);
         }
       } catch (error, stack) {
         devLog.severe(

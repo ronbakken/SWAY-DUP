@@ -271,9 +271,10 @@ class RemoteAppHaggleActions {
     if (chat.type == ApplicantChatType.ACT_IMAGE_KEY) {
       String key = Uri.splitQueryString(chat.text)['key'];
       if (key != null) {
-        chat.text =
-            'url=' + Uri.encodeQueryComponent(_r.makeCloudinaryCoverUrl(key))
-            + '&blurred_url=' + Uri.encodeQueryComponent(_r.makeCloudinaryBlurredCoverUrl(key));
+        chat.text = 'url=' +
+            Uri.encodeQueryComponent(_r.makeCloudinaryCoverUrl(key)) +
+            '&blurred_url=' +
+            Uri.encodeQueryComponent(_r.makeCloudinaryBlurredCoverUrl(key));
       }
     }
 
