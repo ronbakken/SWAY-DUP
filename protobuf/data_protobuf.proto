@@ -27,6 +27,7 @@ message DataSocialMedia {
   /* Further info. May have null values. Most data isn't always shared. */
   /// Url to the actual social media profile
   string avatarUrl = 14;
+  string blurredAvatarUrl = 16;
   string profileUrl = 13;
   string description = 6;
   string location = 7;
@@ -102,6 +103,7 @@ message DataLocation {
   
   string name = 2;
   string avatarUrl = 6;
+  string blurredAvatarUrl = 13;
   
   string approximate = 7;
   string detail = 8;
@@ -139,6 +141,7 @@ message DataAccountSummary {
   string description = 2;
   string location = 3;
   string avatarThumbnailUrl = 4;
+  string blurredAvatarThumbnailUrl = 5;
   
 }
 
@@ -147,6 +150,7 @@ message DataAccountDetail {
   bytes categories = 11;
   repeated DataSocialMedia socialMedia = 3;
   string avatarCoverUrl = 7; // Higher resolution, but same as avatarThumbnailUrl
+  string blurredAvatarCoverUrl = 12;
   string url = 6;
   string email = 9;
   // bool emailVerified = 10;
