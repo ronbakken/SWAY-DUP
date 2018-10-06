@@ -5,7 +5,6 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -40,11 +39,12 @@ class _OffersShowcaseState extends State<OffersShowcase> {
   Widget _buildCard(BuildContext context, int offerIdx) {
     ThemeData theme = Theme.of(context);
     int offerId = widget.offerIds[offerIdx];
+    print("[INF] Showcase $offerId");
     DataBusinessOffer offer = widget.getOffer(offerId);
-    Widget image = offer.coverUrls.isNotEmpty
+    Widget image = offer.thumbnailUrl?.isNotEmpty ?? false
         ? new FadeInImage.assetNetwork(
             placeholder: 'assets/placeholder_photo_select.png',
-            image: offer.coverUrls[0],
+            image: offer.thumbnailUrl,
             fit: BoxFit.cover)
         : new Image(
             image: new AssetImage('assets/placeholder_photo_select.png'),
