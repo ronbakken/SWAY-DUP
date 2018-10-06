@@ -35,7 +35,7 @@ namespace InfX {
             "bBgHIAEoCRIRCglhdXRoUXVlcnkYCCABKAkSEAoIY2xpZW50SWQYDCABKAkS",
             "FAoMY2xpZW50U2VjcmV0GBEgASgJEhYKDndoaXRlbGlzdEhvc3RzGBIgAygJ",
             "Ij0KFENvbmZpZ09BdXRoUHJvdmlkZXJzEiUKA2FsbBgBIAMoCzIYLmluZi5D",
-            "b25maWdPQXV0aFByb3ZpZGVyItwFCg5Db25maWdTZXJ2aWNlcxIOCgZkb21h",
+            "b25maWdPQXV0aFByb3ZpZGVyIqYGCg5Db25maWdTZXJ2aWNlcxIOCgZkb21h",
             "aW4YGCABKAkSEAoIYXBpSG9zdHMYCCADKAkSEQoJY29uZmlnVXJsGAkgASgJ",
             "EhkKEXRlcm1zT2ZTZXJ2aWNlVXJsGAogASgJEhgKEHByaXZhY3lQb2xpY3lV",
             "cmwYCyABKAkSGwoTY29ubmVjdGlvbkZhaWxlZFVybBgdIAEoCRIRCgltYXBi",
@@ -44,19 +44,20 @@ namespace InfX {
             "AyABKAkSFAoMc3BhY2VzUmVnaW9uGAQgASgJEhEKCXNwYWNlc0tleRgFIAEo",
             "CRIUCgxzcGFjZXNTZWNyZXQYBiABKAkSFAoMc3BhY2VzQnVja2V0GAcgASgJ",
             "EhUKDWNsb3VkaW5hcnlVcmwYEyABKAkSHgoWY2xvdWRpbmFyeVRodW1ibmFp",
-            "bFVybBgUIAEoCRIaChJjbG91ZGluYXJ5Q292ZXJVcmwYFSABKAkSEgoKaXBz",
-            "dGFja0FwaRgNIAEoCRISCgppcHN0YWNrS2V5GAwgASgJEhMKC21hcmlhZGJI",
-            "b3N0GA4gASgJEhMKC21hcmlhZGJQb3J0GA8gASgFEhMKC21hcmlhZGJVc2Vy",
-            "GBAgASgJEhcKD21hcmlhZGJQYXNzd29yZBgRIAEoCRIXCg9tYXJpYWRiRGF0",
-            "YWJhc2UYEiABKAkSFAoMZnJlc2hkZXNrQXBpGBYgASgJEhQKDGZyZXNoZGVz",
-            "a0tleRgXIAEoCRIZChFmaXJlYmFzZVNlcnZlcktleRgZIAEoCRIYChBmaXJl",
-            "YmFzZVNlbmRlcklkGBogASgJEhkKEWZpcmViYXNlTGVnYWN5QXBpGBsgASgJ",
-            "Eh8KF2ZpcmViYXNlTGVnYWN5U2VydmVyS2V5GBwgASgJIrsBCgpDb25maWdE",
-            "YXRhEhUKDWNsaWVudFZlcnNpb24YASABKAUSEQoJdGltZXN0YW1wGAUgASgD",
-            "EikKCmNhdGVnb3JpZXMYAiABKAsyFS5pbmYuQ29uZmlnQ2F0ZWdvcmllcxIx",
-            "Cg5vYXV0aFByb3ZpZGVycxgDIAEoCzIZLmluZi5Db25maWdPQXV0aFByb3Zp",
-            "ZGVycxIlCghzZXJ2aWNlcxgGIAEoCzITLmluZi5Db25maWdTZXJ2aWNlc0IH",
-            "qgIESW5mWGIGcHJvdG8z"));
+            "bFVybBgUIAEoCRIlCh1jbG91ZGluYXJ5Qmx1cnJlZFRodW1ibmFpbFVybBgf",
+            "IAEoCRIaChJjbG91ZGluYXJ5Q292ZXJVcmwYFSABKAkSIQoZY2xvdWRpbmFy",
+            "eUJsdXJyZWRDb3ZlclVybBggIAEoCRISCgppcHN0YWNrQXBpGA0gASgJEhIK",
+            "Cmlwc3RhY2tLZXkYDCABKAkSEwoLbWFyaWFkYkhvc3QYDiABKAkSEwoLbWFy",
+            "aWFkYlBvcnQYDyABKAUSEwoLbWFyaWFkYlVzZXIYECABKAkSFwoPbWFyaWFk",
+            "YlBhc3N3b3JkGBEgASgJEhcKD21hcmlhZGJEYXRhYmFzZRgSIAEoCRIUCgxm",
+            "cmVzaGRlc2tBcGkYFiABKAkSFAoMZnJlc2hkZXNrS2V5GBcgASgJEhkKEWZp",
+            "cmViYXNlU2VydmVyS2V5GBkgASgJEhgKEGZpcmViYXNlU2VuZGVySWQYGiAB",
+            "KAkSGQoRZmlyZWJhc2VMZWdhY3lBcGkYGyABKAkSHwoXZmlyZWJhc2VMZWdh",
+            "Y3lTZXJ2ZXJLZXkYHCABKAkiuwEKCkNvbmZpZ0RhdGESFQoNY2xpZW50VmVy",
+            "c2lvbhgBIAEoBRIRCgl0aW1lc3RhbXAYBSABKAMSKQoKY2F0ZWdvcmllcxgC",
+            "IAEoCzIVLmluZi5Db25maWdDYXRlZ29yaWVzEjEKDm9hdXRoUHJvdmlkZXJz",
+            "GAMgASgLMhkuaW5mLkNvbmZpZ09BdXRoUHJvdmlkZXJzEiUKCHNlcnZpY2Vz",
+            "GAYgASgLMhMuaW5mLkNvbmZpZ1NlcnZpY2VzQgeqAgRJbmZYYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::InfX.EnumProtobufReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -64,7 +65,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigCategories), global::InfX.ConfigCategories.Parser, new[]{ "Sub" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProvider), global::InfX.ConfigOAuthProvider.Parser, new[]{ "Visible", "Enabled", "Label", "FontAwesomeBrand", "Mechanism", "Host", "CallbackUrl", "RequestTokenUrl", "AuthenticateUrl", "AccessTokenUrl", "ConsumerKey", "ConsumerSecret", "AuthUrl", "AuthQuery", "ClientId", "ClientSecret", "WhitelistHosts" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigOAuthProviders), global::InfX.ConfigOAuthProviders.Parser, new[]{ "All" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigServices), global::InfX.ConfigServices.Parser, new[]{ "Domain", "ApiHosts", "ConfigUrl", "TermsOfServiceUrl", "PrivacyPolicyUrl", "ConnectionFailedUrl", "MapboxApi", "MapboxUrlTemplateDark", "MapboxUrlTemplateLight", "MapboxToken", "SpacesRegion", "SpacesKey", "SpacesSecret", "SpacesBucket", "CloudinaryUrl", "CloudinaryThumbnailUrl", "CloudinaryCoverUrl", "IpstackApi", "IpstackKey", "MariadbHost", "MariadbPort", "MariadbUser", "MariadbPassword", "MariadbDatabase", "FreshdeskApi", "FreshdeskKey", "FirebaseServerKey", "FirebaseSenderId", "FirebaseLegacyApi", "FirebaseLegacyServerKey" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigServices), global::InfX.ConfigServices.Parser, new[]{ "Domain", "ApiHosts", "ConfigUrl", "TermsOfServiceUrl", "PrivacyPolicyUrl", "ConnectionFailedUrl", "MapboxApi", "MapboxUrlTemplateDark", "MapboxUrlTemplateLight", "MapboxToken", "SpacesRegion", "SpacesKey", "SpacesSecret", "SpacesBucket", "CloudinaryUrl", "CloudinaryThumbnailUrl", "CloudinaryBlurredThumbnailUrl", "CloudinaryCoverUrl", "CloudinaryBlurredCoverUrl", "IpstackApi", "IpstackKey", "MariadbHost", "MariadbPort", "MariadbUser", "MariadbPassword", "MariadbDatabase", "FreshdeskApi", "FreshdeskKey", "FirebaseServerKey", "FirebaseSenderId", "FirebaseLegacyApi", "FirebaseLegacyServerKey" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.ConfigData), global::InfX.ConfigData.Parser, new[]{ "ClientVersion", "Timestamp", "Categories", "OauthProviders", "Services" }, null, null, null)
           }));
     }
@@ -1032,7 +1033,9 @@ namespace InfX {
       spacesBucket_ = other.spacesBucket_;
       cloudinaryUrl_ = other.cloudinaryUrl_;
       cloudinaryThumbnailUrl_ = other.cloudinaryThumbnailUrl_;
+      cloudinaryBlurredThumbnailUrl_ = other.cloudinaryBlurredThumbnailUrl_;
       cloudinaryCoverUrl_ = other.cloudinaryCoverUrl_;
+      cloudinaryBlurredCoverUrl_ = other.cloudinaryBlurredCoverUrl_;
       ipstackApi_ = other.ipstackApi_;
       ipstackKey_ = other.ipstackKey_;
       mariadbHost_ = other.mariadbHost_;
@@ -1240,6 +1243,17 @@ namespace InfX {
       }
     }
 
+    /// <summary>Field number for the "cloudinaryBlurredThumbnailUrl" field.</summary>
+    public const int CloudinaryBlurredThumbnailUrlFieldNumber = 31;
+    private string cloudinaryBlurredThumbnailUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CloudinaryBlurredThumbnailUrl {
+      get { return cloudinaryBlurredThumbnailUrl_; }
+      set {
+        cloudinaryBlurredThumbnailUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "cloudinaryCoverUrl" field.</summary>
     public const int CloudinaryCoverUrlFieldNumber = 21;
     private string cloudinaryCoverUrl_ = "";
@@ -1248,6 +1262,17 @@ namespace InfX {
       get { return cloudinaryCoverUrl_; }
       set {
         cloudinaryCoverUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "cloudinaryBlurredCoverUrl" field.</summary>
+    public const int CloudinaryBlurredCoverUrlFieldNumber = 32;
+    private string cloudinaryBlurredCoverUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CloudinaryBlurredCoverUrl {
+      get { return cloudinaryBlurredCoverUrl_; }
+      set {
+        cloudinaryBlurredCoverUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -1435,7 +1460,9 @@ namespace InfX {
       if (SpacesBucket != other.SpacesBucket) return false;
       if (CloudinaryUrl != other.CloudinaryUrl) return false;
       if (CloudinaryThumbnailUrl != other.CloudinaryThumbnailUrl) return false;
+      if (CloudinaryBlurredThumbnailUrl != other.CloudinaryBlurredThumbnailUrl) return false;
       if (CloudinaryCoverUrl != other.CloudinaryCoverUrl) return false;
+      if (CloudinaryBlurredCoverUrl != other.CloudinaryBlurredCoverUrl) return false;
       if (IpstackApi != other.IpstackApi) return false;
       if (IpstackKey != other.IpstackKey) return false;
       if (MariadbHost != other.MariadbHost) return false;
@@ -1471,7 +1498,9 @@ namespace InfX {
       if (SpacesBucket.Length != 0) hash ^= SpacesBucket.GetHashCode();
       if (CloudinaryUrl.Length != 0) hash ^= CloudinaryUrl.GetHashCode();
       if (CloudinaryThumbnailUrl.Length != 0) hash ^= CloudinaryThumbnailUrl.GetHashCode();
+      if (CloudinaryBlurredThumbnailUrl.Length != 0) hash ^= CloudinaryBlurredThumbnailUrl.GetHashCode();
       if (CloudinaryCoverUrl.Length != 0) hash ^= CloudinaryCoverUrl.GetHashCode();
+      if (CloudinaryBlurredCoverUrl.Length != 0) hash ^= CloudinaryBlurredCoverUrl.GetHashCode();
       if (IpstackApi.Length != 0) hash ^= IpstackApi.GetHashCode();
       if (IpstackKey.Length != 0) hash ^= IpstackKey.GetHashCode();
       if (MariadbHost.Length != 0) hash ^= MariadbHost.GetHashCode();
@@ -1612,6 +1641,14 @@ namespace InfX {
         output.WriteRawTag(242, 1);
         output.WriteString(MapboxUrlTemplateLight);
       }
+      if (CloudinaryBlurredThumbnailUrl.Length != 0) {
+        output.WriteRawTag(250, 1);
+        output.WriteString(CloudinaryBlurredThumbnailUrl);
+      }
+      if (CloudinaryBlurredCoverUrl.Length != 0) {
+        output.WriteRawTag(130, 2);
+        output.WriteString(CloudinaryBlurredCoverUrl);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1663,8 +1700,14 @@ namespace InfX {
       if (CloudinaryThumbnailUrl.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(CloudinaryThumbnailUrl);
       }
+      if (CloudinaryBlurredThumbnailUrl.Length != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeStringSize(CloudinaryBlurredThumbnailUrl);
+      }
       if (CloudinaryCoverUrl.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(CloudinaryCoverUrl);
+      }
+      if (CloudinaryBlurredCoverUrl.Length != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeStringSize(CloudinaryBlurredCoverUrl);
       }
       if (IpstackApi.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(IpstackApi);
@@ -1759,8 +1802,14 @@ namespace InfX {
       if (other.CloudinaryThumbnailUrl.Length != 0) {
         CloudinaryThumbnailUrl = other.CloudinaryThumbnailUrl;
       }
+      if (other.CloudinaryBlurredThumbnailUrl.Length != 0) {
+        CloudinaryBlurredThumbnailUrl = other.CloudinaryBlurredThumbnailUrl;
+      }
       if (other.CloudinaryCoverUrl.Length != 0) {
         CloudinaryCoverUrl = other.CloudinaryCoverUrl;
+      }
+      if (other.CloudinaryBlurredCoverUrl.Length != 0) {
+        CloudinaryBlurredCoverUrl = other.CloudinaryBlurredCoverUrl;
       }
       if (other.IpstackApi.Length != 0) {
         IpstackApi = other.IpstackApi;
@@ -1929,6 +1978,14 @@ namespace InfX {
           }
           case 242: {
             MapboxUrlTemplateLight = input.ReadString();
+            break;
+          }
+          case 250: {
+            CloudinaryBlurredThumbnailUrl = input.ReadString();
+            break;
+          }
+          case 258: {
+            CloudinaryBlurredCoverUrl = input.ReadString();
             break;
           }
         }

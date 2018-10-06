@@ -323,6 +323,8 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(28, 'firebaseLegacyServerKey')
     ..aOS(29, 'connectionFailedUrl')
     ..aOS(30, 'mapboxUrlTemplateLight')
+    ..aOS(31, 'cloudinaryBlurredThumbnailUrl')
+    ..aOS(32, 'cloudinaryBlurredCoverUrl')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -578,6 +580,22 @@ class ConfigServices extends $pb.GeneratedMessage {
 
   bool hasMapboxUrlTemplateLight() => $_has(29);
   void clearMapboxUrlTemplateLight() => clearField(30);
+
+  String get cloudinaryBlurredThumbnailUrl => $_getS(30, '');
+  set cloudinaryBlurredThumbnailUrl(String v) {
+    $_setString(30, v);
+  }
+
+  bool hasCloudinaryBlurredThumbnailUrl() => $_has(30);
+  void clearCloudinaryBlurredThumbnailUrl() => clearField(31);
+
+  String get cloudinaryBlurredCoverUrl => $_getS(31, '');
+  set cloudinaryBlurredCoverUrl(String v) {
+    $_setString(31, v);
+  }
+
+  bool hasCloudinaryBlurredCoverUrl() => $_has(31);
+  void clearCloudinaryBlurredCoverUrl() => clearField(32);
 }
 
 class ConfigData extends $pb.GeneratedMessage {
