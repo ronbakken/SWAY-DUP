@@ -318,6 +318,13 @@ const DataApplicant$json = const {
       '10': 'businessAccountId'
     },
     const {
+      '1': 'senderAccountId',
+      '3': 20,
+      '4': 1,
+      '5': 5,
+      '10': 'senderAccountId'
+    },
+    const {
       '1': 'influencerName',
       '3': 17,
       '4': 1,
