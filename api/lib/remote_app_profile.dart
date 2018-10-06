@@ -128,11 +128,11 @@ class RemoteAppProfile {
         if (row[4] != null) {
           account.summary.avatarThumbnailUrl =
               _r.makeCloudinaryThumbnailUrl(row[4].toString());
-          account.summary.avatarBlurredThumbnailUrl =
+          account.summary.blurredAvatarThumbnailUrl =
               _r.makeCloudinaryBlurredThumbnailUrl(row[4].toString());
           account.detail.avatarCoverUrl =
               _r.makeCloudinaryCoverUrl(row[4].toString());
-          account.detail.avatarBlurredCoverUrl =
+          account.detail.blurredAvatarCoverUrl =
               _r.makeCloudinaryBlurredCoverUrl(row[4].toString());
         }
         if (row[5] != null) account.detail.url = row[5].toString();
