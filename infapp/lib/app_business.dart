@@ -340,9 +340,10 @@ class _AppBusinessState extends State<AppBusiness> {
     assert(network != null);
     return new DashboardCommon(
       account: network.account,
-      mapTab: 2,
+      //mapTab: 2,
       offersTab: 0,
-      applicantsTab: 1,
+      proposalsTab: 1,
+      agreementsTab: 2,
       map: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         return new NearbyCommon(
@@ -390,7 +391,7 @@ class _AppBusinessState extends State<AppBusiness> {
                   offer); // account will be able to use a future value provider thingy for not-mine offers
             });
       }),
-      applicantsApplying: new Builder(
+      proposalsApplying: new Builder(
         builder: (context) {
           return new ApplicantsListPlaceholder(
             applicants: network.applicants,

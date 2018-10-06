@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:inf/offers_showcase.dart';
 
 import 'protobuf/inf_protobuf.dart';
 import 'network/config_manager.dart';
@@ -398,11 +399,12 @@ class _AppInfluencerState extends State<AppInfluencer> {
     return new DashboardCommon(
       account: network.account,
       mapTab: 0,
-      applicantsTab: 1,
+      proposalsTab: 1,
+      agreementsTab: 2,
       map: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         NetworkInterface network = NetworkManager.of(context);
-        return new NearbyCommon(
+        Widget map = new NearbyCommon(
           account: network.account,
           mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark
               ? config.services.mapboxUrlTemplateDark
@@ -417,12 +419,38 @@ class _AppInfluencerState extends State<AppInfluencer> {
           searchHint: "Find nearby offers...",
           searchTooltip: "Search for nearby offers",
         );
+        Widget showcase = new OffersShowcase(
+          getOffer: (int offerId) => network.tryGetBusinessOffer(offerId),
+          offerIds: network.demoAllOffers.keys.toList(),
+          onOfferPressed: (DataBusinessOffer offer) {
+            navigateToOfferView(
+                context,
+                network.tryGetPublicProfile(offer.accountId,
+                    fallbackOffer: offer),
+                network.latestBusinessOffer(offer));
+          },
+        );
+        return new Column(
+          children: <Widget>[
+            new Flexible(
+              child: map,
+            ),
+            /*new SizedBox(
+              height: 132.0,*/
+              /*child:*/ new Material(
+                color: Theme.of(context).canvasColor,
+                elevation: 4.0,
+                child: showcase
+              /*),*/
+            )
+          ],
+        );
       }),
       onNavigateProfile: () {
         navigateToProfileView(context);
       },
       onNavigateDebugAccount: navigateToDebugAccount,
-      applicantsApplying: new Builder(
+      proposalsApplying: new Builder(
         builder: (context) {
           return new ApplicantsListPlaceholder(
             applicants: network.applicants,

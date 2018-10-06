@@ -1082,7 +1082,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       _getBusinessOffer(offerId, cached).then((offer) {
         cached.loading = false;
       }).catchError((error, stack) {
-        print("[INF] Failed to get offer: $error, $stack");
+        print("[INF] Failed to get offer $offerId: $error, $stack");
         new Timer(new Duration(seconds: 3), () {
           setState(() {
             cached.loading = false;

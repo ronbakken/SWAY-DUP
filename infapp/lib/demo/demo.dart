@@ -553,7 +553,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     account: demoAccount,
                     mapTab: 0,
                     offersTab: 1,
-                    applicantsTab: 2,
+                    proposalsTab: 2,
                     onMakeAnOffer: () {},
                     onNavigateProfile: () {},
                     map: new NearbyCommon(
@@ -604,9 +604,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
                         sampleBusinessOffers[3],
                       ],
                     ),
-                    applicantsApplying: new Text("Applying"),
+                    /*applicantsApplying: new Text("Applying"),
                     applicantsAccepted: new Text("Accepted"),
-                    applicantsHistory: new Text("History"),
+                    applicantsHistory: new Text("History"),*/
                   );
                 },
               ));
