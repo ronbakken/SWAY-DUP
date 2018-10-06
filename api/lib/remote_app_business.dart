@@ -180,9 +180,12 @@ class RemoteAppBusiness {
     netCreateOfferRes.locationId = locationId;
     netCreateOfferRes.title = pb.title;
     netCreateOfferRes.description = pb.description;
-    if (filteredImageKeys.length > 0)
+    if (filteredImageKeys.length > 0) {
       netCreateOfferRes.thumbnailUrl =
           _r.makeCloudinaryThumbnailUrl(filteredImageKeys[0]);
+      netCreateOfferRes.blurredThumbnailUrl =
+          _r.makeCloudinaryBlurredThumbnailUrl(filteredImageKeys[0]);
+    }
     netCreateOfferRes.deliverables = pb.deliverables;
     netCreateOfferRes.reward = pb.reward;
     netCreateOfferRes.location = account.summary.location;
@@ -190,6 +193,8 @@ class RemoteAppBusiness {
     netCreateOfferRes.longitude = account.detail.longitude;
     netCreateOfferRes.coverUrls
         .addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
+    netCreateOfferRes.blurredCoverUrls
+        .addAll(filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
     // TODO: categories
     netCreateOfferRes.state = BusinessOfferState.BOS_OPEN;
     netCreateOfferRes.stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER;
@@ -253,6 +258,7 @@ class RemoteAppBusiness {
             }
           }
           // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
+          // offer.blurredCoverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
           // TODO: categories
           offer.state = BusinessOfferState.valueOf(offerRow[9].toInt());
           offer.stateReason =
@@ -267,8 +273,11 @@ class RemoteAppBusiness {
             if (!offer.hasThumbnailUrl()) {
               offer.thumbnailUrl =
                   _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
+              offer.blurredThumbnailUrl =
+                  _r.makeCloudinaryBlurredThumbnailUrl(imageKeyRow[0]);
             }
             offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
+            offer.blurredCoverUrls.add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
           }
           // Cache offer for use (is this really necessary?)
           offers[offer.offerId] = offer;

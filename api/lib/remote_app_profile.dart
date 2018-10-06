@@ -128,8 +128,12 @@ class RemoteAppProfile {
         if (row[4] != null) {
           account.summary.avatarThumbnailUrl =
               _r.makeCloudinaryThumbnailUrl(row[4].toString());
+          account.summary.avatarBlurredThumbnailUrl =
+              _r.makeCloudinaryBlurredThumbnailUrl(row[4].toString());
           account.detail.avatarCoverUrl =
               _r.makeCloudinaryCoverUrl(row[4].toString());
+          account.detail.avatarBlurredCoverUrl =
+              _r.makeCloudinaryBlurredCoverUrl(row[4].toString());
         }
         if (row[5] != null) account.detail.url = row[5].toString();
         if (account.state.accountType != AccountType.AT_SUPPORT) {
@@ -246,6 +250,7 @@ class RemoteAppProfile {
             }
           }
           // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
+          // offer.blurredCoverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
           // TODO: categories
           offer.state = BusinessOfferState.valueOf(offerRow[9].toInt());
           offer.stateReason =
@@ -260,8 +265,11 @@ class RemoteAppProfile {
             if (!offer.hasThumbnailUrl()) {
               offer.thumbnailUrl =
                   _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
+              offer.blurredThumbnailUrl =
+                  _r.makeCloudinaryBlurredThumbnailUrl(imageKeyRow[0]);
             }
             offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
+            offer.blurredCoverUrls.add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
           }
         }
         ts.sendExtend(message);

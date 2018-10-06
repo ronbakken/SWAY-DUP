@@ -269,9 +269,12 @@ class RemoteAppHaggle {
         if (row[7] != null) chat.seen = new Int64(row[7].toInt());
         devLog.finest("${chat.text}");
         if (chat.type == ApplicantChatType.ACT_IMAGE_KEY) {
+          String key = Uri.splitQueryString(chat.text)['key'].toString();
           chat.text = "url=" +
-              Uri.encodeQueryComponent(_r.makeCloudinaryCoverUrl(
-                  Uri.splitQueryString(chat.text)['key'].toString()));
+              Uri.encodeQueryComponent(_r.makeCloudinaryCoverUrl(key)) +
+              '&blurred_url=' +
+              Uri.encodeQueryComponent(_r.makeCloudinaryBlurredCoverUrl(key));
+          ;
         }
         ts.sendMessage(_netDataApplicantChatUpdate, chat.writeToBuffer(),
             replying: message);

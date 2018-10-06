@@ -394,10 +394,26 @@ class RemoteApp {
         .replaceAll('{keyNoExt}', keyNoExt);
   }
 
+  String makeCloudinaryBlurredThumbnailUrl(String key) {
+    int lastIndex = key.lastIndexOf('.');
+    String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
+    return config.services.cloudinaryBlurredThumbnailUrl
+        .replaceAll('{key}', key)
+        .replaceAll('{keyNoExt}', keyNoExt);
+  }
+
   String makeCloudinaryCoverUrl(String key) {
     int lastIndex = key.lastIndexOf('.');
     String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
     return config.services.cloudinaryCoverUrl
+        .replaceAll('{key}', key)
+        .replaceAll('{keyNoExt}', keyNoExt);
+  }
+
+  String makeCloudinaryBlurredCoverUrl(String key) {
+    int lastIndex = key.lastIndexOf('.');
+    String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
+    return config.services.cloudinaryBlurredCoverUrl
         .replaceAll('{key}', key)
         .replaceAll('{keyNoExt}', keyNoExt);
   }
@@ -480,8 +496,12 @@ class RemoteApp {
             if (row[6] != null) {
               account.summary.avatarThumbnailUrl =
                   makeCloudinaryThumbnailUrl(row[6].toString());
+              account.summary.blurredAvatarThumbnailUrl =
+                  makeCloudinaryBlurredThumbnailUrl(row[6].toString());
               account.detail.avatarCoverUrl =
                   makeCloudinaryCoverUrl(row[6].toString());
+              account.detail.blurredAvatarCoverUrl =
+                  makeCloudinaryBlurredCoverUrl(row[6].toString());
             }
             if (row[7] != null) account.detail.url = row[7].toString();
             if (row[8] != null) account.detail.email = row[8].toString();
@@ -1057,7 +1077,10 @@ class RemoteApp {
               [avatarKey.toString(), account.state.accountId.toInt()]);
           account.summary.avatarThumbnailUrl =
               makeCloudinaryThumbnailUrl(avatarKey);
+          account.summary.blurredAvatarThumbnailUrl =
+              makeCloudinaryBlurredThumbnailUrl(avatarKey);
           account.detail.avatarCoverUrl = makeCloudinaryCoverUrl(avatarKey);
+          account.detail.blurredAvatarCoverUrl = makeCloudinaryBlurredCoverUrl(avatarKey);
         }
       } catch (error, stack) {
         devLog.severe(
