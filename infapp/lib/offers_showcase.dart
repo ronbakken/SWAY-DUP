@@ -49,8 +49,10 @@ class _OffersShowcaseState extends State<OffersShowcase> {
         : new Image(
             image: new AssetImage('assets/placeholder_photo_select.png'),
             fit: BoxFit.cover);
-    Widget text = new Text(offer.title.toString(), textAlign: TextAlign.left,
-        overflow: TextOverflow.ellipsis, style: theme.textTheme.subhead);
+    Widget text = new Text(offer.title.toString(),
+        textAlign: TextAlign.left,
+        overflow: TextOverflow.ellipsis,
+        style: theme.textTheme.subhead);
     Card card = new Card(
       child: new Stack(
         fit: StackFit.expand, // Important
@@ -65,7 +67,8 @@ class _OffersShowcaseState extends State<OffersShowcase> {
             children: <Widget>[
               new Padding(
                 padding: new EdgeInsets.all(8.0),
-                child: text, /*new BackdropFilter(
+                child:
+                    text, /*new BackdropFilter(
                   filter: new ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
                   child: text,
                 ),*/

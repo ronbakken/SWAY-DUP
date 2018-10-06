@@ -437,12 +437,12 @@ class _AppInfluencerState extends State<AppInfluencer> {
             ),
             /*new SizedBox(
               height: 132.0,*/
-              /*child:*/ new Material(
+            /*child:*/ new Material(
                 color: Theme.of(context).canvasColor,
                 elevation: 4.0,
                 child: showcase
-              /*),*/
-            )
+                /*),*/
+                )
           ],
         );
       }),
