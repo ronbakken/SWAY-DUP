@@ -9,10 +9,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:inf/offers_showcase.dart';
 import 'package:inf/offers_map.dart';
+import 'package:latlong/latlong.dart';
 
 import 'protobuf/inf_protobuf.dart';
 import 'network/config_manager.dart';
@@ -396,6 +398,9 @@ class _AppInfluencerState extends State<AppInfluencer> {
     });
   }
 
+  MapController _mapController = new MapController();
+  bool _mapFilter = false;
+
   @override
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
@@ -408,21 +413,6 @@ class _AppInfluencerState extends State<AppInfluencer> {
       map: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         NetworkInterface network = NetworkManager.of(context);
-        Widget map = new OffersMap(
-          account: network.account,
-          mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark
-              ? config.services.mapboxUrlTemplateDark
-              : config.services.mapboxUrlTemplateLight,
-          mapboxToken: config.services.mapboxToken,
-          onSearchPressed: () {
-            navigateToSearchOffers(null);
-          },
-          onFilterPressed: () {
-            // ...
-          },
-          filterTooltip: "Filter map offers by category",
-          searchTooltip: "Search for nearby offers",
-        );
         List<int> showcaseOfferIds =
             network.demoAllOffers.keys.toList(); // TODO
         Widget showcase = showcaseOfferIds.isNotEmpty
@@ -435,6 +425,11 @@ class _AppInfluencerState extends State<AppInfluencer> {
                       network.tryGetPublicProfile(offer.accountId,
                           fallbackOffer: offer),
                       network.latestBusinessOffer(offer));
+                },
+                onOfferCenter: (DataBusinessOffer offer) {
+                  _mapController.move(
+                      new LatLng(offer.latitude, offer.longitude),
+                      _mapController.zoom);
                 },
               )
             : null;
@@ -449,19 +444,28 @@ class _AppInfluencerState extends State<AppInfluencer> {
             child: showcase,
           );
         }*/
+        Widget map = new OffersMap(
+          filterState: _mapFilter,
+          account: network.account,
+          mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark
+              ? config.services.mapboxUrlTemplateDark
+              : config.services.mapboxUrlTemplateLight,
+          mapboxToken: config.services.mapboxToken,
+          onSearchPressed: () {
+            navigateToSearchOffers(null);
+          },
+          onFilterPressed: () {
+            setState(() {
+              _mapFilter = !_mapFilter;
+            });
+          },
+          filterTooltip: "Filter map offers by category",
+          searchTooltip: "Search for nearby offers",
+          mapController: _mapController,
+          bottomSpace: (showcase != null) ? 156.0 : 0.0,
+        );
         return showcase != null
-            ? /*new Column(
-                children: <Widget>[
-                  new Flexible(
-                    child: map,
-                  ),
-                  new Material(
-                      color: Theme.of(context).canvasColor,
-                      elevation: 4.0,
-                      child: showcase)
-                ],
-              )*/
-            new Stack(
+            ? new Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
                   map,

@@ -30,6 +30,8 @@ class OffersMap extends StatefulWidget {
     @required this.account,
     @required this.filterTooltip,
     @required this.searchTooltip,
+    this.mapController,
+    @required this.bottomSpace,
   }) : super(key: key);
 
   final bool filterState;
@@ -45,6 +47,9 @@ class OffersMap extends StatefulWidget {
 
   final DataAccount account;
 
+  final MapController mapController;
+  final double bottomSpace;
+
   @override
   _OffersMapState createState() => new _OffersMapState();
 }
@@ -59,7 +64,7 @@ class _OffersMapState extends State<OffersMap> {
   @override
   void initState() {
     super.initState();
-    _mapController = new MapController();
+    _mapController = widget.mapController ?? new MapController();
     // Default location depending on whether GPS is available or not
     if (widget.account.detail.latitude != 0.0 &&
         widget.account.detail.longitude != 0.0) {
@@ -111,6 +116,15 @@ class _OffersMapState extends State<OffersMap> {
       _positionSubscription.cancel();
     }
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(OffersMap oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_mapController == oldWidget.mapController || widget.mapController != null) {
+      _mapController = widget.mapController;
+    }
+    _mapController ??= new MapController();
   }
 
   Widget _buildCurrentLocationMarker(BuildContext context) {
@@ -166,7 +180,8 @@ class _OffersMapState extends State<OffersMap> {
               backgroundColor: Theme.of(context).brightness == Brightness.light
                   ? new Color.fromARGB(0xFF, 0xD1, 0xD1, 0xD1)
                   : new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
-              placeholderImage: new AssetImage('assets/placeholder_map_tile.png'), // new MemoryImage(kTransparentImage),
+              placeholderImage: new AssetImage(
+                  'assets/placeholder_map_tile.png'), // new MemoryImage(kTransparentImage),
               /*
               urlTemplate: "https://api.tiles.mapbox.com/v4/"
                   "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
@@ -190,13 +205,15 @@ class _OffersMapState extends State<OffersMap> {
               return new Stack(
                 fit: StackFit.expand,
                 children: [
-                  new Align(
-                    alignment: Alignment.topCenter,
-                    child: new SizedBox(
-                      height: kToolbarHeight * 1.5,
-                      child: Image(
-                          image: new AssetImage(
-                              "assets/logo_appbar_ext_gray.png")),
+                  new IgnorePointer(
+                    child: new Align(
+                      alignment: Alignment.topCenter,
+                      child: new SizedBox(
+                        height: kToolbarHeight * 1.5,
+                        child: Image(
+                            image: new AssetImage(
+                                "assets/logo_appbar_ext_gray.png")),
+                      ),
                     ),
                   ),
                   new Align(
@@ -229,9 +246,13 @@ class _OffersMapState extends State<OffersMap> {
                         new ClipOval(
                           child: new Material(
                             type: MaterialType.circle,
-                            color: widget.filterState == true ? Theme.of(context).primaryColor.withAlpha(128) : Colors.transparent,
+                            color: widget.filterState == true
+                                ? Theme.of(context).primaryColor.withAlpha(128)
+                                : Colors.transparent,
                             child: new IconButton(
-                              color: widget.filterState == true ? Theme.of(context).accentColor : Theme.of(context).iconTheme.color,
+                              color: widget.filterState == true
+                                  ? Theme.of(context).accentColor
+                                  : Theme.of(context).iconTheme.color,
                               padding: new EdgeInsets.all(16.0),
                               icon: new Icon(Icons.filter_list),
                               onPressed: () {
@@ -260,7 +281,29 @@ class _OffersMapState extends State<OffersMap> {
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  new Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      new ClipOval(
+                          child: new Material(
+                            type: MaterialType.circle,
+                            color: Colors.transparent,
+                            child: new IconButton(
+                              padding: new EdgeInsets.all(16.0),
+                              icon: _gpsLatLng == null ? new Icon(Icons.gps_off) : new Icon(Icons.gps_fixed),
+                              color: Theme.of(context).iconTheme.color.withAlpha(192),
+                              onPressed: _gpsLatLng == null ? null : () {
+                                _mapController.move(_gpsLatLng, _mapController.zoom);
+                              },
+                              tooltip: "Center map to your position",
+                            ),
+                          ),
+                        ),
+                      new SizedBox(height: widget.bottomSpace),
+                    ],
+                  ),
                 ],
               );
             },

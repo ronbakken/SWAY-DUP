@@ -13,11 +13,13 @@ class OffersShowcase extends StatefulWidget {
   const OffersShowcase({
     Key key,
     @required this.onOfferPressed,
+    @required this.onOfferCenter,
     @required this.getOffer,
     @required this.offerIds,
   }) : super(key: key);
 
   final Function(DataBusinessOffer offer) onOfferPressed;
+  final Function(DataBusinessOffer offer) onOfferCenter;
   final DataBusinessOffer Function(int offerId) getOffer;
   final List<int> offerIds;
 
@@ -66,6 +68,9 @@ class _OffersShowcaseState extends State<OffersShowcase> {
               child: new InkWell(
                 onTap: () {
                   widget.onOfferPressed(offer);
+                },
+                onLongPress: () {
+                  widget.onOfferCenter(offer);
                 },
               ),
             ),
