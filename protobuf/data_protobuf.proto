@@ -77,7 +77,10 @@ message DataBusinessOffer {
   int32 locationOfferCount = 20; // Number of offers at the same location
   
   // Detail info
+  string thumbnailUrl = 24;
+  string blurredThumbnailUrl = 25;
   repeated string coverUrls = 10;
+  repeated string blurredCoverUrls = 26;
   bytes categories = 23;
   
   // State
