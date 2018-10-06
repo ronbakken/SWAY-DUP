@@ -91,7 +91,9 @@ message ConfigServices {
   // Cloudinary (Url Templates)
   string cloudinaryUrl = 19;
   string cloudinaryThumbnailUrl = 20;
+  string cloudinaryBlurredThumbnailUrl = 31;
   string cloudinaryCoverUrl = 21;
+  string cloudinaryBlurredCoverUrl = 32;
   
   // IPStack (FreeGeoIP)
   string ipstackApi = 13;
