@@ -69,23 +69,24 @@ namespace InfX {
             "CCABKAUihQEKC0RhdGFBY2NvdW50EiQKBXN0YXRlGAEgASgLMhUuaW5mLkRh",
             "dGFBY2NvdW50U3RhdGUSKAoHc3VtbWFyeRgCIAEoCzIXLmluZi5EYXRhQWNj",
             "b3VudFN1bW1hcnkSJgoGZGV0YWlsGAMgASgLMhYuaW5mLkRhdGFBY2NvdW50",
-            "RGV0YWlsIpcECg1EYXRhQXBwbGljYW50EhMKC2FwcGxpY2FudElkGAEgASgF",
+            "RGV0YWlsIrAECg1EYXRhQXBwbGljYW50EhMKC2FwcGxpY2FudElkGAEgASgF",
             "Eg8KB29mZmVySWQYAiABKAUSGwoTaW5mbHVlbmNlckFjY291bnRJZBgDIAEo",
-            "BRIZChFidXNpbmVzc0FjY291bnRJZBgQIAEoBRIWCg5pbmZsdWVuY2VyTmFt",
-            "ZRgRIAEoCRIUCgxidXNpbmVzc05hbWUYEiABKAkSEgoKb2ZmZXJUaXRsZRgT",
-            "IAEoCRIUCgxoYWdnbGVDaGF0SWQYBCABKAMSGwoTaW5mbHVlbmNlcldhbnRz",
-            "RGVhbBgGIAEoCBIZChFidXNpbmVzc1dhbnRzRGVhbBgFIAEoCBIhChlpbmZs",
-            "dWVuY2VyTWFya2VkRGVsaXZlcmVkGAcgASgIEiAKGGluZmx1ZW5jZXJNYXJr",
-            "ZWRSZXdhcmRlZBgIIAEoCBIfChdidXNpbmVzc01hcmtlZERlbGl2ZXJlZBgJ",
-            "IAEoCBIeChZidXNpbmVzc01hcmtlZFJld2FyZGVkGAogASgIEhwKFGluZmx1",
-            "ZW5jZXJHYXZlUmF0aW5nGAwgASgFEhoKEmJ1c2luZXNzR2F2ZVJhdGluZxgL",
-            "IAEoBRIaChJpbmZsdWVuY2VyRGlzcHV0ZWQYDyABKAgSGAoQYnVzaW5lc3NE",
-            "aXNwdXRlZBgOIAEoCBIiCgVzdGF0ZRgNIAEoDjITLmluZi5BcHBsaWNhbnRT",
-            "dGF0ZSLDAQoRRGF0YUFwcGxpY2FudENoYXQSDgoGY2hhdElkGAcgASgDEgwK",
-            "BHNlbnQYCiABKAMSEAoIc2VuZGVySWQYAiABKAUSEwoLYXBwbGljYW50SWQY",
-            "ASABKAUSEAoIZGV2aWNlSWQYCyABKAUSFQoNZGV2aWNlR2hvc3RJZBgGIAEo",
-            "BRIkCgR0eXBlGAggASgOMhYuaW5mLkFwcGxpY2FudENoYXRUeXBlEgwKBHRl",
-            "eHQYBSABKAkSDAoEc2VlbhgJIAEoA0IHqgIESW5mWGIGcHJvdG8z"));
+            "BRIZChFidXNpbmVzc0FjY291bnRJZBgQIAEoBRIXCg9zZW5kZXJBY2NvdW50",
+            "SWQYFCABKAUSFgoOaW5mbHVlbmNlck5hbWUYESABKAkSFAoMYnVzaW5lc3NO",
+            "YW1lGBIgASgJEhIKCm9mZmVyVGl0bGUYEyABKAkSFAoMaGFnZ2xlQ2hhdElk",
+            "GAQgASgDEhsKE2luZmx1ZW5jZXJXYW50c0RlYWwYBiABKAgSGQoRYnVzaW5l",
+            "c3NXYW50c0RlYWwYBSABKAgSIQoZaW5mbHVlbmNlck1hcmtlZERlbGl2ZXJl",
+            "ZBgHIAEoCBIgChhpbmZsdWVuY2VyTWFya2VkUmV3YXJkZWQYCCABKAgSHwoX",
+            "YnVzaW5lc3NNYXJrZWREZWxpdmVyZWQYCSABKAgSHgoWYnVzaW5lc3NNYXJr",
+            "ZWRSZXdhcmRlZBgKIAEoCBIcChRpbmZsdWVuY2VyR2F2ZVJhdGluZxgMIAEo",
+            "BRIaChJidXNpbmVzc0dhdmVSYXRpbmcYCyABKAUSGgoSaW5mbHVlbmNlckRp",
+            "c3B1dGVkGA8gASgIEhgKEGJ1c2luZXNzRGlzcHV0ZWQYDiABKAgSIgoFc3Rh",
+            "dGUYDSABKA4yEy5pbmYuQXBwbGljYW50U3RhdGUiwwEKEURhdGFBcHBsaWNh",
+            "bnRDaGF0Eg4KBmNoYXRJZBgHIAEoAxIMCgRzZW50GAogASgDEhAKCHNlbmRl",
+            "cklkGAIgASgFEhMKC2FwcGxpY2FudElkGAEgASgFEhAKCGRldmljZUlkGAsg",
+            "ASgFEhUKDWRldmljZUdob3N0SWQYBiABKAUSJAoEdHlwZRgIIAEoDjIWLmlu",
+            "Zi5BcHBsaWNhbnRDaGF0VHlwZRIMCgR0ZXh0GAUgASgJEgwKBHNlZW4YCSAB",
+            "KANCB6oCBEluZlhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::InfX.EnumProtobufReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -97,7 +98,7 @@ namespace InfX {
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountSummary), global::InfX.DataAccountSummary.Parser, new[]{ "Name", "Description", "Location", "AvatarThumbnailUrl", "BlurredAvatarThumbnailUrl" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccountDetail), global::InfX.DataAccountDetail.Parser, new[]{ "Categories", "SocialMedia", "AvatarCoverUrl", "BlurredAvatarCoverUrl", "Url", "Email", "Latitude", "Longitude", "LocationId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataAccount), global::InfX.DataAccount.Parser, new[]{ "State", "Summary", "Detail" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "InfluencerAccountId", "BusinessAccountId", "InfluencerName", "BusinessName", "OfferTitle", "HaggleChatId", "InfluencerWantsDeal", "BusinessWantsDeal", "InfluencerMarkedDelivered", "InfluencerMarkedRewarded", "BusinessMarkedDelivered", "BusinessMarkedRewarded", "InfluencerGaveRating", "BusinessGaveRating", "InfluencerDisputed", "BusinessDisputed", "State" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicant), global::InfX.DataApplicant.Parser, new[]{ "ApplicantId", "OfferId", "InfluencerAccountId", "BusinessAccountId", "SenderAccountId", "InfluencerName", "BusinessName", "OfferTitle", "HaggleChatId", "InfluencerWantsDeal", "BusinessWantsDeal", "InfluencerMarkedDelivered", "InfluencerMarkedRewarded", "BusinessMarkedDelivered", "BusinessMarkedRewarded", "InfluencerGaveRating", "BusinessGaveRating", "InfluencerDisputed", "BusinessDisputed", "State" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::InfX.DataApplicantChat), global::InfX.DataApplicantChat.Parser, new[]{ "ChatId", "Sent", "SenderId", "ApplicantId", "DeviceId", "DeviceGhostId", "Type", "Text", "Seen" }, null, null, null)
           }));
     }
@@ -3160,6 +3161,7 @@ namespace InfX {
       offerId_ = other.offerId_;
       influencerAccountId_ = other.influencerAccountId_;
       businessAccountId_ = other.businessAccountId_;
+      senderAccountId_ = other.senderAccountId_;
       influencerName_ = other.influencerName_;
       businessName_ = other.businessName_;
       offerTitle_ = other.offerTitle_;
@@ -3226,6 +3228,20 @@ namespace InfX {
       get { return businessAccountId_; }
       set {
         businessAccountId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "senderAccountId" field.</summary>
+    public const int SenderAccountIdFieldNumber = 20;
+    private int senderAccountId_;
+    /// <summary>
+    ///  Either influencer or business sent this
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SenderAccountId {
+      get { return senderAccountId_; }
+      set {
+        senderAccountId_ = value;
       }
     }
 
@@ -3420,6 +3436,7 @@ namespace InfX {
       if (OfferId != other.OfferId) return false;
       if (InfluencerAccountId != other.InfluencerAccountId) return false;
       if (BusinessAccountId != other.BusinessAccountId) return false;
+      if (SenderAccountId != other.SenderAccountId) return false;
       if (InfluencerName != other.InfluencerName) return false;
       if (BusinessName != other.BusinessName) return false;
       if (OfferTitle != other.OfferTitle) return false;
@@ -3445,6 +3462,7 @@ namespace InfX {
       if (OfferId != 0) hash ^= OfferId.GetHashCode();
       if (InfluencerAccountId != 0) hash ^= InfluencerAccountId.GetHashCode();
       if (BusinessAccountId != 0) hash ^= BusinessAccountId.GetHashCode();
+      if (SenderAccountId != 0) hash ^= SenderAccountId.GetHashCode();
       if (InfluencerName.Length != 0) hash ^= InfluencerName.GetHashCode();
       if (BusinessName.Length != 0) hash ^= BusinessName.GetHashCode();
       if (OfferTitle.Length != 0) hash ^= OfferTitle.GetHashCode();
@@ -3546,6 +3564,10 @@ namespace InfX {
         output.WriteRawTag(154, 1);
         output.WriteString(OfferTitle);
       }
+      if (SenderAccountId != 0) {
+        output.WriteRawTag(160, 1);
+        output.WriteInt32(SenderAccountId);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3562,6 +3584,9 @@ namespace InfX {
       }
       if (BusinessAccountId != 0) {
         size += 2 + pb::CodedOutputStream.ComputeInt32Size(BusinessAccountId);
+      }
+      if (SenderAccountId != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(SenderAccountId);
       }
       if (InfluencerName.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(InfluencerName);
@@ -3627,6 +3652,9 @@ namespace InfX {
       }
       if (other.BusinessAccountId != 0) {
         BusinessAccountId = other.BusinessAccountId;
+      }
+      if (other.SenderAccountId != 0) {
+        SenderAccountId = other.SenderAccountId;
       }
       if (other.InfluencerName.Length != 0) {
         InfluencerName = other.InfluencerName;
@@ -3757,6 +3785,10 @@ namespace InfX {
           }
           case 154: {
             OfferTitle = input.ReadString();
+            break;
+          }
+          case 160: {
+            SenderAccountId = input.ReadInt32();
             break;
           }
         }
