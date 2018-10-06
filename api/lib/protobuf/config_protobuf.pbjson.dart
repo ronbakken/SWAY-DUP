@@ -167,11 +167,25 @@ const ConfigServices$json = const {
       '10': 'cloudinaryThumbnailUrl'
     },
     const {
+      '1': 'cloudinaryBlurredThumbnailUrl',
+      '3': 31,
+      '4': 1,
+      '5': 9,
+      '10': 'cloudinaryBlurredThumbnailUrl'
+    },
+    const {
       '1': 'cloudinaryCoverUrl',
       '3': 21,
       '4': 1,
       '5': 9,
       '10': 'cloudinaryCoverUrl'
+    },
+    const {
+      '1': 'cloudinaryBlurredCoverUrl',
+      '3': 32,
+      '4': 1,
+      '5': 9,
+      '10': 'cloudinaryBlurredCoverUrl'
     },
     const {'1': 'ipstackApi', '3': 13, '4': 1, '5': 9, '10': 'ipstackApi'},
     const {'1': 'ipstackKey', '3': 12, '4': 1, '5': 9, '10': 'ipstackKey'},
