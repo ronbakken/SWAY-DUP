@@ -269,7 +269,8 @@ class RemoteAppProfile {
                   _r.makeCloudinaryBlurredThumbnailUrl(imageKeyRow[0]);
             }
             offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
-            offer.blurredCoverUrls.add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
+            offer.blurredCoverUrls
+                .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
           }
         }
         ts.sendExtend(message);

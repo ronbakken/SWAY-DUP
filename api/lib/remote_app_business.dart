@@ -193,8 +193,8 @@ class RemoteAppBusiness {
     netCreateOfferRes.longitude = account.detail.longitude;
     netCreateOfferRes.coverUrls
         .addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
-    netCreateOfferRes.blurredCoverUrls
-        .addAll(filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
+    netCreateOfferRes.blurredCoverUrls.addAll(
+        filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
     // TODO: categories
     netCreateOfferRes.state = BusinessOfferState.BOS_OPEN;
     netCreateOfferRes.stateReason = BusinessOfferStateReason.BOSR_NEW_OFFER;
@@ -277,7 +277,8 @@ class RemoteAppBusiness {
                   _r.makeCloudinaryBlurredThumbnailUrl(imageKeyRow[0]);
             }
             offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
-            offer.blurredCoverUrls.add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
+            offer.blurredCoverUrls
+                .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
           }
           // Cache offer for use (is this really necessary?)
           offers[offer.offerId] = offer;
