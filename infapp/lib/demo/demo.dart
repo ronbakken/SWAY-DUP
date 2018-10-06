@@ -555,7 +555,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                     proposalsTab: 2,
                     onMakeAnOffer: () {},
                     onNavigateProfile: () {},
-                    map: new Text("/* Map */") /*new NearbyCommon(
+                    map: new Text(
+                            "/* Map */") /*new NearbyCommon(
                       searchHint: "Find nearby influencers...",
                       searchTooltip: "Search for nearby influencers",
                       onSearchPressed: (TextEditingController searchQuery) {
@@ -591,7 +592,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                               },
                             ));
                       },
-                    )*/,
+                    )*/
+                        ,
                     offersCurrent: new BusinessOfferList(
                       businessOffers: [
                         sampleBusinessOffers[1],
