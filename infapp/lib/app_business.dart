@@ -379,7 +379,8 @@ class _AppBusinessState extends State<AppBusiness> {
       offersTab: 0,
       proposalsTab: 1,
       agreementsTab: 2,
-      map: new Text("/* Map */"), /*new Builder(builder: (context) {
+      map: new Text("/* Map */"),
+      /*new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         return new NearbyCommon(
           account: network.account,

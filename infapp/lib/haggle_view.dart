@@ -783,7 +783,13 @@ class _HaggleViewState extends State<HaggleView> {
             elevation: 8.0,
             child: new Column(
               children: <Widget>[
-                new OfferCard(businessOffer: widget.offer, inner: true, onPressed: () { widget.onPressedOffer(widget.offer); },),
+                new OfferCard(
+                  businessOffer: widget.offer,
+                  inner: true,
+                  onPressed: () {
+                    widget.onPressedOffer(widget.offer);
+                  },
+                ),
                 statusText != null
                     ? new Padding(
                         padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
