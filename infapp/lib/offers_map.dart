@@ -121,7 +121,8 @@ class _OffersMapState extends State<OffersMap> {
   @override
   void didUpdateWidget(OffersMap oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (_mapController == oldWidget.mapController || widget.mapController != null) {
+    if (_mapController == oldWidget.mapController ||
+        widget.mapController != null) {
       _mapController = widget.mapController;
     }
     _mapController ??= new MapController();
@@ -287,20 +288,28 @@ class _OffersMapState extends State<OffersMap> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       new ClipOval(
-                          child: new Material(
-                            type: MaterialType.circle,
-                            color: Colors.transparent,
-                            child: new IconButton(
-                              padding: new EdgeInsets.all(16.0),
-                              icon: _gpsLatLng == null ? new Icon(Icons.gps_off) : new Icon(Icons.gps_fixed),
-                              color: Theme.of(context).iconTheme.color.withAlpha(192),
-                              onPressed: _gpsLatLng == null ? null : () {
-                                _mapController.move(_gpsLatLng, _mapController.zoom);
-                              },
-                              tooltip: "Center map to your position",
-                            ),
+                        child: new Material(
+                          type: MaterialType.circle,
+                          color: Colors.transparent,
+                          child: new IconButton(
+                            padding: new EdgeInsets.all(16.0),
+                            icon: _gpsLatLng == null
+                                ? new Icon(Icons.gps_off)
+                                : new Icon(Icons.gps_fixed),
+                            color: Theme.of(context)
+                                .iconTheme
+                                .color
+                                .withAlpha(192),
+                            onPressed: _gpsLatLng == null
+                                ? null
+                                : () {
+                                    _mapController.move(
+                                        _gpsLatLng, _mapController.zoom);
+                                  },
+                            tooltip: "Center map to your position",
                           ),
                         ),
+                      ),
                       new SizedBox(height: widget.bottomSpace),
                     ],
                   ),
