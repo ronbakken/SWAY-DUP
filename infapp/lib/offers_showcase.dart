@@ -4,20 +4,10 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:transparent_image/transparent_image.dart';
-
-import 'package:latlong/latlong.dart';
-import 'package:flutter_map/flutter_map.dart';
-
-import 'search/search_page.dart';
-import 'protobuf/inf_protobuf.dart';
-
-import 'package:geolocator/geolocator.dart';
+import 'package:inf/network/build_network_image.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 class OffersShowcase extends StatefulWidget {
   const OffersShowcase({
@@ -41,16 +31,12 @@ class _OffersShowcaseState extends State<OffersShowcase> {
     int offerId = widget.offerIds[offerIdx];
     print("[INF] Showcase $offerId");
     DataBusinessOffer offer = widget.getOffer(offerId);
-    Widget image = offer.thumbnailUrl?.isNotEmpty ?? false
-        ? new FadeInImage.assetNetwork(
-            placeholder: 'assets/placeholder_photo_select.png',
-            image: offer.thumbnailUrl,
-            fit: BoxFit.cover)
-        : new Image(
-            image: new AssetImage('assets/placeholder_photo_select.png'),
-            fit: BoxFit.cover);
-    Widget text = new Text(offer.title.toString(), textAlign: TextAlign.left,
-        overflow: TextOverflow.ellipsis, style: theme.textTheme.subhead);
+    Widget image = buildNetworkImage(
+        url: offer.thumbnailUrl, blurredUrl: offer.blurredThumbnailUrl);
+    Widget text = new Text(offer.title.toString(),
+        textAlign: TextAlign.left,
+        overflow: TextOverflow.ellipsis,
+        style: theme.textTheme.subhead);
     Card card = new Card(
       child: new Stack(
         fit: StackFit.expand, // Important
@@ -65,13 +51,25 @@ class _OffersShowcaseState extends State<OffersShowcase> {
             children: <Widget>[
               new Padding(
                 padding: new EdgeInsets.all(8.0),
-                child: text, /*new BackdropFilter(
+                child:
+                    text, /*new BackdropFilter(
                   filter: new ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
                   child: text,
                 ),*/
               )
             ],
-          )
+          ),
+          new ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            child: new Material(
+              color: Colors.transparent,
+              child: new InkWell(
+                onTap: () {
+                  widget.onOfferPressed(offer);
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -81,9 +79,14 @@ class _OffersShowcaseState extends State<OffersShowcase> {
       child: card,
     );*/
     return new SizedBox(
+      key: new Key('OfferShowcase[$offerId]'),
       width: 96.0,
       height: 96.0,
-      child: card,
+      child:
+          card, /*new InkWell(
+        onTap: widget.onOfferPressed(offer),
+        child: card,
+      ),*/
     );
   }
 
@@ -96,7 +99,7 @@ class _OffersShowcaseState extends State<OffersShowcase> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             new Padding(
-              padding: new EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 4.0),
+              padding: new EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
               child: new Text("Near you now",
                   textAlign: TextAlign.left, style: theme.textTheme.caption),
             ),
@@ -110,7 +113,7 @@ class _OffersShowcaseState extends State<OffersShowcase> {
                 itemCount: widget.offerIds.length,
                 itemBuilder: _buildCard,
                 itemExtent: 132.0,
-                padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 0.0),
+                padding: new EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 4.0),
               ),
             ),
           ],

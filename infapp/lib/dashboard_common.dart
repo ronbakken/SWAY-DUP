@@ -6,6 +6,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:inf/network/build_network_image.dart';
 
 import 'protobuf/inf_protobuf.dart';
 import 'widgets/network_status.dart';
@@ -265,15 +266,12 @@ class _DashboardCommonState extends State<DashboardCommon>
                   color: Theme.of(context).primaryColor,
                   child: new Stack(children: [
                     new Positioned.fill(
-                        child: widget.account.detail.avatarCoverUrl.length > 0
-                            ? new FadeInImage.assetNetwork(
-                                placeholder: 'assets/placeholder_photo.png',
-                                image: widget.account.detail.avatarCoverUrl,
-                                fit: BoxFit.cover)
-                            : new Image(
-                                image: new AssetImage(
-                                    'assets/placeholder_photo.png'),
-                                fit: BoxFit.cover)),
+                      child: buildNetworkImage(
+                        url: widget.account.detail.avatarCoverUrl,
+                        blurredUrl: widget.account.detail.blurredAvatarCoverUrl,
+                        placeholderAsset: 'assets/placeholder_photo.png',
+                      ),
+                    ),
                     new SafeArea(
                         // child: new Text("Hello world"),
                         child: new Align(

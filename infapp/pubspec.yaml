@@ -19,6 +19,7 @@ dependencies:
     git: https://github.com/nbspou/circle_indicator.git
 
   flutter_webview_plugin: ^0.2.1+2
+  flutter_advanced_networkimage: ^0.3.9
 
   # Device info, used during device registration
   device_info: ^0.2.1
@@ -66,6 +67,7 @@ flutter:
   assets:
     - assets/config.bin
     - assets/logo_appbar.png
+    - assets/logo_appbar_ext_gray.png
     - assets/placeholder_photo.png
     - assets/placeholder_photo_select.png
     - assets/placeholder_map_tile.png

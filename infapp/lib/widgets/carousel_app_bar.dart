@@ -1,34 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:circle_indicator/circle_indicator.dart';
+import 'package:inf/network/build_network_image.dart';
 
 class CarouselAppBar extends SliverAppBar {
-  CarouselAppBar(
-      {Key key,
-      BuildContext context,
-      Widget title,
-      List<Widget> actions,
-      List<String> imageUrls})
-      : super(
+  CarouselAppBar({
+    Key key,
+    BuildContext context,
+    Widget title,
+    List<Widget> actions,
+    List<String> imageUrls,
+    List<String> blurredImageUrls,
+  }) : super(
           key: key,
           pinned: true,
           title: title,
           expandedHeight:
               (MediaQuery.of(context).size.width * 9.0 / 16.0) ~/ 4 * 4.0,
           flexibleSpace: new FlexibleSpaceBar(
-            background:
-                _buildBackground(new PageController(), context, imageUrls),
+            background: _buildBackground(
+                new PageController(), context, imageUrls, blurredImageUrls),
           ),
           actions: actions,
         );
 
-  static Widget _buildBackground(
-      controller, BuildContext context, List<String> imageUrls) {
+  static Widget _buildBackground(PageController controller, BuildContext context,
+      List<String> imageUrls, List<String> blurredImageUrls) {
     List<Widget> images = new List<Widget>();
-    for (String imageUrl in imageUrls) {
-      images.add(new FadeInImage.assetNetwork(
-          placeholder: 'assets/placeholder_photo.png',
-          image: imageUrl,
-          fit: BoxFit.cover));
+    if (blurredImageUrls == null) {
+      for (String imageUrl in imageUrls) {
+        images.add(buildNetworkImage(
+            url: imageUrl, placeholderAsset: 'assets/placeholder_photo.png'));
+      }
+    } else {
+      for (int i = 0; i < imageUrls.length; ++i) {
+        images.add(buildNetworkImage(
+            url: imageUrls[i],
+            blurredUrl: blurredImageUrls[i],
+            placeholderAsset: 'assets/placeholder_photo.png'));
+      }
     }
     return new Container(
       // color: Theme.of(context).primaryColor,

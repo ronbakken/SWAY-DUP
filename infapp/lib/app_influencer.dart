@@ -5,11 +5,14 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
+
 import 'package:inf/offers_showcase.dart';
+import 'package:inf/offers_map.dart';
 
 import 'protobuf/inf_protobuf.dart';
 import 'network/config_manager.dart';
@@ -21,7 +24,6 @@ import 'profile/profile_view.dart';
 import 'profile/profile_edit.dart';
 
 import 'dashboard_common.dart';
-import 'nearby_common.dart';
 import 'offer_view.dart';
 import 'business_offer_list.dart';
 import 'debug_account.dart';
@@ -333,6 +335,8 @@ class _AppInfluencerState extends State<AppInfluencer> {
   }
 
   void navigateToSearchOffers(TextEditingController searchQueryController) {
+    TextEditingController searchQueryControllerFallback =
+        searchQueryController ?? new TextEditingController();
     fadeToPage(context, (context, animation, secondaryAnimation) {
       ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
@@ -340,7 +344,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
       return new SearchPageCommon(
           searchHint: "Find nearby offers...",
           searchTooltip: "Search for nearby offers",
-          searchQueryController: searchQueryController,
+          searchQueryController: searchQueryControllerFallback,
           onSearchRequest: (String searchQuery) async {
             try {
               await network.refreshDemoAllOffers();
@@ -404,47 +408,72 @@ class _AppInfluencerState extends State<AppInfluencer> {
       map: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         NetworkInterface network = NetworkManager.of(context);
-        Widget map = new NearbyCommon(
+        Widget map = new OffersMap(
           account: network.account,
           mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark
               ? config.services.mapboxUrlTemplateDark
               : config.services.mapboxUrlTemplateLight,
           mapboxToken: config.services.mapboxToken,
-          onSearchPressed: (TextEditingController searchQuery) {
-            navigateToSearchOffers(searchQuery);
-            // query.text = ":)";
-            // Scaffold.of(context).showSnackBar(
-            //     new SnackBar(content: new Text("Not yet implemented.")));
+          onSearchPressed: () {
+            navigateToSearchOffers(null);
           },
-          searchHint: "Find nearby offers...",
+          onFilterPressed: () {
+            // ...
+          },
+          filterTooltip: "Filter map offers by category",
           searchTooltip: "Search for nearby offers",
         );
-        Widget showcase = new OffersShowcase(
-          getOffer: (int offerId) => network.tryGetBusinessOffer(offerId),
-          offerIds: network.demoAllOffers.keys.toList(),
-          onOfferPressed: (DataBusinessOffer offer) {
-            navigateToOfferView(
-                context,
-                network.tryGetPublicProfile(offer.accountId,
-                    fallbackOffer: offer),
-                network.latestBusinessOffer(offer));
-          },
-        );
-        return new Column(
-          children: <Widget>[
-            new Flexible(
-              child: map,
-            ),
-            /*new SizedBox(
-              height: 132.0,*/
-              /*child:*/ new Material(
-                color: Theme.of(context).canvasColor,
-                elevation: 4.0,
-                child: showcase
-              /*),*/
-            )
-          ],
-        );
+        List<int> showcaseOfferIds =
+            network.demoAllOffers.keys.toList(); // TODO
+        Widget showcase = showcaseOfferIds.isNotEmpty
+            ? new OffersShowcase(
+                getOffer: (int offerId) => network.tryGetBusinessOffer(offerId),
+                offerIds: network.demoAllOffers.keys.toList(),
+                onOfferPressed: (DataBusinessOffer offer) {
+                  navigateToOfferView(
+                      context,
+                      network.tryGetPublicProfile(offer.accountId,
+                          fallbackOffer: offer),
+                      network.latestBusinessOffer(offer));
+                },
+              )
+            : null;
+        /*if (showcase != null) {
+          showcase = new BackdropFilter(
+            filter: new ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+            child: showcase,
+          );
+        }*/
+        /*if (showcase != null) {
+          showcase = new Material(
+            child: showcase,
+          );
+        }*/
+        return showcase != null
+            ? /*new Column(
+                children: <Widget>[
+                  new Flexible(
+                    child: map,
+                  ),
+                  new Material(
+                      color: Theme.of(context).canvasColor,
+                      elevation: 4.0,
+                      child: showcase)
+                ],
+              )*/
+            new Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  map,
+                  new Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      showcase,
+                    ],
+                  )
+                ],
+              )
+            : map;
       }),
       onNavigateProfile: () {
         navigateToProfileView(context);

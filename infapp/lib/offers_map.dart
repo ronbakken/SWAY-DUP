@@ -19,37 +19,37 @@ import 'protobuf/inf_protobuf.dart';
 
 import 'package:geolocator/geolocator.dart';
 
-////////////////////////////////
-/// DEPRECATED
-////////////////////////////////
-
-class NearbyCommon extends StatefulWidget {
-  const NearbyCommon({
+class OffersMap extends StatefulWidget {
+  const OffersMap({
     Key key,
+    @required this.filterState,
+    @required this.onFilterPressed,
     @required this.onSearchPressed,
     @required this.mapboxUrlTemplate,
     @required this.mapboxToken,
     @required this.account,
-    @required this.searchHint,
+    @required this.filterTooltip,
     @required this.searchTooltip,
   }) : super(key: key);
 
-  final Function(TextEditingController searchQuery) onSearchPressed;
+  final bool filterState;
+
+  final Function() onFilterPressed;
+  final Function() onSearchPressed;
 
   final String mapboxUrlTemplate;
   final String mapboxToken;
 
-  final String searchHint;
+  final String filterTooltip;
   final String searchTooltip;
 
   final DataAccount account;
 
   @override
-  _NearbyCommonState createState() => new _NearbyCommonState();
+  _OffersMapState createState() => new _OffersMapState();
 }
 
-class _NearbyCommonState extends State<NearbyCommon> {
-  TextEditingController _searchTextController;
+class _OffersMapState extends State<OffersMap> {
   MapController _mapController;
   LatLng _initialLatLng;
   LatLng _gpsLatLng;
@@ -59,7 +59,6 @@ class _NearbyCommonState extends State<NearbyCommon> {
   @override
   void initState() {
     super.initState();
-    _searchTextController = new TextEditingController();
     _mapController = new MapController();
     // Default location depending on whether GPS is available or not
     if (widget.account.detail.latitude != 0.0 &&
@@ -167,7 +166,7 @@ class _NearbyCommonState extends State<NearbyCommon> {
               backgroundColor: Theme.of(context).brightness == Brightness.light
                   ? new Color.fromARGB(0xFF, 0xD1, 0xD1, 0xD1)
                   : new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
-              placeholderImage: new MemoryImage(kTransparentImage),
+              placeholderImage: new AssetImage('assets/placeholder_map_tile.png'), // new MemoryImage(kTransparentImage),
               /*
               urlTemplate: "https://api.tiles.mapbox.com/v4/"
                   "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
@@ -188,53 +187,82 @@ class _NearbyCommonState extends State<NearbyCommon> {
         new SafeArea(
           child: new Builder(
             builder: (context) {
-              return new Stack(children: [
-                new Align(
-                  alignment: Alignment.topCenter,
-                  child: new Row(
-                    children: [
-                      new Material(
-                        type: MaterialType.circle,
-                        color: Colors.transparent,
-                        child: new IconButton(
-                          // splashColor: Theme.of(context).accentColor,
-                          // color: Theme.of(context).accentColor,
-                          padding: new EdgeInsets.all(16.0),
-                          icon: new Icon(Icons.menu),
-                          onPressed: () => Scaffold.of(context).openDrawer(),
-                          tooltip: "Open navigation menu",
-                        ),
-                      ),
-                      new Flexible(
-                        fit: FlexFit.tight,
-                        child: new Padding(
-                          padding: new EdgeInsets.all(0.0),
-                          child: new TextField(
-                            controller: _searchTextController,
-                            decoration: new InputDecoration(
-                                // TODO: Better track focus of this input!!! (remove focus when keyboard is closed)
-                                hintText: widget.searchHint),
+              return new Stack(
+                fit: StackFit.expand,
+                children: [
+                  new Align(
+                    alignment: Alignment.topCenter,
+                    child: new SizedBox(
+                      height: kToolbarHeight * 1.5,
+                      child: Image(
+                          image: new AssetImage(
+                              "assets/logo_appbar_ext_gray.png")),
+                    ),
+                  ),
+                  new Align(
+                    alignment: Alignment.topCenter,
+                    child: new Row(
+                      children: [
+                        new ClipOval(
+                          child: new Material(
+                            type: MaterialType.circle,
+                            color: Colors.transparent,
+                            child: new IconButton(
+                              // splashColor: Theme.of(context).accentColor,
+                              // color: Theme.of(context).accentColor,
+                              // highlightColor: Colors.transparent,
+                              padding: new EdgeInsets.all(16.0),
+                              icon: new Icon(Icons.menu),
+                              onPressed: () =>
+                                  Scaffold.of(context).openDrawer(),
+                              tooltip: "Open navigation menu",
+                            ),
                           ),
                         ),
-                      ),
-                      new Material(
-                        type: MaterialType.circle,
-                        color: Colors.transparent,
-                        child: new IconButton(
-                          // splashColor: Theme.of(context).accentColor,
-                          // color: Theme.of(context).accentColor,
-                          padding: new EdgeInsets.all(16.0),
-                          icon: new Icon(Icons.search),
-                          onPressed: () {
-                            widget.onSearchPressed(_searchTextController);
-                          },
-                          tooltip: widget.searchTooltip,
+                        new Flexible(
+                          fit: FlexFit.tight,
+                          child: new Padding(
+                            padding: new EdgeInsets.all(0.0),
+                            child: new SizedBox(),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ]);
+                        new ClipOval(
+                          child: new Material(
+                            type: MaterialType.circle,
+                            color: widget.filterState == true ? Theme.of(context).primaryColor.withAlpha(128) : Colors.transparent,
+                            child: new IconButton(
+                              color: widget.filterState == true ? Theme.of(context).accentColor : Theme.of(context).iconTheme.color,
+                              padding: new EdgeInsets.all(16.0),
+                              icon: new Icon(Icons.filter_list),
+                              onPressed: () {
+                                widget.onFilterPressed();
+                              },
+                              tooltip: widget.searchTooltip,
+                            ),
+                          ),
+                        ),
+                        new ClipOval(
+                          child: new Material(
+                            type: MaterialType.circle,
+                            color: Colors.transparent,
+                            child: new IconButton(
+                              // highlightColor: Colors.transparent,
+                              // splashColor: Theme.of(context).accentColor,
+                              // color: Theme.of(context).accentColor,
+                              padding: new EdgeInsets.all(16.0),
+                              icon: new Icon(Icons.search),
+                              onPressed: () {
+                                widget.onSearchPressed();
+                              },
+                              tooltip: widget.searchTooltip,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              );
             },
           ),
         ),

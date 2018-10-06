@@ -156,6 +156,7 @@ class _OfferViewState extends State<OfferView> {
             context: context,
             title: new Text(widget.businessOffer.title),
             imageUrls: widget.businessOffer.coverUrls,
+            blurredImageUrls: widget.businessOffer.blurredCoverUrls,
             actions: [
               widget.onSharePressed == null
                   ? null
