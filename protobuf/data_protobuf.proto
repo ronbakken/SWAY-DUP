@@ -65,6 +65,7 @@ message DataBusinessOffer {
   string title = 4;
   string description = 5;
   string thumbnailUrl = 6;
+  string blurredThumbnailUrl = 24;
   
   string deliverables = 7;
   string reward = 8;
@@ -77,10 +78,8 @@ message DataBusinessOffer {
   int32 locationOfferCount = 20; // Number of offers at the same location
   
   // Detail info
-  string thumbnailUrl = 24;
-  string blurredThumbnailUrl = 25;
   repeated string coverUrls = 10;
-  repeated string blurredCoverUrls = 26;
+  repeated string blurredCoverUrls = 25;
   bytes categories = 23;
   
   // State
