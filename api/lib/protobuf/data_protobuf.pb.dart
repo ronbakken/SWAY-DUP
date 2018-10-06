@@ -276,6 +276,8 @@ class DataBusinessOffer extends $pb.GeneratedMessage {
     ..aOS(21, 'locationName')
     ..a<int>(22, 'influencerApplicantId', $pb.PbFieldType.O3)
     ..a<List<int>>(23, 'categories', $pb.PbFieldType.OY)
+    ..aOS(24, 'blurredThumbnailUrl')
+    ..pPS(25, 'blurredCoverUrls')
     ..hasRequiredFields = false;
 
   DataBusinessOffer() : super();
@@ -469,6 +471,16 @@ class DataBusinessOffer extends $pb.GeneratedMessage {
 
   bool hasCategories() => $_has(21);
   void clearCategories() => clearField(23);
+
+  String get blurredThumbnailUrl => $_getS(22, '');
+  set blurredThumbnailUrl(String v) {
+    $_setString(22, v);
+  }
+
+  bool hasBlurredThumbnailUrl() => $_has(22);
+  void clearBlurredThumbnailUrl() => clearField(24);
+
+  List<String> get blurredCoverUrls => $_getList(23);
 }
 
 class DataLocation extends $pb.GeneratedMessage {

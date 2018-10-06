@@ -56,6 +56,13 @@ const DataBusinessOffer$json = const {
     const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
     const {'1': 'description', '3': 5, '4': 1, '5': 9, '10': 'description'},
     const {'1': 'thumbnailUrl', '3': 6, '4': 1, '5': 9, '10': 'thumbnailUrl'},
+    const {
+      '1': 'blurredThumbnailUrl',
+      '3': 24,
+      '4': 1,
+      '5': 9,
+      '10': 'blurredThumbnailUrl'
+    },
     const {'1': 'deliverables', '3': 7, '4': 1, '5': 9, '10': 'deliverables'},
     const {'1': 'reward', '3': 8, '4': 1, '5': 9, '10': 'reward'},
     const {'1': 'locationName', '3': 21, '4': 1, '5': 9, '10': 'locationName'},
@@ -70,6 +77,13 @@ const DataBusinessOffer$json = const {
       '10': 'locationOfferCount'
     },
     const {'1': 'coverUrls', '3': 10, '4': 3, '5': 9, '10': 'coverUrls'},
+    const {
+      '1': 'blurredCoverUrls',
+      '3': 25,
+      '4': 3,
+      '5': 9,
+      '10': 'blurredCoverUrls'
+    },
     const {'1': 'categories', '3': 23, '4': 1, '5': 12, '10': 'categories'},
     const {
       '1': 'state',
