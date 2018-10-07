@@ -90,8 +90,10 @@ class _DemoAppState extends State<DemoApp> {
         // Generate these values on https://material.io/color/!
         primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
         primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-        primaryColorDark: Color.lerp(new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
-            new Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125),
+        primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30)
+            /* Color.lerp(new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+            new Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125) */
+            ,
       );
     }
     // Adjust widget themes
