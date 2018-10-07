@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:circle_indicator/circle_indicator.dart';
-import 'package:inf/network/build_network_image.dart';
+import 'package:inf/widgets/blurred_network_image.dart';
 
 class CarouselAppBar extends SliverAppBar {
   CarouselAppBar({
@@ -32,12 +32,12 @@ class CarouselAppBar extends SliverAppBar {
     List<Widget> images = new List<Widget>();
     if (blurredImageUrls == null) {
       for (String imageUrl in imageUrls) {
-        images.add(buildNetworkImage(
+        images.add(new BlurredNetworkImage(
             url: imageUrl, placeholderAsset: 'assets/placeholder_photo.png'));
       }
     } else {
       for (int i = 0; i < imageUrls.length; ++i) {
-        images.add(buildNetworkImage(
+        images.add(new BlurredNetworkImage(
             url: imageUrls[i],
             blurredUrl: blurredImageUrls[i],
             placeholderAsset: 'assets/placeholder_photo.png'));

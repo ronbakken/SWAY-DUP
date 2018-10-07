@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/material.dart';
 
-import 'package:inf/network/build_network_image.dart';
+import 'package:inf/widgets/blurred_network_image.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 
 class OffersShowcase extends StatefulWidget {
@@ -38,7 +38,7 @@ class _OffersShowcaseState extends State<OffersShowcase> {
     DataAccount account = offer.accountId != 0
         ? widget.getAccount(context, offer.accountId)
         : new DataAccount();
-    Widget image = buildNetworkImage(
+    Widget image = new BlurredNetworkImage(
         url: offer.thumbnailUrl, blurredUrl: offer.blurredThumbnailUrl);
     Widget text = new Text(
       offer.title.toString(),

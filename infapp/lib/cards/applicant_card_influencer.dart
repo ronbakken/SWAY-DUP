@@ -5,8 +5,8 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf/network/build_network_image.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/widgets/blurred_network_image.dart';
 
 class ApplicantCardInfluencer extends StatelessWidget {
   final DataApplicant applicant;
@@ -30,7 +30,7 @@ class ApplicantCardInfluencer extends StatelessWidget {
       isThreeLine: true,
       leading: new CircleAvatar(
         child: new ClipOval(
-          child: buildNetworkImage(
+          child: new BlurredNetworkImage(
             url: businessOffer.thumbnailUrl,
             blurredUrl: businessOffer.blurredThumbnailUrl,
             placeholderAsset: 'assets/placeholder_photo.png',

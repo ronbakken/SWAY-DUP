@@ -6,7 +6,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:inf/network/build_network_image.dart';
+import 'package:inf/widgets/blurred_network_image.dart';
 
 import 'protobuf/inf_protobuf.dart';
 import 'widgets/network_status.dart';
@@ -269,7 +269,7 @@ class _DashboardCommonState extends State<DashboardCommon>
                   color: Theme.of(context).primaryColor,
                   child: new Stack(children: [
                     new Positioned.fill(
-                      child: buildNetworkImage(
+                      child: new BlurredNetworkImage(
                         url: widget.account.detail.avatarCoverUrl,
                         blurredUrl: widget.account.detail.blurredAvatarCoverUrl,
                         placeholderAsset: 'assets/placeholder_photo.png',

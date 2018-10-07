@@ -7,7 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:inf/network/build_network_image.dart';
+import 'package:inf/widgets/blurred_network_image.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -206,7 +206,7 @@ class _OffersMapState extends State<OffersMap> {
                     child: new Stack(
                       fit: StackFit.expand,
                       children: <Widget>[
-                        buildNetworkImage(
+                        new BlurredNetworkImage(
                             url: offer.thumbnailUrl,
                             blurredUrl: offer.blurredThumbnailUrl),
                       ],
