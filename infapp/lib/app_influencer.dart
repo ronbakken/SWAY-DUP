@@ -468,6 +468,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
   @override
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
+    bool enoughSpaceForBottom = (MediaQuery.of(context).size.height > 480.0);
     assert(network != null);
     return new DashboardCommon(
       account: network.account,
@@ -477,8 +478,9 @@ class _AppInfluencerState extends State<AppInfluencer> {
       map: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         NetworkInterface network = NetworkManager.of(context);
-        List<int> showcaseOfferIds =
-            network.demoAllOffers.keys.toList(); // TODO
+        List<int> showcaseOfferIds = enoughSpaceForBottom
+            ? network.demoAllOffers.keys.toList()
+            : <int>[]; // TODO
         Widget showcase = showcaseOfferIds.isNotEmpty
             ? new OffersShowcase(
                 getOffer: (BuildContext context, int offerId) {
@@ -527,11 +529,13 @@ class _AppInfluencerState extends State<AppInfluencer> {
           onSearchPressed: () {
             navigateToSearchOffers(null);
           },
-          onFilterPressed: () {
-            setState(() {
-              _mapFilter = !_mapFilter;
-            });
-          },
+          onFilterPressed: enoughSpaceForBottom
+              ? () {
+                  setState(() {
+                    _mapFilter = !_mapFilter;
+                  });
+                }
+              : null,
           filterTooltip: "Filter map offers by category",
           searchTooltip: "Search for nearby offers",
           mapController: _mapController,

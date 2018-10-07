@@ -243,8 +243,8 @@ class _OffersMapState extends State<OffersMap> {
       }
       locations.add(offer.locationId);
       markers.add(new Marker(
-        width: 56.0 + 8.0,// + 16.0,
-        height: 56.0 + 8.0,// + 16.0,
+        width: 56.0 + 8.0, // + 16.0,
+        height: 56.0 + 8.0, // + 16.0,
         point: new LatLng(offer.latitude, offer.longitude),
         builder: (BuildContext context) {
           return _buildOfferMarker(context, offer);
@@ -366,7 +366,7 @@ class _OffersMapState extends State<OffersMap> {
                         ),
                         /*
                         // TEMPORARiLY HIDDEN
-                        new ClipOval(
+                        widget.onFilterPressed != null ? new ClipOval(
                           child: new Material(
                             type: MaterialType.circle,
                             color: widget.filterState == true
@@ -384,7 +384,7 @@ class _OffersMapState extends State<OffersMap> {
                               tooltip: widget.filterTooltip,
                             ),
                           ),
-                        ),
+                        ) : null,
                         */
                         new ClipOval(
                           child: new Material(
@@ -403,7 +403,7 @@ class _OffersMapState extends State<OffersMap> {
                             ),
                           ),
                         ),
-                      ],
+                      ].where((w) => w != null).toList(),
                     ),
                   ),
                   new Column(
