@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/profile/profile_avatar.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../network/config_manager.dart';
 import '../widgets/follower_tray.dart';
@@ -22,48 +24,93 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     assert(ConfigManager.of(context) != null);
+    bool portrait = (MediaQuery.of(context).size.height >
+        MediaQuery.of(context).size.width);
+    List<Widget> accountAvatar = <Widget>[
+      new Center(
+        child: new Padding(
+          padding: portrait
+              ? const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 24.0)
+              : const EdgeInsets.fromLTRB(
+                  24.0, 8.0, 24.0, kToolbarHeight + 8.0),
+          child: new ProfileAvatar(size: 160.0, account: account),
+        ),
+      ),
+    ];
+    List<Widget> accountInfo = <Widget>[
+      new Text(
+        account.summary.name,
+        style: Theme.of(context).textTheme.headline,
+        textAlign: TextAlign.center,
+      ),
+      new Text(
+        account.summary.location,
+        style: Theme.of(context).textTheme.caption,
+        textAlign: TextAlign.center,
+      ),
+      new FollowerTray(
+        oAuthProviders: ConfigManager.of(context).oauthProviders.all,
+        socialMedia: account.detail.socialMedia,
+      ),
+      account.detail.url.isEmpty
+          ? null
+          : new RichText(
+              text: new TextSpan(
+                children: [
+                  new TextSpan(
+                    text: account.detail.url,
+                    // style: new TextStyle(color: Colors.blue),
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: Theme.of(context).accentColor),
+                    recognizer: new TapGestureRecognizer()
+                      ..onTap = () {
+                        launch(account.detail.url);
+                      },
+                  ),
+                ],
+              ),
+            ),
+      account.detail.url.isEmpty ? null : new SizedBox(height: 20.0),
+      new Text(
+        account.summary.description,
+        style: Theme.of(context).textTheme.body1,
+        textAlign: TextAlign.center,
+      ),
+    ].where((w) => w != null).toList();
+
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text((onEditPressed != null)
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+
+        /*title: new Text((onEditPressed != null)
             ? "Your profile"
             : account.summary.name.isNotEmpty
                 ? (account.summary.name + "'s profile")
-                : "Profile"),
+                : "Profile"),*/
         actions: (onEditPressed != null)
             ? <Widget>[
                 new EditButton(onEditPressed: onEditPressed),
               ]
             : null,
       ),
-      body: new Column(
-        children: <Widget>[
-          new Center(
-            child: new Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: new ProfileAvatar(size: 156.0, account: account),
+      body: (MediaQuery.of(context).size.height >
+              MediaQuery.of(context).size.width)
+          ? new Column(
+              children: accountAvatar + accountInfo,
+            )
+          : new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: accountAvatar +
+                  <Widget>[
+                    new Column(
+                      children: accountInfo,
+                    ),
+                    new SizedBox(width: 24.0),
+                  ],
             ),
-          ),
-          new Text(
-            account.summary.name,
-            style: Theme.of(context).textTheme.headline,
-            textAlign: TextAlign.center,
-          ),
-          new Text(
-            account.summary.location,
-            style: Theme.of(context).textTheme.caption,
-            textAlign: TextAlign.center,
-          ),
-          new FollowerTray(
-            oAuthProviders: ConfigManager.of(context).oauthProviders.all,
-            socialMedia: account.detail.socialMedia,
-          ),
-          new Text(
-            account.summary.description,
-            style: Theme.of(context).textTheme.body1,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
     );
   }
 }
