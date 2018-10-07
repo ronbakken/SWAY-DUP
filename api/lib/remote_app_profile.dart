@@ -219,13 +219,16 @@ class RemoteAppProfile {
             "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
             "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point`, " // 6 7 8
             "`offers`.`state`, `offers`.`state_reason`, " // 9 10
-            "`addressbook`.`offer_count`, `addressbook`.`name` " // 11 12
+            "`addressbook`.`offer_count`, `addressbook`.`name`, " // 11 12
+            "`applicants`.`applicant_id` " // 13
             "FROM `offers` "
             "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
+            "LEFT OUTER JOIN `applicants` "
+            "ON `applicants`.`offer_id` = `offers`.`offer_id` AND `applicants`.`influencer_account_id` = ? " // TODO: Cache will also cache a list of all applicants per offer...
             "WHERE `offers`.`offer_id` = ? "
             "ORDER BY `offer_id` DESC";
         sqljocky.Results offerResults =
-            await sql.prepareExecute(selectOffers, [offerId]);
+            await sql.prepareExecute(selectOffers, [accountId, offerId]);
         await for (sqljocky.Row offerRow in offerResults) {
           ts.sendExtend(message);
           offer = new DataBusinessOffer();
@@ -273,6 +276,9 @@ class RemoteAppProfile {
             offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
             offer.blurredCoverUrls
                 .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
+          }
+          if (offerRow[13] != null) {
+            offer.influencerApplicantId = offerRow[13].toInt();
           }
         }
         ts.sendExtend(message);
