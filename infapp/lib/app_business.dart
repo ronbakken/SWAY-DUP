@@ -178,6 +178,10 @@ class _AppBusinessState extends State<AppBusiness> {
         return route.settings.name
             .startsWith('/offer/' + offerViewOpen.toString());
       });
+      if (offerViewOpen == offer.offerId) {
+        network.backgroundReloadBusinessOffer(offer.offerId);
+        return;
+      }
       Navigator.pop(context);
     }
     network.backgroundReloadBusinessOffer(offer.offerId);
@@ -221,6 +225,9 @@ class _AppBusinessState extends State<AppBusiness> {
         return route.settings.name
             .startsWith('/applicant/' + applicantViewOpen.toString());
       });
+      if (applicantViewOpen == applicant.applicantId) {
+        return;
+      }
       Navigator.pop(context);
     }
     int count = ++applicantViewCount;
