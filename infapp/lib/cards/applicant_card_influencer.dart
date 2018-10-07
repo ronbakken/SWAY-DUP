@@ -160,15 +160,17 @@ class ApplicantCardInfluencer extends StatelessWidget {
                             style: theme.textTheme.subhead,
                           ),
                           new SizedBox(height: 4.0),
+                          // TODO: Support for fetching last chat message!
+                          /*
                           new Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              /*new Icon(
+                              / *new Icon(
                                 Icons.photo_camera,
                                 size: 16.0,
                               ),
-                              new SizedBox(width: 4.0),*/
+                              new SizedBox(width: 4.0),* /
                               new Flexible(
                                 fit: FlexFit.loose,
                                 child: new Text("Hi! This is a proposal!",
@@ -185,14 +187,16 @@ class ApplicantCardInfluencer extends StatelessWidget {
                                   child: new Padding(
                                     padding: new EdgeInsets.symmetric(
                                         horizontal: 6.0),
-                                    child: new Text("new proposal", style: theme.textTheme.body1.copyWith(
-                                        color: theme.textTheme.body1.color
-                                            .withAlpha(192))),
+                                    child: new Text("new proposal",
+                                        style: theme.textTheme.body1.copyWith(
+                                            color: theme.textTheme.body1.color
+                                                .withAlpha(192))),
                                   )),
                               new SizedBox(width: 4.0),
                               new Text("1d", style: theme.textTheme.caption),
                             ],
                           ),
+                          */
                           new SizedBox(height: 8.0),
                         ],
                       ),
@@ -208,9 +212,20 @@ class ApplicantCardInfluencer extends StatelessWidget {
     );
     return inner
         ? tile
-        : new Card(
+        : /*new Card(
             child: new ClipRRect(
               borderRadius: const BorderRadius.all(const Radius.circular(4.0)),
+              child: new InkWell(
+                child: tile,
+                onTap: onPressed,
+              ),
+            ),
+          )*/
+        new Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Material(
+              type: MaterialType.card,
+              elevation: 2.0,
               child: new InkWell(
                 child: tile,
                 onTap: onPressed,
