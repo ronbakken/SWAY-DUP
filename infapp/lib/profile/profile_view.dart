@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:inf/profile/profile_avatar.dart';
+import 'package:inf/widgets/blurred_network_image.dart';
 
 import '../network/config_manager.dart';
-import 'profile_picture.dart';
 import '../widgets/follower_tray.dart';
 import '../widgets/edit_button.dart';
 import '../protobuf/inf_protobuf.dart';
@@ -37,31 +38,29 @@ class ProfileView extends StatelessWidget {
       body: new Column(
         children: <Widget>[
           new Center(
-              child: new ProfilePicture(
-                  imageUrl: account.detail.avatarCoverUrl.isNotEmpty
-                      ? account.detail.avatarCoverUrl
-                      : account.summary.avatarThumbnailUrl)),
-          new Center(
-            child: new Text(
-              account.summary.name,
-              style: Theme.of(context).textTheme.headline,
+            child: new Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: new ProfileAvatar(size: 156.0, account: account),
             ),
           ),
-          new Center(
-            child: new Text(
-              account.summary.location,
-              style: Theme.of(context).textTheme.body2,
-            ),
+          new Text(
+            account.summary.name,
+            style: Theme.of(context).textTheme.headline,
+            textAlign: TextAlign.center,
+          ),
+          new Text(
+            account.summary.location,
+            style: Theme.of(context).textTheme.caption,
+            textAlign: TextAlign.center,
           ),
           new FollowerTray(
             oAuthProviders: ConfigManager.of(context).oauthProviders.all,
             socialMedia: account.detail.socialMedia,
           ),
-          new Center(
-            child: new Text(
-              account.summary.description,
-              style: Theme.of(context).textTheme.body1,
-            ),
+          new Text(
+            account.summary.description,
+            style: Theme.of(context).textTheme.body1,
+            textAlign: TextAlign.center,
           ),
         ],
       ),

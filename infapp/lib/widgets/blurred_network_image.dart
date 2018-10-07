@@ -142,6 +142,7 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
 
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
     if (_phase == _BlurredNetworkImagePhase.start) {
       if (widget.placeholderAsset != null) {
         _placeholderImageProvider = new AssetImage(widget.placeholderAsset);

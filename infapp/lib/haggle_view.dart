@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
+import 'package:inf/profile/profile_avatar.dart';
 
 import 'utility/progress_dialog.dart';
 import 'protobuf/inf_protobuf.dart';
@@ -742,26 +743,28 @@ class _HaggleViewState extends State<HaggleView> {
     }
     return new Scaffold(
       appBar: new AppBar(
-        title: new Row(children: [
-          new CircleAvatar(
-            backgroundImage: otherAccount.summary.avatarThumbnailUrl.isNotEmpty
-                ? new NetworkImage(otherAccount.summary.avatarThumbnailUrl)
-                : null,
-            backgroundColor: Colors
-                .primaries[otherAccount.summary.name.hashCode %
-                    Colors.primaries.length]
-                .shade300,
+        title: new InkWell(
+          child: new Row(
+            children: [
+              new ProfileAvatar(size: 40.0, account: otherAccount),
+              new SizedBox(width: 8.0),
+              new Flexible(
+                  fit: FlexFit.loose,
+                  child: new Text(otherAccount.summary.name,
+                      overflow: TextOverflow.ellipsis)),
+            ],
           ),
-          new SizedBox(width: 8.0),
-          new Text(otherAccount.summary.name, overflow: TextOverflow.clip),
-        ]),
+          onTap: () {
+            widget.onPressedProfile(otherAccount);
+          },
+        ),
         actions: <Widget>[
-          new IconButton(
+          /*new IconButton(
             icon: new Icon(Icons.account_circle),
             onPressed: () {
               widget.onPressedProfile(otherAccount);
             },
-          ),
+          ),*/
           new PopupMenuButton(itemBuilder: (BuildContext context) {
             return <PopupMenuEntry>[
               new PopupMenuItem(

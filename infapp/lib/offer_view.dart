@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:inf/profile/profile_avatar.dart';
+import 'package:inf/widgets/blurred_network_image.dart';
 
 import 'protobuf/inf_protobuf.dart';
 import 'widgets/carousel_app_bar.dart';
@@ -175,17 +177,7 @@ class _OfferViewState extends State<OfferView> {
                 child: new ListTile(
                   //isThreeLine: true, //-------------------
                   //enabled: true,
-                  leading: new CircleAvatar(
-                      backgroundImage: widget.businessAccount.summary
-                              .avatarThumbnailUrl.isNotEmpty
-                          ? new NetworkImage(
-                              widget.businessAccount.summary.avatarThumbnailUrl)
-                          : null,
-                      backgroundColor: Colors
-                          .primaries[
-                              widget.businessAccount.summary.name.hashCode %
-                                  Colors.primaries.length]
-                          .shade300),
+                  leading: new ProfileAvatar(size: 40.0, account: widget.businessAccount),
                   title: new Text(
                       widget.businessOffer.locationName.isNotEmpty
                           ? widget.businessOffer.locationName
