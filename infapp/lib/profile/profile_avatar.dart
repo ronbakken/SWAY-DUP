@@ -7,10 +7,12 @@ class ProfileAvatar extends StatelessWidget {
     Key key,
     this.size,
     this.account,
+    this.tag = '',
   }) : super(key: key);
 
   final double size;
   final DataAccount account;
+  final String tag;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class ProfileAvatar extends StatelessWidget {
       width: size,
       height: size,
       child: new Hero(
-        tag: account.summary.avatarThumbnailUrl,
+        tag: account.summary.avatarThumbnailUrl + tag,
         child: new Material(
           type: MaterialType.circle,
           elevation: 0.0,

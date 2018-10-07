@@ -35,9 +35,9 @@ class _OffersShowcaseState extends State<OffersShowcase> {
     int offerId = widget.offerIds[offerIdx];
     print("[INF] Showcase $offerId");
     DataBusinessOffer offer = widget.getOffer(context, offerId);
-    DataAccount account = offer.accountId != 0
+    /*DataAccount account = offer.accountId != 0
         ? widget.getAccount(context, offer.accountId)
-        : new DataAccount();
+        : new DataAccount();*/
     Widget image = new BlurredNetworkImage(
         url: offer.thumbnailUrl, blurredUrl: offer.blurredThumbnailUrl);
     Widget text = new Text(
@@ -47,7 +47,7 @@ class _OffersShowcaseState extends State<OffersShowcase> {
       style: theme.textTheme.subhead,
     );
     Widget sender = new Text(
-      account.summary?.name.toString(),
+      offer.locationName, // account.summary?.name.toString(),
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
       style: theme.textTheme.caption,
