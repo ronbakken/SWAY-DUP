@@ -154,6 +154,9 @@ class _OfferViewState extends State<OfferView> {
 
   @override
   Widget build(BuildContext context) {
+    bool withApplicant =
+        (widget.account.state.accountType == AccountType.AT_INFLUENCER) &&
+            (widget.businessOffer.influencerApplicantId != 0);
     return new Scaffold(
       body: new CustomScrollView(
         slivers: <Widget>[
@@ -177,7 +180,8 @@ class _OfferViewState extends State<OfferView> {
                 child: new ListTile(
                   //isThreeLine: true, //-------------------
                   //enabled: true,
-                  leading: new ProfileAvatar(size: 40.0, account: widget.businessAccount),
+                  leading: new ProfileAvatar(
+                      size: 40.0, account: widget.businessAccount),
                   title: new Text(
                       widget.businessOffer.locationName.isNotEmpty
                           ? widget.businessOffer.locationName
@@ -308,7 +312,8 @@ class _OfferViewState extends State<OfferView> {
                   ],
                 ),
               ),
-              new ListTile(
+              // Applicant, so hide the original deliverables, etc, as it's specified in haggle chat
+              withApplicant ? null : new ListTile(
                 leading: new Icon(Icons.work),
                 title: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,7 +328,8 @@ class _OfferViewState extends State<OfferView> {
                   ],
                 ),
               ),
-              new ListTile(
+              // Applicant, so hide the original rewards, etc, etc, as it's specified in haggle chat
+              withApplicant ? null : new ListTile(
                 leading: new Icon(Icons.redeem),
                 title: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
