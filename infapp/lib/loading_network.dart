@@ -29,16 +29,25 @@ class LoadingNetwork extends StatelessWidget {
     }
     return new Scaffold(
       // Loading network
-      body: new Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new CircularProgressIndicator(),
-            ],
-          ),
-        ],
+      body: new SafeArea(
+        child: new Stack(
+          fit: StackFit.expand,
+          children: [
+            new IgnorePointer(
+              child: new Align(
+                alignment: Alignment.topCenter,
+                child: new SizedBox(
+                  height: kToolbarHeight * 1.5,
+                  child: Image(
+                      image: new AssetImage("assets/logo_appbar_ext_gray.png")),
+                ),
+              ),
+            ),
+            new Center(
+              child: new CircularProgressIndicator(),
+            ),
+          ],
+        ),
       ),
     );
   }
