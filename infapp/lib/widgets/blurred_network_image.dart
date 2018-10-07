@@ -141,21 +141,31 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
   }
 
   @override
+  void dispose() {
+    _blurredImageResolver.stopListening();
+    _imageResolver.stopListening();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_phase == _BlurredNetworkImagePhase.start) {
-      if (widget.placeholderAsset != null) {
+      if (widget.placeholderAsset != null &&
+          widget.placeholderAsset.isNotEmpty) {
         _placeholderImageProvider = new AssetImage(widget.placeholderAsset);
       }
       if (widget.blurredData != null) {
         _blurredImageProvider = new MemoryImage(widget.blurredData);
-      } else if (widget.blurredUrl != null) {
-        _blurredImageProvider = new CachedNetworkImageProvider(widget.blurredUrl);
+      } else if (widget.blurredUrl != null && widget.blurredUrl.isNotEmpty) {
+        _blurredImageProvider =
+            new CachedNetworkImageProvider(widget.blurredUrl);
       }
       if (_blurredImageProvider == null) {
         _blurredImageProvider = _placeholderImageProvider;
       }
-      if (widget.url != null) {
+      if (widget.url != null && widget.url.isNotEmpty) {
         _imageProvider = new CachedNetworkImageProvider(widget.url);
       }
       _resolveImage();
@@ -167,7 +177,8 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
     super.didUpdateWidget(oldWidget);
     if (_phase != _BlurredNetworkImagePhase.completed) {
       if (widget.placeholderAsset != oldWidget.placeholderAsset) {
-        if (widget.placeholderAsset != null) {
+        if (widget.placeholderAsset != null &&
+            widget.placeholderAsset.isNotEmpty) {
           _placeholderImageProvider = new AssetImage(widget.placeholderAsset);
         } else {
           _placeholderImageProvider = null;
@@ -181,12 +192,15 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
               .equals(widget.blurredData, oldWidget.blurredData)) {
         if (widget.blurredData != null) {
           _blurredImageProvider = new MemoryImage(widget.blurredData);
-        } else if (widget.blurredUrl != null) {
+        } else if (widget.blurredUrl != null && widget.blurredUrl.isNotEmpty) {
           _blurredImageProvider =
               new CachedNetworkImageProvider(widget.blurredUrl);
         } else {
           _blurredImageProvider = null;
         }
+        _blurredImageResolver.stopListening();
+        _blurredImageResolver = new _ImageProviderResolver(
+            state: this, listener: _blurredImageResolved);
         if (_phase != _BlurredNetworkImagePhase.completed) {
           _phase = _BlurredNetworkImagePhase.start;
         }
@@ -196,7 +210,7 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
       }
     }
     if (widget.url != oldWidget.url) {
-      if (widget.url != null) {
+      if (widget.url != null && widget.url.isNotEmpty) {
         if (_phase == _BlurredNetworkImagePhase.completed) {
           _blurredImageProvider = _imageProvider;
         }
@@ -204,6 +218,9 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
       } else {
         _imageProvider = null;
       }
+      _imageResolver.stopListening();
+      _imageResolver =
+          new _ImageProviderResolver(state: this, listener: _imageResolved);
       _phase = _BlurredNetworkImagePhase.start;
     }
     _resolveImage();
@@ -216,15 +233,17 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
   }
 
   void _resolveImage() {
-    if (_phase != _BlurredNetworkImagePhase.completed) {
+    if (_phase != _BlurredNetworkImagePhase.completed &&
+        _blurredImageProvider != null) {
       _blurredImageResolver.resolve(_blurredImageProvider);
     }
     _resolveFinalImage();
   }
 
   void _resolveFinalImage() {
-    if (_blurredImageResolver._imageInfo != null ||
-        _phase == _BlurredNetworkImagePhase.completed) {
+    if ((_blurredImageResolver._imageInfo != null ||
+            _phase == _BlurredNetworkImagePhase.completed) &&
+        _imageProvider != null) {
       _imageResolver.resolve(_imageProvider);
     }
     if (_phase == _BlurredNetworkImagePhase.start ||
@@ -296,8 +315,12 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
   }
 
   Widget _buildBlurred(BuildContext context) {
-    if (_blurredImageProvider != null) {
-      return new Image(image: _blurredImageProvider, fit: widget.fit);
+    if (_blurredImageResolver._imageInfo != null) {
+      return new RawImage(
+        image: _blurredImageResolver._imageInfo.image,
+        scale: _blurredImageResolver._imageInfo.scale,
+        fit: widget.fit,
+      );
     } else {
       return new Center(
         child: new CircularProgressIndicator(),
