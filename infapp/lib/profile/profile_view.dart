@@ -24,6 +24,7 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     assert(ConfigManager.of(context) != null);
+    ThemeData theme = Theme.of(context);
     bool portrait = (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width);
     List<Widget> accountAvatar = <Widget>[
@@ -40,12 +41,12 @@ class ProfileView extends StatelessWidget {
     List<Widget> accountInfo = <Widget>[
       new Text(
         account.summary.name,
-        style: Theme.of(context).textTheme.headline,
+        style: theme.textTheme.headline,
         textAlign: TextAlign.center,
       ),
       new Text(
         account.summary.location,
-        style: Theme.of(context).textTheme.caption,
+        style: theme.textTheme.caption,
         textAlign: TextAlign.center,
       ),
       new FollowerTray(
@@ -60,10 +61,10 @@ class ProfileView extends StatelessWidget {
                   new TextSpan(
                     text: account.detail.url,
                     // style: new TextStyle(color: Colors.blue),
-                    style: Theme.of(context)
+                    style: theme
                         .textTheme
                         .button
-                        .copyWith(color: Theme.of(context).accentColor),
+                        .copyWith(color: theme.accentColor),
                     recognizer: new TapGestureRecognizer()
                       ..onTap = () {
                         launch(account.detail.url);
@@ -75,12 +76,13 @@ class ProfileView extends StatelessWidget {
       account.detail.url.isEmpty ? null : new SizedBox(height: 20.0),
       new Text(
         account.summary.description,
-        style: Theme.of(context).textTheme.body1,
+        style: theme.textTheme.body1,
         textAlign: TextAlign.center,
       ),
     ].where((w) => w != null).toList();
 
     return new Scaffold(
+      // backgroundColor: theme.primaryColorDark,
       appBar: new AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
