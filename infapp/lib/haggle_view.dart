@@ -740,8 +740,7 @@ class _HaggleViewState extends State<HaggleView> {
     }
     return new Scaffold(
       appBar: new AppBar(
-        // automaticallyImplyLeading: false,
-        titleSpacing: 0.0,
+        // titleSpacing: 0.0,
         title: new InkWell(
           child: new Row(
             children: [
@@ -808,8 +807,8 @@ class _HaggleViewState extends State<HaggleView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         new SizedBox(
-                          width: 88.0, // 72.0,
-                          height: 88.0,
+                          width: 56.0, // 72.0,
+                          height: 56.0,
                           child: new Material(
                             type: MaterialType.card,
                             elevation: 1.0,
@@ -829,7 +828,7 @@ class _HaggleViewState extends State<HaggleView> {
                         new Flexible(
                           fit: FlexFit.tight,
                           child: new SizedBox(
-                            height: 88.0,
+                            // height: 88.0,
                             child: new Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -838,7 +837,7 @@ class _HaggleViewState extends State<HaggleView> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    new SizedBox(height: kInfPaddingText),
+                                    // new SizedBox(height: kInfPaddingText),
                                     new Text(
                                       widget.offer.title,
                                       overflow: TextOverflow.ellipsis,
@@ -848,13 +847,14 @@ class _HaggleViewState extends State<HaggleView> {
                                     new Text(
                                       widget.offer.description,
                                       overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
                                       style: theme.textTheme.body1.copyWith(
                                           color: theme.textTheme.caption.color),
                                     ),
                                   ],
                                 ),
                                 // new SizedBox(height: kInfPaddingText),
-                                new Padding(
+                                /*new Padding(
                                   padding: const EdgeInsets.all(kInfPaddingText),
                                   child: new Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -874,7 +874,7 @@ class _HaggleViewState extends State<HaggleView> {
                                           ]
                                         : <Widget>[],
                                   ),
-                                ),
+                                ),*/
                               ],
                             ),
                           ),
@@ -883,7 +883,7 @@ class _HaggleViewState extends State<HaggleView> {
                       ],
                     ),
                   ),
-                  /*
+                  
                   // TODO: In case of action, status text here instead of other one
                 statusText != null
                     ? new Padding(
@@ -894,8 +894,8 @@ class _HaggleViewState extends State<HaggleView> {
                           textAlign: TextAlign.center,
                         ),
                       )
-                    : null,*/
-                ], // .where((w) => w != null).toList(),
+                    : null,
+                ] .where((w) => w != null).toList(),
               ),
             ),
           ),
