@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/profile/profile_avatar.dart';
+import 'package:inf/styling_constants.dart';
+import 'package:inf/widgets/blurred_network_image.dart';
 
 import 'utility/progress_dialog.dart';
 import 'protobuf/inf_protobuf.dart';
@@ -425,6 +427,7 @@ class _HaggleViewState extends State<HaggleView> {
 
   Widget _buildChatMessage(DataApplicantChat current,
       DataApplicantChat previous, DataApplicantChat next) {
+    ThemeData theme = Theme.of(context);
     bool ghost = current.chatId == 0;
     if (current.type == ApplicantChatType.ACT_MARKER) {
       Map<String, String> query = Uri.splitQueryString(current.text);
@@ -512,7 +515,7 @@ class _HaggleViewState extends State<HaggleView> {
                       placeholder: 'assets/placeholder_photo_select.png',
                       image: query['url']))
               : new Material(
-                  color: Theme.of(context).cardColor,
+                  color: theme.cardColor,
                   shape: shape,
                   child: new Padding(
                     padding: new EdgeInsets.all(8.0),
@@ -522,9 +525,8 @@ class _HaggleViewState extends State<HaggleView> {
         ),
       );
     } else {
-      TextStyle messageTextStyle =
-          Theme.of(context).textTheme.subhead; // Odd theme
-      if (current.chatId == 0) {
+      TextStyle messageTextStyle = theme.textTheme.subhead; // Odd theme
+      if (ghost) {
         messageTextStyle = messageTextStyle.copyWith(
             color: messageTextStyle.color.withAlpha(128));
       }
@@ -533,14 +535,13 @@ class _HaggleViewState extends State<HaggleView> {
         Widget info = new Column(
           crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
           children: <Widget>[
-            new Text("Deliverables",
-                style: Theme.of(context).textTheme.caption),
+            new Text("Deliverables", style: theme.textTheme.caption),
             new Text(query['deliverables'].toString(), style: messageTextStyle),
             new SizedBox(height: 12.0),
-            new Text("Reward", style: Theme.of(context).textTheme.caption),
+            new Text("Reward", style: theme.textTheme.caption),
             new Text(query['reward'].toString(), style: messageTextStyle),
             new SizedBox(height: 12.0),
-            new Text("Remarks", style: Theme.of(context).textTheme.caption),
+            new Text("Remarks", style: theme.textTheme.caption),
             new Text(query['remarks'].toString(), style: messageTextStyle),
           ],
         );
@@ -577,11 +578,9 @@ class _HaggleViewState extends State<HaggleView> {
                     new RaisedButton(
                       shape: new RoundedRectangleBorder(
                           borderRadius:
-                              new BorderRadius.all(new Radius.circular(4.0))),
+                              new BorderRadius.all(new Radius.circular(8.0))),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      color: !mine
-                          ? Theme.of(context).buttonColor
-                          : Theme.of(context).cardColor,
+                      color: !mine ? theme.buttonColor : theme.cardColor,
                       child: new Text("Haggle".toUpperCase()),
                       onPressed: () {
                         _haggle(current);
@@ -593,18 +592,16 @@ class _HaggleViewState extends State<HaggleView> {
                         : new RaisedButton(
                             shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.all(
-                                    new Radius.circular(4.0))),
+                                    new Radius.circular(8.0))),
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
-                            color: !mine
-                                ? Theme.of(context).buttonColor
-                                : Theme.of(context).cardColor,
+                            color: !mine ? theme.buttonColor : theme.cardColor,
                             child: new Text(
                               "Make a deal".toUpperCase(),
-                              /*style: Theme.of(context)
+                              /*style: theme
                         .textTheme
                         .button
-                        .copyWith(color: Theme.of(context).accentColor),*/
+                        .copyWith(color: theme.accentColor),*/
                             ),
                             onPressed: () {
                               _wantDeal(current);
@@ -639,7 +636,7 @@ class _HaggleViewState extends State<HaggleView> {
                 padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
                 child: new Text(
                   "Another offer has been made.",
-                  style: Theme.of(context).textTheme.caption,
+                  style: theme.textTheme.caption,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -651,8 +648,7 @@ class _HaggleViewState extends State<HaggleView> {
         content = new Text(current.text, style: messageTextStyle);
       }
       card = new Card(
-        color:
-            mine ? Theme.of(context).primaryColor : Theme.of(context).cardColor,
+        color: mine ? theme.primaryColor : theme.cardColor,
         shape: shape,
         child: new Container(
           padding: EdgeInsets.all(12.0),
@@ -699,6 +695,7 @@ class _HaggleViewState extends State<HaggleView> {
             ? widget.influencerAccount
             : widget.businessAccount;
     String statusText;
+    ThemeData theme = Theme.of(context);
     switch (widget.applicant.state) {
       case ApplicantState.AS_HAGGLING:
         if (widget.applicant.influencerWantsDeal !=
@@ -743,6 +740,8 @@ class _HaggleViewState extends State<HaggleView> {
     }
     return new Scaffold(
       appBar: new AppBar(
+        // automaticallyImplyLeading: false,
+        titleSpacing: 0.0,
         title: new InkWell(
           child: new Row(
             children: [
@@ -782,28 +781,122 @@ class _HaggleViewState extends State<HaggleView> {
       body: new Column(
         children: <Widget>[
           new Material(
-            color: Theme.of(context).cardColor,
+            color: theme.cardColor,
             elevation: 8.0,
-            child: new Column(
-              children: <Widget>[
-                new OfferCard(
+            child: new InkWell(
+              onTap: () {
+                widget.onPressedOffer(widget.offer);
+              },
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  /*new OfferCard(
                   businessOffer: widget.offer,
                   inner: true,
                   onPressed: () {
                     widget.onPressedOffer(widget.offer);
                   },
-                ),
+                ),*/
+                  /*new Flexible(
+                  fit: FlexFit.tight,
+                  child: new Column(),
+                ),*/
+                  new Padding(
+                    padding: const EdgeInsets.all(kInfPadding),
+                    child: new Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        new SizedBox(
+                          width: 88.0, // 72.0,
+                          height: 88.0,
+                          child: new Material(
+                            type: MaterialType.card,
+                            elevation: 1.0,
+                            borderRadius: kInfImageThumbnailBorder,
+                            child: new ClipRRect(
+                              borderRadius: kInfImageThumbnailBorder,
+                              child: new BlurredNetworkImage(
+                                url: widget.offer.thumbnailUrl,
+                                blurredUrl: widget.offer.blurredThumbnailUrl,
+                                placeholderAsset:
+                                    'assets/placeholder_photo.png',
+                              ),
+                            ),
+                          ),
+                        ),
+                        new SizedBox(width: kInfPadding),
+                        new Flexible(
+                          fit: FlexFit.tight,
+                          child: new SizedBox(
+                            height: 88.0,
+                            child: new Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    new SizedBox(height: kInfPaddingText),
+                                    new Text(
+                                      widget.offer.title,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: theme.textTheme.subhead,
+                                    ),
+                                    new SizedBox(height: kInfPaddingText),
+                                    new Text(
+                                      widget.offer.description,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: theme.textTheme.body1.copyWith(
+                                          color: theme.textTheme.caption.color),
+                                    ),
+                                  ],
+                                ),
+                                // new SizedBox(height: kInfPaddingText),
+                                new Padding(
+                                  padding: const EdgeInsets.all(kInfPaddingText),
+                                  child: new Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: statusText != null
+                                        ? <Widget>[
+                                            new SizedBox(
+                                                height: kInfPaddingText),
+                                            new Text(
+                                              statusText,
+                                              style: theme.textTheme.caption,
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            new SizedBox(
+                                                height: kInfPaddingText),
+                                          ]
+                                        : <Widget>[],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        new SizedBox(width: kInfPadding),
+                      ],
+                    ),
+                  ),
+                  /*
+                  // TODO: In case of action, status text here instead of other one
                 statusText != null
                     ? new Padding(
                         padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
                         child: new Text(
                           statusText,
-                          style: Theme.of(context).textTheme.caption,
+                          style: theme.textTheme.caption,
                           textAlign: TextAlign.center,
                         ),
                       )
-                    : null,
-              ].where((w) => w != null).toList(),
+                    : null,*/
+                ], // .where((w) => w != null).toList(),
+              ),
             ),
           ),
           new Flexible(
@@ -814,7 +907,7 @@ class _HaggleViewState extends State<HaggleView> {
             ),
           ),
           new Material(
-            color: Theme.of(context).cardColor,
+            color: theme.cardColor,
             elevation: 8.0,
             child: new Row(
               children: <Widget>[
@@ -849,14 +942,12 @@ class _HaggleViewState extends State<HaggleView> {
                 // TODO: Animate between these two, like Telegram
                 _lineController.text.isEmpty
                     ? new Builder(builder: (context) {
+                        ThemeData theme = Theme.of(context);
                         return new IconButton(
                           icon: new Icon(
                             _uploadAttachment ? Icons.close : Icons.attach_file,
-                            // color: Theme.of(context).primaryColor,
-                            color: Theme.of(context)
-                                .primaryTextTheme
-                                .caption
-                                .color,
+                            // color: theme.primaryColor,
+                            color: theme.primaryTextTheme.caption.color,
                           ),
                           onPressed: () {
                             FocusScope.of(context)
@@ -886,8 +977,8 @@ class _HaggleViewState extends State<HaggleView> {
                     : new IconButton(
                         icon: new Icon(
                           Icons.send,
-                          // color: Theme.of(context).primaryColor,
-                          color: Theme.of(context).accentColor,
+                          // color: theme.primaryColor,
+                          color: theme.accentColor,
                         ),
                         onPressed: () {
                           FocusScope.of(context).requestFocus(new FocusNode());
