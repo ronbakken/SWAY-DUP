@@ -7,6 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:flutter/material.dart';
 import 'package:inf/profile/profile_avatar.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/styling_constants.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
 
 class ApplicantCardInfluencer extends StatelessWidget {
@@ -78,10 +79,21 @@ class ApplicantCardInfluencer extends StatelessWidget {
           new SizedBox(
             width: 112.0, // 72.0,
             height: 112.0,
-            child: new BlurredNetworkImage(
-              url: businessOffer.thumbnailUrl,
-              blurredUrl: businessOffer.blurredThumbnailUrl,
-              placeholderAsset: 'assets/placeholder_photo.png',
+            child: new Padding(
+              padding: const EdgeInsets.all(kInfPadding),
+              child: new Material(
+                type: MaterialType.card,
+                elevation: 1.0,
+                borderRadius: kInfImageThumbnailBorder,
+                child: new ClipRRect(
+                  borderRadius: kInfImageThumbnailBorder,
+                  child: new BlurredNetworkImage(
+                    url: businessOffer.thumbnailUrl,
+                    blurredUrl: businessOffer.blurredThumbnailUrl,
+                    placeholderAsset: 'assets/placeholder_photo.png',
+                  ),
+                ),
+              ),
             ),
           ),
           new Flexible(
@@ -92,22 +104,26 @@ class ApplicantCardInfluencer extends StatelessWidget {
               children: <Widget>[
                 new Material(
                   color: theme.backgroundColor,
+                  type: MaterialType.canvas,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft:
+                          const Radius.circular(kInfAvatarSmallPaddedRadius)),
                   elevation: 1.0,
                   child: new Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      new SizedBox(height: 8.0),
+                      new SizedBox(height: kInfPadding),
                       new Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          new SizedBox(width: 8.0),
+                          new SizedBox(width: kInfPadding),
                           new ProfileAvatar(
                               size: 40.0,
                               account: businessAccount,
                               tag: '${businessOffer.offerId}'),
-                          new SizedBox(width: 8.0),
+                          new SizedBox(width: kInfPadding),
                           new Flexible(
                             fit: FlexFit.loose,
                             child: new Column(
@@ -115,7 +131,7 @@ class ApplicantCardInfluencer extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 // new Text(businessAccount.summary.name),
-                                new SizedBox(height: 4.0),
+                                new SizedBox(height: kInfPaddingText),
                                 /*new Text(businessOffer.locationName,
                             overflow: TextOverflow.ellipsis),
                       new Text(businessOffer.location,
@@ -125,7 +141,7 @@ class ApplicantCardInfluencer extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: theme.textTheme.body1,
                                 ),
-                                new SizedBox(height: 4.0),
+                                new SizedBox(height: kInfPaddingText),
                                 new Text(
                                   businessOffer.location,
                                   overflow: TextOverflow.ellipsis,
@@ -134,10 +150,10 @@ class ApplicantCardInfluencer extends StatelessWidget {
                               ],
                             ),
                           ),
-                          new SizedBox(width: 8.0),
+                          new SizedBox(width: kInfPadding),
                         ],
                       ),
-                      new SizedBox(height: 8.0),
+                      new SizedBox(height: kInfPadding),
                     ],
                   ),
                 ),
@@ -145,7 +161,7 @@ class ApplicantCardInfluencer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    new SizedBox(width: 8.0),
+                    new SizedBox(width: kInfPadding),
                     new Flexible(
                       fit: FlexFit.loose,
                       child: new Column(
@@ -153,13 +169,13 @@ class ApplicantCardInfluencer extends StatelessWidget {
                             .start, // Must have .spaceBetween same as .start
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          new SizedBox(height: 8.0),
+                          new SizedBox(height: kInfPadding),
                           new Text(
                             businessOffer.title,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.subhead,
                           ),
-                          new SizedBox(height: 4.0),
+                          new SizedBox(height: kInfPaddingText),
                           // TODO: Support for fetching last chat message!
                           /*
                           new Row(
@@ -197,11 +213,11 @@ class ApplicantCardInfluencer extends StatelessWidget {
                             ],
                           ),
                           */
-                          new SizedBox(height: 8.0),
+                          new SizedBox(height: kInfPadding),
                         ],
                       ),
                     ),
-                    new SizedBox(width: 8.0),
+                    new SizedBox(width: kInfPadding),
                   ],
                 ),
               ],
@@ -222,10 +238,10 @@ class ApplicantCardInfluencer extends StatelessWidget {
             ),
           )*/
         new Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            padding: const EdgeInsets.symmetric(vertical: kInfPaddingHalf),
             child: Material(
               type: MaterialType.card,
-              elevation: 2.0,
+              elevation: 1.0,
               child: new InkWell(
                 child: tile,
                 onTap: onPressed,

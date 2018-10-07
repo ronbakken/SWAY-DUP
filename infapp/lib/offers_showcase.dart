@@ -5,6 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
+import 'package:inf/styling_constants.dart';
 
 import 'package:inf/widgets/blurred_network_image.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
@@ -53,8 +54,10 @@ class _OffersShowcaseState extends State<OffersShowcase> {
       style: theme.textTheme.caption,
     );
     Card card = new Card(
+      shape:
+          const RoundedRectangleBorder(borderRadius: kInfImageThumbnailBorder),
       child: new ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        borderRadius: kInfImageThumbnailBorder,
         child: new Stack(
           fit: StackFit.expand, // Important
           children: <Widget>[
