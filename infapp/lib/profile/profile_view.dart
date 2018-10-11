@@ -61,9 +61,7 @@ class ProfileView extends StatelessWidget {
                   new TextSpan(
                     text: account.detail.url,
                     // style: new TextStyle(color: Colors.blue),
-                    style: theme
-                        .textTheme
-                        .button
+                    style: theme.textTheme.button
                         .copyWith(color: theme.accentColor),
                     recognizer: new TapGestureRecognizer()
                       ..onTap = () {

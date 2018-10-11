@@ -313,37 +313,41 @@ class _OfferViewState extends State<OfferView> {
                 ),
               ),
               // Applicant, so hide the original deliverables, etc, as it's specified in haggle chat
-              withApplicant ? null : new ListTile(
-                leading: new Icon(Icons.work),
-                title: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new Text(
-                      "Deliverables",
-                      style: Theme.of(context).textTheme.caption,
-                      textAlign: TextAlign.start,
+              withApplicant
+                  ? null
+                  : new ListTile(
+                      leading: new Icon(Icons.work),
+                      title: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text(
+                            "Deliverables",
+                            style: Theme.of(context).textTheme.caption,
+                            textAlign: TextAlign.start,
+                          ),
+                          new Text(widget.businessOffer.deliverables,
+                              style: Theme.of(context).textTheme.body1),
+                        ],
+                      ),
                     ),
-                    new Text(widget.businessOffer.deliverables,
-                        style: Theme.of(context).textTheme.body1),
-                  ],
-                ),
-              ),
               // Applicant, so hide the original rewards, etc, etc, as it's specified in haggle chat
-              withApplicant ? null : new ListTile(
-                leading: new Icon(Icons.redeem),
-                title: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new Text(
-                      "Reward",
-                      style: Theme.of(context).textTheme.caption,
-                      textAlign: TextAlign.start,
+              withApplicant
+                  ? null
+                  : new ListTile(
+                      leading: new Icon(Icons.redeem),
+                      title: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text(
+                            "Reward",
+                            style: Theme.of(context).textTheme.caption,
+                            textAlign: TextAlign.start,
+                          ),
+                          new Text(widget.businessOffer.reward,
+                              style: Theme.of(context).textTheme.body1),
+                        ],
+                      ),
                     ),
-                    new Text(widget.businessOffer.reward,
-                        style: Theme.of(context).textTheme.body1),
-                  ],
-                ),
-              ),
               new ListTile(
                 leading: new Icon(Icons.pin_drop),
                 title: new Text(widget.businessOffer.location,
