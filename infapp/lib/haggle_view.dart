@@ -883,19 +883,20 @@ class _HaggleViewState extends State<HaggleView> {
                       ],
                     ),
                   ),
-                  
+
                   // TODO: In case of action, status text here instead of other one
-                statusText != null
-                    ? new Padding(
-                        padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
-                        child: new Text(
-                          statusText,
-                          style: theme.textTheme.caption,
-                          textAlign: TextAlign.center,
-                        ),
-                      )
-                    : null,
-                ] .where((w) => w != null).toList(),
+                  statusText != null
+                      ? new Padding(
+                          padding:
+                              new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                          child: new Text(
+                            statusText,
+                            style: theme.textTheme.caption,
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      : null,
+                ].where((w) => w != null).toList(),
               ),
             ),
           ),

@@ -47,7 +47,9 @@ class ApplicantsListInfluencer extends StatelessWidget {
       );
     }
     return new ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: kInfPaddingHalf), // kMaterialListPadding, // const EdgeInsets.only(), // kMaterialListPadding,
+      padding: const EdgeInsets.symmetric(
+          vertical:
+              kInfPaddingHalf), // kMaterialListPadding, // const EdgeInsets.only(), // kMaterialListPadding,
       itemCount: applicantsSorted.length,
       itemBuilder: (BuildContext context, int index) {
         DataApplicant applicant = applicantsSorted[index];
