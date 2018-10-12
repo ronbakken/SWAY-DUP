@@ -310,11 +310,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       _notificationNavigateApplicantController =
       new StreamController<NotificationNavigateApplicant>();
 
-
-  StreamSubscription<NotificationNavigateApplicant> notificationNavigateApplicantListen(Function(NotificationNavigateApplicant) callback) {
-    if (_notificationNavigateApplicantController.hasListener || _notificationNavigateApplicantController.isClosed) {
+  StreamSubscription<NotificationNavigateApplicant>
+      notificationNavigateApplicantListen(
+          Function(NotificationNavigateApplicant) callback) {
+    if (_notificationNavigateApplicantController.hasListener ||
+        _notificationNavigateApplicantController.isClosed) {
       _notificationNavigateApplicantController.close();
-      _notificationNavigateApplicantController = new StreamController<NotificationNavigateApplicant>();
+      _notificationNavigateApplicantController =
+          new StreamController<NotificationNavigateApplicant>();
     }
     return _notificationNavigateApplicantController.stream.listen(callback);
   }
@@ -1829,7 +1832,9 @@ abstract class NetworkInterface {
   void popSuppressChatNotifications();
 
   /// Notification actions
-  StreamSubscription<NotificationNavigateApplicant> notificationNavigateApplicantListen(Function(NotificationNavigateApplicant) callback);
+  StreamSubscription<NotificationNavigateApplicant>
+      notificationNavigateApplicantListen(
+          Function(NotificationNavigateApplicant) callback);
 
   /// Refresh all applicants (currently all latest applicants)
   Future<void> refreshApplicants();

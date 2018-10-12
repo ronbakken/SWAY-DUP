@@ -138,8 +138,8 @@ class _AppOnboardingState extends State<AppOnboarding> {
                       Position position;
                       NavigatorState navigator = Navigator.of(context);
                       try {
-                        position = await Geolocator()
-                            .getLastKnownPosition(desiredAccuracy: LocationAccuracy.medium);
+                        position = await Geolocator().getLastKnownPosition(
+                            desiredAccuracy: LocationAccuracy.medium);
                       } catch (ex) {
                         print(ex); // Or fail to give permissions
                         // PlatformException(PERMISSION_DENIED, Access to location data denied, null)
