@@ -75,8 +75,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
         _notificationNavigateApplicantSubscription = null;
       }*/
       _notificationNavigateApplicantSubscription = network
-          .notificationNavigateApplicant
-          .listen(onNotificationNavigateApplicant);
+          .notificationNavigateApplicantListen(onNotificationNavigateApplicant);
     }
     _config = ConfigManager.of(context);
   }

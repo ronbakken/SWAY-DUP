@@ -65,8 +65,7 @@ class _AppBusinessState extends State<AppBusiness> {
         _notificationNavigateApplicantSubscription = null;
       }*/
       _notificationNavigateApplicantSubscription = network
-          .notificationNavigateApplicant
-          .listen(onNotificationNavigateApplicant);
+          .notificationNavigateApplicantListen(onNotificationNavigateApplicant);
     }
     _config = ConfigManager.of(context);
   }

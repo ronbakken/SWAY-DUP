@@ -309,8 +309,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   StreamController<NotificationNavigateApplicant>
       _notificationNavigateApplicantController =
       new StreamController<NotificationNavigateApplicant>();
-  Stream<NotificationNavigateApplicant> get notificationNavigateApplicant {
-    return _notificationNavigateApplicantController.stream;
+
+
+  StreamSubscription<NotificationNavigateApplicant> notificationNavigateApplicantListen(Function(NotificationNavigateApplicant) callback) {
+    if (_notificationNavigateApplicantController.hasListener || _notificationNavigateApplicantController.isClosed) {
+      _notificationNavigateApplicantController.close();
+      _notificationNavigateApplicantController = new StreamController<NotificationNavigateApplicant>();
+    }
+    return _notificationNavigateApplicantController.stream.listen(callback);
   }
 
   void _notificationNavigateApplicant(
@@ -670,6 +676,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _notificationNavigateApplicantController.close();
+    _notificationNavigateApplicantController = null;
     _alive = false;
     if (_ts != null) {
       print("[INF] Dispose network connection");
@@ -1821,7 +1829,7 @@ abstract class NetworkInterface {
   void popSuppressChatNotifications();
 
   /// Notification actions
-  Stream<NotificationNavigateApplicant> get notificationNavigateApplicant;
+  StreamSubscription<NotificationNavigateApplicant> notificationNavigateApplicantListen(Function(NotificationNavigateApplicant) callback);
 
   /// Refresh all applicants (currently all latest applicants)
   Future<void> refreshApplicants();

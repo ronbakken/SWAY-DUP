@@ -24,7 +24,7 @@ dependencies:
   # Device info, used during device registration
   device_info: ^0.2.1
   shared_preferences: ^0.4.2
-  pointycastle: ^1.0.0-rc2
+  pointycastle: ^1.0.0-rc4
 
   flutter_map: ^0.1.4
 
@@ -33,8 +33,8 @@ dependencies:
       url: https://github.com/nbspou/wstalk.git
       ref: master
 
-  geolocator: ^1.6.3
-  url_launcher: ^3.0.3
+  geolocator: ^2.1.0
+  url_launcher: ^4.0.1
   
   image_picker: ^0.4.7
   mime: ^0.9.6+2

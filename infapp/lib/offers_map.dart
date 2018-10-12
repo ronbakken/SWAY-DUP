@@ -101,8 +101,10 @@ class _OffersMapState extends State<OffersMap> {
     }
     _geolocator = new Geolocator();
     () async {
+      Position position = await _geolocator.getLastKnownPosition();
+      if (!mounted) return;
       _positionSubscription =
-          (await _geolocator.getPositionStream()).listen((position) {
+           _geolocator.getPositionStream().listen((position) {
         if (position != null &&
             position.latitude != null &&
             position.longitude != null &&
@@ -121,8 +123,6 @@ class _OffersMapState extends State<OffersMap> {
         _positionSubscription = null;
         return;
       }
-      Position position = await _geolocator.getLastKnownPosition();
-      if (!mounted) return;
       if (position != null &&
           position.latitude != null &&
           position.longitude != null &&

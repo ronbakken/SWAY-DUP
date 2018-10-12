@@ -55,8 +55,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
         _notificationNavigateApplicantSubscription = null;
       }*/
       _notificationNavigateApplicantSubscription = network
-          .notificationNavigateApplicant
-          .listen(onNotificationNavigateApplicant);
+          .notificationNavigateApplicantListen(onNotificationNavigateApplicant);
     }
     // _config = ConfigManager.of(context);
   }
@@ -140,7 +139,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
                       NavigatorState navigator = Navigator.of(context);
                       try {
                         position = await Geolocator()
-                            .getLastKnownPosition(LocationAccuracy.medium);
+                            .getLastKnownPosition(desiredAccuracy: LocationAccuracy.medium);
                       } catch (ex) {
                         print(ex); // Or fail to give permissions
                         // PlatformException(PERMISSION_DENIED, Access to location data denied, null)

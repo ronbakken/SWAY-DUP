@@ -385,14 +385,16 @@ class _DemoHomePageState extends State<DemoHomePage> {
             child: new Row(
                 children: [new Text('Localhost 1 (Genymotion Emulator)')]),
             onPressed: () {
-              widget.onSetServer("ws://192.168.56.1:8090/api", 1);
+              // widget.onSetServer("ws://192.168.56.1:8090/api", 1);
+              widget.onSetServer("ws://192.168.0.111:8090/api", 1);
             }, // 105 = athena, 167 = air
           ),
           new FlatButton(
             child: new Row(
                 children: [new Text('Localhost 2 (Genymotion Emulator)')]),
             onPressed: () {
-              widget.onSetServer("ws://192.168.56.1:8090/api", 2);
+              // widget.onSetServer("ws://192.168.56.1:8090/api", 2);
+              widget.onSetServer("ws://192.168.0.111:8090/api", 1);
             }, // 1&2 = mariadb.devinf.net
           ),
           new FlatButton(
@@ -486,7 +488,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                           // print("Get pos");
                           try {
                             Position position = await Geolocator()
-                                .getLastKnownPosition(LocationAccuracy.medium);
+                                .getLastKnownPosition(desiredAccuracy: LocationAccuracy.medium);
                             print('test');
                             print(position?.latitude); // May be null
                             print(position?.longitude); // May be null
