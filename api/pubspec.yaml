@@ -15,6 +15,7 @@ dependencies:
   http_client: ^0.5.0
   synchronized: ^1.5.1
   mime: ^0.9.6+2
+  quiver: ^2.0.0+1
   sqljocky5: # ^1.0.0
     path: ../sqljocky5/
   wstalk:
