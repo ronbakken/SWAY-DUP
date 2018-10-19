@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
-import 'package:inf/demo/demo.dart' show DemoApp;
-import 'package:inf/network_mobile/cross_account_store.dart';
+import 'package:inf/demo.dart' show DemoApp;
+import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 
 Future<ConfigData> loadConfig() async {
@@ -20,9 +20,9 @@ Future<ConfigData> loadConfig() async {
   return config;
 }
 
-Future<CrossAccountStore> loadCrossAccountStore(String startupDomain) async {
-  CrossAccountStore store = new CrossAccountStore();
-  await store.initialize(startupDomain);
+Future<MultiAccountStore> loadMultiAccountStore(String startupDomain) async {
+  MultiAccountStore store = new MultiAccountStore(startupDomain);
+  await store.initialize();
   return store;
 }
 
@@ -30,13 +30,17 @@ launchApp() async {
   // Load well-known config from APK
   ConfigData config = await loadConfig();
   // Load known local accounts from SharedPreferences
-  CrossAccountStore crossAccountStore =
-      await loadCrossAccountStore(config.services.domain);
+  MultiAccountStore multiAccountStore =
+      await loadMultiAccountStore(config.services.domain);
+
   // Run flutter app with the loaded config
   runApp(new DemoApp(
     startupConfig: config,
-    crossAccountStore: crossAccountStore,
+    multiAccountStore: multiAccountStore,
   ));
+
+  // Cleanup
+  await multiAccountStore.dispose();
 }
 
 void main() {

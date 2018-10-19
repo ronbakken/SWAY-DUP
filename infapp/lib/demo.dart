@@ -4,39 +4,40 @@ import 'dart:math';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:inf/network_mobile/cross_account_selection.dart';
+import 'package:inf/network_generic/multi_account_store.dart';
+import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_mobile/network_stack.dart';
 import 'package:inf/utility/rebuild_tracker.dart';
 
-import '../business_offer_list.dart';
-import '../protobuf/inf_protobuf.dart';
-import '../network_mobile/config_manager.dart' show ConfigManager;
-import '../network_mobile/network_manager.dart';
+import 'package:inf/business_offer_list.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/network_mobile/config_manager.dart' show ConfigManager;
+import 'package:inf/network_mobile/network_manager.dart';
 
-import '../app_switch.dart';
-import '../onboarding_selection.dart' show OnboardingSelection;
-import '../onboarding_social.dart' show OnboardingSocial;
-import '../page_transition.dart';
-import '../offer_view.dart' show OfferView;
-import '../offer_create.dart' show OfferCreate;
-import '../dashboard_common.dart';
-import '../profile/profile_view.dart' show ProfileView;
-import '../profile/profile_edit.dart' show ProfileEdit;
-import '../search/search_button.dart';
-import '../search/search_page.dart';
-import '../debug_account.dart';
-import '../location_selection/location_selection.dart';
-import '../location_selection/location_search.dart';
-//import '../location_selection/location_selection_influencer.dart';
-import '../location_selection/experiment_files/geocoding_test.dart';
+import 'package:inf/app_switch.dart';
+import 'package:inf/onboarding_selection.dart' show OnboardingSelection;
+import 'package:inf/onboarding_social.dart' show OnboardingSocial;
+import 'package:inf/page_transition.dart';
+import 'package:inf/offer_view.dart' show OfferView;
+import 'package:inf/offer_create.dart' show OfferCreate;
+import 'package:inf/dashboard_common.dart';
+import 'package:inf/profile/profile_view.dart' show ProfileView;
+import 'package:inf/profile/profile_edit.dart' show ProfileEdit;
+import 'package:inf/search/search_button.dart';
+import 'package:inf/search/search_page.dart';
+import 'package:inf/debug_account.dart';
+import 'package:inf/location_selection/location_selection.dart';
+import 'package:inf/location_selection/location_search.dart';
+//import 'package:inf/location_selection/location_selection_influencer.dart';
+import 'package:inf/location_selection/experiment_files/geocoding_test.dart';
 
 class DemoApp extends StatefulWidget {
   const DemoApp(
-      {Key key, @required this.startupConfig, @required this.crossAccountStore})
+      {Key key, @required this.startupConfig, @required this.multiAccountStore})
       : super(key: key);
 
   final ConfigData startupConfig;
-  final CrossAccountStore crossAccountStore;
+  final MultiAccountStore multiAccountStore;
 
   @override
   _DemoAppState createState() => new _DemoAppState();
@@ -146,7 +147,7 @@ class _DemoAppState extends State<DemoApp> {
   Widget build(BuildContext context) {
     return new NetworkStack(
       startupConfig: widget.startupConfig,
-      crossAccountStore: widget.crossAccountStore,
+      multiAccountStore: widget.multiAccountStore,
       child: new RebuildTracker(
         message: "Full app rebuild triggered (1)",
         child: new Builder(builder: (BuildContext context) {
@@ -363,7 +364,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     List<Widget> accountButtons = new List<Widget>();
 
     for (LocalAccountData localAccount
-        in CrossAccountSelection.of(context).accounts) {
+        in MultiAccountSelection.of(context).accounts) {
       accountButtons.add(new RaisedButton(
         child: new Column(
           children: [
@@ -376,7 +377,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           ],
         ),
         onPressed: () {
-          CrossAccountSelection.of(context)
+          MultiAccountSelection.of(context)
               .switchAccount(localAccount.domain, localAccount.accountId);
           widget.onExitDevelopmentMode();
         },
@@ -492,7 +493,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new FlatButton(
             child: new Row(children: [new Text('Add Account')]),
             onPressed: () {
-              CrossAccountSelection.of(context).addAccount();
+              MultiAccountSelection.of(context).addAccount();
               widget.onExitDevelopmentMode();
             },
           ),

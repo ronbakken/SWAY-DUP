@@ -15,7 +15,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/network_mobile/cross_account_selection.dart';
 import 'package:wstalk/wstalk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
@@ -25,8 +24,9 @@ import 'package:mime/mime.dart';
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart';
 
-import 'config_manager.dart';
-import '../protobuf/inf_protobuf.dart';
+import 'package:inf/network_generic/multi_account_store.dart';
+import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 // TODO: Reassemble should re-merge all protobuf
 
@@ -43,9 +43,11 @@ class NetworkManager extends StatelessWidget {
   const NetworkManager({
     Key key,
     this.child,
+    this.multiAccountStore,
   }) : super(key: key);
 
   final Widget child;
+  final MultiAccountStore multiAccountStore;
 
   static NetworkInterface of(BuildContext context) {
     final _InheritedNetworkManager inherited =
@@ -63,6 +65,7 @@ class NetworkManager extends StatelessWidget {
       networkManager: this,
       child: child,
       config: config,
+      multiAccountStore: multiAccountStore,
     );
   }
 }
@@ -81,11 +84,13 @@ class _NetworkManagerStateful extends StatefulWidget {
     this.networkManager,
     this.child,
     this.config,
+    this.multiAccountStore,
   }) : super(key: key);
 
   final NetworkManager networkManager;
   final Widget child;
   final ConfigData config;
+  final MultiAccountStore multiAccountStore;
 
   @override
   _NetworkManagerState createState() => new _NetworkManagerState();
@@ -96,8 +101,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     implements NetworkInterface {
   // see NetworkInterface
 
-  String _domain;
-  int _localId;
+  LocalAccountData _currentLocalAccount;
   DataAccount account;
   NetworkConnectionState connected = NetworkConnectionState.Connecting;
 
@@ -191,11 +195,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     });
     if (pb.data.state.accountId != 0) {
       // Update local account store
-      CrossAccountSelection.of(context).store.setAccountId(_domain, _localId,
-          new Int64(account.state.accountId), account.state.accountType);
-      CrossAccountSelection.of(context).store.setNameAvatar(
-          _domain,
-          _localId,
+      widget.multiAccountStore.setAccountId(
+          _currentLocalAccount.domain,
+          _currentLocalAccount.localId,
+          new Int64(account.state.accountId),
+          account.state.accountType);
+      widget.multiAccountStore.setNameAvatar(
+          _currentLocalAccount.domain,
+          _currentLocalAccount.localId,
           account.summary.name,
           account.summary.blurredAvatarThumbnailUrl,
           account.summary.avatarThumbnailUrl);
@@ -398,16 +405,12 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     } else {
       commonDeviceId = base64.decode(commonDeviceIdStr);
     }*/
-    final CrossAccountSelectionState accountSelection =
-        CrossAccountSelection.of(context);
-    final CrossAccountStore accountStore = accountSelection.store;
-    final Uint8List commonDeviceId = accountStore.getCommonDeviceId();
-    final LocalAccountData localAccount = accountStore.getLocal(
-        accountSelection.domain, accountSelection.localId);
-    final Uint8List aesKey =
-        accountStore.getDeviceCookie(localAccount.domain, localAccount.localId);
-    _domain = localAccount.domain;
-    _localId = localAccount.localId;
+    final Uint8List commonDeviceId =
+        widget.multiAccountStore.getCommonDeviceId();
+    final LocalAccountData localAccount = widget.multiAccountStore.current;
+    final Uint8List aesKey = widget.multiAccountStore
+        .getDeviceCookie(localAccount.domain, localAccount.localId);
+    _currentLocalAccount = localAccount;
 
     // Original plan was to use an assymetric key pair, but the generation was too slow. Hence just using a symmetric AES key for now
     /*
@@ -449,8 +452,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       await receivedDeviceAuthState(pbRes);
       print("[INF] Device id ${account.state.deviceId}");
       if (account.state.deviceId != 0) {
-        accountStore.setDeviceId(localAccount.domain, localAccount.localId,
-            new Int64(account.state.deviceId), aesKey);
+        widget.multiAccountStore.setDeviceId(localAccount.domain,
+            localAccount.localId, new Int64(account.state.deviceId), aesKey);
       }
     } else {
       // Authenticate existing device
@@ -495,10 +498,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
 
     if (account.state.deviceId == 0) {
-      accountStore.removeLocal(localAccount.domain, localAccount.localId);
-      accountSelection.addAccount(localAccount.domain);
-      _domain = null;
-      _localId = null;
+      widget.multiAccountStore
+          .removeLocal(localAccount.domain, localAccount.localId);
+      widget.multiAccountStore.addAccount(localAccount.domain);
+      _currentLocalAccount = null;
       throw new Exception("Authentication did not succeed");
     } else {
       print("[INF] Network connection is ready");
@@ -652,6 +655,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     print("[INF] End network loop");
   }
 
+  StreamSubscription<LocalAccountData> _onSwitchAccountSubscription;
+
   @override
   void initState() {
     super.initState();
@@ -660,6 +665,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     // Device ghost id is a semi sequential identifier for identifying messages by device (to ensure all are sent and to avoid duplicates)
     nextDeviceGhostId =
         (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF;
+
+    // Setup sync
+    _onSwitchAccountSubscription =
+        widget.multiAccountStore.onSwitchAccount.listen(_onMultiSwitchAccount);
 
     // Initialize data
     cleanupAccount();
@@ -717,6 +726,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   @override
   void dispose() {
+    _onSwitchAccountSubscription.cancel();
+    _onSwitchAccountSubscription = null;
     WidgetsBinding.instance.removeObserver(this);
     _notificationNavigateApplicantController.close();
     _notificationNavigateApplicantController = null;
@@ -745,8 +756,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       _ts.close();
       _ts = null;
     }
-    if (_domain != CrossAccountSelection.of(context).domain ||
-        _localId != CrossAccountSelection.of(context).localId) {
+  }
+
+  void _onMultiSwitchAccount(LocalAccountData localAccount) {
+    if (localAccount != _currentLocalAccount) {
       cleanupStateSwitchingAccounts();
     }
   }
@@ -774,7 +787,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   @override
   Widget build(BuildContext context) {
-    CrossAccountSelection.of(context);
     String ks = widget.key.toString();
     return new _InheritedNetworkManager(
       key: (widget.key != null && ks.length > 0)

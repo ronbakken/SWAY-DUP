@@ -24,34 +24,35 @@ Generic:
 */
 
 import 'package:flutter/widgets.dart';
+import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_mobile/cross_account_selection.dart';
+import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_mobile/network_manager.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 
 class NetworkStack extends StatelessWidget {
   final Widget child;
-  final CrossAccountStore crossAccountStore;
+  final MultiAccountStore multiAccountStore;
   final ConfigData startupConfig;
 
   const NetworkStack(
       {Key key,
       this.child,
-      @required this.crossAccountStore,
+      @required this.multiAccountStore,
       @required this.startupConfig})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return new CrossAccountSelection(
+    return new MultiAccountSelection(
       key: const Key('CrossAccountSelection'),
-      store: crossAccountStore,
-      startupDomain: startupConfig.services.domain,
+      client: multiAccountStore,
       child: new ConfigManager(
           key: const Key('ConfigManager'),
           startupConfig: startupConfig,
           child: new NetworkManager(
             key: const Key('NetworkManager'),
+            multiAccountStore: multiAccountStore,
             child: child, // new CrossNavigationManager()
           )),
     );
