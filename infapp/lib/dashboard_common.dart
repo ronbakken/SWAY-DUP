@@ -24,8 +24,8 @@ class DashboardCommon extends StatefulWidget {
     this.map,
     this.offersCurrent,
     this.offersHistory,
+    this.proposalsSent,
     this.proposalsReceived,
-    this.proposalsApplying,
     this.proposalsRejected,
     this.agreementsActive,
     this.agreementsHistory,
@@ -49,8 +49,8 @@ class DashboardCommon extends StatefulWidget {
   final Widget map;
   final Widget offersCurrent;
   final Widget offersHistory;
+  final Widget proposalsSent;
   final Widget proposalsReceived;
-  final Widget proposalsApplying;
   final Widget proposalsRejected;
   final Widget agreementsActive;
   final Widget agreementsHistory;
@@ -132,8 +132,8 @@ class _DashboardCommonState extends State<DashboardCommon>
             ? "Applied"
             : "Applicants";
             */
-    String proposalsLabel = "Proposals";
-    String agreementsLabel = "Agreements"; // or Accepted
+    String proposalsLabel = "Haggle";
+    String agreementsLabel = "Deals"; // or Accepted
     List<BottomNavigationBarItem> tabBarItems =
         new List<BottomNavigationBarItem>(_tabCount);
     if (widget.mapTab != null) {
@@ -181,12 +181,12 @@ class _DashboardCommonState extends State<DashboardCommon>
         key: new Key('TabViewProposals'),
         controller: _tabControllerProposals,
         children: [
+          widget.proposalsSent == null
+              ? new Text("/* Sent */")
+              : widget.proposalsSent,
           widget.proposalsReceived == null
               ? new Text("/* Received */")
               : widget.proposalsReceived,
-          widget.proposalsApplying == null
-              ? new Text("/* Applying */")
-              : widget.proposalsApplying,
           widget.proposalsRejected == null
               ? new Text("/* Rejected */")
               : widget.proposalsRejected,
@@ -225,8 +225,8 @@ class _DashboardCommonState extends State<DashboardCommon>
             key: new Key('TabBarProposals'),
             controller: _tabControllerProposals,
             tabs: [
-              new Tab(text: "Received".toUpperCase()),
-              new Tab(text: "Applying".toUpperCase()),
+              new Tab(text: (widget.account.state.accountType == AccountType.AT_INFLUENCER ? "Applied" : "Direct").toUpperCase()),
+              new Tab(text: (widget.account.state.accountType == AccountType.AT_INFLUENCER ? "Direct" : "Applicants").toUpperCase()),
               new Tab(text: "Rejected".toUpperCase())
             ]);
       } else if (_currentTab == widget.agreementsTab) {

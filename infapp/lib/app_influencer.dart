@@ -574,22 +574,22 @@ class _AppInfluencerState extends State<AppInfluencer> {
         navigateToProfileView(context);
       },
       onNavigateDebugAccount: navigateToDebugAccount,
+      proposalsSent: new Builder(
+        builder: (context) {
+          return _buildApplicantList(
+              context,
+              (DataApplicant applicant) =>
+                  (applicant.senderAccountId ==
+                      network.account.state.accountId) &&
+                  (applicant.state == ApplicantState.AS_HAGGLING));
+        },
+      ),
       proposalsReceived: new Builder(
         builder: (context) {
           return _buildApplicantList(
               context,
               (DataApplicant applicant) =>
                   (applicant.senderAccountId !=
-                      network.account.state.accountId) &&
-                  (applicant.state == ApplicantState.AS_HAGGLING));
-        },
-      ),
-      proposalsApplying: new Builder(
-        builder: (context) {
-          return _buildApplicantList(
-              context,
-              (DataApplicant applicant) =>
-                  (applicant.senderAccountId ==
                       network.account.state.accountId) &&
                   (applicant.state == ApplicantState.AS_HAGGLING));
         },

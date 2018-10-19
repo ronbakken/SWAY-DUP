@@ -437,7 +437,7 @@ class _AppBusinessState extends State<AppBusiness> {
                   offer); // account will be able to use a future value provider thingy for not-mine offers
             });
       }),
-      proposalsApplying: new Builder(
+      proposalsSent: new Builder(
         builder: (context) {
           return new ApplicantsListPlaceholder(
             applicants: network.applicants,

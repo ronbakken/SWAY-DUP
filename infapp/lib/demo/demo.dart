@@ -609,7 +609,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
                         sampleBusinessOffers[3],
                       ],
                     ),
-                    /*applicantsApplying: new Text("Applying"),
+                    /*applicantsApplying: new Text("Sent"),
                     applicantsAccepted: new Text("Accepted"),
                     applicantsHistory: new Text("History"),*/
                   );
