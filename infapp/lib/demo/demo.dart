@@ -31,7 +31,7 @@ import '../location_selection/location_search.dart';
 import '../location_selection/experiment_files/geocoding_test.dart';
 
 class DemoApp extends StatefulWidget {
-  const DemoApp({Key key, this.startupConfig, this.crossAccountStore})
+  const DemoApp({Key key, @required this.startupConfig, @required this.crossAccountStore})
       : super(key: key);
 
   final ConfigData startupConfig;
@@ -368,6 +368,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           children: [
             new Text("Domain: " + localAccount.domain.toString()),
             new Text("Local Id: " + localAccount.localId.toString()),
+            new Text("Device Id: " + localAccount.deviceId.toString()),
             new Text("Account Id: " + localAccount.accountId.toString()),
             new Text("Account Type: " + localAccount.accountType.toString()),
             new Text("Name: " + localAccount.name.toString()),

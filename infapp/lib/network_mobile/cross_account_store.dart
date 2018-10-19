@@ -111,7 +111,7 @@ class CrossAccountStore {
                     _prefs.getString("${domain}_${localId}_account_id") ??
                         "0") ??
                 new Int64(0);
-            accountData.accountType = AccountType.valueOf(_prefs.getInt("${domain}_account_type") ?? 0);
+            accountData.accountType = AccountType.valueOf(_prefs.getInt("${domain}_${localId}_account_type") ?? 0);
             accountData.name = _prefs.getString("${domain}_${localId}_name");
             accountData.blurredAvatarUrl =
                 _prefs.getString("${domain}_${localId}_blurred_avatar_url");

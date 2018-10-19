@@ -40,7 +40,7 @@ class CrossAccountSelection extends StatefulWidget {
   final Widget child;
 
   const CrossAccountSelection(
-      {Key key, this.store, this.startupDomain, this.child})
+      {Key key, @required this.store, @required this.startupDomain, this.child})
       : super(key: key);
 
   @override
@@ -64,7 +64,10 @@ class CrossAccountSelectionState extends State<CrossAccountSelection> {
 
   SharedPreferences _prefs;
 
-  CrossAccountSelectionState(this._startupDomain) {
+  CrossAccountSelectionState(this._startupDomain);
+
+  @override initState() {
+    super.initState();
     _domain = _startupDomain;
     _localId = widget.store.getLastUsed(_startupDomain);
     _accountId = widget.store.getLocal(domain, _localId).accountId;
@@ -93,6 +96,7 @@ class CrossAccountSelectionState extends State<CrossAccountSelection> {
       _localId = store.getAccount(domain, accountId)?.localId ?? store.createAccount(domain);
       _accountId = widget.store.getLocal(domain, _localId).accountId;
     });
+    widget.store.setLastUsed(_domain, _localId);
   }
 
   void addAccount([String domain]) {
@@ -116,7 +120,7 @@ class _InheritedCrossAccountSelection extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget oldWidget) {
     _InheritedCrossAccountSelection oldSelection =
         oldWidget as _InheritedCrossAccountSelection;
-    return oldSelection.domain != domain && oldSelection.localId != localId;
+    return oldSelection.domain != domain || oldSelection.localId != localId;
   }
 }
 

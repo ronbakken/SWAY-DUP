@@ -35,7 +35,7 @@ class NetworkStack extends StatelessWidget {
   final ConfigData startupConfig;
 
   const NetworkStack(
-      {Key key, this.child, this.crossAccountStore, this.startupConfig})
+      {Key key, this.child, @required this.crossAccountStore, @required this.startupConfig})
       : super(key: key);
 
   @override
