@@ -154,8 +154,9 @@ message DataAccountDetail {
   string url = 6;
   string email = 9;
   // bool emailVerified = 10;
-  double latitude = 4; // necessary?
-  double longitude = 5; // necessary?
+  // double latitude = 4; // necessary?
+  // double longitude = 5; // necessary?
+  int64 locationCellId = 13;
   int32 locationId = 8;
   
 }
