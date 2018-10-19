@@ -10,7 +10,6 @@ Multi account store, used by the network manager.
 
 */
 
-import 'dart:_http';
 import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';

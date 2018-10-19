@@ -761,6 +761,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   void _onMultiSwitchAccount(LocalAccountData localAccount) {
     if (localAccount != _currentLocalAccount) {
       cleanupStateSwitchingAccounts();
+      if (_ts != null) {
+        _ts.close();
+        _ts = null;
+      }
     }
   }
 

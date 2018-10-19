@@ -40,7 +40,7 @@ launchApp() async {
   ));
 
   // Cleanup
-  await multiAccountStore.dispose();
+  // await multiAccountStore.dispose();
 }
 
 void main() {
