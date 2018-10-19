@@ -683,7 +683,7 @@ class RemoteAppHaggleActions {
       if (resultMarkings.affectedRows == null ||
           resultMarkings.affectedRows == 0) {
         devLog.warning(
-            "Invalid reject attempt by account '$accountId' on applicant '$applicantId'");
+            "Invalid completion or invalid dispute attempt by account '$accountId' on applicant '$applicantId'");
         return;
       }
 
@@ -730,8 +730,7 @@ class RemoteAppHaggleActions {
           HttpClient httpClient = new HttpClient();
           HttpClientRequest httpRequest = await httpClient.postUrl(
               Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
-          httpRequest.headers
-              .add('Content-Type', 'application/json; charset=utf-8');
+          httpRequest.headers.add('Content-Type', 'application/json');
           httpRequest.headers.add(
               'Authorization',
               'Basic ' +
@@ -755,6 +754,8 @@ class RemoteAppHaggleActions {
           BytesBuilder responseBuilder = new BytesBuilder(copy: false);
           await httpResponse.forEach(responseBuilder.add);
           if (httpResponse.statusCode != 200) {
+            devLog.severe(
+                "Report post failed: ${utf8.decode(responseBuilder.toBytes())}");
             ts.sendException("Post Failed", message);
             return;
           }
