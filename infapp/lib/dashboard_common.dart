@@ -225,8 +225,18 @@ class _DashboardCommonState extends State<DashboardCommon>
             key: new Key('TabBarProposals'),
             controller: _tabControllerProposals,
             tabs: [
-              new Tab(text: (widget.account.state.accountType == AccountType.AT_INFLUENCER ? "Applied" : "Direct").toUpperCase()),
-              new Tab(text: (widget.account.state.accountType == AccountType.AT_INFLUENCER ? "Direct" : "Applicants").toUpperCase()),
+              new Tab(
+                  text: (widget.account.state.accountType ==
+                              AccountType.AT_INFLUENCER
+                          ? "Applied"
+                          : "Direct")
+                      .toUpperCase()),
+              new Tab(
+                  text: (widget.account.state.accountType ==
+                              AccountType.AT_INFLUENCER
+                          ? "Direct"
+                          : "Applicants")
+                      .toUpperCase()),
               new Tab(text: "Rejected".toUpperCase())
             ]);
       } else if (_currentTab == widget.agreementsTab) {
