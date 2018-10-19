@@ -111,7 +111,8 @@ class CrossAccountStore {
                     _prefs.getString("${domain}_${localId}_account_id") ??
                         "0") ??
                 new Int64(0);
-            accountData.accountType = AccountType.valueOf(_prefs.getInt("${domain}_${localId}_account_type") ?? 0);
+            accountData.accountType = AccountType.valueOf(
+                _prefs.getInt("${domain}_${localId}_account_type") ?? 0);
             accountData.name = _prefs.getString("${domain}_${localId}_name");
             accountData.blurredAvatarUrl =
                 _prefs.getString("${domain}_${localId}_blurred_avatar_url");
@@ -163,7 +164,8 @@ class CrossAccountStore {
         "${domain}_${localId}_device_cookie", base64.encode(deviceCookie));
   }
 
-  void setAccountId(String domain, int localId, Int64 accountId, AccountType accountType) {
+  void setAccountId(
+      String domain, int localId, Int64 accountId, AccountType accountType) {
     _domains[domain].accounts.removeWhere(
         (Int64 accountId, LocalAccountData data) => data.localId == localId);
     _domains[domain].local[localId].accountId = accountId;

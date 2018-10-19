@@ -66,7 +66,8 @@ class CrossAccountSelectionState extends State<CrossAccountSelection> {
 
   CrossAccountSelectionState(this._startupDomain);
 
-  @override initState() {
+  @override
+  initState() {
     super.initState();
     _domain = _startupDomain;
     _localId = widget.store.getLastUsed(_startupDomain);
@@ -93,7 +94,8 @@ class CrossAccountSelectionState extends State<CrossAccountSelection> {
     assert(domain != null);
     setState(() {
       _domain = domain;
-      _localId = store.getAccount(domain, accountId)?.localId ?? store.createAccount(domain);
+      _localId = store.getAccount(domain, accountId)?.localId ??
+          store.createAccount(domain);
       _accountId = widget.store.getLocal(domain, _localId).accountId;
     });
     widget.store.setLastUsed(_domain, _localId);
@@ -105,7 +107,8 @@ class CrossAccountSelectionState extends State<CrossAccountSelection> {
 
   @override
   Widget build(BuildContext context) {
-    return new _InheritedCrossAccountSelection(child: widget.child, state: this, domain: domain, localId: localId);
+    return new _InheritedCrossAccountSelection(
+        child: widget.child, state: this, domain: domain, localId: localId);
   }
 }
 
@@ -114,7 +117,9 @@ class _InheritedCrossAccountSelection extends InheritedWidget {
   final String domain;
   final int localId;
 
-  const _InheritedCrossAccountSelection({ Key key, Widget child, this.state, this.domain, this.localId}) : super(key: key, child: child);
+  const _InheritedCrossAccountSelection(
+      {Key key, Widget child, this.state, this.domain, this.localId})
+      : super(key: key, child: child);
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) {
