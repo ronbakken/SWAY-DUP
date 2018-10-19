@@ -30,7 +30,8 @@ launchApp() async {
   // Load well-known config from APK
   ConfigData config = await loadConfig();
   // Load known local accounts from SharedPreferences
-  CrossAccountStore crossAccountStore = await loadCrossAccountStore(config.services.domain);
+  CrossAccountStore crossAccountStore =
+      await loadCrossAccountStore(config.services.domain);
   // Run flutter app with the loaded config
   runApp(new DemoApp(
     startupConfig: config,

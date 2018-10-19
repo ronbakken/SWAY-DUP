@@ -31,7 +31,8 @@ import '../location_selection/location_search.dart';
 import '../location_selection/experiment_files/geocoding_test.dart';
 
 class DemoApp extends StatefulWidget {
-  const DemoApp({Key key, @required this.startupConfig, @required this.crossAccountStore})
+  const DemoApp(
+      {Key key, @required this.startupConfig, @required this.crossAccountStore})
       : super(key: key);
 
   final ConfigData startupConfig;
