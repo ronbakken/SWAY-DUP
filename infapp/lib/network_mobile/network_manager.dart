@@ -163,7 +163,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     _demoAllOffers.clear();
     _demoAllOffersLoaded = false;
     _cachedApplicants.clear();
+    cleanupAccount();
+  }
+
+  void cleanupAccount() {
     account = new DataAccount();
+    account.state = new DataAccountState();
+    account.summary = new DataAccountSummary();
+    account.detail = new DataAccountDetail();
   }
 
   Future<void> receivedDeviceAuthState(NetDeviceAuthState pb) async {
@@ -184,8 +191,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     });
     if (pb.data.state.accountId != 0) {
       // Update local account store
-      CrossAccountSelection.of(context).store.setAccountId(_domain, _localId, new Int64(account.state.accountId), account.state.accountType);
-      CrossAccountSelection.of(context).store.setNameAvatar(_domain, _localId, account.summary.name, account.summary.blurredAvatarThumbnailUrl, account.summary.avatarThumbnailUrl);
+      CrossAccountSelection.of(context).store.setAccountId(_domain, _localId,
+          new Int64(account.state.accountId), account.state.accountType);
+      CrossAccountSelection.of(context).store.setNameAvatar(
+          _domain,
+          _localId,
+          account.summary.name,
+          account.summary.blurredAvatarThumbnailUrl,
+          account.summary.avatarThumbnailUrl);
       // Mark all caches as dirty, since we may have been offline for a while
       _offersLoaded = false;
       _applicantsLoaded = false;
@@ -385,11 +398,14 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     } else {
       commonDeviceId = base64.decode(commonDeviceIdStr);
     }*/
-    final CrossAccountSelectionState accountSelection = CrossAccountSelection.of(context);
+    final CrossAccountSelectionState accountSelection =
+        CrossAccountSelection.of(context);
     final CrossAccountStore accountStore = accountSelection.store;
     final Uint8List commonDeviceId = accountStore.getCommonDeviceId();
-    final LocalAccountData localAccount = accountStore.getLocal(accountSelection.domain, accountSelection.localId);
-    final Uint8List aesKey = accountStore.getDeviceCookie(localAccount.domain, localAccount.localId);
+    final LocalAccountData localAccount = accountStore.getLocal(
+        accountSelection.domain, accountSelection.localId);
+    final Uint8List aesKey =
+        accountStore.getDeviceCookie(localAccount.domain, localAccount.localId);
     _domain = localAccount.domain;
     _localId = localAccount.localId;
 
@@ -433,7 +449,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       await receivedDeviceAuthState(pbRes);
       print("[INF] Device id ${account.state.deviceId}");
       if (account.state.deviceId != 0) {
-        accountStore.setDeviceId(localAccount.domain, localAccount.localId, new Int64(account.state.deviceId), aesKey);
+        accountStore.setDeviceId(localAccount.domain, localAccount.localId,
+            new Int64(account.state.deviceId), aesKey);
       }
     } else {
       // Authenticate existing device
@@ -526,17 +543,19 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   bool _netConfigWarning = false;
   Future _networkSession() async {
     try {
-      String uri = _overrideUri ?? _config.services.apiHosts[random.nextInt(_config.services.apiHosts.length)];
-      if (uri == null || uri.length == 0) {
-        if (!_netConfigWarning) {
-          _netConfigWarning = true;
-          print("[INF] No network configuration, not connecting");
-        }
-        await new Future.delayed(new Duration(seconds: 3));
-        return;
-      }
-      _netConfigWarning = false;
       do {
+        String uri = _overrideUri ??
+            _config.services
+                .apiHosts[random.nextInt(_config.services.apiHosts.length)];
+        if (uri == null || uri.length == 0) {
+          if (!_netConfigWarning) {
+            _netConfigWarning = true;
+            print("[INF] No network configuration, not connecting");
+          }
+          await new Future.delayed(new Duration(seconds: 3));
+          return;
+        }
+        _netConfigWarning = false;
         try {
           print("[INF] Try connect to $uri");
           _ts = await TalkSocket.connect(uri);
@@ -643,10 +662,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF;
 
     // Initialize data
-    account = new DataAccount();
-    account.state = new DataAccountState();
-    account.summary = new DataAccountSummary();
-    account.detail = new DataAccountDetail();
+    cleanupAccount();
     syncConfig();
 
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
@@ -729,7 +745,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       _ts.close();
       _ts = null;
     }
-    if (_domain != CrossAccountSelection.of(context).domain || _localId != CrossAccountSelection.of(context).localId) {
+    if (_domain != CrossAccountSelection.of(context).domain ||
+        _localId != CrossAccountSelection.of(context).localId) {
       cleanupStateSwitchingAccounts();
     }
   }
