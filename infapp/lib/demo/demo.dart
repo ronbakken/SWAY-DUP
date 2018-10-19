@@ -488,7 +488,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
                           // print("Get pos");
                           try {
                             Position position = await Geolocator()
-                                .getLastKnownPosition(desiredAccuracy: LocationAccuracy.medium);
+                                .getLastKnownPosition(
+                                    desiredAccuracy: LocationAccuracy.medium);
                             print('test');
                             print(position?.latitude); // May be null
                             print(position?.longitude); // May be null

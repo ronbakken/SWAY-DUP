@@ -104,7 +104,7 @@ class _OffersMapState extends State<OffersMap> {
       Position position = await _geolocator.getLastKnownPosition();
       if (!mounted) return;
       _positionSubscription =
-           _geolocator.getPositionStream().listen((position) {
+          _geolocator.getPositionStream().listen((position) {
         if (position != null &&
             position.latitude != null &&
             position.longitude != null &&
