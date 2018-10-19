@@ -4,11 +4,14 @@ import 'dart:math';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:inf/network_mobile/cross_account_selection.dart';
+import 'package:inf/network_mobile/network_stack.dart';
+import 'package:inf/utility/rebuild_tracker.dart';
 
 import '../business_offer_list.dart';
 import '../protobuf/inf_protobuf.dart';
-import '../network/config_manager.dart' show ConfigManager;
-import '../network/network_manager.dart';
+import '../network_mobile/config_manager.dart' show ConfigManager;
+import '../network_mobile/network_manager.dart';
 
 import '../app_switch.dart';
 import '../onboarding_selection.dart' show OnboardingSelection;
@@ -28,30 +31,38 @@ import '../location_selection/location_search.dart';
 import '../location_selection/experiment_files/geocoding_test.dart';
 
 class DemoApp extends StatefulWidget {
-  const DemoApp({Key key, this.startupConfig}) : super(key: key);
+  const DemoApp({Key key, this.startupConfig, this.crossAccountStore})
+      : super(key: key);
 
   final ConfigData startupConfig;
+  final CrossAccountStore crossAccountStore;
 
   @override
   _DemoAppState createState() => new _DemoAppState();
 }
 
 class _DemoAppState extends State<DemoApp> {
-  String overrideUri =
-      ''; // "ws://192.168.105.2:9090/ws" (empty string disables connect, null uses config)
-  int localAccountId = 0; // 1
+  bool developerMenu = false;
 
-  void setServer(String uri, int localAccountId) {
+  void enterDeveloperMenu([bool state = true]) {
     setState(() {
-      this.overrideUri = uri;
-      this.localAccountId = localAccountId;
+      developerMenu = state;
     });
   }
 
+  @override
+  void reassemble() {
+    super.reassemble();
+
+    // Enable this line to return to development mode upon code refresh
+    developerMenu = true;
+  }
+
   Widget _buildMaterialApp(BuildContext context) {
-    NetworkInterface network = NetworkManager.of(context);
     // Dark switch
     /*
+    // Switch theme based on account type
+    // NetworkInterface network = NetworkManager.of(context);
     bool dark = network.account.state.accountType == AccountType.AT_BUSINESS ||
         network.account.state.accountId == 0;
     */
@@ -106,32 +117,43 @@ class _DemoAppState extends State<DemoApp> {
       title: 'INF Marketplace',
       // debugShowMaterialGrid: true,
       theme: theme,
-      home: (widget.startupConfig.services.domain != 'dev' ||
-              localAccountId != 0)
-          ? new AppSwitch()
-          : new DemoHomePage(
-              onSetServer:
-                  setServer), // new OnboardingSelection(onInfluencer: () { }, onBusiness: () { }), //
+      home: !developerMenu
+          ? new Builder(
+              builder: (BuildContext context) {
+                return new RebuildTracker(
+                  message: "Full app rebuild triggered (3)",
+                  child: new AppSwitch(),
+                );
+              },
+            )
+          : new Builder(
+              builder: (BuildContext context) {
+                return new RebuildTracker(
+                  message: "Full app rebuild triggered (3)",
+                  child: new DemoHomePage(
+                    onExitDevelopmentMode: () {
+                      enterDeveloperMenu(false);
+                    },
+                  ),
+                );
+              },
+            ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return new ConfigManager(
-      key: new Key('InfDemo.ConfigManager'),
+    return new NetworkStack(
       startupConfig: widget.startupConfig,
-      child: new NetworkManager(
-        key: new Key('InfDemo.NetworkManager'),
-        overrideUri: widget.startupConfig.services.domain == 'dev'
-            ? overrideUri
-            : null, // Uri of server to connect with
-        localAccountId: widget.startupConfig.services.domain == 'dev'
-            ? localAccountId
-            : null,
-        // overrideUri: "ws://localhost:9090/ws",
-        child: new Builder(
-          builder: _buildMaterialApp,
-        ),
+      crossAccountStore: widget.crossAccountStore,
+      child: new RebuildTracker(
+        message: "Full app rebuild triggered (1)",
+        child: new Builder(builder: (BuildContext context) {
+          return new RebuildTracker(
+            message: "Full app rebuild triggered (2)",
+            child: _buildMaterialApp(context),
+          );
+        }),
       ),
     );
   }
@@ -151,9 +173,9 @@ class MeepMeep extends StatelessWidget {
 }
 
 class DemoHomePage extends StatefulWidget {
-  const DemoHomePage({Key key, this.onSetServer}) : super(key: key);
+  final Function() onExitDevelopmentMode;
 
-  final Function onSetServer;
+  const DemoHomePage({Key key, this.onExitDevelopmentMode}) : super(key: key);
 
   @override
   _DemoHomePageState createState() => new _DemoHomePageState();
@@ -336,6 +358,29 @@ class _DemoHomePageState extends State<DemoHomePage> {
   @override
   Widget build(BuildContext context) {
     assert(ConfigManager.of(context) != null);
+
+    List<Widget> accountButtons = new List<Widget>();
+
+    for (LocalAccountData localAccount
+        in CrossAccountSelection.of(context).accounts) {
+      accountButtons.add(new RaisedButton(
+        child: new Column(
+          children: [
+            new Text("Domain: " + localAccount.domain.toString()),
+            new Text("Local Id: " + localAccount.localId.toString()),
+            new Text("Account Id: " + localAccount.accountId.toString()),
+            new Text("Account Type: " + localAccount.accountType.toString()),
+            new Text("Name: " + localAccount.name.toString()),
+          ],
+        ),
+        onPressed: () {
+          CrossAccountSelection.of(context)
+              .switchAccount(localAccount.domain, localAccount.accountId);
+          widget.onExitDevelopmentMode();
+        },
+      ));
+    }
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('***INF UI Demo***'),
@@ -381,6 +426,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
           new Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             new Text('Demo', style: Theme.of(context).textTheme.subhead),
           ]),
+          /*
           new FlatButton(
             child: new Row(
                 children: [new Text('Localhost 1 (Genymotion Emulator)')]),
@@ -408,6 +454,45 @@ class _DemoHomePageState extends State<DemoHomePage> {
             onPressed: () {
               widget.onSetServer("wss://excalibur.devinf.net/api", 2);
             }, // 1&2 = mariadb.devinf.net
+          ),
+          */
+          new FlatButton(
+            child: new Row(children: [new Text("Switch server to Excalibur")]),
+            onPressed: () {
+              NetworkManager.of(context)
+                  .overrideUri("wss://excalibur.devinf.net/api");
+            },
+          ),
+          new FlatButton(
+            child: new Row(children: [new Text("Switch server to Ulfberth")]),
+            onPressed: () {
+              NetworkManager.of(context)
+                  .overrideUri("wss://ulfberth.devinf.net/api");
+            },
+          ),
+          new FlatButton(
+            child:
+                new Row(children: [new Text("Switch server to 192.168.56.1")]),
+            onPressed: () {
+              NetworkManager.of(context)
+                  .overrideUri("wss://192.168.56.1:8090/api");
+            },
+          ),
+          new FlatButton(
+            child:
+                new Row(children: [new Text("Switch server to 192.168.0.111")]),
+            onPressed: () {
+              NetworkManager.of(context)
+                  .overrideUri("ws://192.168.0.111:8090/api");
+            },
+          ),
+          new Column(children: accountButtons),
+          new FlatButton(
+            child: new Row(children: [new Text('Add Account')]),
+            onPressed: () {
+              CrossAccountSelection.of(context).addAccount();
+              widget.onExitDevelopmentMode();
+            },
           ),
 
           ///

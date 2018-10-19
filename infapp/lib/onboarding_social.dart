@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'network/config_manager.dart';
 import 'protobuf/inf_protobuf.dart';
 import 'utility/progress_dialog.dart';
 
@@ -37,7 +36,6 @@ class OnboardingSocial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    assert(ConfigManager.of(context) != null);
     List<Widget> oauthButtons = new List<Widget>();
     print("OAuth Providers: " + oauthProviders.length.toString());
     int nbButtons = oauthProviders.length < oauthState.length

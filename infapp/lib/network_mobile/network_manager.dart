@@ -41,12 +41,10 @@ NotificationNavigateApplicant unhandledNotificationNavigateApplicant;
 class NetworkManager extends StatelessWidget {
   const NetworkManager({
     Key key,
-    this.overrideUri,
     @required this.localAccountId,
     this.child,
   }) : super(key: key);
 
-  final String overrideUri;
   final int localAccountId;
   final Widget child;
 
@@ -108,6 +106,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   bool _alive;
   TalkSocket _ts;
 
+  String _overrideUri;
+
   final random = new Random.secure();
 
   int nextDeviceGhostId;
@@ -121,6 +121,16 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       new List<StreamSubscription<TalkMessage>>();
 
   List<int> _suppressChatNotifications = new List<int>();
+
+  @override
+  void overrideUri(String serverUri) {
+    _overrideUri = serverUri;
+    print("[INF] Override server uri to $serverUri");
+    if (_ts != null) {
+      _ts.close();
+      _ts = null;
+    }
+  }
 
   void syncConfig() {
     // May only be called from a setState block
@@ -503,7 +513,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   bool _netConfigWarning = false;
   Future _networkSession() async {
     try {
-      String uri = widget.networkManager.overrideUri;
+      String uri = _overrideUri ?? _config.services.apiHosts[random.nextInt(_config.services.apiHosts.length)];
       if (uri == null || uri.length == 0) {
         if (!_netConfigWarning) {
           _netConfigWarning = true;
@@ -1736,6 +1746,8 @@ abstract class NetworkInterface {
 
   /// Whether we are connected to the network.
   NetworkConnectionState connected;
+
+  void overrideUri(String serverUri);
 
   /////////////////////////////////////////////////////////////////////////////
   // Onboarding and OAuth

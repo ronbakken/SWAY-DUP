@@ -4,7 +4,7 @@ import 'package:inf/profile/profile_avatar.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../network/config_manager.dart';
+import '../network_mobile/config_manager.dart';
 import '../widgets/follower_tray.dart';
 import '../widgets/edit_button.dart';
 import '../protobuf/inf_protobuf.dart';

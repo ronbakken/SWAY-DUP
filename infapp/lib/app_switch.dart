@@ -7,7 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:flutter/widgets.dart';
 
 import 'protobuf/inf_protobuf.dart';
-import 'network/network_manager.dart';
+import 'network_mobile/network_manager.dart';
 import 'loading_network.dart';
 import 'app_onboarding.dart';
 import 'app_business.dart';

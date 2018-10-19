@@ -25,6 +25,8 @@ dependencies:
   device_info: ^0.2.1
   shared_preferences: ^0.4.2
   pointycastle: ^1.0.0-rc4
+  synchronized: ^1.5.1
+  path_provider: ^0.4.1
 
   flutter_map: ^0.1.4
 

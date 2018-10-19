@@ -11,8 +11,8 @@ import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'protobuf/inf_protobuf.dart';
-import 'network/config_manager.dart';
-import 'network/network_manager.dart';
+import 'network_mobile/config_manager.dart';
+import 'network_mobile/network_manager.dart';
 
 import 'utility/progress_dialog.dart';
 
