@@ -39,7 +39,7 @@ class _PrototypeState extends State<Prototype> {
     super.reassemble();
 
     // Enable this line to return to development mode upon code refresh
-    developerMenu = true;
+    // developerMenu = true;
   }
 
   Widget _buildMaterialApp(BuildContext context) {

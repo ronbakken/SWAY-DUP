@@ -10,6 +10,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:inf/network_generic/multi_account_client.dart';
+import 'package:inf/network_inheritable/multi_account_selection.dart';
+import 'package:inf/screens/account_switch.dart';
 
 import 'package:latlong/latlong.dart';
 
@@ -365,6 +368,26 @@ class _AppInfluencerState extends State<AppInfluencer> {
     }));
   }
 
+  void navigateToSwitchAccount() {
+    Navigator.push(
+        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+        context, new MaterialPageRoute(builder: (context) {
+      // ConfigData config = ConfigManager.of(context);
+      // NetworkInterface network = NetworkManager.of(context);
+      // NavigatorState navigator = Navigator.of(context);
+      MultiAccountClient selection = MultiAccountSelection.of(context);
+      return new AccountSwitch(
+        accounts: selection.accounts,
+        onAddAccount: () {
+          selection.addAccount();
+        },
+        onSwitchAccount: (LocalAccountData localAccount) {
+          selection.switchAccount(localAccount.domain, localAccount.accountId);
+        },
+      );
+    }));
+  }
+
   void navigateToDebugAccount() {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
@@ -568,6 +591,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
       onNavigateProfile: () {
         navigateToProfileView(context);
       },
+      onNavigateSwitchAccount: navigateToSwitchAccount,
       onNavigateDebugAccount: navigateToDebugAccount,
       proposalsSent: new Builder(
         builder: (context) {

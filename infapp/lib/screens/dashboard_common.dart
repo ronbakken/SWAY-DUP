@@ -25,6 +25,7 @@ class DashboardCommon extends StatefulWidget {
     Key key,
     @required this.account,
     @required this.onNavigateProfile,
+    @required this.onNavigateSwitchAccount,
     @required this.onNavigateDebugAccount,
     this.onMakeAnOffer,
     this.map,
@@ -49,6 +50,7 @@ class DashboardCommon extends StatefulWidget {
 
   final DataAccount account;
   final Function() onNavigateProfile;
+  final Function() onNavigateSwitchAccount;
   final Function() onNavigateDebugAccount;
   final Function() onMakeAnOffer;
 
@@ -305,8 +307,6 @@ class _DashboardCommonState extends State<DashboardCommon>
                                 ))))
                   ]))),
           new FlatButton(
-            //padding: new EdgeInsets.all(
-            //    0.0), // ew EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
             child: new Row(children: [
               new Container(
                 margin: new EdgeInsets.all(16.0),
@@ -321,11 +321,24 @@ class _DashboardCommonState extends State<DashboardCommon>
                   }
                 : null,
           ),
+          new FlatButton(
+            child: new Row(children: [
+              new Container(
+                margin: new EdgeInsets.all(16.0),
+                child: new Icon(Icons.supervisor_account),
+              ),
+              new Text('Switch User')
+            ]),
+            onPressed: (widget.onNavigateSwitchAccount != null)
+                ? () {
+                    Navigator.pop(context);
+                    widget.onNavigateSwitchAccount();
+                  }
+                : null,
+          ),
           (widget.account.state.globalAccountState.value >=
                   GlobalAccountState.GAS_DEBUG.value)
               ? new FlatButton(
-                  //padding: new EdgeInsets.all(
-                  //    0.0), // ew EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
                   child: new Row(children: [
                     new Container(
                       margin: new EdgeInsets.all(16.0),
