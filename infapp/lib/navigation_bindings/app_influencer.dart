@@ -87,11 +87,11 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       context,
       new MaterialPageRoute(
         settings: new RouteSettings(name: '/offer/' + offerId.toString()),
-        builder: (context) {
+        builder: (BuildContext context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-          ConfigData config = ConfigManager.of(context);
+          // ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
-          NavigatorState navigator = Navigator.of(context);
+          // NavigatorState navigator = Navigator.of(context);
           DataBusinessOffer businessOffer = network.tryGetBusinessOffer(offerId);
           DataAccount businessAccount = network.tryGetPublicProfile(new Int64(businessOffer.accountId));
           return new OfferView(

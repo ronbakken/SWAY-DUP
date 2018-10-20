@@ -1268,8 +1268,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         }
       }
     }
-    if (cached.account == null ||
-        cached.dirty &&
+    if ((cached.account == null ||
+        cached.dirty) &&
             !cached.loading &&
             connected == NetworkConnectionState.Ready) {
       cached.loading = true;
