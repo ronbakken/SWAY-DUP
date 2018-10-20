@@ -4,6 +4,8 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+// TODO (2018 OCT 20): Hook into a network callback for navigation, rather than having the network call into this class.
+
 /*
 
 Cross Account Navigation
