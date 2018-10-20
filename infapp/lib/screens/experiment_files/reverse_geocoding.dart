@@ -1,3 +1,9 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
+*/
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -40,3 +46,5 @@ Future<String> coordinatesToAddress(double latitude, double longitude) async {
     return placeName;
   }
 }
+
+/* end of file */

@@ -1,13 +1,17 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
+*/
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '../protobuf/inf_protobuf.dart';
-import 'profile_view.dart';
-import '../page_transition.dart';
-import '../widgets/image_uploader.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/widgets/image_uploader.dart';
 
-import '../widgets/network_status.dart';
+import 'package:inf/widgets/network_status.dart';
 
 // TODO: Warn when unsaved changes
 
@@ -123,3 +127,5 @@ class _ProfileEditState extends State<ProfileEdit> {
     );
   }
 }
+
+/* end of file */

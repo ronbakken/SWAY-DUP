@@ -1,3 +1,9 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
+*/
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/profile/profile_avatar.dart';
@@ -114,3 +120,5 @@ class ProfileView extends StatelessWidget {
     );
   }
 }
+
+/* end of file */

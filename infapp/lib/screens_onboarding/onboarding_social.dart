@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'protobuf/inf_protobuf.dart';
-import 'utility/progress_dialog.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/widgets/progress_dialog.dart';
 
-import 'widgets/network_status.dart';
+import 'package:inf/widgets/network_status.dart';
 
 class OnboardingSocial extends StatelessWidget {
   const OnboardingSocial({

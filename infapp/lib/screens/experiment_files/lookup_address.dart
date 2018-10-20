@@ -1,3 +1,9 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
+*/
+
 import 'dart:async';
 import 'package:latlong/latlong.dart';
 import 'dart:convert';
@@ -36,3 +42,5 @@ Future<LatLng> getCoordinates(String address) async {
   // Note the json format is (long, lat), we want to return (lat, long)
   return new LatLng(coordinates[1], coordinates[0]);
 }
+
+/* end of file */

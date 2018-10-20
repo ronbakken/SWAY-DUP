@@ -1,3 +1,9 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
+*/
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
@@ -165,3 +171,5 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     );
   }
 }
+
+/* end of file */

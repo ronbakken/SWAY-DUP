@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'widgets/network_status.dart';
+import 'package:inf/widgets/network_status.dart';
 
 class OnboardingSelection extends StatelessWidget {
   const OnboardingSelection({

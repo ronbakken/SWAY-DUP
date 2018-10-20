@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/profile/profile_avatar.dart';
+import 'package:inf/widgets/profile_avatar.dart';
 import 'package:inf/styling_constants.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
 
-import 'utility/progress_dialog.dart';
-import 'protobuf/inf_protobuf.dart';
-import 'cards/offer_card.dart';
-import 'widgets/image_uploader.dart';
-import 'widgets/network_status.dart';
+import 'package:inf/widgets/progress_dialog.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/cards/offer_card.dart';
+import 'package:inf/widgets/image_uploader.dart';
+import 'package:inf/widgets/network_status.dart';
 
 class HaggleView extends StatefulWidget {
   const HaggleView({

@@ -6,13 +6,13 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/widgets.dart';
 
-import 'protobuf/inf_protobuf.dart';
-import 'network_mobile/network_manager.dart';
-import 'loading_network.dart';
-import 'app_onboarding.dart';
-import 'app_business.dart';
-import 'app_influencer.dart';
-import 'debug_account.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/network_mobile/network_manager.dart';
+import 'package:inf/screens/loading_network.dart';
+import 'package:inf/navigation_bindings/app_onboarding.dart';
+import 'package:inf/navigation_bindings/app_business.dart';
+import 'package:inf/navigation_bindings/app_influencer.dart';
+import 'package:inf/screens/debug_account.dart';
 
 // Switches between app home depending on the network state
 class AppSwitch extends StatelessWidget {

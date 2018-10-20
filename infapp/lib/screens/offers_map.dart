@@ -7,18 +7,13 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:inf/widgets/blurred_network_image.dart';
-
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
-
-import 'search/search_page.dart';
-import 'protobuf/inf_protobuf.dart';
-
 import 'package:geolocator/geolocator.dart';
+
+import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 class OffersMap extends StatefulWidget {
   const OffersMap({

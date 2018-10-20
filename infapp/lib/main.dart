@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
-import 'package:inf/demo.dart' show DemoApp;
+import 'package:inf/prototype.dart' show Prototype;
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 
@@ -34,7 +34,7 @@ launchApp() async {
       await loadMultiAccountStore(config.services.domain);
 
   // Run flutter app with the loaded config
-  runApp(new DemoApp(
+  runApp(new Prototype(
     startupConfig: config,
     multiAccountStore: multiAccountStore,
   ));

@@ -10,13 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'protobuf/inf_protobuf.dart';
-import 'network_mobile/config_manager.dart';
-import 'network_mobile/network_manager.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_mobile/network_manager.dart';
 
-import 'widgets/oauth_scaffold.dart';
-import 'onboarding_selection.dart';
-import 'onboarding_social.dart';
+import 'package:inf/widgets/oauth_scaffold.dart';
+import 'package:inf/screens_onboarding/onboarding_selection.dart';
+import 'package:inf/screens_onboarding/onboarding_social.dart';
 
 // Onboarding sequence
 class AppOnboarding extends StatefulWidget {

@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:inf/profile/profile_avatar.dart';
-import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:inf/widgets/profile_avatar.dart';
 
-import 'protobuf/inf_protobuf.dart';
-import 'widgets/carousel_app_bar.dart';
-import 'widgets/dark_container.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/widgets/carousel_app_bar.dart';
+import 'package:inf/widgets/dark_container.dart';
 
-import 'utility/ensure_visible_when_focused.dart';
+import 'package:inf/utility/ensure_visible_when_focused.dart';
 
 class OfferView extends StatefulWidget {
   const OfferView({

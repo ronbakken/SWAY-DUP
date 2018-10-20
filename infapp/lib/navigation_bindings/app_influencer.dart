@@ -11,31 +11,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:inf/applicants_list_influencer.dart';
 
-import 'package:inf/offers_showcase.dart';
-import 'package:inf/offers_map.dart';
+
 import 'package:latlong/latlong.dart';
 
-import 'protobuf/inf_protobuf.dart';
-import 'network_mobile/config_manager.dart';
-import 'network_mobile/network_manager.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_mobile/network_manager.dart';
 
-import 'utility/progress_dialog.dart';
+import 'package:inf/utility/page_transition.dart';
+import 'package:inf/widgets/progress_dialog.dart';
+import 'package:inf/widgets/offers_showcase.dart';
 
-import 'profile/profile_view.dart';
-import 'profile/profile_edit.dart';
+import 'package:inf/screens/profile_view.dart';
+import 'package:inf/screens/profile_edit.dart';
+import 'package:inf/screens/applicants_list_influencer.dart';
+import 'package:inf/screens/dashboard_common.dart';
+import 'package:inf/screens/offer_view.dart';
+import 'package:inf/screens/debug_account.dart';
+import 'package:inf/screens/haggle_view.dart';
+import 'package:inf/screens/offers_map.dart';
 
-import 'dashboard_common.dart';
-import 'offer_view.dart';
-import 'business_offer_list.dart';
-import 'debug_account.dart';
-import 'page_transition.dart';
-import 'haggle_view.dart';
-import "applicants_list_placeholder.dart";
-
-import 'search/search_page_common.dart';
-import 'cards/offer_card.dart';
+import 'package:inf/search/search_page_common.dart';
+import 'package:inf/cards/offer_card.dart';
 
 // Influencer user
 class AppInfluencer extends StatefulWidget {
