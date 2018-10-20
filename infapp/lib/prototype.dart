@@ -51,6 +51,7 @@ class _PrototypeState extends State<Prototype> {
         network.account.state.accountId == 0;
     */
     bool dark = true;
+    // Custom slate green theme
     // Set base colors
     ThemeData theme = dark
         // Dark theme
@@ -85,12 +86,66 @@ class _PrototypeState extends State<Prototype> {
         // Generate these values on https://material.io/color/!
         primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
         primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-        primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30)
-            /* Color.lerp(new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
-            new Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125) */
-            ,
+        primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
       );
     }
+    /*
+    // Custom sharp green theme
+    // Set base colors
+    ThemeData theme = dark
+        // Dark theme
+        ? new ThemeData(
+            brightness: Brightness.dark, // This makes things dark!
+            primarySwatch:
+                Colors.blueGrey, // This is just defaults, no need to change!
+            disabledColor: Colors.white12, // Dark fix
+            primaryColorBrightness: Brightness.dark,
+            accentColorBrightness: Brightness.dark,
+          )
+        // Light theme
+        : new ThemeData(
+            primarySwatch: Colors.blueGrey,
+          );
+    if (dark) {
+      // Adjust colors
+      theme = theme.copyWith(
+        // Generate these values on https://material.io/color/!
+        primaryColor: new Color.fromARGB(0xff, 0x0d, 0x82, 0x6a),
+        primaryColorLight: new Color.fromARGB(0xff, 0x4e, 0xb2, 0x98),
+        primaryColorDark: Color.lerp(new Color.fromARGB(0xff, 0x00, 0x54, 0x3f),
+            new Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125),
+        buttonColor: new Color.fromARGB(0xff, 0x0d, 0x82, 0x6a),
+        // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
+        accentColor: new Color.fromARGB(0xff, 0x52, 0xff, 0xc5), // 52FF88,
+        // Grayscale of primaryColor
+        unselectedWidgetColor: new Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
+      );
+    } else {
+      theme = theme.copyWith(
+        // Generate these values on https://material.io/color/!
+        primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+        primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+      );
+    }
+    */
+    // Plain blue theme
+    /*
+    ThemeData theme = dark
+        // Dark theme
+        ? new ThemeData(
+            brightness: Brightness.dark, // This makes things dark!
+            primarySwatch: Colors.blue,
+            primaryColor: Colors.blue,
+            disabledColor: Colors.white12, // Dark fix
+            primaryColorBrightness: Brightness.dark,
+            accentColorBrightness: Brightness.dark,
+          )
+        // Light theme
+        : new ThemeData(
+            primarySwatch: Colors.blue,
+          );
+    */
     // Adjust widget themes
     theme = theme.copyWith(
       buttonTheme: theme.buttonTheme.copyWith(
