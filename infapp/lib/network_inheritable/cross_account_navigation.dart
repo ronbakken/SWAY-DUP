@@ -60,7 +60,8 @@ class CrossAccountNavigation extends StatefulWidget {
 }
 
 class CrossAccountNavigator extends State<CrossAccountNavigation> {
-  final Map<String, StreamController<NavigationRequest>> _navigationRequests = new Map<String, StreamController<NavigationRequest>>();
+  final Map<String, StreamController<NavigationRequest>> _navigationRequests =
+      new Map<String, StreamController<NavigationRequest>>();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,8 @@ class CrossAccountNavigator extends State<CrossAccountNavigation> {
 
   @override
   void dispose() {
-    for (StreamController<NavigationRequest> controller in _navigationRequests.values) {
+    for (StreamController<NavigationRequest> controller
+        in _navigationRequests.values) {
       controller.close();
     }
     _navigationRequests.clear();
@@ -78,19 +80,22 @@ class CrossAccountNavigator extends State<CrossAccountNavigation> {
   }
 
   StreamController<NavigationRequest> _createController(String key) {
-    StreamController<NavigationRequest> controller = new StreamController<NavigationRequest>(onCancel: () {
-      StreamController<NavigationRequest> controller = _navigationRequests.remove(key);
+    StreamController<NavigationRequest> controller =
+        new StreamController<NavigationRequest>(onCancel: () {
+      StreamController<NavigationRequest> controller =
+          _navigationRequests.remove(key);
       controller?.close(); // Bye
     });
     _navigationRequests[key] = controller;
     return controller;
   }
 
-  StreamSubscription<NavigationRequest> listen(String domain, Int64 accountId, Function(NavigationTarget target, Int64 id) onData) {
+  StreamSubscription<NavigationRequest> listen(String domain, Int64 accountId,
+      Function(NavigationTarget target, Int64 id) onData) {
     assert(onData != null);
     assert(mounted);
     String key = "$domain/$accountId"; // Works
-    StreamController<NavigationRequest> controller = _navigationRequests[key]; 
+    StreamController<NavigationRequest> controller = _navigationRequests[key];
     if (controller?.hasListener ?? false) {
       controller.close(); // Bye
       controller = null;
@@ -101,10 +106,11 @@ class CrossAccountNavigator extends State<CrossAccountNavigation> {
     });
   }
 
-  void navigate(String domain, Int64 accountId, NavigationTarget target, Int64 id) {
+  void navigate(
+      String domain, Int64 accountId, NavigationTarget target, Int64 id) {
     assert(mounted);
     String key = "$domain/$accountId";
-    StreamController<NavigationRequest> controller = _navigationRequests[key]; 
+    StreamController<NavigationRequest> controller = _navigationRequests[key];
     controller ??= _createController(key);
     // We want to open this screen
     controller.add(new NavigationRequest(target, id));

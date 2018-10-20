@@ -317,7 +317,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     google.message_id: 0:1537966114577353%ddd1e337ddd1e337, 
     sender_id: 11}*/
     if (data['applicant_id'] != null) {
-      CrossAccountNavigation.of(context).navigate(data['domain'], Int64.parseInt(data['account_id']), NavigationTarget.Proposal, Int64.parseInt(data['applicant_id']));
+      CrossAccountNavigation.of(context).navigate(
+          data['domain'],
+          Int64.parseInt(data['account_id']),
+          NavigationTarget.Proposal,
+          Int64.parseInt(data['applicant_id']));
     }
   }
 
@@ -327,7 +331,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       /*domain=dev&account_id=10&applicant_id=16*/
       Map<String, String> data = Uri.splitQueryString(payload);
       if (data['applicant_id'] != null) {
-        CrossAccountNavigation.of(context).navigate(data['domain'], Int64.parseInt(data['account_id']), NavigationTarget.Proposal, Int64.parseInt(data['applicant_id']));
+        CrossAccountNavigation.of(context).navigate(
+            data['domain'],
+            Int64.parseInt(data['account_id']),
+            NavigationTarget.Proposal,
+            Int64.parseInt(data['applicant_id']));
       }
     }
   }
