@@ -75,19 +75,25 @@ class CrossAccountNavigator extends State<CrossAccountNavigation> {
     super.dispose();
   }
 
+  StreamController<NavigationRequest> _createController(String key) {
+    StreamController<NavigationRequest> controller = new StreamController<NavigationRequest>(onCancel: () {
+      StreamController<NavigationRequest> controller = _navigationRequests.remove(key);
+      controller?.close(); // Bye
+    });
+    _navigationRequests[key] = controller;
+    return controller;
+  }
+
   StreamSubscription<NavigationRequest> listen(String domain, Int64 accountId, Function(NavigationTarget target, Int64 id) onData) {
     assert(onData != null);
     assert(mounted);
-    String key = "$domain/$accountId"; // Good enough
+    String key = "$domain/$accountId"; // Works
     StreamController<NavigationRequest> controller = _navigationRequests[key]; 
     if (controller?.hasListener ?? false) {
-      controller.close(); // Bye bye
+      controller.close(); // Bye
       controller = null;
     }
-    if (controller == null) {
-      controller = new StreamController<NavigationRequest>();
-      _navigationRequests[key] = controller;
-    }
+    controller ??= _createController(key);
     return controller.stream.listen((data) {
       onData(data.target, data.id);
     });
@@ -97,10 +103,7 @@ class CrossAccountNavigator extends State<CrossAccountNavigation> {
     assert(mounted);
     String key = "$domain/$accountId";
     StreamController<NavigationRequest> controller = _navigationRequests[key]; 
-    if (controller == null) {
-      controller = new StreamController<NavigationRequest>();
-      _navigationRequests[key] = controller;
-    }
+    controller ??= _createController(key);
     // We want to open this screen
     controller.add(new NavigationRequest(target, id));
     // On this account

@@ -77,13 +77,14 @@ class _AppOnboardingState extends State<AppOnboarding> {
         ConfigData config = ConfigManager.of(context);
         NetworkInterface network = NetworkManager.of(context);
         NavigatorState navigator = Navigator.of(context);
-        if (network.account.state.accountId != 0) {
+        /*if (network.account.state.accountId != 0) {
           // Need to implement cleaner navigation
           () async {
             await null; // Pop after
             navigator.popUntil(ModalRoute.withName(Navigator.defaultRouteName));
           }();
-        }
+        }*/
+        // TODO: Fix network delay on accountId update, change message structure
         bool canSignUp = (network.account.state.accountId == 0) &&
             network.account.detail.socialMedia.any(
                 (DataSocialMedia data) => (data.connected && !data.expired));
