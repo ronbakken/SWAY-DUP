@@ -16,6 +16,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
+import 'package:inf/network_mobile/network_profiles.dart';
 import 'package:wstalk/wstalk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
@@ -27,7 +28,11 @@ import 'package:crypto/src/digest_sink.dart';
 
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_mobile/network_interface.dart';
+import 'package:inf/network_mobile/network_internals.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
+
+export 'package:inf/network_mobile/network_interface.dart';
 
 // TODO: Reassemble should re-merge all protobuf
 
@@ -89,8 +94,8 @@ class _NetworkManagerStateful extends StatefulWidget {
 }
 
 class _NetworkManagerState extends State<_NetworkManagerStateful>
-    with WidgetsBindingObserver
-    implements NetworkInterface {
+    with WidgetsBindingObserver, NetworkProfiles
+    implements NetworkInterface, NetworkInternals {
   // see NetworkInterface
 
   LocalAccountData _currentLocalAccount;
@@ -102,6 +107,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   bool _alive;
   TalkSocket _ts;
+
+  TalkSocket get ts { return _ts; }
 
   String _overrideUri;
 
@@ -118,6 +125,12 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       new List<StreamSubscription<TalkMessage>>();
 
   List<int> _suppressChatNotifications = new List<int>();
+
+  void onProfileChanged(ChangeAction action, Int64 id) {
+    setState(() {
+      ++_changed;
+    });
+  }
 
   @override
   void overrideUri(String serverUri) {
@@ -201,9 +214,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       // Mark all caches as dirty, since we may have been offline for a while
       _offersLoaded = false;
       _applicantsLoaded = false;
-      _cachedAccounts.values.forEach((cached) {
-        cached.dirty = true;
-      });
+      markCachedAccountsDirty();
       _cachedBusinessOffers.values.forEach((cached) {
         cached.dirty = true;
       });
@@ -317,7 +328,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     google.message_id: 0:1537966114577353%ddd1e337ddd1e337, 
     sender_id: 11}*/
     if (data['applicant_id'] != null) {
-      CrossAccountNavigation.of(context).navigate(data['domain'], Int64.parseInt(data['account_id']), NavigationTarget.Proposal, Int64.parseInt(data['applicant_id']));
+      CrossAccountNavigation.of(context).navigate(
+          data['domain'],
+          Int64.parseInt(data['account_id']),
+          NavigationTarget.Proposal,
+          Int64.parseInt(data['applicant_id']));
     }
   }
 
@@ -327,7 +342,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       /*domain=dev&account_id=10&applicant_id=16*/
       Map<String, String> data = Uri.splitQueryString(payload);
       if (data['applicant_id'] != null) {
-        CrossAccountNavigation.of(context).navigate(data['domain'], Int64.parseInt(data['account_id']), NavigationTarget.Proposal, Int64.parseInt(data['applicant_id']));
+        CrossAccountNavigation.of(context).navigate(
+            data['domain'],
+            Int64.parseInt(data['account_id']),
+            NavigationTarget.Proposal,
+            Int64.parseInt(data['applicant_id']));
       }
     }
   }
@@ -823,7 +842,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   static int _netAccountCreateReq = TalkSocket.encode("A_CREATE");
   @override
-  Future<Null> createAccount(double latitude, double longitude) async {
+  Future<void> createAccount(double latitude, double longitude) async {
     NetAccountCreateReq pb = new NetAccountCreateReq();
     if (latitude != null &&
         latitude != 0.0 &&
@@ -927,6 +946,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   bool offersLoading = false;
 
   void _cacheBusinessOffer(DataBusinessOffer offer) {
+    profileFallbackHint(offer);
     _CachedBusinessOffer cached = _cachedBusinessOffers[offer.offerId];
     if (cached == null) {
       cached = new _CachedBusinessOffer();
@@ -1077,6 +1097,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   /////////////////////////////////////////////////////////////////////////////
 
   /// Ensure to get the latest account data, in case we have it. Not necessary for network.account (unless detached)
+  /*
   @override
   DataAccount latestAccount(DataAccount account) {
     // Check any caches if we have, otherwise just return
@@ -1095,6 +1116,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
     return account;
   }
+  */
 
   static int _netGetOfferReq = TalkSocket.encode("GTOFFERR");
   Future<DataBusinessOffer> _getBusinessOffer(
@@ -1185,111 +1207,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   /////////////////////////////////////////////////////////////////////////////
   // Get profile
   /////////////////////////////////////////////////////////////////////////////
-
-  Map<int, _CachedDataAccount> _cachedAccounts =
-      new Map<int, _CachedDataAccount>();
-
-  /// Refresh all offers
-  /// @override
-  static int _netLoadPublicProfileReq = TalkSocket.encode("L_PROFIL");
-  Future<DataAccount> getPublicProfile(int accountId) async {
-    print("[INF] Get public profile $accountId");
-    if (accountId == this.account.state.accountId) {
-      // It's me...
-      return this.account;
-    }
-    NetGetAccountReq pbReq = new NetGetAccountReq();
-    pbReq.accountId = accountId;
-    TalkMessage message =
-        await _ts.sendRequest(_netLoadPublicProfileReq, pbReq.writeToBuffer());
-    DataAccount account = new DataAccount();
-    account.mergeFromBuffer(message.data);
-    if (account.state.accountId == accountId) {
-      _CachedDataAccount cached;
-      if (!_cachedAccounts.containsKey(account.state.accountId)) {
-        cached = new _CachedDataAccount();
-        _cachedAccounts[account.state.accountId] = cached;
-      } else {
-        cached = _cachedAccounts[account.state.accountId];
-        cached.fallback = null;
-      }
-      setState(() {
-        cached.account = account;
-        cached.dirty = false;
-      });
-    } else {
-      print("[INF] Received invalid profile. Critical issue");
-    }
-    return account;
-  }
-
-  @override
-  DataAccount tryGetPublicProfile(Int64 accountId,
-      {DataAccount fallback, DataBusinessOffer fallbackOffer}) {
-    _CachedDataAccount cached;
-    // _cachedAccounts.clear();
-    if (accountId == this.account.state.accountId) {
-      // It's me...
-      return this.account;
-    }
-    if (accountId == new Int64(0)) {
-      DataAccount emptyAccount = new DataAccount();
-      emptyAccount.state = new DataAccountState();
-      emptyAccount.summary = new DataAccountSummary();
-      emptyAccount.detail = new DataAccountDetail();
-      return emptyAccount;
-    }
-    if (!_cachedAccounts.containsKey(accountId)) {
-      cached = new _CachedDataAccount();
-      _cachedAccounts[accountId.toInt()] = cached;
-    } else {
-      cached = _cachedAccounts[accountId];
-    }
-    if (cached.account == null) {
-      if (cached.fallback == null) {
-        cached.fallback = new DataAccount();
-        cached.fallback.state = new DataAccountState();
-        cached.fallback.summary = new DataAccountSummary();
-        cached.fallback.detail = new DataAccountDetail();
-        cached.fallback.state.accountId = accountId.toInt();
-      }
-      if (fallback != null) {
-        if (fallback.detail.socialMedia.isNotEmpty) {
-          cached.fallback.detail.socialMedia.clear();
-        }
-        cached.fallback.mergeFromMessage(fallback);
-      }
-      if (fallbackOffer != null) {
-        if (cached.fallback.summary.name.isEmpty) {
-          cached.fallback.summary.name = fallbackOffer.locationName;
-        }
-        if (cached.fallback.summary.location.isEmpty) {
-          cached.fallback.summary.location = fallbackOffer.location;
-        }
-      }
-    }
-    if ((cached.account == null ||
-        cached.dirty) &&
-            !cached.loading &&
-            connected == NetworkConnectionState.Ready) {
-      cached.loading = true;
-      getPublicProfile(accountId.toInt()).then((account) {
-        cached.loading = false;
-      }).catchError((error, stack) {
-        print("[INF] Failed to get account: $error, $stack");
-        new Timer(new Duration(seconds: 3), () {
-          setState(() {
-            cached.loading = false;
-            ++_changed;
-          });
-        });
-      });
-    }
-    if (cached.account != null) {
-      return cached.account;
-    }
-    return cached.fallback;
-  }
 
   /////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
@@ -1727,14 +1644,6 @@ class _CachedBusinessOffer {
   DataBusinessOffer fallback;
 }
 
-class _CachedDataAccount {
-  // TODO: Timestamp
-  bool loading = false;
-  bool dirty = false;
-  DataAccount account;
-  DataAccount fallback;
-}
-
 class _CachedApplicant {
   bool loading = false;
   bool dirty = false;
@@ -1761,156 +1670,6 @@ class _InheritedNetworkManager extends InheritedWidget {
   bool updateShouldNotify(_InheritedNetworkManager old) {
     return this.changed != old.changed;
   }
-}
-
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
-
-enum NetworkConnectionState { Connecting, Failing, Offline, Ready }
-
-abstract class NetworkInterface {
-  /* Cached Data */
-  /// Cached account state. Use this data directly from your build function
-  DataAccount account;
-
-  /// Whether we are connected to the network.
-  NetworkConnectionState connected;
-
-  void overrideUri(String serverUri);
-
-  /////////////////////////////////////////////////////////////////////////////
-  // Onboarding and OAuth
-  /////////////////////////////////////////////////////////////////////////////
-
-  /* Device Registration */
-  /// Set account type. Only possible when not yet created.
-  void setAccountType(AccountType accountType);
-
-  /* OAuth */
-  /// Get the URLs to use for the OAuth process
-  Future<NetOAuthUrlRes> getOAuthUrls(int oauthProvider);
-
-  /// Try to connect an OAuth provider with the received callback query
-  Future<bool> connectOAuth(int oauthProvider, String callbackQuery);
-
-  /// Create an account
-  Future<Null> createAccount(double latitude, double longitude);
-
-  /////////////////////////////////////////////////////////////////////////////
-  // Image upload
-  /////////////////////////////////////////////////////////////////////////////
-
-  /// Upload an image. Disregard the returned request options. Throws error in case of failure
-  Future<NetUploadImageRes> uploadImage(FileImage fileImage);
-
-  /////////////////////////////////////////////////////////////////////////////
-  // Business offers
-  /////////////////////////////////////////////////////////////////////////////
-
-  /// Create an offer.
-  Future<DataBusinessOffer> createOffer(NetCreateOfferReq createOfferReq);
-
-  /// Refresh all offers (currently latest offers)
-  Future<void> refreshOffers();
-
-  /// List of offers owned by this account (applicable for AT_BUSINESS)
-  Map<int, DataBusinessOffer> get offers;
-
-  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
-  bool get offersLoading;
-
-  /////////////////////////////////////////////////////////////////////////////
-  // Demo all offers
-  /////////////////////////////////////////////////////////////////////////////
-
-  /// Refresh all offers
-  Future<void> refreshDemoAllOffers();
-
-  /// List of all offers on the server
-  Map<int, DataBusinessOffer> get demoAllOffers;
-
-  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
-  bool demoAllOffersLoading;
-
-  /////////////////////////////////////////////////////////////////////////////
-  // Synchronization utilities
-  /////////////////////////////////////////////////////////////////////////////
-
-  /// Ensure to get the latest account data, in case we have it. Not necessary for network.account (unless detached)
-  DataAccount latestAccount(DataAccount account);
-
-  /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
-  DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer);
-
-  /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached business offer
-  DataBusinessOffer tryGetBusinessOffer(
-    Int64 offerId, {
-    DataBusinessOffer fallback,
-  });
-
-  /// Reload business offer silently in the background, call when opening a window
-  void backgroundReloadBusinessOffer(Int64 offerId);
-
-  /////////////////////////////////////////////////////////////////////////////
-  // Get profile
-  /////////////////////////////////////////////////////////////////////////////
-
-  /// Refresh all offers
-  Future<void> getPublicProfile(int accountId);
-
-  /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached account
-  DataAccount tryGetPublicProfile(
-    Int64 accountId, {
-    DataAccount fallback,
-    DataBusinessOffer fallbackOffer,
-  }); // Simply retry anytime network state updates
-
-  /////////////////////////////////////////////////////////////////////////////
-  // Haggle
-
-  /// Suppress notifications
-  void pushSuppressChatNotifications(Int64 proposalId);
-  void popSuppressChatNotifications();
-
-  /// Refresh all applicants (currently all latest applicants)
-  Future<void> refreshApplicants();
-
-  /// List of applicants for this account (may or may not be complete depending on loading status)
-  Iterable<DataApplicant> get applicants;
-
-  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
-  bool get applicantsLoading;
-
-  /// Apply for an offer
-  Future<DataApplicant> applyForOffer(int offerId, String remarks);
-
-  /// Get applicant from the server, acts like refresh
-  Future<DataApplicant> getApplicant(Int64 applicantId);
-
-  /// Fetch latest applicant from cache by id, fetch in background if non-existent and return empty fallback
-  DataApplicant tryGetApplicant(Int64 applicantId,
-      {DataBusinessOffer fallbackOffer});
-
-  /// Fetch latest applicant from cache, fetch in background if non-existent and return given fallback
-  DataApplicant latestApplicant(DataApplicant applicant);
-
-  /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
-  Iterable<DataApplicantChat> tryGetApplicantChats(Int64 applicantId);
-
-  /////////////////////////////////////////////////////////////////////////////
-  // Haggle Actions
-  /////////////////////////////////////////////////////////////////////////////
-
-  /// Sends a report about an applicant to support
-  Future<void> reportApplicant(int applicantId, String text);
-
-  void chatPlain(int applicantId, String text);
-  void chatHaggle(
-      int applicantId, String deliverables, String reward, String remarks);
-  void chatImageKey(int applicantId, String imageKey);
-
-  Future<void> wantDeal(int applicantId, int haggleChatId);
 }
 
 /* end of file */
