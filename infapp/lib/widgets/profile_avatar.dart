@@ -29,7 +29,8 @@ class ProfileAvatar extends StatelessWidget {
       width: size,
       height: size,
       child: new Hero(
-        tag: (account?.summary?.avatarThumbnailUrl ?? localAccount?.avatarUrl) + tag,
+        tag: (account?.summary?.avatarThumbnailUrl ?? localAccount?.avatarUrl) +
+            tag,
         child: new Material(
           type: MaterialType.circle,
           elevation: 0.0,
@@ -37,10 +38,13 @@ class ProfileAvatar extends StatelessWidget {
           child: new ClipOval(
             child: new BlurredNetworkImage(
               fit: BoxFit.fill,
-              blurredUrl: account?.summary?.blurredAvatarThumbnailUrl ?? localAccount?.blurredAvatarUrl,
-              url: account?.summary?.avatarThumbnailUrl ?? localAccount?.avatarUrl,
+              blurredUrl: account?.summary?.blurredAvatarThumbnailUrl ??
+                  localAccount?.blurredAvatarUrl,
+              url: account?.summary?.avatarThumbnailUrl ??
+                  localAccount?.avatarUrl,
               placeholderAsset:
-                  (account?.state?.accountType ?? localAccount?.accountType) == AccountType.AT_INFLUENCER
+                  (account?.state?.accountType ?? localAccount?.accountType) ==
+                          AccountType.AT_INFLUENCER
                       ? 'assets/default_avatar_influencer.png'
                       : 'assets/default_avatar_business.png',
             ),

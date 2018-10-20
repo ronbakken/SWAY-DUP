@@ -266,7 +266,9 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     _domains[domain].accounts[accountId] = _domains[domain].local[localId];
     _prefs.setString("${domain}_${localId}_account_id", accountId.toString());
     _prefs.setInt("${domain}_${localId}_account_type", accountType.value);
-    if (_current.domain == domain && _current.localId == localId && accountId != new Int64(0)) {
+    if (_current.domain == domain &&
+        _current.localId == localId &&
+        accountId != new Int64(0)) {
       _setLastUsed(domain, localId);
     }
     _onAccountsChanged

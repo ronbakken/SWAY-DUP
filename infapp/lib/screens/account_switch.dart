@@ -36,11 +36,14 @@ class AccountSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> accountButtons = new List<Widget>();
 
-    for (LocalAccountData localAccount in accounts.toList()..sort((a, b) {
-      int c = a.domain.compareTo(b.domain);
-      if (c != 0) return c;
-      else return a.localId.compareTo(b.localId);
-    })) {
+    for (LocalAccountData localAccount in accounts.toList()
+      ..sort((a, b) {
+        int c = a.domain.compareTo(b.domain);
+        if (c != 0)
+          return c;
+        else
+          return a.localId.compareTo(b.localId);
+      })) {
       // Zero account id should not be displayed.
       // When using addAccount, if there's a 0 account id, that one will be used.
       if (localAccount.accountId != 0) {
@@ -49,7 +52,9 @@ class AccountSwitch extends StatelessWidget {
             children: [
               // Domain is like the release channel.
               // Accounts from different domains only occur on development devices, or for the QA team, and MUST have some special marker.
-              new Text("Domain: " + localAccount.domain.toString() + (domain == localAccount.domain ? " (current)" : " (other)")),
+              new Text("Domain: " +
+                  localAccount.domain.toString() +
+                  (domain == localAccount.domain ? " (current)" : " (other)")),
               new Text("Local Id: " + localAccount.localId.toString()),
               new Text("Device Id: " + localAccount.deviceId.toString()),
               new Text("Account Id: " + localAccount.accountId.toString()),

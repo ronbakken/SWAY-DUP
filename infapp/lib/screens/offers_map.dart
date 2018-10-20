@@ -360,25 +360,29 @@ class _OffersMapState extends State<OffersMap> {
                           ),
                         ),
                         // TEMPORARiLY HIDDEN
-                        widget.onFilterPressed != null ? new ClipOval(
-                          child: new Material(
-                            type: MaterialType.circle,
-                            color: widget.filterState == true
-                                ? Theme.of(context).primaryColor.withAlpha(128)
-                                : Colors.transparent,
-                            child: new IconButton(
-                              color: widget.filterState == true
-                                  ? Theme.of(context).accentColor
-                                  : Theme.of(context).iconTheme.color,
-                              padding: new EdgeInsets.all(16.0),
-                              icon: new Icon(Icons.filter_list),
-                              onPressed: () {
-                                widget.onFilterPressed();
-                              },
-                              tooltip: widget.filterTooltip,
-                            ),
-                          ),
-                        ) : null,
+                        widget.onFilterPressed != null
+                            ? new ClipOval(
+                                child: new Material(
+                                  type: MaterialType.circle,
+                                  color: widget.filterState == true
+                                      ? Theme.of(context)
+                                          .primaryColor
+                                          .withAlpha(128)
+                                      : Colors.transparent,
+                                  child: new IconButton(
+                                    color: widget.filterState == true
+                                        ? Theme.of(context).accentColor
+                                        : Theme.of(context).iconTheme.color,
+                                    padding: new EdgeInsets.all(16.0),
+                                    icon: new Icon(Icons.filter_list),
+                                    onPressed: () {
+                                      widget.onFilterPressed();
+                                    },
+                                    tooltip: widget.filterTooltip,
+                                  ),
+                                ),
+                              )
+                            : null,
                         new ClipOval(
                           child: new Material(
                             type: MaterialType.circle,
