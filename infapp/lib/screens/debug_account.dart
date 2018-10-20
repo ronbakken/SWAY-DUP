@@ -1,6 +1,12 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
 import 'package:flutter/material.dart';
 
-import 'protobuf/inf_protobuf.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 class DebugAccount extends StatelessWidget {
   final DataAccount account;
@@ -42,3 +48,5 @@ class DebugAccount extends StatelessWidget {
     );
   }
 }
+
+/* end of file */

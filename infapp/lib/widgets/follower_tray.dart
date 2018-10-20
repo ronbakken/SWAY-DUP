@@ -1,3 +1,9 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
+*/
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -38,3 +44,5 @@ class FollowerTray extends StatelessWidget {
     );
   }
 }
+
+/* end of file */

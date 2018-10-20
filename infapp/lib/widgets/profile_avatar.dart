@@ -1,3 +1,9 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
 import 'package:flutter/material.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
@@ -41,3 +47,5 @@ class ProfileAvatar extends StatelessWidget {
     );
   }
 }
+
+/* end of file */

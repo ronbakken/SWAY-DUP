@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/cards/applicant_card_influencer.dart';
 import 'package:inf/styling_constants.dart';
 
-import 'protobuf/inf_protobuf.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 class ApplicantsListInfluencer extends StatelessWidget {
   ApplicantsListInfluencer({

@@ -24,10 +24,10 @@ import 'package:inf/screens/offer_create.dart';
 import 'package:inf/screens/offer_view.dart';
 import 'package:inf/screens/profile_edit.dart';
 import 'package:inf/screens/profile_view.dart';
+import 'package:inf/screens/search_button.dart';
+import 'package:inf/screens/search_page.dart';
 import 'package:inf/screens_onboarding/onboarding_selection.dart';
 import 'package:inf/screens_onboarding/onboarding_social.dart';
-import 'package:inf/search/search_button.dart';
-import 'package:inf/search/search_page.dart';
 import 'package:inf/utility/page_transition.dart';
 
 class DeveloperMenu extends StatefulWidget {

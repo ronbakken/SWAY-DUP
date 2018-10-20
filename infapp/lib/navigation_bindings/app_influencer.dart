@@ -10,8 +10,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
-
 
 import 'package:latlong/latlong.dart';
 
@@ -22,6 +20,7 @@ import 'package:inf/network_mobile/network_manager.dart';
 import 'package:inf/utility/page_transition.dart';
 import 'package:inf/widgets/progress_dialog.dart';
 import 'package:inf/widgets/offers_showcase.dart';
+import 'package:inf/cards/offer_card.dart';
 
 import 'package:inf/screens/profile_view.dart';
 import 'package:inf/screens/profile_edit.dart';
@@ -31,9 +30,7 @@ import 'package:inf/screens/offer_view.dart';
 import 'package:inf/screens/debug_account.dart';
 import 'package:inf/screens/haggle_view.dart';
 import 'package:inf/screens/offers_map.dart';
-
-import 'package:inf/search/search_page_common.dart';
-import 'package:inf/cards/offer_card.dart';
+import 'package:inf/screens/search_page_common.dart';
 
 // Influencer user
 class AppInfluencer extends StatefulWidget {

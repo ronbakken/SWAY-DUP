@@ -1,3 +1,9 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
 // import 'dart:async';
 // import 'dart:io';
 
@@ -8,8 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
 
-import 'protobuf/inf_protobuf.dart';
-import 'widgets/network_status.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/widgets/network_status.dart';
 
 // TODO: Animate transitions between the three windows
 //       AppBar should slide in appropriately, but sliding of app bar should not impact the underlying widgets layout

@@ -13,8 +13,8 @@ import 'package:flutter/widgets.dart';
 // https://pub.dartlang.org/packages/image_picker
 import 'package:image_picker/image_picker.dart';
 
-import '../protobuf/inf_protobuf.dart';
-import '../utility/progress_dialog.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/widgets/progress_dialog.dart';
 
 // Image uploader
 class ImageUploader extends StatefulWidget {

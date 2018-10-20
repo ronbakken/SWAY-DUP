@@ -1,3 +1,9 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
+*/
+
 import 'package:flutter/material.dart';
 
 // Widget for editing a page
@@ -18,3 +24,5 @@ class SearchButton extends StatelessWidget {
     );
   }
 }
+
+/* end of file */

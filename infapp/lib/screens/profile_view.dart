@@ -6,8 +6,7 @@ Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/profile/profile_avatar.dart';
-import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:inf/widgets/profile_avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../network_mobile/config_manager.dart';

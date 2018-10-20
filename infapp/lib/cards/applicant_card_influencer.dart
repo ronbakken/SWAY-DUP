@@ -5,7 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf/profile/profile_avatar.dart';
+import 'package:inf/widgets/profile_avatar.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/styling_constants.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
