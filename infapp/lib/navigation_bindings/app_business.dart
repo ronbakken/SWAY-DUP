@@ -154,8 +154,10 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
           ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
           NavigatorState navigator = Navigator.of(context);
-          DataBusinessOffer businessOffer = network.tryGetBusinessOffer(offerId);
-          DataAccount businessAccount = network.tryGetPublicProfile(new Int64(businessOffer.accountId));
+          DataBusinessOffer businessOffer =
+              network.tryGetBusinessOffer(offerId);
+          DataAccount businessAccount =
+              network.tryGetPublicProfile(new Int64(businessOffer.accountId));
           return new OfferView(
             account: network.account,
             businessAccount: businessAccount,
@@ -288,7 +290,8 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
                 ? network.refreshOffers
                 : null,
             onOfferPressed: (DataBusinessOffer offer) {
-              navigateToOffer(new Int64(offer.offerId)); // account will be able to use a future value provider thingy for not-mine offers
+              navigateToOffer(new Int64(offer
+                  .offerId)); // account will be able to use a future value provider thingy for not-mine offers
             });
       }),
       proposalsSent: new Builder(
