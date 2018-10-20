@@ -266,6 +266,9 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     _domains[domain].accounts[accountId] = _domains[domain].local[localId];
     _prefs.setString("${domain}_${localId}_account_id", accountId.toString());
     _prefs.setInt("${domain}_${localId}_account_type", accountType.value);
+    if (_current.domain == domain && _current.localId == localId && accountId != new Int64(0)) {
+      _setLastUsed(domain, localId);
+    }
     _onAccountsChanged
         .add(new Change(_domains[domain].local[localId], ChangeAction.Upsert));
   }
@@ -307,7 +310,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     } catch (error) {}
     if (localId == null || localId == 0) {
       localId = _createAccount(domain);
-      _setLastUsed(domain, localId);
+      // _setLastUsed(domain, localId);
     }
     return localId;
   }
@@ -335,7 +338,9 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     int localId =
         getAccount(domain, accountId)?.localId ?? _createAccount(domain);
     _current = getLocal(domain, localId);
-    _setLastUsed(domain, localId);
+    if (_current.accountId != 0) {
+      _setLastUsed(domain, localId);
+    }
     _onSwitchAccount.add(_current);
   }
 
