@@ -49,6 +49,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
     _cachedAccounts.values.forEach((cached) {
       cached.dirty = true;
     });
+    onProfileChanged(ChangeAction.RefreshAll, Int64.ZERO);
   }
 
   DataAccount emptyAccount([Int64 accountId = Int64.ZERO]) {
@@ -122,6 +123,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
       _cacheAccount(account);
     } else {
       print("[INF] Received invalid profile. Critical issue");
+      onProfileChanged(ChangeAction.Retry, accountId);
       return emptyAccount(accountId)..freeze();
     }
     return account;
