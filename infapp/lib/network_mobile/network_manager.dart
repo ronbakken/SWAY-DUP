@@ -127,6 +127,16 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       new List<StreamSubscription<TalkMessage>>();
 
   List<int> _suppressChatNotifications = new List<int>();
+  
+  int _keepAliveBackground = 0;
+
+  void pushKeepAlive() {
+    ++_keepAliveBackground;
+  }
+
+  void popKeepAlive() {
+    --_keepAliveBackground;
+  }
 
   void onProfileChanged(ChangeAction action, Int64 id) {
     setState(() {
@@ -558,7 +568,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
           });
           await new Future.delayed(new Duration(seconds: 3));
         }
-      } while (_alive && _foreground && (_ts == null));
+      } while (_alive && (_foreground || (_keepAliveBackground > 0)) && (_ts == null));
       Future<void> listen = _ts.listen();
       if (connected == NetworkConnectionState.Offline) {
         setState(() {
@@ -631,7 +641,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   Future _networkLoop() async {
     print("[INF] Start network loop");
     while (_alive) {
-      if (!_foreground) {
+      if (!_foreground && (_keepAliveBackground <= 0)) {
         print("[INF] Awaiting foreground");
         _awaitingForeground = new Completer<void>();
         await _awaitingForeground.future;
@@ -761,9 +771,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     if (state != AppLifecycleState.resumed &&
         state != AppLifecycleState.inactive) {
       _foreground = false;
-      if (_ts != null) {
-        _ts.close();
-        _ts = null;
+      if (_keepAliveBackground <= 0) {
+        if (_ts != null) {
+          _ts.close();
+          _ts = null;
+        }
       }
     } else {
       _foreground = true;
