@@ -29,15 +29,16 @@ class _AppSwitchState extends State<AppSwitch> {
   Int64 _accountId;
 
   @override
-  void didChangeDependencies()
-  {
+  void didChangeDependencies() {
     super.didChangeDependencies();
     String domain = ConfigManager.of(context).services.domain;
-    Int64 accountId = new Int64(NetworkManager.of(context).account.state.accountId);
+    Int64 accountId =
+        new Int64(NetworkManager.of(context).account.state.accountId);
     if (domain != _domain || accountId != _accountId) {
       _domain = domain;
       _accountId = accountId;
-      Navigator.of(context).popUntil(ModalRoute.withName(Navigator.defaultRouteName));
+      Navigator.of(context)
+          .popUntil(ModalRoute.withName(Navigator.defaultRouteName));
     }
   }
 
