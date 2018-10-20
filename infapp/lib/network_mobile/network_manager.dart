@@ -108,7 +108,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   bool _alive;
   TalkSocket _ts;
 
-  TalkSocket get ts { return _ts; }
+  TalkSocket get ts {
+    return _ts;
+  }
 
   String _overrideUri;
 

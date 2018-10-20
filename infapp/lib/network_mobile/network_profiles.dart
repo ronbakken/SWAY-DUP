@@ -79,7 +79,9 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
           !cached.fallback.detail.hasLocationId() ||
           !cached.fallback.detail.hasLatitude() ||
           !cached.fallback.detail.hasLongitude()) {
-        DataAccount fallback = (cached.fallback == null) ? (emptyAccount(accountId)) : (new DataAccount()..mergeFromMessage(cached.fallback));
+        DataAccount fallback = (cached.fallback == null)
+            ? (emptyAccount(accountId))
+            : (new DataAccount()..mergeFromMessage(cached.fallback));
         fallback.state.accountType = AccountType.AT_BUSINESS;
         fallback.summary.name = offer.locationName;
         fallback.summary.location = offer.location;
