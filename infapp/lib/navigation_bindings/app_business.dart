@@ -8,10 +8,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:inf/network_inheritable/multi_account_selection.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_mobile/network_manager.dart';
+import 'package:inf/screens/account_switch.dart';
 
 import 'package:inf/widgets/progress_dialog.dart';
 
@@ -336,6 +338,26 @@ class _AppBusinessState extends State<AppBusiness> {
     }));
   }
 
+  void navigateToSwitchAccount() {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      ConfigData config = ConfigManager.of(context);
+      // NetworkInterface network = NetworkManager.of(context);
+      // NavigatorState navigator = Navigator.of(context);
+      MultiAccountClient selection = MultiAccountSelection.of(context);
+      return new AccountSwitch(
+        domain: config.services.domain,
+        accounts: selection.accounts,
+        onAddAccount: () {
+          selection.addAccount();
+        },
+        onSwitchAccount: (LocalAccountData localAccount) {
+          selection.switchAccount(localAccount.domain, localAccount.accountId);
+        },
+      );
+    }));
+  }
+
   void navigateToDebugAccount() {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
@@ -457,6 +479,7 @@ class _AppBusinessState extends State<AppBusiness> {
       onNavigateProfile: () {
         navigateToProfileView(context);
       },
+      onNavigateSwitchAccount: navigateToSwitchAccount,
       onNavigateDebugAccount: navigateToDebugAccount,
     );
   }

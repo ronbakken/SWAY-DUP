@@ -122,11 +122,11 @@ class _AppInfluencerState extends State<AppInfluencer> {
     int count = ++offerViewCount;
     offerViewOpen = offer.offerId;
     Navigator.push(
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
       new MaterialPageRoute(
         settings: new RouteSettings(name: '/offer/' + offer.offerId.toString()),
         builder: (context) {
+          // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
           ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
           NavigatorState navigator = Navigator.of(context);
@@ -328,9 +328,8 @@ class _AppInfluencerState extends State<AppInfluencer> {
   }
 
   void navigateToPublicProfile(DataAccount account) {
-    Navigator.push(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
       NavigatorState navigator = Navigator.of(context);
@@ -341,9 +340,8 @@ class _AppInfluencerState extends State<AppInfluencer> {
   }
 
   void navigateToProfileView(BuildContext context) {
-    Navigator.push(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
       NavigatorState navigator = Navigator.of(context);
@@ -356,9 +354,8 @@ class _AppInfluencerState extends State<AppInfluencer> {
   }
 
   void navigateToProfileEdit(BuildContext context) {
-    Navigator.push(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
       NavigatorState navigator = Navigator.of(context);
@@ -369,14 +366,14 @@ class _AppInfluencerState extends State<AppInfluencer> {
   }
 
   void navigateToSwitchAccount() {
-    Navigator.push(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
-      // ConfigData config = ConfigManager.of(context);
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      ConfigData config = ConfigManager.of(context);
       // NetworkInterface network = NetworkManager.of(context);
       // NavigatorState navigator = Navigator.of(context);
       MultiAccountClient selection = MultiAccountSelection.of(context);
       return new AccountSwitch(
+        domain: config.services.domain,
         accounts: selection.accounts,
         onAddAccount: () {
           selection.addAccount();
@@ -389,9 +386,8 @@ class _AppInfluencerState extends State<AppInfluencer> {
   }
 
   void navigateToDebugAccount() {
-    Navigator.push(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
       NavigatorState navigator = Navigator.of(context);

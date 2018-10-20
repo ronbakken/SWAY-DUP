@@ -359,7 +359,6 @@ class _OffersMapState extends State<OffersMap> {
                             child: new SizedBox(),
                           ),
                         ),
-                        /*
                         // TEMPORARiLY HIDDEN
                         widget.onFilterPressed != null ? new ClipOval(
                           child: new Material(
@@ -380,7 +379,6 @@ class _OffersMapState extends State<OffersMap> {
                             ),
                           ),
                         ) : null,
-                        */
                         new ClipOval(
                           child: new Material(
                             type: MaterialType.circle,
