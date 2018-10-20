@@ -24,6 +24,7 @@ Generic:
 */
 
 import 'package:flutter/widgets.dart';
+import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
@@ -48,13 +49,17 @@ class NetworkStack extends StatelessWidget {
       key: const Key('CrossAccountSelection'),
       client: multiAccountStore,
       child: new ConfigManager(
-          key: const Key('ConfigManager'),
-          startupConfig: startupConfig,
+        key: const Key('ConfigManager'),
+        startupConfig: startupConfig,
+        child: new CrossAccountNavigation(
+          key: const Key('CrossAccountNavigation'),
           child: new NetworkManager(
             key: const Key('NetworkManager'),
             multiAccountStore: multiAccountStore,
-            child: child, // new CrossNavigationManager()
-          )),
+            child: child,
+          ),
+        ),
+      ),
     );
   }
 }

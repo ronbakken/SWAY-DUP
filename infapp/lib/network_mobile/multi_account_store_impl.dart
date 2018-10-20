@@ -335,6 +335,9 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   void switchAccount(String domain, Int64 accountId) {
     assert(domain != null);
     assert(accountId != null);
+    if (_current?.domain == domain && current?.accountId == accountId) {
+      return; // no-op
+    }
     int localId =
         getAccount(domain, accountId)?.localId ?? _createAccount(domain);
     _current = getLocal(domain, localId);

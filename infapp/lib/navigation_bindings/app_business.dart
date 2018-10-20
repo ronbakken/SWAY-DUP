@@ -6,8 +6,10 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
@@ -40,60 +42,54 @@ class AppBusiness extends StatefulWidget {
 class _AppBusinessState extends State<AppBusiness> {
   NetworkInterface _network;
   ConfigData _config;
-  StreamSubscription<NotificationNavigateApplicant>
-      _notificationNavigateApplicantSubscription;
+  CrossAccountNavigator _navigator;
+  StreamSubscription<NavigationRequest> _navigationSubscription;
 
   @override
   void initState() {
     super.initState();
-    if (unhandledNotificationNavigateApplicant != null) {
-      NotificationNavigateApplicant notification =
-          unhandledNotificationNavigateApplicant;
-      unhandledNotificationNavigateApplicant = null;
-      onNotificationNavigateApplicant(notification);
-    }
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _config = ConfigManager.of(context);
     NetworkInterface network = NetworkManager.of(context);
     if (network != _network) {
       _network = network;
-      /*if (_notificationNavigateApplicantSubscription != null) {
-        _notificationNavigateApplicantSubscription.cancel();
-        _notificationNavigateApplicantSubscription = null;
-      }*/
-      _notificationNavigateApplicantSubscription = network
-          .notificationNavigateApplicantListen(onNotificationNavigateApplicant);
     }
-    _config = ConfigManager.of(context);
+    CrossAccountNavigator navigator = CrossAccountNavigation.of(context);
+    if (navigator != _navigator) {
+      if (_navigationSubscription != null) {
+        _navigationSubscription.cancel();
+      }
+      _navigator = navigator;
+      _navigationSubscription = _navigator.listen(_config.services.domain,
+          new Int64(_network.account.state.accountId), onNavigationRequest);
+    }
   }
 
   @override
   void dispose() {
-    /*if (_notificationNavigateApplicantSubscription != null) {
-      _notificationNavigateApplicantSubscription.cancel();
-      _notificationNavigateApplicantSubscription = null;
-    }*/
+    if (_navigationSubscription != null) {
+      _navigationSubscription.cancel();
+      _navigationSubscription = null;
+    }
     super.dispose();
   }
 
-  void onNotificationNavigateApplicant(
-      NotificationNavigateApplicant notification) {
-    if (!mounted ||
-        notification.domain != _config.services.domain ||
-        notification.accountId != _network.account.state.accountId) {
-      // TODO: Swap domain and account if necessary
-      unhandledNotificationNavigateApplicant = notification;
-    } else {
-      // Navigate to applicant
-      DataApplicant applicant =
-          _network.tryGetApplicant(notification.applicantId);
-      //DataBusinessOffer offer = _network.tryGetBusinessOffer(applicant.offerId); // FIXME: Not cached yet, need to add it to the notification data!
-      //DataAccount businessAccount = _network.account;
-      //DataAccount influencerAccount = _network.tryGetApplicant(applicant.influencerAccountId);
-      navigateToApplicantView(applicant, null, null, null);
+  void onNavigationRequest(NavigationTarget target, Int64 id) {
+    switch (target) {
+      case NavigationTarget.Offer:
+        // TODO
+        break;
+      case NavigationTarget.Profile:
+        navigateToPublicProfile(_network.tryGetPublicProfile(id.toInt()));
+        break;
+      case NavigationTarget.Proposal:
+        DataApplicant applicant = _network.tryGetApplicant(id.toInt());
+        navigateToApplicantView(applicant, null, null, null);
+        break;
     }
   }
 

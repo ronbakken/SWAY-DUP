@@ -49,7 +49,7 @@ class MultiAccountSelection extends StatefulWidget {
   static MultiAccountClient of(BuildContext context) {
     final _InheritedCrossAccountSelection inherited =
         context.inheritFromWidgetOfExactType(_InheritedCrossAccountSelection);
-    return inherited != null ? inherited.client : null;
+    return inherited?.client;
   }
 }
 
@@ -67,14 +67,6 @@ class CrossAccountSelectionState extends State<MultiAccountSelection> {
         ++_changed;
       });
     });
-    /*
-    // Not applicable for client
-    _onSwitchAccount = widget.client.onSwitchAccount.listen((value) {
-        setState(() {
-          ++_changed;
-        });
-    });
-    */
   }
 
   @override

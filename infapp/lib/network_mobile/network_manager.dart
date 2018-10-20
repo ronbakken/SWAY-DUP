@@ -15,6 +15,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:wstalk/wstalk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
@@ -29,15 +30,6 @@ import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 
 // TODO: Reassemble should re-merge all protobuf
-
-class NotificationNavigateApplicant {
-  final String domain;
-  final int accountId;
-  final int applicantId;
-  NotificationNavigateApplicant(this.domain, this.accountId, this.applicantId);
-}
-
-NotificationNavigateApplicant unhandledNotificationNavigateApplicant;
 
 class NetworkManager extends StatelessWidget {
   const NetworkManager({
@@ -303,10 +295,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     print("[INF] Firebase Launch Received: $data");
     // Fired when the app was opened by a message
     if (data['applicant_id'] != null) {
-      _notificationNavigateApplicant(new NotificationNavigateApplicant(
+      CrossAccountNavigation.of(context).navigate(
           data['domain'],
-          int.tryParse(data['account_id']),
-          int.tryParse(data['applicant_id'])));
+          Int64.parseInt(data['account_id']),
+          NavigationTarget.Proposal,
+          Int64.parseInt(data['applicant_id']));
     }
   }
 
@@ -324,10 +317,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     google.message_id: 0:1537966114577353%ddd1e337ddd1e337, 
     sender_id: 11}*/
     if (data['applicant_id'] != null) {
-      _notificationNavigateApplicant(new NotificationNavigateApplicant(
-          data['domain'],
-          int.tryParse(data['account_id']),
-          int.tryParse(data['applicant_id'])));
+      CrossAccountNavigation.of(context).navigate(data['domain'], Int64.parseInt(data['account_id']), NavigationTarget.Proposal, Int64.parseInt(data['applicant_id']));
     }
   }
 
@@ -337,33 +327,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       /*domain=dev&account_id=10&applicant_id=16*/
       Map<String, String> data = Uri.splitQueryString(payload);
       if (data['applicant_id'] != null) {
-        _notificationNavigateApplicant(new NotificationNavigateApplicant(
-            data['domain'],
-            int.tryParse(data['account_id']),
-            int.tryParse(data['applicant_id'])));
+        CrossAccountNavigation.of(context).navigate(data['domain'], Int64.parseInt(data['account_id']), NavigationTarget.Proposal, Int64.parseInt(data['applicant_id']));
       }
     }
-  }
-
-  StreamController<NotificationNavigateApplicant>
-      _notificationNavigateApplicantController =
-      new StreamController<NotificationNavigateApplicant>();
-
-  StreamSubscription<NotificationNavigateApplicant>
-      notificationNavigateApplicantListen(
-          Function(NotificationNavigateApplicant) callback) {
-    if (_notificationNavigateApplicantController.hasListener ||
-        _notificationNavigateApplicantController.isClosed) {
-      _notificationNavigateApplicantController.close();
-      _notificationNavigateApplicantController =
-          new StreamController<NotificationNavigateApplicant>();
-    }
-    return _notificationNavigateApplicantController.stream.listen(callback);
-  }
-
-  void _notificationNavigateApplicant(
-      NotificationNavigateApplicant notification) {
-    _notificationNavigateApplicantController.add(notification);
   }
 
   /// Authenticate device connection, this process happens as if by magic
@@ -729,8 +695,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     _onSwitchAccountSubscription.cancel();
     _onSwitchAccountSubscription = null;
     WidgetsBinding.instance.removeObserver(this);
-    _notificationNavigateApplicantController.close();
-    _notificationNavigateApplicantController = null;
     _alive = false;
     if (_ts != null) {
       print("[INF] Dispose network connection");
@@ -1898,11 +1862,6 @@ abstract class NetworkInterface {
   /// Suppress notifications
   void pushSuppressChatNotifications(int applicantId);
   void popSuppressChatNotifications();
-
-  /// Notification actions
-  StreamSubscription<NotificationNavigateApplicant>
-      notificationNavigateApplicantListen(
-          Function(NotificationNavigateApplicant) callback);
 
   /// Refresh all applicants (currently all latest applicants)
   Future<void> refreshApplicants();
