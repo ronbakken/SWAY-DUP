@@ -11,6 +11,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:inf/navigation_bindings/app_common.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
@@ -47,12 +48,7 @@ class AppInfluencer extends StatefulWidget {
   _AppInfluencerState createState() => new _AppInfluencerState();
 }
 
-class _AppInfluencerState extends State<AppInfluencer> {
-  NetworkInterface _network;
-  ConfigData _config;
-  CrossAccountNavigator _navigator;
-  StreamSubscription<NavigationRequest> _navigationSubscription;
-
+class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   @override
   void initState() {
     super.initState();
@@ -61,49 +57,16 @@ class _AppInfluencerState extends State<AppInfluencer> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _config = ConfigManager.of(context);
-    NetworkInterface network = NetworkManager.of(context);
-    if (network != _network) {
-      _network = network;
-    }
-    CrossAccountNavigator navigator = CrossAccountNavigation.of(context);
-    if (navigator != _navigator) {
-      if (_navigationSubscription != null) {
-        _navigationSubscription.cancel();
-      }
-      _navigator = navigator;
-      _navigationSubscription = _navigator.listen(_config.services.domain,
-          new Int64(_network.account.state.accountId), onNavigationRequest);
-    }
   }
 
   @override
   void dispose() {
-    if (_navigationSubscription != null) {
-      _navigationSubscription.cancel();
-      _navigationSubscription = null;
-    }
     super.dispose();
   }
 
-  void onNavigationRequest(NavigationTarget target, Int64 id) {
-    switch (target) {
-      case NavigationTarget.Offer:
-        // TODO
-        break;
-      case NavigationTarget.Profile:
-        navigateToPublicProfile(_network.tryGetPublicProfile(id.toInt()));
-        break;
-      case NavigationTarget.Proposal:
-        DataApplicant applicant = _network.tryGetApplicant(id.toInt());
-        navigateToApplicantView(applicant, null, null, null);
-        break;
-    }
-  }
-
   int offerViewCount = 0;
-  int offerViewOpen;
-  void navigateToOfferView(DataAccount account, DataBusinessOffer offer) {
+  Int64 offerViewOpen;
+  void navigateToOffer(Int64 offerId) {
     NetworkInterface network = NetworkManager.of(context);
     if (offerViewOpen != null) {
       print("[INF] Pop previous offer route");
@@ -111,35 +74,35 @@ class _AppInfluencerState extends State<AppInfluencer> {
         return route.settings.name
             .startsWith('/offer/' + offerViewOpen.toString());
       });
-      if (offerViewOpen == offer.offerId) {
-        network.backgroundReloadBusinessOffer(offer.offerId);
+      if (offerViewOpen == offerId) {
+        network.backgroundReloadBusinessOffer(offerId);
         return;
       }
       Navigator.pop(context);
     }
-    network.backgroundReloadBusinessOffer(offer.offerId);
+    network.backgroundReloadBusinessOffer(offerId);
     int count = ++offerViewCount;
-    offerViewOpen = offer.offerId;
+    offerViewOpen = offerId;
     Navigator.push(
       context,
       new MaterialPageRoute(
-        settings: new RouteSettings(name: '/offer/' + offer.offerId.toString()),
+        settings: new RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
           ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
           NavigatorState navigator = Navigator.of(context);
+          DataBusinessOffer businessOffer = network.tryGetBusinessOffer(offerId);
+          DataAccount businessAccount = network.tryGetPublicProfile(new Int64(businessOffer.accountId));
           return new OfferView(
             account: network.account,
-            businessAccount: network.latestAccount(account),
-            businessOffer: network.latestBusinessOffer(offer),
+            businessOffer: businessOffer,
+            businessAccount: businessAccount,
             onBusinessAccountPressed: () {
-              navigateToPublicProfile(network
-                  .tryGetPublicProfile(offer.accountId, fallback: account));
+              navigateToPublicProfile(new Int64(businessOffer.accountId));
             },
             onApplicantPressed: (int applicantId) {
-              navigateToApplicantView(network.tryGetApplicant(applicantId),
-                  offer, account, network.account);
+              navigateToProposal(new Int64(applicantId));
             },
             onApply: (remarks) async {
               var progressDialog = showProgressDialog(
@@ -157,15 +120,15 @@ class _AppInfluencerState extends State<AppInfluencer> {
                       ),
                     );
                   });
-              DataApplicant applicant;
+              DataApplicant proposal;
               try {
                 // Create the offer
-                applicant = await network.applyForOffer(offer.offerId, remarks);
+                proposal = await network.applyForOffer(offerId.toInt(), remarks);
               } catch (error, stack) {
                 print("[INF] Exception applying for offer': $error\n$stack");
               }
               closeProgressDialog(progressDialog);
-              if (applicant == null) {
+              if (proposal == null) {
                 // TODO: Request refreshing the offer!!!
                 await showDialog<Null>(
                   context: this.context,
@@ -196,13 +159,9 @@ class _AppInfluencerState extends State<AppInfluencer> {
                 );
               } else {
                 // Navigator.of(this.context).pop();
-                navigateToApplicantView(
-                    applicant,
-                    offer,
-                    network.tryGetPublicProfile(applicant.businessAccountId),
-                    network.tryGetPublicProfile(applicant.influencerAccountId));
+                navigateToProposal(new Int64(proposal.applicantId));
               }
-              return applicant;
+              return proposal;
             },
           );
         },
@@ -212,130 +171,6 @@ class _AppInfluencerState extends State<AppInfluencer> {
         offerViewOpen = null;
       }
     });
-  }
-
-  int applicantViewCount = 0;
-  int applicantViewOpen;
-  void navigateToApplicantView(DataApplicant applicant, DataBusinessOffer offer,
-      DataAccount businessAccount, DataAccount influencerAccount) {
-    NetworkInterface network = NetworkManager.of(context);
-    if (applicantViewOpen != null) {
-      print("[INF] Pop previous applicant route");
-      Navigator.popUntil(context, (Route<dynamic> route) {
-        return route.settings.name
-            .startsWith('/applicant/' + applicantViewOpen.toString());
-      });
-      if (applicantViewOpen == applicant.applicantId) {
-        return;
-      }
-      Navigator.pop(context);
-    }
-    int count = ++applicantViewCount;
-    applicantViewOpen = applicant.applicantId;
-    bool suppressed = false;
-    Navigator.push(
-      context,
-      new MaterialPageRoute(
-        settings: new RouteSettings(
-            name: '/applicant/' + applicant.applicantId.toString()),
-        builder: (context) {
-          // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-          ConfigData config = ConfigManager.of(context);
-          NetworkInterface network = NetworkManager.of(context);
-          NavigatorState navigator = Navigator.of(context);
-          if (!suppressed) {
-            network.pushSuppressChatNotifications(applicant.applicantId);
-            suppressed = true;
-          }
-          DataApplicant latestApplicant = network.latestApplicant(applicant);
-          DataBusinessOffer latestOffer =
-              offer != null ? network.latestBusinessOffer(offer) : null;
-          if ((latestOffer == null ||
-                  latestOffer.offerId != latestApplicant.offerId) &&
-              latestApplicant.offerId != 0) {
-            latestOffer =
-                network.tryGetBusinessOffer(latestApplicant.offerId); // TODO
-          }
-          if (latestOffer == null) latestOffer = DataBusinessOffer();
-          DataAccount latestBusinessAccount = businessAccount != null
-              ? network.latestAccount(businessAccount)
-              : null;
-          if ((latestBusinessAccount == null ||
-                  latestBusinessAccount.state.accountId !=
-                      latestApplicant.businessAccountId) &&
-              latestApplicant.businessAccountId != 0) {
-            latestBusinessAccount =
-                network.tryGetPublicProfile(latestApplicant.businessAccountId);
-          }
-          if (latestBusinessAccount == null)
-            latestBusinessAccount = DataAccount();
-          DataAccount latestInfluencerAccount = influencerAccount != null
-              ? network.latestAccount(influencerAccount)
-              : network.account;
-          if (latestInfluencerAccount.state.accountId !=
-                  latestApplicant.influencerAccountId &&
-              latestApplicant.influencerAccountId != 0) {
-            latestInfluencerAccount = network
-                .tryGetPublicProfile(latestApplicant.influencerAccountId);
-          }
-          return new HaggleView(
-            account: network.account,
-            businessAccount: latestBusinessAccount,
-            influencerAccount: latestInfluencerAccount,
-            applicant: latestApplicant,
-            offer: latestOffer,
-            chats: network.tryGetApplicantChats(applicant.applicantId),
-            onUploadImage: network.uploadImage,
-            onPressedProfile: (DataAccount account) {
-              navigateToPublicProfile(network.tryGetPublicProfile(
-                  account.state.accountId,
-                  fallback: account));
-            },
-            onPressedOffer: (DataBusinessOffer offer) {
-              navigateToOfferView(
-                  network.tryGetPublicProfile(offer.accountId,
-                      fallback: latestBusinessAccount),
-                  offer);
-            },
-            onReport: (String message) async {
-              await network.reportApplicant(applicant.applicantId, message);
-            },
-            onSendPlain: (String text) {
-              network.chatPlain(applicant.applicantId, text);
-            },
-            onSendHaggle: (String deliverables, String reward, String remarks) {
-              network.chatHaggle(
-                  applicant.applicantId, deliverables, reward, remarks);
-            },
-            onSendImageKey: (String imageKey) {
-              network.chatImageKey(applicant.applicantId, imageKey);
-            },
-            onWantDeal: (DataApplicantChat chat) async {
-              await network.wantDeal(chat.applicantId, chat.chatId.toInt());
-            },
-          );
-        },
-      ),
-    ).whenComplete(() {
-      if (count == applicantViewCount) {
-        applicantViewOpen = null;
-      }
-      if (suppressed) {
-        network.popSuppressChatNotifications();
-      }
-    });
-  }
-
-  void navigateToPublicProfile(DataAccount account) {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
-      return new ProfileView(
-        account: network.latestAccount(account),
-      );
-    }));
   }
 
   void navigateToProfileView(BuildContext context) {
@@ -445,10 +280,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
               .map((offer) => new OfferCard(
                   businessOffer: offer,
                   onPressed: () {
-                    navigateToOfferView(
-                        network.tryGetPublicProfile(offer.accountId,
-                            fallbackOffer: offer),
-                        offer);
+                    navigateToOffer(new Int64(offer.offerId));
                   }))
               .toList()
                 ..sort((a, b) => b.businessOffer.offerId
@@ -468,18 +300,14 @@ class _AppInfluencerState extends State<AppInfluencer> {
       applicants: network.applicants.where(test),
       getAccount: (BuildContext context, int accountId) {
         NetworkInterface network = NetworkManager.of(context);
-        return network.tryGetPublicProfile(accountId);
+        return network.tryGetPublicProfile(new Int64(accountId));
       },
       getBusinessOffer: (BuildContext context, int offerId) {
         NetworkInterface network = NetworkManager.of(context);
-        return network.tryGetBusinessOffer(offerId);
+        return network.tryGetBusinessOffer(new Int64(offerId));
       },
       onApplicantPressed: (applicant) {
-        navigateToApplicantView(
-            applicant,
-            network.tryGetBusinessOffer(applicant.offerId),
-            network.tryGetPublicProfile(applicant.businessAccountId),
-            network.tryGetPublicProfile(applicant.influencerAccountId));
+        navigateToProposal(new Int64(applicant.applicantId));
       },
     );
   }
@@ -504,18 +332,15 @@ class _AppInfluencerState extends State<AppInfluencer> {
             ? new OffersShowcase(
                 getOffer: (BuildContext context, int offerId) {
                   NetworkInterface network = NetworkManager.of(context);
-                  return network.tryGetBusinessOffer(offerId);
+                  return network.tryGetBusinessOffer(new Int64(offerId));
                 },
                 getAccount: (BuildContext context, int accountId) {
                   NetworkInterface network = NetworkManager.of(context);
-                  return network.tryGetPublicProfile(accountId);
+                  return network.tryGetPublicProfile(new Int64(accountId));
                 },
                 offerIds: network.demoAllOffers.keys.toList(),
                 onOfferPressed: (DataBusinessOffer offer) {
-                  navigateToOfferView(
-                      network.tryGetPublicProfile(offer.accountId,
-                          fallbackOffer: offer),
-                      network.latestBusinessOffer(offer));
+                  navigateToOffer(new Int64(offer.offerId));
                 },
                 onOfferCenter: (DataBusinessOffer offer) {
                   _mapController.move(
@@ -562,10 +387,7 @@ class _AppInfluencerState extends State<AppInfluencer> {
           offers: network.demoAllOffers.values.toList(),
           highlightOffer: _mapHighlightOffer,
           onOfferPressed: (DataBusinessOffer offer) {
-            navigateToOfferView(
-                network.tryGetPublicProfile(offer.accountId,
-                    fallbackOffer: offer),
-                network.latestBusinessOffer(offer));
+            navigateToOffer(new Int64(offer.offerId));
           },
         );
         return showcase != null

@@ -256,8 +256,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   }
 
   @override
-  void pushSuppressChatNotifications(int applicantId) {
-    _suppressChatNotifications.add(applicantId);
+  void pushSuppressChatNotifications(Int64 applicantId) {
+    _suppressChatNotifications.add(applicantId.toInt());
   }
 
   @override
@@ -1090,7 +1090,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       if (cached.account != null) return cached.account;
       if (!cached.loading) {
         // Fetch but still use plain account
-        tryGetPublicProfile(account.state.accountId, fallback: account);
+        tryGetPublicProfile(new Int64(account.state.accountId), fallback: account);
       }
     }
     return account;
@@ -1137,20 +1137,23 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   /// Ensure to get the latest offer data, in case we have it. Not necessary for network.offers (unless detached)
   @override
   DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer) {
-    return tryGetBusinessOffer(offer.offerId, fallback: offer);
+    return tryGetBusinessOffer(new Int64(offer.offerId), fallback: offer);
   }
 
   @override
   DataBusinessOffer tryGetBusinessOffer(
-    int offerId, {
+    Int64 offerId, {
     DataBusinessOffer fallback,
   }) {
+    if (offerId == new Int64(0)) {
+      return new DataBusinessOffer();
+    }
     _CachedBusinessOffer cached = _cachedBusinessOffers[offerId];
     if (cached == null) {
       cached = new _CachedBusinessOffer();
-      _cachedBusinessOffers[offerId] = cached;
+      _cachedBusinessOffers[offerId.toInt()] = cached;
     }
-    _backgroundGetBusinessOffer(offerId, cached);
+    _backgroundGetBusinessOffer(offerId.toInt(), cached);
     if (cached.offer != null) {
       return cached.offer;
     }
@@ -1161,20 +1164,20 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       return cached.fallback;
     }
     DataBusinessOffer offer = new DataBusinessOffer();
-    offer.offerId = offerId;
+    offer.offerId = offerId.toInt();
     return offer;
   }
 
   /// Reload business offer silently in the background, call when opening a window
   @override
-  void backgroundReloadBusinessOffer(int offerId) {
-    _CachedBusinessOffer cached = _cachedBusinessOffers[offerId];
+  void backgroundReloadBusinessOffer(Int64 offerId) {
+    _CachedBusinessOffer cached = _cachedBusinessOffers[offerId.toInt()];
     if (cached == null) {
       cached = new _CachedBusinessOffer();
-      _cachedBusinessOffers[offerId] = cached;
+      _cachedBusinessOffers[offerId.toInt()] = cached;
     }
     cached.dirty = true;
-    _backgroundGetBusinessOffer(offerId, cached);
+    _backgroundGetBusinessOffer(offerId.toInt(), cached);
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -1221,7 +1224,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   }
 
   @override
-  DataAccount tryGetPublicProfile(int accountId,
+  DataAccount tryGetPublicProfile(Int64 accountId,
       {DataAccount fallback, DataBusinessOffer fallbackOffer}) {
     _CachedDataAccount cached;
     // _cachedAccounts.clear();
@@ -1229,9 +1232,16 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       // It's me...
       return this.account;
     }
+    if (accountId == new Int64(0)) {
+      DataAccount emptyAccount = new DataAccount();
+      emptyAccount.state = new DataAccountState();
+      emptyAccount.summary = new DataAccountSummary();
+      emptyAccount.detail = new DataAccountDetail();
+      return emptyAccount;
+    }
     if (!_cachedAccounts.containsKey(accountId)) {
       cached = new _CachedDataAccount();
-      _cachedAccounts[accountId] = cached;
+      _cachedAccounts[accountId.toInt()] = cached;
     } else {
       cached = _cachedAccounts[accountId];
     }
@@ -1241,7 +1251,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         cached.fallback.state = new DataAccountState();
         cached.fallback.summary = new DataAccountSummary();
         cached.fallback.detail = new DataAccountDetail();
-        cached.fallback.state.accountId = accountId;
+        cached.fallback.state.accountId = accountId.toInt();
       }
       if (fallback != null) {
         if (fallback.detail.socialMedia.isNotEmpty) {
@@ -1263,7 +1273,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
             !cached.loading &&
             connected == NetworkConnectionState.Ready) {
       cached.loading = true;
-      getPublicProfile(accountId).then((account) {
+      getPublicProfile(accountId.toInt()).then((account) {
         cached.loading = false;
       }).catchError((error, stack) {
         print("[INF] Failed to get account: $error, $stack");
@@ -1391,9 +1401,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   static int _netLoadApplicantReq = TalkSocket.encode("L_APPLIC");
   @override
-  Future<DataApplicant> getApplicant(int applicantId) async {
+  Future<DataApplicant> getApplicant(Int64 applicantId) async {
     NetLoadApplicantReq pbReq = new NetLoadApplicantReq();
-    pbReq.applicantId = applicantId;
+    pbReq.applicantId = applicantId.toInt();
     TalkMessage res =
         await _ts.sendRequest(_netLoadApplicantReq, pbReq.writeToBuffer());
     DataApplicant applicant = new DataApplicant();
@@ -1427,7 +1437,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     if (cached.applicant == null || cached.dirty) {
       if (!cached.loading && connected == NetworkConnectionState.Ready) {
         cached.loading = true;
-        getApplicant(applicantId).then((applicant) {
+        getApplicant(new Int64(applicantId)).then((applicant) {
           cached.loading = false;
         }).catchError((error, stack) {
           print("[INF] Failed to get applicant: $error, $stack");
@@ -1460,9 +1470,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   /// Fetch latest applicant from cache by id, fetch in background if non-existent
   @override
-  DataApplicant tryGetApplicant(int applicantId,
+  DataApplicant tryGetApplicant(Int64 applicantId,
       {DataBusinessOffer fallbackOffer}) {
-    return _tryGetApplicant(applicantId, fallbackOffer: fallbackOffer);
+    return _tryGetApplicant(applicantId.toInt(), fallbackOffer: fallbackOffer);
   }
 
   /// Fetch latest applicant from cache, fetch in background if non-existent
@@ -1473,18 +1483,18 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
   @override
-  Iterable<DataApplicantChat> tryGetApplicantChats(int applicantId) {
+  Iterable<DataApplicantChat> tryGetApplicantChats(Int64 applicantId) {
     _CachedApplicant cached = _cachedApplicants[applicantId];
     if (cached == null) {
       cached = new _CachedApplicant();
-      _cachedApplicants[applicantId] = cached;
+      _cachedApplicants[applicantId.toInt()] = cached;
     }
     if (!cached.chatLoaded &&
         !cached.chatLoading &&
         connected == NetworkConnectionState.Ready) {
       print("fetch chat");
       cached.chatLoading = true;
-      _loadApplicantChats(applicantId).then((applicant) {
+      _loadApplicantChats(applicantId.toInt()).then((applicant) {
         cached.chatLoading = false;
         cached.chatLoaded = true;
       }).catchError((error, stack) {
@@ -1835,12 +1845,12 @@ abstract class NetworkInterface {
 
   /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached business offer
   DataBusinessOffer tryGetBusinessOffer(
-    int offerId, {
+    Int64 offerId, {
     DataBusinessOffer fallback,
   });
 
   /// Reload business offer silently in the background, call when opening a window
-  void backgroundReloadBusinessOffer(int offerId);
+  void backgroundReloadBusinessOffer(Int64 offerId);
 
   /////////////////////////////////////////////////////////////////////////////
   // Get profile
@@ -1851,7 +1861,7 @@ abstract class NetworkInterface {
 
   /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached account
   DataAccount tryGetPublicProfile(
-    int accountId, {
+    Int64 accountId, {
     DataAccount fallback,
     DataBusinessOffer fallbackOffer,
   }); // Simply retry anytime network state updates
@@ -1860,7 +1870,7 @@ abstract class NetworkInterface {
   // Haggle
 
   /// Suppress notifications
-  void pushSuppressChatNotifications(int applicantId);
+  void pushSuppressChatNotifications(Int64 proposalId);
   void popSuppressChatNotifications();
 
   /// Refresh all applicants (currently all latest applicants)
@@ -1876,17 +1886,17 @@ abstract class NetworkInterface {
   Future<DataApplicant> applyForOffer(int offerId, String remarks);
 
   /// Get applicant from the server, acts like refresh
-  Future<DataApplicant> getApplicant(int applicantId);
+  Future<DataApplicant> getApplicant(Int64 applicantId);
 
   /// Fetch latest applicant from cache by id, fetch in background if non-existent and return empty fallback
-  DataApplicant tryGetApplicant(int applicantId,
+  DataApplicant tryGetApplicant(Int64 applicantId,
       {DataBusinessOffer fallbackOffer});
 
   /// Fetch latest applicant from cache, fetch in background if non-existent and return given fallback
   DataApplicant latestApplicant(DataApplicant applicant);
 
   /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
-  Iterable<DataApplicantChat> tryGetApplicantChats(int applicantId);
+  Iterable<DataApplicantChat> tryGetApplicantChats(Int64 applicantId);
 
   /////////////////////////////////////////////////////////////////////////////
   // Haggle Actions
