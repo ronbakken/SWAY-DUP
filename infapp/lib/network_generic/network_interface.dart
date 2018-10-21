@@ -8,7 +8,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 
-enum NetworkConnectionState { Connecting, Failing, Offline, Ready }
+enum NetworkConnectionState { connecting, failing, offline, ready }
 
 abstract class NetworkInterface {
   /* Cached Data */

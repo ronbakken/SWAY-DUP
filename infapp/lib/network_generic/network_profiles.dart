@@ -124,8 +124,8 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
       // Empty...
       return emptyAccount()..freeze();
     }
-    if (connected != NetworkConnectionState.Ready) {
-      // Offline...
+    if (connected != NetworkConnectionState.ready) {
+      // offline...
       return tryGetPublicProfile(accountId);
     }
     NetGetAccountReq pbReq = new NetGetAccountReq();
@@ -169,7 +169,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
     }
     if ((cached.profile == null || cached.dirty) &&
         !cached.loading &&
-        connected == NetworkConnectionState.Ready) {
+        connected == NetworkConnectionState.ready) {
       cached.loading = true;
       getPublicProfile(accountId).then((profile) {
         cached.loading = false;

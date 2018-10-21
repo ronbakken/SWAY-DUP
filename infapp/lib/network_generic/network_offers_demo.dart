@@ -73,7 +73,7 @@ abstract class NetworkOffersDemo
   Map<int, DataBusinessOffer> get demoAllOffers {
     // print("demoAllOffers");
     if (_demoAllOffersLoaded == false &&
-        connected == NetworkConnectionState.Ready) {
+        connected == NetworkConnectionState.ready) {
       _demoAllOffersLoaded = true;
       if (account.state.accountType == AccountType.AT_INFLUENCER) {
         demoAllOffersLoading = true;

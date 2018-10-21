@@ -100,7 +100,7 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
   Future<void> _backgroundGetOffer(Int64 offerId, _CachedOffer cached) async {
     if (!cached.loading &&
         (cached.dirty || cached.offer == null) &&
-        connected == NetworkConnectionState.Ready) {
+        connected == NetworkConnectionState.ready) {
       cached.loading = true;
       getOffer(offerId).then((offer) {
         cached.loading = false;

@@ -68,7 +68,7 @@ abstract class NetworkOffersBusiness
 
   @override
   Map<int, DataBusinessOffer> get offers {
-    if (_offersLoaded == false && connected == NetworkConnectionState.Ready) {
+    if (_offersLoaded == false && connected == NetworkConnectionState.ready) {
       _offersLoaded = true;
       if (account.state.accountType == AccountType.AT_BUSINESS) {
         offersLoading = true;

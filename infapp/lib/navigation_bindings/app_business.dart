@@ -270,7 +270,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
                     (offer) => (offer.state != BusinessOfferState.BOS_CLOSED))
                 .toList()
                   ..sort((a, b) => b.offerId.compareTo(a.offerId)),
-            onRefreshOffers: (network.connected == NetworkConnectionState.Ready)
+            onRefreshOffers: (network.connected == NetworkConnectionState.ready)
                 ? network.refreshOffers
                 : null,
             onOfferPressed: (DataBusinessOffer offer) {
@@ -285,7 +285,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
                     (offer) => (offer.state == BusinessOfferState.BOS_CLOSED))
                 .toList()
                   ..sort((a, b) => b.offerId.compareTo(a.offerId)),
-            onRefreshOffers: (network.connected == NetworkConnectionState.Ready)
+            onRefreshOffers: (network.connected == NetworkConnectionState.ready)
                 ? network.refreshOffers
                 : null,
             onOfferPressed: (DataBusinessOffer offer) {
@@ -303,7 +303,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
           );
         },
       ),
-      onMakeAnOffer: (network.connected == NetworkConnectionState.Ready)
+      onMakeAnOffer: (network.connected == NetworkConnectionState.ready)
           ? () {
               navigateToMakeAnOffer(context);
             }

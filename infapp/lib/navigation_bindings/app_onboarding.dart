@@ -96,13 +96,13 @@ class _AppOnboardingState extends State<AppOnboarding> {
           oauthState: network.account.detail.socialMedia,
           termsOfServiceUrl: config.services.termsOfServiceUrl,
           privacyPolicyUrl: config.services.privacyPolicyUrl,
-          onOAuthSelected: (network.connected == NetworkConnectionState.Ready)
+          onOAuthSelected: (network.connected == NetworkConnectionState.ready)
               ? (int oauthProvider) {
                   navigateToOAuth(context, oauthProvider);
                 }
               : null,
           onSignUp:
-              canSignUp && (network.connected == NetworkConnectionState.Ready)
+              canSignUp && (network.connected == NetworkConnectionState.ready)
                   ? () async {
                       // Get user position
                       Position position;
@@ -169,13 +169,13 @@ class _AppOnboardingState extends State<AppOnboarding> {
     NetworkInterface network = NetworkManager.of(context);
     assert(network != null);
     return new OnboardingSelection(
-      onInfluencer: network.connected == NetworkConnectionState.Ready
+      onInfluencer: network.connected == NetworkConnectionState.ready
           ? () {
               network.setAccountType(AccountType.AT_INFLUENCER);
               navigateToSocial(context);
             }
           : null,
-      onBusiness: network.connected == NetworkConnectionState.Ready
+      onBusiness: network.connected == NetworkConnectionState.ready
           ? () {
               network.setAccountType(AccountType.AT_BUSINESS);
               navigateToSocial(context);

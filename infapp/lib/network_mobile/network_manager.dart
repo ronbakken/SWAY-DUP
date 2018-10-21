@@ -108,7 +108,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 
   LocalAccountData _currentLocalAccount;
   DataAccount account;
-  NetworkConnectionState connected = NetworkConnectionState.Connecting;
+  NetworkConnectionState connected = NetworkConnectionState.connecting;
 
   int _changed = 0; // trick to ensure rebuild
   ConfigData _config;
@@ -525,7 +525,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     } else {
       print("[INF] Network connection is ready");
       setState(() {
-        connected = NetworkConnectionState.Ready;
+        connected = NetworkConnectionState.ready;
         ++_changed;
       });
 
@@ -586,7 +586,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
           print("[INF] Network cannot connect, retry in 3 seconds: $e");
           assert(_ts == null);
           setState(() {
-            connected = NetworkConnectionState.Offline;
+            connected = NetworkConnectionState.offline;
             ++_changed;
           });
           await new Future.delayed(new Duration(seconds: 3));
@@ -595,20 +595,20 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
           (_foreground || (_keepAliveBackground > 0)) &&
           (_ts == null));
       Future<void> listen = _ts.listen();
-      if (connected == NetworkConnectionState.Offline) {
+      if (connected == NetworkConnectionState.offline) {
         setState(() {
-          connected = NetworkConnectionState.Connecting;
+          connected = NetworkConnectionState.connecting;
           ++_changed;
         });
       }
       if (_config != null /*&& widget.networkManager.localAccountId != 0*/) {
         if (_alive) {
-          // Authenticate device, this will set connected = Ready when successful
+          // Authenticate device, this will set connected = ready when successful
           _authenticateDevice(_ts).catchError((e) {
             print(
                 "[INF] Network authentication exception, retry in 3 seconds: $e");
             setState(() {
-              connected = NetworkConnectionState.Failing;
+              connected = NetworkConnectionState.failing;
               ++_changed;
             });
             TalkSocket ts = _ts;
@@ -632,16 +632,16 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         print(
             "[INF] No configuration, connection will remain idle"); // , local account id ${widget.networkManager.localAccountId}");
         setState(() {
-          connected = NetworkConnectionState.Failing;
+          connected = NetworkConnectionState.failing;
           ++_changed;
         });
       }
       await listen;
       _ts = null;
       print("[INF] Network connection closed");
-      if (connected == NetworkConnectionState.Ready) {
+      if (connected == NetworkConnectionState.ready) {
         setState(() {
-          connected = NetworkConnectionState.Connecting;
+          connected = NetworkConnectionState.connecting;
           ++_changed;
         });
       }
@@ -650,7 +650,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       TalkSocket ts = _ts;
       _ts = null;
       setState(() {
-        connected = NetworkConnectionState.Failing;
+        connected = NetworkConnectionState.failing;
         ++_changed;
       });
       if (ts != null) {
@@ -1087,7 +1087,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   @override
   Iterable<DataApplicant> get applicants {
     if (_applicantsLoaded == false &&
-        connected == NetworkConnectionState.Ready) {
+        connected == NetworkConnectionState.ready) {
       _applicantsLoaded = true;
       applicantsLoading = true;
       refreshApplicants().catchError((error, stack) {
@@ -1163,7 +1163,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       _cachedApplicants[applicantId] = cached;
     }
     if (cached.applicant == null || cached.dirty) {
-      if (!cached.loading && connected == NetworkConnectionState.Ready) {
+      if (!cached.loading && connected == NetworkConnectionState.ready) {
         cached.loading = true;
         getApplicant(new Int64(applicantId)).then((applicant) {
           cached.loading = false;
@@ -1219,7 +1219,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     }
     if (!cached.chatLoaded &&
         !cached.chatLoading &&
-        connected == NetworkConnectionState.Ready) {
+        connected == NetworkConnectionState.ready) {
       print("fetch chat");
       cached.chatLoading = true;
       _loadApplicantChats(applicantId.toInt()).then((applicant) {
@@ -1374,7 +1374,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   @override
   void chatPlain(int applicantId, String text) {
     int ghostId = ++nextDeviceGhostId;
-    if (connected == NetworkConnectionState.Ready) {
+    if (connected == NetworkConnectionState.ready) {
       NetChatPlain pbReq = new NetChatPlain();
       pbReq.applicantId = applicantId;
       pbReq.deviceGhostId = ghostId;
@@ -1389,7 +1389,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   void chatHaggle(
       int applicantId, String deliverables, String reward, String remarks) {
     int ghostId = ++nextDeviceGhostId;
-    if (connected == NetworkConnectionState.Ready) {
+    if (connected == NetworkConnectionState.ready) {
       NetChatHaggle pbReq = new NetChatHaggle();
       pbReq.applicantId = applicantId;
       pbReq.deviceGhostId = ghostId;
@@ -1415,7 +1415,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   @override
   void chatImageKey(int applicantId, String imageKey) {
     int ghostId = ++nextDeviceGhostId;
-    if (connected == NetworkConnectionState.Ready) {
+    if (connected == NetworkConnectionState.ready) {
       NetChatImageKey pbReq = new NetChatImageKey();
       pbReq.applicantId = applicantId;
       pbReq.deviceGhostId = ghostId;
