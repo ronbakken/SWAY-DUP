@@ -110,7 +110,8 @@ class CrossAccountNavigator extends State<CrossAccountNavigation> {
       String domain, Int64 accountId, NavigationTarget target, Int64 id) {
     assert(mounted);
     String key = "$domain/$accountId";
-    StreamController<NavigationRequest> controller = _navigationRequests[key]; // Closed by dispose(), listen(), and onCancel
+    StreamController<NavigationRequest> controller =
+        _navigationRequests[key]; // Closed by dispose(), listen(), and onCancel
     controller ??= _createController(key);
     // We want to open this screen
     controller.add(new NavigationRequest(target, id));

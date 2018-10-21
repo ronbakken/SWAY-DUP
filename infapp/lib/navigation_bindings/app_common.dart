@@ -125,8 +125,8 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
                   network.account.state.accountType ==
                       AccountType.AT_INFLUENCER)
               ? network.account
-              : network
-                  .tryGetProfileSummary(new Int64(proposal.influencerAccountId));
+              : network.tryGetProfileSummary(
+                  new Int64(proposal.influencerAccountId));
           // DataApplicant proposal = network.tryGetApplicant(applicantId);
           return new HaggleView(
             account: network.account,
