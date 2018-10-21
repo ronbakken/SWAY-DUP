@@ -6,6 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 
 import 'package:latlong/latlong.dart';
@@ -53,7 +54,7 @@ class OffersMap extends StatefulWidget {
   final List<DataBusinessOffer> offers;
 
   // TODO: final Function(S2CellId cellId) getOffer;
-  final Function(DataBusinessOffer offer) onOfferPressed;
+  final Function(Int64 offerId) onOfferPressed;
   final DataBusinessOffer highlightOffer;
 
   @override
@@ -213,7 +214,7 @@ class _OffersMapState extends State<OffersMap> {
                 color: Colors.transparent,
                 child: new InkWell(
                   onTap: () {
-                    widget.onOfferPressed(offer);
+                    widget.onOfferPressed(new Int64(offer.offerId));
                   },
                 ),
               ),

@@ -12,6 +12,8 @@ import 'package:inf/navigation_bindings/app_common.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/screens/account_switch.dart';
+import 'package:inf/screens/dashboard_simplified.dart';
+import 'package:inf/widgets/network_status.dart';
 
 import 'package:latlong/latlong.dart';
 
@@ -47,6 +49,57 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   @override
   void initState() {
     super.initState();
+    _initBuilders();
+  }
+
+  void _initBuilders() {
+    _proposalsDirect = new Builder(
+      builder: (BuildContext context) {
+        NetworkInterface network = NetworkManager.of(context);
+        return _buildApplicantList(
+            context,
+            (DataApplicant applicant) =>
+                (applicant.senderAccountId !=
+                    network.account.state.accountId) &&
+                (applicant.state == ApplicantState.AS_HAGGLING));
+      },
+    );
+    _proposalsApplied = new Builder(
+      builder: (context) {
+        NetworkInterface network = NetworkManager.of(context);
+        return _buildApplicantList(
+            context,
+            (DataApplicant applicant) =>
+                (applicant.senderAccountId ==
+                    network.account.state.accountId) &&
+                (applicant.state == ApplicantState.AS_HAGGLING));
+      },
+    );
+    _proposalsDeal = new Builder(
+      builder: (context) {
+        return _buildApplicantList(
+            context,
+            (DataApplicant applicant) =>
+                (applicant.state == ApplicantState.AS_DEAL) ||
+                (applicant.state == ApplicantState.AS_DISPUTE));
+      },
+    );
+    _proposalsHistory = new Builder(
+      builder: (context) {
+        return _buildApplicantList(
+            context,
+            (DataApplicant applicant) =>
+                (applicant.state == ApplicantState.AS_REJECTED) ||
+                (applicant.state == ApplicantState.AS_COMPLETE) ||
+                (applicant.state == ApplicantState.AS_RESOLVED));
+      },
+    );
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    _initBuilders();
   }
 
   @override
@@ -170,7 +223,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     });
   }
 
-  void navigateToProfileView(BuildContext context) {
+  void navigateToProfileView() {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigManager.of(context);
@@ -179,12 +232,12 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       return new ProfileView(
           account: network.account,
           onEditPressed: () {
-            navigateToProfileEdit(context);
+            navigateToProfileEdit();
           });
     }));
   }
 
-  void navigateToProfileEdit(BuildContext context) {
+  void navigateToProfileEdit() {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigManager.of(context);
@@ -309,17 +362,35 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     );
   }
 
+  Builder _proposalsDirect;
+  Builder _proposalsApplied;
+  Builder _proposalsDeal;
+  Builder _proposalsHistory;
+
+  void navigateToHistory() {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      return new Scaffold(
+          appBar: new AppBar(
+            title: new Text("History"),
+          ),
+          bottomSheet: NetworkStatus.buildOptional(context),
+          body: _proposalsHistory);
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
     bool enoughSpaceForBottom = (MediaQuery.of(context).size.height > 480.0);
     assert(network != null);
-    return new DashboardCommon(
+    return new DashboardSimplified(
       account: network.account,
-      mapTab: 0,
-      proposalsTab: 1,
-      agreementsTab: 2,
-      map: new Builder(builder: (context) {
+      mapOffersTab: 0,
+      proposalsDirectTab: 1,
+      proposalsAppliedTab: 2,
+      proposalsDealTab: 3,
+      mapOffers: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
         NetworkInterface network = NetworkManager.of(context);
         List<int> showcaseOfferIds = enoughSpaceForBottom
@@ -349,17 +420,6 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                 },
               )
             : null;
-        /*if (showcase != null) {
-          showcase = new BackdropFilter(
-            filter: new ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
-            child: showcase,
-          );
-        }*/
-        /*if (showcase != null) {
-          showcase = new Material(
-            child: showcase,
-          );
-        }*/
         Widget map = new OffersMap(
           filterState: _mapFilter,
           account: network.account,
@@ -383,9 +443,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
           bottomSpace: (showcase != null) ? 156.0 : 0.0,
           offers: network.demoAllOffers.values.toList(),
           highlightOffer: _mapHighlightOffer,
-          onOfferPressed: (DataBusinessOffer offer) {
-            navigateToOffer(new Int64(offer.offerId));
-          },
+          onOfferPressed: navigateToOffer,
         );
         return showcase != null
             ? new Stack(
@@ -402,57 +460,13 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               )
             : map;
       }),
-      onNavigateProfile: () {
-        navigateToProfileView(context);
-      },
+      onNavigateProfile: navigateToProfileView,
       onNavigateSwitchAccount: navigateToSwitchAccount,
       onNavigateDebugAccount: navigateToDebugAccount,
-      proposalsSent: new Builder(
-        builder: (context) {
-          return _buildApplicantList(
-              context,
-              (DataApplicant applicant) =>
-                  (applicant.senderAccountId ==
-                      network.account.state.accountId) &&
-                  (applicant.state == ApplicantState.AS_HAGGLING));
-        },
-      ),
-      proposalsReceived: new Builder(
-        builder: (context) {
-          return _buildApplicantList(
-              context,
-              (DataApplicant applicant) =>
-                  (applicant.senderAccountId !=
-                      network.account.state.accountId) &&
-                  (applicant.state == ApplicantState.AS_HAGGLING));
-        },
-      ),
-      proposalsRejected: new Builder(
-        builder: (context) {
-          return _buildApplicantList(
-              context,
-              (DataApplicant applicant) =>
-                  (applicant.state == ApplicantState.AS_REJECTED));
-        },
-      ),
-      agreementsActive: new Builder(
-        builder: (context) {
-          return _buildApplicantList(
-              context,
-              (DataApplicant applicant) =>
-                  (applicant.state == ApplicantState.AS_DEAL) ||
-                  (applicant.state == ApplicantState.AS_DISPUTE));
-        },
-      ),
-      agreementsHistory: new Builder(
-        builder: (context) {
-          return _buildApplicantList(
-              context,
-              (DataApplicant applicant) =>
-                  (applicant.state == ApplicantState.AS_COMPLETE) ||
-                  (applicant.state == ApplicantState.AS_RESOLVED));
-        },
-      ),
+      onNavigateHistory: navigateToHistory,
+      proposalsDirect: _proposalsDirect,
+      proposalsApplied: _proposalsApplied,
+      proposalsDeal: _proposalsDeal,
     );
   }
 }
