@@ -14,17 +14,17 @@ import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_mobile/network_manager.dart';
 import 'package:inf/screens/account_switch.dart';
+import 'package:inf/widgets/network_status.dart';
 
 import 'package:inf/widgets/progress_dialog.dart';
 
 import 'package:inf/screens/profile_view.dart';
 import 'package:inf/screens/profile_edit.dart';
-import 'package:inf/screens/dashboard_common.dart';
+import 'package:inf/screens/dashboard_simplified.dart';
 import 'package:inf/screens/offer_create.dart';
 import 'package:inf/screens/offer_view.dart';
 import 'package:inf/screens/business_offer_list.dart';
 import 'package:inf/screens/debug_account.dart';
-import 'package:inf/screens/applicants_list_placeholder.dart';
 
 // Business user
 class AppBusiness extends StatefulWidget {
@@ -52,7 +52,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     super.dispose();
   }
 
-  void navigateToMakeAnOffer(BuildContext context) {
+  void navigateToMakeAnOffer() {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
@@ -170,40 +170,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     });
   }
 
-  void navigateToSwitchAccount() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      ConfigData config = ConfigManager.of(context);
-      // NetworkInterface network = NetworkManager.of(context);
-      // NavigatorState navigator = Navigator.of(context);
-      MultiAccountClient selection = MultiAccountSelection.of(context);
-      return new AccountSwitch(
-        domain: config.services.domain,
-        accounts: selection.accounts,
-        onAddAccount: () {
-          selection.addAccount();
-        },
-        onSwitchAccount: (LocalAccountData localAccount) {
-          selection.switchAccount(localAccount.domain, localAccount.accountId);
-        },
-      );
-    }));
-  }
-
-  void navigateToDebugAccount() {
-    Navigator.push(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
-      // ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
-      // NavigatorState navigator = Navigator.of(context);
-      return new DebugAccount(
-        account: network.account,
-      );
-    }));
-  }
-
-  void navigateToProfileView(BuildContext context) {
+  void navigateToProfileView() {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
@@ -211,14 +178,25 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       NetworkInterface network = NetworkManager.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
-          account: network.account,
-          onEditPressed: () {
-            navigateToProfileEdit(context);
-          });
+        account: network.account,
+        onEditPressed: navigateToProfileEdit,
+      );
     }));
   }
 
-  void navigateToProfileEdit(BuildContext context) {
+  void navigateToHistory() {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      return new Scaffold(
+          appBar: new AppBar(
+            title: new Text("History"),
+          ),
+          bottomSheet: NetworkStatus.buildOptional(context),
+          body: proposalsHistory);
+    }));
+  }
+
+  void navigateToProfileEdit() {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
@@ -235,30 +213,13 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkManager.of(context);
     assert(network != null);
-    return new DashboardCommon(
+    return new DashboardSimplified(
       account: network.account,
-      //mapTab: 2,
-      offersTab: 0,
-      proposalsTab: 1,
-      agreementsTab: 2,
-      map: new Text("/* Map */"),
-      /*new Builder(builder: (context) {
-        ConfigData config = ConfigManager.of(context);
-        return new NearbyCommon(
-          account: network.account,
-          onSearchPressed: (TextEditingController searchQuery) {
-            Scaffold.of(context).showSnackBar(
-                new SnackBar(content: new Text("Not yet implemented.")));
-          },
-          mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark
-              ? config.services.mapboxUrlTemplateDark
-              : config.services.mapboxUrlTemplateLight,
-          mapboxToken: config.services.mapboxToken,
-          searchHint: "Find nearby influencers...",
-          searchTooltip: "Search for nearby influencers",
-        );
-      }),*/
-      offersCurrent: new Builder(builder: (context) {
+      offersBusinessTab: 0,
+      proposalsDirectTab: 1,
+      proposalsAppliedTab: 2,
+      proposalsDealTab: 3,
+      offersBusiness: new Builder(builder: (context) {
         NetworkInterface network = NetworkManager.of(context);
         return new BusinessOfferList(
             businessOffers: network.offers.values
@@ -273,44 +234,37 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
               navigateToOffer(new Int64(offer.offerId));
             });
       }),
-      offersHistory: new Builder(builder: (context) {
-        NetworkInterface network = NetworkManager.of(context);
-        return new BusinessOfferList(
-            businessOffers: network.offers.values
-                .where(
-                    (offer) => (offer.state == BusinessOfferState.BOS_CLOSED))
-                .toList()
-                  ..sort((a, b) => b.offerId.compareTo(a.offerId)),
-            onRefreshOffers: (network.connected == NetworkConnectionState.ready)
-                ? network.refreshOffers
-                : null,
-            onOfferPressed: (DataBusinessOffer offer) {
-              navigateToOffer(new Int64(offer
-                  .offerId)); // account will be able to use a future value provider thingy for not-mine offers
-            });
-      }),
-      proposalsSent: new Builder(
-        builder: (context) {
-          return new ApplicantsListPlaceholder(
-            applicants: network.applicants,
-            onApplicantPressed: (applicant) {
-              navigateToProposal(new Int64(applicant.applicantId));
-            },
-          );
-        },
-      ),
+      /*
+          offersHistory: new Builder(builder: (context) {
+            NetworkInterface network = NetworkManager.of(context);
+            return new BusinessOfferList(
+                businessOffers: network.offers.values
+                    .where(
+                        (offer) => (offer.state == BusinessOfferState.BOS_CLOSED))
+                    .toList()
+                      ..sort((a, b) => b.offerId.compareTo(a.offerId)),
+                onRefreshOffers: (network.connected == NetworkConnectionState.ready)
+                    ? network.refreshOffers
+                    : null,
+                onOfferPressed: (DataBusinessOffer offer) {
+                  navigateToOffer(new Int64(offer
+                      .offerId)); // account will be able to use a future value provider thingy for not-mine offers
+                });
+          }),*/
       onMakeAnOffer: (network.connected == NetworkConnectionState.ready)
-          ? () {
-              navigateToMakeAnOffer(context);
-            }
+          ? navigateToMakeAnOffer
           : null,
-      onNavigateProfile: () {
-        navigateToProfileView(context);
-      },
+      onNavigateProfile: navigateToProfileView,
       onNavigateSwitchAccount: navigateToSwitchAccount,
+      onNavigateHistory: navigateToHistory,
       onNavigateDebugAccount: navigateToDebugAccount,
+      proposalsDirect: proposalsDirect,
+      proposalsApplied: proposalsApplied,
+      proposalsDeal: proposalsDeal,
     );
   }
 }
+
+class DasboardSimplified {}
 
 /* end of file */

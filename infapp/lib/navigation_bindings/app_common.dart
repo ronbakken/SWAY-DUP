@@ -9,11 +9,15 @@ import 'dart:async';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
+import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_mobile/network_manager.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/screens/account_switch.dart';
+import 'package:inf/screens/debug_account.dart';
 import 'package:inf/screens/haggle_view.dart';
 import 'package:inf/screens/profile_view.dart';
+import 'package:inf/screens/proposal_list.dart';
 
 abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   NetworkInterface _network;
@@ -21,9 +25,21 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   CrossAccountNavigator _navigator;
   StreamSubscription<NavigationRequest> _navigationSubscription;
 
+  Builder proposalsDirect;
+  Builder proposalsApplied;
+  Builder proposalsDeal;
+  Builder proposalsHistory;
+
   @override
   void initState() {
     super.initState();
+     _initBuilders();
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+     _initBuilders();
   }
 
   @override
@@ -52,6 +68,70 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
       _navigationSubscription = null;
     }
     super.dispose();
+  }
+
+  void _initBuilders() {
+    proposalsDirect = new Builder(
+      builder: (BuildContext context) {
+        NetworkInterface network = NetworkManager.of(context);
+        return _buildProposalList(
+            context,
+            (DataApplicant applicant) =>
+                (applicant.senderAccountId !=
+                    applicant.influencerAccountId) &&
+                (applicant.state == ApplicantState.AS_HAGGLING));
+      },
+    );
+    proposalsApplied = new Builder(
+      builder: (context) {
+        NetworkInterface network = NetworkManager.of(context);
+        return _buildProposalList(
+            context,
+            (DataApplicant applicant) =>
+                (applicant.senderAccountId ==
+                    applicant.influencerAccountId) &&
+                (applicant.state == ApplicantState.AS_HAGGLING));
+      },
+    );
+    proposalsDeal = new Builder(
+      builder: (context) {
+        return _buildProposalList(
+            context,
+            (DataApplicant applicant) =>
+                (applicant.state == ApplicantState.AS_DEAL) ||
+                (applicant.state == ApplicantState.AS_DISPUTE));
+      },
+    );
+    proposalsHistory = new Builder(
+      builder: (context) {
+        return _buildProposalList(
+            context,
+            (DataApplicant applicant) =>
+                (applicant.state == ApplicantState.AS_REJECTED) ||
+                (applicant.state == ApplicantState.AS_COMPLETE) ||
+                (applicant.state == ApplicantState.AS_RESOLVED));
+      },
+    );
+  }
+
+  Widget _buildProposalList(
+      BuildContext context, bool Function(DataApplicant applicant) test) {
+    NetworkInterface network = NetworkManager.of(context);
+    return new ProposalList(
+      account: network.account,
+      proposals: network.applicants.where(test),
+      getProfileSummary: (BuildContext context, Int64 accountId) {
+        NetworkInterface network = NetworkManager.of(context);
+        return network.tryGetProfileSummary(accountId);
+      },
+      getBusinessOffer: (BuildContext context, Int64 offerId) {
+        NetworkInterface network = NetworkManager.of(context);
+        return network.tryGetOffer(offerId);
+      },
+      onProposalPressed: (Int64 proposalId) {
+        navigateToProposal(proposalId);
+      },
+    );
   }
 
   void onNavigationRequest(NavigationTarget target, Int64 id) {
@@ -169,6 +249,38 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
         network.popSuppressChatNotifications();
       }
     });
+  }
+
+  void navigateToSwitchAccount() {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      ConfigData config = ConfigManager.of(context);
+      // NetworkInterface network = NetworkManager.of(context);
+      // NavigatorState navigator = Navigator.of(context);
+      MultiAccountClient selection = MultiAccountSelection.of(context);
+      return new AccountSwitch(
+        domain: config.services.domain,
+        accounts: selection.accounts,
+        onAddAccount: () {
+          selection.addAccount();
+        },
+        onSwitchAccount: (LocalAccountData localAccount) {
+          selection.switchAccount(localAccount.domain, localAccount.accountId);
+        },
+      );
+    }));
+  }
+
+  void navigateToDebugAccount() {
+    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      // ConfigData config = ConfigManager.of(context);
+      NetworkInterface network = NetworkManager.of(context);
+      // NavigatorState navigator = Navigator.of(context);
+      return new DebugAccount(
+        account: network.account,
+      );
+    }));
   }
 }
 

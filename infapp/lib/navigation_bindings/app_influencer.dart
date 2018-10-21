@@ -28,8 +28,6 @@ import 'package:inf/cards/offer_card.dart';
 
 import 'package:inf/screens/profile_view.dart';
 import 'package:inf/screens/profile_edit.dart';
-import 'package:inf/screens/applicants_list_influencer.dart';
-import 'package:inf/screens/dashboard_common.dart';
 import 'package:inf/screens/offer_view.dart';
 import 'package:inf/screens/debug_account.dart';
 import 'package:inf/screens/offers_map.dart';
@@ -49,57 +47,11 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   @override
   void initState() {
     super.initState();
-    _initBuilders();
-  }
-
-  void _initBuilders() {
-    _proposalsDirect = new Builder(
-      builder: (BuildContext context) {
-        NetworkInterface network = NetworkManager.of(context);
-        return _buildApplicantList(
-            context,
-            (DataApplicant applicant) =>
-                (applicant.senderAccountId !=
-                    network.account.state.accountId) &&
-                (applicant.state == ApplicantState.AS_HAGGLING));
-      },
-    );
-    _proposalsApplied = new Builder(
-      builder: (context) {
-        NetworkInterface network = NetworkManager.of(context);
-        return _buildApplicantList(
-            context,
-            (DataApplicant applicant) =>
-                (applicant.senderAccountId ==
-                    network.account.state.accountId) &&
-                (applicant.state == ApplicantState.AS_HAGGLING));
-      },
-    );
-    _proposalsDeal = new Builder(
-      builder: (context) {
-        return _buildApplicantList(
-            context,
-            (DataApplicant applicant) =>
-                (applicant.state == ApplicantState.AS_DEAL) ||
-                (applicant.state == ApplicantState.AS_DISPUTE));
-      },
-    );
-    _proposalsHistory = new Builder(
-      builder: (context) {
-        return _buildApplicantList(
-            context,
-            (DataApplicant applicant) =>
-                (applicant.state == ApplicantState.AS_REJECTED) ||
-                (applicant.state == ApplicantState.AS_COMPLETE) ||
-                (applicant.state == ApplicantState.AS_RESOLVED));
-      },
-    );
   }
 
   @override
   void reassemble() {
     super.reassemble();
-    _initBuilders();
   }
 
   @override
@@ -249,38 +201,6 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     }));
   }
 
-  void navigateToSwitchAccount() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      ConfigData config = ConfigManager.of(context);
-      // NetworkInterface network = NetworkManager.of(context);
-      // NavigatorState navigator = Navigator.of(context);
-      MultiAccountClient selection = MultiAccountSelection.of(context);
-      return new AccountSwitch(
-        domain: config.services.domain,
-        accounts: selection.accounts,
-        onAddAccount: () {
-          selection.addAccount();
-        },
-        onSwitchAccount: (LocalAccountData localAccount) {
-          selection.switchAccount(localAccount.domain, localAccount.accountId);
-        },
-      );
-    }));
-  }
-
-  void navigateToDebugAccount() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      // ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
-      // NavigatorState navigator = Navigator.of(context);
-      return new DebugAccount(
-        account: network.account,
-      );
-    }));
-  }
-
   void navigateToSearchOffers(TextEditingController searchQueryController) {
     TextEditingController searchQueryControllerFallback =
         searchQueryController ?? new TextEditingController();
@@ -343,30 +263,6 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   bool _mapFilter = false;
   DataBusinessOffer _mapHighlightOffer;
 
-  Widget _buildApplicantList(
-      BuildContext context, bool Function(DataApplicant applicant) test) {
-    NetworkInterface network = NetworkManager.of(context);
-    return new ApplicantsListInfluencer(
-      applicants: network.applicants.where(test),
-      getAccount: (BuildContext context, int accountId) {
-        NetworkInterface network = NetworkManager.of(context);
-        return network.tryGetProfileSummary(new Int64(accountId));
-      },
-      getBusinessOffer: (BuildContext context, int offerId) {
-        NetworkInterface network = NetworkManager.of(context);
-        return network.tryGetOffer(new Int64(offerId));
-      },
-      onApplicantPressed: (applicant) {
-        navigateToProposal(new Int64(applicant.applicantId));
-      },
-    );
-  }
-
-  Builder _proposalsDirect;
-  Builder _proposalsApplied;
-  Builder _proposalsDeal;
-  Builder _proposalsHistory;
-
   void navigateToHistory() {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
@@ -375,7 +271,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
             title: new Text("History"),
           ),
           bottomSheet: NetworkStatus.buildOptional(context),
-          body: _proposalsHistory);
+          body: proposalsHistory);
     }));
   }
 
@@ -462,11 +358,11 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       }),
       onNavigateProfile: navigateToProfileView,
       onNavigateSwitchAccount: navigateToSwitchAccount,
-      onNavigateDebugAccount: navigateToDebugAccount,
       onNavigateHistory: navigateToHistory,
-      proposalsDirect: _proposalsDirect,
-      proposalsApplied: _proposalsApplied,
-      proposalsDeal: _proposalsDeal,
+      onNavigateDebugAccount: navigateToDebugAccount,
+      proposalsDirect: proposalsDirect,
+      proposalsApplied: proposalsApplied,
+      proposalsDeal: proposalsDeal,
     );
   }
 }

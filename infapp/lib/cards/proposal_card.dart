@@ -10,20 +10,21 @@ import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/styling_constants.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
 
-class ApplicantCardInfluencer extends StatelessWidget {
-  final DataApplicant applicant;
+class ProposalCard extends StatelessWidget {
+  final DataAccount account;
+  final DataApplicant proposal;
   final DataBusinessOffer businessOffer;
-  final DataAccount businessAccount;
-  final bool inner;
+  final DataAccount partnerProfile;
+  //final bool inner;
   final Function() onPressed;
 
-  ApplicantCardInfluencer({
+  ProposalCard({
     Key key,
-    this.applicant,
-    this.businessOffer,
-    this.businessAccount,
+    @required this.account,
+    @required this.proposal,
+    @required this.businessOffer,
+    @required this.partnerProfile,
     this.onPressed,
-    this.inner = false,
   }) : super(key: key);
 
   @override
@@ -80,8 +81,8 @@ class ApplicantCardInfluencer extends StatelessWidget {
                           new SizedBox(width: kInfPadding),
                           new ProfileAvatar(
                               size: 40.0,
-                              account: businessAccount,
-                              tag: '${businessOffer.offerId}'),
+                              account: partnerProfile,
+                              tag: '/${proposal.applicantId}'),
                           new SizedBox(width: kInfPadding),
                           new Flexible(
                             fit: FlexFit.loose,
@@ -96,13 +97,13 @@ class ApplicantCardInfluencer extends StatelessWidget {
                       new Text(businessOffer.location,
                             overflow: TextOverflow.ellipsis),*/
                                 new Text(
-                                  businessOffer.locationName,
+                                  (partnerProfile.state.accountType == AccountType.AT_BUSINESS) ? businessOffer.locationName : partnerProfile.summary.name,
                                   overflow: TextOverflow.ellipsis,
                                   style: theme.textTheme.body1,
                                 ),
                                 new SizedBox(height: kInfPaddingText),
                                 new Text(
-                                  businessOffer.location,
+                                  (partnerProfile.state.accountType == AccountType.AT_BUSINESS) ? businessOffer.location : partnerProfile.summary.location,
                                   overflow: TextOverflow.ellipsis,
                                   style: theme.textTheme.caption,
                                 ),
@@ -184,28 +185,17 @@ class ApplicantCardInfluencer extends StatelessWidget {
         ],
       ),
     );
-    return inner
-        ? tile
-        : /*new Card(
-            child: new ClipRRect(
-              borderRadius: const BorderRadius.all(const Radius.circular(4.0)),
-              child: new InkWell(
-                child: tile,
-                onTap: onPressed,
-              ),
-            ),
-          )*/
-        new Padding(
-            padding: const EdgeInsets.symmetric(vertical: kInfPaddingHalf),
-            child: Material(
-              type: MaterialType.card,
-              elevation: 1.0,
-              child: new InkWell(
-                child: tile,
-                onTap: onPressed,
-              ),
-            ),
-          );
+    return new Padding(
+      padding: const EdgeInsets.symmetric(vertical: kInfPaddingHalf),
+      child: Material(
+        type: MaterialType.card,
+        elevation: 1.0,
+        child: new InkWell(
+          child: tile,
+          onTap: onPressed,
+        ),
+      ),
+    );
   }
 }
 
