@@ -13,8 +13,7 @@ import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:wstalk/wstalk.dart';
 
-abstract class NetworkOffersDemo
-    implements NetworkInterface, NetworkInternals {
+abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
   @override
   bool demoAllOffersLoading = false;
 
@@ -45,8 +44,8 @@ abstract class NetworkOffersDemo
   Future<void> refreshDemoAllOffers() async {
     NetLoadOffersReq loadOffersReq =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    Stream<TalkMessage> results = ts.sendStreamRequest(
-        _netLoadOffersReq, loadOffersReq.writeToBuffer());
+    Stream<TalkMessage> results =
+        ts.sendStreamRequest(_netLoadOffersReq, loadOffersReq.writeToBuffer());
     Completer<void> completer = new Completer<void>();
     results.listen(_demoAllBusinessOffer, onDone: () {
       print("Refresh done");
