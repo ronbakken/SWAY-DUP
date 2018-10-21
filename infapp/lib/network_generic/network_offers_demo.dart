@@ -48,13 +48,14 @@ abstract class NetworkOffersDemo
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
     Stream<TalkMessage> results = ts.sendStreamRequest(
         _netLoadOffersReq, loadOffersReq.writeToBuffer());
-        
+    
     Completer<void> completer = new Completer<void>();
     results.listen(_demoAllBusinessOffer, onDone: () {
       print("refreshDemoAllOffers done");
       completer.complete();
     });
     return completer.future;
+    
     
     /*
     // FIXME: 'await for' is no longer working???
