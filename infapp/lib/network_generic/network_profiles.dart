@@ -126,7 +126,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
     }
     if (connected != NetworkConnectionState.ready) {
       // offline...
-      return tryGetPublicProfile(accountId);
+      return tryGetProfileDetail(accountId);
     }
     NetGetAccountReq pbReq = new NetGetAccountReq();
     pbReq.accountId = accountId.toInt();
@@ -146,7 +146,13 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
   }
 
   @override
-  DataAccount tryGetPublicProfile(Int64 accountId) {
+  DataAccount tryGetProfileSummary(Int64 accountId) {
+    // TODO
+    return tryGetProfileDetail(accountId);
+  }
+
+  @override
+  DataAccount tryGetProfileDetail(Int64 accountId) {
     if (accountId == account.state.accountId) {
       // It's me...
       return account;

@@ -76,7 +76,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
       // ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      return new ProfileView(account: network.tryGetPublicProfile(accountId));
+      return new ProfileView(account: network.tryGetProfileDetail(accountId));
     }));
   }
 
@@ -120,13 +120,13 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
                   network.account.state.accountType == AccountType.AT_BUSINESS)
               ? network.account
               : network
-                  .tryGetPublicProfile(new Int64(proposal.businessAccountId));
+                  .tryGetProfileSummary(new Int64(proposal.businessAccountId));
           DataAccount influencerAccount = (proposal.influencerAccountId == 0 &&
                   network.account.state.accountType ==
                       AccountType.AT_INFLUENCER)
               ? network.account
               : network
-                  .tryGetPublicProfile(new Int64(proposal.influencerAccountId));
+                  .tryGetProfileSummary(new Int64(proposal.influencerAccountId));
           // DataApplicant proposal = network.tryGetApplicant(applicantId);
           return new HaggleView(
             account: network.account,

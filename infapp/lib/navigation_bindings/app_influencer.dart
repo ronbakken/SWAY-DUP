@@ -89,7 +89,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
           // NavigatorState navigator = Navigator.of(context);
           DataBusinessOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount =
-              network.tryGetPublicProfile(new Int64(businessOffer.accountId));
+              network.tryGetProfileSummary(new Int64(businessOffer.accountId));
           return new OfferView(
             account: network.account,
             businessOffer: businessOffer,
@@ -297,7 +297,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       applicants: network.applicants.where(test),
       getAccount: (BuildContext context, int accountId) {
         NetworkInterface network = NetworkManager.of(context);
-        return network.tryGetPublicProfile(new Int64(accountId));
+        return network.tryGetProfileSummary(new Int64(accountId));
       },
       getBusinessOffer: (BuildContext context, int offerId) {
         NetworkInterface network = NetworkManager.of(context);
@@ -333,7 +333,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                 },
                 getAccount: (BuildContext context, int accountId) {
                   NetworkInterface network = NetworkManager.of(context);
-                  return network.tryGetPublicProfile(new Int64(accountId));
+                  return network.tryGetProfileSummary(new Int64(accountId));
                 },
                 offerIds: network.demoAllOffers.keys.toList(),
                 onOfferPressed: (DataBusinessOffer offer) {

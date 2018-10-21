@@ -95,9 +95,20 @@ abstract class NetworkInterface {
   // Get profile
   /////////////////////////////////////////////////////////////////////////////
 
+  /// Retreives the profile summary. This is sufficient for displaying a thumbnail, card, or tile of the profile, without fetching all the profile details.
+  /// Returns best guess placeholder in case not yet available, and fetches latest, otherwise returns cached account, never returns null, never throws exception.
+  DataAccount tryGetProfileSummary(Int64 accountId);
+
+  /// Retrieves the profile details. Adds a larger cover image, list of categories, social media information, other descriptive elements, and user location information.
+  /// Returns best guess placeholder in case not yet available, and fetches latest, otherwise returns cached account, never returns null, never throws exception.
+  DataAccount tryGetProfileDetail(Int64 accountId);
+
+  /// Retrieves the extended profile information. Access may be restricted.
+  // DataAccount tryGetProfileExtended(Int64 accountId);
+
   /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached account, never returns null, never throws exception
   /// Simply retry anytime network state updates
-  DataAccount tryGetPublicProfile(Int64 accountId);
+  // DataAccount tryGetPublicProfile(Int64 accountId);
 
   /// Get public profile, refresh set to true to always get from server, use sparingly to refresh the cache, may fail and throw exceptions
   Future<DataAccount> getPublicProfile(Int64 accountId, {bool refresh = true});
