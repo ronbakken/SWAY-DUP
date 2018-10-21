@@ -15,8 +15,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/network_mobile/network_offers_business.dart';
-import 'package:inf/network_mobile/network_offers_demo.dart';
+import 'package:inf/network_generic/network_offers_business.dart';
+import 'package:inf/network_generic/network_offers_demo.dart';
 import 'package:wstalk/wstalk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
@@ -27,15 +27,15 @@ import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart';
 
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
-import 'package:inf/network_mobile/network_offers.dart';
-import 'package:inf/network_mobile/network_profiles.dart';
+import 'package:inf/network_generic/network_offers.dart';
+import 'package:inf/network_generic/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_mobile/network_interface.dart';
-import 'package:inf/network_mobile/network_internals.dart';
+import 'package:inf/network_generic/network_interface.dart';
+import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 
-export 'package:inf/network_mobile/network_interface.dart';
+export 'package:inf/network_generic/network_interface.dart';
 
 // TODO: Reassemble should re-merge all protobuf
 

@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:inf/widgets/profile_avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../network_mobile/config_manager.dart';
-import '../widgets/follower_tray.dart';
-import '../widgets/edit_button.dart';
-import '../protobuf/inf_protobuf.dart';
+import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/widgets/follower_tray.dart';
+import 'package:inf/widgets/edit_button.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 // TODO: Change to a stateful Widget and Cleanup
 class ProfileView extends StatelessWidget {

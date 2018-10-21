@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-import '../protobuf/inf_protobuf.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 String translateGlobalAccountStateReason(
     GlobalAccountStateReason globalAccountStateReason) {

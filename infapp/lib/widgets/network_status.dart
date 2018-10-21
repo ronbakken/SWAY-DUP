@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/material.dart';
 
-import '../network_mobile/network_manager.dart';
+import 'package:inf/network_mobile/network_manager.dart';
 
 class NetworkStatus extends StatelessWidget {
   NetworkStatus({Key key}) : super(key: key);

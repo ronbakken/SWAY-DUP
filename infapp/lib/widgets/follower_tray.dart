@@ -9,7 +9,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'follower_count.dart';
-import '../protobuf/inf_protobuf.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 class FollowerTray extends StatelessWidget {
   FollowerTray({

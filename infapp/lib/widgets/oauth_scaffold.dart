@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-import '../protobuf/inf_protobuf.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 typedef Future<NetOAuthUrlRes> OAuthGetParams();
 typedef Future<bool> OAuthCallbackResult(String callbackQuery);

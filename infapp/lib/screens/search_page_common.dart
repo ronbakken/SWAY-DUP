@@ -7,9 +7,9 @@ Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../protobuf/inf_protobuf.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
-import '../widgets/network_status.dart';
+import 'package:inf/widgets/network_status.dart';
 
 class SearchPageCommon extends StatefulWidget {
   SearchPageCommon({

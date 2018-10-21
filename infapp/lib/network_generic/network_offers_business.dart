@@ -8,8 +8,8 @@ import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_mobile/network_interface.dart';
-import 'package:inf/network_mobile/network_internals.dart';
+import 'package:inf/network_generic/network_interface.dart';
+import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:wstalk/wstalk.dart';
 
