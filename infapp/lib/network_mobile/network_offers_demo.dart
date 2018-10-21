@@ -45,10 +45,21 @@ abstract class NetworkOffersDemo
   Future<void> refreshDemoAllOffers() async {
     NetLoadOffersReq loadOffersReq =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    await for (TalkMessage res in ts.sendStreamRequest(
-        _netLoadOffersReq, loadOffersReq.writeToBuffer()))
+    Stream<TalkMessage> results = ts.sendStreamRequest(
+        _netLoadOffersReq, loadOffersReq.writeToBuffer());
+    Completer<void> completer = new Completer<void>();
+    results.listen(_demoAllBusinessOffer, onDone: () {
+      print("Refresh done");
+      completer.complete();
+    });
+    return completer.future;
+    /*
+    FIXME: 'await for' is no longer working???
+    print(results);
+    await for (TalkMessage res in results)
       _demoAllBusinessOffer(res);
     print("Refresh done");
+    */
   }
 
   @override
