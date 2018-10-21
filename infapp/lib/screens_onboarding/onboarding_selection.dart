@@ -10,8 +10,8 @@ class OnboardingSelection extends StatelessWidget {
     @required this.onBusiness,
   }) : super(key: key);
 
-  final VoidCallback onInfluencer;
-  final VoidCallback onBusiness;
+  final Function() onInfluencer;
+  final Function() onBusiness;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,6 @@ class OnboardingSelection extends StatelessWidget {
                 new Container(
                     margin: new EdgeInsets.symmetric(horizontal: 8.0),
                     child: new RaisedButton(
-                      // shape: new StadiumBorder(),
                       child: new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -72,7 +71,6 @@ class OnboardingSelection extends StatelessWidget {
                 new Container(
                     margin: new EdgeInsets.symmetric(horizontal: 8.0),
                     child: new RaisedButton(
-                      // shape: new StadiumBorder(),
                       child: new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

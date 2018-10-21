@@ -75,12 +75,12 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
             .startsWith('/offer/' + offerViewOpen.toString());
       });
       if (offerViewOpen == offerId) {
-        network.backgroundReloadBusinessOffer(offerId);
+        network.getOffer(offerId); // Background refresh
         return;
       }
       Navigator.pop(context);
     }
-    network.backgroundReloadBusinessOffer(offerId);
+    network.getOffer(offerId); // Background refresh
     int count = ++offerViewCount;
     offerViewOpen = offerId;
     Navigator.push(
@@ -92,7 +92,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
           // ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
           // NavigatorState navigator = Navigator.of(context);
-          DataBusinessOffer businessOffer = network.tryGetBusinessOffer(offerId);
+          DataBusinessOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount = network.tryGetPublicProfile(new Int64(businessOffer.accountId));
           return new OfferView(
             account: network.account,
@@ -304,7 +304,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       },
       getBusinessOffer: (BuildContext context, int offerId) {
         NetworkInterface network = NetworkManager.of(context);
-        return network.tryGetBusinessOffer(new Int64(offerId));
+        return network.tryGetOffer(new Int64(offerId));
       },
       onApplicantPressed: (applicant) {
         navigateToProposal(new Int64(applicant.applicantId));
@@ -332,7 +332,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
             ? new OffersShowcase(
                 getOffer: (BuildContext context, int offerId) {
                   NetworkInterface network = NetworkManager.of(context);
-                  return network.tryGetBusinessOffer(new Int64(offerId));
+                  return network.tryGetOffer(new Int64(offerId));
                 },
                 getAccount: (BuildContext context, int accountId) {
                   NetworkInterface network = NetworkManager.of(context);

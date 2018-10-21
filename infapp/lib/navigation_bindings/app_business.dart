@@ -137,12 +137,12 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
             .startsWith('/offer/' + offerViewOpen.toString());
       });
       if (offerViewOpen == offerId) {
-        network.backgroundReloadBusinessOffer(offerId);
+        network.getOffer(offerId); // Background refresh
         return;
       }
       Navigator.pop(context);
     }
-    network.backgroundReloadBusinessOffer(offerId);
+    network.getOffer(offerId); // Background refresh
     int count = ++offerViewCount;
     offerViewOpen = offerId;
     Navigator.push(
@@ -154,7 +154,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
           ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
           NavigatorState navigator = Navigator.of(context);
-          DataBusinessOffer businessOffer = network.tryGetBusinessOffer(offerId);
+          DataBusinessOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount = network.tryGetPublicProfile(new Int64(businessOffer.accountId));
           return new OfferView(
             account: network.account,

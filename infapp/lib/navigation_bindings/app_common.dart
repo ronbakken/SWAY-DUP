@@ -115,7 +115,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
           Iterable<DataApplicantChat> chats =
               network.tryGetApplicantChats(proposalId);
           DataBusinessOffer offer =
-              network.tryGetBusinessOffer(new Int64(proposal.offerId));
+              network.tryGetOffer(new Int64(proposal.offerId));
           DataAccount businessAccount = (proposal.businessAccountId == 0 &&
                   network.account.state.accountType == AccountType.AT_BUSINESS)
               ? network.account

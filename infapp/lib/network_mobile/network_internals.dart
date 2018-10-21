@@ -15,10 +15,32 @@ abstract class NetworkInternals {
   TalkSocket get ts;
 
   // Profiles
-  void markCachedAccountsDirty();
-  DataAccount emptyAccount();
+  void cacheProfile(DataAccount account);
+  void resetProfilesState();
+  void markProfilesDirty();
   void onProfileChanged(ChangeAction action, Int64 id);
-  void profileFallbackHint(DataBusinessOffer offer);
+  DataAccount emptyAccount();
+  void hintProfileOffer(DataBusinessOffer offer);
+
+  // Offers
+  void cacheOffer(DataBusinessOffer offer);
+  void resetOffersState();
+  void onOfferChanged(ChangeAction action, Int64 id);
+  void markOffersDirty();
+  void markOfferDirty(Int64 offerId);
+  void hintOfferProposal(DataApplicant proposal);
+
+  // Offers Business
+  void resetOffersBusinessState();
+  void markOffersBusinessDirty();
+  void dataBusinessOffer(TalkMessage message); // TODO: Remove this!!!
+  void onOffersBusinessChanged(ChangeAction action, Int64 id);
+
+  // Offers Demo
+  void resetOffersDemoState();
+  void markOffersDemoDirty();
+  void onOffersDemoChanged(ChangeAction action, Int64 id);
+
 }
 
 /* end of file */

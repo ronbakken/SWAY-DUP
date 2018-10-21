@@ -82,28 +82,25 @@ abstract class NetworkInterface {
   // Synchronization utilities
   /////////////////////////////////////////////////////////////////////////////
 
-  /// Ensure to get the latest account data, in case we have it. Not necessary for network.offers (unless detached)
-  DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer);
+  /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached offer, never returns null, never throws exception
+  DataBusinessOffer tryGetOffer(Int64 offerId);
 
-  /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached business offer
-  DataBusinessOffer tryGetBusinessOffer(
-    Int64 offerId, {
-    DataBusinessOffer fallback,
-  });
+  /// Get an offer, refresh set to true to always get from server, use sparingly to refresh the cache, may fail and throw exceptions
+  Future<DataBusinessOffer> getOffer(Int64 offerId, { bool refresh = true });
 
   /// Reload business offer silently in the background, call when opening a window
-  void backgroundReloadBusinessOffer(Int64 offerId);
+  // void backgroundReloadBusinessOffer(Int64 offerId);
 
   /////////////////////////////////////////////////////////////////////////////
   // Get profile
   /////////////////////////////////////////////////////////////////////////////
 
-  /// Get public profile, always gets from server, use sparingly to refresh the cache
-  Future<DataAccount> getPublicProfile(Int64 accountId);
-
-  /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached account
+  /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached account, never returns null, never throws exception
   /// Simply retry anytime network state updates
   DataAccount tryGetPublicProfile(Int64 accountId);
+
+  /// Get public profile, refresh set to true to always get from server, use sparingly to refresh the cache, may fail and throw exceptions
+  Future<DataAccount> getPublicProfile(Int64 accountId, { bool refresh = true });
 
   /////////////////////////////////////////////////////////////////////////////
   // Haggle

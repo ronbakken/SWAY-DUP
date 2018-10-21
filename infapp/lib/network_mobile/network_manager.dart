@@ -15,8 +15,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/network_inheritable/cross_account_navigation.dart';
-import 'package:inf/network_mobile/network_profiles.dart';
+import 'package:inf/network_mobile/network_offers_business.dart';
+import 'package:inf/network_mobile/network_offers_demo.dart';
 import 'package:wstalk/wstalk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
@@ -26,6 +26,9 @@ import 'package:mime/mime.dart';
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart';
 
+import 'package:inf/network_inheritable/cross_account_navigation.dart';
+import 'package:inf/network_mobile/network_offers.dart';
+import 'package:inf/network_mobile/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_mobile/network_interface.dart';
@@ -94,7 +97,12 @@ class _NetworkManagerStateful extends StatefulWidget {
 }
 
 class _NetworkManagerState extends State<_NetworkManagerStateful>
-    with WidgetsBindingObserver, NetworkProfiles
+    with
+        WidgetsBindingObserver,
+        NetworkProfiles,
+        NetworkOffers,
+        NetworkOffersBusiness,
+        NetworkOffersDemo
     implements NetworkInterface, NetworkInternals {
   // see NetworkInterface
 
@@ -127,7 +135,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       new List<StreamSubscription<TalkMessage>>();
 
   List<int> _suppressChatNotifications = new List<int>();
-  
+
   int _keepAliveBackground = 0;
 
   void pushKeepAlive() {
@@ -139,6 +147,24 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   }
 
   void onProfileChanged(ChangeAction action, Int64 id) {
+    setState(() {
+      ++_changed;
+    });
+  }
+
+  void onOfferChanged(ChangeAction action, Int64 id) {
+    setState(() {
+      ++_changed;
+    });
+  }
+
+  void onOffersBusinessChanged(ChangeAction action, Int64 id) {
+    setState(() {
+      ++_changed;
+    });
+  }
+
+  void onOffersDemoChanged(ChangeAction action, Int64 id) {
     setState(() {
       ++_changed;
     });
@@ -177,21 +203,17 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   }
 
   void cleanupStateSwitchingAccounts() {
-    _offers.clear();
-    _offersLoaded = false;
+    resetProfilesState();
+    resetOffersState();
+    resetOffersBusinessState();
     _applicants.clear();
     _applicantsLoaded = false;
-    _demoAllOffers.clear();
-    _demoAllOffersLoaded = false;
     _cachedApplicants.clear();
-    cleanupAccount();
+    resetAccountState();
   }
 
-  void cleanupAccount() {
-    account = new DataAccount();
-    account.state = new DataAccountState();
-    account.summary = new DataAccountSummary();
-    account.detail = new DataAccountDetail();
+  void resetAccountState() {
+    account = emptyAccount(); //..freeze();
   }
 
   Future<void> receivedDeviceAuthState(NetDeviceAuthState pb) async {
@@ -224,12 +246,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
           account.summary.blurredAvatarThumbnailUrl,
           account.summary.avatarThumbnailUrl);
       // Mark all caches as dirty, since we may have been offline for a while
-      _offersLoaded = false;
+      markProfilesDirty();
+      markOffersDirty();
+      markOffersBusinessDirty();
       _applicantsLoaded = false;
-      markCachedAccountsDirty();
-      _cachedBusinessOffers.values.forEach((cached) {
-        cached.dirty = true;
-      });
       _cachedApplicants.values.forEach((cached) {
         cached.dirty = true;
         cached.chatLoaded = false;
@@ -511,7 +531,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       _subscriptions.add(
           ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState));
       _subscriptions.add(
-          ts.stream(TalkSocket.encode("DB_OFFER")).listen(_dataBusinessOffer));
+          ts.stream(TalkSocket.encode("DB_OFFER")).listen(dataBusinessOffer)); // TODO: Remove this!
       //_subscriptions.add(ts
       //    .stream(TalkSocket.encode("DE_OFFER"))
       //    .listen(_demoAllBusinessOffer));
@@ -568,7 +588,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
           });
           await new Future.delayed(new Duration(seconds: 3));
         }
-      } while (_alive && (_foreground || (_keepAliveBackground > 0)) && (_ts == null));
+      } while (_alive &&
+          (_foreground || (_keepAliveBackground > 0)) &&
+          (_ts == null));
       Future<void> listen = _ts.listen();
       if (connected == NetworkConnectionState.Offline) {
         setState(() {
@@ -668,7 +690,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         widget.multiAccountStore.onSwitchAccount.listen(_onMultiSwitchAccount);
 
     // Initialize data
-    cleanupAccount();
+    resetAccountState();
     syncConfig();
 
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
@@ -952,94 +974,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   /////////////////////////////////////////////////////////////////////////////
   // Business offers
   /////////////////////////////////////////////////////////////////////////////
-
-  Map<int, _CachedBusinessOffer> _cachedBusinessOffers =
-      new Map<int, _CachedBusinessOffer>();
-
-  @override
-  bool offersLoading = false;
-
-  void _cacheBusinessOffer(DataBusinessOffer offer) {
-    profileFallbackHint(offer);
-    _CachedBusinessOffer cached = _cachedBusinessOffers[offer.offerId];
-    if (cached == null) {
-      cached = new _CachedBusinessOffer();
-      _cachedBusinessOffers[offer.offerId] = cached;
-    }
-    setState(() {
-      cached.fallback = null;
-      cached.offer = offer;
-      cached.dirty = false;
-      ++_changed;
-    });
-  }
-
-  static int _netCreateOfferReq = TalkSocket.encode("C_OFFERR");
-  @override
-  Future<DataBusinessOffer> createOffer(
-      NetCreateOfferReq createOfferReq) async {
-    TalkMessage res = await _ts.sendRequest(
-        _netCreateOfferReq, createOfferReq.writeToBuffer());
-    DataBusinessOffer resPb = new DataBusinessOffer();
-    resPb.mergeFromBuffer(res.data);
-    _cacheBusinessOffer(resPb);
-    setState(() {
-      // Add resulting offer to known offers
-      _offers[resPb.offerId.toInt()] = resPb;
-      ++_changed;
-    });
-    return resPb;
-  }
-
-  void _dataBusinessOffer(TalkMessage message) {
-    DataBusinessOffer pb = new DataBusinessOffer();
-    pb.mergeFromBuffer(message.data);
-    if (pb.accountId == account.state.accountId) {
-      _cacheBusinessOffer(pb);
-      setState(() {
-        // Add received offer to known offers
-        _offers[pb.offerId.toInt()] = pb;
-        // TODO: _CachedBusinessOffer
-        ++_changed;
-      });
-    } else {
-      print("[INF] Received offer for other account ${pb.accountId}");
-    }
-  }
-
-  static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
-  @override
-  Future<void> refreshOffers() async {
-    NetLoadOffersReq loadOffersReq =
-        new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    await _ts.sendRequest(_netLoadOffersReq,
-        loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
-  }
-
-  bool _offersLoaded;
-  Map<int, DataBusinessOffer> _offers = new Map<int, DataBusinessOffer>();
-
-  @override
-  Map<int, DataBusinessOffer> get offers {
-    if (_offersLoaded == false && connected == NetworkConnectionState.Ready) {
-      _offersLoaded = true;
-      if (account.state.accountType == AccountType.AT_BUSINESS) {
-        offersLoading = true;
-        refreshOffers().catchError((error, stack) {
-          print("[INF] Failed to get offers: $error");
-          new Timer(new Duration(seconds: 3), () {
-            _offersLoaded =
-                false; // Not using setState since we don't want to broadcast failure state
-          });
-        }).whenComplete(() {
-          setState(() {
-            offersLoading = false;
-          });
-        });
-      }
-    }
-    return _offers;
-  }
 /*
   @override
   set offers(Map<int, DataBusinessOffer> _offers) {
@@ -1051,58 +985,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   /////////////////////////////////////////////////////////////////////////////
   // Demo all offers
   /////////////////////////////////////////////////////////////////////////////
-
-  @override
-  bool demoAllOffersLoading = false;
-
-  bool _demoAllOffersLoaded;
-  Map<int, DataBusinessOffer> _demoAllOffers =
-      new Map<int, DataBusinessOffer>();
-
-  void _demoAllBusinessOffer(TalkMessage message) {
-    DataBusinessOffer pb = new DataBusinessOffer();
-    pb.mergeFromBuffer(message.data);
-    _cacheBusinessOffer(pb);
-    setState(() {
-      // Add received offer to known offers
-      _demoAllOffers[pb.offerId.toInt()] = pb;
-      ++_changed;
-    });
-  }
-
-  // static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
-  @override
-  Future<void> refreshDemoAllOffers() async {
-    NetLoadOffersReq loadOffersReq =
-        new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    await for (TalkMessage res in _ts.sendStreamRequest(
-        _netLoadOffersReq, loadOffersReq.writeToBuffer()))
-      _demoAllBusinessOffer(res);
-    print("Refresh done");
-  }
-
-  @override
-  Map<int, DataBusinessOffer> get demoAllOffers {
-    if (_demoAllOffersLoaded == false &&
-        connected == NetworkConnectionState.Ready) {
-      _demoAllOffersLoaded = true;
-      if (account.state.accountType == AccountType.AT_INFLUENCER) {
-        demoAllOffersLoading = true;
-        refreshDemoAllOffers().catchError((error, stack) {
-          print("[INF] Failed to get offers: $error");
-          new Timer(new Duration(seconds: 3), () {
-            _demoAllOffersLoaded =
-                false; // Not using setState since we don't want to broadcast failure state
-          });
-        }).whenComplete(() {
-          setState(() {
-            demoAllOffersLoading = false;
-          });
-        });
-      }
-    }
-    return _demoAllOffers;
-  }
 
   /////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
@@ -1132,90 +1014,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   }
   */
 
-  static int _netGetOfferReq = TalkSocket.encode("GTOFFERR");
-  Future<DataBusinessOffer> _getBusinessOffer(
-      int offerId, _CachedBusinessOffer cached) async {
-    NetGetOfferReq pbReq = new NetGetOfferReq();
-    pbReq.offerId = offerId;
-    TalkMessage message =
-        await _ts.sendRequest(_netGetOfferReq, pbReq.writeToBuffer());
-    DataBusinessOffer offer =
-        (new NetGetOfferRes()..mergeFromBuffer(message.data)).offer;
-    setState(() {
-      cached.offer = offer;
-      cached.dirty = false;
-      cached.fallback = null;
-      ++_changed;
-    });
-    return offer;
-  }
-
-  Future<void> _backgroundGetBusinessOffer(
-      int offerId, _CachedBusinessOffer cached) async {
-    if (!cached.loading &&
-        (cached.dirty || cached.offer == null) &&
-        connected == NetworkConnectionState.Ready) {
-      cached.loading = true;
-      _getBusinessOffer(offerId, cached).then((offer) {
-        cached.loading = false;
-      }).catchError((error, stack) {
-        print("[INF] Failed to get offer $offerId: $error");
-        new Timer(new Duration(seconds: 3), () {
-          setState(() {
-            cached.loading = false;
-            ++_changed;
-          });
-        });
-      });
-    }
-  }
-
-  /// Ensure to get the latest offer data, in case we have it. Not necessary for network.offers (unless detached)
-  @override
-  DataBusinessOffer latestBusinessOffer(DataBusinessOffer offer) {
-    return tryGetBusinessOffer(new Int64(offer.offerId), fallback: offer);
-  }
-
-  @override
-  DataBusinessOffer tryGetBusinessOffer(
-    Int64 offerId, {
-    DataBusinessOffer fallback,
-  }) {
-    if (offerId == new Int64(0)) {
-      return new DataBusinessOffer();
-    }
-    _CachedBusinessOffer cached = _cachedBusinessOffers[offerId];
-    if (cached == null) {
-      cached = new _CachedBusinessOffer();
-      _cachedBusinessOffers[offerId.toInt()] = cached;
-    }
-    _backgroundGetBusinessOffer(offerId.toInt(), cached);
-    if (cached.offer != null) {
-      return cached.offer;
-    }
-    if (cached.fallback == null) {
-      cached.fallback = fallback;
-    }
-    if (cached.fallback != null) {
-      return cached.fallback;
-    }
-    DataBusinessOffer offer = new DataBusinessOffer();
-    offer.offerId = offerId.toInt();
-    return offer;
-  }
-
-  /// Reload business offer silently in the background, call when opening a window
-  @override
-  void backgroundReloadBusinessOffer(Int64 offerId) {
-    _CachedBusinessOffer cached = _cachedBusinessOffers[offerId.toInt()];
-    if (cached == null) {
-      cached = new _CachedBusinessOffer();
-      _cachedBusinessOffers[offerId.toInt()] = cached;
-    }
-    cached.dirty = true;
-    _backgroundGetBusinessOffer(offerId.toInt(), cached);
-  }
-
   /////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
@@ -1237,6 +1035,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       cached = new _CachedApplicant();
       _cachedApplicants[applicant.applicantId] = cached;
     }
+    hintOfferProposal(applicant);
     setState(() {
       cached.fallback = null;
       cached.applicant = applicant;
@@ -1304,6 +1103,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   }
 
   static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
+  /// Create proposal
   @override
   Future<DataApplicant> applyForOffer(int offerId, String remarks) async {
     try {
@@ -1315,17 +1115,10 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
           await _ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
       DataApplicant pbRes = new DataApplicant();
       pbRes.mergeFromBuffer(res.data);
-      DataBusinessOffer demoOffer = _demoAllOffers[offerId];
-      if (demoOffer != null)
-        demoOffer.influencerApplicantId = pbRes.applicantId;
       _cacheApplicant(pbRes); // FIXME: Chat not cached directly!
       return pbRes;
     } catch (error) {
-      _CachedBusinessOffer cached = _cachedBusinessOffers[offerId];
-      setState(() {
-        cached.dirty = true;
-        ++_changed;
-      });
+      markOfferDirty(new Int64(offerId));
       rethrow;
     }
   }
@@ -1650,13 +1443,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-
-class _CachedBusinessOffer {
-  bool loading = false; // Request in progress, cleared on cache
-  bool dirty = false; // May re-request on the network anytime, cleared on cache
-  DataBusinessOffer offer;
-  DataBusinessOffer fallback;
-}
 
 class _CachedApplicant {
   bool loading = false;

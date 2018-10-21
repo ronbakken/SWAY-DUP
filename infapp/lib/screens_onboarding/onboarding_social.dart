@@ -1,3 +1,9 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -32,7 +38,7 @@ class OnboardingSocial extends StatelessWidget {
   final String privacyPolicyUrl;
 
   final void Function(int oauthProvider) onOAuthSelected;
-  final Future<Null> Function() onSignUp;
+  final Future<void> Function() onSignUp;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +127,6 @@ class OnboardingSocial extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         new RaisedButton(
-                          // shape: new StadiumBorder(),
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -129,109 +134,8 @@ class OnboardingSocial extends StatelessWidget {
                             ],
                           ),
                           onPressed: connected && onSignUp != null
-                              ? () async {
-                                  bool accepted = false;
-                                  await showDialog<Null>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return new AlertDialog(
-                                        title: new Text('INF Marketplace LLC'),
-                                        content: new SingleChildScrollView(
-                                          child: new RichText(
-                                            text: new TextSpan(
-                                              children: [
-                                                new TextSpan(
-                                                  text:
-                                                      "By signing up to our service you confirm that you have read and agree to our ",
-                                                ),
-                                                new TextSpan(
-                                                  text: "Terms of Service",
-                                                  // style: new TextStyle(color: Colors.blue),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .button
-                                                      .copyWith(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .accentColor),
-                                                  recognizer:
-                                                      new TapGestureRecognizer()
-                                                        ..onTap = () {
-                                                          launch(
-                                                              termsOfServiceUrl);
-                                                        },
-                                                ),
-                                                new TextSpan(
-                                                  text: " and ",
-                                                ),
-                                                new TextSpan(
-                                                  text: "Privacy Policy",
-                                                  // style: new TextStyle(color: Colors.blue),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .button
-                                                      .copyWith(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .accentColor),
-                                                  recognizer:
-                                                      new TapGestureRecognizer()
-                                                        ..onTap = () {
-                                                          launch(
-                                                              privacyPolicyUrl);
-                                                        },
-                                                ),
-                                                new TextSpan(
-                                                  text: ".",
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          new FlatButton(
-                                            child:
-                                                new Text("Back".toUpperCase()),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          new FlatButton(
-                                            child: new Text(
-                                                "I agree".toUpperCase()),
-                                            onPressed: () {
-                                              accepted = true;
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                  if (!accepted) {
-                                    return;
-                                  }
-                                  // Show progress dialog
-                                  var progressDialog = showProgressDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return new Dialog(
-                                          child: new Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              new Container(
-                                                  padding:
-                                                      new EdgeInsets.all(24.0),
-                                                  child:
-                                                      new CircularProgressIndicator()),
-                                              new Text("Signing up..."),
-                                            ],
-                                          ),
-                                        );
-                                      });
-                                  // Wait for the sign up process to complete
-                                  await onSignUp();
-                                  closeProgressDialog(progressDialog);
+                              ? () {
+                                  _showSignUpDialog(context);
                                 }
                               : null,
                         )
@@ -244,4 +148,98 @@ class OnboardingSocial extends StatelessWidget {
       ),
     );
   }
+
+  // Required to show ToS etc before we commit any personal information to the database
+  void _showSignUpDialog(BuildContext context) async {
+    bool accepted = false;
+    await showDialog<Null>(
+      context: context,
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text('INF Marketplace LLC'),
+          content: new SingleChildScrollView(
+            child: new RichText(
+              text: new TextSpan(
+                children: [
+                  new TextSpan(
+                    text:
+                        "By signing up to our service you confirm that you have read and agree to our ",
+                  ),
+                  new TextSpan(
+                    text: "Terms of Service",
+                    // style: new TextStyle(color: Colors.blue),
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: Theme.of(context).accentColor),
+                    recognizer: new TapGestureRecognizer()
+                      ..onTap = () {
+                        launch(termsOfServiceUrl);
+                      },
+                  ),
+                  new TextSpan(
+                    text: " and ",
+                  ),
+                  new TextSpan(
+                    text: "Privacy Policy",
+                    // style: new TextStyle(color: Colors.blue),
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: Theme.of(context).accentColor),
+                    recognizer: new TapGestureRecognizer()
+                      ..onTap = () {
+                        launch(privacyPolicyUrl);
+                      },
+                  ),
+                  new TextSpan(
+                    text: ".",
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Back".toUpperCase()),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("I agree".toUpperCase()),
+              onPressed: () {
+                accepted = true;
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    if (!accepted) {
+      return;
+    }
+    // Show progress dialog
+    var progressDialog = showProgressDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return new Dialog(
+            child: new Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                new Container(
+                    padding: new EdgeInsets.all(24.0),
+                    child: new CircularProgressIndicator()),
+                new Text("Signing up..."),
+              ],
+            ),
+          );
+        });
+    // Wait for the sign up process to complete
+    await onSignUp();
+    closeProgressDialog(progressDialog);
+  }
 }
+
+/* end of file */
