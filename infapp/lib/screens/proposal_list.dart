@@ -24,7 +24,8 @@ class ProposalList extends StatelessWidget {
 
   final Iterable<DataApplicant> proposals;
 
-  final DataAccount Function(BuildContext context, Int64 accountId) getProfileSummary;
+  final DataAccount Function(BuildContext context, Int64 accountId)
+      getProfileSummary;
   final DataBusinessOffer Function(BuildContext context, Int64 offerId)
       getBusinessOffer;
 

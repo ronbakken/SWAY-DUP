@@ -192,7 +192,8 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
     return new Scaffold(
       body: body,
       floatingActionButton: (widget.onMakeAnOffer != null &&
-              (_currentTab == widget.mapOffersTab || _currentTab == widget.offersBusinessTab))
+              (_currentTab == widget.mapOffersTab ||
+                  _currentTab == widget.offersBusinessTab))
           ? new FloatingActionButton(
               backgroundColor: Theme.of(context).primaryColor,
               tooltip: 'Make an offer',
@@ -304,9 +305,9 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentTab,
           onTap: (int index) {
-              setState(() {
-                _currentTab = index;
-              });
+            setState(() {
+              _currentTab = index;
+            });
           },
           items: tabBarItems),
     );
