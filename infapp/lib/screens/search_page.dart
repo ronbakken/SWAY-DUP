@@ -166,14 +166,6 @@ class _SearchPageState extends State<SearchScreen> {
               new SearchItemCard(item: searchResults[index]),
         ));
   }
-
-  // The default AppBar displayed before searching
-  AppBar _buildAppBar(BuildContext context) {
-    return new AppBar(
-      title: new Text('Search Profile'),
-      //actions: [searchBar.getSearchAction(context)]
-    );
-  }
 }
 
 /* end of file */

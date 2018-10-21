@@ -4,13 +4,10 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
-import 'dart:async';
-
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inf/navigation_bindings/app_common.dart';
-import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
@@ -28,7 +25,6 @@ import 'package:inf/screens/offer_view.dart';
 import 'package:inf/screens/business_offer_list.dart';
 import 'package:inf/screens/debug_account.dart';
 import 'package:inf/screens/applicants_list_placeholder.dart';
-import 'package:inf/screens/haggle_view.dart';
 
 // Business user
 class AppBusiness extends StatefulWidget {
@@ -60,9 +56,9 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
-      ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
+      // NavigatorState navigator = Navigator.of(context);
       return new OfferCreate(
         onUploadImage: network.uploadImage,
         onCreateOffer: (NetCreateOfferReq createOffer) async {
@@ -151,9 +147,9 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       new MaterialPageRoute(
         settings: new RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (context) {
-          ConfigData config = ConfigManager.of(context);
+          // ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkManager.of(context);
-          NavigatorState navigator = Navigator.of(context);
+          // NavigatorState navigator = Navigator.of(context);
           DataBusinessOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount =
               network.tryGetPublicProfile(new Int64(businessOffer.accountId));
@@ -198,9 +194,9 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
-      ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
+      // NavigatorState navigator = Navigator.of(context);
       return new DebugAccount(
         account: network.account,
       );
@@ -211,9 +207,9 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
-      ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
+      // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
           account: network.account,
           onEditPressed: () {
@@ -226,9 +222,9 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
-      ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
+      // NavigatorState navigator = Navigator.of(context);
       return new ProfileEdit(
         account: network.account,
       );

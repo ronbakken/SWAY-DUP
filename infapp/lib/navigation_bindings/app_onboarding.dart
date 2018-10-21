@@ -4,8 +4,6 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
@@ -76,7 +74,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
       builder: (context) {
         ConfigData config = ConfigManager.of(context);
         NetworkInterface network = NetworkManager.of(context);
-        NavigatorState navigator = Navigator.of(context);
+        // NavigatorState navigator = Navigator.of(context);
         /*if (network.account.state.accountId != 0) {
           // Need to implement cleaner navigation
           () async {
@@ -106,7 +104,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
                   ? () async {
                       // Get user position
                       Position position;
-                      NavigatorState navigator = Navigator.of(context);
+                      // NavigatorState navigator = Navigator.of(context);
                       try {
                         position = await Geolocator().getLastKnownPosition(
                             desiredAccuracy: LocationAccuracy.medium);

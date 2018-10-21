@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:inf/screens/experiment_files/lookup_address.dart';
 import 'package:inf/screens/experiment_files/reverse_geocoding.dart';
 import 'dart:async';
@@ -55,8 +55,8 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   Stack mapBody;
 
   // Geolocation for getting position name on map
-  Geolocator _geolocator;
-  Position _initialLocation;
+  // Geolocator _geolocator;
+  // Position _initialLocation;
 
   // Current selected placemark
   String _placeMarkAddress;
@@ -85,9 +85,9 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
   }
 
   // get current location
-  void _getInitialPosition() async {
+  /*void _getInitialPosition() async {
     _initialLocation = await _geolocator.getCurrentPosition();
-  }
+  }*/
 
   @override
   void initState() {
@@ -127,8 +127,8 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     );
 
     // Initialize Geolocator
-    _geolocator = new Geolocator();
-    _getInitialPosition();
+    // _geolocator = new Geolocator();
+    // _getInitialPosition();
 
     // Initialize Map
     _flutterMapController = new MapController();

@@ -4,8 +4,6 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 */
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:inf/screens/experiment_files/reverse_geocoding.dart';
 

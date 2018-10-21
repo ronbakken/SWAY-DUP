@@ -4,8 +4,6 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 /// From dialog.dart

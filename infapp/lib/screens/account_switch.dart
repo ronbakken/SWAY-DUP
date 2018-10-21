@@ -4,19 +4,9 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-
-import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
-
-import 'package:inf/utility/ensure_visible_when_focused.dart';
-import 'package:inf/widgets/blurred_network_image.dart';
-
 import 'package:inf/widgets/profile_avatar.dart';
-import 'package:inf/widgets/carousel_app_bar.dart';
-import 'package:inf/widgets/dark_container.dart';
 
 class AccountSwitch extends StatelessWidget {
   const AccountSwitch({

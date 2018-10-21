@@ -24,7 +24,7 @@ import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
 import 'package:mime/mime.dart';
 import 'package:crypto/crypto.dart';
-import 'package:crypto/src/digest_sink.dart';
+import 'package:crypto/src/digest_sink.dart'; // Necessary for asynchronous hashing.
 
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_generic/network_offers.dart';

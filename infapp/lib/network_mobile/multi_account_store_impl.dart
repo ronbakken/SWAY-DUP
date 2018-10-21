@@ -18,8 +18,6 @@ import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:synchronized/synchronized.dart';
-import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';

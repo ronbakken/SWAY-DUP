@@ -4,16 +4,12 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
-import 'dart:async';
-import 'dart:ui';
-
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:inf/navigation_bindings/app_common.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
-import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/screens/account_switch.dart';
 
@@ -34,7 +30,6 @@ import 'package:inf/screens/applicants_list_influencer.dart';
 import 'package:inf/screens/dashboard_common.dart';
 import 'package:inf/screens/offer_view.dart';
 import 'package:inf/screens/debug_account.dart';
-import 'package:inf/screens/haggle_view.dart';
 import 'package:inf/screens/offers_map.dart';
 import 'package:inf/screens/search_page_common.dart';
 
@@ -178,9 +173,9 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   void navigateToProfileView(BuildContext context) {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
+      // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
           account: network.account,
           onEditPressed: () {
@@ -192,9 +187,9 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   void navigateToProfileEdit(BuildContext context) {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
+      // NavigatorState navigator = Navigator.of(context);
       return new ProfileEdit(
         account: network.account,
       );
@@ -224,9 +219,9 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   void navigateToDebugAccount() {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
+      // NavigatorState navigator = Navigator.of(context);
       return new DebugAccount(
         account: network.account,
       );
@@ -237,9 +232,9 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     TextEditingController searchQueryControllerFallback =
         searchQueryController ?? new TextEditingController();
     fadeToPage(context, (context, animation, secondaryAnimation) {
-      ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigManager.of(context);
       NetworkInterface network = NetworkManager.of(context);
-      NavigatorState navigator = Navigator.of(context);
+      // NavigatorState navigator = Navigator.of(context);
       return new SearchPageCommon(
           searchHint: "Find nearby offers...",
           searchTooltip: "Search for nearby offers",

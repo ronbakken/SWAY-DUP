@@ -58,6 +58,7 @@ class LocationSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     // TODO: Implement callback when result is tapped
+    return new Text("/* Placeholder */");
   }
 
   // List of items to be shown when typing a query

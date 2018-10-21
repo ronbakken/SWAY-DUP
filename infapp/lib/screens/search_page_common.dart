@@ -7,7 +7,6 @@ Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
 
 import 'package:inf/widgets/network_status.dart';
 

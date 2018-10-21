@@ -45,6 +45,7 @@ Future<String> coordinatesToAddress(double latitude, double longitude) async {
     // return the first place given by the feature
     return placeName;
   }
+  return "";
 }
 
 /* end of file */

@@ -5,7 +5,6 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:fixnum/fixnum.dart';
-import 'package:flutter/material.dart';
 import 'package:inf/network_generic/change.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:wstalk/wstalk.dart';
