@@ -34,7 +34,7 @@ class _OffersShowcaseState extends State<OffersShowcase> {
   Widget _buildCard(BuildContext context, int offerIdx) {
     ThemeData theme = Theme.of(context);
     int offerId = widget.offerIds[offerIdx];
-    print("[INF] Showcase $offerId");
+    // print("[INF] Showcase $offerId");
     DataBusinessOffer offer = widget.getOffer(context, offerId);
     /*DataAccount account = offer.accountId != 0
         ? widget.getAccount(context, offer.accountId)

@@ -29,47 +29,6 @@ class ApplicantCardInfluencer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    /*Widget child = new ListTile(
-      isThreeLine: true,
-      leading: new CircleAvatar(
-        child: new ClipOval(
-          child: new BlurredNetworkImage(
-            url: businessOffer.thumbnailUrl,
-            blurredUrl: businessOffer.blurredThumbnailUrl,
-            placeholderAsset: 'assets/placeholder_photo.png',
-          ),
-        ),
-        backgroundColor: Colors
-            .primaries[businessOffer.title.hashCode % Colors.primaries.length]
-            .shade300,
-      ),
-      title: new Text(businessAccount.summary.name),
-      subtitle: new Text(businessOffer.title),
-      onTap: onPressed,
-    );
-    return inner
-        ? child
-        : new Card(
-            child: child,
-          );*/
-    /*Widget tile = new ListTile(
-      isThreeLine: true,
-      leading: new CircleAvatar(
-        child: new ClipOval(
-          child: new BlurredNetworkImage(
-            url: businessOffer.thumbnailUrl,
-            blurredUrl: businessOffer.blurredThumbnailUrl,
-            placeholderAsset: 'assets/placeholder_photo.png',
-          ),
-        ),
-        backgroundColor: Colors
-            .primaries[businessOffer.title.hashCode % Colors.primaries.length]
-            .shade300,
-      ),
-      title: new Text(businessAccount.summary.name),
-      subtitle: new Text(businessOffer.title),
-      onTap: onPressed,
-    );*/
     Widget tile = new Material(
       color: theme.cardColor,
       child: new Row(
@@ -177,16 +136,16 @@ class ApplicantCardInfluencer extends StatelessWidget {
                           ),
                           new SizedBox(height: kInfPaddingText),
                           // TODO: Support for fetching last chat message!
-                          /*
+                          // TODO: Bold REJECTED / COMPLETED
                           new Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              / *new Icon(
+                              /*new Icon(
                                 Icons.photo_camera,
                                 size: 16.0,
                               ),
-                              new SizedBox(width: 4.0),* /
+                              new SizedBox(width: 4.0),*/
                               new Flexible(
                                 fit: FlexFit.loose,
                                 child: new Text("Hi! This is a proposal!",
@@ -212,7 +171,6 @@ class ApplicantCardInfluencer extends StatelessWidget {
                               new Text("1d", style: theme.textTheme.caption),
                             ],
                           ),
-                          */
                           new SizedBox(height: kInfPadding),
                         ],
                       ),

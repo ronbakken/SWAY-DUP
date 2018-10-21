@@ -206,6 +206,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     resetProfilesState();
     resetOffersState();
     resetOffersBusinessState();
+    resetOffersDemoState();
     _applicants.clear();
     _applicantsLoaded = false;
     _cachedApplicants.clear();
@@ -249,6 +250,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       markProfilesDirty();
       markOffersDirty();
       markOffersBusinessDirty();
+      markOffersDemoDirty();
       _applicantsLoaded = false;
       _cachedApplicants.values.forEach((cached) {
         cached.dirty = true;

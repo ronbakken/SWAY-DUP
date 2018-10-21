@@ -18,6 +18,10 @@ abstract class NetworkOffersDemo
   @override
   bool demoAllOffersLoading = false;
 
+  bool _demoAllOffersLoaded = false;
+  Map<int, DataBusinessOffer> _demoAllOffers =
+      new Map<int, DataBusinessOffer>();
+
   @override
   void resetOffersDemoState() {
     _demoAllOffers.clear();
@@ -26,10 +30,6 @@ abstract class NetworkOffersDemo
 
   @override
   void markOffersDemoDirty() {}
-
-  bool _demoAllOffersLoaded;
-  Map<int, DataBusinessOffer> _demoAllOffers =
-      new Map<int, DataBusinessOffer>();
 
   void _demoAllBusinessOffer(TalkMessage message) {
     DataBusinessOffer pb = new DataBusinessOffer();
@@ -43,27 +43,33 @@ abstract class NetworkOffersDemo
   static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
   @override
   Future<void> refreshDemoAllOffers() async {
+    print("refreshDemoAllOffers");
     NetLoadOffersReq loadOffersReq =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
     Stream<TalkMessage> results = ts.sendStreamRequest(
         _netLoadOffersReq, loadOffersReq.writeToBuffer());
+        
     Completer<void> completer = new Completer<void>();
     results.listen(_demoAllBusinessOffer, onDone: () {
-      print("Refresh done");
+      print("refreshDemoAllOffers done");
       completer.complete();
     });
     return completer.future;
+    
     /*
-    FIXME: 'await for' is no longer working???
-    print(results);
-    await for (TalkMessage res in results)
+    // FIXME: 'await for' is no longer working???
+    // print(results);
+    await for (TalkMessage res in results) {
       _demoAllBusinessOffer(res);
-    print("Refresh done");
+    }
+    print("refreshDemoAllOffers done");
     */
+    
   }
 
   @override
   Map<int, DataBusinessOffer> get demoAllOffers {
+    // print("demoAllOffers");
     if (_demoAllOffersLoaded == false &&
         connected == NetworkConnectionState.Ready) {
       _demoAllOffersLoaded = true;
