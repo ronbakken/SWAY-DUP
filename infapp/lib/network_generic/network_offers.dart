@@ -34,7 +34,7 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
     cached.offer = offer;
     cached.dirty = false;
     hintProfileOffer(offer);
-    onOfferChanged(ChangeAction.Upsert, new Int64(offer.offerId));
+    onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
   }
 
   @override
@@ -47,13 +47,13 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
         offer.influencerApplicantId = proposal.applicantId;
         cached.offer = offer..freeze();
         cached.dirty = true;
-        onOfferChanged(ChangeAction.Upsert, new Int64(offer.offerId));
+        onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
       } else if (cached.fallback != null) {
         DataBusinessOffer offer = new DataBusinessOffer()
           ..mergeFromMessage(cached.fallback);
         offer.influencerApplicantId = proposal.applicantId;
         cached.fallback = offer..freeze();
-        onOfferChanged(ChangeAction.Upsert, new Int64(offer.offerId));
+        onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
       }
     }
   }
@@ -73,7 +73,7 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
     if (cached != null) {
       cached.dirty = true;
     }
-    onOfferChanged(ChangeAction.Retry, offerId);
+    onOfferChanged(ChangeAction.retry, offerId);
   }
 
   static int _netGetOfferReq = TalkSocket.encode("GTOFFERR");
@@ -108,7 +108,7 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
         print("[INF] Failed to get offer $offerId: $error");
         new Timer(new Duration(seconds: 3), () {
           cached.loading = false;
-          onOfferChanged(ChangeAction.Retry, offerId);
+          onOfferChanged(ChangeAction.retry, offerId);
         });
       });
     }

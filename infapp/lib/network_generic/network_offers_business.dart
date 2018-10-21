@@ -40,7 +40,7 @@ abstract class NetworkOffersBusiness
     resPb.mergeFromBuffer(res.data);
     cacheOffer(resPb);
     _offers[resPb.offerId.toInt()] = resPb;
-    onOffersBusinessChanged(ChangeAction.New, new Int64(resPb.offerId));
+    onOffersBusinessChanged(ChangeAction.add, new Int64(resPb.offerId));
     return resPb;
   }
 
@@ -51,7 +51,7 @@ abstract class NetworkOffersBusiness
       cacheOffer(pb);
       // Add received offer to known offers
       _offers[pb.offerId.toInt()] = pb;
-      onOffersBusinessChanged(ChangeAction.New, new Int64(pb.offerId));
+      onOffersBusinessChanged(ChangeAction.add, new Int64(pb.offerId));
     } else {
       print("[INF] Received offer for other account ${pb.accountId}");
     }
@@ -80,7 +80,7 @@ abstract class NetworkOffersBusiness
           });
         }).whenComplete(() {
           offersLoading = false;
-          onOffersBusinessChanged(ChangeAction.RefreshAll, Int64.ZERO);
+          onOffersBusinessChanged(ChangeAction.refreshAll, Int64.ZERO);
         });
       }
     }

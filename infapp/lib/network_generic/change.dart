@@ -6,19 +6,19 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 enum ChangeAction {
   /// Newly added (for example, chat message arrives)
-  New,
+  add,
 
   /// Updated or inserted (for example, chat messages being loaded)
-  Upsert,
+  upsert,
 
   /// Deleted (for example, chat message was removed)
-  Delete,
+  remove,
 
   /// Changed, but data is incomplete (for example, object failed to fetch previously due to network error)
-  Retry,
+  retry,
 
   /// Refresh all data (all data was invalidated)
-  RefreshAll,
+  refreshAll,
 }
 
 class Change<T> {

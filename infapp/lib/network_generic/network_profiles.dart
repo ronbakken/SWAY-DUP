@@ -43,7 +43,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
     cached.fallback = null;
     cached.profile = profile;
     cached.dirty = false;
-    onProfileChanged(ChangeAction.Upsert, accountId);
+    onProfileChanged(ChangeAction.upsert, accountId);
   }
 
   @override
@@ -56,7 +56,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
     _cachedProfiles.values.forEach((cached) {
       cached.dirty = true;
     });
-    onProfileChanged(ChangeAction.RefreshAll, Int64.ZERO);
+    onProfileChanged(ChangeAction.refreshAll, Int64.ZERO);
   }
 
   @override
@@ -100,7 +100,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
         fallback.detail.longitude = offer.longitude;
         fallback.freeze();
         cached.fallback = fallback;
-        onProfileChanged(ChangeAction.Retry, accountId);
+        onProfileChanged(ChangeAction.retry, accountId);
       }
     }
   }
@@ -139,7 +139,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
       cacheProfile(profile);
     } else {
       print("[INF] Received invalid profile. Critical issue");
-      onProfileChanged(ChangeAction.Retry, accountId);
+      onProfileChanged(ChangeAction.retry, accountId);
       return emptyAccount(accountId)..freeze();
     }
     return profile;
@@ -177,7 +177,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
         print("[INF] Failed to get profile: $error, $stack");
         new Timer(new Duration(seconds: 3), () {
           cached.loading = false;
-          onProfileChanged(ChangeAction.Retry, accountId);
+          onProfileChanged(ChangeAction.retry, accountId);
         });
       });
     }

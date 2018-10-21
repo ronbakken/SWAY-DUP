@@ -6,6 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
@@ -37,7 +38,7 @@ abstract class NetworkOffersDemo
     cacheOffer(pb);
     // Add received offer to known offers
     _demoAllOffers[pb.offerId.toInt()] = pb;
-    onOffersDemoChanged(ChangeAction.Upsert, new Int64(pb.offerId));
+    onOffersDemoChanged(ChangeAction.upsert, new Int64(pb.offerId));
   }
 
   static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
@@ -48,14 +49,14 @@ abstract class NetworkOffersDemo
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
     Stream<TalkMessage> results = ts.sendStreamRequest(
         _netLoadOffersReq, loadOffersReq.writeToBuffer());
-    
-    Completer<void> completer = new Completer<void>();
-    results.listen(_demoAllBusinessOffer, onDone: () {
-      print("refreshDemoAllOffers done");
-      completer.complete();
-    });
-    return completer.future;
-    
+
+    // Workaround for failing "await for"
+    StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(results);
+    while (await sq.hasNext) {
+      _demoAllBusinessOffer(await sq.next);
+    }
+
+    print("refreshDemoAllOffers done");
     
     /*
     // FIXME: 'await for' is no longer working???
@@ -66,7 +67,6 @@ abstract class NetworkOffersDemo
     }
     print("refreshDemoAllOffers done");
     */
-    
   }
 
   @override
@@ -85,7 +85,7 @@ abstract class NetworkOffersDemo
           });
         }).whenComplete(() {
           demoAllOffersLoading = false;
-          onOffersDemoChanged(ChangeAction.RefreshAll, Int64.ZERO);
+          onOffersDemoChanged(ChangeAction.refreshAll, Int64.ZERO);
         });
       }
     }
