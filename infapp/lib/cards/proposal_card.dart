@@ -30,32 +30,52 @@ class ProposalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    // Prefer the location name over the business name for businesses
+    String partnerName =
+        (partnerProfile.state.accountType == AccountType.AT_BUSINESS)
+            ? businessOffer.locationName
+            : partnerProfile.summary.name;
+    // Prefer the offer location over the business location for businesses
+    String partnerLocation =
+        (partnerProfile.state.accountType == AccountType.AT_BUSINESS)
+            ? businessOffer.location
+            : partnerProfile.summary.location;
+    String offerName = businessOffer.title;
+    String offerLocation = businessOffer.location;
     Widget tile = new Material(
       color: theme.cardColor,
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          new SizedBox(
-            width: 112.0, // 72.0,
-            height: 112.0,
-            child: new Padding(
-              padding: const EdgeInsets.all(kInfPadding),
-              child: new Material(
-                type: MaterialType.card,
-                elevation: 1.0,
-                borderRadius: kInfImageThumbnailBorder,
-                child: new ClipRRect(
-                  borderRadius: kInfImageThumbnailBorder,
-                  child: new BlurredNetworkImage(
-                    url: businessOffer.thumbnailUrl,
-                    blurredUrl: businessOffer.blurredThumbnailUrl,
-                    placeholderAsset: 'assets/placeholder_photo.png',
+          account.state.accountType == AccountType.AT_INFLUENCER
+              ? new SizedBox(
+                  width: 112.0, // 72.0,
+                  height: 112.0,
+                  child: new Padding(
+                    padding: const EdgeInsets.all(kInfPadding),
+                    child: new Material(
+                      type: MaterialType.card,
+                      elevation: 1.0,
+                      borderRadius: kInfImageThumbnailBorder,
+                      child: new ClipRRect(
+                        borderRadius: kInfImageThumbnailBorder,
+                        child: new BlurredNetworkImage(
+                          url: businessOffer.thumbnailUrl,
+                          blurredUrl: businessOffer.blurredThumbnailUrl,
+                          placeholderAsset: 'assets/placeholder_photo.png',
+                        ),
+                      ),
+                    ),
                   ),
+                )
+              : new Padding(
+                  padding: const EdgeInsets.all(kInfPadding),
+                  child: new ProfileAvatar(
+                      size: 112.0 - kInfPadding - kInfPadding,
+                      account: partnerProfile,
+                      tag: '/${proposal.applicantId}'),
                 ),
-              ),
-            ),
-          ),
           new Flexible(
             fit: FlexFit.loose,
             child: new Column(
@@ -66,8 +86,11 @@ class ProposalCard extends StatelessWidget {
                   color: theme.backgroundColor,
                   type: MaterialType.canvas,
                   borderRadius: BorderRadius.only(
-                      bottomLeft:
-                          const Radius.circular(kInfAvatarSmallPaddedRadius)),
+                      bottomLeft: new Radius.circular(
+                          (account.state.accountType ==
+                                  AccountType.AT_INFLUENCER)
+                              ? kInfAvatarSmallPaddedRadius
+                              : 11.0)),
                   elevation: 1.0,
                   child: new Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -79,10 +102,30 @@ class ProposalCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           new SizedBox(width: kInfPadding),
-                          new ProfileAvatar(
-                              size: 40.0,
-                              account: partnerProfile,
-                              tag: '/${proposal.applicantId}'),
+                          account.state.accountType == AccountType.AT_INFLUENCER
+                              ? new ProfileAvatar(
+                                  size: 40.0,
+                                  account: partnerProfile,
+                                  tag: '/${proposal.applicantId}')
+                              : new SizedBox(
+                                  width: 40.0, // 72.0,
+                                  height: 40.0,
+                                  child: new Material(
+                                    type: MaterialType.card,
+                                    elevation: 1.0,
+                                    borderRadius: kInfImageThumbnailBorder,
+                                    child: new ClipRRect(
+                                      borderRadius: kInfImageThumbnailBorder,
+                                      child: new BlurredNetworkImage(
+                                        url: businessOffer.thumbnailUrl,
+                                        blurredUrl:
+                                            businessOffer.blurredThumbnailUrl,
+                                        placeholderAsset:
+                                            'assets/placeholder_photo.png',
+                                      ),
+                                    ),
+                                  ),
+                                ),
                           new SizedBox(width: kInfPadding),
                           new Flexible(
                             fit: FlexFit.loose,
@@ -97,13 +140,19 @@ class ProposalCard extends StatelessWidget {
                       new Text(businessOffer.location,
                             overflow: TextOverflow.ellipsis),*/
                                 new Text(
-                                  (partnerProfile.state.accountType == AccountType.AT_BUSINESS) ? businessOffer.locationName : partnerProfile.summary.name,
+                                  account.state.accountType ==
+                                          AccountType.AT_INFLUENCER
+                                      ? partnerName
+                                      : offerName,
                                   overflow: TextOverflow.ellipsis,
                                   style: theme.textTheme.body1,
                                 ),
                                 new SizedBox(height: kInfPaddingText),
                                 new Text(
-                                  (partnerProfile.state.accountType == AccountType.AT_BUSINESS) ? businessOffer.location : partnerProfile.summary.location,
+                                  account.state.accountType ==
+                                          AccountType.AT_INFLUENCER
+                                      ? partnerLocation
+                                      : "", // Something else to go here. .. offerLocation,
                                   overflow: TextOverflow.ellipsis,
                                   style: theme.textTheme.caption,
                                 ),
@@ -131,7 +180,10 @@ class ProposalCard extends StatelessWidget {
                         children: <Widget>[
                           new SizedBox(height: kInfPadding),
                           new Text(
-                            businessOffer.title,
+                            account.state.accountType ==
+                                    AccountType.AT_INFLUENCER
+                                ? offerName
+                                : partnerName,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.subhead,
                           ),
@@ -149,7 +201,7 @@ class ProposalCard extends StatelessWidget {
                               new SizedBox(width: 4.0),*/
                               new Flexible(
                                 fit: FlexFit.loose,
-                                child: new Text("Hi! This is a proposal!",
+                                child: new Text("You: Hi! This is a proposal!",
                                     style: theme.textTheme.body1.copyWith(
                                         color: theme.textTheme.body1.color
                                             .withAlpha(192)),
