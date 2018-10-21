@@ -40,7 +40,6 @@ abstract class NetworkInternals {
   void resetOffersDemoState();
   void markOffersDemoDirty();
   void onOffersDemoChanged(ChangeAction action, Int64 id);
-
 }
 
 /* end of file */

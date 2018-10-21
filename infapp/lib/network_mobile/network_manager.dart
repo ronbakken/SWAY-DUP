@@ -532,8 +532,9 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       // Register all listeners
       _subscriptions.add(
           ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState));
-      _subscriptions.add(
-          ts.stream(TalkSocket.encode("DB_OFFER")).listen(dataBusinessOffer)); // TODO: Remove this!
+      _subscriptions.add(ts
+          .stream(TalkSocket.encode("DB_OFFER"))
+          .listen(dataBusinessOffer)); // TODO: Remove this!
       //_subscriptions.add(ts
       //    .stream(TalkSocket.encode("DE_OFFER"))
       //    .listen(_demoAllBusinessOffer));
@@ -1105,6 +1106,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   }
 
   static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
+
   /// Create proposal
   @override
   Future<DataApplicant> applyForOffer(int offerId, String remarks) async {

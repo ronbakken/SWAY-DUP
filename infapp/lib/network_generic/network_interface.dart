@@ -86,7 +86,7 @@ abstract class NetworkInterface {
   DataBusinessOffer tryGetOffer(Int64 offerId);
 
   /// Get an offer, refresh set to true to always get from server, use sparingly to refresh the cache, may fail and throw exceptions
-  Future<DataBusinessOffer> getOffer(Int64 offerId, { bool refresh = true });
+  Future<DataBusinessOffer> getOffer(Int64 offerId, {bool refresh = true});
 
   /// Reload business offer silently in the background, call when opening a window
   // void backgroundReloadBusinessOffer(Int64 offerId);
@@ -100,7 +100,7 @@ abstract class NetworkInterface {
   DataAccount tryGetPublicProfile(Int64 accountId);
 
   /// Get public profile, refresh set to true to always get from server, use sparingly to refresh the cache, may fail and throw exceptions
-  Future<DataAccount> getPublicProfile(Int64 accountId, { bool refresh = true });
+  Future<DataAccount> getPublicProfile(Int64 accountId, {bool refresh = true});
 
   /////////////////////////////////////////////////////////////////////////////
   // Haggle

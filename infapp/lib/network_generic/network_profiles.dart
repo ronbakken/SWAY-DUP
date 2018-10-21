@@ -107,7 +107,8 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
 
   static int _netLoadPublicProfileReq = TalkSocket.encode("L_PROFIL");
   @override
-  Future<DataAccount> getPublicProfile(Int64 accountId, { bool refresh = true }) async {
+  Future<DataAccount> getPublicProfile(Int64 accountId,
+      {bool refresh = true}) async {
     if (!refresh) {
       _CachedProfile cached = _cachedProfiles[accountId];
       if (cached?.profile != null && !cached.dirty) {

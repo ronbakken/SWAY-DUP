@@ -36,20 +36,21 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
     hintProfileOffer(offer);
     onOfferChanged(ChangeAction.Upsert, new Int64(offer.offerId));
   }
-  
+
   @override
-  void hintOfferProposal(DataApplicant proposal)
-  {
+  void hintOfferProposal(DataApplicant proposal) {
     _CachedOffer cached = _cachedOffers[new Int64(proposal.offerId)];
     if (cached != null) {
       if (cached.offer != null) {
-        DataBusinessOffer offer = new DataBusinessOffer()..mergeFromMessage(cached.offer);
+        DataBusinessOffer offer = new DataBusinessOffer()
+          ..mergeFromMessage(cached.offer);
         offer.influencerApplicantId = proposal.applicantId;
         cached.offer = offer..freeze();
         cached.dirty = true;
         onOfferChanged(ChangeAction.Upsert, new Int64(offer.offerId));
       } else if (cached.fallback != null) {
-        DataBusinessOffer offer = new DataBusinessOffer()..mergeFromMessage(cached.fallback);
+        DataBusinessOffer offer = new DataBusinessOffer()
+          ..mergeFromMessage(cached.fallback);
         offer.influencerApplicantId = proposal.applicantId;
         cached.fallback = offer..freeze();
         onOfferChanged(ChangeAction.Upsert, new Int64(offer.offerId));

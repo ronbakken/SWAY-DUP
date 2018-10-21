@@ -93,7 +93,8 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
           NetworkInterface network = NetworkManager.of(context);
           // NavigatorState navigator = Navigator.of(context);
           DataBusinessOffer businessOffer = network.tryGetOffer(offerId);
-          DataAccount businessAccount = network.tryGetPublicProfile(new Int64(businessOffer.accountId));
+          DataAccount businessAccount =
+              network.tryGetPublicProfile(new Int64(businessOffer.accountId));
           return new OfferView(
             account: network.account,
             businessOffer: businessOffer,
@@ -123,7 +124,8 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               DataApplicant proposal;
               try {
                 // Create the offer
-                proposal = await network.applyForOffer(offerId.toInt(), remarks);
+                proposal =
+                    await network.applyForOffer(offerId.toInt(), remarks);
               } catch (error, stack) {
                 print("[INF] Exception applying for offer': $error\n$stack");
               }
