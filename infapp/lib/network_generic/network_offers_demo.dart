@@ -14,8 +14,7 @@ import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:wstalk/wstalk.dart';
 
-abstract class NetworkOffersDemo
-    implements NetworkInterface, NetworkInternals {
+abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
   @override
   bool demoAllOffersLoading = false;
 
@@ -47,8 +46,8 @@ abstract class NetworkOffersDemo
     print("refreshDemoAllOffers");
     NetLoadOffersReq loadOffersReq =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    Stream<TalkMessage> results = ts.sendStreamRequest(
-        _netLoadOffersReq, loadOffersReq.writeToBuffer());
+    Stream<TalkMessage> results =
+        ts.sendStreamRequest(_netLoadOffersReq, loadOffersReq.writeToBuffer());
 
     // Workaround for failing "await for"
     StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(results);
@@ -57,7 +56,7 @@ abstract class NetworkOffersDemo
     }
 
     print("refreshDemoAllOffers done");
-    
+
     /*
     // FIXME: 'await for' is no longer working???
     // tracking https://github.com/dart-lang/sdk/issues/34877
