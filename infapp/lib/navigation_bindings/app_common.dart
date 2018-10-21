@@ -122,7 +122,8 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
               : network
                   .tryGetPublicProfile(new Int64(proposal.businessAccountId));
           DataAccount influencerAccount = (proposal.influencerAccountId == 0 &&
-                  network.account.state.accountType == AccountType.AT_INFLUENCER)
+                  network.account.state.accountType ==
+                      AccountType.AT_INFLUENCER)
               ? network.account
               : network
                   .tryGetPublicProfile(new Int64(proposal.influencerAccountId));
