@@ -552,9 +552,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       _subscriptions.add(ts
           .stream(TalkSocket.encode('LN_A_CHA'))
           .listen(liveNewApplicantChat));
-      _subscriptions.add(ts
-          .stream(TalkSocket.encode('LU_APPLI'))
-          .listen(liveUpdateApplicant));
+      _subscriptions.add(
+          ts.stream(TalkSocket.encode('LU_APPLI')).listen(liveUpdateApplicant));
       _subscriptions.add(ts
           .stream(TalkSocket.encode('LU_A_CHA'))
           .listen(liveUpdateApplicantChat));

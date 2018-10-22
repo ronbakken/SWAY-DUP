@@ -45,7 +45,10 @@ abstract class NetworkInternals {
   void resetProposalsState();
   void markProposalsDirty();
   void onProposalChanged(ChangeAction action, Int64 id);
-  void onProposalChatChanged(ChangeAction action, DataApplicantChat chat); // Individual chat messages don't change (currently)
+  void onProposalChatChanged(
+      ChangeAction action,
+      DataApplicantChat
+          chat); // Individual chat messages don't change (currently)
   void liveNewApplicant(TalkMessage message);
   void liveNewApplicantChat(TalkMessage message);
   void liveUpdateApplicant(TalkMessage message);
