@@ -189,6 +189,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   void dispose() {
     _onSwitchAccountSubscription.cancel();
     _onSwitchAccountSubscription = null;
+    _onNavigationRequestSubscription.cancel();
+    _onNavigationRequestSubscription = null;
     WidgetsBinding.instance.removeObserver(this);
     disposeCommon();
     disposeNotifications();
