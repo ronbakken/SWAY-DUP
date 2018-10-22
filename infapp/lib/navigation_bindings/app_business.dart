@@ -12,7 +12,7 @@ import 'package:inf/network_inheritable/multi_account_selection.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_mobile/network_manager.dart';
+import 'package:inf/network_mobile/network_provider.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/widgets/network_status.dart';
 
@@ -57,7 +57,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
       // ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
+      NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new OfferCreate(
         onUploadImage: network.uploadImage,
@@ -125,7 +125,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
   int offerViewCount = 0;
   Int64 offerViewOpen;
   void navigateToOffer(Int64 offerId) {
-    NetworkInterface network = NetworkManager.of(context);
+    NetworkInterface network = NetworkProvider.of(context);
     if (offerViewOpen != null) {
       print("[INF] Pop previous offer route");
       Navigator.popUntil(context, (Route<dynamic> route) {
@@ -148,7 +148,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
         settings: new RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (context) {
           // ConfigData config = ConfigManager.of(context);
-          NetworkInterface network = NetworkManager.of(context);
+          NetworkInterface network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           DataBusinessOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount =
@@ -175,7 +175,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
       // ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
+      NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
         account: network.account,
@@ -201,7 +201,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
       // ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
+      NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileEdit(
         account: network.account,
@@ -211,7 +211,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
 
   @override
   Widget build(BuildContext context) {
-    NetworkInterface network = NetworkManager.of(context);
+    NetworkInterface network = NetworkProvider.of(context);
     assert(network != null);
     return new DashboardSimplified(
       account: network.account,
@@ -220,7 +220,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       proposalsAppliedTab: 2,
       proposalsDealTab: 3,
       offersBusiness: new Builder(builder: (context) {
-        NetworkInterface network = NetworkManager.of(context);
+        NetworkInterface network = NetworkProvider.of(context);
         return new BusinessOfferList(
             businessOffers: network.offers.values
                 .where(
@@ -236,7 +236,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       }),
       /*
           offersHistory: new Builder(builder: (context) {
-            NetworkInterface network = NetworkManager.of(context);
+            NetworkInterface network = NetworkProvider.of(context);
             return new BusinessOfferList(
                 businessOffers: network.offers.values
                     .where(

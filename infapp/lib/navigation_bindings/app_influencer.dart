@@ -19,7 +19,7 @@ import 'package:latlong/latlong.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_mobile/network_manager.dart';
+import 'package:inf/network_mobile/network_provider.dart';
 
 import 'package:inf/utility/page_transition.dart';
 import 'package:inf/widgets/progress_dialog.dart';
@@ -67,7 +67,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   int offerViewCount = 0;
   Int64 offerViewOpen;
   void navigateToOffer(Int64 offerId) {
-    NetworkInterface network = NetworkManager.of(context);
+    NetworkInterface network = NetworkProvider.of(context);
     if (offerViewOpen != null) {
       print("[INF] Pop previous offer route");
       Navigator.popUntil(context, (Route<dynamic> route) {
@@ -90,7 +90,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
         builder: (BuildContext context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
           // ConfigData config = ConfigManager.of(context);
-          NetworkInterface network = NetworkManager.of(context);
+          NetworkInterface network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           DataBusinessOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount =
@@ -179,7 +179,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
+      NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
           account: network.account,
@@ -193,7 +193,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
+      NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileEdit(
         account: network.account,
@@ -206,7 +206,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
         searchQueryController ?? new TextEditingController();
     fadeToPage(context, (context, animation, secondaryAnimation) {
       // ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
+      NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new SearchPageCommon(
           searchHint: "Find nearby offers...",
@@ -277,7 +277,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
 
   @override
   Widget build(BuildContext context) {
-    NetworkInterface network = NetworkManager.of(context);
+    NetworkInterface network = NetworkProvider.of(context);
     bool enoughSpaceForBottom = (MediaQuery.of(context).size.height > 480.0);
     assert(network != null);
     return new DashboardSimplified(
@@ -288,18 +288,18 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       proposalsDealTab: 3,
       mapOffers: new Builder(builder: (context) {
         ConfigData config = ConfigManager.of(context);
-        NetworkInterface network = NetworkManager.of(context);
+        NetworkInterface network = NetworkProvider.of(context);
         List<int> showcaseOfferIds = enoughSpaceForBottom
             ? network.demoAllOffers.keys.toList()
             : <int>[]; // TODO
         Widget showcase = showcaseOfferIds.isNotEmpty
             ? new OffersShowcase(
                 getOffer: (BuildContext context, int offerId) {
-                  NetworkInterface network = NetworkManager.of(context);
+                  NetworkInterface network = NetworkProvider.of(context);
                   return network.tryGetOffer(new Int64(offerId));
                 },
                 getAccount: (BuildContext context, int accountId) {
-                  NetworkInterface network = NetworkManager.of(context);
+                  NetworkInterface network = NetworkProvider.of(context);
                   return network.tryGetProfileSummary(new Int64(accountId));
                 },
                 offerIds: network.demoAllOffers.keys.toList(),

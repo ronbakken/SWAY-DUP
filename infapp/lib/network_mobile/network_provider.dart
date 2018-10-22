@@ -16,6 +16,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/network_generic/network_common.dart';
+import 'package:inf/network_generic/network_manager.dart';
 import 'package:inf/network_generic/network_offers_business.dart';
 import 'package:inf/network_generic/network_offers_demo.dart';
 import 'package:inf/network_generic/network_proposals.dart';
@@ -40,10 +41,8 @@ import 'package:inf/protobuf/inf_protobuf.dart';
 
 export 'package:inf/network_generic/network_interface.dart';
 
-// TODO: Reassemble should re-merge all protobuf
-
-class NetworkManager extends StatelessWidget {
-  const NetworkManager({
+class NetworkProvider extends StatelessWidget {
+  const NetworkProvider({
     Key key,
     this.child,
     this.multiAccountStore,
@@ -53,8 +52,8 @@ class NetworkManager extends StatelessWidget {
   final MultiAccountStore multiAccountStore;
 
   static NetworkInterface of(BuildContext context) {
-    final _InheritedNetworkManager inherited =
-        context.inheritFromWidgetOfExactType(_InheritedNetworkManager);
+    final _InheritedNetworkProvider inherited =
+        context.inheritFromWidgetOfExactType(_InheritedNetworkProvider);
     return inherited != null ? inherited.networkInterface : null;
   }
 
@@ -63,9 +62,8 @@ class NetworkManager extends StatelessWidget {
     String ks = key.toString();
     ConfigData config = ConfigManager.of(context);
     assert(config != null);
-    return new _NetworkManagerStateful(
+    return new _NetworkProviderStateful(
       key: (key != null && ks.length > 0) ? new Key('$ks.Stateful') : null,
-      networkManager: this,
       child: child,
       config: config,
       multiAccountStore: multiAccountStore,
@@ -73,117 +71,68 @@ class NetworkManager extends StatelessWidget {
   }
 }
 
-class _NetworkManagerStateful extends StatefulWidget {
-  const _NetworkManagerStateful({
+class _NetworkProviderStateful extends StatefulWidget {
+  const _NetworkProviderStateful({
     Key key,
-    this.networkManager,
     this.child,
     this.config,
     this.multiAccountStore,
   }) : super(key: key);
 
-  final NetworkManager networkManager;
   final Widget child;
   final ConfigData config;
   final MultiAccountStore multiAccountStore;
 
   @override
-  _NetworkManagerState createState() => new _NetworkManagerState();
+  _NetworkProviderState createState() => new _NetworkProviderState();
 }
 
-class _NetworkManagerState extends State<_NetworkManagerStateful>
-    with
-        WidgetsBindingObserver,
-        NetworkProfiles,
-        NetworkOffers,
-        NetworkOffersBusiness,
-        NetworkOffersDemo,
-        NetworkProposals,
-        NetworkCommon,
-        NetworkNotifications
-    implements NetworkInterface, NetworkInternals {
+class _NetworkProviderState extends State<_NetworkProviderStateful>
+    with WidgetsBindingObserver {
   // see NetworkInterface
 
   int _changed = 0;
 
-  void onProfileChanged(ChangeAction action, Int64 id) {
-    setState(() {
-      ++_changed;
-    });
-  }
-
-  void onOfferChanged(ChangeAction action, Int64 id) {
-    setState(() {
-      ++_changed;
-    });
-  }
-
-  void onOffersBusinessChanged(ChangeAction action, Int64 id) {
-    setState(() {
-      ++_changed;
-    });
-  }
-
-  void onOffersDemoChanged(ChangeAction action, Int64 id) {
-    setState(() {
-      ++_changed;
-    });
-  }
-
-  void onProposalChanged(ChangeAction action, Int64 id) {
-    setState(() {
-      ++_changed;
-    });
-  }
-
-  void onProposalChatChanged(ChangeAction action, DataApplicantChat chat) {
-    setState(() {
-      ++_changed;
-    });
-  }
-
-  // This is called anytime the connection or account state changes (network.account, network.connected)
-  void onCommonChanged() {
-    setState(() {
-      ++_changed;
-    });
-  }
-
   StreamSubscription<LocalAccountData> _onSwitchAccountSubscription;
   StreamSubscription<CrossNavigationRequest> _onNavigationRequestSubscription;
+
+  NetworkManager networkManager;
+
+  void _onChanged() {
+    setState(() {
+      ++_changed;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    networkManager = new NetworkManager();
+    networkManager.onChanged = _onChanged;
+    networkManager.initialize();
+    networkManager.syncConfig(widget.config);
+    networkManager.syncMultiAccountStore(widget.multiAccountStore);
 
-    // Initialize base dependencies
-    commonInitBase();
-    syncConfig(widget.config);
-    syncMultiAccountStore(widget.multiAccountStore);
+    WidgetsBinding.instance.addObserver(this);
 
     // Setup sync
     _onSwitchAccountSubscription =
         widget.multiAccountStore.onSwitchAccount.listen(_onMultiSwitchAccount);
 
-    // Initialize notifications
-    initNotifications();
-    _onNavigationRequestSubscription =
-        onNavigationRequest.listen((CrossNavigationRequest request) {
+    _onNavigationRequestSubscription = networkManager.onNavigationRequest
+        .listen((CrossNavigationRequest request) {
       CrossAccountNavigation.of(context).navigate(
           request.domain, request.accountId, request.target, request.id);
     });
 
-    WidgetsBinding.instance.addObserver(this);
-
-    // Start the network
-    commonInitReady();
+    networkManager.start();
   }
 
   @override
   void reassemble() {
     super.reassemble();
     // Developer reload
-    reassembleCommon();
+    networkManager.reassembleCommon();
   }
 
   @override
@@ -193,13 +142,13 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     _onNavigationRequestSubscription.cancel();
     _onNavigationRequestSubscription = null;
     WidgetsBinding.instance.removeObserver(this);
-    disposeCommon();
-    disposeNotifications();
+    networkManager.disposeCommon();
+    networkManager.disposeNotifications();
     super.dispose();
   }
 
   @override
-  void didUpdateWidget(_NetworkManagerStateful oldWidget) {
+  void didUpdateWidget(_NetworkProviderStateful oldWidget) {
     // Called before build(), may change/update any state here without calling setState()
     super.didUpdateWidget(oldWidget);
   }
@@ -208,29 +157,30 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   void didChangeDependencies() {
     // Called before build(), may change/update any state here without calling setState()
     super.didChangeDependencies();
-    syncConfig(widget.config);
-    syncMultiAccountStore(widget.multiAccountStore);
-    dependencyChangedCommon();
+    networkManager.syncConfig(widget.config);
+    networkManager.syncMultiAccountStore(widget.multiAccountStore);
+    networkManager.dependencyChangedCommon();
   }
 
   void _onMultiSwitchAccount(LocalAccountData localAccount) {
-    processSwitchAccount(localAccount);
+    networkManager.processSwitchAccount(localAccount);
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    setApplicationForeground(state == AppLifecycleState.resumed ||
-        state == AppLifecycleState.inactive);
+    networkManager.setApplicationForeground(
+        state == AppLifecycleState.resumed ||
+            state == AppLifecycleState.inactive);
   }
 
   @override
   Widget build(BuildContext context) {
     String ks = widget.key.toString();
-    return new _InheritedNetworkManager(
+    return new _InheritedNetworkProvider(
       key: (widget.key != null && ks.length > 0)
           ? new Key(ks + '.Inherited')
           : null,
-      networkInterface: this,
+      networkInterface: networkManager,
       changed: _changed,
       child: widget.child,
     );
@@ -241,8 +191,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class _InheritedNetworkManager extends InheritedWidget {
-  const _InheritedNetworkManager({
+class _InheritedNetworkProvider extends InheritedWidget {
+  const _InheritedNetworkProvider({
     Key key,
     @required this.networkInterface,
     @required this.changed,
@@ -253,7 +203,7 @@ class _InheritedNetworkManager extends InheritedWidget {
   final int changed;
 
   @override
-  bool updateShouldNotify(_InheritedNetworkManager old) {
+  bool updateShouldNotify(_InheritedNetworkProvider old) {
     return this.changed != old.changed;
   }
 }

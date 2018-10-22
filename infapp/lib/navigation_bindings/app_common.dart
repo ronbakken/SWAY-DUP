@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_mobile/network_manager.dart';
+import 'package:inf/network_mobile/network_provider.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/screens/debug_account.dart';
@@ -46,7 +46,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _config = ConfigManager.of(context);
-    NetworkInterface network = NetworkManager.of(context);
+    NetworkInterface network = NetworkProvider.of(context);
     if (network != _network) {
       _network = network;
     }
@@ -73,7 +73,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   void _initBuilders() {
     proposalsDirect = new Builder(
       builder: (BuildContext context) {
-        NetworkInterface network = NetworkManager.of(context);
+        NetworkInterface network = NetworkProvider.of(context);
         return _buildProposalList(
             context,
             (DataApplicant applicant) =>
@@ -83,7 +83,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
     );
     proposalsApplied = new Builder(
       builder: (context) {
-        NetworkInterface network = NetworkManager.of(context);
+        NetworkInterface network = NetworkProvider.of(context);
         return _buildProposalList(
             context,
             (DataApplicant applicant) =>
@@ -114,16 +114,16 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
 
   Widget _buildProposalList(
       BuildContext context, bool Function(DataApplicant applicant) test) {
-    NetworkInterface network = NetworkManager.of(context);
+    NetworkInterface network = NetworkProvider.of(context);
     return new ProposalList(
       account: network.account,
       proposals: network.applicants.where(test),
       getProfileSummary: (BuildContext context, Int64 accountId) {
-        NetworkInterface network = NetworkManager.of(context);
+        NetworkInterface network = NetworkProvider.of(context);
         return network.tryGetProfileSummary(accountId);
       },
       getBusinessOffer: (BuildContext context, Int64 offerId) {
-        NetworkInterface network = NetworkManager.of(context);
+        NetworkInterface network = NetworkProvider.of(context);
         return network.tryGetOffer(offerId);
       },
       onProposalPressed: (Int64 proposalId) {
@@ -152,7 +152,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on any context outside Navigator.push and thus cannot use variables from State widget!
       // ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
+      NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(account: network.tryGetProfileDetail(accountId));
     }));
@@ -161,7 +161,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   int proposalViewCount = 0;
   Int64 proposalViewOpen;
   void navigateToProposal(Int64 proposalId) {
-    NetworkInterface network = NetworkManager.of(context);
+    NetworkInterface network = NetworkProvider.of(context);
     if (proposalViewOpen != null) {
       print("[INF] Pop previous proposal route");
       Navigator.popUntil(context, (Route<dynamic> route) {
@@ -183,7 +183,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
         builder: (context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
           // ConfigData config = ConfigManager.of(context);
-          NetworkInterface network = NetworkManager.of(context);
+          NetworkInterface network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           if (!suppressed) {
             network.pushSuppressChatNotifications(proposalId);
@@ -253,7 +253,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       ConfigData config = ConfigManager.of(context);
-      // NetworkInterface network = NetworkManager.of(context);
+      // NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       MultiAccountClient selection = MultiAccountSelection.of(context);
       return new AccountSwitch(
@@ -273,7 +273,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigManager.of(context);
-      NetworkInterface network = NetworkManager.of(context);
+      NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new DebugAccount(
         account: network.account,

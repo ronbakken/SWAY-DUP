@@ -46,7 +46,7 @@ class _PrototypeState extends State<Prototype> {
     // Dark switch
     /*
     // Switch theme based on account type
-    // NetworkInterface network = NetworkManager.of(context);
+    // NetworkInterface network = NetworkProvider.of(context);
     bool dark = network.account.state.accountType == AccountType.AT_BUSINESS ||
         network.account.state.accountId == 0;
     */

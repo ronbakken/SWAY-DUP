@@ -12,7 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_mobile/network_manager.dart';
+import 'package:inf/network_mobile/network_provider.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/screens/business_offer_list.dart';
 import 'package:inf/screens/dashboard_common.dart';
@@ -318,14 +318,14 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text("Switch server to Excalibur")]),
             onPressed: () {
-              NetworkManager.of(context)
+              NetworkProvider.of(context)
                   .overrideUri("wss://excalibur.devinf.net/api");
             },
           ),
           new FlatButton(
             child: new Row(children: [new Text("Switch server to Ulfberth")]),
             onPressed: () {
-              NetworkManager.of(context)
+              NetworkProvider.of(context)
                   .overrideUri("wss://ulfberth.devinf.net/api");
             },
           ),
@@ -333,7 +333,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child:
                 new Row(children: [new Text("Switch server to 192.168.56.1")]),
             onPressed: () {
-              NetworkManager.of(context)
+              NetworkProvider.of(context)
                   .overrideUri("wss://192.168.56.1:8090/api");
             },
           ),
@@ -341,7 +341,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child:
                 new Row(children: [new Text("Switch server to 192.168.0.111")]),
             onPressed: () {
-              NetworkManager.of(context)
+              NetworkProvider.of(context)
                   .overrideUri("ws://192.168.0.111:8090/api");
             },
           ),

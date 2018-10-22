@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
-import 'package:inf/network_mobile/network_manager.dart';
+import 'package:inf/network_mobile/network_provider.dart';
 import 'package:inf/screens_loading/loading_network.dart';
 import 'package:inf/navigation_bindings/app_onboarding.dart';
 import 'package:inf/navigation_bindings/app_business.dart';
@@ -33,7 +33,7 @@ class _AppSwitchState extends State<AppSwitch> {
     super.didChangeDependencies();
     String domain = ConfigManager.of(context).services.domain;
     Int64 accountId =
-        new Int64(NetworkManager.of(context).account.state.accountId);
+        new Int64(NetworkProvider.of(context).account.state.accountId);
     if (domain != _domain || accountId != _accountId) {
       _domain = domain;
       _accountId = accountId;
@@ -44,7 +44,7 @@ class _AppSwitchState extends State<AppSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    NetworkInterface network = NetworkManager.of(context);
+    NetworkInterface network = NetworkProvider.of(context);
     assert(network != null);
     if (network.account.state.deviceId == 0) {
       return new LoadingNetwork();

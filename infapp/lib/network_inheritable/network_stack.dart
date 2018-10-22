@@ -28,7 +28,7 @@ import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_mobile/network_manager.dart';
+import 'package:inf/network_mobile/network_provider.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 
 class NetworkStack extends StatelessWidget {
@@ -53,8 +53,8 @@ class NetworkStack extends StatelessWidget {
         startupConfig: startupConfig,
         child: new CrossAccountNavigation(
           key: const Key('CrossAccountNavigation'),
-          child: new NetworkManager(
-            key: const Key('NetworkManager'),
+          child: new NetworkProvider(
+            key: const Key('NetworkProvider'),
             multiAccountStore: multiAccountStore,
             child: child,
           ),
