@@ -17,6 +17,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/network_generic/network_offers_business.dart';
 import 'package:inf/network_generic/network_offers_demo.dart';
+import 'package:inf/network_generic/network_proposals.dart';
 import 'package:wstalk/wstalk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
@@ -102,7 +103,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         NetworkProfiles,
         NetworkOffers,
         NetworkOffersBusiness,
-        NetworkOffersDemo
+        NetworkOffersDemo,
+        NetworkProposals
     implements NetworkInterface, NetworkInternals {
   // see NetworkInterface
 
@@ -170,6 +172,18 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     });
   }
 
+  void onProposalChanged(ChangeAction action, Int64 id) {
+    setState(() {
+      ++_changed;
+    });
+  }
+
+  void onProposalChatChanged(ChangeAction action, DataApplicantChat chat) {
+    setState(() {
+      ++_changed;
+    });
+  }
+
   @override
   void overrideUri(String serverUri) {
     _overrideUri = serverUri;
@@ -207,9 +221,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     resetOffersState();
     resetOffersBusinessState();
     resetOffersDemoState();
-    _applicants.clear();
-    _applicantsLoaded = false;
-    _cachedApplicants.clear();
+    resetProposalsState();
     resetAccountState();
   }
 
@@ -251,11 +263,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       markOffersDirty();
       markOffersBusinessDirty();
       markOffersDemoDirty();
-      _applicantsLoaded = false;
-      _cachedApplicants.values.forEach((cached) {
-        cached.dirty = true;
-        cached.chatLoaded = false;
-      });
+      markProposalsDirty();
       if (!_firebaseSetup) {
         // Set up Firebase
         _firebaseSetup = true;
@@ -540,18 +548,18 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       //    .listen(_demoAllBusinessOffer));
       // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
       _subscriptions.add(
-          ts.stream(TalkSocket.encode('LN_APPLI')).listen(_liveNewApplicant));
+          ts.stream(TalkSocket.encode('LN_APPLI')).listen(liveNewApplicant));
       _subscriptions.add(ts
           .stream(TalkSocket.encode('LN_A_CHA'))
-          .listen(_liveNewApplicantChat));
+          .listen(liveNewApplicantChat));
       _subscriptions.add(ts
           .stream(TalkSocket.encode('LU_APPLI'))
-          .listen(_liveUpdateApplicant));
+          .listen(liveUpdateApplicant));
       _subscriptions.add(ts
           .stream(TalkSocket.encode('LU_A_CHA'))
-          .listen(_liveUpdateApplicantChat));
+          .listen(liveUpdateApplicantChat));
 
-      _resubmitGhostChats();
+      resubmitGhostChats();
     }
 
     // assert(accountState.deviceId != 0);
@@ -971,493 +979,11 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     // Upload successful
     return res;
   }
-
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  // Business offers
-  /////////////////////////////////////////////////////////////////////////////
-/*
-  @override
-  set offers(Map<int, DataBusinessOffer> _offers) {
-    // TODO: implement offers
-  }*/
-
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  // Demo all offers
-  /////////////////////////////////////////////////////////////////////////////
-
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  // Synchronization utilities
-  /////////////////////////////////////////////////////////////////////////////
-
-  /// Ensure to get the latest account data, in case we have it. Not necessary for network.account (unless detached)
-  /*
-  @override
-  DataAccount latestAccount(DataAccount account) {
-    // Check any caches if we have, otherwise just return
-    // TODO: Timestamps...
-    if (account.state.accountId == this.account.state.accountId) {
-      // It's me...
-      return this.account;
-    }
-    if (_cachedAccounts.containsKey(account.state.accountId)) {
-      _CachedDataAccount cached = _cachedAccounts[account.state.accountId];
-      if (cached.account != null) return cached.account;
-      if (!cached.loading) {
-        // Fetch but still use plain account
-        tryGetPublicProfile(new Int64(account.state.accountId), fallback: account);
-      }
-    }
-    return account;
-  }
-  */
-
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  // Get profile
-  /////////////////////////////////////////////////////////////////////////////
-
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  // Haggle
-  /////////////////////////////////////////////////////////////////////////////
-
-  Map<int, _CachedApplicant> _cachedApplicants =
-      new Map<int, _CachedApplicant>();
-
-  void _cacheApplicant(DataApplicant applicant) {
-    _CachedApplicant cached = _cachedApplicants[applicant.applicantId];
-    if (cached == null) {
-      cached = new _CachedApplicant();
-      _cachedApplicants[applicant.applicantId] = cached;
-    }
-    hintOfferProposal(applicant);
-    setState(() {
-      cached.fallback = null;
-      cached.applicant = applicant;
-      cached.dirty = false;
-      if (applicant.businessAccountId == account.state.accountId ||
-          applicant.influencerAccountId == account.state.accountId) {
-        // Add received offer to known offers
-        _applicants[applicant.applicantId] = applicant;
-      }
-      ++_changed;
-    });
-  }
-
-  void _cacheApplicantChat(DataApplicantChat chat) {
-    _CachedApplicant cached = _cachedApplicants[chat.applicantId];
-    if (cached == null) {
-      cached = new _CachedApplicant();
-      _cachedApplicants[chat.applicantId] = cached;
-    }
-    setState(() {
-      if (chat.deviceId == account.state.deviceId) {
-        cached.ghostChats.remove(chat.deviceGhostId);
-      }
-      cached.chats[chat.chatId.toInt()] = chat;
-      ++_changed;
-    });
-  }
-
-  static int _netLoadApplicantsReq = TalkSocket.encode("L_APPLIS");
-  @override
-  Future<void> refreshApplicants() async {
-    NetLoadOffersReq req =
-        new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    await for (TalkMessage res
-        in _ts.sendStreamRequest(_netLoadApplicantsReq, req.writeToBuffer())) {
-      DataApplicant pb = new DataApplicant();
-      pb.mergeFromBuffer(res.data);
-      _cacheApplicant(pb);
-    }
-  }
-
-  bool applicantsLoading = false;
-  bool _applicantsLoaded = false;
-  Map<int, DataApplicant> _applicants = new Map<int, DataApplicant>();
-
-  @override
-  Iterable<DataApplicant> get applicants {
-    if (_applicantsLoaded == false &&
-        connected == NetworkConnectionState.ready) {
-      _applicantsLoaded = true;
-      applicantsLoading = true;
-      refreshApplicants().catchError((error, stack) {
-        print("[INF] Failed to get applicants: $error, $stack");
-        new Timer(new Duration(seconds: 3), () {
-          _applicantsLoaded =
-              false; // Not using setState since we don't want to broadcast failure state
-        });
-      }).whenComplete(() {
-        setState(() {
-          applicantsLoading = false;
-        });
-      });
-    }
-    return _applicants.values;
-  }
-
-  static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
-
-  /// Create proposal
-  @override
-  Future<DataApplicant> applyForOffer(int offerId, String remarks) async {
-    try {
-      NetOfferApplyReq pbReq = new NetOfferApplyReq();
-      pbReq.offerId = offerId;
-      pbReq.deviceGhostId = ++nextDeviceGhostId;
-      pbReq.remarks = remarks;
-      TalkMessage res =
-          await _ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
-      DataApplicant pbRes = new DataApplicant();
-      pbRes.mergeFromBuffer(res.data);
-      _cacheApplicant(pbRes); // FIXME: Chat not cached directly!
-      return pbRes;
-    } catch (error) {
-      markOfferDirty(new Int64(offerId));
-      rethrow;
-    }
-  }
-
-  static int _netLoadApplicantReq = TalkSocket.encode("L_APPLIC");
-  @override
-  Future<DataApplicant> getApplicant(Int64 applicantId) async {
-    NetLoadApplicantReq pbReq = new NetLoadApplicantReq();
-    pbReq.applicantId = applicantId.toInt();
-    TalkMessage res =
-        await _ts.sendRequest(_netLoadApplicantReq, pbReq.writeToBuffer());
-    DataApplicant applicant = new DataApplicant();
-    applicant.mergeFromBuffer(res.data);
-    _cacheApplicant(applicant);
-    return applicant;
-  }
-
-  static int _netLoadApplicantChatReq = TalkSocket.encode("L_APCHAT");
-  Future<void> _loadApplicantChats(int applicantId) async {
-    NetLoadApplicantChatsReq pbReq = new NetLoadApplicantChatsReq();
-    pbReq.applicantId = applicantId;
-    print(applicantId);
-    await for (TalkMessage res in _ts.sendStreamRequest(
-        _netLoadApplicantChatReq, pbReq.writeToBuffer())) {
-      DataApplicantChat chat = new DataApplicantChat();
-      chat.mergeFromBuffer(res.data);
-      print(chat);
-      _cacheApplicantChat(chat);
-    }
-    print("done");
-  }
-
-  DataApplicant _tryGetApplicant(int applicantId,
-      {DataApplicant fallback, DataBusinessOffer fallbackOffer}) {
-    _CachedApplicant cached = _cachedApplicants[applicantId];
-    if (cached == null) {
-      cached = new _CachedApplicant();
-      _cachedApplicants[applicantId] = cached;
-    }
-    if (cached.applicant == null || cached.dirty) {
-      if (!cached.loading && connected == NetworkConnectionState.ready) {
-        cached.loading = true;
-        getApplicant(new Int64(applicantId)).then((applicant) {
-          cached.loading = false;
-        }).catchError((error, stack) {
-          print("[INF] Failed to get applicant: $error, $stack");
-          new Timer(new Duration(seconds: 3), () {
-            setState(() {
-              cached.loading = false;
-              ++_changed;
-            });
-          });
-        });
-      }
-      if (cached.applicant != null) {
-        return cached.applicant; // Return dirty
-      }
-      if (cached.fallback == null) {
-        cached.fallback = new DataApplicant();
-        cached.fallback.applicantId = applicantId;
-      }
-      if (fallback != null) {
-        cached.fallback.mergeFromMessage(fallback);
-      }
-      if (fallbackOffer != null) {
-        cached.fallback.offerId = fallbackOffer.offerId;
-        cached.fallback.businessAccountId = fallbackOffer.accountId;
-      }
-      return cached.fallback;
-    }
-    return cached.applicant;
-  }
-
-  /// Fetch latest applicant from cache by id, fetch in background if non-existent
-  @override
-  DataApplicant tryGetApplicant(Int64 applicantId,
-      {DataBusinessOffer fallbackOffer}) {
-    return _tryGetApplicant(applicantId.toInt(), fallbackOffer: fallbackOffer);
-  }
-
-  /// Fetch latest applicant from cache, fetch in background if non-existent
-  @override
-  DataApplicant latestApplicant(DataApplicant applicant) {
-    return _tryGetApplicant(applicant.applicantId, fallback: applicant);
-  }
-
-  /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
-  @override
-  Iterable<DataApplicantChat> tryGetApplicantChats(Int64 applicantId) {
-    _CachedApplicant cached = _cachedApplicants[applicantId];
-    if (cached == null) {
-      cached = new _CachedApplicant();
-      _cachedApplicants[applicantId.toInt()] = cached;
-    }
-    if (!cached.chatLoaded &&
-        !cached.chatLoading &&
-        connected == NetworkConnectionState.ready) {
-      print("fetch chat");
-      cached.chatLoading = true;
-      _loadApplicantChats(applicantId.toInt()).then((applicant) {
-        cached.chatLoading = false;
-        cached.chatLoaded = true;
-      }).catchError((error, stack) {
-        print("[INF] Failed to get applicant chats: $error, $stack");
-        new Timer(new Duration(seconds: 3), () {
-          setState(() {
-            cached.chatLoading = false;
-            ++_changed;
-          });
-        });
-      });
-    }
-    return cached.chats.values.followedBy(cached.ghostChats.values);
-  }
-
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  // Haggle Notifications
-  /////////////////////////////////////////////////////////////////////////////
-
-  void _receivedUpdateApplicant(DataApplicant applicant) {
-    _cacheApplicant(applicant);
-  }
-
-  void _receivedUpdateApplicantChat(DataApplicantChat chat) {
-    _cacheApplicantChat(chat);
-  }
-
-  void _notifyNewApplicantChat(DataApplicantChat chat) {
-    // TODO: Notify the user of a new applicant chat message if not own
-    print("[INF] Notify: ${chat.text}");
-  }
-
-  void _receivedApplicantCommonRes(NetApplicantCommonRes res) {
-    _receivedUpdateApplicant(res.updateApplicant);
-    for (DataApplicantChat chat in res.newChats) {
-      _receivedUpdateApplicantChat(chat);
-      _notifyNewApplicantChat(chat);
-    }
-  }
-
-  void _liveNewApplicant(TalkMessage message) {
-    DataApplicant pb = new DataApplicant();
-    pb.mergeFromBuffer(message.data);
-    _receivedUpdateApplicant(pb);
-  }
-
-  void _liveNewApplicantChat(TalkMessage message) {
-    DataApplicantChat pb = new DataApplicantChat();
-    pb.mergeFromBuffer(message.data);
-    _receivedUpdateApplicantChat(pb);
-    _notifyNewApplicantChat(pb);
-  }
-
-  void _liveUpdateApplicant(TalkMessage message) {
-    DataApplicant pb = new DataApplicant();
-    pb.mergeFromBuffer(message.data);
-    _receivedUpdateApplicant(pb);
-  }
-
-  void _liveUpdateApplicantChat(TalkMessage message) {
-    DataApplicantChat pb = new DataApplicantChat();
-    pb.mergeFromBuffer(message.data);
-    _receivedUpdateApplicantChat(pb);
-  }
-
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  // Haggle Actions
-  /////////////////////////////////////////////////////////////////////////////
-
-  static int _netApplicantReportReq = TalkSocket.encode("AP_REPOR");
-  @override
-  Future<void> reportApplicant(int applicantId, String text) async {
-    NetApplicantReportReq pbReq = new NetApplicantReportReq();
-    pbReq.applicantId = applicantId;
-    pbReq.text = text;
-    // Response blank. Exception on issue
-    await _ts.sendRequest(_netApplicantReportReq, pbReq.writeToBuffer());
-  }
-
-  void _resubmitGhostChats() {
-    for (_CachedApplicant cached in _cachedApplicants.values) {
-      for (DataApplicantChat ghostChat in cached.ghostChats.values) {
-        switch (ghostChat.type) {
-          case ApplicantChatType.ACT_PLAIN:
-            {
-              NetChatPlain pbReq = new NetChatPlain();
-              pbReq.applicantId = ghostChat.applicantId;
-              pbReq.deviceGhostId = ghostChat.deviceGhostId;
-              pbReq.text = ghostChat.text;
-              _ts.sendMessage(_netChatPlain, pbReq.writeToBuffer());
-            }
-            break;
-          case ApplicantChatType.ACT_HAGGLE:
-            {
-              NetChatHaggle pbReq = new NetChatHaggle();
-              pbReq.applicantId = ghostChat.applicantId;
-              pbReq.deviceGhostId = ghostChat.deviceGhostId;
-              Map<String, String> query = Uri.splitQueryString(ghostChat.text);
-              pbReq.deliverables = query['deliverables'];
-              pbReq.reward = query['reward'];
-              pbReq.remarks = query['remarks'];
-              _ts.sendMessage(_netChatHaggle, pbReq.writeToBuffer());
-            }
-            break;
-          case ApplicantChatType.ACT_IMAGE_KEY:
-            {
-              NetChatImageKey pbReq = new NetChatImageKey();
-              pbReq.applicantId = ghostChat.applicantId;
-              pbReq.deviceGhostId = ghostChat.deviceGhostId;
-              Map<String, String> query = Uri.splitQueryString(ghostChat.text);
-              pbReq.imageKey = query['key'];
-              _ts.sendMessage(_netChatImageKey, pbReq.writeToBuffer());
-            }
-            break;
-        }
-      }
-    }
-  }
-
-  void _createGhostChat(
-      int applicantId, int deviceGhostId, ApplicantChatType type, String text) {
-    _CachedApplicant cached = _cachedApplicants[applicantId];
-    if (cached == null) {
-      cached = new _CachedApplicant();
-      _cachedApplicants[applicantId] = cached;
-    }
-    DataApplicantChat ghostChat = new DataApplicantChat();
-    ghostChat.sent =
-        new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-    ghostChat.senderId = account.state.accountId;
-    ghostChat.applicantId = applicantId;
-    ghostChat.deviceId = account.state.deviceId;
-    ghostChat.deviceGhostId = deviceGhostId;
-    ghostChat.type = type;
-    ghostChat.text = text;
-    setState(() {
-      cached.ghostChats[deviceGhostId] = ghostChat;
-      ++_changed;
-    });
-
-    // TODO: Store ghost chats offline
-  }
-
-  static int _netChatPlain = TalkSocket.encode("CH_PLAIN");
-  @override
-  void chatPlain(int applicantId, String text) {
-    int ghostId = ++nextDeviceGhostId;
-    if (connected == NetworkConnectionState.ready) {
-      NetChatPlain pbReq = new NetChatPlain();
-      pbReq.applicantId = applicantId;
-      pbReq.deviceGhostId = ghostId;
-      pbReq.text = text;
-      _ts.sendMessage(_netChatPlain, pbReq.writeToBuffer());
-    }
-    _createGhostChat(applicantId, ghostId, ApplicantChatType.ACT_PLAIN, text);
-  }
-
-  static int _netChatHaggle = TalkSocket.encode("CH_HAGGLE");
-  @override
-  void chatHaggle(
-      int applicantId, String deliverables, String reward, String remarks) {
-    int ghostId = ++nextDeviceGhostId;
-    if (connected == NetworkConnectionState.ready) {
-      NetChatHaggle pbReq = new NetChatHaggle();
-      pbReq.applicantId = applicantId;
-      pbReq.deviceGhostId = ghostId;
-      pbReq.deliverables = deliverables;
-      pbReq.reward = reward;
-      pbReq.remarks = remarks;
-      _ts.sendMessage(_netChatHaggle, pbReq.writeToBuffer());
-    }
-    _createGhostChat(
-      applicantId,
-      ghostId,
-      ApplicantChatType.ACT_HAGGLE,
-      "deliverables=" +
-          Uri.encodeQueryComponent(deliverables) +
-          "&reward=" +
-          Uri.encodeQueryComponent(reward) +
-          "&remarks=" +
-          Uri.encodeQueryComponent(remarks),
-    );
-  }
-
-  static int _netChatImageKey = TalkSocket.encode("CH_IMAGE");
-  @override
-  void chatImageKey(int applicantId, String imageKey) {
-    int ghostId = ++nextDeviceGhostId;
-    if (connected == NetworkConnectionState.ready) {
-      NetChatImageKey pbReq = new NetChatImageKey();
-      pbReq.applicantId = applicantId;
-      pbReq.deviceGhostId = ghostId;
-      pbReq.imageKey = imageKey;
-      _ts.sendMessage(_netChatImageKey, pbReq.writeToBuffer());
-    }
-    _createGhostChat(
-      applicantId,
-      ghostId,
-      ApplicantChatType.ACT_IMAGE_KEY,
-      "key=" + Uri.encodeQueryComponent(imageKey),
-    );
-  }
-
-  static int _netApplicantWantDealReq = TalkSocket.encode("AP_WADEA");
-  @override
-  Future<void> wantDeal(int applicantId, int haggleChatId) async {
-    NetApplicantWantDealReq pbReq = NetApplicantWantDealReq();
-    pbReq.applicantId = applicantId;
-    pbReq.haggleChatId = new Int64(haggleChatId);
-    TalkMessage res =
-        await _ts.sendRequest(_netApplicantWantDealReq, pbReq.writeToBuffer());
-    NetApplicantCommonRes pbRes = new NetApplicantCommonRes();
-    pbRes.mergeFromBuffer(res.data);
-    _receivedApplicantCommonRes(pbRes);
-  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-
-class _CachedApplicant {
-  bool loading = false;
-  bool dirty = false;
-  DataApplicant applicant;
-  DataApplicant fallback;
-  bool chatLoading = false;
-  bool chatLoaded = false;
-  Map<int, DataApplicantChat> chats = new Map<int, DataApplicantChat>();
-  Map<int, DataApplicantChat> ghostChats = new Map<int, DataApplicantChat>();
-}
 
 class _InheritedNetworkManager extends InheritedWidget {
   const _InheritedNetworkManager({

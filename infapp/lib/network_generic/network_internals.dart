@@ -39,6 +39,18 @@ abstract class NetworkInternals {
   void resetOffersDemoState();
   void markOffersDemoDirty();
   void onOffersDemoChanged(ChangeAction action, Int64 id);
+
+  // Proposals
+  int nextDeviceGhostId;
+  void resetProposalsState();
+  void markProposalsDirty();
+  void onProposalChanged(ChangeAction action, Int64 id);
+  void onProposalChatChanged(ChangeAction action, DataApplicantChat chat); // Individual chat messages don't change (currently)
+  void liveNewApplicant(TalkMessage message);
+  void liveNewApplicantChat(TalkMessage message);
+  void liveUpdateApplicant(TalkMessage message);
+  void liveUpdateApplicantChat(TalkMessage message);
+  void resubmitGhostChats();
 }
 
 /* end of file */
