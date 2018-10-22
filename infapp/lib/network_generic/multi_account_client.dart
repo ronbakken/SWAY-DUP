@@ -21,7 +21,8 @@ class CrossNavigationRequest {
   final Int64 accountId;
   final NavigationTarget target;
   final Int64 id;
-  const CrossNavigationRequest(this.domain, this.accountId, this.target, this.id);
+  const CrossNavigationRequest(
+      this.domain, this.accountId, this.target, this.id);
 }
 
 abstract class LocalAccountData {
