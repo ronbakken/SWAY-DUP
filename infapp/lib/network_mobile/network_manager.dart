@@ -142,6 +142,7 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     });
   }
 
+  // This is called anytime the connection or account state changes (network.account, network.connected)
   void onCommonChanged() {
     setState(() {
       ++_changed;

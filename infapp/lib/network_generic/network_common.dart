@@ -76,7 +76,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   bool _foreground = true;
   Completer<void> _awaitingForeground;
-  
+
   void commonInitBase() {
     _alive = true;
 
@@ -259,11 +259,10 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     } else {
       commonDeviceId = base64.decode(commonDeviceIdStr);
     }*/
-    final Uint8List commonDeviceId =
-        multiAccountStore.getCommonDeviceId();
+    final Uint8List commonDeviceId = multiAccountStore.getCommonDeviceId();
     final LocalAccountData localAccount = multiAccountStore.current;
-    final Uint8List aesKey = multiAccountStore
-        .getDeviceCookie(localAccount.domain, localAccount.localId);
+    final Uint8List aesKey = multiAccountStore.getDeviceCookie(
+        localAccount.domain, localAccount.localId);
     _currentLocalAccount = localAccount;
 
     // Original plan was to use an assymetric key pair, but the generation was too slow. Hence just using a symmetric AES key for now
@@ -306,8 +305,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       await receivedDeviceAuthState(pbRes);
       print("[INF] Device id ${account.state.deviceId}");
       if (account.state.deviceId != 0) {
-        multiAccountStore.setDeviceId(localAccount.domain,
-            localAccount.localId, new Int64(account.state.deviceId), aesKey);
+        multiAccountStore.setDeviceId(localAccount.domain, localAccount.localId,
+            new Int64(account.state.deviceId), aesKey);
       }
     } else {
       // Authenticate existing device
@@ -352,15 +351,14 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     }
 
     if (account.state.deviceId == 0) {
-      multiAccountStore
-          .removeLocal(localAccount.domain, localAccount.localId);
+      multiAccountStore.removeLocal(localAccount.domain, localAccount.localId);
       multiAccountStore.addAccount(localAccount.domain);
       _currentLocalAccount = null;
       throw new Exception("Authentication did not succeed");
     } else {
       print("[INF] Network connection is ready");
-        connected = NetworkConnectionState.ready;
-        onCommonChanged();
+      connected = NetworkConnectionState.ready;
+      onCommonChanged();
 
       // Register all listeners
       _subscriptions.add(
@@ -417,8 +415,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         } catch (e) {
           print("[INF] Network cannot connect, retry in 3 seconds: $e");
           assert(_ts == null);
-            connected = NetworkConnectionState.offline;
-            onCommonChanged();
+          connected = NetworkConnectionState.offline;
+          onCommonChanged();
           await new Future.delayed(new Duration(seconds: 3));
         }
       } while (_alive &&
@@ -426,8 +424,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
           (_ts == null));
       Future<void> listen = _ts.listen();
       if (connected == NetworkConnectionState.offline) {
-          connected = NetworkConnectionState.connecting;
-          onCommonChanged();
+        connected = NetworkConnectionState.connecting;
+        onCommonChanged();
       }
       if (_config != null /*&& widget.networkManager.localAccountId != 0*/) {
         if (_alive) {
@@ -435,8 +433,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
           _authenticateDevice(_ts).catchError((e) {
             print(
                 "[INF] Network authentication exception, retry in 3 seconds: $e");
-              connected = NetworkConnectionState.failing;
-              onCommonChanged();
+            connected = NetworkConnectionState.failing;
+            onCommonChanged();
             TalkSocket ts = _ts;
             _ts = null;
             () async {
@@ -457,15 +455,15 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       } else {
         print(
             "[INF] No configuration, connection will remain idle"); // , local account id ${widget.networkManager.localAccountId}");
-          connected = NetworkConnectionState.failing;
-          onCommonChanged();
+        connected = NetworkConnectionState.failing;
+        onCommonChanged();
       }
       await listen;
       _ts = null;
       print("[INF] Network connection closed");
       if (connected == NetworkConnectionState.ready) {
-          connected = NetworkConnectionState.connecting;
-          onCommonChanged();
+        connected = NetworkConnectionState.connecting;
+        onCommonChanged();
       }
     } catch (e) {
       print("[INF] Network session exception: $e");

@@ -29,6 +29,7 @@ abstract class NetworkNotifications
   Stream<CrossNavigationRequest> get onNavigationRequest {
     return _onNavigationRequest.stream;
   }
+
   StreamController<CrossNavigationRequest> _onNavigationRequest =
       new StreamController<CrossNavigationRequest>();
 
@@ -37,7 +38,7 @@ abstract class NetworkNotifications
   }
 
   void initNotifications() {
-     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
     var initializationSettingsAndroid =
         new AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOS = new IOSInitializationSettings();
@@ -174,7 +175,7 @@ abstract class NetworkNotifications
       /*domain=dev&account_id=10&applicant_id=16*/
       Map<String, String> data = Uri.splitQueryString(payload);
       if (data['applicant_id'] != null) {
-      _onNavigationRequest.add(new CrossNavigationRequest(
+        _onNavigationRequest.add(new CrossNavigationRequest(
             data['domain'],
             Int64.parseInt(data['account_id']),
             NavigationTarget.Proposal,
