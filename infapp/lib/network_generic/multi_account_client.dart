@@ -10,6 +10,20 @@ import 'package:inf/protobuf/enum_protobuf.pbenum.dart';
 
 export 'package:inf/network_generic/change.dart';
 
+enum NavigationTarget {
+  Profile,
+  Offer,
+  Proposal, // aka Haggle Chat
+}
+
+class CrossNavigationRequest {
+  final String domain;
+  final Int64 accountId;
+  final NavigationTarget target;
+  final Int64 id;
+  const CrossNavigationRequest(this.domain, this.accountId, this.target, this.id);
+}
+
 abstract class LocalAccountData {
   String get domain;
   int get localId;

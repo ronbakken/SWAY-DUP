@@ -30,12 +30,6 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 
-enum NavigationTarget {
-  Profile,
-  Offer,
-  Proposal, // aka Haggle Chat
-}
-
 class NavigationRequest {
   final NavigationTarget target;
   final Int64 id;

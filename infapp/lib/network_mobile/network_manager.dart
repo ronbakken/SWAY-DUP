@@ -15,9 +15,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:inf/network_generic/network_common.dart';
 import 'package:inf/network_generic/network_offers_business.dart';
 import 'package:inf/network_generic/network_offers_demo.dart';
 import 'package:inf/network_generic/network_proposals.dart';
+import 'package:inf/network_mobile/network_notifications.dart';
 import 'package:wstalk/wstalk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
@@ -71,14 +73,6 @@ class NetworkManager extends StatelessWidget {
   }
 }
 
-class NetworkException implements Exception {
-  final String message;
-  const NetworkException(this.message);
-  String toString() {
-    return "NetworkException { message: \"$message\" }";
-  }
-}
-
 class _NetworkManagerStateful extends StatefulWidget {
   const _NetworkManagerStateful({
     Key key,
@@ -104,49 +98,13 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
         NetworkOffers,
         NetworkOffersBusiness,
         NetworkOffersDemo,
-        NetworkProposals
+        NetworkProposals,
+        NetworkCommon,
+        NetworkNotifications
     implements NetworkInterface, NetworkInternals {
   // see NetworkInterface
 
-  LocalAccountData _currentLocalAccount;
-  DataAccount account;
-  NetworkConnectionState connected = NetworkConnectionState.connecting;
-
-  int _changed = 0; // trick to ensure rebuild
-  ConfigData _config;
-
-  bool _alive;
-  TalkSocket _ts;
-
-  TalkSocket get ts {
-    return _ts;
-  }
-
-  String _overrideUri;
-
-  final random = new Random.secure();
-
-  int nextDeviceGhostId;
-
-  bool _firebaseSetup = false;
-  final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-  NotificationDetails platformChannelSpecifics;
-
-  List<StreamSubscription<TalkMessage>> _subscriptions =
-      new List<StreamSubscription<TalkMessage>>();
-
-  List<int> _suppressChatNotifications = new List<int>();
-
-  int _keepAliveBackground = 0;
-
-  void pushKeepAlive() {
-    ++_keepAliveBackground;
-  }
-
-  void popKeepAlive() {
-    --_keepAliveBackground;
-  }
+  int _changed = 0;
 
   void onProfileChanged(ChangeAction action, Int64 id) {
     setState(() {
@@ -184,574 +142,47 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     });
   }
 
-  @override
-  void overrideUri(String serverUri) {
-    _overrideUri = serverUri;
-    print("[INF] Override server uri to $serverUri");
-    if (_ts != null) {
-      _ts.close();
-      _ts = null;
-    }
-  }
-
-  void syncConfig() {
-    // May only be called from a setState block
-    if (_config != widget.config) {
-      print("[INF] Sync config changes to network");
-      _config = widget.config;
-      if (_config != null) {
-        // Match array length
-        for (int i = account.detail.socialMedia.length;
-            i < _config.oauthProviders.all.length;
-            ++i) {
-          account.detail.socialMedia.add(new DataSocialMedia());
-        }
-        account.detail.socialMedia.length = _config.oauthProviders.all.length;
-      }
-      ++_changed;
-    }
-    if (_config == null) {
-      print(
-          "[INF] Widget config is null in network sync"); // DEVELOPER - CRITICAL
-    }
-  }
-
-  void cleanupStateSwitchingAccounts() {
-    resetProfilesState();
-    resetOffersState();
-    resetOffersBusinessState();
-    resetOffersDemoState();
-    resetProposalsState();
-    resetAccountState();
-  }
-
-  void resetAccountState() {
-    account = emptyAccount(); //..freeze();
-  }
-
-  Future<void> receivedDeviceAuthState(NetDeviceAuthState pb) async {
-    print("NetDeviceAuthState: $pb");
+  void onCommonChanged() {
     setState(() {
-      if (pb.data.state.accountId != account.state.accountId) {
-        // Any cache cleanup may be done here when switching accounts
-        cleanupStateSwitchingAccounts();
-      }
-      account = pb.data;
-      for (int i = account.detail.socialMedia.length;
-          i < _config.oauthProviders.all.length;
-          ++i) {
-        account.detail.socialMedia.add(new DataSocialMedia());
-      }
-      account.detail.socialMedia.length = _config.oauthProviders.all.length;
       ++_changed;
     });
-    if (pb.data.state.accountId != 0) {
-      // Update local account store
-      widget.multiAccountStore.setAccountId(
-          _currentLocalAccount.domain,
-          _currentLocalAccount.localId,
-          new Int64(account.state.accountId),
-          account.state.accountType);
-      widget.multiAccountStore.setNameAvatar(
-          _currentLocalAccount.domain,
-          _currentLocalAccount.localId,
-          account.summary.name,
-          account.summary.blurredAvatarThumbnailUrl,
-          account.summary.avatarThumbnailUrl);
-      // Mark all caches as dirty, since we may have been offline for a while
-      markProfilesDirty();
-      markOffersDirty();
-      markOffersBusinessDirty();
-      markOffersDemoDirty();
-      markProposalsDirty();
-      if (!_firebaseSetup) {
-        // Set up Firebase
-        _firebaseSetup = true;
-        _firebaseMessaging.requestNotificationPermissions();
-        _firebaseMessaging.configure(
-          onMessage: _firebaseOnMessage,
-          onLaunch: _firebaseOnLaunch,
-          onResume: _firebaseOnResume,
-        );
-        _firebaseMessaging.onTokenRefresh.listen(
-            _firebaseOnToken); // Ensure network manager is persistent or this may fail
-        if (widget.config.services.domain.isNotEmpty) {
-          // Allows to send dev messages under domain_dev topic
-          print("[INF] Domain: ${widget.config.services.domain}");
-          _firebaseMessaging
-              .subscribeToTopic('domain_' + widget.config.services.domain);
-        }
-      }
-      _firebaseOnToken(await _firebaseMessaging.getToken());
-    }
-  }
-
-  void _firebaseOnToken(String token) async {
-    // Set firebase token for current account if it has changed
-    // Update it for other accounts as well in case there is a known old token
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String oldFirebaseToken;
-    try {
-      oldFirebaseToken = prefs.getString('firebase_token');
-    } catch (error) {}
-    if (account.state.accountId != 0) {
-      if (account.state.firebaseToken != token || oldFirebaseToken != token) {
-        account.state.firebaseToken = token;
-        NetSetFirebaseToken setFirebaseToken = new NetSetFirebaseToken();
-        if (oldFirebaseToken != null)
-          setFirebaseToken.oldFirebaseToken = oldFirebaseToken;
-        setFirebaseToken.firebaseToken = token;
-        _ts.sendMessage(
-            TalkSocket.encode("SFIREBAT"), setFirebaseToken.writeToBuffer());
-        prefs.setString('firebase_token', token);
-      }
-    }
-  }
-
-  @override
-  void pushSuppressChatNotifications(Int64 applicantId) {
-    _suppressChatNotifications.add(applicantId.toInt());
-  }
-
-  @override
-  void popSuppressChatNotifications() {
-    _suppressChatNotifications.removeLast();
-  }
-
-  Future<dynamic> _firebaseOnMessage(Map<String, dynamic> data) async {
-    print("[INF] Firebase Message Received");
-    // Fired when a message is received when the app is in foreground
-    print(data);
-    // Handle all notifications not meant for the current account
-    // And any current notifications which are not surpressed
-    String domain = data['data']['domain'].toString();
-    int accountId = int.tryParse(data['data']['account_id']);
-    int applicantId = int.tryParse(data['data']['applicant_id']);
-    String title = data['notification']['title'];
-    String body = data['notification']['body'];
-    if (_suppressChatNotifications.isEmpty ||
-        _suppressChatNotifications.last != applicantId ||
-        domain != _config.services.domain ||
-        accountId != account.state.accountId) {
-      await flutterLocalNotificationsPlugin.show(
-        applicantId,
-        title,
-        body,
-        platformChannelSpecifics,
-        payload:
-            'domain=$domain&account_id=$accountId&applicant_id=$applicantId',
-      );
-    }
-  }
-
-  Future<dynamic> _firebaseOnLaunch(Map<String, dynamic> data) async {
-    print("[INF] Firebase Launch Received: $data");
-    // Fired when the app was opened by a message
-    if (data['applicant_id'] != null) {
-      CrossAccountNavigation.of(context).navigate(
-          data['domain'],
-          Int64.parseInt(data['account_id']),
-          NavigationTarget.Proposal,
-          Int64.parseInt(data['applicant_id']));
-    }
-  }
-
-  Future<dynamic> _firebaseOnResume(Map<String, dynamic> data) async {
-    print("[INF] Firebase Resume Received: $data");
-    // Fired when the app was opened by a message
-    /*{collapse_key: app.infmarketplace, 
-    account_id: 10, 
-    applicant_id: 16, 
-    google.original_priority: high, 
-    google.sent_time: 1537966114567, 
-    google.delivered_priority: high, 
-    domain: dev, google.ttl: 2419200, 
-    from: 1051755311348, type: 0, 
-    google.message_id: 0:1537966114577353%ddd1e337ddd1e337, 
-    sender_id: 11}*/
-    if (data['applicant_id'] != null) {
-      CrossAccountNavigation.of(context).navigate(
-          data['domain'],
-          Int64.parseInt(data['account_id']),
-          NavigationTarget.Proposal,
-          Int64.parseInt(data['applicant_id']));
-    }
-  }
-
-  Future<dynamic> onSelectNotification(String payload) async {
-    if (payload != null) {
-      print('[INF] Local notification payload: ' + payload);
-      /*domain=dev&account_id=10&applicant_id=16*/
-      Map<String, String> data = Uri.splitQueryString(payload);
-      if (data['applicant_id'] != null) {
-        CrossAccountNavigation.of(context).navigate(
-            data['domain'],
-            Int64.parseInt(data['account_id']),
-            NavigationTarget.Proposal,
-            Int64.parseInt(data['applicant_id']));
-      }
-    }
-  }
-
-  /// Authenticate device connection, this process happens as if by magic
-  Future<void> _authenticateDevice(TalkSocket ts) async {
-    // Initialize connection
-    print("[INF] Authenticate device");
-    ts.sendMessage(TalkSocket.encode("INFAPP"), new Uint8List(0));
-
-    // TODO: We'll use an SQLite database to keep the local cache stored
-    DeviceInfoPlugin deviceInfo = new DeviceInfoPlugin();
-    String deviceName = "unknown_device";
-    try {
-      if (Platform.isAndroid) {
-        var info = await deviceInfo.androidInfo;
-        deviceName = info.model;
-      } else if (Platform.isIOS) {
-        var info = await deviceInfo.iosInfo;
-        deviceName = info.name;
-      }
-    } catch (ex) {
-      print('[INF] Failed to get device name');
-    }
-
-    // Basic info from preferences
-    // Generate a common device id to identify devices with mutiple accounts
-    /*SharedPreferences prefs = await SharedPreferences.getInstance();
-    String commonDeviceIdStr;
-    try {
-      commonDeviceIdStr = prefs.getString('common_device_id');
-    } catch (e) {}
-    Uint8List commonDeviceId;
-    if (commonDeviceIdStr == null || commonDeviceIdStr.length == 0) {
-      commonDeviceId = new Uint8List(32);
-      for (int i = 0; i < commonDeviceId.length; ++i) {
-        commonDeviceId[i] = random.nextInt(256);
-      }
-      commonDeviceIdStr = base64.encode(commonDeviceId);
-      prefs.setString('common_device_id', commonDeviceIdStr);
-    } else {
-      commonDeviceId = base64.decode(commonDeviceIdStr);
-    }*/
-    final Uint8List commonDeviceId =
-        widget.multiAccountStore.getCommonDeviceId();
-    final LocalAccountData localAccount = widget.multiAccountStore.current;
-    final Uint8List aesKey = widget.multiAccountStore
-        .getDeviceCookie(localAccount.domain, localAccount.localId);
-    _currentLocalAccount = localAccount;
-
-    // Original plan was to use an assymetric key pair, but the generation was too slow. Hence just using a symmetric AES key for now
-    /*
-    int localAccountId = widget.networkManager.localAccountId;
-    String aesKeyPref =
-        widget.config.services.domain + '_aes_key_$localAccountId';
-    String deviceIdPref =
-        widget.config.services.domain + '_device_id_$localAccountId';
-    String aesKeyStr;
-    Uint8List aesKey;
-    int attemptDeviceId = 0;
-    try {
-      // prefs.setString(aesKeyPref, ''); // DEBUG: Reset profile
-      aesKeyStr = prefs.getString(aesKeyPref);
-      aesKey = base64.decode(aesKeyStr);
-      attemptDeviceId = prefs.getInt(deviceIdPref);
-      if (attemptDeviceId != account.state.deviceId) {
-        account.state.deviceId = 0;
-      }
-    } catch (e) {}
-    */
-    if (localAccount.deviceId == null || localAccount.deviceId == 0) {
-      // Create new device
-      print("[INF] Create new device");
-      account.state.deviceId = 0;
-      NetDeviceAuthCreateReq pbReq = new NetDeviceAuthCreateReq();
-      pbReq.aesKey = aesKey;
-      pbReq.commonDeviceId = commonDeviceId;
-      pbReq.name = deviceName;
-      pbReq.info = "{ debug: 'default_info' }";
-
-      TalkMessage res = await ts.sendRequest(
-          TalkSocket.encode("DA_CREAT"), pbReq.writeToBuffer());
-      NetDeviceAuthState pbRes = new NetDeviceAuthState();
-      pbRes.mergeFromBuffer(res.data);
-      if (!_alive) {
-        throw Exception("No longer alive, don't authorize");
-      }
-      await receivedDeviceAuthState(pbRes);
-      print("[INF] Device id ${account.state.deviceId}");
-      if (account.state.deviceId != 0) {
-        widget.multiAccountStore.setDeviceId(localAccount.domain,
-            localAccount.localId, new Int64(account.state.deviceId), aesKey);
-      }
-    } else {
-      // Authenticate existing device
-      print("[INF] Authenticate existing device ${localAccount.deviceId}");
-
-      NetDeviceAuthChallengeReq pbChallengeReq =
-          new NetDeviceAuthChallengeReq();
-      pbChallengeReq.deviceId = localAccount.deviceId.toInt();
-      TalkMessage msgChallengeResReq = await ts.sendRequest(
-          TalkSocket.encode("DA_CHALL"), pbChallengeReq.writeToBuffer());
-      NetDeviceAuthChallengeResReq pbChallengeResReq =
-          new NetDeviceAuthChallengeResReq();
-      pbChallengeResReq.mergeFromBuffer(msgChallengeResReq.data);
-
-      // Sign challenge
-      var keyParameter = new pointycastle.KeyParameter(aesKey);
-      var aesFastEngine = new pointycastle.AESFastEngine();
-      aesFastEngine
-        ..reset()
-        ..init(true, keyParameter);
-      Uint8List challenge = pbChallengeResReq.challenge;
-      Uint8List signature = new Uint8List(challenge.length);
-      for (int offset = 0; offset < challenge.length;) {
-        offset +=
-            aesFastEngine.processBlock(challenge, offset, signature, offset);
-      }
-
-      // Send signature, wait for device status
-      NetDeviceAuthSignatureResReq pbSignature =
-          new NetDeviceAuthSignatureResReq();
-      pbSignature.signature = signature;
-      TalkMessage res = await ts.sendRequest(
-          TalkSocket.encode("DA_R_SIG"), pbSignature.writeToBuffer(),
-          replying: msgChallengeResReq);
-      NetDeviceAuthState pbRes = new NetDeviceAuthState();
-      pbRes.mergeFromBuffer(res.data);
-      if (!_alive) {
-        throw Exception("No longer alive, don't authorize");
-      }
-      await receivedDeviceAuthState(pbRes);
-      print("[INF] Device id ${account.state.deviceId}");
-    }
-
-    if (account.state.deviceId == 0) {
-      widget.multiAccountStore
-          .removeLocal(localAccount.domain, localAccount.localId);
-      widget.multiAccountStore.addAccount(localAccount.domain);
-      _currentLocalAccount = null;
-      throw new Exception("Authentication did not succeed");
-    } else {
-      print("[INF] Network connection is ready");
-      setState(() {
-        connected = NetworkConnectionState.ready;
-        ++_changed;
-      });
-
-      // Register all listeners
-      _subscriptions.add(
-          ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState));
-      _subscriptions.add(ts
-          .stream(TalkSocket.encode("DB_OFFER"))
-          .listen(dataBusinessOffer)); // TODO: Remove this!
-      //_subscriptions.add(ts
-      //    .stream(TalkSocket.encode("DE_OFFER"))
-      //    .listen(_demoAllBusinessOffer));
-      // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
-      _subscriptions.add(
-          ts.stream(TalkSocket.encode('LN_APPLI')).listen(liveNewApplicant));
-      _subscriptions.add(ts
-          .stream(TalkSocket.encode('LN_A_CHA'))
-          .listen(liveNewApplicantChat));
-      _subscriptions.add(ts
-          .stream(TalkSocket.encode('LU_APPLI'))
-          .listen(liveUpdateApplicant));
-      _subscriptions.add(ts
-          .stream(TalkSocket.encode('LU_A_CHA'))
-          .listen(liveUpdateApplicantChat));
-
-      resubmitGhostChats();
-    }
-
-    // assert(accountState.deviceId != 0);
-  }
-
-  void _netDeviceAuthState(TalkMessage message) async {
-    NetDeviceAuthState pb = new NetDeviceAuthState();
-    pb.mergeFromBuffer(message.data);
-    await receivedDeviceAuthState(pb);
-  }
-
-  bool _netConfigWarning = false;
-  Future _networkSession() async {
-    try {
-      do {
-        String uri = _overrideUri ??
-            _config.services
-                .apiHosts[random.nextInt(_config.services.apiHosts.length)];
-        if (uri == null || uri.length == 0) {
-          if (!_netConfigWarning) {
-            _netConfigWarning = true;
-            print("[INF] No network configuration, not connecting");
-          }
-          await new Future.delayed(new Duration(seconds: 3));
-          return;
-        }
-        _netConfigWarning = false;
-        try {
-          print("[INF] Try connect to $uri");
-          _ts = await TalkSocket.connect(uri);
-        } catch (e) {
-          print("[INF] Network cannot connect, retry in 3 seconds: $e");
-          assert(_ts == null);
-          setState(() {
-            connected = NetworkConnectionState.offline;
-            ++_changed;
-          });
-          await new Future.delayed(new Duration(seconds: 3));
-        }
-      } while (_alive &&
-          (_foreground || (_keepAliveBackground > 0)) &&
-          (_ts == null));
-      Future<void> listen = _ts.listen();
-      if (connected == NetworkConnectionState.offline) {
-        setState(() {
-          connected = NetworkConnectionState.connecting;
-          ++_changed;
-        });
-      }
-      if (_config != null /*&& widget.networkManager.localAccountId != 0*/) {
-        if (_alive) {
-          // Authenticate device, this will set connected = ready when successful
-          _authenticateDevice(_ts).catchError((e) {
-            print(
-                "[INF] Network authentication exception, retry in 3 seconds: $e");
-            setState(() {
-              connected = NetworkConnectionState.failing;
-              ++_changed;
-            });
-            TalkSocket ts = _ts;
-            _ts = null;
-            () async {
-              print("[INF] Wait");
-              await new Future.delayed(new Duration(seconds: 3));
-              print("[INF] Retry now");
-              if (ts != null) {
-                ts.close();
-              }
-            }()
-                .catchError((e) {
-              print("[INF] Fatal network exception, cannot recover: $e");
-            });
-          });
-        } else {
-          _ts.close();
-        }
-      } else {
-        print(
-            "[INF] No configuration, connection will remain idle"); // , local account id ${widget.networkManager.localAccountId}");
-        setState(() {
-          connected = NetworkConnectionState.failing;
-          ++_changed;
-        });
-      }
-      await listen;
-      _ts = null;
-      print("[INF] Network connection closed");
-      if (connected == NetworkConnectionState.ready) {
-        setState(() {
-          connected = NetworkConnectionState.connecting;
-          ++_changed;
-        });
-      }
-    } catch (e) {
-      print("[INF] Network session exception: $e");
-      TalkSocket ts = _ts;
-      _ts = null;
-      setState(() {
-        connected = NetworkConnectionState.failing;
-        ++_changed;
-      });
-      if (ts != null) {
-        ts.close(); // TODO: close code?
-      }
-    }
-    _subscriptions.forEach((s) {
-      s.cancel();
-    });
-    _subscriptions.clear();
-  }
-
-  Future _networkLoop() async {
-    print("[INF] Start network loop");
-    while (_alive) {
-      if (!_foreground && (_keepAliveBackground <= 0)) {
-        print("[INF] Awaiting foreground");
-        _awaitingForeground = new Completer<void>();
-        await _awaitingForeground.future;
-        print("[INF] Now in foreground");
-      }
-      await _networkSession();
-    }
-    print("[INF] End network loop");
   }
 
   StreamSubscription<LocalAccountData> _onSwitchAccountSubscription;
+  StreamSubscription<CrossNavigationRequest> _onNavigationRequestSubscription;
 
   @override
   void initState() {
     super.initState();
-    _alive = true;
 
-    // Device ghost id is a semi sequential identifier for identifying messages by device (to ensure all are sent and to avoid duplicates)
-    nextDeviceGhostId =
-        (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF;
+    // Initialize base dependencies
+    commonInitBase();
+    syncConfig(widget.config);
+    syncMultiAccountStore(widget.multiAccountStore);
 
     // Setup sync
     _onSwitchAccountSubscription =
         widget.multiAccountStore.onSwitchAccount.listen(_onMultiSwitchAccount);
 
-    // Initialize data
-    resetAccountState();
-    syncConfig();
-
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = new IOSInitializationSettings();
-    var initializationSettings = new InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        selectNotification: onSelectNotification);
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'chat', 'Messages', 'Messages received from other users',
-        importance: Importance.Max, priority: Priority.High);
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    platformChannelSpecifics = new NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-
-    // Start network loop
-    _networkLoop().catchError((e) {
-      print("[INF] Network loop died: $e");
+    // Initialize notifications
+    initNotifications();
+    _onNavigationRequestSubscription =
+        onNavigationRequest.listen((CrossNavigationRequest request) {
+      CrossAccountNavigation.of(context).navigate(
+          request.domain, request.accountId, request.target, request.id);
     });
 
     WidgetsBinding.instance.addObserver(this);
 
-    new Timer.periodic(new Duration(seconds: 1), (timer) async {
-      if (!mounted) {
-        timer.cancel();
-        return;
-      }
-      if (_ts != null) {
-        try {
-          await _ts.ping();
-        } catch (error, stack) {
-          print("[INF] [PING] $error\n$stack");
-        }
-      }
-    });
+    // Start the network
+    commonInitReady();
   }
 
   @override
   void reassemble() {
     super.reassemble();
-
     // Developer reload
-    if (_ts != null) {
-      print("[INF] Network reload by developer");
-      _ts.close();
-      _ts = null;
-    }
+    reassembleCommon();
   }
 
   @override
@@ -759,12 +190,8 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
     _onSwitchAccountSubscription.cancel();
     _onSwitchAccountSubscription = null;
     WidgetsBinding.instance.removeObserver(this);
-    _alive = false;
-    if (_ts != null) {
-      print("[INF] Dispose network connection");
-      _ts.close();
-      _ts = null;
-    }
+    disposeCommon();
+    disposeNotifications();
     super.dispose();
   }
 
@@ -778,45 +205,19 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
   void didChangeDependencies() {
     // Called before build(), may change/update any state here without calling setState()
     super.didChangeDependencies();
-    syncConfig();
-    if (_ts != null) {
-      print("[INF] Network reload by config or selection");
-      _ts.close();
-      _ts = null;
-    }
+    syncConfig(widget.config);
+    syncMultiAccountStore(widget.multiAccountStore);
+    dependencyChangedCommon();
   }
 
   void _onMultiSwitchAccount(LocalAccountData localAccount) {
-    if (localAccount != _currentLocalAccount) {
-      cleanupStateSwitchingAccounts();
-      if (_ts != null) {
-        _ts.close();
-        _ts = null;
-      }
-    }
+    processSwitchAccount(localAccount);
   }
-
-  bool _foreground = true;
-  Completer<void> _awaitingForeground;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state != AppLifecycleState.resumed &&
-        state != AppLifecycleState.inactive) {
-      _foreground = false;
-      if (_keepAliveBackground <= 0) {
-        if (_ts != null) {
-          _ts.close();
-          _ts = null;
-        }
-      }
-    } else {
-      _foreground = true;
-      if (_awaitingForeground != null) {
-        _awaitingForeground.complete();
-        _awaitingForeground = null;
-      }
-    }
+    setApplicationForeground(state == AppLifecycleState.resumed ||
+        state == AppLifecycleState.inactive);
   }
 
   @override
@@ -830,154 +231,6 @@ class _NetworkManagerState extends State<_NetworkManagerStateful>
       changed: _changed,
       child: widget.child,
     );
-  }
-
-  /* Device Registration */
-  static int _netSetAccountType = TalkSocket.encode("A_SETTYP");
-  @override
-  void setAccountType(AccountType accountType) {
-    NetSetAccountType pb = new NetSetAccountType();
-    pb.accountType = accountType;
-    _ts.sendMessage(_netSetAccountType, pb.writeToBuffer());
-    setState(() {
-      // Cancel all social media logins on change, server update on this gets there later
-      if (account.state.accountType != accountType) {
-        for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-          account.detail.socialMedia[i].connected = false;
-        }
-      }
-      // Ghost state, the server doesn't send update for this
-      account.state.accountType = accountType;
-      ++_changed;
-    });
-  }
-
-  /* OAuth */
-  static int _netOAuthUrlReq = TalkSocket.encode("OA_URLRE");
-  @override
-  Future<NetOAuthUrlRes> getOAuthUrls(int oauthProvider) async {
-    NetOAuthUrlReq pb = new NetOAuthUrlReq();
-    pb.oauthProvider = oauthProvider;
-    TalkMessage res =
-        await _ts.sendRequest(_netOAuthUrlReq, pb.writeToBuffer());
-    NetOAuthUrlRes resPb = new NetOAuthUrlRes();
-    resPb.mergeFromBuffer(res.data);
-    return resPb;
-  }
-
-  static int _netOAuthConnectReq = TalkSocket.encode("OA_CONNE");
-  @override
-  Future<bool> connectOAuth(int oauthProvider, String callbackQuery) async {
-    NetOAuthConnectReq pb = new NetOAuthConnectReq();
-    pb.oauthProvider = oauthProvider;
-    pb.callbackQuery = callbackQuery;
-    TalkMessage res =
-        await _ts.sendRequest(_netOAuthConnectReq, pb.writeToBuffer());
-    NetOAuthConnectRes resPb = new NetOAuthConnectRes();
-    resPb.mergeFromBuffer(res.data);
-    // Result contains the updated data, so needs to be put into the state
-    if (oauthProvider < account.detail.socialMedia.length &&
-        resPb.socialMedia != null) {
-      setState(() {
-        account.detail.socialMedia[oauthProvider] = resPb.socialMedia;
-        ++_changed;
-      });
-    }
-    // Return just whether connected or not
-    return resPb.socialMedia.connected;
-  }
-
-  static int _netAccountCreateReq = TalkSocket.encode("A_CREATE");
-  @override
-  Future<void> createAccount(double latitude, double longitude) async {
-    NetAccountCreateReq pb = new NetAccountCreateReq();
-    if (latitude != null &&
-        latitude != 0.0 &&
-        longitude != null &&
-        longitude != 0.0) {
-      pb.latitude = latitude;
-      pb.longitude = longitude;
-    }
-    TalkMessage res =
-        await _ts.sendRequest(_netAccountCreateReq, pb.writeToBuffer());
-    NetDeviceAuthState resPb = new NetDeviceAuthState();
-    resPb.mergeFromBuffer(res.data);
-    await receivedDeviceAuthState(resPb);
-    if (account.state.accountId == 0) {
-      throw new NetworkException("No account has been created");
-    }
-  }
-
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////////////////////////////////
-  // Image upload
-  /////////////////////////////////////////////////////////////////////////////
-
-  static Digest _getContentSha256(File file) {
-    DigestSink convertedSink = new DigestSink();
-    ByteConversionSink fileSink = sha256.startChunkedConversion(convertedSink);
-    RandomAccessFile readFile = file.openSync(mode: FileMode.read);
-    Uint8List buffer = new Uint8List(65536);
-    int read;
-    while ((read = readFile.readIntoSync(buffer)) > 0) {
-      fileSink.addSlice(buffer, 0, read, false);
-    }
-    fileSink.close();
-    return convertedSink.value;
-  }
-
-  static int _netUploadImageReq = TalkSocket.encode("UP_IMAGE");
-  @override
-  Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
-    // Build information on file
-    BytesBuilder builder = new BytesBuilder(copy: false);
-    // Digest contentSha256 =
-    //     await sha256.bind(fileImage.file.openRead()).first; // FIXME: This hangs
-    Digest contentSha256 = await compute(_getContentSha256, fileImage.file);
-    await fileImage.file.openRead(0, 256).forEach(builder.add);
-    String contentType = new MimeTypeResolver()
-        .lookup(fileImage.file.path, headerBytes: builder.toBytes());
-    int contentLength = await fileImage.file.length();
-
-    // Create a request to upload the file
-    NetUploadImageReq req = new NetUploadImageReq();
-    req.fileName = fileImage.file.path;
-    req.contentLength = contentLength;
-    req.contentType = contentType;
-    req.contentSha256 = contentSha256.bytes;
-
-    // Fetch the pre-signed URL from the server
-    TalkMessage resMessage =
-        await _ts.sendRequest(_netUploadImageReq, req.writeToBuffer());
-    NetUploadImageRes res = new NetUploadImageRes();
-    res.mergeFromBuffer(resMessage.data);
-
-    if (res.fileExists) {
-      // File already exists, so no need to upload it again
-      return res;
-    }
-
-    // Upload the file
-    HttpClient httpClient = new HttpClient();
-    HttpClientRequest httpRequest =
-        await httpClient.openUrl(res.requestMethod, Uri.parse(res.requestUrl));
-    httpRequest.headers.add("Content-Type", contentType);
-    httpRequest.headers.add("Content-Length", contentLength);
-    // FIXME: Spaces doesn't process this option when in pre-signed URL query
-    httpRequest.headers.add('x-amz-acl', 'public-read');
-    await httpRequest.addStream(fileImage.file.openRead());
-    await httpRequest.flush();
-    HttpClientResponse httpResponse = await httpRequest.close();
-    BytesBuilder responseBuilder = new BytesBuilder(copy: false);
-    await httpResponse.forEach(responseBuilder.add);
-    if (httpResponse.statusCode != 200) {
-      throw new NetworkException(
-          "Status code ${httpResponse.statusCode}, response: ${utf8.decode(responseBuilder.toBytes())}");
-    }
-
-    // Upload successful
-    return res;
   }
 }
 

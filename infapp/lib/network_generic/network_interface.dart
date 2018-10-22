@@ -6,9 +6,18 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
+import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 
 enum NetworkConnectionState { connecting, failing, offline, ready }
+
+class NetworkException implements Exception {
+  final String message;
+  const NetworkException(this.message);
+  String toString() {
+    return "NetworkException { message: \"$message\" }";
+  }
+}
 
 abstract class NetworkInterface {
   /* Cached Data */
@@ -19,6 +28,12 @@ abstract class NetworkInterface {
   NetworkConnectionState connected;
 
   void overrideUri(String serverUri);
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Streams
+  /////////////////////////////////////////////////////////////////////////////
+  
+  Stream<CrossNavigationRequest> get onNavigationRequest;
 
   /////////////////////////////////////////////////////////////////////////////
   // Onboarding and OAuth

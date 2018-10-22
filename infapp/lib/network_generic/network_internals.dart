@@ -6,12 +6,22 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
+import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:wstalk/wstalk.dart';
 
 abstract class NetworkInternals {
   // Common
   TalkSocket get ts;
+  ConfigData get config;
+  MultiAccountStore get multiAccountStore;
+  void commonInitBase();
+  void commonInitReady();
+  void onCommonChanged();
+  void reassembleCommon();
+  void disposeCommon();
+  void dependencyChangedCommon();
+  void processSwitchAccount(LocalAccountData localAccount);
 
   // Profiles
   void cacheProfile(DataAccount account);
@@ -51,6 +61,10 @@ abstract class NetworkInternals {
   void liveUpdateApplicant(TalkMessage message);
   void liveUpdateApplicantChat(TalkMessage message);
   void resubmitGhostChats();
+
+  // Notifications
+  void disposeNotifications();
+  Future<void> initFirebaseNotifications();
 }
 
 /* end of file */
