@@ -33,13 +33,13 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   @override
   void initState() {
     super.initState();
-     _initBuilders();
+    _initBuilders();
   }
 
   @override
   void reassemble() {
     super.reassemble();
-     _initBuilders();
+    _initBuilders();
   }
 
   @override
@@ -77,8 +77,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
         return _buildProposalList(
             context,
             (DataApplicant applicant) =>
-                (applicant.senderAccountId !=
-                    applicant.influencerAccountId) &&
+                (applicant.senderAccountId != applicant.influencerAccountId) &&
                 (applicant.state == ApplicantState.AS_HAGGLING));
       },
     );
@@ -88,8 +87,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
         return _buildProposalList(
             context,
             (DataApplicant applicant) =>
-                (applicant.senderAccountId ==
-                    applicant.influencerAccountId) &&
+                (applicant.senderAccountId == applicant.influencerAccountId) &&
                 (applicant.state == ApplicantState.AS_HAGGLING));
       },
     );
