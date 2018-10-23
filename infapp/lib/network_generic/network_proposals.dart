@@ -78,18 +78,18 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
         _cachedProposals[offer.influencerApplicantId] = cached;
       }
       if (cached.applicant == null) {
-        if (cached.fallback == null
-        || cached.fallback.offerId != offer.offerId
-        || cached.fallback.offerTitle != offer.title
-        || cached.fallback.businessName  != offer.locationName
-        || cached.fallback.businessAccountId != offer.accountId
-        || cached.fallback.influencerAccountId != account.state.accountId)
-        {
+        if (cached.fallback == null ||
+            cached.fallback.offerId != offer.offerId ||
+            cached.fallback.offerTitle != offer.title ||
+            cached.fallback.businessName != offer.locationName ||
+            cached.fallback.businessAccountId != offer.accountId ||
+            cached.fallback.influencerAccountId != account.state.accountId) {
           if (cached.fallback == null) {
             cached.fallback = new DataApplicant();
             cached.fallback.applicantId = offer.influencerApplicantId;
           } else {
-            cached.fallback = new DataApplicant()..mergeFromMessage(cached.fallback);
+            cached.fallback = new DataApplicant()
+              ..mergeFromMessage(cached.fallback);
           }
           cached.fallback.offerId = offer.offerId;
           cached.fallback.offerTitle = offer.title;
@@ -98,7 +98,8 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
           cached.fallback.influencerAccountId = account.state.accountId;
           cached.fallback.influencerName = account.summary.name;
           cached.fallback.freeze();
-          onProposalChanged(ChangeAction.upsert, new Int64(offer.influencerApplicantId));
+          onProposalChanged(
+              ChangeAction.upsert, new Int64(offer.influencerApplicantId));
         }
       }
     }
