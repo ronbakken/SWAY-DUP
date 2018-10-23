@@ -9,7 +9,6 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';

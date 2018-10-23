@@ -238,7 +238,7 @@ class _OfferViewState extends State<OfferView> {
                                                   new Text(
                                                       "Are you sure you would like to end this offer?\n\n"
                                                       "This will remove the offer from influencer search results."
-                                                      "The offer will remain standing for current applicants."),
+                                                      "The offer will remain standing for current proposals."),
                                                 ],
                                               ),
                                             ),

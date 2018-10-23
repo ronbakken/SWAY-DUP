@@ -10,7 +10,7 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_mobile/network_provider.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
 
 import 'package:inf/widgets/oauth_scaffold.dart';
 import 'package:inf/screens_onboarding/onboarding_selection.dart';

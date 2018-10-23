@@ -4,7 +4,11 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
-// import 'dart:async';
+/*
+
+TODO: Split of the actual ConfigManager, rename to ConfigProvider for the inheritable, add Stream support for notifying of new ConfigData
+
+*/
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

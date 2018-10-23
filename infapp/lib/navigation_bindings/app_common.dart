@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_mobile/network_provider.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/screens/debug_account.dart';
@@ -117,7 +117,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
     NetworkInterface network = NetworkProvider.of(context);
     return new ProposalList(
       account: network.account,
-      proposals: network.applicants.where(test),
+      proposals: network.proposals.where(test),
       getProfileSummary: (BuildContext context, Int64 accountId) {
         NetworkInterface network = NetworkProvider.of(context);
         return network.tryGetProfileSummary(accountId);
@@ -189,7 +189,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
             network.pushSuppressChatNotifications(proposalId);
             suppressed = true;
           }
-          DataApplicant proposal = network.tryGetApplicant(proposalId);
+          DataApplicant proposal = network.tryGetProposal(proposalId);
           Iterable<DataApplicantChat> chats =
               network.tryGetApplicantChats(proposalId);
           DataBusinessOffer offer =
@@ -205,7 +205,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
               ? network.account
               : network.tryGetProfileSummary(
                   new Int64(proposal.influencerAccountId));
-          // DataApplicant proposal = network.tryGetApplicant(applicantId);
+          // DataApplicant proposal = network.tryGetProposal(applicantId);
           return new HaggleView(
             account: network.account,
             businessAccount: businessAccount,

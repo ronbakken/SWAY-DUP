@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
-import 'package:inf/network_mobile/network_provider.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf/screens_loading/loading_network.dart';
 import 'package:inf/navigation_bindings/app_onboarding.dart';
 import 'package:inf/navigation_bindings/app_business.dart';

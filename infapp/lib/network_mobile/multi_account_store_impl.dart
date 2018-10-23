@@ -108,7 +108,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
 
     // Initialize local accounts list
     await _initLocalData(_startupDomain);
-    _onAccountsChanged.add(new Change(null, ChangeAction.refreshAll));
+    _onAccountsChanged.add(new Change(ChangeAction.refreshAll, null));
 
     // Initialize current account
     int localId = getLastUsed(_startupDomain);
@@ -239,7 +239,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     _prefs.remove("${domain}_${localId}_name");
     _prefs.remove("${domain}_${localId}_blurred_avatar_url");
     _prefs.remove("${domain}_${localId}_avatar_url");
-    _onAccountsChanged.add(new Change(null, ChangeAction.refreshAll));
+    _onAccountsChanged.add(new Change(ChangeAction.refreshAll, null));
   }
 
   @override
@@ -250,7 +250,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     _prefs.setString(
         "${domain}_${localId}_device_cookie", base64.encode(deviceCookie));
     _onAccountsChanged
-        .add(new Change(_domains[domain].local[localId], ChangeAction.upsert));
+        .add(new Change(ChangeAction.upsert, _domains[domain].local[localId]));
   }
 
   @override
@@ -270,7 +270,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
       _setLastUsed(domain, localId);
     }
     _onAccountsChanged
-        .add(new Change(_domains[domain].local[localId], ChangeAction.upsert));
+        .add(new Change(ChangeAction.upsert, _domains[domain].local[localId]));
   }
 
   @override
@@ -284,7 +284,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
         "${domain}_${localId}_blurred_avatar_url", blurredAvatarUrl.toString());
     _prefs.setString("${domain}_${localId}_avatar_url", avatarUrl.toString());
     _onAccountsChanged
-        .add(new Change(_domains[domain].local[localId], ChangeAction.upsert));
+        .add(new Change(ChangeAction.upsert, _domains[domain].local[localId]));
   }
 
   @override
@@ -327,7 +327,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     accountData.localId = localId;
     _domains[domain].accounts[Int64.ZERO] = accountData;
     _domains[domain].local[localId] = accountData;
-    _onAccountsChanged.add(new Change(accountData, ChangeAction.add));
+    _onAccountsChanged.add(new Change(ChangeAction.add, accountData));
     return localId;
   }
 

@@ -81,7 +81,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
 
   static int _netLoadApplicantsReq = TalkSocket.encode("L_APPLIS");
   @override
-  Future<void> refreshApplicants() async {
+  Future<void> refreshProposals() async {
     NetLoadOffersReq req =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
     // await for (TalkMessage res
@@ -96,24 +96,24 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     }
   }
 
-  bool applicantsLoading = false;
+  bool proposalsLoading = false;
   bool _applicantsLoaded = false;
   Map<int, DataApplicant> _applicants = new Map<int, DataApplicant>();
 
   @override
-  Iterable<DataApplicant> get applicants {
+  Iterable<DataApplicant> get proposals {
     if (_applicantsLoaded == false &&
         connected == NetworkConnectionState.ready) {
       _applicantsLoaded = true;
-      applicantsLoading = true;
-      refreshApplicants().catchError((error, stack) {
-        print("[INF] Failed to get applicants: $error, $stack");
+      proposalsLoading = true;
+      refreshProposals().catchError((error, stack) {
+        print("[INF] Failed to get proposals: $error, $stack");
         new Timer(new Duration(seconds: 3), () {
           _applicantsLoaded =
               false; // Not using setState since we don't want to broadcast failure state
         });
       }).whenComplete(() {
-        applicantsLoading = false;
+        proposalsLoading = false;
         onProposalChanged(ChangeAction.refreshAll, Int64.ZERO);
       });
     }
@@ -124,10 +124,10 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
 
   /// Create proposal
   @override
-  Future<DataApplicant> applyForOffer(int offerId, String remarks) async {
+  Future<DataApplicant> sendProposal(Int64 offerId, String remarks) async {
     try {
       NetOfferApplyReq pbReq = new NetOfferApplyReq();
-      pbReq.offerId = offerId;
+      pbReq.offerId = offerId.toInt();
       pbReq.deviceGhostId = ++nextDeviceGhostId;
       pbReq.remarks = remarks;
       TalkMessage res =
@@ -137,14 +137,14 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
       _cacheApplicant(pbRes); // FIXME: Chat not cached directly!
       return pbRes;
     } catch (error) {
-      markOfferDirty(new Int64(offerId));
+      markOfferDirty(offerId);
       rethrow;
     }
   }
 
   static int _netLoadApplicantReq = TalkSocket.encode("L_APPLIC");
   @override
-  Future<DataApplicant> getApplicant(Int64 applicantId) async {
+  Future<DataApplicant> getProposal(Int64 applicantId) async {
     NetLoadApplicantReq pbReq = new NetLoadApplicantReq();
     pbReq.applicantId = applicantId.toInt();
     TalkMessage res =
@@ -184,7 +184,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     if (cached.applicant == null || cached.dirty) {
       if (!cached.loading && connected == NetworkConnectionState.ready) {
         cached.loading = true;
-        getApplicant(new Int64(applicantId)).then((applicant) {
+        getProposal(new Int64(applicantId)).then((applicant) {
           cached.loading = false;
         }).catchError((error, stack) {
           print("[INF] Failed to get applicant: $error, $stack");
@@ -215,9 +215,8 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
 
   /// Fetch latest applicant from cache by id, fetch in background if non-existent
   @override
-  DataApplicant tryGetApplicant(Int64 applicantId,
-      {DataBusinessOffer fallbackOffer}) {
-    return _tryGetApplicant(applicantId.toInt(), fallbackOffer: fallbackOffer);
+  DataApplicant tryGetProposal(Int64 applicantId) {
+    return _tryGetApplicant(applicantId.toInt());
   }
 
   /// Fetch latest applicant from cache, fetch in background if non-existent

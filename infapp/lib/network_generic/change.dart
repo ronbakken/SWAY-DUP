@@ -22,9 +22,9 @@ enum ChangeAction {
 }
 
 class Change<T> {
-  final T data;
   final ChangeAction action;
-  const Change(this.data, this.action);
+  final T data;
+  const Change(this.action, this.data);
 }
 
 /* end of file */

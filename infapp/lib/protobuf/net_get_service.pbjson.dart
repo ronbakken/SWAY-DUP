@@ -21,7 +21,7 @@ const NetGetService$json = const {
       '3': '.inf.NetGetOfferRes'
     },
     const {
-      '1': 'getApplicant',
+      '1': 'getProposal',
       '2': '.inf.NetGetApplicantReq',
       '3': '.inf.NetGetApplicantRes'
     },

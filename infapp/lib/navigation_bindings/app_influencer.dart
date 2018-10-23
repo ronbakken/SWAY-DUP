@@ -19,7 +19,7 @@ import 'package:latlong/latlong.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_mobile/network_provider.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
 
 import 'package:inf/utility/page_transition.dart';
 import 'package:inf/widgets/progress_dialog.dart';
@@ -124,8 +124,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               DataApplicant proposal;
               try {
                 // Create the offer
-                proposal =
-                    await network.applyForOffer(offerId.toInt(), remarks);
+                proposal = await network.sendProposal(offerId, remarks);
               } catch (error, stack) {
                 print("[INF] Exception applying for offer': $error\n$stack");
               }

@@ -21,19 +21,43 @@ class NetworkException implements Exception {
 
 abstract class NetworkInterface {
   /* Cached Data */
-  /// Cached account state. Use this data directly from your build function
+  /// Cached account state. Use this data directly from your build function.
   DataAccount account;
 
   /// Whether we are connected to the network.
   NetworkConnectionState connected;
 
-  void overrideUri(String serverUri);
-
   /////////////////////////////////////////////////////////////////////////////
   // Streams
   /////////////////////////////////////////////////////////////////////////////
-  
-  Stream<CrossNavigationRequest> get onNavigationRequest;
+
+  /// Called when any profile data has changed in some way, passes the id.
+  Stream<Change<Int64>> get profileChanged;
+
+  /// Called when any offer data has changed in some way, passes the id.
+  Stream<Change<Int64>> get offerChanged;
+
+  /// Called when the list of offers owned by the business has changed, passes the id of the affected entry.
+  Stream<Change<Int64>> get offerBusinessChanged;
+
+  /// Called when the list of demo offers has changed, passes the id of the affected entry.
+  Stream<Change<Int64>> get offerDemoChanged;
+
+  /// Called when the list of proposals attached to this user has changed, passes the id of the affected entry.
+  Stream<Change<Int64>> get offerProposalChanged;
+
+  /// Called when a change has occured to a chat entry in a proposal. Match by id if available, by ghost id if the id is not set or 0.
+  Stream<Change<DataApplicantChat>> get offerProposalChatChanged;
+
+  /// Called when either the account or network connection status has changed.
+  Stream<void> get commonChanged;
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Common
+  /////////////////////////////////////////////////////////////////////////////
+
+  /// Override the configured server uri
+  void overrideUri(String serverUri);
 
   /////////////////////////////////////////////////////////////////////////////
   // Onboarding and OAuth
@@ -135,43 +159,43 @@ abstract class NetworkInterface {
   void pushSuppressChatNotifications(Int64 proposalId);
   void popSuppressChatNotifications();
 
-  /// Refresh all applicants (currently all latest applicants)
-  Future<void> refreshApplicants();
+  /// Refresh all proposals (currently all latest proposals) (actually not necessary, but users like refreshing, so there it is)
+  Future<void> refreshProposals();
 
-  /// List of applicants for this account (may or may not be complete depending on loading status)
-  Iterable<DataApplicant> get applicants;
+  /// List of proposals for this account (may or may not be complete depending on loading status)
+  Iterable<DataApplicant> get proposals;
 
-  /// Whether [offers] is in the process of loading. Not set by refreshOffers call
-  bool get applicantsLoading;
+  /// Whether [proposals] is in the process of loading. Not set by refreshOffers call
+  bool get proposalsLoading;
 
-  /// Apply for an offer
-  Future<DataApplicant> applyForOffer(int offerId, String remarks);
+  /// Apply for an offer, or send a direct offer proposal (TODO: Target influencer id for direct offers)
+  Future<DataApplicant> sendProposal(Int64 offerId, String remarks);
 
-  /// Get applicant from the server, acts like refresh
-  Future<DataApplicant> getApplicant(Int64 applicantId);
+  /// Get proposal from the server, acts like refresh
+  Future<DataApplicant> getProposal(Int64 proposalId);
 
-  /// Fetch latest applicant from cache by id, fetch in background if non-existent and return empty fallback
-  DataApplicant tryGetApplicant(Int64 applicantId,
-      {DataBusinessOffer fallbackOffer});
-
-  /// Fetch latest applicant from cache, fetch in background if non-existent and return given fallback
-  DataApplicant latestApplicant(DataApplicant applicant);
+  /// Fetch latest proposal from cache by id, fetch in background if non-existent and return empty fallback
+  DataApplicant tryGetProposal(Int64 proposalId);
 
   /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
-  Iterable<DataApplicantChat> tryGetApplicantChats(Int64 applicantId);
+  Iterable<DataApplicantChat> tryGetApplicantChats(Int64 proposalId);
 
   /////////////////////////////////////////////////////////////////////////////
   // Haggle Actions
   /////////////////////////////////////////////////////////////////////////////
 
-  /// Sends a report about an applicant to support
+  /// Sends a report about an applicant to support. May fail, must provide error feedback to the user.
   Future<void> reportApplicant(int applicantId, String text);
 
+  /// Chat. Returns immediately, adding ghost data locally.
   void chatPlain(int applicantId, String text);
   void chatHaggle(
       int applicantId, String deliverables, String reward, String remarks);
   void chatImageKey(int applicantId, String imageKey);
 
+  /// TODO: Provide image chat functions that takes file directly and handles background upload.
+
+  /// Signify that the user wants a deal. May fail, must provide error feedback to the user.
   Future<void> wantDeal(int applicantId, int haggleChatId);
 }
 

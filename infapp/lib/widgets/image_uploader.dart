@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 
 // https://pub.dartlang.org/packages/image_picker
 import 'package:image_picker/image_picker.dart';
-import 'package:inf/network_mobile/network_provider.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/widgets/progress_dialog.dart';

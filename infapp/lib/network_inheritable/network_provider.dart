@@ -4,39 +4,29 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-import 'dart:typed_data';
+/*
 
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:fixnum/fixnum.dart';
+Network Provider
+================
+
+Provides access to an instance of a NetworkInterface.
+
+Provides the NetworkInterface with some data from the UI context.
+
+*/
+
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/network_generic/network_common.dart';
 import 'package:inf/network_generic/network_manager.dart';
-import 'package:inf/network_generic/network_offers_business.dart';
-import 'package:inf/network_generic/network_offers_demo.dart';
-import 'package:inf/network_generic/network_proposals.dart';
-import 'package:inf/network_mobile/network_notifications.dart';
-import 'package:wstalk/wstalk.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:device_info/device_info.dart';
-import 'package:pointycastle/pointycastle.dart' as pointycastle;
-import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
-import 'package:mime/mime.dart';
-import 'package:crypto/crypto.dart';
-import 'package:crypto/src/digest_sink.dart'; // Necessary for asynchronous hashing.
 
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
-import 'package:inf/network_generic/network_offers.dart';
-import 'package:inf/network_generic/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_generic/network_interface.dart';
-import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
 
 export 'package:inf/network_generic/network_interface.dart';
@@ -98,6 +88,18 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
 
   NetworkManager networkManager;
 
+  // A notification from the server was pushed, which may switch to account
+  void _onNavigationRequest(CrossNavigationRequest request) {
+    CrossAccountNavigation.of(context).navigate(
+        request.domain, request.accountId, request.target, request.id);
+  }
+
+  // An account switch was requested and the network must now switch accounts
+  void _onMultiSwitchAccount(LocalAccountData localAccount) {
+    networkManager.processSwitchAccount(localAccount);
+  }
+
+  // Signals all dependencies using InheritedWidget to rebuild from the latest data
   void _onChanged() {
     setState(() {
       ++_changed;
@@ -110,20 +112,15 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
     networkManager = new NetworkManager();
     networkManager.onChanged = _onChanged;
     networkManager.initialize();
-    networkManager.syncConfig(widget.config);
-    networkManager.syncMultiAccountStore(widget.multiAccountStore);
+    networkManager.updateDependencies(widget.config, widget.multiAccountStore);
 
     WidgetsBinding.instance.addObserver(this);
 
-    // Setup sync
     _onSwitchAccountSubscription =
         widget.multiAccountStore.onSwitchAccount.listen(_onMultiSwitchAccount);
 
-    _onNavigationRequestSubscription = networkManager.onNavigationRequest
-        .listen((CrossNavigationRequest request) {
-      CrossAccountNavigation.of(context).navigate(
-          request.domain, request.accountId, request.target, request.id);
-    });
+    _onNavigationRequestSubscription =
+        networkManager.onNavigationRequest.listen(_onNavigationRequest);
 
     networkManager.start();
   }
@@ -142,8 +139,7 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
     _onNavigationRequestSubscription.cancel();
     _onNavigationRequestSubscription = null;
     WidgetsBinding.instance.removeObserver(this);
-    networkManager.disposeCommon();
-    networkManager.disposeNotifications();
+    networkManager.dispose();
     super.dispose();
   }
 
@@ -157,13 +153,7 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
   void didChangeDependencies() {
     // Called before build(), may change/update any state here without calling setState()
     super.didChangeDependencies();
-    networkManager.syncConfig(widget.config);
-    networkManager.syncMultiAccountStore(widget.multiAccountStore);
-    networkManager.dependencyChangedCommon();
-  }
-
-  void _onMultiSwitchAccount(LocalAccountData localAccount) {
-    networkManager.processSwitchAccount(localAccount);
+    networkManager.updateDependencies(widget.config, widget.multiAccountStore);
   }
 
   @override
@@ -186,10 +176,6 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
     );
   }
 }
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 
 class _InheritedNetworkProvider extends InheritedWidget {
   const _InheritedNetworkProvider({

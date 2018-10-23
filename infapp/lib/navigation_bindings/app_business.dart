@@ -12,7 +12,7 @@ import 'package:inf/network_inheritable/multi_account_selection.dart';
 
 import 'package:inf/protobuf/inf_protobuf.dart';
 import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_mobile/network_provider.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/widgets/network_status.dart';
 

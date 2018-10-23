@@ -24,12 +24,12 @@ class BusinessOfferList extends StatelessWidget {
 
   Widget buildTags(BuildContext context, DataBusinessOffer data) {
     List<Widget> tags = new List<Widget>();
-    // Instead of showing 0 new applicants, show an informative message instead while still accepting new applicants!
+    // Instead of showing 0 new proposals, show an informative message instead while still accepting new proposals!
     if (data.applicantsNew == 0 /* && data.applicantsAccepted == 0 */ &&
         data.state == BusinessOfferState.BOS_OPEN) {
       tags.add(new Chip(
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          label: new Text("awaiting applicants")));
+          label: new Text("awaiting proposals")));
     }
     if (data.applicantsNew != 0) {
       tags.add(new Chip(
