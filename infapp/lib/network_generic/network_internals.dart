@@ -8,10 +8,12 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:logging/logging.dart';
 import 'package:wstalk/wstalk.dart';
 
 abstract class NetworkInternals {
   // Common
+  Logger get log;
   TalkSocket get ts;
   ConfigData get config;
   MultiAccountStore get multiAccountStore;
