@@ -34,27 +34,30 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
     cached.offer = offer;
     cached.dirty = false;
     hintProfileOffer(offer);
+    hintProposalOffer(offer);
     onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
   }
 
   @override
   void hintOfferProposal(DataApplicant proposal) {
     _CachedOffer cached = _cachedOffers[new Int64(proposal.offerId)];
-    if (cached != null) {
-      if (cached.offer != null) {
-        DataBusinessOffer offer = new DataBusinessOffer()
-          ..mergeFromMessage(cached.offer);
-        offer.influencerApplicantId = proposal.applicantId;
-        cached.offer = offer..freeze();
-        cached.dirty = true;
-        onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
-      } else if (cached.fallback != null) {
-        DataBusinessOffer offer = new DataBusinessOffer()
-          ..mergeFromMessage(cached.fallback);
-        offer.influencerApplicantId = proposal.applicantId;
-        cached.fallback = offer..freeze();
-        onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
-      }
+    if (cached == null) {
+      cached = new _CachedOffer();
+      _cachedOffers[new Int64(proposal.offerId)] = cached;
+    }
+    if (cached.offer != null) {
+      DataBusinessOffer offer = new DataBusinessOffer()
+        ..mergeFromMessage(cached.offer);
+      offer.influencerApplicantId = proposal.applicantId;
+      cached.offer = offer..freeze();
+      cached.dirty = true;
+      onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
+    } else if (cached.fallback != null) {
+      DataBusinessOffer offer = new DataBusinessOffer()
+        ..mergeFromMessage(cached.fallback);
+      offer.influencerApplicantId = proposal.applicantId;
+      cached.fallback = offer..freeze();
+      onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
     }
   }
 

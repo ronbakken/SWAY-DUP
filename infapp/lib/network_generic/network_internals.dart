@@ -64,6 +64,7 @@ abstract class NetworkInternals {
   void liveUpdateApplicant(TalkMessage message);
   void liveUpdateApplicantChat(TalkMessage message);
   void resubmitGhostChats();
+  void hintProposalOffer(DataBusinessOffer offer);
 
   // Notifications
   void disposeNotifications();

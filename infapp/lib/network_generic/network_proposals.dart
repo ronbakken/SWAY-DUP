@@ -66,6 +66,44 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     onProposalChanged(ChangeAction.upsert, new Int64(applicant.applicantId));
   }
 
+  @override
+  void hintProposalOffer(DataBusinessOffer offer) {
+    // For influencers that open an offer that they already applied to, accelerate some data on the proposal
+    if (offer.influencerApplicantId != null &&
+        offer.influencerApplicantId != 0) {
+      _CachedProposal cached =
+          _cachedProposals[new Int64(offer.influencerApplicantId)];
+      if (cached == null) {
+        cached = new _CachedProposal();
+        _cachedProposals[offer.influencerApplicantId] = cached;
+      }
+      if (cached.applicant == null) {
+        if (cached.fallback == null
+        || cached.fallback.offerId != offer.offerId
+        || cached.fallback.offerTitle != offer.title
+        || cached.fallback.businessName  != offer.locationName
+        || cached.fallback.businessAccountId != offer.accountId
+        || cached.fallback.influencerAccountId != account.state.accountId)
+        {
+          if (cached.fallback == null) {
+            cached.fallback = new DataApplicant();
+            cached.fallback.applicantId = offer.influencerApplicantId;
+          } else {
+            cached.fallback = new DataApplicant()..mergeFromMessage(cached.fallback);
+          }
+          cached.fallback.offerId = offer.offerId;
+          cached.fallback.offerTitle = offer.title;
+          cached.fallback.businessName = offer.locationName;
+          cached.fallback.businessAccountId = offer.accountId;
+          cached.fallback.influencerAccountId = account.state.accountId;
+          cached.fallback.influencerName = account.summary.name;
+          cached.fallback.freeze();
+          onProposalChanged(ChangeAction.upsert, new Int64(offer.influencerApplicantId));
+        }
+      }
+    }
+  }
+
   void _cacheApplicantChat(DataApplicantChat chat) {
     _CachedProposal cached = _cachedProposals[chat.applicantId];
     if (cached == null) {
