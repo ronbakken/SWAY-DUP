@@ -53,7 +53,7 @@ abstract class NetworkOffersBusiness
       _offers[pb.offerId.toInt()] = pb;
       onOffersBusinessChanged(ChangeAction.add, new Int64(pb.offerId));
     } else {
-      print("[INF] Received offer for other account ${pb.accountId}");
+      log.fine("Received offer for other account ${pb.accountId}");
     }
   }
 
@@ -73,7 +73,7 @@ abstract class NetworkOffersBusiness
       if (account.state.accountType == AccountType.AT_BUSINESS) {
         offersLoading = true;
         refreshOffers().catchError((error, stack) {
-          print("[INF] Failed to get offers: $error");
+          log.severe("Failed to get offers: $error");
           new Timer(new Duration(seconds: 3), () {
             _offersLoaded =
                 false; // Not using setState since we don't want to broadcast failure state

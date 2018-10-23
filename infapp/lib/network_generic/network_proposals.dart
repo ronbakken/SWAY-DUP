@@ -145,7 +145,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
       _applicantsLoaded = true;
       proposalsLoading = true;
       refreshProposals().catchError((error, stack) {
-        print("[INF] Failed to get proposals: $error, $stack");
+        log.severe("Failed to get proposals: $error, $stack");
         new Timer(new Duration(seconds: 3), () {
           _applicantsLoaded =
               false; // Not using setState since we don't want to broadcast failure state
@@ -197,7 +197,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
   Future<void> _loadApplicantChats(int applicantId) async {
     NetLoadApplicantChatsReq pbReq = new NetLoadApplicantChatsReq();
     pbReq.applicantId = applicantId;
-    print(applicantId);
+    log.fine(applicantId);
     // await for (TalkMessage res in ts.sendStreamRequest(
     //     _netLoadApplicantChatReq, pbReq.writeToBuffer())) {
     StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(
@@ -206,10 +206,10 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
       TalkMessage res = await sq.next;
       DataApplicantChat chat = new DataApplicantChat();
       chat.mergeFromBuffer(res.data);
-      print(chat);
+      log.fine(chat);
       _cacheApplicantChat(chat);
     }
-    print("done");
+    log.fine("done");
   }
 
   DataApplicant _tryGetApplicant(int applicantId,
@@ -225,7 +225,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
         getProposal(new Int64(applicantId)).then((applicant) {
           cached.loading = false;
         }).catchError((error, stack) {
-          print("[INF] Failed to get applicant: $error, $stack");
+          log.severe("Failed to get applicant: $error, $stack");
           new Timer(new Duration(seconds: 3), () {
             cached.loading = false;
             onProposalChanged(ChangeAction.retry, new Int64(applicantId));
@@ -274,13 +274,13 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     if (!cached.chatLoaded &&
         !cached.chatLoading &&
         connected == NetworkConnectionState.ready) {
-      print("fetch chat");
+      log.fine("fetch chat");
       cached.chatLoading = true;
       _loadApplicantChats(applicantId.toInt()).then((applicant) {
         cached.chatLoading = false;
         cached.chatLoaded = true;
       }).catchError((error, stack) {
-        print("[INF] Failed to get applicant chats: $error, $stack");
+        log.fine("Failed to get applicant chats: $error, $stack");
         new Timer(new Duration(seconds: 3), () {
           cached.chatLoading = false;
           onProposalChanged(ChangeAction.retry, applicantId);
@@ -307,7 +307,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
 
   void _notifyNewApplicantChat(DataApplicantChat chat) {
     // TODO: Notify the user of a new applicant chat message if not own
-    print("[INF] Notify: ${chat.text}");
+    log.fine("Notify: ${chat.text}");
   }
 
   void _receivedApplicantCommonRes(NetApplicantCommonRes res) {

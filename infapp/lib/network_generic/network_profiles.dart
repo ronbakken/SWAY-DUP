@@ -115,7 +115,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
         return cached.profile;
       }
     }
-    print("[INF] Get public profile $accountId");
+    log.info("Get public profile $accountId");
     if (accountId == account.state.accountId) {
       // It's me...
       return account;
@@ -138,7 +138,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
     if (new Int64(profile.state.accountId) == accountId) {
       cacheProfile(profile);
     } else {
-      print("[INF] Received invalid profile. Critical issue");
+      log.severe("Received invalid profile. Critical issue");
       onProfileChanged(ChangeAction.retry, accountId);
       return emptyAccount(accountId)..freeze();
     }
@@ -180,7 +180,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
       getPublicProfile(accountId).then((profile) {
         cached.loading = false;
       }).catchError((error, stack) {
-        print("[INF] Failed to get profile: $error, $stack");
+        log.severe("Failed to get profile: $error, $stack");
         new Timer(new Duration(seconds: 3), () {
           cached.loading = false;
           onProfileChanged(ChangeAction.retry, accountId);

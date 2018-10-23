@@ -43,7 +43,7 @@ abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
   static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
   @override
   Future<void> refreshDemoAllOffers() async {
-    print("refreshDemoAllOffers");
+    log.fine("refreshDemoAllOffers");
     NetLoadOffersReq loadOffersReq =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
     Stream<TalkMessage> results =
@@ -55,29 +55,29 @@ abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
       _demoAllBusinessOffer(await sq.next);
     }
 
-    print("refreshDemoAllOffers done");
+    log.fine("refreshDemoAllOffers done");
 
     /*
     // FIXME: 'await for' is no longer working???
     // tracking https://github.com/dart-lang/sdk/issues/34877
-    // print(results);
+    // log.fine(results);
     await for (TalkMessage res in results) {
       _demoAllBusinessOffer(res);
     }
-    print("refreshDemoAllOffers done");
+    log.fine("refreshDemoAllOffers done");
     */
   }
 
   @override
   Map<int, DataBusinessOffer> get demoAllOffers {
-    // print("demoAllOffers");
+    // log.fine("demoAllOffers");
     if (_demoAllOffersLoaded == false &&
         connected == NetworkConnectionState.ready) {
       _demoAllOffersLoaded = true;
       if (account.state.accountType == AccountType.AT_INFLUENCER) {
         demoAllOffersLoading = true;
         refreshDemoAllOffers().catchError((error, stack) {
-          print("[INF] Failed to get offers: $error");
+          log.severe("Failed to get offers: $error");
           new Timer(new Duration(seconds: 3), () {
             _demoAllOffersLoaded =
                 false; // Not using setState since we don't want to broadcast failure state

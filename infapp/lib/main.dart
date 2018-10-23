@@ -12,6 +12,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:inf/prototype.dart' show Prototype;
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:logging/logging.dart';
 
 Future<ConfigData> loadConfig() async {
   var configData = await rootBundle.load('assets/config.bin');
@@ -27,6 +28,15 @@ Future<MultiAccountStore> loadMultiAccountStore(String startupDomain) async {
 }
 
 launchApp() async {
+  // Set up logging options
+  hierarchicalLoggingEnabled = true;
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((LogRecord rec) {
+    print('${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
+  });
+  new Logger('Inf').level = Level.ALL;
+  new Logger('Inf.Network').level = Level.INFO;
+
   // Load well-known config from APK
   ConfigData config = await loadConfig();
   // Load known local accounts from SharedPreferences

@@ -20,6 +20,7 @@ import 'package:inf/network_generic/network_offers_business.dart';
 import 'package:inf/network_generic/network_offers_demo.dart';
 import 'package:inf/network_generic/network_proposals.dart';
 import 'package:inf/network_mobile/network_notifications.dart';
+import 'package:logging/logging.dart';
 import 'package:wstalk/wstalk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
@@ -63,6 +64,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     return _multiAccountStore;
   }
 
+  final Logger log = new Logger('Inf.Network');
+
   String _overrideUri;
 
   final random = new Random.secure();
@@ -91,7 +94,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   void commonInitReady() {
     // Start network loop
     _networkLoop().catchError((e) {
-      print("[INF] Network loop died: $e");
+      log.severe("Network loop died: $e");
     });
 
     new Timer.periodic(new Duration(seconds: 1), (timer) async {
@@ -103,7 +106,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         try {
           await _ts.ping();
         } catch (error, stack) {
-          print("[INF] [PING] $error\n$stack");
+          log.fine("[PING] $error\n$stack");
         }
       }
     });
@@ -120,7 +123,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   @override
   void overrideUri(String serverUri) {
     _overrideUri = serverUri;
-    print("[INF] Override server uri to $serverUri");
+    log.info("Override server uri to $serverUri");
     if (_ts != null) {
       _ts.close();
       _ts = null;
@@ -134,7 +137,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   void syncConfig(ConfigData config) {
     // May only be called from a setState block
     if (_config != config) {
-      print("[INF] Sync config changes to network");
+      log.fine("Sync config changes to network");
       _config = config;
       if (_config != null) {
         // Match array length
@@ -148,8 +151,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       onCommonChanged();
     }
     if (_config == null) {
-      print(
-          "[INF] Widget config is null in network sync"); // DEVELOPER - CRITICAL
+      log.severe(
+          "Widget config is null in network sync"); // DEVELOPER - CRITICAL
     }
   }
 
@@ -169,7 +172,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   void reassembleCommon() {
     // Developer reload
     if (_ts != null) {
-      print("[INF] Network reload by developer");
+      log.info("Network reload by developer");
       _ts.close();
       _ts = null;
     }
@@ -178,7 +181,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   void disposeCommon() {
     _alive = false;
     if (_ts != null) {
-      print("[INF] Dispose network connection");
+      log.fine("Dispose network connection");
       _ts.close();
       _ts = null;
     }
@@ -186,7 +189,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   void dependencyChangedCommon() {
     if (_ts != null) {
-      print("[INF] Network reload by config or selection");
+      log.info("Network reload by config or selection");
       _ts.close();
       _ts = null;
     }
@@ -223,7 +226,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   /// Authenticate device connection, this process happens as if by magic
   Future<void> _authenticateDevice(TalkSocket ts) async {
     // Initialize connection
-    print("[INF] Authenticate device");
+    log.info("Authenticate device");
     ts.sendMessage(TalkSocket.encode("INFAPP"), new Uint8List(0));
 
     // TODO: We'll use an SQLite database to keep the local cache stored
@@ -238,7 +241,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         deviceName = info.name;
       }
     } catch (ex) {
-      print('[INF] Failed to get device name');
+      log.severe('Failed to get device name');
     }
 
     // Basic info from preferences
@@ -287,7 +290,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     */
     if (localAccount.deviceId == null || localAccount.deviceId == 0) {
       // Create new device
-      print("[INF] Create new device");
+      log.info("Create new device");
       account.state.deviceId = 0;
       NetDeviceAuthCreateReq pbReq = new NetDeviceAuthCreateReq();
       pbReq.aesKey = aesKey;
@@ -303,14 +306,14 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         throw Exception("No longer alive, don't authorize");
       }
       await receivedDeviceAuthState(pbRes);
-      print("[INF] Device id ${account.state.deviceId}");
+      log.info("Device id ${account.state.deviceId}");
       if (account.state.deviceId != 0) {
         multiAccountStore.setDeviceId(localAccount.domain, localAccount.localId,
             new Int64(account.state.deviceId), aesKey);
       }
     } else {
       // Authenticate existing device
-      print("[INF] Authenticate existing device ${localAccount.deviceId}");
+      log.info("Authenticate existing device ${localAccount.deviceId}");
 
       NetDeviceAuthChallengeReq pbChallengeReq =
           new NetDeviceAuthChallengeReq();
@@ -347,7 +350,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         throw Exception("No longer alive, don't authorize");
       }
       await receivedDeviceAuthState(pbRes);
-      print("[INF] Device id ${account.state.deviceId}");
+      log.info("Device id ${account.state.deviceId}");
     }
 
     if (account.state.deviceId == 0) {
@@ -356,7 +359,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       _currentLocalAccount = null;
       throw new Exception("Authentication did not succeed");
     } else {
-      print("[INF] Network connection is ready");
+      log.info("Network connection is ready");
       connected = NetworkConnectionState.ready;
       onCommonChanged();
 
@@ -403,17 +406,17 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         if (uri == null || uri.length == 0) {
           if (!_netConfigWarning) {
             _netConfigWarning = true;
-            print("[INF] No network configuration, not connecting");
+            log.warning("No network configuration, not connecting");
           }
           await new Future.delayed(new Duration(seconds: 3));
           return;
         }
         _netConfigWarning = false;
         try {
-          print("[INF] Try connect to $uri");
+          log.info("Try connect to $uri");
           _ts = await TalkSocket.connect(uri);
         } catch (e) {
-          print("[INF] Network cannot connect, retry in 3 seconds: $e");
+          log.warning("Network cannot connect, retry in 3 seconds: $e");
           assert(_ts == null);
           connected = NetworkConnectionState.offline;
           onCommonChanged();
@@ -431,42 +434,42 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         if (_alive) {
           // Authenticate device, this will set connected = ready when successful
           _authenticateDevice(_ts).catchError((e) {
-            print(
+            log.warning(
                 "[INF] Network authentication exception, retry in 3 seconds: $e");
             connected = NetworkConnectionState.failing;
             onCommonChanged();
             TalkSocket ts = _ts;
             _ts = null;
             () async {
-              print("[INF] Wait");
+              log.fine("Wait");
               await new Future.delayed(new Duration(seconds: 3));
-              print("[INF] Retry now");
+              log.fine("Retry now");
               if (ts != null) {
                 ts.close();
               }
             }()
                 .catchError((e) {
-              print("[INF] Fatal network exception, cannot recover: $e");
+              log.severe("Fatal network exception, cannot recover: $e");
             });
           });
         } else {
           _ts.close();
         }
       } else {
-        print(
-            "[INF] No configuration, connection will remain idle"); // , local account id ${widget.networkManager.localAccountId}");
+        log.warning(
+            "No configuration, connection will remain idle"); // , local account id ${widget.networkManager.localAccountId}");
         connected = NetworkConnectionState.failing;
         onCommonChanged();
       }
       await listen;
       _ts = null;
-      print("[INF] Network connection closed");
+      log.info("Network connection closed");
       if (connected == NetworkConnectionState.ready) {
         connected = NetworkConnectionState.connecting;
         onCommonChanged();
       }
     } catch (e) {
-      print("[INF] Network session exception: $e");
+      log.warning("Network session exception: $e");
       TalkSocket ts = _ts;
       _ts = null;
       connected = NetworkConnectionState.failing;
@@ -482,21 +485,22 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   Future _networkLoop() async {
-    print("[INF] Start network loop");
+    log.fine("Start network loop");
     while (_alive) {
       if (!_foreground && (_keepAliveBackground <= 0)) {
-        print("[INF] Awaiting foreground");
+        log.fine("Awaiting foreground");
         _awaitingForeground = new Completer<void>();
         await _awaitingForeground.future;
-        print("[INF] Now in foreground");
+        log.fine("Now in foreground");
       }
       await _networkSession();
     }
-    print("[INF] End network loop");
+    log.fine("End network loop");
   }
 
   Future<void> receivedDeviceAuthState(NetDeviceAuthState pb) async {
-    print("NetDeviceAuthState: $pb");
+    log.info("Account state received");
+    log.fine("NetDeviceAuthState: $pb");
     if (pb.data.state.accountId != account.state.accountId) {
       // Any cache cleanup may be done here when switching accounts
       cleanupStateSwitchingAccounts();

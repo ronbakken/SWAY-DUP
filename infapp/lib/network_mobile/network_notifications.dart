@@ -69,7 +69,7 @@ abstract class NetworkNotifications
           _firebaseOnToken); // Ensure network manager is persistent or this may fail
       if (config.services.domain.isNotEmpty) {
         // Allows to send dev messages under domain_dev topic
-        print("[INF] Domain: ${config.services.domain}");
+        log.fine("Domain: ${config.services.domain}");
         _firebaseMessaging.subscribeToTopic('domain_' + config.services.domain);
       }
     }
@@ -109,9 +109,9 @@ abstract class NetworkNotifications
   }
 
   Future<dynamic> _firebaseOnMessage(Map<String, dynamic> data) async {
-    print("[INF] Firebase Message Received");
+    log.fine("Firebase Message Received");
     // Fired when a message is received when the app is in foreground
-    print(data);
+    log.fine(data);
     // Handle all notifications not meant for the current account
     // And any current notifications which are not surpressed
     String domain = data['data']['domain'].toString();
@@ -135,7 +135,7 @@ abstract class NetworkNotifications
   }
 
   Future<dynamic> _firebaseOnLaunch(Map<String, dynamic> data) async {
-    print("[INF] Firebase Launch Received: $data");
+    log.fine("Firebase Launch Received: $data");
     // Fired when the app was opened by a message
     if (data['applicant_id'] != null) {
       _onNavigationRequest.add(new CrossNavigationRequest(
@@ -147,7 +147,7 @@ abstract class NetworkNotifications
   }
 
   Future<dynamic> _firebaseOnResume(Map<String, dynamic> data) async {
-    print("[INF] Firebase Resume Received: $data");
+    log.fine("Firebase Resume Received: $data");
     // Fired when the app was opened by a message
     /*{collapse_key: app.infmarketplace, 
     account_id: 10, 
@@ -170,7 +170,7 @@ abstract class NetworkNotifications
 
   Future<dynamic> onSelectNotification(String payload) async {
     if (payload != null) {
-      print('[INF] Local notification payload: ' + payload);
+      log.fine('[INF] Local notification payload: ' + payload);
       /*domain=dev&account_id=10&applicant_id=16*/
       Map<String, String> data = Uri.splitQueryString(payload);
       if (data['applicant_id'] != null) {

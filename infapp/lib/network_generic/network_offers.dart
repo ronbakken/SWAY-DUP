@@ -108,7 +108,7 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
       getOffer(offerId).then((offer) {
         cached.loading = false;
       }).catchError((error, stack) {
-        print("[INF] Failed to get offer $offerId: $error");
+        log.severe("Failed to get offer $offerId: $error");
         new Timer(new Duration(seconds: 3), () {
           cached.loading = false;
           onOfferChanged(ChangeAction.retry, offerId);
