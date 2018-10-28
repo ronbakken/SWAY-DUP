@@ -20,17 +20,9 @@ Rationale for requiring cross domain support is handling incoming notifications 
 */
 
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
-import 'dart:typed_data';
 
-import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:synchronized/synchronized.dart';
 import 'package:flutter/widgets.dart';
-import 'package:path_provider/path_provider.dart';
 
 export 'package:inf/network_generic/multi_account_client.dart';
 
@@ -49,7 +41,7 @@ class MultiAccountSelection extends StatefulWidget {
   static MultiAccountClient of(BuildContext context) {
     final _InheritedCrossAccountSelection inherited =
         context.inheritFromWidgetOfExactType(_InheritedCrossAccountSelection);
-    return inherited != null ? inherited.client : null;
+    return inherited?.client;
   }
 }
 
@@ -67,14 +59,6 @@ class CrossAccountSelectionState extends State<MultiAccountSelection> {
         ++_changed;
       });
     });
-    /*
-    // Not applicable for client
-    _onSwitchAccount = widget.client.onSwitchAccount.listen((value) {
-        setState(() {
-          ++_changed;
-        });
-    });
-    */
   }
 
   @override

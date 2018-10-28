@@ -30,10 +30,10 @@ class NetGetServiceApi {
         ctx, 'NetGetService', 'getOffer', request, emptyResponse);
   }
 
-  Future<$2.NetGetApplicantRes> getApplicant(
+  Future<$2.NetGetApplicantRes> getProposal(
       $pb.ClientContext ctx, $2.NetGetApplicantReq request) {
     var emptyResponse = new $2.NetGetApplicantRes();
     return _client.invoke<$2.NetGetApplicantRes>(
-        ctx, 'NetGetService', 'getApplicant', request, emptyResponse);
+        ctx, 'NetGetService', 'getProposal', request, emptyResponse);
   }
 }

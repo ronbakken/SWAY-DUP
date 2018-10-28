@@ -18,7 +18,7 @@ abstract class NetGetServiceBase extends GeneratedService {
       ServerContext ctx, $2.NetGetAccountReq request);
   Future<$2.NetGetOfferRes> getOffer(
       ServerContext ctx, $2.NetGetOfferReq request);
-  Future<$2.NetGetApplicantRes> getApplicant(
+  Future<$2.NetGetApplicantRes> getProposal(
       ServerContext ctx, $2.NetGetApplicantReq request);
 
   GeneratedMessage createRequest(String method) {
@@ -27,7 +27,7 @@ abstract class NetGetServiceBase extends GeneratedService {
         return new $2.NetGetAccountReq();
       case 'getOffer':
         return new $2.NetGetOfferReq();
-      case 'getApplicant':
+      case 'getProposal':
         return new $2.NetGetApplicantReq();
       default:
         throw new ArgumentError('Unknown method: $method');
@@ -41,8 +41,8 @@ abstract class NetGetServiceBase extends GeneratedService {
         return this.getAccount(ctx, request);
       case 'getOffer':
         return this.getOffer(ctx, request);
-      case 'getApplicant':
-        return this.getApplicant(ctx, request);
+      case 'getProposal':
+        return this.getProposal(ctx, request);
       default:
         throw new ArgumentError('Unknown method: $method');
     }

@@ -5,16 +5,26 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 enum ChangeAction {
-  New,
-  Upsert,
-  Delete,
-  RefreshAll,
+  /// Newly added (for example, chat message arrives)
+  add,
+
+  /// Updated or inserted (for example, chat messages being loaded)
+  upsert,
+
+  /// Deleted (for example, chat message was removed)
+  remove,
+
+  /// Changed, but data is incomplete (for example, object failed to fetch previously due to network error)
+  retry,
+
+  /// Refresh all data (all data was invalidated)
+  refreshAll,
 }
 
 class Change<T> {
-  final T data;
   final ChangeAction action;
-  const Change(this.data, this.action);
+  final T data;
+  const Change(this.action, this.data);
 }
 
 /* end of file */

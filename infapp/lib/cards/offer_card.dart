@@ -5,7 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
-import '../protobuf/inf_protobuf.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 class OfferCard extends StatelessWidget {
   final DataBusinessOffer businessOffer;

@@ -1,6 +1,12 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
+*/
+
 import 'package:flutter/material.dart';
 
-import '../protobuf/inf_protobuf.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 /// This widget will take in a specific authenticated Social Media
 /// Account and display the social media's Brand Icon along with
@@ -35,3 +41,5 @@ class FollowerWidget extends StatelessWidget {
     );
   }
 }
+
+/* end of file */

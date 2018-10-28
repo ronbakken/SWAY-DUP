@@ -1,3 +1,9 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -5,7 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-import '../protobuf/inf_protobuf.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
 
 typedef Future<NetOAuthUrlRes> OAuthGetParams();
 typedef Future<bool> OAuthCallbackResult(String callbackQuery);
@@ -80,41 +86,11 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
       }
       setState(() {
         _ready = true;
-        _authUrl = params
-            .authUrl; //widget.host + widget.authenticateUrl + "?oauth_token=" + Uri.encodeComponent(_temporaryToken);
+        _authUrl = params.authUrl;
         _callbackUrl = params.callbackUrl;
         _hostWhitelist[Uri.parse(_authUrl).host] = true;
         _hostWhitelist[Uri.parse(_callbackUrl).host] = true;
       });
-      /*
-      var platform = new oauth1.Platform(
-        widget.host + widget.requestTokenUrl,
-        widget.host + "/", // widget.authorizeUrl,
-        widget.host + "/", // widget.accessTokenUrl,
-        oauth1.SignatureMethods.HMAC_SHA1
-      );
-      var clientCredentials = new oauth1.ClientCredentials(
-        widget.consumerKey, 
-        widget.consumerSecret
-      );
-      var authorization = new oauth1.Authorization(
-        clientCredentials,
-        platform
-      );
-      print("Await temp cred to ${widget.callbackUrl}");
-      // TODO: Can we do this server-side?
-      var tokenRes = await authorization.requestTemporaryCredentials(widget.callbackUrl);
-      // authorization.getResourceOwnerAuthorizationURI(temporaryCredentialsIdentifier)
-      print("Got temp cred");
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _ready = true;
-        _temporaryToken = tokenRes.credentials.token;
-        _url =  widget.host + widget.authenticateUrl + "?oauth_token=" + Uri.encodeComponent(_temporaryToken);
-      });
-      */
       return;
     } catch (e) {
       print(e);
@@ -143,7 +119,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   @override
   void dispose() {
     _onUrlChanged.cancel();
-    // WORKAROUND (kaetemi): When webview has keyboard focus, it is not released when closing the WebviewScaffold
+    // WORKAROUND (kaetemi): When webview has keyboard focus, it is not released when closing the WebviewScaffold.
     _focusScope.requestFocus(new FocusNode());
     _flutterWebviewPlugin.close();
     super.dispose();
@@ -156,24 +132,8 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
         if (url.startsWith(_callbackUrl)) {
           if (widget.onOAuthCallbackResult != null &&
               await widget.onOAuthCallbackResult(uri.query)) {
-            // uri.queryParameters.containsKey('oauth_token') && uri.queryParameters.containsKey('oauth_verifier')) {
             print("Authorization success");
             Navigator.of(context).pop();
-            /*
-            // Got a valid token
-            if (_temporaryToken == uri.queryParameters['oauth_token']) {
-              print("Authorization success");
-              widget.onSuccess(uri.queryParameters['oauth_token'], uri.queryParameters['oauth_verifier']);
-              Navigator.of(context).pop();
-            } else {
-              print("Authorization failed with mismatching tokens: "
-                "$_temporaryToken != ${uri.queryParameters['oauth_token']}, "
-                "${uri.queryParameters['oauth_verifier']}");
-              setState(() { _ready = false; });
-              await _authError();
-              Navigator.of(context).pop();
-            }
-            */
           } else {
             // Authorization canceled
             print("Authorization canceled: " + url);
@@ -184,9 +144,8 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
             Navigator.of(context).pop();
           }
         } else if (!_hostWhitelist.containsKey(uri.host)) {
-          // url.startsWith(widget.host)) {
-          // Only allow API url
-          // TODO: Also allow T&C and Privacy Policy urls!
+          // Only allow API url.
+          // Also allow T&C and Privacy Policy urls.
           print("Url not allowed: " + url);
           setState(() {
             _ready = false;
@@ -222,7 +181,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     }
     return new WebviewScaffold(
       url: _authUrl,
-      clearCookies: true,
+      clearCookies: true, // We must clear cookies to allow multiple accounts
       appBar: widget.appBar != null
           ? widget.appBar
           : new AppBar(

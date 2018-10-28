@@ -12,9 +12,10 @@ import 'package:flutter/widgets.dart';
 
 // https://pub.dartlang.org/packages/image_picker
 import 'package:image_picker/image_picker.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
 
-import '../protobuf/inf_protobuf.dart';
-import '../utility/progress_dialog.dart';
+import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/widgets/progress_dialog.dart';
 
 // Image uploader
 class ImageUploader extends StatefulWidget {
@@ -56,7 +57,18 @@ class _ImageUploaderState extends State<ImageUploader> {
   }
 
   Future<void> _selectImage(ImageSource source) async {
-    File image = await ImagePicker.pickImage(source: source);
+    File image;
+    NetworkProvider.of(context)
+        .pushKeepAlive(); // Temporary workaround to keep the connection open in the background
+    try {
+      image = await ImagePicker.pickImage(source: source);
+    } catch (error) {
+      rethrow;
+    } finally {
+      NetworkProvider.of(context)
+          .popKeepAlive(); // Temporary workaround to keep the connection open in the background
+      // TODO: Have a waiting mechanism in the uploadImage function with timeout
+    }
     if (image != null) {
       setState(() {
         // _imageFile = image;

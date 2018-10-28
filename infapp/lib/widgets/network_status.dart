@@ -6,15 +6,15 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/material.dart';
 
-import '../network_mobile/network_manager.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
 
 class NetworkStatus extends StatelessWidget {
   NetworkStatus({Key key}) : super(key: key);
 
   static Widget buildOptional(BuildContext context, [Widget alternative]) {
-    NetworkInterface network = NetworkManager.of(context);
+    NetworkInterface network = NetworkProvider.of(context);
     switch (network.connected) {
-      case NetworkConnectionState.Ready:
+      case NetworkConnectionState.ready:
         return alternative;
       default:
         return new NetworkStatus().build(context);
@@ -56,15 +56,15 @@ class NetworkStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NetworkInterface network = NetworkManager.of(context);
+    NetworkInterface network = NetworkProvider.of(context);
     switch (network.connected) {
-      case NetworkConnectionState.Ready:
+      case NetworkConnectionState.ready:
         return _minimalContainer;
-      case NetworkConnectionState.Connecting:
+      case NetworkConnectionState.connecting:
         return _progressIndicator;
-      case NetworkConnectionState.Offline:
+      case NetworkConnectionState.offline:
         return _offlineBuilder;
-      case NetworkConnectionState.Failing:
+      case NetworkConnectionState.failing:
         return _failingBuilder;
       default:
         return _minimalContainer;
