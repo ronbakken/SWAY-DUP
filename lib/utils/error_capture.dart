@@ -47,7 +47,7 @@ bool get _isInDebugMode {
 ///
 PackageInfo info;
 
-void runCapturedApp(Widget app,@required ErrorReporter reporter) async {
+void runCapturedApp(Widget app, ErrorReporter reporter) async {
 
   info = await PackageInfo.fromPlatform();
 
