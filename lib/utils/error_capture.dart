@@ -47,7 +47,7 @@ bool get _isInDebugMode {
 ///
 PackageInfo info;
 
-void runCapturedApp(ErrorReportingWidget app, {@required String dsn}) async {
+void runCapturedApp(Widget app,@required ErrorReporter reporter) async {
 
   info = await PackageInfo.fromPlatform();
 
@@ -60,9 +60,8 @@ void runCapturedApp(ErrorReportingWidget app, {@required String dsn}) async {
       Zone.current.handleUncaughtError(details.exception, details.stack);
     }
   };
-  final reporter = new ErrorReporter(dsn);
   runZoned(() {
-    runApp(app(reporter));
+    runApp(app);
   }, onError: (Object error, StackTrace stackTrace) async {
     await reporter.logException(error, stackTrace: stackTrace);
   });
