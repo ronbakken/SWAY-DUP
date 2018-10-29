@@ -43,20 +43,20 @@ class AuthenticationResult {
 
 abstract class AuthenticationService {
   Future<AuthenticationResult> checkCurrentUserLogin();
-  Future loginWithGoogle();
-  Future loginWithFacebook();
-  Future loginWithTwitter();
-  Future loginWithInstagram();
+  Future<void> loginWithGoogle();
+  Future<void> loginWithFacebook();
+  Future<void> loginWithTwitter();
+  Future<void> loginWithInstagram();
 
-  Future loginWithEmailPassword(String email, String password);
+  Future<void> loginWithEmailPassword(String email, String password);
 
-  Future<AuthenticationResult> createNewUserByEmailPassword(User user);
+  Future<AuthenticationResult> createNewUserByEmailPassword(String email, String password);
 
-  Future<bool> sendPasswordResetMessage(String email);
+  Future<void> sendPasswordResetMessage(String email);
 
   Stream<AuthenticationResult> get loginState;
 
-  Future logOut();
+  Future<void> logOut();
 
   //Future<User> getUserDataFromProvider(AuthenticationResult authResult);
 }

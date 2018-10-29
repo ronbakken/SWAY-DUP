@@ -13,6 +13,14 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  get_it: any
+
+  sentry: any
+  package_info: any
+  device_info: any
+  system_info: any
+  connectivity: any
+
   flutter:
     sdk: flutter
 
