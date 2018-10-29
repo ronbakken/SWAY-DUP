@@ -9,6 +9,10 @@ environment:
 dependencies:
   get_it: any
 
+  permission_handler: any
+  rxdart: any
+  rx_command: any
+
   sentry: any
   package_info: any
   device_info: any

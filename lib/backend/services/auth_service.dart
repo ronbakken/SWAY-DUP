@@ -1,4 +1,12 @@
-enum AuthenticationProvider { google, facebook, emailPassword }
+
+/// Keep in mind
+/// Save latest provider and login and warn user if he tries to signin 
+/// with a user he has never used before
+
+
+enum AuthenticationProvider { google, facebook, instagram, twitter, emailPassword }
+
+
 enum AuthenticationState {
   success,
   invalidCredentials,
@@ -39,10 +47,10 @@ class AuthenticationResult {
   });
 }
 
-
-
 abstract class AuthenticationService {
+
   Future<AuthenticationResult> checkCurrentUserLogin();
+  
   Future<void> loginWithGoogle();
   Future<void> loginWithFacebook();
   Future<void> loginWithTwitter();
@@ -58,5 +66,6 @@ abstract class AuthenticationService {
 
   Future<void> logOut();
 
+  // used to query data from the social provider
   //Future<User> getUserDataFromProvider(AuthenticationResult authResult);
 }
