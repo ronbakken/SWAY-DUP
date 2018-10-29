@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "560562414986",
+    "firebase_url": "https://inf-development.firebaseio.com",
+    "project_id": "inf-development",
+    "storage_bucket": "inf-development.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560562414986:android:224f43ed65b736a7",
+        "android_client_info": {
+          "package_name": "app.inf.mobile.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560562414986-qjqlj2jmupgr386t2m9p61sk4s2qlbs3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTcAfivZ5xE1DHeb41HAVmzcYBMdNVwBg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

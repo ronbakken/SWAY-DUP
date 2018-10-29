@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() => runApp(InfApp());
 
 class InfApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //Firestore.instance.collection('test').getDocuments();
     return MaterialApp(
       title: 'INF',
       theme: ThemeData(
