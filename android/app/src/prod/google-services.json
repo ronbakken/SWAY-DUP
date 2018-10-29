@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "378397197711",
+    "firebase_url": "https://inf-prod-release.firebaseio.com",
+    "project_id": "inf-prod-release",
+    "storage_bucket": "inf-prod-release.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378397197711:android:5807fa9fc0ff9793",
+        "android_client_info": {
+          "package_name": "app.inf.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378397197711-pbtua097slsdik53elt0a2bdeba3sba0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwQChhMii5iigTp3BJk6ckkT6Os68IYQ4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

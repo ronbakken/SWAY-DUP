@@ -1,58 +1,81 @@
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
+if(localPropertiesFile.exists()) {
+	localPropertiesFile.withReader('UTF-8') { reader ->
+		localProperties.load(reader)
+	}
 }
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+if(flutterRoot == null) {
+	throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
+if(flutterVersionCode == null) {
+	flutterVersionCode = '1'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+if(flutterVersionName == null) {
+	flutterVersionName = '1.0'
 }
 
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 27
+	compileSdkVersion 27
 
-    lintOptions {
-        disable 'InvalidPackage'
-    }
+	lintOptions {
+		disable 'InvalidPackage'
+	}
 
-    defaultConfig {
-        applicationId "app.inf.mobile"
-        minSdkVersion 16
-        targetSdkVersion 27
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
+	defaultConfig {
+		applicationId "app.inf.mobile"
+		minSdkVersion 16
+		targetSdkVersion 27
+		versionCode flutterVersionCode.toInteger()
+		versionName flutterVersionName
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+		multiDexEnabled true
+		multiDexKeepFile file('multidex-flutter.txt')
+	}
 
-    buildTypes {
-        release {
-            signingConfig signingConfigs.debug
-        }
-    }
+	buildTypes {
+		release {
+			signingConfig signingConfigs.debug
+		}
+	}
+
+	flavorDimensions "env"
+
+	productFlavors {
+		dev {
+			dimension "env"
+			applicationIdSuffix ".dev"
+			versionNameSuffix "-DEV"
+			project.flutter.target = "lib/main_dev.dart"
+		}
+		prod {
+			dimension "env"
+			project.flutter.target = "lib/main_prod.dart"
+		}
+	}
 }
 
 flutter {
-    source '../..'
+	source '../..'
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+	implementation 'com.google.firebase:firebase-core:16.0.4'
+
+	testImplementation 'junit:junit:4.12'
+	androidTestImplementation 'com.android.support.test:runner:1.0.2'
+	androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+	compileOnly files("$flutterRoot/bin/cache/artifacts/engine/android-x86/flutter.jar")
 }
+
+apply plugin: 'com.google.gms.google-services'
