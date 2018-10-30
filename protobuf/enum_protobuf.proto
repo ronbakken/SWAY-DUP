@@ -76,8 +76,8 @@ enum NotificationFlags {
 enum BusinessOfferState {
   BOS_DRAFT = 0;
   BOS_OPEN = 1; // Open and awaiting new applicants
-  BOS_ACTIVE = 2; // Active but no longer accepting applicants
-  BOS_CLOSED = 3;
+  BOS_ACTIVE = 2; // Active but no longer accepting applicants // (Will be renamed to CLOSED)
+  BOS_CLOSED = 3; // (Will be renamed to ARCHIVED)
   
 }
 
