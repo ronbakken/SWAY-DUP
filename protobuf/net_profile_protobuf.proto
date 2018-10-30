@@ -20,15 +20,12 @@ message NetProfileModify {
   string avatarKey = 4;
   
   string url = 6;
-  string email = 18;
   
   // repeated CategoryId categories = 12;
   bytes categories = 16;
   
-  // double latitude = 14;
-  // double longitude = 15;
-  
-  int64 locationCellId = 17;
+  double latitude = 14;
+  double longitude = 15;
   
 }
 
