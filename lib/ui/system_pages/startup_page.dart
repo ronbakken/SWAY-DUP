@@ -22,11 +22,7 @@ class StartupPage extends StatefulWidget {
   _StartupPageState createState() => _StartupPageState();
 }
 
-//*********************************************************
-/// <summary>
-/// This widget is the root of your application.
-/// </summary>
-//*********************************************************
+
 class _StartupPageState extends State<StartupPage> {
   StreamSubscription loginStateChangedSubscription;
   PermissionStatus _locationPermissionStatus;
@@ -71,16 +67,16 @@ class _StartupPageState extends State<StartupPage> {
     loginStateChangedSubscription =
         backend<UserManager>().logInStateChanged.listen((loginResult) async {
       if (loginResult.state == AuthenticationState.success) {
-        if (backend<AppManager>().appMode == AppMode.influcencer) {
+        if (backend<UserManager>().currentUser.userType == AppMode.influcencer) {
           nextPage = InfMainPage();
         } else {
           nextPage = BusinessMainPage();
         }
-      } else {
-        // TODO hide Spinner
+      } else {  
         nextPage = WelcomePage();
       }
 
+      // TODO hide Spinner
       await Navigator.pushReplacement<void, void>(
           context,
           PageRouteBuilder(

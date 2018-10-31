@@ -14,6 +14,8 @@ class User
     String description;
     String email;
 
+    String creditCard;
+
     String locationAsString;
     Location location;
     String avatarThumbnailUrl;

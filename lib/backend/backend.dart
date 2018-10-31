@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:inf/backend/api_keys.dart';
 import 'package:inf/backend/managers/app_manager_.dart';
-import 'package:inf/backend/managers/app_manager_implemenatation.dart';
+import 'package:inf/backend/managers/app_manager_impl.dart';
 
 import 'package:inf/utils/error_capture.dart';
 

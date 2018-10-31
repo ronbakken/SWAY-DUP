@@ -7,17 +7,27 @@ environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
+  firebase_messaging: ^2.0.0
+  flutter_local_notifications: ^0.3.7
   get_it: any
 
+  protobuf: ^0.10.4
   permission_handler: any
   rxdart: any
   rx_command: any
+  shared_preferences: any
 
   sentry: any
   package_info: any
   device_info: any
   system_info: any
   connectivity: any
+
+  wstalk:
+    git:
+      url: https://github.com/nbspou/wstalk.git
+      ref: master
+
 
   flutter:
     sdk: flutter
