@@ -6,11 +6,14 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
+# Dependencies are ordered alphabethically or grouped if it makes sense  
+
 dependencies:
+  connectivity: any
+  decimal: any
   firebase_messaging: ^2.0.0
   flutter_local_notifications: ^0.3.7
   get_it: any
-
   protobuf: ^0.10.4
   permission_handler: any
   rxdart: any
@@ -21,7 +24,6 @@ dependencies:
   package_info: any
   device_info: any
   system_info: any
-  connectivity: any
 
   wstalk:
     git:

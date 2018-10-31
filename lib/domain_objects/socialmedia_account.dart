@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class SocialMediaAccount {
   /// JAN: What does this mean?
   /// Social media is connected to the account
@@ -8,8 +10,7 @@ class SocialMediaAccount {
   /* Further info. May have null values. Most data isn't always shared. */
   /// Url to the actual social media profile
   String avatarUrl;
-  // Jan: WHat is this?
-  String blurredAvatarUrl;
+  Uint8List avatarLowRes;
   String profileUrl;
   String description;
   String location;

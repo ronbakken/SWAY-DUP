@@ -1,4 +1,8 @@
 
+
+import 'package:inf/domain_objects/user.dart';
+import 'package:rxdart/rxdart.dart';
+
 /// Keep in mind
 /// Save latest provider and login and warn user if he tries to signin 
 /// with a user he has never used before
@@ -13,7 +17,7 @@ enum AuthenticationState {
   canceled,
   error,
   notLoggedIn,
-  mandatoryUserDataNotComplete
+  switchingAccounts
 }
 
 class AuthenticationException implements Exception {
@@ -31,17 +35,13 @@ class AuthenticationException implements Exception {
 class AuthenticationResult {
   final AuthenticationState state;
   final String errorMessage;
-  final String userId;
-  final String userPhotoUrl;
+  final User user;
   final AuthenticationProvider provider;
 
-  // final User partialUserData;
 
   AuthenticationResult(
     this.state, {
-    this.userId,
-    this.userPhotoUrl,
-   // this.partialUserData,
+    this.user,
     this.provider,
     this.errorMessage,
   });
@@ -49,23 +49,24 @@ class AuthenticationResult {
 
 abstract class AuthenticationService {
 
-  Future<AuthenticationResult> checkCurrentUserLogin();
+  Observable<AuthenticationResult> get loginState;
+
+  /// Returns the current authenticationstate independent od a state change
+  Future<AuthenticationResult> getCurrentAuthenticationState();
   
-  Future<void> loginWithGoogle();
-  Future<void> loginWithFacebook();
-  Future<void> loginWithTwitter();
-  Future<void> loginWithInstagram();
+  Future<void> loginWithGoogle(UserType userType);
+  Future<void> loginWithFacebook(UserType userType);
+  Future<void> loginWithTwitter(UserType userType);
+  Future<void> loginWithInstagram(UserType userType);
 
-  Future<void> loginWithEmailPassword(String email, String password);
+  /// After V1.0
+  // Future<void> loginWithEmailPassword(String email, String password);
 
-  Future<AuthenticationResult> createNewUserByEmailPassword(String email, String password);
+  // Future<AuthenticationResult> createNewUserByEmailPassword(String email, String password);
 
-  Future<void> sendPasswordResetMessage(String email);
+  // Future<void> sendPasswordResetMessage(String email);
 
-  Stream<AuthenticationResult> get loginState;
 
   Future<void> logOut();
 
-  // used to query data from the social provider
-  //Future<User> getUserDataFromProvider(AuthenticationResult authResult);
 }

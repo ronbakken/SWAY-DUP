@@ -1,4 +1,5 @@
-import 'package:inf/backend/services/auth_service.dart';
+
+import 'package:inf/backend/services/auth_service_.dart';
 import 'package:inf/domain_objects/user.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:rxdart/rxdart.dart';

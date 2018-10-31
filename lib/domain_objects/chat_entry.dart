@@ -1,4 +1,11 @@
-import 'package:inf/domain_objects/enums.dart';
+
+enum ChatEntryType {
+  plain,
+  haggle, // url-encoded haggle message (deliverable=...&reward=...&remarks=...)
+  image,
+  marker // system marker (id=...)
+}
+
 
 class ChatEntry {
   int id; // Sequential identifier in the chat stream
@@ -10,10 +17,8 @@ class ChatEntry {
   
   ChatEntryType type;
   String text; // The written text
-  // Jan
   String attachmentUrl;
 
-  // Jan: why an int?
-  int seen; // 0 if not seen
+  DateTime seen; // null if not seen
   
 }

@@ -1,4 +1,17 @@
-import 'package:inf/domain_objects/enums.dart';
+
+
+import 'package:inf/domain_objects/user.dart';
+
+enum ProposalState {
+  haggling,
+  
+  deal,
+  rejected,
+  
+  complete,
+  dispute,
+  resolved
+}
 
 class Proposal {
   int id;

@@ -1,19 +1,17 @@
+import 'dart:typed_data';
+
 class Location {
-  /// Jan
-  int locationId = 1;
+  int id;
   
   String name;
   String avatarUrl;
-  String blurredAvatarUrl3;
-  /// Jan
-  String approximate;
-  String detail;
-  String postcode;
-  String regionCode0;
-  String countryCode1;
-  
+  Uint8List avatarLowRes;
+
+  String description;
+
   double latitude;
   double longitude;
-  int s2cellId2;
-  
+
+  int activeOfferCount; // Number of offers at the same location
+
 }
