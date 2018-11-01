@@ -52,8 +52,8 @@ void registerMocks() {
   // Services
   backend.registerLazySingleton<AuthenticationService>(
       () => new AuthenticationServiceMock(
-            isLoggedIn: true,
-            currentUser: 1
+            isLoggedIn: false,
+//            currentUser: 0
           ));
 
   // Managers
