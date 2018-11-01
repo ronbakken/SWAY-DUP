@@ -8,13 +8,16 @@ import 'package:inf/backend/services/auth_service_.dart';
 import 'package:inf/backend/services/auth_service_impl.dart';
 import 'package:inf/backend/services/auth_service_mock.dart';
 import 'package:inf/backend/managers/user_manager_.dart';
-import 'package:inf/domain/domain.dart';
+import 'package:inf/backend/services/resource_service_.dart';
+import 'package:inf/backend/services/resource_service_impl.dart';
+import 'package:inf/backend/services/resource_service_mock.dart';
 
 import 'package:inf/utils/error_capture.dart';
 
 export 'package:inf/backend/managers/app_manager_.dart';
 export 'package:inf/backend/services/auth_service_.dart';
 export 'package:inf/backend/managers/user_manager_.dart';
+export 'package:inf/backend/services/resource_service_.dart';
 
 enum AppEnvironment { dev, prod, mock }
 
@@ -41,10 +44,14 @@ void registerImplementations() {
   // Services
   backend.registerLazySingleton<AuthenticationService>(
       () => new AuthenticationServiceImplementation());
+  backend.registerLazySingleton<ResourceService>(
+      () => new ResourceServiceImplementation());
 
   // Managers
-  backend.registerSingleton<AppManager>(new AppManagerImplementation());
-  backend.registerSingleton<UserManager>(new UserManagerImplementation());
+  backend
+      .registerLazySingleton<AppManager>(() => new AppManagerImplementation());
+  backend.registerLazySingleton<UserManager>(
+      () => new UserManagerImplementation());
 }
 
 void registerMocks() {
@@ -55,8 +62,12 @@ void registerMocks() {
             isLoggedIn: false,
 //            currentUser: 0
           ));
+  backend
+      .registerLazySingleton<ResourceService>(() => new ResourceServiceMock());
 
   // Managers
-  backend.registerSingleton<AppManager>(new AppManagerImplementation());
-  backend.registerSingleton<UserManager>(new UserManagerImplementation());
+  backend
+      .registerLazySingleton<AppManager>(() => new AppManagerImplementation());
+  backend.registerLazySingleton<UserManager>(
+      () => new UserManagerImplementation());
 }

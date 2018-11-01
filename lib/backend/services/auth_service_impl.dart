@@ -35,21 +35,25 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   // Future<void> sendPasswordResetMessage(String email);
 
   Future<void> logOut() {
+    // TODO: implement getAllLinkedAccounts
     throw Exception('Not imnplemented');
   }
 
   @override
   Future<List<User>> getAllLinkedAccounts() {
     // TODO: implement getAllLinkedAccounts
+    throw Exception('Not imnplemented');
   }
 
   @override
   Future<void> switchToUserAccount() {
     // TODO: implement switchToUserAccount
+    throw Exception('Not imnplemented');
   }
 
   @override
   Future<void> setUserType(UserType userType) {
     // TODO: implement setUserType
+    throw Exception('Not imnplemented');
   }
 }
