@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/ui/system/startup_page.dart';
+import 'package:inf/ui/widgets/navigation_functions.dart';
 
 class InfMainPage extends StatefulWidget {
   @override
@@ -19,7 +21,7 @@ class _InfMainPageState extends State<InfMainPage> {
         .listen((loginResult) async {
       switch (loginResult.state) {
         case AuthenticationState.notLoggedIn:
-          replacePage(StartupPage());
+          await replacePage(context, StartupPage());
           break;
         default:
       }
@@ -30,6 +32,6 @@ class _InfMainPageState extends State<InfMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(child: Text('Influencer MainPage'),);
   }
 }

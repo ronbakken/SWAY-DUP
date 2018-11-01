@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inf/ui/system/startup_page.dart';
 
 
 
@@ -13,9 +14,7 @@ class InfApp extends StatelessWidget {
       ),
       home: Material(
         color: const Color(0xFF073764),
-        child: Center(
-          child: Image.asset('assets/images/splash_logo.png'),
-        ),
+        child: StartupPage()
       ),
     );
   }

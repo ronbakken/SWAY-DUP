@@ -7,7 +7,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:inf/app/app.dart';
+import 'package:inf/app/inf_app.dart';
+
 
 
 void main() {

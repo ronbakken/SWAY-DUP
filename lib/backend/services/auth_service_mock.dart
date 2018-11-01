@@ -25,16 +25,18 @@ class AuthenticationServiceMock implements AuthenticationService {
     this.accountState = AccountState.approved,
     this.currentUser = 0,
   }) {
-    if (isLoggedIn) {
-      _loginStateSubject.add(new AuthenticationResult(
-          AuthenticationState.success,
-          provider: AuthenticationProvider.twitter,
-          user: allLinkedAccounts[0]));
-    } else {
-      _loginStateSubject.add(new AuthenticationResult(
-        AuthenticationState.notLoggedIn,
-      ));
-    }
+    loadMockData().then((_) {
+      if (isLoggedIn) {
+        _loginStateSubject.add(new AuthenticationResult(
+            AuthenticationState.success,
+            provider: AuthenticationProvider.twitter,
+            user: allLinkedAccounts[currentUser]));
+      } else {
+        _loginStateSubject.add(new AuthenticationResult(
+          AuthenticationState.notLoggedIn,
+        ));
+      }
+    });
   }
 
   @override
@@ -45,9 +47,6 @@ class AuthenticationServiceMock implements AuthenticationService {
 
   @override
   Future<void> setUserType(UserType userType) async {
-    if (allLinkedAccounts == null) {
-      await loadMockData();
-    }
     this.userType = userType;
   }
 
@@ -168,6 +167,48 @@ class AuthenticationServiceMock implements AuthenticationService {
               followersCount: 900,
             )
           ]),
-    ];
+      User(
+          id: 42,
+          name: 'Thomas',
+          userType: UserType.influcencer,
+          avatarUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1',
+          avatarThumbnailUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+          avatarThumbnailLowRes: (await rootBundle
+                  .load('assets/mockdata/profile_thumbnail_lowres.jpg'))
+              .buffer
+              .asUint8List(),
+          avatarLowRes:
+              (await rootBundle.load('assets/mockdata/profile_lowres.jpg'))
+                  .buffer
+                  .asUint8List(),
+          accountState: accountState,
+          categories: [
+            Category(
+                id: 1,
+                name: 'Food',
+                description: 'All about Fashion',
+                parentId: 0)
+          ],
+          description: 'I run a online store for baking utilities',
+          email: 'thomas@burkharts.net',
+          locationAsString: 'Germany',
+          location: new Location(
+            id: 1,
+            latitude: 34.050863,
+            longitude: -118.272657,
+            activeOfferCount: 0,
+          ),
+          verified: isVerified,
+          websiteUrl: 'www.google.com',
+          socialMediaAccounts: [
+            new SocialMediaAccount(
+              url: 'https://twitter.com/ThomasBurkhartB',
+              displayName: 'Thomas Burkhart',
+              description: 'The best online shop for baking',
+              followersCount: 900,
+            )
+          ]),    ];
   }
 }

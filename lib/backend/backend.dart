@@ -2,16 +2,19 @@ import 'package:get_it/get_it.dart';
 import 'package:inf/backend/api_keys.dart';
 import 'package:inf/backend/managers/app_manager_.dart';
 import 'package:inf/backend/managers/app_manager_impl.dart';
-import 'package:inf/backend/managers/app_manager_mock.dart';
+import 'package:inf/backend/managers/user_manager_impl.dart';
+
 import 'package:inf/backend/services/auth_service_.dart';
 import 'package:inf/backend/services/auth_service_impl.dart';
 import 'package:inf/backend/services/auth_service_mock.dart';
+import 'package:inf/backend/managers/user_manager_.dart';
+import 'package:inf/domain/domain.dart';
 
 import 'package:inf/utils/error_capture.dart';
 
 export 'package:inf/backend/managers/app_manager_.dart';
 export 'package:inf/backend/services/auth_service_.dart';
-
+export 'package:inf/backend/managers/user_manager_.dart';
 
 enum AppEnvironment { dev, prod, mock }
 
@@ -24,7 +27,7 @@ setupBackend(AppEnvironment env) {
       // JAN: This is for you
       //startNetWorkService(env);
       registerImplementations();
-    break;
+      break;
     case AppEnvironment.mock:
       registerMocks();
       break;
@@ -32,25 +35,28 @@ setupBackend(AppEnvironment env) {
   }
 }
 
-
 void registerImplementations() {
-  backend
-      .registerSingleton<ErrorReporter>(new ErrorReporter(ApiKeys.sentry));
-  
+  backend.registerSingleton<ErrorReporter>(new ErrorReporter(ApiKeys.sentry));
+
   // Services
   backend.registerLazySingleton<AuthenticationService>(
       () => new AuthenticationServiceImplementation());
-  
+
   // Managers
   backend.registerSingleton<AppManager>(new AppManagerImplementation());
+  backend.registerSingleton<UserManager>(new UserManagerImplementation());
 }
 
-
 void registerMocks() {
+  backend.registerSingleton<ErrorReporter>(new ErrorReporter(ApiKeys.sentry));
   // Services
   backend.registerLazySingleton<AuthenticationService>(
-      () => new AuthenticationServiceMock());
-  
+      () => new AuthenticationServiceMock(
+            isLoggedIn: true,
+            currentUser: 1
+          ));
+
   // Managers
-  backend.registerSingleton<AppManager>(new AppManagerMock());
+  backend.registerSingleton<AppManager>(new AppManagerImplementation());
+  backend.registerSingleton<UserManager>(new UserManagerImplementation());
 }
