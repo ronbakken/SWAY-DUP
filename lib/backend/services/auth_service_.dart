@@ -1,7 +1,7 @@
 
-
-import 'package:inf/domain_objects/user.dart';
+import 'package:inf/domain/user.dart';
 import 'package:rxdart/rxdart.dart';
+
 
 /// Keep in mind
 /// Save latest provider and login and warn user if he tries to signin 
@@ -54,10 +54,17 @@ abstract class AuthenticationService {
   /// Returns the current authenticationstate independent od a state change
   Future<AuthenticationResult> getCurrentAuthenticationState();
   
-  Future<void> loginWithGoogle(UserType userType);
-  Future<void> loginWithFacebook(UserType userType);
-  Future<void> loginWithTwitter(UserType userType);
-  Future<void> loginWithInstagram(UserType userType);
+  /// Even if the user is not logged in he has to select a user type at app startup
+  /// so that the backend only shows thje correct data.
+  Future<void> setUserType(UserType userType);
+
+  Future<void> loginWithGoogle();
+  Future<void> loginWithFacebook();
+  Future<void> loginWithTwitter();
+  Future<void> loginWithInstagram();
+
+  Future<List<User>> getAllLinkedAccounts();
+  Future<void> switchToUserAccount();
 
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);

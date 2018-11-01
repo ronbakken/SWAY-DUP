@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:inf/backend/managers/user_manager_.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/backend/services/auth_service.dart';
 
 class InfMainPage extends StatefulWidget {
   @override

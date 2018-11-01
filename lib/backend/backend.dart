@@ -5,9 +5,13 @@ import 'package:inf/backend/managers/app_manager_impl.dart';
 import 'package:inf/backend/managers/app_manager_mock.dart';
 import 'package:inf/backend/services/auth_service_.dart';
 import 'package:inf/backend/services/auth_service_impl.dart';
-import 'package:inf/backend/services/auth_service_mock..dart';
+import 'package:inf/backend/services/auth_service_mock.dart';
 
 import 'package:inf/utils/error_capture.dart';
+
+export 'package:inf/backend/managers/app_manager_.dart';
+export 'package:inf/backend/services/auth_service_.dart';
+
 
 enum AppEnvironment { dev, prod, mock }
 

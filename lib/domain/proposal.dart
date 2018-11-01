@@ -1,6 +1,6 @@
 
 
-import 'package:inf/domain_objects/user.dart';
+import 'package:inf/domain/domain.dart';
 
 enum ProposalState {
   haggling,

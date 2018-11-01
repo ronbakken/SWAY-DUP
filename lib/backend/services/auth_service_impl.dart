@@ -1,39 +1,31 @@
-
-import 'package:inf/backend/services/auth_service_.dart';
-import 'package:inf/domain_objects/user.dart';
+import 'package:inf/backend/backend.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:rxdart/rxdart.dart';
 
 
-
 class AuthenticationServiceImplementation implements AuthenticationService {
-
   @override
   Observable<AuthenticationResult> get loginState => null;
 
-  Future<AuthenticationResult> getCurrentAuthenticationState()
-  {
-    throw Exception('Not imnplemented');
-  }
-  
-  Future<void> loginWithGoogle(UserType userType)
-  {
-    throw Exception('Not imnplemented');
-  }
-  Future<void> loginWithFacebook(UserType userType)
-  {
+  Future<AuthenticationResult> getCurrentAuthenticationState() {
     throw Exception('Not imnplemented');
   }
 
-  Future<void> loginWithTwitter(UserType userType)
-  {
+  Future<void> loginWithGoogle() async {
     throw Exception('Not imnplemented');
   }
 
-  Future<void> loginWithInstagram(UserType userType)
-  {
+  Future<void> loginWithFacebook() async {
     throw Exception('Not imnplemented');
   }
 
+  Future<void> loginWithTwitter() async {
+    throw Exception('Not imnplemented');
+  }
+
+  Future<void> loginWithInstagram() async {
+    throw Exception('Not imnplemented');
+  }
 
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);
@@ -42,11 +34,22 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   // Future<void> sendPasswordResetMessage(String email);
 
-
-  Future<void> logOut()
-  {
+  Future<void> logOut() {
     throw Exception('Not imnplemented');
   }
 
+  @override
+  Future<List<User>> getAllLinkedAccounts() {
+    // TODO: implement getAllLinkedAccounts
+  }
 
+  @override
+  Future<void> switchToUserAccount() {
+    // TODO: implement switchToUserAccount
+  }
+
+  @override
+  Future<void> setUserType(UserType userType) {
+    // TODO: implement setUserType
+  }
 }

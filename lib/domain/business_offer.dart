@@ -1,9 +1,8 @@
 import 'dart:typed_data';
 
-import 'package:inf/domain_objects/category.dart';
-import 'package:inf/domain_objects/deliverable.dart';
-import 'package:inf/domain_objects/location.dart';
-import 'package:inf/domain_objects/reward.dart';
+import 'package:inf/domain/domain.dart';
+
+
 
 enum BusinessOfferState {
   draft,
@@ -24,6 +23,10 @@ class BusinessOffer {
   int offerId;
   int accountId;
   int locationId;
+
+  /// if a user is not logged in the server will only return a limiuted nunber of offers
+  /// if offers should not fully displayed this field is set to true
+  bool displayLimited;
   
   String title;
   String description;
