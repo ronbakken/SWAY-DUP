@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class InfluencerOnboardingPage extends StatefulWidget {
+class OnboardingPageBusiness extends StatefulWidget {
   @override
-  InfluencerOnboardingPageState createState() {
-    return new InfluencerOnboardingPageState();
+  OnboardingPageBusinessState createState() {
+    return new OnboardingPageBusinessState();
   }
 }
 
-class InfluencerOnboardingPageState extends State<InfluencerOnboardingPage> {
+class OnboardingPageBusinessState extends State<OnboardingPageBusiness> {
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Column(
         children: <Widget>[
-          Center(child: Text('Influencer Onboarding'),),
+          Center(child: Text('Business Onboarding'),),
           Expanded(
             child: PageView(
               children: <Widget>[

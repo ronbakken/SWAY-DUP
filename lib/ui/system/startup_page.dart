@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:inf/ui/main_page/main_page_business.dart';
+import 'package:inf/ui/main_page/main_page_inf.dart';
+
 import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/navigation_functions.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,8 +13,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 
-import 'package:inf/ui/business/main_page/business_main_page.dart';
-import 'package:inf/ui/influencer/main_page/inf_main_page.dart';
 
 /// This page is only visible for a short moment and should display a
 /// loading symbol while the connection to the server is initialized
@@ -65,9 +66,9 @@ class _StartupPageState extends State<StartupPage> {
       (loginResult) async {
         if (loginResult.state == AuthenticationState.success) {
           if (loginResult.user.userType == UserType.influcencer) {
-            nextPage = InfMainPage();
+            nextPage = MainPageInf();
           } else {
-            nextPage = BusinessMainPage();
+            nextPage = MainPageBusiness();
           }
         } else {
           nextPage = WelcomePage();

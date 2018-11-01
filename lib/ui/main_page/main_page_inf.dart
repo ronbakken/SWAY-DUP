@@ -5,12 +5,12 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/system/startup_page.dart';
 import 'package:inf/ui/widgets/navigation_functions.dart';
 
-class InfMainPage extends StatefulWidget {
+class MainPageInf extends StatefulWidget {
   @override
-  _InfMainPageState createState() => _InfMainPageState();
+  _MainPageInfState createState() => _MainPageInfState();
 }
 
-class _InfMainPageState extends State<InfMainPage> {
+class _MainPageInfState extends State<MainPageInf> {
   StreamSubscription loginStateChangedSubscription;
 
   @override
@@ -29,6 +29,13 @@ class _InfMainPageState extends State<InfMainPage> {
 
     super.initState();
   }
+
+  @override 
+  void dispose() {
+      loginStateChangedSubscription.cancel();
+      super.dispose();
+    }
+
 
   @override
   Widget build(BuildContext context) {
