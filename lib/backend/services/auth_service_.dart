@@ -13,6 +13,7 @@ enum AuthenticationProvider { google, facebook, instagram, twitter, emailPasswor
 
 enum AuthenticationState {
   success,
+  anonymous,
   invalidCredentials,
   canceled,
   error,
@@ -54,9 +55,8 @@ abstract class AuthenticationService {
   /// Returns the current authenticationstate independent od a state change
   Future<AuthenticationResult> getCurrentAuthenticationState();
   
-  /// Even if the user is not logged in he has to select a user type at app startup
-  /// so that the backend only shows thje correct data.
-  Future<void> setUserType(UserType userType);
+
+  Future<void> loginAnonymous(UserType userType);
 
   Future<void> loginWithGoogle();
   Future<void> loginWithFacebook();

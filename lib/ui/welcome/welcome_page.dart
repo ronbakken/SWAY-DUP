@@ -35,9 +35,6 @@ class WelcomePage extends StatelessWidget {
                 ),
                 FlatButton(
                   onPressed: () async {
-                    await backend
-                        .get<AuthenticationService>()
-                        .setUserType(UserType.influcencer);
                     await Navigator.of(context).push(OnboardingPage.route(userType: UserType.influcencer));
                   },
                   child: Text('Influencer'),
@@ -47,9 +44,6 @@ class WelcomePage extends StatelessWidget {
                 ),
                 FlatButton(
                   onPressed: () async {
-                    await backend
-                        .get<AuthenticationService>()
-                        .setUserType(UserType.business);
                     await Navigator.of(context).push(OnboardingPage.route(userType: UserType.business));
                   },
                   child: Text('Business'),

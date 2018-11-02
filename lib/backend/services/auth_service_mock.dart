@@ -46,7 +46,8 @@ class AuthenticationServiceMock implements AuthenticationService {
       new BehaviorSubject<AuthenticationResult>();
 
   @override
-  Future<void> setUserType(UserType userType) async {
+  Future<void> loginAnonymous(UserType userType) async {
+    _loginStateSubject.add(new AuthenticationResult(AuthenticationState.anonymous,));
     this.userType = userType;
   }
 

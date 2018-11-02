@@ -52,7 +52,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   @override
-  Future<void> setUserType(UserType userType) {
+  Future<void> loginAnonymous(UserType userType) {
     // TODO: implement setUserType
     throw Exception('Not imnplemented');
   }
