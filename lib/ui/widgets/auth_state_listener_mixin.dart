@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 
-import 'package:inf/ui/widgets/navigation_functions.dart';
 import 'package:inf/ui/system/startup_page.dart';
 
 mixin AuthStateListenerMixin<T extends StatefulWidget> on State<T> {
@@ -19,7 +18,7 @@ mixin AuthStateListenerMixin<T extends StatefulWidget> on State<T> {
         .listen((loginResult) async {
       switch (loginResult.state) {
         case AuthenticationState.notLoggedIn:
-          await replacePage(context, StartupPage());
+          await Navigator.of(context).pushReplacement(StartupPage.route());
           break;
         default:
       }

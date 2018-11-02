@@ -8,7 +8,8 @@ import 'package:inf/ui/main_page/main_page_inf.dart';
 
 import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
-import 'package:inf/ui/widgets/navigation_functions.dart';
+import 'package:inf/ui/widgets/routes.dart';
+
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:inf/backend/backend.dart';
@@ -18,6 +19,16 @@ import 'package:inf/domain/domain.dart';
 /// loading symbol while the connection to the server is initialized
 /// Also it checks if the Navigationservice is enabled and if not asks to enable it.
 class StartupPage extends StatefulWidget {
+
+	static Route<dynamic> route() {
+		return FadePageRoute(
+			builder: (context) =>
+				StartupPage(
+				),
+		);
+	}
+
+
   @override
   _StartupPageState createState() => _StartupPageState();
 }
@@ -60,22 +71,20 @@ class _StartupPageState extends State<StartupPage> {
 
   void waitForLoginState() {
     // TODO show spinner
-    Widget nextPage;
+    Route nextPage;
     loginStateChangedSubscription =
         backend<UserManager>().logInStateChanged.listen(
       (loginResult) async {
         if (loginResult.state == AuthenticationState.success) {
           if (loginResult.user.userType == UserType.influcencer) {
-            nextPage = MainPageInf();
+            nextPage = MainPageInf.route();
           } else {
-            nextPage = MainPageBusiness();
+            nextPage = MainPageBusiness.route();
           }
         } else {
-          nextPage = WelcomePage();
+          nextPage = WelcomePage.route();
         }
-
-        // TODO hide Spinner
-        await replacePage(context, nextPage);
+        await Navigator.of(context).pushReplacement(nextPage);
       },
     );
   }

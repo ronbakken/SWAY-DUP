@@ -3,10 +3,22 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/welcome/onboarding_business.dart';
 import 'package:inf/ui/welcome/onboarding_inf.dart';
+import 'package:inf/ui/welcome/onboarding_page.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
-import 'package:inf/ui/widgets/navigation_functions.dart';
+import 'package:inf/ui/widgets/routes.dart';
 
 class WelcomePage extends StatelessWidget {
+
+	static Route<dynamic> route() {
+		return FadePageRoute(
+			builder: (context) =>
+				WelcomePage(
+				),
+		);
+	}
+
+
+
   @override
   Widget build(BuildContext context) {
     return ConnectionBuilder(builder: (contex, connectionState) {
@@ -26,7 +38,7 @@ class WelcomePage extends StatelessWidget {
                     await backend
                         .get<AuthenticationService>()
                         .setUserType(UserType.influcencer);
-                    await replacePage(context, OnboardingPageInfluencer());
+                    await Navigator.of(context).push(OnboardingPage.route(userType: UserType.influcencer));
                   },
                   child: Text('Influencer'),
                 ),
@@ -38,7 +50,7 @@ class WelcomePage extends StatelessWidget {
                     await backend
                         .get<AuthenticationService>()
                         .setUserType(UserType.business);
-                    await replacePage(context, OnboardingPageBusiness());
+                    await Navigator.of(context).push(OnboardingPage.route(userType: UserType.business));
                   },
                   child: Text('Business'),
                 ),
