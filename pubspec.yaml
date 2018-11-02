@@ -13,6 +13,7 @@ dependencies:
   decimal: any
   firebase_messaging: ^2.0.0
   flutter_local_notifications: ^0.3.7
+  flutter_svg: any
   get_it: any
   protobuf: ^0.10.4
   permission_handler: any
