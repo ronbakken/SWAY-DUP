@@ -7,12 +7,12 @@ import 'package:inf/ui/main_page/main_page_business.dart';
 import 'package:inf/ui/main_page/main_page_inf.dart';
 
 import 'package:inf/ui/welcome/welcome_page.dart';
+import 'package:inf/ui/widgets/connection_builder.dart';
 import 'package:inf/ui/widgets/navigation_functions.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-
 
 /// This page is only visible for a short moment and should display a
 /// loading symbol while the connection to the server is initialized
@@ -93,70 +93,74 @@ class _StartupPageState extends State<StartupPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_locationPermissionStatus == PermissionStatus.denied ||
-        _locationPermissionStatus == PermissionStatus.restricted) {
-      return Material(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'It seems you have denied this App the permission to access your current location.'
-                  'INF needs this permission to do its job. Please grant the permission to continue.',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 40.0,
-            ),
-            RaisedButton(
-              child: Center(
-                  child: Text(
-                'Grant Permission',
-              )),
-              onPressed: () async =>
-                  await PermissionHandler().openAppSettings(),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-            RaisedButton(
-              child: Center(
-                  child: Text(
-                'Retry',
-              )),
-              onPressed: () => checkPermissionStatus(),
-            )
-          ],
-        ),
-      );
-    }
-    if (_locationPermissionStatus == PermissionStatus.disabled) {
-      return Material(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'It seems you have disabled your location service '
-                  'INF needs to know your location. Please enable it to continue.',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 40.0,
-            ),
-            RaisedButton(
-              child: Center(
-                  child: Text(
-                'Retry',
-              )),
-              onPressed: () => checkPermissionStatus(),
-            )
-          ],
-        ),
-      );
-    }
-    return Center(
-      child: Image.asset('assets/images/splash_logo.png'),
-    );
+    return ConnectionBuilder(
+        initialState: NetWorkConnectionState.connected,
+        builder: (contex, connectionState) {
+          if (_locationPermissionStatus == PermissionStatus.denied ||
+              _locationPermissionStatus == PermissionStatus.restricted) {
+            return Material(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'It seems you have denied this App the permission to access your current location.'
+                        'INF needs this permission to do its job. Please grant the permission to continue.',
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 40.0,
+                  ),
+                  RaisedButton(
+                    child: Center(
+                        child: Text(
+                      'Grant Permission',
+                    )),
+                    onPressed: () async =>
+                        await PermissionHandler().openAppSettings(),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  RaisedButton(
+                    child: Center(
+                        child: Text(
+                      'Retry',
+                    )),
+                    onPressed: () => checkPermissionStatus(),
+                  )
+                ],
+              ),
+            );
+          }
+          if (_locationPermissionStatus == PermissionStatus.disabled) {
+            return Material(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'It seems you have disabled your location service '
+                        'INF needs to know your location. Please enable it to continue.',
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 40.0,
+                  ),
+                  RaisedButton(
+                    child: Center(
+                        child: Text(
+                      'Retry',
+                    )),
+                    onPressed: () => checkPermissionStatus(),
+                  )
+                ],
+              ),
+            );
+          }
+          return Center(
+            child: Image.asset('assets/images/splash_logo.png'),
+          );
+        });
   }
 }

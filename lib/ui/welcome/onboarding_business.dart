@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inf/ui/welcome/onboarding_page.dart';
 
 class OnboardingPageBusiness extends StatefulWidget {
   @override
@@ -10,21 +11,12 @@ class OnboardingPageBusiness extends StatefulWidget {
 class OnboardingPageBusinessState extends State<OnboardingPageBusiness> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        children: <Widget>[
-          Center(child: Text('Business Onboarding'),),
-          Expanded(
-            child: PageView(
-              children: <Widget>[
+    return OnboardingPage(title: 'Onboarding Business',
+      pages: <Widget>[
                 page1(context),
                 page2(context),
                 page3(context),
               ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 

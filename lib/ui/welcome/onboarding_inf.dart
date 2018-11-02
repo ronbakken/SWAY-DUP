@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inf/ui/welcome/onboarding_page.dart';
 
 class OnboardingPageInfluencer extends StatefulWidget {
   @override
@@ -10,21 +11,12 @@ class OnboardingPageInfluencer extends StatefulWidget {
 class OnboardingPageInfluencerState extends State<OnboardingPageInfluencer> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        children: <Widget>[
-          Center(child: Text('Influencer Onboarding'),),
-          Expanded(
-            child: PageView(
-              children: <Widget>[
+    return OnboardingPage(title: 'Onboarding Influencers',
+      pages: <Widget>[
                 page1(context),
                 page2(context),
                 page3(context),
               ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 
