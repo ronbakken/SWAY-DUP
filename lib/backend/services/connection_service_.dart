@@ -1,9 +1,9 @@
 import 'package:rxdart/rxdart.dart';
 
-enum ConnectionState {connected, noNetwork, notConnected, reconnecting  }
+enum NetWorkConnectionState {connected, noNetwork, notConnected, reconnecting  }
 
 abstract class ConnectionService
 {
-    Observable<ConnectionState> get connectionState => null;
+    Observable<NetWorkConnectionState> get connectionState => null;
 
 }

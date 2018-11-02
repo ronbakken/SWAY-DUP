@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 class ConnectionServiceImplementation implements ConnectionService
 {
     @override
-    Observable<ConnectionState> get connectionState => _connectionSubject;
+    Observable<NetWorkConnectionState> get connectionState => _connectionSubject;
 
-    BehaviorSubject<ConnectionState> _connectionSubject = new BehaviorSubject<ConnectionState>();
+    BehaviorSubject<NetWorkConnectionState> _connectionSubject = new BehaviorSubject<NetWorkConnectionState>();
 }

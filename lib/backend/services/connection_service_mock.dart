@@ -5,13 +5,13 @@ import 'package:rxdart/rxdart.dart';
 class ConnectionServiceMock implements ConnectionService
 {
 
-  BehaviorSubject<ConnectionState> _connectionSubject = new BehaviorSubject<ConnectionState>();
+  BehaviorSubject<NetWorkConnectionState> _connectionSubject = new BehaviorSubject<NetWorkConnectionState>();
 
   @override
-  Observable<ConnectionState> get connectionState => _connectionSubject;
+  Observable<NetWorkConnectionState> get connectionState => _connectionSubject;
 
 
-  ConnectionServiceMock(ConnectionState state)
+  ConnectionServiceMock(NetWorkConnectionState state)
   {
       _connectionSubject.add(state);
   }

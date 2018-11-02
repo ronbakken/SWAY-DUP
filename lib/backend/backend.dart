@@ -72,7 +72,7 @@ void registerMocks() {
   backend
       .registerLazySingleton<ResourceService>(() => new ResourceServiceMock());
   backend
-      .registerLazySingleton<ConnectionService>(() => new ConnectionServiceMock(ConnectionState.connected));
+      .registerLazySingleton<ConnectionService>(() => new ConnectionServiceMock(NetWorkConnectionState.connected));
 
   // Managers
   backend
