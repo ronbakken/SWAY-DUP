@@ -40,7 +40,6 @@ class _StartupPageState extends State<StartupPage> {
   @override
   void initState() {
     super.initState();
-
     checkPermissionStatus();
   }
 

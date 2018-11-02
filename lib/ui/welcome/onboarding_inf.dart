@@ -7,6 +7,8 @@ import 'package:inf/ui/sign_up/sign_up_page.dart';
 List<Widget> buildInfluencerPages(BuildContext context) {
   Widget page1(BuildContext context) {
     return Center(child: Text('Page1'));
+
+    
   }
 
   Widget page2(BuildContext context) {

@@ -11,9 +11,9 @@ import 'package:inf/backend/managers/user_manager_.dart';
 import 'package:inf/backend/services/resource_service_.dart';
 import 'package:inf/backend/services/resource_service_impl.dart';
 import 'package:inf/backend/services/resource_service_mock.dart';
-import 'package:inf/backend/services/connection_service_.dart';
-import 'package:inf/backend/services/connection_service_impl.dart';
-import 'package:inf/backend/services/connection_service_mock.dart';
+import 'package:inf/backend/services/system_service_.dart';
+import 'package:inf/backend/services/system_service_impl.dart';
+import 'package:inf/backend/services/system_service_mock.dart';
 
 
 import 'package:inf/utils/error_capture.dart';
@@ -22,7 +22,7 @@ export 'package:inf/backend/managers/app_manager_.dart';
 export 'package:inf/backend/services/auth_service_.dart';
 export 'package:inf/backend/managers/user_manager_.dart';
 export 'package:inf/backend/services/resource_service_.dart';
-export 'package:inf/backend/services/connection_service_.dart';
+export 'package:inf/backend/services/system_service_.dart';
 
 enum AppEnvironment { dev, prod, mock }
 
@@ -51,8 +51,8 @@ void registerImplementations() {
       () => new AuthenticationServiceImplementation());
   backend.registerLazySingleton<ResourceService>(
       () => new ResourceServiceImplementation());
-  backend.registerLazySingleton<ConnectionService>(
-      () => new ConnectionServiceImplementation());
+  backend.registerLazySingleton<SystemService>(
+      () => new SystemServiceImplementation());
 
   // Managers
   backend
@@ -72,7 +72,7 @@ void registerMocks() {
   backend
       .registerLazySingleton<ResourceService>(() => new ResourceServiceMock());
   backend
-      .registerLazySingleton<ConnectionService>(() => new ConnectionServiceMock(NetWorkConnectionState.connected));
+      .registerLazySingleton<SystemService>(() => new SystemServiceMock(NetWorkConnectionState.connected));
 
   // Managers
   backend

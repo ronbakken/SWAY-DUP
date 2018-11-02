@@ -20,7 +20,7 @@ class ConnectionBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<NetWorkConnectionState>(
       initialData: initialState,
-      stream: backend<ConnectionService>().connectionState,
+      stream: backend<SystemService>().connectionState,
       builder: (context, snapShot) {
         if (snapShot.hasData) 
         {
