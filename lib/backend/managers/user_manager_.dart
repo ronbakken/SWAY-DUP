@@ -18,7 +18,7 @@ abstract class UserManager
 {
   bool isLoggedIn;
 
-  User get currentUser;
+  User  currentUser;
 
   Observable<AuthenticationResult> get logInStateChanged; 
 

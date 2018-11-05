@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:inf/ui/main_page/main_page_business.dart';
-import 'package:inf/ui/main_page/main_page_inf.dart';
+import 'package:inf/ui/main_page/main_page.dart';
 
 import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
@@ -76,9 +75,9 @@ class _StartupPageState extends State<StartupPage> {
       (loginResult) async {
         if (loginResult.state == AuthenticationState.success) {
           if (loginResult.user.userType == UserType.influcencer) {
-            nextPage = MainPageInf.route();
+            nextPage = MainPage.route(UserType.influcencer);
           } else {
-            nextPage = MainPageBusiness.route();
+            nextPage = MainPage.route(UserType.business);
           }
         } else {
           nextPage = WelcomePage.route();

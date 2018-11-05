@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/main_page/main_page_business.dart';
+import 'package:inf/ui/main_page/main_page.dart';
 import 'package:inf/ui/sign_up/sign_up_page.dart';
 
 List<Widget> buildBusinessPages(BuildContext context) {
@@ -27,7 +27,7 @@ List<Widget> buildBusinessPages(BuildContext context) {
             await backend<AuthenticationService>()
                 .loginAnonymous(UserType.influcencer);
             await Navigator.of(context).pushAndRemoveUntil(
-              MainPageBusiness.route(),
+              MainPage.route(UserType.business),
               (route) => false,
             );
           },
