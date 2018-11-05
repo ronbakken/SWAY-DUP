@@ -10,7 +10,7 @@ analyzer:
     dead_code: warning
     override_on_non_overriding_method: error
   exclude:
-   
+    - lib/backend/services/network/**
 
 linter:
   rules:

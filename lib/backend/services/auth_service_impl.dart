@@ -7,22 +7,27 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Observable<AuthenticationResult> get loginState => null;
 
+  @override
   Future<AuthenticationResult> getCurrentAuthenticationState() {
     throw Exception('Not imnplemented');
   }
 
+  @override
   Future<void> loginWithGoogle(UserType userType) async {
     throw Exception('Not imnplemented');
   }
 
+  @override
   Future<void> loginWithFacebook(UserType userType) async {
     throw Exception('Not imnplemented');
   }
 
+  @override
   Future<void> loginWithTwitter(UserType userType) async {
     throw Exception('Not imnplemented');
   }
 
+  @override
   Future<void> loginWithInstagram(UserType userType) async {
     throw Exception('Not imnplemented');
   }
@@ -34,6 +39,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   // Future<void> sendPasswordResetMessage(String email);
 
+  @override
   Future<void> logOut() {
     // TODO: implement getAllLinkedAccounts
     throw Exception('Not imnplemented');
