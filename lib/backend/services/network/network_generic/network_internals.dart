@@ -5,9 +5,9 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/backend/services/network/network_generic/change.dart';
+import 'package:inf/backend/services/network/network_generic/multi_account_store.dart';
+import 'package:inf/backend/services/network/protobuf/inf_protobuf.dart';
 import 'package:logging/logging.dart';
 import 'package:wstalk/wstalk.dart';
 

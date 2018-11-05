@@ -8,10 +8,10 @@ class SystemServiceImplementation
     with WidgetsBindingObserver
     implements SystemService {
   @override
-  Observable<NetWorkConnectionState> get connectionState => _connectionSubject;
+  Observable<NetworkConnectionState> get connectionState => _connectionSubject;
 
-  final BehaviorSubject<NetWorkConnectionState> _connectionSubject =
-      new BehaviorSubject<NetWorkConnectionState>();
+  final BehaviorSubject<NetworkConnectionState> _connectionSubject =
+      new BehaviorSubject<NetworkConnectionState>();
 
   @override
   Observable<AppLifecycleState> get appLifecycleState => _appLifecycleSubject;

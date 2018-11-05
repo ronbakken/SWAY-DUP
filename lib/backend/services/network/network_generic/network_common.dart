@@ -15,11 +15,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/network_generic/network_common.dart';
-import 'package:inf/network_generic/network_offers_business.dart';
-import 'package:inf/network_generic/network_offers_demo.dart';
-import 'package:inf/network_generic/network_proposals.dart';
-import 'package:inf/network_mobile/network_notifications.dart';
+import 'package:inf/backend/services/network/network_generic/network_common.dart';
+import 'package:inf/backend/services/network/network_generic/network_offers_business.dart';
+import 'package:inf/backend/services/network/network_generic/network_offers_demo.dart';
+import 'package:inf/backend/services/network/network_generic/network_proposals.dart';
+import 'package:inf/backend/services/network/network_mobile/network_notifications.dart';
 import 'package:logging/logging.dart';
 import 'package:wstalk/wstalk.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,16 +30,16 @@ import 'package:mime/mime.dart';
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart'; // Necessary for asynchronous hashing.
 
-import 'package:inf/network_inheritable/cross_account_navigation.dart';
-import 'package:inf/network_generic/network_offers.dart';
-import 'package:inf/network_generic/network_profiles.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_generic/network_interface.dart';
-import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/backend/services/network/network_inheritable/cross_account_navigation.dart';
+import 'package:inf/backend/services/network/network_generic/network_offers.dart';
+import 'package:inf/backend/services/network/network_generic/network_profiles.dart';
+import 'package:inf/backend/services/network/network_generic/multi_account_store.dart';
+import 'package:inf/backend/services/network/network_mobile/config_manager.dart';
+import 'package:inf/backend/services/network/network_generic/network_interface.dart';
+import 'package:inf/backend/services/network/network_generic/network_internals.dart';
+import 'package:inf/backend/services/network/protobuf/inf_protobuf.dart';
 
-export 'package:inf/network_generic/network_interface.dart';
+export 'package:inf/backend/services/network/network_generic/network_interface.dart';
 
 abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   LocalAccountData _currentLocalAccount;
@@ -120,7 +120,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     --_keepAliveBackground;
   }
 
-  @override
   void overrideUri(String serverUri) {
     _overrideUri = serverUri;
     log.info("Override server uri to $serverUri");
@@ -538,7 +537,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   /* Device Registration */
   static int _netSetAccountType = TalkSocket.encode("A_SETTYP");
-  @override
   void setAccountType(AccountType accountType) {
     NetSetAccountType pb = new NetSetAccountType();
     pb.accountType = accountType;
@@ -556,7 +554,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   /* OAuth */
   static int _netOAuthUrlReq = TalkSocket.encode("OA_URLRE");
-  @override
   Future<NetOAuthUrlRes> getOAuthUrls(int oauthProvider) async {
     NetOAuthUrlReq pb = new NetOAuthUrlReq();
     pb.oauthProvider = oauthProvider;
@@ -567,7 +564,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   static int _netOAuthConnectReq = TalkSocket.encode("OA_CONNE");
-  @override
   Future<bool> connectOAuth(int oauthProvider, String callbackQuery) async {
     NetOAuthConnectReq pb = new NetOAuthConnectReq();
     pb.oauthProvider = oauthProvider;
@@ -587,7 +583,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   static int _netAccountCreateReq = TalkSocket.encode("A_CREATE");
-  @override
   Future<void> createAccount(double latitude, double longitude) async {
     NetAccountCreateReq pb = new NetAccountCreateReq();
     if (latitude != null &&
@@ -627,7 +622,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   static int _netUploadImageReq = TalkSocket.encode("UP_IMAGE");
-  @override
   Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
     // Build information on file
     BytesBuilder builder = new BytesBuilder(copy: false);

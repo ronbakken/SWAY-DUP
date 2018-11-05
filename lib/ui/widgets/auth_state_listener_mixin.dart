@@ -5,27 +5,26 @@ import 'package:inf/backend/backend.dart';
 
 import 'package:inf/ui/system/startup_page.dart';
 
-mixin AuthStateListenerMixin<T extends StatefulWidget> on State<T> {
-  
+mixin AuthStateMixin<T extends StatefulWidget> on State<T> {
   StreamSubscription _loginStateChangedSubscription;
 
   @override
   void initState() {
     super.initState();
-    _loginStateChangedSubscription = backend
-        .get<UserManager>()
-        .logInStateChanged
-        .listen((loginResult) async {
-      switch (loginResult.state) {
-        case AuthenticationState.notLoggedIn:
-          await Navigator.of(context).pushReplacement(StartupPage.route());
-          break;
-        default:
-      }
-    });
+    _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen(onAuthStateChanged);
   }
 
-  @override 
+  void onAuthStateChanged(AuthenticationResult authResult) {
+    switch (authResult.state) {
+      case AuthenticationState.notLoggedIn:
+        Navigator.of(context).pushAndRemoveUntil(StartupPage.route(), (route) => false);
+        break;
+      default:
+        break;
+    }
+  }
+
+  @override
   void dispose() {
     _loginStateChangedSubscription.cancel();
     super.dispose();

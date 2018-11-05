@@ -20,6 +20,7 @@ abstract class UserManager
 
   User  currentUser;
 
+  /// BehaviorSubject
   Observable<AuthenticationResult> get logInStateChanged; 
 
   // User Commands

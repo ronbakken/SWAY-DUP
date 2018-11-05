@@ -9,10 +9,10 @@ import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_generic/network_interface.dart';
-import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/backend/services/network/network_generic/multi_account_client.dart';
+import 'package:inf/backend/services/network/network_generic/network_interface.dart';
+import 'package:inf/backend/services/network/network_generic/network_internals.dart';
+import 'package:inf/backend/services/network/protobuf/inf_protobuf.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wstalk/wstalk.dart';
 

@@ -7,8 +7,6 @@ import 'package:inf/ui/sign_up/sign_up_page.dart';
 List<Widget> buildInfluencerPages(BuildContext context) {
   Widget page1(BuildContext context) {
     return Center(child: Text('Page1'));
-
-    
   }
 
   Widget page2(BuildContext context) {
@@ -20,15 +18,13 @@ List<Widget> buildInfluencerPages(BuildContext context) {
       children: <Widget>[
         Center(child: Text('Page3')),
         FlatButton(
-          onPressed: () async => await Navigator.of(context).pushReplacement(
-              SignUpPage.route(userType: UserType.influcencer)),
+          onPressed: () => Navigator.of(context).pushReplacement(SignUpPage.route(userType: UserType.influcencer)),
           child: Text('SignUp'),
         ),
         FlatButton(
           onPressed: () async {
-            await backend<AuthenticationService>()
-                .loginAnonymous(UserType.influcencer);
-            await Navigator.of(context).pushAndRemoveUntil(MainPage.route(UserType.influcencer), (route) => false,);
+            await backend.get<AuthenticationService>().loginAnonymous(UserType.influcencer);
+            await Navigator.of(context).pushAndRemoveUntil(MainPage.route(UserType.influcencer), (route) => false);
           },
           child: Text('Skip for now'),
         ),

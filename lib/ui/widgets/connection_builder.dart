@@ -1,35 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 
-typedef NetWorkConnectionBuilder = Widget Function(BuildContext context, NetWorkConnectionState connectionState);
-
+typedef NetWorkConnectionBuilder = Widget Function(BuildContext context, NetworkConnectionState connectionState);
 
 class ConnectionBuilder extends StatelessWidget {
-
-    final NetWorkConnectionBuilder builder;
-    final NetWorkConnectionState initialState;
+  final NetWorkConnectionBuilder builder;
+  final NetworkConnectionState initialState;
 
   ConnectionBuilder({
     Key key,
-    @required
-    this.builder,
-    this.initialState = NetWorkConnectionState.connected
-  }): super(key: key);
+    @required this.builder,
+    this.initialState = NetworkConnectionState.connected,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<NetWorkConnectionState>(
+    return StreamBuilder<NetworkConnectionState>(
       initialData: initialState,
-      stream: backend<SystemService>().connectionState,
-      builder: (context, snapShot) {
-        if (snapShot.hasData) 
-        {
-          return builder(context,snapShot.data);
+      stream: backend.get<SystemService>().connectionState,
+      builder: (BuildContext context, AsyncSnapshot<NetworkConnectionState> snapShot) {
+        if (snapShot.hasData) {
+          return builder(context, snapShot.data);
+        } else {
+          return builder(context, NetworkConnectionState.notConnected);
         }
-        else
-        {
-          return builder(context,NetWorkConnectionState.notConnected);
-        }
-      });
+      },
+    );
   }
 }

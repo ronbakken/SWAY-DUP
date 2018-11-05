@@ -28,7 +28,7 @@ import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/network_inheritable/multi_account_selection.dart';
+import 'package:inf/backend/services/network/network_inheritable/multi_account_selection.dart';
 
 class NavigationRequest {
   final NavigationTarget target;

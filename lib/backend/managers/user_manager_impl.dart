@@ -5,12 +5,14 @@ import 'package:rx_command/rx_command.dart';
 import 'package:rxdart/rxdart.dart';
 
 class UserManagerImplementation implements UserManager {
+  @override
   bool isLoggedIn = false;
 
+  @override
   User currentUser;
 
-  Observable<AuthenticationResult> get logInStateChanged =>
-      backend<AuthenticationService>().loginState;
+  @override
+  Observable<AuthenticationResult> get logInStateChanged => backend.get<AuthenticationService>().loginState;
 
   // User Commands
   // RxCommand<LogInData, void> logInUserCommand;

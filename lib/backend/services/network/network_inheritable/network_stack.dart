@@ -24,12 +24,12 @@ Generic:
 */
 
 import 'package:flutter/widgets.dart';
-import 'package:inf/network_inheritable/cross_account_navigation.dart';
-import 'package:inf/network_inheritable/multi_account_selection.dart';
-import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/backend/services/network/network_inheritable/cross_account_navigation.dart';
+import 'package:inf/backend/services/network/network_inheritable/multi_account_selection.dart';
+import 'package:inf/backend/services/network/network_mobile/config_manager.dart';
+import 'package:inf/backend/services/network/network_generic/multi_account_store.dart';
+import 'package:inf/backend/services/network/network_inheritable/network_provider.dart';
+import 'package:inf/backend/services/network/protobuf/inf_protobuf.dart';
 
 class NetworkStack extends StatelessWidget {
   final Widget child;

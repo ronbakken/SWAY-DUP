@@ -20,16 +20,16 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/network_generic/network_common.dart';
-import 'package:inf/network_generic/network_manager.dart';
+import 'package:inf/backend/services/network/network_generic/network_common.dart';
+import 'package:inf/backend/services/network/network_generic/network_manager.dart';
 
-import 'package:inf/network_inheritable/cross_account_navigation.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_generic/network_interface.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/backend/services/network/network_inheritable/cross_account_navigation.dart';
+import 'package:inf/backend/services/network/network_generic/multi_account_store.dart';
+import 'package:inf/backend/services/network/network_mobile/config_manager.dart';
+import 'package:inf/backend/services/network/network_generic/network_interface.dart';
+import 'package:inf/backend/services/network/protobuf/inf_protobuf.dart';
 
-export 'package:inf/network_generic/network_interface.dart';
+export 'package:inf/backend/services/network/network_generic/network_interface.dart';
 
 class NetworkProvider extends StatelessWidget {
   const NetworkProvider({

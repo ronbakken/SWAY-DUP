@@ -14,9 +14,10 @@ import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/backend/services/network/network_generic/change.dart';
-import 'package:inf/backend/services/network/network_generic/multi_account_client.dart';
 import 'package:inf/backend/services/network/network_mobile/multi_account_store_impl.dart';
+import 'package:inf/backend/services/network/protobuf/inf_protobuf.dart';
 
+export 'package:inf/backend/services/network/network_generic/multi_account_client.dart';
 
 
 abstract class MultiAccountStore implements MultiAccountClient {

@@ -6,7 +6,7 @@ import 'package:inf/utils/error_capture.dart';
 void main() {
   setupBackend(AppEnvironment.mock);
   
-  runCapturedApp(InfApp(), backend<ErrorReporter>());
+  runCapturedApp(InfApp(), backend.get<ErrorReporter>());
 }
 
 

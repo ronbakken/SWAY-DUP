@@ -42,8 +42,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   @override
   Observable<AuthenticationResult> get loginState => _loginStateSubject;
 
-  BehaviorSubject<AuthenticationResult> _loginStateSubject =
-      new BehaviorSubject<AuthenticationResult>();
+  final _loginStateSubject = new BehaviorSubject<AuthenticationResult>();
 
   @override
   Future<void> loginAnonymous(UserType userType) async {

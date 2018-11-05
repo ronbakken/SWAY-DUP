@@ -8,10 +8,10 @@ import 'dart:async';
 
 import 'package:async/async.dart';
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/network_interface.dart';
-import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf/backend/services/network/network_generic/change.dart';
+import 'package:inf/backend/services/network/network_generic/network_interface.dart';
+import 'package:inf/backend/services/network/network_generic/network_internals.dart';
+import 'package:inf/backend/services/network/protobuf/inf_protobuf.dart';
 import 'package:wstalk/wstalk.dart';
 
 abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {

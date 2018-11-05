@@ -20,6 +20,7 @@ dependencies:
   rxdart: any
   rx_command: any
   shared_preferences: any
+  path_provider: any
 
   sentry: any
   package_info: any
@@ -30,12 +31,12 @@ dependencies:
     git:
       url: https://github.com/nbspou/wstalk.git
       ref: master
-
+  pointycastle: any
 
   flutter:
     sdk: flutter
   cupertino_icons: any
-  # cloud_firestore: any 
+  # cloud_firestore: any
 
 dev_dependencies:
   flutter_test:

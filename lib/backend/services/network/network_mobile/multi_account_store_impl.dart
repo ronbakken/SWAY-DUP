@@ -17,12 +17,13 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
+import 'package:inf/backend/services/network/network_generic/change.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-export 'package:inf/network_generic/multi_account_store.dart';
+import 'package:inf/backend/services/network/protobuf/inf_protobuf.dart';
+import 'package:inf/backend/services/network/network_generic/multi_account_store.dart';
+export 'package:inf/backend/services/network/network_generic/multi_account_store.dart';
 
 class _LocalAccountDataImpl implements LocalAccountData {
   @override
