@@ -37,12 +37,14 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
     return ConnectionBuilder(builder: (context, connectionState) {
       return Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkResponse(
-              onTap: () => Scaffold.of(context).openDrawer(),
-              child: SvgPicture.asset('assets/images/menu_icon.svg'),
-            ),
+          leading: Builder(
+            builder: (context) => Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkResponse(
+                    onTap: () => Scaffold.of(context).openDrawer(),
+                    child: SvgPicture.asset('assets/images/menu_icon.svg'),
+                  ),
+                ),
           ),
           centerTitle: true,
           title: SvgPicture.asset(

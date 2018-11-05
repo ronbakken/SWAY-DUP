@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:inf/ui/main_page/main_page.dart';
+import 'package:inf/ui/sign_up/check_email_popup.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/auth_state_listener_mixin.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
@@ -24,7 +25,7 @@ class StartupPage extends PageWidget {
   _StartupPageState createState() => _StartupPageState();
 }
 
-class _StartupPageState extends PageState<StartupPage> with AuthStateMixin {
+class _StartupPageState extends PageState<StartupPage> {
   StreamSubscription loginStateChangedSubscription;
   PermissionStatus _locationPermissionStatus;
 
@@ -40,14 +41,23 @@ class _StartupPageState extends PageState<StartupPage> with AuthStateMixin {
     loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen(
       (loginResult) {
         Route nextPage;
-        if (loginResult.state == AuthenticationState.success) {
-          if (loginResult.user.userType == UserType.influcencer) {
-            nextPage = MainPage.route(UserType.influcencer);
-          } else {
-            nextPage = MainPage.route(UserType.business);
-          }
-        } else {
-          nextPage = WelcomePage.route();
+        switch (loginResult.state) {
+          /// This is in case that the user has not activated his account
+          /// but has closed the App
+          case AuthenticationState.waitingForActivation:
+            showDialog(
+                context: context,
+                builder: (context) => CheckEmailPopUp(
+                      userType: loginResult.user.userType,
+                      email: loginResult.user.email,
+                    ));
+              nextPage = MainPage.route(loginResult.user.userType);
+            break;
+          case AuthenticationState.success:
+              nextPage = MainPage.route(loginResult.user.userType);
+            break;
+          default:
+            nextPage = WelcomePage.route();
         }
         Navigator.of(context).pushReplacement(nextPage);
       },

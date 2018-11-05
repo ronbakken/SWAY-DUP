@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/main_page/main_page.dart';
 import 'package:inf/ui/sign_up/check_email_popup.dart';
 import 'package:inf/ui/system/startup_page.dart';
 import 'package:inf/ui/widgets/inf_button.dart';
@@ -35,10 +36,10 @@ class SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     super.initState();
-    _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen((loginResult) async {
+    _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen((loginResult)  {
       switch (loginResult.state) {
         case AuthenticationState.waitingForActivation:
-          await showDialog(
+          showDialog(
               context: context,
               builder: (context) => CheckEmailPopUp(
                     userType: widget.userType,
@@ -46,13 +47,7 @@ class SignUpPageState extends State<SignUpPage> {
                   ));
           break;
         case AuthenticationState.success:
-          Navigator.of(context).pop();          
-          // await showDialog(
-          //     context: context,
-          //     builder: (context) => CheckEmailPopUp(
-          //           userType: widget.userType,
-          //           email: loginResult.user.email,
-          //         ));
+          Navigator.of(context).pushAndRemoveUntil(MainPage.route(widget.userType), (route) => false);          
           break;
         default:
       }
