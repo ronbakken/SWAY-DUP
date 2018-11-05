@@ -11,19 +11,19 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     throw Exception('Not imnplemented');
   }
 
-  Future<void> loginWithGoogle() async {
+  Future<void> loginWithGoogle(UserType userType) async {
     throw Exception('Not imnplemented');
   }
 
-  Future<void> loginWithFacebook() async {
+  Future<void> loginWithFacebook(UserType userType) async {
     throw Exception('Not imnplemented');
   }
 
-  Future<void> loginWithTwitter() async {
+  Future<void> loginWithTwitter(UserType userType) async {
     throw Exception('Not imnplemented');
   }
 
-  Future<void> loginWithInstagram() async {
+  Future<void> loginWithInstagram(UserType userType) async {
     throw Exception('Not imnplemented');
   }
 

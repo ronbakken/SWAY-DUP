@@ -23,8 +23,8 @@ class UserManagerImplementation implements UserManager {
         currentUser = state.user;
         isLoggedIn = true;
       } else {
-        currentUser = state.user;
-        isLoggedIn = true;
+        currentUser = null;
+        isLoggedIn = false;
       }
     });
   }

@@ -13,6 +13,7 @@ enum AuthenticationProvider { google, facebook, instagram, twitter, emailPasswor
 
 enum AuthenticationState {
   success,
+  waitingForActivation,
   anonymous,
   invalidCredentials,
   canceled,
@@ -58,10 +59,10 @@ abstract class AuthenticationService {
 
   Future<void> loginAnonymous(UserType userType);
 
-  Future<void> loginWithGoogle();
-  Future<void> loginWithFacebook();
-  Future<void> loginWithTwitter();
-  Future<void> loginWithInstagram();
+  Future<void> loginWithGoogle(UserType userType);
+  Future<void> loginWithFacebook(UserType userType);
+  Future<void> loginWithTwitter(UserType userType);
+  Future<void> loginWithInstagram(UserType userType);
 
   Future<List<User>> getAllLinkedAccounts();
   Future<void> switchToUserAccount();

@@ -66,28 +66,28 @@ class AuthenticationServiceMock implements AuthenticationService {
   }
 
   @override
-  Future<void> loginWithGoogle() async {
+  Future<void> loginWithGoogle(UserType userType) async {
     provider = AuthenticationProvider.google;
     login();
     return Future.delayed(Duration(milliseconds: 100));
   }
 
   @override
-  Future<void> loginWithFacebook() async {
+  Future<void> loginWithFacebook(UserType userType) async {
     provider = AuthenticationProvider.facebook;
     login();
     return Future.delayed(Duration(milliseconds: 100));
   }
 
   @override
-  Future<void> loginWithTwitter() async {
+  Future<void> loginWithTwitter(UserType userType) async {
     provider = AuthenticationProvider.twitter;
     login();
     return Future.delayed(Duration(milliseconds: 100));
   }
 
   @override
-  Future<void> loginWithInstagram() async {
+  Future<void> loginWithInstagram(UserType userType) async {
     provider = AuthenticationProvider.instagram;
     login();
     return Future.delayed(Duration(milliseconds: 100));
@@ -95,7 +95,7 @@ class AuthenticationServiceMock implements AuthenticationService {
 
   void login() {
     isLoggedIn = true;
-    _loginStateSubject.add(new AuthenticationResult(AuthenticationState.success,
+    _loginStateSubject.add(new AuthenticationResult(AuthenticationState.waitingForActivation,
         provider: provider, user: allLinkedAccounts[0]));
   }
 
