@@ -91,17 +91,6 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
     );
   }
 
-  Widget buildBody() {
-    return Column(
-      children: <Widget>[
-        Text('Influencer MainPage'),
-        TabBar(
-          controller: tabController,
-          tabs: <Widget>[Text('MAP'), Text('BROWSE')],
-        )
-      ],
-    );
-  }
 
   Widget buildMenu() {
     final userManager = backend.get<UserManager>();
@@ -145,4 +134,27 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
       ),
     );
   }
+
+  Widget buildBody() {
+    return Column(
+      children: <Widget>[
+        Text('Influencer MainPage'),
+        TabBar(
+          controller: tabController,
+          tabs: <Widget>[Text('MAP'), Text('BROWSE')],
+        ),
+        Expanded(
+                  child: TabBarView(controller: tabController,
+          children: <Widget>[
+            
+          ],
+      
+          ),
+        )
+      ],
+    );
+  }
+
 }
+
+
