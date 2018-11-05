@@ -93,9 +93,12 @@ class AuthenticationServiceMock implements AuthenticationService {
     return Future.delayed(Duration(milliseconds: 100));
   }
 
-  void login() {
+  void login() async {
     isLoggedIn = true;
     _loginStateSubject.add(new AuthenticationResult(AuthenticationState.waitingForActivation,
+        provider: provider, user: allLinkedAccounts[0]));
+    await Future.delayed(Duration(seconds: 2));
+    _loginStateSubject.add(new AuthenticationResult(AuthenticationState.success,
         provider: provider, user: allLinkedAccounts[0]));
   }
 

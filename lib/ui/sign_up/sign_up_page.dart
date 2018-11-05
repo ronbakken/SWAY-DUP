@@ -8,6 +8,7 @@ import 'package:inf/ui/sign_up/check_email_popup.dart';
 import 'package:inf/ui/system/startup_page.dart';
 import 'package:inf/ui/widgets/inf_button.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'dart:developer';
 
 class SignUpPage extends StatefulWidget {
   final UserType userType;
@@ -43,6 +44,15 @@ class SignUpPageState extends State<SignUpPage> {
                     userType: widget.userType,
                     email: loginResult.user.email,
                   ));
+          break;
+        case AuthenticationState.success:
+          Navigator.of(context).pop();          
+          // await showDialog(
+          //     context: context,
+          //     builder: (context) => CheckEmailPopUp(
+          //           userType: widget.userType,
+          //           email: loginResult.user.email,
+          //         ));
           break;
         default:
       }

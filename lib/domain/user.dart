@@ -30,6 +30,7 @@ class User {
   final String description;
   final String email;
   final String websiteUrl;
+  final int accountCompletionInPercent;
 
   final String locationAsString;
   final Location location;
@@ -42,6 +43,9 @@ class User {
 
   final List<SocialMediaAccount> socialMediaAccounts;
 
+  bool get profileIsComplete => accountCompletionInPercent == 100;
+
+
   User({
     this.id,
     this.verified,
@@ -51,6 +55,7 @@ class User {
     this.description,
     this.email,
     this.websiteUrl,
+    this.accountCompletionInPercent,
     this.locationAsString,
     this.location,
     this.avatarThumbnailUrl,
