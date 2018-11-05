@@ -10,7 +10,7 @@ import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/domain/domain.dart';
+
 import 'package:permission_handler/permission_handler.dart';
 
 class StartupPage extends PageWidget {

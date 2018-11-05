@@ -60,8 +60,8 @@ void registerMocks() {
   // Services
   backend.registerLazySingleton<AuthenticationService>(
     () => new AuthenticationServiceMock(
-          isLoggedIn: false,
-//        currentUser: 0
+          isLoggedIn: true,
+        currentUser: 0
         ),
   );
   backend.registerLazySingleton<ResourceService>(() => new ResourceServiceMock());

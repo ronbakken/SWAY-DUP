@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/main/browse_view.dart';
+import 'package:inf/ui/main/map_view.dart';
 import 'package:inf/ui/widgets/auth_state_listener_mixin.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
@@ -91,7 +93,6 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
     );
   }
 
-
   Widget buildMenu() {
     final userManager = backend.get<UserManager>();
     return Container(
@@ -144,17 +145,15 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
           tabs: <Widget>[Text('MAP'), Text('BROWSE')],
         ),
         Expanded(
-                  child: TabBarView(controller: tabController,
-          children: <Widget>[
-            
-          ],
-      
+          child: TabBarView(
+            controller: tabController,
+            children: <Widget>[
+              MapView(),
+              BrowseView()
+            ],
           ),
         )
       ],
     );
   }
-
 }
-
-
