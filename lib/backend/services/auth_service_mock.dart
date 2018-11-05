@@ -108,6 +108,7 @@ class AuthenticationServiceMock implements AuthenticationService {
 
   // Future<void> sendPasswordResetMessage(String email);
 
+  @override
   Future<void> logOut() async {
     isLoggedIn = false;
     _loginStateSubject.add(new AuthenticationResult(
@@ -116,12 +117,13 @@ class AuthenticationServiceMock implements AuthenticationService {
   }
 
   @override
-  Future<List<User>> getAllLinkedAccounts() {
+  Future<List<User>> getAllLinkedAccounts() async {
     // TODO: implement getAllLinkedAccounts
+    return null;
   }
 
   @override
-  Future<void> switchToUserAccount() {
+  Future<void> switchToUserAccount() async {
     // TODO: implement switchToUserAccount
   }
 

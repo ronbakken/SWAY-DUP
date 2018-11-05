@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inf/ui/system/startup_page.dart';
+import 'package:inf/ui/welcome/startup_page.dart';
 
 class InfApp extends StatelessWidget {
   @override

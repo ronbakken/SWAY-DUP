@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/welcome/onboarding_business.dart';
-import 'package:inf/ui/welcome/onboarding_inf.dart';
 import 'package:inf/ui/welcome/onboarding_page.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
 import 'package:inf/ui/widgets/page_widget.dart';

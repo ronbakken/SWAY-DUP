@@ -2,6 +2,7 @@
  import 'package:inf/backend/services/resource_service_.dart';
 
 class ResourceServiceMock implements ResourceService {
+  @override
   Future<List<String>> getWelcomePageProfileImages() async {
     return Future.value([
       'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F1.jpg?alt=media&token=d82436ae-7466-464b-a047-41e4473632c1',
