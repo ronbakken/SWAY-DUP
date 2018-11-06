@@ -17,6 +17,7 @@ class WelcomePage extends PageWidget {
   static Route<dynamic> route() {
     return FadePageRoute(
       builder: (BuildContext context) => WelcomePage(),
+      transitionDuration: const Duration(seconds: 2),
     );
   }
 
@@ -124,7 +125,7 @@ class _WelcomeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       color: this.color,
-      shape: StadiumBorder(),
+      shape: const StadiumBorder(),
       onPressed: this.onPressed,
       child: Container(
         alignment: Alignment.center,
@@ -206,7 +207,7 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut> with SingleTicke
         fillColor: AppTheme.blue,
         padding: EdgeInsets.zero,
         onPressed: _onHelpPressed,
-        shape: StadiumBorder(),
+        shape: const StadiumBorder(),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8.0, 8.0, 36.0, 8.0),
@@ -214,7 +215,7 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut> with SingleTicke
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               SvgPicture.asset(
-                Vectors.assetHelpIcon,
+                Vectors.helpIcon,
                 width: 36.0,
               ),
               SizedBox(width: 12.0),
@@ -252,7 +253,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
           widget.data.images.map<Future>((url) => precacheImage(NetworkImage(url), context));
       Future.wait(loadingImages).then((_) {
         if (mounted) {
-          setState(() => _opacity = 0.3);
+          setState(() => _opacity = 0.5);
         }
       });
       _first = false;
@@ -281,28 +282,34 @@ class _WelcomeWallState extends State<_WelcomeWall> {
 
   Widget _buildWallTile(String url) {
     return AnimatedSwitcher(
-      layoutBuilder: _tileLayoutBuilder,
+      transitionBuilder: _tileTransitionBuilder,
       duration: Duration(seconds: 1),
-      child: Padding(
-        key: ValueKey<Object>(url),
-        padding: const EdgeInsets.all(4.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(4.0),
-          child: Image.network(url, fit: BoxFit.cover),
+      child: SizedBox.expand(
+        key: ValueKey<String>(url),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4.0),
+            child: Image.network(url, fit: BoxFit.cover),
+          ),
         ),
       ),
     );
   }
 
-  static Widget _tileLayoutBuilder(Widget currentChild, List<Widget> previousChildren) {
-    List<Widget> children = previousChildren;
-    if (currentChild != null) {
-      children = children.toList()..add(currentChild);
-    }
-    return Stack(
-      fit: StackFit.expand,
-      children: children,
-      alignment: Alignment.center,
+  static Widget _tileTransitionBuilder(Widget child, Animation<double> animation) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget child) {
+        return Opacity(
+          opacity: animation.value,
+          child: Transform.scale(
+            scale: animation.value,
+            child: child,
+          ),
+        );
+      },
+      child: child,
     );
   }
 }
