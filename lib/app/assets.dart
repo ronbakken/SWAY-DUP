@@ -35,4 +35,11 @@ class Vectors {
   static const String offersIcon = 'assets/images/icon_offers.svg';
   static const String proposalIcon = 'assets/images/icon_proposal.svg';
   static const String agreementsIcon = 'assets/images/icon_agreements.svg';
+
+
+  static const String browseIcon = 'assets/images/icon_browse.svg';
+  static const String dealsIcon = 'assets/images/icon_deals.svg';
+  static const String directOffersIcon = 'assets/images/icon_direct.svg';
+  static const String historyIcon = 'assets/images/icon_history.svg';
+  static const String switchUser = 'assets/images/icon_switch_user.svg';
 }
