@@ -32,7 +32,7 @@ class Vectors {
   // Main Icons
   static const String assetHelpIcon = 'assets/images/icon_help.svg';
   static const String assetMenuIcon = 'assets/images/icon_menu.svg';
-  static const String assetOffersIcon = 'assets/images/icon_offsets.svg';
+  static const String assetOffersIcon = 'assets/images/icon_offers.svg';
   static const String assetProposalIcon = 'assets/images/icon_proposal.svg';
   static const String assetAgreementsIcon = 'assets/images/icon_agreements.svg';
 }
