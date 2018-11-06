@@ -2,8 +2,6 @@ import 'dart:typed_data';
 
 import 'package:inf/domain/domain.dart';
 
-
-
 enum BusinessOfferState {
   draft,
   open, // Open and awaiting new applicants
@@ -18,50 +16,74 @@ enum BusinessOfferStateReason {
   violation // This offer has been completed by all applicants
 }
 
-
 class BusinessOffer {
-  int offerId;
-  int accountId;
-  int locationId;
+  final int offerId;
+  final int businessAccountId;
+  final int locationId;
 
   /// if a user is not logged in the server will only return a limiuted nunber of offers
   /// if offers should not fully displayed this field is set to true
-  bool displayLimited;
-  
-  String title;
-  String description;
-  DateTime expiryDate;
-  
-  String thumbnailUrl;
-  Uint8List thumbnailLowRes;
-  
+  final bool displayLimited;
 
-  Deliverable deliverables;
-  Reward reward;
-  
-  Location location;
-  double latitude;
-  double longitude;
+  final String title;
+  final String description;
+  final DateTime expiryDate;
 
-  
+  final String thumbnailUrl;
+  final Uint8List thumbnailLowRes;
+
+  final List<Deliverable> deliverables;
+  final Reward reward;
+
+  final Location location;
+  final double latitude;
+  final double longitude;
+
   // Detail info
-  List<String> coverUrls;
-  List<Uint8List> coverLowRes;
+  final List<String> coverUrls;
+  final List<Uint8List> coverLowRes;
 
-  List<Category> categories;
-  
+  final List<Category> categories;
+
   // State
-  BusinessOfferState state;
-  BusinessOfferStateReason stateReason;
-  
+  final BusinessOfferState state;
+  final BusinessOfferStateReason stateReason;
+
   // Question: Should this be Lists?
   // Info for business
-  int proposalsCountNew;
-  int proposalsCountAccepted;
-  int proposalsCountCompleted;
-  int proposalsCountRefused;
-  
+  final int proposalsCountNew;
+  final int proposalsCountAccepted;
+  final int proposalsCountCompleted;
+  final int proposalsCountRefused;
+
   // only returned when an influencer queries this offer
-  int influencerProposalId; // So the Offer View knows this offer has already been applied to
-  
+  // So the Offer View knows this offer has already been applied to
+  final int influencerProposalId;
+
+  BusinessOffer(
+      {this.offerId,
+      this.businessAccountId,
+      this.locationId,
+      this.displayLimited,
+      this.title,
+      this.description,
+      this.expiryDate,
+      this.thumbnailUrl,
+      this.thumbnailLowRes,
+      this.deliverables,
+      this.reward,
+      this.location,
+      this.latitude,
+      this.longitude,
+      this.coverUrls,
+      this.coverLowRes,
+      this.categories,
+      this.state,
+      this.stateReason,
+      this.proposalsCountNew,
+      this.proposalsCountAccepted,
+      this.proposalsCountCompleted,
+      this.proposalsCountRefused,
+      this.influencerProposalId}); 
+
 }
