@@ -11,7 +11,7 @@ class AppTheme {
       brightness: Brightness.dark,
       backgroundColor: AppTheme.grey,
       primaryColor: AppTheme.blue,
-      fontFamily: Fonts.fontMavenPro,
+      fontFamily: Fonts.mavenPro,
     );
   }
 }

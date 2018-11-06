@@ -79,7 +79,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
                       Expanded(
                         child: Center(
                           child: SvgPicture.asset(
-                            Vectors.assetInfLogoWithShadow,
+                            Vectors.infLogoWithShadow,
                           ),
                         ),
                       ),

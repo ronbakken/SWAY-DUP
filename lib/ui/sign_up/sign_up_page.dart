@@ -72,19 +72,19 @@ class SignUpPageState extends PageState<SignUpPage> {
           Text('Which social media account would you like to connect with?'),
           SizedBox(height: 40.0),
           InfButton(
-            leading: Image.asset(Images.assetInstagramLogo),
+            leading: Image.asset(Images.instagramLogo),
             text: 'INSTAGRAM',
             onPressed: () => backend.get<AuthenticationService>().loginWithInstagram(widget.userType),
           ),
           SizedBox(height: 40.0),
           InfButton(
-            leading: SvgPicture.asset(Vectors.assetFacebookLogo),
+            leading: SvgPicture.asset(Vectors.facebookLogo),
             text: 'FACEBOOK',
             onPressed: () => backend.get<AuthenticationService>().loginWithFacebook(widget.userType),
           ),
           SizedBox(height: 40.0),
           InfButton(
-            leading: SvgPicture.asset(Vectors.assetTwitterLogo),
+            leading: SvgPicture.asset(Vectors.twitterLogo),
             text: 'TWITTER',
             onPressed: () => backend.get<AuthenticationService>().loginWithTwitter(widget.userType),
           ),
