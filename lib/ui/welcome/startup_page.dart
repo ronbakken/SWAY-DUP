@@ -10,7 +10,6 @@ import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/backend/backend.dart';
-
 import 'package:permission_handler/permission_handler.dart';
 
 class StartupPage extends PageWidget {
@@ -41,23 +40,30 @@ class _StartupPageState extends PageState<StartupPage> {
       (loginResult) {
         Route nextPage;
         switch (loginResult.state) {
+
           /// This is in case that the user has not activated his account
           /// but has closed the App
           case AuthenticationState.waitingForActivation:
             showDialog(
-                context: context,
-                builder: (context) => CheckEmailPopUp(
-                      userType: loginResult.user.userType,
-                      email: loginResult.user.email,
-                    ));
-              nextPage = MainPage.route(loginResult.user.userType);
+              context: context,
+              builder: (BuildContext context) {
+                return CheckEmailPopUp(
+                  userType: loginResult.user.userType,
+                  email: loginResult.user.email,
+                );
+              },
+            );
+            nextPage = MainPage.route(loginResult.user.userType);
             break;
+
           case AuthenticationState.success:
-              nextPage = MainPage.route(loginResult.user.userType);
+            nextPage = MainPage.route(loginResult.user.userType);
             break;
+
           default:
             nextPage = WelcomePage.route();
         }
+
         Navigator.of(context).pushReplacement(nextPage);
       },
     );
@@ -73,9 +79,9 @@ class _StartupPageState extends PageState<StartupPage> {
   Widget build(BuildContext context) {
     return Material(
       color: theme.backgroundColor,
-      child: Center(
-        child: Image.asset('assets/images/splash_logo.png'),
-      ),
+      /*child: Center(
+        child: Image.asset(Images.assetSplashLogo),
+      ),*/
     );
   }
 
@@ -119,14 +125,13 @@ class _StartupPageState extends PageState<StartupPage> {
                   child: Text(
                 'Grant Permission',
               )),
-              onPressed: () async => await PermissionHandler().openAppSettings(),
+              onPressed: () => PermissionHandler().openAppSettings(),
             ),
             SizedBox(height: 30.0),
             RaisedButton(
               child: Center(
-                  child: Text(
-                'Retry',
-              )),
+                  child: Text('Retry'),
+              ),
               onPressed: () => checkPermissionStatus(),
             )
           ],

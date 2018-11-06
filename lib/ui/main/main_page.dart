@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/browse_view.dart';
@@ -36,21 +37,23 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
 
   @override
   Widget build(BuildContext context) {
-    return ConnectionBuilder(builder: (context, connectionState) {
+    return ConnectionBuilder(builder: (BuildContext context, NetworkConnectionState connectionState, Widget child) {
       return Scaffold(
         appBar: AppBar(
           leading: Builder(
-            builder: (context) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkResponse(
-                    onTap: () => Scaffold.of(context).openDrawer(),
-                    child: SvgPicture.asset('assets/images/menu_icon.svg'),
-                  ),
+            builder: (BuildContext context) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkResponse(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                  child: SvgPicture.asset(Vectors.assetMenuIcon),
                 ),
+              );
+            },
           ),
           centerTitle: true,
           title: SvgPicture.asset(
-            'assets/images/INF.svg',
+            Vectors.assetInfLogo,
             height: 33.8,
             fit: BoxFit.fill,
             allowDrawingOutsideViewBox: true,
@@ -67,27 +70,34 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            title: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('Offers'),
-            ),
-            icon: SvgPicture.asset(
-              'assets/images/chat_icon.svg',
-              height: 30.0,
-            )),
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Offers'),
+          ),
+          icon: SvgPicture.asset(
+            Vectors.assetOffersIcon,
+            height: 30.0,
+          ),
+        ),
         BottomNavigationBarItem(
           title: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text('Proposals'),
           ),
-          icon: SvgPicture.asset('assets/images/proposal_icon.svg', height: 30.0),
+          icon: SvgPicture.asset(
+            Vectors.assetProposalIcon,
+            height: 30.0,
+          ),
         ),
         BottomNavigationBarItem(
           title: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text('Agreements'),
           ),
-          icon: SvgPicture.asset('assets/images/agreements.svg', height: 30.0),
+          icon: SvgPicture.asset(
+            Vectors.assetAgreementsIcon,
+            height: 30.0,
+          ),
         ),
       ],
     );
@@ -103,15 +113,15 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
         children: <Widget>[
           Text(userManager.isLoggedIn ? userManager.currentUser.name : ''),
           SizedBox(height: 10),
-          buildMenuRow('assets/images/proposal_icon.svg', 'Browse', () {}),
+          buildMenuRow(Vectors.assetProposalIcon, 'Browse', () {}),
           SizedBox(height: 10),
-          buildMenuRow('assets/images/proposal_icon.svg', 'History', () {}),
+          buildMenuRow(Vectors.assetProposalIcon, 'History', () {}),
           SizedBox(height: 10),
-          buildMenuRow('assets/images/proposal_icon.svg', 'Offers', () {}, CircleAvatar(radius: 8.0)),
+          buildMenuRow(Vectors.assetProposalIcon, 'Offers', () {}, CircleAvatar(radius: 8.0)),
           SizedBox(height: 10),
-          buildMenuRow('assets/images/proposal_icon.svg', 'Direct', () {}),
+          buildMenuRow(Vectors.assetProposalIcon, 'Direct', () {}),
           SizedBox(height: 10),
-          buildMenuRow('assets/images/proposal_icon.svg', 'Deal', () {}),
+          buildMenuRow(Vectors.assetProposalIcon, 'Deal', () {}),
         ],
       ),
     );

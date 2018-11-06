@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/main_page.dart';
@@ -65,27 +66,25 @@ class SignUpPageState extends PageState<SignUpPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
-            height: 100.0,
-          ),
+          SizedBox(height: 100.0),
           Text(widget.userType == UserType.influcencer ? 'You are now an influencer!' : 'You are now an business!'),
           SizedBox(height: 10.0),
           Text('Which social media account would you like to connect with?'),
           SizedBox(height: 40.0),
           InfButton(
-            leading: Image.asset('assets/images/instagram_logo.png'),
+            leading: Image.asset(Images.assetInstagramLogo),
             text: 'INSTAGRAM',
             onPressed: () => backend.get<AuthenticationService>().loginWithInstagram(widget.userType),
           ),
           SizedBox(height: 40.0),
           InfButton(
-            leading: SvgPicture.asset('assets/images/facebook_logo.svg'),
+            leading: SvgPicture.asset(Vectors.assetFacebookLogo),
             text: 'FACEBOOK',
             onPressed: () => backend.get<AuthenticationService>().loginWithFacebook(widget.userType),
           ),
           SizedBox(height: 40.0),
           InfButton(
-            leading: SvgPicture.asset('assets/images/twitter_logo.svg'),
+            leading: SvgPicture.asset(Vectors.assetTwitterLogo),
             text: 'TWITTER',
             onPressed: () => backend.get<AuthenticationService>().loginWithTwitter(widget.userType),
           ),

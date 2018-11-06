@@ -1,12 +1,9 @@
 import 'package:inf/backend/services/resource_service_.dart';
 
-class ResourceServiceImplementation implements ResourceService
-{
+class ResourceServiceImplementation implements ResourceService {
   @override
-  Future<List<String>> getWelcomePageProfileImages()
-  {
+  Stream<WelcomePageImages> getWelcomePageProfileImages() {
     // TODO: implement getAllLinkedAccounts
     throw Exception('Not imnplemented');
   }
-
 }

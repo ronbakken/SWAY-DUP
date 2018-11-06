@@ -16,7 +16,7 @@ dependencies:
   flutter_svg: any
   get_it: any
   protobuf: ^0.10.4
-  permission_handler: any 
+  permission_handler: any
   rxdart: any
   rx_command: any
   shared_preferences: any
@@ -46,5 +46,14 @@ flutter:
   uses-material-design: true
 
   assets:
-   - assets/images/
-   - assets/mockdata/
+  - assets/images/
+  - assets/mockdata/
+
+  fonts:
+  - family: MavenPro
+    fonts:
+    - asset: assets/fonts/MavenPro-Regular.ttf
+    - asset: assets/fonts/MavenPro-Medium.ttf
+      weight: 500
+    - asset: assets/fonts/MavenPro-Bold.ttf
+      weight: 700
