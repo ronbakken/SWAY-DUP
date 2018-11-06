@@ -6,10 +6,13 @@ enum RewardType {barter, cash}
 
 class Reward
 {
-   int id;
-   String description;
-   Decimal value; 
+   final int id;
+   final String description;
+   final Decimal value;
+   final RewardType type; 
 
-   String imageUrl;
-   Uint8List imageLowRes;
+   final String imageUrl;
+   final Uint8List imageLowRes;
+
+  Reward( {this.id, this.type, this.description, this.value, this.imageUrl, this.imageLowRes});
 }

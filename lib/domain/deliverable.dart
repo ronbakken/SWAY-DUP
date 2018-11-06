@@ -15,8 +15,10 @@ enum DeliverableChannels {
 }
 
 class Deliverable {
-  int id;
-  DeliverableType type;
-  DeliverableChannels channel;
-  String description;
+  final int id;
+  final DeliverableType type;
+  final DeliverableChannels channel;
+  final String description;
+
+  Deliverable({this.id, this.type, this.channel, this.description});
 }
