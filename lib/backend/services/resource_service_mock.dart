@@ -1,10 +1,8 @@
 import 'package:inf/backend/services/resource_service_.dart';
+import 'dart:math';
 
 class ResourceServiceMock implements ResourceService {
-  @override
-  Stream<WelcomePageImages> getWelcomePageProfileImages() {
-    return Stream.fromIterable(<WelcomePageImages>[
-      WelcomePageImages(<String>[
+  List<String> displayedImageUrls = <String>[
         // Column 1
         'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F1.jpg?alt=media&token=d82436ae-7466-464b-a047-41e4473632c1',
         'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F17.jpg?alt=media&token=702503d5-2c57-48a0-af11-5809fcbbd42e',
@@ -25,13 +23,28 @@ class ResourceServiceMock implements ResourceService {
         'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F7.jpg?alt=media&token=52ce575e-eb6b-4d31-abe1-ee5620ef8c3b',
         'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F18.jpg?alt=media&token=7b4eeee9-22c5-41df-a5c4-5d224a024a06',
         'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F8.jpg?alt=media&token=0862ad5a-f1dc-4017-85b6-61c707e8a37c',
-        /*
-        // Extras
+      ];
+
+  List<String> extraImageUrls = <String>[
         'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F13.jpg?alt=media&token=4f054be8-95b5-4bc6-92ef-bb8184631157',
         'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F9.jpg?alt=media&token=f1d6d22a-8213-4c99-b6f8-f0d528d6179c',
         'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F15.jpg?alt=media&token=8f89aa79-40cb-4de5-97b0-e44fbf64f3d6',
-        */
-      ]),
-    ]);
+  ];
+
+  @override
+  Stream<WelcomePageImages> getWelcomePageProfileImages() {
+    return Stream.periodic(Duration(milliseconds: 3000)).map<WelcomePageImages>((_) => getImages() );
+  }
+
+  WelcomePageImages getImages()
+  {
+      var rnd = new Random();
+      int toReplaceIndex = rnd.nextInt(14);
+      int fromIndex = rnd.nextInt(2);
+
+      var  toReplace = displayedImageUrls[toReplaceIndex];
+      displayedImageUrls[toReplaceIndex] = extraImageUrls[fromIndex];
+      extraImageUrls[fromIndex] = toReplace; 
+      return WelcomePageImages(displayedImageUrls);   
   }
 }
