@@ -5,8 +5,8 @@ import 'package:inf/domain/domain.dart';
 enum BusinessOfferState {
   draft,
   open, // Open and awaiting new applicants
-  closed, // Active but no longer accepting applicants 
-  achived 
+  closed, // Active but no longer accepting applicants
+  achived
 }
 
 enum BusinessOfferStateReason {
@@ -19,6 +19,9 @@ enum BusinessOfferStateReason {
 class BusinessOffer {
   final int offerId;
   final int businessAccountId;
+  final String businessName;
+  final String businessDescription;
+  final String businessAvatarThumbnailUrl;
 
   /// if a user is not logged in the server will only return a limiuted nunber of offers
   /// if offers should not fully displayed this field is set to true
@@ -60,6 +63,9 @@ class BusinessOffer {
   BusinessOffer(
       {this.offerId,
       this.businessAccountId,
+      this.businessName,
+      this.businessDescription,
+      this.businessAvatarThumbnailUrl,
       this.displayLimited,
       this.title,
       this.description,
@@ -78,6 +84,5 @@ class BusinessOffer {
       this.proposalsCountAccepted,
       this.proposalsCountCompleted,
       this.proposalsCountRefused,
-      this.influencerProposalId}); 
-
+      this.influencerProposalId});
 }

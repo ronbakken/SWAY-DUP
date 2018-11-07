@@ -23,6 +23,9 @@ class NetworkServiceMock implements NetWorkService {
     return [
       BusinessOffer(
           businessAccountId: 42,
+          businessName: 'CarWash Tom',
+          businessDescription: 'We wash anything',
+          businessAvatarThumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
           offerId: 4711,
           title: 'Card Wash',
           description: 'Our car wash is the best car wash in the universe of car washes',
@@ -59,6 +62,10 @@ class NetworkServiceMock implements NetWorkService {
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
       BusinessOffer(
           businessAccountId: 43,
+          businessName: 'Scent of Asia',
+          businessDescription: 'Best flavoured teas in town',
+          businessAvatarThumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+
           offerId: 1912,
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
