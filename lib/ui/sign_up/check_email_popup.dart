@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/widgets/inf_button.dart';
+
 
 class CheckEmailPopUp extends StatelessWidget {
   final UserType userType;
@@ -40,10 +40,6 @@ class CheckEmailPopUp extends StatelessWidget {
             Text('$email, please follow'),
             Text('the instructions in the mail.'),
             SizedBox(height: 40.0,),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50.0),
-              child: InfButton(text: 'OPEN EMAIL',onPressed: () => Navigator.of(context).pop(),),
-            )
 
           ],
         ),

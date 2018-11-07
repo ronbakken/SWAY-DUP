@@ -7,7 +7,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/sign_up/check_email_popup.dart';
-import 'package:inf/ui/widgets/inf_button.dart';
+
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 
@@ -71,25 +71,45 @@ class SignUpPageState extends PageState<SignUpPage> {
           SizedBox(height: 10.0),
           Text('Which social media account would you like to connect with?'),
           SizedBox(height: 40.0),
-          InfButton(
+          buildLoginButton(
             leading: Image.asset(Images.instagramLogo),
             text: 'INSTAGRAM',
             onPressed: () => backend.get<AuthenticationService>().loginWithInstagram(widget.userType),
           ),
           SizedBox(height: 40.0),
-          InfButton(
-            leading: SvgPicture.asset(Vectors.facebookLogo),
+          buildLoginButton(
+            leading: SvgPicture.asset(Vectors.facebookLogo,),
             text: 'FACEBOOK',
             onPressed: () => backend.get<AuthenticationService>().loginWithFacebook(widget.userType),
           ),
           SizedBox(height: 40.0),
-          InfButton(
+          buildLoginButton(
             leading: SvgPicture.asset(Vectors.twitterLogo),
             text: 'TWITTER',
             onPressed: () => backend.get<AuthenticationService>().loginWithTwitter(widget.userType),
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildLoginButton({Widget leading, String text, VoidCallback onPressed}) {
+    return Stack(alignment: Alignment.center,
+      children: <Widget>[
+        RaisedButton(
+            onPressed: onPressed,
+            shape: const StadiumBorder(),
+            child: Container(
+                alignment: Alignment.center,
+                height: 44.0,
+                child: Text(
+                  text,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                  ),
+                ))),
+                Positioned(left: 20.0, child: leading),
+      ],
     );
   }
 }
