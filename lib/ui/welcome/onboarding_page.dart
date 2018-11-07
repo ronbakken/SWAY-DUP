@@ -3,6 +3,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/sign_up/sign_up_page.dart';
+import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/routes.dart';
 
 class OnBoardingPage extends StatefulWidget {
@@ -23,6 +24,8 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
+  PageController pageController = new PageController();
+  
   @override
   Widget build(BuildContext context) {
     List<Widget> pages;
@@ -46,8 +49,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             child: Text(title),
           ),
           Expanded(
-            child: PageView(children: pages),
+            child: PageView(controller: pageController, children: pages),
           ),
+          SafeArea(child: InfPageIndicator(pageController: pageController, count: 3,)),
+          SizedBox(height: 10.0,)
         ],
       ),
     );
