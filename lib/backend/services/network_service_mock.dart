@@ -17,7 +17,9 @@ class NetworkServiceMock implements NetWorkService {
   }
 
   @override
-  Observable<List<Proposal>> getProposals(int userId, int offerId) {}
+  Observable<List<Proposal>> getProposals(int userId, int offerId) {
+    return null; // TODO
+  }
 
   Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
     return [
