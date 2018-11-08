@@ -36,18 +36,22 @@ class Vectors {
   static const String offersIcon = 'assets/images/icon_offers.svg';
   static const String proposalIcon = 'assets/images/icon_proposal.svg';
   static const String agreementsIcon = 'assets/images/icon_agreements.svg';
+  static const String locationIcon = 'assets/images/icon_location.svg';
+  static const String rewardsIcon = 'assets/images/icon_rewards.svg';
+  static const String descriptionIcon = 'assets/images/icon_description.svg';
+
 
   static const String browseIcon = 'assets/images/icon_browse.svg';
   static const String dealsIcon = 'assets/images/icon_deals.svg';
   static const String directOffersIcon = 'assets/images/icon_direct.svg';
   static const String historyIcon = 'assets/images/icon_history.svg';
-  static const String switchUser = 'assets/images/icon_switch_user.svg';
+  static const String switchUserIcon = 'assets/images/icon_switch_user.svg';
 }
 
 Widget getDeliverableChannelImages(DeliverableChannels channel) {
   switch (channel) {
     case DeliverableChannels.instagramm:
-      Image.asset(Images.instagramLogo);
+      return Image.asset(Images.instagramLogo);
       break;
     case DeliverableChannels.facebook:
       return SvgPicture.asset(Vectors.facebookLogo);

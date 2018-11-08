@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
@@ -48,44 +49,54 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Expanded(child: buildImageArea()),
+        buildImageArea(),
         buildBusinessRow(),
-        Expanded(
-          child: new DetailEntry(
-              icon: SvgPicture.asset(Vectors.browseIcon), title: 'DESCRIPTION', text: widget.offer.description),
+        DetailEntry(
+          icon: SvgPicture.asset(Vectors.browseIcon),
+          title: 'DESCRIPTION',
+          text: widget.offer.description,
         ),
         Container(
           height: 2,
           color: Colors.grey,
         ),
-        Expanded(
-            child: new DetailEntry(
-                icon: SvgPicture.asset(Vectors.browseIcon),
-                title: 'DELIVERABLES',
-                text: widget.offer.deliverables[0].description)),
+        DetailEntry(
+          icon: getDeliverableChannelImages(widget.offer.deliverables[0].channel),
+          title: 'DELIVERABLES',
+          text: widget.offer.deliverables[0].description,
+        ),
         Container(height: 2, color: Colors.grey),
-        Expanded(
-            child: new DetailEntry(
-                icon: getDeliverableChannelImages(widget.offer.deliverables[0].channel),
-                title: 'DELIVERABLES',
-                text: widget.offer.deliverables[0].description)),
+        DetailEntry(
+          icon: SvgPicture.asset(Vectors.rewardsIcon),
+          title: 'REWARDS',
+          text: widget.offer.reward.description,
+        ),
         Container(height: 2, color: Colors.grey),
-        Expanded(
-            child: new DetailEntry(
-                icon: SvgPicture.asset(Vectors.browseIcon), title: 'REWARDS', text: widget.offer.reward.description)),
-        Container(height: 2, color: Colors.grey),
-        Expanded(
-            child: new DetailEntry(
-                icon: SvgPicture.asset(Vectors.browseIcon), title: 'LOCATION', text: 'What do we display here?')),
+        DetailEntry(
+          icon: SvgPicture.asset(Vectors.locationIcon),
+          title: 'LOCATION',
+          text: 'What do we display here?',
+        ),
         SafeArea(
           child: RaisedButton(
-              onPressed: () async => await
-                  showModalBottomSheet(context: context, builder: (context) => ProposalBottomSheet()),
-              shape: const StadiumBorder(),
-              child: Container(
-                  alignment: Alignment.center,
-                  height: 44.0,
-                  child: Text('TELL US WHAT YOU CAN OFFER', style: const TextStyle(fontWeight: FontWeight.normal)))),
+            onPressed: () {
+              return showModalBottomSheet(
+                context: context,
+                builder: (context) => ProposalBottomSheet(),
+              );
+            },
+            shape: const StadiumBorder(),
+            child: Container(
+              alignment: Alignment.center,
+              height: 44.0,
+              child: Text(
+                'TELL US WHAT YOU CAN OFFER',
+                style: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -121,12 +132,19 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   }
 
   Stack buildImageArea() {
+    List<InfImage> imageArray = <InfImage>[];
+    for (int i = 0; i < widget.offer.coverUrls.length; i++) {
+      imageArray.add(InfImage(
+        imageUrl: widget.offer.coverUrls[i],
+        lowRes: widget.offer.coverLowRes[i],
+      ));
+    }
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[
         PageView(
           controller: pageController,
-          children: widget.offer.coverUrls.map<Image>((url) => Image.network(url)).toList(),
+          children: imageArray,
         ),
         Positioned(
           bottom: 20.0,
@@ -200,7 +218,7 @@ class ProposalBottomSheetState extends State<ProposalBottomSheet> {
               child: Text('Close'),
             ),
           ),
-          Positioned(            
+          Positioned(
             child: Column(
               children: [
                 Text('Tell US WHAT YOU CAN OFFER'),
