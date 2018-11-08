@@ -62,7 +62,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       _DetailEntry(
-                        icon: AppIcons.browseIcon,
+                        icon: AppIcons.descriptionIcon,
                         title: 'DESCRIPTION',
                         text: widget.offer.description,
                       ),
@@ -202,11 +202,13 @@ class _DetailEntry extends StatelessWidget {
   const _DetailEntry({
     Key key,
     this.icon,
+    this.rightSideIcons,
     this.title,
     this.text,
-    this.margin = const EdgeInsets.only(top: 16.0, bottom: 12.0),
+    this.margin = const EdgeInsets.only(top: 16.0, bottom: 12.0), 
   }) : super(key: key);
 
+  final List<AppAsset> rightSideIcons;
   final AppAsset icon;
   final String title;
   final String text;
@@ -234,13 +236,11 @@ class _DetailEntry extends StatelessWidget {
                 child: iconWidget,
               ),
               SizedBox(width: 12.0),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white54,
-                    height: 0.95,
-                  ),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white54,
+                  height: 0.95,
                 ),
               ),
             ],
