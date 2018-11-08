@@ -3,13 +3,13 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/welcome/onboarding_page.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 
@@ -79,8 +79,8 @@ class _WelcomePageState extends PageState<WelcomePage> {
                     children: <Widget>[
                       Expanded(
                         child: Center(
-                          child: SvgPicture.asset(
-                            Vectors.infLogoWithShadow,
+                          child: InfAssetImage(
+                            AppLogo.infLogoWithShadow,
                           ),
                         ),
                       ),
@@ -214,8 +214,8 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut> with SingleTicke
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              SvgPicture.asset(
-                Vectors.helpIcon,
+              InfAssetImage(
+                AppIcons.helpIcon,
                 width: 36.0,
               ),
               SizedBox(width: 12.0),

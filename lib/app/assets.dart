@@ -1,76 +1,71 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:inf/domain/domain.dart';
 
-class Fonts {
-  const Fonts();
+class AppFonts {
+  const AppFonts();
 
   static const String mavenPro = 'MavenPro';
 }
 
-class Images {
-  const Images();
+class AppLogo {
+  const AppLogo();
 
-  // Logo used on splash
-  static const String splashLogo = 'assets/images/splash_logo.png';
+  static const infSplash = AppAsset.bitmap('assets/images/splash_logo.png');
+  static const infLogo = AppAsset.vector('assets/images/logo_inf.svg');
+  static const infLogoWithShadow = AppAsset.vector('assets/images/logo_inf_shadow.svg');
+  static const instagram = AppAsset.bitmap('assets/images/logo_instagram.png');
+  static const facebook = AppAsset.vector('assets/images/logo_facebook.svg');
+  static const google = AppAsset.vector('assets/images/logo_google.svg');
+  static const twitter = AppAsset.vector('assets/images/logo_twitter.svg');
+  static const email = AppAsset.vector('assets/images/logo_email.svg');
 
-  static const String instagramLogo = 'assets/images/logo_instagram.png';
+  static AppAsset getDeliverableChannel(DeliverableChannels channel) {
+    switch (channel) {
+      case DeliverableChannels.instagram:
+        return instagram;
+      case DeliverableChannels.facebook:
+        return facebook;
+      case DeliverableChannels.twitter:
+        return twitter;
+      // TODO add correct images for channels
+      case DeliverableChannels.youtube:
+      case DeliverableChannels.blog:
+      case DeliverableChannels.custom:
+        return twitter;
+    }
+    throw StateError('Bad Deliverable Channel');
+  }
 }
 
-class Vectors {
-  const Vectors();
-
-  // Main app logo
-  static const String infLogo = 'assets/images/logo_inf.svg';
-  static const String infLogoWithShadow = 'assets/images/logo_inf_shadow.svg';
-
-  // Login provider logos
-  static const String facebookLogo = 'assets/images/logo_facebook.svg';
-  static const String googleLogo = 'assets/images/logo_google.svg';
-  static const String twitterLogo = 'assets/images/logo_twitter.svg';
-  static const String emailLogo = 'assets/images/logo_email.svg';
+class AppIcons {
+  const AppIcons();
 
   // Main Icons
-  static const String helpIcon = 'assets/images/icon_help.svg';
-  static const String menuIcon = 'assets/images/icon_menu.svg';
-  static const String offersIcon = 'assets/images/icon_offers.svg';
-  static const String proposalIcon = 'assets/images/icon_proposal.svg';
-  static const String agreementsIcon = 'assets/images/icon_agreements.svg';
-  static const String locationIcon = 'assets/images/icon_location.svg';
-  static const String rewardsIcon = 'assets/images/icon_rewards.svg';
-  static const String descriptionIcon = 'assets/images/icon_description.svg';
+  static const helpIcon = AppAsset.vector('assets/images/icon_help.svg');
+  static const menuIcon = AppAsset.vector('assets/images/icon_menu.svg');
+  static const offersIcon = AppAsset.vector('assets/images/icon_offers.svg');
+  static const proposalIcon = AppAsset.vector('assets/images/icon_proposal.svg');
+  static const agreementsIcon = AppAsset.vector('assets/images/icon_agreements.svg');
+  static const locationIcon = AppAsset.vector('assets/images/icon_location.svg');
+  static const rewardsIcon = AppAsset.vector('assets/images/icon_rewards.svg');
+  static const descriptionIcon = AppAsset.vector('assets/images/icon_description.svg');
 
-
-  static const String browseIcon = 'assets/images/icon_browse.svg';
-  static const String dealsIcon = 'assets/images/icon_deals.svg';
-  static const String directOffersIcon = 'assets/images/icon_direct.svg';
-  static const String historyIcon = 'assets/images/icon_history.svg';
-  static const String switchUserIcon = 'assets/images/icon_switch_user.svg';
+  static const browseIcon = AppAsset.vector('assets/images/icon_browse.svg');
+  static const dealsIcon = AppAsset.vector('assets/images/icon_deals.svg');
+  static const directOffersIcon = AppAsset.vector('assets/images/icon_direct.svg');
+  static const historyIcon = AppAsset.vector('assets/images/icon_history.svg');
+  static const switchUserIcon = AppAsset.vector('assets/images/icon_switch_user.svg');
 }
 
-Widget getDeliverableChannelImages(DeliverableChannels channel) {
-  switch (channel) {
-    case DeliverableChannels.instagramm:
-      return Image.asset(Images.instagramLogo);
-      break;
-    case DeliverableChannels.facebook:
-      return SvgPicture.asset(Vectors.facebookLogo);
-      break;
-    case DeliverableChannels.twitter:
-      return SvgPicture.asset(Vectors.twitterLogo);
-      break;
-// Todo add correct images for channels
-    case DeliverableChannels.youtube:
-      return SvgPicture.asset(Vectors.twitterLogo);
-      break;
-    case DeliverableChannels.blog:
-      return SvgPicture.asset(Vectors.twitterLogo);
-      break;
-    case DeliverableChannels.custom:
-      return SvgPicture.asset(Vectors.twitterLogo);
-      break;
-    default:
-  }
-  assert(false, 'Should never get there');
-  return SvgPicture.asset(Vectors.twitterLogo);
+class AppAsset {
+  const AppAsset.bitmap(this.path) : this.type = AppAssetType.Bitmap;
+
+  const AppAsset.vector(this.path) : this.type = AppAssetType.Vector;
+
+  final String path;
+  final AppAssetType type;
+}
+
+enum AppAssetType {
+  Bitmap,
+  Vector,
 }

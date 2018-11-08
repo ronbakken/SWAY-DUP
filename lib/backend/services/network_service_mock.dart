@@ -29,7 +29,7 @@ class NetworkServiceMock implements NetWorkService {
           businessDescription: 'We wash anything',
           businessAvatarThumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
           offerId: 4711,
-          title: 'Card Wash',
+          title: 'Car Wash',
           description: 'Our car wash is the best car wash in the universe of car washes',
           categories: [Category(name: 'cars', description: 'All about cars')],
           deliverables: [
@@ -74,7 +74,7 @@ class NetworkServiceMock implements NetWorkService {
           categories: [Category(name: 'food', description: 'All about food')],
           deliverables: [
             Deliverable(
-                channel: DeliverableChannels.instagramm,
+                channel: DeliverableChannels.instagram,
                 description: 'Tell people how good our tea is',
                 type: DeliverableType.post)
           ],

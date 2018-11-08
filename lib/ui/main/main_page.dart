@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
@@ -7,6 +6,7 @@ import 'package:inf/ui/main/browse_view.dart';
 import 'package:inf/ui/main/map_view.dart';
 import 'package:inf/ui/widgets/auth_state_listener_mixin.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 
@@ -46,14 +46,14 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                 padding: const EdgeInsets.all(8.0),
                 child: InkResponse(
                   onTap: () => Scaffold.of(context).openDrawer(),
-                  child: SvgPicture.asset(Vectors.menuIcon),
+                  child: InfAssetImage(AppIcons.menuIcon),
                 ),
               );
             },
           ),
           centerTitle: true,
-          title: SvgPicture.asset(
-            Vectors.infLogo,
+          title: InfAssetImage(
+            AppLogo.infLogo,
             height: 33.8,
             fit: BoxFit.fill,
             allowDrawingOutsideViewBox: true,
@@ -74,8 +74,8 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
             padding: const EdgeInsets.all(8.0),
             child: Text('Offers'),
           ),
-          icon: SvgPicture.asset(
-            Vectors.offersIcon,
+          icon: InfAssetImage(
+            AppIcons.offersIcon,
             height: 30.0,
           ),
         ),
@@ -84,8 +84,8 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
             padding: const EdgeInsets.all(8.0),
             child: Text('Proposals'),
           ),
-          icon: SvgPicture.asset(
-            Vectors.proposalIcon,
+          icon: InfAssetImage(
+            AppIcons.proposalIcon,
             height: 30.0,
           ),
         ),
@@ -94,8 +94,8 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
             padding: const EdgeInsets.all(8.0),
             child: Text('Agreements'),
           ),
-          icon: SvgPicture.asset(
-            Vectors.agreementsIcon,
+          icon: InfAssetImage(
+            AppIcons.agreementsIcon,
             height: 30.0,
           ),
         ),
@@ -113,26 +113,26 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
         children: <Widget>[
           Text(userManager.isLoggedIn ? userManager.currentUser.name : ''),
           SizedBox(height: 10),
-          buildMenuRow(Vectors.browseIcon, 'Browse', () {}),
+          buildMenuRow(AppIcons.browseIcon, 'Browse', () {}),
           SizedBox(height: 10),
-          buildMenuRow(Vectors.historyIcon, 'History', () {}),
+          buildMenuRow(AppIcons.historyIcon, 'History', () {}),
           SizedBox(height: 10),
-          buildMenuRow(Vectors.offersIcon, 'Offers', () {}, CircleAvatar(radius: 8.0)),
+          buildMenuRow(AppIcons.offersIcon, 'Offers', () {}, CircleAvatar(radius: 8.0)),
           SizedBox(height: 10),
-          buildMenuRow(Vectors.directOffersIcon, 'Direct', () {}),
+          buildMenuRow(AppIcons.directOffersIcon, 'Direct', () {}),
           SizedBox(height: 10),
-          buildMenuRow(Vectors.dealsIcon, 'Deal', () {}),
+          buildMenuRow(AppIcons.dealsIcon, 'Deal', () {}),
         ],
       ),
     );
   }
 
-  Widget buildMenuRow(String svgPath, String text, GestureTapCallback onTap, [Widget trailing]) {
+  Widget buildMenuRow(AppAsset icon, String text, GestureTapCallback onTap, [Widget trailing]) {
     return InkWell(
       child: Row(
         children: <Widget>[
-          SvgPicture.asset(
-            svgPath,
+          InfAssetImage(
+            icon,
             color: Colors.white,
             width: 30.0,
             height: 30.0,

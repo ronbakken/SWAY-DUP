@@ -6,7 +6,7 @@ enum DeliverableType {
 }
 
 enum DeliverableChannels {
-  instagramm,
+  instagram,
   facebook,
   twitter,
   youtube,

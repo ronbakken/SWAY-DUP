@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/sign_up/check_email_popup.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
@@ -40,10 +40,12 @@ class SignUpPageState extends PageState<SignUpPage> {
         case AuthenticationState.waitingForActivation:
           showDialog(
             context: context,
-            builder: (context) => CheckEmailPopUp(
-                  userType: widget.userType,
-                  email: loginResult.user.email,
-                ),
+            builder: (BuildContext context) {
+              return CheckEmailPopUp(
+                userType: widget.userType,
+                email: loginResult.user.email,
+              );
+            },
           );
           break;
         case AuthenticationState.success:
@@ -72,19 +74,21 @@ class SignUpPageState extends PageState<SignUpPage> {
           Text('Which social media account would you like to connect with?'),
           SizedBox(height: 40.0),
           buildLoginButton(
-            leading: Image.asset(Images.instagramLogo),
+            leading: InfAssetImage(AppLogo.instagram),
             text: 'INSTAGRAM',
             onPressed: () => backend.get<AuthenticationService>().loginWithInstagram(widget.userType),
           ),
           SizedBox(height: 40.0),
           buildLoginButton(
-            leading: SvgPicture.asset(Vectors.facebookLogo,),
+            leading: InfAssetImage(
+              AppLogo.facebook,
+            ),
             text: 'FACEBOOK',
             onPressed: () => backend.get<AuthenticationService>().loginWithFacebook(widget.userType),
           ),
           SizedBox(height: 40.0),
           buildLoginButton(
-            leading: SvgPicture.asset(Vectors.twitterLogo),
+            leading: InfAssetImage(AppLogo.twitter),
             text: 'TWITTER',
             onPressed: () => backend.get<AuthenticationService>().loginWithTwitter(widget.userType),
           ),
@@ -94,21 +98,24 @@ class SignUpPageState extends PageState<SignUpPage> {
   }
 
   Widget buildLoginButton({Widget leading, String text, VoidCallback onPressed}) {
-    return Stack(alignment: Alignment.center,
+    return Stack(
+      alignment: Alignment.center,
       children: <Widget>[
         RaisedButton(
-            onPressed: onPressed,
-            shape: const StadiumBorder(),
-            child: Container(
-                alignment: Alignment.center,
-                height: 44.0,
-                child: Text(
-                  text,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                  ),
-                ))),
-                Positioned(left: 20.0, child: leading),
+          onPressed: onPressed,
+          shape: const StadiumBorder(),
+          child: Container(
+            alignment: Alignment.center,
+            height: 44.0,
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+        ),
+        Positioned(left: 20.0, child: leading),
       ],
     );
   }
