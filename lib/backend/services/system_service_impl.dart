@@ -11,13 +11,13 @@ class SystemServiceImplementation
   Observable<NetworkConnectionState> get connectionState => _connectionSubject;
 
   final BehaviorSubject<NetworkConnectionState> _connectionSubject =
-      new BehaviorSubject<NetworkConnectionState>();
+      BehaviorSubject<NetworkConnectionState>();
 
   @override
   Observable<AppLifecycleState> get appLifecycleState => _appLifecycleSubject;
 
   final BehaviorSubject<AppLifecycleState> _appLifecycleSubject =
-      new BehaviorSubject<AppLifecycleState>();
+      BehaviorSubject<AppLifecycleState>();
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {

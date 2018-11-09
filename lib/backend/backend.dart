@@ -29,7 +29,7 @@ export 'package:inf/backend/services/network_service_.dart';
 
 enum AppEnvironment { dev, prod, mock }
 
-GetIt backend = new GetIt();
+GetIt backend = GetIt();
 
 setupBackend(AppEnvironment env) {
   switch (env) {
@@ -47,34 +47,33 @@ setupBackend(AppEnvironment env) {
 }
 
 void registerImplementations() {
-  backend.registerSingleton<ErrorReporter>(new ErrorReporter(ApiKeys.sentry));
+  backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));
 
   // Services
-  backend.registerLazySingleton<AuthenticationService>(() => new AuthenticationServiceImplementation());
-  backend.registerLazySingleton<ResourceService>(() => new ResourceServiceImplementation());
-  backend.registerLazySingleton<SystemService>(() => new SystemServiceImplementation());
-  backend.registerLazySingleton<NetWorkService>(() => new NetworkServiceImplementation());
+  backend.registerLazySingleton<AuthenticationService>(() => AuthenticationServiceImplementation());
+  backend.registerLazySingleton<ResourceService>(() => ResourceServiceImplementation());
+  backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
+  backend.registerLazySingleton<NetWorkService>(() => NetworkServiceImplementation());
 
   // Managers
-  backend.registerLazySingleton<AppManager>(() => new AppManagerImplementation());
-  backend.registerLazySingleton<UserManager>(() => new UserManagerImplementation());
+  backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
+  backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
 }
 
 void registerMocks() {
-  backend.registerSingleton<ErrorReporter>(new ErrorReporter(ApiKeys.sentry));
+  backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));
   // Services
   backend.registerLazySingleton<AuthenticationService>(
-    () => new AuthenticationServiceMock(
-          isLoggedIn: false,
-        currentUser: 0
+    () => AuthenticationServiceMock(
+          isLoggedIn: true,
+          currentUser: 0,
         ),
   );
-  backend.registerLazySingleton<ResourceService>(() => new ResourceServiceMock());
-  backend.registerLazySingleton<SystemService>(() => new SystemServiceMock(NetworkConnectionState.connected));
-  backend.registerLazySingleton<NetWorkService>(() => new NetworkServiceMock());
-
+  backend.registerLazySingleton<ResourceService>(() => ResourceServiceMock());
+  backend.registerLazySingleton<SystemService>(() => SystemServiceMock(NetworkConnectionState.connected));
+  backend.registerLazySingleton<NetWorkService>(() => NetworkServiceMock());
 
   // Managers
-  backend.registerLazySingleton<AppManager>(() => new AppManagerImplementation());
-  backend.registerLazySingleton<UserManager>(() => new UserManagerImplementation());
+  backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
+  backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
 }

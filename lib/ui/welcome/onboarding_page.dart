@@ -24,7 +24,7 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-  PageController pageController = new PageController();
+  PageController pageController = PageController();
   
   @override
   Widget build(BuildContext context) {

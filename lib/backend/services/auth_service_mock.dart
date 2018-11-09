@@ -27,12 +27,12 @@ class AuthenticationServiceMock implements AuthenticationService {
   }) {
     loadMockData().then((_) {
       if (isLoggedIn) {
-        _loginStateSubject.add(new AuthenticationResult(
+        _loginStateSubject.add(AuthenticationResult(
             AuthenticationState.success,
             provider: AuthenticationProvider.twitter,
             user: allLinkedAccounts[currentUser]));
       } else {
-        _loginStateSubject.add(new AuthenticationResult(
+        _loginStateSubject.add(AuthenticationResult(
           AuthenticationState.notLoggedIn,
         ));
       }
@@ -42,11 +42,11 @@ class AuthenticationServiceMock implements AuthenticationService {
   @override
   Observable<AuthenticationResult> get loginState => _loginStateSubject;
 
-  final _loginStateSubject = new BehaviorSubject<AuthenticationResult>();
+  final _loginStateSubject = BehaviorSubject<AuthenticationResult>();
 
   @override
   Future<void> loginAnonymous(UserType userType) async {
-    _loginStateSubject.add(new AuthenticationResult(AuthenticationState.anonymous,));
+    _loginStateSubject.add(AuthenticationResult(AuthenticationState.anonymous,));
     this.userType = userType;
   }
 
@@ -54,11 +54,11 @@ class AuthenticationServiceMock implements AuthenticationService {
   @override
   Future<AuthenticationResult> getCurrentAuthenticationState() {
     if (isLoggedIn) {
-      return Future.value(new AuthenticationResult(AuthenticationState.success,
+      return Future.value(AuthenticationResult(AuthenticationState.success,
           provider: AuthenticationProvider.twitter,
           user: allLinkedAccounts[0]));
     } else {
-      return Future.value(new AuthenticationResult(
+      return Future.value(AuthenticationResult(
         AuthenticationState.notLoggedIn,
       ));
     }
@@ -94,10 +94,10 @@ class AuthenticationServiceMock implements AuthenticationService {
 
   void login() async {
     isLoggedIn = true;
-    _loginStateSubject.add(new AuthenticationResult(AuthenticationState.waitingForActivation,
+    _loginStateSubject.add(AuthenticationResult(AuthenticationState.waitingForActivation,
         provider: provider, user: allLinkedAccounts[0]));
     await Future.delayed(Duration(seconds: 2));
-    _loginStateSubject.add(new AuthenticationResult(AuthenticationState.success,
+    _loginStateSubject.add(AuthenticationResult(AuthenticationState.success,
         provider: provider, user: allLinkedAccounts[0]));
   }
 
@@ -111,7 +111,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   @override
   Future<void> logOut() async {
     isLoggedIn = false;
-    _loginStateSubject.add(new AuthenticationResult(
+    _loginStateSubject.add(AuthenticationResult(
       AuthenticationState.notLoggedIn,
     ));
   }
@@ -156,7 +156,7 @@ class AuthenticationServiceMock implements AuthenticationService {
           description: 'I run a online store for baking utilities',
           email: 'thomas@burkharts.net',
           locationAsString: 'Germany',
-          location: new Location(
+          location: Location(
             id: 1,
             latitude: 34.050863,
             longitude: -118.272657,
@@ -165,7 +165,7 @@ class AuthenticationServiceMock implements AuthenticationService {
           verified: isVerified,
           websiteUrl: 'www.google.com',
           socialMediaAccounts: [
-            new SocialMediaAccount(
+            SocialMediaAccount(
               url: 'https://twitter.com/ThomasBurkhartB',
               displayName: 'Thomas Burkhart',
               description: 'The best online shop for baking',
@@ -199,7 +199,7 @@ class AuthenticationServiceMock implements AuthenticationService {
           description: 'I run a online store for baking utilities',
           email: 'thomas@burkharts.net',
           locationAsString: 'Germany',
-          location: new Location(
+          location: Location(
             id: 1,
             latitude: 34.050863,
             longitude: -118.272657,
@@ -208,7 +208,7 @@ class AuthenticationServiceMock implements AuthenticationService {
           verified: isVerified,
           websiteUrl: 'www.google.com',
           socialMediaAccounts: [
-            new SocialMediaAccount(
+            SocialMediaAccount(
               url: 'https://twitter.com/ThomasBurkhartB',
               displayName: 'Thomas Burkhart',
               description: 'The best online shop for baking',

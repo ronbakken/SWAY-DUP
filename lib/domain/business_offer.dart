@@ -6,7 +6,7 @@ enum BusinessOfferState {
   draft,
   open, // Open and awaiting new applicants
   closed, // Active but no longer accepting applicants
-  achived
+  archived
 }
 
 enum BusinessOfferStateReason {

@@ -72,7 +72,7 @@ class ErrorReporter {
 
   String dsn;
 
-  SentryClient get sentry => _sentry ?? new SentryClient(dsn: dsn );
+  SentryClient get sentry => _sentry ?? SentryClient(dsn: dsn );
 
   ErrorReporter(this.dsn);
 

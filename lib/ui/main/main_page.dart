@@ -32,7 +32,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
   TabController tabController;
 
   _MainPageState() {
-    tabController = new TabController(length: 2, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
   }
 
   @override

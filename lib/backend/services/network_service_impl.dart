@@ -9,12 +9,12 @@ class NetworkServiceImplementation implements NetWorkService
   @override
   Observable<List<BusinessOffer>> getBusinessOffers({int userId,})
   {
-      throw new Exception('Not implemented yet');
+      throw Exception('Not implemented yet');
   }
 
   @override
   Observable<List<Proposal>> getProposals(int userId, int offerId)
   {
-      throw new Exception('Not implemented yet');
+      throw Exception('Not implemented yet');
   }
 }

@@ -8,7 +8,7 @@ import 'package:rxdart/rxdart.dart';
 class SystemServiceMock with WidgetsBindingObserver implements SystemService
 {
 
-  final BehaviorSubject<NetworkConnectionState> _connectionSubject = new BehaviorSubject<NetworkConnectionState>();
+  final BehaviorSubject<NetworkConnectionState> _connectionSubject = BehaviorSubject<NetworkConnectionState>();
 
   @override
   Observable<NetworkConnectionState> get connectionState => _connectionSubject;
@@ -24,7 +24,7 @@ class SystemServiceMock with WidgetsBindingObserver implements SystemService
   Observable<AppLifecycleState> get appLifecycleState => _appLifecycleSubject;
 
   final BehaviorSubject<AppLifecycleState> _appLifecycleSubject =
-      new BehaviorSubject<AppLifecycleState>();
+      BehaviorSubject<AppLifecycleState>();
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
