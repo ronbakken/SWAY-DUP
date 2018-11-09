@@ -1,16 +1,15 @@
-import 'package:intl/intl.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/bottom_sheet.dart' as infBottomSheet;
+import 'package:intl/intl.dart';
 
 class OfferDetailsPage extends PageWidget {
   final BusinessOffer offer;
@@ -59,7 +58,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   child: _buildImageArea(),
                 ),
                 _buildBusinessRow(),
-                _buildAvailablility(),
+                _buildAvailability(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
@@ -79,6 +78,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                       ),
                       !widget.offer.displayLimited
                           ? Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Divider(height: 1, color: AppTheme.white30),
                                 _DetailEntry(
@@ -141,69 +141,6 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
     );
   }
 
-  Widget buildLockedSign() {
-    return SafeArea(
-      child: Container(
-        color: AppTheme.grey,
-        child: Column(
-          children: [
-            Container(
-              color: AppTheme.blue,
-              alignment: Alignment.center,
-              width: double.infinity,
-              height: 70.0,
-              child: Text('THERE IS MUCH MORE TO SEE',),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
-              child: Text(
-                'To view the full offer and apply you need to be a member of INF.',
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
-              child: Text(
-                "It's fre to sign up and takes only a few seconds",
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
-              child: RaisedButton(
-                color: Colors.white,
-                textColor: Colors.black,
-                onPressed: () {
-                  return infBottomSheet.showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) => _ProposalBottomSheet(),
-                    dismissOnTap: false,
-                    resizeToAvoidBottomPadding: true,
-                  );
-                },
-                shape: const StadiumBorder(),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 44.0,
-                  child: Text(
-                    'SIGNUP TO SEE ALL',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0, left:26, right: 26.0, bottom: 20.0 ),
-              child: InkWell(child: Text('ALREADY A MEMBER? LOGIN'),),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   _DetailEntry buildCategories() {
     return _DetailEntry(
       icon: AppIcons.category,
@@ -212,30 +149,32 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         spacing: 10.0,
         runSpacing: 10.0,
         alignment: WrapAlignment.start,
-        children: widget.offer.categories
-            .map<Widget>((category) => Container(
-                  decoration: ShapeDecoration(
-                    shape: const StadiumBorder(),
-                    color: AppTheme.blue,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(category.name),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Icon(
-                          Icons.check,
-                          size: 12.0,
-                        )
-                      ],
+        children: widget.offer.categories.map<Widget>(
+          (category) {
+            return Container(
+              decoration: ShapeDecoration(
+                shape: const StadiumBorder(),
+                color: AppTheme.blue,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(category.name),
+                    SizedBox(
+                      width: 10.0,
                     ),
-                  ),
-                ))
-            .toList(),
+                    Icon(
+                      Icons.check,
+                      size: 12.0,
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        ).toList(),
       ),
     );
   }
@@ -285,7 +224,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
     );
   }
 
-  Widget _buildAvailablility() {
+  Widget _buildAvailability() {
     return Container(
       height: 38.0,
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -331,6 +270,85 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
           ),
         )
       ],
+    );
+  }
+
+  Widget buildLockedSign() {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: Material(
+          elevation: 3.0,
+          clipBehavior: Clip.antiAlias,
+          borderRadius: BorderRadius.circular(6.0),
+          color: AppTheme.grey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CurvedBox(
+                color: AppTheme.blue,
+                curveFactor: 0.8,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12.0, bottom: 24.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.lock, size: 36.0),
+                      Text('THERE IS MUCH MORE TO SEE'),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
+                child: Text(
+                  'To view the full offer and apply you need to be a member of INF.',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
+                child: Text(
+                  "It's fre to sign up and takes only a few seconds",
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
+                child: RaisedButton(
+                  color: Colors.white,
+                  textColor: Colors.black,
+                  onPressed: () {
+                    return infBottomSheet.showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) => _ProposalBottomSheet(),
+                      dismissOnTap: false,
+                      resizeToAvoidBottomPadding: true,
+                    );
+                  },
+                  shape: const StadiumBorder(),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 44.0,
+                    child: Text(
+                      'SIGNUP TO SEE ALL',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0, left: 26, right: 26.0, bottom: 20.0),
+                child: InkWell(
+                  child: Text('ALREADY A MEMBER? LOGIN'),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
