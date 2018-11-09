@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:x="adobe:ns:meta/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="71"
+   height="92"
+   viewBox="0 0 71 92"
+   version="1.1"
+   id="svg9"
+   sodipodi:docname="-e-LOCKED.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="3840"
+     inkscape:window-height="2050"
+     id="namedview11"
+     showgrid="false"
+     inkscape:pagecheckerboard="true"
+     inkscape:zoom="2.5652174"
+     inkscape:cx="13.279661"
+     inkscape:cy="46"
+     inkscape:window-x="2928"
+     inkscape:window-y="-12"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg9" />
+  <metadata
+     id="metadata2">
+<?xpacket begin="ÿ" id="W5M0MpCehiHzreSzNTczkc9d"?>    <x:xmpmeta
+       x:xmptk="Adobe XMP Core 5.6-c140 79.160451, 2017/05/06-01:08:21        ">
+      <metadata>
+        <rdf:RDF>
+          <rdf:Description
+             rdf:about="" />
+          <cc:Work
+             rdf:about="">
+            <dc:format>image/svg+xml</dc:format>
+            <dc:type
+               rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+            <dc:title></dc:title>
+          </cc:Work>
+        </rdf:RDF>
+      </metadata>
+    </x:xmpmeta>
+<?xpacket end="w"?>  </metadata>
+  <defs
+     id="defs6">
+    <style
+       id="style4">
+      .cls-1 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path
+     id="_-e-LOCKEd"
+     data-name="-e-LOCKEd"
+     class="cls-1"
+     d="M584.238,2115H526.762a6.73,6.73,0,0,1-6.762-6.69v-43.49a6.723,6.723,0,0,1,6.762-6.69h6.762v-13.38a21.977,21.977,0,0,1,43.952,0v13.38h6.762a6.723,6.723,0,0,1,6.762,6.69v43.49A6.73,6.73,0,0,1,584.238,2115Zm-35.873-19.04h5.79v-8.41l5.453,8.25v0.12h5.79v-6h4.641v-5.72H565.4v-1.47H574v-5.72h-8.6V2077h-5.79v8.34l-5.453-8.25v-0.05h-5.79v18.92ZM541,2096h5.791v-18.92H541V2096Zm33.1-51.25a18.6,18.6,0,0,0-37.19,0v13.38H574.1v-13.38Z"
+     transform="translate(-520 -2023)"
+     style="fill:#ffffff" />
+</svg>

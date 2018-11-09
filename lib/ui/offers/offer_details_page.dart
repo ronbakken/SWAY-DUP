@@ -141,6 +141,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
     );
   }
 
+
   _DetailEntry buildCategories() {
     return _DetailEntry(
       icon: AppIcons.category,
@@ -275,79 +276,110 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
 
   Widget buildLockedSign() {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 16.0),
-        child: Material(
-          elevation: 3.0,
-          clipBehavior: Clip.antiAlias,
-          borderRadius: BorderRadius.circular(6.0),
-          color: AppTheme.grey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CurvedBox(
-                color: AppTheme.blue,
-                curveFactor: 0.8,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12.0, bottom: 24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.lock, size: 36.0),
-                      Text('THERE IS MUCH MORE TO SEE'),
-                    ],
+      child: Column(
+        children: <Widget>[
+          Divider(height: 1, color: AppTheme.white30),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: const Color(0x33000000),
+                  radius: 15.0,
+                  child: InfAssetImage(
+                    AppIcons.rewards,
+                    height: 14.0,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
-                child: Text(
-                  'To view the full offer and apply you need to be a member of INF.',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
-                child: Text(
-                  "It's fre to sign up and takes only a few seconds",
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
-                child: RaisedButton(
-                  color: Colors.white,
-                  textColor: Colors.black,
-                  onPressed: () {
-                    return infBottomSheet.showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) => _ProposalBottomSheet(),
-                      dismissOnTap: false,
-                      resizeToAvoidBottomPadding: true,
-                    );
-                  },
-                  shape: const StadiumBorder(),
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 44.0,
-                    child: Text(
-                      'SIGNUP TO SEE ALL',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                      ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text(
+                    'REWARD',
+                    style: const TextStyle(
+                      color: Colors.white54,
+                      height: 0.95,
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 26, right: 26.0, bottom: 20.0),
-                child: InkWell(
-                  child: Text('ALREADY A MEMBER? LOGIN'),
-                ),
-              )
-            ],
+              ],
+            ),
           ),
-        ),
+
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: Material(
+              elevation: 3.0,
+              clipBehavior: Clip.antiAlias,
+              borderRadius: BorderRadius.circular(6.0),
+              color: AppTheme.grey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CurvedBox(
+                    color: AppTheme.blue,
+                    curveFactor: 0.8,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 12.0, bottom: 24.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.lock, size: 36.0),
+                          Text('THERE IS MUCH MORE TO SEE'),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
+                    child: Text(
+                      'To view the full offer and apply you need to be a member of INF.',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
+                    child: Text(
+                      "It's fre to sign up and takes only a few seconds",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
+                    child: RaisedButton(
+                      color: Colors.white,
+                      textColor: Colors.black,
+                      onPressed: () {
+                        return infBottomSheet.showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) => _ProposalBottomSheet(),
+                          dismissOnTap: false,
+                          resizeToAvoidBottomPadding: true,
+                        );
+                      },
+                      shape: const StadiumBorder(),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 44.0,
+                        child: Text(
+                          'SIGNUP TO SEE ALL',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, left: 26, right: 26.0, bottom: 20.0),
+                    child: InkWell(
+                      child: Text('ALREADY A MEMBER? LOGIN'),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
