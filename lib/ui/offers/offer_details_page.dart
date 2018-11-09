@@ -77,20 +77,26 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                         rightSideIcons: [AppLogo.getDeliverableChannel(widget.offer.deliverables[0].channel)],
                         text: widget.offer.deliverables[0].description,
                       ),
-                      Divider(height: 1, color: AppTheme.white30),
-                      _DetailEntry(
-                        icon: AppIcons.rewards,
-                        title: 'REWARDS',
-                        text: widget.offer.reward.description,
-                      ),
-                      Divider(height: 1, color: AppTheme.white30),
-                      _DetailEntry(
-                        icon: AppIcons.location,
-                        title: 'LOCATION',
-                        text: 'What do we display here?',
-                      ),
-                      Divider(height: 1, color: AppTheme.white30),
-                      buildCategories(),
+                      !widget.offer.displayLimited
+                          ? Column(
+                              children: [
+                                Divider(height: 1, color: AppTheme.white30),
+                                _DetailEntry(
+                                  icon: AppIcons.rewards,
+                                  title: 'REWARDS',
+                                  text: widget.offer.reward.description,
+                                ),
+                                Divider(height: 1, color: AppTheme.white30),
+                                _DetailEntry(
+                                  icon: AppIcons.location,
+                                  title: 'LOCATION',
+                                  text: 'What do we display here?',
+                                ),
+                                Divider(height: 1, color: AppTheme.white30),
+                                buildCategories(),
+                              ],
+                            )
+                          : buildLockedSign(),
                     ],
                   ),
                 ),
@@ -98,10 +104,71 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             ),
           ),
         ),
-        Container(
-          color: AppTheme.blackTwo,
-          child: SafeArea(
-            child: Padding(
+        !widget.offer.displayLimited
+            ? Container(
+                color: AppTheme.blackTwo,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
+                    child: RaisedButton(
+                      color: Colors.white,
+                      textColor: Colors.black,
+                      onPressed: () {
+                        return infBottomSheet.showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) => _ProposalBottomSheet(),
+                          dismissOnTap: false,
+                          resizeToAvoidBottomPadding: true,
+                        );
+                      },
+                      shape: const StadiumBorder(),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 44.0,
+                        child: Text(
+                          'TELL US WHAT YOU CAN OFFER',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : SizedBox(),
+      ],
+    );
+  }
+
+  Widget buildLockedSign() {
+    return SafeArea(
+      child: Container(
+        color: AppTheme.grey,
+        child: Column(
+          children: [
+            Container(
+              color: AppTheme.blue,
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: 70.0,
+              child: Text('THERE IS MUCH MORE TO SEE',),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
+              child: Text(
+                'To view the full offer and apply you need to be a member of INF.',
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
+              child: Text(
+                "It's fre to sign up and takes only a few seconds",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
               child: RaisedButton(
                 color: Colors.white,
@@ -119,7 +186,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   alignment: Alignment.center,
                   height: 44.0,
                   child: Text(
-                    'TELL US WHAT YOU CAN OFFER',
+                    'SIGNUP TO SEE ALL',
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
                     ),
@@ -127,9 +194,13 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                 ),
               ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, left:26, right: 26.0, bottom: 20.0 ),
+              child: InkWell(child: Text('ALREADY A MEMBER? LOGIN'),),
+            )
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -215,7 +286,6 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   }
 
   Widget _buildAvailablility() {
-
     return Container(
       height: 38.0,
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -226,10 +296,12 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             '${widget.offer.numberAvailable - widget.offer.proposalsCountAccepted}/${widget.offer.numberAvailable} Available',
           ),
           Expanded(
-            child: widget.offer.expiryDate != null ? Text(
-              'Ends ${DateFormat('MM/dd/yy').format(widget.offer.expiryDate.toLocal())}',
-            textAlign: TextAlign.end,
-            ) : SizedBox(),
+            child: widget.offer.expiryDate != null
+                ? Text(
+                    'Ends ${DateFormat('MM/dd/yy').format(widget.offer.expiryDate.toLocal())}',
+                    textAlign: TextAlign.end,
+                  )
+                : SizedBox(),
           )
         ],
       ),

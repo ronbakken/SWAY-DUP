@@ -11,7 +11,7 @@ class NetworkServiceMock implements NetWorkService {
   /// TBD: What is the best way to define a Filter
   @override
   Observable<List<BusinessOffer>> getBusinessOffers({int userId}) {
-    var showLimited = backend.get<UserManager>().isLoggedIn;
+    var showLimited = !backend.get<UserManager>().isLoggedIn;
     return Observable.fromFuture(loadBusinessOfferMockData())
         .map((list) => list..forEach((offer) => offer.displayLimited = showLimited));
   }
