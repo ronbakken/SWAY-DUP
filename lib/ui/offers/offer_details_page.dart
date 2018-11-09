@@ -111,9 +111,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
                     child: RaisedButton(
-                      color: Colors.white,
-                      textColor: Colors.black,
-                      onPressed: () {
+                        onPressed: () {
                         return infBottomSheet.showModalBottomSheet(
                           context: context,
                           builder: (BuildContext context) => _ProposalBottomSheet(),
@@ -277,7 +275,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   Widget buildLockedSign() {
     return SafeArea(
       child: Column(
-        children: <Widget>[
+        children: [
+          /// We add the title of the Reward group here to have a better teaser
           Divider(height: 1, color: AppTheme.white30),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
@@ -305,6 +304,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             ),
           ),
 
+          /// Here starts the lock shield
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Material(
@@ -319,11 +319,12 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     color: AppTheme.blue,
                     curveFactor: 0.8,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 12.0, bottom: 24.0),
+                      padding: const EdgeInsets.only(top: 24.0, bottom: 32.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(Icons.lock, size: 36.0),
+                          SizedBox(height: 10.0,),
                           Text('THERE IS MUCH MORE TO SEE'),
                         ],
                       ),
@@ -346,8 +347,6 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
                     child: RaisedButton(
-                      color: Colors.white,
-                      textColor: Colors.black,
                       onPressed: () {
                         return infBottomSheet.showModalBottomSheet(
                           context: context,
@@ -372,7 +371,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, left: 26, right: 26.0, bottom: 20.0),
                     child: InkWell(
-                      child: Text('ALREADY A MEMBER? LOGIN'),
+                      child: Text('ALREADY A MEMBER? LOGIN', textAlign: TextAlign.center,),
                     ),
                   )
                 ],
@@ -506,8 +505,6 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                     padding: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 12.0),
                     child: RaisedButton(
                       onPressed: () {},
-                      color: Colors.white,
-                      textColor: Colors.black,
                       shape: const StadiumBorder(),
                       child: Container(
                         alignment: Alignment.center,

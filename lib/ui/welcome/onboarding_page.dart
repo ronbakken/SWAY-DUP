@@ -79,7 +79,7 @@ List<Widget> _buildInfluencerPages(BuildContext context) {
         FlatButton(
           onPressed: () async {
             await backend.get<AuthenticationService>().loginAnonymous(UserType.influcencer);
-            await Navigator.of(context).pushAndRemoveUntil(MainPage.route(UserType.influcencer), (route) => false);
+            await Navigator.of(context).pushReplacement(MainPage.route(UserType.influcencer));
           },
           child: Text('Skip for now'),
         ),

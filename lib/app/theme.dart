@@ -16,6 +16,9 @@ class AppTheme {
       scaffoldBackgroundColor: AppTheme.darkGrey,
       primaryColor: AppTheme.blue,
       fontFamily: AppFonts.mavenPro,
+      // TODO define all colors
+      buttonTheme: ButtonThemeData(buttonColor: Colors.white, textTheme: ButtonTextTheme.primary)
+      
     );
   }
 }
