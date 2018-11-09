@@ -215,7 +215,7 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut> with SingleTicke
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               InfAssetImage(
-                AppIcons.helpIcon,
+                AppIcons.help,
                 width: 36.0,
               ),
               SizedBox(width: 12.0),

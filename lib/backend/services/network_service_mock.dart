@@ -71,7 +71,8 @@ class NetworkServiceMock implements NetWorkService {
           offerId: 1912,
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
-          categories: [Category(name: 'food', description: 'All about food')],
+          numberAvailable: 10,
+          categories: [Category(name: 'food', description: 'All about food'),Category(name: 'tea', description: 'Tea')],
           deliverables: [
             Deliverable(
                 channel: DeliverableChannels.instagram,

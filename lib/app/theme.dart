@@ -3,6 +3,7 @@ import 'package:inf/app/assets.dart';
 
 class AppTheme {
   static const darkGrey = const Color(0xFF232326);
+  static const grey = const Color(0xFF2c2c2f);
   static const blue = const Color(0xFF073764);
   static const red = const Color(0xFFDC7274);
   static const white30 = const Color(0x66FFFFFF);

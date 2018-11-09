@@ -16,6 +16,7 @@ dependencies:
   flutter_page_indicator: any 
   flutter_svg: any
   get_it: any
+  intl: any
   protobuf: ^0.10.4
   rxdart: any
   rx_command: any

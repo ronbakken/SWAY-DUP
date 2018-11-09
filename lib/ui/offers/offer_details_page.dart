@@ -1,8 +1,11 @@
+import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
@@ -56,34 +59,38 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   child: _buildImageArea(),
                 ),
                 _buildBusinessRow(),
+                _buildAvailablility(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       _DetailEntry(
-                        icon: AppIcons.descriptionIcon,
+                        icon: AppIcons.description,
                         title: 'DESCRIPTION',
                         text: widget.offer.description,
                       ),
                       Divider(height: 1, color: AppTheme.white30),
                       _DetailEntry(
-                        icon: AppLogo.getDeliverableChannel(widget.offer.deliverables[0].channel),
+                        icon: AppIcons.deliverable,
                         title: 'DELIVERABLES',
+                        rightSideIcons: [AppLogo.getDeliverableChannel(widget.offer.deliverables[0].channel)],
                         text: widget.offer.deliverables[0].description,
                       ),
                       Divider(height: 1, color: AppTheme.white30),
                       _DetailEntry(
-                        icon: AppIcons.rewardsIcon,
+                        icon: AppIcons.rewards,
                         title: 'REWARDS',
                         text: widget.offer.reward.description,
                       ),
                       Divider(height: 1, color: AppTheme.white30),
                       _DetailEntry(
-                        icon: AppIcons.locationIcon,
+                        icon: AppIcons.location,
                         title: 'LOCATION',
                         text: 'What do we display here?',
                       ),
+                      Divider(height: 1, color: AppTheme.white30),
+                      buildCategories(),
                     ],
                   ),
                 ),
@@ -95,7 +102,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
           color: AppTheme.blackTwo,
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
               child: RaisedButton(
                 color: Colors.white,
                 textColor: Colors.black,
@@ -123,6 +130,42 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
           ),
         ),
       ],
+    );
+  }
+
+  _DetailEntry buildCategories() {
+    return _DetailEntry(
+      icon: AppIcons.category,
+      title: 'CATEGORIES',
+      content: Wrap(
+        spacing: 10.0,
+        runSpacing: 10.0,
+        alignment: WrapAlignment.start,
+        children: widget.offer.categories
+            .map<Widget>((category) => Container(
+                  decoration: ShapeDecoration(
+                    shape: const StadiumBorder(),
+                    color: AppTheme.blue,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(category.name),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Icon(
+                          Icons.check,
+                          size: 12.0,
+                        )
+                      ],
+                    ),
+                  ),
+                ))
+            .toList(),
+      ),
     );
   }
 
@@ -171,6 +214,28 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
     );
   }
 
+  Widget _buildAvailablility() {
+
+    return Container(
+      height: 38.0,
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      color: AppTheme.grey,
+      child: Row(
+        children: [
+          Text(
+            '${widget.offer.numberAvailable - widget.offer.proposalsCountAccepted}/${widget.offer.numberAvailable} Available',
+          ),
+          Expanded(
+            child: widget.offer.expiryDate != null ? Text(
+              'Ends ${DateFormat('MM/dd/yy').format(widget.offer.expiryDate.toLocal())}',
+            textAlign: TextAlign.end,
+            ) : SizedBox(),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget _buildImageArea() {
     List<InfImage> imageArray = <InfImage>[];
     for (int i = 0; i < widget.offer.coverUrls.length; i++) {
@@ -205,23 +270,49 @@ class _DetailEntry extends StatelessWidget {
     this.rightSideIcons,
     this.title,
     this.text,
-    this.margin = const EdgeInsets.only(top: 16.0, bottom: 12.0), 
-  }) : super(key: key);
+    this.content,
+    this.margin = const EdgeInsets.only(top: 16.0, bottom: 12.0),
+  })  : assert(!(text != null && content != null)),
+        super(key: key);
 
   final List<AppAsset> rightSideIcons;
   final AppAsset icon;
   final String title;
   final String text;
   final EdgeInsetsGeometry margin;
+  final Widget content;
 
   @override
   Widget build(BuildContext context) {
-    Widget iconWidget;
-    if (icon.type == AppAssetType.Bitmap) {
-      iconWidget = Image.asset(icon.path, width: 12.0);
-    } else {
-      iconWidget = SvgPicture.asset(icon.path, width: 12.0);
+    final titleRow = <Widget>[
+      CircleAvatar(
+        backgroundColor: const Color(0x33000000),
+        radius: 15.0,
+        child: InfAssetImage(
+          icon,
+          height: 14.0,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white54,
+            height: 0.95,
+          ),
+        ),
+      ),
+    ];
+    if (rightSideIcons != null) {
+      titleRow.addAll(rightSideIcons
+          .map<InfAssetImage>((asset) => InfAssetImage(
+                asset,
+                height: 18.0,
+              ))
+          .toList());
     }
+
     return Padding(
       padding: margin,
       child: Column(
@@ -229,26 +320,12 @@ class _DetailEntry extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
-            children: <Widget>[
-              CircleAvatar(
-                backgroundColor: const Color(0x33000000),
-                radius: 14.0,
-                child: iconWidget,
-              ),
-              SizedBox(width: 12.0),
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white54,
-                  height: 0.95,
-                ),
-              ),
-            ],
+            children: titleRow,
           ),
           SizedBox(height: 8.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Text(text),
+            child: text != null ? Text(text) : content,
           )
         ],
       ),
@@ -268,13 +345,22 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
       child: Container(
         child: Stack(
           children: [
+            Positioned(
+              child: Container(
+                color: AppTheme.blue,
+                height: 100.0,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Tell US WHAT YOU CAN OFFER'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 40.0, bottom: 40.0),
+                    child: Text('Tell us what you can offer'),
+                  ),
                   LayoutBuilder(
                     builder: (BuildContext context, BoxConstraints constraints) {
                       final textStyle = DefaultTextStyle.of(context);
@@ -294,16 +380,21 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                       );
                     },
                   ),
-                  RaisedButton(
-                    onPressed: () {},
-                    shape: const StadiumBorder(),
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 44.0,
-                      child: Text(
-                        'MAKE PROPOSAL',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.normal,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 12.0),
+                    child: RaisedButton(
+                      onPressed: () {},
+                      color: Colors.white,
+                      textColor: Colors.black,
+                      shape: const StadiumBorder(),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 44.0,
+                        child: Text(
+                          'MAKE PROPOSAL',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                     ),
@@ -318,7 +409,7 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                 onTap: () => Navigator.of(context).pop(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                  child: Text('Close'),
+                  child: Icon(Icons.close),
                 ),
               ),
             ),

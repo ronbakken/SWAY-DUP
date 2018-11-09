@@ -40,20 +40,22 @@ class AppIcons {
   const AppIcons();
 
   // Main Icons
-  static const helpIcon = AppAsset.vector('assets/images/icon_help.svg');
-  static const menuIcon = AppAsset.vector('assets/images/icon_menu.svg');
-  static const offersIcon = AppAsset.vector('assets/images/icon_offers.svg');
-  static const proposalIcon = AppAsset.vector('assets/images/icon_proposal.svg');
-  static const agreementsIcon = AppAsset.vector('assets/images/icon_agreements.svg');
-  static const locationIcon = AppAsset.vector('assets/images/icon_location.svg');
-  static const rewardsIcon = AppAsset.vector('assets/images/icon_rewards.svg');
-  static const descriptionIcon = AppAsset.vector('assets/images/icon_description.svg');
+  static const help = AppAsset.vector('assets/images/icon_help.svg');
+  static const menu = AppAsset.vector('assets/images/icon_menu.svg');
+  static const offers = AppAsset.vector('assets/images/icon_offers.svg');
+  static const proposal = AppAsset.vector('assets/images/icon_proposal.svg');
+  static const agreements = AppAsset.vector('assets/images/icon_agreements.svg');
+  static const location = AppAsset.vector('assets/images/icon_location.svg');
+  static const rewards = AppAsset.vector('assets/images/icon_rewards.svg');
+  static const description = AppAsset.vector('assets/images/icon_description.svg');
+  static const category = AppAsset.vector('assets/images/icon_category.svg');
+  static const deliverable = AppAsset.vector('assets/images/icon_deliverables.svg');
 
-  static const browseIcon = AppAsset.vector('assets/images/icon_browse.svg');
-  static const dealsIcon = AppAsset.vector('assets/images/icon_deals.svg');
-  static const directOffersIcon = AppAsset.vector('assets/images/icon_direct.svg');
-  static const historyIcon = AppAsset.vector('assets/images/icon_history.svg');
-  static const switchUserIcon = AppAsset.vector('assets/images/icon_switch_user.svg');
+  static const browse = AppAsset.vector('assets/images/icon_browse.svg');
+  static const deals = AppAsset.vector('assets/images/icon_deals.svg');
+  static const directOffers = AppAsset.vector('assets/images/icon_direct.svg');
+  static const history = AppAsset.vector('assets/images/icon_history.svg');
+  static const switchUser = AppAsset.vector('assets/images/icon_switch_user.svg');
 }
 
 class AppAsset {

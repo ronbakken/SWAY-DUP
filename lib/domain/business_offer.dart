@@ -30,6 +30,7 @@ class BusinessOffer {
   final String title;
   final String description;
   final DateTime expiryDate;
+  final int numberAvailable;
 
   final String thumbnailUrl;
   final Uint8List thumbnailLowRes;
@@ -49,7 +50,7 @@ class BusinessOffer {
   final BusinessOfferState state;
   final BusinessOfferStateReason stateReason;
 
-  // Question: Should this be Lists?
+
   // Info for business
   final int proposalsCountNew;
   final int proposalsCountAccepted;
@@ -60,7 +61,7 @@ class BusinessOffer {
   // So the Offer View knows this offer has already been applied to
   final int influencerProposalId;
 
-  BusinessOffer(
+  BusinessOffer( 
       {this.offerId,
       this.businessAccountId,
       this.businessName,
@@ -70,6 +71,7 @@ class BusinessOffer {
       this.title,
       this.description,
       this.expiryDate,
+      this.numberAvailable = 1,
       this.thumbnailUrl,
       this.thumbnailLowRes,
       this.deliverables,
