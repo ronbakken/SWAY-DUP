@@ -1,3 +1,5 @@
+import 'package:pedantic/pedantic.dart';
+
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
@@ -11,9 +13,7 @@ class OnBoardingPage extends StatefulWidget {
 
   static Route<dynamic> route({UserType userType}) {
     return FadePageRoute(
-      builder: (context) => OnBoardingPage(
-            userType: userType,
-          ),
+      builder: (context) => OnBoardingPage(userType: userType),
     );
   }
 
@@ -25,7 +25,7 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   PageController pageController = PageController();
-  
+
   @override
   Widget build(BuildContext context) {
     List<Widget> pages;
@@ -42,18 +42,32 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       default:
         assert(false, 'Never should get here');
     }
-    return Material(
-      child: Column(
-        children: <Widget>[
-          Center(
-            child: Text(title),
+    return Center(
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Material(
+            child: Column(
+              children: <Widget>[
+                Center(
+                  child: Text(title),
+                ),
+                Expanded(
+                  child: PageView(controller: pageController, children: pages),
+                ),
+                SafeArea(
+                    child: InfPageIndicator(
+                  pageController: pageController,
+                  count: 3,
+                )),
+                SizedBox(
+                  height: 10.0,
+                )
+              ],
+            ),
           ),
-          Expanded(
-            child: PageView(controller: pageController, children: pages),
-          ),
-          SafeArea(child: InfPageIndicator(pageController: pageController, count: 3,)),
-          SizedBox(height: 10.0,)
-        ],
+        ),
       ),
     );
   }
@@ -73,13 +87,14 @@ List<Widget> _buildInfluencerPages(BuildContext context) {
       children: <Widget>[
         Center(child: Text('Page3')),
         FlatButton(
-          onPressed: () => Navigator.of(context).pushReplacement(SignUpPage.route(userType: UserType.influcencer)),
+          onPressed: () => Navigator.of(context)..pop()..push(SignUpPage.route(userType: UserType.influcencer)),
           child: Text('SignUp'),
         ),
         FlatButton(
           onPressed: () async {
             await backend.get<AuthenticationService>().loginAnonymous(UserType.influcencer);
-            await Navigator.of(context).pushReplacement(MainPage.route(UserType.influcencer));
+            final nav = Navigator.of(context)..pop();
+            unawaited(nav.push(MainPage.route(UserType.influcencer)));
           },
           child: Text('Skip for now'),
         ),

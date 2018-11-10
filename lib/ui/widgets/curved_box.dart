@@ -8,7 +8,7 @@ class CurvedBox extends StatelessWidget {
     this.curveFactor = 1.0,
     this.color,
     this.top = false,
-    this.bottom = true,
+    this.bottom = false,
     @required this.child,
   })  : assert(curveFactor != null),
         super(key: key);
