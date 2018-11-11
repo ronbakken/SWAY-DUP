@@ -145,7 +145,9 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Total Value of ${reward.totalValueAsString}'),
-            SizedBox(height: 12.0,),
+            SizedBox(
+              height: 12.0,
+            ),
             reward.cashValue != null
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
@@ -154,14 +156,22 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                       CircleAvatar(
                         backgroundColor: AppTheme.blue,
                         radius: 15.0,
-                        child: InfAssetImage(AppIcons.dollarSign, height: 18, color: Colors.white,),
+                        child: InfAssetImage(
+                          AppIcons.dollarSign,
+                          height: 18,
+                          color: Colors.white,
+                        ),
                       ),
-                      SizedBox(width: 10.0,),
+                      SizedBox(
+                        width: 10.0,
+                      ),
                       Text('${reward.cashValueAsString}'),
                     ],
                   )
                 : SizedBox(),
-            SizedBox(height: 12.0,),
+            SizedBox(
+              height: 12.0,
+            ),
             reward.description != null
                 ? Row(
                     mainAxisSize: MainAxisSize.min,
@@ -170,16 +180,21 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                       CircleAvatar(
                         backgroundColor: AppTheme.blue,
                         radius: 15.0,
-                        child: InfAssetImage(AppIcons.gift, height: 14, color: Colors.white,),
+                        child: InfAssetImage(
+                          AppIcons.gift,
+                          height: 14,
+                          color: Colors.white,
+                        ),
                       ),
-                      SizedBox(width: 10.0,),
+                      SizedBox(
+                        width: 10.0,
+                      ),
                       Text('${reward.description}'),
                     ],
                   )
                 : SizedBox(),
           ],
-        )
-        );
+        ));
   }
 
   _DetailEntry buildCategories() {
@@ -513,22 +528,22 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
       child: Container(
         child: Stack(
           children: [
-            Positioned(
+            CurvedBox(
+              bottom: true,
+              curveFactor: 0.9,
+              color: AppTheme.blue,
               child: Container(
-                color: AppTheme.blue,
-                height: 100.0,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 35.0, bottom: 45.0),
+                child: Text('Tell us what you can offer', textAlign: TextAlign.center, textScaleFactor: 1.2,),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.fromLTRB(12.0,90.0,12.0,12.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 40.0, bottom: 40.0),
-                    child: Text('Tell us what you can offer'),
-                  ),
                   LayoutBuilder(
                     builder: (BuildContext context, BoxConstraints constraints) {
                       final textStyle = DefaultTextStyle.of(context);
@@ -571,11 +586,14 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
             Positioned(
               top: 0.0,
               right: 0.0,
-              child: InkResponse(
-                onTap: () => Navigator.of(context).pop(),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                  child: Icon(Icons.close),
+              child: Material(
+                type: MaterialType.transparency,
+                              child: InkResponse(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                    child: Icon(Icons.close),
+                  ),
                 ),
               ),
             ),
