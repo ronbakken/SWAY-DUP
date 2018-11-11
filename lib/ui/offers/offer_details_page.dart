@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/sign_up/sign_up_page.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
@@ -407,14 +408,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
                     child: RaisedButton(
-                      onPressed: () {
-                        return infBottomSheet.showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) => _ProposalBottomSheet(),
-                          dismissOnTap: false,
-                          resizeToAvoidBottomPadding: true,
-                        );
-                      },
+                      onPressed: () => Navigator.of(context)..push(SignUpPage.route(userType: UserType.influcencer, topPadding: 0)),
                       shape: const StadiumBorder(),
                       child: Container(
                         alignment: Alignment.center,
@@ -428,12 +422,15 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 26, right: 26.0, bottom: 20.0),
-                    child: InkWell(
-                      child: Text(
-                        'ALREADY A MEMBER? LOGIN',
-                        textAlign: TextAlign.center,
+                  Material(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10.0, left: 26, right: 26.0, bottom: 20.0),
+                      child: InkWell(
+                        onTap: () => Navigator.of(context)..push(SignUpPage.route(userType: UserType.influcencer, topPadding: 0)),
+                        child: Text(
+                          'ALREADY A MEMBER? LOGIN',
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   )

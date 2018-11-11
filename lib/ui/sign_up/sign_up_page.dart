@@ -14,13 +14,13 @@ import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 
 import 'package:inf/ui/widgets/page_widget.dart';
-import 'package:inf/ui/widgets/routes.dart';
+
 
 class SignUpPage extends PageWidget {
-  static Route<dynamic> route({UserType userType}) {
+  static Route<dynamic> route({UserType userType, double topPadding = 32}) {
     return PageRouteBuilder(
       pageBuilder: (BuildContext context, _, __) {
-        return SignUpPage(userType: userType);
+        return SignUpPage(userType: userType, topPadding: topPadding,);
       },
       transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
         final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(animation);
@@ -37,9 +37,11 @@ class SignUpPage extends PageWidget {
   const SignUpPage({
     Key key,
     this.userType,
+    this.topPadding = 32.0
   }) : super(key: key);
 
   final UserType userType;
+  final double topPadding;
 
   @override
   SignUpPageState createState() => SignUpPageState();
@@ -51,6 +53,7 @@ class SignUpPageState extends PageState<SignUpPage> {
   @override
   void initState() {
     super.initState();
+    /// OBserve login state
     _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen((loginResult) {
       switch (loginResult.state) {
         case AuthenticationState.waitingForActivation:
@@ -65,10 +68,7 @@ class SignUpPageState extends PageState<SignUpPage> {
           );
           break;
         case AuthenticationState.success:
-          Navigator.of(context).pushAndRemoveUntil(
-            MainPage.route(widget.userType),
-            (route) => false,
-          );
+          Navigator.of(context).pushAndRemoveUntil(MainPage.route(widget.userType), (route) => false);
           break;
         default:
       }
@@ -86,7 +86,7 @@ class SignUpPageState extends PageState<SignUpPage> {
     final mediaQuery = MediaQuery.of(context);
     return Padding(
       padding: EdgeInsets.only(
-        top: mediaQuery.padding.top + 32.0,
+        top: mediaQuery.padding.top + widget.topPadding,
         left: 0.0,
         right: 0.0,
       ),
