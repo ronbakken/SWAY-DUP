@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
@@ -225,14 +226,19 @@ class SignUpPageState extends PageState<SignUpPage> {
                         ),
                       ),
                       InkResponse(
-                        onTap: () => Navigator.of(context).pop(),
+                        onTap: () async {
+                          await backend.get<AuthenticationService>().loginAnonymous(UserType.influcencer);
+                          final nav = Navigator.of(context)..pop();
+                          unawaited(nav.push(MainPage.route(UserType.influcencer)));
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Text('Skip', 
+                              Text(
+                                'Skip',
                                 textScaleFactor: 1.3,
                               ),
                               Align(

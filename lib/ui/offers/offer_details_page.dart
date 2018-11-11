@@ -373,6 +373,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   CurvedBox(
+                    bottom: true,
                     color: AppTheme.blue,
                     curveFactor: 0.8,
                     child: Padding(

@@ -88,15 +88,7 @@ List<Widget> _buildInfluencerPages(BuildContext context) {
         Center(child: Text('Page3')),
         FlatButton(
           onPressed: () => Navigator.of(context)..pop()..push(SignUpPage.route(userType: UserType.influcencer)),
-          child: Text('SignUp'),
-        ),
-        FlatButton(
-          onPressed: () async {
-            await backend.get<AuthenticationService>().loginAnonymous(UserType.influcencer);
-            final nav = Navigator.of(context)..pop();
-            unawaited(nav.push(MainPage.route(UserType.influcencer)));
-          },
-          child: Text('Skip for now'),
+          child: Text('Next'),
         ),
       ],
     );
