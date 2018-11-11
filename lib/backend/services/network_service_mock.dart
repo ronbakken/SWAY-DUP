@@ -43,7 +43,8 @@ class NetworkServiceMock implements NetWorkService {
           reward: Reward(
             description: 'One free premium car wash',
             type: RewardType.barter,
-            value: Decimal.fromInt(20),
+            barterValue: Decimal.fromInt(20),
+            cashValue: Decimal.fromInt(1000),
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
@@ -84,7 +85,7 @@ class NetworkServiceMock implements NetWorkService {
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardType.barter,
-            value: Decimal.fromInt(5),
+            barterValue: Decimal.fromInt(5),
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,

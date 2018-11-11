@@ -46,11 +46,12 @@ class AppIcons {
   static const proposal = AppAsset.vector('assets/images/icon_proposal.svg');
   static const agreements = AppAsset.vector('assets/images/icon_agreements.svg');
   static const location = AppAsset.vector('assets/images/icon_location.svg');
-  static const rewards = AppAsset.vector('assets/images/icon_rewards.svg');
+  static const gift = AppAsset.vector('assets/images/icon_gift.svg');
   static const description = AppAsset.vector('assets/images/icon_description.svg');
   static const category = AppAsset.vector('assets/images/icon_category.svg');
   static const deliverable = AppAsset.vector('assets/images/icon_deliverables.svg');
   static const locked = AppAsset.vector('assets/images/icon_locked.svg');
+  static const dollarSign = AppAsset.vector('assets/images/icon_dollar_sign.svg');
 
   static const browse = AppAsset.vector('assets/images/icon_browse.svg');
   static const deals = AppAsset.vector('assets/images/icon_deals.svg');
