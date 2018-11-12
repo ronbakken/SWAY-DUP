@@ -17,4 +17,14 @@ class NetworkServiceImplementation implements NetWorkService
   {
       throw Exception('Not implemented yet');
   }
+
+  @override
+  Future<BusinessOffer> getOfferById(int offerId) {
+      throw Exception('Not implemented yet');
+  }
+
+  @override
+  Future<Proposal> getProposalById(int proposalId) {
+      throw Exception('Not implemented yet');
+  }
 }

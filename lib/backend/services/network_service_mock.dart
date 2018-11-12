@@ -21,13 +21,24 @@ class NetworkServiceMock implements NetWorkService {
     return null; // TODO
   }
 
+  @override
+  Future<BusinessOffer> getOfferById(int offerId) {
+    return Future.value(allOffers[0]);
+  }
+
+  @override
+  Future<Proposal> getProposalById(int proposalId) {
+    throw Exception('Not implemented yet');
+  }
+
   Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
     return [
       BusinessOffer(
           businessAccountId: 42,
           businessName: 'CarWash Tom',
           businessDescription: 'We wash anything',
-          businessAvatarThumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+          businessAvatarThumbnailUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
           offerId: 4711,
           title: 'Car Wash',
           description: 'Our car wash is the best car wash in the universe of car washes',
@@ -67,13 +78,16 @@ class NetworkServiceMock implements NetWorkService {
           businessAccountId: 43,
           businessName: 'Scent of Asia',
           businessDescription: 'Best flavoured teas in town',
-          businessAvatarThumbnailUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-
+          businessAvatarThumbnailUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
           offerId: 1912,
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberAvailable: 10,
-          categories: [Category(name: 'food', description: 'All about food'),Category(name: 'tea', description: 'Tea')],
+          categories: [
+            Category(name: 'food', description: 'All about food'),
+            Category(name: 'tea', description: 'Tea')
+          ],
           deliverables: [
             Deliverable(
                 channel: DeliverableChannels.instagram,
@@ -104,6 +118,59 @@ class NetworkServiceMock implements NetWorkService {
           thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a')
+    ];
+  }
+
+  Future<List<Proposal>> loadproposalMockData() async {
+    return [
+      Proposal(
+        id: 1,
+        offerId: 1912,
+        state: ProposalState.proposed,
+        channel: DeliverableChannels.instagram,
+        deliverableType: DeliverableType.post,
+        sentFrom: UserType.influcencer,
+        influencerId: 43,
+        influencerName: 'Thomas',
+        businessName: 'Scent of Asia',
+        businessId: 42,
+        offerText: 'I love all sorts of Tea and my followers love all sort of great food.'
+            'So I think a selfy with me and your tea would fit great.',
+        influencerWantsDeal: true,
+        businessGaveRating: 0,
+        influencerGaveRating: 0,
+        influencerMarkedDelivered: false,
+        businessMarkedDelivered: false,
+        businessWantsDeal: false,
+        businessDisputed: false,
+        businessMarkedRewarded: false,
+        influencerDisputed: false,
+        influencerMarkedRewarded: false,
+      ),
+      Proposal(
+        id: 2,
+        offerId: 4711,
+        state: ProposalState.deal,
+        channel: DeliverableChannels.facebook,
+        deliverableType: DeliverableType.mention,
+        sentFrom: UserType.influcencer,
+        influencerId: 43,
+        influencerName: 'Thomas',
+        businessName: 'CarWash Tom',
+        businessId: 42,
+        offerText: 'I love all sorts of Tea and my followers love all sort of great food.'
+            'So I think a selfy with me and your tea would fit great.',
+        influencerWantsDeal: true,
+        businessGaveRating: 0,
+        influencerGaveRating: 0,
+        influencerMarkedDelivered: false,
+        businessMarkedDelivered: false,
+        businessWantsDeal: false,
+        businessDisputed: false,
+        businessMarkedRewarded: false,
+        influencerDisputed: false,
+        influencerMarkedRewarded: false,
+      ),
     ];
   }
 }

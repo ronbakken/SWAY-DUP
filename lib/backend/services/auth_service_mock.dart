@@ -173,7 +173,7 @@ class AuthenticationServiceMock implements AuthenticationService {
             )
           ]),
       User(
-          id: 42,
+          id: 43,
           name: 'Thomas',
           userType: UserType.influcencer,
           avatarUrl:
