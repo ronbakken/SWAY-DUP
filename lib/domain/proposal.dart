@@ -3,11 +3,9 @@
 import 'package:inf/domain/domain.dart';
 
 enum ProposalState {
-  haggling,
-  
+  haggling,  
   deal,
   rejected,
-  
   complete,
   dispute,
   resolved
@@ -23,7 +21,11 @@ class Proposal {
   /// Embedded data
   String influencerName;
   String businessName;
-  String offerTitle;
+  String offerText;
+  
+  DeliverableChannels channel;
+  DeliverableType deliverableType;
+
   
   // datetime schedule etc
   

@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:inf/backend/api_keys.dart';
 import 'package:inf/backend/managers/app_manager_.dart';
 import 'package:inf/backend/managers/app_manager_impl.dart';
+import 'package:inf/backend/managers/offer_manager_impl.dart';
 import 'package:inf/backend/managers/user_manager_impl.dart';
 
 import 'package:inf/backend/services/auth_service_.dart';
@@ -17,6 +18,7 @@ import 'package:inf/backend/services/system_service_.dart';
 import 'package:inf/backend/services/system_service_impl.dart';
 import 'package:inf/backend/services/system_service_mock.dart';
 import 'package:inf/backend/services/network_service_.dart';
+import 'package:inf/backend/managers/offer_manager_.dart';
 
 import 'package:inf/utils/error_capture.dart';
 
@@ -26,6 +28,7 @@ export 'package:inf/backend/managers/user_manager_.dart';
 export 'package:inf/backend/services/resource_service_.dart';
 export 'package:inf/backend/services/system_service_.dart';
 export 'package:inf/backend/services/network_service_.dart';
+export 'package:inf/backend/managers/offer_manager_.dart';
 
 enum AppEnvironment { dev, prod, mock }
 
@@ -58,6 +61,7 @@ void registerImplementations() {
   // Managers
   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
   backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
+  backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
 }
 
 void registerMocks() {
@@ -65,7 +69,7 @@ void registerMocks() {
   // Services
   backend.registerLazySingleton<AuthenticationService>(
     () => AuthenticationServiceMock(
-          isLoggedIn: true,
+          isLoggedIn: false,
           currentUser: 0,
         ),
   );
@@ -76,4 +80,5 @@ void registerMocks() {
   // Managers
   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
   backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
+  backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
 }

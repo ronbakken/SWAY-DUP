@@ -7,3 +7,4 @@ export 'package:inf/domain/proposal.dart';
 export 'package:inf/domain/reward.dart';
 export 'package:inf/domain/socialmedia_account.dart';
 export 'package:inf/domain/user.dart';
+export 'package:inf/domain/filters.dart';

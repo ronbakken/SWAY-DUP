@@ -7,13 +7,13 @@ class NetworkServiceImplementation implements NetWorkService
 {
   /// TBD: What is the best was to define a Filter
   @override
-  Observable<List<BusinessOffer>> getBusinessOffers({int userId,})
+  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter)
   {
       throw Exception('Not implemented yet');
   }
 
   @override
-  Observable<List<Proposal>> getProposals(int userId, int offerId)
+  Observable<List<Proposal>> getProposals(ProposalFilter filter)
   {
       throw Exception('Not implemented yet');
   }

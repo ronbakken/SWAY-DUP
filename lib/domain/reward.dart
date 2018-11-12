@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:decimal/decimal.dart';
 
-enum RewardType { barter, cash }
+enum RewardType { barter, cash, barterAndCash }
 
 class Reward {
   final int id;

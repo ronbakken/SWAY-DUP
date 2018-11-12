@@ -16,7 +16,7 @@ class _BrowseViewState extends State<BrowseView> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<BusinessOffer>>(
-      stream: backend.get<NetWorkService>().getBusinessOffers(),
+      stream: backend.get<OfferManager>().getBusinessOffers(),
       builder: (context, snapShot) {
         if (snapShot.connectionState == ConnectionState.active) {
           // TODO

@@ -50,6 +50,9 @@ class BusinessOffer {
   final BusinessOfferState state;
   final BusinessOfferStateReason stateReason;
 
+  // new relative to the last update
+  final bool isNew;
+
 
   // Info for business
   final int proposalsCountNew;
@@ -71,6 +74,7 @@ class BusinessOffer {
       this.title,
       this.description,
       this.expiryDate,
+      this.isNew,
       this.numberAvailable = 1,
       this.thumbnailUrl,
       this.thumbnailLowRes,
