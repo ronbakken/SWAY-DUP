@@ -13,6 +13,7 @@ dependencies:
   decimal: any
   firebase_messaging: ^2.0.0
   flutter_local_notifications: ^0.3.7
+  flutter_map: any
   flutter_page_indicator: any 
   flutter_svg: any
   get_it: any

@@ -52,6 +52,7 @@ class AppIcons {
   static const deliverable = AppAsset.vector('assets/images/icon_deliverables.svg');
   static const locked = AppAsset.vector('assets/images/icon_locked.svg');
   static const dollarSign = AppAsset.vector('assets/images/icon_dollar_sign.svg');
+  static const mapMarker = AppAsset.vector('assets/images/icon_map_marker.svg');
 
   static const browse = AppAsset.vector('assets/images/icon_browse.svg');
   static const deals = AppAsset.vector('assets/images/icon_deals.svg');
