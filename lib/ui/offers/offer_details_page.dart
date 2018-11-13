@@ -10,6 +10,7 @@ import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/bottom_sheet.dart' as infBottomSheet;
+import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:intl/intl.dart';
 
 class OfferDetailsPage extends PageWidget {
@@ -242,24 +243,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       color: Colors.black,
       child: Row(
         children: <Widget>[
-          Container(
-            width: 48.0,
-            height: 48.0,
-            decoration: BoxDecoration(
-              color: AppTheme.darkGrey,
-              shape: BoxShape.circle,
-            ),
-            padding: const EdgeInsets.all(4.0),
-            child: Container(
-              foregroundDecoration: BoxDecoration(
-                border: Border.all(color: Colors.white, width: 0.7),
-                shape: BoxShape.circle,
-              ),
-              child: ClipOval(
-                child: Image.network(widget.offer.businessAvatarThumbnailUrl),
-              ),
-            ),
-          ),
+          WhiteBorderCircleAvatar(child: Image.network(widget.offer.businessAvatarThumbnailUrl)),
           SizedBox(width: 12.0),
           Expanded(
             child: Column(
@@ -408,7 +392,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
                     child: RaisedButton(
-                      onPressed: () => Navigator.of(context)..push(SignUpPage.route(userType: UserType.influcencer, topPadding: 0)),
+                      onPressed: () =>
+                          Navigator.of(context)..push(SignUpPage.route(userType: UserType.influcencer, topPadding: 0)),
                       shape: const StadiumBorder(),
                       child: Container(
                         alignment: Alignment.center,
@@ -426,7 +411,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10.0, left: 26, right: 26.0, bottom: 20.0),
                       child: InkWell(
-                        onTap: () => Navigator.of(context)..push(SignUpPage.route(userType: UserType.influcencer, topPadding: 0)),
+                        onTap: () => Navigator.of(context)
+                          ..push(SignUpPage.route(userType: UserType.influcencer, topPadding: 0)),
                         child: Text(
                           'ALREADY A MEMBER? LOGIN',
                           textAlign: TextAlign.center,
@@ -533,11 +519,15 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.only(top: 35.0, bottom: 45.0),
-                child: Text('Tell us what you can offer', textAlign: TextAlign.center, textScaleFactor: 1.2,),
+                child: Text(
+                  'Tell us what you can offer',
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.2,
+                ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(12.0,90.0,12.0,12.0),
+              padding: const EdgeInsets.fromLTRB(12.0, 90.0, 12.0, 12.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -586,7 +576,7 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
               right: 0.0,
               child: Material(
                 type: MaterialType.transparency,
-                              child: InkResponse(
+                child: InkResponse(
                   onTap: () => Navigator.of(context).pop(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
