@@ -117,6 +117,50 @@ class NetworkServiceMock implements NetWorkService {
           ],
           thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
           thumbnailUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
+      BusinessOffer(
+          businessAccountId: 43,
+          businessName: 'Scent of Asia',
+          businessDescription: 'Best flavoured teas in town',
+          businessAvatarThumbnailUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+          offerId: 1913,
+          title: 'Spoon Ice Tea',
+          description: 'Free ice tea if you stop by',
+          numberAvailable: 10,
+          categories: [
+            Category(name: 'food', description: 'All about food'),
+            Category(name: 'tea', description: 'Tea')
+          ],
+          deliverables: [
+            Deliverable(
+                channel: DeliverableChannels.instagram,
+                description: 'Tell people how good our tea is',
+                type: DeliverableType.post)
+          ],
+          expiryDate: DateTime.now().add(Duration(days: 10)),
+          location: Location(activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
+          reward: Reward(
+            description: 'One ice tea for you and a friend',
+            type: RewardType.barter,
+            barterValue: Decimal.fromInt(5),
+          ),
+          state: BusinessOfferState.open,
+          stateReason: BusinessOfferStateReason.newOffer,
+          proposalsCountAccepted: 0,
+          proposalsCountCompleted: 1,
+          proposalsCountNew: 2,
+          proposalsCountRefused: 0,
+          coverLowRes: [
+            (await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List(),
+            (await rootBundle.load('assets/mockdata/ice_tea2_lowres.jpg')).buffer.asUint8List(),
+          ],
+          coverUrls: [
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=e4b231d1-a4d3-419b-9c50-8b05fd4ab8d7'
+          ],
+          thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
+          thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a')
     ];
   }

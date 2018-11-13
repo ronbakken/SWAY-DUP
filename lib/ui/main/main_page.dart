@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
+import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/browse_view.dart';
 import 'package:inf/ui/main/map_view.dart';
+import 'package:inf/ui/main/offer_carousel_view.dart';
 import 'package:inf/ui/widgets/auth_state_listener_mixin.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_image.dart';
+import 'package:inf/ui/widgets/inf_toggle.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+
+enum MainPageMode { browse, activities }
 
 class MainPage extends PageWidget {
   static Route<dynamic> route(UserType userType) {
@@ -29,38 +36,17 @@ class MainPage extends PageWidget {
 }
 
 class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, SingleTickerProviderStateMixin {
-  TabController tabController;
+  MediaQueryData mediaQuery;
 
-  _MainPageState() {
-    tabController = TabController(length: 2, vsync: this,);
-  }
+  MainPageMode mainPageMode = MainPageMode.browse;
 
   @override
   Widget build(BuildContext context) {
+    mediaQuery = MediaQuery.of(context);
+
     return ConnectionBuilder(builder: (BuildContext context, NetworkConnectionState connectionState, Widget child) {
       return Scaffold(
-        appBar: AppBar(
-          leading: Builder(
-            builder: (BuildContext context) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkResponse(
-                  onTap: () => Scaffold.of(context).openDrawer(),
-                  child: InfAssetImage(AppIcons.menu),
-                ),
-              );
-            },
-          ),
-          centerTitle: true,
-          title: InfAssetImage(
-            AppLogo.infLogo,
-            height: 33.8,
-            fit: BoxFit.fill,
-            allowDrawingOutsideViewBox: true,
-          ),
-        ),
         body: buildBody(),
-        bottomNavigationBar: buildNavigationBar(),
         drawer: buildMenu(),
       );
     });
@@ -147,23 +133,198 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
   }
 
   Widget buildBody() {
-    return Column(
-      children: <Widget>[
-        Text('Influencer MainPage'),
-        TabBar(
-          controller: tabController,
-          tabs: <Widget>[Text('MAP'), Text('BROWSE')],
+    return Padding(
+      padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom),
+      child: Stack(
+        children: [
+          Container(
+            color: AppTheme.darkGrey,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: _buildBottomBarButtons(),
+            ),
+          ),
+
+          /// The MapView
+          Padding(
+            padding: const EdgeInsets.only(bottom: 64),
+            child: Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(40.0), border: Border.all(), color: AppTheme.grey),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(40.0),
+                child: MapView(),
+              ),
+            ),
+          ),
+
+          /// Menu button
+          Padding(
+            padding: EdgeInsets.only(left: 16.0, top: 8.0 + mediaQuery.padding.top),
+            child: Builder(
+              builder: (BuildContext context) {
+                return Material(
+                  type: MaterialType.transparency,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkResponse(
+                      onTap: () => Scaffold.of(context).openDrawer(),
+                      child: InfAssetImage(
+                        AppIcons.menu,
+                        width: 24.0,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
+          /// Offer carousel
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Stack(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 96.0),
+                  height: 160.0,
+                  child: OfferCarouselView(),
+                )
+              ],
+            ),
+          ),
+
+          // TODO Temporary only here to develop the InfToggle
+          Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(40.0),
+                child: InfToggle<bool>(
+                  leftState: false,
+                  rightState: true,
+                  currentState: true,
+                  left: InfAssetImage(AppIcons.location),
+                  right: InfAssetImage(AppIcons.browse),
+                ),
+              )),
+
+          // The Middle INF button
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 24.0),
+              child: Container(
+                foregroundDecoration: BoxDecoration(
+                  border: Border.all(color: AppTheme.buttonHalo, width: 2.0),
+                  shape: BoxShape.circle,
+                ),
+                child: FloatingActionButton(
+                  elevation: 0.0,
+                  onPressed: () {},
+                  backgroundColor: AppTheme.lightBlue,
+                  child: InfAssetImage(
+                    AppLogo.infLogo,
+                    width: 24.0,
+                    height: 24.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Row _buildBottomBarButtons() {
+    return Row(
+      children: [
+        SizedBox(
+          width: 20.0,
         ),
         Expanded(
-          child: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: tabController,
-            children: <Widget>[
-              MapView(),
-              BrowseView()
-            ],
+          child: Material(
+            type: mainPageMode == MainPageMode.browse ? MaterialType.circle : MaterialType.transparency,
+            color: AppTheme.darkdarkGrey,
+            child: InkResponse(
+              onTap: mainPageMode != MainPageMode.browse
+                  ? () => setState(() {
+                        mainPageMode = MainPageMode.browse;
+                      })
+                  : null,
+              child: SizedBox(
+                height: 96.0,
+                width: 96.0,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24.0, bottom: 5.0),
+                        child: InfAssetImage(
+                          AppIcons.browse,
+                          width: 20.0,
+                        ),
+                      ),
+                      Text(
+                        'BROWSE',
+                        style: TextStyle(
+                          fontSize: 10.0,
+                          decoration:
+                              mainPageMode == MainPageMode.browse ? TextDecoration.underline : TextDecoration.none,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
-        )
+        ),
+        Spacer(),
+        Expanded(
+          child: Material(
+            type: mainPageMode == MainPageMode.activities ? MaterialType.circle : MaterialType.transparency,
+            color: AppTheme.darkdarkGrey,
+            child: InkResponse(
+              onTap: mainPageMode != MainPageMode.activities
+                  ? () => setState(() {
+                        mainPageMode = MainPageMode.activities;
+                      })
+                  : null,
+              child: SizedBox(
+                height: 84.0,
+                width: 84.0,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24.0, bottom: 5.0),
+                        child: InfAssetImage(
+                          AppIcons.inbox,
+                          width: 20.0,
+                        ),
+                      ),
+                      Text(
+                        'ACTIVITIES',
+                        style: TextStyle(
+                          fontSize: 10.0,
+                          decoration:
+                              mainPageMode == MainPageMode.activities ? TextDecoration.underline : TextDecoration.none,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 20.0,
+        ),
       ],
     );
   }

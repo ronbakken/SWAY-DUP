@@ -6,4 +6,7 @@ abstract class OfferManager
 {
    Observable<List<BusinessOffer>> getBusinessOffers();
 
+   Observable<List<BusinessOffer>> getFeaturedBusinessOffers();
+
+
 }

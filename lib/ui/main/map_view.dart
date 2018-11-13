@@ -30,6 +30,7 @@ class _MapViewState extends State<MapView> {
               'accessToken': 'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqa2pkOThmdzFha2IzcG16aHl4M3drNTcifQ.jtaEoGuiomNgllDjUMCwNQ',
             },
             backgroundColor: AppTheme.grey,
+            placeholderImage: AssetImage(AppImages.mapPlaceHolder.path),
           ),
            MarkerLayerOptions(
             markers: [

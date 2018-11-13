@@ -53,12 +53,20 @@ class AppIcons {
   static const locked = AppAsset.vector('assets/images/icon_locked.svg');
   static const dollarSign = AppAsset.vector('assets/images/icon_dollar_sign.svg');
   static const mapMarker = AppAsset.vector('assets/images/icon_map_marker.svg');
+  static const inbox = AppAsset.vector('assets/images/icon_inbox.svg');
+  static const search = AppAsset.vector('assets/images/icon_search.svg');
 
   static const browse = AppAsset.vector('assets/images/icon_browse.svg');
   static const deals = AppAsset.vector('assets/images/icon_deals.svg');
   static const directOffers = AppAsset.vector('assets/images/icon_direct.svg');
   static const history = AppAsset.vector('assets/images/icon_history.svg');
   static const switchUser = AppAsset.vector('assets/images/icon_switch_user.svg');
+}
+
+class AppImages {
+  const AppImages();
+ 
+  static const mapPlaceHolder = AppAsset.bitmap('assets/images/map_placeholder_tile.png');
 }
 
 class AppAsset {

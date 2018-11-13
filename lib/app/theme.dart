@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 
 class AppTheme {
+  static const darkdarkGrey = const Color(0xFF202022);
   static const darkGrey = const Color(0xFF232326);
+  static const buttonHalo = const Color(0xFF323232);
   static const grey = const Color(0xFF2c2c2f);
   static const blue = const Color(0xFF073764);
+  static const lightBlue = const Color(0xFF0070c0);
   static const red = const Color(0xFFDC7274);
   static const white30 = const Color(0x66FFFFFF);
   static const blackTwo = const Color(0xFF181616);
+  static const toggleBackground = const Color(0xFF49494a);
 
   static ThemeData themeTopLevel() {
     return ThemeData(
