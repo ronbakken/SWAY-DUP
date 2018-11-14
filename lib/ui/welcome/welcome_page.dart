@@ -165,6 +165,7 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut> with SingleTicke
     super.initState();
     _controller = AnimationController(duration: Duration(milliseconds: 450), vsync: this);
     _animation = AlwaysStoppedAnimation<Offset>(Offset.zero);
+    // FIXME: remove this post frame callback and work out size a better way
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final childSize = _buttonKey.currentState.context.size;
       setState(() {

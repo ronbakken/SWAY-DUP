@@ -55,10 +55,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   child: PageView(controller: pageController, children: pages),
                 ),
                 SafeArea(
-                    child: InfPageIndicator(
-                  pageController: pageController,
-                  count: 3,
-                )),
+                  child: InfPageIndicator(
+                    controller: pageController,
+                    itemCount: 3,
+                  ),
+                ),
                 SizedBox(
                   height: 10.0,
                 )
@@ -85,7 +86,9 @@ List<Widget> _buildInfluencerPages(BuildContext context) {
       children: <Widget>[
         Center(child: Text('Page3')),
         FlatButton(
-          onPressed: () => Navigator.of(context)..pop()..push(SignUpPage.route(userType: UserType.influcencer)),
+          onPressed: () => Navigator.of(context)
+            ..pop()
+            ..push(SignUpPage.route(userType: UserType.influcencer)),
           child: Text('Next'),
         ),
       ],

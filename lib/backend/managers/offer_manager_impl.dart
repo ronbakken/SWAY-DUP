@@ -8,12 +8,12 @@ class OfferManagerImplementation implements OfferManager
    @override
    Observable<List<BusinessOffer>> getBusinessOffers()
    {
-     return backend.get<NetWorkService>().getBusinessOffers(null);
+     return backend.get<NetworkService>().getBusinessOffers(null);
    }
 
   @override
   Observable<List<BusinessOffer>> getFeaturedBusinessOffers() {
-     return backend.get<NetWorkService>().getBusinessOffers(null);
+     return backend.get<NetworkService>().getBusinessOffers(null);
   }
 
 }

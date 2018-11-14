@@ -56,7 +56,7 @@ void registerImplementations() {
   backend.registerLazySingleton<AuthenticationService>(() => AuthenticationServiceImplementation());
   backend.registerLazySingleton<ResourceService>(() => ResourceServiceImplementation());
   backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
-  backend.registerLazySingleton<NetWorkService>(() => NetworkServiceImplementation());
+  backend.registerLazySingleton<NetworkService>(() => NetworkServiceImplementation());
 
   // Managers
   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
@@ -69,13 +69,13 @@ void registerMocks() {
   // Services
   backend.registerLazySingleton<AuthenticationService>(
     () => AuthenticationServiceMock(
-          isLoggedIn: true,
+          isLoggedIn: false,
           currentUser: 0,
         ),
   );
   backend.registerLazySingleton<ResourceService>(() => ResourceServiceMock());
   backend.registerLazySingleton<SystemService>(() => SystemServiceMock(NetworkConnectionState.connected));
-  backend.registerLazySingleton<NetWorkService>(() => NetworkServiceMock());
+  backend.registerLazySingleton<NetworkService>(() => NetworkServiceMock());
 
   // Managers
   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());

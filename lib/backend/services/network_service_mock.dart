@@ -5,7 +5,7 @@ import 'package:inf/backend/services/network_service_.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:rxdart/rxdart.dart';
 
-class NetworkServiceMock implements NetWorkService {
+class NetworkServiceMock implements NetworkService {
   List<BusinessOffer> allOffers;
 
   /// TBD: What is the best way to define a Filter
@@ -216,5 +216,35 @@ class NetworkServiceMock implements NetWorkService {
         influencerMarkedRewarded: false,
       ),
     ];
+  }
+
+  @override
+  Observable<int> getBusinessOffersCount(OfferFilter filter) {
+    // TODO: implement getBusinessOffersCount
+    return null;
+  }
+
+  @override
+  Future<Chat> getChat(int offerId) {
+    // TODO: implement getChat
+    return null;
+  }
+
+  @override
+  Future<void> markChatAsRead(Chat chat) {
+    // TODO: implement markChatAsRead
+    return null;
+  }
+
+  @override
+  Future<void> postChatEntry(Chat chat, ChatEntry entry) {
+    // TODO: implement postChatEntry
+    return null;
+  }
+
+  @override
+  Observable<WaitingChats> waitingChatUpdates() {
+    // TODO: implement waitingChatUpdates
+    return null;
   }
 }

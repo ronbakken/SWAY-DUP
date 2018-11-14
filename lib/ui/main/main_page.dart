@@ -1,19 +1,18 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
-import 'package:inf/app/assets.dart';
-import 'package:inf/app/theme.dart';
-import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/main/map_view.dart';
-import 'package:inf/ui/main/offer_carousel_view.dart';
+import 'package:inf/ui/main/activities_section.dart';
+import 'package:inf/ui/main/bottom_nav.dart';
+import 'package:inf/ui/main/browse_section.dart';
+import 'package:inf/ui/main/menu_drawer.dart';
+import 'package:inf/ui/main/page_mode.dart';
 import 'package:inf/ui/widgets/auth_state_listener_mixin.dart';
-import 'package:inf/ui/widgets/connection_builder.dart';
-import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/inf_toggle.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 
-enum MainPageMode { browse, activities }
-enum BrowseMode { map, list }
+const kBottomNavHeight = 72.0;
+const kMenuIconSize = 48.0;
 
 class MainPage extends PageWidget {
   static Route<dynamic> route(UserType userType) {
@@ -33,304 +32,172 @@ class MainPage extends PageWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, SingleTickerProviderStateMixin {
-  MediaQueryData mediaQuery;
+class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, TickerProviderStateMixin {
+  AnimationController _drawerController;
+  Animation<Offset> _drawerSlideAnim;
+  Animation<double> _drawerAnim;
+  Animation<RelativeRect> _menuIconAnim;
+  AnimationController _sectionController;
+  Animation<double> _browseAnim;
+  Animation<double> _activitiesAnim;
 
-  MainPageMode mainPageMode = MainPageMode.browse;
-  BrowseMode browseMode = BrowseMode.map;
+  MainPageMode _mode = MainPageMode.browse;
+  bool _menuVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _drawerController = AnimationController(duration: const Duration(milliseconds: 450), vsync: this);
+    // TODO: Add curves
+    _drawerAnim = Tween(begin: 0.0, end: 1.0).animate(_drawerController);
+    _drawerSlideAnim = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero).animate(_drawerController);
+    _sectionController = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
+    // TODO: Add curves
+    _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
+    _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
+  }
+
+  @override
+  void dispose() {
+    _drawerController.dispose();
+    _sectionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    mediaQuery = MediaQuery.of(context);
+    final mediaQuery = MediaQuery.of(context);
+    final sectionPadding = EdgeInsets.only(bottom: mediaQuery.padding.bottom + kBottomNavHeight);
+    final menuWidth = mediaQuery.size.shortestSide * 0.7;
 
-    return ConnectionBuilder(builder: (BuildContext context, NetworkConnectionState connectionState, Widget child) {
-      return Scaffold(
-        body: buildBody(),
-        drawer: buildMenu(),
-      );
-    });
-  }
+    final menuIconRect = Rect.fromLTWH(0.0, 0.0, kMenuIconSize, mediaQuery.padding.top + kMenuIconSize);
+    final menuIconBegin = RelativeRect.fromSize(menuIconRect, mediaQuery.size);
+    final menuIconEnd = menuIconBegin.shift(Offset(menuWidth, 0.0));
+    _menuIconAnim = RelativeRectTween(begin: menuIconBegin, end: menuIconEnd).animate(_drawerController);
 
-  BottomNavigationBar buildNavigationBar() {
-    return BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Offers'),
-          ),
-          icon: InfAssetImage(
-            AppIcons.offers,
-            height: 30.0,
-          ),
-        ),
-        BottomNavigationBarItem(
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Proposals'),
-          ),
-          icon: InfAssetImage(
-            AppIcons.proposal,
-            height: 30.0,
-          ),
-        ),
-        BottomNavigationBarItem(
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Agreements'),
-          ),
-          icon: InfAssetImage(
-            AppIcons.agreements,
-            height: 30.0,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget buildMenu() {
-    final userManager = backend.get<UserManager>();
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      width: 300.0,
-      color: Colors.grey,
-      child: Column(
-        children: <Widget>[
-          Text(userManager.isLoggedIn ? userManager.currentUser.name : ''),
-          SizedBox(height: 10),
-          buildMenuRow(AppIcons.browse, 'Browse', () {}),
-          SizedBox(height: 10),
-          buildMenuRow(AppIcons.history, 'History', () {}),
-          SizedBox(height: 10),
-          buildMenuRow(AppIcons.offers, 'Offers', () {}, CircleAvatar(radius: 8.0)),
-          SizedBox(height: 10),
-          buildMenuRow(AppIcons.directOffers, 'Direct', () {}),
-          SizedBox(height: 10),
-          buildMenuRow(AppIcons.deals, 'Deal', () {}),
-        ],
-      ),
-    );
-  }
-
-  Widget buildMenuRow(AppAsset icon, String text, GestureTapCallback onTap, [Widget trailing]) {
-    return InkWell(
-      child: Row(
-        children: <Widget>[
-          InfAssetImage(
-            icon,
-            color: Colors.white,
-            width: 30.0,
-            height: 30.0,
-          ),
-          SizedBox(width: 10.0),
-          Text(text),
-          SizedBox(width: 10.0),
-          trailing != null ? trailing : SizedBox()
-        ],
-      ),
-    );
-  }
-
-  Widget buildBody() {
-    return Padding(
-      padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom),
+    return Material(
       child: Stack(
-        children: [
-          Container(
-            color: AppTheme.darkGrey,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: _buildBottomBarButtons(),
+        children: <Widget>[
+          RepaintBoundary(
+            child: Stack(
+              children: <Widget>[
+                IgnorePointer(
+                  ignoring: _mode != MainPageMode.browse,
+                  child: FadeTransition(
+                    opacity: _browseAnim,
+                    child: MainBrowseSection(
+                      padding: sectionPadding,
+                    ),
+                  ),
+                ),
+                IgnorePointer(
+                  ignoring: _mode != MainPageMode.activities,
+                  child: FadeTransition(
+                    opacity: _activitiesAnim,
+                    child: MainActivitiesSection(
+                      padding: sectionPadding,
+                    ),
+                  ),
+                ),
+                MainBottomNav(
+                  height: kBottomNavHeight,
+                  initialValue: _mode,
+                  onBottomNavChanged: (MainPageMode value) {
+                    if (value == MainPageMode.browse) {
+                      _sectionController.reverse();
+                    } else {
+                      _sectionController.forward();
+                    }
+                    _mode = value;
+                  },
+                  onSearchPressed: () {
+                    // TODO:
+                  },
+                ),
+              ],
             ),
           ),
-
-          /// The MapView
-          Padding(
-            padding: const EdgeInsets.only(bottom: 64),
-            child: Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(40.0), border: Border.all(), color: AppTheme.grey),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(40.0),
-                child: MapView(),
+          IgnorePointer(
+            ignoring: _menuVisible,
+            child: AnimatedBuilder(
+              animation: _drawerAnim,
+              builder: (BuildContext context, Widget child) {
+                final value = _drawerAnim.value;
+                if (value <= 0.0) {
+                  return SizedBox();
+                } else {
+                  final blur = 12.0 * value;
+                  return BackdropFilter(
+                    filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.6 * value),
+                      ),
+                      child: child,
+                    ),
+                  );
+                }
+              },
+              child: RepaintBoundary(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: SlideTransition(
+                    position: _drawerSlideAnim,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.tightFor(
+                        width: menuWidth,
+                      ),
+                      child: MainNavigationDrawer(),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
-
-          /// Menu button
-          Padding(
-            padding: EdgeInsets.only(left: 16.0, top: 8.0 + mediaQuery.padding.top),
-            child: Builder(
-              builder: (BuildContext context) {
-                return Material(
-                  type: MaterialType.transparency,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkResponse(
-                      onTap: () => Scaffold.of(context).openDrawer(),
-                      child: InfAssetImage(
-                        AppIcons.menu,
-                        width: 24.0,
-                      ),
-                    ),
-                  ),
-                );
+          PositionedTransition(
+            rect: _menuIconAnim,
+            child: _MainMenuIcon(
+              animation: _drawerAnim,
+              onPressed: () {
+                _menuVisible = !_menuVisible;
+                if (_menuVisible) {
+                  _drawerController.forward();
+                } else {
+                  _drawerController.reverse();
+                }
               },
             ),
           ),
-
-          /// Offer carousel
-          LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              assert(constraints.hasBoundedHeight);
-              return Align(
-                alignment: Alignment.bottomCenter,
-                child: Stack(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 96.0),
-                      height: constraints.maxHeight / 4.5,
-                      child: OfferCarouselView(),
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
-
-          // TODO Temporary only here to develop the InfToggle
-          Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: const EdgeInsets.all(40.0),
-                child: InfToggle<BrowseMode>(
-                  leftState: BrowseMode.map,
-                  rightState: BrowseMode.list,
-                  currentState: browseMode,
-                  left: AppIcons.location,
-                  right: AppIcons.browse,
-                  onChanged: (mode) => setState(() => browseMode = mode),
-                ),
-              )),
-
-          // The Middle INF button
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 24.0),
-              child: Container(
-                foregroundDecoration: BoxDecoration(
-                  border: Border.all(color: AppTheme.buttonHalo, width: 2.0),
-                  shape: BoxShape.circle,
-                ),
-                child: FloatingActionButton(
-                  elevation: 0.0,
-                  onPressed: () {},
-                  backgroundColor: AppTheme.lightBlue,
-                  child: InfAssetImage(
-                    AppLogo.infLogo,
-                    width: 24.0,
-                    height: 24.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          )
         ],
       ),
     );
   }
+}
 
-  Row _buildBottomBarButtons() {
-    return Row(
-      children: [
-        SizedBox(
-          width: 20.0,
+class _MainMenuIcon extends StatelessWidget {
+  const _MainMenuIcon({
+    Key key,
+    @required this.onPressed,
+    @required this.animation,
+  }) : super(key: key);
+
+  final VoidCallback onPressed;
+  final Animation<double> animation;
+
+  @override
+  Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    return Padding(
+      padding: EdgeInsets.only(top: mediaQuery.padding.top),
+      child: IconButton(
+        // kMenuIconSize
+        onPressed: onPressed,
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_close,
+          progress: animation,
         ),
-        Expanded(
-          child: Material(
-            type: mainPageMode == MainPageMode.browse ? MaterialType.circle : MaterialType.transparency,
-            color: AppTheme.darkdarkGrey,
-            child: InkResponse(
-              onTap: mainPageMode != MainPageMode.browse
-                  ? () => setState(() {
-                        mainPageMode = MainPageMode.browse;
-                      })
-                  : null,
-              child: SizedBox(
-                height: 96.0,
-                width: 96.0,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 24.0, bottom: 5.0),
-                        child: InfAssetImage(
-                          AppIcons.browse,
-                          width: 20.0,
-                        ),
-                      ),
-                      Text(
-                        'BROWSE',
-                        style: TextStyle(
-                          fontSize: 10.0,
-                          decoration:
-                              mainPageMode == MainPageMode.browse ? TextDecoration.underline : TextDecoration.none,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Spacer(),
-        Expanded(
-          child: Material(
-            type: mainPageMode == MainPageMode.activities ? MaterialType.circle : MaterialType.transparency,
-            color: AppTheme.darkdarkGrey,
-            child: InkResponse(
-              onTap: mainPageMode != MainPageMode.activities
-                  ? () => setState(() {
-                        mainPageMode = MainPageMode.activities;
-                      })
-                  : null,
-              child: SizedBox(
-                height: 84.0,
-                width: 84.0,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 24.0, bottom: 5.0),
-                        child: InfAssetImage(
-                          AppIcons.inbox,
-                          width: 20.0,
-                        ),
-                      ),
-                      Text(
-                        'ACTIVITIES',
-                        style: TextStyle(
-                          fontSize: 10.0,
-                          decoration:
-                              mainPageMode == MainPageMode.activities ? TextDecoration.underline : TextDecoration.none,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 20.0,
-        ),
-      ],
+      ),
     );
   }
 }

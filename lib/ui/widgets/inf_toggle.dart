@@ -3,6 +3,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 
+// TODO: replace with better version
 class InfToggle<T> extends StatelessWidget {
   final T leftState;
   final T rightState;
@@ -35,6 +36,7 @@ class InfToggle<T> extends StatelessWidget {
     return Material(
       shape: const StadiumBorder(),
       color: AppTheme.toggleBackground,
+      clipBehavior: Clip.antiAlias,
       child: InkResponse(
         onTap: () => onChanged(currentState == leftState ? rightState : leftState),
         child: SizedBox(
@@ -47,7 +49,7 @@ class InfToggle<T> extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  width: 26,
+                  width: 26.0,
                   decoration: BoxDecoration(
                     color: leftBackGroundColor,
                     shape: BoxShape.circle,
@@ -61,7 +63,7 @@ class InfToggle<T> extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: 26,
+                  width: 26.0,
                   decoration: BoxDecoration(
                     color: rightBackGroundColor,
                     shape: BoxShape.circle,

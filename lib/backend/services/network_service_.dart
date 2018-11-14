@@ -2,7 +2,7 @@
 import 'package:inf/domain/domain.dart';
 import 'package:rxdart/rxdart.dart';
 
-abstract class NetWorkService
+abstract class NetworkService
 {
   Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter);
   Observable<int> getBusinessOffersCount(OfferFilter filter);
