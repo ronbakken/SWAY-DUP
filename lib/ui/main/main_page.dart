@@ -3,17 +3,14 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/main/browse_view.dart';
 import 'package:inf/ui/main/map_view.dart';
 import 'package:inf/ui/main/offer_carousel_view.dart';
 import 'package:inf/ui/widgets/auth_state_listener_mixin.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
-import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 
 enum MainPageMode { browse, activities }
 enum BrowseMode { map, list }

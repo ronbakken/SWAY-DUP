@@ -34,7 +34,7 @@ enum AppEnvironment { dev, prod, mock }
 
 GetIt backend = GetIt();
 
-setupBackend(AppEnvironment env) {
+void setupBackend(AppEnvironment env) {
   switch (env) {
     case AppEnvironment.dev:
     case AppEnvironment.prod:

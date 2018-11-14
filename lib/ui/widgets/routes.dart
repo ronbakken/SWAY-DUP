@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class NoTransitionRoute<T> extends PageRouteBuilder<T> {
   NoTransitionRoute({
     @required WidgetBuilder builder,
-    RouteSettings settings: const RouteSettings(),
-    bool maintainState: true,
+    RouteSettings settings = const RouteSettings(),
+    bool maintainState = true,
     Duration transitionDuration = const Duration(milliseconds: 450),
   }) : super(
           settings: settings,
@@ -19,8 +19,8 @@ class NoTransitionRoute<T> extends PageRouteBuilder<T> {
 class FadePageRoute<T> extends PageRouteBuilder<T> {
   FadePageRoute({
     @required WidgetBuilder builder,
-    RouteSettings settings: const RouteSettings(),
-    bool maintainState: true,
+    RouteSettings settings = const RouteSettings(),
+    bool maintainState = true,
     Duration transitionDuration = const Duration(milliseconds: 450),
   }) : super(
           settings: settings,

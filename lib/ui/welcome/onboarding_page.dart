@@ -1,5 +1,3 @@
-import 'package:pedantic/pedantic.dart';
-
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';

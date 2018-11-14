@@ -206,7 +206,7 @@ class ModalBottomSheetRoute<T> extends PopupRoute<T> {
     this.builder,
     this.theme,
     this.barrierLabel,
-    this.barrierColor: Colors.black54,
+    this.barrierColor = Colors.black54,
     RouteSettings settings,
     this.resizeToAvoidBottomPadding,
     this.dismissOnTap,
@@ -282,7 +282,7 @@ class ModalBottomSheetRoute<T> extends PopupRoute<T> {
 Future<T> showModalBottomSheet<T>({
   @required BuildContext context,
   @required WidgetBuilder builder,
-  bool dismissOnTap: true,
+  bool dismissOnTap = true,
   bool resizeToAvoidBottomPadding,
 }) {
   assert(context != null);

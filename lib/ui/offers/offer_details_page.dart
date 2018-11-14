@@ -9,7 +9,7 @@ import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
-import 'package:inf/ui/widgets/bottom_sheet.dart' as infBottomSheet;
+import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:intl/intl.dart';
 
@@ -110,7 +110,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
                     child: RaisedButton(
                       onPressed: () {
-                        return infBottomSheet.showModalBottomSheet(
+                        return inf_bottom_sheet.showModalBottomSheet(
                           context: context,
                           builder: (BuildContext context) => _ProposalBottomSheet(),
                           dismissOnTap: false,

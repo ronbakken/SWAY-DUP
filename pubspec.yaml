@@ -4,9 +4,9 @@ description: INFluencers
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.0.0 <3.0.0"
 
-# Dependencies are ordered alphabethically or grouped if it makes sense  
+# Dependencies are ordered alphabetically or grouped if it makes sense
 
 dependencies:
   connectivity: any
@@ -45,7 +45,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: any
 
 flutter:
   uses-material-design: true
