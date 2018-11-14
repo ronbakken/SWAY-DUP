@@ -10,9 +10,9 @@ class OfferFilter
   int offeringBusinessId;
   BusinessOfferState state;
   String freeText;
-  DeliverableChannels channel;
-  DeliverableType deliverableType;
-  RewardType rewardType;
+  List<DeliverableChannels> channel;
+  List<DeliverableType> deliverableType;
+  List<RewardType> rewardType;
   Decimal rewardValueLowerLimit;  
   Decimal rewardValueUpperLimit; 
   double latitude;

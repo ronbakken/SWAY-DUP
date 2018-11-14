@@ -16,6 +16,7 @@ import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 
 enum MainPageMode { browse, activities }
+enum BrowseMode { map, list }
 
 class MainPage extends PageWidget {
   static Route<dynamic> route(UserType userType) {
@@ -39,6 +40,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
   MediaQueryData mediaQuery;
 
   MainPageMode mainPageMode = MainPageMode.browse;
+  BrowseMode browseMode = BrowseMode.map;
 
   @override
   Widget build(BuildContext context) {
@@ -181,17 +183,22 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
           ),
 
           /// Offer carousel
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Stack(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 96.0),
-                  height: 160.0,
-                  child: OfferCarouselView(),
-                )
-              ],
-            ),
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              assert(constraints.hasBoundedHeight);
+              return Align(
+                alignment: Alignment.bottomCenter,
+                child: Stack(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 96.0),
+                      height: constraints.maxHeight / 4.5,
+                      child: OfferCarouselView(),
+                    )
+                  ],
+                ),
+              );
+            },
           ),
 
           // TODO Temporary only here to develop the InfToggle
@@ -199,12 +206,13 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
               alignment: Alignment.topRight,
               child: Padding(
                 padding: const EdgeInsets.all(40.0),
-                child: InfToggle<bool>(
-                  leftState: false,
-                  rightState: true,
-                  currentState: true,
-                  left: InfAssetImage(AppIcons.location),
-                  right: InfAssetImage(AppIcons.browse),
+                child: InfToggle<BrowseMode>(
+                  leftState: BrowseMode.map,
+                  rightState: BrowseMode.list,
+                  currentState: browseMode,
+                  left: AppIcons.location,
+                  right: AppIcons.browse,
+                  onChanged: (mode) => setState(() => browseMode = mode),
                 ),
               )),
 

@@ -20,7 +20,7 @@ class OfferCarouselView extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             var offer = snapshot.data[index];
             return Container(
-              margin: const EdgeInsets.only(left: 10.0, top: 5.0, bottom: 5.0),
+              margin: const EdgeInsets.only(left: 12.0, top: 8.0, bottom: 8.0),
               decoration: BoxDecoration(
                   color: AppTheme.darkGrey,
                   boxShadow: [BoxShadow(color: AppTheme.white30, spreadRadius: 1.0, blurRadius: 2.0)],

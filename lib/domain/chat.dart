@@ -6,6 +6,14 @@ enum ChatEntryType {
   marker // system marker (id=...)
 }
 
+/// the cumulated number of offers whith waiting chats
+class WaitingChats
+{
+  int inAppliedAndDirectOffers;
+  int inDeals;
+  int inDone;
+}
+
 
 class ChatEntry {
   int id; // Sequential identifier in the chat stream
@@ -21,4 +29,9 @@ class ChatEntry {
 
   DateTime seen; // null if not seen
   
+}
+
+class Chat
+{
+  List<ChatEntry> entries;
 }

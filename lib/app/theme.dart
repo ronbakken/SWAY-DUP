@@ -11,7 +11,12 @@ class AppTheme {
   static const red = const Color(0xFFDC7274);
   static const white30 = const Color(0x66FFFFFF);
   static const blackTwo = const Color(0xFF181616);
-  static const toggleBackground = const Color(0xFF49494a);
+  static const toggleBackground = const Color(0xFF474749);
+  static const toggleInActive = const Color(0xFF57697C);
+  static const toggleActive = Colors.white;
+  static const toggleIconActive = blue;
+  static const toggleIconInActive = Colors.white;
+
 
   static ThemeData themeTopLevel() {
     return ThemeData(
