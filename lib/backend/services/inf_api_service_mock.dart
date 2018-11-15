@@ -1,11 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/services.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/backend/services/network_service_.dart';
+import 'package:inf/backend/services/inf_api_service_.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:rxdart/rxdart.dart';
 
-class NetworkServiceMock implements NetworkService {
+class InfApiServiceMock implements InfApiService {
   List<BusinessOffer> allOffers;
 
   /// TBD: What is the best way to define a Filter
@@ -16,10 +16,14 @@ class NetworkServiceMock implements NetworkService {
         .map((list) => list..forEach((offer) => offer.displayLimited = showLimited));
   }
 
-  @override
-  Observable<List<Proposal>> getProposals(ProposalFilter filter) {
-    return null; // TODO
-  }
+  // @override
+  // Observable<List<Proposal>> getProposals(ProposalFilter filter) {
+  //   return null; // TODO
+  // }
+  // @override
+  // Future<Proposal> getProposalById(int proposalId) {
+  //   throw Exception('Not implemented yet');
+  // }
 
   @override
   Future<BusinessOffer> getOfferById(int offerId) {
@@ -27,9 +31,65 @@ class NetworkServiceMock implements NetworkService {
   }
 
   @override
-  Future<Proposal> getProposalById(int proposalId) {
-    throw Exception('Not implemented yet');
+  Future<Chat> getChat(int offerId) {
+    // TODO: implement getChat
+    return null;
   }
+
+  @override
+  Future<void> markChatAsRead(Chat chat) {
+    // TODO: implement markChatAsRead
+    return null;
+  }
+
+  @override
+  Future<void> postChatEntry(Chat chat, ChatEntry entry) {
+    // TODO: implement postChatEntry
+    return null;
+  }
+
+  @override
+  Observable<WaitingChats> waitingChatUpdates() {
+    // TODO: implement waitingChatUpdates
+    return null;
+  }
+
+  @override
+  Future<void> addOfferFilter(OfferFilter filter) {
+    // TODO: implement addOfferFilter
+    return null;
+  }
+
+  @override
+  Future<void> clearAllOfferFilters(OfferFilter filter) {
+    // TODO: implement clearAllOfferFilters
+    return null;
+  }
+
+  @override
+  Future<void> clearOfferFilter(OfferFilter filter) {
+    // TODO: implement clearOfferFilter
+    return null;
+  }
+
+  @override
+  Observable<List<BusinessOffer>> getFilteredBusinessOffers() {
+    // TODO: implement getFilteredBusinessOffers
+    return null;
+  }
+
+  @override
+  Observable<int> getFilteredBusinessOffersCount() {
+    // TODO: implement getFilteredBusinessOffersCount
+    return null;
+  }
+
+  @override
+  Future<OfferFilter> getOfferFilter(OfferFilter filter) {
+    // TODO: implement getOfferFilter
+    return null;
+  }
+
 
   Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
     return [
@@ -218,33 +278,6 @@ class NetworkServiceMock implements NetworkService {
     ];
   }
 
-  @override
-  Observable<int> getBusinessOffersCount(OfferFilter filter) {
-    // TODO: implement getBusinessOffersCount
-    return null;
-  }
 
-  @override
-  Future<Chat> getChat(int offerId) {
-    // TODO: implement getChat
-    return null;
-  }
 
-  @override
-  Future<void> markChatAsRead(Chat chat) {
-    // TODO: implement markChatAsRead
-    return null;
-  }
-
-  @override
-  Future<void> postChatEntry(Chat chat, ChatEntry entry) {
-    // TODO: implement postChatEntry
-    return null;
-  }
-
-  @override
-  Observable<WaitingChats> waitingChatUpdates() {
-    // TODO: implement waitingChatUpdates
-    return null;
-  }
 }

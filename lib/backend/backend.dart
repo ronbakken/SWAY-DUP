@@ -9,15 +9,15 @@ import 'package:inf/backend/services/auth_service_.dart';
 import 'package:inf/backend/services/auth_service_impl.dart';
 import 'package:inf/backend/services/auth_service_mock.dart';
 import 'package:inf/backend/managers/user_manager_.dart';
-import 'package:inf/backend/services/network_service_impl.dart';
-import 'package:inf/backend/services/network_service_mock.dart';
+import 'package:inf/backend/services/inf_api_service_impl.dart';
+import 'package:inf/backend/services/inf_api_service_mock.dart';
 import 'package:inf/backend/services/resource_service_.dart';
 import 'package:inf/backend/services/resource_service_impl.dart';
 import 'package:inf/backend/services/resource_service_mock.dart';
 import 'package:inf/backend/services/system_service_.dart';
 import 'package:inf/backend/services/system_service_impl.dart';
 import 'package:inf/backend/services/system_service_mock.dart';
-import 'package:inf/backend/services/network_service_.dart';
+import 'package:inf/backend/services/inf_api_service_.dart';
 import 'package:inf/backend/managers/offer_manager_.dart';
 
 import 'package:inf/utils/error_capture.dart';
@@ -27,7 +27,7 @@ export 'package:inf/backend/services/auth_service_.dart';
 export 'package:inf/backend/managers/user_manager_.dart';
 export 'package:inf/backend/services/resource_service_.dart';
 export 'package:inf/backend/services/system_service_.dart';
-export 'package:inf/backend/services/network_service_.dart';
+export 'package:inf/backend/services/inf_api_service_.dart';
 export 'package:inf/backend/managers/offer_manager_.dart';
 
 enum AppEnvironment { dev, prod, mock }
@@ -56,7 +56,7 @@ void registerImplementations() {
   backend.registerLazySingleton<AuthenticationService>(() => AuthenticationServiceImplementation());
   backend.registerLazySingleton<ResourceService>(() => ResourceServiceImplementation());
   backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
-  backend.registerLazySingleton<NetworkService>(() => NetworkServiceImplementation());
+  backend.registerLazySingleton<InfApiService>(() => InfApiServiceImplementation());
 
   // Managers
   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
@@ -75,7 +75,7 @@ void registerMocks() {
   );
   backend.registerLazySingleton<ResourceService>(() => ResourceServiceMock());
   backend.registerLazySingleton<SystemService>(() => SystemServiceMock(NetworkConnectionState.connected));
-  backend.registerLazySingleton<NetworkService>(() => NetworkServiceMock());
+  backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());
 
   // Managers
   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
