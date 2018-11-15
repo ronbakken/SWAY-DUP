@@ -78,10 +78,11 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
 
     return Material(
       child: Stack(
-        children: <Widget>[
+        children: [
           RepaintBoundary(
             child: Stack(
-              children: <Widget>[
+              children: [
+                /// BrowseSection
                 IgnorePointer(
                   ignoring: _mode != MainPageMode.browse,
                   child: FadeTransition(
@@ -91,6 +92,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                     ),
                   ),
                 ),
+                /// ActivitySection
                 IgnorePointer(
                   ignoring: _mode != MainPageMode.activities,
                   child: FadeTransition(
@@ -109,7 +111,8 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                     } else {
                       _sectionController.forward();
                     }
-                    _mode = value;
+                    
+                    setState(()=>_mode = value);
                   },
                   onSearchPressed: () {
                     // TODO:
@@ -118,11 +121,13 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
               ],
             ),
           ),
+
+          /// Main Menu Drawer
           IgnorePointer(
             ignoring: _menuVisible,
             child: AnimatedBuilder(
               animation: _drawerAnim,
-              builder: (BuildContext context, Widget child) {
+              builder: (BuildContext context, Widget navigationDrawer) {
                 final value = _drawerAnim.value;
                 if (value <= 0.0) {
                   return SizedBox();
@@ -134,7 +139,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.6 * value),
                       ),
-                      child: child,
+                      child: navigationDrawer,
                     ),
                   );
                 }

@@ -10,12 +10,13 @@ class BrowseListTile extends StatelessWidget {
     Key key,
     @required this.offer,
     @required this.onPressed,
-    this.tag,
+    this.tag, this.backGroundColor =AppTheme.grey,
   }) : super(key: key);
 
   final BusinessOffer offer;
   final VoidCallback onPressed;
   final String tag;
+  final Color backGroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class BrowseListTile extends StatelessWidget {
       );
     }
     return Material(
-      color: AppTheme.grey,
+      color: backGroundColor,
       elevation: 2.0,
       borderRadius: BorderRadius.circular(5.0),
       child: Padding(
