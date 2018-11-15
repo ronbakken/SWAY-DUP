@@ -86,6 +86,11 @@ class InfApiServiceImplementation implements InfApiService
   @override
   Future<OfferFilter> getOfferFilter(OfferFilter filter) {
     // TODO: implement getOfferFilter
+  }
+
+  @override
+  Future<void> markOfferAsRead(BusinessOffer offer) {
+    // TODO: implement markOfferAsRead
       throw Exception('Not implemented yet');
   }
 }

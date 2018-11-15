@@ -90,6 +90,11 @@ class InfApiServiceMock implements InfApiService {
     return null;
   }
 
+  @override
+  Future<void> markOfferAsRead(BusinessOffer offer) {
+    // TODO: implement markOfferAsRead
+    return null;
+  }
 
   Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
     return [
@@ -277,6 +282,8 @@ class InfApiServiceMock implements InfApiService {
       ),
     ];
   }
+
+
 
 
 

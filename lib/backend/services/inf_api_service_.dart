@@ -6,6 +6,7 @@ abstract class InfApiService
 {
   //Obervables must me backed by a BehaviourSubject
 
+
   Future<BusinessOffer> getOfferById(int offerId);
   
   Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter);
@@ -17,9 +18,9 @@ abstract class InfApiService
 
   Future<void> clearAllOfferFilters(OfferFilter filter);
   
-
   Observable<int> getFilteredBusinessOffersCount();
   
+  Future<void> markOfferAsRead(BusinessOffer offer);
 
 
   Observable<WaitingChats> waitingChatUpdates();

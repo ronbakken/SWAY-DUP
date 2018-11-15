@@ -50,9 +50,12 @@ class BusinessOffer {
   final BusinessOfferState state;
   final BusinessOfferStateReason stateReason;
 
-  // new relative to the last update
-  final bool isNew;
+  // true if offer was marked seen
+  final bool wasRead;
 
+  // number of new messages in the chat since
+  // the last time the chat was marked as read.
+  final int newChatMessages;
 
   // Info for business
   final int proposalsCountNew;
@@ -64,7 +67,7 @@ class BusinessOffer {
   // So the Offer View knows this offer has already been applied to
   final int influencerProposalId;
 
-  BusinessOffer( 
+  BusinessOffer(
       {this.offerId,
       this.businessAccountId,
       this.businessName,
@@ -74,7 +77,8 @@ class BusinessOffer {
       this.title,
       this.description,
       this.expiryDate,
-      this.isNew,
+      this.wasRead,
+      this.newChatMessages,
       this.numberAvailable = 1,
       this.thumbnailUrl,
       this.thumbnailLowRes,
