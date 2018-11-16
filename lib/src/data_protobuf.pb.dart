@@ -33,7 +33,7 @@ class DataSocialMedia extends $pb.GeneratedMessage {
     ..aOS(16, 'blurredAvatarUrl')
     ..aOB(17, 'published')
     ..aOB(18, 'allowLogIn')
-    ..aOB(19, 'authPossible')
+    ..aOB(19, 'canAuthenticate')
     ..hasRequiredFields = false;
 
   DataSocialMedia() : super();
@@ -201,13 +201,13 @@ class DataSocialMedia extends $pb.GeneratedMessage {
   bool hasAllowLogIn() => $_has(17);
   void clearAllowLogIn() => clearField(18);
 
-  bool get authPossible => $_get(18, false);
-  set authPossible(bool v) {
+  bool get canAuthenticate => $_get(18, false);
+  set canAuthenticate(bool v) {
     $_setBool(18, v);
   }
 
-  bool hasAuthPossible() => $_has(18);
-  void clearAuthPossible() => clearField(19);
+  bool hasCanAuthenticate() => $_has(18);
+  void clearCanAuthenticate() => clearField(19);
 }
 
 class DataOAuthCredentials extends $pb.GeneratedMessage {
@@ -856,7 +856,7 @@ class DataAccountDetail extends $pb.GeneratedMessage {
     ..aOS(12, 'blurredAvatarCoverUrl')
     ..p<int>(13, 'categories', $pb.PbFieldType.P3)
     ..aOS(14, 'locationName')
-    ..aOS(15, 'locationLabel')
+    ..aOS(15, 'location')
     ..hasRequiredFields = false;
 
   DataAccountDetail() : super();
@@ -949,13 +949,13 @@ class DataAccountDetail extends $pb.GeneratedMessage {
   bool hasLocationName() => $_has(9);
   void clearLocationName() => clearField(14);
 
-  String get locationLabel => $_getS(10, '');
-  set locationLabel(String v) {
+  String get location => $_getS(10, '');
+  set location(String v) {
     $_setString(10, v);
   }
 
-  bool hasLocationLabel() => $_has(10);
-  void clearLocationLabel() => clearField(15);
+  bool hasLocation() => $_has(10);
+  void clearLocation() => clearField(15);
 }
 
 class DataAccount extends $pb.GeneratedMessage {

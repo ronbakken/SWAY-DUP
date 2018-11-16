@@ -79,7 +79,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigOAuthProvider',
       package: const $pb.PackageName('inf'))
     ..aOB(1, 'visible')
-    ..aOB(2, 'enabled')
+    ..aOB(2, 'canAlwaysAuthenticate')
     ..aOS(3, 'label')
     ..aOS(4, 'host')
     ..aOS(5, 'requestTokenUrl')
@@ -101,6 +101,8 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..aOS(16, 'accessTokenUrl')
     ..aOS(17, 'clientSecret')
     ..pPS(18, 'whitelistHosts')
+    ..aOB(19, 'canConnect')
+    ..aOB(20, 'showProfile')
     ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
@@ -134,13 +136,13 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
   bool hasVisible() => $_has(0);
   void clearVisible() => clearField(1);
 
-  bool get enabled => $_get(1, false);
-  set enabled(bool v) {
+  bool get canAlwaysAuthenticate => $_get(1, false);
+  set canAlwaysAuthenticate(bool v) {
     $_setBool(1, v);
   }
 
-  bool hasEnabled() => $_has(1);
-  void clearEnabled() => clearField(2);
+  bool hasCanAlwaysAuthenticate() => $_has(1);
+  void clearCanAlwaysAuthenticate() => clearField(2);
 
   String get label => $_getS(2, '');
   set label(String v) {
@@ -255,6 +257,22 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
   void clearClientSecret() => clearField(17);
 
   List<String> get whitelistHosts => $_getList(16);
+
+  bool get canConnect => $_get(17, false);
+  set canConnect(bool v) {
+    $_setBool(17, v);
+  }
+
+  bool hasCanConnect() => $_has(17);
+  void clearCanConnect() => clearField(19);
+
+  bool get showProfile => $_get(18, false);
+  set showProfile(bool v) {
+    $_setBool(18, v);
+  }
+
+  bool hasShowProfile() => $_has(18);
+  void clearShowProfile() => clearField(20);
 }
 
 class ConfigOAuthProviders extends $pb.GeneratedMessage {

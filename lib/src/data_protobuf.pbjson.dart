@@ -11,7 +11,13 @@ const DataSocialMedia$json = const {
     const {'1': 'expired', '3': 15, '4': 1, '5': 8, '10': 'expired'},
     const {'1': 'published', '3': 17, '4': 1, '5': 8, '10': 'published'},
     const {'1': 'allowLogIn', '3': 18, '4': 1, '5': 8, '10': 'allowLogIn'},
-    const {'1': 'authPossible', '3': 19, '4': 1, '5': 8, '10': 'authPossible'},
+    const {
+      '1': 'canAuthenticate',
+      '3': 19,
+      '4': 1,
+      '5': 8,
+      '10': 'canAuthenticate'
+    },
     const {'1': 'screenName', '3': 4, '4': 1, '5': 9, '10': 'screenName'},
     const {'1': 'displayName', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
     const {'1': 'avatarUrl', '3': 14, '4': 1, '5': 9, '10': 'avatarUrl'},
@@ -255,13 +261,7 @@ const DataAccountDetail$json = const {
     const {'1': 'website', '3': 6, '4': 1, '5': 9, '10': 'website'},
     const {'1': 'email', '3': 9, '4': 1, '5': 9, '10': 'email'},
     const {'1': 'locationName', '3': 14, '4': 1, '5': 9, '10': 'locationName'},
-    const {
-      '1': 'locationLabel',
-      '3': 15,
-      '4': 1,
-      '5': 9,
-      '10': 'locationLabel'
-    },
+    const {'1': 'location', '3': 15, '4': 1, '5': 9, '10': 'location'},
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
     const {'1': 'locationId', '3': 8, '4': 1, '5': 5, '10': 'locationId'},

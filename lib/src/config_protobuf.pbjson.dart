@@ -29,7 +29,15 @@ const ConfigOAuthProvider$json = const {
   '1': 'ConfigOAuthProvider',
   '2': const [
     const {'1': 'visible', '3': 1, '4': 1, '5': 8, '10': 'visible'},
-    const {'1': 'enabled', '3': 2, '4': 1, '5': 8, '10': 'enabled'},
+    const {
+      '1': 'canAlwaysAuthenticate',
+      '3': 2,
+      '4': 1,
+      '5': 8,
+      '10': 'canAlwaysAuthenticate'
+    },
+    const {'1': 'canConnect', '3': 19, '4': 1, '5': 8, '10': 'canConnect'},
+    const {'1': 'showProfile', '3': 20, '4': 1, '5': 8, '10': 'showProfile'},
     const {'1': 'label', '3': 3, '4': 1, '5': 9, '10': 'label'},
     const {
       '1': 'fontAwesomeBrand',
