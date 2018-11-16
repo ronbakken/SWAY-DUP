@@ -11,12 +11,12 @@ git add *
 git commit -m "Update protobuf"
 
 cd protobuf
-protoc --dart_out=./dart/ *.proto
+protoc --dart_out=../lib/src/ *.proto
 # protoc --csharp_out=./cs/ *.proto
-cd dart
-sed -f ../enum_sed.txt -i enum_protobuf.pbenum.dart
+cd ../lib/src/
+sed -f ../../protobuf/enum_sed.txt -i enum_protobuf.pbenum.dart
 find . -name '*.dart' | xargs -n 1 dartfmt -w
-cd ..
+cd ../../protobuf/
 git add *
 # cd ../config
 # cp ../protobuf/dart/config_*.dart lib/protobuf/
