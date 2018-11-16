@@ -24,6 +24,9 @@ if(flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+apply from: 'signing.gradle'
+
+
 android {
 	compileSdkVersion 27
 
@@ -42,9 +45,18 @@ android {
 		multiDexKeepFile file('multidex-flutter.txt')
 	}
 
+	signingConfigs {
+		release {
+			storeFile = project.ext.storeFile
+			storePassword = project.ext.storePassword
+			keyAlias = project.ext.keyAlias
+			keyPassword = project.ext.keyPassword
+		}
+	}
+
 	buildTypes {
 		release {
-			signingConfig signingConfigs.debug
+			signingConfig signingConfigs.release
 		}
 	}
 
@@ -69,8 +81,8 @@ flutter {
 }
 
 dependencies {
-	implementation 'com.google.firebase:firebase-core:16.0.4'
-	implementation 'com.android.support:support-compat:27.1.0'
+	implementation 'com.google.firebase:firebase-core:16.0.5'
+	implementation 'com.android.support:support-compat:27.1.1'
 
 	testImplementation 'junit:junit:4.12'
 	androidTestImplementation 'com.android.support.test:runner:1.0.2'

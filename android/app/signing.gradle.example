@@ -1,0 +1,6 @@
+project.ext {
+	storeFile     = file('upload.jks')
+	storePassword = 'store_password'
+	keyAlias      = 'upload'
+	keyPassword   = 'key_password'
+}
