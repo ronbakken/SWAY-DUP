@@ -18,7 +18,7 @@ import 'package:config/protobuf/config_protobuf.pb.dart';
 ////////////////////////////////////////////////////////////////////////////////
 
 Future<ConfigCategories> generateConfigCategories(bool server) async {
-  List<String> lines = await new File("categories.ini").readAsLines();
+  List<String> lines = await new File("config/categories.ini").readAsLines();
   ConfigCategories categories = new ConfigCategories();
   ini.Config iniCategories = new ini.Config.fromStrings(lines);
 
@@ -71,7 +71,7 @@ Future<ConfigCategories> generateConfigCategories(bool server) async {
 ////////////////////////////////////////////////////////////////////////////////
 
 Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
-  List<String> lines = await new File("oauth_providers.ini").readAsLines();
+  List<String> lines = await new File("config/oauth_providers.ini").readAsLines();
   ConfigOAuthProviders res = new ConfigOAuthProviders();
   ini.Config cfg = new ini.Config.fromStrings(lines);
 
@@ -95,8 +95,12 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
     String section = entryMap[i];
     if (cfg.hasOption(section, 'visible'))
       entry.visible = (int.parse(cfg.get(section, 'visible')) == 1);
-    if (cfg.hasOption(section, 'enabled'))
-      entry.enabled = (int.parse(cfg.get(section, 'enabled')) == 1);
+    if (cfg.hasOption(section, 'canConnect'))
+      entry.canConnect = (int.parse(cfg.get(section, 'canConnect')) == 1);
+    if (cfg.hasOption(section, 'canAlwaysAuthenticate'))
+      entry.canAlwaysAuthenticate = (int.parse(cfg.get(section, 'canAlwaysAuthenticate')) == 1);
+    if (cfg.hasOption(section, 'showInProfile'))
+      entry.showInProfile = (int.parse(cfg.get(section, 'showInProfile')) == 1);
     entry.label = section;
     if (cfg.hasOption(section, 'fontAwesomeBrand'))
       entry.fontAwesomeBrand = int.parse(cfg.get(section, 'fontAwesomeBrand'));
@@ -159,7 +163,7 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
 ////////////////////////////////////////////////////////////////////////////////
 
 Future<ConfigServices> generateConfigServices(bool server) async {
-  List<String> lines = await new File("services.ini").readAsLines();
+  List<String> lines = await new File("config/services.ini").readAsLines();
   ConfigServices res = new ConfigServices();
   ini.Config cfg = new ini.Config.fromStrings(lines);
 
@@ -261,7 +265,7 @@ generateConfig(bool server) async {
   config.services = await generateConfigServices(server);
   print(config.writeToJson());
   Uint8List configBuffer = config.writeToBuffer();
-  new File(server ? "config_server.bin" : "config.bin")
+  new File(server ? "config/config_server.bin" : "config/config.bin")
       .writeAsBytes(configBuffer, flush: true);
 }
 
