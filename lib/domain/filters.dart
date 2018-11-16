@@ -4,13 +4,13 @@ import 'package:inf/domain/deliverable.dart';
 import 'package:inf/domain/reward.dart';
 
 
-enum OfferFilterApect {oferrinBusinessId, userAppliyingId, state, channels, deliverable, reward, loction}
+enum OfferFilterAspect {offeringBusinessId, userApplyingId, state, channels, deliverable, reward, location}
 
 class OfferFilter
 {
   // Defines which fields  of the filter should be applied/cleared
   List<OfferFilter> aspects;
-  int userAppliyingId;
+  int userApplyingId;
   int offeringBusinessId;
   BusinessOfferState state;
   String freeText;
