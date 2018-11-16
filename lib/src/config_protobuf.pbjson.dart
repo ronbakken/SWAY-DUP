@@ -37,7 +37,13 @@ const ConfigOAuthProvider$json = const {
       '10': 'canAlwaysAuthenticate'
     },
     const {'1': 'canConnect', '3': 19, '4': 1, '5': 8, '10': 'canConnect'},
-    const {'1': 'showProfile', '3': 20, '4': 1, '5': 8, '10': 'showProfile'},
+    const {
+      '1': 'showInProfile',
+      '3': 20,
+      '4': 1,
+      '5': 8,
+      '10': 'showInProfile'
+    },
     const {'1': 'label', '3': 3, '4': 1, '5': 9, '10': 'label'},
     const {
       '1': 'fontAwesomeBrand',

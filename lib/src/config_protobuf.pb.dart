@@ -102,7 +102,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..aOS(17, 'clientSecret')
     ..pPS(18, 'whitelistHosts')
     ..aOB(19, 'canConnect')
-    ..aOB(20, 'showProfile')
+    ..aOB(20, 'showInProfile')
     ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
@@ -266,13 +266,13 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
   bool hasCanConnect() => $_has(17);
   void clearCanConnect() => clearField(19);
 
-  bool get showProfile => $_get(18, false);
-  set showProfile(bool v) {
+  bool get showInProfile => $_get(18, false);
+  set showInProfile(bool v) {
     $_setBool(18, v);
   }
 
-  bool hasShowProfile() => $_has(18);
-  void clearShowProfile() => clearField(20);
+  bool hasShowInProfile() => $_has(18);
+  void clearShowInProfile() => clearField(20);
 }
 
 class ConfigOAuthProviders extends $pb.GeneratedMessage {
