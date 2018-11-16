@@ -1,9 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:inf/domain/business_offer.dart';
 import 'package:inf/domain/deliverable.dart';
-import 'package:inf/domain/proposal.dart';
 import 'package:inf/domain/reward.dart';
-import 'package:inf/domain/user.dart';
 
 
 enum OfferFilterApect {oferrinBusinessId, userAppliyingId, state, channels, deliverable, reward, loction}

@@ -86,6 +86,7 @@ class InfApiServiceImplementation implements InfApiService
   @override
   Future<OfferFilter> getOfferFilter(OfferFilter filter) {
     // TODO: implement getOfferFilter
+    throw Exception('Not implemented yet');
   }
 
   @override
