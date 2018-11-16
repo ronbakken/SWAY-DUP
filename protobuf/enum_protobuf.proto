@@ -64,61 +64,96 @@ enum GlobalAccountStateReason {
 enum NotificationFlags {
   /// Set whenever GAS changed (wipe after dismissed)
   NF_ACCOUNT_STATE = 0;
-  /// Set for new users to learn, pops help message to FAB (wipe on dismissed)
-  NF_MAKE_AN_OFFER_FAB = 1;
+  /// Set for new users to learn (place a solicitation / make an offer), pops help message to FAB (wipe on dismissed)
+  NF_MAKE_AN_OFFER_HINT = 1;
   /// There are new unread messages from other users (wipe when opening message tab)
   NF_UNREAD_MESSAGES = 2;
   /// Customer support requesting attention (may interpret as duplicate of  NF_ACCOUNT_STATUS if GASR_REQUIRE_INFO)
-  NF_CS_REQUEST = 3;
+  NF_SUPPORT_REQUEST = 3;
+  /// Show onboarding sequence (wipe when completed)
+  NF_ONBOARDING = 4;
   
 }
 
-enum BusinessOfferState {
-  BOS_DRAFT = 0;
-  BOS_OPEN = 1; // Open and awaiting new applicants
-  BOS_ACTIVE = 2; // Active but no longer accepting applicants // (Will be renamed to CLOSED)
-  BOS_CLOSED = 3; // (Will be renamed to ARCHIVED)
+enum OfferState {
+  OS_DRAFT = 0;
+  OS_OPEN = 1; // Open and awaiting new proposals
+  OS_CLOSED = 2; // No longer accepting new proposals
   
 }
 
-enum BusinessOfferStateReason {
-  BOSR_NEW_OFFER = 0;
-  BOSR_USER_CLOSED = 1; // You have closed this offer.
-  BOSR_TOS_VIOLATION = 2; // This offer violates the Terms of Service
-  BOSR_COMPLETED = 3; // This offer has been completed by all applicants
+enum OfferStateReason {
+  OSR_NEW_OFFER = 0;
+  OSR_USER_CLOSED = 1; // You have closed this offer.
+  OSR_TOS_VIOLATION = 2; // This offer violates the Terms of Service
+  OSR_COMPLETED = 3; // This offer has been completed by all proposals
   
 }
 
-enum ApplicantChatType {
-  ACT_PLAIN = 0;
-  ACT_HAGGLE = 1; // url-encoded haggle message (deliverable=...&reward=...&remarks=...)
-  ACT_IMAGE_KEY = 2;
-  ACT_MARKER = 3; // system marker (id=...)
+enum ProposalChatType {
+  PCT_PLAIN = 0;
+  PCT_TERMS = 1; // url-encoded haggle message (deliverable=...&reward=...&remarks=...)
+  PCT_IMAGE_KEY = 2;
+  PCT_MARKER = 3; // system marker (id=...)
   
 }
 
-enum ApplicantState {
-  AS_HAGGLING = 0;
+enum ProposalState {
+  /*
+  Proposing
+  =========
+  The proposal is shown with just the terms, for the receiver it presents the 
+  options Accept (accepts immediately, goes to chat), Negotiate (prompt to 
+  modify the terms, then goes to chat), Reject (rejects and immediately 
+  archives the proposal, other user will see a rejected proposal and is 
+  presented with an archive button); for the sender it presents the option 
+  Cancel (cancels and immediately archives for both sender and receiver), or 
+  Archive if the receiver rejected.
+  */
+  PS_PROPOSING = 0;
   
-  AS_DEAL = 1;
-  AS_REJECTED = 2;
+  /*
+  Negotiating (previously called Haggling)
+  ===========
+  The proposal is shown as chat, and in this state cannot be archived unless 
+  first rejected or canceled.
+  */
+  PS_NEGOTIATING = 1;
   
-  AS_COMPLETE = 3;
-  AS_DISPUTE = 4;
-  AS_RESOLVED = 5;
+  /*
+  Deal
+  ====
+  Both parties have agreed on the same set of terms, cannot be archived either 
+  until completed or resolved. Presented as chat with a promonent 
+  Mark As Completed button.
+  */
+  PS_DEAL = 2;
+  PS_REJECTED = 3; // Rejected. Presented with an Archive option.
+  PS_DISPUTE = 4; // Dispute. To be processed by support staff.
+  
+  /*
+  Completed
+  =========
+  Both parties have confirmed completion and rated each other, presented as 
+  chat with a prominent Archive option.
+  */
+  PS_RESOLVED = 5; // Resolved. Completion by support staff in case of dispute.
+  PS_COMPLETE = 6;
   
 }
 
-enum ApplicantChatMarker {
-  ACM_APPLIED = 0; // ${User} has applied for ${offer}.
-  ACM_WANT_DEAL = 1; // ${User} wants to make a deal.
-  ACM_DEAL_MADE = 2; // A deal has been made. Congratulations!
-  ACM_REJECTED = 3; // ${User} has rejected the application.
-  ACM_MARKED_COMPLETE = 4; // ${User} has marked the deal as complete.
-  ACM_COMPLETE = 5; // The offer has been completed. Well done!
-  ACM_MARKED_DISPUTE = 6; // (Disputes are silent, although can be seen :))
-  ACM_RESOLVED = 7; // The dispute has been resolved through customer support. Case closed.
-  ACM_MESSAGE_DROPPED = 8; // Empty message to drop an invalid message. Not stored in database.
+enum ProposalChatMarker {
+  PCM_APPLIED = 0; // ${User} has applied for ${offer}.
+  PCM_WANT_DEAL = 1; // ${User} wants to make a deal.
+  PCM_DEAL_MADE = 2; // A deal has been made. Congratulations!
+  PCM_REJECTED = 3; // ${User} has rejected the application.
+  PCM_MARKED_COMPLETE = 4; // ${User} has marked the deal as complete.
+  PCM_COMPLETE = 5; // The offer has been completed. Well done!
+  PCM_MARKED_DISPUTE = 6; // (Disputes are silent, although can be seen :))
+  PCM_RESOLVED = 7; // The dispute has been resolved through customer support. Case closed.
+  PCM_MESSAGE_DROPPED = 8; // Empty message to drop an invalid message. Not stored in database.
+  PCM_DIRECT = 9; // ${User} has directly requested you for ${offer}.
+  PCM_WANT_NEGOTIATE = 10; // ${User} wants to negotiate.
   
 }
 
