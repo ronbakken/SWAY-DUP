@@ -14,7 +14,7 @@ option csharp_namespace = "InfX";
 
 // Message to create offer
 // Id: C_OFFERR
-// Response C_R_OFFE (DataBusinessOffer)
+// Response C_R_OFFE (DataOffer)
 message NetCreateOfferReq {
   // Basics
   string title = 1;
@@ -57,6 +57,6 @@ message NetLoadOffersRes {
 
 // Update offer information, assume the recipient owns this offer (client should check accountId though, in case protocol changes)
 // Id: DB_OFFER
-// message DataBusinessOffer
+// message DataOffer
 
 /* end of file */

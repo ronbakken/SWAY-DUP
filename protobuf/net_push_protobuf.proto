@@ -12,21 +12,21 @@ option csharp_namespace = "InfX";
 // import 'enum_protobuf.proto';
 // import 'data_protobuf.proto';
 
-// Server notifies client of new DataApplicant (An influencer has applied for your offer!)
-// NOTE: This is accompanied by a MARKER DataApplicantChat, the chat marker provides notification
+// Server notifies client of new DataProposal (An influencer has applied for your offer!)
+// NOTE: This is accompanied by a MARKER DataProposalChat, the chat marker provides notification
 // Id: LN_APPLI
-// Data: DataApplicant
+// Data: DataProposal
 
-// Server notifies client of new DataApplicantChat (should also have firebase variants)
+// Server notifies client of new DataProposalChat (should also have firebase variants)
 // Id: LN_A_CHA
-// Data: DataApplicantChat
+// Data: DataProposalChat
 
-// Server updates DataApplicant (Live Update)
+// Server updates DataProposal (Live Update)
 // Id: LU_APPLI
-// Data: DataApplicant
+// Data: DataProposal
 
-// Server updates DataApplicantChat (loading)
+// Server updates DataProposalChat (loading)
 // Id: LU_A_CHA
-// Data: DataApplicantChat
+// Data: DataProposalChat
 
 /* end of file */

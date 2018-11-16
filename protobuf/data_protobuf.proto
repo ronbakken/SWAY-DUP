@@ -8,7 +8,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 Planned changes:
 - Rename device -> session
-- Rename applicant -> proposal
+- Rename proposal -> proposal
 - Rename businessoffer -> offer
 - Add 'public' flag to social media data so users can hide a platform from their profile
 - Support both geohash and s2 in location info for evaluation
@@ -71,7 +71,7 @@ message DataOAuthCredentials {
   
 }
 
-message DataBusinessOffer {
+message DataOffer {
   int32 offerId = 1;
   int32 accountId = 2;
   int32 locationId = 3;
@@ -97,17 +97,17 @@ message DataBusinessOffer {
   bytes categories = 23;
   
   // State
-  BusinessOfferState state = 12;
-  BusinessOfferStateReason stateReason = 13;
+  OfferState state = 12;
+  OfferStateReason stateReason = 13;
   
   // Info for business
-  int32 applicantsNew = 14;
-  int32 applicantsAccepted = 15;
-  int32 applicantsCompleted = 16;
-  int32 applicantsRefused = 17;
+  int32 proposalsNew = 14;
+  int32 proposalsAccepted = 15;
+  int32 proposalsCompleted = 16;
+  int32 proposalsRefused = 17;
   
   // Info for influencer
-  int32 influencerApplicantId = 22; // So the Offer View knows this offer has already been applied to
+  int32 influencerProposalId = 22; // So the Offer View knows this offer has already been applied to
   
 }
 
@@ -180,8 +180,8 @@ message DataAccount {
   
 }
 
-message DataApplicant {
-  int32 applicantId = 1;
+message DataProposal {
+  int32 proposalId = 1;
   int32 offerId = 2;
   int32 influencerAccountId = 3; // Account which applied
   int32 businessAccountId = 16;
@@ -210,20 +210,20 @@ message DataApplicant {
   bool influencerDisputed = 15;
   bool businessDisputed = 14;
   
-  ApplicantState state = 13;
+  ProposalState state = 13;
   
 }
 
-message DataApplicantChat {
+message DataProposalChat {
   int64 chatId = 7; // Sequential identifier in the chat stream
   int64 sent = 10; // Sent timestamp
   int32 senderId = 2; // Account which sent
-  int32 applicantId = 1; // One chat per applicant
+  int32 proposalId = 1; // One chat per proposal
   
   int32 deviceId = 11; // Cleared upon forwarding
   int32 deviceGhostId = 6; // Deduplication client-side (ghost entry)
   
-  ApplicantChatType type = 8;
+  ProposalChatType type = 8;
   string text = 5; // The written text
   int64 seen = 9; // 0 if not seen
   

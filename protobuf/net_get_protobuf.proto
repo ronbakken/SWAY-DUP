@@ -34,20 +34,20 @@ message NetGetOfferReq {
 }
 
 message NetGetOfferRes {
-  DataBusinessOffer offer = 1;
+  DataOffer offer = 1;
   
 }
 
-// Get Applicant
+// Get Proposal
 // Id: GTAPPLIC
-// Res: NetGetApplicantRes (Id: GTAPPL_R)
-message NetGetApplicantReq {
-  int32 applicantId = 1;
+// Res: NetGetProposalRes (Id: GTAPPL_R)
+message NetGetProposalReq {
+  int32 proposalId = 1;
   
 }
 
-message NetGetApplicantRes {
-  DataApplicant applicant = 1;
+message NetGetProposalRes {
+  DataProposal proposal = 1;
   
 }
 
