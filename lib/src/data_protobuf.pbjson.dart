@@ -10,6 +10,8 @@ const DataSocialMedia$json = const {
     const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
     const {'1': 'expired', '3': 15, '4': 1, '5': 8, '10': 'expired'},
     const {'1': 'published', '3': 17, '4': 1, '5': 8, '10': 'published'},
+    const {'1': 'allowLogIn', '3': 18, '4': 1, '5': 8, '10': 'allowLogIn'},
+    const {'1': 'authPossible', '3': 19, '4': 1, '5': 8, '10': 'authPossible'},
     const {'1': 'screenName', '3': 4, '4': 1, '5': 9, '10': 'screenName'},
     const {'1': 'displayName', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
     const {'1': 'avatarUrl', '3': 14, '4': 1, '5': 9, '10': 'avatarUrl'},
@@ -109,6 +111,7 @@ const DataOffer$json = const {
       '6': '.inf.OfferStateReason',
       '10': 'stateReason'
     },
+    const {'1': 'archived', '3': 26, '4': 1, '5': 8, '10': 'archived'},
     const {'1': 'proposalsNew', '3': 14, '4': 1, '5': 5, '10': 'proposalsNew'},
     const {
       '1': 'proposalsAccepted',
@@ -146,14 +149,6 @@ const DataLocation$json = const {
   '2': const [
     const {'1': 'locationId', '3': 1, '4': 1, '5': 5, '10': 'locationId'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'avatarUrl', '3': 6, '4': 1, '5': 9, '10': 'avatarUrl'},
-    const {
-      '1': 'blurredAvatarUrl',
-      '3': 13,
-      '4': 1,
-      '5': 9,
-      '10': 'blurredAvatarUrl'
-    },
     const {'1': 'approximate', '3': 7, '4': 1, '5': 9, '10': 'approximate'},
     const {'1': 'detail', '3': 8, '4': 1, '5': 9, '10': 'detail'},
     const {'1': 'postcode', '3': 9, '4': 1, '5': 9, '10': 'postcode'},
@@ -162,6 +157,8 @@ const DataLocation$json = const {
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
     const {'1': 's2cellId', '3': 12, '4': 1, '5': 3, '10': 's2cellId'},
+    const {'1': 'geohashInt', '3': 14, '4': 1, '5': 3, '10': 'geohashInt'},
+    const {'1': 'geoHash', '3': 15, '4': 1, '5': 9, '10': 'geoHash'},
   ],
 };
 
@@ -232,7 +229,7 @@ const DataAccountSummary$json = const {
 const DataAccountDetail$json = const {
   '1': 'DataAccountDetail',
   '2': const [
-    const {'1': 'categories', '3': 11, '4': 1, '5': 12, '10': 'categories'},
+    const {'1': 'categories', '3': 13, '4': 3, '5': 5, '10': 'categories'},
     const {
       '1': 'socialMedia',
       '3': 3,
@@ -255,8 +252,16 @@ const DataAccountDetail$json = const {
       '5': 9,
       '10': 'blurredAvatarCoverUrl'
     },
-    const {'1': 'url', '3': 6, '4': 1, '5': 9, '10': 'url'},
+    const {'1': 'website', '3': 6, '4': 1, '5': 9, '10': 'website'},
     const {'1': 'email', '3': 9, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'locationName', '3': 14, '4': 1, '5': 9, '10': 'locationName'},
+    const {
+      '1': 'locationLabel',
+      '3': 15,
+      '4': 1,
+      '5': 9,
+      '10': 'locationLabel'
+    },
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
     const {'1': 'locationId', '3': 8, '4': 1, '5': 5, '10': 'locationId'},
@@ -407,6 +412,7 @@ const DataProposal$json = const {
       '6': '.inf.ProposalState',
       '10': 'state'
     },
+    const {'1': 'archived', '3': 21, '4': 1, '5': 8, '10': 'archived'},
   ],
 };
 
@@ -434,6 +440,5 @@ const DataProposalChat$json = const {
       '10': 'type'
     },
     const {'1': 'text', '3': 5, '4': 1, '5': 9, '10': 'text'},
-    const {'1': 'seen', '3': 9, '4': 1, '5': 3, '10': 'seen'},
   ],
 };

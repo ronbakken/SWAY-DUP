@@ -32,6 +32,8 @@ class DataSocialMedia extends $pb.GeneratedMessage {
     ..aOB(15, 'expired')
     ..aOS(16, 'blurredAvatarUrl')
     ..aOB(17, 'published')
+    ..aOB(18, 'allowLogIn')
+    ..aOB(19, 'authPossible')
     ..hasRequiredFields = false;
 
   DataSocialMedia() : super();
@@ -190,6 +192,22 @@ class DataSocialMedia extends $pb.GeneratedMessage {
 
   bool hasPublished() => $_has(16);
   void clearPublished() => clearField(17);
+
+  bool get allowLogIn => $_get(17, false);
+  set allowLogIn(bool v) {
+    $_setBool(17, v);
+  }
+
+  bool hasAllowLogIn() => $_has(17);
+  void clearAllowLogIn() => clearField(18);
+
+  bool get authPossible => $_get(18, false);
+  set authPossible(bool v) {
+    $_setBool(18, v);
+  }
+
+  bool hasAuthPossible() => $_has(18);
+  void clearAuthPossible() => clearField(19);
 }
 
 class DataOAuthCredentials extends $pb.GeneratedMessage {
@@ -291,6 +309,7 @@ class DataOffer extends $pb.GeneratedMessage {
         ..a<List<int>>(23, 'categories', $pb.PbFieldType.OY)
         ..aOS(24, 'blurredThumbnailUrl')
         ..pPS(25, 'blurredCoverUrls')
+        ..aOB(26, 'archived')
         ..hasRequiredFields = false;
 
   DataOffer() : super();
@@ -491,6 +510,14 @@ class DataOffer extends $pb.GeneratedMessage {
   void clearBlurredThumbnailUrl() => clearField(24);
 
   List<String> get blurredCoverUrls => $_getList(23);
+
+  bool get archived => $_get(24, false);
+  set archived(bool v) {
+    $_setBool(24, v);
+  }
+
+  bool hasArchived() => $_has(24);
+  void clearArchived() => clearField(26);
 }
 
 class DataLocation extends $pb.GeneratedMessage {
@@ -500,14 +527,14 @@ class DataLocation extends $pb.GeneratedMessage {
         ..aOS(2, 'name')
         ..a<double>(4, 'latitude', $pb.PbFieldType.OD)
         ..a<double>(5, 'longitude', $pb.PbFieldType.OD)
-        ..aOS(6, 'avatarUrl')
         ..aOS(7, 'approximate')
         ..aOS(8, 'detail')
         ..aOS(9, 'postcode')
         ..aOS(10, 'regionCode')
         ..aOS(11, 'countryCode')
         ..aInt64(12, 's2cellId')
-        ..aOS(13, 'blurredAvatarUrl')
+        ..aInt64(14, 'geohashInt')
+        ..aOS(15, 'geoHash')
         ..hasRequiredFields = false;
 
   DataLocation() : super();
@@ -562,69 +589,69 @@ class DataLocation extends $pb.GeneratedMessage {
   bool hasLongitude() => $_has(3);
   void clearLongitude() => clearField(5);
 
-  String get avatarUrl => $_getS(4, '');
-  set avatarUrl(String v) {
+  String get approximate => $_getS(4, '');
+  set approximate(String v) {
     $_setString(4, v);
   }
 
-  bool hasAvatarUrl() => $_has(4);
-  void clearAvatarUrl() => clearField(6);
+  bool hasApproximate() => $_has(4);
+  void clearApproximate() => clearField(7);
 
-  String get approximate => $_getS(5, '');
-  set approximate(String v) {
+  String get detail => $_getS(5, '');
+  set detail(String v) {
     $_setString(5, v);
   }
 
-  bool hasApproximate() => $_has(5);
-  void clearApproximate() => clearField(7);
+  bool hasDetail() => $_has(5);
+  void clearDetail() => clearField(8);
 
-  String get detail => $_getS(6, '');
-  set detail(String v) {
+  String get postcode => $_getS(6, '');
+  set postcode(String v) {
     $_setString(6, v);
   }
 
-  bool hasDetail() => $_has(6);
-  void clearDetail() => clearField(8);
+  bool hasPostcode() => $_has(6);
+  void clearPostcode() => clearField(9);
 
-  String get postcode => $_getS(7, '');
-  set postcode(String v) {
+  String get regionCode => $_getS(7, '');
+  set regionCode(String v) {
     $_setString(7, v);
   }
 
-  bool hasPostcode() => $_has(7);
-  void clearPostcode() => clearField(9);
+  bool hasRegionCode() => $_has(7);
+  void clearRegionCode() => clearField(10);
 
-  String get regionCode => $_getS(8, '');
-  set regionCode(String v) {
+  String get countryCode => $_getS(8, '');
+  set countryCode(String v) {
     $_setString(8, v);
   }
 
-  bool hasRegionCode() => $_has(8);
-  void clearRegionCode() => clearField(10);
-
-  String get countryCode => $_getS(9, '');
-  set countryCode(String v) {
-    $_setString(9, v);
-  }
-
-  bool hasCountryCode() => $_has(9);
+  bool hasCountryCode() => $_has(8);
   void clearCountryCode() => clearField(11);
 
-  Int64 get s2cellId => $_getI64(10);
+  Int64 get s2cellId => $_getI64(9);
   set s2cellId(Int64 v) {
+    $_setInt64(9, v);
+  }
+
+  bool hasS2cellId() => $_has(9);
+  void clearS2cellId() => clearField(12);
+
+  Int64 get geohashInt => $_getI64(10);
+  set geohashInt(Int64 v) {
     $_setInt64(10, v);
   }
 
-  bool hasS2cellId() => $_has(10);
-  void clearS2cellId() => clearField(12);
+  bool hasGeohashInt() => $_has(10);
+  void clearGeohashInt() => clearField(14);
 
-  String get blurredAvatarUrl => $_getS(11, '');
-  set blurredAvatarUrl(String v) {
+  String get geoHash => $_getS(11, '');
+  set geoHash(String v) {
     $_setString(11, v);
   }
 
-  bool hasBlurredAvatarUrl() => $_has(11);
-  void clearBlurredAvatarUrl() => clearField(13);
+  bool hasGeoHash() => $_has(11);
+  void clearGeoHash() => clearField(15);
 }
 
 class DataAccountState extends $pb.GeneratedMessage {
@@ -822,12 +849,14 @@ class DataAccountDetail extends $pb.GeneratedMessage {
         DataSocialMedia.$checkItem, DataSocialMedia.create)
     ..a<double>(4, 'latitude', $pb.PbFieldType.OD)
     ..a<double>(5, 'longitude', $pb.PbFieldType.OD)
-    ..aOS(6, 'url')
+    ..aOS(6, 'website')
     ..aOS(7, 'avatarCoverUrl')
     ..a<int>(8, 'locationId', $pb.PbFieldType.O3)
     ..aOS(9, 'email')
-    ..a<List<int>>(11, 'categories', $pb.PbFieldType.OY)
     ..aOS(12, 'blurredAvatarCoverUrl')
+    ..p<int>(13, 'categories', $pb.PbFieldType.P3)
+    ..aOS(14, 'locationName')
+    ..aOS(15, 'locationLabel')
     ..hasRequiredFields = false;
 
   DataAccountDetail() : super();
@@ -870,13 +899,13 @@ class DataAccountDetail extends $pb.GeneratedMessage {
   bool hasLongitude() => $_has(2);
   void clearLongitude() => clearField(5);
 
-  String get url => $_getS(3, '');
-  set url(String v) {
+  String get website => $_getS(3, '');
+  set website(String v) {
     $_setString(3, v);
   }
 
-  bool hasUrl() => $_has(3);
-  void clearUrl() => clearField(6);
+  bool hasWebsite() => $_has(3);
+  void clearWebsite() => clearField(6);
 
   String get avatarCoverUrl => $_getS(4, '');
   set avatarCoverUrl(String v) {
@@ -902,21 +931,31 @@ class DataAccountDetail extends $pb.GeneratedMessage {
   bool hasEmail() => $_has(6);
   void clearEmail() => clearField(9);
 
-  List<int> get categories => $_getN(7);
-  set categories(List<int> v) {
-    $_setBytes(7, v);
-  }
-
-  bool hasCategories() => $_has(7);
-  void clearCategories() => clearField(11);
-
-  String get blurredAvatarCoverUrl => $_getS(8, '');
+  String get blurredAvatarCoverUrl => $_getS(7, '');
   set blurredAvatarCoverUrl(String v) {
-    $_setString(8, v);
+    $_setString(7, v);
   }
 
-  bool hasBlurredAvatarCoverUrl() => $_has(8);
+  bool hasBlurredAvatarCoverUrl() => $_has(7);
   void clearBlurredAvatarCoverUrl() => clearField(12);
+
+  List<int> get categories => $_getList(8);
+
+  String get locationName => $_getS(9, '');
+  set locationName(String v) {
+    $_setString(9, v);
+  }
+
+  bool hasLocationName() => $_has(9);
+  void clearLocationName() => clearField(14);
+
+  String get locationLabel => $_getS(10, '');
+  set locationLabel(String v) {
+    $_setString(10, v);
+  }
+
+  bool hasLocationLabel() => $_has(10);
+  void clearLocationLabel() => clearField(15);
 }
 
 class DataAccount extends $pb.GeneratedMessage {
@@ -1004,6 +1043,7 @@ class DataProposal extends $pb.GeneratedMessage {
         ..aOS(18, 'businessName')
         ..aOS(19, 'offerTitle')
         ..a<int>(20, 'senderAccountId', $pb.PbFieldType.O3)
+        ..aOB(21, 'archived')
         ..hasRequiredFields = false;
 
   DataProposal() : super();
@@ -1185,6 +1225,14 @@ class DataProposal extends $pb.GeneratedMessage {
 
   bool hasSenderAccountId() => $_has(19);
   void clearSenderAccountId() => clearField(20);
+
+  bool get archived => $_get(20, false);
+  set archived(bool v) {
+    $_setBool(20, v);
+  }
+
+  bool hasArchived() => $_has(20);
+  void clearArchived() => clearField(21);
 }
 
 class DataProposalChat extends $pb.GeneratedMessage {
@@ -1202,7 +1250,6 @@ class DataProposalChat extends $pb.GeneratedMessage {
         $0.ProposalChatType.PCT_PLAIN,
         $0.ProposalChatType.valueOf,
         $0.ProposalChatType.values)
-    ..aInt64(9, 'seen')
     ..aInt64(10, 'sent')
     ..a<int>(11, 'sessionId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
@@ -1276,27 +1323,19 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasType() => $_has(5);
   void clearType() => clearField(8);
 
-  Int64 get seen => $_getI64(6);
-  set seen(Int64 v) {
+  Int64 get sent => $_getI64(6);
+  set sent(Int64 v) {
     $_setInt64(6, v);
   }
 
-  bool hasSeen() => $_has(6);
-  void clearSeen() => clearField(9);
-
-  Int64 get sent => $_getI64(7);
-  set sent(Int64 v) {
-    $_setInt64(7, v);
-  }
-
-  bool hasSent() => $_has(7);
+  bool hasSent() => $_has(6);
   void clearSent() => clearField(10);
 
-  int get sessionId => $_get(8, 0);
+  int get sessionId => $_get(7, 0);
   set sessionId(int v) {
-    $_setSignedInt32(8, v);
+    $_setSignedInt32(7, v);
   }
 
-  bool hasSessionId() => $_has(8);
+  bool hasSessionId() => $_has(7);
   void clearSessionId() => clearField(11);
 }
