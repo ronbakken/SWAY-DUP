@@ -30,7 +30,7 @@ message ConfigOAuthProvider {
   bool canConnect = 19;
   
   /// Whether this social provider can be shown in the user profile at all
-  bool showProfile = 20;
+  bool showInProfile = 20;
   
   /// Visual name
   string label = 3;
