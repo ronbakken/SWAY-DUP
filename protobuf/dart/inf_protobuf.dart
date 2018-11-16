@@ -15,8 +15,7 @@ export 'net_get_protobuf.pb.dart';
 export 'net_push_protobuf.pb.dart';
 
 export 'net_profile_protobuf.pb.dart';
-export 'net_offer_business_protobuf.pb.dart';
-export 'net_offer_influencer_protobuf.pb.dart';
-export 'net_applicants_protobuf.pb.dart';
+export 'net_offer_protobuf.pb.dart';
+export 'net_proposal_protobuf.pb.dart';
 
 /* end of file */
