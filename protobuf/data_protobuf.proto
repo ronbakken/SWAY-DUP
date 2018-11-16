@@ -35,7 +35,7 @@ message DataSocialMedia {
   /// Allow logging in with this account
   bool allowLogIn = 18;
   /// Possible to log in or sign up with the connected account
-  bool authPossible = 19;
+  bool canAuthenticate = 19;
   
   /* Names. Use whichever one is not empty. Prefer displayName. */
   /// Screen name, eg. Twitter account name
@@ -183,7 +183,7 @@ message DataAccountDetail {
   
   // Embedded primary location info, if applicable
   string locationName = 14;
-  string locationLabel = 15;
+  string location = 15;
   double latitude = 4;
   double longitude = 5;
   int32 locationId = 8; // Primary location id

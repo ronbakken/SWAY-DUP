@@ -18,7 +18,7 @@ enum OAuthMechanism {
   
 }
 
-// Only use server-side for hardcoding!
+// Used for hardcoded specifics
 enum OAuthProviderIds {
   OAP_NONE = 0;
   OAP_TWITTER = 1;
