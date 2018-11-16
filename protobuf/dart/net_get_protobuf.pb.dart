@@ -122,8 +122,8 @@ class NetGetOfferReq extends $pb.GeneratedMessage {
 class NetGetOfferRes extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetOfferRes',
       package: const $pb.PackageName('inf'))
-    ..a<$1.DataBusinessOffer>(1, 'offer', $pb.PbFieldType.OM,
-        $1.DataBusinessOffer.getDefault, $1.DataBusinessOffer.create)
+    ..a<$1.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $1.DataOffer.getDefault,
+        $1.DataOffer.create)
     ..hasRequiredFields = false;
 
   NetGetOfferRes() : super();
@@ -146,8 +146,8 @@ class NetGetOfferRes extends $pb.GeneratedMessage {
     if (v is! NetGetOfferRes) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $1.DataBusinessOffer get offer => $_getN(0);
-  set offer($1.DataBusinessOffer v) {
+  $1.DataOffer get offer => $_getN(0);
+  set offer($1.DataOffer v) {
     setField(1, v);
   }
 
@@ -155,79 +155,77 @@ class NetGetOfferRes extends $pb.GeneratedMessage {
   void clearOffer() => clearField(1);
 }
 
-class NetGetApplicantReq extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetApplicantReq',
+class NetGetProposalReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProposalReq',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetGetApplicantReq() : super();
-  NetGetApplicantReq.fromBuffer(List<int> i,
+  NetGetProposalReq() : super();
+  NetGetProposalReq.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetGetApplicantReq.fromJson(String i,
+  NetGetProposalReq.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetGetApplicantReq clone() =>
-      new NetGetApplicantReq()..mergeFromMessage(this);
-  NetGetApplicantReq copyWith(void Function(NetGetApplicantReq) updates) =>
-      super.copyWith((message) => updates(message as NetGetApplicantReq));
+  NetGetProposalReq clone() => new NetGetProposalReq()..mergeFromMessage(this);
+  NetGetProposalReq copyWith(void Function(NetGetProposalReq) updates) =>
+      super.copyWith((message) => updates(message as NetGetProposalReq));
   $pb.BuilderInfo get info_ => _i;
-  static NetGetApplicantReq create() => new NetGetApplicantReq();
-  static $pb.PbList<NetGetApplicantReq> createRepeated() =>
-      new $pb.PbList<NetGetApplicantReq>();
-  static NetGetApplicantReq getDefault() =>
+  static NetGetProposalReq create() => new NetGetProposalReq();
+  static $pb.PbList<NetGetProposalReq> createRepeated() =>
+      new $pb.PbList<NetGetProposalReq>();
+  static NetGetProposalReq getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetGetApplicantReq _defaultInstance;
-  static void $checkItem(NetGetApplicantReq v) {
-    if (v is! NetGetApplicantReq)
+  static NetGetProposalReq _defaultInstance;
+  static void $checkItem(NetGetProposalReq v) {
+    if (v is! NetGetProposalReq)
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 }
 
-class NetGetApplicantRes extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetApplicantRes',
+class NetGetProposalRes extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProposalRes',
       package: const $pb.PackageName('inf'))
-    ..a<$1.DataApplicant>(1, 'applicant', $pb.PbFieldType.OM,
-        $1.DataApplicant.getDefault, $1.DataApplicant.create)
+    ..a<$1.DataProposal>(1, 'proposal', $pb.PbFieldType.OM,
+        $1.DataProposal.getDefault, $1.DataProposal.create)
     ..hasRequiredFields = false;
 
-  NetGetApplicantRes() : super();
-  NetGetApplicantRes.fromBuffer(List<int> i,
+  NetGetProposalRes() : super();
+  NetGetProposalRes.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetGetApplicantRes.fromJson(String i,
+  NetGetProposalRes.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetGetApplicantRes clone() =>
-      new NetGetApplicantRes()..mergeFromMessage(this);
-  NetGetApplicantRes copyWith(void Function(NetGetApplicantRes) updates) =>
-      super.copyWith((message) => updates(message as NetGetApplicantRes));
+  NetGetProposalRes clone() => new NetGetProposalRes()..mergeFromMessage(this);
+  NetGetProposalRes copyWith(void Function(NetGetProposalRes) updates) =>
+      super.copyWith((message) => updates(message as NetGetProposalRes));
   $pb.BuilderInfo get info_ => _i;
-  static NetGetApplicantRes create() => new NetGetApplicantRes();
-  static $pb.PbList<NetGetApplicantRes> createRepeated() =>
-      new $pb.PbList<NetGetApplicantRes>();
-  static NetGetApplicantRes getDefault() =>
+  static NetGetProposalRes create() => new NetGetProposalRes();
+  static $pb.PbList<NetGetProposalRes> createRepeated() =>
+      new $pb.PbList<NetGetProposalRes>();
+  static NetGetProposalRes getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetGetApplicantRes _defaultInstance;
-  static void $checkItem(NetGetApplicantRes v) {
-    if (v is! NetGetApplicantRes)
+  static NetGetProposalRes _defaultInstance;
+  static void $checkItem(NetGetProposalRes v) {
+    if (v is! NetGetProposalRes)
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $1.DataApplicant get applicant => $_getN(0);
-  set applicant($1.DataApplicant v) {
+  $1.DataProposal get proposal => $_getN(0);
+  set proposal($1.DataProposal v) {
     setField(1, v);
   }
 
-  bool hasApplicant() => $_has(0);
-  void clearApplicant() => clearField(1);
+  bool hasProposal() => $_has(0);
+  void clearProposal() => clearField(1);
 }

@@ -63,65 +63,68 @@ const NotificationFlags$json = const {
   '1': 'NotificationFlags',
   '2': const [
     const {'1': 'NF_ACCOUNT_STATE', '2': 0},
-    const {'1': 'NF_MAKE_AN_OFFER_FAB', '2': 1},
+    const {'1': 'NF_MAKE_AN_OFFER_HINT', '2': 1},
     const {'1': 'NF_UNREAD_MESSAGES', '2': 2},
-    const {'1': 'NF_CS_REQUEST', '2': 3},
+    const {'1': 'NF_SUPPORT_REQUEST', '2': 3},
+    const {'1': 'NF_ONBOARDING', '2': 4},
   ],
 };
 
-const BusinessOfferState$json = const {
-  '1': 'BusinessOfferState',
+const OfferState$json = const {
+  '1': 'OfferState',
   '2': const [
-    const {'1': 'BOS_DRAFT', '2': 0},
-    const {'1': 'BOS_OPEN', '2': 1},
-    const {'1': 'BOS_ACTIVE', '2': 2},
-    const {'1': 'BOS_CLOSED', '2': 3},
+    const {'1': 'OS_DRAFT', '2': 0},
+    const {'1': 'OS_OPEN', '2': 1},
+    const {'1': 'OS_CLOSED', '2': 2},
   ],
 };
 
-const BusinessOfferStateReason$json = const {
-  '1': 'BusinessOfferStateReason',
+const OfferStateReason$json = const {
+  '1': 'OfferStateReason',
   '2': const [
-    const {'1': 'BOSR_NEW_OFFER', '2': 0},
-    const {'1': 'BOSR_USER_CLOSED', '2': 1},
-    const {'1': 'BOSR_TOS_VIOLATION', '2': 2},
-    const {'1': 'BOSR_COMPLETED', '2': 3},
+    const {'1': 'OSR_NEW_OFFER', '2': 0},
+    const {'1': 'OSR_USER_CLOSED', '2': 1},
+    const {'1': 'OSR_TOS_VIOLATION', '2': 2},
+    const {'1': 'OSR_COMPLETED', '2': 3},
   ],
 };
 
-const ApplicantChatType$json = const {
-  '1': 'ApplicantChatType',
+const ProposalChatType$json = const {
+  '1': 'ProposalChatType',
   '2': const [
-    const {'1': 'ACT_PLAIN', '2': 0},
-    const {'1': 'ACT_HAGGLE', '2': 1},
-    const {'1': 'ACT_IMAGE_KEY', '2': 2},
-    const {'1': 'ACT_MARKER', '2': 3},
+    const {'1': 'PCT_PLAIN', '2': 0},
+    const {'1': 'PCT_TERMS', '2': 1},
+    const {'1': 'PCT_IMAGE_KEY', '2': 2},
+    const {'1': 'PCT_MARKER', '2': 3},
   ],
 };
 
-const ApplicantState$json = const {
-  '1': 'ApplicantState',
+const ProposalState$json = const {
+  '1': 'ProposalState',
   '2': const [
-    const {'1': 'AS_HAGGLING', '2': 0},
-    const {'1': 'AS_DEAL', '2': 1},
-    const {'1': 'AS_REJECTED', '2': 2},
-    const {'1': 'AS_COMPLETE', '2': 3},
-    const {'1': 'AS_DISPUTE', '2': 4},
-    const {'1': 'AS_RESOLVED', '2': 5},
+    const {'1': 'PS_PROPOSING', '2': 0},
+    const {'1': 'PS_NEGOTIATING', '2': 1},
+    const {'1': 'PS_DEAL', '2': 2},
+    const {'1': 'PS_REJECTED', '2': 3},
+    const {'1': 'PS_DISPUTE', '2': 4},
+    const {'1': 'PS_RESOLVED', '2': 5},
+    const {'1': 'PS_COMPLETE', '2': 6},
   ],
 };
 
-const ApplicantChatMarker$json = const {
-  '1': 'ApplicantChatMarker',
+const ProposalChatMarker$json = const {
+  '1': 'ProposalChatMarker',
   '2': const [
-    const {'1': 'ACM_APPLIED', '2': 0},
-    const {'1': 'ACM_WANT_DEAL', '2': 1},
-    const {'1': 'ACM_DEAL_MADE', '2': 2},
-    const {'1': 'ACM_REJECTED', '2': 3},
-    const {'1': 'ACM_MARKED_COMPLETE', '2': 4},
-    const {'1': 'ACM_COMPLETE', '2': 5},
-    const {'1': 'ACM_MARKED_DISPUTE', '2': 6},
-    const {'1': 'ACM_RESOLVED', '2': 7},
-    const {'1': 'ACM_MESSAGE_DROPPED', '2': 8},
+    const {'1': 'PCM_APPLIED', '2': 0},
+    const {'1': 'PCM_WANT_DEAL', '2': 1},
+    const {'1': 'PCM_DEAL_MADE', '2': 2},
+    const {'1': 'PCM_REJECTED', '2': 3},
+    const {'1': 'PCM_MARKED_COMPLETE', '2': 4},
+    const {'1': 'PCM_COMPLETE', '2': 5},
+    const {'1': 'PCM_MARKED_DISPUTE', '2': 6},
+    const {'1': 'PCM_RESOLVED', '2': 7},
+    const {'1': 'PCM_MESSAGE_DROPPED', '2': 8},
+    const {'1': 'PCM_DIRECT', '2': 9},
+    const {'1': 'PCM_WANT_NEGOTIATE', '2': 10},
   ],
 };

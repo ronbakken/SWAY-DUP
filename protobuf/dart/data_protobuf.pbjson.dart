@@ -54,8 +54,8 @@ const DataOAuthCredentials$json = const {
   ],
 };
 
-const DataBusinessOffer$json = const {
-  '1': 'DataBusinessOffer',
+const DataOffer$json = const {
+  '1': 'DataOffer',
   '2': const [
     const {'1': 'offerId', '3': 1, '4': 1, '5': 5, '10': 'offerId'},
     const {'1': 'accountId', '3': 2, '4': 1, '5': 5, '10': 'accountId'},
@@ -97,7 +97,7 @@ const DataBusinessOffer$json = const {
       '3': 12,
       '4': 1,
       '5': 14,
-      '6': '.inf.BusinessOfferState',
+      '6': '.inf.OfferState',
       '10': 'state'
     },
     const {
@@ -105,43 +105,37 @@ const DataBusinessOffer$json = const {
       '3': 13,
       '4': 1,
       '5': 14,
-      '6': '.inf.BusinessOfferStateReason',
+      '6': '.inf.OfferStateReason',
       '10': 'stateReason'
     },
+    const {'1': 'proposalsNew', '3': 14, '4': 1, '5': 5, '10': 'proposalsNew'},
     const {
-      '1': 'applicantsNew',
-      '3': 14,
-      '4': 1,
-      '5': 5,
-      '10': 'applicantsNew'
-    },
-    const {
-      '1': 'applicantsAccepted',
+      '1': 'proposalsAccepted',
       '3': 15,
       '4': 1,
       '5': 5,
-      '10': 'applicantsAccepted'
+      '10': 'proposalsAccepted'
     },
     const {
-      '1': 'applicantsCompleted',
+      '1': 'proposalsCompleted',
       '3': 16,
       '4': 1,
       '5': 5,
-      '10': 'applicantsCompleted'
+      '10': 'proposalsCompleted'
     },
     const {
-      '1': 'applicantsRefused',
+      '1': 'proposalsRefused',
       '3': 17,
       '4': 1,
       '5': 5,
-      '10': 'applicantsRefused'
+      '10': 'proposalsRefused'
     },
     const {
-      '1': 'influencerApplicantId',
+      '1': 'influencerProposalId',
       '3': 22,
       '4': 1,
       '5': 5,
-      '10': 'influencerApplicantId'
+      '10': 'influencerProposalId'
     },
   ],
 };
@@ -298,10 +292,10 @@ const DataAccount$json = const {
   ],
 };
 
-const DataApplicant$json = const {
-  '1': 'DataApplicant',
+const DataProposal$json = const {
+  '1': 'DataProposal',
   '2': const [
-    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'proposalId', '3': 1, '4': 1, '5': 5, '10': 'proposalId'},
     const {'1': 'offerId', '3': 2, '4': 1, '5': 5, '10': 'offerId'},
     const {
       '1': 'influencerAccountId',
@@ -409,19 +403,19 @@ const DataApplicant$json = const {
       '3': 13,
       '4': 1,
       '5': 14,
-      '6': '.inf.ApplicantState',
+      '6': '.inf.ProposalState',
       '10': 'state'
     },
   ],
 };
 
-const DataApplicantChat$json = const {
-  '1': 'DataApplicantChat',
+const DataProposalChat$json = const {
+  '1': 'DataProposalChat',
   '2': const [
     const {'1': 'chatId', '3': 7, '4': 1, '5': 3, '10': 'chatId'},
     const {'1': 'sent', '3': 10, '4': 1, '5': 3, '10': 'sent'},
     const {'1': 'senderId', '3': 2, '4': 1, '5': 5, '10': 'senderId'},
-    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'proposalId', '3': 1, '4': 1, '5': 5, '10': 'proposalId'},
     const {'1': 'deviceId', '3': 11, '4': 1, '5': 5, '10': 'deviceId'},
     const {'1': 'deviceGhostId', '3': 6, '4': 1, '5': 5, '10': 'deviceGhostId'},
     const {
@@ -429,7 +423,7 @@ const DataApplicantChat$json = const {
       '3': 8,
       '4': 1,
       '5': 14,
-      '6': '.inf.ApplicantChatType',
+      '6': '.inf.ProposalChatType',
       '10': 'type'
     },
     const {'1': 'text', '3': 5, '4': 1, '5': 9, '10': 'text'},

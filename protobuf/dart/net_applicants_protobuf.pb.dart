@@ -12,8 +12,8 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'data_protobuf.pb.dart' as $1;
 
-class NetLoadApplicantsReq extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadApplicantsReq',
+class NetLoadProposalsReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadProposalsReq',
       package: const $pb.PackageName('inf'))
     ..a<int>(1, 'before', $pb.PbFieldType.O3)
     ..a<int>(2, 'after', $pb.PbFieldType.O3)
@@ -21,26 +21,26 @@ class NetLoadApplicantsReq extends $pb.GeneratedMessage {
     ..a<int>(4, 'offerId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetLoadApplicantsReq() : super();
-  NetLoadApplicantsReq.fromBuffer(List<int> i,
+  NetLoadProposalsReq() : super();
+  NetLoadProposalsReq.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetLoadApplicantsReq.fromJson(String i,
+  NetLoadProposalsReq.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetLoadApplicantsReq clone() =>
-      new NetLoadApplicantsReq()..mergeFromMessage(this);
-  NetLoadApplicantsReq copyWith(void Function(NetLoadApplicantsReq) updates) =>
-      super.copyWith((message) => updates(message as NetLoadApplicantsReq));
+  NetLoadProposalsReq clone() =>
+      new NetLoadProposalsReq()..mergeFromMessage(this);
+  NetLoadProposalsReq copyWith(void Function(NetLoadProposalsReq) updates) =>
+      super.copyWith((message) => updates(message as NetLoadProposalsReq));
   $pb.BuilderInfo get info_ => _i;
-  static NetLoadApplicantsReq create() => new NetLoadApplicantsReq();
-  static $pb.PbList<NetLoadApplicantsReq> createRepeated() =>
-      new $pb.PbList<NetLoadApplicantsReq>();
-  static NetLoadApplicantsReq getDefault() =>
+  static NetLoadProposalsReq create() => new NetLoadProposalsReq();
+  static $pb.PbList<NetLoadProposalsReq> createRepeated() =>
+      new $pb.PbList<NetLoadProposalsReq>();
+  static NetLoadProposalsReq getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetLoadApplicantsReq _defaultInstance;
-  static void $checkItem(NetLoadApplicantsReq v) {
-    if (v is! NetLoadApplicantsReq)
+  static NetLoadProposalsReq _defaultInstance;
+  static void $checkItem(NetLoadProposalsReq v) {
+    if (v is! NetLoadProposalsReq)
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
@@ -77,75 +77,75 @@ class NetLoadApplicantsReq extends $pb.GeneratedMessage {
   void clearOfferId() => clearField(4);
 }
 
-class NetLoadApplicantReq extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadApplicantReq',
+class NetLoadProposalReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadProposalReq',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetLoadApplicantReq() : super();
-  NetLoadApplicantReq.fromBuffer(List<int> i,
+  NetLoadProposalReq() : super();
+  NetLoadProposalReq.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetLoadApplicantReq.fromJson(String i,
+  NetLoadProposalReq.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetLoadApplicantReq clone() =>
-      new NetLoadApplicantReq()..mergeFromMessage(this);
-  NetLoadApplicantReq copyWith(void Function(NetLoadApplicantReq) updates) =>
-      super.copyWith((message) => updates(message as NetLoadApplicantReq));
+  NetLoadProposalReq clone() =>
+      new NetLoadProposalReq()..mergeFromMessage(this);
+  NetLoadProposalReq copyWith(void Function(NetLoadProposalReq) updates) =>
+      super.copyWith((message) => updates(message as NetLoadProposalReq));
   $pb.BuilderInfo get info_ => _i;
-  static NetLoadApplicantReq create() => new NetLoadApplicantReq();
-  static $pb.PbList<NetLoadApplicantReq> createRepeated() =>
-      new $pb.PbList<NetLoadApplicantReq>();
-  static NetLoadApplicantReq getDefault() =>
+  static NetLoadProposalReq create() => new NetLoadProposalReq();
+  static $pb.PbList<NetLoadProposalReq> createRepeated() =>
+      new $pb.PbList<NetLoadProposalReq>();
+  static NetLoadProposalReq getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetLoadApplicantReq _defaultInstance;
-  static void $checkItem(NetLoadApplicantReq v) {
-    if (v is! NetLoadApplicantReq)
+  static NetLoadProposalReq _defaultInstance;
+  static void $checkItem(NetLoadProposalReq v) {
+    if (v is! NetLoadProposalReq)
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 }
 
-class NetLoadApplicantChatsReq extends $pb.GeneratedMessage {
+class NetLoadProposalChatsReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
-      'NetLoadApplicantChatsReq',
+      'NetLoadProposalChatsReq',
       package: const $pb.PackageName('inf'))
     ..a<int>(1, 'before', $pb.PbFieldType.O3)
     ..a<int>(2, 'after', $pb.PbFieldType.O3)
     ..a<int>(3, 'limit', $pb.PbFieldType.O3)
-    ..a<int>(5, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(5, 'proposalId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetLoadApplicantChatsReq() : super();
-  NetLoadApplicantChatsReq.fromBuffer(List<int> i,
+  NetLoadProposalChatsReq() : super();
+  NetLoadProposalChatsReq.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetLoadApplicantChatsReq.fromJson(String i,
+  NetLoadProposalChatsReq.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetLoadApplicantChatsReq clone() =>
-      new NetLoadApplicantChatsReq()..mergeFromMessage(this);
-  NetLoadApplicantChatsReq copyWith(
-          void Function(NetLoadApplicantChatsReq) updates) =>
-      super.copyWith((message) => updates(message as NetLoadApplicantChatsReq));
+  NetLoadProposalChatsReq clone() =>
+      new NetLoadProposalChatsReq()..mergeFromMessage(this);
+  NetLoadProposalChatsReq copyWith(
+          void Function(NetLoadProposalChatsReq) updates) =>
+      super.copyWith((message) => updates(message as NetLoadProposalChatsReq));
   $pb.BuilderInfo get info_ => _i;
-  static NetLoadApplicantChatsReq create() => new NetLoadApplicantChatsReq();
-  static $pb.PbList<NetLoadApplicantChatsReq> createRepeated() =>
-      new $pb.PbList<NetLoadApplicantChatsReq>();
-  static NetLoadApplicantChatsReq getDefault() =>
+  static NetLoadProposalChatsReq create() => new NetLoadProposalChatsReq();
+  static $pb.PbList<NetLoadProposalChatsReq> createRepeated() =>
+      new $pb.PbList<NetLoadProposalChatsReq>();
+  static NetLoadProposalChatsReq getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetLoadApplicantChatsReq _defaultInstance;
-  static void $checkItem(NetLoadApplicantChatsReq v) {
-    if (v is! NetLoadApplicantChatsReq)
+  static NetLoadProposalChatsReq _defaultInstance;
+  static void $checkItem(NetLoadProposalChatsReq v) {
+    if (v is! NetLoadProposalChatsReq)
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
@@ -173,19 +173,19 @@ class NetLoadApplicantChatsReq extends $pb.GeneratedMessage {
   bool hasLimit() => $_has(2);
   void clearLimit() => clearField(3);
 
-  int get applicantId => $_get(3, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(3, 0);
+  set proposalId(int v) {
     $_setSignedInt32(3, v);
   }
 
-  bool hasApplicantId() => $_has(3);
-  void clearApplicantId() => clearField(5);
+  bool hasProposalId() => $_has(3);
+  void clearProposalId() => clearField(5);
 }
 
 class NetChatPlain extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       new $pb.BuilderInfo('NetChatPlain', package: const $pb.PackageName('inf'))
-        ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+        ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
         ..aOS(6, 'text')
         ..a<int>(8, 'deviceGhostId', $pb.PbFieldType.O3)
         ..hasRequiredFields = false;
@@ -210,13 +210,13 @@ class NetChatPlain extends $pb.GeneratedMessage {
     if (v is! NetChatPlain) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 
   String get text => $_getS(1, '');
   set text(String v) {
@@ -238,7 +238,7 @@ class NetChatPlain extends $pb.GeneratedMessage {
 class NetChatHaggle extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatHaggle',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..aOS(2, 'remarks')
     ..aOS(3, 'deliverables')
     ..aOS(4, 'reward')
@@ -265,13 +265,13 @@ class NetChatHaggle extends $pb.GeneratedMessage {
     if (v is! NetChatHaggle) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 
   String get remarks => $_getS(1, '');
   set remarks(String v) {
@@ -309,7 +309,7 @@ class NetChatHaggle extends $pb.GeneratedMessage {
 class NetChatImageKey extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatImageKey',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..aOS(5, 'imageKey')
     ..a<int>(8, 'deviceGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
@@ -335,13 +335,13 @@ class NetChatImageKey extends $pb.GeneratedMessage {
     if (v is! NetChatImageKey) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 
   String get imageKey => $_getS(1, '');
   set imageKey(String v) {
@@ -360,45 +360,45 @@ class NetChatImageKey extends $pb.GeneratedMessage {
   void clearDeviceGhostId() => clearField(8);
 }
 
-class NetApplicantWantDealReq extends $pb.GeneratedMessage {
+class NetProposalWantDealReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
-      'NetApplicantWantDealReq',
+      'NetProposalWantDealReq',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..aInt64(2, 'haggleChatId')
     ..hasRequiredFields = false;
 
-  NetApplicantWantDealReq() : super();
-  NetApplicantWantDealReq.fromBuffer(List<int> i,
+  NetProposalWantDealReq() : super();
+  NetProposalWantDealReq.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetApplicantWantDealReq.fromJson(String i,
+  NetProposalWantDealReq.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetApplicantWantDealReq clone() =>
-      new NetApplicantWantDealReq()..mergeFromMessage(this);
-  NetApplicantWantDealReq copyWith(
-          void Function(NetApplicantWantDealReq) updates) =>
-      super.copyWith((message) => updates(message as NetApplicantWantDealReq));
+  NetProposalWantDealReq clone() =>
+      new NetProposalWantDealReq()..mergeFromMessage(this);
+  NetProposalWantDealReq copyWith(
+          void Function(NetProposalWantDealReq) updates) =>
+      super.copyWith((message) => updates(message as NetProposalWantDealReq));
   $pb.BuilderInfo get info_ => _i;
-  static NetApplicantWantDealReq create() => new NetApplicantWantDealReq();
-  static $pb.PbList<NetApplicantWantDealReq> createRepeated() =>
-      new $pb.PbList<NetApplicantWantDealReq>();
-  static NetApplicantWantDealReq getDefault() =>
+  static NetProposalWantDealReq create() => new NetProposalWantDealReq();
+  static $pb.PbList<NetProposalWantDealReq> createRepeated() =>
+      new $pb.PbList<NetProposalWantDealReq>();
+  static NetProposalWantDealReq getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetApplicantWantDealReq _defaultInstance;
-  static void $checkItem(NetApplicantWantDealReq v) {
-    if (v is! NetApplicantWantDealReq)
+  static NetProposalWantDealReq _defaultInstance;
+  static void $checkItem(NetProposalWantDealReq v) {
+    if (v is! NetProposalWantDealReq)
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 
   Int64 get haggleChatId => $_getI64(1);
   set haggleChatId(Int64 v) {
@@ -409,44 +409,43 @@ class NetApplicantWantDealReq extends $pb.GeneratedMessage {
   void clearHaggleChatId() => clearField(2);
 }
 
-class NetApplicantRejectReq extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetApplicantRejectReq',
+class NetProposalRejectReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalRejectReq',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..aOS(2, 'reason')
     ..hasRequiredFields = false;
 
-  NetApplicantRejectReq() : super();
-  NetApplicantRejectReq.fromBuffer(List<int> i,
+  NetProposalRejectReq() : super();
+  NetProposalRejectReq.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetApplicantRejectReq.fromJson(String i,
+  NetProposalRejectReq.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetApplicantRejectReq clone() =>
-      new NetApplicantRejectReq()..mergeFromMessage(this);
-  NetApplicantRejectReq copyWith(
-          void Function(NetApplicantRejectReq) updates) =>
-      super.copyWith((message) => updates(message as NetApplicantRejectReq));
+  NetProposalRejectReq clone() =>
+      new NetProposalRejectReq()..mergeFromMessage(this);
+  NetProposalRejectReq copyWith(void Function(NetProposalRejectReq) updates) =>
+      super.copyWith((message) => updates(message as NetProposalRejectReq));
   $pb.BuilderInfo get info_ => _i;
-  static NetApplicantRejectReq create() => new NetApplicantRejectReq();
-  static $pb.PbList<NetApplicantRejectReq> createRepeated() =>
-      new $pb.PbList<NetApplicantRejectReq>();
-  static NetApplicantRejectReq getDefault() =>
+  static NetProposalRejectReq create() => new NetProposalRejectReq();
+  static $pb.PbList<NetProposalRejectReq> createRepeated() =>
+      new $pb.PbList<NetProposalRejectReq>();
+  static NetProposalRejectReq getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetApplicantRejectReq _defaultInstance;
-  static void $checkItem(NetApplicantRejectReq v) {
-    if (v is! NetApplicantRejectReq)
+  static NetProposalRejectReq _defaultInstance;
+  static void $checkItem(NetProposalRejectReq v) {
+    if (v is! NetProposalRejectReq)
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 
   String get reason => $_getS(1, '');
   set reason(String v) {
@@ -457,44 +456,43 @@ class NetApplicantRejectReq extends $pb.GeneratedMessage {
   void clearReason() => clearField(2);
 }
 
-class NetApplicantReportReq extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetApplicantReportReq',
+class NetProposalReportReq extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalReportReq',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..aOS(2, 'text')
     ..hasRequiredFields = false;
 
-  NetApplicantReportReq() : super();
-  NetApplicantReportReq.fromBuffer(List<int> i,
+  NetProposalReportReq() : super();
+  NetProposalReportReq.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetApplicantReportReq.fromJson(String i,
+  NetProposalReportReq.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetApplicantReportReq clone() =>
-      new NetApplicantReportReq()..mergeFromMessage(this);
-  NetApplicantReportReq copyWith(
-          void Function(NetApplicantReportReq) updates) =>
-      super.copyWith((message) => updates(message as NetApplicantReportReq));
+  NetProposalReportReq clone() =>
+      new NetProposalReportReq()..mergeFromMessage(this);
+  NetProposalReportReq copyWith(void Function(NetProposalReportReq) updates) =>
+      super.copyWith((message) => updates(message as NetProposalReportReq));
   $pb.BuilderInfo get info_ => _i;
-  static NetApplicantReportReq create() => new NetApplicantReportReq();
-  static $pb.PbList<NetApplicantReportReq> createRepeated() =>
-      new $pb.PbList<NetApplicantReportReq>();
-  static NetApplicantReportReq getDefault() =>
+  static NetProposalReportReq create() => new NetProposalReportReq();
+  static $pb.PbList<NetProposalReportReq> createRepeated() =>
+      new $pb.PbList<NetProposalReportReq>();
+  static NetProposalReportReq getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetApplicantReportReq _defaultInstance;
-  static void $checkItem(NetApplicantReportReq v) {
-    if (v is! NetApplicantReportReq)
+  static NetProposalReportReq _defaultInstance;
+  static void $checkItem(NetProposalReportReq v) {
+    if (v is! NetProposalReportReq)
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 
   String get text => $_getS(1, '');
   set text(String v) {
@@ -505,11 +503,11 @@ class NetApplicantReportReq extends $pb.GeneratedMessage {
   void clearText() => clearField(2);
 }
 
-class NetApplicantCompletionReq extends $pb.GeneratedMessage {
+class NetProposalCompletionReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
-      'NetApplicantCompletionReq',
+      'NetProposalCompletionReq',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..aOB(2, 'delivered')
     ..aOB(3, 'rewarded')
     ..a<int>(4, 'rating', $pb.PbFieldType.O3)
@@ -517,38 +515,37 @@ class NetApplicantCompletionReq extends $pb.GeneratedMessage {
     ..aOS(6, 'disputeDescription')
     ..hasRequiredFields = false;
 
-  NetApplicantCompletionReq() : super();
-  NetApplicantCompletionReq.fromBuffer(List<int> i,
+  NetProposalCompletionReq() : super();
+  NetProposalCompletionReq.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetApplicantCompletionReq.fromJson(String i,
+  NetProposalCompletionReq.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetApplicantCompletionReq clone() =>
-      new NetApplicantCompletionReq()..mergeFromMessage(this);
-  NetApplicantCompletionReq copyWith(
-          void Function(NetApplicantCompletionReq) updates) =>
-      super
-          .copyWith((message) => updates(message as NetApplicantCompletionReq));
+  NetProposalCompletionReq clone() =>
+      new NetProposalCompletionReq()..mergeFromMessage(this);
+  NetProposalCompletionReq copyWith(
+          void Function(NetProposalCompletionReq) updates) =>
+      super.copyWith((message) => updates(message as NetProposalCompletionReq));
   $pb.BuilderInfo get info_ => _i;
-  static NetApplicantCompletionReq create() => new NetApplicantCompletionReq();
-  static $pb.PbList<NetApplicantCompletionReq> createRepeated() =>
-      new $pb.PbList<NetApplicantCompletionReq>();
-  static NetApplicantCompletionReq getDefault() =>
+  static NetProposalCompletionReq create() => new NetProposalCompletionReq();
+  static $pb.PbList<NetProposalCompletionReq> createRepeated() =>
+      new $pb.PbList<NetProposalCompletionReq>();
+  static NetProposalCompletionReq getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetApplicantCompletionReq _defaultInstance;
-  static void $checkItem(NetApplicantCompletionReq v) {
-    if (v is! NetApplicantCompletionReq)
+  static NetProposalCompletionReq _defaultInstance;
+  static void $checkItem(NetProposalCompletionReq v) {
+    if (v is! NetProposalCompletionReq)
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 
   bool get delivered => $_get(1, false);
   set delivered(bool v) {
@@ -591,46 +588,45 @@ class NetApplicantCompletionReq extends $pb.GeneratedMessage {
   void clearDisputeDescription() => clearField(6);
 }
 
-class NetApplicantCommonRes extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetApplicantCommonRes',
+class NetProposalCommonRes extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalCommonRes',
       package: const $pb.PackageName('inf'))
-    ..a<$1.DataApplicant>(1, 'updateApplicant', $pb.PbFieldType.OM,
-        $1.DataApplicant.getDefault, $1.DataApplicant.create)
-    ..pp<$1.DataApplicantChat>(2, 'newChats', $pb.PbFieldType.PM,
-        $1.DataApplicantChat.$checkItem, $1.DataApplicantChat.create)
+    ..a<$1.DataProposal>(1, 'updateProposal', $pb.PbFieldType.OM,
+        $1.DataProposal.getDefault, $1.DataProposal.create)
+    ..pp<$1.DataProposalChat>(2, 'newChats', $pb.PbFieldType.PM,
+        $1.DataProposalChat.$checkItem, $1.DataProposalChat.create)
     ..hasRequiredFields = false;
 
-  NetApplicantCommonRes() : super();
-  NetApplicantCommonRes.fromBuffer(List<int> i,
+  NetProposalCommonRes() : super();
+  NetProposalCommonRes.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetApplicantCommonRes.fromJson(String i,
+  NetProposalCommonRes.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetApplicantCommonRes clone() =>
-      new NetApplicantCommonRes()..mergeFromMessage(this);
-  NetApplicantCommonRes copyWith(
-          void Function(NetApplicantCommonRes) updates) =>
-      super.copyWith((message) => updates(message as NetApplicantCommonRes));
+  NetProposalCommonRes clone() =>
+      new NetProposalCommonRes()..mergeFromMessage(this);
+  NetProposalCommonRes copyWith(void Function(NetProposalCommonRes) updates) =>
+      super.copyWith((message) => updates(message as NetProposalCommonRes));
   $pb.BuilderInfo get info_ => _i;
-  static NetApplicantCommonRes create() => new NetApplicantCommonRes();
-  static $pb.PbList<NetApplicantCommonRes> createRepeated() =>
-      new $pb.PbList<NetApplicantCommonRes>();
-  static NetApplicantCommonRes getDefault() =>
+  static NetProposalCommonRes create() => new NetProposalCommonRes();
+  static $pb.PbList<NetProposalCommonRes> createRepeated() =>
+      new $pb.PbList<NetProposalCommonRes>();
+  static NetProposalCommonRes getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetApplicantCommonRes _defaultInstance;
-  static void $checkItem(NetApplicantCommonRes v) {
-    if (v is! NetApplicantCommonRes)
+  static NetProposalCommonRes _defaultInstance;
+  static void $checkItem(NetProposalCommonRes v) {
+    if (v is! NetProposalCommonRes)
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $1.DataApplicant get updateApplicant => $_getN(0);
-  set updateApplicant($1.DataApplicant v) {
+  $1.DataProposal get updateProposal => $_getN(0);
+  set updateProposal($1.DataProposal v) {
     setField(1, v);
   }
 
-  bool hasUpdateApplicant() => $_has(0);
-  void clearUpdateApplicant() => clearField(1);
+  bool hasUpdateProposal() => $_has(0);
+  void clearUpdateProposal() => clearField(1);
 
-  List<$1.DataApplicantChat> get newChats => $_getList(1);
+  List<$1.DataProposalChat> get newChats => $_getList(1);
 }

@@ -10,8 +10,10 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class OAuthMechanism extends $pb.ProtobufEnum {
   static const OAuthMechanism none = const OAuthMechanism._(0, 'OAM_NONE');
-  static const OAuthMechanism oauth1 = const OAuthMechanism._(1, 'OAM_OAUTH1');
-  static const OAuthMechanism oauth2 = const OAuthMechanism._(2, 'OAM_OAUTH2');
+  static const OAuthMechanism oauth1 =
+      const OAuthMechanism._(1, 'OAM_OAUTH1');
+  static const OAuthMechanism oauth2 =
+      const OAuthMechanism._(2, 'OAM_OAUTH2');
 
   static const List<OAuthMechanism> values = const <OAuthMechanism>[
     none,
@@ -30,7 +32,8 @@ class OAuthMechanism extends $pb.ProtobufEnum {
 }
 
 class OAuthProviderIds extends $pb.ProtobufEnum {
-  static const OAuthProviderIds none = const OAuthProviderIds._(0, 'OAP_NONE');
+  static const OAuthProviderIds none =
+      const OAuthProviderIds._(0, 'OAP_NONE');
   static const OAuthProviderIds twitter =
       const OAuthProviderIds._(1, 'OAP_TWITTER');
   static const OAuthProviderIds facebook =
@@ -54,7 +57,8 @@ class OAuthProviderIds extends $pb.ProtobufEnum {
 
 class AccountType extends $pb.ProtobufEnum {
   static const AccountType unknown = const AccountType._(0, 'AT_UNKNOWN');
-  static const AccountType influencer = const AccountType._(1, 'AT_INFLUENCER');
+  static const AccountType influencer =
+      const AccountType._(1, 'AT_INFLUENCER');
   static const AccountType business = const AccountType._(2, 'AT_BUSINESS');
   static const AccountType support = const AccountType._(3, 'AT_SUPPORT');
 
@@ -155,18 +159,21 @@ class GlobalAccountStateReason extends $pb.ProtobufEnum {
 class NotificationFlags extends $pb.ProtobufEnum {
   static const NotificationFlags accountState =
       const NotificationFlags._(0, 'NF_ACCOUNT_STATE');
-  static const NotificationFlags NF_MAKE_AN_OFFER_FAB =
-      const NotificationFlags._(1, 'NF_MAKE_AN_OFFER_FAB');
+  static const NotificationFlags makeAnOfferHint =
+      const NotificationFlags._(1, 'NF_MAKE_AN_OFFER_HINT');
   static const NotificationFlags unreadMessages =
       const NotificationFlags._(2, 'NF_UNREAD_MESSAGES');
-  static const NotificationFlags NF_CS_REQUEST =
-      const NotificationFlags._(3, 'NF_CS_REQUEST');
+  static const NotificationFlags supportRequest =
+      const NotificationFlags._(3, 'NF_SUPPORT_REQUEST');
+  static const NotificationFlags onboarding =
+      const NotificationFlags._(4, 'NF_ONBOARDING');
 
   static const List<NotificationFlags> values = const <NotificationFlags>[
     accountState,
-    NF_MAKE_AN_OFFER_FAB,
+    makeAnOfferHint,
     unreadMessages,
-    NF_CS_REQUEST,
+    supportRequest,
+    onboarding,
   ];
 
   static final Map<int, NotificationFlags> _byValue =
@@ -179,160 +186,160 @@ class NotificationFlags extends $pb.ProtobufEnum {
   const NotificationFlags._(int v, String n) : super(v, n);
 }
 
-class BusinessOfferState extends $pb.ProtobufEnum {
-  static const BusinessOfferState Bdraft =
-      const BusinessOfferState._(0, 'Bdraft');
-  static const BusinessOfferState Bopen =
-      const BusinessOfferState._(1, 'Bopen');
-  static const BusinessOfferState BOS_ACTIVE =
-      const BusinessOfferState._(2, 'BOS_ACTIVE');
-  static const BusinessOfferState Bclosed =
-      const BusinessOfferState._(3, 'Bclosed');
+class OfferState extends $pb.ProtobufEnum {
+  static const OfferState draft = const OfferState._(0, 'OS_DRAFT');
+  static const OfferState open = const OfferState._(1, 'OS_OPEN');
+  static const OfferState closed = const OfferState._(2, 'OS_CLOSED');
 
-  static const List<BusinessOfferState> values = const <BusinessOfferState>[
-    Bdraft,
-    Bopen,
-    BOS_ACTIVE,
-    Bclosed,
+  static const List<OfferState> values = const <OfferState>[
+    draft,
+    open,
+    closed,
   ];
 
-  static final Map<int, BusinessOfferState> _byValue =
+  static final Map<int, OfferState> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static BusinessOfferState valueOf(int value) => _byValue[value];
-  static void $checkItem(BusinessOfferState v) {
-    if (v is! BusinessOfferState) $pb.checkItemFailed(v, 'BusinessOfferState');
+  static OfferState valueOf(int value) => _byValue[value];
+  static void $checkItem(OfferState v) {
+    if (v is! OfferState) $pb.checkItemFailed(v, 'OfferState');
   }
 
-  const BusinessOfferState._(int v, String n) : super(v, n);
+  const OfferState._(int v, String n) : super(v, n);
 }
 
-class BusinessOfferStateReason extends $pb.ProtobufEnum {
-  static const BusinessOfferStateReason BnewOffer =
-      const BusinessOfferStateReason._(0, 'BnewOffer');
-  static const BusinessOfferStateReason BuserClosed =
-      const BusinessOfferStateReason._(1, 'BuserClosed');
-  static const BusinessOfferStateReason BtosViolation =
-      const BusinessOfferStateReason._(2, 'BtosViolation');
-  static const BusinessOfferStateReason Bcompleted =
-      const BusinessOfferStateReason._(3, 'Bcompleted');
+class OfferStateReason extends $pb.ProtobufEnum {
+  static const OfferStateReason newOffer =
+      const OfferStateReason._(0, 'OSR_NEW_OFFER');
+  static const OfferStateReason userClosed =
+      const OfferStateReason._(1, 'OSR_USER_CLOSED');
+  static const OfferStateReason tosViolation =
+      const OfferStateReason._(2, 'OSR_TOS_VIOLATION');
+  static const OfferStateReason completed =
+      const OfferStateReason._(3, 'OSR_COMPLETED');
 
-  static const List<BusinessOfferStateReason> values =
-      const <BusinessOfferStateReason>[
-    BnewOffer,
-    BuserClosed,
-    BtosViolation,
-    Bcompleted,
+  static const List<OfferStateReason> values = const <OfferStateReason>[
+    newOffer,
+    userClosed,
+    tosViolation,
+    completed,
   ];
 
-  static final Map<int, BusinessOfferStateReason> _byValue =
+  static final Map<int, OfferStateReason> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static BusinessOfferStateReason valueOf(int value) => _byValue[value];
-  static void $checkItem(BusinessOfferStateReason v) {
-    if (v is! BusinessOfferStateReason)
-      $pb.checkItemFailed(v, 'BusinessOfferStateReason');
+  static OfferStateReason valueOf(int value) => _byValue[value];
+  static void $checkItem(OfferStateReason v) {
+    if (v is! OfferStateReason) $pb.checkItemFailed(v, 'OfferStateReason');
   }
 
-  const BusinessOfferStateReason._(int v, String n) : super(v, n);
+  const OfferStateReason._(int v, String n) : super(v, n);
 }
 
-class ApplicantChatType extends $pb.ProtobufEnum {
-  static const ApplicantChatType ACT_PLAIN =
-      const ApplicantChatType._(0, 'ACT_PLAIN');
-  static const ApplicantChatType ACT_HAGGLE =
-      const ApplicantChatType._(1, 'ACT_HAGGLE');
-  static const ApplicantChatType ACT_IMAGE_KEY =
-      const ApplicantChatType._(2, 'ACT_IMAGE_KEY');
-  static const ApplicantChatType ACT_MARKER =
-      const ApplicantChatType._(3, 'ACT_MARKER');
+class ProposalChatType extends $pb.ProtobufEnum {
+  static const ProposalChatType plain =
+      const ProposalChatType._(0, 'PCT_PLAIN');
+  static const ProposalChatType terms =
+      const ProposalChatType._(1, 'PCT_TERMS');
+  static const ProposalChatType imageKey =
+      const ProposalChatType._(2, 'PCT_IMAGE_KEY');
+  static const ProposalChatType marker =
+      const ProposalChatType._(3, 'PCT_MARKER');
 
-  static const List<ApplicantChatType> values = const <ApplicantChatType>[
-    ACT_PLAIN,
-    ACT_HAGGLE,
-    ACT_IMAGE_KEY,
-    ACT_MARKER,
+  static const List<ProposalChatType> values = const <ProposalChatType>[
+    plain,
+    terms,
+    imageKey,
+    marker,
   ];
 
-  static final Map<int, ApplicantChatType> _byValue =
+  static final Map<int, ProposalChatType> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static ApplicantChatType valueOf(int value) => _byValue[value];
-  static void $checkItem(ApplicantChatType v) {
-    if (v is! ApplicantChatType) $pb.checkItemFailed(v, 'ApplicantChatType');
+  static ProposalChatType valueOf(int value) => _byValue[value];
+  static void $checkItem(ProposalChatType v) {
+    if (v is! ProposalChatType) $pb.checkItemFailed(v, 'ProposalChatType');
   }
 
-  const ApplicantChatType._(int v, String n) : super(v, n);
+  const ProposalChatType._(int v, String n) : super(v, n);
 }
 
-class ApplicantState extends $pb.ProtobufEnum {
-  static const ApplicantState AS_HAGGLING =
-      const ApplicantState._(0, 'AS_HAGGLING');
-  static const ApplicantState AS_DEAL = const ApplicantState._(1, 'AS_DEAL');
-  static const ApplicantState AS_REJECTED =
-      const ApplicantState._(2, 'AS_REJECTED');
-  static const ApplicantState AS_COMPLETE =
-      const ApplicantState._(3, 'AS_COMPLETE');
-  static const ApplicantState AS_DISPUTE =
-      const ApplicantState._(4, 'AS_DISPUTE');
-  static const ApplicantState AS_RESOLVED =
-      const ApplicantState._(5, 'AS_RESOLVED');
+class ProposalState extends $pb.ProtobufEnum {
+  static const ProposalState proposing =
+      const ProposalState._(0, 'PS_PROPOSING');
+  static const ProposalState negotiating =
+      const ProposalState._(1, 'PS_NEGOTIATING');
+  static const ProposalState deal = const ProposalState._(2, 'PS_DEAL');
+  static const ProposalState rejected =
+      const ProposalState._(3, 'PS_REJECTED');
+  static const ProposalState dispute =
+      const ProposalState._(4, 'PS_DISPUTE');
+  static const ProposalState resolved =
+      const ProposalState._(5, 'PS_RESOLVED');
+  static const ProposalState complete =
+      const ProposalState._(6, 'PS_COMPLETE');
 
-  static const List<ApplicantState> values = const <ApplicantState>[
-    AS_HAGGLING,
-    AS_DEAL,
-    AS_REJECTED,
-    AS_COMPLETE,
-    AS_DISPUTE,
-    AS_RESOLVED,
+  static const List<ProposalState> values = const <ProposalState>[
+    proposing,
+    negotiating,
+    deal,
+    rejected,
+    dispute,
+    resolved,
+    complete,
   ];
 
-  static final Map<int, ApplicantState> _byValue =
+  static final Map<int, ProposalState> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static ApplicantState valueOf(int value) => _byValue[value];
-  static void $checkItem(ApplicantState v) {
-    if (v is! ApplicantState) $pb.checkItemFailed(v, 'ApplicantState');
+  static ProposalState valueOf(int value) => _byValue[value];
+  static void $checkItem(ProposalState v) {
+    if (v is! ProposalState) $pb.checkItemFailed(v, 'ProposalState');
   }
 
-  const ApplicantState._(int v, String n) : super(v, n);
+  const ProposalState._(int v, String n) : super(v, n);
 }
 
-class ApplicantChatMarker extends $pb.ProtobufEnum {
-  static const ApplicantChatMarker ACM_APPLIED =
-      const ApplicantChatMarker._(0, 'ACM_APPLIED');
-  static const ApplicantChatMarker ACM_WANT_DEAL =
-      const ApplicantChatMarker._(1, 'ACM_WANT_DEAL');
-  static const ApplicantChatMarker ACM_DEAL_MADE =
-      const ApplicantChatMarker._(2, 'ACM_DEAL_MADE');
-  static const ApplicantChatMarker ACM_REJECTED =
-      const ApplicantChatMarker._(3, 'ACM_REJECTED');
-  static const ApplicantChatMarker ACM_MARKED_COMPLETE =
-      const ApplicantChatMarker._(4, 'ACM_MARKED_COMPLETE');
-  static const ApplicantChatMarker ACM_COMPLETE =
-      const ApplicantChatMarker._(5, 'ACM_COMPLETE');
-  static const ApplicantChatMarker ACM_MARKED_DISPUTE =
-      const ApplicantChatMarker._(6, 'ACM_MARKED_DISPUTE');
-  static const ApplicantChatMarker ACM_RESOLVED =
-      const ApplicantChatMarker._(7, 'ACM_RESOLVED');
-  static const ApplicantChatMarker ACM_MESSAGE_DROPPED =
-      const ApplicantChatMarker._(8, 'ACM_MESSAGE_DROPPED');
+class ProposalChatMarker extends $pb.ProtobufEnum {
+  static const ProposalChatMarker applied =
+      const ProposalChatMarker._(0, 'PCM_APPLIED');
+  static const ProposalChatMarker wantDeal =
+      const ProposalChatMarker._(1, 'PCM_WANT_DEAL');
+  static const ProposalChatMarker dealMade =
+      const ProposalChatMarker._(2, 'PCM_DEAL_MADE');
+  static const ProposalChatMarker rejected =
+      const ProposalChatMarker._(3, 'PCM_REJECTED');
+  static const ProposalChatMarker markedComplete =
+      const ProposalChatMarker._(4, 'PCM_MARKED_COMPLETE');
+  static const ProposalChatMarker complete =
+      const ProposalChatMarker._(5, 'PCM_COMPLETE');
+  static const ProposalChatMarker markedDispute =
+      const ProposalChatMarker._(6, 'PCM_MARKED_DISPUTE');
+  static const ProposalChatMarker resolved =
+      const ProposalChatMarker._(7, 'PCM_RESOLVED');
+  static const ProposalChatMarker messageDropped =
+      const ProposalChatMarker._(8, 'PCM_MESSAGE_DROPPED');
+  static const ProposalChatMarker direct =
+      const ProposalChatMarker._(9, 'PCM_DIRECT');
+  static const ProposalChatMarker wantNegotiate =
+      const ProposalChatMarker._(10, 'PCM_WANT_NEGOTIATE');
 
-  static const List<ApplicantChatMarker> values = const <ApplicantChatMarker>[
-    ACM_APPLIED,
-    ACM_WANT_DEAL,
-    ACM_DEAL_MADE,
-    ACM_REJECTED,
-    ACM_MARKED_COMPLETE,
-    ACM_COMPLETE,
-    ACM_MARKED_DISPUTE,
-    ACM_RESOLVED,
-    ACM_MESSAGE_DROPPED,
+  static const List<ProposalChatMarker> values = const <ProposalChatMarker>[
+    applied,
+    wantDeal,
+    dealMade,
+    rejected,
+    markedComplete,
+    complete,
+    markedDispute,
+    resolved,
+    messageDropped,
+    direct,
+    wantNegotiate,
   ];
 
-  static final Map<int, ApplicantChatMarker> _byValue =
+  static final Map<int, ProposalChatMarker> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static ApplicantChatMarker valueOf(int value) => _byValue[value];
-  static void $checkItem(ApplicantChatMarker v) {
-    if (v is! ApplicantChatMarker)
-      $pb.checkItemFailed(v, 'ApplicantChatMarker');
+  static ProposalChatMarker valueOf(int value) => _byValue[value];
+  static void $checkItem(ProposalChatMarker v) {
+    if (v is! ProposalChatMarker) $pb.checkItemFailed(v, 'ProposalChatMarker');
   }
 
-  const ApplicantChatMarker._(int v, String n) : super(v, n);
+  const ProposalChatMarker._(int v, String n) : super(v, n);
 }

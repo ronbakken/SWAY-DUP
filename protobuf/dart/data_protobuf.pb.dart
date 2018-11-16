@@ -248,67 +248,59 @@ class DataOAuthCredentials extends $pb.GeneratedMessage {
   void clearUserId() => clearField(4);
 }
 
-class DataBusinessOffer extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataBusinessOffer',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'offerId', $pb.PbFieldType.O3)
-    ..a<int>(2, 'accountId', $pb.PbFieldType.O3)
-    ..a<int>(3, 'locationId', $pb.PbFieldType.O3)
-    ..aOS(4, 'title')
-    ..aOS(5, 'description')
-    ..aOS(6, 'thumbnailUrl')
-    ..aOS(7, 'deliverables')
-    ..aOS(8, 'reward')
-    ..aOS(9, 'location')
-    ..pPS(10, 'coverUrls')
-    ..e<$0.BusinessOfferState>(
-        12,
-        'state',
-        $pb.PbFieldType.OE,
-        $0.BusinessOfferState.BOS_DRAFT,
-        $0.BusinessOfferState.valueOf,
-        $0.BusinessOfferState.values)
-    ..e<$0.BusinessOfferStateReason>(
-        13,
-        'stateReason',
-        $pb.PbFieldType.OE,
-        $0.BusinessOfferStateReason.BOSR_NEW_OFFER,
-        $0.BusinessOfferStateReason.valueOf,
-        $0.BusinessOfferStateReason.values)
-    ..a<int>(14, 'applicantsNew', $pb.PbFieldType.O3)
-    ..a<int>(15, 'applicantsAccepted', $pb.PbFieldType.O3)
-    ..a<int>(16, 'applicantsCompleted', $pb.PbFieldType.O3)
-    ..a<int>(17, 'applicantsRefused', $pb.PbFieldType.O3)
-    ..a<double>(18, 'latitude', $pb.PbFieldType.OD)
-    ..a<double>(19, 'longitude', $pb.PbFieldType.OD)
-    ..a<int>(20, 'locationOfferCount', $pb.PbFieldType.O3)
-    ..aOS(21, 'locationName')
-    ..a<int>(22, 'influencerApplicantId', $pb.PbFieldType.O3)
-    ..a<List<int>>(23, 'categories', $pb.PbFieldType.OY)
-    ..aOS(24, 'blurredThumbnailUrl')
-    ..pPS(25, 'blurredCoverUrls')
-    ..hasRequiredFields = false;
+class DataOffer extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('DataOffer', package: const $pb.PackageName('inf'))
+        ..a<int>(1, 'offerId', $pb.PbFieldType.O3)
+        ..a<int>(2, 'accountId', $pb.PbFieldType.O3)
+        ..a<int>(3, 'locationId', $pb.PbFieldType.O3)
+        ..aOS(4, 'title')
+        ..aOS(5, 'description')
+        ..aOS(6, 'thumbnailUrl')
+        ..aOS(7, 'deliverables')
+        ..aOS(8, 'reward')
+        ..aOS(9, 'location')
+        ..pPS(10, 'coverUrls')
+        ..e<$0.OfferState>(12, 'state', $pb.PbFieldType.OE,
+            $0.OfferState.OS_DRAFT, $0.OfferState.valueOf, $0.OfferState.values)
+        ..e<$0.OfferStateReason>(
+            13,
+            'stateReason',
+            $pb.PbFieldType.OE,
+            $0.OfferStateReason.OSR_NEW_OFFER,
+            $0.OfferStateReason.valueOf,
+            $0.OfferStateReason.values)
+        ..a<int>(14, 'proposalsNew', $pb.PbFieldType.O3)
+        ..a<int>(15, 'proposalsAccepted', $pb.PbFieldType.O3)
+        ..a<int>(16, 'proposalsCompleted', $pb.PbFieldType.O3)
+        ..a<int>(17, 'proposalsRefused', $pb.PbFieldType.O3)
+        ..a<double>(18, 'latitude', $pb.PbFieldType.OD)
+        ..a<double>(19, 'longitude', $pb.PbFieldType.OD)
+        ..a<int>(20, 'locationOfferCount', $pb.PbFieldType.O3)
+        ..aOS(21, 'locationName')
+        ..a<int>(22, 'influencerProposalId', $pb.PbFieldType.O3)
+        ..a<List<int>>(23, 'categories', $pb.PbFieldType.OY)
+        ..aOS(24, 'blurredThumbnailUrl')
+        ..pPS(25, 'blurredCoverUrls')
+        ..hasRequiredFields = false;
 
-  DataBusinessOffer() : super();
-  DataBusinessOffer.fromBuffer(List<int> i,
+  DataOffer() : super();
+  DataOffer.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  DataBusinessOffer.fromJson(String i,
+  DataOffer.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  DataBusinessOffer clone() => new DataBusinessOffer()..mergeFromMessage(this);
-  DataBusinessOffer copyWith(void Function(DataBusinessOffer) updates) =>
-      super.copyWith((message) => updates(message as DataBusinessOffer));
+  DataOffer clone() => new DataOffer()..mergeFromMessage(this);
+  DataOffer copyWith(void Function(DataOffer) updates) =>
+      super.copyWith((message) => updates(message as DataOffer));
   $pb.BuilderInfo get info_ => _i;
-  static DataBusinessOffer create() => new DataBusinessOffer();
-  static $pb.PbList<DataBusinessOffer> createRepeated() =>
-      new $pb.PbList<DataBusinessOffer>();
-  static DataBusinessOffer getDefault() =>
-      _defaultInstance ??= create()..freeze();
-  static DataBusinessOffer _defaultInstance;
-  static void $checkItem(DataBusinessOffer v) {
-    if (v is! DataBusinessOffer)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static DataOffer create() => new DataOffer();
+  static $pb.PbList<DataOffer> createRepeated() => new $pb.PbList<DataOffer>();
+  static DataOffer getDefault() => _defaultInstance ??= create()..freeze();
+  static DataOffer _defaultInstance;
+  static void $checkItem(DataOffer v) {
+    if (v is! DataOffer) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get offerId => $_get(0, 0);
@@ -385,53 +377,53 @@ class DataBusinessOffer extends $pb.GeneratedMessage {
 
   List<String> get coverUrls => $_getList(9);
 
-  $0.BusinessOfferState get state => $_getN(10);
-  set state($0.BusinessOfferState v) {
+  $0.OfferState get state => $_getN(10);
+  set state($0.OfferState v) {
     setField(12, v);
   }
 
   bool hasState() => $_has(10);
   void clearState() => clearField(12);
 
-  $0.BusinessOfferStateReason get stateReason => $_getN(11);
-  set stateReason($0.BusinessOfferStateReason v) {
+  $0.OfferStateReason get stateReason => $_getN(11);
+  set stateReason($0.OfferStateReason v) {
     setField(13, v);
   }
 
   bool hasStateReason() => $_has(11);
   void clearStateReason() => clearField(13);
 
-  int get applicantsNew => $_get(12, 0);
-  set applicantsNew(int v) {
+  int get proposalsNew => $_get(12, 0);
+  set proposalsNew(int v) {
     $_setSignedInt32(12, v);
   }
 
-  bool hasApplicantsNew() => $_has(12);
-  void clearApplicantsNew() => clearField(14);
+  bool hasProposalsNew() => $_has(12);
+  void clearProposalsNew() => clearField(14);
 
-  int get applicantsAccepted => $_get(13, 0);
-  set applicantsAccepted(int v) {
+  int get proposalsAccepted => $_get(13, 0);
+  set proposalsAccepted(int v) {
     $_setSignedInt32(13, v);
   }
 
-  bool hasApplicantsAccepted() => $_has(13);
-  void clearApplicantsAccepted() => clearField(15);
+  bool hasProposalsAccepted() => $_has(13);
+  void clearProposalsAccepted() => clearField(15);
 
-  int get applicantsCompleted => $_get(14, 0);
-  set applicantsCompleted(int v) {
+  int get proposalsCompleted => $_get(14, 0);
+  set proposalsCompleted(int v) {
     $_setSignedInt32(14, v);
   }
 
-  bool hasApplicantsCompleted() => $_has(14);
-  void clearApplicantsCompleted() => clearField(16);
+  bool hasProposalsCompleted() => $_has(14);
+  void clearProposalsCompleted() => clearField(16);
 
-  int get applicantsRefused => $_get(15, 0);
-  set applicantsRefused(int v) {
+  int get proposalsRefused => $_get(15, 0);
+  set proposalsRefused(int v) {
     $_setSignedInt32(15, v);
   }
 
-  bool hasApplicantsRefused() => $_has(15);
-  void clearApplicantsRefused() => clearField(17);
+  bool hasProposalsRefused() => $_has(15);
+  void clearProposalsRefused() => clearField(17);
 
   double get latitude => $_getN(16);
   set latitude(double v) {
@@ -465,13 +457,13 @@ class DataBusinessOffer extends $pb.GeneratedMessage {
   bool hasLocationName() => $_has(19);
   void clearLocationName() => clearField(21);
 
-  int get influencerApplicantId => $_get(20, 0);
-  set influencerApplicantId(int v) {
+  int get influencerProposalId => $_get(20, 0);
+  set influencerProposalId(int v) {
     $_setSignedInt32(20, v);
   }
 
-  bool hasInfluencerApplicantId() => $_has(20);
-  void clearInfluencerApplicantId() => clearField(22);
+  bool hasInfluencerProposalId() => $_has(20);
+  void clearInfluencerProposalId() => clearField(22);
 
   List<int> get categories => $_getN(21);
   set categories(List<int> v) {
@@ -974,64 +966,64 @@ class DataAccount extends $pb.GeneratedMessage {
   void clearDetail() => clearField(3);
 }
 
-class DataApplicant extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataApplicant',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
-    ..a<int>(2, 'offerId', $pb.PbFieldType.O3)
-    ..a<int>(3, 'influencerAccountId', $pb.PbFieldType.O3)
-    ..aInt64(4, 'haggleChatId')
-    ..aOB(5, 'businessWantsDeal')
-    ..aOB(6, 'influencerWantsDeal')
-    ..aOB(7, 'influencerMarkedDelivered')
-    ..aOB(8, 'influencerMarkedRewarded')
-    ..aOB(9, 'businessMarkedDelivered')
-    ..aOB(10, 'businessMarkedRewarded')
-    ..a<int>(11, 'businessGaveRating', $pb.PbFieldType.O3)
-    ..a<int>(12, 'influencerGaveRating', $pb.PbFieldType.O3)
-    ..e<$0.ApplicantState>(
-        13,
-        'state',
-        $pb.PbFieldType.OE,
-        $0.ApplicantState.AS_HAGGLING,
-        $0.ApplicantState.valueOf,
-        $0.ApplicantState.values)
-    ..aOB(14, 'businessDisputed')
-    ..aOB(15, 'influencerDisputed')
-    ..a<int>(16, 'businessAccountId', $pb.PbFieldType.O3)
-    ..aOS(17, 'influencerName')
-    ..aOS(18, 'businessName')
-    ..aOS(19, 'offerTitle')
-    ..a<int>(20, 'senderAccountId', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false;
+class DataProposal extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('DataProposal', package: const $pb.PackageName('inf'))
+        ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
+        ..a<int>(2, 'offerId', $pb.PbFieldType.O3)
+        ..a<int>(3, 'influencerAccountId', $pb.PbFieldType.O3)
+        ..aInt64(4, 'haggleChatId')
+        ..aOB(5, 'businessWantsDeal')
+        ..aOB(6, 'influencerWantsDeal')
+        ..aOB(7, 'influencerMarkedDelivered')
+        ..aOB(8, 'influencerMarkedRewarded')
+        ..aOB(9, 'businessMarkedDelivered')
+        ..aOB(10, 'businessMarkedRewarded')
+        ..a<int>(11, 'businessGaveRating', $pb.PbFieldType.O3)
+        ..a<int>(12, 'influencerGaveRating', $pb.PbFieldType.O3)
+        ..e<$0.ProposalState>(
+            13,
+            'state',
+            $pb.PbFieldType.OE,
+            $0.ProposalState.PS_PROPOSING,
+            $0.ProposalState.valueOf,
+            $0.ProposalState.values)
+        ..aOB(14, 'businessDisputed')
+        ..aOB(15, 'influencerDisputed')
+        ..a<int>(16, 'businessAccountId', $pb.PbFieldType.O3)
+        ..aOS(17, 'influencerName')
+        ..aOS(18, 'businessName')
+        ..aOS(19, 'offerTitle')
+        ..a<int>(20, 'senderAccountId', $pb.PbFieldType.O3)
+        ..hasRequiredFields = false;
 
-  DataApplicant() : super();
-  DataApplicant.fromBuffer(List<int> i,
+  DataProposal() : super();
+  DataProposal.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  DataApplicant.fromJson(String i,
+  DataProposal.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  DataApplicant clone() => new DataApplicant()..mergeFromMessage(this);
-  DataApplicant copyWith(void Function(DataApplicant) updates) =>
-      super.copyWith((message) => updates(message as DataApplicant));
+  DataProposal clone() => new DataProposal()..mergeFromMessage(this);
+  DataProposal copyWith(void Function(DataProposal) updates) =>
+      super.copyWith((message) => updates(message as DataProposal));
   $pb.BuilderInfo get info_ => _i;
-  static DataApplicant create() => new DataApplicant();
-  static $pb.PbList<DataApplicant> createRepeated() =>
-      new $pb.PbList<DataApplicant>();
-  static DataApplicant getDefault() => _defaultInstance ??= create()..freeze();
-  static DataApplicant _defaultInstance;
-  static void $checkItem(DataApplicant v) {
-    if (v is! DataApplicant) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static DataProposal create() => new DataProposal();
+  static $pb.PbList<DataProposal> createRepeated() =>
+      new $pb.PbList<DataProposal>();
+  static DataProposal getDefault() => _defaultInstance ??= create()..freeze();
+  static DataProposal _defaultInstance;
+  static void $checkItem(DataProposal v) {
+    if (v is! DataProposal) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 
   int get offerId => $_get(1, 0);
   set offerId(int v) {
@@ -1121,8 +1113,8 @@ class DataApplicant extends $pb.GeneratedMessage {
   bool hasInfluencerGaveRating() => $_has(11);
   void clearInfluencerGaveRating() => clearField(12);
 
-  $0.ApplicantState get state => $_getN(12);
-  set state($0.ApplicantState v) {
+  $0.ProposalState get state => $_getN(12);
+  set state($0.ProposalState v) {
     setField(13, v);
   }
 
@@ -1186,55 +1178,54 @@ class DataApplicant extends $pb.GeneratedMessage {
   void clearSenderAccountId() => clearField(20);
 }
 
-class DataApplicantChat extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataApplicantChat',
+class DataProposalChat extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataProposalChat',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'applicantId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..a<int>(2, 'senderId', $pb.PbFieldType.O3)
     ..aOS(5, 'text')
     ..a<int>(6, 'deviceGhostId', $pb.PbFieldType.O3)
     ..aInt64(7, 'chatId')
-    ..e<$0.ApplicantChatType>(
+    ..e<$0.ProposalChatType>(
         8,
         'type',
         $pb.PbFieldType.OE,
-        $0.ApplicantChatType.ACT_PLAIN,
-        $0.ApplicantChatType.valueOf,
-        $0.ApplicantChatType.values)
+        $0.ProposalChatType.PCT_PLAIN,
+        $0.ProposalChatType.valueOf,
+        $0.ProposalChatType.values)
     ..aInt64(9, 'seen')
     ..aInt64(10, 'sent')
     ..a<int>(11, 'deviceId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  DataApplicantChat() : super();
-  DataApplicantChat.fromBuffer(List<int> i,
+  DataProposalChat() : super();
+  DataProposalChat.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  DataApplicantChat.fromJson(String i,
+  DataProposalChat.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  DataApplicantChat clone() => new DataApplicantChat()..mergeFromMessage(this);
-  DataApplicantChat copyWith(void Function(DataApplicantChat) updates) =>
-      super.copyWith((message) => updates(message as DataApplicantChat));
+  DataProposalChat clone() => new DataProposalChat()..mergeFromMessage(this);
+  DataProposalChat copyWith(void Function(DataProposalChat) updates) =>
+      super.copyWith((message) => updates(message as DataProposalChat));
   $pb.BuilderInfo get info_ => _i;
-  static DataApplicantChat create() => new DataApplicantChat();
-  static $pb.PbList<DataApplicantChat> createRepeated() =>
-      new $pb.PbList<DataApplicantChat>();
-  static DataApplicantChat getDefault() =>
+  static DataProposalChat create() => new DataProposalChat();
+  static $pb.PbList<DataProposalChat> createRepeated() =>
+      new $pb.PbList<DataProposalChat>();
+  static DataProposalChat getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static DataApplicantChat _defaultInstance;
-  static void $checkItem(DataApplicantChat v) {
-    if (v is! DataApplicantChat)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static DataProposalChat _defaultInstance;
+  static void $checkItem(DataProposalChat v) {
+    if (v is! DataProposalChat) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get applicantId => $_get(0, 0);
-  set applicantId(int v) {
+  int get proposalId => $_get(0, 0);
+  set proposalId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasApplicantId() => $_has(0);
-  void clearApplicantId() => clearField(1);
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
 
   int get senderId => $_get(1, 0);
   set senderId(int v) {
@@ -1268,8 +1259,8 @@ class DataApplicantChat extends $pb.GeneratedMessage {
   bool hasChatId() => $_has(4);
   void clearChatId() => clearField(7);
 
-  $0.ApplicantChatType get type => $_getN(5);
-  set type($0.ApplicantChatType v) {
+  $0.ProposalChatType get type => $_getN(5);
+  set type($0.ProposalChatType v) {
     setField(8, v);
   }
 

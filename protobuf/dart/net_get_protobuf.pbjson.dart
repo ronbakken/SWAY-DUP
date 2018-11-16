@@ -40,29 +40,29 @@ const NetGetOfferRes$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf.DataBusinessOffer',
+      '6': '.inf.DataOffer',
       '10': 'offer'
     },
   ],
 };
 
-const NetGetApplicantReq$json = const {
-  '1': 'NetGetApplicantReq',
+const NetGetProposalReq$json = const {
+  '1': 'NetGetProposalReq',
   '2': const [
-    const {'1': 'applicantId', '3': 1, '4': 1, '5': 5, '10': 'applicantId'},
+    const {'1': 'proposalId', '3': 1, '4': 1, '5': 5, '10': 'proposalId'},
   ],
 };
 
-const NetGetApplicantRes$json = const {
-  '1': 'NetGetApplicantRes',
+const NetGetProposalRes$json = const {
+  '1': 'NetGetProposalRes',
   '2': const [
     const {
-      '1': 'applicant',
+      '1': 'proposal',
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf.DataApplicant',
-      '10': 'applicant'
+      '6': '.inf.DataProposal',
+      '10': 'proposal'
     },
   ],
 };
