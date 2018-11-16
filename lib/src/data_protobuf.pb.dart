@@ -31,6 +31,7 @@ class DataSocialMedia extends $pb.GeneratedMessage {
     ..aOS(14, 'avatarUrl')
     ..aOB(15, 'expired')
     ..aOS(16, 'blurredAvatarUrl')
+    ..aOB(17, 'published')
     ..hasRequiredFields = false;
 
   DataSocialMedia() : super();
@@ -181,6 +182,14 @@ class DataSocialMedia extends $pb.GeneratedMessage {
 
   bool hasBlurredAvatarUrl() => $_has(15);
   void clearBlurredAvatarUrl() => clearField(16);
+
+  bool get published => $_get(16, false);
+  set published(bool v) {
+    $_setBool(16, v);
+  }
+
+  bool hasPublished() => $_has(16);
+  void clearPublished() => clearField(17);
 }
 
 class DataOAuthCredentials extends $pb.GeneratedMessage {
@@ -621,7 +630,7 @@ class DataLocation extends $pb.GeneratedMessage {
 class DataAccountState extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccountState',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'deviceId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'sessionId', $pb.PbFieldType.O3)
     ..a<int>(2, 'accountId', $pb.PbFieldType.O3)
     ..e<$0.AccountType>(
         3,
@@ -675,13 +684,13 @@ class DataAccountState extends $pb.GeneratedMessage {
     if (v is! DataAccountState) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get deviceId => $_get(0, 0);
-  set deviceId(int v) {
+  int get sessionId => $_get(0, 0);
+  set sessionId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasDeviceId() => $_has(0);
-  void clearDeviceId() => clearField(1);
+  bool hasSessionId() => $_has(0);
+  void clearSessionId() => clearField(1);
 
   int get accountId => $_get(1, 0);
   set accountId(int v) {
@@ -1184,7 +1193,7 @@ class DataProposalChat extends $pb.GeneratedMessage {
     ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..a<int>(2, 'senderId', $pb.PbFieldType.O3)
     ..aOS(5, 'text')
-    ..a<int>(6, 'deviceGhostId', $pb.PbFieldType.O3)
+    ..a<int>(6, 'sessionGhostId', $pb.PbFieldType.O3)
     ..aInt64(7, 'chatId')
     ..e<$0.ProposalChatType>(
         8,
@@ -1195,7 +1204,7 @@ class DataProposalChat extends $pb.GeneratedMessage {
         $0.ProposalChatType.values)
     ..aInt64(9, 'seen')
     ..aInt64(10, 'sent')
-    ..a<int>(11, 'deviceId', $pb.PbFieldType.O3)
+    ..a<int>(11, 'sessionId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataProposalChat() : super();
@@ -1243,13 +1252,13 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasText() => $_has(2);
   void clearText() => clearField(5);
 
-  int get deviceGhostId => $_get(3, 0);
-  set deviceGhostId(int v) {
+  int get sessionGhostId => $_get(3, 0);
+  set sessionGhostId(int v) {
     $_setSignedInt32(3, v);
   }
 
-  bool hasDeviceGhostId() => $_has(3);
-  void clearDeviceGhostId() => clearField(6);
+  bool hasSessionGhostId() => $_has(3);
+  void clearSessionGhostId() => clearField(6);
 
   Int64 get chatId => $_getI64(4);
   set chatId(Int64 v) {
@@ -1283,11 +1292,11 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasSent() => $_has(7);
   void clearSent() => clearField(10);
 
-  int get deviceId => $_get(8, 0);
-  set deviceId(int v) {
+  int get sessionId => $_get(8, 0);
+  set sessionId(int v) {
     $_setSignedInt32(8, v);
   }
 
-  bool hasDeviceId() => $_has(8);
-  void clearDeviceId() => clearField(11);
+  bool hasSessionId() => $_has(8);
+  void clearSessionId() => clearField(11);
 }

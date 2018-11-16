@@ -84,7 +84,7 @@ class NetDeviceAuthChallengeReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'NetDeviceAuthChallengeReq',
       package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'deviceId', $pb.PbFieldType.O3)
+    ..a<int>(1, 'sessionId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetDeviceAuthChallengeReq() : super();
@@ -112,13 +112,13 @@ class NetDeviceAuthChallengeReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get deviceId => $_get(0, 0);
-  set deviceId(int v) {
+  int get sessionId => $_get(0, 0);
+  set sessionId(int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasDeviceId() => $_has(0);
-  void clearDeviceId() => clearField(1);
+  bool hasSessionId() => $_has(0);
+  void clearSessionId() => clearField(1);
 }
 
 class NetDeviceAuthChallengeResReq extends $pb.GeneratedMessage {

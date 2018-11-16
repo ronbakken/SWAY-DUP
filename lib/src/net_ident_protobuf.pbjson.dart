@@ -23,7 +23,7 @@ const NetDeviceAuthCreateReq$json = const {
 const NetDeviceAuthChallengeReq$json = const {
   '1': 'NetDeviceAuthChallengeReq',
   '2': const [
-    const {'1': 'deviceId', '3': 1, '4': 1, '5': 5, '10': 'deviceId'},
+    const {'1': 'sessionId', '3': 1, '4': 1, '5': 5, '10': 'sessionId'},
   ],
 };
 

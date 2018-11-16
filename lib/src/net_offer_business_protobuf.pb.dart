@@ -189,7 +189,7 @@ class NetOfferApplyReq extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf'))
     ..a<int>(1, 'offerId', $pb.PbFieldType.O3)
     ..aOS(2, 'remarks')
-    ..a<int>(8, 'deviceGhostId', $pb.PbFieldType.O3)
+    ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetOfferApplyReq() : super();
@@ -229,11 +229,11 @@ class NetOfferApplyReq extends $pb.GeneratedMessage {
   bool hasRemarks() => $_has(1);
   void clearRemarks() => clearField(2);
 
-  int get deviceGhostId => $_get(2, 0);
-  set deviceGhostId(int v) {
+  int get sessionGhostId => $_get(2, 0);
+  set sessionGhostId(int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasDeviceGhostId() => $_has(2);
-  void clearDeviceGhostId() => clearField(8);
+  bool hasSessionGhostId() => $_has(2);
+  void clearSessionGhostId() => clearField(8);
 }

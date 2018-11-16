@@ -35,7 +35,13 @@ const NetChatPlain$json = const {
   '1': 'NetChatPlain',
   '2': const [
     const {'1': 'proposalId', '3': 1, '4': 1, '5': 5, '10': 'proposalId'},
-    const {'1': 'deviceGhostId', '3': 8, '4': 1, '5': 5, '10': 'deviceGhostId'},
+    const {
+      '1': 'sessionGhostId',
+      '3': 8,
+      '4': 1,
+      '5': 5,
+      '10': 'sessionGhostId'
+    },
     const {'1': 'text', '3': 6, '4': 1, '5': 9, '10': 'text'},
   ],
 };
@@ -44,7 +50,13 @@ const NetChatHaggle$json = const {
   '1': 'NetChatHaggle',
   '2': const [
     const {'1': 'proposalId', '3': 1, '4': 1, '5': 5, '10': 'proposalId'},
-    const {'1': 'deviceGhostId', '3': 8, '4': 1, '5': 5, '10': 'deviceGhostId'},
+    const {
+      '1': 'sessionGhostId',
+      '3': 8,
+      '4': 1,
+      '5': 5,
+      '10': 'sessionGhostId'
+    },
     const {'1': 'deliverables', '3': 3, '4': 1, '5': 9, '10': 'deliverables'},
     const {'1': 'reward', '3': 4, '4': 1, '5': 9, '10': 'reward'},
     const {'1': 'remarks', '3': 2, '4': 1, '5': 9, '10': 'remarks'},
@@ -55,7 +67,13 @@ const NetChatImageKey$json = const {
   '1': 'NetChatImageKey',
   '2': const [
     const {'1': 'proposalId', '3': 1, '4': 1, '5': 5, '10': 'proposalId'},
-    const {'1': 'deviceGhostId', '3': 8, '4': 1, '5': 5, '10': 'deviceGhostId'},
+    const {
+      '1': 'sessionGhostId',
+      '3': 8,
+      '4': 1,
+      '5': 5,
+      '10': 'sessionGhostId'
+    },
     const {'1': 'imageKey', '3': 5, '4': 1, '5': 9, '10': 'imageKey'},
   ],
 };

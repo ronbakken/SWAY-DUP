@@ -187,7 +187,7 @@ class NetChatPlain extends $pb.GeneratedMessage {
       new $pb.BuilderInfo('NetChatPlain', package: const $pb.PackageName('inf'))
         ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
         ..aOS(6, 'text')
-        ..a<int>(8, 'deviceGhostId', $pb.PbFieldType.O3)
+        ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
         ..hasRequiredFields = false;
 
   NetChatPlain() : super();
@@ -226,13 +226,13 @@ class NetChatPlain extends $pb.GeneratedMessage {
   bool hasText() => $_has(1);
   void clearText() => clearField(6);
 
-  int get deviceGhostId => $_get(2, 0);
-  set deviceGhostId(int v) {
+  int get sessionGhostId => $_get(2, 0);
+  set sessionGhostId(int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasDeviceGhostId() => $_has(2);
-  void clearDeviceGhostId() => clearField(8);
+  bool hasSessionGhostId() => $_has(2);
+  void clearSessionGhostId() => clearField(8);
 }
 
 class NetChatHaggle extends $pb.GeneratedMessage {
@@ -242,7 +242,7 @@ class NetChatHaggle extends $pb.GeneratedMessage {
     ..aOS(2, 'remarks')
     ..aOS(3, 'deliverables')
     ..aOS(4, 'reward')
-    ..a<int>(8, 'deviceGhostId', $pb.PbFieldType.O3)
+    ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetChatHaggle() : super();
@@ -297,13 +297,13 @@ class NetChatHaggle extends $pb.GeneratedMessage {
   bool hasReward() => $_has(3);
   void clearReward() => clearField(4);
 
-  int get deviceGhostId => $_get(4, 0);
-  set deviceGhostId(int v) {
+  int get sessionGhostId => $_get(4, 0);
+  set sessionGhostId(int v) {
     $_setSignedInt32(4, v);
   }
 
-  bool hasDeviceGhostId() => $_has(4);
-  void clearDeviceGhostId() => clearField(8);
+  bool hasSessionGhostId() => $_has(4);
+  void clearSessionGhostId() => clearField(8);
 }
 
 class NetChatImageKey extends $pb.GeneratedMessage {
@@ -311,7 +311,7 @@ class NetChatImageKey extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf'))
     ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
     ..aOS(5, 'imageKey')
-    ..a<int>(8, 'deviceGhostId', $pb.PbFieldType.O3)
+    ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetChatImageKey() : super();
@@ -351,13 +351,13 @@ class NetChatImageKey extends $pb.GeneratedMessage {
   bool hasImageKey() => $_has(1);
   void clearImageKey() => clearField(5);
 
-  int get deviceGhostId => $_get(2, 0);
-  set deviceGhostId(int v) {
+  int get sessionGhostId => $_get(2, 0);
+  set sessionGhostId(int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasDeviceGhostId() => $_has(2);
-  void clearDeviceGhostId() => clearField(8);
+  bool hasSessionGhostId() => $_has(2);
+  void clearSessionGhostId() => clearField(8);
 }
 
 class NetProposalWantDealReq extends $pb.GeneratedMessage {

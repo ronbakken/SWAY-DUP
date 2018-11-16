@@ -9,6 +9,7 @@ const DataSocialMedia$json = const {
   '2': const [
     const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
     const {'1': 'expired', '3': 15, '4': 1, '5': 8, '10': 'expired'},
+    const {'1': 'published', '3': 17, '4': 1, '5': 8, '10': 'published'},
     const {'1': 'screenName', '3': 4, '4': 1, '5': 9, '10': 'screenName'},
     const {'1': 'displayName', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
     const {'1': 'avatarUrl', '3': 14, '4': 1, '5': 9, '10': 'avatarUrl'},
@@ -167,7 +168,7 @@ const DataLocation$json = const {
 const DataAccountState$json = const {
   '1': 'DataAccountState',
   '2': const [
-    const {'1': 'deviceId', '3': 1, '4': 1, '5': 5, '10': 'deviceId'},
+    const {'1': 'sessionId', '3': 1, '4': 1, '5': 5, '10': 'sessionId'},
     const {'1': 'accountId', '3': 2, '4': 1, '5': 5, '10': 'accountId'},
     const {
       '1': 'accountType',
@@ -416,8 +417,14 @@ const DataProposalChat$json = const {
     const {'1': 'sent', '3': 10, '4': 1, '5': 3, '10': 'sent'},
     const {'1': 'senderId', '3': 2, '4': 1, '5': 5, '10': 'senderId'},
     const {'1': 'proposalId', '3': 1, '4': 1, '5': 5, '10': 'proposalId'},
-    const {'1': 'deviceId', '3': 11, '4': 1, '5': 5, '10': 'deviceId'},
-    const {'1': 'deviceGhostId', '3': 6, '4': 1, '5': 5, '10': 'deviceGhostId'},
+    const {'1': 'sessionId', '3': 11, '4': 1, '5': 5, '10': 'sessionId'},
+    const {
+      '1': 'sessionGhostId',
+      '3': 6,
+      '4': 1,
+      '5': 5,
+      '10': 'sessionGhostId'
+    },
     const {
       '1': 'type',
       '3': 8,
