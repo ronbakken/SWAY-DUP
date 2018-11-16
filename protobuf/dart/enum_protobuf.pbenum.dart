@@ -10,10 +10,8 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class OAuthMechanism extends $pb.ProtobufEnum {
   static const OAuthMechanism none = const OAuthMechanism._(0, 'OAM_NONE');
-  static const OAuthMechanism oauth1 =
-      const OAuthMechanism._(1, 'OAM_OAUTH1');
-  static const OAuthMechanism oauth2 =
-      const OAuthMechanism._(2, 'OAM_OAUTH2');
+  static const OAuthMechanism oauth1 = const OAuthMechanism._(1, 'OAM_OAUTH1');
+  static const OAuthMechanism oauth2 = const OAuthMechanism._(2, 'OAM_OAUTH2');
 
   static const List<OAuthMechanism> values = const <OAuthMechanism>[
     none,
@@ -32,8 +30,7 @@ class OAuthMechanism extends $pb.ProtobufEnum {
 }
 
 class OAuthProviderIds extends $pb.ProtobufEnum {
-  static const OAuthProviderIds none =
-      const OAuthProviderIds._(0, 'OAP_NONE');
+  static const OAuthProviderIds none = const OAuthProviderIds._(0, 'OAP_NONE');
   static const OAuthProviderIds twitter =
       const OAuthProviderIds._(1, 'OAP_TWITTER');
   static const OAuthProviderIds facebook =
@@ -57,8 +54,7 @@ class OAuthProviderIds extends $pb.ProtobufEnum {
 
 class AccountType extends $pb.ProtobufEnum {
   static const AccountType unknown = const AccountType._(0, 'AT_UNKNOWN');
-  static const AccountType influencer =
-      const AccountType._(1, 'AT_INFLUENCER');
+  static const AccountType influencer = const AccountType._(1, 'AT_INFLUENCER');
   static const AccountType business = const AccountType._(2, 'AT_BUSINESS');
   static const AccountType support = const AccountType._(3, 'AT_SUPPORT');
 
