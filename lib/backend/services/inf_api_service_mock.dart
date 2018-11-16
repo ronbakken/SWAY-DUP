@@ -99,6 +99,7 @@ class InfApiServiceMock implements InfApiService {
   Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
     return [
       BusinessOffer(
+          newChatMessages: 1,
           businessAccountId: 42,
           businessName: 'CarWash Tom',
           businessDescription: 'We wash anything',

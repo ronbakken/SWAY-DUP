@@ -20,6 +20,7 @@ class AppTheme {
   static const toggleIconActive = blue;
   static const toggleIconInActive = Colors.white;
   static const tabIndicator = blue;
+  static const notificationDot = const Color(0xFFDC7173);
 
 
   static ThemeData themeTopLevel() {

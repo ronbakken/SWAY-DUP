@@ -4,13 +4,15 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
+import 'package:inf/ui/widgets/notification_marker.dart';
 
-class BrowseListTile extends StatelessWidget {
-  const BrowseListTile({
+class OfferListTile extends StatelessWidget {
+  const OfferListTile({
     Key key,
     @required this.offer,
     @required this.onPressed,
-    this.tag, this.backGroundColor =AppTheme.grey,
+    this.tag,
+    this.backGroundColor = AppTheme.grey,
   }) : super(key: key);
 
   final BusinessOffer offer;
@@ -72,6 +74,15 @@ class BrowseListTile extends StatelessWidget {
                           AppLogo.getDeliverableChannel(offer.deliverables[0].channel),
                           width: 20.0,
                         ),
+                        (offer.newChatMessages ?? 0) > 0
+                            ? Expanded(
+                                child: Align(
+                                  heightFactor: 2,
+                                  alignment: Alignment.topRight,
+                                  child: NotificationMarker(),
+                                ),
+                              )
+                            : SizedBox(),
                       ],
                     ),
                     SizedBox(height: 10.0),

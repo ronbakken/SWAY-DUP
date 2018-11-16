@@ -5,7 +5,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/browse_carousel_item.dart';
-import 'package:inf/ui/main/browse_list_tile.dart';
+import 'package:inf/ui/main/offer_list_tile.dart';
 import 'package:inf/ui/main/map_view.dart';
 import 'package:inf/ui/offers/offer_details_page.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
@@ -224,7 +224,7 @@ class _BrowseListView extends StatelessWidget {
                 final tag = 'browse-offer-list-${offer.offerId}';
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: BrowseListTile(
+                  child: OfferListTile(
                     offer: offer,
                     onPressed: () => Navigator.of(context).push(OfferDetailsPage.route(offer, tag)),
                     tag: tag,

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/main/browse_list_tile.dart';
+import 'package:inf/ui/main/offer_list_tile.dart';
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/offers/offer_details_page.dart';
+import 'package:inf/ui/widgets/notification_marker.dart';
 
 class MainActivitiesSection extends StatefulWidget {
   const MainActivitiesSection({
@@ -57,18 +58,21 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
                   isScrollable: false,
                   controller: controller,
                   tabs: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: kTabBarBottomPadding),
-                      child: Text('APPLIED'),
+                    _TabBarItem(
+                      text: 'APPLIED',
+                      bottomPadding: kTabBarBottomPadding,
+                      notifications: backend.get<OfferManager>().newAppliedOfferMessages,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: kTabBarBottomPadding),
-                      child: Text('DEALS'),
+                    _TabBarItem(
+                      text: 'DEALS',
+                      bottomPadding: kTabBarBottomPadding,
+                      notifications: backend.get<OfferManager>().newDealsOfferMessages,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: kTabBarBottomPadding),
-                      child: Text('DONE'),
-                    )
+                    _TabBarItem(
+                      text: 'DONE',
+                      bottomPadding: kTabBarBottomPadding,
+                      notifications: backend.get<OfferManager>().newDoneOfferMessages,
+                    ),
                   ],
                 ),
               ),
@@ -79,7 +83,9 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
                 child: TabBarView(
                   controller: controller,
                   children: [
-                    _ActivitiesListView(name: 'offers-applied',),
+                    _ActivitiesListView(
+                      name: 'offers-applied',
+                    ),
                     _ActivitiesListView(name: 'offers-with-deal'),
                     _ActivitiesListView(name: 'offers-done'),
                   ],
@@ -93,8 +99,50 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
   }
 }
 
-class _ActivitiesListView extends StatefulWidget {
+class _TabBarItem extends StatelessWidget {
+  const _TabBarItem({
+    Key key,
+    @required this.text,
+    @required this.bottomPadding,
+    @required this.notifications,
+  }) : super(key: key);
 
+  final double bottomPadding;
+  final String text;
+  final Stream<int> notifications;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: bottomPadding),
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(text),
+          ),
+          Positioned(
+            right: 0.0,
+            top: 0.0,
+            child: StreamBuilder<int>(
+              initialData: 0,
+              stream: notifications,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (!snapshot.hasData || snapshot.data == 0) {
+                  return SizedBox();
+                }
+                return NotificationMarker();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ActivitiesListView extends StatefulWidget {
   final String name;
 
   const _ActivitiesListView({
@@ -142,7 +190,7 @@ class _ActivitiesListViewState extends State<_ActivitiesListView> {
               final tag = '${widget.name}-${offer.offerId}';
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: BrowseListTile(
+                child: OfferListTile(
                   backGroundColor: AppTheme.listViewItemBackground,
                   offer: offer,
                   onPressed: () => Navigator.of(context).push(OfferDetailsPage.route(offer, tag)),

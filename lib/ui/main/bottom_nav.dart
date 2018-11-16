@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/main/page_mode.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/notification_marker.dart';
 
 class MainBottomNav extends StatefulWidget {
   const MainBottomNav({
@@ -72,12 +74,19 @@ class _MainBottomNavState extends State<MainBottomNav> {
                         ),
                       ),
                       Expanded(
-                        child: _BottomNavButton(
-                          selected: _selected,
-                          mode: MainPageMode.activities,
-                          onPressed: _onBottomNavButton,
-                        ),
-                      ),
+                          child: StreamBuilder<int>(
+                        initialData: 0,
+                        stream: backend.get<OfferManager>().newOfferMessages,
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          var notificationCount = snapshot.hasData ? snapshot.data : 0;
+                          return _BottomNavButton(
+                            selected: _selected,
+                            mode: MainPageMode.activities,
+                            onPressed: _onBottomNavButton,
+                            notificationCount: notificationCount,
+                          );
+                        },
+                      )),
                     ],
                   ),
                 ),
@@ -184,11 +193,13 @@ class _BottomNavButton extends StatefulWidget {
     @required this.selected,
     @required this.mode,
     @required this.onPressed,
+    this.notificationCount = 0,
   }) : super(key: key);
 
   final MainPageMode selected;
   final MainPageMode mode;
   final ValueChanged<MainPageMode> onPressed;
+  final int notificationCount;
 
   @override
   _BottomNavButtonState createState() => _BottomNavButtonState();
@@ -256,6 +267,8 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                widget.notificationCount > 0 ?
+                new NotificationMarker() : SizedBox(),
                 InfAssetImage(widget.mode.icon, width: 20.0),
                 SizedBox(height: 4.0),
                 Text(
@@ -272,3 +285,4 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
     );
   }
 }
+
