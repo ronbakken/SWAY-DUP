@@ -7,10 +7,6 @@ Author: Jan Boon <kaetemi@no-break.space>
 /*
 
 Planned changes:
-- Rename device -> session
-- Rename proposal -> proposal
-- Rename businessoffer -> offer
-- Add 'public' flag to social media data so users can hide a platform from their profile
 - Support both geohash and s2 in location info for evaluation
 - Aggregate image urls into a generic structure (blurred data or url and full image url)
 - Specialized fields for non-text chat messages (storing protobuf blob in database)
@@ -30,6 +26,8 @@ message DataSocialMedia {
   bool connected = 1;
   /// Token for connection is expired, data outdated and user must re-connect by OAuth
   bool expired = 15;
+  /// Information from this social media connection may be published to other users
+  bool published = 17;
   
   /* Names. Use whichever one is not empty. Prefer displayName. */
   /// Screen name, eg. Twitter account name
@@ -132,7 +130,7 @@ message DataLocation {
 
 message DataAccountState {
   // Device ID. If 0, authentication failed, and the client must create a new account
-  int32 deviceId = 1;
+  int32 sessionId = 1;
   
   // Account ID. If 0, proceed with account creation
   int32 accountId = 2;
@@ -220,8 +218,8 @@ message DataProposalChat {
   int32 senderId = 2; // Account which sent
   int32 proposalId = 1; // One chat per proposal
   
-  int32 deviceId = 11; // Cleared upon forwarding
-  int32 deviceGhostId = 6; // Deduplication client-side (ghost entry)
+  int32 sessionId = 11; // Cleared upon forwarding
+  int32 sessionGhostId = 6; // Deduplication client-side (ghost entry)
   
   ProposalChatType type = 8;
   string text = 5; // The written text

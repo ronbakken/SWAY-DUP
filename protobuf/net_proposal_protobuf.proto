@@ -61,7 +61,7 @@ message NetLoadProposalChatsReq {
 // Id: CH_PLAIN
 message NetChatPlain {
   int32 proposalId = 1;
-  int32 deviceGhostId = 8;
+  int32 sessionGhostId = 8;
   string text = 6;
   
 }
@@ -70,7 +70,7 @@ message NetChatPlain {
 // Id: CH_HAGGL
 message NetChatHaggle {
   int32 proposalId = 1;
-  int32 deviceGhostId = 8;
+  int32 sessionGhostId = 8;
   string deliverables = 3;
   string reward = 4;
   string remarks = 2;
@@ -81,7 +81,7 @@ message NetChatHaggle {
 // Id: CH_IMAGE
 message NetChatImageKey {
   int32 proposalId = 1;
-  int32 deviceGhostId = 8;
+  int32 sessionGhostId = 8;
   string imageKey = 5;
   
 }

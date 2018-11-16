@@ -60,7 +60,7 @@ message NetLoadOffersRes {
 // Response: DataProposal (Id: O_R_APPL) (or exception in case of failure)
 message NetOfferApplyReq {
   int32 offerId = 1;
-  int32 deviceGhostId = 8;
+  int32 sessionGhostId = 8;
   
   string remarks = 2;
   
