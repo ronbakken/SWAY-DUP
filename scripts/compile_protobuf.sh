@@ -16,8 +16,8 @@ protoc --dart_out=../lib/src/ *.proto
 cd ../lib/src/
 sed -f ../../protobuf/enum_sed.txt -i enum_protobuf.pbenum.dart
 find . -name '*.dart' | xargs -n 1 dartfmt -w
-cd ../../protobuf/
 git add *
+cd ../../protobuf/
 # cd ../config
 # cp ../protobuf/dart/config_*.dart lib/protobuf/
 # cp ../protobuf/dart/data_*.dart lib/protobuf/
