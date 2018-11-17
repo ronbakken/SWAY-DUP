@@ -214,10 +214,10 @@ message DataProposal {
   int64 lastChatId = 22;
   
   /// Last seen
-  int64 influencerLastSeenChatId = 23;
-  int64 influencerLastSeenTime = 24;
-  int64 businessLastSeenChatId = 25;
-  int64 businessLastSeenTime = 26;
+  int64 influencerSeenChatId = 23;
+  int64 influencerSeenTime = 24;
+  int64 businessSeenChatId = 25;
+  int64 businessSeenTime = 26;
   
   /// Current chat ID with haggle buttons (deliverables / reward / remarks)
   int64 termsChatId = 4;
