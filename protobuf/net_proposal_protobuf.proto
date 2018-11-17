@@ -137,7 +137,7 @@ message NetProposalCompletionReq {
 // Id: AP_R_COM
 message NetProposalCommonRes {
   DataProposal update_proposal = 1;
-  repeated Data_proposal_chat newChats = 2;
+  repeated DataProposalChat new_chats = 2;
   
 }
 
