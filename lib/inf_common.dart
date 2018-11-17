@@ -6,18 +6,18 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 library inf_common;
 
-export 'enum_protobuf.pb.dart';
-export 'config_protobuf.pb.dart';
-export 'data_protobuf.pb.dart';
+export 'src/enum_protobuf.pb.dart';
+export 'src/config_protobuf.pb.dart';
+export 'src/data_protobuf.pb.dart';
 
-export 'net_ident_protobuf.pb.dart';
-export 'net_storage_protobuf.pb.dart';
+export 'src/net_ident_protobuf.pb.dart';
+export 'src/net_storage_protobuf.pb.dart';
 
-export 'net_get_protobuf.pb.dart';
-export 'net_push_protobuf.pb.dart';
+export 'src/net_get_protobuf.pb.dart';
+export 'src/net_push_protobuf.pb.dart';
 
-export 'net_profile_protobuf.pb.dart';
-export 'net_offer_protobuf.pb.dart';
-export 'net_proposal_protobuf.pb.dart';
+export 'src/net_profile_protobuf.pb.dart';
+export 'src/net_offer_protobuf.pb.dart';
+export 'src/net_proposal_protobuf.pb.dart';
 
 /* end of file */
