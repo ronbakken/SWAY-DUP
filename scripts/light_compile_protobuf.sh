@@ -7,6 +7,7 @@ protoc --dart_out=../lib/src/ *.proto
 
 cd ../lib/src/
 sed -f ../../protobuf/enum_sed.txt -i enum_protobuf.pbenum.dart
+sed -f ../../protobuf/enum_sed.txt -i *.pb.dart
 find . -name '*.dart' | xargs -n 1 dartfmt -w
 cd ../../protobuf/
 
