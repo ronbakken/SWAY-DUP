@@ -170,8 +170,8 @@ Future<ConfigServices> generateConfigServices(bool server) async {
     if (section == "Common" ||
         (section == "Server" && server) ||
         (section == "Client" && !server)) {
-      if (cfg.hasOption(section, 'domain'))
-        res.domain = cfg.get(section, 'domain');
+      if (cfg.hasOption(section, 'environment'))
+        res.environment = cfg.get(section, 'environment');
       if (cfg.hasOption(section, 'apiHosts'))
         res.apiHosts.addAll(cfg.get(section, 'apiHosts').split(','));
       if (cfg.hasOption(section, 'configUrl'))
