@@ -1,7 +1,10 @@
 {
 	"folders": [
 		{
-			"path": "api"
+			"path": "inf_server_api"
+		},
+		{
+			"path": "wstalk"
 		},
 		{
 			"path": "dospace"
@@ -10,13 +13,7 @@
 			"path": "sqljocky5"
 		},
 		{
-			"path": "wstalk"
-		},
-		{
 			"path": "dart-oauth1"
-		},
-		{
-			"path": "..\\infcommon\\config"
 		}
 	]
 }
