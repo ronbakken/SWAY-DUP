@@ -70,7 +70,7 @@ class RemoteAppOAuth {
     if (pb.oauthProvider < config.oauthProviders.all.length) {
       ConfigOAuthProvider cfg = config.oauthProviders.all[pb.oauthProvider];
       switch (cfg.mechanism) {
-        case OAuthMechanism.OAM_OAUTH1:
+        case OAuthMechanism.oauth1:
           {
             // Twitter-like
             devLog.finest(cfg.requestTokenUrl);
@@ -96,7 +96,7 @@ class RemoteAppOAuth {
                 replying: message);
             break;
           }
-        case OAuthMechanism.OAM_OAUTH2:
+        case OAuthMechanism.oauth2:
           {
             // Facebook, Spotify-like. Much easier (but less standardized)
             Uri baseUri = Uri.parse(cfg.authUrl);
@@ -139,7 +139,7 @@ class RemoteAppOAuth {
     Map<String, String> query = Uri.splitQueryString(callbackQuery);
     DataOAuthCredentials oauthCredentials = new DataOAuthCredentials();
     switch (cfg.mechanism) {
-      case OAuthMechanism.OAM_OAUTH1:
+      case OAuthMechanism.oauth1:
         {
           // Twitter-like
           var platform = new oauth1.Platform(
@@ -172,7 +172,7 @@ class RemoteAppOAuth {
           }
           break;
         }
-      case OAuthMechanism.OAM_OAUTH2:
+      case OAuthMechanism.oauth2:
         {
           // Facebook, Spotify-like. Much easier (but less standardized)
           if (query.containsKey('code')) {
@@ -197,7 +197,7 @@ class RemoteAppOAuth {
                 (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) +
                     accessTokenDoc['expires_in'];
             if (oauthCredentials.token != null &&
-                oauthProvider == OAuthProviderIds.OAP_FACEBOOK.value) {
+                oauthProvider == OAuthProviderIds.facebook.value) {
               // Facebook
               baseUri = Uri.parse(cfg.host + "/v3.1/debug_token");
               requestQuery = new Map<String, String>();
@@ -478,7 +478,7 @@ class RemoteAppOAuth {
     // Get display name, screen name, followers, following, avatar, banner image
     ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
     switch (OAuthProviderIds.valueOf(oauthProvider)) {
-      case OAuthProviderIds.OAP_TWITTER:
+      case OAuthProviderIds.twitter:
         {
           // Twitter
           // https://api.twitter.com/1.1/users/show.json?user_id=12345
@@ -541,7 +541,7 @@ class RemoteAppOAuth {
           dataSocialMedia.connected = true;
           break;
         }
-      case OAuthProviderIds.OAP_FACEBOOK:
+      case OAuthProviderIds.facebook:
         {
           // Facebook
           Uri baseUri;

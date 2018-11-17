@@ -90,7 +90,7 @@ class RemoteAppBusiness {
   Future<void> updateLocationOfferCount(int locationId) async {
     // TODO: Only include active offers... :)
     String updateLocation =
-        "UPDATE `addressbook` SET `offer_count` = (SELECT COUNT(`offer_id`) FROM `offers` WHERE `location_id` = ?) WHERE `location_id` = ?";
+        "UPDATE `locations` SET `offer_count` = (SELECT COUNT(`offer_id`) FROM `offers` WHERE `location_id` = ?) WHERE `location_id` = ?";
     await sql.prepareExecute(updateLocation, [locationId, locationId]);
   }
 
@@ -226,10 +226,10 @@ class RemoteAppBusiness {
         String selectOffers =
             "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
             "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
-            "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point`, " // 6 7 8
-            "`offers`.`state`, `offers`.`state_reason`, `addressbook`.`name` " // 9 10 11
+            "`offers`.`location_id`, `locations`.`detail`, `locations`.`point`, " // 6 7 8
+            "`offers`.`state`, `offers`.`state_reason`, `locations`.`name` " // 9 10 11
             "FROM `offers` "
-            "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
+            "INNER JOIN `locations` ON `locations`.`location_id` = `offers`.`location_id` "
             "WHERE `offers`.`account_id` = ? "
             "ORDER BY `offer_id` DESC";
         sqljocky.Results offerResults =

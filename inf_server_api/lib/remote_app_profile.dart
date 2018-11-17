@@ -15,6 +15,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
 import 'package:wstalk/wstalk.dart';
 
@@ -50,7 +51,7 @@ class RemoteAppProfile {
     return _r.account;
   }
 
-  int get accountId {
+  Int64 get accountId {
     return _r.account.state.accountId;
   }
 
@@ -113,11 +114,11 @@ class RemoteAppProfile {
       sqljocky.Results accountResults = await connection.prepareExecute(
           "SELECT `accounts`.`name`, `accounts`.`account_type`, " // 0 1
           "`accounts`.`description`, `accounts`.`location_id`, " // 2 3
-          "`accounts`.`avatar_key`, `accounts`.`url`, " // 4 5
-          "`addressbook`.`approximate`, `addressbook`.`detail`, " // 6 7
-          "`addressbook`.`point` " // 8
+          "`accounts`.`avatar_key`, `accounts`.`website`, " // 4 5
+          "`locations`.`approximate`, `locations`.`detail`, " // 6 7
+          "`locations`.`point` " // 8
           "FROM `accounts` "
-          "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `accounts`.`location_id` "
+          "INNER JOIN `locations` ON `locations`.`location_id` = `accounts`.`location_id` "
           "WHERE `accounts`.`account_id` = ? ",
           [pb.accountId.toInt()]);
       await for (sqljocky.Row row in accountResults) {
@@ -135,8 +136,8 @@ class RemoteAppProfile {
           account.detail.blurredAvatarCoverUrl =
               _r.makeCloudinaryBlurredCoverUrl(row[4].toString());
         }
-        if (row[5] != null) account.detail.url = row[5].toString();
-        if (account.state.accountType != AccountType.AT_SUPPORT) {
+        if (row[5] != null) account.detail.website = row[5].toString();
+        if (account.state.accountType != AccountType.support) {
           account.summary.location =
               account.state.accountType == AccountType.influencer
                   ? row[6].toString()
@@ -217,12 +218,12 @@ class RemoteAppProfile {
         String selectOffers =
             "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
             "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
-            "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point`, " // 6 7 8
+            "`offers`.`location_id`, `locations`.`detail`, `locations`.`point`, " // 6 7 8
             "`offers`.`state`, `offers`.`state_reason`, " // 9 10
-            "`addressbook`.`offer_count`, `addressbook`.`name`, " // 11 12
+            "`locations`.`offer_count`, `locations`.`name`, " // 11 12
             "`proposals`.`proposal_id` " // 13
             "FROM `offers` "
-            "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
+            "INNER JOIN `locations` ON `locations`.`location_id` = `offers`.`location_id` "
             "LEFT OUTER JOIN `proposals` "
             "ON `proposals`.`offer_id` = `offers`.`offer_id` AND `proposals`.`influencer_account_id` = ? " // TODO: Cache will also cache a list of all proposals per offer...
             "WHERE `offers`.`offer_id` = ? "
@@ -260,10 +261,11 @@ class RemoteAppProfile {
           offer.state = OfferState.valueOf(offerRow[9].toInt());
           offer.stateReason =
               OfferStateReason.valueOf(offerRow[10].toInt());
-          offer.proposalsNew = 0; // TODO
+          /*offer.proposalsNew = 0; // TODO
           offer.proposalsAccepted = 0; // TODO
           offer.proposalsCompleted = 0; // TODO
           offer.proposalsRefused = 0; // TODO
+          */
           sqljocky.Results imageKeyResults =
               await selectImageKeys.execute([offerId]);
           await for (sqljocky.Row imageKeyRow in imageKeyResults) {

@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
 import 'package:wstalk/wstalk.dart';
 
@@ -43,7 +44,7 @@ class RemoteAppUpload {
     return _r.account;
   }
 
-  int get accountId {
+  Int64 get accountId {
     return _r.account.state.accountId;
   }
 

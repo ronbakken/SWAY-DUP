@@ -248,7 +248,7 @@ class RemoteAppHaggle {
           "`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, " // 0 1
           "`sender_id`, `session_id`, `session_ghost_id`, " // 2 3 4
           "`type`, `text` " // 5 6 7
-          "FROM `proposal_haggling` "
+          "FROM `proposal_chats` "
           "WHERE `proposal_id` = ? "
           "ORDER BY `chat_id` DESC";
       await for (sqljocky.Row row

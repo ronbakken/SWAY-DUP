@@ -119,10 +119,10 @@ class RemoteAppOffer {
           "SELECT `accounts`.`name`, `accounts`.`account_type`, " // 0 1
           "`accounts`.`description`, `accounts`.`location_id`, " // 2 3
           "`accounts`.`avatar_key`, `accounts`.`url`, " // 4 5
-          "`addressbook`.`approximate`, `addressbook`.`detail`, " // 6 7
-          "`addressbook`.`point` " // 8
+          "`locations`.`approximate`, `locations`.`detail`, " // 6 7
+          "`locations`.`point` " // 8
           "FROM `accounts` "
-          "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `accounts`.`location_id` "
+          "INNER JOIN `locations` ON `locations`.`location_id` = `accounts`.`location_id` "
           "WHERE `accounts`.`account_id` = ? ",
           [pb.accountId.toInt()]);
       await for (sqljocky.Row row in accountResults) {

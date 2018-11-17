@@ -109,13 +109,13 @@ class RemoteAppInfluencer {
         String selectOffers =
             "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
             "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
-            "`offers`.`location_id`, `addressbook`.`detail`, `addressbook`.`point`, " // 6 7 8
+            "`offers`.`location_id`, `locations`.`detail`, `locations`.`point`, " // 6 7 8
             "`offers`.`state`, `offers`.`state_reason`, " // 9 10
-            "`addressbook`.`offer_count`, `addressbook`.`name`, " // 11 12
+            "`locations`.`offer_count`, `locations`.`name`, " // 11 12
             // "(SELECT `proposals`.`proposal_id` FROM `proposals` WHERE `proposals`.`offer_id` = `offers`.`offer_id` AND `proposals`.`influencer_account_id` = ?) " // 13
             "`proposals`.`proposal_id` " // 13
             "FROM `offers` "
-            "INNER JOIN `addressbook` ON `addressbook`.`location_id` = `offers`.`location_id` "
+            "INNER JOIN `locations` ON `locations`.`location_id` = `offers`.`location_id` "
             "LEFT OUTER JOIN `proposals` "
             "ON `proposals`.`offer_id` = `offers`.`offer_id` AND `proposals`.`influencer_account_id` = ? "
             "WHERE `offers`.`state` = ? "
@@ -265,7 +265,7 @@ class RemoteAppInfluencer {
       chatHaggle['deliverables'] = "Deliverables";
       chatHaggle['reward'] = "Reward";
       chatHaggle['remarks'] = pb.remarks;
-      String insertHaggle = "INSERT INTO `proposal_haggling`("
+      String insertHaggle = "INSERT INTO `proposal_chats`("
           "`sender_id`, `proposal_id`, "
           "`session_id`, `session_ghost_id`, "
           "`type`, `text`) "
@@ -276,15 +276,15 @@ class RemoteAppInfluencer {
         proposalId,
         account.state.sessionId,
         pb.sessionGhostId, // Not actually used for apply chat, but need it for consistency
-        ProposalChatType.ACT_HAGGLE.value,
+        ProposalChatType.terms.value,
         chatText,
       ]);
-      int haggleChatId = resultHaggle.insertId;
-      if (haggleChatId == null || haggleChatId == 0) {
+      int termsChatId = resultHaggle.insertId;
+      if (termsChatId == null || termsChatId == 0) {
         throw new Exception("Haggle chat not inserted");
       }
-      proposal.haggleChatId = new Int64(haggleChatId);
-      chat.chatId = new Int64(haggleChatId);
+      proposal.termsChatId = new Int64(termsChatId);
+      chat.chatId = new Int64(termsChatId);
       chat.sent =
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
 
@@ -295,7 +295,7 @@ class RemoteAppInfluencer {
           "WHERE `proposal_id` = ?";
       sqljocky.Results resultUpdateHaggleChatId =
           await transaction.prepareExecute(updateHaggleChatId, [
-        haggleChatId,
+        termsChatId,
         proposalId,
       ]);
       if (resultUpdateHaggleChatId.affectedRows == null ||
@@ -312,7 +312,7 @@ class RemoteAppInfluencer {
         replying: message);
 
     // Clear private information from broadcast
-    chat.sessionId = 0;
+    chat.sessionId = Int64.ZERO;
     chat.sessionGhostId = 0;
 
     // Broadcast

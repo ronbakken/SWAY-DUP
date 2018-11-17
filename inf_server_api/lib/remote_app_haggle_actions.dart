@@ -206,7 +206,7 @@ class RemoteAppHaggleActions {
   Future<bool> _insertChat(
       sqljocky.QueriableConnection connection, DataProposalChat chat) async {
     // Store in database
-    String insertChat = "INSERT INTO `proposal_haggling`("
+    String insertChat = "INSERT INTO `proposal_chats`("
         "`sender_id`, `proposal_id`, "
         "`session_id`, `session_ghost_id`, "
         "`type`, `text`) "
@@ -221,11 +221,11 @@ class RemoteAppHaggleActions {
       chat.type.value.toInt(),
       chat.text.toString(),
     ]);
-    int haggleChatId = resultHaggle.insertId;
-    if (haggleChatId == null || haggleChatId == 0) {
+    int termsChatId = resultHaggle.insertId;
+    if (termsChatId == null || termsChatId == 0) {
       return false;
     }
-    chat.chatId = new Int64(haggleChatId);
+    chat.chatId = new Int64(termsChatId);
     return true;
   }
 
@@ -418,7 +418,7 @@ class RemoteAppHaggleActions {
     pb.mergeFromBuffer(message.data);
 
     Int64 proposalId = pb.proposalId.toInt64();
-    Int64 haggleChatId = pb.haggleChatId.toInt64();
+    Int64 termsChatId = pb.termsChatId.toInt64();
 
     /* No need, already verified by first UPDATE
     if (!await _verifySender(proposalId, accountId)) {
@@ -447,7 +447,7 @@ class RemoteAppHaggleActions {
           "AND `state` = ${ProposalState.negotiating.value} "
           "AND `$accountWantsDeal` = 0";
       sqljocky.Results resultWants = await transaction
-          .prepareExecute(updateWants, [proposalId.toInt(), haggleChatId.toInt(), accountId.toInt()]);
+          .prepareExecute(updateWants, [proposalId.toInt(), termsChatId.toInt(), accountId.toInt()]);
       if (resultWants.affectedRows == null || resultWants.affectedRows == 0) {
         devLog.warning(
             "Invalid want deal attempt by account '$accountId' on proposal '$proposalId'");

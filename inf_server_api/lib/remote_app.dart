@@ -294,7 +294,7 @@ class RemoteApp {
       // Received authentication request
       NetDeviceAuthChallengeReq pb = new NetDeviceAuthChallengeReq();
       pb.mergeFromBuffer(message.data);
-      int attemptDeviceId = pb.sessionId;
+      Int64 attemptDeviceId = pb.sessionId;
 
       // Send the message with the random challenge
       Uint8List challenge = new Uint8List(256);
@@ -479,7 +479,7 @@ class RemoteApp {
           if (extend != null) extend();
           sqljocky.Results accountResults = await connection.prepareExecute(
               "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
-              "`description`, `location_id`, `avatar_key`, `url`, `email` FROM `accounts` "
+              "`description`, `location_id`, `avatar_key`, `website`, `email` FROM `accounts` "
               "WHERE `account_id` = ?",
               [account.state.accountId.toInt()]);
           // int locationId;
@@ -503,14 +503,14 @@ class RemoteApp {
               account.detail.blurredAvatarCoverUrl =
                   makeCloudinaryBlurredCoverUrl(row[6].toString());
             }
-            if (row[7] != null) account.detail.url = row[7].toString();
+            if (row[7] != null) account.detail.website = row[7].toString();
             if (row[8] != null) account.detail.email = row[8].toString();
           }
           if (account.detail.locationId != null &&
               account.detail.locationId != 0) {
             if (extend != null) extend();
             sqljocky.Results locationResults = await connection.prepareExecute(
-                "SELECT `${account.state.accountType == AccountType.business ? 'detail' : 'approximate'}`, `point` FROM `addressbook` "
+                "SELECT `${account.state.accountType == AccountType.business ? 'detail' : 'approximate'}`, `point` FROM `locations` "
                 "WHERE `location_id` = ?",
                 [account.detail.locationId.toInt()]);
             await for (sqljocky.Row row in locationResults) {
@@ -885,7 +885,7 @@ class RemoteApp {
             accountDescription =
                 businessDefaults[random.nextInt(businessDefaults.length)];
             break;
-          case AccountType.AT_SUPPORT:
+          case AccountType.support:
             accountDescription = "Support Staff";
             break;
           default:
@@ -918,7 +918,7 @@ class RemoteApp {
 
         // Validate that the current state is sufficient to create an account
         if (account.state.accountId == 0 &&
-            account.state.accountType != AccountType.AT_UNKNOWN &&
+            account.state.accountType != AccountType.unknown &&
             connectedNb > 0) {
           // Changes sent in a single SQL transaction for reliability
           try {
@@ -947,12 +947,12 @@ class RemoteApp {
                   // globalAccountStateReason = GlobalAccountStateReason.GASR_PENDING;
                   globalAccountState = GlobalAccountState.readWrite;
                   globalAccountStateReason =
-                      GlobalAccountStateReason.GASR_DEMO_APPROVED;
+                      GlobalAccountStateReason.demoApproved;
                   break;
-                case AccountType.AT_SUPPORT:
-                  globalAccountState = GlobalAccountState.GAS_BLOCKED;
+                case AccountType.support:
+                  globalAccountState = GlobalAccountState.blocked;
                   globalAccountStateReason =
-                      GlobalAccountStateReason.GASR_PENDING;
+                      GlobalAccountStateReason.pending;
                   break;
                 default:
                   opsLog.severe(
@@ -1006,7 +1006,7 @@ class RemoteApp {
               for (DataLocation location in locations.reversed) {
                 ts.sendExtend(message);
                 sqljocky.Results res4 = await tx.prepareExecute(
-                    "INSERT INTO `addressbook`("
+                    "INSERT INTO `locations`("
                     "`account_id`, `name`, `detail`, `approximate`, "
                     "`postcode`, `region_code`, `country_code`, `s2cell_id`, "
                     "`point`) "
@@ -1442,7 +1442,7 @@ class RemoteApp {
   }
 
   /// Downloads user image, returns key
-  Future<String> downloadUserImage(int accountId, String url) async {
+  Future<String> downloadUserImage(Int64 accountId, String url) async {
     // Fetch image to memory
     Uri uri = Uri.parse(url);
     http.Request request = new http.Request('GET', uri);
@@ -1525,7 +1525,7 @@ class RemoteApp {
     devLog.fine(
         "Transition session ${account.state.sessionId} to app ${account.state.accountType}");
     if (account.state.globalAccountState.value >
-        GlobalAccountState.GAS_BLOCKED.value) {
+        GlobalAccountState.blocked.value) {
       safeListen("SFIREBAT", _netSetFirebaseToken);
       subscribeOAuth();
       subscribeUpload();
