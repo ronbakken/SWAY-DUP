@@ -11,6 +11,7 @@ Planned changes:
 - Aggregate image urls into a generic structure (blurred data or url and full image url)
 - Specialized fields for non-text chat messages (storing protobuf blob in database)
 - Separate offer terms into 'terms' structure for re use in proposal transactions
+- Brand accounts can be created as shared accounts without authentication mechanism (cf Facebook Pages, YouTube Channels, etc)
 
 */
 

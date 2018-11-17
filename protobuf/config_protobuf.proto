@@ -124,6 +124,11 @@ message ConfigServices {
   
 }
 
+message ConfigContent {
+  repeated string welcome_image_urls = 1;
+  
+}
+
 message ConfigData {
   /// If this goes up in a config, the client must be updated
   int32 clientVersion = 1;
@@ -135,6 +140,7 @@ message ConfigData {
   ConfigCategories categories = 2;
   ConfigOAuthProviders oauthProviders = 3;
   ConfigServices services = 6;
+  ConfigContent content = 7;
   
 }
 
