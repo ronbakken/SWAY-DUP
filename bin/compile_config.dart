@@ -9,9 +9,7 @@ import 'dart:typed_data';
 import "package:ini/ini.dart" as ini;
 import 'package:fixnum/fixnum.dart';
 
-// import 'package:config/config.dart' as config;
-import 'package:config/protobuf/enum_protobuf.pb.dart';
-import 'package:config/protobuf/config_protobuf.pb.dart';
+import 'package:inf_common/inf_common.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +107,7 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
           OAuthMechanism.valueOf(int.parse(cfg.get(section, 'mechanism')));
     if (server) {
       switch (entry.mechanism) {
-        case OAuthMechanism.OAM_OAUTH1:
+        case OAuthMechanism.oauth1:
           {
             if (cfg.hasOption(section, 'host'))
               entry.host = cfg.get(section, 'host');
@@ -127,7 +125,7 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
               entry.consumerSecret = cfg.get(section, 'consumerSecret');
             break;
           }
-        case OAuthMechanism.OAM_OAUTH2:
+        case OAuthMechanism.oauth2:
           {
             if (cfg.hasOption(section, 'host'))
               entry.host = cfg.get(section, 'host');

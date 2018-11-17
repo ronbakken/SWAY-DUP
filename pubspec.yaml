@@ -9,12 +9,13 @@ environment:
 
 dependencies:
   protobuf: ^0.10.4
-  ini:
-    git: https://github.com/nbspou/dart-ini.git
+  ini: ^2.0.1
   fixnum: ^0.10.9
   dospace: ^0.10.7
   inf_common:
-    git: https://github.com/infmarketplace/inf_common.git
+    git: 
+      url: git@github.com:infmarketplace/inf_common.git
+      ref: c30d239
 
 dev_dependencies:
   test: ^1.0.0
