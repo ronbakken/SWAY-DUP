@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import "package:ini/ini.dart" as ini;
 import 'package:fixnum/fixnum.dart';
+import 'package:dospace/dospace.dart' as dospace;
 
 import 'package:inf_common/inf_common.dart';
 
@@ -253,7 +254,40 @@ Future<ConfigServices> generateConfigServices(bool server) async {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-generateConfig(bool server) async {
+Future<ConfigContent> generateConfigContent(bool server) async {
+  List<String> lines = await new File("config/content.ini").readAsLines();
+  ConfigContent res = new ConfigContent();
+  ini.Config cfg = new ini.Config.fromStrings(lines);
+
+  String spacesRegion = cfg.get("Storage", 'spacesRegion');
+  String spacesKey = cfg.get("Storage", 'spacesKey');
+  String spacesSecret = cfg.get("Storage", 'spacesSecret');
+  String spacesBucket = cfg.get("Storage", 'spacesBucket');
+
+  String welcomeCloudinaryUrl = cfg.get("Welcome", 'cloudinaryUrl');
+  String welcomeSpacesPrefix = cfg.get("Welcome", 'spacesPrefix');
+
+  var spaces = new dospace.Spaces(
+    region: spacesRegion,
+    accessKey: spacesKey,
+    secretKey: spacesSecret,
+  );
+  var bucket = spaces.bucket(spacesBucket);
+  if (!server) {
+    await for (dospace.BucketContent content in bucket.listContents(prefix: welcomeSpacesPrefix)) {
+      // print(content.key);
+      res.welcomeImageUrls.add(welcomeCloudinaryUrl.replaceAll('{key}', content.key));
+    }
+  }
+
+  return res;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+Future<void> generateConfig(bool server) async {
   ConfigData config = new ConfigData();
   config.clientVersion = 2;
   config.timestamp =
@@ -261,15 +295,19 @@ generateConfig(bool server) async {
   config.categories = await generateConfigCategories(server);
   config.oauthProviders = await generateConfigOAuthProviders(server);
   config.services = await generateConfigServices(server);
+  config.content = await generateConfigContent(server);
   print(config.writeToJson());
   Uint8List configBuffer = config.writeToBuffer();
   new File(server ? "config/config_server.bin" : "config/config.bin")
       .writeAsBytes(configBuffer, flush: true);
 }
 
-main(List<String> arguments) {
-  generateConfig(false);
-  generateConfig(true);
+main(List<String> arguments) async {
+  Future<void> f1 = generateConfig(false);
+  Future<void> f2 = generateConfig(true);
+  await f1;
+  await f2;
+  exit(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

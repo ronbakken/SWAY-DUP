@@ -15,6 +15,7 @@ main() async {
   String etag = await bucket.uploadFile('config/config.bin', 'config/config.bin',
       'application/octet-stream', dospace.Permissions.public);
   print(etag);
+  exit(0);
 }
 
 /* end of file */
