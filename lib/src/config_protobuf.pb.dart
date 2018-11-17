@@ -95,7 +95,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
         15,
         'mechanism',
         $pb.PbFieldType.OE,
-        $0.OAuthMechanism.OAM_NONE,
+        $0.OAuthMechanism.none,
         $0.OAuthMechanism.valueOf,
         $0.OAuthMechanism.values)
     ..aOS(16, 'accessTokenUrl')

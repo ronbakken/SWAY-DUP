@@ -288,13 +288,13 @@ class DataOffer extends $pb.GeneratedMessage {
         ..aOS(8, 'reward')
         ..aOS(9, 'location')
         ..pPS(10, 'coverUrls')
-        ..e<$0.OfferState>(12, 'state', $pb.PbFieldType.OE,
-            $0.OfferState.OS_DRAFT, $0.OfferState.valueOf, $0.OfferState.values)
+        ..e<$0.OfferState>(12, 'state', $pb.PbFieldType.OE, $0.OfferState.draft,
+            $0.OfferState.valueOf, $0.OfferState.values)
         ..e<$0.OfferStateReason>(
             13,
             'stateReason',
             $pb.PbFieldType.OE,
-            $0.OfferStateReason.OSR_NEW_OFFER,
+            $0.OfferStateReason.newOffer,
             $0.OfferStateReason.valueOf,
             $0.OfferStateReason.values)
         ..a<int>(14, 'proposalsNew', $pb.PbFieldType.O3)
@@ -659,32 +659,27 @@ class DataAccountState extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf'))
     ..a<int>(1, 'sessionId', $pb.PbFieldType.O3)
     ..a<int>(2, 'accountId', $pb.PbFieldType.O3)
-    ..e<$0.AccountType>(
-        3,
-        'accountType',
-        $pb.PbFieldType.OE,
-        $0.AccountType.AT_UNKNOWN,
-        $0.AccountType.valueOf,
-        $0.AccountType.values)
+    ..e<$0.AccountType>(3, 'accountType', $pb.PbFieldType.OE,
+        $0.AccountType.unknown, $0.AccountType.valueOf, $0.AccountType.values)
     ..e<$0.GlobalAccountState>(
         4,
         'globalAccountState',
         $pb.PbFieldType.OE,
-        $0.GlobalAccountState.GAS_INITIALIZE,
+        $0.GlobalAccountState.initialize,
         $0.GlobalAccountState.valueOf,
         $0.GlobalAccountState.values)
     ..e<$0.GlobalAccountStateReason>(
         5,
         'globalAccountStateReason',
         $pb.PbFieldType.OE,
-        $0.GlobalAccountStateReason.GASR_NEW_ACCOUNT,
+        $0.GlobalAccountStateReason.newAccount,
         $0.GlobalAccountStateReason.valueOf,
         $0.GlobalAccountStateReason.values)
     ..e<$0.NotificationFlags>(
         6,
         'notificationFlags',
         $pb.PbFieldType.OE,
-        $0.NotificationFlags.NF_ACCOUNT_STATE,
+        $0.NotificationFlags.accountState,
         $0.NotificationFlags.valueOf,
         $0.NotificationFlags.values)
     ..aOS(7, 'firebaseToken')
@@ -1033,7 +1028,7 @@ class DataProposal extends $pb.GeneratedMessage {
             13,
             'state',
             $pb.PbFieldType.OE,
-            $0.ProposalState.PS_PROPOSING,
+            $0.ProposalState.proposing,
             $0.ProposalState.valueOf,
             $0.ProposalState.values)
         ..aOB(14, 'businessDisputed')
@@ -1247,7 +1242,7 @@ class DataProposalChat extends $pb.GeneratedMessage {
         8,
         'type',
         $pb.PbFieldType.OE,
-        $0.ProposalChatType.PCT_PLAIN,
+        $0.ProposalChatType.plain,
         $0.ProposalChatType.valueOf,
         $0.ProposalChatType.values)
     ..aInt64(10, 'sent')

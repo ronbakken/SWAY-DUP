@@ -247,13 +247,8 @@ class NetDeviceAuthState extends $pb.GeneratedMessage {
 class NetSetAccountType extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetAccountType',
       package: const $pb.PackageName('inf'))
-    ..e<$0.AccountType>(
-        1,
-        'accountType',
-        $pb.PbFieldType.OE,
-        $0.AccountType.AT_UNKNOWN,
-        $0.AccountType.valueOf,
-        $0.AccountType.values)
+    ..e<$0.AccountType>(1, 'accountType', $pb.PbFieldType.OE,
+        $0.AccountType.unknown, $0.AccountType.valueOf, $0.AccountType.values)
     ..hasRequiredFields = false;
 
   NetSetAccountType() : super();
