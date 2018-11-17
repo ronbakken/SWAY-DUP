@@ -7,17 +7,18 @@
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class NetCreateOfferReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetCreateOfferReq',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..aOS(1, 'title')
     ..pPS(2, 'imageKeys')
     ..aOS(3, 'description')
     ..aOS(4, 'deliverables')
     ..aOS(5, 'reward')
-    ..a<int>(6, 'locationId', $pb.PbFieldType.O3)
+    ..aInt64(6, 'locationId')
     ..hasRequiredFields = false;
 
   NetCreateOfferReq() : super();
@@ -76,9 +77,9 @@ class NetCreateOfferReq extends $pb.GeneratedMessage {
   bool hasReward() => $_has(4);
   void clearReward() => clearField(5);
 
-  int get locationId => $_get(5, 0);
-  set locationId(int v) {
-    $_setSignedInt32(5, v);
+  Int64 get locationId => $_getI64(5);
+  set locationId(Int64 v) {
+    $_setInt64(5, v);
   }
 
   bool hasLocationId() => $_has(5);
@@ -87,7 +88,7 @@ class NetCreateOfferReq extends $pb.GeneratedMessage {
 
 class NetLoadOffersReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadOffersReq',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<int>(1, 'before', $pb.PbFieldType.O3)
     ..a<int>(2, 'after', $pb.PbFieldType.O3)
     ..a<int>(3, 'limit', $pb.PbFieldType.O3)
@@ -141,7 +142,7 @@ class NetLoadOffersReq extends $pb.GeneratedMessage {
 
 class NetLoadOffersRes extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadOffersRes',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<int>(1, 'oldest', $pb.PbFieldType.O3)
     ..a<int>(2, 'newest', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
@@ -186,8 +187,8 @@ class NetLoadOffersRes extends $pb.GeneratedMessage {
 
 class NetOfferApplyReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOfferApplyReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'offerId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'offerId')
     ..aOS(2, 'remarks')
     ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
@@ -213,9 +214,9 @@ class NetOfferApplyReq extends $pb.GeneratedMessage {
     if (v is! NetOfferApplyReq) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get offerId => $_get(0, 0);
-  set offerId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get offerId => $_getI64(0);
+  set offerId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasOfferId() => $_has(0);

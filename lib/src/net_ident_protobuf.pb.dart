@@ -7,6 +7,7 @@
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'data_protobuf.pb.dart' as $1;
@@ -16,7 +17,7 @@ import 'enum_protobuf.pbenum.dart' as $0;
 class NetDeviceAuthCreateReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'NetDeviceAuthCreateReq',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<List<int>>(1, 'aesKey', $pb.PbFieldType.OY)
     ..aOS(2, 'name')
     ..aOS(3, 'info')
@@ -83,8 +84,8 @@ class NetDeviceAuthCreateReq extends $pb.GeneratedMessage {
 class NetDeviceAuthChallengeReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'NetDeviceAuthChallengeReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'sessionId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'sessionId')
     ..hasRequiredFields = false;
 
   NetDeviceAuthChallengeReq() : super();
@@ -112,9 +113,9 @@ class NetDeviceAuthChallengeReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get sessionId => $_get(0, 0);
-  set sessionId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get sessionId => $_getI64(0);
+  set sessionId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasSessionId() => $_has(0);
@@ -124,7 +125,7 @@ class NetDeviceAuthChallengeReq extends $pb.GeneratedMessage {
 class NetDeviceAuthChallengeResReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'NetDeviceAuthChallengeResReq',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<List<int>>(1, 'challenge', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
@@ -166,7 +167,7 @@ class NetDeviceAuthChallengeResReq extends $pb.GeneratedMessage {
 class NetDeviceAuthSignatureResReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'NetDeviceAuthSignatureResReq',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<List<int>>(1, 'signature', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
@@ -207,7 +208,7 @@ class NetDeviceAuthSignatureResReq extends $pb.GeneratedMessage {
 
 class NetDeviceAuthState extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetDeviceAuthState',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<$1.DataAccount>(8, 'data', $pb.PbFieldType.OM,
         $1.DataAccount.getDefault, $1.DataAccount.create)
     ..hasRequiredFields = false;
@@ -246,7 +247,7 @@ class NetDeviceAuthState extends $pb.GeneratedMessage {
 
 class NetSetAccountType extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetAccountType',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..e<$0.AccountType>(1, 'accountType', $pb.PbFieldType.OE,
         $0.AccountType.unknown, $0.AccountType.valueOf, $0.AccountType.values)
     ..hasRequiredFields = false;
@@ -284,7 +285,7 @@ class NetSetAccountType extends $pb.GeneratedMessage {
 
 class NetSetFirebaseToken extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetFirebaseToken',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..aOS(1, 'firebaseToken')
     ..aOS(2, 'oldFirebaseToken')
     ..hasRequiredFields = false;
@@ -331,7 +332,7 @@ class NetSetFirebaseToken extends $pb.GeneratedMessage {
 
 class NetOAuthUrlReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthUrlReq',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -366,7 +367,7 @@ class NetOAuthUrlReq extends $pb.GeneratedMessage {
 
 class NetOAuthUrlRes extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthUrlRes',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..aOS(1, 'authUrl')
     ..aOS(2, 'callbackUrl')
     ..hasRequiredFields = false;
@@ -410,7 +411,7 @@ class NetOAuthUrlRes extends $pb.GeneratedMessage {
 
 class NetOAuthConnectReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthConnectReq',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
     ..aOS(2, 'callbackQuery')
     ..hasRequiredFields = false;
@@ -457,7 +458,7 @@ class NetOAuthConnectReq extends $pb.GeneratedMessage {
 
 class NetOAuthConnectRes extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthConnectRes',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<$1.DataSocialMedia>(1, 'socialMedia', $pb.PbFieldType.OM,
         $1.DataSocialMedia.getDefault, $1.DataSocialMedia.create)
     ..hasRequiredFields = false;
@@ -496,7 +497,7 @@ class NetOAuthConnectRes extends $pb.GeneratedMessage {
 
 class NetAccountCreateReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountCreateReq',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<double>(2, 'latitude', $pb.PbFieldType.OD)
     ..a<double>(3, 'longitude', $pb.PbFieldType.OD)
     ..hasRequiredFields = false;

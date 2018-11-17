@@ -7,7 +7,7 @@
 const NetGetAccountReq$json = const {
   '1': 'NetGetAccountReq',
   '2': const [
-    const {'1': 'accountId', '3': 1, '4': 1, '5': 5, '10': 'accountId'},
+    const {'1': 'accountId', '3': 1, '4': 1, '5': 3, '10': 'accountId'},
   ],
 };
 
@@ -19,7 +19,7 @@ const NetGetAccountRes$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf.DataAccount',
+      '6': '.inf_common.DataAccount',
       '10': 'account'
     },
   ],
@@ -28,7 +28,7 @@ const NetGetAccountRes$json = const {
 const NetGetOfferReq$json = const {
   '1': 'NetGetOfferReq',
   '2': const [
-    const {'1': 'offerId', '3': 1, '4': 1, '5': 5, '10': 'offerId'},
+    const {'1': 'offerId', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
   ],
 };
 
@@ -40,7 +40,7 @@ const NetGetOfferRes$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf.DataOffer',
+      '6': '.inf_common.DataOffer',
       '10': 'offer'
     },
   ],
@@ -49,7 +49,7 @@ const NetGetOfferRes$json = const {
 const NetGetProposalReq$json = const {
   '1': 'NetGetProposalReq',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 5, '10': 'proposalId'},
+    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
   ],
 };
 
@@ -61,7 +61,7 @@ const NetGetProposalRes$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf.DataProposal',
+      '6': '.inf_common.DataProposal',
       '10': 'proposal'
     },
   ],

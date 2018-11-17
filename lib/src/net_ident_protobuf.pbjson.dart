@@ -23,7 +23,7 @@ const NetDeviceAuthCreateReq$json = const {
 const NetDeviceAuthChallengeReq$json = const {
   '1': 'NetDeviceAuthChallengeReq',
   '2': const [
-    const {'1': 'sessionId', '3': 1, '4': 1, '5': 5, '10': 'sessionId'},
+    const {'1': 'sessionId', '3': 1, '4': 1, '5': 3, '10': 'sessionId'},
   ],
 };
 
@@ -49,7 +49,7 @@ const NetDeviceAuthState$json = const {
       '3': 8,
       '4': 1,
       '5': 11,
-      '6': '.inf.DataAccount',
+      '6': '.inf_common.DataAccount',
       '10': 'data'
     },
   ],
@@ -63,7 +63,7 @@ const NetSetAccountType$json = const {
       '3': 1,
       '4': 1,
       '5': 14,
-      '6': '.inf.AccountType',
+      '6': '.inf_common.AccountType',
       '10': 'accountType'
     },
   ],
@@ -114,7 +114,7 @@ const NetOAuthConnectRes$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf.DataSocialMedia',
+      '6': '.inf_common.DataSocialMedia',
       '10': 'socialMedia'
     },
   ],

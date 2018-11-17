@@ -12,7 +12,7 @@ const NetCreateOfferReq$json = const {
     const {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
     const {'1': 'deliverables', '3': 4, '4': 1, '5': 9, '10': 'deliverables'},
     const {'1': 'reward', '3': 5, '4': 1, '5': 9, '10': 'reward'},
-    const {'1': 'locationId', '3': 6, '4': 1, '5': 5, '10': 'locationId'},
+    const {'1': 'locationId', '3': 6, '4': 1, '5': 3, '10': 'locationId'},
   ],
 };
 
@@ -36,7 +36,7 @@ const NetLoadOffersRes$json = const {
 const NetOfferApplyReq$json = const {
   '1': 'NetOfferApplyReq',
   '2': const [
-    const {'1': 'offerId', '3': 1, '4': 1, '5': 5, '10': 'offerId'},
+    const {'1': 'offerId', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
     const {
       '1': 'sessionGhostId',
       '3': 8,

@@ -14,11 +14,11 @@ import 'data_protobuf.pb.dart' as $1;
 
 class NetLoadProposalsReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadProposalsReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'before', $pb.PbFieldType.O3)
-    ..a<int>(2, 'after', $pb.PbFieldType.O3)
-    ..a<int>(3, 'limit', $pb.PbFieldType.O3)
-    ..a<int>(4, 'offerId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'before')
+    ..aInt64(2, 'after')
+    ..aInt64(3, 'limit')
+    ..aInt64(4, 'offerId')
     ..hasRequiredFields = false;
 
   NetLoadProposalsReq() : super();
@@ -44,33 +44,33 @@ class NetLoadProposalsReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get before => $_get(0, 0);
-  set before(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get before => $_getI64(0);
+  set before(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasBefore() => $_has(0);
   void clearBefore() => clearField(1);
 
-  int get after => $_get(1, 0);
-  set after(int v) {
-    $_setSignedInt32(1, v);
+  Int64 get after => $_getI64(1);
+  set after(Int64 v) {
+    $_setInt64(1, v);
   }
 
   bool hasAfter() => $_has(1);
   void clearAfter() => clearField(2);
 
-  int get limit => $_get(2, 0);
-  set limit(int v) {
-    $_setSignedInt32(2, v);
+  Int64 get limit => $_getI64(2);
+  set limit(Int64 v) {
+    $_setInt64(2, v);
   }
 
   bool hasLimit() => $_has(2);
   void clearLimit() => clearField(3);
 
-  int get offerId => $_get(3, 0);
-  set offerId(int v) {
-    $_setSignedInt32(3, v);
+  Int64 get offerId => $_getI64(3);
+  set offerId(Int64 v) {
+    $_setInt64(3, v);
   }
 
   bool hasOfferId() => $_has(3);
@@ -79,8 +79,8 @@ class NetLoadProposalsReq extends $pb.GeneratedMessage {
 
 class NetLoadProposalReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadProposalReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'proposalId')
     ..hasRequiredFields = false;
 
   NetLoadProposalReq() : super();
@@ -106,9 +106,9 @@ class NetLoadProposalReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get proposalId => $_get(0, 0);
-  set proposalId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasProposalId() => $_has(0);
@@ -118,11 +118,11 @@ class NetLoadProposalReq extends $pb.GeneratedMessage {
 class NetLoadProposalChatsReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'NetLoadProposalChatsReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'before', $pb.PbFieldType.O3)
-    ..a<int>(2, 'after', $pb.PbFieldType.O3)
-    ..a<int>(3, 'limit', $pb.PbFieldType.O3)
-    ..a<int>(5, 'proposalId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'before')
+    ..aInt64(2, 'after')
+    ..aInt64(3, 'limit')
+    ..aInt64(5, 'proposalId')
     ..hasRequiredFields = false;
 
   NetLoadProposalChatsReq() : super();
@@ -149,33 +149,33 @@ class NetLoadProposalChatsReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get before => $_get(0, 0);
-  set before(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get before => $_getI64(0);
+  set before(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasBefore() => $_has(0);
   void clearBefore() => clearField(1);
 
-  int get after => $_get(1, 0);
-  set after(int v) {
-    $_setSignedInt32(1, v);
+  Int64 get after => $_getI64(1);
+  set after(Int64 v) {
+    $_setInt64(1, v);
   }
 
   bool hasAfter() => $_has(1);
   void clearAfter() => clearField(2);
 
-  int get limit => $_get(2, 0);
-  set limit(int v) {
-    $_setSignedInt32(2, v);
+  Int64 get limit => $_getI64(2);
+  set limit(Int64 v) {
+    $_setInt64(2, v);
   }
 
   bool hasLimit() => $_has(2);
   void clearLimit() => clearField(3);
 
-  int get proposalId => $_get(3, 0);
-  set proposalId(int v) {
-    $_setSignedInt32(3, v);
+  Int64 get proposalId => $_getI64(3);
+  set proposalId(Int64 v) {
+    $_setInt64(3, v);
   }
 
   bool hasProposalId() => $_has(3);
@@ -183,12 +183,12 @@ class NetLoadProposalChatsReq extends $pb.GeneratedMessage {
 }
 
 class NetChatPlain extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('NetChatPlain', package: const $pb.PackageName('inf'))
-        ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
-        ..aOS(6, 'text')
-        ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatPlain',
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'proposalId')
+    ..aOS(6, 'text')
+    ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
 
   NetChatPlain() : super();
   NetChatPlain.fromBuffer(List<int> i,
@@ -210,9 +210,9 @@ class NetChatPlain extends $pb.GeneratedMessage {
     if (v is! NetChatPlain) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get proposalId => $_get(0, 0);
-  set proposalId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasProposalId() => $_has(0);
@@ -237,8 +237,8 @@ class NetChatPlain extends $pb.GeneratedMessage {
 
 class NetChatHaggle extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatHaggle',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'proposalId')
     ..aOS(2, 'remarks')
     ..aOS(3, 'deliverables')
     ..aOS(4, 'reward')
@@ -265,9 +265,9 @@ class NetChatHaggle extends $pb.GeneratedMessage {
     if (v is! NetChatHaggle) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get proposalId => $_get(0, 0);
-  set proposalId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasProposalId() => $_has(0);
@@ -308,8 +308,8 @@ class NetChatHaggle extends $pb.GeneratedMessage {
 
 class NetChatImageKey extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatImageKey',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'proposalId')
     ..aOS(5, 'imageKey')
     ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
@@ -335,9 +335,9 @@ class NetChatImageKey extends $pb.GeneratedMessage {
     if (v is! NetChatImageKey) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get proposalId => $_get(0, 0);
-  set proposalId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasProposalId() => $_has(0);
@@ -363,8 +363,8 @@ class NetChatImageKey extends $pb.GeneratedMessage {
 class NetProposalWantDealReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'NetProposalWantDealReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'proposalId')
     ..aInt64(2, 'haggleChatId')
     ..hasRequiredFields = false;
 
@@ -392,9 +392,9 @@ class NetProposalWantDealReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get proposalId => $_get(0, 0);
-  set proposalId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasProposalId() => $_has(0);
@@ -411,8 +411,8 @@ class NetProposalWantDealReq extends $pb.GeneratedMessage {
 
 class NetProposalRejectReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalRejectReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'proposalId')
     ..aOS(2, 'reason')
     ..hasRequiredFields = false;
 
@@ -439,9 +439,9 @@ class NetProposalRejectReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get proposalId => $_get(0, 0);
-  set proposalId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasProposalId() => $_has(0);
@@ -458,8 +458,8 @@ class NetProposalRejectReq extends $pb.GeneratedMessage {
 
 class NetProposalReportReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalReportReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'proposalId')
     ..aOS(2, 'text')
     ..hasRequiredFields = false;
 
@@ -486,9 +486,9 @@ class NetProposalReportReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get proposalId => $_get(0, 0);
-  set proposalId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasProposalId() => $_has(0);
@@ -506,8 +506,8 @@ class NetProposalReportReq extends $pb.GeneratedMessage {
 class NetProposalCompletionReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'NetProposalCompletionReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'proposalId')
     ..aOB(2, 'delivered')
     ..aOB(3, 'rewarded')
     ..a<int>(4, 'rating', $pb.PbFieldType.O3)
@@ -539,9 +539,9 @@ class NetProposalCompletionReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get proposalId => $_get(0, 0);
-  set proposalId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasProposalId() => $_has(0);
@@ -590,7 +590,7 @@ class NetProposalCompletionReq extends $pb.GeneratedMessage {
 
 class NetProposalCommonRes extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalCommonRes',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<$1.DataProposal>(1, 'updateProposal', $pb.PbFieldType.OM,
         $1.DataProposal.getDefault, $1.DataProposal.create)
     ..pp<$1.DataProposalChat>(2, 'newChats', $pb.PbFieldType.PM,

@@ -66,9 +66,9 @@ const DataOAuthCredentials$json = const {
 const DataOffer$json = const {
   '1': 'DataOffer',
   '2': const [
-    const {'1': 'offerId', '3': 1, '4': 1, '5': 5, '10': 'offerId'},
-    const {'1': 'accountId', '3': 2, '4': 1, '5': 5, '10': 'accountId'},
-    const {'1': 'locationId', '3': 3, '4': 1, '5': 5, '10': 'locationId'},
+    const {'1': 'offerId', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
+    const {'1': 'accountId', '3': 2, '4': 1, '5': 3, '10': 'accountId'},
+    const {'1': 'locationId', '3': 3, '4': 1, '5': 3, '10': 'locationId'},
     const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
     const {'1': 'description', '3': 5, '4': 1, '5': 9, '10': 'description'},
     const {'1': 'thumbnailUrl', '3': 6, '4': 1, '5': 9, '10': 'thumbnailUrl'},
@@ -106,7 +106,7 @@ const DataOffer$json = const {
       '3': 12,
       '4': 1,
       '5': 14,
-      '6': '.inf.OfferState',
+      '6': '.inf_common.OfferState',
       '10': 'state'
     },
     const {
@@ -114,37 +114,15 @@ const DataOffer$json = const {
       '3': 13,
       '4': 1,
       '5': 14,
-      '6': '.inf.OfferStateReason',
+      '6': '.inf_common.OfferStateReason',
       '10': 'stateReason'
     },
     const {'1': 'archived', '3': 26, '4': 1, '5': 8, '10': 'archived'},
-    const {'1': 'proposalsNew', '3': 14, '4': 1, '5': 5, '10': 'proposalsNew'},
-    const {
-      '1': 'proposalsAccepted',
-      '3': 15,
-      '4': 1,
-      '5': 5,
-      '10': 'proposalsAccepted'
-    },
-    const {
-      '1': 'proposalsCompleted',
-      '3': 16,
-      '4': 1,
-      '5': 5,
-      '10': 'proposalsCompleted'
-    },
-    const {
-      '1': 'proposalsRefused',
-      '3': 17,
-      '4': 1,
-      '5': 5,
-      '10': 'proposalsRefused'
-    },
     const {
       '1': 'influencerProposalId',
       '3': 22,
       '4': 1,
-      '5': 5,
+      '5': 3,
       '10': 'influencerProposalId'
     },
   ],
@@ -153,7 +131,7 @@ const DataOffer$json = const {
 const DataLocation$json = const {
   '1': 'DataLocation',
   '2': const [
-    const {'1': 'locationId', '3': 1, '4': 1, '5': 5, '10': 'locationId'},
+    const {'1': 'locationId', '3': 1, '4': 1, '5': 3, '10': 'locationId'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'approximate', '3': 7, '4': 1, '5': 9, '10': 'approximate'},
     const {'1': 'detail', '3': 8, '4': 1, '5': 9, '10': 'detail'},
@@ -171,14 +149,14 @@ const DataLocation$json = const {
 const DataAccountState$json = const {
   '1': 'DataAccountState',
   '2': const [
-    const {'1': 'sessionId', '3': 1, '4': 1, '5': 5, '10': 'sessionId'},
-    const {'1': 'accountId', '3': 2, '4': 1, '5': 5, '10': 'accountId'},
+    const {'1': 'sessionId', '3': 1, '4': 1, '5': 3, '10': 'sessionId'},
+    const {'1': 'accountId', '3': 2, '4': 1, '5': 3, '10': 'accountId'},
     const {
       '1': 'accountType',
       '3': 3,
       '4': 1,
       '5': 14,
-      '6': '.inf.AccountType',
+      '6': '.inf_common.AccountType',
       '10': 'accountType'
     },
     const {
@@ -186,7 +164,7 @@ const DataAccountState$json = const {
       '3': 4,
       '4': 1,
       '5': 14,
-      '6': '.inf.GlobalAccountState',
+      '6': '.inf_common.GlobalAccountState',
       '10': 'globalAccountState'
     },
     const {
@@ -194,7 +172,7 @@ const DataAccountState$json = const {
       '3': 5,
       '4': 1,
       '5': 14,
-      '6': '.inf.GlobalAccountStateReason',
+      '6': '.inf_common.GlobalAccountStateReason',
       '10': 'globalAccountStateReason'
     },
     const {
@@ -202,7 +180,7 @@ const DataAccountState$json = const {
       '3': 6,
       '4': 1,
       '5': 14,
-      '6': '.inf.NotificationFlags',
+      '6': '.inf_common.NotificationFlags',
       '10': 'notificationFlags'
     },
     const {'1': 'firebaseToken', '3': 7, '4': 1, '5': 9, '10': 'firebaseToken'},
@@ -241,7 +219,7 @@ const DataAccountDetail$json = const {
       '3': 3,
       '4': 3,
       '5': 11,
-      '6': '.inf.DataSocialMedia',
+      '6': '.inf_common.DataSocialMedia',
       '10': 'socialMedia'
     },
     const {
@@ -264,7 +242,7 @@ const DataAccountDetail$json = const {
     const {'1': 'location', '3': 15, '4': 1, '5': 9, '10': 'location'},
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
-    const {'1': 'locationId', '3': 8, '4': 1, '5': 5, '10': 'locationId'},
+    const {'1': 'locationId', '3': 8, '4': 1, '5': 3, '10': 'locationId'},
   ],
 };
 
@@ -276,7 +254,7 @@ const DataAccount$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf.DataAccountState',
+      '6': '.inf_common.DataAccountState',
       '10': 'state'
     },
     const {
@@ -284,7 +262,7 @@ const DataAccount$json = const {
       '3': 2,
       '4': 1,
       '5': 11,
-      '6': '.inf.DataAccountSummary',
+      '6': '.inf_common.DataAccountSummary',
       '10': 'summary'
     },
     const {
@@ -292,7 +270,7 @@ const DataAccount$json = const {
       '3': 3,
       '4': 1,
       '5': 11,
-      '6': '.inf.DataAccountDetail',
+      '6': '.inf_common.DataAccountDetail',
       '10': 'detail'
     },
   ],
@@ -301,27 +279,27 @@ const DataAccount$json = const {
 const DataProposal$json = const {
   '1': 'DataProposal',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 5, '10': 'proposalId'},
-    const {'1': 'offerId', '3': 2, '4': 1, '5': 5, '10': 'offerId'},
+    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'offerId', '3': 2, '4': 1, '5': 3, '10': 'offerId'},
     const {
       '1': 'influencerAccountId',
       '3': 3,
       '4': 1,
-      '5': 5,
+      '5': 3,
       '10': 'influencerAccountId'
     },
     const {
       '1': 'businessAccountId',
       '3': 16,
       '4': 1,
-      '5': 5,
+      '5': 3,
       '10': 'businessAccountId'
     },
     const {
       '1': 'senderAccountId',
       '3': 20,
       '4': 1,
-      '5': 5,
+      '5': 3,
       '10': 'senderAccountId'
     },
     const {
@@ -333,7 +311,8 @@ const DataProposal$json = const {
     },
     const {'1': 'businessName', '3': 18, '4': 1, '5': 9, '10': 'businessName'},
     const {'1': 'offerTitle', '3': 19, '4': 1, '5': 9, '10': 'offerTitle'},
-    const {'1': 'haggleChatId', '3': 4, '4': 1, '5': 3, '10': 'haggleChatId'},
+    const {'1': 'lastChatId', '3': 22, '4': 1, '5': 3, '10': 'lastChatId'},
+    const {'1': 'termsChatId', '3': 4, '4': 1, '5': 3, '10': 'termsChatId'},
     const {
       '1': 'influencerWantsDeal',
       '3': 6,
@@ -409,7 +388,7 @@ const DataProposal$json = const {
       '3': 13,
       '4': 1,
       '5': 14,
-      '6': '.inf.ProposalState',
+      '6': '.inf_common.ProposalState',
       '10': 'state'
     },
     const {'1': 'archived', '3': 21, '4': 1, '5': 8, '10': 'archived'},
@@ -421,9 +400,9 @@ const DataProposalChat$json = const {
   '2': const [
     const {'1': 'chatId', '3': 7, '4': 1, '5': 3, '10': 'chatId'},
     const {'1': 'sent', '3': 10, '4': 1, '5': 3, '10': 'sent'},
-    const {'1': 'senderId', '3': 2, '4': 1, '5': 5, '10': 'senderId'},
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 5, '10': 'proposalId'},
-    const {'1': 'sessionId', '3': 11, '4': 1, '5': 5, '10': 'sessionId'},
+    const {'1': 'senderId', '3': 2, '4': 1, '5': 3, '10': 'senderId'},
+    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'sessionId', '3': 11, '4': 1, '5': 3, '10': 'sessionId'},
     const {
       '1': 'sessionGhostId',
       '3': 6,
@@ -436,7 +415,7 @@ const DataProposalChat$json = const {
       '3': 8,
       '4': 1,
       '5': 14,
-      '6': '.inf.ProposalChatType',
+      '6': '.inf_common.ProposalChatType',
       '10': 'type'
     },
     const {'1': 'text', '3': 5, '4': 1, '5': 9, '10': 'text'},

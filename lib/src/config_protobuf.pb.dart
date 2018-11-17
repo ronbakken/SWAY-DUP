@@ -14,7 +14,7 @@ import 'enum_protobuf.pbenum.dart' as $0;
 
 class ConfigSubCategories extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigSubCategories',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..pPS(1, 'labels')
     ..hasRequiredFields = false;
 
@@ -46,7 +46,7 @@ class ConfigSubCategories extends $pb.GeneratedMessage {
 
 class ConfigCategories extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigCategories',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..pp<ConfigSubCategories>(1, 'sub', $pb.PbFieldType.PM,
         ConfigSubCategories.$checkItem, ConfigSubCategories.create)
     ..hasRequiredFields = false;
@@ -77,7 +77,7 @@ class ConfigCategories extends $pb.GeneratedMessage {
 
 class ConfigOAuthProvider extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigOAuthProvider',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..aOB(1, 'visible')
     ..aOB(2, 'canAlwaysAuthenticate')
     ..aOS(3, 'label')
@@ -277,7 +277,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
 
 class ConfigOAuthProviders extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigOAuthProviders',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..pp<ConfigOAuthProvider>(1, 'all', $pb.PbFieldType.PM,
         ConfigOAuthProvider.$checkItem, ConfigOAuthProvider.create)
     ..hasRequiredFields = false;
@@ -310,7 +310,7 @@ class ConfigOAuthProviders extends $pb.GeneratedMessage {
 
 class ConfigServices extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigServices',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..aOS(1, 'mapboxApi')
     ..aOS(2, 'mapboxUrlTemplateDark')
     ..aOS(3, 'mapboxToken')
@@ -334,7 +334,7 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(21, 'cloudinaryCoverUrl')
     ..aOS(22, 'freshdeskApi')
     ..aOS(23, 'freshdeskKey')
-    ..aOS(24, 'domain')
+    ..aOS(24, 'environment')
     ..aOS(25, 'firebaseServerKey')
     ..aOS(26, 'firebaseSenderId')
     ..aOS(27, 'firebaseLegacyApi')
@@ -543,13 +543,13 @@ class ConfigServices extends $pb.GeneratedMessage {
   bool hasFreshdeskKey() => $_has(22);
   void clearFreshdeskKey() => clearField(23);
 
-  String get domain => $_getS(23, '');
-  set domain(String v) {
+  String get environment => $_getS(23, '');
+  set environment(String v) {
     $_setString(23, v);
   }
 
-  bool hasDomain() => $_has(23);
-  void clearDomain() => clearField(24);
+  bool hasEnvironment() => $_has(23);
+  void clearEnvironment() => clearField(24);
 
   String get firebaseServerKey => $_getS(24, '');
   set firebaseServerKey(String v) {
@@ -618,7 +618,7 @@ class ConfigServices extends $pb.GeneratedMessage {
 
 class ConfigContent extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigContent',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..pPS(1, 'welcomeImageUrls')
     ..hasRequiredFields = false;
 
@@ -646,19 +646,19 @@ class ConfigContent extends $pb.GeneratedMessage {
 }
 
 class ConfigData extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('ConfigData', package: const $pb.PackageName('inf'))
-        ..a<int>(1, 'clientVersion', $pb.PbFieldType.O3)
-        ..a<ConfigCategories>(2, 'categories', $pb.PbFieldType.OM,
-            ConfigCategories.getDefault, ConfigCategories.create)
-        ..a<ConfigOAuthProviders>(3, 'oauthProviders', $pb.PbFieldType.OM,
-            ConfigOAuthProviders.getDefault, ConfigOAuthProviders.create)
-        ..aInt64(5, 'timestamp')
-        ..a<ConfigServices>(6, 'services', $pb.PbFieldType.OM,
-            ConfigServices.getDefault, ConfigServices.create)
-        ..a<ConfigContent>(7, 'content', $pb.PbFieldType.OM,
-            ConfigContent.getDefault, ConfigContent.create)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigData',
+      package: const $pb.PackageName('inf_common'))
+    ..a<int>(1, 'clientVersion', $pb.PbFieldType.O3)
+    ..a<ConfigCategories>(2, 'categories', $pb.PbFieldType.OM,
+        ConfigCategories.getDefault, ConfigCategories.create)
+    ..a<ConfigOAuthProviders>(3, 'oauthProviders', $pb.PbFieldType.OM,
+        ConfigOAuthProviders.getDefault, ConfigOAuthProviders.create)
+    ..aInt64(5, 'timestamp')
+    ..a<ConfigServices>(6, 'services', $pb.PbFieldType.OM,
+        ConfigServices.getDefault, ConfigServices.create)
+    ..a<ConfigContent>(7, 'content', $pb.PbFieldType.OM,
+        ConfigContent.getDefault, ConfigContent.create)
+    ..hasRequiredFields = false;
 
   ConfigData() : super();
   ConfigData.fromBuffer(List<int> i,

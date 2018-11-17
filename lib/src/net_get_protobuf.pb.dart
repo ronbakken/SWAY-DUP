@@ -7,14 +7,15 @@
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'data_protobuf.pb.dart' as $1;
 
 class NetGetAccountReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetAccountReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'accountId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'accountId')
     ..hasRequiredFields = false;
 
   NetGetAccountReq() : super();
@@ -38,9 +39,9 @@ class NetGetAccountReq extends $pb.GeneratedMessage {
     if (v is! NetGetAccountReq) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get accountId => $_get(0, 0);
-  set accountId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get accountId => $_getI64(0);
+  set accountId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasAccountId() => $_has(0);
@@ -49,7 +50,7 @@ class NetGetAccountReq extends $pb.GeneratedMessage {
 
 class NetGetAccountRes extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetAccountRes',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<$1.DataAccount>(1, 'account', $pb.PbFieldType.OM,
         $1.DataAccount.getDefault, $1.DataAccount.create)
     ..hasRequiredFields = false;
@@ -86,8 +87,8 @@ class NetGetAccountRes extends $pb.GeneratedMessage {
 
 class NetGetOfferReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetOfferReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'offerId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'offerId')
     ..hasRequiredFields = false;
 
   NetGetOfferReq() : super();
@@ -110,9 +111,9 @@ class NetGetOfferReq extends $pb.GeneratedMessage {
     if (v is! NetGetOfferReq) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get offerId => $_get(0, 0);
-  set offerId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get offerId => $_getI64(0);
+  set offerId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasOfferId() => $_has(0);
@@ -121,7 +122,7 @@ class NetGetOfferReq extends $pb.GeneratedMessage {
 
 class NetGetOfferRes extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetOfferRes',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<$1.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $1.DataOffer.getDefault,
         $1.DataOffer.create)
     ..hasRequiredFields = false;
@@ -157,8 +158,8 @@ class NetGetOfferRes extends $pb.GeneratedMessage {
 
 class NetGetProposalReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProposalReq',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'proposalId', $pb.PbFieldType.O3)
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'proposalId')
     ..hasRequiredFields = false;
 
   NetGetProposalReq() : super();
@@ -183,9 +184,9 @@ class NetGetProposalReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get proposalId => $_get(0, 0);
-  set proposalId(int v) {
-    $_setSignedInt32(0, v);
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
+    $_setInt64(0, v);
   }
 
   bool hasProposalId() => $_has(0);
@@ -194,7 +195,7 @@ class NetGetProposalReq extends $pb.GeneratedMessage {
 
 class NetGetProposalRes extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProposalRes',
-      package: const $pb.PackageName('inf'))
+      package: const $pb.PackageName('inf_common'))
     ..a<$1.DataProposal>(1, 'proposal', $pb.PbFieldType.OM,
         $1.DataProposal.getDefault, $1.DataProposal.create)
     ..hasRequiredFields = false;

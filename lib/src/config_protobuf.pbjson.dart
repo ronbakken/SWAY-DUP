@@ -19,7 +19,7 @@ const ConfigCategories$json = const {
       '3': 1,
       '4': 3,
       '5': 11,
-      '6': '.inf.ConfigSubCategories',
+      '6': '.inf_common.ConfigSubCategories',
       '10': 'sub'
     },
   ],
@@ -29,16 +29,16 @@ const ConfigOAuthProvider$json = const {
   '1': 'ConfigOAuthProvider',
   '2': const [
     const {'1': 'visible', '3': 1, '4': 1, '5': 8, '10': 'visible'},
-    const {'1': 'canConnect', '3': 19, '4': 1, '5': 8, '10': 'canConnect'},
+    const {'1': 'can_connect', '3': 19, '4': 1, '5': 8, '10': 'canConnect'},
     const {
-      '1': 'canAlwaysAuthenticate',
+      '1': 'can_always_authenticate',
       '3': 2,
       '4': 1,
       '5': 8,
       '10': 'canAlwaysAuthenticate'
     },
     const {
-      '1': 'showInProfile',
+      '1': 'show_in_profile',
       '3': 20,
       '4': 1,
       '5': 8,
@@ -46,7 +46,7 @@ const ConfigOAuthProvider$json = const {
     },
     const {'1': 'label', '3': 3, '4': 1, '5': 9, '10': 'label'},
     const {
-      '1': 'fontAwesomeBrand',
+      '1': 'font_awesome_brand',
       '3': 14,
       '4': 1,
       '5': 5,
@@ -57,46 +57,46 @@ const ConfigOAuthProvider$json = const {
       '3': 15,
       '4': 1,
       '5': 14,
-      '6': '.inf.OAuthMechanism',
+      '6': '.inf_common.OAuthMechanism',
       '10': 'mechanism'
     },
     const {'1': 'host', '3': 4, '4': 1, '5': 9, '10': 'host'},
     const {'1': 'callbackUrl', '3': 9, '4': 1, '5': 9, '10': 'callbackUrl'},
     const {
-      '1': 'requestTokenUrl',
+      '1': 'request_token_url',
       '3': 5,
       '4': 1,
       '5': 9,
       '10': 'requestTokenUrl'
     },
     const {
-      '1': 'authenticateUrl',
+      '1': 'authenticate_url',
       '3': 6,
       '4': 1,
       '5': 9,
       '10': 'authenticateUrl'
     },
     const {
-      '1': 'accessTokenUrl',
+      '1': 'access_token_url',
       '3': 16,
       '4': 1,
       '5': 9,
       '10': 'accessTokenUrl'
     },
-    const {'1': 'consumerKey', '3': 10, '4': 1, '5': 9, '10': 'consumerKey'},
+    const {'1': 'consumer_key', '3': 10, '4': 1, '5': 9, '10': 'consumerKey'},
     const {
-      '1': 'consumerSecret',
+      '1': 'consumer_secret',
       '3': 11,
       '4': 1,
       '5': 9,
       '10': 'consumerSecret'
     },
-    const {'1': 'authUrl', '3': 7, '4': 1, '5': 9, '10': 'authUrl'},
-    const {'1': 'authQuery', '3': 8, '4': 1, '5': 9, '10': 'authQuery'},
-    const {'1': 'clientId', '3': 12, '4': 1, '5': 9, '10': 'clientId'},
-    const {'1': 'clientSecret', '3': 17, '4': 1, '5': 9, '10': 'clientSecret'},
+    const {'1': 'auth_url', '3': 7, '4': 1, '5': 9, '10': 'authUrl'},
+    const {'1': 'auth_query', '3': 8, '4': 1, '5': 9, '10': 'authQuery'},
+    const {'1': 'client_id', '3': 12, '4': 1, '5': 9, '10': 'clientId'},
+    const {'1': 'client_secret', '3': 17, '4': 1, '5': 9, '10': 'clientSecret'},
     const {
-      '1': 'whitelistHosts',
+      '1': 'whitelist_hosts',
       '3': 18,
       '4': 3,
       '5': 9,
@@ -113,7 +113,7 @@ const ConfigOAuthProviders$json = const {
       '3': 1,
       '4': 3,
       '5': 11,
-      '6': '.inf.ConfigOAuthProvider',
+      '6': '.inf_common.ConfigOAuthProvider',
       '10': 'all'
     },
   ],
@@ -122,7 +122,7 @@ const ConfigOAuthProviders$json = const {
 const ConfigServices$json = const {
   '1': 'ConfigServices',
   '2': const [
-    const {'1': 'domain', '3': 24, '4': 1, '5': 9, '10': 'domain'},
+    const {'1': 'environment', '3': 24, '4': 1, '5': 9, '10': 'environment'},
     const {'1': 'apiHosts', '3': 8, '4': 3, '5': 9, '10': 'apiHosts'},
     const {'1': 'configUrl', '3': 9, '4': 1, '5': 9, '10': 'configUrl'},
     const {
@@ -269,22 +269,28 @@ const ConfigContent$json = const {
 const ConfigData$json = const {
   '1': 'ConfigData',
   '2': const [
-    const {'1': 'clientVersion', '3': 1, '4': 1, '5': 5, '10': 'clientVersion'},
+    const {
+      '1': 'client_version',
+      '3': 1,
+      '4': 1,
+      '5': 5,
+      '10': 'clientVersion'
+    },
     const {'1': 'timestamp', '3': 5, '4': 1, '5': 3, '10': 'timestamp'},
     const {
       '1': 'categories',
       '3': 2,
       '4': 1,
       '5': 11,
-      '6': '.inf.ConfigCategories',
+      '6': '.inf_common.ConfigCategories',
       '10': 'categories'
     },
     const {
-      '1': 'oauthProviders',
+      '1': 'oauth_providers',
       '3': 3,
       '4': 1,
       '5': 11,
-      '6': '.inf.ConfigOAuthProviders',
+      '6': '.inf_common.ConfigOAuthProviders',
       '10': 'oauthProviders'
     },
     const {
@@ -292,7 +298,7 @@ const ConfigData$json = const {
       '3': 6,
       '4': 1,
       '5': 11,
-      '6': '.inf.ConfigServices',
+      '6': '.inf_common.ConfigServices',
       '10': 'services'
     },
     const {
@@ -300,7 +306,7 @@ const ConfigData$json = const {
       '3': 7,
       '4': 1,
       '5': 11,
-      '6': '.inf.ConfigContent',
+      '6': '.inf_common.ConfigContent',
       '10': 'content'
     },
   ],
