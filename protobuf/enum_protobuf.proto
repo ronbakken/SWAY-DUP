@@ -7,7 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 syntax = "proto3";
 
 package inf_common;
-option csharp_namespace = InfCommon;
+option csharp_namespace = "InfCommon";
 
 enum OAuthMechanism {
   OAM_NONE = 0;
