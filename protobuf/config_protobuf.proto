@@ -23,11 +23,11 @@ message ConfigOAuthProvider {
   /// Whether the OAuth provider is visible in the UI at all
   bool visible = 1;
   
-  /// Whether the OAuth provider can always be used to authenticate
-  bool canAlwaysAuthenticate = 2;
-  
   /// Whether to allow new connections to this provider
   bool canConnect = 19;
+  
+  /// Whether the OAuth provider can always be used to authenticate
+  bool canAlwaysAuthenticate = 2;
   
   /// Whether this social provider can be shown in the user profile at all
   bool showInProfile = 20;
