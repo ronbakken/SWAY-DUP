@@ -616,6 +616,35 @@ class ConfigServices extends $pb.GeneratedMessage {
   void clearCloudinaryBlurredCoverUrl() => clearField(32);
 }
 
+class ConfigContent extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigContent',
+      package: const $pb.PackageName('inf'))
+    ..pPS(1, 'welcomeImageUrls')
+    ..hasRequiredFields = false;
+
+  ConfigContent() : super();
+  ConfigContent.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ConfigContent.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  ConfigContent clone() => new ConfigContent()..mergeFromMessage(this);
+  ConfigContent copyWith(void Function(ConfigContent) updates) =>
+      super.copyWith((message) => updates(message as ConfigContent));
+  $pb.BuilderInfo get info_ => _i;
+  static ConfigContent create() => new ConfigContent();
+  static $pb.PbList<ConfigContent> createRepeated() =>
+      new $pb.PbList<ConfigContent>();
+  static ConfigContent getDefault() => _defaultInstance ??= create()..freeze();
+  static ConfigContent _defaultInstance;
+  static void $checkItem(ConfigContent v) {
+    if (v is! ConfigContent) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  List<String> get welcomeImageUrls => $_getList(0);
+}
+
 class ConfigData extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       new $pb.BuilderInfo('ConfigData', package: const $pb.PackageName('inf'))
@@ -627,6 +656,8 @@ class ConfigData extends $pb.GeneratedMessage {
         ..aInt64(5, 'timestamp')
         ..a<ConfigServices>(6, 'services', $pb.PbFieldType.OM,
             ConfigServices.getDefault, ConfigServices.create)
+        ..a<ConfigContent>(7, 'content', $pb.PbFieldType.OM,
+            ConfigContent.getDefault, ConfigContent.create)
         ..hasRequiredFields = false;
 
   ConfigData() : super();
@@ -688,4 +719,12 @@ class ConfigData extends $pb.GeneratedMessage {
 
   bool hasServices() => $_has(4);
   void clearServices() => clearField(6);
+
+  ConfigContent get content => $_getN(5);
+  set content(ConfigContent v) {
+    setField(7, v);
+  }
+
+  bool hasContent() => $_has(5);
+  void clearContent() => clearField(7);
 }

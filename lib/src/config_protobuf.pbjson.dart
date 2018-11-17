@@ -253,6 +253,19 @@ const ConfigServices$json = const {
   ],
 };
 
+const ConfigContent$json = const {
+  '1': 'ConfigContent',
+  '2': const [
+    const {
+      '1': 'welcome_image_urls',
+      '3': 1,
+      '4': 3,
+      '5': 9,
+      '10': 'welcomeImageUrls'
+    },
+  ],
+};
+
 const ConfigData$json = const {
   '1': 'ConfigData',
   '2': const [
@@ -281,6 +294,14 @@ const ConfigData$json = const {
       '5': 11,
       '6': '.inf.ConfigServices',
       '10': 'services'
+    },
+    const {
+      '1': 'content',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.inf.ConfigContent',
+      '10': 'content'
     },
   ],
 };
