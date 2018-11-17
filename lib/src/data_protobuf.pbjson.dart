@@ -313,32 +313,32 @@ const DataProposal$json = const {
     const {'1': 'offerTitle', '3': 19, '4': 1, '5': 9, '10': 'offerTitle'},
     const {'1': 'lastChatId', '3': 22, '4': 1, '5': 3, '10': 'lastChatId'},
     const {
-      '1': 'influencerLastSeenChatId',
+      '1': 'influencerSeenChatId',
       '3': 23,
       '4': 1,
       '5': 3,
-      '10': 'influencerLastSeenChatId'
+      '10': 'influencerSeenChatId'
     },
     const {
-      '1': 'influencerLastSeenTime',
+      '1': 'influencerSeenTime',
       '3': 24,
       '4': 1,
       '5': 3,
-      '10': 'influencerLastSeenTime'
+      '10': 'influencerSeenTime'
     },
     const {
-      '1': 'businessLastSeenChatId',
+      '1': 'businessSeenChatId',
       '3': 25,
       '4': 1,
       '5': 3,
-      '10': 'businessLastSeenChatId'
+      '10': 'businessSeenChatId'
     },
     const {
-      '1': 'businessLastSeenTime',
+      '1': 'businessSeenTime',
       '3': 26,
       '4': 1,
       '5': 3,
-      '10': 'businessLastSeenTime'
+      '10': 'businessSeenTime'
     },
     const {'1': 'termsChatId', '3': 4, '4': 1, '5': 3, '10': 'termsChatId'},
     const {
