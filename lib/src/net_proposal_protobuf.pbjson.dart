@@ -7,7 +7,7 @@
 const NetLoadProposalsReq$json = const {
   '1': 'NetLoadProposalsReq',
   '2': const [
-    const {'1': 'offerId', '3': 4, '4': 1, '5': 3, '10': 'offerId'},
+    const {'1': 'offer_id', '3': 4, '4': 1, '5': 3, '10': 'offerId'},
     const {'1': 'before', '3': 1, '4': 1, '5': 3, '10': 'before'},
     const {'1': 'after', '3': 2, '4': 1, '5': 3, '10': 'after'},
     const {'1': 'limit', '3': 3, '4': 1, '5': 3, '10': 'limit'},
@@ -17,26 +17,23 @@ const NetLoadProposalsReq$json = const {
 const NetLoadProposalReq$json = const {
   '1': 'NetLoadProposalReq',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
   ],
 };
 
 const NetLoadProposalChatsReq$json = const {
   '1': 'NetLoadProposalChatsReq',
   '2': const [
-    const {'1': 'proposalId', '3': 5, '4': 1, '5': 3, '10': 'proposalId'},
-    const {'1': 'before', '3': 1, '4': 1, '5': 3, '10': 'before'},
-    const {'1': 'after', '3': 2, '4': 1, '5': 3, '10': 'after'},
-    const {'1': 'limit', '3': 3, '4': 1, '5': 3, '10': 'limit'},
+    const {'1': 'proposal_id', '3': 5, '4': 1, '5': 3, '10': 'proposalId'},
   ],
 };
 
 const NetChatPlain$json = const {
   '1': 'NetChatPlain',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
     const {
-      '1': 'sessionGhostId',
+      '1': 'session_ghost_id',
       '3': 8,
       '4': 1,
       '5': 5,
@@ -49,9 +46,9 @@ const NetChatPlain$json = const {
 const NetChatHaggle$json = const {
   '1': 'NetChatHaggle',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
     const {
-      '1': 'sessionGhostId',
+      '1': 'session_ghost_id',
       '3': 8,
       '4': 1,
       '5': 5,
@@ -66,30 +63,30 @@ const NetChatHaggle$json = const {
 const NetChatImageKey$json = const {
   '1': 'NetChatImageKey',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
     const {
-      '1': 'sessionGhostId',
+      '1': 'session_ghost_id',
       '3': 8,
       '4': 1,
       '5': 5,
       '10': 'sessionGhostId'
     },
-    const {'1': 'imageKey', '3': 5, '4': 1, '5': 9, '10': 'imageKey'},
+    const {'1': 'image_key', '3': 5, '4': 1, '5': 9, '10': 'imageKey'},
   ],
 };
 
 const NetProposalWantDealReq$json = const {
   '1': 'NetProposalWantDealReq',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
-    const {'1': 'haggleChatId', '3': 2, '4': 1, '5': 3, '10': 'haggleChatId'},
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'terms_chat_id', '3': 2, '4': 1, '5': 3, '10': 'termsChatId'},
   ],
 };
 
 const NetProposalRejectReq$json = const {
   '1': 'NetProposalRejectReq',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
     const {'1': 'reason', '3': 2, '4': 1, '5': 9, '10': 'reason'},
   ],
 };
@@ -97,7 +94,7 @@ const NetProposalRejectReq$json = const {
 const NetProposalReportReq$json = const {
   '1': 'NetProposalReportReq',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
     const {'1': 'text', '3': 2, '4': 1, '5': 9, '10': 'text'},
   ],
 };
@@ -105,13 +102,13 @@ const NetProposalReportReq$json = const {
 const NetProposalCompletionReq$json = const {
   '1': 'NetProposalCompletionReq',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
     const {'1': 'delivered', '3': 2, '4': 1, '5': 8, '10': 'delivered'},
     const {'1': 'rewarded', '3': 3, '4': 1, '5': 8, '10': 'rewarded'},
     const {'1': 'rating', '3': 4, '4': 1, '5': 5, '10': 'rating'},
     const {'1': 'dispute', '3': 5, '4': 1, '5': 8, '10': 'dispute'},
     const {
-      '1': 'disputeDescription',
+      '1': 'dispute_description',
       '3': 6,
       '4': 1,
       '5': 9,
@@ -124,7 +121,7 @@ const NetProposalCommonRes$json = const {
   '1': 'NetProposalCommonRes',
   '2': const [
     const {
-      '1': 'updateProposal',
+      '1': 'update_proposal',
       '3': 1,
       '4': 1,
       '5': 11,
@@ -132,7 +129,7 @@ const NetProposalCommonRes$json = const {
       '10': 'updateProposal'
     },
     const {
-      '1': 'newChats',
+      '1': 'new_chats',
       '3': 2,
       '4': 3,
       '5': 11,

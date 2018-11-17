@@ -119,9 +119,6 @@ class NetLoadProposalChatsReq extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
       'NetLoadProposalChatsReq',
       package: const $pb.PackageName('inf_common'))
-    ..aInt64(1, 'before')
-    ..aInt64(2, 'after')
-    ..aInt64(3, 'limit')
     ..aInt64(5, 'proposalId')
     ..hasRequiredFields = false;
 
@@ -149,36 +146,12 @@ class NetLoadProposalChatsReq extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  Int64 get before => $_getI64(0);
-  set before(Int64 v) {
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasBefore() => $_has(0);
-  void clearBefore() => clearField(1);
-
-  Int64 get after => $_getI64(1);
-  set after(Int64 v) {
-    $_setInt64(1, v);
-  }
-
-  bool hasAfter() => $_has(1);
-  void clearAfter() => clearField(2);
-
-  Int64 get limit => $_getI64(2);
-  set limit(Int64 v) {
-    $_setInt64(2, v);
-  }
-
-  bool hasLimit() => $_has(2);
-  void clearLimit() => clearField(3);
-
-  Int64 get proposalId => $_getI64(3);
-  set proposalId(Int64 v) {
-    $_setInt64(3, v);
-  }
-
-  bool hasProposalId() => $_has(3);
+  bool hasProposalId() => $_has(0);
   void clearProposalId() => clearField(5);
 }
 
@@ -365,7 +338,7 @@ class NetProposalWantDealReq extends $pb.GeneratedMessage {
       'NetProposalWantDealReq',
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'proposalId')
-    ..aInt64(2, 'haggleChatId')
+    ..aInt64(2, 'termsChatId')
     ..hasRequiredFields = false;
 
   NetProposalWantDealReq() : super();
@@ -400,13 +373,13 @@ class NetProposalWantDealReq extends $pb.GeneratedMessage {
   bool hasProposalId() => $_has(0);
   void clearProposalId() => clearField(1);
 
-  Int64 get haggleChatId => $_getI64(1);
-  set haggleChatId(Int64 v) {
+  Int64 get termsChatId => $_getI64(1);
+  set termsChatId(Int64 v) {
     $_setInt64(1, v);
   }
 
-  bool hasHaggleChatId() => $_has(1);
-  void clearHaggleChatId() => clearField(2);
+  bool hasTermsChatId() => $_has(1);
+  void clearTermsChatId() => clearField(2);
 }
 
 class NetProposalRejectReq extends $pb.GeneratedMessage {
