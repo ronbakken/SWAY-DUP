@@ -35,7 +35,8 @@ class _StartupPageState extends PageState<StartupPage> {
   }
 
   void waitForLoginState() {
-    loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen(
+    loginStateChangedSubscription =
+        backend.get<UserManager>().logInStateChanged.listen(
       (loginResult) {
         Route nextPage;
         switch (loginResult.state) {
@@ -86,7 +87,7 @@ class _StartupPageState extends PageState<StartupPage> {
 
   /// Check is we got permissions for the location service and if it is turned on
   void checkPermissionStatus() {
-        waitForLoginState();
+    waitForLoginState();
 
     // PermissionHandler().checkPermissionStatus(PermissionGroup.location).then((status) async {
     //   if (status == PermissionStatus.granted) {

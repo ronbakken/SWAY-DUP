@@ -1,14 +1,11 @@
-
 import 'package:inf/domain/domain.dart';
 import 'package:rxdart/rxdart.dart';
 
-abstract class InfApiService
-{
+abstract class InfApiService {
   //Obervables must me backed by a BehaviourSubject
 
-
   Future<BusinessOffer> getOfferById(int offerId);
-  
+
   Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter);
   Observable<List<BusinessOffer>> getFilteredBusinessOffers();
 
@@ -17,19 +14,15 @@ abstract class InfApiService
   Future<OfferFilter> getOfferFilter(OfferFilter filter);
 
   Future<void> clearAllOfferFilters(OfferFilter filter);
-  
-  Observable<int> getFilteredBusinessOffersCount();
-  
-  Future<void> markOfferAsRead(BusinessOffer offer);
 
+  Observable<int> getFilteredBusinessOffersCount();
+
+  Future<void> markOfferAsRead(BusinessOffer offer);
 
   Observable<WaitingChats> waitingChatUpdates();
   Future<Chat> getChat(int offerId);
   Future<void> markChatAsRead(Chat chat);
   Future<void> postChatEntry(Chat chat, ChatEntry entry);
-
-
-
 
   // Observable<List<Proposal>> getProposals(ProposalFilter filter);
 

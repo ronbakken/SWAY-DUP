@@ -77,8 +77,6 @@ class _RenderWaveyLines extends RenderProxyBox {
   final cyan = Paint()..color = Colors.cyan;
 
   void _paintWaves(Canvas canvas, Size size) {
-
-
     canvas.drawRect(Offset.zero & size, red);
 
     final fWidth = size.width;
@@ -89,15 +87,15 @@ class _RenderWaveyLines extends RenderProxyBox {
     final wWidth = (fWidth * 1.25) / 3;
     final wave = Path();
     wave.moveTo(-(fWidth * (0.125 + (math.sin(_time) * 0.125))), hHeight);
-    for(int i = 0; i < 3; i++){
+    for (int i = 0; i < 3; i++) {
       double y1 = (math.sin(_time) * 0.3);
       double y2 = (math.sin(-_time) * 0.3);
-      final control1 = Offset(wWidth * (0.5 + (math.sin(_time) * 0.125)), fHeight * y1);
-      final control2 = Offset(wWidth * (0.5 + (math.sin(_time) * 0.125)), fHeight * y2);
+      final control1 =
+          Offset(wWidth * (0.5 + (math.sin(_time) * 0.125)), fHeight * y1);
+      final control2 =
+          Offset(wWidth * (0.5 + (math.sin(_time) * 0.125)), fHeight * y2);
       wave.relativeCubicTo(
-          control1.dx, control1.dy,
-          control2.dx, control2.dy,
-          wWidth, 0.0);
+          control1.dx, control1.dy, control2.dx, control2.dy, wWidth, 0.0);
       //canvas.drawCircle(control1, 3.0, cyan);
       //canvas.drawCircle(control2, 3.0, green);
     }

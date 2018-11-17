@@ -77,8 +77,10 @@ class _MainBottomNavState extends State<MainBottomNav> {
                           child: StreamBuilder<int>(
                         initialData: 0,
                         stream: backend.get<OfferManager>().newOfferMessages,
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          var notificationCount = snapshot.hasData ? snapshot.data : 0;
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          var notificationCount =
+                              snapshot.hasData ? snapshot.data : 0;
                           return _BottomNavButton(
                             selected: _selected,
                             mode: MainPageMode.activities,
@@ -157,7 +159,8 @@ class _BottomNavBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.drawPath(_createBottomNavPath(true, inset, size, radius), fillPaint);
-    canvas.drawPath(_createBottomNavPath(false, inset, size, radius), strokePaint);
+    canvas.drawPath(
+        _createBottomNavPath(false, inset, size, radius), strokePaint);
   }
 
   @override
@@ -205,14 +208,16 @@ class _BottomNavButton extends StatefulWidget {
   _BottomNavButtonState createState() => _BottomNavButtonState();
 }
 
-class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerProviderStateMixin {
+class _BottomNavButtonState extends State<_BottomNavButton>
+    with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _scaleAnim;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: const Duration(milliseconds: 350), vsync: this);
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 350), vsync: this);
     _scaleAnim = Tween<double>(begin: 1.0, end: 1.2).animate(_controller);
     _animate();
   }
@@ -249,7 +254,8 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
           opacity: _controller,
           child: Transform(
             alignment: Alignment.center,
-            transform: Matrix4.translationValues(0.0, -8.0, 0.0) * Matrix4.diagonal3Values(1.5, 1.5, 1.0),
+            transform: Matrix4.translationValues(0.0, -8.0, 0.0) *
+                Matrix4.diagonal3Values(1.5, 1.5, 1.0),
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: AppTheme.black12,
@@ -267,8 +273,9 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                widget.notificationCount > 0 ?
-                new NotificationMarker() : SizedBox(),
+                widget.notificationCount > 0
+                    ? new NotificationMarker()
+                    : SizedBox(),
                 InfAssetImage(widget.mode.icon, width: 20.0),
                 SizedBox(height: 4.0),
                 Text(
@@ -285,4 +292,3 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
     );
   }
 }
-

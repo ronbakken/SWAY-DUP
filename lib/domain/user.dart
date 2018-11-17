@@ -45,7 +45,6 @@ class User {
 
   bool get profileIsComplete => accountCompletionInPercent == 100;
 
-
   User({
     this.id,
     this.verified,

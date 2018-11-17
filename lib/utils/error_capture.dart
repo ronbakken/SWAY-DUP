@@ -16,13 +16,13 @@ import 'package:flutter/widgets.dart';
 import 'package:package_info/package_info.dart';
 import 'package:sentry/sentry.dart';
 import 'package:system_info/system_info.dart';
+
 /// Flutter Captured Error Reporting
 /// Created by Simon Lightfoot & Thomas Burkhart
 ///
 /// Copyright (C) DevAngels Limited 2018
 /// License: APACHE 2.0 - https://www.apache.org/licenses/LICENSE-2.0
 ///
-
 
 const int MEGABYTE = 1024 * 1024;
 
@@ -48,7 +48,6 @@ bool get _isInDebugMode {
 PackageInfo info;
 
 void runCapturedApp(Widget app, ErrorReporter reporter) async {
-
   info = await PackageInfo.fromPlatform();
 
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -72,7 +71,7 @@ class ErrorReporter {
 
   String dsn;
 
-  SentryClient get sentry => _sentry ?? SentryClient(dsn: dsn );
+  SentryClient get sentry => _sentry ?? SentryClient(dsn: dsn);
 
   ErrorReporter(this.dsn);
 
@@ -106,9 +105,8 @@ class ErrorReporter {
   Future<void> logWarning(String message, [Map<String, dynamic> data]) =>
       logEvent(message, SeverityLevel.warning, data);
 
-      
-
-  Future<void> logException(Object error, {String message, StackTrace stackTrace}) async {
+  Future<void> logException(Object error,
+      {String message, StackTrace stackTrace}) async {
     print('Caught error: $error');
 
     if (_isInDebugMode) {
@@ -121,7 +119,7 @@ class ErrorReporter {
 
     final PackageInfo info = await PackageInfo.fromPlatform();
 
-    Map<String, dynamic> extra = <String,dynamic>{};
+    Map<String, dynamic> extra = <String, dynamic>{};
     if (defaultTargetPlatform == TargetPlatform.android) {
       extra['device_info'] =
           await DeviceInfoPlugin.channel.invokeMethod('getAndroidDeviceInfo');
@@ -147,7 +145,7 @@ class ErrorReporter {
     tags['connectivity'] =
         connectivity.toString().substring('ConnectivityResult.'.length);
 
-    Map<String, dynamic> uiValues = <String,dynamic>{};
+    Map<String, dynamic> uiValues = <String, dynamic>{};
     uiValues['locale'] = ui.window.locale.toString();
     uiValues['pixel_ratio'] = ui.window.devicePixelRatio;
     uiValues['default_route'] = ui.window.defaultRouteName;
@@ -180,7 +178,7 @@ class ErrorReporter {
     }
     extra['ui'] = uiValues;
 
-    Map<String, dynamic> memory = <String,dynamic>{};
+    Map<String, dynamic> memory = <String, dynamic>{};
     memory['phys_total'] = '${SysInfo.getTotalPhysicalMemory() ~/ MEGABYTE}MB';
     memory['phys_free'] = '${SysInfo.getFreePhysicalMemory() ~/ MEGABYTE}MB';
     memory['virt_total'] = '${SysInfo.getTotalVirtualMemory() ~/ MEGABYTE}MB';

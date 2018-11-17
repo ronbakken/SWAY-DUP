@@ -39,7 +39,8 @@ class InfPageIndicator extends StatelessWidget {
     dotPaint.color = Colors.white54;
 
     for (int i = 0; i < itemCount; i++) {
-      canvas.drawCircle(Offset(i * (size + spacing) + radius, radius), radius, dotPaint);
+      canvas.drawCircle(
+          Offset(i * (size + spacing) + radius, radius), radius, dotPaint);
     }
 
     dotPaint.color = Colors.white;
@@ -51,10 +52,14 @@ class InfPageIndicator extends StatelessWidget {
     if (progress > 0.5) {
       double left = index * distance + distance * (progress - 0.5) * 2;
       double right = start + size + distance;
-      canvas.drawRRect(RRect.fromLTRBR(left, 0.0, right, size, Radius.circular(radius)), dotPaint);
+      canvas.drawRRect(
+          RRect.fromLTRBR(left, 0.0, right, size, Radius.circular(radius)),
+          dotPaint);
     } else {
       double right = start + size + distance * progress * 2;
-      canvas.drawRRect(RRect.fromLTRBR(start, 0.0, right, size, Radius.circular(radius)), dotPaint);
+      canvas.drawRRect(
+          RRect.fromLTRBR(start, 0.0, right, size, Radius.circular(radius)),
+          dotPaint);
     }
   }
 }
@@ -74,5 +79,6 @@ class _PageViewIndicatorPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) => callback(canvas, size);
 
   @override
-  bool shouldRepaint(_PageViewIndicatorPainter old) => (old.controller != controller);
+  bool shouldRepaint(_PageViewIndicatorPainter old) =>
+      (old.controller != controller);
 }

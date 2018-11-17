@@ -15,15 +15,19 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 
 import 'package:inf/ui/widgets/page_widget.dart';
 
-
 class SignUpPage extends PageWidget {
   static Route<dynamic> route({UserType userType, double topPadding = 32}) {
     return PageRouteBuilder(
       pageBuilder: (BuildContext context, _, __) {
-        return SignUpPage(userType: userType, topPadding: topPadding,);
+        return SignUpPage(
+          userType: userType,
+          topPadding: topPadding,
+        );
       },
-      transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
-        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(animation);
+      transitionsBuilder:
+          (BuildContext context, Animation<double> animation, _, Widget child) {
+        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero)
+            .animate(animation);
         return SlideTransition(
           position: slide,
           child: child,
@@ -34,11 +38,8 @@ class SignUpPage extends PageWidget {
     );
   }
 
-  const SignUpPage({
-    Key key,
-    this.userType,
-    this.topPadding = 32.0
-  }) : super(key: key);
+  const SignUpPage({Key key, this.userType, this.topPadding = 32.0})
+      : super(key: key);
 
   final UserType userType;
   final double topPadding;
@@ -53,8 +54,10 @@ class SignUpPageState extends PageState<SignUpPage> {
   @override
   void initState() {
     super.initState();
+
     /// OBserve login state
-    _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen((loginResult) {
+    _loginStateChangedSubscription =
+        backend.get<UserManager>().logInStateChanged.listen((loginResult) {
       switch (loginResult.state) {
         case AuthenticationState.waitingForActivation:
           showDialog(
@@ -68,7 +71,8 @@ class SignUpPageState extends PageState<SignUpPage> {
           );
           break;
         case AuthenticationState.success:
-          Navigator.of(context).pushAndRemoveUntil(MainPage.route(widget.userType), (route) => false);
+          Navigator.of(context).pushAndRemoveUntil(
+              MainPage.route(widget.userType), (route) => false);
           break;
         default:
       }
@@ -108,7 +112,8 @@ class SignUpPageState extends PageState<SignUpPage> {
                         children: [
                           SizedBox(height: 96.0),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 32.0, vertical: 16.0),
                             child: Column(
                               children: [
                                 // Text(
@@ -118,7 +123,11 @@ class SignUpPageState extends PageState<SignUpPage> {
                                 //   style: TextStyle(fontSize: 18.5),
                                 // ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 40.0, right: 40, top: 10.0, bottom: 32.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 40.0,
+                                      right: 40,
+                                      top: 10.0,
+                                      bottom: 32.0),
                                   child: Text(
                                     'Which social media account would you like to continue with?',
                                     textAlign: TextAlign.center,
@@ -128,29 +137,33 @@ class SignUpPageState extends PageState<SignUpPage> {
                                 _buildLoginButton(
                                   leading: AppLogo.instagram,
                                   text: 'INSTAGRAM',
-                                  onPressed: () =>
-                                      backend.get<AuthenticationService>().loginWithInstagram(widget.userType),
+                                  onPressed: () => backend
+                                      .get<AuthenticationService>()
+                                      .loginWithInstagram(widget.userType),
                                 ),
                                 SizedBox(height: 16.0),
                                 _buildLoginButton(
                                   leading: AppLogo.facebook,
                                   text: 'FACEBOOK',
-                                  onPressed: () =>
-                                      backend.get<AuthenticationService>().loginWithFacebook(widget.userType),
+                                  onPressed: () => backend
+                                      .get<AuthenticationService>()
+                                      .loginWithFacebook(widget.userType),
                                 ),
                                 SizedBox(height: 16.0),
                                 _buildLoginButton(
                                   leading: AppLogo.twitter,
                                   text: 'TWITTER',
-                                  onPressed: () =>
-                                      backend.get<AuthenticationService>().loginWithTwitter(widget.userType),
+                                  onPressed: () => backend
+                                      .get<AuthenticationService>()
+                                      .loginWithTwitter(widget.userType),
                                 ),
                                 SizedBox(height: 16.0),
                                 _buildLoginButton(
                                   leading: AppLogo.google,
                                   text: 'GOOGLE',
-                                  onPressed: () =>
-                                      backend.get<AuthenticationService>().loginWithGoogle(widget.userType),
+                                  onPressed: () => backend
+                                      .get<AuthenticationService>()
+                                      .loginWithGoogle(widget.userType),
                                 ),
                                 SizedBox(height: 32.0),
                                 _buildLoginButton(
@@ -169,25 +182,32 @@ class SignUpPageState extends PageState<SignUpPage> {
                             color: Colors.black,
                             top: true,
                             child: Padding(
-                              padding: EdgeInsets.fromLTRB(48.0, 32.0, 48.0, 16.0 + mediaQuery.padding.bottom),
+                              padding: EdgeInsets.fromLTRB(48.0, 32.0, 48.0,
+                                  16.0 + mediaQuery.padding.bottom),
                               child: Text.rich(
                                 TextSpan(
                                   style: TextStyle(height: 1.2),
                                   children: [
                                     // TODO set correct ULRS
-                                    TextSpan(text: 'By Signing up, you agree with our\n'),
+                                    TextSpan(
+                                        text:
+                                            'By Signing up, you agree with our\n'),
                                     TextSpan(
                                       text: 'Terms of Service',
-                                      style: const TextStyle(decoration: TextDecoration.underline),
+                                      style: const TextStyle(
+                                          decoration: TextDecoration.underline),
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () => _launchURL('https://flutter.io'),
+                                        ..onTap = () =>
+                                            _launchURL('https://flutter.io'),
                                     ),
                                     TextSpan(text: '  and  '),
                                     TextSpan(
                                       text: 'Privacy',
-                                      style: const TextStyle(decoration: TextDecoration.underline),
+                                      style: const TextStyle(
+                                          decoration: TextDecoration.underline),
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () => _launchURL('https://flutter.io'),
+                                        ..onTap = () =>
+                                            _launchURL('https://flutter.io'),
                                     ),
                                   ],
                                 ),
@@ -227,9 +247,12 @@ class SignUpPageState extends PageState<SignUpPage> {
                       ),
                       InkResponse(
                         onTap: () async {
-                          await backend.get<AuthenticationService>().loginAnonymous(UserType.influcencer);
+                          await backend
+                              .get<AuthenticationService>()
+                              .loginAnonymous(UserType.influcencer);
                           final nav = Navigator.of(context)..pop();
-                          unawaited(nav.push(MainPage.route(UserType.influcencer)));
+                          unawaited(
+                              nav.push(MainPage.route(UserType.influcencer)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -262,7 +285,8 @@ class SignUpPageState extends PageState<SignUpPage> {
     );
   }
 
-  Widget _buildLoginButton({AppAsset leading, String text, VoidCallback onPressed}) {
+  Widget _buildLoginButton(
+      {AppAsset leading, String text, VoidCallback onPressed}) {
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[

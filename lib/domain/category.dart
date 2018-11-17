@@ -1,5 +1,4 @@
-class Category
-{
+class Category {
   final int id;
   final int parentId;
   final String name;

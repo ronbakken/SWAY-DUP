@@ -14,8 +14,8 @@ class WhiteBorderCircleAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: radius*2,
-      height: radius*2,
+      width: radius * 2,
+      height: radius * 2,
       decoration: BoxDecoration(
         color: AppTheme.darkGrey,
         shape: BoxShape.circle,

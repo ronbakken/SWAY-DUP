@@ -23,18 +23,18 @@ class CurvedBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: _CurvedBoxPainter(
-        color: color ?? Theme.of(context).primaryColor,
-        curveFactor: curveFactor,
-        bottom: bottom,
-        top: top
-      ),
+          color: color ?? Theme.of(context).primaryColor,
+          curveFactor: curveFactor,
+          bottom: bottom,
+          top: top),
       child: child,
     );
   }
 }
 
 class _CurvedBoxPainter extends CustomPainter {
-  _CurvedBoxPainter({@required this.color, this.curveFactor = 1.0, this.top, this.bottom});
+  _CurvedBoxPainter(
+      {@required this.color, this.curveFactor = 1.0, this.top, this.bottom});
 
   final Color color;
   final double curveFactor;
@@ -46,22 +46,32 @@ class _CurvedBoxPainter extends CustomPainter {
     final curve = size.height * curveFactor;
     canvas.save();
     canvas.clipRect(Offset.zero & size);
-    if (top && ! bottom) {
+    if (top && !bottom) {
       canvas.drawArc(
-          Rect.fromLTRB(-curve , 0, size.width + curve, 2* size.height), pi, 2*pi, true, Paint()..color = color);
-    }
-    else if (bottom && ! top) {
+          Rect.fromLTRB(-curve, 0, size.width + curve, 2 * size.height),
+          pi,
+          2 * pi,
+          true,
+          Paint()..color = color);
+    } else if (bottom && !top) {
       canvas.drawArc(
-          Rect.fromLTRB(-curve, -size.height, size.width + curve, size.height), 0.0, pi, true, Paint()..color = color);
-    }
-    else 
-    {
+          Rect.fromLTRB(-curve, -size.height, size.width + curve, size.height),
+          0.0,
+          pi,
+          true,
+          Paint()..color = color);
+    } else {
       canvas.drawArc(
-          Rect.fromLTRB(-curve* 0.5, 0, size.width + curve *0.5, size.height), 0.0, 2* pi, true, Paint()..color = color);
+          Rect.fromLTRB(-curve * 0.5, 0, size.width + curve * 0.5, size.height),
+          0.0,
+          2 * pi,
+          true,
+          Paint()..color = color);
     }
     canvas.restore();
   }
 
   @override
-  bool shouldRepaint(_CurvedBoxPainter oldDelegate) => oldDelegate.curveFactor != curveFactor;
+  bool shouldRepaint(_CurvedBoxPainter oldDelegate) =>
+      oldDelegate.curveFactor != curveFactor;
 }

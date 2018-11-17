@@ -68,10 +68,13 @@ class OfferListTile extends StatelessWidget {
                   children: <Widget>[
                     Row(
                       children: [
-                        Text(offer.title, textScaleFactor: 1.2, style: TextStyle(color: Colors.white)),
+                        Text(offer.title,
+                            textScaleFactor: 1.2,
+                            style: TextStyle(color: Colors.white)),
                         SizedBox(width: 10.0),
                         InfAssetImage(
-                          AppLogo.getDeliverableChannel(offer.deliverables[0].channel),
+                          AppLogo.getDeliverableChannel(
+                              offer.deliverables[0].channel),
                           width: 20.0,
                         ),
                         (offer.newChatMessages ?? 0) > 0
@@ -86,7 +89,8 @@ class OfferListTile extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 10.0),
-                    Text(offer.description, style: TextStyle(color: AppTheme.white30)),
+                    Text(offer.description,
+                        style: TextStyle(color: AppTheme.white30)),
                   ],
                 ),
               ),

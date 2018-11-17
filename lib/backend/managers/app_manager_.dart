@@ -1,5 +1,1 @@
-
-
-abstract class AppManager
-{
-}
+abstract class AppManager {}

@@ -32,7 +32,8 @@ class MainPage extends PageWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, TickerProviderStateMixin {
+class _MainPageState extends PageState<MainPage>
+    with AuthStateMixin<MainPage>, TickerProviderStateMixin {
   AnimationController _drawerController;
   Animation<Offset> _drawerSlideAnim;
   Animation<double> _drawerAnim;
@@ -48,11 +49,14 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
   void initState() {
     super.initState();
 
-    _drawerController = AnimationController(duration: const Duration(milliseconds: 450), vsync: this);
+    _drawerController = AnimationController(
+        duration: const Duration(milliseconds: 450), vsync: this);
     // TODO: Add curves
     _drawerAnim = Tween(begin: 0.0, end: 1.0).animate(_drawerController);
-    _drawerSlideAnim = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero).animate(_drawerController);
-    _sectionController = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
+    _drawerSlideAnim = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero)
+        .animate(_drawerController);
+    _sectionController = AnimationController(
+        duration: const Duration(milliseconds: 1000), vsync: this);
     // TODO: Add curves
     _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
     _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
@@ -68,13 +72,16 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final sectionPadding = EdgeInsets.only(bottom: mediaQuery.padding.bottom + kBottomNavHeight);
+    final sectionPadding =
+        EdgeInsets.only(bottom: mediaQuery.padding.bottom + kBottomNavHeight);
     final menuWidth = mediaQuery.size.shortestSide * 0.7;
 
-    final menuIconRect = Rect.fromLTWH(0.0, 0.0, kMenuIconSize, mediaQuery.padding.top + kMenuIconSize);
+    final menuIconRect = Rect.fromLTWH(
+        0.0, 0.0, kMenuIconSize, mediaQuery.padding.top + kMenuIconSize);
     final menuIconBegin = RelativeRect.fromSize(menuIconRect, mediaQuery.size);
     final menuIconEnd = menuIconBegin.shift(Offset(menuWidth, 0.0));
-    _menuIconAnim = RelativeRectTween(begin: menuIconBegin, end: menuIconEnd).animate(_drawerController);
+    _menuIconAnim = RelativeRectTween(begin: menuIconBegin, end: menuIconEnd)
+        .animate(_drawerController);
 
     return Material(
       child: Stack(
@@ -92,6 +99,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                     ),
                   ),
                 ),
+
                 /// ActivitySection
                 IgnorePointer(
                   ignoring: _mode != MainPageMode.activities,
@@ -111,8 +119,8 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                     } else {
                       _sectionController.forward();
                     }
-                    
-                    setState(()=>_mode = value);
+
+                    setState(() => _mode = value);
                   },
                   onSearchPressed: () {
                     // TODO:

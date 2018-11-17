@@ -22,17 +22,15 @@ class AppTheme {
   static const tabIndicator = blue;
   static const notificationDot = const Color(0xFFDC7173);
 
-
   static ThemeData themeTopLevel() {
     return ThemeData(
-      brightness: Brightness.dark,
-      backgroundColor: AppTheme.darkGrey,
-      scaffoldBackgroundColor: AppTheme.darkGrey,
-      primaryColor: AppTheme.blue,
-      fontFamily: AppFonts.mavenPro,
-      // TODO define all colors
-      buttonTheme: ButtonThemeData(buttonColor: Colors.white, textTheme: ButtonTextTheme.primary)
-      
-    );
+        brightness: Brightness.dark,
+        backgroundColor: AppTheme.darkGrey,
+        scaffoldBackgroundColor: AppTheme.darkGrey,
+        primaryColor: AppTheme.blue,
+        fontFamily: AppFonts.mavenPro,
+        // TODO define all colors
+        buttonTheme: ButtonThemeData(
+            buttonColor: Colors.white, textTheme: ButtonTextTheme.primary));
   }
 }

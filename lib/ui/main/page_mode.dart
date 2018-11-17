@@ -1,6 +1,5 @@
 import 'package:inf/app/assets.dart';
 
-
 class MainPageMode {
   static const browse = const MainPageMode._(AppIcons.browse, 'BROWSE');
   static const activities = const MainPageMode._(AppIcons.inbox, 'ACTIVITIES');

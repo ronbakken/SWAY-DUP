@@ -21,10 +21,12 @@ class _MainMapViewState extends State<MainMapView> {
       layers: [
         // TODO move the API key and URL at some other place
         TileLayerOptions(
-          urlTemplate: "https://api.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}@2x.png"
+          urlTemplate:
+              "https://api.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}@2x.png"
               "?access_token={accessToken}",
           additionalOptions: {
-            'accessToken': 'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqa2pkOThmdzFha2IzcG16aHl4M3drNTcifQ.jtaEoGuiomNgllDjUMCwNQ',
+            'accessToken':
+                'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqa2pkOThmdzFha2IzcG16aHl4M3drNTcifQ.jtaEoGuiomNgllDjUMCwNQ',
           },
           backgroundColor: AppTheme.grey,
           placeholderImage: AssetImage(AppImages.mapPlaceHolder.path),

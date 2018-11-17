@@ -1,15 +1,17 @@
-
 import 'package:inf/domain/user.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 /// Keep in mind
-/// Save latest provider and login and warn user if he tries to signin 
+/// Save latest provider and login and warn user if he tries to signin
 /// with a user he has never used before
 
-
-enum AuthenticationProvider { google, facebook, instagram, twitter, emailPassword }
-
+enum AuthenticationProvider {
+  google,
+  facebook,
+  instagram,
+  twitter,
+  emailPassword
+}
 
 enum AuthenticationState {
   success,
@@ -40,7 +42,6 @@ class AuthenticationResult {
   final User user;
   final AuthenticationProvider provider;
 
-
   AuthenticationResult(
     this.state, {
     this.user,
@@ -50,12 +51,10 @@ class AuthenticationResult {
 }
 
 abstract class AuthenticationService {
-
   Observable<AuthenticationResult> get loginState;
 
   /// Returns the current authenticationstate independent od a state change
   Future<AuthenticationResult> getCurrentAuthenticationState();
-  
 
   Future<void> loginAnonymous(UserType userType);
 
@@ -74,7 +73,5 @@ abstract class AuthenticationService {
 
   // Future<void> sendPasswordResetMessage(String email);
 
-
   Future<void> logOut();
-
 }

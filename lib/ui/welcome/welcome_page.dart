@@ -29,16 +29,22 @@ class _WelcomePageState extends PageState<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return ConnectionBuilder(
-      builder: (BuildContext context, NetworkConnectionState connectionState, Widget child) {
+      builder: (BuildContext context, NetworkConnectionState connectionState,
+          Widget child) {
         return Material(
           color: theme.backgroundColor,
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
               StreamBuilder<WelcomePageImages>(
-                stream: backend.get<ResourceService>().getWelcomePageProfileImages(),
-                builder: (BuildContext context, AsyncSnapshot<WelcomePageImages> snapshot) {
-                  return snapshot.hasData ? _WelcomeWall(data: snapshot.data) : SizedBox();
+                stream: backend
+                    .get<ResourceService>()
+                    .getWelcomePageProfileImages(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<WelcomePageImages> snapshot) {
+                  return snapshot.hasData
+                      ? _WelcomeWall(data: snapshot.data)
+                      : SizedBox();
                 },
               ),
               FractionallySizedBox(
@@ -88,14 +94,16 @@ class _WelcomePageState extends PageState<WelcomePage> {
                       _WelcomeButton(
                         text: 'I AM AN INFLUENCER',
                         color: AppTheme.blue,
-                        onPressed: () =>
-                            Navigator.of(context).push(OnBoardingPage.route(userType: UserType.influcencer)),
+                        onPressed: () => Navigator.of(context).push(
+                            OnBoardingPage.route(
+                                userType: UserType.influcencer)),
                       ),
                       SizedBox(height: 12.0),
                       _WelcomeButton(
                         text: 'I NEED AN INFLUENCER',
                         color: AppTheme.red,
-                        onPressed: () => Navigator.of(context).push(OnBoardingPage.route(userType: UserType.business)),
+                        onPressed: () => Navigator.of(context).push(
+                            OnBoardingPage.route(userType: UserType.business)),
                       ),
                     ],
                   ),
@@ -153,7 +161,8 @@ class _WelcomeHelpPopOut extends StatefulWidget {
   _WelcomeHelpPopOutState createState() => _WelcomeHelpPopOutState();
 }
 
-class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut> with SingleTickerProviderStateMixin {
+class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
+    with SingleTickerProviderStateMixin {
   final _buttonKey = GlobalKey();
   AnimationController _controller;
   Animation<Offset> _animation;
@@ -163,7 +172,8 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut> with SingleTicke
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: Duration(milliseconds: 450), vsync: this);
+    _controller =
+        AnimationController(duration: Duration(milliseconds: 450), vsync: this);
     _animation = AlwaysStoppedAnimation<Offset>(Offset.zero);
     // FIXME: remove this post frame callback and work out size a better way
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -250,8 +260,8 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_first) {
-      Iterable<Future> loadingImages =
-          widget.data.images.map<Future>((url) => precacheImage(NetworkImage(url), context));
+      Iterable<Future> loadingImages = widget.data.images
+          .map<Future>((url) => precacheImage(NetworkImage(url), context));
       Future.wait(loadingImages).then((_) {
         if (mounted) {
           setState(() => _opacity = 0.5);
@@ -275,7 +285,9 @@ class _WelcomeWallState extends State<_WelcomeWall> {
         maxHeight: size.height,
         child: _WelcomeWallBackground(
           speed: 24.0,
-          children: widget.data.images.map<Widget>((url) => _buildWallTile(url)).toList(growable: false),
+          children: widget.data.images
+              .map<Widget>((url) => _buildWallTile(url))
+              .toList(growable: false),
         ),
       ),
     );
@@ -298,7 +310,8 @@ class _WelcomeWallState extends State<_WelcomeWall> {
     );
   }
 
-  static Widget _tileTransitionBuilder(Widget child, Animation<double> animation) {
+  static Widget _tileTransitionBuilder(
+      Widget child, Animation<double> animation) {
     return AnimatedBuilder(
       animation: animation,
       builder: (BuildContext context, Widget child) {
@@ -330,7 +343,8 @@ class _WelcomeWallBackground extends MultiChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, _RenderWallBackground renderObject) {
+  void updateRenderObject(
+      BuildContext context, _RenderWallBackground renderObject) {
     renderObject..speed = speed;
   }
 }
@@ -363,7 +377,8 @@ class _RenderWallBackground extends RenderBox
 
   @override
   void setupParentData(RenderBox child) {
-    if (child.parentData is! _WallParentData) child.parentData = _WallParentData();
+    if (child.parentData is! _WallParentData)
+      child.parentData = _WallParentData();
   }
 
   @override
@@ -400,9 +415,12 @@ class _RenderWallBackground extends RenderBox
     Size childSize = firstChild.size;
     for (int i = 0, x = 0; i < children.length - 2; i += 3, x++) {
       final inset = math.exp(x) * 3;
-      _childParentData(children[i + 0]).offset = Offset(x * childSize.width, inset + 0 * childSize.height);
-      _childParentData(children[i + 1]).offset = Offset(x * childSize.width, inset + 1 * childSize.height);
-      _childParentData(children[i + 2]).offset = Offset(x * childSize.width, inset + 2 * childSize.height);
+      _childParentData(children[i + 0]).offset =
+          Offset(x * childSize.width, inset + 0 * childSize.height);
+      _childParentData(children[i + 1]).offset =
+          Offset(x * childSize.width, inset + 1 * childSize.height);
+      _childParentData(children[i + 2]).offset =
+          Offset(x * childSize.width, inset + 2 * childSize.height);
     }
 
     size = constraints.biggest;
@@ -411,7 +429,8 @@ class _RenderWallBackground extends RenderBox
   _WallParentData _childParentData(RenderBox child) => child.parentData;
 
   void _onTick(Duration duration) {
-    final delta = ((duration.inMicroseconds - _lastDuration.inMicroseconds) / Duration.microsecondsPerSecond);
+    final delta = ((duration.inMicroseconds - _lastDuration.inMicroseconds) /
+        Duration.microsecondsPerSecond);
     _dy += _speed * delta;
     _lastDuration = duration;
     markNeedsPaint();
@@ -422,7 +441,10 @@ class _RenderWallBackground extends RenderBox
     final segmentHeight = firstChild.size.height * 3;
     final _top = (segmentHeight * 0.5) + (_dy % (segmentHeight * 2.0));
     for (int i = 0; i < (2 * size.height / segmentHeight).ceil(); i++) {
-      context.pushLayer(OffsetLayer(offset: Offset(0.0, -_top + (segmentHeight * i))), defaultPaint, offset);
+      context.pushLayer(
+          OffsetLayer(offset: Offset(0.0, -_top + (segmentHeight * i))),
+          defaultPaint,
+          offset);
     }
   }
 

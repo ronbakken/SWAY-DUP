@@ -54,7 +54,8 @@ class MainNavigationDrawer extends StatelessWidget {
                 text: 'Logout',
                 onTap: () async {
                   await backend.get<AuthenticationService>().logOut();
-                  unawaited(Navigator.of(context).pushAndRemoveUntil(WelcomePage.route(), (route) => false));
+                  unawaited(Navigator.of(context).pushAndRemoveUntil(
+                      WelcomePage.route(), (route) => false));
                 },
               ),
             ],

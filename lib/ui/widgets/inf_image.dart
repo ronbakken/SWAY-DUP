@@ -64,7 +64,9 @@ class _InfImageState extends State<InfImage> {
 
   void _resolveImage() {
     final ImageConfiguration config = createLocalImageConfiguration(context,
-        size: widget.width != null && widget.height != null ? Size(widget.width, widget.height) : null);
+        size: widget.width != null && widget.height != null
+            ? Size(widget.width, widget.height)
+            : null);
     final ImageStream oldImageStream = _imageStream;
     _imageStream = widget.image.resolve(config);
     if (_imageStream.key != oldImageStream?.key) {
@@ -113,7 +115,8 @@ class _InfImageState extends State<InfImage> {
     );
   }
 
-  static Widget fitLayoutBuilder(Widget currentChild, List<Widget> previousChildren) {
+  static Widget fitLayoutBuilder(
+      Widget currentChild, List<Widget> previousChildren) {
     List<Widget> children = previousChildren;
     if (currentChild != null) children = children.toList()..add(currentChild);
     return Stack(

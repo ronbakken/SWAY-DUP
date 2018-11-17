@@ -4,22 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:inf/backend/services/system_service_.dart';
 import 'package:rxdart/rxdart.dart';
 
-
-class SystemServiceMock with WidgetsBindingObserver implements SystemService
-{
-
-  final BehaviorSubject<NetworkConnectionState> _connectionSubject = BehaviorSubject<NetworkConnectionState>();
+class SystemServiceMock with WidgetsBindingObserver implements SystemService {
+  final BehaviorSubject<NetworkConnectionState> _connectionSubject =
+      BehaviorSubject<NetworkConnectionState>();
 
   @override
   Observable<NetworkConnectionState> get connectionState => _connectionSubject;
 
-
-  SystemServiceMock(NetworkConnectionState state)
-  {
-      _connectionSubject.add(state);
-      WidgetsBinding.instance.addObserver(this);
+  SystemServiceMock(NetworkConnectionState state) {
+    _connectionSubject.add(state);
+    WidgetsBinding.instance.addObserver(this);
   }
-  
+
   @override
   Observable<AppLifecycleState> get appLifecycleState => _appLifecycleSubject;
 
@@ -30,7 +26,4 @@ class SystemServiceMock with WidgetsBindingObserver implements SystemService
   void didChangeAppLifecycleState(AppLifecycleState state) {
     _appLifecycleSubject.add(state);
   }
-
-
-
 }

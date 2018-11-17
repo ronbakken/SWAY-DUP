@@ -27,8 +27,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   }) {
     loadMockData().then((_) {
       if (isLoggedIn) {
-        _loginStateSubject.add(AuthenticationResult(
-            AuthenticationState.success,
+        _loginStateSubject.add(AuthenticationResult(AuthenticationState.success,
             provider: AuthenticationProvider.twitter,
             user: allLinkedAccounts[currentUser]));
       } else {
@@ -46,7 +45,9 @@ class AuthenticationServiceMock implements AuthenticationService {
 
   @override
   Future<void> loginAnonymous(UserType userType) async {
-    _loginStateSubject.add(AuthenticationResult(AuthenticationState.anonymous,));
+    _loginStateSubject.add(AuthenticationResult(
+      AuthenticationState.anonymous,
+    ));
     this.userType = userType;
   }
 
@@ -94,8 +95,10 @@ class AuthenticationServiceMock implements AuthenticationService {
 
   void login() async {
     isLoggedIn = true;
-    _loginStateSubject.add(AuthenticationResult(AuthenticationState.waitingForActivation,
-        provider: provider, user: allLinkedAccounts[0]));
+    _loginStateSubject.add(AuthenticationResult(
+        AuthenticationState.waitingForActivation,
+        provider: provider,
+        user: allLinkedAccounts[0]));
     await Future.delayed(Duration(seconds: 2));
     _loginStateSubject.add(AuthenticationResult(AuthenticationState.success,
         provider: provider, user: allLinkedAccounts[0]));
@@ -214,6 +217,7 @@ class AuthenticationServiceMock implements AuthenticationService {
               description: 'The best online shop for baking',
               followersCount: 900,
             )
-          ]),    ];
+          ]),
+    ];
   }
 }

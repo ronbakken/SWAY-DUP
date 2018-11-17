@@ -53,15 +53,20 @@ void registerImplementations() {
   backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));
 
   // Services
-  backend.registerLazySingleton<AuthenticationService>(() => AuthenticationServiceImplementation());
-  backend.registerLazySingleton<ResourceService>(() => ResourceServiceImplementation());
-  backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
-  backend.registerLazySingleton<InfApiService>(() => InfApiServiceImplementation());
+  backend.registerLazySingleton<AuthenticationService>(
+      () => AuthenticationServiceImplementation());
+  backend.registerLazySingleton<ResourceService>(
+      () => ResourceServiceImplementation());
+  backend.registerLazySingleton<SystemService>(
+      () => SystemServiceImplementation());
+  backend.registerLazySingleton<InfApiService>(
+      () => InfApiServiceImplementation());
 
   // Managers
   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
   backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
-  backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
+  backend
+      .registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
 }
 
 void registerMocks() {
@@ -74,11 +79,13 @@ void registerMocks() {
         ),
   );
   backend.registerLazySingleton<ResourceService>(() => ResourceServiceMock());
-  backend.registerLazySingleton<SystemService>(() => SystemServiceMock(NetworkConnectionState.connected));
+  backend.registerLazySingleton<SystemService>(
+      () => SystemServiceMock(NetworkConnectionState.connected));
   backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());
 
   // Managers
   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
   backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
-  backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
+  backend
+      .registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
 }

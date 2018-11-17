@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 
-typedef NetWorkConnectionBuilder = Widget Function(BuildContext context, NetworkConnectionState connectionState, Widget child);
+typedef NetWorkConnectionBuilder = Widget Function(
+    BuildContext context, NetworkConnectionState connectionState, Widget child);
 
 class ConnectionBuilder extends StatelessWidget {
   final NetWorkConnectionBuilder builder;
@@ -20,7 +21,8 @@ class ConnectionBuilder extends StatelessWidget {
     return StreamBuilder<NetworkConnectionState>(
       initialData: initialState,
       stream: backend.get<SystemService>().connectionState,
-      builder: (BuildContext context, AsyncSnapshot<NetworkConnectionState> snapShot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<NetworkConnectionState> snapShot) {
         if (snapShot.hasData) {
           return builder(context, snapShot.data, child);
         } else {

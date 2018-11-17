@@ -11,13 +11,15 @@ mixin AuthStateMixin<T extends StatefulWidget> on State<T> {
   @override
   void initState() {
     super.initState();
-    _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen(onAuthStateChanged);
+    _loginStateChangedSubscription =
+        backend.get<UserManager>().logInStateChanged.listen(onAuthStateChanged);
   }
 
   void onAuthStateChanged(AuthenticationResult authResult) {
     switch (authResult.state) {
       case AuthenticationState.notLoggedIn:
-        Navigator.of(context).pushAndRemoveUntil(StartupPage.route(), (route) => false);
+        Navigator.of(context)
+            .pushAndRemoveUntil(StartupPage.route(), (route) => false);
         break;
       default:
         break;

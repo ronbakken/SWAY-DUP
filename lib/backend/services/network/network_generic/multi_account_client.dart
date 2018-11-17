@@ -8,9 +8,6 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/backend/services/network/network_generic/change.dart';
 import 'package:inf/backend/services/network/protobuf/enum_protobuf.pb.dart';
 
-
-
-
 enum NavigationTarget {
   Profile,
   Offer,

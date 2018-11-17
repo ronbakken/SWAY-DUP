@@ -19,7 +19,6 @@ import 'package:inf/backend/services/network/protobuf/inf_protobuf.dart';
 
 export 'package:inf/backend/services/network/network_generic/multi_account_client.dart';
 
-
 abstract class MultiAccountStore implements MultiAccountClient {
   factory MultiAccountStore(String startupDomain) {
     return new MultiAccountStoreImpl(startupDomain);

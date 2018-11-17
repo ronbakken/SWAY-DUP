@@ -20,7 +20,8 @@ class MainActivitiesSection extends StatefulWidget {
   _MainActivitiesSectionState createState() => _MainActivitiesSectionState();
 }
 
-class _MainActivitiesSectionState extends State<MainActivitiesSection> with SingleTickerProviderStateMixin {
+class _MainActivitiesSectionState extends State<MainActivitiesSection>
+    with SingleTickerProviderStateMixin {
   TabController controller;
 
   @override
@@ -41,7 +42,8 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return Padding(
-      padding: EdgeInsets.only(top: mediaQuery.padding.top, bottom: widget.padding.bottom),
+      padding: EdgeInsets.only(
+          top: mediaQuery.padding.top, bottom: widget.padding.bottom),
       child: Container(
         color: AppTheme.darkGrey,
         child: Column(
@@ -54,24 +56,28 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
                   indicatorWeight: 4.0,
                   indicatorColor: AppTheme.tabIndicator,
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorPadding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  indicatorPadding:
+                      const EdgeInsets.only(left: 10.0, right: 10.0),
                   isScrollable: false,
                   controller: controller,
                   tabs: [
                     _TabBarItem(
                       text: 'APPLIED',
                       bottomPadding: kTabBarBottomPadding,
-                      notifications: backend.get<OfferManager>().newAppliedOfferMessages,
+                      notifications:
+                          backend.get<OfferManager>().newAppliedOfferMessages,
                     ),
                     _TabBarItem(
                       text: 'DEALS',
                       bottomPadding: kTabBarBottomPadding,
-                      notifications: backend.get<OfferManager>().newDealsOfferMessages,
+                      notifications:
+                          backend.get<OfferManager>().newDealsOfferMessages,
                     ),
                     _TabBarItem(
                       text: 'DONE',
                       bottomPadding: kTabBarBottomPadding,
-                      notifications: backend.get<OfferManager>().newDoneOfferMessages,
+                      notifications:
+                          backend.get<OfferManager>().newDoneOfferMessages,
                     ),
                   ],
                 ),
@@ -172,7 +178,8 @@ class _ActivitiesListViewState extends State<_ActivitiesListView> {
   Widget build(BuildContext context) {
     return StreamBuilder<List<BusinessOffer>>(
         stream: dataSource,
-        builder: (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapShot) {
+        builder: (BuildContext context,
+            AsyncSnapshot<List<BusinessOffer>> snapShot) {
           if (snapShot.connectionState == ConnectionState.active) {
             // TODO
             return Center(child: Text('Here has to be an waiting spinner'));
@@ -193,7 +200,8 @@ class _ActivitiesListViewState extends State<_ActivitiesListView> {
                 child: OfferListTile(
                   backGroundColor: AppTheme.listViewItemBackground,
                   offer: offer,
-                  onPressed: () => Navigator.of(context).push(OfferDetailsPage.route(offer, tag)),
+                  onPressed: () => Navigator.of(context)
+                      .push(OfferDetailsPage.route(offer, tag)),
                   tag: tag,
                 ),
               );

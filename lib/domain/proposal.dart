@@ -38,7 +38,8 @@ class Proposal {
   final bool businessMarkedRewarded;
 
   final int influencerGaveRating;
-  final int businessGaveRating; // 1 to 5, 0 is no rating given (rating given implies complete)
+  final int
+      businessGaveRating; // 1 to 5, 0 is no rating given (rating given implies complete)
 
   final bool influencerDisputed;
   final bool businessDisputed;

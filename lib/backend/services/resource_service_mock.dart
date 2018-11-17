@@ -34,7 +34,8 @@ class ResourceServiceMock implements ResourceService {
 
   @override
   Stream<WelcomePageImages> getWelcomePageProfileImages() {
-    return Stream.periodic(Duration(milliseconds: 3000)).map<WelcomePageImages>((_) => getImages());
+    return Stream.periodic(Duration(milliseconds: 3000))
+        .map<WelcomePageImages>((_) => getImages());
   }
 
   WelcomePageImages getImages() {

@@ -116,13 +116,15 @@ List<Widget> _buildBusinessPages(BuildContext context) {
       children: <Widget>[
         Center(child: Text('Page3')),
         FlatButton(
-          onPressed: () async =>
-              await Navigator.of(context).pushReplacement(SignUpPage.route(userType: UserType.influcencer)),
+          onPressed: () async => await Navigator.of(context).pushReplacement(
+              SignUpPage.route(userType: UserType.influcencer)),
           child: Text('SignUp'),
         ),
         FlatButton(
           onPressed: () async {
-            await backend.get<AuthenticationService>().loginAnonymous(UserType.influcencer);
+            await backend
+                .get<AuthenticationService>()
+                .loginAnonymous(UserType.influcencer);
             await Navigator.of(context).pushAndRemoveUntil(
               MainPage.route(UserType.business),
               (route) => false,

@@ -32,7 +32,9 @@ class BrowseCarouselItem extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.darkGrey,
-        boxShadow: [BoxShadow(color: AppTheme.white30, spreadRadius: 1.0, blurRadius: 2.0)],
+        boxShadow: [
+          BoxShadow(color: AppTheme.white30, spreadRadius: 1.0, blurRadius: 2.0)
+        ],
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: ClipRRect(
@@ -53,7 +55,8 @@ class BrowseCarouselItem extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 4.0, bottom: 4.0),
                         child: WhiteBorderCircleAvatar(
-                          child: Image.network(offer.businessAvatarThumbnailUrl),
+                          child:
+                              Image.network(offer.businessAvatarThumbnailUrl),
                           radius: 24.0,
                         ),
                       ),
@@ -68,12 +71,14 @@ class BrowseCarouselItem extends StatelessWidget {
                             Text(
                               offer.title,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(color: Colors.white, fontSize: 14.0),
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 14.0),
                             ),
                             Text(
                               offer.businessName,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(color: Colors.white54, fontSize: 11.0),
+                              style: const TextStyle(
+                                  color: Colors.white54, fontSize: 11.0),
                             ),
                           ],
                         ),

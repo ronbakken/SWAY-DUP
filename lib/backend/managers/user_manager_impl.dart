@@ -11,7 +11,8 @@ class UserManagerImplementation implements UserManager {
   User currentUser;
 
   @override
-  Observable<AuthenticationResult> get logInStateChanged => backend.get<AuthenticationService>().loginState;
+  Observable<AuthenticationResult> get logInStateChanged =>
+      backend.get<AuthenticationService>().loginState;
 
   // User Commands
   // RxCommand<LogInData, void> logInUserCommand;

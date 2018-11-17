@@ -2,7 +2,6 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Observable<AuthenticationResult> get loginState => null;

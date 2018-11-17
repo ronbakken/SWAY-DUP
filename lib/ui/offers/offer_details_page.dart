@@ -16,11 +16,10 @@ import 'package:intl/intl.dart';
 class OfferDetailsPage extends PageWidget {
   static Route<dynamic> route(BusinessOffer offer, [String tag]) {
     return FadePageRoute(
-      builder: (BuildContext context) =>
-        OfferDetailsPage(
-          offer: offer,
-          tag: tag,
-        ),
+      builder: (BuildContext context) => OfferDetailsPage(
+            offer: offer,
+            tag: tag,
+          ),
     );
   }
 
@@ -58,19 +57,19 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       imageArea = Hero(
         tag: widget.tag,
         child: imageArea,
-        flightShuttleBuilder: (BuildContext flightContext,
+        flightShuttleBuilder: (
+          BuildContext flightContext,
           Animation<double> animation,
           HeroFlightDirection flightDirection,
           BuildContext fromHeroContext,
-          BuildContext toHeroContext,) {
+          BuildContext toHeroContext,
+        ) {
           return AnimatedBuilder(
             animation: animation,
             builder: (BuildContext context, Widget child) {
               return ClipRRect(
-                borderRadius: BorderRadius.lerp(
-                  BorderRadius.circular(8.0),
-                  BorderRadius.only(),
-                  animation.value),
+                borderRadius: BorderRadius.lerp(BorderRadius.circular(8.0),
+                    BorderRadius.only(), animation.value),
                 child: child,
               );
             },
@@ -110,26 +109,29 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                       _DetailEntry(
                         icon: AppIcons.deliverable,
                         title: 'DELIVERABLES',
-                        rightSideIcons: [AppLogo.getDeliverableChannel(widget.offer.deliverables[0].channel)],
+                        rightSideIcons: [
+                          AppLogo.getDeliverableChannel(
+                              widget.offer.deliverables[0].channel)
+                        ],
                         text: widget.offer.deliverables[0].description,
                       ),
                       !widget.offer.displayLimited
-                        ? Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Divider(height: 1, color: AppTheme.white30),
-                          buildRewardsRow(),
-                          Divider(height: 1, color: AppTheme.white30),
-                          _DetailEntry(
-                            icon: AppIcons.location,
-                            title: 'LOCATION',
-                            text: 'What do we display here?',
-                          ),
-                          Divider(height: 1, color: AppTheme.white30),
-                          buildCategories(),
-                        ],
-                      )
-                        : buildLockedSign(),
+                          ? Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Divider(height: 1, color: AppTheme.white30),
+                                buildRewardsRow(),
+                                Divider(height: 1, color: AppTheme.white30),
+                                _DetailEntry(
+                                  icon: AppIcons.location,
+                                  title: 'LOCATION',
+                                  text: 'What do we display here?',
+                                ),
+                                Divider(height: 1, color: AppTheme.white30),
+                                buildCategories(),
+                              ],
+                            )
+                          : buildLockedSign(),
                     ],
                   ),
                 ),
@@ -138,36 +140,38 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
           ),
         ),
         !widget.offer.displayLimited
-          ? Container(
-          color: AppTheme.blackTwo,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
-              child: RaisedButton(
-                onPressed: () {
-                  return inf_bottom_sheet.showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) => _ProposalBottomSheet(),
-                    dismissOnTap: false,
-                    resizeToAvoidBottomPadding: true,
-                  );
-                },
-                shape: const StadiumBorder(),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 44.0,
-                  child: Text(
-                    'TELL US WHAT YOU CAN OFFER',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.normal,
+            ? Container(
+                color: AppTheme.blackTwo,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12.0, horizontal: 26.0),
+                    child: RaisedButton(
+                      onPressed: () {
+                        return inf_bottom_sheet.showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              _ProposalBottomSheet(),
+                          dismissOnTap: false,
+                          resizeToAvoidBottomPadding: true,
+                        );
+                      },
+                      shape: const StadiumBorder(),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 44.0,
+                        child: Text(
+                          'TELL US WHAT YOU CAN OFFER',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        )
-          : SizedBox(),
+              )
+            : SizedBox(),
       ],
     );
   }
@@ -186,50 +190,50 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             height: 12.0,
           ),
           reward.cashValue != null
-            ? Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: AppTheme.blue,
-                radius: 15.0,
-                child: InfAssetImage(
-                  AppIcons.dollarSign,
-                  height: 18,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Text('${reward.cashValueAsString}'),
-            ],
-          )
-            : SizedBox(),
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: AppTheme.blue,
+                      radius: 15.0,
+                      child: InfAssetImage(
+                        AppIcons.dollarSign,
+                        height: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text('${reward.cashValueAsString}'),
+                  ],
+                )
+              : SizedBox(),
           SizedBox(
             height: 12.0,
           ),
           reward.description != null
-            ? Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: AppTheme.blue,
-                radius: 15.0,
-                child: InfAssetImage(
-                  AppIcons.gift,
-                  height: 14,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Text('${reward.description}'),
-            ],
-          )
-            : SizedBox(),
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: AppTheme.blue,
+                      radius: 15.0,
+                      child: InfAssetImage(
+                        AppIcons.gift,
+                        height: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text('${reward.description}'),
+                  ],
+                )
+              : SizedBox(),
         ],
       ),
     );
@@ -244,14 +248,15 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         runSpacing: 10.0,
         alignment: WrapAlignment.start,
         children: widget.offer.categories.map<Widget>(
-            (category) {
+          (category) {
             return Container(
               decoration: ShapeDecoration(
                 shape: const StadiumBorder(),
                 color: AppTheme.blue,
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -279,7 +284,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       color: Colors.black,
       child: Row(
         children: <Widget>[
-          WhiteBorderCircleAvatar(child: Image.network(widget.offer.businessAvatarThumbnailUrl)),
+          WhiteBorderCircleAvatar(
+              child: Image.network(widget.offer.businessAvatarThumbnailUrl)),
           SizedBox(width: 12.0),
           Expanded(
             child: Column(
@@ -309,16 +315,15 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       child: Row(
         children: [
           Text(
-            '${widget.offer.numberAvailable - widget.offer.proposalsCountAccepted}/${widget.offer
-              .numberAvailable} Available',
+            '${widget.offer.numberAvailable - widget.offer.proposalsCountAccepted}/${widget.offer.numberAvailable} Available',
           ),
           Expanded(
             child: widget.offer.expiryDate != null
-              ? Text(
-              'Ends ${DateFormat('MM/dd/yy').format(widget.offer.expiryDate.toLocal())}',
-              textAlign: TextAlign.end,
-            )
-              : SizedBox(),
+                ? Text(
+                    'Ends ${DateFormat('MM/dd/yy').format(widget.offer.expiryDate.toLocal())}',
+                    textAlign: TextAlign.end,
+                  )
+                : SizedBox(),
           )
         ],
       ),
@@ -355,7 +360,6 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
     return SafeArea(
       child: Column(
         children: [
-
           /// We add the title of the Reward group here to have a better teaser
           Divider(height: 1, color: AppTheme.white30),
           Padding(
@@ -414,25 +418,28 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 27.0, vertical: 13.0),
                     child: Text(
                       'To view the full offer and apply you need to be a member of INF.',
                       textAlign: TextAlign.center,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 27.0, vertical: 13.0),
                     child: Text(
                       "It's fre to sign up and takes only a few seconds",
                       textAlign: TextAlign.center,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12.0, horizontal: 26.0),
                     child: RaisedButton(
-                      onPressed: () =>
-                      Navigator.of(context)
-                        ..push(SignUpPage.route(userType: UserType.influcencer, topPadding: 0)),
+                      onPressed: () => Navigator.of(context)
+                        ..push(SignUpPage.route(
+                            userType: UserType.influcencer, topPadding: 0)),
                       shape: const StadiumBorder(),
                       child: Container(
                         alignment: Alignment.center,
@@ -448,11 +455,12 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   ),
                   Material(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 26, right: 26.0, bottom: 20.0),
+                      padding: const EdgeInsets.only(
+                          top: 10.0, left: 26, right: 26.0, bottom: 20.0),
                       child: InkWell(
-                        onTap: () =>
-                        Navigator.of(context)
-                          ..push(SignUpPage.route(userType: UserType.influcencer, topPadding: 0)),
+                        onTap: () => Navigator.of(context)
+                          ..push(SignUpPage.route(
+                              userType: UserType.influcencer, topPadding: 0)),
                         child: Text(
                           'ALREADY A MEMBER? LOGIN',
                           textAlign: TextAlign.center,
@@ -479,9 +487,8 @@ class _DetailEntry extends StatelessWidget {
     this.text,
     this.content,
     this.margin = const EdgeInsets.only(top: 16.0, bottom: 12.0),
-  })
-    : assert(!(text != null && content != null)),
-      super(key: key);
+  })  : assert(!(text != null && content != null)),
+        super(key: key);
 
   final List<AppAsset> rightSideIcons;
   final AppAsset icon;
@@ -514,12 +521,11 @@ class _DetailEntry extends StatelessWidget {
     ];
     if (rightSideIcons != null) {
       titleRow.addAll(rightSideIcons
-        .map<InfAssetImage>((asset) =>
-        InfAssetImage(
-          asset,
-          height: 18.0,
-        ))
-        .toList());
+          .map<InfAssetImage>((asset) => InfAssetImage(
+                asset,
+                height: 18.0,
+              ))
+          .toList());
     }
 
     return Padding(
@@ -575,7 +581,8 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
                       final textStyle = DefaultTextStyle.of(context);
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -594,7 +601,8 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 26.0, vertical: 12.0),
                     child: RaisedButton(
                       onPressed: () {},
                       shape: const StadiumBorder(),
@@ -621,7 +629,8 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                 child: InkResponse(
                   onTap: () => Navigator.of(context).pop(),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 12.0),
                     child: Icon(Icons.close),
                   ),
                 ),

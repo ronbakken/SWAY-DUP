@@ -24,7 +24,7 @@ class SystemServiceImplementation
     _appLifecycleSubject.add(state);
   }
 
-  SystemServiceImplementation(){
-      WidgetsBinding.instance.addObserver(this);
+  SystemServiceImplementation() {
+    WidgetsBinding.instance.addObserver(this);
   }
 }
