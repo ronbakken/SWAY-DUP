@@ -16,7 +16,7 @@ import 'data_protobuf.proto';
 // Id: GTACCOUN
 // Res: NetGetAccountRes (Id: GTACCO_R)
 message NetGetAccountReq {
-  int32 accountId = 1;
+  int64 accountId = 1;
     
 }
 
@@ -29,7 +29,7 @@ message NetGetAccountRes {
 // Id: GTOFFERR
 // Res: NetGetOfferRes (Id: GTOFFE_R)
 message NetGetOfferReq {
-  int32 offerId = 1;
+  int64 offerId = 1;
   
 }
 
@@ -42,7 +42,7 @@ message NetGetOfferRes {
 // Id: GTAPPLIC
 // Res: NetGetProposalRes (Id: GTAPPL_R)
 message NetGetProposalReq {
-  int32 proposalId = 1;
+  int64 proposalId = 1;
   
 }
 

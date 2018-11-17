@@ -36,7 +36,7 @@ message NetDeviceAuthCreateReq {
 // Response: NetDevAuthChallengeResReq
 message NetDeviceAuthChallengeReq {
   // Id of the device session that wants to authenticate
-  int32 sessionId = 1;
+  int64 sessionId = 1;
   
 }
 

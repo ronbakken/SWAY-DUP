@@ -23,7 +23,7 @@ message NetCreateOfferReq {
   string deliverables = 4;
   string reward = 5;
   
-  int32 locationId = 6; // 0 being the user's default location -- dropdown selection from user locations if supported
+  int64 locationId = 6; // 0 being the user's default location -- dropdown selection from user locations if supported
   
 }
 
@@ -59,7 +59,7 @@ message NetLoadOffersRes {
 // Id: O_APPLYY
 // Response: DataProposal (Id: O_R_APPL) (or exception in case of failure)
 message NetOfferApplyReq {
-  int32 offerId = 1;
+  int64 offerId = 1;
   int32 sessionGhostId = 8;
   
   string remarks = 2;

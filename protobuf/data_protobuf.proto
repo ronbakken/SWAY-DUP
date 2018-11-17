@@ -79,9 +79,9 @@ message DataOAuthCredentials {
 }
 
 message DataOffer {
-  int32 offerId = 1;
-  int32 accountId = 2;
-  int32 locationId = 3;
+  int64 offerId = 1;
+  int64 accountId = 2;
+  int64 locationId = 3;
   
   string title = 4;
   string description = 5;
@@ -109,18 +109,18 @@ message DataOffer {
   bool archived = 26;
   
   // Info for business
-  int32 proposalsNew = 14;
-  int32 proposalsAccepted = 15;
-  int32 proposalsCompleted = 16;
-  int32 proposalsRefused = 17;
+  // int32 proposalsNew = 14;
+  // int32 proposalsAccepted = 15;
+  // int32 proposalsCompleted = 16;
+  // int32 proposalsRefused = 17;
   
   // Info for influencer
-  int32 influencerProposalId = 22; // So the Offer View knows this offer has already been applied to
+  int64 influencerProposalId = 22; // So the Offer View knows this offer has already been applied to
   
 }
 
 message DataLocation {
-  int32 locationId = 1;
+  int64 locationId = 1;
   
   // User-provided name of the location (eg. "Waterproof Vests LA")
   string name = 2;
@@ -145,10 +145,10 @@ message DataLocation {
 
 message DataAccountState {
   // Session ID. If 0, authentication failed, and the client must create a new account
-  int32 sessionId = 1;
+  int64 sessionId = 1;
   
   // Account ID. If 0, proceed with account creation
-  int32 accountId = 2;
+  int64 accountId = 2;
   
   // Account type. If not AT_UNKNOWN, account creation may bypass type selection
   AccountType accountType = 3;
@@ -187,7 +187,7 @@ message DataAccountDetail {
   string location = 15;
   double latitude = 4;
   double longitude = 5;
-  int32 locationId = 8; // Primary location id
+  int64 locationId = 8; // Primary location id
   
 }
 
@@ -199,21 +199,22 @@ message DataAccount {
 }
 
 message DataProposal {
-  int32 proposalId = 1;
-  int32 offerId = 2;
-  int32 influencerAccountId = 3; // Account which applied
-  int32 businessAccountId = 16;
-  int32 senderAccountId = 20; // Either influencer or business sent this
+  int64 proposalId = 1;
+  int64 offerId = 2;
+  int64 influencerAccountId = 3; // Account which applied
+  int64 businessAccountId = 16;
+  int64 senderAccountId = 20; // Either influencer or business sent this
   
   /// Embedded data
   string influencerName = 17;
   string businessName = 18;
   string offerTitle = 19;
   
-  // datetime schedule etc
+  // Last chat
+  int64 lastChatId = 22;
   
   /// Current chat ID with haggle buttons (deliverables / reward / remarks)
-  int64 haggleChatId = 4;
+  int64 termsChatId = 4;
   bool influencerWantsDeal = 6;
   bool businessWantsDeal = 5;
   
@@ -236,10 +237,10 @@ message DataProposal {
 message DataProposalChat {
   int64 chatId = 7; // Sequential identifier in the chat stream
   int64 sent = 10; // Sent timestamp
-  int32 senderId = 2; // Account which sent
-  int32 proposalId = 1; // One chat per proposal
+  int64 senderId = 2; // Account which sent
+  int64 proposalId = 1; // One chat per proposal
   
-  int32 sessionId = 11; // Cleared upon forwarding
+  int64 sessionId = 11; // Cleared upon forwarding
   int32 sessionGhostId = 6; // Deduplication client-side (ghost entry)
   
   ProposalChatType type = 8;
