@@ -17,7 +17,7 @@ import 'data_protobuf.proto';
 // Id: L_APPLIS
 message NetLoadProposalsReq {
   // Offer for which to send proposals (ignored when requested by influencer)
-  int64 offerId = 4;
+  int64 offer_id = 4;
   
   // Proposals with id lower than this (older proposals) (ignore if 0)
   int64 before = 1;
@@ -34,7 +34,7 @@ message NetLoadProposalsReq {
 // Id: L_APPLIC
 // Response: DataProposal (Id: LU_APPLI)
 message NetLoadProposalReq {
-  int64 proposalId = 1;
+  int64 proposal_id = 1;
   
 }
 
@@ -44,24 +44,24 @@ message NetLoadProposalReq {
 // Response: NetLoadProposalsRes (Id: L_R_APCH)
 message NetLoadProposalChatsReq {
   // Proposal for which to send chats
-  int64 proposalId = 5;
+  int64 proposal_id = 5;
   
   // Proposal chats with id lower than this (older proposal chats) (ignore if 0)
-  int64 before = 1;
+  // int64 before = 1;
   
   // Proposal chats with id higher than this (newer proposal chats) (ignore if 0)
-  int64 after = 2;
+  // int64 after = 2;
   
   // Limit (ignore if 0)
-  int64 limit = 3;
+  // int64 limit = 3;
   
 }
 
 // Send chat plain
 // Id: CH_PLAIN
 message NetChatPlain {
-  int64 proposalId = 1;
-  int32 sessionGhostId = 8;
+  int64 proposal_id = 1;
+  int32 session_ghost_id = 8;
   string text = 6;
   
 }
@@ -69,8 +69,8 @@ message NetChatPlain {
 // Send chat haggle (refuse if already accepted by both)
 // Id: CH_HAGGL
 message NetChatHaggle {
-  int64 proposalId = 1;
-  int32 sessionGhostId = 8;
+  int64 proposal_id = 1;
+  int32 session_ghost_id = 8;
   string deliverables = 3;
   string reward = 4;
   string remarks = 2;
@@ -80,9 +80,9 @@ message NetChatHaggle {
 // Send chat image key
 // Id: CH_IMAGE
 message NetChatImageKey {
-  int64 proposalId = 1;
-  int32 sessionGhostId = 8;
-  string imageKey = 5;
+  int64 proposal_id = 1;
+  int32 session_ghost_id = 8;
+  string image_key = 5;
   
 }
 
@@ -90,8 +90,8 @@ message NetChatImageKey {
 // Id: AP_WADEA
 // Response: NetProposalCommonRes (Id: AP_R_COM), proposal update + marker
 message NetProposalWantDealReq {
-  int64 proposalId = 1;
-  int64 haggleChatId = 2;
+  int64 proposal_id = 1;
+  int64 terms_chat_id = 2;
   
 }
 
@@ -99,7 +99,7 @@ message NetProposalWantDealReq {
 // Id: AP_REJEC
 // Response: NetProposalCommonRes (Id: AP_R_COM), proposal update + marker
 message NetProposalRejectReq {
-  int64 proposalId = 1;
+  int64 proposal_id = 1;
   string reason = 2; // Reason part of marker but not shown right now
   
 }
@@ -108,7 +108,7 @@ message NetProposalRejectReq {
 // Id: AP_REPOR
 // Response: NetProposalCommonRes (Id: AP_R_COM), null, null
 message NetProposalReportReq {
-  int64 proposalId = 1;
+  int64 proposal_id = 1;
   string text = 2; // Sent to support. Sent by mail (sql transaction... :))
   
 }
@@ -117,7 +117,7 @@ message NetProposalReportReq {
 // Id: AP_COMPL
 // Response: NetProposalCommonRes (Id: AP_R_COM), proposal update + marker
 message NetProposalCompletionReq {
-  int64 proposalId = 1;
+  int64 proposal_id = 1;
   
   bool delivered = 2;  // Markings can only be changed under DEAL and DISPUTE stage, ignored otherwise
   bool rewarded = 3;
@@ -125,7 +125,7 @@ message NetProposalCompletionReq {
   int32 rating = 4; // Ignored in case of problem report. If both users rate, then offer moves to COMPLETE, even if in DISPUTE
   
   bool dispute = 5;
-  string disputeDescription = 6; // Problem description for support. Sent by mail (sql transaction... :))
+  string dispute_description = 6; // Problem description for support. Sent by mail (sql transaction... :))
   
 }
 
@@ -136,8 +136,8 @@ message NetProposalCompletionReq {
 // and chat data as dirty, and reload it's state
 // Id: AP_R_COM
 message NetProposalCommonRes {
-  DataProposal updateProposal = 1;
-  repeated DataProposalChat newChats = 2;
+  DataProposal update_proposal = 1;
+  repeated Data_proposal_chat newChats = 2;
   
 }
 
