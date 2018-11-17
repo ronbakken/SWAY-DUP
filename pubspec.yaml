@@ -1,14 +1,20 @@
 name: inf_config
 description: A starting point for Dart libraries or applications.
-# version: 1.0.0
-# homepage: https://www.example.com
-# author: NO-BREAK SPACE OÜ <email@example.com>
+version: 1.0.14
+homepage: https://www.infmarketplace.com
+author: Jan Boon <kaetemi@no-break.space>
 
 environment:
   sdk: '>=2.0.0 <3.0.0'
 
-#dependencies:
-#  path: ^1.4.1
+dependencies:
+  protobuf: ^0.10.4
+  ini:
+    git: https://github.com/nbspou/dart-ini.git
+  fixnum: ^0.10.9
+  dospace: ^0.10.7
+  inf_common:
+    git: https://github.com/infmarketplace/inf_common.git
 
 dev_dependencies:
   test: ^1.0.0
