@@ -1004,6 +1004,10 @@ class DataProposal extends $pb.GeneratedMessage {
     ..aInt64(20, 'senderAccountId')
     ..aOB(21, 'archived')
     ..aInt64(22, 'lastChatId')
+    ..aInt64(23, 'influencerLastSeenChatId')
+    ..aInt64(24, 'influencerLastSeenTime')
+    ..aInt64(25, 'businessLastSeenChatId')
+    ..aInt64(26, 'businessLastSeenTime')
     ..hasRequiredFields = false;
 
   DataProposal() : super();
@@ -1201,6 +1205,38 @@ class DataProposal extends $pb.GeneratedMessage {
 
   bool hasLastChatId() => $_has(21);
   void clearLastChatId() => clearField(22);
+
+  Int64 get influencerLastSeenChatId => $_getI64(22);
+  set influencerLastSeenChatId(Int64 v) {
+    $_setInt64(22, v);
+  }
+
+  bool hasInfluencerLastSeenChatId() => $_has(22);
+  void clearInfluencerLastSeenChatId() => clearField(23);
+
+  Int64 get influencerLastSeenTime => $_getI64(23);
+  set influencerLastSeenTime(Int64 v) {
+    $_setInt64(23, v);
+  }
+
+  bool hasInfluencerLastSeenTime() => $_has(23);
+  void clearInfluencerLastSeenTime() => clearField(24);
+
+  Int64 get businessLastSeenChatId => $_getI64(24);
+  set businessLastSeenChatId(Int64 v) {
+    $_setInt64(24, v);
+  }
+
+  bool hasBusinessLastSeenChatId() => $_has(24);
+  void clearBusinessLastSeenChatId() => clearField(25);
+
+  Int64 get businessLastSeenTime => $_getI64(25);
+  set businessLastSeenTime(Int64 v) {
+    $_setInt64(25, v);
+  }
+
+  bool hasBusinessLastSeenTime() => $_has(25);
+  void clearBusinessLastSeenTime() => clearField(26);
 }
 
 class DataProposalChat extends $pb.GeneratedMessage {
