@@ -197,6 +197,7 @@ class RemoteAppInfluencer {
     NetOfferApplyReq pb = new NetOfferApplyReq();
     pb.mergeFromBuffer(message.data);
 
+    throw new Exception("Needs to be updated, not permitted right now");
     print("NetOfferApplyReq: $pb");
 
     DataProposal proposal = new DataProposal();
