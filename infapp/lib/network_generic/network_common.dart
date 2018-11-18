@@ -402,8 +402,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     try {
       do {
         String uri = _overrideUri ??
-            _config.services
-                .apiHosts[random.nextInt(_config.services.apiHosts.length)];
+            (_config.services.apiHosts.length > 0 ? _config.services
+                .apiHosts[random.nextInt(_config.services.apiHosts.length)] : null);
         if (uri == null || uri.length == 0) {
           if (!_netConfigWarning) {
             _netConfigWarning = true;
@@ -469,8 +469,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         connected = NetworkConnectionState.connecting;
         onCommonChanged();
       }
-    } catch (e) {
-      log.warning("Network session exception: $e");
+    } catch (error, stack) {
+      log.warning("Network session exception: $error\n$stack");
       TalkSocket ts = _ts;
       _ts = null;
       connected = NetworkConnectionState.failing;
