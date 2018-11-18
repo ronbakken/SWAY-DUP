@@ -11,31 +11,31 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:wstalk/wstalk.dart';
 
 class _CachedProposal {
   bool loading = false;
   bool dirty = false;
-  DataApplicant applicant;
-  DataApplicant fallback;
+  DataProposal proposal;
+  DataProposal fallback;
   bool chatLoading = false;
   bool chatLoaded = false;
-  Map<int, DataApplicantChat> chats = new Map<int, DataApplicantChat>();
-  Map<int, DataApplicantChat> ghostChats = new Map<int, DataApplicantChat>();
+  Map<Int64, DataProposalChat> chats = new Map<Int64, DataProposalChat>();
+  Map<int, DataProposalChat> ghostChats = new Map<int, DataProposalChat>();
 }
 
 abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
-  Map<int, _CachedProposal> _cachedProposals = new Map<int, _CachedProposal>();
+  Map<Int64, _CachedProposal> _cachedProposals = new Map<Int64, _CachedProposal>();
 
   void resetProposalsState() {
-    _applicants.clear();
-    _applicantsLoaded = false;
+    _proposals.clear();
+    _proposalsLoaded = false;
     _cachedProposals.clear();
   }
 
   void markProposalsDirty() {
-    _applicantsLoaded = false;
+    _proposalsLoaded = false;
     _cachedProposals.values.forEach((cached) {
       cached.dirty = true;
       cached.chatLoaded = false;
@@ -48,36 +48,36 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
   // Haggle
   /////////////////////////////////////////////////////////////////////////////
 
-  void _cacheApplicant(DataApplicant applicant) {
-    _CachedProposal cached = _cachedProposals[applicant.applicantId];
+  void _cacheProposal(DataProposal proposal) {
+    _CachedProposal cached = _cachedProposals[proposal.proposalId];
     if (cached == null) {
       cached = new _CachedProposal();
-      _cachedProposals[applicant.applicantId] = cached;
+      _cachedProposals[proposal.proposalId] = cached;
     }
     cached.fallback = null;
-    cached.applicant = applicant;
+    cached.proposal = proposal;
     cached.dirty = false;
-    if (applicant.businessAccountId == account.state.accountId ||
-        applicant.influencerAccountId == account.state.accountId) {
+    if (proposal.businessAccountId == account.state.accountId ||
+        proposal.influencerAccountId == account.state.accountId) {
       // Add received offer to known offers
-      _applicants[applicant.applicantId] = applicant;
+      _proposals[proposal.proposalId] = proposal;
     }
-    hintOfferProposal(applicant);
-    onProposalChanged(ChangeAction.upsert, new Int64(applicant.applicantId));
+    hintOfferProposal(proposal);
+    onProposalChanged(ChangeAction.upsert, proposal.proposalId);
   }
 
   @override
-  void hintProposalOffer(DataBusinessOffer offer) {
+  void hintProposalOffer(DataOffer offer) {
     // For influencers that open an offer that they already applied to, accelerate some data on the proposal
-    if (offer.influencerApplicantId != null &&
-        offer.influencerApplicantId != 0) {
+    if (offer.influencerProposalId != null &&
+        offer.influencerProposalId != 0) {
       _CachedProposal cached =
-          _cachedProposals[new Int64(offer.influencerApplicantId)];
+          _cachedProposals[offer.influencerProposalId];
       if (cached == null) {
         cached = new _CachedProposal();
-        _cachedProposals[offer.influencerApplicantId] = cached;
+        _cachedProposals[offer.influencerProposalId] = cached;
       }
-      if (cached.applicant == null) {
+      if (cached.proposal == null) {
         if (cached.fallback == null ||
             cached.fallback.offerId != offer.offerId ||
             cached.fallback.offerTitle != offer.title ||
@@ -85,10 +85,10 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
             cached.fallback.businessAccountId != offer.accountId ||
             cached.fallback.influencerAccountId != account.state.accountId) {
           if (cached.fallback == null) {
-            cached.fallback = new DataApplicant();
-            cached.fallback.applicantId = offer.influencerApplicantId;
+            cached.fallback = new DataProposal();
+            cached.fallback.proposalId = offer.influencerProposalId;
           } else {
-            cached.fallback = new DataApplicant()
+            cached.fallback = new DataProposal()
               ..mergeFromMessage(cached.fallback);
           }
           cached.fallback.offerId = offer.offerId;
@@ -99,56 +99,56 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
           cached.fallback.influencerName = account.summary.name;
           cached.fallback.freeze();
           onProposalChanged(
-              ChangeAction.upsert, new Int64(offer.influencerApplicantId));
+              ChangeAction.upsert, offer.influencerProposalId);
         }
       }
     }
   }
 
-  void _cacheApplicantChat(DataApplicantChat chat) {
-    _CachedProposal cached = _cachedProposals[chat.applicantId];
+  void _cacheProposalChat(DataProposalChat chat) {
+    _CachedProposal cached = _cachedProposals[chat.proposalId];
     if (cached == null) {
       cached = new _CachedProposal();
-      _cachedProposals[chat.applicantId] = cached;
+      _cachedProposals[chat.proposalId] = cached;
     }
-    if (chat.deviceId == account.state.deviceId) {
-      cached.ghostChats.remove(chat.deviceGhostId);
+    if (chat.sessionId == account.state.sessionId) {
+      cached.ghostChats.remove(chat.sessionGhostId);
     }
-    cached.chats[chat.chatId.toInt()] = chat;
+    cached.chats[chat.chatId] = chat;
     onProposalChatChanged(ChangeAction.upsert, chat);
   }
 
-  static int _netLoadApplicantsReq = TalkSocket.encode("L_APPLIS");
+  static int _netLoadProposalsReq = TalkSocket.encode("L_APPLIS");
   @override
   Future<void> refreshProposals() async {
     NetLoadOffersReq req =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
     // await for (TalkMessage res
-    //     in ts.sendStreamRequest(_netLoadApplicantsReq, req.writeToBuffer())) {
+    //     in ts.sendStreamRequest(_netLoadProposalsReq, req.writeToBuffer())) {
     StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(
-        ts.sendStreamRequest(_netLoadApplicantsReq, req.writeToBuffer()));
+        ts.sendStreamRequest(_netLoadProposalsReq, req.writeToBuffer()));
     while (await sq.hasNext) {
       TalkMessage res = await sq.next;
-      DataApplicant pb = new DataApplicant();
+      DataProposal pb = new DataProposal();
       pb.mergeFromBuffer(res.data);
-      _cacheApplicant(pb);
+      _cacheProposal(pb);
     }
   }
 
   bool proposalsLoading = false;
-  bool _applicantsLoaded = false;
-  Map<int, DataApplicant> _applicants = new Map<int, DataApplicant>();
+  bool _proposalsLoaded = false;
+  Map<Int64, DataProposal> _proposals = new Map<Int64, DataProposal>();
 
   @override
-  Iterable<DataApplicant> get proposals {
-    if (_applicantsLoaded == false &&
+  Iterable<DataProposal> get proposals {
+    if (_proposalsLoaded == false &&
         connected == NetworkConnectionState.ready) {
-      _applicantsLoaded = true;
+      _proposalsLoaded = true;
       proposalsLoading = true;
       refreshProposals().catchError((error, stack) {
         log.severe("Failed to get proposals: $error, $stack");
         new Timer(new Duration(seconds: 3), () {
-          _applicantsLoaded =
+          _proposalsLoaded =
               false; // Not using setState since we don't want to broadcast failure state
         });
       }).whenComplete(() {
@@ -156,24 +156,24 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
         onProposalChanged(ChangeAction.refreshAll, Int64.ZERO);
       });
     }
-    return _applicants.values;
+    return _proposals.values;
   }
 
   static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
 
   /// Create proposal
   @override
-  Future<DataApplicant> sendProposal(Int64 offerId, String remarks) async {
+  Future<DataProposal> sendProposal(Int64 offerId, String remarks) async {
     try {
       NetOfferApplyReq pbReq = new NetOfferApplyReq();
-      pbReq.offerId = offerId.toInt();
-      pbReq.deviceGhostId = ++nextDeviceGhostId;
+      pbReq.offerId = offerId;
+      pbReq.sessionGhostId = ++nextDeviceGhostId;
       pbReq.remarks = remarks;
       TalkMessage res =
           await ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
-      DataApplicant pbRes = new DataApplicant();
+      DataProposal pbRes = new DataProposal();
       pbRes.mergeFromBuffer(res.data);
-      _cacheApplicant(pbRes); // FIXME: Chat not cached directly!
+      _cacheProposal(pbRes); // FIXME: Chat not cached directly!
       return pbRes;
     } catch (error) {
       markOfferDirty(offerId);
@@ -181,64 +181,64 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     }
   }
 
-  static int _netLoadApplicantReq = TalkSocket.encode("L_APPLIC");
+  static int _netLoadProposalReq = TalkSocket.encode("L_APPLIC");
   @override
-  Future<DataApplicant> getProposal(Int64 applicantId) async {
-    NetLoadApplicantReq pbReq = new NetLoadApplicantReq();
-    pbReq.applicantId = applicantId.toInt();
+  Future<DataProposal> getProposal(Int64 proposalId) async {
+    NetLoadProposalReq pbReq = new NetLoadProposalReq();
+    pbReq.proposalId = proposalId;
     TalkMessage res =
-        await ts.sendRequest(_netLoadApplicantReq, pbReq.writeToBuffer());
-    DataApplicant applicant = new DataApplicant();
-    applicant.mergeFromBuffer(res.data);
-    _cacheApplicant(applicant);
-    return applicant;
+        await ts.sendRequest(_netLoadProposalReq, pbReq.writeToBuffer());
+    DataProposal proposal = new DataProposal();
+    proposal.mergeFromBuffer(res.data);
+    _cacheProposal(proposal);
+    return proposal;
   }
 
-  static int _netLoadApplicantChatReq = TalkSocket.encode("L_APCHAT");
-  Future<void> _loadApplicantChats(int applicantId) async {
-    NetLoadApplicantChatsReq pbReq = new NetLoadApplicantChatsReq();
-    pbReq.applicantId = applicantId;
-    log.fine(applicantId);
+  static int _netLoadProposalChatReq = TalkSocket.encode("L_APCHAT");
+  Future<void> _loadProposalChats(Int64 proposalId) async {
+    NetLoadProposalChatsReq pbReq = new NetLoadProposalChatsReq();
+    pbReq.proposalId = proposalId;
+    log.fine(proposalId);
     // await for (TalkMessage res in ts.sendStreamRequest(
-    //     _netLoadApplicantChatReq, pbReq.writeToBuffer())) {
+    //     _netLoadProposalChatReq, pbReq.writeToBuffer())) {
     StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(
-        ts.sendStreamRequest(_netLoadApplicantChatReq, pbReq.writeToBuffer()));
+        ts.sendStreamRequest(_netLoadProposalChatReq, pbReq.writeToBuffer()));
     while (await sq.hasNext) {
       TalkMessage res = await sq.next;
-      DataApplicantChat chat = new DataApplicantChat();
+      DataProposalChat chat = new DataProposalChat();
       chat.mergeFromBuffer(res.data);
       log.fine(chat);
-      _cacheApplicantChat(chat);
+      _cacheProposalChat(chat);
     }
     log.fine("done");
   }
 
-  DataApplicant _tryGetApplicant(int applicantId,
-      {DataApplicant fallback, DataBusinessOffer fallbackOffer}) {
-    _CachedProposal cached = _cachedProposals[applicantId];
+  DataProposal _tryGetProposal(Int64 proposalId,
+      {DataProposal fallback, DataOffer fallbackOffer}) {
+    _CachedProposal cached = _cachedProposals[proposalId];
     if (cached == null) {
       cached = new _CachedProposal();
-      _cachedProposals[applicantId] = cached;
+      _cachedProposals[proposalId] = cached;
     }
-    if (cached.applicant == null || cached.dirty) {
+    if (cached.proposal == null || cached.dirty) {
       if (!cached.loading && connected == NetworkConnectionState.ready) {
         cached.loading = true;
-        getProposal(new Int64(applicantId)).then((applicant) {
+        getProposal(proposalId).then((proposal) {
           cached.loading = false;
         }).catchError((error, stack) {
-          log.severe("Failed to get applicant: $error, $stack");
+          log.severe("Failed to get proposal: $error, $stack");
           new Timer(new Duration(seconds: 3), () {
             cached.loading = false;
-            onProposalChanged(ChangeAction.retry, new Int64(applicantId));
+            onProposalChanged(ChangeAction.retry, proposalId);
           });
         });
       }
-      if (cached.applicant != null) {
-        return cached.applicant; // Return dirty
+      if (cached.proposal != null) {
+        return cached.proposal; // Return dirty
       }
       if (cached.fallback == null) {
-        cached.fallback = new DataApplicant();
-        cached.fallback.applicantId = applicantId;
+        cached.fallback = new DataProposal();
+        cached.fallback.proposalId = proposalId;
       }
       if (fallback != null) {
         cached.fallback.mergeFromMessage(fallback);
@@ -249,42 +249,42 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
       }
       return cached.fallback;
     }
-    return cached.applicant;
+    return cached.proposal;
   }
 
-  /// Fetch latest applicant from cache by id, fetch in background if non-existent
+  /// Fetch latest proposal from cache by id, fetch in background if non-existent
   @override
-  DataApplicant tryGetProposal(Int64 applicantId) {
-    return _tryGetApplicant(applicantId.toInt());
+  DataProposal tryGetProposal(Int64 proposalId) {
+    return _tryGetProposal(proposalId);
   }
 
-  /// Fetch latest applicant from cache, fetch in background if non-existent
+  /// Fetch latest proposal from cache, fetch in background if non-existent
   @override
-  DataApplicant latestApplicant(DataApplicant applicant) {
-    return _tryGetApplicant(applicant.applicantId, fallback: applicant);
+  DataProposal latestProposal(DataProposal proposal) {
+    return _tryGetProposal(proposal.proposalId, fallback: proposal);
   }
 
-  /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
+  /// Fetch latest known proposal chats from cache, fetch in background if not loaded yet
   @override
-  Iterable<DataApplicantChat> tryGetApplicantChats(Int64 applicantId) {
-    _CachedProposal cached = _cachedProposals[applicantId];
+  Iterable<DataProposalChat> tryGetProposalChats(Int64 proposalId) {
+    _CachedProposal cached = _cachedProposals[proposalId];
     if (cached == null) {
       cached = new _CachedProposal();
-      _cachedProposals[applicantId.toInt()] = cached;
+      _cachedProposals[proposalId] = cached;
     }
     if (!cached.chatLoaded &&
         !cached.chatLoading &&
         connected == NetworkConnectionState.ready) {
       log.fine("fetch chat");
       cached.chatLoading = true;
-      _loadApplicantChats(applicantId.toInt()).then((applicant) {
+      _loadProposalChats(proposalId).then((proposal) {
         cached.chatLoading = false;
         cached.chatLoaded = true;
       }).catchError((error, stack) {
-        log.fine("Failed to get applicant chats: $error, $stack");
+        log.fine("Failed to get proposal chats: $error, $stack");
         new Timer(new Duration(seconds: 3), () {
           cached.chatLoading = false;
-          onProposalChanged(ChangeAction.retry, applicantId);
+          onProposalChanged(ChangeAction.retry, proposalId);
           onProposalChatChanged(ChangeAction.retry, null);
         });
       });
@@ -298,50 +298,50 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
   // Haggle Notifications
   /////////////////////////////////////////////////////////////////////////////
 
-  void _receivedUpdateApplicant(DataApplicant applicant) {
-    _cacheApplicant(applicant);
+  void _receivedUpdateProposal(DataProposal proposal) {
+    _cacheProposal(proposal);
   }
 
-  void _receivedUpdateApplicantChat(DataApplicantChat chat) {
-    _cacheApplicantChat(chat);
+  void _receivedUpdateProposalChat(DataProposalChat chat) {
+    _cacheProposalChat(chat);
   }
 
-  void _notifyNewApplicantChat(DataApplicantChat chat) {
-    // TODO: Notify the user of a new applicant chat message if not own
+  void _notifyNewProposalChat(DataProposalChat chat) {
+    // TODO: Notify the user of a new proposal chat message if not own
     log.fine("Notify: ${chat.text}");
   }
 
-  void _receivedApplicantCommonRes(NetApplicantCommonRes res) {
-    _receivedUpdateApplicant(res.updateApplicant);
-    for (DataApplicantChat chat in res.newChats) {
-      _receivedUpdateApplicantChat(chat);
-      _notifyNewApplicantChat(chat);
+  void _receivedProposalCommonRes(NetProposalCommonRes res) {
+    _receivedUpdateProposal(res.updateProposal);
+    for (DataProposalChat chat in res.newChats) {
+      _receivedUpdateProposalChat(chat);
+      _notifyNewProposalChat(chat);
     }
   }
 
-  void liveNewApplicant(TalkMessage message) {
-    DataApplicant pb = new DataApplicant();
+  void liveNewProposal(TalkMessage message) {
+    DataProposal pb = new DataProposal();
     pb.mergeFromBuffer(message.data);
-    _receivedUpdateApplicant(pb);
+    _receivedUpdateProposal(pb);
   }
 
-  void liveNewApplicantChat(TalkMessage message) {
-    DataApplicantChat pb = new DataApplicantChat();
+  void liveNewProposalChat(TalkMessage message) {
+    DataProposalChat pb = new DataProposalChat();
     pb.mergeFromBuffer(message.data);
-    _receivedUpdateApplicantChat(pb);
-    _notifyNewApplicantChat(pb);
+    _receivedUpdateProposalChat(pb);
+    _notifyNewProposalChat(pb);
   }
 
-  void liveUpdateApplicant(TalkMessage message) {
-    DataApplicant pb = new DataApplicant();
+  void liveUpdateProposal(TalkMessage message) {
+    DataProposal pb = new DataProposal();
     pb.mergeFromBuffer(message.data);
-    _receivedUpdateApplicant(pb);
+    _receivedUpdateProposal(pb);
   }
 
-  void liveUpdateApplicantChat(TalkMessage message) {
-    DataApplicantChat pb = new DataApplicantChat();
+  void liveUpdateProposalChat(TalkMessage message) {
+    DataProposalChat pb = new DataProposalChat();
     pb.mergeFromBuffer(message.data);
-    _receivedUpdateApplicantChat(pb);
+    _receivedUpdateProposalChat(pb);
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -350,34 +350,34 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
   // Haggle Actions
   /////////////////////////////////////////////////////////////////////////////
 
-  static int _netApplicantReportReq = TalkSocket.encode("AP_REPOR");
+  static int _netProposalReportReq = TalkSocket.encode("AP_REPOR");
   @override
-  Future<void> reportApplicant(int applicantId, String text) async {
-    NetApplicantReportReq pbReq = new NetApplicantReportReq();
-    pbReq.applicantId = applicantId;
+  Future<void> reportProposal(Int64 proposalId, String text) async {
+    NetProposalReportReq pbReq = new NetProposalReportReq();
+    pbReq.proposalId = proposalId;
     pbReq.text = text;
     // Response blank. Exception on issue
-    await ts.sendRequest(_netApplicantReportReq, pbReq.writeToBuffer());
+    await ts.sendRequest(_netProposalReportReq, pbReq.writeToBuffer());
   }
 
   void resubmitGhostChats() {
     for (_CachedProposal cached in _cachedProposals.values) {
-      for (DataApplicantChat ghostChat in cached.ghostChats.values) {
+      for (DataProposalChat ghostChat in cached.ghostChats.values) {
         switch (ghostChat.type) {
-          case ApplicantChatType.ACT_PLAIN:
+          case ProposalChatType.plain:
             {
               NetChatPlain pbReq = new NetChatPlain();
-              pbReq.applicantId = ghostChat.applicantId;
-              pbReq.deviceGhostId = ghostChat.deviceGhostId;
+              pbReq.proposalId = ghostChat.proposalId;
+              pbReq.sessionGhostId = ghostChat.sessionGhostId;
               pbReq.text = ghostChat.text;
               ts.sendMessage(_netChatPlain, pbReq.writeToBuffer());
             }
             break;
-          case ApplicantChatType.ACT_HAGGLE:
+          case ProposalChatType.terms:
             {
               NetChatHaggle pbReq = new NetChatHaggle();
-              pbReq.applicantId = ghostChat.applicantId;
-              pbReq.deviceGhostId = ghostChat.deviceGhostId;
+              pbReq.proposalId = ghostChat.proposalId;
+              pbReq.sessionGhostId = ghostChat.sessionGhostId;
               Map<String, String> query = Uri.splitQueryString(ghostChat.text);
               pbReq.deliverables = query['deliverables'];
               pbReq.reward = query['reward'];
@@ -385,11 +385,11 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
               ts.sendMessage(_netChatHaggle, pbReq.writeToBuffer());
             }
             break;
-          case ApplicantChatType.ACT_IMAGE_KEY:
+          case ProposalChatType.imageKey:
             {
               NetChatImageKey pbReq = new NetChatImageKey();
-              pbReq.applicantId = ghostChat.applicantId;
-              pbReq.deviceGhostId = ghostChat.deviceGhostId;
+              pbReq.proposalId = ghostChat.proposalId;
+              pbReq.sessionGhostId = ghostChat.sessionGhostId;
               Map<String, String> query = Uri.splitQueryString(ghostChat.text);
               pbReq.imageKey = query['key'];
               ts.sendMessage(_netChatImageKey, pbReq.writeToBuffer());
@@ -401,22 +401,22 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
   }
 
   void _createGhostChat(
-      int applicantId, int deviceGhostId, ApplicantChatType type, String text) {
-    _CachedProposal cached = _cachedProposals[applicantId];
+      Int64 proposalId, int sessionGhostId, ProposalChatType type, String text) {
+    _CachedProposal cached = _cachedProposals[proposalId];
     if (cached == null) {
       cached = new _CachedProposal();
-      _cachedProposals[applicantId] = cached;
+      _cachedProposals[proposalId] = cached;
     }
-    DataApplicantChat ghostChat = new DataApplicantChat();
+    DataProposalChat ghostChat = new DataProposalChat();
     ghostChat.sent =
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
     ghostChat.senderId = account.state.accountId;
-    ghostChat.applicantId = applicantId;
-    ghostChat.deviceId = account.state.deviceId;
-    ghostChat.deviceGhostId = deviceGhostId;
+    ghostChat.proposalId = proposalId;
+    ghostChat.sessionId = account.state.sessionId;
+    ghostChat.sessionGhostId = sessionGhostId;
     ghostChat.type = type;
     ghostChat.text = text;
-    cached.ghostChats[deviceGhostId] = ghostChat;
+    cached.ghostChats[sessionGhostId] = ghostChat;
     onProposalChatChanged(ChangeAction.add, ghostChat);
 
     // TODO: Store ghost chats offline
@@ -424,36 +424,36 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
 
   static int _netChatPlain = TalkSocket.encode("CH_PLAIN");
   @override
-  void chatPlain(int applicantId, String text) {
+  void chatPlain(Int64 proposalId, String text) {
     int ghostId = ++nextDeviceGhostId;
     if (connected == NetworkConnectionState.ready) {
       NetChatPlain pbReq = new NetChatPlain();
-      pbReq.applicantId = applicantId;
-      pbReq.deviceGhostId = ghostId;
+      pbReq.proposalId = proposalId;
+      pbReq.sessionGhostId = ghostId;
       pbReq.text = text;
       ts.sendMessage(_netChatPlain, pbReq.writeToBuffer());
     }
-    _createGhostChat(applicantId, ghostId, ApplicantChatType.ACT_PLAIN, text);
+    _createGhostChat(proposalId, ghostId, ProposalChatType.plain, text);
   }
 
   static int _netChatHaggle = TalkSocket.encode("CH_HAGGLE");
   @override
   void chatHaggle(
-      int applicantId, String deliverables, String reward, String remarks) {
+      Int64 proposalId, String deliverables, String reward, String remarks) {
     int ghostId = ++nextDeviceGhostId;
     if (connected == NetworkConnectionState.ready) {
       NetChatHaggle pbReq = new NetChatHaggle();
-      pbReq.applicantId = applicantId;
-      pbReq.deviceGhostId = ghostId;
+      pbReq.proposalId = proposalId;
+      pbReq.sessionGhostId = ghostId;
       pbReq.deliverables = deliverables;
       pbReq.reward = reward;
       pbReq.remarks = remarks;
       ts.sendMessage(_netChatHaggle, pbReq.writeToBuffer());
     }
     _createGhostChat(
-      applicantId,
+      proposalId,
       ghostId,
-      ApplicantChatType.ACT_HAGGLE,
+      ProposalChatType.terms,
       "deliverables=" +
           Uri.encodeQueryComponent(deliverables) +
           "&reward=" +
@@ -465,34 +465,34 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
 
   static int _netChatImageKey = TalkSocket.encode("CH_IMAGE");
   @override
-  void chatImageKey(int applicantId, String imageKey) {
+  void chatImageKey(Int64 proposalId, String imageKey) {
     int ghostId = ++nextDeviceGhostId;
     if (connected == NetworkConnectionState.ready) {
       NetChatImageKey pbReq = new NetChatImageKey();
-      pbReq.applicantId = applicantId;
-      pbReq.deviceGhostId = ghostId;
+      pbReq.proposalId = proposalId;
+      pbReq.sessionGhostId = ghostId;
       pbReq.imageKey = imageKey;
       ts.sendMessage(_netChatImageKey, pbReq.writeToBuffer());
     }
     _createGhostChat(
-      applicantId,
+      proposalId,
       ghostId,
-      ApplicantChatType.ACT_IMAGE_KEY,
+      ProposalChatType.imageKey,
       "key=" + Uri.encodeQueryComponent(imageKey),
     );
   }
 
-  static int _netApplicantWantDealReq = TalkSocket.encode("AP_WADEA");
+  static int _netProposalWantDealReq = TalkSocket.encode("AP_WADEA");
   @override
-  Future<void> wantDeal(int applicantId, int haggleChatId) async {
-    NetApplicantWantDealReq pbReq = NetApplicantWantDealReq();
-    pbReq.applicantId = applicantId;
-    pbReq.haggleChatId = new Int64(haggleChatId);
+  Future<void> wantDeal(Int64 proposalId, Int64 termsChatId) async {
+    NetProposalWantDealReq pbReq = NetProposalWantDealReq();
+    pbReq.proposalId = proposalId;
+    pbReq.termsChatId = termsChatId;
     TalkMessage res =
-        await ts.sendRequest(_netApplicantWantDealReq, pbReq.writeToBuffer());
-    NetApplicantCommonRes pbRes = new NetApplicantCommonRes();
+        await ts.sendRequest(_netProposalWantDealReq, pbReq.writeToBuffer());
+    NetProposalCommonRes pbRes = new NetProposalCommonRes();
     pbRes.mergeFromBuffer(res.data);
-    _receivedApplicantCommonRes(pbRes);
+    _receivedProposalCommonRes(pbRes);
   }
 }
 

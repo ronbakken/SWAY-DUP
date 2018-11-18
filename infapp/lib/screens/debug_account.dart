@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/material.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 class DebugAccount extends StatelessWidget {
   final DataAccount account;

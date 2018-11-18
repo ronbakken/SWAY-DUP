@@ -11,7 +11,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:wstalk/wstalk.dart';
 
 abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
@@ -19,8 +19,8 @@ abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
   bool demoAllOffersLoading = false;
 
   bool _demoAllOffersLoaded = false;
-  Map<int, DataBusinessOffer> _demoAllOffers =
-      new Map<int, DataBusinessOffer>();
+  Map<int, DataOffer> _demoAllOffers =
+      new Map<int, DataOffer>();
 
   @override
   void resetOffersDemoState() {
@@ -31,13 +31,13 @@ abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
   @override
   void markOffersDemoDirty() {}
 
-  void _demoAllBusinessOffer(TalkMessage message) {
-    DataBusinessOffer pb = new DataBusinessOffer();
+  void _demoAllOffer(TalkMessage message) {
+    DataOffer pb = new DataOffer();
     pb.mergeFromBuffer(message.data);
     cacheOffer(pb);
     // Add received offer to known offers
     _demoAllOffers[pb.offerId.toInt()] = pb;
-    onOffersDemoChanged(ChangeAction.upsert, new Int64(pb.offerId));
+    onOffersDemoChanged(ChangeAction.upsert, pb.offerId);
   }
 
   static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
@@ -52,7 +52,7 @@ abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
     // Workaround for failing "await for"
     StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(results);
     while (await sq.hasNext) {
-      _demoAllBusinessOffer(await sq.next);
+      _demoAllOffer(await sq.next);
     }
 
     log.fine("refreshDemoAllOffers done");
@@ -62,14 +62,14 @@ abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
     // tracking https://github.com/dart-lang/sdk/issues/34877
     // log.fine(results);
     await for (TalkMessage res in results) {
-      _demoAllBusinessOffer(res);
+      _demoAllOffer(res);
     }
     log.fine("refreshDemoAllOffers done");
     */
   }
 
   @override
-  Map<int, DataBusinessOffer> get demoAllOffers {
+  Map<int, DataOffer> get demoAllOffers {
     // log.fine("demoAllOffers");
     if (_demoAllOffersLoaded == false &&
         connected == NetworkConnectionState.ready) {

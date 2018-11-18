@@ -9,32 +9,32 @@ import 'package:flutter/material.dart';
 import 'package:inf/cards/proposal_card.dart';
 import 'package:inf/styling_constants.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 class ProposalList extends StatelessWidget {
   ProposalList({
     @required this.account,
     @required this.proposals,
     @required this.getProfileSummary,
-    @required this.getBusinessOffer,
+    @required this.getOffer,
     @required this.onProposalPressed,
   });
 
   final DataAccount account;
 
-  final Iterable<DataApplicant> proposals;
+  final Iterable<DataProposal> proposals;
 
   final DataAccount Function(BuildContext context, Int64 accountId)
       getProfileSummary;
-  final DataBusinessOffer Function(BuildContext context, Int64 offerId)
-      getBusinessOffer;
+  final DataOffer Function(BuildContext context, Int64 offerId)
+      getOffer;
 
   final Function(Int64 proposalId) onProposalPressed;
 
   @override
   Widget build(BuildContext context) {
-    List<DataApplicant> proposalsSorted = proposals.toList();
-    proposalsSorted.sort((a, b) => a.applicantId.compareTo(b.applicantId));
+    List<DataProposal> proposalsSorted = proposals.toList();
+    proposalsSorted.sort((a, b) => a.proposalId.compareTo(b.proposalId));
     if (proposalsSorted.length == 0) {
       return new Center(
         child: new Card(
@@ -57,22 +57,22 @@ class ProposalList extends StatelessWidget {
               kInfPaddingHalf), // kMaterialListPadding, // const EdgeInsets.only(), // kMaterialListPadding,
       itemCount: proposalsSorted.length,
       itemBuilder: (BuildContext context, int index) {
-        DataApplicant proposal = proposalsSorted[index];
-        Int64 partnerAccountId = new Int64(proposal.senderAccountId);
-        if (partnerAccountId == new Int64(account.state.accountId)) {
-          partnerAccountId = new Int64(proposal.businessAccountId);
+        DataProposal proposal = proposalsSorted[index];
+        Int64 partnerAccountId = proposal.senderAccountId;
+        if (partnerAccountId == account.state.accountId) {
+          partnerAccountId = proposal.businessAccountId;
         }
-        if (partnerAccountId == new Int64(account.state.accountId)) {
-          partnerAccountId = new Int64(proposal.influencerAccountId);
+        if (partnerAccountId == account.state.accountId) {
+          partnerAccountId = proposal.influencerAccountId;
         }
         return new ProposalCard(
-          key: Key('ProposalCard[${proposal.applicantId}]'),
+          key: Key('ProposalCard[${proposal.proposalId}]'),
           account: account,
           proposal: proposal,
           partnerProfile: getProfileSummary(context, partnerAccountId),
-          businessOffer: getBusinessOffer(context, new Int64(proposal.offerId)),
+          businessOffer: getOffer(context, proposal.offerId),
           onPressed: () {
-            onProposalPressed(new Int64(proposal.applicantId));
+            onProposalPressed(proposal.proposalId);
           },
         );
       },

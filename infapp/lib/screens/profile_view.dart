@@ -12,7 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/widgets/follower_tray.dart';
 import 'package:inf/widgets/edit_button.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 // TODO: Change to a stateful Widget and Cleanup
 class ProfileView extends StatelessWidget {
@@ -58,25 +58,25 @@ class ProfileView extends StatelessWidget {
         oAuthProviders: ConfigManager.of(context).oauthProviders.all,
         socialMedia: account.detail.socialMedia,
       ),
-      account.detail.url.isEmpty
+      account.detail.website.isEmpty
           ? null
           : new RichText(
               text: new TextSpan(
                 children: [
                   new TextSpan(
-                    text: account.detail.url,
+                    text: account.detail.website,
                     // style: new TextStyle(color: Colors.blue),
                     style: theme.textTheme.button
                         .copyWith(color: theme.accentColor),
                     recognizer: new TapGestureRecognizer()
                       ..onTap = () {
-                        launch(account.detail.url);
+                        launch(account.detail.website);
                       },
                   ),
                 ],
               ),
             ),
-      account.detail.url.isEmpty ? null : new SizedBox(height: 20.0),
+      account.detail.website.isEmpty ? null : new SizedBox(height: 20.0),
       new Text(
         account.summary.description,
         style: theme.textTheme.body1,

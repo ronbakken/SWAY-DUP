@@ -8,69 +8,71 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 // TODO: This will have the infinite scroll mechanism (long term...)
 
-class BusinessOfferList extends StatelessWidget {
-  final List<DataBusinessOffer> businessOffers;
+class OfferList extends StatelessWidget {
+  final List<DataOffer> businessOffers;
 
   final Future<void> Function() onRefreshOffers;
-  final Function(DataBusinessOffer offer) onOfferPressed;
+  final Function(DataOffer offer) onOfferPressed;
 
-  const BusinessOfferList(
+  const OfferList(
       {Key key, this.businessOffers, this.onRefreshOffers, this.onOfferPressed})
       : super(key: key);
 
-  Widget buildTags(BuildContext context, DataBusinessOffer data) {
+  Widget buildTags(BuildContext context, DataOffer data) {
     List<Widget> tags = new List<Widget>();
     // Instead of showing 0 new proposals, show an informative message instead while still accepting new proposals!
-    if (data.applicantsNew == 0 /* && data.applicantsAccepted == 0 */ &&
-        data.state == BusinessOfferState.Bopen) {
+    /*
+    if (data.proposalsNew == 0 / * && data.proposalsAccepted == 0 * / &&
+        data.state == OfferState.Bopen) {
       tags.add(new Chip(
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           label: new Text("awaiting proposals")));
     }
-    if (data.applicantsNew != 0) {
+    if (data.proposalsNew != 0) {
       tags.add(new Chip(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        label: new Text("new applicant${data.applicantsNew > 0 ? 's' : ''}"),
+        label: new Text("new proposal${data.proposalsNew > 0 ? 's' : ''}"),
         backgroundColor: Colors.blueAccent.shade700,
         avatar: new CircleAvatar(
-          child: new Text("${data.applicantsNew}"),
+          child: new Text("${data.proposalsNew}"),
         ),
       ));
     }
-    if (data.applicantsAccepted != 0) {
+    if (data.proposalsAccepted != 0) {
       tags.add(new Chip(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         label: new Text("accepted"),
         backgroundColor: Theme.of(context).primaryColor,
         avatar: new CircleAvatar(
-          child: new Text("${data.applicantsAccepted}"),
+          child: new Text("${data.proposalsAccepted}"),
         ),
       ));
     }
-    if (data.applicantsCompleted != 0) {
+    if (data.proposalsCompleted != 0) {
       tags.add(new Chip(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         label: new Text("completed"),
         backgroundColor: Colors.greenAccent.shade700,
         avatar: new CircleAvatar(
-          child: new Text("${data.applicantsCompleted}"),
+          child: new Text("${data.proposalsCompleted}"),
         ),
       ));
     }
-    if (data.applicantsRefused != 0) {
+    if (data.proposalsRefused != 0) {
       tags.add(new Chip(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         label: new Text("rejected"),
         backgroundColor: Colors.redAccent,
         avatar: new CircleAvatar(
-          child: new Text("${data.applicantsRefused}"),
+          child: new Text("${data.proposalsRefused}"),
         ),
       ));
     }
+    */
     return new Container(
       //margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
       child: new Wrap(
@@ -111,7 +113,7 @@ class BusinessOfferList extends StatelessWidget {
                     padding: kMaterialListPadding,
                     itemCount: businessOffers.length,
                     itemBuilder: (BuildContext context, int index) {
-                      DataBusinessOffer data = businessOffers[index];
+                      DataOffer data = businessOffers[index];
                       return new Column(children: [
                         new ListTile(
                           isThreeLine: true,

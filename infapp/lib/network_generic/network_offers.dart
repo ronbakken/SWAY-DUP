@@ -10,54 +10,54 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:wstalk/wstalk.dart';
 
 class _CachedOffer {
   bool loading = false; // Request in progress, cleared on cache
   bool dirty = false; // May re-request on the network anytime, cleared on cache
-  DataBusinessOffer offer;
-  DataBusinessOffer fallback;
+  DataOffer offer;
+  DataOffer fallback;
 }
 
 abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
   Map<Int64, _CachedOffer> _cachedOffers = new Map<Int64, _CachedOffer>();
 
   @override
-  void cacheOffer(DataBusinessOffer offer) {
+  void cacheOffer(DataOffer offer) {
     _CachedOffer cached = _cachedOffers[offer.offerId];
     if (cached == null) {
       cached = new _CachedOffer();
-      _cachedOffers[new Int64(offer.offerId)] = cached;
+      _cachedOffers[offer.offerId] = cached;
     }
     cached.fallback = null;
     cached.offer = offer;
     cached.dirty = false;
     hintProfileOffer(offer);
     hintProposalOffer(offer);
-    onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
+    onOfferChanged(ChangeAction.upsert, offer.offerId);
   }
 
   @override
-  void hintOfferProposal(DataApplicant proposal) {
-    _CachedOffer cached = _cachedOffers[new Int64(proposal.offerId)];
+  void hintOfferProposal(DataProposal proposal) {
+    _CachedOffer cached = _cachedOffers[proposal.offerId];
     if (cached == null) {
       cached = new _CachedOffer();
-      _cachedOffers[new Int64(proposal.offerId)] = cached;
+      _cachedOffers[proposal.offerId] = cached;
     }
     if (cached.offer != null) {
-      DataBusinessOffer offer = new DataBusinessOffer()
+      DataOffer offer = new DataOffer()
         ..mergeFromMessage(cached.offer);
-      offer.influencerApplicantId = proposal.applicantId;
+      offer.influencerProposalId = proposal.proposalId;
       cached.offer = offer..freeze();
       cached.dirty = true;
-      onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
+      onOfferChanged(ChangeAction.upsert, offer.offerId);
     } else if (cached.fallback != null) {
-      DataBusinessOffer offer = new DataBusinessOffer()
+      DataOffer offer = new DataOffer()
         ..mergeFromMessage(cached.fallback);
-      offer.influencerApplicantId = proposal.applicantId;
+      offer.influencerProposalId = proposal.proposalId;
       cached.fallback = offer..freeze();
-      onOfferChanged(ChangeAction.upsert, new Int64(offer.offerId));
+      onOfferChanged(ChangeAction.upsert, offer.offerId);
     }
   }
 
@@ -82,7 +82,7 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
   static int _netGetOfferReq = TalkSocket.encode("GTOFFERR");
 
   /// Get an offer, refresh set to true to always get from server, use sparingly to refresh the cache
-  Future<DataBusinessOffer> getOffer(Int64 offerId,
+  Future<DataOffer> getOffer(Int64 offerId,
       {bool refresh = true}) async {
     if (!refresh) {
       _CachedOffer cached = _cachedOffers[offerId];
@@ -91,10 +91,10 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
       }
     }
     NetGetOfferReq pbReq = new NetGetOfferReq();
-    pbReq.offerId = offerId.toInt();
+    pbReq.offerId = offerId;
     TalkMessage message =
         await ts.sendRequest(_netGetOfferReq, pbReq.writeToBuffer());
-    DataBusinessOffer offer =
+    DataOffer offer =
         (new NetGetOfferRes()..mergeFromBuffer(message.data)).offer;
     cacheOffer(offer);
     return offer;
@@ -118,9 +118,9 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
   }
 
   @override
-  DataBusinessOffer tryGetOffer(Int64 offerId) {
+  DataOffer tryGetOffer(Int64 offerId) {
     if (offerId == Int64.ZERO) {
-      return new DataBusinessOffer();
+      return new DataOffer();
     }
     _CachedOffer cached = _cachedOffers[offerId];
     if (cached == null) {
@@ -132,8 +132,8 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
       return cached.offer;
     }
     if (cached.fallback == null) {
-      cached.fallback = new DataBusinessOffer();
-      cached.fallback.offerId = offerId.toInt();
+      cached.fallback = new DataOffer();
+      cached.fallback.offerId = offerId;
     }
     return cached.fallback;
   }

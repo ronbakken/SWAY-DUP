@@ -5,7 +5,7 @@ Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 class SearchItemCard extends StatelessWidget {
   final DataAccount item;

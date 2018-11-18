@@ -6,14 +6,14 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/material.dart';
 import 'package:inf/widgets/profile_avatar.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/styling_constants.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
 
 class ProposalCard extends StatelessWidget {
   final DataAccount account;
-  final DataApplicant proposal;
-  final DataBusinessOffer businessOffer;
+  final DataProposal proposal;
+  final DataOffer businessOffer;
   final DataAccount partnerProfile;
   //final bool inner;
   final Function() onPressed;
@@ -74,7 +74,7 @@ class ProposalCard extends StatelessWidget {
                   child: new ProfileAvatar(
                       size: 112.0 - kInfPadding - kInfPadding,
                       account: partnerProfile,
-                      tag: '/${proposal.applicantId}'),
+                      tag: '/${proposal.proposalId}'),
                 ),
           new Flexible(
             fit: FlexFit.loose,
@@ -106,7 +106,7 @@ class ProposalCard extends StatelessWidget {
                               ? new ProfileAvatar(
                                   size: 40.0,
                                   account: partnerProfile,
-                                  tag: '/${proposal.applicantId}')
+                                  tag: '/${proposal.proposalId}')
                               : new SizedBox(
                                   width: 40.0, // 72.0,
                                   height: 40.0,

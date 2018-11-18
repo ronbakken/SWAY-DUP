@@ -12,7 +12,7 @@ import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/screens/debug_account.dart';
 import 'package:inf/screens/haggle_view.dart';
@@ -56,8 +56,8 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
         _navigationSubscription.cancel();
       }
       _navigator = navigator;
-      _navigationSubscription = _navigator.listen(_config.services.domain,
-          new Int64(_network.account.state.accountId), onNavigationRequest);
+      _navigationSubscription = _navigator.listen(_config.services.environment,
+          _network.account.state.accountId, onNavigationRequest);
     }
   }
 
@@ -76,9 +76,9 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
         NetworkInterface network = NetworkProvider.of(context);
         return _buildProposalList(
             context,
-            (DataApplicant applicant) =>
-                (applicant.senderAccountId != applicant.influencerAccountId) &&
-                (applicant.state == ApplicantState.AS_HAGGLING));
+            (DataProposal proposal) =>
+                (proposal.senderAccountId != proposal.influencerAccountId) &&
+                (proposal.state == ProposalState.negotiating));
       },
     );
     proposalsApplied = new Builder(
@@ -86,34 +86,34 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
         NetworkInterface network = NetworkProvider.of(context);
         return _buildProposalList(
             context,
-            (DataApplicant applicant) =>
-                (applicant.senderAccountId == applicant.influencerAccountId) &&
-                (applicant.state == ApplicantState.AS_HAGGLING));
+            (DataProposal proposal) =>
+                (proposal.senderAccountId == proposal.influencerAccountId) &&
+                (proposal.state == ProposalState.negotiating));
       },
     );
     proposalsDeal = new Builder(
       builder: (context) {
         return _buildProposalList(
             context,
-            (DataApplicant applicant) =>
-                (applicant.state == ApplicantState.AS_DEAL) ||
-                (applicant.state == ApplicantState.AS_DISPUTE));
+            (DataProposal proposal) =>
+                (proposal.state == ProposalState.deal) ||
+                (proposal.state == ProposalState.dispute));
       },
     );
     proposalsHistory = new Builder(
       builder: (context) {
         return _buildProposalList(
             context,
-            (DataApplicant applicant) =>
-                (applicant.state == ApplicantState.AS_REJECTED) ||
-                (applicant.state == ApplicantState.AS_COMPLETE) ||
-                (applicant.state == ApplicantState.AS_RESOLVED));
+            (DataProposal proposal) =>
+                (proposal.state == ProposalState.rejected) ||
+                (proposal.state == ProposalState.complete) ||
+                (proposal.state == ProposalState.resolved));
       },
     );
   }
 
   Widget _buildProposalList(
-      BuildContext context, bool Function(DataApplicant applicant) test) {
+      BuildContext context, bool Function(DataProposal proposal) test) {
     NetworkInterface network = NetworkProvider.of(context);
     return new ProposalList(
       account: network.account,
@@ -122,7 +122,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
         NetworkInterface network = NetworkProvider.of(context);
         return network.tryGetProfileSummary(accountId);
       },
-      getBusinessOffer: (BuildContext context, Int64 offerId) {
+      getOffer: (BuildContext context, Int64 offerId) {
         NetworkInterface network = NetworkProvider.of(context);
         return network.tryGetOffer(offerId);
       },
@@ -189,52 +189,52 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
             network.pushSuppressChatNotifications(proposalId);
             suppressed = true;
           }
-          DataApplicant proposal = network.tryGetProposal(proposalId);
-          Iterable<DataApplicantChat> chats =
-              network.tryGetApplicantChats(proposalId);
-          DataBusinessOffer offer =
-              network.tryGetOffer(new Int64(proposal.offerId));
+          DataProposal proposal = network.tryGetProposal(proposalId);
+          Iterable<DataProposalChat> chats =
+              network.tryGetProposalChats(proposalId);
+          DataOffer offer =
+              network.tryGetOffer(proposal.offerId);
           DataAccount businessAccount = (proposal.businessAccountId == 0 &&
                   network.account.state.accountType == AccountType.business)
               ? network.account
               : network
-                  .tryGetProfileSummary(new Int64(proposal.businessAccountId));
+                  .tryGetProfileSummary(proposal.businessAccountId);
           DataAccount influencerAccount = (proposal.influencerAccountId == 0 &&
                   network.account.state.accountType ==
                       AccountType.influencer)
               ? network.account
               : network.tryGetProfileSummary(
-                  new Int64(proposal.influencerAccountId));
-          // DataApplicant proposal = network.tryGetProposal(applicantId);
+                  proposal.influencerAccountId);
+          // DataProposal proposal = network.tryGetProposal(proposalId);
           return new HaggleView(
             account: network.account,
             businessAccount: businessAccount,
             influencerAccount: influencerAccount,
-            applicant: proposal,
+            proposal: proposal,
             offer: offer,
             chats: chats,
             onUploadImage: network.uploadImage,
             onPressedProfile: (DataAccount account) {
-              navigateToPublicProfile(new Int64(account.state.accountId));
+              navigateToPublicProfile(account.state.accountId);
             },
-            onPressedOffer: (DataBusinessOffer offer) {
-              navigateToOffer(new Int64(offer.offerId));
+            onPressedOffer: (DataOffer offer) {
+              navigateToOffer(offer.offerId);
             },
             onReport: (String message) async {
-              await network.reportApplicant(proposal.applicantId, message);
+              await network.reportProposal(proposal.proposalId, message);
             },
             onSendPlain: (String text) {
-              network.chatPlain(proposal.applicantId, text);
+              network.chatPlain(proposal.proposalId, text);
             },
             onSendHaggle: (String deliverables, String reward, String remarks) {
               network.chatHaggle(
-                  proposal.applicantId, deliverables, reward, remarks);
+                  proposal.proposalId, deliverables, reward, remarks);
             },
             onSendImageKey: (String imageKey) {
-              network.chatImageKey(proposal.applicantId, imageKey);
+              network.chatImageKey(proposal.proposalId, imageKey);
             },
-            onWantDeal: (DataApplicantChat chat) async {
-              await network.wantDeal(chat.applicantId, chat.chatId.toInt());
+            onWantDeal: (DataProposalChat chat) async {
+              await network.wantDeal(chat.proposalId, chat.chatId);
             },
           );
         },
@@ -257,13 +257,13 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
       // NavigatorState navigator = Navigator.of(context);
       MultiAccountClient selection = MultiAccountSelection.of(context);
       return new AccountSwitch(
-        domain: config.services.domain,
+        environment: config.services.environment,
         accounts: selection.accounts,
         onAddAccount: () {
           selection.addAccount();
         },
         onSwitchAccount: (LocalAccountData localAccount) {
-          selection.switchAccount(localAccount.domain, localAccount.accountId);
+          selection.switchAccount(localAccount.environment, localAccount.accountId);
         },
       );
     }));

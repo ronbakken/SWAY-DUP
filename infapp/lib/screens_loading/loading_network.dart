@@ -10,7 +10,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 // Fullscreen widget while the network is still loading. Shows a swirly progress thingy, and a sad face if the network is offline
 class LoadingNetwork extends StatelessWidget {

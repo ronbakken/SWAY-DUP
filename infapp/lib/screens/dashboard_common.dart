@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/widgets/network_status.dart';
 
 // TODO: Animate transitions between the three windows
@@ -44,7 +44,7 @@ class DashboardCommon extends StatefulWidget {
 
   final int mapTab;
   final int offersTab;
-  // final int applicantsTab;
+  // final int proposalsTab;
   final int proposalsTab;
   final int agreementsTab;
 
@@ -135,10 +135,10 @@ class _DashboardCommonState extends State<DashboardCommon>
             : "Map";
     String offersLabel = "Offers";
     /*
-    String applicantsLabel =
+    String proposalsLabel =
         widget.account.state.accountType == AccountType.influencer
             ? "Applied"
-            : "Applicants";
+            : "Proposals";
             */
     String proposalsLabel = "Haggle";
     String agreementsLabel = "Deals"; // or Accepted
@@ -243,7 +243,7 @@ class _DashboardCommonState extends State<DashboardCommon>
                   text: (widget.account.state.accountType ==
                               AccountType.influencer
                           ? "Direct"
-                          : "Applicants")
+                          : "Proposals")
                       .toUpperCase()),
               new Tab(text: "Rejected".toUpperCase())
             ]);

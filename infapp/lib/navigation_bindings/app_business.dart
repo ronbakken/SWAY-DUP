@@ -10,7 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:inf/navigation_bindings/app_common.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf/screens/account_switch.dart';
@@ -77,7 +77,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
                   ),
                 );
               });
-          DataBusinessOffer offer;
+          DataOffer offer;
           try {
             // Create the offer
             offer = await network.createOffer(createOffer);
@@ -115,7 +115,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
             );
           } else {
             Navigator.of(this.context).pop();
-            navigateToOffer(new Int64(offer.offerId));
+            navigateToOffer(offer.offerId);
           }
         },
       );
@@ -150,15 +150,15 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
           // ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
-          DataBusinessOffer businessOffer = network.tryGetOffer(offerId);
+          DataOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount =
-              network.tryGetProfileSummary(new Int64(businessOffer.accountId));
+              network.tryGetProfileSummary(businessOffer.accountId);
           return new OfferView(
             account: network.account,
             businessAccount: businessAccount,
             businessOffer: businessOffer,
             onBusinessAccountPressed: () {
-              navigateToPublicProfile(new Int64(businessOffer.accountId));
+              navigateToPublicProfile(businessOffer.accountId);
             },
           );
         },
@@ -221,32 +221,32 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       proposalsDealTab: 3,
       offersBusiness: new Builder(builder: (context) {
         NetworkInterface network = NetworkProvider.of(context);
-        return new BusinessOfferList(
+        return new OfferList(
             businessOffers: network.offers.values
                 .where(
-                    (offer) => (offer.state != BusinessOfferState.Bclosed))
+                    (offer) => (offer.state != OfferState.closed))
                 .toList()
                   ..sort((a, b) => b.offerId.compareTo(a.offerId)),
             onRefreshOffers: (network.connected == NetworkConnectionState.ready)
                 ? network.refreshOffers
                 : null,
-            onOfferPressed: (DataBusinessOffer offer) {
-              navigateToOffer(new Int64(offer.offerId));
+            onOfferPressed: (DataOffer offer) {
+              navigateToOffer(offer.offerId);
             });
       }),
       /*
           offersHistory: new Builder(builder: (context) {
             NetworkInterface network = NetworkProvider.of(context);
-            return new BusinessOfferList(
+            return new OfferList(
                 businessOffers: network.offers.values
                     .where(
-                        (offer) => (offer.state == BusinessOfferState.Bclosed))
+                        (offer) => (offer.state == OfferState.Bclosed))
                     .toList()
                       ..sort((a, b) => b.offerId.compareTo(a.offerId)),
                 onRefreshOffers: (network.connected == NetworkConnectionState.ready)
                     ? network.refreshOffers
                     : null,
-                onOfferPressed: (DataBusinessOffer offer) {
+                onOfferPressed: (DataOffer offer) {
                   navigateToOffer(new Int64(offer
                       .offerId)); // account will be able to use a future value provider thingy for not-mine offers
                 });

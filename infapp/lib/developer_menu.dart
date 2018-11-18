@@ -6,6 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:math';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -13,7 +14,7 @@ import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/screens/business_offer_list.dart';
 import 'package:inf/screens/dashboard_common.dart';
 import 'package:inf/screens/debug_account.dart';
@@ -44,7 +45,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
   final Random random = new Random();
 
   List<DataAccount> sampleAccounts = new List<DataAccount>();
-  List<DataBusinessOffer> sampleBusinessOffers = new List<DataBusinessOffer>();
+  List<DataOffer> sampleOffers = new List<DataOffer>();
 
   void generateSamples() {
     sampleAccounts.length = 3;
@@ -57,7 +58,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
       }
     }
 
-    sampleAccounts[1].state.accountId = 1;
+    sampleAccounts[1].state.accountId = new Int64(1);
     sampleAccounts[1].state.accountType = AccountType.business;
     sampleAccounts[1].state.globalAccountState =
         GlobalAccountState.readWrite;
@@ -71,7 +72,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     // sampleAccounts[1].detail.coverUrls.length = 0;
     // sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
 
-    sampleAccounts[2].state.accountId = 2;
+    sampleAccounts[2].state.accountId = new Int64(2);
     sampleAccounts[2].state.accountType = AccountType.business;
     sampleAccounts[2].state.globalAccountState =
         GlobalAccountState.readWrite;
@@ -85,71 +86,71 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     // sampleAccounts[2].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
     // sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg");
 
-    sampleBusinessOffers.length = 4;
-    for (int i = 0; i < sampleBusinessOffers.length; ++i) {
-      if (sampleBusinessOffers[i] == null) {
-        sampleBusinessOffers[i] = new DataBusinessOffer();
+    sampleOffers.length = 4;
+    for (int i = 0; i < sampleOffers.length; ++i) {
+      if (sampleOffers[i] == null) {
+        sampleOffers[i] = new DataOffer();
       }
     }
 
-    sampleBusinessOffers[1].offerId = 1;
-    sampleBusinessOffers[1].accountId = 1;
-    sampleBusinessOffers[1].state = BusinessOfferState.Bopen;
-    sampleBusinessOffers[1].stateReason =
-        BusinessOfferStateReason.BnewOffer;
-    sampleBusinessOffers[1].title = "Finest Burger Weekend";
-    sampleBusinessOffers[1].description =
+    sampleOffers[1].offerId = new Int64(1);
+    sampleOffers[1].accountId = new Int64(1);
+    sampleOffers[1].state = OfferState.open;
+    sampleOffers[1].stateReason =
+        OfferStateReason.newOffer;
+    sampleOffers[1].title = "Finest Burger Weekend";
+    sampleOffers[1].description =
         "We'd like to expose the finest foods in our very busy restaurant to a wide audience.";
-    sampleBusinessOffers[1].thumbnailUrl =
+    sampleOffers[1].thumbnailUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg";
-    sampleBusinessOffers[1].reward = "Free dinner + \$150";
-    sampleBusinessOffers[1].deliverables =
+    sampleOffers[1].reward = "Free dinner + \$150";
+    sampleOffers[1].deliverables =
         "Posts with photography across social media.";
-    sampleBusinessOffers[1].location =
+    sampleOffers[1].location =
         "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
-    sampleBusinessOffers[1].coverUrls.length = 0;
-    sampleBusinessOffers[1]
+    sampleOffers[1].coverUrls.length = 0;
+    sampleOffers[1]
         .coverUrls
         .add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
-    sampleBusinessOffers[1].applicantsNew = 3;
-    sampleBusinessOffers[1].applicantsRefused = 1;
+    // sampleOffers[1].proposalsNew = 3;
+    // sampleOffers[1].proposalsRefused = 1;
 
-    sampleBusinessOffers[2].offerId = 2;
-    sampleBusinessOffers[2].accountId = 1;
-    sampleBusinessOffers[2].state = BusinessOfferState.Bopen;
-    sampleBusinessOffers[2].stateReason =
-        BusinessOfferStateReason.BnewOffer;
-    sampleBusinessOffers[2].title = "Burger Weekend Fries";
-    sampleBusinessOffers[2].description =
+    sampleOffers[2].offerId = new Int64(2);
+    sampleOffers[2].accountId = new Int64(1);
+    sampleOffers[2].state = OfferState.open;
+    sampleOffers[2].stateReason =
+        OfferStateReason.newOffer;
+    sampleOffers[2].title = "Burger Weekend Fries";
+    sampleOffers[2].description =
         "We need some table fillers to make our restaurant look very busy this weekend.";
-    sampleBusinessOffers[2].thumbnailUrl =
+    sampleOffers[2].thumbnailUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg";
-    sampleBusinessOffers[2].reward = "Free Poke Fries";
-    sampleBusinessOffers[2].deliverables =
+    sampleOffers[2].reward = "Free Poke Fries";
+    sampleOffers[2].deliverables =
         "Posts with photography across social media.";
-    sampleBusinessOffers[2].location =
+    sampleOffers[2].location =
         "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
-    sampleBusinessOffers[2].applicantsNew = 3;
-    sampleBusinessOffers[2].applicantsAccepted = 7;
-    sampleBusinessOffers[2].applicantsRefused = 1;
+    /*sampleOffers[2].proposalsNew = 3;
+    sampleOffers[2].proposalsAccepted = 7;
+    sampleOffers[2].proposalsRefused = 1;*/
 
-    sampleBusinessOffers[3].offerId = 3;
-    sampleBusinessOffers[3].accountId = 2;
-    sampleBusinessOffers[3].state = BusinessOfferState.Bclosed;
-    sampleBusinessOffers[3].stateReason =
-        BusinessOfferStateReason.Bcompleted;
-    sampleBusinessOffers[3].title = "Fishing Season";
-    sampleBusinessOffers[3].description =
+    sampleOffers[3].offerId = new Int64(3);
+    sampleOffers[3].accountId = new Int64(2);
+    sampleOffers[3].state = OfferState.closed;
+    sampleOffers[3].stateReason =
+        OfferStateReason.completed;
+    sampleOffers[3].title = "Fishing Season";
+    sampleOffers[3].description =
         "Looking to catch more customers during the fishing season.";
-    sampleBusinessOffers[3].thumbnailUrl =
+    sampleOffers[3].thumbnailUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/rally.jpg";
-    sampleBusinessOffers[3].reward = "Free dinner";
-    sampleBusinessOffers[3].deliverables =
+    sampleOffers[3].reward = "Free dinner";
+    sampleOffers[3].deliverables =
         "Posts with photography across social media.";
-    sampleBusinessOffers[3].location =
+    sampleOffers[3].location =
         "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
-    sampleBusinessOffers[3].applicantsCompleted = 1;
-    sampleBusinessOffers[3].applicantsRefused = 17;
+    /*sampleOffers[3].proposalsCompleted = 1;
+    sampleOffers[3].proposalsRefused = 17;*/
   }
 
   void generateSamplesSocial() {
@@ -224,9 +225,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
       accountButtons.add(new RaisedButton(
         child: new Column(
           children: [
-            new Text("Domain: " + localAccount.domain.toString()),
+            new Text("Domain: " + localAccount.environment.toString()),
             new Text("Local Id: " + localAccount.localId.toString()),
-            new Text("Device Id: " + localAccount.deviceId.toString()),
+            new Text("Device Id: " + localAccount.sessionId.toString()),
             new Text("Account Id: " + localAccount.accountId.toString()),
             new Text("Account Type: " + localAccount.accountType.toString()),
             new Text("Name: " + localAccount.name.toString()),
@@ -234,7 +235,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
         ),
         onPressed: () {
           MultiAccountSelection.of(context)
-              .switchAccount(localAccount.domain, localAccount.accountId);
+              .switchAccount(localAccount.environment, localAccount.accountId);
           widget.onExitDevelopmentMode();
         },
       ));
@@ -256,7 +257,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                     data.state = new DataAccountState();
                     data.summary = new DataAccountSummary();
                     data.detail = new DataAccountDetail();
-                    data.state.accountId = random.nextInt(500) + 10;
+                    data.state.accountId = new Int64(random.nextInt(500) + 10);
                     data.state.accountType = AccountType.business;
                     data.state.globalAccountState =
                         GlobalAccountState.readWrite;
@@ -414,7 +415,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                             ConfigManager.of(context).services.privacyPolicyUrl,
                         onSignUp: () async {
                           demoAccount.state.accountId =
-                              random.nextInt(1000000) + 1;
+                              new Int64(random.nextInt(1000000) + 1);
                           demoAccount.summary.name = "John Smith";
                           demoAccount.summary.description =
                               "I'm here for the food.";
@@ -455,7 +456,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text("Reset Onboarding")]),
             onPressed: () {
-              demoAccount.state.accountId = 0;
+              demoAccount.state.accountId = new Int64(0);
               demoAccount.state.accountType = AccountType.unknown;
               demoAccount.summary.name = '';
               demoAccount.summary.description = '';
@@ -543,20 +544,20 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                       },
                     )*/
                         ,
-                    offersCurrent: new BusinessOfferList(
+                    offersCurrent: new OfferList(
                       businessOffers: [
-                        sampleBusinessOffers[1],
-                        sampleBusinessOffers[2],
+                        sampleOffers[1],
+                        sampleOffers[2],
                       ],
                     ),
-                    offersHistory: new BusinessOfferList(
+                    offersHistory: new OfferList(
                       businessOffers: [
-                        sampleBusinessOffers[3],
+                        sampleOffers[3],
                       ],
                     ),
-                    /*applicantsApplying: new Text("Sent"),
-                    applicantsAccepted: new Text("Accepted"),
-                    applicantsHistory: new Text("History"),*/
+                    /*proposalsApplying: new Text("Sent"),
+                    proposalsAccepted: new Text("Accepted"),
+                    proposalsHistory: new Text("History"),*/
                   );
                 },
               ));
@@ -642,13 +643,13 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               Navigator.push(context, new MaterialPageRoute(
                 builder: (context) {
                   return new OfferView(
-                    businessOffer: sampleBusinessOffers[1],
+                    businessOffer: sampleOffers[1],
                     businessAccount: demoAccount,
                     account: demoAccount,
                     onSharePressed: () {},
                     onEndPressed: () {},
                     onEditPressed: () {},
-                    onApplicantsPressed: () {},
+                    onProposalsPressed: () {},
                   );
                 },
               ));
@@ -659,7 +660,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             onPressed: null,
           ),
           new FlatButton(
-            child: new Row(children: [new Text('Applicant Chat')]),
+            child: new Row(children: [new Text('Proposal Chat')]),
             onPressed: null,
           ),
 
@@ -717,7 +718,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               Navigator.push(context, new MaterialPageRoute(
                 builder: (context) {
                   return new OfferView(
-                    businessOffer: sampleBusinessOffers[1],
+                    businessOffer: sampleOffers[1],
                     businessAccount: sampleAccounts[1],
                     account: demoAccount,
                     onApply: (remarks) {

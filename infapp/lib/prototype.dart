@@ -10,7 +10,7 @@ import 'package:inf/developer_menu.dart';
 import 'package:inf/navigation_bindings/app_switch.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_inheritable/network_stack.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/utility/rebuild_tracker.dart';
 
 class Prototype extends StatefulWidget {

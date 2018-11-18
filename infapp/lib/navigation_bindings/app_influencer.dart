@@ -17,7 +17,7 @@ import 'package:inf/widgets/network_status.dart';
 
 import 'package:latlong/latlong.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
 
@@ -92,18 +92,18 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
           // ConfigData config = ConfigManager.of(context);
           NetworkInterface network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
-          DataBusinessOffer businessOffer = network.tryGetOffer(offerId);
+          DataOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount =
-              network.tryGetProfileSummary(new Int64(businessOffer.accountId));
+              network.tryGetProfileSummary(businessOffer.accountId);
           return new OfferView(
             account: network.account,
             businessOffer: businessOffer,
             businessAccount: businessAccount,
             onBusinessAccountPressed: () {
-              navigateToPublicProfile(new Int64(businessOffer.accountId));
+              navigateToPublicProfile(businessOffer.accountId);
             },
-            onApplicantPressed: (int applicantId) {
-              navigateToProposal(new Int64(applicantId));
+            onProposalPressed: (Int64 proposalId) {
+              navigateToProposal(proposalId);
             },
             onApply: (remarks) async {
               var progressDialog = showProgressDialog(
@@ -121,7 +121,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                       ),
                     );
                   });
-              DataApplicant proposal;
+              DataProposal proposal;
               try {
                 // Create the offer
                 proposal = await network.sendProposal(offerId, remarks);
@@ -160,7 +160,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                 );
               } else {
                 // Navigator.of(this.context).pop();
-                navigateToProposal(new Int64(proposal.applicantId));
+                navigateToProposal(proposal.proposalId);
               }
               return proposal;
             },
@@ -249,7 +249,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               .map((offer) => new OfferCard(
                   businessOffer: offer,
                   onPressed: () {
-                    navigateToOffer(new Int64(offer.offerId));
+                    navigateToOffer(offer.offerId);
                   }))
               .toList()
                 ..sort((a, b) => b.businessOffer.offerId
@@ -260,7 +260,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
 
   MapController _mapController = new MapController();
   bool _mapFilter = false;
-  DataBusinessOffer _mapHighlightOffer;
+  DataOffer _mapHighlightOffer;
 
   void navigateToHistory() {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
@@ -302,10 +302,10 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                   return network.tryGetProfileSummary(new Int64(accountId));
                 },
                 offerIds: network.demoAllOffers.keys.toList(),
-                onOfferPressed: (DataBusinessOffer offer) {
-                  navigateToOffer(new Int64(offer.offerId));
+                onOfferPressed: (DataOffer offer) {
+                  navigateToOffer(offer.offerId);
                 },
-                onOfferCenter: (DataBusinessOffer offer) {
+                onOfferCenter: (DataOffer offer) {
                   _mapController.move(
                       new LatLng(offer.latitude, offer.longitude),
                       _mapController.zoom);

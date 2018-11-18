@@ -11,13 +11,13 @@ import 'package:inf/widgets/profile_avatar.dart';
 class AccountSwitch extends StatelessWidget {
   const AccountSwitch({
     Key key,
-    @required this.domain,
+    @required this.environment,
     @required this.accounts,
     @required this.onSwitchAccount,
     @required this.onAddAccount,
   }) : super(key: key);
 
-  final String domain;
+  final String environment;
   final Iterable<LocalAccountData> accounts;
   final Function(LocalAccountData localAccount) onSwitchAccount;
   final Function() onAddAccount;
@@ -28,7 +28,7 @@ class AccountSwitch extends StatelessWidget {
 
     for (LocalAccountData localAccount in accounts.toList()
       ..sort((a, b) {
-        int c = a.domain.compareTo(b.domain);
+        int c = a.environment.compareTo(b.environment);
         if (c != 0)
           return c;
         else
@@ -41,12 +41,12 @@ class AccountSwitch extends StatelessWidget {
           child: new Column(
             children: [
               // Domain is like the release channel.
-              // Accounts from different domains only occur on development devices, or for the QA team, and MUST have some special marker.
+              // Accounts from different environments only occur on development devices, or for the QA team, and MUST have some special marker.
               new Text("Domain: " +
-                  localAccount.domain.toString() +
-                  (domain == localAccount.domain ? " (current)" : " (other)")),
+                  localAccount.environment.toString() +
+                  (environment == localAccount.environment ? " (current)" : " (other)")),
               new Text("Local Id: " + localAccount.localId.toString()),
-              new Text("Device Id: " + localAccount.deviceId.toString()),
+              new Text("Device Id: " + localAccount.sessionId.toString()),
               new Text("Account Id: " + localAccount.accountId.toString()),
               new Text("Account Type: " + localAccount.accountType.toString()),
               new Text("Name: " + localAccount.name.toString()),

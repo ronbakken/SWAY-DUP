@@ -10,7 +10,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:wstalk/wstalk.dart';
 
 abstract class NetworkOffersBusiness
@@ -19,7 +19,7 @@ abstract class NetworkOffersBusiness
   bool offersLoading = false;
 
   bool _offersLoaded = false;
-  Map<int, DataBusinessOffer> _offers = new Map<int, DataBusinessOffer>();
+  Map<int, DataOffer> _offers = new Map<int, DataOffer>();
 
   void resetOffersBusinessState() {
     _offers.clear();
@@ -32,26 +32,26 @@ abstract class NetworkOffersBusiness
 
   static int _netCreateOfferReq = TalkSocket.encode("C_OFFERR");
   @override
-  Future<DataBusinessOffer> createOffer(
+  Future<DataOffer> createOffer(
       NetCreateOfferReq createOfferReq) async {
     TalkMessage res = await ts.sendRequest(
         _netCreateOfferReq, createOfferReq.writeToBuffer());
-    DataBusinessOffer resPb = new DataBusinessOffer();
+    DataOffer resPb = new DataOffer();
     resPb.mergeFromBuffer(res.data);
     cacheOffer(resPb);
     _offers[resPb.offerId.toInt()] = resPb;
-    onOffersBusinessChanged(ChangeAction.add, new Int64(resPb.offerId));
+    onOffersBusinessChanged(ChangeAction.add, resPb.offerId);
     return resPb;
   }
 
-  void dataBusinessOffer(TalkMessage message) {
-    DataBusinessOffer pb = new DataBusinessOffer();
+  void dataOffer(TalkMessage message) {
+    DataOffer pb = new DataOffer();
     pb.mergeFromBuffer(message.data);
     if (pb.accountId == account.state.accountId) {
       cacheOffer(pb);
       // Add received offer to known offers
       _offers[pb.offerId.toInt()] = pb;
-      onOffersBusinessChanged(ChangeAction.add, new Int64(pb.offerId));
+      onOffersBusinessChanged(ChangeAction.add, pb.offerId);
     } else {
       log.fine("Received offer for other account ${pb.accountId}");
     }
@@ -67,7 +67,7 @@ abstract class NetworkOffersBusiness
   }
 
   @override
-  Map<int, DataBusinessOffer> get offers {
+  Map<int, DataOffer> get offers {
     if (_offersLoaded == false && connected == NetworkConnectionState.ready) {
       _offersLoaded = true;
       if (account.state.accountType == AccountType.business) {

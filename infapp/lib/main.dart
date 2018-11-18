@@ -11,7 +11,7 @@ import 'package:flutter/services.dart' show rootBundle;
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
 import 'package:inf/prototype.dart' show Prototype;
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
 
 Future<ConfigData> loadConfig() async {
@@ -41,7 +41,7 @@ launchApp() async {
   ConfigData config = await loadConfig();
   // Load known local accounts from SharedPreferences
   MultiAccountStore multiAccountStore =
-      await loadMultiAccountStore(config.services.domain);
+      await loadMultiAccountStore(config.services.environment);
 
   // Run flutter app with the loaded config
   runApp(new Prototype(

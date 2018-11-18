@@ -14,7 +14,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:inf/widgets/blurred_network_image.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 class OffersMap extends StatefulWidget {
   const OffersMap({
@@ -51,11 +51,11 @@ class OffersMap extends StatefulWidget {
   final double bottomSpace;
 
   /// Temporary
-  final List<DataBusinessOffer> offers;
+  final List<DataOffer> offers;
 
   // TODO: final Function(S2CellId cellId) getOffer;
   final Function(Int64 offerId) onOfferPressed;
-  final DataBusinessOffer highlightOffer;
+  final DataOffer highlightOffer;
 
   @override
   _OffersMapState createState() => new _OffersMapState();
@@ -67,7 +67,7 @@ class _OffersMapState extends State<OffersMap> {
   LatLng _gpsLatLng;
   Geolocator _geolocator;
   StreamSubscription<Position> _positionSubscription;
-  List<DataBusinessOffer> _offers;
+  List<DataOffer> _offers;
 
   @override
   void initState() {
@@ -155,13 +155,13 @@ class _OffersMapState extends State<OffersMap> {
   }
 
   void _updateOfferList() {
-    _offers = widget.offers ?? <DataBusinessOffer>[];
+    _offers = widget.offers ?? <DataOffer>[];
     if (widget.highlightOffer != null) {
       _offers.insert(0, widget.highlightOffer);
     }
   }
 
-  Widget _buildOfferMarker(BuildContext context, DataBusinessOffer offer) {
+  Widget _buildOfferMarker(BuildContext context, DataOffer offer) {
     List<Widget> stack = new List<Widget>();
     if (offer.locationOfferCount > 2) {
       stack.add(new Padding(
@@ -214,7 +214,7 @@ class _OffersMapState extends State<OffersMap> {
                 color: Colors.transparent,
                 child: new InkWell(
                   onTap: () {
-                    widget.onOfferPressed(new Int64(offer.offerId));
+                    widget.onOfferPressed(offer.offerId);
                   },
                 ),
               ),
@@ -232,8 +232,8 @@ class _OffersMapState extends State<OffersMap> {
 
   List<Marker> _buildOfferMarkers(BuildContext context) {
     List<Marker> markers = new List<Marker>();
-    Set<int> locations = new Set<int>();
-    for (DataBusinessOffer offer in _offers) {
+    Set<Int64> locations = new Set<Int64>();
+    for (DataOffer offer in _offers) {
       if (locations.contains(offer.locationId)) {
         continue;
       }

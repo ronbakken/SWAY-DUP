@@ -27,7 +27,7 @@ import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_generic/network_interface.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 export 'package:inf/network_generic/network_interface.dart';
 
@@ -91,7 +91,7 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
   // A notification from the server was pushed, which may switch to account
   void _onNavigationRequest(CrossNavigationRequest request) {
     CrossAccountNavigation.of(context).navigate(
-        request.domain, request.accountId, request.target, request.id);
+        request.environment, request.accountId, request.target, request.id);
   }
 
   // An account switch was requested and the network must now switch accounts

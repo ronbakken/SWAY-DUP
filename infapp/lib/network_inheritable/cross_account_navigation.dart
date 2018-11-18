@@ -84,11 +84,11 @@ class CrossAccountNavigator extends State<CrossAccountNavigation> {
     return controller;
   }
 
-  StreamSubscription<NavigationRequest> listen(String domain, Int64 accountId,
+  StreamSubscription<NavigationRequest> listen(String environment, Int64 accountId,
       Function(NavigationTarget target, Int64 id) onData) {
     assert(onData != null);
     assert(mounted);
-    String key = "$domain/$accountId"; // Works
+    String key = "$environment/$accountId"; // Works
     StreamController<NavigationRequest> controller = _navigationRequests[key];
     if (controller?.hasListener ?? false) {
       controller.close(); // Bye
@@ -101,16 +101,16 @@ class CrossAccountNavigator extends State<CrossAccountNavigation> {
   }
 
   void navigate(
-      String domain, Int64 accountId, NavigationTarget target, Int64 id) {
+      String environment, Int64 accountId, NavigationTarget target, Int64 id) {
     assert(mounted);
-    String key = "$domain/$accountId";
+    String key = "$environment/$accountId";
     StreamController<NavigationRequest> controller =
         _navigationRequests[key]; // Closed by dispose(), listen(), and onCancel
     controller ??= _createController(key);
     // We want to open this screen
     controller.add(new NavigationRequest(target, id));
     // On this account
-    MultiAccountSelection.of(context).switchAccount(domain, accountId);
+    MultiAccountSelection.of(context).switchAccount(environment, accountId);
   }
 }
 

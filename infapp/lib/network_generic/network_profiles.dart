@@ -10,7 +10,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:wstalk/wstalk.dart';
 
 class _CachedProfile {
@@ -26,7 +26,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
 
   @override
   void cacheProfile(DataAccount profile) {
-    Int64 accountId = new Int64(profile.state.accountId);
+    Int64 accountId = profile.state.accountId;
     if (accountId == account.state.accountId) {
       // It's me...
       return;
@@ -65,13 +65,13 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
     emptyAccount.state = new DataAccountState();
     emptyAccount.summary = new DataAccountSummary();
     emptyAccount.detail = new DataAccountDetail();
-    emptyAccount.state.accountId = accountId.toInt();
+    emptyAccount.state.accountId = accountId;
     return emptyAccount;
   }
 
   @override
-  void hintProfileOffer(DataBusinessOffer offer) {
-    Int64 accountId = new Int64(offer.accountId);
+  void hintProfileOffer(DataOffer offer) {
+    Int64 accountId = offer.accountId;
     if (accountId == Int64.ZERO) {
       return;
     }
@@ -129,13 +129,13 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
       return tryGetProfileDetail(accountId);
     }
     NetGetAccountReq pbReq = new NetGetAccountReq();
-    pbReq.accountId = accountId.toInt();
+    pbReq.accountId = accountId;
     TalkMessage message =
         await ts.sendRequest(_netLoadPublicProfileReq, pbReq.writeToBuffer());
     DataAccount profile = new DataAccount();
     profile.mergeFromBuffer(message.data);
     profile.freeze();
-    if (new Int64(profile.state.accountId) == accountId) {
+    if (profile.state.accountId == accountId) {
       cacheProfile(profile);
     } else {
       log.severe("Received invalid profile. Critical issue");

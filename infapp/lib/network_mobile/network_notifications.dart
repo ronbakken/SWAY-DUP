@@ -12,7 +12,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wstalk/wstalk.dart';
 
@@ -67,10 +67,10 @@ abstract class NetworkNotifications
       );
       _firebaseMessaging.onTokenRefresh.listen(
           _firebaseOnToken); // Ensure network manager is persistent or this may fail
-      if (config.services.domain.isNotEmpty) {
-        // Allows to send dev messages under domain_dev topic
-        log.fine("Domain: ${config.services.domain}");
-        _firebaseMessaging.subscribeToTopic('domain_' + config.services.domain);
+      if (config.services.environment.isNotEmpty) {
+        // Allows to send dev messages under environment_dev topic
+        log.fine("Domain: ${config.services.environment}");
+        _firebaseMessaging.subscribeToTopic('environment_' + config.services.environment);
       }
     }
     _firebaseOnToken(await _firebaseMessaging.getToken());
@@ -99,8 +99,8 @@ abstract class NetworkNotifications
   }
 
   @override
-  void pushSuppressChatNotifications(Int64 applicantId) {
-    _suppressChatNotifications.add(applicantId.toInt());
+  void pushSuppressChatNotifications(Int64 proposalId) {
+    _suppressChatNotifications.add(proposalId.toInt());
   }
 
   @override
@@ -114,22 +114,22 @@ abstract class NetworkNotifications
     log.fine(data);
     // Handle all notifications not meant for the current account
     // And any current notifications which are not surpressed
-    String domain = data['data']['domain'].toString();
+    String environment = data['data']['environment'].toString();
     int accountId = int.tryParse(data['data']['account_id']);
-    int applicantId = int.tryParse(data['data']['applicant_id']);
+    int proposalId = int.tryParse(data['data']['proposal_id']);
     String title = data['notification']['title'];
     String body = data['notification']['body'];
     if (_suppressChatNotifications.isEmpty ||
-        _suppressChatNotifications.last != applicantId ||
-        domain != config.services.domain ||
+        _suppressChatNotifications.last != proposalId ||
+        environment != config.services.environment ||
         accountId != account.state.accountId) {
       await flutterLocalNotificationsPlugin.show(
-        applicantId,
+        proposalId,
         title,
         body,
         platformChannelSpecifics,
         payload:
-            'domain=$domain&account_id=$accountId&applicant_id=$applicantId',
+            'environment=$environment&account_id=$accountId&proposal_id=$proposalId',
       );
     }
   }
@@ -137,12 +137,12 @@ abstract class NetworkNotifications
   Future<dynamic> _firebaseOnLaunch(Map<String, dynamic> data) async {
     log.fine("Firebase Launch Received: $data");
     // Fired when the app was opened by a message
-    if (data['applicant_id'] != null) {
+    if (data['proposal_id'] != null) {
       _onNavigationRequest.add(new CrossNavigationRequest(
-          data['domain'],
+          data['environment'],
           Int64.parseInt(data['account_id']),
           NavigationTarget.Proposal,
-          Int64.parseInt(data['applicant_id'])));
+          Int64.parseInt(data['proposal_id'])));
     }
   }
 
@@ -151,34 +151,34 @@ abstract class NetworkNotifications
     // Fired when the app was opened by a message
     /*{collapse_key: app.infmarketplace, 
     account_id: 10, 
-    applicant_id: 16, 
+    proposal_id: 16, 
     google.original_priority: high, 
     google.sent_time: 1537966114567, 
     google.delivered_priority: high, 
-    domain: dev, google.ttl: 2419200, 
+    environment: dev, google.ttl: 2419200, 
     from: 1051755311348, type: 0, 
     google.message_id: 0:1537966114577353%ddd1e337ddd1e337, 
     sender_id: 11}*/
-    if (data['applicant_id'] != null) {
+    if (data['proposal_id'] != null) {
       _onNavigationRequest.add(new CrossNavigationRequest(
-          data['domain'],
+          data['environment'],
           Int64.parseInt(data['account_id']),
           NavigationTarget.Proposal,
-          Int64.parseInt(data['applicant_id'])));
+          Int64.parseInt(data['proposal_id'])));
     }
   }
 
   Future<dynamic> onSelectNotification(String payload) async {
     if (payload != null) {
       log.fine('[INF] Local notification payload: ' + payload);
-      /*domain=dev&account_id=10&applicant_id=16*/
+      /*environment=dev&account_id=10&proposal_id=16*/
       Map<String, String> data = Uri.splitQueryString(payload);
-      if (data['applicant_id'] != null) {
+      if (data['proposal_id'] != null) {
         _onNavigationRequest.add(new CrossNavigationRequest(
-            data['domain'],
+            data['environment'],
             Int64.parseInt(data['account_id']),
             NavigationTarget.Proposal,
-            Int64.parseInt(data['applicant_id'])));
+            Int64.parseInt(data['proposal_id'])));
       }
     }
   }

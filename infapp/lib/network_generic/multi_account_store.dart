@@ -14,7 +14,7 @@ import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_mobile/multi_account_store_impl.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
 
@@ -33,26 +33,26 @@ abstract class MultiAccountStore implements MultiAccountClient {
   Stream<LocalAccountData> get onSwitchAccount;
 
   /// Switch to another account
-  void switchAccount(String domain, Int64 accountId);
+  void switchAccount(String environment, Int64 accountId);
 
   /// Add an account
-  void addAccount([String domain]);
+  void addAccount([String environment]);
 
   /// List of accounts known locally
   List<LocalAccountData> get accounts;
 
   LocalAccountData get current;
   Uint8List getCommonDeviceId();
-  LocalAccountData getAccount(String domain, Int64 accountId);
-  LocalAccountData getLocal(String domain, int localId);
-  void removeLocal(String domain, int localId);
+  LocalAccountData getAccount(String environment, Int64 accountId);
+  LocalAccountData getLocal(String environment, int localId);
+  void removeLocal(String environment, int localId);
   void setDeviceId(
-      String domain, int localId, Int64 deviceId, Uint8List deviceCookie);
+      String environment, int localId, Int64 sessionId, Uint8List deviceCookie);
   void setAccountId(
-      String domain, int localId, Int64 accountId, AccountType accountType);
-  void setNameAvatar(String domain, int localId, String name,
+      String environment, int localId, Int64 accountId, AccountType accountType);
+  void setNameAvatar(String environment, int localId, String name,
       String blurredAvatarUrl, String avatarUrl);
-  Uint8List getDeviceCookie(String domain, int localId);
+  Uint8List getDeviceCookie(String environment, int localId);
   Future<void> initialize();
   Future<void> dispose();
 }

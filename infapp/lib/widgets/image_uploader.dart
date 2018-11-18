@@ -14,7 +14,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/widgets/progress_dialog.dart';
 
 // Image uploader

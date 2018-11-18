@@ -19,7 +19,7 @@ import 'package:inf/network_generic/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 export 'package:inf/network_generic/network_interface.dart';
 
@@ -60,7 +60,7 @@ class NetworkManager
     return _offerProposalChanged.stream;
   }
 
-  Stream<Change<DataApplicantChat>> get offerProposalChatChanged {
+  Stream<Change<DataProposalChat>> get offerProposalChatChanged {
     return _offerProposalChatChanged.stream;
   }
 
@@ -78,8 +78,8 @@ class NetworkManager
       new StreamController<Change<Int64>>();
   final StreamController<Change<Int64>> _offerProposalChanged =
       new StreamController<Change<Int64>>();
-  final StreamController<Change<DataApplicantChat>> _offerProposalChatChanged =
-      new StreamController<Change<DataApplicantChat>>();
+  final StreamController<Change<DataProposalChat>> _offerProposalChatChanged =
+      new StreamController<Change<DataProposalChat>>();
   final StreamController<void> _commonChanged = new StreamController<void>();
 
   void onProfileChanged(ChangeAction action, Int64 id) {
@@ -107,9 +107,9 @@ class NetworkManager
     _offerProposalChanged.add(new Change<Int64>(action, id));
   }
 
-  void onProposalChatChanged(ChangeAction action, DataApplicantChat chat) {
+  void onProposalChatChanged(ChangeAction action, DataProposalChat chat) {
     onChanged();
-    _offerProposalChatChanged.add(new Change<DataApplicantChat>(action, chat));
+    _offerProposalChatChanged.add(new Change<DataProposalChat>(action, chat));
   }
 
   // This is called anytime the connection or account state changes (network.account, network.connected)

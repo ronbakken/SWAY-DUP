@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/widgets/network_status.dart';
 
 // TODO: Animate transitions between the three windows
@@ -107,10 +107,10 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
 
   @override
   Widget build(BuildContext context) {
-    String applicantsLabel =
+    String proposalsLabel =
         widget.account.state.accountType == AccountType.influencer
             ? "Applied"
-            : "Applicants";
+            : "Proposals";
 
     /*String mapLabel =
         widget.account.state.accountType == AccountType.influencer
@@ -152,7 +152,7 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
     if (widget.proposalsAppliedTab != null) {
       tabBarItems[widget.proposalsAppliedTab] = new BottomNavigationBarItem(
         icon: new Icon(Icons.inbox),
-        title: new Text(applicantsLabel),
+        title: new Text(proposalsLabel),
       );
     }
     if (widget.proposalsDealTab != null) {
@@ -181,7 +181,7 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
       } else if (_currentTab == widget.proposalsDirectTab) {
         title = "Direct";
       } else if (_currentTab == widget.proposalsAppliedTab) {
-        title = applicantsLabel;
+        title = proposalsLabel;
       } else if (_currentTab == widget.proposalsDealTab) {
         title = "Deals";
       }

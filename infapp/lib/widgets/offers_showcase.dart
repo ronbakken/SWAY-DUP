@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/styling_constants.dart';
 
 import 'package:inf/widgets/blurred_network_image.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 class OffersShowcase extends StatefulWidget {
   const OffersShowcase({
@@ -20,9 +20,9 @@ class OffersShowcase extends StatefulWidget {
     @required this.offerIds,
   }) : super(key: key);
 
-  final Function(DataBusinessOffer offer) onOfferPressed;
-  final Function(DataBusinessOffer offer) onOfferCenter;
-  final DataBusinessOffer Function(BuildContext context, int offerId) getOffer;
+  final Function(DataOffer offer) onOfferPressed;
+  final Function(DataOffer offer) onOfferCenter;
+  final DataOffer Function(BuildContext context, int offerId) getOffer;
   final DataAccount Function(BuildContext context, int accountId) getAccount;
   final List<int> offerIds;
 
@@ -35,7 +35,7 @@ class _OffersShowcaseState extends State<OffersShowcase> {
     ThemeData theme = Theme.of(context);
     int offerId = widget.offerIds[offerIdx];
     // print("[INF] Showcase $offerId");
-    DataBusinessOffer offer = widget.getOffer(context, offerId);
+    DataOffer offer = widget.getOffer(context, offerId);
     /*DataAccount account = offer.accountId != 0
         ? widget.getAccount(context, offer.accountId)
         : new DataAccount();*/

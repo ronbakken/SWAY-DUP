@@ -6,6 +6,11 @@ dependencies:
     sdk: flutter
 
   fixnum: any
+  
+  inf_common:
+    git: 
+      url: git@github.com:infmarketplace/inf_common.git
+      ref: 0af77d5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

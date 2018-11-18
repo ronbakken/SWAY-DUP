@@ -6,10 +6,11 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/widgets/profile_avatar.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/widgets/carousel_app_bar.dart';
 import 'package:inf/widgets/dark_container.dart';
 
@@ -26,13 +27,13 @@ class OfferView extends StatefulWidget {
     this.onSharePressed,
     this.onEndPressed,
     this.onEditPressed,
-    this.onApplicantsPressed,
-    this.onApplicantPressed,
+    this.onProposalsPressed,
+    this.onProposalPressed,
   }) : super(key: key);
 
-  final Future<DataApplicant> Function(String remarks) onApply;
+  final Future<DataProposal> Function(String remarks) onApply;
 
-  final DataBusinessOffer businessOffer;
+  final DataOffer businessOffer;
   final DataAccount businessAccount;
   final DataAccount account;
 
@@ -42,9 +43,9 @@ class OfferView extends StatefulWidget {
 
   final Function() onEndPressed;
   final Function() onEditPressed;
-  final Function() onApplicantsPressed;
+  final Function() onProposalsPressed;
 
-  final Function(int applicantId) onApplicantPressed;
+  final Function(Int64 proposalId) onProposalPressed;
 
   @override
   _OfferViewState createState() => new _OfferViewState();
@@ -76,7 +77,7 @@ class _OfferViewState extends State<OfferView> {
 
   Widget _buildInfluencerApply(BuildContext context) {
     if (widget.account.state.accountType == AccountType.influencer) {
-      if (widget.businessOffer.influencerApplicantId == 0) {
+      if (widget.businessOffer.influencerProposalId == 0) {
         return new Container(
             margin: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             child: new Column(
@@ -139,10 +140,10 @@ class _OfferViewState extends State<OfferView> {
                         new Text("See your application".toUpperCase()),
                       ],
                     ),
-                    onPressed: widget.onApplicantPressed != null
+                    onPressed: widget.onProposalPressed != null
                         ? () {
-                            widget.onApplicantPressed(
-                                widget.businessOffer.influencerApplicantId);
+                            widget.onProposalPressed(
+                                widget.businessOffer.influencerProposalId);
                           }
                         : null,
                   )
@@ -159,9 +160,9 @@ class _OfferViewState extends State<OfferView> {
 
   @override
   Widget build(BuildContext context) {
-    bool withApplicant =
+    bool withProposal =
         (widget.account.state.accountType == AccountType.influencer) &&
-            (widget.businessOffer.influencerApplicantId != 0);
+            (widget.businessOffer.influencerProposalId != 0);
     return new Scaffold(
       body: new CustomScrollView(
         slivers: <Widget>[
@@ -204,7 +205,7 @@ class _OfferViewState extends State<OfferView> {
               ),
               widget.onEndPressed == null &&
                       widget.onEditPressed == null &&
-                      widget.onApplicantsPressed == null
+                      widget.onProposalsPressed == null
                   ? null
                   : new Container(
                       child: new Row(
@@ -275,7 +276,7 @@ class _OfferViewState extends State<OfferView> {
                                     ),
                                     onPressed: widget.onEditPressed,
                                   ),
-                            widget.onApplicantsPressed == null
+                            widget.onProposalsPressed == null
                                 ? null
                                 : new IconButton(
                                     // TODO: Refactor to not use IconButton
@@ -288,19 +289,19 @@ class _OfferViewState extends State<OfferView> {
                                           child:
                                               new Icon(Icons.inbox, size: 24.0),
                                         ),
-                                        new Text("Applicants".toUpperCase(),
+                                        new Text("Proposals".toUpperCase(),
                                             maxLines: 1,
                                             overflow: TextOverflow
                                                 .ellipsis), // FIXME: IconButton width is insufficient
                                       ],
                                     ),
-                                    onPressed: widget.onApplicantsPressed,
+                                    onPressed: widget.onProposalsPressed,
                                   ),
                           ]..removeWhere((Widget w) => w == null)),
                     ),
               widget.onEndPressed == null &&
                       widget.onEditPressed == null &&
-                      widget.onApplicantsPressed == null
+                      widget.onProposalsPressed == null
                   ? null
                   : new Divider(),
               new ListTile(
@@ -317,8 +318,8 @@ class _OfferViewState extends State<OfferView> {
                   ],
                 ),
               ),
-              // Applicant, so hide the original deliverables, etc, as it's specified in haggle chat
-              withApplicant
+              // Proposal, so hide the original deliverables, etc, as it's specified in haggle chat
+              withProposal
                   ? null
                   : new ListTile(
                       leading: new Icon(Icons.work),
@@ -335,8 +336,8 @@ class _OfferViewState extends State<OfferView> {
                         ],
                       ),
                     ),
-              // Applicant, so hide the original rewards, etc, etc, as it's specified in haggle chat
-              withApplicant
+              // Proposal, so hide the original rewards, etc, etc, as it's specified in haggle chat
+              withProposal
                   ? null
                   : new ListTile(
                       leading: new Icon(Icons.redeem),

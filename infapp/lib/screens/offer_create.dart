@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:inf/utility/ensure_visible_when_focused.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 import 'package:inf/widgets/image_uploader.dart';
 
@@ -44,7 +44,7 @@ class OfferCreate extends StatefulWidget {
     this.onUploadImage,
   }) : super(key: key);
 
-  final Future<DataBusinessOffer> Function(NetCreateOfferReq createOffer)
+  final Future<DataOffer> Function(NetCreateOfferReq createOffer)
       onCreateOffer;
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
 

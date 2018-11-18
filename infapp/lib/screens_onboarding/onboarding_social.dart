@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 import 'package:inf/widgets/progress_dialog.dart';
 
 import 'package:inf/widgets/network_status.dart';
@@ -50,7 +50,7 @@ class OnboardingSocial extends StatelessWidget {
     bool connected = false;
     for (int i = 0; i < nbButtons; ++i) {
       ConfigOAuthProvider cfg = oauthProviders[i];
-      if (cfg.visible && cfg.mechanism != OAuthMechanism.none) {
+      if (cfg.visible && cfg.canAlwaysAuthenticate && cfg.canConnect && cfg.mechanism != OAuthMechanism.none) {
         if (oauthState[i].connected) {
           connected = true;
         }
@@ -76,7 +76,7 @@ class OnboardingSocial extends StatelessWidget {
               : new RaisedButton(
                   // shape: new StadiumBorder(),
                   child: r,
-                  onPressed: (cfg.enabled && onOAuthSelected != null)
+                  onPressed: (onOAuthSelected != null)
                       ? () {
                           onOAuthSelected(i);
                         }

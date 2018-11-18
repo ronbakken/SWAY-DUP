@@ -37,7 +37,7 @@ import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 export 'package:inf/network_generic/network_interface.dart';
 
@@ -265,16 +265,16 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     final Uint8List commonDeviceId = multiAccountStore.getCommonDeviceId();
     final LocalAccountData localAccount = multiAccountStore.current;
     final Uint8List aesKey = multiAccountStore.getDeviceCookie(
-        localAccount.domain, localAccount.localId);
+        localAccount.environment, localAccount.localId);
     _currentLocalAccount = localAccount;
 
     // Original plan was to use an assymetric key pair, but the generation was too slow. Hence just using a symmetric AES key for now
     /*
     int localAccountId = widget.networkManager.localAccountId;
     String aesKeyPref =
-        widget.config.services.domain + '_aes_key_$localAccountId';
+        widget.config.services.environment + '_aes_key_$localAccountId';
     String deviceIdPref =
-        widget.config.services.domain + '_device_id_$localAccountId';
+        widget.config.services.environment + '_device_id_$localAccountId';
     String aesKeyStr;
     Uint8List aesKey;
     int attemptDeviceId = 0;
@@ -283,15 +283,15 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       aesKeyStr = prefs.getString(aesKeyPref);
       aesKey = base64.decode(aesKeyStr);
       attemptDeviceId = prefs.getInt(deviceIdPref);
-      if (attemptDeviceId != account.state.deviceId) {
-        account.state.deviceId = 0;
+      if (attemptDeviceId != account.state.sessionId) {
+        account.state.sessionId = 0;
       }
     } catch (e) {}
     */
-    if (localAccount.deviceId == null || localAccount.deviceId == 0) {
+    if (localAccount.sessionId == null || localAccount.sessionId == 0) {
       // Create new device
       log.info("Create new device");
-      account.state.deviceId = 0;
+      account.state.sessionId = Int64.ZERO;
       NetDeviceAuthCreateReq pbReq = new NetDeviceAuthCreateReq();
       pbReq.aesKey = aesKey;
       pbReq.commonDeviceId = commonDeviceId;
@@ -306,18 +306,18 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         throw Exception("No longer alive, don't authorize");
       }
       await receivedDeviceAuthState(pbRes);
-      log.info("Device id ${account.state.deviceId}");
-      if (account.state.deviceId != 0) {
-        multiAccountStore.setDeviceId(localAccount.domain, localAccount.localId,
-            new Int64(account.state.deviceId), aesKey);
+      log.info("Device id ${account.state.sessionId}");
+      if (account.state.sessionId != 0) {
+        multiAccountStore.setDeviceId(localAccount.environment, localAccount.localId,
+            account.state.sessionId, aesKey);
       }
     } else {
       // Authenticate existing device
-      log.info("Authenticate existing device ${localAccount.deviceId}");
+      log.info("Authenticate existing device ${localAccount.sessionId}");
 
       NetDeviceAuthChallengeReq pbChallengeReq =
           new NetDeviceAuthChallengeReq();
-      pbChallengeReq.deviceId = localAccount.deviceId.toInt();
+      pbChallengeReq.sessionId = localAccount.sessionId;
       TalkMessage msgChallengeResReq = await ts.sendRequest(
           TalkSocket.encode("DA_CHALL"), pbChallengeReq.writeToBuffer());
       NetDeviceAuthChallengeResReq pbChallengeResReq =
@@ -350,12 +350,12 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         throw Exception("No longer alive, don't authorize");
       }
       await receivedDeviceAuthState(pbRes);
-      log.info("Device id ${account.state.deviceId}");
+      log.info("Device id ${account.state.sessionId}");
     }
 
-    if (account.state.deviceId == 0) {
-      multiAccountStore.removeLocal(localAccount.domain, localAccount.localId);
-      multiAccountStore.addAccount(localAccount.domain);
+    if (account.state.sessionId == 0) {
+      multiAccountStore.removeLocal(localAccount.environment, localAccount.localId);
+      multiAccountStore.addAccount(localAccount.environment);
       _currentLocalAccount = null;
       throw new Exception("Authentication did not succeed");
     } else {
@@ -368,26 +368,26 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
           ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState));
       _subscriptions.add(ts
           .stream(TalkSocket.encode("DB_OFFER"))
-          .listen(dataBusinessOffer)); // TODO: Remove this!
+          .listen(dataOffer)); // TODO: Remove this!
       //_subscriptions.add(ts
       //    .stream(TalkSocket.encode("DE_OFFER"))
-      //    .listen(_demoAllBusinessOffer));
+      //    .listen(_demoAllOffer));
       // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
       _subscriptions.add(
-          ts.stream(TalkSocket.encode('LN_APPLI')).listen(liveNewApplicant));
+          ts.stream(TalkSocket.encode('LN_APPLI')).listen(liveNewProposal));
       _subscriptions.add(ts
           .stream(TalkSocket.encode('LN_A_CHA'))
-          .listen(liveNewApplicantChat));
+          .listen(liveNewProposalChat));
       _subscriptions.add(
-          ts.stream(TalkSocket.encode('LU_APPLI')).listen(liveUpdateApplicant));
+          ts.stream(TalkSocket.encode('LU_APPLI')).listen(liveUpdateProposal));
       _subscriptions.add(ts
           .stream(TalkSocket.encode('LU_A_CHA'))
-          .listen(liveUpdateApplicantChat));
+          .listen(liveUpdateProposalChat));
 
       resubmitGhostChats();
     }
 
-    // assert(accountState.deviceId != 0);
+    // assert(accountState.sessionId != 0);
   }
 
   void _netDeviceAuthState(TalkMessage message) async {
@@ -516,12 +516,12 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     if (pb.data.state.accountId != 0) {
       // Update local account store
       _multiAccountStore.setAccountId(
-          _currentLocalAccount.domain,
+          _currentLocalAccount.environment,
           _currentLocalAccount.localId,
-          new Int64(account.state.accountId),
+          account.state.accountId,
           account.state.accountType);
       _multiAccountStore.setNameAvatar(
-          _currentLocalAccount.domain,
+          _currentLocalAccount.environment,
           _currentLocalAccount.localId,
           account.summary.name,
           account.summary.blurredAvatarThumbnailUrl,

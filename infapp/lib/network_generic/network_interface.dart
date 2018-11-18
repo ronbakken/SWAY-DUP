@@ -7,7 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
-import 'package:inf/protobuf/inf_protobuf.dart';
+import 'package:inf_common/inf_common.dart';
 
 enum NetworkConnectionState { connecting, failing, offline, ready }
 
@@ -47,7 +47,7 @@ abstract class NetworkInterface {
   Stream<Change<Int64>> get offerProposalChanged;
 
   /// Called when a change has occured to a chat entry in a proposal. Match by id if available, by ghost id if the id is not set or 0.
-  Stream<Change<DataApplicantChat>> get offerProposalChatChanged;
+  Stream<Change<DataProposalChat>> get offerProposalChatChanged;
 
   /// Called when either the account or network connection status has changed.
   Stream<void> get commonChanged;
@@ -93,13 +93,13 @@ abstract class NetworkInterface {
   /////////////////////////////////////////////////////////////////////////////
 
   /// Create an offer.
-  Future<DataBusinessOffer> createOffer(NetCreateOfferReq createOfferReq);
+  Future<DataOffer> createOffer(NetCreateOfferReq createOfferReq);
 
   /// Refresh all offers (currently latest offers)
   Future<void> refreshOffers();
 
   /// List of offers owned by this account (applicable for business)
-  Map<int, DataBusinessOffer> get offers;
+  Map<int, DataOffer> get offers;
 
   /// Whether [offers] is in the process of loading. Not set by refreshOffers call
   bool get offersLoading;
@@ -112,7 +112,7 @@ abstract class NetworkInterface {
   Future<void> refreshDemoAllOffers();
 
   /// List of all offers on the server
-  Map<int, DataBusinessOffer> get demoAllOffers;
+  Map<int, DataOffer> get demoAllOffers;
 
   /// Whether [offers] is in the process of loading. Not set by refreshOffers call
   bool demoAllOffersLoading;
@@ -122,13 +122,13 @@ abstract class NetworkInterface {
   /////////////////////////////////////////////////////////////////////////////
 
   /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached offer, never returns null, never throws exception
-  DataBusinessOffer tryGetOffer(Int64 offerId);
+  DataOffer tryGetOffer(Int64 offerId);
 
   /// Get an offer, refresh set to true to always get from server, use sparingly to refresh the cache, may fail and throw exceptions
-  Future<DataBusinessOffer> getOffer(Int64 offerId, {bool refresh = true});
+  Future<DataOffer> getOffer(Int64 offerId, {bool refresh = true});
 
   /// Reload business offer silently in the background, call when opening a window
-  // void backgroundReloadBusinessOffer(Int64 offerId);
+  // void backgroundReloadOffer(Int64 offerId);
 
   /////////////////////////////////////////////////////////////////////////////
   // Get profile
@@ -163,40 +163,40 @@ abstract class NetworkInterface {
   Future<void> refreshProposals();
 
   /// List of proposals for this account (may or may not be complete depending on loading status)
-  Iterable<DataApplicant> get proposals;
+  Iterable<DataProposal> get proposals;
 
   /// Whether [proposals] is in the process of loading. Not set by refreshOffers call
   bool get proposalsLoading;
 
   /// Apply for an offer, or send a direct offer proposal (TODO: Target influencer id for direct offers)
-  Future<DataApplicant> sendProposal(Int64 offerId, String remarks);
+  Future<DataProposal> sendProposal(Int64 offerId, String remarks);
 
   /// Get proposal from the server, acts like refresh
-  Future<DataApplicant> getProposal(Int64 proposalId);
+  Future<DataProposal> getProposal(Int64 proposalId);
 
   /// Fetch latest proposal from cache by id, fetch in background if non-existent and return empty fallback
-  DataApplicant tryGetProposal(Int64 proposalId);
+  DataProposal tryGetProposal(Int64 proposalId);
 
-  /// Fetch latest known applicant chats from cache, fetch in background if not loaded yet
-  Iterable<DataApplicantChat> tryGetApplicantChats(Int64 proposalId);
+  /// Fetch latest known proposal chats from cache, fetch in background if not loaded yet
+  Iterable<DataProposalChat> tryGetProposalChats(Int64 proposalId);
 
   /////////////////////////////////////////////////////////////////////////////
   // Haggle Actions
   /////////////////////////////////////////////////////////////////////////////
 
-  /// Sends a report about an applicant to support. May fail, must provide error feedback to the user.
-  Future<void> reportApplicant(int applicantId, String text);
+  /// Sends a report about an proposal to support. May fail, must provide error feedback to the user.
+  Future<void> reportProposal(Int64 proposalId, String text);
 
   /// Chat. Returns immediately, adding ghost data locally.
-  void chatPlain(int applicantId, String text);
+  void chatPlain(Int64 proposalId, String text);
   void chatHaggle(
-      int applicantId, String deliverables, String reward, String remarks);
-  void chatImageKey(int applicantId, String imageKey);
+      Int64 proposalId, String deliverables, String reward, String remarks);
+  void chatImageKey(Int64 proposalId, String imageKey);
 
   /// TODO: Provide image chat functions that takes file directly and handles background upload.
 
   /// Signify that the user wants a deal. May fail, must provide error feedback to the user.
-  Future<void> wantDeal(int applicantId, int haggleChatId);
+  Future<void> wantDeal(Int64 proposalId, Int64 termsChatId);
 }
 
 /* end of file */
