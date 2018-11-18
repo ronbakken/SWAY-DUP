@@ -48,8 +48,8 @@ abstract class MultiAccountStore implements MultiAccountClient {
   void removeLocal(String environment, int localId);
   void setDeviceId(
       String environment, int localId, Int64 sessionId, Uint8List deviceCookie);
-  void setAccountId(
-      String environment, int localId, Int64 accountId, AccountType accountType);
+  void setAccountId(String environment, int localId, Int64 accountId,
+      AccountType accountType);
   void setNameAvatar(String environment, int localId, String name,
       String blurredAvatarUrl, String avatarUrl);
   Uint8List getDeviceCookie(String environment, int localId);

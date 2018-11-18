@@ -32,8 +32,7 @@ abstract class NetworkOffersBusiness
 
   static int _netCreateOfferReq = TalkSocket.encode("C_OFFERR");
   @override
-  Future<DataOffer> createOffer(
-      NetCreateOfferReq createOfferReq) async {
+  Future<DataOffer> createOffer(NetCreateOfferReq createOfferReq) async {
     TalkMessage res = await ts.sendRequest(
         _netCreateOfferReq, createOfferReq.writeToBuffer());
     DataOffer resPb = new DataOffer();

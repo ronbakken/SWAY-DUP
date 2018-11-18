@@ -172,7 +172,8 @@ class MultiAccountStoreImpl implements MultiAccountStore {
       _LocalDomainDataImpl environmentData = new _LocalDomainDataImpl();
       environmentData.environment = environment;
       try {
-        environmentData.nextLocalId = _prefs.getInt("${environment}_next_id") ?? 1;
+        environmentData.nextLocalId =
+            _prefs.getInt("${environment}_next_id") ?? 1;
       } catch (error) {
         environmentData.nextLocalId = 1;
       }
@@ -182,7 +183,8 @@ class MultiAccountStoreImpl implements MultiAccountStore {
         accountData.localId = localId;
         try {
           accountData.sessionId = Int64.parseInt(
-                  _prefs.getString("${environment}_${localId}_device_id") ?? "0") ??
+                  _prefs.getString("${environment}_${localId}_device_id") ??
+                      "0") ??
               Int64.ZERO;
         } catch (error) {}
         if (accountData.sessionId != null &&
@@ -194,9 +196,10 @@ class MultiAccountStoreImpl implements MultiAccountStore {
                 Int64.ZERO;
             accountData.accountType = AccountType.valueOf(
                 _prefs.getInt("${environment}_${localId}_account_type") ?? 0);
-            accountData.name = _prefs.getString("${environment}_${localId}_name");
-            accountData.blurredAvatarUrl =
-                _prefs.getString("${environment}_${localId}_blurred_avatar_url");
+            accountData.name =
+                _prefs.getString("${environment}_${localId}_name");
+            accountData.blurredAvatarUrl = _prefs
+                .getString("${environment}_${localId}_blurred_avatar_url");
             accountData.avatarUrl =
                 _prefs.getString("${environment}_${localId}_avatar_url");
           } catch (error) {}
@@ -243,48 +246,53 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   }
 
   @override
-  void setDeviceId(
-      String environment, int localId, Int64 sessionId, Uint8List deviceCookie) {
+  void setDeviceId(String environment, int localId, Int64 sessionId,
+      Uint8List deviceCookie) {
     _environments[environment].local[localId].sessionId = sessionId;
-    _prefs.setString("${environment}_${localId}_device_id", sessionId.toString());
+    _prefs.setString(
+        "${environment}_${localId}_device_id", sessionId.toString());
     _prefs.setString(
         "${environment}_${localId}_device_cookie", base64.encode(deviceCookie));
-    _onAccountsChanged
-        .add(new Change(ChangeAction.upsert, _environments[environment].local[localId]));
+    _onAccountsChanged.add(new Change(
+        ChangeAction.upsert, _environments[environment].local[localId]));
   }
 
   @override
-  void setAccountId(
-      String environment, int localId, Int64 accountId, AccountType accountType) {
+  void setAccountId(String environment, int localId, Int64 accountId,
+      AccountType accountType) {
     _environments[environment].accounts.removeWhere(
         (Int64 accountId, _LocalAccountDataImpl data) =>
             data.localId == localId);
     _environments[environment].local[localId].accountId = accountId;
     _environments[environment].local[localId].accountType = accountType;
-    _environments[environment].accounts[accountId] = _environments[environment].local[localId];
-    _prefs.setString("${environment}_${localId}_account_id", accountId.toString());
+    _environments[environment].accounts[accountId] =
+        _environments[environment].local[localId];
+    _prefs.setString(
+        "${environment}_${localId}_account_id", accountId.toString());
     _prefs.setInt("${environment}_${localId}_account_type", accountType.value);
     if (_current.environment == environment &&
         _current.localId == localId &&
         accountId != Int64.ZERO) {
       _setLastUsed(environment, localId);
     }
-    _onAccountsChanged
-        .add(new Change(ChangeAction.upsert, _environments[environment].local[localId]));
+    _onAccountsChanged.add(new Change(
+        ChangeAction.upsert, _environments[environment].local[localId]));
   }
 
   @override
   void setNameAvatar(String environment, int localId, String name,
       String blurredAvatarUrl, String avatarUrl) {
     _environments[environment].local[localId].name = name;
-    _environments[environment].local[localId].blurredAvatarUrl = blurredAvatarUrl;
+    _environments[environment].local[localId].blurredAvatarUrl =
+        blurredAvatarUrl;
     _environments[environment].local[localId].avatarUrl = avatarUrl;
     _prefs.setString("${environment}_${localId}_name", name.toString());
+    _prefs.setString("${environment}_${localId}_blurred_avatar_url",
+        blurredAvatarUrl.toString());
     _prefs.setString(
-        "${environment}_${localId}_blurred_avatar_url", blurredAvatarUrl.toString());
-    _prefs.setString("${environment}_${localId}_avatar_url", avatarUrl.toString());
-    _onAccountsChanged
-        .add(new Change(ChangeAction.upsert, _environments[environment].local[localId]));
+        "${environment}_${localId}_avatar_url", avatarUrl.toString());
+    _onAccountsChanged.add(new Change(
+        ChangeAction.upsert, _environments[environment].local[localId]));
   }
 
   @override
@@ -321,7 +329,8 @@ class MultiAccountStoreImpl implements MultiAccountStore {
 
   int _createAccount(String environment) {
     int localId = _environments[environment].nextLocalId++;
-    _prefs.setInt("${environment}_next_id", _environments[environment].nextLocalId);
+    _prefs.setInt(
+        "${environment}_next_id", _environments[environment].nextLocalId);
     _LocalAccountDataImpl accountData = new _LocalAccountDataImpl();
     accountData.environment = environment;
     accountData.localId = localId;
@@ -335,11 +344,12 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   void switchAccount(String environment, Int64 accountId) {
     assert(environment != null);
     assert(accountId != null);
-    if (_current?.environment == environment && current?.accountId == accountId) {
+    if (_current?.environment == environment &&
+        current?.accountId == accountId) {
       return; // no-op
     }
-    int localId =
-        getAccount(environment, accountId)?.localId ?? _createAccount(environment);
+    int localId = getAccount(environment, accountId)?.localId ??
+        _createAccount(environment);
     _current = getLocal(environment, localId);
     if (_current.accountId != 0) {
       _setLastUsed(environment, localId);

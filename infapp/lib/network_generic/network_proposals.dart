@@ -26,7 +26,8 @@ class _CachedProposal {
 }
 
 abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
-  Map<Int64, _CachedProposal> _cachedProposals = new Map<Int64, _CachedProposal>();
+  Map<Int64, _CachedProposal> _cachedProposals =
+      new Map<Int64, _CachedProposal>();
 
   void resetProposalsState() {
     _proposals.clear();
@@ -69,10 +70,8 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
   @override
   void hintProposalOffer(DataOffer offer) {
     // For influencers that open an offer that they already applied to, accelerate some data on the proposal
-    if (offer.influencerProposalId != null &&
-        offer.influencerProposalId != 0) {
-      _CachedProposal cached =
-          _cachedProposals[offer.influencerProposalId];
+    if (offer.influencerProposalId != null && offer.influencerProposalId != 0) {
+      _CachedProposal cached = _cachedProposals[offer.influencerProposalId];
       if (cached == null) {
         cached = new _CachedProposal();
         _cachedProposals[offer.influencerProposalId] = cached;
@@ -98,8 +97,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
           cached.fallback.influencerAccountId = account.state.accountId;
           cached.fallback.influencerName = account.summary.name;
           cached.fallback.freeze();
-          onProposalChanged(
-              ChangeAction.upsert, offer.influencerProposalId);
+          onProposalChanged(ChangeAction.upsert, offer.influencerProposalId);
         }
       }
     }
@@ -400,8 +398,8 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     }
   }
 
-  void _createGhostChat(
-      Int64 proposalId, int sessionGhostId, ProposalChatType type, String text) {
+  void _createGhostChat(Int64 proposalId, int sessionGhostId,
+      ProposalChatType type, String text) {
     _CachedProposal cached = _cachedProposals[proposalId];
     if (cached == null) {
       cached = new _CachedProposal();

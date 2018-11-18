@@ -308,8 +308,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       await receivedDeviceAuthState(pbRes);
       log.info("Device id ${account.state.sessionId}");
       if (account.state.sessionId != 0) {
-        multiAccountStore.setDeviceId(localAccount.environment, localAccount.localId,
-            account.state.sessionId, aesKey);
+        multiAccountStore.setDeviceId(localAccount.environment,
+            localAccount.localId, account.state.sessionId, aesKey);
       }
     } else {
       // Authenticate existing device
@@ -376,9 +376,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
       _subscriptions.add(
           ts.stream(TalkSocket.encode('LN_APPLI')).listen(liveNewProposal));
-      _subscriptions.add(ts
-          .stream(TalkSocket.encode('LN_A_CHA'))
-          .listen(liveNewProposalChat));
+      _subscriptions.add(
+          ts.stream(TalkSocket.encode('LN_A_CHA')).listen(liveNewProposalChat));
       _subscriptions.add(
           ts.stream(TalkSocket.encode('LU_APPLI')).listen(liveUpdateProposal));
       _subscriptions.add(ts

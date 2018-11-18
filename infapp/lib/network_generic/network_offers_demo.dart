@@ -19,8 +19,7 @@ abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
   bool demoAllOffersLoading = false;
 
   bool _demoAllOffersLoaded = false;
-  Map<int, DataOffer> _demoAllOffers =
-      new Map<int, DataOffer>();
+  Map<int, DataOffer> _demoAllOffers = new Map<int, DataOffer>();
 
   @override
   void resetOffersDemoState() {

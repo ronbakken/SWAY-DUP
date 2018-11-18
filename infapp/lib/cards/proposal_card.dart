@@ -87,8 +87,7 @@ class ProposalCard extends StatelessWidget {
                   type: MaterialType.canvas,
                   borderRadius: BorderRadius.only(
                       bottomLeft: new Radius.circular(
-                          (account.state.accountType ==
-                                  AccountType.influencer)
+                          (account.state.accountType == AccountType.influencer)
                               ? kInfAvatarSmallPaddedRadius
                               : 11.0)),
                   elevation: 1.0,
@@ -180,8 +179,7 @@ class ProposalCard extends StatelessWidget {
                         children: <Widget>[
                           new SizedBox(height: kInfPadding),
                           new Text(
-                            account.state.accountType ==
-                                    AccountType.influencer
+                            account.state.accountType == AccountType.influencer
                                 ? offerName
                                 : partnerName,
                             overflow: TextOverflow.ellipsis,

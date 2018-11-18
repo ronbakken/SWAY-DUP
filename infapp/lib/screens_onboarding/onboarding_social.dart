@@ -50,7 +50,10 @@ class OnboardingSocial extends StatelessWidget {
     bool connected = false;
     for (int i = 0; i < nbButtons; ++i) {
       ConfigOAuthProvider cfg = oauthProviders[i];
-      if (cfg.visible && cfg.canAlwaysAuthenticate && cfg.canConnect && cfg.mechanism != OAuthMechanism.none) {
+      if (cfg.visible &&
+          cfg.canAlwaysAuthenticate &&
+          cfg.canConnect &&
+          cfg.mechanism != OAuthMechanism.none) {
         if (oauthState[i].connected) {
           connected = true;
         }
