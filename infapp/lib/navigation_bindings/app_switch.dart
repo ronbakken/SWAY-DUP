@@ -33,7 +33,7 @@ class _AppSwitchState extends State<AppSwitch> {
     super.didChangeDependencies();
     String environment = ConfigManager.of(context).services.environment;
     Int64 accountId =
-        new Int64(NetworkProvider.of(context).account.state.accountId);
+        NetworkProvider.of(context).account.state.accountId;
     if (environment != _environment || accountId != _accountId) {
       _environment = environment;
       _accountId = accountId;

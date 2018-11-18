@@ -354,7 +354,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     }
 
     if (account.state.sessionId == 0) {
-      multiAccountStore.removeLocal(localAccount.environment, localAccount.localId);
+      // TODO: Differentiate between connection error and exception received from server? Seems to be going wrong sometimes.
+      // multiAccountStore.removeLocal(localAccount.environment, localAccount.localId);
       multiAccountStore.addAccount(localAccount.environment);
       _currentLocalAccount = null;
       throw new Exception("Authentication did not succeed");

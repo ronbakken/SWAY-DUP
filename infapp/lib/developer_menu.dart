@@ -346,6 +346,14 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   .overrideUri("ws://192.168.0.111:8090/api");
             },
           ),
+          new FlatButton(
+            child:
+                new Row(children: [new Text("Switch server to 192.168.105.2")]),
+            onPressed: () {
+              NetworkProvider.of(context)
+                  .overrideUri("ws://192.168.105.2:8090/api");
+            },
+          ),
           new Column(children: accountButtons),
           new FlatButton(
             child: new Row(children: [new Text('Add Account')]),
