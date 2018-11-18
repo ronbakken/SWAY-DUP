@@ -129,10 +129,9 @@ class _DashboardCommonState extends State<DashboardCommon>
 
   @override
   Widget build(BuildContext context) {
-    String mapLabel =
-        widget.account.state.accountType == AccountType.influencer
-            ? "Offers"
-            : "Map";
+    String mapLabel = widget.account.state.accountType == AccountType.influencer
+        ? "Offers"
+        : "Map";
     String offersLabel = "Offers";
     /*
     String proposalsLabel =

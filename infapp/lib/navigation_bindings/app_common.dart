@@ -192,19 +192,15 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
           DataProposal proposal = network.tryGetProposal(proposalId);
           Iterable<DataProposalChat> chats =
               network.tryGetProposalChats(proposalId);
-          DataOffer offer =
-              network.tryGetOffer(proposal.offerId);
+          DataOffer offer = network.tryGetOffer(proposal.offerId);
           DataAccount businessAccount = (proposal.businessAccountId == 0 &&
                   network.account.state.accountType == AccountType.business)
               ? network.account
-              : network
-                  .tryGetProfileSummary(proposal.businessAccountId);
+              : network.tryGetProfileSummary(proposal.businessAccountId);
           DataAccount influencerAccount = (proposal.influencerAccountId == 0 &&
-                  network.account.state.accountType ==
-                      AccountType.influencer)
+                  network.account.state.accountType == AccountType.influencer)
               ? network.account
-              : network.tryGetProfileSummary(
-                  proposal.influencerAccountId);
+              : network.tryGetProfileSummary(proposal.influencerAccountId);
           // DataProposal proposal = network.tryGetProposal(proposalId);
           return new HaggleView(
             account: network.account,
@@ -263,7 +259,8 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
           selection.addAccount();
         },
         onSwitchAccount: (LocalAccountData localAccount) {
-          selection.switchAccount(localAccount.environment, localAccount.accountId);
+          selection.switchAccount(
+              localAccount.environment, localAccount.accountId);
         },
       );
     }));

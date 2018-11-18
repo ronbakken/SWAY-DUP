@@ -60,8 +60,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
 
     sampleAccounts[1].state.accountId = new Int64(1);
     sampleAccounts[1].state.accountType = AccountType.business;
-    sampleAccounts[1].state.globalAccountState =
-        GlobalAccountState.readWrite;
+    sampleAccounts[1].state.globalAccountState = GlobalAccountState.readWrite;
     sampleAccounts[1].summary.name = "Big Kahuna";
     sampleAccounts[1].summary.description =
         "The best burgers in the known universe. As far as we know.";
@@ -74,8 +73,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
 
     sampleAccounts[2].state.accountId = new Int64(2);
     sampleAccounts[2].state.accountType = AccountType.business;
-    sampleAccounts[2].state.globalAccountState =
-        GlobalAccountState.readWrite;
+    sampleAccounts[2].state.globalAccountState = GlobalAccountState.readWrite;
     sampleAccounts[2].summary.name = "Fried Willy";
     sampleAccounts[2].summary.description = "We don't prepare dolphins.";
     sampleAccounts[2].summary.avatarThumbnailUrl =
@@ -96,8 +94,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     sampleOffers[1].offerId = new Int64(1);
     sampleOffers[1].accountId = new Int64(1);
     sampleOffers[1].state = OfferState.open;
-    sampleOffers[1].stateReason =
-        OfferStateReason.newOffer;
+    sampleOffers[1].stateReason = OfferStateReason.newOffer;
     sampleOffers[1].title = "Finest Burger Weekend";
     sampleOffers[1].description =
         "We'd like to expose the finest foods in our very busy restaurant to a wide audience.";
@@ -118,8 +115,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     sampleOffers[2].offerId = new Int64(2);
     sampleOffers[2].accountId = new Int64(1);
     sampleOffers[2].state = OfferState.open;
-    sampleOffers[2].stateReason =
-        OfferStateReason.newOffer;
+    sampleOffers[2].stateReason = OfferStateReason.newOffer;
     sampleOffers[2].title = "Burger Weekend Fries";
     sampleOffers[2].description =
         "We need some table fillers to make our restaurant look very busy this weekend.";
@@ -137,8 +133,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     sampleOffers[3].offerId = new Int64(3);
     sampleOffers[3].accountId = new Int64(2);
     sampleOffers[3].state = OfferState.closed;
-    sampleOffers[3].stateReason =
-        OfferStateReason.completed;
+    sampleOffers[3].stateReason = OfferStateReason.completed;
     sampleOffers[3].title = "Fishing Season";
     sampleOffers[3].description =
         "Looking to catch more customers during the fishing season.";

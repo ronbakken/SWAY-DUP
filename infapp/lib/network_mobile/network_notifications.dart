@@ -70,7 +70,8 @@ abstract class NetworkNotifications
       if (config.services.environment.isNotEmpty) {
         // Allows to send dev messages under environment_dev topic
         log.fine("Domain: ${config.services.environment}");
-        _firebaseMessaging.subscribeToTopic('environment_' + config.services.environment);
+        _firebaseMessaging
+            .subscribeToTopic('environment_' + config.services.environment);
       }
     }
     _firebaseOnToken(await _firebaseMessaging.getToken());

@@ -223,8 +223,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
         NetworkInterface network = NetworkProvider.of(context);
         return new OfferList(
             businessOffers: network.offers.values
-                .where(
-                    (offer) => (offer.state != OfferState.closed))
+                .where((offer) => (offer.state != OfferState.closed))
                 .toList()
                   ..sort((a, b) => b.offerId.compareTo(a.offerId)),
             onRefreshOffers: (network.connected == NetworkConnectionState.ready)

@@ -44,7 +44,9 @@ class AccountSwitch extends StatelessWidget {
               // Accounts from different environments only occur on development devices, or for the QA team, and MUST have some special marker.
               new Text("Domain: " +
                   localAccount.environment.toString() +
-                  (environment == localAccount.environment ? " (current)" : " (other)")),
+                  (environment == localAccount.environment
+                      ? " (current)"
+                      : " (other)")),
               new Text("Local Id: " + localAccount.localId.toString()),
               new Text("Device Id: " + localAccount.sessionId.toString()),
               new Text("Account Id: " + localAccount.accountId.toString()),

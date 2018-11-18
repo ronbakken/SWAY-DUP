@@ -430,8 +430,8 @@ class _HaggleViewState extends State<HaggleView> {
     super.dispose();
   }
 
-  Widget _buildChatMessage(DataProposalChat current,
-      DataProposalChat previous, DataProposalChat next) {
+  Widget _buildChatMessage(DataProposalChat current, DataProposalChat previous,
+      DataProposalChat next) {
     ThemeData theme = Theme.of(context);
     bool ghost = current.chatId == 0;
     if (current.type == ProposalChatType.marker) {

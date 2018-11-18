@@ -44,8 +44,7 @@ class OfferCreate extends StatefulWidget {
     this.onUploadImage,
   }) : super(key: key);
 
-  final Future<DataOffer> Function(NetCreateOfferReq createOffer)
-      onCreateOffer;
+  final Future<DataOffer> Function(NetCreateOfferReq createOffer) onCreateOffer;
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
 
   @override

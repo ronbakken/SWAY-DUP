@@ -46,15 +46,13 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
       _cachedOffers[proposal.offerId] = cached;
     }
     if (cached.offer != null) {
-      DataOffer offer = new DataOffer()
-        ..mergeFromMessage(cached.offer);
+      DataOffer offer = new DataOffer()..mergeFromMessage(cached.offer);
       offer.influencerProposalId = proposal.proposalId;
       cached.offer = offer..freeze();
       cached.dirty = true;
       onOfferChanged(ChangeAction.upsert, offer.offerId);
     } else if (cached.fallback != null) {
-      DataOffer offer = new DataOffer()
-        ..mergeFromMessage(cached.fallback);
+      DataOffer offer = new DataOffer()..mergeFromMessage(cached.fallback);
       offer.influencerProposalId = proposal.proposalId;
       cached.fallback = offer..freeze();
       onOfferChanged(ChangeAction.upsert, offer.offerId);
@@ -82,8 +80,7 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
   static int _netGetOfferReq = TalkSocket.encode("GTOFFERR");
 
   /// Get an offer, refresh set to true to always get from server, use sparingly to refresh the cache
-  Future<DataOffer> getOffer(Int64 offerId,
-      {bool refresh = true}) async {
+  Future<DataOffer> getOffer(Int64 offerId, {bool refresh = true}) async {
     if (!refresh) {
       _CachedOffer cached = _cachedOffers[offerId];
       if (cached?.offer != null && !cached.dirty) {

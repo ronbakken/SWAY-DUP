@@ -84,8 +84,8 @@ class CrossAccountNavigator extends State<CrossAccountNavigation> {
     return controller;
   }
 
-  StreamSubscription<NavigationRequest> listen(String environment, Int64 accountId,
-      Function(NavigationTarget target, Int64 id) onData) {
+  StreamSubscription<NavigationRequest> listen(String environment,
+      Int64 accountId, Function(NavigationTarget target, Int64 id) onData) {
     assert(onData != null);
     assert(mounted);
     String key = "$environment/$accountId"; // Works
