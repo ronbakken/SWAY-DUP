@@ -47,7 +47,7 @@ class RemoteAppInfluencer {
   }
 
   Int64 get accountId {
-    return _r.account.state.accountId.toInt64();
+    return _r.account.state.accountId;
   }
 
   GlobalAccountState get globalAccountState {
@@ -127,9 +127,9 @@ class RemoteAppInfluencer {
         await for (sqljocky.Row offerRow in offerResults) {
           ts.sendExtend(message);
           DataOffer offer = new DataOffer();
-          offer.offerId = offerRow[0].toInt();
-          offer.accountId = offerRow[1].toInt();
-          offer.locationId = offerRow[6].toInt();
+          offer.offerId = new Int64(offerRow[0]);
+          offer.accountId = new Int64(offerRow[1]);
+          offer.locationId =new Int64(offerRow[6]);
           offer.title = offerRow[2].toString();
           offer.description = offerRow[3].toString();
           offer.deliverables = offerRow[4].toString();
@@ -167,7 +167,7 @@ class RemoteAppInfluencer {
                 .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
           }
           if (offerRow[13] != null) {
-            offer.influencerProposalId = offerRow[13].toInt();
+            offer.influencerProposalId = new Int64(offerRow[13]);
           }
           // Cache offer for use (is this really necessary?)
           // offers[offer.offerId] = offer;
@@ -219,7 +219,7 @@ class RemoteAppInfluencer {
         "`account_id`, `deliverables`, `reward`, `state` FROM `offers` WHERE `offer_id` = ?";
     await for (sqljocky.Row row
         in await sql.prepareExecute(selectOrder, [pb.offerId])) {
-      businessAccountId = row[0].toInt64();
+      businessAccountId = new Int64(row[0]);
       deliverables = row[1].toString();
       reward = row[2].toString();
       OfferState state = OfferState.valueOf(row[3].toInt());
@@ -246,7 +246,7 @@ class RemoteAppInfluencer {
           "VALUES (?, ?, ?, ?, ?)";
       sqljocky.Results resultProposal =
           await transaction.prepareExecute(insertProposal, [
-        pb.offerId.toInt(),
+        pb.offerId,
         accountId,
         businessAccountId,
         accountId,

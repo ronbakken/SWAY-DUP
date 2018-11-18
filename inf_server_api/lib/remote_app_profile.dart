@@ -120,12 +120,12 @@ class RemoteAppProfile {
           "FROM `accounts` "
           "INNER JOIN `locations` ON `locations`.`location_id` = `accounts`.`location_id` "
           "WHERE `accounts`.`account_id` = ? ",
-          [pb.accountId.toInt()]);
+          [pb.accountId]);
       await for (sqljocky.Row row in accountResults) {
         account.summary.name = row[0].toString();
         account.state.accountType = AccountType.valueOf(row[1].toInt());
         account.summary.description = row[2].toString();
-        account.detail.locationId = row[3].toInt();
+        account.detail.locationId = new Int64(row[3]);
         if (row[4] != null) {
           account.summary.avatarThumbnailUrl =
               _r.makeCloudinaryThumbnailUrl(row[4].toString());
@@ -172,7 +172,7 @@ class RemoteAppProfile {
           "ON `social_media`.`oauth_user_id` = `oauth_connections`.`oauth_user_id` "
           "AND `social_media`.`oauth_provider` = `oauth_connections`.`oauth_provider` "
           "WHERE `oauth_connections`.`account_id` = ? ",
-          [pb.accountId.toInt()]);
+          [pb.accountId]);
       await for (sqljocky.Row row in connectionResults) {
         int oauthProvider = row[0].toInt();
         if (row[1] != null)
@@ -205,7 +205,7 @@ class RemoteAppProfile {
   Future<void> netGetOfferReq(TalkMessage message) async {
     NetGetOfferReq pb = new NetGetOfferReq()..mergeFromBuffer(message.data);
     devLog.finest(pb);
-    int offerId = pb.offerId.toInt();
+    Int64 offerId = pb.offerId;
     DataOffer offer;
 
     ts.sendExtend(message);
@@ -233,9 +233,9 @@ class RemoteAppProfile {
         await for (sqljocky.Row offerRow in offerResults) {
           ts.sendExtend(message);
           offer = new DataOffer();
-          offer.offerId = offerRow[0].toInt();
-          offer.accountId = offerRow[1].toInt();
-          offer.locationId = offerRow[6].toInt();
+          offer.offerId = new Int64(offerRow[0]);
+          offer.accountId = new Int64(offerRow[1]);
+          offer.locationId = new Int64(offerRow[6]);
           offer.title = offerRow[2].toString();
           offer.description = offerRow[3].toString();
           offer.deliverables = offerRow[4].toString();
@@ -280,7 +280,7 @@ class RemoteAppProfile {
                 .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
           }
           if (offerRow[13] != null) {
-            offer.influencerProposalId = offerRow[13].toInt();
+            offer.influencerProposalId = new Int64(offerRow[13]);
           }
         }
         ts.sendExtend(message);

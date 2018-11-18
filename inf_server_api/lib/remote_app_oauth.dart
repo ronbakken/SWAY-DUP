@@ -7,6 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
 import 'package:wstalk/wstalk.dart';
 
@@ -288,8 +289,8 @@ class RemoteAppOAuth {
                 oauthCredentials.userId.toString(),
                 oauthProvider.toInt(),
                 account.state.accountType.value.toInt(),
-                account.state.accountId.toInt(),
-                account.state.sessionId.toInt(),
+                account.state.accountId,
+                account.state.sessionId,
                 oauthCredentials.token.toString(),
                 oauthCredentials.tokenSecret.toString(),
                 oauthCredentials.tokenExpires.toString()
@@ -316,7 +317,7 @@ class RemoteAppOAuth {
                   "`oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?";
               sqljocky.Results updateRes = await sql.prepareExecute(query, [
-                account.state.sessionId.toInt(),
+                account.state.sessionId,
                 oauthCredentials.token.toString(),
                 oauthCredentials.tokenSecret.toString(),
                 oauthCredentials.tokenExpires.toString(),
@@ -342,12 +343,12 @@ class RemoteAppOAuth {
                     oauthProvider.toInt(),
                     account.state.accountType.value.toInt()
                   ]);
-              int takeoverAccountId = 0;
+              Int64 takeoverAccountId = Int64.ZERO;
               await for (sqljocky.Row row in connectionRes) {
-                takeoverAccountId = row[0].toInt();
+                takeoverAccountId = new Int64(row[0]);
               }
               takeover =
-                  (account.state.accountId == 0) && (takeoverAccountId != 0);
+                  (account.state.accountId == Int64.ZERO) && (takeoverAccountId != Int64.ZERO);
               if (takeover) {
                 // updateDeviceState loads the new state from the database into account.state.accountId
                 devLog.finest(
@@ -357,8 +358,8 @@ class RemoteAppOAuth {
                     "WHERE `session_id` = ? AND `account_id` = 0";
                 ts.sendExtend(message);
                 await sql.prepareExecute(query, [
-                  takeoverAccountId.toInt(),
-                  account.state.sessionId.toInt()
+                  takeoverAccountId,
+                  account.state.sessionId
                 ]);
                 // NOTE: Technically, here we may escalate any OAuth connections of this session to the account,
                 // as long as the account has no connections yet for the connected providers (long-term)
@@ -375,15 +376,15 @@ class RemoteAppOAuth {
                   "SET `updated` = CURRENT_TIMESTAMP(), `account_id` = ?, `session_id` = ?, `oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
               sqljocky.Results updateRes = await sql.prepareExecute(query, [
-                account.state.accountId.toInt(),
-                account.state.sessionId.toInt(),
+                account.state.accountId,
+                account.state.sessionId,
                 oauthCredentials.token.toString(),
                 oauthCredentials.tokenSecret.toString(),
                 oauthCredentials.tokenExpires.toInt(),
                 oauthCredentials.userId.toString(),
                 oauthProvider.toInt(),
                 account.state.accountType.value.toInt(),
-                account.state.accountId.toInt()
+                account.state.accountId
               ]);
               refreshed = updateRes.affectedRows > 0;
               devLog.finest("Attempt to refresh OAuth tokens: $refreshed");
@@ -406,7 +407,7 @@ class RemoteAppOAuth {
           String query =
               "DELETE FROM `oauth_connections` WHERE `account_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
           await sql.prepareExecute(query, [
-            account.state.accountId.toInt(),
+            account.state.accountId,
             oauthCredentials.userId.toString(),
             oauthProvider.toInt()
           ]);
@@ -415,7 +416,7 @@ class RemoteAppOAuth {
           String query =
               "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
           await sql.prepareExecute(query, [
-            account.state.sessionId.toInt(),
+            account.state.sessionId,
             oauthCredentials.userId.toString(),
             oauthProvider.toInt()
           ]);
@@ -674,7 +675,7 @@ class RemoteAppOAuth {
     if (dataSocialMedia.location.length > 0)
       stringValues['location'] = dataSocialMedia.location;
     if (dataSocialMedia.url.length > 0)
-      stringValues['url'] = dataSocialMedia.url;
+      stringValues['website'] = dataSocialMedia.url;
     if (dataSocialMedia.email.length > 0)
       stringValues['email'] = dataSocialMedia.email;
     if (dataSocialMedia.friendsCount > 0)

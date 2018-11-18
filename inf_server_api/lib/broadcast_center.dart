@@ -81,10 +81,10 @@ class BroadcastCenter {
     sqljocky.Results res = await sql.prepareExecute(
         "SELECT `influencer_account_id`, `business_account_id`, `sender_account_id` "
         "FROM `proposals` WHERE `proposal_id` = ?",
-        [proposalId.toInt()]);
+        [proposalId]);
     await for (sqljocky.Row row in res) {
       proposal =
-          new _CachedProposal(row[0].toInt(), row[1].toInt(), row[2].toInt());
+          new _CachedProposal(new Int64(row[0]), new Int64(row[1]), new Int64(row[2]));
       _proposalToInfluencerBusiness[proposalId] = proposal;
     }
     return proposal; // May be null if not found
@@ -98,7 +98,7 @@ class BroadcastCenter {
           "SELECT `name`"
           "FROM `accounts` "
           "WHERE `account_id` = ? ",
-          [accountId.toInt()]);
+          [accountId]);
       await for (sqljocky.Row row in res) {
         cached = new _CachedAccountName(row[0].toString());
         _cachedAccountName[accountId] = cached;
@@ -117,7 +117,7 @@ class BroadcastCenter {
           "SELECT `firebase_token`"
           "FROM `sessions` "
           "WHERE `account_id` = ? ",
-          [accountId.toInt()]);
+          [accountId]);
       await for (sqljocky.Row row in res) {
         if (row[0] != null) {
           String firebaseToken = row[0].toString();

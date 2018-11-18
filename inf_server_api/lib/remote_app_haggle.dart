@@ -103,12 +103,12 @@ class RemoteAppHaggle {
       "`state` "; // 15
   DataProposal _proposalFromRow(sqljocky.Row row) {
     DataProposal proposal = new DataProposal();
-    proposal.proposalId = row[0].toInt();
-    proposal.offerId = row[1].toInt();
-    proposal.influencerAccountId = row[2].toInt();
-    proposal.businessAccountId = row[3].toInt();
-    proposal.senderAccountId = row[4].toInt();
-    proposal.termsChatId = new Int64(row[5].toInt());
+    proposal.proposalId = new Int64(row[0]);
+    proposal.offerId = new Int64(row[1]);
+    proposal.influencerAccountId = new Int64(row[2]);
+    proposal.businessAccountId = new Int64(row[3]);
+    proposal.senderAccountId = new Int64(row[4]);
+    proposal.termsChatId = new Int64(row[5]);
     proposal.influencerWantsDeal = row[6].toInt() != 0;
     proposal.businessWantsDeal = row[7].toInt() != 0;
     proposal.influencerMarkedDelivered = row[8].toInt() != 0;
@@ -157,7 +157,7 @@ class RemoteAppHaggle {
           "FROM `proposals` "
           "WHERE `proposal_id` = ?";
       await for (sqljocky.Row row
-          in await connection.prepareExecute(query, [pb.proposalId.toInt()])) {
+          in await connection.prepareExecute(query, [pb.proposalId])) {
         proposal = _proposalFromRow(row);
       }
     } finally {
@@ -220,9 +220,9 @@ class RemoteAppHaggle {
           "FROM `proposals` "
           "WHERE `proposal_id` = ?";
       await for (sqljocky.Row row
-          in await connection.prepareExecute(query, [pb.proposalId.toInt()])) {
-        influencerAccountId = row[0].toInt64();
-        businessAccountId = row[1].toInt64();
+          in await connection.prepareExecute(query, [pb.proposalId])) {
+        influencerAccountId = new Int64(row[0]);
+        businessAccountId = new Int64(row[1]);
       }
       devLog.finest("$influencerAccountId $businessAccountId");
 
@@ -253,14 +253,14 @@ class RemoteAppHaggle {
           "ORDER BY `chat_id` DESC";
       await for (sqljocky.Row row
           in await connection.prepareExecute(chatQuery, [
-        pb.proposalId.toInt(),
+        pb.proposalId,
       ])) {
         DataProposalChat chat = new DataProposalChat();
         chat.proposalId = pb.proposalId;
-        chat.chatId = new Int64(row[0].toInt());
-        chat.sent = new Int64(row[1].toInt());
-        chat.senderId = row[2].toInt();
-        Int64 sessionId = row[3].toInt64();
+        chat.chatId = new Int64(row[0]);
+        chat.sent = new Int64(row[1]);
+        chat.senderId = new Int64(row[2]);
+        Int64 sessionId = new Int64(row[3]);
         if (sessionId == account.state.sessionId) {
           chat.sessionId = sessionId;
           chat.sessionGhostId = row[4].toInt();

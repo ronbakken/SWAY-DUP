@@ -148,9 +148,9 @@ class RemoteAppHaggleActions {
         "FROM `proposals` "
         "WHERE `proposal_id` = ?";
     await for (sqljocky.Row row
-        in await sql.prepareExecute(query, [proposalId.toInt()])) {
-      influencerAccountId = new Int64(row[0].toInt());
-      businessAccountId = new Int64(row[1].toInt());
+        in await sql.prepareExecute(query, [proposalId])) {
+      influencerAccountId = new Int64(row[0]);
+      businessAccountId = new Int64(row[1]);
       state = ProposalState.valueOf(row[2].toInt());
     }
 
@@ -213,9 +213,9 @@ class RemoteAppHaggleActions {
         "VALUES (?, ?, ?, ?, ?, ?)";
     sqljocky.Results resultHaggle =
         await connection.prepareExecute(insertChat, [
-      chat.senderId.toInt(),
-      chat.proposalId.toInt(),
-      chat.sessionId.toInt(),
+      chat.senderId,
+      chat.proposalId,
+      chat.sessionId,
       chat.sessionGhostId
           .toInt(), // Not actually used for apply chat, but need it for consistency
       chat.type.value.toInt(),
@@ -237,11 +237,11 @@ class RemoteAppHaggleActions {
           // Update haggle on proposal
           String updateHaggleChatId = "UPDATE `proposals` "
               "SET `terms_chat_id` = ?, `influencer_wants_deal` = 0, `business_wants_deal` = 0 "
-              "WHERE `proposal_id` = ? AND `state` = ${ProposalState.negotiating.value.toInt()}";
+              "WHERE `proposal_id` = ? AND `state` = ${ProposalState.negotiating.value}";
           sqljocky.Results resultUpdateHaggleChatId =
               await transaction.prepareExecute(updateHaggleChatId, [
-            chat.chatId.toInt(),
-            chat.proposalId.toInt(),
+            chat.chatId,
+            chat.proposalId,
           ]);
           if (resultUpdateHaggleChatId.affectedRows == null ||
               resultUpdateHaggleChatId.affectedRows == 0) {
@@ -341,9 +341,9 @@ class RemoteAppHaggleActions {
         "INNER JOIN `offers` ON `offers`.`offer_id` = `proposals`.`offer_id` "
         "WHERE `proposal_id` = ?";
     await for (sqljocky.Row row
-        in await sql.prepareExecute(query, [pb.proposalId.toInt()])) {
-      influencerAccountId = row[0].toInt();
-      businessAccountId = row[1].toInt();
+        in await sql.prepareExecute(query, [pb.proposalId])) {
+      influencerAccountId = new Int64(row[0]);
+      businessAccountId = new Int64(row[1]);
       deliverables = row[2].toString();
       reward = row[3].toString();
     }
@@ -417,8 +417,8 @@ class RemoteAppHaggleActions {
     NetProposalWantDealReq pb = new NetProposalWantDealReq();
     pb.mergeFromBuffer(message.data);
 
-    Int64 proposalId = pb.proposalId.toInt64();
-    Int64 termsChatId = pb.termsChatId.toInt64();
+    Int64 proposalId = pb.proposalId;
+    Int64 termsChatId = pb.termsChatId;
 
     /* No need, already verified by first UPDATE
     if (!await _verifySender(proposalId, accountId)) {
@@ -447,7 +447,7 @@ class RemoteAppHaggleActions {
           "AND `state` = ${ProposalState.negotiating.value} "
           "AND `$accountWantsDeal` = 0";
       sqljocky.Results resultWants = await transaction
-          .prepareExecute(updateWants, [proposalId.toInt(), termsChatId.toInt(), accountId.toInt()]);
+          .prepareExecute(updateWants, [proposalId, termsChatId, accountId]);
       if (resultWants.affectedRows == null || resultWants.affectedRows == 0) {
         devLog.warning(
             "Invalid want deal attempt by account '$accountId' on proposal '$proposalId'");
@@ -463,7 +463,7 @@ class RemoteAppHaggleActions {
           "AND `business_wants_deal` = 1 "
           "AND `state` = ${ProposalState.negotiating.value}";
       sqljocky.Results resultDeal =
-          await transaction.prepareExecute(updateDeal, [proposalId.toInt()]);
+          await transaction.prepareExecute(updateDeal, [proposalId]);
       bool dealMade =
           (resultDeal.affectedRows != null && resultDeal.affectedRows > 0);
 
@@ -513,7 +513,7 @@ class RemoteAppHaggleActions {
     NetProposalRejectReq pb = new NetProposalRejectReq();
     pb.mergeFromBuffer(message.data);
 
-    Int64 proposalId = pb.proposalId.toInt64();
+    Int64 proposalId = pb.proposalId;
     String reason = pb.reason.toString();
 
     DataProposalChat markerChat; // Set upon success
@@ -589,7 +589,7 @@ class RemoteAppHaggleActions {
     NetProposalReportReq pb = new NetProposalReportReq();
     pb.mergeFromBuffer(message.data);
 
-    Int64 proposalId = pb.proposalId.toInt64();
+    Int64 proposalId = pb.proposalId;
 
     if (!await _verifySender(proposalId, accountId, ProposalChatType.marker)) {
       ts.sendException("Verification Failed", message);
@@ -643,7 +643,7 @@ class RemoteAppHaggleActions {
     NetProposalCompletionReq pb = new NetProposalCompletionReq();
     pb.mergeFromBuffer(message.data);
 
-    Int64 proposalId = pb.proposalId.toInt64();
+    Int64 proposalId = pb.proposalId;
 
     DataProposalChat markerChat; // Set upon successful action
 
@@ -673,7 +673,7 @@ class RemoteAppHaggleActions {
               : 'business_disputed';
       String updateMarkings = "UPDATE `proposals` "
           "SET `$accountMarkedDelivered` = ?, `$accountMarkedRewarded` = ?" +
-          (pb.rating.toInt() > 0 ? ", `$accountGaveRating` = ?" : '') +
+          (pb.rating > 0 ? ", `$accountGaveRating` = ?" : '') +
           (pb.dispute
               ? ", `$accountDisputed` = 1, `state` = ${ProposalState.dispute.value}"
               : '') +
@@ -681,8 +681,8 @@ class RemoteAppHaggleActions {
           "AND `$accountAccountId` = ?"
           "AND `state` = ${ProposalState.deal.value} OR `state` = ${ProposalState.dispute.value}";
       List<dynamic> parameters = [pb.delivered ? 1 : 0, pb.rewarded ? 1 : 0];
-      if (pb.rating.toInt() > 0) parameters.add(pb.rating.toInt());
-      parameters.addAll([proposalId.toInt(), accountId.toInt()]);
+      if (pb.rating > 0) parameters.add(pb.rating);
+      parameters.addAll([proposalId, accountId]);
       sqljocky.Results resultMarkings =
           await transaction.prepareExecute(updateMarkings, parameters);
       if (resultMarkings.affectedRows == null ||
@@ -704,7 +704,7 @@ class RemoteAppHaggleActions {
             "AND `influencer_gave_rating` > 0 AND `business_gave_rating` > 0 "
             "AND `state` = ${ProposalState.deal.value}";
         sqljocky.Results resultCompletion =
-            await transaction.prepareExecute(updateCompletion, [proposalId.toInt()]);
+            await transaction.prepareExecute(updateCompletion, [proposalId]);
         dealCompleted = resultCompletion.affectedRows != null &&
             resultCompletion.affectedRows != 0;
       }

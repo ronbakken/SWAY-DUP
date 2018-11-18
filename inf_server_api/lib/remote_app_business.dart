@@ -46,8 +46,8 @@ class RemoteAppBusiness {
     return _r.account;
   }
 
-  int get accountId {
-    return _r.account.state.accountId.toInt();
+  Int64 get accountId {
+    return _r.account.state.accountId;
   }
 
   GlobalAccountState get globalAccountState {
@@ -87,7 +87,7 @@ class RemoteAppBusiness {
   // Database utilities
   //////////////////////////////////////////////////////////////////////////////
 
-  Future<void> updateLocationOfferCount(int locationId) async {
+  Future<void> updateLocationOfferCount(Int64 locationId) async {
     // TODO: Only include active offers... :)
     String updateLocation =
         "UPDATE `locations` SET `offer_count` = (SELECT COUNT(`offer_id`) FROM `offers` WHERE `location_id` = ?) WHERE `location_id` = ?";
@@ -131,13 +131,13 @@ class RemoteAppBusiness {
 
     // Insert offer, not so critical
     // TODO: Set the offer state options... :)
-    int locationId = account.detail.locationId.toInt();
+    Int64 locationId = account.detail.locationId;
     ts.sendExtend(message);
     String insertOffer =
         "INSERT INTO `offers`(`account_id`, `title`, `description`, `deliverables`, `reward`, `location_id`, `state`) "
         "VALUES (?, ?, ?, ?, ?, ?, ?)";
     sqljocky.Results insertRes = await sql.prepareExecute(insertOffer, [
-      account.state.accountId.toInt(),
+      account.state.accountId,
       pb.title.toString(),
       pb.description.toString(),
       pb.deliverables.toString(),
@@ -147,8 +147,8 @@ class RemoteAppBusiness {
     ]);
 
     // Verify insertion
-    int offerId = insertRes.insertId;
-    if (offerId == null || offerId == 0) {
+    Int64 offerId = new Int64(insertRes.insertId);
+    if (offerId == null || offerId == Int64.ZERO) {
       opsLog.severe("User $accountId offer not inserted");
       ts.sendException("Not inserted", message);
       return;
@@ -176,9 +176,9 @@ class RemoteAppBusiness {
 
     // Reply success
     DataOffer netCreateOfferRes = new DataOffer();
-    netCreateOfferRes.offerId = new Int64(offerId);
-    netCreateOfferRes.accountId = new Int64(accountId);
-    netCreateOfferRes.locationId = new Int64(locationId);
+    netCreateOfferRes.offerId = offerId;
+    netCreateOfferRes.accountId = accountId;
+    netCreateOfferRes.locationId = locationId;
     netCreateOfferRes.title = pb.title;
     netCreateOfferRes.description = pb.description;
     if (filteredImageKeys.length > 0) {
@@ -203,7 +203,7 @@ class RemoteAppBusiness {
     netCreateOfferRes.proposalsAccepted = 0;
     netCreateOfferRes.proposalsCompleted = 0;
     netCreateOfferRes.proposalsRefused = 0;*/
-    offers[new Int64(offerId)] = netCreateOfferRes;
+    offers[offerId] = netCreateOfferRes;
     ts.sendMessage(_netCreateOfferRes, netCreateOfferRes.writeToBuffer(),
         replying: message);
   }
@@ -237,9 +237,9 @@ class RemoteAppBusiness {
         await for (sqljocky.Row offerRow in offerResults) {
           ts.sendExtend(message);
           DataOffer offer = new DataOffer();
-          offer.offerId = offerRow[0].toInt();
-          offer.accountId = offerRow[1].toInt();
-          offer.locationId = offerRow[6].toInt();
+          offer.offerId = new Int64(offerRow[0]);
+          offer.accountId = new Int64(offerRow[1]);
+          offer.locationId = new Int64(offerRow[6]);
           offer.title = offerRow[2].toString();
           offer.description = offerRow[3].toString();
           offer.deliverables = offerRow[4].toString();
@@ -270,7 +270,7 @@ class RemoteAppBusiness {
           offer.proposalsRefused = 0; // TODO
           */
           sqljocky.Results imageKeyResults =
-              await selectImageKeys.execute([offer.offerId.toInt()]);
+              await selectImageKeys.execute([offer.offerId]);
           await for (sqljocky.Row imageKeyRow in imageKeyResults) {
             if (!offer.hasThumbnailUrl()) {
               offer.thumbnailUrl =

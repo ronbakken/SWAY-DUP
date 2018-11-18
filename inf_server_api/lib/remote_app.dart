@@ -265,7 +265,7 @@ class RemoteApp {
             sqljocky.Results lastInsertedId =
                 await connection.query("SELECT LAST_INSERT_ID()");
             await for (sqljocky.Row row in lastInsertedId) {
-              account.state.sessionId = row[0];
+              account.state.sessionId = new Int64(row[0]);
               devLog.info(
                   "Inserted session_id ${account.state.sessionId} with aes_key '${aesKeyStr}'");
             }
@@ -422,7 +422,7 @@ class RemoteApp {
       String oauthUserId, int oauthProvider) async {
     sqljocky.Results results = await sql.prepareExecute(
         "SELECT `screen_name`, `display_name`, `avatar_url`, `profile_url`, " // 0123
-        "`description`, `location`, `url`, `email`, `friends_count`, `followers_count`, " // 456789
+        "`description`, `location`, `website`, `email`, `friends_count`, `followers_count`, " // 456789
         "`following_count`, `posts_count`, `verified` " // 10 11 12
         "FROM `social_media` "
         "WHERE `oauth_user_id` = ? AND `oauth_provider` = ?",
@@ -462,15 +462,15 @@ class RemoteApp {
       try {
         sqljocky.Results sessionResults = await connection.prepareExecute(
             "SELECT `account_id`, `account_type`, `firebase_token` FROM `sessions` WHERE `session_id` = ?",
-            [account.state.sessionId.toInt()]);
+            [account.state.sessionId]);
         await for (sqljocky.Row row in sessionResults) {
           // one row
-          if (account.state.accountId != 0 &&
-              account.state.accountId != row[0].toInt()) {
+          if (account.state.accountId != Int64.ZERO &&
+              account.state.accountId != new Int64(row[0])) {
             devLog.severe(
                 "Device account id changed, ignore, this is a bug, this should never happen");
           }
-          account.state.accountId = row[0].toInt();
+          account.state.accountId = new Int64(row[0]);
           account.state.accountType = AccountType.valueOf(row[1].toInt());
           if (row[2] != null) account.state.firebaseToken = row[2].toString();
         }
@@ -481,7 +481,7 @@ class RemoteApp {
               "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
               "`description`, `location_id`, `avatar_key`, `website`, `email` FROM `accounts` "
               "WHERE `account_id` = ?",
-              [account.state.accountId.toInt()]);
+              [account.state.accountId]);
           // int locationId;
           await for (sqljocky.Row row in accountResults) {
             // one
@@ -492,7 +492,7 @@ class RemoteApp {
             account.state.globalAccountStateReason =
                 GlobalAccountStateReason.valueOf(row[3].toInt());
             account.summary.description = row[4].toString();
-            account.detail.locationId = row[5].toInt();
+            account.detail.locationId = new Int64(row[5]);
             if (row[6] != null) {
               account.summary.avatarThumbnailUrl =
                   makeCloudinaryThumbnailUrl(row[6].toString());
@@ -512,7 +512,7 @@ class RemoteApp {
             sqljocky.Results locationResults = await connection.prepareExecute(
                 "SELECT `${account.state.accountType == AccountType.business ? 'detail' : 'approximate'}`, `point` FROM `locations` "
                 "WHERE `location_id` = ?",
-                [account.detail.locationId.toInt()]);
+                [account.detail.locationId]);
             await for (sqljocky.Row row in locationResults) {
               // one
               account.summary.location = row[0].toString();
@@ -551,8 +551,8 @@ class RemoteApp {
             "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.state.accountId == 0 ? '`account_id` = 0 AND `session_id`' : '`account_id`'} = ?",
             [
               account.state.accountId == 0
-                  ? account.state.sessionId.toInt()
-                  : account.state.accountId.toInt()
+                  ? account.state.sessionId
+                  : account.state.accountId
             ]);
         List<sqljocky.Row> connectionRows = await connectionResults
             .toList(); // Load to avoid blocking connections recursively
@@ -692,7 +692,7 @@ class RemoteApp {
         "UPDATE `sessions` SET `firebase_token`= ? WHERE `session_id` = ?";
     await sql.prepareExecute(update, [
       pb.firebaseToken.toString(),
-      account.state.sessionId.toInt(),
+      account.state.sessionId,
     ]);
 
     if (pb.hasOldFirebaseToken() && pb.oldFirebaseToken != null) {
@@ -964,7 +964,7 @@ class RemoteApp {
                   "INSERT INTO `accounts`("
                   "`name`, `account_type`, "
                   "`global_account_state`, `global_account_state_reason`, "
-                  "`description`, `url`, `email`" // avatarUrl is set later
+                  "`description`, `website`, `email`" // avatarUrl is set later
                   ") VALUES (?, ?, ?, ?, ?, ?, ?)",
                   [
                     accountName.toString(),
@@ -984,7 +984,7 @@ class RemoteApp {
               sqljocky.Results res2 = await tx.prepareExecute(
                   "UPDATE `sessions` SET `account_id` = LAST_INSERT_ID() "
                   "WHERE `session_id` = ? AND `account_id` = 0",
-                  [account.state.sessionId.toInt()]);
+                  [account.state.sessionId]);
               if (res2.affectedRows == 0)
                 throw new Exception("Device was not updated");
               // 3.
@@ -992,7 +992,7 @@ class RemoteApp {
               sqljocky.Results res3 = await tx.prepareExecute(
                   "UPDATE `oauth_connections` SET `account_id` = LAST_INSERT_ID() "
                   "WHERE `session_id` = ? AND `account_id` = 0",
-                  [account.state.sessionId.toInt()]);
+                  [account.state.sessionId]);
               if (res3.affectedRows == 0)
                 throw new Exception("Social media was not updated");
               // 4.
@@ -1016,7 +1016,7 @@ class RemoteApp {
                     "PointFromText('POINT(${location.longitude} ${location.latitude})')"
                     ")",
                     [
-                      accountId.toInt(),
+                      accountId,
                       location.name.toString(),
                       location.detail.toString(),
                       location.approximate.toString(),
@@ -1025,7 +1025,7 @@ class RemoteApp {
                           : location.postcode.toString(),
                       location.regionCode.toString(),
                       location.countryCode.toString(),
-                      location.s2cellId.toInt()
+                      location.s2cellId
                     ]);
                 if (res4.affectedRows == 0)
                   throw new Exception("Location was not inserted");
@@ -1037,7 +1037,7 @@ class RemoteApp {
               sqljocky.Results res5 = await tx.prepareExecute(
                   "UPDATE `accounts` SET `location_id` = LAST_INSERT_ID() "
                   "WHERE `account_id` = ?",
-                  [accountId.toInt()]);
+                  [accountId]);
               if (res5.affectedRows == 0)
                 throw new Exception("Account was not updated with location");
               devLog.fine("Finished setting up account $accountId");
@@ -1074,7 +1074,7 @@ class RemoteApp {
           await sql.prepareExecute(
               "UPDATE `accounts` SET `avatar_key` = ? "
               "WHERE `account_id` = ?",
-              [avatarKey.toString(), account.state.accountId.toInt()]);
+              [avatarKey.toString(), account.state.accountId]);
           account.summary.avatarThumbnailUrl =
               makeCloudinaryThumbnailUrl(avatarKey);
           account.summary.blurredAvatarThumbnailUrl =

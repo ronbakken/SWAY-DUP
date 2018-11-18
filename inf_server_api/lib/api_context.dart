@@ -118,7 +118,7 @@ class RemoteAppOffer {
       sqljocky.Results accountResults = await connection.prepareExecute(
           "SELECT `accounts`.`name`, `accounts`.`account_type`, " // 0 1
           "`accounts`.`description`, `accounts`.`location_id`, " // 2 3
-          "`accounts`.`avatar_key`, `accounts`.`url`, " // 4 5
+          "`accounts`.`avatar_key`, `accounts`.`website`, " // 4 5
           "`locations`.`approximate`, `locations`.`detail`, " // 6 7
           "`locations`.`point` " // 8
           "FROM `accounts` "
