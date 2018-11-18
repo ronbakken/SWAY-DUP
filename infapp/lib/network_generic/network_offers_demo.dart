@@ -74,7 +74,7 @@ abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
     if (_demoAllOffersLoaded == false &&
         connected == NetworkConnectionState.ready) {
       _demoAllOffersLoaded = true;
-      if (account.state.accountType == AccountType.AT_INFLUENCER) {
+      if (account.state.accountType == AccountType.influencer) {
         demoAllOffersLoading = true;
         refreshDemoAllOffers().catchError((error, stack) {
           log.severe("Failed to get offers: $error");

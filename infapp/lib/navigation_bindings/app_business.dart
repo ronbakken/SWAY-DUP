@@ -224,7 +224,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
         return new BusinessOfferList(
             businessOffers: network.offers.values
                 .where(
-                    (offer) => (offer.state != BusinessOfferState.BOS_CLOSED))
+                    (offer) => (offer.state != BusinessOfferState.Bclosed))
                 .toList()
                   ..sort((a, b) => b.offerId.compareTo(a.offerId)),
             onRefreshOffers: (network.connected == NetworkConnectionState.ready)
@@ -240,7 +240,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
             return new BusinessOfferList(
                 businessOffers: network.offers.values
                     .where(
-                        (offer) => (offer.state == BusinessOfferState.BOS_CLOSED))
+                        (offer) => (offer.state == BusinessOfferState.Bclosed))
                     .toList()
                       ..sort((a, b) => b.offerId.compareTo(a.offerId)),
                 onRefreshOffers: (network.connected == NetworkConnectionState.ready)

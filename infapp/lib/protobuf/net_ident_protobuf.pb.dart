@@ -251,7 +251,7 @@ class NetSetAccountType extends $pb.GeneratedMessage {
         1,
         'accountType',
         $pb.PbFieldType.OE,
-        $0.AccountType.AT_UNKNOWN,
+        $0.AccountType.unknown,
         $0.AccountType.valueOf,
         $0.AccountType.values)
     ..hasRequiredFields = false;

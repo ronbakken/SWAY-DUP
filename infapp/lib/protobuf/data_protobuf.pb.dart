@@ -265,14 +265,14 @@ class DataBusinessOffer extends $pb.GeneratedMessage {
         12,
         'state',
         $pb.PbFieldType.OE,
-        $0.BusinessOfferState.BOS_DRAFT,
+        $0.BusinessOfferState.Bdraft,
         $0.BusinessOfferState.valueOf,
         $0.BusinessOfferState.values)
     ..e<$0.BusinessOfferStateReason>(
         13,
         'stateReason',
         $pb.PbFieldType.OE,
-        $0.BusinessOfferStateReason.BOSR_NEW_OFFER,
+        $0.BusinessOfferStateReason.BnewOffer,
         $0.BusinessOfferStateReason.valueOf,
         $0.BusinessOfferStateReason.values)
     ..a<int>(14, 'applicantsNew', $pb.PbFieldType.O3)
@@ -635,28 +635,28 @@ class DataAccountState extends $pb.GeneratedMessage {
         3,
         'accountType',
         $pb.PbFieldType.OE,
-        $0.AccountType.AT_UNKNOWN,
+        $0.AccountType.unknown,
         $0.AccountType.valueOf,
         $0.AccountType.values)
     ..e<$0.GlobalAccountState>(
         4,
         'globalAccountState',
         $pb.PbFieldType.OE,
-        $0.GlobalAccountState.GAS_INITIALIZE,
+        $0.GlobalAccountState.initialize,
         $0.GlobalAccountState.valueOf,
         $0.GlobalAccountState.values)
     ..e<$0.GlobalAccountStateReason>(
         5,
         'globalAccountStateReason',
         $pb.PbFieldType.OE,
-        $0.GlobalAccountStateReason.GASR_NEW_ACCOUNT,
+        $0.GlobalAccountStateReason.newAccount,
         $0.GlobalAccountStateReason.valueOf,
         $0.GlobalAccountStateReason.values)
     ..e<$0.NotificationFlags>(
         6,
         'notificationFlags',
         $pb.PbFieldType.OE,
-        $0.NotificationFlags.NF_ACCOUNT_STATE,
+        $0.NotificationFlags.accountState,
         $0.NotificationFlags.valueOf,
         $0.NotificationFlags.values)
     ..aOS(7, 'firebaseToken')

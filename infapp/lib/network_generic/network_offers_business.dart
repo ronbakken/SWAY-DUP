@@ -70,7 +70,7 @@ abstract class NetworkOffersBusiness
   Map<int, DataBusinessOffer> get offers {
     if (_offersLoaded == false && connected == NetworkConnectionState.ready) {
       _offersLoaded = true;
-      if (account.state.accountType == AccountType.AT_BUSINESS) {
+      if (account.state.accountType == AccountType.business) {
         offersLoading = true;
         refreshOffers().catchError((error, stack) {
           log.severe("Failed to get offers: $error");

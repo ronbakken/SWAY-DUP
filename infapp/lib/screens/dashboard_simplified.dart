@@ -108,12 +108,12 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
   @override
   Widget build(BuildContext context) {
     String applicantsLabel =
-        widget.account.state.accountType == AccountType.AT_INFLUENCER
+        widget.account.state.accountType == AccountType.influencer
             ? "Applied"
             : "Applicants";
 
     /*String mapLabel =
-        widget.account.state.accountType == AccountType.AT_INFLUENCER
+        widget.account.state.accountType == AccountType.influencer
             ? "Offers"
             : "Map";
     String offersLabel = "Offers";
@@ -280,7 +280,7 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
                 : null,
           ),
           (widget.account.state.globalAccountState.value >=
-                  GlobalAccountState.GAS_DEBUG.value)
+                  GlobalAccountState.debug.value)
               ? new FlatButton(
                   child: new Row(children: [
                     new Container(

@@ -169,13 +169,13 @@ class _AppOnboardingState extends State<AppOnboarding> {
     return new OnboardingSelection(
       onInfluencer: network.connected == NetworkConnectionState.ready
           ? () {
-              network.setAccountType(AccountType.AT_INFLUENCER);
+              network.setAccountType(AccountType.influencer);
               navigateToSocial(context);
             }
           : null,
       onBusiness: network.connected == NetworkConnectionState.ready
           ? () {
-              network.setAccountType(AccountType.AT_BUSINESS);
+              network.setAccountType(AccountType.business);
               navigateToSocial(context);
             }
           : null,

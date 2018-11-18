@@ -92,7 +92,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
         DataAccount fallback = (cached.fallback == null)
             ? (emptyAccount(accountId))
             : (new DataAccount()..mergeFromMessage(cached.fallback));
-        fallback.state.accountType = AccountType.AT_BUSINESS;
+        fallback.state.accountType = AccountType.business;
         fallback.summary.name = offer.locationName;
         fallback.summary.location = offer.location;
         fallback.detail.locationId = offer.locationId;

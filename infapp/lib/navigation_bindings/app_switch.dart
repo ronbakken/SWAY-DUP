@@ -52,10 +52,10 @@ class _AppSwitchState extends State<AppSwitch> {
     if (network.account.state.accountId == 0) {
       return new AppOnboarding();
     }
-    if (network.account.state.accountType == AccountType.AT_INFLUENCER) {
+    if (network.account.state.accountType == AccountType.influencer) {
       return new AppInfluencer();
     }
-    if (network.account.state.accountType == AccountType.AT_BUSINESS) {
+    if (network.account.state.accountType == AccountType.business) {
       return new AppBusiness();
     }
     return new DebugAccount(account: network.account);

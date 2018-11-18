@@ -50,7 +50,7 @@ class OnboardingSocial extends StatelessWidget {
     bool connected = false;
     for (int i = 0; i < nbButtons; ++i) {
       ConfigOAuthProvider cfg = oauthProviders[i];
-      if (cfg.visible && cfg.mechanism != OAuthMechanism.OAM_NONE) {
+      if (cfg.visible && cfg.mechanism != OAuthMechanism.none) {
         if (oauthState[i].connected) {
           connected = true;
         }
@@ -103,7 +103,7 @@ class OnboardingSocial extends StatelessWidget {
                 new Container(
                   margin: new EdgeInsets.all(8.0),
                   child: new Text(
-                    accountType == AccountType.AT_INFLUENCER
+                    accountType == AccountType.influencer
                         ? "You are now an influencer!"
                         : "You are now in business!",
                     style: Theme.of(context).textTheme.display1,

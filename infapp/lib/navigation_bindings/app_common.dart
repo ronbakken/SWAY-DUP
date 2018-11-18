@@ -195,13 +195,13 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
           DataBusinessOffer offer =
               network.tryGetOffer(new Int64(proposal.offerId));
           DataAccount businessAccount = (proposal.businessAccountId == 0 &&
-                  network.account.state.accountType == AccountType.AT_BUSINESS)
+                  network.account.state.accountType == AccountType.business)
               ? network.account
               : network
                   .tryGetProfileSummary(new Int64(proposal.businessAccountId));
           DataAccount influencerAccount = (proposal.influencerAccountId == 0 &&
                   network.account.state.accountType ==
-                      AccountType.AT_INFLUENCER)
+                      AccountType.influencer)
               ? network.account
               : network.tryGetProfileSummary(
                   new Int64(proposal.influencerAccountId));

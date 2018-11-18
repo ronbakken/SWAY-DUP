@@ -130,13 +130,13 @@ class _DashboardCommonState extends State<DashboardCommon>
   @override
   Widget build(BuildContext context) {
     String mapLabel =
-        widget.account.state.accountType == AccountType.AT_INFLUENCER
+        widget.account.state.accountType == AccountType.influencer
             ? "Offers"
             : "Map";
     String offersLabel = "Offers";
     /*
     String applicantsLabel =
-        widget.account.state.accountType == AccountType.AT_INFLUENCER
+        widget.account.state.accountType == AccountType.influencer
             ? "Applied"
             : "Applicants";
             */
@@ -235,13 +235,13 @@ class _DashboardCommonState extends State<DashboardCommon>
             tabs: [
               new Tab(
                   text: (widget.account.state.accountType ==
-                              AccountType.AT_INFLUENCER
+                              AccountType.influencer
                           ? "Applied"
                           : "Direct")
                       .toUpperCase()),
               new Tab(
                   text: (widget.account.state.accountType ==
-                              AccountType.AT_INFLUENCER
+                              AccountType.influencer
                           ? "Direct"
                           : "Applicants")
                       .toUpperCase()),
@@ -337,7 +337,7 @@ class _DashboardCommonState extends State<DashboardCommon>
                 : null,
           ),
           (widget.account.state.globalAccountState.value >=
-                  GlobalAccountState.GAS_DEBUG.value)
+                  GlobalAccountState.debug.value)
               ? new FlatButton(
                   child: new Row(children: [
                     new Container(

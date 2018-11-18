@@ -44,7 +44,7 @@ class ProfileAvatar extends StatelessWidget {
                   localAccount?.avatarUrl,
               placeholderAsset:
                   (account?.state?.accountType ?? localAccount?.accountType) ==
-                          AccountType.AT_INFLUENCER
+                          AccountType.influencer
                       ? 'assets/default_avatar_influencer.png'
                       : 'assets/default_avatar_business.png',
             ),

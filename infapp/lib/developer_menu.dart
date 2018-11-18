@@ -58,9 +58,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     }
 
     sampleAccounts[1].state.accountId = 1;
-    sampleAccounts[1].state.accountType = AccountType.AT_BUSINESS;
+    sampleAccounts[1].state.accountType = AccountType.business;
     sampleAccounts[1].state.globalAccountState =
-        GlobalAccountState.GAS_READ_WRITE;
+        GlobalAccountState.readWrite;
     sampleAccounts[1].summary.name = "Big Kahuna";
     sampleAccounts[1].summary.description =
         "The best burgers in the known universe. As far as we know.";
@@ -72,9 +72,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     // sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
 
     sampleAccounts[2].state.accountId = 2;
-    sampleAccounts[2].state.accountType = AccountType.AT_BUSINESS;
+    sampleAccounts[2].state.accountType = AccountType.business;
     sampleAccounts[2].state.globalAccountState =
-        GlobalAccountState.GAS_READ_WRITE;
+        GlobalAccountState.readWrite;
     sampleAccounts[2].summary.name = "Fried Willy";
     sampleAccounts[2].summary.description = "We don't prepare dolphins.";
     sampleAccounts[2].summary.avatarThumbnailUrl =
@@ -94,9 +94,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
 
     sampleBusinessOffers[1].offerId = 1;
     sampleBusinessOffers[1].accountId = 1;
-    sampleBusinessOffers[1].state = BusinessOfferState.BOS_OPEN;
+    sampleBusinessOffers[1].state = BusinessOfferState.Bopen;
     sampleBusinessOffers[1].stateReason =
-        BusinessOfferStateReason.BOSR_NEW_OFFER;
+        BusinessOfferStateReason.BnewOffer;
     sampleBusinessOffers[1].title = "Finest Burger Weekend";
     sampleBusinessOffers[1].description =
         "We'd like to expose the finest foods in our very busy restaurant to a wide audience.";
@@ -116,9 +116,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
 
     sampleBusinessOffers[2].offerId = 2;
     sampleBusinessOffers[2].accountId = 1;
-    sampleBusinessOffers[2].state = BusinessOfferState.BOS_OPEN;
+    sampleBusinessOffers[2].state = BusinessOfferState.Bopen;
     sampleBusinessOffers[2].stateReason =
-        BusinessOfferStateReason.BOSR_NEW_OFFER;
+        BusinessOfferStateReason.BnewOffer;
     sampleBusinessOffers[2].title = "Burger Weekend Fries";
     sampleBusinessOffers[2].description =
         "We need some table fillers to make our restaurant look very busy this weekend.";
@@ -135,9 +135,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
 
     sampleBusinessOffers[3].offerId = 3;
     sampleBusinessOffers[3].accountId = 2;
-    sampleBusinessOffers[3].state = BusinessOfferState.BOS_CLOSED;
+    sampleBusinessOffers[3].state = BusinessOfferState.Bclosed;
     sampleBusinessOffers[3].stateReason =
-        BusinessOfferStateReason.BOSR_COMPLETED;
+        BusinessOfferStateReason.Bcompleted;
     sampleBusinessOffers[3].title = "Fishing Season";
     sampleBusinessOffers[3].description =
         "Looking to catch more customers during the fishing season.";
@@ -257,9 +257,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                     data.summary = new DataAccountSummary();
                     data.detail = new DataAccountDetail();
                     data.state.accountId = random.nextInt(500) + 10;
-                    data.state.accountType = AccountType.AT_BUSINESS;
+                    data.state.accountType = AccountType.business;
                     data.state.globalAccountState =
-                        GlobalAccountState.GAS_READ_WRITE;
+                        GlobalAccountState.readWrite;
                     data.summary.name = "Name: $searchQuery";
                     data.summary.description = "Description: $searchQuery";
                     data.summary.avatarThumbnailUrl =
@@ -369,13 +369,13 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   context,
                   new OnboardingSelection(
                     onInfluencer: () {
-                      demoAccount.state.accountType = AccountType.AT_INFLUENCER;
+                      demoAccount.state.accountType = AccountType.influencer;
                       /* Scaffold.of(context).showSnackBar(new SnackBar(
                           content: new Text("You're an influencer!"),
                         )); */ // Tricky: context here is route context, not the scaffold of the onboarding selection
                     },
                     onBusiness: () {
-                      demoAccount.state.accountType = AccountType.AT_BUSINESS;
+                      demoAccount.state.accountType = AccountType.business;
                       /* scaffold.showSnackBar(new SnackBar(
                           content: new Text("You're a business!"),
                         )); */
@@ -426,9 +426,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                           // demoAccount.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg");
                           demoAccount.summary.location = "Cardiff, London";
                           demoAccount.state.globalAccountState =
-                              GlobalAccountState.GAS_READ_WRITE;
+                              GlobalAccountState.readWrite;
                           demoAccount.state.globalAccountStateReason =
-                              GlobalAccountStateReason.GASR_DEMO_APPROVED;
+                              GlobalAccountStateReason.demoApproved;
                           // print("Get pos");
                           try {
                             Position position = await Geolocator()
@@ -456,7 +456,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child: new Row(children: [new Text("Reset Onboarding")]),
             onPressed: () {
               demoAccount.state.accountId = 0;
-              demoAccount.state.accountType = AccountType.AT_UNKNOWN;
+              demoAccount.state.accountType = AccountType.unknown;
               demoAccount.summary.name = '';
               demoAccount.summary.description = '';
               demoAccount.summary.avatarThumbnailUrl = '';
@@ -464,9 +464,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               demoAccount.detail.avatarCoverUrl = '';
               // demoAccount.detail.coverUrls.length = 0;
               demoAccount.state.globalAccountState =
-                  GlobalAccountState.GAS_INITIALIZE;
+                  GlobalAccountState.initialize;
               demoAccount.state.globalAccountStateReason =
-                  GlobalAccountStateReason.GASR_NEW_ACCOUNT;
+                  GlobalAccountStateReason.newAccount;
               for (int i = 0; i < demoAccount.detail.socialMedia.length; ++i) {
                 demoAccount.detail.socialMedia[i] = new DataSocialMedia();
               }
@@ -523,9 +523,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                                 data.detail = new DataAccountDetail();
                                 data.state.accountId = random.nextInt(500) + 10;
                                 data.state.accountType =
-                                    AccountType.AT_BUSINESS;
+                                    AccountType.business;
                                 data.state.globalAccountState =
-                                    GlobalAccountState.GAS_READ_WRITE;
+                                    GlobalAccountState.readWrite;
                                 data.summary.name = "Name: $searchQuery";
                                 data.summary.description =
                                     "Description: $searchQuery";
@@ -566,7 +566,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child:
                 new Row(children: [new Text('View Business Profile (Self)')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              demoAccount.state.accountType = AccountType.business;
               transitionPage(
                   context,
                   new ProfileView(
@@ -578,7 +578,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child:
                 new Row(children: [new Text('Edit Business Profile (Self)')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              demoAccount.state.accountType = AccountType.business;
               transitionPage(
                   context,
                   new ProfileEdit(
@@ -589,7 +589,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text('Select Location')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              demoAccount.state.accountType = AccountType.business;
               transitionPage(
                   context,
                   new LocationSelectionScreen(
@@ -608,7 +608,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text('Geocode test')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              demoAccount.state.accountType = AccountType.business;
               transitionPage(
                 context,
                 new GeocodingTestPage(),
@@ -618,7 +618,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text('View Influencer Profile')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.AT_INFLUENCER;
+              demoAccount.state.accountType = AccountType.influencer;
               transitionPage(
                   context,
                   new ProfileView(
@@ -688,7 +688,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child:
                 new Row(children: [new Text('View Influencer Profile (Self)')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.AT_INFLUENCER;
+              demoAccount.state.accountType = AccountType.influencer;
               transitionPage(
                   context,
                   new ProfileView(
@@ -700,7 +700,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child:
                 new Row(children: [new Text('Edit Influencer Profile (Self)')]),
             /*onPressed: () { 
-              demoAccount.accountType = AccountType.AT_INFLUENCER;
+              demoAccount.accountType = AccountType.influencer;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -731,7 +731,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text('View Business Profile')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.AT_BUSINESS;
+              demoAccount.state.accountType = AccountType.business;
               transitionPage(
                   context,
                   new ProfileView(

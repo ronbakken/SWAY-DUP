@@ -72,20 +72,20 @@ const NotificationFlags$json = const {
 const BusinessOfferState$json = const {
   '1': 'BusinessOfferState',
   '2': const [
-    const {'1': 'BOS_DRAFT', '2': 0},
-    const {'1': 'BOS_OPEN', '2': 1},
+    const {'1': 'Bdraft', '2': 0},
+    const {'1': 'Bopen', '2': 1},
     const {'1': 'BOS_ACTIVE', '2': 2},
-    const {'1': 'BOS_CLOSED', '2': 3},
+    const {'1': 'Bclosed', '2': 3},
   ],
 };
 
 const BusinessOfferStateReason$json = const {
   '1': 'BusinessOfferStateReason',
   '2': const [
-    const {'1': 'BOSR_NEW_OFFER', '2': 0},
-    const {'1': 'BOSR_USER_CLOSED', '2': 1},
-    const {'1': 'BOSR_TOS_VIOLATION', '2': 2},
-    const {'1': 'BOSR_COMPLETED', '2': 3},
+    const {'1': 'BnewOffer', '2': 0},
+    const {'1': 'BuserClosed', '2': 1},
+    const {'1': 'BtosViolation', '2': 2},
+    const {'1': 'Bcompleted', '2': 3},
   ],
 };
 

@@ -98,7 +98,7 @@ abstract class NetworkInterface {
   /// Refresh all offers (currently latest offers)
   Future<void> refreshOffers();
 
-  /// List of offers owned by this account (applicable for AT_BUSINESS)
+  /// List of offers owned by this account (applicable for business)
   Map<int, DataBusinessOffer> get offers;
 
   /// Whether [offers] is in the process of loading. Not set by refreshOffers call

@@ -75,7 +75,7 @@ class _OfferViewState extends State<OfferView> {
   }
 
   Widget _buildInfluencerApply(BuildContext context) {
-    if (widget.account.state.accountType == AccountType.AT_INFLUENCER) {
+    if (widget.account.state.accountType == AccountType.influencer) {
       if (widget.businessOffer.influencerApplicantId == 0) {
         return new Container(
             margin: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
@@ -160,7 +160,7 @@ class _OfferViewState extends State<OfferView> {
   @override
   Widget build(BuildContext context) {
     bool withApplicant =
-        (widget.account.state.accountType == AccountType.AT_INFLUENCER) &&
+        (widget.account.state.accountType == AccountType.influencer) &&
             (widget.businessOffer.influencerApplicantId != 0);
     return new Scaffold(
       body: new CustomScrollView(

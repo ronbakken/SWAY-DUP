@@ -9,16 +9,16 @@ import 'dart:core' show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class OAuthMechanism extends $pb.ProtobufEnum {
-  static const OAuthMechanism OAM_NONE = const OAuthMechanism._(0, 'OAM_NONE');
-  static const OAuthMechanism OAM_OAUTH1 =
+  static const OAuthMechanism none = const OAuthMechanism._(0, 'OAM_NONE');
+  static const OAuthMechanism oauth1 =
       const OAuthMechanism._(1, 'OAM_OAUTH1');
-  static const OAuthMechanism OAM_OAUTH2 =
+  static const OAuthMechanism oauth2 =
       const OAuthMechanism._(2, 'OAM_OAUTH2');
 
   static const List<OAuthMechanism> values = const <OAuthMechanism>[
-    OAM_NONE,
-    OAM_OAUTH1,
-    OAM_OAUTH2,
+    none,
+    oauth1,
+    oauth2,
   ];
 
   static final Map<int, OAuthMechanism> _byValue =
@@ -32,17 +32,17 @@ class OAuthMechanism extends $pb.ProtobufEnum {
 }
 
 class OAuthProviderIds extends $pb.ProtobufEnum {
-  static const OAuthProviderIds OAP_NONE =
+  static const OAuthProviderIds none =
       const OAuthProviderIds._(0, 'OAP_NONE');
-  static const OAuthProviderIds OAP_TWITTER =
+  static const OAuthProviderIds twitter =
       const OAuthProviderIds._(1, 'OAP_TWITTER');
-  static const OAuthProviderIds OAP_FACEBOOK =
+  static const OAuthProviderIds facebook =
       const OAuthProviderIds._(2, 'OAP_FACEBOOK');
 
   static const List<OAuthProviderIds> values = const <OAuthProviderIds>[
-    OAP_NONE,
-    OAP_TWITTER,
-    OAP_FACEBOOK,
+    none,
+    twitter,
+    facebook,
   ];
 
   static final Map<int, OAuthProviderIds> _byValue =
@@ -56,17 +56,17 @@ class OAuthProviderIds extends $pb.ProtobufEnum {
 }
 
 class AccountType extends $pb.ProtobufEnum {
-  static const AccountType AT_UNKNOWN = const AccountType._(0, 'AT_UNKNOWN');
-  static const AccountType AT_INFLUENCER =
+  static const AccountType unknown = const AccountType._(0, 'AT_UNKNOWN');
+  static const AccountType influencer =
       const AccountType._(1, 'AT_INFLUENCER');
-  static const AccountType AT_BUSINESS = const AccountType._(2, 'AT_BUSINESS');
-  static const AccountType AT_SUPPORT = const AccountType._(3, 'AT_SUPPORT');
+  static const AccountType business = const AccountType._(2, 'AT_BUSINESS');
+  static const AccountType support = const AccountType._(3, 'AT_SUPPORT');
 
   static const List<AccountType> values = const <AccountType>[
-    AT_UNKNOWN,
-    AT_INFLUENCER,
-    AT_BUSINESS,
-    AT_SUPPORT,
+    unknown,
+    influencer,
+    business,
+    support,
   ];
 
   static final Map<int, AccountType> _byValue =
@@ -80,32 +80,32 @@ class AccountType extends $pb.ProtobufEnum {
 }
 
 class GlobalAccountState extends $pb.ProtobufEnum {
-  static const GlobalAccountState GAS_INITIALIZE =
+  static const GlobalAccountState initialize =
       const GlobalAccountState._(0, 'GAS_INITIALIZE');
-  static const GlobalAccountState GAS_BLOCKED =
+  static const GlobalAccountState blocked =
       const GlobalAccountState._(1, 'GAS_BLOCKED');
-  static const GlobalAccountState GAS_READ_ONLY =
+  static const GlobalAccountState readOnly =
       const GlobalAccountState._(2, 'GAS_READ_ONLY');
-  static const GlobalAccountState GAS_READ_WRITE =
+  static const GlobalAccountState readWrite =
       const GlobalAccountState._(3, 'GAS_READ_WRITE');
-  static const GlobalAccountState GAS_DEBUG =
+  static const GlobalAccountState debug =
       const GlobalAccountState._(4, 'GAS_DEBUG');
-  static const GlobalAccountState GAS_SUPPORT =
+  static const GlobalAccountState support =
       const GlobalAccountState._(5, 'GAS_SUPPORT');
-  static const GlobalAccountState GAS_MANAGER =
+  static const GlobalAccountState manager =
       const GlobalAccountState._(6, 'GAS_MANAGER');
-  static const GlobalAccountState GAS_GOD =
+  static const GlobalAccountState god =
       const GlobalAccountState._(7, 'GAS_GOD');
 
   static const List<GlobalAccountState> values = const <GlobalAccountState>[
-    GAS_INITIALIZE,
-    GAS_BLOCKED,
-    GAS_READ_ONLY,
-    GAS_READ_WRITE,
-    GAS_DEBUG,
-    GAS_SUPPORT,
-    GAS_MANAGER,
-    GAS_GOD,
+    initialize,
+    blocked,
+    readOnly,
+    readWrite,
+    debug,
+    support,
+    manager,
+    god,
   ];
 
   static final Map<int, GlobalAccountState> _byValue =
@@ -119,30 +119,30 @@ class GlobalAccountState extends $pb.ProtobufEnum {
 }
 
 class GlobalAccountStateReason extends $pb.ProtobufEnum {
-  static const GlobalAccountStateReason GASR_NEW_ACCOUNT =
+  static const GlobalAccountStateReason newAccount =
       const GlobalAccountStateReason._(0, 'GASR_NEW_ACCOUNT');
-  static const GlobalAccountStateReason GASR_ACCOUNT_BANNED =
+  static const GlobalAccountStateReason accountBanned =
       const GlobalAccountStateReason._(1, 'GASR_ACCOUNT_BANNED');
-  static const GlobalAccountStateReason GASR_CREATE_DENIED =
+  static const GlobalAccountStateReason createDenied =
       const GlobalAccountStateReason._(2, 'GASR_CREATE_DENIED');
-  static const GlobalAccountStateReason GASR_APPROVED =
+  static const GlobalAccountStateReason approved =
       const GlobalAccountStateReason._(3, 'GASR_APPROVED');
-  static const GlobalAccountStateReason GASR_DEMO_APPROVED =
+  static const GlobalAccountStateReason demoApproved =
       const GlobalAccountStateReason._(4, 'GASR_DEMO_APPROVED');
-  static const GlobalAccountStateReason GASR_PENDING =
+  static const GlobalAccountStateReason pending =
       const GlobalAccountStateReason._(5, 'GASR_PENDING');
-  static const GlobalAccountStateReason GASR_REQUIRE_INFO =
+  static const GlobalAccountStateReason requireInfo =
       const GlobalAccountStateReason._(6, 'GASR_REQUIRE_INFO');
 
   static const List<GlobalAccountStateReason> values =
       const <GlobalAccountStateReason>[
-    GASR_NEW_ACCOUNT,
-    GASR_ACCOUNT_BANNED,
-    GASR_CREATE_DENIED,
-    GASR_APPROVED,
-    GASR_DEMO_APPROVED,
-    GASR_PENDING,
-    GASR_REQUIRE_INFO,
+    newAccount,
+    accountBanned,
+    createDenied,
+    approved,
+    demoApproved,
+    pending,
+    requireInfo,
   ];
 
   static final Map<int, GlobalAccountStateReason> _byValue =
@@ -157,19 +157,19 @@ class GlobalAccountStateReason extends $pb.ProtobufEnum {
 }
 
 class NotificationFlags extends $pb.ProtobufEnum {
-  static const NotificationFlags NF_ACCOUNT_STATE =
+  static const NotificationFlags accountState =
       const NotificationFlags._(0, 'NF_ACCOUNT_STATE');
   static const NotificationFlags NF_MAKE_AN_OFFER_FAB =
       const NotificationFlags._(1, 'NF_MAKE_AN_OFFER_FAB');
-  static const NotificationFlags NF_UNREAD_MESSAGES =
+  static const NotificationFlags unreadMessages =
       const NotificationFlags._(2, 'NF_UNREAD_MESSAGES');
   static const NotificationFlags NF_CS_REQUEST =
       const NotificationFlags._(3, 'NF_CS_REQUEST');
 
   static const List<NotificationFlags> values = const <NotificationFlags>[
-    NF_ACCOUNT_STATE,
+    accountState,
     NF_MAKE_AN_OFFER_FAB,
-    NF_UNREAD_MESSAGES,
+    unreadMessages,
     NF_CS_REQUEST,
   ];
 
@@ -184,20 +184,20 @@ class NotificationFlags extends $pb.ProtobufEnum {
 }
 
 class BusinessOfferState extends $pb.ProtobufEnum {
-  static const BusinessOfferState BOS_DRAFT =
-      const BusinessOfferState._(0, 'BOS_DRAFT');
-  static const BusinessOfferState BOS_OPEN =
-      const BusinessOfferState._(1, 'BOS_OPEN');
+  static const BusinessOfferState Bdraft =
+      const BusinessOfferState._(0, 'Bdraft');
+  static const BusinessOfferState Bopen =
+      const BusinessOfferState._(1, 'Bopen');
   static const BusinessOfferState BOS_ACTIVE =
       const BusinessOfferState._(2, 'BOS_ACTIVE');
-  static const BusinessOfferState BOS_CLOSED =
-      const BusinessOfferState._(3, 'BOS_CLOSED');
+  static const BusinessOfferState Bclosed =
+      const BusinessOfferState._(3, 'Bclosed');
 
   static const List<BusinessOfferState> values = const <BusinessOfferState>[
-    BOS_DRAFT,
-    BOS_OPEN,
+    Bdraft,
+    Bopen,
     BOS_ACTIVE,
-    BOS_CLOSED,
+    Bclosed,
   ];
 
   static final Map<int, BusinessOfferState> _byValue =
@@ -211,21 +211,21 @@ class BusinessOfferState extends $pb.ProtobufEnum {
 }
 
 class BusinessOfferStateReason extends $pb.ProtobufEnum {
-  static const BusinessOfferStateReason BOSR_NEW_OFFER =
-      const BusinessOfferStateReason._(0, 'BOSR_NEW_OFFER');
-  static const BusinessOfferStateReason BOSR_USER_CLOSED =
-      const BusinessOfferStateReason._(1, 'BOSR_USER_CLOSED');
-  static const BusinessOfferStateReason BOSR_TOS_VIOLATION =
-      const BusinessOfferStateReason._(2, 'BOSR_TOS_VIOLATION');
-  static const BusinessOfferStateReason BOSR_COMPLETED =
-      const BusinessOfferStateReason._(3, 'BOSR_COMPLETED');
+  static const BusinessOfferStateReason BnewOffer =
+      const BusinessOfferStateReason._(0, 'BnewOffer');
+  static const BusinessOfferStateReason BuserClosed =
+      const BusinessOfferStateReason._(1, 'BuserClosed');
+  static const BusinessOfferStateReason BtosViolation =
+      const BusinessOfferStateReason._(2, 'BtosViolation');
+  static const BusinessOfferStateReason Bcompleted =
+      const BusinessOfferStateReason._(3, 'Bcompleted');
 
   static const List<BusinessOfferStateReason> values =
       const <BusinessOfferStateReason>[
-    BOSR_NEW_OFFER,
-    BOSR_USER_CLOSED,
-    BOSR_TOS_VIOLATION,
-    BOSR_COMPLETED,
+    BnewOffer,
+    BuserClosed,
+    BtosViolation,
+    Bcompleted,
   ];
 
   static final Map<int, BusinessOfferStateReason> _byValue =

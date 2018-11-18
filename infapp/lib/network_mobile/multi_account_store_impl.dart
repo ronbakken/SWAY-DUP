@@ -38,7 +38,7 @@ class _LocalAccountDataImpl implements LocalAccountData {
   Int64 accountId = Int64.ZERO;
 
   @override
-  AccountType accountType = AccountType.AT_UNKNOWN;
+  AccountType accountType = AccountType.unknown;
 
   @override
   String name;
