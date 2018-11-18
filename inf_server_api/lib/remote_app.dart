@@ -316,7 +316,7 @@ class RemoteApp {
       await for (sqljocky.Row row in pubKeyResults) {
         aesKey = base64.decode(row[0].toString());
       }
-      if (aesKey.length == 0) {
+      if (aesKey == null || aesKey.length == 0) {
         devLog.severe("AES key missing for session $attemptDeviceId");
       }
 
@@ -327,7 +327,7 @@ class RemoteApp {
       NetDeviceAuthSignatureResReq signaturePb =
           new NetDeviceAuthSignatureResReq();
       signaturePb.mergeFromBuffer(signatureMessage.data);
-      if (aesKey.length > 0 && signaturePb.signature.length > 0) {
+      if (aesKey != null && aesKey.length > 0 && signaturePb.signature.length > 0) {
         // Verify signature
         var keyParameter = new pointycastle.KeyParameter(aesKey);
         var aesFastEngine = new pointycastle.AESFastEngine();
