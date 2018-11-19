@@ -401,8 +401,10 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     try {
       do {
         String uri = _overrideUri ??
-            (_config.services.apiHosts.length > 0 ? _config.services
-                .apiHosts[random.nextInt(_config.services.apiHosts.length)] : null);
+            (_config.services.apiHosts.length > 0
+                ? _config.services
+                    .apiHosts[random.nextInt(_config.services.apiHosts.length)]
+                : null);
         if (uri == null || uri.length == 0) {
           if (!_netConfigWarning) {
             _netConfigWarning = true;
