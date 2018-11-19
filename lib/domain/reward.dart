@@ -5,7 +5,6 @@ import 'package:decimal/decimal.dart';
 enum RewardType { barter, cash, barterAndCash }
 
 class Reward {
-  final int id;
   final String description;
   final Decimal barterValue;
   final Decimal cashValue;
@@ -20,7 +19,6 @@ class Reward {
   String get barterValueAsString => '\$${barterValue.toStringAsFixed(2)}';
 
   Reward({
-    this.id,
     this.type,
     this.description,
     this.barterValue,

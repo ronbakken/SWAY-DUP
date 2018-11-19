@@ -2,27 +2,35 @@ import 'package:inf/domain/domain.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class InfApiService {
-  //Obervables must me backed by a BehaviourSubject
 
   Future<BusinessOffer> getOfferById(int offerId);
+  Observable<BusinessOffer> getOfferByIdCached(int offerId);
 
-  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter);
-  Observable<List<BusinessOffer>> getFilteredBusinessOffers();
 
-  Future<void> addOfferFilter(OfferFilter filter);
-  Future<void> clearOfferFilter(OfferFilter filter);
-  Future<OfferFilter> getOfferFilter(OfferFilter filter);
+  Observable<List<BusinessOfferSummery>> getBusinessOffers(OfferFilter filter);
+  Observable<List<BusinessOfferSummery>> getFilteredBusinessOffers();
 
-  Future<void> clearAllOfferFilters(OfferFilter filter);
+  Observable<List<BusinessOffer>> getFeaturedBusinessOffers(double longitude, double latitude);
 
+  Future<void> setOfferFilter(OfferFilter filter);
   Observable<int> getFilteredBusinessOffersCount();
 
-  Future<void> markOfferAsRead(BusinessOffer offer);
+
+  void setMapBoundery(
+    double topLeftLatitude,
+    double topLeftLongitude,
+    double bottomRightLatitude,
+    double bottomRightLongitude,
+    double zoomLevel,
+  );
+  Observable<List<MapMarker>> getMapMarkers();
+
 
   Observable<WaitingChats> waitingChatUpdates();
-  Future<Chat> getChat(int offerId);
-  Future<void> markChatAsRead(Chat chat);
-  Future<void> postChatEntry(Chat chat, ChatEntry entry);
+
+  Future<void> markChatAsRead(Proposal proposal);
+  Future<void> postChatEntry(Proposal proposal, ChatEntry entry);
+
 
   // Observable<List<Proposal>> getProposals(ProposalFilter filter);
 

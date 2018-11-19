@@ -9,6 +9,7 @@ import 'package:inf/ui/main/offer_list_tile.dart';
 import 'package:inf/ui/main/map_view.dart';
 import 'package:inf/ui/offers/offer_details_page.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
+import 'package:rxdart/rxdart.dart';
 
 enum BrowseMode { map, list }
 
@@ -156,7 +157,7 @@ class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<BusinessOffer>>(
-      stream: backend.get<OfferManager>().getFeaturedBusinessOffers(),
+      stream: backend.get<OfferManager>().getFeaturedBusinessOffer(),
       builder:
           (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapshot) {
         if (snapshot.hasData) {
@@ -177,7 +178,7 @@ class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       final offer = snapshot.data[index];
-                      final tag = 'browse-offer-carousel-${offer.offerId}';
+                      final tag = 'browse-offer-carousel-${offer.id}';
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),
                         child: AspectRatio(
@@ -185,7 +186,7 @@ class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
                           child: BrowseCarouselItem(
                             offer: offer,
                             onPressed: () => Navigator.of(context)
-                                .push(OfferDetailsPage.route(offer, tag)),
+                                .push(OfferDetailsPage.route(Observable.just(offer), tag)),
                             tag: tag,
                           ),
                         ),
@@ -208,10 +209,10 @@ class _BrowseListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    return StreamBuilder<List<BusinessOffer>>(
+    return StreamBuilder<List<BusinessOfferSummery>>(
       stream: backend.get<OfferManager>().getBusinessOffers(),
       builder:
-          (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapShot) {
+          (BuildContext context, AsyncSnapshot<List<BusinessOfferSummery>> snapShot) {
         if (snapShot.connectionState == ConnectionState.active) {
           // TODO
           return Center(child: Text('Here has to be an waiting spinner'));
@@ -220,22 +221,22 @@ class _BrowseListView extends StatelessWidget {
           // TODO
           return Center(child: Text('Here has to be an Error message'));
         }
-        final offers = snapShot.data;
+        final offerSummeries = snapShot.data;
         return Stack(
           children: <Widget>[
             ListView.builder(
               padding: EdgeInsets.fromLTRB(
                   16.0, mediaQuery.padding.top + 54.0, 16.0, 0.0),
-              itemCount: offers.length,
+              itemCount: offerSummeries.length,
               itemBuilder: (BuildContext context, int index) {
-                final offer = offers[index];
-                final tag = 'browse-offer-list-${offer.offerId}';
+                final offerSummery = offerSummeries[index];
+                final tag = 'browse-offer-list-${offerSummery.id}';
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: OfferListTile(
-                    offer: offer,
+                    offerSummery: offerSummery,
                     onPressed: () => Navigator.of(context)
-                        .push(OfferDetailsPage.route(offer, tag)),
+                        .push(OfferDetailsPage.route(backend.get<InfApiService>().getOfferByIdCached(offerSummery.offerId) , tag)),
                     tag: tag,
                   ),
                 );
@@ -245,7 +246,7 @@ class _BrowseListView extends StatelessWidget {
               child: Container(
                 height: 48.0,
                 alignment: Alignment.center,
-                child: Text('${offers.length} OFFERS NEAR YOU'),
+                child: Text('${offerSummeries.length} OFFERS NEAR YOU'),
               ),
             ),
           ],

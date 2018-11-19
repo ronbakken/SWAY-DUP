@@ -4,7 +4,7 @@ import 'package:rxdart/rxdart.dart';
 
 class InfApiServiceImplementation implements InfApiService {
   @override
-  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter) {
+  Observable<List<BusinessOfferSummery>> getBusinessOffers(OfferFilter filter) {
     // TODO: implement getChat
     throw Exception('Not implemented yet');
   }
@@ -26,19 +26,13 @@ class InfApiServiceImplementation implements InfApiService {
   }
 
   @override
-  Future<Chat> getChat(int offerId) {
-    // TODO: implement getChat
-    throw Exception('Not implemented yet');
-  }
-
-  @override
-  Future<void> markChatAsRead(Chat chat) {
+  Future<void> markChatAsRead(Proposal proposal) {
     // TODO: implement markChatAsRead
     throw Exception('Not implemented yet');
   }
 
   @override
-  Future<void> postChatEntry(Chat chat, ChatEntry entry) {
+  Future<void> postChatEntry(Proposal proposal, ChatEntry entry) {
     // TODO: implement postChatEntry
     throw Exception('Not implemented yet');
   }
@@ -49,29 +43,6 @@ class InfApiServiceImplementation implements InfApiService {
     throw Exception('Not implemented yet');
   }
 
-  @override
-  Future<void> addOfferFilter(OfferFilter filter) {
-    // TODO: implement addOfferFilter
-    throw Exception('Not implemented yet');
-  }
-
-  @override
-  Future<void> clearAllOfferFilters(OfferFilter filter) {
-    // TODO: implement clearAllOfferFilters
-    throw Exception('Not implemented yet');
-  }
-
-  @override
-  Future<void> clearOfferFilter(OfferFilter filter) {
-    // TODO: implement clearOfferFilter
-    throw Exception('Not implemented yet');
-  }
-
-  @override
-  Observable<List<BusinessOffer>> getFilteredBusinessOffers() {
-    // TODO: implement getFilteredBusinessOffers
-    throw Exception('Not implemented yet');
-  }
 
   @override
   Observable<int> getFilteredBusinessOffersCount() {
@@ -79,15 +50,43 @@ class InfApiServiceImplementation implements InfApiService {
     throw Exception('Not implemented yet');
   }
 
+ 
+
   @override
-  Future<OfferFilter> getOfferFilter(OfferFilter filter) {
-    // TODO: implement getOfferFilter
+  Observable<List<BusinessOffer>> getFeaturedBusinessOffers(double longitude, double latitude) {
+    // TODO: implement getFeaturedBusinessOffers
     throw Exception('Not implemented yet');
   }
 
   @override
-  Future<void> markOfferAsRead(BusinessOffer offer) {
-    // TODO: implement markOfferAsRead
+  Observable<List<BusinessOfferSummery>> getFilteredBusinessOffers() {
+    // TODO: implement getFilteredBusinessOffers
     throw Exception('Not implemented yet');
   }
+
+  @override
+  Observable<List<MapMarker>> getMapMarkers() {
+    // TODO: implement getMapMarkers
+    throw Exception('Not implemented yet');
+  }
+
+  @override
+  Observable<BusinessOffer> getOfferByIdCached(int offerId) {
+    // TODO: implement getOfferByIdCached
+    throw Exception('Not implemented yet');
+  }
+
+  @override
+  void setMapBoundery(double topLeftLatitude, double topLeftLongitude, double bottomRightLatitude, double bottomRightLongitude, double zoomLevel) {
+    // TODO: implement setMapBoundery
+    throw Exception('Not implemented yet');
+  }
+
+  @override
+  Future<void> setOfferFilter(OfferFilter filter) {
+    // TODO: implement setOfferFilter
+    throw Exception('Not implemented yet');
+  }
+
+
 }

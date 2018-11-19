@@ -9,13 +9,13 @@ import 'package:inf/ui/widgets/notification_marker.dart';
 class OfferListTile extends StatelessWidget {
   const OfferListTile({
     Key key,
-    @required this.offer,
+    @required this.offerSummery,
     @required this.onPressed,
     this.tag,
     this.backGroundColor = AppTheme.grey,
   }) : super(key: key);
 
-  final BusinessOffer offer;
+  final BusinessOfferSummery offerSummery;
   final VoidCallback onPressed;
   final String tag;
   final Color backGroundColor;
@@ -23,8 +23,8 @@ class OfferListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget imageArea = InfImage(
-      lowRes: offer.thumbnailLowRes,
-      imageUrl: offer.thumbnailUrl,
+      lowRes: offerSummery.thumbnailLowRes,
+      imageUrl: offerSummery.thumbnailUrl,
       fit: BoxFit.cover,
     );
     if (tag != null) {
@@ -68,28 +68,28 @@ class OfferListTile extends StatelessWidget {
                   children: <Widget>[
                     Row(
                       children: [
-                        Text(offer.title,
+                        Text(offerSummery.title,
                             textScaleFactor: 1.2,
                             style: TextStyle(color: Colors.white)),
                         SizedBox(width: 10.0),
                         InfAssetImage(
                           AppLogo.getDeliverableChannel(
-                              offer.deliverables[0].channel),
+                              offerSummery.channels[0]),
                           width: 20.0,
                         ),
-                        (offer.newChatMessages ?? 0) > 0
-                            ? Expanded(
-                                child: Align(
-                                  heightFactor: 2,
-                                  alignment: Alignment.topRight,
-                                  child: NotificationMarker(),
-                                ),
-                              )
-                            : SizedBox(),
+                        // (offer.newChatMessages ?? 0) > 0
+                        //     ? Expanded(
+                        //         child: Align(
+                        //           heightFactor: 2,
+                        //           alignment: Alignment.topRight,
+                        //           child: NotificationMarker(),
+                        //         ),
+                        //       )
+                        //     : SizedBox(),
                       ],
                     ),
                     SizedBox(height: 10.0),
-                    Text(offer.description,
+                    Text(offerSummery.description ?? "",
                         style: TextStyle(color: AppTheme.white30)),
                   ],
                 ),

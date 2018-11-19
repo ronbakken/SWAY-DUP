@@ -14,7 +14,7 @@ class _MainMapViewState extends State<MainMapView> {
   @override
   Widget build(BuildContext context) {
     return FlutterMap(
-      options: MapOptions(
+      options: MapOptions(onPositionChanged: onMapPositionChanged,
         center: LatLng(51.5, -0.09),
         zoom: 12.0,
       ),
@@ -49,5 +49,10 @@ class _MainMapViewState extends State<MainMapView> {
         ),
       ],
     );
+  }
+
+  void onMapPositionChanged(MapPosition position,bool hasGesture)
+  {
+
   }
 }

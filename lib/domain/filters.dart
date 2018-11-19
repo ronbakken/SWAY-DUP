@@ -13,7 +13,10 @@ enum OfferFilterAspect {
   location
 }
 
-class OfferFilter {
+enum OfferFilterApect {offerrinBusinessId, userAppliyingId, state, channels, deliverable, reward, loction, date}
+
+class OfferFilter
+{
   // Defines which fields  of the filter should be applied/cleared
   List<OfferFilter> aspects;
   int userApplyingId;
@@ -32,6 +35,8 @@ class OfferFilter {
   double latitude;
   double longitude;
   double radiusInMeters;
+
+  DateTime created;
 }
 
 // class ProposalFilter

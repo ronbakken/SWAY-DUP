@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/sign_up/sign_up_page.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
@@ -12,12 +13,13 @@ import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:intl/intl.dart';
+import 'package:rxdart/rxdart.dart';
 
 class OfferDetailsPage extends PageWidget {
-  static Route<dynamic> route(BusinessOffer offer, [String tag]) {
+  static Route<dynamic> route(Observable<BusinessOffer> offerStream, [String tag]) {
     return FadePageRoute(
       builder: (BuildContext context) => OfferDetailsPage(
-            offer: offer,
+            cachedOfferStream: offerStream,
             tag: tag,
           ),
     );
@@ -25,11 +27,11 @@ class OfferDetailsPage extends PageWidget {
 
   OfferDetailsPage({
     Key key,
-    @required this.offer,
+    @required this.cachedOfferStream,
     this.tag,
   }) : super(key: key);
 
-  final BusinessOffer offer;
+  final Observable<BusinessOffer> cachedOfferStream;
   final String tag;
 
   @override
@@ -39,15 +41,28 @@ class OfferDetailsPage extends PageWidget {
 class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   final pageController = PageController();
 
+  BusinessOffer offer;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(widget.offer.title),
-      ),
-      body: _buildBody(),
+    return Container(
+      child: StreamBuilder<BusinessOffer>(
+        stream: widget.cachedOfferStream,
+        builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          offer = snapshot.data;
+          return Scaffold(
+            resizeToAvoidBottomPadding: false,
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(offer.title),
+            ),
+            body: _buildBody(),
+          );
+        }
+        // TODO what do we show while waiting
+        return SizedBox();
+      }),
     );
   }
 
@@ -68,14 +83,13 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             animation: animation,
             builder: (BuildContext context, Widget child) {
               return ClipRRect(
-                borderRadius: BorderRadius.lerp(BorderRadius.circular(8.0),
-                    BorderRadius.only(), animation.value),
+                borderRadius: BorderRadius.lerp(BorderRadius.circular(8.0), BorderRadius.only(), animation.value),
                 child: child,
               );
             },
             child: InfImage(
-              imageUrl: widget.offer.coverUrls[0],
-              lowRes: widget.offer.coverLowRes[0],
+              imageUrl: offer.coverUrls[0],
+              lowRes: offer.coverLowRes[0],
             ),
           );
         },
@@ -103,19 +117,18 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                       _DetailEntry(
                         icon: AppIcons.description,
                         title: 'DESCRIPTION',
-                        text: widget.offer.description,
+                        text: offer.description,
                       ),
                       Divider(height: 1, color: AppTheme.white30),
                       _DetailEntry(
                         icon: AppIcons.deliverable,
                         title: 'DELIVERABLES',
                         rightSideIcons: [
-                          AppLogo.getDeliverableChannel(
-                              widget.offer.deliverables[0].channel)
+                          AppLogo.getDeliverableChannel(offer.deliverables[0].channel)
                         ],
-                        text: widget.offer.deliverables[0].description,
+                        text: offer.deliverables[0].description,
                       ),
-                      !widget.offer.displayLimited
+                      !backend.get<UserManager>().isLoggedIn
                           ? Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -139,19 +152,17 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             ),
           ),
         ),
-        !widget.offer.displayLimited
+        !backend.get<UserManager>().isLoggedIn
             ? Container(
                 color: AppTheme.blackTwo,
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 26.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
                     child: RaisedButton(
                       onPressed: () {
                         return inf_bottom_sheet.showModalBottomSheet(
                           context: context,
-                          builder: (BuildContext context) =>
-                              _ProposalBottomSheet(),
+                          builder: (BuildContext context) => _ProposalBottomSheet(),
                           dismissOnTap: false,
                           resizeToAvoidBottomPadding: true,
                         );
@@ -177,7 +188,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   }
 
   _DetailEntry buildRewardsRow() {
-    final reward = widget.offer.reward;
+    final reward = offer.reward;
     return _DetailEntry(
       icon: AppIcons.gift,
       title: 'REWARDS',
@@ -247,7 +258,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         spacing: 10.0,
         runSpacing: 10.0,
         alignment: WrapAlignment.start,
-        children: widget.offer.categories.map<Widget>(
+        children: offer.categories.map<Widget>(
           (category) {
             return Container(
               decoration: ShapeDecoration(
@@ -255,8 +266,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                 color: AppTheme.blue,
               ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -284,17 +294,16 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       color: Colors.black,
       child: Row(
         children: <Widget>[
-          WhiteBorderCircleAvatar(
-              child: Image.network(widget.offer.businessAvatarThumbnailUrl)),
+          WhiteBorderCircleAvatar(child: Image.network(offer.businessAvatarThumbnailUrl)),
           SizedBox(width: 12.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(widget.offer.businessName),
+                Text(offer.businessName),
                 Text(
-                  widget.offer.businessDescription,
+                  offer.businessDescription,
                   style: const TextStyle(
                     color: Colors.white54,
                   ),
@@ -315,12 +324,12 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       child: Row(
         children: [
           Text(
-            '${widget.offer.numberAvailable - widget.offer.proposalsCountAccepted}/${widget.offer.numberAvailable} Available',
+            '${offer.numberRemaining}/${offer.numberOffered} Available',
           ),
           Expanded(
-            child: widget.offer.expiryDate != null
+            child: offer.expiryDate != null
                 ? Text(
-                    'Ends ${DateFormat('MM/dd/yy').format(widget.offer.expiryDate.toLocal())}',
+                    'Ends ${DateFormat('MM/dd/yy').format(offer.expiryDate.toLocal())}',
                     textAlign: TextAlign.end,
                   )
                 : SizedBox(),
@@ -332,10 +341,10 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
 
   Widget _buildImageArea() {
     List<InfImage> imageArray = <InfImage>[];
-    for (int i = 0; i < widget.offer.coverUrls.length; i++) {
+    for (int i = 0; i < offer.coverUrls.length; i++) {
       imageArray.add(InfImage(
-        imageUrl: widget.offer.coverUrls[i],
-        lowRes: widget.offer.coverLowRes[i],
+        imageUrl: offer.coverUrls[i],
+        lowRes: offer.coverLowRes[i],
       ));
     }
     return Stack(
@@ -349,7 +358,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
           bottom: 20.0,
           child: InfPageIndicator(
             controller: pageController,
-            itemCount: widget.offer.coverUrls.length,
+            itemCount: offer.coverUrls.length,
           ),
         ),
       ],
@@ -418,28 +427,24 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 27.0, vertical: 13.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
                     child: Text(
                       'To view the full offer and apply you need to be a member of INF.',
                       textAlign: TextAlign.center,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 27.0, vertical: 13.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
                     child: Text(
                       "It's fre to sign up and takes only a few seconds",
                       textAlign: TextAlign.center,
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 26.0),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 26.0),
                     child: RaisedButton(
-                      onPressed: () => Navigator.of(context)
-                        ..push(SignUpPage.route(
-                            userType: UserType.influcencer, topPadding: 0)),
+                      onPressed: () =>
+                          Navigator.of(context)..push(SignUpPage.route(userType: UserType.influcencer, topPadding: 0)),
                       shape: const StadiumBorder(),
                       child: Container(
                         alignment: Alignment.center,
@@ -455,12 +460,10 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   ),
                   Material(
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 26, right: 26.0, bottom: 20.0),
+                      padding: const EdgeInsets.only(top: 10.0, left: 26, right: 26.0, bottom: 20.0),
                       child: InkWell(
                         onTap: () => Navigator.of(context)
-                          ..push(SignUpPage.route(
-                              userType: UserType.influcencer, topPadding: 0)),
+                          ..push(SignUpPage.route(userType: UserType.influcencer, topPadding: 0)),
                         child: Text(
                           'ALREADY A MEMBER? LOGIN',
                           textAlign: TextAlign.center,
@@ -581,8 +584,7 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   LayoutBuilder(
-                    builder:
-                        (BuildContext context, BoxConstraints constraints) {
+                    builder: (BuildContext context, BoxConstraints constraints) {
                       final textStyle = DefaultTextStyle.of(context);
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -601,8 +603,7 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 26.0, vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 12.0),
                     child: RaisedButton(
                       onPressed: () {},
                       shape: const StadiumBorder(),
@@ -629,8 +630,7 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                 child: InkResponse(
                   onTap: () => Navigator.of(context).pop(),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 12.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                     child: Icon(Icons.close),
                   ),
                 ),

@@ -16,21 +16,53 @@ enum BusinessOfferStateReason {
   violation // This offer has been completed by all applicants
 }
 
-class BusinessOffer {
+class BusinessOfferSummery {
+  final int id;
   final int offerId;
+  final String title;
+  final String description;
+  final String businessName;
+  final String businessAvatarThumbnailUrl;
+  final String thumbnailUrl;
+  final Uint8List thumbnailLowRes;
+  final bool isDirectOffer;
+  final DeliverableType deliverableType;
+  final List<DeliverableChannels> channels;
+  final RewardType rewardType;
+
+  BusinessOfferSummery( 
+      {this.id,
+      this.offerId,
+      this.title,
+      this.description,
+      this.businessName,
+      this.businessAvatarThumbnailUrl,
+      this.thumbnailLowRes,
+      this.thumbnailUrl,
+      this.isDirectOffer,
+      this.deliverableType,
+      this.channels,
+      this.rewardType});
+}
+
+class BusinessOffer {
+  final int id;
   final int businessAccountId;
   final String businessName;
   final String businessDescription;
   final String businessAvatarThumbnailUrl;
 
-  /// if a user is not logged in the server will only return a limiuted nunber of offers
-  /// if offers should not fully displayed this field is set to true
-  bool displayLimited;
 
-  final String title;
+
+  final bool isDirectOffer;
+
+   String title;
   final String description;
+  final DateTime created;
   final DateTime expiryDate;
-  final int numberAvailable;
+
+  final int numberOffered;
+  final int numberRemaining;
 
   final String thumbnailUrl;
   final Uint8List thumbnailLowRes;
@@ -50,36 +82,35 @@ class BusinessOffer {
   final BusinessOfferState state;
   final BusinessOfferStateReason stateReason;
 
-  // true if offer was marked seen
-  final bool wasRead;
-
+  // proposal
   // number of new messages in the chat since
   // the last time the chat was marked as read.
   final int newChatMessages;
 
-  // Info for business
-  final int proposalsCountNew;
-  final int proposalsCountAccepted;
-  final int proposalsCountCompleted;
-  final int proposalsCountRefused;
+  // For later: Info for business
+  // final int proposalsCountNew;
+  // final int proposalsCountAccepted;
+  // final int proposalsCountCompleted;
+  // final int proposalsCountRefused;
 
   // only returned when an influencer queries this offer
   // So the Offer View knows this offer has already been applied to
   final int influencerProposalId;
 
   BusinessOffer(
-      {this.offerId,
+      {this.id,
       this.businessAccountId,
       this.businessName,
       this.businessDescription,
       this.businessAvatarThumbnailUrl,
-      this.displayLimited,
       this.title,
       this.description,
       this.expiryDate,
-      this.wasRead,
+      this.created,
+      this.isDirectOffer,
       this.newChatMessages,
-      this.numberAvailable = 1,
+      this.numberOffered = 1,
+      this.numberRemaining,
       this.thumbnailUrl,
       this.thumbnailLowRes,
       this.deliverables,
@@ -90,9 +121,5 @@ class BusinessOffer {
       this.categories,
       this.state,
       this.stateReason,
-      this.proposalsCountNew,
-      this.proposalsCountAccepted,
-      this.proposalsCountCompleted,
-      this.proposalsCountRefused,
       this.influencerProposalId});
 }

@@ -26,18 +26,36 @@ class OfferManagerImplementation implements OfferManager {
           newDoneOfferMessages.startWith(0),
           (a, b, c) => a + b + c);
   @override
-  Observable<List<BusinessOffer>> getBusinessOffers() {
+  Observable<List<BusinessOfferSummery>> getBusinessOffers() {
     return backend.get<InfApiService>().getBusinessOffers(null);
   }
 
   @override
-  Observable<List<BusinessOffer>> getFeaturedBusinessOffers() {
-    return backend.get<InfApiService>().getBusinessOffers(null);
+  Observable<List<BusinessOffer>> getFeaturedBusinessOffer() {
+    return backend.get<InfApiService>().getFeaturedBusinessOffers(0,0);
   }
 
   OfferManagerImplementation() {
     _newAppliedOfferMessages.add(2);
 //    _newDealsOfferMessages.add(1);
     _newDoneOfferMessages.add(3);
+  }
+
+  @override
+  Future<void> addOfferFilter(OfferFilter filter) {
+    // TODO: implement addOfferFilter
+    throw Exception('Not implemented yet');
+  }
+
+  @override
+  Future<void> clearOfferFilter(OfferFilter filter) {
+    // TODO: implement clearOfferFilter
+    throw Exception('Not implemented yet');
+  }
+
+  @override
+  Future<OfferFilter> getOfferFilter(OfferFilter filter) {
+    // TODO: implement getOfferFilter
+    throw Exception('Not implemented yet');
   }
 }

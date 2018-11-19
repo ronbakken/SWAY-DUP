@@ -8,7 +8,13 @@ abstract class OfferManager {
 
   Observable<int> get newOfferMessages;
 
-  Observable<List<BusinessOffer>> getBusinessOffers();
+  Observable<List<BusinessOfferSummery>> getBusinessOffers();
 
-  Observable<List<BusinessOffer>> getFeaturedBusinessOffers();
+  Observable<List<BusinessOffer>> getFeaturedBusinessOffer();
+
+
+  Future<void> addOfferFilter(OfferFilter filter);
+  Future<void> clearOfferFilter(OfferFilter filter);
+  Future<OfferFilter> getOfferFilter(OfferFilter filter);
+
 }

@@ -166,7 +166,7 @@ class _ActivitiesListViewState extends State<_ActivitiesListView> {
   @override
   void initState() {
     super.initState();
-    dataSource = backend.get<OfferManager>().getBusinessOffers();
+    dataSource = backend.get<InfApiService>().getFeaturedBusinessOffers(0,0);
   }
 
   @override
@@ -194,17 +194,18 @@ class _ActivitiesListViewState extends State<_ActivitiesListView> {
             itemCount: offers.length,
             itemBuilder: (BuildContext context, int index) {
               final offer = offers[index];
-              final tag = '${widget.name}-${offer.offerId}';
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: OfferListTile(
-                  backGroundColor: AppTheme.listViewItemBackground,
-                  offer: offer,
-                  onPressed: () => Navigator.of(context)
-                      .push(OfferDetailsPage.route(offer, tag)),
-                  tag: tag,
-                ),
-              );
+              final tag = '${widget.name}-${offer.id}';
+              return SizedBox();
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 4.0),
+              //   child: OfferListTile(
+              //     backGroundColor: AppTheme.listViewItemBackground,
+              //     offerSummery: offer,
+              //     onPressed: () => Navigator.of(context)
+              //         .push(OfferDetailsPage.route(offer, tag)),
+              //     tag: tag,
+              //   ),
+              //);
             },
           );
         });
