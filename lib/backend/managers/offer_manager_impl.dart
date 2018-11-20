@@ -32,7 +32,7 @@ class OfferManagerImplementation implements OfferManager {
 
   @override
   Observable<List<BusinessOffer>> getFeaturedBusinessOffer() {
-    return backend.get<InfApiService>().getFeaturedBusinessOffers(0,0);
+    return backend.get<InfApiService>().getFeaturedBusinessOffers(0, 0);
   }
 
   OfferManagerImplementation() {

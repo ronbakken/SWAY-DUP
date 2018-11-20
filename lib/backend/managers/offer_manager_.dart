@@ -12,9 +12,7 @@ abstract class OfferManager {
 
   Observable<List<BusinessOffer>> getFeaturedBusinessOffer();
 
-
   Future<void> addOfferFilter(OfferFilter filter);
   Future<void> clearOfferFilter(OfferFilter filter);
   Future<OfferFilter> getOfferFilter(OfferFilter filter);
-
 }

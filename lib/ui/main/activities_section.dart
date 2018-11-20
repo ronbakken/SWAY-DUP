@@ -166,7 +166,7 @@ class _ActivitiesListViewState extends State<_ActivitiesListView> {
   @override
   void initState() {
     super.initState();
-    dataSource = backend.get<InfApiService>().getFeaturedBusinessOffers(0,0);
+    dataSource = backend.get<InfApiService>().getFeaturedBusinessOffers(0, 0);
   }
 
   @override

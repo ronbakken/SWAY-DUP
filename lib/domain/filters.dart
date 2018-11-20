@@ -13,10 +13,18 @@ enum OfferFilterAspect {
   location
 }
 
-enum OfferFilterApect {offerrinBusinessId, userAppliyingId, state, channels, deliverable, reward, loction, date}
+enum OfferFilterApect {
+  offerrinBusinessId,
+  userAppliyingId,
+  state,
+  channels,
+  deliverable,
+  reward,
+  loction,
+  date
+}
 
-class OfferFilter
-{
+class OfferFilter {
   // Defines which fields  of the filter should be applied/cleared
   List<OfferFilter> aspects;
   int userApplyingId;

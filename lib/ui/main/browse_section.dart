@@ -185,8 +185,9 @@ class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
                           aspectRatio: 5.0 / 4.3,
                           child: BrowseCarouselItem(
                             offer: offer,
-                            onPressed: () => Navigator.of(context)
-                                .push(OfferDetailsPage.route(Observable.just(offer), tag)),
+                            onPressed: () => Navigator.of(context).push(
+                                OfferDetailsPage.route(
+                                    Observable.just(offer), tag)),
                             tag: tag,
                           ),
                         ),
@@ -211,8 +212,8 @@ class _BrowseListView extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     return StreamBuilder<List<BusinessOfferSummery>>(
       stream: backend.get<OfferManager>().getBusinessOffers(),
-      builder:
-          (BuildContext context, AsyncSnapshot<List<BusinessOfferSummery>> snapShot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<List<BusinessOfferSummery>> snapShot) {
         if (snapShot.connectionState == ConnectionState.active) {
           // TODO
           return Center(child: Text('Here has to be an waiting spinner'));
@@ -235,8 +236,12 @@ class _BrowseListView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: OfferListTile(
                     offerSummery: offerSummery,
-                    onPressed: () => Navigator.of(context)
-                        .push(OfferDetailsPage.route(backend.get<InfApiService>().getOfferByIdCached(offerSummery.offerId) , tag)),
+                    onPressed: () => Navigator.of(context).push(
+                        OfferDetailsPage.route(
+                            backend
+                                .get<InfApiService>()
+                                .getOfferByIdCached(offerSummery.offerId),
+                            tag)),
                     tag: tag,
                   ),
                 );

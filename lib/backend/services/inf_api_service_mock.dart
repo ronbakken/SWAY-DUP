@@ -8,7 +8,8 @@ import 'package:rxdart/rxdart.dart';
 class InfApiServiceMock implements InfApiService {
   List<BusinessOffer> allOffers;
 
-  BehaviorSubject<BusinessOffer> offerSubject = BehaviorSubject<BusinessOffer>();
+  BehaviorSubject<BusinessOffer> offerSubject =
+      BehaviorSubject<BusinessOffer>();
 
   @override
   Observable<List<BusinessOfferSummery>> getBusinessOffers(OfferFilter filter) {
@@ -22,12 +23,14 @@ class InfApiServiceMock implements InfApiService {
       offer.title = 'Cached Version';
       offerSubject.add(offer);
     });
-    loadBusinessOfferMockData().then((offers) => offerSubject.add(offers.where((offer) => offer.id == offerId).first));
+    loadBusinessOfferMockData().then((offers) =>
+        offerSubject.add(offers.where((offer) => offer.id == offerId).first));
     return offerSubject;
   }
 
   @override
-  Observable<List<BusinessOffer>> getFeaturedBusinessOffers(double longitude, double latitude) {
+  Observable<List<BusinessOffer>> getFeaturedBusinessOffers(
+      double longitude, double latitude) {
     return Observable.fromFuture(loadBusinessOfferMockData());
   }
 
@@ -80,8 +83,12 @@ class InfApiServiceMock implements InfApiService {
   }
 
   @override
-  void setMapBoundery(double topLeftLatitude, double topLeftLongitude, double bottomRightLatitude,
-      double bottomRightLongitude, double zoomLevel) {
+  void setMapBoundery(
+      double topLeftLatitude,
+      double topLeftLongitude,
+      double bottomRightLatitude,
+      double bottomRightLongitude,
+      double zoomLevel) {
     // TODO: implement setMapBoundery
   }
 
@@ -99,8 +106,8 @@ Future<void> markOfferAsRead(BusinessOffer offer) {
 }
 
 @override
-void setMapBoundery(double topLeftLatitude, double topLeftLongitude, double bottomRightLatitude,
-    double bottomRightLongitude, double zoomLevel) {
+void setMapBoundery(double topLeftLatitude, double topLeftLongitude,
+    double bottomRightLatitude, double bottomRightLongitude, double zoomLevel) {
   // TODO: implement setMapBoundery
 }
 
@@ -120,11 +127,15 @@ Future<List<BusinessOfferSummery>> loadBusinessOfferSummeryMockData() async {
         businessAvatarThumbnailUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
         title: 'Car Wash',
-        description: 'Our car wash is the best car wash in the universe of car washes',
+        description:
+            'Our car wash is the best car wash in the universe of car washes',
         channels: [DeliverableChannels.facebook],
         deliverableType: DeliverableType.post,
         rewardType: RewardType.barter,
-        thumbnailLowRes: (await rootBundle.load('assets/mockdata/car_wash2_thumb_lowres.jpg')).buffer.asUint8List(),
+        thumbnailLowRes: (await rootBundle
+                .load('assets/mockdata/car_wash2_thumb_lowres.jpg'))
+            .buffer
+            .asUint8List(),
         thumbnailUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
     BusinessOfferSummery(
@@ -139,7 +150,10 @@ Future<List<BusinessOfferSummery>> loadBusinessOfferSummeryMockData() async {
         channels: [DeliverableChannels.instagram],
         deliverableType: DeliverableType.post,
         rewardType: RewardType.barter,
-        thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
+        thumbnailLowRes:
+            (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg'))
+                .buffer
+                .asUint8List(),
         thumbnailUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
     BusinessOfferSummery(
@@ -154,7 +168,10 @@ Future<List<BusinessOfferSummery>> loadBusinessOfferSummeryMockData() async {
         channels: [DeliverableChannels.instagram],
         deliverableType: DeliverableType.post,
         rewardType: RewardType.barter,
-        thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
+        thumbnailLowRes:
+            (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg'))
+                .buffer
+                .asUint8List(),
         thumbnailUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a')
   ];
@@ -171,7 +188,8 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         businessAvatarThumbnailUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
         title: 'Car Wash',
-        description: 'Our car wash is the best car wash in the universe of car washes',
+        description:
+            'Our car wash is the best car wash in the universe of car washes',
         categories: [Category(name: 'cars', description: 'All about cars')],
         deliverables: [
           Deliverable(
@@ -180,7 +198,8 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
               type: DeliverableType.post)
         ],
         expiryDate: DateTime.now().add(Duration(days: 10)),
-        location: Location(activeOfferCount: 1, latitude: 34.032395, longitude: -118.301019),
+        location: Location(
+            activeOfferCount: 1, latitude: 34.032395, longitude: -118.301019),
         reward: Reward(
           description: 'One free premium car wash',
           type: RewardType.barter,
@@ -190,14 +209,21 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         state: BusinessOfferState.open,
         stateReason: BusinessOfferStateReason.newOffer,
         coverLowRes: [
-          (await rootBundle.load('assets/mockdata/car_wash1_lowres.jpg')).buffer.asUint8List(),
-          (await rootBundle.load('assets/mockdata/car_wash2_lowres.jpg')).buffer.asUint8List(),
+          (await rootBundle.load('assets/mockdata/car_wash1_lowres.jpg'))
+              .buffer
+              .asUint8List(),
+          (await rootBundle.load('assets/mockdata/car_wash2_lowres.jpg'))
+              .buffer
+              .asUint8List(),
         ],
         coverUrls: [
           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e',
           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2.jpg?alt=media&token=0913cd09-1efc-47d6-a760-cbfe47476b5d'
         ],
-        thumbnailLowRes: (await rootBundle.load('assets/mockdata/car_wash2_thumb_lowres.jpg')).buffer.asUint8List(),
+        thumbnailLowRes: (await rootBundle
+                .load('assets/mockdata/car_wash2_thumb_lowres.jpg'))
+            .buffer
+            .asUint8List(),
         thumbnailUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
     BusinessOffer(
@@ -210,7 +236,10 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         title: 'Spoon Ice Tea',
         description: 'Free ice tea if you stop by',
         numberOffered: 10,
-        categories: [Category(name: 'food', description: 'All about food'), Category(name: 'tea', description: 'Tea')],
+        categories: [
+          Category(name: 'food', description: 'All about food'),
+          Category(name: 'tea', description: 'Tea')
+        ],
         deliverables: [
           Deliverable(
               channel: DeliverableChannels.instagram,
@@ -218,7 +247,8 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
               type: DeliverableType.post)
         ],
         expiryDate: DateTime.now().add(Duration(days: 10)),
-        location: Location(activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
+        location: Location(
+            activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
         reward: Reward(
           description: 'One ice tea for you and a friend',
           type: RewardType.barter,
@@ -227,14 +257,21 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         state: BusinessOfferState.open,
         stateReason: BusinessOfferStateReason.newOffer,
         coverLowRes: [
-          (await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List(),
-          (await rootBundle.load('assets/mockdata/ice_tea2_lowres.jpg')).buffer.asUint8List(),
+          (await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg'))
+              .buffer
+              .asUint8List(),
+          (await rootBundle.load('assets/mockdata/ice_tea2_lowres.jpg'))
+              .buffer
+              .asUint8List(),
         ],
         coverUrls: [
           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=e4b231d1-a4d3-419b-9c50-8b05fd4ab8d7'
         ],
-        thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
+        thumbnailLowRes:
+            (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg'))
+                .buffer
+                .asUint8List(),
         thumbnailUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
     BusinessOffer(
@@ -247,7 +284,10 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         title: 'Spoon Ice Tea',
         description: 'Free ice tea if you stop by',
         numberOffered: 10,
-        categories: [Category(name: 'food', description: 'All about food'), Category(name: 'tea', description: 'Tea')],
+        categories: [
+          Category(name: 'food', description: 'All about food'),
+          Category(name: 'tea', description: 'Tea')
+        ],
         deliverables: [
           Deliverable(
               channel: DeliverableChannels.instagram,
@@ -255,7 +295,8 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
               type: DeliverableType.post)
         ],
         expiryDate: DateTime.now().add(Duration(days: 10)),
-        location: Location(activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
+        location: Location(
+            activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
         reward: Reward(
           description: 'One ice tea for you and a friend',
           type: RewardType.barter,
@@ -264,14 +305,21 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         state: BusinessOfferState.open,
         stateReason: BusinessOfferStateReason.newOffer,
         coverLowRes: [
-          (await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List(),
-          (await rootBundle.load('assets/mockdata/ice_tea2_lowres.jpg')).buffer.asUint8List(),
+          (await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg'))
+              .buffer
+              .asUint8List(),
+          (await rootBundle.load('assets/mockdata/ice_tea2_lowres.jpg'))
+              .buffer
+              .asUint8List(),
         ],
         coverUrls: [
           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=e4b231d1-a4d3-419b-9c50-8b05fd4ab8d7'
         ],
-        thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
+        thumbnailLowRes:
+            (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg'))
+                .buffer
+                .asUint8List(),
         thumbnailUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a')
   ];
@@ -290,7 +338,8 @@ Future<List<Proposal>> loadproposalMockData() async {
       influencerName: 'Thomas',
       businessName: 'Scent of Asia',
       businessId: 42,
-      offerText: 'I love all sorts of Tea and my followers love all sort of great food.'
+      offerText:
+          'I love all sorts of Tea and my followers love all sort of great food.'
           'So I think a selfy with me and your tea would fit great.',
       influencerWantsDeal: true,
       businessGaveRating: 0,
@@ -314,7 +363,8 @@ Future<List<Proposal>> loadproposalMockData() async {
       influencerName: 'Thomas',
       businessName: 'CarWash Tom',
       businessId: 42,
-      offerText: 'I love all sorts of Tea and my followers love all sort of great food.'
+      offerText:
+          'I love all sorts of Tea and my followers love all sort of great food.'
           'So I think a selfy with me and your tea would fit great.',
       influencerWantsDeal: true,
       businessGaveRating: 0,

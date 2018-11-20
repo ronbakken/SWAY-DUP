@@ -1,7 +1,5 @@
 import 'dart:typed_data';
 
-
-
 class Location {
   final int id;
 

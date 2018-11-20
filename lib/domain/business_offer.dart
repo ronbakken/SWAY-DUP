@@ -30,7 +30,7 @@ class BusinessOfferSummery {
   final List<DeliverableChannels> channels;
   final RewardType rewardType;
 
-  BusinessOfferSummery( 
+  BusinessOfferSummery(
       {this.id,
       this.offerId,
       this.title,
@@ -52,11 +52,9 @@ class BusinessOffer {
   final String businessDescription;
   final String businessAvatarThumbnailUrl;
 
-
-
   final bool isDirectOffer;
 
-   String title;
+  String title;
   final String description;
   final DateTime created;
   final DateTime expiryDate;
