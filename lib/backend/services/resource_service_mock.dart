@@ -36,7 +36,8 @@ class ResourceServiceMock implements ResourceService {
   @override
   Observable<WelcomePageImages> getWelcomePageProfileImages() {
     return Observable.periodic(Duration(milliseconds: 3000))
-        .map<WelcomePageImages>((_) => getImages()).startWith(getImages());
+        .map<WelcomePageImages>((_) => getImages())
+        .startWith(getImages());
   }
 
   WelcomePageImages getImages() {
@@ -48,5 +49,16 @@ class ResourceServiceMock implements ResourceService {
     displayedImageUrls[toReplaceIndex] = extraImageUrls[fromIndex];
     extraImageUrls[fromIndex] = toReplace;
     return WelcomePageImages(displayedImageUrls);
+  }
+
+  @override
+  String getMapApiKey() {
+    return 'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqa2pkOThmdzFha2IzcG16aHl4M3drNTcifQ.jtaEoGuiomNgllDjUMCwNQ';
+  }
+
+  @override
+  String getMapUrlTemplate() {
+    return "https://api.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}@2x.png"
+        "?access_token={accessToken}";
   }
 }

@@ -1,5 +1,8 @@
 abstract class ResourceService {
   Stream<WelcomePageImages> getWelcomePageProfileImages();
+
+  String getMapApiKey();
+  String getMapUrlTemplate();
 }
 
 class WelcomePageImages {

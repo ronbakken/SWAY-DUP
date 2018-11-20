@@ -6,4 +6,16 @@ class ResourceServiceImplementation implements ResourceService {
     // TODO: implement getAllLinkedAccounts
     throw Exception('Not imnplemented');
   }
+
+  @override
+  String getMapApiKey() {
+    // TODO: implement getMapApiKey
+    throw Exception('Not imnplemented');
+  }
+
+  @override
+  String getMapUrlTemplate() {
+    // TODO: implement getMapApiKey
+    throw Exception('Not imnplemented');
+  }
 }

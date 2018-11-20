@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:latlong/latlong.dart';
 
@@ -11,6 +12,17 @@ class MainMapView extends StatefulWidget {
 }
 
 class _MainMapViewState extends State<MainMapView> {
+
+  String urlTemplate;
+  String mapApiKey;
+
+  @override
+    void initState() {
+      urlTemplate = backend.get<ResourceService>().getMapUrlTemplate();
+      mapApiKey = backend.get<ResourceService>().getMapApiKey();
+      super.initState();
+    }
+
   @override
   Widget build(BuildContext context) {
     return FlutterMap(
@@ -20,14 +32,11 @@ class _MainMapViewState extends State<MainMapView> {
         zoom: 12.0,
       ),
       layers: [
-        // TODO move the API key and URL at some other place
         TileLayerOptions(
-          urlTemplate:
-              "https://api.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}@2x.png"
-              "?access_token={accessToken}",
+          urlTemplate:urlTemplate,
           additionalOptions: {
             'accessToken':
-                'pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqa2pkOThmdzFha2IzcG16aHl4M3drNTcifQ.jtaEoGuiomNgllDjUMCwNQ',
+                mapApiKey,
           },
           backgroundColor: AppTheme.grey,
           placeholderImage: AssetImage(AppImages.mapPlaceHolder.path),
@@ -52,5 +61,12 @@ class _MainMapViewState extends State<MainMapView> {
     );
   }
 
-  void onMapPositionChanged(MapPosition position, bool hasGesture) {}
+  void onMapPositionChanged(MapPosition position, bool hasGesture) {
+    backend.get<InfApiService>().setMapBoundery(
+      position.bounds.northWest.latitude, 
+      position.bounds.northWest.longitude, 
+      position.bounds.southEast.latitude, 
+      position.bounds.southEast.longitude,
+      position.zoom );
+  }
 }
