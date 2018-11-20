@@ -307,7 +307,7 @@ main(List<String> arguments) async {
   Future<void> f2 = generateConfig(true);
   await f1;
   await f2;
-  exit(0);
+  // exit(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
