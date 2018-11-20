@@ -1,6 +1,7 @@
 import 'dart:math' show Random;
 
 import 'package:inf/backend/services/resource_service_.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ResourceServiceMock implements ResourceService {
   List<String> displayedImageUrls = <String>[
@@ -33,9 +34,9 @@ class ResourceServiceMock implements ResourceService {
   ];
 
   @override
-  Stream<WelcomePageImages> getWelcomePageProfileImages() {
-    return Stream.periodic(Duration(milliseconds: 3000))
-        .map<WelcomePageImages>((_) => getImages());
+  Observable<WelcomePageImages> getWelcomePageProfileImages() {
+    return Observable.periodic(Duration(milliseconds: 3000))
+        .map<WelcomePageImages>((_) => getImages()).startWith(getImages());
   }
 
   WelcomePageImages getImages() {
