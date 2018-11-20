@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:inf/app/assets.dart';
@@ -24,10 +25,8 @@ class SignUpPage extends PageWidget {
           topPadding: topPadding,
         );
       },
-      transitionsBuilder:
-          (BuildContext context, Animation<double> animation, _, Widget child) {
-        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero)
-            .animate(animation);
+      transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
+        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(animation);
         return SlideTransition(
           position: slide,
           child: child,
@@ -38,8 +37,7 @@ class SignUpPage extends PageWidget {
     );
   }
 
-  const SignUpPage({Key key, this.userType, this.topPadding = 32.0})
-      : super(key: key);
+  const SignUpPage({Key key, this.userType, this.topPadding = 32.0}) : super(key: key);
 
   final UserType userType;
   final double topPadding;
@@ -56,8 +54,7 @@ class SignUpPageState extends PageState<SignUpPage> {
     super.initState();
 
     /// OBserve login state
-    _loginStateChangedSubscription =
-        backend.get<UserManager>().logInStateChanged.listen((loginResult) {
+    _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen((loginResult) {
       switch (loginResult.state) {
         case AuthenticationState.waitingForActivation:
           showDialog(
@@ -71,8 +68,7 @@ class SignUpPageState extends PageState<SignUpPage> {
           );
           break;
         case AuthenticationState.success:
-          Navigator.of(context).pushAndRemoveUntil(
-              MainPage.route(widget.userType), (route) => false);
+          Navigator.of(context).pushAndRemoveUntil(MainPage.route(widget.userType), (route) => false);
           break;
         default:
       }
@@ -112,69 +108,8 @@ class SignUpPageState extends PageState<SignUpPage> {
                         children: [
                           SizedBox(height: 96.0),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 32.0, vertical: 16.0),
-                            child: Column(
-                              children: [
-                                // Text(
-                                //   widget.userType == UserType.influcencer
-                                //       ? 'You will continue as an influencer!'
-                                //       : 'You will continue as a business!',
-                                //   style: TextStyle(fontSize: 18.5),
-                                // ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 40.0,
-                                      right: 40,
-                                      top: 10.0,
-                                      bottom: 32.0),
-                                  child: Text(
-                                    'Which social media account would you like to continue with?',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(height: 1.1),
-                                  ),
-                                ),
-                                _buildLoginButton(
-                                  leading: AppLogo.instagram,
-                                  text: 'INSTAGRAM',
-                                  onPressed: () => backend
-                                      .get<AuthenticationService>()
-                                      .loginWithInstagram(widget.userType),
-                                ),
-                                SizedBox(height: 16.0),
-                                _buildLoginButton(
-                                  leading: AppLogo.facebook,
-                                  text: 'FACEBOOK',
-                                  onPressed: () => backend
-                                      .get<AuthenticationService>()
-                                      .loginWithFacebook(widget.userType),
-                                ),
-                                SizedBox(height: 16.0),
-                                _buildLoginButton(
-                                  leading: AppLogo.twitter,
-                                  text: 'TWITTER',
-                                  onPressed: () => backend
-                                      .get<AuthenticationService>()
-                                      .loginWithTwitter(widget.userType),
-                                ),
-                                SizedBox(height: 16.0),
-                                _buildLoginButton(
-                                  leading: AppLogo.google,
-                                  text: 'GOOGLE',
-                                  onPressed: () => backend
-                                      .get<AuthenticationService>()
-                                      .loginWithGoogle(widget.userType),
-                                ),
-                                SizedBox(height: 32.0),
-                                _buildLoginButton(
-                                  leading: AppLogo.email,
-                                  text: 'EMAIL',
-                                  onPressed: () {
-                                    // FIXME: implement email login
-                                  },
-                                ),
-                              ],
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                            child: new _DynamicSocialNetworkButtons(userType: widget.userType),
                           ),
                           Spacer(),
                           CurvedBox(
@@ -182,32 +117,25 @@ class SignUpPageState extends PageState<SignUpPage> {
                             color: Colors.black,
                             top: true,
                             child: Padding(
-                              padding: EdgeInsets.fromLTRB(48.0, 32.0, 48.0,
-                                  16.0 + mediaQuery.padding.bottom),
+                              padding: EdgeInsets.fromLTRB(48.0, 32.0, 48.0, 16.0 + mediaQuery.padding.bottom),
                               child: Text.rich(
                                 TextSpan(
                                   style: TextStyle(height: 1.2),
                                   children: [
                                     // TODO set correct ULRS
-                                    TextSpan(
-                                        text:
-                                            'By Signing up, you agree with our\n'),
+                                    TextSpan(text: 'By Signing up, you agree with our\n'),
                                     TextSpan(
                                       text: 'Terms of Service',
-                                      style: const TextStyle(
-                                          decoration: TextDecoration.underline),
+                                      style: const TextStyle(decoration: TextDecoration.underline),
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () =>
-                                            _launchURL('https://flutter.io'),
+                                        ..onTap = () => _launchURL('https://flutter.io'),
                                     ),
                                     TextSpan(text: '  and  '),
                                     TextSpan(
                                       text: 'Privacy',
-                                      style: const TextStyle(
-                                          decoration: TextDecoration.underline),
+                                      style: const TextStyle(decoration: TextDecoration.underline),
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () =>
-                                            _launchURL('https://flutter.io'),
+                                        ..onTap = () => _launchURL('https://flutter.io'),
                                     ),
                                   ],
                                 ),
@@ -247,12 +175,9 @@ class SignUpPageState extends PageState<SignUpPage> {
                       ),
                       InkResponse(
                         onTap: () async {
-                          await backend
-                              .get<AuthenticationService>()
-                              .loginAnonymous(UserType.influcencer);
+                          await backend.get<AuthenticationService>().loginAnonymous(UserType.influcencer);
                           final nav = Navigator.of(context)..pop();
-                          unawaited(
-                              nav.push(MainPage.route(UserType.influcencer)));
+                          unawaited(nav.push(MainPage.route(UserType.influcencer)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -285,8 +210,74 @@ class SignUpPageState extends PageState<SignUpPage> {
     );
   }
 
-  Widget _buildLoginButton(
-      {AppAsset leading, String text, VoidCallback onPressed}) {
+  Future<void> _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+}
+
+class _DynamicSocialNetworkButtons extends StatelessWidget {
+  const _DynamicSocialNetworkButtons({Key key, @required this.userType}) : super(key: key);
+
+  final UserType userType;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<SocialNetworkProvider>>(
+        future: backend.get<AuthenticationService>().getAvailableSocialNetworkProviders(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            // TODO error message
+            return Text("Error while retrieving SocialNetWorks");
+          }
+          if (!snapshot.hasData) {
+            //TODO Show Spinner
+            return Text("Loading");
+          }
+
+          List<Widget> buttonList = <Widget>[]..add(
+              Padding(
+                padding: const EdgeInsets.only(left: 40.0, right: 40, top: 10.0, bottom: 32.0),
+                child: Text(
+                  'Which social media account would you like to continue with?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(height: 1.1),
+                ),
+              ),
+            );
+          for (var network in snapshot.data) {
+            if (network.canAuthorizeUser) {
+              buttonList.add(
+                _buildLoginButton(
+                  leading: network.isVectorLogo ? SvgPicture.memory(network.logoData) : Image.memory(network.logoData),
+                  text: network.name,
+                  onPressed: () => backend.get<AuthenticationService>().loginWithSocialNetWork(userType, network),
+                ),
+              );
+            }
+            buttonList.add(SizedBox(height: 16.0));
+          }
+          buttonList.addAll([
+            SizedBox(height: 16.0),
+            _buildLoginButton(
+              leading: InfAssetImage(AppLogo.email),
+              text: 'EMAIL',
+              onPressed: () {
+                // FIXME: implement email login
+              },
+            ),
+          ]);
+
+          return Column(
+            children: buttonList,
+          );
+        });
+  }
+
+  Widget _buildLoginButton({Widget leading, String text, VoidCallback onPressed}) {
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[
@@ -306,18 +297,10 @@ class SignUpPageState extends PageState<SignUpPage> {
         ),
         Positioned(
           left: 20.0,
-          child: InfAssetImage(leading),
+          child: leading,
           width: 24.0,
         ),
       ],
     );
-  }
-
-  Future<void> _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }

@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 class LogInData {
   LogInData({this.provider, this.email, this.password});
 
-  final AuthenticationProvider provider;
+  final SocialNetworkProvider provider;
   final String email;
   final String password;
 }

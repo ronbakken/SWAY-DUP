@@ -11,25 +11,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     throw Exception('Not imnplemented');
   }
 
-  @override
-  Future<void> loginWithGoogle(UserType userType) async {
-    throw Exception('Not imnplemented');
-  }
 
-  @override
-  Future<void> loginWithFacebook(UserType userType) async {
-    throw Exception('Not imnplemented');
-  }
-
-  @override
-  Future<void> loginWithTwitter(UserType userType) async {
-    throw Exception('Not imnplemented');
-  }
-
-  @override
-  Future<void> loginWithInstagram(UserType userType) async {
-    throw Exception('Not imnplemented');
-  }
 
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);
@@ -51,7 +33,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   @override
-  Future<void> switchToUserAccount() {
+  Future<void> switchToUserAccount(User user) {
     // TODO: implement switchToUserAccount
     throw Exception('Not imnplemented');
   }
@@ -59,6 +41,18 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> loginAnonymous(UserType userType) {
     // TODO: implement setUserType
+    throw Exception('Not imnplemented');
+  }
+
+  @override
+  Future<List<SocialNetworkProvider>> getAvailableSocialNetworkProviders() {
+    // TODO: implement getAvailableSocialNetworkProviders
+    throw Exception('Not imnplemented');
+  }
+
+  @override
+  Future<void> loginWithSocialNetWork(UserType userType, SocialNetworkProvider socialNetwork) {
+    // TODO: implement loginWithSocialNetWork
     throw Exception('Not imnplemented');
   }
 }
