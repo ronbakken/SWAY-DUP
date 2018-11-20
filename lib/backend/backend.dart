@@ -11,6 +11,8 @@ import 'package:inf/backend/services/auth_service_mock.dart';
 import 'package:inf/backend/managers/user_manager_.dart';
 import 'package:inf/backend/services/inf_api_service_impl.dart';
 import 'package:inf/backend/services/inf_api_service_mock.dart';
+import 'package:inf/backend/services/location_service_impl.dart';
+import 'package:inf/backend/services/location_service_mock.dart';
 import 'package:inf/backend/services/resource_service_.dart';
 import 'package:inf/backend/services/resource_service_impl.dart';
 import 'package:inf/backend/services/resource_service_mock.dart';
@@ -18,6 +20,7 @@ import 'package:inf/backend/services/system_service_.dart';
 import 'package:inf/backend/services/system_service_impl.dart';
 import 'package:inf/backend/services/system_service_mock.dart';
 import 'package:inf/backend/services/inf_api_service_.dart';
+import 'package:inf/backend/services/location_service_.dart';
 import 'package:inf/backend/managers/offer_manager_.dart';
 
 import 'package:inf/utils/error_capture.dart';
@@ -28,7 +31,9 @@ export 'package:inf/backend/managers/user_manager_.dart';
 export 'package:inf/backend/services/resource_service_.dart';
 export 'package:inf/backend/services/system_service_.dart';
 export 'package:inf/backend/services/inf_api_service_.dart';
+export 'package:inf/backend/services/location_service_.dart';
 export 'package:inf/backend/managers/offer_manager_.dart';
+
 
 enum AppEnvironment { dev, prod, mock }
 
@@ -53,6 +58,8 @@ void registerImplementations() {
   backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));
 
   // Services
+  backend.registerLazySingleton<LocationService>(
+      () => LocationServiceImplementation());
   backend.registerLazySingleton<AuthenticationService>(
       () => AuthenticationServiceImplementation());
   backend.registerLazySingleton<ResourceService>(
@@ -71,10 +78,13 @@ void registerImplementations() {
 
 void registerMocks() {
   backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));
+
   // Services
+  backend.registerLazySingleton<LocationService>(
+      () => LocationServiceMock());
   backend.registerLazySingleton<AuthenticationService>(
     () => AuthenticationServiceMock(
-          isLoggedIn: false,
+          isLoggedIn: true,
           currentUser: 0,
         ),
   );
