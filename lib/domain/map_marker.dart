@@ -1,9 +1,9 @@
 import 'package:inf/domain/user.dart';
 
-enum MapMarkertype { cluster, user, offer }
+enum MapMarkerType { cluster, user, offer }
 
 class MapMarker {
-  final MapMarkertype type;
+  final MapMarkerType type;
   final double latitude;
   final double longitude;
 
@@ -11,40 +11,39 @@ class MapMarker {
   final int clusterCount;
 
   // only valid for type offer
-  final int offer;
+  final int offerId;
   final bool isDirectOffer;
 
   // only valid for type user
-  final int user;
+  final int userId;
   final UserType userType;
 
-  MapMarker(
+  MapMarker({
     this.type,
     this.latitude,
     this.longitude,
     this.clusterCount,
-    this.offer,
+    this.offerId,
     this.isDirectOffer,
-    this.user,
-    this.userType,
-  ) {
-    assert((type == MapMarkertype.cluster &&
+    this.userId,
+    this.userType,}
+  ) :
+    assert((type == MapMarkerType.cluster &&
             clusterCount != null &&
-            offer == null &&
+            offerId == null &&
             isDirectOffer == null &&
-            user == null &&
+            userId == null &&
             userType == null) ||
-        (type == MapMarkertype.user &&
+        (type == MapMarkerType.user &&
             clusterCount == null &&
-            offer == null &&
+            offerId == null &&
             isDirectOffer == null &&
-            user != null &&
+            userId != null &&
             userType != null) ||
-        (type == MapMarkertype.offer &&
+        (type == MapMarkerType.offer &&
             clusterCount == null &&
-            offer != null &&
-            isDirectOffer != null &&
-            user == null &&
+            offerId != null &&
+            userId == null &&
             userType == null));
-  }
+  
 }

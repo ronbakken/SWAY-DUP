@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="130"
+   viewBox="0 0 130 130"
+   width="130"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="icon_map_marker_business.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata12">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="3840"
+     inkscape:window-height="2050"
+     id="namedview8"
+     showgrid="false"
+     inkscape:pagecheckerboard="true"
+     inkscape:zoom="1.8153846"
+     inkscape:cx="56.461864"
+     inkscape:cy="65"
+     inkscape:window-x="1668"
+     inkscape:window-y="-12"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <path
+     d="m102.40134 105.15558-53.34859 14.29471-39.0538797-39.053878 14.2947117-53.348591 53.348592-14.294713 39.053876 39.05388z"
+     fill="#073764"
+     stroke="#fff"
+     stroke-width="11.647333"
+     transform="matrix(.27365053 1.0746576 -1.0212777 .28795362 115.6022 -21.77766)"
+     id="path2"
+     style="stroke-width:4.61006238;stroke-miterlimit:4;stroke-dasharray:none" />
+  <path
+     d="m84.754 58.361v3.168h9.846v12.344h-9.844v12.959h-12.284v-.256l-11.567-17.8v18.138h-12.281v-40.835h12.282v.115l11.566 17.806v-18h12.282v.016h18.246v12.345zm-51.754-12.192h12.282v40.831h-12.282z"
+     fill="#fff"
+     fill-rule="evenodd"
+     id="path4" />
+</svg>
