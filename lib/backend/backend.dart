@@ -34,7 +34,6 @@ export 'package:inf/backend/services/inf_api_service_.dart';
 export 'package:inf/backend/services/location_service_.dart';
 export 'package:inf/backend/managers/offer_manager_.dart';
 
-
 enum AppEnvironment { dev, prod, mock }
 
 GetIt backend = GetIt();
@@ -80,8 +79,7 @@ void registerMocks() {
   backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));
 
   // Services
-  backend.registerLazySingleton<LocationService>(
-      () => LocationServiceMock());
+  backend.registerLazySingleton<LocationService>(() => LocationServiceMock());
   backend.registerLazySingleton<AuthenticationService>(
     () => AuthenticationServiceMock(
           isLoggedIn: true,

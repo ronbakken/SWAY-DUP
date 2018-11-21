@@ -70,10 +70,12 @@ class AuthenticationServiceMock implements AuthenticationService {
   Future<AuthenticationResult> getCurrentAuthenticationState() {
     if (isLoggedIn) {
       return Future.value(AuthenticationResult(
-          state: AuthenticationState.success, provider: socialNetWorks[2], user: allLinkedAccounts[0]));
+          state: AuthenticationState.success,
+          provider: socialNetWorks[2],
+          user: allLinkedAccounts[0]));
     } else {
-      return Future.value(AuthenticationResult(state:
-        AuthenticationState.notLoggedIn,
+      return Future.value(AuthenticationResult(
+        state: AuthenticationState.notLoggedIn,
       ));
     }
   }
@@ -81,10 +83,14 @@ class AuthenticationServiceMock implements AuthenticationService {
   void login() async {
     isLoggedIn = true;
     _loginStateSubject.add(AuthenticationResult(
-        state: AuthenticationState.waitingForActivation, provider: provider, user: allLinkedAccounts[0]));
+        state: AuthenticationState.waitingForActivation,
+        provider: provider,
+        user: allLinkedAccounts[0]));
     await Future.delayed(Duration(seconds: 2));
-    _loginStateSubject
-        .add(AuthenticationResult(state: AuthenticationState.success, provider: provider, user: allLinkedAccounts[0]));
+    _loginStateSubject.add(AuthenticationResult(
+        state: AuthenticationState.success,
+        provider: provider,
+        user: allLinkedAccounts[0]));
   }
 
   @override
@@ -93,7 +99,8 @@ class AuthenticationServiceMock implements AuthenticationService {
   }
 
   @override
-  Future<void> loginWithSocialNetWork(UserType userType, SocialNetworkProvider socialNetwork) {
+  Future<void> loginWithSocialNetWork(
+      UserType userType, SocialNetworkProvider socialNetwork) {
     // TODO: implement loginWithSocialNetWork
     return null;
   }
@@ -108,8 +115,8 @@ class AuthenticationServiceMock implements AuthenticationService {
   @override
   Future<void> logOut() async {
     isLoggedIn = false;
-    _loginStateSubject.add(AuthenticationResult(state:
-      AuthenticationState.notLoggedIn,
+    _loginStateSubject.add(AuthenticationResult(
+      state: AuthenticationState.notLoggedIn,
     ));
   }
 
@@ -134,11 +141,22 @@ class AuthenticationServiceMock implements AuthenticationService {
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1',
           avatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          avatarThumbnailLowRes:
-              (await rootBundle.load('assets/mockdata/profile_thumbnail_lowres.jpg')).buffer.asUint8List(),
-          avatarLowRes: (await rootBundle.load('assets/mockdata/profile_lowres.jpg')).buffer.asUint8List(),
+          avatarThumbnailLowRes: (await rootBundle
+                  .load('assets/mockdata/profile_thumbnail_lowres.jpg'))
+              .buffer
+              .asUint8List(),
+          avatarLowRes:
+              (await rootBundle.load('assets/mockdata/profile_lowres.jpg'))
+                  .buffer
+                  .asUint8List(),
           accountState: accountState,
-          categories: [Category(id: 1, name: 'Food', description: 'All about Fashion', parentId: 0)],
+          categories: [
+            Category(
+                id: 1,
+                name: 'Food',
+                description: 'All about Fashion',
+                parentId: 0)
+          ],
           description: 'I run a online store for baking utilities',
           email: 'thomas@burkharts.net',
           locationAsString: 'Germany',
@@ -166,11 +184,22 @@ class AuthenticationServiceMock implements AuthenticationService {
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1',
           avatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          avatarThumbnailLowRes:
-              (await rootBundle.load('assets/mockdata/profile_thumbnail_lowres.jpg')).buffer.asUint8List(),
-          avatarLowRes: (await rootBundle.load('assets/mockdata/profile_lowres.jpg')).buffer.asUint8List(),
+          avatarThumbnailLowRes: (await rootBundle
+                  .load('assets/mockdata/profile_thumbnail_lowres.jpg'))
+              .buffer
+              .asUint8List(),
+          avatarLowRes:
+              (await rootBundle.load('assets/mockdata/profile_lowres.jpg'))
+                  .buffer
+                  .asUint8List(),
           accountState: accountState,
-          categories: [Category(id: 1, name: 'Food', description: 'All about Fashion', parentId: 0)],
+          categories: [
+            Category(
+                id: 1,
+                name: 'Food',
+                description: 'All about Fashion',
+                parentId: 0)
+          ],
           description: 'I run a online store for baking utilities',
           email: 'thomas@burkharts.net',
           locationAsString: 'Germany',
@@ -196,31 +225,41 @@ class AuthenticationServiceMock implements AuthenticationService {
           id: 1,
           canAuthorizeUser: true,
           isVectorLogo: false,
-          logoData: (await rootBundle.load('assets/images/logo_instagram.png')).buffer.asUint8List(),
+          logoData: (await rootBundle.load('assets/images/logo_instagram.png'))
+              .buffer
+              .asUint8List(),
           name: 'Instagramm'),
       SocialNetworkProviderMock(
           id: 2,
           canAuthorizeUser: true,
           isVectorLogo: true,
-          logoData: (await rootBundle.load('assets/images/logo_facebook.svg')).buffer.asUint8List(),
+          logoData: (await rootBundle.load('assets/images/logo_facebook.svg'))
+              .buffer
+              .asUint8List(),
           name: 'Instagramm'),
       SocialNetworkProviderMock(
           id: 3,
           canAuthorizeUser: true,
           isVectorLogo: true,
-          logoData: (await rootBundle.load('assets/images/logo_twitter.svg')).buffer.asUint8List(),
+          logoData: (await rootBundle.load('assets/images/logo_twitter.svg'))
+              .buffer
+              .asUint8List(),
           name: 'Twitter'),
       SocialNetworkProviderMock(
           id: 4,
           canAuthorizeUser: true,
           isVectorLogo: true,
-          logoData: (await rootBundle.load('assets/images/logo_google.svg')).buffer.asUint8List(),
+          logoData: (await rootBundle.load('assets/images/logo_google.svg'))
+              .buffer
+              .asUint8List(),
           name: 'Google'),
       SocialNetworkProviderMock(
           id: 5,
           canAuthorizeUser: false,
           isVectorLogo: true,
-          logoData: (await rootBundle.load('assets/images/logo_google.svg')).buffer.asUint8List(),
+          logoData: (await rootBundle.load('assets/images/logo_google.svg'))
+              .buffer
+              .asUint8List(),
           name: 'Youtube'),
     ];
   }

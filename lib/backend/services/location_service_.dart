@@ -6,7 +6,7 @@ class Coordinate {
 }
 
 abstract class LocationService {
-	Stream<Coordinate> get onLocationChanged;
+  Stream<Coordinate> get onLocationChanged;
 
-	Coordinate get lastLocation;
+  Coordinate get lastLocation;
 }

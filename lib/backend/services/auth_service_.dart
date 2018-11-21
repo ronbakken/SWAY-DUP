@@ -7,7 +7,6 @@ import 'package:rxdart/rxdart.dart';
 /// Save latest provider and login and warn user if he tries to signin
 /// with a user he has never used before
 
-
 abstract class SocialNetworkProvider {
   final int id;
   final bool canAuthorizeUser;
@@ -15,10 +14,9 @@ abstract class SocialNetworkProvider {
   final Uint8List logoData;
   final bool isVectorLogo;
 
-  SocialNetworkProvider(this.id, this.canAuthorizeUser, this.name, this.logoData, this.isVectorLogo);
-  
+  SocialNetworkProvider(this.id, this.canAuthorizeUser, this.name,
+      this.logoData, this.isVectorLogo);
 }
-
 
 enum AuthenticationState {
   success,
@@ -50,12 +48,12 @@ class AuthenticationResult {
   final SocialNetworkProvider provider;
   final bool loginWithEmailPassword;
 
-  AuthenticationResult(
-    {
-     this.state, this.loginWithEmailPassword,  
-      this.user,
-      this.provider,
-      this.errorMessage,
+  AuthenticationResult({
+    this.state,
+    this.loginWithEmailPassword,
+    this.user,
+    this.provider,
+    this.errorMessage,
   });
 }
 
@@ -70,7 +68,8 @@ abstract class AuthenticationService {
 
   Future<void> loginAnonymous(UserType userType);
 
-  Future<void> loginWithSocialNetWork(UserType userType, SocialNetworkProvider socialNetwork);
+  Future<void> loginWithSocialNetWork(
+      UserType userType, SocialNetworkProvider socialNetwork);
 
   Future<List<User>> getAllLinkedAccounts();
   Future<void> switchToUserAccount(User user);

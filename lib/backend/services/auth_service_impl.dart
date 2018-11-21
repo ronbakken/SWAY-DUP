@@ -11,8 +11,6 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     throw Exception('Not imnplemented');
   }
 
-
-
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);
 
@@ -51,7 +49,8 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   @override
-  Future<void> loginWithSocialNetWork(UserType userType, SocialNetworkProvider socialNetwork) {
+  Future<void> loginWithSocialNetWork(
+      UserType userType, SocialNetworkProvider socialNetwork) {
     // TODO: implement loginWithSocialNetWork
     throw Exception('Not imnplemented');
   }

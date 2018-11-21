@@ -12,16 +12,15 @@ class MainMapView extends StatefulWidget {
 }
 
 class _MainMapViewState extends State<MainMapView> {
-
   String urlTemplate;
   String mapApiKey;
 
   @override
-    void initState() {
-      urlTemplate = backend.get<ResourceService>().getMapUrlTemplate();
-      mapApiKey = backend.get<ResourceService>().getMapApiKey();
-      super.initState();
-    }
+  void initState() {
+    urlTemplate = backend.get<ResourceService>().getMapUrlTemplate();
+    mapApiKey = backend.get<ResourceService>().getMapApiKey();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +32,9 @@ class _MainMapViewState extends State<MainMapView> {
       ),
       layers: [
         TileLayerOptions(
-          urlTemplate:urlTemplate,
+          urlTemplate: urlTemplate,
           additionalOptions: {
-            'accessToken':
-                mapApiKey,
+            'accessToken': mapApiKey,
           },
           backgroundColor: AppTheme.grey,
           placeholderImage: AssetImage(AppImages.mapPlaceHolder.path),
@@ -63,10 +61,10 @@ class _MainMapViewState extends State<MainMapView> {
 
   void onMapPositionChanged(MapPosition position, bool hasGesture) {
     backend.get<InfApiService>().setMapBoundery(
-      position.bounds.northWest.latitude, 
-      position.bounds.northWest.longitude, 
-      position.bounds.southEast.latitude, 
-      position.bounds.southEast.longitude,
-      position.zoom );
+        position.bounds.northWest.latitude,
+        position.bounds.northWest.longitude,
+        position.bounds.southEast.latitude,
+        position.bounds.southEast.longitude,
+        position.zoom);
   }
 }
