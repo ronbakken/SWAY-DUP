@@ -11,14 +11,15 @@ environment:
 dependencies:
   connectivity: any
   decimal: any
-  firebase_messaging: ^2.0.0
-  flutter_local_notifications: ^0.3.7
+  firebase_messaging: any
+  flutter_local_notifications: any
   flutter_map: any
   flutter_page_indicator: any 
   flutter_svg: any
   get_it: any
   intl: any
-  location: any
+  location: 
+    git: https://github.com/slightfoot/flutter_location
   protobuf: ^0.10.4
   rxdart: any
   rx_command: any
@@ -32,9 +33,7 @@ dependencies:
   system_info: any
 
   wstalk:
-    git:
-      url: https://github.com/nbspou/wstalk.git
-      ref: master
+    git: https://github.com/nbspou/wstalk.git
   pointycastle: any
 
   flutter:
