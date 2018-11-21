@@ -1,7 +1,10 @@
 import 'dart:typed_data';
 
 class SocialMediaAccount {
+  final int id;
   final String displayName;
+  final Uint8List logoData;
+  final bool isVectorLogo;
 
   /* Further info. May have null values. Most data isn't always shared. */
   /// Url to the actual social media profile
@@ -23,7 +26,10 @@ class SocialMediaAccount {
   final bool verified;
 
   SocialMediaAccount({
+    this.id,
     this.displayName,
+    this.logoData,
+    this.isVectorLogo,
     this.avatarUrl,
     this.avatarLowRes,
     this.profileUrl,

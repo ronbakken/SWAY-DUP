@@ -57,6 +57,9 @@ class AppIcons {
   static const mapMarkerDirectOffer = AppAsset.vector('assets/images/icon_map_marker_direct_offer.svg');
   static const inbox = AppAsset.vector('assets/images/icon_inbox.svg');
   static const search = AppAsset.vector('assets/images/icon_search.svg');
+  static const earnings = AppAsset.vector('assets/images/icon_earnings.svg');
+  static const edit = AppAsset.vector('assets/images/icon_edit.svg');
+  static const payments = AppAsset.vector('assets/images/icon_payments.svg');
 
   static const browse = AppAsset.vector('assets/images/icon_browse.svg');
   static const deals = AppAsset.vector('assets/images/icon_deals.svg');
