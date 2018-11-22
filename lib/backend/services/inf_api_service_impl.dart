@@ -4,8 +4,14 @@ import 'package:rxdart/rxdart.dart';
 
 class InfApiServiceImplementation implements InfApiService {
   @override
-  Observable<List<BusinessOfferSummery>> getBusinessOffers(OfferFilter filter) {
+  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter) {
     // TODO: implement getChat
+    throw Exception('Not implemented yet');
+  }
+
+  @override
+  Observable<List<BusinessOffer>> getFilteredBusinessOffers() {
+    // TODO: implement getFilteredBusinessOffers
     throw Exception('Not implemented yet');
   }
 
@@ -56,11 +62,6 @@ class InfApiServiceImplementation implements InfApiService {
     throw Exception('Not implemented yet');
   }
 
-  @override
-  Observable<List<BusinessOfferSummery>> getFilteredBusinessOffers() {
-    // TODO: implement getFilteredBusinessOffers
-    throw Exception('Not implemented yet');
-  }
 
   @override
   Observable<List<MapMarker>> getMapMarkers() {
@@ -89,5 +90,17 @@ class InfApiServiceImplementation implements InfApiService {
   Future<void> setOfferFilter(OfferFilter filter) {
     // TODO: implement setOfferFilter
     throw Exception('Not implemented yet');
+  }
+
+  @override
+  Observable<List<BusinessOfferSummery>> getBusinessOfferSummeriess(OfferFilter filter) {
+    // TODO: implement getBusinessOfferSummeriess
+    return null;
+  }
+
+  @override
+  Observable<List<BusinessOfferSummery>> getFilteredBusinessOfferSummeries() {
+    // TODO: implement getFilteredBusinessOfferSummeries
+    return null;
   }
 }

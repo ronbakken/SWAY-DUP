@@ -1,10 +1,17 @@
+import 'dart:typed_data';
+
 import 'package:inf/domain/user.dart';
 
 enum MapMarkerType { cluster, user, offer }
 
 class MapMarker {
-  int id;
+  final int id;
   final MapMarkerType type;
+
+  // this will not be set for clusters
+  final Uint8List iconData;
+  final bool isVectorIcon;
+  
   final double latitude;
   final double longitude;
 
@@ -17,8 +24,8 @@ class MapMarker {
 
   // In case of clustering we need the ids of the clustered markers so that we can animate
   // From the clusterMarker to the individual markers
-  List<int> clusteredMapMarkerIds;
-
+  final List<int> clusteredMapMarkerIds;
+ 
   // only valid for type offer
   final int offerId;
   final bool isDirectOffer;
@@ -28,7 +35,10 @@ class MapMarker {
   final UserType userType;
 
   MapMarker({
+    this.id,
     this.type,
+    this.iconData,
+    this.isVectorIcon,
     this.latitude,
     this.longitude,
     this.clusterCount,

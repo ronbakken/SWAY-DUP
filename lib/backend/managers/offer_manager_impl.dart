@@ -26,7 +26,7 @@ class OfferManagerImplementation implements OfferManager {
           newDoneOfferMessages.startWith(0),
           (a, b, c) => a + b + c);
   @override
-  Observable<List<BusinessOfferSummery>> getBusinessOffers() {
+  Observable<List<BusinessOffer>> getBusinessOffers() {
     return backend.get<InfApiService>().getBusinessOffers(null);
   }
 

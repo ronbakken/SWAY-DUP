@@ -210,10 +210,10 @@ class _BrowseListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    return StreamBuilder<List<BusinessOfferSummery>>(
+    return StreamBuilder<List<BusinessOffer>>(
       stream: backend.get<OfferManager>().getBusinessOffers(),
       builder: (BuildContext context,
-          AsyncSnapshot<List<BusinessOfferSummery>> snapShot) {
+          AsyncSnapshot<List<BusinessOffer>> snapShot) {
         if (snapShot.connectionState == ConnectionState.active) {
           // TODO
           return Center(child: Text('Here has to be an waiting spinner'));
@@ -230,17 +230,15 @@ class _BrowseListView extends StatelessWidget {
                   16.0, mediaQuery.padding.top + 54.0, 16.0, 0.0),
               itemCount: offerSummeries.length,
               itemBuilder: (BuildContext context, int index) {
-                final offerSummery = offerSummeries[index];
-                final tag = 'browse-offer-list-${offerSummery.id}';
+                final offer = offerSummeries[index];
+                final tag = 'browse-offer-list-${offer.id}';
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: OfferListTile(
-                    offerSummery: offerSummery,
+                    offer: offer,
                     onPressed: () => Navigator.of(context).push(
                         OfferDetailsPage.route(
-                            backend
-                                .get<InfApiService>()
-                                .getOfferByIdCached(offerSummery.offerId),
+                            Observable.just(offer),
                             tag)),
                     tag: tag,
                   ),

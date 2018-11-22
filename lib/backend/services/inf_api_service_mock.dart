@@ -17,8 +17,8 @@ class InfApiServiceMock implements InfApiService {
       BehaviorSubject<List<MapMarker>>();
 
   @override
-  Observable<List<BusinessOfferSummery>> getBusinessOffers(OfferFilter filter) {
-    return Observable.fromFuture(loadBusinessOfferSummeryMockData());
+  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter) {
+    return Observable.fromFuture(loadBusinessOfferMockData());
   }
 
   @override
@@ -70,7 +70,7 @@ class InfApiServiceMock implements InfApiService {
   }
 
   @override
-  Observable<List<BusinessOfferSummery>> getFilteredBusinessOffers() {
+  Observable<List<BusinessOffer>> getFilteredBusinessOffers() {
     // TODO: implement getFilteredBusinessOffers
     return null;
   }
@@ -112,6 +112,18 @@ class InfApiServiceMock implements InfApiService {
   @override
   Future<void> setOfferFilter(OfferFilter filter) {
     // TODO: implement setOfferFilter
+    return null;
+  }
+
+  @override
+  Observable<List<BusinessOfferSummery>> getBusinessOfferSummeriess(OfferFilter filter) {
+    // TODO: implement getBusinessOfferSummeriess
+    return null;
+  }
+
+  @override
+  Observable<List<BusinessOfferSummery>> getFilteredBusinessOfferSummeries() {
+    // TODO: implement getFilteredBusinessOfferSummeries
     return null;
   }
 }

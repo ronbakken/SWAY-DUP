@@ -9,13 +9,13 @@ import 'package:inf/ui/widgets/notification_marker.dart';
 class OfferListTile extends StatelessWidget {
   const OfferListTile({
     Key key,
-    @required this.offerSummery,
+    @required this.offer,
     @required this.onPressed,
     this.tag,
     this.backGroundColor = AppTheme.grey,
   }) : super(key: key);
 
-  final BusinessOfferSummery offerSummery;
+  final BusinessOffer offer;
   final VoidCallback onPressed;
   final String tag;
   final Color backGroundColor;
@@ -23,8 +23,8 @@ class OfferListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget imageArea = InfImage(
-      lowRes: offerSummery.thumbnailLowRes,
-      imageUrl: offerSummery.thumbnailUrl,
+      lowRes: offer.thumbnailLowRes,
+      imageUrl: offer.thumbnailUrl,
       fit: BoxFit.cover,
     );
     if (tag != null) {
@@ -68,15 +68,15 @@ class OfferListTile extends StatelessWidget {
                   children: <Widget>[
                     Row(
                       children: [
-                        Text(offerSummery.title,
+                        Text(offer.title,
                             textScaleFactor: 1.2,
                             style: TextStyle(color: Colors.white)),
                         SizedBox(width: 10.0),
-                        InfAssetImage(
-                          AppLogo.getDeliverableChannel(
-                              offerSummery.channels[0]),
-                          width: 20.0,
-                        ),
+                        // InfAssetImage(
+                        //   AppLogo.getDeliverableChannel(
+                        //       offer.deliverables[0]),
+                        //   width: 20.0,
+                        // ),
                         // (offer.newChatMessages ?? 0) > 0
                         //     ? Expanded(
                         //         child: Align(
@@ -89,7 +89,7 @@ class OfferListTile extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 10.0),
-                    Text(offerSummery.description ?? "",
+                    Text(offer.description ?? "",
                         style: TextStyle(color: AppTheme.white30)),
                   ],
                 ),
