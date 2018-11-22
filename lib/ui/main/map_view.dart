@@ -27,11 +27,11 @@ class _MainMapViewState extends State<MainMapView> {
     mapController = new MapController();
 
     backend.get<LocationService>().onLocationChanged.listen((newPos) {
-      mapController.move(LatLng(newPos.latitude, newPos.longitude), mapController.zoom);
+      mapController.move(
+          LatLng(newPos.latitude, newPos.longitude), mapController.zoom);
     });
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,8 @@ class _MainMapViewState extends State<MainMapView> {
       } else {
         if (mapMarker.isDirectOffer ?? false) {
           markerAsset = AppIcons.mapMarkerDirectOffer;
-        } else if (mapMarker.userType != null && mapMarker.userType == UserType.business) {
+        } else if (mapMarker.userType != null &&
+            mapMarker.userType == UserType.business) {
           markerAsset = AppIcons.mapMarkerBusiness;
         } else {
           markerAsset = AppIcons.mapMarker;
@@ -104,8 +105,12 @@ class _MainMapViewState extends State<MainMapView> {
 
   void onMapPositionChanged(MapPosition position, bool hasGesture) {
     mapPosition = position;
-    backend.get<InfApiService>().setMapBoundery(position.bounds.northWest.latitude, position.bounds.northWest.longitude,
-        position.bounds.southEast.latitude, position.bounds.southEast.longitude, position.zoom);
+    backend.get<InfApiService>().setMapBoundery(
+        position.bounds.northWest.latitude,
+        position.bounds.northWest.longitude,
+        position.bounds.southEast.latitude,
+        position.bounds.southEast.longitude,
+        position.zoom);
   }
 }
 
@@ -130,7 +135,8 @@ class _ClusterMarker extends StatelessWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(right: 3.75, left: 3.75, top: 2.5, bottom: 2.5),
+          margin: const EdgeInsets.only(
+              right: 3.75, left: 3.75, top: 2.5, bottom: 2.5),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1.0),
             color: AppTheme.blue,

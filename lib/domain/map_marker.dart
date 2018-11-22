@@ -15,10 +15,10 @@ class MapMarker {
   final double clusterBounderySouthEasrLatitude;
   final double clusterBounderySouthEasrlongitude;
 
-  // In case of clustering we need the ids of the clustered markers so that we can animate 
+  // In case of clustering we need the ids of the clustered markers so that we can animate
   // From the clusterMarker to the individual markers
   List<int> clusteredMapMarkerIds;
- 
+
   // only valid for type offer
   final int offerId;
   final bool isDirectOffer;
@@ -40,24 +40,22 @@ class MapMarker {
     this.offerId,
     this.isDirectOffer,
     this.userId,
-    this.userType,}
-  ) :
-    assert((type == MapMarkerType.cluster &&
-            clusterCount != null &&
-            offerId == null &&
-            isDirectOffer == null &&
-            userId == null &&
-            userType == null) ||
-        (type == MapMarkerType.user &&
-            clusterCount == null &&
-            offerId == null &&
-            isDirectOffer == null &&
-            userId != null &&
-            userType != null) ||
-        (type == MapMarkerType.offer &&
-            clusterCount == null &&
-            offerId != null &&
-            userId == null &&
-            userType == null));
-  
+    this.userType,
+  }) : assert((type == MapMarkerType.cluster &&
+                clusterCount != null &&
+                offerId == null &&
+                isDirectOffer == null &&
+                userId == null &&
+                userType == null) ||
+            (type == MapMarkerType.user &&
+                clusterCount == null &&
+                offerId == null &&
+                isDirectOffer == null &&
+                userId != null &&
+                userType != null) ||
+            (type == MapMarkerType.offer &&
+                clusterCount == null &&
+                offerId != null &&
+                userId == null &&
+                userType == null));
 }

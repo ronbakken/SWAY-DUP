@@ -52,7 +52,9 @@ class MainNavigationDrawer extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                isLoggedIn ? currentUser.name : 'Please sign up',
+                                isLoggedIn
+                                    ? currentUser.name
+                                    : 'Please sign up',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -77,7 +79,8 @@ class MainNavigationDrawer extends StatelessWidget {
                     Text(
                       'SOCIAL MEDIA ACCOUNTS',
                       textAlign: TextAlign.left,
-                      style: const TextStyle(color: AppTheme.white30, fontSize: 16.0),
+                      style: const TextStyle(
+                          color: AppTheme.white30, fontSize: 16.0),
                     ),
                     _MainNavigationItem(
                       icon: AppIcons.history,
@@ -119,7 +122,8 @@ class MainNavigationDrawer extends StatelessWidget {
                       text: 'Logout',
                       onTap: () async {
                         await backend.get<AuthenticationService>().logOut();
-                        unawaited(Navigator.of(context).pushAndRemoveUntil(WelcomePage.route(), (route) => false));
+                        unawaited(Navigator.of(context).pushAndRemoveUntil(
+                            WelcomePage.route(), (route) => false));
                       },
                     ),
                   ],
@@ -159,7 +163,8 @@ class _MainNavigationItem extends StatelessWidget {
             children: <Widget>[
               Container(
                 width: 32.0,
-                decoration: BoxDecoration(shape: BoxShape.circle, color: AppTheme.blue),
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: AppTheme.blue),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(

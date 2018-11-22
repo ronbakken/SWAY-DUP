@@ -7,13 +7,13 @@ class LocationServiceMock implements LocationService {
   Coordinate _lastLocation = Coordinate(34.047259, -118.324178);
 
   @override
-	Stream<Coordinate> get onLocationChanged => _onLocationChangedSubject;
+  Stream<Coordinate> get onLocationChanged => _onLocationChangedSubject;
 
-  final BehaviorSubject<Coordinate> _onLocationChangedSubject = new BehaviorSubject<Coordinate>();
+  final BehaviorSubject<Coordinate> _onLocationChangedSubject =
+      new BehaviorSubject<Coordinate>();
 
-  LocationServiceMock()
-  {
-      _onLocationChangedSubject.add(_lastLocation);
+  LocationServiceMock() {
+    _onLocationChangedSubject.add(_lastLocation);
   }
 
   @override
