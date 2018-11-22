@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/main/browse_carousel_item.dart';
-import 'package:inf/ui/main/offer_list_tile.dart';
+import 'package:inf/ui/offers/browse_carousel_item.dart';
 import 'package:inf/ui/main/map_view.dart';
+import 'package:inf/ui/offers/offer_post_tile.dart';
 import 'package:inf/ui/offers/offer_details_page.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
 import 'package:rxdart/rxdart.dart';
@@ -233,8 +233,8 @@ class _BrowseListView extends StatelessWidget {
                 final offer = offerSummeries[index];
                 final tag = 'browse-offer-list-${offer.id}';
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: OfferListTile(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: OfferPostTile(
                     offer: offer,
                     onPressed: () => Navigator.of(context).push(
                         OfferDetailsPage.route(

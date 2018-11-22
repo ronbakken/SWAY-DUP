@@ -72,20 +72,20 @@ class OfferListTile extends StatelessWidget {
                             textScaleFactor: 1.2,
                             style: TextStyle(color: Colors.white)),
                         SizedBox(width: 10.0),
-                        // InfAssetImage(
-                        //   AppLogo.getDeliverableChannel(
-                        //       offer.deliverables[0]),
-                        //   width: 20.0,
-                        // ),
-                        // (offer.newChatMessages ?? 0) > 0
-                        //     ? Expanded(
-                        //         child: Align(
-                        //           heightFactor: 2,
-                        //           alignment: Alignment.topRight,
-                        //           child: NotificationMarker(),
-                        //         ),
-                        //       )
-                        //     : SizedBox(),
+                        InfAssetImage(
+                          AppLogo.getDeliverableChannel(
+                              offer.deliverables[0].channel),
+                          width: 20.0,
+                        ),
+                        (offer.newChatMessages ?? 0) > 0
+                            ? Expanded(
+                                child: Align(
+                                  heightFactor: 2,
+                                  alignment: Alignment.topRight,
+                                  child: NotificationMarker(),
+                                ),
+                              )
+                            : SizedBox(),
                       ],
                     ),
                     SizedBox(height: 10.0),

@@ -6,6 +6,7 @@ import 'package:inf/ui/main/offer_list_tile.dart';
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/offers/offer_details_page.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
+import 'package:rxdart/rxdart.dart';
 
 class MainActivitiesSection extends StatefulWidget {
   const MainActivitiesSection({
@@ -195,17 +196,17 @@ class _ActivitiesListViewState extends State<_ActivitiesListView> {
             itemBuilder: (BuildContext context, int index) {
               final offer = offers[index];
               final tag = '${widget.name}-${offer.id}';
-              return SizedBox();
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(vertical: 4.0),
-              //   child: OfferListTile(
-              //     backGroundColor: AppTheme.listViewItemBackground,
-              //     offerSummery: offer,
-              //     onPressed: () => Navigator.of(context)
-              //         .push(OfferDetailsPage.route(offer, tag)),
-              //     tag: tag,
-              //   ),
-              //);
+              return 
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: OfferListTile(
+                  backGroundColor: AppTheme.listViewItemBackground,
+                  offer: offer,
+                  onPressed: () => Navigator.of(context)
+                      .push(OfferDetailsPage.route(Observable.just(offer), tag)),
+                  tag: tag,
+                ),
+              );
             },
           );
         });

@@ -66,7 +66,7 @@ class AppIcons {
   static const search = AppAsset.vector('assets/images/icon_search.svg');
   static const earnings = AppAsset.vector('assets/images/icon_earnings.svg');
   static const edit = AppAsset.vector('assets/images/icon_edit.svg');
-  static const payments = AppAsset.vector('assets/images/icon_payments.svg');
+  static const payments = AppAsset.vector('assets/images/icon_payment.svg');
 
   static const browse = AppAsset.vector('assets/images/icon_browse.svg');
   static const deals = AppAsset.vector('assets/images/icon_deals.svg');

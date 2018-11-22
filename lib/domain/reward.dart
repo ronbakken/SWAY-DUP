@@ -13,8 +13,9 @@ class Reward {
   final String imageUrl;
   final Uint8List imageLowRes;
 
-  String get totalValueAsString =>
-      '\$${((barterValue ?? Decimal.fromInt(0)) + (cashValue ?? Decimal.fromInt(0))).toStringAsFixed(2)}';
+  String  getTotalValueAsString([int digits = 2]) {
+    return '\$${((barterValue ?? Decimal.fromInt(0)) + (cashValue ?? Decimal.fromInt(0))).toStringAsFixed(digits)}';
+  }
   String get cashValueAsString => '\$${cashValue.toStringAsFixed(2)}';
   String get barterValueAsString => '\$${barterValue.toStringAsFixed(2)}';
 

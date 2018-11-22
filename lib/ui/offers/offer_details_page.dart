@@ -201,7 +201,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Total Value of ${reward.totalValueAsString}'),
+          Text('Total Value of ${reward.getTotalValueAsString()}'),
           SizedBox(
             height: 12.0,
           ),

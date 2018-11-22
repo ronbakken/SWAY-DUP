@@ -4,7 +4,7 @@ import 'package:inf/app/assets.dart';
 class AppTheme {
   static const darkGrey = const Color(0xFF232326);
   static const listViewBackground = const Color(0xFF202022);
-  static const listViewItemBackground = const Color(0xFF282828);
+  static const listViewItemBackground = const Color(0xFF292929);
   static const buttonHalo = const Color(0xFF323232);
   static const grey = const Color(0xFF2c2c2f);
   static const blue = const Color(0xFF073764);
