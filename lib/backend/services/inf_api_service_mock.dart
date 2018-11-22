@@ -157,7 +157,8 @@ Future<List<BusinessOfferSummery>> loadBusinessOfferSummeryMockData() async {
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
         title: 'Car Wash',
         description:
-            'Our car wash is the best car wash in the universe of car washes',
+            'Our car wash is the best car wash in the universe of car washes. We want more people to get to know our'
+            'amazing service. Let\'s just see how much more lines we need :-D',
         channels: [DeliverableChannels.facebook],
         deliverableType: DeliverableType.post,
         rewardType: RewardType.barter,
@@ -218,7 +219,10 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
         title: 'Car Wash',
         description:
-            'Our car wash is the best car wash in the universe of car washes',
+            'Our car wash is the best car wash in the universe of car washes. We want more people to get to know our'
+            'amazing service. '
+            'Our car wash is the best car wash in the universe of car washes.'
+           ,
         categories: [Category(name: 'cars', description: 'All about cars')],
         deliverables: [
           Deliverable(

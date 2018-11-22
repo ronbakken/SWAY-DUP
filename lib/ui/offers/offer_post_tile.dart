@@ -5,7 +5,6 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/notification_marker.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 
 class OfferPostTile extends StatelessWidget {
@@ -29,7 +28,7 @@ class OfferPostTile extends StatelessWidget {
       lowRes: offer.coverLowRes[0],
       imageUrl: offer.coverUrls[0],
       fit: BoxFit.fitWidth,
-      height: mediaQuery.size.height * 0.25,
+      height: mediaQuery.size.height * 0.22,
     );
     if (tag != null) {
       imageArea = Hero(
@@ -55,22 +54,20 @@ class OfferPostTile extends StatelessWidget {
             ),
             new _OfferDetailsRow(offer: offer),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-              child: Text(offer.description ?? "", style: TextStyle(color: Colors.white)),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+              child: Text(offer.description ?? "", style: TextStyle(color: Colors.white, fontSize: 14.5,height: 1.25),),
             ),
-            SizedBox(
-              height: 16,
-            ),
+
             InkResponse(
               onTap: onPressed,
               child: CurvedBox(
                 bottom: false,
                 top: true,
                 color: AppTheme.blue,
-                curveFactor: 2.5,
+                curveFactor: 2.0,
                 child: Center(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
                     child: Text('READ MORE', ),
                   ),
                 ),
@@ -95,8 +92,8 @@ class _OfferDetailsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> rowContent = <Widget>[]..addAll(
         [
-          WhiteBorderCircleAvatar(child: Image.network(offer.businessAvatarThumbnailUrl)),
-          SizedBox(width: 12.0),
+          WhiteBorderCircleAvatar(child: Image.network(offer.businessAvatarThumbnailUrl), radius: 32,),
+          SizedBox(width: 8.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,30 +108,33 @@ class _OfferDetailsRow extends StatelessWidget {
                   style: const TextStyle(
                     color: Colors.white54,
                   ),
+                  
                 ),
               ],
             ),
           ),
           SizedBox(width: 10.0),
-          Material(
-            color: Colors.black,
-            shape: StadiumBorder(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Row(
-                children: [
-                  InfAssetImage(
-                    AppIcons.payments,
-                    width: 20.0,
-                  ),
-                  SizedBox(
-                    width: 8.0,
-                  ),
-                  Text(
-                    '${offer.reward.getTotalValueAsString(0)}',
-                    style: const TextStyle(fontSize: 18.0),
-                  )
-                ],
+          SizedBox(height: 32,
+                      child: Material(
+              color: Colors.black,
+              shape: StadiumBorder(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Row(
+                  children: [
+                    InfAssetImage(
+                      AppIcons.payments,
+                      width: 20.0,
+                    ),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    Text(
+                      '${offer.reward.getTotalValueAsString(0)}',
+                      style: const TextStyle(fontSize: 14.5),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -147,6 +147,7 @@ class _OfferDetailsRow extends StatelessWidget {
     for (var deliverable in offer.deliverables) {
       rowContent.add(
         CircleAvatar(
+          radius:18,
           backgroundColor: Colors.black,
           child: InfAssetImage(
             AppLogo.getDeliverableChannel(deliverable.channel),
@@ -155,17 +156,9 @@ class _OfferDetailsRow extends StatelessWidget {
         ),
       );
     }
-    // (offer.newChatMessages ?? 0) > 0
-    //     ? Expanded(
-    //         child: Align(
-    //           heightFactor: 2,
-    //           alignment: Alignment.topRight,
-    //           child: NotificationMarker(),
-    //         ),
-    //       )
-    //     : SizedBox(),
 
-    return Container(
+
+    return Container(height: 68.0,
       color: AppTheme.darkGrey,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
