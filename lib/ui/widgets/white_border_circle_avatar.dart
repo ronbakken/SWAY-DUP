@@ -13,21 +13,28 @@ class WhiteBorderCircleAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: radius * 2,
       height: radius * 2,
-      decoration: BoxDecoration(
-        color: AppTheme.darkGrey,
-        shape: BoxShape.circle,
-      ),
-      padding: const EdgeInsets.all(4.0),
-      child: Container(
-        foregroundDecoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 0.7),
-          shape: BoxShape.circle,
-        ),
-        child: ClipOval(
-          child: child,
+      child: Center(
+        child: AspectRatio(
+          aspectRatio: 1.0,
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppTheme.darkGrey,
+              shape: BoxShape.circle,
+            ),
+            padding: const EdgeInsets.all(4.0),
+            child: Container(
+              foregroundDecoration: BoxDecoration(
+                border: Border.all(color: Colors.white, width: 0.7),
+                shape: BoxShape.circle,
+              ),
+              child: ClipOval(
+                child: child,
+              ),
+            ),
+          ),
         ),
       ),
     );
