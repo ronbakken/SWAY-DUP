@@ -34,9 +34,15 @@ message NetSessionCreate {
   
 }
 
+/// Remove the current session from the client. Sent by the server.
+/// Procedure ID: 'SESREMOV'
+message NetSessionRemove {
+  
+}
+
 /// Session created successfully,
 message NetSession {
-  /// Newly created session id.
+  /// Newly created session id. Client uses this only to update the connection payload.
   int64 session_id = 1;
   
 }
