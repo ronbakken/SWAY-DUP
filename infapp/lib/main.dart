@@ -36,6 +36,11 @@ launchApp() async {
   });
   new Logger('Inf').level = Level.ALL;
   new Logger('Inf.Network').level = Level.INFO;
+  new Logger('Inf.Config').level = Level.INFO;
+  new Logger('Switchboard').level = Level.ALL;
+  new Logger('Switchboard.Mux').level = Level.ALL;
+  new Logger('Switchboard.Talk').level = Level.ALL;
+  new Logger('Switchboard.Router').level = Level.ALL;
 
   // Load well-known config from APK
   ConfigData config = await loadConfig();

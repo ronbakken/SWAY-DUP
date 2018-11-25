@@ -7,29 +7,9 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:inf/network_mobile/config_manager.dart';
 
-import 'package:inf_common/inf_common.dart';
-
-String translateGlobalAccountStateReason(
-    GlobalAccountStateReason globalAccountStateReason) {
-  switch (globalAccountStateReason) {
-    case GlobalAccountStateReason.newAccount:
-      return "Your INF Marketplace account status can not be loaded at the moment."; // // "Your account has not yet been created."; // This is a bug
-    case GlobalAccountStateReason.accountBanned:
-      return "Your INF Marketplace account has been banned. Please contact support.";
-    case GlobalAccountStateReason.createDenied:
-      return "Your INF Marketplace account was not approved. Please contact support.";
-    case GlobalAccountStateReason.approved:
-      return "Welcome to the INF Marketplace. Your account has been approved. Congratulations!";
-    case GlobalAccountStateReason.demoApproved:
-      return "Welcome to the INF Marketplace. We are delighted to have you as an early tester!";
-    case GlobalAccountStateReason.pending:
-      return "Your INF Marketplace account is pending approval. Hold on tight!";
-    case GlobalAccountStateReason.requireInfo:
-      return "We require more information to process your INF Marketplace account. Please contact support.";
-  }
-  return "There is an issue with your INF Marketplace account. Please contact support.";
-}
+import 'package:inf_common/inf_common.dart' show ConfigData;
 
 class ConfigProvider extends StatefulWidget {
   const ConfigProvider({
@@ -53,46 +33,22 @@ class ConfigProvider extends StatefulWidget {
 }
 
 class _ConfigProviderState extends State<ConfigProvider> {
-  ConfigData config;
-
-  reloadConfig() async {
-    var configData = await rootBundle.load('assets/config.bin');
-    ConfigData config = new ConfigData();
-    config.mergeFromBuffer(configData.buffer.asUint8List());
-    if (config.timestamp > this.config.timestamp &&
-        config.clientVersion == this.config.clientVersion) {
-      setState(() {
-        print("[INF] Reloaded config from APK");
-        this.config = config;
-      });
-    } else {
-      print("[INF] No changes to config detected");
-    }
-    downloadConfig();
-  }
-
-  downloadConfig() async {
-    print("[INF] Downloading updated config... ***TODO***");
-    var downloadUrls = new Set<String>();
-    downloadUrls.add(config.services.configUrl);
-    downloadUrls.add(widget.startupConfig.services.configUrl);
-    // TODO: Download config
-    // TODO: On failure, see if there's a config in cache, use that
-    // TODO: Only use cached config if version is okay
-    // TODO: Try download again as soon as there is a network connection (re-schedule a few times every minute, I suppose...)
-  }
+  ConfigManager manager;
 
   @override
   void initState() {
     super.initState();
-    config = widget.startupConfig;
-    downloadConfig();
+    manager = new ConfigManager(
+        startupConfig: widget.startupConfig,
+        onChanged: () {
+          setState(() {});
+        });
   }
 
   @override
   void reassemble() {
     super.reassemble();
-    reloadConfig();
+    manager.reloadConfig();
   }
 
   @override
@@ -104,7 +60,7 @@ class _ConfigProviderState extends State<ConfigProvider> {
   @override
   Widget build(BuildContext context) {
     return new _InheritedConfigProvider(
-      config: config,
+      config: manager.config,
       child: widget.child,
     );
   }
