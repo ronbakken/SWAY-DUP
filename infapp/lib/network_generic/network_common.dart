@@ -42,6 +42,9 @@ import 'package:inf_common/inf_common.dart';
 export 'package:inf/network_generic/network_interface.dart';
 
 abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
+  final Switchboard switchboard = new Switchboard();
+  TalkChannel channel;
+
   LocalAccountData _currentLocalAccount;
   DataAccount account;
   NetworkConnectionState connected = NetworkConnectionState.connecting;
@@ -49,12 +52,11 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   ConfigData _config;
   MultiAccountStore _multiAccountStore;
 
-  bool _alive;
-  TalkChannel _ts;
+  final Map<String, Future<void> Function(TalkMessage message)>
+      _procedureHandlers =
+      new Map<String, Future<void> Function(TalkMessage message)>();
 
-  TalkChannel get channel {
-    return _ts;
-  }
+  bool _alive;
 
   ConfigData get config {
     return _config;
@@ -89,6 +91,14 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   void commonInitReady() {
+    registerProcedure('DA_STATE', _netDeviceAuthState);
+    registerProcedure('DB_OFFER', dataOffer); // TODO: Remove this!
+
+    registerProcedure('LN_APPLI', liveNewProposal);
+    registerProcedure('LN_A_CHA', liveNewProposalChat);
+    registerProcedure('LU_APPLI', liveUpdateProposal);
+    registerProcedure('LU_A_CHA', liveUpdateProposalChat);
+
     // Start network loop
     _networkLoop().catchError((e) {
       log.severe("Network loop died: $e");
@@ -99,14 +109,31 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         timer.cancel();
         return;
       }
-      if (_ts != null) {
+      if (channel != null) {
         try {
-          await _ts.sendRequest("PING", new Uint8List(0));
+          await channel.sendRequest("PING", new Uint8List(0));
         } catch (error, stack) {
           log.fine("[PING] $error\n$stack");
         }
       }
     });
+  }
+
+  void registerProcedure(
+    String procedureId,
+    Future<void> procedure(TalkMessage message),
+  ) {
+    _procedureHandlers[procedureId] = (TalkMessage message) async {
+      try {
+        await procedure(message);
+      } catch (error, stack) {
+        log.severe(
+            "Unexpected error in procedure '$procedureId': $error\n$stack");
+        if (message.requestId != 0) {
+          channel.replyAbort(message, "Unexpected error.");
+        }
+      }
+    };
   }
 
   void pushKeepAlive() {
@@ -121,9 +148,9 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   void overrideUri(String serverUri) {
     _overrideUri = serverUri;
     log.info("Override server uri to $serverUri");
-    if (_ts != null) {
-      _ts.close();
-      _ts = null;
+    if (channel != null) {
+      channel.close();
+      channel = null;
     }
   }
 
@@ -168,36 +195,36 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   void reassembleCommon() {
     // Developer reload
-    if (_ts != null) {
+    if (channel != null) {
       log.info("Network reload by developer");
-      _ts.close();
-      _ts = null;
+      channel.close();
+      channel = null;
     }
   }
 
   void disposeCommon() {
     _alive = false;
-    if (_ts != null) {
+    if (channel != null) {
       log.fine("Dispose network connection");
-      _ts.close();
-      _ts = null;
+      channel.close();
+      channel = null;
     }
   }
 
   void dependencyChangedCommon() {
-    if (_ts != null) {
+    if (channel != null) {
       log.info("Network reload by config or selection");
-      _ts.close();
-      _ts = null;
+      channel.close();
+      channel = null;
     }
   }
 
   void processSwitchAccount(LocalAccountData localAccount) {
     if (localAccount != _currentLocalAccount) {
       cleanupStateSwitchingAccounts();
-      if (_ts != null) {
-        _ts.close();
-        _ts = null;
+      if (channel != null) {
+        channel.close();
+        channel = null;
       }
     }
   }
@@ -206,9 +233,9 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     if (!foreground) {
       _foreground = false;
       if (_keepAliveBackground <= 0) {
-        if (_ts != null) {
-          _ts.close();
-          _ts = null;
+        if (channel != null) {
+          channel.close();
+          channel = null;
         }
       }
     } else {
@@ -295,7 +322,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       pbReq.name = deviceName;
       pbReq.info = "{ debug: 'default_info' }";
 
-      TalkMessage res = await channel.sendRequest("DA_CREAT", pbReq.writeToBuffer());
+      TalkMessage res =
+          await channel.sendRequest("DA_CREAT", pbReq.writeToBuffer());
       NetDeviceAuthState pbRes = new NetDeviceAuthState();
       pbRes.mergeFromBuffer(res.data);
       if (!_alive) {
@@ -314,7 +342,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       NetDeviceAuthChallengeReq pbChallengeReq =
           new NetDeviceAuthChallengeReq();
       pbChallengeReq.sessionId = localAccount.sessionId;
-      TalkMessage msgChallengeResReq = await channel.sendRequest("DA_CHALL", pbChallengeReq.writeToBuffer());
+      TalkMessage msgChallengeResReq =
+          await channel.sendRequest("DA_CHALL", pbChallengeReq.writeToBuffer());
       NetDeviceAuthChallengeResReq pbChallengeResReq =
           new NetDeviceAuthChallengeResReq();
       pbChallengeResReq.mergeFromBuffer(msgChallengeResReq.data);
@@ -336,7 +365,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       NetDeviceAuthSignatureResReq pbSignature =
           new NetDeviceAuthSignatureResReq();
       pbSignature.signature = signature;
-      TalkMessage res = await channel.replyRequest(msgChallengeResReq, "DA_R_SIG", pbSignature.writeToBuffer());
+      TalkMessage res = await channel.replyRequest(
+          msgChallengeResReq, "DA_R_SIG", pbSignature.writeToBuffer());
       NetDeviceAuthState pbRes = new NetDeviceAuthState();
       pbRes.mergeFromBuffer(res.data);
       if (!_alive) {
@@ -356,31 +386,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       log.info("Network connection is ready");
       connected = NetworkConnectionState.ready;
       onCommonChanged();
-
-      // Register all listeners
-      _subscriptions.add(channel
-          .stream(TalkChannel.encode('DA_STATE'))
-          .listen(_netDeviceAuthState));
-      _subscriptions.add(channel
-          .stream(TalkChannel.encode("DB_OFFER"))
-          .listen(dataOffer)); // TODO: Remove this!
-      //_subscriptions.add(channel
-      //    .stream(TalkChannel.encode("DE_OFFER"))
-      //    .listen(_demoAllOffer));
-      // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
-      _subscriptions.add(channel
-          .stream(TalkChannel.encode('LN_APPLI'))
-          .listen(liveNewProposal));
-      _subscriptions.add(channel
-          .stream(TalkChannel.encode('LN_A_CHA'))
-          .listen(liveNewProposalChat));
-      _subscriptions.add(channel
-          .stream(TalkChannel.encode('LU_APPLI'))
-          .listen(liveUpdateProposal));
-      _subscriptions.add(channel
-          .stream(TalkChannel.encode('LU_A_CHA'))
-          .listen(liveUpdateProposalChat));
-
       resubmitGhostChats();
     }
 
@@ -413,18 +418,35 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         _netConfigWarning = false;
         try {
           log.info("Try connect to $uri");
-          _ts = await TalkChannel.connect(uri);
+          switchboard.setEndPoint(uri);
+          channel = await switchboard.openServiceChannel("api");
         } catch (e) {
           log.warning("Network cannot connect, retry in 3 seconds: $e");
-          assert(_ts == null);
+          assert(channel == null);
           connected = NetworkConnectionState.offline;
           onCommonChanged();
           await new Future.delayed(new Duration(seconds: 3));
         }
       } while (_alive &&
           (_foreground || (_keepAliveBackground > 0)) &&
-          (_ts == null));
-      Future<void> listen = _ts.listen();
+          (channel == null));
+      // Future<void> listen = channel.listen();
+      Completer<void> listen = new Completer<void>();
+      channel.listen((TalkMessage message) {
+        if (_procedureHandlers.containsKey(message.procedureId)) {
+          _procedureHandlers[message.procedureId](message);
+        } else {
+          channel.unknownProcedure(message);
+        }
+      }, onError: (error, stack) {
+        if (error is TalkAbort) {
+          log.severe("Received abort from api remote: $error\n$stack");
+        } else {
+          log.severe("Unknown error from api remote: $error\n$stack");
+        }
+      }, onDone: () {
+        listen.complete();
+      });
       if (connected == NetworkConnectionState.offline) {
         connected = NetworkConnectionState.connecting;
         onCommonChanged();
@@ -432,19 +454,19 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       if (_config != null /*&& widget.networkManager.localAccountId != 0*/) {
         if (_alive) {
           // Authenticate device, this will set connected = ready when successful
-          _authenticateDevice(_ts).catchError((e) {
+          _authenticateDevice(channel).catchError((e) {
             log.warning(
-                "[INF] Network authentication exception, retry in 3 seconds: $e");
+                "Network authentication exception, retry in 3 seconds: $e");
             connected = NetworkConnectionState.failing;
             onCommonChanged();
-            TalkChannel channel = _ts;
-            _ts = null;
+            TalkChannel tempChannel = channel;
+            channel = null;
             () async {
               log.fine("Wait");
               await new Future.delayed(new Duration(seconds: 3));
               log.fine("Retry now");
-              if (channel != null) {
-                channel.close();
+              if (tempChannel != null) {
+                tempChannel.close();
               }
             }()
                 .catchError((e) {
@@ -452,7 +474,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
             });
           });
         } else {
-          _ts.close();
+          channel.close();
         }
       } else {
         log.warning(
@@ -460,8 +482,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         connected = NetworkConnectionState.failing;
         onCommonChanged();
       }
-      await listen;
-      _ts = null;
+      await listen.future;
+      channel = null;
       log.info("Network connection closed");
       if (connected == NetworkConnectionState.ready) {
         connected = NetworkConnectionState.connecting;
@@ -469,12 +491,12 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       }
     } catch (error, stack) {
       log.warning("Network session exception: $error\n$stack");
-      TalkChannel channel = _ts;
-      _ts = null;
+      TalkChannel tempChannel = channel;
+      channel = null;
       connected = NetworkConnectionState.failing;
       onCommonChanged();
-      if (channel != null) {
-        channel.close(); // TODO: close code?
+      if (tempChannel != null) {
+        tempChannel.close(); // TODO: close code?
       }
     }
   }
@@ -553,8 +575,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   Future<NetOAuthUrlRes> getOAuthUrls(int oauthProvider) async {
     NetOAuthUrlReq pb = new NetOAuthUrlReq();
     pb.oauthProvider = oauthProvider;
-    TalkMessage res =
-        await channel.sendRequest("OA_URLRE", pb.writeToBuffer());
+    TalkMessage res = await channel.sendRequest("OA_URLRE", pb.writeToBuffer());
     NetOAuthUrlRes resPb = new NetOAuthUrlRes();
     resPb.mergeFromBuffer(res.data);
     return resPb;
@@ -565,8 +586,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     NetOAuthConnectReq pb = new NetOAuthConnectReq();
     pb.oauthProvider = oauthProvider;
     pb.callbackQuery = callbackQuery;
-    TalkMessage res =
-        await channel.sendRequest("OA_CONNE", pb.writeToBuffer());
+    TalkMessage res = await channel.sendRequest("OA_CONNE", pb.writeToBuffer());
     NetOAuthConnectRes resPb = new NetOAuthConnectRes();
     resPb.mergeFromBuffer(res.data);
     // Result contains the updated data, so needs to be put into the state
@@ -589,8 +609,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       pb.latitude = latitude;
       pb.longitude = longitude;
     }
-    TalkMessage res =
-        await channel.sendRequest("A_CREATE", pb.writeToBuffer());
+    TalkMessage res = await channel.sendRequest("A_CREATE", pb.writeToBuffer());
     NetDeviceAuthState resPb = new NetDeviceAuthState();
     resPb.mergeFromBuffer(res.data);
     await receivedDeviceAuthState(resPb);

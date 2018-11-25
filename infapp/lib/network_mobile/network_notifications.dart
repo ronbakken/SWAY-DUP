@@ -170,7 +170,7 @@ abstract class NetworkNotifications
 
   Future<dynamic> onSelectNotification(String payload) async {
     if (payload != null) {
-      log.fine('[INF] Local notification payload: ' + payload);
+      log.fine('Local notification payload: $payload');
       /*environment=dev&account_id=10&proposal_id=16*/
       Map<String, String> data = Uri.splitQueryString(payload);
       if (data['proposal_id'] != null) {

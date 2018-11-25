@@ -14,6 +14,7 @@ import 'package:switchboard/switchboard.dart';
 abstract class NetworkInternals {
   // Common
   Logger get log;
+  Switchboard get switchboard;
   TalkChannel get channel;
   ConfigData get config;
   MultiAccountStore get multiAccountStore;
