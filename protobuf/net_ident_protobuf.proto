@@ -37,7 +37,7 @@ message NetSessionCreate {
 /// Session created successfully,
 message NetSession {
   /// Newly created session id.
-  Int64 session_id;
+  Int64 session_id = 1;
   
 }
 
