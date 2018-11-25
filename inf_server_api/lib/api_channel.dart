@@ -76,9 +76,9 @@ class ApiChannel {
   static final Logger devLog = new Logger('InfDev.ApiChannel');
 
   final http.Client httpClient = new http.ConsoleClient();
-  final Map<String, Future<void> Function(TalkMessage message)>
+  final Map<String, Function(TalkMessage message)>
       _procedureHandlers =
-      new Map<String, Future<void> Function(TalkMessage message)>();
+      new Map<String, Function(TalkMessage message)>();
 
   ApiChannelOAuth _apiChannelOAuth;
   ApiChannelUpload _apiChannelUpload;
@@ -104,9 +104,9 @@ class ApiChannel {
 
     subscribeAuthentication();
 
-    channel.listen((TalkMessage message) {
+    channel.listen((TalkMessage message) async {
       if (_procedureHandlers.containsKey(message.procedureId)){
-        _procedureHandlers[message.procedureId](message);
+        await _procedureHandlers[message.procedureId](message);
       } else {
         channel.unknownProcedure(message);
       }
@@ -277,6 +277,7 @@ class ApiChannel {
       if (account.state.sessionId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
         subscribeOnboarding();
+        subscribeOAuth();
       }
     });
     devLog.fine("Send auth state ${message.requestId}");
@@ -370,6 +371,7 @@ class ApiChannel {
         await transitionToApp(); // Fetches all of the state data
       } else {
         subscribeOnboarding();
+        subscribeOAuth();
       }
     }
     await sendNetDeviceAuthState(replying: signatureMessage);
@@ -584,7 +586,10 @@ class ApiChannel {
     await lock.synchronized(() async {
       NetDeviceAuthState pb = new NetDeviceAuthState();
       pb.data = account;
-      channel.replyMessage(replying, "DA_STATE", pb.writeToBuffer());
+      if (replying!= null)
+        channel.replyMessage(replying, "DA_STATE", pb.writeToBuffer());
+      else
+        channel.sendMessage("DA_STATE", pb.writeToBuffer());
     });
   }
 

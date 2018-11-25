@@ -125,9 +125,9 @@ run() async {
   new Logger('SqlJocky').level = Level.WARNING;
   new Logger('SqlJocky.BufferedSocket').level = Level.WARNING;
   new Logger('Switchboard').level = Level.INFO;
-  new Logger('Switchboard.Mux').level = Level.INFO;
+  new Logger('Switchboard.Mux').level = Level.ALL;
   new Logger('Switchboard.Talk').level = Level.INFO;
-  new Logger('Switchboard.Router').level = Level.INFO;
+  new Logger('Switchboard.Router').level = Level.ALL;
 
   // Server Configuration
   Uint8List configBytes =
@@ -158,6 +158,7 @@ run() async {
   // Listen to websocket
   Switchboard switchboard = new Switchboard();
   await switchboard.bindWebSocket(InternetAddress.anyIPv6, 8090, '/ep');
+  // await switchboard.bindWebSocket(InternetAddress.anyIPv4, 8090, '/ep');
   selfTestTalk();
 
   await for (ChannelInfo open in switchboard) {
