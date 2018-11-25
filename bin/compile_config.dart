@@ -184,6 +184,8 @@ Future<ConfigServices> generateConfigServices(bool server) async {
         res.privacyPolicyUrl = cfg.get(section, 'privacyPolicyUrl');
       if (cfg.hasOption(section, 'connectionFailedUrl'))
         res.connectionFailedUrl = cfg.get(section, 'connectionFailedUrl');
+      if (cfg.hasOption(section, 'salt'))
+        res.salt = cfg.get(section, 'salt');
 
       if (cfg.hasOption(section, 'mapboxApi'))
         res.mapboxApi = cfg.get(section, 'mapboxApi');
