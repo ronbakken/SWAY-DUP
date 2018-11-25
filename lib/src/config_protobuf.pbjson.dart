@@ -123,24 +123,25 @@ const ConfigServices$json = const {
   '1': 'ConfigServices',
   '2': const [
     const {'1': 'environment', '3': 24, '4': 1, '5': 9, '10': 'environment'},
-    const {'1': 'apiHosts', '3': 8, '4': 3, '5': 9, '10': 'apiHosts'},
-    const {'1': 'configUrl', '3': 9, '4': 1, '5': 9, '10': 'configUrl'},
+    const {'1': 'end_point', '3': 8, '4': 1, '5': 9, '10': 'endPoint'},
+    const {'1': 'service', '3': 33, '4': 1, '5': 9, '10': 'service'},
+    const {'1': 'config_url', '3': 9, '4': 1, '5': 9, '10': 'configUrl'},
     const {
-      '1': 'termsOfServiceUrl',
+      '1': 'terms_of_service_url',
       '3': 10,
       '4': 1,
       '5': 9,
       '10': 'termsOfServiceUrl'
     },
     const {
-      '1': 'privacyPolicyUrl',
+      '1': 'privacy_policy_url',
       '3': 11,
       '4': 1,
       '5': 9,
       '10': 'privacyPolicyUrl'
     },
     const {
-      '1': 'connectionFailedUrl',
+      '1': 'connection_failed_url',
       '3': 29,
       '4': 1,
       '5': 9,

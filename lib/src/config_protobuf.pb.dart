@@ -318,7 +318,7 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(5, 'spacesKey')
     ..aOS(6, 'spacesSecret')
     ..aOS(7, 'spacesBucket')
-    ..pPS(8, 'apiHosts')
+    ..aOS(8, 'endPoint')
     ..aOS(9, 'configUrl')
     ..aOS(10, 'termsOfServiceUrl')
     ..aOS(11, 'privacyPolicyUrl')
@@ -343,6 +343,7 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(30, 'mapboxUrlTemplateLight')
     ..aOS(31, 'cloudinaryBlurredThumbnailUrl')
     ..aOS(32, 'cloudinaryBlurredCoverUrl')
+    ..aOS(33, 'service')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -421,7 +422,13 @@ class ConfigServices extends $pb.GeneratedMessage {
   bool hasSpacesBucket() => $_has(6);
   void clearSpacesBucket() => clearField(7);
 
-  List<String> get apiHosts => $_getList(7);
+  String get endPoint => $_getS(7, '');
+  set endPoint(String v) {
+    $_setString(7, v);
+  }
+
+  bool hasEndPoint() => $_has(7);
+  void clearEndPoint() => clearField(8);
 
   String get configUrl => $_getS(8, '');
   set configUrl(String v) {
@@ -614,6 +621,14 @@ class ConfigServices extends $pb.GeneratedMessage {
 
   bool hasCloudinaryBlurredCoverUrl() => $_has(31);
   void clearCloudinaryBlurredCoverUrl() => clearField(32);
+
+  String get service => $_getS(32, '');
+  set service(String v) {
+    $_setString(32, v);
+  }
+
+  bool hasService() => $_has(32);
+  void clearService() => clearField(33);
 }
 
 class ConfigContent extends $pb.GeneratedMessage {
