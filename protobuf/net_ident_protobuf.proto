@@ -15,7 +15,7 @@ import 'data_protobuf.proto';
 /// Session payload. Assumes a secure connection is used.
 message NetSessionPayload {
   /// If not set, require session creation.
-  Int64 session_id = 1;
+  int64 session_id = 1;
   bytes cookie = 2;
   
 }
@@ -37,7 +37,7 @@ message NetSessionCreate {
 /// Session created successfully,
 message NetSession {
   /// Newly created session id.
-  Int64 session_id = 1;
+  int64 session_id = 1;
   
 }
 
