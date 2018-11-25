@@ -147,6 +147,7 @@ const ConfigServices$json = const {
       '5': 9,
       '10': 'connectionFailedUrl'
     },
+    const {'1': 'salt', '3': 34, '4': 1, '5': 9, '10': 'salt'},
     const {'1': 'mapboxApi', '3': 1, '4': 1, '5': 9, '10': 'mapboxApi'},
     const {
       '1': 'mapboxUrlTemplateDark',

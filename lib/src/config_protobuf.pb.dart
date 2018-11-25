@@ -344,6 +344,7 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(31, 'cloudinaryBlurredThumbnailUrl')
     ..aOS(32, 'cloudinaryBlurredCoverUrl')
     ..aOS(33, 'service')
+    ..aOS(34, 'salt')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -629,6 +630,14 @@ class ConfigServices extends $pb.GeneratedMessage {
 
   bool hasService() => $_has(32);
   void clearService() => clearField(33);
+
+  String get salt => $_getS(33, '');
+  set salt(String v) {
+    $_setString(33, v);
+  }
+
+  bool hasSalt() => $_has(33);
+  void clearSalt() => clearField(34);
 }
 
 class ConfigContent extends $pb.GeneratedMessage {
