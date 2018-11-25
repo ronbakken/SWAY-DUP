@@ -17,20 +17,20 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'package:inf_common/inf_common.dart';
-import 'remote_app.dart';
+import 'api_channel.dart';
 
-class RemoteAppProfile {
+class ApiChannelProfile {
   //////////////////////////////////////////////////////////////////////////////
   // Inherited properties
   //////////////////////////////////////////////////////////////////////////////
 
-  RemoteApp _r;
+  ApiChannel _r;
   ConfigData get config {
     return _r.config;
   }
@@ -39,8 +39,8 @@ class RemoteAppProfile {
     return _r.sql;
   }
 
-  TalkSocket get ts {
-    return _r.ts;
+  TalkChannel get channel {
+    return _r.channel;
   }
 
   dospace.Bucket get bucket {
@@ -63,25 +63,19 @@ class RemoteAppProfile {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
-  static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
+  static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
+  static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
 
-  RemoteAppProfile(this._r) {
-    _netLoadPublicProfileReq = _r.saferListen("L_PROFIL",
-        GlobalAccountState.readOnly, true, netLoadPublicProfileReq);
-    _netGetOfferReq = _r.saferListen(
-        "GTOFFERR", GlobalAccountState.readOnly, true, netGetOfferReq);
+  ApiChannelProfile(this._r) {
+    _r.registerProcedure(
+        "L_PROFIL", GlobalAccountState.readOnly, netLoadPublicProfileReq);
+    _r.registerProcedure(
+        "GTOFFERR", GlobalAccountState.readOnly, netGetOfferReq);
   }
 
   void dispose() {
-    if (_netLoadPublicProfileReq != null) {
-      _netLoadPublicProfileReq.cancel();
-      _netLoadPublicProfileReq = null;
-    }
-    if (_netGetOfferReq != null) {
-      _netGetOfferReq.cancel();
-      _netGetOfferReq = null;
-    }
+    _r.unregisterProcedure("L_PROFIL");
+    _r.unregisterProcedure("GTOFFERR");
     _r = null;
   }
 
@@ -89,8 +83,6 @@ class RemoteAppProfile {
   // Network messages
   //////////////////////////////////////////////////////////////////////////////
 
-  StreamSubscription<TalkMessage> _netLoadPublicProfileReq; // L_PROFIL
-  static int _netProfileImageRes = TalkSocket.encode("L_R_PROF");
   Future<void> netLoadPublicProfileReq(TalkMessage message) async {
     NetGetAccountReq pb = new NetGetAccountReq();
     pb.mergeFromBuffer(message.data);
@@ -106,11 +98,11 @@ class RemoteAppProfile {
       account.detail.socialMedia.add(new DataSocialMedia());
     }
 
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     sqljocky.RetainedConnection connection = await sql.getConnection();
     try {
       // Fetch public profile info
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       sqljocky.Results accountResults = await connection.prepareExecute(
           "SELECT `accounts`.`name`, `accounts`.`account_type`, " // 0 1
           "`accounts`.`description`, `accounts`.`location_id`, " // 2 3
@@ -160,7 +152,7 @@ class RemoteAppProfile {
         }
       }
       // Fetch public social media info
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       sqljocky.Results connectionResults = await connection.prepareExecute(
           "SELECT `social_media`.`oauth_provider`, " // 0
           "`social_media`.`display_name`, `social_media`.`profile_url`, " // 1 2
@@ -196,22 +188,19 @@ class RemoteAppProfile {
       connection.release();
     }
 
-    ts.sendMessage(_netProfileImageRes, account.writeToBuffer(),
-        replying: message);
+    channel.replyMessage(message, "L_R_PROF", account.writeToBuffer());
   }
 
-  StreamSubscription<TalkMessage> _netGetOfferReq;
-  static int _netGetOfferRes = TalkSocket.encode("GTOFFE_R");
   Future<void> netGetOfferReq(TalkMessage message) async {
     NetGetOfferReq pb = new NetGetOfferReq()..mergeFromBuffer(message.data);
     devLog.finest(pb);
     Int64 offerId = pb.offerId;
     DataOffer offer;
 
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     sqljocky.RetainedConnection connection = await sql.getConnection();
     try {
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       sqljocky.Query selectImageKeys = await connection.prepare(
           "SELECT `image_key` FROM `offer_images` WHERE `offer_id` = ?");
       try {
@@ -231,7 +220,7 @@ class RemoteAppProfile {
         sqljocky.Results offerResults =
             await sql.prepareExecute(selectOffers, [accountId, offerId]);
         await for (sqljocky.Row offerRow in offerResults) {
-          ts.sendExtend(message);
+          channel.replyExtend(message);
           offer = new DataOffer();
           offer.offerId = new Int64(offerRow[0]);
           offer.accountId = new Int64(offerRow[1]);
@@ -259,8 +248,7 @@ class RemoteAppProfile {
           // offer.blurredCoverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
           // TODO: categories
           offer.state = OfferState.valueOf(offerRow[9].toInt());
-          offer.stateReason =
-              OfferStateReason.valueOf(offerRow[10].toInt());
+          offer.stateReason = OfferStateReason.valueOf(offerRow[10].toInt());
           /*offer.proposalsNew = 0; // TODO
           offer.proposalsAccepted = 0; // TODO
           offer.proposalsCompleted = 0; // TODO
@@ -283,7 +271,7 @@ class RemoteAppProfile {
             offer.influencerProposalId = new Int64(offerRow[13]);
           }
         }
-        ts.sendExtend(message);
+        channel.replyExtend(message);
       } finally {
         await selectImageKeys.close();
       }
@@ -292,13 +280,12 @@ class RemoteAppProfile {
     }
 
     if (offer == null) {
-      ts.sendException("Offer not found", message);
+      channel.replyAbort(message, "Offer not found.");
       return;
     }
 
     NetGetOfferRes getOffersRes = new NetGetOfferRes();
     getOffersRes.offer = offer;
-    ts.sendMessage(_netGetOfferRes, getOffersRes.writeToBuffer(),
-        replying: message);
+    channel.replyMessage(message, "GTOFFE_R", getOffersRes.writeToBuffer());
   }
 }

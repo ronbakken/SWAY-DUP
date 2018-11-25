@@ -11,22 +11,22 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'package:inf_common/inf_common.dart';
-import 'remote_app.dart';
+import 'api_channel.dart';
 
-class RemoteAppHaggle {
+class ApiChannelHaggle {
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   // Inherited properties
   //////////////////////////////////////////////////////////////////////////////
 
-  RemoteApp _r;
+  ApiChannel _r;
   ConfigData get config {
     return _r.config;
   }
@@ -35,8 +35,8 @@ class RemoteAppHaggle {
     return _r.sql;
   }
 
-  TalkSocket get ts {
-    return _r.ts;
+  TalkChannel get channel {
+    return _r.channel;
   }
 
   dospace.Bucket get bucket {
@@ -61,25 +61,22 @@ class RemoteAppHaggle {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
-  static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
-  final List<StreamSubscription<dynamic>> _subscriptions =
-      new List<StreamSubscription<dynamic>>();
+  static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
+  static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
 
-  RemoteAppHaggle(this._r) {
-    _subscriptions.add(_r.saferListen("L_APPLIC",
-        GlobalAccountState.readOnly, true, netLoadProposalReq));
-    _subscriptions.add(_r.saferListen("L_APPLIS",
-        GlobalAccountState.readOnly, true, netLoadProposalsReq));
-    _subscriptions.add(_r.saferListen("L_APCHAT",
-        GlobalAccountState.readOnly, true, netLoadProposalChatsReq));
+  ApiChannelHaggle(this._r) {
+    _r.registerProcedure(
+        "L_APPLIC", GlobalAccountState.readOnly, netLoadProposalReq);
+    _r.registerProcedure(
+        "L_APPLIS", GlobalAccountState.readOnly, netLoadProposalsReq);
+    _r.registerProcedure(
+        "L_APCHAT", GlobalAccountState.readOnly, netLoadProposalChatsReq);
   }
 
   void dispose() {
-    _subscriptions.forEach((subscription) {
-      subscription.cancel();
-    });
-    _subscriptions.clear();
+    _r.unregisterProcedure("L_APPLIC");
+    _r.unregisterProcedure("L_APPLIS");
+    _r.unregisterProcedure("L_APCHAT");
     _r = null;
   }
 
@@ -88,9 +85,6 @@ class RemoteAppHaggle {
   //////////////////////////////////////////////////////////////////////////////
   // Informational network messages
   //////////////////////////////////////////////////////////////////////////////
-
-  static int _netDataProposalUpdate = TalkSocket.encode("LU_APPLI");
-  static int _netDataProposalChatUpdate = TalkSocket.encode("LU_A_CHA");
 
   static String _proposalSelect = "`proposal_id`, `offer_id`, " // 0 1
       "`influencer_account_id`, `business_account_id`, " // 2 3
@@ -151,7 +145,7 @@ class RemoteAppHaggle {
     sqljocky.RetainedConnection connection = await sql.getConnection();
     try {
       // Fetch proposal
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       String query = "SELECT "
           "$_proposalSelect"
           "FROM `proposals` "
@@ -165,14 +159,13 @@ class RemoteAppHaggle {
     }
 
     if (proposal == null) {
-      ts.sendException("Not Found", message);
+      channel.replyAbort(message, "Not found.");
     } else if (account.state.accountType == AccountType.support ||
         accountId == proposal.businessAccountId ||
         accountId == proposal.influencerAccountId) {
-      ts.sendMessage(_netDataProposalUpdate, proposal.writeToBuffer(),
-          replying: message);
+      channel.replyMessage(message, "LU_APPLI", proposal.writeToBuffer());
     } else {
-      ts.sendException("Not Authorized", message);
+      channel.replyAbort(message, "Not authorized.");
     }
   }
 
@@ -184,22 +177,21 @@ class RemoteAppHaggle {
     sqljocky.RetainedConnection connection = await sql.getConnection();
     try {
       // Fetch proposal
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       String query = "SELECT "
           "$_proposalSelect"
           "FROM `proposals` "
           "WHERE `${account.state.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?";
       await for (sqljocky.Row row
           in await connection.prepareExecute(query, [accountId])) {
-        ts.sendMessage(
-            _netDataProposalUpdate, _proposalFromRow(row).writeToBuffer(),
-            replying: message);
+        channel.replyMessage(
+            message, "LU_APPLI", _proposalFromRow(row).writeToBuffer());
       }
     } finally {
       connection.release();
     }
 
-    ts.sendEndOfStream(message);
+    channel.replyEndOfStream(message);
   }
 
   // NetLoadProposalChatsReq
@@ -214,7 +206,7 @@ class RemoteAppHaggle {
     sqljocky.RetainedConnection connection = await sql.getConnection();
     try {
       // Fetch proposal
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       String query = "SELECT "
           "`influencer_account_id`, `business_account_id` "
           "FROM `proposals` "
@@ -230,7 +222,7 @@ class RemoteAppHaggle {
       if (businessAccountId == null || influencerAccountId == null) {
         opsLog.severe(
             "Attempt to request invalid proposal chat by account '$accountId'");
-        ts.sendException("Not Found", message);
+        channel.replyAbort(message, "Not found.");
         return; // Verify that this does call finally
       }
       if (account.state.accountType != AccountType.support &&
@@ -238,12 +230,12 @@ class RemoteAppHaggle {
           accountId != influencerAccountId) {
         opsLog.severe(
             "Attempt to request unauthorized proposal chat by account '$accountId'");
-        ts.sendException("Not Authorized", message);
+        channel.replyAbort(message, "Not authorized");
         return; // Verify that this does call finally
       }
 
       // Fetch
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       String chatQuery = "SELECT "
           "`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, " // 0 1
           "`sender_id`, `session_id`, `session_ghost_id`, " // 2 3 4
@@ -277,14 +269,13 @@ class RemoteAppHaggle {
               Uri.encodeQueryComponent(_r.makeCloudinaryBlurredCoverUrl(key));
           ;
         }
-        ts.sendMessage(_netDataProposalChatUpdate, chat.writeToBuffer(),
-            replying: message);
+        channel.replyMessage(message, "LU_A_CHA", chat.writeToBuffer());
       }
     } finally {
       connection.release();
     }
 
     // Done
-    ts.sendEndOfStream(message);
+    channel.replyEndOfStream(message);
   }
 }

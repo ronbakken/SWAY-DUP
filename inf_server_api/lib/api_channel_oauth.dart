@@ -9,17 +9,17 @@ import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:http/http.dart' as http;
 
 import 'package:inf_common/inf_common.dart';
-import 'remote_app.dart';
+import 'api_channel.dart';
 
-class RemoteAppOAuth {
-  RemoteApp _r;
+class ApiChannelOAuth {
+  ApiChannel _r;
   ConfigData get config {
     return _r.config;
   }
@@ -28,12 +28,12 @@ class RemoteAppOAuth {
     return _r.sql;
   }
 
-  TalkSocket get ts {
-    return _r.ts;
+  TalkChannel get channel {
+    return _r.channel;
   }
 
-  static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
-  static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
+  static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
+  static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
 
   static final http.Client httpClient = new http.Client();
 
@@ -45,25 +45,19 @@ class RemoteAppOAuth {
     return _r.account.detail.socialMedia;
   }
 
-  RemoteAppOAuth(this._r) {
-    _netOAuthUrlReq = _r.safeListen("OA_URLRE", netOAuthUrlReq);
-    _netOAuthConnectReq = _r.safeListen("OA_CONNE", netOAuthConnectReq);
+  ApiChannelOAuth(this._r) {
+    _r.registerProcedure(
+        "OA_URLRE", GlobalAccountState.initialize, netOAuthUrlReq);
+    _r.registerProcedure(
+        "OA_CONNE", GlobalAccountState.initialize, netOAuthConnectReq);
   }
 
   void dispose() {
-    if (_netOAuthUrlReq != null) {
-      _netOAuthUrlReq.cancel();
-      _netOAuthUrlReq = null;
-    }
-    if (_netOAuthConnectReq != null) {
-      _netOAuthConnectReq.cancel();
-      _netOAuthConnectReq = null;
-    }
+    _r.unregisterProcedure("OA_URLRE");
+    _r.unregisterProcedure("OA_CONNE");
     _r = null;
   }
 
-  StreamSubscription<TalkMessage> _netOAuthUrlReq; // OA_URLRE
-  static int _netOAuthUrlRes = TalkSocket.encode("OA_R_URL");
   Future<void> netOAuthUrlReq(TalkMessage message) async {
     devLog.finest("netOAuthUrlReq");
     NetOAuthUrlReq pb = new NetOAuthUrlReq();
@@ -93,8 +87,7 @@ class RemoteAppOAuth {
             devLog.finest(authUrl);
             pbRes.authUrl = authUrl;
             pbRes.callbackUrl = cfg.callbackUrl;
-            ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(),
-                replying: message);
+            channel.replyMessage(message, "OA_R_URL", pbRes.writeToBuffer());
             break;
           }
         case OAuthMechanism.oauth2:
@@ -110,24 +103,26 @@ class RemoteAppOAuth {
             devLog.finest(authUrl);
             pbRes.authUrl = authUrl;
             pbRes.callbackUrl = cfg.callbackUrl;
-            ts.sendMessage(_netOAuthUrlRes, pbRes.writeToBuffer(),
-                replying: message);
+            channel.replyMessage(
+              message,
+              "OA_R_URL",
+              pbRes.writeToBuffer(),
+            );
             break;
           }
         default:
           {
-            ts.sendException(
-                "Invalid oauthProvider specified: ${pb.oauthProvider}",
-                message);
+            channel.replyAbort(message,
+                "Invalid oauthProvider specified '${pb.oauthProvider}'.");
             throw new Exception(
                 "OAuth provider has no supported mechanism specified ${pb.oauthProvider}");
           }
       }
     } else {
-      ts.sendException(
-          "Invalid oauthProvider specified: ${pb.oauthProvider}", message);
+      channel.replyAbort(
+          message, "Invalid oauthProvider specified '${pb.oauthProvider}'.");
       throw new Exception(
-          "Invalid oauthProvider specified ${pb.oauthProvider}");
+          "Invalid oauthProvider specified '${pb.oauthProvider}'.");
     }
   }
 
@@ -230,7 +225,7 @@ class RemoteAppOAuth {
         }
       default:
         {
-          // ts.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", replying: message);
+          // channel.sendException("Invalid oauthProvider specified: ${pb.oauthProvider}", replying: message);
           throw new Exception(
               "OAuth provider has no supported mechanism specified ${oauthProvider}");
         }
@@ -242,8 +237,6 @@ class RemoteAppOAuth {
         : null;
   }
 
-  StreamSubscription<TalkMessage> _netOAuthConnectReq; // OA_CONNE
-  static int _netOAuthConnectRes = TalkSocket.encode("OA_R_CON");
   Future<void> netOAuthConnectReq(TalkMessage message) async {
     devLog.finest("netOAuthConnectReq");
     NetOAuthConnectReq pb = new NetOAuthConnectReq();
@@ -253,7 +246,7 @@ class RemoteAppOAuth {
       int oauthProvider = pb.oauthProvider;
       DataOAuthCredentials oauthCredentials;
 
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       dynamic exception;
       try {
         oauthCredentials =
@@ -280,7 +273,7 @@ class RemoteAppOAuth {
 
         // Insert the data we have
         try {
-          ts.sendExtend(message);
+          channel.replyExtend(message);
           sqljocky.Results insertRes = await sql.prepareExecute(
               "INSERT INTO `oauth_connections`("
               "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `session_id`, `oauth_token`, `oauth_token_secret`, `oauth_token_expires`"
@@ -311,7 +304,7 @@ class RemoteAppOAuth {
             if (account.state.accountId == 0) {
               // Attempt to login to an existing account, or regain a lost connection
               devLog.finest("Try takeover");
-              ts.sendExtend(message);
+              channel.replyExtend(message);
               String query = "UPDATE `oauth_connections` "
                   "SET `updated` = CURRENT_TIMESTAMP(), `session_id` = ?, "
                   "`oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
@@ -334,7 +327,7 @@ class RemoteAppOAuth {
             if (takeover) {
               // Find out if we are logged into an account now
               devLog.finest("Verify takeover");
-              ts.sendExtend(message);
+              channel.replyExtend(message);
               sqljocky.Results connectionRes = await sql.prepareExecute(
                   "SELECT `account_id` FROM `oauth_connections` "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?",
@@ -347,8 +340,8 @@ class RemoteAppOAuth {
               await for (sqljocky.Row row in connectionRes) {
                 takeoverAccountId = new Int64(row[0]);
               }
-              takeover =
-                  (account.state.accountId == Int64.ZERO) && (takeoverAccountId != Int64.ZERO);
+              takeover = (account.state.accountId == Int64.ZERO) &&
+                  (takeoverAccountId != Int64.ZERO);
               if (takeover) {
                 // updateDeviceState loads the new state from the database into account.state.accountId
                 devLog.finest(
@@ -356,11 +349,9 @@ class RemoteAppOAuth {
                 String query = "UPDATE `sessions` "
                     "SET `account_id` = ? "
                     "WHERE `session_id` = ? AND `account_id` = 0";
-                ts.sendExtend(message);
-                await sql.prepareExecute(query, [
-                  takeoverAccountId,
-                  account.state.sessionId
-                ]);
+                channel.replyExtend(message);
+                await sql.prepareExecute(
+                    query, [takeoverAccountId, account.state.sessionId]);
                 // NOTE: Technically, here we may escalate any OAuth connections of this session to the account,
                 // as long as the account has no connections yet for the connected providers (long-term)
               }
@@ -371,7 +362,7 @@ class RemoteAppOAuth {
             if (!takeover && !refreshed) {
               // In case account state changed, or in case the user is simply refreshing tokens
               devLog.finest("Try refresh");
-              ts.sendExtend(message);
+              channel.replyExtend(message);
               String query = "UPDATE `oauth_connections` "
                   "SET `updated` = CURRENT_TIMESTAMP(), `account_id` = ?, `session_id` = ?, `oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
@@ -402,7 +393,7 @@ class RemoteAppOAuth {
       if (inserted || takeover || refreshed) {
         // Wipe any other previously connected accounts to avoid inconsistent data
         // Happens after addition to ensure race condition will prioritize deletion
-        ts.sendExtend(message);
+        channel.replyExtend(message);
         if (account.state.accountId != 0) {
           String query =
               "DELETE FROM `oauth_connections` WHERE `account_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
@@ -423,12 +414,12 @@ class RemoteAppOAuth {
         }
 
         // Fetch useful data from social media
-        ts.sendExtend(message);
+        channel.replyExtend(message);
         DataSocialMedia dataSocialMedia =
             await fetchSocialMedia(oauthProvider, oauthCredentials);
 
         // Write fetched social media data to SQL database
-        ts.sendExtend(message);
+        channel.replyExtend(message);
         await cacheSocialMedia(
             oauthCredentials.userId, oauthProvider, dataSocialMedia);
 
@@ -438,8 +429,7 @@ class RemoteAppOAuth {
 
       // Simply send update of this specific social media
       pbRes.socialMedia = socialMedia[oauthProvider];
-      ts.sendMessage(_netOAuthConnectRes, pbRes.writeToBuffer(),
-          replying: message);
+      channel.replyMessage(message, "OA_R_CON", pbRes.writeToBuffer());
       devLog.finest("OAuth connected: ${pbRes.socialMedia.connected}");
 
       if (takeover) {
@@ -455,7 +445,7 @@ class RemoteAppOAuth {
         } else {
           devLog.severe(
               "Takeover but account id is 0, this is a fatal bug, disconnecting user now");
-          ts.close();
+          channel.close();
         }
       }
 
@@ -463,10 +453,10 @@ class RemoteAppOAuth {
         throw exception;
       }
     } else {
-      ts.sendException(
-          "Invalid oauthProvider specified: ${pb.oauthProvider}", message);
+      channel.replyAbort(
+          message, "Invalid oauthProvider specified '${pb.oauthProvider}'.");
       throw new Exception(
-          "Invalid oauthProvider specified ${pb.oauthProvider}");
+          "Invalid oauthProvider specified '${pb.oauthProvider}'.");
     }
   }
 
@@ -946,9 +936,9 @@ bruhXggmeyTTWBFXEOgmguqg6aoF284BTWPseOuxQS84
 
 Then output for social media info from Facebook is like
 
-InfDev.RemoteAppOAuth: FINEST: 2018-07-30 15:18:57.172739: {name: Jan Boon, email: kaetemi@gmail.com, link: https://www.facebook.com/app_scoped_user_id/YXNpZADpBWEhuQ3d6OVZAnMHpoLU40cy1yUEhlX3I0Q095YXZAZAYTg5QXNxU094UDlwRzItdzc1a2FMbWtJODFLQWgwazVDbWo3a0FPQzRzSXZAUeTBlZAUpOVHBlTHV6ZATVGU0psOE0yblM2N24xdQZDZD/, picture: {data: {height: 50, is_silhouette: false, url: https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10155696703021547&height=50&width=50&ext=1535527137&hash=AeT1N0Rc2Zx1tHBz, width: 50}}, id: 10155696703021547}
-InfDev.RemoteAppOAuth: FINEST: 2018-07-30 15:18:57.474171: {data: [], summary: {total_count: 220}}
-InfDev.RemoteAppOAuth: FINEST: 2018-07-30 15:18:57.758358: {data: [{id: 1137023473103283}, {id: 1296007253750622}], paging: {cursors: {before: MTEzNzAyMzQ3MzEwMzI4MwZDZD, after: MTI5NjAwNzI1Mzc1MDYyMgZDZD}}, summary: {total_count: 2}}
+InfDev.ApiChannelOAuth: FINEST: 2018-07-30 15:18:57.172739: {name: Jan Boon, email: kaetemi@gmail.com, link: https://www.facebook.com/app_scoped_user_id/YXNpZADpBWEhuQ3d6OVZAnMHpoLU40cy1yUEhlX3I0Q095YXZAZAYTg5QXNxU094UDlwRzItdzc1a2FMbWtJODFLQWgwazVDbWo3a0FPQzRzSXZAUeTBlZAUpOVHBlTHV6ZATVGU0psOE0yblM2N24xdQZDZD/, picture: {data: {height: 50, is_silhouette: false, url: https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10155696703021547&height=50&width=50&ext=1535527137&hash=AeT1N0Rc2Zx1tHBz, width: 50}}, id: 10155696703021547}
+InfDev.ApiChannelOAuth: FINEST: 2018-07-30 15:18:57.474171: {data: [], summary: {total_count: 220}}
+InfDev.ApiChannelOAuth: FINEST: 2018-07-30 15:18:57.758358: {data: [{id: 1137023473103283}, {id: 1296007253750622}], paging: {cursors: {before: MTEzNzAyMzQ3MzEwMzI4MwZDZD, after: MTI5NjAwNzI1Mzc1MDYyMgZDZD}}, summary: {total_count: 2}}
 
 */
 

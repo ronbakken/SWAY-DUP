@@ -12,22 +12,22 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'package:inf_common/inf_common.dart';
-import 'remote_app.dart';
+import 'api_channel.dart';
 
-class RemoteAppHaggleActions {
+class ApiChannelHaggleActions {
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   // Inherited properties
   //////////////////////////////////////////////////////////////////////////////
 
-  RemoteApp _r;
+  ApiChannel _r;
   ConfigData get config {
     return _r.config;
   }
@@ -36,8 +36,8 @@ class RemoteAppHaggleActions {
     return _r.sql;
   }
 
-  TalkSocket get ts {
-    return _r.ts;
+  TalkChannel get channel {
+    return _r.channel;
   }
 
   dospace.Bucket get bucket {
@@ -62,28 +62,27 @@ class RemoteAppHaggleActions {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
-  static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
-  final List<StreamSubscription<dynamic>> _subscriptions =
-      new List<StreamSubscription<dynamic>>();
+  static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
+  static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
   int nextFakeGhostId;
 
-  RemoteAppHaggleActions(this._r) {
-    _subscriptions.add(_r.saferListen(
-        "CH_PLAIN", GlobalAccountState.readWrite, true, netChatPlain));
-    _subscriptions.add(_r.saferListen(
-        "CH_HAGGL", GlobalAccountState.readWrite, true, netChatHaggle));
-    _subscriptions.add(_r.saferListen(
-        "CH_IMAGE", GlobalAccountState.readWrite, true, netChatImageKey));
+  ApiChannelHaggleActions(this._r) {
+    _r.registerProcedure(
+        "CH_PLAIN", GlobalAccountState.readWrite, netChatPlain);
+    _r.registerProcedure(
+        "CH_HAGGL", GlobalAccountState.readWrite, netChatHaggle);
+    _r.registerProcedure(
+        "CH_IMAGE", GlobalAccountState.readWrite, netChatImageKey);
 
-    _subscriptions.add(_r.saferListen("AP_WADEA",
-        GlobalAccountState.readWrite, true, netProposalWantDealReq));
-    _subscriptions.add(_r.saferListen("AP_REJEC",
-        GlobalAccountState.readWrite, true, netProposalRejectReq));
-    _subscriptions.add(_r.saferListen("AP_REPOR",
-        GlobalAccountState.readWrite, true, netProposalReportReq));
-    _subscriptions.add(_r.saferListen("AP_COMPL",
-        GlobalAccountState.readWrite, true, netProposalCompletionReq));
+    _r.registerProcedure(
+        "AP_WADEA", GlobalAccountState.readWrite, netProposalWantDealReq);
+    _r.registerProcedure(
+        "AP_REJEC", GlobalAccountState.readWrite, netProposalRejectReq);
+    _r.registerProcedure(
+        "AP_REPOR", GlobalAccountState.readWrite, netProposalReportReq);
+    _r.registerProcedure(
+        "AP_COMPL", GlobalAccountState.readWrite, netProposalCompletionReq);
+
     nextFakeGhostId =
         ((new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) &
                 0xFFFFFFF) |
@@ -91,10 +90,15 @@ class RemoteAppHaggleActions {
   }
 
   void dispose() {
-    _subscriptions.forEach((subscription) {
-      subscription.cancel();
-    });
-    _subscriptions.clear();
+    _r.unregisterProcedure("CH_PLAIN");
+    _r.unregisterProcedure("CH_HAGGL");
+    _r.unregisterProcedure("CH_IMAGE");
+
+    _r.unregisterProcedure("AP_WADEA");
+    _r.unregisterProcedure("AP_REJEC");
+    _r.unregisterProcedure("AP_REPOR");
+    _r.unregisterProcedure("AP_COMPL");
+
     _r = null;
   }
 
@@ -105,9 +109,6 @@ class RemoteAppHaggleActions {
   //////////////////////////////////////////////////////////////////////////////
 
   // Response messages
-  static int _netDataProposalUpdate = TalkSocket.encode("LU_APPLI");
-  // static int _netDataProposalChatUpdate = TalkSocket.encode("LU_A_CHA");
-  static int _netDataProposalChatNew = TalkSocket.encode("LN_A_CHA");
 
   // Client should respond to live updates and posts from broadcast center
   // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
@@ -136,7 +137,8 @@ class RemoteAppHaggleActions {
   // Ghost messages are always re-sent by the client upon reconnection to the server only.
 
   /// Verify if the sender is permitted to chat in this context
-  Future<bool> _verifySender(Int64 proposalId, Int64 senderId, ProposalChatType type) async {
+  Future<bool> _verifySender(
+      Int64 proposalId, Int64 senderId, ProposalChatType type) async {
     Int64 influencerAccountId;
     Int64 businessAccountId;
     ProposalState state;
@@ -171,7 +173,8 @@ class RemoteAppHaggleActions {
     switch (state) {
       case ProposalState.proposing:
         if (type != ProposalChatType.terms && type != ProposalChatType.marker) {
-          devLog.warning("Attempt to send message to $state deal by '$senderId");
+          devLog
+              .warning("Attempt to send message to $state deal by '$senderId");
           return false;
         }
         break;
@@ -268,7 +271,7 @@ class RemoteAppHaggleActions {
       chat.type = ProposalChatType.marker;
       chat.text =
           "marker=" + ProposalChatMarker.messageDropped.value.toString();
-      ts.sendMessage(_netDataProposalChatNew, chat.writeToBuffer());
+      channel.sendMessage("LN_A_CHA", chat.writeToBuffer());
     }
   }
 
@@ -284,7 +287,7 @@ class RemoteAppHaggleActions {
     }
 
     // Publish to me
-    ts.sendMessage(_netDataProposalChatNew, chat.writeToBuffer());
+    channel.sendMessage("LN_A_CHA", chat.writeToBuffer());
 
     // Clear private information from broadcast
     chat.sessionId = Int64.ZERO;
@@ -297,9 +300,8 @@ class RemoteAppHaggleActions {
 
   Future<void> _changedProposal(Int64 proposalId) async {
     // DataProposal proposal) {
-    DataProposal proposal =
-        await _r.remoteAppHaggle.getProposal(proposalId);
-    ts.sendMessage(_netDataProposalUpdate, proposal.writeToBuffer());
+    DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
+    channel.sendMessage("LU_APPLI", proposal.writeToBuffer());
     _r.bc.proposalChanged(account.state.sessionId, proposal);
   }
 
@@ -307,7 +309,8 @@ class RemoteAppHaggleActions {
     NetChatPlain pb = new NetChatPlain();
     pb.mergeFromBuffer(message.data);
 
-    if (!await _verifySender(pb.proposalId, accountId, ProposalChatType.plain)) return;
+    if (!await _verifySender(pb.proposalId, accountId, ProposalChatType.plain))
+      return;
 
     DataProposalChat chat = new DataProposalChat();
     chat.sent =
@@ -353,7 +356,8 @@ class RemoteAppHaggleActions {
 
     */
 
-    if (!await _verifySender(pb.proposalId, accountId, ProposalChatType.terms)) return;
+    if (!await _verifySender(pb.proposalId, accountId, ProposalChatType.terms))
+      return;
 
     DataProposalChat chat = new DataProposalChat();
     chat.sent =
@@ -375,7 +379,8 @@ class RemoteAppHaggleActions {
     NetChatImageKey pb = new NetChatImageKey();
     pb.mergeFromBuffer(message.data);
 
-    if (!await _verifySender(pb.proposalId, accountId, ProposalChatType.imageKey)) return;
+    if (!await _verifySender(
+        pb.proposalId, accountId, ProposalChatType.imageKey)) return;
 
     DataProposalChat chat = new DataProposalChat();
     chat.sent =
@@ -411,8 +416,6 @@ class RemoteAppHaggleActions {
   // Common actions
   //////////////////////////////////////////////////////////////////////////////
 
-  static int _netProposalCommonRes = TalkSocket.encode("AP_R_COM");
-
   Future<void> netProposalWantDealReq(TalkMessage message) async {
     NetProposalWantDealReq pb = new NetProposalWantDealReq();
     pb.mergeFromBuffer(message.data);
@@ -422,7 +425,7 @@ class RemoteAppHaggleActions {
 
     /* No need, already verified by first UPDATE
     if (!await _verifySender(proposalId, accountId)) {
-      ts.sendException("Verification Failed", message);
+      channel.sendException("Verification Failed", message);
       return;
     } */
 
@@ -430,7 +433,7 @@ class RemoteAppHaggleActions {
 
     await sql.startTransaction((transaction) async {
       // 1. Update deal to reflect the account wants a deal
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       String accountWantsDeal =
           account.state.accountType == AccountType.influencer
               ? 'influencer_wants_deal'
@@ -455,7 +458,7 @@ class RemoteAppHaggleActions {
       }
 
       // 2. Try to see if we're can complete the deal or if it's just one sided
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       String updateDeal = "UPDATE `proposals` "
           "SET `state` = ${ProposalState.deal.value} "
           "WHERE `proposal_id` = ? "
@@ -468,7 +471,7 @@ class RemoteAppHaggleActions {
           (resultDeal.affectedRows != null && resultDeal.affectedRows > 0);
 
       // 3. Insert marker chat
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       DataProposalChat chat = new DataProposalChat();
       chat.sent =
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
@@ -482,24 +485,22 @@ class RemoteAppHaggleActions {
               ? ProposalChatMarker.dealMade.value.toString()
               : ProposalChatMarker.wantDeal.value.toString());
       if (await _insertChat(transaction, chat)) {
-        ts.sendExtend(message);
+        channel.replyExtend(message);
         markerChat = chat;
         transaction.commit();
       }
     });
 
     if (markerChat == null) {
-      ts.sendException("Not Handled", message);
+      channel.replyAbort(message, "Not Handled");
     } else {
       NetProposalCommonRes res = new NetProposalCommonRes();
-      DataProposal proposal =
-          await _r.remoteAppHaggle.getProposal(proposalId);
+      DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
       res.updateProposal = proposal;
       res.newChats.add(markerChat);
       try {
         // Send to current user
-        ts.sendMessage(_netProposalCommonRes, res.writeToBuffer(),
-            replying: message);
+        channel.replyMessage(message, "AP_R_COM", res.writeToBuffer());
       } catch (error, stack) {
         devLog.severe("$error\n$stack");
       }
@@ -520,7 +521,7 @@ class RemoteAppHaggleActions {
 
     await sql.startTransaction((transaction) async {
       // 1. Update deal to reflect the account wants a deal
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       String accountAccountId =
           account.state.accountType == AccountType.influencer
               ? 'influencer_account_id' // Cancel
@@ -539,7 +540,7 @@ class RemoteAppHaggleActions {
       }
 
       // 2. Insert marker chat
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       DataProposalChat chat = new DataProposalChat();
       chat.sent =
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
@@ -553,29 +554,27 @@ class RemoteAppHaggleActions {
           '&reason=' +
           Uri.encodeQueryComponent(reason);
       if (await _insertChat(transaction, chat)) {
-        ts.sendExtend(message);
+        channel.replyExtend(message);
         markerChat = chat;
         transaction.commit();
       }
     });
 
     if (markerChat == null) {
-      ts.sendException("Not Handled", message);
+      channel.replyAbort(message, "Not Handled");
     } else {
       NetProposalCommonRes res = new NetProposalCommonRes();
       try {
-        ts.sendExtend(message);
+        channel.replyExtend(message);
       } catch (error, stack) {
         devLog.severe("$error\n$stack");
       }
-      DataProposal proposal =
-          await _r.remoteAppHaggle.getProposal(proposalId);
+      DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
       res.updateProposal = proposal;
       res.newChats.add(markerChat);
       try {
         // Send to current user
-        ts.sendMessage(_netProposalCommonRes, res.writeToBuffer(),
-            replying: message);
+        channel.replyMessage(message, "AP_R_COM", res.writeToBuffer());
       } catch (error, stack) {
         devLog.severe("$error\n$stack");
       }
@@ -592,15 +591,14 @@ class RemoteAppHaggleActions {
     Int64 proposalId = pb.proposalId;
 
     if (!await _verifySender(proposalId, accountId, ProposalChatType.marker)) {
-      ts.sendException("Verification Failed", message);
+      channel.replyAbort(message, "Verification Failed");
       return;
     }
 
     opsLog.severe("Report: ${pb.text}");
 
     // Post to freshdesk
-    DataProposal proposal =
-        await _r.remoteAppHaggle.getProposal(proposalId);
+    DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
 
     HttpClient httpClient = new HttpClient();
     HttpClientRequest httpRequest = await httpClient
@@ -621,7 +619,7 @@ class RemoteAppHaggleActions {
     doc['priority'] = 2;
     doc['status'] = 2;
 
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     httpRequest.write(json.encode(doc));
     await httpRequest.flush();
     HttpClientResponse httpResponse = await httpRequest.close();
@@ -630,13 +628,12 @@ class RemoteAppHaggleActions {
     if (httpResponse.statusCode != 200 && httpResponse.statusCode != 201) {
       devLog.severe(
           "Report post failed: ${utf8.decode(responseBuilder.toBytes())}");
-      ts.sendException("Post Failed", message);
+      channel.replyAbort(message, "Post Failed");
       return;
     }
 
     NetProposalCommonRes res = new NetProposalCommonRes();
-    ts.sendMessage(_netProposalCommonRes, res.writeToBuffer(),
-        replying: message);
+    channel.replyMessage(message, "AP_R_COM", res.writeToBuffer());
   }
 
   Future<void> netProposalCompletionReq(TalkMessage message) async {
@@ -650,7 +647,7 @@ class RemoteAppHaggleActions {
     // Completion or dispute
     await sql.startTransaction((transaction) async {
       // 1. Update deal to reflect the account wants a deal
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       String accountAccountId =
           account.state.accountType == AccountType.influencer
               ? 'influencer_account_id'
@@ -695,7 +692,7 @@ class RemoteAppHaggleActions {
       bool dealCompleted;
       if (!pb.dispute) {
         // 2. Check for deal completion
-        ts.sendExtend(message);
+        channel.replyExtend(message);
         String updateCompletion = "UPDATE `proposals` "
             "SET `state` = ${ProposalState.complete.value} "
             "WHERE `proposal_id` = ? "
@@ -716,7 +713,7 @@ class RemoteAppHaggleActions {
               : ProposalChatMarker.markedComplete);
 
       // 2. Insert marker chat
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       DataProposalChat chat = new DataProposalChat();
       chat.sent =
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
@@ -727,10 +724,10 @@ class RemoteAppHaggleActions {
       chat.type = ProposalChatType.marker;
       chat.text = 'marker=' + marker.value.toString();
       if (await _insertChat(transaction, chat)) {
-        ts.sendExtend(message);
+        channel.replyExtend(message);
         if (pb.dispute) {
           DataProposal proposal =
-              await _r.remoteAppHaggle.getProposal(proposalId);
+              await _r.apiChannelHaggle.getProposal(proposalId);
 
           HttpClient httpClient = new HttpClient();
           HttpClientRequest httpRequest = await httpClient.postUrl(
@@ -752,7 +749,7 @@ class RemoteAppHaggleActions {
           doc['priority'] = 3;
           doc['status'] = 2;
 
-          ts.sendExtend(message);
+          channel.replyExtend(message);
           httpRequest.write(json.encode(doc));
           await httpRequest.flush();
           HttpClientResponse httpResponse = await httpRequest.close();
@@ -761,7 +758,7 @@ class RemoteAppHaggleActions {
           if (httpResponse.statusCode != 200) {
             devLog.severe(
                 "Report post failed: ${utf8.decode(responseBuilder.toBytes())}");
-            ts.sendException("Post Failed", message);
+            channel.replyAbort(message, "Post Failed");
             return;
           }
         }
@@ -771,22 +768,20 @@ class RemoteAppHaggleActions {
     });
 
     if (markerChat == null) {
-      ts.sendException("Not Handled", message);
+      channel.replyAbort(message, "Not Handled");
     } else {
       NetProposalCommonRes res = new NetProposalCommonRes();
       try {
-        ts.sendExtend(message);
+        channel.replyExtend(message);
       } catch (error, stack) {
         devLog.severe("$error\n$stack");
       }
-      DataProposal proposal =
-          await _r.remoteAppHaggle.getProposal(proposalId);
+      DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
       res.updateProposal = proposal;
       res.newChats.add(markerChat);
       try {
         // Send to current user
-        ts.sendMessage(_netProposalCommonRes, res.writeToBuffer(),
-            replying: message);
+        channel.replyMessage(message, "AP_R_COM", res.writeToBuffer());
       } catch (error, stack) {
         devLog.severe("$error\n$stack");
       }

@@ -15,7 +15,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 // import 'package:crypto/crypto.dart';
 import 'package:pointycastle/pointycastle.dart' as pointycastle;
 import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
@@ -27,23 +27,23 @@ import 'package:s2geometry/s2geometry.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'broadcast_center.dart';
-import 'remote_app_oauth.dart';
-import 'remote_app_upload.dart';
-import 'remote_app_profile.dart';
-import 'remote_app_haggle.dart';
-import 'remote_app_haggle_actions.dart';
-import 'remote_app_business.dart';
-import 'remote_app_influencer.dart';
+import 'api_channel_oauth.dart';
+import 'api_channel_upload.dart';
+import 'api_channel_profile.dart';
+import 'api_channel_haggle.dart';
+import 'api_channel_haggle_actions.dart';
+import 'api_channel_business.dart';
+import 'api_channel_influencer.dart';
 
 // TODO: Move sql queries into a separate shared class, to allow prepared statements, and simplify code here
 
-class RemoteApp {
+class ApiChannel {
   bool _connected = true;
 
   final ConfigData config;
   final sqljocky.ConnectionPool sql;
   final dospace.Bucket bucket;
-  final TalkSocket ts;
+  final TalkChannel channel;
   final BroadcastCenter bc;
 
   final String ipAddress;
@@ -72,20 +72,23 @@ class RemoteApp {
   List<DataSocialMedia> socialMedia; // TODO: Proper length from configuration
   */
 
-  static final Logger opsLog = new Logger('InfOps.RemoteApp');
-  static final Logger devLog = new Logger('InfDev.RemoteApp');
+  static final Logger opsLog = new Logger('InfOps.ApiChannel');
+  static final Logger devLog = new Logger('InfDev.ApiChannel');
 
   final http.Client httpClient = new http.ConsoleClient();
+  final Map<String, Future<void> Function(TalkMessage message)>
+      _procedureHandlers =
+      new Map<String, Future<void> Function(TalkMessage message)>();
 
-  RemoteAppOAuth _remoteAppOAuth;
-  RemoteAppUpload _remoteAppUpload;
-  RemoteAppProfile _remoteAppProfile;
-  RemoteAppHaggle remoteAppHaggle;
-  RemoteAppHaggleActions _remoteAppHaggleActions;
-  RemoteAppBusiness _remoteAppBusiness;
-  RemoteAppInfluencer _remoteAppInfluencer;
+  ApiChannelOAuth _apiChannelOAuth;
+  ApiChannelUpload _apiChannelUpload;
+  ApiChannelProfile _apiChannelProfile;
+  ApiChannelHaggle apiChannelHaggle;
+  ApiChannelHaggleActions _apiChannelHaggleActions;
+  ApiChannelBusiness _apiChannelBusiness;
+  ApiChannelInfluencer _apiChannelInfluencer;
 
-  RemoteApp(this.config, this.sql, this.bucket, this.ts, this.bc,
+  ApiChannel(this.config, this.sql, this.bucket, this.channel, this.bc,
       {@required this.ipAddress}) {
     devLog.fine("New connection");
 
@@ -107,107 +110,101 @@ class RemoteApp {
     _connected = false;
     unsubscribeAuthentication();
     unsubscribeOnboarding();
-    if (_remoteAppOAuth != null) {
-      _remoteAppOAuth.dispose();
-      _remoteAppOAuth = null;
+    if (_apiChannelOAuth != null) {
+      _apiChannelOAuth.dispose();
+      _apiChannelOAuth = null;
     }
-    if (_remoteAppUpload != null) {
-      _remoteAppUpload.dispose();
-      _remoteAppUpload = null;
+    if (_apiChannelUpload != null) {
+      _apiChannelUpload.dispose();
+      _apiChannelUpload = null;
     }
-    if (_remoteAppProfile != null) {
-      _remoteAppProfile.dispose();
-      _remoteAppProfile = null;
+    if (_apiChannelProfile != null) {
+      _apiChannelProfile.dispose();
+      _apiChannelProfile = null;
     }
-    if (remoteAppHaggle != null) {
-      remoteAppHaggle.dispose();
-      remoteAppHaggle = null;
+    if (apiChannelHaggle != null) {
+      apiChannelHaggle.dispose();
+      apiChannelHaggle = null;
     }
-    if (_remoteAppHaggleActions != null) {
-      _remoteAppHaggleActions.dispose();
-      _remoteAppHaggleActions = null;
+    if (_apiChannelHaggleActions != null) {
+      _apiChannelHaggleActions.dispose();
+      _apiChannelHaggleActions = null;
     }
-    if (_remoteAppBusiness != null) {
-      _remoteAppBusiness.dispose();
-      _remoteAppBusiness = null;
+    if (_apiChannelBusiness != null) {
+      _apiChannelBusiness.dispose();
+      _apiChannelBusiness = null;
     }
-    if (_remoteAppInfluencer != null) {
-      _remoteAppInfluencer.dispose();
-      _remoteAppInfluencer = null;
+    if (_apiChannelInfluencer != null) {
+      _apiChannelInfluencer.dispose();
+      _apiChannelInfluencer = null;
     }
     devLog.fine("Connection closed for session ${account.state.sessionId}");
   }
 
-  StreamSubscription<TalkMessage> safeListen(
-      String id, Future<void> onData(TalkMessage message)) {
-    if (_connected) {
-      return ts
-          .stream(TalkSocket.encode(id))
-          .listen((TalkMessage message) async {
+  void registerProcedure(
+    String procedureId,
+    GlobalAccountState requiredAccountState,
+    Future<void> procedure(TalkMessage message),
+  ) {
+    _procedureHandlers[procedureId] = (TalkMessage message) async {
+      if (requireGlobalAccountState(requiredAccountState,
+          replying: (message.requestId != 0) ? message : null)) {
         try {
-          await onData(message);
+          await procedure(message);
         } catch (error, stack) {
           devLog.severe(
-              "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
+              "Unexpected error in procedure '$procedureId': $error\n$stack");
+          if (message.requestId != 0) {
+            channel.replyAbort(message, "Unexpected error.");
+          }
         }
-      });
-    }
-    return null;
+      }
+    };
   }
 
-  StreamSubscription<TalkMessage> saferListen(
-      String id,
-      GlobalAccountState requiredAccountState,
-      bool replyException,
-      Future<void> onData(TalkMessage message)) {
-    return safeListen(id, (TalkMessage message) async {
-      if (!requireGlobalAccountState(requiredAccountState,
-          replying: replyException ? message : null)) {
-        return;
-      }
-      await onData(message);
-    });
+  void unregisterProcedure(String procedureId) {
+    _procedureHandlers.remove(procedureId);
   }
 
   void subscribeOAuth() {
-    if (_remoteAppOAuth == null) {
-      _remoteAppOAuth = new RemoteAppOAuth(this);
+    if (_apiChannelOAuth == null) {
+      _apiChannelOAuth = new ApiChannelOAuth(this);
     }
   }
 
   void subscribeUpload() {
-    if (_remoteAppUpload == null) {
-      _remoteAppUpload = new RemoteAppUpload(this);
+    if (_apiChannelUpload == null) {
+      _apiChannelUpload = new ApiChannelUpload(this);
     }
   }
 
   void subscribeProfile() {
-    if (_remoteAppProfile == null) {
-      _remoteAppProfile = new RemoteAppProfile(this);
+    if (_apiChannelProfile == null) {
+      _apiChannelProfile = new ApiChannelProfile(this);
     }
   }
 
   void subscribeHaggle() {
-    if (remoteAppHaggle == null) {
-      remoteAppHaggle = new RemoteAppHaggle(this);
+    if (apiChannelHaggle == null) {
+      apiChannelHaggle = new ApiChannelHaggle(this);
     }
   }
 
   void subscribeHaggleActions() {
-    if (_remoteAppHaggleActions == null) {
-      _remoteAppHaggleActions = new RemoteAppHaggleActions(this);
+    if (_apiChannelHaggleActions == null) {
+      _apiChannelHaggleActions = new ApiChannelHaggleActions(this);
     }
   }
 
   void subscribeBusiness() {
-    if (_remoteAppBusiness == null) {
-      _remoteAppBusiness = new RemoteAppBusiness(this);
+    if (_apiChannelBusiness == null) {
+      _apiChannelBusiness = new ApiChannelBusiness(this);
     }
   }
 
   void subscribeInfluencer() {
-    if (_remoteAppInfluencer == null) {
-      _remoteAppInfluencer = new RemoteAppInfluencer(this);
+    if (_apiChannelInfluencer == null) {
+      _apiChannelInfluencer = new ApiChannelInfluencer(this);
     }
   }
 
@@ -218,172 +215,144 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
 
   void subscribeAuthentication() {
-    try {
-      _netDeviceAuthCreateReq = ts
-          .stream(TalkSocket.encode("DA_CREAT"))
-          .listen(netDeviceAuthCreateReq);
-      _netDeviceAuthChallengeReq = ts
-          .stream(TalkSocket.encode("DA_CHALL"))
-          .listen(netDeviceAuthChallengeReq);
-    } catch (e) {
-      devLog.warning("Failed to subscribe to Authentication: $e");
-    }
+    registerProcedure(
+        "DA_CREAT", GlobalAccountState.initialize, netDeviceAuthCreateReq);
+    registerProcedure(
+        "DA_CHALL", GlobalAccountState.initialize, netDeviceAuthChallengeReq);
   }
 
   void unsubscribeAuthentication() {
-    if (_netDeviceAuthCreateReq == null) {
-      return;
-    }
-    _netDeviceAuthCreateReq.cancel();
-    _netDeviceAuthCreateReq = null;
-    _netDeviceAuthChallengeReq.cancel();
-    _netDeviceAuthChallengeReq = null;
+    unregisterProcedure("DA_CREAT");
+    unregisterProcedure("DA_CHALL");
   }
 
-  StreamSubscription<TalkMessage> _netDeviceAuthCreateReq; // DA_CREAT
   Future<void> netDeviceAuthCreateReq(TalkMessage message) async {
-    try {
-      NetDeviceAuthCreateReq pb = new NetDeviceAuthCreateReq();
-      pb.mergeFromBuffer(message.data);
-      String aesKeyStr = base64.encode(pb.aesKey);
-      await lock.synchronized(() async {
-        if (account.state.sessionId == 0) {
-          // Create only once 🤨😒
-          sqljocky.RetainedConnection connection = await sql
-              .getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead session entries
-          try {
-            // Create a new session in the sessions table of the database
-            ts.sendExtend(message);
-            await connection.prepareExecute(
-                "INSERT INTO `sessions` (`aes_key`, `common_session_id`, `name`, `info`) VALUES (?, ?, ?, ?)",
-                [
-                  aesKeyStr,
-                  base64.encode(pb.commonDeviceId),
-                  pb.name,
-                  pb.info
-                ]);
-            sqljocky.Results lastInsertedId =
-                await connection.query("SELECT LAST_INSERT_ID()");
-            await for (sqljocky.Row row in lastInsertedId) {
-              account.state.sessionId = new Int64(row[0]);
-              devLog.info(
-                  "Inserted session_id ${account.state.sessionId} with aes_key '${aesKeyStr}'");
-            }
-          } catch (error, stack) {
-            devLog.warning("Failed to create session: $error\n$stack");
+    NetDeviceAuthCreateReq pb = new NetDeviceAuthCreateReq();
+    pb.mergeFromBuffer(message.data);
+    String aesKeyStr = base64.encode(pb.aesKey);
+    await lock.synchronized(() async {
+      if (account.state.sessionId == 0) {
+        // Create only once 🤨😒
+        sqljocky.RetainedConnection connection = await sql
+            .getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead session entries
+        try {
+          // Create a new session in the sessions table of the database
+          channel.replyExtend(message);
+          await connection.prepareExecute(
+              "INSERT INTO `sessions` (`aes_key`, `common_session_id`, `name`, `info`) VALUES (?, ?, ?, ?)",
+              [aesKeyStr, base64.encode(pb.commonDeviceId), pb.name, pb.info]);
+          sqljocky.Results lastInsertedId =
+              await connection.query("SELECT LAST_INSERT_ID()");
+          await for (sqljocky.Row row in lastInsertedId) {
+            account.state.sessionId = new Int64(row[0]);
+            devLog.info(
+                "Inserted session_id ${account.state.sessionId} with aes_key '${aesKeyStr}'");
           }
-          await connection.release();
+        } catch (error, stack) {
+          devLog.warning("Failed to create session: $error\n$stack");
         }
-        if (account.state.sessionId != 0) {
-          unsubscribeAuthentication(); // No longer respond to authentication messages when OK
-          subscribeOnboarding();
-        }
-      });
-      devLog.fine("Send auth state ${message.request}");
-      await sendNetDeviceAuthState(replying: message);
-    } catch (error, stack) {
-      devLog.severe(
-          "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
-    }
-  }
-
-  StreamSubscription<TalkMessage> _netDeviceAuthChallengeReq; // DA_CHALL
-  static int _netDeviceAuthChallengeResReq = TalkSocket.encode("DA_R_CHA");
-  Future<void> netDeviceAuthChallengeReq(TalkMessage message) async {
-    try {
-      // Received authentication request
-      NetDeviceAuthChallengeReq pb = new NetDeviceAuthChallengeReq();
-      pb.mergeFromBuffer(message.data);
-      Int64 attemptDeviceId = pb.sessionId;
-
-      // Send the message with the random challenge
-      Uint8List challenge = new Uint8List(256);
-      for (int i = 0; i < challenge.length; ++i) {
-        challenge[i] = random.nextInt(256);
+        await connection.release();
       }
-      NetDeviceAuthChallengeResReq challengePb =
-          new NetDeviceAuthChallengeResReq();
-      challengePb.challenge = challenge;
-      Future<TalkMessage> signatureMessageFuture = ts.sendRequest(
-          _netDeviceAuthChallengeResReq, challengePb.writeToBuffer(),
-          replying: message);
-
-      // Get the pub_key from the session that can be used to decrypt the signed challenge
-      sqljocky.Results pubKeyResults = await sql.prepareExecute(
-          "SELECT `aes_key` FROM `sessions` WHERE `session_id` = ?",
-          [attemptDeviceId]);
-      Uint8List aesKey; // = base64.decode(input)
-      await for (sqljocky.Row row in pubKeyResults) {
-        aesKey = base64.decode(row[0].toString());
-      }
-      if (aesKey == null || aesKey.length == 0) {
-        devLog.severe("AES key missing for session $attemptDeviceId");
-      }
-
-      // Await signature
-      devLog.fine("Await signature");
-      TalkMessage signatureMessage = await signatureMessageFuture;
-      ts.sendExtend(signatureMessage);
-      NetDeviceAuthSignatureResReq signaturePb =
-          new NetDeviceAuthSignatureResReq();
-      signaturePb.mergeFromBuffer(signatureMessage.data);
-      if (aesKey != null && aesKey.length > 0 && signaturePb.signature.length > 0) {
-        // Verify signature
-        var keyParameter = new pointycastle.KeyParameter(aesKey);
-        var aesFastEngine = new pointycastle.AESFastEngine();
-        aesFastEngine
-          ..reset()
-          ..init(false, keyParameter);
-        var decrypted = new Uint8List(signaturePb.signature.length);
-        for (int offset = 0; offset < signaturePb.signature.length;) {
-          offset += aesFastEngine.processBlock(
-              signaturePb.signature, offset, decrypted, offset);
-        }
-        bool equals = true;
-        for (int i = 0; i < challenge.length; ++i) {
-          if (challenge[i] != decrypted[i]) {
-            equals = false;
-            break;
-          }
-        }
-        if (equals) {
-          // Successfully verified signature
-          opsLog.fine(
-              "Signature verified succesfully for session $attemptDeviceId");
-          await lock.synchronized(() async {
-            if (account.state.sessionId == 0) {
-              account.state.sessionId = attemptDeviceId;
-            }
-          });
-        } else {
-          opsLog.warning(
-              "Signature verification failed for session $attemptDeviceId");
-        }
-      } else if (signaturePb.signature.length == 0) {
-        devLog.severe(
-            "Signature missing from authentication message for session $attemptDeviceId");
-      }
-
-      // Send authentication state
-      devLog.fine("Await session state");
-      await updateDeviceState(extend: () {
-        ts.sendExtend(signatureMessage);
-      });
       if (account.state.sessionId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
-        if (account.state.accountId != 0) {
-          ts.sendExtend(signatureMessage);
-          await transitionToApp(); // Fetches all of the state data
-        } else {
-          subscribeOnboarding();
+        subscribeOnboarding();
+      }
+    });
+    devLog.fine("Send auth state ${message.requestId}");
+    await sendNetDeviceAuthState(replying: message);
+  }
+
+  Future<void> netDeviceAuthChallengeReq(TalkMessage message) async {
+    // Received authentication request
+    NetDeviceAuthChallengeReq pb = new NetDeviceAuthChallengeReq();
+    pb.mergeFromBuffer(message.data);
+    Int64 attemptDeviceId = pb.sessionId;
+
+    // Send the message with the random challenge
+    Uint8List challenge = new Uint8List(256);
+    for (int i = 0; i < challenge.length; ++i) {
+      challenge[i] = random.nextInt(256);
+    }
+    NetDeviceAuthChallengeResReq challengePb =
+        new NetDeviceAuthChallengeResReq();
+    challengePb.challenge = challenge;
+    Future<TalkMessage> signatureMessageFuture =
+        channel.replyRequest(message, "DA_R_CHA", challengePb.writeToBuffer());
+
+    // Get the pub_key from the session that can be used to decrypt the signed challenge
+    sqljocky.Results pubKeyResults = await sql.prepareExecute(
+        "SELECT `aes_key` FROM `sessions` WHERE `session_id` = ?",
+        [attemptDeviceId]);
+    Uint8List aesKey; // = base64.decode(input)
+    await for (sqljocky.Row row in pubKeyResults) {
+      aesKey = base64.decode(row[0].toString());
+    }
+    if (aesKey == null || aesKey.length == 0) {
+      devLog.severe("AES key missing for session $attemptDeviceId");
+    }
+
+    // Await signature
+    devLog.fine("Await signature");
+    TalkMessage signatureMessage = await signatureMessageFuture;
+    channel.replyExtend(signatureMessage);
+    NetDeviceAuthSignatureResReq signaturePb =
+        new NetDeviceAuthSignatureResReq();
+    signaturePb.mergeFromBuffer(signatureMessage.data);
+    if (aesKey != null &&
+        aesKey.length > 0 &&
+        signaturePb.signature.length > 0) {
+      // Verify signature
+      var keyParameter = new pointycastle.KeyParameter(aesKey);
+      var aesFastEngine = new pointycastle.AESFastEngine();
+      aesFastEngine
+        ..reset()
+        ..init(false, keyParameter);
+      var decrypted = new Uint8List(signaturePb.signature.length);
+      for (int offset = 0; offset < signaturePb.signature.length;) {
+        offset += aesFastEngine.processBlock(
+            signaturePb.signature, offset, decrypted, offset);
+      }
+      bool equals = true;
+      for (int i = 0; i < challenge.length; ++i) {
+        if (challenge[i] != decrypted[i]) {
+          equals = false;
+          break;
         }
       }
-      await sendNetDeviceAuthState(replying: signatureMessage);
-      devLog.fine("Device authenticated");
-    } catch (error, stack) {
+      if (equals) {
+        // Successfully verified signature
+        opsLog.fine(
+            "Signature verified succesfully for session $attemptDeviceId");
+        await lock.synchronized(() async {
+          if (account.state.sessionId == 0) {
+            account.state.sessionId = attemptDeviceId;
+          }
+        });
+      } else {
+        opsLog.warning(
+            "Signature verification failed for session $attemptDeviceId");
+      }
+    } else if (signaturePb.signature.length == 0) {
       devLog.severe(
-          "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
+          "Signature missing from authentication message for session $attemptDeviceId");
     }
+
+    // Send authentication state
+    devLog.fine("Await session state");
+    await updateDeviceState(extend: () {
+      channel.replyExtend(signatureMessage);
+    });
+    if (account.state.sessionId != 0) {
+      unsubscribeAuthentication(); // No longer respond to authentication messages when OK
+      if (account.state.accountId != 0) {
+        channel.replyExtend(signatureMessage);
+        await transitionToApp(); // Fetches all of the state data
+      } else {
+        subscribeOnboarding();
+      }
+    }
+    await sendNetDeviceAuthState(replying: signatureMessage);
+    devLog.fine("Device authenticated");
   }
 
   String makeCloudinaryThumbnailUrl(String key) {
@@ -587,7 +556,6 @@ class RemoteApp {
     });
   }
 
-  static int _netDeviceAuthState = TalkSocket.encode("DA_STATE");
   Future<void> sendNetDeviceAuthState({TalkMessage replying}) async {
     if (!_connected) {
       return;
@@ -595,8 +563,7 @@ class RemoteApp {
     await lock.synchronized(() async {
       NetDeviceAuthState pb = new NetDeviceAuthState();
       pb.data = account;
-      ts.sendMessage(_netDeviceAuthState, pb.writeToBuffer(),
-          replying: replying);
+      channel.replyMessage(replying, "DA_STATE", pb.writeToBuffer());
     });
   }
 
@@ -607,76 +574,58 @@ class RemoteApp {
   /////////////////////////////////////////////////////////////////////
 
   void subscribeOnboarding() {
-    try {
-      _netSetAccountType =
-          ts.stream(TalkSocket.encode("A_SETTYP")).listen(netSetAccountType);
-      // _netOAuthConnectReq = ts.stream(TalkSocket.encode("OA_CONNE")).listen(netOAuthConnectReq);
-      _netAccountCreateReq =
-          ts.stream(TalkSocket.encode("A_CREATE")).listen(netAccountCreateReq);
-      subscribeOAuth();
-    } catch (error, stack) {
-      devLog.warning("Failed to subscribe to Onboarding: $error\n$stack");
-    }
+    registerProcedure(
+        "A_SETTYP", GlobalAccountState.initialize, netSetAccountType);
+    registerProcedure(
+        "A_CREATE", GlobalAccountState.initialize, netAccountCreateReq);
   }
 
   void unsubscribeOnboarding() {
-    if (_netSetAccountType == null) {
-      return;
-    }
-    _netSetAccountType.cancel();
-    _netSetAccountType = null;
-    // _netOAuthConnectReq.cancel(); _netOAuthConnectReq = null;
-    _netAccountCreateReq.cancel();
-    _netAccountCreateReq = null;
+    unregisterProcedure("A_SETTYP");
+    unregisterProcedure("A_CREATE");
   }
 
-  StreamSubscription<TalkMessage> _netSetAccountType; // A_SETTYP
   Future<void> netSetAccountType(TalkMessage message) async {
     assert(account.state.sessionId != 0);
-    try {
-      // Received account type change request
-      NetSetAccountType pb = new NetSetAccountType();
-      pb.mergeFromBuffer(message.data);
-      devLog.finest("NetSetAccountType ${pb.accountType}");
+    // Received account type change request
+    NetSetAccountType pb = new NetSetAccountType();
+    pb.mergeFromBuffer(message.data);
+    devLog.finest("NetSetAccountType ${pb.accountType}");
 
-      bool update = false;
-      await lock.synchronized(() async {
-        if (pb.accountType == account.state.accountType) {
-          devLog.finest("no-op");
-          return; // no-op, may ignore
-        }
-        if (account.state.accountId != 0) {
-          devLog.finest("no-op");
-          return; // no-op, may ignore
-        }
-        update = true;
-        try {
-          await sql.startTransaction((sqljocky.Transaction tx) async {
-            await tx.prepareExecute(
-                "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `account_id` = 0",
-                [account.state.sessionId]);
-            await tx.prepareExecute(
-                "UPDATE `sessions` SET `account_type` = ? WHERE `session_id` = ? AND `account_id` = 0",
-                [pb.accountType.value, account.state.sessionId]);
-            await tx.commit();
-          });
-        } catch (error, stack) {
-          devLog.severe("Failed to change account type: $error\n$stack");
-        }
-      });
-
-      // Send authentication state
-      if (update) {
-        devLog.finest(
-            "Send authentication state, account type is ${account.state.accountType} (set ${pb.accountType})");
-        await updateDeviceState();
-        await sendNetDeviceAuthState();
-        devLog.finest(
-            "Account type is now ${account.state.accountType} (set ${pb.accountType})");
+    bool update = false;
+    await lock.synchronized(() async {
+      if (pb.accountType == account.state.accountType) {
+        devLog.finest("no-op");
+        return; // no-op, may ignore
       }
-    } catch (error, stack) {
-      devLog.severe(
-          "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
+      if (account.state.accountId != 0) {
+        devLog.finest("no-op");
+        return; // no-op, may ignore
+      }
+      update = true;
+      try {
+        await sql.startTransaction((sqljocky.Transaction tx) async {
+          await tx.prepareExecute(
+              "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `account_id` = 0",
+              [account.state.sessionId]);
+          await tx.prepareExecute(
+              "UPDATE `sessions` SET `account_type` = ? WHERE `session_id` = ? AND `account_id` = 0",
+              [pb.accountType.value, account.state.sessionId]);
+          await tx.commit();
+        });
+      } catch (error, stack) {
+        devLog.severe("Failed to change account type: $error\n$stack");
+      }
+    });
+
+    // Send authentication state
+    if (update) {
+      devLog.finest(
+          "Send authentication state, account type is ${account.state.accountType} (set ${pb.accountType})");
+      await updateDeviceState();
+      await sendNetDeviceAuthState();
+      devLog.finest(
+          "Account type is now ${account.state.accountType} (set ${pb.accountType})");
     }
   }
 
@@ -708,395 +657,388 @@ class RemoteApp {
         this); // TODO: Should SELECT all the accounts that were changed (with the new token)
   }
 
-  StreamSubscription<TalkMessage> _netAccountCreateReq; // A_CREATE
   Future<void> netAccountCreateReq(TalkMessage message) async {
     // response: NetDeviceAuthState
     assert(account.state.sessionId != 0);
-    try {
-      // Received account creation request
-      NetAccountCreateReq pb = new NetAccountCreateReq();
-      pb.mergeFromBuffer(message.data);
-      devLog.finest("NetAccountCreateReq: $pb");
-      devLog.finest("ipAddress: $ipAddress");
-      if (account.state.accountId != 0) {
-        devLog.info("Skip create account, already has one");
-        return;
-      }
+    // Received account creation request
+    NetAccountCreateReq pb = new NetAccountCreateReq();
+    pb.mergeFromBuffer(message.data);
+    devLog.finest("NetAccountCreateReq: $pb");
+    devLog.finest("ipAddress: $ipAddress");
+    if (account.state.accountId != 0) {
+      devLog.info("Skip create account, already has one");
+      return;
+    }
 
-      const List<int> mediaPriority = const [3, 1, 4, 8, 6, 2, 5, 7];
+    const List<int> mediaPriority = const [3, 1, 4, 8, 6, 2, 5, 7];
 
-      // Attempt to get locations
-      // Fetch location info from coordinates
-      // Coordinates may exist in either the GPS data or in the user's IP address
-      // Alternatively we can reverse one from location names in the user's social media
-      List<DataLocation> locations = new List<DataLocation>();
-      DataLocation gpsLocationRes;
-      Future<dynamic> gpsLocation;
-      if (pb.latitude != null &&
-          pb.longitude != null &&
-          pb.latitude != 0.0 &&
-          pb.longitude != 0.0) {
-        gpsLocation = getGeocodingFromGPS(pb.latitude, pb.longitude)
-            .then((DataLocation location) {
-          devLog.finest("GPS: $location");
-          gpsLocationRes = location;
-        }).catchError((error, stack) {
-          devLog.severe("GPS Geocoding Exception: $error\n$stack");
-        });
-      }
-      DataLocation geoIPLocationRes;
-      Future<dynamic> geoIPLocation =
-          getGeoIPLocation(ipAddress).then((DataLocation location) {
-        devLog.finest("GeoIP: $location");
-        geoIPLocationRes = location;
-        // locations.add(location);
+    // Attempt to get locations
+    // Fetch location info from coordinates
+    // Coordinates may exist in either the GPS data or in the user's IP address
+    // Alternatively we can reverse one from location names in the user's social media
+    List<DataLocation> locations = new List<DataLocation>();
+    DataLocation gpsLocationRes;
+    Future<dynamic> gpsLocation;
+    if (pb.latitude != null &&
+        pb.longitude != null &&
+        pb.latitude != 0.0 &&
+        pb.longitude != 0.0) {
+      gpsLocation = getGeocodingFromGPS(pb.latitude, pb.longitude)
+          .then((DataLocation location) {
+        devLog.finest("GPS: $location");
+        gpsLocationRes = location;
       }).catchError((error, stack) {
-        devLog.severe("GeoIP Location Exception: $error\n$stack");
+        devLog.severe("GPS Geocoding Exception: $error\n$stack");
       });
+    }
+    DataLocation geoIPLocationRes;
+    Future<dynamic> geoIPLocation =
+        getGeoIPLocation(ipAddress).then((DataLocation location) {
+      devLog.finest("GeoIP: $location");
+      geoIPLocationRes = location;
+      // locations.add(location);
+    }).catchError((error, stack) {
+      devLog.severe("GeoIP Location Exception: $error\n$stack");
+    });
 
-      // Wait for GPS Geocoding
-      // Using await like this doesn't catch exceptions, so required to put handlers in advance -_-
-      ts.sendExtend(message);
-      if (gpsLocation != null) {
-        await gpsLocation;
-        if (gpsLocationRes != null) locations.add(gpsLocationRes);
+    // Wait for GPS Geocoding
+    // Using await like this doesn't catch exceptions, so required to put handlers in advance -_-
+    channel.replyExtend(message);
+    if (gpsLocation != null) {
+      await gpsLocation;
+      if (gpsLocationRes != null) locations.add(gpsLocationRes);
+    }
+
+    // Also query all social media locations in the meantime, no particular order
+    List<Future<dynamic>> mediaLocations = new List<Future<dynamic>>();
+    // for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+    for (int i in mediaPriority) {
+      DataSocialMedia socialMedia = account.detail.socialMedia[i];
+      if (socialMedia.connected &&
+          socialMedia.location != null &&
+          socialMedia.location.isNotEmpty) {
+        mediaLocations.add(getGeocodingFromName(socialMedia.location)
+            .then((DataLocation location) {
+          devLog.finest(
+              "${config.oauthProviders.all[i].label}: ${socialMedia.displayName}: $location");
+          location.name = socialMedia.displayName;
+          locations.add(location);
+        }).catchError((error, stack) {
+          devLog.severe(
+              "${config.oauthProviders.all[i].label}: Geocoding Exception: $error\n$stack");
+        }));
+      }
+    }
+
+    // Wait for all social media
+    for (Future<dynamic> futureLocation in mediaLocations) {
+      channel.replyExtend(message);
+      await futureLocation;
+    }
+
+    // Wait for GeoIP
+    await geoIPLocation;
+    if (geoIPLocationRes != null) locations.add(geoIPLocationRes);
+
+    // Fallback location
+    if (locations.isEmpty) {
+      devLog.severe(
+          "Using fallback location for account ${account.state.accountId}");
+      DataLocation location = new DataLocation();
+      location.name = "Los Angeles";
+      location.approximate = "Los Angeles, California 90017";
+      location.detail = "Los Angeles, California 90017";
+      location.postcode = "90017";
+      location.regionCode = "US-CA";
+      location.countryCode = "US";
+      location.latitude = 34.0207305;
+      location.longitude = -118.6919159;
+      location.s2cellId = new Int64(new S2CellId.fromLatLng(
+              new S2LatLng.fromDegrees(location.latitude, location.longitude))
+          .id);
+      locations.add(location);
+    }
+
+    // Build account info
+    String accountName;
+    String accountScreenName;
+    String accountDescription;
+    String accountAvatarUrl;
+    String accountUrl;
+    String accountEmail;
+    for (int i in mediaPriority) {
+      DataSocialMedia socialMedia = account.detail.socialMedia[i];
+      if (socialMedia.connected) {
+        if (accountName == null &&
+            socialMedia.displayName != null &&
+            socialMedia.displayName.isNotEmpty)
+          accountName = socialMedia.displayName;
+        if (accountScreenName == null &&
+            socialMedia.screenName != null &&
+            socialMedia.screenName.isNotEmpty)
+          accountScreenName = socialMedia.screenName;
+        if (accountDescription == null &&
+            socialMedia.description != null &&
+            socialMedia.description.isNotEmpty)
+          accountDescription = socialMedia.description;
+        if (accountAvatarUrl == null &&
+            socialMedia.avatarUrl != null &&
+            socialMedia.avatarUrl.isNotEmpty)
+          accountAvatarUrl = socialMedia.avatarUrl;
+        if (accountUrl == null &&
+            socialMedia.url != null &&
+            socialMedia.url.isNotEmpty) accountUrl = socialMedia.url;
+        if (accountEmail == null &&
+            socialMedia.email != null &&
+            socialMedia.email.isNotEmpty) accountEmail = socialMedia.email;
+      }
+    }
+    if (accountName == null) {
+      accountName = accountScreenName;
+    }
+    if (accountName == null) {
+      accountName = "Your Name Here";
+    }
+    if (accountDescription == null) {
+      List<String> influencerDefaults = [
+        "Even the most influential influencers are influenced by this inf.",
+        "Always doing the good things for the good people.",
+        "Really always knows everything about what is going on.",
+        "Who needs personality when you have brands.",
+        "Believes even a person can become a product.",
+        "My soul was sold with discount vouchers.",
+        "Believes that there is still room for more pictures of food.",
+        "Prove that freeloading can be a profession.",
+        "Teaches balloon folding to self abusers.",
+        "Free range ranger for sacrificial animals.",
+        "Paints life-size boogie man in children's bedroom closets.",
+        "On-sight plastic surgeon for fashion shows.",
+        "Fred Kazinsky the e-mail bomber.",
+        "Teaches flamboyant shuffling techniques to dull blackjack dealers.",
+        "Sauerkraut unraveler.",
+      ];
+      List<String> businessDefaults = [
+        "The best in town.",
+        "We know our product, because we made it.",
+        "Everything you expect and more.",
+        "You will be lovin' it.",
+      ];
+      switch (account.state.accountType) {
+        case AccountType.influencer:
+          accountDescription =
+              influencerDefaults[random.nextInt(influencerDefaults.length)];
+          break;
+        case AccountType.business:
+          accountDescription =
+              businessDefaults[random.nextInt(businessDefaults.length)];
+          break;
+        case AccountType.support:
+          accountDescription = "Support Staff";
+          break;
+        default:
+          accountDescription = "";
+          break;
+      }
+    }
+
+    // Set empty location names to account name
+    for (DataLocation location in locations) {
+      if (location.name == null || location.name.isEmpty) {
+        location.name = accountName;
+      }
+    }
+
+    // One more check
+    if (account.state.accountId != 0) {
+      devLog.info("Skip create account, already has one");
+      return;
+    }
+
+    // Create account if sufficient data was received
+    channel.replyExtend(message);
+    await lock.synchronized(() async {
+      // Count the number of connected authentication mechanisms
+      int connectedNb = 0;
+      for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+        if (account.detail.socialMedia[i].connected) ++connectedNb;
       }
 
-      // Also query all social media locations in the meantime, no particular order
-      List<Future<dynamic>> mediaLocations = new List<Future<dynamic>>();
-      // for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-      for (int i in mediaPriority) {
-        DataSocialMedia socialMedia = account.detail.socialMedia[i];
-        if (socialMedia.connected &&
-            socialMedia.location != null &&
-            socialMedia.location.isNotEmpty) {
-          mediaLocations.add(getGeocodingFromName(socialMedia.location)
-              .then((DataLocation location) {
-            devLog.finest(
-                "${config.oauthProviders.all[i].label}: ${socialMedia.displayName}: $location");
-            location.name = socialMedia.displayName;
-            locations.add(location);
-          }).catchError((error, stack) {
-            devLog.severe(
-                "${config.oauthProviders.all[i].label}: Geocoding Exception: $error\n$stack");
-          }));
-        }
-      }
-
-      // Wait for all social media
-      for (Future<dynamic> futureLocation in mediaLocations) {
-        ts.sendExtend(message);
-        await futureLocation;
-      }
-
-      // Wait for GeoIP
-      await geoIPLocation;
-      if (geoIPLocationRes != null) locations.add(geoIPLocationRes);
-
-      // Fallback location
-      if (locations.isEmpty) {
-        devLog.severe(
-            "Using fallback location for account ${account.state.accountId}");
-        DataLocation location = new DataLocation();
-        location.name = "Los Angeles";
-        location.approximate = "Los Angeles, California 90017";
-        location.detail = "Los Angeles, California 90017";
-        location.postcode = "90017";
-        location.regionCode = "US-CA";
-        location.countryCode = "US";
-        location.latitude = 34.0207305;
-        location.longitude = -118.6919159;
-        location.s2cellId = new Int64(new S2CellId.fromLatLng(
-                new S2LatLng.fromDegrees(location.latitude, location.longitude))
-            .id);
-        locations.add(location);
-      }
-
-      // Build account info
-      String accountName;
-      String accountScreenName;
-      String accountDescription;
-      String accountAvatarUrl;
-      String accountUrl;
-      String accountEmail;
-      for (int i in mediaPriority) {
-        DataSocialMedia socialMedia = account.detail.socialMedia[i];
-        if (socialMedia.connected) {
-          if (accountName == null &&
-              socialMedia.displayName != null &&
-              socialMedia.displayName.isNotEmpty)
-            accountName = socialMedia.displayName;
-          if (accountScreenName == null &&
-              socialMedia.screenName != null &&
-              socialMedia.screenName.isNotEmpty)
-            accountScreenName = socialMedia.screenName;
-          if (accountDescription == null &&
-              socialMedia.description != null &&
-              socialMedia.description.isNotEmpty)
-            accountDescription = socialMedia.description;
-          if (accountAvatarUrl == null &&
-              socialMedia.avatarUrl != null &&
-              socialMedia.avatarUrl.isNotEmpty)
-            accountAvatarUrl = socialMedia.avatarUrl;
-          if (accountUrl == null &&
-              socialMedia.url != null &&
-              socialMedia.url.isNotEmpty) accountUrl = socialMedia.url;
-          if (accountEmail == null &&
-              socialMedia.email != null &&
-              socialMedia.email.isNotEmpty) accountEmail = socialMedia.email;
-        }
-      }
-      if (accountName == null) {
-        accountName = accountScreenName;
-      }
-      if (accountName == null) {
-        accountName = "Your Name Here";
-      }
-      if (accountDescription == null) {
-        List<String> influencerDefaults = [
-          "Even the most influential influencers are influenced by this inf.",
-          "Always doing the good things for the good people.",
-          "Really always knows everything about what is going on.",
-          "Who needs personality when you have brands.",
-          "Believes even a person can become a product.",
-          "My soul was sold with discount vouchers.",
-          "Believes that there is still room for more pictures of food.",
-          "Prove that freeloading can be a profession.",
-          "Teaches balloon folding to self abusers.",
-          "Free range ranger for sacrificial animals.",
-          "Paints life-size boogie man in children's bedroom closets.",
-          "On-sight plastic surgeon for fashion shows.",
-          "Fred Kazinsky the e-mail bomber.",
-          "Teaches flamboyant shuffling techniques to dull blackjack dealers.",
-          "Sauerkraut unraveler.",
-        ];
-        List<String> businessDefaults = [
-          "The best in town.",
-          "We know our product, because we made it.",
-          "Everything you expect and more.",
-          "You will be lovin' it.",
-        ];
-        switch (account.state.accountType) {
-          case AccountType.influencer:
-            accountDescription =
-                influencerDefaults[random.nextInt(influencerDefaults.length)];
-            break;
-          case AccountType.business:
-            accountDescription =
-                businessDefaults[random.nextInt(businessDefaults.length)];
-            break;
-          case AccountType.support:
-            accountDescription = "Support Staff";
-            break;
-          default:
-            accountDescription = "";
-            break;
-        }
-      }
-
-      // Set empty location names to account name
-      for (DataLocation location in locations) {
-        if (location.name == null || location.name.isEmpty) {
-          location.name = accountName;
-        }
-      }
-
-      // One more check
-      if (account.state.accountId != 0) {
-        devLog.info("Skip create account, already has one");
-        return;
-      }
-
-      // Create account if sufficient data was received
-      ts.sendExtend(message);
-      await lock.synchronized(() async {
-        // Count the number of connected authentication mechanisms
-        int connectedNb = 0;
-        for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-          if (account.detail.socialMedia[i].connected) ++connectedNb;
-        }
-
-        // Validate that the current state is sufficient to create an account
-        if (account.state.accountId == 0 &&
-            account.state.accountType != AccountType.unknown &&
-            connectedNb > 0) {
-          // Changes sent in a single SQL transaction for reliability
-          try {
-            // Process the account creation
-            ts.sendExtend(message);
-            await sql.startTransaction((sqljocky.Transaction tx) async {
-              if (account.state.accountId != 0) {
+      // Validate that the current state is sufficient to create an account
+      if (account.state.accountId == 0 &&
+          account.state.accountType != AccountType.unknown &&
+          connectedNb > 0) {
+        // Changes sent in a single SQL transaction for reliability
+        try {
+          // Process the account creation
+          channel.replyExtend(message);
+          await sql.startTransaction((sqljocky.Transaction tx) async {
+            if (account.state.accountId != 0) {
+              throw new Exception(
+                  "Race condition, account already created, not an issue");
+            }
+            // 1. Create the new account entries
+            // 2. Update session to LAST_INSERT_ID(), ensure that a row was modified, otherwise rollback (account already created)
+            // 3. Update all session authentication connections to LAST_INSERT_ID()
+            // 4. Create the new location entries, in reverse (latest one always on top)
+            // 5. Update account to first (last added) location with LAST_INSERT_ID()
+            // 1.
+            // TODO: Add notify flags field to SQL
+            channel.replyExtend(message);
+            GlobalAccountState globalAccountState;
+            GlobalAccountStateReason globalAccountStateReason;
+            // Initial approval state for accounts is defined here
+            switch (account.state.accountType) {
+              case AccountType.business:
+              case AccountType.influencer:
+                // globalAccountState = GlobalAccountState.readOnly;
+                // globalAccountStateReason = GlobalAccountStateReason.GASR_PENDING;
+                globalAccountState = GlobalAccountState.readWrite;
+                globalAccountStateReason =
+                    GlobalAccountStateReason.demoApproved;
+                break;
+              case AccountType.support:
+                globalAccountState = GlobalAccountState.blocked;
+                globalAccountStateReason = GlobalAccountStateReason.pending;
+                break;
+              default:
+                opsLog.severe(
+                    "Attempt to create account with invalid account type ${account.state.accountType} by session ${account.state.sessionId}");
                 throw new Exception(
-                    "Race condition, account already created, not an issue");
-              }
-              // 1. Create the new account entries
-              // 2. Update session to LAST_INSERT_ID(), ensure that a row was modified, otherwise rollback (account already created)
-              // 3. Update all session authentication connections to LAST_INSERT_ID()
-              // 4. Create the new location entries, in reverse (latest one always on top)
-              // 5. Update account to first (last added) location with LAST_INSERT_ID()
-              // 1.
-              // TODO: Add notify flags field to SQL
-              ts.sendExtend(message);
-              GlobalAccountState globalAccountState;
-              GlobalAccountStateReason globalAccountStateReason;
-              // Initial approval state for accounts is defined here
-              switch (account.state.accountType) {
-                case AccountType.business:
-                case AccountType.influencer:
-                  // globalAccountState = GlobalAccountState.readOnly;
-                  // globalAccountStateReason = GlobalAccountStateReason.GASR_PENDING;
-                  globalAccountState = GlobalAccountState.readWrite;
-                  globalAccountStateReason =
-                      GlobalAccountStateReason.demoApproved;
-                  break;
-                case AccountType.support:
-                  globalAccountState = GlobalAccountState.blocked;
-                  globalAccountStateReason =
-                      GlobalAccountStateReason.pending;
-                  break;
-                default:
-                  opsLog.severe(
-                      "Attempt to create account with invalid account type ${account.state.accountType} by session ${account.state.sessionId}");
-                  throw new Exception(
-                      "Attempt to create account with invalid account type");
-              }
-              sqljocky.Results res1 = await tx.prepareExecute(
-                  "INSERT INTO `accounts`("
-                  "`name`, `account_type`, "
-                  "`global_account_state`, `global_account_state_reason`, "
-                  "`description`, `website`, `email`" // avatarUrl is set later
-                  ") VALUES (?, ?, ?, ?, ?, ?, ?)",
-                  [
-                    accountName.toString(),
-                    account.state.accountType.value.toInt(),
-                    globalAccountState.value.toInt(),
-                    globalAccountStateReason.value.toInt(),
-                    accountDescription.toString(),
-                    accountUrl,
-                    accountEmail,
-                  ]);
-              if (res1.affectedRows == 0)
-                throw new Exception("Account was not inserted");
-              int accountId = res1.insertId;
-              if (accountId == 0) throw new Exception("Invalid accountId");
-              // 2.
-              ts.sendExtend(message);
-              sqljocky.Results res2 = await tx.prepareExecute(
-                  "UPDATE `sessions` SET `account_id` = LAST_INSERT_ID() "
-                  "WHERE `session_id` = ? AND `account_id` = 0",
-                  [account.state.sessionId]);
-              if (res2.affectedRows == 0)
-                throw new Exception("Device was not updated");
-              // 3.
-              ts.sendExtend(message);
-              sqljocky.Results res3 = await tx.prepareExecute(
-                  "UPDATE `oauth_connections` SET `account_id` = LAST_INSERT_ID() "
-                  "WHERE `session_id` = ? AND `account_id` = 0",
-                  [account.state.sessionId]);
-              if (res3.affectedRows == 0)
-                throw new Exception("Social media was not updated");
-              // 4.
-              /* sqljocky.Results lastInsertedId = await tx.query("SELECT LAST_INSERT_ID()");
+                    "Attempt to create account with invalid account type");
+            }
+            sqljocky.Results res1 = await tx.prepareExecute(
+                "INSERT INTO `accounts`("
+                "`name`, `account_type`, "
+                "`global_account_state`, `global_account_state_reason`, "
+                "`description`, `website`, `email`" // avatarUrl is set later
+                ") VALUES (?, ?, ?, ?, ?, ?, ?)",
+                [
+                  accountName.toString(),
+                  account.state.accountType.value.toInt(),
+                  globalAccountState.value.toInt(),
+                  globalAccountStateReason.value.toInt(),
+                  accountDescription.toString(),
+                  accountUrl,
+                  accountEmail,
+                ]);
+            if (res1.affectedRows == 0)
+              throw new Exception("Account was not inserted");
+            int accountId = res1.insertId;
+            if (accountId == 0) throw new Exception("Invalid accountId");
+            // 2.
+            channel.replyExtend(message);
+            sqljocky.Results res2 = await tx.prepareExecute(
+                "UPDATE `sessions` SET `account_id` = LAST_INSERT_ID() "
+                "WHERE `session_id` = ? AND `account_id` = 0",
+                [account.state.sessionId]);
+            if (res2.affectedRows == 0)
+              throw new Exception("Device was not updated");
+            // 3.
+            channel.replyExtend(message);
+            sqljocky.Results res3 = await tx.prepareExecute(
+                "UPDATE `oauth_connections` SET `account_id` = LAST_INSERT_ID() "
+                "WHERE `session_id` = ? AND `account_id` = 0",
+                [account.state.sessionId]);
+            if (res3.affectedRows == 0)
+              throw new Exception("Social media was not updated");
+            // 4.
+            /* sqljocky.Results lastInsertedId = await tx.query("SELECT LAST_INSERT_ID()");
               int accountId = 0;
               await for (sqljocky.Row row in lastInsertedId) {
                 accountId = row[0];
                 devLog.info("Inserted account_id $accountId");
               }
               if (accountId == 0) throw new Exception("Invalid accountId"); */
-              for (DataLocation location in locations.reversed) {
-                ts.sendExtend(message);
-                sqljocky.Results res4 = await tx.prepareExecute(
-                    "INSERT INTO `locations`("
-                    "`account_id`, `name`, `detail`, `approximate`, "
-                    "`postcode`, `region_code`, `country_code`, `s2cell_id`, "
-                    "`point`) "
-                    "VALUES ("
-                    "?, ?, ?, ?, "
-                    "?, ?, ?, ?, "
-                    "PointFromText('POINT(${location.longitude} ${location.latitude})')"
-                    ")",
-                    [
-                      accountId,
-                      location.name.toString(),
-                      location.detail.toString(),
-                      location.approximate.toString(),
-                      location.postcode == null
-                          ? null
-                          : location.postcode.toString(),
-                      location.regionCode.toString(),
-                      location.countryCode.toString(),
-                      location.s2cellId
-                    ]);
-                if (res4.affectedRows == 0)
-                  throw new Exception("Location was not inserted");
-                devLog.finest("Inserted location");
-              }
-              devLog.finest("Inserted locations");
-              // 5.
-              ts.sendExtend(message);
-              sqljocky.Results res5 = await tx.prepareExecute(
-                  "UPDATE `accounts` SET `location_id` = LAST_INSERT_ID() "
-                  "WHERE `account_id` = ?",
-                  [accountId]);
-              if (res5.affectedRows == 0)
-                throw new Exception("Account was not updated with location");
-              devLog.fine("Finished setting up account $accountId");
-              await tx.commit();
-            });
-          } catch (error, stack) {
-            opsLog.severe(
-                "Failed to create account for session ${account.state.sessionId}: $error\n$stack");
-          }
+            for (DataLocation location in locations.reversed) {
+              channel.replyExtend(message);
+              sqljocky.Results res4 = await tx.prepareExecute(
+                  "INSERT INTO `locations`("
+                  "`account_id`, `name`, `detail`, `approximate`, "
+                  "`postcode`, `region_code`, `country_code`, `s2cell_id`, "
+                  "`point`) "
+                  "VALUES ("
+                  "?, ?, ?, ?, "
+                  "?, ?, ?, ?, "
+                  "PointFromText('POINT(${location.longitude} ${location.latitude})')"
+                  ")",
+                  [
+                    accountId,
+                    location.name.toString(),
+                    location.detail.toString(),
+                    location.approximate.toString(),
+                    location.postcode == null
+                        ? null
+                        : location.postcode.toString(),
+                    location.regionCode.toString(),
+                    location.countryCode.toString(),
+                    location.s2cellId
+                  ]);
+              if (res4.affectedRows == 0)
+                throw new Exception("Location was not inserted");
+              devLog.finest("Inserted location");
+            }
+            devLog.finest("Inserted locations");
+            // 5.
+            channel.replyExtend(message);
+            sqljocky.Results res5 = await tx.prepareExecute(
+                "UPDATE `accounts` SET `location_id` = LAST_INSERT_ID() "
+                "WHERE `account_id` = ?",
+                [accountId]);
+            if (res5.affectedRows == 0)
+              throw new Exception("Account was not updated with location");
+            devLog.fine("Finished setting up account $accountId");
+            await tx.commit();
+          });
+        } catch (error, stack) {
+          opsLog.severe(
+              "Failed to create account for session ${account.state.sessionId}: $error\n$stack");
         }
-      });
-
-      // Update state
-      ts.sendExtend(message);
-      await updateDeviceState();
-      if (account.state.accountId != 0) {
-        ts.sendExtend(message);
-        unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
-        await transitionToApp(); // TODO: Transitions and subs hould be handled by updateDeviceState preferably...
       }
+    });
 
-      // Non-critical
-      // 1. Download avatar
-      // 2. Upload avatar to Spaces
-      // 3. Update account to refer to avatar
-      try {
-        if (account.state.accountId != 0 &&
-            accountAvatarUrl != null &&
-            accountAvatarUrl.length > 0) {
-          ts.sendExtend(message);
-          String avatarKey = await downloadUserImage(
-              account.state.accountId, accountAvatarUrl);
-          ts.sendExtend(message);
-          await sql.prepareExecute(
-              "UPDATE `accounts` SET `avatar_key` = ? "
-              "WHERE `account_id` = ?",
-              [avatarKey.toString(), account.state.accountId]);
-          account.summary.avatarThumbnailUrl =
-              makeCloudinaryThumbnailUrl(avatarKey);
-          account.summary.blurredAvatarThumbnailUrl =
-              makeCloudinaryBlurredThumbnailUrl(avatarKey);
-          account.detail.avatarCoverUrl = makeCloudinaryCoverUrl(avatarKey);
-          account.detail.blurredAvatarCoverUrl =
-              makeCloudinaryBlurredCoverUrl(avatarKey);
-        }
-      } catch (error, stack) {
-        devLog.severe(
-            "Exception downloading avatar '$accountAvatarUrl': $error\n$stack");
-      }
+    // Update state
+    channel.replyExtend(message);
+    await updateDeviceState();
+    if (account.state.accountId != 0) {
+      channel.replyExtend(message);
+      unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
+      await transitionToApp(); // TODO: Transitions and subs hould be handled by updateDeviceState preferably...
+    }
 
-      // Send authentication state
-      await sendNetDeviceAuthState(replying: message);
-      if (account.state.accountId == 0) {
-        devLog.severe(
-            "Account was not created for session ${account.state.sessionId}"); // DEVELOPER - DEVELOPMENT CRITICAL
+    // Non-critical
+    // 1. Download avatar
+    // 2. Upload avatar to Spaces
+    // 3. Update account to refer to avatar
+    try {
+      if (account.state.accountId != 0 &&
+          accountAvatarUrl != null &&
+          accountAvatarUrl.length > 0) {
+        channel.replyExtend(message);
+        String avatarKey =
+            await downloadUserImage(account.state.accountId, accountAvatarUrl);
+        channel.replyExtend(message);
+        await sql.prepareExecute(
+            "UPDATE `accounts` SET `avatar_key` = ? "
+            "WHERE `account_id` = ?",
+            [avatarKey.toString(), account.state.accountId]);
+        account.summary.avatarThumbnailUrl =
+            makeCloudinaryThumbnailUrl(avatarKey);
+        account.summary.blurredAvatarThumbnailUrl =
+            makeCloudinaryBlurredThumbnailUrl(avatarKey);
+        account.detail.avatarCoverUrl = makeCloudinaryCoverUrl(avatarKey);
+        account.detail.blurredAvatarCoverUrl =
+            makeCloudinaryBlurredCoverUrl(avatarKey);
       }
     } catch (error, stack) {
       devLog.severe(
-          "Exception in message '${TalkSocket.decode(message.id)}': $error\n$stack");
+          "Exception downloading avatar '$accountAvatarUrl': $error\n$stack");
+    }
+
+    // Send authentication state
+    await sendNetDeviceAuthState(replying: message);
+    if (account.state.accountId == 0) {
+      devLog.severe(
+          "Account was not created for session ${account.state.sessionId}"); // DEVELOPER - DEVELOPMENT CRITICAL
     }
   }
 
@@ -1112,7 +1054,7 @@ class RemoteApp {
       opsLog.warning(
           "User ${account.state.accountId} is not authorized for $globalAccountState operations");
       if (replying != null) {
-        ts.sendException("Not authorized", replying);
+        channel.replyAbort(replying, "Not authorized.");
       }
       return false;
     }
@@ -1509,15 +1451,13 @@ class RemoteApp {
 
   /// Transitions the user to the app context after registration or login succeeds. Call from lock
   Future<void> transitionToApp() async {
-    if (_remoteAppBusiness != null || _remoteAppInfluencer != null) {
-      ts.close();
+    if (_apiChannelBusiness != null || _apiChannelInfluencer != null) {
+      channel.close();
       throw Exception(
           "Cannot transition twice, forced connection to close due to potential issue");
     }
-    assert(_netDeviceAuthCreateReq == null);
-    assert(_netAccountCreateReq == null);
-    assert(_remoteAppBusiness == null);
-    assert(_remoteAppInfluencer == null);
+    assert(_apiChannelBusiness == null);
+    assert(_apiChannelInfluencer == null);
     assert(account.state.sessionId != null);
     assert(account.state.accountId != 0);
     // TODO: Permit app transactions!
@@ -1526,7 +1466,8 @@ class RemoteApp {
         "Transition session ${account.state.sessionId} to app ${account.state.accountType}");
     if (account.state.globalAccountState.value >
         GlobalAccountState.blocked.value) {
-      safeListen("SFIREBAT", _netSetFirebaseToken);
+      registerProcedure(
+          "SFIREBAT", GlobalAccountState.blocked, _netSetFirebaseToken);
       subscribeOAuth();
       subscribeUpload();
       subscribeProfile();

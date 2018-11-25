@@ -22,12 +22,12 @@ import 'dart:typed_data';
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 // import 'package:postgres/postgres.dart' as postgres;
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'broadcast_center.dart';
 import 'package:inf_common/inf_common.dart';
-import 'remote_app.dart';
+import 'api_channel.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,27 +59,31 @@ selfTestSql(sqljocky.ConnectionPool sql) async {
 
 selfTestTalk() async {
   final Logger opsLog = new Logger('InfOps.SelfTest');
-  TalkSocket ts;
+  TalkChannel channel;
   List<int> values = new List<int>();
   try {
-    ts = await TalkSocket.connect("ws://localhost:8090/api");
-    Future<void> listen = ts.listen();
+    /*
+    channel = await TalkSocket.connect("ws://localhost:8090/api");
+    Future<void> listen = channel.listen();
     for (int i = 0; i < 3; ++i) {
-      values.add(await ts.ping());
+      values.add(await channel.ping());
     }
     for (int i = 0; i < 3; ++i) {
-      await for (int dt in ts.multiPing()) {
+      await for (int dt in channel.multiPing()) {
         values.add(dt);
       }
     }
-    ts.close();
+    channel.close();
+    channel = null;
     await listen;
-    opsLog.info("[✔️] WSTalk Self Test $values");
+    */
+    opsLog.info("[✔️] Switchboard Self Test $values");
   } catch (ex) {
-    opsLog.severe("[❌] WSTalk Self Test $values: $ex"); // CRITICAL - OPERATIONS
+    opsLog.severe(
+        "[❌] Switchboard Self Test $values: $ex"); // CRITICAL - OPERATIONS
   }
-  if (ts != null) {
-    ts.close();
+  if (channel != null) {
+    channel.close();
   }
 }
 
@@ -106,8 +110,6 @@ run() async {
   // 40.732162, 73.975698 should produce 89c25973735
 
   // Logging
-  // final Logger opsLog = new Logger('OPS');
-  // final Logger devLog = new Logger('DEV');
   hierarchicalLoggingEnabled = true;
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((LogRecord rec) {
@@ -117,6 +119,10 @@ run() async {
   new Logger('InfDev').level = Level.ALL;
   new Logger('SqlJocky').level = Level.WARNING;
   new Logger('SqlJocky.BufferedSocket').level = Level.WARNING;
+  new Logger('Switchboard').level = Level.INFO;
+  new Logger('Switchboard.Mux').level = Level.INFO;
+  new Logger('Switchboard.Talk').level = Level.INFO;
+  new Logger('Switchboard.Router').level = Level.INFO;
 
   // Server Configuration
   Uint8List configBytes =
@@ -145,69 +151,20 @@ run() async {
   final BroadcastCenter bc = new BroadcastCenter(config, sql, bucket);
 
   // Listen to websocket
-  final HttpServer server =
-      await HttpServer.bind(InternetAddress.anyIPv6, 8090);
-  () async {
-    await for (HttpRequest request in server) {
-      print(request.uri.path);
-      print(request.headers);
-      if (request.uri.path == '/api' || request.uri.path == '/api/') {
-        // Upgrade to WSTalk socket
-        TalkSocket ts;
-        try {
-          WebSocket ws = await WebSocketTransformer.upgrade(request);
-          ts = new TalkSocket(ws);
-          RemoteApp remoteApp;
-          ts.stream(TalkSocket.encode("INFAPP")).listen((TalkMessage message) {
-            if (remoteApp == null) {
-              String ipAddress = request.connectionInfo.remoteAddress.address;
-              String xRealIP = request.headers.value('x-real-ip');
-              remoteApp = new RemoteApp(config, sql, bucket, ts, bc,
-                  ipAddress: xRealIP != null ? xRealIP : ipAddress);
-            }
-          });
-          // Listen
-          () async {
-            try {
-              await ts
-                  .listen(); // Any exception will ultimately fall down to here
-            } catch (ex) {
-              print("Exception from remote app:");
-              print(ex);
-            }
-            ts.close();
-            if (remoteApp != null) {
-              remoteApp.dispose();
-              remoteApp = null;
-            }
-          }()
-              .catchError((ex) {
-            print("Exception listening to app:");
-            print(ex);
-          });
-        } catch (ex) {
-          print("Exception from incoming connection:");
-          print(ex);
-          if (ts != null) {
-            ts.close();
-          }
-        }
-      } else {
-        try {
-          request.response.statusCode = HttpStatus.FORBIDDEN;
-          request.response.close();
-        } catch (ex) {
-          print("Exception responding to invalid request:");
-          print(ex);
-        }
-      }
+  Switchboard switchboard = new Switchboard();
+  await switchboard.bindWebSocket(InternetAddress.anyIPv6, 8090, '/ep');
+  await for (ChannelInfo open in switchboard) {
+    // TODO: Rename ChannelInfo to ChannelOpen
+    if (open.service == "api") {
+      TalkChannel talkChannel = new TalkChannel(open.channel);
+      new ApiChannel(config, sql, bucket, talkChannel, bc, ipAddress: 'localhost');
+    } else {
+      TalkChannel talkChannel = new TalkChannel(open.channel);
+      // talkChannel.sendMessage(procedureId, data) // TODO: sendAbort
+      talkChannel.close();
     }
-    print("Server exited");
-  }()
-      .catchError((ex) {
-    print("Exception running server:");
-    print(ex);
-  });
+  }
+
   selfTestTalk();
 }
 

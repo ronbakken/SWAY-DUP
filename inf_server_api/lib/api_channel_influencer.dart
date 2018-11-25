@@ -11,21 +11,21 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'broadcast_center.dart';
 import 'package:inf_common/inf_common.dart';
-import 'remote_app.dart';
+import 'api_channel.dart';
 
-class RemoteAppInfluencer {
+class ApiChannelInfluencer {
   //////////////////////////////////////////////////////////////////////////////
   // Inherited properties
   //////////////////////////////////////////////////////////////////////////////
 
-  RemoteApp _r;
+  ApiChannel _r;
   ConfigData get config {
     return _r.config;
   }
@@ -34,8 +34,8 @@ class RemoteAppInfluencer {
     return _r.sql;
   }
 
-  TalkSocket get ts {
-    return _r.ts;
+  TalkChannel get channel {
+    return _r.channel;
   }
 
   BroadcastCenter get bc {
@@ -58,25 +58,19 @@ class RemoteAppInfluencer {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.RemoteAppInfluencer');
-  static final Logger devLog = new Logger('InfDev.RemoteAppInfluencer');
+  static final Logger opsLog = new Logger('InfOps.ApiChannelInfluencer');
+  static final Logger devLog = new Logger('InfDev.ApiChannelInfluencer');
 
-  RemoteAppInfluencer(this._r) {
-    _netLoadOffersReq = _r.saferListen(
-        "L_OFFERS", GlobalAccountState.readOnly, true, netLoadOffersReq);
-    _netOfferApplyReq = _r.saferListen(
-        "O_APPLYY", GlobalAccountState.readOnly, true, netOfferApplyReq);
+  ApiChannelInfluencer(this._r) {
+    _r.registerProcedure(
+        "L_OFFERS", GlobalAccountState.readOnly, netLoadOffersReq);
+    _r.registerProcedure(
+        "O_APPLYY", GlobalAccountState.readOnly, netOfferApplyReq);
   }
 
   void dispose() {
-    if (_netLoadOffersReq != null) {
-      _netLoadOffersReq.cancel();
-      _netLoadOffersReq = null;
-    }
-    if (_netOfferApplyReq != null) {
-      _netOfferApplyReq.cancel();
-      _netOfferApplyReq = null;
-    }
+    _r.unregisterProcedure("L_OFFERS");
+    _r.unregisterProcedure("O_APPLYY");
     _r = null;
   }
 
@@ -91,18 +85,15 @@ class RemoteAppInfluencer {
   //////////////////////////////////////////////////////////////////////////////
 
   // Demo function to get all offers
-  StreamSubscription<TalkMessage> _netLoadOffersReq; // C_OFFERR
-  static int _demoAllOffer = TalkSocket.encode("DE_OFFER");
-  static int _netLoadOffersRes = TalkSocket.encode("L_R_OFFE");
   Future<void> netLoadOffersReq(TalkMessage message) async {
     NetLoadOffersReq pb = new NetLoadOffersReq();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
     // TODO: Limit number of results
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     sqljocky.RetainedConnection connection = await sql.getConnection();
     try {
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       sqljocky.Query selectImageKeys = await connection.prepare(
           "SELECT `image_key` FROM `offer_images` WHERE `offer_id` = ?");
       try {
@@ -125,11 +116,11 @@ class RemoteAppInfluencer {
           OfferState.open.value.toInt(),
         ]);
         await for (sqljocky.Row offerRow in offerResults) {
-          ts.sendExtend(message);
+          channel.replyExtend(message);
           DataOffer offer = new DataOffer();
           offer.offerId = new Int64(offerRow[0]);
           offer.accountId = new Int64(offerRow[1]);
-          offer.locationId =new Int64(offerRow[6]);
+          offer.locationId = new Int64(offerRow[6]);
           offer.title = offerRow[2].toString();
           offer.description = offerRow[3].toString();
           offer.deliverables = offerRow[4].toString();
@@ -151,8 +142,7 @@ class RemoteAppInfluencer {
           // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
           // TODO: categories
           offer.state = OfferState.valueOf(offerRow[9].toInt());
-          offer.stateReason =
-              OfferStateReason.valueOf(offerRow[10].toInt());
+          offer.stateReason = OfferStateReason.valueOf(offerRow[10].toInt());
           sqljocky.Results imageKeyResults =
               await selectImageKeys.execute([offer.offerId.toInt()]);
           await for (sqljocky.Row imageKeyRow in imageKeyResults) {
@@ -173,10 +163,9 @@ class RemoteAppInfluencer {
           // offers[offer.offerId] = offer;
           // Send offer to user
           devLog.finest("Send offer '${offer.title}'");
-          ts.sendMessage(_demoAllOffer, offer.writeToBuffer(),
-              replying: message);
+          channel.replyMessage(message, "DE_OFFER", offer.writeToBuffer());
         }
-        ts.sendExtend(message);
+        channel.replyExtend(message);
       } finally {
         await selectImageKeys.close();
       }
@@ -186,13 +175,11 @@ class RemoteAppInfluencer {
 
     devLog.finest("Done sending demo offers");
     //NetLoadOffersRes loadOffersRes = new NetLoadOffersRes();
-    //ts.sendMessage(_netLoadOffersRes, loadOffersRes.writeToBuffer(),
+    //channel.sendMessage("L_R_OFFE", loadOffersRes.writeToBuffer(),
     //    replying: message);
-    ts.sendEndOfStream(message);
+    channel.replyEndOfStream(message);
   }
 
-  StreamSubscription<TalkMessage> _netOfferApplyReq; // C_OFFERR
-  static int _netOfferApplyRes = TalkSocket.encode("O_R_APPL");
   Future<void> netOfferApplyReq(TalkMessage message) async {
     NetOfferApplyReq pb = new NetOfferApplyReq();
     pb.mergeFromBuffer(message.data);
@@ -211,7 +198,7 @@ class RemoteAppInfluencer {
     chat.type = ProposalChatType.terms;
 
     // Fetch some offer info
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     Int64 businessAccountId;
     String deliverables;
     String reward;
@@ -238,10 +225,10 @@ class RemoteAppInfluencer {
         'remarks=${Uri.encodeQueryComponent(pb.remarks.trim())}';
     chat.text = chatText;
 
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     await sql.startTransaction((transaction) async {
       // 1. Insert into proposals
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       String insertProposal = "INSERT INTO `proposals`("
           "`offer_id`, `influencer_account_id`, `business_account_id`, `sender_account_id`, `state`) "
           "VALUES (?, ?, ?, ?, ?)";
@@ -261,7 +248,7 @@ class RemoteAppInfluencer {
       chat.proposalId = proposalId;
 
       // 2. Insert haggle into chat
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       var chatHaggle = new Map<String, String>();
       chatHaggle['deliverables'] = "Deliverables";
       chatHaggle['reward'] = "Reward";
@@ -290,7 +277,7 @@ class RemoteAppInfluencer {
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
 
       // 3. Update haggle on proposal
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       String updateHaggleChatId = "UPDATE `proposals` "
           "SET `terms_chat_id` = ? "
           "WHERE `proposal_id` = ?";
@@ -304,13 +291,12 @@ class RemoteAppInfluencer {
         throw new Exception("Failed to update haggle chat id");
       }
 
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       transaction.commit();
     });
 
     devLog.finest("Applied for offer successfully: $proposal");
-    ts.sendMessage(_netOfferApplyRes, proposal.writeToBuffer(),
-        replying: message);
+    channel.replyMessage(message, "O_R_APPL", proposal.writeToBuffer());
 
     // Clear private information from broadcast
     chat.sessionId = Int64.ZERO;

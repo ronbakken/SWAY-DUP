@@ -11,21 +11,21 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'broadcast_center.dart';
 import 'package:inf_common/inf_common.dart';
-import 'remote_app.dart';
+import 'api_channel.dart';
 
-class RemoteAppBusiness {
+class ApiChannelBusiness {
   //////////////////////////////////////////////////////////////////////////////
   // Inherited properties
   //////////////////////////////////////////////////////////////////////////////
 
-  RemoteApp _r;
+  ApiChannel _r;
   ConfigData get config {
     return _r.config;
   }
@@ -34,8 +34,8 @@ class RemoteAppBusiness {
     return _r.sql;
   }
 
-  TalkSocket get ts {
-    return _r.ts;
+  TalkChannel get channel {
+    return _r.channel;
   }
 
   BroadcastCenter get bc {
@@ -58,28 +58,22 @@ class RemoteAppBusiness {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.RemoteAppBusiness');
-  static final Logger devLog = new Logger('InfDev.RemoteAppBusiness');
+  static final Logger opsLog = new Logger('InfOps.ApiChannelBusiness');
+  static final Logger devLog = new Logger('InfDev.ApiChannelBusiness');
 
   // Cached list of offers
   Map<Int64, DataOffer> offers = new Map<Int64, DataOffer>();
 
-  RemoteAppBusiness(this._r) {
-    _netCreateOfferReq = _r.saferListen(
-        "C_OFFERR", GlobalAccountState.readWrite, true, netCreateOfferReq);
-    _netLoadOffersReq = _r.saferListen(
-        "L_OFFERS", GlobalAccountState.readOnly, true, netLoadOffersReq);
+  ApiChannelBusiness(this._r) {
+    _r.registerProcedure(
+        "C_OFFERR", GlobalAccountState.readWrite, netCreateOfferReq);
+    _r.registerProcedure(
+        "L_OFFERS", GlobalAccountState.readOnly, netLoadOffersReq);
   }
 
   void dispose() {
-    if (_netCreateOfferReq != null) {
-      _netCreateOfferReq.cancel();
-      _netCreateOfferReq = null;
-    }
-    if (_netLoadOffersReq != null) {
-      _netLoadOffersReq.cancel();
-      _netLoadOffersReq = null;
-    }
+    _r.unregisterProcedure("C_OFFERR");
+    _r.unregisterProcedure("L_OFFERS");
     _r = null;
   }
 
@@ -99,7 +93,6 @@ class RemoteAppBusiness {
   //////////////////////////////////////////////////////////////////////////////
 
   StreamSubscription<TalkMessage> _netCreateOfferReq; // C_OFFERR
-  static int _netCreateOfferRes = TalkSocket.encode("C_R_OFFE");
   Future<void> netCreateOfferReq(TalkMessage message) async {
     NetCreateOfferReq pb = new NetCreateOfferReq();
     pb.mergeFromBuffer(message.data);
@@ -109,14 +102,14 @@ class RemoteAppBusiness {
       // TODO: Fetch location and verify it's owned by this user plus verify that user paid for this feature
       devLog.severe(
           "User $accountId attempt to use non-implemented offer location feature");
-      ts.sendException("Location not implemented", message);
+      channel.replyAbort(message, "Location not implemented.");
       return;
     }
 
     if (account.detail.locationId == 0) {
       opsLog.warning(
           "User $accountId has no default location set, cannot create offer");
-      ts.sendException("No default location set", message);
+      channel.replyAbort(message, "No default location set.");
       return;
     }
 
@@ -125,14 +118,14 @@ class RemoteAppBusiness {
         pb.deliverables.length < 4 ||
         pb.reward.length < 4) {
       opsLog.warning("User $accountId offer parameters not validated");
-      ts.sendException("Not validated", message);
+      channel.replyAbort(message, "Not validated.");
       return;
     }
 
     // Insert offer, not so critical
     // TODO: Set the offer state options... :)
     Int64 locationId = account.detail.locationId;
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     String insertOffer =
         "INSERT INTO `offers`(`account_id`, `title`, `description`, `deliverables`, `reward`, `location_id`, `state`) "
         "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -150,7 +143,7 @@ class RemoteAppBusiness {
     Int64 offerId = new Int64(insertRes.insertId);
     if (offerId == null || offerId == Int64.ZERO) {
       opsLog.severe("User $accountId offer not inserted");
-      ts.sendException("Not inserted", message);
+      channel.replyAbort(message, "Not inserted.");
       return;
     }
 
@@ -163,7 +156,7 @@ class RemoteAppBusiness {
 
     // Insert offer images
     for (String imageKey in filteredImageKeys) {
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       // TODO: Verify the image key actually exists and is owned by the user!
       String insertImage =
           "INSERT INTO `offer_images`(`offer_id`, `image_key`) VALUES (?, ?)";
@@ -171,7 +164,7 @@ class RemoteAppBusiness {
     }
 
     // Update location `offer_count`, not so critical
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     await updateLocationOfferCount(locationId);
 
     // Reply success
@@ -204,22 +197,20 @@ class RemoteAppBusiness {
     netCreateOfferRes.proposalsCompleted = 0;
     netCreateOfferRes.proposalsRefused = 0;*/
     offers[offerId] = netCreateOfferRes;
-    ts.sendMessage(_netCreateOfferRes, netCreateOfferRes.writeToBuffer(),
-        replying: message);
+    channel.replyMessage(
+        message, "C_R_OFFE", netCreateOfferRes.writeToBuffer());
   }
 
   StreamSubscription<TalkMessage> _netLoadOffersReq; // C_OFFERR
-  static int _dataOffer = TalkSocket.encode("DB_OFFER");
-  static int _netLoadOffersRes = TalkSocket.encode("L_R_OFFE");
   Future<void> netLoadOffersReq(TalkMessage message) async {
     NetLoadOffersReq pb = new NetLoadOffersReq();
     pb.mergeFromBuffer(message.data);
 
     // TODO: Limit number of results
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     sqljocky.RetainedConnection connection = await sql.getConnection();
     try {
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       sqljocky.Query selectImageKeys = await connection.prepare(
           "SELECT `image_key` FROM `offer_images` WHERE `offer_id` = ?");
       try {
@@ -235,7 +226,7 @@ class RemoteAppBusiness {
         sqljocky.Results offerResults =
             await sql.prepareExecute(selectOffers, [accountId]);
         await for (sqljocky.Row offerRow in offerResults) {
-          ts.sendExtend(message);
+          channel.replyExtend(message);
           DataOffer offer = new DataOffer();
           offer.offerId = new Int64(offerRow[0]);
           offer.accountId = new Int64(offerRow[1]);
@@ -262,8 +253,7 @@ class RemoteAppBusiness {
           // offer.blurredCoverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
           // TODO: categories
           offer.state = OfferState.valueOf(offerRow[9].toInt());
-          offer.stateReason =
-              OfferStateReason.valueOf(offerRow[10].toInt());
+          offer.stateReason = OfferStateReason.valueOf(offerRow[10].toInt());
           /*offer.proposalsNew = 0; // TODO
           offer.proposalsAccepted = 0; // TODO
           offer.proposalsCompleted = 0; // TODO
@@ -285,9 +275,9 @@ class RemoteAppBusiness {
           // Cache offer for use (is this really necessary?)
           offers[offer.offerId] = offer;
           // Send offer to user
-          ts.sendMessage(_dataOffer, offer.writeToBuffer());
+          channel.sendMessage("DB_OFFER", offer.writeToBuffer());
         }
-        ts.sendExtend(message);
+        channel.replyExtend(message);
       } finally {
         await selectImageKeys.close();
       }
@@ -296,7 +286,6 @@ class RemoteAppBusiness {
     }
 
     NetLoadOffersRes loadOffersRes = new NetLoadOffersRes();
-    ts.sendMessage(_netLoadOffersRes, loadOffersRes.writeToBuffer(),
-        replying: message);
+    channel.replyMessage(message, "L_R_OFFE", loadOffersRes.writeToBuffer());
   }
 }

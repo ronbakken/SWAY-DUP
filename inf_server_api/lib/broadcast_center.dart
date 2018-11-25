@@ -13,14 +13,14 @@ import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
 import 'package:quiver/collection.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 import 'package:synchronized/synchronized.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'remote_app.dart';
+import 'api_channel.dart';
 import 'cache_map.dart';
 
 class _CachedProposal {
@@ -53,8 +53,8 @@ class BroadcastCenter {
 
   final HttpClient _httpClient = new HttpClient();
 
-  Multimap<Int64, RemoteApp> _accountToRemoteApps =
-      new Multimap<Int64, RemoteApp>();
+  Multimap<Int64, ApiChannel> _accountToApiChannels =
+      new Multimap<Int64, ApiChannel>();
 
   CacheMap<Int64, _CachedProposal> _proposalToInfluencerBusiness =
       new CacheMap<Int64, _CachedProposal>();
@@ -83,8 +83,8 @@ class BroadcastCenter {
         "FROM `proposals` WHERE `proposal_id` = ?",
         [proposalId]);
     await for (sqljocky.Row row in res) {
-      proposal =
-          new _CachedProposal(new Int64(row[0]), new Int64(row[1]), new Int64(row[2]));
+      proposal = new _CachedProposal(
+          new Int64(row[0]), new Int64(row[1]), new Int64(row[2]));
       _proposalToInfluencerBusiness[proposalId] = proposal;
     }
     return proposal; // May be null if not found
@@ -140,13 +140,13 @@ class BroadcastCenter {
   // Senders
   /////////////////////////////////////////////////////////////////////////////
 
-  Future<void> _push(
-      Int64 senderDeviceId, Int64 receiverAccountId, int id, Uint8List data) async {
+  Future<void> _push(Int64 senderDeviceId, Int64 receiverAccountId,
+      String procedureId, Uint8List data) async {
     // Push to apps connected locally
-    for (RemoteApp remoteApp in _accountToRemoteApps[receiverAccountId]) {
+    for (ApiChannel apiChannel in _accountToApiChannels[receiverAccountId]) {
       try {
-        if (remoteApp.account.state.sessionId != senderDeviceId) {
-          remoteApp.ts.sendMessage(id, data);
+        if (apiChannel.account.state.sessionId != senderDeviceId) {
+          apiChannel.channel.sendMessage(procedureId, data);
         }
       } catch (error, stack) {
         devLog.warning("Exception while pushing to remote app: $error\n$stack");
@@ -158,35 +158,32 @@ class BroadcastCenter {
 
   // TODO: Offer changed: Sends to same account to sync sessions when multi devicing...
 
-  static int _proposalPosted = TalkSocket.encode("LN_APPLI");
-  Future<void> _pushProposalPosted(Int64 senderDeviceId, Int64 receiverAccountId,
-      DataProposal proposal) async {
+  Future<void> _pushProposalPosted(Int64 senderDeviceId,
+      Int64 receiverAccountId, DataProposal proposal) async {
     // Push to local apps and and apps on remote servers
     // (Proposal creation always causes a first haggle chat to be sent, so no Firebase post)
-    await _push(senderDeviceId, receiverAccountId, _proposalPosted,
+    await _push(senderDeviceId, receiverAccountId, "LN_APPLI",
         proposal.writeToBuffer());
   }
 
-  static int _proposalChanged = TalkSocket.encode("LU_APPLI");
-  Future<void> _pushProposalChanged(Int64 senderDeviceId, Int64 receiverAccountId,
-      DataProposal proposal) async {
+  Future<void> _pushProposalChanged(Int64 senderDeviceId,
+      Int64 receiverAccountId, DataProposal proposal) async {
     // Push only to local apps and and apps on remote servers
     // (Important changes are posted through chat marker, so no Firebase posting here)
-    await _push(senderDeviceId, receiverAccountId, _proposalChanged,
+    await _push(senderDeviceId, receiverAccountId, "LU_APPLI",
         proposal.writeToBuffer());
   }
 
-  static int _proposalChatPosted = TalkSocket.encode("LN_A_CHA");
-  Future<void> _pushProposalChatPosted(
-      Int64 senderDeviceId, Int64 receiverAccountId, DataProposalChat chat) async {
+  Future<void> _pushProposalChatPosted(Int64 senderDeviceId,
+      Int64 receiverAccountId, DataProposalChat chat) async {
     // Push to local apps and and apps on remote servers
-    await _push(senderDeviceId, receiverAccountId, _proposalChatPosted,
-        chat.writeToBuffer());
+    await _push(
+        senderDeviceId, receiverAccountId, "LN_A_CHA", chat.writeToBuffer());
 
     // Push Firebase (even if sent directly, Firebase notifications don't show while the app is running)
     // Don't send notifications to the sender
     if (receiverAccountId != chat.senderId) {
-      // TODO: && !_accountToRemoteApps.contains(receiverAccountId) - once clients disconnect in the background!
+      // TODO: && !_accountToApiChannels.contains(receiverAccountId) - once clients disconnect in the background!
       String senderName = await _getAccountName(chat.senderId);
       List<String> receiverFirebaseTokens =
           await _getAccountFirebaseTokens(receiverAccountId);
@@ -243,30 +240,31 @@ class BroadcastCenter {
   // Hooks
   /////////////////////////////////////////////////////////////////////////////
 
-  void accountConnected(RemoteApp remoteApp) {
-    _accountToRemoteApps.add(remoteApp.account.state.accountId, remoteApp);
+  void accountConnected(ApiChannel apiChannel) {
+    _accountToApiChannels.add(apiChannel.account.state.accountId, apiChannel);
 
     // TODO: Signal remote servers (if only first session for account here)
   }
 
-  void accountDisconnected(RemoteApp remoteApp) {
-    if (_accountToRemoteApps.remove(
-        remoteApp.account.state.accountId, remoteApp)) {
+  void accountDisconnected(ApiChannel apiChannel) {
+    if (_accountToApiChannels.remove(
+        apiChannel.account.state.accountId, apiChannel)) {
       // TODO: Signal remote servers (if no more sessions for account here)
     }
   }
 
-  void accountFirebaseTokensChanged(RemoteApp remoteApp) {
+  void accountFirebaseTokensChanged(ApiChannel apiChannel) {
     // TODO: Signal remote servers
-    _dirtyAccountFirebaseTokens(remoteApp.account.state.accountId);
+    _dirtyAccountFirebaseTokens(apiChannel.account.state.accountId);
   }
 
   Future<void> proposalPosted(Int64 senderDeviceId, DataProposal proposal,
       DataAccount influencerAccount) async {
     // Store cache
-    _proposalToInfluencerBusiness[proposal.proposalId] =
-        new _CachedProposal(proposal.influencerAccountId,
-            proposal.businessAccountId, proposal.senderAccountId);
+    _proposalToInfluencerBusiness[proposal.proposalId] = new _CachedProposal(
+        proposal.influencerAccountId,
+        proposal.businessAccountId,
+        proposal.senderAccountId);
 
     // Push notifications
     await _pushProposalPosted(
@@ -287,9 +285,10 @@ class BroadcastCenter {
   Future<void> proposalChanged(
       Int64 senderDeviceId, DataProposal proposal) async {
     // Store cache
-    _proposalToInfluencerBusiness[proposal.proposalId] =
-        new _CachedProposal(proposal.influencerAccountId,
-            proposal.businessAccountId, proposal.senderAccountId);
+    _proposalToInfluencerBusiness[proposal.proposalId] = new _CachedProposal(
+        proposal.influencerAccountId,
+        proposal.businessAccountId,
+        proposal.senderAccountId);
 
     // Push notifications
     await _pushProposalChanged(

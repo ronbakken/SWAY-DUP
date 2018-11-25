@@ -10,20 +10,20 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'package:inf_common/inf_common.dart';
-import 'remote_app.dart';
+import 'api_channel.dart';
 
-class RemoteAppUpload {
+class ApiChannelUpload {
   //////////////////////////////////////////////////////////////////////////////
   // Inherited properties
   //////////////////////////////////////////////////////////////////////////////
 
-  RemoteApp _r;
+  ApiChannel _r;
   ConfigData get config {
     return _r.config;
   }
@@ -32,8 +32,8 @@ class RemoteAppUpload {
     return _r.sql;
   }
 
-  TalkSocket get ts {
-    return _r.ts;
+  TalkChannel get channel {
+    return _r.channel;
   }
 
   dospace.Bucket get bucket {
@@ -56,19 +56,16 @@ class RemoteAppUpload {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
-  static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
+  static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
+  static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
 
-  RemoteAppUpload(this._r) {
-    _netUploadImageReq = _r.saferListen(
-        "UP_IMAGE", GlobalAccountState.readWrite, true, netUploadImageReq);
+  ApiChannelUpload(this._r) {
+    _r.registerProcedure(
+        "UP_IMAGE", GlobalAccountState.readWrite, netUploadImageReq);
   }
 
   void dispose() {
-    if (_netUploadImageReq != null) {
-      _netUploadImageReq.cancel();
-      _netUploadImageReq = null;
-    }
+    _r.unregisterProcedure("UP_IMAGE");
     _r = null;
   }
 
@@ -76,8 +73,6 @@ class RemoteAppUpload {
   // Network messages
   //////////////////////////////////////////////////////////////////////////////
 
-  StreamSubscription<TalkMessage> _netUploadImageReq; // UP_IMAGE
-  static int _netUploadImageRes = TalkSocket.encode("UP_R_IMG");
   Future<void> netUploadImageReq(TalkMessage message) async {
     NetUploadImageReq pb = new NetUploadImageReq();
     pb.mergeFromBuffer(message.data);
@@ -85,15 +80,15 @@ class RemoteAppUpload {
 
     if (pb.contentLength > (5 * 1024 * 1204)) {
       opsLog.warning(
-          "User $accountId attempts to upload file of size ${pb.contentLength}, that's too large");
-      ts.sendException("Upload size limit exceeded", message);
+          "User $accountId attempts to upload file of size ${pb.contentLength}, that's too large.");
+      channel.replyAbort(message, "Upload size limit exceeded");
       return;
     }
 
     if (!pb.contentType.startsWith('image/')) {
       opsLog.warning(
-          "User $accountId attempts to upload file of type ${pb.contentType}, that's not supported");
-      ts.sendException("Unsupported file type", message);
+          "User $accountId attempts to upload file of type ${pb.contentType}, that's not supported.");
+      channel.replyAbort(message, "Unsupported file type");
       return;
     }
 
@@ -119,7 +114,7 @@ class RemoteAppUpload {
 
     NetUploadImageRes netUploadImageRes = new NetUploadImageRes();
 
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     bool fileExists = false; // TODO: Use HEAD to check for existence
     await for (dospace.BucketContent bucketContent
         in bucket.listContents(prefix: key)) {
@@ -145,7 +140,7 @@ class RemoteAppUpload {
     netUploadImageRes.coverUrl = _r.makeCloudinaryCoverUrl(key);
     netUploadImageRes.thumbnailUrl = _r.makeCloudinaryThumbnailUrl(key);
 
-    ts.sendMessage(_netUploadImageRes, netUploadImageRes.writeToBuffer(),
-        replying: message);
+    channel.replyMessage(
+        message, "UP_R_IMG", netUploadImageRes.writeToBuffer());
   }
 }

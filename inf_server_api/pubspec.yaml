@@ -21,8 +21,7 @@ dependencies:
   quiver: ^2.0.0+1
   sqljocky5: # ^1.0.0
     path: ../sqljocky5/
-  wstalk:
-    path: ../wstalk/
+  switchboard: ^2.0.4
   oauth1:
     path: ../dart-oauth1/
   dospace:

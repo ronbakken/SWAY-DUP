@@ -10,26 +10,26 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:logging/logging.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
 import 'package:inf_common/inf_common.dart';
-import 'remote_app.dart';
+import 'api_channel.dart';
 
 class ApiDataService {
   final ApiContext _context;
 
   ApiDataService(this._context) {}
 
-  ApiDataChannel createChannel(RemoteApp remoteApp);
+  ApiDataChannel createChannel(ApiChannel apiChannel);
 }
 
 class ApiDataChannel {
   final ApiContext _context;
   final ApiDataService _service;
-  final RemoteApp _remote;
+  final ApiChannel _remote;
 
   ApiDataChannel(this._context, this._service, this._remote) {}
 
@@ -37,12 +37,12 @@ class ApiDataChannel {
 }
 */
 /*
-class RemoteAppOffer {
+class ApiChannelOffer {
   //////////////////////////////////////////////////////////////////////////////
   // Inherited properties
   //////////////////////////////////////////////////////////////////////////////
 
-  RemoteApp _r;
+  ApiChannel _r;
   ConfigData get config {
     return _r.config;
   }
@@ -51,8 +51,8 @@ class RemoteAppOffer {
     return _r.sql;
   }
 
-  TalkSocket get ts {
-    return _r.ts;
+  TalkChannel get channel {
+    return _r.channel;
   }
 
   dospace.Bucket get bucket {
@@ -75,11 +75,11 @@ class RemoteAppOffer {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.RemoteAppOAuth');
-  static final Logger devLog = new Logger('InfDev.RemoteAppOAuth');
+  static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
+  static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
 
-  RemoteAppOffer(this._r) {
-    _netLoadPublicOfferReq = _r.saferListen("L_OFFERR",
+  ApiChannelOffer(this._r) {
+    _netLoadPublicOfferReq = _r.registerProcedure("L_OFFERR",
         GlobalAccountState.readWrite, true, netLoadPublicOfferReq);
   }
 
@@ -115,11 +115,11 @@ class RemoteAppOffer {
       account.detail.socialMedia.add(new DataSocialMedia());
     }
 
-    ts.sendExtend(message);
+    channel.replyExtend(message);
     sqljocky.RetainedConnection connection = await sql.getConnection();
     try {
       // Fetch public profile info
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       sqljocky.Results accountResults = await connection.prepareExecute(
           "SELECT `accounts`.`name`, `accounts`.`account_type`, " // 0 1
           "`accounts`.`description`, `accounts`.`location_id`, " // 2 3
@@ -165,7 +165,7 @@ class RemoteAppOffer {
         }
       }
       // Fetch public social media info
-      ts.sendExtend(message);
+      channel.replyExtend(message);
       sqljocky.Results connectionResults = await connection.prepareExecute(
           "SELECT `social_media`.`oauth_provider`, " // 0
           "`social_media`.`display_name`, `social_media`.`profile_url`, " // 1 2
@@ -201,7 +201,7 @@ class RemoteAppOffer {
       connection.release();
     }
 
-    ts.sendMessage(_netOfferImageRes, account.writeToBuffer(),
+    channel.sendMessage(_netOfferImageRes, account.writeToBuffer(),
         replying: message);
   }
 }*/
