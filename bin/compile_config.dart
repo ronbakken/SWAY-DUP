@@ -172,8 +172,10 @@ Future<ConfigServices> generateConfigServices(bool server) async {
         (section == "Client" && !server)) {
       if (cfg.hasOption(section, 'environment'))
         res.environment = cfg.get(section, 'environment');
-      if (cfg.hasOption(section, 'apiHosts'))
-        res.apiHosts.addAll(cfg.get(section, 'apiHosts').split(','));
+      if (cfg.hasOption(section, 'endPoint'))
+        res.endPoint = cfg.get(section, 'endPoint');
+      if (cfg.hasOption(section, 'service'))
+        res.service = cfg.get(section, 'service');
       if (cfg.hasOption(section, 'configUrl'))
         res.configUrl = cfg.get(section, 'configUrl');
       if (cfg.hasOption(section, 'termsOfServiceUrl'))
@@ -307,7 +309,7 @@ main(List<String> arguments) async {
   Future<void> f2 = generateConfig(true);
   await f1;
   await f2;
-  exit(0);
+  // exit(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
