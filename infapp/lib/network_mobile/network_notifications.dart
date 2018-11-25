@@ -14,7 +14,7 @@ import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 abstract class NetworkNotifications
     implements NetworkInterface, NetworkInternals {
@@ -92,8 +92,7 @@ abstract class NetworkNotifications
         if (oldFirebaseToken != null)
           setFirebaseToken.oldFirebaseToken = oldFirebaseToken;
         setFirebaseToken.firebaseToken = token;
-        ts.sendMessage(
-            TalkSocket.encode("SFIREBAT"), setFirebaseToken.writeToBuffer());
+        channel.sendMessage("SFIREBAT", setFirebaseToken.writeToBuffer());
         prefs.setString('firebase_token', token);
       }
     }

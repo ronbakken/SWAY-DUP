@@ -12,7 +12,7 @@ import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
   @override
@@ -39,14 +39,13 @@ abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
     onOffersDemoChanged(ChangeAction.upsert, pb.offerId);
   }
 
-  static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
   @override
   Future<void> refreshDemoAllOffers() async {
     log.fine("refreshDemoAllOffers");
     NetLoadOffersReq loadOffersReq =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
     Stream<TalkMessage> results =
-        ts.sendStreamRequest(_netLoadOffersReq, loadOffersReq.writeToBuffer());
+        channel.sendStreamRequest("L_OFFERS", loadOffersReq.writeToBuffer());
 
     // Workaround for failing "await for"
     StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(results);

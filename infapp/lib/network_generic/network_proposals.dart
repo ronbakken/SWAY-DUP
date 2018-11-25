@@ -12,7 +12,7 @@ import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 class _CachedProposal {
   bool loading = false;
@@ -116,15 +116,14 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     onProposalChatChanged(ChangeAction.upsert, chat);
   }
 
-  static int _netLoadProposalsReq = TalkSocket.encode("L_APPLIS");
   @override
   Future<void> refreshProposals() async {
     NetLoadOffersReq req =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
     // await for (TalkMessage res
-    //     in ts.sendStreamRequest(_netLoadProposalsReq, req.writeToBuffer())) {
+    //     in channel.sendStreamRequest("L_APPLIS", req.writeToBuffer())) {
     StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(
-        ts.sendStreamRequest(_netLoadProposalsReq, req.writeToBuffer()));
+        channel.sendStreamRequest("L_APPLIS", req.writeToBuffer()));
     while (await sq.hasNext) {
       TalkMessage res = await sq.next;
       DataProposal pb = new DataProposal();
@@ -157,8 +156,6 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     return _proposals.values;
   }
 
-  static int _netOfferApplyReq = TalkSocket.encode("O_APPLYY");
-
   /// Create proposal
   @override
   Future<DataProposal> sendProposal(Int64 offerId, String remarks) async {
@@ -168,7 +165,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
       pbReq.sessionGhostId = ++nextDeviceGhostId;
       pbReq.remarks = remarks;
       TalkMessage res =
-          await ts.sendRequest(_netOfferApplyReq, pbReq.writeToBuffer());
+          await channel.sendRequest("O_APPLYY", pbReq.writeToBuffer());
       DataProposal pbRes = new DataProposal();
       pbRes.mergeFromBuffer(res.data);
       _cacheProposal(pbRes); // FIXME: Chat not cached directly!
@@ -179,28 +176,26 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     }
   }
 
-  static int _netLoadProposalReq = TalkSocket.encode("L_APPLIC");
   @override
   Future<DataProposal> getProposal(Int64 proposalId) async {
     NetLoadProposalReq pbReq = new NetLoadProposalReq();
     pbReq.proposalId = proposalId;
     TalkMessage res =
-        await ts.sendRequest(_netLoadProposalReq, pbReq.writeToBuffer());
+        await channel.sendRequest("L_APPLIC", pbReq.writeToBuffer());
     DataProposal proposal = new DataProposal();
     proposal.mergeFromBuffer(res.data);
     _cacheProposal(proposal);
     return proposal;
   }
 
-  static int _netLoadProposalChatReq = TalkSocket.encode("L_APCHAT");
   Future<void> _loadProposalChats(Int64 proposalId) async {
     NetLoadProposalChatsReq pbReq = new NetLoadProposalChatsReq();
     pbReq.proposalId = proposalId;
     log.fine(proposalId);
-    // await for (TalkMessage res in ts.sendStreamRequest(
-    //     _netLoadProposalChatReq, pbReq.writeToBuffer())) {
+    // await for (TalkMessage res in channel.sendStreamRequest(
+    //     "L_APCHAT", pbReq.writeToBuffer())) {
     StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(
-        ts.sendStreamRequest(_netLoadProposalChatReq, pbReq.writeToBuffer()));
+        channel.sendStreamRequest("L_APCHAT", pbReq.writeToBuffer()));
     while (await sq.hasNext) {
       TalkMessage res = await sq.next;
       DataProposalChat chat = new DataProposalChat();
@@ -348,14 +343,13 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
   // Haggle Actions
   /////////////////////////////////////////////////////////////////////////////
 
-  static int _netProposalReportReq = TalkSocket.encode("AP_REPOR");
   @override
   Future<void> reportProposal(Int64 proposalId, String text) async {
     NetProposalReportReq pbReq = new NetProposalReportReq();
     pbReq.proposalId = proposalId;
     pbReq.text = text;
     // Response blank. Exception on issue
-    await ts.sendRequest(_netProposalReportReq, pbReq.writeToBuffer());
+    await channel.sendRequest("AP_REPOR", pbReq.writeToBuffer());
   }
 
   void resubmitGhostChats() {
@@ -368,7 +362,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
               pbReq.proposalId = ghostChat.proposalId;
               pbReq.sessionGhostId = ghostChat.sessionGhostId;
               pbReq.text = ghostChat.text;
-              ts.sendMessage(_netChatPlain, pbReq.writeToBuffer());
+              channel.sendMessage("CH_PLAIN", pbReq.writeToBuffer());
             }
             break;
           case ProposalChatType.terms:
@@ -380,7 +374,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
               pbReq.deliverables = query['deliverables'];
               pbReq.reward = query['reward'];
               pbReq.remarks = query['remarks'];
-              ts.sendMessage(_netChatHaggle, pbReq.writeToBuffer());
+              channel.sendMessage("CH_HAGGLE", pbReq.writeToBuffer());
             }
             break;
           case ProposalChatType.imageKey:
@@ -390,7 +384,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
               pbReq.sessionGhostId = ghostChat.sessionGhostId;
               Map<String, String> query = Uri.splitQueryString(ghostChat.text);
               pbReq.imageKey = query['key'];
-              ts.sendMessage(_netChatImageKey, pbReq.writeToBuffer());
+              channel.sendMessage("CH_IMAGE", pbReq.writeToBuffer());
             }
             break;
         }
@@ -420,7 +414,6 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     // TODO: Store ghost chats offline
   }
 
-  static int _netChatPlain = TalkSocket.encode("CH_PLAIN");
   @override
   void chatPlain(Int64 proposalId, String text) {
     int ghostId = ++nextDeviceGhostId;
@@ -429,12 +422,11 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
       pbReq.proposalId = proposalId;
       pbReq.sessionGhostId = ghostId;
       pbReq.text = text;
-      ts.sendMessage(_netChatPlain, pbReq.writeToBuffer());
+      channel.sendMessage("CH_PLAIN", pbReq.writeToBuffer());
     }
     _createGhostChat(proposalId, ghostId, ProposalChatType.plain, text);
   }
 
-  static int _netChatHaggle = TalkSocket.encode("CH_HAGGLE");
   @override
   void chatHaggle(
       Int64 proposalId, String deliverables, String reward, String remarks) {
@@ -446,7 +438,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
       pbReq.deliverables = deliverables;
       pbReq.reward = reward;
       pbReq.remarks = remarks;
-      ts.sendMessage(_netChatHaggle, pbReq.writeToBuffer());
+      channel.sendMessage("CH_HAGGLE", pbReq.writeToBuffer());
     }
     _createGhostChat(
       proposalId,
@@ -461,7 +453,6 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     );
   }
 
-  static int _netChatImageKey = TalkSocket.encode("CH_IMAGE");
   @override
   void chatImageKey(Int64 proposalId, String imageKey) {
     int ghostId = ++nextDeviceGhostId;
@@ -470,7 +461,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
       pbReq.proposalId = proposalId;
       pbReq.sessionGhostId = ghostId;
       pbReq.imageKey = imageKey;
-      ts.sendMessage(_netChatImageKey, pbReq.writeToBuffer());
+      channel.sendMessage("CH_IMAGE", pbReq.writeToBuffer());
     }
     _createGhostChat(
       proposalId,
@@ -480,14 +471,13 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     );
   }
 
-  static int _netProposalWantDealReq = TalkSocket.encode("AP_WADEA");
   @override
   Future<void> wantDeal(Int64 proposalId, Int64 termsChatId) async {
     NetProposalWantDealReq pbReq = NetProposalWantDealReq();
     pbReq.proposalId = proposalId;
     pbReq.termsChatId = termsChatId;
     TalkMessage res =
-        await ts.sendRequest(_netProposalWantDealReq, pbReq.writeToBuffer());
+        await channel.sendRequest("AP_WADEA", pbReq.writeToBuffer());
     NetProposalCommonRes pbRes = new NetProposalCommonRes();
     pbRes.mergeFromBuffer(res.data);
     _receivedProposalCommonRes(pbRes);

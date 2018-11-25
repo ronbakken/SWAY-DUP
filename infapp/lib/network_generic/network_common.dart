@@ -21,7 +21,7 @@ import 'package:inf/network_generic/network_offers_demo.dart';
 import 'package:inf/network_generic/network_proposals.dart';
 import 'package:inf/network_mobile/network_notifications.dart';
 import 'package:logging/logging.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
 import 'package:pointycastle/pointycastle.dart' as pointycastle;
@@ -50,9 +50,9 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   MultiAccountStore _multiAccountStore;
 
   bool _alive;
-  TalkSocket _ts;
+  TalkChannel _ts;
 
-  TalkSocket get ts {
+  TalkChannel get channel {
     return _ts;
   }
 
@@ -71,9 +71,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   final random = new Random.secure();
 
   int nextDeviceGhostId;
-
-  List<StreamSubscription<TalkMessage>> _subscriptions =
-      new List<StreamSubscription<TalkMessage>>();
 
   int _keepAliveBackground = 0;
 
@@ -104,7 +101,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       }
       if (_ts != null) {
         try {
-          await _ts.ping();
+          await _ts.sendRequest("PING", new Uint8List(0));
         } catch (error, stack) {
           log.fine("[PING] $error\n$stack");
         }
@@ -224,10 +221,10 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   /// Authenticate device connection, this process happens as if by magic
-  Future<void> _authenticateDevice(TalkSocket ts) async {
+  Future<void> _authenticateDevice(TalkChannel channel) async {
     // Initialize connection
     log.info("Authenticate device");
-    ts.sendMessage(TalkSocket.encode("INFAPP"), new Uint8List(0));
+    // channel.sendMessage(TalkChannel.encode("INFAPP"), new Uint8List(0));
 
     // TODO: We'll use an SQLite database to keep the local cache stored
     DeviceInfoPlugin deviceInfo = new DeviceInfoPlugin();
@@ -298,8 +295,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       pbReq.name = deviceName;
       pbReq.info = "{ debug: 'default_info' }";
 
-      TalkMessage res = await ts.sendRequest(
-          TalkSocket.encode("DA_CREAT"), pbReq.writeToBuffer());
+      TalkMessage res = await channel.sendRequest("DA_CREAT", pbReq.writeToBuffer());
       NetDeviceAuthState pbRes = new NetDeviceAuthState();
       pbRes.mergeFromBuffer(res.data);
       if (!_alive) {
@@ -318,8 +314,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       NetDeviceAuthChallengeReq pbChallengeReq =
           new NetDeviceAuthChallengeReq();
       pbChallengeReq.sessionId = localAccount.sessionId;
-      TalkMessage msgChallengeResReq = await ts.sendRequest(
-          TalkSocket.encode("DA_CHALL"), pbChallengeReq.writeToBuffer());
+      TalkMessage msgChallengeResReq = await channel.sendRequest("DA_CHALL", pbChallengeReq.writeToBuffer());
       NetDeviceAuthChallengeResReq pbChallengeResReq =
           new NetDeviceAuthChallengeResReq();
       pbChallengeResReq.mergeFromBuffer(msgChallengeResReq.data);
@@ -341,9 +336,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       NetDeviceAuthSignatureResReq pbSignature =
           new NetDeviceAuthSignatureResReq();
       pbSignature.signature = signature;
-      TalkMessage res = await ts.sendRequest(
-          TalkSocket.encode("DA_R_SIG"), pbSignature.writeToBuffer(),
-          replying: msgChallengeResReq);
+      TalkMessage res = await channel.replyRequest(msgChallengeResReq, "DA_R_SIG", pbSignature.writeToBuffer());
       NetDeviceAuthState pbRes = new NetDeviceAuthState();
       pbRes.mergeFromBuffer(res.data);
       if (!_alive) {
@@ -365,23 +358,27 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       onCommonChanged();
 
       // Register all listeners
-      _subscriptions.add(
-          ts.stream(TalkSocket.encode('DA_STATE')).listen(_netDeviceAuthState));
-      _subscriptions.add(ts
-          .stream(TalkSocket.encode("DB_OFFER"))
+      _subscriptions.add(channel
+          .stream(TalkChannel.encode('DA_STATE'))
+          .listen(_netDeviceAuthState));
+      _subscriptions.add(channel
+          .stream(TalkChannel.encode("DB_OFFER"))
           .listen(dataOffer)); // TODO: Remove this!
-      //_subscriptions.add(ts
-      //    .stream(TalkSocket.encode("DE_OFFER"))
+      //_subscriptions.add(channel
+      //    .stream(TalkChannel.encode("DE_OFFER"))
       //    .listen(_demoAllOffer));
       // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
-      _subscriptions.add(
-          ts.stream(TalkSocket.encode('LN_APPLI')).listen(liveNewProposal));
-      _subscriptions.add(
-          ts.stream(TalkSocket.encode('LN_A_CHA')).listen(liveNewProposalChat));
-      _subscriptions.add(
-          ts.stream(TalkSocket.encode('LU_APPLI')).listen(liveUpdateProposal));
-      _subscriptions.add(ts
-          .stream(TalkSocket.encode('LU_A_CHA'))
+      _subscriptions.add(channel
+          .stream(TalkChannel.encode('LN_APPLI'))
+          .listen(liveNewProposal));
+      _subscriptions.add(channel
+          .stream(TalkChannel.encode('LN_A_CHA'))
+          .listen(liveNewProposalChat));
+      _subscriptions.add(channel
+          .stream(TalkChannel.encode('LU_APPLI'))
+          .listen(liveUpdateProposal));
+      _subscriptions.add(channel
+          .stream(TalkChannel.encode('LU_A_CHA'))
           .listen(liveUpdateProposalChat));
 
       resubmitGhostChats();
@@ -416,7 +413,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         _netConfigWarning = false;
         try {
           log.info("Try connect to $uri");
-          _ts = await TalkSocket.connect(uri);
+          _ts = await TalkChannel.connect(uri);
         } catch (e) {
           log.warning("Network cannot connect, retry in 3 seconds: $e");
           assert(_ts == null);
@@ -440,14 +437,14 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
                 "[INF] Network authentication exception, retry in 3 seconds: $e");
             connected = NetworkConnectionState.failing;
             onCommonChanged();
-            TalkSocket ts = _ts;
+            TalkChannel channel = _ts;
             _ts = null;
             () async {
               log.fine("Wait");
               await new Future.delayed(new Duration(seconds: 3));
               log.fine("Retry now");
-              if (ts != null) {
-                ts.close();
+              if (channel != null) {
+                channel.close();
               }
             }()
                 .catchError((e) {
@@ -472,18 +469,14 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       }
     } catch (error, stack) {
       log.warning("Network session exception: $error\n$stack");
-      TalkSocket ts = _ts;
+      TalkChannel channel = _ts;
       _ts = null;
       connected = NetworkConnectionState.failing;
       onCommonChanged();
-      if (ts != null) {
-        ts.close(); // TODO: close code?
+      if (channel != null) {
+        channel.close(); // TODO: close code?
       }
     }
-    _subscriptions.forEach((s) {
-      s.cancel();
-    });
-    _subscriptions.clear();
   }
 
   Future _networkLoop() async {
@@ -539,12 +532,11 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   /* Device Registration */
-  static int _netSetAccountType = TalkSocket.encode("A_SETTYP");
   @override
   void setAccountType(AccountType accountType) {
     NetSetAccountType pb = new NetSetAccountType();
     pb.accountType = accountType;
-    ts.sendMessage(_netSetAccountType, pb.writeToBuffer());
+    channel.sendMessage("A_SETTYP", pb.writeToBuffer());
     // Cancel all social media logins on change, server update on this gets there later
     if (account.state.accountType != accountType) {
       for (int i = 0; i < account.detail.socialMedia.length; ++i) {
@@ -557,25 +549,24 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   /* OAuth */
-  static int _netOAuthUrlReq = TalkSocket.encode("OA_URLRE");
   @override
   Future<NetOAuthUrlRes> getOAuthUrls(int oauthProvider) async {
     NetOAuthUrlReq pb = new NetOAuthUrlReq();
     pb.oauthProvider = oauthProvider;
-    TalkMessage res = await ts.sendRequest(_netOAuthUrlReq, pb.writeToBuffer());
+    TalkMessage res =
+        await channel.sendRequest("OA_URLRE", pb.writeToBuffer());
     NetOAuthUrlRes resPb = new NetOAuthUrlRes();
     resPb.mergeFromBuffer(res.data);
     return resPb;
   }
 
-  static int _netOAuthConnectReq = TalkSocket.encode("OA_CONNE");
   @override
   Future<bool> connectOAuth(int oauthProvider, String callbackQuery) async {
     NetOAuthConnectReq pb = new NetOAuthConnectReq();
     pb.oauthProvider = oauthProvider;
     pb.callbackQuery = callbackQuery;
     TalkMessage res =
-        await ts.sendRequest(_netOAuthConnectReq, pb.writeToBuffer());
+        await channel.sendRequest("OA_CONNE", pb.writeToBuffer());
     NetOAuthConnectRes resPb = new NetOAuthConnectRes();
     resPb.mergeFromBuffer(res.data);
     // Result contains the updated data, so needs to be put into the state
@@ -588,7 +579,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     return resPb.socialMedia.connected;
   }
 
-  static int _netAccountCreateReq = TalkSocket.encode("A_CREATE");
   @override
   Future<void> createAccount(double latitude, double longitude) async {
     NetAccountCreateReq pb = new NetAccountCreateReq();
@@ -600,7 +590,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       pb.longitude = longitude;
     }
     TalkMessage res =
-        await ts.sendRequest(_netAccountCreateReq, pb.writeToBuffer());
+        await channel.sendRequest("A_CREATE", pb.writeToBuffer());
     NetDeviceAuthState resPb = new NetDeviceAuthState();
     resPb.mergeFromBuffer(res.data);
     await receivedDeviceAuthState(resPb);
@@ -628,7 +618,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     return convertedSink.value;
   }
 
-  static int _netUploadImageReq = TalkSocket.encode("UP_IMAGE");
   @override
   Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
     // Build information on file
@@ -650,7 +639,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
     // Fetch the pre-signed URL from the server
     TalkMessage resMessage =
-        await ts.sendRequest(_netUploadImageReq, req.writeToBuffer());
+        await channel.sendRequest("UP_IMAGE", req.writeToBuffer());
     NetUploadImageRes res = new NetUploadImageRes();
     res.mergeFromBuffer(resMessage.data);
 

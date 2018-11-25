@@ -11,7 +11,7 @@ import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 abstract class NetworkOffersBusiness
     implements NetworkInterface, NetworkInternals {
@@ -19,7 +19,7 @@ abstract class NetworkOffersBusiness
   bool offersLoading = false;
 
   bool _offersLoaded = false;
-  Map<int, DataOffer> _offers = new Map<int, DataOffer>();
+  Map<Int64, DataOffer> _offers = new Map<Int64, DataOffer>();
 
   void resetOffersBusinessState() {
     _offers.clear();
@@ -30,15 +30,14 @@ abstract class NetworkOffersBusiness
     _offersLoaded = false;
   }
 
-  static int _netCreateOfferReq = TalkSocket.encode("C_OFFERR");
   @override
   Future<DataOffer> createOffer(NetCreateOfferReq createOfferReq) async {
-    TalkMessage res = await ts.sendRequest(
-        _netCreateOfferReq, createOfferReq.writeToBuffer());
+    TalkMessage res = await channel.sendRequest(
+        "C_OFFERR", createOfferReq.writeToBuffer());
     DataOffer resPb = new DataOffer();
     resPb.mergeFromBuffer(res.data);
     cacheOffer(resPb);
-    _offers[resPb.offerId.toInt()] = resPb;
+    _offers[resPb.offerId] = resPb;
     onOffersBusinessChanged(ChangeAction.add, resPb.offerId);
     return resPb;
   }
@@ -49,24 +48,23 @@ abstract class NetworkOffersBusiness
     if (pb.accountId == account.state.accountId) {
       cacheOffer(pb);
       // Add received offer to known offers
-      _offers[pb.offerId.toInt()] = pb;
+      _offers[pb.offerId] = pb;
       onOffersBusinessChanged(ChangeAction.add, pb.offerId);
     } else {
       log.fine("Received offer for other account ${pb.accountId}");
     }
   }
 
-  static int _netLoadOffersReq = TalkSocket.encode("L_OFFERS");
   @override
   Future<void> refreshOffers() async {
     NetLoadOffersReq loadOffersReq =
         new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
-    await ts.sendRequest(_netLoadOffersReq,
+    await channel.sendRequest("L_OFFERS",
         loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
   }
 
   @override
-  Map<int, DataOffer> get offers {
+  Map<Int64, DataOffer> get offers {
     if (_offersLoaded == false && connected == NetworkConnectionState.ready) {
       _offersLoaded = true;
       if (account.state.accountType == AccountType.business) {

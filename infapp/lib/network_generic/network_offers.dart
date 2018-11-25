@@ -11,7 +11,7 @@ import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 class _CachedOffer {
   bool loading = false; // Request in progress, cleared on cache
@@ -77,8 +77,6 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
     onOfferChanged(ChangeAction.retry, offerId);
   }
 
-  static int _netGetOfferReq = TalkSocket.encode("GTOFFERR");
-
   /// Get an offer, refresh set to true to always get from server, use sparingly to refresh the cache
   Future<DataOffer> getOffer(Int64 offerId, {bool refresh = true}) async {
     if (!refresh) {
@@ -90,7 +88,7 @@ abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
     NetGetOfferReq pbReq = new NetGetOfferReq();
     pbReq.offerId = offerId;
     TalkMessage message =
-        await ts.sendRequest(_netGetOfferReq, pbReq.writeToBuffer());
+        await channel.sendRequest("GTOFFERR", pbReq.writeToBuffer());
     DataOffer offer =
         (new NetGetOfferRes()..mergeFromBuffer(message.data)).offer;
     cacheOffer(offer);

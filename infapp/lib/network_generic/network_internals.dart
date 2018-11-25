@@ -9,12 +9,12 @@ import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 abstract class NetworkInternals {
   // Common
   Logger get log;
-  TalkSocket get ts;
+  TalkChannel get channel;
   ConfigData get config;
   MultiAccountStore get multiAccountStore;
   void commonInitBase();

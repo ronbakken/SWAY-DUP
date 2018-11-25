@@ -11,7 +11,7 @@ import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:wstalk/wstalk.dart';
+import 'package:switchboard/switchboard.dart';
 
 class _CachedProfile {
   // TODO: Timestamp
@@ -105,7 +105,6 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
     }
   }
 
-  static int _netLoadPublicProfileReq = TalkSocket.encode("L_PROFIL");
   @override
   Future<DataAccount> getPublicProfile(Int64 accountId,
       {bool refresh = true}) async {
@@ -131,7 +130,7 @@ abstract class NetworkProfiles implements NetworkInterface, NetworkInternals {
     NetGetAccountReq pbReq = new NetGetAccountReq();
     pbReq.accountId = accountId;
     TalkMessage message =
-        await ts.sendRequest(_netLoadPublicProfileReq, pbReq.writeToBuffer());
+        await channel.sendRequest("L_PROFIL", pbReq.writeToBuffer());
     DataAccount profile = new DataAccount();
     profile.mergeFromBuffer(message.data);
     profile.freeze();

@@ -99,7 +99,7 @@ abstract class NetworkInterface {
   Future<void> refreshOffers();
 
   /// List of offers owned by this account (applicable for business)
-  Map<int, DataOffer> get offers;
+  Map<Int64, DataOffer> get offers;
 
   /// Whether [offers] is in the process of loading. Not set by refreshOffers call
   bool get offersLoading;
