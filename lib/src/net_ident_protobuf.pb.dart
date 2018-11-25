@@ -110,6 +110,33 @@ class NetSessionCreate extends $pb.GeneratedMessage {
   void clearDeviceInfo() => clearField(3);
 }
 
+class NetSessionRemove extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionRemove',
+      package: const $pb.PackageName('inf_common'))
+    ..hasRequiredFields = false;
+
+  NetSessionRemove() : super();
+  NetSessionRemove.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetSessionRemove.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetSessionRemove clone() => new NetSessionRemove()..mergeFromMessage(this);
+  NetSessionRemove copyWith(void Function(NetSessionRemove) updates) =>
+      super.copyWith((message) => updates(message as NetSessionRemove));
+  $pb.BuilderInfo get info_ => _i;
+  static NetSessionRemove create() => new NetSessionRemove();
+  static $pb.PbList<NetSessionRemove> createRepeated() =>
+      new $pb.PbList<NetSessionRemove>();
+  static NetSessionRemove getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static NetSessionRemove _defaultInstance;
+  static void $checkItem(NetSessionRemove v) {
+    if (v is! NetSessionRemove) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+}
+
 class NetSession extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSession',
       package: const $pb.PackageName('inf_common'))

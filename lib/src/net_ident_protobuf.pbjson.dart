@@ -21,6 +21,10 @@ const NetSessionCreate$json = const {
   ],
 };
 
+const NetSessionRemove$json = const {
+  '1': 'NetSessionRemove',
+};
+
 const NetSession$json = const {
   '1': 'NetSession',
   '2': const [
