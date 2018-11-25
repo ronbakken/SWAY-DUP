@@ -5,6 +5,7 @@ sudo apt update
 sudo apt upgrade
 
 pub global activate protoc_plugin
+pub global activate stagehand
 
 cd ~/infclient
 git pull --recurse-submodules
@@ -13,7 +14,7 @@ git submodule update --init
 cd ~/infserver
 git pull --recurse-submodules
 git submodule update --init
-cd api
+cd inf_server_api
 pub get
 pub upgrade
 cd ../dart-oauth1
@@ -35,3 +36,16 @@ git submodule update --init
 cd config
 pub get
 pub upgrade
+
+cd ~/inf_common
+git pull
+pub get
+pub upgrade
+
+cd ~/inf_config
+git pull
+pub get
+pub upgrade
+
+cd ~/inf_app
+git pull

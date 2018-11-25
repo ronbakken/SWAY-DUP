@@ -76,11 +76,12 @@ message ConfigOAuthProviders {
 message ConfigServices {
   // INF
   string environment = 24;
-  repeated string apiHosts = 8;
-  string configUrl = 9;
-  string termsOfServiceUrl = 10;
-  string privacyPolicyUrl = 11;
-  string connectionFailedUrl = 29;
+  string end_point = 8;
+  string service = 33;
+  string config_url = 9;
+  string terms_of_service_url = 10;
+  string privacy_policy_url = 11;
+  string connection_failed_url = 29;
   
   // MapBox
   string mapboxApi = 1;

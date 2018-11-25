@@ -1,0 +1,79 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf_common;
+option csharp_namespace = "InfCommon";
+
+import 'enum_protobuf.proto';
+import 'data_protobuf.proto';
+
+/// Message received from the server anytime the account information is updated
+/// Procedure ID: 'ACCOUNTU'
+message NetAccountUpdate {
+  DataAccount account = 1;
+  
+}
+
+// App requests the server to set the account type
+// Special case when going backwards in the onboarding process
+// Valid when account_id == 0
+/// Removes all OAuth associated with the device
+/// Procedure ID: 'A_SETTYP'
+message NetSetAccountType {
+  AccountType account_type = 1;
+  
+}
+
+/// App sets device firebase messaging token
+/// Procedure ID: 'SFIREBAT'
+message NetSetFirebaseToken {
+  string firebase_token = 1;
+  string old_firebase_token = 2;
+}
+
+/// App requests OAuth url
+/// Procedure ID: 'OA_URLRE'
+/// Response: NetOAuthUrl
+message NetOAuthGetUrl {
+  int32 oauth_provider = 1;
+  
+}
+
+/// Procedure ID: 'OA_R_URL'
+message NetOAuthUrl {
+  string auth_url = 1;
+  string callback_url = 2;
+  
+}
+
+/// App adds another OAuth provider to the account
+/// Procedure ID: 'OA_CONNE'
+/// Response: NetOAuthConnection
+message NetOAuthConnect {
+  int32 oauth_provider = 1;
+  string callback_query = 2;
+  
+}
+
+/// OAuth addition result
+/// Procedure ID: 'OA_R_CON'
+message NetOAuthConnection {
+  DataSocialMedia social_media = 1;
+  
+}
+
+/// Create account
+/// Response: NetAccountUpdate
+/// Procedure ID: 'A_CREATE'
+message NetAccountCreate {
+  double latitude = 2;
+  double longitude = 3;
+  
+}
+
+/* end of file */
