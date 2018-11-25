@@ -82,6 +82,7 @@ message ConfigServices {
   string terms_of_service_url = 10;
   string privacy_policy_url = 11;
   string connection_failed_url = 29;
+  string salt = 34;
   
   // MapBox
   string mapboxApi = 1;
