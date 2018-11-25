@@ -60,7 +60,7 @@ class ApiChannelOAuth {
 
   Future<void> netOAuthUrlReq(TalkMessage message) async {
     devLog.finest("netOAuthUrlReq");
-    NetOAuthUrlReq pb = new NetOAuthUrlReq();
+    NetOAuthGetUrl pb = new NetOAuthGetUrl();
     pb.mergeFromBuffer(message.data);
     if (pb.oauthProvider < config.oauthProviders.all.length) {
       ConfigOAuthProvider cfg = config.oauthProviders.all[pb.oauthProvider];
@@ -83,7 +83,7 @@ class ApiChannelOAuth {
                 await auth.requestTemporaryCredentials(cfg.callbackUrl);
             String authUrl = auth
                 .getResourceOwnerAuthorizationURI(authRes.credentials.token);
-            NetOAuthUrlRes pbRes = new NetOAuthUrlRes();
+            NetOAuthUrl pbRes = new NetOAuthUrl();
             devLog.finest(authUrl);
             pbRes.authUrl = authUrl;
             pbRes.callbackUrl = cfg.callbackUrl;
@@ -99,7 +99,7 @@ class ApiChannelOAuth {
             query['redirect_uri'] = cfg.callbackUrl;
             Uri uri = baseUri.replace(queryParameters: query);
             String authUrl = "$uri";
-            NetOAuthUrlRes pbRes = new NetOAuthUrlRes();
+            NetOAuthUrl pbRes = new NetOAuthUrl();
             devLog.finest(authUrl);
             pbRes.authUrl = authUrl;
             pbRes.callbackUrl = cfg.callbackUrl;
@@ -239,7 +239,7 @@ class ApiChannelOAuth {
 
   Future<void> netOAuthConnectReq(TalkMessage message) async {
     devLog.finest("netOAuthConnectReq");
-    NetOAuthConnectReq pb = new NetOAuthConnectReq();
+    NetOAuthConnect pb = new NetOAuthConnect();
     pb.mergeFromBuffer(message.data);
     // devLog.finest(pb.callbackQuery);
     if (pb.oauthProvider < config.oauthProviders.all.length) {
@@ -259,7 +259,7 @@ class ApiChannelOAuth {
       // bool connected = false;
 
       ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
-      NetOAuthConnectRes pbRes = new NetOAuthConnectRes();
+      NetOAuthConnection pbRes = new NetOAuthConnection();
 
       bool inserted = false;
       bool takeover = false;
@@ -435,10 +435,12 @@ class ApiChannelOAuth {
       if (takeover) {
         // Account was found during connection, transition
         _r.unsubscribeOnboarding();
-        // Load all session state
-        await _r.updateDeviceState();
-        // Send all state to user
-        await _r.sendNetDeviceAuthState();
+        await _r.lock.synchronized(() async {
+          // Load all session state
+          await _r.refreshAccount();
+          // Send all state to user
+          await _r.sendAccountUpdate();
+        });
         if (account.state.accountId != 0) {
           // Transition to app
           await _r.transitionToApp();

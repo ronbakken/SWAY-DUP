@@ -165,7 +165,7 @@ run() async {
     // TODO: Rename ChannelInfo to ChannelOpen
     if (open.service == "api") {
       TalkChannel talkChannel = new TalkChannel(open.channel);
-      new ApiChannel(config, sql, bucket, talkChannel, bc, ipAddress: 'localhost');
+      new ApiChannel(config, sql, bucket, talkChannel, bc, open.payload, ipAddress: 'localhost');
     } else {
       TalkChannel talkChannel = new TalkChannel(open.channel);
       // talkChannel.sendMessage(procedureId, data) // TODO: sendAbort
