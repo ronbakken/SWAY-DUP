@@ -84,8 +84,7 @@ selfTestTalk() async {
     await switchboard.close();
     opsLog.info("[✔️] Switchboard Self Test");
   } catch (ex) {
-    opsLog.severe(
-        "[❌] Switchboard Self Test: $ex"); // CRITICAL - OPERATIONS
+    opsLog.severe("[❌] Switchboard Self Test: $ex"); // CRITICAL - OPERATIONS
   }
   if (channel != null) {
     channel.close();
@@ -165,14 +164,14 @@ run() async {
     // TODO: Rename ChannelInfo to ChannelOpen
     if (open.service == "api") {
       TalkChannel talkChannel = new TalkChannel(open.channel);
-      new ApiChannel(config, sql, bucket, talkChannel, bc, open.payload, ipAddress: 'localhost');
+      new ApiChannel(config, sql, bucket, talkChannel, bc, open.payload,
+          ipAddress: 'localhost');
     } else {
       TalkChannel talkChannel = new TalkChannel(open.channel);
       // talkChannel.sendMessage(procedureId, data) // TODO: sendAbort
       talkChannel.close();
     }
   }
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////

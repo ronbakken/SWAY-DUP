@@ -92,7 +92,7 @@ class ApiChannel {
 
     // subscribeAuthentication(); // --- TODO
 
-    initializeSession(payload);
+    _initializeSession(payload);
 
     channel.listen((TalkMessage message) async {
       if (_procedureHandlers.containsKey(message.procedureId)) {
@@ -224,7 +224,7 @@ class ApiChannel {
   // Session
   /////////////////////////////////////////////////////////////////////
 
-  Future<void> initializeSession(Uint8List payload) async {
+  Future<void> _initializeSession(Uint8List payload) async {
     account = new DataAccount();
     account.state = new DataAccountState();
     account.summary = new DataAccountSummary();
@@ -240,58 +240,59 @@ class ApiChannel {
       ..freeze();
     if (sessionPayload.hasSessionId() && sessionPayload.sessionId != 0) {
       // Attempt to connect to a requested session, send session deletion message on failure.
-      await sessionOpen(sessionPayload);
+      await _sessionOpen(sessionPayload);
     } else {
       // No session, only permit session creation message.
-      registerProcedure('SESSIONC', GlobalAccountState.initialize,
-          (TalkMessage message) async {
-        await sessionCreate(message, sessionPayload);
+      await lock.synchronized(() async {
+        registerProcedure('SESSIONC', GlobalAccountState.initialize,
+            (TalkMessage message) async {
+          await _sessionCreate(message, sessionPayload);
+        });
       });
     }
   }
 
-  Future<void> sessionCreate(
+  Future<void> _sessionCreate(
       TalkMessage message, NetSessionPayload sessionPayload) async {
     NetSessionCreate create = new NetSessionCreate()
       ..mergeFromBuffer(message.data)
       ..freeze();
     NetSession session = new NetSession();
     await lock.synchronized(() async {
-      if (account.state.sessionId != 0) {
+      if (account.state.sessionId == 0) {
+        // Create a new session in the sessions table of the database
+        Uint8List cookieHash = Uint8List.fromList(sha256
+            .convert(sessionPayload.cookie + utf8.encode(config.services.salt))
+            .bytes); // TODO: Pre-encode salt
+        Uint8List deviceHash = Uint8List.fromList(sha256
+            .convert(create.deviceToken + utf8.encode(config.services.salt))
+            .bytes); // TODO: Pre-encode salt
+        channel.replyExtend(message);
+        sqljocky.Results results = await sql.prepareExecute(
+            "INSERT INTO `sessions` (`cookie_hash`, `device_hash`, `name`, `info`) VALUES (?, ?, ?, ?)",
+            [cookieHash, deviceHash, create.deviceName, create.deviceInfo]);
+        if (results.insertId != null && account.state.sessionId == 0) {
+          account.state.sessionId = new Int64(results.insertId);
+          devLog.info(
+              "Inserted session_id ${account.state.sessionId} with cookie_hash '${cookieHash}'");
+        }
+      }
+      if (account.state.sessionId == 0) {
+        channel.replyAbort(message, "Failed to create session.");
         return;
       }
-      // Create a new session in the sessions table of the database
-      Uint8List cookieHash = Uint8List.fromList(sha256
-          .convert(sessionPayload.cookie + utf8.encode(config.services.salt))
-          .bytes); // TODO: Pre-encode salt
-      Uint8List deviceHash = Uint8List.fromList(sha256
-          .convert(create.deviceToken + utf8.encode(config.services.salt))
-          .bytes); // TODO: Pre-encode salt
-      channel.replyExtend(message);
-      sqljocky.Results results = await sql.prepareExecute(
-          "INSERT INTO `sessions` (`cookie_hash`, `device_hash`, `name`, `info`) VALUES (?, ?, ?, ?)",
-          [cookieHash, deviceHash, create.deviceName, create.deviceInfo]);
-      if (results.insertId != null && account.state.sessionId == 0) {
-        account.state.sessionId = new Int64(results.insertId);
+      session.sessionId = account.state.sessionId;
+      channel.replyMessage(message, 'R_SESSIO', session.writeToBuffer());
+      if (_procedureHandlers.containsKey('SESSIONC')) {
+        unregisterProcedure('SESSIONC');
+        subscribeOnboarding();
+        subscribeOAuth();
       }
-      devLog.info(
-          "Inserted session_id ${account.state.sessionId} with cookie_hash '${cookieHash}'");
-    });
-    if (account.state.sessionId == 0) {
-      channel.replyAbort(message, "Failed to create session.");
-      return;
-    }
-    session.sessionId = account.state.sessionId;
-    channel.replyMessage(message, 'R_SESSIO', session.writeToBuffer());
-    unregisterProcedure('SESSIONC');
-    subscribeOnboarding();
-    subscribeOAuth();
-    await lock.synchronized(() async {
       sendAccountUpdate();
     });
   }
 
-  Future<void> sessionOpen(NetSessionPayload sessionPayload) async {
+  Future<void> _sessionOpen(NetSessionPayload sessionPayload) async {
     await lock.synchronized(() async {
       if (!sessionPayload.hasSessionId() || sessionPayload.sessionId == 0) {
         throw new Exception("Session ID must be set.");
@@ -318,16 +319,17 @@ class ApiChannel {
             subscribeOAuth();
           }
         } else {
-          await sessionDelete();
+          await _sessionRemove();
         }
       } else {
-        await sessionDelete();
+        await _sessionRemove();
       }
     });
   }
 
-  Future<void> sessionDelete() async {
-    // TODO: ---------- DELETE SESSION ON REMOTE
+  Future<void> _sessionRemove() async {
+    NetSessionRemove remove = new NetSessionRemove();
+    channel.sendMessage('SESREMOV', remove.writeToBuffer());
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -755,8 +757,9 @@ class ApiChannel {
 
   void subscribeOnboarding() {
     registerProcedure(
-        "A_SETTYP", GlobalAccountState.initialize, netSetAccountType);
-    registerProcedure("A_CREATE", GlobalAccountState.initialize, accountCreate);
+        "A_SETTYP", GlobalAccountState.initialize, _accountSetType);
+    registerProcedure(
+        "A_CREATE", GlobalAccountState.initialize, _accountCreate);
   }
 
   void unsubscribeOnboarding() {
@@ -764,7 +767,7 @@ class ApiChannel {
     unregisterProcedure("A_CREATE");
   }
 
-  Future<void> netSetAccountType(TalkMessage message) async {
+  Future<void> _accountSetType(TalkMessage message) async {
     assert(account.state.sessionId != 0);
     // Received account type change request
     NetSetAccountType pb = new NetSetAccountType();
@@ -801,10 +804,8 @@ class ApiChannel {
     if (update) {
       devLog.finest(
           "Send authentication state, account type is ${account.state.accountType} (set ${pb.accountType})");
-      await lock.synchronized(() async {
-        await refreshAccount();
-        await sendAccountUpdate();
-      });
+      await refreshAccount();
+      await sendAccountUpdate();
       devLog.finest(
           "Account type is now ${account.state.accountType} (set ${pb.accountType})");
     }
@@ -838,7 +839,7 @@ class ApiChannel {
         this); // TODO: Should SELECT all the accounts that were changed (with the new token)
   }
 
-  Future<void> accountCreate(TalkMessage message) async {
+  Future<void> _accountCreate(TalkMessage message) async {
     // response: NetDeviceAuthState
     assert(account.state.sessionId != 0);
     // Received account creation request
@@ -851,7 +852,16 @@ class ApiChannel {
       return;
     }
 
-    const List<int> mediaPriority = const [3, 1, 4, 8, 6, 2, 5, 7];
+    const List<int> mediaPriority = const [
+      3,
+      1,
+      4,
+      8,
+      6,
+      2,
+      5,
+      7
+    ]; // TODO: put this in the config
 
     // Attempt to get locations
     // Fetch location info from coordinates
@@ -1651,7 +1661,7 @@ class ApiChannel {
     if (account.state.globalAccountState.value >
         GlobalAccountState.blocked.value) {
       registerProcedure(
-          "SFIREBAT", GlobalAccountState.blocked, _netSetFirebaseToken);
+          'SFIREBAT', GlobalAccountState.blocked, _netSetFirebaseToken);
       subscribeOAuth();
       subscribeUpload();
       subscribeProfile();
