@@ -103,6 +103,22 @@ class ApiChannel {
     }
 
     subscribeAuthentication();
+
+    channel.listen((TalkMessage message) {
+      if (_procedureHandlers.containsKey(message.procedureId)){
+        _procedureHandlers[message.procedureId](message);
+      } else {
+        channel.unknownProcedure(message);
+      }
+    }, onError: (error, stack) {
+      if (error is TalkAbort) {
+        devLog.severe("Received abort from api remote: $error\n$stack");
+      } else {
+        devLog.severe("Unknown error from api remote: $error\n$stack");
+      }
+    }, onDone: () {
+      dispose();
+    });
   }
 
   void dispose() {
@@ -219,6 +235,11 @@ class ApiChannel {
         "DA_CREAT", GlobalAccountState.initialize, netDeviceAuthCreateReq);
     registerProcedure(
         "DA_CHALL", GlobalAccountState.initialize, netDeviceAuthChallengeReq);
+        registerProcedure("PING", GlobalAccountState.initialize, netPing);
+  }
+
+  Future<void> netPing(TalkMessage message) async {
+    channel.replyMessage(message, "PONG", new Uint8List(0));
   }
 
   void unsubscribeAuthentication() {

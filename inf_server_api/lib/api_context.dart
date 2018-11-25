@@ -90,7 +90,6 @@ class ApiChannelOffer {
   // Network messages
   //////////////////////////////////////////////////////////////////////////////
 
-  StreamSubscription<TalkMessage> _netLoadOfferReq; // L_OFFERR
   static int _netLoadOfferRes = TalkSocket.encode("L_R_OFFR");
   Future<void> netLoadPublicOfferReq(TalkMessage message) async {
 

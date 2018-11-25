@@ -92,7 +92,6 @@ class ApiChannelBusiness {
   // Network messages
   //////////////////////////////////////////////////////////////////////////////
 
-  StreamSubscription<TalkMessage> _netCreateOfferReq; // C_OFFERR
   Future<void> netCreateOfferReq(TalkMessage message) async {
     NetCreateOfferReq pb = new NetCreateOfferReq();
     pb.mergeFromBuffer(message.data);
@@ -201,7 +200,6 @@ class ApiChannelBusiness {
         message, "C_R_OFFE", netCreateOfferRes.writeToBuffer());
   }
 
-  StreamSubscription<TalkMessage> _netLoadOffersReq; // C_OFFERR
   Future<void> netLoadOffersReq(TalkMessage message) async {
     NetLoadOffersReq pb = new NetLoadOffersReq();
     pb.mergeFromBuffer(message.data);

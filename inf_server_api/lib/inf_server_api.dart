@@ -60,7 +60,7 @@ selfTestSql(sqljocky.ConnectionPool sql) async {
 selfTestTalk() async {
   final Logger opsLog = new Logger('InfOps.SelfTest');
   TalkChannel channel;
-  List<int> values = new List<int>();
+  // List<int> values = new List<int>();
   try {
     /*
     channel = await TalkSocket.connect("ws://localhost:8090/api");
@@ -77,10 +77,15 @@ selfTestTalk() async {
     channel = null;
     await listen;
     */
-    opsLog.info("[✔️] Switchboard Self Test $values");
+    Switchboard switchboard = new Switchboard();
+    switchboard.setEndPoint("ws://localhost:8090/ep");
+    await switchboard.sendRequest("api", "PING", new Uint8List(0));
+    switchboard.listenDiscard();
+    await switchboard.close();
+    opsLog.info("[✔️] Switchboard Self Test");
   } catch (ex) {
     opsLog.severe(
-        "[❌] Switchboard Self Test $values: $ex"); // CRITICAL - OPERATIONS
+        "[❌] Switchboard Self Test: $ex"); // CRITICAL - OPERATIONS
   }
   if (channel != null) {
     channel.close();
@@ -153,6 +158,8 @@ run() async {
   // Listen to websocket
   Switchboard switchboard = new Switchboard();
   await switchboard.bindWebSocket(InternetAddress.anyIPv6, 8090, '/ep');
+  selfTestTalk();
+
   await for (ChannelInfo open in switchboard) {
     // TODO: Rename ChannelInfo to ChannelOpen
     if (open.service == "api") {
@@ -165,7 +172,6 @@ run() async {
     }
   }
 
-  selfTestTalk();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
