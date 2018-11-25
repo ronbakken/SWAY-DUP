@@ -25,7 +25,7 @@ import 'package:inf/network_generic/network_manager.dart';
 
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf_common/inf_common.dart';
 
@@ -50,7 +50,7 @@ class NetworkProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String ks = key.toString();
-    ConfigData config = ConfigManager.of(context);
+    ConfigData config = ConfigProvider.of(context);
     assert(config != null);
     return new _NetworkProviderStateful(
       key: (key != null && ks.length > 0) ? new Key('$ks.Stateful') : null,

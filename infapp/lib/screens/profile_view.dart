@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/widgets/profile_avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/widgets/follower_tray.dart';
 import 'package:inf/widgets/edit_button.dart';
 import 'package:inf_common/inf_common.dart';
@@ -28,7 +28,7 @@ class ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    assert(ConfigManager.of(context) != null);
+    assert(ConfigProvider.of(context) != null);
     ThemeData theme = Theme.of(context);
     bool portrait = (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width);
@@ -55,7 +55,7 @@ class ProfileView extends StatelessWidget {
         textAlign: TextAlign.center,
       ),
       new FollowerTray(
-        oAuthProviders: ConfigManager.of(context).oauthProviders.all,
+        oAuthProviders: ConfigProvider.of(context).oauthProviders.all,
         socialMedia: account.detail.socialMedia,
       ),
       account.detail.website.isEmpty

@@ -10,7 +10,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/screens/account_switch.dart';
@@ -45,7 +45,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _config = ConfigManager.of(context);
+    _config = ConfigProvider.of(context);
     NetworkInterface network = NetworkProvider.of(context);
     if (network != _network) {
       _network = network;
@@ -151,7 +151,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   void navigateToPublicProfile(Int64 accountId) {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on any context outside Navigator.push and thus cannot use variables from State widget!
-      // ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigProvider.of(context);
       NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(account: network.tryGetProfileDetail(accountId));
@@ -182,7 +182,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
         settings: new RouteSettings(name: '/proposal/' + proposalId.toString()),
         builder: (context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-          // ConfigData config = ConfigManager.of(context);
+          // ConfigData config = ConfigProvider.of(context);
           NetworkInterface network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           if (!suppressed) {
@@ -248,7 +248,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   void navigateToSwitchAccount() {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      ConfigData config = ConfigManager.of(context);
+      ConfigData config = ConfigProvider.of(context);
       // NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       MultiAccountClient selection = MultiAccountSelection.of(context);
@@ -269,7 +269,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   void navigateToDebugAccount() {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      // ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigProvider.of(context);
       NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new DebugAccount(

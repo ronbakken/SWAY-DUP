@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf_common/inf_common.dart';
 
@@ -17,7 +17,7 @@ class LoadingNetwork extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     NetworkInterface network = NetworkProvider.of(context);
-    ConfigData config = ConfigManager.of(context);
+    ConfigData config = ConfigProvider.of(context);
     assert(network != null);
     if (network.connected == NetworkConnectionState.failing) {
       // "Technical issues"

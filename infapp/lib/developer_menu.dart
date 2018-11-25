@@ -12,7 +12,7 @@ import 'package:geolocator/geolocator.dart';
 
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/screens/business_offer_list.dart';
@@ -177,7 +177,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ConfigData config = ConfigManager.of(context);
+    ConfigData config = ConfigProvider.of(context);
     //demoAccount.detail = new DataAccountDetail();
     assert(config != null);
     for (int i = demoAccount.detail.socialMedia.length;
@@ -211,7 +211,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
 
   @override
   Widget build(BuildContext context) {
-    assert(ConfigManager.of(context) != null);
+    assert(ConfigProvider.of(context) != null);
 
     List<Widget> accountButtons = new List<Widget>();
 
@@ -394,11 +394,11 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                 builder: (context) {
                   return new StatefulBuilder(
                     builder: (context, setState) {
-                      assert(ConfigManager.of(context) != null);
+                      assert(ConfigProvider.of(context) != null);
                       return new OnboardingSocial(
                         accountType: demoAccount.state.accountType,
                         oauthProviders:
-                            ConfigManager.of(context).oauthProviders.all,
+                            ConfigProvider.of(context).oauthProviders.all,
                         onOAuthSelected: (int oauthProvider) {
                           setState(() {
                             demoAccount.detail.socialMedia[oauthProvider]
@@ -411,11 +411,11 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                         },
                         oauthState: demoAccount.detail
                             .socialMedia, // () { return demoSocialMedia; }(),
-                        termsOfServiceUrl: ConfigManager.of(context)
+                        termsOfServiceUrl: ConfigProvider.of(context)
                             .services
                             .termsOfServiceUrl,
                         privacyPolicyUrl:
-                            ConfigManager.of(context).services.privacyPolicyUrl,
+                            ConfigProvider.of(context).services.privacyPolicyUrl,
                         onSignUp: () async {
                           demoAccount.state.accountId =
                               new Int64(random.nextInt(1000000) + 1);

@@ -18,7 +18,7 @@ import 'package:inf/widgets/network_status.dart';
 import 'package:latlong/latlong.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
 
 import 'package:inf/utility/page_transition.dart';
@@ -89,7 +89,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
         settings: new RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (BuildContext context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-          // ConfigData config = ConfigManager.of(context);
+          // ConfigData config = ConfigProvider.of(context);
           NetworkInterface network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           DataOffer businessOffer = network.tryGetOffer(offerId);
@@ -177,7 +177,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   void navigateToProfileView() {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      // ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigProvider.of(context);
       NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
@@ -191,7 +191,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   void navigateToProfileEdit() {
     Navigator.push(context, new MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      // ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigProvider.of(context);
       NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileEdit(
@@ -204,7 +204,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     TextEditingController searchQueryControllerFallback =
         searchQueryController ?? new TextEditingController();
     fadeToPage(context, (context, animation, secondaryAnimation) {
-      // ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigProvider.of(context);
       NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new SearchPageCommon(
@@ -286,7 +286,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       proposalsAppliedTab: 2,
       proposalsDealTab: 3,
       mapOffers: new Builder(builder: (context) {
-        ConfigData config = ConfigManager.of(context);
+        ConfigData config = ConfigProvider.of(context);
         NetworkInterface network = NetworkProvider.of(context);
         List<int> showcaseOfferIds = enoughSpaceForBottom
             ? network.demoAllOffers.keys.toList()

@@ -11,7 +11,7 @@ import 'package:inf/navigation_bindings/app_common.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/widgets/network_status.dart';
@@ -56,7 +56,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
-      // ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigProvider.of(context);
       NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new OfferCreate(
@@ -147,7 +147,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       new MaterialPageRoute(
         settings: new RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (context) {
-          // ConfigData config = ConfigManager.of(context);
+          // ConfigData config = ConfigProvider.of(context);
           NetworkInterface network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           DataOffer businessOffer = network.tryGetOffer(offerId);
@@ -174,7 +174,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
-      // ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigProvider.of(context);
       NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
@@ -200,7 +200,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(builder: (context) {
-      // ConfigData config = ConfigManager.of(context);
+      // ConfigData config = ConfigProvider.of(context);
       NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileEdit(

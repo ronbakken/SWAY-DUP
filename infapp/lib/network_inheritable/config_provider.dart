@@ -31,8 +31,8 @@ String translateGlobalAccountStateReason(
   return "There is an issue with your INF Marketplace account. Please contact support.";
 }
 
-class ConfigManager extends StatefulWidget {
-  const ConfigManager({
+class ConfigProvider extends StatefulWidget {
+  const ConfigProvider({
     Key key,
     this.startupConfig,
     this.child,
@@ -42,17 +42,17 @@ class ConfigManager extends StatefulWidget {
   final Widget child;
 
   static ConfigData of(BuildContext context) {
-    final _InheritedConfigManager inherited =
-        context.inheritFromWidgetOfExactType(_InheritedConfigManager);
+    final _InheritedConfigProvider inherited =
+        context.inheritFromWidgetOfExactType(_InheritedConfigProvider);
     //assert(inherited != null);
     return inherited != null ? inherited.config : null;
   }
 
   @override
-  _ConfigManagerState createState() => new _ConfigManagerState();
+  _ConfigProviderState createState() => new _ConfigProviderState();
 }
 
-class _ConfigManagerState extends State<ConfigManager> {
+class _ConfigProviderState extends State<ConfigProvider> {
   ConfigData config;
 
   reloadConfig() async {
@@ -103,15 +103,15 @@ class _ConfigManagerState extends State<ConfigManager> {
 
   @override
   Widget build(BuildContext context) {
-    return new _InheritedConfigManager(
+    return new _InheritedConfigProvider(
       config: config,
       child: widget.child,
     );
   }
 }
 
-class _InheritedConfigManager extends InheritedWidget {
-  const _InheritedConfigManager({
+class _InheritedConfigProvider extends InheritedWidget {
+  const _InheritedConfigProvider({
     Key key,
     @required this.config,
     @required Widget child,
@@ -121,7 +121,7 @@ class _InheritedConfigManager extends InheritedWidget {
   final ConfigData config;
 
   @override
-  bool updateShouldNotify(_InheritedConfigManager old) => config != old.config;
+  bool updateShouldNotify(_InheritedConfigProvider old) => config != old.config;
 }
 
 /* end of file */

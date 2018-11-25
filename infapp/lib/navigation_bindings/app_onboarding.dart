@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
 
 import 'package:inf/widgets/oauth_scaffold.dart';
@@ -48,7 +48,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
       context,
       new MaterialPageRoute(
         builder: (context) {
-          ConfigData config = ConfigManager.of(context);
+          ConfigData config = ConfigProvider.of(context);
           NetworkInterface network = NetworkProvider.of(context);
           assert(config != null);
           assert(network != null);
@@ -72,7 +72,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, new MaterialPageRoute(
       builder: (context) {
-        ConfigData config = ConfigManager.of(context);
+        ConfigData config = ConfigProvider.of(context);
         NetworkInterface network = NetworkProvider.of(context);
         // NavigatorState navigator = Navigator.of(context);
         /*if (network.account.state.accountId != 0) {

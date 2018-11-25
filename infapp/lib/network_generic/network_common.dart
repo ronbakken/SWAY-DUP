@@ -34,7 +34,7 @@ import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_generic/network_offers.dart';
 import 'package:inf/network_generic/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';

@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_inheritable/network_provider.dart';
@@ -31,7 +31,7 @@ class _AppSwitchState extends State<AppSwitch> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    String environment = ConfigManager.of(context).services.environment;
+    String environment = ConfigProvider.of(context).services.environment;
     Int64 accountId = NetworkProvider.of(context).account.state.accountId;
     if (environment != _environment || accountId != _accountId) {
       _environment = environment;
