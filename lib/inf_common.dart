@@ -16,6 +16,7 @@ export 'package:inf_common/src/net_storage_protobuf.pb.dart';
 export 'package:inf_common/src/net_get_protobuf.pb.dart';
 export 'package:inf_common/src/net_push_protobuf.pb.dart';
 
+export 'package:inf_common/src/net_account_protobuf.pb.dart';
 export 'package:inf_common/src/net_profile_protobuf.pb.dart';
 export 'package:inf_common/src/net_offer_protobuf.pb.dart';
 export 'package:inf_common/src/net_proposal_protobuf.pb.dart';
