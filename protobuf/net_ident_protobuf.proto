@@ -18,6 +18,13 @@ message NetSessionPayload {
   int64 session_id = 1;
   bytes cookie = 2;
   
+  /// Information on the currently loaded config
+  int32 environment = 7; // If mismatch, cannot serve this session at all
+  int32 client_version = 3; // If mismatch, cannot serve this session at all
+  int64 config_timestamp = 4; // If server timestamp is higher, request config download
+  string config_region = 5; // Indicate the region of the user's current config
+  string config_language = 6; // Indicate the language of the user's current config
+  
 }
 
 /// Create a session with the current payload cookie
@@ -44,6 +51,12 @@ message NetSessionRemove {
 message NetSession {
   /// Newly created session id. Client uses this only to update the connection payload.
   int64 session_id = 1;
+  
+}
+
+/// Request the user to download an updated configuration file.
+message NetConfigDownload {
+  string config_url = 1;
   
 }
 
