@@ -225,6 +225,8 @@ class ApiChannel {
   /////////////////////////////////////////////////////////////////////
 
   Future<void> _initializeSession(Uint8List payload) async {
+    registerProcedure("PING", GlobalAccountState.initialize, netPing);
+
     account = new DataAccount();
     account.state = new DataAccountState();
     account.summary = new DataAccountSummary();
@@ -308,8 +310,9 @@ class ApiChannel {
       await for (sqljocky.Row row in pubKeyResults) {
         sessionId = new Int64(row[0]);
       }
-      if (sessionId == sessionPayload.sessionId) {
+      if (sessionId != null && sessionId == sessionPayload.sessionId) {
         devLog.fine("Await session state");
+        account.state.sessionId = sessionId;
         await refreshAccount();
         if (account.state.sessionId != 0) {
           if (account.state.accountId != 0) {
@@ -318,6 +321,7 @@ class ApiChannel {
             subscribeOnboarding();
             subscribeOAuth();
           }
+          sendAccountUpdate();
         } else {
           await _sessionRemove();
         }
@@ -398,7 +402,7 @@ class ApiChannel {
         if (row[2] != null) account.state.firebaseToken = row[2].toString();
       }
       // Fetch account-specific info (overwrites session accountType, although it cannot possibly be different)
-      if (account.state.accountId != 0) {
+      if (account.state.accountId != Int64.ZERO) {
         if (extend != null) extend();
         sqljocky.Results accountResults = await connection.prepareExecute(
             "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
@@ -516,6 +520,7 @@ class ApiChannel {
     }
     NetAccountUpdate update = new NetAccountUpdate();
     update.account = account;
+    devLog.finer("Send account update: $account");
     if (replying != null)
       channel.replyMessage(replying, "ACCOUNTU", update.writeToBuffer());
     else
@@ -535,7 +540,6 @@ class ApiChannel {
         "DA_CREAT", GlobalAccountState.initialize, netDeviceAuthCreateReq);
     registerProcedure(
         "DA_CHALL", GlobalAccountState.initialize, netDeviceAuthChallengeReq);
-        registerProcedure("PING", GlobalAccountState.initialize, netPing);
     * /
   }*/
 
