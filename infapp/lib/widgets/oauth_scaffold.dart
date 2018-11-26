@@ -28,8 +28,9 @@ class OAuthScaffold extends StatefulWidget {
 
   final AppBar appBar;
 
-  final OAuthGetParams onOAuthGetParams;
-  final OAuthCallbackResult onOAuthCallbackResult;
+  final Future<NetOAuthUrl> Function() onOAuthGetParams;
+  final Future<NetOAuthConnection> Function(String callbackQuery)
+      onOAuthCallbackResult;
   final List<String> whitelistHosts;
 
   @override
@@ -45,7 +46,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   bool _ready = false;
   String _authUrl;
   String _callbackUrl = "https://invalid.invalid";
-  Map<String, bool> _hostWhitelist = new Map<String, bool>();
+  final Map<String, bool> _hostWhitelist = <String, bool>{};
 
   Future<Null> _authError() async {
     _focusScope.requestFocus(new FocusNode());
@@ -125,13 +126,15 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     super.dispose();
   }
 
-  _urlChanged(String url) async {
+  Future<void> _urlChanged(String url) async {
     try {
       if (mounted) {
         Uri uri = Uri.parse(url);
         if (url.startsWith(_callbackUrl)) {
-          if (widget.onOAuthCallbackResult != null &&
-              await widget.onOAuthCallbackResult(uri.query)) {
+          NetOAuthConnection connection = widget.onOAuthCallbackResult != null
+              ? await widget.onOAuthCallbackResult(uri.query)
+              : null;
+          if (connection != null && connection.socialMedia.connected) {
             print("Authorization success");
             Navigator.of(context).pop();
           } else {
