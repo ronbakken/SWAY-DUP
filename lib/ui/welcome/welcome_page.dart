@@ -96,14 +96,14 @@ class _WelcomePageState extends PageState<WelcomePage> {
                         color: AppTheme.blue,
                         onPressed: () => Navigator.of(context).push(
                             OnBoardingPage.route(
-                                userType: UserType.influcencer)),
+                                userType: AccountType.influencer)),
                       ),
                       SizedBox(height: 12.0),
                       _WelcomeButton(
                         text: 'I NEED AN INFLUENCER',
                         color: AppTheme.red,
                         onPressed: () => Navigator.of(context).push(
-                            OnBoardingPage.route(userType: UserType.business)),
+                            OnBoardingPage.route(userType: AccountType.business)),
                       ),
                     ],
                   ),

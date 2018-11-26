@@ -1,31 +1,19 @@
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/location.dart';
 import 'package:inf/domain/socialmedia_account.dart';
 
-enum UserType {
-  influcencer,
-  business,
-  support,
-  manager,
-}
-
-enum AccountState {
-  newAccount, // User is a new account
-  banned, // User is disallowed from the service
-  createdDenied, // User account creation request was denied. Contact support
-  approved, // User account was approved
-  demoapproved, // User account was automatically approved for demonstration purpose
-  pending, // User account approval is pending
-  requiresInfo, // More information is required from the user to approve their account
-}
+import 'package:inf_common/inf_common.dart';
+export 'package:inf_common/inf_common.dart';
 
 class User {
-  final int id;
+  final Int64 id;
   final bool verified;
-  final AccountState accountState;
-  final UserType userType;
+  final GlobalAccountState accountState;
+  final GlobalAccountStateReason accountStateReason;
+  final AccountType userType;
   final String name;
   final String description;
   final String email;
@@ -49,6 +37,7 @@ class User {
     this.id,
     this.verified,
     this.accountState,
+    this.accountStateReason,
     this.userType,
     this.name,
     this.description,

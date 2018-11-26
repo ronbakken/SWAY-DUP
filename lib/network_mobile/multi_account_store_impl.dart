@@ -368,6 +368,13 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   void addAccount([String environment]) {
     switchAccount(environment ?? _startupEnvironment, Int64.ZERO);
   }
+
+  /// Remove account
+  void removeAccount([String environment, Int64 accountId]) {
+    _LocalAccountDataImpl remove = _current;
+    switchAccount(environment ?? _startupEnvironment, Int64.ZERO);
+    removeLocal(remove.environment, remove.localId);
+  }
 }
 
 /* end of file */

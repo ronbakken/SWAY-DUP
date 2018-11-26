@@ -32,7 +32,7 @@ class MapMarker {
 
   // only valid for type user
   final int userId;
-  final UserType userType;
+  final AccountType userType;
 
   MapMarker({
     this.id,

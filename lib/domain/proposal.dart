@@ -1,21 +1,14 @@
 import 'package:inf/domain/domain.dart';
 
-enum ProposalState {
-  proposed,
-  haggling,
-  deal,
-  rejected,
-  complete,
-  dispute,
-  resolved,
-}
+import 'package:inf_common/inf_common.dart';
+export 'package:inf_common/inf_common.dart';
 
 class Proposal {
   final int id;
   final int offerId;
   final int influencerId; // Account which applied
   final int businessId;
-  final UserType sentFrom; // Either influencer or business sent this
+  final AccountType sentFrom; // Either influencer or business sent this
 
   /// Embedded data
   final String influencerName;

@@ -78,7 +78,7 @@ class _MainMapViewState extends State<MainMapView> {
         if (mapMarker.isDirectOffer ?? false) {
           markerAsset = AppIcons.mapMarkerDirectOffer;
         } else if (mapMarker.userType != null &&
-            mapMarker.userType == UserType.business) {
+            mapMarker.userType == AccountType.business) {
           markerAsset = AppIcons.mapMarkerBusiness;
         } else {
           markerAsset = AppIcons.mapMarker;

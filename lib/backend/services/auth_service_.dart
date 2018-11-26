@@ -1,31 +1,41 @@
 import 'dart:typed_data';
 
+import 'package:flutter/widgets.dart';
 import 'package:inf/domain/user.dart';
+import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// Keep in mind
 /// Save latest provider and login and warn user if he tries to signin
 /// with a user he has never used before
 
-abstract class SocialNetworkProvider {
+class SocialNetworkProvider {
   final int id;
   final bool canAuthorizeUser;
   final String name;
   final Uint8List logoData;
   final bool isVectorLogo;
 
-  SocialNetworkProvider(this.id, this.canAuthorizeUser, this.name,
-      this.logoData, this.isVectorLogo);
+  SocialNetworkProvider({
+    this.id,
+    this.canAuthorizeUser,
+    this.name,
+    this.logoData,
+    this.isVectorLogo,
+  });
 }
 
 enum AuthenticationState {
-  success,
-  waitingForActivation,
+  connecting,
+  notLoggedIn,
   anonymous,
+  success,
+
+  // ?
+  waitingForActivation,
   invalidCredentials,
   canceled,
   error,
-  notLoggedIn,
   switchingAccounts
 }
 
@@ -62,17 +72,20 @@ abstract class AuthenticationService {
   Observable<AuthenticationResult> get loginState;
 
   /// Returns the current authenticationstate independent od a state change
-  Future<AuthenticationResult> getCurrentAuthenticationState();
+  AuthenticationResult getCurrentAuthenticationState();
 
   Future<List<SocialNetworkProvider>> getAvailableSocialNetworkProviders();
 
-  Future<void> loginAnonymous(UserType userType);
+  Future<void> loginAnonymous(AccountType userType);
 
   Future<void> loginWithSocialNetWork(
-      UserType userType, SocialNetworkProvider socialNetwork);
+      BuildContext
+          context, // TODO: Since this function is expecting UI to pop up... Please restructure
+      AccountType userType,
+      SocialNetworkProvider socialNetwork);
 
-  Future<List<User>> getAllLinkedAccounts();
-  Future<void> switchToUserAccount(User user);
+  Observable<List<LocalAccountData>> get linkedAccounts;
+  Future<void> switchToUserAccount(LocalAccountData user);
 
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);

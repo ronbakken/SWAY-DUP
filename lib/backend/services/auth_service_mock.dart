@@ -1,21 +1,14 @@
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/widgets.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/location.dart';
+import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:inf/backend/services/auth_service_.dart';
-
-class SocialNetworkProviderMock extends SocialNetworkProvider {
-  SocialNetworkProviderMock({
-    int id,
-    bool canAuthorizeUser,
-    String name,
-    Uint8List logoData,
-    bool isVectorLogo,
-  }) : super(id, canAuthorizeUser, name, logoData, isVectorLogo);
-}
 
 /// Keep in mind
 /// Save latest provider and login and warn user if he tries to signin
@@ -23,19 +16,19 @@ class SocialNetworkProviderMock extends SocialNetworkProvider {
 
 class AuthenticationServiceMock implements AuthenticationService {
   bool isLoggedIn;
-  UserType userType;
+  AccountType userType;
   SocialNetworkProvider provider;
-  AccountState accountState;
+  GlobalAccountStateReason accountState;
   bool isVerified;
   int currentUser;
 
   List<User> allLinkedAccounts;
-  List<SocialNetworkProviderMock> socialNetWorks;
+  List<SocialNetworkProvider> socialNetWorks;
 
   AuthenticationServiceMock({
     this.isLoggedIn,
     this.isVerified = true,
-    this.accountState = AccountState.approved,
+    this.accountState = GlobalAccountStateReason.approved,
     this.currentUser = 0,
   }) {
     loadMockData().then((_) {
@@ -58,7 +51,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   final _loginStateSubject = BehaviorSubject<AuthenticationResult>();
 
   @override
-  Future<void> loginAnonymous(UserType userType) async {
+  Future<void> loginAnonymous(AccountType userType) async {
     _loginStateSubject.add(AuthenticationResult(
       state: AuthenticationState.anonymous,
     ));
@@ -67,16 +60,16 @@ class AuthenticationServiceMock implements AuthenticationService {
 
   /// Returns the current authenticationstate independent of a state change
   @override
-  Future<AuthenticationResult> getCurrentAuthenticationState() {
+  AuthenticationResult getCurrentAuthenticationState() {
     if (isLoggedIn) {
-      return Future.value(AuthenticationResult(
+      return AuthenticationResult(
           state: AuthenticationState.success,
           provider: socialNetWorks[2],
-          user: allLinkedAccounts[0]));
+          user: allLinkedAccounts[0]);
     } else {
-      return Future.value(AuthenticationResult(
+      return AuthenticationResult(
         state: AuthenticationState.notLoggedIn,
-      ));
+      );
     }
   }
 
@@ -100,7 +93,9 @@ class AuthenticationServiceMock implements AuthenticationService {
 
   @override
   Future<void> loginWithSocialNetWork(
-      UserType userType, SocialNetworkProvider socialNetwork) {
+      BuildContext context, // Since this function is expecting UI to pop up...
+      AccountType userType,
+      SocialNetworkProvider socialNetwork) {
     // TODO: implement loginWithSocialNetWork
     return null;
   }
@@ -121,22 +116,22 @@ class AuthenticationServiceMock implements AuthenticationService {
   }
 
   @override
-  Future<List<User>> getAllLinkedAccounts() async {
+  Observable<List<LocalAccountData>> get linkedAccounts {
     // TODO: implement getAllLinkedAccounts
-    return null;
+    return Observable<List<LocalAccountData>>.empty();
   }
 
   @override
-  Future<void> switchToUserAccount(User user) async {
+  Future<void> switchToUserAccount(LocalAccountData user) async {
     // TODO: implement switchToUserAccount
   }
 
   Future<void> loadMockData() async {
     allLinkedAccounts = [
       User(
-          id: 42,
+          id: new Int64(42),
           name: 'Thomas',
-          userType: UserType.business,
+          userType: AccountType.business,
           avatarUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1',
           avatarThumbnailUrl:
@@ -149,7 +144,7 @@ class AuthenticationServiceMock implements AuthenticationService {
               (await rootBundle.load('assets/mockdata/profile_lowres.jpg'))
                   .buffer
                   .asUint8List(),
-          accountState: accountState,
+          accountStateReason: accountState,
           categories: [
             Category(
                 id: 1,
@@ -177,9 +172,9 @@ class AuthenticationServiceMock implements AuthenticationService {
             )
           ]),
       User(
-          id: 43,
+          id: new Int64(43),
           name: 'Thomas',
-          userType: UserType.influcencer,
+          userType: AccountType.influencer,
           avatarUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1',
           avatarThumbnailUrl:
@@ -192,7 +187,7 @@ class AuthenticationServiceMock implements AuthenticationService {
               (await rootBundle.load('assets/mockdata/profile_lowres.jpg'))
                   .buffer
                   .asUint8List(),
-          accountState: accountState,
+          accountStateReason: accountState,
           categories: [
             Category(
                 id: 1,
@@ -221,7 +216,7 @@ class AuthenticationServiceMock implements AuthenticationService {
           ]),
     ];
     socialNetWorks = [
-      SocialNetworkProviderMock(
+      SocialNetworkProvider(
           id: 1,
           canAuthorizeUser: true,
           isVectorLogo: false,
@@ -229,7 +224,7 @@ class AuthenticationServiceMock implements AuthenticationService {
               .buffer
               .asUint8List(),
           name: 'Instagramm'),
-      SocialNetworkProviderMock(
+      SocialNetworkProvider(
           id: 2,
           canAuthorizeUser: true,
           isVectorLogo: true,
@@ -237,7 +232,7 @@ class AuthenticationServiceMock implements AuthenticationService {
               .buffer
               .asUint8List(),
           name: 'Instagramm'),
-      SocialNetworkProviderMock(
+      SocialNetworkProvider(
           id: 3,
           canAuthorizeUser: true,
           isVectorLogo: true,
@@ -245,7 +240,7 @@ class AuthenticationServiceMock implements AuthenticationService {
               .buffer
               .asUint8List(),
           name: 'Twitter'),
-      SocialNetworkProviderMock(
+      SocialNetworkProvider(
           id: 4,
           canAuthorizeUser: true,
           isVectorLogo: true,
@@ -253,7 +248,7 @@ class AuthenticationServiceMock implements AuthenticationService {
               .buffer
               .asUint8List(),
           name: 'Google'),
-      SocialNetworkProviderMock(
+      SocialNetworkProvider(
           id: 5,
           canAuthorizeUser: false,
           isVectorLogo: true,

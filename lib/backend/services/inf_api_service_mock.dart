@@ -363,10 +363,10 @@ Future<List<Proposal>> loadproposalMockData() async {
     Proposal(
       id: 1,
       offerId: 1912,
-      state: ProposalState.proposed,
+      state: ProposalState.proposing,
       channel: DeliverableChannels.instagram,
       deliverableType: DeliverableType.post,
-      sentFrom: UserType.influcencer,
+      sentFrom: AccountType.influencer,
       influencerId: 43,
       influencerName: 'Thomas',
       businessName: 'Scent of Asia',
@@ -391,7 +391,7 @@ Future<List<Proposal>> loadproposalMockData() async {
       state: ProposalState.deal,
       channel: DeliverableChannels.facebook,
       deliverableType: DeliverableType.mention,
-      sentFrom: UserType.influcencer,
+      sentFrom: AccountType.influencer,
       influencerId: 43,
       influencerName: 'Thomas',
       businessName: 'CarWash Tom',
@@ -468,7 +468,7 @@ List<List<MapMarker>> allMarkers = [
         longitude: -118.314779,
         isDirectOffer: null,
         type: MapMarkerType.user,
-        userType: UserType.business,
+        userType: AccountType.business,
         userId: 42)
   ],
   [
@@ -487,7 +487,7 @@ List<List<MapMarker>> allMarkers = [
         longitude: -118.314779,
         isDirectOffer: null,
         type: MapMarkerType.user,
-        userType: UserType.business,
+        userType: AccountType.business,
         userId: 42)
   ],
 ];

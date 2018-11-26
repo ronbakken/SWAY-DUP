@@ -33,7 +33,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: af897a8e081810248b23b7f756544989c8601c49
+      ref: 9ce443c65a3ecf5b0f133e5fa4d1d69989b04df0
   switchboard: ^2.0.5
   firebase_messaging: ^2.0.0
   flutter_local_notifications: ^0.4.2
@@ -46,6 +46,7 @@ dependencies:
   
   cupertino_icons: any
   font_awesome_flutter: any
+  transparent_image: any
 
   # cloud_firestore: any
   pedantic: any

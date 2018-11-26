@@ -15,7 +15,7 @@ const kBottomNavHeight = 72.0;
 const kMenuIconSize = 48.0;
 
 class MainPage extends PageWidget {
-  static Route<dynamic> route(UserType userType) {
+  static Route<dynamic> route(AccountType userType) {
     return FadePageRoute(
       builder: (BuildContext context) => MainPage(userType: userType),
     );
@@ -26,7 +26,7 @@ class MainPage extends PageWidget {
     @required this.userType,
   }) : super(key: key);
 
-  final UserType userType;
+  final AccountType userType;
 
   @override
   _MainPageState createState() => _MainPageState();

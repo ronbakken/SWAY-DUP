@@ -23,8 +23,10 @@ class NetworkStreaming {
   StreamSubscription<LocalAccountData> _onSwitchAccountSubscription;
   StreamSubscription<CrossNavigationRequest> _onNavigationRequestSubscription;
 
-  Function() onNetworkChanged = () {};
-  Function() onConfigChanged = () {};
+  final StreamController<void> onNetworkChanged =
+      new StreamController<void>.broadcast(sync: true);
+  final StreamController<void> onConfigChanged =
+      new StreamController<void>.broadcast(sync: true);
 
   /// Exposes 'onAccountsChanged' (list of accounts changed)
   /// and account switching / adding functionality.
@@ -114,13 +116,13 @@ class NetworkStreaming {
   }
 
   void _onNetworkChanged() {
-    onNetworkChanged();
+    onNetworkChanged.add(null);
   }
 
   void _onConfigChanged() {
     _networkManager.updateDependencies(
         _configManager.config, _multiAccountStore);
-    onConfigChanged();
+    onConfigChanged.add(null);
   }
 
   /// A notification from the server was pushed, which may switch to account

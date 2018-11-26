@@ -40,47 +40,55 @@ class NetworkManager
   // Implement broadcast streams down here as you need them.
   // Please don't forget to clean up.
 
+  @override
   Stream<Change<Int64>> get profileChanged {
     return _profileChanged.stream;
   }
 
+  @override
   Stream<Change<Int64>> get offerChanged {
     return _offerChanged.stream;
   }
 
+  @override
   Stream<Change<Int64>> get offerBusinessChanged {
     return _offerBusinessChanged.stream;
   }
 
+  @override
   Stream<Change<Int64>> get offerDemoChanged {
     return _offerDemoChanged.stream;
   }
 
+  @override
   Stream<Change<Int64>> get offerProposalChanged {
     return _offerProposalChanged.stream;
   }
 
+  @override
   Stream<Change<DataProposalChat>> get offerProposalChatChanged {
     return _offerProposalChatChanged.stream;
   }
 
+  @override
   Stream<void> get commonChanged {
     return _commonChanged.stream;
   }
 
   final StreamController<Change<Int64>> _profileChanged =
-      new StreamController<Change<Int64>>();
+      new StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<Int64>> _offerChanged =
-      new StreamController<Change<Int64>>();
+      new StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<Int64>> _offerBusinessChanged =
-      new StreamController<Change<Int64>>();
+      new StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<Int64>> _offerDemoChanged =
-      new StreamController<Change<Int64>>();
+      new StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<Int64>> _offerProposalChanged =
-      new StreamController<Change<Int64>>();
+      new StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<DataProposalChat>> _offerProposalChatChanged =
-      new StreamController<Change<DataProposalChat>>();
-  final StreamController<void> _commonChanged = new StreamController<void>();
+      new StreamController<Change<DataProposalChat>>.broadcast(sync: true);
+  final StreamController<void> _commonChanged =
+      new StreamController<void>.broadcast(sync: true);
 
   void onProfileChanged(ChangeAction action, Int64 id) {
     onChanged();

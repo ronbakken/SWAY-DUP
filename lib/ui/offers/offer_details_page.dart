@@ -455,7 +455,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     child: RaisedButton(
                       onPressed: () => Navigator.of(context)
                         ..push(SignUpPage.route(
-                            userType: UserType.influcencer, topPadding: 0)),
+                            userType: AccountType.influencer, topPadding: 0)),
                       shape: const StadiumBorder(),
                       child: Container(
                         alignment: Alignment.center,
@@ -476,7 +476,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                       child: InkWell(
                         onTap: () => Navigator.of(context)
                           ..push(SignUpPage.route(
-                              userType: UserType.influcencer, topPadding: 0)),
+                              userType: AccountType.influencer, topPadding: 0)),
                         child: Text(
                           'ALREADY A MEMBER? LOGIN',
                           textAlign: TextAlign.center,

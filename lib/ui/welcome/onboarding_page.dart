@@ -7,9 +7,9 @@ import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/routes.dart';
 
 class OnBoardingPage extends StatefulWidget {
-  final UserType userType;
+  final AccountType userType;
 
-  static Route<dynamic> route({UserType userType}) {
+  static Route<dynamic> route({AccountType userType}) {
     return FadePageRoute(
       builder: (context) => OnBoardingPage(userType: userType),
     );
@@ -29,11 +29,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     List<Widget> pages;
     String title;
     switch (widget.userType) {
-      case UserType.influcencer:
+      case AccountType.influencer:
         pages = _buildInfluencerPages(context);
         title = 'Onboarding Influencer';
         break;
-      case UserType.business:
+      case AccountType.business:
         pages = _buildBusinessPages(context);
         title = 'Onboarding business';
         break;
@@ -88,7 +88,7 @@ List<Widget> _buildInfluencerPages(BuildContext context) {
         FlatButton(
           onPressed: () => Navigator.of(context)
             ..pop()
-            ..push(SignUpPage.route(userType: UserType.influcencer)),
+            ..push(SignUpPage.route(userType: AccountType.influencer)),
           child: Text('Next'),
         ),
       ],
@@ -117,16 +117,16 @@ List<Widget> _buildBusinessPages(BuildContext context) {
         Center(child: Text('Page3')),
         FlatButton(
           onPressed: () async => await Navigator.of(context).pushReplacement(
-              SignUpPage.route(userType: UserType.influcencer)),
+              SignUpPage.route(userType: AccountType.influencer)),
           child: Text('SignUp'),
         ),
         FlatButton(
           onPressed: () async {
             await backend
                 .get<AuthenticationService>()
-                .loginAnonymous(UserType.influcencer);
+                .loginAnonymous(AccountType.influencer);
             await Navigator.of(context).pushAndRemoveUntil(
-              MainPage.route(UserType.business),
+              MainPage.route(AccountType.business),
               (route) => false,
             );
           },

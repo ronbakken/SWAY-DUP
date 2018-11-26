@@ -17,7 +17,7 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 
 class SignUpPage extends PageWidget {
-  static Route<dynamic> route({UserType userType, double topPadding = 32}) {
+  static Route<dynamic> route({AccountType userType, double topPadding = 32}) {
     return PageRouteBuilder(
       pageBuilder: (BuildContext context, _, __) {
         return SignUpPage(
@@ -42,7 +42,7 @@ class SignUpPage extends PageWidget {
   const SignUpPage({Key key, this.userType, this.topPadding = 32.0})
       : super(key: key);
 
-  final UserType userType;
+  final AccountType userType;
   final double topPadding;
 
   @override
@@ -191,10 +191,10 @@ class SignUpPageState extends PageState<SignUpPage> {
                         onTap: () async {
                           await backend
                               .get<AuthenticationService>()
-                              .loginAnonymous(UserType.influcencer);
+                              .loginAnonymous(AccountType.influencer);
                           final nav = Navigator.of(context)..pop();
                           unawaited(
-                              nav.push(MainPage.route(UserType.influcencer)));
+                              nav.push(MainPage.route(AccountType.influencer)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -240,7 +240,7 @@ class _DynamicSocialNetworkButtons extends StatelessWidget {
   const _DynamicSocialNetworkButtons({Key key, @required this.userType})
       : super(key: key);
 
-  final UserType userType;
+  final AccountType userType;
 
   @override
   Widget build(BuildContext context) {
@@ -279,7 +279,7 @@ class _DynamicSocialNetworkButtons extends StatelessWidget {
                   text: network.name,
                   onPressed: () => backend
                       .get<AuthenticationService>()
-                      .loginWithSocialNetWork(userType, network),
+                      .loginWithSocialNetWork(context, userType, network),
                 ),
               );
             }
