@@ -101,7 +101,8 @@ class NetworkStreaming {
     if (config.services.environment != _multiAccountStore.current.environment) {
       throw new Exception("Mismatching environment");
     }
-    if (_networkManager.account.state.accountId != _multiAccountStore.current.accountId) {
+    if (_networkManager.account.state.accountId !=
+        _multiAccountStore.current.accountId) {
       throw new Exception("Mismatching account id");
     }
     return _crossAccountNavigator.listen(
