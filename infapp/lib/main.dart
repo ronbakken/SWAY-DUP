@@ -39,11 +39,14 @@ launchApp() async {
   new Logger('Inf.Config').level = Level.ALL;
   new Logger('Switchboard').level = Level.ALL;
   new Logger('Switchboard.Mux').level = Level.ALL;
-  new Logger('Switchboard.Talk').level = Level.ALL;
+  new Logger('Switchboard.Talk').level = Level.INFO;
   new Logger('Switchboard.Router').level = Level.ALL;
 
   // Load well-known config from APK
   ConfigData config = await loadConfig();
+  // Override starting configuration endPoint
+  // TODO: Remove this
+  config.services.endPoint = "ws://192.168.167.2:8090/ep";
   // Load known local accounts from SharedPreferences
   MultiAccountStore multiAccountStore =
       await loadMultiAccountStore(config.services.environment);

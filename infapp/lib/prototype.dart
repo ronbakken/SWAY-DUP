@@ -27,7 +27,7 @@ class Prototype extends StatefulWidget {
 
 class _PrototypeState extends State<Prototype> {
   // Set this to fals to bypass the developer menu on launch
-  bool developerMenu = true;
+  bool developerMenu = false;
 
   void enterDeveloperMenu([bool state = true]) {
     setState(() {
@@ -40,7 +40,7 @@ class _PrototypeState extends State<Prototype> {
     super.reassemble();
 
     // Enable this line to return to development mode upon code refresh
-    developerMenu = true;
+    // developerMenu = true;
   }
 
   Widget _buildMaterialApp(BuildContext context) {

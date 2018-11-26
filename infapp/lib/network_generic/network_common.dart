@@ -192,7 +192,6 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   void cleanupStateSwitchingAccounts() {
-    _currentLocalAccount = null;
     resetProfilesState();
     resetOffersState();
     resetOffersBusinessState();
@@ -267,6 +266,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         channel.close();
         channel = null;
       }
+      _currentLocalAccount = null;
       resetSessionPayload();
       if (!_kickstartNetwork.isCompleted) _kickstartNetwork.complete();
     }
@@ -275,6 +275,10 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   Completer<void> _kickstartNetwork = new Completer<void>();
 
   void _updatePayload({bool closeExisting}) {
+    if (_currentLocalAccount == null) {
+      resetSessionPayload();
+      return;
+    }
     NetSessionPayload sessionPayload = new NetSessionPayload();
     if (_currentLocalAccount.sessionId != 0) {
       sessionPayload.sessionId = _currentLocalAccount.sessionId;
