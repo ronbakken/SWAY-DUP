@@ -9,7 +9,7 @@ const NetSessionPayload$json = const {
   '2': const [
     const {'1': 'session_id', '3': 1, '4': 1, '5': 3, '10': 'sessionId'},
     const {'1': 'cookie', '3': 2, '4': 1, '5': 12, '10': 'cookie'},
-    const {'1': 'environment', '3': 7, '4': 1, '5': 5, '10': 'environment'},
+    const {'1': 'environment', '3': 7, '4': 1, '5': 9, '10': 'environment'},
     const {
       '1': 'client_version',
       '3': 3,

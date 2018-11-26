@@ -19,7 +19,7 @@ class NetSessionPayload extends $pb.GeneratedMessage {
     ..aInt64(4, 'configTimestamp')
     ..aOS(5, 'configRegion')
     ..aOS(6, 'configLanguage')
-    ..a<int>(7, 'environment', $pb.PbFieldType.O3)
+    ..aOS(7, 'environment')
     ..hasRequiredFields = false;
 
   NetSessionPayload() : super();
@@ -92,9 +92,9 @@ class NetSessionPayload extends $pb.GeneratedMessage {
   bool hasConfigLanguage() => $_has(5);
   void clearConfigLanguage() => clearField(6);
 
-  int get environment => $_get(6, 0);
-  set environment(int v) {
-    $_setSignedInt32(6, v);
+  String get environment => $_getS(6, '');
+  set environment(String v) {
+    $_setString(6, v);
   }
 
   bool hasEnvironment() => $_has(6);
