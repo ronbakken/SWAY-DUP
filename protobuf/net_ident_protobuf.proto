@@ -55,6 +55,7 @@ message NetSession {
 }
 
 /// Request the user to download an updated configuration file.
+/// Procedure ID: 'CONFDOWN'
 message NetConfigDownload {
   string config_url = 1;
   
