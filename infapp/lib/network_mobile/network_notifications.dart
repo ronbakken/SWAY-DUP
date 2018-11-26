@@ -10,14 +10,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_generic/network_interface.dart';
+import 'package:inf/network_generic/api_client.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:switchboard/switchboard.dart';
 
 abstract class NetworkNotifications
-    implements NetworkInterface, NetworkInternals {
+    implements ApiClient, NetworkInternals {
   bool _firebaseSetup = false;
   final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;

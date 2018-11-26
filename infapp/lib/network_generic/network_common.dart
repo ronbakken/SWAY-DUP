@@ -10,43 +10,39 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/network_generic/network_common.dart';
-import 'package:inf/network_generic/network_offers_business.dart';
-import 'package:inf/network_generic/network_offers_demo.dart';
-import 'package:inf/network_generic/network_proposals.dart';
-import 'package:inf/network_mobile/network_notifications.dart';
 import 'package:logging/logging.dart';
 import 'package:switchboard/switchboard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
 import 'package:mime/mime.dart';
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart'; // Necessary for asynchronous hashing.
 
-export 'package:inf/network_generic/multi_account_client.dart';
-import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_generic/network_manager.dart';
-import 'package:inf/network_generic/network_offers.dart';
-import 'package:inf/network_generic/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_mobile/config_manager.dart';
-import 'package:inf/network_generic/network_interface.dart';
+import 'package:inf/network_generic/api_client.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
 
-export 'package:inf/network_generic/network_interface.dart';
+export 'package:inf/network_generic/multi_account_client.dart';
+export 'package:inf/network_generic/api_client.dart';
 
-abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
+abstract class NetworkCommon implements ApiClient, NetworkInternals {
+  @override
   final Switchboard switchboard = new Switchboard();
+
+  @override
   TalkChannel channel;
 
   LocalAccountData _currentLocalAccount;
+
+  @override
   DataAccount account;
+
+  @override
   NetworkConnectionState connected = NetworkConnectionState.connecting;
 
   ConfigData _config;

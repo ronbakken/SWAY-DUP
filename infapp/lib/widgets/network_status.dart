@@ -12,7 +12,7 @@ class NetworkStatus extends StatelessWidget {
   NetworkStatus({Key key}) : super(key: key);
 
   static Widget buildOptional(BuildContext context, [Widget alternative]) {
-    NetworkInterface network = NetworkProvider.of(context);
+    ApiClient network = NetworkProvider.of(context);
     switch (network.connected) {
       case NetworkConnectionState.ready:
         return alternative;
@@ -56,7 +56,7 @@ class NetworkStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NetworkInterface network = NetworkProvider.of(context);
+    ApiClient network = NetworkProvider.of(context);
     switch (network.connected) {
       case NetworkConnectionState.ready:
         return _minimalContainer;

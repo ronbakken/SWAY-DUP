@@ -43,7 +43,7 @@ class _AppSwitchState extends State<AppSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    NetworkInterface network = NetworkProvider.of(context);
+    ApiClient network = NetworkProvider.of(context);
     assert(network != null);
     if (network.account.state.sessionId == 0) {
       return new LoadingNetwork();

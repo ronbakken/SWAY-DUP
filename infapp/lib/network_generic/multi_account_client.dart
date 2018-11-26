@@ -47,6 +47,9 @@ abstract class MultiAccountClient {
   /// Add an account
   void addAccount([String environment]);
 
+  /// Remove account
+  void removeAccount([String environment, Int64 accountId]);
+
   /// List of accounts known locally
   List<LocalAccountData> get accounts;
 }

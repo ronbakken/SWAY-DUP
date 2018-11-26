@@ -9,7 +9,7 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/network_interface.dart';
+import 'package:inf/network_generic/api_client.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:switchboard/switchboard.dart';
@@ -25,7 +25,7 @@ class _CachedProposal {
   Map<int, DataProposalChat> ghostChats = new Map<int, DataProposalChat>();
 }
 
-abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
+abstract class NetworkProposals implements ApiClient, NetworkInternals {
   Map<Int64, _CachedProposal> _cachedProposals =
       new Map<Int64, _CachedProposal>();
 
@@ -252,10 +252,9 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
   }
 
   /// Fetch latest proposal from cache, fetch in background if non-existent
-  @override
-  DataProposal latestProposal(DataProposal proposal) {
+  /*DataProposal latestProposal(DataProposal proposal) {
     return _tryGetProposal(proposal.proposalId, fallback: proposal);
-  }
+  }*/
 
   /// Fetch latest known proposal chats from cache, fetch in background if not loaded yet
   @override

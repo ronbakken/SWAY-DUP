@@ -19,7 +19,7 @@ class NetworkException implements Exception {
   }
 }
 
-abstract class NetworkInterface {
+abstract class ApiClient {
   /* Cached Data */
   /// Cached account state. Use this data directly from your build function.
   DataAccount account;

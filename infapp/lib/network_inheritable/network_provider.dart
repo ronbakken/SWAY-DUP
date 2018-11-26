@@ -9,9 +9,9 @@ Author: Jan Boon <kaetemi@no-break.space>
 Network Provider
 ================
 
-Provides access to an instance of a NetworkInterface.
+Provides access to an instance of a ApiClient.
 
-Provides the NetworkInterface with some data from the UI context.
+Provides the ApiClient with some data from the UI context.
 
 */
 
@@ -26,10 +26,10 @@ import 'package:inf/network_generic/network_manager.dart';
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_generic/network_interface.dart';
+import 'package:inf/network_generic/api_client.dart';
 import 'package:inf_common/inf_common.dart';
 
-export 'package:inf/network_generic/network_interface.dart';
+export 'package:inf/network_generic/api_client.dart';
 
 class NetworkProvider extends StatelessWidget {
   const NetworkProvider({
@@ -41,7 +41,7 @@ class NetworkProvider extends StatelessWidget {
   final Widget child;
   final MultiAccountStore multiAccountStore;
 
-  static NetworkInterface of(BuildContext context) {
+  static ApiClient of(BuildContext context) {
     final _InheritedNetworkProvider inherited =
         context.inheritFromWidgetOfExactType(_InheritedNetworkProvider);
     return inherited != null ? inherited.networkInterface : null;
@@ -79,7 +79,7 @@ class _NetworkProviderStateful extends StatefulWidget {
 
 class _NetworkProviderState extends State<_NetworkProviderStateful>
     with WidgetsBindingObserver {
-  // see NetworkInterface
+  // see ApiClient
 
   int _changed = 0;
 
@@ -185,7 +185,7 @@ class _InheritedNetworkProvider extends InheritedWidget {
     @required Widget child,
   }) : super(key: key, child: child);
 
-  final NetworkInterface networkInterface; // NetworkInterface remains!
+  final ApiClient networkInterface; // ApiClient remains!
   final int changed;
 
   @override

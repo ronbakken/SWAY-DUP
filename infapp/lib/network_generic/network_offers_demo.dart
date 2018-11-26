@@ -9,12 +9,12 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/network_interface.dart';
+import 'package:inf/network_generic/api_client.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:switchboard/switchboard.dart';
 
-abstract class NetworkOffersDemo implements NetworkInterface, NetworkInternals {
+abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
   @override
   bool demoAllOffersLoading = false;
 

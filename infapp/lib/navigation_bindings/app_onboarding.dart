@@ -49,7 +49,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
       new MaterialPageRoute(
         builder: (context) {
           ConfigData config = ConfigProvider.of(context);
-          NetworkInterface network = NetworkProvider.of(context);
+          ApiClient network = NetworkProvider.of(context);
           assert(config != null);
           assert(network != null);
           return new OAuthScaffold(
@@ -73,7 +73,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
         context, new MaterialPageRoute(
       builder: (context) {
         ConfigData config = ConfigProvider.of(context);
-        NetworkInterface network = NetworkProvider.of(context);
+        ApiClient network = NetworkProvider.of(context);
         // NavigatorState navigator = Navigator.of(context);
         /*if (network.account.state.accountId != 0) {
           // Need to implement cleaner navigation
@@ -164,7 +164,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
 
   @override
   Widget build(BuildContext context) {
-    NetworkInterface network = NetworkProvider.of(context);
+    ApiClient network = NetworkProvider.of(context);
     assert(network != null);
     return new OnboardingSelection(
       onInfluencer: network.connected == NetworkConnectionState.ready
