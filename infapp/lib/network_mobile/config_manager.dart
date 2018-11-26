@@ -67,6 +67,7 @@ class ConfigManager {
   }
 
   Future<void> downloadConfig() async {
+    await new Future.delayed(new Duration());
     log.info("Downloading updated config... ***TODO***");
     var downloadUrls = new Set<String>();
     downloadUrls.add(_config.services.configUrl);

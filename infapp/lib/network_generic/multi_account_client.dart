@@ -38,6 +38,7 @@ abstract class LocalAccountData {
 
 abstract class MultiAccountClient {
   /// Fired anytime any of the accounts changed (add, remove, or update)
+  /// TODO: Change to callback rather than stream.
   Stream<Change<LocalAccountData>> get onAccountsChanged;
 
   /// Switch to another account

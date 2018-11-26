@@ -49,7 +49,6 @@ class CrossAccountSelectionState extends State<MultiAccountSelection> {
   int _changed = 0;
 
   StreamSubscription<Change<LocalAccountData>> _onAccountsChanged;
-  StreamSubscription<LocalAccountData> _onSwitchAccount;
 
   @override
   void initState() {
@@ -63,8 +62,6 @@ class CrossAccountSelectionState extends State<MultiAccountSelection> {
 
   @override
   void dispose() {
-    _onSwitchAccount.cancel();
-    _onSwitchAccount = null;
     _onAccountsChanged.cancel();
     _onAccountsChanged = null;
     super.dispose();
