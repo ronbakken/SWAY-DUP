@@ -5,6 +5,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:inf/network_streaming/network_streaming.dart';
+import 'package:inf/ui/widgets/oauth_scaffold.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -166,21 +167,12 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     ConfigOAuthProvider oauthProvider =
         networkStreaming.config.oauthProviders.all[providerId];
     bool connectionAttempted = false;
-    NetOAuthConnection connection;
-    if (!connectionAttempted &&
-        oauthProvider.whitelistHosts.contains('facebook.com')) {
-      // Attempt to use Facebook plugin
-    }
-    if (!connectionAttempted &&
-        oauthProvider.whitelistHosts.contains('twitter.com')) {
-      // Attempt to use Twitter plugin
-    }
-    if (!connectionAttempted) {
-      // Attempt to use generic OAuth
-    }
+    NetOAuthConnection connection = await oauthConnect(context);
     if (connection != null && connection.socialMedia.canSignUp) {
+      // This app automatically signs up, without allowing multiple social media to be selected...
       Map<String, double> coordinate = await location.Location().getLocation;
-      await networkStreaming.api.createAccount(coordinate['latitude'], coordinate['longitude']);
+      await networkStreaming.api
+          .createAccount(coordinate['latitude'], coordinate['longitude']);
     }
     if (connection == null) {
       throw new Exception("Failed to connect.");
