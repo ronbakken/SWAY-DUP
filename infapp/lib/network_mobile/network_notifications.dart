@@ -45,7 +45,7 @@ abstract class NetworkNotifications
         initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        selectNotification: onSelectNotification);
+        onSelectNotification: onSelectNotification);
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         'chat', 'Messages', 'Messages received from other users',
         importance: Importance.Max, priority: Priority.High);
