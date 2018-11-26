@@ -9,6 +9,29 @@ const NetSessionPayload$json = const {
   '2': const [
     const {'1': 'session_id', '3': 1, '4': 1, '5': 3, '10': 'sessionId'},
     const {'1': 'cookie', '3': 2, '4': 1, '5': 12, '10': 'cookie'},
+    const {'1': 'environment', '3': 7, '4': 1, '5': 5, '10': 'environment'},
+    const {
+      '1': 'client_version',
+      '3': 3,
+      '4': 1,
+      '5': 5,
+      '10': 'clientVersion'
+    },
+    const {
+      '1': 'config_timestamp',
+      '3': 4,
+      '4': 1,
+      '5': 3,
+      '10': 'configTimestamp'
+    },
+    const {'1': 'config_region', '3': 5, '4': 1, '5': 9, '10': 'configRegion'},
+    const {
+      '1': 'config_language',
+      '3': 6,
+      '4': 1,
+      '5': 9,
+      '10': 'configLanguage'
+    },
   ],
 };
 
@@ -29,5 +52,12 @@ const NetSession$json = const {
   '1': 'NetSession',
   '2': const [
     const {'1': 'session_id', '3': 1, '4': 1, '5': 3, '10': 'sessionId'},
+  ],
+};
+
+const NetConfigDownload$json = const {
+  '1': 'NetConfigDownload',
+  '2': const [
+    const {'1': 'config_url', '3': 1, '4': 1, '5': 9, '10': 'configUrl'},
   ],
 };

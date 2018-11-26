@@ -15,6 +15,11 @@ class NetSessionPayload extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'sessionId')
     ..a<List<int>>(2, 'cookie', $pb.PbFieldType.OY)
+    ..a<int>(3, 'clientVersion', $pb.PbFieldType.O3)
+    ..aInt64(4, 'configTimestamp')
+    ..aOS(5, 'configRegion')
+    ..aOS(6, 'configLanguage')
+    ..a<int>(7, 'environment', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetSessionPayload() : super();
@@ -54,6 +59,46 @@ class NetSessionPayload extends $pb.GeneratedMessage {
 
   bool hasCookie() => $_has(1);
   void clearCookie() => clearField(2);
+
+  int get clientVersion => $_get(2, 0);
+  set clientVersion(int v) {
+    $_setSignedInt32(2, v);
+  }
+
+  bool hasClientVersion() => $_has(2);
+  void clearClientVersion() => clearField(3);
+
+  Int64 get configTimestamp => $_getI64(3);
+  set configTimestamp(Int64 v) {
+    $_setInt64(3, v);
+  }
+
+  bool hasConfigTimestamp() => $_has(3);
+  void clearConfigTimestamp() => clearField(4);
+
+  String get configRegion => $_getS(4, '');
+  set configRegion(String v) {
+    $_setString(4, v);
+  }
+
+  bool hasConfigRegion() => $_has(4);
+  void clearConfigRegion() => clearField(5);
+
+  String get configLanguage => $_getS(5, '');
+  set configLanguage(String v) {
+    $_setString(5, v);
+  }
+
+  bool hasConfigLanguage() => $_has(5);
+  void clearConfigLanguage() => clearField(6);
+
+  int get environment => $_get(6, 0);
+  set environment(int v) {
+    $_setSignedInt32(6, v);
+  }
+
+  bool hasEnvironment() => $_has(6);
+  void clearEnvironment() => clearField(7);
 }
 
 class NetSessionCreate extends $pb.GeneratedMessage {
@@ -170,4 +215,41 @@ class NetSession extends $pb.GeneratedMessage {
 
   bool hasSessionId() => $_has(0);
   void clearSessionId() => clearField(1);
+}
+
+class NetConfigDownload extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetConfigDownload',
+      package: const $pb.PackageName('inf_common'))
+    ..aOS(1, 'configUrl')
+    ..hasRequiredFields = false;
+
+  NetConfigDownload() : super();
+  NetConfigDownload.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetConfigDownload.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetConfigDownload clone() => new NetConfigDownload()..mergeFromMessage(this);
+  NetConfigDownload copyWith(void Function(NetConfigDownload) updates) =>
+      super.copyWith((message) => updates(message as NetConfigDownload));
+  $pb.BuilderInfo get info_ => _i;
+  static NetConfigDownload create() => new NetConfigDownload();
+  static $pb.PbList<NetConfigDownload> createRepeated() =>
+      new $pb.PbList<NetConfigDownload>();
+  static NetConfigDownload getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static NetConfigDownload _defaultInstance;
+  static void $checkItem(NetConfigDownload v) {
+    if (v is! NetConfigDownload)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  String get configUrl => $_getS(0, '');
+  set configUrl(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasConfigUrl() => $_has(0);
+  void clearConfigUrl() => clearField(1);
 }

@@ -106,6 +106,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..aOB(21, 'clientIdExposed')
     ..aOB(22, 'consumerKeyExposed')
     ..aOB(23, 'consumerSecretExposed')
+    ..a<int>(24, 'iconId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
@@ -300,6 +301,14 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
 
   bool hasConsumerSecretExposed() => $_has(21);
   void clearConsumerSecretExposed() => clearField(23);
+
+  int get iconId => $_get(22, 0);
+  set iconId(int v) {
+    $_setSignedInt32(22, v);
+  }
+
+  bool hasIconId() => $_has(22);
+  void clearIconId() => clearField(24);
 }
 
 class ConfigOAuthProviders extends $pb.GeneratedMessage {
@@ -709,6 +718,8 @@ class ConfigData extends $pb.GeneratedMessage {
         ConfigServices.getDefault, ConfigServices.create)
     ..a<ConfigContent>(7, 'content', $pb.PbFieldType.OM,
         ConfigContent.getDefault, ConfigContent.create)
+    ..aOS(8, 'region')
+    ..aOS(9, 'language')
     ..hasRequiredFields = false;
 
   ConfigData() : super();
@@ -778,4 +789,20 @@ class ConfigData extends $pb.GeneratedMessage {
 
   bool hasContent() => $_has(5);
   void clearContent() => clearField(7);
+
+  String get region => $_getS(6, '');
+  set region(String v) {
+    $_setString(6, v);
+  }
+
+  bool hasRegion() => $_has(6);
+  void clearRegion() => clearField(8);
+
+  String get language => $_getS(7, '');
+  set language(String v) {
+    $_setString(7, v);
+  }
+
+  bool hasLanguage() => $_has(7);
+  void clearLanguage() => clearField(9);
 }

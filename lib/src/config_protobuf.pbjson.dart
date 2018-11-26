@@ -52,6 +52,7 @@ const ConfigOAuthProvider$json = const {
       '5': 5,
       '10': 'fontAwesomeBrand'
     },
+    const {'1': 'icon_id', '3': 24, '4': 1, '5': 5, '10': 'iconId'},
     const {
       '1': 'mechanism',
       '3': 15,
@@ -108,6 +109,7 @@ const ConfigOAuthProvider$json = const {
     const {'1': 'auth_url', '3': 7, '4': 1, '5': 9, '10': 'authUrl'},
     const {'1': 'auth_query', '3': 8, '4': 1, '5': 9, '10': 'authQuery'},
     const {'1': 'client_id', '3': 12, '4': 1, '5': 9, '10': 'clientId'},
+    const {'1': 'client_secret', '3': 17, '4': 1, '5': 9, '10': 'clientSecret'},
     const {
       '1': 'client_id_exposed',
       '3': 21,
@@ -115,7 +117,6 @@ const ConfigOAuthProvider$json = const {
       '5': 8,
       '10': 'clientIdExposed'
     },
-    const {'1': 'client_secret', '3': 17, '4': 1, '5': 9, '10': 'clientSecret'},
     const {
       '1': 'whitelist_hosts',
       '3': 18,
@@ -300,6 +301,8 @@ const ConfigData$json = const {
       '10': 'clientVersion'
     },
     const {'1': 'timestamp', '3': 5, '4': 1, '5': 3, '10': 'timestamp'},
+    const {'1': 'region', '3': 8, '4': 1, '5': 9, '10': 'region'},
+    const {'1': 'language', '3': 9, '4': 1, '5': 9, '10': 'language'},
     const {
       '1': 'categories',
       '3': 2,

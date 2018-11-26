@@ -214,6 +214,98 @@ class NetOAuthUrl extends $pb.GeneratedMessage {
   void clearCallbackUrl() => clearField(2);
 }
 
+class NetOAuthGetSecrets extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthGetSecrets',
+      package: const $pb.PackageName('inf_common'))
+    ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  NetOAuthGetSecrets() : super();
+  NetOAuthGetSecrets.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetOAuthGetSecrets.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetOAuthGetSecrets clone() =>
+      new NetOAuthGetSecrets()..mergeFromMessage(this);
+  NetOAuthGetSecrets copyWith(void Function(NetOAuthGetSecrets) updates) =>
+      super.copyWith((message) => updates(message as NetOAuthGetSecrets));
+  $pb.BuilderInfo get info_ => _i;
+  static NetOAuthGetSecrets create() => new NetOAuthGetSecrets();
+  static $pb.PbList<NetOAuthGetSecrets> createRepeated() =>
+      new $pb.PbList<NetOAuthGetSecrets>();
+  static NetOAuthGetSecrets getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static NetOAuthGetSecrets _defaultInstance;
+  static void $checkItem(NetOAuthGetSecrets v) {
+    if (v is! NetOAuthGetSecrets)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  int get oauthProvider => $_get(0, 0);
+  set oauthProvider(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasOauthProvider() => $_has(0);
+  void clearOauthProvider() => clearField(1);
+}
+
+class NetOAuthSecrets extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthSecrets',
+      package: const $pb.PackageName('inf_common'))
+    ..aOS(10, 'consumerKey')
+    ..aOS(11, 'consumerSecret')
+    ..aOS(12, 'clientId')
+    ..hasRequiredFields = false;
+
+  NetOAuthSecrets() : super();
+  NetOAuthSecrets.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetOAuthSecrets.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetOAuthSecrets clone() => new NetOAuthSecrets()..mergeFromMessage(this);
+  NetOAuthSecrets copyWith(void Function(NetOAuthSecrets) updates) =>
+      super.copyWith((message) => updates(message as NetOAuthSecrets));
+  $pb.BuilderInfo get info_ => _i;
+  static NetOAuthSecrets create() => new NetOAuthSecrets();
+  static $pb.PbList<NetOAuthSecrets> createRepeated() =>
+      new $pb.PbList<NetOAuthSecrets>();
+  static NetOAuthSecrets getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static NetOAuthSecrets _defaultInstance;
+  static void $checkItem(NetOAuthSecrets v) {
+    if (v is! NetOAuthSecrets) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  String get consumerKey => $_getS(0, '');
+  set consumerKey(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasConsumerKey() => $_has(0);
+  void clearConsumerKey() => clearField(10);
+
+  String get consumerSecret => $_getS(1, '');
+  set consumerSecret(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasConsumerSecret() => $_has(1);
+  void clearConsumerSecret() => clearField(11);
+
+  String get clientId => $_getS(2, '');
+  set clientId(String v) {
+    $_setString(2, v);
+  }
+
+  bool hasClientId() => $_has(2);
+  void clearClientId() => clearField(12);
+}
+
 class NetOAuthConnect extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthConnect',
       package: const $pb.PackageName('inf_common'))

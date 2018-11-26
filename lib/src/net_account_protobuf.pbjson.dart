@@ -73,6 +73,34 @@ const NetOAuthUrl$json = const {
   ],
 };
 
+const NetOAuthGetSecrets$json = const {
+  '1': 'NetOAuthGetSecrets',
+  '2': const [
+    const {
+      '1': 'oauth_provider',
+      '3': 1,
+      '4': 1,
+      '5': 5,
+      '10': 'oauthProvider'
+    },
+  ],
+};
+
+const NetOAuthSecrets$json = const {
+  '1': 'NetOAuthSecrets',
+  '2': const [
+    const {'1': 'consumer_key', '3': 10, '4': 1, '5': 9, '10': 'consumerKey'},
+    const {
+      '1': 'consumer_secret',
+      '3': 11,
+      '4': 1,
+      '5': 9,
+      '10': 'consumerSecret'
+    },
+    const {'1': 'client_id', '3': 12, '4': 1, '5': 9, '10': 'clientId'},
+  ],
+};
+
 const NetOAuthConnect$json = const {
   '1': 'NetOAuthConnect',
   '2': const [
