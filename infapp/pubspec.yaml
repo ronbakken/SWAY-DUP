@@ -10,7 +10,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: af897a8e081810248b23b7f756544989c8601c49
+      ref: 9ce443c65a3ecf5b0f133e5fa4d1d69989b04df0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
