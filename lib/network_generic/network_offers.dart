@@ -8,7 +8,7 @@ import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/network_interface.dart';
+import 'package:inf/network_generic/api_client.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:switchboard/switchboard.dart';
@@ -20,7 +20,7 @@ class _CachedOffer {
   DataOffer fallback;
 }
 
-abstract class NetworkOffers implements NetworkInterface, NetworkInternals {
+abstract class NetworkOffers implements ApiClient, NetworkInternals {
   Map<Int64, _CachedOffer> _cachedOffers = new Map<Int64, _CachedOffer>();
 
   @override

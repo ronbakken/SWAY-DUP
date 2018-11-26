@@ -17,11 +17,11 @@ import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_offers.dart';
 import 'package:inf/network_generic/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_generic/network_interface.dart';
+import 'package:inf/network_generic/api_client.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
 
-export 'package:inf/network_generic/network_interface.dart';
+export 'package:inf/network_generic/api_client.dart';
 
 // TODO: Reassemble should re-merge all protobuf
 
@@ -34,7 +34,7 @@ class NetworkManager
         NetworkProposals,
         NetworkCommon,
         NetworkNotifications
-    implements NetworkInterface, NetworkInternals {
+    implements ApiClient, NetworkInternals {
   Function() onChanged = () {};
 
   // Implement broadcast streams down here as you need them.
