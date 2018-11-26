@@ -576,6 +576,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   context,
                   new ProfileView(
                     account: demoAccount,
+                    oauthProviders: ConfigProvider.of(context).oauthProviders.all,
                   ));
             },
           ),
@@ -628,6 +629,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   context,
                   new ProfileView(
                     account: demoAccount,
+                    oauthProviders: ConfigProvider.of(context).oauthProviders.all,
                   ));
             },
           ),
@@ -698,6 +700,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   context,
                   new ProfileView(
                     account: demoAccount,
+                    oauthProviders: ConfigProvider.of(context).oauthProviders.all,
                   ));
             },
           ),
@@ -741,6 +744,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   context,
                   new ProfileView(
                     account: demoAccount,
+                    oauthProviders: ConfigProvider.of(context).oauthProviders.all,
                   ));
             },
           ),

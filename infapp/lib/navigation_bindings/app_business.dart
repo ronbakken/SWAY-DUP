@@ -179,6 +179,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
         account: network.account,
+        oauthProviders: ConfigProvider.of(context).oauthProviders.all,
         onEditPressed: navigateToProfileEdit,
       );
     }));

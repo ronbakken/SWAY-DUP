@@ -14,11 +14,11 @@ import 'package:inf_common/inf_common.dart';
 class FollowerTray extends StatelessWidget {
   FollowerTray({
     Key key,
-    this.oAuthProviders,
+    this.oauthProviders,
     this.socialMedia,
   }) : super(key: key);
 
-  final List<ConfigOAuthProvider> oAuthProviders;
+  final List<ConfigOAuthProvider> oauthProviders;
   final List<DataSocialMedia> socialMedia;
 
   @override
@@ -28,7 +28,7 @@ class FollowerTray extends StatelessWidget {
     for (int i = 1; i < socialMedia.length; i++) {
       if (socialMedia[i].connected) {
         followerWidgets.add(new FollowerWidget(
-          oAuthProvider: oAuthProviders[i],
+          oAuthProvider: oauthProviders[i],
           followerCount:
               max(socialMedia[i].followersCount, socialMedia[i].friendsCount),
         ));

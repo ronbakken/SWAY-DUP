@@ -154,7 +154,10 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
       // ConfigData config = ConfigProvider.of(context);
       NetworkInterface network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      return new ProfileView(account: network.tryGetProfileDetail(accountId));
+      return new ProfileView(
+        account: network.tryGetProfileDetail(accountId),
+        oauthProviders: ConfigProvider.of(context).oauthProviders.all,
+      );
     }));
   }
 

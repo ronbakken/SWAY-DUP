@@ -28,7 +28,9 @@ import 'package:mime/mime.dart';
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart'; // Necessary for asynchronous hashing.
 
-import 'package:inf/network_inheritable/cross_account_navigation.dart';
+export 'package:inf/network_generic/multi_account_client.dart';
+import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_generic/network_manager.dart';
 import 'package:inf/network_generic/network_offers.dart';
 import 'package:inf/network_generic/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';

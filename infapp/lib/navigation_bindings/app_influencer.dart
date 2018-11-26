@@ -182,6 +182,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
           account: network.account,
+          oauthProviders: ConfigProvider.of(context).oauthProviders.all,
           onEditPressed: () {
             navigateToProfileEdit();
           });
