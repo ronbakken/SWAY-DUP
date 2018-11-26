@@ -264,11 +264,11 @@ class ApiChannel {
       if (account.state.sessionId == 0) {
         // Create a new session in the sessions table of the database
         Uint8List cookieHash = Uint8List.fromList(sha256
-            .convert(sessionPayload.cookie + utf8.encode(config.services.salt))
-            .bytes); // TODO: Pre-encode salt
+            .convert(sessionPayload.cookie + config.services.salt)
+            .bytes);
         Uint8List deviceHash = Uint8List.fromList(sha256
-            .convert(create.deviceToken + utf8.encode(config.services.salt))
-            .bytes); // TODO: Pre-encode salt
+            .convert(create.deviceToken + config.services.salt)
+            .bytes);
         channel.replyExtend(message);
         sqljocky.Results results = await sql.prepareExecute(
             "INSERT INTO `sessions` (`cookie_hash`, `device_hash`, `name`, `info`) VALUES (?, ?, ?, ?)",
@@ -300,8 +300,8 @@ class ApiChannel {
         throw new Exception("Session ID must be set.");
       }
       Uint8List cookieHash = Uint8List.fromList(sha256
-          .convert(sessionPayload.cookie + utf8.encode(config.services.salt))
-          .bytes); // TODO: Pre-encode salt
+          .convert(sessionPayload.cookie + config.services.salt)
+          .bytes);
       // Get the pub_key from the session that can be used to decrypt the signed challenge
       sqljocky.Results pubKeyResults = await sql.prepareExecute(
           "SELECT `session_id` FROM `sessions` WHERE `session_id` = ? AND `cookie_hash` = ?",
