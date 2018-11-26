@@ -9,13 +9,7 @@ const DataSocialMedia$json = const {
   '2': const [
     const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
     const {'1': 'expired', '3': 15, '4': 1, '5': 8, '10': 'expired'},
-    const {
-      '1': 'can_authenticate',
-      '3': 19,
-      '4': 1,
-      '5': 8,
-      '10': 'canAuthenticate'
-    },
+    const {'1': 'can_sign_up', '3': 20, '4': 1, '5': 8, '10': 'canSignUp'},
     const {'1': 'screen_name', '3': 4, '4': 1, '5': 9, '10': 'screenName'},
     const {'1': 'display_name', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
     const {'1': 'avatar_url', '3': 14, '4': 1, '5': 9, '10': 'avatarUrl'},
