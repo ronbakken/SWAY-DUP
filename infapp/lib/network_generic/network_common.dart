@@ -290,7 +290,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     sessionPayload.configTimestamp = _config.timestamp;
     sessionPayload.configRegion = _config.region;
     sessionPayload.configLanguage = _config.language;
-     _lastPayloadLocalId = _currentLocalAccount.localId;
+    _lastPayloadLocalId = _currentLocalAccount.localId;
     if (!sessionPayload.hasSessionId()) {
       // Need cookie for _sessionCreate when sessionId is 0
       _lastPayloadCookie = sessionPayload.cookie;
@@ -302,7 +302,9 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   Future<void> _configDownload(TalkMessage message) async {
-    NetConfigDownload download = new NetConfigDownload()..mergeFromBuffer(message.data)..freeze();
+    NetConfigDownload download = new NetConfigDownload()
+      ..mergeFromBuffer(message.data)
+      ..freeze();
     // TODO: Tell config manager to download
     // download.configUrl
     // ConfigManager.............
