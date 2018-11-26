@@ -32,8 +32,8 @@ abstract class NetworkOffersBusiness
 
   @override
   Future<DataOffer> createOffer(NetCreateOfferReq createOfferReq) async {
-    TalkMessage res = await channel.sendRequest(
-        "C_OFFERR", createOfferReq.writeToBuffer());
+    TalkMessage res =
+        await channel.sendRequest("C_OFFERR", createOfferReq.writeToBuffer());
     DataOffer resPb = new DataOffer();
     resPb.mergeFromBuffer(res.data);
     cacheOffer(resPb);

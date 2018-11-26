@@ -414,8 +414,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                         termsOfServiceUrl: ConfigProvider.of(context)
                             .services
                             .termsOfServiceUrl,
-                        privacyPolicyUrl:
-                            ConfigProvider.of(context).services.privacyPolicyUrl,
+                        privacyPolicyUrl: ConfigProvider.of(context)
+                            .services
+                            .privacyPolicyUrl,
                         onSignUp: () async {
                           demoAccount.state.accountId =
                               new Int64(random.nextInt(1000000) + 1);
