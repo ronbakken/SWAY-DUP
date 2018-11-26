@@ -11,8 +11,6 @@ environment:
 dependencies:
   connectivity: any
   decimal: any
-  firebase_messaging: any
-  flutter_local_notifications: any
   flutter_map: any
   flutter_page_indicator: any 
   flutter_svg: any
@@ -20,25 +18,33 @@ dependencies:
   intl: any
   location: 
     git: https://github.com/slightfoot/flutter_location
-  protobuf: ^0.10.4
   rxdart: any
   rx_command: any
-  shared_preferences: any
   path_provider: any
   url_launcher: any
 
   sentry: any
   package_info: any
-  device_info: any
   system_info: any
-
-  wstalk:
-    git: https://github.com/nbspou/wstalk.git
-  pointycastle: any
 
   flutter:
     sdk: flutter
+
+  inf_common:
+    git: 
+      url: git@github.com:infmarketplace/inf_common.git
+      ref: af897a8e081810248b23b7f756544989c8601c49
+  switchboard: ^2.0.5
+  firebase_messaging: ^2.0.0
+  flutter_local_notifications: ^0.4.2
+  device_info: ^0.3.0
+  shared_preferences: ^0.4.2
+  synchronized: ^1.5.1
+  logging: ^0.11.3+2
+  
   cupertino_icons: any
+  font_awesome_flutter: any
+
   # cloud_firestore: any
   pedantic: any
 
