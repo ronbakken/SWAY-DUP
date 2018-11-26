@@ -39,6 +39,12 @@ s/GASR_PENDING/pending/g
 s/GASR_REQUIRE_INFO/requireInfo/g
 s/'GASR__/'GASR_/g
 
+s/'AL_/'AL__/g
+s/AL_FREE/free/g
+s/AL_PREMIUM/premium/g
+s/AL_PRO/pro/g
+s/'AL__/'AL_/g
+
 s/'NF_/'NF__/g
 s/NF_ACCOUNT_STATE/accountState/g
 s/NF_MAKE_AN_OFFER_HINT/makeAnOfferHint/g

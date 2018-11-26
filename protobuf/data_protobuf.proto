@@ -155,9 +155,10 @@ message DataAccountState {
   // Account type. If not AT_UNKNOWN, account creation may bypass type selection
   AccountType accountType = 3;
   
-  GlobalAccountState globalAccountState = 4; // TODO: Rename to globalState
-  GlobalAccountStateReason globalAccountStateReason = 5; // TODO: Rename to globalStateReason
+  GlobalAccountState globalAccountState = 4;
+  GlobalAccountStateReason globalAccountStateReason = 5;
   
+  AccountLevel accountLevel = 8;
   NotificationFlags notificationFlags = 6;
   
   string firebaseToken = 7;

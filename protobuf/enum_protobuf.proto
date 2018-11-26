@@ -60,6 +60,13 @@ enum GlobalAccountStateReason {
   
 }
 
+/// Account level
+enum AccountLevel {
+  AL_FREE = 0;
+  AL_PREMIUM = 1;
+  AL_PRO = 2;
+}
+
 /// NotificationFlags are set at login and may be sent through GCM as well
 enum NotificationFlags {
   /// Set whenever GAS changed (wipe after dismissed)
