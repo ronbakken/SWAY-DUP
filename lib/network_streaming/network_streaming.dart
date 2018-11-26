@@ -28,12 +28,13 @@ class NetworkStreaming {
 
   /// Exposes 'onAccountsChanged' (list of accounts changed)
   /// and account switching / adding functionality.
-  MultiAccountClient get multiAccountClient {
+  MultiAccountClient get multiAccount {
     return _multiAccountStore;
   }
 
-  /// Exposes listening to navigation requests
-  CrossAccountNavigator get crossAccountNavigator {
+  /// Exposes listening to navigation requests coming from the server.
+  /// These occur due to pushing notifications or due to external actions.
+  CrossAccountNavigator get navigator {
     return _crossAccountNavigator;
   }
 
@@ -42,8 +43,8 @@ class NetworkStreaming {
     return _configManager.config;
   }
 
-  /// Network manager
-  NetworkManager get networkManager {
+  /// Api Client
+  ApiClient get api {
     return _networkManager;
   }
 
