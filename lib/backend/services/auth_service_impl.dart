@@ -166,8 +166,17 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     int providerId = socialNetwork.id;
     ConfigOAuthProvider oauthProvider =
         networkStreaming.config.oauthProviders.all[providerId];
-    bool connectionAttempted = false;
-    NetOAuthConnection connection = await oauthConnect(context);
+    NetOAuthConnection connection = await oauthConnect(
+      context,
+      oauthProvider: oauthProvider,
+      onOAuthGetParams: () async {
+        return networkStreaming.api.getOAuthUrls(providerId);
+      },
+      onOAuthGetSecrets: null,
+      onOAuthCallbackResult: (String callbackQuery) async {
+        return networkStreaming.api.connectOAuth(providerId, callbackQuery);
+      },
+    );
     if (connection != null && connection.socialMedia.canSignUp) {
       // This app automatically signs up, without allowing multiple social media to be selected...
       Map<String, double> coordinate = await location.Location().getLocation;

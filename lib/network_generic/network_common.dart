@@ -569,7 +569,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   @override
-  Future<bool> connectOAuth(int oauthProvider, String callbackQuery) async {
+  Future<NetOAuthConnection> connectOAuth(int oauthProvider, String callbackQuery) async {
     NetOAuthConnect pb = new NetOAuthConnect();
     pb.oauthProvider = oauthProvider;
     pb.callbackQuery = callbackQuery;
@@ -584,7 +584,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       onCommonChanged();
     }
     // Return just whether connected or not
-    return resPb.socialMedia.connected;
+    return resPb;
   }
 
   @override

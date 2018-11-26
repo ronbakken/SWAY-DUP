@@ -20,20 +20,34 @@ Future<NetOAuthConnection> oauthConnect(
   Future<NetOAuthSecrets> Function() onOAuthGetSecrets,
   Future<NetOAuthConnection> Function(String callbackQuery)
       onOAuthCallbackResult,
-  List<String> whitelistHosts,
 }) async {
   bool connectionAttempted = false;
   NetOAuthConnection connection;
   if (!connectionAttempted &&
       oauthProvider.whitelistHosts.contains('facebook.com')) {
     // Attempt to use Facebook plugin
+    // TODO
   }
   if (!connectionAttempted &&
       oauthProvider.whitelistHosts.contains('twitter.com')) {
     // Attempt to use Twitter plugin
+    // TODO
   }
   if (!connectionAttempted) {
     // Attempt to use generic OAuth
+    await Navigator.push(
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      context,
+      new MaterialPageRoute(
+        builder: (context) {
+          return new OAuthScaffold(
+            onOAuthGetParams: onOAuthGetParams,
+            onOAuthCallbackResult: onOAuthCallbackResult,
+            whitelistHosts: oauthProvider.whitelistHosts,
+          );
+        },
+      ),
+    );
   }
   return connection;
 }
@@ -51,7 +65,8 @@ class OAuthScaffold extends StatefulWidget {
   final AppBar appBar;
 
   final Future<NetOAuthUrl> Function() onOAuthGetParams;
-  final Future<bool> Function(String callbackQuery) onOAuthCallbackResult;
+  final Future<NetOAuthConnection> Function(String callbackQuery)
+      onOAuthCallbackResult;
   final List<String> whitelistHosts;
 
   @override
@@ -152,8 +167,10 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
       if (mounted) {
         Uri uri = Uri.parse(url);
         if (url.startsWith(_callbackUrl)) {
-          if (widget.onOAuthCallbackResult != null &&
-              await widget.onOAuthCallbackResult(uri.query)) {
+          NetOAuthConnection connection = widget.onOAuthCallbackResult != null
+              ? await widget.onOAuthCallbackResult(uri.query)
+              : null;
+          if (connection != null && connection.socialMedia.connected) {
             print("Authorization success");
             Navigator.of(context).pop();
           } else {
