@@ -47,9 +47,11 @@ class ApiChannelOAuth {
 
   ApiChannelOAuth(this._r) {
     _r.registerProcedure(
-        "OA_URLRE", GlobalAccountState.initialize, netOAuthUrlReq);
+        "OA_URLRE", GlobalAccountState.initialize, _oauthGetUrl);
     _r.registerProcedure(
-        "OA_CONNE", GlobalAccountState.initialize, netOAuthConnectReq);
+        "OA_SECRE", GlobalAccountState.initialize, _oauthGetSecrets);
+    _r.registerProcedure(
+        "OA_CONNE", GlobalAccountState.initialize, _oauthConnect);
   }
 
   void dispose() {
@@ -58,8 +60,31 @@ class ApiChannelOAuth {
     _r = null;
   }
 
-  Future<void> netOAuthUrlReq(TalkMessage message) async {
-    devLog.finest("netOAuthUrlReq");
+  Future<void> _oauthGetSecrets(TalkMessage message) async {
+    NetOAuthGetSecrets getSecrets = new NetOAuthGetSecrets()
+      ..mergeFromBuffer(message.data)
+      ..freeze();
+    int providerId = getSecrets.oauthProvider;
+    if (providerId >= config.oauthProviders.all.length) {
+      channel.replyAbort(
+          message, "Invalid oauthProvider specified '$providerId'.");
+      return;
+    }
+    NetOAuthSecrets secrets = new NetOAuthSecrets();
+    ConfigOAuthProvider provider = config.oauthProviders.all[providerId];
+    if (provider.consumerKeyExposed) {
+      secrets.consumerKey = provider.consumerKey;
+    }
+    if (provider.consumerSecretExposed) {
+      secrets.consumerSecret = provider.consumerSecret;
+    }
+    if (provider.clientIdExposed) {
+      secrets.clientId = provider.clientId;
+    }
+    channel.replyMessage(message, 'OA_R_SEC', secrets.writeToBuffer());
+  }
+
+  Future<void> _oauthGetUrl(TalkMessage message) async {
     NetOAuthGetUrl pb = new NetOAuthGetUrl();
     pb.mergeFromBuffer(message.data);
     if (pb.oauthProvider < config.oauthProviders.all.length) {
@@ -114,15 +139,12 @@ class ApiChannelOAuth {
           {
             channel.replyAbort(message,
                 "Invalid oauthProvider specified '${pb.oauthProvider}'.");
-            throw new Exception(
-                "OAuth provider has no supported mechanism specified ${pb.oauthProvider}");
+            return;
           }
       }
     } else {
       channel.replyAbort(
           message, "Invalid oauthProvider specified '${pb.oauthProvider}'.");
-      throw new Exception(
-          "Invalid oauthProvider specified '${pb.oauthProvider}'.");
     }
   }
 
@@ -237,7 +259,7 @@ class ApiChannelOAuth {
         : null;
   }
 
-  Future<void> netOAuthConnectReq(TalkMessage message) async {
+  Future<void> _oauthConnect(TalkMessage message) async {
     devLog.finest("netOAuthConnectReq");
     NetOAuthConnect pb = new NetOAuthConnect();
     pb.mergeFromBuffer(message.data);
@@ -457,8 +479,6 @@ class ApiChannelOAuth {
     } else {
       channel.replyAbort(
           message, "Invalid oauthProvider specified '${pb.oauthProvider}'.");
-      throw new Exception(
-          "Invalid oauthProvider specified '${pb.oauthProvider}'.");
     }
   }
 

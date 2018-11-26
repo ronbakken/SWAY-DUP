@@ -98,7 +98,12 @@ class ApiChannel {
       if (_procedureHandlers.containsKey(message.procedureId)) {
         await _procedureHandlers[message.procedureId](message);
       } else {
-        channel.unknownProcedure(message);
+        try {
+          channel.unknownProcedure(message);
+        } catch (error, stack) {
+          devLog.finest("$error\n$stack");
+          channel.close();
+        }
       }
     }, onError: (error, stack) {
       if (error is TalkAbort) {
@@ -160,8 +165,13 @@ class ApiChannel {
         } catch (error, stack) {
           devLog.severe(
               "Unexpected error in procedure '$procedureId': $error\n$stack");
-          if (message.requestId != 0) {
-            channel.replyAbort(message, "Unexpected error.");
+          try {
+            if (message.requestId != 0) {
+              channel.replyAbort(message, "Unexpected error.");
+            }
+          } catch (error, stack) {
+            devLog.finest("$error\n$stack");
+            channel.close();
           }
         }
       }
@@ -263,12 +273,10 @@ class ApiChannel {
     await lock.synchronized(() async {
       if (account.state.sessionId == 0) {
         // Create a new session in the sessions table of the database
-        Uint8List cookieHash = Uint8List.fromList(sha256
-            .convert(sessionPayload.cookie + config.services.salt)
-            .bytes);
-        Uint8List deviceHash = Uint8List.fromList(sha256
-            .convert(create.deviceToken + config.services.salt)
-            .bytes);
+        Uint8List cookieHash = Uint8List.fromList(
+            sha256.convert(sessionPayload.cookie + config.services.salt).bytes);
+        Uint8List deviceHash = Uint8List.fromList(
+            sha256.convert(create.deviceToken + config.services.salt).bytes);
         channel.replyExtend(message);
         sqljocky.Results results = await sql.prepareExecute(
             "INSERT INTO `sessions` (`cookie_hash`, `device_hash`, `name`, `info`) VALUES (?, ?, ?, ?)",
@@ -299,9 +307,8 @@ class ApiChannel {
       if (!sessionPayload.hasSessionId() || sessionPayload.sessionId == 0) {
         throw new Exception("Session ID must be set.");
       }
-      Uint8List cookieHash = Uint8List.fromList(sha256
-          .convert(sessionPayload.cookie + config.services.salt)
-          .bytes);
+      Uint8List cookieHash = Uint8List.fromList(
+          sha256.convert(sessionPayload.cookie + config.services.salt).bytes);
       // Get the pub_key from the session that can be used to decrypt the signed challenge
       sqljocky.Results pubKeyResults = await sql.prepareExecute(
           "SELECT `session_id` FROM `sessions` WHERE `session_id` = ? AND `cookie_hash` = ?",
