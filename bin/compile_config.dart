@@ -4,6 +4,7 @@
 
 import 'dart:io';
 import 'dart:async';
+import 'dart:convert';
 
 import 'dart:typed_data';
 import "package:ini/ini.dart" as ini;
@@ -70,7 +71,8 @@ Future<ConfigCategories> generateConfigCategories(bool server) async {
 ////////////////////////////////////////////////////////////////////////////////
 
 Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
-  List<String> lines = await new File("config/oauth_providers.ini").readAsLines();
+  List<String> lines =
+      await new File("config/oauth_providers.ini").readAsLines();
   ConfigOAuthProviders res = new ConfigOAuthProviders();
   ini.Config cfg = new ini.Config.fromStrings(lines);
 
@@ -97,7 +99,8 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
     if (cfg.hasOption(section, 'canConnect'))
       entry.canConnect = (int.parse(cfg.get(section, 'canConnect')) == 1);
     if (cfg.hasOption(section, 'canAlwaysAuthenticate'))
-      entry.canAlwaysAuthenticate = (int.parse(cfg.get(section, 'canAlwaysAuthenticate')) == 1);
+      entry.canAlwaysAuthenticate =
+          (int.parse(cfg.get(section, 'canAlwaysAuthenticate')) == 1);
     if (cfg.hasOption(section, 'showInProfile'))
       entry.showInProfile = (int.parse(cfg.get(section, 'showInProfile')) == 1);
     entry.label = section;
@@ -124,6 +127,12 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
               entry.consumerKey = cfg.get(section, 'consumerKey');
             if (cfg.hasOption(section, 'consumerSecret'))
               entry.consumerSecret = cfg.get(section, 'consumerSecret');
+            if (cfg.hasOption(section, 'consumerKeyExposed'))
+              entry.consumerKeyExposed =
+                  (int.parse(cfg.get(section, 'consumerKeyExposed')) == 1);
+            if (cfg.hasOption(section, 'consumerSecretExposed'))
+              entry.consumerSecretExposed =
+                  (int.parse(cfg.get(section, 'consumerSecretExposed')) == 1);
             break;
           }
         case OAuthMechanism.oauth2:
@@ -142,6 +151,9 @@ Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
               entry.clientId = cfg.get(section, 'clientId');
             if (cfg.hasOption(section, 'clientSecret'))
               entry.clientSecret = cfg.get(section, 'clientSecret');
+            if (cfg.hasOption(section, 'clientIdExposed'))
+              entry.clientIdExposed =
+                  (int.parse(cfg.get(section, 'clientIdExposed')) == 1);
             break;
           }
       }
@@ -185,7 +197,7 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'connectionFailedUrl'))
         res.connectionFailedUrl = cfg.get(section, 'connectionFailedUrl');
       if (cfg.hasOption(section, 'salt'))
-        res.salt = cfg.get(section, 'salt');
+        res.salt = utf8.encode(cfg.get(section, 'salt'));
 
       if (cfg.hasOption(section, 'mapboxApi'))
         res.mapboxApi = cfg.get(section, 'mapboxApi');
@@ -278,9 +290,11 @@ Future<ConfigContent> generateConfigContent(bool server) async {
   );
   var bucket = spaces.bucket(spacesBucket);
   if (!server) {
-    await for (dospace.BucketContent content in bucket.listContents(prefix: welcomeSpacesPrefix)) {
+    await for (dospace.BucketContent content
+        in bucket.listContents(prefix: welcomeSpacesPrefix)) {
       // print(content.key);
-      res.welcomeImageUrls.add(welcomeCloudinaryUrl.replaceAll('{key}', content.key));
+      res.welcomeImageUrls
+          .add(welcomeCloudinaryUrl.replaceAll('{key}', content.key));
     }
   }
 
@@ -293,14 +307,16 @@ Future<ConfigContent> generateConfigContent(bool server) async {
 
 Future<void> generateConfig(bool server) async {
   ConfigData config = new ConfigData();
-  config.clientVersion = 2;
+  config.clientVersion = 3;
   config.timestamp =
       new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch);
+  config.region = "US";
+  config.language = "en";
   config.categories = await generateConfigCategories(server);
   config.oauthProviders = await generateConfigOAuthProviders(server);
   config.services = await generateConfigServices(server);
   config.content = await generateConfigContent(server);
-  print(config.writeToJson());
+  print(config);
   Uint8List configBuffer = config.writeToBuffer();
   new File(server ? "config/config_server.bin" : "config/config.bin")
       .writeAsBytes(configBuffer, flush: true);
