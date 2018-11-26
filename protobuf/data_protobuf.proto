@@ -30,36 +30,36 @@ message DataSocialMedia {
   /// by OAuth (happens if the user revokes the token from the social provider)
   bool expired = 15;
   
-  /// Information from this social media connection may be published to other users
-  bool published = 17;
+  /// TODO: Information from this social media connection may be published to other users (user setting)
+  // bool published = 17;
+  /// TODO: Allow logging in with this account (user setting)
+  // bool allow_log_in = 18;
   
-  /// Allow logging in with this account
-  bool allowLogIn = 18;
   /// Possible to log in or sign up with the connected account
-  bool canAuthenticate = 19;
+  bool can_authenticate = 19;
   
   /* Names. Use whichever one is not empty. Prefer displayName. */
   /// Screen name, eg. Twitter account name
-  string screenName = 4;
+  string screen_name = 4;
   /// Display name, eg. Facebook full name
-  string displayName = 5;
+  string display_name = 5;
   
   /* Further info. May have null values. Most data isn't always shared. */
   /// Url to the actual social media profile
-  string avatarUrl = 14;
-  string blurredAvatarUrl = 16;
-  string profileUrl = 13;
+  string avatar_url = 14;
+  string blurredAvatar_url = 16;
+  string profile_url = 13;
   string description = 6;
   string location = 7;
   string url = 8;
   string email = 12;
   
   /* Use the largest of either friendsCount or followersCount for boasting. */
-  int32 friendsCount = 9;
-  int32 followersCount = 2;
-  int32 followingCount = 3;
+  int32 friends_count = 9;
+  int32 followers_count = 2;
+  int32 following_count = 3;
   
-  int32 postsCount = 10;
+  int32 posts_count = 10;
   
   bool verified = 11;
   
@@ -68,13 +68,13 @@ message DataSocialMedia {
 message DataOAuthCredentials {
   /* Server info, never shared with client */
   /// User id
-  string userId = 4;
+  string user_id = 4;
   /// Token for OAuth1 and OAuth2
   string token = 1;
   /// Secret token for OAuth1. May be empty string for OAuth2
-  string tokenSecret = 2;
+  string token_secret = 2;
   /// Expiration timestamp in seconds. No expiration if 0
-  int32 tokenExpires = 3;
+  int32 token_expires = 3;
   
 }
 
