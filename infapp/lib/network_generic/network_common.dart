@@ -24,8 +24,6 @@ import 'package:logging/logging.dart';
 import 'package:switchboard/switchboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:device_info/device_info.dart';
-import 'package:pointycastle/pointycastle.dart' as pointycastle;
-import 'package:pointycastle/block/aes_fast.dart' as pointycastle;
 import 'package:mime/mime.dart';
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart'; // Necessary for asynchronous hashing.
@@ -51,6 +49,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   ConfigData _config;
   MultiAccountStore _multiAccountStore;
+  int _lastPayloadLocalId;
+  Uint8List _lastPayloadCookie;
 
   final Map<String, Function(TalkMessage message)> _procedureHandlers =
       new Map<String, Function(TalkMessage message)>();
@@ -67,11 +67,11 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   final Logger log = new Logger('Inf.Network');
 
-  String _overrideUri;
+  String _overrideEndPoint;
 
   final random = new Random.secure();
 
-  int nextDeviceGhostId;
+  int nextSessionGhostId;
 
   int _keepAliveBackground = 0;
 
@@ -82,7 +82,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     _alive = true;
 
     // Device ghost id is a semi sequential identifier for identifying messages by device (to ensure all are sent and to avoid duplicates)
-    nextDeviceGhostId =
+    nextSessionGhostId =
         (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF;
 
     // Initialize data
@@ -90,7 +90,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   void commonInitReady() {
-    registerProcedure('DA_STATE', _netDeviceAuthState);
+    registerProcedure('SESREMOV', _sessionRemove);
+    registerProcedure('ACCOUNTU', _accountUpdate);
     registerProcedure('DB_OFFER', dataOffer); // TODO: Remove this!
 
     registerProcedure('LN_APPLI', liveNewProposal);
@@ -112,7 +113,11 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         try {
           await channel.sendRequest("PING", new Uint8List(0));
         } catch (error, stack) {
-          log.fine("[PING] $error\n$stack");
+          log.fine("Ping: $error\n$stack");
+          if (channel != null) {
+            channel.close();
+            channel = null;
+          }
         }
       }
     });
@@ -145,7 +150,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   @override
   void overrideUri(String serverUri) {
-    _overrideUri = serverUri;
+    _overrideEndPoint = serverUri;
     log.info("Override server uri to $serverUri");
     if (channel != null) {
       channel.close();
@@ -182,6 +187,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
   }
 
   void cleanupStateSwitchingAccounts() {
+    _currentLocalAccount = null;
     resetProfilesState();
     resetOffersState();
     resetOffersBusinessState();
@@ -192,6 +198,11 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   void resetAccountState() {
     account = emptyAccount(); //..freeze();
+  }
+
+  void resetSessionPayload() {
+    switchboard.setPayload(new Uint8List(0), closeExisting: true);
+    _lastPayloadLocalId = null;
   }
 
   void reassembleCommon() {
@@ -220,16 +231,6 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     }
   }
 
-  void processSwitchAccount(LocalAccountData localAccount) {
-    if (localAccount != _currentLocalAccount) {
-      cleanupStateSwitchingAccounts();
-      if (channel != null) {
-        channel.close();
-        channel = null;
-      }
-    }
-  }
-
   void setApplicationForeground(bool foreground) {
     if (!foreground) {
       _foreground = false;
@@ -248,13 +249,46 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     }
   }
 
-  /// Authenticate device connection, this process happens as if by magic
-  Future<void> _authenticateDevice(TalkChannel channel) async {
-    // Initialize connection
-    log.info("Authenticate device");
-    // channel.sendMessage(TalkChannel.encode("INFAPP"), new Uint8List(0));
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  // Session
+  /////////////////////////////////////////////////////////////////////
 
-    // TODO: We'll use an SQLite database to keep the local cache stored
+  void processSwitchAccount(LocalAccountData localAccount) {
+    if (localAccount != _currentLocalAccount) {
+      cleanupStateSwitchingAccounts();
+      if (channel != null) {
+        channel.close();
+        channel = null;
+      }
+      resetSessionPayload();
+      if (!_kickstartNetwork.isCompleted) _kickstartNetwork.complete();
+    }
+  }
+
+  Completer<void> _kickstartNetwork = new Completer<void>();
+
+  void _updatePayload({bool closeExisting}) {
+    NetSessionPayload sessionPayload = new NetSessionPayload();
+    if (_currentLocalAccount.sessionId != 0) {
+      sessionPayload.sessionId = _currentLocalAccount.sessionId;
+    }
+    sessionPayload.cookie = multiAccountStore.getSessionCookie(
+        _currentLocalAccount.environment, _currentLocalAccount.localId);
+    _lastPayloadLocalId = _currentLocalAccount.localId;
+    if (!sessionPayload.hasSessionId()) {
+      // Need cookie for _sessionCreate when sessionId is 0
+      _lastPayloadCookie = sessionPayload.cookie;
+    } else {
+      _lastPayloadCookie = null;
+    }
+    switchboard.setPayload(sessionPayload.writeToBuffer(),
+        closeExisting: closeExisting);
+  }
+
+  Future<void> _sessionCreate() async {
+    log.info("Create session");
     DeviceInfoPlugin deviceInfo = new DeviceInfoPlugin();
     String deviceName = "unknown_device";
     try {
@@ -268,181 +302,105 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     } catch (ex) {
       log.severe('Failed to get device name');
     }
-
-    // Basic info from preferences
-    // Generate a common device id to identify devices with mutiple accounts
-    /*SharedPreferences prefs = await SharedPreferences.getInstance();
-    String commonDeviceIdStr;
-    try {
-      commonDeviceIdStr = prefs.getString('common_device_id');
-    } catch (e) {}
-    Uint8List commonDeviceId;
-    if (commonDeviceIdStr == null || commonDeviceIdStr.length == 0) {
-      commonDeviceId = new Uint8List(32);
-      for (int i = 0; i < commonDeviceId.length; ++i) {
-        commonDeviceId[i] = random.nextInt(256);
+    NetSessionCreate create = new NetSessionCreate();
+    create.deviceName = deviceName;
+    create.deviceToken = multiAccountStore.getDeviceToken();
+    create.deviceInfo = "{ debug: 'default_info' }";
+    TalkMessage response =
+        await channel.sendRequest('SESSIONC', create.writeToBuffer());
+    NetSession session = new NetSession()
+      ..mergeFromBuffer(response.data)
+      ..freeze();
+    if (_lastPayloadLocalId != _currentLocalAccount.localId) {
+      log.warning("Already switched account, cannot finish session creation.");
+      if (channel != null) {
+        channel.close();
+        channel = null;
       }
-      commonDeviceIdStr = base64.encode(commonDeviceId);
-      prefs.setString('common_device_id', commonDeviceIdStr);
-    } else {
-      commonDeviceId = base64.decode(commonDeviceIdStr);
-    }*/
-    final Uint8List commonDeviceId = multiAccountStore.getCommonDeviceId();
-    final LocalAccountData localAccount = multiAccountStore.current;
-    final Uint8List aesKey = multiAccountStore.getDeviceCookie(
-        localAccount.environment, localAccount.localId);
-    _currentLocalAccount = localAccount;
-
-    // Original plan was to use an assymetric key pair, but the generation was too slow. Hence just using a symmetric AES key for now
-    /*
-    int localAccountId = widget.networkManager.localAccountId;
-    String aesKeyPref =
-        widget.config.services.environment + '_aes_key_$localAccountId';
-    String deviceIdPref =
-        widget.config.services.environment + '_device_id_$localAccountId';
-    String aesKeyStr;
-    Uint8List aesKey;
-    int attemptDeviceId = 0;
-    try {
-      // prefs.setString(aesKeyPref, ''); // DEBUG: Reset profile
-      aesKeyStr = prefs.getString(aesKeyPref);
-      aesKey = base64.decode(aesKeyStr);
-      attemptDeviceId = prefs.getInt(deviceIdPref);
-      if (attemptDeviceId != account.state.sessionId) {
-        account.state.sessionId = 0;
-      }
-    } catch (e) {}
-    */
-    if (localAccount.sessionId == null || localAccount.sessionId == 0) {
-      // Create new device
-      log.info("Create new device");
-      account.state.sessionId = Int64.ZERO;
-      NetDeviceAuthCreateReq pbReq = new NetDeviceAuthCreateReq();
-      pbReq.aesKey = aesKey;
-      pbReq.commonDeviceId = commonDeviceId;
-      pbReq.name = deviceName;
-      pbReq.info = "{ debug: 'default_info' }";
-
-      TalkMessage res =
-          await channel.sendRequest("DA_CREAT", pbReq.writeToBuffer());
-      NetDeviceAuthState pbRes = new NetDeviceAuthState();
-      pbRes.mergeFromBuffer(res.data);
-      if (!_alive) {
-        throw Exception("No longer alive, don't authorize");
-      }
-      await receivedDeviceAuthState(pbRes);
-      log.info("Device id ${account.state.sessionId}");
-      if (account.state.sessionId != 0) {
-        multiAccountStore.setDeviceId(localAccount.environment,
-            localAccount.localId, account.state.sessionId, aesKey);
-      }
-    } else {
-      // Authenticate existing device
-      log.info("Authenticate existing device ${localAccount.sessionId}");
-
-      NetDeviceAuthChallengeReq pbChallengeReq =
-          new NetDeviceAuthChallengeReq();
-      pbChallengeReq.sessionId = localAccount.sessionId;
-      TalkMessage msgChallengeResReq =
-          await channel.sendRequest("DA_CHALL", pbChallengeReq.writeToBuffer());
-      NetDeviceAuthChallengeResReq pbChallengeResReq =
-          new NetDeviceAuthChallengeResReq();
-      pbChallengeResReq.mergeFromBuffer(msgChallengeResReq.data);
-
-      // Sign challenge
-      var keyParameter = new pointycastle.KeyParameter(aesKey);
-      var aesFastEngine = new pointycastle.AESFastEngine();
-      aesFastEngine
-        ..reset()
-        ..init(true, keyParameter);
-      Uint8List challenge = pbChallengeResReq.challenge;
-      Uint8List signature = new Uint8List(challenge.length);
-      for (int offset = 0; offset < challenge.length;) {
-        offset +=
-            aesFastEngine.processBlock(challenge, offset, signature, offset);
-      }
-
-      // Send signature, wait for device status
-      NetDeviceAuthSignatureResReq pbSignature =
-          new NetDeviceAuthSignatureResReq();
-      pbSignature.signature = signature;
-      TalkMessage res = await channel.replyRequest(
-          msgChallengeResReq, "DA_R_SIG", pbSignature.writeToBuffer());
-      NetDeviceAuthState pbRes = new NetDeviceAuthState();
-      pbRes.mergeFromBuffer(res.data);
-      if (!_alive) {
-        throw Exception("No longer alive, don't authorize");
-      }
-      await receivedDeviceAuthState(pbRes);
-      log.info("Device id ${account.state.sessionId}");
+      return;
     }
-
-    if (account.state.sessionId == 0) {
-      // TODO: Differentiate between connection error and exception received from server? Seems to be going wrong sometimes.
-      // multiAccountStore.removeLocal(localAccount.environment, localAccount.localId);
-      multiAccountStore.addAccount(localAccount.environment);
-      _currentLocalAccount = null;
-      throw new Exception("Authentication did not succeed");
-    } else {
-      log.info("Network connection is ready");
-      connected = NetworkConnectionState.ready;
-      onCommonChanged();
-      resubmitGhostChats();
+    if (session.hasSessionId() && session.sessionId != 0) {
+      // Successfull connection
+      if (_lastPayloadCookie == null) {
+        log.severe("Payload cookie missing");
+        if (channel != null) {
+          channel.close();
+          channel = null;
+        }
+        return;
+      }
+      log.info("Session ${session.sessionId}");
+      // Store session id and cookie
+      multiAccountStore.setSessionId(_currentLocalAccount.environment,
+          _currentLocalAccount.localId, session.sessionId, _lastPayloadCookie);
+      _lastPayloadCookie = null;
+      // Update payload for reconnection
+      _updatePayload(closeExisting: false);
     }
-
-    // assert(accountState.sessionId != 0);
   }
 
-  void _netDeviceAuthState(TalkMessage message) async {
-    NetDeviceAuthState pb = new NetDeviceAuthState();
-    pb.mergeFromBuffer(message.data);
-    await receivedDeviceAuthState(pb);
+  Future<void> _sessionRemove(TalkMessage message) async {
+    log.info("Remove session");
+    if (_lastPayloadLocalId != _currentLocalAccount.localId) {
+      log.warning("Already switched account, cannot remove session.");
+      if (channel != null) {
+        channel.close();
+        channel = null;
+      }
+      return;
+    }
+    multiAccountStore.removeLocal(
+        _currentLocalAccount.environment, _currentLocalAccount.localId);
+    multiAccountStore.addAccount(_config.services.environment);
   }
-
-  Completer<void> _kickstartNetwork = new Completer<void>();
 
   bool _netConfigWarning = false;
-  Future _networkSession() async {
+  Future<void> _sessionOpen() async {
     try {
-      do {
-        String uri = _overrideUri ??
-            (_config.services.apiHosts.length > 0
-                ? _config.services
-                    .apiHosts[random.nextInt(_config.services.apiHosts.length)]
-                : null);
-        if (uri == null || uri.length == 0) {
-          if (!_netConfigWarning) {
-            _netConfigWarning = true;
-            log.warning("No network configuration, not connecting");
-          }
-          if (_kickstartNetwork.isCompleted)
-            _kickstartNetwork = new Completer<void>();
-          try {
-            await _kickstartNetwork.future.timeout(new Duration(seconds: 3));
-          } catch (TimeoutException) {}
-          return;
+      String endPoint = _overrideEndPoint ?? _config.services.endPoint;
+      String service = _config.services.service;
+      final LocalAccountData localAccount = multiAccountStore.current;
+      bool matchingEnvironment =
+          _config.services.environment == localAccount.environment;
+
+      if (endPoint == null || endPoint.length == 0 || !matchingEnvironment) {
+        if (!_netConfigWarning) {
+          _netConfigWarning = true;
+          log.warning("Incomplete network configuration, not connecting");
         }
-        _netConfigWarning = false;
+        if (_kickstartNetwork.isCompleted)
+          _kickstartNetwork = new Completer<void>();
         try {
-          log.info("Try connect to $uri");
-          switchboard.setEndPoint(uri);
-          channel = await switchboard
-              .openServiceChannel("api")
-              .timeout(new Duration(seconds: 3));
-        } catch (e) {
-          log.warning("Network cannot connect, retry in 3 seconds: $e");
-          assert(channel == null);
-          connected = NetworkConnectionState.offline;
-          onCommonChanged();
-          if (_kickstartNetwork.isCompleted)
-            _kickstartNetwork = new Completer<void>();
-          try {
-            await _kickstartNetwork.future.timeout(new Duration(seconds: 3));
-          } catch (TimeoutException) {}
-        }
-      } while (_alive &&
-          (_foreground || (_keepAliveBackground > 0)) &&
-          (channel == null));
+          await _kickstartNetwork.future.timeout(new Duration(seconds: 3));
+        } catch (TimeoutException) {}
+        return;
+      }
+
+      _currentLocalAccount = localAccount;
+      if (localAccount.localId != _lastPayloadLocalId) {
+        _updatePayload(closeExisting: true);
+      }
+
+      _netConfigWarning = false;
+      try {
+        log.info("Try to open channel to service '$service' on '$endPoint'.");
+        switchboard.setEndPoint(endPoint);
+        channel = await switchboard
+            .openServiceChannel(service)
+            .timeout(new Duration(seconds: 3));
+      } catch (e) {
+        log.warning("Network cannot connect, retry in 3 seconds: $e");
+        assert(channel == null);
+        connected = NetworkConnectionState.offline;
+        onCommonChanged();
+        if (_kickstartNetwork.isCompleted)
+          _kickstartNetwork = new Completer<void>();
+        try {
+          await _kickstartNetwork.future.timeout(new Duration(seconds: 3));
+        } catch (TimeoutException) {}
+        return;
+      }
+
       // Future<void> listen = channel.listen();
       Completer<void> listen = new Completer<void>();
       channel.listen((TalkMessage message) async {
@@ -464,45 +422,16 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
         connected = NetworkConnectionState.connecting;
         onCommonChanged();
       }
-      if (_config != null /*&& widget.networkManager.localAccountId != 0*/) {
-        if (_alive) {
-          // Authenticate device, this will set connected = ready when successful
-          _authenticateDevice(channel).catchError((e) {
-            log.warning(
-                "Network authentication exception, retry in 3 seconds: $e");
-            connected = NetworkConnectionState.failing;
-            onCommonChanged();
-            TalkChannel tempChannel = channel;
-            channel = null;
-            () async {
-              log.fine("Wait");
-              if (_kickstartNetwork.isCompleted)
-                _kickstartNetwork = new Completer<void>();
-              try {
-                await _kickstartNetwork.future
-                    .timeout(new Duration(seconds: 3));
-              } catch (TimeoutException) {}
-              log.fine("Retry now");
-              if (tempChannel != null) {
-                tempChannel.close();
-              }
-            }()
-                .catchError((e) {
-              log.severe("Fatal network exception, cannot recover: $e");
-            });
-          });
-        } else {
-          channel.close();
+
+      if (_alive) {
+        if (localAccount.sessionId == Int64.ZERO) {
+          await _sessionCreate();
         }
-      } else {
-        log.warning(
-            "No configuration, connection will remain idle"); // , local account id ${widget.networkManager.localAccountId}");
-        connected = NetworkConnectionState.failing;
-        onCommonChanged();
       }
+
       await listen.future;
       channel = null;
-      log.info("Network connection closed");
+      log.info("Network connection closed.");
       if (connected == NetworkConnectionState.ready) {
         connected = NetworkConnectionState.connecting;
         onCommonChanged();
@@ -514,53 +443,72 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
       connected = NetworkConnectionState.failing;
       onCommonChanged();
       if (tempChannel != null) {
-        tempChannel.close(); // TODO: close code?
+        tempChannel.close();
       }
     }
   }
 
   Future _networkLoop() async {
-    log.fine("Start network loop");
+    log.fine("Start network loop.");
     while (_alive) {
       if (!_foreground && (_keepAliveBackground <= 0)) {
-        log.fine("Awaiting foreground");
+        log.fine("Awaiting foreground.");
         _awaitingForeground = new Completer<void>();
         await _awaitingForeground.future;
-        log.fine("Now in foreground");
+        log.fine("Now in foreground.");
       }
-      await _networkSession();
+      await _sessionOpen();
     }
-    log.fine("End network loop");
+    log.fine("End network loop.");
   }
 
-  Future<void> receivedDeviceAuthState(NetDeviceAuthState pb) async {
-    log.info("Account state received");
-    log.fine("NetDeviceAuthState: $pb");
-    if (pb.data.state.accountId != account.state.accountId) {
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  // Account
+  /////////////////////////////////////////////////////////////////////
+
+  void _accountUpdate(TalkMessage message) async {
+    NetAccountUpdate pb = new NetAccountUpdate();
+    pb.mergeFromBuffer(message.data);
+    await receivedAccountUpdate(pb);
+  }
+
+  Future<void> receivedAccountUpdate(NetAccountUpdate pb) async {
+    log.info("Account state update received.");
+    log.fine("NetAccountUpdate: $pb");
+    if (pb.account.state.accountId != account.state.accountId) {
       // Any cache cleanup may be done here when switching accounts
       cleanupStateSwitchingAccounts();
     }
-    account = pb.data;
+    account = pb.account;
     for (int i = account.detail.socialMedia.length;
         i < _config.oauthProviders.all.length;
         ++i) {
       account.detail.socialMedia.add(new DataSocialMedia());
     }
     account.detail.socialMedia.length = _config.oauthProviders.all.length;
+    connected = NetworkConnectionState.ready;
     onCommonChanged();
-    if (pb.data.state.accountId != 0) {
-      // Update local account store
-      _multiAccountStore.setAccountId(
-          _currentLocalAccount.environment,
-          _currentLocalAccount.localId,
-          account.state.accountId,
-          account.state.accountType);
-      _multiAccountStore.setNameAvatar(
-          _currentLocalAccount.environment,
-          _currentLocalAccount.localId,
-          account.summary.name,
-          account.summary.blurredAvatarThumbnailUrl,
-          account.summary.avatarThumbnailUrl);
+    if (pb.account.state.accountId != 0) {
+      if (_currentLocalAccount.sessionId != pb.account.state.sessionId) {
+        log.severe(
+            "Mismatching current session ID '${_currentLocalAccount.sessionId}' "
+            "and received session ID '${pb.account.state.sessionId}'");
+      } else {
+        // Update local account store
+        _multiAccountStore.setAccountId(
+            _currentLocalAccount.environment,
+            _currentLocalAccount.localId,
+            account.state.accountId,
+            account.state.accountType);
+        _multiAccountStore.setNameAvatar(
+            _currentLocalAccount.environment,
+            _currentLocalAccount.localId,
+            account.summary.name,
+            account.summary.blurredAvatarThumbnailUrl,
+            account.summary.avatarThumbnailUrl);
+      }
       // Mark all caches as dirty, since we may have been offline for a while
       markProfilesDirty();
       markOffersDirty();
@@ -590,24 +538,24 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   /* OAuth */
   @override
-  Future<NetOAuthUrlRes> getOAuthUrls(int oauthProvider) async {
-    NetOAuthUrlReq pb = new NetOAuthUrlReq();
+  Future<NetOAuthUrl> getOAuthUrls(int oauthProvider) async {
+    NetOAuthGetUrl pb = new NetOAuthGetUrl();
     pb.oauthProvider = oauthProvider;
     TalkMessage res =
         await switchboard.sendRequest("api", "OA_URLRE", pb.writeToBuffer());
-    NetOAuthUrlRes resPb = new NetOAuthUrlRes();
+    NetOAuthUrl resPb = new NetOAuthUrl();
     resPb.mergeFromBuffer(res.data);
     return resPb;
   }
 
   @override
   Future<bool> connectOAuth(int oauthProvider, String callbackQuery) async {
-    NetOAuthConnectReq pb = new NetOAuthConnectReq();
+    NetOAuthConnect pb = new NetOAuthConnect();
     pb.oauthProvider = oauthProvider;
     pb.callbackQuery = callbackQuery;
     TalkMessage res =
         await switchboard.sendRequest("api", "OA_CONNE", pb.writeToBuffer());
-    NetOAuthConnectRes resPb = new NetOAuthConnectRes();
+    NetOAuthConnection resPb = new NetOAuthConnection();
     resPb.mergeFromBuffer(res.data);
     // Result contains the updated data, so needs to be put into the state
     if (oauthProvider < account.detail.socialMedia.length &&
@@ -621,7 +569,7 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   @override
   Future<void> createAccount(double latitude, double longitude) async {
-    NetAccountCreateReq pb = new NetAccountCreateReq();
+    NetAccountCreate pb = new NetAccountCreate();
     if (latitude != null &&
         latitude != 0.0 &&
         longitude != null &&
@@ -631,9 +579,9 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     }
     TalkMessage res =
         await switchboard.sendRequest("api", "A_CREATE", pb.writeToBuffer());
-    NetDeviceAuthState resPb = new NetDeviceAuthState();
+    NetAccountUpdate resPb = new NetAccountUpdate();
     resPb.mergeFromBuffer(res.data);
-    await receivedDeviceAuthState(resPb);
+    await receivedAccountUpdate(resPb);
     if (account.state.accountId == 0) {
       throw new NetworkException("No account has been created");
     }

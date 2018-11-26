@@ -42,17 +42,17 @@ abstract class MultiAccountStore implements MultiAccountClient {
   List<LocalAccountData> get accounts;
 
   LocalAccountData get current;
-  Uint8List getCommonDeviceId();
+  Uint8List getDeviceToken();
   LocalAccountData getAccount(String environment, Int64 accountId);
   LocalAccountData getLocal(String environment, int localId);
   void removeLocal(String environment, int localId);
-  void setDeviceId(
-      String environment, int localId, Int64 sessionId, Uint8List deviceCookie);
+  void setSessionId(String environment, int localId, Int64 sessionId,
+      Uint8List sessionCookie);
   void setAccountId(String environment, int localId, Int64 accountId,
       AccountType accountType);
   void setNameAvatar(String environment, int localId, String name,
       String blurredAvatarUrl, String avatarUrl);
-  Uint8List getDeviceCookie(String environment, int localId);
+  Uint8List getSessionCookie(String environment, int localId);
   Future<void> initialize();
   Future<void> dispose();
 }

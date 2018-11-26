@@ -63,13 +63,13 @@ abstract class NetworkInterface {
   // Onboarding and OAuth
   /////////////////////////////////////////////////////////////////////////////
 
-  /* Device Registration */
+  /* Account Registration */
   /// Set account type. Only possible when not yet created.
   void setAccountType(AccountType accountType);
 
   /* OAuth */
   /// Get the URLs to use for the OAuth process
-  Future<NetOAuthUrlRes> getOAuthUrls(int oauthProvider);
+  Future<NetOAuthUrl> getOAuthUrls(int oauthProvider);
 
   /// Try to connect an OAuth provider with the received callback query
   Future<bool> connectOAuth(int oauthProvider, String callbackQuery);

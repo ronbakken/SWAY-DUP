@@ -35,8 +35,8 @@ launchApp() async {
     print('${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
   });
   new Logger('Inf').level = Level.ALL;
-  new Logger('Inf.Network').level = Level.INFO;
-  new Logger('Inf.Config').level = Level.INFO;
+  new Logger('Inf.Network').level = Level.ALL;
+  new Logger('Inf.Config').level = Level.ALL;
   new Logger('Switchboard').level = Level.ALL;
   new Logger('Switchboard.Mux').level = Level.ALL;
   new Logger('Switchboard.Talk').level = Level.ALL;

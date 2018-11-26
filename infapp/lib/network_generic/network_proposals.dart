@@ -162,7 +162,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
     try {
       NetOfferApplyReq pbReq = new NetOfferApplyReq();
       pbReq.offerId = offerId;
-      pbReq.sessionGhostId = ++nextDeviceGhostId;
+      pbReq.sessionGhostId = ++nextSessionGhostId;
       pbReq.remarks = remarks;
       TalkMessage res =
           await channel.sendRequest("O_APPLYY", pbReq.writeToBuffer());
@@ -416,7 +416,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
 
   @override
   void chatPlain(Int64 proposalId, String text) {
-    int ghostId = ++nextDeviceGhostId;
+    int ghostId = ++nextSessionGhostId;
     if (connected == NetworkConnectionState.ready) {
       NetChatPlain pbReq = new NetChatPlain();
       pbReq.proposalId = proposalId;
@@ -430,7 +430,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
   @override
   void chatHaggle(
       Int64 proposalId, String deliverables, String reward, String remarks) {
-    int ghostId = ++nextDeviceGhostId;
+    int ghostId = ++nextSessionGhostId;
     if (connected == NetworkConnectionState.ready) {
       NetChatHaggle pbReq = new NetChatHaggle();
       pbReq.proposalId = proposalId;
@@ -455,7 +455,7 @@ abstract class NetworkProposals implements NetworkInterface, NetworkInternals {
 
   @override
   void chatImageKey(Int64 proposalId, String imageKey) {
-    int ghostId = ++nextDeviceGhostId;
+    int ghostId = ++nextSessionGhostId;
     if (connected == NetworkConnectionState.ready) {
       NetChatImageKey pbReq = new NetChatImageKey();
       pbReq.proposalId = proposalId;

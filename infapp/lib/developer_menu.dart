@@ -222,7 +222,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           children: [
             new Text("Domain: " + localAccount.environment.toString()),
             new Text("Local Id: " + localAccount.localId.toString()),
-            new Text("Device Id: " + localAccount.sessionId.toString()),
+            new Text("Session Id: " + localAccount.sessionId.toString()),
             new Text("Account Id: " + localAccount.accountId.toString()),
             new Text("Account Type: " + localAccount.accountType.toString()),
             new Text("Name: " + localAccount.name.toString()),

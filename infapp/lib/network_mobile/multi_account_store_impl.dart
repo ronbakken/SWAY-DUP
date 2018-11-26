@@ -64,7 +64,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   final Map<String, _LocalDomainDataImpl> _environments =
       new Map<String, _LocalDomainDataImpl>();
   final _random = new Random.secure();
-  final String _startupDomain;
+  final String _startupEnvironment;
 
   _LocalAccountDataImpl _current;
 
@@ -98,25 +98,31 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   final StreamController<LocalAccountData> _onSwitchAccount =
       new StreamController<LocalAccountData>.broadcast();
 
-  MultiAccountStoreImpl(this._startupDomain);
+  MultiAccountStoreImpl(this._startupEnvironment);
 
   @override
   Future<void> initialize() async {
     assert(_prefs == null);
-    assert(_startupDomain != null);
+    assert(_startupEnvironment != null);
     _prefs = await SharedPreferences.getInstance();
 
     // Initialize local accounts list
-    await _initLocalData(_startupDomain);
+    await _initLocalData(_startupEnvironment);
     _onAccountsChanged.add(new Change(ChangeAction.refreshAll, null));
 
     // Initialize current account
-    int localId = getLastUsed(_startupDomain);
-    _current = getLocal(_startupDomain, localId);
+    int localId = getLastUsed(_startupEnvironment);
+    _current = getLocal(_startupEnvironment, localId);
+    if (_current == null) {
+      localId = _createAccount(_startupEnvironment);
+      _current = getLocal(_startupEnvironment, localId);
+      _setLastUsed(_startupEnvironment, localId);
+    }
+    assert(_current != null);
     _onSwitchAccount.add(_current);
     /*
-    _environment = _startupDomain;
-    _localId = widget.store.getLastUsed(_startupDomain);
+    _environment = _startupEnvironment;
+    _localId = widget.store.getLastUsed(_startupEnvironment);
     _accountId = widget.store.getLocal(environment, _localId).accountId;
     */
   }
@@ -128,23 +134,23 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   }
 
   @override
-  Uint8List getCommonDeviceId() {
-    String commonDeviceIdStr;
+  Uint8List getDeviceToken() {
+    String deviceTokenStr;
     try {
-      commonDeviceIdStr = _prefs.getString('common_device_id');
+      deviceTokenStr = _prefs.getString('device_token');
     } catch (e) {}
-    Uint8List commonDeviceId;
-    if (commonDeviceIdStr == null || commonDeviceIdStr.length == 0) {
-      commonDeviceId = new Uint8List(32);
-      for (int i = 0; i < commonDeviceId.length; ++i) {
-        commonDeviceId[i] = _random.nextInt(256);
+    Uint8List deviceToken;
+    if (deviceTokenStr == null || deviceTokenStr.length == 0) {
+      deviceToken = new Uint8List(32);
+      for (int i = 0; i < deviceToken.length; ++i) {
+        deviceToken[i] = _random.nextInt(256);
       }
-      commonDeviceIdStr = base64.encode(commonDeviceId);
-      _prefs.setString('common_device_id', commonDeviceIdStr);
+      deviceTokenStr = base64.encode(deviceToken);
+      _prefs.setString('device_token', deviceTokenStr);
     } else {
-      commonDeviceId = base64.decode(commonDeviceIdStr);
+      deviceToken = base64.decode(deviceTokenStr);
     }
-    return commonDeviceId;
+    return deviceToken;
   }
 
   Future<void> _initLocalData(String startupDomain) async {
@@ -183,7 +189,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
         accountData.localId = localId;
         try {
           accountData.sessionId = Int64.parseInt(
-                  _prefs.getString("${environment}_${localId}_device_id") ??
+                  _prefs.getString("${environment}_${localId}_session_id") ??
                       "0") ??
               Int64.ZERO;
         } catch (error) {}
@@ -235,7 +241,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     _environments[environment].accounts.removeWhere(
         (Int64 accountId, _LocalAccountDataImpl data) =>
             data.localId == localId);
-    _prefs.remove("${environment}_${localId}_device_id");
+    _prefs.remove("${environment}_${localId}_session_id");
     _prefs.remove("${environment}_${localId}_device_cookie");
     _prefs.remove("${environment}_${localId}_account_id");
     _prefs.remove("${environment}_${localId}_account_type");
@@ -246,13 +252,13 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   }
 
   @override
-  void setDeviceId(String environment, int localId, Int64 sessionId,
-      Uint8List deviceCookie) {
+  void setSessionId(String environment, int localId, Int64 sessionId,
+      Uint8List sessionCookie) {
     _environments[environment].local[localId].sessionId = sessionId;
     _prefs.setString(
-        "${environment}_${localId}_device_id", sessionId.toString());
-    _prefs.setString(
-        "${environment}_${localId}_device_cookie", base64.encode(deviceCookie));
+        "${environment}_${localId}_session_id", sessionId.toString());
+    _prefs.setString("${environment}_${localId}_device_cookie",
+        base64.encode(sessionCookie));
     _onAccountsChanged.add(new Change(
         ChangeAction.upsert, _environments[environment].local[localId]));
   }
@@ -296,19 +302,19 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   }
 
   @override
-  Uint8List getDeviceCookie(String environment, int localId) {
+  Uint8List getSessionCookie(String environment, int localId) {
     try {
       return base64
           .decode(_prefs.getString("${environment}_${localId}_device_cookie"));
     } catch (error) {}
-    Uint8List deviceCookie;
-    if (deviceCookie == null || deviceCookie.length == 0) {
-      deviceCookie = new Uint8List(32);
-      for (int i = 0; i < deviceCookie.length; ++i) {
-        deviceCookie[i] = _random.nextInt(256);
+    Uint8List sessionCookie;
+    if (sessionCookie == null || sessionCookie.length == 0) {
+      sessionCookie = new Uint8List(32);
+      for (int i = 0; i < sessionCookie.length; ++i) {
+        sessionCookie[i] = _random.nextInt(256);
       }
     }
-    return deviceCookie;
+    return sessionCookie;
   }
 
   int getLastUsed(String environment) {
@@ -318,7 +324,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     } catch (error) {}
     if (localId == null || localId == 0) {
       localId = _createAccount(environment);
-      // _setLastUsed(environment, localId);
+      _setLastUsed(environment, localId);
     }
     return localId;
   }
@@ -351,6 +357,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     int localId = getAccount(environment, accountId)?.localId ??
         _createAccount(environment);
     _current = getLocal(environment, localId);
+    assert(_current != null);
     if (_current.accountId != 0) {
       _setLastUsed(environment, localId);
     }
@@ -359,7 +366,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
 
   @override
   void addAccount([String environment]) {
-    switchAccount(environment ?? _startupDomain, Int64.ZERO);
+    switchAccount(environment ?? _startupEnvironment, Int64.ZERO);
   }
 }
 

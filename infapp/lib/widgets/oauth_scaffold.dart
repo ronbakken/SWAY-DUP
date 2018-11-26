@@ -13,7 +13,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 import 'package:inf_common/inf_common.dart';
 
-typedef Future<NetOAuthUrlRes> OAuthGetParams();
+typedef Future<NetOAuthUrl> OAuthGetParams();
 typedef Future<bool> OAuthCallbackResult(String callbackQuery);
 
 class OAuthScaffold extends StatefulWidget {
@@ -80,7 +80,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
 
   Future _startRequest() async {
     try {
-      NetOAuthUrlRes params = await widget.onOAuthGetParams();
+      NetOAuthUrl params = await widget.onOAuthGetParams();
       if (!mounted) {
         return;
       }

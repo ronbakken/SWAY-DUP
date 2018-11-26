@@ -54,7 +54,7 @@ abstract class NetworkInternals {
   void onOffersDemoChanged(ChangeAction action, Int64 id);
 
   // Proposals
-  int nextDeviceGhostId;
+  int nextSessionGhostId;
   void resetProposalsState();
   void markProposalsDirty();
   void onProposalChanged(ChangeAction action, Int64 id);

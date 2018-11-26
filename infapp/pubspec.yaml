@@ -10,7 +10,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: 0af77d5
+      ref: 26f1c6a357ca74f59bb660a738546c6c3942f7e8
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -31,7 +31,7 @@ dependencies:
   # Device info, used during device registration
   device_info: ^0.2.1
   shared_preferences: ^0.4.2
-  pointycastle: ^1.0.0-rc4
+  # pointycastle: ^1.0.0-rc4
   synchronized: ^1.5.1
   path_provider: ^0.4.1
   logging: ^0.11.3+2
