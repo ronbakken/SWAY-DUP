@@ -91,9 +91,30 @@ const ConfigOAuthProvider$json = const {
       '5': 9,
       '10': 'consumerSecret'
     },
+    const {
+      '1': 'consumer_key_exposed',
+      '3': 22,
+      '4': 1,
+      '5': 8,
+      '10': 'consumerKeyExposed'
+    },
+    const {
+      '1': 'consumer_secret_exposed',
+      '3': 23,
+      '4': 1,
+      '5': 8,
+      '10': 'consumerSecretExposed'
+    },
     const {'1': 'auth_url', '3': 7, '4': 1, '5': 9, '10': 'authUrl'},
     const {'1': 'auth_query', '3': 8, '4': 1, '5': 9, '10': 'authQuery'},
     const {'1': 'client_id', '3': 12, '4': 1, '5': 9, '10': 'clientId'},
+    const {
+      '1': 'client_id_exposed',
+      '3': 21,
+      '4': 1,
+      '5': 8,
+      '10': 'clientIdExposed'
+    },
     const {'1': 'client_secret', '3': 17, '4': 1, '5': 9, '10': 'clientSecret'},
     const {
       '1': 'whitelist_hosts',
@@ -147,7 +168,7 @@ const ConfigServices$json = const {
       '5': 9,
       '10': 'connectionFailedUrl'
     },
-    const {'1': 'salt', '3': 34, '4': 1, '5': 9, '10': 'salt'},
+    const {'1': 'salt', '3': 35, '4': 1, '5': 12, '10': 'salt'},
     const {'1': 'mapboxApi', '3': 1, '4': 1, '5': 9, '10': 'mapboxApi'},
     const {
       '1': 'mapboxUrlTemplateDark',

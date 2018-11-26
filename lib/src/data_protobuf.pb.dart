@@ -31,8 +31,6 @@ class DataSocialMedia extends $pb.GeneratedMessage {
     ..aOS(14, 'avatarUrl')
     ..aOB(15, 'expired')
     ..aOS(16, 'blurredAvatarUrl')
-    ..aOB(17, 'published')
-    ..aOB(18, 'allowLogIn')
     ..aOB(19, 'canAuthenticate')
     ..hasRequiredFields = false;
 
@@ -185,28 +183,12 @@ class DataSocialMedia extends $pb.GeneratedMessage {
   bool hasBlurredAvatarUrl() => $_has(15);
   void clearBlurredAvatarUrl() => clearField(16);
 
-  bool get published => $_get(16, false);
-  set published(bool v) {
+  bool get canAuthenticate => $_get(16, false);
+  set canAuthenticate(bool v) {
     $_setBool(16, v);
   }
 
-  bool hasPublished() => $_has(16);
-  void clearPublished() => clearField(17);
-
-  bool get allowLogIn => $_get(17, false);
-  set allowLogIn(bool v) {
-    $_setBool(17, v);
-  }
-
-  bool hasAllowLogIn() => $_has(17);
-  void clearAllowLogIn() => clearField(18);
-
-  bool get canAuthenticate => $_get(18, false);
-  set canAuthenticate(bool v) {
-    $_setBool(18, v);
-  }
-
-  bool hasCanAuthenticate() => $_has(18);
+  bool hasCanAuthenticate() => $_has(16);
   void clearCanAuthenticate() => clearField(19);
 }
 

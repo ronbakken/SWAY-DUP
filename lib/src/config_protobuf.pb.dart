@@ -103,6 +103,9 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..pPS(18, 'whitelistHosts')
     ..aOB(19, 'canConnect')
     ..aOB(20, 'showInProfile')
+    ..aOB(21, 'clientIdExposed')
+    ..aOB(22, 'consumerKeyExposed')
+    ..aOB(23, 'consumerSecretExposed')
     ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
@@ -273,6 +276,30 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
 
   bool hasShowInProfile() => $_has(18);
   void clearShowInProfile() => clearField(20);
+
+  bool get clientIdExposed => $_get(19, false);
+  set clientIdExposed(bool v) {
+    $_setBool(19, v);
+  }
+
+  bool hasClientIdExposed() => $_has(19);
+  void clearClientIdExposed() => clearField(21);
+
+  bool get consumerKeyExposed => $_get(20, false);
+  set consumerKeyExposed(bool v) {
+    $_setBool(20, v);
+  }
+
+  bool hasConsumerKeyExposed() => $_has(20);
+  void clearConsumerKeyExposed() => clearField(22);
+
+  bool get consumerSecretExposed => $_get(21, false);
+  set consumerSecretExposed(bool v) {
+    $_setBool(21, v);
+  }
+
+  bool hasConsumerSecretExposed() => $_has(21);
+  void clearConsumerSecretExposed() => clearField(23);
 }
 
 class ConfigOAuthProviders extends $pb.GeneratedMessage {
@@ -344,7 +371,7 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(31, 'cloudinaryBlurredThumbnailUrl')
     ..aOS(32, 'cloudinaryBlurredCoverUrl')
     ..aOS(33, 'service')
-    ..aOS(34, 'salt')
+    ..a<List<int>>(35, 'salt', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -631,13 +658,13 @@ class ConfigServices extends $pb.GeneratedMessage {
   bool hasService() => $_has(32);
   void clearService() => clearField(33);
 
-  String get salt => $_getS(33, '');
-  set salt(String v) {
-    $_setString(33, v);
+  List<int> get salt => $_getN(33);
+  set salt(List<int> v) {
+    $_setBytes(33, v);
   }
 
   bool hasSalt() => $_has(33);
-  void clearSalt() => clearField(34);
+  void clearSalt() => clearField(35);
 }
 
 class ConfigContent extends $pb.GeneratedMessage {

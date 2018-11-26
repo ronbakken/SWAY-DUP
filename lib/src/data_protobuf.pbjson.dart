@@ -9,46 +9,44 @@ const DataSocialMedia$json = const {
   '2': const [
     const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
     const {'1': 'expired', '3': 15, '4': 1, '5': 8, '10': 'expired'},
-    const {'1': 'published', '3': 17, '4': 1, '5': 8, '10': 'published'},
-    const {'1': 'allowLogIn', '3': 18, '4': 1, '5': 8, '10': 'allowLogIn'},
     const {
-      '1': 'canAuthenticate',
+      '1': 'can_authenticate',
       '3': 19,
       '4': 1,
       '5': 8,
       '10': 'canAuthenticate'
     },
-    const {'1': 'screenName', '3': 4, '4': 1, '5': 9, '10': 'screenName'},
-    const {'1': 'displayName', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
-    const {'1': 'avatarUrl', '3': 14, '4': 1, '5': 9, '10': 'avatarUrl'},
+    const {'1': 'screen_name', '3': 4, '4': 1, '5': 9, '10': 'screenName'},
+    const {'1': 'display_name', '3': 5, '4': 1, '5': 9, '10': 'displayName'},
+    const {'1': 'avatar_url', '3': 14, '4': 1, '5': 9, '10': 'avatarUrl'},
     const {
-      '1': 'blurredAvatarUrl',
+      '1': 'blurredAvatar_url',
       '3': 16,
       '4': 1,
       '5': 9,
       '10': 'blurredAvatarUrl'
     },
-    const {'1': 'profileUrl', '3': 13, '4': 1, '5': 9, '10': 'profileUrl'},
+    const {'1': 'profile_url', '3': 13, '4': 1, '5': 9, '10': 'profileUrl'},
     const {'1': 'description', '3': 6, '4': 1, '5': 9, '10': 'description'},
     const {'1': 'location', '3': 7, '4': 1, '5': 9, '10': 'location'},
     const {'1': 'url', '3': 8, '4': 1, '5': 9, '10': 'url'},
     const {'1': 'email', '3': 12, '4': 1, '5': 9, '10': 'email'},
-    const {'1': 'friendsCount', '3': 9, '4': 1, '5': 5, '10': 'friendsCount'},
+    const {'1': 'friends_count', '3': 9, '4': 1, '5': 5, '10': 'friendsCount'},
     const {
-      '1': 'followersCount',
+      '1': 'followers_count',
       '3': 2,
       '4': 1,
       '5': 5,
       '10': 'followersCount'
     },
     const {
-      '1': 'followingCount',
+      '1': 'following_count',
       '3': 3,
       '4': 1,
       '5': 5,
       '10': 'followingCount'
     },
-    const {'1': 'postsCount', '3': 10, '4': 1, '5': 5, '10': 'postsCount'},
+    const {'1': 'posts_count', '3': 10, '4': 1, '5': 5, '10': 'postsCount'},
     const {'1': 'verified', '3': 11, '4': 1, '5': 8, '10': 'verified'},
   ],
 };
@@ -56,10 +54,10 @@ const DataSocialMedia$json = const {
 const DataOAuthCredentials$json = const {
   '1': 'DataOAuthCredentials',
   '2': const [
-    const {'1': 'userId', '3': 4, '4': 1, '5': 9, '10': 'userId'},
+    const {'1': 'user_id', '3': 4, '4': 1, '5': 9, '10': 'userId'},
     const {'1': 'token', '3': 1, '4': 1, '5': 9, '10': 'token'},
-    const {'1': 'tokenSecret', '3': 2, '4': 1, '5': 9, '10': 'tokenSecret'},
-    const {'1': 'tokenExpires', '3': 3, '4': 1, '5': 5, '10': 'tokenExpires'},
+    const {'1': 'token_secret', '3': 2, '4': 1, '5': 9, '10': 'tokenSecret'},
+    const {'1': 'token_expires', '3': 3, '4': 1, '5': 5, '10': 'tokenExpires'},
   ],
 };
 
