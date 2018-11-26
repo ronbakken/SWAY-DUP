@@ -173,8 +173,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "26f1c6a357ca74f59bb660a738546c6c3942f7e8"
-      resolved-ref: "26f1c6a357ca74f59bb660a738546c6c3942f7e8"
+      ref: af897a8e081810248b23b7f756544989c8601c49
+      resolved-ref: af897a8e081810248b23b7f756544989c8601c49
       url: "git@github.com:infmarketplace/inf_common.git"
     source: git
     version: "1.0.14"

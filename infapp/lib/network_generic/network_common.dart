@@ -32,7 +32,7 @@ import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_generic/network_offers.dart';
 import 'package:inf/network_generic/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_inheritable/config_provider.dart';
+import 'package:inf/network_mobile/config_manager.dart';
 import 'package:inf/network_generic/network_interface.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
@@ -91,7 +91,9 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
 
   void commonInitReady() {
     registerProcedure('SESREMOV', _sessionRemove);
+    registerProcedure('CONFDOWN', _configDownload);
     registerProcedure('ACCOUNTU', _accountUpdate);
+
     registerProcedure('DB_OFFER', dataOffer); // TODO: Remove this!
 
     registerProcedure('LN_APPLI', liveNewProposal);
@@ -167,6 +169,8 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     // May only be called from a setState block
     if (_config != config) {
       log.fine("Sync config changes to network");
+      bool regionOrLanguageChanged = config.region != _config?.region ||
+          config.language != _config?.language;
       _config = config;
       if (_config != null) {
         // Match array length
@@ -176,6 +180,9 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
           account.detail.socialMedia.add(new DataSocialMedia());
         }
         account.detail.socialMedia.length = _config.oauthProviders.all.length;
+      }
+      if (_config != null) {
+        _updatePayload(closeExisting: regionOrLanguageChanged);
       }
       onCommonChanged();
     }
@@ -276,7 +283,12 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     }
     sessionPayload.cookie = multiAccountStore.getSessionCookie(
         _currentLocalAccount.environment, _currentLocalAccount.localId);
-    _lastPayloadLocalId = _currentLocalAccount.localId;
+    sessionPayload.clientVersion = _config.clientVersion;
+    sessionPayload.environment = _config.services.environment;
+    sessionPayload.configTimestamp = _config.timestamp;
+    sessionPayload.configRegion = _config.region;
+    sessionPayload.configLanguage = _config.language;
+     _lastPayloadLocalId = _currentLocalAccount.localId;
     if (!sessionPayload.hasSessionId()) {
       // Need cookie for _sessionCreate when sessionId is 0
       _lastPayloadCookie = sessionPayload.cookie;
@@ -285,6 +297,14 @@ abstract class NetworkCommon implements NetworkInterface, NetworkInternals {
     }
     switchboard.setPayload(sessionPayload.writeToBuffer(),
         closeExisting: closeExisting);
+  }
+
+  Future<void> _configDownload(TalkMessage message) async {
+    NetConfigDownload download = new NetConfigDownload()..mergeFromBuffer(message.data)..freeze();
+    // TODO: Tell config manager to download
+    // download.configUrl
+    // ConfigManager.............
+    // config.
   }
 
   Future<void> _sessionCreate() async {
