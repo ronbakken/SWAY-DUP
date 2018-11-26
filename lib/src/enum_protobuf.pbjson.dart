@@ -59,6 +59,15 @@ const GlobalAccountStateReason$json = const {
   ],
 };
 
+const AccountLevel$json = const {
+  '1': 'AccountLevel',
+  '2': const [
+    const {'1': 'AL_FREE', '2': 0},
+    const {'1': 'AL_PREMIUM', '2': 1},
+    const {'1': 'AL_PRO', '2': 2},
+  ],
+};
+
 const NotificationFlags$json = const {
   '1': 'NotificationFlags',
   '2': const [

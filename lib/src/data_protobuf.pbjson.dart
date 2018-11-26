@@ -168,6 +168,14 @@ const DataAccountState$json = const {
       '10': 'globalAccountStateReason'
     },
     const {
+      '1': 'accountLevel',
+      '3': 8,
+      '4': 1,
+      '5': 14,
+      '6': '.inf_common.AccountLevel',
+      '10': 'accountLevel'
+    },
+    const {
       '1': 'notificationFlags',
       '3': 6,
       '4': 1,

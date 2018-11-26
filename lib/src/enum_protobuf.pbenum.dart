@@ -152,6 +152,27 @@ class GlobalAccountStateReason extends $pb.ProtobufEnum {
   const GlobalAccountStateReason._(int v, String n) : super(v, n);
 }
 
+class AccountLevel extends $pb.ProtobufEnum {
+  static const AccountLevel free = const AccountLevel._(0, 'AL_FREE');
+  static const AccountLevel premium = const AccountLevel._(1, 'AL_PREMIUM');
+  static const AccountLevel pro = const AccountLevel._(2, 'AL_PRO');
+
+  static const List<AccountLevel> values = const <AccountLevel>[
+    free,
+    premium,
+    pro,
+  ];
+
+  static final Map<int, AccountLevel> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static AccountLevel valueOf(int value) => _byValue[value];
+  static void $checkItem(AccountLevel v) {
+    if (v is! AccountLevel) $pb.checkItemFailed(v, 'AccountLevel');
+  }
+
+  const AccountLevel._(int v, String n) : super(v, n);
+}
+
 class NotificationFlags extends $pb.ProtobufEnum {
   static const NotificationFlags accountState =
       const NotificationFlags._(0, 'NF_ACCOUNT_STATE');

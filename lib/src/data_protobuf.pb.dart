@@ -629,6 +629,8 @@ class DataAccountState extends $pb.GeneratedMessage {
         $0.NotificationFlags.valueOf,
         $0.NotificationFlags.values)
     ..aOS(7, 'firebaseToken')
+    ..e<$0.AccountLevel>(8, 'accountLevel', $pb.PbFieldType.OE,
+        $0.AccountLevel.free, $0.AccountLevel.valueOf, $0.AccountLevel.values)
     ..hasRequiredFields = false;
 
   DataAccountState() : super();
@@ -707,6 +709,14 @@ class DataAccountState extends $pb.GeneratedMessage {
 
   bool hasFirebaseToken() => $_has(6);
   void clearFirebaseToken() => clearField(7);
+
+  $0.AccountLevel get accountLevel => $_getN(7);
+  set accountLevel($0.AccountLevel v) {
+    setField(8, v);
+  }
+
+  bool hasAccountLevel() => $_has(7);
+  void clearAccountLevel() => clearField(8);
 }
 
 class DataAccountSummary extends $pb.GeneratedMessage {
