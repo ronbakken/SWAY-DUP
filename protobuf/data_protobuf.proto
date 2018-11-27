@@ -80,71 +80,68 @@ message DataOAuthCredentials {
   
 }
 
-message DataDeliverable {
-  int32 social_platform = 1; // Identifier from oauth providers
-  int32 content_format = 2; // Identifier from some other list
-  string description = 3;
-}
-
-message DataRewards {
-  int32 cash_value = 1;
-  int32 item_or_service_value = 2;
-  string item_or_service_description = 3;
-}
-
 message DataTerms {
-  repeated DataDeliverable deliverables = 1;
-  DataRewards rewards = 2;
+  // Deliverables
+  repeated int32 deliverable_social_platforms = 1; // Identifier from oauth providers
+  repeated int32 deliverable_content_formats = 2; // Identifier from content formats config
+  string deliverables_description = 3; // (Detail)
+  
+  // Reward
+  int32 reward_cash_value = 4;
+  int32 reward_item_or_service_value = 5;
+  string reward_item_or_service_description = 6; // (Detail)
+  
 }
 
-message DataOffer { // 32
-  int64 offer_id = 1;
-  int64 sender_id = 2; // Account id
-  int64 location_id = 3;
-  bool direct = 32; // Direct offer, not not returned in search results
+message DataOffer { // 33
+  int64 offer_id = 1; // (State) (Summary) (Detail)
+  int64 sender_id = 2; // (State) (Summary) (Detail) Account id of the sender who published this offer
+  int64 location_id = 3; // (State) (Detail) (Private)
+  bool direct = 32; // (State) (Detail) Direct offer, not returned in search results
   
   // Summary
-  string title = 4;
-  string description = 5;
-  string thumbnail_url = 6;
-  bytes thumbnail_blurred = 28;
+  string title = 4; // (Summary) (Detail)
+  string thumbnail_url = 6; // (Summary) (Detail)
+  bytes thumbnail_blurred = 28; // (Summary) (Detail)
   
   // Terms
-  DataTerms terms = 27;
+  DataTerms terms = 27; // (Summary) (Detail)
+  repeated int32 primary_categories = 33; // (Summary) (Detail)
   
   // Embedded location info
-  // string location_name = 21; // Location nickname or business name
-  string location = 9;
-  double latitude = 18;
-  double longitude = 19;
+  string location_name = 21; // (Summary) (Detail) Location nickname or business name
+  string location = 9; // (Summary) (Detail)
+  double latitude = 18; // (Summary) (Detail)
+  double longitude = 19; // (Summary) (Detail)
   // int32 locationOfferCount = 20; // Number of offers at the same location
   // Embedded in Elasticsearch structure as well,
   // only updated for open/draft offers that are not archived
   
   // Detail info
-  repeated string cover_urls = 10;
-  repeated bytes covers_blurred = 29;
-  bytes categories = 23;
+  string description = 5; // (Detail)
+  repeated string cover_urls = 10; // (Detail)
+  repeated bytes covers_blurred = 29; // (Detail)
+  repeated int32 categories = 23; // (Detail)
   
-  // State
-  OfferState state = 12;
-  OfferStateReason state_reason = 13;
-  bool archived = 26;
+  // State for sender
+  OfferState state = 12; // (State) (Detail)
+  OfferStateReason state_reason = 13; // (State) (Detail)
+  bool archived = 26; // (State) (Detail)
   
   // Embedded info for sender
-  repeated int32 proposal_counters = 30;
+  repeated int32 proposal_counters = 30; // (State) (Private)
   // bool unseen_proposal = 31;
   
   // Embedded info for receiver
   /// Identifier of proposal that the public receiver sent already,
   /// allowing the user interface to link immediately to the proposal.
-  int64 proposal_id = 22;
+  int64 proposal_id = 22; // (Private)
   // Elasticsearch structure has forward list of proposal ids embedded (map of userid -> proposalid)
   
 }
 
 message DataLocation {
-  int64 locationId = 1;
+  int64 location_id = 1;
   
   // User-provided nickname of the location (eg. "Waterproof Vests LA") (optional)
   string name = 2;
@@ -153,8 +150,8 @@ message DataLocation {
   string approximate = 7;
   string detail = 8;
   string postcode = 9;
-  string regionCode = 10;
-  string countryCode = 11;
+  string region_code = 10;
+  string country_code = 11;
   
   // Actual location
   double latitude = 4;
