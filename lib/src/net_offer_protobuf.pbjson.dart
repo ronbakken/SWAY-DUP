@@ -4,32 +4,52 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
-const NetCreateOfferReq$json = const {
-  '1': 'NetCreateOfferReq',
+const NetCreateOffer$json = const {
+  '1': 'NetCreateOffer',
   '2': const [
-    const {'1': 'title', '3': 1, '4': 1, '5': 9, '10': 'title'},
-    const {'1': 'imageKeys', '3': 2, '4': 3, '5': 9, '10': 'imageKeys'},
-    const {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
-    const {'1': 'deliverables', '3': 4, '4': 1, '5': 9, '10': 'deliverables'},
-    const {'1': 'reward', '3': 5, '4': 1, '5': 9, '10': 'reward'},
-    const {'1': 'locationId', '3': 6, '4': 1, '5': 3, '10': 'locationId'},
+    const {
+      '1': 'sessionGhostId',
+      '3': 2,
+      '4': 1,
+      '5': 5,
+      '10': 'sessionGhostId'
+    },
+    const {
+      '1': 'offer',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataOffer',
+      '10': 'offer'
+    },
   ],
 };
 
-const NetLoadOffersReq$json = const {
-  '1': 'NetLoadOffersReq',
+const NetOffer$json = const {
+  '1': 'NetOffer',
   '2': const [
-    const {'1': 'before', '3': 1, '4': 1, '5': 5, '10': 'before'},
-    const {'1': 'after', '3': 2, '4': 1, '5': 5, '10': 'after'},
-    const {'1': 'limit', '3': 3, '4': 1, '5': 5, '10': 'limit'},
+    const {
+      '1': 'offer',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataOffer',
+      '10': 'offer'
+    },
+    const {'1': 'state', '3': 2, '4': 1, '5': 8, '10': 'state'},
+    const {'1': 'summary', '3': 3, '4': 1, '5': 8, '10': 'summary'},
+    const {'1': 'detail', '3': 4, '4': 1, '5': 8, '10': 'detail'},
   ],
 };
 
-const NetLoadOffersRes$json = const {
-  '1': 'NetLoadOffersRes',
+const NetLoadOffers$json = const {
+  '1': 'NetLoadOffers',
+};
+
+const NetGetOffer$json = const {
+  '1': 'NetGetOffer',
   '2': const [
-    const {'1': 'oldest', '3': 1, '4': 1, '5': 5, '10': 'oldest'},
-    const {'1': 'newest', '3': 2, '4': 1, '5': 5, '10': 'newest'},
+    const {'1': 'offerId', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
   ],
 };
 

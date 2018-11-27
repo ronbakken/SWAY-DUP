@@ -357,6 +357,7 @@ class DataOffer extends $pb.GeneratedMessage {
     ..p<int>(30, 'proposalCounters', $pb.PbFieldType.P3)
     ..aOB(32, 'direct')
     ..p<int>(33, 'primaryCategories', $pb.PbFieldType.P3)
+    ..pPS(34, 'coverKeys')
     ..hasRequiredFields = false;
 
   DataOffer() : super();
@@ -523,6 +524,8 @@ class DataOffer extends $pb.GeneratedMessage {
   void clearDirect() => clearField(32);
 
   List<int> get primaryCategories => $_getList(21);
+
+  List<String> get coverKeys => $_getList(22);
 }
 
 class DataLocation extends $pb.GeneratedMessage {

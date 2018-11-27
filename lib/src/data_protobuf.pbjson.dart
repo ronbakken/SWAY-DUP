@@ -147,6 +147,7 @@ const DataOffer$json = const {
       '5': 12,
       '10': 'coversBlurred'
     },
+    const {'1': 'cover_keys', '3': 34, '4': 3, '5': 9, '10': 'coverKeys'},
     const {'1': 'categories', '3': 23, '4': 3, '5': 5, '10': 'categories'},
     const {
       '1': 'state',
