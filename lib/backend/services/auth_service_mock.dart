@@ -249,6 +249,18 @@ class AuthenticationServiceMock implements AuthenticationService {
               description: 'The best online shop for baking',
               followersCount: 900,
             ),
+            SocialMediaAccount(
+              isActive: true,
+              channelName: 'Instagram',
+              logoData:  (await rootBundle.load('assets/mockdata/social_media_icons/logo_instagram_monochrome.svg'))
+                  .buffer
+                  .asUint8List(),
+                  isVectorLogo: true,
+              url: 'https://twitter.com/ThomasBurkhartB',
+              displayName: 'Thomas Burkhart',
+              description: 'The best online shop for baking',
+              followersCount: 900,
+            ),
           ]),
     ];
     socialNetWorks = [

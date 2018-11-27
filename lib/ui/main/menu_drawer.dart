@@ -9,7 +9,6 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 import 'package:pedantic/pedantic.dart';
-import 'package:flutter/cupertino.dart' as cupertino;
 
 class MainNavigationDrawer extends StatelessWidget {
   @override
@@ -32,9 +31,12 @@ class MainNavigationDrawer extends StatelessWidget {
         Text(
           'SOCIAL MEDIA ACCOUNTS',
           textAlign: TextAlign.left,
-          style: const TextStyle(color: AppTheme.white30, fontSize: 16.0),
-        )
+          style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
+        ),
+              SizedBox(height: 8),
+
       ]);
+
     for (var account in currentUser.socialMediaAccounts) {
       entries.add(_MainNavigationItem(
         icon: account.isVectorLogo
@@ -56,7 +58,7 @@ class MainNavigationDrawer extends StatelessWidget {
       Text(
         'VISIBILITY',
         textAlign: TextAlign.left,
-        style: const TextStyle(color: AppTheme.white30, fontSize: 16.0),
+        style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
       ),
       SizedBox(height: 8),
       _MainNavigationItem(
@@ -64,7 +66,7 @@ class MainNavigationDrawer extends StatelessWidget {
           AppIcons.directOffers,
           color: Colors.white,
         ),
-        text: 'Send me direct offers',
+        text: 'Allow direct offers',
         onTap: () {},
         trailing: InfSwitch(
           value: true,
@@ -89,7 +91,7 @@ class MainNavigationDrawer extends StatelessWidget {
       Text(
         'PAYMENT',
         textAlign: TextAlign.left,
-        style: const TextStyle(color: AppTheme.white30, fontSize: 16.0),
+        style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
       ),
       SizedBox(height: 8),
       _MainNavigationItem(
@@ -99,24 +101,14 @@ class MainNavigationDrawer extends StatelessWidget {
         ),
         text: 'Payment settings',
         onTap: () {},
-        trailing: InfSwitch(
-          value: true,
-          onChanged: (val) {},
-          activeColor: AppTheme.blue,
-        ),
-      ),
+     ),
       _MainNavigationItem(
         icon: InfAssetImage(
-          AppIcons.directOffers,
+          AppIcons.earnings,
           color: Colors.white,
         ),
         text: 'Earnings',
         onTap: () {},
-        trailing: InfSwitch(
-          value: true,
-          onChanged: (val) {},
-          activeColor: AppTheme.blue,
-        ),
       ),
       SizedBox(height: 30),
       _MainNavigationItem(
@@ -130,71 +122,67 @@ class MainNavigationDrawer extends StatelessWidget {
     ]);
 
     return Material(
-      color: AppTheme.darkGrey,
+      color: AppTheme.listViewAndMenuBackground,
       elevation: 8.0,
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: ListView(
-            children: [
-              SizedBox(
-                height: mediaQuery.size.height * 0.25,
-                child: ClipPath(
-                  clipper: _ProfilePictureClipper(),
-                  child: isLoggedIn
-                      ? InfImage(
-                          fit: BoxFit.fitWidth,
-                          lowRes: currentUser.avatarLowRes,
-                          imageUrl: currentUser.avatarUrl,
-                        )
-                      : SizedBox(),
-                ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 12.0),
+        child: ListView(
+          children: [
+            SizedBox(
+              height: mediaQuery.size.height * 0.2,
+              child: ClipPath(
+                clipper: _ProfilePictureClipper(),
+                child: isLoggedIn
+                    ? InfImage(
+                        fit: BoxFit.fitWidth,
+                        lowRes: currentUser.avatarLowRes,
+                        imageUrl: currentUser.avatarUrl,
+                      )
+                    : SizedBox(),
               ),
-              SizedBox(
-                height: 16.0,
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 24),
-                height: 32.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topStart: Radius.circular(16.0),
-                    bottomStart: Radius.circular(16.0),
-                  ),
-                  color: Colors.black,
+            ),
+            SizedBox(
+              height: 16.0,
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 24),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.only(
+                  topStart: Radius.circular(16.0),
+                  bottomStart: Radius.circular(16.0),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0, right: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          isLoggedIn ? currentUser.name : 'Please sign up',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
+                color: AppTheme.menuUserNameBackground,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 8.0, top:8.0, bottom: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        isLoggedIn ? currentUser.name : 'Please sign up',
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      InfAssetImage(
-                        AppIcons.edit,
-                        width: 16,
-                        height: 16,
-                      )
-                    ],
-                  ),
+                    ),
+                    InfAssetImage(
+                      AppIcons.edit,
+                      width: 24,
+                      height: 24,
+                    )
+                  ],
                 ),
               ),
-              SizedBox(height: 8),
-              Padding(
-                padding: const EdgeInsets.only(top: 16, left: 24.0, right: 12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: entries,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: entries,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -218,7 +206,7 @@ class _MainNavigationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppTheme.darkGrey,
+      type: MaterialType.transparency,
       child: InkWell(
         onTap: onTap ?? () {},
         child: Padding(
@@ -237,7 +225,7 @@ class _MainNavigationItem extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 10.0),
-              Text(text),
+              Text(text, style: const TextStyle(fontSize: 18.0),),
               Spacer(),
               trailing != null ? trailing : SizedBox(),
             ],
@@ -251,7 +239,7 @@ class _MainNavigationItem extends StatelessWidget {
 class _ProfilePictureClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-     double curveFactor = size.height * 0.9;
+     double curveFactor = size.height * 1.0;
     final path = Path()..addArc(Rect.fromLTRB(-curveFactor, -size.height, size.width + curveFactor, size.height), 0, pi);
     return path;
   }

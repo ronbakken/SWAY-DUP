@@ -86,7 +86,7 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection>
             ),
             Expanded(
               child: Container(
-                color: AppTheme.listViewBackground,
+                color: AppTheme.listViewAndMenuBackground,
                 child: TabBarView(
                   controller: controller,
                   children: [

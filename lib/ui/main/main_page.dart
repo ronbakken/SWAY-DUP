@@ -74,12 +74,12 @@ class _MainPageState extends PageState<MainPage>
     final mediaQuery = MediaQuery.of(context);
     final sectionPadding =
         EdgeInsets.only(bottom: mediaQuery.padding.bottom + kBottomNavHeight);
-    final menuWidth = mediaQuery.size.shortestSide * 0.7;
+    final menuWidth = mediaQuery.size.shortestSide * 0.8;
 
     final menuIconRect = Rect.fromLTWH(
         0.0, 0.0, kMenuIconSize, mediaQuery.padding.top + kMenuIconSize);
     final menuIconBegin = RelativeRect.fromSize(menuIconRect, mediaQuery.size);
-    final menuIconEnd = menuIconBegin.shift(Offset(menuWidth, 0.0));
+    final menuIconEnd = menuIconBegin.shift(Offset(menuWidth + 16.0, 0.0));
     _menuIconAnim = RelativeRectTween(begin: menuIconBegin, end: menuIconEnd)
         .animate(_drawerController);
 

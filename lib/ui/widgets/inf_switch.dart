@@ -151,7 +151,7 @@ class _CupertinoSwitchRenderObjectWidget extends LeafRenderObjectWidget {
   }
 }
 
-const double _kTrackWidth = 48.0;
+const double _kTrackWidth = 44.0;
 const double _kTrackHeight = 24.0;
 const double _kTrackRadius = _kTrackHeight / 2.0;
 const double _kTrackInnerStart = _kTrackHeight / 2.0;
