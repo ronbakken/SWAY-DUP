@@ -16,8 +16,7 @@ import 'package:inf_common/inf_common.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:switchboard/switchboard.dart';
 
-abstract class NetworkNotifications
-    implements ApiClient, NetworkInternals {
+abstract class NetworkNotifications implements ApiClient, NetworkInternals {
   bool _firebaseSetup = false;
   final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;

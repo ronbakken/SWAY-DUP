@@ -13,8 +13,7 @@ import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:switchboard/switchboard.dart';
 
-abstract class NetworkOffersBusiness
-    implements ApiClient, NetworkInternals {
+abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
   @override
   bool offersLoading = false;
 

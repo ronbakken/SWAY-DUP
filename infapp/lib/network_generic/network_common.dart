@@ -573,7 +573,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   @override
-  Future<NetOAuthConnection> connectOAuth(int oauthProvider, String callbackQuery) async {
+  Future<NetOAuthConnection> connectOAuth(
+      int oauthProvider, String callbackQuery) async {
     NetOAuthConnect pb = new NetOAuthConnect();
     pb.oauthProvider = oauthProvider;
     pb.callbackQuery = callbackQuery;
