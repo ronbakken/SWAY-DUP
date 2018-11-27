@@ -106,22 +106,22 @@ message DataOffer { // 34
   
   // Terms
   DataTerms terms = 27; // (Summary) (Detail)
-  repeated int32 primary_categories = 33; // (Summary) (Detail)
+  repeated int32 primary_categories = 33; // (Denormalized) (Summary) (Detail)
   
   // Embedded location info
-  string location_name = 21; // (Summary) (Detail) Location nickname or business name
-  string location = 9; // (Summary) (Detail)
-  double latitude = 18; // (Summary) (Detail)
-  double longitude = 19; // (Summary) (Detail)
+  string location_name = 21; // (Denormalized) (Summary) (Detail) Location nickname or business name
+  string location_text = 9; // (Denormalized) (Summary) (Detail)
+  double latitude = 18; // (Denormalized) (Summary) (Detail)
+  double longitude = 19; // (Denormalized) (Summary) (Detail)
   // int32 locationOfferCount = 20; // Number of offers at the same location
   // Embedded in Elasticsearch structure as well,
   // only updated for open/draft offers that are not archived
   
   // Detail info
   string description = 5; // (Detail)
+  repeated string cover_keys = 34; // (Post)
   repeated string cover_urls = 10; // (Detail)
   repeated bytes covers_blurred = 29; // (Detail)
-  repeated string cover_keys = 34; // (Post)
   repeated int32 categories = 23; // (Detail)
   
   // State for sender
@@ -136,7 +136,7 @@ message DataOffer { // 34
   // Embedded info for receiver
   /// Identifier of proposal that the public receiver sent already,
   /// allowing the user interface to link immediately to the proposal.
-  int64 proposal_id = 22; // (Private)
+  int64 proposal_id = 22; // (Denormalized) (Private)
   // Elasticsearch structure has forward list of proposal ids embedded (map of userid -> proposalid)
   
 }

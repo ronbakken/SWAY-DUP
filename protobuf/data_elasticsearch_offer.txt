@@ -1,0 +1,106 @@
+
+
+
+DataOffer
+
+{
+    _id
+    _source {
+        long sender_id
+        long location_id
+        boolean direct
+        
+        text title
+        text thumbnail_key
+        binary thumbnail_blurred
+        
+        array int32 deliverable_social_platforms
+        (denormalized) array keyword deliverable_social_platform_keywords 
+        array int32 deliverable_content_formats
+        (denormalized) array keyword deliverable_content_format_keywords
+        text deliverables_description
+        
+        int32 reward_cash_value
+        int32 reward_item_or_service_value
+        (denormalized) int32 reward_total_value
+        text reward_item_or_service_description
+        
+        (denormalized) int32 primary_categories
+        
+        text location_name
+        text location_text
+        geo_point location
+        
+        text description
+        array string cover_keys
+        array binary covers_blurred
+        
+        array int32 categories
+        (denormalized) array keyword category_keywords
+        (denormalized) array int32 categories_expanded
+        (denormalized) array keyword category_keywords_expanded (including parent categories)
+        
+        int32 state
+        int32 state_reason
+        boolean archived
+        (denormalized) boolean published
+        
+        (ai) array keyword image_keywords (keywords pulled from images)
+        
+    }
+}
+
+Text search query
+^boosts
+see https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html
+see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html
+see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-bool-query.html
+see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html
+GET /_search
+{
+  "query": {
+    "multi_match" : {
+      "query": "Will Smith",
+      "type": "most_fields",
+      "fields": [
+        "title^4",
+        "location_name^4",
+        "location_text^2",
+        "description^3",
+        "*_description^3",
+        "*_keywords^2",
+        "*_expanded"
+      ] 
+    }
+  }
+}
+
+With added filter to only show published objects
+GET /_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "term": {
+          "published": true
+        }
+      },
+      "must": {
+        "multi_match" : {
+          "query": "Will Smith",
+          "type": "most_fields",
+          "fields": [
+            "title^4",
+            "location_name^4",
+            "location_text^2",
+            "description^3",
+            "*_description^3",
+            "*_keywords^2",
+            "*_expanded"
+          ]
+        }
+      }
+    }
+  }
+}
+
