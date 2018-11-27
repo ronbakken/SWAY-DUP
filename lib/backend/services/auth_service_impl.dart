@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
@@ -186,6 +187,12 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     if (connection == null) {
       throw new Exception("Failed to connect.");
     }
+  }
+
+  @override
+  Observable<User> getPublicProfile(Int64 accountId) {
+    // TODO: implement getPublicProfile
+    return null;
   }
 }
 

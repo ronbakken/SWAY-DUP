@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inf/domain/user.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
@@ -83,6 +84,8 @@ abstract class AuthenticationService {
           context, // TODO: Since this function is expecting UI to pop up... Please restructure
       AccountType userType,
       SocialNetworkProvider socialNetwork);
+
+  Observable<User> getPublicProfile(Int64 accountId);    
 
   Observable<List<LocalAccountData>> get linkedAccounts;
   Future<void> switchToUserAccount(LocalAccountData user);

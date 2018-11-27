@@ -199,7 +199,7 @@ packages:
       path: "."
       ref: "9ce443c65a3ecf5b0f133e5fa4d1d69989b04df0"
       resolved-ref: "9ce443c65a3ecf5b0f133e5fa4d1d69989b04df0"
-      url: "git@github.com:infmarketplace/inf_common.git"
+      url: "https://github.com/infmarketplace/inf_common"
     source: git
     version: "1.0.14"
   intl:
@@ -460,7 +460,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.1"
+    version: "4.0.2"
   usage:
     dependency: transitive
     description:

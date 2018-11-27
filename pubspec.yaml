@@ -32,7 +32,7 @@ dependencies:
 
   inf_common:
     git: 
-      url: git@github.com:infmarketplace/inf_common.git
+      url: https://github.com/infmarketplace/inf_common
       ref: 9ce443c65a3ecf5b0f133e5fa4d1d69989b04df0
   switchboard: ^2.0.5
   firebase_messaging: ^2.0.0
@@ -62,6 +62,7 @@ flutter:
   assets:
   - assets/images/
   - assets/mockdata/
+  - assets/mockdata/social_media_icons/
 
   fonts:
   - family: MavenPro

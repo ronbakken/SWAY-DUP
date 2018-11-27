@@ -2,6 +2,8 @@ import 'dart:typed_data';
 
 class SocialMediaAccount {
   final int id;
+  final bool isActive;
+  final String channelName;
   final String displayName;
   final Uint8List logoData;
   final bool isVectorLogo;
@@ -27,6 +29,8 @@ class SocialMediaAccount {
 
   SocialMediaAccount({
     this.id,
+    this.isActive,
+    this.channelName,
     this.displayName,
     this.logoData,
     this.isVectorLogo,

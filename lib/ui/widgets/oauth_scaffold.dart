@@ -148,10 +148,6 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     });
   }
 
-  @override
-  void reassemble() {
-    super.reassemble();
-  }
 
   @override
   void dispose() {

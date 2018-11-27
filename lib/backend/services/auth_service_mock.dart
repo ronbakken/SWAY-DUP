@@ -73,7 +73,7 @@ class AuthenticationServiceMock implements AuthenticationService {
     }
   }
 
-  void login() async {
+  void login(AccountType userType) async {
     isLoggedIn = true;
     _loginStateSubject.add(AuthenticationResult(
         state: AuthenticationState.waitingForActivation,
@@ -83,7 +83,7 @@ class AuthenticationServiceMock implements AuthenticationService {
     _loginStateSubject.add(AuthenticationResult(
         state: AuthenticationState.success,
         provider: provider,
-        user: allLinkedAccounts[0]));
+        user: userType == AccountType.influencer ? allLinkedAccounts[1] : allLinkedAccounts[0]));
   }
 
   @override
@@ -97,6 +97,7 @@ class AuthenticationServiceMock implements AuthenticationService {
       AccountType userType,
       SocialNetworkProvider socialNetwork) {
     // TODO: implement loginWithSocialNetWork
+    login(userType);
     return null;
   }
 
@@ -165,6 +166,11 @@ class AuthenticationServiceMock implements AuthenticationService {
           websiteUrl: 'www.google.com',
           socialMediaAccounts: [
             SocialMediaAccount(
+              channelName: 'Twitter',
+              logoData:  (await rootBundle.load('assets/mockdata/social_media_icons/logo_twitter_monochrome.svg'))
+                  .buffer
+                  .asUint8List(),
+                  isVectorLogo: true,
               url: 'https://twitter.com/ThomasBurkhartB',
               displayName: 'Thomas Burkhart',
               description: 'The best online shop for baking',
@@ -208,11 +214,41 @@ class AuthenticationServiceMock implements AuthenticationService {
           websiteUrl: 'www.google.com',
           socialMediaAccounts: [
             SocialMediaAccount(
+              isActive: true,
+              channelName: 'Twitter',
+              logoData:  (await rootBundle.load('assets/mockdata/social_media_icons/logo_twitter_monochrome.svg'))
+                  .buffer
+                  .asUint8List(),
+                  isVectorLogo: true,
               url: 'https://twitter.com/ThomasBurkhartB',
               displayName: 'Thomas Burkhart',
               description: 'The best online shop for baking',
               followersCount: 900,
-            )
+            ),
+            SocialMediaAccount(
+              isActive: false,
+              channelName: 'Facebook',
+              logoData:  (await rootBundle.load('assets/mockdata/social_media_icons/logo_facebook_monochrome.svg'))
+                  .buffer
+                  .asUint8List(),
+                  isVectorLogo: true,
+              url: 'https://twitter.com/ThomasBurkhartB',
+              displayName: 'Thomas Burkhart',
+              description: 'The best online shop for baking',
+              followersCount: 900,
+            ),
+            SocialMediaAccount(
+              isActive: true,
+              channelName: 'Youtube',
+              logoData:  (await rootBundle.load('assets/mockdata/social_media_icons/logo_youtube_monochrome.svg'))
+                  .buffer
+                  .asUint8List(),
+                  isVectorLogo: true,
+              url: 'https://twitter.com/ThomasBurkhartB',
+              displayName: 'Thomas Burkhart',
+              description: 'The best online shop for baking',
+              followersCount: 900,
+            ),
           ]),
     ];
     socialNetWorks = [
@@ -257,5 +293,11 @@ class AuthenticationServiceMock implements AuthenticationService {
               .asUint8List(),
           name: 'Youtube'),
     ];
+  }
+
+  @override
+  Observable<User> getPublicProfile(Int64 accountId) {
+    // TODO: implement getPublicProfile
+    return null;
   }
 }
