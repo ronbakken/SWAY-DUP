@@ -55,66 +55,50 @@ const DataOAuthCredentials$json = const {
   ],
 };
 
-const DataDeliverable$json = const {
-  '1': 'DataDeliverable',
-  '2': const [
-    const {
-      '1': 'social_platform',
-      '3': 1,
-      '4': 1,
-      '5': 5,
-      '10': 'socialPlatform'
-    },
-    const {
-      '1': 'content_format',
-      '3': 2,
-      '4': 1,
-      '5': 5,
-      '10': 'contentFormat'
-    },
-    const {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
-  ],
-};
-
-const DataRewards$json = const {
-  '1': 'DataRewards',
-  '2': const [
-    const {'1': 'cash_value', '3': 1, '4': 1, '5': 5, '10': 'cashValue'},
-    const {
-      '1': 'item_or_service_value',
-      '3': 2,
-      '4': 1,
-      '5': 5,
-      '10': 'itemOrServiceValue'
-    },
-    const {
-      '1': 'item_or_service_description',
-      '3': 3,
-      '4': 1,
-      '5': 9,
-      '10': 'itemOrServiceDescription'
-    },
-  ],
-};
-
 const DataTerms$json = const {
   '1': 'DataTerms',
   '2': const [
     const {
-      '1': 'deliverables',
+      '1': 'deliverable_social_platforms',
       '3': 1,
       '4': 3,
-      '5': 11,
-      '6': '.inf_common.DataDeliverable',
-      '10': 'deliverables'
+      '5': 5,
+      '10': 'deliverableSocialPlatforms'
     },
     const {
-      '1': 'rewards',
+      '1': 'deliverable_content_formats',
       '3': 2,
+      '4': 3,
+      '5': 5,
+      '10': 'deliverableContentFormats'
+    },
+    const {
+      '1': 'deliverables_description',
+      '3': 3,
       '4': 1,
-      '5': 11,
-      '6': '.inf_common.DataRewards',
-      '10': 'rewards'
+      '5': 9,
+      '10': 'deliverablesDescription'
+    },
+    const {
+      '1': 'reward_cash_value',
+      '3': 4,
+      '4': 1,
+      '5': 5,
+      '10': 'rewardCashValue'
+    },
+    const {
+      '1': 'reward_item_or_service_value',
+      '3': 5,
+      '4': 1,
+      '5': 5,
+      '10': 'rewardItemOrServiceValue'
+    },
+    const {
+      '1': 'reward_item_or_service_description',
+      '3': 6,
+      '4': 1,
+      '5': 9,
+      '10': 'rewardItemOrServiceDescription'
     },
   ],
 };
@@ -127,7 +111,6 @@ const DataOffer$json = const {
     const {'1': 'location_id', '3': 3, '4': 1, '5': 3, '10': 'locationId'},
     const {'1': 'direct', '3': 32, '4': 1, '5': 8, '10': 'direct'},
     const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
-    const {'1': 'description', '3': 5, '4': 1, '5': 9, '10': 'description'},
     const {'1': 'thumbnail_url', '3': 6, '4': 1, '5': 9, '10': 'thumbnailUrl'},
     const {
       '1': 'thumbnail_blurred',
@@ -144,9 +127,18 @@ const DataOffer$json = const {
       '6': '.inf_common.DataTerms',
       '10': 'terms'
     },
+    const {
+      '1': 'primary_categories',
+      '3': 33,
+      '4': 3,
+      '5': 5,
+      '10': 'primaryCategories'
+    },
+    const {'1': 'location_name', '3': 21, '4': 1, '5': 9, '10': 'locationName'},
     const {'1': 'location', '3': 9, '4': 1, '5': 9, '10': 'location'},
     const {'1': 'latitude', '3': 18, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 19, '4': 1, '5': 1, '10': 'longitude'},
+    const {'1': 'description', '3': 5, '4': 1, '5': 9, '10': 'description'},
     const {'1': 'cover_urls', '3': 10, '4': 3, '5': 9, '10': 'coverUrls'},
     const {
       '1': 'covers_blurred',
@@ -155,7 +147,7 @@ const DataOffer$json = const {
       '5': 12,
       '10': 'coversBlurred'
     },
-    const {'1': 'categories', '3': 23, '4': 1, '5': 12, '10': 'categories'},
+    const {'1': 'categories', '3': 23, '4': 3, '5': 5, '10': 'categories'},
     const {
       '1': 'state',
       '3': 12,
@@ -187,13 +179,13 @@ const DataOffer$json = const {
 const DataLocation$json = const {
   '1': 'DataLocation',
   '2': const [
-    const {'1': 'locationId', '3': 1, '4': 1, '5': 3, '10': 'locationId'},
+    const {'1': 'location_id', '3': 1, '4': 1, '5': 3, '10': 'locationId'},
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'approximate', '3': 7, '4': 1, '5': 9, '10': 'approximate'},
     const {'1': 'detail', '3': 8, '4': 1, '5': 9, '10': 'detail'},
     const {'1': 'postcode', '3': 9, '4': 1, '5': 9, '10': 'postcode'},
-    const {'1': 'regionCode', '3': 10, '4': 1, '5': 9, '10': 'regionCode'},
-    const {'1': 'countryCode', '3': 11, '4': 1, '5': 9, '10': 'countryCode'},
+    const {'1': 'region_code', '3': 10, '4': 1, '5': 9, '10': 'regionCode'},
+    const {'1': 'country_code', '3': 11, '4': 1, '5': 9, '10': 'countryCode'},
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
     const {'1': 's2cell_id', '3': 12, '4': 1, '5': 3, '10': 's2cellId'},

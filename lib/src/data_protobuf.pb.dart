@@ -257,120 +257,15 @@ class DataOAuthCredentials extends $pb.GeneratedMessage {
   void clearUserId() => clearField(4);
 }
 
-class DataDeliverable extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataDeliverable',
-      package: const $pb.PackageName('inf_common'))
-    ..a<int>(1, 'socialPlatform', $pb.PbFieldType.O3)
-    ..a<int>(2, 'contentFormat', $pb.PbFieldType.O3)
-    ..aOS(3, 'description')
-    ..hasRequiredFields = false;
-
-  DataDeliverable() : super();
-  DataDeliverable.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  DataDeliverable.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  DataDeliverable clone() => new DataDeliverable()..mergeFromMessage(this);
-  DataDeliverable copyWith(void Function(DataDeliverable) updates) =>
-      super.copyWith((message) => updates(message as DataDeliverable));
-  $pb.BuilderInfo get info_ => _i;
-  static DataDeliverable create() => new DataDeliverable();
-  static $pb.PbList<DataDeliverable> createRepeated() =>
-      new $pb.PbList<DataDeliverable>();
-  static DataDeliverable getDefault() =>
-      _defaultInstance ??= create()..freeze();
-  static DataDeliverable _defaultInstance;
-  static void $checkItem(DataDeliverable v) {
-    if (v is! DataDeliverable) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
-
-  int get socialPlatform => $_get(0, 0);
-  set socialPlatform(int v) {
-    $_setSignedInt32(0, v);
-  }
-
-  bool hasSocialPlatform() => $_has(0);
-  void clearSocialPlatform() => clearField(1);
-
-  int get contentFormat => $_get(1, 0);
-  set contentFormat(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasContentFormat() => $_has(1);
-  void clearContentFormat() => clearField(2);
-
-  String get description => $_getS(2, '');
-  set description(String v) {
-    $_setString(2, v);
-  }
-
-  bool hasDescription() => $_has(2);
-  void clearDescription() => clearField(3);
-}
-
-class DataRewards extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataRewards',
-      package: const $pb.PackageName('inf_common'))
-    ..a<int>(1, 'cashValue', $pb.PbFieldType.O3)
-    ..a<int>(2, 'itemOrServiceValue', $pb.PbFieldType.O3)
-    ..aOS(3, 'itemOrServiceDescription')
-    ..hasRequiredFields = false;
-
-  DataRewards() : super();
-  DataRewards.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  DataRewards.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  DataRewards clone() => new DataRewards()..mergeFromMessage(this);
-  DataRewards copyWith(void Function(DataRewards) updates) =>
-      super.copyWith((message) => updates(message as DataRewards));
-  $pb.BuilderInfo get info_ => _i;
-  static DataRewards create() => new DataRewards();
-  static $pb.PbList<DataRewards> createRepeated() =>
-      new $pb.PbList<DataRewards>();
-  static DataRewards getDefault() => _defaultInstance ??= create()..freeze();
-  static DataRewards _defaultInstance;
-  static void $checkItem(DataRewards v) {
-    if (v is! DataRewards) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
-
-  int get cashValue => $_get(0, 0);
-  set cashValue(int v) {
-    $_setSignedInt32(0, v);
-  }
-
-  bool hasCashValue() => $_has(0);
-  void clearCashValue() => clearField(1);
-
-  int get itemOrServiceValue => $_get(1, 0);
-  set itemOrServiceValue(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasItemOrServiceValue() => $_has(1);
-  void clearItemOrServiceValue() => clearField(2);
-
-  String get itemOrServiceDescription => $_getS(2, '');
-  set itemOrServiceDescription(String v) {
-    $_setString(2, v);
-  }
-
-  bool hasItemOrServiceDescription() => $_has(2);
-  void clearItemOrServiceDescription() => clearField(3);
-}
-
 class DataTerms extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataTerms',
       package: const $pb.PackageName('inf_common'))
-    ..pp<DataDeliverable>(1, 'deliverables', $pb.PbFieldType.PM,
-        DataDeliverable.$checkItem, DataDeliverable.create)
-    ..a<DataRewards>(2, 'rewards', $pb.PbFieldType.OM, DataRewards.getDefault,
-        DataRewards.create)
+    ..p<int>(1, 'deliverableSocialPlatforms', $pb.PbFieldType.P3)
+    ..p<int>(2, 'deliverableContentFormats', $pb.PbFieldType.P3)
+    ..aOS(3, 'deliverablesDescription')
+    ..a<int>(4, 'rewardCashValue', $pb.PbFieldType.O3)
+    ..a<int>(5, 'rewardItemOrServiceValue', $pb.PbFieldType.O3)
+    ..aOS(6, 'rewardItemOrServiceDescription')
     ..hasRequiredFields = false;
 
   DataTerms() : super();
@@ -392,15 +287,41 @@ class DataTerms extends $pb.GeneratedMessage {
     if (v is! DataTerms) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  List<DataDeliverable> get deliverables => $_getList(0);
+  List<int> get deliverableSocialPlatforms => $_getList(0);
 
-  DataRewards get rewards => $_getN(1);
-  set rewards(DataRewards v) {
-    setField(2, v);
+  List<int> get deliverableContentFormats => $_getList(1);
+
+  String get deliverablesDescription => $_getS(2, '');
+  set deliverablesDescription(String v) {
+    $_setString(2, v);
   }
 
-  bool hasRewards() => $_has(1);
-  void clearRewards() => clearField(2);
+  bool hasDeliverablesDescription() => $_has(2);
+  void clearDeliverablesDescription() => clearField(3);
+
+  int get rewardCashValue => $_get(3, 0);
+  set rewardCashValue(int v) {
+    $_setSignedInt32(3, v);
+  }
+
+  bool hasRewardCashValue() => $_has(3);
+  void clearRewardCashValue() => clearField(4);
+
+  int get rewardItemOrServiceValue => $_get(4, 0);
+  set rewardItemOrServiceValue(int v) {
+    $_setSignedInt32(4, v);
+  }
+
+  bool hasRewardItemOrServiceValue() => $_has(4);
+  void clearRewardItemOrServiceValue() => clearField(5);
+
+  String get rewardItemOrServiceDescription => $_getS(5, '');
+  set rewardItemOrServiceDescription(String v) {
+    $_setString(5, v);
+  }
+
+  bool hasRewardItemOrServiceDescription() => $_has(5);
+  void clearRewardItemOrServiceDescription() => clearField(6);
 }
 
 class DataOffer extends $pb.GeneratedMessage {
@@ -425,8 +346,9 @@ class DataOffer extends $pb.GeneratedMessage {
         $0.OfferStateReason.values)
     ..a<double>(18, 'latitude', $pb.PbFieldType.OD)
     ..a<double>(19, 'longitude', $pb.PbFieldType.OD)
+    ..aOS(21, 'locationName')
     ..aInt64(22, 'proposalId')
-    ..a<List<int>>(23, 'categories', $pb.PbFieldType.OY)
+    ..p<int>(23, 'categories', $pb.PbFieldType.P3)
     ..aOB(26, 'archived')
     ..a<DataTerms>(
         27, 'terms', $pb.PbFieldType.OM, DataTerms.getDefault, DataTerms.create)
@@ -434,6 +356,7 @@ class DataOffer extends $pb.GeneratedMessage {
     ..p<List<int>>(29, 'coversBlurred', $pb.PbFieldType.PY)
     ..p<int>(30, 'proposalCounters', $pb.PbFieldType.P3)
     ..aOB(32, 'direct')
+    ..p<int>(33, 'primaryCategories', $pb.PbFieldType.P3)
     ..hasRequiredFields = false;
 
   DataOffer() : super();
@@ -545,57 +468,61 @@ class DataOffer extends $pb.GeneratedMessage {
   bool hasLongitude() => $_has(11);
   void clearLongitude() => clearField(19);
 
-  Int64 get proposalId => $_getI64(12);
-  set proposalId(Int64 v) {
-    $_setInt64(12, v);
+  String get locationName => $_getS(12, '');
+  set locationName(String v) {
+    $_setString(12, v);
   }
 
-  bool hasProposalId() => $_has(12);
+  bool hasLocationName() => $_has(12);
+  void clearLocationName() => clearField(21);
+
+  Int64 get proposalId => $_getI64(13);
+  set proposalId(Int64 v) {
+    $_setInt64(13, v);
+  }
+
+  bool hasProposalId() => $_has(13);
   void clearProposalId() => clearField(22);
 
-  List<int> get categories => $_getN(13);
-  set categories(List<int> v) {
-    $_setBytes(13, v);
-  }
+  List<int> get categories => $_getList(14);
 
-  bool hasCategories() => $_has(13);
-  void clearCategories() => clearField(23);
-
-  bool get archived => $_get(14, false);
+  bool get archived => $_get(15, false);
   set archived(bool v) {
-    $_setBool(14, v);
+    $_setBool(15, v);
   }
 
-  bool hasArchived() => $_has(14);
+  bool hasArchived() => $_has(15);
   void clearArchived() => clearField(26);
 
-  DataTerms get terms => $_getN(15);
+  DataTerms get terms => $_getN(16);
   set terms(DataTerms v) {
     setField(27, v);
   }
 
-  bool hasTerms() => $_has(15);
+  bool hasTerms() => $_has(16);
   void clearTerms() => clearField(27);
 
-  List<int> get thumbnailBlurred => $_getN(16);
+  List<int> get thumbnailBlurred => $_getN(17);
   set thumbnailBlurred(List<int> v) {
-    $_setBytes(16, v);
+    $_setBytes(17, v);
   }
 
-  bool hasThumbnailBlurred() => $_has(16);
+  bool hasThumbnailBlurred() => $_has(17);
   void clearThumbnailBlurred() => clearField(28);
 
-  List<List<int>> get coversBlurred => $_getList(17);
+  List<List<int>> get coversBlurred => $_getList(18);
 
-  List<int> get proposalCounters => $_getList(18);
+  List<int> get proposalCounters => $_getList(19);
 
-  bool get direct => $_get(19, false);
+  bool get direct => $_get(20, false);
   set direct(bool v) {
-    $_setBool(19, v);
+    $_setBool(20, v);
   }
 
-  bool hasDirect() => $_has(19);
+  bool hasDirect() => $_has(20);
   void clearDirect() => clearField(32);
+
+  List<int> get primaryCategories => $_getList(21);
 }
 
 class DataLocation extends $pb.GeneratedMessage {
