@@ -501,8 +501,8 @@ class ApiChannelHaggleActions {
       try {
         // Send to current user
         channel.replyMessage(message, "AP_R_COM", res.writeToBuffer());
-      } catch (error, stack) {
-        devLog.severe("$error\n$stack");
+      } catch (error, stackTrace) {
+        devLog.severe("$error\n$stackTrace");
       }
       // Publish!
       _r.bc.proposalChanged(account.state.sessionId, proposal);
@@ -566,8 +566,8 @@ class ApiChannelHaggleActions {
       NetProposalCommonRes res = new NetProposalCommonRes();
       try {
         channel.replyExtend(message);
-      } catch (error, stack) {
-        devLog.severe("$error\n$stack");
+      } catch (error, stackTrace) {
+        devLog.severe("$error\n$stackTrace");
       }
       DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
       res.updateProposal = proposal;
@@ -575,8 +575,8 @@ class ApiChannelHaggleActions {
       try {
         // Send to current user
         channel.replyMessage(message, "AP_R_COM", res.writeToBuffer());
-      } catch (error, stack) {
-        devLog.severe("$error\n$stack");
+      } catch (error, stackTrace) {
+        devLog.severe("$error\n$stackTrace");
       }
       // Publish!
       _r.bc.proposalChanged(account.state.sessionId, proposal);
@@ -773,8 +773,8 @@ class ApiChannelHaggleActions {
       NetProposalCommonRes res = new NetProposalCommonRes();
       try {
         channel.replyExtend(message);
-      } catch (error, stack) {
-        devLog.severe("$error\n$stack");
+      } catch (error, stackTrace) {
+        devLog.severe("$error\n$stackTrace");
       }
       DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
       res.updateProposal = proposal;
@@ -782,8 +782,8 @@ class ApiChannelHaggleActions {
       try {
         // Send to current user
         channel.replyMessage(message, "AP_R_COM", res.writeToBuffer());
-      } catch (error, stack) {
-        devLog.severe("$error\n$stack");
+      } catch (error, stackTrace) {
+        devLog.severe("$error\n$stackTrace");
       }
       // Publish!
       _r.bc.proposalChanged(account.state.sessionId, proposal);

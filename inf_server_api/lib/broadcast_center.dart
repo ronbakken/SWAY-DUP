@@ -148,8 +148,8 @@ class BroadcastCenter {
         if (apiChannel.account.state.sessionId != senderDeviceId) {
           apiChannel.channel.sendMessage(procedureId, data);
         }
-      } catch (error, stack) {
-        devLog.warning("Exception while pushing to remote app: $error\n$stack");
+      } catch (error, stackTrace) {
+        devLog.warning("Exception while pushing to remote app: $error\n$stackTrace");
       }
     }
 

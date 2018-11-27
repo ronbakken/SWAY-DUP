@@ -100,16 +100,16 @@ class ApiChannel {
       } else {
         try {
           channel.unknownProcedure(message);
-        } catch (error, stack) {
-          devLog.finest("$error\n$stack");
+        } catch (error, stackTrace) {
+          devLog.finest("$error\n$stackTrace");
           channel.close();
         }
       }
-    }, onError: (error, stack) {
+    }, onError: (error, stackTrace) {
       if (error is TalkAbort) {
-        devLog.severe("Received abort from api remote: $error\n$stack");
+        devLog.severe("Received abort from api remote: $error\n$stackTrace");
       } else {
-        devLog.severe("Unknown error from api remote: $error\n$stack");
+        devLog.severe("Unknown error from api remote: $error\n$stackTrace");
       }
     }, onDone: () {
       dispose();
@@ -162,15 +162,15 @@ class ApiChannel {
           replying: (message.requestId != 0) ? message : null)) {
         try {
           await procedure(message);
-        } catch (error, stack) {
+        } catch (error, stackTrace) {
           devLog.severe(
-              "Unexpected error in procedure '$procedureId': $error\n$stack");
+              "Unexpected error in procedure '$procedureId': $error\n$stackTrace");
           try {
             if (message.requestId != 0) {
               channel.replyAbort(message, "Unexpected error.");
             }
-          } catch (error, stack) {
-            devLog.finest("$error\n$stack");
+          } catch (error, stackTrace) {
+            devLog.finest("$error\n$stackTrace");
             channel.close();
           }
         }
@@ -580,8 +580,8 @@ class ApiChannel {
             devLog.info(
                 "Inserted session_id ${account.state.sessionId} with aes_key '${aesKeyStr}'");
           }
-        } catch (error, stack) {
-          devLog.warning("Failed to create session: $error\n$stack");
+        } catch (error, stackTrace) {
+          devLog.warning("Failed to create session: $error\n$stackTrace");
         }
         await connection.release();
       }
@@ -806,8 +806,8 @@ class ApiChannel {
               [pb.accountType.value, account.state.sessionId]);
           await tx.commit();
         });
-      } catch (error, stack) {
-        devLog.severe("Failed to change account type: $error\n$stack");
+      } catch (error, stackTrace) {
+        devLog.severe("Failed to change account type: $error\n$stackTrace");
       }
     });
 
@@ -889,8 +889,8 @@ class ApiChannel {
           .then((DataLocation location) {
         devLog.finest("GPS: $location");
         gpsLocationRes = location;
-      }).catchError((error, stack) {
-        devLog.severe("GPS Geocoding Exception: $error\n$stack");
+      }).catchError((error, stackTrace) {
+        devLog.severe("GPS Geocoding Exception: $error\n$stackTrace");
       });
     }
     DataLocation geoIPLocationRes;
@@ -899,8 +899,8 @@ class ApiChannel {
       devLog.finest("GeoIP: $location");
       geoIPLocationRes = location;
       // locations.add(location);
-    }).catchError((error, stack) {
-      devLog.severe("GeoIP Location Exception: $error\n$stack");
+    }).catchError((error, stackTrace) {
+      devLog.severe("GeoIP Location Exception: $error\n$stackTrace");
     });
 
     // Wait for GPS Geocoding
@@ -925,9 +925,9 @@ class ApiChannel {
               "${config.oauthProviders.all[i].label}: ${socialMedia.displayName}: $location");
           location.name = socialMedia.displayName;
           locations.add(location);
-        }).catchError((error, stack) {
+        }).catchError((error, stackTrace) {
           devLog.severe(
-              "${config.oauthProviders.all[i].label}: Geocoding Exception: $error\n$stack");
+              "${config.oauthProviders.all[i].label}: Geocoding Exception: $error\n$stackTrace");
         }));
       }
     }
@@ -1191,9 +1191,9 @@ class ApiChannel {
             devLog.fine("Finished setting up account $accountId");
             await tx.commit();
           });
-        } catch (error, stack) {
+        } catch (error, stackTrace) {
           opsLog.severe(
-              "Failed to create account for session ${account.state.sessionId}: $error\n$stack");
+              "Failed to create account for session ${account.state.sessionId}: $error\n$stackTrace");
         }
       }
     });
@@ -1231,9 +1231,9 @@ class ApiChannel {
         account.detail.blurredAvatarCoverUrl =
             makeCloudinaryBlurredCoverUrl(avatarKey);
       }
-    } catch (error, stack) {
+    } catch (error, stackTrace) {
       devLog.severe(
-          "Exception downloading avatar '$accountAvatarUrl': $error\n$stack");
+          "Exception downloading avatar '$accountAvatarUrl': $error\n$stackTrace");
     }
 
     // Send authentication state

@@ -260,7 +260,7 @@ class ApiChannelOAuth {
   }
 
   Future<void> _oauthConnect(TalkMessage message) async {
-    devLog.finest("netOAuthConnectReq");
+    devLog.finest("NetOAuthConnect");
     NetOAuthConnect pb = new NetOAuthConnect();
     pb.mergeFromBuffer(message.data);
     // devLog.finest(pb.callbackQuery);
@@ -273,8 +273,8 @@ class ApiChannelOAuth {
       try {
         oauthCredentials =
             await fetchOAuthCredentials(oauthProvider, pb.callbackQuery);
-      } catch (ex) {
-        exception = ex;
+      } catch (error, stackTrace) {
+        devLog.fine("$error\n$stackTrace");
       }
 
       // bool transitionAccount = false;
@@ -447,6 +447,9 @@ class ApiChannelOAuth {
 
         socialMedia[oauthProvider].mergeFromMessage(dataSocialMedia);
         socialMedia[oauthProvider].connected = true;
+        socialMedia[oauthProvider].canSignUp =
+          config.oauthProviders.all[oauthProvider].canAlwaysAuthenticate &&
+              !takeover;
       }
 
       // Simply send update of this specific social media
@@ -471,10 +474,6 @@ class ApiChannelOAuth {
               "Takeover but account id is 0, this is a fatal bug, disconnecting user now");
           channel.close();
         }
-      }
-
-      if (exception != null) {
-        throw exception;
       }
     } else {
       channel.replyAbort(
