@@ -257,17 +257,161 @@ class DataOAuthCredentials extends $pb.GeneratedMessage {
   void clearUserId() => clearField(4);
 }
 
+class DataDeliverable extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataDeliverable',
+      package: const $pb.PackageName('inf_common'))
+    ..a<int>(1, 'socialPlatform', $pb.PbFieldType.O3)
+    ..a<int>(2, 'contentFormat', $pb.PbFieldType.O3)
+    ..aOS(3, 'description')
+    ..hasRequiredFields = false;
+
+  DataDeliverable() : super();
+  DataDeliverable.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataDeliverable.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataDeliverable clone() => new DataDeliverable()..mergeFromMessage(this);
+  DataDeliverable copyWith(void Function(DataDeliverable) updates) =>
+      super.copyWith((message) => updates(message as DataDeliverable));
+  $pb.BuilderInfo get info_ => _i;
+  static DataDeliverable create() => new DataDeliverable();
+  static $pb.PbList<DataDeliverable> createRepeated() =>
+      new $pb.PbList<DataDeliverable>();
+  static DataDeliverable getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static DataDeliverable _defaultInstance;
+  static void $checkItem(DataDeliverable v) {
+    if (v is! DataDeliverable) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  int get socialPlatform => $_get(0, 0);
+  set socialPlatform(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasSocialPlatform() => $_has(0);
+  void clearSocialPlatform() => clearField(1);
+
+  int get contentFormat => $_get(1, 0);
+  set contentFormat(int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  bool hasContentFormat() => $_has(1);
+  void clearContentFormat() => clearField(2);
+
+  String get description => $_getS(2, '');
+  set description(String v) {
+    $_setString(2, v);
+  }
+
+  bool hasDescription() => $_has(2);
+  void clearDescription() => clearField(3);
+}
+
+class DataRewards extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataRewards',
+      package: const $pb.PackageName('inf_common'))
+    ..a<int>(1, 'cashValue', $pb.PbFieldType.O3)
+    ..a<int>(2, 'itemOrServiceValue', $pb.PbFieldType.O3)
+    ..aOS(3, 'itemOrServiceDescription')
+    ..hasRequiredFields = false;
+
+  DataRewards() : super();
+  DataRewards.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataRewards.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataRewards clone() => new DataRewards()..mergeFromMessage(this);
+  DataRewards copyWith(void Function(DataRewards) updates) =>
+      super.copyWith((message) => updates(message as DataRewards));
+  $pb.BuilderInfo get info_ => _i;
+  static DataRewards create() => new DataRewards();
+  static $pb.PbList<DataRewards> createRepeated() =>
+      new $pb.PbList<DataRewards>();
+  static DataRewards getDefault() => _defaultInstance ??= create()..freeze();
+  static DataRewards _defaultInstance;
+  static void $checkItem(DataRewards v) {
+    if (v is! DataRewards) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  int get cashValue => $_get(0, 0);
+  set cashValue(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasCashValue() => $_has(0);
+  void clearCashValue() => clearField(1);
+
+  int get itemOrServiceValue => $_get(1, 0);
+  set itemOrServiceValue(int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  bool hasItemOrServiceValue() => $_has(1);
+  void clearItemOrServiceValue() => clearField(2);
+
+  String get itemOrServiceDescription => $_getS(2, '');
+  set itemOrServiceDescription(String v) {
+    $_setString(2, v);
+  }
+
+  bool hasItemOrServiceDescription() => $_has(2);
+  void clearItemOrServiceDescription() => clearField(3);
+}
+
+class DataTerms extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataTerms',
+      package: const $pb.PackageName('inf_common'))
+    ..pp<DataDeliverable>(1, 'deliverables', $pb.PbFieldType.PM,
+        DataDeliverable.$checkItem, DataDeliverable.create)
+    ..a<DataRewards>(2, 'rewards', $pb.PbFieldType.OM, DataRewards.getDefault,
+        DataRewards.create)
+    ..hasRequiredFields = false;
+
+  DataTerms() : super();
+  DataTerms.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataTerms.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataTerms clone() => new DataTerms()..mergeFromMessage(this);
+  DataTerms copyWith(void Function(DataTerms) updates) =>
+      super.copyWith((message) => updates(message as DataTerms));
+  $pb.BuilderInfo get info_ => _i;
+  static DataTerms create() => new DataTerms();
+  static $pb.PbList<DataTerms> createRepeated() => new $pb.PbList<DataTerms>();
+  static DataTerms getDefault() => _defaultInstance ??= create()..freeze();
+  static DataTerms _defaultInstance;
+  static void $checkItem(DataTerms v) {
+    if (v is! DataTerms) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  List<DataDeliverable> get deliverables => $_getList(0);
+
+  DataRewards get rewards => $_getN(1);
+  set rewards(DataRewards v) {
+    setField(2, v);
+  }
+
+  bool hasRewards() => $_has(1);
+  void clearRewards() => clearField(2);
+}
+
 class DataOffer extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataOffer',
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'offerId')
-    ..aInt64(2, 'accountId')
+    ..aInt64(2, 'senderId')
     ..aInt64(3, 'locationId')
     ..aOS(4, 'title')
     ..aOS(5, 'description')
     ..aOS(6, 'thumbnailUrl')
-    ..aOS(7, 'deliverables')
-    ..aOS(8, 'reward')
     ..aOS(9, 'location')
     ..pPS(10, 'coverUrls')
     ..e<$0.OfferState>(12, 'state', $pb.PbFieldType.OE, $0.OfferState.draft,
@@ -281,13 +425,15 @@ class DataOffer extends $pb.GeneratedMessage {
         $0.OfferStateReason.values)
     ..a<double>(18, 'latitude', $pb.PbFieldType.OD)
     ..a<double>(19, 'longitude', $pb.PbFieldType.OD)
-    ..a<int>(20, 'locationOfferCount', $pb.PbFieldType.O3)
-    ..aOS(21, 'locationName')
-    ..aInt64(22, 'influencerProposalId')
+    ..aInt64(22, 'proposalId')
     ..a<List<int>>(23, 'categories', $pb.PbFieldType.OY)
-    ..aOS(24, 'blurredThumbnailUrl')
-    ..pPS(25, 'blurredCoverUrls')
     ..aOB(26, 'archived')
+    ..a<DataTerms>(
+        27, 'terms', $pb.PbFieldType.OM, DataTerms.getDefault, DataTerms.create)
+    ..a<List<int>>(28, 'thumbnailBlurred', $pb.PbFieldType.OY)
+    ..p<List<int>>(29, 'coversBlurred', $pb.PbFieldType.PY)
+    ..p<int>(30, 'proposalCounters', $pb.PbFieldType.P3)
+    ..aOB(32, 'direct')
     ..hasRequiredFields = false;
 
   DataOffer() : super();
@@ -317,13 +463,13 @@ class DataOffer extends $pb.GeneratedMessage {
   bool hasOfferId() => $_has(0);
   void clearOfferId() => clearField(1);
 
-  Int64 get accountId => $_getI64(1);
-  set accountId(Int64 v) {
+  Int64 get senderId => $_getI64(1);
+  set senderId(Int64 v) {
     $_setInt64(1, v);
   }
 
-  bool hasAccountId() => $_has(1);
-  void clearAccountId() => clearField(2);
+  bool hasSenderId() => $_has(1);
+  void clearSenderId() => clearField(2);
 
   Int64 get locationId => $_getI64(2);
   set locationId(Int64 v) {
@@ -357,113 +503,99 @@ class DataOffer extends $pb.GeneratedMessage {
   bool hasThumbnailUrl() => $_has(5);
   void clearThumbnailUrl() => clearField(6);
 
-  String get deliverables => $_getS(6, '');
-  set deliverables(String v) {
+  String get location => $_getS(6, '');
+  set location(String v) {
     $_setString(6, v);
   }
 
-  bool hasDeliverables() => $_has(6);
-  void clearDeliverables() => clearField(7);
-
-  String get reward => $_getS(7, '');
-  set reward(String v) {
-    $_setString(7, v);
-  }
-
-  bool hasReward() => $_has(7);
-  void clearReward() => clearField(8);
-
-  String get location => $_getS(8, '');
-  set location(String v) {
-    $_setString(8, v);
-  }
-
-  bool hasLocation() => $_has(8);
+  bool hasLocation() => $_has(6);
   void clearLocation() => clearField(9);
 
-  List<String> get coverUrls => $_getList(9);
+  List<String> get coverUrls => $_getList(7);
 
-  $0.OfferState get state => $_getN(10);
+  $0.OfferState get state => $_getN(8);
   set state($0.OfferState v) {
     setField(12, v);
   }
 
-  bool hasState() => $_has(10);
+  bool hasState() => $_has(8);
   void clearState() => clearField(12);
 
-  $0.OfferStateReason get stateReason => $_getN(11);
+  $0.OfferStateReason get stateReason => $_getN(9);
   set stateReason($0.OfferStateReason v) {
     setField(13, v);
   }
 
-  bool hasStateReason() => $_has(11);
+  bool hasStateReason() => $_has(9);
   void clearStateReason() => clearField(13);
 
-  double get latitude => $_getN(12);
+  double get latitude => $_getN(10);
   set latitude(double v) {
-    $_setDouble(12, v);
+    $_setDouble(10, v);
   }
 
-  bool hasLatitude() => $_has(12);
+  bool hasLatitude() => $_has(10);
   void clearLatitude() => clearField(18);
 
-  double get longitude => $_getN(13);
+  double get longitude => $_getN(11);
   set longitude(double v) {
-    $_setDouble(13, v);
+    $_setDouble(11, v);
   }
 
-  bool hasLongitude() => $_has(13);
+  bool hasLongitude() => $_has(11);
   void clearLongitude() => clearField(19);
 
-  int get locationOfferCount => $_get(14, 0);
-  set locationOfferCount(int v) {
-    $_setSignedInt32(14, v);
+  Int64 get proposalId => $_getI64(12);
+  set proposalId(Int64 v) {
+    $_setInt64(12, v);
   }
 
-  bool hasLocationOfferCount() => $_has(14);
-  void clearLocationOfferCount() => clearField(20);
+  bool hasProposalId() => $_has(12);
+  void clearProposalId() => clearField(22);
 
-  String get locationName => $_getS(15, '');
-  set locationName(String v) {
-    $_setString(15, v);
-  }
-
-  bool hasLocationName() => $_has(15);
-  void clearLocationName() => clearField(21);
-
-  Int64 get influencerProposalId => $_getI64(16);
-  set influencerProposalId(Int64 v) {
-    $_setInt64(16, v);
-  }
-
-  bool hasInfluencerProposalId() => $_has(16);
-  void clearInfluencerProposalId() => clearField(22);
-
-  List<int> get categories => $_getN(17);
+  List<int> get categories => $_getN(13);
   set categories(List<int> v) {
-    $_setBytes(17, v);
+    $_setBytes(13, v);
   }
 
-  bool hasCategories() => $_has(17);
+  bool hasCategories() => $_has(13);
   void clearCategories() => clearField(23);
 
-  String get blurredThumbnailUrl => $_getS(18, '');
-  set blurredThumbnailUrl(String v) {
-    $_setString(18, v);
-  }
-
-  bool hasBlurredThumbnailUrl() => $_has(18);
-  void clearBlurredThumbnailUrl() => clearField(24);
-
-  List<String> get blurredCoverUrls => $_getList(19);
-
-  bool get archived => $_get(20, false);
+  bool get archived => $_get(14, false);
   set archived(bool v) {
-    $_setBool(20, v);
+    $_setBool(14, v);
   }
 
-  bool hasArchived() => $_has(20);
+  bool hasArchived() => $_has(14);
   void clearArchived() => clearField(26);
+
+  DataTerms get terms => $_getN(15);
+  set terms(DataTerms v) {
+    setField(27, v);
+  }
+
+  bool hasTerms() => $_has(15);
+  void clearTerms() => clearField(27);
+
+  List<int> get thumbnailBlurred => $_getN(16);
+  set thumbnailBlurred(List<int> v) {
+    $_setBytes(16, v);
+  }
+
+  bool hasThumbnailBlurred() => $_has(16);
+  void clearThumbnailBlurred() => clearField(28);
+
+  List<List<int>> get coversBlurred => $_getList(17);
+
+  List<int> get proposalCounters => $_getList(18);
+
+  bool get direct => $_get(19, false);
+  set direct(bool v) {
+    $_setBool(19, v);
+  }
+
+  bool hasDirect() => $_has(19);
+  void clearDirect() => clearField(32);
 }
 
 class DataLocation extends $pb.GeneratedMessage {
@@ -480,7 +612,7 @@ class DataLocation extends $pb.GeneratedMessage {
     ..aOS(11, 'countryCode')
     ..aInt64(12, 's2cellId')
     ..aInt64(14, 'geohashInt')
-    ..aOS(15, 'geoHash')
+    ..aOS(15, 'geohash')
     ..hasRequiredFields = false;
 
   DataLocation() : super();
@@ -591,13 +723,13 @@ class DataLocation extends $pb.GeneratedMessage {
   bool hasGeohashInt() => $_has(10);
   void clearGeohashInt() => clearField(14);
 
-  String get geoHash => $_getS(11, '');
-  set geoHash(String v) {
+  String get geohash => $_getS(11, '');
+  set geohash(String v) {
     $_setString(11, v);
   }
 
-  bool hasGeoHash() => $_has(11);
-  void clearGeoHash() => clearField(15);
+  bool hasGeohash() => $_has(11);
+  void clearGeohash() => clearField(15);
 }
 
 class DataAccountState extends $pb.GeneratedMessage {

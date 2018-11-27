@@ -55,42 +55,105 @@ const DataOAuthCredentials$json = const {
   ],
 };
 
+const DataDeliverable$json = const {
+  '1': 'DataDeliverable',
+  '2': const [
+    const {
+      '1': 'social_platform',
+      '3': 1,
+      '4': 1,
+      '5': 5,
+      '10': 'socialPlatform'
+    },
+    const {
+      '1': 'content_format',
+      '3': 2,
+      '4': 1,
+      '5': 5,
+      '10': 'contentFormat'
+    },
+    const {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
+  ],
+};
+
+const DataRewards$json = const {
+  '1': 'DataRewards',
+  '2': const [
+    const {'1': 'cash_value', '3': 1, '4': 1, '5': 5, '10': 'cashValue'},
+    const {
+      '1': 'item_or_service_value',
+      '3': 2,
+      '4': 1,
+      '5': 5,
+      '10': 'itemOrServiceValue'
+    },
+    const {
+      '1': 'item_or_service_description',
+      '3': 3,
+      '4': 1,
+      '5': 9,
+      '10': 'itemOrServiceDescription'
+    },
+  ],
+};
+
+const DataTerms$json = const {
+  '1': 'DataTerms',
+  '2': const [
+    const {
+      '1': 'deliverables',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.inf_common.DataDeliverable',
+      '10': 'deliverables'
+    },
+    const {
+      '1': 'rewards',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataRewards',
+      '10': 'rewards'
+    },
+  ],
+};
+
 const DataOffer$json = const {
   '1': 'DataOffer',
   '2': const [
-    const {'1': 'offerId', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
-    const {'1': 'accountId', '3': 2, '4': 1, '5': 3, '10': 'accountId'},
-    const {'1': 'locationId', '3': 3, '4': 1, '5': 3, '10': 'locationId'},
+    const {'1': 'offer_id', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
+    const {'1': 'sender_id', '3': 2, '4': 1, '5': 3, '10': 'senderId'},
+    const {'1': 'location_id', '3': 3, '4': 1, '5': 3, '10': 'locationId'},
+    const {'1': 'direct', '3': 32, '4': 1, '5': 8, '10': 'direct'},
     const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
     const {'1': 'description', '3': 5, '4': 1, '5': 9, '10': 'description'},
-    const {'1': 'thumbnailUrl', '3': 6, '4': 1, '5': 9, '10': 'thumbnailUrl'},
+    const {'1': 'thumbnail_url', '3': 6, '4': 1, '5': 9, '10': 'thumbnailUrl'},
     const {
-      '1': 'blurredThumbnailUrl',
-      '3': 24,
+      '1': 'thumbnail_blurred',
+      '3': 28,
       '4': 1,
-      '5': 9,
-      '10': 'blurredThumbnailUrl'
+      '5': 12,
+      '10': 'thumbnailBlurred'
     },
-    const {'1': 'deliverables', '3': 7, '4': 1, '5': 9, '10': 'deliverables'},
-    const {'1': 'reward', '3': 8, '4': 1, '5': 9, '10': 'reward'},
-    const {'1': 'locationName', '3': 21, '4': 1, '5': 9, '10': 'locationName'},
+    const {
+      '1': 'terms',
+      '3': 27,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataTerms',
+      '10': 'terms'
+    },
     const {'1': 'location', '3': 9, '4': 1, '5': 9, '10': 'location'},
     const {'1': 'latitude', '3': 18, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 19, '4': 1, '5': 1, '10': 'longitude'},
+    const {'1': 'cover_urls', '3': 10, '4': 3, '5': 9, '10': 'coverUrls'},
     const {
-      '1': 'locationOfferCount',
-      '3': 20,
-      '4': 1,
-      '5': 5,
-      '10': 'locationOfferCount'
-    },
-    const {'1': 'coverUrls', '3': 10, '4': 3, '5': 9, '10': 'coverUrls'},
-    const {
-      '1': 'blurredCoverUrls',
-      '3': 25,
+      '1': 'covers_blurred',
+      '3': 29,
       '4': 3,
-      '5': 9,
-      '10': 'blurredCoverUrls'
+      '5': 12,
+      '10': 'coversBlurred'
     },
     const {'1': 'categories', '3': 23, '4': 1, '5': 12, '10': 'categories'},
     const {
@@ -102,7 +165,7 @@ const DataOffer$json = const {
       '10': 'state'
     },
     const {
-      '1': 'stateReason',
+      '1': 'state_reason',
       '3': 13,
       '4': 1,
       '5': 14,
@@ -111,12 +174,13 @@ const DataOffer$json = const {
     },
     const {'1': 'archived', '3': 26, '4': 1, '5': 8, '10': 'archived'},
     const {
-      '1': 'influencerProposalId',
-      '3': 22,
-      '4': 1,
-      '5': 3,
-      '10': 'influencerProposalId'
+      '1': 'proposal_counters',
+      '3': 30,
+      '4': 3,
+      '5': 5,
+      '10': 'proposalCounters'
     },
+    const {'1': 'proposal_id', '3': 22, '4': 1, '5': 3, '10': 'proposalId'},
   ],
 };
 
@@ -132,9 +196,9 @@ const DataLocation$json = const {
     const {'1': 'countryCode', '3': 11, '4': 1, '5': 9, '10': 'countryCode'},
     const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
-    const {'1': 's2cellId', '3': 12, '4': 1, '5': 3, '10': 's2cellId'},
-    const {'1': 'geohashInt', '3': 14, '4': 1, '5': 3, '10': 'geohashInt'},
-    const {'1': 'geoHash', '3': 15, '4': 1, '5': 9, '10': 'geoHash'},
+    const {'1': 's2cell_id', '3': 12, '4': 1, '5': 3, '10': 's2cellId'},
+    const {'1': 'geohash_int', '3': 14, '4': 1, '5': 3, '10': 'geohashInt'},
+    const {'1': 'geohash', '3': 15, '4': 1, '5': 9, '10': 'geohash'},
   ],
 };
 
