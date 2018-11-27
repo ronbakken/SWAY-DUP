@@ -93,7 +93,7 @@ message DataTerms {
   
 }
 
-message DataOffer { // 33
+message DataOffer { // 34
   int64 offer_id = 1; // (State) (Summary) (Detail)
   int64 sender_id = 2; // (State) (Summary) (Detail) Account id of the sender who published this offer
   int64 location_id = 3; // (State) (Detail) (Private)
@@ -121,6 +121,7 @@ message DataOffer { // 33
   string description = 5; // (Detail)
   repeated string cover_urls = 10; // (Detail)
   repeated bytes covers_blurred = 29; // (Detail)
+  repeated string cover_keys = 34; // (Post)
   repeated int32 categories = 23; // (Detail)
   
   // State for sender
