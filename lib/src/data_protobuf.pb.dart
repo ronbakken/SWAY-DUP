@@ -333,7 +333,7 @@ class DataOffer extends $pb.GeneratedMessage {
     ..aOS(4, 'title')
     ..aOS(5, 'description')
     ..aOS(6, 'thumbnailUrl')
-    ..aOS(9, 'location')
+    ..aOS(9, 'locationText')
     ..pPS(10, 'coverUrls')
     ..e<$0.OfferState>(12, 'state', $pb.PbFieldType.OE, $0.OfferState.draft,
         $0.OfferState.valueOf, $0.OfferState.values)
@@ -427,13 +427,13 @@ class DataOffer extends $pb.GeneratedMessage {
   bool hasThumbnailUrl() => $_has(5);
   void clearThumbnailUrl() => clearField(6);
 
-  String get location => $_getS(6, '');
-  set location(String v) {
+  String get locationText => $_getS(6, '');
+  set locationText(String v) {
     $_setString(6, v);
   }
 
-  bool hasLocation() => $_has(6);
-  void clearLocation() => clearField(9);
+  bool hasLocationText() => $_has(6);
+  void clearLocationText() => clearField(9);
 
   List<String> get coverUrls => $_getList(7);
 

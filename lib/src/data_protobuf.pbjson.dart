@@ -135,10 +135,11 @@ const DataOffer$json = const {
       '10': 'primaryCategories'
     },
     const {'1': 'location_name', '3': 21, '4': 1, '5': 9, '10': 'locationName'},
-    const {'1': 'location', '3': 9, '4': 1, '5': 9, '10': 'location'},
+    const {'1': 'location_text', '3': 9, '4': 1, '5': 9, '10': 'locationText'},
     const {'1': 'latitude', '3': 18, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 19, '4': 1, '5': 1, '10': 'longitude'},
     const {'1': 'description', '3': 5, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'cover_keys', '3': 34, '4': 3, '5': 9, '10': 'coverKeys'},
     const {'1': 'cover_urls', '3': 10, '4': 3, '5': 9, '10': 'coverUrls'},
     const {
       '1': 'covers_blurred',
@@ -147,7 +148,6 @@ const DataOffer$json = const {
       '5': 12,
       '10': 'coversBlurred'
     },
-    const {'1': 'cover_keys', '3': 34, '4': 3, '5': 9, '10': 'coverKeys'},
     const {'1': 'categories', '3': 23, '4': 3, '5': 5, '10': 'categories'},
     const {
       '1': 'state',
