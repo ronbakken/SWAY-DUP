@@ -80,51 +80,73 @@ message DataOAuthCredentials {
   
 }
 
-message DataOffer {
-  int64 offerId = 1;
-  int64 accountId = 2;
-  int64 locationId = 3;
+message DataDeliverable {
+  int32 social_platform = 1; // Identifier from oauth providers
+  int32 content_format = 2; // Identifier from some other list
+  string description = 3;
+}
+
+message DataRewards {
+  int32 cash_value = 1;
+  int32 item_or_service_value = 2;
+  string item_or_service_description = 3;
+}
+
+message DataTerms {
+  repeated DataDeliverable deliverables = 1;
+  DataRewards rewards = 2;
+}
+
+message DataOffer { // 32
+  int64 offer_id = 1;
+  int64 sender_id = 2; // Account id
+  int64 location_id = 3;
+  bool direct = 32; // Direct offer, not not returned in search results
   
+  // Summary
   string title = 4;
   string description = 5;
-  string thumbnailUrl = 6;
-  string blurredThumbnailUrl = 24;
+  string thumbnail_url = 6;
+  bytes thumbnail_blurred = 28;
   
-  string deliverables = 7;
-  string reward = 8;
+  // Terms
+  DataTerms terms = 27;
   
-  // Embedded business location info
-  string locationName = 21; // Business or location name depending
+  // Embedded location info
+  // string location_name = 21; // Location nickname or business name
   string location = 9;
   double latitude = 18;
   double longitude = 19;
-  int32 locationOfferCount = 20; // Number of offers at the same location
+  // int32 locationOfferCount = 20; // Number of offers at the same location
+  // Embedded in Elasticsearch structure as well,
+  // only updated for open/draft offers that are not archived
   
   // Detail info
-  repeated string coverUrls = 10;
-  repeated string blurredCoverUrls = 25;
+  repeated string cover_urls = 10;
+  repeated bytes covers_blurred = 29;
   bytes categories = 23;
   
   // State
   OfferState state = 12;
-  OfferStateReason stateReason = 13;
+  OfferStateReason state_reason = 13;
   bool archived = 26;
   
-  // Info for business
-  // int32 proposalsNew = 14;
-  // int32 proposalsAccepted = 15;
-  // int32 proposalsCompleted = 16;
-  // int32 proposalsRefused = 17;
+  // Embedded info for sender
+  repeated int32 proposal_counters = 30;
+  // bool unseen_proposal = 31;
   
-  // Info for influencer
-  int64 influencerProposalId = 22; // So the Offer View knows this offer has already been applied to
+  // Embedded info for receiver
+  /// Identifier of proposal that the public receiver sent already,
+  /// allowing the user interface to link immediately to the proposal.
+  int64 proposal_id = 22;
+  // Elasticsearch structure has forward list of proposal ids embedded (map of userid -> proposalid)
   
 }
 
 message DataLocation {
   int64 locationId = 1;
   
-  // User-provided name of the location (eg. "Waterproof Vests LA")
+  // User-provided nickname of the location (eg. "Waterproof Vests LA") (optional)
   string name = 2;
   
   // Location details. Influencer displays `approximate`, business `detail`
@@ -139,9 +161,9 @@ message DataLocation {
   double longitude = 5;
   
   // Location in indexed formats
-  int64 s2cellId = 12;
-  int64 geohashInt = 14;
-  string geoHash = 15;
+  int64 s2cell_id = 12;
+  int64 geohash_int = 14;
+  string geohash = 15;
   
 }
 
