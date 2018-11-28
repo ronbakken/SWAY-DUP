@@ -93,7 +93,7 @@ PUT offers
           "type":  "long"
         },
         "session_ghost_id": {
-          "type":  "int"
+          "type":  "integer"
         },
         
         "created": {
