@@ -49,6 +49,14 @@ DataOffer
         
         (denormalized) array integer proposal_counters
         
+        (denormalized) array long s2cell_ids
+        (denormalized) array long geohash_ints
+        (denormalized) array string geohashes
+        
+        (denormalized) array short s2cell_id_shards
+        (denormalized) array short geohash_int_shards
+        (denormalized) array short geohash_shards
+        
         (ai) array keyword image_keywords (keywords pulled from images)
         
     }
@@ -163,6 +171,26 @@ PUT offers
           "type":  "integer"
         },
         
+        "s2cell_ids": {
+          "type":  "long"
+        },
+        "geohash_ints": {
+          "type":  "long"
+        },
+        "geohashes": {
+          "type":  "keyword"
+        },
+        
+        "s2cell_id_shards": {
+          "type":  "short"
+        },
+        "geohash_int_shards": {
+          "type":  "short"
+        },
+        "geohash_shards": {
+          "type":  "short"
+        },
+        
         "image_keywords": {
           "type":  "keyword"
         }
@@ -183,7 +211,7 @@ PUT offers/_mapping/_doc
     "direct": {
       "type":  "boolean"
     },
-  },
+  }
 }
 
 PUT offers/_doc/0
