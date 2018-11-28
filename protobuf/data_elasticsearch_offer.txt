@@ -6,11 +6,15 @@ DataOffer
     _id
     _source {
         long sender_id
+        byte sender_type
         long location_id
         boolean direct
         
-        created
-        modified
+        long session_id
+        int session_ghost_id
+        
+        date created
+        array date modified
         
         text title
         keyword thumbnail_key
@@ -75,11 +79,21 @@ PUT offers
         "sender_id": {
           "type":  "long"
         },
+        "sender_type": {
+          "type":  "byte"
+        },
         "location_id": {
           "type":  "long"
         },
         "direct": {
           "type":  "boolean"
+        },
+        
+        "session_id": {
+          "type":  "long"
+        },
+        "session_ghost_id": {
+          "type":  "int"
         },
         
         "created": {

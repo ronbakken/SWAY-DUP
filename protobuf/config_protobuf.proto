@@ -15,11 +15,7 @@ message ConfigSubCategories {
   repeated string labels = 1;
 }
 
-message ConfigCategories {
-  repeated ConfigSubCategories sub = 1;
-}
-
-message ConfigOAuthProvider {
+message ConfigOAuthProvider { // 25
   /// Whether the OAuth provider is visible in the UI at all
   bool visible = 1;
   
@@ -33,9 +29,22 @@ message ConfigOAuthProvider {
   bool show_in_profile = 20;
   
   /// Visual name
-  string label = 3;
+  string label = 3; // Display name
+  
+  /// Color references
+  int32 foreground_color = 26;
+  int32 background_color = 27;
+  /// Colored images
+  int32 foreground_image_id = 28; // Id within icon config content
+  int32 background_image_id = 29;
+  /// Flat silhouette images
+  int32 foreground_flat_id = 30;
+  int32 background_flat_id = 31;
+  /// FontAwesome glyph
   int32 font_awesome_brand = 14;
-  int32 icon_id = 24; // Id within icon config content
+  
+  /// Keywords used by Elasticsearch
+  repeated string keywords = 25;
   
   /// OAuth mechanism
   OAuthMechanism mechanism = 15;
@@ -71,9 +80,47 @@ message ConfigOAuthProvider {
   
 }
 
-message ConfigOAuthProviders {
-  /// List of all OAuthProviders
-  repeated ConfigOAuthProvider all = 1;
+message ConfigContentFormat {
+  /// Visual specification
+  string label = 2; // Display name
+  
+  /// Color references
+  int32 foreground_color = 6;
+  int32 background_color = 7;
+  /// Colored images
+  int32 foreground_image_id = 8; // Id within image config content
+  int32 background_image_id = 9;
+  /// Flat silhouette images
+  int32 foreground_flat_id = 10;
+  int32 background_flat_id = 11;
+  /// FontAwesome glyph
+  int32 font_awesome_icon = 4;
+  
+  /// Keywords used by Elasticsearch
+  repeated string keywords = 1;
+  
+}
+
+message ConfigCategory {
+  int32 parent_id = 5;
+  
+  /// Visual specification
+  string label = 2; // Display name
+  
+  /// Color references
+  int32 foreground_color = 6;
+  int32 background_color = 7;
+  /// Colored images
+  int32 foreground_image_id = 8; // Id within image config content
+  int32 background_image_id = 9;
+  /// Flat silhouette images
+  int32 foreground_flat_id = 10;
+  int32 background_flat_id = 11;
+  /// FontAwesome glyph
+  int32 font_awesome_icon = 4;
+  
+  /// Keywords used by Elasticsearch
+  repeated string keywords = 1;
   
 }
 
@@ -151,10 +198,12 @@ message ConfigData {
   string language = 9;
   
   /// Configuration data
-  ConfigCategories categories = 2;
-  ConfigOAuthProviders oauth_providers = 3;
   ConfigServices services = 6;
   ConfigContent content = 7;
+  
+  repeated ConfigOAuthProvider oauth_providers = 8;
+  repeated ConfigContentFormat content_formats = 9;
+  repeated ConfigCategory categories = 10;
   
 }
 
