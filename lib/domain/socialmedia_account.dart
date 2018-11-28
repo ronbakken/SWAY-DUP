@@ -46,5 +46,47 @@ class SocialMediaAccount {
     this.followingCount,
     this.postsCount,
     this.verified,
-  });
+  }):assert(id != null);
+
+  SocialMediaAccount copyWith({
+    int id,
+    bool isActive,
+    String channelName,
+    String displayName,
+    Uint8List logoData,
+    bool isVectorLogo,
+    String avatarUrl,
+    Uint8List avatarLowRes,
+    String profileUrl,
+    String description,
+    String location,
+    String url,
+    String email,
+    int friendsCount,
+    int followersCount,
+    int followingCount,
+    int postsCount,
+    bool verified,
+  }) {
+    return SocialMediaAccount(
+      id: id ?? this.id,
+      isActive: isActive ?? this.isActive,
+      channelName: channelName ?? this.channelName,
+      displayName: displayName ?? this.displayName,
+      logoData: logoData ?? this.logoData,
+      isVectorLogo: isVectorLogo ?? this.isVectorLogo,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
+      avatarLowRes: avatarLowRes ?? this.avatarLowRes,
+      profileUrl: profileUrl ?? this.profileUrl,
+      description: description ?? this.description,
+      location: location ?? this.location,
+      url: url ?? this.url,
+      email: email ?? this.email,
+      friendsCount: friendsCount ?? this.friendsCount,
+      followersCount: followersCount ?? this.followersCount,
+      followingCount: followingCount ?? this.followingCount,
+      postsCount: postsCount ?? this.postsCount,
+      verified: verified ?? this.verified,
+    );
+  }
 }

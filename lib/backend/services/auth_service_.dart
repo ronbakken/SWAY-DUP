@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/user.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:rxdart/rxdart.dart';
@@ -72,6 +73,8 @@ abstract class AuthenticationService {
   // must be backed by BehaviourSubject
   Observable<AuthenticationResult> get loginState;
 
+  Observable<User> get currentUser;
+
   /// Returns the current authenticationstate independent od a state change
   AuthenticationResult getCurrentAuthenticationState();
 
@@ -85,11 +88,15 @@ abstract class AuthenticationService {
       AccountType userType,
       SocialNetworkProvider socialNetwork);
 
+
   Observable<User> getPublicProfile(Int64 accountId);    
 
   Observable<List<LocalAccountData>> get linkedAccounts;
   Future<void> switchToUserAccount(LocalAccountData user);
 
+  Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia);
+  Future<void> updateUser(User user);
+  
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);
 

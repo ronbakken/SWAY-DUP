@@ -94,9 +94,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   void dispose() {
     _authenticationResults.close();
-    _subscriptions.forEach((subscription) {
-      subscription.cancel();
-    });
+    _subscriptions.forEach((subscription) => subscription.cancel());
     _subscriptions.clear();
   }
 
@@ -192,6 +190,23 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Observable<User> getPublicProfile(Int64 accountId) {
     // TODO: implement getPublicProfile
+    return null;
+  }
+
+
+
+  @override
+  // TODO: implement currentUser
+  Observable<User> get currentUser => null;
+
+  @override
+  Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia) {
+    // TODO: implement updateSocialMediaAccount
+  }
+
+  @override
+  Future<void> updateUser(User user) {
+    // TODO: implement updateUser
     return null;
   }
 }

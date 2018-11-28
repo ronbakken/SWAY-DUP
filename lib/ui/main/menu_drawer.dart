@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
@@ -11,178 +12,202 @@ import 'package:inf/ui/widgets/inf_switch.dart';
 import 'package:pedantic/pedantic.dart';
 
 class MainNavigationDrawer extends StatelessWidget {
+  void setSocialMediaAccountState(SocialMediaAccount account, bool isActive) {
+    backend.get<UserManager>().updateSocialMediaAccountCommand(account.copyWith(isActive: isActive));
+  }
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     final userManager = backend.get<UserManager>();
-    final currentUser = backend.get<UserManager>().currentUser;
     final isLoggedIn = userManager.isLoggedIn;
 
-    List<Widget> entries = <Widget>[]..addAll([
-        _MainNavigationItem(
-          icon: InfAssetImage(
-            AppIcons.switchUser,
-            color: Colors.white,
+    List<Widget> buildColumnEntries(User currentUser) {
+      List<Widget> entries = <Widget>[]..addAll([
+          _MainNavigationItem(
+            icon: InfAssetImage(
+              AppIcons.switchUser,
+              color: Colors.white,
+            ),
+            text: 'Accounts',
+            onTap: () {},
           ),
-          text: 'Accounts',
-          onTap: () {},
-        ),
-        SizedBox(height: 16),
+          SizedBox(height: 16),
+          Text(
+            'SOCIAL MEDIA ACCOUNTS',
+            textAlign: TextAlign.left,
+            style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
+          ),
+          SizedBox(height: 8),
+        ]);
+
+      for (var account in currentUser.socialMediaAccounts) {
+        entries.add(_MainNavigationItem(
+          icon: account.isVectorLogo
+              ? SvgPicture.memory(
+                  account.logoData,
+                )
+              : Image.memory(account.logoData),
+          text: account.channelName,
+          trailing: InfSwitch(
+            value: account.isActive,
+            onChanged: (val) => setSocialMediaAccountState(account, val),
+            activeColor: AppTheme.blue,
+          ),
+        ));
+      }
+
+      entries.addAll([
+        SizedBox(height: 8),
         Text(
-          'SOCIAL MEDIA ACCOUNTS',
+          'VISIBILITY',
           textAlign: TextAlign.left,
           style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
         ),
-              SizedBox(height: 8),
-
+        SizedBox(height: 8),
+        _MainNavigationItem(
+          icon: InfAssetImage(
+            AppIcons.directOffers,
+            color: Colors.white,
+          ),
+          text: 'Allow direct offers',
+          trailing: InfSwitch(
+            
+            value: currentUser.acceptsDirectOffers,
+            onChanged: (val) {
+              userManager.updateUserCommand(
+                currentUser.copyWith(acceptsDirectOffers: val),
+              );
+            },
+            activeColor: AppTheme.blue,
+          ),
+        ),
+        _MainNavigationItem(
+          icon: InfAssetImage(
+            AppIcons.location,
+            color: Colors.white,
+          ),
+          text: 'Show my location',
+          trailing: InfSwitch(
+            value: currentUser.showLocation,
+            onChanged: (val) {
+              userManager.updateUserCommand(
+                currentUser.copyWith(showLocation: val),
+              );
+            },
+            activeColor: AppTheme.blue,
+          ),
+        ),
+        SizedBox(height: 8),
+        Text(
+          'PAYMENT',
+          textAlign: TextAlign.left,
+          style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
+        ),
+        SizedBox(height: 8),
+        _MainNavigationItem(
+          icon: InfAssetImage(
+            AppIcons.payments,
+            color: Colors.white,
+          ),
+          text: 'Payment settings',
+          onTap: () {},
+        ),
+        _MainNavigationItem(
+          icon: InfAssetImage(
+            AppIcons.earnings,
+            color: Colors.white,
+          ),
+          text: 'Earnings',
+          onTap: () {},
+        ),
+        SizedBox(height: 30),
+        _MainNavigationItem(
+          icon: InfAssetImage(AppIcons.menu),
+          text: 'Logout',
+          onTap: () async {
+            await backend.get<AuthenticationService>().logOut();
+            unawaited(Navigator.of(context).pushAndRemoveUntil(WelcomePage.route(), (route) => false));
+          },
+        ),
       ]);
-
-    for (var account in currentUser.socialMediaAccounts) {
-      entries.add(_MainNavigationItem(
-        icon: account.isVectorLogo
-            ? SvgPicture.memory(
-                account.logoData,
-              )
-            : Image.memory(account.logoData),
-        text: account.channelName,
-        trailing: InfSwitch(
-          value: account.isActive,
-          onChanged: (val) {},
-          activeColor: AppTheme.blue,
-        ),
-      ));
+      return entries;
     }
-
-    entries.addAll([
-      SizedBox(height: 8),
-      Text(
-        'VISIBILITY',
-        textAlign: TextAlign.left,
-        style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
-      ),
-      SizedBox(height: 8),
-      _MainNavigationItem(
-        icon: InfAssetImage(
-          AppIcons.directOffers,
-          color: Colors.white,
-        ),
-        text: 'Allow direct offers',
-        onTap: () {},
-        trailing: InfSwitch(
-          value: true,
-          onChanged: (val) {},
-          activeColor: AppTheme.blue,
-        ),
-      ),
-      _MainNavigationItem(
-        icon: InfAssetImage(
-          AppIcons.location,
-          color: Colors.white,
-        ),
-        text: 'Show my location',
-        onTap: () {},
-        trailing: InfSwitch(
-          value: true,
-          onChanged: (val) {},
-          activeColor: AppTheme.blue,
-        ),
-      ),
-      SizedBox(height: 8),
-      Text(
-        'PAYMENT',
-        textAlign: TextAlign.left,
-        style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
-      ),
-      SizedBox(height: 8),
-      _MainNavigationItem(
-        icon: InfAssetImage(
-          AppIcons.payments,
-          color: Colors.white,
-        ),
-        text: 'Payment settings',
-        onTap: () {},
-     ),
-      _MainNavigationItem(
-        icon: InfAssetImage(
-          AppIcons.earnings,
-          color: Colors.white,
-        ),
-        text: 'Earnings',
-        onTap: () {},
-      ),
-      SizedBox(height: 30),
-      _MainNavigationItem(
-        icon: InfAssetImage(AppIcons.menu),
-        text: 'Logout',
-        onTap: () async {
-          await backend.get<AuthenticationService>().logOut();
-          unawaited(Navigator.of(context).pushAndRemoveUntil(WelcomePage.route(), (route) => false));
-        },
-      ),
-    ]);
 
     return Material(
       color: AppTheme.listViewAndMenuBackground,
       elevation: 8.0,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 12.0),
-        child: ListView(
-          children: [
-            SizedBox(
-              height: mediaQuery.size.height * 0.2,
-              child: ClipPath(
-                clipper: _ProfilePictureClipper(),
-                child: isLoggedIn
-                    ? InfImage(
-                        fit: BoxFit.fitWidth,
-                        lowRes: currentUser.avatarLowRes,
-                        imageUrl: currentUser.avatarUrl,
-                      )
-                    : SizedBox(),
-              ),
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 24),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadiusDirectional.only(
-                  topStart: Radius.circular(16.0),
-                  bottomStart: Radius.circular(16.0),
+        child: StreamBuilder<User>(
+          initialData: userManager.currentUser,
+          stream: userManager.currentUserUpdates,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return SizedBox();
+            }
+            var currentUser = snapshot.data;
+            return ListView(
+              primary: false,
+              padding: EdgeInsets.zero,
+              children: [
+                SizedBox(
+                  height: mediaQuery.size.height * 0.2 + mediaQuery.padding.top,
+                  child: ClipPath(
+                    clipper: _ProfilePictureClipper(),
+                    child: isLoggedIn
+                        ? InfImage(
+                            fit: BoxFit.fitWidth,
+                            lowRes: currentUser.avatarLowRes,
+                            imageUrl: currentUser.avatarUrl,
+                          )
+                        : SizedBox(),
+                  ),
                 ),
-                color: AppTheme.menuUserNameBackground,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 8.0, top:8.0, bottom: 8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        isLoggedIn ? currentUser.name : 'Please sign up',
-                        style: const TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 24),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadiusDirectional.only(
+                      topStart: Radius.circular(16.0),
+                      bottomStart: Radius.circular(16.0),
                     ),
-                    InfAssetImage(
-                      AppIcons.edit,
-                      width: 24,
-                      height: 24,
-                    )
-                  ],
+                    color: AppTheme.menuUserNameBackground,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0, right: 8.0, top: 8.0, bottom: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            isLoggedIn ? currentUser.name : 'Please sign up',
+                            style: const TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        InfAssetImage(
+                          AppIcons.edit,
+                          width: 24,
+                          height: 24,
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: entries,
-              ),
-            ),
-          ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: buildColumnEntries(currentUser),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -225,7 +250,10 @@ class _MainNavigationItem extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 10.0),
-              Text(text, style: const TextStyle(fontSize: 18.0),),
+              Text(
+                text,
+                style: const TextStyle(fontSize: 18.0),
+              ),
               Spacer(),
               trailing != null ? trailing : SizedBox(),
             ],
@@ -239,8 +267,9 @@ class _MainNavigationItem extends StatelessWidget {
 class _ProfilePictureClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-     double curveFactor = size.height * 1.0;
-    final path = Path()..addArc(Rect.fromLTRB(-curveFactor, -size.height, size.width + curveFactor, size.height), 0, pi);
+    double curveFactor = size.height * 1.0;
+    final path = Path()
+      ..addArc(Rect.fromLTRB(-curveFactor, -size.height, size.width + curveFactor, size.height), 0, pi);
     return path;
   }
 
