@@ -274,6 +274,20 @@ const ConfigServices$json = const {
       '5': 9,
       '10': 'firebaseLegacyServerKey'
     },
+    const {
+      '1': 'elasticsearch_api',
+      '3': 36,
+      '4': 1,
+      '5': 9,
+      '10': 'elasticsearchApi'
+    },
+    const {
+      '1': 'elasticsearch_basic_auth',
+      '3': 37,
+      '4': 1,
+      '5': 9,
+      '10': 'elasticsearchBasicAuth'
+    },
   ],
 };
 

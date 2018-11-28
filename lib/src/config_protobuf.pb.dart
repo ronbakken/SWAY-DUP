@@ -381,6 +381,8 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(32, 'cloudinaryBlurredCoverUrl')
     ..aOS(33, 'service')
     ..a<List<int>>(35, 'salt', $pb.PbFieldType.OY)
+    ..aOS(36, 'elasticsearchApi')
+    ..aOS(37, 'elasticsearchBasicAuth')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -674,6 +676,22 @@ class ConfigServices extends $pb.GeneratedMessage {
 
   bool hasSalt() => $_has(33);
   void clearSalt() => clearField(35);
+
+  String get elasticsearchApi => $_getS(34, '');
+  set elasticsearchApi(String v) {
+    $_setString(34, v);
+  }
+
+  bool hasElasticsearchApi() => $_has(34);
+  void clearElasticsearchApi() => clearField(36);
+
+  String get elasticsearchBasicAuth => $_getS(35, '');
+  set elasticsearchBasicAuth(String v) {
+    $_setString(35, v);
+  }
+
+  bool hasElasticsearchBasicAuth() => $_has(35);
+  void clearElasticsearchBasicAuth() => clearField(37);
 }
 
 class ConfigContent extends $pb.GeneratedMessage {
