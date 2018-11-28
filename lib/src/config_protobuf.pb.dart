@@ -82,6 +82,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..a<int>(29, 'backgroundImageId', $pb.PbFieldType.O3)
     ..a<int>(30, 'foregroundFlatId', $pb.PbFieldType.O3)
     ..a<int>(31, 'backgroundFlatId', $pb.PbFieldType.O3)
+    ..a<int>(32, 'sorting', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
@@ -326,6 +327,14 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
 
   bool hasBackgroundFlatId() => $_has(28);
   void clearBackgroundFlatId() => clearField(31);
+
+  int get sorting => $_get(29, 0);
+  set sorting(int v) {
+    $_setSignedInt32(29, v);
+  }
+
+  bool hasSorting() => $_has(29);
+  void clearSorting() => clearField(32);
 }
 
 class ConfigContentFormat extends $pb.GeneratedMessage {
@@ -333,6 +342,7 @@ class ConfigContentFormat extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..pPS(1, 'keywords')
     ..aOS(2, 'label')
+    ..a<int>(3, 'sorting', $pb.PbFieldType.O3)
     ..a<int>(4, 'fontAwesomeIcon', $pb.PbFieldType.O3)
     ..a<int>(6, 'foregroundColor', $pb.PbFieldType.O3)
     ..a<int>(7, 'backgroundColor', $pb.PbFieldType.O3)
@@ -375,123 +385,21 @@ class ConfigContentFormat extends $pb.GeneratedMessage {
   bool hasLabel() => $_has(1);
   void clearLabel() => clearField(2);
 
-  int get fontAwesomeIcon => $_get(2, 0);
-  set fontAwesomeIcon(int v) {
+  int get sorting => $_get(2, 0);
+  set sorting(int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasFontAwesomeIcon() => $_has(2);
-  void clearFontAwesomeIcon() => clearField(4);
+  bool hasSorting() => $_has(2);
+  void clearSorting() => clearField(3);
 
-  int get foregroundColor => $_get(3, 0);
-  set foregroundColor(int v) {
-    $_setSignedInt32(3, v);
-  }
-
-  bool hasForegroundColor() => $_has(3);
-  void clearForegroundColor() => clearField(6);
-
-  int get backgroundColor => $_get(4, 0);
-  set backgroundColor(int v) {
-    $_setSignedInt32(4, v);
-  }
-
-  bool hasBackgroundColor() => $_has(4);
-  void clearBackgroundColor() => clearField(7);
-
-  int get foregroundImageId => $_get(5, 0);
-  set foregroundImageId(int v) {
-    $_setSignedInt32(5, v);
-  }
-
-  bool hasForegroundImageId() => $_has(5);
-  void clearForegroundImageId() => clearField(8);
-
-  int get backgroundImageId => $_get(6, 0);
-  set backgroundImageId(int v) {
-    $_setSignedInt32(6, v);
-  }
-
-  bool hasBackgroundImageId() => $_has(6);
-  void clearBackgroundImageId() => clearField(9);
-
-  int get foregroundFlatId => $_get(7, 0);
-  set foregroundFlatId(int v) {
-    $_setSignedInt32(7, v);
-  }
-
-  bool hasForegroundFlatId() => $_has(7);
-  void clearForegroundFlatId() => clearField(10);
-
-  int get backgroundFlatId => $_get(8, 0);
-  set backgroundFlatId(int v) {
-    $_setSignedInt32(8, v);
-  }
-
-  bool hasBackgroundFlatId() => $_has(8);
-  void clearBackgroundFlatId() => clearField(11);
-}
-
-class ConfigCategory extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigCategory',
-      package: const $pb.PackageName('inf_common'))
-    ..pPS(1, 'keywords')
-    ..aOS(2, 'label')
-    ..a<int>(4, 'fontAwesomeIcon', $pb.PbFieldType.O3)
-    ..a<int>(5, 'parentId', $pb.PbFieldType.O3)
-    ..a<int>(6, 'foregroundColor', $pb.PbFieldType.O3)
-    ..a<int>(7, 'backgroundColor', $pb.PbFieldType.O3)
-    ..a<int>(8, 'foregroundImageId', $pb.PbFieldType.O3)
-    ..a<int>(9, 'backgroundImageId', $pb.PbFieldType.O3)
-    ..a<int>(10, 'foregroundFlatId', $pb.PbFieldType.O3)
-    ..a<int>(11, 'backgroundFlatId', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false;
-
-  ConfigCategory() : super();
-  ConfigCategory.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  ConfigCategory.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  ConfigCategory clone() => new ConfigCategory()..mergeFromMessage(this);
-  ConfigCategory copyWith(void Function(ConfigCategory) updates) =>
-      super.copyWith((message) => updates(message as ConfigCategory));
-  $pb.BuilderInfo get info_ => _i;
-  static ConfigCategory create() => new ConfigCategory();
-  static $pb.PbList<ConfigCategory> createRepeated() =>
-      new $pb.PbList<ConfigCategory>();
-  static ConfigCategory getDefault() => _defaultInstance ??= create()..freeze();
-  static ConfigCategory _defaultInstance;
-  static void $checkItem(ConfigCategory v) {
-    if (v is! ConfigCategory) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
-
-  List<String> get keywords => $_getList(0);
-
-  String get label => $_getS(1, '');
-  set label(String v) {
-    $_setString(1, v);
-  }
-
-  bool hasLabel() => $_has(1);
-  void clearLabel() => clearField(2);
-
-  int get fontAwesomeIcon => $_get(2, 0);
+  int get fontAwesomeIcon => $_get(3, 0);
   set fontAwesomeIcon(int v) {
-    $_setSignedInt32(2, v);
-  }
-
-  bool hasFontAwesomeIcon() => $_has(2);
-  void clearFontAwesomeIcon() => clearField(4);
-
-  int get parentId => $_get(3, 0);
-  set parentId(int v) {
     $_setSignedInt32(3, v);
   }
 
-  bool hasParentId() => $_has(3);
-  void clearParentId() => clearField(5);
+  bool hasFontAwesomeIcon() => $_has(3);
+  void clearFontAwesomeIcon() => clearField(4);
 
   int get foregroundColor => $_get(4, 0);
   set foregroundColor(int v) {
@@ -540,6 +448,128 @@ class ConfigCategory extends $pb.GeneratedMessage {
 
   bool hasBackgroundFlatId() => $_has(9);
   void clearBackgroundFlatId() => clearField(11);
+}
+
+class ConfigCategory extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigCategory',
+      package: const $pb.PackageName('inf_common'))
+    ..pPS(1, 'keywords')
+    ..aOS(2, 'label')
+    ..a<int>(3, 'sorting', $pb.PbFieldType.O3)
+    ..a<int>(4, 'fontAwesomeIcon', $pb.PbFieldType.O3)
+    ..a<int>(5, 'parentId', $pb.PbFieldType.O3)
+    ..a<int>(6, 'foregroundColor', $pb.PbFieldType.O3)
+    ..a<int>(7, 'backgroundColor', $pb.PbFieldType.O3)
+    ..a<int>(8, 'foregroundImageId', $pb.PbFieldType.O3)
+    ..a<int>(9, 'backgroundImageId', $pb.PbFieldType.O3)
+    ..a<int>(10, 'foregroundFlatId', $pb.PbFieldType.O3)
+    ..a<int>(11, 'backgroundFlatId', $pb.PbFieldType.O3)
+    ..p<int>(12, 'childIds', $pb.PbFieldType.P3)
+    ..hasRequiredFields = false;
+
+  ConfigCategory() : super();
+  ConfigCategory.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ConfigCategory.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  ConfigCategory clone() => new ConfigCategory()..mergeFromMessage(this);
+  ConfigCategory copyWith(void Function(ConfigCategory) updates) =>
+      super.copyWith((message) => updates(message as ConfigCategory));
+  $pb.BuilderInfo get info_ => _i;
+  static ConfigCategory create() => new ConfigCategory();
+  static $pb.PbList<ConfigCategory> createRepeated() =>
+      new $pb.PbList<ConfigCategory>();
+  static ConfigCategory getDefault() => _defaultInstance ??= create()..freeze();
+  static ConfigCategory _defaultInstance;
+  static void $checkItem(ConfigCategory v) {
+    if (v is! ConfigCategory) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  List<String> get keywords => $_getList(0);
+
+  String get label => $_getS(1, '');
+  set label(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasLabel() => $_has(1);
+  void clearLabel() => clearField(2);
+
+  int get sorting => $_get(2, 0);
+  set sorting(int v) {
+    $_setSignedInt32(2, v);
+  }
+
+  bool hasSorting() => $_has(2);
+  void clearSorting() => clearField(3);
+
+  int get fontAwesomeIcon => $_get(3, 0);
+  set fontAwesomeIcon(int v) {
+    $_setSignedInt32(3, v);
+  }
+
+  bool hasFontAwesomeIcon() => $_has(3);
+  void clearFontAwesomeIcon() => clearField(4);
+
+  int get parentId => $_get(4, 0);
+  set parentId(int v) {
+    $_setSignedInt32(4, v);
+  }
+
+  bool hasParentId() => $_has(4);
+  void clearParentId() => clearField(5);
+
+  int get foregroundColor => $_get(5, 0);
+  set foregroundColor(int v) {
+    $_setSignedInt32(5, v);
+  }
+
+  bool hasForegroundColor() => $_has(5);
+  void clearForegroundColor() => clearField(6);
+
+  int get backgroundColor => $_get(6, 0);
+  set backgroundColor(int v) {
+    $_setSignedInt32(6, v);
+  }
+
+  bool hasBackgroundColor() => $_has(6);
+  void clearBackgroundColor() => clearField(7);
+
+  int get foregroundImageId => $_get(7, 0);
+  set foregroundImageId(int v) {
+    $_setSignedInt32(7, v);
+  }
+
+  bool hasForegroundImageId() => $_has(7);
+  void clearForegroundImageId() => clearField(8);
+
+  int get backgroundImageId => $_get(8, 0);
+  set backgroundImageId(int v) {
+    $_setSignedInt32(8, v);
+  }
+
+  bool hasBackgroundImageId() => $_has(8);
+  void clearBackgroundImageId() => clearField(9);
+
+  int get foregroundFlatId => $_get(9, 0);
+  set foregroundFlatId(int v) {
+    $_setSignedInt32(9, v);
+  }
+
+  bool hasForegroundFlatId() => $_has(9);
+  void clearForegroundFlatId() => clearField(10);
+
+  int get backgroundFlatId => $_get(10, 0);
+  set backgroundFlatId(int v) {
+    $_setSignedInt32(10, v);
+  }
+
+  bool hasBackgroundFlatId() => $_has(10);
+  void clearBackgroundFlatId() => clearField(11);
+
+  List<int> get childIds => $_getList(11);
 }
 
 class ConfigServices extends $pb.GeneratedMessage {
