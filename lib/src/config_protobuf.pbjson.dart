@@ -11,20 +11,6 @@ const ConfigSubCategories$json = const {
   ],
 };
 
-const ConfigCategories$json = const {
-  '1': 'ConfigCategories',
-  '2': const [
-    const {
-      '1': 'sub',
-      '3': 1,
-      '4': 3,
-      '5': 11,
-      '6': '.inf_common.ConfigSubCategories',
-      '10': 'sub'
-    },
-  ],
-};
-
 const ConfigOAuthProvider$json = const {
   '1': 'ConfigOAuthProvider',
   '2': const [
@@ -46,13 +32,55 @@ const ConfigOAuthProvider$json = const {
     },
     const {'1': 'label', '3': 3, '4': 1, '5': 9, '10': 'label'},
     const {
+      '1': 'foreground_color',
+      '3': 26,
+      '4': 1,
+      '5': 5,
+      '10': 'foregroundColor'
+    },
+    const {
+      '1': 'background_color',
+      '3': 27,
+      '4': 1,
+      '5': 5,
+      '10': 'backgroundColor'
+    },
+    const {
+      '1': 'foreground_image_id',
+      '3': 28,
+      '4': 1,
+      '5': 5,
+      '10': 'foregroundImageId'
+    },
+    const {
+      '1': 'background_image_id',
+      '3': 29,
+      '4': 1,
+      '5': 5,
+      '10': 'backgroundImageId'
+    },
+    const {
+      '1': 'foreground_flat_id',
+      '3': 30,
+      '4': 1,
+      '5': 5,
+      '10': 'foregroundFlatId'
+    },
+    const {
+      '1': 'background_flat_id',
+      '3': 31,
+      '4': 1,
+      '5': 5,
+      '10': 'backgroundFlatId'
+    },
+    const {
       '1': 'font_awesome_brand',
       '3': 14,
       '4': 1,
       '5': 5,
       '10': 'fontAwesomeBrand'
     },
-    const {'1': 'icon_id', '3': 24, '4': 1, '5': 5, '10': 'iconId'},
+    const {'1': 'keywords', '3': 25, '4': 3, '5': 9, '10': 'keywords'},
     const {
       '1': 'mechanism',
       '3': 15,
@@ -127,17 +155,118 @@ const ConfigOAuthProvider$json = const {
   ],
 };
 
-const ConfigOAuthProviders$json = const {
-  '1': 'ConfigOAuthProviders',
+const ConfigContentFormat$json = const {
+  '1': 'ConfigContentFormat',
   '2': const [
+    const {'1': 'label', '3': 2, '4': 1, '5': 9, '10': 'label'},
     const {
-      '1': 'all',
-      '3': 1,
-      '4': 3,
-      '5': 11,
-      '6': '.inf_common.ConfigOAuthProvider',
-      '10': 'all'
+      '1': 'foreground_color',
+      '3': 6,
+      '4': 1,
+      '5': 5,
+      '10': 'foregroundColor'
     },
+    const {
+      '1': 'background_color',
+      '3': 7,
+      '4': 1,
+      '5': 5,
+      '10': 'backgroundColor'
+    },
+    const {
+      '1': 'foreground_image_id',
+      '3': 8,
+      '4': 1,
+      '5': 5,
+      '10': 'foregroundImageId'
+    },
+    const {
+      '1': 'background_image_id',
+      '3': 9,
+      '4': 1,
+      '5': 5,
+      '10': 'backgroundImageId'
+    },
+    const {
+      '1': 'foreground_flat_id',
+      '3': 10,
+      '4': 1,
+      '5': 5,
+      '10': 'foregroundFlatId'
+    },
+    const {
+      '1': 'background_flat_id',
+      '3': 11,
+      '4': 1,
+      '5': 5,
+      '10': 'backgroundFlatId'
+    },
+    const {
+      '1': 'font_awesome_icon',
+      '3': 4,
+      '4': 1,
+      '5': 5,
+      '10': 'fontAwesomeIcon'
+    },
+    const {'1': 'keywords', '3': 1, '4': 3, '5': 9, '10': 'keywords'},
+  ],
+};
+
+const ConfigCategory$json = const {
+  '1': 'ConfigCategory',
+  '2': const [
+    const {'1': 'parent_id', '3': 5, '4': 1, '5': 5, '10': 'parentId'},
+    const {'1': 'label', '3': 2, '4': 1, '5': 9, '10': 'label'},
+    const {
+      '1': 'foreground_color',
+      '3': 6,
+      '4': 1,
+      '5': 5,
+      '10': 'foregroundColor'
+    },
+    const {
+      '1': 'background_color',
+      '3': 7,
+      '4': 1,
+      '5': 5,
+      '10': 'backgroundColor'
+    },
+    const {
+      '1': 'foreground_image_id',
+      '3': 8,
+      '4': 1,
+      '5': 5,
+      '10': 'foregroundImageId'
+    },
+    const {
+      '1': 'background_image_id',
+      '3': 9,
+      '4': 1,
+      '5': 5,
+      '10': 'backgroundImageId'
+    },
+    const {
+      '1': 'foreground_flat_id',
+      '3': 10,
+      '4': 1,
+      '5': 5,
+      '10': 'foregroundFlatId'
+    },
+    const {
+      '1': 'background_flat_id',
+      '3': 11,
+      '4': 1,
+      '5': 5,
+      '10': 'backgroundFlatId'
+    },
+    const {
+      '1': 'font_awesome_icon',
+      '3': 4,
+      '4': 1,
+      '5': 5,
+      '10': 'fontAwesomeIcon'
+    },
+    const {'1': 'keywords', '3': 1, '4': 3, '5': 9, '10': 'keywords'},
   ],
 };
 
@@ -318,22 +447,6 @@ const ConfigData$json = const {
     const {'1': 'region', '3': 8, '4': 1, '5': 9, '10': 'region'},
     const {'1': 'language', '3': 9, '4': 1, '5': 9, '10': 'language'},
     const {
-      '1': 'categories',
-      '3': 2,
-      '4': 1,
-      '5': 11,
-      '6': '.inf_common.ConfigCategories',
-      '10': 'categories'
-    },
-    const {
-      '1': 'oauth_providers',
-      '3': 3,
-      '4': 1,
-      '5': 11,
-      '6': '.inf_common.ConfigOAuthProviders',
-      '10': 'oauthProviders'
-    },
-    const {
       '1': 'services',
       '3': 6,
       '4': 1,
@@ -348,6 +461,30 @@ const ConfigData$json = const {
       '5': 11,
       '6': '.inf_common.ConfigContent',
       '10': 'content'
+    },
+    const {
+      '1': 'oauth_providers',
+      '3': 11,
+      '4': 3,
+      '5': 11,
+      '6': '.inf_common.ConfigOAuthProvider',
+      '10': 'oauthProviders'
+    },
+    const {
+      '1': 'content_formats',
+      '3': 12,
+      '4': 3,
+      '5': 11,
+      '6': '.inf_common.ConfigContentFormat',
+      '10': 'contentFormats'
+    },
+    const {
+      '1': 'categories',
+      '3': 13,
+      '4': 3,
+      '5': 11,
+      '6': '.inf_common.ConfigCategory',
+      '10': 'categories'
     },
   ],
 };
