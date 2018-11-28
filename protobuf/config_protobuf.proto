@@ -77,7 +77,7 @@ message ConfigOAuthProviders {
   
 }
 
-message ConfigServices {
+message ConfigServices { // 37
   // INF
   string environment = 24;
   string end_point = 8;
@@ -127,6 +127,10 @@ message ConfigServices {
   string firebaseSenderId = 26;
   string firebaseLegacyApi = 27;
   string firebaseLegacyServerKey = 28;
+  
+  // Elasticsearch
+  string elasticsearch_api = 36;
+  string elasticsearch_basic_auth = 37;
   
 }
 
