@@ -201,9 +201,9 @@ message ConfigData {
   ConfigServices services = 6;
   ConfigContent content = 7;
   
-  repeated ConfigOAuthProvider oauth_providers = 8;
-  repeated ConfigContentFormat content_formats = 9;
-  repeated ConfigCategory categories = 10;
+  repeated ConfigOAuthProvider oauth_providers = 11;
+  repeated ConfigContentFormat content_formats = 12;
+  repeated ConfigCategory categories = 13;
   
 }
 
