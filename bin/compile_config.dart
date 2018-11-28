@@ -260,6 +260,11 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'firebaseLegacyServerKey'))
         res.firebaseLegacyServerKey =
             cfg.get(section, 'firebaseLegacyServerKey');
+
+      if (cfg.hasOption(section, 'elasticsearchApi'))
+        res.elasticsearchApi = cfg.get(section, 'elasticsearchApi');
+      if (cfg.hasOption(section, 'elasticsearchBasicAuth'))
+        res.elasticsearchBasicAuth = cfg.get(section, 'elasticsearchBasicAuth');
     }
   }
 
