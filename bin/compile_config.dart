@@ -17,162 +17,6 @@ import 'package:inf_common/inf_common.dart';
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Future<ConfigCategories> generateConfigCategories(bool server) async {
-  List<String> lines = await new File("config/categories.ini").readAsLines();
-  ConfigCategories categories = new ConfigCategories();
-  ini.Config iniCategories = new ini.Config.fromStrings(lines);
-
-  int nbCategories = 0;
-  var categoryMap = new Map<int, String>();
-  for (String section in iniCategories.sections()) {
-    print(section);
-    int id = int.parse(iniCategories.get(section, "id"));
-    if (id > nbCategories) nbCategories = id;
-    categoryMap[id] = section;
-  }
-  ++nbCategories;
-
-  for (int main = 0; main < nbCategories; ++main) {
-    ConfigSubCategories subCategories = new ConfigSubCategories();
-    if (!categoryMap.containsKey(main)) {
-      // subCategories.label.add("");
-      categories.sub.add(subCategories);
-      continue;
-    }
-
-    int nbSubCategories = 0;
-    String section = categoryMap[main];
-    for (var item in iniCategories.options(section)) {
-      if (item != "id") {
-        int id = int.parse(item);
-        if (id > nbSubCategories) nbSubCategories = id;
-      }
-    }
-    ++nbSubCategories;
-
-    subCategories.labels.add(section);
-
-    for (int sub = 1; sub < nbSubCategories; ++sub) {
-      if (iniCategories.hasOption(section, sub.toString())) {
-        subCategories.labels.add(iniCategories.get(section, sub.toString()));
-      } else {
-        subCategories.labels.add("");
-      }
-    }
-
-    categories.sub.add(subCategories);
-  }
-
-  return categories;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-Future<ConfigOAuthProviders> generateConfigOAuthProviders(bool server) async {
-  List<String> lines =
-      await new File("config/oauth_providers.ini").readAsLines();
-  ConfigOAuthProviders res = new ConfigOAuthProviders();
-  ini.Config cfg = new ini.Config.fromStrings(lines);
-
-  int nbEntries = 0;
-  var entryMap = new Map<int, String>();
-  for (String section in cfg.sections()) {
-    print(section);
-    int id = int.parse(cfg.get(section, "id"));
-    if (id > nbEntries) nbEntries = id;
-    entryMap[id] = section;
-  }
-  ++nbEntries;
-
-  for (int i = 0; i < nbEntries; ++i) {
-    ConfigOAuthProvider entry = new ConfigOAuthProvider();
-    if (!entryMap.containsKey(i)) {
-      res.all.add(entry);
-      continue;
-    }
-
-    String section = entryMap[i];
-    if (cfg.hasOption(section, 'visible'))
-      entry.visible = (int.parse(cfg.get(section, 'visible')) == 1);
-    if (cfg.hasOption(section, 'canConnect'))
-      entry.canConnect = (int.parse(cfg.get(section, 'canConnect')) == 1);
-    if (cfg.hasOption(section, 'canAlwaysAuthenticate'))
-      entry.canAlwaysAuthenticate =
-          (int.parse(cfg.get(section, 'canAlwaysAuthenticate')) == 1);
-    if (cfg.hasOption(section, 'showInProfile'))
-      entry.showInProfile = (int.parse(cfg.get(section, 'showInProfile')) == 1);
-    entry.label = section;
-    if (cfg.hasOption(section, 'fontAwesomeBrand'))
-      entry.fontAwesomeBrand = int.parse(cfg.get(section, 'fontAwesomeBrand'));
-    if (cfg.hasOption(section, 'mechanism'))
-      entry.mechanism =
-          OAuthMechanism.valueOf(int.parse(cfg.get(section, 'mechanism')));
-    if (server) {
-      switch (entry.mechanism) {
-        case OAuthMechanism.oauth1:
-          {
-            if (cfg.hasOption(section, 'host'))
-              entry.host = cfg.get(section, 'host');
-            if (cfg.hasOption(section, 'callbackUrl'))
-              entry.callbackUrl = cfg.get(section, 'callbackUrl');
-            if (cfg.hasOption(section, 'requestTokenUrl'))
-              entry.requestTokenUrl = cfg.get(section, 'requestTokenUrl');
-            if (cfg.hasOption(section, 'authenticateUrl'))
-              entry.authenticateUrl = cfg.get(section, 'authenticateUrl');
-            if (cfg.hasOption(section, 'accessTokenUrl'))
-              entry.accessTokenUrl = cfg.get(section, 'accessTokenUrl');
-            if (cfg.hasOption(section, 'consumerKey'))
-              entry.consumerKey = cfg.get(section, 'consumerKey');
-            if (cfg.hasOption(section, 'consumerSecret'))
-              entry.consumerSecret = cfg.get(section, 'consumerSecret');
-            if (cfg.hasOption(section, 'consumerKeyExposed'))
-              entry.consumerKeyExposed =
-                  (int.parse(cfg.get(section, 'consumerKeyExposed')) == 1);
-            if (cfg.hasOption(section, 'consumerSecretExposed'))
-              entry.consumerSecretExposed =
-                  (int.parse(cfg.get(section, 'consumerSecretExposed')) == 1);
-            break;
-          }
-        case OAuthMechanism.oauth2:
-          {
-            if (cfg.hasOption(section, 'host'))
-              entry.host = cfg.get(section, 'host');
-            if (cfg.hasOption(section, 'callbackUrl'))
-              entry.callbackUrl = cfg.get(section, 'callbackUrl');
-            if (cfg.hasOption(section, 'accessTokenUrl'))
-              entry.accessTokenUrl = cfg.get(section, 'accessTokenUrl');
-            if (cfg.hasOption(section, 'authUrl'))
-              entry.authUrl = cfg.get(section, 'authUrl');
-            if (cfg.hasOption(section, 'authQuery'))
-              entry.authQuery = cfg.get(section, 'authQuery');
-            if (cfg.hasOption(section, 'clientId'))
-              entry.clientId = cfg.get(section, 'clientId');
-            if (cfg.hasOption(section, 'clientSecret'))
-              entry.clientSecret = cfg.get(section, 'clientSecret');
-            if (cfg.hasOption(section, 'clientIdExposed'))
-              entry.clientIdExposed =
-                  (int.parse(cfg.get(section, 'clientIdExposed')) == 1);
-            break;
-          }
-      }
-    }
-    if (cfg.hasOption(section, 'whitelistHosts')) {
-      String whitelistHosts = cfg.get(section, 'whitelistHosts');
-      entry.whitelistHosts.addAll(whitelistHosts.split(','));
-    }
-
-    res.all.add(entry);
-  }
-
-  return res;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
 Future<ConfigServices> generateConfigServices(bool server) async {
   List<String> lines = await new File("config/services.ini").readAsLines();
   ConfigServices res = new ConfigServices();
@@ -310,6 +154,154 @@ Future<ConfigContent> generateConfigContent(bool server) async {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(bool server) async {
+  List<String> lines =
+      await new File("config/oauth_providers.ini").readAsLines();
+  List<ConfigOAuthProvider> res = new List<ConfigOAuthProvider>();
+  ini.Config cfg = new ini.Config.fromStrings(lines);
+
+  int nbEntries = 0;
+  var entryMap = new Map<int, String>();
+  for (String section in cfg.sections()) {
+    int id = int.parse(cfg.get(section, "id"));
+    print("$id: $section");
+    if (id > nbEntries) nbEntries = id;
+    entryMap[id] = section;
+  }
+  ++nbEntries;
+
+  for (int i = 0; i < nbEntries; ++i) {
+    ConfigOAuthProvider entry = new ConfigOAuthProvider();
+    if (!entryMap.containsKey(i)) {
+      res.add(entry);
+      continue;
+    }
+
+    String section = entryMap[i];
+    if (cfg.hasOption(section, 'visible'))
+      entry.visible = (int.parse(cfg.get(section, 'visible')) == 1);
+    if (cfg.hasOption(section, 'canConnect'))
+      entry.canConnect = (int.parse(cfg.get(section, 'canConnect')) == 1);
+    if (cfg.hasOption(section, 'canAlwaysAuthenticate'))
+      entry.canAlwaysAuthenticate =
+          (int.parse(cfg.get(section, 'canAlwaysAuthenticate')) == 1);
+    if (cfg.hasOption(section, 'showInProfile'))
+      entry.showInProfile = (int.parse(cfg.get(section, 'showInProfile')) == 1);
+    entry.label = section;
+    if (cfg.hasOption(section, 'fontAwesomeBrand'))
+      entry.fontAwesomeBrand = int.parse(cfg.get(section, 'fontAwesomeBrand'));
+    if (cfg.hasOption(section, 'mechanism'))
+      entry.mechanism =
+          OAuthMechanism.valueOf(int.parse(cfg.get(section, 'mechanism')));
+    if (server) {
+      switch (entry.mechanism) {
+        case OAuthMechanism.oauth1:
+          {
+            if (cfg.hasOption(section, 'host'))
+              entry.host = cfg.get(section, 'host');
+            if (cfg.hasOption(section, 'callbackUrl'))
+              entry.callbackUrl = cfg.get(section, 'callbackUrl');
+            if (cfg.hasOption(section, 'requestTokenUrl'))
+              entry.requestTokenUrl = cfg.get(section, 'requestTokenUrl');
+            if (cfg.hasOption(section, 'authenticateUrl'))
+              entry.authenticateUrl = cfg.get(section, 'authenticateUrl');
+            if (cfg.hasOption(section, 'accessTokenUrl'))
+              entry.accessTokenUrl = cfg.get(section, 'accessTokenUrl');
+            if (cfg.hasOption(section, 'consumerKey'))
+              entry.consumerKey = cfg.get(section, 'consumerKey');
+            if (cfg.hasOption(section, 'consumerSecret'))
+              entry.consumerSecret = cfg.get(section, 'consumerSecret');
+            if (cfg.hasOption(section, 'consumerKeyExposed'))
+              entry.consumerKeyExposed =
+                  (int.parse(cfg.get(section, 'consumerKeyExposed')) == 1);
+            if (cfg.hasOption(section, 'consumerSecretExposed'))
+              entry.consumerSecretExposed =
+                  (int.parse(cfg.get(section, 'consumerSecretExposed')) == 1);
+            break;
+          }
+        case OAuthMechanism.oauth2:
+          {
+            if (cfg.hasOption(section, 'host'))
+              entry.host = cfg.get(section, 'host');
+            if (cfg.hasOption(section, 'callbackUrl'))
+              entry.callbackUrl = cfg.get(section, 'callbackUrl');
+            if (cfg.hasOption(section, 'accessTokenUrl'))
+              entry.accessTokenUrl = cfg.get(section, 'accessTokenUrl');
+            if (cfg.hasOption(section, 'authUrl'))
+              entry.authUrl = cfg.get(section, 'authUrl');
+            if (cfg.hasOption(section, 'authQuery'))
+              entry.authQuery = cfg.get(section, 'authQuery');
+            if (cfg.hasOption(section, 'clientId'))
+              entry.clientId = cfg.get(section, 'clientId');
+            if (cfg.hasOption(section, 'clientSecret'))
+              entry.clientSecret = cfg.get(section, 'clientSecret');
+            if (cfg.hasOption(section, 'clientIdExposed'))
+              entry.clientIdExposed =
+                  (int.parse(cfg.get(section, 'clientIdExposed')) == 1);
+            break;
+          }
+      }
+    }
+    if (cfg.hasOption(section, 'whitelistHosts')) {
+      String whitelistHosts = cfg.get(section, 'whitelistHosts');
+      entry.whitelistHosts.addAll(whitelistHosts.split(','));
+    }
+
+    res.add(entry);
+  }
+
+  return res;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+Future<List<ConfigCategory>> generateConfigCategories(bool server) async {
+  List<String> lines = await new File("config/categories.ini").readAsLines();
+  List<ConfigCategory> categories = new List<ConfigCategory>();
+  ini.Config cfg = new ini.Config.fromStrings(lines);
+
+  int nbEntries = 0;
+  var categoryMap = new Map<int, String>();
+  for (String section in cfg.sections()) {
+    int id = int.parse(cfg.get(section, "id"));
+    print("$id: $section");
+    if (id > nbEntries) nbEntries = id;
+    categoryMap[id] = section;
+  }
+  ++nbEntries;
+
+  for (int id = 0; id < nbEntries; ++id) {
+    ConfigCategory entry = new ConfigCategory();
+    if (!categoryMap.containsKey(id)) {
+      categories.add(entry);
+      continue;
+    }
+    String section = categoryMap[id];
+    if (cfg.hasOption(section, "parentId")) {
+      entry.parentId = int.parse(cfg.get(section, 'parentId'));
+    }
+    entry.label = section;
+    if (server) {
+      if (cfg.hasOption(section, 'keywords')) {
+        String keywords = cfg.get(section, 'keywords');
+        entry.keywords.addAll(keywords.split(','));
+      }
+    } else {
+      // icon etc
+    }
+
+    categories.add(entry);
+  }
+
+  return categories;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 Future<void> generateConfig(bool server) async {
   ConfigData config = new ConfigData();
   config.clientVersion = 3;
@@ -317,10 +309,10 @@ Future<void> generateConfig(bool server) async {
       new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch);
   config.region = "US";
   config.language = "en";
-  config.categories = await generateConfigCategories(server);
-  config.oauthProviders = await generateConfigOAuthProviders(server);
   config.services = await generateConfigServices(server);
   config.content = await generateConfigContent(server);
+  config.oauthProviders.addAll(await generateConfigOAuthProviders(server));
+  config.categories.addAll(await generateConfigCategories(server));
   print(config);
   Uint8List configBuffer = config.writeToBuffer();
   new File(server ? "config/config_server.bin" : "config/config.bin")
