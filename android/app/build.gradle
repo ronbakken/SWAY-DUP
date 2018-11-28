@@ -74,6 +74,11 @@ android {
 			project.flutter.target = "lib/main_prod.dart"
 		}
 	}
+
+	compileOptions {
+		sourceCompatibility 1.8
+		targetCompatibility 1.8
+	}
 }
 
 flutter {

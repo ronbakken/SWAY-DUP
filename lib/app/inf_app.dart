@@ -22,6 +22,8 @@ class InfApp extends StatelessWidget {
     if (defaultTargetPlatform == TargetPlatform.android) {
       final mediaQuery = MediaQueryData.fromWindow(ui.window);
       final bottomInset = mediaQuery.viewInsets.bottom;
+      // Nexus 5X = 2.625  text = 1.0
+      // iPhone XR = 2.0 text = 1.0
       return MediaQuery(
         data: mediaQuery.copyWith(
           padding: mediaQuery.padding.copyWith(
@@ -30,6 +32,8 @@ class InfApp extends StatelessWidget {
           viewInsets: mediaQuery.viewInsets.copyWith(
             bottom: (bottomInset < 64.0 ? 0.0 : bottomInset),
           ),
+          //textScaleFactor: mediaQuery.devicePixelRatio
+          //devicePixelRatio: 2.0,
         ),
         child: child,
       );

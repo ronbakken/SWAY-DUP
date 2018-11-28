@@ -72,7 +72,7 @@ class MainNavigationDrawer extends StatelessWidget {
           ),
           text: 'Allow direct offers',
           trailing: InfSwitch(
-            
+
             value: currentUser.acceptsDirectOffers,
             onChanged: (val) {
               userManager.updateUserCommand(
@@ -137,78 +137,75 @@ class MainNavigationDrawer extends StatelessWidget {
     return Material(
       color: AppTheme.listViewAndMenuBackground,
       elevation: 8.0,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 12.0),
-        child: StreamBuilder<User>(
-          initialData: userManager.currentUser,
-          stream: userManager.currentUserUpdates,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return SizedBox();
-            }
-            var currentUser = snapshot.data;
-            return ListView(
-              primary: false,
-              padding: EdgeInsets.zero,
-              children: [
-                SizedBox(
-                  height: mediaQuery.size.height * 0.2 + mediaQuery.padding.top,
-                  child: ClipPath(
-                    clipper: _ProfilePictureClipper(),
-                    child: isLoggedIn
-                        ? InfImage(
-                            fit: BoxFit.fitWidth,
-                            lowRes: currentUser.avatarLowRes,
-                            imageUrl: currentUser.avatarUrl,
-                          )
-                        : SizedBox(),
-                  ),
+      child: StreamBuilder<User>(
+        initialData: userManager.currentUser,
+        stream: userManager.currentUserUpdates,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return SizedBox();
+          }
+          var currentUser = snapshot.data;
+          return ListView(
+            primary: false,
+            padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),
+            children: [
+              SizedBox(
+                height: mediaQuery.size.height * 0.2 + mediaQuery.padding.top,
+                child: ClipPath(
+                  clipper: _ProfilePictureClipper(),
+                  child: isLoggedIn
+                      ? InfImage(
+                          fit: BoxFit.fitWidth,
+                          lowRes: currentUser.avatarLowRes,
+                          imageUrl: currentUser.avatarUrl,
+                        )
+                      : SizedBox(),
                 ),
-                SizedBox(
-                  height: 16.0,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 24),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadiusDirectional.only(
-                      topStart: Radius.circular(16.0),
-                      bottomStart: Radius.circular(16.0),
-                    ),
-                    color: AppTheme.menuUserNameBackground,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 24),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(16.0),
+                    bottomStart: Radius.circular(16.0),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16.0, right: 8.0, top: 8.0, bottom: 8.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            isLoggedIn ? currentUser.name : 'Please sign up',
-                            style: const TextStyle(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w600,
-                            ),
+                  color: AppTheme.menuUserNameBackground,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 8.0, top: 8.0, bottom: 8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          isLoggedIn ? currentUser.name : 'Please sign up',
+                          style: const TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        InfAssetImage(
-                          AppIcons.edit,
-                          width: 24,
-                          height: 24,
-                        )
-                      ],
-                    ),
+                      ),
+                      InfAssetImage(
+                        AppIcons.edit,
+                        width: 24,
+                        height: 24,
+                      )
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: buildColumnEntries(currentUser),
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: buildColumnEntries(currentUser),
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
