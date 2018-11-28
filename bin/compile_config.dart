@@ -283,6 +283,9 @@ Future<List<ConfigCategory>> generateConfigCategories(bool server) async {
       entry.parentId = int.parse(cfg.get(section, 'parentId'));
     }
     entry.label = section;
+    if (cfg.hasOption(section, "sorting")) {
+      entry.sorting = int.parse(cfg.get(section, 'sorting'));
+    }
     if (server) {
       if (cfg.hasOption(section, 'keywords')) {
         String keywords = cfg.get(section, 'keywords');
@@ -293,6 +296,25 @@ Future<List<ConfigCategory>> generateConfigCategories(bool server) async {
     }
 
     categories.add(entry);
+  }
+
+  // Denormalize data for fast use
+  for (int id = 0; id < nbEntries; ++id) {
+    if (!categoryMap.containsKey(id)) {
+      continue;
+    }
+    categories[categories[id].parentId].childIds.add(id);
+  }
+
+  // Sort
+  for (int id = 0; id < nbEntries; ++id) {
+    categories[id].childIds.sort((a, b) {
+      if (categories[a].sorting != categories[b].sorting) {
+        return categories[a].sorting.compareTo(categories[b].sorting);
+      } else {
+        return a.compareTo(b);
+      }
+    });
   }
 
   return categories;
