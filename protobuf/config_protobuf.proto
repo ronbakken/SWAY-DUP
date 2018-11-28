@@ -15,7 +15,7 @@ message ConfigSubCategories {
   repeated string labels = 1;
 }
 
-message ConfigOAuthProvider { // 25
+message ConfigOAuthProvider { // 32
   /// Whether the OAuth provider is visible in the UI at all
   bool visible = 1;
   
@@ -30,6 +30,7 @@ message ConfigOAuthProvider { // 25
   
   /// Visual name
   string label = 3; // Display name
+  int32 sorting = 32;
   
   /// Color references
   int32 foreground_color = 26;
@@ -83,6 +84,7 @@ message ConfigOAuthProvider { // 25
 message ConfigContentFormat {
   /// Visual specification
   string label = 2; // Display name
+  int32 sorting = 3;
   
   /// Color references
   int32 foreground_color = 6;
@@ -103,6 +105,8 @@ message ConfigContentFormat {
 
 message ConfigCategory {
   int32 parent_id = 5;
+  int32 sorting = 3;
+  repeated int32 child_ids = 12; // (Denormalized) For faster lookup and listing
   
   /// Visual specification
   string label = 2; // Display name
