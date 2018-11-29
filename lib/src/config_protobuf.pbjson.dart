@@ -303,6 +303,90 @@ const ConfigServices$json = const {
       '10': 'connectionFailedUrl'
     },
     const {'1': 'salt', '3': 35, '4': 1, '5': 12, '10': 'salt'},
+    const {'1': 'spaces_region', '3': 4, '4': 1, '5': 9, '10': 'spacesRegion'},
+    const {'1': 'spaces_key', '3': 5, '4': 1, '5': 9, '10': 'spacesKey'},
+    const {'1': 'spaces_secret', '3': 6, '4': 1, '5': 9, '10': 'spacesSecret'},
+    const {'1': 'spaces_bucket', '3': 7, '4': 1, '5': 9, '10': 'spacesBucket'},
+    const {'1': 'mariadb_host', '3': 14, '4': 1, '5': 9, '10': 'mariadbHost'},
+    const {'1': 'mariadb_port', '3': 15, '4': 1, '5': 5, '10': 'mariadbPort'},
+    const {'1': 'mariadb_user', '3': 16, '4': 1, '5': 9, '10': 'mariadbUser'},
+    const {
+      '1': 'mariadb_password',
+      '3': 17,
+      '4': 1,
+      '5': 9,
+      '10': 'mariadbPassword'
+    },
+    const {
+      '1': 'mariadb_database',
+      '3': 18,
+      '4': 1,
+      '5': 9,
+      '10': 'mariadbDatabase'
+    },
+    const {
+      '1': 'elasticsearch_api',
+      '3': 36,
+      '4': 1,
+      '5': 9,
+      '10': 'elasticsearchApi'
+    },
+    const {
+      '1': 'elasticsearch_basic_auth',
+      '3': 37,
+      '4': 1,
+      '5': 9,
+      '10': 'elasticsearchBasicAuth'
+    },
+    const {
+      '1': 'one_signal_app_id',
+      '3': 38,
+      '4': 1,
+      '5': 9,
+      '10': 'oneSignalAppId'
+    },
+    const {
+      '1': 'one_signal_api_key',
+      '3': 39,
+      '4': 1,
+      '5': 9,
+      '10': 'oneSignalApiKey'
+    },
+    const {
+      '1': 'one_signal_api',
+      '3': 40,
+      '4': 1,
+      '5': 9,
+      '10': 'oneSignalApi'
+    },
+    const {
+      '1': 'firebaseServerKey',
+      '3': 25,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseServerKey'
+    },
+    const {
+      '1': 'firebaseSenderId',
+      '3': 26,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseSenderId'
+    },
+    const {
+      '1': 'firebaseLegacyApi',
+      '3': 27,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseLegacyApi'
+    },
+    const {
+      '1': 'firebaseLegacyServerKey',
+      '3': 28,
+      '4': 1,
+      '5': 9,
+      '10': 'firebaseLegacyServerKey'
+    },
     const {'1': 'mapboxApi', '3': 1, '4': 1, '5': 9, '10': 'mapboxApi'},
     const {
       '1': 'mapboxUrlTemplateDark',
@@ -319,10 +403,6 @@ const ConfigServices$json = const {
       '10': 'mapboxUrlTemplateLight'
     },
     const {'1': 'mapboxToken', '3': 3, '4': 1, '5': 9, '10': 'mapboxToken'},
-    const {'1': 'spacesRegion', '3': 4, '4': 1, '5': 9, '10': 'spacesRegion'},
-    const {'1': 'spacesKey', '3': 5, '4': 1, '5': 9, '10': 'spacesKey'},
-    const {'1': 'spacesSecret', '3': 6, '4': 1, '5': 9, '10': 'spacesSecret'},
-    const {'1': 'spacesBucket', '3': 7, '4': 1, '5': 9, '10': 'spacesBucket'},
     const {
       '1': 'cloudinaryUrl',
       '3': 19,
@@ -360,67 +440,8 @@ const ConfigServices$json = const {
     },
     const {'1': 'ipstackApi', '3': 13, '4': 1, '5': 9, '10': 'ipstackApi'},
     const {'1': 'ipstackKey', '3': 12, '4': 1, '5': 9, '10': 'ipstackKey'},
-    const {'1': 'mariadbHost', '3': 14, '4': 1, '5': 9, '10': 'mariadbHost'},
-    const {'1': 'mariadbPort', '3': 15, '4': 1, '5': 5, '10': 'mariadbPort'},
-    const {'1': 'mariadbUser', '3': 16, '4': 1, '5': 9, '10': 'mariadbUser'},
-    const {
-      '1': 'mariadbPassword',
-      '3': 17,
-      '4': 1,
-      '5': 9,
-      '10': 'mariadbPassword'
-    },
-    const {
-      '1': 'mariadbDatabase',
-      '3': 18,
-      '4': 1,
-      '5': 9,
-      '10': 'mariadbDatabase'
-    },
     const {'1': 'freshdeskApi', '3': 22, '4': 1, '5': 9, '10': 'freshdeskApi'},
     const {'1': 'freshdeskKey', '3': 23, '4': 1, '5': 9, '10': 'freshdeskKey'},
-    const {
-      '1': 'firebaseServerKey',
-      '3': 25,
-      '4': 1,
-      '5': 9,
-      '10': 'firebaseServerKey'
-    },
-    const {
-      '1': 'firebaseSenderId',
-      '3': 26,
-      '4': 1,
-      '5': 9,
-      '10': 'firebaseSenderId'
-    },
-    const {
-      '1': 'firebaseLegacyApi',
-      '3': 27,
-      '4': 1,
-      '5': 9,
-      '10': 'firebaseLegacyApi'
-    },
-    const {
-      '1': 'firebaseLegacyServerKey',
-      '3': 28,
-      '4': 1,
-      '5': 9,
-      '10': 'firebaseLegacyServerKey'
-    },
-    const {
-      '1': 'elasticsearch_api',
-      '3': 36,
-      '4': 1,
-      '5': 9,
-      '10': 'elasticsearchApi'
-    },
-    const {
-      '1': 'elasticsearch_basic_auth',
-      '3': 37,
-      '4': 1,
-      '5': 9,
-      '10': 'elasticsearchBasicAuth'
-    },
   ],
 };
 

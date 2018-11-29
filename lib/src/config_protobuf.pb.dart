@@ -611,6 +611,9 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..a<List<int>>(35, 'salt', $pb.PbFieldType.OY)
     ..aOS(36, 'elasticsearchApi')
     ..aOS(37, 'elasticsearchBasicAuth')
+    ..aOS(38, 'oneSignalAppId')
+    ..aOS(39, 'oneSignalApiKey')
+    ..aOS(40, 'oneSignalApi')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -920,6 +923,30 @@ class ConfigServices extends $pb.GeneratedMessage {
 
   bool hasElasticsearchBasicAuth() => $_has(35);
   void clearElasticsearchBasicAuth() => clearField(37);
+
+  String get oneSignalAppId => $_getS(36, '');
+  set oneSignalAppId(String v) {
+    $_setString(36, v);
+  }
+
+  bool hasOneSignalAppId() => $_has(36);
+  void clearOneSignalAppId() => clearField(38);
+
+  String get oneSignalApiKey => $_getS(37, '');
+  set oneSignalApiKey(String v) {
+    $_setString(37, v);
+  }
+
+  bool hasOneSignalApiKey() => $_has(37);
+  void clearOneSignalApiKey() => clearField(39);
+
+  String get oneSignalApi => $_getS(38, '');
+  set oneSignalApi(String v) {
+    $_setString(38, v);
+  }
+
+  bool hasOneSignalApi() => $_has(38);
+  void clearOneSignalApi() => clearField(40);
 }
 
 class ConfigContent extends $pb.GeneratedMessage {
