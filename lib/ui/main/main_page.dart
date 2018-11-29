@@ -1,7 +1,9 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/add_offer/add_business_offer_page.dart';
 import 'package:inf/ui/main/activities_section.dart';
 import 'package:inf/ui/main/bottom_nav.dart';
 import 'package:inf/ui/main/browse_section.dart';
@@ -32,8 +34,7 @@ class MainPage extends PageWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends PageState<MainPage>
-    with AuthStateMixin<MainPage>, TickerProviderStateMixin {
+class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, TickerProviderStateMixin {
   AnimationController _drawerController;
   Animation<Offset> _drawerSlideAnim;
   Animation<double> _drawerAnim;
@@ -49,14 +50,11 @@ class _MainPageState extends PageState<MainPage>
   void initState() {
     super.initState();
 
-    _drawerController = AnimationController(
-        duration: const Duration(milliseconds: 450), vsync: this);
+    _drawerController = AnimationController(duration: const Duration(milliseconds: 450), vsync: this);
     // TODO: Add curves
     _drawerAnim = Tween(begin: 0.0, end: 1.0).animate(_drawerController);
-    _drawerSlideAnim = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero)
-        .animate(_drawerController);
-    _sectionController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+    _drawerSlideAnim = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero).animate(_drawerController);
+    _sectionController = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
     // TODO: Add curves
     _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
     _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
@@ -72,16 +70,13 @@ class _MainPageState extends PageState<MainPage>
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final sectionPadding =
-        EdgeInsets.only(bottom: mediaQuery.padding.bottom + kBottomNavHeight);
+    final sectionPadding = EdgeInsets.only(bottom: mediaQuery.padding.bottom + kBottomNavHeight);
     final menuWidth = mediaQuery.size.shortestSide * 0.8;
 
-    final menuIconRect = Rect.fromLTWH(
-        0.0, 0.0, kMenuIconSize, mediaQuery.padding.top + kMenuIconSize);
+    final menuIconRect = Rect.fromLTWH(0.0, 0.0, kMenuIconSize, mediaQuery.padding.top + kMenuIconSize);
     final menuIconBegin = RelativeRect.fromSize(menuIconRect, mediaQuery.size);
     final menuIconEnd = menuIconBegin.shift(Offset(menuWidth + 16.0, 0.0));
-    _menuIconAnim = RelativeRectTween(begin: menuIconBegin, end: menuIconEnd)
-        .animate(_drawerController);
+    _menuIconAnim = RelativeRectTween(begin: menuIconBegin, end: menuIconEnd).animate(_drawerController);
 
     return Material(
       child: Stack(
@@ -89,6 +84,7 @@ class _MainPageState extends PageState<MainPage>
           RepaintBoundary(
             child: Stack(
               children: [
+
                 /// BrowseSection
                 IgnorePointer(
                   ignoring: _mode != MainPageMode.browse,
@@ -127,6 +123,17 @@ class _MainPageState extends PageState<MainPage>
                   },
                 ),
               ],
+            ),
+          ),
+
+          Positioned(
+            bottom: 300.0,
+            right: 20.0,
+            child: FloatingActionButton(
+              onPressed: () { Navigator.of(context).push(AddBusinessOfferPage.route(widget.userType));},
+              backgroundColor: AppTheme.lightBlue,
+              mini: false,
+              child: Icon(Icons.add, color: Colors.white,),
             ),
           ),
 

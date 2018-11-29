@@ -25,8 +25,7 @@ class InfApiServiceMock implements InfApiService {
   Observable<BusinessOffer> getOfferByIdCached(int offerId) {
     loadBusinessOfferMockData().then((offers) {
       var offer = offers.where((offer) => offer.id == offerId).first;
-      offer.title = 'Cached Version';
-      offerSubject.add(offer);
+      offerSubject.add(offer.copyWith(title: 'Cached Version'));
     });
     loadBusinessOfferMockData().then((offers) =>
         offerSubject.add(offers.where((offer) => offer.id == offerId).first));
@@ -230,7 +229,7 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
               description: 'Tell people how good our service is',
               type: DeliverableType.post)
         ],
-        expiryDate: DateTime.now().add(Duration(days: 10)),
+        endDate: DateTime.now().add(Duration(days: 10)),
         location: Location(
             activeOfferCount: 1, latitude: 34.032395, longitude: -118.301019),
         reward: Reward(
@@ -279,7 +278,7 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
               description: 'Tell people how good our tea is',
               type: DeliverableType.post)
         ],
-        expiryDate: DateTime.now().add(Duration(days: 10)),
+        endDate: DateTime.now().add(Duration(days: 10)),
         location: Location(
             activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
         reward: Reward(
@@ -327,7 +326,7 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
               description: 'Tell people how good our tea is',
               type: DeliverableType.post)
         ],
-        expiryDate: DateTime.now().add(Duration(days: 10)),
+        endDate: DateTime.now().add(Duration(days: 10)),
         location: Location(
             activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
         reward: Reward(

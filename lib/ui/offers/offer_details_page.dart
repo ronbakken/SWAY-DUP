@@ -334,9 +334,9 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             '${offer.numberRemaining}/${offer.numberOffered} Available',
           ),
           Expanded(
-            child: offer.expiryDate != null
+            child: offer.endDate != null
                 ? Text(
-                    'Ends ${DateFormat('MM/dd/yy').format(offer.expiryDate.toLocal())}',
+                    'Ends ${DateFormat('MM/dd/yy').format(offer.endDate.toLocal())}',
                     textAlign: TextAlign.end,
                   )
                 : SizedBox(),

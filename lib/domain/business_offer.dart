@@ -54,10 +54,11 @@ class BusinessOffer {
 
   final bool isDirectOffer;
 
-  String title;
+  final String title;
   final String description;
   final DateTime created;
-  final DateTime expiryDate;
+  final DateTime startDate;
+  final DateTime endDate;
 
   final int numberOffered;
   final int numberRemaining;
@@ -95,29 +96,87 @@ class BusinessOffer {
   // So the Offer View knows this offer has already been applied to
   final int influencerProposalId;
 
-  BusinessOffer(
-      {this.id,
-      this.businessAccountId,
-      this.businessName,
-      this.businessDescription,
-      this.businessAvatarThumbnailUrl,
-      this.title,
-      this.description,
-      this.expiryDate,
-      this.created,
-      this.isDirectOffer,
-      this.newChatMessages,
-      this.numberOffered = 1,
-      this.numberRemaining,
-      this.thumbnailUrl,
-      this.thumbnailLowRes,
-      this.deliverables,
-      this.reward,
-      this.location,
-      this.coverUrls,
-      this.coverLowRes,
-      this.categories,
-      this.state,
-      this.stateReason,
-      this.influencerProposalId});
+  BusinessOffer({
+    this.id,
+    this.businessAccountId,
+    this.businessName,
+    this.businessDescription,
+    this.businessAvatarThumbnailUrl,
+    this.title,
+    this.description,
+    this.startDate,
+    this.endDate,
+    this.created,
+    this.isDirectOffer,
+    this.newChatMessages,
+    this.numberOffered = 1,
+    this.numberRemaining,
+    this.thumbnailUrl,
+    this.thumbnailLowRes,
+    this.deliverables,
+    this.reward,
+    this.location,
+    this.coverUrls,
+    this.coverLowRes,
+    this.categories,
+    this.state,
+    this.stateReason,
+    this.influencerProposalId,
+  });
+
+  BusinessOffer copyWith({
+    int id,
+    int businessAccountId,
+    String businessName,
+    String businessDescription,
+    String businessAvatarThumbnailUrl,
+    bool isDirectOffer,
+    String title,
+    String description,
+    DateTime created,
+    DateTime startDate,
+    DateTime endDate,
+    int numberOffered,
+    int numberRemaining,
+    String thumbnailUrl,
+    Uint8List thumbnailLowRes,
+    List<Deliverable> deliverables,
+    Reward reward,
+    Location location,
+    List<String> coverUrls,
+    List<Uint8List> coverLowRes,
+    List<Category> categories,
+    BusinessOfferState state,
+    BusinessOfferStateReason stateReason,
+    int newChatMessages,
+    int influencerProposalId,
+  }) {
+    return BusinessOffer(
+      id: id ?? this.id,
+      businessAccountId: businessAccountId ?? this.businessAccountId,
+      businessName: businessName ?? this.businessName,
+      businessDescription: businessDescription ?? this.businessDescription,
+      businessAvatarThumbnailUrl: businessAvatarThumbnailUrl ?? this.businessAvatarThumbnailUrl,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      created: created ?? this.created,
+      isDirectOffer: isDirectOffer ?? this.isDirectOffer,
+      newChatMessages: newChatMessages ?? this.newChatMessages,
+      numberOffered: numberOffered ?? this.numberOffered,
+      numberRemaining: numberRemaining ?? this.numberRemaining,
+      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+      thumbnailLowRes: thumbnailLowRes ?? this.thumbnailLowRes,
+      deliverables: deliverables ?? this.deliverables,
+      reward: reward ?? this.reward,
+      location: location ?? this.location,
+      coverUrls: coverUrls ?? this.coverUrls,
+      coverLowRes: coverLowRes ?? this.coverLowRes,
+      categories: categories ?? this.categories,
+      state: state ?? this.state,
+      stateReason: stateReason ?? this.stateReason,
+      influencerProposalId: influencerProposalId ?? this.influencerProposalId,
+    );
+  }
 }
