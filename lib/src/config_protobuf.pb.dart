@@ -598,7 +598,7 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(21, 'cloudinaryCoverUrl')
     ..aOS(22, 'freshdeskApi')
     ..aOS(23, 'freshdeskKey')
-    ..aOS(24, 'environment')
+    ..aOS(24, 'domain')
     ..aOS(25, 'firebaseServerKey')
     ..aOS(26, 'firebaseSenderId')
     ..aOS(27, 'firebaseLegacyApi')
@@ -820,13 +820,13 @@ class ConfigServices extends $pb.GeneratedMessage {
   bool hasFreshdeskKey() => $_has(22);
   void clearFreshdeskKey() => clearField(23);
 
-  String get environment => $_getS(23, '');
-  set environment(String v) {
+  String get domain => $_getS(23, '');
+  set domain(String v) {
     $_setString(23, v);
   }
 
-  bool hasEnvironment() => $_has(23);
-  void clearEnvironment() => clearField(24);
+  bool hasDomain() => $_has(23);
+  void clearDomain() => clearField(24);
 
   String get firebaseServerKey => $_getS(24, '');
   set firebaseServerKey(String v) {
