@@ -126,6 +126,30 @@ Future<ConfigServices> generateConfigServices(bool server) async {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+Future<List<ConfigAsset>> generateConfigAssets(bool server) async {
+  List<ConfigAsset> res = new List<ConfigAsset>();
+  res.add(new ConfigAsset());
+  await for (FileSystemEntity fse in new Directory("assets").list()) {
+    print(fse.path);
+    ConfigAsset asset = new ConfigAsset();
+    asset.name =
+        fse.path.replaceFirst("assets\\", "").replaceFirst("assets/", "");
+    if (fse.path.toLowerCase().endsWith(".svg")) {
+      asset.svg = true;
+    }
+    if (!server) {
+      asset.data =
+          new Uint8List.fromList(await new File(fse.path).readAsBytes());
+    }
+    res.add(asset);
+  }
+  return res;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 Future<ConfigContent> generateConfigContent(bool server) async {
   List<String> lines = await new File("config/content.ini").readAsLines();
   ConfigContent res = new ConfigContent();
@@ -162,7 +186,7 @@ Future<ConfigContent> generateConfigContent(bool server) async {
 ////////////////////////////////////////////////////////////////////////////////
 
 Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
-    bool server) async {
+    Map<String, int> assets, bool server) async {
   List<String> lines =
       await new File("config/oauth_providers.ini").readAsLines();
   List<ConfigOAuthProvider> res = new List<ConfigOAuthProvider>();
@@ -196,6 +220,20 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
     if (cfg.hasOption(section, 'showInProfile'))
       entry.showInProfile = (int.parse(cfg.get(section, 'showInProfile')) == 1);
     entry.label = section;
+    if (!server) {
+      if (cfg.hasOption(section, 'foregroundImage')) {
+        entry.foregroundImageId = assets[cfg.get(section, 'foregroundImage')];
+      }
+      if (cfg.hasOption(section, 'backgroundImage')) {
+        entry.backgroundImageId = assets[cfg.get(section, 'backgroundImage')];
+      }
+      if (cfg.hasOption(section, 'foregroundFlat')) {
+        entry.foregroundFlatId = assets[cfg.get(section, 'foregroundFlat')];
+      }
+      if (cfg.hasOption(section, 'backgroundFlat')) {
+        entry.backgroundFlatId = assets[cfg.get(section, 'backgroundFlat')];
+      }
+    }
     if (cfg.hasOption(section, 'fontAwesomeBrand'))
       entry.fontAwesomeBrand = int.parse(cfg.get(section, 'fontAwesomeBrand'));
     if (cfg.hasOption(section, 'mechanism'))
@@ -265,7 +303,8 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Future<List<ConfigCategory>> generateConfigCategories(bool server) async {
+Future<List<ConfigCategory>> generateConfigCategories(
+    Map<String, int> assets, bool server) async {
   List<String> lines = await new File("config/categories.ini").readAsLines();
   List<ConfigCategory> categories = new List<ConfigCategory>();
   ini.Config cfg = new ini.Config.fromStrings(lines);
@@ -300,8 +339,21 @@ Future<List<ConfigCategory>> generateConfigCategories(bool server) async {
         entry.keywords.addAll(keywords.split(','));
       }
     } else {
-      // icon etc
+      if (cfg.hasOption(section, 'foregroundImage')) {
+        entry.foregroundImageId = assets[cfg.get(section, 'foregroundImage')];
+      }
+      if (cfg.hasOption(section, 'backgroundImage')) {
+        entry.backgroundImageId = assets[cfg.get(section, 'backgroundImage')];
+      }
+      if (cfg.hasOption(section, 'foregroundFlat')) {
+        entry.foregroundFlatId = assets[cfg.get(section, 'foregroundFlat')];
+      }
+      if (cfg.hasOption(section, 'backgroundFlat')) {
+        entry.backgroundFlatId = assets[cfg.get(section, 'backgroundFlat')];
+      }
     }
+    if (cfg.hasOption(section, 'fontAwesomeIcon'))
+      entry.fontAwesomeIcon = int.parse(cfg.get(section, 'fontAwesomeIcon'));
 
     categories.add(entry);
   }
@@ -340,9 +392,15 @@ Future<void> generateConfig(bool server) async {
   config.region = "US";
   config.language = "en";
   config.services = await generateConfigServices(server);
+  config.assets.addAll(await generateConfigAssets(server));
+  Map<String, int> assets = <String, int>{};
+  for (int i = 0; i < config.assets.length; ++i) {
+    assets[config.assets[i].name] = i;
+  }
   config.content = await generateConfigContent(server);
-  config.oauthProviders.addAll(await generateConfigOAuthProviders(server));
-  config.categories.addAll(await generateConfigCategories(server));
+  config.oauthProviders
+      .addAll(await generateConfigOAuthProviders(assets, server));
+  config.categories.addAll(await generateConfigCategories(assets, server));
   print(config);
   Uint8List configBuffer = config.writeToBuffer();
   new File(server ? "config/config_server.bin" : "config/config.bin")
