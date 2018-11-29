@@ -190,7 +190,7 @@ message ConfigServices { // 40
   
 }
 
-message ConfigResource {
+message ConfigAsset {
   string name = 1;
   bytes data = 2;
   
@@ -217,7 +217,7 @@ message ConfigData {
   /// Configuration data
   ConfigServices services = 6;
   
-  repeated ConfigResource resources = 14;
+  repeated ConfigAsset assets = 14;
   ConfigContent content = 7;
   
   repeated ConfigOAuthProvider oauth_providers = 11;
