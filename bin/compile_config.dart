@@ -26,8 +26,8 @@ Future<ConfigServices> generateConfigServices(bool server) async {
     if (section == "Common" ||
         (section == "Server" && server) ||
         (section == "Client" && !server)) {
-      if (cfg.hasOption(section, 'environment'))
-        res.environment = cfg.get(section, 'environment');
+      if (cfg.hasOption(section, 'domain'))
+        res.domain = cfg.get(section, 'domain');
       if (cfg.hasOption(section, 'endPoint'))
         res.endPoint = cfg.get(section, 'endPoint');
       if (cfg.hasOption(section, 'service'))
@@ -43,15 +43,6 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'salt'))
         res.salt = utf8.encode(cfg.get(section, 'salt'));
 
-      if (cfg.hasOption(section, 'mapboxApi'))
-        res.mapboxApi = cfg.get(section, 'mapboxApi');
-      if (cfg.hasOption(section, 'mapboxUrlTemplateDark'))
-        res.mapboxUrlTemplateDark = cfg.get(section, 'mapboxUrlTemplateDark');
-      if (cfg.hasOption(section, 'mapboxUrlTemplateLight'))
-        res.mapboxUrlTemplateLight = cfg.get(section, 'mapboxUrlTemplateLight');
-      if (cfg.hasOption(section, 'mapboxToken'))
-        res.mapboxToken = cfg.get(section, 'mapboxToken');
-
       if (cfg.hasOption(section, 'spacesRegion'))
         res.spacesRegion = cfg.get(section, 'spacesRegion');
       if (cfg.hasOption(section, 'spacesKey'))
@@ -60,6 +51,48 @@ Future<ConfigServices> generateConfigServices(bool server) async {
         res.spacesSecret = cfg.get(section, 'spacesSecret');
       if (cfg.hasOption(section, 'spacesBucket'))
         res.spacesBucket = cfg.get(section, 'spacesBucket');
+
+      if (cfg.hasOption(section, 'mariadbHost'))
+        res.mariadbHost = cfg.get(section, 'mariadbHost');
+      if (cfg.hasOption(section, 'mariadbPort'))
+        res.mariadbPort = int.parse(cfg.get(section, 'mariadbPort'));
+      if (cfg.hasOption(section, 'mariadbUser'))
+        res.mariadbUser = cfg.get(section, 'mariadbUser');
+      if (cfg.hasOption(section, 'mariadbPassword'))
+        res.mariadbPassword = cfg.get(section, 'mariadbPassword');
+      if (cfg.hasOption(section, 'mariadbDatabase'))
+        res.mariadbDatabase = cfg.get(section, 'mariadbDatabase');
+
+      if (cfg.hasOption(section, 'elasticsearchApi'))
+        res.elasticsearchApi = cfg.get(section, 'elasticsearchApi');
+      if (cfg.hasOption(section, 'elasticsearchBasicAuth'))
+        res.elasticsearchBasicAuth = cfg.get(section, 'elasticsearchBasicAuth');
+
+      if (cfg.hasOption(section, 'oneSignalAppId'))
+        res.oneSignalAppId = cfg.get(section, 'oneSignalAppId');
+      if (cfg.hasOption(section, 'oneSignalApiKey'))
+        res.oneSignalApiKey = cfg.get(section, 'oneSignalApiKey');
+      if (cfg.hasOption(section, 'oneSignalApi'))
+        res.oneSignalApi = cfg.get(section, 'oneSignalApi');
+
+      if (cfg.hasOption(section, 'firebaseServerKey'))
+        res.firebaseServerKey = cfg.get(section, 'firebaseServerKey');
+      if (cfg.hasOption(section, 'firebaseSenderId'))
+        res.firebaseSenderId = cfg.get(section, 'firebaseSenderId');
+      if (cfg.hasOption(section, 'firebaseLegacyApi'))
+        res.firebaseLegacyApi = cfg.get(section, 'firebaseLegacyApi');
+      if (cfg.hasOption(section, 'firebaseLegacyServerKey'))
+        res.firebaseLegacyServerKey =
+            cfg.get(section, 'firebaseLegacyServerKey');
+
+      if (cfg.hasOption(section, 'mapboxApi'))
+        res.mapboxApi = cfg.get(section, 'mapboxApi');
+      if (cfg.hasOption(section, 'mapboxUrlTemplateDark'))
+        res.mapboxUrlTemplateDark = cfg.get(section, 'mapboxUrlTemplateDark');
+      if (cfg.hasOption(section, 'mapboxUrlTemplateLight'))
+        res.mapboxUrlTemplateLight = cfg.get(section, 'mapboxUrlTemplateLight');
+      if (cfg.hasOption(section, 'mapboxToken'))
+        res.mapboxToken = cfg.get(section, 'mapboxToken');
 
       if (cfg.hasOption(section, 'cloudinaryUrl'))
         res.cloudinaryUrl = cfg.get(section, 'cloudinaryUrl');
@@ -79,36 +112,10 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'ipstackKey'))
         res.ipstackKey = cfg.get(section, 'ipstackKey');
 
-      if (cfg.hasOption(section, 'mariadbHost'))
-        res.mariadbHost = cfg.get(section, 'mariadbHost');
-      if (cfg.hasOption(section, 'mariadbPort'))
-        res.mariadbPort = int.parse(cfg.get(section, 'mariadbPort'));
-      if (cfg.hasOption(section, 'mariadbUser'))
-        res.mariadbUser = cfg.get(section, 'mariadbUser');
-      if (cfg.hasOption(section, 'mariadbPassword'))
-        res.mariadbPassword = cfg.get(section, 'mariadbPassword');
-      if (cfg.hasOption(section, 'mariadbDatabase'))
-        res.mariadbDatabase = cfg.get(section, 'mariadbDatabase');
-
       if (cfg.hasOption(section, 'freshdeskApi'))
         res.freshdeskApi = cfg.get(section, 'freshdeskApi');
       if (cfg.hasOption(section, 'freshdeskKey'))
         res.freshdeskKey = cfg.get(section, 'freshdeskKey');
-
-      if (cfg.hasOption(section, 'firebaseServerKey'))
-        res.firebaseServerKey = cfg.get(section, 'firebaseServerKey');
-      if (cfg.hasOption(section, 'firebaseSenderId'))
-        res.firebaseSenderId = cfg.get(section, 'firebaseSenderId');
-      if (cfg.hasOption(section, 'firebaseLegacyApi'))
-        res.firebaseLegacyApi = cfg.get(section, 'firebaseLegacyApi');
-      if (cfg.hasOption(section, 'firebaseLegacyServerKey'))
-        res.firebaseLegacyServerKey =
-            cfg.get(section, 'firebaseLegacyServerKey');
-
-      if (cfg.hasOption(section, 'elasticsearchApi'))
-        res.elasticsearchApi = cfg.get(section, 'elasticsearchApi');
-      if (cfg.hasOption(section, 'elasticsearchBasicAuth'))
-        res.elasticsearchBasicAuth = cfg.get(section, 'elasticsearchBasicAuth');
     }
   }
 
@@ -154,7 +161,8 @@ Future<ConfigContent> generateConfigContent(bool server) async {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(bool server) async {
+Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
+    bool server) async {
   List<String> lines =
       await new File("config/oauth_providers.ini").readAsLines();
   List<ConfigOAuthProvider> res = new List<ConfigOAuthProvider>();
