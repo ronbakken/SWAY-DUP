@@ -292,6 +292,12 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
       String whitelistHosts = cfg.get(section, 'whitelistHosts');
       entry.whitelistHosts.addAll(whitelistHosts.split(','));
     }
+    if (server) {
+      if (cfg.hasOption(section, 'keywords')) {
+        String keywords = cfg.get(section, 'keywords');
+        entry.keywords.addAll(keywords.split(','));
+      }
+    }
 
     res.add(entry);
   }
