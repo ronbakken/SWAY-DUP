@@ -949,32 +949,32 @@ class ConfigServices extends $pb.GeneratedMessage {
   void clearOneSignalApi() => clearField(40);
 }
 
-class ConfigResource extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigResource',
+class ConfigAsset extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigAsset',
       package: const $pb.PackageName('inf_common'))
     ..aOS(1, 'name')
     ..a<List<int>>(2, 'data', $pb.PbFieldType.OY)
     ..aOB(3, 'svg')
     ..hasRequiredFields = false;
 
-  ConfigResource() : super();
-  ConfigResource.fromBuffer(List<int> i,
+  ConfigAsset() : super();
+  ConfigAsset.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  ConfigResource.fromJson(String i,
+  ConfigAsset.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  ConfigResource clone() => new ConfigResource()..mergeFromMessage(this);
-  ConfigResource copyWith(void Function(ConfigResource) updates) =>
-      super.copyWith((message) => updates(message as ConfigResource));
+  ConfigAsset clone() => new ConfigAsset()..mergeFromMessage(this);
+  ConfigAsset copyWith(void Function(ConfigAsset) updates) =>
+      super.copyWith((message) => updates(message as ConfigAsset));
   $pb.BuilderInfo get info_ => _i;
-  static ConfigResource create() => new ConfigResource();
-  static $pb.PbList<ConfigResource> createRepeated() =>
-      new $pb.PbList<ConfigResource>();
-  static ConfigResource getDefault() => _defaultInstance ??= create()..freeze();
-  static ConfigResource _defaultInstance;
-  static void $checkItem(ConfigResource v) {
-    if (v is! ConfigResource) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static ConfigAsset create() => new ConfigAsset();
+  static $pb.PbList<ConfigAsset> createRepeated() =>
+      new $pb.PbList<ConfigAsset>();
+  static ConfigAsset getDefault() => _defaultInstance ??= create()..freeze();
+  static ConfigAsset _defaultInstance;
+  static void $checkItem(ConfigAsset v) {
+    if (v is! ConfigAsset) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get name => $_getS(0, '');
@@ -1048,8 +1048,8 @@ class ConfigData extends $pb.GeneratedMessage {
         ConfigContentFormat.$checkItem, ConfigContentFormat.create)
     ..pp<ConfigCategory>(13, 'categories', $pb.PbFieldType.PM,
         ConfigCategory.$checkItem, ConfigCategory.create)
-    ..pp<ConfigResource>(14, 'resources', $pb.PbFieldType.PM,
-        ConfigResource.$checkItem, ConfigResource.create)
+    ..pp<ConfigAsset>(14, 'assets', $pb.PbFieldType.PM, ConfigAsset.$checkItem,
+        ConfigAsset.create)
     ..hasRequiredFields = false;
 
   ConfigData() : super();
@@ -1126,5 +1126,5 @@ class ConfigData extends $pb.GeneratedMessage {
 
   List<ConfigCategory> get categories => $_getList(8);
 
-  List<ConfigResource> get resources => $_getList(9);
+  List<ConfigAsset> get assets => $_getList(9);
 }
