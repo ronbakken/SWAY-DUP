@@ -390,6 +390,65 @@ Future<List<ConfigCategory>> generateConfigCategories(
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+Future<List<ConfigContentFormat>> generateConfigContentFormats(
+    Map<String, int> assets, bool server) async {
+  List<String> lines = await new File("config/content_formats.ini").readAsLines();
+  List<ConfigContentFormat> res = new List<ConfigContentFormat>();
+  ini.Config cfg = new ini.Config.fromStrings(lines);
+
+  int nbEntries = 0;
+  var entryMap = new Map<int, String>();
+  for (String section in cfg.sections()) {
+    int id = int.parse(cfg.get(section, "id"));
+    print("$id: $section");
+    if (id > nbEntries) nbEntries = id;
+    entryMap[id] = section;
+  }
+  ++nbEntries;
+
+  for (int id = 0; id < nbEntries; ++id) {
+    ConfigContentFormat entry = new ConfigContentFormat();
+    if (!entryMap.containsKey(id)) {
+      res.add(entry);
+      continue;
+    }
+    String section = entryMap[id];
+    entry.label = section;
+    if (cfg.hasOption(section, "sorting")) {
+      entry.sorting = int.parse(cfg.get(section, 'sorting'));
+    }
+    if (server) {
+      if (cfg.hasOption(section, 'keywords')) {
+        String keywords = cfg.get(section, 'keywords');
+        entry.keywords.addAll(keywords.split(','));
+      }
+    } else {
+      if (cfg.hasOption(section, 'foregroundImage')) {
+        entry.foregroundImageId = assets[cfg.get(section, 'foregroundImage')];
+      }
+      if (cfg.hasOption(section, 'backgroundImage')) {
+        entry.backgroundImageId = assets[cfg.get(section, 'backgroundImage')];
+      }
+      if (cfg.hasOption(section, 'foregroundFlat')) {
+        entry.foregroundFlatId = assets[cfg.get(section, 'foregroundFlat')];
+      }
+      if (cfg.hasOption(section, 'backgroundFlat')) {
+        entry.backgroundFlatId = assets[cfg.get(section, 'backgroundFlat')];
+      }
+    }
+    if (cfg.hasOption(section, 'fontAwesomeIcon'))
+      entry.fontAwesomeIcon = int.parse(cfg.get(section, 'fontAwesomeIcon'));
+
+    res.add(entry);
+  }
+
+  return res;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 Future<void> generateConfig(bool server) async {
   ConfigData config = new ConfigData();
   config.clientVersion = 3;
@@ -407,6 +466,7 @@ Future<void> generateConfig(bool server) async {
   config.oauthProviders
       .addAll(await generateConfigOAuthProviders(assets, server));
   config.categories.addAll(await generateConfigCategories(assets, server));
+  config.contentFormats.addAll(await generateConfigContentFormats(assets, server));
   print(config);
   Uint8List configBuffer = config.writeToBuffer();
   new File(server ? "config/config_server.bin" : "config/config.bin")
