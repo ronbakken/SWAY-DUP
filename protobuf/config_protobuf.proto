@@ -190,6 +190,14 @@ message ConfigServices { // 40
   
 }
 
+message ConfigResource {
+  string name = 1;
+  bytes data = 2;
+  
+  bool svg = 3;
+  
+}
+
 message ConfigContent {
   repeated string welcome_image_urls = 1;
   
@@ -208,6 +216,8 @@ message ConfigData {
   
   /// Configuration data
   ConfigServices services = 6;
+  
+  repeated ConfigResource resources = 14;
   ConfigContent content = 7;
   
   repeated ConfigOAuthProvider oauth_providers = 11;
