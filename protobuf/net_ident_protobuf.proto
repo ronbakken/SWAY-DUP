@@ -19,7 +19,7 @@ message NetSessionPayload {
   bytes cookie = 2;
   
   /// Information on the currently loaded config
-  string environment = 7; // If mismatch, cannot serve this session at all
+  string domain = 7; // If mismatch, cannot serve this session at all
   int32 client_version = 3; // If mismatch, cannot serve this session at all
   int64 config_timestamp = 4; // If server timestamp is higher, request config download
   string config_region = 5; // Indicate the region of the user's current config
