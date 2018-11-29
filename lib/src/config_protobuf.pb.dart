@@ -949,6 +949,59 @@ class ConfigServices extends $pb.GeneratedMessage {
   void clearOneSignalApi() => clearField(40);
 }
 
+class ConfigResource extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigResource',
+      package: const $pb.PackageName('inf_common'))
+    ..aOS(1, 'name')
+    ..a<List<int>>(2, 'data', $pb.PbFieldType.OY)
+    ..aOB(3, 'svg')
+    ..hasRequiredFields = false;
+
+  ConfigResource() : super();
+  ConfigResource.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ConfigResource.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  ConfigResource clone() => new ConfigResource()..mergeFromMessage(this);
+  ConfigResource copyWith(void Function(ConfigResource) updates) =>
+      super.copyWith((message) => updates(message as ConfigResource));
+  $pb.BuilderInfo get info_ => _i;
+  static ConfigResource create() => new ConfigResource();
+  static $pb.PbList<ConfigResource> createRepeated() =>
+      new $pb.PbList<ConfigResource>();
+  static ConfigResource getDefault() => _defaultInstance ??= create()..freeze();
+  static ConfigResource _defaultInstance;
+  static void $checkItem(ConfigResource v) {
+    if (v is! ConfigResource) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  String get name => $_getS(0, '');
+  set name(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasName() => $_has(0);
+  void clearName() => clearField(1);
+
+  List<int> get data => $_getN(1);
+  set data(List<int> v) {
+    $_setBytes(1, v);
+  }
+
+  bool hasData() => $_has(1);
+  void clearData() => clearField(2);
+
+  bool get svg => $_get(2, false);
+  set svg(bool v) {
+    $_setBool(2, v);
+  }
+
+  bool hasSvg() => $_has(2);
+  void clearSvg() => clearField(3);
+}
+
 class ConfigContent extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigContent',
       package: const $pb.PackageName('inf_common'))
@@ -995,6 +1048,8 @@ class ConfigData extends $pb.GeneratedMessage {
         ConfigContentFormat.$checkItem, ConfigContentFormat.create)
     ..pp<ConfigCategory>(13, 'categories', $pb.PbFieldType.PM,
         ConfigCategory.$checkItem, ConfigCategory.create)
+    ..pp<ConfigResource>(14, 'resources', $pb.PbFieldType.PM,
+        ConfigResource.$checkItem, ConfigResource.create)
     ..hasRequiredFields = false;
 
   ConfigData() : super();
@@ -1070,4 +1125,6 @@ class ConfigData extends $pb.GeneratedMessage {
   List<ConfigContentFormat> get contentFormats => $_getList(7);
 
   List<ConfigCategory> get categories => $_getList(8);
+
+  List<ConfigResource> get resources => $_getList(9);
 }

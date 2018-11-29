@@ -445,6 +445,15 @@ const ConfigServices$json = const {
   ],
 };
 
+const ConfigResource$json = const {
+  '1': 'ConfigResource',
+  '2': const [
+    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'data', '3': 2, '4': 1, '5': 12, '10': 'data'},
+    const {'1': 'svg', '3': 3, '4': 1, '5': 8, '10': 'svg'},
+  ],
+};
+
 const ConfigContent$json = const {
   '1': 'ConfigContent',
   '2': const [
@@ -478,6 +487,14 @@ const ConfigData$json = const {
       '5': 11,
       '6': '.inf_common.ConfigServices',
       '10': 'services'
+    },
+    const {
+      '1': 'resources',
+      '3': 14,
+      '4': 3,
+      '5': 11,
+      '6': '.inf_common.ConfigResource',
+      '10': 'resources'
     },
     const {
       '1': 'content',
