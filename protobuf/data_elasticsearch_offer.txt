@@ -41,6 +41,9 @@ DataOffer
         array string cover_keys
         array binary covers_blurred
         
+        date scheduled_open
+        date scheduled_close
+        
         array short categories
         (denormalized) array keyword category_keywords
         (denormalized) array short categories_expanded
@@ -168,6 +171,15 @@ PUT offers
           "type":  "binary"
         },
         
+        "scheduled_open": {
+          "type":   "date",
+          "format": "epoch_millis"
+        },
+        "scheduled_close": {
+          "type":   "date",
+          "format": "epoch_millis"
+        },
+        
         "state": {
           "type":  "short"
         },
@@ -218,12 +230,6 @@ PUT offers/_mapping/_doc
   "properties": {
     "sender_id": {
       "type":  "long"
-    },
-    "location_id": {
-      "type":  "long"
-    },
-    "direct": {
-      "type":  "boolean"
     },
   }
 }
