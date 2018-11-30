@@ -10,6 +10,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/welcome/onboarding_page.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 
@@ -17,7 +18,7 @@ class WelcomePage extends PageWidget {
   static Route<dynamic> route() {
     return FadePageRoute(
       builder: (BuildContext context) => WelcomePage(),
-      transitionDuration: const Duration(seconds: 2),
+      transitionDuration: const Duration(milliseconds: 750),
     );
   }
 
@@ -29,83 +30,62 @@ class _WelcomePageState extends PageState<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return ConnectionBuilder(
-      builder: (BuildContext context, NetworkConnectionState connectionState,
-          Widget child) {
+      builder: (BuildContext context, NetworkConnectionState connectionState, Widget child) {
+        final secondaryAnimation = Tween<double>(begin: 1.0, end: 0.0)
+            .animate(CurvedAnimation(parent: ModalRoute.of(context).secondaryAnimation, curve: Curves.fastOutSlowIn));
         return Material(
           color: theme.backgroundColor,
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
               StreamBuilder<WelcomePageImages>(
-                stream: backend
-                    .get<ResourceService>()
-                    .getWelcomePageProfileImages(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<WelcomePageImages> snapshot) {
-                  return snapshot.hasData
-                      ? _WelcomeWall(data: snapshot.data)
-                      : SizedBox();
+                stream: backend.get<ResourceService>().getWelcomePageProfileImages(),
+                builder: (BuildContext context, AsyncSnapshot<WelcomePageImages> snapshot) {
+                  return snapshot.hasData ? _WelcomeWall(data: snapshot.data) : SizedBox();
                 },
               ),
-              FractionallySizedBox(
-                alignment: Alignment.bottomCenter,
-                heightFactor: 0.5,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[
-                        const Color(0x00000000),
-                        const Color(0xCC000000),
-                        const Color(0xFF000000),
-                      ],
-                      stops: <double>[
-                        0.5,
-                        0.75,
-                        0.97,
-                      ],
+              FadeTransition(
+                opacity: secondaryAnimation,
+                child: SafeArea(
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 36.0),
+                    alignment: Alignment.topRight,
+                    child: _WelcomeHelpPopOut(
+                      content: Text('This is help content'),
                     ),
                   ),
                 ),
               ),
-              SafeArea(
-                child: Container(
-                  padding: const EdgeInsets.only(top: 36.0),
-                  alignment: Alignment.topRight,
-                  child: _WelcomeHelpPopOut(
-                    content: Text('This is help content'),
-                  ),
-                ),
-              ),
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 48.0),
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Center(
-                          child: InfAssetImage(
-                            AppLogo.infLogoWithShadow,
+              FadeTransition(
+                opacity: secondaryAnimation,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 48.0),
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: Center(
+                            child: InfAssetImage(
+                              AppLogo.infLogoWithShadow,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 12.0),
-                      _WelcomeButton(
-                        text: 'I AM AN INFLUENCER',
-                        color: AppTheme.blue,
-                        onPressed: () => Navigator.of(context).push(
-                            OnBoardingPage.route(
-                                userType: AccountType.influencer)),
-                      ),
-                      SizedBox(height: 12.0),
-                      _WelcomeButton(
-                        text: 'I NEED AN INFLUENCER',
-                        color: AppTheme.red,
-                        onPressed: () => Navigator.of(context).push(
-                            OnBoardingPage.route(userType: AccountType.business)),
-                      ),
-                    ],
+                        SizedBox(height: 12.0),
+                        InfStadiumButton(
+                          text: 'I AM AN INFLUENCER',
+                          color: AppTheme.blue,
+                          onPressed: () =>
+                              Navigator.of(context).push(OnBoardingPage.route(userType: AccountType.influencer)),
+                        ),
+                        SizedBox(height: 12.0),
+                        InfStadiumButton(
+                          text: 'I NEED AN INFLUENCER',
+                          color: AppTheme.red,
+                          onPressed: () =>
+                              Navigator.of(context).push(OnBoardingPage.route(userType: AccountType.business)),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -113,38 +93,6 @@ class _WelcomePageState extends PageState<WelcomePage> {
           ),
         );
       },
-    );
-  }
-}
-
-class _WelcomeButton extends StatelessWidget {
-  final String text;
-  final Color color;
-  final VoidCallback onPressed;
-
-  const _WelcomeButton({
-    Key key,
-    @required this.text,
-    @required this.color,
-    @required this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      color: this.color,
-      shape: const StadiumBorder(),
-      onPressed: this.onPressed,
-      child: Container(
-        alignment: Alignment.center,
-        height: 44.0,
-        child: Text(
-          this.text,
-          style: const TextStyle(
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-      ),
     );
   }
 }
@@ -161,8 +109,7 @@ class _WelcomeHelpPopOut extends StatefulWidget {
   _WelcomeHelpPopOutState createState() => _WelcomeHelpPopOutState();
 }
 
-class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
-    with SingleTickerProviderStateMixin {
+class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut> with SingleTickerProviderStateMixin {
   final _buttonKey = GlobalKey();
   AnimationController _controller;
   Animation<Offset> _animation;
@@ -172,8 +119,7 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(duration: Duration(milliseconds: 450), vsync: this);
+    _controller = AnimationController(duration: Duration(milliseconds: 450), vsync: this);
     _animation = AlwaysStoppedAnimation<Offset>(Offset.zero);
     // FIXME: remove this post frame callback and work out size a better way
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -260,8 +206,8 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_first) {
-      Iterable<Future> loadingImages = widget.data.images
-          .map<Future>((url) => precacheImage(NetworkImage(url), context));
+      Iterable<Future> loadingImages =
+          widget.data.images.map<Future>((url) => precacheImage(NetworkImage(url), context));
       Future.wait(loadingImages).then((_) {
         if (mounted) {
           setState(() => _opacity = 0.5);
@@ -275,20 +221,48 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size * 1.25; // zoom level
     return AnimatedOpacity(
-      duration: Duration(seconds: 3),
-      curve: Curves.decelerate,
       opacity: _opacity,
-      child: OverflowBox(
-        minWidth: size.width,
-        maxWidth: size.width,
-        minHeight: size.height,
-        maxHeight: size.height,
-        child: _WelcomeWallBackground(
-          speed: 24.0,
-          children: widget.data.images
-              .map<Widget>((url) => _buildWallTile(url))
-              .toList(growable: false),
-        ),
+      duration: const Duration(seconds: 3),
+      curve: Curves.decelerate,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Opacity(
+            opacity: 0.5,
+            child: OverflowBox(
+              minWidth: size.width,
+              maxWidth: size.width,
+              minHeight: size.height,
+              maxHeight: size.height,
+              child: _WelcomeWallBackground(
+                speed: 24.0,
+                children: widget.data.images.map<Widget>((url) => _buildWallTile(url)).toList(growable: false),
+              ),
+            ),
+          ),
+          FractionallySizedBox(
+            alignment: Alignment.bottomCenter,
+            heightFactor: 0.5,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
+                    const Color(0x00000000),
+                    const Color(0xCC000000),
+                    const Color(0xFF000000),
+                  ],
+                  stops: <double>[
+                    0.5,
+                    0.75,
+                    0.97,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -310,8 +284,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
     );
   }
 
-  static Widget _tileTransitionBuilder(
-      Widget child, Animation<double> animation) {
+  static Widget _tileTransitionBuilder(Widget child, Animation<double> animation) {
     return AnimatedBuilder(
       animation: animation,
       builder: (BuildContext context, Widget child) {
@@ -343,8 +316,7 @@ class _WelcomeWallBackground extends MultiChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, _RenderWallBackground renderObject) {
+  void updateRenderObject(BuildContext context, _RenderWallBackground renderObject) {
     renderObject..speed = speed;
   }
 }
@@ -377,8 +349,7 @@ class _RenderWallBackground extends RenderBox
 
   @override
   void setupParentData(RenderBox child) {
-    if (child.parentData is! _WallParentData)
-      child.parentData = _WallParentData();
+    if (child.parentData is! _WallParentData) child.parentData = _WallParentData();
   }
 
   @override
@@ -415,12 +386,9 @@ class _RenderWallBackground extends RenderBox
     Size childSize = firstChild.size;
     for (int i = 0, x = 0; i < children.length - 2; i += 3, x++) {
       final inset = math.exp(x) * 3;
-      _childParentData(children[i + 0]).offset =
-          Offset(x * childSize.width, inset + 0 * childSize.height);
-      _childParentData(children[i + 1]).offset =
-          Offset(x * childSize.width, inset + 1 * childSize.height);
-      _childParentData(children[i + 2]).offset =
-          Offset(x * childSize.width, inset + 2 * childSize.height);
+      _childParentData(children[i + 0]).offset = Offset(x * childSize.width, inset + 0 * childSize.height);
+      _childParentData(children[i + 1]).offset = Offset(x * childSize.width, inset + 1 * childSize.height);
+      _childParentData(children[i + 2]).offset = Offset(x * childSize.width, inset + 2 * childSize.height);
     }
 
     size = constraints.biggest;
@@ -429,8 +397,7 @@ class _RenderWallBackground extends RenderBox
   _WallParentData _childParentData(RenderBox child) => child.parentData;
 
   void _onTick(Duration duration) {
-    final delta = ((duration.inMicroseconds - _lastDuration.inMicroseconds) /
-        Duration.microsecondsPerSecond);
+    final delta = ((duration.inMicroseconds - _lastDuration.inMicroseconds) / Duration.microsecondsPerSecond);
     _dy += _speed * delta;
     _lastDuration = duration;
     markNeedsPaint();
@@ -441,10 +408,7 @@ class _RenderWallBackground extends RenderBox
     final segmentHeight = firstChild.size.height * 3;
     final _top = (segmentHeight * 0.5) + (_dy % (segmentHeight * 2.0));
     for (int i = 0; i < (2 * size.height / segmentHeight).ceil(); i++) {
-      context.pushLayer(
-          OffsetLayer(offset: Offset(0.0, -_top + (segmentHeight * i))),
-          defaultPaint,
-          offset);
+      context.pushLayer(OffsetLayer(offset: Offset(0.0, -_top + (segmentHeight * i))), defaultPaint, offset);
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
+import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
@@ -72,7 +73,6 @@ class MainNavigationDrawer extends StatelessWidget {
           ),
           text: 'Allow direct offers',
           trailing: InfSwitch(
-
             value: currentUser.acceptsDirectOffers,
             onChanged: (val) {
               userManager.updateUserCommand(
@@ -151,16 +151,16 @@ class MainNavigationDrawer extends StatelessWidget {
             children: [
               SizedBox(
                 height: mediaQuery.size.height * 0.2 + mediaQuery.padding.top,
-                child: ClipPath(
-                  clipper: _ProfilePictureClipper(),
-                  child: isLoggedIn
-                      ? InfImage(
+                child: isLoggedIn
+                    ? CurvedBoxClip(
+                        bottom: true,
+                        child: InfImage(
                           fit: BoxFit.fitWidth,
                           lowRes: currentUser.avatarLowRes,
                           imageUrl: currentUser.avatarUrl,
-                        )
-                      : SizedBox(),
-                ),
+                        ),
+                      )
+                    : SizedBox(),
               ),
               SizedBox(
                 height: 16.0,
@@ -259,17 +259,4 @@ class _MainNavigationItem extends StatelessWidget {
       ),
     );
   }
-}
-
-class _ProfilePictureClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    double curveFactor = size.height * 1.0;
-    final path = Path()
-      ..addArc(Rect.fromLTRB(-curveFactor, -size.height, size.width + curveFactor, size.height), 0, pi);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

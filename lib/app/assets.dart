@@ -81,6 +81,12 @@ class AppImages {
 
   static const mapPlaceHolder =
       AppAsset.bitmap('assets/images/map_placeholder_tile.png');
+
+  static const onBoarding1 = AppAsset.bitmap('assets/images/img_onboarding1.jpg');
+  static const onBoarding2 = AppAsset.bitmap('assets/images/img_onboarding2.jpg');
+  static const onBoarding3 = AppAsset.bitmap('assets/images/img_onboarding3.jpg');
+
+  static const mockCurves = AppAsset.bitmap('assets/images/img_curves.png');
 }
 
 class AppAsset {

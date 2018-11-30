@@ -46,6 +46,8 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
   MainPageMode _mode = MainPageMode.browse;
   bool _menuVisible = false;
 
+  TabController _tabController;
+
   @override
   void initState() {
     super.initState();
@@ -58,12 +60,15 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
     // TODO: Add curves
     _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
     _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
+
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
   void dispose() {
     _drawerController.dispose();
     _sectionController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -122,6 +127,80 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                     // TODO:
                   },
                 ),
+
+                /*
+                LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    final height = constraints.maxHeight;
+                    return SingleChildScrollView(
+                      padding: EdgeInsets.only(top: height),
+                      child: Container(
+                        color: AppTheme.darkGrey,
+                        height: height * 0.5,
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 96.0,
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: TabBar(
+                                      controller: _tabController,
+                                      indicatorColor: Colors.transparent,
+                                      tabs: <Widget>[
+                                        _buildTab(Icon(Icons.inbox)),
+                                        _buildTab(Icon(Icons.message)),
+                                        _buildTab(Icon(Icons.list)),
+                                        _buildTab(Icon(Icons.forward)),
+                                      ],
+                                    ),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () {},
+                                    child: Icon(Icons.clear),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: TabBarView(
+                                controller: _tabController,
+                                children: <Widget>[
+                                  Container(
+                                    color: Colors.red,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                          child: TextField(
+                                            decoration: InputDecoration(
+                                              prefixIcon: Icon(Icons.search),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    color: Colors.green,
+                                  ),
+                                  Container(
+                                    color: Colors.blue,
+                                  ),
+                                  Container(
+                                    color: Colors.yellow,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                */
               ],
             ),
           ),
@@ -144,20 +223,16 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
               animation: _drawerAnim,
               builder: (BuildContext context, Widget navigationDrawer) {
                 final value = _drawerAnim.value;
-                if (value <= 0.0) {
-                  return SizedBox();
-                } else {
-                  final blur = 12.0 * value;
-                  return BackdropFilter(
-                    filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.6 * value),
-                      ),
-                      child: navigationDrawer,
+                final blur = 12.0 * value;
+                return BackdropFilter(
+                  filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.6 * value),
                     ),
-                  );
-                }
+                    child: navigationDrawer,
+                  ),
+                );
               },
               child: RepaintBoundary(
                 child: Align(
@@ -190,6 +265,19 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Tab _buildTab(Widget icon) {
+    return Tab(
+      child: Material(
+        shape: CircleBorder(),
+        color: Colors.grey,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: icon,
+        ),
       ),
     );
   }
