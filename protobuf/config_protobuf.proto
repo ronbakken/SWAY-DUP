@@ -248,6 +248,7 @@ message ConfigData {
   
   /// Configuration data
   ConfigServices services = 6;
+  ConfigFeatureSwitches featureSwitches = 15;
   
   repeated ConfigAsset assets = 14;
   ConfigContent content = 7;
