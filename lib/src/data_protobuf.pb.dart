@@ -867,6 +867,8 @@ class DataAccountSummary extends $pb.GeneratedMessage {
 class DataAccountDetail extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccountDetail',
       package: const $pb.PackageName('inf_common'))
+    ..pp<DataSocialMedia>(3, 'socialMedia', $pb.PbFieldType.PM,
+        DataSocialMedia.$checkItem, DataSocialMedia.create)
     ..a<double>(4, 'latitude', $pb.PbFieldType.OD)
     ..a<double>(5, 'longitude', $pb.PbFieldType.OD)
     ..aOS(6, 'website')
@@ -877,8 +879,6 @@ class DataAccountDetail extends $pb.GeneratedMessage {
     ..p<int>(13, 'categories', $pb.PbFieldType.P3)
     ..aOS(14, 'locationName')
     ..aOS(15, 'location')
-    ..pp<DataSocialMedia>(16, 'socialMedia', $pb.PbFieldType.PM,
-        DataSocialMedia.$checkItem, DataSocialMedia.create)
     ..hasRequiredFields = false;
 
   DataAccountDetail() : super();
@@ -903,81 +903,81 @@ class DataAccountDetail extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  double get latitude => $_getN(0);
+  List<DataSocialMedia> get socialMedia => $_getList(0);
+
+  double get latitude => $_getN(1);
   set latitude(double v) {
-    $_setDouble(0, v);
-  }
-
-  bool hasLatitude() => $_has(0);
-  void clearLatitude() => clearField(4);
-
-  double get longitude => $_getN(1);
-  set longitude(double v) {
     $_setDouble(1, v);
   }
 
-  bool hasLongitude() => $_has(1);
-  void clearLongitude() => clearField(5);
+  bool hasLatitude() => $_has(1);
+  void clearLatitude() => clearField(4);
 
-  String get website => $_getS(2, '');
-  set website(String v) {
-    $_setString(2, v);
+  double get longitude => $_getN(2);
+  set longitude(double v) {
+    $_setDouble(2, v);
   }
 
-  bool hasWebsite() => $_has(2);
-  void clearWebsite() => clearField(6);
+  bool hasLongitude() => $_has(2);
+  void clearLongitude() => clearField(5);
 
-  String get avatarCoverUrl => $_getS(3, '');
-  set avatarCoverUrl(String v) {
+  String get website => $_getS(3, '');
+  set website(String v) {
     $_setString(3, v);
   }
 
-  bool hasAvatarCoverUrl() => $_has(3);
+  bool hasWebsite() => $_has(3);
+  void clearWebsite() => clearField(6);
+
+  String get avatarCoverUrl => $_getS(4, '');
+  set avatarCoverUrl(String v) {
+    $_setString(4, v);
+  }
+
+  bool hasAvatarCoverUrl() => $_has(4);
   void clearAvatarCoverUrl() => clearField(7);
 
-  Int64 get locationId => $_getI64(4);
+  Int64 get locationId => $_getI64(5);
   set locationId(Int64 v) {
-    $_setInt64(4, v);
+    $_setInt64(5, v);
   }
 
-  bool hasLocationId() => $_has(4);
+  bool hasLocationId() => $_has(5);
   void clearLocationId() => clearField(8);
 
-  String get email => $_getS(5, '');
+  String get email => $_getS(6, '');
   set email(String v) {
-    $_setString(5, v);
-  }
-
-  bool hasEmail() => $_has(5);
-  void clearEmail() => clearField(9);
-
-  String get blurredAvatarCoverUrl => $_getS(6, '');
-  set blurredAvatarCoverUrl(String v) {
     $_setString(6, v);
   }
 
-  bool hasBlurredAvatarCoverUrl() => $_has(6);
-  void clearBlurredAvatarCoverUrl() => clearField(12);
+  bool hasEmail() => $_has(6);
+  void clearEmail() => clearField(9);
 
-  List<int> get categories => $_getList(7);
-
-  String get locationName => $_getS(8, '');
-  set locationName(String v) {
-    $_setString(8, v);
+  String get blurredAvatarCoverUrl => $_getS(7, '');
+  set blurredAvatarCoverUrl(String v) {
+    $_setString(7, v);
   }
 
-  bool hasLocationName() => $_has(8);
-  void clearLocationName() => clearField(14);
+  bool hasBlurredAvatarCoverUrl() => $_has(7);
+  void clearBlurredAvatarCoverUrl() => clearField(12);
 
-  String get location => $_getS(9, '');
-  set location(String v) {
+  List<int> get categories => $_getList(8);
+
+  String get locationName => $_getS(9, '');
+  set locationName(String v) {
     $_setString(9, v);
   }
 
-  bool hasLocation() => $_has(9);
-  void clearLocation() => clearField(15);
+  bool hasLocationName() => $_has(9);
+  void clearLocationName() => clearField(14);
 
-  List<DataSocialMedia> get socialMedia => $_getList(10);
+  String get location => $_getS(10, '');
+  set location(String v) {
+    $_setString(10, v);
+  }
+
+  bool hasLocation() => $_has(10);
+  void clearLocation() => clearField(15);
 }
 
 class DataAccount extends $pb.GeneratedMessage {
