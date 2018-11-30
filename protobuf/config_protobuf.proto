@@ -190,6 +190,38 @@ message ConfigServices { // 40
   
 }
 
+message ConfigFeatureSwitches {
+  // Data
+  bool createProposal = 1;
+  
+  // Account
+  bool createSession = 2;
+  bool createAccount = 3;
+  bool removeAccount = 4;
+  bool removeSession = 5;
+  bool connectSocialMedia = 6;
+  bool removeSocialMedia = 7;
+  bool updateProfile = 8;
+  
+  // Offer
+  bool createOffer = 9;
+  bool updateOffer = 10;
+  bool closeOffer = 11;
+  bool archiveOffer = 12;
+  
+  // Proposal
+  bool sendChat = 13;
+  bool makeDeal = 14;
+  bool reportProposal = 15;
+  bool disputeDeal = 16;
+  
+  // Gallery
+  bool uploadImage = 17;
+  bool makeImagePublic= 18;
+  bool listImages = 19;
+
+}
+
 message ConfigAsset {
   string name = 1;
   bytes data = 2;
