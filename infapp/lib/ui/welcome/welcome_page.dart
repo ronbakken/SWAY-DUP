@@ -58,6 +58,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   ),
                 ),
               ),
+              /*
               SafeArea(
                 child: Container(
                   padding: const EdgeInsets.only(top: 36.0),
@@ -67,6 +68,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   ),
                 ),
               ),
+              */
               SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 48.0),
@@ -122,6 +124,7 @@ class _WelcomeButton extends StatelessWidget {
       color: this.color,
       shape: const StadiumBorder(),
       onPressed: this.onPressed,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       child: Container(
         alignment: Alignment.center,
         height: 44.0,
@@ -316,7 +319,7 @@ class _WelcomeWallBackground extends MultiChildRenderObjectWidget {
   @override
   void updateRenderObject(
       BuildContext context, _RenderWallBackground renderObject) {
-    renderObject..speed = speed;
+    renderObject.speed = speed;
   }
 }
 
