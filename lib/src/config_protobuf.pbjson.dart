@@ -445,6 +445,61 @@ const ConfigServices$json = const {
   ],
 };
 
+const ConfigFeatureSwitches$json = const {
+  '1': 'ConfigFeatureSwitches',
+  '2': const [
+    const {
+      '1': 'createProposal',
+      '3': 1,
+      '4': 1,
+      '5': 8,
+      '10': 'createProposal'
+    },
+    const {'1': 'createSession', '3': 2, '4': 1, '5': 8, '10': 'createSession'},
+    const {'1': 'createAccount', '3': 3, '4': 1, '5': 8, '10': 'createAccount'},
+    const {'1': 'removeAccount', '3': 4, '4': 1, '5': 8, '10': 'removeAccount'},
+    const {'1': 'removeSession', '3': 5, '4': 1, '5': 8, '10': 'removeSession'},
+    const {
+      '1': 'connectSocialMedia',
+      '3': 6,
+      '4': 1,
+      '5': 8,
+      '10': 'connectSocialMedia'
+    },
+    const {
+      '1': 'removeSocialMedia',
+      '3': 7,
+      '4': 1,
+      '5': 8,
+      '10': 'removeSocialMedia'
+    },
+    const {'1': 'updateProfile', '3': 8, '4': 1, '5': 8, '10': 'updateProfile'},
+    const {'1': 'createOffer', '3': 9, '4': 1, '5': 8, '10': 'createOffer'},
+    const {'1': 'updateOffer', '3': 10, '4': 1, '5': 8, '10': 'updateOffer'},
+    const {'1': 'closeOffer', '3': 11, '4': 1, '5': 8, '10': 'closeOffer'},
+    const {'1': 'archiveOffer', '3': 12, '4': 1, '5': 8, '10': 'archiveOffer'},
+    const {'1': 'sendChat', '3': 13, '4': 1, '5': 8, '10': 'sendChat'},
+    const {'1': 'makeDeal', '3': 14, '4': 1, '5': 8, '10': 'makeDeal'},
+    const {
+      '1': 'reportProposal',
+      '3': 15,
+      '4': 1,
+      '5': 8,
+      '10': 'reportProposal'
+    },
+    const {'1': 'disputeDeal', '3': 16, '4': 1, '5': 8, '10': 'disputeDeal'},
+    const {'1': 'uploadImage', '3': 17, '4': 1, '5': 8, '10': 'uploadImage'},
+    const {
+      '1': 'makeImagePublic',
+      '3': 18,
+      '4': 1,
+      '5': 8,
+      '10': 'makeImagePublic'
+    },
+    const {'1': 'listImages', '3': 19, '4': 1, '5': 8, '10': 'listImages'},
+  ],
+};
+
 const ConfigAsset$json = const {
   '1': 'ConfigAsset',
   '2': const [

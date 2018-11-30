@@ -949,6 +949,207 @@ class ConfigServices extends $pb.GeneratedMessage {
   void clearOneSignalApi() => clearField(40);
 }
 
+class ConfigFeatureSwitches extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigFeatureSwitches',
+      package: const $pb.PackageName('inf_common'))
+    ..aOB(1, 'createProposal')
+    ..aOB(2, 'createSession')
+    ..aOB(3, 'createAccount')
+    ..aOB(4, 'removeAccount')
+    ..aOB(5, 'removeSession')
+    ..aOB(6, 'connectSocialMedia')
+    ..aOB(7, 'removeSocialMedia')
+    ..aOB(8, 'updateProfile')
+    ..aOB(9, 'createOffer')
+    ..aOB(10, 'updateOffer')
+    ..aOB(11, 'closeOffer')
+    ..aOB(12, 'archiveOffer')
+    ..aOB(13, 'sendChat')
+    ..aOB(14, 'makeDeal')
+    ..aOB(15, 'reportProposal')
+    ..aOB(16, 'disputeDeal')
+    ..aOB(17, 'uploadImage')
+    ..aOB(18, 'makeImagePublic')
+    ..aOB(19, 'listImages')
+    ..hasRequiredFields = false;
+
+  ConfigFeatureSwitches() : super();
+  ConfigFeatureSwitches.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ConfigFeatureSwitches.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  ConfigFeatureSwitches clone() =>
+      new ConfigFeatureSwitches()..mergeFromMessage(this);
+  ConfigFeatureSwitches copyWith(
+          void Function(ConfigFeatureSwitches) updates) =>
+      super.copyWith((message) => updates(message as ConfigFeatureSwitches));
+  $pb.BuilderInfo get info_ => _i;
+  static ConfigFeatureSwitches create() => new ConfigFeatureSwitches();
+  static $pb.PbList<ConfigFeatureSwitches> createRepeated() =>
+      new $pb.PbList<ConfigFeatureSwitches>();
+  static ConfigFeatureSwitches getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static ConfigFeatureSwitches _defaultInstance;
+  static void $checkItem(ConfigFeatureSwitches v) {
+    if (v is! ConfigFeatureSwitches)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  bool get createProposal => $_get(0, false);
+  set createProposal(bool v) {
+    $_setBool(0, v);
+  }
+
+  bool hasCreateProposal() => $_has(0);
+  void clearCreateProposal() => clearField(1);
+
+  bool get createSession => $_get(1, false);
+  set createSession(bool v) {
+    $_setBool(1, v);
+  }
+
+  bool hasCreateSession() => $_has(1);
+  void clearCreateSession() => clearField(2);
+
+  bool get createAccount => $_get(2, false);
+  set createAccount(bool v) {
+    $_setBool(2, v);
+  }
+
+  bool hasCreateAccount() => $_has(2);
+  void clearCreateAccount() => clearField(3);
+
+  bool get removeAccount => $_get(3, false);
+  set removeAccount(bool v) {
+    $_setBool(3, v);
+  }
+
+  bool hasRemoveAccount() => $_has(3);
+  void clearRemoveAccount() => clearField(4);
+
+  bool get removeSession => $_get(4, false);
+  set removeSession(bool v) {
+    $_setBool(4, v);
+  }
+
+  bool hasRemoveSession() => $_has(4);
+  void clearRemoveSession() => clearField(5);
+
+  bool get connectSocialMedia => $_get(5, false);
+  set connectSocialMedia(bool v) {
+    $_setBool(5, v);
+  }
+
+  bool hasConnectSocialMedia() => $_has(5);
+  void clearConnectSocialMedia() => clearField(6);
+
+  bool get removeSocialMedia => $_get(6, false);
+  set removeSocialMedia(bool v) {
+    $_setBool(6, v);
+  }
+
+  bool hasRemoveSocialMedia() => $_has(6);
+  void clearRemoveSocialMedia() => clearField(7);
+
+  bool get updateProfile => $_get(7, false);
+  set updateProfile(bool v) {
+    $_setBool(7, v);
+  }
+
+  bool hasUpdateProfile() => $_has(7);
+  void clearUpdateProfile() => clearField(8);
+
+  bool get createOffer => $_get(8, false);
+  set createOffer(bool v) {
+    $_setBool(8, v);
+  }
+
+  bool hasCreateOffer() => $_has(8);
+  void clearCreateOffer() => clearField(9);
+
+  bool get updateOffer => $_get(9, false);
+  set updateOffer(bool v) {
+    $_setBool(9, v);
+  }
+
+  bool hasUpdateOffer() => $_has(9);
+  void clearUpdateOffer() => clearField(10);
+
+  bool get closeOffer => $_get(10, false);
+  set closeOffer(bool v) {
+    $_setBool(10, v);
+  }
+
+  bool hasCloseOffer() => $_has(10);
+  void clearCloseOffer() => clearField(11);
+
+  bool get archiveOffer => $_get(11, false);
+  set archiveOffer(bool v) {
+    $_setBool(11, v);
+  }
+
+  bool hasArchiveOffer() => $_has(11);
+  void clearArchiveOffer() => clearField(12);
+
+  bool get sendChat => $_get(12, false);
+  set sendChat(bool v) {
+    $_setBool(12, v);
+  }
+
+  bool hasSendChat() => $_has(12);
+  void clearSendChat() => clearField(13);
+
+  bool get makeDeal => $_get(13, false);
+  set makeDeal(bool v) {
+    $_setBool(13, v);
+  }
+
+  bool hasMakeDeal() => $_has(13);
+  void clearMakeDeal() => clearField(14);
+
+  bool get reportProposal => $_get(14, false);
+  set reportProposal(bool v) {
+    $_setBool(14, v);
+  }
+
+  bool hasReportProposal() => $_has(14);
+  void clearReportProposal() => clearField(15);
+
+  bool get disputeDeal => $_get(15, false);
+  set disputeDeal(bool v) {
+    $_setBool(15, v);
+  }
+
+  bool hasDisputeDeal() => $_has(15);
+  void clearDisputeDeal() => clearField(16);
+
+  bool get uploadImage => $_get(16, false);
+  set uploadImage(bool v) {
+    $_setBool(16, v);
+  }
+
+  bool hasUploadImage() => $_has(16);
+  void clearUploadImage() => clearField(17);
+
+  bool get makeImagePublic => $_get(17, false);
+  set makeImagePublic(bool v) {
+    $_setBool(17, v);
+  }
+
+  bool hasMakeImagePublic() => $_has(17);
+  void clearMakeImagePublic() => clearField(18);
+
+  bool get listImages => $_get(18, false);
+  set listImages(bool v) {
+    $_setBool(18, v);
+  }
+
+  bool hasListImages() => $_has(18);
+  void clearListImages() => clearField(19);
+}
+
 class ConfigAsset extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigAsset',
       package: const $pb.PackageName('inf_common'))
