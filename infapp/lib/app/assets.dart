@@ -1,4 +1,3 @@
-import 'package:inf/domain/domain.dart';
 
 class AppFonts {
   const AppFonts();
@@ -13,6 +12,8 @@ class AppLogo {
   static const infLogo = AppAsset.vector('assets/images/logo_inf.svg');
   static const infLogoWithShadow =
       AppAsset.vector('assets/images/logo_inf_shadow.svg');
+
+      /*
   static const instagram = AppAsset.bitmap('assets/images/logo_instagram.png');
   static const facebook = AppAsset.vector('assets/images/logo_facebook.svg');
   static const google = AppAsset.vector('assets/images/logo_google.svg');
@@ -34,7 +35,7 @@ class AppLogo {
         return twitter;
     }
     throw StateError('Bad Deliverable Channel');
-  }
+  }*/
 }
 
 class AppIcons {

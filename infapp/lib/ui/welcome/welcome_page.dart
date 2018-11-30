@@ -5,48 +5,37 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
-import 'package:inf/backend/backend.dart';
-import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/welcome/onboarding_page.dart';
-import 'package:inf/ui/widgets/connection_builder.dart';
+// import 'package:inf/ui/welcome/onboarding_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/page_widget.dart';
-import 'package:inf/ui/widgets/routes.dart';
 
-class WelcomePage extends PageWidget {
-  static Route<dynamic> route() {
-    return FadePageRoute(
-      builder: (BuildContext context) => WelcomePage(),
-      transitionDuration: const Duration(seconds: 2),
-    );
-  }
+// Prototype: onboarding_selection.dart
+
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({
+    Key key,
+    @required this.onInfluencer,
+    @required this.onBusiness,
+    @required this.welcomeImages,
+  }) : super(key: key);
+
+  final Function() onInfluencer;
+  final Function() onBusiness;
+  final List<String> welcomeImages;
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
 }
 
-class _WelcomePageState extends PageState<WelcomePage> {
+class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
-    return ConnectionBuilder(
-      builder: (BuildContext context, NetworkConnectionState connectionState,
-          Widget child) {
+    ThemeData theme = Theme.of(context);
         return Material(
           color: theme.backgroundColor,
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              StreamBuilder<WelcomePageImages>(
-                stream: backend
-                    .get<ResourceService>()
-                    .getWelcomePageProfileImages(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<WelcomePageImages> snapshot) {
-                  return snapshot.hasData
-                      ? _WelcomeWall(data: snapshot.data)
-                      : SizedBox();
-                },
-              ),
+              _WelcomeWall(welcomeImages: widget.welcomeImages),
               FractionallySizedBox(
                 alignment: Alignment.bottomCenter,
                 heightFactor: 0.5,
@@ -94,16 +83,16 @@ class _WelcomePageState extends PageState<WelcomePage> {
                       _WelcomeButton(
                         text: 'I AM AN INFLUENCER',
                         color: AppTheme.blue,
-                        onPressed: () => Navigator.of(context).push(
+                        onPressed: widget.onInfluencer/*() => Navigator.of(context).push(
                             OnBoardingPage.route(
-                                userType: AccountType.influencer)),
+                                userType: AccountType.influencer))*/,
                       ),
                       SizedBox(height: 12.0),
                       _WelcomeButton(
                         text: 'I NEED AN INFLUENCER',
                         color: AppTheme.red,
-                        onPressed: () => Navigator.of(context).push(
-                            OnBoardingPage.route(userType: AccountType.business)),
+                        onPressed: widget.onBusiness/*() => Navigator.of(context).push(
+                            OnBoardingPage.route(userType: AccountType.business))*/,
                       ),
                     ],
                   ),
@@ -112,8 +101,6 @@ class _WelcomePageState extends PageState<WelcomePage> {
             ],
           ),
         );
-      },
-    );
   }
 }
 
@@ -243,33 +230,17 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
 class _WelcomeWall extends StatefulWidget {
   const _WelcomeWall({
     Key key,
-    @required this.data,
+    @required this.welcomeImages,
   }) : super(key: key);
 
-  final WelcomePageImages data;
+  final List<String> welcomeImages;
 
   @override
   _WelcomeWallState createState() => _WelcomeWallState();
 }
 
 class _WelcomeWallState extends State<_WelcomeWall> {
-  double _opacity = 0.0;
-  bool _first = true;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_first) {
-      Iterable<Future> loadingImages = widget.data.images
-          .map<Future>((url) => precacheImage(NetworkImage(url), context));
-      Future.wait(loadingImages).then((_) {
-        if (mounted) {
-          setState(() => _opacity = 0.5);
-        }
-      });
-      _first = false;
-    }
-  }
+  static const double kOpacity = 0.5;
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +248,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
     return AnimatedOpacity(
       duration: Duration(seconds: 3),
       curve: Curves.decelerate,
-      opacity: _opacity,
+      opacity: kOpacity,
       child: OverflowBox(
         minWidth: size.width,
         maxWidth: size.width,
@@ -285,7 +256,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
         maxHeight: size.height,
         child: _WelcomeWallBackground(
           speed: 24.0,
-          children: widget.data.images
+          children: widget.welcomeImages
               .map<Widget>((url) => _buildWallTile(url))
               .toList(growable: false),
         ),
