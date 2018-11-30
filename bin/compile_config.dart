@@ -127,6 +127,65 @@ Future<ConfigServices> generateConfigServices(bool server) async {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+Future<ConfigFeatureSwitches> generateConfigFeatureSwitches(bool server) async {
+  List<String> lines = await new File("config/services.ini").readAsLines();
+  ConfigFeatureSwitches res = new ConfigFeatureSwitches();
+  ini.Config cfg = new ini.Config.fromStrings(lines);
+
+  for (String section in cfg.sections()) {
+    if (cfg.hasOption(section, 'createProposal'))
+      res.createProposal = int.parse(cfg.get(section, 'createProposal')) != 1;
+
+    if (cfg.hasOption(section, 'createSession'))
+      res.createSession = int.parse(cfg.get(section, 'createSession')) != 1;
+    if (cfg.hasOption(section, 'createAccount'))
+      res.createAccount = int.parse(cfg.get(section, 'createAccount')) != 1;
+    if (cfg.hasOption(section, 'removeAccount'))
+      res.removeAccount = int.parse(cfg.get(section, 'removeAccount')) != 1;
+    if (cfg.hasOption(section, 'removeSession'))
+      res.removeSession = int.parse(cfg.get(section, 'removeSession')) != 1;
+    if (cfg.hasOption(section, 'connectSocialMedia'))
+      res.connectSocialMedia =
+          int.parse(cfg.get(section, 'connectSocialMedia')) != 1;
+    if (cfg.hasOption(section, 'removeSocialMedia'))
+      res.removeSocialMedia =
+          int.parse(cfg.get(section, 'removeSocialMedia')) != 1;
+    if (cfg.hasOption(section, 'updateProfile'))
+      res.updateProfile = int.parse(cfg.get(section, 'updateProfile')) != 1;
+
+    if (cfg.hasOption(section, 'createOffer'))
+      res.createOffer = int.parse(cfg.get(section, 'createOffer')) != 1;
+    if (cfg.hasOption(section, 'updateOffer'))
+      res.updateOffer = int.parse(cfg.get(section, 'updateOffer')) != 1;
+    if (cfg.hasOption(section, 'closeOffer'))
+      res.closeOffer = int.parse(cfg.get(section, 'closeOffer')) != 1;
+    if (cfg.hasOption(section, 'archiveOffer'))
+      res.archiveOffer = int.parse(cfg.get(section, 'archiveOffer')) != 1;
+
+    if (cfg.hasOption(section, 'sendChat'))
+      res.sendChat = int.parse(cfg.get(section, 'sendChat')) != 1;
+    if (cfg.hasOption(section, 'makeDeal'))
+      res.makeDeal = int.parse(cfg.get(section, 'makeDeal')) != 1;
+    if (cfg.hasOption(section, 'reportProposal'))
+      res.reportProposal = int.parse(cfg.get(section, 'reportProposal')) != 1;
+    if (cfg.hasOption(section, 'disputeDeal'))
+      res.disputeDeal = int.parse(cfg.get(section, 'disputeDeal')) != 1;
+
+    if (cfg.hasOption(section, 'uploadImage'))
+      res.uploadImage = int.parse(cfg.get(section, 'uploadImage')) != 1;
+    if (cfg.hasOption(section, 'makeImagePublic'))
+      res.makeImagePublic = int.parse(cfg.get(section, 'makeImagePublic')) != 1;
+    if (cfg.hasOption(section, 'listImages'))
+      res.listImages = int.parse(cfg.get(section, 'listImages')) != 1;
+  }
+
+  return res;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 Future<List<ConfigAsset>> generateConfigAssets(bool server) async {
   List<ConfigAsset> res = new List<ConfigAsset>();
   res.add(new ConfigAsset());
@@ -231,10 +290,12 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
         entry.backgroundImageId = assets[cfg.get(section, 'backgroundImage')];
       }
       if (cfg.hasOption(section, 'monochromeForegroundImage')) {
-        entry.monochromeForegroundImageId = assets[cfg.get(section, 'monochromeForegroundImage')];
+        entry.monochromeForegroundImageId =
+            assets[cfg.get(section, 'monochromeForegroundImage')];
       }
       if (cfg.hasOption(section, 'monochromeBackgroundImage')) {
-        entry.monochromeBackgroundImageId = assets[cfg.get(section, 'monochromeBackgroundImage')];
+        entry.monochromeBackgroundImageId =
+            assets[cfg.get(section, 'monochromeBackgroundImage')];
       }
     }
     if (cfg.hasOption(section, 'fontAwesomeBrand'))
@@ -355,10 +416,12 @@ Future<List<ConfigCategory>> generateConfigCategories(
         entry.backgroundImageId = assets[cfg.get(section, 'backgroundImage')];
       }
       if (cfg.hasOption(section, 'monochromeForegroundImage')) {
-        entry.monochromeForegroundImageId = assets[cfg.get(section, 'monochromeForegroundImage')];
+        entry.monochromeForegroundImageId =
+            assets[cfg.get(section, 'monochromeForegroundImage')];
       }
       if (cfg.hasOption(section, 'monochromeBackgroundImage')) {
-        entry.monochromeBackgroundImageId = assets[cfg.get(section, 'monochromeBackgroundImage')];
+        entry.monochromeBackgroundImageId =
+            assets[cfg.get(section, 'monochromeBackgroundImage')];
       }
     }
     if (cfg.hasOption(section, 'fontAwesomeIcon'))
@@ -395,7 +458,8 @@ Future<List<ConfigCategory>> generateConfigCategories(
 
 Future<List<ConfigContentFormat>> generateConfigContentFormats(
     Map<String, int> assets, bool server) async {
-  List<String> lines = await new File("config/content_formats.ini").readAsLines();
+  List<String> lines =
+      await new File("config/content_formats.ini").readAsLines();
   List<ConfigContentFormat> res = new List<ConfigContentFormat>();
   ini.Config cfg = new ini.Config.fromStrings(lines);
 
@@ -433,10 +497,12 @@ Future<List<ConfigContentFormat>> generateConfigContentFormats(
         entry.backgroundImageId = assets[cfg.get(section, 'backgroundImage')];
       }
       if (cfg.hasOption(section, 'monochromeForegroundImage')) {
-        entry.monochromeForegroundImageId = assets[cfg.get(section, 'monochromeForegroundImage')];
+        entry.monochromeForegroundImageId =
+            assets[cfg.get(section, 'monochromeForegroundImage')];
       }
       if (cfg.hasOption(section, 'monochromeBackgroundImage')) {
-        entry.monochromeBackgroundImageId = assets[cfg.get(section, 'monochromeBackgroundImage')];
+        entry.monochromeBackgroundImageId =
+            assets[cfg.get(section, 'monochromeBackgroundImage')];
       }
     }
     if (cfg.hasOption(section, 'fontAwesomeIcon'))
@@ -460,6 +526,7 @@ Future<void> generateConfig(bool server) async {
   config.region = "US";
   config.language = "en";
   config.services = await generateConfigServices(server);
+  config.featureSwitches = await generateConfigFeatureSwitches(server);
   config.assets.addAll(await generateConfigAssets(server));
   Map<String, int> assets = <String, int>{};
   for (int i = 0; i < config.assets.length; ++i) {
@@ -469,7 +536,8 @@ Future<void> generateConfig(bool server) async {
   config.oauthProviders
       .addAll(await generateConfigOAuthProviders(assets, server));
   config.categories.addAll(await generateConfigCategories(assets, server));
-  config.contentFormats.addAll(await generateConfigContentFormats(assets, server));
+  config.contentFormats
+      .addAll(await generateConfigContentFormats(assets, server));
   print(config);
   Uint8List configBuffer = config.writeToBuffer();
   new File(server ? "config/config_server.bin" : "config/config.bin")
