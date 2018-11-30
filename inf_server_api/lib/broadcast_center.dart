@@ -197,7 +197,7 @@ class BroadcastCenter {
       data['account_id'] = receiverAccountId;
       data['proposal_id'] = chat.proposalId;
       data['type'] = chat.type.value;
-      data['environment'] = config.services.environment;
+      data['domain'] = config.services.domain;
       Map<String, dynamic> message = new Map<String, dynamic>();
       message['registration_ids'] = receiverFirebaseTokens;
       message['collapse_key'] = 'proposal_id=' + chat.proposalId.toString();

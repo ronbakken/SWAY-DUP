@@ -86,7 +86,7 @@ class ApiChannelInfluencer {
 
   // Demo function to get all offers
   Future<void> netLoadOffersReq(TalkMessage message) async {
-    NetLoadOffersReq pb = new NetLoadOffersReq();
+    NetLoadOffers pb = new NetLoadOffers();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
     // TODO: Limit number of results
@@ -119,14 +119,14 @@ class ApiChannelInfluencer {
           channel.replyExtend(message);
           DataOffer offer = new DataOffer();
           offer.offerId = new Int64(offerRow[0]);
-          offer.accountId = new Int64(offerRow[1]);
+          offer.senderId = new Int64(offerRow[1]);
           offer.locationId = new Int64(offerRow[6]);
           offer.title = offerRow[2].toString();
           offer.description = offerRow[3].toString();
-          offer.deliverables = offerRow[4].toString();
-          offer.reward = offerRow[5].toString();
+          // TODO: offer.deliverables = offerRow[4].toString();
+          // TODO: offer.reward = offerRow[5].toString();
           offer.locationName = offerRow[12].toString();
-          offer.location = offerRow[7].toString();
+          // TODO: offer.location = offerRow[7].toString();
           Uint8List point = offerRow[8];
           if (point != null) {
             // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
@@ -138,7 +138,7 @@ class ApiChannelInfluencer {
               offer.longitude = data.getFloat64(4 + 5, endian = endian);
             }
           }
-          offer.locationOfferCount = offerRow[11].toInt();
+          // TODO: offer.locationOfferCount = offerRow[11].toInt();
           // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
           // TODO: categories
           offer.state = OfferState.valueOf(offerRow[9].toInt());
@@ -149,15 +149,15 @@ class ApiChannelInfluencer {
             if (!offer.hasThumbnailUrl()) {
               offer.thumbnailUrl =
                   _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
-              offer.blurredThumbnailUrl =
-                  _r.makeCloudinaryBlurredThumbnailUrl(imageKeyRow[0]);
+              // TODO: offer.blurredThumbnailUrl =
+              // TODO:     _r.makeCloudinaryBlurredThumbnailUrl(imageKeyRow[0]);
             }
             offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
-            offer.blurredCoverUrls
-                .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
+            // TODO: offer.blurredCoverUrls
+            // TODO:     .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
           }
           if (offerRow[13] != null) {
-            offer.influencerProposalId = new Int64(offerRow[13]);
+            // TODO: offer.influencerProposalId = new Int64(offerRow[13]);
           }
           // Cache offer for use (is this really necessary?)
           // offers[offer.offerId] = offer;

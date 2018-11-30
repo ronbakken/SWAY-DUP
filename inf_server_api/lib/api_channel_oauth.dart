@@ -65,13 +65,13 @@ class ApiChannelOAuth {
       ..mergeFromBuffer(message.data)
       ..freeze();
     int providerId = getSecrets.oauthProvider;
-    if (providerId >= config.oauthProviders.all.length) {
+    if (providerId >= config.oauthProviders.length) {
       channel.replyAbort(
           message, "Invalid oauthProvider specified '$providerId'.");
       return;
     }
     NetOAuthSecrets secrets = new NetOAuthSecrets();
-    ConfigOAuthProvider provider = config.oauthProviders.all[providerId];
+    ConfigOAuthProvider provider = config.oauthProviders[providerId];
     if (provider.consumerKeyExposed) {
       secrets.consumerKey = provider.consumerKey;
     }
@@ -87,8 +87,8 @@ class ApiChannelOAuth {
   Future<void> _oauthGetUrl(TalkMessage message) async {
     NetOAuthGetUrl pb = new NetOAuthGetUrl();
     pb.mergeFromBuffer(message.data);
-    if (pb.oauthProvider < config.oauthProviders.all.length) {
-      ConfigOAuthProvider cfg = config.oauthProviders.all[pb.oauthProvider];
+    if (pb.oauthProvider < config.oauthProviders.length) {
+      ConfigOAuthProvider cfg = config.oauthProviders[pb.oauthProvider];
       switch (cfg.mechanism) {
         case OAuthMechanism.oauth1:
           {
@@ -153,7 +153,7 @@ class ApiChannelOAuth {
       int oauthProvider, String callbackQuery) async {
     devLog.finest(
         "Fetch OAuth Credentials: OAuth Provider: $oauthProvider, Callback Query: $callbackQuery");
-    ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
+    ConfigOAuthProvider cfg = config.oauthProviders[oauthProvider];
     Map<String, String> query = Uri.splitQueryString(callbackQuery);
     DataOAuthCredentials oauthCredentials = new DataOAuthCredentials();
     switch (cfg.mechanism) {
@@ -264,7 +264,7 @@ class ApiChannelOAuth {
     NetOAuthConnect pb = new NetOAuthConnect();
     pb.mergeFromBuffer(message.data);
     // devLog.finest(pb.callbackQuery);
-    if (pb.oauthProvider < config.oauthProviders.all.length) {
+    if (pb.oauthProvider < config.oauthProviders.length) {
       int oauthProvider = pb.oauthProvider;
       DataOAuthCredentials oauthCredentials;
 
@@ -280,7 +280,7 @@ class ApiChannelOAuth {
       // bool transitionAccount = false;
       // bool connected = false;
 
-      ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
+      ConfigOAuthProvider cfg = config.oauthProviders[oauthProvider];
       NetOAuthConnection pbRes = new NetOAuthConnection();
 
       bool inserted = false;
@@ -448,7 +448,7 @@ class ApiChannelOAuth {
         socialMedia[oauthProvider].mergeFromMessage(dataSocialMedia);
         socialMedia[oauthProvider].connected = true;
         socialMedia[oauthProvider].canSignUp =
-          config.oauthProviders.all[oauthProvider].canAlwaysAuthenticate &&
+          config.oauthProviders[oauthProvider].canAlwaysAuthenticate &&
               !takeover;
       }
 
@@ -488,7 +488,7 @@ class ApiChannelOAuth {
     DataSocialMedia dataSocialMedia = new DataSocialMedia();
     // Fetch social media stats from the oauth provider. Then store them in the database. Then set them here.
     // Get display name, screen name, followers, following, avatar, banner image
-    ConfigOAuthProvider cfg = config.oauthProviders.all[oauthProvider];
+    ConfigOAuthProvider cfg = config.oauthProviders[oauthProvider];
     switch (OAuthProviderIds.valueOf(oauthProvider)) {
       case OAuthProviderIds.twitter:
         {

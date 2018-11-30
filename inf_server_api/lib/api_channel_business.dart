@@ -93,17 +93,17 @@ class ApiChannelBusiness {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> netCreateOfferReq(TalkMessage message) async {
-    NetCreateOfferReq pb = new NetCreateOfferReq();
+    NetCreateOffer pb = new NetCreateOffer();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
 
-    if (pb.locationId != null && pb.locationId != 0) {
-      // TODO: Fetch location and verify it's owned by this user plus verify that user paid for this feature
-      devLog.severe(
-          "User $accountId attempt to use non-implemented offer location feature");
-      channel.replyAbort(message, "Location not implemented.");
-      return;
-    }
+    // TODO: if (pb.locationId != null && pb.locationId != 0) {
+    // TODO:   // TODO: Fetch location and verify it's owned by this user plus verify that user paid for this feature
+    // TODO:   devLog.severe(
+    // TODO:       "User $accountId attempt to use non-implemented offer location feature");
+    // TODO:   channel.replyAbort(message, "Location not implemented.");
+    // TODO:   return;
+    // TODO: }
 
     if (account.detail.locationId == 0) {
       opsLog.warning(
@@ -112,10 +112,10 @@ class ApiChannelBusiness {
       return;
     }
 
-    if (pb.title.length == 0 ||
-        pb.description.length < 20 ||
-        pb.deliverables.length < 4 ||
-        pb.reward.length < 4) {
+    if (pb.offer.title.length == 0 ||
+        pb.offer.description.length < 20 ||
+        pb.offer.terms.deliverablesDescription.length < 4 ||
+        pb.offer.terms.rewardItemOrServiceDescription.length < 4) {
       opsLog.warning("User $accountId offer parameters not validated");
       channel.replyAbort(message, "Not validated.");
       return;
@@ -130,10 +130,10 @@ class ApiChannelBusiness {
         "VALUES (?, ?, ?, ?, ?, ?, ?)";
     sqljocky.Results insertRes = await sql.prepareExecute(insertOffer, [
       account.state.accountId,
-      pb.title.toString(),
-      pb.description.toString(),
-      pb.deliverables.toString(),
-      pb.reward.toString(),
+      pb.offer.title.toString(),
+      pb.offer.description.toString(),
+      pb.offer.terms.deliverablesDescription.toString(),
+      pb.offer.terms.rewardItemOrServiceDescription.toString(),
       locationId,
       OfferState.open.value.toInt()
     ]);
@@ -146,7 +146,7 @@ class ApiChannelBusiness {
       return;
     }
 
-    List<String> filteredImageKeys = pb.imageKeys
+    List<String> filteredImageKeys = pb.offer.coverKeys
         .where((imageKey) =>
             imageKey != null &&
             !imageKey.isEmpty &&
@@ -169,25 +169,25 @@ class ApiChannelBusiness {
     // Reply success
     DataOffer netCreateOfferRes = new DataOffer();
     netCreateOfferRes.offerId = offerId;
-    netCreateOfferRes.accountId = accountId;
+    netCreateOfferRes.senderId = accountId;
     netCreateOfferRes.locationId = locationId;
-    netCreateOfferRes.title = pb.title;
-    netCreateOfferRes.description = pb.description;
-    if (filteredImageKeys.length > 0) {
-      netCreateOfferRes.thumbnailUrl =
-          _r.makeCloudinaryThumbnailUrl(filteredImageKeys[0]);
-      netCreateOfferRes.blurredThumbnailUrl =
-          _r.makeCloudinaryBlurredThumbnailUrl(filteredImageKeys[0]);
-    }
-    netCreateOfferRes.deliverables = pb.deliverables;
-    netCreateOfferRes.reward = pb.reward;
-    netCreateOfferRes.location = account.summary.location;
+    // TODO: netCreateOfferRes.title = pb.title;
+    // TODO: netCreateOfferRes.description = pb.description;
+    // TODO: if (filteredImageKeys.length > 0) {
+    // TODO:   netCreateOfferRes.thumbnailUrl =
+    // TODO:       _r.makeCloudinaryThumbnailUrl(filteredImageKeys[0]);
+    // TODO:   netCreateOfferRes.blurredThumbnailUrl =
+    // TODO:       _r.makeCloudinaryBlurredThumbnailUrl(filteredImageKeys[0]);
+    // TODO: }
+    // TODO: netCreateOfferRes.deliverables = pb.deliverables;
+    // TODO: netCreateOfferRes.reward = pb.reward;
+    // TODO: netCreateOfferRes.location = account.summary.location;
     netCreateOfferRes.latitude = account.detail.latitude;
     netCreateOfferRes.longitude = account.detail.longitude;
     netCreateOfferRes.coverUrls
         .addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
-    netCreateOfferRes.blurredCoverUrls.addAll(
-        filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
+    // TODO: netCreateOfferRes.blurredCoverUrls.addAll(
+    // TODO:     filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
     // TODO: categories
     netCreateOfferRes.state = OfferState.open;
     netCreateOfferRes.stateReason = OfferStateReason.newOffer;
@@ -201,7 +201,7 @@ class ApiChannelBusiness {
   }
 
   Future<void> netLoadOffersReq(TalkMessage message) async {
-    NetLoadOffersReq pb = new NetLoadOffersReq();
+    NetLoadOffers pb = new NetLoadOffers();
     pb.mergeFromBuffer(message.data);
 
     // TODO: Limit number of results
@@ -227,14 +227,14 @@ class ApiChannelBusiness {
           channel.replyExtend(message);
           DataOffer offer = new DataOffer();
           offer.offerId = new Int64(offerRow[0]);
-          offer.accountId = new Int64(offerRow[1]);
+          offer.senderId = new Int64(offerRow[1]);
           offer.locationId = new Int64(offerRow[6]);
           offer.title = offerRow[2].toString();
           offer.description = offerRow[3].toString();
-          offer.deliverables = offerRow[4].toString();
-          offer.reward = offerRow[5].toString();
+          // TODO: offer.deliverables = offerRow[4].toString();
+          // TODO: offer.reward = offerRow[5].toString();
           offer.locationName = offerRow[11].toString();
-          offer.location = offerRow[7].toString();
+          // TODO: offer.location = offerRow[7].toString();
           print(offerRow[8].toString());
           Uint8List point = offerRow[8];
           if (point != null) {
@@ -263,12 +263,12 @@ class ApiChannelBusiness {
             if (!offer.hasThumbnailUrl()) {
               offer.thumbnailUrl =
                   _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
-              offer.blurredThumbnailUrl =
-                  _r.makeCloudinaryBlurredThumbnailUrl(imageKeyRow[0]);
+              // TODO: offer.blurredThumbnailUrl =
+              // TODO:     _r.makeCloudinaryBlurredThumbnailUrl(imageKeyRow[0]);
             }
             offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
-            offer.blurredCoverUrls
-                .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
+            // TODO: offer.blurredCoverUrls
+            // TODO:     .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
           }
           // Cache offer for use (is this really necessary?)
           offers[offer.offerId] = offer;
@@ -283,7 +283,8 @@ class ApiChannelBusiness {
       await connection.release();
     }
 
-    NetLoadOffersRes loadOffersRes = new NetLoadOffersRes();
-    channel.replyMessage(message, "L_R_OFFE", loadOffersRes.writeToBuffer());
+    // TODO: NetOffer loadOffersRes = new NetOffer();
+    // TODO: channel.replyMessage(message, "L_R_OFFE", loadOffersRes.writeToBuffer());
+    channel.replyAbort(message, "Not implemented");
   }
 }

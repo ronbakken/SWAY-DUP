@@ -243,7 +243,7 @@ class ApiChannel {
     account.detail = new DataAccountDetail();
 
     account.detail.socialMedia.length = 0;
-    for (int i = 0; i < config.oauthProviders.all.length; ++i) {
+    for (int i = 0; i < config.oauthProviders.length; ++i) {
       account.detail.socialMedia.add(new DataSocialMedia());
     }
 
@@ -922,12 +922,12 @@ class ApiChannel {
         mediaLocations.add(getGeocodingFromName(socialMedia.location)
             .then((DataLocation location) {
           devLog.finest(
-              "${config.oauthProviders.all[i].label}: ${socialMedia.displayName}: $location");
+              "${config.oauthProviders[i].label}: ${socialMedia.displayName}: $location");
           location.name = socialMedia.displayName;
           locations.add(location);
         }).catchError((error, stackTrace) {
           devLog.severe(
-              "${config.oauthProviders.all[i].label}: Geocoding Exception: $error\n$stackTrace");
+              "${config.oauthProviders[i].label}: Geocoding Exception: $error\n$stackTrace");
         }));
       }
     }
