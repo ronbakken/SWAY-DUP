@@ -32,6 +32,7 @@ class DataSocialMedia extends $pb.GeneratedMessage {
     ..aOB(15, 'expired')
     ..aOS(16, 'blurredAvatarUrl')
     ..aOB(20, 'canSignUp')
+    ..a<int>(21, 'oauthProviderId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataSocialMedia() : super();
@@ -190,6 +191,14 @@ class DataSocialMedia extends $pb.GeneratedMessage {
 
   bool hasCanSignUp() => $_has(16);
   void clearCanSignUp() => clearField(20);
+
+  int get oauthProviderId => $_get(17, 0);
+  set oauthProviderId(int v) {
+    $_setSignedInt32(17, v);
+  }
+
+  bool hasOauthProviderId() => $_has(17);
+  void clearOauthProviderId() => clearField(21);
 }
 
 class DataOAuthCredentials extends $pb.GeneratedMessage {
