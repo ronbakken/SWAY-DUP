@@ -135,7 +135,13 @@ const DataOffer$json = const {
       '10': 'primaryCategories'
     },
     const {'1': 'location_name', '3': 21, '4': 1, '5': 9, '10': 'locationName'},
-    const {'1': 'location_text', '3': 9, '4': 1, '5': 9, '10': 'locationText'},
+    const {
+      '1': 'location_address',
+      '3': 9,
+      '4': 1,
+      '5': 9,
+      '10': 'locationAddress'
+    },
     const {'1': 'latitude', '3': 18, '4': 1, '5': 1, '10': 'latitude'},
     const {'1': 'longitude', '3': 19, '4': 1, '5': 1, '10': 'longitude'},
     const {'1': 'description', '3': 5, '4': 1, '5': 9, '10': 'description'},
