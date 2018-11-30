@@ -27,6 +27,7 @@ dependencies:
 
   flutter_webview_plugin: ^0.2.1+2
   cached_network_image: ^0.4.2
+  flutter_svg: ^0.7.0+1
 
   # Device info, used during device registration
   device_info: ^0.3.0
@@ -74,6 +75,7 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.io/assets-and-images/#from-packages
   assets:
+    - assets/images/
     - assets/config.bin
     - assets/logo_appbar.png
     - assets/logo_appbar_ext_gray.png
@@ -102,3 +104,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies, 
   # see https://flutter.io/custom-fonts/#from-packages
+  fonts:
+  - family: MavenPro
+    fonts:
+    - asset: assets/fonts/MavenPro-Regular.ttf
+    - asset: assets/fonts/MavenPro-Medium.ttf
+      weight: 500
+    - asset: assets/fonts/MavenPro-Bold.ttf
+      weight: 700
