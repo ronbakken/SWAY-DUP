@@ -110,7 +110,7 @@ message DataOffer { // 34
   
   // Embedded location info
   string location_name = 21; // (Denormalized) (Summary) (Detail) Location nickname or business name
-  string location_text = 9; // (Denormalized) (Summary) (Detail)
+  string location_address = 9; // (Denormalized) (Summary) (Detail)
   double latitude = 18; // (Denormalized) (Summary) (Detail)
   double longitude = 19; // (Denormalized) (Summary) (Detail)
   // int32 locationOfferCount = 20; // Number of offers at the same location
