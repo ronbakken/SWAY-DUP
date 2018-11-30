@@ -10,6 +10,7 @@ import 'dart:typed_data';
 import "package:ini/ini.dart" as ini;
 import 'package:fixnum/fixnum.dart';
 import 'package:dospace/dospace.dart' as dospace;
+import 'package:http_client/console.dart' as http;
 
 import 'package:inf_common/inf_common.dart';
 
@@ -167,6 +168,7 @@ Future<ConfigContent> generateConfigContent(bool server) async {
     region: spacesRegion,
     accessKey: spacesKey,
     secretKey: spacesSecret,
+    httpClient: new http.ConsoleClient(),
   );
   var bucket = spaces.bucket(spacesBucket);
   if (!server) {
@@ -177,6 +179,7 @@ Future<ConfigContent> generateConfigContent(bool server) async {
           .add(welcomeCloudinaryUrl.replaceAll('{key}', content.key));
     }
   }
+  await spaces.close();
 
   return res;
 }
@@ -227,11 +230,11 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
       if (cfg.hasOption(section, 'backgroundImage')) {
         entry.backgroundImageId = assets[cfg.get(section, 'backgroundImage')];
       }
-      if (cfg.hasOption(section, 'foregroundFlat')) {
-        entry.foregroundFlatId = assets[cfg.get(section, 'foregroundFlat')];
+      if (cfg.hasOption(section, 'monochromeForegroundImage')) {
+        entry.monochromeForegroundImageId = assets[cfg.get(section, 'monochromeForegroundImage')];
       }
-      if (cfg.hasOption(section, 'backgroundFlat')) {
-        entry.backgroundFlatId = assets[cfg.get(section, 'backgroundFlat')];
+      if (cfg.hasOption(section, 'monochromeBackgroundImage')) {
+        entry.monochromeBackgroundImageId = assets[cfg.get(section, 'monochromeBackgroundImage')];
       }
     }
     if (cfg.hasOption(section, 'fontAwesomeBrand'))
@@ -351,11 +354,11 @@ Future<List<ConfigCategory>> generateConfigCategories(
       if (cfg.hasOption(section, 'backgroundImage')) {
         entry.backgroundImageId = assets[cfg.get(section, 'backgroundImage')];
       }
-      if (cfg.hasOption(section, 'foregroundFlat')) {
-        entry.foregroundFlatId = assets[cfg.get(section, 'foregroundFlat')];
+      if (cfg.hasOption(section, 'monochromeForegroundImage')) {
+        entry.monochromeForegroundImageId = assets[cfg.get(section, 'monochromeForegroundImage')];
       }
-      if (cfg.hasOption(section, 'backgroundFlat')) {
-        entry.backgroundFlatId = assets[cfg.get(section, 'backgroundFlat')];
+      if (cfg.hasOption(section, 'monochromeBackgroundImage')) {
+        entry.monochromeBackgroundImageId = assets[cfg.get(section, 'monochromeBackgroundImage')];
       }
     }
     if (cfg.hasOption(section, 'fontAwesomeIcon'))
@@ -429,11 +432,11 @@ Future<List<ConfigContentFormat>> generateConfigContentFormats(
       if (cfg.hasOption(section, 'backgroundImage')) {
         entry.backgroundImageId = assets[cfg.get(section, 'backgroundImage')];
       }
-      if (cfg.hasOption(section, 'foregroundFlat')) {
-        entry.foregroundFlatId = assets[cfg.get(section, 'foregroundFlat')];
+      if (cfg.hasOption(section, 'monochromeForegroundImage')) {
+        entry.monochromeForegroundImageId = assets[cfg.get(section, 'monochromeForegroundImage')];
       }
-      if (cfg.hasOption(section, 'backgroundFlat')) {
-        entry.backgroundFlatId = assets[cfg.get(section, 'backgroundFlat')];
+      if (cfg.hasOption(section, 'monochromeBackgroundImage')) {
+        entry.monochromeBackgroundImageId = assets[cfg.get(section, 'monochromeBackgroundImage')];
       }
     }
     if (cfg.hasOption(section, 'fontAwesomeIcon'))
