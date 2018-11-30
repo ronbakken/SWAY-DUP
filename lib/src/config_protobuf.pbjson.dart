@@ -544,6 +544,14 @@ const ConfigData$json = const {
       '10': 'services'
     },
     const {
+      '1': 'featureSwitches',
+      '3': 15,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.ConfigFeatureSwitches',
+      '10': 'featureSwitches'
+    },
+    const {
       '1': 'assets',
       '3': 14,
       '4': 3,

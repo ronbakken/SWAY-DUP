@@ -1251,6 +1251,8 @@ class ConfigData extends $pb.GeneratedMessage {
         ConfigCategory.$checkItem, ConfigCategory.create)
     ..pp<ConfigAsset>(14, 'assets', $pb.PbFieldType.PM, ConfigAsset.$checkItem,
         ConfigAsset.create)
+    ..a<ConfigFeatureSwitches>(15, 'featureSwitches', $pb.PbFieldType.OM,
+        ConfigFeatureSwitches.getDefault, ConfigFeatureSwitches.create)
     ..hasRequiredFields = false;
 
   ConfigData() : super();
@@ -1328,4 +1330,12 @@ class ConfigData extends $pb.GeneratedMessage {
   List<ConfigCategory> get categories => $_getList(8);
 
   List<ConfigAsset> get assets => $_getList(9);
+
+  ConfigFeatureSwitches get featureSwitches => $_getN(10);
+  set featureSwitches(ConfigFeatureSwitches v) {
+    setField(15, v);
+  }
+
+  bool hasFeatureSwitches() => $_has(10);
+  void clearFeatureSwitches() => clearField(15);
 }
