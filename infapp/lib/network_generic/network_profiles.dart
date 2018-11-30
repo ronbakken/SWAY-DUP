@@ -71,7 +71,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
 
   @override
   void hintProfileOffer(DataOffer offer) {
-    Int64 accountId = offer.accountId;
+    Int64 accountId = offer.senderId;
     if (accountId == Int64.ZERO) {
       return;
     }
@@ -94,7 +94,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
             : (new DataAccount()..mergeFromMessage(cached.fallback));
         fallback.state.accountType = AccountType.business;
         fallback.summary.name = offer.locationName;
-        fallback.summary.location = offer.location;
+        fallback.summary.location = offer.locationAddress;
         fallback.detail.locationId = offer.locationId;
         fallback.detail.latitude = offer.latitude;
         fallback.detail.longitude = offer.longitude;

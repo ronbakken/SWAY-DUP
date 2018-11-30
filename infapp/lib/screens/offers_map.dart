@@ -163,6 +163,7 @@ class _OffersMapState extends State<OffersMap> {
 
   Widget _buildOfferMarker(BuildContext context, DataOffer offer) {
     List<Widget> stack = new List<Widget>();
+    /*
     if (offer.locationOfferCount > 2) {
       stack.add(new Padding(
         padding: EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 0.0),
@@ -183,6 +184,7 @@ class _OffersMapState extends State<OffersMap> {
         ),
       ));
     }
+    */
     stack.add(new Padding(
       padding: EdgeInsets.all(8.0),
       child: new Material(
@@ -204,7 +206,7 @@ class _OffersMapState extends State<OffersMap> {
                       children: <Widget>[
                         new BlurredNetworkImage(
                             url: offer.thumbnailUrl,
-                            blurredUrl: offer.blurredThumbnailUrl),
+                            blurredData: offer.thumbnailBlurred),
                       ],
                     ),
                   ),

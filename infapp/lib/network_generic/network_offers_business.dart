@@ -30,7 +30,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
   }
 
   @override
-  Future<DataOffer> createOffer(NetCreateOfferReq createOfferReq) async {
+  Future<DataOffer> createOffer(NetCreateOffer createOfferReq) async {
     TalkMessage res =
         await channel.sendRequest("C_OFFERR", createOfferReq.writeToBuffer());
     DataOffer resPb = new DataOffer();
@@ -44,22 +44,24 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
   void dataOffer(TalkMessage message) {
     DataOffer pb = new DataOffer();
     pb.mergeFromBuffer(message.data);
-    if (pb.accountId == account.state.accountId) {
+    if (pb.senderId == account.state.accountId) {
       cacheOffer(pb);
       // Add received offer to known offers
       _offers[pb.offerId] = pb;
       onOffersBusinessChanged(ChangeAction.add, pb.offerId);
     } else {
-      log.fine("Received offer for other account ${pb.accountId}");
+      log.fine("Received offer for other account ${pb.senderId}");
     }
   }
 
   @override
   Future<void> refreshOffers() async {
-    NetLoadOffersReq loadOffersReq =
-        new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
+    /*
+    NetLoadOffers loadOffersReq =
+        new NetLoadOffers(); // TODO: Specific requests for higher and lower refreshing
     await channel.sendRequest("L_OFFERS",
         loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
+        */
   }
 
   @override

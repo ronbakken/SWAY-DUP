@@ -26,7 +26,7 @@ export 'package:inf/network_generic/multi_account_store.dart';
 
 class _LocalAccountDataImpl implements LocalAccountData {
   @override
-  String environment;
+  String domain;
 
   @override
   int localId = 0;
@@ -51,7 +51,7 @@ class _LocalAccountDataImpl implements LocalAccountData {
 }
 
 class _LocalDomainDataImpl {
-  String environment;
+  String domain;
   int nextLocalId;
   final Map<Int64, _LocalAccountDataImpl> accounts =
       new Map<Int64, _LocalAccountDataImpl>();
@@ -61,10 +61,10 @@ class _LocalDomainDataImpl {
 
 class MultiAccountStoreImpl implements MultiAccountStore {
   SharedPreferences _prefs;
-  final Map<String, _LocalDomainDataImpl> _environments =
+  final Map<String, _LocalDomainDataImpl> _domains =
       new Map<String, _LocalDomainDataImpl>();
   final _random = new Random.secure();
-  final String _startupEnvironment;
+  final String _startupDomain;
 
   _LocalAccountDataImpl _current;
 
@@ -98,32 +98,32 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   final StreamController<LocalAccountData> _onSwitchAccount =
       new StreamController<LocalAccountData>.broadcast();
 
-  MultiAccountStoreImpl(this._startupEnvironment);
+  MultiAccountStoreImpl(this._startupDomain);
 
   @override
   Future<void> initialize() async {
     assert(_prefs == null);
-    assert(_startupEnvironment != null);
+    assert(_startupDomain != null);
     _prefs = await SharedPreferences.getInstance();
 
     // Initialize local accounts list
-    await _initLocalData(_startupEnvironment);
+    await _initLocalData(_startupDomain);
     _onAccountsChanged.add(new Change(ChangeAction.refreshAll, null));
 
     // Initialize current account
-    int localId = getLastUsed(_startupEnvironment);
-    _current = getLocal(_startupEnvironment, localId);
+    int localId = getLastUsed(_startupDomain);
+    _current = getLocal(_startupDomain, localId);
     if (_current == null) {
-      localId = _createAccount(_startupEnvironment);
-      _current = getLocal(_startupEnvironment, localId);
-      _setLastUsed(_startupEnvironment, localId);
+      localId = _createAccount(_startupDomain);
+      _current = getLocal(_startupDomain, localId);
+      _setLastUsed(_startupDomain, localId);
     }
     assert(_current != null);
     _onSwitchAccount.add(_current);
     /*
-    _environment = _startupEnvironment;
-    _localId = widget.store.getLastUsed(_startupEnvironment);
-    _accountId = widget.store.getLocal(environment, _localId).accountId;
+    _domain = _startupDomain;
+    _localId = widget.store.getLastUsed(_startupDomain);
+    _accountId = widget.store.getLocal(domain, _localId).accountId;
     */
   }
 
@@ -157,39 +157,39 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     List<String> localDomains;
     try {
       localDomains =
-          _prefs.getStringList("known_environments") ?? new List<String>();
+          _prefs.getStringList("known_domains") ?? new List<String>();
     } catch (error) {
       localDomains = new List<String>();
     }
     Directory tempDir = await getTemporaryDirectory();
-    for (String environment in localDomains.toList()) {
+    for (String domain in localDomains.toList()) {
       // NOTE: Domains are only switchable to locally when their config is saved, so verify them
-      File environmentConfig = File("$tempDir/${environment}_config.bin");
-      if (!await environmentConfig.exists()) {
-        localDomains.remove(environment);
+      File domainConfig = File("$tempDir/${domain}_config.bin");
+      if (!await domainConfig.exists()) {
+        localDomains.remove(domain);
       }
     }
     if (!localDomains.contains(startupDomain)) {
-      // The startup environment config is in the APK
+      // The startup domain config is in the APK
       localDomains.add(startupDomain);
-      _prefs.setStringList("known_environments", localDomains);
+      _prefs.setStringList("known_domains", localDomains);
     }
-    for (String environment in localDomains) {
-      _LocalDomainDataImpl environmentData = new _LocalDomainDataImpl();
-      environmentData.environment = environment;
+    for (String domain in localDomains) {
+      _LocalDomainDataImpl endomainData = new _LocalDomainDataImpl();
+      endomainData.domain = domain;
       try {
-        environmentData.nextLocalId =
-            _prefs.getInt("${environment}_next_id") ?? 1;
+        endomainData.nextLocalId =
+            _prefs.getInt("${domain}_next_id") ?? 1;
       } catch (error) {
-        environmentData.nextLocalId = 1;
+        endomainData.nextLocalId = 1;
       }
-      for (int localId = 1; localId < environmentData.nextLocalId; ++localId) {
+      for (int localId = 1; localId < endomainData.nextLocalId; ++localId) {
         _LocalAccountDataImpl accountData = new _LocalAccountDataImpl();
-        accountData.environment = environment;
+        accountData.domain = domain;
         accountData.localId = localId;
         try {
           accountData.sessionId = Int64.parseInt(
-                  _prefs.getString("${environment}_${localId}_session_id") ??
+                  _prefs.getString("${domain}_${localId}_session_id") ??
                       "0") ??
               Int64.ZERO;
         } catch (error) {}
@@ -197,115 +197,115 @@ class MultiAccountStoreImpl implements MultiAccountStore {
             accountData.sessionId != Int64.ZERO) {
           try {
             accountData.accountId = Int64.parseInt(
-                    _prefs.getString("${environment}_${localId}_account_id") ??
+                    _prefs.getString("${domain}_${localId}_account_id") ??
                         "0") ??
                 Int64.ZERO;
             accountData.accountType = AccountType.valueOf(
-                _prefs.getInt("${environment}_${localId}_account_type") ?? 0);
+                _prefs.getInt("${domain}_${localId}_account_type") ?? 0);
             accountData.name =
-                _prefs.getString("${environment}_${localId}_name");
+                _prefs.getString("${domain}_${localId}_name");
             accountData.blurredAvatarUrl = _prefs
-                .getString("${environment}_${localId}_blurred_avatar_url");
+                .getString("${domain}_${localId}_blurred_avatar_url");
             accountData.avatarUrl =
-                _prefs.getString("${environment}_${localId}_avatar_url");
+                _prefs.getString("${domain}_${localId}_avatar_url");
           } catch (error) {}
-          environmentData.accounts[accountData.accountId] = accountData;
-          environmentData.local[localId] = accountData;
+          endomainData.accounts[accountData.accountId] = accountData;
+          endomainData.local[localId] = accountData;
         }
       }
-      _environments[environment] = environmentData;
+      _domains[domain] = endomainData;
     }
   }
 
   List<LocalAccountData> getLocalAccounts() {
     List<LocalAccountData> list = new List<LocalAccountData>();
-    for (_LocalDomainDataImpl environment in _environments.values) {
-      list.addAll(environment.accounts.values);
+    for (_LocalDomainDataImpl domain in _domains.values) {
+      list.addAll(domain.accounts.values);
     }
     return list;
   }
 
   @override
-  LocalAccountData getAccount(String environment, Int64 accountId) {
-    return _environments[environment]?.accounts[accountId];
+  LocalAccountData getAccount(String domain, Int64 accountId) {
+    return _domains[domain]?.accounts[accountId];
   }
 
   @override
-  LocalAccountData getLocal(String environment, int localId) {
-    return _environments[environment]?.local[localId];
+  LocalAccountData getLocal(String domain, int localId) {
+    return _domains[domain]?.local[localId];
   }
 
   @override
-  void removeLocal(String environment, int localId) {
-    _environments[environment].local.remove(localId);
-    _environments[environment].accounts.removeWhere(
+  void removeLocal(String domain, int localId) {
+    _domains[domain].local.remove(localId);
+    _domains[domain].accounts.removeWhere(
         (Int64 accountId, _LocalAccountDataImpl data) =>
             data.localId == localId);
-    _prefs.remove("${environment}_${localId}_session_id");
-    _prefs.remove("${environment}_${localId}_device_cookie");
-    _prefs.remove("${environment}_${localId}_account_id");
-    _prefs.remove("${environment}_${localId}_account_type");
-    _prefs.remove("${environment}_${localId}_name");
-    _prefs.remove("${environment}_${localId}_blurred_avatar_url");
-    _prefs.remove("${environment}_${localId}_avatar_url");
+    _prefs.remove("${domain}_${localId}_session_id");
+    _prefs.remove("${domain}_${localId}_device_cookie");
+    _prefs.remove("${domain}_${localId}_account_id");
+    _prefs.remove("${domain}_${localId}_account_type");
+    _prefs.remove("${domain}_${localId}_name");
+    _prefs.remove("${domain}_${localId}_blurred_avatar_url");
+    _prefs.remove("${domain}_${localId}_avatar_url");
     _onAccountsChanged.add(new Change(ChangeAction.refreshAll, null));
   }
 
   @override
-  void setSessionId(String environment, int localId, Int64 sessionId,
+  void setSessionId(String domain, int localId, Int64 sessionId,
       Uint8List sessionCookie) {
-    _environments[environment].local[localId].sessionId = sessionId;
+    _domains[domain].local[localId].sessionId = sessionId;
     _prefs.setString(
-        "${environment}_${localId}_session_id", sessionId.toString());
-    _prefs.setString("${environment}_${localId}_device_cookie",
+        "${domain}_${localId}_session_id", sessionId.toString());
+    _prefs.setString("${domain}_${localId}_device_cookie",
         base64.encode(sessionCookie));
     _onAccountsChanged.add(new Change(
-        ChangeAction.upsert, _environments[environment].local[localId]));
+        ChangeAction.upsert, _domains[domain].local[localId]));
   }
 
   @override
-  void setAccountId(String environment, int localId, Int64 accountId,
+  void setAccountId(String domain, int localId, Int64 accountId,
       AccountType accountType) {
-    _environments[environment].accounts.removeWhere(
+    _domains[domain].accounts.removeWhere(
         (Int64 accountId, _LocalAccountDataImpl data) =>
             data.localId == localId);
-    _environments[environment].local[localId].accountId = accountId;
-    _environments[environment].local[localId].accountType = accountType;
-    _environments[environment].accounts[accountId] =
-        _environments[environment].local[localId];
+    _domains[domain].local[localId].accountId = accountId;
+    _domains[domain].local[localId].accountType = accountType;
+    _domains[domain].accounts[accountId] =
+        _domains[domain].local[localId];
     _prefs.setString(
-        "${environment}_${localId}_account_id", accountId.toString());
-    _prefs.setInt("${environment}_${localId}_account_type", accountType.value);
-    if (_current.environment == environment &&
+        "${domain}_${localId}_account_id", accountId.toString());
+    _prefs.setInt("${domain}_${localId}_account_type", accountType.value);
+    if (_current.domain == domain &&
         _current.localId == localId &&
         accountId != Int64.ZERO) {
-      _setLastUsed(environment, localId);
+      _setLastUsed(domain, localId);
     }
     _onAccountsChanged.add(new Change(
-        ChangeAction.upsert, _environments[environment].local[localId]));
+        ChangeAction.upsert, _domains[domain].local[localId]));
   }
 
   @override
-  void setNameAvatar(String environment, int localId, String name,
+  void setNameAvatar(String domain, int localId, String name,
       String blurredAvatarUrl, String avatarUrl) {
-    _environments[environment].local[localId].name = name;
-    _environments[environment].local[localId].blurredAvatarUrl =
+    _domains[domain].local[localId].name = name;
+    _domains[domain].local[localId].blurredAvatarUrl =
         blurredAvatarUrl;
-    _environments[environment].local[localId].avatarUrl = avatarUrl;
-    _prefs.setString("${environment}_${localId}_name", name.toString());
-    _prefs.setString("${environment}_${localId}_blurred_avatar_url",
+    _domains[domain].local[localId].avatarUrl = avatarUrl;
+    _prefs.setString("${domain}_${localId}_name", name.toString());
+    _prefs.setString("${domain}_${localId}_blurred_avatar_url",
         blurredAvatarUrl.toString());
     _prefs.setString(
-        "${environment}_${localId}_avatar_url", avatarUrl.toString());
+        "${domain}_${localId}_avatar_url", avatarUrl.toString());
     _onAccountsChanged.add(new Change(
-        ChangeAction.upsert, _environments[environment].local[localId]));
+        ChangeAction.upsert, _domains[domain].local[localId]));
   }
 
   @override
-  Uint8List getSessionCookie(String environment, int localId) {
+  Uint8List getSessionCookie(String domain, int localId) {
     try {
       return base64
-          .decode(_prefs.getString("${environment}_${localId}_device_cookie"));
+          .decode(_prefs.getString("${domain}_${localId}_device_cookie"));
     } catch (error) {}
     Uint8List sessionCookie;
     if (sessionCookie == null || sessionCookie.length == 0) {
@@ -317,63 +317,63 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     return sessionCookie;
   }
 
-  int getLastUsed(String environment) {
+  int getLastUsed(String domain) {
     int localId;
     try {
-      localId = _prefs.getInt("${environment}_last_used");
+      localId = _prefs.getInt("${domain}_last_used");
     } catch (error) {}
     if (localId == null || localId == 0) {
-      localId = _createAccount(environment);
-      _setLastUsed(environment, localId);
+      localId = _createAccount(domain);
+      _setLastUsed(domain, localId);
     }
     return localId;
   }
 
-  void _setLastUsed(String environment, int localId) {
-    _prefs.setInt("${environment}_last_used", localId);
+  void _setLastUsed(String domain, int localId) {
+    _prefs.setInt("${domain}_last_used", localId);
   }
 
-  int _createAccount(String environment) {
-    int localId = _environments[environment].nextLocalId++;
+  int _createAccount(String domain) {
+    int localId = _domains[domain].nextLocalId++;
     _prefs.setInt(
-        "${environment}_next_id", _environments[environment].nextLocalId);
+        "${domain}_next_id", _domains[domain].nextLocalId);
     _LocalAccountDataImpl accountData = new _LocalAccountDataImpl();
-    accountData.environment = environment;
+    accountData.domain = domain;
     accountData.localId = localId;
-    _environments[environment].accounts[Int64.ZERO] = accountData;
-    _environments[environment].local[localId] = accountData;
+    _domains[domain].accounts[Int64.ZERO] = accountData;
+    _domains[domain].local[localId] = accountData;
     _onAccountsChanged.add(new Change(ChangeAction.add, accountData));
     return localId;
   }
 
   @override
-  void switchAccount(String environment, Int64 accountId) {
-    assert(environment != null);
+  void switchAccount(String domain, Int64 accountId) {
+    assert(domain != null);
     assert(accountId != null);
-    if (_current?.environment == environment &&
+    if (_current?.domain == domain &&
         current?.accountId == accountId) {
       return; // no-op
     }
-    int localId = getAccount(environment, accountId)?.localId ??
-        _createAccount(environment);
-    _current = getLocal(environment, localId);
+    int localId = getAccount(domain, accountId)?.localId ??
+        _createAccount(domain);
+    _current = getLocal(domain, localId);
     assert(_current != null);
     if (_current.accountId != 0) {
-      _setLastUsed(environment, localId);
+      _setLastUsed(domain, localId);
     }
     _onSwitchAccount.add(_current);
   }
 
   @override
-  void addAccount([String environment]) {
-    switchAccount(environment ?? _startupEnvironment, Int64.ZERO);
+  void addAccount([String domain]) {
+    switchAccount(domain ?? _startupDomain, Int64.ZERO);
   }
 
   /// Remove account
-  void removeAccount([String environment, Int64 accountId]) {
+  void removeAccount([String domain, Int64 accountId]) {
     _LocalAccountDataImpl remove = _current;
-    switchAccount(environment ?? _startupEnvironment, Int64.ZERO);
-    removeLocal(remove.environment, remove.localId);
+    switchAccount(domain ?? _startupDomain, Int64.ZERO);
+    removeLocal(remove.domain, remove.localId);
   }
 }
 

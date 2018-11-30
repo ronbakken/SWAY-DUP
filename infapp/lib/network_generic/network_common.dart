@@ -173,11 +173,11 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       if (_config != null) {
         // Match array length
         for (int i = account.detail.socialMedia.length;
-            i < _config.oauthProviders.all.length;
+            i < _config.oauthProviders.length;
             ++i) {
           account.detail.socialMedia.add(new DataSocialMedia());
         }
-        account.detail.socialMedia.length = _config.oauthProviders.all.length;
+        account.detail.socialMedia.length = _config.oauthProviders.length;
       }
       if (_config != null) {
         _updatePayload(closeExisting: regionOrLanguageChanged);
@@ -284,9 +284,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       sessionPayload.sessionId = _currentLocalAccount.sessionId;
     }
     sessionPayload.cookie = multiAccountStore.getSessionCookie(
-        _currentLocalAccount.environment, _currentLocalAccount.localId);
+        _currentLocalAccount.domain, _currentLocalAccount.localId);
     sessionPayload.clientVersion = _config.clientVersion;
-    sessionPayload.environment = _config.services.environment;
+    sessionPayload.domain = _config.services.domain;
     sessionPayload.configTimestamp = _config.timestamp;
     sessionPayload.configRegion = _config.region;
     sessionPayload.configLanguage = _config.language;
@@ -355,7 +355,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       }
       log.info("Session ${session.sessionId}");
       // Store session id and cookie
-      multiAccountStore.setSessionId(_currentLocalAccount.environment,
+      multiAccountStore.setSessionId(_currentLocalAccount.domain,
           _currentLocalAccount.localId, session.sessionId, _lastPayloadCookie);
       _lastPayloadCookie = null;
       // Update payload for reconnection
@@ -374,8 +374,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       return;
     }
     multiAccountStore.removeLocal(
-        _currentLocalAccount.environment, _currentLocalAccount.localId);
-    multiAccountStore.addAccount(_config.services.environment);
+        _currentLocalAccount.domain, _currentLocalAccount.localId);
+    multiAccountStore.addAccount(_config.services.domain);
   }
 
   bool _netConfigWarning = false;
@@ -384,10 +384,10 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       String endPoint = _overrideEndPoint ?? _config.services.endPoint;
       String service = _config.services.service;
       final LocalAccountData localAccount = multiAccountStore.current;
-      bool matchingEnvironment =
-          _config.services.environment == localAccount.environment;
+      bool matchingDomain =
+          _config.services.domain == localAccount.domain;
 
-      if (endPoint == null || endPoint.length == 0 || !matchingEnvironment) {
+      if (endPoint == null || endPoint.length == 0 || !matchingDomain) {
         if (!_netConfigWarning) {
           _netConfigWarning = true;
           log.warning("Incomplete network configuration, not connecting");
@@ -507,11 +507,11 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
     account = pb.account;
     for (int i = account.detail.socialMedia.length;
-        i < _config.oauthProviders.all.length;
+        i < _config.oauthProviders.length;
         ++i) {
       account.detail.socialMedia.add(new DataSocialMedia());
     }
-    account.detail.socialMedia.length = _config.oauthProviders.all.length;
+    account.detail.socialMedia.length = _config.oauthProviders.length;
     connected = NetworkConnectionState.ready;
     onCommonChanged();
     if (pb.account.state.accountId != 0) {
@@ -522,12 +522,12 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       } else {
         // Update local account store
         _multiAccountStore.setAccountId(
-            _currentLocalAccount.environment,
+            _currentLocalAccount.domain,
             _currentLocalAccount.localId,
             account.state.accountId,
             account.state.accountType);
         _multiAccountStore.setNameAvatar(
-            _currentLocalAccount.environment,
+            _currentLocalAccount.domain,
             _currentLocalAccount.localId,
             account.summary.name,
             account.summary.blurredAvatarThumbnailUrl,

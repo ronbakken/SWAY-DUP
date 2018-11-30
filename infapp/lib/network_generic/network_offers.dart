@@ -47,13 +47,13 @@ abstract class NetworkOffers implements ApiClient, NetworkInternals {
     }
     if (cached.offer != null) {
       DataOffer offer = new DataOffer()..mergeFromMessage(cached.offer);
-      offer.influencerProposalId = proposal.proposalId;
+      offer.proposalId = proposal.proposalId;
       cached.offer = offer..freeze();
       cached.dirty = true;
       onOfferChanged(ChangeAction.upsert, offer.offerId);
     } else if (cached.fallback != null) {
       DataOffer offer = new DataOffer()..mergeFromMessage(cached.fallback);
-      offer.influencerProposalId = proposal.proposalId;
+      offer.proposalId = proposal.proposalId;
       cached.fallback = offer..freeze();
       onOfferChanged(ChangeAction.upsert, offer.offerId);
     }

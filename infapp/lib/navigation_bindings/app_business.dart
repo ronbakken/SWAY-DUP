@@ -61,7 +61,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       // NavigatorState navigator = Navigator.of(context);
       return new OfferCreate(
         onUploadImage: network.uploadImage,
-        onCreateOffer: (NetCreateOfferReq createOffer) async {
+        onCreateOffer: (NetCreateOffer createOffer) async {
           var progressDialog = showProgressDialog(
               context: this.context,
               builder: (BuildContext context) {
@@ -152,13 +152,13 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
           // NavigatorState navigator = Navigator.of(context);
           DataOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount =
-              network.tryGetProfileSummary(businessOffer.accountId);
+              network.tryGetProfileSummary(businessOffer.senderId);
           return new OfferView(
             account: network.account,
             businessAccount: businessAccount,
             businessOffer: businessOffer,
             onBusinessAccountPressed: () {
-              navigateToPublicProfile(businessOffer.accountId);
+              navigateToPublicProfile(businessOffer.senderId);
             },
           );
         },
@@ -179,7 +179,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
         account: network.account,
-        oauthProviders: ConfigProvider.of(context).oauthProviders.all,
+        oauthProviders: ConfigProvider.of(context).oauthProviders,
         onEditPressed: navigateToProfileEdit,
       );
     }));

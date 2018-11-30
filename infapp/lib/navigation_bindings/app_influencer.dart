@@ -94,13 +94,13 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
           // NavigatorState navigator = Navigator.of(context);
           DataOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount =
-              network.tryGetProfileSummary(businessOffer.accountId);
+              network.tryGetProfileSummary(businessOffer.senderId);
           return new OfferView(
             account: network.account,
             businessOffer: businessOffer,
             businessAccount: businessAccount,
             onBusinessAccountPressed: () {
-              navigateToPublicProfile(businessOffer.accountId);
+              navigateToPublicProfile(businessOffer.senderId);
             },
             onProposalPressed: (Int64 proposalId) {
               navigateToProposal(proposalId);
@@ -182,7 +182,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
           account: network.account,
-          oauthProviders: ConfigProvider.of(context).oauthProviders.all,
+          oauthProviders: ConfigProvider.of(context).oauthProviders,
           onEditPressed: () {
             navigateToProfileEdit();
           });

@@ -91,8 +91,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
       }
     }
 
+    sampleOffers[1].terms = new DataTerms();
     sampleOffers[1].offerId = new Int64(1);
-    sampleOffers[1].accountId = new Int64(1);
+    sampleOffers[1].senderId = new Int64(1);
     sampleOffers[1].state = OfferState.open;
     sampleOffers[1].stateReason = OfferStateReason.newOffer;
     sampleOffers[1].title = "Finest Burger Weekend";
@@ -100,10 +101,10 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
         "We'd like to expose the finest foods in our very busy restaurant to a wide audience.";
     sampleOffers[1].thumbnailUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg";
-    sampleOffers[1].reward = "Free dinner + \$150";
-    sampleOffers[1].deliverables =
+    sampleOffers[1].terms.rewardItemOrServiceDescription = "Free dinner + \$150";
+    sampleOffers[1].terms.deliverablesDescription =
         "Posts with photography across social media.";
-    sampleOffers[1].location =
+    sampleOffers[1].locationAddress =
         "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
     sampleOffers[1].coverUrls.length = 0;
     sampleOffers[1]
@@ -112,8 +113,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     // sampleOffers[1].proposalsNew = 3;
     // sampleOffers[1].proposalsRefused = 1;
 
+    sampleOffers[2].terms = new DataTerms();
     sampleOffers[2].offerId = new Int64(2);
-    sampleOffers[2].accountId = new Int64(1);
+    sampleOffers[2].senderId = new Int64(1);
     sampleOffers[2].state = OfferState.open;
     sampleOffers[2].stateReason = OfferStateReason.newOffer;
     sampleOffers[2].title = "Burger Weekend Fries";
@@ -121,17 +123,18 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
         "We need some table fillers to make our restaurant look very busy this weekend.";
     sampleOffers[2].thumbnailUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg";
-    sampleOffers[2].reward = "Free Poke Fries";
-    sampleOffers[2].deliverables =
+    sampleOffers[2].terms.rewardItemOrServiceDescription = "Free Poke Fries";
+    sampleOffers[2].terms.deliverablesDescription =
         "Posts with photography across social media.";
-    sampleOffers[2].location =
+    sampleOffers[2].locationAddress =
         "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
     /*sampleOffers[2].proposalsNew = 3;
     sampleOffers[2].proposalsAccepted = 7;
     sampleOffers[2].proposalsRefused = 1;*/
 
+    sampleOffers[3].terms = new DataTerms();
     sampleOffers[3].offerId = new Int64(3);
-    sampleOffers[3].accountId = new Int64(2);
+    sampleOffers[3].senderId = new Int64(2);
     sampleOffers[3].state = OfferState.closed;
     sampleOffers[3].stateReason = OfferStateReason.completed;
     sampleOffers[3].title = "Fishing Season";
@@ -139,10 +142,10 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
         "Looking to catch more customers during the fishing season.";
     sampleOffers[3].thumbnailUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/rally.jpg";
-    sampleOffers[3].reward = "Free dinner";
-    sampleOffers[3].deliverables =
+    sampleOffers[3].terms.rewardItemOrServiceDescription = "Free dinner";
+    sampleOffers[3].terms.deliverablesDescription =
         "Posts with photography across social media.";
-    sampleOffers[3].location =
+    sampleOffers[3].locationAddress =
         "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
     /*sampleOffers[3].proposalsCompleted = 1;
     sampleOffers[3].proposalsRefused = 17;*/
@@ -181,24 +184,24 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     //demoAccount.detail = new DataAccountDetail();
     assert(config != null);
     for (int i = demoAccount.detail.socialMedia.length;
-        i < config.oauthProviders.all.length;
+        i < config.oauthProviders.length;
         ++i) {
       // Add
       demoAccount.detail.socialMedia.add(
           new DataSocialMedia()); // Important: PB lists can only be extended using add
     }
     demoAccount.detail.socialMedia.length =
-        config.oauthProviders.all.length; // Reduce
+        config.oauthProviders.length; // Reduce
     for (int j = 0; j < sampleAccounts.length; ++j) {
       for (int i = sampleAccounts[j].detail.socialMedia.length;
-          i < config.oauthProviders.all.length;
+          i < config.oauthProviders.length;
           ++i) {
         // Add
         sampleAccounts[j].detail.socialMedia.add(
             new DataSocialMedia()); // Important: PB lists can only be extended using add
       }
       sampleAccounts[j].detail.socialMedia.length =
-          config.oauthProviders.all.length; // Reduce
+          config.oauthProviders.length; // Reduce
     }
     generateSamplesSocial();
   }
@@ -220,7 +223,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
       accountButtons.add(new RaisedButton(
         child: new Column(
           children: [
-            new Text("Domain: " + localAccount.environment.toString()),
+            new Text("Domain: " + localAccount.domain.toString()),
             new Text("Local Id: " + localAccount.localId.toString()),
             new Text("Session Id: " + localAccount.sessionId.toString()),
             new Text("Account Id: " + localAccount.accountId.toString()),
@@ -230,7 +233,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
         ),
         onPressed: () {
           MultiAccountSelection.of(context)
-              .switchAccount(localAccount.environment, localAccount.accountId);
+              .switchAccount(localAccount.domain, localAccount.accountId);
           widget.onExitDevelopmentMode();
         },
       ));
@@ -398,7 +401,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                       return new OnboardingSocial(
                         accountType: demoAccount.state.accountType,
                         oauthProviders:
-                            ConfigProvider.of(context).oauthProviders.all,
+                            ConfigProvider.of(context).oauthProviders,
                         onOAuthSelected: (int oauthProvider) {
                           setState(() {
                             demoAccount.detail.socialMedia[oauthProvider]
@@ -577,7 +580,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   new ProfileView(
                     account: demoAccount,
                     oauthProviders:
-                        ConfigProvider.of(context).oauthProviders.all,
+                        ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),
@@ -631,7 +634,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   new ProfileView(
                     account: demoAccount,
                     oauthProviders:
-                        ConfigProvider.of(context).oauthProviders.all,
+                        ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),
@@ -703,7 +706,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   new ProfileView(
                     account: demoAccount,
                     oauthProviders:
-                        ConfigProvider.of(context).oauthProviders.all,
+                        ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),
@@ -748,7 +751,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   new ProfileView(
                     account: demoAccount,
                     oauthProviders:
-                        ConfigProvider.of(context).oauthProviders.all,
+                        ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),

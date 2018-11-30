@@ -11,13 +11,13 @@ import 'package:inf/widgets/profile_avatar.dart';
 class AccountSwitch extends StatelessWidget {
   const AccountSwitch({
     Key key,
-    @required this.environment,
+    @required this.domain,
     @required this.accounts,
     @required this.onSwitchAccount,
     @required this.onAddAccount,
   }) : super(key: key);
 
-  final String environment;
+  final String domain;
   final Iterable<LocalAccountData> accounts;
   final Function(LocalAccountData localAccount) onSwitchAccount;
   final Function() onAddAccount;
@@ -28,7 +28,7 @@ class AccountSwitch extends StatelessWidget {
 
     for (LocalAccountData localAccount in accounts.toList()
       ..sort((a, b) {
-        int c = a.environment.compareTo(b.environment);
+        int c = a.domain.compareTo(b.domain);
         if (c != 0)
           return c;
         else
@@ -41,10 +41,10 @@ class AccountSwitch extends StatelessWidget {
           child: new Column(
             children: [
               // Domain is like the release channel.
-              // Accounts from different environments only occur on development devices, or for the QA team, and MUST have some special marker.
+              // Accounts from different domains only occur on development devices, or for the QA team, and MUST have some special marker.
               new Text("Domain: " +
-                  localAccount.environment.toString() +
-                  (environment == localAccount.environment
+                  localAccount.domain.toString() +
+                  (domain == localAccount.domain
                       ? " (current)"
                       : " (other)")),
               new Text("Local Id: " + localAccount.localId.toString()),

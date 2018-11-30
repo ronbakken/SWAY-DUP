@@ -25,16 +25,16 @@ class AppSwitch extends StatefulWidget {
 }
 
 class _AppSwitchState extends State<AppSwitch> {
-  String _environment;
+  String _domain;
   Int64 _accountId;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    String environment = ConfigProvider.of(context).services.environment;
+    String domain = ConfigProvider.of(context).services.domain;
     Int64 accountId = NetworkProvider.of(context).account.state.accountId;
-    if (environment != _environment || accountId != _accountId) {
-      _environment = environment;
+    if (domain != _domain || accountId != _accountId) {
+      _domain = domain;
       _accountId = accountId;
       Navigator.of(context)
           .popUntil(ModalRoute.withName(Navigator.defaultRouteName));

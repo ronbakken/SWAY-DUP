@@ -56,7 +56,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
         _navigationSubscription.cancel();
       }
       _navigator = navigator;
-      _navigationSubscription = _navigator.listen(_config.services.environment,
+      _navigationSubscription = _navigator.listen(_config.services.domain,
           _network.account.state.accountId, onNavigationRequest);
     }
   }
@@ -156,7 +156,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
       // NavigatorState navigator = Navigator.of(context);
       return new ProfileView(
         account: network.tryGetProfileDetail(accountId),
-        oauthProviders: ConfigProvider.of(context).oauthProviders.all,
+        oauthProviders: ConfigProvider.of(context).oauthProviders,
       );
     }));
   }
@@ -256,14 +256,14 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
       // NavigatorState navigator = Navigator.of(context);
       MultiAccountClient selection = MultiAccountSelection.of(context);
       return new AccountSwitch(
-        environment: config.services.environment,
+        domain: config.services.domain,
         accounts: selection.accounts,
         onAddAccount: () {
           selection.addAccount();
         },
         onSwitchAccount: (LocalAccountData localAccount) {
           selection.switchAccount(
-              localAccount.environment, localAccount.accountId);
+              localAccount.domain, localAccount.accountId);
         },
       );
     }));

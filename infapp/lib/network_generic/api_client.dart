@@ -94,7 +94,7 @@ abstract class ApiClient {
   /////////////////////////////////////////////////////////////////////////////
 
   /// Create an offer.
-  Future<DataOffer> createOffer(NetCreateOfferReq createOfferReq);
+  Future<DataOffer> createOffer(NetCreateOffer createOfferReq);
 
   /// Refresh all offers (currently latest offers)
   Future<void> refreshOffers();

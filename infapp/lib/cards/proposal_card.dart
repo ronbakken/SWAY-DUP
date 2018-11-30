@@ -38,10 +38,10 @@ class ProposalCard extends StatelessWidget {
     // Prefer the offer location over the business location for businesses
     String partnerLocation =
         (partnerProfile.state.accountType == AccountType.business)
-            ? businessOffer.location
+            ? businessOffer.locationAddress
             : partnerProfile.summary.location;
     String offerName = businessOffer.title;
-    String offerLocation = businessOffer.location;
+    String offerLocation = businessOffer.locationAddress;
     Widget tile = new Material(
       color: theme.cardColor,
       child: new Row(
@@ -62,7 +62,7 @@ class ProposalCard extends StatelessWidget {
                         borderRadius: kInfImageThumbnailBorder,
                         child: new BlurredNetworkImage(
                           url: businessOffer.thumbnailUrl,
-                          blurredUrl: businessOffer.blurredThumbnailUrl,
+                          blurredData: businessOffer.thumbnailBlurred,
                           placeholderAsset: 'assets/placeholder_photo.png',
                         ),
                       ),
@@ -117,8 +117,8 @@ class ProposalCard extends StatelessWidget {
                                       borderRadius: kInfImageThumbnailBorder,
                                       child: new BlurredNetworkImage(
                                         url: businessOffer.thumbnailUrl,
-                                        blurredUrl:
-                                            businessOffer.blurredThumbnailUrl,
+                                        blurredData:
+                                            businessOffer.thumbnailBlurred,
                                         placeholderAsset:
                                             'assets/placeholder_photo.png',
                                       ),

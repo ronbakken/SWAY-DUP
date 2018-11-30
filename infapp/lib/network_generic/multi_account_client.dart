@@ -17,16 +17,16 @@ enum NavigationTarget {
 }
 
 class CrossNavigationRequest {
-  final String environment;
+  final String domain;
   final Int64 accountId;
   final NavigationTarget target;
   final Int64 id;
   const CrossNavigationRequest(
-      this.environment, this.accountId, this.target, this.id);
+      this.domain, this.accountId, this.target, this.id);
 }
 
 abstract class LocalAccountData {
-  String get environment;
+  String get domain;
   int get localId;
   Int64 get sessionId;
   Int64 get accountId;
@@ -42,13 +42,13 @@ abstract class MultiAccountClient {
   Stream<Change<LocalAccountData>> get onAccountsChanged;
 
   /// Switch to another account
-  void switchAccount(String environment, Int64 accountId);
+  void switchAccount(String domain, Int64 accountId);
 
   /// Add an account
-  void addAccount([String environment]);
+  void addAccount([String domain]);
 
   /// Remove account
-  void removeAccount([String environment, Int64 accountId]);
+  void removeAccount([String domain, Int64 accountId]);
 
   /// List of accounts known locally
   List<LocalAccountData> get accounts;

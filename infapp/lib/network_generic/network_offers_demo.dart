@@ -42,8 +42,8 @@ abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
   @override
   Future<void> refreshDemoAllOffers() async {
     log.fine("refreshDemoAllOffers");
-    NetLoadOffersReq loadOffersReq =
-        new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
+    NetLoadOffers loadOffersReq =
+        new NetLoadOffers(); // TODO: Specific requests for higher and lower refreshing
     Stream<TalkMessage> results =
         channel.sendStreamRequest("L_OFFERS", loadOffersReq.writeToBuffer());
 

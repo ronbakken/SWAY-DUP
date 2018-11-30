@@ -101,15 +101,15 @@ class NetworkStreaming {
 
   StreamSubscription<NavigationRequest> listenNavigation(
       Function(NavigationTarget target, Int64 id) onData) {
-    if (config.services.environment != _multiAccountStore.current.environment) {
-      throw new Exception("Mismatching environment");
+    if (config.services.domain != _multiAccountStore.current.domain) {
+      throw new Exception("Mismatching domain");
     }
     if (_networkManager.account.state.accountId !=
         _multiAccountStore.current.accountId) {
       throw new Exception("Mismatching account id");
     }
     return _crossAccountNavigator.listen(
-      config.services.environment,
+      config.services.domain,
       _networkManager.account.state.accountId,
       onData,
     );
@@ -128,7 +128,7 @@ class NetworkStreaming {
   /// A notification from the server was pushed, which may switch to account
   void _onNavigationRequest(CrossNavigationRequest request) {
     _crossAccountNavigator.navigate(
-        request.environment, request.accountId, request.target, request.id);
+        request.domain, request.accountId, request.target, request.id);
   }
 
   /// An account switch was requested and the network must now switch accounts

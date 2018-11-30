@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:circle_indicator/circle_indicator.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
@@ -9,7 +11,7 @@ class CarouselAppBar extends SliverAppBar {
     Widget title,
     List<Widget> actions,
     List<String> imageUrls,
-    List<String> blurredImageUrls,
+    List<Uint8List> imagesBlurred,
   }) : super(
           key: key,
           pinned: true,
@@ -18,7 +20,7 @@ class CarouselAppBar extends SliverAppBar {
               (MediaQuery.of(context).size.width * 9.0 / 16.0) ~/ 4 * 4.0,
           flexibleSpace: new FlexibleSpaceBar(
             background: _buildBackground(
-                new PageController(), context, imageUrls, blurredImageUrls),
+                new PageController(), context, imageUrls, imagesBlurred),
           ),
           actions: actions,
         );
@@ -27,19 +29,20 @@ class CarouselAppBar extends SliverAppBar {
     PageController controller,
     BuildContext context,
     List<String> imageUrls,
-    List<String> blurredImageUrls,
+    List<Uint8List> imagesBlurred,
   ) {
     List<Widget> images = new List<Widget>();
-    if (blurredImageUrls == null) {
+    if (imagesBlurred == null || imagesBlurred.length < imageUrls.length) {
       for (String imageUrl in imageUrls) {
         images.add(new BlurredNetworkImage(
-            url: imageUrl, placeholderAsset: 'assets/placeholder_photo.png'));
+            url: imageUrl,
+            placeholderAsset: 'assets/placeholder_photo.png'));
       }
     } else {
       for (int i = 0; i < imageUrls.length; ++i) {
         images.add(new BlurredNetworkImage(
             url: imageUrls[i],
-            blurredUrl: blurredImageUrls[i],
+            blurredData: imagesBlurred[i],
             placeholderAsset: 'assets/placeholder_photo.png'));
       }
     }

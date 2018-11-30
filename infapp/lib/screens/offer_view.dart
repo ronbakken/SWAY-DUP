@@ -77,7 +77,7 @@ class _OfferViewState extends State<OfferView> {
 
   Widget _buildInfluencerApply(BuildContext context) {
     if (widget.account.state.accountType == AccountType.influencer) {
-      if (widget.businessOffer.influencerProposalId == 0) {
+      if (widget.businessOffer.proposalId == 0) {
         return new Container(
             margin: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             child: new Column(
@@ -143,7 +143,7 @@ class _OfferViewState extends State<OfferView> {
                     onPressed: widget.onProposalPressed != null
                         ? () {
                             widget.onProposalPressed(
-                                widget.businessOffer.influencerProposalId);
+                                widget.businessOffer.proposalId);
                           }
                         : null,
                   )
@@ -162,7 +162,7 @@ class _OfferViewState extends State<OfferView> {
   Widget build(BuildContext context) {
     bool withProposal =
         (widget.account.state.accountType == AccountType.influencer) &&
-            (widget.businessOffer.influencerProposalId != 0);
+            (widget.businessOffer.proposalId != 0);
     return new Scaffold(
       body: new CustomScrollView(
         slivers: <Widget>[
@@ -170,7 +170,7 @@ class _OfferViewState extends State<OfferView> {
             context: context,
             title: new Text(widget.businessOffer.title),
             imageUrls: widget.businessOffer.coverUrls,
-            blurredImageUrls: widget.businessOffer.blurredCoverUrls,
+            imagesBlurred: widget.businessOffer.coversBlurred,
             actions: [
               widget.onSharePressed == null
                   ? null
@@ -331,7 +331,7 @@ class _OfferViewState extends State<OfferView> {
                             style: Theme.of(context).textTheme.caption,
                             textAlign: TextAlign.start,
                           ),
-                          new Text(widget.businessOffer.deliverables,
+                          new Text(widget.businessOffer.terms.deliverablesDescription,
                               style: Theme.of(context).textTheme.body1),
                         ],
                       ),
@@ -349,14 +349,14 @@ class _OfferViewState extends State<OfferView> {
                             style: Theme.of(context).textTheme.caption,
                             textAlign: TextAlign.start,
                           ),
-                          new Text(widget.businessOffer.reward,
+                          new Text(widget.businessOffer.terms.rewardItemOrServiceDescription,
                               style: Theme.of(context).textTheme.body1),
                         ],
                       ),
                     ),
               new ListTile(
                 leading: new Icon(Icons.pin_drop),
-                title: new Text(widget.businessOffer.location,
+                title: new Text(widget.businessOffer.locationAddress,
                     style: Theme.of(context).textTheme.body1),
               ),
               new Divider(),

@@ -60,7 +60,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
               return network.connectOAuth(oauthProvider, callbackQuery);
             },
             whitelistHosts:
-                config.oauthProviders.all[oauthProvider].whitelistHosts,
+                config.oauthProviders[oauthProvider].whitelistHosts,
           );
         },
       ),
@@ -90,7 +90,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
         assert(network != null);
         return new OnboardingSocial(
           accountType: network.account.state.accountType,
-          oauthProviders: config.oauthProviders.all,
+          oauthProviders: config.oauthProviders,
           oauthState: network.account.detail.socialMedia,
           termsOfServiceUrl: config.services.termsOfServiceUrl,
           privacyPolicyUrl: config.services.privacyPolicyUrl,

@@ -91,7 +91,7 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
   // A notification from the server was pushed, which may switch to account
   void _onNavigationRequest(CrossNavigationRequest request) {
     CrossAccountNavigation.of(context).navigate(
-        request.environment, request.accountId, request.target, request.id);
+        request.domain, request.accountId, request.target, request.id);
   }
 
   // An account switch was requested and the network must now switch accounts

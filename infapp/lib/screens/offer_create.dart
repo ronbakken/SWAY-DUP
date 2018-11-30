@@ -44,7 +44,7 @@ class OfferCreate extends StatefulWidget {
     this.onUploadImage,
   }) : super(key: key);
 
-  final Future<DataOffer> Function(NetCreateOfferReq createOffer) onCreateOffer;
+  final Future<DataOffer> Function(NetCreateOffer createOffer) onCreateOffer;
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
 
   @override
@@ -81,12 +81,14 @@ class _OfferCreateState extends State<OfferCreate> {
       _imageKey = _imageKeyController.text;
       if (_imageKeyController.text.isNotEmpty) {
         form.save();
-        NetCreateOfferReq createOffer = new NetCreateOfferReq();
-        createOffer.title = _title;
-        createOffer.imageKeys.add(_imageKey);
-        createOffer.description = _description;
-        createOffer.deliverables = _deliverables;
-        createOffer.reward = _reward;
+        NetCreateOffer createOffer = new NetCreateOffer();
+        createOffer.offer = new DataOffer();
+        createOffer.offer.title = _title;
+        createOffer.offer.coverKeys.add(_imageKey);
+        createOffer.offer.description = _description;
+        createOffer.offer.terms.deliverablesDescription = _deliverables;
+        createOffer.offer.terms.rewardItemOrServiceDescription = _reward;
+        // TODO
         // createOffer.location // Not yet supported
         setState(() {
           _waiting = true;

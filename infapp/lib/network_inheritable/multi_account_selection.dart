@@ -9,13 +9,13 @@ Author: Jan Boon <kaetemi@no-break.space>
 Cross Account Selection
 =======================
 
-This is an inherited state switching widget which provides the network stack with the currently selected environment and account.
+This is an inherited state switching widget which provides the network stack with the currently selected domain and account.
 
-The environment allows switching between development, staging, and production environment.
-The account id is the id as it is on the remote environment.
-Switching environment always immediately switches accounts.
+The domain allows switching between development, staging, and production domain.
+The account id is the id as it is on the remote domain.
+Switching domain always immediately switches accounts.
 
-Rationale for requiring cross environment support is handling incoming notifications correctly.
+Rationale for requiring cross domain support is handling incoming notifications correctly.
 
 */
 

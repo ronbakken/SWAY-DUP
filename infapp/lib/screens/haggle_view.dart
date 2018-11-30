@@ -822,7 +822,7 @@ class _HaggleViewState extends State<HaggleView> {
                               borderRadius: kInfImageThumbnailBorder,
                               child: new BlurredNetworkImage(
                                 url: widget.offer.thumbnailUrl,
-                                blurredUrl: widget.offer.blurredThumbnailUrl,
+                                blurredData: widget.offer.thumbnailBlurred,
                                 placeholderAsset:
                                     'assets/placeholder_photo.png',
                               ),

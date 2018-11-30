@@ -49,7 +49,7 @@ launchApp() async {
   config.services.endPoint = "ws://192.168.167.2:8090/ep";
   // Load known local accounts from SharedPreferences
   MultiAccountStore multiAccountStore =
-      await loadMultiAccountStore(config.services.environment);
+      await loadMultiAccountStore(config.services.domain);
 
   // Run flutter app with the loaded config
   runApp(new Prototype(
