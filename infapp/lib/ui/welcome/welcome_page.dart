@@ -15,12 +15,12 @@ class WelcomePage extends StatefulWidget {
     Key key,
     @required this.onInfluencer,
     @required this.onBusiness,
-    @required this.welcomeImages,
+    @required this.welcomeImageUrls,
   }) : super(key: key);
 
   final Function() onInfluencer;
   final Function() onBusiness;
-  final List<String> welcomeImages;
+  final List<String> welcomeImageUrls;
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -35,7 +35,7 @@ class _WelcomePageState extends State<WelcomePage> {
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              _WelcomeWall(welcomeImages: widget.welcomeImages),
+              _WelcomeWall(welcomeImageUrls: widget.welcomeImageUrls),
               FractionallySizedBox(
                 alignment: Alignment.bottomCenter,
                 heightFactor: 0.5,
@@ -230,10 +230,10 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
 class _WelcomeWall extends StatefulWidget {
   const _WelcomeWall({
     Key key,
-    @required this.welcomeImages,
+    @required this.welcomeImageUrls,
   }) : super(key: key);
 
-  final List<String> welcomeImages;
+  final List<String> welcomeImageUrls;
 
   @override
   _WelcomeWallState createState() => _WelcomeWallState();
@@ -256,7 +256,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
         maxHeight: size.height,
         child: _WelcomeWallBackground(
           speed: 24.0,
-          children: widget.welcomeImages
+          children: widget.welcomeImageUrls
               .map<Widget>((url) => _buildWallTile(url))
               .toList(growable: false),
         ),

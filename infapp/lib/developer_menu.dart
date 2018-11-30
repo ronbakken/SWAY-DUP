@@ -333,20 +333,20 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                 new Row(children: [new Text("Switch server to 192.168.56.1")]),
             onPressed: () {
               NetworkProvider.of(context)
-                  .overrideUri("wss://192.168.56.1:8090/ep");
+                  .overrideUri("ws://192.168.56.1:8090/ep");
             },
           ),
           new FlatButton(
             child:
-                new Row(children: [new Text("Switch server to 192.168.0.111")]),
+                new Row(children: [new Text("Switch server to 192.168.105.2")]),
             onPressed: () {
               NetworkProvider.of(context)
-                  .overrideUri("ws://192.168.0.111:8090/ep");
+                  .overrideUri("ws://192.168.105.2:8090/ep");
             },
           ),
           new FlatButton(
             child:
-                new Row(children: [new Text("Switch server to 192.168.167.2")]),
+                new Row(children: [new Text("Switch server to 192.168.43.123")]),
             onPressed: () {
               NetworkProvider.of(context)
                   .overrideUri("ws://192.168.167.2:8090/ep");

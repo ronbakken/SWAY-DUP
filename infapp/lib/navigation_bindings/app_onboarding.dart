@@ -7,6 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:inf/ui/welcome/welcome_page.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
@@ -164,9 +165,10 @@ class _AppOnboardingState extends State<AppOnboarding> {
 
   @override
   Widget build(BuildContext context) {
+    ConfigData config = ConfigProvider.of(context);
     ApiClient network = NetworkProvider.of(context);
     assert(network != null);
-    return new OnboardingSelection(
+    return new WelcomePage( // OnboardingSelection(
       onInfluencer: network.connected == NetworkConnectionState.ready
           ? () {
               network.setAccountType(AccountType.influencer);
@@ -179,6 +181,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
               navigateToSocial(context);
             }
           : null,
+      welcomeImageUrls: config.content.welcomeImageUrls,
     );
   }
 }

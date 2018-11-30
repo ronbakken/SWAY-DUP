@@ -5,6 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
+import 'package:inf/app/theme.dart';
 
 import 'package:inf/developer_menu.dart';
 import 'package:inf/navigation_bindings/app_switch.dart';
@@ -153,6 +154,8 @@ class _PrototypeState extends State<Prototype> {
         shape: new StadiumBorder(),
       ),
     );
+    // Use final theme
+    theme = AppTheme.themeTopLevel();
     return new MaterialApp(
       title: 'INF Marketplace',
       // debugShowMaterialGrid: true,
