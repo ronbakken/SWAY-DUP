@@ -280,7 +280,7 @@ const DataAccountDetail$json = const {
     const {'1': 'categories', '3': 13, '4': 3, '5': 5, '10': 'categories'},
     const {
       '1': 'socialMedia',
-      '3': 3,
+      '3': 16,
       '4': 3,
       '5': 11,
       '6': '.inf_common.DataSocialMedia',
