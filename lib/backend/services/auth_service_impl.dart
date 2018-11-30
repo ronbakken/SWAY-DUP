@@ -65,7 +65,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   final NetworkStreaming networkStreaming;
   final List<StreamSubscription<dynamic>> _subscriptions =
-      new List<StreamSubscription<dynamic>>();
+      <StreamSubscription<dynamic>>[];
 
   AuthenticationServiceImplementation(this.networkStreaming) {
     loginState =
@@ -94,7 +94,9 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   void dispose() {
     _authenticationResults.close();
-    _subscriptions.forEach((subscription) => subscription.cancel());
+    for (var subscription in _subscriptions) {
+      subscription.cancel();
+    }
     _subscriptions.clear();
   }
 
@@ -202,6 +204,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia) {
     // TODO: implement updateSocialMediaAccount
+    return null;
   }
 
   @override

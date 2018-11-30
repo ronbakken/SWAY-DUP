@@ -10,12 +10,10 @@ import 'package:inf/backend/services/auth_service_.dart';
 import 'package:inf/backend/services/auth_service_impl.dart';
 import 'package:inf/backend/services/auth_service_mock.dart';
 import 'package:inf/backend/managers/user_manager_.dart';
-import 'package:inf/backend/services/inf_api_service_impl.dart';
 import 'package:inf/backend/services/inf_api_service_mock.dart';
 import 'package:inf/backend/services/location_service_impl.dart';
 import 'package:inf/backend/services/location_service_mock.dart';
 import 'package:inf/backend/services/resource_service_.dart';
-import 'package:inf/backend/services/resource_service_impl.dart';
 import 'package:inf/backend/services/resource_service_mock.dart';
 import 'package:inf/backend/services/system_service_.dart';
 import 'package:inf/backend/services/system_service_impl.dart';
@@ -139,7 +137,7 @@ void registerMocks() {
   backend.registerLazySingleton<LocationService>(() => LocationServiceMock());
   backend.registerLazySingleton<AuthenticationService>(
     () => AuthenticationServiceMock(
-          isLoggedIn: true,
+          isLoggedIn: false,
           currentUserIndex: 1,
         ),
   );

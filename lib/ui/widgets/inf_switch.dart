@@ -2,7 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/cupertino.dart';
@@ -459,20 +458,10 @@ class InfThumbPainter {
   /// Creates an object that paints an iOS-style slider thumb.
   InfThumbPainter({
     this.color = CupertinoColors.white,
-    this.shadowColor = const Color(0x2C000000),
-  }) : _shadowPaint = BoxShadow(
-         color: shadowColor,
-         blurRadius: 1.0,
-       ).toPaint();
+  });
 
   /// The color of the interior of the thumb.
   final Color color;
-
-  /// The color of the shadow case by the thumb.
-  final Color shadowColor;
-
-  /// The paint used to draw the shadow case by the thumb.
-  final Paint _shadowPaint;
 
   /// Half the default diameter of the thumb.
   static const double radius = 12.0;
@@ -485,12 +474,12 @@ class InfThumbPainter {
   /// Consider using [radius] and [extension] when deciding how large a
   /// rectangle to use for the thumb.
   void paint(Canvas canvas, Rect rect) {
-    final RRect rrect = RRect.fromRectAndRadius(
+    final RRect rRect = RRect.fromRectAndRadius(
       rect,
       Radius.circular(rect.shortestSide / 2.0),
     );
 
-    canvas.drawRRect(rrect, Paint()..color = color);
+    canvas.drawRRect(rRect, Paint()..color = color);
   }
 }
 

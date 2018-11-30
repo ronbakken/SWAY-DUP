@@ -48,7 +48,10 @@ class InfApiServiceMock implements InfApiService {
   // }
 
   @override
-  Future<BusinessOffer> getOfferById(int offerId) {}
+  Future<BusinessOffer> getOfferById(int offerId) {
+    // TODO: implement getOfferById
+    return null;
+  }
 
   @override
   Future<void> markChatAsRead(Proposal chat) {

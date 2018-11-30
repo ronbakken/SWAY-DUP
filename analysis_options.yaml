@@ -8,7 +8,9 @@ analyzer:
     dead_code: warning
     override_on_non_overriding_method: error
   exclude:
-    - lib/backend/services/network/**
+  - lib/network_generic/**
+  - lib/network_mobile/**
+  - lib/network_streaming/**
 
 linter:
   rules:
@@ -30,7 +32,7 @@ linter:
     - camel_case_types
     #- cancel_subscriptions
     #- cascade_invocations
-    - comment_references
+    #- comment_references
     #- constant_identifier_names
     - control_flow_in_finally
     - directives_ordering

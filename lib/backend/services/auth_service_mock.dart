@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';

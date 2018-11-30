@@ -86,6 +86,19 @@ class _RenderWaveyLines extends RenderProxyBox {
 
     final wWidth = (fWidth * 1.25) / 3;
     final wave = Path();
+
+    final m = -(fWidth * (0.125 + (math.sin(_time) * 0.125)));
+    wave.moveTo(m, hHeight);
+    double x = m;
+    for (int i = 0; i < 4; i++) {
+      double v = x * 0.20 + _time;
+      double f = math.sin(x) * math.cos(v * 1.5);
+      final o = Offset(x, hHeight + (f * hHeight * (0.5 * (x / fWidth))));
+      //wave.lineTo(o.dx, o.dy);
+      wave.arcToPoint(o, radius: Radius.elliptical(wWidth, o.dy * 2.6));
+      x += wWidth;
+    }
+    /*
     wave.moveTo(-(fWidth * (0.125 + (math.sin(_time) * 0.125))), hHeight);
     for (int i = 0; i < 3; i++) {
       double y1 = (math.sin(_time) * 0.3);
@@ -96,9 +109,10 @@ class _RenderWaveyLines extends RenderProxyBox {
           Offset(wWidth * (0.5 + (math.sin(_time) * 0.125)), fHeight * y2);
       wave.relativeCubicTo(
           control1.dx, control1.dy, control2.dx, control2.dy, wWidth, 0.0);
-      //canvas.drawCircle(control1, 3.0, cyan);
-      //canvas.drawCircle(control2, 3.0, green);
+      canvas.drawCircle(control1, 3.0, cyan);
+      canvas.drawCircle(control2, 3.0, green);
     }
+    */
 
     wave.lineTo(size.width, size.height);
     wave.lineTo(0.0, size.height);
