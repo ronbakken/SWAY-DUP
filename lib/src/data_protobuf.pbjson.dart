@@ -7,13 +7,6 @@
 const DataSocialMedia$json = const {
   '1': 'DataSocialMedia',
   '2': const [
-    const {
-      '1': 'oauth_provider_id',
-      '3': 21,
-      '4': 1,
-      '5': 5,
-      '10': 'oauthProviderId'
-    },
     const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
     const {'1': 'expired', '3': 15, '4': 1, '5': 8, '10': 'expired'},
     const {'1': 'can_sign_up', '3': 20, '4': 1, '5': 8, '10': 'canSignUp'},
