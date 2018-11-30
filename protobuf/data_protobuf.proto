@@ -198,7 +198,7 @@ message DataAccountSummary {
 
 message DataAccountDetail {
   repeated int32 categories = 13;
-  repeated DataSocialMedia socialMedia = 3;
+  repeated DataSocialMedia socialMedia = 16;
   
   string avatarCoverUrl = 7; // Higher resolution, but same as avatarThumbnailUrl
   string blurredAvatarCoverUrl = 12;
