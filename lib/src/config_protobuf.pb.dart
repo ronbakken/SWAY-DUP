@@ -80,8 +80,8 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..a<int>(27, 'backgroundColor', $pb.PbFieldType.O3)
     ..a<int>(28, 'foregroundImageId', $pb.PbFieldType.O3)
     ..a<int>(29, 'backgroundImageId', $pb.PbFieldType.O3)
-    ..a<int>(30, 'foregroundFlatId', $pb.PbFieldType.O3)
-    ..a<int>(31, 'backgroundFlatId', $pb.PbFieldType.O3)
+    ..a<int>(30, 'monochromeForegroundImageId', $pb.PbFieldType.O3)
+    ..a<int>(31, 'monochromeBackgroundImageId', $pb.PbFieldType.O3)
     ..a<int>(32, 'sorting', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -312,21 +312,21 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
   bool hasBackgroundImageId() => $_has(26);
   void clearBackgroundImageId() => clearField(29);
 
-  int get foregroundFlatId => $_get(27, 0);
-  set foregroundFlatId(int v) {
+  int get monochromeForegroundImageId => $_get(27, 0);
+  set monochromeForegroundImageId(int v) {
     $_setSignedInt32(27, v);
   }
 
-  bool hasForegroundFlatId() => $_has(27);
-  void clearForegroundFlatId() => clearField(30);
+  bool hasMonochromeForegroundImageId() => $_has(27);
+  void clearMonochromeForegroundImageId() => clearField(30);
 
-  int get backgroundFlatId => $_get(28, 0);
-  set backgroundFlatId(int v) {
+  int get monochromeBackgroundImageId => $_get(28, 0);
+  set monochromeBackgroundImageId(int v) {
     $_setSignedInt32(28, v);
   }
 
-  bool hasBackgroundFlatId() => $_has(28);
-  void clearBackgroundFlatId() => clearField(31);
+  bool hasMonochromeBackgroundImageId() => $_has(28);
+  void clearMonochromeBackgroundImageId() => clearField(31);
 
   int get sorting => $_get(29, 0);
   set sorting(int v) {
@@ -348,8 +348,8 @@ class ConfigContentFormat extends $pb.GeneratedMessage {
     ..a<int>(7, 'backgroundColor', $pb.PbFieldType.O3)
     ..a<int>(8, 'foregroundImageId', $pb.PbFieldType.O3)
     ..a<int>(9, 'backgroundImageId', $pb.PbFieldType.O3)
-    ..a<int>(10, 'foregroundFlatId', $pb.PbFieldType.O3)
-    ..a<int>(11, 'backgroundFlatId', $pb.PbFieldType.O3)
+    ..a<int>(10, 'monochromeForegroundImageId', $pb.PbFieldType.O3)
+    ..a<int>(11, 'monochromeBackgroundImageId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   ConfigContentFormat() : super();
@@ -433,21 +433,21 @@ class ConfigContentFormat extends $pb.GeneratedMessage {
   bool hasBackgroundImageId() => $_has(7);
   void clearBackgroundImageId() => clearField(9);
 
-  int get foregroundFlatId => $_get(8, 0);
-  set foregroundFlatId(int v) {
+  int get monochromeForegroundImageId => $_get(8, 0);
+  set monochromeForegroundImageId(int v) {
     $_setSignedInt32(8, v);
   }
 
-  bool hasForegroundFlatId() => $_has(8);
-  void clearForegroundFlatId() => clearField(10);
+  bool hasMonochromeForegroundImageId() => $_has(8);
+  void clearMonochromeForegroundImageId() => clearField(10);
 
-  int get backgroundFlatId => $_get(9, 0);
-  set backgroundFlatId(int v) {
+  int get monochromeBackgroundImageId => $_get(9, 0);
+  set monochromeBackgroundImageId(int v) {
     $_setSignedInt32(9, v);
   }
 
-  bool hasBackgroundFlatId() => $_has(9);
-  void clearBackgroundFlatId() => clearField(11);
+  bool hasMonochromeBackgroundImageId() => $_has(9);
+  void clearMonochromeBackgroundImageId() => clearField(11);
 }
 
 class ConfigCategory extends $pb.GeneratedMessage {
@@ -462,8 +462,8 @@ class ConfigCategory extends $pb.GeneratedMessage {
     ..a<int>(7, 'backgroundColor', $pb.PbFieldType.O3)
     ..a<int>(8, 'foregroundImageId', $pb.PbFieldType.O3)
     ..a<int>(9, 'backgroundImageId', $pb.PbFieldType.O3)
-    ..a<int>(10, 'foregroundFlatId', $pb.PbFieldType.O3)
-    ..a<int>(11, 'backgroundFlatId', $pb.PbFieldType.O3)
+    ..a<int>(10, 'monochromeForegroundImageId', $pb.PbFieldType.O3)
+    ..a<int>(11, 'monochromeBackgroundImageId', $pb.PbFieldType.O3)
     ..p<int>(12, 'childIds', $pb.PbFieldType.P3)
     ..hasRequiredFields = false;
 
@@ -553,21 +553,21 @@ class ConfigCategory extends $pb.GeneratedMessage {
   bool hasBackgroundImageId() => $_has(8);
   void clearBackgroundImageId() => clearField(9);
 
-  int get foregroundFlatId => $_get(9, 0);
-  set foregroundFlatId(int v) {
+  int get monochromeForegroundImageId => $_get(9, 0);
+  set monochromeForegroundImageId(int v) {
     $_setSignedInt32(9, v);
   }
 
-  bool hasForegroundFlatId() => $_has(9);
-  void clearForegroundFlatId() => clearField(10);
+  bool hasMonochromeForegroundImageId() => $_has(9);
+  void clearMonochromeForegroundImageId() => clearField(10);
 
-  int get backgroundFlatId => $_get(10, 0);
-  set backgroundFlatId(int v) {
+  int get monochromeBackgroundImageId => $_get(10, 0);
+  set monochromeBackgroundImageId(int v) {
     $_setSignedInt32(10, v);
   }
 
-  bool hasBackgroundFlatId() => $_has(10);
-  void clearBackgroundFlatId() => clearField(11);
+  bool hasMonochromeBackgroundImageId() => $_has(10);
+  void clearMonochromeBackgroundImageId() => clearField(11);
 
   List<int> get childIds => $_getList(11);
 }

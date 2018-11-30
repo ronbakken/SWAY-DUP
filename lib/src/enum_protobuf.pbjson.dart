@@ -83,8 +83,9 @@ const OfferState$json = const {
   '1': 'OfferState',
   '2': const [
     const {'1': 'OS_DRAFT', '2': 0},
-    const {'1': 'OS_OPEN', '2': 1},
-    const {'1': 'OS_CLOSED', '2': 2},
+    const {'1': 'OS_SCHEDULED', '2': 1},
+    const {'1': 'OS_OPEN', '2': 2},
+    const {'1': 'OS_CLOSED', '2': 3},
   ],
 };
 

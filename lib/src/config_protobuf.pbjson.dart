@@ -61,18 +61,18 @@ const ConfigOAuthProvider$json = const {
       '10': 'backgroundImageId'
     },
     const {
-      '1': 'foreground_flat_id',
+      '1': 'monochrome_foreground_image_id',
       '3': 30,
       '4': 1,
       '5': 5,
-      '10': 'foregroundFlatId'
+      '10': 'monochromeForegroundImageId'
     },
     const {
-      '1': 'background_flat_id',
+      '1': 'monochrome_background_image_id',
       '3': 31,
       '4': 1,
       '5': 5,
-      '10': 'backgroundFlatId'
+      '10': 'monochromeBackgroundImageId'
     },
     const {
       '1': 'font_awesome_brand',
@@ -190,18 +190,18 @@ const ConfigContentFormat$json = const {
       '10': 'backgroundImageId'
     },
     const {
-      '1': 'foreground_flat_id',
+      '1': 'monochrome_foreground_image_id',
       '3': 10,
       '4': 1,
       '5': 5,
-      '10': 'foregroundFlatId'
+      '10': 'monochromeForegroundImageId'
     },
     const {
-      '1': 'background_flat_id',
+      '1': 'monochrome_background_image_id',
       '3': 11,
       '4': 1,
       '5': 5,
-      '10': 'backgroundFlatId'
+      '10': 'monochromeBackgroundImageId'
     },
     const {
       '1': 'font_awesome_icon',
@@ -250,18 +250,18 @@ const ConfigCategory$json = const {
       '10': 'backgroundImageId'
     },
     const {
-      '1': 'foreground_flat_id',
+      '1': 'monochrome_foreground_image_id',
       '3': 10,
       '4': 1,
       '5': 5,
-      '10': 'foregroundFlatId'
+      '10': 'monochromeForegroundImageId'
     },
     const {
-      '1': 'background_flat_id',
+      '1': 'monochrome_background_image_id',
       '3': 11,
       '4': 1,
       '5': 5,
-      '10': 'backgroundFlatId'
+      '10': 'monochromeBackgroundImageId'
     },
     const {
       '1': 'font_awesome_icon',

@@ -205,11 +205,13 @@ class NotificationFlags extends $pb.ProtobufEnum {
 
 class OfferState extends $pb.ProtobufEnum {
   static const OfferState draft = const OfferState._(0, 'OS_DRAFT');
-  static const OfferState open = const OfferState._(1, 'OS_OPEN');
-  static const OfferState closed = const OfferState._(2, 'OS_CLOSED');
+  static const OfferState scheduled = const OfferState._(1, 'OS_SCHEDULED');
+  static const OfferState open = const OfferState._(2, 'OS_OPEN');
+  static const OfferState closed = const OfferState._(3, 'OS_CLOSED');
 
   static const List<OfferState> values = const <OfferState>[
     draft,
+    scheduled,
     open,
     closed,
   ];
