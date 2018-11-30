@@ -84,8 +84,9 @@ enum NotificationFlags {
 
 enum OfferState {
   OS_DRAFT = 0;
-  OS_OPEN = 1; // Open and awaiting new proposals
-  OS_CLOSED = 2; // No longer accepting new proposals
+  OS_SCHEDULED = 1; // Switches to open as soon as scheduled date is passed
+  OS_OPEN = 2; // Open and awaiting new proposals
+  OS_CLOSED = 3; // No longer accepting new proposals
   
 }
 

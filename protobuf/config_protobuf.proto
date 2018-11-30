@@ -39,8 +39,8 @@ message ConfigOAuthProvider { // 32
   int32 foreground_image_id = 28; // Id within icon config content
   int32 background_image_id = 29;
   /// Flat silhouette images
-  int32 foreground_flat_id = 30;
-  int32 background_flat_id = 31;
+  int32 monochrome_foreground_image_id = 30;
+  int32 monochrome_background_image_id = 31;
   /// FontAwesome glyph
   int32 font_awesome_brand = 14;
   
@@ -93,8 +93,8 @@ message ConfigContentFormat {
   int32 foreground_image_id = 8; // Id within image config content
   int32 background_image_id = 9;
   /// Flat silhouette images
-  int32 foreground_flat_id = 10;
-  int32 background_flat_id = 11;
+  int32 monochrome_foreground_image_id = 10;
+  int32 monochrome_background_image_id = 11;
   /// FontAwesome glyph
   int32 font_awesome_icon = 4;
   
@@ -118,8 +118,8 @@ message ConfigCategory {
   int32 foreground_image_id = 8; // Id within image config content
   int32 background_image_id = 9;
   /// Flat silhouette images
-  int32 foreground_flat_id = 10;
-  int32 background_flat_id = 11;
+  int32 monochrome_foreground_image_id = 10;
+  int32 monochrome_background_image_id = 11;
   /// FontAwesome glyph
   int32 font_awesome_icon = 4;
   

@@ -26,9 +26,6 @@ pub upgrade
 cd ../sqljocky5
 pub get
 pub upgrade
-cd ../wstalk
-pub get
-pub upgrade
 
 cd ~/infcommon
 git pull --recurse-submodules
@@ -49,3 +46,8 @@ pub upgrade
 
 cd ~/inf_app
 git pull
+
+cd ~/switchboard
+git pull
+pub get
+pub upgrade

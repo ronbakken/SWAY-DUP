@@ -55,6 +55,7 @@ s/'NF__/'NF_/g
 
 s/'OS_/'OS__/g
 s/OS_DRAFT/draft/g
+s/OS_SCHEDULED/scheduled/g
 s/OS_OPEN/open/g
 s/OS_CLOSED/closed/g
 s/'OS__/'OS_/g
