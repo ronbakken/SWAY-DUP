@@ -11,11 +11,11 @@ dependencies:
   protobuf: ^0.10.5
   ini: ^2.0.1
   fixnum: ^0.10.9
-  dospace: ^0.11.9
+  dospace: ^0.12.12
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: 8bac1e4e6f759d73d4cecebf88384a5ae51222b2
+      ref: c3c1e55c96e63e0faaaa5cc4862a25c58cd44a82
 
 dev_dependencies:
   test: ^1.0.0

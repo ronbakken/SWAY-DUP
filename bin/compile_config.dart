@@ -10,7 +10,6 @@ import 'dart:typed_data';
 import "package:ini/ini.dart" as ini;
 import 'package:fixnum/fixnum.dart';
 import 'package:dospace/dospace.dart' as dospace;
-import 'package:http_client/console.dart' as http;
 
 import 'package:inf_common/inf_common.dart';
 
@@ -227,7 +226,6 @@ Future<ConfigContent> generateConfigContent(bool server) async {
     region: spacesRegion,
     accessKey: spacesKey,
     secretKey: spacesSecret,
-    httpClient: new http.ConsoleClient(),
   );
   var bucket = spaces.bucket(spacesBucket);
   if (!server) {
@@ -272,6 +270,8 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
     }
 
     String section = entryMap[i];
+    if (cfg.hasOption(section, 'key'))
+      entry.key = cfg.get(section, 'key');
     if (cfg.hasOption(section, 'visible'))
       entry.visible = (int.parse(cfg.get(section, 'visible')) == 1);
     if (cfg.hasOption(section, 'canConnect'))
