@@ -24,8 +24,7 @@ dependencies:
   switchboard: ^2.0.5
   oauth1:
     path: ../dart-oauth1/
-  dospace:
-    path: ../dospace/
+  dospace: ^0.11.9
   s2geometry: ^0.1.1
 
 dev_dependencies:

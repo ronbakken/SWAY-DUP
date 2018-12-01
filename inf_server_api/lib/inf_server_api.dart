@@ -24,6 +24,7 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 // import 'package:postgres/postgres.dart' as postgres;
 import 'package:switchboard/switchboard.dart';
 import 'package:dospace/dospace.dart' as dospace;
+import 'package:http_client/console.dart' as http;
 
 import 'broadcast_center.dart';
 import 'package:inf_common/inf_common.dart';
@@ -149,6 +150,7 @@ run() async {
     region: config.services.spacesRegion,
     accessKey: config.services.spacesKey,
     secretKey: config.services.spacesSecret,
+    httpClient: new http.ConsoleClient()
   );
   final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
 
@@ -172,6 +174,8 @@ run() async {
       talkChannel.close();
     }
   }
+
+  await spaces.close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
