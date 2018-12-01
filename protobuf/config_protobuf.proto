@@ -15,7 +15,10 @@ message ConfigSubCategories {
   repeated string labels = 1;
 }
 
-message ConfigOAuthProvider { // 32
+message ConfigOAuthProvider { // 33
+  /// Database key
+  string key = 33;
+
   /// Whether the OAuth provider is visible in the UI at all
   bool visible = 1;
   
