@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
@@ -37,10 +35,7 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final PageController pageController = PageController();
-  final history = Queue<LocalHistoryEntry>();
-  bool _leaving = false;
   List<Widget> pages;
-  List<LocalHistoryEntry> entries;
 
   @override
   void initState() {
@@ -66,11 +61,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         onNextPressed: () => _onNextPressed(2),
       ),
     ];
-    entries = <LocalHistoryEntry>[
-      LocalHistoryEntry(onRemove: () => _gotoPage(0)),
-      LocalHistoryEntry(onRemove: () => _gotoPage(1)),
-      LocalHistoryEntry(onRemove: () => _gotoPage(2)),
-    ];
   }
 
   @override
@@ -88,7 +78,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   padding: const EdgeInsets.fromLTRB(24.0, 48.0, 24.0, 0.0),
                   radius: Radius.circular(8.0),
                   inset: 8.0,
-                  onPageChanged: _onPageChanged,
                   children: pages,
                 ),
               ),
@@ -131,22 +120,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  void _onPageChanged(int pageIndex) {
-    final route = ModalRoute.of(context);
-    while(history.length < pageIndex){
-      final entry = entries[pageIndex];
-      route.addLocalHistoryEntry(entry);
-      history.addLast(entry);
-    }
-  }
-
   void _onNextPressed(int pageIndex) {
     if (pageIndex == pages.length - 1) {
-      _leaving = true;
-      final route = ModalRoute.of(context);
-      while(history.isNotEmpty){
-        route.removeLocalHistoryEntry(history.removeLast());
-      }
       Navigator.of(context)
         ..pop()
         ..push(SignUpPage.route(userType: widget.userType));
@@ -156,13 +131,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 
   void _gotoPage(int pageIndex) {
-    if (!_leaving) {
-      pageController.animateToPage(
-        pageIndex,
-        duration: const Duration(milliseconds: 450),
-        curve: Curves.fastOutSlowIn,
-      );
-    }
+    pageController.animateToPage(
+      pageIndex,
+      duration: const Duration(milliseconds: 450),
+      curve: Curves.fastOutSlowIn,
+    );
   }
 
   Future<void> _onSkipPressed() async {
