@@ -19,6 +19,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 // import 'package:postgres/postgres.dart' as postgres;
@@ -153,6 +154,9 @@ run() async {
   );
   final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
 
+  // Elasticsearch
+  final Elasticsearch elasticsearch = new Elasticsearch(config);
+
   final BroadcastCenter bc = new BroadcastCenter(config, sql, bucket);
 
   // Listen to websocket
@@ -165,7 +169,7 @@ run() async {
     // TODO: Rename ChannelInfo to ChannelOpen
     if (open.service == "api") {
       TalkChannel talkChannel = new TalkChannel(open.channel);
-      new ApiChannel(config, sql, bucket, talkChannel, bc, open.payload,
+      new ApiChannel(config, sql, bucket, elasticsearch, talkChannel, bc, open.payload,
           ipAddress: 'localhost');
     } else {
       TalkChannel talkChannel = new TalkChannel(open.channel);

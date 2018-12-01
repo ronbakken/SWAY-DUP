@@ -88,6 +88,11 @@ class ApiChannelInfluencer {
   Future<void> netLoadOffersReq(TalkMessage message) async {
     NetLoadOffers pb = new NetLoadOffers();
     pb.mergeFromBuffer(message.data);
+
+    // TODO
+    channel.replyEndOfStream(message);
+    return;
+
     devLog.finest(pb);
     // TODO: Limit number of results
     channel.replyExtend(message);

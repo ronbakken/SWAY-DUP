@@ -205,6 +205,10 @@ class ApiChannelBusiness {
     NetLoadOffers pb = new NetLoadOffers();
     pb.mergeFromBuffer(message.data);
 
+    // TODO: New offers
+    channel.replyEndOfStream(message);
+    return;
+    
     // TODO: Limit number of results
     channel.replyExtend(message);
     sqljocky.RetainedConnection connection = await sql.getConnection();

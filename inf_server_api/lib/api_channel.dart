@@ -12,6 +12,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
@@ -41,6 +42,7 @@ class ApiChannel {
   final ConfigData config;
   final sqljocky.ConnectionPool sql;
   final dospace.Bucket bucket;
+  final Elasticsearch elasticsearch;
   final TalkChannel channel;
   final BroadcastCenter bc;
 
@@ -85,7 +87,7 @@ class ApiChannel {
   ApiChannelBusiness _apiChannelBusiness;
   ApiChannelInfluencer _apiChannelInfluencer;
 
-  ApiChannel(this.config, this.sql, this.bucket, this.channel, this.bc,
+  ApiChannel(this.config, this.sql, this.bucket, this.elasticsearch, this.channel, this.bc,
       Uint8List payload,
       {@required this.ipAddress}) {
     devLog.fine("New connection");
@@ -408,6 +410,7 @@ class ApiChannel {
         account.state.accountType = AccountType.valueOf(row[1].toInt());
         if (row[2] != null) account.state.firebaseToken = row[2].toString();
       }
+      devLog.finest(account.state);
       // Fetch account-specific info (overwrites session accountType, although it cannot possibly be different)
       if (account.state.accountId != Int64.ZERO) {
         if (extend != null) extend();
@@ -740,7 +743,7 @@ class ApiChannel {
       return;
     }
     await lock.synchronized(() async {
-      refreshAccount(extend: extend);
+      await refreshAccount(extend: extend);
     });
   }
 

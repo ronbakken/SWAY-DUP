@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:fixnum/fixnum.dart';
+import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
 import 'package:switchboard/switchboard.dart';
 
@@ -26,6 +27,10 @@ class ApiChannelOAuth {
 
   sqljocky.ConnectionPool get sql {
     return _r.sql;
+  }
+
+  Elasticsearch get elasticsearch {
+    return _r.elasticsearch;
   }
 
   TalkChannel get channel {
@@ -448,8 +453,8 @@ class ApiChannelOAuth {
         socialMedia[oauthProvider].mergeFromMessage(dataSocialMedia);
         socialMedia[oauthProvider].connected = true;
         socialMedia[oauthProvider].canSignUp =
-          config.oauthProviders[oauthProvider].canAlwaysAuthenticate &&
-              !takeover;
+            config.oauthProviders[oauthProvider].canAlwaysAuthenticate &&
+                !takeover;
       }
 
       // Simply send update of this specific social media
@@ -478,6 +483,28 @@ class ApiChannelOAuth {
     } else {
       channel.replyAbort(
           message, "Invalid oauthProvider specified '${pb.oauthProvider}'.");
+    }
+  }
+
+  Future<void> saveSocialMedia(int oauthProvider, String body) async {
+    /*
+    Map<String, String> headers = <String, String>{
+      "Authorization":
+          "Basic " + base64.encode(utf8.encode(config.services.elasticsearchBasicAuth)),
+      "Content-Type": "application/json"
+    };
+    String url = config.services.elasticsearchApi +
+        "/social_account_" +
+        config.oauthProviders[oauthProvider].key +
+        "/_doc";
+    devLog.finest(url);
+    http.Response response = await http.post(url, headers: headers, body: body);
+    devLog.finest(response.body);*/
+    try {
+      await elasticsearch.postDocument("social_account_" +
+        config.oauthProviders[oauthProvider].key, body);
+    } catch (error, stackTrace) {
+      opsLog.severe("Error posting social media account to Elasticsearch: $error\n$stackTrace");
     }
   }
 
@@ -510,6 +537,7 @@ class ApiChannelOAuth {
               "https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_email=true");
           devLog.finest('verify_credentials');
           devLog.finest(res.body);
+          saveSocialMedia(oauthProvider, res.body);
           dynamic doc = json.decode(res.body);
           if (doc['id_str'] != oauthCredentials.userId) {
             throw new Exception(
@@ -571,6 +599,7 @@ class ApiChannelOAuth {
               "name,email,link,picture.height(1440)"; // ,location,address,hometown // cover,subscribers,subscribedto is deprecated
           http.Response userRes = await httpClient
               .get(baseUri.replace(queryParameters: requestQuery));
+          saveSocialMedia(oauthProvider, userRes.body);
           dynamic userDoc = json.decode(userRes.body);
           devLog.finest(userDoc);
 
