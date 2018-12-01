@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
@@ -35,7 +37,10 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final PageController pageController = PageController();
+  final history = Queue<LocalHistoryEntry>();
+  bool _leaving = false;
   List<Widget> pages;
+  List<LocalHistoryEntry> entries;
 
   @override
   void initState() {
@@ -56,9 +61,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       OnBoardingCard(
         index: 2,
         title: 'YOU ARE ALL SET!',
-        content: 'You can now create an account with INF to get started straighta way, or if you fancy taking a look around, you can jump straight in.',
+        content:
+            'You can now create an account with INF to get started straighta way, or if you fancy taking a look around, you can jump straight in.',
         onNextPressed: () => _onNextPressed(2),
       ),
+    ];
+    entries = <LocalHistoryEntry>[
+      LocalHistoryEntry(onRemove: () => _gotoPage(0)),
+      LocalHistoryEntry(onRemove: () => _gotoPage(1)),
+      LocalHistoryEntry(onRemove: () => _gotoPage(2)),
     ];
   }
 
@@ -77,6 +88,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   padding: const EdgeInsets.fromLTRB(24.0, 48.0, 24.0, 0.0),
                   radius: Radius.circular(8.0),
                   inset: 8.0,
+                  onPageChanged: _onPageChanged,
                   children: pages,
                 ),
               ),
@@ -119,18 +131,37 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
+  void _onPageChanged(int pageIndex) {
+    final route = ModalRoute.of(context);
+    while(history.length < pageIndex){
+      final entry = entries[pageIndex];
+      route.addLocalHistoryEntry(entry);
+      history.addLast(entry);
+    }
+  }
+
   void _onNextPressed(int pageIndex) {
     if (pageIndex == pages.length - 1) {
+      _leaving = true;
+      final route = ModalRoute.of(context);
+      while(history.isNotEmpty){
+        route.removeLocalHistoryEntry(history.removeLast());
+      }
       Navigator.of(context)
         ..pop()
         ..push(SignUpPage.route(userType: widget.userType));
     } else {
-      pageController.animateToPage(pageIndex + 1,
-          duration: const Duration(milliseconds: 450), curve: Curves.fastOutSlowIn);
-      ModalRoute.of(context).addLocalHistoryEntry(LocalHistoryEntry(
-        onRemove: () => pageController.animateToPage(pageIndex,
-            duration: const Duration(milliseconds: 450), curve: Curves.fastOutSlowIn),
-      ));
+      _gotoPage(pageIndex + 1);
+    }
+  }
+
+  void _gotoPage(int pageIndex) {
+    if (!_leaving) {
+      pageController.animateToPage(
+        pageIndex,
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.fastOutSlowIn,
+      );
     }
   }
 

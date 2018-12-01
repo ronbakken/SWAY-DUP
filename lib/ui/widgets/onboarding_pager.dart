@@ -12,6 +12,7 @@ class OnBoardingPager extends StatefulWidget {
     this.padding,
     this.radius,
     this.inset = 12.0,
+    this.onPageChanged,
     this.pageSnapping = true,
     this.addRepaintBoundaries = false,
     this.addSemanticIndexes = true,
@@ -23,6 +24,7 @@ class OnBoardingPager extends StatefulWidget {
   final EdgeInsets padding;
   final Radius radius;
   final double inset;
+  final ValueChanged<int> onPageChanged;
   final bool pageSnapping;
   final bool addRepaintBoundaries;
   final bool addSemanticIndexes;
@@ -36,6 +38,7 @@ const PageScrollPhysics _kPagePhysics = PageScrollPhysics();
 
 class _OnBoardingPagerState extends State<OnBoardingPager> {
   PageController _controller;
+  int _lastReportedPage = 0;
 
   PageController get _effectiveController => widget.controller ?? _controller;
 
@@ -45,6 +48,7 @@ class _OnBoardingPagerState extends State<OnBoardingPager> {
     if (widget.controller == null) {
       _controller = PageController();
     }
+    _lastReportedPage = _effectiveController.initialPage;
   }
 
   @override
@@ -73,19 +77,32 @@ class _OnBoardingPagerState extends State<OnBoardingPager> {
   Widget build(BuildContext context) {
     return ScrollConfiguration(
       behavior: const StackViewportScrollBehavior(),
-      child: Scrollable(
-        axisDirection: AxisDirection.right,
-        controller: _effectiveController,
-        physics: _kPagePhysics.applyTo(widget.physics),
-        viewportBuilder: (BuildContext context, ViewportOffset position) {
-          return StackViewport(
-            viewportOffset: position,
-            padding: widget.padding,
-            radius: widget.radius,
-            inset: widget.inset,
-            children: buildChildren(),
-          );
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification notification) {
+          if (notification.depth == 0 && widget.onPageChanged != null && notification is ScrollUpdateNotification) {
+            final PageMetrics metrics = notification.metrics;
+            final int currentPage = metrics.page.round();
+            if (currentPage != _lastReportedPage) {
+              _lastReportedPage = currentPage;
+              widget.onPageChanged(currentPage);
+            }
+          }
+          return false;
         },
+        child: Scrollable(
+          axisDirection: AxisDirection.right,
+          controller: _effectiveController,
+          physics: _kPagePhysics.applyTo(widget.physics),
+          viewportBuilder: (BuildContext context, ViewportOffset position) {
+            return StackViewport(
+              viewportOffset: position,
+              padding: widget.padding,
+              radius: widget.radius,
+              inset: widget.inset,
+              children: buildChildren(),
+            );
+          },
+        ),
       ),
     );
   }
