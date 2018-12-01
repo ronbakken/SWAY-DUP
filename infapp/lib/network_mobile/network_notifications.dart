@@ -69,8 +69,7 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
       if (config.services.domain.isNotEmpty) {
         // Allows to send dev messages under domain_dev topic
         log.fine("Domain: ${config.services.domain}");
-        _firebaseMessaging
-            .subscribeToTopic('domain_' + config.services.domain);
+        _firebaseMessaging.subscribeToTopic('domain_' + config.services.domain);
       }
     }
     _firebaseOnToken(await _firebaseMessaging.getToken());
@@ -127,8 +126,7 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
         title,
         body,
         platformChannelSpecifics,
-        payload:
-            'domain=$domain&account_id=$accountId&proposal_id=$proposalId',
+        payload: 'domain=$domain&account_id=$accountId&proposal_id=$proposalId',
       );
     }
   }

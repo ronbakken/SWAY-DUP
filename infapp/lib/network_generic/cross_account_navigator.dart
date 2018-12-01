@@ -59,8 +59,8 @@ class CrossAccountNavigator {
     return controller;
   }
 
-  StreamSubscription<NavigationRequest> listen(String domain,
-      Int64 accountId, Function(NavigationTarget target, Int64 id) onData) {
+  StreamSubscription<NavigationRequest> listen(String domain, Int64 accountId,
+      Function(NavigationTarget target, Int64 id) onData) {
     assert(onData != null);
     // assert(mounted);
     String key = "$domain/$accountId"; // Works

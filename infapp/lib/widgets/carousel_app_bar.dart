@@ -35,8 +35,7 @@ class CarouselAppBar extends SliverAppBar {
     if (imagesBlurred == null || imagesBlurred.length < imageUrls.length) {
       for (String imageUrl in imageUrls) {
         images.add(new BlurredNetworkImage(
-            url: imageUrl,
-            placeholderAsset: 'assets/placeholder_photo.png'));
+            url: imageUrl, placeholderAsset: 'assets/placeholder_photo.png'));
       }
     } else {
       for (int i = 0; i < imageUrls.length; ++i) {

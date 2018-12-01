@@ -331,7 +331,9 @@ class _OfferViewState extends State<OfferView> {
                             style: Theme.of(context).textTheme.caption,
                             textAlign: TextAlign.start,
                           ),
-                          new Text(widget.businessOffer.terms.deliverablesDescription,
+                          new Text(
+                              widget
+                                  .businessOffer.terms.deliverablesDescription,
                               style: Theme.of(context).textTheme.body1),
                         ],
                       ),
@@ -349,7 +351,9 @@ class _OfferViewState extends State<OfferView> {
                             style: Theme.of(context).textTheme.caption,
                             textAlign: TextAlign.start,
                           ),
-                          new Text(widget.businessOffer.terms.rewardItemOrServiceDescription,
+                          new Text(
+                              widget.businessOffer.terms
+                                  .rewardItemOrServiceDescription,
                               style: Theme.of(context).textTheme.body1),
                         ],
                       ),

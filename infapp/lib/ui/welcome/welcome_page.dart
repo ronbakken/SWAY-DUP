@@ -30,35 +30,35 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-        return Material(
-          color: theme.backgroundColor,
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              _WelcomeWall(welcomeImageUrls: widget.welcomeImageUrls),
-              FractionallySizedBox(
-                alignment: Alignment.bottomCenter,
-                heightFactor: 0.5,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[
-                        const Color(0x00000000),
-                        const Color(0xCC000000),
-                        const Color(0xFF000000),
-                      ],
-                      stops: <double>[
-                        0.5,
-                        0.75,
-                        0.97,
-                      ],
-                    ),
-                  ),
+    return Material(
+      color: theme.backgroundColor,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          _WelcomeWall(welcomeImageUrls: widget.welcomeImageUrls),
+          FractionallySizedBox(
+            alignment: Alignment.bottomCenter,
+            heightFactor: 0.5,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
+                    const Color(0x00000000),
+                    const Color(0xCC000000),
+                    const Color(0xFF000000),
+                  ],
+                  stops: <double>[
+                    0.5,
+                    0.75,
+                    0.97,
+                  ],
                 ),
               ),
-              /*
+            ),
+          ),
+          /*
               SafeArea(
                 child: Container(
                   padding: const EdgeInsets.only(top: 36.0),
@@ -69,40 +69,44 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
               ),
               */
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 48.0),
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Center(
-                          child: InfAssetImage(
-                            AppLogo.infLogoWithShadow,
-                          ),
-                        ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 48.0),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Center(
+                      child: InfAssetImage(
+                        AppLogo.infLogoWithShadow,
                       ),
-                      SizedBox(height: 12.0),
-                      _WelcomeButton(
-                        text: 'I AM AN INFLUENCER',
-                        color: AppTheme.blue,
-                        onPressed: widget.onInfluencer/*() => Navigator.of(context).push(
-                            OnBoardingPage.route(
-                                userType: AccountType.influencer))*/,
-                      ),
-                      SizedBox(height: 12.0),
-                      _WelcomeButton(
-                        text: 'I NEED AN INFLUENCER',
-                        color: AppTheme.red,
-                        onPressed: widget.onBusiness/*() => Navigator.of(context).push(
-                            OnBoardingPage.route(userType: AccountType.business))*/,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  SizedBox(height: 12.0),
+                  _WelcomeButton(
+                    text: 'I AM AN INFLUENCER',
+                    color: AppTheme.blue,
+                    onPressed: widget
+                            .onInfluencer /*() => Navigator.of(context).push(
+                            OnBoardingPage.route(
+                                userType: AccountType.influencer))*/
+                        ,
+                  ),
+                  SizedBox(height: 12.0),
+                  _WelcomeButton(
+                    text: 'I NEED AN INFLUENCER',
+                    color: AppTheme.red,
+                    onPressed: widget
+                            .onBusiness /*() => Navigator.of(context).push(
+                            OnBoardingPage.route(userType: AccountType.business))*/
+                        ,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        );
+        ],
+      ),
+    );
   }
 }
 

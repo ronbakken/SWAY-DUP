@@ -1,4 +1,3 @@
-
 class AppFonts {
   const AppFonts();
 
@@ -13,7 +12,7 @@ class AppLogo {
   static const infLogoWithShadow =
       AppAsset.vector('assets/images/logo_inf_shadow.svg');
 
-      /*
+  /*
   static const instagram = AppAsset.bitmap('assets/images/logo_instagram.png');
   static const facebook = AppAsset.vector('assets/images/logo_facebook.svg');
   static const google = AppAsset.vector('assets/images/logo_google.svg');
