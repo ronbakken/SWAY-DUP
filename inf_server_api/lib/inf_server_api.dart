@@ -151,8 +151,14 @@ run() async {
     region: config.services.spacesRegion,
     accessKey: config.services.spacesKey,
     secretKey: config.services.spacesSecret,
+    httpClient: new http.ConsoleClient(),
   );
   final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
+  if (!(await spaces.listAllBuckets()).contains(config.services.spacesBucket)) {
+    throw new Exception("Missing bucket");
+  } else {
+    new Logger('InfDev').finest("Bucket OK");
+  }
 
   // Elasticsearch
   final Elasticsearch elasticsearch = new Elasticsearch(config);
@@ -169,7 +175,8 @@ run() async {
     // TODO: Rename ChannelInfo to ChannelOpen
     if (open.service == "api") {
       TalkChannel talkChannel = new TalkChannel(open.channel);
-      new ApiChannel(config, sql, bucket, elasticsearch, talkChannel, bc, open.payload,
+      new ApiChannel(
+          config, sql, bucket, elasticsearch, talkChannel, bc, open.payload,
           ipAddress: 'localhost');
     } else {
       TalkChannel talkChannel = new TalkChannel(open.channel);
