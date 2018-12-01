@@ -83,6 +83,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..a<int>(30, 'monochromeForegroundImageId', $pb.PbFieldType.O3)
     ..a<int>(31, 'monochromeBackgroundImageId', $pb.PbFieldType.O3)
     ..a<int>(32, 'sorting', $pb.PbFieldType.O3)
+    ..aOS(33, 'key')
     ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
@@ -335,6 +336,14 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
 
   bool hasSorting() => $_has(29);
   void clearSorting() => clearField(32);
+
+  String get key => $_getS(30, '');
+  set key(String v) {
+    $_setString(30, v);
+  }
+
+  bool hasKey() => $_has(30);
+  void clearKey() => clearField(33);
 }
 
 class ConfigContentFormat extends $pb.GeneratedMessage {

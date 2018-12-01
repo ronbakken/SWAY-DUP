@@ -14,6 +14,7 @@ const ConfigSubCategories$json = const {
 const ConfigOAuthProvider$json = const {
   '1': 'ConfigOAuthProvider',
   '2': const [
+    const {'1': 'key', '3': 33, '4': 1, '5': 9, '10': 'key'},
     const {'1': 'visible', '3': 1, '4': 1, '5': 8, '10': 'visible'},
     const {'1': 'can_connect', '3': 19, '4': 1, '5': 8, '10': 'canConnect'},
     const {
