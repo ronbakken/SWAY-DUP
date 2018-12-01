@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:inf_common/inf_common.dart';
 import 'package:dospace/dospace.dart' as dospace;
+import 'package:http_client/console.dart' as http;
 
 main() async {
   ConfigData serverConfig = new ConfigData();
@@ -10,12 +11,13 @@ main() async {
     region: serverConfig.services.spacesRegion,
     accessKey: serverConfig.services.spacesKey,
     secretKey: serverConfig.services.spacesSecret,
+    httpClient: new http.ConsoleClient()
   );
   var bucket = spaces.bucket(serverConfig.services.spacesBucket);
   String etag = await bucket.uploadFile('config/config.bin', 'config/config.bin',
       'application/octet-stream', dospace.Permissions.public);
   print(etag);
-  // exit(0);
+  await spaces.close();
 }
 
 /* end of file */

@@ -538,7 +538,7 @@ Future<void> generateConfig(bool server) async {
   config.categories.addAll(await generateConfigCategories(assets, server));
   config.contentFormats
       .addAll(await generateConfigContentFormats(assets, server));
-  print(config);
+  print(config.content);
   Uint8List configBuffer = config.writeToBuffer();
   new File(server ? "config/config_server.bin" : "config/config.bin")
       .writeAsBytes(configBuffer, flush: true);
