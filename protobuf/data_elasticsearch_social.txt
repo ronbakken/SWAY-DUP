@@ -1,0 +1,35 @@
+PUT social_account_facebook
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 17
+    }
+  }
+}
+
+PUT social_account_twitter
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 17
+    }
+  }
+}
+
+PUT social_account_google
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 17
+    }
+  }
+}
+
+PUT social_account_instagram
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 17
+    }
+  }
+}
