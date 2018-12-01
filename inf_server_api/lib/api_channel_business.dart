@@ -150,7 +150,8 @@ class ApiChannelBusiness {
         .where((imageKey) =>
             imageKey != null &&
             !imageKey.isEmpty &&
-            imageKey.startsWith("user/$accountId/"))
+            imageKey.startsWith("${config.services.domain}/user/$accountId/") &&
+            !imageKey.contains(".."))
         .toList();
 
     // Insert offer images

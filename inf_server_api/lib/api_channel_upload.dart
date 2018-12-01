@@ -110,7 +110,7 @@ class ApiChannelUpload {
     }
 
     Digest contentSha256 = new Digest(pb.contentSha256);
-    String key = "user/$accountId/$contentSha256.$uriExt";
+    String key = "${config.services.domain}/user/$accountId/$contentSha256.$uriExt";
 
     NetUploadImageRes netUploadImageRes = new NetUploadImageRes();
 

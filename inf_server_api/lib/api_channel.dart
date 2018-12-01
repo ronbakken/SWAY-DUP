@@ -1642,7 +1642,7 @@ class ApiChannel {
     }
 
     Digest contentSha256 = sha256.convert(body);
-    String key = "user/$accountId/$contentSha256.$uriExt";
+    String key = "${config.services.domain}/user/$accountId/$contentSha256.$uriExt";
     bucket.uploadData(key, body, contentType, dospace.Permissions.public,
         contentSha256: contentSha256);
     return key;
