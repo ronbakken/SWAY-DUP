@@ -11,7 +11,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: aaa4ed9414c7c17841d6f487a22f33e886b54b7b
+      ref: c3c1e55c96e63e0faaaa5cc4862a25c58cd44a82
   logging: ^0.11.3+2
   # crypto: ^2.0.6
   # pointycastle: ^1.0.0-rc2
@@ -24,7 +24,7 @@ dependencies:
   switchboard: ^2.0.5
   oauth1:
     path: ../dart-oauth1/
-  dospace: ^0.11.9
+  dospace: ^0.12.12
   s2geometry: ^0.1.1
 
 dev_dependencies:

@@ -150,7 +150,6 @@ run() async {
     region: config.services.spacesRegion,
     accessKey: config.services.spacesKey,
     secretKey: config.services.spacesSecret,
-    httpClient: new http.ConsoleClient()
   );
   final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
 
