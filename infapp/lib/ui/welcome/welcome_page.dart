@@ -243,7 +243,23 @@ class _WelcomeWall extends StatefulWidget {
 }
 
 class _WelcomeWallState extends State<_WelcomeWall> {
-  static const double kOpacity = 0.5;
+  double _opacity = 0.0;
+  bool _first = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_first) {
+      Iterable<Future> loadingImages = widget.welcomeImageUrls
+          .map<Future>((url) => precacheImage(NetworkImage(url), context));
+      Future.wait(loadingImages).then((_) {
+        if (mounted) {
+          setState(() => _opacity = 0.5);
+        }
+      });
+      _first = false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -251,7 +267,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
     return AnimatedOpacity(
       duration: Duration(seconds: 3),
       curve: Curves.decelerate,
-      opacity: kOpacity,
+      opacity: _opacity,
       child: OverflowBox(
         minWidth: size.width,
         maxWidth: size.width,
