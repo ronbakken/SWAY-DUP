@@ -53,4 +53,17 @@ message NetGetProposalRes {
   
 }
 
+// ------------------------- PRopoSal
+
+// Apply for offer
+// Id: O_APPLYY
+// Response: DataProposal (Id: O_R_APPL) (or exception in case of failure)
+message NetOfferApplyReq {
+  int64 offerId = 1;
+  int32 sessionGhostId = 8;
+  
+  string remarks = 2;
+  
+}
+
 /* end of file */

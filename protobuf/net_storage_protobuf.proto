@@ -40,6 +40,7 @@ message NetUploadImageRes {
   string uploadKey = 10;
   string coverUrl = 11;
   string thumbnailUrl = 12;
+  // string mediumUrl = 13; // TODO
   
 }
 

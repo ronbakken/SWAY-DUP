@@ -13,8 +13,8 @@ import 'enum_protobuf.proto';
 import 'data_protobuf.proto';
 
 /// Message received from the server anytime the account information is updated
-/// Procedure ID: 'ACCOUNTU'
-message NetAccountUpdate {
+/// Procedure ID: 'ACCOUNTU', 'A_R_CREA'
+message NetAccount {
   DataAccount account = 1;
   
 }
@@ -50,7 +50,6 @@ message NetOAuthUrl {
   string callback_url = 2;
   
 }
-
 
 /// App requests OAuth secrets (only if exposed and required by plugins.)
 /// Only client_id may be exposed in normal situations.
