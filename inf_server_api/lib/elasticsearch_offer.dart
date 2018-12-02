@@ -15,7 +15,7 @@ import 'package:logging/logging.dart';
 import 'package:s2geometry/s2geometry.dart';
 import 'package:geohash/geohash.dart';
 
-class ElasticsearchOffers {
+class ElasticsearchOffer {
   static Int64 wangHash(Int64 key) {
     Int64 hash = key;
     hash = (~hash) + (hash << 21); // hash = (hash << 21) - hash - 1;
@@ -61,9 +61,9 @@ class ElasticsearchOffers {
 
   static dynamic toJson(
     ConfigData config,
-    DataOffer offer,
+    DataOffer offer,{
     DataAccount sender,
-    DataLocation location, {
+    DataLocation location, 
     AccountType senderType,
     bool create = false, // Include created timestamp, and creation fields
     bool modify = true,
@@ -76,9 +76,12 @@ class ElasticsearchOffers {
   }) {
     Map<String, dynamic> doc = <String, dynamic>{};
     int millis = DateTime.now().toUtc().millisecondsSinceEpoch;
+    /*
+    // Not part of the document
     if (offer.hasOfferId()) {
       doc["offer_id"] = offer.offerId.toInt();
     }
+    */
     if (create || verbose) {
       if (sender != null && sender.hasAccountId()) {
         doc["sender_id"] = sender.accountId.toInt();
@@ -112,7 +115,7 @@ class ElasticsearchOffers {
     if (create) {
       doc["created"] = millis;
     }
-    if (modify) {
+    if (create || modify) {
       doc["modified"] = millis;
     }
     if (offer.hasTitle()) {
@@ -247,10 +250,10 @@ class ElasticsearchOffers {
       doc["expanded_category_keywords"] =
           Categories.getKeywords(config, extendedCategories);
     }
-    if ((verbose || state) && offer.hasState()) {
+    if ((verbose || state || create) && offer.hasState()) {
       doc["state"] = offer.state.value;
     }
-    if ((verbose || state) && offer.hasStateReason()) {
+    if ((verbose || state || create) && offer.hasStateReason()) {
       doc["state_reason"] = offer.state.value;
     }
     if ((verbose || state) && offer.archived) {
@@ -315,17 +318,27 @@ class ElasticsearchOffers {
     */
   }
 
-  static DataOffer fromJson(ConfigData config, Map<dynamic, dynamic> doc,
-      {bool state = false,
-      bool summary = false,
-      bool detail = false,
-      bool private = false,
-      Int64 receiver}) {
+  static DataOffer fromJson(
+    ConfigData config,
+    Map<dynamic, dynamic> doc, {
+    bool state = false,
+    bool summary = false,
+    bool detail = false,
+    bool private = false,
+    Int64 offerId,
+    Int64 receiver,
+  }) {
     DataOffer offer = new DataOffer();
     offer.terms = new DataTerms();
+    if (offerId != null) {
+      offer.offerId = offerId;
+    }
+    /*
+    Not part of the document
     if (doc.containsKey("offer_id")) {
       offer.offerId = new Int64(doc["offer_id"]);
     }
+    */
     if (doc.containsKey("sender_id")) {
       offer.senderId = new Int64(doc["sender_id"]);
     }
@@ -440,7 +453,8 @@ class ElasticsearchOffers {
     }
     if (receiver != null) {
       // proposalId can be obtained by checking the embedded proposal_sender_ids map
-      if (doc.containsKey("proposal_sender_ids") && doc["proposal_sender_ids"].containsKey("$receiver")) {
+      if (doc.containsKey("proposal_sender_ids") &&
+          doc["proposal_sender_ids"].containsKey("$receiver")) {
         offer.proposalId = new Int64(doc["proposal_sender_ids"]["$receiver"]);
       }
     }
