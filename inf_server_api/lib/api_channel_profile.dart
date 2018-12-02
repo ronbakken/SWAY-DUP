@@ -68,14 +68,16 @@ class ApiChannelProfile {
 
   ApiChannelProfile(this._r) {
     _r.registerProcedure(
-        "L_PROFIL", GlobalAccountState.readOnly, netLoadPublicProfileReq);
+        "L_PROFIL", GlobalAccountState.readOnly, netGetProfile);
+        /*
     _r.registerProcedure(
         "GTOFFERR", GlobalAccountState.readOnly, netGetOfferReq);
+        */
   }
 
   void dispose() {
-    _r.unregisterProcedure("L_PROFIL");
-    _r.unregisterProcedure("GTOFFERR");
+    _r.unregisterProcedure("GETPROFL");
+    // _r.unregisterProcedure("GTOFFERR");
     _r = null;
   }
 
@@ -83,8 +85,8 @@ class ApiChannelProfile {
   // Network messages
   //////////////////////////////////////////////////////////////////////////////
 
-  Future<void> netLoadPublicProfileReq(TalkMessage message) async {
-    NetGetAccountReq pb = new NetGetAccountReq();
+  Future<void> netGetProfile(TalkMessage message) async {
+    NetGetProfile pb = new NetGetProfile();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
 
@@ -187,10 +189,13 @@ class ApiChannelProfile {
     } finally {
       connection.release();
     }
-
-    channel.replyMessage(message, "L_R_PROF", account.writeToBuffer());
+    
+    NetProfile res = new NetProfile();
+    res.account = account;
+    channel.replyMessage(message, "R_PROFIL", res.writeToBuffer());
   }
 
+/*
   Future<void> netGetOfferReq(TalkMessage message) async {
     NetGetOfferReq pb = new NetGetOfferReq()..mergeFromBuffer(message.data);
     devLog.finest(pb);
@@ -249,11 +254,11 @@ class ApiChannelProfile {
           // TODO: categories
           offer.state = OfferState.valueOf(offerRow[9].toInt());
           offer.stateReason = OfferStateReason.valueOf(offerRow[10].toInt());
-          /*offer.proposalsNew = 0; // TODO
-          offer.proposalsAccepted = 0; // TODO
-          offer.proposalsCompleted = 0; // TODO
-          offer.proposalsRefused = 0; // TODO
-          */
+          // offer.proposalsNew = 0; // TODO
+          // offer.proposalsAccepted = 0; // TODO
+          // offer.proposalsCompleted = 0; // TODO
+          // offer.proposalsRefused = 0; // TODO
+          // 
           sqljocky.Results imageKeyResults =
               await selectImageKeys.execute([offerId]);
           await for (sqljocky.Row imageKeyRow in imageKeyResults) {
@@ -288,4 +293,5 @@ class ApiChannelProfile {
     getOffersRes.offer = offer;
     channel.replyMessage(message, "GTOFFE_R", getOffersRes.writeToBuffer());
   }
+  */
 }

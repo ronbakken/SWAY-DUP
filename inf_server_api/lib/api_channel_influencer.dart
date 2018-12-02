@@ -62,15 +62,15 @@ class ApiChannelInfluencer {
   static final Logger devLog = new Logger('InfDev.ApiChannelInfluencer');
 
   ApiChannelInfluencer(this._r) {
-    _r.registerProcedure(
-        "L_OFFERS", GlobalAccountState.readOnly, netLoadOffersReq);
-    _r.registerProcedure(
-        "O_APPLYY", GlobalAccountState.readOnly, netOfferApplyReq);
+    // _r.registerProcedure(
+    //     "L_OFFERS", GlobalAccountState.readOnly, netLoadOffersReq);
+    // _r.registerProcedure(
+    //     "O_APPLYY", GlobalAccountState.readOnly, netOfferApplyReq);
   }
 
   void dispose() {
-    _r.unregisterProcedure("L_OFFERS");
-    _r.unregisterProcedure("O_APPLYY");
+    // _r.unregisterProcedure("L_OFFERS");
+    // _r.unregisterProcedure("O_APPLYY");
     _r = null;
   }
 
@@ -85,6 +85,7 @@ class ApiChannelInfluencer {
   //////////////////////////////////////////////////////////////////////////////
 
   // Demo function to get all offers
+  /*
   Future<void> netLoadOffersReq(TalkMessage message) async {
     NetLoadOffers pb = new NetLoadOffers();
     pb.mergeFromBuffer(message.data);
@@ -184,6 +185,7 @@ class ApiChannelInfluencer {
     //    replying: message);
     channel.replyEndOfStream(message);
   }
+  */
 
   Future<void> netOfferApplyReq(TalkMessage message) async {
     NetOfferApplyReq pb = new NetOfferApplyReq();

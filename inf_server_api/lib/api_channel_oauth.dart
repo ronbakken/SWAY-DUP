@@ -61,32 +61,9 @@ class ApiChannelOAuth {
 
   void dispose() {
     _r.unregisterProcedure("OA_URLRE");
+    _r.unregisterProcedure("OA_SECRE");
     _r.unregisterProcedure("OA_CONNE");
     _r = null;
-  }
-
-  Future<void> _oauthGetSecrets(TalkMessage message) async {
-    NetOAuthGetSecrets getSecrets = new NetOAuthGetSecrets()
-      ..mergeFromBuffer(message.data)
-      ..freeze();
-    int providerId = getSecrets.oauthProvider;
-    if (providerId >= config.oauthProviders.length) {
-      channel.replyAbort(
-          message, "Invalid oauthProvider specified '$providerId'.");
-      return;
-    }
-    NetOAuthSecrets secrets = new NetOAuthSecrets();
-    ConfigOAuthProvider provider = config.oauthProviders[providerId];
-    if (provider.consumerKeyExposed) {
-      secrets.consumerKey = provider.consumerKey;
-    }
-    if (provider.consumerSecretExposed) {
-      secrets.consumerSecret = provider.consumerSecret;
-    }
-    if (provider.clientIdExposed) {
-      secrets.clientId = provider.clientId;
-    }
-    channel.replyMessage(message, 'OA_R_SEC', secrets.writeToBuffer());
   }
 
   Future<void> _oauthGetUrl(TalkMessage message) async {
@@ -151,6 +128,30 @@ class ApiChannelOAuth {
       channel.replyAbort(
           message, "Invalid oauthProvider specified '${pb.oauthProvider}'.");
     }
+  }
+
+  Future<void> _oauthGetSecrets(TalkMessage message) async {
+    NetOAuthGetSecrets getSecrets = new NetOAuthGetSecrets()
+      ..mergeFromBuffer(message.data)
+      ..freeze();
+    int providerId = getSecrets.oauthProvider;
+    if (providerId >= config.oauthProviders.length) {
+      channel.replyAbort(
+          message, "Invalid oauthProvider specified '$providerId'.");
+      return;
+    }
+    NetOAuthSecrets secrets = new NetOAuthSecrets();
+    ConfigOAuthProvider provider = config.oauthProviders[providerId];
+    if (provider.consumerKeyExposed) {
+      secrets.consumerKey = provider.consumerKey;
+    }
+    if (provider.consumerSecretExposed) {
+      secrets.consumerSecret = provider.consumerSecret;
+    }
+    if (provider.clientIdExposed) {
+      secrets.clientId = provider.clientId;
+    }
+    channel.replyMessage(message, 'OA_R_SEC', secrets.writeToBuffer());
   }
 
   /// Fetches access token credentials for a user from an OAuth provider by auth callback query

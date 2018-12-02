@@ -65,15 +65,15 @@ class ApiChannelBusiness {
   Map<Int64, DataOffer> offers = new Map<Int64, DataOffer>();
 
   ApiChannelBusiness(this._r) {
-    _r.registerProcedure(
-        "C_OFFERR", GlobalAccountState.readWrite, netCreateOfferReq);
-    _r.registerProcedure(
-        "L_OFFERS", GlobalAccountState.readOnly, netLoadOffersReq);
+    // _r.registerProcedure(
+    //     "CREOFFER", GlobalAccountState.readWrite, netCreateOffer);
+    // _r.registerProcedure(
+    //     "LISTOFRS", GlobalAccountState.readOnly, netListOffers);
   }
 
   void dispose() {
-    _r.unregisterProcedure("C_OFFERR");
-    _r.unregisterProcedure("L_OFFERS");
+    // _r.unregisterProcedure("C_OFFERR");
+    // _r.unregisterProcedure("L_OFFERS");
     _r = null;
   }
 
@@ -81,18 +81,21 @@ class ApiChannelBusiness {
   // Database utilities
   //////////////////////////////////////////////////////////////////////////////
 
+/*
   Future<void> updateLocationOfferCount(Int64 locationId) async {
     // TODO: Only include active offers... :)
     String updateLocation =
         "UPDATE `locations` SET `offer_count` = (SELECT COUNT(`offer_id`) FROM `offers` WHERE `location_id` = ?) WHERE `location_id` = ?";
     await sql.prepareExecute(updateLocation, [locationId, locationId]);
   }
+  */
 
   //////////////////////////////////////////////////////////////////////////////
   // Network messages
   //////////////////////////////////////////////////////////////////////////////
 
-  Future<void> netCreateOfferReq(TalkMessage message) async {
+/*
+  Future<void> netCreateOffer(TalkMessage message) async {
     NetCreateOffer pb = new NetCreateOffer();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
@@ -168,10 +171,10 @@ class ApiChannelBusiness {
     await updateLocationOfferCount(locationId);
 
     // Reply success
-    DataOffer netCreateOfferRes = new DataOffer();
-    netCreateOfferRes.offerId = offerId;
-    netCreateOfferRes.senderId = accountId;
-    netCreateOfferRes.locationId = locationId;
+    NetOffer netCreateOfferRes = new NetOffer();
+    netCreateOfferRes.offer.offerId = offerId;
+    netCreateOfferRes.offer.senderId = accountId;
+    netCreateOfferRes.offer.locationId = locationId;
     // TODO: netCreateOfferRes.title = pb.title;
     // TODO: netCreateOfferRes.description = pb.description;
     // TODO: if (filteredImageKeys.length > 0) {
@@ -183,25 +186,26 @@ class ApiChannelBusiness {
     // TODO: netCreateOfferRes.deliverables = pb.deliverables;
     // TODO: netCreateOfferRes.reward = pb.reward;
     // TODO: netCreateOfferRes.location = account.summary.location;
-    netCreateOfferRes.latitude = account.detail.latitude;
-    netCreateOfferRes.longitude = account.detail.longitude;
-    netCreateOfferRes.coverUrls
+    netCreateOfferRes.offer.latitude = account.detail.latitude;
+    netCreateOfferRes.offer.longitude = account.detail.longitude;
+    netCreateOfferRes.offer.coverUrls
         .addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
     // TODO: netCreateOfferRes.blurredCoverUrls.addAll(
     // TODO:     filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
     // TODO: categories
-    netCreateOfferRes.state = OfferState.open;
-    netCreateOfferRes.stateReason = OfferStateReason.newOffer;
-    /*netCreateOfferRes.proposalsNew = 0;
-    netCreateOfferRes.proposalsAccepted = 0;
-    netCreateOfferRes.proposalsCompleted = 0;
-    netCreateOfferRes.proposalsRefused = 0;*/
-    offers[offerId] = netCreateOfferRes;
+    netCreateOfferRes.offer.state = OfferState.open;
+    netCreateOfferRes.offer.stateReason = OfferStateReason.newOffer;
+    // netCreateOfferRes.proposalsNew = 0;
+    // netCreateOfferRes.proposalsAccepted = 0;
+    // netCreateOfferRes.proposalsCompleted = 0;
+    // netCreateOfferRes.proposalsRefused = 0;
+    offers[offerId] = netCreateOfferRes.offer;
     channel.replyMessage(
-        message, "C_R_OFFE", netCreateOfferRes.writeToBuffer());
+        message, "R_CREOFR", netCreateOfferRes.writeToBuffer());
   }
-
-  Future<void> netLoadOffersReq(TalkMessage message) async {
+  */
+/*
+  Future<void> netListOffers(TalkMessage message) async {
     NetLoadOffers pb = new NetLoadOffers();
     pb.mergeFromBuffer(message.data);
 
@@ -257,11 +261,11 @@ class ApiChannelBusiness {
           // TODO: categories
           offer.state = OfferState.valueOf(offerRow[9].toInt());
           offer.stateReason = OfferStateReason.valueOf(offerRow[10].toInt());
-          /*offer.proposalsNew = 0; // TODO
-          offer.proposalsAccepted = 0; // TODO
-          offer.proposalsCompleted = 0; // TODO
-          offer.proposalsRefused = 0; // TODO
-          */
+          // offer.proposalsNew = 0; // TODO
+          // offer.proposalsAccepted = 0; // TODO
+          // offer.proposalsCompleted = 0; // TODO
+          // offer.proposalsRefused = 0; // TODO
+          
           sqljocky.Results imageKeyResults =
               await selectImageKeys.execute([offer.offerId]);
           await for (sqljocky.Row imageKeyRow in imageKeyResults) {
@@ -278,7 +282,7 @@ class ApiChannelBusiness {
           // Cache offer for use (is this really necessary?)
           offers[offer.offerId] = offer;
           // Send offer to user
-          channel.sendMessage("DB_OFFER", offer.writeToBuffer());
+          channel.replyMessage(message, "R_LSTOFR", offer.writeToBuffer());
         }
         channel.replyExtend(message);
       } finally {
@@ -291,5 +295,5 @@ class ApiChannelBusiness {
     // TODO: NetOffer loadOffersRes = new NetOffer();
     // TODO: channel.replyMessage(message, "L_R_OFFE", loadOffersRes.writeToBuffer());
     channel.replyAbort(message, "Not implemented");
-  }
+  }*/
 }
