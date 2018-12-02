@@ -47,11 +47,11 @@ class ApiChannelBusiness {
   }
 
   Int64 get accountId {
-    return _r.account.state.accountId;
+    return _r.account.accountId;
   }
 
   GlobalAccountState get globalAccountState {
-    return _r.account.state.globalAccountState;
+    return _r.account.globalAccountState;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ class ApiChannelBusiness {
     // TODO:   return;
     // TODO: }
 
-    if (account.detail.locationId == 0) {
+    if (account.locationId == 0) {
       opsLog.warning(
           "User $accountId has no default location set, cannot create offer");
       channel.replyAbort(message, "No default location set.");
@@ -126,13 +126,13 @@ class ApiChannelBusiness {
 
     // Insert offer, not so critical
     // TODO: Set the offer state options... :)
-    Int64 locationId = account.detail.locationId;
+    Int64 locationId = account.locationId;
     channel.replyExtend(message);
     String insertOffer =
         "INSERT INTO `offers`(`account_id`, `title`, `description`, `deliverables`, `reward`, `location_id`, `state`) "
         "VALUES (?, ?, ?, ?, ?, ?, ?)";
     sqljocky.Results insertRes = await sql.prepareExecute(insertOffer, [
-      account.state.accountId,
+      account.accountId,
       pb.offer.title.toString(),
       pb.offer.description.toString(),
       pb.offer.terms.deliverablesDescription.toString(),
@@ -185,9 +185,9 @@ class ApiChannelBusiness {
     // TODO: }
     // TODO: netCreateOfferRes.deliverables = pb.deliverables;
     // TODO: netCreateOfferRes.reward = pb.reward;
-    // TODO: netCreateOfferRes.location = account.summary.location;
-    netCreateOfferRes.offer.latitude = account.detail.latitude;
-    netCreateOfferRes.offer.longitude = account.detail.longitude;
+    // TODO: netCreateOfferRes.location = account.location;
+    netCreateOfferRes.offer.latitude = account.latitude;
+    netCreateOfferRes.offer.longitude = account.longitude;
     netCreateOfferRes.offer.coverUrls
         .addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
     // TODO: netCreateOfferRes.blurredCoverUrls.addAll(

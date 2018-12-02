@@ -47,11 +47,11 @@ class ApiChannelInfluencer {
   }
 
   Int64 get accountId {
-    return _r.account.state.accountId;
+    return _r.account.accountId;
   }
 
   GlobalAccountState get globalAccountState {
-    return _r.account.state.globalAccountState;
+    return _r.account.globalAccountState;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -200,7 +200,7 @@ class ApiChannelInfluencer {
     proposal.state = ProposalState.negotiating;
     DataProposalChat chat = new DataProposalChat();
     chat.senderId = accountId;
-    chat.sessionId = account.state.sessionId;
+    chat.sessionId = account.sessionId;
     chat.sessionGhostId = pb.sessionGhostId;
     chat.type = ProposalChatType.terms;
 
@@ -269,7 +269,7 @@ class ApiChannelInfluencer {
           await transaction.prepareExecute(insertHaggle, [
         accountId,
         proposalId,
-        account.state.sessionId,
+        account.sessionId,
         pb.sessionGhostId, // Not actually used for apply chat, but need it for consistency
         ProposalChatType.terms.value,
         chatText,
@@ -310,8 +310,8 @@ class ApiChannelInfluencer {
     chat.sessionGhostId = 0;
 
     // Broadcast
-    await bc.proposalPosted(account.state.sessionId, proposal, account);
-    await bc.proposalChatPosted(account.state.sessionId, chat, account);
+    await bc.proposalPosted(account.sessionId, proposal, account);
+    await bc.proposalChatPosted(account.sessionId, chat, account);
 
     // TODO: Update offer proposal count
   }

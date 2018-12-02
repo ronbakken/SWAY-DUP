@@ -54,9 +54,9 @@ class ApiChannel {
   final lock = new Lock();
 
   /*
-  int account.state.sessionId;
-  AccountType account.state.accountType;
-  int account.state.accountId;
+  int account.sessionId;
+  AccountType account.accountType;
+  int account.accountId;
 
   GlobalAccountState globalAccountState;
   GlobalAccountStateReason globalAccountStateReason;
@@ -87,8 +87,8 @@ class ApiChannel {
   ApiChannelBusiness _apiChannelBusiness;
   ApiChannelInfluencer _apiChannelInfluencer;
 
-  ApiChannel(this.config, this.sql, this.bucket, this.elasticsearch, this.channel, this.bc,
-      Uint8List payload,
+  ApiChannel(this.config, this.sql, this.bucket, this.elasticsearch,
+      this.channel, this.bc, Uint8List payload,
       {@required this.ipAddress}) {
     devLog.fine("New connection");
 
@@ -151,7 +151,7 @@ class ApiChannel {
       _apiChannelInfluencer = null;
     }
     _procedureHandlers.clear();
-    devLog.fine("Connection closed for session ${account.state.sessionId}");
+    devLog.fine("Connection closed for session ${account.sessionId}");
   }
 
   void registerProcedure(
@@ -240,13 +240,10 @@ class ApiChannel {
     registerProcedure("PING", GlobalAccountState.initialize, netPing);
 
     account = new DataAccount();
-    account.state = new DataAccountState();
-    account.summary = new DataAccountSummary();
-    account.detail = new DataAccountDetail();
 
-    account.detail.socialMedia.length = 0;
+    account.socialMedia.length = 0;
     for (int i = 0; i < config.oauthProviders.length; ++i) {
-      account.detail.socialMedia.add(new DataSocialMedia());
+      account.socialMedia.add(new DataSocialMedia());
     }
 
     NetSessionPayload sessionPayload = new NetSessionPayload()
@@ -273,7 +270,7 @@ class ApiChannel {
       ..freeze();
     NetSession session = new NetSession();
     await lock.synchronized(() async {
-      if (account.state.sessionId == 0) {
+      if (account.sessionId == 0) {
         // Create a new session in the sessions table of the database
         Uint8List cookieHash = Uint8List.fromList(
             sha256.convert(sessionPayload.cookie + config.services.salt).bytes);
@@ -283,17 +280,17 @@ class ApiChannel {
         sqljocky.Results results = await sql.prepareExecute(
             "INSERT INTO `sessions` (`cookie_hash`, `device_hash`, `name`, `info`) VALUES (?, ?, ?, ?)",
             [cookieHash, deviceHash, create.deviceName, create.deviceInfo]);
-        if (results.insertId != null && account.state.sessionId == 0) {
-          account.state.sessionId = new Int64(results.insertId);
+        if (results.insertId != null && account.sessionId == 0) {
+          account.sessionId = new Int64(results.insertId);
           devLog.info(
-              "Inserted session_id ${account.state.sessionId} with cookie_hash '${cookieHash}'");
+              "Inserted session_id ${account.sessionId} with cookie_hash '${cookieHash}'");
         }
       }
-      if (account.state.sessionId == 0) {
+      if (account.sessionId == 0) {
         channel.replyAbort(message, "Failed to create session.");
         return;
       }
-      session.sessionId = account.state.sessionId;
+      session.sessionId = account.sessionId;
       channel.replyMessage(message, 'R_SESSIO', session.writeToBuffer());
       if (_procedureHandlers.containsKey('SESSIONC')) {
         unregisterProcedure('SESSIONC');
@@ -321,10 +318,10 @@ class ApiChannel {
       }
       if (sessionId != null && sessionId == sessionPayload.sessionId) {
         devLog.fine("Await session state");
-        account.state.sessionId = sessionId;
+        account.sessionId = sessionId;
         await refreshAccount();
-        if (account.state.sessionId != 0) {
-          if (account.state.accountId != 0) {
+        if (account.sessionId != 0) {
+          if (account.accountId != 0) {
             await transitionToApp(); // Fetches all of the state data
           } else {
             subscribeOnboarding();
@@ -387,7 +384,7 @@ class ApiChannel {
     if (!_connected) {
       return;
     }
-    if (account.state.sessionId == 0) {
+    if (account.sessionId == 0) {
       devLog.severe(
           "Invalid attempt to update session state with no session id, skip, this is a bug");
       return;
@@ -398,61 +395,59 @@ class ApiChannel {
     try {
       sqljocky.Results sessionResults = await connection.prepareExecute(
           "SELECT `account_id`, `account_type`, `firebase_token` FROM `sessions` WHERE `session_id` = ?",
-          [account.state.sessionId]);
+          [account.sessionId]);
       await for (sqljocky.Row row in sessionResults) {
         // one row
-        if (account.state.accountId != Int64.ZERO &&
-            account.state.accountId != new Int64(row[0])) {
+        if (account.accountId != Int64.ZERO &&
+            account.accountId != new Int64(row[0])) {
           devLog.severe(
               "Device account id changed, ignore, this is a bug, this should never happen");
         }
-        account.state.accountId = new Int64(row[0]);
-        account.state.accountType = AccountType.valueOf(row[1].toInt());
-        if (row[2] != null) account.state.firebaseToken = row[2].toString();
+        account.accountId = new Int64(row[0]);
+        account.accountType = AccountType.valueOf(row[1].toInt());
+        if (row[2] != null) account.firebaseToken = row[2].toString();
       }
-      devLog.finest(account.state);
       // Fetch account-specific info (overwrites session accountType, although it cannot possibly be different)
-      if (account.state.accountId != Int64.ZERO) {
+      if (account.accountId != Int64.ZERO) {
         if (extend != null) extend();
         sqljocky.Results accountResults = await connection.prepareExecute(
             "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
             "`description`, `location_id`, `avatar_key`, `website`, `email` FROM `accounts` "
             "WHERE `account_id` = ?",
-            [account.state.accountId]);
+            [account.accountId]);
         // int locationId;
         await for (sqljocky.Row row in accountResults) {
           // one
-          account.summary.name = row[0].toString();
-          account.state.accountType = AccountType.valueOf(row[1].toInt());
-          account.state.globalAccountState =
+          account.name = row[0].toString();
+          account.accountType = AccountType.valueOf(row[1].toInt());
+          account.globalAccountState =
               GlobalAccountState.valueOf(row[2].toInt());
-          account.state.globalAccountStateReason =
+          account.globalAccountStateReason =
               GlobalAccountStateReason.valueOf(row[3].toInt());
-          account.summary.description = row[4].toString();
-          account.detail.locationId = new Int64(row[5]);
+          account.description = row[4].toString();
+          account.locationId = new Int64(row[5]);
           if (row[6] != null) {
-            account.summary.avatarThumbnailUrl =
-                makeCloudinaryThumbnailUrl(row[6].toString());
-            account.summary.blurredAvatarThumbnailUrl =
+            account.avatarUrl = makeCloudinaryThumbnailUrl(row[6].toString());
+            account.blurredAvatarUrl =
                 makeCloudinaryBlurredThumbnailUrl(row[6].toString());
-            account.detail.avatarCoverUrl =
-                makeCloudinaryCoverUrl(row[6].toString());
-            account.detail.blurredAvatarCoverUrl =
-                makeCloudinaryBlurredCoverUrl(row[6].toString());
+            account.coverUrls.clear();
+            account.coverUrls.add(makeCloudinaryCoverUrl(row[6].toString()));
+            account.blurredCoverUrls.clear();
+            account.blurredCoverUrls
+                .add(makeCloudinaryBlurredCoverUrl(row[6].toString()));
           }
-          if (row[7] != null) account.detail.website = row[7].toString();
-          if (row[8] != null) account.detail.email = row[8].toString();
+          if (row[7] != null) account.website = row[7].toString();
+          if (row[8] != null) account.email = row[8].toString();
         }
-        if (account.detail.locationId != null &&
-            account.detail.locationId != 0) {
+        if (account.locationId != null && account.locationId != 0) {
           if (extend != null) extend();
           sqljocky.Results locationResults = await connection.prepareExecute(
-              "SELECT `${account.state.accountType == AccountType.business ? 'detail' : 'approximate'}`, `point` FROM `locations` "
+              "SELECT `${account.accountType == AccountType.business ? 'detail' : 'approximate'}`, `point` FROM `locations` "
               "WHERE `location_id` = ?",
-              [account.detail.locationId]);
+              [account.locationId]);
           await for (sqljocky.Row row in locationResults) {
             // one
-            account.summary.location = row[0].toString();
+            account.location = row[0].toString();
             Uint8List point = row[1];
             if (point != null) {
               // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
@@ -460,36 +455,30 @@ class ApiChannel {
               Endian endian = data.getInt8(4) == 0 ? Endian.big : Endian.little;
               int type = data.getUint32(4 + 1, endian = endian);
               if (type == 1) {
-                account.detail.latitude =
-                    data.getFloat64(4 + 5 + 8, endian = endian);
-                account.detail.longitude =
-                    data.getFloat64(4 + 5, endian = endian);
+                account.latitude = data.getFloat64(4 + 5 + 8, endian = endian);
+                account.longitude = data.getFloat64(4 + 5, endian = endian);
               }
             }
           }
-          if (account.summary.location == null) {
+          if (account.location == null) {
             devLog.severe(
-                "Account ${account.state.accountId} has an unknown location_id set");
-            account.summary.location = "Earth";
+                "Account ${account.accountId} has an unknown location_id set");
+            account.location = "Earth";
           }
         } else {
           devLog.severe(
-              "Account ${account.state.accountId} does not have a location_id set");
-          account.summary.location = "Earth";
+              "Account ${account.accountId} does not have a location_id set");
+          account.location = "Earth";
         }
       }
       // Find all connected social media accounts
       if (extend != null) extend();
       List<bool> connectedProviders =
-          new List<bool>(account.detail.socialMedia.length);
+          new List<bool>(account.socialMedia.length);
       sqljocky.Results connectionResults = await connection.prepareExecute(
           // The additional `account_id` = 0 here is required in order not to load halfway failed connected sessions
-          "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.state.accountId == 0 ? '`account_id` = 0 AND `session_id`' : '`account_id`'} = ?",
-          [
-            account.state.accountId == 0
-                ? account.state.sessionId
-                : account.state.accountId
-          ]);
+          "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.accountId == 0 ? '`account_id` = 0 AND `session_id`' : '`account_id`'} = ?",
+          [account.accountId == 0 ? account.sessionId : account.accountId]);
       List<sqljocky.Row> connectionRows = await connectionResults
           .toList(); // Load to avoid blocking connections recursively
       for (sqljocky.Row row in connectionRows) {
@@ -499,22 +488,22 @@ class ApiChannel {
         bool expired = row[3].toInt() != 0 ||
             oauthTokenExpires >=
                 (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-        if (oauthProvider < account.detail.socialMedia.length) {
-          account.detail.socialMedia[oauthProvider] =
+        if (oauthProvider < account.socialMedia.length) {
+          account.socialMedia[oauthProvider] =
               await fetchCachedSocialMedia(oauthUserId, oauthProvider);
-          account.detail.socialMedia[oauthProvider].expired = expired;
+          account.socialMedia[oauthProvider].expired = expired;
           connectedProviders[oauthProvider] =
-              account.detail.socialMedia[oauthProvider].connected;
+              account.socialMedia[oauthProvider].connected;
         } else {
           devLog.severe(
               "Invalid attempt to update session state with no session id, skip, this indicates an incorrent database entry caused by a bug");
         }
       }
       // Wipe any lost accounts
-      for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+      for (int i = 0; i < account.socialMedia.length; ++i) {
         if (connectedProviders[i] != true &&
-            (account.detail.socialMedia[i].connected == true)) {
-          account.detail.socialMedia[i] = new DataSocialMedia(); // Wipe
+            (account.socialMedia[i].connected == true)) {
+          account.socialMedia[i] = new DataSocialMedia(); // Wipe
         }
       }
     } finally {
@@ -566,7 +555,7 @@ class ApiChannel {
     pb.mergeFromBuffer(message.data);
     String aesKeyStr = base64.encode(pb.aesKey);
     await lock.synchronized(() async {
-      if (account.state.sessionId == 0) {
+      if (account.sessionId == 0) {
         // Create only once 🤨😒
         sqljocky.RetainedConnection connection = await sql
             .getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead session entries
@@ -579,16 +568,16 @@ class ApiChannel {
           sqljocky.Results lastInsertedId =
               await connection.query("SELECT LAST_INSERT_ID()");
           await for (sqljocky.Row row in lastInsertedId) {
-            account.state.sessionId = new Int64(row[0]);
+            account.sessionId = new Int64(row[0]);
             devLog.info(
-                "Inserted session_id ${account.state.sessionId} with aes_key '${aesKeyStr}'");
+                "Inserted session_id ${account.sessionId} with aes_key '${aesKeyStr}'");
           }
         } catch (error, stackTrace) {
           devLog.warning("Failed to create session: $error\n$stackTrace");
         }
         await connection.release();
       }
-      if (account.state.sessionId != 0) {
+      if (account.sessionId != 0) {
         unsubscribeAuthentication(); // No longer respond to authentication messages when OK
         subscribeOnboarding();
         subscribeOAuth();
@@ -662,8 +651,8 @@ class ApiChannel {
         opsLog.fine(
             "Signature verified succesfully for session $attemptDeviceId");
         await lock.synchronized(() async {
-          if (account.state.sessionId == 0) {
-            account.state.sessionId = attemptDeviceId;
+          if (account.sessionId == 0) {
+            account.sessionId = attemptDeviceId;
           }
         });
       } else {
@@ -680,9 +669,9 @@ class ApiChannel {
     await updateDeviceState(extend: () {
       channel.replyExtend(signatureMessage);
     });
-    if (account.state.sessionId != 0) {
+    if (account.sessionId != 0) {
       unsubscribeAuthentication(); // No longer respond to authentication messages when OK
-      if (account.state.accountId != 0) {
+      if (account.accountId != 0) {
         channel.replyExtend(signatureMessage);
         await transitionToApp(); // Fetches all of the state data
       } else {
@@ -737,7 +726,7 @@ class ApiChannel {
 
   // Deprecated
   Future<void> updateDeviceState({Function() extend}) async {
-    if (account.state.sessionId == 0) {
+    if (account.sessionId == 0) {
       devLog.severe(
           "Invalid attempt to update session state with no session id, skip, this is a bug");
       return;
@@ -782,7 +771,7 @@ class ApiChannel {
   }
 
   Future<void> _accountSetType(TalkMessage message) async {
-    assert(account.state.sessionId != 0);
+    assert(account.sessionId != 0);
     // Received account type change request
     NetSetAccountType pb = new NetSetAccountType();
     pb.mergeFromBuffer(message.data);
@@ -790,11 +779,11 @@ class ApiChannel {
 
     bool update = false;
     await lock.synchronized(() async {
-      if (pb.accountType == account.state.accountType) {
+      if (pb.accountType == account.accountType) {
         devLog.finest("no-op");
         return; // no-op, may ignore
       }
-      if (account.state.accountId != 0) {
+      if (account.accountId != 0) {
         devLog.finest("no-op");
         return; // no-op, may ignore
       }
@@ -803,10 +792,10 @@ class ApiChannel {
         await sql.startTransaction((sqljocky.Transaction tx) async {
           await tx.prepareExecute(
               "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `account_id` = 0",
-              [account.state.sessionId]);
+              [account.sessionId]);
           await tx.prepareExecute(
               "UPDATE `sessions` SET `account_type` = ? WHERE `session_id` = ? AND `account_id` = 0",
-              [pb.accountType.value, account.state.sessionId]);
+              [pb.accountType.value, account.sessionId]);
           await tx.commit();
         });
       } catch (error, stackTrace) {
@@ -817,27 +806,27 @@ class ApiChannel {
     // Send authentication state
     if (update) {
       devLog.finest(
-          "Send authentication state, account type is ${account.state.accountType} (set ${pb.accountType})");
+          "Send authentication state, account type is ${account.accountType} (set ${pb.accountType})");
       await refreshAccount();
       await sendAccountUpdate();
       devLog.finest(
-          "Account type is now ${account.state.accountType} (set ${pb.accountType})");
+          "Account type is now ${account.accountType} (set ${pb.accountType})");
     }
   }
 
   Future<void> _netSetFirebaseToken(TalkMessage message) async {
-    if (account.state.sessionId == 0) return;
+    if (account.sessionId == 0) return;
     // No validation here, no risk. Messages would just end up elsewhere
     NetSetFirebaseToken pb = new NetSetFirebaseToken();
     pb.mergeFromBuffer(message.data);
     devLog.finer("Set Firebase Token: $pb");
-    account.state.firebaseToken = pb.firebaseToken;
+    account.firebaseToken = pb.firebaseToken;
 
     String update =
         "UPDATE `sessions` SET `firebase_token`= ? WHERE `session_id` = ?";
     await sql.prepareExecute(update, [
       pb.firebaseToken.toString(),
-      account.state.sessionId,
+      account.sessionId,
     ]);
 
     if (pb.hasOldFirebaseToken() && pb.oldFirebaseToken != null) {
@@ -855,13 +844,13 @@ class ApiChannel {
 
   Future<void> _accountCreate(TalkMessage message) async {
     // response: NetDeviceAuthState
-    assert(account.state.sessionId != 0);
+    assert(account.sessionId != 0);
     // Received account creation request
     NetAccountCreate pb = new NetAccountCreate();
     pb.mergeFromBuffer(message.data);
     devLog.finest("NetAccountCreate: $pb");
     devLog.finest("ipAddress: $ipAddress");
-    if (account.state.accountId != 0) {
+    if (account.accountId != 0) {
       devLog.info("Skip create account, already has one");
       return;
     }
@@ -916,9 +905,9 @@ class ApiChannel {
 
     // Also query all social media locations in the meantime, no particular order
     List<Future<dynamic>> mediaLocations = new List<Future<dynamic>>();
-    // for (int i = 0; i < account.detail.socialMedia.length; ++i) {
+    // for (int i = 0; i < account.socialMedia.length; ++i) {
     for (int i in mediaPriority) {
-      DataSocialMedia socialMedia = account.detail.socialMedia[i];
+      DataSocialMedia socialMedia = account.socialMedia[i];
       if (socialMedia.connected &&
           socialMedia.location != null &&
           socialMedia.location.isNotEmpty) {
@@ -947,8 +936,7 @@ class ApiChannel {
 
     // Fallback location
     if (locations.isEmpty) {
-      devLog.severe(
-          "Using fallback location for account ${account.state.accountId}");
+      devLog.severe("Using fallback location for account ${account.accountId}");
       DataLocation location = new DataLocation();
       location.name = "Los Angeles";
       location.approximate = "Los Angeles, California 90017";
@@ -972,7 +960,7 @@ class ApiChannel {
     String accountUrl;
     String accountEmail;
     for (int i in mediaPriority) {
-      DataSocialMedia socialMedia = account.detail.socialMedia[i];
+      DataSocialMedia socialMedia = account.socialMedia[i];
       if (socialMedia.connected) {
         if (accountName == null &&
             socialMedia.displayName != null &&
@@ -1028,7 +1016,7 @@ class ApiChannel {
         "Everything you expect and more.",
         "You will be lovin' it.",
       ];
-      switch (account.state.accountType) {
+      switch (account.accountType) {
         case AccountType.influencer:
           accountDescription =
               influencerDefaults[random.nextInt(influencerDefaults.length)];
@@ -1054,7 +1042,7 @@ class ApiChannel {
     }
 
     // One more check
-    if (account.state.accountId != 0) {
+    if (account.accountId != 0) {
       devLog.info("Skip create account, already has one");
       return;
     }
@@ -1064,20 +1052,20 @@ class ApiChannel {
     await lock.synchronized(() async {
       // Count the number of connected authentication mechanisms
       int connectedNb = 0;
-      for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-        if (account.detail.socialMedia[i].connected) ++connectedNb;
+      for (int i = 0; i < account.socialMedia.length; ++i) {
+        if (account.socialMedia[i].connected) ++connectedNb;
       }
 
       // Validate that the current state is sufficient to create an account
-      if (account.state.accountId == 0 &&
-          account.state.accountType != AccountType.unknown &&
+      if (account.accountId == 0 &&
+          account.accountType != AccountType.unknown &&
           connectedNb > 0) {
         // Changes sent in a single SQL transaction for reliability
         try {
           // Process the account creation
           channel.replyExtend(message);
           await sql.startTransaction((sqljocky.Transaction tx) async {
-            if (account.state.accountId != 0) {
+            if (account.accountId != 0) {
               throw new Exception(
                   "Race condition, account already created, not an issue");
             }
@@ -1092,7 +1080,7 @@ class ApiChannel {
             GlobalAccountState globalAccountState;
             GlobalAccountStateReason globalAccountStateReason;
             // Initial approval state for accounts is defined here
-            switch (account.state.accountType) {
+            switch (account.accountType) {
               case AccountType.business:
               case AccountType.influencer:
                 // globalAccountState = GlobalAccountState.readOnly;
@@ -1107,7 +1095,7 @@ class ApiChannel {
                 break;
               default:
                 opsLog.severe(
-                    "Attempt to create account with invalid account type ${account.state.accountType} by session ${account.state.sessionId}");
+                    "Attempt to create account with invalid account type ${account.accountType} by session ${account.sessionId}");
                 throw new Exception(
                     "Attempt to create account with invalid account type");
             }
@@ -1119,7 +1107,7 @@ class ApiChannel {
                 ") VALUES (?, ?, ?, ?, ?, ?, ?)",
                 [
                   accountName.toString(),
-                  account.state.accountType.value.toInt(),
+                  account.accountType.value.toInt(),
                   globalAccountState.value.toInt(),
                   globalAccountStateReason.value.toInt(),
                   accountDescription.toString(),
@@ -1135,7 +1123,7 @@ class ApiChannel {
             sqljocky.Results res2 = await tx.prepareExecute(
                 "UPDATE `sessions` SET `account_id` = LAST_INSERT_ID() "
                 "WHERE `session_id` = ? AND `account_id` = 0",
-                [account.state.sessionId]);
+                [account.sessionId]);
             if (res2.affectedRows == 0)
               throw new Exception("Device was not updated");
             // 3.
@@ -1143,7 +1131,7 @@ class ApiChannel {
             sqljocky.Results res3 = await tx.prepareExecute(
                 "UPDATE `oauth_connections` SET `account_id` = LAST_INSERT_ID() "
                 "WHERE `session_id` = ? AND `account_id` = 0",
-                [account.state.sessionId]);
+                [account.sessionId]);
             if (res3.affectedRows == 0)
               throw new Exception("Social media was not updated");
             // 4.
@@ -1169,7 +1157,7 @@ class ApiChannel {
                   [
                     accountId,
                     location.name.toString(),
-                    location.detail.toString(),
+                    location.toString(),
                     location.approximate.toString(),
                     location.postcode == null
                         ? null
@@ -1196,7 +1184,7 @@ class ApiChannel {
           });
         } catch (error, stackTrace) {
           opsLog.severe(
-              "Failed to create account for session ${account.state.sessionId}: $error\n$stackTrace");
+              "Failed to create account for session ${account.sessionId}: $error\n$stackTrace");
         }
       }
     });
@@ -1204,7 +1192,7 @@ class ApiChannel {
     // Update state
     channel.replyExtend(message);
     await updateDeviceState();
-    if (account.state.accountId != 0) {
+    if (account.accountId != 0) {
       channel.replyExtend(message);
       unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
       await transitionToApp(); // TODO: Transitions and subs hould be handled by updateDeviceState preferably...
@@ -1215,24 +1203,23 @@ class ApiChannel {
     // 2. Upload avatar to Spaces
     // 3. Update account to refer to avatar
     try {
-      if (account.state.accountId != 0 &&
+      if (account.accountId != 0 &&
           accountAvatarUrl != null &&
           accountAvatarUrl.length > 0) {
         channel.replyExtend(message);
         String avatarKey =
-            await downloadUserImage(account.state.accountId, accountAvatarUrl);
+            await downloadUserImage(account.accountId, accountAvatarUrl);
         channel.replyExtend(message);
         await sql.prepareExecute(
             "UPDATE `accounts` SET `avatar_key` = ? "
             "WHERE `account_id` = ?",
-            [avatarKey.toString(), account.state.accountId]);
-        account.summary.avatarThumbnailUrl =
-            makeCloudinaryThumbnailUrl(avatarKey);
-        account.summary.blurredAvatarThumbnailUrl =
-            makeCloudinaryBlurredThumbnailUrl(avatarKey);
-        account.detail.avatarCoverUrl = makeCloudinaryCoverUrl(avatarKey);
-        account.detail.blurredAvatarCoverUrl =
-            makeCloudinaryBlurredCoverUrl(avatarKey);
+            [avatarKey.toString(), account.accountId]);
+        account.avatarUrl = makeCloudinaryThumbnailUrl(avatarKey);
+        account.blurredAvatarUrl = makeCloudinaryBlurredThumbnailUrl(avatarKey);
+        account.coverUrls.clear();
+        account.coverUrls.add(makeCloudinaryCoverUrl(avatarKey));
+        account.blurredCoverUrls.clear();
+        account.blurredCoverUrls.add(makeCloudinaryBlurredCoverUrl(avatarKey));
       }
     } catch (error, stackTrace) {
       devLog.severe(
@@ -1244,9 +1231,9 @@ class ApiChannel {
       // Send all state to user
       await sendAccountUpdate(replying: message);
     });
-    if (account.state.accountId == 0) {
+    if (account.accountId == 0) {
       devLog.severe(
-          "Account was not created for session ${account.state.sessionId}"); // DEVELOPER - DEVELOPMENT CRITICAL
+          "Account was not created for session ${account.sessionId}"); // DEVELOPER - DEVELOPMENT CRITICAL
     }
   }
 
@@ -1258,9 +1245,9 @@ class ApiChannel {
 
   bool requireGlobalAccountState(GlobalAccountState globalAccountState,
       {TalkMessage replying}) {
-    if (account.state.globalAccountState.value < globalAccountState.value) {
+    if (account.globalAccountState.value < globalAccountState.value) {
       opsLog.warning(
-          "User ${account.state.accountId} is not authorized for $globalAccountState operations");
+          "User ${account.accountId} is not authorized for $globalAccountState operations");
       if (replying != null) {
         channel.replyAbort(replying, "Not authorized.");
       }
@@ -1612,21 +1599,6 @@ class ApiChannel {
     }
 
     // Get hash and generate filename
-    /*
-    int lastIndex = uri.path.lastIndexOf('.');
-    String uriExt = lastIndex > 0 ? uri.path.substring(lastIndex + 1) : '';
-    if (uriExt.length == 0) {
-      switch (contentType) {
-        case 'image/jpeg':
-          uriExt = 'jpg';
-          break;
-        case 'image/png':
-          uriExt = 'png';
-          break;
-      }
-    }
-    */
-
     String uriExt;
     switch (contentType) {
       case 'image/jpeg':
@@ -1635,17 +1607,27 @@ class ApiChannel {
       case 'image/png':
         uriExt = 'png';
         break;
+      case 'image/gif':
+        uriExt = 'gif';
+        break;
+      case 'image/webp':
+        uriExt = 'webp';
+        break;
+      case 'image/heif':
+        uriExt = 'heif';
+        break;
       default:
         {
           int lastIndex = uri.path.lastIndexOf('.');
           uriExt = lastIndex > 0
               ? uri.path.substring(lastIndex + 1).toLowerCase()
-              : 'bin';
+              : 'jpg';
         }
     }
 
     Digest contentSha256 = sha256.convert(body);
-    String key = "${config.services.domain}/user/$accountId/$contentSha256.$uriExt";
+    String key =
+        "${config.services.domain}/user/$accountId/$contentSha256.$uriExt";
     bucket.uploadData(key, body, contentType, dospace.Permissions.public,
         contentSha256: contentSha256);
     return key;
@@ -1666,14 +1648,13 @@ class ApiChannel {
     }
     assert(_apiChannelBusiness == null);
     assert(_apiChannelInfluencer == null);
-    assert(account.state.sessionId != null);
-    assert(account.state.accountId != 0);
+    assert(account.sessionId != null);
+    assert(account.accountId != 0);
     // TODO: Permit app transactions!
     // TODO: Fetch social media from SQL and then from remote hosts!
     devLog.fine(
-        "Transition session ${account.state.sessionId} to app ${account.state.accountType}");
-    if (account.state.globalAccountState.value >
-        GlobalAccountState.blocked.value) {
+        "Transition session ${account.sessionId} to app ${account.accountType}");
+    if (account.globalAccountState.value > GlobalAccountState.blocked.value) {
       registerProcedure(
           'SFIREBAT', GlobalAccountState.blocked, _netSetFirebaseToken);
       subscribeOAuth();
@@ -1681,9 +1662,9 @@ class ApiChannel {
       subscribeProfile();
       subscribeHaggle();
       subscribeHaggleActions();
-      if (account.state.accountType == AccountType.business) {
+      if (account.accountType == AccountType.business) {
         subscribeBusiness();
-      } else if (account.state.accountType == AccountType.influencer) {
+      } else if (account.accountType == AccountType.influencer) {
         subscribeInfluencer();
       }
       bc.accountConnected(this);

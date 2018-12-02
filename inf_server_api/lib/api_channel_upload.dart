@@ -45,11 +45,11 @@ class ApiChannelUpload {
   }
 
   Int64 get accountId {
-    return _r.account.state.accountId;
+    return _r.account.accountId;
   }
 
   GlobalAccountState get globalAccountState {
-    return _r.account.state.globalAccountState;
+    return _r.account.globalAccountState;
   }
 
   //////////////////////////////////////////////////////////////////////////////

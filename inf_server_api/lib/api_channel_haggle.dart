@@ -48,11 +48,11 @@ class ApiChannelHaggle {
   }
 
   Int64 get accountId {
-    return _r.account.state.accountId;
+    return _r.account.accountId;
   }
 
   GlobalAccountState get globalAccountState {
-    return _r.account.state.globalAccountState;
+    return _r.account.globalAccountState;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ class ApiChannelHaggle {
         in await sql.prepareExecute(query, [proposalId])) {
       proposal = _proposalFromRow(row);
     }
-    if (account.state.accountType == AccountType.support ||
+    if (account.accountType == AccountType.support ||
         accountId == proposal.businessAccountId ||
         accountId == proposal.influencerAccountId) {
       return proposal;
@@ -160,7 +160,7 @@ class ApiChannelHaggle {
 
     if (proposal == null) {
       channel.replyAbort(message, "Not found.");
-    } else if (account.state.accountType == AccountType.support ||
+    } else if (account.accountType == AccountType.support ||
         accountId == proposal.businessAccountId ||
         accountId == proposal.influencerAccountId) {
       channel.replyMessage(message, "LU_APPLI", proposal.writeToBuffer());
@@ -181,7 +181,7 @@ class ApiChannelHaggle {
       String query = "SELECT "
           "$_proposalSelect"
           "FROM `proposals` "
-          "WHERE `${account.state.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?";
+          "WHERE `${account.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?";
       await for (sqljocky.Row row
           in await connection.prepareExecute(query, [accountId])) {
         channel.replyMessage(
@@ -225,7 +225,7 @@ class ApiChannelHaggle {
         channel.replyAbort(message, "Not found.");
         return; // Verify that this does call finally
       }
-      if (account.state.accountType != AccountType.support &&
+      if (account.accountType != AccountType.support &&
           accountId != businessAccountId &&
           accountId != influencerAccountId) {
         opsLog.severe(
@@ -253,7 +253,7 @@ class ApiChannelHaggle {
         chat.sent = new Int64(row[1]);
         chat.senderId = new Int64(row[2]);
         Int64 sessionId = new Int64(row[3]);
-        if (sessionId == account.state.sessionId) {
+        if (sessionId == account.sessionId) {
           chat.sessionId = sessionId;
           chat.sessionGhostId = row[4].toInt();
         }

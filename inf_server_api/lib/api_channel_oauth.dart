@@ -47,8 +47,30 @@ class ApiChannelOAuth {
   }
 
   List<DataSocialMedia> get socialMedia {
-    return _r.account.detail.socialMedia;
+    return _r.account.socialMedia;
   }
+
+  /*
+  DataSocialMedia getSocialMedia(int oauthProvider) {
+    return _r.account.socialMedia
+        .firstWhere((entry) => entry.key == oauthProvider, orElse: () {
+      DataAccount_SocialMediaEntry entry = new DataAccount_SocialMediaEntry();
+      entry.key = oauthProvider;
+      entry.value = new DataSocialMedia();
+      return entry;
+    }).value;
+  }
+
+  void setSocialMedia(int oauthProvider, DataSocialMedia socialMedia) {
+    _r.account.socialMedia.firstWhere((entry) => entry.key == oauthProvider, orElse: () {
+      DataAccount_SocialMediaEntry entry = new DataAccount_SocialMediaEntry();
+      entry.key = oauthProvider;
+      entry.value = new DataSocialMedia();
+      _r.account.socialMedia.add(value)
+      return entry;
+    }).value = socialMedia;
+  }
+  */
 
   ApiChannelOAuth(this._r) {
     _r.registerProcedure(
@@ -309,9 +331,9 @@ class ApiChannelOAuth {
               [
                 oauthCredentials.userId.toString(),
                 oauthProvider.toInt(),
-                account.state.accountType.value.toInt(),
-                account.state.accountId,
-                account.state.sessionId,
+                account.accountType.value.toInt(),
+                account.accountId,
+                account.sessionId,
                 oauthCredentials.token.toString(),
                 oauthCredentials.tokenSecret.toString(),
                 oauthCredentials.tokenExpires.toString()
@@ -329,7 +351,7 @@ class ApiChannelOAuth {
         // Alternative is to update a previously pending connection that has account_id = 0
         if (!inserted) {
           try {
-            if (account.state.accountId == 0) {
+            if (account.accountId == 0) {
               // Attempt to login to an existing account, or regain a lost connection
               devLog.finest("Try takeover");
               channel.replyExtend(message);
@@ -338,17 +360,16 @@ class ApiChannelOAuth {
                   "`oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?";
               sqljocky.Results updateRes = await sql.prepareExecute(query, [
-                account.state.sessionId,
+                account.sessionId,
                 oauthCredentials.token.toString(),
                 oauthCredentials.tokenSecret.toString(),
                 oauthCredentials.tokenExpires.toString(),
                 oauthCredentials.userId.toString(),
                 oauthProvider.toInt(),
-                account.state.accountType.value.toInt()
+                account.accountType.value.toInt()
               ]);
               takeover = (updateRes.affectedRows > 0) &&
-                  (account.state.accountId ==
-                      0); // Also check for account state
+                  (account.accountId == 0); // Also check for account state
               devLog.finest(updateRes.affectedRows);
               devLog.finest("Attempt to takeover OAuth connection: $takeover");
             }
@@ -362,24 +383,24 @@ class ApiChannelOAuth {
                   [
                     oauthCredentials.userId.toString(),
                     oauthProvider.toInt(),
-                    account.state.accountType.value.toInt()
+                    account.accountType.value.toInt()
                   ]);
               Int64 takeoverAccountId = Int64.ZERO;
               await for (sqljocky.Row row in connectionRes) {
                 takeoverAccountId = new Int64(row[0]);
               }
-              takeover = (account.state.accountId == Int64.ZERO) &&
+              takeover = (account.accountId == Int64.ZERO) &&
                   (takeoverAccountId != Int64.ZERO);
               if (takeover) {
-                // updateDeviceState loads the new state from the database into account.state.accountId
+                // updateDeviceState loads the new state from the database into account.accountId
                 devLog.finest(
-                    "Takeover, existing account $takeoverAccountId on session ${account.state.sessionId}");
+                    "Takeover, existing account $takeoverAccountId on session ${account.sessionId}");
                 String query = "UPDATE `sessions` "
                     "SET `account_id` = ? "
                     "WHERE `session_id` = ? AND `account_id` = 0";
                 channel.replyExtend(message);
                 await sql.prepareExecute(
-                    query, [takeoverAccountId, account.state.sessionId]);
+                    query, [takeoverAccountId, account.sessionId]);
                 // NOTE: Technically, here we may escalate any OAuth connections of this session to the account,
                 // as long as the account has no connections yet for the connected providers (long-term)
               }
@@ -395,15 +416,15 @@ class ApiChannelOAuth {
                   "SET `updated` = CURRENT_TIMESTAMP(), `account_id` = ?, `session_id` = ?, `oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
               sqljocky.Results updateRes = await sql.prepareExecute(query, [
-                account.state.accountId,
-                account.state.sessionId,
+                account.accountId,
+                account.sessionId,
                 oauthCredentials.token.toString(),
                 oauthCredentials.tokenSecret.toString(),
                 oauthCredentials.tokenExpires.toInt(),
                 oauthCredentials.userId.toString(),
                 oauthProvider.toInt(),
-                account.state.accountType.value.toInt(),
-                account.state.accountId
+                account.accountType.value.toInt(),
+                account.accountId
               ]);
               refreshed = updateRes.affectedRows > 0;
               devLog.finest("Attempt to refresh OAuth tokens: $refreshed");
@@ -422,20 +443,20 @@ class ApiChannelOAuth {
         // Wipe any other previously connected accounts to avoid inconsistent data
         // Happens after addition to ensure race condition will prioritize deletion
         channel.replyExtend(message);
-        if (account.state.accountId != 0) {
+        if (account.accountId != 0) {
           String query =
               "DELETE FROM `oauth_connections` WHERE `account_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
           await sql.prepareExecute(query, [
-            account.state.accountId,
+            account.accountId,
             oauthCredentials.userId.toString(),
             oauthProvider.toInt()
           ]);
         }
-        if (account.state.sessionId != 0) {
+        if (account.sessionId != 0) {
           String query =
               "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
           await sql.prepareExecute(query, [
-            account.state.sessionId,
+            account.sessionId,
             oauthCredentials.userId.toString(),
             oauthProvider.toInt()
           ]);
@@ -472,7 +493,7 @@ class ApiChannelOAuth {
           // Send all state to user
           await _r.sendAccountUpdate();
         });
-        if (account.state.accountId != 0) {
+        if (account.accountId != 0) {
           // Transition to app
           await _r.transitionToApp();
         } else {
@@ -502,10 +523,11 @@ class ApiChannelOAuth {
     http.Response response = await http.post(url, headers: headers, body: body);
     devLog.finest(response.body);*/
     try {
-      await elasticsearch.postDocument("social_account_" +
-        config.oauthProviders[oauthProvider].key, body);
+      await elasticsearch.postDocument(
+          "social_account_" + config.oauthProviders[oauthProvider].key, body);
     } catch (error, stackTrace) {
-      opsLog.severe("Error posting social media account to Elasticsearch: $error\n$stackTrace");
+      opsLog.severe(
+          "Error posting social media account to Elasticsearch: $error\n$stackTrace");
     }
   }
 

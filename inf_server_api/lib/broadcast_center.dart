@@ -145,7 +145,7 @@ class BroadcastCenter {
     // Push to apps connected locally
     for (ApiChannel apiChannel in _accountToApiChannels[receiverAccountId]) {
       try {
-        if (apiChannel.account.state.sessionId != senderDeviceId) {
+        if (apiChannel.account.sessionId != senderDeviceId) {
           apiChannel.channel.sendMessage(procedureId, data);
         }
       } catch (error, stackTrace) {
@@ -241,21 +241,21 @@ class BroadcastCenter {
   /////////////////////////////////////////////////////////////////////////////
 
   void accountConnected(ApiChannel apiChannel) {
-    _accountToApiChannels.add(apiChannel.account.state.accountId, apiChannel);
+    _accountToApiChannels.add(apiChannel.account.accountId, apiChannel);
 
     // TODO: Signal remote servers (if only first session for account here)
   }
 
   void accountDisconnected(ApiChannel apiChannel) {
     if (_accountToApiChannels.remove(
-        apiChannel.account.state.accountId, apiChannel)) {
+        apiChannel.account.accountId, apiChannel)) {
       // TODO: Signal remote servers (if no more sessions for account here)
     }
   }
 
   void accountFirebaseTokensChanged(ApiChannel apiChannel) {
     // TODO: Signal remote servers
-    _dirtyAccountFirebaseTokens(apiChannel.account.state.accountId);
+    _dirtyAccountFirebaseTokens(apiChannel.account.accountId);
   }
 
   Future<void> proposalPosted(Int64 senderDeviceId, DataProposal proposal,
@@ -279,7 +279,7 @@ class BroadcastCenter {
     }
 
     devLog.fine(
-        "Pushed proposal ${proposal.proposalId}: '${influencerAccount.summary.name}'");
+        "Pushed proposal ${proposal.proposalId}: '${influencerAccount.name}'");
   }
 
   Future<void> proposalChanged(
@@ -320,7 +320,7 @@ class BroadcastCenter {
       await _pushProposalChatPosted(senderDeviceId, chat.senderId, chat);
 
     devLog.fine(
-        "Pushed proposal '${senderAccount.summary.name}' chat '${chat.text}'");
+        "Pushed proposal '${senderAccount.name}' chat '${chat.text}'");
   }
 
 /*

@@ -49,11 +49,11 @@ class ApiChannelHaggleActions {
   }
 
   Int64 get accountId {
-    return _r.account.state.accountId;
+    return _r.account.accountId;
   }
 
   GlobalAccountState get globalAccountState {
-    return _r.account.state.globalAccountState;
+    return _r.account.globalAccountState;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -162,7 +162,7 @@ class ApiChannelHaggleActions {
           "Attempt to send message to invalid proposal chat by account '$senderId'");
       return false; // Not Found
     }
-    if (account.state.accountType != AccountType.support &&
+    if (account.accountType != AccountType.support &&
         accountId != businessAccountId &&
         accountId != influencerAccountId) {
       opsLog.severe(
@@ -295,14 +295,14 @@ class ApiChannelHaggleActions {
 
     // Publish to all else
     // TODO: Deduplicate chat.writeToBuffer() calls on publishing
-    _r.bc.proposalChatPosted(account.state.sessionId, chat, account);
+    _r.bc.proposalChatPosted(account.sessionId, chat, account);
   }
 
   Future<void> _changedProposal(Int64 proposalId) async {
     // DataProposal proposal) {
     DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
     channel.sendMessage("LU_APPLI", proposal.writeToBuffer());
-    _r.bc.proposalChanged(account.state.sessionId, proposal);
+    _r.bc.proposalChanged(account.sessionId, proposal);
   }
 
   Future<void> netChatPlain(TalkMessage message) async {
@@ -317,7 +317,7 @@ class ApiChannelHaggleActions {
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
     chat.senderId = accountId;
     chat.proposalId = pb.proposalId;
-    chat.sessionId = account.state.sessionId;
+    chat.sessionId = account.sessionId;
     chat.sessionGhostId = pb.sessionGhostId;
     chat.type = ProposalChatType.plain;
     chat.text = pb.text;
@@ -364,7 +364,7 @@ class ApiChannelHaggleActions {
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
     chat.senderId = accountId;
     chat.proposalId = pb.proposalId;
-    chat.sessionId = account.state.sessionId;
+    chat.sessionId = account.sessionId;
     chat.sessionGhostId = pb.sessionGhostId;
     chat.type = ProposalChatType.terms;
     chat.text =
@@ -387,7 +387,7 @@ class ApiChannelHaggleActions {
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
     chat.senderId = accountId;
     chat.proposalId = pb.proposalId;
-    chat.sessionId = account.state.sessionId;
+    chat.sessionId = account.sessionId;
     chat.sessionGhostId = pb.sessionGhostId;
     chat.type = ProposalChatType.imageKey;
     chat.text = 'key=${Uri.encodeQueryComponent(pb.imageKey.trim())}';
@@ -435,11 +435,11 @@ class ApiChannelHaggleActions {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
       String accountWantsDeal =
-          account.state.accountType == AccountType.influencer
+          account.accountType == AccountType.influencer
               ? 'influencer_wants_deal'
               : 'business_wants_deal';
       String accountAccountId =
-          account.state.accountType == AccountType.influencer
+          account.accountType == AccountType.influencer
               ? 'influencer_account_id'
               : 'business_account_id';
       String updateWants = "UPDATE `proposals` "
@@ -477,7 +477,7 @@ class ApiChannelHaggleActions {
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderId = accountId;
       chat.proposalId = proposalId;
-      chat.sessionId = account.state.sessionId;
+      chat.sessionId = account.sessionId;
       chat.sessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
       chat.text = 'marker=' +
@@ -505,8 +505,8 @@ class ApiChannelHaggleActions {
         devLog.severe("$error\n$stackTrace");
       }
       // Publish!
-      _r.bc.proposalChanged(account.state.sessionId, proposal);
-      _r.bc.proposalChatPosted(account.state.sessionId, markerChat, account);
+      _r.bc.proposalChanged(account.sessionId, proposal);
+      _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
     }
   }
 
@@ -523,7 +523,7 @@ class ApiChannelHaggleActions {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
       String accountAccountId =
-          account.state.accountType == AccountType.influencer
+          account.accountType == AccountType.influencer
               ? 'influencer_account_id' // Cancel
               : 'business_account_id'; // Reject
       String updateWants = "UPDATE `proposals` "
@@ -546,7 +546,7 @@ class ApiChannelHaggleActions {
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderId = accountId;
       chat.proposalId = proposalId;
-      chat.sessionId = account.state.sessionId;
+      chat.sessionId = account.sessionId;
       chat.sessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
       chat.text = 'marker=' +
@@ -579,8 +579,8 @@ class ApiChannelHaggleActions {
         devLog.severe("$error\n$stackTrace");
       }
       // Publish!
-      _r.bc.proposalChanged(account.state.sessionId, proposal);
-      _r.bc.proposalChatPosted(account.state.sessionId, markerChat, account);
+      _r.bc.proposalChanged(account.sessionId, proposal);
+      _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
     }
   }
 
@@ -610,8 +610,8 @@ class ApiChannelHaggleActions {
             base64.encode(utf8.encode(config.services.freshdeskKey + ':X')));
 
     Map<String, dynamic> doc = new Map<String, dynamic>();
-    doc['name'] = account.summary.name;
-    doc['email'] = account.detail.email;
+    doc['name'] = account.name;
+    doc['email'] = account.email;
     doc['subject'] = "Proposal Report (Ap. $proposalId)";
     doc['type'] = "Problem";
     doc['description'] =
@@ -649,23 +649,23 @@ class ApiChannelHaggleActions {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
       String accountAccountId =
-          account.state.accountType == AccountType.influencer
+          account.accountType == AccountType.influencer
               ? 'influencer_account_id'
               : 'business_account_id';
       String accountMarkedDelivered =
-          account.state.accountType == AccountType.influencer
+          account.accountType == AccountType.influencer
               ? 'influencer_marked_delivered'
               : 'business_marked_delivered';
       String accountMarkedRewarded =
-          account.state.accountType == AccountType.influencer
+          account.accountType == AccountType.influencer
               ? 'influencer_marked_rewarded'
               : 'business_marked_rewarded';
       String accountGaveRating =
-          account.state.accountType == AccountType.influencer
+          account.accountType == AccountType.influencer
               ? 'influencer_gave_rating'
               : 'business_gave_rating';
       String accountDisputed =
-          account.state.accountType == AccountType.influencer
+          account.accountType == AccountType.influencer
               ? 'influencer_disputed'
               : 'business_disputed';
       String updateMarkings = "UPDATE `proposals` "
@@ -719,7 +719,7 @@ class ApiChannelHaggleActions {
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderId = accountId;
       chat.proposalId = proposalId;
-      chat.sessionId = account.state.sessionId;
+      chat.sessionId = account.sessionId;
       chat.sessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
       chat.text = 'marker=' + marker.value.toString();
@@ -740,8 +740,8 @@ class ApiChannelHaggleActions {
                       utf8.encode(config.services.freshdeskKey + ':X')));
 
           Map<String, dynamic> doc = new Map<String, dynamic>();
-          doc['name'] = account.summary.name;
-          doc['email'] = account.detail.email;
+          doc['name'] = account.name;
+          doc['email'] = account.email;
           doc['subject'] = "Proposal Dispute (Ap. $proposalId)";
           doc['type'] = "Incident";
           doc['description'] =
@@ -786,8 +786,8 @@ class ApiChannelHaggleActions {
         devLog.severe("$error\n$stackTrace");
       }
       // Publish!
-      _r.bc.proposalChanged(account.state.sessionId, proposal);
-      _r.bc.proposalChatPosted(account.state.sessionId, markerChat, account);
+      _r.bc.proposalChanged(account.sessionId, proposal);
+      _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
     }
   }
 }

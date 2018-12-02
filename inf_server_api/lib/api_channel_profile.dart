@@ -52,11 +52,11 @@ class ApiChannelProfile {
   }
 
   Int64 get accountId {
-    return _r.account.state.accountId;
+    return _r.account.accountId;
   }
 
   GlobalAccountState get globalAccountState {
-    return _r.account.state.globalAccountState;
+    return _r.account.globalAccountState;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ class ApiChannelProfile {
   ApiChannelProfile(this._r) {
     _r.registerProcedure(
         "L_PROFIL", GlobalAccountState.readOnly, netGetProfile);
-        /*
+    /*
     _r.registerProcedure(
         "GTOFFERR", GlobalAccountState.readOnly, netGetOfferReq);
         */
@@ -91,13 +91,10 @@ class ApiChannelProfile {
     devLog.finest(pb);
 
     DataAccount account = new DataAccount();
-    account.state = new DataAccountState();
-    account.summary = new DataAccountSummary();
-    account.detail = new DataAccountDetail();
 
-    account.state.accountId = pb.accountId;
+    account.accountId = pb.accountId;
     for (int i = 0; i < config.oauthProviders.length; ++i) {
-      account.detail.socialMedia.add(new DataSocialMedia());
+      account.socialMedia.add(new DataSocialMedia());
     }
 
     channel.replyExtend(message);
@@ -116,27 +113,26 @@ class ApiChannelProfile {
           "WHERE `accounts`.`account_id` = ? ",
           [pb.accountId]);
       await for (sqljocky.Row row in accountResults) {
-        account.summary.name = row[0].toString();
-        account.state.accountType = AccountType.valueOf(row[1].toInt());
-        account.summary.description = row[2].toString();
-        account.detail.locationId = new Int64(row[3]);
+        account.name = row[0].toString();
+        account.accountType = AccountType.valueOf(row[1].toInt());
+        account.description = row[2].toString();
+        account.locationId = new Int64(row[3]);
         if (row[4] != null) {
-          account.summary.avatarThumbnailUrl =
-              _r.makeCloudinaryThumbnailUrl(row[4].toString());
-          account.summary.blurredAvatarThumbnailUrl =
+          account.avatarUrl = _r.makeCloudinaryThumbnailUrl(row[4].toString());
+          account.blurredAvatarUrl =
               _r.makeCloudinaryBlurredThumbnailUrl(row[4].toString());
-          account.detail.avatarCoverUrl =
-              _r.makeCloudinaryCoverUrl(row[4].toString());
-          account.detail.blurredAvatarCoverUrl =
-              _r.makeCloudinaryBlurredCoverUrl(row[4].toString());
+          account.coverUrls.clear();
+          account.coverUrls.add(_r.makeCloudinaryCoverUrl(row[4].toString()));
+          account.blurredCoverUrls.clear();
+          account.blurredCoverUrls
+              .add(_r.makeCloudinaryBlurredCoverUrl(row[4].toString()));
         }
-        if (row[5] != null) account.detail.website = row[5].toString();
-        if (account.state.accountType != AccountType.support) {
-          account.summary.location =
-              account.state.accountType == AccountType.influencer
-                  ? row[6].toString()
-                  : row[7].toString();
-          if (account.state.accountType == AccountType.business) {
+        if (row[5] != null) account.website = row[5].toString();
+        if (account.accountType != AccountType.support) {
+          account.location = account.accountType == AccountType.influencer
+              ? row[6].toString()
+              : row[7].toString();
+          if (account.accountType == AccountType.business) {
             Uint8List point = row[8];
             if (point != null) {
               // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
@@ -144,10 +140,8 @@ class ApiChannelProfile {
               Endian endian = data.getInt8(4) == 0 ? Endian.big : Endian.little;
               int type = data.getUint32(4 + 1, endian = endian);
               if (type == 1) {
-                account.detail.latitude =
-                    data.getFloat64(4 + 5 + 8, endian = endian);
-                account.detail.longitude =
-                    data.getFloat64(4 + 5, endian = endian);
+                account.latitude = data.getFloat64(4 + 5 + 8, endian = endian);
+                account.longitude = data.getFloat64(4 + 5, endian = endian);
               }
             }
           }
@@ -170,26 +164,21 @@ class ApiChannelProfile {
       await for (sqljocky.Row row in connectionResults) {
         int oauthProvider = row[0].toInt();
         if (row[1] != null)
-          account.detail.socialMedia[oauthProvider].displayName =
-              row[1].toString();
+          account.socialMedia[oauthProvider].displayName = row[1].toString();
         if (row[2] != null)
-          account.detail.socialMedia[oauthProvider].profileUrl =
-              row[2].toString();
-        account.detail.socialMedia[oauthProvider].friendsCount = row[3].toInt();
-        account.detail.socialMedia[oauthProvider].followersCount =
-            row[4].toInt();
-        account.detail.socialMedia[oauthProvider].followingCount =
-            row[5].toInt();
-        account.detail.socialMedia[oauthProvider].postsCount = row[6].toInt();
-        account.detail.socialMedia[oauthProvider].verified =
-            row[7].toInt() != 0;
-        account.detail.socialMedia[oauthProvider].connected =
+          account.socialMedia[oauthProvider].profileUrl = row[2].toString();
+        account.socialMedia[oauthProvider].friendsCount = row[3].toInt();
+        account.socialMedia[oauthProvider].followersCount = row[4].toInt();
+        account.socialMedia[oauthProvider].followingCount = row[5].toInt();
+        account.socialMedia[oauthProvider].postsCount = row[6].toInt();
+        account.socialMedia[oauthProvider].verified = row[7].toInt() != 0;
+        account.socialMedia[oauthProvider].connected =
             true; // TODO: Expired state, TODO: Visibility state
       }
     } finally {
       connection.release();
     }
-    
+
     NetProfile res = new NetProfile();
     res.account = account;
     channel.replyMessage(message, "R_PROFIL", res.writeToBuffer());
