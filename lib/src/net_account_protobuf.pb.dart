@@ -13,32 +13,31 @@ import 'data_protobuf.pb.dart' as $1;
 
 import 'enum_protobuf.pbenum.dart' as $0;
 
-class NetAccountUpdate extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountUpdate',
+class NetAccount extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccount',
       package: const $pb.PackageName('inf_common'))
     ..a<$1.DataAccount>(1, 'account', $pb.PbFieldType.OM,
         $1.DataAccount.getDefault, $1.DataAccount.create)
     ..hasRequiredFields = false;
 
-  NetAccountUpdate() : super();
-  NetAccountUpdate.fromBuffer(List<int> i,
+  NetAccount() : super();
+  NetAccount.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetAccountUpdate.fromJson(String i,
+  NetAccount.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetAccountUpdate clone() => new NetAccountUpdate()..mergeFromMessage(this);
-  NetAccountUpdate copyWith(void Function(NetAccountUpdate) updates) =>
-      super.copyWith((message) => updates(message as NetAccountUpdate));
+  NetAccount clone() => new NetAccount()..mergeFromMessage(this);
+  NetAccount copyWith(void Function(NetAccount) updates) =>
+      super.copyWith((message) => updates(message as NetAccount));
   $pb.BuilderInfo get info_ => _i;
-  static NetAccountUpdate create() => new NetAccountUpdate();
-  static $pb.PbList<NetAccountUpdate> createRepeated() =>
-      new $pb.PbList<NetAccountUpdate>();
-  static NetAccountUpdate getDefault() =>
-      _defaultInstance ??= create()..freeze();
-  static NetAccountUpdate _defaultInstance;
-  static void $checkItem(NetAccountUpdate v) {
-    if (v is! NetAccountUpdate) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static NetAccount create() => new NetAccount();
+  static $pb.PbList<NetAccount> createRepeated() =>
+      new $pb.PbList<NetAccount>();
+  static NetAccount getDefault() => _defaultInstance ??= create()..freeze();
+  static NetAccount _defaultInstance;
+  static void $checkItem(NetAccount v) {
+    if (v is! NetAccount) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   $1.DataAccount get account => $_getN(0);

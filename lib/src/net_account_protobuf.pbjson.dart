@@ -4,8 +4,8 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
-const NetAccountUpdate$json = const {
-  '1': 'NetAccountUpdate',
+const NetAccount$json = const {
+  '1': 'NetAccount',
   '2': const [
     const {
       '1': 'account',
