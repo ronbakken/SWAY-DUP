@@ -12,18 +12,8 @@ option csharp_namespace = "InfCommon";
 import 'enum_protobuf.proto';
 import 'data_protobuf.proto';
 
-// Message to create offer
-// Procedure Id: C_OFFFER
-// Response: NetOffer
-message NetCreateOffer {
-  int32 sessionGhostId = 2;
-  
-  DataOffer offer = 1;
-  
-}
-
 // Generic response to offer request
-// Procedure Id: OFFFFFER
+// Procedure Id: R_CREOFR, R_LSTOFR, R_EDTOFR, R_GETOFR, OFFERUPD
 message NetOffer {
   DataOffer offer = 1;
   
@@ -33,10 +23,20 @@ message NetOffer {
   
 }
 
+// Message to create offer
+// Procedure Id: CREOFFER
+// Response: NetOffer
+message NetCreateOffer {
+  int32 sessionGhostId = 2;
+  
+  DataOffer offer = 1;
+  
+}
+
 // Message to load or refresh offer list (the list of the sender's own offers)
-// Id: L_OFFERS
+// Id: LISTOFRS
 // Response: NetOffer stream
-message NetLoadOffers {
+message NetListOffers {
   // Offers with id lower than this (older offers) (ignore if 0)
   // int32 before = 1;
   
