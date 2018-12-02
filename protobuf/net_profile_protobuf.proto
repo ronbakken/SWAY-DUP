@@ -9,6 +9,9 @@ syntax = "proto3";
 package inf_common;
 option csharp_namespace = "InfCommon";
 
+// import 'enum_protobuf.proto';
+import 'data_protobuf.proto';
+
 // Get Profile
 // Id: GETPROFL
 // Res: NetProfile (Id: R_PROFIL)
