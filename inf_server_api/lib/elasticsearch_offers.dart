@@ -291,14 +291,16 @@ class ElasticsearchOffers {
       for (int level = 0; level <= 30; ++level) {
         s2CellIds.add(cellId.parent(level).id);
       }
-      List<int> s2CellIdShards = s2CellIds.map((s2CellId) => shardHash(new Int64(s2CellId)));
+      List<int> s2CellIdShards =
+          s2CellIds.map((s2CellId) => shardHash(new Int64(s2CellId)));
       doc["s2cell_ids"] = s2CellIds;
       doc["s2cell_id_shards"] = s2CellIdShards;
       List<String> geohashes = [];
       for (int level = 0; level <= 20; ++level) {
         geohashes.add(Geohash.encode(latitude, longitude, codeLength: level));
       }
-      List<int> geohashShards = geohashes.map((geohash) => shardHashString(geohash));
+      List<int> geohashShards =
+          geohashes.map((geohash) => shardHashString(geohash));
       doc["geohashes"] = geohashes;
       doc["geohash_shards"] = geohashShards;
     }
@@ -313,7 +315,136 @@ class ElasticsearchOffers {
     */
   }
 
-  static dynamic fromJson(DataOffer offer) {}
+  static DataOffer fromJson(ConfigData config, Map<dynamic, dynamic> doc,
+      {bool state = false,
+      bool summary = false,
+      bool detail = false,
+      bool private = false,
+      Int64 receiver}) {
+    DataOffer offer = new DataOffer();
+    offer.terms = new DataTerms();
+    if (doc.containsKey("offer_id")) {
+      offer.offerId = new Int64(doc["offer_id"]);
+    }
+    if (doc.containsKey("sender_id")) {
+      offer.senderId = new Int64(doc["sender_id"]);
+    }
+    if (doc.containsKey("sender_type")) {
+      offer.senderType = AccountType.valueOf(doc["sender_type"]);
+    }
+    if (private && doc.containsKey("location_id")) {
+      offer.locationId = doc["location_id"];
+    }
+    if ((state || detail) && doc.containsKey("direct")) {
+      offer.direct = doc["direct"];
+    }
+    if ((summary || detail) && doc.containsKey("title")) {
+      offer.title = doc["title"];
+    }
+    if ((summary || detail) && doc.containsKey("thumbnail_key")) {
+      offer.thumbnailUrl = config.services.cloudinaryThumbnailUrl
+          .replaceAll('{key}', doc["thumbnail_key"]);
+    }
+    if ((summary || detail) && doc.containsKey("thumbnail_blurred")) {
+      offer.thumbnailBlurred = doc["thumbnail_blurred"];
+    }
+    if ((summary || detail)) {
+      if (doc.containsKey("deliverable_social_platforms")) {
+        offer.terms.deliverableSocialPlatforms
+            .addAll(doc["deliverable_social_platforms"]);
+      }
+      if (doc.containsKey("deliverable_content_formats")) {
+        offer.terms.deliverableContentFormats
+            .addAll(doc["deliverable_content_formats"]);
+      }
+      if (detail && doc.containsKey("deliverables_description")) {
+        offer.terms.deliverablesDescription = doc["deliverables_description"];
+      }
+      if (doc.containsKey("reward_cash_value")) {
+        offer.terms.rewardCashValue = doc["reward_cash_value"];
+      }
+      if (doc.containsKey("reward_item_or_service_value")) {
+        offer.terms.rewardItemOrServiceValue =
+            doc["reward_item_or_service_value"];
+      }
+      if (detail && doc.containsKey("reward_item_or_service_description")) {
+        offer.terms.rewardItemOrServiceDescription =
+            doc["reward_item_or_service_description"];
+      }
+    }
+    if ((summary || detail) && doc.containsKey("primary_categories")) {
+      offer.primaryCategories.addAll(doc["primary_categories"]);
+    }
+    if ((summary || detail) && doc.containsKey("sender_name")) {
+      offer.senderName = doc["sender_name"];
+    }
+    if ((summary || detail) && doc.containsKey("sender_avatar_url")) {
+      offer.senderAvatarUrl = doc["sender_avatar_url"];
+    }
+    if ((summary || detail) && doc.containsKey("sender_avatar_blurred")) {
+      offer.senderAvatarBlurred = doc["sender_avatar_blurred"];
+    }
+    if ((summary || detail) && doc.containsKey("location_address")) {
+      offer.locationAddress = doc["location_address"];
+    }
+    if ((summary || detail) &&
+        doc.containsKey("location") &&
+        doc["location"].containsKey("lat") &&
+        doc["location"].containsKey("lon")) {
+      offer.latitude = doc["location"]["lat"];
+      offer.longitude = doc["location"]["lon"];
+    }
+    if (detail && doc.containsKey("description")) {
+      offer.description = doc["description"];
+    }
+    if (detail && doc.containsKey("cover_keys")) {
+      offer.coverUrls.addAll((doc["cover_keys"] as List<dynamic>).map(
+          (coverKey) => config.services.cloudinaryCoverUrl
+              .replaceAll('{key}', coverKey)));
+    }
+    if (detail && doc.containsKey("covers_blurred")) {
+      offer.coversBlurred.addAll(doc["covers_blurred"]);
+    }
+    if (detail && doc.containsKey("categories")) {
+      offer.categories.addAll(doc["categories"]);
+    }
+    if (private && doc.containsKey("state")) {
+      offer.state = OfferState.valueOf(doc["state"]);
+    }
+    if (private && doc.containsKey("state_reason")) {
+      offer.stateReason = OfferStateReason.valueOf(doc["state_reason"]);
+    }
+    if (private && doc.containsKey("archived")) {
+      offer.archived = doc["archived"];
+    }
+    if (private && doc.containsKey("proposals_proposing")) {
+      offer.proposalsProposing = doc["proposals_proposing"];
+    }
+    if (private && doc.containsKey("proposals_negotiating")) {
+      offer.proposalsNegotiating = doc["proposals_negotiating"];
+    }
+    if (private && doc.containsKey("proposals_deal")) {
+      offer.proposalsDeal = doc["proposals_deal"];
+    }
+    if (private && doc.containsKey("proposals_rejected")) {
+      offer.proposalsRejected = doc["proposals_rejected"];
+    }
+    if (private && doc.containsKey("proposals_dispute")) {
+      offer.proposalsDispute = doc["proposals_dispute"];
+    }
+    if (private && doc.containsKey("proposals_resolved")) {
+      offer.proposalsResolved = doc["proposals_resolved"];
+    }
+    if (private && doc.containsKey("proposals_complete")) {
+      offer.proposalsComplete = doc["proposals_complete"];
+    }
+    if (receiver != null) {
+      // proposalId can be obtained by checking the embedded proposal_sender_ids map
+      if (doc.containsKey("proposal_sender_ids") && doc["proposal_sender_ids"].containsKey("$receiver")) {
+        offer.proposalId = new Int64(doc["proposal_sender_ids"]["$receiver"]);
+      }
+    }
+  }
 }
 
 /* end of file */
