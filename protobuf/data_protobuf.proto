@@ -93,7 +93,7 @@ message DataTerms {
   
 }
 
-message DataOffer { // 34
+message DataOffer { // 36
   int64 offer_id = 1; // (State) (Summary) (Detail)
   int64 sender_id = 2; // (State) (Summary) (Detail) Account id of the sender who published this offer
   int64 location_id = 3; // (State) (Detail) (Private)
@@ -101,6 +101,7 @@ message DataOffer { // 34
   
   // Summary
   string title = 4; // (Summary) (Detail)
+  string thumbnail_key = 35; // (Post)
   string thumbnail_url = 6; // (Summary) (Detail)
   bytes thumbnail_blurred = 28; // (Summary) (Detail)
   
@@ -108,8 +109,11 @@ message DataOffer { // 34
   DataTerms terms = 27; // (Summary) (Detail)
   repeated int32 primary_categories = 33; // (Denormalized) (Summary) (Detail)
   
-  // Embedded location info
-  string location_name = 21; // (Denormalized) (Summary) (Detail) Location nickname or business name
+  // Embedded sender and location info
+  // string location_name = 21; // (Denormalized) (Summary) (Detail) Location nickname or business name
+  string sender_name = 21; // (Denormalized) (Summary) (Detail) Sender name
+  string sender_avatar_url = 35; // (Denormalized) (Summary) (Detail) Sender avatar
+  bytes sender_blurred_avatar = 36; // (Denormalized) (Summary) (Detail) Sender avatar
   string location_address = 9; // (Denormalized) (Summary) (Detail)
   double latitude = 18; // (Denormalized) (Summary) (Detail)
   double longitude = 19; // (Denormalized) (Summary) (Detail)
@@ -165,6 +169,7 @@ message DataLocation {
   
 }
 
+/*
 message DataAccountState {
   // Session ID. If 0, authentication failed, and the client must create a new account
   int64 sessionId = 1;
@@ -189,8 +194,8 @@ message DataAccountSummary {
   string name = 1;
   string description = 2;
   string location = 3;
-  string avatarThumbnailUrl = 4;
-  string blurredAvatarThumbnailUrl = 5;
+  string avatarUrl = 4;
+  string blurredAvatarUrl = 5;
   
 }
 
@@ -198,8 +203,8 @@ message DataAccountDetail {
   repeated int32 categories = 13;
   repeated DataSocialMedia socialMedia = 3;
   
-  string avatarCoverUrl = 7; // Higher resolution, but same as avatarThumbnailUrl
-  string blurredAvatarCoverUrl = 12;
+  repeated string coverUrls = 7; // Higher resolution, but same as avatarThumbnailUrl
+  repeated string blurredCoverUrls = 12;
   
   string website = 6;
   string email = 9;
@@ -213,11 +218,56 @@ message DataAccountDetail {
   int64 locationId = 8; // Primary location id
   
 }
+*/
 
-message DataAccount {
-  DataAccountState state = 1;
-  DataAccountSummary summary = 2;
-  DataAccountDetail detail = 3;
+message DataAccount { // 30
+  // DataAccountState state = 1;
+  // DataAccountSummary summary = 2;
+  // DataAccountDetail detail = 3;
+  
+  // State
+  /// Session ID. If 0, authentication failed, and the client must create a new account
+  int64 session_id = 4; // (Private)
+  
+  /// Account ID. If 0, proceed with account creation
+  int64 account_id = 5;
+  
+  /// Account type. If not AT_UNKNOWN, account signing may bypass type selection
+  AccountType account_type = 6;
+  
+  GlobalAccountState global_account_state = 7; // (Private)
+  GlobalAccountStateReason global_account_state_reason = 8; // (Private)
+  
+  AccountLevel account_level = 9; // (Private)
+  NotificationFlags notification_flags = 10; // (Private)
+  
+  string firebase_token = 11; // (Private)
+  
+  // Summary
+  string name = 12; // (Summary, Detail)
+  string description = 13; // (Summary, Detail)
+  string location = 14; // (Summary, Detail)
+  string avatar_url = 15; // (Summary, Detail)
+  string blurred_avatar_url = 16; // (Summary, Detail)
+  // bytes blurred_avatar = 17; // (Summary, Detail)
+  
+  repeated int32 categories = 18; // (Detail)
+  map<int32, DataSocialMedia> social_media = 19; // (Detail)
+  
+  repeated string cover_urls = 20; // (Detail)
+  repeated string blurred_cover_urls = 21; // (Detail)
+  repeated bytes blurred_covers = 22; // (Detail)
+  
+  string website = 23; // (Detail)
+  string email = 24; // (Detail, Private)
+  // bool emailVerified = 25; // (Detail, Private)
+  
+  // Embedded primary location info, if applicable
+  string location_name = 26; // (Detail)
+  string location_address = 27; // (Detail)
+  double latitude = 28; // (Detail)
+  double longitude = 29; // (Detail)
+  int64 location_id = 30; // (Detail, Private) // Primary location id
   
 }
 

@@ -12,6 +12,7 @@ option csharp_namespace = "InfCommon";
 // import 'enum_protobuf.proto';
 import 'data_protobuf.proto';
 
+/*
 // Get Account
 // Id: GTACCOUN
 // Res: NetGetAccountRes (Id: GTACCO_R)
@@ -24,6 +25,7 @@ message NetGetAccountRes {
   DataAccount account = 1;
   
 }
+*/
 
 // Get Offer
 // Id: GTOFFERR
