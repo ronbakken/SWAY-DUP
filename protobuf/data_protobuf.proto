@@ -252,22 +252,23 @@ message DataAccount { // 30
   // bytes blurred_avatar = 17; // (Summary, Detail)
   
   repeated int32 categories = 18; // (Detail)
-  map<int32, DataSocialMedia> social_media = 19; // (Detail)
+  repeated DataSocialMedia social_media = 19; // (Detail)
+  // map<int32, DataSocialMedia> social_media = 20; // (Detail)
   
-  repeated string cover_urls = 20; // (Detail)
-  repeated string blurred_cover_urls = 21; // (Detail)
-  repeated bytes blurred_covers = 22; // (Detail)
+  repeated string cover_urls = 21; // (Detail)
+  repeated string blurred_cover_urls = 22; // (Detail)
+  repeated bytes blurred_covers = 23; // (Detail)
   
-  string website = 23; // (Detail)
-  string email = 24; // (Detail, Private)
-  // bool emailVerified = 25; // (Detail, Private)
+  string website = 24; // (Detail)
+  string email = 25; // (Detail, Private)
+  // bool emailVerified = 26; // (Detail, Private)
   
   // Embedded primary location info, if applicable
-  string location_name = 26; // (Detail)
-  string location_address = 27; // (Detail)
-  double latitude = 28; // (Detail)
-  double longitude = 29; // (Detail)
-  int64 location_id = 30; // (Detail, Private) // Primary location id
+  string location_name = 27; // (Detail)
+  string location_address = 28; // (Detail)
+  double latitude = 29; // (Detail)
+  double longitude = 30; // (Detail)
+  int64 location_id = 31; // (Detail, Private) // Primary location id
   
 }
 
