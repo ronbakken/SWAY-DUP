@@ -285,55 +285,38 @@ const DataAccount$json = const {
       '3': 19,
       '4': 3,
       '5': 11,
-      '6': '.inf_common.DataAccount.SocialMediaEntry',
+      '6': '.inf_common.DataSocialMedia',
       '10': 'socialMedia'
     },
-    const {'1': 'cover_urls', '3': 20, '4': 3, '5': 9, '10': 'coverUrls'},
+    const {'1': 'cover_urls', '3': 21, '4': 3, '5': 9, '10': 'coverUrls'},
     const {
       '1': 'blurred_cover_urls',
-      '3': 21,
+      '3': 22,
       '4': 3,
       '5': 9,
       '10': 'blurredCoverUrls'
     },
     const {
       '1': 'blurred_covers',
-      '3': 22,
+      '3': 23,
       '4': 3,
       '5': 12,
       '10': 'blurredCovers'
     },
-    const {'1': 'website', '3': 23, '4': 1, '5': 9, '10': 'website'},
-    const {'1': 'email', '3': 24, '4': 1, '5': 9, '10': 'email'},
-    const {'1': 'location_name', '3': 26, '4': 1, '5': 9, '10': 'locationName'},
+    const {'1': 'website', '3': 24, '4': 1, '5': 9, '10': 'website'},
+    const {'1': 'email', '3': 25, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'location_name', '3': 27, '4': 1, '5': 9, '10': 'locationName'},
     const {
       '1': 'location_address',
-      '3': 27,
+      '3': 28,
       '4': 1,
       '5': 9,
       '10': 'locationAddress'
     },
-    const {'1': 'latitude', '3': 28, '4': 1, '5': 1, '10': 'latitude'},
-    const {'1': 'longitude', '3': 29, '4': 1, '5': 1, '10': 'longitude'},
-    const {'1': 'location_id', '3': 30, '4': 1, '5': 3, '10': 'locationId'},
+    const {'1': 'latitude', '3': 29, '4': 1, '5': 1, '10': 'latitude'},
+    const {'1': 'longitude', '3': 30, '4': 1, '5': 1, '10': 'longitude'},
+    const {'1': 'location_id', '3': 31, '4': 1, '5': 3, '10': 'locationId'},
   ],
-  '3': const [DataAccount_SocialMediaEntry$json],
-};
-
-const DataAccount_SocialMediaEntry$json = const {
-  '1': 'SocialMediaEntry',
-  '2': const [
-    const {'1': 'key', '3': 1, '4': 1, '5': 5, '10': 'key'},
-    const {
-      '1': 'value',
-      '3': 2,
-      '4': 1,
-      '5': 11,
-      '6': '.inf_common.DataSocialMedia',
-      '10': 'value'
-    },
-  ],
-  '7': const {'7': true},
 };
 
 const DataProposal$json = const {

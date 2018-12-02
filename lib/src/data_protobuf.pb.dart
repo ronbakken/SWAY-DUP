@@ -689,58 +689,6 @@ class DataLocation extends $pb.GeneratedMessage {
   void clearGeohash() => clearField(15);
 }
 
-class DataAccount_SocialMediaEntry extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
-      'DataAccount.SocialMediaEntry',
-      package: const $pb.PackageName('inf_common'))
-    ..a<int>(1, 'key', $pb.PbFieldType.O3)
-    ..a<DataSocialMedia>(2, 'value', $pb.PbFieldType.OM,
-        DataSocialMedia.getDefault, DataSocialMedia.create)
-    ..hasRequiredFields = false;
-
-  DataAccount_SocialMediaEntry() : super();
-  DataAccount_SocialMediaEntry.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  DataAccount_SocialMediaEntry.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  DataAccount_SocialMediaEntry clone() =>
-      new DataAccount_SocialMediaEntry()..mergeFromMessage(this);
-  DataAccount_SocialMediaEntry copyWith(
-          void Function(DataAccount_SocialMediaEntry) updates) =>
-      super.copyWith(
-          (message) => updates(message as DataAccount_SocialMediaEntry));
-  $pb.BuilderInfo get info_ => _i;
-  static DataAccount_SocialMediaEntry create() =>
-      new DataAccount_SocialMediaEntry();
-  static $pb.PbList<DataAccount_SocialMediaEntry> createRepeated() =>
-      new $pb.PbList<DataAccount_SocialMediaEntry>();
-  static DataAccount_SocialMediaEntry getDefault() =>
-      _defaultInstance ??= create()..freeze();
-  static DataAccount_SocialMediaEntry _defaultInstance;
-  static void $checkItem(DataAccount_SocialMediaEntry v) {
-    if (v is! DataAccount_SocialMediaEntry)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
-
-  int get key => $_get(0, 0);
-  set key(int v) {
-    $_setSignedInt32(0, v);
-  }
-
-  bool hasKey() => $_has(0);
-  void clearKey() => clearField(1);
-
-  DataSocialMedia get value => $_getN(1);
-  set value(DataSocialMedia v) {
-    setField(2, v);
-  }
-
-  bool hasValue() => $_has(1);
-  void clearValue() => clearField(2);
-}
-
 class DataAccount extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccount',
       package: const $pb.PackageName('inf_common'))
@@ -778,22 +726,18 @@ class DataAccount extends $pb.GeneratedMessage {
     ..aOS(15, 'avatarUrl')
     ..aOS(16, 'blurredAvatarUrl')
     ..p<int>(18, 'categories', $pb.PbFieldType.P3)
-    ..pp<DataAccount_SocialMediaEntry>(
-        19,
-        'socialMedia',
-        $pb.PbFieldType.PM,
-        DataAccount_SocialMediaEntry.$checkItem,
-        DataAccount_SocialMediaEntry.create)
-    ..pPS(20, 'coverUrls')
-    ..pPS(21, 'blurredCoverUrls')
-    ..p<List<int>>(22, 'blurredCovers', $pb.PbFieldType.PY)
-    ..aOS(23, 'website')
-    ..aOS(24, 'email')
-    ..aOS(26, 'locationName')
-    ..aOS(27, 'locationAddress')
-    ..a<double>(28, 'latitude', $pb.PbFieldType.OD)
-    ..a<double>(29, 'longitude', $pb.PbFieldType.OD)
-    ..aInt64(30, 'locationId')
+    ..pp<DataSocialMedia>(19, 'socialMedia', $pb.PbFieldType.PM,
+        DataSocialMedia.$checkItem, DataSocialMedia.create)
+    ..pPS(21, 'coverUrls')
+    ..pPS(22, 'blurredCoverUrls')
+    ..p<List<int>>(23, 'blurredCovers', $pb.PbFieldType.PY)
+    ..aOS(24, 'website')
+    ..aOS(25, 'email')
+    ..aOS(27, 'locationName')
+    ..aOS(28, 'locationAddress')
+    ..a<double>(29, 'latitude', $pb.PbFieldType.OD)
+    ..a<double>(30, 'longitude', $pb.PbFieldType.OD)
+    ..aInt64(31, 'locationId')
     ..hasRequiredFields = false;
 
   DataAccount() : super();
@@ -922,7 +866,7 @@ class DataAccount extends $pb.GeneratedMessage {
 
   List<int> get categories => $_getList(13);
 
-  List<DataAccount_SocialMediaEntry> get socialMedia => $_getList(14);
+  List<DataSocialMedia> get socialMedia => $_getList(14);
 
   List<String> get coverUrls => $_getList(15);
 
@@ -936,7 +880,7 @@ class DataAccount extends $pb.GeneratedMessage {
   }
 
   bool hasWebsite() => $_has(18);
-  void clearWebsite() => clearField(23);
+  void clearWebsite() => clearField(24);
 
   String get email => $_getS(19, '');
   set email(String v) {
@@ -944,7 +888,7 @@ class DataAccount extends $pb.GeneratedMessage {
   }
 
   bool hasEmail() => $_has(19);
-  void clearEmail() => clearField(24);
+  void clearEmail() => clearField(25);
 
   String get locationName => $_getS(20, '');
   set locationName(String v) {
@@ -952,7 +896,7 @@ class DataAccount extends $pb.GeneratedMessage {
   }
 
   bool hasLocationName() => $_has(20);
-  void clearLocationName() => clearField(26);
+  void clearLocationName() => clearField(27);
 
   String get locationAddress => $_getS(21, '');
   set locationAddress(String v) {
@@ -960,7 +904,7 @@ class DataAccount extends $pb.GeneratedMessage {
   }
 
   bool hasLocationAddress() => $_has(21);
-  void clearLocationAddress() => clearField(27);
+  void clearLocationAddress() => clearField(28);
 
   double get latitude => $_getN(22);
   set latitude(double v) {
@@ -968,7 +912,7 @@ class DataAccount extends $pb.GeneratedMessage {
   }
 
   bool hasLatitude() => $_has(22);
-  void clearLatitude() => clearField(28);
+  void clearLatitude() => clearField(29);
 
   double get longitude => $_getN(23);
   set longitude(double v) {
@@ -976,7 +920,7 @@ class DataAccount extends $pb.GeneratedMessage {
   }
 
   bool hasLongitude() => $_has(23);
-  void clearLongitude() => clearField(29);
+  void clearLongitude() => clearField(30);
 
   Int64 get locationId => $_getI64(24);
   set locationId(Int64 v) {
@@ -984,7 +928,7 @@ class DataAccount extends $pb.GeneratedMessage {
   }
 
   bool hasLocationId() => $_has(24);
-  void clearLocationId() => clearField(30);
+  void clearLocationId() => clearField(31);
 }
 
 class DataProposal extends $pb.GeneratedMessage {
