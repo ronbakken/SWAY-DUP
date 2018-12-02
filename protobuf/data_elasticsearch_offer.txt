@@ -72,6 +72,8 @@ DataOffer
         (denormalized) array short geohash_int_shards
         (denormalized) array short geohash_shards
         
+        (denormalized) array long proposal_sender_ids
+        
         (ai) array keyword image_keywords (keywords pulled from images)
         
     }
@@ -264,6 +266,10 @@ PUT offers
           "type":  "short"
         },
         
+        "proposal_sender_ids": {
+          "type":  "long"
+        },
+        
         "image_keywords": {
           "type":  "keyword"
         }
@@ -275,9 +281,9 @@ PUT offers
 PUT offers/_mapping/_doc
 {
   "properties": {
-    "sender_id": {
+    "proposal_sender_ids": {
       "type":  "long"
-    },
+    }
   }
 }
 
