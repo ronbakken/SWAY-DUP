@@ -367,6 +367,8 @@ class DataOffer extends $pb.GeneratedMessage {
     ..a<int>(42, 'proposalsDispute', $pb.PbFieldType.O3)
     ..a<int>(43, 'proposalsResolved', $pb.PbFieldType.O3)
     ..a<int>(44, 'proposalsComplete', $pb.PbFieldType.O3)
+    ..e<$0.AccountType>(45, 'senderType', $pb.PbFieldType.OE,
+        $0.AccountType.unknown, $0.AccountType.valueOf, $0.AccountType.values)
     ..hasRequiredFields = false;
 
   DataOffer() : super();
@@ -613,6 +615,14 @@ class DataOffer extends $pb.GeneratedMessage {
 
   bool hasProposalsComplete() => $_has(31);
   void clearProposalsComplete() => clearField(44);
+
+  $0.AccountType get senderType => $_getN(32);
+  set senderType($0.AccountType v) {
+    setField(45, v);
+  }
+
+  bool hasSenderType() => $_has(32);
+  void clearSenderType() => clearField(45);
 }
 
 class DataLocation extends $pb.GeneratedMessage {

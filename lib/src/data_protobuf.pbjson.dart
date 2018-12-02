@@ -108,6 +108,14 @@ const DataOffer$json = const {
   '2': const [
     const {'1': 'offer_id', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
     const {'1': 'sender_id', '3': 2, '4': 1, '5': 3, '10': 'senderId'},
+    const {
+      '1': 'sender_type',
+      '3': 45,
+      '4': 1,
+      '5': 14,
+      '6': '.inf_common.AccountType',
+      '10': 'senderType'
+    },
     const {'1': 'location_id', '3': 3, '4': 1, '5': 3, '10': 'locationId'},
     const {'1': 'direct', '3': 32, '4': 1, '5': 8, '10': 'direct'},
     const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
