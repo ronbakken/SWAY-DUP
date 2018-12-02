@@ -32,14 +32,14 @@ class ProposalCard extends StatelessWidget {
     ThemeData theme = Theme.of(context);
     // Prefer the location name over the business name for businesses
     String partnerName =
-        (partnerProfile.state.accountType == AccountType.business)
-            ? businessOffer.locationName
-            : partnerProfile.summary.name;
+        (partnerProfile.accountType == AccountType.business)
+            ? businessOffer.senderName
+            : partnerProfile.name;
     // Prefer the offer location over the business location for businesses
     String partnerLocation =
-        (partnerProfile.state.accountType == AccountType.business)
+        (partnerProfile.accountType == AccountType.business)
             ? businessOffer.locationAddress
-            : partnerProfile.summary.location;
+            : partnerProfile.location;
     String offerName = businessOffer.title;
     String offerLocation = businessOffer.locationAddress;
     Widget tile = new Material(
@@ -48,7 +48,7 @@ class ProposalCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          account.state.accountType == AccountType.influencer
+          account.accountType == AccountType.influencer
               ? new SizedBox(
                   width: 112.0, // 72.0,
                   height: 112.0,
@@ -87,7 +87,7 @@ class ProposalCard extends StatelessWidget {
                   type: MaterialType.canvas,
                   borderRadius: BorderRadius.only(
                       bottomLeft: new Radius.circular(
-                          (account.state.accountType == AccountType.influencer)
+                          (account.accountType == AccountType.influencer)
                               ? kInfAvatarSmallPaddedRadius
                               : 11.0)),
                   elevation: 1.0,
@@ -101,7 +101,7 @@ class ProposalCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           new SizedBox(width: kInfPadding),
-                          account.state.accountType == AccountType.influencer
+                          account.accountType == AccountType.influencer
                               ? new ProfileAvatar(
                                   size: 40.0,
                                   account: partnerProfile,
@@ -132,14 +132,14 @@ class ProposalCard extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                // new Text(businessAccount.summary.name),
+                                // new Text(businessAccount.name),
                                 new SizedBox(height: kInfPaddingText),
                                 /*new Text(businessOffer.locationName,
                             overflow: TextOverflow.ellipsis),
                       new Text(businessOffer.location,
                             overflow: TextOverflow.ellipsis),*/
                                 new Text(
-                                  account.state.accountType ==
+                                  account.accountType ==
                                           AccountType.influencer
                                       ? partnerName
                                       : offerName,
@@ -148,7 +148,7 @@ class ProposalCard extends StatelessWidget {
                                 ),
                                 new SizedBox(height: kInfPaddingText),
                                 new Text(
-                                  account.state.accountType ==
+                                  account.accountType ==
                                           AccountType.influencer
                                       ? partnerLocation
                                       : "", // Something else to go here. .. offerLocation,
@@ -179,7 +179,7 @@ class ProposalCard extends StatelessWidget {
                         children: <Widget>[
                           new SizedBox(height: kInfPadding),
                           new Text(
-                            account.state.accountType == AccountType.influencer
+                            account.accountType == AccountType.influencer
                                 ? offerName
                                 : partnerName,
                             overflow: TextOverflow.ellipsis,

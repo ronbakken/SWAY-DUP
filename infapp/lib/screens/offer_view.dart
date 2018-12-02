@@ -76,7 +76,7 @@ class _OfferViewState extends State<OfferView> {
   }
 
   Widget _buildInfluencerApply(BuildContext context) {
-    if (widget.account.state.accountType == AccountType.influencer) {
+    if (widget.account.accountType == AccountType.influencer) {
       if (widget.businessOffer.proposalId == 0) {
         return new Container(
             margin: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
@@ -161,7 +161,7 @@ class _OfferViewState extends State<OfferView> {
   @override
   Widget build(BuildContext context) {
     bool withProposal =
-        (widget.account.state.accountType == AccountType.influencer) &&
+        (widget.account.accountType == AccountType.influencer) &&
             (widget.businessOffer.proposalId != 0);
     return new Scaffold(
       body: new CustomScrollView(
@@ -189,15 +189,15 @@ class _OfferViewState extends State<OfferView> {
                   leading: new ProfileAvatar(
                       size: 40.0, account: widget.businessAccount),
                   title: new Text(
-                      widget.businessOffer.locationName.isNotEmpty
-                          ? widget.businessOffer.locationName
-                          : widget.businessAccount.summary.name,
+                      widget.businessOffer.senderName.isNotEmpty
+                          ? widget.businessOffer.senderName
+                          : widget.businessAccount.name,
                       maxLines: 1,
                       overflow: TextOverflow.fade),
                   subtitle: new Text(
-                      widget.businessAccount.summary.description.isNotEmpty
-                          ? widget.businessAccount.summary.description
-                          : widget.businessAccount.summary.location,
+                      widget.businessAccount.description.isNotEmpty
+                          ? widget.businessAccount.description
+                          : widget.businessAccount.location,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis),
                   onTap: widget.onBusinessAccountPressed,

@@ -58,10 +58,10 @@ class ProposalList extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         DataProposal proposal = proposalsSorted[index];
         Int64 partnerAccountId = proposal.senderAccountId;
-        if (partnerAccountId == account.state.accountId) {
+        if (partnerAccountId == account.accountId) {
           partnerAccountId = proposal.businessAccountId;
         }
-        if (partnerAccountId == account.state.accountId) {
+        if (partnerAccountId == account.accountId) {
           partnerAccountId = proposal.influencerAccountId;
         }
         return new ProposalCard(

@@ -52,37 +52,34 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     for (int i = 0; i < sampleAccounts.length; ++i) {
       if (sampleAccounts[i] == null) {
         sampleAccounts[i] = new DataAccount();
-        sampleAccounts[i].state = new DataAccountState();
-        sampleAccounts[i].summary = new DataAccountSummary();
-        sampleAccounts[i].detail = new DataAccountDetail();
       }
     }
 
-    sampleAccounts[1].state.accountId = new Int64(1);
-    sampleAccounts[1].state.accountType = AccountType.business;
-    sampleAccounts[1].state.globalAccountState = GlobalAccountState.readWrite;
-    sampleAccounts[1].summary.name = "Big Kahuna";
-    sampleAccounts[1].summary.description =
+    sampleAccounts[1].accountId = new Int64(1);
+    sampleAccounts[1].accountType = AccountType.business;
+    sampleAccounts[1].globalAccountState = GlobalAccountState.readWrite;
+    sampleAccounts[1].name = "Big Kahuna";
+    sampleAccounts[1].description =
         "The best burgers in the known universe. As far as we know.";
-    sampleAccounts[1].summary.avatarThumbnailUrl =
+    sampleAccounts[1].avatarUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
-    sampleAccounts[1].summary.location =
+    sampleAccounts[1].location =
         "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
-    // sampleAccounts[1].detail.coverUrls.length = 0;
-    // sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+    // sampleAccounts[1].coverUrls.length = 0;
+    // sampleAccounts[1].coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
 
-    sampleAccounts[2].state.accountId = new Int64(2);
-    sampleAccounts[2].state.accountType = AccountType.business;
-    sampleAccounts[2].state.globalAccountState = GlobalAccountState.readWrite;
-    sampleAccounts[2].summary.name = "Fried Willy";
-    sampleAccounts[2].summary.description = "We don't prepare dolphins.";
-    sampleAccounts[2].summary.avatarThumbnailUrl =
+    sampleAccounts[2].accountId = new Int64(2);
+    sampleAccounts[2].accountType = AccountType.business;
+    sampleAccounts[2].globalAccountState = GlobalAccountState.readWrite;
+    sampleAccounts[2].name = "Fried Willy";
+    sampleAccounts[2].description = "We don't prepare dolphins.";
+    sampleAccounts[2].avatarUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg";
-    sampleAccounts[2].summary.location =
+    sampleAccounts[2].location =
         "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
-    // sampleAccounts[2].detail.coverUrls.length = 0;
-    // sampleAccounts[2].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
-    // sampleAccounts[1].detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg");
+    // sampleAccounts[2].coverUrls.length = 0;
+    // sampleAccounts[2].coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
+    // sampleAccounts[1].coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg");
 
     sampleOffers.length = 4;
     for (int i = 0; i < sampleOffers.length; ++i) {
@@ -152,27 +149,22 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
   }
 
   void generateSamplesSocial() {
-    sampleAccounts[1].detail.socialMedia[1].connected = true;
-    sampleAccounts[1].detail.socialMedia[1].followersCount = 986;
-    sampleAccounts[1].detail.socialMedia[4].connected = true;
-    sampleAccounts[1].detail.socialMedia[4].followersCount = 212;
-    sampleAccounts[1].detail.socialMedia[5].connected = true;
-    sampleAccounts[1].detail.socialMedia[5].followersCount = 5;
-    sampleAccounts[2].detail.socialMedia[2].connected = true;
-    sampleAccounts[2].detail.socialMedia[2].friendsCount = 156;
-    sampleAccounts[2].detail.socialMedia[3].connected = true;
-    sampleAccounts[2].detail.socialMedia[3].followersCount = 5432;
+    sampleAccounts[1].socialMedia[1].connected = true;
+    sampleAccounts[1].socialMedia[1].followersCount = 986;
+    sampleAccounts[1].socialMedia[4].connected = true;
+    sampleAccounts[1].socialMedia[4].followersCount = 212;
+    sampleAccounts[1].socialMedia[5].connected = true;
+    sampleAccounts[1].socialMedia[5].followersCount = 5;
+    sampleAccounts[2].socialMedia[2].connected = true;
+    sampleAccounts[2].socialMedia[2].friendsCount = 156;
+    sampleAccounts[2].socialMedia[3].connected = true;
+    sampleAccounts[2].socialMedia[3].followersCount = 5432;
   }
 
   @override
   void initState() {
     super.initState();
-    //demoAccount.detail.socialMedia = new List<SocialMedia>();
-
-    demoAccount.state = new DataAccountState();
-    demoAccount.summary = new DataAccountSummary();
-    demoAccount.detail =
-        new DataAccountDetail(); // Important: Need to initialize fields, or they are read only
+    //demoAccount.socialMedia = new List<SocialMedia>();
 
     generateSamples();
   }
@@ -183,24 +175,24 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     ConfigData config = ConfigProvider.of(context);
     //demoAccount.detail = new DataAccountDetail();
     assert(config != null);
-    for (int i = demoAccount.detail.socialMedia.length;
+    for (int i = demoAccount.socialMedia.length;
         i < config.oauthProviders.length;
         ++i) {
       // Add
-      demoAccount.detail.socialMedia.add(
+      demoAccount.socialMedia.add(
           new DataSocialMedia()); // Important: PB lists can only be extended using add
     }
-    demoAccount.detail.socialMedia.length =
+    demoAccount.socialMedia.length =
         config.oauthProviders.length; // Reduce
     for (int j = 0; j < sampleAccounts.length; ++j) {
-      for (int i = sampleAccounts[j].detail.socialMedia.length;
+      for (int i = sampleAccounts[j].socialMedia.length;
           i < config.oauthProviders.length;
           ++i) {
         // Add
-        sampleAccounts[j].detail.socialMedia.add(
+        sampleAccounts[j].socialMedia.add(
             new DataSocialMedia()); // Important: PB lists can only be extended using add
       }
-      sampleAccounts[j].detail.socialMedia.length =
+      sampleAccounts[j].socialMedia.length =
           config.oauthProviders.length; // Reduce
     }
     generateSamplesSocial();
@@ -252,20 +244,17 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                     // This is just a dummy search that doesn't do anything but return a shuffled list of accounts and add a dummy account
                     await new Future.delayed(new Duration(seconds: 2));
                     DataAccount data = new DataAccount();
-                    data.state = new DataAccountState();
-                    data.summary = new DataAccountSummary();
-                    data.detail = new DataAccountDetail();
-                    data.state.accountId = new Int64(random.nextInt(500) + 10);
-                    data.state.accountType = AccountType.business;
-                    data.state.globalAccountState =
+                    data.accountId = new Int64(random.nextInt(500) + 10);
+                    data.accountType = AccountType.business;
+                    data.globalAccountState =
                         GlobalAccountState.readWrite;
-                    data.summary.name = "Name: $searchQuery";
-                    data.summary.description = "Description: $searchQuery";
-                    data.summary.avatarThumbnailUrl =
+                    data.name = "Name: $searchQuery";
+                    data.description = "Description: $searchQuery";
+                    data.avatarUrl =
                         "https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/kahuna.jpg";
-                    data.summary.location = "Location";
-                    // data.detail.coverUrls.length = 0;
-                    // data.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+                    data.location = "Location";
+                    // data.coverUrls.length = 0;
+                    // data.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
                     return sampleAccounts.toList()
                       ..removeAt(0)
                       ..shuffle()
@@ -376,13 +365,13 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   context,
                   new OnboardingSelection(
                     onInfluencer: () {
-                      demoAccount.state.accountType = AccountType.influencer;
+                      demoAccount.accountType = AccountType.influencer;
                       /* Scaffold.of(context).showSnackBar(new SnackBar(
                           content: new Text("You're an influencer!"),
                         )); */ // Tricky: context here is route context, not the scaffold of the onboarding selection
                     },
                     onBusiness: () {
-                      demoAccount.state.accountType = AccountType.business;
+                      demoAccount.accountType = AccountType.business;
                       /* scaffold.showSnackBar(new SnackBar(
                           content: new Text("You're a business!"),
                         )); */
@@ -399,20 +388,20 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                     builder: (context, setState) {
                       assert(ConfigProvider.of(context) != null);
                       return new OnboardingSocial(
-                        accountType: demoAccount.state.accountType,
+                        accountType: demoAccount.accountType,
                         oauthProviders:
                             ConfigProvider.of(context).oauthProviders,
                         onOAuthSelected: (int oauthProvider) {
                           setState(() {
-                            demoAccount.detail.socialMedia[oauthProvider]
+                            demoAccount.socialMedia[oauthProvider]
                                 .connected = true;
-                            demoAccount.detail.socialMedia[oauthProvider]
+                            demoAccount.socialMedia[oauthProvider]
                                 .followersCount = random.nextInt(1000000);
-                            demoAccount.detail.socialMedia[oauthProvider]
+                            demoAccount.socialMedia[oauthProvider]
                                 .friendsCount = random.nextInt(1000000);
                           });
                         },
-                        oauthState: demoAccount.detail
+                        oauthState: demoAccount
                             .socialMedia, // () { return demoSocialMedia; }(),
                         termsOfServiceUrl: ConfigProvider.of(context)
                             .services
@@ -421,21 +410,21 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                             .services
                             .privacyPolicyUrl,
                         onSignUp: () async {
-                          demoAccount.state.accountId =
+                          demoAccount.accountId =
                               new Int64(random.nextInt(1000000) + 1);
-                          demoAccount.summary.name = "John Smith";
-                          demoAccount.summary.description =
+                          demoAccount.name = "John Smith";
+                          demoAccount.description =
                               "I'm here for the food.";
-                          demoAccount.summary.avatarThumbnailUrl =
+                          demoAccount.avatarUrl =
                               "https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/friesjpg";
-                          demoAccount.detail.avatarCoverUrl =
+                          demoAccount.avatarUrl =
                               "https://res.cloudinary.com/inf-marketplace/image/upload/c_limit,h_1440,w_1440,q_auto/dev/demo/fries.jpg";
-                          // demoAccount.detail.coverUrls.length = 0;
-                          // demoAccount.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg");
-                          demoAccount.summary.location = "Cardiff, London";
-                          demoAccount.state.globalAccountState =
+                          // demoAccount.coverUrls.length = 0;
+                          // demoAccount.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg");
+                          demoAccount.location = "Cardiff, London";
+                          demoAccount.globalAccountState =
                               GlobalAccountState.readWrite;
-                          demoAccount.state.globalAccountStateReason =
+                          demoAccount.globalAccountStateReason =
                               GlobalAccountStateReason.demoApproved;
                           // print("Get pos");
                           try {
@@ -463,20 +452,20 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text("Reset Onboarding")]),
             onPressed: () {
-              demoAccount.state.accountId = new Int64(0);
-              demoAccount.state.accountType = AccountType.unknown;
-              demoAccount.summary.name = '';
-              demoAccount.summary.description = '';
-              demoAccount.summary.avatarThumbnailUrl = '';
-              demoAccount.summary.location = '';
-              demoAccount.detail.avatarCoverUrl = '';
-              // demoAccount.detail.coverUrls.length = 0;
-              demoAccount.state.globalAccountState =
+              demoAccount.accountId = new Int64(0);
+              demoAccount.accountType = AccountType.unknown;
+              demoAccount.name = '';
+              demoAccount.description = '';
+              demoAccount.avatarUrl = '';
+              demoAccount.location = '';
+              demoAccount.coverUrls.clear();
+              // demoAccount.coverUrls.length = 0;
+              demoAccount.globalAccountState =
                   GlobalAccountState.initialize;
-              demoAccount.state.globalAccountStateReason =
+              demoAccount.globalAccountStateReason =
                   GlobalAccountStateReason.newAccount;
-              for (int i = 0; i < demoAccount.detail.socialMedia.length; ++i) {
-                demoAccount.detail.socialMedia[i] = new DataSocialMedia();
+              for (int i = 0; i < demoAccount.socialMedia.length; ++i) {
+                demoAccount.socialMedia[i] = new DataSocialMedia();
               }
             },
           ),
@@ -529,19 +518,19 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                                 data.state = new DataAccountState();
                                 data.summary = new DataAccountSummary();
                                 data.detail = new DataAccountDetail();
-                                data.state.accountId = random.nextInt(500) + 10;
-                                data.state.accountType =
+                                data.accountId = random.nextInt(500) + 10;
+                                data.accountType =
                                     AccountType.business;
-                                data.state.globalAccountState =
+                                data.globalAccountState =
                                     GlobalAccountState.readWrite;
-                                data.summary.name = "Name: $searchQuery";
-                                data.summary.description =
+                                data.name = "Name: $searchQuery";
+                                data.description =
                                     "Description: $searchQuery";
-                                data.summary.avatarThumbnailUrl =
+                                data.avatarThumbnailUrl =
                                     "https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/kahuna.jpg";
-                                data.summary.location = "Location";
-                                // data.detail.coverUrls.length = 0;
-                                // data.detail.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+                                data.location = "Location";
+                                // data.coverUrls.length = 0;
+                                // data.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
                                 return sampleAccounts.toList()
                                   ..removeAt(0)
                                   ..shuffle()
@@ -574,7 +563,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child:
                 new Row(children: [new Text('View Business Profile (Self)')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.business;
+              demoAccount.accountType = AccountType.business;
               transitionPage(
                   context,
                   new ProfileView(
@@ -588,7 +577,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child:
                 new Row(children: [new Text('Edit Business Profile (Self)')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.business;
+              demoAccount.accountType = AccountType.business;
               transitionPage(
                   context,
                   new ProfileEdit(
@@ -599,7 +588,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text('Select Location')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.business;
+              demoAccount.accountType = AccountType.business;
               transitionPage(
                   context,
                   new LocationSelectionScreen(
@@ -618,7 +607,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text('Geocode test')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.business;
+              demoAccount.accountType = AccountType.business;
               transitionPage(
                 context,
                 new GeocodingTestPage(),
@@ -628,7 +617,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text('View Influencer Profile')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.influencer;
+              demoAccount.accountType = AccountType.influencer;
               transitionPage(
                   context,
                   new ProfileView(
@@ -700,7 +689,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child:
                 new Row(children: [new Text('View Influencer Profile (Self)')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.influencer;
+              demoAccount.accountType = AccountType.influencer;
               transitionPage(
                   context,
                   new ProfileView(
@@ -745,7 +734,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           new FlatButton(
             child: new Row(children: [new Text('View Business Profile')]),
             onPressed: () {
-              demoAccount.state.accountType = AccountType.business;
+              demoAccount.accountType = AccountType.business;
               transitionPage(
                   context,
                   new ProfileView(

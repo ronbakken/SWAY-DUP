@@ -76,7 +76,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
         ConfigData config = ConfigProvider.of(context);
         ApiClient network = NetworkProvider.of(context);
         // NavigatorState navigator = Navigator.of(context);
-        /*if (network.account.state.accountId != 0) {
+        /*if (network.account.accountId != 0) {
           // Need to implement cleaner navigation
           () async {
             await null; // Pop after
@@ -84,15 +84,15 @@ class _AppOnboardingState extends State<AppOnboarding> {
           }();
         }*/
         // TODO: Fix network delay on accountId update, change message structure
-        bool canSignUp = (network.account.state.accountId == 0) &&
-            network.account.detail.socialMedia.any(
+        bool canSignUp = (network.account.accountId == 0) &&
+            network.account.socialMedia.any(
                 (DataSocialMedia data) => (data.connected && !data.expired));
         assert(config != null);
         assert(network != null);
         return new OnboardingSocial(
-          accountType: network.account.state.accountType,
+          accountType: network.account.accountType,
           oauthProviders: config.oauthProviders,
-          oauthState: network.account.detail.socialMedia,
+          oauthState: network.account.socialMedia,
           termsOfServiceUrl: config.services.termsOfServiceUrl,
           privacyPolicyUrl: config.services.privacyPolicyUrl,
           onOAuthSelected: (network.connected == NetworkConnectionState.ready)

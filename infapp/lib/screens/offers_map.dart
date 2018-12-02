@@ -87,10 +87,10 @@ class _OffersMapState extends State<OffersMap> {
     }
     // Default location depending on whether GPS is available or not
     if (_initialLatLng == null) {
-      if (widget.account.detail.latitude != 0.0 &&
-          widget.account.detail.longitude != 0.0) {
+      if (widget.account.latitude != 0.0 &&
+          widget.account.longitude != 0.0) {
         _initialLatLng = new LatLng(
-            widget.account.detail.latitude, widget.account.detail.longitude);
+            widget.account.latitude, widget.account.longitude);
       } else {
         _initialLatLng = new LatLng(34.0207305, -118.6919159);
       }
@@ -265,12 +265,12 @@ class _OffersMapState extends State<OffersMap> {
     List<Marker> markers = new List<Marker>();
     // Show a marker for each account location (business only)
     /*
-    if (widget.account.detail.latitude != 0.0 &&
-        widget.account.detail.longitude != 0.0) {
+    if (widget.account.latitude != 0.0 &&
+        widget.account.longitude != 0.0) {
       markers.add(new Marker(
         width: 56.0,
         height: 56.0,
-        point: new LatLng(widget.account.detail.latitude, widget.account.detail.longitude),
+        point: new LatLng(widget.account.latitude, widget.account.longitude),
         builder: (ctx) =>
         new Container(
           child: new FlutterLogo(),

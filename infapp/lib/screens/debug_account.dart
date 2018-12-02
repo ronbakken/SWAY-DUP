@@ -25,25 +25,19 @@ class DebugAccount extends StatelessWidget {
           new Text("Debug account",
               style: Theme.of(context).textTheme.display2),
           new Divider(),
-          new Text("State", style: Theme.of(context).textTheme.display1),
-          new Text("${account.state}"),
+          new Text("Account", style: Theme.of(context).textTheme.display1),
+          new Text("$account"),
           new Divider(),
-          new Text("Summary", style: Theme.of(context).textTheme.display1),
-          new Text("${account.summary}"),
-          account.summary.avatarThumbnailUrl == null ||
-                  account.summary.avatarThumbnailUrl.isEmpty
+          new Text("Avatar", style: Theme.of(context).textTheme.display1),
+          account.avatarUrl == null || account.avatarUrl.isEmpty
               ? null
-              : new Image(
-                  image: new NetworkImage(account.summary.avatarThumbnailUrl)),
+              : new Image(image: new NetworkImage(account.avatarUrl)),
           new Divider(),
-          new Text("Detail", style: Theme.of(context).textTheme.display1),
-          new Text("${account.detail}"),
-          account.detail.avatarCoverUrl == null ||
-                  account.detail.avatarCoverUrl.isEmpty
-              ? null
-              : new Image(
-                  image: new NetworkImage(account.detail.avatarCoverUrl)),
-        ]..removeWhere((widget) => widget == null),
+          new Text("Covers", style: Theme.of(context).textTheme.display1),
+        ]
+          ..removeWhere((widget) => widget == null)
+          ..addAll(account.coverUrls
+              .map((coverUrl) => new Image(image: new NetworkImage(coverUrl)))),
       ),
     );
   }

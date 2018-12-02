@@ -42,8 +42,8 @@ abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
   @override
   Future<void> refreshDemoAllOffers() async {
     log.fine("refreshDemoAllOffers");
-    NetLoadOffers loadOffersReq =
-        new NetLoadOffers(); // TODO: Specific requests for higher and lower refreshing
+    NetListOffers loadOffersReq =
+        new NetListOffers(); // TODO: Specific requests for higher and lower refreshing
     Stream<TalkMessage> results =
         channel.sendStreamRequest("L_OFFERS", loadOffersReq.writeToBuffer());
 
@@ -72,7 +72,7 @@ abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
     if (_demoAllOffersLoaded == false &&
         connected == NetworkConnectionState.ready) {
       _demoAllOffersLoaded = true;
-      if (account.state.accountType == AccountType.influencer) {
+      if (account.accountType == AccountType.influencer) {
         demoAllOffersLoading = true;
         refreshDemoAllOffers().catchError((error, stack) {
           log.severe("Failed to get offers: $error");

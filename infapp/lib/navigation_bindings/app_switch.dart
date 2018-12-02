@@ -32,7 +32,7 @@ class _AppSwitchState extends State<AppSwitch> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     String domain = ConfigProvider.of(context).services.domain;
-    Int64 accountId = NetworkProvider.of(context).account.state.accountId;
+    Int64 accountId = NetworkProvider.of(context).account.accountId;
     if (domain != _domain || accountId != _accountId) {
       _domain = domain;
       _accountId = accountId;
@@ -45,16 +45,16 @@ class _AppSwitchState extends State<AppSwitch> {
   Widget build(BuildContext context) {
     ApiClient network = NetworkProvider.of(context);
     assert(network != null);
-    if (network.account.state.sessionId == 0) {
+    if (network.account.sessionId == 0) {
       return new LoadingNetwork();
     }
-    if (network.account.state.accountId == 0) {
+    if (network.account.accountId == 0) {
       return new AppOnboarding();
     }
-    if (network.account.state.accountType == AccountType.influencer) {
+    if (network.account.accountType == AccountType.influencer) {
       return new AppInfluencer();
     }
-    if (network.account.state.accountType == AccountType.business) {
+    if (network.account.accountType == AccountType.business) {
       return new AppBusiness();
     }
     return new DebugAccount(account: network.account);

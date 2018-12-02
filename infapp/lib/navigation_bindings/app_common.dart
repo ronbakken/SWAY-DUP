@@ -57,7 +57,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
       }
       _navigator = navigator;
       _navigationSubscription = _navigator.listen(_config.services.domain,
-          _network.account.state.accountId, onNavigationRequest);
+          _network.account.accountId, onNavigationRequest);
     }
   }
 
@@ -197,11 +197,11 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
               network.tryGetProposalChats(proposalId);
           DataOffer offer = network.tryGetOffer(proposal.offerId);
           DataAccount businessAccount = (proposal.businessAccountId == 0 &&
-                  network.account.state.accountType == AccountType.business)
+                  network.account.accountType == AccountType.business)
               ? network.account
               : network.tryGetProfileSummary(proposal.businessAccountId);
           DataAccount influencerAccount = (proposal.influencerAccountId == 0 &&
-                  network.account.state.accountType == AccountType.influencer)
+                  network.account.accountType == AccountType.influencer)
               ? network.account
               : network.tryGetProfileSummary(proposal.influencerAccountId);
           // DataProposal proposal = network.tryGetProposal(proposalId);
@@ -214,7 +214,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
             chats: chats,
             onUploadImage: network.uploadImage,
             onPressedProfile: (DataAccount account) {
-              navigateToPublicProfile(account.state.accountId);
+              navigateToPublicProfile(account.accountId);
             },
             onPressedOffer: (DataOffer offer) {
               navigateToOffer(offer.offerId);

@@ -24,7 +24,7 @@ class SearchItemCard extends StatelessWidget {
           children: <Widget>[
             new CircleAvatar(
               backgroundImage:
-                  new NetworkImage(item.summary.avatarThumbnailUrl),
+                  new NetworkImage(item.avatarUrl),
               radius: 30.0,
             ),
             new Container(
@@ -44,7 +44,7 @@ class SearchItemCard extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(4.0))),
                     child: new Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: new Text(item.state.accountType.toString(),
+                      child: new Text(item.accountType.toString(),
                           style:
                               TextStyle(color: Theme.of(context).accentColor)),
                     ),
@@ -53,13 +53,13 @@ class SearchItemCard extends StatelessWidget {
                     height: 4.0,
                   ),
                   new Text(
-                    item.summary.name,
+                    item.name,
                     style: TextStyle(fontSize: 18.0),
                   ),
                   new Container(
                     height: 4.0,
                   ),
-                  new Text(item.summary.location),
+                  new Text(item.location),
                   new Container(
                     height: 10.0,
                   ),

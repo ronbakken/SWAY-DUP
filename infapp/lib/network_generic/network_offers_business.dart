@@ -44,7 +44,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
   void dataOffer(TalkMessage message) {
     DataOffer pb = new DataOffer();
     pb.mergeFromBuffer(message.data);
-    if (pb.senderId == account.state.accountId) {
+    if (pb.senderId == account.accountId) {
       cacheOffer(pb);
       // Add received offer to known offers
       _offers[pb.offerId] = pb;
@@ -68,7 +68,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
   Map<Int64, DataOffer> get offers {
     if (_offersLoaded == false && connected == NetworkConnectionState.ready) {
       _offersLoaded = true;
-      if (account.state.accountType == AccountType.business) {
+      if (account.accountType == AccountType.business) {
         offersLoading = true;
         refreshOffers().catchError((error, stack) {
           log.severe("Failed to get offers: $error");

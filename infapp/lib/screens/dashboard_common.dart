@@ -129,13 +129,13 @@ class _DashboardCommonState extends State<DashboardCommon>
 
   @override
   Widget build(BuildContext context) {
-    String mapLabel = widget.account.state.accountType == AccountType.influencer
+    String mapLabel = widget.account.accountType == AccountType.influencer
         ? "Offers"
         : "Map";
     String offersLabel = "Offers";
     /*
     String proposalsLabel =
-        widget.account.state.accountType == AccountType.influencer
+        widget.account.accountType == AccountType.influencer
             ? "Applied"
             : "Proposals";
             */
@@ -233,13 +233,13 @@ class _DashboardCommonState extends State<DashboardCommon>
             controller: _tabControllerProposals,
             tabs: [
               new Tab(
-                  text: (widget.account.state.accountType ==
+                  text: (widget.account.accountType ==
                               AccountType.influencer
                           ? "Applied"
                           : "Direct")
                       .toUpperCase()),
               new Tab(
-                  text: (widget.account.state.accountType ==
+                  text: (widget.account.accountType ==
                               AccountType.influencer
                           ? "Direct"
                           : "Proposals")
@@ -287,8 +287,8 @@ class _DashboardCommonState extends State<DashboardCommon>
                   child: new Stack(children: [
                     new Positioned.fill(
                       child: new BlurredNetworkImage(
-                        url: widget.account.detail.avatarCoverUrl,
-                        blurredUrl: widget.account.detail.blurredAvatarCoverUrl,
+                        url: widget.account.avatarUrl,
+                        blurredUrl: widget.account.blurredAvatarUrl,
                         placeholderAsset: 'assets/placeholder_photo.png',
                       ),
                     ),
@@ -300,7 +300,7 @@ class _DashboardCommonState extends State<DashboardCommon>
                                 margin: new EdgeInsets.fromLTRB(
                                     56.0, 16.0, 16.0, 16.0),
                                 child: new Text(
-                                  widget.account.summary.name,
+                                  widget.account.name,
                                   style:
                                       Theme.of(context).primaryTextTheme.title,
                                 ))))
@@ -335,7 +335,7 @@ class _DashboardCommonState extends State<DashboardCommon>
                   }
                 : null,
           ),
-          (widget.account.state.globalAccountState.value >=
+          (widget.account.globalAccountState.value >=
                   GlobalAccountState.debug.value)
               ? new FlatButton(
                   child: new Row(children: [

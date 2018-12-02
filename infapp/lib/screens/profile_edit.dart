@@ -25,7 +25,7 @@ class ProfileEdit extends StatefulWidget {
 
   final DataAccount account;
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
-  final Function(NetProfileModify setProfile) onSubmitPressed;
+  final Function(dynamic setProfile) onSubmitPressed;
 
   @override
   _ProfileEditState createState() => new _ProfileEditState();
@@ -43,9 +43,9 @@ class _ProfileEditState extends State<ProfileEdit> {
   void initState() {
     // Initialize the Parent
     super.initState();
-    _nameController.text = widget.account.summary.name;
-    _locationController.text = widget.account.summary.location;
-    _descriptionController.text = widget.account.summary.description;
+    _nameController.text = widget.account.name;
+    _locationController.text = widget.account.location;
+    _descriptionController.text = widget.account.description;
   }
 
   void _submitPressed() {
@@ -63,11 +63,12 @@ class _ProfileEditState extends State<ProfileEdit> {
     */
 
     if (widget.onSubmitPressed != null) {
-      NetProfileModify setProfile = new NetProfileModify();
+      // TODO
+      /*dynamic setProfile = new NetProfileModify();
       setProfile.avatarKey = _avatarController.text;
       setProfile.name = _nameController.text;
       setProfile.description = _descriptionController.text;
-      widget.onSubmitPressed(setProfile);
+      widget.onSubmitPressed(setProfile);*/
     }
 
     // _location need lat long from map selection
@@ -84,7 +85,7 @@ class _ProfileEditState extends State<ProfileEdit> {
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           new ImageUploader(
-            initialUrl: widget.account.detail.avatarCoverUrl,
+            initialUrl: widget.account.avatarUrl,
             uploadKey: _avatarController,
             onUploadImage: widget.onUploadImage,
           ),

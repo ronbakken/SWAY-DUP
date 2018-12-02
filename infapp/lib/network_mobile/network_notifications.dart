@@ -84,9 +84,9 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
     try {
       oldFirebaseToken = prefs.getString('firebase_token');
     } catch (error) {}
-    if (account.state.accountId != 0) {
-      if (account.state.firebaseToken != token || oldFirebaseToken != token) {
-        account.state.firebaseToken = token;
+    if (account.accountId != 0) {
+      if (account.firebaseToken != token || oldFirebaseToken != token) {
+        account.firebaseToken = token;
         NetSetFirebaseToken setFirebaseToken = new NetSetFirebaseToken();
         if (oldFirebaseToken != null)
           setFirebaseToken.oldFirebaseToken = oldFirebaseToken;
@@ -121,7 +121,7 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
     if (_suppressChatNotifications.isEmpty ||
         _suppressChatNotifications.last != proposalId ||
         domain != config.services.domain ||
-        accountId != account.state.accountId) {
+        accountId != account.accountId) {
       await flutterLocalNotificationsPlugin.show(
         proposalId,
         title,

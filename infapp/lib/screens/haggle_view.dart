@@ -85,15 +85,15 @@ class _HaggleViewState extends State<HaggleView> {
   // List<DataProposalChat> _testingData = new List<DataProposalChat>();
 
   Int64 get influencerAccountId {
-    return widget.influencerAccount.state.accountId;
+    return widget.influencerAccount.accountId;
   }
 
   Int64 get businessAccountId {
-    return widget.businessAccount.state.accountId;
+    return widget.businessAccount.accountId;
   }
 
   Int64 get accountId {
-    return widget.account.state.accountId;
+    return widget.account.accountId;
   }
 
   Int64 get otherAccountId {
@@ -441,12 +441,12 @@ class _HaggleViewState extends State<HaggleView> {
         case ProposalChatMarker.applied:
           message = current.senderId == accountId
               ? "You have applied for ${widget.offer.title}."
-              : "${getAccount(current.senderId).summary.name} has applied for ${widget.offer.title}.";
+              : "${getAccount(current.senderId).name} has applied for ${widget.offer.title}.";
           break;
         case ProposalChatMarker.wantDeal:
           message = current.senderId == accountId
               ? "You want to make a deal."
-              : "${getAccount(current.senderId).summary.name} wants to make a deal.";
+              : "${getAccount(current.senderId).name} wants to make a deal.";
           break;
         case ProposalChatMarker.dealMade:
           message = "A deal has been made. Congratulations!";
@@ -454,12 +454,12 @@ class _HaggleViewState extends State<HaggleView> {
         case ProposalChatMarker.rejected:
           message = current.senderId == accountId
               ? "You have rejected the application."
-              : "${getAccount(current.senderId).summary.name} has rejected the application.";
+              : "${getAccount(current.senderId).name} has rejected the application.";
           break;
         case ProposalChatMarker.markedComplete:
           message = current.senderId == accountId
               ? "You have marked the deal as completed."
-              : "${getAccount(current.senderId).summary.name} has marked the deal as completed.";
+              : "${getAccount(current.senderId).name} has marked the deal as completed.";
           break;
         case ProposalChatMarker.complete:
           message = "The offer has been completed. Well done!";
@@ -696,7 +696,7 @@ class _HaggleViewState extends State<HaggleView> {
   @override
   Widget build(BuildContext context) {
     DataAccount otherAccount =
-        widget.account.state.accountId == widget.businessAccount.state.accountId
+        widget.account.accountId == widget.businessAccount.accountId
             ? widget.influencerAccount
             : widget.businessAccount;
     String statusText;
@@ -712,7 +712,7 @@ class _HaggleViewState extends State<HaggleView> {
             statusText = "You want to make a deal.";
           } else {
             statusText =
-                "${otherAccount.summary.name} wants to make a deal.\nHaggle or make a deal?";
+                "${otherAccount.name} wants to make a deal.\nHaggle or make a deal?";
           }
         } else if (!widget.proposal.influencerWantsDeal) {
           // Neither parties have decided yet (no need to check both)
@@ -753,7 +753,7 @@ class _HaggleViewState extends State<HaggleView> {
               new SizedBox(width: 8.0),
               new Flexible(
                   fit: FlexFit.loose,
-                  child: new Text(otherAccount.summary.name,
+                  child: new Text(otherAccount.name,
                       overflow: TextOverflow.ellipsis)),
             ],
           ),

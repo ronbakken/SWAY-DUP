@@ -48,7 +48,7 @@ class _OffersShowcaseState extends State<OffersShowcase> {
       style: theme.textTheme.subhead,
     );
     Widget sender = new Text(
-      offer.locationName, // account.summary?.name.toString(),
+      offer.senderName, // account.summary?.name.toString(),
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
       style: theme.textTheme.caption,

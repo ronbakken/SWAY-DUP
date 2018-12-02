@@ -104,13 +104,13 @@ class NetworkStreaming {
     if (config.services.domain != _multiAccountStore.current.domain) {
       throw new Exception("Mismatching domain");
     }
-    if (_networkManager.account.state.accountId !=
+    if (_networkManager.account.accountId !=
         _multiAccountStore.current.accountId) {
       throw new Exception("Mismatching account id");
     }
     return _crossAccountNavigator.listen(
       config.services.domain,
-      _networkManager.account.state.accountId,
+      _networkManager.account.accountId,
       onData,
     );
   }

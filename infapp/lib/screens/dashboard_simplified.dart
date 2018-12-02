@@ -108,12 +108,12 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
   @override
   Widget build(BuildContext context) {
     String proposalsLabel =
-        widget.account.state.accountType == AccountType.influencer
+        widget.account.accountType == AccountType.influencer
             ? "Applied"
             : "Proposals";
 
     /*String mapLabel =
-        widget.account.state.accountType == AccountType.influencer
+        widget.account.accountType == AccountType.influencer
             ? "Offers"
             : "Map";
     String offersLabel = "Offers";
@@ -216,8 +216,8 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
                   child: new Stack(children: [
                     new Positioned.fill(
                       child: new BlurredNetworkImage(
-                        url: widget.account.detail.avatarCoverUrl,
-                        blurredUrl: widget.account.detail.blurredAvatarCoverUrl,
+                        url: widget.account.avatarUrl,
+                        blurredUrl: widget.account.blurredAvatarUrl,
                         placeholderAsset: 'assets/placeholder_photo.png',
                       ),
                     ),
@@ -229,7 +229,7 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
                                 margin: new EdgeInsets.fromLTRB(
                                     56.0, 16.0, 16.0, 16.0),
                                 child: new Text(
-                                  widget.account.summary.name,
+                                  widget.account.name,
                                   style:
                                       Theme.of(context).primaryTextTheme.title,
                                 ))))
@@ -279,7 +279,7 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
                   }
                 : null,
           ),
-          (widget.account.state.globalAccountState.value >=
+          (widget.account.globalAccountState.value >=
                   GlobalAccountState.debug.value)
               ? new FlatButton(
                   child: new Row(children: [

@@ -101,7 +101,7 @@ class _SearchPageState extends State<SearchScreen> {
       // Filter results locally
       // TODO: May skip this if it's too harsh compared to the natural search result from the server
       /*searchResults.removeWhere((DataAccount data) {
-        return !data.summary.name.toLowerCase().contains(textSearch.toLowerCase());
+        return !data.name.toLowerCase().contains(textSearch.toLowerCase());
       });*/
     });
     // Wait for the search results asynchronously
@@ -134,7 +134,7 @@ class _SearchPageState extends State<SearchScreen> {
       for (int i = 1; i < widget.accountResults.length; i++) {
         rightAccount = true;
         for (int j = 0; j < textSearch.length; j++) {
-          if (!(widget.accountResults[i].summary.name[j].toLowerCase() == textSearch[j].toLowerCase())) {
+          if (!(widget.accountResults[i].name[j].toLowerCase() == textSearch[j].toLowerCase())) {
             rightAccount = false;
             break;
           }

@@ -49,8 +49,8 @@ class _PrototypeState extends State<Prototype> {
     /*
     // Switch theme based on account type
     // ApiClient network = NetworkProvider.of(context);
-    bool dark = network.account.state.accountType == AccountType.business ||
-        network.account.state.accountId == 0;
+    bool dark = network.account.accountType == AccountType.business ||
+        network.account.accountId == 0;
     */
     bool dark = true;
     // Custom slate green theme

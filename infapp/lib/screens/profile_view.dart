@@ -45,40 +45,40 @@ class ProfileView extends StatelessWidget {
     ];
     List<Widget> accountInfo = <Widget>[
       new Text(
-        account.summary.name,
+        account.name,
         style: theme.textTheme.headline,
         textAlign: TextAlign.center,
       ),
       new Text(
-        account.summary.location,
+        account.location,
         style: theme.textTheme.caption,
         textAlign: TextAlign.center,
       ),
       new FollowerTray(
         oauthProviders: oauthProviders,
-        socialMedia: account.detail.socialMedia,
+        socialMedia: account.socialMedia,
       ),
-      account.detail.website.isEmpty
+      account.website.isEmpty
           ? null
           : new RichText(
               text: new TextSpan(
                 children: [
                   new TextSpan(
-                    text: account.detail.website,
+                    text: account.website,
                     // style: new TextStyle(color: Colors.blue),
                     style: theme.textTheme.button
                         .copyWith(color: theme.accentColor),
                     recognizer: new TapGestureRecognizer()
                       ..onTap = () {
-                        launch(account.detail.website);
+                        launch(account.website);
                       },
                   ),
                 ],
               ),
             ),
-      account.detail.website.isEmpty ? null : new SizedBox(height: 20.0),
+      account.website.isEmpty ? null : new SizedBox(height: 20.0),
       new Text(
-        account.summary.description,
+        account.description,
         style: theme.textTheme.body1,
         textAlign: TextAlign.center,
       ),
@@ -92,8 +92,8 @@ class ProfileView extends StatelessWidget {
 
         /*title: new Text((onEditPressed != null)
             ? "Your profile"
-            : account.summary.name.isNotEmpty
-                ? (account.summary.name + "'s profile")
+            : account.name.isNotEmpty
+                ? (account.name + "'s profile")
                 : "Profile"),*/
         actions: (onEditPressed != null)
             ? <Widget>[
