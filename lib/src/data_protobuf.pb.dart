@@ -346,7 +346,7 @@ class DataOffer extends $pb.GeneratedMessage {
         $0.OfferStateReason.values)
     ..a<double>(18, 'latitude', $pb.PbFieldType.OD)
     ..a<double>(19, 'longitude', $pb.PbFieldType.OD)
-    ..aOS(21, 'locationName')
+    ..aOS(21, 'senderName')
     ..aInt64(22, 'proposalId')
     ..p<int>(23, 'categories', $pb.PbFieldType.P3)
     ..aOB(26, 'archived')
@@ -358,6 +358,9 @@ class DataOffer extends $pb.GeneratedMessage {
     ..aOB(32, 'direct')
     ..p<int>(33, 'primaryCategories', $pb.PbFieldType.P3)
     ..pPS(34, 'coverKeys')
+    ..aOS(35, 'senderAvatarUrl')
+    ..a<List<int>>(36, 'senderBlurredAvatar', $pb.PbFieldType.OY)
+    ..aOS(37, 'thumbnailKey')
     ..hasRequiredFields = false;
 
   DataOffer() : super();
@@ -469,13 +472,13 @@ class DataOffer extends $pb.GeneratedMessage {
   bool hasLongitude() => $_has(11);
   void clearLongitude() => clearField(19);
 
-  String get locationName => $_getS(12, '');
-  set locationName(String v) {
+  String get senderName => $_getS(12, '');
+  set senderName(String v) {
     $_setString(12, v);
   }
 
-  bool hasLocationName() => $_has(12);
-  void clearLocationName() => clearField(21);
+  bool hasSenderName() => $_has(12);
+  void clearSenderName() => clearField(21);
 
   Int64 get proposalId => $_getI64(13);
   set proposalId(Int64 v) {
@@ -526,6 +529,30 @@ class DataOffer extends $pb.GeneratedMessage {
   List<int> get primaryCategories => $_getList(21);
 
   List<String> get coverKeys => $_getList(22);
+
+  String get senderAvatarUrl => $_getS(23, '');
+  set senderAvatarUrl(String v) {
+    $_setString(23, v);
+  }
+
+  bool hasSenderAvatarUrl() => $_has(23);
+  void clearSenderAvatarUrl() => clearField(35);
+
+  List<int> get senderBlurredAvatar => $_getN(24);
+  set senderBlurredAvatar(List<int> v) {
+    $_setBytes(24, v);
+  }
+
+  bool hasSenderBlurredAvatar() => $_has(24);
+  void clearSenderBlurredAvatar() => clearField(36);
+
+  String get thumbnailKey => $_getS(25, '');
+  set thumbnailKey(String v) {
+    $_setString(25, v);
+  }
+
+  bool hasThumbnailKey() => $_has(25);
+  void clearThumbnailKey() => clearField(37);
 }
 
 class DataLocation extends $pb.GeneratedMessage {
@@ -662,324 +689,111 @@ class DataLocation extends $pb.GeneratedMessage {
   void clearGeohash() => clearField(15);
 }
 
-class DataAccountState extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccountState',
+class DataAccount_SocialMediaEntry extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo(
+      'DataAccount.SocialMediaEntry',
       package: const $pb.PackageName('inf_common'))
-    ..aInt64(1, 'sessionId')
-    ..aInt64(2, 'accountId')
-    ..e<$0.AccountType>(3, 'accountType', $pb.PbFieldType.OE,
+    ..a<int>(1, 'key', $pb.PbFieldType.O3)
+    ..a<DataSocialMedia>(2, 'value', $pb.PbFieldType.OM,
+        DataSocialMedia.getDefault, DataSocialMedia.create)
+    ..hasRequiredFields = false;
+
+  DataAccount_SocialMediaEntry() : super();
+  DataAccount_SocialMediaEntry.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataAccount_SocialMediaEntry.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataAccount_SocialMediaEntry clone() =>
+      new DataAccount_SocialMediaEntry()..mergeFromMessage(this);
+  DataAccount_SocialMediaEntry copyWith(
+          void Function(DataAccount_SocialMediaEntry) updates) =>
+      super.copyWith(
+          (message) => updates(message as DataAccount_SocialMediaEntry));
+  $pb.BuilderInfo get info_ => _i;
+  static DataAccount_SocialMediaEntry create() =>
+      new DataAccount_SocialMediaEntry();
+  static $pb.PbList<DataAccount_SocialMediaEntry> createRepeated() =>
+      new $pb.PbList<DataAccount_SocialMediaEntry>();
+  static DataAccount_SocialMediaEntry getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static DataAccount_SocialMediaEntry _defaultInstance;
+  static void $checkItem(DataAccount_SocialMediaEntry v) {
+    if (v is! DataAccount_SocialMediaEntry)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  int get key => $_get(0, 0);
+  set key(int v) {
+    $_setSignedInt32(0, v);
+  }
+
+  bool hasKey() => $_has(0);
+  void clearKey() => clearField(1);
+
+  DataSocialMedia get value => $_getN(1);
+  set value(DataSocialMedia v) {
+    setField(2, v);
+  }
+
+  bool hasValue() => $_has(1);
+  void clearValue() => clearField(2);
+}
+
+class DataAccount extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccount',
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(4, 'sessionId')
+    ..aInt64(5, 'accountId')
+    ..e<$0.AccountType>(6, 'accountType', $pb.PbFieldType.OE,
         $0.AccountType.unknown, $0.AccountType.valueOf, $0.AccountType.values)
     ..e<$0.GlobalAccountState>(
-        4,
+        7,
         'globalAccountState',
         $pb.PbFieldType.OE,
         $0.GlobalAccountState.initialize,
         $0.GlobalAccountState.valueOf,
         $0.GlobalAccountState.values)
     ..e<$0.GlobalAccountStateReason>(
-        5,
+        8,
         'globalAccountStateReason',
         $pb.PbFieldType.OE,
         $0.GlobalAccountStateReason.newAccount,
         $0.GlobalAccountStateReason.valueOf,
         $0.GlobalAccountStateReason.values)
+    ..e<$0.AccountLevel>(9, 'accountLevel', $pb.PbFieldType.OE,
+        $0.AccountLevel.free, $0.AccountLevel.valueOf, $0.AccountLevel.values)
     ..e<$0.NotificationFlags>(
-        6,
+        10,
         'notificationFlags',
         $pb.PbFieldType.OE,
         $0.NotificationFlags.accountState,
         $0.NotificationFlags.valueOf,
         $0.NotificationFlags.values)
-    ..aOS(7, 'firebaseToken')
-    ..e<$0.AccountLevel>(8, 'accountLevel', $pb.PbFieldType.OE,
-        $0.AccountLevel.free, $0.AccountLevel.valueOf, $0.AccountLevel.values)
-    ..hasRequiredFields = false;
-
-  DataAccountState() : super();
-  DataAccountState.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  DataAccountState.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  DataAccountState clone() => new DataAccountState()..mergeFromMessage(this);
-  DataAccountState copyWith(void Function(DataAccountState) updates) =>
-      super.copyWith((message) => updates(message as DataAccountState));
-  $pb.BuilderInfo get info_ => _i;
-  static DataAccountState create() => new DataAccountState();
-  static $pb.PbList<DataAccountState> createRepeated() =>
-      new $pb.PbList<DataAccountState>();
-  static DataAccountState getDefault() =>
-      _defaultInstance ??= create()..freeze();
-  static DataAccountState _defaultInstance;
-  static void $checkItem(DataAccountState v) {
-    if (v is! DataAccountState) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
-
-  Int64 get sessionId => $_getI64(0);
-  set sessionId(Int64 v) {
-    $_setInt64(0, v);
-  }
-
-  bool hasSessionId() => $_has(0);
-  void clearSessionId() => clearField(1);
-
-  Int64 get accountId => $_getI64(1);
-  set accountId(Int64 v) {
-    $_setInt64(1, v);
-  }
-
-  bool hasAccountId() => $_has(1);
-  void clearAccountId() => clearField(2);
-
-  $0.AccountType get accountType => $_getN(2);
-  set accountType($0.AccountType v) {
-    setField(3, v);
-  }
-
-  bool hasAccountType() => $_has(2);
-  void clearAccountType() => clearField(3);
-
-  $0.GlobalAccountState get globalAccountState => $_getN(3);
-  set globalAccountState($0.GlobalAccountState v) {
-    setField(4, v);
-  }
-
-  bool hasGlobalAccountState() => $_has(3);
-  void clearGlobalAccountState() => clearField(4);
-
-  $0.GlobalAccountStateReason get globalAccountStateReason => $_getN(4);
-  set globalAccountStateReason($0.GlobalAccountStateReason v) {
-    setField(5, v);
-  }
-
-  bool hasGlobalAccountStateReason() => $_has(4);
-  void clearGlobalAccountStateReason() => clearField(5);
-
-  $0.NotificationFlags get notificationFlags => $_getN(5);
-  set notificationFlags($0.NotificationFlags v) {
-    setField(6, v);
-  }
-
-  bool hasNotificationFlags() => $_has(5);
-  void clearNotificationFlags() => clearField(6);
-
-  String get firebaseToken => $_getS(6, '');
-  set firebaseToken(String v) {
-    $_setString(6, v);
-  }
-
-  bool hasFirebaseToken() => $_has(6);
-  void clearFirebaseToken() => clearField(7);
-
-  $0.AccountLevel get accountLevel => $_getN(7);
-  set accountLevel($0.AccountLevel v) {
-    setField(8, v);
-  }
-
-  bool hasAccountLevel() => $_has(7);
-  void clearAccountLevel() => clearField(8);
-}
-
-class DataAccountSummary extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccountSummary',
-      package: const $pb.PackageName('inf_common'))
-    ..aOS(1, 'name')
-    ..aOS(2, 'description')
-    ..aOS(3, 'location')
-    ..aOS(4, 'avatarThumbnailUrl')
-    ..aOS(5, 'blurredAvatarThumbnailUrl')
-    ..hasRequiredFields = false;
-
-  DataAccountSummary() : super();
-  DataAccountSummary.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  DataAccountSummary.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  DataAccountSummary clone() =>
-      new DataAccountSummary()..mergeFromMessage(this);
-  DataAccountSummary copyWith(void Function(DataAccountSummary) updates) =>
-      super.copyWith((message) => updates(message as DataAccountSummary));
-  $pb.BuilderInfo get info_ => _i;
-  static DataAccountSummary create() => new DataAccountSummary();
-  static $pb.PbList<DataAccountSummary> createRepeated() =>
-      new $pb.PbList<DataAccountSummary>();
-  static DataAccountSummary getDefault() =>
-      _defaultInstance ??= create()..freeze();
-  static DataAccountSummary _defaultInstance;
-  static void $checkItem(DataAccountSummary v) {
-    if (v is! DataAccountSummary)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
-
-  String get name => $_getS(0, '');
-  set name(String v) {
-    $_setString(0, v);
-  }
-
-  bool hasName() => $_has(0);
-  void clearName() => clearField(1);
-
-  String get description => $_getS(1, '');
-  set description(String v) {
-    $_setString(1, v);
-  }
-
-  bool hasDescription() => $_has(1);
-  void clearDescription() => clearField(2);
-
-  String get location => $_getS(2, '');
-  set location(String v) {
-    $_setString(2, v);
-  }
-
-  bool hasLocation() => $_has(2);
-  void clearLocation() => clearField(3);
-
-  String get avatarThumbnailUrl => $_getS(3, '');
-  set avatarThumbnailUrl(String v) {
-    $_setString(3, v);
-  }
-
-  bool hasAvatarThumbnailUrl() => $_has(3);
-  void clearAvatarThumbnailUrl() => clearField(4);
-
-  String get blurredAvatarThumbnailUrl => $_getS(4, '');
-  set blurredAvatarThumbnailUrl(String v) {
-    $_setString(4, v);
-  }
-
-  bool hasBlurredAvatarThumbnailUrl() => $_has(4);
-  void clearBlurredAvatarThumbnailUrl() => clearField(5);
-}
-
-class DataAccountDetail extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccountDetail',
-      package: const $pb.PackageName('inf_common'))
-    ..pp<DataSocialMedia>(3, 'socialMedia', $pb.PbFieldType.PM,
-        DataSocialMedia.$checkItem, DataSocialMedia.create)
-    ..a<double>(4, 'latitude', $pb.PbFieldType.OD)
-    ..a<double>(5, 'longitude', $pb.PbFieldType.OD)
-    ..aOS(6, 'website')
-    ..aOS(7, 'avatarCoverUrl')
-    ..aInt64(8, 'locationId')
-    ..aOS(9, 'email')
-    ..aOS(12, 'blurredAvatarCoverUrl')
-    ..p<int>(13, 'categories', $pb.PbFieldType.P3)
-    ..aOS(14, 'locationName')
-    ..aOS(15, 'location')
-    ..hasRequiredFields = false;
-
-  DataAccountDetail() : super();
-  DataAccountDetail.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  DataAccountDetail.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  DataAccountDetail clone() => new DataAccountDetail()..mergeFromMessage(this);
-  DataAccountDetail copyWith(void Function(DataAccountDetail) updates) =>
-      super.copyWith((message) => updates(message as DataAccountDetail));
-  $pb.BuilderInfo get info_ => _i;
-  static DataAccountDetail create() => new DataAccountDetail();
-  static $pb.PbList<DataAccountDetail> createRepeated() =>
-      new $pb.PbList<DataAccountDetail>();
-  static DataAccountDetail getDefault() =>
-      _defaultInstance ??= create()..freeze();
-  static DataAccountDetail _defaultInstance;
-  static void $checkItem(DataAccountDetail v) {
-    if (v is! DataAccountDetail)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
-
-  List<DataSocialMedia> get socialMedia => $_getList(0);
-
-  double get latitude => $_getN(1);
-  set latitude(double v) {
-    $_setDouble(1, v);
-  }
-
-  bool hasLatitude() => $_has(1);
-  void clearLatitude() => clearField(4);
-
-  double get longitude => $_getN(2);
-  set longitude(double v) {
-    $_setDouble(2, v);
-  }
-
-  bool hasLongitude() => $_has(2);
-  void clearLongitude() => clearField(5);
-
-  String get website => $_getS(3, '');
-  set website(String v) {
-    $_setString(3, v);
-  }
-
-  bool hasWebsite() => $_has(3);
-  void clearWebsite() => clearField(6);
-
-  String get avatarCoverUrl => $_getS(4, '');
-  set avatarCoverUrl(String v) {
-    $_setString(4, v);
-  }
-
-  bool hasAvatarCoverUrl() => $_has(4);
-  void clearAvatarCoverUrl() => clearField(7);
-
-  Int64 get locationId => $_getI64(5);
-  set locationId(Int64 v) {
-    $_setInt64(5, v);
-  }
-
-  bool hasLocationId() => $_has(5);
-  void clearLocationId() => clearField(8);
-
-  String get email => $_getS(6, '');
-  set email(String v) {
-    $_setString(6, v);
-  }
-
-  bool hasEmail() => $_has(6);
-  void clearEmail() => clearField(9);
-
-  String get blurredAvatarCoverUrl => $_getS(7, '');
-  set blurredAvatarCoverUrl(String v) {
-    $_setString(7, v);
-  }
-
-  bool hasBlurredAvatarCoverUrl() => $_has(7);
-  void clearBlurredAvatarCoverUrl() => clearField(12);
-
-  List<int> get categories => $_getList(8);
-
-  String get locationName => $_getS(9, '');
-  set locationName(String v) {
-    $_setString(9, v);
-  }
-
-  bool hasLocationName() => $_has(9);
-  void clearLocationName() => clearField(14);
-
-  String get location => $_getS(10, '');
-  set location(String v) {
-    $_setString(10, v);
-  }
-
-  bool hasLocation() => $_has(10);
-  void clearLocation() => clearField(15);
-}
-
-class DataAccount extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccount',
-      package: const $pb.PackageName('inf_common'))
-    ..a<DataAccountState>(1, 'state', $pb.PbFieldType.OM,
-        DataAccountState.getDefault, DataAccountState.create)
-    ..a<DataAccountSummary>(2, 'summary', $pb.PbFieldType.OM,
-        DataAccountSummary.getDefault, DataAccountSummary.create)
-    ..a<DataAccountDetail>(3, 'detail', $pb.PbFieldType.OM,
-        DataAccountDetail.getDefault, DataAccountDetail.create)
+    ..aOS(11, 'firebaseToken')
+    ..aOS(12, 'name')
+    ..aOS(13, 'description')
+    ..aOS(14, 'location')
+    ..aOS(15, 'avatarUrl')
+    ..aOS(16, 'blurredAvatarUrl')
+    ..p<int>(18, 'categories', $pb.PbFieldType.P3)
+    ..pp<DataAccount_SocialMediaEntry>(
+        19,
+        'socialMedia',
+        $pb.PbFieldType.PM,
+        DataAccount_SocialMediaEntry.$checkItem,
+        DataAccount_SocialMediaEntry.create)
+    ..pPS(20, 'coverUrls')
+    ..pPS(21, 'blurredCoverUrls')
+    ..p<List<int>>(22, 'blurredCovers', $pb.PbFieldType.PY)
+    ..aOS(23, 'website')
+    ..aOS(24, 'email')
+    ..aOS(26, 'locationName')
+    ..aOS(27, 'locationAddress')
+    ..a<double>(28, 'latitude', $pb.PbFieldType.OD)
+    ..a<double>(29, 'longitude', $pb.PbFieldType.OD)
+    ..aInt64(30, 'locationId')
     ..hasRequiredFields = false;
 
   DataAccount() : super();
@@ -1002,29 +816,175 @@ class DataAccount extends $pb.GeneratedMessage {
     if (v is! DataAccount) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  DataAccountState get state => $_getN(0);
-  set state(DataAccountState v) {
-    setField(1, v);
+  Int64 get sessionId => $_getI64(0);
+  set sessionId(Int64 v) {
+    $_setInt64(0, v);
   }
 
-  bool hasState() => $_has(0);
-  void clearState() => clearField(1);
+  bool hasSessionId() => $_has(0);
+  void clearSessionId() => clearField(4);
 
-  DataAccountSummary get summary => $_getN(1);
-  set summary(DataAccountSummary v) {
-    setField(2, v);
+  Int64 get accountId => $_getI64(1);
+  set accountId(Int64 v) {
+    $_setInt64(1, v);
   }
 
-  bool hasSummary() => $_has(1);
-  void clearSummary() => clearField(2);
+  bool hasAccountId() => $_has(1);
+  void clearAccountId() => clearField(5);
 
-  DataAccountDetail get detail => $_getN(2);
-  set detail(DataAccountDetail v) {
-    setField(3, v);
+  $0.AccountType get accountType => $_getN(2);
+  set accountType($0.AccountType v) {
+    setField(6, v);
   }
 
-  bool hasDetail() => $_has(2);
-  void clearDetail() => clearField(3);
+  bool hasAccountType() => $_has(2);
+  void clearAccountType() => clearField(6);
+
+  $0.GlobalAccountState get globalAccountState => $_getN(3);
+  set globalAccountState($0.GlobalAccountState v) {
+    setField(7, v);
+  }
+
+  bool hasGlobalAccountState() => $_has(3);
+  void clearGlobalAccountState() => clearField(7);
+
+  $0.GlobalAccountStateReason get globalAccountStateReason => $_getN(4);
+  set globalAccountStateReason($0.GlobalAccountStateReason v) {
+    setField(8, v);
+  }
+
+  bool hasGlobalAccountStateReason() => $_has(4);
+  void clearGlobalAccountStateReason() => clearField(8);
+
+  $0.AccountLevel get accountLevel => $_getN(5);
+  set accountLevel($0.AccountLevel v) {
+    setField(9, v);
+  }
+
+  bool hasAccountLevel() => $_has(5);
+  void clearAccountLevel() => clearField(9);
+
+  $0.NotificationFlags get notificationFlags => $_getN(6);
+  set notificationFlags($0.NotificationFlags v) {
+    setField(10, v);
+  }
+
+  bool hasNotificationFlags() => $_has(6);
+  void clearNotificationFlags() => clearField(10);
+
+  String get firebaseToken => $_getS(7, '');
+  set firebaseToken(String v) {
+    $_setString(7, v);
+  }
+
+  bool hasFirebaseToken() => $_has(7);
+  void clearFirebaseToken() => clearField(11);
+
+  String get name => $_getS(8, '');
+  set name(String v) {
+    $_setString(8, v);
+  }
+
+  bool hasName() => $_has(8);
+  void clearName() => clearField(12);
+
+  String get description => $_getS(9, '');
+  set description(String v) {
+    $_setString(9, v);
+  }
+
+  bool hasDescription() => $_has(9);
+  void clearDescription() => clearField(13);
+
+  String get location => $_getS(10, '');
+  set location(String v) {
+    $_setString(10, v);
+  }
+
+  bool hasLocation() => $_has(10);
+  void clearLocation() => clearField(14);
+
+  String get avatarUrl => $_getS(11, '');
+  set avatarUrl(String v) {
+    $_setString(11, v);
+  }
+
+  bool hasAvatarUrl() => $_has(11);
+  void clearAvatarUrl() => clearField(15);
+
+  String get blurredAvatarUrl => $_getS(12, '');
+  set blurredAvatarUrl(String v) {
+    $_setString(12, v);
+  }
+
+  bool hasBlurredAvatarUrl() => $_has(12);
+  void clearBlurredAvatarUrl() => clearField(16);
+
+  List<int> get categories => $_getList(13);
+
+  List<DataAccount_SocialMediaEntry> get socialMedia => $_getList(14);
+
+  List<String> get coverUrls => $_getList(15);
+
+  List<String> get blurredCoverUrls => $_getList(16);
+
+  List<List<int>> get blurredCovers => $_getList(17);
+
+  String get website => $_getS(18, '');
+  set website(String v) {
+    $_setString(18, v);
+  }
+
+  bool hasWebsite() => $_has(18);
+  void clearWebsite() => clearField(23);
+
+  String get email => $_getS(19, '');
+  set email(String v) {
+    $_setString(19, v);
+  }
+
+  bool hasEmail() => $_has(19);
+  void clearEmail() => clearField(24);
+
+  String get locationName => $_getS(20, '');
+  set locationName(String v) {
+    $_setString(20, v);
+  }
+
+  bool hasLocationName() => $_has(20);
+  void clearLocationName() => clearField(26);
+
+  String get locationAddress => $_getS(21, '');
+  set locationAddress(String v) {
+    $_setString(21, v);
+  }
+
+  bool hasLocationAddress() => $_has(21);
+  void clearLocationAddress() => clearField(27);
+
+  double get latitude => $_getN(22);
+  set latitude(double v) {
+    $_setDouble(22, v);
+  }
+
+  bool hasLatitude() => $_has(22);
+  void clearLatitude() => clearField(28);
+
+  double get longitude => $_getN(23);
+  set longitude(double v) {
+    $_setDouble(23, v);
+  }
+
+  bool hasLongitude() => $_has(23);
+  void clearLongitude() => clearField(29);
+
+  Int64 get locationId => $_getI64(24);
+  set locationId(Int64 v) {
+    $_setInt64(24, v);
+  }
+
+  bool hasLocationId() => $_has(24);
+  void clearLocationId() => clearField(30);
 }
 
 class DataProposal extends $pb.GeneratedMessage {

@@ -4,27 +4,6 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
-const NetGetAccountReq$json = const {
-  '1': 'NetGetAccountReq',
-  '2': const [
-    const {'1': 'accountId', '3': 1, '4': 1, '5': 3, '10': 'accountId'},
-  ],
-};
-
-const NetGetAccountRes$json = const {
-  '1': 'NetGetAccountRes',
-  '2': const [
-    const {
-      '1': 'account',
-      '3': 1,
-      '4': 1,
-      '5': 11,
-      '6': '.inf_common.DataAccount',
-      '10': 'account'
-    },
-  ],
-};
-
 const NetGetOfferReq$json = const {
   '1': 'NetGetOfferReq',
   '2': const [

@@ -111,6 +111,7 @@ const DataOffer$json = const {
     const {'1': 'location_id', '3': 3, '4': 1, '5': 3, '10': 'locationId'},
     const {'1': 'direct', '3': 32, '4': 1, '5': 8, '10': 'direct'},
     const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
+    const {'1': 'thumbnail_key', '3': 37, '4': 1, '5': 9, '10': 'thumbnailKey'},
     const {'1': 'thumbnail_url', '3': 6, '4': 1, '5': 9, '10': 'thumbnailUrl'},
     const {
       '1': 'thumbnail_blurred',
@@ -134,7 +135,21 @@ const DataOffer$json = const {
       '5': 5,
       '10': 'primaryCategories'
     },
-    const {'1': 'location_name', '3': 21, '4': 1, '5': 9, '10': 'locationName'},
+    const {'1': 'sender_name', '3': 21, '4': 1, '5': 9, '10': 'senderName'},
+    const {
+      '1': 'sender_avatar_url',
+      '3': 35,
+      '4': 1,
+      '5': 9,
+      '10': 'senderAvatarUrl'
+    },
+    const {
+      '1': 'sender_blurred_avatar',
+      '3': 36,
+      '4': 1,
+      '5': 12,
+      '10': 'senderBlurredAvatar'
+    },
     const {
       '1': 'location_address',
       '3': 9,
@@ -201,142 +216,124 @@ const DataLocation$json = const {
   ],
 };
 
-const DataAccountState$json = const {
-  '1': 'DataAccountState',
+const DataAccount$json = const {
+  '1': 'DataAccount',
   '2': const [
-    const {'1': 'sessionId', '3': 1, '4': 1, '5': 3, '10': 'sessionId'},
-    const {'1': 'accountId', '3': 2, '4': 1, '5': 3, '10': 'accountId'},
+    const {'1': 'session_id', '3': 4, '4': 1, '5': 3, '10': 'sessionId'},
+    const {'1': 'account_id', '3': 5, '4': 1, '5': 3, '10': 'accountId'},
     const {
-      '1': 'accountType',
-      '3': 3,
+      '1': 'account_type',
+      '3': 6,
       '4': 1,
       '5': 14,
       '6': '.inf_common.AccountType',
       '10': 'accountType'
     },
     const {
-      '1': 'globalAccountState',
-      '3': 4,
+      '1': 'global_account_state',
+      '3': 7,
       '4': 1,
       '5': 14,
       '6': '.inf_common.GlobalAccountState',
       '10': 'globalAccountState'
     },
     const {
-      '1': 'globalAccountStateReason',
-      '3': 5,
+      '1': 'global_account_state_reason',
+      '3': 8,
       '4': 1,
       '5': 14,
       '6': '.inf_common.GlobalAccountStateReason',
       '10': 'globalAccountStateReason'
     },
     const {
-      '1': 'accountLevel',
-      '3': 8,
+      '1': 'account_level',
+      '3': 9,
       '4': 1,
       '5': 14,
       '6': '.inf_common.AccountLevel',
       '10': 'accountLevel'
     },
     const {
-      '1': 'notificationFlags',
-      '3': 6,
+      '1': 'notification_flags',
+      '3': 10,
       '4': 1,
       '5': 14,
       '6': '.inf_common.NotificationFlags',
       '10': 'notificationFlags'
     },
-    const {'1': 'firebaseToken', '3': 7, '4': 1, '5': 9, '10': 'firebaseToken'},
-  ],
-};
-
-const DataAccountSummary$json = const {
-  '1': 'DataAccountSummary',
-  '2': const [
-    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'description', '3': 2, '4': 1, '5': 9, '10': 'description'},
-    const {'1': 'location', '3': 3, '4': 1, '5': 9, '10': 'location'},
     const {
-      '1': 'avatarThumbnailUrl',
-      '3': 4,
+      '1': 'firebase_token',
+      '3': 11,
       '4': 1,
       '5': 9,
-      '10': 'avatarThumbnailUrl'
+      '10': 'firebaseToken'
     },
+    const {'1': 'name', '3': 12, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'description', '3': 13, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'location', '3': 14, '4': 1, '5': 9, '10': 'location'},
+    const {'1': 'avatar_url', '3': 15, '4': 1, '5': 9, '10': 'avatarUrl'},
     const {
-      '1': 'blurredAvatarThumbnailUrl',
-      '3': 5,
+      '1': 'blurred_avatar_url',
+      '3': 16,
       '4': 1,
       '5': 9,
-      '10': 'blurredAvatarThumbnailUrl'
+      '10': 'blurredAvatarUrl'
     },
-  ],
-};
-
-const DataAccountDetail$json = const {
-  '1': 'DataAccountDetail',
-  '2': const [
-    const {'1': 'categories', '3': 13, '4': 3, '5': 5, '10': 'categories'},
+    const {'1': 'categories', '3': 18, '4': 3, '5': 5, '10': 'categories'},
     const {
-      '1': 'socialMedia',
-      '3': 3,
+      '1': 'social_media',
+      '3': 19,
       '4': 3,
       '5': 11,
-      '6': '.inf_common.DataSocialMedia',
+      '6': '.inf_common.DataAccount.SocialMediaEntry',
       '10': 'socialMedia'
     },
+    const {'1': 'cover_urls', '3': 20, '4': 3, '5': 9, '10': 'coverUrls'},
     const {
-      '1': 'avatarCoverUrl',
-      '3': 7,
-      '4': 1,
+      '1': 'blurred_cover_urls',
+      '3': 21,
+      '4': 3,
       '5': 9,
-      '10': 'avatarCoverUrl'
+      '10': 'blurredCoverUrls'
     },
     const {
-      '1': 'blurredAvatarCoverUrl',
-      '3': 12,
+      '1': 'blurred_covers',
+      '3': 22,
+      '4': 3,
+      '5': 12,
+      '10': 'blurredCovers'
+    },
+    const {'1': 'website', '3': 23, '4': 1, '5': 9, '10': 'website'},
+    const {'1': 'email', '3': 24, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'location_name', '3': 26, '4': 1, '5': 9, '10': 'locationName'},
+    const {
+      '1': 'location_address',
+      '3': 27,
       '4': 1,
       '5': 9,
-      '10': 'blurredAvatarCoverUrl'
+      '10': 'locationAddress'
     },
-    const {'1': 'website', '3': 6, '4': 1, '5': 9, '10': 'website'},
-    const {'1': 'email', '3': 9, '4': 1, '5': 9, '10': 'email'},
-    const {'1': 'locationName', '3': 14, '4': 1, '5': 9, '10': 'locationName'},
-    const {'1': 'location', '3': 15, '4': 1, '5': 9, '10': 'location'},
-    const {'1': 'latitude', '3': 4, '4': 1, '5': 1, '10': 'latitude'},
-    const {'1': 'longitude', '3': 5, '4': 1, '5': 1, '10': 'longitude'},
-    const {'1': 'locationId', '3': 8, '4': 1, '5': 3, '10': 'locationId'},
+    const {'1': 'latitude', '3': 28, '4': 1, '5': 1, '10': 'latitude'},
+    const {'1': 'longitude', '3': 29, '4': 1, '5': 1, '10': 'longitude'},
+    const {'1': 'location_id', '3': 30, '4': 1, '5': 3, '10': 'locationId'},
   ],
+  '3': const [DataAccount_SocialMediaEntry$json],
 };
 
-const DataAccount$json = const {
-  '1': 'DataAccount',
+const DataAccount_SocialMediaEntry$json = const {
+  '1': 'SocialMediaEntry',
   '2': const [
+    const {'1': 'key', '3': 1, '4': 1, '5': 5, '10': 'key'},
     const {
-      '1': 'state',
-      '3': 1,
-      '4': 1,
-      '5': 11,
-      '6': '.inf_common.DataAccountState',
-      '10': 'state'
-    },
-    const {
-      '1': 'summary',
+      '1': 'value',
       '3': 2,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataAccountSummary',
-      '10': 'summary'
-    },
-    const {
-      '1': 'detail',
-      '3': 3,
-      '4': 1,
-      '5': 11,
-      '6': '.inf_common.DataAccountDetail',
-      '10': 'detail'
+      '6': '.inf_common.DataSocialMedia',
+      '10': 'value'
     },
   ],
+  '7': const {'7': true},
 };
 
 const DataProposal$json = const {
