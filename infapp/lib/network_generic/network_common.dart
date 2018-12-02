@@ -492,12 +492,12 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   /////////////////////////////////////////////////////////////////////
 
   void _accountUpdate(TalkMessage message) async {
-    NetAccountUpdate pb = new NetAccountUpdate();
+    NetAccount pb = new NetAccount();
     pb.mergeFromBuffer(message.data);
     await receivedAccountUpdate(pb);
   }
 
-  Future<void> receivedAccountUpdate(NetAccountUpdate pb) async {
+  Future<void> receivedAccountUpdate(NetAccount pb) async {
     log.info("Account state update received.");
     log.fine("NetAccountUpdate: $pb");
     if (pb.account.accountId != account.accountId) {
@@ -603,7 +603,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
     TalkMessage res =
         await switchboard.sendRequest("api", "A_CREATE", pb.writeToBuffer());
-    NetAccountUpdate resPb = new NetAccountUpdate();
+    NetAccount resPb = new NetAccount();
     resPb.mergeFromBuffer(res.data);
     await receivedAccountUpdate(resPb);
     if (account.accountId == 0) {
