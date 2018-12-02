@@ -31,10 +31,10 @@ DataOffer
         (denormalized) integer reward_total_value
         text reward_item_or_service_description
         
-        (denormalized) short primary_categories
-        
-        text location_name
-        text location_text
+        text sender_name
+        keyword sender_avatar_url
+        binary sender_avatar_blurred
+        text location_address
         geo_point location
         
         text description
@@ -45,16 +45,24 @@ DataOffer
         date scheduled_close
         
         array short categories
-        (denormalized) array keyword category_keywords
-        (denormalized) array short categories_expanded
-        (denormalized) array keyword category_keywords_expanded (including parent categories)
+        (denormalized) array keyword category_keywords (deepest categories only)
+        (denormalized) array short primary_categories (root categories only)
+        (denormalized) array keyword primary_category_keywords
+        (denormalized) array short expanded_categories
+        (denormalized) array keyword expanded_category_keywords (including parent categories)
         
         short state
         short state_reason
         boolean archived
         (denormalized) boolean published (!direct && !archived && state == open)
         
-        (denormalized) array integer proposal_counters
+        (denormalized) integer proposals_proposing
+        (denormalized) integer proposals_negotiating
+        (denormalized) integer proposals_deal
+        (denormalized) integer proposals_rejected
+        (denormalized) integer proposals_dispute
+        (denormalized) integer proposals_resolved
+        (denormalized) integer proposals_complete
         
         (denormalized) array long s2cell_ids
         (denormalized) array long geohash_ints
@@ -147,14 +155,16 @@ PUT offers
           "type":  "text"
         },
         
-        "primary_categories": {
-          "type":  "short"
-        },
-        
-        "location_name": {
+        "sender_name": {
           "type":  "text"
         },
-        "location_text": {
+        "sender_avatar_url": {
+          "type":  "keyword"
+        },
+        "sender_avatar_blurred": {
+          "type":  "binary"
+        },
+        "location_address": {
           "type":  "text"
         },
         "location": {
@@ -180,6 +190,25 @@ PUT offers
           "format": "epoch_millis"
         },
         
+        "categories": {
+          "type":  "short"
+        },
+        "category_keywords": {
+          "type":  "keyword"
+        },
+        "primary_categories": {
+          "type":  "short"
+        },
+        "primary_category_keywords": {
+          "type":  "keyword"
+        },
+        "expanded_categories": {
+          "type":  "short"
+        },
+        "expanded_category_keywords": {
+          "type":  "keyword"
+        },
+        
         "state": {
           "type":  "short"
         },
@@ -193,7 +222,25 @@ PUT offers
           "type":  "boolean"
         },
         
-        "proposal_counters": {
+        "proposals_proposing": {
+          "type":  "integer"
+        },
+        "proposals_negotiating": {
+          "type":  "integer"
+        },
+        "proposals_deal": {
+          "type":  "integer"
+        },
+        "proposals_rejected": {
+          "type":  "integer"
+        },
+        "proposals_dispute": {
+          "type":  "integer"
+        },
+        "proposals_resolved": {
+          "type":  "integer"
+        },
+        "proposals_complete": {
           "type":  "integer"
         },
         
@@ -258,8 +305,7 @@ GET /offers/_search
         "location_text^2",
         "description^3",
         "*_description^2",
-        "*_keywords^2",
-        "*_expanded"
+        "*_keywords"
       ] 
     }
   }
@@ -285,8 +331,7 @@ GET /offers/_search
             "location_text^2",
             "description^3",
             "*_description^3",
-            "*_keywords^2",
-            "*_expanded"
+            "*_keywords",
           ]
         }
       }

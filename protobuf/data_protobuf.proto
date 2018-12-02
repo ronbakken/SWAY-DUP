@@ -93,7 +93,7 @@ message DataTerms {
   
 }
 
-message DataOffer { // 37
+message DataOffer { // 44
   int64 offer_id = 1; // (State) (Summary) (Detail)
   int64 sender_id = 2; // (State) (Summary) (Detail) Account id of the sender who published this offer
   int64 location_id = 3; // (State) (Detail) (Private)
@@ -113,7 +113,7 @@ message DataOffer { // 37
   // string location_name = 21; // (Denormalized) (Summary) (Detail) Location nickname or business name
   string sender_name = 21; // (Denormalized) (Summary) (Detail) Sender name
   string sender_avatar_url = 35; // (Denormalized) (Summary) (Detail) Sender avatar
-  bytes sender_blurred_avatar = 36; // (Denormalized) (Summary) (Detail) Sender avatar
+  bytes sender_avatar_blurred = 36; // (Denormalized) (Summary) (Detail) Sender avatar
   string location_address = 9; // (Denormalized) (Summary) (Detail)
   double latitude = 18; // (Denormalized) (Summary) (Detail)
   double longitude = 19; // (Denormalized) (Summary) (Detail)
@@ -134,14 +134,20 @@ message DataOffer { // 37
   bool archived = 26; // (State) (Detail)
   
   // Embedded info for sender
-  repeated int32 proposal_counters = 30; // (State) (Private)
-  // bool unseen_proposal = 31;
+  int32 proposals_proposing = 38; // (State) (Private)
+  int32 proposals_negotiating = 39; // (State) (Private)
+  int32 proposals_deal = 40; // (State) (Private)
+  int32 proposals_rejected = 41; // (State) (Private)
+  int32 proposals_dispute = 42; // (State) (Private)
+  int32 proposals_resolved = 43; // (State) (Private)
+  int32 proposals_complete = 44; // (State) (Private)
   
   // Embedded info for receiver
   /// Identifier of proposal that the public receiver sent already,
   /// allowing the user interface to link immediately to the proposal.
   int64 proposal_id = 22; // (Denormalized) (Private)
   // Elasticsearch structure has forward list of proposal ids embedded (map of userid -> proposalid)
+  // bool unseen_proposal = 31;
   
 }
 
