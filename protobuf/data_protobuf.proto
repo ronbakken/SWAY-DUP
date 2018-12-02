@@ -257,7 +257,7 @@ message DataAccount { // 30
   
   repeated string cover_urls = 21; // (Detail)
   repeated string blurred_cover_urls = 22; // (Detail)
-  repeated bytes blurred_covers = 23; // (Detail)
+  // repeated bytes blurred_covers = 23; // (Detail)
   
   string website = 24; // (Detail)
   string email = 25; // (Detail, Private)
