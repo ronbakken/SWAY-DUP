@@ -49,10 +49,10 @@ abstract class MultiAccountStore implements MultiAccountClient {
   LocalAccountData getAccount(String domain, Int64 accountId);
   LocalAccountData getLocal(String domain, int localId);
   void removeLocal(String domain, int localId);
-  void setSessionId(String domain, int localId, Int64 sessionId,
-      Uint8List sessionCookie);
-  void setAccountId(String domain, int localId, Int64 accountId,
-      AccountType accountType);
+  void setSessionId(
+      String domain, int localId, Int64 sessionId, Uint8List sessionCookie);
+  void setAccountId(
+      String domain, int localId, Int64 accountId, AccountType accountType);
   void setNameAvatar(String domain, int localId, String name,
       String blurredAvatarUrl, String avatarUrl);
   Uint8List getSessionCookie(String domain, int localId);

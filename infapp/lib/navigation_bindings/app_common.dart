@@ -262,8 +262,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
           selection.addAccount();
         },
         onSwitchAccount: (LocalAccountData localAccount) {
-          selection.switchAccount(
-              localAccount.domain, localAccount.accountId);
+          selection.switchAccount(localAccount.domain, localAccount.accountId);
         },
       );
     }));

@@ -98,7 +98,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
         "We'd like to expose the finest foods in our very busy restaurant to a wide audience.";
     sampleOffers[1].thumbnailUrl =
         "https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg";
-    sampleOffers[1].terms.rewardItemOrServiceDescription = "Free dinner + \$150";
+    sampleOffers[1].terms.rewardItemOrServiceDescription =
+        "Free dinner + \$150";
     sampleOffers[1].terms.deliverablesDescription =
         "Posts with photography across social media.";
     sampleOffers[1].locationAddress =
@@ -334,8 +335,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             },
           ),
           new FlatButton(
-            child:
-                new Row(children: [new Text("Switch server to 192.168.43.123")]),
+            child: new Row(
+                children: [new Text("Switch server to 192.168.43.123")]),
             onPressed: () {
               NetworkProvider.of(context)
                   .overrideUri("ws://192.168.167.2:8090/ep");
@@ -568,8 +569,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   context,
                   new ProfileView(
                     account: demoAccount,
-                    oauthProviders:
-                        ConfigProvider.of(context).oauthProviders,
+                    oauthProviders: ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),
@@ -622,8 +622,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   context,
                   new ProfileView(
                     account: demoAccount,
-                    oauthProviders:
-                        ConfigProvider.of(context).oauthProviders,
+                    oauthProviders: ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),
@@ -694,8 +693,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   context,
                   new ProfileView(
                     account: demoAccount,
-                    oauthProviders:
-                        ConfigProvider.of(context).oauthProviders,
+                    oauthProviders: ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),
@@ -739,8 +737,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   context,
                   new ProfileView(
                     account: demoAccount,
-                    oauthProviders:
-                        ConfigProvider.of(context).oauthProviders,
+                    oauthProviders: ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),

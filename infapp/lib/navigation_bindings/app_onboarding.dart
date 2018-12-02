@@ -60,8 +60,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
             onOAuthCallbackResult: (String callbackQuery) {
               return network.connectOAuth(oauthProvider, callbackQuery);
             },
-            whitelistHosts:
-                config.oauthProviders[oauthProvider].whitelistHosts,
+            whitelistHosts: config.oauthProviders[oauthProvider].whitelistHosts,
           );
         },
       ),
@@ -168,7 +167,8 @@ class _AppOnboardingState extends State<AppOnboarding> {
     ConfigData config = ConfigProvider.of(context);
     ApiClient network = NetworkProvider.of(context);
     assert(network != null);
-    return new WelcomePage( // OnboardingSelection(
+    return new WelcomePage(
+      // OnboardingSelection(
       onInfluencer: network.connected == NetworkConnectionState.ready
           ? () {
               network.setAccountType(AccountType.influencer);

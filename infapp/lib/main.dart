@@ -46,7 +46,8 @@ launchApp() async {
   ConfigData config = await loadConfig();
   // Override starting configuration endPoint
   // TODO: Remove this
-  config.services.endPoint = "ws://192.168.105.2:8090/ep"; // "ws://192.168.167.2:8090/ep";
+  config.services.endPoint =
+      "ws://192.168.105.2:8090/ep"; // "ws://192.168.167.2:8090/ep";
   // Load known local accounts from SharedPreferences
   MultiAccountStore multiAccountStore =
       await loadMultiAccountStore(config.services.domain);

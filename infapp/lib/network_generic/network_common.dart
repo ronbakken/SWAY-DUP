@@ -384,8 +384,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       String endPoint = _overrideEndPoint ?? _config.services.endPoint;
       String service = _config.services.service;
       final LocalAccountData localAccount = multiAccountStore.current;
-      bool matchingDomain =
-          _config.services.domain == localAccount.domain;
+      bool matchingDomain = _config.services.domain == localAccount.domain;
 
       if (endPoint == null || endPoint.length == 0 || !matchingDomain) {
         if (!_netConfigWarning) {
