@@ -730,7 +730,6 @@ class DataAccount extends $pb.GeneratedMessage {
         DataSocialMedia.$checkItem, DataSocialMedia.create)
     ..pPS(21, 'coverUrls')
     ..pPS(22, 'blurredCoverUrls')
-    ..p<List<int>>(23, 'blurredCovers', $pb.PbFieldType.PY)
     ..aOS(24, 'website')
     ..aOS(25, 'email')
     ..aOS(27, 'locationName')
@@ -872,62 +871,60 @@ class DataAccount extends $pb.GeneratedMessage {
 
   List<String> get blurredCoverUrls => $_getList(16);
 
-  List<List<int>> get blurredCovers => $_getList(17);
-
-  String get website => $_getS(18, '');
+  String get website => $_getS(17, '');
   set website(String v) {
+    $_setString(17, v);
+  }
+
+  bool hasWebsite() => $_has(17);
+  void clearWebsite() => clearField(24);
+
+  String get email => $_getS(18, '');
+  set email(String v) {
     $_setString(18, v);
   }
 
-  bool hasWebsite() => $_has(18);
-  void clearWebsite() => clearField(24);
+  bool hasEmail() => $_has(18);
+  void clearEmail() => clearField(25);
 
-  String get email => $_getS(19, '');
-  set email(String v) {
+  String get locationName => $_getS(19, '');
+  set locationName(String v) {
     $_setString(19, v);
   }
 
-  bool hasEmail() => $_has(19);
-  void clearEmail() => clearField(25);
+  bool hasLocationName() => $_has(19);
+  void clearLocationName() => clearField(27);
 
-  String get locationName => $_getS(20, '');
-  set locationName(String v) {
+  String get locationAddress => $_getS(20, '');
+  set locationAddress(String v) {
     $_setString(20, v);
   }
 
-  bool hasLocationName() => $_has(20);
-  void clearLocationName() => clearField(27);
-
-  String get locationAddress => $_getS(21, '');
-  set locationAddress(String v) {
-    $_setString(21, v);
-  }
-
-  bool hasLocationAddress() => $_has(21);
+  bool hasLocationAddress() => $_has(20);
   void clearLocationAddress() => clearField(28);
 
-  double get latitude => $_getN(22);
+  double get latitude => $_getN(21);
   set latitude(double v) {
+    $_setDouble(21, v);
+  }
+
+  bool hasLatitude() => $_has(21);
+  void clearLatitude() => clearField(29);
+
+  double get longitude => $_getN(22);
+  set longitude(double v) {
     $_setDouble(22, v);
   }
 
-  bool hasLatitude() => $_has(22);
-  void clearLatitude() => clearField(29);
-
-  double get longitude => $_getN(23);
-  set longitude(double v) {
-    $_setDouble(23, v);
-  }
-
-  bool hasLongitude() => $_has(23);
+  bool hasLongitude() => $_has(22);
   void clearLongitude() => clearField(30);
 
-  Int64 get locationId => $_getI64(24);
+  Int64 get locationId => $_getI64(23);
   set locationId(Int64 v) {
-    $_setInt64(24, v);
+    $_setInt64(23, v);
   }
 
-  bool hasLocationId() => $_has(24);
+  bool hasLocationId() => $_has(23);
   void clearLocationId() => clearField(31);
 }
 

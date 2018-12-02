@@ -296,13 +296,6 @@ const DataAccount$json = const {
       '5': 9,
       '10': 'blurredCoverUrls'
     },
-    const {
-      '1': 'blurred_covers',
-      '3': 23,
-      '4': 3,
-      '5': 12,
-      '10': 'blurredCovers'
-    },
     const {'1': 'website', '3': 24, '4': 1, '5': 9, '10': 'website'},
     const {'1': 'email', '3': 25, '4': 1, '5': 9, '10': 'email'},
     const {'1': 'location_name', '3': 27, '4': 1, '5': 9, '10': 'locationName'},
