@@ -15,11 +15,11 @@ import 'package:location/location.dart' as location;
 // User wrapper boilerplate
 User userFromAccount(DataAccount account) {
   return new User(
-    id: account.state.accountId,
-    name: account.summary.name,
-    description: account.summary.description,
+    id: account.accountId,
+    name: account.name,
+    description: account.description,
     avatarThumbnailLowRes: kTransparentImage,
-    avatarThumbnailUrl: account.summary.avatarThumbnailUrl,
+    avatarThumbnailUrl: account.avatarUrl,
     // etc
   );
 }
@@ -82,7 +82,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   void _commonChanged(void _) {
-    if (networkStreaming.api.account.state.accountId != 0) {
+    if (networkStreaming.api.account.accountId != 0) {
       _wantsAnonymous = false;
     }
     _authenticationResults.add(getCurrentAuthenticationState());
@@ -104,9 +104,9 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   AuthenticationResult getCurrentAuthenticationState() {
     DataAccount account = networkStreaming.api.account;
     AuthenticationState state = AuthenticationState.notLoggedIn;
-    if (account.state.sessionId == 0) {
+    if (account.sessionId == 0) {
       state = AuthenticationState.connecting;
-    } else if (account.state.accountId != 0) {
+    } else if (account.accountId != 0) {
       state = AuthenticationState.success;
     } else if (_wantsAnonymous) {
       state = AuthenticationState.anonymous;
@@ -134,7 +134,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> switchToUserAccount(LocalAccountData user) async {
     networkStreaming.multiAccount
-        .switchAccount(user.environment, user.accountId);
+        .switchAccount(user.domain, user.accountId);
     // State will immediately change to notLoggedIn, then attempt to connect
   }
 
@@ -148,7 +148,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       getAvailableSocialNetworkProviders() async {
     List<SocialNetworkProvider> result = <SocialNetworkProvider>[];
     List<ConfigOAuthProvider> oauthProviders =
-        networkStreaming.config.oauthProviders.all;
+        networkStreaming.config.oauthProviders;
     for (int providerId = 0; providerId < oauthProviders.length; ++providerId) {
       ConfigOAuthProvider oauthProvider = oauthProviders[providerId];
       if (oauthProvider.canConnect || oauthProvider.showInProfile) {
@@ -166,7 +166,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     networkStreaming.api.setAccountType(accountType);
     int providerId = socialNetwork.id;
     ConfigOAuthProvider oauthProvider =
-        networkStreaming.config.oauthProviders.all[providerId];
+        networkStreaming.config.oauthProviders[providerId];
     NetOAuthConnection connection = await oauthConnect(
       context,
       oauthProvider: oauthProvider,

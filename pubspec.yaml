@@ -33,7 +33,7 @@ dependencies:
   inf_common:
     git: 
       url: https://github.com/infmarketplace/inf_common
-      ref: 9ce443c65a3ecf5b0f133e5fa4d1d69989b04df0
+      ref: 4815cc7926e2b36e21aa628ae6d1affc7286ac02
   switchboard: ^2.0.5
   firebase_messaging: ^2.0.0
   flutter_local_notifications: ^0.4.2

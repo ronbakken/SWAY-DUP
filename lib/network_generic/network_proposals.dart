@@ -58,8 +58,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     cached.fallback = null;
     cached.proposal = proposal;
     cached.dirty = false;
-    if (proposal.businessAccountId == account.state.accountId ||
-        proposal.influencerAccountId == account.state.accountId) {
+    if (proposal.businessAccountId == account.accountId ||
+        proposal.influencerAccountId == account.accountId) {
       // Add received offer to known offers
       _proposals[proposal.proposalId] = proposal;
     }
@@ -70,34 +70,34 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
   @override
   void hintProposalOffer(DataOffer offer) {
     // For influencers that open an offer that they already applied to, accelerate some data on the proposal
-    if (offer.influencerProposalId != null && offer.influencerProposalId != 0) {
-      _CachedProposal cached = _cachedProposals[offer.influencerProposalId];
+    if (offer.proposalId != null && offer.proposalId != 0) {
+      _CachedProposal cached = _cachedProposals[offer.proposalId];
       if (cached == null) {
         cached = new _CachedProposal();
-        _cachedProposals[offer.influencerProposalId] = cached;
+        _cachedProposals[offer.proposalId] = cached;
       }
       if (cached.proposal == null) {
         if (cached.fallback == null ||
             cached.fallback.offerId != offer.offerId ||
             cached.fallback.offerTitle != offer.title ||
-            cached.fallback.businessName != offer.locationName ||
-            cached.fallback.businessAccountId != offer.accountId ||
-            cached.fallback.influencerAccountId != account.state.accountId) {
+            cached.fallback.businessName != offer.senderName ||
+            cached.fallback.businessAccountId != offer.senderId ||
+            cached.fallback.influencerAccountId != account.accountId) {
           if (cached.fallback == null) {
             cached.fallback = new DataProposal();
-            cached.fallback.proposalId = offer.influencerProposalId;
+            cached.fallback.proposalId = offer.proposalId;
           } else {
             cached.fallback = new DataProposal()
               ..mergeFromMessage(cached.fallback);
           }
           cached.fallback.offerId = offer.offerId;
           cached.fallback.offerTitle = offer.title;
-          cached.fallback.businessName = offer.locationName;
-          cached.fallback.businessAccountId = offer.accountId;
-          cached.fallback.influencerAccountId = account.state.accountId;
-          cached.fallback.influencerName = account.summary.name;
+          cached.fallback.businessName = offer.senderName;
+          cached.fallback.businessAccountId = offer.senderId;
+          cached.fallback.influencerAccountId = account.accountId;
+          cached.fallback.influencerName = account.name;
           cached.fallback.freeze();
-          onProposalChanged(ChangeAction.upsert, offer.influencerProposalId);
+          onProposalChanged(ChangeAction.upsert, offer.proposalId);
         }
       }
     }
@@ -109,7 +109,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
       cached = new _CachedProposal();
       _cachedProposals[chat.proposalId] = cached;
     }
-    if (chat.sessionId == account.state.sessionId) {
+    if (chat.sessionId == account.sessionId) {
       cached.ghostChats.remove(chat.sessionGhostId);
     }
     cached.chats[chat.chatId] = chat;
@@ -118,8 +118,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
 
   @override
   Future<void> refreshProposals() async {
-    NetLoadOffersReq req =
-        new NetLoadOffersReq(); // TODO: Specific requests for higher and lower refreshing
+    NetListOffers req = // TODO: Send the correct request
+        new NetListOffers(); // TODO: Specific requests for higher and lower refreshing
     // await for (TalkMessage res
     //     in channel.sendStreamRequest("L_APPLIS", req.writeToBuffer())) {
     StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(
@@ -238,7 +238,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
       }
       if (fallbackOffer != null) {
         cached.fallback.offerId = fallbackOffer.offerId;
-        cached.fallback.businessAccountId = fallbackOffer.accountId;
+        cached.fallback.businessAccountId = fallbackOffer.senderId;
       }
       return cached.fallback;
     }
@@ -401,9 +401,9 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     DataProposalChat ghostChat = new DataProposalChat();
     ghostChat.sent =
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-    ghostChat.senderId = account.state.accountId;
+    ghostChat.senderId = account.accountId;
     ghostChat.proposalId = proposalId;
-    ghostChat.sessionId = account.state.sessionId;
+    ghostChat.sessionId = account.sessionId;
     ghostChat.sessionGhostId = sessionGhostId;
     ghostChat.type = type;
     ghostChat.text = text;

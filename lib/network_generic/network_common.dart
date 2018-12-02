@@ -172,12 +172,12 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       _config = config;
       if (_config != null) {
         // Match array length
-        for (int i = account.detail.socialMedia.length;
-            i < _config.oauthProviders.all.length;
+        for (int i = account.socialMedia.length;
+            i < _config.oauthProviders.length;
             ++i) {
-          account.detail.socialMedia.add(new DataSocialMedia());
+          account.socialMedia.add(new DataSocialMedia());
         }
-        account.detail.socialMedia.length = _config.oauthProviders.all.length;
+        account.socialMedia.length = _config.oauthProviders.length;
       }
       if (_config != null) {
         _updatePayload(closeExisting: regionOrLanguageChanged);
@@ -192,7 +192,6 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   void cleanupStateSwitchingAccounts() {
-    _currentLocalAccount = null;
     resetProfilesState();
     resetOffersState();
     resetOffersBusinessState();
@@ -267,6 +266,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         channel.close();
         channel = null;
       }
+      _currentLocalAccount = null;
       resetSessionPayload();
       if (!_kickstartNetwork.isCompleted) _kickstartNetwork.complete();
     }
@@ -275,14 +275,18 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   Completer<void> _kickstartNetwork = new Completer<void>();
 
   void _updatePayload({bool closeExisting}) {
+    if (_currentLocalAccount == null) {
+      resetSessionPayload();
+      return;
+    }
     NetSessionPayload sessionPayload = new NetSessionPayload();
     if (_currentLocalAccount.sessionId != 0) {
       sessionPayload.sessionId = _currentLocalAccount.sessionId;
     }
     sessionPayload.cookie = multiAccountStore.getSessionCookie(
-        _currentLocalAccount.environment, _currentLocalAccount.localId);
+        _currentLocalAccount.domain, _currentLocalAccount.localId);
     sessionPayload.clientVersion = _config.clientVersion;
-    sessionPayload.environment = _config.services.environment;
+    sessionPayload.domain = _config.services.domain;
     sessionPayload.configTimestamp = _config.timestamp;
     sessionPayload.configRegion = _config.region;
     sessionPayload.configLanguage = _config.language;
@@ -351,7 +355,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       }
       log.info("Session ${session.sessionId}");
       // Store session id and cookie
-      multiAccountStore.setSessionId(_currentLocalAccount.environment,
+      multiAccountStore.setSessionId(_currentLocalAccount.domain,
           _currentLocalAccount.localId, session.sessionId, _lastPayloadCookie);
       _lastPayloadCookie = null;
       // Update payload for reconnection
@@ -370,8 +374,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       return;
     }
     multiAccountStore.removeLocal(
-        _currentLocalAccount.environment, _currentLocalAccount.localId);
-    multiAccountStore.addAccount(_config.services.environment);
+        _currentLocalAccount.domain, _currentLocalAccount.localId);
+    multiAccountStore.addAccount(_config.services.domain);
   }
 
   bool _netConfigWarning = false;
@@ -380,10 +384,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       String endPoint = _overrideEndPoint ?? _config.services.endPoint;
       String service = _config.services.service;
       final LocalAccountData localAccount = multiAccountStore.current;
-      bool matchingEnvironment =
-          _config.services.environment == localAccount.environment;
+      bool matchingDomain = _config.services.domain == localAccount.domain;
 
-      if (endPoint == null || endPoint.length == 0 || !matchingEnvironment) {
+      if (endPoint == null || endPoint.length == 0 || !matchingDomain) {
         if (!_netConfigWarning) {
           _netConfigWarning = true;
           log.warning("Incomplete network configuration, not connecting");
@@ -489,45 +492,45 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   /////////////////////////////////////////////////////////////////////
 
   void _accountUpdate(TalkMessage message) async {
-    NetAccountUpdate pb = new NetAccountUpdate();
+    NetAccount pb = new NetAccount();
     pb.mergeFromBuffer(message.data);
     await receivedAccountUpdate(pb);
   }
 
-  Future<void> receivedAccountUpdate(NetAccountUpdate pb) async {
+  Future<void> receivedAccountUpdate(NetAccount pb) async {
     log.info("Account state update received.");
     log.fine("NetAccountUpdate: $pb");
-    if (pb.account.state.accountId != account.state.accountId) {
+    if (pb.account.accountId != account.accountId) {
       // Any cache cleanup may be done here when switching accounts
       cleanupStateSwitchingAccounts();
     }
     account = pb.account;
-    for (int i = account.detail.socialMedia.length;
-        i < _config.oauthProviders.all.length;
+    for (int i = account.socialMedia.length;
+        i < _config.oauthProviders.length;
         ++i) {
-      account.detail.socialMedia.add(new DataSocialMedia());
+      account.socialMedia.add(new DataSocialMedia());
     }
-    account.detail.socialMedia.length = _config.oauthProviders.all.length;
+    account.socialMedia.length = _config.oauthProviders.length;
     connected = NetworkConnectionState.ready;
     onCommonChanged();
-    if (pb.account.state.accountId != 0) {
-      if (_currentLocalAccount.sessionId != pb.account.state.sessionId) {
+    if (pb.account.accountId != 0) {
+      if (_currentLocalAccount.sessionId != pb.account.sessionId) {
         log.severe(
             "Mismatching current session ID '${_currentLocalAccount.sessionId}' "
-            "and received session ID '${pb.account.state.sessionId}'");
+            "and received session ID '${pb.account.sessionId}'");
       } else {
         // Update local account store
         _multiAccountStore.setAccountId(
-            _currentLocalAccount.environment,
+            _currentLocalAccount.domain,
             _currentLocalAccount.localId,
-            account.state.accountId,
-            account.state.accountType);
+            account.accountId,
+            account.accountType);
         _multiAccountStore.setNameAvatar(
-            _currentLocalAccount.environment,
+            _currentLocalAccount.domain,
             _currentLocalAccount.localId,
-            account.summary.name,
-            account.summary.blurredAvatarThumbnailUrl,
-            account.summary.avatarThumbnailUrl);
+            account.name,
+            account.blurredAvatarUrl,
+            account.avatarUrl);
       }
       // Mark all caches as dirty, since we may have been offline for a while
       markProfilesDirty();
@@ -546,13 +549,13 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     pb.accountType = accountType;
     switchboard.sendMessage("api", "A_SETTYP", pb.writeToBuffer());
     // Cancel all social media logins on change, server update on this gets there later
-    if (account.state.accountType != accountType) {
-      for (int i = 0; i < account.detail.socialMedia.length; ++i) {
-        account.detail.socialMedia[i].connected = false;
+    if (account.accountType != accountType) {
+      for (int i = 0; i < account.socialMedia.length; ++i) {
+        account.socialMedia[i].connected = false;
       }
     }
     // Ghost state, the server doesn't send update for this
-    account.state.accountType = accountType;
+    account.accountType = accountType;
     onCommonChanged();
   }
 
@@ -569,7 +572,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   @override
-  Future<NetOAuthConnection> connectOAuth(int oauthProvider, String callbackQuery) async {
+  Future<NetOAuthConnection> connectOAuth(
+      int oauthProvider, String callbackQuery) async {
     NetOAuthConnect pb = new NetOAuthConnect();
     pb.oauthProvider = oauthProvider;
     pb.callbackQuery = callbackQuery;
@@ -578,9 +582,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     NetOAuthConnection resPb = new NetOAuthConnection();
     resPb.mergeFromBuffer(res.data);
     // Result contains the updated data, so needs to be put into the state
-    if (oauthProvider < account.detail.socialMedia.length &&
+    if (oauthProvider < account.socialMedia.length &&
         resPb.socialMedia != null) {
-      account.detail.socialMedia[oauthProvider] = resPb.socialMedia;
+      account.socialMedia[oauthProvider] = resPb.socialMedia;
       onCommonChanged();
     }
     // Return just whether connected or not
@@ -599,10 +603,10 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
     TalkMessage res =
         await switchboard.sendRequest("api", "A_CREATE", pb.writeToBuffer());
-    NetAccountUpdate resPb = new NetAccountUpdate();
+    NetAccount resPb = new NetAccount();
     resPb.mergeFromBuffer(res.data);
     await receivedAccountUpdate(resPb);
-    if (account.state.accountId == 0) {
+    if (account.accountId == 0) {
       throw new NetworkException("No account has been created");
     }
   }

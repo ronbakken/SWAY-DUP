@@ -95,7 +95,7 @@ Future<void> startApiClient(String configFile) async {
   ConfigData config = await loadConfig(configFile);
   // Load known local accounts from SharedPreferences
   MultiAccountStore multiAccountStore =
-      await loadMultiAccountStore(config.services.environment);
+      await loadMultiAccountStore(config.services.domain);
   _networkStreaming = new NetworkStreaming(
     multiAccountStore: multiAccountStore,
     startupConfig: config

@@ -33,29 +33,29 @@ abstract class MultiAccountStore implements MultiAccountClient {
   Stream<LocalAccountData> get onSwitchAccount;
 
   /// Switch to another account
-  void switchAccount(String environment, Int64 accountId);
+  void switchAccount(String domain, Int64 accountId);
 
   /// Add an account
-  void addAccount([String environment]);
+  void addAccount([String domain]);
 
   /// Remove account
-  void removeAccount([String environment, Int64 accountId]);
+  void removeAccount([String domain, Int64 accountId]);
 
   /// List of accounts known locally
   List<LocalAccountData> get accounts;
 
   LocalAccountData get current;
   Uint8List getDeviceToken();
-  LocalAccountData getAccount(String environment, Int64 accountId);
-  LocalAccountData getLocal(String environment, int localId);
-  void removeLocal(String environment, int localId);
-  void setSessionId(String environment, int localId, Int64 sessionId,
-      Uint8List sessionCookie);
-  void setAccountId(String environment, int localId, Int64 accountId,
-      AccountType accountType);
-  void setNameAvatar(String environment, int localId, String name,
+  LocalAccountData getAccount(String domain, Int64 accountId);
+  LocalAccountData getLocal(String domain, int localId);
+  void removeLocal(String domain, int localId);
+  void setSessionId(
+      String domain, int localId, Int64 sessionId, Uint8List sessionCookie);
+  void setAccountId(
+      String domain, int localId, Int64 accountId, AccountType accountType);
+  void setNameAvatar(String domain, int localId, String name,
       String blurredAvatarUrl, String avatarUrl);
-  Uint8List getSessionCookie(String environment, int localId);
+  Uint8List getSessionCookie(String domain, int localId);
   Future<void> initialize();
   Future<void> dispose();
 }

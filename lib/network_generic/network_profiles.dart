@@ -26,8 +26,8 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
 
   @override
   void cacheProfile(DataAccount profile) {
-    Int64 accountId = profile.state.accountId;
-    if (accountId == account.state.accountId) {
+    Int64 accountId = profile.accountId;
+    if (accountId == account.accountId) {
       // It's me...
       return;
     }
@@ -62,16 +62,13 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
   @override
   DataAccount emptyAccount([Int64 accountId = Int64.ZERO]) {
     DataAccount emptyAccount = new DataAccount();
-    emptyAccount.state = new DataAccountState();
-    emptyAccount.summary = new DataAccountSummary();
-    emptyAccount.detail = new DataAccountDetail();
-    emptyAccount.state.accountId = accountId;
+    emptyAccount.accountId = accountId;
     return emptyAccount;
   }
 
   @override
   void hintProfileOffer(DataOffer offer) {
-    Int64 accountId = offer.accountId;
+    Int64 accountId = offer.senderId;
     if (accountId == Int64.ZERO) {
       return;
     }
@@ -84,20 +81,20 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
     }
     if (cached.profile == null) {
       if (cached.fallback == null ||
-          !cached.fallback.summary.hasName() ||
-          !cached.fallback.summary.hasLocation() ||
-          !cached.fallback.detail.hasLocationId() ||
-          !cached.fallback.detail.hasLatitude() ||
-          !cached.fallback.detail.hasLongitude()) {
+          !cached.fallback.hasName() ||
+          !cached.fallback.hasLocation() ||
+          !cached.fallback.hasLocationId() ||
+          !cached.fallback.hasLatitude() ||
+          !cached.fallback.hasLongitude()) {
         DataAccount fallback = (cached.fallback == null)
             ? (emptyAccount(accountId))
             : (new DataAccount()..mergeFromMessage(cached.fallback));
-        fallback.state.accountType = AccountType.business;
-        fallback.summary.name = offer.locationName;
-        fallback.summary.location = offer.location;
-        fallback.detail.locationId = offer.locationId;
-        fallback.detail.latitude = offer.latitude;
-        fallback.detail.longitude = offer.longitude;
+        fallback.accountType = AccountType.business;
+        fallback.name = offer.senderName;
+        fallback.location = offer.locationAddress;
+        fallback.locationId = offer.locationId;
+        fallback.latitude = offer.latitude;
+        fallback.longitude = offer.longitude;
         fallback.freeze();
         cached.fallback = fallback;
         onProfileChanged(ChangeAction.retry, accountId);
@@ -115,7 +112,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
       }
     }
     log.info("Get public profile $accountId");
-    if (accountId == account.state.accountId) {
+    if (accountId == account.accountId) {
       // It's me...
       return account;
     }
@@ -127,21 +124,21 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
       // offline...
       return tryGetProfileDetail(accountId);
     }
-    NetGetAccountReq pbReq = new NetGetAccountReq();
+    NetGetProfile pbReq = new NetGetProfile();
     pbReq.accountId = accountId;
     TalkMessage message =
-        await channel.sendRequest("L_PROFIL", pbReq.writeToBuffer());
-    DataAccount profile = new DataAccount();
+        await channel.sendRequest("GETPROFL", pbReq.writeToBuffer());
+    NetProfile profile = new NetProfile();
     profile.mergeFromBuffer(message.data);
     profile.freeze();
-    if (profile.state.accountId == accountId) {
-      cacheProfile(profile);
+    if (profile.account.accountId == accountId) {
+      cacheProfile(profile.account);
     } else {
       log.severe("Received invalid profile. Critical issue");
       onProfileChanged(ChangeAction.retry, accountId);
       return emptyAccount(accountId)..freeze();
     }
-    return profile;
+    return profile.account;
   }
 
   @override
@@ -152,7 +149,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
 
   @override
   DataAccount tryGetProfileDetail(Int64 accountId) {
-    if (accountId == account.state.accountId) {
+    if (accountId == account.accountId) {
       // It's me...
       return account;
     }

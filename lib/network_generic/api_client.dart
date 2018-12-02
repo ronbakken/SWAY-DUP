@@ -72,7 +72,8 @@ abstract class ApiClient {
   Future<NetOAuthUrl> getOAuthUrls(int oauthProvider);
 
   /// Try to connect an OAuth provider with the received callback query
-  Future<NetOAuthConnection> connectOAuth(int oauthProvider, String callbackQuery);
+  Future<NetOAuthConnection> connectOAuth(
+      int oauthProvider, String callbackQuery);
 
   /// Create an account
   Future<void> createAccount(double latitude, double longitude);
@@ -93,7 +94,7 @@ abstract class ApiClient {
   /////////////////////////////////////////////////////////////////////////////
 
   /// Create an offer.
-  Future<DataOffer> createOffer(NetCreateOfferReq createOfferReq);
+  Future<DataOffer> createOffer(NetCreateOffer createOfferReq);
 
   /// Refresh all offers (currently latest offers)
   Future<void> refreshOffers();
