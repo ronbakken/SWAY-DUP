@@ -354,13 +354,19 @@ class DataOffer extends $pb.GeneratedMessage {
         27, 'terms', $pb.PbFieldType.OM, DataTerms.getDefault, DataTerms.create)
     ..a<List<int>>(28, 'thumbnailBlurred', $pb.PbFieldType.OY)
     ..p<List<int>>(29, 'coversBlurred', $pb.PbFieldType.PY)
-    ..p<int>(30, 'proposalCounters', $pb.PbFieldType.P3)
     ..aOB(32, 'direct')
     ..p<int>(33, 'primaryCategories', $pb.PbFieldType.P3)
     ..pPS(34, 'coverKeys')
     ..aOS(35, 'senderAvatarUrl')
-    ..a<List<int>>(36, 'senderBlurredAvatar', $pb.PbFieldType.OY)
+    ..a<List<int>>(36, 'senderAvatarBlurred', $pb.PbFieldType.OY)
     ..aOS(37, 'thumbnailKey')
+    ..a<int>(38, 'proposalsProposing', $pb.PbFieldType.O3)
+    ..a<int>(39, 'proposalsNegotiating', $pb.PbFieldType.O3)
+    ..a<int>(40, 'proposalsDeal', $pb.PbFieldType.O3)
+    ..a<int>(41, 'proposalsRejected', $pb.PbFieldType.O3)
+    ..a<int>(42, 'proposalsDispute', $pb.PbFieldType.O3)
+    ..a<int>(43, 'proposalsResolved', $pb.PbFieldType.O3)
+    ..a<int>(44, 'proposalsComplete', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataOffer() : super();
@@ -516,43 +522,97 @@ class DataOffer extends $pb.GeneratedMessage {
 
   List<List<int>> get coversBlurred => $_getList(18);
 
-  List<int> get proposalCounters => $_getList(19);
-
-  bool get direct => $_get(20, false);
+  bool get direct => $_get(19, false);
   set direct(bool v) {
-    $_setBool(20, v);
+    $_setBool(19, v);
   }
 
-  bool hasDirect() => $_has(20);
+  bool hasDirect() => $_has(19);
   void clearDirect() => clearField(32);
 
-  List<int> get primaryCategories => $_getList(21);
+  List<int> get primaryCategories => $_getList(20);
 
-  List<String> get coverKeys => $_getList(22);
+  List<String> get coverKeys => $_getList(21);
 
-  String get senderAvatarUrl => $_getS(23, '');
+  String get senderAvatarUrl => $_getS(22, '');
   set senderAvatarUrl(String v) {
-    $_setString(23, v);
+    $_setString(22, v);
   }
 
-  bool hasSenderAvatarUrl() => $_has(23);
+  bool hasSenderAvatarUrl() => $_has(22);
   void clearSenderAvatarUrl() => clearField(35);
 
-  List<int> get senderBlurredAvatar => $_getN(24);
-  set senderBlurredAvatar(List<int> v) {
-    $_setBytes(24, v);
+  List<int> get senderAvatarBlurred => $_getN(23);
+  set senderAvatarBlurred(List<int> v) {
+    $_setBytes(23, v);
   }
 
-  bool hasSenderBlurredAvatar() => $_has(24);
-  void clearSenderBlurredAvatar() => clearField(36);
+  bool hasSenderAvatarBlurred() => $_has(23);
+  void clearSenderAvatarBlurred() => clearField(36);
 
-  String get thumbnailKey => $_getS(25, '');
+  String get thumbnailKey => $_getS(24, '');
   set thumbnailKey(String v) {
-    $_setString(25, v);
+    $_setString(24, v);
   }
 
-  bool hasThumbnailKey() => $_has(25);
+  bool hasThumbnailKey() => $_has(24);
   void clearThumbnailKey() => clearField(37);
+
+  int get proposalsProposing => $_get(25, 0);
+  set proposalsProposing(int v) {
+    $_setSignedInt32(25, v);
+  }
+
+  bool hasProposalsProposing() => $_has(25);
+  void clearProposalsProposing() => clearField(38);
+
+  int get proposalsNegotiating => $_get(26, 0);
+  set proposalsNegotiating(int v) {
+    $_setSignedInt32(26, v);
+  }
+
+  bool hasProposalsNegotiating() => $_has(26);
+  void clearProposalsNegotiating() => clearField(39);
+
+  int get proposalsDeal => $_get(27, 0);
+  set proposalsDeal(int v) {
+    $_setSignedInt32(27, v);
+  }
+
+  bool hasProposalsDeal() => $_has(27);
+  void clearProposalsDeal() => clearField(40);
+
+  int get proposalsRejected => $_get(28, 0);
+  set proposalsRejected(int v) {
+    $_setSignedInt32(28, v);
+  }
+
+  bool hasProposalsRejected() => $_has(28);
+  void clearProposalsRejected() => clearField(41);
+
+  int get proposalsDispute => $_get(29, 0);
+  set proposalsDispute(int v) {
+    $_setSignedInt32(29, v);
+  }
+
+  bool hasProposalsDispute() => $_has(29);
+  void clearProposalsDispute() => clearField(42);
+
+  int get proposalsResolved => $_get(30, 0);
+  set proposalsResolved(int v) {
+    $_setSignedInt32(30, v);
+  }
+
+  bool hasProposalsResolved() => $_has(30);
+  void clearProposalsResolved() => clearField(43);
+
+  int get proposalsComplete => $_get(31, 0);
+  set proposalsComplete(int v) {
+    $_setSignedInt32(31, v);
+  }
+
+  bool hasProposalsComplete() => $_has(31);
+  void clearProposalsComplete() => clearField(44);
 }
 
 class DataLocation extends $pb.GeneratedMessage {

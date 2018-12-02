@@ -144,11 +144,11 @@ const DataOffer$json = const {
       '10': 'senderAvatarUrl'
     },
     const {
-      '1': 'sender_blurred_avatar',
+      '1': 'sender_avatar_blurred',
       '3': 36,
       '4': 1,
       '5': 12,
-      '10': 'senderBlurredAvatar'
+      '10': 'senderAvatarBlurred'
     },
     const {
       '1': 'location_address',
@@ -188,11 +188,53 @@ const DataOffer$json = const {
     },
     const {'1': 'archived', '3': 26, '4': 1, '5': 8, '10': 'archived'},
     const {
-      '1': 'proposal_counters',
-      '3': 30,
-      '4': 3,
+      '1': 'proposals_proposing',
+      '3': 38,
+      '4': 1,
       '5': 5,
-      '10': 'proposalCounters'
+      '10': 'proposalsProposing'
+    },
+    const {
+      '1': 'proposals_negotiating',
+      '3': 39,
+      '4': 1,
+      '5': 5,
+      '10': 'proposalsNegotiating'
+    },
+    const {
+      '1': 'proposals_deal',
+      '3': 40,
+      '4': 1,
+      '5': 5,
+      '10': 'proposalsDeal'
+    },
+    const {
+      '1': 'proposals_rejected',
+      '3': 41,
+      '4': 1,
+      '5': 5,
+      '10': 'proposalsRejected'
+    },
+    const {
+      '1': 'proposals_dispute',
+      '3': 42,
+      '4': 1,
+      '5': 5,
+      '10': 'proposalsDispute'
+    },
+    const {
+      '1': 'proposals_resolved',
+      '3': 43,
+      '4': 1,
+      '5': 5,
+      '10': 'proposalsResolved'
+    },
+    const {
+      '1': 'proposals_complete',
+      '3': 44,
+      '4': 1,
+      '5': 5,
+      '10': 'proposalsComplete'
     },
     const {'1': 'proposal_id', '3': 22, '4': 1, '5': 3, '10': 'proposalId'},
   ],
