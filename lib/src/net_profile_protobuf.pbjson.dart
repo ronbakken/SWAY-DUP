@@ -4,15 +4,23 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
-const NetProfileModify$json = const {
-  '1': 'NetProfileModify',
+const NetGetProfile$json = const {
+  '1': 'NetGetProfile',
   '2': const [
-    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'description', '3': 2, '4': 1, '5': 9, '10': 'description'},
-    const {'1': 'avatarKey', '3': 4, '4': 1, '5': 9, '10': 'avatarKey'},
-    const {'1': 'url', '3': 6, '4': 1, '5': 9, '10': 'url'},
-    const {'1': 'categories', '3': 16, '4': 1, '5': 12, '10': 'categories'},
-    const {'1': 'latitude', '3': 14, '4': 1, '5': 1, '10': 'latitude'},
-    const {'1': 'longitude', '3': 15, '4': 1, '5': 1, '10': 'longitude'},
+    const {'1': 'accountId', '3': 1, '4': 1, '5': 3, '10': 'accountId'},
+  ],
+};
+
+const NetProfile$json = const {
+  '1': 'NetProfile',
+  '2': const [
+    const {
+      '1': 'account',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataAccount',
+      '10': 'account'
+    },
   ],
 };

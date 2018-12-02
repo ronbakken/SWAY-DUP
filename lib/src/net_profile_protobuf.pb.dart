@@ -7,94 +7,78 @@
 // ignore: UNUSED_SHOWN_NAME
 import 'dart:core' show int, bool, double, String, List, override;
 
+import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class NetProfileModify extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProfileModify',
+import 'data_protobuf.pb.dart' as $1;
+
+class NetGetProfile extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProfile',
       package: const $pb.PackageName('inf_common'))
-    ..aOS(1, 'name')
-    ..aOS(2, 'description')
-    ..aOS(4, 'avatarKey')
-    ..aOS(6, 'url')
-    ..a<double>(14, 'latitude', $pb.PbFieldType.OD)
-    ..a<double>(15, 'longitude', $pb.PbFieldType.OD)
-    ..a<List<int>>(16, 'categories', $pb.PbFieldType.OY)
+    ..aInt64(1, 'accountId')
     ..hasRequiredFields = false;
 
-  NetProfileModify() : super();
-  NetProfileModify.fromBuffer(List<int> i,
+  NetGetProfile() : super();
+  NetGetProfile.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetProfileModify.fromJson(String i,
+  NetGetProfile.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetProfileModify clone() => new NetProfileModify()..mergeFromMessage(this);
-  NetProfileModify copyWith(void Function(NetProfileModify) updates) =>
-      super.copyWith((message) => updates(message as NetProfileModify));
+  NetGetProfile clone() => new NetGetProfile()..mergeFromMessage(this);
+  NetGetProfile copyWith(void Function(NetGetProfile) updates) =>
+      super.copyWith((message) => updates(message as NetGetProfile));
   $pb.BuilderInfo get info_ => _i;
-  static NetProfileModify create() => new NetProfileModify();
-  static $pb.PbList<NetProfileModify> createRepeated() =>
-      new $pb.PbList<NetProfileModify>();
-  static NetProfileModify getDefault() =>
-      _defaultInstance ??= create()..freeze();
-  static NetProfileModify _defaultInstance;
-  static void $checkItem(NetProfileModify v) {
-    if (v is! NetProfileModify) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static NetGetProfile create() => new NetGetProfile();
+  static $pb.PbList<NetGetProfile> createRepeated() =>
+      new $pb.PbList<NetGetProfile>();
+  static NetGetProfile getDefault() => _defaultInstance ??= create()..freeze();
+  static NetGetProfile _defaultInstance;
+  static void $checkItem(NetGetProfile v) {
+    if (v is! NetGetProfile) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  String get name => $_getS(0, '');
-  set name(String v) {
-    $_setString(0, v);
+  Int64 get accountId => $_getI64(0);
+  set accountId(Int64 v) {
+    $_setInt64(0, v);
   }
 
-  bool hasName() => $_has(0);
-  void clearName() => clearField(1);
+  bool hasAccountId() => $_has(0);
+  void clearAccountId() => clearField(1);
+}
 
-  String get description => $_getS(1, '');
-  set description(String v) {
-    $_setString(1, v);
+class NetProfile extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProfile',
+      package: const $pb.PackageName('inf_common'))
+    ..a<$1.DataAccount>(1, 'account', $pb.PbFieldType.OM,
+        $1.DataAccount.getDefault, $1.DataAccount.create)
+    ..hasRequiredFields = false;
+
+  NetProfile() : super();
+  NetProfile.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetProfile.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetProfile clone() => new NetProfile()..mergeFromMessage(this);
+  NetProfile copyWith(void Function(NetProfile) updates) =>
+      super.copyWith((message) => updates(message as NetProfile));
+  $pb.BuilderInfo get info_ => _i;
+  static NetProfile create() => new NetProfile();
+  static $pb.PbList<NetProfile> createRepeated() =>
+      new $pb.PbList<NetProfile>();
+  static NetProfile getDefault() => _defaultInstance ??= create()..freeze();
+  static NetProfile _defaultInstance;
+  static void $checkItem(NetProfile v) {
+    if (v is! NetProfile) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  bool hasDescription() => $_has(1);
-  void clearDescription() => clearField(2);
-
-  String get avatarKey => $_getS(2, '');
-  set avatarKey(String v) {
-    $_setString(2, v);
+  $1.DataAccount get account => $_getN(0);
+  set account($1.DataAccount v) {
+    setField(1, v);
   }
 
-  bool hasAvatarKey() => $_has(2);
-  void clearAvatarKey() => clearField(4);
-
-  String get url => $_getS(3, '');
-  set url(String v) {
-    $_setString(3, v);
-  }
-
-  bool hasUrl() => $_has(3);
-  void clearUrl() => clearField(6);
-
-  double get latitude => $_getN(4);
-  set latitude(double v) {
-    $_setDouble(4, v);
-  }
-
-  bool hasLatitude() => $_has(4);
-  void clearLatitude() => clearField(14);
-
-  double get longitude => $_getN(5);
-  set longitude(double v) {
-    $_setDouble(5, v);
-  }
-
-  bool hasLongitude() => $_has(5);
-  void clearLongitude() => clearField(15);
-
-  List<int> get categories => $_getN(6);
-  set categories(List<int> v) {
-    $_setBytes(6, v);
-  }
-
-  bool hasCategories() => $_has(6);
-  void clearCategories() => clearField(16);
+  bool hasAccount() => $_has(0);
+  void clearAccount() => clearField(1);
 }

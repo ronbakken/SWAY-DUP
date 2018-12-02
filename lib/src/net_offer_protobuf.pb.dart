@@ -12,51 +12,6 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'data_protobuf.pb.dart' as $1;
 
-class NetCreateOffer extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetCreateOffer',
-      package: const $pb.PackageName('inf_common'))
-    ..a<$1.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $1.DataOffer.getDefault,
-        $1.DataOffer.create)
-    ..a<int>(2, 'sessionGhostId', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false;
-
-  NetCreateOffer() : super();
-  NetCreateOffer.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetCreateOffer.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetCreateOffer clone() => new NetCreateOffer()..mergeFromMessage(this);
-  NetCreateOffer copyWith(void Function(NetCreateOffer) updates) =>
-      super.copyWith((message) => updates(message as NetCreateOffer));
-  $pb.BuilderInfo get info_ => _i;
-  static NetCreateOffer create() => new NetCreateOffer();
-  static $pb.PbList<NetCreateOffer> createRepeated() =>
-      new $pb.PbList<NetCreateOffer>();
-  static NetCreateOffer getDefault() => _defaultInstance ??= create()..freeze();
-  static NetCreateOffer _defaultInstance;
-  static void $checkItem(NetCreateOffer v) {
-    if (v is! NetCreateOffer) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
-
-  $1.DataOffer get offer => $_getN(0);
-  set offer($1.DataOffer v) {
-    setField(1, v);
-  }
-
-  bool hasOffer() => $_has(0);
-  void clearOffer() => clearField(1);
-
-  int get sessionGhostId => $_get(1, 0);
-  set sessionGhostId(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasSessionGhostId() => $_has(1);
-  void clearSessionGhostId() => clearField(2);
-}
-
 class NetOffer extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOffer',
       package: const $pb.PackageName('inf_common'))
@@ -119,29 +74,74 @@ class NetOffer extends $pb.GeneratedMessage {
   void clearDetail() => clearField(4);
 }
 
-class NetLoadOffers extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetLoadOffers',
+class NetCreateOffer extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetCreateOffer',
+      package: const $pb.PackageName('inf_common'))
+    ..a<$1.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $1.DataOffer.getDefault,
+        $1.DataOffer.create)
+    ..a<int>(2, 'sessionGhostId', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  NetCreateOffer() : super();
+  NetCreateOffer.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetCreateOffer.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetCreateOffer clone() => new NetCreateOffer()..mergeFromMessage(this);
+  NetCreateOffer copyWith(void Function(NetCreateOffer) updates) =>
+      super.copyWith((message) => updates(message as NetCreateOffer));
+  $pb.BuilderInfo get info_ => _i;
+  static NetCreateOffer create() => new NetCreateOffer();
+  static $pb.PbList<NetCreateOffer> createRepeated() =>
+      new $pb.PbList<NetCreateOffer>();
+  static NetCreateOffer getDefault() => _defaultInstance ??= create()..freeze();
+  static NetCreateOffer _defaultInstance;
+  static void $checkItem(NetCreateOffer v) {
+    if (v is! NetCreateOffer) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  $1.DataOffer get offer => $_getN(0);
+  set offer($1.DataOffer v) {
+    setField(1, v);
+  }
+
+  bool hasOffer() => $_has(0);
+  void clearOffer() => clearField(1);
+
+  int get sessionGhostId => $_get(1, 0);
+  set sessionGhostId(int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  bool hasSessionGhostId() => $_has(1);
+  void clearSessionGhostId() => clearField(2);
+}
+
+class NetListOffers extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetListOffers',
       package: const $pb.PackageName('inf_common'))
     ..hasRequiredFields = false;
 
-  NetLoadOffers() : super();
-  NetLoadOffers.fromBuffer(List<int> i,
+  NetListOffers() : super();
+  NetListOffers.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetLoadOffers.fromJson(String i,
+  NetListOffers.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetLoadOffers clone() => new NetLoadOffers()..mergeFromMessage(this);
-  NetLoadOffers copyWith(void Function(NetLoadOffers) updates) =>
-      super.copyWith((message) => updates(message as NetLoadOffers));
+  NetListOffers clone() => new NetListOffers()..mergeFromMessage(this);
+  NetListOffers copyWith(void Function(NetListOffers) updates) =>
+      super.copyWith((message) => updates(message as NetListOffers));
   $pb.BuilderInfo get info_ => _i;
-  static NetLoadOffers create() => new NetLoadOffers();
-  static $pb.PbList<NetLoadOffers> createRepeated() =>
-      new $pb.PbList<NetLoadOffers>();
-  static NetLoadOffers getDefault() => _defaultInstance ??= create()..freeze();
-  static NetLoadOffers _defaultInstance;
-  static void $checkItem(NetLoadOffers v) {
-    if (v is! NetLoadOffers) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static NetListOffers create() => new NetListOffers();
+  static $pb.PbList<NetListOffers> createRepeated() =>
+      new $pb.PbList<NetListOffers>();
+  static NetListOffers getDefault() => _defaultInstance ??= create()..freeze();
+  static NetListOffers _defaultInstance;
+  static void $checkItem(NetListOffers v) {
+    if (v is! NetListOffers) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 }
 
