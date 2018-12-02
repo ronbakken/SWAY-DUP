@@ -513,17 +513,17 @@ class ApiChannel {
   }
 
   /// May only be called from synchronized block.
-  void sendAccountUpdate({TalkMessage replying}) async {
+  void sendAccountUpdate({TalkMessage replying, String procedureId = 'ACCOUNTU'}) async {
     if (!_connected) {
       return;
     }
-    NetAccountUpdate update = new NetAccountUpdate();
+    NetAccount update = new NetAccount();
     update.account = account;
     devLog.finer("Send account update: $account");
     if (replying != null)
-      channel.replyMessage(replying, "ACCOUNTU", update.writeToBuffer());
+      channel.replyMessage(replying, procedureId, update.writeToBuffer());
     else
-      channel.sendMessage("ACCOUNTU", update.writeToBuffer());
+      channel.sendMessage(procedureId, update.writeToBuffer());
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -1229,7 +1229,7 @@ class ApiChannel {
     // Send authentication state
     await lock.synchronized(() async {
       // Send all state to user
-      await sendAccountUpdate(replying: message);
+      await sendAccountUpdate(replying: message, procedureId: 'A_R_CREA');
     });
     if (account.accountId == 0) {
       devLog.severe(
