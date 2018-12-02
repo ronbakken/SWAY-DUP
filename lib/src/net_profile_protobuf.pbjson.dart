@@ -22,5 +22,7 @@ const NetProfile$json = const {
       '6': '.inf_common.DataAccount',
       '10': 'account'
     },
+    const {'1': 'summary', '3': 3, '4': 1, '5': 8, '10': 'summary'},
+    const {'1': 'detail', '3': 4, '4': 1, '5': 8, '10': 'detail'},
   ],
 };

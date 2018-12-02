@@ -52,6 +52,8 @@ class NetProfile extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..a<$1.DataAccount>(1, 'account', $pb.PbFieldType.OM,
         $1.DataAccount.getDefault, $1.DataAccount.create)
+    ..aOB(3, 'summary')
+    ..aOB(4, 'detail')
     ..hasRequiredFields = false;
 
   NetProfile() : super();
@@ -81,4 +83,20 @@ class NetProfile extends $pb.GeneratedMessage {
 
   bool hasAccount() => $_has(0);
   void clearAccount() => clearField(1);
+
+  bool get summary => $_get(1, false);
+  set summary(bool v) {
+    $_setBool(1, v);
+  }
+
+  bool hasSummary() => $_has(1);
+  void clearSummary() => clearField(3);
+
+  bool get detail => $_get(2, false);
+  set detail(bool v) {
+    $_setBool(2, v);
+  }
+
+  bool hasDetail() => $_has(2);
+  void clearDetail() => clearField(4);
 }
