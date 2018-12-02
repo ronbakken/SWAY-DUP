@@ -23,6 +23,9 @@ message NetGetProfile {
 message NetProfile {
   DataAccount account = 1;
   
+  bool summary = 3;
+  bool detail = 4;
+  
 }
 
 /* end of file */
