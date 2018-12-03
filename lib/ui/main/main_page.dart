@@ -43,7 +43,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
   Animation<double> _browseAnim;
   Animation<double> _activitiesAnim;
 
-  MainPageMode _mode = MainPageMode.browse;
+  MainPageMode _mode = MainPageMode.activities;
   bool _menuVisible = false;
 
   TabController _tabController;
@@ -57,9 +57,17 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
     _drawerAnim = Tween(begin: 0.0, end: 1.0).animate(_drawerController);
     _drawerSlideAnim = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero).animate(_drawerController);
     _sectionController = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
-    // TODO: Add curves
-    _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
-    _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
+
+    if (widget.userType == AccountType.influencer) {
+      // TODO: Add curves
+      _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
+      _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
+      _mode = MainPageMode.browse;
+    } else {
+      _activitiesAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
+      _browseAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
+      _mode = MainPageMode.activities;
+    }
 
     _tabController = TabController(length: 4, vsync: this);
   }
@@ -89,7 +97,6 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
           RepaintBoundary(
             child: Stack(
               children: [
-
                 /// BrowseSection
                 IgnorePointer(
                   ignoring: _mode != MainPageMode.browse,
@@ -112,6 +119,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                   ),
                 ),
                 MainBottomNav(
+                  userType: widget.userType,
                   height: kBottomNavHeight,
                   initialValue: _mode,
                   onBottomNavChanged: (MainPageMode value) {
@@ -123,8 +131,17 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
 
                     setState(() => _mode = value);
                   },
-                  onSearchPressed: () {
-                    // TODO:
+                  onFABPressed: () {
+                    if (widget.userType == AccountType.influencer) {
+                      // TODO SEARCH
+                    } else {
+                      if (_mode == MainPageMode.activities) {
+                        Navigator.of(context).push(AddBusinessOfferPage.route(widget.userType));
+                      } else {
+                        // TODO SEARCH
+
+                      }
+                    }
                   },
                 ),
 
@@ -205,65 +222,54 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
             ),
           ),
 
-          Positioned(
-            bottom: 300.0,
-            right: 20.0,
-            child: FloatingActionButton(
-              onPressed: () { Navigator.of(context).push(AddBusinessOfferPage.route(widget.userType));},
-              backgroundColor: AppTheme.lightBlue,
-              mini: false,
-              child: Icon(Icons.add, color: Colors.white,),
-            ),
-          ),
-
-          /// Main Menu Drawer
-          IgnorePointer(
-            ignoring: _menuVisible,
-            child: AnimatedBuilder(
-              animation: _drawerAnim,
-              builder: (BuildContext context, Widget navigationDrawer) {
-                final value = _drawerAnim.value;
-                final blur = 12.0 * value;
-                return BackdropFilter(
-                  filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.6 * value),
-                    ),
-                    child: navigationDrawer,
-                  ),
-                );
-              },
-              child: RepaintBoundary(
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: SlideTransition(
-                    position: _drawerSlideAnim,
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints.tightFor(
-                        width: menuWidth,
-                      ),
-                      child: MainNavigationDrawer(),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          PositionedTransition(
-            rect: _menuIconAnim,
-            child: _MainMenuIcon(
-              animation: _drawerAnim,
-              onPressed: () {
-                _menuVisible = !_menuVisible;
-                if (_menuVisible) {
-                  _drawerController.forward();
-                } else {
-                  _drawerController.reverse();
-                }
-              },
-            ),
-          ),
+          // /// Main Menu Drawer
+          // IgnorePointer(
+          //   ignoring: _menuVisible,
+          //   child: AnimatedBuilder(
+          //     animation: _drawerAnim,
+          //     builder: (BuildContext context, Widget navigationDrawer) {
+          //       final value = _drawerAnim.value;
+          //       final blur = 12.0 * value;
+          //       return BackdropFilter(
+          //         filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+          //         child: DecoratedBox(
+          //           decoration: BoxDecoration(
+          //             color: Colors.black.withOpacity(0.6 * value),
+          //           ),
+          //           child: navigationDrawer,
+          //         ),
+          //       );
+          //     },
+          //     child: RepaintBoundary(
+          //       child: Align(
+          //         alignment: Alignment.topLeft,
+          //         child: SlideTransition(
+          //           position: _drawerSlideAnim,
+          //           child: ConstrainedBox(
+          //             constraints: BoxConstraints.tightFor(
+          //               width: menuWidth,
+          //             ),
+          //             child: MainNavigationDrawer(),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // PositionedTransition(
+          //   rect: _menuIconAnim,
+          //   child: _MainMenuIcon(
+          //     animation: _drawerAnim,
+          //     onPressed: () {
+          //       _menuVisible = !_menuVisible;
+          //       if (_menuVisible) {
+          //         _drawerController.forward();
+          //       } else {
+          //         _drawerController.reverse();
+          //       }
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

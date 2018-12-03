@@ -115,7 +115,7 @@ class SignUpPageState extends PageState<SignUpPage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 32.0, vertical: 16.0),
-                            child: new _DynamicSocialNetworkButtons(
+                            child: _DynamicSocialNetworkButtons(
                                 userType: widget.userType),
                           ),
                           Spacer(),
@@ -191,10 +191,10 @@ class SignUpPageState extends PageState<SignUpPage> {
                         onTap: () async {
                           await backend
                               .get<AuthenticationService>()
-                              .loginAnonymous(AccountType.influencer);
+                              .loginAnonymous(widget.userType);
                           final nav = Navigator.of(context)..pop();
                           unawaited(
-                              nav.push(MainPage.route(AccountType.influencer)));
+                              nav.push(MainPage.route(widget.userType)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -291,7 +291,7 @@ class _DynamicSocialNetworkButtons extends StatelessWidget {
               leading: InfAssetImage(AppLogo.email),
               text: 'EMAIL',
               onPressed: () {
-                // FIXME: implement email login
+                // TODO: implement email login
               },
             ),
           ]);

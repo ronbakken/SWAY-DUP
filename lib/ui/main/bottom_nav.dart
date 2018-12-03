@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/page_mode.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
@@ -9,17 +10,19 @@ import 'package:inf/ui/widgets/notification_marker.dart';
 class MainBottomNav extends StatefulWidget {
   const MainBottomNav({
     Key key,
+    @required this.userType,
     @required this.initialValue,
     @required this.height,
     @required this.onBottomNavChanged,
-    this.onSearchPressed,
+    this.onFABPressed,
   })  : assert(height != null),
         super(key: key);
 
   final MainPageMode initialValue;
   final double height;
   final ValueChanged<MainPageMode> onBottomNavChanged;
-  final VoidCallback onSearchPressed;
+  final VoidCallback onFABPressed;
+  final AccountType userType;
 
   @override
   _MainBottomNavState createState() => _MainBottomNavState();
@@ -44,6 +47,45 @@ class _MainBottomNavState extends State<MainBottomNav> {
     final mediaQuery = MediaQuery.of(context);
     final buttonSize = widget.height * 0.85;
     final topInset = widget.height * 0.25;
+
+    final browseButton = Expanded(
+      child: _BottomNavButton(
+        selected: _selected,
+        mode: MainPageMode.browse,
+        onPressed: _onBottomNavButton,
+      ),
+    );
+
+    final activitiesButton = Expanded(
+        child: StreamBuilder<int>(
+      initialData: 0,
+      stream: backend.get<OfferManager>().newOfferMessages,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        var notificationCount = snapshot.hasData ? snapshot.data : 0;
+        return _BottomNavButton(
+          selected: _selected,
+          mode: MainPageMode.activities,
+          onPressed: _onBottomNavButton,
+          notificationCount: notificationCount,
+        );
+      },
+    ));
+
+    final buttons = <Widget>[];
+    Widget fabIcon;
+
+    if (widget.userType == AccountType.influencer) {
+      buttons.addAll([browseButton, activitiesButton]);
+      fabIcon = Icon(Icons.search);
+    } else {
+      buttons.addAll([activitiesButton, browseButton]);
+      if (_selected == MainPageMode.activities) {
+        fabIcon = Icon(Icons.add);
+      } else {
+        fabIcon = Icon(Icons.search);
+      }
+    }
+
     return Align(
       alignment: Alignment.bottomCenter,
       child: Stack(
@@ -65,31 +107,7 @@ class _MainBottomNavState extends State<MainBottomNav> {
                   margin: EdgeInsets.only(bottom: mediaQuery.padding.bottom),
                   height: widget.height,
                   child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: _BottomNavButton(
-                          selected: _selected,
-                          mode: MainPageMode.browse,
-                          onPressed: _onBottomNavButton,
-                        ),
-                      ),
-                      Expanded(
-                          child: StreamBuilder<int>(
-                        initialData: 0,
-                        stream: backend.get<OfferManager>().newOfferMessages,
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          var notificationCount =
-                              snapshot.hasData ? snapshot.data : 0;
-                          return _BottomNavButton(
-                            selected: _selected,
-                            mode: MainPageMode.activities,
-                            onPressed: _onBottomNavButton,
-                            notificationCount: notificationCount,
-                          );
-                        },
-                      )),
-                    ],
+                    children: buttons,
                   ),
                 ),
               ),
@@ -104,13 +122,8 @@ class _MainBottomNavState extends State<MainBottomNav> {
               width: buttonSize,
               height: buttonSize,
             ),
-            onPressed: widget.onSearchPressed,
-            child: InfAssetImage(
-              AppLogo.infLogo,
-              width: 24.0,
-              height: 24.0,
-              color: Colors.white,
-            ),
+            onPressed: widget.onFABPressed,
+            child: fabIcon
           ),
         ],
       ),
@@ -159,8 +172,7 @@ class _BottomNavBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.drawPath(_createBottomNavPath(true, inset, size, radius), fillPaint);
-    canvas.drawPath(
-        _createBottomNavPath(false, inset, size, radius), strokePaint);
+    canvas.drawPath(_createBottomNavPath(false, inset, size, radius), strokePaint);
   }
 
   @override
@@ -208,16 +220,14 @@ class _BottomNavButton extends StatefulWidget {
   _BottomNavButtonState createState() => _BottomNavButtonState();
 }
 
-class _BottomNavButtonState extends State<_BottomNavButton>
-    with SingleTickerProviderStateMixin {
+class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<double> _scaleAnim;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        duration: const Duration(milliseconds: 350), vsync: this);
+    _controller = AnimationController(duration: const Duration(milliseconds: 350), vsync: this);
     _scaleAnim = Tween<double>(begin: 1.0, end: 1.2).animate(_controller);
     _animate();
   }
@@ -254,8 +264,7 @@ class _BottomNavButtonState extends State<_BottomNavButton>
           opacity: _controller,
           child: Transform(
             alignment: Alignment.center,
-            transform: Matrix4.translationValues(0.0, -8.0, 0.0) *
-                Matrix4.diagonal3Values(1.5, 1.5, 1.0),
+            transform: Matrix4.translationValues(0.0, -8.0, 0.0) * Matrix4.diagonal3Values(1.5, 1.5, 1.0),
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: AppTheme.black12,
@@ -273,9 +282,7 @@ class _BottomNavButtonState extends State<_BottomNavButton>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                widget.notificationCount > 0
-                    ? new NotificationMarker()
-                    : SizedBox(),
+                widget.notificationCount > 0 ? new NotificationMarker() : SizedBox(),
                 InfAssetImage(widget.mode.icon, width: 20.0),
                 SizedBox(height: 4.0),
                 Text(
