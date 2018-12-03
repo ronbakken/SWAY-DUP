@@ -1,4 +1,4 @@
-package app.infmarketplace;
+package app.infsandbox;
 
 import android.os.Bundle;
 
