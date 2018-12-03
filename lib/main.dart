@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show ByteData, rootBundle;
 
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
 import 'package:inf_app/prototype.dart' show Prototype;
@@ -15,45 +15,45 @@ import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
 
 Future<ConfigData> loadConfig() async {
-  var configData = await rootBundle.load('assets/config.bin');
-  ConfigData config = new ConfigData();
+  final ByteData configData = await rootBundle.load('assets/config.bin');
+  final ConfigData config = ConfigData();
   config.mergeFromBuffer(configData.buffer.asUint8List());
   return config;
 }
 
 Future<MultiAccountStore> loadMultiAccountStore(String startupDomain) async {
-  MultiAccountStore store = new MultiAccountStore(startupDomain);
+  final MultiAccountStore store = MultiAccountStore(startupDomain);
   await store.initialize();
   return store;
 }
 
-launchApp() async {
+Future<void> launchApp() async {
   // Set up logging options
   hierarchicalLoggingEnabled = true;
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((LogRecord rec) {
     print('${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
   });
-  new Logger('Inf').level = Level.ALL;
-  new Logger('Inf.Network').level = Level.ALL;
-  new Logger('Inf.Config').level = Level.ALL;
-  new Logger('Switchboard').level = Level.ALL;
-  new Logger('Switchboard.Mux').level = Level.ALL;
-  new Logger('Switchboard.Talk').level = Level.INFO;
-  new Logger('Switchboard.Router').level = Level.ALL;
+  Logger('Inf').level = Level.ALL;
+  Logger('Inf.Network').level = Level.ALL;
+  Logger('Inf.Config').level = Level.ALL;
+  Logger('Switchboard').level = Level.ALL;
+  Logger('Switchboard.Mux').level = Level.ALL;
+  Logger('Switchboard.Talk').level = Level.INFO;
+  Logger('Switchboard.Router').level = Level.ALL;
 
   // Load well-known config from APK
-  ConfigData config = await loadConfig();
+  final ConfigData config = await loadConfig();
   // Override starting configuration endPoint
   // TODO: Remove this
   config.services.endPoint =
-      "ws://192.168.105.2:8090/ep"; // "ws://192.168.167.2:8090/ep";
+      'ws://192.168.105.2:8090/ep'; // "ws://192.168.167.2:8090/ep";
   // Load known local accounts from SharedPreferences
-  MultiAccountStore multiAccountStore =
+  final MultiAccountStore multiAccountStore =
       await loadMultiAccountStore(config.services.domain);
 
   // Run flutter app with the loaded config
-  runApp(new Prototype(
+  runApp(Prototype(
     startupConfig: config,
     multiAccountStore: multiAccountStore,
   ));

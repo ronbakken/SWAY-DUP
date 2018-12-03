@@ -37,46 +37,46 @@ class DeveloperMenu extends StatefulWidget {
   const DeveloperMenu({Key key, this.onExitDevelopmentMode}) : super(key: key);
 
   @override
-  _DeveloperMenuState createState() => new _DeveloperMenuState();
+  _DeveloperMenuState createState() => _DeveloperMenuState();
 }
 
 class _DeveloperMenuState extends State<DeveloperMenu> {
-  DataAccount demoAccount = new DataAccount();
-  final Random random = new Random();
+  DataAccount demoAccount = DataAccount();
+  final Random random = Random();
 
-  List<DataAccount> sampleAccounts = new List<DataAccount>();
-  List<DataOffer> sampleOffers = new List<DataOffer>();
+  List<DataAccount> sampleAccounts = <DataAccount>[];
+  List<DataOffer> sampleOffers = <DataOffer>[];
 
   void generateSamples() {
     sampleAccounts.length = 3;
     for (int i = 0; i < sampleAccounts.length; ++i) {
       if (sampleAccounts[i] == null) {
-        sampleAccounts[i] = new DataAccount();
+        sampleAccounts[i] = DataAccount();
       }
     }
 
-    sampleAccounts[1].accountId = new Int64(1);
+    sampleAccounts[1].accountId = Int64(1);
     sampleAccounts[1].accountType = AccountType.business;
     sampleAccounts[1].globalAccountState = GlobalAccountState.readWrite;
-    sampleAccounts[1].name = "Big Kahuna";
+    sampleAccounts[1].name = 'Big Kahuna';
     sampleAccounts[1].description =
-        "The best burgers in the known universe. As far as we know.";
+        'The best burgers in the known universe. As far as we know.';
     sampleAccounts[1].avatarUrl =
-        "https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg";
+        'https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg';
     sampleAccounts[1].location =
-        "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+        '1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024';
     // sampleAccounts[1].coverUrls.length = 0;
     // sampleAccounts[1].coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
 
-    sampleAccounts[2].accountId = new Int64(2);
+    sampleAccounts[2].accountId = Int64(2);
     sampleAccounts[2].accountType = AccountType.business;
     sampleAccounts[2].globalAccountState = GlobalAccountState.readWrite;
-    sampleAccounts[2].name = "Fried Willy";
+    sampleAccounts[2].name = 'Fried Willy';
     sampleAccounts[2].description = "We don't prepare dolphins.";
     sampleAccounts[2].avatarUrl =
-        "https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg";
+        'https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg';
     sampleAccounts[2].location =
-        "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+        '1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024';
     // sampleAccounts[2].coverUrls.length = 0;
     // sampleAccounts[2].coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg");
     // sampleAccounts[1].coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/friedfish.jpg");
@@ -84,67 +84,67 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     sampleOffers.length = 4;
     for (int i = 0; i < sampleOffers.length; ++i) {
       if (sampleOffers[i] == null) {
-        sampleOffers[i] = new DataOffer();
+        sampleOffers[i] = DataOffer();
       }
     }
 
-    sampleOffers[1].terms = new DataTerms();
-    sampleOffers[1].offerId = new Int64(1);
-    sampleOffers[1].senderId = new Int64(1);
+    sampleOffers[1].terms = DataTerms();
+    sampleOffers[1].offerId = Int64(1);
+    sampleOffers[1].senderId = Int64(1);
     sampleOffers[1].state = OfferState.open;
     sampleOffers[1].stateReason = OfferStateReason.newOffer;
-    sampleOffers[1].title = "Finest Burger Weekend";
+    sampleOffers[1].title = 'Finest Burger Weekend';
     sampleOffers[1].description =
         "We'd like to expose the finest foods in our very busy restaurant to a wide audience.";
     sampleOffers[1].thumbnailUrl =
-        "https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg";
+        'https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg';
     sampleOffers[1].terms.rewardItemOrServiceDescription =
-        "Free dinner + \$150";
+        'Free dinner + \$150';
     sampleOffers[1].terms.deliverablesDescription =
-        "Posts with photography across social media.";
+        'Posts with photography across social media.';
     sampleOffers[1].locationAddress =
-        "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+        '1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024';
     sampleOffers[1].coverUrls.length = 0;
     sampleOffers[1]
         .coverUrls
-        .add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
+        .add('https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg');
     // sampleOffers[1].proposalsNew = 3;
     // sampleOffers[1].proposalsRefused = 1;
 
-    sampleOffers[2].terms = new DataTerms();
-    sampleOffers[2].offerId = new Int64(2);
-    sampleOffers[2].senderId = new Int64(1);
+    sampleOffers[2].terms = DataTerms();
+    sampleOffers[2].offerId = Int64(2);
+    sampleOffers[2].senderId = Int64(1);
     sampleOffers[2].state = OfferState.open;
     sampleOffers[2].stateReason = OfferStateReason.newOffer;
-    sampleOffers[2].title = "Burger Weekend Fries";
+    sampleOffers[2].title = 'Burger Weekend Fries';
     sampleOffers[2].description =
-        "We need some table fillers to make our restaurant look very busy this weekend.";
+        'We need some table fillers to make our restaurant look very busy this weekend.';
     sampleOffers[2].thumbnailUrl =
-        "https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg";
-    sampleOffers[2].terms.rewardItemOrServiceDescription = "Free Poke Fries";
+        'https://inf-dev.nyc3.digitaloceanspaces.com/demo/fries.jpg';
+    sampleOffers[2].terms.rewardItemOrServiceDescription = 'Free Poke Fries';
     sampleOffers[2].terms.deliverablesDescription =
-        "Posts with photography across social media.";
+        'Posts with photography across social media.';
     sampleOffers[2].locationAddress =
-        "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+        '1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024';
     /*sampleOffers[2].proposalsNew = 3;
     sampleOffers[2].proposalsAccepted = 7;
     sampleOffers[2].proposalsRefused = 1;*/
 
-    sampleOffers[3].terms = new DataTerms();
-    sampleOffers[3].offerId = new Int64(3);
-    sampleOffers[3].senderId = new Int64(2);
+    sampleOffers[3].terms = DataTerms();
+    sampleOffers[3].offerId = Int64(3);
+    sampleOffers[3].senderId = Int64(2);
     sampleOffers[3].state = OfferState.closed;
     sampleOffers[3].stateReason = OfferStateReason.completed;
-    sampleOffers[3].title = "Fishing Season";
+    sampleOffers[3].title = 'Fishing Season';
     sampleOffers[3].description =
-        "Looking to catch more customers during the fishing season.";
+        'Looking to catch more customers during the fishing season.';
     sampleOffers[3].thumbnailUrl =
-        "https://inf-dev.nyc3.digitaloceanspaces.com/demo/rally.jpg";
-    sampleOffers[3].terms.rewardItemOrServiceDescription = "Free dinner";
+        'https://inf-dev.nyc3.digitaloceanspaces.com/demo/rally.jpg';
+    sampleOffers[3].terms.rewardItemOrServiceDescription = 'Free dinner';
     sampleOffers[3].terms.deliverablesDescription =
-        "Posts with photography across social media.";
+        'Posts with photography across social media.';
     sampleOffers[3].locationAddress =
-        "1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024";
+        '1100 Glendon Avenue, 17th Floor, Los Angeles CA 90024';
     /*sampleOffers[3].proposalsCompleted = 1;
     sampleOffers[3].proposalsRefused = 17;*/
   }
@@ -165,7 +165,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
   @override
   void initState() {
     super.initState();
-    //demoAccount.socialMedia = new List<SocialMedia>();
+    //demoAccount.socialMedia = List<SocialMedia>();
 
     generateSamples();
   }
@@ -173,15 +173,15 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ConfigData config = ConfigProvider.of(context);
-    //demoAccount.detail = new DataAccountDetail();
+    final ConfigData config = ConfigProvider.of(context);
+    //demoAccount.detail = DataAccountDetail();
     assert(config != null);
     for (int i = demoAccount.socialMedia.length;
         i < config.oauthProviders.length;
         ++i) {
       // Add
       demoAccount.socialMedia.add(
-          new DataSocialMedia()); // Important: PB lists can only be extended using add
+          DataSocialMedia()); // Important: PB lists can only be extended using add
     }
     demoAccount.socialMedia.length =
         config.oauthProviders.length; // Reduce
@@ -191,7 +191,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           ++i) {
         // Add
         sampleAccounts[j].socialMedia.add(
-            new DataSocialMedia()); // Important: PB lists can only be extended using add
+            DataSocialMedia()); // Important: PB lists can only be extended using add
       }
       sampleAccounts[j].socialMedia.length =
           config.oauthProviders.length; // Reduce
@@ -209,19 +209,19 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
   Widget build(BuildContext context) {
     assert(ConfigProvider.of(context) != null);
 
-    List<Widget> accountButtons = new List<Widget>();
+    final List<Widget> accountButtons = <Widget>[];
 
     for (LocalAccountData localAccount
         in MultiAccountSelection.of(context).accounts) {
-      accountButtons.add(new RaisedButton(
-        child: new Column(
-          children: [
-            new Text("Domain: " + localAccount.domain.toString()),
-            new Text("Local Id: " + localAccount.localId.toString()),
-            new Text("Session Id: " + localAccount.sessionId.toString()),
-            new Text("Account Id: " + localAccount.accountId.toString()),
-            new Text("Account Type: " + localAccount.accountType.toString()),
-            new Text("Name: " + localAccount.name.toString()),
+      accountButtons.add(RaisedButton(
+        child: Column(
+          children: <Widget>[
+            Text('Domain: ' + localAccount.domain.toString()),
+            Text('Local Id: ' + localAccount.localId.toString()),
+            Text('Session Id: ' + localAccount.sessionId.toString()),
+            Text('Account Id: ' + localAccount.accountId.toString()),
+            Text('Account Type: ' + localAccount.accountType.toString()),
+            Text('Name: ' + localAccount.name.toString()),
           ],
         ),
         onPressed: () {
@@ -232,28 +232,28 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
       ));
     }
 
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Developer Menu'),
-        actions: [
-          new SearchButton(onSearchPressed: () {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Developer Menu'),
+        actions: <Widget>[
+          SearchButton(onSearchPressed: () {
             transitionPage(
                 context,
-                new SearchScreen(
-                  initialSearchQuery: "Test initial query",
+                SearchScreen(
+                  initialSearchQuery: 'Test initial query',
                   onSearchRequest: (String searchQuery) async {
                     // This is just a dummy search that doesn't do anything but return a shuffled list of accounts and add a dummy account
-                    await new Future.delayed(new Duration(seconds: 2));
-                    DataAccount data = new DataAccount();
-                    data.accountId = new Int64(random.nextInt(500) + 10);
+                    await Future<void>.delayed(Duration(seconds: 2));
+                    final DataAccount data = DataAccount();
+                    data.accountId = Int64(random.nextInt(500) + 10);
                     data.accountType = AccountType.business;
                     data.globalAccountState =
                         GlobalAccountState.readWrite;
-                    data.name = "Name: $searchQuery";
-                    data.description = "Description: $searchQuery";
+                    data.name = 'Name: $searchQuery';
+                    data.description = 'Description: $searchQuery';
                     data.avatarUrl =
-                        "https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/kahuna.jpg";
-                    data.location = "Location";
+                        'https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/kahuna.jpg';
+                    data.location = 'Location';
                     // data.coverUrls.length = 0;
                     // data.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/burger.jpg");
                     return sampleAccounts.toList()
@@ -265,86 +265,86 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           })
         ],
       ),
-      body: new ListView(
-        children: [
+      body: ListView(
+        children: <Widget>[
           ///
           /// Demo entry
           ///
-          new Divider(),
-          new Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            new Text('Demo', style: Theme.of(context).textTheme.subhead),
+          const Divider(),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            Text('Demo', style: Theme.of(context).textTheme.subhead),
           ]),
           /*
-          new FlatButton(
-            child: new Row(
-                children: [new Text('Localhost 1 (Genymotion Emulator)')]),
+          FlatButton(
+            child: Row(
+                children: const <Widget>[Text('Localhost 1 (Genymotion Emulator)')]),
             onPressed: () {
               // widget.onSetServer("ws://192.168.56.1:8090/api", 1);
               widget.onSetServer("ws://192.168.0.111:8090/api", 1);
             }, // 105 = athena, 167 = air
           ),
-          new FlatButton(
-            child: new Row(
-                children: [new Text('Localhost 2 (Genymotion Emulator)')]),
+          FlatButton(
+            child: Row(
+                children: const <Widget>[Text('Localhost 2 (Genymotion Emulator)')]),
             onPressed: () {
               // widget.onSetServer("ws://192.168.56.1:8090/api", 2);
               widget.onSetServer("ws://192.168.0.111:8090/api", 1);
             }, // 1&2 = mariadb.devinf.net
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Excalibur 1')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Excalibur 1')]),
             onPressed: () {
               widget.onSetServer("wss://excalibur.devinf.net/api", 1);
             }, // 105 = athena, 167 = air
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Excalibur 2')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Excalibur 2')]),
             onPressed: () {
               widget.onSetServer("wss://excalibur.devinf.net/api", 2);
             }, // 1&2 = mariadb.devinf.net
           ),
           */
-          new FlatButton(
-            child: new Row(children: [new Text("Switch server to Excalibur")]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Switch server to Excalibur')]),
             onPressed: () {
               NetworkProvider.of(context)
-                  .overrideUri("wss://excalibur.devinf.net/api");
+                  .overrideUri('wss://excalibur.devinf.net/api');
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text("Switch server to Ulfberth")]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Switch server to Ulfberth')]),
             onPressed: () {
               NetworkProvider.of(context)
-                  .overrideUri("wss://ulfberth.devinf.net/api");
+                  .overrideUri('wss://ulfberth.devinf.net/api');
             },
           ),
-          new FlatButton(
+          FlatButton(
             child:
-                new Row(children: [new Text("Switch server to 192.168.56.1")]),
+                Row(children: const <Widget>[Text('Switch server to 192.168.56.1')]),
             onPressed: () {
               NetworkProvider.of(context)
-                  .overrideUri("ws://192.168.56.1:8090/ep");
+                  .overrideUri('ws://192.168.56.1:8090/ep');
             },
           ),
-          new FlatButton(
+          FlatButton(
             child:
-                new Row(children: [new Text("Switch server to 192.168.105.2")]),
+                Row(children: const <Widget>[Text('Switch server to 192.168.105.2')]),
             onPressed: () {
               NetworkProvider.of(context)
-                  .overrideUri("ws://192.168.105.2:8090/ep");
+                  .overrideUri('ws://192.168.105.2:8090/ep');
             },
           ),
-          new FlatButton(
-            child: new Row(
-                children: [new Text("Switch server to 192.168.43.123")]),
+          FlatButton(
+            child: Row(
+                children: const <Widget>[Text('Switch server to 192.168.43.123')]),
             onPressed: () {
               NetworkProvider.of(context)
-                  .overrideUri("ws://192.168.167.2:8090/ep");
+                  .overrideUri('ws://192.168.167.2:8090/ep');
             },
           ),
-          new Column(children: accountButtons),
-          new FlatButton(
-            child: new Row(children: [new Text('Add Account')]),
+          Column(children: accountButtons),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Add Account')]),
             onPressed: () {
               MultiAccountSelection.of(context).addAccount();
               widget.onExitDevelopmentMode();
@@ -354,41 +354,41 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           ///
           /// The Portion for the On boarding UI
           ///
-          new Divider(),
-          new Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            new Text('Onboarding UI',
+          const Divider(),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            Text('Onboarding UI',
                 style: Theme.of(context).textTheme.subhead),
           ]),
-          new FlatButton(
-            child: new Row(children: [new Text('Onboarding Selection')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Onboarding Selection')]),
             onPressed: () {
               transitionPage(
                   context,
-                  new OnboardingSelection(
+                  OnboardingSelection(
                     onInfluencer: () {
                       demoAccount.accountType = AccountType.influencer;
-                      /* Scaffold.of(context).showSnackBar(new SnackBar(
-                          content: new Text("You're an influencer!"),
+                      /* Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text("You're an influencer!"),
                         )); */ // Tricky: context here is route context, not the scaffold of the onboarding selection
                     },
                     onBusiness: () {
                       demoAccount.accountType = AccountType.business;
-                      /* scaffold.showSnackBar(new SnackBar(
-                          content: new Text("You're a business!"),
+                      /* scaffold.showSnackBar(SnackBar(
+                          content: Text("You're a business!"),
                         )); */
                     },
                   ));
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Onboarding Social')]),
+          FlatButton(
+            child: Row(children: const <Widget>[const Text('Onboarding Social')]),
             onPressed: () {
-              Navigator.push(context, new MaterialPageRoute(
-                builder: (context) {
-                  return new StatefulBuilder(
-                    builder: (context, setState) {
+              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return StatefulBuilder(
+                    builder: (BuildContext context, setState) {
                       assert(ConfigProvider.of(context) != null);
-                      return new OnboardingSocial(
+                      return OnboardingSocial(
                         accountType: demoAccount.accountType,
                         oauthProviders:
                             ConfigProvider.of(context).oauthProviders,
@@ -412,24 +412,24 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                             .privacyPolicyUrl,
                         onSignUp: () async {
                           demoAccount.accountId =
-                              new Int64(random.nextInt(1000000) + 1);
-                          demoAccount.name = "John Smith";
+                              Int64(random.nextInt(1000000) + 1);
+                          demoAccount.name = 'John Smith';
                           demoAccount.description =
                               "I'm here for the food.";
                           demoAccount.avatarUrl =
-                              "https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/friesjpg";
+                              'https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/friesjpg';
                           demoAccount.avatarUrl =
-                              "https://res.cloudinary.com/inf-marketplace/image/upload/c_limit,h_1440,w_1440,q_auto/dev/demo/fries.jpg";
+                              'https://res.cloudinary.com/inf-marketplace/image/upload/c_limit,h_1440,w_1440,q_auto/dev/demo/fries.jpg';
                           // demoAccount.coverUrls.length = 0;
                           // demoAccount.coverUrls.add("https://inf-dev.nyc3.digitaloceanspaces.com/demo/kahuna.jpg");
-                          demoAccount.location = "Cardiff, London";
+                          demoAccount.location = 'Cardiff, London';
                           demoAccount.globalAccountState =
                               GlobalAccountState.readWrite;
                           demoAccount.globalAccountStateReason =
                               GlobalAccountStateReason.demoApproved;
                           // print("Get pos");
                           try {
-                            Position position = await Geolocator()
+                            final Position position = await Geolocator()
                                 .getLastKnownPosition(
                                     desiredAccuracy: LocationAccuracy.medium);
                             print('test');
@@ -439,7 +439,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                             print(ex); // Or fail to give permissions
                             // PlatformException(PERMISSION_DENIED, Access to location data denied, null)
                           }
-                          await new Future.delayed(new Duration(seconds: 1));
+                          await Future<void>.delayed(Duration(seconds: 1));
                           print('ok');
                           // () async { await null; Navigator.pop(context); }(); // Trickery to execute after this function
                         },
@@ -450,10 +450,10 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               ));
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text("Reset Onboarding")]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Reset Onboarding')]),
             onPressed: () {
-              demoAccount.accountId = new Int64(0);
+              demoAccount.accountId = Int64(0);
               demoAccount.accountType = AccountType.unknown;
               demoAccount.name = '';
               demoAccount.description = '';
@@ -466,16 +466,16 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               demoAccount.globalAccountStateReason =
                   GlobalAccountStateReason.newAccount;
               for (int i = 0; i < demoAccount.socialMedia.length; ++i) {
-                demoAccount.socialMedia[i] = new DataSocialMedia();
+                demoAccount.socialMedia[i] = DataSocialMedia();
               }
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text("Debug Account")]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Debug Account')]),
             onPressed: () {
-              Navigator.push(context, new MaterialPageRoute(
-                builder: (context) {
-                  return new DebugAccount(
+              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return DebugAccount(
                     account: demoAccount,
                   );
                 },
@@ -486,39 +486,39 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           ///
           /// The Portion for the Business UI
           ///
-          new Divider(),
-          new Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            new Text('Business UI', style: Theme.of(context).textTheme.subhead),
+          const Divider(),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text('Business UI', style: Theme.of(context).textTheme.subhead),
           ]),
-          new FlatButton(
-            child: new Row(children: [new Text('Business Dashboard')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Business Dashboard')]),
             onPressed: () {
-              Navigator.push(context, new MaterialPageRoute(
-                builder: (context) {
-                  return new DashboardCommon(
+              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return DashboardCommon(
                     account: demoAccount,
                     mapTab: 0,
                     offersTab: 1,
                     proposalsTab: 2,
                     onMakeAnOffer: () {},
                     onNavigateProfile: () {},
-                    map: new Text(
-                            "/* Map */") /*new NearbyCommon(
+                    map: const Text(
+                            '/* Map */') /*NearbyCommon(
                       searchHint: "Find nearby influencers...",
                       searchTooltip: "Search for nearby influencers",
                       onSearchPressed: (TextEditingController searchQuery) {
                         transitionPage(
                             context,
-                            new SearchScreen(
+                            SearchScreen(
                               initialSearchQuery: searchQuery.text,
                               onSearchRequest: (String searchQuery) async {
                                 // This is just a dummy search that doesn't do anything
-                                await new Future.delayed(
-                                    new Duration(seconds: 2));
-                                DataAccount data = new DataAccount();
-                                data.state = new DataAccountState();
-                                data.summary = new DataAccountSummary();
-                                data.detail = new DataAccountDetail();
+                                await Future.delayed(
+                                    Duration(seconds: 2));
+                                DataAccount data = DataAccount();
+                                data.state = DataAccountState();
+                                data.summary = DataAccountSummary();
+                                data.detail = DataAccountDetail();
                                 data.accountId = random.nextInt(500) + 10;
                                 data.accountType =
                                     AccountType.business;
@@ -541,107 +541,107 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                       },
                     )*/
                         ,
-                    offersCurrent: new OfferList(
+                    offersCurrent: OfferList(
                       businessOffers: [
                         sampleOffers[1],
                         sampleOffers[2],
                       ],
                     ),
-                    offersHistory: new OfferList(
+                    offersHistory: OfferList(
                       businessOffers: [
                         sampleOffers[3],
                       ],
                     ),
-                    /*proposalsApplying: new Text("Sent"),
-                    proposalsAccepted: new Text("Accepted"),
-                    proposalsHistory: new Text("History"),*/
+                    /*proposalsApplying: Text("Sent"),
+                    proposalsAccepted: Text("Accepted"),
+                    proposalsHistory: Text("History"),*/
                   );
                 },
               ));
             },
           ),
-          new FlatButton(
+          FlatButton(
             child:
-                new Row(children: [new Text('View Business Profile (Self)')]),
+                Row(children: const <Widget>[Text('View Business Profile (Self)')]),
             onPressed: () {
               demoAccount.accountType = AccountType.business;
               transitionPage(
                   context,
-                  new ProfileView(
+                  ProfileView(
                     account: demoAccount,
                     oauthProviders: ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),
-          new FlatButton(
+          FlatButton(
             child:
-                new Row(children: [new Text('Edit Business Profile (Self)')]),
+                Row(children: const <Widget>[Text('Edit Business Profile (Self)')]),
             onPressed: () {
               demoAccount.accountType = AccountType.business;
               transitionPage(
                   context,
-                  new ProfileEdit(
+                  ProfileEdit(
                     account: demoAccount,
                   ));
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Select Location')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Select Location')]),
             onPressed: () {
               demoAccount.accountType = AccountType.business;
               transitionPage(
                   context,
-                  new LocationSelectionScreen(
+                  LocationSelectionScreen(
                     onConfirmPressed: (coordinates) {
                       print(coordinates);
                     },
                     onSearch: (query) async {
                       return showSearch(
                           context: context,
-                          delegate: new LocationSearch(),
+                          delegate: LocationSearch(),
                           query: query);
                     },
                   ));
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Geocode test')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Geocode test')]),
             onPressed: () {
               demoAccount.accountType = AccountType.business;
               transitionPage(
                 context,
-                new GeocodingTestPage(),
+                GeocodingTestPage(),
               );
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('View Influencer Profile')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('View Influencer Profile')]),
             onPressed: () {
               demoAccount.accountType = AccountType.influencer;
               transitionPage(
                   context,
-                  new ProfileView(
+                  ProfileView(
                     account: demoAccount,
                     oauthProviders: ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Offer Create')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Offer Create')]),
             onPressed: () {
-              Navigator.push(context, new MaterialPageRoute(
-                builder: (context) {
-                  return new OfferCreate();
+              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return const OfferCreate();
                 },
               ));
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Offer View (Self)')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Offer View (Self)')]),
             onPressed: () {
-              Navigator.push(context, new MaterialPageRoute(
-                builder: (context) {
-                  return new OfferView(
+              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return OfferView(
                     businessOffer: sampleOffers[1],
                     businessAccount: demoAccount,
                     account: demoAccount,
@@ -654,74 +654,74 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               ));
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Offer Edit')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Offer Edit')]),
             onPressed: null,
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Proposal Chat')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Proposal Chat')]),
             onPressed: null,
           ),
 
           ///
           /// The Portion for the Influencer UI
           ///
-          new Divider(),
-          new Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            new Text('Influencer UI',
+          const Divider(),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            Text('Influencer UI',
                 style: Theme.of(context).textTheme.subhead),
           ]),
-          new FlatButton(
-            child: new Row(children: [new Text('Influencer Dashboard')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Influencer Dashboard')]),
             /*onPressed: () { 
               Navigator.push(
                 context,
-                new MaterialPageRoute(
+                MaterialPageRoute(
                   builder: (context) {
-                    return new InfluencerProfile();
+                    return InfluencerProfile();
                   },
                 )
               );
             },*/
           ),
-          new FlatButton(
+          FlatButton(
             child:
-                new Row(children: [new Text('View Influencer Profile (Self)')]),
+                Row(children: const <Widget>[Text('View Influencer Profile (Self)')]),
             onPressed: () {
               demoAccount.accountType = AccountType.influencer;
               transitionPage(
                   context,
-                  new ProfileView(
+                  ProfileView(
                     account: demoAccount,
                     oauthProviders: ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),
-          new FlatButton(
+          FlatButton(
             child:
-                new Row(children: [new Text('Edit Influencer Profile (Self)')]),
+                Row(children: const <Widget>[Text('Edit Influencer Profile (Self)')]),
             /*onPressed: () { 
               demoAccount.accountType = AccountType.influencer;
               Navigator.push(
                 context,
-                new MaterialPageRoute(
+                MaterialPageRoute(
                   builder: (context) {
-                    return new InfluencerProfile();
+                    return InfluencerProfile();
                   },
                 )
               );
             },*/
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Offer View')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Offer View')]),
             onPressed: () {
-              Navigator.push(context, new MaterialPageRoute(
-                builder: (context) {
-                  return new OfferView(
+              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return OfferView(
                     businessOffer: sampleOffers[1],
                     businessAccount: sampleAccounts[1],
                     account: demoAccount,
-                    onApply: (remarks) {
+                    onApply: (String remarks) {
                       // TODO: ------------------------------------------------------
                     },
                   );
@@ -729,32 +729,32 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               ));
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('View Business Profile')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('View Business Profile')]),
             onPressed: () {
               demoAccount.accountType = AccountType.business;
               transitionPage(
                   context,
-                  new ProfileView(
+                  ProfileView(
                     account: demoAccount,
                     oauthProviders: ConfigProvider.of(context).oauthProviders,
                   ));
             },
           ),
-          new FlatButton(
-            child: new Row(children: [new Text('Business Chat')]),
+          FlatButton(
+            child: Row(children: const <Widget>[Text('Business Chat')]),
             /*onPressed: () { 
               Navigator.push(
                 context,
-                new MaterialPageRoute(
+                MaterialPageRoute(
                   builder: (context) {
-                    return new InfluencerProfile();
+                    return InfluencerProfile();
                   },
                 )
               );
             },*/
           ),
-          new Divider(),
+          const Divider(),
         ],
       ),
     );

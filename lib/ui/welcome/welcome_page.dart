@@ -29,25 +29,25 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Material(
       color: theme.backgroundColor,
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
           _WelcomeWall(welcomeImageUrls: widget.welcomeImageUrls),
-          FractionallySizedBox(
+          const FractionallySizedBox(
             alignment: Alignment.bottomCenter,
             heightFactor: 0.5,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: <Color>[
-                    const Color(0x00000000),
-                    const Color(0xCC000000),
-                    const Color(0xFF000000),
+                    Color(0x00000000),
+                    Color(0xCC000000),
+                    Color(0xFF000000),
                   ],
                   stops: <double>[
                     0.5,
@@ -74,14 +74,14 @@ class _WelcomePageState extends State<WelcomePage> {
               padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 48.0),
               child: Column(
                 children: <Widget>[
-                  Expanded(
+                  const Expanded(
                     child: Center(
                       child: InfAssetImage(
                         AppLogo.infLogoWithShadow,
                       ),
                     ),
                   ),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   _WelcomeButton(
                     text: 'I AM AN INFLUENCER',
                     color: AppTheme.blue,
@@ -91,7 +91,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                 userType: AccountType.influencer))*/
                         ,
                   ),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   _WelcomeButton(
                     text: 'I NEED AN INFLUENCER',
                     color: AppTheme.red,
@@ -125,15 +125,15 @@ class _WelcomeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      color: this.color,
+      color: color,
       shape: const StadiumBorder(),
-      onPressed: this.onPressed,
+      onPressed: onPressed,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       child: Container(
         alignment: Alignment.center,
         height: 44.0,
         child: Text(
-          this.text,
+          text,
           style: const TextStyle(
             fontWeight: FontWeight.normal,
           ),
@@ -157,7 +157,7 @@ class _WelcomeHelpPopOut extends StatefulWidget {
 
 class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
     with SingleTickerProviderStateMixin {
-  final _buttonKey = GlobalKey();
+  final GlobalKey _buttonKey = GlobalKey();
   AnimationController _controller;
   Animation<Offset> _animation;
 
@@ -219,13 +219,13 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              InfAssetImage(
+              const InfAssetImage(
                 AppIcons.help,
                 width: 36.0,
               ),
-              SizedBox(width: 12.0),
+              const SizedBox(width: 12.0),
               widget.content,
-              SizedBox(width: 36.0),
+              const SizedBox(width: 36.0),
             ],
           ),
         ),
@@ -254,8 +254,8 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_first) {
-      Iterable<Future> loadingImages = widget.welcomeImageUrls
-          .map<Future>((url) => precacheImage(NetworkImage(url), context));
+      final Iterable<Future<void>> loadingImages = widget.welcomeImageUrls
+          .map<Future<void>>((String url) => precacheImage(NetworkImage(url), context));
       Future.wait(loadingImages).then((_) {
         if (mounted) {
           setState(() => _opacity = 0.5);
