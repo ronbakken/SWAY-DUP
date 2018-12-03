@@ -8,7 +8,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:inf/widgets/network_status.dart';
+import 'package:inf_app/widgets/network_status.dart';
 
 class SearchPageCommon extends StatefulWidget {
   SearchPageCommon({

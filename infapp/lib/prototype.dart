@@ -5,14 +5,14 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf/app/theme.dart';
+import 'package:inf_app/app/theme.dart';
 
-import 'package:inf/developer_menu.dart';
-import 'package:inf/navigation_bindings/app_switch.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_inheritable/network_stack.dart';
+import 'package:inf_app/developer_menu.dart';
+import 'package:inf_app/navigation_bindings/app_switch.dart';
+import 'package:inf_app/network_generic/multi_account_store.dart';
+import 'package:inf_app/network_inheritable/network_stack.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/utility/rebuild_tracker.dart';
+import 'package:inf_app/utility/rebuild_tracker.dart';
 
 class Prototype extends StatefulWidget {
   const Prototype(

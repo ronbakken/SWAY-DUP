@@ -8,20 +8,20 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/network_common.dart';
-import 'package:inf/network_generic/network_offers_business.dart';
-import 'package:inf/network_generic/network_offers_demo.dart';
-import 'package:inf/network_generic/network_proposals.dart';
-import 'package:inf/network_mobile/network_notifications.dart';
-import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/network_offers.dart';
-import 'package:inf/network_generic/network_profiles.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_generic/api_client.dart';
-import 'package:inf/network_generic/network_internals.dart';
+import 'package:inf_app/network_generic/network_common.dart';
+import 'package:inf_app/network_generic/network_offers_business.dart';
+import 'package:inf_app/network_generic/network_offers_demo.dart';
+import 'package:inf_app/network_generic/network_proposals.dart';
+import 'package:inf_app/network_mobile/network_notifications.dart';
+import 'package:inf_app/network_generic/change.dart';
+import 'package:inf_app/network_generic/network_offers.dart';
+import 'package:inf_app/network_generic/network_profiles.dart';
+import 'package:inf_app/network_generic/multi_account_store.dart';
+import 'package:inf_app/network_generic/api_client.dart';
+import 'package:inf_app/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
 
-export 'package:inf/network_generic/api_client.dart';
+export 'package:inf_app/network_generic/api_client.dart';
 
 // TODO: Reassemble should re-merge all protobuf
 

@@ -6,11 +6,11 @@ Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/widgets/profile_avatar.dart';
+import 'package:inf_app/widgets/profile_avatar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:inf/widgets/follower_tray.dart';
-import 'package:inf/widgets/edit_button.dart';
+import 'package:inf_app/widgets/follower_tray.dart';
+import 'package:inf_app/widgets/edit_button.dart';
 import 'package:inf_common/inf_common.dart';
 
 // TODO: Change to a stateful Widget and Cleanup

@@ -5,8 +5,8 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf/network_generic/multi_account_client.dart';
-import 'package:inf/widgets/profile_avatar.dart';
+import 'package:inf_app/network_generic/multi_account_client.dart';
+import 'package:inf_app/widgets/profile_avatar.dart';
 
 class AccountSwitch extends StatelessWidget {
   const AccountSwitch({

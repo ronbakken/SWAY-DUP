@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
-import 'package:inf/prototype.dart' show Prototype;
-import 'package:inf/network_generic/multi_account_store.dart';
+import 'package:inf_app/prototype.dart' show Prototype;
+import 'package:inf_app/network_generic/multi_account_store.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
 

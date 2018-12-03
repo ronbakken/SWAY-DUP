@@ -8,30 +8,30 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:inf/navigation_bindings/app_common.dart';
-import 'package:inf/network_generic/multi_account_client.dart';
-import 'package:inf/network_inheritable/multi_account_selection.dart';
-import 'package:inf/screens/account_switch.dart';
-import 'package:inf/screens/dashboard_simplified.dart';
-import 'package:inf/widgets/network_status.dart';
+import 'package:inf_app/navigation_bindings/app_common.dart';
+import 'package:inf_app/network_generic/multi_account_client.dart';
+import 'package:inf_app/network_inheritable/multi_account_selection.dart';
+import 'package:inf_app/screens/account_switch.dart';
+import 'package:inf_app/screens/dashboard_simplified.dart';
+import 'package:inf_app/widgets/network_status.dart';
 
 import 'package:latlong/latlong.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf_app/network_inheritable/config_provider.dart';
+import 'package:inf_app/network_inheritable/network_provider.dart';
 
-import 'package:inf/utility/page_transition.dart';
-import 'package:inf/widgets/progress_dialog.dart';
-import 'package:inf/widgets/offers_showcase.dart';
-import 'package:inf/cards/offer_card.dart';
+import 'package:inf_app/utility/page_transition.dart';
+import 'package:inf_app/widgets/progress_dialog.dart';
+import 'package:inf_app/widgets/offers_showcase.dart';
+import 'package:inf_app/cards/offer_card.dart';
 
-import 'package:inf/screens/profile_view.dart';
-import 'package:inf/screens/profile_edit.dart';
-import 'package:inf/screens/offer_view.dart';
-import 'package:inf/screens/debug_account.dart';
-import 'package:inf/screens/offers_map.dart';
-import 'package:inf/screens/search_page_common.dart';
+import 'package:inf_app/screens/profile_view.dart';
+import 'package:inf_app/screens/profile_edit.dart';
+import 'package:inf_app/screens/offer_view.dart';
+import 'package:inf_app/screens/debug_account.dart';
+import 'package:inf_app/screens/offers_map.dart';
+import 'package:inf_app/screens/search_page_common.dart';
 
 // Influencer user
 class AppInfluencer extends StatefulWidget {

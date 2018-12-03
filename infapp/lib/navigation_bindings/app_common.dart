@@ -8,16 +8,16 @@ import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/network_inheritable/cross_account_navigation.dart';
-import 'package:inf/network_inheritable/multi_account_selection.dart';
-import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf_app/network_inheritable/cross_account_navigation.dart';
+import 'package:inf_app/network_inheritable/multi_account_selection.dart';
+import 'package:inf_app/network_inheritable/config_provider.dart';
+import 'package:inf_app/network_inheritable/network_provider.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/screens/account_switch.dart';
-import 'package:inf/screens/debug_account.dart';
-import 'package:inf/screens/haggle_view.dart';
-import 'package:inf/screens/profile_view.dart';
-import 'package:inf/screens/proposal_list.dart';
+import 'package:inf_app/screens/account_switch.dart';
+import 'package:inf_app/screens/debug_account.dart';
+import 'package:inf_app/screens/haggle_view.dart';
+import 'package:inf_app/screens/profile_view.dart';
+import 'package:inf_app/screens/proposal_list.dart';
 
 abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   ApiClient _network;

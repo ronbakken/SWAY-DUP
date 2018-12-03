@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_search_bar/flutter_search_bar.dart';
 // import 'package:rxdart/rxdart.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/screens/search_item.dart';
+import 'package:inf_app/screens/search_item.dart';
 
 typedef Future<List<DataAccount>> SearchRequestCallback(String searchQuery);
 

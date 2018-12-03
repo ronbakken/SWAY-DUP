@@ -14,9 +14,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/widgets/progress_dialog.dart';
+import 'package:inf_app/widgets/progress_dialog.dart';
 
-import 'package:inf/widgets/network_status.dart';
+import 'package:inf_app/widgets/network_status.dart';
 
 class OnboardingSocial extends StatelessWidget {
   const OnboardingSocial({

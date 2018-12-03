@@ -9,8 +9,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:transparent_image/transparent_image.dart';
 // import 'package:geolocator/geolocator.dart';
-import 'package:inf/screens/experiment_files/lookup_address.dart';
-import 'package:inf/screens/experiment_files/reverse_geocoding.dart';
+import 'package:inf_app/screens/experiment_files/lookup_address.dart';
+import 'package:inf_app/screens/experiment_files/reverse_geocoding.dart';
 import 'dart:async';
 
 typedef Future<String> SearchCallback(String searchQuery);

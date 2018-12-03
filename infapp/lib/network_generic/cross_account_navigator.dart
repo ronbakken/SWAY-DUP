@@ -27,7 +27,7 @@ The app should listen to events from it's user alone.
 import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/multi_account_client.dart';
+import 'package:inf_app/network_generic/multi_account_client.dart';
 
 class NavigationRequest {
   final NavigationTarget target;

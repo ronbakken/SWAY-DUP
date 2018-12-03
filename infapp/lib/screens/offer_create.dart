@@ -12,12 +12,12 @@ import 'package:flutter/material.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:inf/utility/ensure_visible_when_focused.dart';
+import 'package:inf_app/utility/ensure_visible_when_focused.dart';
 import 'package:inf_common/inf_common.dart';
 
-import 'package:inf/widgets/image_uploader.dart';
+import 'package:inf_app/widgets/image_uploader.dart';
 
-import 'package:inf/widgets/network_status.dart';
+import 'package:inf_app/widgets/network_status.dart';
 
 // https://leonid.shevtsov.me/post/demystifying-s3-browser-upload/
 // https://github.com/gjersvik/awsdart // Prepare a signature on the server

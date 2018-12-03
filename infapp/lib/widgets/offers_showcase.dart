@@ -5,9 +5,9 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf/styling_constants.dart';
+import 'package:inf_app/styling_constants.dart';
 
-import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:inf_app/widgets/blurred_network_image.dart';
 import 'package:inf_common/inf_common.dart';
 
 class OffersShowcase extends StatefulWidget {

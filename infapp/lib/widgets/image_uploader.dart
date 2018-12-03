@@ -12,10 +12,10 @@ import 'package:flutter/widgets.dart';
 
 // https://pub.dartlang.org/packages/image_picker
 import 'package:image_picker/image_picker.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf_app/network_inheritable/network_provider.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/widgets/progress_dialog.dart';
+import 'package:inf_app/widgets/progress_dialog.dart';
 
 // Image uploader
 class ImageUploader extends StatefulWidget {

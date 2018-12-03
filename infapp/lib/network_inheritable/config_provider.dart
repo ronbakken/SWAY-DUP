@@ -7,7 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf_app/network_mobile/config_manager.dart';
 
 import 'package:inf_common/inf_common.dart' show ConfigData;
 

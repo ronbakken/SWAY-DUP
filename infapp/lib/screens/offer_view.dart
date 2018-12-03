@@ -8,13 +8,13 @@ import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/widgets/profile_avatar.dart';
+import 'package:inf_app/widgets/profile_avatar.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/widgets/carousel_app_bar.dart';
-import 'package:inf/widgets/dark_container.dart';
+import 'package:inf_app/widgets/carousel_app_bar.dart';
+import 'package:inf_app/widgets/dark_container.dart';
 
-import 'package:inf/utility/ensure_visible_when_focused.dart';
+import 'package:inf_app/utility/ensure_visible_when_focused.dart';
 
 class OfferView extends StatefulWidget {
   const OfferView({

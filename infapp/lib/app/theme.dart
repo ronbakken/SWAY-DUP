@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inf/app/assets.dart';
+import 'package:inf_app/app/assets.dart';
 
 class AppTheme {
   static const darkGrey = const Color(0xFF232326);
