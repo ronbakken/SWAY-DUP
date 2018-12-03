@@ -7,24 +7,24 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:inf_app/navigation_bindings/app_common.dart';
-import 'package:inf_app/network_inheritable/multi_account_selection.dart';
+import 'package:inf/navigation_bindings/app_common.dart';
+import 'package:inf/network_inheritable/multi_account_selection.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf_app/network_inheritable/config_provider.dart';
-import 'package:inf_app/network_inheritable/network_provider.dart';
-import 'package:inf_app/screens/account_switch.dart';
-import 'package:inf_app/widgets/network_status.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf/screens/account_switch.dart';
+import 'package:inf/widgets/network_status.dart';
 
-import 'package:inf_app/widgets/progress_dialog.dart';
+import 'package:inf/widgets/progress_dialog.dart';
 
-import 'package:inf_app/screens/profile_view.dart';
-import 'package:inf_app/screens/profile_edit.dart';
-import 'package:inf_app/screens/dashboard_simplified.dart';
-import 'package:inf_app/screens/offer_create.dart';
-import 'package:inf_app/screens/offer_view.dart';
-import 'package:inf_app/screens/business_offer_list.dart';
-import 'package:inf_app/screens/debug_account.dart';
+import 'package:inf/screens/profile_view.dart';
+import 'package:inf/screens/profile_edit.dart';
+import 'package:inf/screens/dashboard_simplified.dart';
+import 'package:inf/screens/offer_create.dart';
+import 'package:inf/screens/offer_view.dart';
+import 'package:inf/screens/business_offer_list.dart';
+import 'package:inf/screens/debug_account.dart';
 
 // Business user
 class AppBusiness extends StatefulWidget {

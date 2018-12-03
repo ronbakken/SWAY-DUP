@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inf_app/app/assets.dart';
+import 'package:inf/app/assets.dart';
 
 class AppTheme {
   static const darkGrey = Color(0xFF232326);
@@ -31,7 +31,7 @@ class AppTheme {
         primaryColor: AppTheme.blue,
         fontFamily: AppFonts.mavenPro,
         // TODO define all colors
-        buttonTheme: ButtonThemeData(
+        buttonTheme: const ButtonThemeData(
             buttonColor: Colors.white, textTheme: ButtonTextTheme.primary));
   }
 }

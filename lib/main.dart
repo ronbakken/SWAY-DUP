@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show ByteData, rootBundle;
 
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
-import 'package:inf_app/prototype.dart' show Prototype;
-import 'package:inf_app/network_generic/multi_account_store.dart';
+import 'package:inf/prototype.dart' show Prototype;
+import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
 
@@ -47,7 +47,7 @@ Future<void> launchApp() async {
   // Override starting configuration endPoint
   // TODO: Remove this
   config.services.endPoint =
-      'ws://192.168.105.2:8090/ep'; // "ws://192.168.167.2:8090/ep";
+      'ws://192.168.0.122:8090/ep'; // "ws://192.168.167.2:8090/ep";
   // Load known local accounts from SharedPreferences
   final MultiAccountStore multiAccountStore =
       await loadMultiAccountStore(config.services.domain);

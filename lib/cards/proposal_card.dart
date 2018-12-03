@@ -5,10 +5,10 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf_app/widgets/profile_avatar.dart';
+import 'package:inf/widgets/profile_avatar.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf_app/styling_constants.dart';
-import 'package:inf_app/widgets/blurred_network_image.dart';
+import 'package:inf/styling_constants.dart';
+import 'package:inf/widgets/blurred_network_image.dart';
 
 class ProposalCard extends StatelessWidget {
   final DataAccount account;
@@ -18,7 +18,7 @@ class ProposalCard extends StatelessWidget {
   //final bool inner;
   final Function() onPressed;
 
-  ProposalCard({
+  const ProposalCard({
     Key key,
     @required this.account,
     @required this.proposal,
@@ -29,19 +29,19 @@ class ProposalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     // Prefer the location name over the business name for businesses
-    String partnerName = (partnerProfile.accountType == AccountType.business)
+    final String partnerName = (partnerProfile.accountType == AccountType.business)
         ? businessOffer.senderName
         : partnerProfile.name;
     // Prefer the offer location over the business location for businesses
-    String partnerLocation =
+    final String partnerLocation =
         (partnerProfile.accountType == AccountType.business)
             ? businessOffer.locationAddress
             : partnerProfile.location;
-    String offerName = businessOffer.title;
-    String offerLocation = businessOffer.locationAddress;
-    Widget tile = Material(
+    final String offerName = businessOffer.title;
+    // final String offerLocation = businessOffer.locationAddress;
+    final Widget tile = Material(
       color: theme.cardColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -94,12 +94,12 @@ class ProposalCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      SizedBox(height: kInfPadding),
+                      const SizedBox(height: kInfPadding),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          SizedBox(width: kInfPadding),
+                          const SizedBox(width: kInfPadding),
                           account.accountType == AccountType.influencer
                               ? ProfileAvatar(
                                   size: 40.0,
@@ -124,7 +124,7 @@ class ProposalCard extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                          SizedBox(width: kInfPadding),
+                          const SizedBox(width: kInfPadding),
                           Flexible(
                             fit: FlexFit.loose,
                             child: Column(
@@ -132,7 +132,7 @@ class ProposalCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 // new Text(businessAccount.name),
-                                SizedBox(height: kInfPaddingText),
+                                const SizedBox(height: kInfPaddingText),
                                 /*new Text(businessOffer.locationName,
                             overflow: TextOverflow.ellipsis),
                       new Text(businessOffer.location,
@@ -144,7 +144,7 @@ class ProposalCard extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: theme.textTheme.body1,
                                 ),
-                                SizedBox(height: kInfPaddingText),
+                                const SizedBox(height: kInfPaddingText),
                                 Text(
                                   account.accountType == AccountType.influencer
                                       ? partnerLocation
@@ -155,10 +155,10 @@ class ProposalCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(width: kInfPadding),
+                          const SizedBox(width: kInfPadding),
                         ],
                       ),
-                      SizedBox(height: kInfPadding),
+                      const SizedBox(height: kInfPadding),
                     ],
                   ),
                 ),
@@ -166,7 +166,7 @@ class ProposalCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(width: kInfPadding),
+                    const SizedBox(width: kInfPadding),
                     Flexible(
                       fit: FlexFit.loose,
                       child: Column(
@@ -174,7 +174,7 @@ class ProposalCard extends StatelessWidget {
                             .start, // Must have .spaceBetween same as .start
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          SizedBox(height: kInfPadding),
+                          const SizedBox(height: kInfPadding),
                           Text(
                             account.accountType == AccountType.influencer
                                 ? offerName
@@ -182,7 +182,7 @@ class ProposalCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.subhead,
                           ),
-                          SizedBox(height: kInfPaddingText),
+                          const SizedBox(height: kInfPaddingText),
                           // TODO: Support for fetching last chat message!
                           // TODO: Bold REJECTED / COMPLETED
                           Row(
@@ -202,28 +202,28 @@ class ProposalCard extends StatelessWidget {
                                             .withAlpha(192)),
                                     overflow: TextOverflow.ellipsis),
                               ),
-                              SizedBox(width: 4.0),
+                              const SizedBox(width: 4.0),
                               Material(
                                   type: MaterialType.card,
                                   color: theme.canvasColor,
-                                  shape: StadiumBorder(),
+                                  shape: const StadiumBorder(),
                                   child: Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 6.0),
+                                        const EdgeInsets.symmetric(horizontal: 6.0),
                                     child: Text("new proposal",
                                         style: theme.textTheme.body1.copyWith(
                                             color: theme.textTheme.body1.color
                                                 .withAlpha(192))),
                                   )),
-                              SizedBox(width: 4.0),
+                              const SizedBox(width: 4.0),
                               Text("1d", style: theme.textTheme.caption),
                             ],
                           ),
-                          SizedBox(height: kInfPadding),
+                          const SizedBox(height: kInfPadding),
                         ],
                       ),
                     ),
-                    SizedBox(width: kInfPadding),
+                    const SizedBox(width: kInfPadding),
                   ],
                 ),
               ],

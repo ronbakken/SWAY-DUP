@@ -7,15 +7,15 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:inf_app/ui/welcome/welcome_page.dart';
+import 'package:inf/ui/welcome/welcome_page.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf_app/network_inheritable/config_provider.dart';
-import 'package:inf_app/network_inheritable/network_provider.dart';
+import 'package:inf/network_inheritable/config_provider.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
 
-import 'package:inf_app/widgets/oauth_scaffold.dart';
-import 'package:inf_app/screens_onboarding/onboarding_selection.dart';
-import 'package:inf_app/screens_onboarding/onboarding_social.dart';
+import 'package:inf/widgets/oauth_scaffold.dart';
+import 'package:inf/screens_onboarding/onboarding_selection.dart';
+import 'package:inf/screens_onboarding/onboarding_social.dart';
 
 // Onboarding sequence
 class AppOnboarding extends StatefulWidget {

@@ -12,7 +12,7 @@ class OfferCard extends StatelessWidget {
   final bool inner;
   final Function() onPressed;
 
-  OfferCard({
+  const OfferCard({
     Key key,
     this.businessOffer,
     this.onPressed,
@@ -21,10 +21,10 @@ class OfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = ListTile(
+    final Widget child = ListTile(
       isThreeLine: true,
       leading: CircleAvatar(
-        backgroundImage: businessOffer.thumbnailUrl.length > 0
+        backgroundImage: businessOffer.thumbnailUrl.isNotEmpty
             ? NetworkImage(businessOffer.thumbnailUrl)
             : null,
         /* child: new Text('$index'), */

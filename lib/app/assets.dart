@@ -84,9 +84,9 @@ class AppImages {
 }
 
 class AppAsset {
-  const AppAsset.bitmap(this.path) : this.type = AppAssetType.Bitmap;
+  const AppAsset.bitmap(this.path) : type = AppAssetType.Bitmap;
 
-  const AppAsset.vector(this.path) : this.type = AppAssetType.Vector;
+  const AppAsset.vector(this.path) : type = AppAssetType.Vector;
 
   final String path;
   final AppAssetType type;

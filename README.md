@@ -1,4 +1,4 @@
-# inf_app
+# inf
 
 A new Flutter project.
 

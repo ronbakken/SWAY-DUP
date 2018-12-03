@@ -5,7 +5,7 @@ Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf_app/screens/experiment_files/reverse_geocoding.dart';
+import 'package:inf/screens/experiment_files/reverse_geocoding.dart';
 
 class GeocodingTestPage extends StatefulWidget {
   GeocodingTestPage({

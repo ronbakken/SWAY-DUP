@@ -13,7 +13,7 @@ import 'dart:typed_data';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inf_app/network_generic/network_common.dart';
+import 'package:inf/network_generic/network_common.dart';
 import 'package:logging/logging.dart';
 import 'package:switchboard/switchboard.dart';
 import 'package:device_info/device_info.dart';
@@ -21,14 +21,14 @@ import 'package:mime/mime.dart';
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart'; // Necessary for asynchronous hashing.
 
-import 'package:inf_app/network_generic/network_manager.dart';
-import 'package:inf_app/network_generic/multi_account_store.dart';
-import 'package:inf_app/network_generic/api_client.dart';
-import 'package:inf_app/network_generic/network_internals.dart';
+import 'package:inf/network_generic/network_manager.dart';
+import 'package:inf/network_generic/multi_account_store.dart';
+import 'package:inf/network_generic/api_client.dart';
+import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';
 
-export 'package:inf_app/network_generic/multi_account_client.dart';
-export 'package:inf_app/network_generic/api_client.dart';
+export 'package:inf/network_generic/multi_account_client.dart';
+export 'package:inf/network_generic/api_client.dart';
 
 abstract class NetworkCommon implements ApiClient, NetworkInternals {
   @override

@@ -6,17 +6,15 @@ Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 
 import 'package:flutter/material.dart';
 
-typedef void LocationSelectCallback(String searchQuery);
-
 class LocationCard extends StatelessWidget {
-  LocationCard({
+  const LocationCard({
     Key key,
     this.onCardTapped,
     this.locationName,
     this.addressName,
   }) : super(key: key);
 
-  final LocationSelectCallback onCardTapped;
+  final Function(String searchQuery) onCardTapped;
   final String locationName;
   final String addressName;
 
@@ -25,7 +23,7 @@ class LocationCard extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
-          onCardTapped(this.locationName);
+          onCardTapped(locationName);
 
           // TODO: save longitude and latitude
 
@@ -35,11 +33,11 @@ class LocationCard extends StatelessWidget {
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(8.0),
-              child: Text(this.locationName),
+              child: Text(locationName),
             ),
             Container(
               padding: const EdgeInsets.all(8.0),
-              child: Text(this.addressName),
+              child: Text(addressName),
             ),
           ],
         ),

@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:circle_indicator/circle_indicator.dart';
-import 'package:inf_app/widgets/blurred_network_image.dart';
+import 'package:inf/widgets/blurred_network_image.dart';
 
 class CarouselAppBar extends SliverAppBar {
   CarouselAppBar({
