@@ -23,6 +23,9 @@ class AppTheme {
   static const tabIndicator = blue;
   static const notificationDot = const Color(0xFFDC7173);
 
+
+  static const textStyleformfieldLabel = const TextStyle(color: white30);
+
   static ThemeData themeTopLevel() {
     return ThemeData(
         brightness: Brightness.dark,

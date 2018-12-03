@@ -4,11 +4,15 @@ import 'dart:math';
 
 class MultiPageWizard extends StatefulWidget {
   final List<Widget> pages;
+  final Color indicatorColor;
+  final Color indicatorForegroundColor;
 
-  const MultiPageWizard({
-    Key key,
-    @required this.pages,
-  }) : super(key: key);
+  const MultiPageWizard(
+      {Key key,
+      @required this.pages,
+      this.indicatorColor = AppTheme.red,
+      this.indicatorForegroundColor = AppTheme.lightBlue})
+      : super(key: key);
 
   @override
   MultiPageWizardState createState() => MultiPageWizardState();
@@ -32,40 +36,60 @@ class MultiPageWizardState extends State<MultiPageWizard> with SingleTickerProvi
     _controller.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _WizzardPageIndicator(_controller),
-        Expanded(
+    return WillPopScope(
+      onWillPop: () async {
+        // if we arent on the first tab, a tap on the backbutton doesn't pop the page but moves
+        // to the previous tab
+        if (_controller.index > 0) {
+          _controller.index--;
+          return false;
+        }
+        return true;
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _WizzardPageIndicator(controller: _controller, indicatorColor: widget.indicatorColor, indicatorForegroundColor: widget.indicatorForegroundColor,),
+          Expanded(
             child: TabBarView(
-          children: widget.pages,
-          controller: _controller,
-        ))
-      ],
+              physics: NeverScrollableScrollPhysics(),
+              children: widget.pages,
+              controller: _controller,
+            ),
+          )
+        ],
+      ),
     );
   }
 
   void nextPage() {
-    _controller.animateTo(_controller.index + 1);
+    if (_controller.index < _controller.length - 1) {
+      _controller.animateTo(_controller.index + 1);
+    }
   }
 }
 
 class _WizzardPageIndicator extends StatelessWidget {
   final TabController controller;
+  final Color indicatorColor;
+  final Color indicatorForegroundColor;
 
-
-  _WizzardPageIndicator(this.controller);
+  _WizzardPageIndicator({
+    @required this.controller,
+    @required this.indicatorColor,
+    @required this.indicatorForegroundColor,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100.0,
-      color: Colors.green,
+      height: 56.0,
       child: Stack(
         children: [
           Container(
-            color: Colors.red,
+            color: indicatorColor,
           ),
           ClipPath(
             child: Container(
@@ -73,20 +97,20 @@ class _WizzardPageIndicator extends StatelessWidget {
             ),
             clipper: _IndicatorClipper(
               count: controller.length,
-              indicatorWidthPercent: 0.7,
+              indicatorWidthPercent: 0.6,
               radiusPadding: 4,
-              linepadding: 4.0,
+              linepadding: 3.0,
               controller: controller,
             ),
           ),
           ClipPath(
               child: Container(
-                color: Colors.blue,
+                color: indicatorForegroundColor,
               ),
               clipper: _IndicatorClipper(
                 count: controller.length,
-                indicatorWidthPercent: 0.7,
-              )),
+                indicatorWidthPercent: 0.6,
+              )),   
         ],
       ),
     );
@@ -111,13 +135,13 @@ class _IndicatorClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     double indicatorWidth = size.width * indicatorWidthPercent;
-    double horizontalPadding = (size.width -indicatorWidth) /2;
+    double horizontalPadding = (size.width - indicatorWidth) / 2;
 
     double segmentSize = indicatorWidth / (count - 1);
 
     double circleRadius = segmentSize * 0.5 / 2;
 
-    double delta = (indicatorWidth - 2 * circleRadius) / (count -1);
+    double delta = (indicatorWidth - 2 * circleRadius) / (count - 1);
     double y = size.height / 2.0;
     double barThickness = circleRadius * 0.6;
 
@@ -127,20 +151,20 @@ class _IndicatorClipper extends CustomClipper<Path> {
     for (int i = 0; i < count; i++) {
       circlesPath
         ..addOval(Rect.fromCircle(
-            center: Offset(horizontalPadding + circleRadius + i * delta , y), radius: circleRadius - radiusPadding));
+            center: Offset(horizontalPadding + circleRadius + i * delta, y), radius: circleRadius - radiusPadding));
     }
     circlesPath.addRect(Rect.fromLTWH(horizontalPadding + circleRadius, y - (barThickness - linepadding * 2) / 2,
         indicatorWidth - circleRadius * 2, barThickness - linepadding * 2));
     var path = Path.combine(PathOperation.difference, contentPath, circlesPath);
-    
-    double barMaskStart = (controller != null) ? (controller.index +1) * delta + (delta *controller.offset) : indicatorWidth;
-    
+
+    double barMaskStart =
+        (controller != null) ? (controller.index + 1) * delta + (delta * controller.offset) : indicatorWidth;
+
     path = Path.combine(
         PathOperation.union,
         path,
         Path()
-          ..addRect(Rect.fromLTRB(horizontalPadding + barMaskStart , 0, size.width -horizontalPadding,
-              size.height)));
+          ..addRect(Rect.fromLTRB(horizontalPadding + barMaskStart, 0, size.width - horizontalPadding, size.height)));
     return path;
   }
 

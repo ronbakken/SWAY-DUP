@@ -4,12 +4,14 @@ class InfStadiumButton extends StatelessWidget {
   final String text;
   final Color color;
   final VoidCallback onPressed;
+  final double height;
 
   const InfStadiumButton({
     Key key,
     @required this.text,
     @required this.color,
     @required this.onPressed,
+    this.height = 44.0,
   }) : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class InfStadiumButton extends StatelessWidget {
       onPressed: this.onPressed,
       child: Container(
         alignment: Alignment.center,
-        height: 44.0,
+        height: height,
         child: Text(
           this.text,
           style: const TextStyle(
