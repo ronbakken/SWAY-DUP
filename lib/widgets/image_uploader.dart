@@ -76,7 +76,7 @@ class _ImageUploaderState extends State<ImageUploader> {
         _imageUrl = null;
       });
       bool success = false;
-      var progressDialog = showProgressDialog(
+      final dynamic progressDialog = showProgressDialog(
           context: context,
           builder: (BuildContext context) {
             return Dialog(
@@ -94,8 +94,8 @@ class _ImageUploaderState extends State<ImageUploader> {
       try {
         await uploadImage();
         success = true;
-      } catch (error, stack) {
-        print("[INF] Exception uploading image': $error\n$stack");
+      } catch (error, stackTrace) {
+        print("[INF] Exception uploading image': $error\n$stackTrace");
       }
       closeProgressDialog(progressDialog);
       if (!success) {

@@ -101,7 +101,7 @@ abstract class NetworkOffers implements ApiClient, NetworkInternals {
       cached.loading = true;
       getOffer(offerId).then((offer) {
         cached.loading = false;
-      }).catchError((error, stack) {
+      }).catchError((dynamic error, StackTrace stackTrace) {
         log.severe("Failed to get offer $offerId: $error");
         Timer(Duration(seconds: 3), () {
           cached.loading = false;

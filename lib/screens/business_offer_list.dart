@@ -100,7 +100,7 @@ class OfferList extends StatelessWidget {
         // key: _refreshIndicatorKey,
         onRefresh: () async {
           if (onRefreshOffers == null) {
-            await Future.delayed(Duration(seconds: 2));
+            await Future<void>.delayed(Duration(seconds: 2));
           } else {
             await onRefreshOffers();
           }

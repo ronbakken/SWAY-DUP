@@ -140,8 +140,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
         connected == NetworkConnectionState.ready) {
       _proposalsLoaded = true;
       proposalsLoading = true;
-      refreshProposals().catchError((error, stack) {
-        log.severe("Failed to get proposals: $error, $stack");
+      refreshProposals().catchError((dynamic error, StackTrace stackTrace) {
+        log.severe("Failed to get proposals: $error\n$stackTrace");
         Timer(Duration(seconds: 3), () {
           _proposalsLoaded =
               false; // Not using setState since we don't want to broadcast failure state
@@ -216,8 +216,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
         cached.loading = true;
         getProposal(proposalId).then((proposal) {
           cached.loading = false;
-        }).catchError((error, stack) {
-          log.severe("Failed to get proposal: $error, $stack");
+        }).catchError((dynamic error, StackTrace stackTrace) {
+          log.severe("Failed to get proposal: $error\n$stackTrace");
           Timer(Duration(seconds: 3), () {
             cached.loading = false;
             onProposalChanged(ChangeAction.retry, proposalId);
@@ -270,8 +270,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
       _loadProposalChats(proposalId).then((proposal) {
         cached.chatLoading = false;
         cached.chatLoaded = true;
-      }).catchError((error, stack) {
-        log.fine("Failed to get proposal chats: $error, $stack");
+      }).catchError((dynamic error, StackTrace stackTrace) {
+        log.fine("Failed to get proposal chats: $error\n$stackTrace");
         Timer(Duration(seconds: 3), () {
           cached.chatLoading = false;
           onProposalChanged(ChangeAction.retry, proposalId);

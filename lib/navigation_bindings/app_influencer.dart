@@ -67,7 +67,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   int offerViewCount = 0;
   Int64 offerViewOpen;
   void navigateToOffer(Int64 offerId) {
-    ApiClient network = NetworkProvider.of(context);
+    final ApiClient network = NetworkProvider.of(context);
     if (offerViewOpen != null) {
       print("[INF] Pop previous offer route");
       Navigator.popUntil(context, (Route<dynamic> route) {
@@ -83,17 +83,17 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     network.getOffer(offerId); // Background refresh
     int count = ++offerViewCount;
     offerViewOpen = offerId;
-    Navigator.push(
+    Navigator.push<MaterialPageRoute>(
       context,
       MaterialPageRoute(
         settings: RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (BuildContext context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
           // ConfigData config = ConfigProvider.of(context);
-          ApiClient network = NetworkProvider.of(context);
+          final ApiClient network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
-          DataOffer businessOffer = network.tryGetOffer(offerId);
-          DataAccount businessAccount =
+          final DataOffer businessOffer = network.tryGetOffer(offerId);
+          final DataAccount businessAccount =
               network.tryGetProfileSummary(businessOffer.senderId);
           return OfferView(
             account: network.account,
@@ -106,7 +106,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               navigateToProposal(proposalId);
             },
             onApply: (remarks) async {
-              var progressDialog = showProgressDialog(
+              final dynamic progressDialog = showProgressDialog(
                   context: this.context,
                   builder: (BuildContext context) {
                     return Dialog(
@@ -114,9 +114,9 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                              padding: EdgeInsets.all(24.0),
-                              child: CircularProgressIndicator()),
-                          Text("Applying for offer..."),
+                              padding: const EdgeInsets.all(24.0),
+                              child: const CircularProgressIndicator()),
+                          Text('Applying for offer...'),
                         ],
                       ),
                     );
@@ -125,8 +125,9 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               try {
                 // Create the offer
                 proposal = await network.sendProposal(offerId, remarks);
-              } catch (error, stack) {
-                print("[INF] Exception applying for offer': $error\n$stack");
+              } catch (error, stackTrace) {
+                print(
+                    "[INF] Exception applying for offer': $error\n$stackTrace");
               }
               closeProgressDialog(progressDialog);
               if (proposal == null) {
@@ -175,10 +176,11 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   }
 
   void navigateToProfileView() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.push<MaterialPageRoute>(context,
+        MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigProvider.of(context);
-      ApiClient network = NetworkProvider.of(context);
+      final ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return ProfileView(
           account: network.account,
@@ -190,10 +192,11 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   }
 
   void navigateToProfileEdit() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.push<MaterialPageRoute>(context,
+        MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigProvider.of(context);
-      ApiClient network = NetworkProvider.of(context);
+      final ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return ProfileEdit(
         account: network.account,
@@ -206,7 +209,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
         searchQueryController ?? TextEditingController();
     fadeToPage(context, (context, animation, secondaryAnimation) {
       // ConfigData config = ConfigProvider.of(context);
-      ApiClient network = NetworkProvider.of(context);
+      final ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return SearchPageCommon(
           searchHint: "Find nearby offers...",
@@ -215,7 +218,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
           onSearchRequest: (String searchQuery) async {
             try {
               await network.refreshDemoAllOffers();
-            } catch (error, stack) {
+            } catch (error, stackTrace) {
               await showDialog<Null>(
                 context: this.context,
                 builder: (BuildContext context) {
@@ -243,7 +246,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                   );
                 },
               );
-              print("Failed to search for offers: $error\n$stack");
+              print("Failed to search for offers: $error\n$stackTrace");
             }
           },
           searchResults: network.demoAllOffers.values
@@ -264,7 +267,8 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   DataOffer _mapHighlightOffer;
 
   void navigateToHistory() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.push<MaterialPageRoute>(context,
+        MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       return Scaffold(
           appBar: AppBar(
@@ -277,7 +281,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
 
   @override
   Widget build(BuildContext context) {
-    ApiClient network = NetworkProvider.of(context);
+    final ApiClient network = NetworkProvider.of(context);
     bool enoughSpaceForBottom = (MediaQuery.of(context).size.height > 480.0);
     assert(network != null);
     return DashboardSimplified(
@@ -288,18 +292,18 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       proposalsDealTab: 3,
       mapOffers: Builder(builder: (context) {
         ConfigData config = ConfigProvider.of(context);
-        ApiClient network = NetworkProvider.of(context);
+        final ApiClient network = NetworkProvider.of(context);
         List<int> showcaseOfferIds = enoughSpaceForBottom
             ? network.demoAllOffers.keys.toList()
             : <int>[]; // TODO
         Widget showcase = showcaseOfferIds.isNotEmpty
             ? OffersShowcase(
                 getOffer: (BuildContext context, int offerId) {
-                  ApiClient network = NetworkProvider.of(context);
+                  final ApiClient network = NetworkProvider.of(context);
                   return network.tryGetOffer(Int64(offerId));
                 },
                 getAccount: (BuildContext context, int accountId) {
-                  ApiClient network = NetworkProvider.of(context);
+                  final ApiClient network = NetworkProvider.of(context);
                   return network.tryGetProfileSummary(Int64(accountId));
                 },
                 offerIds: network.demoAllOffers.keys.toList(),

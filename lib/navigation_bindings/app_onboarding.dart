@@ -44,13 +44,13 @@ class _AppOnboardingState extends State<AppOnboarding> {
   }
 
   void navigateToOAuth(BuildContext context, int oauthProvider) {
-    Navigator.push(
+    Navigator.push<MaterialPageRoute>(
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
       MaterialPageRoute(
         builder: (context) {
           ConfigData config = ConfigProvider.of(context);
-          ApiClient network = NetworkProvider.of(context);
+          final ApiClient network = NetworkProvider.of(context);
           assert(config != null);
           assert(network != null);
           return OAuthScaffold(
@@ -68,12 +68,12 @@ class _AppOnboardingState extends State<AppOnboarding> {
   }
 
   void navigateToSocial(BuildContext context) {
-    Navigator.push(
+    Navigator.push<MaterialPageRoute>(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, MaterialPageRoute(
       builder: (context) {
         ConfigData config = ConfigProvider.of(context);
-        ApiClient network = NetworkProvider.of(context);
+        final ApiClient network = NetworkProvider.of(context);
         // NavigatorState navigator = Navigator.of(context);
         /*if (network.account.accountId != 0) {
           // Need to implement cleaner navigation
@@ -165,7 +165,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
   @override
   Widget build(BuildContext context) {
     ConfigData config = ConfigProvider.of(context);
-    ApiClient network = NetworkProvider.of(context);
+    final ApiClient network = NetworkProvider.of(context);
     assert(network != null);
     return WelcomePage(
       // OnboardingSelection(

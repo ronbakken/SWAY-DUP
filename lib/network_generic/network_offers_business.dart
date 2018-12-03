@@ -70,7 +70,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
       _offersLoaded = true;
       if (account.accountType == AccountType.business) {
         offersLoading = true;
-        refreshOffers().catchError((error, stack) {
+        refreshOffers().catchError((dynamic error, StackTrace stackTrace) {
           log.severe("Failed to get offers: $error");
           Timer(Duration(seconds: 3), () {
             _offersLoaded =

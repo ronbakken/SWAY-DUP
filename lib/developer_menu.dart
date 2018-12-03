@@ -674,7 +674,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           FlatButton(
             child: Row(children: const <Widget>[Text('Influencer Dashboard')]),
             /*onPressed: () { 
-              Navigator.push(
+              Navigator.push<MaterialPageRoute>(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
@@ -704,7 +704,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             ]),
             /*onPressed: () { 
               demoAccount.accountType = AccountType.influencer;
-              Navigator.push(
+              Navigator.push<MaterialPageRoute>(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
@@ -746,7 +746,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           FlatButton(
             child: Row(children: const <Widget>[Text('Business Chat')]),
             /*onPressed: () { 
-              Navigator.push(
+              Navigator.push<MaterialPageRoute>(
                 context,
                 MaterialPageRoute(
                   builder: (context) {

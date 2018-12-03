@@ -107,8 +107,8 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
       _hostWhitelist[host] = true;
     }
     _onUrlChanged = _flutterWebviewPlugin.onUrlChanged.listen(_urlChanged);
-    _startRequest().catchError((e) {
-      print("OAuth Exception: $e");
+    _startRequest().catchError((dynamic error, StackTrace stackTrace) {
+      print("OAuth Exception: $error\n$stackTrace");
     });
   }
 

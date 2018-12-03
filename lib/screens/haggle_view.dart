@@ -187,18 +187,18 @@ class _HaggleViewState extends State<HaggleView> {
   }
 
   Future<void> _reportProposal() async {
-    await showDialog(
-      context: this.context,
+    await showDialog<void>(
+      context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: Text('Report'),
+          title: const Text('Report'),
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
               child: TextField(
                 controller: _reportController,
                 maxLines: 4,
-                decoration: InputDecoration(labelText: 'Message'),
+                decoration: const InputDecoration(labelText: 'Message'),
               ),
             ),
             Row(
@@ -211,7 +211,7 @@ class _HaggleViewState extends State<HaggleView> {
                   ),
                   onPressed: () async {
                     bool success = false;
-                    var progressDialog = showProgressDialog(
+                    final dynamic progressDialog = showProgressDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return Dialog(
@@ -219,9 +219,9 @@ class _HaggleViewState extends State<HaggleView> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
-                                  padding: EdgeInsets.all(24.0),
-                                  child: CircularProgressIndicator()),
-                              Text("Sending report..."),
+                                  padding: const EdgeInsets.all(24.0),
+                                  child: const CircularProgressIndicator()),
+                              const Text("Sending report..."),
                             ],
                           ),
                         );
@@ -230,8 +230,9 @@ class _HaggleViewState extends State<HaggleView> {
                     try {
                       await widget.onReport(_reportController.text);
                       success = true;
-                    } catch (error, stack) {
-                      print("[INF] Exception sending report': $error\n$stack");
+                    } catch (error, stackTrace) {
+                      print(
+                          "[INF] Exception sending report': $error\n$stackTrace");
                     }
                     closeProgressDialog(progressDialog);
                     if (!success) {
@@ -239,12 +240,12 @@ class _HaggleViewState extends State<HaggleView> {
                         context: this.context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Send Report Failed'),
+                            title: const Text('Send Report Failed'),
                             content: SingleChildScrollView(
                               child: ListBody(
                                 children: <Widget>[
-                                  Text('An error has occured.'),
-                                  Text('Please try again later.'),
+                                  const Text('An error has occured.'),
+                                  const Text('Please try again later.'),
                                 ],
                               ),
                             ),
@@ -265,16 +266,16 @@ class _HaggleViewState extends State<HaggleView> {
                     } else {
                       Navigator.of(context).pop();
                       _reportController.text = "";
-                      await showDialog<Null>(
+                      await showDialog<void>(
                         context: this.context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Report Sent'),
+                            title: const Text('Report Sent'),
                             content: SingleChildScrollView(
                               child: ListBody(
                                 children: <Widget>[
-                                  Text('Your report has been sent.'),
-                                  Text(
+                                  const Text('Your report has been sent.'),
+                                  const Text(
                                       'Further correspondence on this matter will be done by e-mail.'),
                                 ],
                               ),
@@ -304,9 +305,9 @@ class _HaggleViewState extends State<HaggleView> {
     );
   }
 
-  void _wantDeal(DataProposalChat chat) async {
+  Future<void> _wantDeal(DataProposalChat chat) async {
     bool success = false;
-    var progressDialog = showProgressDialog(
+    final dynamic progressDialog = showProgressDialog(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
@@ -314,9 +315,9 @@ class _HaggleViewState extends State<HaggleView> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                  padding: EdgeInsets.all(24.0),
-                  child: CircularProgressIndicator()),
-              Text("Sending..."),
+                  padding: const EdgeInsets.all(24.0),
+                  child: const CircularProgressIndicator()),
+              const Text("Sending..."),
             ],
           ),
         );
@@ -325,21 +326,21 @@ class _HaggleViewState extends State<HaggleView> {
     try {
       await widget.onWantDeal(chat);
       success = true;
-    } catch (error, stack) {
-      print("[INF] Exception sending deal': $error\n$stack");
+    } catch (error, stackTrace) {
+      print("[INF] Exception sending deal': $error\n$stackTrace");
     }
     closeProgressDialog(progressDialog);
     if (!success) {
-      await showDialog<Null>(
-        context: this.context,
+      await showDialog<void>(
+        context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Deal Failed'),
+            title: const Text('Deal Failed'),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  Text('An error has occured.'),
-                  Text('Please try again later.'),
+                  const Text('An error has occured.'),
+                  const Text('Please try again later.'),
                 ],
               ),
             ),
@@ -361,42 +362,44 @@ class _HaggleViewState extends State<HaggleView> {
   }
 
   Future<void> _haggle(DataProposalChat chat) async {
-    Map<String, String> query = Uri.splitQueryString(chat.text);
-    TextEditingController haggleDeliverablesController =
+    final Map<String, String> query = Uri.splitQueryString(chat.text);
+    final TextEditingController haggleDeliverablesController =
         TextEditingController();
     haggleDeliverablesController.text = query['deliverables'].toString();
-    TextEditingController haggleRewardController = TextEditingController();
+    final TextEditingController haggleRewardController =
+        TextEditingController();
     haggleRewardController.text = query['reward'].toString();
-    TextEditingController haggleRemarksController = TextEditingController();
+    final TextEditingController haggleRemarksController =
+        TextEditingController();
     haggleRemarksController.text = query['remarks'].toString();
-    await showDialog(
-      context: this.context,
+    await showDialog<void>(
+      context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
           // title: new Text('Haggle'),
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
               child: TextField(
                 controller: haggleDeliverablesController,
                 maxLines: 2,
-                decoration: InputDecoration(labelText: 'Deliverables'),
+                decoration: const InputDecoration(labelText: 'Deliverables'),
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
               child: TextField(
                 controller: haggleRewardController,
                 maxLines: 2,
-                decoration: InputDecoration(labelText: 'Reward'),
+                decoration: const InputDecoration(labelText: 'Reward'),
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
               child: TextField(
                 controller: haggleRemarksController,
                 maxLines: 2,
-                decoration: InputDecoration(labelText: 'Remarks'),
+                decoration: const InputDecoration(labelText: 'Remarks'),
               ),
             ),
             Row(
@@ -432,10 +435,10 @@ class _HaggleViewState extends State<HaggleView> {
 
   Widget _buildChatMessage(DataProposalChat current, DataProposalChat previous,
       DataProposalChat next) {
-    ThemeData theme = Theme.of(context);
-    bool ghost = current.chatId == 0;
+    final ThemeData theme = Theme.of(context);
+    final bool ghost = current.chatId == 0;
     if (current.type == ProposalChatType.marker) {
-      Map<String, String> query = Uri.splitQueryString(current.text);
+      final Map<String, String> query = Uri.splitQueryString(current.text);
       String message;
       switch (ProposalChatMarker.valueOf(int.tryParse(query['marker']))) {
         case ProposalChatMarker.applied:
@@ -482,34 +485,34 @@ class _HaggleViewState extends State<HaggleView> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(12.0),
             child: Text(message),
           ),
         ],
       );
     }
-    bool mine = current.senderId == accountId;
-    bool preceeded = previous != null &&
+    final bool mine = current.senderId == accountId;
+    final bool preceeded = previous != null &&
         previous.senderId == current.senderId &&
         previous.type != ProposalChatType.marker;
-    bool followed = next != null &&
+    final bool followed = next != null &&
         next.senderId == current.senderId &&
         next.type != ProposalChatType.marker;
     Widget card;
     Widget content;
-    BorderRadius shapeRadius = BorderRadius.only(
+    final BorderRadius shapeRadius = BorderRadius.only(
       topLeft: Radius.circular(!mine && preceeded ? 4.0 : 16.0),
       topRight: Radius.circular(mine && preceeded ? 4.0 : 16.0),
       bottomLeft: Radius.circular(!mine && followed ? 4.0 : 16.0),
       bottomRight: Radius.circular(mine && followed ? 4.0 : 16.0),
     );
-    RoundedRectangleBorder shape = RoundedRectangleBorder(
+    final RoundedRectangleBorder shape = RoundedRectangleBorder(
       borderRadius: shapeRadius,
     );
     if (current.type == ProposalChatType.imageKey) {
-      Map<String, String> query = Uri.splitQueryString(current.text);
+      final Map<String, String> query = Uri.splitQueryString(current.text);
       card = Padding(
-        padding: EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(4.0),
         child: Material(
           elevation: 1.0,
           shape: shape,
@@ -522,7 +525,7 @@ class _HaggleViewState extends State<HaggleView> {
               : Material(
                   color: theme.cardColor,
                   shape: shape,
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CircularProgressIndicator(),
                   ),
@@ -537,32 +540,32 @@ class _HaggleViewState extends State<HaggleView> {
       }
       if (current.type == ProposalChatType.terms) {
         Map<String, String> query = Uri.splitQueryString(current.text);
-        Widget info = Column(
+        final Widget info = Column(
           crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
           children: <Widget>[
             Text("Deliverables", style: theme.textTheme.caption),
             Text(query['deliverables'].toString(), style: messageTextStyle),
-            SizedBox(height: 12.0),
+            const SizedBox(height: 12.0),
             Text("Reward", style: theme.textTheme.caption),
             Text(query['reward'].toString(), style: messageTextStyle),
-            SizedBox(height: 12.0),
+            const SizedBox(height: 12.0),
             Text("Remarks", style: theme.textTheme.caption),
             Text(query['remarks'].toString(), style: messageTextStyle),
           ],
         );
         if (current.chatId == widget.proposal.termsChatId) {
-          bool wantDealSent = (accountId == influencerAccountId)
+          final bool wantDealSent = (accountId == influencerAccountId)
               ? widget.proposal.influencerWantsDeal
               : widget.proposal.businessWantsDeal;
-          bool dealMade = widget.proposal.influencerWantsDeal &&
+          final bool dealMade = widget.proposal.influencerWantsDeal &&
               widget.proposal.businessWantsDeal;
           if (dealMade) {
             content = Column(
               crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
               children: <Widget>[
                 info,
-                SizedBox(height: 12.0),
-                Padding(
+                const SizedBox(height: 12.0),
+                const Padding(
                   padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
                   child: Text(
                     "Deal!",
@@ -575,13 +578,13 @@ class _HaggleViewState extends State<HaggleView> {
               crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
               children: <Widget>[
                 info,
-                SizedBox(height: 12.0),
+                const SizedBox(height: 12.0),
                 Row(
                   mainAxisAlignment:
                       mine ? MainAxisAlignment.end : MainAxisAlignment.start,
                   children: <Widget>[
                     RaisedButton(
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8.0))),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       color: !mine ? theme.buttonColor : theme.cardColor,
@@ -590,11 +593,11 @@ class _HaggleViewState extends State<HaggleView> {
                         _haggle(current);
                       },
                     ),
-                    SizedBox(width: 12.0),
+                    const SizedBox(width: 12.0),
                     wantDealSent
-                        ? Text("Awaiting reply.")
+                        ? const Text("Awaiting reply.")
                         : RaisedButton(
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8.0))),
                             materialTapTargetSize:
@@ -621,10 +624,10 @@ class _HaggleViewState extends State<HaggleView> {
             crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
             children: <Widget>[
               info,
-              SizedBox(height: 12.0),
+              const SizedBox(height: 12.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
+                children: const <Widget>[
                   CircularProgressIndicator(),
                 ],
               ),
@@ -635,9 +638,9 @@ class _HaggleViewState extends State<HaggleView> {
             crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
             children: <Widget>[
               info,
-              SizedBox(height: 12.0),
+              const SizedBox(height: 12.0),
               Padding(
-                padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
                 child: Text(
                   "Another offer has been made.",
                   style: theme.textTheme.caption,
@@ -655,7 +658,7 @@ class _HaggleViewState extends State<HaggleView> {
         color: mine ? theme.primaryColor : theme.cardColor,
         shape: shape,
         child: Container(
-          padding: EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12.0),
           child: content,
         ),
       );
@@ -674,11 +677,15 @@ class _HaggleViewState extends State<HaggleView> {
   }
 
   List<Widget> _buildChatMessages() {
-    List<Widget> result = List<Widget>();
-    List<DataProposalChat> chatsSorted = widget.chats.toList();
+    final List<Widget> result = <Widget>[];
+    final List<DataProposalChat> chatsSorted = widget.chats.toList();
     chatsSorted.sort((a, b) {
-      if (a.chatId == 0 && b.chatId != 0) return 1;
-      if (b.chatId == 0 && a.chatId != 0) return -1;
+      if (a.chatId == 0 && b.chatId != 0) {
+        return 1;
+      }
+      if (b.chatId == 0 && a.chatId != 0) {
+        return -1;
+      }
       if (a.chatId == 0 && b.chatId == 0)
         return a.sessionGhostId.compareTo(b.sessionGhostId);
       return a.chatId.compareTo(b.chatId);
@@ -694,12 +701,12 @@ class _HaggleViewState extends State<HaggleView> {
 
   @override
   Widget build(BuildContext context) {
-    DataAccount otherAccount =
+    final DataAccount otherAccount =
         widget.account.accountId == widget.businessAccount.accountId
             ? widget.influencerAccount
             : widget.businessAccount;
     String statusText;
-    ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     switch (widget.proposal.state) {
       case ProposalState.negotiating:
         if (widget.proposal.influencerWantsDeal !=
@@ -749,7 +756,7 @@ class _HaggleViewState extends State<HaggleView> {
           child: Row(
             children: [
               ProfileAvatar(size: 40.0, account: otherAccount),
-              SizedBox(width: 8.0),
+              const SizedBox(width: 8.0),
               Flexible(
                   fit: FlexFit.loose,
                   child:
@@ -767,11 +774,11 @@ class _HaggleViewState extends State<HaggleView> {
               widget.onPressedProfile(otherAccount);
             },
           ),*/
-          PopupMenuButton(itemBuilder: (BuildContext context) {
+          PopupMenuButton<void>(itemBuilder: (BuildContext context) {
             return <PopupMenuEntry>[
-              PopupMenuItem(
+              PopupMenuItem<void>(
                 value: _reportProposal,
-                child: Text("Report"),
+                child: const Text("Report"),
               ),
             ];
           }, onSelected: (dynamic f) {
@@ -828,7 +835,7 @@ class _HaggleViewState extends State<HaggleView> {
                             ),
                           ),
                         ),
-                        SizedBox(width: kInfPadding),
+                        const SizedBox(width: kInfPadding),
                         Flexible(
                           fit: FlexFit.tight,
                           child: SizedBox(
@@ -847,7 +854,7 @@ class _HaggleViewState extends State<HaggleView> {
                                       overflow: TextOverflow.ellipsis,
                                       style: theme.textTheme.subhead,
                                     ),
-                                    SizedBox(height: kInfPaddingText),
+                                    const SizedBox(height: kInfPaddingText),
                                     Text(
                                       widget.offer.description,
                                       overflow: TextOverflow.ellipsis,
@@ -883,7 +890,7 @@ class _HaggleViewState extends State<HaggleView> {
                             ),
                           ),
                         ),
-                        SizedBox(width: kInfPadding),
+                        const SizedBox(width: kInfPadding),
                       ],
                     ),
                   ),
@@ -891,7 +898,8 @@ class _HaggleViewState extends State<HaggleView> {
                   // TODO: In case of action, status text here instead of other one
                   statusText != null
                       ? Padding(
-                          padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                          padding:
+                              const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
                           child: Text(
                             statusText,
                             style: theme.textTheme.caption,
@@ -906,7 +914,8 @@ class _HaggleViewState extends State<HaggleView> {
           Flexible(
             child: ListView(
               reverse: true,
-              padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
               children: _buildChatMessages().reversed.toList(),
             ),
           ),
@@ -924,13 +933,13 @@ class _HaggleViewState extends State<HaggleView> {
                           onUploadImage: widget.onUploadImage,
                         )
                       : Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: TextField(
                             controller: _lineController,
                             onChanged: (text) {
                               setState(() {});
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               hintText: "Send a message...",
                             ),
@@ -945,7 +954,7 @@ class _HaggleViewState extends State<HaggleView> {
                 // TODO: Animate between these two, like Telegram
                 _lineController.text.isEmpty
                     ? Builder(builder: (context) {
-                        ThemeData theme = Theme.of(context);
+                        final ThemeData theme = Theme.of(context);
                         return IconButton(
                           icon: Icon(
                             _uploadAttachment ? Icons.close : Icons.attach_file,

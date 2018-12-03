@@ -16,7 +16,7 @@ import 'package:inf_common/inf_common.dart';
 class LoadingNetwork extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ApiClient network = NetworkProvider.of(context);
+    final ApiClient network = NetworkProvider.of(context);
     ConfigData config = ConfigProvider.of(context);
     assert(network != null);
     if (network.connected == NetworkConnectionState.failing) {

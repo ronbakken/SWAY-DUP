@@ -41,8 +41,6 @@ class BlurredNetworkImage extends StatefulWidget {
   }
 }
 
-typedef void _ImageProviderResolverListener();
-
 /// From fade_in_image.dart
 class _ImageProviderResolver {
   _ImageProviderResolver({
@@ -51,7 +49,7 @@ class _ImageProviderResolver {
   });
 
   final _BlurredNetworkImageState state;
-  final _ImageProviderResolverListener listener;
+  final Function() listener;
 
   ImageStream _imageStream;
   ImageInfo _imageInfo;
@@ -161,9 +159,7 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
       } else if (widget.blurredUrl != null && widget.blurredUrl.isNotEmpty) {
         _blurredImageProvider = CachedNetworkImageProvider(widget.blurredUrl);
       }
-      if (_blurredImageProvider == null) {
-        _blurredImageProvider = _placeholderImageProvider;
-      }
+      _blurredImageProvider ??= _placeholderImageProvider;
       if (widget.url != null && widget.url.isNotEmpty) {
         _imageProvider = CachedNetworkImageProvider(widget.url);
       }
@@ -187,7 +183,7 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
         }
       }
       if (widget.blurredUrl != oldWidget.blurredUrl ||
-          !const ListEquality()
+          !const ListEquality<int>()
               .equals(widget.blurredData, oldWidget.blurredData)) {
         if (widget.blurredData != null) {
           _blurredImageProvider = MemoryImage(widget.blurredData);
@@ -203,9 +199,7 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
           _phase = _BlurredNetworkImagePhase.start;
         }
       }
-      if (_blurredImageProvider == null) {
-        _blurredImageProvider = _placeholderImageProvider;
-      }
+      _blurredImageProvider ??= _placeholderImageProvider;
     }
     if (widget.url != oldWidget.url) {
       if (widget.url != null && widget.url.isNotEmpty) {
@@ -306,7 +300,7 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
     if (_placeholderImageProvider != null) {
       return Image(image: _placeholderImageProvider, fit: widget.fit);
     } else {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(),
       );
     }
@@ -320,7 +314,7 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
         fit: widget.fit,
       );
     } else {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(),
       );
     }

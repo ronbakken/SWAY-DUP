@@ -227,14 +227,14 @@ class _OfferViewState extends State<OfferView> {
                                       ],
                                     ),
                                     onPressed: () async {
-                                      await showDialog(
+                                      await showDialog<void>(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: Text('End Your Offer'),
+                                            title: const Text('End Your Offer'),
                                             content: SingleChildScrollView(
                                               child: ListBody(
-                                                children: [
+                                                children: const <Widget>[
                                                   Text(
                                                       "Are you sure you would like to end this offer?\n\n"
                                                       "This will remove the offer from influencer search results."

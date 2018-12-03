@@ -223,7 +223,7 @@ class OnboardingSocial extends StatelessWidget {
       return;
     }
     // Show progress dialog
-    var progressDialog = showProgressDialog(
+    final dynamic progressDialog = showProgressDialog(
         context: context,
         builder: (BuildContext context) {
           return Dialog(

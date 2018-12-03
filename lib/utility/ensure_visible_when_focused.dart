@@ -90,9 +90,9 @@ class _EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused>
     }
   }
 
-  Future<Null> _ensureVisible() async {
+  Future<void> _ensureVisible() async {
     // Wait for the keyboard to come into view
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future<void>.delayed(const Duration(milliseconds: 300));
 
     // No need to go any further if the node has not the focus
     if (!widget.focusNode.hasFocus) {
@@ -105,11 +105,11 @@ class _EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused>
     assert(viewport != null);
 
     // Get the Scrollable state (in order to retrieve its offset)
-    ScrollableState scrollableState = Scrollable.of(context);
+    final ScrollableState scrollableState = Scrollable.of(context);
     assert(scrollableState != null);
 
     // Get its offset
-    ScrollPosition position = scrollableState.position;
+    final ScrollPosition position = scrollableState.position;
     double alignment;
 
     if (position.pixels > viewport.getOffsetToReveal(object, 0.0).offset) {

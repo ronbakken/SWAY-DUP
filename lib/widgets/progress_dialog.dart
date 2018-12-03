@@ -7,7 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:flutter/material.dart';
 
 /// From dialog.dart
-class _DialogRoute extends PopupRoute {
+class _DialogRoute extends PopupRoute<void> {
   _DialogRoute({
     @required this.theme,
     bool barrierDismissible = true,
@@ -69,15 +69,15 @@ dynamic showProgressDialog({
   WidgetBuilder builder,
 }) {
   ++_currentProgressDialog;
-  int ref = _currentProgressDialog;
+  final int ref = _currentProgressDialog;
   if (_navigator != null && _navigator.mounted) {
     _navigator.pop();
     _navigator = null;
   }
-  NavigatorState navigator = Navigator.of(context, rootNavigator: true);
+  final NavigatorState navigator = Navigator.of(context, rootNavigator: true);
   _navigator = navigator;
-  ThemeData theme = Theme.of(context, shadowThemeOnly: true);
-  MaterialLocalizations localizations = MaterialLocalizations.of(context);
+  final ThemeData theme = Theme.of(context, shadowThemeOnly: true);
+  final MaterialLocalizations localizations = MaterialLocalizations.of(context);
   () async {
     do {
       await navigator.push(_DialogRoute(

@@ -51,24 +51,28 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   Uint8List _lastPayloadCookie;
 
   final Map<String, Function(TalkMessage message)> _procedureHandlers =
-      Map<String, Function(TalkMessage message)>();
+      <String, Function(TalkMessage message)>{};
 
   bool _alive;
 
+  @override
   ConfigData get config {
     return _config;
   }
 
+  @override
   MultiAccountStore get multiAccountStore {
     return _multiAccountStore;
   }
 
+  @override
   final Logger log = Logger('Inf.Network');
 
   String _overrideEndPoint;
 
   final random = Random.secure();
 
+  @override
   int nextSessionGhostId;
 
   int _keepAliveBackground = 0;
@@ -76,6 +80,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   bool _foreground = true;
   Completer<void> _awaitingForeground;
 
+  @override
   void commonInitBase() {
     _alive = true;
 
@@ -87,6 +92,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     resetAccountState();
   }
 
+  @override
   void commonInitReady() {
     registerProcedure('SESREMOV', _sessionRemove);
     registerProcedure('CONFDOWN', _configDownload);
@@ -100,8 +106,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     registerProcedure('LU_A_CHA', liveUpdateProposalChat);
 
     // Start network loop
-    _networkLoop().catchError((e) {
-      log.severe("Network loop died: $e");
+    _networkLoop().catchError((dynamic error, StackTrace stackTrace) {
+      log.severe("Network loop died: $error\n$stackTrace");
     });
 
     Timer.periodic(Duration(seconds: 1), (timer) async {
@@ -112,8 +118,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       if (channel != null) {
         try {
           await channel.sendRequest("PING", Uint8List(0));
-        } catch (error, stack) {
-          log.fine("Ping: $error\n$stack");
+        } catch (error, stackTrace) {
+          log.fine("Ping: $error\n$stackTrace");
           if (channel != null) {
             channel.close();
             channel = null;
@@ -125,14 +131,14 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
   void registerProcedure(
     String procedureId,
-    procedure(TalkMessage message),
+    Future<void> procedure(TalkMessage message),
   ) {
     _procedureHandlers[procedureId] = (TalkMessage message) async {
       try {
         await procedure(message);
-      } catch (error, stack) {
+      } catch (error, stackTrace) {
         log.severe(
-            "Unexpected error in procedure '$procedureId': $error\n$stack");
+            "Unexpected error in procedure '$procedureId': $error\n$stackTrace");
         if (message.requestId != 0) {
           channel.replyAbort(message, "Unexpected error.");
         }
@@ -140,10 +146,12 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     };
   }
 
+  @override
   void pushKeepAlive() {
     ++_keepAliveBackground;
   }
 
+  @override
   void popKeepAlive() {
     --_keepAliveBackground;
   }
@@ -156,7 +164,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       channel.close();
       channel = null;
     }
-    if (!_kickstartNetwork.isCompleted) _kickstartNetwork.complete();
+    if (!_kickstartNetwork.isCompleted) {
+      _kickstartNetwork.complete();
+    }
   }
 
   void syncMultiAccountStore(MultiAccountStore multiAccountStore) {
@@ -167,7 +177,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     // May only be called from a setState block
     if (_config != config) {
       log.fine("Sync config changes to network");
-      bool regionOrLanguageChanged = config.region != _config?.region ||
+      final bool regionOrLanguageChanged = config.region != _config?.region ||
           config.language != _config?.language;
       _config = config;
       if (_config != null) {
@@ -188,7 +198,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       log.severe(
           "Widget config is null in network sync"); // DEVELOPER - CRITICAL
     }
-    if (!_kickstartNetwork.isCompleted) _kickstartNetwork.complete();
+    if (!_kickstartNetwork.isCompleted) {
+      _kickstartNetwork.complete();
+    }
   }
 
   void cleanupStateSwitchingAccounts() {
@@ -209,6 +221,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     _lastPayloadLocalId = null;
   }
 
+  @override
   void reassembleCommon() {
     // Developer reload
     if (channel != null) {
@@ -218,6 +231,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
   }
 
+  @override
   void disposeCommon() {
     _alive = false;
     if (channel != null) {
@@ -227,6 +241,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
   }
 
+  @override
   void dependencyChangedCommon() {
     if (channel != null) {
       log.info("Network reload by config or selection");
@@ -259,6 +274,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   // Session
   /////////////////////////////////////////////////////////////////////
 
+  @override
   void processSwitchAccount(LocalAccountData localAccount) {
     if (localAccount != _currentLocalAccount) {
       cleanupStateSwitchingAccounts();
@@ -268,7 +284,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       }
       _currentLocalAccount = null;
       resetSessionPayload();
-      if (!_kickstartNetwork.isCompleted) _kickstartNetwork.complete();
+      if (!_kickstartNetwork.isCompleted) {
+        _kickstartNetwork.complete();
+      }
     }
   }
 
@@ -279,7 +297,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       resetSessionPayload();
       return;
     }
-    NetSessionPayload sessionPayload = NetSessionPayload();
+    final NetSessionPayload sessionPayload = NetSessionPayload();
     if (_currentLocalAccount.sessionId != 0) {
       sessionPayload.sessionId = _currentLocalAccount.sessionId;
     }
@@ -302,7 +320,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   Future<void> _configDownload(TalkMessage message) async {
-    NetConfigDownload download = NetConfigDownload()
+    final NetConfigDownload download = NetConfigDownload()
       ..mergeFromBuffer(message.data)
       ..freeze();
     // TODO: Tell config manager to download
@@ -313,26 +331,26 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
   Future<void> _sessionCreate() async {
     log.info("Create session");
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     String deviceName = "unknown_device";
     try {
       if (Platform.isAndroid) {
-        var info = await deviceInfo.androidInfo;
+        final AndroidDeviceInfo info = await deviceInfo.androidInfo;
         deviceName = info.model;
       } else if (Platform.isIOS) {
-        var info = await deviceInfo.iosInfo;
+        final IosDeviceInfo info = await deviceInfo.iosInfo;
         deviceName = info.name;
       }
     } catch (ex) {
       log.severe('Failed to get device name');
     }
-    NetSessionCreate create = NetSessionCreate();
+    final NetSessionCreate create = NetSessionCreate();
     create.deviceName = deviceName;
     create.deviceToken = multiAccountStore.getDeviceToken();
     create.deviceInfo = "{ debug: 'default_info' }";
-    TalkMessage response =
+    final TalkMessage response =
         await channel.sendRequest('SESSIONC', create.writeToBuffer());
-    NetSession session = NetSession()
+    final NetSession session = NetSession()
       ..mergeFromBuffer(response.data)
       ..freeze();
     if (_lastPayloadLocalId != _currentLocalAccount.localId) {
@@ -381,12 +399,13 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   bool _netConfigWarning = false;
   Future<void> _sessionOpen() async {
     try {
-      String endPoint = _overrideEndPoint ?? _config.services.endPoint;
-      String service = _config.services.service;
+      final String endPoint = _overrideEndPoint ?? _config.services.endPoint;
+      final String service = _config.services.service;
       final LocalAccountData localAccount = multiAccountStore.current;
-      bool matchingDomain = _config.services.domain == localAccount.domain;
+      final bool matchingDomain =
+          _config.services.domain == localAccount.domain;
 
-      if (endPoint == null || endPoint.length == 0 || !matchingDomain) {
+      if (endPoint == null || endPoint.isEmpty || !matchingDomain) {
         if (!_netConfigWarning) {
           _netConfigWarning = true;
           log.warning("Incomplete network configuration, not connecting");
@@ -395,7 +414,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
           _kickstartNetwork = Completer<void>();
         try {
           await _kickstartNetwork.future.timeout(Duration(seconds: 3));
-        } catch (TimeoutException) {}
+        } catch (TimeoutException) {
+          //...
+        }
         return;
       }
 
@@ -412,7 +433,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
             .openServiceChannel(service)
             .timeout(Duration(seconds: 3));
       } catch (e) {
-        log.warning("Network cannot connect, retry in 3 seconds: $e");
+        log.warning('Network cannot connect, retry in 3 seconds: $e');
         assert(channel == null);
         connected = NetworkConnectionState.offline;
         onCommonChanged();
@@ -420,23 +441,25 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
           _kickstartNetwork = Completer<void>();
         try {
           await _kickstartNetwork.future.timeout(Duration(seconds: 3));
-        } catch (TimeoutException) {}
+        } catch (TimeoutException) {
+          //...
+        }
         return;
       }
 
       // Future<void> listen = channel.listen();
-      Completer<void> listen = Completer<void>();
+      final Completer<void> listen = Completer<void>();
       channel.listen((TalkMessage message) async {
         if (_procedureHandlers.containsKey(message.procedureId)) {
           await _procedureHandlers[message.procedureId](message);
         } else {
           channel.unknownProcedure(message);
         }
-      }, onError: (error, stack) {
+      }, onError: (dynamic error, StackTrace stackTrace) {
         if (error is TalkAbort) {
-          log.severe("Received abort from api remote: $error\n$stack");
+          log.severe('Received abort from api remote: $error\n$stackTrace');
         } else {
-          log.severe("Unknown error from api remote: $error\n$stack");
+          log.severe('Unknown error from api remote: $error\n$stackTrace');
         }
       }, onDone: () {
         listen.complete();
@@ -454,14 +477,14 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
       await listen.future;
       channel = null;
-      log.info("Network connection closed.");
+      log.info('Network connection closed.');
       if (connected == NetworkConnectionState.ready) {
         connected = NetworkConnectionState.connecting;
         onCommonChanged();
       }
-    } catch (error, stack) {
-      log.warning("Network session exception: $error\n$stack");
-      TalkChannel tempChannel = channel;
+    } catch (error, stackTrace) {
+      log.warning('Network session exception: $error\n$stackTrace');
+      final TalkChannel tempChannel = channel;
       channel = null;
       connected = NetworkConnectionState.failing;
       onCommonChanged();
@@ -472,17 +495,17 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   Future _networkLoop() async {
-    log.fine("Start network loop.");
+    log.fine('Start network loop.');
     while (_alive) {
       if (!_foreground && (_keepAliveBackground <= 0)) {
-        log.fine("Awaiting foreground.");
+        log.fine('Awaiting foreground.');
         _awaitingForeground = Completer<void>();
         await _awaitingForeground.future;
-        log.fine("Now in foreground.");
+        log.fine('Now in foreground.');
       }
       await _sessionOpen();
     }
-    log.fine("End network loop.");
+    log.fine('End network loop.');
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -491,8 +514,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   // Account
   /////////////////////////////////////////////////////////////////////
 
-  void _accountUpdate(TalkMessage message) async {
-    NetAccount pb = NetAccount();
+  Future<void> _accountUpdate(TalkMessage message) async {
+    final NetAccount pb = NetAccount();
     pb.mergeFromBuffer(message.data);
     await receivedAccountUpdate(pb);
   }
@@ -545,7 +568,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   /* Device Registration */
   @override
   void setAccountType(AccountType accountType) {
-    NetSetAccountType pb = NetSetAccountType();
+    final NetSetAccountType pb = NetSetAccountType();
     pb.accountType = accountType;
     switchboard.sendMessage("api", "A_SETTYP", pb.writeToBuffer());
     // Cancel all social media logins on change, server update on this gets there later
@@ -562,11 +585,11 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   /* OAuth */
   @override
   Future<NetOAuthUrl> getOAuthUrls(int oauthProvider) async {
-    NetOAuthGetUrl pb = NetOAuthGetUrl();
+    final NetOAuthGetUrl pb = NetOAuthGetUrl();
     pb.oauthProvider = oauthProvider;
-    TalkMessage res =
+    final TalkMessage res =
         await switchboard.sendRequest("api", "OA_URLRE", pb.writeToBuffer());
-    NetOAuthUrl resPb = NetOAuthUrl();
+    final NetOAuthUrl resPb = NetOAuthUrl();
     resPb.mergeFromBuffer(res.data);
     return resPb;
   }
@@ -574,12 +597,12 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   @override
   Future<NetOAuthConnection> connectOAuth(
       int oauthProvider, String callbackQuery) async {
-    NetOAuthConnect pb = NetOAuthConnect();
+    final NetOAuthConnect pb = NetOAuthConnect();
     pb.oauthProvider = oauthProvider;
     pb.callbackQuery = callbackQuery;
-    TalkMessage res =
+    final TalkMessage res =
         await switchboard.sendRequest("api", "OA_CONNE", pb.writeToBuffer());
-    NetOAuthConnection resPb = NetOAuthConnection();
+    final NetOAuthConnection resPb = NetOAuthConnection();
     resPb.mergeFromBuffer(res.data);
     // Result contains the updated data, so needs to be put into the state
     if (oauthProvider < account.socialMedia.length &&
@@ -593,7 +616,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
   @override
   Future<void> createAccount(double latitude, double longitude) async {
-    NetAccountCreate pb = NetAccountCreate();
+    final NetAccountCreate pb = NetAccountCreate();
     if (latitude != null &&
         latitude != 0.0 &&
         longitude != null &&
@@ -601,13 +624,13 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       pb.latitude = latitude;
       pb.longitude = longitude;
     }
-    TalkMessage res =
+    final TalkMessage res =
         await switchboard.sendRequest("api", "A_CREATE", pb.writeToBuffer());
-    NetAccount resPb = NetAccount();
+    final NetAccount resPb = NetAccount();
     resPb.mergeFromBuffer(res.data);
     await receivedAccountUpdate(resPb);
     if (account.accountId == 0) {
-      throw NetworkException("No account has been created");
+      throw const NetworkException('No account has been created');
     }
   }
 
@@ -618,10 +641,11 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   /////////////////////////////////////////////////////////////////////////////
 
   static Digest _getContentSha256(File file) {
-    DigestSink convertedSink = DigestSink();
-    ByteConversionSink fileSink = sha256.startChunkedConversion(convertedSink);
-    RandomAccessFile readFile = file.openSync(mode: FileMode.read);
-    Uint8List buffer = Uint8List(65536);
+    final DigestSink convertedSink = DigestSink();
+    final ByteConversionSink fileSink =
+        sha256.startChunkedConversion(convertedSink);
+    final RandomAccessFile readFile = file.openSync(mode: FileMode.read);
+    final Uint8List buffer = Uint8List(65536);
     int read;
     while ((read = readFile.readIntoSync(buffer)) > 0) {
       fileSink.addSlice(buffer, 0, read, false);
@@ -633,26 +657,27 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   @override
   Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
     // Build information on file
-    BytesBuilder builder = BytesBuilder(copy: false);
+    final BytesBuilder builder = BytesBuilder(copy: false);
     // Digest contentSha256 =
     //     await sha256.bind(fileImage.file.openRead()).first; // FIXME: This hangs
-    Digest contentSha256 = await compute(_getContentSha256, fileImage.file);
+    final Digest contentSha256 =
+        await compute(_getContentSha256, fileImage.file);
     await fileImage.file.openRead(0, 256).forEach(builder.add);
-    String contentType = MimeTypeResolver()
+    final String contentType = MimeTypeResolver()
         .lookup(fileImage.file.path, headerBytes: builder.toBytes());
-    int contentLength = await fileImage.file.length();
+    final int contentLength = await fileImage.file.length();
 
     // Create a request to upload the file
-    NetUploadImageReq req = NetUploadImageReq();
+    final NetUploadImageReq req = NetUploadImageReq();
     req.fileName = fileImage.file.path;
     req.contentLength = contentLength;
     req.contentType = contentType;
     req.contentSha256 = contentSha256.bytes;
 
     // Fetch the pre-signed URL from the server
-    TalkMessage resMessage =
+    final TalkMessage resMessage =
         await switchboard.sendRequest("api", "UP_IMAGE", req.writeToBuffer());
-    NetUploadImageRes res = NetUploadImageRes();
+    final NetUploadImageRes res = NetUploadImageRes();
     res.mergeFromBuffer(resMessage.data);
 
     if (res.fileExists) {
@@ -661,8 +686,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
 
     // Upload the file
-    HttpClient httpClient = HttpClient();
-    HttpClientRequest httpRequest =
+    final HttpClient httpClient = HttpClient();
+    final HttpClientRequest httpRequest =
         await httpClient.openUrl(res.requestMethod, Uri.parse(res.requestUrl));
     httpRequest.headers.add("Content-Type", contentType);
     httpRequest.headers.add("Content-Length", contentLength);
@@ -670,8 +695,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     httpRequest.headers.add('x-amz-acl', 'public-read');
     await httpRequest.addStream(fileImage.file.openRead());
     await httpRequest.flush();
-    HttpClientResponse httpResponse = await httpRequest.close();
-    BytesBuilder responseBuilder = BytesBuilder(copy: false);
+    final HttpClientResponse httpResponse = await httpRequest.close();
+    final BytesBuilder responseBuilder = BytesBuilder(copy: false);
     await httpResponse.forEach(responseBuilder.add);
     if (httpResponse.statusCode != 200) {
       throw NetworkException(
