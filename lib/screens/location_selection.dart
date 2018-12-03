@@ -34,7 +34,7 @@ class LocationSelectionScreen extends StatefulWidget {
   final ConfirmLocationCallback onConfirmPressed;
 
   @override
-  _LocationSelectionState createState() => new _LocationSelectionState();
+  _LocationSelectionState createState() => _LocationSelectionState();
 }
 
 class _LocationSelectionState extends State<LocationSelectionScreen> {
@@ -95,25 +95,25 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     super.initState();
 
     // Initialize Confirm Button
-    confirmButton = new FloatingActionButton(
+    confirmButton = FloatingActionButton(
       onPressed: () {
         widget.onConfirmPressed(_placeMarkAddress);
         print(_flutterMapController.zoom);
       },
       backgroundColor: Colors.green,
-      child: new Icon(Icons.check),
+      child: Icon(Icons.check),
     );
 
     // Initializer Marker
-    centeredMarker = new Center(
-      child: new Icon(Icons.location_on),
+    centeredMarker = Center(
+      child: Icon(Icons.location_on),
     );
 
     // Initialize Search Bar
-    _searchFieldController = new TextEditingController();
-    searchField = new TextField(
+    _searchFieldController = TextEditingController();
+    searchField = TextField(
       controller: _searchFieldController,
-      decoration: new InputDecoration(
+      decoration: InputDecoration(
         hintText: "Select a Location...",
       ),
       onChanged: (query) {
@@ -122,7 +122,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     );
 
     // Initialize Appbar
-    searchBar = new AppBar(
+    searchBar = AppBar(
       title: searchField,
     );
 
@@ -131,17 +131,17 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     // _getInitialPosition();
 
     // Initialize Map
-    _flutterMapController = new MapController();
-    flutterMap = new FlutterMap(
-      options: new MapOptions(
-          center: new LatLng(14.541530587952687, 121.01074919533015),
+    _flutterMapController = MapController();
+    flutterMap = FlutterMap(
+      options: MapOptions(
+          center: LatLng(14.541530587952687, 121.01074919533015),
           onPositionChanged:
               _onMapDragged), // TODO: Fix (Call only when user stops dragging)
       mapController: _flutterMapController,
       layers: <LayerOptions>[
-        new TileLayerOptions(
-          backgroundColor: new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
-          placeholderImage: new MemoryImage(kTransparentImage),
+        TileLayerOptions(
+          backgroundColor: Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
+          placeholderImage: MemoryImage(kTransparentImage),
           urlTemplate: "https://api.tiles.mapbox.com/v4/"
               "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
           additionalOptions: {
@@ -154,7 +154,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
     );
 
     // Initialize Scaffold's Body
-    mapBody = new Stack(
+    mapBody = Stack(
       children: <Widget>[
         flutterMap,
         centeredMarker,
@@ -164,7 +164,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       appBar: searchBar,
       body: mapBody,
       floatingActionButton: confirmButton,

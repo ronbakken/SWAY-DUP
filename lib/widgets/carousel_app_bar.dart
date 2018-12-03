@@ -18,9 +18,9 @@ class CarouselAppBar extends SliverAppBar {
           title: title,
           expandedHeight:
               (MediaQuery.of(context).size.width * 9.0 / 16.0) ~/ 4 * 4.0,
-          flexibleSpace: new FlexibleSpaceBar(
+          flexibleSpace: FlexibleSpaceBar(
             background: _buildBackground(
-                new PageController(), context, imageUrls, imagesBlurred),
+                PageController(), context, imageUrls, imagesBlurred),
           ),
           actions: actions,
         );
@@ -31,52 +31,52 @@ class CarouselAppBar extends SliverAppBar {
     List<String> imageUrls,
     List<Uint8List> imagesBlurred,
   ) {
-    List<Widget> images = new List<Widget>();
+    List<Widget> images = List<Widget>();
     if (imagesBlurred == null || imagesBlurred.length < imageUrls.length) {
       for (String imageUrl in imageUrls) {
-        images.add(new BlurredNetworkImage(
+        images.add(BlurredNetworkImage(
             url: imageUrl, placeholderAsset: 'assets/placeholder_photo.png'));
       }
     } else {
       for (int i = 0; i < imageUrls.length; ++i) {
-        images.add(new BlurredNetworkImage(
+        images.add(BlurredNetworkImage(
             url: imageUrls[i],
             blurredData: imagesBlurred[i],
             placeholderAsset: 'assets/placeholder_photo.png'));
       }
     }
-    return new Container(
+    return Container(
       // color: Theme.of(context).primaryColor,
-      child: new Stack(children: [
-        new Positioned.fill(
+      child: Stack(children: [
+        Positioned.fill(
           child: images.length == 1
               ? images[0]
-              : new Stack(
+              : Stack(
                   alignment: FractionalOffset.bottomCenter,
                   children: [
-                    new PageView.builder(
+                    PageView.builder(
                       controller: controller,
                       itemCount: images.length,
                       itemBuilder: (_, int i) => images[i],
                     ),
-                    new Container(
-                      margin: new EdgeInsets.only(
+                    Container(
+                      margin: EdgeInsets.only(
                         top: 16.0,
                         bottom: 16.0,
                       ),
-                      child: new CircleIndicator(controller, images.length, 3.0,
+                      child: CircleIndicator(controller, images.length, 3.0,
                           Colors.white70, Colors.white),
                     ),
                   ],
                 ),
         ),
-        new AspectRatio(
+        AspectRatio(
           aspectRatio: 16.0 / 4.0,
-          child: new ConstrainedBox(
-            constraints: new BoxConstraints.expand(),
-            child: new DecoratedBox(
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
+          child: ConstrainedBox(
+            constraints: BoxConstraints.expand(),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: <Color>[Colors.black45, Colors.transparent]),

@@ -13,13 +13,13 @@ class GeocodingTestPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _GeocodingTestPageState createState() => new _GeocodingTestPageState();
+  _GeocodingTestPageState createState() => _GeocodingTestPageState();
 }
 
 class _GeocodingTestPageState extends State<GeocodingTestPage> {
   String address = "";
-  TextEditingController latController = new TextEditingController();
-  TextEditingController longController = new TextEditingController();
+  TextEditingController latController = TextEditingController();
+  TextEditingController longController = TextEditingController();
 
   void convert(double lat, double long) async {
     address = await coordinatesToAddress(lat, long);
@@ -33,25 +33,25 @@ class _GeocodingTestPageState extends State<GeocodingTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(title: new Text("Geocode Test")),
-      body: new Column(
+    return Scaffold(
+      appBar: AppBar(title: Text("Geocode Test")),
+      body: Column(
         children: <Widget>[
-          new TextField(
+          TextField(
             controller: latController,
-            decoration: new InputDecoration(
+            decoration: InputDecoration(
               hintText: "Latitude",
             ),
           ),
-          new TextField(
+          TextField(
             controller: longController,
-            decoration: new InputDecoration(
+            decoration: InputDecoration(
               hintText: "Longitude",
             ),
           ),
-          new Text(address),
-          new FlatButton(
-            child: new Text("Reverse Geocode"),
+          Text(address),
+          FlatButton(
+            child: Text("Reverse Geocode"),
             onPressed: () {
               //a(double.parse(latController.text), double.parse(longController.text));
             },

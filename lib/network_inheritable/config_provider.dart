@@ -29,7 +29,7 @@ class ConfigProvider extends StatefulWidget {
   }
 
   @override
-  _ConfigProviderState createState() => new _ConfigProviderState();
+  _ConfigProviderState createState() => _ConfigProviderState();
 }
 
 class _ConfigProviderState extends State<ConfigProvider> {
@@ -38,7 +38,7 @@ class _ConfigProviderState extends State<ConfigProvider> {
   @override
   void initState() {
     super.initState();
-    manager = new ConfigManager(
+    manager = ConfigManager(
         startupConfig: widget.startupConfig,
         onChanged: () {
           setState(() {});
@@ -59,7 +59,7 @@ class _ConfigProviderState extends State<ConfigProvider> {
 
   @override
   Widget build(BuildContext context) {
-    return new _InheritedConfigProvider(
+    return _InheritedConfigProvider(
       config: manager.config,
       child: widget.child,
     );

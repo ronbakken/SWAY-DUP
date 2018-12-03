@@ -23,32 +23,32 @@ class LoadingNetwork extends StatelessWidget {
       // "Technical issues"
       // TODO: Handle case where WebviewScaffold fails as well!
       // We show a web url in case we need to alert users of maintenance.
-      return new WebviewScaffold(url: config.services.connectionFailedUrl);
+      return WebviewScaffold(url: config.services.connectionFailedUrl);
     }
     if (network.connected == NetworkConnectionState.offline) {
       // "Cannot connect to server"
       // TODO: Handle case where WebviewScaffold fails as well!
       // We show a web url in case we need to alert users of maintenance.
-      return new WebviewScaffold(url: config.services.connectionFailedUrl);
+      return WebviewScaffold(url: config.services.connectionFailedUrl);
     }
-    return new Scaffold(
+    return Scaffold(
       // Loading network
-      body: new SafeArea(
-        child: new Stack(
+      body: SafeArea(
+        child: Stack(
           fit: StackFit.expand,
           children: [
-            new IgnorePointer(
-              child: new Align(
+            IgnorePointer(
+              child: Align(
                 alignment: Alignment.topCenter,
-                child: new SizedBox(
+                child: SizedBox(
                   height: kToolbarHeight * 1.5,
                   child: Image(
-                      image: new AssetImage("assets/logo_appbar_ext_gray.png")),
+                      image: AssetImage("assets/logo_appbar_ext_gray.png")),
                 ),
               ),
             ),
-            new Center(
-              child: new CircularProgressIndicator(),
+            Center(
+              child: CircularProgressIndicator(),
             ),
           ],
         ),

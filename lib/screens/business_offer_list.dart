@@ -23,7 +23,7 @@ class OfferList extends StatelessWidget {
       : super(key: key);
 
   Widget buildTags(BuildContext context, DataOffer data) {
-    List<Widget> tags = new List<Widget>();
+    List<Widget> tags = List<Widget>();
     // Instead of showing 0 new proposals, show an informative message instead while still accepting new proposals!
     /*
     if (data.proposalsNew == 0 / * && data.proposalsAccepted == 0 * / &&
@@ -73,12 +73,12 @@ class OfferList extends StatelessWidget {
       ));
     }
     */
-    return new Container(
+    return Container(
       //margin: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
-      child: new Wrap(
+      child: Wrap(
         spacing: 0.0,
         children: tags.map((widget) {
-          return new Container(
+          return Container(
               margin: EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 0.0), child: widget);
         }).toList(),
       ),
@@ -87,7 +87,7 @@ class OfferList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new ChipTheme(
+    return ChipTheme(
       data: Theme.of(context).chipTheme.copyWith(
 
           // padding: EdgeInsets.all(0.0),
@@ -96,30 +96,30 @@ class OfferList extends StatelessWidget {
           // side: const BorderSide(width: 0.66, style: BorderStyle.solid, color: Colors.grey),
           ///),*/
           ),
-      child: new RefreshIndicator(
+      child: RefreshIndicator(
         // key: _refreshIndicatorKey,
         onRefresh: () async {
           if (onRefreshOffers == null) {
-            await new Future.delayed(new Duration(seconds: 2));
+            await Future.delayed(Duration(seconds: 2));
           } else {
             await onRefreshOffers();
           }
         },
         child: businessOffers == null
-            ? new Text("Please wait...")
+            ? Text("Please wait...")
             : businessOffers.length == 0
-                ? new Text("No offers")
+                ? Text("No offers")
                 : ListView.builder(
                     padding: kMaterialListPadding,
                     itemCount: businessOffers.length,
                     itemBuilder: (BuildContext context, int index) {
                       DataOffer data = businessOffers[index];
-                      return new Column(children: [
-                        new ListTile(
+                      return Column(children: [
+                        ListTile(
                           isThreeLine: true,
-                          leading: new CircleAvatar(
+                          leading: CircleAvatar(
                             backgroundImage: data.thumbnailUrl.length > 0
-                                ? new NetworkImage(data.thumbnailUrl)
+                                ? NetworkImage(data.thumbnailUrl)
                                 : null,
                             /* child: new Text('$index'), */
                             backgroundColor: Colors
@@ -127,9 +127,9 @@ class OfferList extends StatelessWidget {
                                     Colors.primaries.length]
                                 .shade300,
                           ),
-                          title: new Container(
+                          title: Container(
                             //margin: new EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
-                            child: new Text(data.title),
+                            child: Text(data.title),
                           ),
                           subtitle: buildTags(context, data),
                           onTap: onOfferPressed != null
@@ -138,7 +138,7 @@ class OfferList extends StatelessWidget {
                                 }
                               : null,
                         ),
-                        new Divider(),
+                        Divider(),
                       ]);
                     },
                   ),

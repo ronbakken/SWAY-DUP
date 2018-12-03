@@ -19,7 +19,7 @@ abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
   bool demoAllOffersLoading = false;
 
   bool _demoAllOffersLoaded = false;
-  Map<int, DataOffer> _demoAllOffers = new Map<int, DataOffer>();
+  Map<int, DataOffer> _demoAllOffers = Map<int, DataOffer>();
 
   @override
   void resetOffersDemoState() {
@@ -31,7 +31,7 @@ abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
   void markOffersDemoDirty() {}
 
   void _demoAllOffer(TalkMessage message) {
-    DataOffer pb = new DataOffer();
+    DataOffer pb = DataOffer();
     pb.mergeFromBuffer(message.data);
     cacheOffer(pb);
     // Add received offer to known offers
@@ -43,7 +43,7 @@ abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
   Future<void> refreshDemoAllOffers() async {
     log.fine("refreshDemoAllOffers");
     NetListOffers loadOffersReq =
-        new NetListOffers(); // TODO: Specific requests for higher and lower refreshing
+        NetListOffers(); // TODO: Specific requests for higher and lower refreshing
     Stream<TalkMessage> results =
         channel.sendStreamRequest("L_OFFERS", loadOffersReq.writeToBuffer());
 
@@ -76,7 +76,7 @@ abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
         demoAllOffersLoading = true;
         refreshDemoAllOffers().catchError((error, stack) {
           log.severe("Failed to get offers: $error");
-          new Timer(new Duration(seconds: 3), () {
+          Timer(Duration(seconds: 3), () {
             _demoAllOffersLoaded =
                 false; // Not using setState since we don't want to broadcast failure state
           });

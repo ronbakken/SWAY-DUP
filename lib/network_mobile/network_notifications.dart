@@ -18,38 +18,38 @@ import 'package:switchboard/switchboard.dart';
 
 abstract class NetworkNotifications implements ApiClient, NetworkInternals {
   bool _firebaseSetup = false;
-  final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   NotificationDetails platformChannelSpecifics;
 
-  List<int> _suppressChatNotifications = new List<int>();
+  List<int> _suppressChatNotifications = List<int>();
 
   Stream<CrossNavigationRequest> get onNavigationRequest {
     return _onNavigationRequest.stream;
   }
 
   StreamController<CrossNavigationRequest> _onNavigationRequest =
-      new StreamController<CrossNavigationRequest>();
+      StreamController<CrossNavigationRequest>();
 
   void disposeNotifications() {
     _onNavigationRequest.close();
   }
 
   void initNotifications() {
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     var initializationSettingsAndroid =
-        new AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = new IOSInitializationSettings();
-    var initializationSettings = new InitializationSettings(
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'chat', 'Messages', 'Messages received from other users',
         importance: Importance.Max, priority: Priority.High);
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    platformChannelSpecifics = new NotificationDetails(
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
   }
 
@@ -86,7 +86,7 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
     if (account.accountId != 0) {
       if (account.firebaseToken != token || oldFirebaseToken != token) {
         account.firebaseToken = token;
-        NetSetFirebaseToken setFirebaseToken = new NetSetFirebaseToken();
+        NetSetFirebaseToken setFirebaseToken = NetSetFirebaseToken();
         if (oldFirebaseToken != null)
           setFirebaseToken.oldFirebaseToken = oldFirebaseToken;
         setFirebaseToken.firebaseToken = token;
@@ -135,7 +135,7 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
     log.fine("Firebase Launch Received: $data");
     // Fired when the app was opened by a message
     if (data['proposal_id'] != null) {
-      _onNavigationRequest.add(new CrossNavigationRequest(
+      _onNavigationRequest.add(CrossNavigationRequest(
           data['domain'],
           Int64.parseInt(data['account_id']),
           NavigationTarget.Proposal,
@@ -157,7 +157,7 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
     google.message_id: 0:1537966114577353%ddd1e337ddd1e337, 
     sender_id: 11}*/
     if (data['proposal_id'] != null) {
-      _onNavigationRequest.add(new CrossNavigationRequest(
+      _onNavigationRequest.add(CrossNavigationRequest(
           data['domain'],
           Int64.parseInt(data['account_id']),
           NavigationTarget.Proposal,
@@ -171,7 +171,7 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
       /*domain=dev&account_id=10&proposal_id=16*/
       Map<String, String> data = Uri.splitQueryString(payload);
       if (data['proposal_id'] != null) {
-        _onNavigationRequest.add(new CrossNavigationRequest(
+        _onNavigationRequest.add(CrossNavigationRequest(
             data['domain'],
             Int64.parseInt(data['account_id']),
             NavigationTarget.Proposal,

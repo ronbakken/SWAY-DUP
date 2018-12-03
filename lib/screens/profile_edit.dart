@@ -28,16 +28,16 @@ class ProfileEdit extends StatefulWidget {
   final Function(dynamic setProfile) onSubmitPressed;
 
   @override
-  _ProfileEditState createState() => new _ProfileEditState();
+  _ProfileEditState createState() => _ProfileEditState();
 }
 
 class _ProfileEditState extends State<ProfileEdit> {
   // GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  TextEditingController _avatarController = new TextEditingController();
-  TextEditingController _nameController = new TextEditingController();
-  TextEditingController _locationController = new TextEditingController();
-  TextEditingController _descriptionController = new TextEditingController();
+  TextEditingController _avatarController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
 
   @override
   void initState() {
@@ -76,46 +76,46 @@ class _ProfileEditState extends State<ProfileEdit> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Modify your profile"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Modify your profile"),
       ),
       bottomSheet: NetworkStatus.buildOptional(context),
-      body: new ListView(
+      body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
-          new ImageUploader(
+          ImageUploader(
             initialUrl: widget.account.avatarUrl,
             uploadKey: _avatarController,
             onUploadImage: widget.onUploadImage,
           ),
-          new SizedBox(
+          SizedBox(
             height: 8.0,
           ),
-          new TextField(
+          TextField(
             controller: _nameController,
-            decoration: new InputDecoration(labelText: 'Name'),
+            decoration: InputDecoration(labelText: 'Name'),
           ),
-          new TextField(
+          TextField(
             controller: _locationController,
-            decoration: new InputDecoration(labelText: 'Location'),
+            decoration: InputDecoration(labelText: 'Location'),
           ),
-          new TextField(
+          TextField(
             controller: _descriptionController,
-            decoration: new InputDecoration(labelText: 'Description'),
+            decoration: InputDecoration(labelText: 'Description'),
           ),
-          new SizedBox(
+          SizedBox(
             height: 16.0,
           ),
-          new Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              new RaisedButton(
+              RaisedButton(
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                child: new Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    new Text("Save your profile".toUpperCase()),
+                    Text("Save your profile".toUpperCase()),
                   ],
                 ),
                 onPressed:

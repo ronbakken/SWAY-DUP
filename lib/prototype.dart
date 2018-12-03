@@ -23,7 +23,7 @@ class Prototype extends StatefulWidget {
   final MultiAccountStore multiAccountStore;
 
   @override
-  _PrototypeState createState() => new _PrototypeState();
+  _PrototypeState createState() => _PrototypeState();
 }
 
 class _PrototypeState extends State<Prototype> {
@@ -57,7 +57,7 @@ class _PrototypeState extends State<Prototype> {
     // Set base colors
     ThemeData theme = dark
         // Dark theme
-        ? new ThemeData(
+        ? ThemeData(
             brightness: Brightness.dark, // This makes things dark!
             primarySwatch:
                 Colors.blueGrey, // This is just defaults, no need to change!
@@ -66,29 +66,29 @@ class _PrototypeState extends State<Prototype> {
             accentColorBrightness: Brightness.dark,
           )
         // Light theme
-        : new ThemeData(
+        : ThemeData(
             primarySwatch: Colors.blueGrey,
           );
     if (dark) {
       // Adjust colors
       theme = theme.copyWith(
         // Generate these values on https://material.io/color/!
-        primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-        primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-        primaryColorDark: Color.lerp(new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
-            new Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125),
-        buttonColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        primaryColor: Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        primaryColorLight: Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+        primaryColorDark: Color.lerp(Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+            Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125),
+        buttonColor: Color.fromARGB(0xff, 0x53, 0x66, 0x59),
         // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
-        accentColor: new Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
+        accentColor: Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
         // Grayscale of primaryColor
-        unselectedWidgetColor: new Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
+        unselectedWidgetColor: Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
       );
     } else {
       theme = theme.copyWith(
         // Generate these values on https://material.io/color/!
-        primaryColor: new Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-        primaryColorLight: new Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-        primaryColorDark: new Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+        primaryColor: Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        primaryColorLight: Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+        primaryColorDark: Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
       );
     }
     /*
@@ -151,29 +151,29 @@ class _PrototypeState extends State<Prototype> {
     // Adjust widget themes
     theme = theme.copyWith(
       buttonTheme: theme.buttonTheme.copyWith(
-        shape: new StadiumBorder(),
+        shape: StadiumBorder(),
       ),
     );
     // Use final theme
     theme = AppTheme.themeTopLevel();
-    return new MaterialApp(
+    return MaterialApp(
       title: 'INF Marketplace',
       // debugShowMaterialGrid: true,
       theme: theme,
       home: !developerMenu
-          ? new Builder(
+          ? Builder(
               builder: (BuildContext context) {
-                return new RebuildTracker(
+                return RebuildTracker(
                   message: "Full app rebuild triggered (3)",
-                  child: new AppSwitch(),
+                  child: AppSwitch(),
                 );
               },
             )
-          : new Builder(
+          : Builder(
               builder: (BuildContext context) {
-                return new RebuildTracker(
+                return RebuildTracker(
                   message: "Full app rebuild triggered (3)",
-                  child: new DeveloperMenu(
+                  child: DeveloperMenu(
                     onExitDevelopmentMode: () {
                       enterDeveloperMenu(false);
                     },
@@ -186,13 +186,13 @@ class _PrototypeState extends State<Prototype> {
 
   @override
   Widget build(BuildContext context) {
-    return new NetworkStack(
+    return NetworkStack(
       startupConfig: widget.startupConfig,
       multiAccountStore: widget.multiAccountStore,
-      child: new RebuildTracker(
+      child: RebuildTracker(
         message: "Full app rebuild triggered (1)",
-        child: new Builder(builder: (BuildContext context) {
-          return new RebuildTracker(
+        child: Builder(builder: (BuildContext context) {
+          return RebuildTracker(
             message: "Full app rebuild triggered (2)",
             child: _buildMaterialApp(context),
           );

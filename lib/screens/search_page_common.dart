@@ -36,7 +36,7 @@ class SearchPageCommon extends StatefulWidget {
   final String searchTooltip;
 
   @override
-  _SearchPageState createState() => new _SearchPageState();
+  _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPageCommon> {
@@ -102,29 +102,29 @@ class _SearchPageState extends State<SearchPageCommon> {
     }
   }
 
-  static final _progressIndicator = new LinearProgressIndicator();
+  static final _progressIndicator = LinearProgressIndicator();
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         // We want the appbar to change to a
         // search field whenever we press the Search Icon
         //appBar: searchBar.build(context),
-        appBar: new AppBar(
+        appBar: AppBar(
           // automaticallyImplyLeading: false,
           titleSpacing: 0.0,
-          title: new TextField(
+          title: TextField(
             controller: widget.searchQueryController,
-            decoration: new InputDecoration(
+            decoration: InputDecoration(
                 // TODO: Better track focus of this input!!! (remove focus when keyboard is closed)
                 hintText: widget.searchHint),
           ),
           actions: [
-            new IconButton(
+            IconButton(
               // splashColor: Theme.of(context).accentColor,
               // color: Theme.of(context).accentColor,
-              padding: new EdgeInsets.all(16.0),
-              icon: new Icon(Icons.search),
+              padding: EdgeInsets.all(16.0),
+              icon: Icon(Icons.search),
               onPressed: _search,
               tooltip: widget.searchTooltip,
             )
@@ -136,7 +136,7 @@ class _SearchPageState extends State<SearchPageCommon> {
               ? _progressIndicator // new Text("Search in progress '$lastSearchQuery'...")
               : null,
         ),
-        body: new ListView(
+        body: ListView(
           children: widget.searchResults,
         ));
   }

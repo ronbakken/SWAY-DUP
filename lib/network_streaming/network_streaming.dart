@@ -24,9 +24,9 @@ class NetworkStreaming {
   StreamSubscription<CrossNavigationRequest> _onNavigationRequestSubscription;
 
   final StreamController<void> onNetworkChanged =
-      new StreamController<void>.broadcast(sync: true);
+      StreamController<void>.broadcast(sync: true);
   final StreamController<void> onConfigChanged =
-      new StreamController<void>.broadcast(sync: true);
+      StreamController<void>.broadcast(sync: true);
 
   /// Exposes 'onAccountsChanged' (list of accounts changed)
   /// and account switching / adding functionality.
@@ -56,13 +56,13 @@ class NetworkStreaming {
   }) {
     _multiAccountStore = multiAccountStore;
 
-    _configManager = new ConfigManager(
+    _configManager = ConfigManager(
         startupConfig: startupConfig, onChanged: _onConfigChanged);
 
-    _crossAccountNavigator = new CrossAccountNavigator();
+    _crossAccountNavigator = CrossAccountNavigator();
     _crossAccountNavigator.multiAccountClient = _multiAccountStore;
 
-    _networkManager = new NetworkManager();
+    _networkManager = NetworkManager();
     _networkManager.onChanged = _onNetworkChanged;
     _networkManager.initialize();
     _networkManager.updateDependencies(
@@ -102,11 +102,11 @@ class NetworkStreaming {
   StreamSubscription<NavigationRequest> listenNavigation(
       Function(NavigationTarget target, Int64 id) onData) {
     if (config.services.domain != _multiAccountStore.current.domain) {
-      throw new Exception("Mismatching domain");
+      throw Exception("Mismatching domain");
     }
     if (_networkManager.account.accountId !=
         _multiAccountStore.current.accountId) {
-      throw new Exception("Mismatching account id");
+      throw Exception("Mismatching account id");
     }
     return _crossAccountNavigator.listen(
       config.services.domain,

@@ -17,20 +17,20 @@ class NetworkStatus extends StatelessWidget {
       case NetworkConnectionState.ready:
         return alternative;
       default:
-        return new NetworkStatus().build(context);
+        return NetworkStatus().build(context);
     }
   }
 
-  static final _minimalContainer = new Container(width: 0.0, height: 0.0);
-  static final _progressIndicator = new LinearProgressIndicator();
-  static final _offlineBuilder = new Builder(builder: (context) {
-    return new Row(
+  static final _minimalContainer = Container(width: 0.0, height: 0.0);
+  static final _progressIndicator = LinearProgressIndicator();
+  static final _offlineBuilder = Builder(builder: (context) {
+    return Row(
       children: <Widget>[
-        new Expanded(
-          child: new Material(
+        Expanded(
+          child: Material(
             color: Theme.of(context).errorColor,
-            child: new Padding(
-              padding: new EdgeInsets.all(8.0),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text("Disconnected from the server."),
             ),
           ),
@@ -38,14 +38,14 @@ class NetworkStatus extends StatelessWidget {
       ],
     );
   });
-  static final _failingBuilder = new Builder(builder: (context) {
-    return new Row(
+  static final _failingBuilder = Builder(builder: (context) {
+    return Row(
       children: <Widget>[
-        new Expanded(
-          child: new Material(
+        Expanded(
+          child: Material(
             color: Theme.of(context).errorColor,
-            child: new Padding(
-              padding: new EdgeInsets.all(8.0),
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text("Disconnected from the server."),
             ),
           ),

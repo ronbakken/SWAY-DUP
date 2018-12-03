@@ -45,15 +45,15 @@ class NetworkStack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new MultiAccountSelection(
+    return MultiAccountSelection(
       key: const Key('CrossAccountSelection'),
       client: multiAccountStore,
-      child: new ConfigProvider(
+      child: ConfigProvider(
         key: const Key('ConfigProvider'),
         startupConfig: startupConfig,
-        child: new CrossAccountNavigation(
+        child: CrossAccountNavigation(
           key: const Key('CrossAccountNavigation'),
-          child: new NetworkProvider(
+          child: NetworkProvider(
             key: const Key('NetworkProvider'),
             multiAccountStore: multiAccountStore,
             child: child,

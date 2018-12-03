@@ -64,7 +64,7 @@ class DashboardCommon extends StatefulWidget {
   final Widget agreementsHistory;
 
   @override
-  _DashboardCommonState createState() => new _DashboardCommonState();
+  _DashboardCommonState createState() => _DashboardCommonState();
 }
 
 class _DashboardCommonState extends State<DashboardCommon>
@@ -92,7 +92,7 @@ class _DashboardCommonState extends State<DashboardCommon>
       _currentTab = 0;
     }
     if (_tabControllerTabs?.length != _tabCount) {
-      _tabControllerTabs = new TabController(
+      _tabControllerTabs = TabController(
         length: _tabCount,
         vsync: this,
       );
@@ -100,15 +100,15 @@ class _DashboardCommonState extends State<DashboardCommon>
   }
 
   void _initTabControllers() {
-    _tabControllerOffers = new TabController(
+    _tabControllerOffers = TabController(
       length: 2,
       vsync: this,
     );
-    _tabControllerProposals = new TabController(
+    _tabControllerProposals = TabController(
       length: 3,
       vsync: this,
     );
-    _tabControllerAgreements = new TabController(
+    _tabControllerAgreements = TabController(
       length: 2,
       vsync: this,
     );
@@ -129,9 +129,8 @@ class _DashboardCommonState extends State<DashboardCommon>
 
   @override
   Widget build(BuildContext context) {
-    String mapLabel = widget.account.accountType == AccountType.influencer
-        ? "Offers"
-        : "Map";
+    String mapLabel =
+        widget.account.accountType == AccountType.influencer ? "Offers" : "Map";
     String offersLabel = "Offers";
     /*
     String proposalsLabel =
@@ -142,73 +141,73 @@ class _DashboardCommonState extends State<DashboardCommon>
     String proposalsLabel = "Haggle";
     String agreementsLabel = "Deals"; // or Accepted
     List<BottomNavigationBarItem> tabBarItems =
-        new List<BottomNavigationBarItem>(_tabCount);
+        List<BottomNavigationBarItem>(_tabCount);
     if (widget.mapTab != null) {
-      tabBarItems[widget.mapTab] = new BottomNavigationBarItem(
-        icon: new Icon(Icons.map),
-        title: new Text(mapLabel),
+      tabBarItems[widget.mapTab] = BottomNavigationBarItem(
+        icon: Icon(Icons.map),
+        title: Text(mapLabel),
       );
     }
     if (widget.offersTab != null) {
-      tabBarItems[widget.offersTab] = new BottomNavigationBarItem(
-        icon: new Icon(Icons.list),
-        title: new Text(offersLabel),
+      tabBarItems[widget.offersTab] = BottomNavigationBarItem(
+        icon: Icon(Icons.list),
+        title: Text(offersLabel),
       );
     }
     if (widget.proposalsTab != null) {
-      tabBarItems[widget.proposalsTab] = new BottomNavigationBarItem(
-        icon: new Icon(Icons.inbox),
-        title: new Text(proposalsLabel),
+      tabBarItems[widget.proposalsTab] = BottomNavigationBarItem(
+        icon: Icon(Icons.inbox),
+        title: Text(proposalsLabel),
       );
     }
     if (widget.agreementsTab != null) {
-      tabBarItems[widget.agreementsTab] = new BottomNavigationBarItem(
-        icon: new Icon(Icons.event_note),
-        title: new Text(agreementsLabel),
+      tabBarItems[widget.agreementsTab] = BottomNavigationBarItem(
+        icon: Icon(Icons.event_note),
+        title: Text(agreementsLabel),
       );
     }
     Widget body;
     if (_currentTab == widget.mapTab) {
       body = widget.map;
     } else if (_currentTab == widget.offersTab) {
-      body = new TabBarView(
-        key: new Key('TabViewOffers'),
+      body = TabBarView(
+        key: Key('TabViewOffers'),
         controller: _tabControllerOffers,
         children: [
           widget.offersCurrent == null
-              ? new Text("/* Current */")
+              ? Text("/* Current */")
               : widget.offersCurrent,
           widget.offersHistory == null
-              ? new Text("/* History */")
+              ? Text("/* History */")
               : widget.offersHistory
         ],
       );
     } else if (_currentTab == widget.proposalsTab) {
-      body = new TabBarView(
-        key: new Key('TabViewProposals'),
+      body = TabBarView(
+        key: Key('TabViewProposals'),
         controller: _tabControllerProposals,
         children: [
           widget.proposalsSent == null
-              ? new Text("/* Sent */")
+              ? Text("/* Sent */")
               : widget.proposalsSent,
           widget.proposalsReceived == null
-              ? new Text("/* Received */")
+              ? Text("/* Received */")
               : widget.proposalsReceived,
           widget.proposalsRejected == null
-              ? new Text("/* Rejected */")
+              ? Text("/* Rejected */")
               : widget.proposalsRejected,
         ],
       );
     } else if (_currentTab == widget.agreementsTab) {
-      body = new TabBarView(
-        key: new Key('TabViewAgreements'),
+      body = TabBarView(
+        key: Key('TabViewAgreements'),
         controller: _tabControllerAgreements,
         children: [
           widget.agreementsActive == null
-              ? new Text("/* Active */")
+              ? Text("/* Active */")
               : widget.agreementsActive,
           widget.agreementsHistory == null
-              ? new Text("/* History */")
+              ? Text("/* History */")
               : widget.agreementsHistory,
         ],
       );
@@ -219,99 +218,96 @@ class _DashboardCommonState extends State<DashboardCommon>
       TabBar tabBar;
       if (_currentTab == widget.offersTab) {
         title = offersLabel;
-        tabBar = new TabBar(
-            key: new Key('TabBarOffers'),
+        tabBar = TabBar(
+            key: Key('TabBarOffers'),
             controller: _tabControllerOffers,
             tabs: [
-              new Tab(text: "Current".toUpperCase()),
-              new Tab(text: "History".toUpperCase())
+              Tab(text: "Current".toUpperCase()),
+              Tab(text: "History".toUpperCase())
             ]);
       } else if (_currentTab == widget.proposalsTab) {
         title = proposalsLabel;
-        tabBar = new TabBar(
-            key: new Key('TabBarProposals'),
+        tabBar = TabBar(
+            key: Key('TabBarProposals'),
             controller: _tabControllerProposals,
             tabs: [
-              new Tab(
-                  text: (widget.account.accountType ==
-                              AccountType.influencer
+              Tab(
+                  text: (widget.account.accountType == AccountType.influencer
                           ? "Applied"
                           : "Direct")
                       .toUpperCase()),
-              new Tab(
-                  text: (widget.account.accountType ==
-                              AccountType.influencer
+              Tab(
+                  text: (widget.account.accountType == AccountType.influencer
                           ? "Direct"
                           : "Proposals")
                       .toUpperCase()),
-              new Tab(text: "Rejected".toUpperCase())
+              Tab(text: "Rejected".toUpperCase())
             ]);
       } else if (_currentTab == widget.agreementsTab) {
         title = agreementsLabel;
-        tabBar = new TabBar(
-            key: new Key('TabBarAgreements'),
+        tabBar = TabBar(
+            key: Key('TabBarAgreements'),
             controller: _tabControllerAgreements,
             tabs: [
-              new Tab(text: "Active".toUpperCase()),
-              new Tab(text: "History".toUpperCase())
+              Tab(text: "Active".toUpperCase()),
+              Tab(text: "History".toUpperCase())
             ]);
       }
-      appBar = new AppBar(
-        title: new Text(title),
+      appBar = AppBar(
+        title: Text(title),
         bottom: tabBar,
       );
     }
-    return new Scaffold(
+    return Scaffold(
       body: body,
       floatingActionButton: (widget.onMakeAnOffer != null &&
               (_currentTab == widget.mapTab || _currentTab == widget.offersTab))
-          ? new FloatingActionButton(
+          ? FloatingActionButton(
               backgroundColor: Theme.of(context).primaryColor,
               tooltip: 'Make an offer',
-              child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    new Icon(Icons.add),
-                  ]),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(Icons.add),
+              ]),
               onPressed: widget.onMakeAnOffer,
             )
           : null,
-      drawer: new Drawer(
-        child: new Column(
+      drawer: Drawer(
+        child: Column(
             children: [
-          new AspectRatio(
+          AspectRatio(
               aspectRatio: 16.0 / 9.0,
-              child: new Material(
+              child: Material(
                   elevation: 4.0, // Match AppBar
                   color: Theme.of(context).primaryColor,
-                  child: new Stack(children: [
-                    new Positioned.fill(
-                      child: new BlurredNetworkImage(
+                  child: Stack(children: [
+                    Positioned.fill(
+                      child: BlurredNetworkImage(
                         url: widget.account.avatarUrl,
                         blurredUrl: widget.account.blurredAvatarUrl,
                         placeholderAsset: 'assets/placeholder_photo.png',
                       ),
                     ),
-                    new SafeArea(
+                    SafeArea(
                         // child: new Text("Hello world"),
-                        child: new Align(
+                        child: Align(
                             alignment: Alignment.bottomLeft,
-                            child: new Container(
-                                margin: new EdgeInsets.fromLTRB(
-                                    56.0, 16.0, 16.0, 16.0),
-                                child: new Text(
+                            child: Container(
+                                margin:
+                                    EdgeInsets.fromLTRB(56.0, 16.0, 16.0, 16.0),
+                                child: Text(
                                   widget.account.name,
                                   style:
                                       Theme.of(context).primaryTextTheme.title,
                                 ))))
                   ]))),
-          new FlatButton(
-            child: new Row(children: [
-              new Container(
-                margin: new EdgeInsets.all(16.0),
-                child: new Icon(Icons.account_circle),
+          FlatButton(
+            child: Row(children: [
+              Container(
+                margin: EdgeInsets.all(16.0),
+                child: Icon(Icons.account_circle),
               ),
-              new Text('Profile')
+              Text('Profile')
             ]),
             onPressed: (widget.onNavigateProfile != null)
                 ? () {
@@ -320,13 +316,13 @@ class _DashboardCommonState extends State<DashboardCommon>
                   }
                 : null,
           ),
-          new FlatButton(
-            child: new Row(children: [
-              new Container(
-                margin: new EdgeInsets.all(16.0),
-                child: new Icon(Icons.supervisor_account),
+          FlatButton(
+            child: Row(children: [
+              Container(
+                margin: EdgeInsets.all(16.0),
+                child: Icon(Icons.supervisor_account),
               ),
-              new Text('Switch User')
+              Text('Switch User')
             ]),
             onPressed: (widget.onNavigateSwitchAccount != null)
                 ? () {
@@ -337,13 +333,13 @@ class _DashboardCommonState extends State<DashboardCommon>
           ),
           (widget.account.globalAccountState.value >=
                   GlobalAccountState.debug.value)
-              ? new FlatButton(
-                  child: new Row(children: [
-                    new Container(
-                      margin: new EdgeInsets.all(16.0),
-                      child: new Icon(Icons.account_box),
+              ? FlatButton(
+                  child: Row(children: [
+                    Container(
+                      margin: EdgeInsets.all(16.0),
+                      child: Icon(Icons.account_box),
                     ),
-                    new Text('Debug Account')
+                    Text('Debug Account')
                   ]),
                   onPressed: (widget.onNavigateDebugAccount != null)
                       ? () {
@@ -357,7 +353,7 @@ class _DashboardCommonState extends State<DashboardCommon>
       ),
       appBar: appBar,
       bottomSheet: NetworkStatus.buildOptional(context),
-      bottomNavigationBar: new BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentTab,
           onTap: (int index) {

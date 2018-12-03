@@ -35,11 +35,11 @@ class ProposalList extends StatelessWidget {
     List<DataProposal> proposalsSorted = proposals.toList();
     proposalsSorted.sort((a, b) => a.proposalId.compareTo(b.proposalId));
     if (proposalsSorted.length == 0) {
-      return new Center(
-        child: new Card(
-          child: new Padding(
-            padding: new EdgeInsets.all(16.0),
-            child: new Text(
+      return Center(
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
               "Nothing here",
               style: Theme.of(context)
                   .textTheme
@@ -50,7 +50,7 @@ class ProposalList extends StatelessWidget {
         ),
       );
     }
-    return new ListView.builder(
+    return ListView.builder(
       padding: const EdgeInsets.symmetric(
           vertical:
               kInfPaddingHalf), // kMaterialListPadding, // const EdgeInsets.only(), // kMaterialListPadding,
@@ -64,7 +64,7 @@ class ProposalList extends StatelessWidget {
         if (partnerAccountId == account.accountId) {
           partnerAccountId = proposal.influencerAccountId;
         }
-        return new ProposalCard(
+        return ProposalCard(
           key: Key('ProposalCard[${proposal.proposalId}]'),
           account: account,
           proposal: proposal,

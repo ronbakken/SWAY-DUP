@@ -33,7 +33,7 @@ class AppBusiness extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AppBusinessState createState() => new _AppBusinessState();
+  _AppBusinessState createState() => _AppBusinessState();
 }
 
 class _AppBusinessState extends AppCommonState<AppBusiness> {
@@ -55,24 +55,24 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
   void navigateToMakeAnOffer() {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
+        context, MaterialPageRoute(builder: (context) {
       // ConfigData config = ConfigProvider.of(context);
       ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      return new OfferCreate(
+      return OfferCreate(
         onUploadImage: network.uploadImage,
         onCreateOffer: (NetCreateOffer createOffer) async {
           var progressDialog = showProgressDialog(
               context: this.context,
               builder: (BuildContext context) {
-                return new Dialog(
-                  child: new Row(
+                return Dialog(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      new Container(
-                          padding: new EdgeInsets.all(24.0),
-                          child: new CircularProgressIndicator()),
-                      new Text("Creating offer..."),
+                      Container(
+                          padding: EdgeInsets.all(24.0),
+                          child: CircularProgressIndicator()),
+                      Text("Creating offer..."),
                     ],
                   ),
                 );
@@ -89,21 +89,21 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
             await showDialog<Null>(
               context: this.context,
               builder: (BuildContext context) {
-                return new AlertDialog(
-                  title: new Text('Create Offer Failed'),
-                  content: new SingleChildScrollView(
-                    child: new ListBody(
+                return AlertDialog(
+                  title: Text('Create Offer Failed'),
+                  content: SingleChildScrollView(
+                    child: ListBody(
                       children: <Widget>[
-                        new Text('An error has occured.'),
-                        new Text('Please try again later.'),
+                        Text('An error has occured.'),
+                        Text('Please try again later.'),
                       ],
                     ),
                   ),
                   actions: <Widget>[
-                    new FlatButton(
-                      child: new Row(
+                    FlatButton(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [new Text('Ok'.toUpperCase())],
+                        children: [Text('Ok'.toUpperCase())],
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -144,8 +144,8 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     Navigator.push(
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
-      new MaterialPageRoute(
-        settings: new RouteSettings(name: '/offer/' + offerId.toString()),
+      MaterialPageRoute(
+        settings: RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (context) {
           // ConfigData config = ConfigProvider.of(context);
           ApiClient network = NetworkProvider.of(context);
@@ -153,7 +153,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
           DataOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount =
               network.tryGetProfileSummary(businessOffer.senderId);
-          return new OfferView(
+          return OfferView(
             account: network.account,
             businessAccount: businessAccount,
             businessOffer: businessOffer,
@@ -173,11 +173,11 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
   void navigateToProfileView() {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
+        context, MaterialPageRoute(builder: (context) {
       // ConfigData config = ConfigProvider.of(context);
       ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      return new ProfileView(
+      return ProfileView(
         account: network.account,
         oauthProviders: ConfigProvider.of(context).oauthProviders,
         onEditPressed: navigateToProfileEdit,
@@ -186,11 +186,11 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
   }
 
   void navigateToHistory() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      return new Scaffold(
-          appBar: new AppBar(
-            title: new Text("History"),
+      return Scaffold(
+          appBar: AppBar(
+            title: Text("History"),
           ),
           bottomSheet: NetworkStatus.buildOptional(context),
           body: proposalsHistory);
@@ -200,11 +200,11 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
   void navigateToProfileEdit() {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(builder: (context) {
+        context, MaterialPageRoute(builder: (context) {
       // ConfigData config = ConfigProvider.of(context);
       ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      return new ProfileEdit(
+      return ProfileEdit(
         account: network.account,
       );
     }));
@@ -214,15 +214,15 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
   Widget build(BuildContext context) {
     ApiClient network = NetworkProvider.of(context);
     assert(network != null);
-    return new DashboardSimplified(
+    return DashboardSimplified(
       account: network.account,
       offersBusinessTab: 0,
       proposalsDirectTab: 1,
       proposalsAppliedTab: 2,
       proposalsDealTab: 3,
-      offersBusiness: new Builder(builder: (context) {
+      offersBusiness: Builder(builder: (context) {
         ApiClient network = NetworkProvider.of(context);
-        return new OfferList(
+        return OfferList(
             businessOffers: network.offers.values
                 .where((offer) => (offer.state != OfferState.closed))
                 .toList()

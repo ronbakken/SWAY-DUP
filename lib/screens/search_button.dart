@@ -18,8 +18,8 @@ class SearchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new IconButton(
-      icon: new Icon(Icons.search),
+    return IconButton(
+      icon: Icon(Icons.search),
       onPressed: onSearchPressed,
     );
   }

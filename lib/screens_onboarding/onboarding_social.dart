@@ -42,7 +42,7 @@ class OnboardingSocial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> oauthButtons = new List<Widget>();
+    List<Widget> oauthButtons = List<Widget>();
     print("OAuth Providers: " + oauthProviders.length.toString());
     int nbButtons = oauthProviders.length < oauthState.length
         ? oauthProviders.length
@@ -57,26 +57,25 @@ class OnboardingSocial extends StatelessWidget {
         if (oauthState[i].connected) {
           connected = true;
         }
-        Widget r = new Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              new Icon(new IconData(cfg.fontAwesomeBrand,
-                  fontFamily: 'FontAwesomeBrands',
-                  fontPackage: 'font_awesome_flutter')),
-              new Text(cfg.label.toUpperCase()),
-              new Icon((oauthState[i].connected && !oauthState[i].expired)
-                  ? FontAwesomeIcons.checkCircle
-                  : FontAwesomeIcons.signInAlt),
-            ]);
-        Widget w = new Container(
-          margin: new EdgeInsets.symmetric(horizontal: 8.0),
+        Widget r =
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Icon(IconData(cfg.fontAwesomeBrand,
+              fontFamily: 'FontAwesomeBrands',
+              fontPackage: 'font_awesome_flutter')),
+          Text(cfg.label.toUpperCase()),
+          Icon((oauthState[i].connected && !oauthState[i].expired)
+              ? FontAwesomeIcons.checkCircle
+              : FontAwesomeIcons.signInAlt),
+        ]);
+        Widget w = Container(
+          margin: EdgeInsets.symmetric(horizontal: 8.0),
           child: (oauthState[i].connected
-              ? new FlatButton(
+              ? FlatButton(
                   // shape: new StadiumBorder(),
                   child: r,
                   onPressed: null,
                 )
-              : new RaisedButton(
+              : RaisedButton(
                   // shape: new StadiumBorder(),
                   child: r,
                   onPressed: (onOAuthSelected != null)
@@ -89,23 +88,23 @@ class OnboardingSocial extends StatelessWidget {
         oauthButtons.add(w);
       }
     }
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Image(image: new AssetImage('assets/logo_appbar.png')),
+    return Scaffold(
+      appBar: AppBar(
+        title: Image(image: AssetImage('assets/logo_appbar.png')),
         centerTitle: true,
       ),
       bottomSheet: NetworkStatus.buildOptional(context),
-      body: new ListView(
+      body: ListView(
         children: [
-          new Container(
-            margin: new EdgeInsets.all(8.0),
-            child: new Column(
+          Container(
+            margin: EdgeInsets.all(8.0),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                new Container(
-                  margin: new EdgeInsets.all(8.0),
-                  child: new Text(
+                Container(
+                  margin: EdgeInsets.all(8.0),
+                  child: Text(
                     accountType == AccountType.influencer
                         ? "You are now an influencer!"
                         : "You are now in business!",
@@ -113,27 +112,27 @@ class OnboardingSocial extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                new Container(
-                  margin: new EdgeInsets.all(8.0),
-                  child: new Text(
+                Container(
+                  margin: EdgeInsets.all(8.0),
+                  child: Text(
                     "Which social media accounts would you like to connect with?",
                     style: Theme.of(context).textTheme.body1,
                     textAlign: TextAlign.center,
                   ),
                 ),
-                new Column(
+                Column(
                   children: oauthButtons,
                 ),
-                new Container(
-                    margin: new EdgeInsets.all(8.0),
-                    child: new Row(
+                Container(
+                    margin: EdgeInsets.all(8.0),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        new RaisedButton(
-                          child: new Row(
+                        RaisedButton(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              new Text("Sign up".toUpperCase()),
+                              Text("Sign up".toUpperCase()),
                             ],
                           ),
                           onPressed: connected && onSignUp != null
@@ -158,44 +157,44 @@ class OnboardingSocial extends StatelessWidget {
     await showDialog<Null>(
       context: context,
       builder: (BuildContext context) {
-        return new AlertDialog(
-          title: new Text('INF Marketplace LLC'),
-          content: new SingleChildScrollView(
-            child: new RichText(
-              text: new TextSpan(
+        return AlertDialog(
+          title: Text('INF Marketplace LLC'),
+          content: SingleChildScrollView(
+            child: RichText(
+              text: TextSpan(
                 children: [
-                  new TextSpan(
+                  TextSpan(
                     text:
                         "By signing up to our service you confirm that you have read and agree to our ",
                   ),
-                  new TextSpan(
+                  TextSpan(
                     text: "Terms of Service",
                     // style: new TextStyle(color: Colors.blue),
                     style: Theme.of(context)
                         .textTheme
                         .button
                         .copyWith(color: Theme.of(context).accentColor),
-                    recognizer: new TapGestureRecognizer()
+                    recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         launch(termsOfServiceUrl);
                       },
                   ),
-                  new TextSpan(
+                  TextSpan(
                     text: " and ",
                   ),
-                  new TextSpan(
+                  TextSpan(
                     text: "Privacy Policy",
                     // style: new TextStyle(color: Colors.blue),
                     style: Theme.of(context)
                         .textTheme
                         .button
                         .copyWith(color: Theme.of(context).accentColor),
-                    recognizer: new TapGestureRecognizer()
+                    recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         launch(privacyPolicyUrl);
                       },
                   ),
-                  new TextSpan(
+                  TextSpan(
                     text: ".",
                   ),
                 ],
@@ -203,14 +202,14 @@ class OnboardingSocial extends StatelessWidget {
             ),
           ),
           actions: <Widget>[
-            new FlatButton(
-              child: new Text("Back".toUpperCase()),
+            FlatButton(
+              child: Text("Back".toUpperCase()),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            new FlatButton(
-              child: new Text("I agree".toUpperCase()),
+            FlatButton(
+              child: Text("I agree".toUpperCase()),
               onPressed: () {
                 accepted = true;
                 Navigator.of(context).pop();
@@ -227,14 +226,14 @@ class OnboardingSocial extends StatelessWidget {
     var progressDialog = showProgressDialog(
         context: context,
         builder: (BuildContext context) {
-          return new Dialog(
-            child: new Row(
+          return Dialog(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                new Container(
-                    padding: new EdgeInsets.all(24.0),
-                    child: new CircularProgressIndicator()),
-                new Text("Signing up..."),
+                Container(
+                    padding: EdgeInsets.all(24.0),
+                    child: CircularProgressIndicator()),
+                Text("Signing up..."),
               ],
             ),
           );

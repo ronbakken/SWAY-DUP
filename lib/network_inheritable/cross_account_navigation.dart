@@ -20,7 +20,7 @@ class CrossAccountNavigation extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _CrossAccountNavigator();
+    return _CrossAccountNavigator();
   }
 
   static CrossAccountNavigator of(BuildContext context) {
@@ -31,7 +31,7 @@ class CrossAccountNavigation extends StatefulWidget {
 }
 
 class _CrossAccountNavigator extends State<CrossAccountNavigation> {
-  final CrossAccountNavigator navigator = new CrossAccountNavigator();
+  final CrossAccountNavigator navigator = CrossAccountNavigator();
 
   @override
   void didChangeDependencies() {
@@ -41,7 +41,7 @@ class _CrossAccountNavigator extends State<CrossAccountNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return new _CrossAccountNavigationInherited(
+    return _CrossAccountNavigationInherited(
         child: widget.child, navigator: this);
   }
 

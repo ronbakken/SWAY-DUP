@@ -22,7 +22,7 @@ class _CachedProfile {
 }
 
 abstract class NetworkProfiles implements ApiClient, NetworkInternals {
-  Map<Int64, _CachedProfile> _cachedProfiles = new Map<Int64, _CachedProfile>();
+  Map<Int64, _CachedProfile> _cachedProfiles = Map<Int64, _CachedProfile>();
 
   @override
   void cacheProfile(DataAccount profile) {
@@ -37,7 +37,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
     }
     _CachedProfile cached = _cachedProfiles[accountId];
     if (cached == null) {
-      cached = new _CachedProfile();
+      cached = _CachedProfile();
       _cachedProfiles[accountId] = cached;
     }
     cached.fallback = null;
@@ -61,7 +61,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
 
   @override
   DataAccount emptyAccount([Int64 accountId = Int64.ZERO]) {
-    DataAccount emptyAccount = new DataAccount();
+    DataAccount emptyAccount = DataAccount();
     emptyAccount.accountId = accountId;
     return emptyAccount;
   }
@@ -74,7 +74,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
     }
     _CachedProfile cached;
     if (!_cachedProfiles.containsKey(accountId)) {
-      cached = new _CachedProfile();
+      cached = _CachedProfile();
       _cachedProfiles[accountId] = cached;
     } else {
       cached = _cachedProfiles[accountId];
@@ -88,7 +88,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
           !cached.fallback.hasLongitude()) {
         DataAccount fallback = (cached.fallback == null)
             ? (emptyAccount(accountId))
-            : (new DataAccount()..mergeFromMessage(cached.fallback));
+            : (DataAccount()..mergeFromMessage(cached.fallback));
         fallback.accountType = AccountType.business;
         fallback.name = offer.senderName;
         fallback.location = offer.locationAddress;
@@ -124,11 +124,11 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
       // offline...
       return tryGetProfileDetail(accountId);
     }
-    NetGetProfile pbReq = new NetGetProfile();
+    NetGetProfile pbReq = NetGetProfile();
     pbReq.accountId = accountId;
     TalkMessage message =
         await channel.sendRequest("GETPROFL", pbReq.writeToBuffer());
-    NetProfile profile = new NetProfile();
+    NetProfile profile = NetProfile();
     profile.mergeFromBuffer(message.data);
     profile.freeze();
     if (profile.account.accountId == accountId) {
@@ -159,7 +159,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
     }
     _CachedProfile cached;
     if (!_cachedProfiles.containsKey(accountId)) {
-      cached = new _CachedProfile();
+      cached = _CachedProfile();
       _cachedProfiles[accountId] = cached;
     } else {
       cached = _cachedProfiles[accountId];
@@ -177,7 +177,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
         cached.loading = false;
       }).catchError((error, stack) {
         log.severe("Failed to get profile: $error, $stack");
-        new Timer(new Duration(seconds: 3), () {
+        Timer(Duration(seconds: 3), () {
           cached.loading = false;
           onProfileChanged(ChangeAction.retry, accountId);
         });

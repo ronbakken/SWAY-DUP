@@ -22,8 +22,8 @@ class LocationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Card(
-      child: new InkWell(
+    return Card(
+      child: InkWell(
         onTap: () {
           onCardTapped(this.locationName);
 
@@ -31,15 +31,15 @@ class LocationCard extends StatelessWidget {
 
           // TODO: go back to map
         },
-        child: new Column(
+        child: Column(
           children: <Widget>[
-            new Container(
+            Container(
               padding: const EdgeInsets.all(8.0),
-              child: new Text(this.locationName),
+              child: Text(this.locationName),
             ),
-            new Container(
+            Container(
               padding: const EdgeInsets.all(8.0),
-              child: new Text(this.addressName),
+              child: Text(this.addressName),
             ),
           ],
         ),

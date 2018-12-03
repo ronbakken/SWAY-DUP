@@ -32,7 +32,7 @@ export 'package:inf_app/network_generic/api_client.dart';
 
 abstract class NetworkCommon implements ApiClient, NetworkInternals {
   @override
-  final Switchboard switchboard = new Switchboard();
+  final Switchboard switchboard = Switchboard();
 
   @override
   TalkChannel channel;
@@ -51,7 +51,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   Uint8List _lastPayloadCookie;
 
   final Map<String, Function(TalkMessage message)> _procedureHandlers =
-      new Map<String, Function(TalkMessage message)>();
+      Map<String, Function(TalkMessage message)>();
 
   bool _alive;
 
@@ -63,11 +63,11 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     return _multiAccountStore;
   }
 
-  final Logger log = new Logger('Inf.Network');
+  final Logger log = Logger('Inf.Network');
 
   String _overrideEndPoint;
 
-  final random = new Random.secure();
+  final random = Random.secure();
 
   int nextSessionGhostId;
 
@@ -81,7 +81,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
     // Device ghost id is a semi sequential identifier for identifying messages by device (to ensure all are sent and to avoid duplicates)
     nextSessionGhostId =
-        (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF;
+        (DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF;
 
     // Initialize data
     resetAccountState();
@@ -104,14 +104,14 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       log.severe("Network loop died: $e");
     });
 
-    new Timer.periodic(new Duration(seconds: 1), (timer) async {
+    Timer.periodic(Duration(seconds: 1), (timer) async {
       if (!_alive) {
         timer.cancel();
         return;
       }
       if (channel != null) {
         try {
-          await channel.sendRequest("PING", new Uint8List(0));
+          await channel.sendRequest("PING", Uint8List(0));
         } catch (error, stack) {
           log.fine("Ping: $error\n$stack");
           if (channel != null) {
@@ -175,7 +175,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         for (int i = account.socialMedia.length;
             i < _config.oauthProviders.length;
             ++i) {
-          account.socialMedia.add(new DataSocialMedia());
+          account.socialMedia.add(DataSocialMedia());
         }
         account.socialMedia.length = _config.oauthProviders.length;
       }
@@ -205,7 +205,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   void resetSessionPayload() {
-    switchboard.setPayload(new Uint8List(0), closeExisting: true);
+    switchboard.setPayload(Uint8List(0), closeExisting: true);
     _lastPayloadLocalId = null;
   }
 
@@ -272,14 +272,14 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
   }
 
-  Completer<void> _kickstartNetwork = new Completer<void>();
+  Completer<void> _kickstartNetwork = Completer<void>();
 
   void _updatePayload({bool closeExisting}) {
     if (_currentLocalAccount == null) {
       resetSessionPayload();
       return;
     }
-    NetSessionPayload sessionPayload = new NetSessionPayload();
+    NetSessionPayload sessionPayload = NetSessionPayload();
     if (_currentLocalAccount.sessionId != 0) {
       sessionPayload.sessionId = _currentLocalAccount.sessionId;
     }
@@ -302,7 +302,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   Future<void> _configDownload(TalkMessage message) async {
-    NetConfigDownload download = new NetConfigDownload()
+    NetConfigDownload download = NetConfigDownload()
       ..mergeFromBuffer(message.data)
       ..freeze();
     // TODO: Tell config manager to download
@@ -313,7 +313,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
   Future<void> _sessionCreate() async {
     log.info("Create session");
-    DeviceInfoPlugin deviceInfo = new DeviceInfoPlugin();
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     String deviceName = "unknown_device";
     try {
       if (Platform.isAndroid) {
@@ -326,13 +326,13 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     } catch (ex) {
       log.severe('Failed to get device name');
     }
-    NetSessionCreate create = new NetSessionCreate();
+    NetSessionCreate create = NetSessionCreate();
     create.deviceName = deviceName;
     create.deviceToken = multiAccountStore.getDeviceToken();
     create.deviceInfo = "{ debug: 'default_info' }";
     TalkMessage response =
         await channel.sendRequest('SESSIONC', create.writeToBuffer());
-    NetSession session = new NetSession()
+    NetSession session = NetSession()
       ..mergeFromBuffer(response.data)
       ..freeze();
     if (_lastPayloadLocalId != _currentLocalAccount.localId) {
@@ -392,9 +392,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
           log.warning("Incomplete network configuration, not connecting");
         }
         if (_kickstartNetwork.isCompleted)
-          _kickstartNetwork = new Completer<void>();
+          _kickstartNetwork = Completer<void>();
         try {
-          await _kickstartNetwork.future.timeout(new Duration(seconds: 3));
+          await _kickstartNetwork.future.timeout(Duration(seconds: 3));
         } catch (TimeoutException) {}
         return;
       }
@@ -410,22 +410,22 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         switchboard.setEndPoint(endPoint);
         channel = await switchboard
             .openServiceChannel(service)
-            .timeout(new Duration(seconds: 3));
+            .timeout(Duration(seconds: 3));
       } catch (e) {
         log.warning("Network cannot connect, retry in 3 seconds: $e");
         assert(channel == null);
         connected = NetworkConnectionState.offline;
         onCommonChanged();
         if (_kickstartNetwork.isCompleted)
-          _kickstartNetwork = new Completer<void>();
+          _kickstartNetwork = Completer<void>();
         try {
-          await _kickstartNetwork.future.timeout(new Duration(seconds: 3));
+          await _kickstartNetwork.future.timeout(Duration(seconds: 3));
         } catch (TimeoutException) {}
         return;
       }
 
       // Future<void> listen = channel.listen();
-      Completer<void> listen = new Completer<void>();
+      Completer<void> listen = Completer<void>();
       channel.listen((TalkMessage message) async {
         if (_procedureHandlers.containsKey(message.procedureId)) {
           await _procedureHandlers[message.procedureId](message);
@@ -476,7 +476,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     while (_alive) {
       if (!_foreground && (_keepAliveBackground <= 0)) {
         log.fine("Awaiting foreground.");
-        _awaitingForeground = new Completer<void>();
+        _awaitingForeground = Completer<void>();
         await _awaitingForeground.future;
         log.fine("Now in foreground.");
       }
@@ -492,7 +492,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   /////////////////////////////////////////////////////////////////////
 
   void _accountUpdate(TalkMessage message) async {
-    NetAccount pb = new NetAccount();
+    NetAccount pb = NetAccount();
     pb.mergeFromBuffer(message.data);
     await receivedAccountUpdate(pb);
   }
@@ -508,7 +508,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     for (int i = account.socialMedia.length;
         i < _config.oauthProviders.length;
         ++i) {
-      account.socialMedia.add(new DataSocialMedia());
+      account.socialMedia.add(DataSocialMedia());
     }
     account.socialMedia.length = _config.oauthProviders.length;
     connected = NetworkConnectionState.ready;
@@ -545,7 +545,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   /* Device Registration */
   @override
   void setAccountType(AccountType accountType) {
-    NetSetAccountType pb = new NetSetAccountType();
+    NetSetAccountType pb = NetSetAccountType();
     pb.accountType = accountType;
     switchboard.sendMessage("api", "A_SETTYP", pb.writeToBuffer());
     // Cancel all social media logins on change, server update on this gets there later
@@ -562,11 +562,11 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   /* OAuth */
   @override
   Future<NetOAuthUrl> getOAuthUrls(int oauthProvider) async {
-    NetOAuthGetUrl pb = new NetOAuthGetUrl();
+    NetOAuthGetUrl pb = NetOAuthGetUrl();
     pb.oauthProvider = oauthProvider;
     TalkMessage res =
         await switchboard.sendRequest("api", "OA_URLRE", pb.writeToBuffer());
-    NetOAuthUrl resPb = new NetOAuthUrl();
+    NetOAuthUrl resPb = NetOAuthUrl();
     resPb.mergeFromBuffer(res.data);
     return resPb;
   }
@@ -574,12 +574,12 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   @override
   Future<NetOAuthConnection> connectOAuth(
       int oauthProvider, String callbackQuery) async {
-    NetOAuthConnect pb = new NetOAuthConnect();
+    NetOAuthConnect pb = NetOAuthConnect();
     pb.oauthProvider = oauthProvider;
     pb.callbackQuery = callbackQuery;
     TalkMessage res =
         await switchboard.sendRequest("api", "OA_CONNE", pb.writeToBuffer());
-    NetOAuthConnection resPb = new NetOAuthConnection();
+    NetOAuthConnection resPb = NetOAuthConnection();
     resPb.mergeFromBuffer(res.data);
     // Result contains the updated data, so needs to be put into the state
     if (oauthProvider < account.socialMedia.length &&
@@ -593,7 +593,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
   @override
   Future<void> createAccount(double latitude, double longitude) async {
-    NetAccountCreate pb = new NetAccountCreate();
+    NetAccountCreate pb = NetAccountCreate();
     if (latitude != null &&
         latitude != 0.0 &&
         longitude != null &&
@@ -603,11 +603,11 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
     TalkMessage res =
         await switchboard.sendRequest("api", "A_CREATE", pb.writeToBuffer());
-    NetAccount resPb = new NetAccount();
+    NetAccount resPb = NetAccount();
     resPb.mergeFromBuffer(res.data);
     await receivedAccountUpdate(resPb);
     if (account.accountId == 0) {
-      throw new NetworkException("No account has been created");
+      throw NetworkException("No account has been created");
     }
   }
 
@@ -618,10 +618,10 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   /////////////////////////////////////////////////////////////////////////////
 
   static Digest _getContentSha256(File file) {
-    DigestSink convertedSink = new DigestSink();
+    DigestSink convertedSink = DigestSink();
     ByteConversionSink fileSink = sha256.startChunkedConversion(convertedSink);
     RandomAccessFile readFile = file.openSync(mode: FileMode.read);
-    Uint8List buffer = new Uint8List(65536);
+    Uint8List buffer = Uint8List(65536);
     int read;
     while ((read = readFile.readIntoSync(buffer)) > 0) {
       fileSink.addSlice(buffer, 0, read, false);
@@ -633,17 +633,17 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   @override
   Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
     // Build information on file
-    BytesBuilder builder = new BytesBuilder(copy: false);
+    BytesBuilder builder = BytesBuilder(copy: false);
     // Digest contentSha256 =
     //     await sha256.bind(fileImage.file.openRead()).first; // FIXME: This hangs
     Digest contentSha256 = await compute(_getContentSha256, fileImage.file);
     await fileImage.file.openRead(0, 256).forEach(builder.add);
-    String contentType = new MimeTypeResolver()
+    String contentType = MimeTypeResolver()
         .lookup(fileImage.file.path, headerBytes: builder.toBytes());
     int contentLength = await fileImage.file.length();
 
     // Create a request to upload the file
-    NetUploadImageReq req = new NetUploadImageReq();
+    NetUploadImageReq req = NetUploadImageReq();
     req.fileName = fileImage.file.path;
     req.contentLength = contentLength;
     req.contentType = contentType;
@@ -652,7 +652,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     // Fetch the pre-signed URL from the server
     TalkMessage resMessage =
         await switchboard.sendRequest("api", "UP_IMAGE", req.writeToBuffer());
-    NetUploadImageRes res = new NetUploadImageRes();
+    NetUploadImageRes res = NetUploadImageRes();
     res.mergeFromBuffer(resMessage.data);
 
     if (res.fileExists) {
@@ -661,7 +661,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
 
     // Upload the file
-    HttpClient httpClient = new HttpClient();
+    HttpClient httpClient = HttpClient();
     HttpClientRequest httpRequest =
         await httpClient.openUrl(res.requestMethod, Uri.parse(res.requestUrl));
     httpRequest.headers.add("Content-Type", contentType);
@@ -671,10 +671,10 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     await httpRequest.addStream(fileImage.file.openRead());
     await httpRequest.flush();
     HttpClientResponse httpResponse = await httpRequest.close();
-    BytesBuilder responseBuilder = new BytesBuilder(copy: false);
+    BytesBuilder responseBuilder = BytesBuilder(copy: false);
     await httpResponse.forEach(responseBuilder.add);
     if (httpResponse.statusCode != 200) {
-      throw new NetworkException(
+      throw NetworkException(
           "Status code ${httpResponse.statusCode}, response: ${utf8.decode(responseBuilder.toBytes())}");
     }
 

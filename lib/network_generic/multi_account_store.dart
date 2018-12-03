@@ -22,7 +22,7 @@ export 'package:inf_app/network_generic/multi_account_client.dart';
 
 abstract class MultiAccountStore implements MultiAccountClient {
   factory MultiAccountStore(String startupDomain) {
-    return new MultiAccountStoreImpl(startupDomain);
+    return MultiAccountStoreImpl(startupDomain);
   }
 
   /// Fired anytime any of the accounts changed (add, remove, or update)

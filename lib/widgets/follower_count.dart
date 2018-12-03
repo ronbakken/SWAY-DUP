@@ -25,17 +25,17 @@ class FollowerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    return new Container(
+    return Container(
       padding: const EdgeInsets.all(8.0),
-      child: new Column(
+      child: Column(
         children: <Widget>[
           // Icon
-          new Icon(new IconData(this.oAuthProvider.fontAwesomeBrand,
+          Icon(IconData(this.oAuthProvider.fontAwesomeBrand,
               fontFamily: 'FontAwesomeBrands',
               fontPackage: 'font_awesome_flutter')),
-          new SizedBox(height: 4.0),
+          SizedBox(height: 4.0),
           // Number of Followers
-          new Text(followerCount.toString(), style: theme.textTheme.body2),
+          Text(followerCount.toString(), style: theme.textTheme.body2),
         ],
       ),
     );

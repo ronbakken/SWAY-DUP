@@ -183,8 +183,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
       demoAccount.socialMedia.add(
           DataSocialMedia()); // Important: PB lists can only be extended using add
     }
-    demoAccount.socialMedia.length =
-        config.oauthProviders.length; // Reduce
+    demoAccount.socialMedia.length = config.oauthProviders.length; // Reduce
     for (int j = 0; j < sampleAccounts.length; ++j) {
       for (int i = sampleAccounts[j].socialMedia.length;
           i < config.oauthProviders.length;
@@ -247,8 +246,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                     final DataAccount data = DataAccount();
                     data.accountId = Int64(random.nextInt(500) + 10);
                     data.accountType = AccountType.business;
-                    data.globalAccountState =
-                        GlobalAccountState.readWrite;
+                    data.globalAccountState = GlobalAccountState.readWrite;
                     data.name = 'Name: $searchQuery';
                     data.description = 'Description: $searchQuery';
                     data.avatarUrl =
@@ -305,38 +303,43 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           ),
           */
           FlatButton(
-            child: Row(children: const <Widget>[Text('Switch server to Excalibur')]),
+            child: Row(
+                children: const <Widget>[Text('Switch server to Excalibur')]),
             onPressed: () {
               NetworkProvider.of(context)
                   .overrideUri('wss://excalibur.devinf.net/api');
             },
           ),
           FlatButton(
-            child: Row(children: const <Widget>[Text('Switch server to Ulfberth')]),
+            child: Row(
+                children: const <Widget>[Text('Switch server to Ulfberth')]),
             onPressed: () {
               NetworkProvider.of(context)
                   .overrideUri('wss://ulfberth.devinf.net/api');
             },
           ),
           FlatButton(
-            child:
-                Row(children: const <Widget>[Text('Switch server to 192.168.56.1')]),
+            child: Row(children: const <Widget>[
+              Text('Switch server to 192.168.56.1')
+            ]),
             onPressed: () {
               NetworkProvider.of(context)
                   .overrideUri('ws://192.168.56.1:8090/ep');
             },
           ),
           FlatButton(
-            child:
-                Row(children: const <Widget>[Text('Switch server to 192.168.105.2')]),
+            child: Row(children: const <Widget>[
+              Text('Switch server to 192.168.105.2')
+            ]),
             onPressed: () {
               NetworkProvider.of(context)
                   .overrideUri('ws://192.168.105.2:8090/ep');
             },
           ),
           FlatButton(
-            child: Row(
-                children: const <Widget>[Text('Switch server to 192.168.43.123')]),
+            child: Row(children: const <Widget>[
+              Text('Switch server to 192.168.43.123')
+            ]),
             onPressed: () {
               NetworkProvider.of(context)
                   .overrideUri('ws://192.168.167.2:8090/ep');
@@ -356,8 +359,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           ///
           const Divider(),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            Text('Onboarding UI',
-                style: Theme.of(context).textTheme.subhead),
+            Text('Onboarding UI', style: Theme.of(context).textTheme.subhead),
           ]),
           FlatButton(
             child: Row(children: const <Widget>[Text('Onboarding Selection')]),
@@ -381,7 +383,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             },
           ),
           FlatButton(
-            child: Row(children: const <Widget>[const Text('Onboarding Social')]),
+            child: Row(children: const <Widget>[Text('Onboarding Social')]),
             onPressed: () {
               Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
                 builder: (BuildContext context) {
@@ -394,8 +396,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                             ConfigProvider.of(context).oauthProviders,
                         onOAuthSelected: (int oauthProvider) {
                           setState(() {
-                            demoAccount.socialMedia[oauthProvider]
-                                .connected = true;
+                            demoAccount.socialMedia[oauthProvider].connected =
+                                true;
                             demoAccount.socialMedia[oauthProvider]
                                 .followersCount = random.nextInt(1000000);
                             demoAccount.socialMedia[oauthProvider]
@@ -414,8 +416,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                           demoAccount.accountId =
                               Int64(random.nextInt(1000000) + 1);
                           demoAccount.name = 'John Smith';
-                          demoAccount.description =
-                              "I'm here for the food.";
+                          demoAccount.description = "I'm here for the food.";
                           demoAccount.avatarUrl =
                               'https://res.cloudinary.com/inf-marketplace/image/upload/c_fill,g_face:center,h_360,w_360,q_auto/dev/demo/friesjpg';
                           demoAccount.avatarUrl =
@@ -461,8 +462,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               demoAccount.location = '';
               demoAccount.coverUrls.clear();
               // demoAccount.coverUrls.length = 0;
-              demoAccount.globalAccountState =
-                  GlobalAccountState.initialize;
+              demoAccount.globalAccountState = GlobalAccountState.initialize;
               demoAccount.globalAccountStateReason =
                   GlobalAccountStateReason.newAccount;
               for (int i = 0; i < demoAccount.socialMedia.length; ++i) {
@@ -561,8 +561,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             },
           ),
           FlatButton(
-            child:
-                Row(children: const <Widget>[Text('View Business Profile (Self)')]),
+            child: Row(
+                children: const <Widget>[Text('View Business Profile (Self)')]),
             onPressed: () {
               demoAccount.accountType = AccountType.business;
               transitionPage(
@@ -574,8 +574,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             },
           ),
           FlatButton(
-            child:
-                Row(children: const <Widget>[Text('Edit Business Profile (Self)')]),
+            child: Row(
+                children: const <Widget>[Text('Edit Business Profile (Self)')]),
             onPressed: () {
               demoAccount.accountType = AccountType.business;
               transitionPage(
@@ -615,7 +615,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             },
           ),
           FlatButton(
-            child: Row(children: const <Widget>[Text('View Influencer Profile')]),
+            child:
+                Row(children: const <Widget>[Text('View Influencer Profile')]),
             onPressed: () {
               demoAccount.accountType = AccountType.influencer;
               transitionPage(
@@ -668,8 +669,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           ///
           const Divider(),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            Text('Influencer UI',
-                style: Theme.of(context).textTheme.subhead),
+            Text('Influencer UI', style: Theme.of(context).textTheme.subhead),
           ]),
           FlatButton(
             child: Row(children: const <Widget>[Text('Influencer Dashboard')]),
@@ -685,8 +685,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             },*/
           ),
           FlatButton(
-            child:
-                Row(children: const <Widget>[Text('View Influencer Profile (Self)')]),
+            child: Row(children: const <Widget>[
+              Text('View Influencer Profile (Self)')
+            ]),
             onPressed: () {
               demoAccount.accountType = AccountType.influencer;
               transitionPage(
@@ -698,8 +699,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             },
           ),
           FlatButton(
-            child:
-                Row(children: const <Widget>[Text('Edit Influencer Profile (Self)')]),
+            child: Row(children: const <Widget>[
+              Text('Edit Influencer Profile (Self)')
+            ]),
             /*onPressed: () { 
               demoAccount.accountType = AccountType.influencer;
               Navigator.push(

@@ -21,24 +21,24 @@ class OfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = new ListTile(
+    Widget child = ListTile(
       isThreeLine: true,
-      leading: new CircleAvatar(
+      leading: CircleAvatar(
         backgroundImage: businessOffer.thumbnailUrl.length > 0
-            ? new NetworkImage(businessOffer.thumbnailUrl)
+            ? NetworkImage(businessOffer.thumbnailUrl)
             : null,
         /* child: new Text('$index'), */
         backgroundColor: Colors
             .primaries[businessOffer.title.hashCode % Colors.primaries.length]
             .shade300,
       ),
-      title: new Text(businessOffer.title),
-      subtitle: new Text(businessOffer.description),
+      title: Text(businessOffer.title),
+      subtitle: Text(businessOffer.description),
       onTap: onPressed,
     );
     return inner
         ? child
-        : new Card(
+        : Card(
             //child: new InkWell(
             // onTap: () => print("tapped"),
             child: child,

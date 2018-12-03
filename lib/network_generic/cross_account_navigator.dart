@@ -38,7 +38,7 @@ class NavigationRequest {
 class CrossAccountNavigator {
   MultiAccountClient multiAccountClient;
   final Map<String, StreamController<NavigationRequest>> _navigationRequests =
-      new Map<String, StreamController<NavigationRequest>>();
+      Map<String, StreamController<NavigationRequest>>();
 
   void dispose() {
     for (StreamController<NavigationRequest> controller
@@ -50,7 +50,7 @@ class CrossAccountNavigator {
 
   StreamController<NavigationRequest> _createController(String key) {
     StreamController<NavigationRequest> controller =
-        new StreamController<NavigationRequest>(onCancel: () {
+        StreamController<NavigationRequest>(onCancel: () {
       StreamController<NavigationRequest> controller =
           _navigationRequests.remove(key);
       controller?.close(); // Bye
@@ -83,7 +83,7 @@ class CrossAccountNavigator {
         _navigationRequests[key]; // Closed by dispose(), listen(), and onCancel
     controller ??= _createController(key);
     // We want to open this screen
-    controller.add(new NavigationRequest(target, id));
+    controller.add(NavigationRequest(target, id));
     // On this account
     assert(multiAccountClient != null);
     multiAccountClient.switchAccount(domain, accountId);

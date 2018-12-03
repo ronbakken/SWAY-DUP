@@ -255,7 +255,8 @@ class _WelcomeWallState extends State<_WelcomeWall> {
     super.didChangeDependencies();
     if (_first) {
       final Iterable<Future<void>> loadingImages = widget.welcomeImageUrls
-          .map<Future<void>>((String url) => precacheImage(NetworkImage(url), context));
+          .map<Future<void>>(
+              (String url) => precacheImage(NetworkImage(url), context));
       Future.wait(loadingImages).then((_) {
         if (mounted) {
           setState(() => _opacity = 0.5);

@@ -48,14 +48,14 @@ class OfferView extends StatefulWidget {
   final Function(Int64 proposalId) onProposalPressed;
 
   @override
-  _OfferViewState createState() => new _OfferViewState();
+  _OfferViewState createState() => _OfferViewState();
 }
 
 class _OfferViewState extends State<OfferView> {
   bool _waiting = false;
-  final _formKey = new GlobalKey<FormState>();
-  final TextEditingController _remarksController = new TextEditingController();
-  final FocusNode _remarksNode = new FocusNode();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _remarksController = TextEditingController();
+  final FocusNode _remarksNode = FocusNode();
 
   void _submitPressed(BuildContext context) async {
     final form = _formKey.currentState;
@@ -78,20 +78,20 @@ class _OfferViewState extends State<OfferView> {
   Widget _buildInfluencerApply(BuildContext context) {
     if (widget.account.accountType == AccountType.influencer) {
       if (widget.businessOffer.proposalId == 0) {
-        return new Container(
-            margin: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-            child: new Column(
+        return Container(
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+            child: Column(
               children: <Widget>[
-                new Form(
+                Form(
                   key: _formKey,
-                  child: new Column(children: [
-                    new EnsureVisibleWhenFocused(
+                  child: Column(children: [
+                    EnsureVisibleWhenFocused(
                       focusNode: _remarksNode,
-                      child: new TextFormField(
+                      child: TextFormField(
                         focusNode: _remarksNode,
                         controller: _remarksController,
                         maxLines: 4,
-                        decoration: new InputDecoration(
+                        decoration: InputDecoration(
                             labelText: 'Tell us what you can offer more'),
                         validator: (val) => val.trim().length < 20
                             ? 'Message must be longer'
@@ -100,18 +100,18 @@ class _OfferViewState extends State<OfferView> {
                     ),
                   ]),
                 ),
-                new SizedBox(
+                SizedBox(
                   height: 16.0,
                 ),
-                new Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    new RaisedButton(
+                    RaisedButton(
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      child: new Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          new Text("Apply".toUpperCase()),
+                          Text("Apply".toUpperCase()),
                         ],
                       ),
                       onPressed: (widget.onApply != null && !_waiting)
@@ -125,19 +125,19 @@ class _OfferViewState extends State<OfferView> {
               ],
             ));
       } else {
-        return new Container(
-          margin: new EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
-          child: new Column(
+        return Container(
+          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+          child: Column(
             children: <Widget>[
-              new Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  new RaisedButton(
+                  RaisedButton(
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    child: new Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        new Text("See your application".toUpperCase()),
+                        Text("See your application".toUpperCase()),
                       ],
                     ),
                     onPressed: widget.onProposalPressed != null
@@ -163,38 +163,38 @@ class _OfferViewState extends State<OfferView> {
     bool withProposal =
         (widget.account.accountType == AccountType.influencer) &&
             (widget.businessOffer.proposalId != 0);
-    return new Scaffold(
-      body: new CustomScrollView(
+    return Scaffold(
+      body: CustomScrollView(
         slivers: <Widget>[
-          new CarouselAppBar(
+          CarouselAppBar(
             context: context,
-            title: new Text(widget.businessOffer.title),
+            title: Text(widget.businessOffer.title),
             imageUrls: widget.businessOffer.coverUrls,
             imagesBlurred: widget.businessOffer.coversBlurred,
             actions: [
               widget.onSharePressed == null
                   ? null
-                  : new IconButton(
-                      icon: new Icon(Icons.share),
+                  : IconButton(
+                      icon: Icon(Icons.share),
                       onPressed: () {},
                     )
             ]..removeWhere((Widget w) => w == null),
           ),
-          new SliverList(
-            delegate: new SliverChildListDelegate([
-              new DarkContainer(
-                child: new ListTile(
+          SliverList(
+            delegate: SliverChildListDelegate([
+              DarkContainer(
+                child: ListTile(
                   //isThreeLine: true, //-------------------
                   //enabled: true,
-                  leading: new ProfileAvatar(
+                  leading: ProfileAvatar(
                       size: 40.0, account: widget.businessAccount),
-                  title: new Text(
+                  title: Text(
                       widget.businessOffer.senderName.isNotEmpty
                           ? widget.businessOffer.senderName
                           : widget.businessAccount.name,
                       maxLines: 1,
                       overflow: TextOverflow.fade),
-                  subtitle: new Text(
+                  subtitle: Text(
                       widget.businessAccount.description.isNotEmpty
                           ? widget.businessAccount.description
                           : widget.businessAccount.location,
@@ -207,36 +207,35 @@ class _OfferViewState extends State<OfferView> {
                       widget.onEditPressed == null &&
                       widget.onProposalsPressed == null
                   ? null
-                  : new Container(
-                      child: new Row(
+                  : Container(
+                      child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             widget.onEndPressed == null
                                 ? null
-                                : new IconButton(
+                                : IconButton(
                                     iconSize: 56.0,
                                     highlightColor: Colors.transparent,
-                                    icon: new Column(
+                                    icon: Column(
                                       children: [
-                                        new Container(
-                                          padding: new EdgeInsets.all(8.0),
-                                          child: new Icon(Icons.remove_circle,
+                                        Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(Icons.remove_circle,
                                               size: 24.0),
                                         ),
-                                        new Text("End".toUpperCase(),
-                                            maxLines: 1),
+                                        Text("End".toUpperCase(), maxLines: 1),
                                       ],
                                     ),
                                     onPressed: () async {
                                       await showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return new AlertDialog(
-                                            title: new Text('End Your Offer'),
-                                            content: new SingleChildScrollView(
-                                              child: new ListBody(
+                                          return AlertDialog(
+                                            title: Text('End Your Offer'),
+                                            content: SingleChildScrollView(
+                                              child: ListBody(
                                                 children: [
-                                                  new Text(
+                                                  Text(
                                                       "Are you sure you would like to end this offer?\n\n"
                                                       "This will remove the offer from influencer search results."
                                                       "The offer will remain standing for current proposals."),
@@ -244,8 +243,8 @@ class _OfferViewState extends State<OfferView> {
                                               ),
                                             ),
                                             actions: [
-                                              new FlatButton(
-                                                child: new Text("End This Offer"
+                                              FlatButton(
+                                                child: Text("End This Offer"
                                                     .toUpperCase()),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
@@ -260,36 +259,33 @@ class _OfferViewState extends State<OfferView> {
                                   ),
                             widget.onEditPressed == null
                                 ? null
-                                : new IconButton(
+                                : IconButton(
                                     iconSize: 56.0,
                                     highlightColor: Colors.transparent,
-                                    icon: new Column(
+                                    icon: Column(
                                       children: [
-                                        new Container(
-                                          padding: new EdgeInsets.all(8.0),
-                                          child:
-                                              new Icon(Icons.edit, size: 24.0),
+                                        Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(Icons.edit, size: 24.0),
                                         ),
-                                        new Text("Edit".toUpperCase(),
-                                            maxLines: 1),
+                                        Text("Edit".toUpperCase(), maxLines: 1),
                                       ],
                                     ),
                                     onPressed: widget.onEditPressed,
                                   ),
                             widget.onProposalsPressed == null
                                 ? null
-                                : new IconButton(
+                                : IconButton(
                                     // TODO: Refactor to not use IconButton
                                     iconSize: 56.0,
                                     highlightColor: Colors.transparent,
-                                    icon: new Column(
+                                    icon: Column(
                                       children: [
-                                        new Container(
-                                          padding: new EdgeInsets.all(8.0),
-                                          child:
-                                              new Icon(Icons.inbox, size: 24.0),
+                                        Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(Icons.inbox, size: 24.0),
                                         ),
-                                        new Text("Proposals".toUpperCase(),
+                                        Text("Proposals".toUpperCase(),
                                             maxLines: 1,
                                             overflow: TextOverflow
                                                 .ellipsis), // FIXME: IconButton width is insufficient
@@ -303,17 +299,17 @@ class _OfferViewState extends State<OfferView> {
                       widget.onEditPressed == null &&
                       widget.onProposalsPressed == null
                   ? null
-                  : new Divider(),
-              new ListTile(
-                title: new Column(
+                  : Divider(),
+              ListTile(
+                title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    new Text(
+                    Text(
                       "Description",
                       style: Theme.of(context).textTheme.caption,
                       textAlign: TextAlign.start,
                     ),
-                    new Text(widget.businessOffer.description,
+                    Text(widget.businessOffer.description,
                         style: Theme.of(context).textTheme.body1),
                   ],
                 ),
@@ -321,17 +317,17 @@ class _OfferViewState extends State<OfferView> {
               // Proposal, so hide the original deliverables, etc, as it's specified in haggle chat
               withProposal
                   ? null
-                  : new ListTile(
-                      leading: new Icon(Icons.work),
-                      title: new Column(
+                  : ListTile(
+                      leading: Icon(Icons.work),
+                      title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          new Text(
+                          Text(
                             "Deliverables",
                             style: Theme.of(context).textTheme.caption,
                             textAlign: TextAlign.start,
                           ),
-                          new Text(
+                          Text(
                               widget
                                   .businessOffer.terms.deliverablesDescription,
                               style: Theme.of(context).textTheme.body1),
@@ -341,29 +337,29 @@ class _OfferViewState extends State<OfferView> {
               // Proposal, so hide the original rewards, etc, etc, as it's specified in haggle chat
               withProposal
                   ? null
-                  : new ListTile(
-                      leading: new Icon(Icons.redeem),
-                      title: new Column(
+                  : ListTile(
+                      leading: Icon(Icons.redeem),
+                      title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          new Text(
+                          Text(
                             "Reward",
                             style: Theme.of(context).textTheme.caption,
                             textAlign: TextAlign.start,
                           ),
-                          new Text(
+                          Text(
                               widget.businessOffer.terms
                                   .rewardItemOrServiceDescription,
                               style: Theme.of(context).textTheme.body1),
                         ],
                       ),
                     ),
-              new ListTile(
-                leading: new Icon(Icons.pin_drop),
-                title: new Text(widget.businessOffer.locationAddress,
+              ListTile(
+                leading: Icon(Icons.pin_drop),
+                title: Text(widget.businessOffer.locationAddress,
                     style: Theme.of(context).textTheme.body1),
               ),
-              new Divider(),
+              Divider(),
               _buildInfluencerApply(context),
             ]..removeWhere((Widget w) => w == null)),
           ),

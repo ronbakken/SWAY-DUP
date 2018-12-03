@@ -52,8 +52,8 @@ class NetworkProvider extends StatelessWidget {
     String ks = key.toString();
     ConfigData config = ConfigProvider.of(context);
     assert(config != null);
-    return new _NetworkProviderStateful(
-      key: (key != null && ks.length > 0) ? new Key('$ks.Stateful') : null,
+    return _NetworkProviderStateful(
+      key: (key != null && ks.length > 0) ? Key('$ks.Stateful') : null,
       child: child,
       config: config,
       multiAccountStore: multiAccountStore,
@@ -74,7 +74,7 @@ class _NetworkProviderStateful extends StatefulWidget {
   final MultiAccountStore multiAccountStore;
 
   @override
-  _NetworkProviderState createState() => new _NetworkProviderState();
+  _NetworkProviderState createState() => _NetworkProviderState();
 }
 
 class _NetworkProviderState extends State<_NetworkProviderStateful>
@@ -109,7 +109,7 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
   @override
   void initState() {
     super.initState();
-    networkManager = new NetworkManager();
+    networkManager = NetworkManager();
     networkManager.onChanged = _onChanged;
     networkManager.initialize();
     networkManager.updateDependencies(widget.config, widget.multiAccountStore);
@@ -166,10 +166,9 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
   @override
   Widget build(BuildContext context) {
     String ks = widget.key.toString();
-    return new _InheritedNetworkProvider(
-      key: (widget.key != null && ks.length > 0)
-          ? new Key(ks + '.Inherited')
-          : null,
+    return _InheritedNetworkProvider(
+      key:
+          (widget.key != null && ks.length > 0) ? Key(ks + '.Inherited') : null,
       networkInterface: networkManager,
       changed: _changed,
       child: widget.child,

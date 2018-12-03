@@ -34,13 +34,13 @@ class OAuthScaffold extends StatefulWidget {
   final List<String> whitelistHosts;
 
   @override
-  _OAuthScaffoldState createState() => new _OAuthScaffoldState();
+  _OAuthScaffoldState createState() => _OAuthScaffoldState();
 }
 
 class _OAuthScaffoldState extends State<OAuthScaffold> {
   FocusScopeNode _focusScope;
 
-  final _flutterWebviewPlugin = new FlutterWebviewPlugin();
+  final _flutterWebviewPlugin = FlutterWebviewPlugin();
   StreamSubscription<String> _onUrlChanged;
 
   bool _ready = false;
@@ -49,25 +49,25 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   final Map<String, bool> _hostWhitelist = <String, bool>{};
 
   Future<Null> _authError() async {
-    _focusScope.requestFocus(new FocusNode());
+    _focusScope.requestFocus(FocusNode());
     return showDialog<Null>(
       context: context,
       builder: (BuildContext context) {
-        return new AlertDialog(
-          title: new Text('Authorization Failed'),
-          content: new SingleChildScrollView(
-            child: new ListBody(
+        return AlertDialog(
+          title: Text('Authorization Failed'),
+          content: SingleChildScrollView(
+            child: ListBody(
               children: <Widget>[
-                new Text('An error has occured.'),
-                new Text('Please try again later.'),
+                Text('An error has occured.'),
+                Text('Please try again later.'),
               ],
             ),
           ),
           actions: <Widget>[
-            new FlatButton(
-              child: new Row(
+            FlatButton(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [new Text('Ok'.toUpperCase())],
+                children: [Text('Ok'.toUpperCase())],
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -121,7 +121,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   void dispose() {
     _onUrlChanged.cancel();
     // WORKAROUND (kaetemi): When webview has keyboard focus, it is not released when closing the WebviewScaffold.
-    _focusScope.requestFocus(new FocusNode());
+    _focusScope.requestFocus(FocusNode());
     _flutterWebviewPlugin.close();
     super.dispose();
   }
@@ -172,23 +172,22 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   Widget build(BuildContext context) {
     _focusScope = FocusScope.of(context);
     if (!_ready) {
-      return new Scaffold(
+      return Scaffold(
         appBar: widget.appBar,
-        body:
-            new Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          new Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            new CircularProgressIndicator(),
+        body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            CircularProgressIndicator(),
           ]),
         ]),
       );
     }
-    return new WebviewScaffold(
+    return WebviewScaffold(
       url: _authUrl,
       clearCookies: true, // We must clear cookies to allow multiple accounts
       appBar: widget.appBar != null
           ? widget.appBar
-          : new AppBar(
-              title: new Image(image: new AssetImage('assets/logo_appbar.png')),
+          : AppBar(
+              title: Image(image: AssetImage('assets/logo_appbar.png')),
               centerTitle: true,
             ),
     );

@@ -58,7 +58,7 @@ class OffersMap extends StatefulWidget {
   final DataOffer highlightOffer;
 
   @override
-  _OffersMapState createState() => new _OffersMapState();
+  _OffersMapState createState() => _OffersMapState();
 }
 
 class _OffersMapState extends State<OffersMap> {
@@ -72,7 +72,7 @@ class _OffersMapState extends State<OffersMap> {
   @override
   void initState() {
     super.initState();
-    _mapController = widget.mapController ?? new MapController();
+    _mapController = widget.mapController ?? MapController();
     _updateOfferList();
     bool initGps = false;
     try {
@@ -87,15 +87,14 @@ class _OffersMapState extends State<OffersMap> {
     }
     // Default location depending on whether GPS is available or not
     if (_initialLatLng == null) {
-      if (widget.account.latitude != 0.0 &&
-          widget.account.longitude != 0.0) {
-        _initialLatLng = new LatLng(
-            widget.account.latitude, widget.account.longitude);
+      if (widget.account.latitude != 0.0 && widget.account.longitude != 0.0) {
+        _initialLatLng =
+            LatLng(widget.account.latitude, widget.account.longitude);
       } else {
-        _initialLatLng = new LatLng(34.0207305, -118.6919159);
+        _initialLatLng = LatLng(34.0207305, -118.6919159);
       }
     }
-    _geolocator = new Geolocator();
+    _geolocator = Geolocator();
     () async {
       Position position = await _geolocator.getLastKnownPosition();
       if (!mounted) return;
@@ -108,7 +107,7 @@ class _OffersMapState extends State<OffersMap> {
             position.longitude != 0.0) {
           bool setInitial = _gpsLatLng == null;
           setState(() {
-            _gpsLatLng = new LatLng(position.latitude, position.longitude);
+            _gpsLatLng = LatLng(position.latitude, position.longitude);
           });
           if (setInitial && initGps)
             _mapController.move(_gpsLatLng, _mapController.zoom);
@@ -126,7 +125,7 @@ class _OffersMapState extends State<OffersMap> {
           position.longitude != 0.0 &&
           _gpsLatLng == null) {
         setState(() {
-          _gpsLatLng = new LatLng(position.latitude, position.longitude);
+          _gpsLatLng = LatLng(position.latitude, position.longitude);
         });
         if (initGps) {
           _mapController.move(_gpsLatLng, _mapController.zoom);
@@ -150,7 +149,7 @@ class _OffersMapState extends State<OffersMap> {
         widget.mapController != null) {
       _mapController = widget.mapController;
     }
-    _mapController ??= new MapController();
+    _mapController ??= MapController();
     _updateOfferList();
   }
 
@@ -162,7 +161,7 @@ class _OffersMapState extends State<OffersMap> {
   }
 
   Widget _buildOfferMarker(BuildContext context, DataOffer offer) {
-    List<Widget> stack = new List<Widget>();
+    List<Widget> stack = List<Widget>();
     /*
     if (offer.locationOfferCount > 2) {
       stack.add(new Padding(
@@ -185,26 +184,26 @@ class _OffersMapState extends State<OffersMap> {
       ));
     }
     */
-    stack.add(new Padding(
+    stack.add(Padding(
       padding: EdgeInsets.all(8.0),
-      child: new Material(
+      child: Material(
         elevation: 4.0,
         color: Theme.of(context).iconTheme.color.withAlpha(192),
-        shape: new CircleBorder(),
-        child: new ClipOval(
-          child: new Stack(
+        shape: CircleBorder(),
+        child: ClipOval(
+          child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              new Padding(
-                padding: new EdgeInsets.all(4.0),
-                child: new Material(
+              Padding(
+                padding: EdgeInsets.all(4.0),
+                child: Material(
                   elevation: 2.0,
-                  shape: new CircleBorder(),
-                  child: new ClipOval(
-                    child: new Stack(
+                  shape: CircleBorder(),
+                  child: ClipOval(
+                    child: Stack(
                       fit: StackFit.expand,
                       children: <Widget>[
-                        new BlurredNetworkImage(
+                        BlurredNetworkImage(
                             url: offer.thumbnailUrl,
                             blurredData: offer.thumbnailBlurred),
                       ],
@@ -212,9 +211,9 @@ class _OffersMapState extends State<OffersMap> {
                   ),
                 ),
               ),
-              new Material(
+              Material(
                 color: Colors.transparent,
-                child: new InkWell(
+                child: InkWell(
                   onTap: () {
                     widget.onOfferPressed(offer.offerId);
                   },
@@ -225,7 +224,7 @@ class _OffersMapState extends State<OffersMap> {
         ),
       ),
     ));
-    return new Stack(
+    return Stack(
       key: Key('OfferMarker${offer.offerId}'),
       fit: StackFit.expand,
       children: stack,
@@ -233,17 +232,17 @@ class _OffersMapState extends State<OffersMap> {
   }
 
   List<Marker> _buildOfferMarkers(BuildContext context) {
-    List<Marker> markers = new List<Marker>();
-    Set<Int64> locations = new Set<Int64>();
+    List<Marker> markers = List<Marker>();
+    Set<Int64> locations = Set<Int64>();
     for (DataOffer offer in _offers) {
       if (locations.contains(offer.locationId)) {
         continue;
       }
       locations.add(offer.locationId);
-      markers.add(new Marker(
+      markers.add(Marker(
         width: 56.0 + 8.0, // + 16.0,
         height: 56.0 + 8.0, // + 16.0,
-        point: new LatLng(offer.latitude, offer.longitude),
+        point: LatLng(offer.latitude, offer.longitude),
         builder: (BuildContext context) {
           return _buildOfferMarker(context, offer);
         },
@@ -253,16 +252,16 @@ class _OffersMapState extends State<OffersMap> {
   }
 
   Widget _buildCurrentLocationMarker(BuildContext context) {
-    return new Material(
+    return Material(
       color: Theme.of(context).primaryColor.withAlpha(64),
-      shape: new CircleBorder(),
-      child: new Icon(Icons.gps_fixed,
+      shape: CircleBorder(),
+      child: Icon(Icons.gps_fixed,
           color: Theme.of(context).accentColor.withAlpha(192)),
     );
   }
 
   List<Marker> _buildPositionMarkers(BuildContext context) {
-    List<Marker> markers = new List<Marker>();
+    List<Marker> markers = List<Marker>();
     // Show a marker for each account location (business only)
     /*
     if (widget.account.latitude != 0.0 &&
@@ -280,7 +279,7 @@ class _OffersMapState extends State<OffersMap> {
     */
     // Show a marker for current location
     if (_gpsLatLng != null) {
-      markers.add(new Marker(
+      markers.add(Marker(
         width: 56.0,
         height: 56.0,
         point: _gpsLatLng,
@@ -292,92 +291,92 @@ class _OffersMapState extends State<OffersMap> {
 
   @override
   Widget build(BuildContext context) {
-    return new Stack(
+    return Stack(
       children: [
-        new FlutterMap(
+        FlutterMap(
           mapController: _mapController,
-          options: new MapOptions(
+          options: MapOptions(
             center: _initialLatLng,
             zoom: 13.0,
           ),
           layers: [
-            new TileLayerOptions(
+            TileLayerOptions(
               backgroundColor: Theme.of(context).brightness == Brightness.light
-                  ? new Color.fromARGB(0xFF, 0xD1, 0xD1, 0xD1)
-                  : new Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
-              placeholderImage: new AssetImage(
+                  ? Color.fromARGB(0xFF, 0xD1, 0xD1, 0xD1)
+                  : Color.fromARGB(0xFF, 0x1C, 0x1C, 0x1C),
+              placeholderImage: AssetImage(
                   'assets/placeholder_map_tile.png'), // new MemoryImage(kTransparentImage),
               urlTemplate: widget.mapboxUrlTemplate,
               additionalOptions: {'accessToken': widget.mapboxToken},
             ),
-            new MarkerLayerOptions(
+            MarkerLayerOptions(
               markers: _buildPositionMarkers(context),
             ),
-            new MarkerLayerOptions(
+            MarkerLayerOptions(
               markers: _buildOfferMarkers(context),
             ),
           ],
         ),
-        new SafeArea(
-          child: new Builder(
+        SafeArea(
+          child: Builder(
             builder: (context) {
-              return new Stack(
+              return Stack(
                 fit: StackFit.expand,
                 children: [
-                  new IgnorePointer(
-                    child: new Align(
+                  IgnorePointer(
+                    child: Align(
                       alignment: Alignment.topCenter,
-                      child: new SizedBox(
+                      child: SizedBox(
                         height: kToolbarHeight * 1.5,
                         child: Image(
-                            image: new AssetImage(
-                                "assets/logo_appbar_ext_gray.png")),
+                            image:
+                                AssetImage("assets/logo_appbar_ext_gray.png")),
                       ),
                     ),
                   ),
-                  new Align(
+                  Align(
                     alignment: Alignment.topCenter,
-                    child: new Row(
+                    child: Row(
                       children: [
-                        new ClipOval(
-                          child: new Material(
+                        ClipOval(
+                          child: Material(
                             type: MaterialType.circle,
                             color: Colors.transparent,
-                            child: new IconButton(
+                            child: IconButton(
                               // splashColor: Theme.of(context).accentColor,
                               // color: Theme.of(context).accentColor,
                               // highlightColor: Colors.transparent,
-                              padding: new EdgeInsets.all(16.0),
-                              icon: new Icon(Icons.menu),
+                              padding: EdgeInsets.all(16.0),
+                              icon: Icon(Icons.menu),
                               onPressed: () =>
                                   Scaffold.of(context).openDrawer(),
                               tooltip: "Open navigation menu",
                             ),
                           ),
                         ),
-                        new Flexible(
+                        Flexible(
                           fit: FlexFit.tight,
-                          child: new Padding(
-                            padding: new EdgeInsets.all(0.0),
-                            child: new SizedBox(),
+                          child: Padding(
+                            padding: EdgeInsets.all(0.0),
+                            child: SizedBox(),
                           ),
                         ),
                         // TEMPORARiLY HIDDEN
                         widget.onFilterPressed != null
-                            ? new ClipOval(
-                                child: new Material(
+                            ? ClipOval(
+                                child: Material(
                                   type: MaterialType.circle,
                                   color: widget.filterState == true
                                       ? Theme.of(context)
                                           .primaryColor
                                           .withAlpha(128)
                                       : Colors.transparent,
-                                  child: new IconButton(
+                                  child: IconButton(
                                     color: widget.filterState == true
                                         ? Theme.of(context).accentColor
                                         : Theme.of(context).iconTheme.color,
-                                    padding: new EdgeInsets.all(16.0),
-                                    icon: new Icon(Icons.filter_list),
+                                    padding: EdgeInsets.all(16.0),
+                                    icon: Icon(Icons.filter_list),
                                     onPressed: () {
                                       widget.onFilterPressed();
                                     },
@@ -386,16 +385,16 @@ class _OffersMapState extends State<OffersMap> {
                                 ),
                               )
                             : null,
-                        new ClipOval(
-                          child: new Material(
+                        ClipOval(
+                          child: Material(
                             type: MaterialType.circle,
                             color: Colors.transparent,
-                            child: new IconButton(
+                            child: IconButton(
                               // highlightColor: Colors.transparent,
                               // splashColor: Theme.of(context).accentColor,
                               // color: Theme.of(context).accentColor,
-                              padding: new EdgeInsets.all(16.0),
-                              icon: new Icon(Icons.search),
+                              padding: EdgeInsets.all(16.0),
+                              icon: Icon(Icons.search),
                               onPressed: () {
                                 widget.onSearchPressed();
                               },
@@ -406,19 +405,19 @@ class _OffersMapState extends State<OffersMap> {
                       ].where((w) => w != null).toList(),
                     ),
                   ),
-                  new Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      new ClipOval(
-                        child: new Material(
+                      ClipOval(
+                        child: Material(
                           type: MaterialType.circle,
                           color: Colors.transparent,
-                          child: new IconButton(
-                            padding: new EdgeInsets.all(16.0),
+                          child: IconButton(
+                            padding: EdgeInsets.all(16.0),
                             icon: _gpsLatLng == null
-                                ? new Icon(Icons.gps_off)
-                                : new Icon(Icons.gps_fixed),
+                                ? Icon(Icons.gps_off)
+                                : Icon(Icons.gps_fixed),
                             color: Theme.of(context)
                                 .iconTheme
                                 .color
@@ -433,7 +432,7 @@ class _OffersMapState extends State<OffersMap> {
                           ),
                         ),
                       ),
-                      new SizedBox(height: widget.bottomSpace),
+                      SizedBox(height: widget.bottomSpace),
                     ],
                   ),
                 ],

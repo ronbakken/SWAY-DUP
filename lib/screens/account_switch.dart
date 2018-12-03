@@ -24,7 +24,7 @@ class AccountSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> accountButtons = new List<Widget>();
+    List<Widget> accountButtons = List<Widget>();
 
     for (LocalAccountData localAccount in accounts.toList()
       ..sort((a, b) {
@@ -37,20 +37,20 @@ class AccountSwitch extends StatelessWidget {
       // Zero account id should not be displayed.
       // When using addAccount, if there's a 0 account id, that one will be used.
       if (localAccount.accountId != 0) {
-        accountButtons.add(new RaisedButton(
-          child: new Column(
+        accountButtons.add(RaisedButton(
+          child: Column(
             children: [
               // Domain is like the release channel.
               // Accounts from different domains only occur on development devices, or for the QA team, and MUST have some special marker.
-              new Text("Domain: " +
+              Text("Domain: " +
                   localAccount.domain.toString() +
                   (domain == localAccount.domain ? " (current)" : " (other)")),
-              new Text("Local Id: " + localAccount.localId.toString()),
-              new Text("Session Id: " + localAccount.sessionId.toString()),
-              new Text("Account Id: " + localAccount.accountId.toString()),
-              new Text("Account Type: " + localAccount.accountType.toString()),
-              new Text("Name: " + localAccount.name.toString()),
-              new ProfileAvatar(
+              Text("Local Id: " + localAccount.localId.toString()),
+              Text("Session Id: " + localAccount.sessionId.toString()),
+              Text("Account Id: " + localAccount.accountId.toString()),
+              Text("Account Type: " + localAccount.accountType.toString()),
+              Text("Name: " + localAccount.name.toString()),
+              ProfileAvatar(
                 localAccount: localAccount,
                 size: 56.0,
               )
@@ -64,15 +64,15 @@ class AccountSwitch extends StatelessWidget {
       }
     }
 
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Switch Account"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Switch Account"),
       ),
-      body: new ListView(
+      body: ListView(
         children: <Widget>[
-          new Column(children: accountButtons),
-          new FlatButton(
-            child: new Row(children: [new Text('Add Account')]),
+          Column(children: accountButtons),
+          FlatButton(
+            child: Row(children: [Text('Add Account')]),
             onPressed: () {
               Navigator.pop(context);
               onAddAccount();

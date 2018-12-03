@@ -17,50 +17,49 @@ class SearchItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Card(
-      child: new InkWell(
+    return Card(
+      child: InkWell(
         onTap: () => print("tapped"),
-        child: new Row(
+        child: Row(
           children: <Widget>[
-            new CircleAvatar(
-              backgroundImage:
-                  new NetworkImage(item.avatarUrl),
+            CircleAvatar(
+              backgroundImage: NetworkImage(item.avatarUrl),
               radius: 30.0,
             ),
-            new Container(
+            Container(
               width: 8.0,
             ),
-            new Expanded(
-              child: new Column(
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  new Container(
+                  Container(
                     height: 10.0,
                   ),
-                  new Container(
-                    decoration: new BoxDecoration(
+                  Container(
+                    decoration: BoxDecoration(
                         color: Theme.of(context).primaryColorDark,
                         borderRadius: BorderRadius.all(Radius.circular(4.0))),
-                    child: new Padding(
+                    child: Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: new Text(item.accountType.toString(),
+                      child: Text(item.accountType.toString(),
                           style:
                               TextStyle(color: Theme.of(context).accentColor)),
                     ),
                   ),
-                  new Container(
+                  Container(
                     height: 4.0,
                   ),
-                  new Text(
+                  Text(
                     item.name,
                     style: TextStyle(fontSize: 18.0),
                   ),
-                  new Container(
+                  Container(
                     height: 4.0,
                   ),
-                  new Text(item.location),
-                  new Container(
+                  Text(item.location),
+                  Container(
                     height: 10.0,
                   ),
                 ],

@@ -57,7 +57,7 @@ class DashboardSimplified extends StatefulWidget {
   final Widget proposalsDeal;
 
   @override
-  _DashboardSimplifiedState createState() => new _DashboardSimplifiedState();
+  _DashboardSimplifiedState createState() => _DashboardSimplifiedState();
 }
 
 class _DashboardSimplifiedState extends State<DashboardSimplified>
@@ -86,7 +86,7 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
       _currentTab = 0;
     }
     if (_tabControllerTabs?.length != _tabCount) {
-      _tabControllerTabs = new TabController(
+      _tabControllerTabs = TabController(
         length: _tabCount,
         vsync: this,
       );
@@ -107,10 +107,9 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
 
   @override
   Widget build(BuildContext context) {
-    String proposalsLabel =
-        widget.account.accountType == AccountType.influencer
-            ? "Applied"
-            : "Proposals";
+    String proposalsLabel = widget.account.accountType == AccountType.influencer
+        ? "Applied"
+        : "Proposals";
 
     /*String mapLabel =
         widget.account.accountType == AccountType.influencer
@@ -129,36 +128,36 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
 */
 
     List<BottomNavigationBarItem> tabBarItems =
-        new List<BottomNavigationBarItem>(_tabCount);
+        List<BottomNavigationBarItem>(_tabCount);
 
     if (widget.mapOffersTab != null) {
-      tabBarItems[widget.mapOffersTab] = new BottomNavigationBarItem(
-        icon: new Icon(Icons.map),
-        title: new Text("Offers"),
+      tabBarItems[widget.mapOffersTab] = BottomNavigationBarItem(
+        icon: Icon(Icons.map),
+        title: Text("Offers"),
       );
     }
     if (widget.offersBusinessTab != null) {
-      tabBarItems[widget.offersBusinessTab] = new BottomNavigationBarItem(
-        icon: new Icon(Icons.list),
-        title: new Text("Offers"),
+      tabBarItems[widget.offersBusinessTab] = BottomNavigationBarItem(
+        icon: Icon(Icons.list),
+        title: Text("Offers"),
       );
     }
     if (widget.proposalsDirectTab != null) {
-      tabBarItems[widget.proposalsDirectTab] = new BottomNavigationBarItem(
-        icon: new Icon(Icons.alternate_email),
-        title: new Text("Direct"),
+      tabBarItems[widget.proposalsDirectTab] = BottomNavigationBarItem(
+        icon: Icon(Icons.alternate_email),
+        title: Text("Direct"),
       );
     }
     if (widget.proposalsAppliedTab != null) {
-      tabBarItems[widget.proposalsAppliedTab] = new BottomNavigationBarItem(
-        icon: new Icon(Icons.inbox),
-        title: new Text(proposalsLabel),
+      tabBarItems[widget.proposalsAppliedTab] = BottomNavigationBarItem(
+        icon: Icon(Icons.inbox),
+        title: Text(proposalsLabel),
       );
     }
     if (widget.proposalsDealTab != null) {
-      tabBarItems[widget.proposalsDealTab] = new BottomNavigationBarItem(
-        icon: new Icon(Icons.event_note),
-        title: new Text("Deals"),
+      tabBarItems[widget.proposalsDealTab] = BottomNavigationBarItem(
+        icon: Icon(Icons.event_note),
+        title: Text("Deals"),
       );
     }
     Widget body;
@@ -185,62 +184,61 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
       } else if (_currentTab == widget.proposalsDealTab) {
         title = "Deals";
       }
-      appBar = new AppBar(
-        title: new Text(title),
+      appBar = AppBar(
+        title: Text(title),
       );
     }
-    return new Scaffold(
+    return Scaffold(
       body: body,
       floatingActionButton: (widget.onMakeAnOffer != null &&
               (_currentTab == widget.mapOffersTab ||
                   _currentTab == widget.offersBusinessTab))
-          ? new FloatingActionButton(
+          ? FloatingActionButton(
               backgroundColor: Theme.of(context).primaryColor,
               tooltip: 'Make an offer',
-              child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    new Icon(Icons.add),
-                  ]),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(Icons.add),
+              ]),
               onPressed: widget.onMakeAnOffer,
             )
           : null,
-      drawer: new Drawer(
-        child: new Column(
+      drawer: Drawer(
+        child: Column(
             children: [
-          new AspectRatio(
+          AspectRatio(
               aspectRatio: 16.0 / 9.0,
-              child: new Material(
+              child: Material(
                   elevation: 4.0, // Match AppBar
                   color: Theme.of(context).primaryColor,
-                  child: new Stack(children: [
-                    new Positioned.fill(
-                      child: new BlurredNetworkImage(
+                  child: Stack(children: [
+                    Positioned.fill(
+                      child: BlurredNetworkImage(
                         url: widget.account.avatarUrl,
                         blurredUrl: widget.account.blurredAvatarUrl,
                         placeholderAsset: 'assets/placeholder_photo.png',
                       ),
                     ),
-                    new SafeArea(
+                    SafeArea(
                         // child: new Text("Hello world"),
-                        child: new Align(
+                        child: Align(
                             alignment: Alignment.bottomLeft,
-                            child: new Container(
-                                margin: new EdgeInsets.fromLTRB(
-                                    56.0, 16.0, 16.0, 16.0),
-                                child: new Text(
+                            child: Container(
+                                margin:
+                                    EdgeInsets.fromLTRB(56.0, 16.0, 16.0, 16.0),
+                                child: Text(
                                   widget.account.name,
                                   style:
                                       Theme.of(context).primaryTextTheme.title,
                                 ))))
                   ]))),
-          new FlatButton(
-            child: new Row(children: [
-              new Container(
-                margin: new EdgeInsets.all(16.0),
-                child: new Icon(Icons.account_circle),
+          FlatButton(
+            child: Row(children: [
+              Container(
+                margin: EdgeInsets.all(16.0),
+                child: Icon(Icons.account_circle),
               ),
-              new Text('Profile')
+              Text('Profile')
             ]),
             onPressed: (widget.onNavigateProfile != null)
                 ? () {
@@ -249,13 +247,13 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
                   }
                 : null,
           ),
-          new FlatButton(
-            child: new Row(children: [
-              new Container(
-                margin: new EdgeInsets.all(16.0),
-                child: new Icon(Icons.history),
+          FlatButton(
+            child: Row(children: [
+              Container(
+                margin: EdgeInsets.all(16.0),
+                child: Icon(Icons.history),
               ),
-              new Text('History')
+              Text('History')
             ]),
             onPressed: (widget.onNavigateHistory != null)
                 ? () {
@@ -264,13 +262,13 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
                   }
                 : null,
           ),
-          new FlatButton(
-            child: new Row(children: [
-              new Container(
-                margin: new EdgeInsets.all(16.0),
-                child: new Icon(Icons.supervisor_account),
+          FlatButton(
+            child: Row(children: [
+              Container(
+                margin: EdgeInsets.all(16.0),
+                child: Icon(Icons.supervisor_account),
               ),
-              new Text('Switch User')
+              Text('Switch User')
             ]),
             onPressed: (widget.onNavigateSwitchAccount != null)
                 ? () {
@@ -281,13 +279,13 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
           ),
           (widget.account.globalAccountState.value >=
                   GlobalAccountState.debug.value)
-              ? new FlatButton(
-                  child: new Row(children: [
-                    new Container(
-                      margin: new EdgeInsets.all(16.0),
-                      child: new Icon(Icons.account_box),
+              ? FlatButton(
+                  child: Row(children: [
+                    Container(
+                      margin: EdgeInsets.all(16.0),
+                      child: Icon(Icons.account_box),
                     ),
-                    new Text('Debug Account')
+                    Text('Debug Account')
                   ]),
                   onPressed: (widget.onNavigateDebugAccount != null)
                       ? () {
@@ -301,7 +299,7 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
       ),
       appBar: appBar,
       bottomSheet: NetworkStatus.buildOptional(context),
-      bottomNavigationBar: new BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentTab,
           onTap: (int index) {

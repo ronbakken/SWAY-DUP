@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:inf_app/screens/experiment_files/forward_geocoding.dart';
 
 class LocationSearch extends SearchDelegate<String> {
-  List<String> placeNameList = new List<String>();
+  List<String> placeNameList = List<String>();
 
   void _updatePlaceNameList() async {
     placeNameList = await forwardGeocode(query);
@@ -28,8 +28,8 @@ class LocationSearch extends SearchDelegate<String> {
   List<Widget> buildActions(BuildContext context) {
     // Implement Clear Search Query
     return <Widget>[
-      new IconButton(
-        icon: new Icon(Icons.clear),
+      IconButton(
+        icon: Icon(Icons.clear),
         onPressed: () {
           // Clear the query as the user presses the clear button
           // NOTE: query is a property of the parent class
@@ -44,7 +44,7 @@ class LocationSearch extends SearchDelegate<String> {
   Widget buildLeading(BuildContext context) {
     // TODO: Implement Leading Back Icon
     return IconButton(
-      icon: new AnimatedIcon(
+      icon: AnimatedIcon(
         icon: AnimatedIcons.menu_arrow,
         progress: transitionAnimation,
       ),
@@ -58,7 +58,7 @@ class LocationSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     // TODO: Implement callback when result is tapped
-    return new Text("/* Placeholder */");
+    return Text("/* Placeholder */");
   }
 
   // List of items to be shown when typing a query
@@ -80,18 +80,17 @@ class LocationSearch extends SearchDelegate<String> {
     // Final list that will be shown in the list view
     // show recent searches when user entered epty query
     List<String> searchList = query == "" ? recentSearches : placeNameList;
-    Icon leading = query == ""
-        ? new Icon(Icons.recent_actors)
-        : new Icon(Icons.location_city);
+    Icon leading =
+        query == "" ? Icon(Icons.recent_actors) : Icon(Icons.location_city);
 
     // Return a list of items
-    return new ListView.builder(
-      itemBuilder: (context, index) => new ListTile(
+    return ListView.builder(
+      itemBuilder: (context, index) => ListTile(
             onTap: () {
               close(context, searchList[index]);
             },
             leading: leading,
-            title: new Text(searchList[index]),
+            title: Text(searchList[index]),
           ),
       itemCount: searchList.length,
     );

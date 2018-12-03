@@ -71,14 +71,14 @@ class HaggleView extends StatefulWidget {
   final Function(DataOffer offer) onPressedOffer;
 
   @override
-  _HaggleViewState createState() => new _HaggleViewState();
+  _HaggleViewState createState() => _HaggleViewState();
 }
 
 class _HaggleViewState extends State<HaggleView> {
-  TextEditingController _lineController = new TextEditingController();
-  TextEditingController _uploadKey = new TextEditingController();
+  TextEditingController _lineController = TextEditingController();
+  TextEditingController _uploadKey = TextEditingController();
 
-  TextEditingController _reportController = new TextEditingController();
+  TextEditingController _reportController = TextEditingController();
 
   bool _uploadAttachment = false;
 
@@ -105,7 +105,7 @@ class _HaggleViewState extends State<HaggleView> {
     if (accountId == this.accountId) return widget.account;
     if (accountId == influencerAccountId) return widget.influencerAccount;
     if (accountId == businessAccountId) return widget.businessAccount;
-    return new DataAccount(); // Blank
+    return DataAccount(); // Blank
   }
 
   void _uploadKeyChanged() {
@@ -190,38 +190,38 @@ class _HaggleViewState extends State<HaggleView> {
     await showDialog(
       context: this.context,
       builder: (BuildContext context) {
-        return new SimpleDialog(
-          title: new Text('Report'),
+        return SimpleDialog(
+          title: Text('Report'),
           children: [
-            new Padding(
+            Padding(
               padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-              child: new TextField(
+              child: TextField(
                 controller: _reportController,
                 maxLines: 4,
-                decoration: new InputDecoration(labelText: 'Message'),
+                decoration: InputDecoration(labelText: 'Message'),
               ),
             ),
-            new Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                new FlatButton(
-                  child: new Row(
+                FlatButton(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [new Text('Report'.toUpperCase())],
+                    children: [Text('Report'.toUpperCase())],
                   ),
                   onPressed: () async {
                     bool success = false;
                     var progressDialog = showProgressDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return new Dialog(
-                          child: new Row(
+                        return Dialog(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              new Container(
-                                  padding: new EdgeInsets.all(24.0),
-                                  child: new CircularProgressIndicator()),
-                              new Text("Sending report..."),
+                              Container(
+                                  padding: EdgeInsets.all(24.0),
+                                  child: CircularProgressIndicator()),
+                              Text("Sending report..."),
                             ],
                           ),
                         );
@@ -238,21 +238,21 @@ class _HaggleViewState extends State<HaggleView> {
                       await showDialog<Null>(
                         context: this.context,
                         builder: (BuildContext context) {
-                          return new AlertDialog(
-                            title: new Text('Send Report Failed'),
-                            content: new SingleChildScrollView(
-                              child: new ListBody(
+                          return AlertDialog(
+                            title: Text('Send Report Failed'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
                                 children: <Widget>[
-                                  new Text('An error has occured.'),
-                                  new Text('Please try again later.'),
+                                  Text('An error has occured.'),
+                                  Text('Please try again later.'),
                                 ],
                               ),
                             ),
                             actions: <Widget>[
-                              new FlatButton(
-                                child: new Row(
+                              FlatButton(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [new Text('Ok'.toUpperCase())],
+                                  children: [Text('Ok'.toUpperCase())],
                                 ),
                                 onPressed: () {
                                   Navigator.of(context).pop();
@@ -268,22 +268,22 @@ class _HaggleViewState extends State<HaggleView> {
                       await showDialog<Null>(
                         context: this.context,
                         builder: (BuildContext context) {
-                          return new AlertDialog(
-                            title: new Text('Report Sent'),
-                            content: new SingleChildScrollView(
-                              child: new ListBody(
+                          return AlertDialog(
+                            title: Text('Report Sent'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
                                 children: <Widget>[
-                                  new Text('Your report has been sent.'),
-                                  new Text(
+                                  Text('Your report has been sent.'),
+                                  Text(
                                       'Further correspondence on this matter will be done by e-mail.'),
                                 ],
                               ),
                             ),
                             actions: <Widget>[
-                              new FlatButton(
-                                child: new Row(
+                              FlatButton(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [new Text('Ok'.toUpperCase())],
+                                  children: [Text('Ok'.toUpperCase())],
                                 ),
                                 onPressed: () {
                                   Navigator.of(context).pop();
@@ -309,14 +309,14 @@ class _HaggleViewState extends State<HaggleView> {
     var progressDialog = showProgressDialog(
       context: context,
       builder: (BuildContext context) {
-        return new Dialog(
-          child: new Row(
+        return Dialog(
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              new Container(
-                  padding: new EdgeInsets.all(24.0),
-                  child: new CircularProgressIndicator()),
-              new Text("Sending..."),
+              Container(
+                  padding: EdgeInsets.all(24.0),
+                  child: CircularProgressIndicator()),
+              Text("Sending..."),
             ],
           ),
         );
@@ -333,21 +333,21 @@ class _HaggleViewState extends State<HaggleView> {
       await showDialog<Null>(
         context: this.context,
         builder: (BuildContext context) {
-          return new AlertDialog(
-            title: new Text('Deal Failed'),
-            content: new SingleChildScrollView(
-              child: new ListBody(
+          return AlertDialog(
+            title: Text('Deal Failed'),
+            content: SingleChildScrollView(
+              child: ListBody(
                 children: <Widget>[
-                  new Text('An error has occured.'),
-                  new Text('Please try again later.'),
+                  Text('An error has occured.'),
+                  Text('Please try again later.'),
                 ],
               ),
             ),
             actions: <Widget>[
-              new FlatButton(
-                child: new Row(
+              FlatButton(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [new Text('Ok'.toUpperCase())],
+                  children: [Text('Ok'.toUpperCase())],
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -363,49 +363,49 @@ class _HaggleViewState extends State<HaggleView> {
   Future<void> _haggle(DataProposalChat chat) async {
     Map<String, String> query = Uri.splitQueryString(chat.text);
     TextEditingController haggleDeliverablesController =
-        new TextEditingController();
+        TextEditingController();
     haggleDeliverablesController.text = query['deliverables'].toString();
-    TextEditingController haggleRewardController = new TextEditingController();
+    TextEditingController haggleRewardController = TextEditingController();
     haggleRewardController.text = query['reward'].toString();
-    TextEditingController haggleRemarksController = new TextEditingController();
+    TextEditingController haggleRemarksController = TextEditingController();
     haggleRemarksController.text = query['remarks'].toString();
     await showDialog(
       context: this.context,
       builder: (BuildContext context) {
-        return new SimpleDialog(
+        return SimpleDialog(
           // title: new Text('Haggle'),
           children: [
-            new Padding(
+            Padding(
               padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-              child: new TextField(
+              child: TextField(
                 controller: haggleDeliverablesController,
                 maxLines: 2,
-                decoration: new InputDecoration(labelText: 'Deliverables'),
+                decoration: InputDecoration(labelText: 'Deliverables'),
               ),
             ),
-            new Padding(
+            Padding(
               padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-              child: new TextField(
+              child: TextField(
                 controller: haggleRewardController,
                 maxLines: 2,
-                decoration: new InputDecoration(labelText: 'Reward'),
+                decoration: InputDecoration(labelText: 'Reward'),
               ),
             ),
-            new Padding(
+            Padding(
               padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-              child: new TextField(
+              child: TextField(
                 controller: haggleRemarksController,
                 maxLines: 2,
-                decoration: new InputDecoration(labelText: 'Remarks'),
+                decoration: InputDecoration(labelText: 'Remarks'),
               ),
             ),
-            new Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                new FlatButton(
-                  child: new Row(
+                FlatButton(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [new Text('Haggle'.toUpperCase())],
+                    children: [Text('Haggle'.toUpperCase())],
                   ),
                   onPressed: () async {
                     // TODO: Handle failure in case offline
@@ -478,12 +478,12 @@ class _HaggleViewState extends State<HaggleView> {
           message = "...";
           break;
       }
-      return new Column(
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          new Container(
+          Container(
             padding: EdgeInsets.all(12.0),
-            child: new Text(message),
+            child: Text(message),
           ),
         ],
       );
@@ -497,34 +497,34 @@ class _HaggleViewState extends State<HaggleView> {
         next.type != ProposalChatType.marker;
     Widget card;
     Widget content;
-    BorderRadius shapeRadius = new BorderRadius.only(
+    BorderRadius shapeRadius = BorderRadius.only(
       topLeft: Radius.circular(!mine && preceeded ? 4.0 : 16.0),
       topRight: Radius.circular(mine && preceeded ? 4.0 : 16.0),
       bottomLeft: Radius.circular(!mine && followed ? 4.0 : 16.0),
       bottomRight: Radius.circular(mine && followed ? 4.0 : 16.0),
     );
-    RoundedRectangleBorder shape = new RoundedRectangleBorder(
+    RoundedRectangleBorder shape = RoundedRectangleBorder(
       borderRadius: shapeRadius,
     );
     if (current.type == ProposalChatType.imageKey) {
       Map<String, String> query = Uri.splitQueryString(current.text);
-      card = new Padding(
+      card = Padding(
         padding: EdgeInsets.all(4.0),
         child: Material(
           elevation: 1.0,
           shape: shape,
           child: query['url'] != null
-              ? new ClipRRect(
+              ? ClipRRect(
                   borderRadius: shapeRadius,
-                  child: new FadeInImage.assetNetwork(
+                  child: FadeInImage.assetNetwork(
                       placeholder: 'assets/placeholder_photo_select.png',
                       image: query['url']))
-              : new Material(
+              : Material(
                   color: theme.cardColor,
                   shape: shape,
-                  child: new Padding(
-                    padding: new EdgeInsets.all(8.0),
-                    child: new CircularProgressIndicator(),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(),
                   ),
                 ),
         ),
@@ -537,17 +537,17 @@ class _HaggleViewState extends State<HaggleView> {
       }
       if (current.type == ProposalChatType.terms) {
         Map<String, String> query = Uri.splitQueryString(current.text);
-        Widget info = new Column(
+        Widget info = Column(
           crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
           children: <Widget>[
-            new Text("Deliverables", style: theme.textTheme.caption),
-            new Text(query['deliverables'].toString(), style: messageTextStyle),
-            new SizedBox(height: 12.0),
-            new Text("Reward", style: theme.textTheme.caption),
-            new Text(query['reward'].toString(), style: messageTextStyle),
-            new SizedBox(height: 12.0),
-            new Text("Remarks", style: theme.textTheme.caption),
-            new Text(query['remarks'].toString(), style: messageTextStyle),
+            Text("Deliverables", style: theme.textTheme.caption),
+            Text(query['deliverables'].toString(), style: messageTextStyle),
+            SizedBox(height: 12.0),
+            Text("Reward", style: theme.textTheme.caption),
+            Text(query['reward'].toString(), style: messageTextStyle),
+            SizedBox(height: 12.0),
+            Text("Remarks", style: theme.textTheme.caption),
+            Text(query['remarks'].toString(), style: messageTextStyle),
           ],
         );
         if (current.chatId == widget.proposal.termsChatId) {
@@ -557,51 +557,50 @@ class _HaggleViewState extends State<HaggleView> {
           bool dealMade = widget.proposal.influencerWantsDeal &&
               widget.proposal.businessWantsDeal;
           if (dealMade) {
-            content = new Column(
+            content = Column(
               crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
               children: <Widget>[
                 info,
-                new SizedBox(height: 12.0),
-                new Padding(
-                  padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
-                  child: new Text(
+                SizedBox(height: 12.0),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                  child: Text(
                     "Deal!",
                   ),
                 ),
               ],
             );
           } else {
-            content = new Column(
+            content = Column(
               crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
               children: <Widget>[
                 info,
-                new SizedBox(height: 12.0),
-                new Row(
+                SizedBox(height: 12.0),
+                Row(
                   mainAxisAlignment:
                       mine ? MainAxisAlignment.end : MainAxisAlignment.start,
                   children: <Widget>[
-                    new RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                          borderRadius:
-                              new BorderRadius.all(new Radius.circular(8.0))),
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0))),
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       color: !mine ? theme.buttonColor : theme.cardColor,
-                      child: new Text("Haggle".toUpperCase()),
+                      child: Text("Haggle".toUpperCase()),
                       onPressed: () {
                         _haggle(current);
                       },
                     ),
-                    new SizedBox(width: 12.0),
+                    SizedBox(width: 12.0),
                     wantDealSent
-                        ? new Text("Awaiting reply.")
-                        : new RaisedButton(
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.all(
-                                    new Radius.circular(8.0))),
+                        ? Text("Awaiting reply.")
+                        : RaisedButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.0))),
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
                             color: !mine ? theme.buttonColor : theme.cardColor,
-                            child: new Text(
+                            child: Text(
                               "Make a deal".toUpperCase(),
                               /*style: theme
                         .textTheme
@@ -618,28 +617,28 @@ class _HaggleViewState extends State<HaggleView> {
             );
           }
         } else if (current.chatId == 0) {
-          content = new Column(
+          content = Column(
             crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
             children: <Widget>[
               info,
-              new SizedBox(height: 12.0),
-              new Row(
+              SizedBox(height: 12.0),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  new CircularProgressIndicator(),
+                  CircularProgressIndicator(),
                 ],
               ),
             ],
           );
         } else {
-          content = new Column(
+          content = Column(
             crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
             children: <Widget>[
               info,
-              new SizedBox(height: 12.0),
-              new Padding(
-                padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
-                child: new Text(
+              SizedBox(height: 12.0),
+              Padding(
+                padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                child: Text(
                   "Another offer has been made.",
                   style: theme.textTheme.caption,
                   textAlign: TextAlign.center,
@@ -650,21 +649,21 @@ class _HaggleViewState extends State<HaggleView> {
         }
       } else {
         // Plain text message
-        content = new Text(current.text, style: messageTextStyle);
+        content = Text(current.text, style: messageTextStyle);
       }
-      card = new Card(
+      card = Card(
         color: mine ? theme.primaryColor : theme.cardColor,
         shape: shape,
-        child: new Container(
+        child: Container(
           padding: EdgeInsets.all(12.0),
           child: content,
         ),
       );
     }
-    return new Container(
+    return Container(
       padding:
           EdgeInsets.only(left: mine ? 52.0 : 0.0, right: mine ? 0.0 : 52.0),
-      child: new Column(
+      child: Column(
         crossAxisAlignment:
             mine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
@@ -675,7 +674,7 @@ class _HaggleViewState extends State<HaggleView> {
   }
 
   List<Widget> _buildChatMessages() {
-    List<Widget> result = new List<Widget>();
+    List<Widget> result = List<Widget>();
     List<DataProposalChat> chatsSorted = widget.chats.toList();
     chatsSorted.sort((a, b) {
       if (a.chatId == 0 && b.chatId != 0) return 1;
@@ -743,18 +742,18 @@ class _HaggleViewState extends State<HaggleView> {
         statusText = "This deal is now closed.";
         break;
     }
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         // titleSpacing: 0.0,
-        title: new InkWell(
-          child: new Row(
+        title: InkWell(
+          child: Row(
             children: [
-              new ProfileAvatar(size: 40.0, account: otherAccount),
-              new SizedBox(width: 8.0),
-              new Flexible(
+              ProfileAvatar(size: 40.0, account: otherAccount),
+              SizedBox(width: 8.0),
+              Flexible(
                   fit: FlexFit.loose,
-                  child: new Text(otherAccount.name,
-                      overflow: TextOverflow.ellipsis)),
+                  child:
+                      Text(otherAccount.name, overflow: TextOverflow.ellipsis)),
             ],
           ),
           onTap: () {
@@ -768,9 +767,9 @@ class _HaggleViewState extends State<HaggleView> {
               widget.onPressedProfile(otherAccount);
             },
           ),*/
-          new PopupMenuButton(itemBuilder: (BuildContext context) {
+          PopupMenuButton(itemBuilder: (BuildContext context) {
             return <PopupMenuEntry>[
-              new PopupMenuItem(
+              PopupMenuItem(
                 value: _reportProposal,
                 child: Text("Report"),
               ),
@@ -782,16 +781,16 @@ class _HaggleViewState extends State<HaggleView> {
       ),
       bottomSheet: NetworkStatus.buildOptional(
           context), // TODO: Also show loading progress for chats
-      body: new Column(
+      body: Column(
         children: <Widget>[
-          new Material(
+          Material(
             color: theme.cardColor,
             elevation: 8.0,
-            child: new InkWell(
+            child: InkWell(
               onTap: () {
                 widget.onPressedOffer(widget.offer);
               },
-              child: new Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -806,21 +805,21 @@ class _HaggleViewState extends State<HaggleView> {
                   fit: FlexFit.tight,
                   child: new Column(),
                 ),*/
-                  new Padding(
+                  Padding(
                     padding: const EdgeInsets.all(kInfPadding),
-                    child: new Row(
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        new SizedBox(
+                        SizedBox(
                           width: 56.0, // 72.0,
                           height: 56.0,
-                          child: new Material(
+                          child: Material(
                             type: MaterialType.card,
                             elevation: 1.0,
                             borderRadius: kInfImageThumbnailBorder,
-                            child: new ClipRRect(
+                            child: ClipRRect(
                               borderRadius: kInfImageThumbnailBorder,
-                              child: new BlurredNetworkImage(
+                              child: BlurredNetworkImage(
                                 url: widget.offer.thumbnailUrl,
                                 blurredData: widget.offer.thumbnailBlurred,
                                 placeholderAsset:
@@ -829,27 +828,27 @@ class _HaggleViewState extends State<HaggleView> {
                             ),
                           ),
                         ),
-                        new SizedBox(width: kInfPadding),
-                        new Flexible(
+                        SizedBox(width: kInfPadding),
+                        Flexible(
                           fit: FlexFit.tight,
-                          child: new SizedBox(
+                          child: SizedBox(
                             // height: 88.0,
-                            child: new Column(
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                new Column(
+                                Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     // new SizedBox(height: kInfPaddingText),
-                                    new Text(
+                                    Text(
                                       widget.offer.title,
                                       overflow: TextOverflow.ellipsis,
                                       style: theme.textTheme.subhead,
                                     ),
-                                    new SizedBox(height: kInfPaddingText),
-                                    new Text(
+                                    SizedBox(height: kInfPaddingText),
+                                    Text(
                                       widget.offer.description,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
@@ -884,17 +883,16 @@ class _HaggleViewState extends State<HaggleView> {
                             ),
                           ),
                         ),
-                        new SizedBox(width: kInfPadding),
+                        SizedBox(width: kInfPadding),
                       ],
                     ),
                   ),
 
                   // TODO: In case of action, status text here instead of other one
                   statusText != null
-                      ? new Padding(
-                          padding:
-                              new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
-                          child: new Text(
+                      ? Padding(
+                          padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                          child: Text(
                             statusText,
                             style: theme.textTheme.caption,
                             textAlign: TextAlign.center,
@@ -905,40 +903,39 @@ class _HaggleViewState extends State<HaggleView> {
               ),
             ),
           ),
-          new Flexible(
-            child: new ListView(
+          Flexible(
+            child: ListView(
               reverse: true,
-              padding: new EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
+              padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
               children: _buildChatMessages().reversed.toList(),
             ),
           ),
-          new Material(
+          Material(
             color: theme.cardColor,
             elevation: 8.0,
-            child: new Row(
+            child: Row(
               children: <Widget>[
-                new SizedBox(width: _uploadAttachment ? 16.0 : 8.0),
-                new Flexible(
+                SizedBox(width: _uploadAttachment ? 16.0 : 8.0),
+                Flexible(
                   child: _uploadAttachment
-                      ? new ImageUploader(
+                      ? ImageUploader(
                           light: true,
                           uploadKey: _uploadKey,
                           onUploadImage: widget.onUploadImage,
                         )
-                      : new Padding(
-                          padding: new EdgeInsets.symmetric(horizontal: 8.0),
-                          child: new TextField(
+                      : Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: TextField(
                             controller: _lineController,
                             onChanged: (text) {
                               setState(() {});
                             },
-                            decoration: new InputDecoration(
+                            decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "Send a message...",
                             ),
                             onSubmitted: (String msg) {
-                              FocusScope.of(context)
-                                  .requestFocus(new FocusNode());
+                              FocusScope.of(context).requestFocus(FocusNode());
                               widget.onSendPlain(_lineController.text);
                               _lineController.text = '';
                             },
@@ -947,17 +944,16 @@ class _HaggleViewState extends State<HaggleView> {
                 ),
                 // TODO: Animate between these two, like Telegram
                 _lineController.text.isEmpty
-                    ? new Builder(builder: (context) {
+                    ? Builder(builder: (context) {
                         ThemeData theme = Theme.of(context);
-                        return new IconButton(
-                          icon: new Icon(
+                        return IconButton(
+                          icon: Icon(
                             _uploadAttachment ? Icons.close : Icons.attach_file,
                             // color: theme.primaryColor,
                             color: theme.primaryTextTheme.caption.color,
                           ),
                           onPressed: () {
-                            FocusScope.of(context)
-                                .requestFocus(new FocusNode());
+                            FocusScope.of(context).requestFocus(FocusNode());
                             setState(() {
                               _uploadKey.text = '';
                               _uploadAttachment = !_uploadAttachment;
@@ -980,14 +976,14 @@ class _HaggleViewState extends State<HaggleView> {
                           },
                         );
                       })
-                    : new IconButton(
-                        icon: new Icon(
+                    : IconButton(
+                        icon: Icon(
                           Icons.send,
                           // color: theme.primaryColor,
                           color: theme.accentColor,
                         ),
                         onPressed: () {
-                          FocusScope.of(context).requestFocus(new FocusNode());
+                          FocusScope.of(context).requestFocus(FocusNode());
                           widget.onSendPlain(_lineController.text);
                           _lineController.text = '';
                         },

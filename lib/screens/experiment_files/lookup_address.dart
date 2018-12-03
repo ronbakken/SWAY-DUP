@@ -40,7 +40,7 @@ Future<LatLng> getCoordinates(String address) async {
 
   // return the coordinates
   // Note the json format is (long, lat), we want to return (lat, long)
-  return new LatLng(coordinates[1], coordinates[0]);
+  return LatLng(coordinates[1], coordinates[0]);
 }
 
 /* end of file */

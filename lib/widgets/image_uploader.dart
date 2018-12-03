@@ -35,7 +35,7 @@ class ImageUploader extends StatefulWidget {
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
 
   @override
-  _ImageUploaderState createState() => new _ImageUploaderState();
+  _ImageUploaderState createState() => _ImageUploaderState();
 }
 
 class _ImageUploaderState extends State<ImageUploader> {
@@ -51,8 +51,8 @@ class _ImageUploaderState extends State<ImageUploader> {
         _imageUrl = res.coverUrl;
       });
     } else {
-      Scaffold.of(context).showSnackBar(
-          new SnackBar(content: new Text("Upload not implemented here")));
+      Scaffold.of(context)
+          .showSnackBar(SnackBar(content: Text("Upload not implemented here")));
     }
   }
 
@@ -72,21 +72,21 @@ class _ImageUploaderState extends State<ImageUploader> {
     if (image != null) {
       setState(() {
         // _imageFile = image;
-        _image = new FileImage(image);
+        _image = FileImage(image);
         _imageUrl = null;
       });
       bool success = false;
       var progressDialog = showProgressDialog(
           context: context,
           builder: (BuildContext context) {
-            return new Dialog(
-              child: new Row(
+            return Dialog(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  new Container(
-                      padding: new EdgeInsets.all(24.0),
-                      child: new CircularProgressIndicator()),
-                  new Text("Uploading image..."),
+                  Container(
+                      padding: EdgeInsets.all(24.0),
+                      child: CircularProgressIndicator()),
+                  Text("Uploading image..."),
                 ],
               ),
             );
@@ -106,21 +106,21 @@ class _ImageUploaderState extends State<ImageUploader> {
         await showDialog<Null>(
           context: this.context,
           builder: (BuildContext context) {
-            return new AlertDialog(
-              title: new Text('Image Upload Failed'),
-              content: new SingleChildScrollView(
-                child: new ListBody(
+            return AlertDialog(
+              title: Text('Image Upload Failed'),
+              content: SingleChildScrollView(
+                child: ListBody(
                   children: <Widget>[
-                    new Text('An error has occured.'),
-                    new Text('Please try again later.'),
+                    Text('An error has occured.'),
+                    Text('Please try again later.'),
                   ],
                 ),
               ),
               actions: <Widget>[
-                new FlatButton(
-                  child: new Row(
+                FlatButton(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [new Text('Ok'.toUpperCase())],
+                    children: [Text('Ok'.toUpperCase())],
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -136,28 +136,28 @@ class _ImageUploaderState extends State<ImageUploader> {
 
   @override
   Widget build(BuildContext context) {
-    Widget buttons = new Row(
+    Widget buttons = Row(
       children: <Widget>[
-        new Expanded(
-            child: new RaisedButton(
+        Expanded(
+            child: RaisedButton(
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.only(
-              topLeft: new Radius.circular(widget.light ? 16.0 : 4.0),
-              topRight: new Radius.circular(4.0),
-              bottomLeft: new Radius.circular(16.0),
-              bottomRight: new Radius.circular(4.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(widget.light ? 16.0 : 4.0),
+              topRight: Radius.circular(4.0),
+              bottomLeft: Radius.circular(16.0),
+              bottomRight: Radius.circular(4.0),
             ),
           ),
           color: _image == null
               ? Theme.of(context).buttonColor
               : Theme.of(context).unselectedWidgetColor,
-          child: new Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              new Icon(Icons.photo),
+              Icon(Icons.photo),
               //new SizedBox(width: 8.0),
-              new Text("Gallery".toUpperCase()),
+              Text("Gallery".toUpperCase()),
               // new Icon(_image == null ? Icons.folder_open : Icons.check),
             ],
           ),
@@ -165,31 +165,31 @@ class _ImageUploaderState extends State<ImageUploader> {
             await _selectImage(ImageSource.gallery);
           },
         )),
-        new SizedBox(
+        SizedBox(
           width: 8.0,
         ),
-        new Expanded(
-            child: new RaisedButton(
+        Expanded(
+            child: RaisedButton(
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.only(
-              topLeft: new Radius.circular(4.0),
-              topRight: new Radius.circular(widget.light ? 16.0 : 4.0),
-              bottomLeft: new Radius.circular(4.0),
-              bottomRight: new Radius.circular(16.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(4.0),
+              topRight: Radius.circular(widget.light ? 16.0 : 4.0),
+              bottomLeft: Radius.circular(4.0),
+              bottomRight: Radius.circular(16.0),
             ),
           ),
           color: _image == null
               ? Theme.of(context).buttonColor
               : Theme.of(context).unselectedWidgetColor,
-          child: new Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // new Icon(Icons.photo),
-              new Text("Camera".toUpperCase()),
+              Text("Camera".toUpperCase()),
               //new SizedBox(width: 8.0),
               // new Icon(_image == null ? Icons.folder_open : Icons.check),
-              new Icon(Icons.camera),
+              Icon(Icons.camera),
             ],
           ),
           onPressed: () async {
@@ -204,37 +204,37 @@ class _ImageUploaderState extends State<ImageUploader> {
     Widget image;
     if (_image != null) {
       if (_imageUrl != null) {
-        image = new FadeInImage(
+        image = FadeInImage(
             fit: BoxFit.cover,
             placeholder: _image,
-            image: new NetworkImage(_imageUrl));
+            image: NetworkImage(_imageUrl));
       } else {
-        image = new Image(
+        image = Image(
           fit: BoxFit.cover,
           image: _image,
         );
       }
     } else if (widget.initialUrl != null) {
-      image = new FadeInImage.assetNetwork(
+      image = FadeInImage.assetNetwork(
           fit: BoxFit.cover,
           placeholder: 'assets/placeholder_photo_select.png',
           image: widget.initialUrl);
     } else {
-      image = new Image(
+      image = Image(
         fit: BoxFit.cover,
-        image: new AssetImage('assets/placeholder_photo_select.png'),
+        image: AssetImage('assets/placeholder_photo_select.png'),
       );
     }
-    return new Column(
+    return Column(
       children: <Widget>[
-        new AspectRatio(
+        AspectRatio(
           aspectRatio: 16.0 / 9.0,
-          child: new ClipRRect(
-            borderRadius: new BorderRadius.all(new Radius.circular(4.0)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(4.0)),
             child: image,
           ),
         ),
-        new SizedBox(
+        SizedBox(
           height: 8.0,
         ),
         buttons,

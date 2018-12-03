@@ -32,8 +32,8 @@ class EnsureVisibleWhenFocused extends StatefulWidget {
     Key key,
     @required this.child,
     @required this.focusNode,
-    this.curve: Curves.ease,
-    this.duration: const Duration(milliseconds: 100),
+    this.curve = Curves.ease,
+    this.duration = const Duration(milliseconds: 100),
   }) : super(key: key);
 
   /// The node we will monitor to determine if the child is focused
@@ -54,7 +54,7 @@ class EnsureVisibleWhenFocused extends StatefulWidget {
 
   @override
   _EnsureVisibleWhenFocusedState createState() =>
-      new _EnsureVisibleWhenFocusedState();
+      _EnsureVisibleWhenFocusedState();
 }
 
 ///
@@ -92,7 +92,7 @@ class _EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused>
 
   Future<Null> _ensureVisible() async {
     // Wait for the keyboard to come into view
-    await new Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 300));
 
     // No need to go any further if the node has not the focus
     if (!widget.focusNode.hasFocus) {

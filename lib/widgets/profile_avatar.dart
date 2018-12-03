@@ -25,23 +25,21 @@ class ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new SizedBox(
+    return SizedBox(
       width: size,
       height: size,
-      child: new Hero(
-        tag: (account?.avatarUrl ?? localAccount?.avatarUrl) +
-            tag,
-        child: new Material(
+      child: Hero(
+        tag: (account?.avatarUrl ?? localAccount?.avatarUrl) + tag,
+        child: Material(
           type: MaterialType.circle,
           elevation: 0.0,
           color: Colors.transparent,
-          child: new ClipOval(
-            child: new BlurredNetworkImage(
+          child: ClipOval(
+            child: BlurredNetworkImage(
               fit: BoxFit.fill,
-              blurredUrl: account?.blurredAvatarUrl ??
-                  localAccount?.blurredAvatarUrl,
-              url: account?.avatarUrl ??
-                  localAccount?.avatarUrl,
+              blurredUrl:
+                  account?.blurredAvatarUrl ?? localAccount?.blurredAvatarUrl,
+              url: account?.avatarUrl ?? localAccount?.avatarUrl,
               placeholderAsset:
                   (account?.accountType ?? localAccount?.accountType) ==
                           AccountType.influencer

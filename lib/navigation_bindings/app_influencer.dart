@@ -40,7 +40,7 @@ class AppInfluencer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AppInfluencerState createState() => new _AppInfluencerState();
+  _AppInfluencerState createState() => _AppInfluencerState();
 }
 
 class _AppInfluencerState extends AppCommonState<AppInfluencer> {
@@ -85,8 +85,8 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     offerViewOpen = offerId;
     Navigator.push(
       context,
-      new MaterialPageRoute(
-        settings: new RouteSettings(name: '/offer/' + offerId.toString()),
+      MaterialPageRoute(
+        settings: RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (BuildContext context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
           // ConfigData config = ConfigProvider.of(context);
@@ -95,7 +95,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
           DataOffer businessOffer = network.tryGetOffer(offerId);
           DataAccount businessAccount =
               network.tryGetProfileSummary(businessOffer.senderId);
-          return new OfferView(
+          return OfferView(
             account: network.account,
             businessOffer: businessOffer,
             businessAccount: businessAccount,
@@ -109,14 +109,14 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               var progressDialog = showProgressDialog(
                   context: this.context,
                   builder: (BuildContext context) {
-                    return new Dialog(
-                      child: new Row(
+                    return Dialog(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          new Container(
-                              padding: new EdgeInsets.all(24.0),
-                              child: new CircularProgressIndicator()),
-                          new Text("Applying for offer..."),
+                          Container(
+                              padding: EdgeInsets.all(24.0),
+                              child: CircularProgressIndicator()),
+                          Text("Applying for offer..."),
                         ],
                       ),
                     );
@@ -134,21 +134,21 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                 await showDialog<Null>(
                   context: this.context,
                   builder: (BuildContext context) {
-                    return new AlertDialog(
-                      title: new Text('Failed to apply for offer'),
-                      content: new SingleChildScrollView(
-                        child: new ListBody(
+                    return AlertDialog(
+                      title: Text('Failed to apply for offer'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
                           children: <Widget>[
-                            new Text('An error has occured.'),
-                            new Text('Please try again later.'),
+                            Text('An error has occured.'),
+                            Text('Please try again later.'),
                           ],
                         ),
                       ),
                       actions: <Widget>[
-                        new FlatButton(
-                          child: new Row(
+                        FlatButton(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [new Text('Ok'.toUpperCase())],
+                            children: [Text('Ok'.toUpperCase())],
                           ),
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -175,12 +175,12 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   }
 
   void navigateToProfileView() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigProvider.of(context);
       ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      return new ProfileView(
+      return ProfileView(
           account: network.account,
           oauthProviders: ConfigProvider.of(context).oauthProviders,
           onEditPressed: () {
@@ -190,12 +190,12 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   }
 
   void navigateToProfileEdit() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigProvider.of(context);
       ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      return new ProfileEdit(
+      return ProfileEdit(
         account: network.account,
       );
     }));
@@ -203,12 +203,12 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
 
   void navigateToSearchOffers(TextEditingController searchQueryController) {
     TextEditingController searchQueryControllerFallback =
-        searchQueryController ?? new TextEditingController();
+        searchQueryController ?? TextEditingController();
     fadeToPage(context, (context, animation, secondaryAnimation) {
       // ConfigData config = ConfigProvider.of(context);
       ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      return new SearchPageCommon(
+      return SearchPageCommon(
           searchHint: "Find nearby offers...",
           searchTooltip: "Search for nearby offers",
           searchQueryController: searchQueryControllerFallback,
@@ -219,21 +219,21 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               await showDialog<Null>(
                 context: this.context,
                 builder: (BuildContext context) {
-                  return new AlertDialog(
-                    title: new Text('Search Failed'),
-                    content: new SingleChildScrollView(
-                      child: new ListBody(
+                  return AlertDialog(
+                    title: Text('Search Failed'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
                         children: <Widget>[
-                          new Text('An error has occured.'),
-                          new Text('Please try again later.'),
+                          Text('An error has occured.'),
+                          Text('Please try again later.'),
                         ],
                       ),
                     ),
                     actions: <Widget>[
-                      new FlatButton(
-                        child: new Row(
+                      FlatButton(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [new Text('Ok'.toUpperCase())],
+                          children: [Text('Ok'.toUpperCase())],
                         ),
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -247,7 +247,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
             }
           },
           searchResults: network.demoAllOffers.values
-              .map((offer) => new OfferCard(
+              .map((offer) => OfferCard(
                   businessOffer: offer,
                   onPressed: () {
                     navigateToOffer(offer.offerId);
@@ -259,16 +259,16 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     });
   }
 
-  MapController _mapController = new MapController();
+  MapController _mapController = MapController();
   bool _mapFilter = false;
   DataOffer _mapHighlightOffer;
 
   void navigateToHistory() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      return new Scaffold(
-          appBar: new AppBar(
-            title: new Text("History"),
+      return Scaffold(
+          appBar: AppBar(
+            title: Text("History"),
           ),
           bottomSheet: NetworkStatus.buildOptional(context),
           body: proposalsHistory);
@@ -280,35 +280,34 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     ApiClient network = NetworkProvider.of(context);
     bool enoughSpaceForBottom = (MediaQuery.of(context).size.height > 480.0);
     assert(network != null);
-    return new DashboardSimplified(
+    return DashboardSimplified(
       account: network.account,
       mapOffersTab: 0,
       proposalsDirectTab: 1,
       proposalsAppliedTab: 2,
       proposalsDealTab: 3,
-      mapOffers: new Builder(builder: (context) {
+      mapOffers: Builder(builder: (context) {
         ConfigData config = ConfigProvider.of(context);
         ApiClient network = NetworkProvider.of(context);
         List<int> showcaseOfferIds = enoughSpaceForBottom
             ? network.demoAllOffers.keys.toList()
             : <int>[]; // TODO
         Widget showcase = showcaseOfferIds.isNotEmpty
-            ? new OffersShowcase(
+            ? OffersShowcase(
                 getOffer: (BuildContext context, int offerId) {
                   ApiClient network = NetworkProvider.of(context);
-                  return network.tryGetOffer(new Int64(offerId));
+                  return network.tryGetOffer(Int64(offerId));
                 },
                 getAccount: (BuildContext context, int accountId) {
                   ApiClient network = NetworkProvider.of(context);
-                  return network.tryGetProfileSummary(new Int64(accountId));
+                  return network.tryGetProfileSummary(Int64(accountId));
                 },
                 offerIds: network.demoAllOffers.keys.toList(),
                 onOfferPressed: (DataOffer offer) {
                   navigateToOffer(offer.offerId);
                 },
                 onOfferCenter: (DataOffer offer) {
-                  _mapController.move(
-                      new LatLng(offer.latitude, offer.longitude),
+                  _mapController.move(LatLng(offer.latitude, offer.longitude),
                       _mapController.zoom);
                   setState(() {
                     _mapHighlightOffer = offer;
@@ -316,7 +315,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                 },
               )
             : null;
-        Widget map = new OffersMap(
+        Widget map = OffersMap(
           filterState: _mapFilter,
           account: network.account,
           mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark
@@ -342,11 +341,11 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
           onOfferPressed: navigateToOffer,
         );
         return showcase != null
-            ? new Stack(
+            ? Stack(
                 fit: StackFit.expand,
                 children: <Widget>[
                   map,
-                  new Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       showcase,

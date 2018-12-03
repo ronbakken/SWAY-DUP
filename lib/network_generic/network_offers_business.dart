@@ -18,7 +18,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
   bool offersLoading = false;
 
   bool _offersLoaded = false;
-  Map<Int64, DataOffer> _offers = new Map<Int64, DataOffer>();
+  Map<Int64, DataOffer> _offers = Map<Int64, DataOffer>();
 
   void resetOffersBusinessState() {
     _offers.clear();
@@ -33,7 +33,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
   Future<DataOffer> createOffer(NetCreateOffer createOfferReq) async {
     TalkMessage res =
         await channel.sendRequest("C_OFFERR", createOfferReq.writeToBuffer());
-    DataOffer resPb = new DataOffer();
+    DataOffer resPb = DataOffer();
     resPb.mergeFromBuffer(res.data);
     cacheOffer(resPb);
     _offers[resPb.offerId] = resPb;
@@ -42,7 +42,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
   }
 
   void dataOffer(TalkMessage message) {
-    DataOffer pb = new DataOffer();
+    DataOffer pb = DataOffer();
     pb.mergeFromBuffer(message.data);
     if (pb.senderId == account.accountId) {
       cacheOffer(pb);
@@ -72,7 +72,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
         offersLoading = true;
         refreshOffers().catchError((error, stack) {
           log.severe("Failed to get offers: $error");
-          new Timer(new Duration(seconds: 3), () {
+          Timer(Duration(seconds: 3), () {
             _offersLoaded =
                 false; // Not using setState since we don't want to broadcast failure state
           });

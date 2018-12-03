@@ -33,42 +33,42 @@ class ProfileView extends StatelessWidget {
     bool portrait = (MediaQuery.of(context).size.height >
         MediaQuery.of(context).size.width);
     List<Widget> accountAvatar = <Widget>[
-      new Center(
-        child: new Padding(
+      Center(
+        child: Padding(
           padding: portrait
               ? const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 24.0)
               : const EdgeInsets.fromLTRB(
                   24.0, 8.0, 24.0, kToolbarHeight + 8.0),
-          child: new ProfileAvatar(size: 160.0, account: account),
+          child: ProfileAvatar(size: 160.0, account: account),
         ),
       ),
     ];
     List<Widget> accountInfo = <Widget>[
-      new Text(
+      Text(
         account.name,
         style: theme.textTheme.headline,
         textAlign: TextAlign.center,
       ),
-      new Text(
+      Text(
         account.location,
         style: theme.textTheme.caption,
         textAlign: TextAlign.center,
       ),
-      new FollowerTray(
+      FollowerTray(
         oauthProviders: oauthProviders,
         socialMedia: account.socialMedia,
       ),
       account.website.isEmpty
           ? null
-          : new RichText(
-              text: new TextSpan(
+          : RichText(
+              text: TextSpan(
                 children: [
-                  new TextSpan(
+                  TextSpan(
                     text: account.website,
                     // style: new TextStyle(color: Colors.blue),
                     style: theme.textTheme.button
                         .copyWith(color: theme.accentColor),
-                    recognizer: new TapGestureRecognizer()
+                    recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         launch(account.website);
                       },
@@ -76,17 +76,17 @@ class ProfileView extends StatelessWidget {
                 ],
               ),
             ),
-      account.website.isEmpty ? null : new SizedBox(height: 20.0),
-      new Text(
+      account.website.isEmpty ? null : SizedBox(height: 20.0),
+      Text(
         account.description,
         style: theme.textTheme.body1,
         textAlign: TextAlign.center,
       ),
     ].where((w) => w != null).toList();
 
-    return new Scaffold(
+    return Scaffold(
       // backgroundColor: theme.primaryColorDark,
-      appBar: new AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
 
@@ -97,23 +97,23 @@ class ProfileView extends StatelessWidget {
                 : "Profile"),*/
         actions: (onEditPressed != null)
             ? <Widget>[
-                new EditButton(onEditPressed: onEditPressed),
+                EditButton(onEditPressed: onEditPressed),
               ]
             : null,
       ),
       body: (MediaQuery.of(context).size.height >
               MediaQuery.of(context).size.width)
-          ? new Column(
+          ? Column(
               children: accountAvatar + accountInfo,
             )
-          : new Row(
+          : Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: accountAvatar +
                   <Widget>[
-                    new Column(
+                    Column(
                       children: accountInfo,
                     ),
-                    new SizedBox(width: 24.0),
+                    SizedBox(width: 24.0),
                   ],
             ),
     );

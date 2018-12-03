@@ -32,7 +32,7 @@ String translateGlobalAccountStateReason(
 }
 
 class ConfigManager {
-  static final Logger log = new Logger('Inf.Config');
+  static final Logger log = Logger('Inf.Config');
 
   final ConfigData startupConfig;
   ConfigData get config {
@@ -52,7 +52,7 @@ class ConfigManager {
 
   Future<void> reloadConfig() async {
     var configData = await rootBundle.load('assets/config.bin');
-    ConfigData config = new ConfigData();
+    ConfigData config = ConfigData();
     config.mergeFromBuffer(configData.buffer.asUint8List());
     if (config.timestamp > _config.timestamp &&
         config.clientVersion == _config.clientVersion) {
@@ -67,9 +67,9 @@ class ConfigManager {
   }
 
   Future<void> downloadConfig() async {
-    await new Future.delayed(new Duration());
+    await Future.delayed(Duration());
     log.info("Downloading updated config... ***TODO***");
-    var downloadUrls = new Set<String>();
+    var downloadUrls = Set<String>();
     downloadUrls.add(_config.services.configUrl);
     downloadUrls.add(startupConfig.services.configUrl);
     // TODO: Download config

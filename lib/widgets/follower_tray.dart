@@ -23,11 +23,11 @@ class FollowerTray extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<FollowerWidget> followerWidgets = new List<FollowerWidget>();
+    List<FollowerWidget> followerWidgets = List<FollowerWidget>();
 
     for (int i = 1; i < socialMedia.length; i++) {
       if (socialMedia[i].connected) {
-        followerWidgets.add(new FollowerWidget(
+        followerWidgets.add(FollowerWidget(
           oAuthProvider: oauthProviders[i],
           followerCount:
               max(socialMedia[i].followersCount, socialMedia[i].friendsCount),
@@ -35,9 +35,9 @@ class FollowerTray extends StatelessWidget {
       }
     }
 
-    return new Container(
+    return Container(
       padding: const EdgeInsets.all(16.0),
-      child: new Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: followerWidgets,
       ),

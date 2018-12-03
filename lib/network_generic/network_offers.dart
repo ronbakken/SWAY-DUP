@@ -21,13 +21,13 @@ class _CachedOffer {
 }
 
 abstract class NetworkOffers implements ApiClient, NetworkInternals {
-  Map<Int64, _CachedOffer> _cachedOffers = new Map<Int64, _CachedOffer>();
+  Map<Int64, _CachedOffer> _cachedOffers = Map<Int64, _CachedOffer>();
 
   @override
   void cacheOffer(DataOffer offer) {
     _CachedOffer cached = _cachedOffers[offer.offerId];
     if (cached == null) {
-      cached = new _CachedOffer();
+      cached = _CachedOffer();
       _cachedOffers[offer.offerId] = cached;
     }
     cached.fallback = null;
@@ -42,17 +42,17 @@ abstract class NetworkOffers implements ApiClient, NetworkInternals {
   void hintOfferProposal(DataProposal proposal) {
     _CachedOffer cached = _cachedOffers[proposal.offerId];
     if (cached == null) {
-      cached = new _CachedOffer();
+      cached = _CachedOffer();
       _cachedOffers[proposal.offerId] = cached;
     }
     if (cached.offer != null) {
-      DataOffer offer = new DataOffer()..mergeFromMessage(cached.offer);
+      DataOffer offer = DataOffer()..mergeFromMessage(cached.offer);
       offer.proposalId = proposal.proposalId;
       cached.offer = offer..freeze();
       cached.dirty = true;
       onOfferChanged(ChangeAction.upsert, offer.offerId);
     } else if (cached.fallback != null) {
-      DataOffer offer = new DataOffer()..mergeFromMessage(cached.fallback);
+      DataOffer offer = DataOffer()..mergeFromMessage(cached.fallback);
       offer.proposalId = proposal.proposalId;
       cached.fallback = offer..freeze();
       onOfferChanged(ChangeAction.upsert, offer.offerId);
@@ -85,12 +85,11 @@ abstract class NetworkOffers implements ApiClient, NetworkInternals {
         return cached.offer;
       }
     }
-    NetGetOfferReq pbReq = new NetGetOfferReq();
+    NetGetOfferReq pbReq = NetGetOfferReq();
     pbReq.offerId = offerId;
     TalkMessage message =
         await channel.sendRequest("GTOFFERR", pbReq.writeToBuffer());
-    DataOffer offer =
-        (new NetGetOfferRes()..mergeFromBuffer(message.data)).offer;
+    DataOffer offer = (NetGetOfferRes()..mergeFromBuffer(message.data)).offer;
     cacheOffer(offer);
     return offer;
   }
@@ -104,7 +103,7 @@ abstract class NetworkOffers implements ApiClient, NetworkInternals {
         cached.loading = false;
       }).catchError((error, stack) {
         log.severe("Failed to get offer $offerId: $error");
-        new Timer(new Duration(seconds: 3), () {
+        Timer(Duration(seconds: 3), () {
           cached.loading = false;
           onOfferChanged(ChangeAction.retry, offerId);
         });
@@ -115,11 +114,11 @@ abstract class NetworkOffers implements ApiClient, NetworkInternals {
   @override
   DataOffer tryGetOffer(Int64 offerId) {
     if (offerId == Int64.ZERO) {
-      return new DataOffer();
+      return DataOffer();
     }
     _CachedOffer cached = _cachedOffers[offerId];
     if (cached == null) {
-      cached = new _CachedOffer();
+      cached = _CachedOffer();
       _cachedOffers[offerId] = cached;
     }
     _backgroundGetOffer(offerId, cached);
@@ -127,7 +126,7 @@ abstract class NetworkOffers implements ApiClient, NetworkInternals {
       return cached.offer;
     }
     if (cached.fallback == null) {
-      cached.fallback = new DataOffer();
+      cached.fallback = DataOffer();
       cached.fallback.offerId = offerId;
     }
     return cached.fallback;

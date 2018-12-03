@@ -19,25 +19,24 @@ class DebugAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Scaffold(
-      body: new ListView(
+    return Scaffold(
+      body: ListView(
         children: [
-          new Text("Debug account",
-              style: Theme.of(context).textTheme.display2),
-          new Divider(),
-          new Text("Account", style: Theme.of(context).textTheme.display1),
-          new Text("$account"),
-          new Divider(),
-          new Text("Avatar", style: Theme.of(context).textTheme.display1),
+          Text("Debug account", style: Theme.of(context).textTheme.display2),
+          Divider(),
+          Text("Account", style: Theme.of(context).textTheme.display1),
+          Text("$account"),
+          Divider(),
+          Text("Avatar", style: Theme.of(context).textTheme.display1),
           account.avatarUrl == null || account.avatarUrl.isEmpty
               ? null
-              : new Image(image: new NetworkImage(account.avatarUrl)),
-          new Divider(),
-          new Text("Covers", style: Theme.of(context).textTheme.display1),
+              : Image(image: NetworkImage(account.avatarUrl)),
+          Divider(),
+          Text("Covers", style: Theme.of(context).textTheme.display1),
         ]
           ..removeWhere((widget) => widget == null)
           ..addAll(account.coverUrls
-              .map((coverUrl) => new Image(image: new NetworkImage(coverUrl)))),
+              .map((coverUrl) => Image(image: NetworkImage(coverUrl)))),
       ),
     );
   }

@@ -69,7 +69,7 @@ class CrossAccountSelectionState extends State<MultiAccountSelection> {
 
   @override
   Widget build(BuildContext context) {
-    return new _InheritedCrossAccountSelection(
+    return _InheritedCrossAccountSelection(
         child: widget.child, client: widget.client, changed: _changed);
   }
 }

@@ -25,7 +25,7 @@ class SearchScreen extends StatefulWidget {
   final SearchRequestCallback onSearchRequest;
 
   @override
-  _SearchPageState createState() => new _SearchPageState();
+  _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchScreen> {
@@ -41,9 +41,9 @@ class _SearchPageState extends State<SearchScreen> {
   //PublishSubject<String> subject = new PublishSubject<String>();
 
   // Search Bar Controller
-  TextEditingController textController = new TextEditingController();
+  TextEditingController textController = TextEditingController();
 
-  List<DataAccount> searchResults = new List<DataAccount>();
+  List<DataAccount> searchResults = List<DataAccount>();
 
   @override
   void initState() {
@@ -153,17 +153,17 @@ class _SearchPageState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         // We want the appbar to change to a
         // search field whenever we press the Search Icon
         //appBar: searchBar.build(context),
         bottomNavigationBar: searchInProgress
-            ? new Text("Search in progress '$lastSearchQuery'...")
+            ? Text("Search in progress '$lastSearchQuery'...")
             : null, // TODO: For testing purpose. Make it nice
-        body: new ListView.builder(
+        body: ListView.builder(
           itemCount: searchResults.length,
           itemBuilder: (context, index) =>
-              new SearchItemCard(item: searchResults[index]),
+              SearchItemCard(item: searchResults[index]),
         ));
   }
 }

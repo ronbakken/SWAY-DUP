@@ -27,7 +27,7 @@ class OffersShowcase extends StatefulWidget {
   final List<int> offerIds;
 
   @override
-  _OffersShowcaseState createState() => new _OffersShowcaseState();
+  _OffersShowcaseState createState() => _OffersShowcaseState();
 }
 
 class _OffersShowcaseState extends State<OffersShowcase> {
@@ -39,40 +39,40 @@ class _OffersShowcaseState extends State<OffersShowcase> {
     /*DataAccount account = offer.accountId != 0
         ? widget.getAccount(context, offer.accountId)
         : new DataAccount();*/
-    Widget image = new BlurredNetworkImage(
+    Widget image = BlurredNetworkImage(
         url: offer.thumbnailUrl, blurredData: offer.thumbnailBlurred);
-    Widget text = new Text(
+    Widget text = Text(
       offer.title.toString(),
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
       style: theme.textTheme.subhead,
     );
-    Widget sender = new Text(
+    Widget sender = Text(
       offer.senderName, // account.summary?.name.toString(),
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
       style: theme.textTheme.caption,
     );
-    Card card = new Card(
+    Card card = Card(
       shape:
           const RoundedRectangleBorder(borderRadius: kInfImageThumbnailBorder),
-      child: new ClipRRect(
+      child: ClipRRect(
         borderRadius: kInfImageThumbnailBorder,
-        child: new Stack(
+        child: Stack(
           fit: StackFit.expand, // Important
           children: <Widget>[
             image,
-            new Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new AspectRatio(
+                AspectRatio(
                   aspectRatio: 3.0 / 1.0,
-                  child: new ConstrainedBox(
-                    constraints: new BoxConstraints.expand(),
-                    child: new DecoratedBox(
-                      decoration: new BoxDecoration(
-                        gradient: new LinearGradient(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints.expand(),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
                             colors: <Color>[
@@ -85,9 +85,9 @@ class _OffersShowcaseState extends State<OffersShowcase> {
                 ),
               ],
             ),
-            new Padding(
-              padding: new EdgeInsets.all(8.0),
-              child: new Column(
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -96,9 +96,9 @@ class _OffersShowcaseState extends State<OffersShowcase> {
                 ],
               ),
             ),
-            new Material(
+            Material(
               color: Colors.transparent,
-              child: new InkWell(
+              child: InkWell(
                 onTap: () {
                   widget.onOfferPressed(offer);
                 },
@@ -116,8 +116,8 @@ class _OffersShowcaseState extends State<OffersShowcase> {
       aspectRatio: 1.0,
       child: card,
     );*/
-    return new SizedBox(
-      key: new Key('OfferShowcase[$offerId]'),
+    return SizedBox(
+      key: Key('OfferShowcase[$offerId]'),
       width: 96.0,
       height: 96.0,
       child:
@@ -131,27 +131,27 @@ class _OffersShowcaseState extends State<OffersShowcase> {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    return new Row(
+    return Row(
       children: <Widget>[
-        new Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Padding(
-              padding: new EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-              child: new Text("Near you now",
+            Padding(
+              padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+              child: Text("Near you now",
                   textAlign: TextAlign.left, style: theme.textTheme.caption),
             ),
-            new SizedBox(
+            SizedBox(
               height: 132.0,
               width: MediaQuery.of(context).size.width,
               // width: MediaQueryData.fromWindow(window),
-              child: new ListView.builder(
+              child: ListView.builder(
                 // shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 itemCount: widget.offerIds.length,
                 itemBuilder: _buildCard,
                 itemExtent: 132.0,
-                padding: new EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 4.0),
+                padding: EdgeInsets.fromLTRB(4.0, 4.0, 4.0, 4.0),
               ),
             ),
           ],

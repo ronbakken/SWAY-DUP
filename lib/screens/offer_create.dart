@@ -48,11 +48,11 @@ class OfferCreate extends StatefulWidget {
   final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
 
   @override
-  _OfferCreateState createState() => new _OfferCreateState();
+  _OfferCreateState createState() => _OfferCreateState();
 }
 
 class _OfferCreateState extends State<OfferCreate> {
-  final _formKey = new GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   String _imageKey;
   String _title;
@@ -60,18 +60,16 @@ class _OfferCreateState extends State<OfferCreate> {
   String _deliverables;
   String _reward;
 
-  final TextEditingController _imageKeyController = new TextEditingController();
-  final TextEditingController _titleController = new TextEditingController();
-  final TextEditingController _descriptionController =
-      new TextEditingController();
-  final TextEditingController _deliverablesController =
-      new TextEditingController();
-  final TextEditingController _rewardController = new TextEditingController();
+  final TextEditingController _imageKeyController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _deliverablesController = TextEditingController();
+  final TextEditingController _rewardController = TextEditingController();
 
-  final FocusNode _titleNode = new FocusNode();
-  final FocusNode _descriptionNode = new FocusNode();
-  final FocusNode _deliverablesNode = new FocusNode();
-  final FocusNode _rewardNode = new FocusNode();
+  final FocusNode _titleNode = FocusNode();
+  final FocusNode _descriptionNode = FocusNode();
+  final FocusNode _deliverablesNode = FocusNode();
+  final FocusNode _rewardNode = FocusNode();
 
   bool _waiting = false;
 
@@ -81,8 +79,8 @@ class _OfferCreateState extends State<OfferCreate> {
       _imageKey = _imageKeyController.text;
       if (_imageKeyController.text.isNotEmpty) {
         form.save();
-        NetCreateOffer createOffer = new NetCreateOffer();
-        createOffer.offer = new DataOffer();
+        NetCreateOffer createOffer = NetCreateOffer();
+        createOffer.offer = DataOffer();
         createOffer.offer.title = _title;
         createOffer.offer.coverKeys.add(_imageKey);
         createOffer.offer.description = _description;
@@ -101,9 +99,9 @@ class _OfferCreateState extends State<OfferCreate> {
           });
         }
       } else {
-        Scaffold.of(context).showSnackBar(new SnackBar(
-            content: new Text(
-                "At least one photo is required to make a new offer.")));
+        Scaffold.of(context).showSnackBar(SnackBar(
+            content:
+                Text("At least one photo is required to make a new offer.")));
       }
     }
   }
@@ -115,30 +113,30 @@ class _OfferCreateState extends State<OfferCreate> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Make an offer"),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Make an offer"),
         ),
         bottomSheet: NetworkStatus.buildOptional(context),
-        body: new Builder(builder: (context) {
-          return new ListView(padding: new EdgeInsets.all(16.0), children: [
-            new ImageUploader(
+        body: Builder(builder: (context) {
+          return ListView(padding: EdgeInsets.all(16.0), children: [
+            ImageUploader(
               uploadKey: _imageKeyController,
               onUploadImage: widget.onUploadImage,
             ),
-            new SizedBox(
+            SizedBox(
               height: 8.0,
             ),
-            new Form(
+            Form(
               key: _formKey,
-              child: new Column(children: [
-                new EnsureVisibleWhenFocused(
+              child: Column(children: [
+                EnsureVisibleWhenFocused(
                   focusNode: _titleNode,
-                  child: new TextFormField(
+                  child: TextFormField(
                     focusNode: _titleNode,
                     controller: _titleController,
                     maxLines: 1,
-                    decoration: new InputDecoration(labelText: 'Title'),
+                    decoration: InputDecoration(labelText: 'Title'),
                     validator: (val) =>
                         val.trim().isEmpty ? 'Missing title' : null,
                     onSaved: (val) => setState(() {
@@ -146,13 +144,13 @@ class _OfferCreateState extends State<OfferCreate> {
                         }),
                   ),
                 ),
-                new EnsureVisibleWhenFocused(
+                EnsureVisibleWhenFocused(
                   focusNode: _descriptionNode,
-                  child: new TextFormField(
+                  child: TextFormField(
                     focusNode: _descriptionNode,
                     controller: _descriptionController,
                     maxLines: 4,
-                    decoration: new InputDecoration(labelText: 'Description'),
+                    decoration: InputDecoration(labelText: 'Description'),
                     validator: (val) => val.trim().length < 20
                         ? 'Description must be longer'
                         : null,
@@ -161,13 +159,13 @@ class _OfferCreateState extends State<OfferCreate> {
                         }),
                   ),
                 ),
-                new EnsureVisibleWhenFocused(
+                EnsureVisibleWhenFocused(
                   focusNode: _deliverablesNode,
-                  child: new TextFormField(
+                  child: TextFormField(
                     focusNode: _deliverablesNode,
                     controller: _deliverablesController,
                     maxLines: 2,
-                    decoration: new InputDecoration(labelText: 'Deliverables'),
+                    decoration: InputDecoration(labelText: 'Deliverables'),
                     validator: (val) => val.trim().length < 4
                         ? 'Deliverables must be filled in'
                         : null,
@@ -176,13 +174,13 @@ class _OfferCreateState extends State<OfferCreate> {
                         }),
                   ),
                 ),
-                new EnsureVisibleWhenFocused(
+                EnsureVisibleWhenFocused(
                   focusNode: _rewardNode,
-                  child: new TextFormField(
+                  child: TextFormField(
                     focusNode: _rewardNode,
                     controller: _rewardController,
                     maxLines: 2,
-                    decoration: new InputDecoration(labelText: 'Reward'),
+                    decoration: InputDecoration(labelText: 'Reward'),
                     validator: (val) => val.trim().length < 4
                         ? 'Reward must be filled in'
                         : null,
@@ -193,18 +191,18 @@ class _OfferCreateState extends State<OfferCreate> {
                 ),
               ]),
             ),
-            new SizedBox(
+            SizedBox(
               height: 16.0,
             ),
-            new Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                new RaisedButton(
+                RaisedButton(
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  child: new Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      new Text("Make offer".toUpperCase()),
+                      Text("Make offer".toUpperCase()),
                     ],
                   ),
                   onPressed:

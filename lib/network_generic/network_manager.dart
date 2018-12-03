@@ -76,48 +76,48 @@ class NetworkManager
   }
 
   final StreamController<Change<Int64>> _profileChanged =
-      new StreamController<Change<Int64>>.broadcast(sync: true);
+      StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<Int64>> _offerChanged =
-      new StreamController<Change<Int64>>.broadcast(sync: true);
+      StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<Int64>> _offerBusinessChanged =
-      new StreamController<Change<Int64>>.broadcast(sync: true);
+      StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<Int64>> _offerDemoChanged =
-      new StreamController<Change<Int64>>.broadcast(sync: true);
+      StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<Int64>> _offerProposalChanged =
-      new StreamController<Change<Int64>>.broadcast(sync: true);
+      StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<DataProposalChat>> _offerProposalChatChanged =
-      new StreamController<Change<DataProposalChat>>.broadcast(sync: true);
+      StreamController<Change<DataProposalChat>>.broadcast(sync: true);
   final StreamController<void> _commonChanged =
-      new StreamController<void>.broadcast(sync: true);
+      StreamController<void>.broadcast(sync: true);
 
   void onProfileChanged(ChangeAction action, Int64 id) {
     onChanged();
-    _profileChanged.add(new Change<Int64>(action, id));
+    _profileChanged.add(Change<Int64>(action, id));
   }
 
   void onOfferChanged(ChangeAction action, Int64 id) {
     onChanged();
-    _offerChanged.add(new Change<Int64>(action, id));
+    _offerChanged.add(Change<Int64>(action, id));
   }
 
   void onOffersBusinessChanged(ChangeAction action, Int64 id) {
     onChanged();
-    _offerBusinessChanged.add(new Change<Int64>(action, id));
+    _offerBusinessChanged.add(Change<Int64>(action, id));
   }
 
   void onOffersDemoChanged(ChangeAction action, Int64 id) {
     onChanged();
-    _offerDemoChanged.add(new Change<Int64>(action, id));
+    _offerDemoChanged.add(Change<Int64>(action, id));
   }
 
   void onProposalChanged(ChangeAction action, Int64 id) {
     onChanged();
-    _offerProposalChanged.add(new Change<Int64>(action, id));
+    _offerProposalChanged.add(Change<Int64>(action, id));
   }
 
   void onProposalChatChanged(ChangeAction action, DataProposalChat chat) {
     onChanged();
-    _offerProposalChatChanged.add(new Change<DataProposalChat>(action, chat));
+    _offerProposalChatChanged.add(Change<DataProposalChat>(action, chat));
   }
 
   // This is called anytime the connection or account state changes (network.account, network.connected)

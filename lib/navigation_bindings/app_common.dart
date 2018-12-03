@@ -71,7 +71,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   }
 
   void _initBuilders() {
-    proposalsDirect = new Builder(
+    proposalsDirect = Builder(
       builder: (BuildContext context) {
         ApiClient network = NetworkProvider.of(context);
         return _buildProposalList(
@@ -81,7 +81,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
                 (proposal.state == ProposalState.negotiating));
       },
     );
-    proposalsApplied = new Builder(
+    proposalsApplied = Builder(
       builder: (context) {
         ApiClient network = NetworkProvider.of(context);
         return _buildProposalList(
@@ -91,7 +91,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
                 (proposal.state == ProposalState.negotiating));
       },
     );
-    proposalsDeal = new Builder(
+    proposalsDeal = Builder(
       builder: (context) {
         return _buildProposalList(
             context,
@@ -100,7 +100,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
                 (proposal.state == ProposalState.dispute));
       },
     );
-    proposalsHistory = new Builder(
+    proposalsHistory = Builder(
       builder: (context) {
         return _buildProposalList(
             context,
@@ -115,7 +115,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   Widget _buildProposalList(
       BuildContext context, bool Function(DataProposal proposal) test) {
     ApiClient network = NetworkProvider.of(context);
-    return new ProposalList(
+    return ProposalList(
       account: network.account,
       proposals: network.proposals.where(test),
       getProfileSummary: (BuildContext context, Int64 accountId) {
@@ -149,12 +149,12 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   void navigateToOffer(Int64 offerId);
 
   void navigateToPublicProfile(Int64 accountId) {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on any context outside Navigator.push and thus cannot use variables from State widget!
       // ConfigData config = ConfigProvider.of(context);
       ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      return new ProfileView(
+      return ProfileView(
         account: network.tryGetProfileDetail(accountId),
         oauthProviders: ConfigProvider.of(context).oauthProviders,
       );
@@ -181,8 +181,8 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
     bool suppressed = false;
     Navigator.push(
       context,
-      new MaterialPageRoute(
-        settings: new RouteSettings(name: '/proposal/' + proposalId.toString()),
+      MaterialPageRoute(
+        settings: RouteSettings(name: '/proposal/' + proposalId.toString()),
         builder: (context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
           // ConfigData config = ConfigProvider.of(context);
@@ -205,7 +205,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
               ? network.account
               : network.tryGetProfileSummary(proposal.influencerAccountId);
           // DataProposal proposal = network.tryGetProposal(proposalId);
-          return new HaggleView(
+          return HaggleView(
             account: network.account,
             businessAccount: businessAccount,
             influencerAccount: influencerAccount,
@@ -249,13 +249,13 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   }
 
   void navigateToSwitchAccount() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       ConfigData config = ConfigProvider.of(context);
       // ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       MultiAccountClient selection = MultiAccountSelection.of(context);
-      return new AccountSwitch(
+      return AccountSwitch(
         domain: config.services.domain,
         accounts: selection.accounts,
         onAddAccount: () {
@@ -269,12 +269,12 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   }
 
   void navigateToDebugAccount() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigProvider.of(context);
       ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      return new DebugAccount(
+      return DebugAccount(
         account: network.account,
       );
     }));

@@ -20,7 +20,7 @@ import 'package:inf_app/screens/debug_account.dart';
 class AppSwitch extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new _AppSwitchState();
+    return _AppSwitchState();
   }
 }
 
@@ -46,18 +46,18 @@ class _AppSwitchState extends State<AppSwitch> {
     ApiClient network = NetworkProvider.of(context);
     assert(network != null);
     if (network.account.sessionId == 0) {
-      return new LoadingNetwork();
+      return LoadingNetwork();
     }
     if (network.account.accountId == 0) {
-      return new AppOnboarding();
+      return AppOnboarding();
     }
     if (network.account.accountType == AccountType.influencer) {
-      return new AppInfluencer();
+      return AppInfluencer();
     }
     if (network.account.accountType == AccountType.business) {
-      return new AppBusiness();
+      return AppBusiness();
     }
-    return new DebugAccount(account: network.account);
+    return DebugAccount(account: network.account);
     // throw new Exception("Invalid account state");
   }
 }

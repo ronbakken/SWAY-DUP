@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class _DialogRoute extends PopupRoute {
   _DialogRoute({
     @required this.theme,
-    bool barrierDismissible: true,
+    bool barrierDismissible = true,
     this.barrierLabel,
     @required this.child,
     RouteSettings settings,
@@ -37,15 +37,15 @@ class _DialogRoute extends PopupRoute {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    return new SafeArea(
-      child: new Builder(builder: (BuildContext context) {
-        final Widget annotatedChild = new Semantics(
+    return SafeArea(
+      child: Builder(builder: (BuildContext context) {
+        final Widget annotatedChild = Semantics(
           child: child,
           scopesRoute: true,
           explicitChildNodes: true,
         );
         return theme != null
-            ? new Theme(data: theme, child: annotatedChild)
+            ? Theme(data: theme, child: annotatedChild)
             : annotatedChild;
       }),
     );
@@ -54,8 +54,8 @@ class _DialogRoute extends PopupRoute {
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
-    return new FadeTransition(
-        opacity: new CurvedAnimation(parent: animation, curve: Curves.easeOut),
+    return FadeTransition(
+        opacity: CurvedAnimation(parent: animation, curve: Curves.easeOut),
         child: child);
   }
 }
@@ -80,8 +80,8 @@ dynamic showProgressDialog({
   MaterialLocalizations localizations = MaterialLocalizations.of(context);
   () async {
     do {
-      await navigator.push(new _DialogRoute(
-        child: new Builder(builder: builder),
+      await navigator.push(_DialogRoute(
+        child: Builder(builder: builder),
         theme: theme,
         barrierDismissible: false,
         barrierLabel: localizations.modalBarrierDismissLabel,

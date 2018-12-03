@@ -22,65 +22,63 @@ class OnboardingSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> text = [
-      new Container(
-        margin: new EdgeInsets.all(8.0),
-        child: new Text(
+      Container(
+        margin: EdgeInsets.all(8.0),
+        child: Text(
           "Hi!",
           style: Theme.of(context).textTheme.display4,
         ),
       ),
-      new Container(
-        margin: new EdgeInsets.all(8.0),
-        child: new Text(
+      Container(
+        margin: EdgeInsets.all(8.0),
+        child: Text(
           "How do you see yourself?",
           style: Theme.of(context).textTheme.display1,
           textAlign: TextAlign.center,
         ),
       )
     ];
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Image(image: new AssetImage('assets/logo_appbar.png')),
+    return Scaffold(
+      appBar: AppBar(
+        title: Image(image: AssetImage('assets/logo_appbar.png')),
         centerTitle: true,
       ),
       bottomSheet: NetworkStatus.buildOptional(context),
-      body: new Container(
-        margin: new EdgeInsets.all(8.0),
-        child: new Column(
+      body: Container(
+        margin: EdgeInsets.all(8.0),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ((MediaQuery.of(context).size.height >
                     MediaQuery.of(context).size.width)
-                ? new Column(
+                ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: text,
                   )
-                : new Row(
+                : Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: text,
                   )),
-            new Column(
+            Column(
               children: [
-                new Container(
-                    margin: new EdgeInsets.symmetric(horizontal: 8.0),
-                    child: new RaisedButton(
-                      child: new Row(
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: RaisedButton(
+                      child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            new Text("I am an influencer".toUpperCase())
-                          ]),
+                          children: [Text("I am an influencer".toUpperCase())]),
                       onPressed: onInfluencer,
                     )),
-                new Container(
-                    margin: new EdgeInsets.symmetric(horizontal: 8.0),
-                    child: new RaisedButton(
-                      child: new Row(
+                Container(
+                    margin: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: RaisedButton(
+                      child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            new Text("I need an influencer".toUpperCase())
+                            Text("I need an influencer".toUpperCase())
                           ]),
                       onPressed: onBusiness,
                     )),

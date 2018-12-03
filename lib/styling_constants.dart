@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 const double kInfImageCornerRadius = 4.0;
 const BorderRadius kInfImageThumbnailBorder =
-    const BorderRadius.all(const Radius.circular(kInfImageCornerRadius));
+    BorderRadius.all(Radius.circular(kInfImageCornerRadius));
 
 const double kInfPadding = 8.0;
 const double kInfPaddingHalf = kInfPadding * 0.5;

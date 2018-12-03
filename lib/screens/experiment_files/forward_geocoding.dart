@@ -33,7 +33,7 @@ Future<List<String>> forwardGeocode(String address) async {
   dynamic features = doc['features'];
 
   // Make a list of places for search results
-  List<String> placeName = new List<String>();
+  List<String> placeName = List<String>();
 
   // Iterate through each 'feature'
   for (dynamic feature in features) {

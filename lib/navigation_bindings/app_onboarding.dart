@@ -24,7 +24,7 @@ class AppOnboarding extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AppOnboardingState createState() => new _AppOnboardingState();
+  _AppOnboardingState createState() => _AppOnboardingState();
 }
 
 class _AppOnboardingState extends State<AppOnboarding> {
@@ -47,13 +47,13 @@ class _AppOnboardingState extends State<AppOnboarding> {
     Navigator.push(
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
-      new MaterialPageRoute(
+      MaterialPageRoute(
         builder: (context) {
           ConfigData config = ConfigProvider.of(context);
           ApiClient network = NetworkProvider.of(context);
           assert(config != null);
           assert(network != null);
-          return new OAuthScaffold(
+          return OAuthScaffold(
             onOAuthGetParams: () {
               return network.getOAuthUrls(oauthProvider);
             },
@@ -70,7 +70,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
   void navigateToSocial(BuildContext context) {
     Navigator.push(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, new MaterialPageRoute(
+        context, MaterialPageRoute(
       builder: (context) {
         ConfigData config = ConfigProvider.of(context);
         ApiClient network = NetworkProvider.of(context);
@@ -88,7 +88,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
                 (DataSocialMedia data) => (data.connected && !data.expired));
         assert(config != null);
         assert(network != null);
-        return new OnboardingSocial(
+        return OnboardingSocial(
           accountType: network.account.accountType,
           oauthProviders: config.oauthProviders,
           oauthState: network.account.socialMedia,
@@ -130,21 +130,21 @@ class _AppOnboardingState extends State<AppOnboarding> {
                         await showDialog<Null>(
                           context: this.context,
                           builder: (BuildContext context) {
-                            return new AlertDialog(
-                              title: new Text('Sign Up Failed'),
-                              content: new SingleChildScrollView(
-                                child: new ListBody(
+                            return AlertDialog(
+                              title: Text('Sign Up Failed'),
+                              content: SingleChildScrollView(
+                                child: ListBody(
                                   children: <Widget>[
-                                    new Text('An error has occured.'),
-                                    new Text('Please try again later.'),
+                                    Text('An error has occured.'),
+                                    Text('Please try again later.'),
                                   ],
                                 ),
                               ),
                               actions: <Widget>[
-                                new FlatButton(
-                                  child: new Row(
+                                FlatButton(
+                                  child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [new Text('Ok'.toUpperCase())],
+                                    children: [Text('Ok'.toUpperCase())],
                                   ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
@@ -167,7 +167,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
     ConfigData config = ConfigProvider.of(context);
     ApiClient network = NetworkProvider.of(context);
     assert(network != null);
-    return new WelcomePage(
+    return WelcomePage(
       // OnboardingSelection(
       onInfluencer: network.connected == NetworkConnectionState.ready
           ? () {
