@@ -1,5 +1,8 @@
-name: inf
+name: inf_app
 description: One million dollars
+
+environment:
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -49,9 +52,9 @@ dependencies:
   
   crypto: ^2.0.6
 
-# dev_dependencies:
-  # flutter_test:
-  #   sdk: flutter
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
