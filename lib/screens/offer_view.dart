@@ -175,6 +175,7 @@ class _OfferViewState extends State<OfferView> {
                 .map<Uint8List>(
                     (coverBlurred) => Uint8List.fromList(coverBlurred))
                 .toList(),
+            fallbackBlurred: Uint8List.fromList(widget.businessOffer.thumbnailBlurred),
             actions: [
               widget.onSharePressed == null
                   ? null

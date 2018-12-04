@@ -53,8 +53,8 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
       cached.dirty = !detail;
     } else {
       // If no detail provided, merge
-      cached.offer = cached.offer
-        ..toBuilder()
+      cached.offer = DataOffer()
+        ..mergeFromMessage(cached.offer)
         ..mergeFromMessage(offer)
         ..freeze();
     }

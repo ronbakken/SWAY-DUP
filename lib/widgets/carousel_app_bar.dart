@@ -12,6 +12,7 @@ class CarouselAppBar extends SliverAppBar {
     List<Widget> actions,
     List<String> imageUrls,
     List<Uint8List> imagesBlurred,
+    Uint8List fallbackBlurred,
   }) : super(
           key: key,
           pinned: true,
@@ -19,8 +20,8 @@ class CarouselAppBar extends SliverAppBar {
           expandedHeight:
               (MediaQuery.of(context).size.width * 9.0 / 16.0) ~/ 4 * 4.0,
           flexibleSpace: FlexibleSpaceBar(
-            background: _buildBackground(
-                PageController(), context, imageUrls, imagesBlurred),
+            background: _buildBackground(PageController(), context, imageUrls,
+                imagesBlurred, fallbackBlurred),
           ),
           actions: actions,
         );
@@ -30,19 +31,33 @@ class CarouselAppBar extends SliverAppBar {
     BuildContext context,
     List<String> imageUrls,
     List<Uint8List> imagesBlurred,
+    Uint8List fallbackBlurred,
   ) {
-    List<Widget> images = List<Widget>();
-    if (imagesBlurred == null || imagesBlurred.length < imageUrls.length) {
+    final List<Widget> images = <Widget>[];
+    if ((imageUrls == null || imageUrls.isEmpty) &&
+        fallbackBlurred != null &&
+        fallbackBlurred.isNotEmpty) {
+      // Fallback to blurred fallback image
+      images.add(Image.memory(
+        fallbackBlurred,
+        fit: BoxFit.cover,
+      ));
+    } else if (imagesBlurred == null ||
+        imagesBlurred.length < imageUrls.length) {
+      // Show only images without blur
       for (String imageUrl in imageUrls) {
         images.add(BlurredNetworkImage(
             url: imageUrl, placeholderAsset: 'assets/placeholder_photo.png'));
       }
     } else {
+      // Show images with blur fade
       for (int i = 0; i < imageUrls.length; ++i) {
         images.add(BlurredNetworkImage(
-            url: imageUrls[i],
-            blurredData: imagesBlurred[i],
-            placeholderAsset: 'assets/placeholder_photo.png'));
+          url: imageUrls[i],
+          blurredData: imagesBlurred[i].isNotEmpty ? imagesBlurred[i] : null,
+          placeholderAsset:
+              imagesBlurred[i].isEmpty ? 'assets/placeholder_photo.png' : null,
+        ));
       }
     }
     return Container(
@@ -60,7 +75,7 @@ class CarouselAppBar extends SliverAppBar {
                       itemBuilder: (_, int i) => images[i],
                     ),
                     Container(
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                         top: 16.0,
                         bottom: 16.0,
                       ),
@@ -73,8 +88,8 @@ class CarouselAppBar extends SliverAppBar {
         AspectRatio(
           aspectRatio: 16.0 / 4.0,
           child: ConstrainedBox(
-            constraints: BoxConstraints.expand(),
-            child: DecoratedBox(
+            constraints: const BoxConstraints.expand(),
+            child: const DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
