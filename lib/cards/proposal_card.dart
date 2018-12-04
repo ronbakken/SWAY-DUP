@@ -4,6 +4,8 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:inf/widgets/profile_avatar.dart';
 import 'package:inf_common/inf_common.dart';
@@ -61,7 +63,7 @@ class ProposalCard extends StatelessWidget {
                         borderRadius: kInfImageThumbnailBorder,
                         child: BlurredNetworkImage(
                           url: businessOffer.thumbnailUrl,
-                          blurredData: businessOffer.thumbnailBlurred,
+                          blurredData: Uint8List.fromList(businessOffer.thumbnailBlurred),
                           placeholderAsset: 'assets/placeholder_photo.png',
                         ),
                       ),
@@ -117,7 +119,7 @@ class ProposalCard extends StatelessWidget {
                                       child: BlurredNetworkImage(
                                         url: businessOffer.thumbnailUrl,
                                         blurredData:
-                                            businessOffer.thumbnailBlurred,
+                                            Uint8List.fromList(businessOffer.thumbnailBlurred),
                                         placeholderAsset:
                                             'assets/placeholder_photo.png',
                                       ),

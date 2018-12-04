@@ -4,6 +4,8 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:inf/styling_constants.dart';
 
@@ -40,7 +42,7 @@ class _OffersShowcaseState extends State<OffersShowcase> {
         ? widget.getAccount(context, offer.accountId)
         : new DataAccount();*/
     Widget image = BlurredNetworkImage(
-        url: offer.thumbnailUrl, blurredData: offer.thumbnailBlurred);
+        url: offer.thumbnailUrl, blurredData: Uint8List.fromList(offer.thumbnailBlurred);
     Widget text = Text(
       offer.title.toString(),
       textAlign: TextAlign.left,

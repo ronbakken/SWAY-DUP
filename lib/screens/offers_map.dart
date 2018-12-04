@@ -5,6 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
@@ -205,7 +206,7 @@ class _OffersMapState extends State<OffersMap> {
                       children: <Widget>[
                         BlurredNetworkImage(
                             url: offer.thumbnailUrl,
-                            blurredData: offer.thumbnailBlurred),
+                            blurredData: Uint8List.fromList(offer.thumbnailBlurred),
                       ],
                     ),
                   ),

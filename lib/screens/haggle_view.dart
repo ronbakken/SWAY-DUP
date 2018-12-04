@@ -5,6 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
@@ -828,7 +829,7 @@ class _HaggleViewState extends State<HaggleView> {
                               borderRadius: kInfImageThumbnailBorder,
                               child: BlurredNetworkImage(
                                 url: widget.offer.thumbnailUrl,
-                                blurredData: widget.offer.thumbnailBlurred,
+                                blurredData: Uint8List.fromList(widget.offer.thumbnailBlurred),
                                 placeholderAsset:
                                     'assets/placeholder_photo.png',
                               ),

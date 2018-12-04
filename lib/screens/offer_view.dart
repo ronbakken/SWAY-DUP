@@ -5,6 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
@@ -170,7 +171,10 @@ class _OfferViewState extends State<OfferView> {
             context: context,
             title: Text(widget.businessOffer.title),
             imageUrls: widget.businessOffer.coverUrls,
-            imagesBlurred: widget.businessOffer.coversBlurred,
+            imagesBlurred: widget.businessOffer.coversBlurred
+                .map<Uint8List>(
+                    (coverBlurred) => Uint8List.fromList(coverBlurred))
+                .toList(),
             actions: [
               widget.onSharePressed == null
                   ? null
