@@ -425,6 +425,7 @@ class ApiChannel {
 
   Future<DataLocation> fetchLocationFromSql(
       Int64 locationId, Int64 accountId) async {
+    devLog.finest("fetchLocationSummaryFromSql: locationId: $locationId, accountId: $accountId.");
     sqljocky.Results results = await sql.prepareExecute(
         "SELECT `name`, `approximate`, `detail`, " // 0 1 2
         "`postcode`, `region_code`, `country_code`, " // 3 4 5
@@ -455,6 +456,7 @@ class ApiChannel {
 
   Future<DataLocation> fetchLocationSummaryFromSql(
       Int64 locationId, Int64 accountId, bool detail) async {
+    devLog.finest("fetchLocationSummaryFromSql: locationId: $locationId, accountId: $accountId, detail: $detail.");
     sqljocky.Results results = await sql.prepareExecute(
         "SELECT " +
             (detail ? "`detail`" : "`approximate`") +

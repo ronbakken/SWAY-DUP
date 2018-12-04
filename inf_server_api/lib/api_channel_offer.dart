@@ -147,6 +147,7 @@ class ApiChannelOffer {
     offer.clearDirect();
 
     // Custom location
+    channel.replyExtend(message);
     DataLocation location = await _r.fetchLocationSummaryFromSql(locationId,
         account.accountId, account.accountType == AccountType.business);
     offer.locationId = locationId;
@@ -156,7 +157,7 @@ class ApiChannelOffer {
       return;
     }
 
-    // TFetch blurred images
+    // Fetch blurred images
     for (String coverKey in offer.coverKeys) {
       channel.replyExtend(message);
       devLog.finer(_r.makeCloudinaryBlurredCoverUrl(coverKey));

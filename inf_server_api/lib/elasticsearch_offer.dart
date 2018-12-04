@@ -6,6 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:convert';
 import 'dart:core';
+import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:http/http.dart' as http;
@@ -61,9 +62,9 @@ class ElasticsearchOffer {
 
   static dynamic toJson(
     ConfigData config,
-    DataOffer offer,{
+    DataOffer offer, {
     DataAccount sender,
-    DataLocation location, 
+    DataLocation location,
     AccountType senderType,
     bool create = false, // Include created timestamp, and creation fields
     bool modify = true,
@@ -227,7 +228,9 @@ class ElasticsearchOffer {
       doc["cover_keys"] = offer.coverKeys;
     }
     if (offer.coversBlurred.length > 0) {
-      doc["covers_blurred"] = offer.coversBlurred.map((coverBlurred) => base64.encode(coverBlurred));
+      doc["covers_blurred"] = offer.coversBlurred
+          .map<String>((coverBlurred) => base64.encode(coverBlurred))
+          .toList();
     }
     /*
     TODO
@@ -346,7 +349,9 @@ class ElasticsearchOffer {
     if (doc.containsKey("sender_type")) {
       offer.senderType = AccountType.valueOf(doc["sender_type"]);
     }
-    bool receiverIsOwner = receiver != null && receiver != Int64.ZERO && receiver == offer.senderId;
+    bool receiverIsOwner = receiver != null &&
+        receiver != Int64.ZERO &&
+        receiver == offer.senderId;
     if ((private && receiverIsOwner) && doc.containsKey("location_id")) {
       offer.locationId = new Int64(doc["location_id"]);
     }
@@ -369,11 +374,11 @@ class ElasticsearchOffer {
     if ((summary || detail)) {
       if (doc.containsKey("deliverable_social_platforms")) {
         offer.terms.deliverableSocialPlatforms
-            .addAll(doc["deliverable_social_platforms"]);
+            .addAll(doc["deliverable_social_platforms"].map<int>((value) => value as int));
       }
       if (doc.containsKey("deliverable_content_formats")) {
         offer.terms.deliverableContentFormats
-            .addAll(doc["deliverable_content_formats"]);
+            .addAll(doc["deliverable_content_formats"].map<int>((value) => value as int));
       }
       if (detail && doc.containsKey("deliverables_description")) {
         offer.terms.deliverablesDescription = doc["deliverables_description"];
@@ -391,7 +396,7 @@ class ElasticsearchOffer {
       }
     }
     if ((summary || detail) && doc.containsKey("primary_categories")) {
-      offer.primaryCategories.addAll(doc["primary_categories"]);
+      offer.primaryCategories.addAll(doc["primary_categories"].map<int>((value) => value as int));
     }
     if ((summary || detail) && doc.containsKey("sender_name")) {
       offer.senderName = doc["sender_name"];
@@ -418,17 +423,18 @@ class ElasticsearchOffer {
     }
     if (detail && doc.containsKey("cover_keys")) {
       if (private && receiverIsOwner) {
-        offer.coverKeys.addAll(doc["cover_keys"]);
+        offer.coverKeys.addAll(doc["cover_keys"].map<String>((value) => value as String));
       }
-      offer.coverUrls.addAll((doc["cover_keys"] as List<dynamic>).map(
+      offer.coverUrls.addAll((doc["cover_keys"] as List<dynamic>).map<String>(
           (coverKey) => config.services.cloudinaryCoverUrl
               .replaceAll('{key}', coverKey)));
     }
     if (detail && doc.containsKey("covers_blurred")) {
-      offer.coversBlurred.addAll(doc["covers_blurred"].map((coverBlurred) => base64.decode(coverBlurred)));
+      offer.coversBlurred.addAll((doc["covers_blurred"] as List<dynamic>)
+          .map<List<int>>((coverBlurred) => base64.decode(coverBlurred)));
     }
     if (detail && doc.containsKey("categories")) {
-      offer.categories.addAll(doc["categories"]);
+      offer.categories.addAll(doc["categories"].map<int>((value) => value as int));
     }
     if ((private && receiverIsOwner) && doc.containsKey("state")) {
       offer.state = OfferState.valueOf(doc["state"]);
@@ -439,10 +445,12 @@ class ElasticsearchOffer {
     if ((private && receiverIsOwner) && doc.containsKey("archived")) {
       offer.archived = doc["archived"];
     }
-    if ((private && receiverIsOwner) && doc.containsKey("proposals_proposing")) {
+    if ((private && receiverIsOwner) &&
+        doc.containsKey("proposals_proposing")) {
       offer.proposalsProposing = doc["proposals_proposing"];
     }
-    if ((private && receiverIsOwner) && doc.containsKey("proposals_negotiating")) {
+    if ((private && receiverIsOwner) &&
+        doc.containsKey("proposals_negotiating")) {
       offer.proposalsNegotiating = doc["proposals_negotiating"];
     }
     if ((private && receiverIsOwner) && doc.containsKey("proposals_deal")) {
