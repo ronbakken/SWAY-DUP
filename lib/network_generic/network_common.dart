@@ -466,7 +466,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         log.info('Connection done.');
         listen.complete();
       });
-      
+
       if (connected == NetworkConnectionState.offline) {
         connected = NetworkConnectionState.connecting;
         onCommonChanged();

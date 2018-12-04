@@ -42,7 +42,8 @@ class _OffersShowcaseState extends State<OffersShowcase> {
         ? widget.getAccount(context, offer.accountId)
         : new DataAccount();*/
     Widget image = BlurredNetworkImage(
-        url: offer.thumbnailUrl, blurredData: Uint8List.fromList(offer.thumbnailBlurred);
+        url: offer.thumbnailUrl,
+        blurredData: Uint8List.fromList(offer.thumbnailBlurred));
     Widget text = Text(
       offer.title.toString(),
       textAlign: TextAlign.left,

@@ -206,7 +206,8 @@ class _OffersMapState extends State<OffersMap> {
                       children: <Widget>[
                         BlurredNetworkImage(
                             url: offer.thumbnailUrl,
-                            blurredData: Uint8List.fromList(offer.thumbnailBlurred),
+                            blurredData:
+                                Uint8List.fromList(offer.thumbnailBlurred)),
                       ],
                     ),
                   ),
