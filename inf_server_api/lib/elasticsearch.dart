@@ -75,6 +75,21 @@ class Elasticsearch {
     }
     return res['_source'];
   }
+
+  Future<dynamic> search(String index, dynamic search) async {
+    String url = config.services.elasticsearchApi + "/$index/_search";
+    devLog.finest(url);
+    final http.Request request = http.Request("GET", Uri.parse(url));
+    request.body = (search is String) ? search : json.encode(search);
+    http.StreamedResponse response = await httpClient.send(request);
+    final String body = await utf8.decodeStream(response.stream);
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw new Exception(
+          "Status Code: ${response.statusCode}, Request Headers: $headers, Response Body: ${body}");
+    }
+    dynamic res = json.decode(body);
+    return res;
+  }
 }
 
 /* end of file */

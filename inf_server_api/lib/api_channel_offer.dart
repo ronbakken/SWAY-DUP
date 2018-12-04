@@ -65,13 +65,16 @@ class ApiChannelOffer {
 
   ApiChannelOffer(this._r) {
     _r.registerProcedure(
-        "CREOFFER", GlobalAccountState.readWrite, _netCreateOffer);
-    _r.registerProcedure("GETOFFER", GlobalAccountState.readOnly, _netGetOffer);
+        'CREOFFER', GlobalAccountState.readWrite, _netCreateOffer);
+    _r.registerProcedure('GETOFFER', GlobalAccountState.readOnly, _netGetOffer);
+    _r.registerProcedure(
+        'LISTOFRS', GlobalAccountState.readOnly, _netListOffers);
   }
 
   void dispose() {
-    _r.unregisterProcedure("CREOFFER");
-    _r.unregisterProcedure("GETOFFER");
+    _r.unregisterProcedure('CREOFFER');
+    _r.unregisterProcedure('GETOFFER');
+    _r.unregisterProcedure('LISTOFRS');
     _r = null;
   }
 
@@ -229,7 +232,10 @@ class ApiChannelOffer {
         offerId: offer.offerId,
         receiver: accountId,
         private: true);
-    devLog.finest(res.offer);
+    res.state = true;
+    res.summary = true;
+    res.detail = true;
+    devLog.finest('Create offer "${res.offer.title}".');
     channel.replyMessage(message, 'R_CREOFR', res.writeToBuffer());
   }
 
@@ -247,100 +253,92 @@ class ApiChannelOffer {
         offerId: getOffer.offerId,
         receiver: accountId,
         private: true);
-    devLog.finest(res.offer);
+    res.state = true;
+    res.summary = true;
+    res.detail = true;
+    devLog.finest('Get offer "${res.offer.title}".');
     channel.replyMessage(message, 'R_GETOFR', res.writeToBuffer());
   }
 
-/*
-  Future<void> netListOffers(TalkMessage message) async {
-    NetLoadOffers pb = new NetLoadOffers();
-    pb.mergeFromBuffer(message.data);
+  static const List<String> privateFields = [
+    // Summary
+    "location_id", // Private
+    // State
+    "state",
+    "state_reason",
+    "archived",
+    "proposals_proposing",
+    "proposals_negotiating",
+    "proposals_deal",
+    "proposals_rejected",
+    "proposals_dispute",
+    "proposals_resolved",
+    "proposals_complete",
+  ];
 
-    // TODO: New offers
-    channel.replyEndOfStream(message);
-    return;
-    
-    // TODO: Limit number of results
-    channel.replyExtend(message);
-    sqljocky.RetainedConnection connection = await sql.getConnection();
-    try {
-      channel.replyExtend(message);
-      sqljocky.Query selectImageKeys = await connection.prepare(
-          "SELECT `image_key` FROM `offer_images` WHERE `offer_id` = ?");
-      try {
-        String selectOffers =
-            "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
-            "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
-            "`offers`.`location_id`, `locations`.`detail`, `locations`.`point`, " // 6 7 8
-            "`offers`.`state`, `offers`.`state_reason`, `locations`.`name` " // 9 10 11
-            "FROM `offers` "
-            "INNER JOIN `locations` ON `locations`.`location_id` = `offers`.`location_id` "
-            "WHERE `offers`.`account_id` = ? "
-            "ORDER BY `offer_id` DESC";
-        sqljocky.Results offerResults =
-            await sql.prepareExecute(selectOffers, [accountId]);
-        await for (sqljocky.Row offerRow in offerResults) {
-          channel.replyExtend(message);
-          DataOffer offer = new DataOffer();
-          offer.offerId = new Int64(offerRow[0]);
-          offer.senderId = new Int64(offerRow[1]);
-          offer.locationId = new Int64(offerRow[6]);
-          offer.title = offerRow[2].toString();
-          offer.description = offerRow[3].toString();
-          // TODO: offer.deliverables = offerRow[4].toString();
-          // TODO: offer.reward = offerRow[5].toString();
-          offer.locationName = offerRow[11].toString();
-          // TODO: offer.location = offerRow[7].toString();
-          print(offerRow[8].toString());
-          Uint8List point = offerRow[8];
-          if (point != null) {
-            // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
-            ByteData data = new ByteData.view(point.buffer);
-            Endian endian = data.getInt8(4) == 0 ? Endian.big : Endian.little;
-            int type = data.getUint32(4 + 1, endian = endian);
-            if (type == 1) {
-              offer.latitude = data.getFloat64(4 + 5 + 8, endian = endian);
-              offer.longitude = data.getFloat64(4 + 5, endian = endian);
-            }
-          }
-          // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
-          // offer.blurredCoverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
-          // TODO: categories
-          offer.state = OfferState.valueOf(offerRow[9].toInt());
-          offer.stateReason = OfferStateReason.valueOf(offerRow[10].toInt());
-          // offer.proposalsNew = 0; // TODO
-          // offer.proposalsAccepted = 0; // TODO
-          // offer.proposalsCompleted = 0; // TODO
-          // offer.proposalsRefused = 0; // TODO
-          
-          sqljocky.Results imageKeyResults =
-              await selectImageKeys.execute([offer.offerId]);
-          await for (sqljocky.Row imageKeyRow in imageKeyResults) {
-            if (!offer.hasThumbnailUrl()) {
-              offer.thumbnailUrl =
-                  _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
-              // TODO: offer.blurredThumbnailUrl =
-              // TODO:     _r.makeCloudinaryBlurredThumbnailUrl(imageKeyRow[0]);
-            }
-            offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
-            // TODO: offer.blurredCoverUrls
-            // TODO:     .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
-          }
-          // Cache offer for use (is this really necessary?)
-          offers[offer.offerId] = offer;
-          // Send offer to user
-          channel.replyMessage(message, "R_LSTOFR", offer.writeToBuffer());
+  static const List<String> summaryFields = [
+    // Summary
+    "offer_id",
+    "sender_id",
+    "sender_type",
+    "title",
+    "thumbnail_key",
+    "thumbnail_blurred",
+    "deliverables_description",
+    "reward_item_or_service_description",
+    "primary_categories",
+    "sender_name",
+    "sender_avatar_key", // TODO: Fix this
+    "sender_avatar_blurred",
+    "location_address",
+    "latitude",
+    "longitude",
+  ];
+
+  static final List<String> privateSummaryFields =
+      (privateFields + summaryFields).toList();
+
+  static const int searchSize = 255;
+
+  Future<void> _netListOffers(TalkMessage message) async {
+    final NetListOffers listOffers = NetListOffers()
+      ..mergeFromBuffer(message.data)
+      ..freeze();
+    dynamic results = elasticsearch.search('offers', {
+      "size": searchSize,
+      "_source": {
+        "includes": privateSummaryFields,
+      },
+      "query": {
+        "term": {
+          "sender_id": accountId.toInt(),
         }
-        channel.replyExtend(message);
-      } finally {
-        await selectImageKeys.close();
+      },
+    });
+    // TODO: Possible to pre-send the total count
+    List<dynamic> hits = results['hits']['hits'];
+    for (dynamic hit in hits) {
+      Map<String, dynamic> doc = hit['_source'] as Map<String, dynamic>;
+      NetOffer res;
+      try {
+        res = new NetOffer();
+        res.offer = ElasticsearchOffer.fromJson(config, doc,
+            state: true,
+            summary: true,
+            detail: false,
+            offerId: new Int64(hit['_id']),
+            receiver: accountId,
+            private: true);
+      } catch (error, stackTrace) {
+        res = null;
+        devLog.severe("Error parsing offer: $error\n$stackTrace");
       }
-    } finally {
-      await connection.release();
+      if (res != null) {
+        channel.replyMessage(message, 'R_LSTOFR', res.writeToBuffer());
+      }
     }
-
-    // TODO: NetOffer loadOffersRes = new NetOffer();
-    // TODO: channel.replyMessage(message, "L_R_OFFE", loadOffersRes.writeToBuffer());
-    channel.replyAbort(message, "Not implemented");
-  }*/
+    channel.replyEndOfStream(message);
+  }
 }
+
+/* end of file */
