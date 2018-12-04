@@ -58,7 +58,7 @@ class _OfferViewState extends State<OfferView> {
   final TextEditingController _remarksController = TextEditingController();
   final FocusNode _remarksNode = FocusNode();
 
-  void _submitPressed(BuildContext context) async {
+  Future<void> _submitPressed(BuildContext context) async {
     final form = _formKey.currentState;
     if (form.validate()) {
       form.save();
@@ -80,7 +80,7 @@ class _OfferViewState extends State<OfferView> {
     if (widget.account.accountType == AccountType.influencer) {
       if (widget.businessOffer.proposalId == 0) {
         return Container(
-            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+            margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             child: Column(
               children: <Widget>[
                 Form(
@@ -92,7 +92,7 @@ class _OfferViewState extends State<OfferView> {
                         focusNode: _remarksNode,
                         controller: _remarksController,
                         maxLines: 4,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             labelText: 'Tell us what you can offer more'),
                         validator: (val) => val.trim().length < 20
                             ? 'Message must be longer'
@@ -101,9 +101,7 @@ class _OfferViewState extends State<OfferView> {
                     ),
                   ]),
                 ),
-                SizedBox(
-                  height: 16.0,
-                ),
+                const SizedBox(height: 16.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -127,7 +125,7 @@ class _OfferViewState extends State<OfferView> {
             ));
       } else {
         return Container(
-          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+          margin: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
           child: Column(
             children: <Widget>[
               Row(
@@ -161,7 +159,7 @@ class _OfferViewState extends State<OfferView> {
 
   @override
   Widget build(BuildContext context) {
-    bool withProposal =
+    final bool withProposal =
         (widget.account.accountType == AccountType.influencer) &&
             (widget.businessOffer.proposalId != 0);
     return Scaffold(
@@ -175,12 +173,13 @@ class _OfferViewState extends State<OfferView> {
                 .map<Uint8List>(
                     (coverBlurred) => Uint8List.fromList(coverBlurred))
                 .toList(),
-            fallbackBlurred: Uint8List.fromList(widget.businessOffer.thumbnailBlurred),
+            fallbackBlurred:
+                Uint8List.fromList(widget.businessOffer.thumbnailBlurred),
             actions: [
               widget.onSharePressed == null
                   ? null
                   : IconButton(
-                      icon: Icon(Icons.share),
+                      icon: const Icon(Icons.share),
                       onPressed: () {},
                     )
             ]..removeWhere((Widget w) => w == null),
@@ -224,8 +223,8 @@ class _OfferViewState extends State<OfferView> {
                                     icon: Column(
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Icon(Icons.remove_circle,
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: const Icon(Icons.remove_circle,
                                               size: 24.0),
                                         ),
                                         Text("End".toUpperCase(), maxLines: 1),
@@ -270,8 +269,9 @@ class _OfferViewState extends State<OfferView> {
                                     icon: Column(
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Icon(Icons.edit, size: 24.0),
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: const Icon(Icons.edit,
+                                              size: 24.0),
                                         ),
                                         Text("Edit".toUpperCase(), maxLines: 1),
                                       ],
@@ -287,8 +287,9 @@ class _OfferViewState extends State<OfferView> {
                                     icon: Column(
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Icon(Icons.inbox, size: 24.0),
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: const Icon(Icons.inbox,
+                                              size: 24.0),
                                         ),
                                         Text("Proposals".toUpperCase(),
                                             maxLines: 1,
@@ -304,7 +305,7 @@ class _OfferViewState extends State<OfferView> {
                       widget.onEditPressed == null &&
                       widget.onProposalsPressed == null
                   ? null
-                  : Divider(),
+                  : const Divider(),
               ListTile(
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,7 +324,7 @@ class _OfferViewState extends State<OfferView> {
               withProposal
                   ? null
                   : ListTile(
-                      leading: Icon(Icons.work),
+                      leading: const Icon(Icons.work),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -343,7 +344,7 @@ class _OfferViewState extends State<OfferView> {
               withProposal
                   ? null
                   : ListTile(
-                      leading: Icon(Icons.redeem),
+                      leading: const Icon(Icons.redeem),
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -360,11 +361,11 @@ class _OfferViewState extends State<OfferView> {
                       ),
                     ),
               ListTile(
-                leading: Icon(Icons.pin_drop),
+                leading: const Icon(Icons.pin_drop),
                 title: Text(widget.businessOffer.locationAddress,
                     style: Theme.of(context).textTheme.body1),
               ),
-              Divider(),
+              const Divider(),
               _buildInfluencerApply(context),
             ]..removeWhere((Widget w) => w == null)),
           ),
