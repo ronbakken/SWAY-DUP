@@ -434,14 +434,12 @@ class ApiChannelHaggleActions {
     await sql.startTransaction((transaction) async {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
-      String accountWantsDeal =
-          account.accountType == AccountType.influencer
-              ? 'influencer_wants_deal'
-              : 'business_wants_deal';
-      String accountAccountId =
-          account.accountType == AccountType.influencer
-              ? 'influencer_account_id'
-              : 'business_account_id';
+      String accountWantsDeal = account.accountType == AccountType.influencer
+          ? 'influencer_wants_deal'
+          : 'business_wants_deal';
+      String accountAccountId = account.accountType == AccountType.influencer
+          ? 'influencer_account_id'
+          : 'business_account_id';
       String updateWants = "UPDATE `proposals` "
           "SET `$accountWantsDeal` = 1 "
           "WHERE `proposal_id` = ? "
@@ -522,10 +520,9 @@ class ApiChannelHaggleActions {
     await sql.startTransaction((transaction) async {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
-      String accountAccountId =
-          account.accountType == AccountType.influencer
-              ? 'influencer_account_id' // Cancel
-              : 'business_account_id'; // Reject
+      String accountAccountId = account.accountType == AccountType.influencer
+          ? 'influencer_account_id' // Cancel
+          : 'business_account_id'; // Reject
       String updateWants = "UPDATE `proposals` "
           "SET `state` = ${ProposalState.rejected.value} "
           "WHERE `proposal_id` = ? "
@@ -648,10 +645,9 @@ class ApiChannelHaggleActions {
     await sql.startTransaction((transaction) async {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
-      String accountAccountId =
-          account.accountType == AccountType.influencer
-              ? 'influencer_account_id'
-              : 'business_account_id';
+      String accountAccountId = account.accountType == AccountType.influencer
+          ? 'influencer_account_id'
+          : 'business_account_id';
       String accountMarkedDelivered =
           account.accountType == AccountType.influencer
               ? 'influencer_marked_delivered'
@@ -660,14 +656,12 @@ class ApiChannelHaggleActions {
           account.accountType == AccountType.influencer
               ? 'influencer_marked_rewarded'
               : 'business_marked_rewarded';
-      String accountGaveRating =
-          account.accountType == AccountType.influencer
-              ? 'influencer_gave_rating'
-              : 'business_gave_rating';
-      String accountDisputed =
-          account.accountType == AccountType.influencer
-              ? 'influencer_disputed'
-              : 'business_disputed';
+      String accountGaveRating = account.accountType == AccountType.influencer
+          ? 'influencer_gave_rating'
+          : 'business_gave_rating';
+      String accountDisputed = account.accountType == AccountType.influencer
+          ? 'influencer_disputed'
+          : 'business_disputed';
       String updateMarkings = "UPDATE `proposals` "
           "SET `$accountMarkedDelivered` = ?, `$accountMarkedRewarded` = ?" +
           (pb.rating > 0 ? ", `$accountGaveRating` = ?" : '') +
