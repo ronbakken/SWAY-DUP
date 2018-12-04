@@ -224,8 +224,10 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       offersBusiness: Builder(builder: (context) {
         final ApiClient network = NetworkProvider.of(context);
         return OfferList(
-            businessOffers: network.offers.values
-                .where((offer) => (offer.state != OfferState.closed))
+            businessOffers: network.offers
+                .map<DataOffer>(
+                    (offerId) => network.tryGetOffer(offerId, detail: false))
+                .where((offer) => offer.state != OfferState.closed)
                 .toList()
                   ..sort((a, b) => b.offerId.compareTo(a.offerId)),
             onRefreshOffers: (network.connected == NetworkConnectionState.ready)

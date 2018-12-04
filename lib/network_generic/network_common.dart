@@ -98,8 +98,6 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     registerProcedure('CONFDOWN', _configDownload);
     registerProcedure('ACCOUNTU', _accountUpdate);
 
-    registerProcedure('DB_OFFER', dataOffer); // TODO: Remove this!
-
     registerProcedure('LN_APPLI', liveNewProposal);
     registerProcedure('LN_A_CHA', liveNewProposalChat);
     registerProcedure('LU_APPLI', liveUpdateProposal);
@@ -206,7 +204,6 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   void cleanupStateSwitchingAccounts() {
     resetProfilesState();
     resetOffersState();
-    resetOffersBusinessState();
     resetOffersDemoState();
     resetProposalsState();
     resetAccountState();
@@ -561,7 +558,6 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       // Mark all caches as dirty, since we may have been offline for a while
       markProfilesDirty();
       markOffersDirty();
-      markOffersBusinessDirty();
       markOffersDemoDirty();
       markProposalsDirty();
       await initFirebaseNotifications();

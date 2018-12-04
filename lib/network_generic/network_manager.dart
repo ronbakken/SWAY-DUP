@@ -8,13 +8,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:fixnum/fixnum.dart';
+import 'package:inf/network_generic/api_client_offer.dart';
 import 'package:inf/network_generic/network_common.dart';
 import 'package:inf/network_generic/network_offers_business.dart';
 import 'package:inf/network_generic/network_offers_demo.dart';
 import 'package:inf/network_generic/network_proposals.dart';
 import 'package:inf/network_mobile/network_notifications.dart';
 import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/network_offers.dart';
 import 'package:inf/network_generic/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_generic/api_client.dart';
@@ -28,7 +28,7 @@ export 'package:inf/network_generic/api_client.dart';
 class NetworkManager
     with
         NetworkProfiles,
-        NetworkOffers,
+        ApiClientOffer,
         NetworkOffersBusiness,
         NetworkOffersDemo,
         NetworkProposals,
@@ -51,8 +51,8 @@ class NetworkManager
   }
 
   @override
-  Stream<Change<Int64>> get offerBusinessChanged {
-    return _offerBusinessChanged.stream;
+  Stream<void> get offersChanged {
+    return _offersChanged.stream;
   }
 
   @override
@@ -79,7 +79,7 @@ class NetworkManager
       StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<Int64>> _offerChanged =
       StreamController<Change<Int64>>.broadcast(sync: true);
-  final StreamController<Change<Int64>> _offerBusinessChanged =
+  final StreamController<void> _offersChanged =
       StreamController<Change<Int64>>.broadcast(sync: true);
   final StreamController<Change<Int64>> _offerDemoChanged =
       StreamController<Change<Int64>>.broadcast(sync: true);
@@ -100,9 +100,9 @@ class NetworkManager
     _offerChanged.add(Change<Int64>(action, id));
   }
 
-  void onOffersBusinessChanged(ChangeAction action, Int64 id) {
+  void onOffersChanged() {
     onChanged();
-    _offerBusinessChanged.add(Change<Int64>(action, id));
+    _offersChanged.add(null);
   }
 
   void onOffersDemoChanged(ChangeAction action, Int64 id) {
@@ -143,7 +143,7 @@ class NetworkManager
     disposeNotifications();
     _profileChanged.close();
     _offerChanged.close();
-    _offerBusinessChanged.close();
+    _offersChanged.close();
     _offerDemoChanged.close();
     _offerProposalChanged.close();
     _offerProposalChatChanged.close();

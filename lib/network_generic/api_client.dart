@@ -38,7 +38,7 @@ abstract class ApiClient {
   Stream<Change<Int64>> get offerChanged;
 
   /// Called when the list of offers owned by the business has changed, passes the id of the affected entry.
-  Stream<Change<Int64>> get offerBusinessChanged;
+  Stream<void> get offersChanged;
 
   /// Called when the list of demo offers has changed, passes the id of the affected entry.
   Stream<Change<Int64>> get offerDemoChanged;
@@ -90,17 +90,23 @@ abstract class ApiClient {
   void popKeepAlive();
 
   /////////////////////////////////////////////////////////////////////////////
-  // Business offers
+  // Offer
   /////////////////////////////////////////////////////////////////////////////
+
+  /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached offer, never returns null, never throws exception
+  DataOffer tryGetOffer(Int64 offerId, {bool detail = true});
+
+  /// Get an offer, refresh set to true to always get from server, use sparingly to refresh the cache, may fail and throw exceptions
+  Future<DataOffer> getOffer(Int64 offerId, {bool refresh = true});
 
   /// Create an offer.
   Future<DataOffer> createOffer(NetCreateOffer createOfferReq);
 
-  /// Refresh all offers (currently latest offers)
+  /// Refresh all offers owned by this account (currently latest offers)
   Future<void> refreshOffers();
 
   /// List of offers owned by this account (applicable for business)
-  Map<Int64, DataOffer> get offers;
+  Iterable<Int64> get offers;
 
   /// Whether [offers] is in the process of loading. Not set by refreshOffers call
   bool get offersLoading;
@@ -121,12 +127,6 @@ abstract class ApiClient {
   /////////////////////////////////////////////////////////////////////////////
   // Synchronization utilities
   /////////////////////////////////////////////////////////////////////////////
-
-  /// Returns dummy based on fallback in case not yet available, and fetches latest, otherwise returns cached offer, never returns null, never throws exception
-  DataOffer tryGetOffer(Int64 offerId);
-
-  /// Get an offer, refresh set to true to always get from server, use sparingly to refresh the cache, may fail and throw exceptions
-  Future<DataOffer> getOffer(Int64 offerId, {bool refresh = true});
 
   /// Reload business offer silently in the background, call when opening a window
   // void backgroundReloadOffer(Int64 offerId);

@@ -14,33 +14,8 @@ import 'package:inf_common/inf_common.dart';
 import 'package:switchboard/switchboard.dart';
 
 abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
-  @override
-  bool offersLoading = false;
 
-  bool _offersLoaded = false;
-  Map<Int64, DataOffer> _offers = Map<Int64, DataOffer>();
-
-  void resetOffersBusinessState() {
-    _offers.clear();
-    _offersLoaded = false;
-  }
-
-  void markOffersBusinessDirty() {
-    _offersLoaded = false;
-  }
-
-  @override
-  Future<DataOffer> createOffer(NetCreateOffer createOfferReq) async {
-    final TalkMessage res = await switchboard.sendRequest(
-        "api", "CREOFFER", createOfferReq.writeToBuffer());
-    final NetOffer resPb = NetOffer();
-    resPb.mergeFromBuffer(res.data);
-    cacheOffer(resPb.offer);
-    _offers[resPb.offer.offerId] = resPb.offer;
-    onOffersBusinessChanged(ChangeAction.add, resPb.offer.offerId);
-    return resPb.offer;
-  }
-
+/*
   @override
   Future<void> dataOffer(TalkMessage message) async {
     DataOffer pb = DataOffer();
@@ -53,7 +28,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
     } else {
       log.fine("Received offer for other account ${pb.senderId}");
     }
-  }
+  }*/
 
   @override
   Future<void> refreshOffers() async {
@@ -64,7 +39,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
         loadOffersReq.writeToBuffer()); // TODO: Use response data maybe
         */
   }
-
+/*
   @override
   Map<Int64, DataOffer> get offers {
     if (_offersLoaded == false && connected == NetworkConnectionState.ready) {
@@ -84,7 +59,7 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
       }
     }
     return _offers;
-  }
+  }*/
 }
 
 /* end of file */

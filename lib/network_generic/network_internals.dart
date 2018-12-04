@@ -34,19 +34,14 @@ abstract class NetworkInternals {
   DataAccount emptyAccount();
   void hintProfileOffer(DataOffer offer);
 
-  // Offers
-  void cacheOffer(DataOffer offer);
+  // Offer
+  void cacheOffer(DataOffer offer, bool detail);
   void resetOffersState();
   void onOfferChanged(ChangeAction action, Int64 id);
   void markOffersDirty();
   void markOfferDirty(Int64 offerId);
   void hintOfferProposal(DataProposal proposal);
-
-  // Offers Business
-  void resetOffersBusinessState();
-  void markOffersBusinessDirty();
-  Future<void> dataOffer(TalkMessage message); // TODO: Remove this!!!
-  void onOffersBusinessChanged(ChangeAction action, Int64 id);
+  void onOffersChanged();
 
   // Offers Demo
   void resetOffersDemoState();
