@@ -40,7 +40,9 @@ class ApiChannelOAuth {
   static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
   static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
 
-  static final http.Client httpClient = new http.Client();
+  http.Client get httpClient {
+    return _r.service.httpClient;
+  }
 
   DataAccount get account {
     return _r.account;
@@ -175,14 +177,7 @@ class ApiChannelOAuth {
       case OAuthMechanism.oauth1:
         {
           // Twitter-like
-          var platform = new oauth1.Platform(
-              cfg.host + cfg.requestTokenUrl,
-              cfg.host + cfg.authenticateUrl,
-              cfg.host + cfg.accessTokenUrl,
-              oauth1.SignatureMethods.HMAC_SHA1);
-          var clientCredentials =
-              new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
-          var auth = new oauth1.Authorization(clientCredentials, platform);
+          oauth1.Authorization auth = _r.service.oauth1Auth[oauthProvider];
           // auth.requestTokenCredentials(clientCredentials, verifier);
           if (query.containsKey('oauth_token') &&
               query.containsKey('oauth_verifier')) {
@@ -537,7 +532,7 @@ class ApiChannelOAuth {
           var credentials = new oauth1.Credentials(
               oauthCredentials.token, oauthCredentials.tokenSecret);
           var client = new oauth1.Client(oauth1.SignatureMethods.HMAC_SHA1,
-              clientCredentials, credentials);
+              clientCredentials, credentials, httpClient);
           // devLog.finest('show');
           // http.Response res = await client.get("https://api.twitter.com/1.1/users/show.json?user_id=$oauthUserId");
           // https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-verify_credentials
