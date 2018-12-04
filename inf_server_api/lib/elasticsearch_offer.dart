@@ -61,9 +61,9 @@ class ElasticsearchOffer {
 
   static dynamic toJson(
     ConfigData config,
-    DataOffer offer,{
+    DataOffer offer, {
     DataAccount sender,
-    DataLocation location, 
+    DataLocation location,
     AccountType senderType,
     bool create = false, // Include created timestamp, and creation fields
     bool modify = true,

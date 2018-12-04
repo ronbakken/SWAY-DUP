@@ -513,7 +513,8 @@ class ApiChannel {
   }
 
   /// May only be called from synchronized block.
-  void sendAccountUpdate({TalkMessage replying, String procedureId = 'ACCOUNTU'}) async {
+  void sendAccountUpdate(
+      {TalkMessage replying, String procedureId = 'ACCOUNTU'}) async {
     if (!_connected) {
       return;
     }

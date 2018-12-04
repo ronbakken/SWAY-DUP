@@ -149,7 +149,8 @@ class BroadcastCenter {
           apiChannel.channel.sendMessage(procedureId, data);
         }
       } catch (error, stackTrace) {
-        devLog.warning("Exception while pushing to remote app: $error\n$stackTrace");
+        devLog.warning(
+            "Exception while pushing to remote app: $error\n$stackTrace");
       }
     }
 
@@ -319,8 +320,7 @@ class BroadcastCenter {
       // Unusual case, sender is neither of influencer or business...
       await _pushProposalChatPosted(senderDeviceId, chat.senderId, chat);
 
-    devLog.fine(
-        "Pushed proposal '${senderAccount.name}' chat '${chat.text}'");
+    devLog.fine("Pushed proposal '${senderAccount.name}' chat '${chat.text}'");
   }
 
 /*
