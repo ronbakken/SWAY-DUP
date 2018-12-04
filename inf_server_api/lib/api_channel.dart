@@ -14,6 +14,7 @@ import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:geohash/geohash.dart';
 import 'package:inf_server_api/api_channel_offer.dart';
+import 'package:inf_server_api/api_service.dart';
 import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
@@ -41,12 +42,28 @@ import 'api_channel_influencer.dart';
 class ApiChannel {
   bool _connected = true;
 
-  final ConfigData config;
-  final sqljocky.ConnectionPool sql;
-  final dospace.Bucket bucket;
-  final Elasticsearch elasticsearch;
+  final ApiService service;
   final TalkChannel channel;
-  final BroadcastCenter bc;
+
+  ConfigData get config {
+    return service.config;
+  }
+
+  sqljocky.ConnectionPool get sql {
+    return service.sql;
+  }
+
+  dospace.Bucket get bucket {
+    return service.bucket;
+  }
+
+  Elasticsearch get elasticsearch {
+    return service.elasticsearch;
+  }
+
+  BroadcastCenter get bc {
+    return service.bc;
+  }
 
   final String ipAddress;
 
@@ -90,8 +107,8 @@ class ApiChannel {
   ApiChannelBusiness _apiChannelBusiness;
   ApiChannelInfluencer _apiChannelInfluencer;
 
-  ApiChannel(this.config, this.sql, this.bucket, this.elasticsearch,
-      this.channel, this.bc, Uint8List payload,
+  ApiChannel(this.service,
+      this.channel, Uint8List payload,
       {@required this.ipAddress}) {
     devLog.fine("New connection");
     _initializeListen(payload);

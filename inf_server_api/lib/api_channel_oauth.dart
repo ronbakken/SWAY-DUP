@@ -97,17 +97,7 @@ class ApiChannelOAuth {
         case OAuthMechanism.oauth1:
           {
             // Twitter-like
-            devLog.finest(cfg.requestTokenUrl);
-            devLog.finest(cfg.authenticateUrl);
-            devLog.finest(cfg.accessTokenUrl);
-            var platform = new oauth1.Platform(
-                cfg.host + cfg.requestTokenUrl,
-                cfg.host + cfg.authenticateUrl,
-                cfg.host + cfg.accessTokenUrl,
-                oauth1.SignatureMethods.HMAC_SHA1);
-            var clientCredentials = new oauth1.ClientCredentials(
-                cfg.consumerKey, cfg.consumerSecret);
-            var auth = new oauth1.Authorization(clientCredentials, platform);
+            oauth1.Authorization auth = _r.service.oauth1Auth[pb.oauthProvider];
             channel.replyExtend(message);
             oauth1.AuthorizationResponse authRes =
                 await auth.requestTemporaryCredentials(cfg.callbackUrl);

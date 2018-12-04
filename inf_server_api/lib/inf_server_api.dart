@@ -19,6 +19,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:inf_server_api/api_service.dart';
 import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
@@ -171,19 +172,9 @@ run() async {
   // await switchboard.bindWebSocket(InternetAddress.anyIPv4, 8090, '/ep');
   selfTestTalk();
 
-  await for (ChannelInfo open in switchboard) {
-    // TODO: Rename ChannelInfo to ChannelOpen
-    if (open.service == "api") {
-      TalkChannel talkChannel = new TalkChannel(open.channel);
-      new ApiChannel(
-          config, sql, bucket, elasticsearch, talkChannel, bc, open.payload,
-          ipAddress: 'localhost');
-    } else {
-      TalkChannel talkChannel = new TalkChannel(open.channel);
-      // talkChannel.sendMessage(procedureId, data) // TODO: sendAbort
-      talkChannel.close();
-    }
-  }
+  final ApiService apiService = new ApiService(config, sql, bucket, elasticsearch, switchboard, bc);
+  await apiService.listen();
+  await apiService.close();
 
   await spaces.close();
 }
