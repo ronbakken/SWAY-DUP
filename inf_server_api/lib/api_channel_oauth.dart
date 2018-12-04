@@ -108,6 +108,7 @@ class ApiChannelOAuth {
             var clientCredentials = new oauth1.ClientCredentials(
                 cfg.consumerKey, cfg.consumerSecret);
             var auth = new oauth1.Authorization(clientCredentials, platform);
+            channel.replyExtend(message);
             oauth1.AuthorizationResponse authRes =
                 await auth.requestTemporaryCredentials(cfg.callbackUrl);
             String authUrl = auth
@@ -132,11 +133,7 @@ class ApiChannelOAuth {
             devLog.finest(authUrl);
             pbRes.authUrl = authUrl;
             pbRes.callbackUrl = cfg.callbackUrl;
-            channel.replyMessage(
-              message,
-              "OA_R_URL",
-              pbRes.writeToBuffer(),
-            );
+            channel.replyMessage(message, "OA_R_URL", pbRes.writeToBuffer());
             break;
           }
         default:

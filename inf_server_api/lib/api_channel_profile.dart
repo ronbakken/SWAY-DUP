@@ -107,7 +107,7 @@ class ApiChannelProfile {
           "`accounts`.`description`, `accounts`.`location_id`, " // 2 3
           "`accounts`.`avatar_key`, `accounts`.`website`, " // 4 5
           "`locations`.`approximate`, `locations`.`detail`, " // 6 7
-          "`locations`.`point` " // 8
+          "`locations`.`latitude`, `locations`.`longitude` " // 8 9
           "FROM `accounts` "
           "INNER JOIN `locations` ON `locations`.`location_id` = `accounts`.`location_id` "
           "WHERE `accounts`.`account_id` = ? ",
@@ -133,6 +133,9 @@ class ApiChannelProfile {
               ? row[6].toString()
               : row[7].toString();
           if (account.accountType == AccountType.business) {
+            account.latitude = row[8];
+            account.longitude = row[9];
+            /*
             Uint8List point = row[8];
             if (point != null) {
               // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
@@ -143,7 +146,7 @@ class ApiChannelProfile {
                 account.latitude = data.getFloat64(4 + 5 + 8, endian = endian);
                 account.longitude = data.getFloat64(4 + 5, endian = endian);
               }
-            }
+            }*/
           }
         }
       }

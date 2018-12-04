@@ -37,24 +37,23 @@ class Elasticsearch {
   Future<dynamic> postDocument(String index, dynamic doc) async {
     String url = config.services.elasticsearchApi + "/$index/_doc";
     devLog.finest(url);
-    http.Response response = await http.post(url,
+    http.Response response = await httpClient.post(url,
         headers: headers, body: (doc is String) ? doc : json.encode(doc));
     devLog.finest(response.body);
-    if (response.statusCode < 200 && response.statusCode >= 300) {
-      throw new Exception("Status Code: ${response.statusCode}, Body: ${response.body}");
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw new Exception("Status Code: ${response.statusCode}, Request Headers: $headers, Response Body: ${response.body}");
     }
     return json.decode(response.body);
   }
 
   Future<dynamic> putDocument(String index, String id, dynamic doc) async {
-    Map<String, String> headers = <String, String>{};
     String url = config.services.elasticsearchApi + "/$index/_doc/$id";
     devLog.finest(url);
-    http.Response response = await http.put(url,
+    http.Response response = await httpClient.put(url,
         headers: headers, body: (doc is String) ? doc : json.encode(doc));
     devLog.finest(response.body);
-    if (response.statusCode < 200 && response.statusCode >= 300) {
-      throw new Exception("Status Code: ${response.statusCode}, Body: ${response.body}");
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw new Exception("Status Code: ${response.statusCode}, Request Headers: $headers, Response Body: ${response.body}");
     }
     return json.decode(response.body);
   }

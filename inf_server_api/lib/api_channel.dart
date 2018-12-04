@@ -12,6 +12,8 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:geohash/geohash.dart';
+import 'package:inf_server_api/api_channel_offer.dart';
 import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
@@ -82,6 +84,7 @@ class ApiChannel {
   ApiChannelOAuth _apiChannelOAuth;
   ApiChannelUpload _apiChannelUpload;
   ApiChannelProfile _apiChannelProfile;
+  ApiChannelOffer apiChannelOffer;
   ApiChannelHaggle apiChannelHaggle;
   ApiChannelHaggleActions _apiChannelHaggleActions;
   ApiChannelBusiness _apiChannelBusiness;
@@ -91,11 +94,10 @@ class ApiChannel {
       this.channel, this.bc, Uint8List payload,
       {@required this.ipAddress}) {
     devLog.fine("New connection");
+    _initializeListen(payload);
+  }
 
-    // subscribeAuthentication(); // --- TODO
-
-    _initializeSession(payload);
-
+  void _listen() {
     channel.listen((TalkMessage message) async {
       if (_procedureHandlers.containsKey(message.procedureId)) {
         await _procedureHandlers[message.procedureId](message);
@@ -133,6 +135,10 @@ class ApiChannel {
     if (_apiChannelProfile != null) {
       _apiChannelProfile.dispose();
       _apiChannelProfile = null;
+    }
+    if (apiChannelOffer != null) {
+      apiChannelOffer.dispose();
+      apiChannelOffer = null;
     }
     if (apiChannelHaggle != null) {
       apiChannelHaggle.dispose();
@@ -172,8 +178,7 @@ class ApiChannel {
               channel.replyAbort(message, "Unexpected error.");
             }
           } catch (error, stackTrace) {
-            devLog.finest("$error\n$stackTrace");
-            channel.close();
+            devLog.finest("Failed to reply abort: $error\n$stackTrace");
           }
         }
       }
@@ -199,6 +204,12 @@ class ApiChannel {
   void subscribeProfile() {
     if (_apiChannelProfile == null) {
       _apiChannelProfile = new ApiChannelProfile(this);
+    }
+  }
+
+  void subscribeOffer() {
+    if (apiChannelOffer == null) {
+      apiChannelOffer = new ApiChannelOffer(this);
     }
   }
 
@@ -235,6 +246,19 @@ class ApiChannel {
   /////////////////////////////////////////////////////////////////////
   // Session
   /////////////////////////////////////////////////////////////////////
+
+  Future<void> _initializeListen(Uint8List payload) async {
+    try {
+      await _initializeSession(payload);
+    } catch (error, stackTrace) {
+      devLog.warning("Initialize session error: $error\n$stackTrace");
+    }
+    try {
+      _listen();
+    } catch (error, stackTrace) {
+      devLog.warning("Listen error: $error\n$stackTrace");
+    }
+  }
 
   Future<void> _initializeSession(Uint8List payload) async {
     registerProcedure("PING", GlobalAccountState.initialize, netPing);
@@ -327,7 +351,11 @@ class ApiChannel {
             subscribeOnboarding();
             subscribeOAuth();
           }
-          sendAccountUpdate();
+          try {
+            sendAccountUpdate();
+          } catch (error, stackTrace) {
+            devLog.warning("Error sending account update: $error\n$stackTrace");
+          }
         } else {
           await _sessionRemove();
         }
@@ -356,7 +384,7 @@ class ApiChannel {
         "`following_count`, `posts_count`, `verified` " // 10 11 12
         "FROM `social_media` "
         "WHERE `oauth_user_id` = ? AND `oauth_provider` = ?",
-        [oauthUserId.toString(), oauthProvider.toInt()]);
+        [oauthUserId, oauthProvider]);
     DataSocialMedia dataSocialMedia = new DataSocialMedia();
     await for (sqljocky.Row row in results) {
       // one row
@@ -377,6 +405,60 @@ class ApiChannel {
       devLog.finest("fetchCachedSocialMedia: $dataSocialMedia");
     }
     return dataSocialMedia;
+  }
+
+  Future<DataLocation> fetchLocationFromSql(
+      Int64 locationId, Int64 accountId) async {
+    sqljocky.Results results = await sql.prepareExecute(
+        "SELECT `name`, `approximate`, `detail`, " // 0 1 2
+        "`postcode`, `region_code`, `country_code`, " // 3 4 5
+        "`latitude`, `longitude`, `s2cell_id`, geohash " // 6 7 8 9
+        "FROM `locations` "
+        "WHERE `location_id` = ? AND `account_id` = ?",
+        [locationId, accountId]);
+    DataLocation location;
+    await for (sqljocky.Row row in results) {
+      // one row
+      location = new DataLocation();
+      location.locationId = locationId;
+      location.name = row[0].toString();
+      location.approximate = row[1].toString();
+      location.detail = row[2].toString();
+      if (row[3] != null) location.postcode = row[3].toString();
+      location.regionCode = row[4].toString();
+      location.countryCode = row[5].toString();
+      location.latitude = row[6].toDouble();
+      location.longitude = row[7].toDouble();
+      location.s2cellId = new Int64(row[8]);
+      // TODO: location.geohashInt
+      location.geohash = row[9].toString();
+      location.freeze();
+    }
+    return location;
+  }
+
+  Future<DataLocation> fetchLocationSummaryFromSql(
+      Int64 locationId, Int64 accountId, bool detail) async {
+    sqljocky.Results results = await sql.prepareExecute(
+        "SELECT " +
+            (detail ? "`detail`" : "`approximate`") +
+            ", " // 0 1
+            "`latitude`, `longitude` " // 2 3
+            "FROM `locations` "
+            "WHERE `location_id` = ? AND `account_id` = ?",
+        [locationId, accountId]);
+    DataLocation location;
+    await for (sqljocky.Row row in results) {
+      // one row
+      location = new DataLocation();
+      location.locationId = locationId;
+      location.approximate = row[0].toString();
+      location.detail = location.approximate;
+      location.latitude = row[1].toDouble();
+      location.longitude = row[2].toDouble();
+      location.freeze();
+    }
+    return location;
   }
 
   /// May only be called from synchronized block.
@@ -441,26 +523,17 @@ class ApiChannel {
         }
         if (account.locationId != null && account.locationId != 0) {
           if (extend != null) extend();
+          /*
           sqljocky.Results locationResults = await connection.prepareExecute(
-              "SELECT `${account.accountType == AccountType.business ? 'detail' : 'approximate'}`, `point` FROM `locations` "
+              "SELECT `${account.accountType == AccountType.business ? 'detail' : 'approximate'}`, `latitude`, `longitude` FROM `locations` "
               "WHERE `location_id` = ?",
               [account.locationId]);
-          await for (sqljocky.Row row in locationResults) {
-            // one
-            account.location = row[0].toString();
-            Uint8List point = row[1];
-            if (point != null) {
-              // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
-              ByteData data = new ByteData.view(point.buffer);
-              Endian endian = data.getInt8(4) == 0 ? Endian.big : Endian.little;
-              int type = data.getUint32(4 + 1, endian = endian);
-              if (type == 1) {
-                account.latitude = data.getFloat64(4 + 5 + 8, endian = endian);
-                account.longitude = data.getFloat64(4 + 5, endian = endian);
-              }
-            }
-          }
-          if (account.location == null) {
+          }*/
+          DataLocation location = await fetchLocationSummaryFromSql(
+              account.locationId,
+              account.accountId,
+              account.accountType == AccountType.business);
+          if (location == null) {
             devLog.severe(
                 "Account ${account.accountId} has an unknown location_id set");
             account.location = "Earth";
@@ -513,7 +586,8 @@ class ApiChannel {
   }
 
   /// May only be called from synchronized block.
-  void sendAccountUpdate({TalkMessage replying, String procedureId = 'ACCOUNTU'}) async {
+  void sendAccountUpdate(
+      {TalkMessage replying, String procedureId = 'ACCOUNTU'}) {
     if (!_connected) {
       return;
     }
@@ -949,6 +1023,7 @@ class ApiChannel {
       location.s2cellId = new Int64(new S2CellId.fromLatLng(
               new S2LatLng.fromDegrees(location.latitude, location.longitude))
           .id);
+    location.geohash = Geohash.encode(location.latitude, location.longitude, codeLength: 20);
       locations.add(location);
     }
 
@@ -1147,24 +1222,27 @@ class ApiChannel {
               sqljocky.Results res4 = await tx.prepareExecute(
                   "INSERT INTO `locations`("
                   "`account_id`, `name`, `detail`, `approximate`, "
-                  "`postcode`, `region_code`, `country_code`, `s2cell_id`, "
-                  "`point`) "
+                  "`postcode`, `region_code`, `country_code`, "
+                  "`latitude`, `longitude`, `s2cell_id`, `geohash`) "
                   "VALUES ("
                   "?, ?, ?, ?, "
-                  "?, ?, ?, ?, "
-                  "PointFromText('POINT(${location.longitude} ${location.latitude})')"
+                  "?, ?, ?, "
+                  "?, ?, ?, ?"
                   ")",
                   [
                     accountId,
                     location.name.toString(),
-                    location.toString(),
+                    location.detail.toString(),
                     location.approximate.toString(),
                     location.postcode == null
                         ? null
                         : location.postcode.toString(),
                     location.regionCode.toString(),
                     location.countryCode.toString(),
-                    location.s2cellId
+                    location.latitude,
+                    location.longitude,
+                    location.s2cellId,
+                    location.geohash
                   ]);
               if (res4.affectedRows == 0)
                 throw new Exception("Location was not inserted");
@@ -1330,6 +1408,7 @@ class ApiChannel {
     location.s2cellId = new Int64(new S2CellId.fromLatLng(
             new S2LatLng.fromDegrees(location.latitude, location.longitude))
         .id);
+    location.geohash = Geohash.encode(location.latitude, location.longitude, codeLength: 20);
     return location;
   }
 
@@ -1438,6 +1517,7 @@ class ApiChannel {
     location.s2cellId = new Int64(new S2CellId.fromLatLng(
             new S2LatLng.fromDegrees(location.latitude, location.longitude))
         .id);
+    location.geohash = Geohash.encode(location.latitude, location.longitude, codeLength: 20);
     return location;
   }
 
@@ -1575,6 +1655,7 @@ class ApiChannel {
     location.s2cellId = new Int64(new S2CellId.fromLatLng(
             new S2LatLng.fromDegrees(location.latitude, location.longitude))
         .id);
+    location.geohash = Geohash.encode(location.latitude, location.longitude, codeLength: 20);
     return location;
   }
 
@@ -1660,6 +1741,7 @@ class ApiChannel {
       subscribeOAuth();
       subscribeUpload();
       subscribeProfile();
+      subscribeOffer();
       subscribeHaggle();
       subscribeHaggleActions();
       if (account.accountType == AccountType.business) {

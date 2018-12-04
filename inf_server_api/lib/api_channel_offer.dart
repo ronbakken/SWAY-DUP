@@ -89,9 +89,7 @@ class ApiChannelOffer {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> _netCreateOffer(TalkMessage message) async {
-    NetCreateOffer create = new NetCreateOffer()
-      ..mergeFromBuffer(message.data)
-      ..freeze();
+    NetCreateOffer create = new NetCreateOffer()..mergeFromBuffer(message.data);
     devLog.finest(create);
 
     // TODO: if (pb.locationId != null && pb.locationId != 0) {
@@ -110,10 +108,11 @@ class ApiChannelOffer {
     }
 
     DataOffer offer = create.offer;
-    // Int64 locationId = offer.locationId == 0 ? account.locationId : offer.locationId;
-    if (offer.locationId != 0 && offer.locationId != account.locationId) {
-      opsLog.warning("Custom offer location not yet available.");
-      channel.replyAbort(message, "Custom location not yet available.");
+    Int64 locationId =
+        offer.locationId == 0 ? account.locationId : offer.locationId;
+    if (offer.locationId == 0) {
+      opsLog.warning("Location not specified.");
+      channel.replyAbort(message, "Location not specified.");
       return;
     }
 
@@ -133,11 +132,18 @@ class ApiChannelOffer {
       return;
     }
 
+    if (offer.coverKeys.isEmpty) {
+      opsLog.warning("Missing cover key.");
+      channel.replyAbort(message, "Missing cover key.");
+      return;
+    }
+
     offer.senderId = account.accountId;
     offer.senderType = account.accountType;
     offer.senderName = account.name;
     offer.senderAvatarUrl = account.avatarUrl;
     // TODO: offer.senderAvatarBlurred = account.avatarBlurred;
+    // TODO: offer.senderAvatarKey
 
     // TODO: Scheduled open
     offer.state = OfferState.open;
@@ -145,29 +151,43 @@ class ApiChannelOffer {
     offer.clearArchived();
     offer.clearDirect();
 
-    // TODO: Custom location
-    offer.locationId = account.locationId;
-    offer.locationAddress = account.locationAddress;
-    offer.latitude = account.latitude;
-    offer.longitude = account.longitude;
+    // Custom location
+    DataLocation location = await _r.fetchLocationSummaryFromSql(locationId,
+        account.accountId, account.accountType == AccountType.business);
+    offer.locationId = locationId;
+    if (location == null) {
+      opsLog.warning("Location invalid.");
+      channel.replyAbort(message, "Location invalid.");
+      return;
+    }
 
     // TODO: Fetch blurred images
     // ...
+    // offer.coversBlurred = await 
+
+    // Thumbnail
+    if (offer.thumbnailKey == null) {
+      offer.thumbnailKey = offer.coverKeys[0];
+    }
+    // offer.thumbnailBlurred = await // _r.makeCloudinaryBlurredThumbnailUrl(offer.thumbnailKey);
 
     // Insert offer, not so critical
     channel.replyExtend(message);
     String insertOffer =
         "INSERT INTO `offers`(`sender_id`, `sender_type`, `session_id`, `session_ghost_id`, `location_id`, `state`, `state_reason`) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        "VALUES (?, ?, ?, ?, ?, ?, ?)";
     sqljocky.Results insertRes = await sql.prepareExecute(insertOffer, [
       offer.senderId,
-      offer.senderType,
+      offer.senderType.value,
       account.sessionId,
       create.sessionGhostId,
       offer.locationId,
       offer.state.value,
       offer.stateReason.value,
     ]);
+
+    // TODO: Unexpected error in procedure 'CREOFFER': Error 1062 (23000): Duplicate entry '4-0' for key 'session_id'
+    // Get existing offer, or update offer instead, or remove the session_ghost_id here...
 
     // Verify insertion
     Int64 offerId = new Int64(insertRes.insertId);
@@ -189,14 +209,15 @@ class ApiChannelOffer {
       config,
       offer,
       sender: account,
-      location: null,
+      location: location,
       senderType: account.accountType,
       create: true,
       modify: false,
       sessionId: account.sessionId,
       sessionGhostId: create.sessionGhostId,
     );
-    elasticsearch.postDocument(offer.offerId.toString(), doc);
+    devLog.finest(doc);
+    await elasticsearch.putDocument("offers", offer.offerId.toString(), doc);
 
     NetOffer res = new NetOffer();
     res.offer = ElasticsearchOffer.fromJson(config, doc,
@@ -205,6 +226,7 @@ class ApiChannelOffer {
         detail: true,
         offerId: offer.offerId,
         private: true);
+    devLog.finest(res.offer);
     channel.replyMessage(message, 'R_CREOFR', res.writeToBuffer());
   }
 

@@ -201,7 +201,7 @@ class ElasticsearchOffer {
     */
     double latitude;
     double longitude;
-    if (location.hasLatitude() && location.hasLongitude()) {
+    if (location != null && location.hasLatitude() && location.hasLongitude()) {
       doc["location"] = {"lat": location.latitude, "lon": location.longitude};
       latitude = location.latitude;
       longitude = location.longitude;
@@ -254,7 +254,7 @@ class ElasticsearchOffer {
       doc["state"] = offer.state.value;
     }
     if ((verbose || state || create) && offer.hasStateReason()) {
-      doc["state_reason"] = offer.state.value;
+      doc["state_reason"] = offer.stateReason.value;
     }
     if ((verbose || state) && offer.archived) {
       doc["archived"] = offer.archived;
@@ -316,6 +316,7 @@ class ElasticsearchOffer {
     // TODO: Keywords from images
     (ai) array keyword image_keywords (keywords pulled from images)
     */
+    return doc;
   }
 
   static DataOffer fromJson(
@@ -346,7 +347,7 @@ class ElasticsearchOffer {
       offer.senderType = AccountType.valueOf(doc["sender_type"]);
     }
     if (private && doc.containsKey("location_id")) {
-      offer.locationId = doc["location_id"];
+      offer.locationId = new Int64(doc["location_id"]);
     }
     if ((state || detail) && doc.containsKey("direct")) {
       offer.direct = doc["direct"];
@@ -397,6 +398,7 @@ class ElasticsearchOffer {
     if ((summary || detail) && doc.containsKey("sender_avatar_blurred")) {
       offer.senderAvatarBlurred = doc["sender_avatar_blurred"];
     }
+    // TODO: sender_avatar_key
     if ((summary || detail) && doc.containsKey("location_address")) {
       offer.locationAddress = doc["location_address"];
     }
@@ -411,6 +413,9 @@ class ElasticsearchOffer {
       offer.description = doc["description"];
     }
     if (detail && doc.containsKey("cover_keys")) {
+      if (private) {
+        offer.coverKeys.addAll(doc["cover_keys"]);
+      }
       offer.coverUrls.addAll((doc["cover_keys"] as List<dynamic>).map(
           (coverKey) => config.services.cloudinaryCoverUrl
               .replaceAll('{key}', coverKey)));
@@ -458,6 +463,7 @@ class ElasticsearchOffer {
         offer.proposalId = new Int64(doc["proposal_sender_ids"]["$receiver"]);
       }
     }
+    return offer;
   }
 }
 
