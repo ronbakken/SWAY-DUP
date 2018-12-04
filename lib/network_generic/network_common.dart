@@ -449,6 +449,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
       // Future<void> listen = channel.listen();
       final Completer<void> listen = Completer<void>();
+      log.info('Listen to channel.');
       channel.listen((TalkMessage message) async {
         if (_procedureHandlers.containsKey(message.procedureId)) {
           await _procedureHandlers[message.procedureId](message);
@@ -462,8 +463,10 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
           log.severe('Unknown error from api remote: $error\n$stackTrace');
         }
       }, onDone: () {
+        log.info('Connection done.');
         listen.complete();
       });
+      
       if (connected == NetworkConnectionState.offline) {
         connected = NetworkConnectionState.connecting;
         onCommonChanged();

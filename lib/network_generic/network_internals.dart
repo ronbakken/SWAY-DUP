@@ -45,7 +45,7 @@ abstract class NetworkInternals {
   // Offers Business
   void resetOffersBusinessState();
   void markOffersBusinessDirty();
-  void dataOffer(TalkMessage message); // TODO: Remove this!!!
+  Future<void> dataOffer(TalkMessage message); // TODO: Remove this!!!
   void onOffersBusinessChanged(ChangeAction action, Int64 id);
 
   // Offers Demo
@@ -62,10 +62,10 @@ abstract class NetworkInternals {
       ChangeAction action,
       DataProposalChat
           chat); // Individual chat messages don't change (currently)
-  void liveNewProposal(TalkMessage message);
-  void liveNewProposalChat(TalkMessage message);
-  void liveUpdateProposal(TalkMessage message);
-  void liveUpdateProposalChat(TalkMessage message);
+  Future<void> liveNewProposal(TalkMessage message);
+  Future<void> liveNewProposalChat(TalkMessage message);
+  Future<void> liveUpdateProposal(TalkMessage message);
+  Future<void> liveUpdateProposalChat(TalkMessage message);
   void resubmitGhostChats();
   void hintProposalOffer(DataOffer offer);
 

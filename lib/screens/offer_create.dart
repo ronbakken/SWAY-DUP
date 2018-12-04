@@ -79,11 +79,12 @@ class _OfferCreateState extends State<OfferCreate> {
       _imageKey = _imageKeyController.text;
       if (_imageKeyController.text.isNotEmpty) {
         form.save();
-        NetCreateOffer createOffer = NetCreateOffer();
+        final NetCreateOffer createOffer = NetCreateOffer();
         createOffer.offer = DataOffer();
         createOffer.offer.title = _title;
         createOffer.offer.coverKeys.add(_imageKey);
         createOffer.offer.description = _description;
+        createOffer.offer.terms = DataTerms();
         createOffer.offer.terms.deliverablesDescription = _deliverables;
         createOffer.offer.terms.rewardItemOrServiceDescription = _reward;
         // TODO

@@ -78,18 +78,19 @@ abstract class NetworkOffers implements ApiClient, NetworkInternals {
   }
 
   /// Get an offer, refresh set to true to always get from server, use sparingly to refresh the cache
+  @override
   Future<DataOffer> getOffer(Int64 offerId, {bool refresh = true}) async {
     if (!refresh) {
-      _CachedOffer cached = _cachedOffers[offerId];
+      final _CachedOffer cached = _cachedOffers[offerId];
       if (cached?.offer != null && !cached.dirty) {
         return cached.offer;
       }
     }
-    NetGetOfferReq pbReq = NetGetOfferReq();
-    pbReq.offerId = offerId;
-    TalkMessage message =
-        await channel.sendRequest("GTOFFERR", pbReq.writeToBuffer());
-    DataOffer offer = (NetGetOfferRes()..mergeFromBuffer(message.data)).offer;
+    final NetGetOffer getOffer = NetGetOffer();
+    getOffer.offerId = offerId;
+    final TalkMessage res = await switchboard.sendRequest(
+        "api", "GETOFFER", getOffer.writeToBuffer());
+    final DataOffer offer = (NetOffer()..mergeFromBuffer(res.data)).offer;
     cacheOffer(offer);
     return offer;
   }

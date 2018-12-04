@@ -31,17 +31,18 @@ abstract class NetworkOffersBusiness implements ApiClient, NetworkInternals {
 
   @override
   Future<DataOffer> createOffer(NetCreateOffer createOfferReq) async {
-    TalkMessage res =
-        await channel.sendRequest("C_OFFERR", createOfferReq.writeToBuffer());
-    DataOffer resPb = DataOffer();
+    final TalkMessage res = await switchboard.sendRequest(
+        "api", "CREOFFER", createOfferReq.writeToBuffer());
+    final NetOffer resPb = NetOffer();
     resPb.mergeFromBuffer(res.data);
-    cacheOffer(resPb);
-    _offers[resPb.offerId] = resPb;
-    onOffersBusinessChanged(ChangeAction.add, resPb.offerId);
-    return resPb;
+    cacheOffer(resPb.offer);
+    _offers[resPb.offer.offerId] = resPb.offer;
+    onOffersBusinessChanged(ChangeAction.add, resPb.offer.offerId);
+    return resPb.offer;
   }
 
-  void dataOffer(TalkMessage message) {
+  @override
+  Future<void> dataOffer(TalkMessage message) async {
     DataOffer pb = DataOffer();
     pb.mergeFromBuffer(message.data);
     if (pb.senderId == account.accountId) {

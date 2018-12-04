@@ -309,27 +309,31 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     }
   }
 
-  void liveNewProposal(TalkMessage message) {
-    DataProposal pb = DataProposal();
+  @override
+  Future<void> liveNewProposal(TalkMessage message) async {
+    final DataProposal pb = DataProposal();
     pb.mergeFromBuffer(message.data);
     _receivedUpdateProposal(pb);
   }
 
-  void liveNewProposalChat(TalkMessage message) {
-    DataProposalChat pb = DataProposalChat();
+  @override
+  Future<void> liveNewProposalChat(TalkMessage message) async {
+    final DataProposalChat pb = DataProposalChat();
     pb.mergeFromBuffer(message.data);
     _receivedUpdateProposalChat(pb);
     _notifyNewProposalChat(pb);
   }
 
-  void liveUpdateProposal(TalkMessage message) {
-    DataProposal pb = DataProposal();
+  @override
+  Future<void> liveUpdateProposal(TalkMessage message) async {
+    final DataProposal pb = DataProposal();
     pb.mergeFromBuffer(message.data);
     _receivedUpdateProposal(pb);
   }
 
-  void liveUpdateProposalChat(TalkMessage message) {
-    DataProposalChat pb = DataProposalChat();
+  @override
+  Future<void> liveUpdateProposalChat(TalkMessage message) async {
+    final DataProposalChat pb = DataProposalChat();
     pb.mergeFromBuffer(message.data);
     _receivedUpdateProposalChat(pb);
   }

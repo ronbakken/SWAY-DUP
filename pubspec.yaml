@@ -42,7 +42,7 @@ dependencies:
 
   flutter_map: ^0.1.4
 
-  switchboard: ^2.0.5
+  switchboard: ^2.0.7
 
   geolocator: ^2.1.0
   url_launcher: ^4.0.1

@@ -127,7 +127,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
     NetGetProfile pbReq = NetGetProfile();
     pbReq.accountId = accountId;
     TalkMessage message =
-        await channel.sendRequest("GETPROFL", pbReq.writeToBuffer());
+        await switchboard.sendRequest("api", "GETPROFL", pbReq.writeToBuffer());
     NetProfile profile = NetProfile();
     profile.mergeFromBuffer(message.data);
     profile.freeze();
