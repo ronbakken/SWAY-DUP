@@ -434,6 +434,8 @@ class ApiChannelOAuth {
             oauthProvider.toInt()
           ]);
         }
+        // TODO: Why is this here twice?
+        channel.replyExtend(message);
         if (account.sessionId != 0) {
           String query =
               "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";

@@ -107,8 +107,7 @@ class ApiChannel {
   ApiChannelBusiness _apiChannelBusiness;
   ApiChannelInfluencer _apiChannelInfluencer;
 
-  ApiChannel(this.service,
-      this.channel, Uint8List payload,
+  ApiChannel(this.service, this.channel, Uint8List payload,
       {@required this.ipAddress}) {
     devLog.fine("New connection");
     _initializeListen(payload);
@@ -1040,7 +1039,8 @@ class ApiChannel {
       location.s2cellId = new Int64(new S2CellId.fromLatLng(
               new S2LatLng.fromDegrees(location.latitude, location.longitude))
           .id);
-    location.geohash = Geohash.encode(location.latitude, location.longitude, codeLength: 20);
+      location.geohash =
+          Geohash.encode(location.latitude, location.longitude, codeLength: 20);
       locations.add(location);
     }
 
@@ -1285,12 +1285,21 @@ class ApiChannel {
     });
 
     // Update state
-    channel.replyExtend(message);
-    await updateDeviceState();
-    if (account.accountId != 0) {
-      channel.replyExtend(message);
-      unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
-      await transitionToApp(); // TODO: Transitions and subs hould be handled by updateDeviceState preferably...
+    try {
+      await lock.synchronized(() async {
+        channel.replyExtend(message);
+        await refreshAccount(extend: () {
+          channel.replyExtend(message);
+        });
+        if (account.accountId != 0) {
+          channel.replyExtend(message);
+          unsubscribeOnboarding(); // No longer respond to onboarding messages when OK
+          await transitionToApp(); // TODO: Transitions and subs hould be handled by updateDeviceState preferably...
+        }
+      });
+    } finally {
+      // Failed to update device state at critical point
+      channel.close();
     }
 
     // Non-critical
@@ -1425,7 +1434,8 @@ class ApiChannel {
     location.s2cellId = new Int64(new S2CellId.fromLatLng(
             new S2LatLng.fromDegrees(location.latitude, location.longitude))
         .id);
-    location.geohash = Geohash.encode(location.latitude, location.longitude, codeLength: 20);
+    location.geohash =
+        Geohash.encode(location.latitude, location.longitude, codeLength: 20);
     return location;
   }
 
@@ -1534,7 +1544,8 @@ class ApiChannel {
     location.s2cellId = new Int64(new S2CellId.fromLatLng(
             new S2LatLng.fromDegrees(location.latitude, location.longitude))
         .id);
-    location.geohash = Geohash.encode(location.latitude, location.longitude, codeLength: 20);
+    location.geohash =
+        Geohash.encode(location.latitude, location.longitude, codeLength: 20);
     return location;
   }
 
@@ -1672,7 +1683,8 @@ class ApiChannel {
     location.s2cellId = new Int64(new S2CellId.fromLatLng(
             new S2LatLng.fromDegrees(location.latitude, location.longitude))
         .id);
-    location.geohash = Geohash.encode(location.latitude, location.longitude, codeLength: 20);
+    location.geohash =
+        Geohash.encode(location.latitude, location.longitude, codeLength: 20);
     return location;
   }
 

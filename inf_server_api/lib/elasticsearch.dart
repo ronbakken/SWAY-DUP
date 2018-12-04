@@ -41,7 +41,8 @@ class Elasticsearch {
         headers: headers, body: (doc is String) ? doc : json.encode(doc));
     devLog.finest(response.body);
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw new Exception("Status Code: ${response.statusCode}, Request Headers: $headers, Response Body: ${response.body}");
+      throw new Exception(
+          "Status Code: ${response.statusCode}, Request Headers: $headers, Response Body: ${response.body}");
     }
     return json.decode(response.body);
   }
@@ -53,9 +54,26 @@ class Elasticsearch {
         headers: headers, body: (doc is String) ? doc : json.encode(doc));
     devLog.finest(response.body);
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw new Exception("Status Code: ${response.statusCode}, Request Headers: $headers, Response Body: ${response.body}");
+      throw new Exception(
+          "Status Code: ${response.statusCode}, Request Headers: $headers, Response Body: ${response.body}");
     }
     return json.decode(response.body);
+  }
+
+  Future<dynamic> getDocument(String index, String id) async {
+    String url = config.services.elasticsearchApi + "/$index/_doc/$id";
+    devLog.finest(url);
+    http.Response response = await httpClient.get(url, headers: headers);
+    devLog.finest(response.body);
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw new Exception(
+          "Status Code: ${response.statusCode}, Request Headers: $headers, Response Body: ${response.body}");
+    }
+    dynamic res = json.decode(response.body);
+    if (!res['found']) {
+      throw new Exception("Document not found.");
+    }
+    return res['_source'];
   }
 }
 

@@ -125,7 +125,7 @@ class ElasticsearchOffer {
       doc["thumbnail_key"] = offer.thumbnailKey;
     }
     if (offer.hasThumbnailBlurred()) {
-      doc["thumbnail_blurred"] = offer.thumbnailBlurred;
+      doc["thumbnail_blurred"] = base64.encode(offer.thumbnailBlurred);
     }
     if (offer.hasTerms()) {
       if (offer.terms.deliverableSocialPlatforms.length > 0) {
@@ -179,7 +179,7 @@ class ElasticsearchOffer {
       doc["sender_avatar_blurred"] = sender.blurredAvatarUrl;
     }*/
     if (offer.hasSenderAvatarBlurred()) {
-      doc["sender_avatar_blurred"] = offer.senderAvatarBlurred;
+      doc["sender_avatar_blurred"] = base64.encode(offer.senderAvatarBlurred);
     }
     if (senderTypeUpdated == AccountType.influencer &&
         location != null &&
@@ -227,7 +227,7 @@ class ElasticsearchOffer {
       doc["cover_keys"] = offer.coverKeys;
     }
     if (offer.coversBlurred.length > 0) {
-      doc["covers_blurred"] = offer.coversBlurred;
+      doc["covers_blurred"] = offer.coversBlurred.map((coverBlurred) => base64.encode(coverBlurred));
     }
     /*
     TODO
@@ -295,7 +295,7 @@ class ElasticsearchOffer {
         s2CellIds.add(cellId.parent(level).id);
       }
       List<int> s2CellIdShards =
-          s2CellIds.map((s2CellId) => shardHash(new Int64(s2CellId)));
+          s2CellIds.map((s2CellId) => shardHash(new Int64(s2CellId))).toList();
       doc["s2cell_ids"] = s2CellIds;
       doc["s2cell_id_shards"] = s2CellIdShards;
       List<String> geohashes = [];
@@ -303,7 +303,7 @@ class ElasticsearchOffer {
         geohashes.add(Geohash.encode(latitude, longitude, codeLength: level));
       }
       List<int> geohashShards =
-          geohashes.map((geohash) => shardHashString(geohash));
+          geohashes.map((geohash) => shardHashString(geohash)).toList();
       doc["geohashes"] = geohashes;
       doc["geohash_shards"] = geohashShards;
     }
@@ -346,7 +346,8 @@ class ElasticsearchOffer {
     if (doc.containsKey("sender_type")) {
       offer.senderType = AccountType.valueOf(doc["sender_type"]);
     }
-    if (private && doc.containsKey("location_id")) {
+    bool receiverIsOwner = receiver != null && receiver != Int64.ZERO && receiver == offer.senderId;
+    if ((private && receiverIsOwner) && doc.containsKey("location_id")) {
       offer.locationId = new Int64(doc["location_id"]);
     }
     if ((state || detail) && doc.containsKey("direct")) {
@@ -356,14 +357,14 @@ class ElasticsearchOffer {
       offer.title = doc["title"];
     }
     if ((summary || detail) && doc.containsKey("thumbnail_key")) {
-      if (private) {
+      if (private && receiverIsOwner) {
         offer.thumbnailKey = doc["thumbnail_key"];
       }
       offer.thumbnailUrl = config.services.cloudinaryThumbnailUrl
           .replaceAll('{key}', doc["thumbnail_key"]);
     }
     if ((summary || detail) && doc.containsKey("thumbnail_blurred")) {
-      offer.thumbnailBlurred = doc["thumbnail_blurred"];
+      offer.thumbnailBlurred = base64.decode(doc["thumbnail_blurred"]);
     }
     if ((summary || detail)) {
       if (doc.containsKey("deliverable_social_platforms")) {
@@ -399,7 +400,7 @@ class ElasticsearchOffer {
       offer.senderAvatarUrl = doc["sender_avatar_url"];
     }
     if ((summary || detail) && doc.containsKey("sender_avatar_blurred")) {
-      offer.senderAvatarBlurred = doc["sender_avatar_blurred"];
+      offer.senderAvatarBlurred = base64.decode(doc["sender_avatar_blurred"]);
     }
     // TODO: sender_avatar_key
     if ((summary || detail) && doc.containsKey("location_address")) {
@@ -416,7 +417,7 @@ class ElasticsearchOffer {
       offer.description = doc["description"];
     }
     if (detail && doc.containsKey("cover_keys")) {
-      if (private) {
+      if (private && receiverIsOwner) {
         offer.coverKeys.addAll(doc["cover_keys"]);
       }
       offer.coverUrls.addAll((doc["cover_keys"] as List<dynamic>).map(
@@ -424,39 +425,39 @@ class ElasticsearchOffer {
               .replaceAll('{key}', coverKey)));
     }
     if (detail && doc.containsKey("covers_blurred")) {
-      offer.coversBlurred.addAll(doc["covers_blurred"]);
+      offer.coversBlurred.addAll(doc["covers_blurred"].map((coverBlurred) => base64.decode(coverBlurred)));
     }
     if (detail && doc.containsKey("categories")) {
       offer.categories.addAll(doc["categories"]);
     }
-    if (private && doc.containsKey("state")) {
+    if ((private && receiverIsOwner) && doc.containsKey("state")) {
       offer.state = OfferState.valueOf(doc["state"]);
     }
-    if (private && doc.containsKey("state_reason")) {
+    if ((private && receiverIsOwner) && doc.containsKey("state_reason")) {
       offer.stateReason = OfferStateReason.valueOf(doc["state_reason"]);
     }
-    if (private && doc.containsKey("archived")) {
+    if ((private && receiverIsOwner) && doc.containsKey("archived")) {
       offer.archived = doc["archived"];
     }
-    if (private && doc.containsKey("proposals_proposing")) {
+    if ((private && receiverIsOwner) && doc.containsKey("proposals_proposing")) {
       offer.proposalsProposing = doc["proposals_proposing"];
     }
-    if (private && doc.containsKey("proposals_negotiating")) {
+    if ((private && receiverIsOwner) && doc.containsKey("proposals_negotiating")) {
       offer.proposalsNegotiating = doc["proposals_negotiating"];
     }
-    if (private && doc.containsKey("proposals_deal")) {
+    if ((private && receiverIsOwner) && doc.containsKey("proposals_deal")) {
       offer.proposalsDeal = doc["proposals_deal"];
     }
-    if (private && doc.containsKey("proposals_rejected")) {
+    if ((private && receiverIsOwner) && doc.containsKey("proposals_rejected")) {
       offer.proposalsRejected = doc["proposals_rejected"];
     }
-    if (private && doc.containsKey("proposals_dispute")) {
+    if ((private && receiverIsOwner) && doc.containsKey("proposals_dispute")) {
       offer.proposalsDispute = doc["proposals_dispute"];
     }
-    if (private && doc.containsKey("proposals_resolved")) {
+    if ((private && receiverIsOwner) && doc.containsKey("proposals_resolved")) {
       offer.proposalsResolved = doc["proposals_resolved"];
     }
-    if (private && doc.containsKey("proposals_complete")) {
+    if ((private && receiverIsOwner) && doc.containsKey("proposals_complete")) {
       offer.proposalsComplete = doc["proposals_complete"];
     }
     if (receiver != null) {

@@ -66,10 +66,12 @@ class ApiChannelOffer {
   ApiChannelOffer(this._r) {
     _r.registerProcedure(
         "CREOFFER", GlobalAccountState.readWrite, _netCreateOffer);
+    _r.registerProcedure("GETOFFER", GlobalAccountState.readOnly, _netGetOffer);
   }
 
   void dispose() {
     _r.unregisterProcedure("CREOFFER");
+    _r.unregisterProcedure("GETOFFER");
     _r = null;
   }
 
@@ -110,16 +112,9 @@ class ApiChannelOffer {
     DataOffer offer = create.offer;
     Int64 locationId =
         offer.locationId == 0 ? account.locationId : offer.locationId;
-    if (offer.locationId == 0) {
+    if (locationId == 0) {
       opsLog.warning("Location not specified.");
       channel.replyAbort(message, "Location not specified.");
-      return;
-    }
-
-    if (/*offer.locationId == 0 ||*/ account.locationId == 0) {
-      opsLog.warning(
-          "User $accountId has no default location set, cannot create offer.");
-      channel.replyAbort(message, "No default location set.");
       return;
     }
 
@@ -164,26 +159,29 @@ class ApiChannelOffer {
     // TFetch blurred images
     for (String coverKey in offer.coverKeys) {
       channel.replyExtend(message);
-      offer.coversBlurred.add(await _r.downloadData(_r.makeCloudinaryBlurredCoverUrl(coverKey)));
+      devLog.finer(_r.makeCloudinaryBlurredCoverUrl(coverKey));
+      offer.coversBlurred.add(
+          await _r.downloadData(_r.makeCloudinaryBlurredCoverUrl(coverKey)));
     }
 
     // Thumbnail
-    if (offer.thumbnailKey == null) {
+    if (offer.thumbnailKey.isEmpty) {
       offer.thumbnailKey = offer.coverKeys[0];
     }
     channel.replyExtend(message);
-    offer.thumbnailBlurred = await _r.downloadData(_r.makeCloudinaryBlurredThumbnailUrl(offer.thumbnailKey));
+    devLog.finer(_r.makeCloudinaryBlurredThumbnailUrl(offer.thumbnailKey));
+    offer.thumbnailBlurred = await _r
+        .downloadData(_r.makeCloudinaryBlurredThumbnailUrl(offer.thumbnailKey));
 
     // Insert offer, not so critical
     channel.replyExtend(message);
     String insertOffer =
-        "INSERT INTO `offers`(`sender_id`, `sender_type`, `session_id`, `session_ghost_id`, `location_id`, `state`, `state_reason`) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        "INSERT INTO `offers`(`sender_id`, `sender_type`, `session_id`, `location_id`, `state`, `state_reason`) "
+        "VALUES (?, ?, ?, ?, ?, ?)";
     sqljocky.Results insertRes = await sql.prepareExecute(insertOffer, [
       offer.senderId,
       offer.senderType.value,
       account.sessionId,
-      create.sessionGhostId,
       offer.locationId,
       offer.state.value,
       offer.stateReason.value,
@@ -228,9 +226,28 @@ class ApiChannelOffer {
         summary: true,
         detail: true,
         offerId: offer.offerId,
+        receiver: accountId,
         private: true);
     devLog.finest(res.offer);
     channel.replyMessage(message, 'R_CREOFR', res.writeToBuffer());
+  }
+
+  Future<void> _netGetOffer(TalkMessage message) async {
+    NetGetOffer getOffer = NetGetOffer()
+      ..mergeFromBuffer(message.data)
+      ..freeze();
+    dynamic doc =
+        await elasticsearch.getDocument("offers", getOffer.offerId.toString());
+    NetOffer res = new NetOffer();
+    res.offer = ElasticsearchOffer.fromJson(config, doc,
+        state: true,
+        summary: true,
+        detail: true,
+        offerId: getOffer.offerId,
+        receiver: accountId,
+        private: true);
+    devLog.finest(res.offer);
+    channel.replyMessage(message, 'R_GETOFR', res.writeToBuffer());
   }
 
 /*
