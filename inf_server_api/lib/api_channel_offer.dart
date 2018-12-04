@@ -304,7 +304,7 @@ class ApiChannelOffer {
     final NetListOffers listOffers = NetListOffers()
       ..mergeFromBuffer(message.data)
       ..freeze();
-    dynamic results = elasticsearch.search('offers', {
+    dynamic results = await elasticsearch.search('offers', {
       "size": searchSize,
       "_source": {
         "includes": privateSummaryFields,
@@ -326,7 +326,7 @@ class ApiChannelOffer {
             state: true,
             summary: true,
             detail: false,
-            offerId: new Int64(hit['_id']),
+            offerId: Int64.parseInt(hit['_id']),
             receiver: accountId,
             private: true);
       } catch (error, stackTrace) {

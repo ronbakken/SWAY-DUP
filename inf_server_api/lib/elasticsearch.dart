@@ -80,6 +80,7 @@ class Elasticsearch {
     String url = config.services.elasticsearchApi + "/$index/_search";
     devLog.finest(url);
     final http.Request request = http.Request("GET", Uri.parse(url));
+    request.headers.addAll(headers);
     request.body = (search is String) ? search : json.encode(search);
     http.StreamedResponse response = await httpClient.send(request);
     final String body = await utf8.decodeStream(response.stream);

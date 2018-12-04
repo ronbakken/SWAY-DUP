@@ -302,7 +302,7 @@ class ElasticsearchOffer {
       doc["s2cell_ids"] = s2CellIds;
       doc["s2cell_id_shards"] = s2CellIdShards;
       List<String> geohashes = [];
-      for (int level = 0; level <= 20; ++level) {
+      for (int level = 1; level <= 20; ++level) {
         geohashes.add(Geohash.encode(latitude, longitude, codeLength: level));
       }
       List<int> geohashShards =
