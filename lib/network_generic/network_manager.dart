@@ -10,7 +10,6 @@ import 'dart:io';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/api_client_offer.dart';
 import 'package:inf/network_generic/network_common.dart';
-import 'package:inf/network_generic/network_offers_business.dart';
 import 'package:inf/network_generic/network_offers_demo.dart';
 import 'package:inf/network_generic/network_proposals.dart';
 import 'package:inf/network_mobile/network_notifications.dart';
@@ -29,7 +28,6 @@ class NetworkManager
     with
         NetworkProfiles,
         ApiClientOffer,
-        NetworkOffersBusiness,
         NetworkOffersDemo,
         NetworkProposals,
         NetworkCommon,
