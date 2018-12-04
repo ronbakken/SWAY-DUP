@@ -149,7 +149,8 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   void navigateToOffer(Int64 offerId);
 
   void navigateToPublicProfile(Int64 accountId) {
-    Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(builder: (context) {
+    Navigator.push<MaterialPageRoute>(context,
+        MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on any context outside Navigator.push and thus cannot use variables from State widget!
       // ConfigData config = ConfigProvider.of(context);
       final ApiClient network = NetworkProvider.of(context);
@@ -249,7 +250,8 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   }
 
   void navigateToSwitchAccount() {
-    Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(builder: (context) {
+    Navigator.push<MaterialPageRoute>(context,
+        MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       ConfigData config = ConfigProvider.of(context);
       // ApiClient network = NetworkProvider.of(context);
@@ -269,7 +271,8 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   }
 
   void navigateToDebugAccount() {
-    Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(builder: (context) {
+    Navigator.push<MaterialPageRoute>(context,
+        MaterialPageRoute(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       // ConfigData config = ConfigProvider.of(context);
       final ApiClient network = NetworkProvider.of(context);

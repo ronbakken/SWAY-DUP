@@ -74,7 +74,8 @@ abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
       _demoAllOffersLoaded = true;
       if (account.accountType == AccountType.influencer) {
         demoAllOffersLoading = true;
-        refreshDemoAllOffers().catchError((dynamic error, StackTrace stackTrace) {
+        refreshDemoAllOffers()
+            .catchError((dynamic error, StackTrace stackTrace) {
           log.severe("Failed to get offers: $error");
           Timer(Duration(seconds: 3), () {
             _demoAllOffersLoaded =
