@@ -161,15 +161,18 @@ class ApiChannelOffer {
       return;
     }
 
-    // TODO: Fetch blurred images
-    // ...
-    // offer.coversBlurred = await 
+    // TFetch blurred images
+    for (String coverKey in offer.coverKeys) {
+      channel.replyExtend(message);
+      offer.coversBlurred.add(await _r.downloadData(_r.makeCloudinaryBlurredCoverUrl(coverKey)));
+    }
 
     // Thumbnail
     if (offer.thumbnailKey == null) {
       offer.thumbnailKey = offer.coverKeys[0];
     }
-    // offer.thumbnailBlurred = await // _r.makeCloudinaryBlurredThumbnailUrl(offer.thumbnailKey);
+    channel.replyExtend(message);
+    offer.thumbnailBlurred = await _r.downloadData(_r.makeCloudinaryBlurredThumbnailUrl(offer.thumbnailKey));
 
     // Insert offer, not so critical
     channel.replyExtend(message);

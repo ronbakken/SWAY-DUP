@@ -1659,18 +1659,33 @@ class ApiChannel {
     return location;
   }
 
-  /// Downloads user image, returns key
-  Future<String> downloadUserImage(Int64 accountId, String url) async {
-    // Fetch image to memory
+  Future<Uint8List> downloadData(String url) async {
     Uri uri = Uri.parse(url);
     http.Request request = new http.Request('GET', uri);
     http.Response response = await httpClient.send(request);
     BytesBuilder builder = new BytesBuilder(copy: false);
     await response.body.forEach(builder.add);
     Uint8List body = builder.toBytes();
-    if (response.statusCode != 200) {
+    if (response.statusCode < 200 || response.statusCode >= 300) {
       throw new Exception(response.reasonPhrase);
     }
+    return body;
+  }
+
+  /// Downloads user image, returns key
+  Future<String> downloadUserImage(Int64 accountId, String url) async {
+    // Fetch image to memory
+    Uri uri = Uri.parse(url);
+    /*
+    http.Request request = new http.Request('GET', uri);
+    http.Response response = await httpClient.send(request);
+    BytesBuilder builder = new BytesBuilder(copy: false);
+    await response.body.forEach(builder.add);
+    Uint8List body = builder.toBytes();
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw new Exception(response.reasonPhrase);
+    }*/
+    Uint8List body = await downloadData(url);
 
     // Get mime type
     String contentType = new MimeTypeResolver().lookup(url, headerBytes: body);

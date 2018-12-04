@@ -356,6 +356,9 @@ class ElasticsearchOffer {
       offer.title = doc["title"];
     }
     if ((summary || detail) && doc.containsKey("thumbnail_key")) {
+      if (private) {
+        offer.thumbnailKey = doc["thumbnail_key"];
+      }
       offer.thumbnailUrl = config.services.cloudinaryThumbnailUrl
           .replaceAll('{key}', doc["thumbnail_key"]);
     }
