@@ -65,6 +65,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final screenSpacingVert = mediaQuery.size.shortestSide < 360.0 ? 12.0 : 48.0;
+    final screenSpacingHorz = mediaQuery.size.shortestSide < 360.0 ? 12.0 : 24.0;
     return Material(
       color: AppTheme.darkGrey.withOpacity(0.5),
       child: RepaintBoundary(
@@ -75,39 +78,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               Expanded(
                 child: OnBoardingPager(
                   controller: pageController,
-                  padding: const EdgeInsets.fromLTRB(24.0, 48.0, 24.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(screenSpacingHorz, 16.0 + screenSpacingVert, screenSpacingHorz, 0.0),
                   radius: Radius.circular(8.0),
                   inset: 8.0,
                   children: pages,
                 ),
               ),
-              AnimatedBuilder(
-                animation: pageController,
-                builder: (BuildContext context, Widget child) {
-                  double opacity = 0.0;
-                  if ((pageController.page ?? 0.0) >= pages.length - 2) {
-                    opacity = 1.0 - (pages.length - 1 - pageController.page);
-                  }
-                  return IgnorePointer(
-                    ignoring: opacity < 1.0,
-                    child: Opacity(
-                      opacity: opacity,
-                      child: child,
-                    ),
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                    child: Text('SKIP FOR NOW'),
-                    onPressed: _onSkipPressed,
-                  ),
-                ),
-              ),
               Container(
                 alignment: Alignment.center,
-                padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 48.0),
+                padding: EdgeInsets.symmetric(vertical: screenSpacingVert, horizontal: screenSpacingHorz),
                 child: InfPageIndicator(
                   controller: pageController,
                   itemCount: pages.length,
@@ -136,11 +115,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       duration: const Duration(milliseconds: 450),
       curve: Curves.fastOutSlowIn,
     );
-  }
-
-  Future<void> _onSkipPressed() async {
-    await backend.get<AuthenticationService>().loginAnonymous(AccountType.influencer);
-    return Navigator.of(context).pushAndRemoveUntil(MainPage.route(AccountType.business), (route) => false);
   }
 }
 

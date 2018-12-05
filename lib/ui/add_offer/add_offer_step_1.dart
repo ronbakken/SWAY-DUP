@@ -6,6 +6,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/domain/business_offer.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 
 class AddOfferStep1 extends StatefulWidget {
@@ -37,8 +38,8 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
             AppImages.mockCurves, // FIXME:
             alignment: Alignment.bottomCenter,
           ),
-          AnimatedBuilder(
-            animation: widget.offer,
+          ListenableBuilder(
+            listenable: widget.offer,
             builder: (BuildContext context, Widget child) {
               return LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
