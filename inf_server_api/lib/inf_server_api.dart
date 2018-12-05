@@ -172,7 +172,8 @@ run() async {
   // await switchboard.bindWebSocket(InternetAddress.anyIPv4, 8090, '/ep');
   selfTestTalk();
 
-  final ApiService apiService = new ApiService(config, sql, bucket, elasticsearch, switchboard, bc);
+  final ApiService apiService =
+      new ApiService(config, sql, bucket, elasticsearch, switchboard, bc);
   await apiService.listen();
   await apiService.close();
 

@@ -75,14 +75,16 @@ class ApiService {
         ConfigOAuthProvider provider = config.oauthProviders[providerId];
         if (provider.mechanism == OAuthMechanism.oauth1) {
           oauth1.Authorization auth = oauth1Auth[providerId];
-          devLog.fine("OAuth1 ($providerId): " + 
+          devLog.fine("OAuth1 ($providerId): " +
               (await auth.requestTemporaryCredentials(provider.callbackUrl))
                   .credentials
-                  .toJSON().toString());
-          devLog.fine("OAuth1 ($providerId): " + 
+                  .toJSON()
+                  .toString());
+          devLog.fine("OAuth1 ($providerId): " +
               (await auth.requestTemporaryCredentials(provider.callbackUrl))
                   .credentials
-                  .toJSON().toString());
+                  .toJSON()
+                  .toString());
         }
       }
     } catch (error, stackTrace) {

@@ -373,12 +373,14 @@ class ElasticsearchOffer {
     }
     if ((summary || detail)) {
       if (doc.containsKey("deliverable_social_platforms")) {
-        offer.terms.deliverableSocialPlatforms
-            .addAll(doc["deliverable_social_platforms"].map<int>((value) => value as int));
+        offer.terms.deliverableSocialPlatforms.addAll(
+            doc["deliverable_social_platforms"]
+                .map<int>((value) => value as int));
       }
       if (doc.containsKey("deliverable_content_formats")) {
-        offer.terms.deliverableContentFormats
-            .addAll(doc["deliverable_content_formats"].map<int>((value) => value as int));
+        offer.terms.deliverableContentFormats.addAll(
+            doc["deliverable_content_formats"]
+                .map<int>((value) => value as int));
       }
       if (detail && doc.containsKey("deliverables_description")) {
         offer.terms.deliverablesDescription = doc["deliverables_description"];
@@ -396,7 +398,8 @@ class ElasticsearchOffer {
       }
     }
     if ((summary || detail) && doc.containsKey("primary_categories")) {
-      offer.primaryCategories.addAll(doc["primary_categories"].map<int>((value) => value as int));
+      offer.primaryCategories
+          .addAll(doc["primary_categories"].map<int>((value) => value as int));
     }
     if ((summary || detail) && doc.containsKey("sender_name")) {
       offer.senderName = doc["sender_name"];
@@ -423,7 +426,8 @@ class ElasticsearchOffer {
     }
     if (detail && doc.containsKey("cover_keys")) {
       if (private && receiverIsOwner) {
-        offer.coverKeys.addAll(doc["cover_keys"].map<String>((value) => value as String));
+        offer.coverKeys
+            .addAll(doc["cover_keys"].map<String>((value) => value as String));
       }
       offer.coverUrls.addAll((doc["cover_keys"] as List<dynamic>).map<String>(
           (coverKey) => config.services.cloudinaryCoverUrl
@@ -434,7 +438,8 @@ class ElasticsearchOffer {
           .map<List<int>>((coverBlurred) => base64.decode(coverBlurred)));
     }
     if (detail && doc.containsKey("categories")) {
-      offer.categories.addAll(doc["categories"].map<int>((value) => value as int));
+      offer.categories
+          .addAll(doc["categories"].map<int>((value) => value as int));
     }
     if ((private && receiverIsOwner) && doc.containsKey("state")) {
       offer.state = OfferState.valueOf(doc["state"]);
