@@ -137,7 +137,7 @@ void registerMocks() {
   backend.registerLazySingleton<LocationService>(() => LocationServiceMock());
   backend.registerLazySingleton<AuthenticationService>(
     () => AuthenticationServiceMock(
-          isLoggedIn: false,
+          isLoggedIn: true,
           currentUserIndex: 1,
         ),
   );

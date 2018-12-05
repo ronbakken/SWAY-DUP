@@ -222,54 +222,59 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
             ),
           ),
 
-          // /// Main Menu Drawer
-          // IgnorePointer(
-          //   ignoring: _menuVisible,
-          //   child: AnimatedBuilder(
-          //     animation: _drawerAnim,
-          //     builder: (BuildContext context, Widget navigationDrawer) {
-          //       final value = _drawerAnim.value;
-          //       final blur = 12.0 * value;
-          //       return BackdropFilter(
-          //         filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-          //         child: DecoratedBox(
-          //           decoration: BoxDecoration(
-          //             color: Colors.black.withOpacity(0.6 * value),
-          //           ),
-          //           child: navigationDrawer,
-          //         ),
-          //       );
-          //     },
-          //     child: RepaintBoundary(
-          //       child: Align(
-          //         alignment: Alignment.topLeft,
-          //         child: SlideTransition(
-          //           position: _drawerSlideAnim,
-          //           child: ConstrainedBox(
-          //             constraints: BoxConstraints.tightFor(
-          //               width: menuWidth,
-          //             ),
-          //             child: MainNavigationDrawer(),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // PositionedTransition(
-          //   rect: _menuIconAnim,
-          //   child: _MainMenuIcon(
-          //     animation: _drawerAnim,
-          //     onPressed: () {
-          //       _menuVisible = !_menuVisible;
-          //       if (_menuVisible) {
-          //         _drawerController.forward();
-          //       } else {
-          //         _drawerController.reverse();
-          //       }
-          //     },
-          //   ),
-          // ),
+          /// Main Menu Drawer
+          IgnorePointer(
+            ignoring: _menuVisible,
+            child: AnimatedBuilder(
+              animation: _drawerAnim,
+              builder: (BuildContext context, Widget navigationDrawer) {
+                final value = _drawerAnim.value;
+                if (value <= 0.0) {
+                  return SizedBox();
+                } else {
+                  final value = _drawerAnim.value;
+                  final blur = 12.0 * value;
+                  return BackdropFilter(
+                    filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.6 * value),
+                      ),
+                      child: navigationDrawer,
+                    ),
+                  );
+                }
+              },
+              child: RepaintBoundary(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: SlideTransition(
+                    position: _drawerSlideAnim,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints.tightFor(
+                        width: menuWidth,
+                      ),
+                      child: MainNavigationDrawer(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          PositionedTransition(
+            rect: _menuIconAnim,
+            child: _MainMenuIcon(
+              animation: _drawerAnim,
+              onPressed: () {
+                _menuVisible = !_menuVisible;
+                if (_menuVisible) {
+                  _drawerController.forward();
+                } else {
+                  _drawerController.reverse();
+                }
+              },
+            ),
+          ),
         ],
       ),
     );
