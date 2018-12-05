@@ -297,9 +297,9 @@ class RenderStackViewport extends RenderBox
   @override
   void paint(PaintingContext context, Offset offset) {
     _ChildParentData childData;
+    final paddedSize = _padding.deflateSize(size);
     for (RenderBox child = lastChild; child != null; child = childData.previousSibling) {
       childData = child.parentData;
-      final paddedSize = _padding.deflateSize(size);
       final params = _ChildParams.create(childData.index, viewportOffset.pixels, paddedSize.width, inset);
       context.pushTransform(true, offset, params.getTransform(size), (PaintingContext context, Offset offset) {
         context.pushOpacity(offset, (255 * params.opacity).toInt(), (PaintingContext context, Offset offset) {
@@ -358,17 +358,9 @@ class _ChildParams {
   static _ChildParams create(int index, double offset, double width, double inset) {
     double page = math.max(0.0, offset) / math.max(1.0, width);
     final visible = _getPageVisibleAmount(index, page);
-
-    double scale = ((inset * 2) / width);
-    if (visible <= 0.0) {
-      scale = 1.0 - scale * index * -visible;
-    } else {
-      scale = 1.0 + (0.5 * visible);
-    }
-    //print('getScaleForIndex($index) = $visible = $scale');
+    final scale = (visible <= 0.0) ? 1.0 - ((inset * 2) / width) * index * -visible : 1.0 + (0.5 * visible);
     final offsetY = ((visible < 0.0) ? -inset * index * -visible : 2 * inset * visible) * 0.5;
     final opacity = (visible < 0.0) ? 1.0 - (0.5 * -visible) : (1.0 - visible);
-
     return _ChildParams._(visible, scale, offsetY, opacity);
   }
 
