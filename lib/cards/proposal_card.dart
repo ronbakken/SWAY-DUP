@@ -33,9 +33,10 @@ class ProposalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     // Prefer the location name over the business name for businesses
-    final String partnerName = (partnerProfile.accountType == AccountType.business)
-        ? businessOffer.senderName
-        : partnerProfile.name;
+    final String partnerName =
+        (partnerProfile.accountType == AccountType.business)
+            ? businessOffer.senderName
+            : partnerProfile.name;
     // Prefer the offer location over the business location for businesses
     final String partnerLocation =
         (partnerProfile.accountType == AccountType.business)
@@ -63,7 +64,8 @@ class ProposalCard extends StatelessWidget {
                         borderRadius: kInfImageThumbnailBorder,
                         child: BlurredNetworkImage(
                           url: businessOffer.thumbnailUrl,
-                          blurredData: Uint8List.fromList(businessOffer.thumbnailBlurred),
+                          blurredData: Uint8List.fromList(
+                              businessOffer.thumbnailBlurred),
                           placeholderAsset: 'assets/placeholder_photo.png',
                         ),
                       ),
@@ -118,8 +120,8 @@ class ProposalCard extends StatelessWidget {
                                       borderRadius: kInfImageThumbnailBorder,
                                       child: BlurredNetworkImage(
                                         url: businessOffer.thumbnailUrl,
-                                        blurredData:
-                                            Uint8List.fromList(businessOffer.thumbnailBlurred),
+                                        blurredData: Uint8List.fromList(
+                                            businessOffer.thumbnailBlurred),
                                         placeholderAsset:
                                             'assets/placeholder_photo.png',
                                       ),
@@ -210,8 +212,8 @@ class ProposalCard extends StatelessWidget {
                                   color: theme.canvasColor,
                                   shape: const StadiumBorder(),
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: 6.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6.0),
                                     child: Text("new proposal",
                                         style: theme.textTheme.body1.copyWith(
                                             color: theme.textTheme.body1.color

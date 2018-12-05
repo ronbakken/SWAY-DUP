@@ -90,7 +90,8 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
         if (oldFirebaseToken != null)
           setFirebaseToken.oldFirebaseToken = oldFirebaseToken;
         setFirebaseToken.firebaseToken = token;
-        switchboard.sendMessage("api", "SFIREBAT", setFirebaseToken.writeToBuffer());
+        switchboard.sendMessage(
+            "api", "SFIREBAT", setFirebaseToken.writeToBuffer());
         prefs.setString('firebase_token', token);
       }
     }
