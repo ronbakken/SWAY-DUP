@@ -144,16 +144,20 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // SizedBox(width: 50.0, height: 50.0, child: InfAssetImage(AppIcons.photo)),
-              // SizedBox(width: 50.0, height: 50.0, child: InfAssetImage(AppIcons.camera, color: Colors.white,)),
-              SizedBox(width: 50.0, height: 50.0, child: Placeholder()),
-              SizedBox(width: 50.0, height: 50.0, child: Placeholder()),
+              InfAssetImage(
+                AppIcons.photo,
+                width: 50.0,
+                height: 50.0,
+              ),
+              InfAssetImage(
+                  AppIcons.camera,
+                  width: 50.0,
+                  height: 50.0,
+                  color: Colors.white,
+              ),
             ],
-          )
-          );          
-    }
-    else
-    {
+          ));
+    } else {
       assert(selectedImageIndex < selectedImages.length);
       return Image.file(selectedImages[selectedImageIndex]);
     }
