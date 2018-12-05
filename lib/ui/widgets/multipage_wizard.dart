@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'dart:math';
 
+import 'package:pedantic/pedantic.dart';
+
 class MultiPageWizard extends StatefulWidget {
   final List<Widget> pages;
   final Color indicatorColor;
-  final Color indicatorForegroundColor;
+  final Color indicatorBackgroundColor;
 
-  const MultiPageWizard(
-      {Key key,
-      @required this.pages,
-      this.indicatorColor = AppTheme.red,
-      this.indicatorForegroundColor = AppTheme.lightBlue})
-      : super(key: key);
+  const MultiPageWizard({
+    Key key,
+    @required this.pages,
+    this.indicatorColor = AppTheme.red,
+    this.indicatorBackgroundColor = AppTheme.lightBlue,
+  }) : super(key: key);
 
   @override
   MultiPageWizardState createState() => MultiPageWizardState();
@@ -22,13 +24,21 @@ class MultiPageWizard extends StatefulWidget {
   }
 }
 
-class MultiPageWizardState extends State<MultiPageWizard> with SingleTickerProviderStateMixin {
-  TabController _controller;
+class MultiPageWizardState extends State<MultiPageWizard> {
+  PageController _controller;
+  int _pageCount;
 
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: widget.pages.length, vsync: this);
+    _controller = PageController();
+    _pageCount = widget.pages.length;
+  }
+
+  @override
+  void didUpdateWidget(MultiPageWizard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _pageCount = widget.pages.length;
   }
 
   @override
@@ -40,21 +50,26 @@ class MultiPageWizardState extends State<MultiPageWizard> with SingleTickerProvi
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
-        // if we arent on the first tab, a tap on the backbutton doesn't pop the page but moves
-        // to the previous tab
-        if (_controller.index > 0) {
-          _controller.index--;
-          return false;
-        }
-        return true;
-      },
+      onWillPop: () async => prevPage(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _WizzardPageIndicator(controller: _controller, indicatorColor: widget.indicatorColor, indicatorForegroundColor: widget.indicatorForegroundColor,),
+          Container(
+            color: widget.indicatorBackgroundColor,
+            child: FractionallySizedBox(
+              widthFactor: 0.6,
+              child: CustomPaint(
+                painter: _WizardPageIndicatorPainter(
+                  controller: _controller,
+                  pageCount: _pageCount,
+                  color: widget.indicatorColor,
+                ),
+                size: Size(double.infinity, 56.0),
+              ),
+            ),
+          ),
           Expanded(
-            child: TabBarView(
+            child: PageView(
               physics: NeverScrollableScrollPhysics(),
               children: widget.pages,
               controller: _controller,
@@ -65,109 +80,96 @@ class MultiPageWizardState extends State<MultiPageWizard> with SingleTickerProvi
     );
   }
 
+  bool prevPage() {
+    // if we aren't on the first tab, a tap on the back button doesn't pop the page but moves
+    // to the previous tab
+    if (_controller.page > 0) {
+      unawaited(_controller.previousPage(duration: kThemeAnimationDuration, curve: Curves.fastOutSlowIn));
+      return false;
+    }
+    return true;
+  }
+
   void nextPage() {
-    if (_controller.index < _controller.length - 1) {
-      _controller.animateTo(_controller.index + 1);
+    if (_controller.page.round() + 1 < _pageCount) {
+      _controller.nextPage(duration: kThemeAnimationDuration, curve: Curves.fastOutSlowIn);
     }
   }
 }
 
-class _WizzardPageIndicator extends StatelessWidget {
-  final TabController controller;
-  final Color indicatorColor;
-  final Color indicatorForegroundColor;
-
-  _WizzardPageIndicator({
+class _WizardPageIndicatorPainter extends CustomPainter {
+  _WizardPageIndicatorPainter({
     @required this.controller,
-    @required this.indicatorColor,
-    @required this.indicatorForegroundColor,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 56.0,
-      child: Stack(
-        children: [
-          Container(
-            color: indicatorColor,
-          ),
-          ClipPath(
-            child: Container(
-              color: AppTheme.darkGrey,
-            ),
-            clipper: _IndicatorClipper(
-              count: controller.length,
-              indicatorWidthPercent: 0.6,
-              radiusPadding: 4,
-              linepadding: 3.0,
-              controller: controller,
-            ),
-          ),
-          ClipPath(
-              child: Container(
-                color: indicatorForegroundColor,
-              ),
-              clipper: _IndicatorClipper(
-                count: controller.length,
-                indicatorWidthPercent: 0.6,
-              )),   
-        ],
-      ),
-    );
-  }
-}
+    @required this.pageCount,
+    @required this.color,
+  }) : super(repaint: controller);
 
-class _IndicatorClipper extends CustomClipper<Path> {
-  final int count;
-  final double indicatorWidthPercent;
-  final double linepadding;
-  final double radiusPadding;
-  final TabController controller;
-
-  _IndicatorClipper({
-    this.count,
-    this.indicatorWidthPercent = 1.0,
-    this.linepadding = 0,
-    this.radiusPadding = 0,
-    this.controller,
-  }) : super(reclip: controller?.animation);
+  final PageController controller;
+  final int pageCount;
+  final Color color;
 
   @override
-  Path getClip(Size size) {
-    double indicatorWidth = size.width * indicatorWidthPercent;
-    double horizontalPadding = (size.width - indicatorWidth) / 2;
+  void paint(Canvas canvas, Size size) {
+    final count = pageCount;
+    final circleRadius = (size.width / count) * 0.5 / 2;
+    final segmentSize = (size.width - ((size.width / count) - circleRadius * 2)) / (count - 1);
 
-    double segmentSize = indicatorWidth / (count - 1);
+    final centerLeft = size.centerLeft(Offset(circleRadius, 0.0));
+    final barThickness = circleRadius * 0.5;
 
-    double circleRadius = segmentSize * 0.5 / 2;
-
-    double delta = (indicatorWidth - 2 * circleRadius) / (count - 1);
-    double y = size.height / 2.0;
-    double barThickness = circleRadius * 0.6;
-
-    final contentPath = Path()..addRect(Rect.fromLTWH(0, 0, size.width, size.height));
-    Path circlesPath = Path();
-
+    Path path = Path();
     for (int i = 0; i < count; i++) {
-      circlesPath
-        ..addOval(Rect.fromCircle(
-            center: Offset(horizontalPadding + circleRadius + i * delta, y), radius: circleRadius - radiusPadding));
+      path.addOval(Rect.fromCircle(
+        center: centerLeft + Offset(i * segmentSize, 0.0),
+        radius: circleRadius,
+      ));
     }
-    circlesPath.addRect(Rect.fromLTWH(horizontalPadding + circleRadius, y - (barThickness - linepadding * 2) / 2,
-        indicatorWidth - circleRadius * 2, barThickness - linepadding * 2));
-    var path = Path.combine(PathOperation.difference, contentPath, circlesPath);
-
-    double barMaskStart =
-        (controller != null) ? (controller.index + 1) * delta + (delta * controller.offset) : indicatorWidth;
 
     path = Path.combine(
-        PathOperation.union,
-        path,
-        Path()
-          ..addRect(Rect.fromLTRB(horizontalPadding + barMaskStart, 0, size.width - horizontalPadding, size.height)));
-    return path;
+      PathOperation.union,
+      path,
+      Path()
+        ..addRect(
+          Rect.fromLTRB(circleRadius, centerLeft.dy - barThickness * 0.5, size.width - circleRadius,
+              centerLeft.dy + barThickness * 0.5),
+        ),
+    );
+
+    double delta = (size.width - 2 * circleRadius) / (count - 1);
+    double indicatorWidth = (controller != null) ? delta * (controller.page + 1) : size.width;
+
+    canvas.save();
+    canvas.clipRect(Offset.zero & Size(indicatorWidth, size.height));
+    canvas.drawPath(path, Paint()..color = color);
+    canvas.restore();
+
+    final check = Icons.check;
+    final painter = TextPainter(
+      textDirection: TextDirection.ltr,
+      text: TextSpan(
+        text: String.fromCharCode(check.codePoint),
+        style: TextStyle(
+          inherit: false,
+          color: Colors.white,
+          fontSize: circleRadius * 1.3,
+          fontFamily: check.fontFamily,
+          package: check.fontPackage,
+        ),
+      ),
+    );
+    painter.layout();
+
+    for(int i = 0; i < controller.page.round(); i++){
+      painter.paint(canvas, centerLeft + Offset(i * segmentSize, 0.0) - painter.size.center(Offset.zero));
+    }
+
+    Paint paintBorder = Paint()
+      ..strokeWidth = barThickness * 0.4
+      ..style = PaintingStyle.stroke
+      ..color = AppTheme.darkGrey;
+    canvas.drawPath(path, paintBorder);
   }
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+  bool shouldRepaint(_WizardPageIndicatorPainter oldDelegate) => true;
 }
