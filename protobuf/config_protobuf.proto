@@ -31,8 +31,9 @@ message ConfigOAuthProvider { // 34
   /// Whether this social provider can be shown in the user profile at all
   bool show_in_profile = 20;
   
-  /// Whether this provider is a channel for deliverables, and can filter
-  bool is_deliverables_channel = 34;
+  /// Points to itself if this provider is a deliverables channel
+  /// Points to another provider (root provider) if another provider is used
+  int32 deliverables_channel = 34;
   
   /// Visual name
   string label = 3; // Display name
