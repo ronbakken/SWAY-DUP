@@ -224,7 +224,7 @@ message DataAccount { // 30
   
 }
 
-message DataProposal {
+message DataProposal { // 29
   /// Unique identifier of the proposal
   int64 proposalId = 1;
   /// Unique identifier of the offer that this proposal concerns
@@ -273,9 +273,8 @@ message DataProposal {
   
   /// State
   ProposalState state = 13;
-  
-  /// Personal state. Separately stored for influencer and business
-  bool archived = 21;
+  bool influencerArchived = 28;
+  bool businessArchived = 29;
   
 }
 
