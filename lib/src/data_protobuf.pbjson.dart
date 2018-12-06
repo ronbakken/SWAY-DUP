@@ -505,7 +505,20 @@ const DataProposal$json = const {
       '6': '.inf_common.ProposalState',
       '10': 'state'
     },
-    const {'1': 'archived', '3': 21, '4': 1, '5': 8, '10': 'archived'},
+    const {
+      '1': 'influencerArchived',
+      '3': 28,
+      '4': 1,
+      '5': 8,
+      '10': 'influencerArchived'
+    },
+    const {
+      '1': 'businessArchived',
+      '3': 29,
+      '4': 1,
+      '5': 8,
+      '10': 'businessArchived'
+    },
   ],
 };
 
