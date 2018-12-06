@@ -84,7 +84,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..a<int>(31, 'monochromeBackgroundImageId', $pb.PbFieldType.O3)
     ..a<int>(32, 'sorting', $pb.PbFieldType.O3)
     ..aOS(33, 'key')
-    ..aOB(34, 'isDeliverablesChannel')
+    ..a<int>(34, 'deliverablesChannel', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
@@ -346,13 +346,13 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
   bool hasKey() => $_has(30);
   void clearKey() => clearField(33);
 
-  bool get isDeliverablesChannel => $_get(31, false);
-  set isDeliverablesChannel(bool v) {
-    $_setBool(31, v);
+  int get deliverablesChannel => $_get(31, 0);
+  set deliverablesChannel(int v) {
+    $_setSignedInt32(31, v);
   }
 
-  bool hasIsDeliverablesChannel() => $_has(31);
-  void clearIsDeliverablesChannel() => clearField(34);
+  bool hasDeliverablesChannel() => $_has(31);
+  void clearDeliverablesChannel() => clearField(34);
 }
 
 class ConfigContentFormat extends $pb.GeneratedMessage {
