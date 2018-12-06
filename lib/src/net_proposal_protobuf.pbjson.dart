@@ -4,25 +4,151 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
-const NetLoadProposalsReq$json = const {
-  '1': 'NetLoadProposalsReq',
+const NetProposal$json = const {
+  '1': 'NetProposal',
   '2': const [
-    const {'1': 'offer_id', '3': 4, '4': 1, '5': 3, '10': 'offerId'},
-    const {'1': 'before', '3': 1, '4': 1, '5': 3, '10': 'before'},
-    const {'1': 'after', '3': 2, '4': 1, '5': 3, '10': 'after'},
-    const {'1': 'limit', '3': 3, '4': 1, '5': 3, '10': 'limit'},
+    const {
+      '1': 'update_proposal',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataProposal',
+      '10': 'updateProposal'
+    },
+    const {
+      '1': 'new_chats',
+      '3': 2,
+      '4': 3,
+      '5': 11,
+      '6': '.inf_common.DataProposalChat',
+      '10': 'newChats'
+    },
   ],
 };
 
-const NetLoadProposalReq$json = const {
-  '1': 'NetLoadProposalReq',
+const NetProposalChat$json = const {
+  '1': 'NetProposalChat',
+  '2': const [
+    const {
+      '1': 'chat',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataProposalChat',
+      '10': 'chat'
+    },
+  ],
+};
+
+const NetApplyProposal$json = const {
+  '1': 'NetApplyProposal',
+  '2': const [
+    const {'1': 'offer_id', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
+    const {
+      '1': 'session_ghost_id',
+      '3': 8,
+      '4': 1,
+      '5': 5,
+      '10': 'sessionGhostId'
+    },
+    const {'1': 'remarks', '3': 2, '4': 1, '5': 9, '10': 'remarks'},
+    const {
+      '1': 'terms',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataTerms',
+      '10': 'terms'
+    },
+  ],
+};
+
+const NetDirectProposal$json = const {
+  '1': 'NetDirectProposal',
+  '2': const [
+    const {
+      '1': 'session_ghost_id',
+      '3': 8,
+      '4': 1,
+      '5': 5,
+      '10': 'sessionGhostId'
+    },
+    const {'1': 'remarks', '3': 2, '4': 1, '5': 9, '10': 'remarks'},
+    const {
+      '1': 'offer',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataOffer',
+      '10': 'offer'
+    },
+  ],
+};
+
+const NetListProposals$json = const {
+  '1': 'NetListProposals',
+  '2': const [
+    const {'1': 'offer_id', '3': 4, '4': 1, '5': 3, '10': 'offerId'},
+  ],
+};
+
+const NetGetProposal$json = const {
+  '1': 'NetGetProposal',
   '2': const [
     const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
   ],
 };
 
-const NetLoadProposalChatsReq$json = const {
-  '1': 'NetLoadProposalChatsReq',
+const NetProposalWantDeal$json = const {
+  '1': 'NetProposalWantDeal',
+  '2': const [
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'terms_chat_id', '3': 2, '4': 1, '5': 3, '10': 'termsChatId'},
+  ],
+};
+
+const NetProposalReject$json = const {
+  '1': 'NetProposalReject',
+  '2': const [
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'reason', '3': 2, '4': 1, '5': 9, '10': 'reason'},
+  ],
+};
+
+const NetProposalReport$json = const {
+  '1': 'NetProposalReport',
+  '2': const [
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'text', '3': 2, '4': 1, '5': 9, '10': 'text'},
+  ],
+};
+
+const NetProposalDispute$json = const {
+  '1': 'NetProposalDispute',
+  '2': const [
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'delivered', '3': 2, '4': 1, '5': 8, '10': 'delivered'},
+    const {'1': 'rewarded', '3': 3, '4': 1, '5': 8, '10': 'rewarded'},
+    const {
+      '1': 'dispute_description',
+      '3': 6,
+      '4': 1,
+      '5': 9,
+      '10': 'disputeDescription'
+    },
+  ],
+};
+
+const NetProposalCompletion$json = const {
+  '1': 'NetProposalCompletion',
+  '2': const [
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'rating', '3': 4, '4': 1, '5': 5, '10': 'rating'},
+  ],
+};
+
+const NetListChats$json = const {
+  '1': 'NetListChats',
   '2': const [
     const {'1': 'proposal_id', '3': 5, '4': 1, '5': 3, '10': 'proposalId'},
   ],
@@ -43,8 +169,8 @@ const NetChatPlain$json = const {
   ],
 };
 
-const NetChatHaggle$json = const {
-  '1': 'NetChatHaggle',
+const NetChatNegotiate$json = const {
+  '1': 'NetChatNegotiate',
   '2': const [
     const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
     const {
@@ -54,9 +180,15 @@ const NetChatHaggle$json = const {
       '5': 5,
       '10': 'sessionGhostId'
     },
-    const {'1': 'deliverables', '3': 3, '4': 1, '5': 9, '10': 'deliverables'},
-    const {'1': 'reward', '3': 4, '4': 1, '5': 9, '10': 'reward'},
     const {'1': 'remarks', '3': 2, '4': 1, '5': 9, '10': 'remarks'},
+    const {
+      '1': 'terms',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataTerms',
+      '10': 'terms'
+    },
   ],
 };
 
@@ -72,69 +204,5 @@ const NetChatImageKey$json = const {
       '10': 'sessionGhostId'
     },
     const {'1': 'image_key', '3': 5, '4': 1, '5': 9, '10': 'imageKey'},
-  ],
-};
-
-const NetProposalWantDealReq$json = const {
-  '1': 'NetProposalWantDealReq',
-  '2': const [
-    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
-    const {'1': 'terms_chat_id', '3': 2, '4': 1, '5': 3, '10': 'termsChatId'},
-  ],
-};
-
-const NetProposalRejectReq$json = const {
-  '1': 'NetProposalRejectReq',
-  '2': const [
-    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
-    const {'1': 'reason', '3': 2, '4': 1, '5': 9, '10': 'reason'},
-  ],
-};
-
-const NetProposalReportReq$json = const {
-  '1': 'NetProposalReportReq',
-  '2': const [
-    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
-    const {'1': 'text', '3': 2, '4': 1, '5': 9, '10': 'text'},
-  ],
-};
-
-const NetProposalCompletionReq$json = const {
-  '1': 'NetProposalCompletionReq',
-  '2': const [
-    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
-    const {'1': 'delivered', '3': 2, '4': 1, '5': 8, '10': 'delivered'},
-    const {'1': 'rewarded', '3': 3, '4': 1, '5': 8, '10': 'rewarded'},
-    const {'1': 'rating', '3': 4, '4': 1, '5': 5, '10': 'rating'},
-    const {'1': 'dispute', '3': 5, '4': 1, '5': 8, '10': 'dispute'},
-    const {
-      '1': 'dispute_description',
-      '3': 6,
-      '4': 1,
-      '5': 9,
-      '10': 'disputeDescription'
-    },
-  ],
-};
-
-const NetProposalCommonRes$json = const {
-  '1': 'NetProposalCommonRes',
-  '2': const [
-    const {
-      '1': 'update_proposal',
-      '3': 1,
-      '4': 1,
-      '5': 11,
-      '6': '.inf_common.DataProposal',
-      '10': 'updateProposal'
-    },
-    const {
-      '1': 'new_chats',
-      '3': 2,
-      '4': 3,
-      '5': 11,
-      '6': '.inf_common.DataProposalChat',
-      '10': 'newChats'
-    },
   ],
 };
