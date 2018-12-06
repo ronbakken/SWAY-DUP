@@ -15,6 +15,7 @@ dependencies:
   flutter_page_indicator: any 
   flutter_svg: any
   get_it: any
+  image_picker: any
   intl: any
   location: 
     git: https://github.com/slightfoot/flutter_location

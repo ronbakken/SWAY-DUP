@@ -10,6 +10,9 @@ import 'package:inf/backend/services/auth_service_.dart';
 import 'package:inf/backend/services/auth_service_impl.dart';
 import 'package:inf/backend/services/auth_service_mock.dart';
 import 'package:inf/backend/managers/user_manager_.dart';
+import 'package:inf/backend/services/image_service_.dart';
+import 'package:inf/backend/services/image_service_impl.dart';
+import 'package:inf/backend/services/image_service_mock.dart';
 import 'package:inf/backend/services/inf_api_service_mock.dart';
 import 'package:inf/backend/services/location_service_impl.dart';
 import 'package:inf/backend/services/location_service_mock.dart';
@@ -36,6 +39,7 @@ export 'package:inf/backend/services/system_service_.dart';
 export 'package:inf/backend/services/inf_api_service_.dart';
 export 'package:inf/backend/services/location_service_.dart';
 export 'package:inf/backend/managers/offer_manager_.dart';
+export 'package:inf/backend/services/image_service_.dart';
 
 enum AppEnvironment { dev, prod, mock }
 
@@ -122,6 +126,7 @@ void registerImplementations() {
       () => SystemServiceImplementation());
   backend.registerLazySingleton<InfApiService>(
       () => InfApiServiceMock());
+  backend.registerLazySingleton<ImageService>(() => ImageServiceImplementation());
 
   // Managers
   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
@@ -138,10 +143,11 @@ void registerMocks() {
   backend.registerLazySingleton<AuthenticationService>(
     () => AuthenticationServiceMock(
           isLoggedIn: true,
-          currentUserIndex: 1,
+          currentUserIndex: 0,
         ),
   );
   backend.registerLazySingleton<ResourceService>(() => ResourceServiceMock());
+  backend.registerLazySingleton<ImageService>(() => ImageServiceMock());
   backend.registerLazySingleton<SystemService>(
       () => SystemServiceMock(NetworkConnectionState.connected));
   backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());

@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/business_offer.dart';
+import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
+import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
@@ -60,22 +63,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                             ),
                             SizedBox(
                               height: constraints.maxHeight * 0.12,
-                              child: Row(
-                                children: [
-                                  AspectRatio(
-                                    aspectRatio: 1.0,
-                                    child: Placeholder(
-                                      fallbackWidth: 100.0,
-                                    ),
-                                  ),
-                                  AspectRatio(
-                                    aspectRatio: 1.0,
-                                    child: Placeholder(
-                                      fallbackWidth: 100.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              child: buildSelectedImageRow(),
                             ),
                             Expanded(
                               child: Padding(
@@ -135,35 +123,109 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
     );
   }
 
+  Widget buildSelectedImageRow() {
+    if (selectedImages.isEmpty) {
+      return SizedBox();
+    }
+    var images = <Widget>[];
+    for (var i = 0; i < selectedImages.length; i++) {
+      images.add(
+        InkWell(
+          onTap: () => setState(() => selectedImageIndex = i),
+          child: AspectRatio(
+            aspectRatio: 1.0,
+            child: Image.file(
+              selectedImages[i],
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      );
+    }
+    images.add(
+      InkWell(
+        onTap: () => _onAddPicture(),
+        child: AspectRatio(
+            aspectRatio: 1.0,
+            child: Container(
+              color: AppTheme.grey,
+              child: Center(
+                  child: Icon(
+                Icons.add,
+                color: AppTheme.white30,
+              )),
+            )),
+      ),
+    );
+    return Align(
+      alignment: Alignment.topLeft,
+          child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: images,
+        ),
+      ),
+    );
+  }
+
   Widget buildMainImage() {
     if (selectedImages.isEmpty) {
       return Container(
           color: AppTheme.grey,
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              InfAssetImage(
-                AppIcons.photo,
-                width: 50.0,
-                height: 50.0,
+              AssetImageCircleBackgroundButton(
+                asset: AppIcons.photo,
+                radius: 40.0,
+                backgroundColor: AppTheme.darkGrey,
+                onTap: () => _onAddPicture(camera: false),
               ),
-              InfAssetImage(
-                  AppIcons.camera,
-                  width: 50.0,
-                  height: 50.0,
-                  color: Colors.white,
+              SizedBox(
+                width: 48.0,
+              ),
+              AssetImageCircleBackgroundButton(
+                asset: AppIcons.camera,
+                radius: 40.0,
+                backgroundColor: AppTheme.darkGrey,
+                onTap: () => _onAddPicture(camera: true),
               ),
             ],
           ));
     } else {
       assert(selectedImageIndex < selectedImages.length);
-      return Image.file(selectedImages[selectedImageIndex]);
+      return Image.file(
+        selectedImages[selectedImageIndex],
+        fit: BoxFit.cover,
+      );
     }
   }
 
   void onNext(BuildContext context) {
     MultiPageWizard.of(context).nextPage();
   }
+
+  /// if [camera] is null a dialog is dispplayed to select which source should be used
+  void _onAddPicture({bool camera}) async {
+    if (camera == null) {
+      camera = await showDialog<bool>(context: context, builder: (context) => ImageSourceSelectorDialog());
+      if (camera == null) {
+        return;
+      }
+    }
+    var imageFile =
+        camera ? await backend.get<ImageService>().takePicture() : await backend.get<ImageService>().pickImage();
+    if (imageFile != null) {
+      selectedImages.add(imageFile);
+      setState(() {
+        selectedImageIndex = selectedImages.length - 1;
+      });
+    }
+  }
 }
+
+

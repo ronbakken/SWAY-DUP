@@ -138,8 +138,10 @@ class _WizardPageIndicatorPainter extends CustomPainter {
     double delta = (size.width - 2 * circleRadius) / (count - 1);
     double indicatorWidth = (controller != null) ? delta * (controller.page + 1) : size.width;
 
+    canvas.drawPath(path, Paint()..color = AppTheme.darkGrey);
+
     canvas.save();
-    canvas.clipRect(Offset.zero & Size(indicatorWidth, size.height));
+    canvas.clipRect(Offset.zero & Size(indicatorWidth - circleRadius, size.height));
     canvas.drawPath(path, Paint()..color = color);
     canvas.restore();
 
