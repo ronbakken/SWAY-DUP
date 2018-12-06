@@ -3,6 +3,7 @@ description: INF Common Protocol files. Shared data structures and enumerations.
 version: 1.2.19
 homepage: https://www.infmarketplace.com
 author: Jan Boon <kaetemi@no-break.space>
+publish_to: none
 
 environment:
   sdk: '>=2.0.0 <3.0.0'

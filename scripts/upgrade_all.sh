@@ -27,13 +27,6 @@ cd ../sqljocky5
 pub get
 pub upgrade
 
-cd ~/infcommon
-git pull --recurse-submodules
-git submodule update --init
-cd config
-pub get
-pub upgrade
-
 cd ~/inf_common
 git pull
 pub get

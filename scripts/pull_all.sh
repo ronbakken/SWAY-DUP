@@ -9,10 +9,6 @@ cd ~/infserver
 git pull --recurse-submodules
 git submodule update --init
 
-cd ~/infcommon
-git pull --recurse-submodules
-git submodule update --init
-
 cd ~/inf_common
 git pull
 

@@ -1,9 +1,8 @@
 #!/bin/sh
 set -x
 
-cd ~/infcommon
-git pull --recurse-submodules
+cd ~/inf_config
+git pull
 
-cd config
 pub get
-dart bin/upload.dart
+dart bin/upload_config.dart

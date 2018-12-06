@@ -292,7 +292,9 @@ message DataProposalChat {
   string plain_text = 5; // The written text
   DataTerms terms = 12;
   string image_key = 13;
-  int32 marker = 14;
+  string image_url = 14;
+  bytes image_blurred = 15;
+  int32 marker = 16;
   
 }
 
