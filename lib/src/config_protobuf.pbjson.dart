@@ -31,6 +31,13 @@ const ConfigOAuthProvider$json = const {
       '5': 8,
       '10': 'showInProfile'
     },
+    const {
+      '1': 'is_deliverables_channel',
+      '3': 34,
+      '4': 1,
+      '5': 8,
+      '10': 'isDeliverablesChannel'
+    },
     const {'1': 'label', '3': 3, '4': 1, '5': 9, '10': 'label'},
     const {'1': 'sorting', '3': 32, '4': 1, '5': 5, '10': 'sorting'},
     const {
