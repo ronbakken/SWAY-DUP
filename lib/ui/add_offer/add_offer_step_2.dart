@@ -1,12 +1,14 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/business_offer.dart';
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
+import 'package:inf/ui/widgets/social_network_toggle_button.dart';
 
 class AddOfferStep2 extends StatefulWidget {
   const AddOfferStep2({
@@ -115,20 +117,15 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                             Padding(
                               padding: const EdgeInsets.only(left: 24.0, bottom: 24.0),
                               child: Text(
-                                'PLEASE SELECT CATEGORIES',
+                                'SOCIAL PLATFORM',
                                 textAlign: TextAlign.left,
                                 style: AppTheme.textStyleformfieldLabel,
                               ),
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 24.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: rowContent,
-                                ),
+                                padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                                child: buildSocialPlatformRow(),
                               ),
                             ),
                             Container(
@@ -139,7 +136,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                             Padding(
                               padding: const EdgeInsets.only(left: 24.0, bottom: 24.0),
                               child: Text(
-                                'PLEASE SELECT CATEGORIES',
+                                'CONTENT TYPE',
                                 textAlign: TextAlign.left,
                                 style: AppTheme.textStyleformfieldLabel,
                               ),
@@ -181,6 +178,39 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
         ],
       ),
     );
+  }
+
+  Widget buildSocialPlatformRow() {
+    return FutureBuilder<List<SocialNetworkProvider>>(
+        future: backend.get<AuthenticationService>().getAvailableSocialNetworkProviders(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return SizedBox(
+              height: 40.0,
+            );
+          }
+          var rowContent = <Widget>[];
+          for (var provider in snapshot.data) {
+            if (provider.canBeUsedAsFilter) {
+              rowContent.add(Container(
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                  width: 60.0,
+                  height: 60.0,
+                  child: SocialNetworkToggleButton(
+                    isSelected: false,
+                    provider: provider,
+                  )));
+            }
+          }
+          return SizedBox(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: rowContent,
+            ),
+          );
+        });
   }
 
   void onNext(BuildContext context) {

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:pedantic/pedantic.dart';
