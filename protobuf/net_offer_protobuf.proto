@@ -27,8 +27,6 @@ message NetOffer {
 // Procedure Id: CREOFFER
 // Response: NetOffer
 message NetCreateOffer {
-  int32 sessionGhostId = 2;
-  
   DataOffer offer = 1;
   
 }

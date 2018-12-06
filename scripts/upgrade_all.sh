@@ -2,7 +2,7 @@
 set -x
 
 sudo apt update
-sudo apt upgrade
+sudo apt upgrade -y
 
 pub global activate protoc_plugin
 pub global activate stagehand

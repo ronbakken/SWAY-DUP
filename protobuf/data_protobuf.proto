@@ -96,8 +96,8 @@ message DataTerms {
 message DataOffer { // 45
   int64 offer_id = 1; // (State) (Summary) (Detail)
   int64 sender_id = 2; // (State) (Summary) (Detail) Account id of the sender who published this offer
-  AccountType sender_type = 45;
-  int64 location_id = 3; // (State) (Detail) (Private)
+  AccountType sender_type = 45; // (State) (Summary) (Detail)
+  int64 location_id = 3; // (State) (Summary) (Detail) (Private)
   bool direct = 32; // (State) (Detail) Direct offer, not returned in search results
   
   // Summary
@@ -130,23 +130,23 @@ message DataOffer { // 45
   repeated int32 categories = 23; // (Detail)
   
   // State for sender
-  OfferState state = 12; // (State) (Detail)
-  OfferStateReason state_reason = 13; // (State) (Detail)
-  bool archived = 26; // (State) (Detail)
+  OfferState state = 12; // (Private)
+  OfferStateReason state_reason = 13; // (Private)
+  bool archived = 26; // (Private)
   
   // Embedded info for sender
-  int32 proposals_proposing = 38; // (State) (Private)
-  int32 proposals_negotiating = 39; // (State) (Private)
-  int32 proposals_deal = 40; // (State) (Private)
-  int32 proposals_rejected = 41; // (State) (Private)
-  int32 proposals_dispute = 42; // (State) (Private)
-  int32 proposals_resolved = 43; // (State) (Private)
-  int32 proposals_complete = 44; // (State) (Private)
+  int32 proposals_proposing = 38; // (Private)
+  int32 proposals_negotiating = 39; // (Private)
+  int32 proposals_deal = 40; // (Private)
+  int32 proposals_rejected = 41; // (Private)
+  int32 proposals_dispute = 42; // (Private)
+  int32 proposals_resolved = 43; // (Private)
+  int32 proposals_complete = 44; // (Private)
   
   // Embedded info for receiver
   /// Identifier of proposal that the public receiver sent already,
   /// allowing the user interface to link immediately to the proposal.
-  int64 proposal_id = 22; // (Denormalized) (Private)
+  int64 proposal_id = 22; // (Denormalized) (Receiver)
   // Elasticsearch structure has forward list of proposal ids embedded (map of userid -> proposalid)
   // bool unseen_proposal = 31;
   
@@ -259,8 +259,8 @@ message DataAccount { // 30
   // bytes blurred_avatar = 17; // (Summary, Detail)
   
   repeated int32 categories = 18; // (Detail)
-  repeated DataSocialMedia social_media = 19; // (Detail)
-  // map<int32, DataSocialMedia> social_media = 20; // (Detail)
+  // repeated DataSocialMedia social_media = 19; // (Detail)
+  map<int32, DataSocialMedia> social_media = 20; // (Detail)
   
   repeated string cover_urls = 21; // (Detail)
   repeated string blurred_cover_urls = 22; // (Detail)

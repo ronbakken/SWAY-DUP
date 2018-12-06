@@ -72,7 +72,7 @@ DataOffer
         (denormalized) array short geohash_int_shards
         (denormalized) array short geohash_shards
         
-        (denormalized) array long proposal_sender_ids
+        (denormalized) map long proposal_sender_ids ---------------- TODO --------------------
         
         (ai) array keyword image_keywords (keywords pulled from images)
         
