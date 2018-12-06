@@ -152,7 +152,7 @@ enum ProposalState {
 
 enum ProposalChatMarker {
   PCM_APPLIED = 0; // ${User} has applied for ${offer}.
-  PCM_WANT_DEAL = 1; // ${User} wants to make a deal.
+  PCM_WANT_DEAL = 1; // (Deprecated.) ${User} wants to make a deal.
   PCM_DEAL_MADE = 2; // A deal has been made. Congratulations!
   PCM_REJECTED = 3; // ${User} has rejected the application.
   PCM_MARKED_COMPLETE = 4; // ${User} has marked the deal as complete.

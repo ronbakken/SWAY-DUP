@@ -176,64 +176,9 @@ message DataLocation {
   
 }
 
-/*
-message DataAccountState {
-  // Session ID. If 0, authentication failed, and the client must create a new account
-  int64 sessionId = 1;
-  
-  // Account ID. If 0, proceed with account creation
-  int64 accountId = 2;
-  
-  // Account type. If not AT_UNKNOWN, account creation may bypass type selection
-  AccountType accountType = 3;
-  
-  GlobalAccountState globalAccountState = 4;
-  GlobalAccountStateReason globalAccountStateReason = 5;
-  
-  AccountLevel accountLevel = 8;
-  NotificationFlags notificationFlags = 6;
-  
-  string firebaseToken = 7;
-  
-}
-
-message DataAccountSummary {
-  string name = 1;
-  string description = 2;
-  string location = 3;
-  string avatarUrl = 4;
-  string blurredAvatarUrl = 5;
-  
-}
-
-message DataAccountDetail {
-  repeated int32 categories = 13;
-  repeated DataSocialMedia socialMedia = 3;
-  
-  repeated string coverUrls = 7; // Higher resolution, but same as avatarThumbnailUrl
-  repeated string blurredCoverUrls = 12;
-  
-  string website = 6;
-  string email = 9;
-  // bool emailVerified = 10;
-  
-  // Embedded primary location info, if applicable
-  string locationName = 14;
-  string location = 15;
-  double latitude = 4;
-  double longitude = 5;
-  int64 locationId = 8; // Primary location id
-  
-}
-*/
-
 message DataAccount { // 30
-  // DataAccountState state = 1;
-  // DataAccountSummary summary = 2;
-  // DataAccountDetail detail = 3;
-  
   // State
-  /// Session ID. If 0, authentication failed, and the client must create a new account
+  /// Session ID. If 0, authentication failed, and the client must create a new session
   int64 session_id = 4; // (Private)
   
   /// Account ID. If 0, proceed with account creation
@@ -280,13 +225,24 @@ message DataAccount { // 30
 }
 
 message DataProposal {
+  /// Unique identifier of the proposal
   int64 proposalId = 1;
+  /// Unique identifier of the offer that this proposal concerns
   int64 offerId = 2;
-  int64 influencerAccountId = 3; // Account which applied
-  int64 businessAccountId = 16;
-  int64 senderAccountId = 20; // Either influencer or business sent this
   
-  /// Embedded data
+  /// Account id of the sender of the proposal. Either the influencer or business.
+  int64 senderId = 20;
+  /// (Denormalized) Account id of the sender of the offer (not of the proposal.)
+  /// Either the influencer or business.
+  /// If the makerId and the senderId are equal, this is a direct offer.
+  int64 makerId = 27;
+  
+  /// Account id of the influencer
+  int64 influencerId = 3;
+  /// Account id of the business
+  int64 businessId = 16;
+  
+  /// (Denormalized) Embedded data. Not necessarily up to date.
   string influencerName = 17;
   string businessName = 18;
   string offerTitle = 19;
@@ -305,18 +261,20 @@ message DataProposal {
   bool influencerWantsDeal = 6;
   bool businessWantsDeal = 5;
   
+  /// For support
   bool influencerMarkedDelivered = 7;
   bool influencerMarkedRewarded = 8;
   bool businessMarkedDelivered = 9;
   bool businessMarkedRewarded = 10;
-  
   int32 influencerGaveRating = 12;
   int32 businessGaveRating = 11; // 1 to 5, 0 is no rating given (rating given implies complete)
-  
   bool influencerDisputed = 15;
   bool businessDisputed = 14;
   
+  /// State
   ProposalState state = 13;
+  
+  /// Personal state. Separately stored for influencer and business
   bool archived = 21;
   
 }
