@@ -1,8 +1,9 @@
 name: inf_server_api
-description: A sample command-line application.
-# version: 1.0.0
-# homepage: https://www.example.com
-# author: Jan Boon <email@example.com>
+description: INF Server API service.
+version: 2.0.0
+homepage: https://www.infmarketplace.com
+author: Jan Boon <kaetemi@no-break.space>
+publish_to: none
 
 environment:
   sdk: '>=2.0.0-dev.58.0 <3.0.0'
@@ -11,7 +12,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: cce941c9ebe9ec636699a9936998f1388f4a003f
+      ref: 9af57575ca3120d10b52d4d5a4a27f51a9d254d2
   logging: ^0.11.3+2
   # crypto: ^2.0.6
   # pointycastle: ^1.0.0-rc2

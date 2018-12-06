@@ -211,7 +211,6 @@ class ApiChannelOffer {
       create: true,
       modify: false,
       sessionId: account.sessionId,
-      sessionGhostId: create.sessionGhostId,
     );
     devLog.finest(doc);
     await elasticsearch.putDocument("offers", offer.offerId.toString(), doc);

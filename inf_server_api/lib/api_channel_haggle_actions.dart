@@ -222,7 +222,7 @@ class ApiChannelHaggleActions {
       chat.sessionGhostId
           .toInt(), // Not actually used for apply chat, but need it for consistency
       chat.type.value.toInt(),
-      chat.text.toString(),
+      chat.plainText.toString(), // TODO: Insert the right fields!
     ]);
     int termsChatId = resultHaggle.insertId;
     if (termsChatId == null || termsChatId == 0) {
@@ -269,21 +269,19 @@ class ApiChannelHaggleActions {
       // Send placeholder message to erase the ghost id to current session.
       // This is an unusual race condition case that shouldn't happen.
       chat.type = ProposalChatType.marker;
-      chat.text =
-          "marker=" + ProposalChatMarker.messageDropped.value.toString();
+      chat.marker = ProposalChatMarker.messageDropped.value;
       channel.sendMessage("LN_A_CHA", chat.writeToBuffer());
     }
   }
 
   Future<void> _publishChat(DataProposalChat chat) async {
-    if (chat.type == ProposalChatType.imageKey) {
-      String key = Uri.splitQueryString(chat.text)['key'];
-      if (key != null) {
-        chat.text = 'url=' +
-            Uri.encodeQueryComponent(_r.makeCloudinaryCoverUrl(key)) +
-            '&blurred_url=' +
-            Uri.encodeQueryComponent(_r.makeCloudinaryBlurredCoverUrl(key));
-      }
+    if (chat.imageKey != null) {
+      chat.imageKey = null;
+      chat.imageUrl = _r.makeCloudinaryCoverUrl(chat.imageKey);
+    }
+
+    if (chat.imageUrl != null && chat.imageBlurred == null) {
+      devLog.warning("Chat image blurred missing.");
     }
 
     // Publish to me
@@ -320,13 +318,13 @@ class ApiChannelHaggleActions {
     chat.sessionId = account.sessionId;
     chat.sessionGhostId = pb.sessionGhostId;
     chat.type = ProposalChatType.plain;
-    chat.text = pb.text;
+    chat.plainText = pb.text;
 
     await _enterChat(chat);
   }
 
   Future<void> netChatHaggle(TalkMessage message) async {
-    NetChatHaggle pb = new NetChatHaggle();
+    NetChatNegotiate pb = new NetChatNegotiate();
     pb.mergeFromBuffer(message.data);
 
     /*
@@ -367,10 +365,8 @@ class ApiChannelHaggleActions {
     chat.sessionId = account.sessionId;
     chat.sessionGhostId = pb.sessionGhostId;
     chat.type = ProposalChatType.terms;
-    chat.text =
-        'deliverables=${Uri.encodeQueryComponent(pb.deliverables.trim())}&'
-        'reward=${Uri.encodeQueryComponent(pb.reward.trim())}&'
-        'remarks=${Uri.encodeQueryComponent(pb.remarks.trim())}';
+    chat.plainText = pb.remarks;
+    chat.terms = pb.terms;
 
     await _enterChat(chat);
   }
@@ -390,7 +386,8 @@ class ApiChannelHaggleActions {
     chat.sessionId = account.sessionId;
     chat.sessionGhostId = pb.sessionGhostId;
     chat.type = ProposalChatType.imageKey;
-    chat.text = 'key=${Uri.encodeQueryComponent(pb.imageKey.trim())}';
+    chat.imageKey = pb.imageKey;
+    // TODO: imageBlurred
 
     await _enterChat(chat);
   }
@@ -417,7 +414,7 @@ class ApiChannelHaggleActions {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> netProposalWantDealReq(TalkMessage message) async {
-    NetProposalWantDealReq pb = new NetProposalWantDealReq();
+    NetProposalWantDeal pb = new NetProposalWantDeal();
     pb.mergeFromBuffer(message.data);
 
     Int64 proposalId = pb.proposalId;
@@ -478,10 +475,10 @@ class ApiChannelHaggleActions {
       chat.sessionId = account.sessionId;
       chat.sessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
-      chat.text = 'marker=' +
+      chat.marker = 
           (dealMade
-              ? ProposalChatMarker.dealMade.value.toString()
-              : ProposalChatMarker.wantDeal.value.toString());
+              ? ProposalChatMarker.dealMade.value
+              : ProposalChatMarker.wantDeal.value);
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
         markerChat = chat;
@@ -492,7 +489,7 @@ class ApiChannelHaggleActions {
     if (markerChat == null) {
       channel.replyAbort(message, "Not Handled");
     } else {
-      NetProposalCommonRes res = new NetProposalCommonRes();
+      NetProposal res = new NetProposal();
       DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
       res.updateProposal = proposal;
       res.newChats.add(markerChat);
@@ -509,7 +506,7 @@ class ApiChannelHaggleActions {
   }
 
   Future<void> netProposalRejectReq(TalkMessage message) async {
-    NetProposalRejectReq pb = new NetProposalRejectReq();
+    NetProposalReject pb = new NetProposalReject();
     pb.mergeFromBuffer(message.data);
 
     Int64 proposalId = pb.proposalId;
@@ -546,10 +543,9 @@ class ApiChannelHaggleActions {
       chat.sessionId = account.sessionId;
       chat.sessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
-      chat.text = 'marker=' +
-          ProposalChatMarker.rejected.value.toString() +
-          '&reason=' +
+      chat.marker = ProposalChatMarker.rejected.value;
           Uri.encodeQueryComponent(reason);
+      chat.plainText = reason;
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
         markerChat = chat;
@@ -560,7 +556,7 @@ class ApiChannelHaggleActions {
     if (markerChat == null) {
       channel.replyAbort(message, "Not Handled");
     } else {
-      NetProposalCommonRes res = new NetProposalCommonRes();
+      NetProposal res = new NetProposal();
       try {
         channel.replyExtend(message);
       } catch (error, stackTrace) {
@@ -582,7 +578,7 @@ class ApiChannelHaggleActions {
   }
 
   Future<void> netProposalReportReq(TalkMessage message) async {
-    NetProposalReportReq pb = new NetProposalReportReq();
+    NetProposalReport pb = new NetProposalReport();
     pb.mergeFromBuffer(message.data);
 
     Int64 proposalId = pb.proposalId;
@@ -629,12 +625,12 @@ class ApiChannelHaggleActions {
       return;
     }
 
-    NetProposalCommonRes res = new NetProposalCommonRes();
+    NetProposal res = new NetProposal();
     channel.replyMessage(message, "AP_R_COM", res.writeToBuffer());
   }
 
   Future<void> netProposalCompletionReq(TalkMessage message) async {
-    NetProposalCompletionReq pb = new NetProposalCompletionReq();
+    NetProposalCompletion pb = new NetProposalCompletion();
     pb.mergeFromBuffer(message.data);
 
     Int64 proposalId = pb.proposalId;
@@ -643,7 +639,7 @@ class ApiChannelHaggleActions {
 
     // Completion or dispute
     await sql.startTransaction((transaction) async {
-      // 1. Update deal to reflect the account wants a deal
+      // 1. Update deal to reflect the account marked completion
       channel.replyExtend(message);
       String accountAccountId = account.accountType == AccountType.influencer
           ? 'influencer_account_id'
@@ -663,15 +659,12 @@ class ApiChannelHaggleActions {
           ? 'influencer_disputed'
           : 'business_disputed';
       String updateMarkings = "UPDATE `proposals` "
-          "SET `$accountMarkedDelivered` = ?, `$accountMarkedRewarded` = ?" +
-          (pb.rating > 0 ? ", `$accountGaveRating` = ?" : '') +
-          (pb.dispute
-              ? ", `$accountDisputed` = 1, `state` = ${ProposalState.dispute.value}"
-              : '') +
-          " WHERE `proposal_id` = ? "
+          "SET `$accountMarkedDelivered` = 1, `$accountMarkedRewarded` = 1 " +
+          (pb.rating > 0 ? ", `$accountGaveRating` = ?" : '') + // TODO: Always rating
+          "WHERE `proposal_id` = ? "
           "AND `$accountAccountId` = ?"
           "AND `state` = ${ProposalState.deal.value} OR `state` = ${ProposalState.dispute.value}";
-      List<dynamic> parameters = [pb.delivered ? 1 : 0, pb.rewarded ? 1 : 0];
+      List<dynamic> parameters = []; // TODO: [pb.delivered ? 1 : 0, pb.rewarded ? 1 : 0];
       if (pb.rating > 0) parameters.add(pb.rating);
       parameters.addAll([proposalId, accountId]);
       sqljocky.Results resultMarkings =
@@ -684,7 +677,7 @@ class ApiChannelHaggleActions {
       }
 
       bool dealCompleted;
-      if (!pb.dispute) {
+      // TODO: if (!pb.dispute) {
         // 2. Check for deal completion
         channel.replyExtend(message);
         String updateCompletion = "UPDATE `proposals` "
@@ -698,13 +691,18 @@ class ApiChannelHaggleActions {
             await transaction.prepareExecute(updateCompletion, [proposalId]);
         dealCompleted = resultCompletion.affectedRows != null &&
             resultCompletion.affectedRows != 0;
-      }
+      // }
 
+/*
       ProposalChatMarker marker = pb.dispute
           ? ProposalChatMarker.markedDispute
           : (dealCompleted
               ? ProposalChatMarker.complete
               : ProposalChatMarker.markedComplete);
+              */
+      ProposalChatMarker marker=dealCompleted
+              ? ProposalChatMarker.complete
+              : ProposalChatMarker.markedComplete;
 
       // 2. Insert marker chat
       channel.replyExtend(message);
@@ -716,9 +714,10 @@ class ApiChannelHaggleActions {
       chat.sessionId = account.sessionId;
       chat.sessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
-      chat.text = 'marker=' + marker.value.toString();
+      chat.marker = marker.value;
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
+        /*
         if (pb.dispute) {
           DataProposal proposal =
               await _r.apiChannelHaggle.getProposal(proposalId);
@@ -756,15 +755,16 @@ class ApiChannelHaggleActions {
             return;
           }
         }
+        */
         markerChat = chat;
         transaction.commit();
       }
     });
 
     if (markerChat == null) {
-      channel.replyAbort(message, "Not Handled");
+      channel.replyAbort(message, "Not handled.");
     } else {
-      NetProposalCommonRes res = new NetProposalCommonRes();
+      NetProposal res = new NetProposal();
       try {
         channel.replyExtend(message);
       } catch (error, stackTrace) {

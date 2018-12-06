@@ -190,7 +190,7 @@ class BroadcastCenter {
           await _getAccountFirebaseTokens(receiverAccountId);
       Map<String, dynamic> notification = new Map<String, dynamic>();
       notification['title'] = senderName;
-      notification['body'] = chat.text;
+      notification['body'] = chat.plainText; // TODO: Generate text version of non-text messages
       notification['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
       notification['android_channel_id'] = 'chat';
       Map<String, dynamic> data = new Map<String, dynamic>();
@@ -198,6 +198,7 @@ class BroadcastCenter {
       data['account_id'] = receiverAccountId;
       data['proposal_id'] = chat.proposalId;
       data['type'] = chat.type.value;
+      // TODO: Include image key, terms, etc, or not?
       data['domain'] = config.services.domain;
       Map<String, dynamic> message = new Map<String, dynamic>();
       message['registration_ids'] = receiverFirebaseTokens;
@@ -320,7 +321,7 @@ class BroadcastCenter {
       // Unusual case, sender is neither of influencer or business...
       await _pushProposalChatPosted(senderDeviceId, chat.senderId, chat);
 
-    devLog.fine("Pushed proposal '${senderAccount.name}' chat '${chat.text}'");
+    devLog.fine('Pushed proposal "${senderAccount.name}" chat "${chat}"');
   }
 
 /*

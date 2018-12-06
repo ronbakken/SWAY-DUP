@@ -48,7 +48,7 @@ class ApiChannelOAuth {
     return _r.account;
   }
 
-  List<DataSocialMedia> get socialMedia {
+  Map<int, DataSocialMedia> get socialMedia {
     return _r.account.socialMedia;
   }
 
@@ -456,6 +456,7 @@ class ApiChannelOAuth {
         await cacheSocialMedia(
             oauthCredentials.userId, oauthProvider, dataSocialMedia);
 
+        socialMedia[oauthProvider] = DataSocialMedia();
         socialMedia[oauthProvider].mergeFromMessage(dataSocialMedia);
         socialMedia[oauthProvider].connected = true;
         socialMedia[oauthProvider].canSignUp =

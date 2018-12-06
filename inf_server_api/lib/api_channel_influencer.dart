@@ -188,7 +188,7 @@ class ApiChannelInfluencer {
   */
 
   Future<void> netOfferApplyReq(TalkMessage message) async {
-    NetOfferApplyReq pb = new NetOfferApplyReq();
+    NetApplyProposal pb = new NetApplyProposal();
     pb.mergeFromBuffer(message.data);
 
     throw new Exception("Needs to be updated, not permitted right now");
@@ -196,7 +196,7 @@ class ApiChannelInfluencer {
 
     DataProposal proposal = new DataProposal();
     proposal.offerId = pb.offerId;
-    proposal.influencerAccountId = accountId;
+    proposal.influencerId = accountId;
     proposal.state = ProposalState.negotiating;
     DataProposalChat chat = new DataProposalChat();
     chat.senderId = accountId;
@@ -225,12 +225,13 @@ class ApiChannelInfluencer {
     if (businessAccountId == null || businessAccountId == 0) {
       throw new Exception("Business account for offer not found");
     }
-    proposal.businessAccountId = businessAccountId;
+    proposal.businessId = businessAccountId;
 
     String chatText = 'deliverables=${Uri.encodeQueryComponent(deliverables)}&'
         'reward=${Uri.encodeQueryComponent(reward)}&'
         'remarks=${Uri.encodeQueryComponent(pb.remarks.trim())}';
-    chat.text = chatText;
+    chat.plainText = pb.remarks;
+    chat.terms = pb.terms;
 
     channel.replyExtend(message);
     await sql.startTransaction((transaction) async {
@@ -264,7 +265,7 @@ class ApiChannelInfluencer {
           "`sender_id`, `proposal_id`, "
           "`session_id`, `session_ghost_id`, "
           "`type`, `text`) "
-          "VALUES (?, ?, ?, ?, ?, ?)";
+          "VALUES (?, ?, ?, ?, ?, ?)"; // TODO: Insert the right fields!
       sqljocky.Results resultHaggle =
           await transaction.prepareExecute(insertHaggle, [
         accountId,

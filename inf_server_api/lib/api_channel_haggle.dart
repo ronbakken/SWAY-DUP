@@ -99,9 +99,9 @@ class ApiChannelHaggle {
     DataProposal proposal = new DataProposal();
     proposal.proposalId = new Int64(row[0]);
     proposal.offerId = new Int64(row[1]);
-    proposal.influencerAccountId = new Int64(row[2]);
-    proposal.businessAccountId = new Int64(row[3]);
-    proposal.senderAccountId = new Int64(row[4]);
+    proposal.influencerId = new Int64(row[2]);
+    proposal.businessId = new Int64(row[3]);
+    proposal.senderId = new Int64(row[4]);
     proposal.termsChatId = new Int64(row[5]);
     proposal.influencerWantsDeal = row[6].toInt() != 0;
     proposal.businessWantsDeal = row[7].toInt() != 0;
@@ -128,15 +128,15 @@ class ApiChannelHaggle {
       proposal = _proposalFromRow(row);
     }
     if (account.accountType == AccountType.support ||
-        accountId == proposal.businessAccountId ||
-        accountId == proposal.influencerAccountId) {
+        accountId == proposal.businessId ||
+        accountId == proposal.influencerId) {
       return proposal;
     }
     return null;
   }
 
   Future<void> netLoadProposalReq(TalkMessage message) async {
-    NetLoadProposalReq pb = new NetLoadProposalReq();
+    NetGetProposal pb = new NetGetProposal();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
 
@@ -161,8 +161,8 @@ class ApiChannelHaggle {
     if (proposal == null) {
       channel.replyAbort(message, "Not found.");
     } else if (account.accountType == AccountType.support ||
-        accountId == proposal.businessAccountId ||
-        accountId == proposal.influencerAccountId) {
+        accountId == proposal.businessId ||
+        accountId == proposal.influencerId) {
       channel.replyMessage(message, "LU_APPLI", proposal.writeToBuffer());
     } else {
       channel.replyAbort(message, "Not authorized.");
@@ -170,7 +170,7 @@ class ApiChannelHaggle {
   }
 
   Future<void> netLoadProposalsReq(TalkMessage message) async {
-    NetLoadProposalsReq pb = new NetLoadProposalsReq();
+    NetListProposals pb = new NetListProposals();
     pb.mergeFromBuffer(message.data);
     devLog.finest('NetLoadProposalsReq: $pb');
 
@@ -196,7 +196,7 @@ class ApiChannelHaggle {
 
   // NetLoadProposalChatsReq
   Future<void> netLoadProposalChatsReq(TalkMessage message) async {
-    NetLoadProposalChatsReq pb = new NetLoadProposalChatsReq();
+    NetListChats pb = new NetListChats();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
 
@@ -239,7 +239,9 @@ class ApiChannelHaggle {
       String chatQuery = "SELECT "
           "`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, " // 0 1
           "`sender_id`, `session_id`, `session_ghost_id`, " // 2 3 4
-          "`type`, `text` " // 5 6 7
+          "`type`, `plain_text`, `terms`, " // 5 6 7
+          "`image_key`, `image_blurred`, " // 8 9
+          "`marker` " // 10
           "FROM `proposal_chats` "
           "WHERE `proposal_id` = ? "
           "ORDER BY `chat_id` DESC";
@@ -258,17 +260,11 @@ class ApiChannelHaggle {
           chat.sessionGhostId = row[4].toInt();
         }
         chat.type = ProposalChatType.valueOf(row[5].toInt());
-        chat.text = row[6].toString();
-        // if (row[7] != null) chat.seen = new Int64(row[7].toInt());
-        devLog.finest("${chat.text}");
-        if (chat.type == ProposalChatType.imageKey) {
-          String key = Uri.splitQueryString(chat.text)['key'].toString();
-          chat.text = "url=" +
-              Uri.encodeQueryComponent(_r.makeCloudinaryCoverUrl(key)) +
-              '&blurred_url=' +
-              Uri.encodeQueryComponent(_r.makeCloudinaryBlurredCoverUrl(key));
-          ;
-        }
+        if (row[6] != null) chat.plainText = row[6].toString();
+        if (row[7] != null) chat.terms = DataTerms()..mergeFromBuffer(row[7]);
+        if (row[8] != null) chat.imageUrl = _r.makeCloudinaryCoverUrl(row[8]);
+        if (row[9] != null) chat.imageBlurred = row[9];
+        if (row[10] != null) chat.marker = row[10].toInt();
         channel.replyMessage(message, "LU_A_CHA", chat.writeToBuffer());
       }
     } finally {

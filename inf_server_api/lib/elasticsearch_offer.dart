@@ -110,9 +110,6 @@ class ElasticsearchOffer {
     if ((create || verbose) && sessionId != null) {
       doc["session_id"] = sessionId.toInt();
     }
-    if ((create || verbose) && sessionGhostId != null) {
-      doc["session_ghost_id"] = sessionGhostId;
-    }
     if (create) {
       doc["created"] = millis;
     }
