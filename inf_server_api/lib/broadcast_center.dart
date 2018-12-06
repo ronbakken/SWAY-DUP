@@ -140,12 +140,12 @@ class BroadcastCenter {
   // Senders
   /////////////////////////////////////////////////////////////////////////////
 
-  Future<void> _push(Int64 senderDeviceId, Int64 receiverAccountId,
+  Future<void> _push(Int64 senderSessionId, Int64 receiverAccountId,
       String procedureId, Uint8List data) async {
     // Push to apps connected locally
     for (ApiChannel apiChannel in _accountToApiChannels[receiverAccountId]) {
       try {
-        if (apiChannel.account.sessionId != senderDeviceId) {
+        if (apiChannel.account.sessionId != senderSessionId) {
           apiChannel.channel.sendMessage(procedureId, data);
         }
       } catch (error, stackTrace) {
@@ -157,29 +157,40 @@ class BroadcastCenter {
     // TODO: Push to apps connected on remote servers if applicable
   }
 
-  // TODO: Offer changed: Sends to same account to sync sessions when multi devicing...
+  Future<void> _pushAccountChanged(Int64 senderSessionId,
+      Int64 receiverAccountId, DataAccount account) async {
+    await _push(senderSessionId, receiverAccountId, "ACCOUNTU",
+        account.writeToBuffer());
+  }
 
-  Future<void> _pushProposalPosted(Int64 senderDeviceId,
+  // Offer changed: Sends to same account to sync sessions when multi devicing...
+  Future<void> _pushOfferChanged(
+      Int64 senderSessionId, Int64 receiverAccountId, DataOffer offer) async {
+    await _push(
+        senderSessionId, receiverAccountId, "LU_OFFER", offer.writeToBuffer());
+  }
+
+  Future<void> _pushProposalPosted(Int64 senderSessionId,
       Int64 receiverAccountId, DataProposal proposal) async {
     // Push to local apps and and apps on remote servers
     // (Proposal creation always causes a first haggle chat to be sent, so no Firebase post)
-    await _push(senderDeviceId, receiverAccountId, "LN_APPLI",
+    await _push(senderSessionId, receiverAccountId, "LN_PRPSL",
         proposal.writeToBuffer());
   }
 
-  Future<void> _pushProposalChanged(Int64 senderDeviceId,
+  Future<void> _pushProposalChanged(Int64 senderSessionId,
       Int64 receiverAccountId, DataProposal proposal) async {
     // Push only to local apps and and apps on remote servers
     // (Important changes are posted through chat marker, so no Firebase posting here)
-    await _push(senderDeviceId, receiverAccountId, "LU_APPLI",
+    await _push(senderSessionId, receiverAccountId, "LU_PRPSL",
         proposal.writeToBuffer());
   }
 
-  Future<void> _pushProposalChatPosted(Int64 senderDeviceId,
+  Future<void> _pushProposalChatPosted(Int64 senderSessionId,
       Int64 receiverAccountId, DataProposalChat chat) async {
     // Push to local apps and and apps on remote servers
     await _push(
-        senderDeviceId, receiverAccountId, "LN_A_CHA", chat.writeToBuffer());
+        senderSessionId, receiverAccountId, "LN_P_CHA", chat.writeToBuffer());
 
     // Push Firebase (even if sent directly, Firebase notifications don't show while the app is running)
     // Don't send notifications to the sender
@@ -190,7 +201,8 @@ class BroadcastCenter {
           await _getAccountFirebaseTokens(receiverAccountId);
       Map<String, dynamic> notification = new Map<String, dynamic>();
       notification['title'] = senderName;
-      notification['body'] = chat.plainText; // TODO: Generate text version of non-text messages
+      notification['body'] =
+          chat.plainText; // TODO: Generate text version of non-text messages
       notification['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
       notification['android_channel_id'] = 'chat';
       Map<String, dynamic> data = new Map<String, dynamic>();
@@ -260,24 +272,32 @@ class BroadcastCenter {
     _dirtyAccountFirebaseTokens(apiChannel.account.accountId);
   }
 
-  Future<void> proposalPosted(Int64 senderDeviceId, DataProposal proposal,
+  // TODO: Ensure this gets called everywhere it's applicable
+  /// Forwards the account to any other sessions of this user
+  Future<void> accountChanged(
+      Int64 senderSessionId, DataAccount account) async {
+    await _pushAccountChanged(senderSessionId, account.accountId, account);
+  }
+
+  // TODO: Ensure this gets called everywhere it's applicable
+  /// Forwards the offer to any other sessions of this user
+  Future<void> offerChanged(Int64 senderSessionId, DataOffer offer) async {
+    await _pushOfferChanged(senderSessionId, offer.senderId, offer);
+  }
+
+  Future<void> proposalPosted(Int64 senderSessionId, DataProposal proposal,
       DataAccount influencerAccount) async {
     // Store cache
     _proposalToInfluencerBusiness[proposal.proposalId] = new _CachedProposal(
-        proposal.influencerId,
-        proposal.businessId,
-        proposal.senderId);
+        proposal.influencerId, proposal.businessId, proposal.senderId);
 
     // Push notifications
-    await _pushProposalPosted(
-        senderDeviceId, proposal.influencerId, proposal);
-    await _pushProposalPosted(
-        senderDeviceId, proposal.businessId, proposal);
+    await _pushProposalPosted(senderSessionId, proposal.influencerId, proposal);
+    await _pushProposalPosted(senderSessionId, proposal.businessId, proposal);
     if (proposal.senderId != proposal.influencerId &&
         proposal.senderId != proposal.businessId &&
         proposal.senderId != 0 /* Temporary != 0 check */) {
-      await _pushProposalPosted(
-          senderDeviceId, proposal.senderId, proposal);
+      await _pushProposalPosted(senderSessionId, proposal.senderId, proposal);
     }
 
     devLog.fine(
@@ -285,27 +305,23 @@ class BroadcastCenter {
   }
 
   Future<void> proposalChanged(
-      Int64 senderDeviceId, DataProposal proposal) async {
+      Int64 senderSessionId, DataProposal proposal) async {
     // Store cache
     _proposalToInfluencerBusiness[proposal.proposalId] = new _CachedProposal(
-        proposal.influencerId,
-        proposal.businessId,
-        proposal.senderId);
+        proposal.influencerId, proposal.businessId, proposal.senderId);
 
     // Push notifications
     await _pushProposalChanged(
-        senderDeviceId, proposal.influencerId, proposal);
-    await _pushProposalChanged(
-        senderDeviceId, proposal.businessId, proposal);
+        senderSessionId, proposal.influencerId, proposal);
+    await _pushProposalChanged(senderSessionId, proposal.businessId, proposal);
     if (proposal.senderId != proposal.influencerId &&
         proposal.senderId != proposal.businessId &&
         proposal.senderId != 0 /* Temporary != 0 check */) {
-      await _pushProposalChanged(
-          senderDeviceId, proposal.senderId, proposal);
+      await _pushProposalChanged(senderSessionId, proposal.senderId, proposal);
     }
   }
 
-  Future<void> proposalChatPosted(Int64 senderDeviceId, DataProposalChat chat,
+  Future<void> proposalChatPosted(Int64 senderSessionId, DataProposalChat chat,
       DataAccount senderAccount) async {
     // Get cache
     _CachedProposal proposal = await _getProposal(chat.proposalId);
@@ -313,30 +329,16 @@ class BroadcastCenter {
 
     // Push notifications
     await _pushProposalChatPosted(
-        senderDeviceId, proposal.influencerAccountId, chat);
+        senderSessionId, proposal.influencerAccountId, chat);
     await _pushProposalChatPosted(
-        senderDeviceId, proposal.businessAccountId, chat);
+        senderSessionId, proposal.businessAccountId, chat);
     if (chat.senderId != proposal.influencerAccountId &&
         chat.senderId != proposal.businessAccountId)
       // Unusual case, sender is neither of influencer or business...
-      await _pushProposalChatPosted(senderDeviceId, chat.senderId, chat);
+      await _pushProposalChatPosted(senderSessionId, chat.senderId, chat);
 
     devLog.fine('Pushed proposal "${senderAccount.name}" chat "${chat}"');
   }
-
-/*
-  Future<void> proposalChatSeen(int senderId, DataProposalChat chat) async {
-    // Get cache
-    _CachedProposal proposal = await _getProposal(chat.proposalId);
-    if (proposal == null) return; // Ignore
-    
-    // Push notifications
-    if (proposal.senderId != senderId)
-      _pushProposalChatPosted(proposal.influencerAccountId, chat);
-    if (proposal.businessAccountId != senderId)
-      _pushProposalChatPosted(proposal.businessAccountId, chat);
-  }
-  */
 
   /////////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////
