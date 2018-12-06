@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:inf/domain/social_network_provider.dart';
+import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:inf/app/assets.dart';
@@ -273,9 +275,7 @@ class _DynamicSocialNetworkButtons extends StatelessWidget {
             if (network.canAuthorizeUser) {
               buttonList.add(
                 _buildLoginButton(
-                  leading: network.isVectorLogo
-                      ? SvgPicture.memory(network.logoData)
-                      : Image.memory(network.logoData),
+                  leading: InfMemoryImage(network.logoColoredData),
                   text: network.name,
                   onPressed: () => backend
                       .get<AuthenticationService>()
