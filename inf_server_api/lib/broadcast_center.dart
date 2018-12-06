@@ -263,20 +263,20 @@ class BroadcastCenter {
       DataAccount influencerAccount) async {
     // Store cache
     _proposalToInfluencerBusiness[proposal.proposalId] = new _CachedProposal(
-        proposal.influencerAccountId,
-        proposal.businessAccountId,
-        proposal.senderAccountId);
+        proposal.influencerId,
+        proposal.businessId,
+        proposal.senderId);
 
     // Push notifications
     await _pushProposalPosted(
-        senderDeviceId, proposal.influencerAccountId, proposal);
+        senderDeviceId, proposal.influencerId, proposal);
     await _pushProposalPosted(
-        senderDeviceId, proposal.businessAccountId, proposal);
-    if (proposal.senderAccountId != proposal.influencerAccountId &&
-        proposal.senderAccountId != proposal.businessAccountId &&
-        proposal.senderAccountId != 0 /* Temporary != 0 check */) {
+        senderDeviceId, proposal.businessId, proposal);
+    if (proposal.senderId != proposal.influencerId &&
+        proposal.senderId != proposal.businessId &&
+        proposal.senderId != 0 /* Temporary != 0 check */) {
       await _pushProposalPosted(
-          senderDeviceId, proposal.senderAccountId, proposal);
+          senderDeviceId, proposal.senderId, proposal);
     }
 
     devLog.fine(
@@ -287,20 +287,20 @@ class BroadcastCenter {
       Int64 senderDeviceId, DataProposal proposal) async {
     // Store cache
     _proposalToInfluencerBusiness[proposal.proposalId] = new _CachedProposal(
-        proposal.influencerAccountId,
-        proposal.businessAccountId,
-        proposal.senderAccountId);
+        proposal.influencerId,
+        proposal.businessId,
+        proposal.senderId);
 
     // Push notifications
     await _pushProposalChanged(
-        senderDeviceId, proposal.influencerAccountId, proposal);
+        senderDeviceId, proposal.influencerId, proposal);
     await _pushProposalChanged(
-        senderDeviceId, proposal.businessAccountId, proposal);
-    if (proposal.senderAccountId != proposal.influencerAccountId &&
-        proposal.senderAccountId != proposal.businessAccountId &&
-        proposal.senderAccountId != 0 /* Temporary != 0 check */) {
+        senderDeviceId, proposal.businessId, proposal);
+    if (proposal.senderId != proposal.influencerId &&
+        proposal.senderId != proposal.businessId &&
+        proposal.senderId != 0 /* Temporary != 0 check */) {
       await _pushProposalChanged(
-          senderDeviceId, proposal.senderAccountId, proposal);
+          senderDeviceId, proposal.senderId, proposal);
     }
   }
 

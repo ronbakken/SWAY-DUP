@@ -97,14 +97,6 @@ class ApiChannelOffer {
     NetCreateOffer create = new NetCreateOffer()..mergeFromBuffer(message.data);
     devLog.finest(create);
 
-    // TODO: if (pb.locationId != null && pb.locationId != 0) {
-    // TODO:   // TODO: Fetch location and verify it's owned by this user plus verify that user paid for this feature
-    // TODO:   devLog.severe(
-    // TODO:       "User $accountId attempt to use non-implemented offer location feature");
-    // TODO:   channel.replyAbort(message, "Location not implemented.");
-    // TODO:   return;
-    // TODO: }
-
     if (!create.hasOffer()) {
       opsLog.warning(
           "User $accountId did not include an offer in the offer creation message, cannot create offer.");

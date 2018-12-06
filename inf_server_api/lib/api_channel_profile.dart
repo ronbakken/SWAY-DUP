@@ -93,9 +93,6 @@ class ApiChannelProfile {
     DataAccount account = new DataAccount();
 
     account.accountId = pb.accountId;
-    for (int i = 0; i < config.oauthProviders.length; ++i) {
-      account.socialMedia.add(new DataSocialMedia());
-    }
 
     channel.replyExtend(message);
     sqljocky.RetainedConnection connection = await sql.getConnection();
@@ -166,6 +163,7 @@ class ApiChannelProfile {
           [pb.accountId]);
       await for (sqljocky.Row row in connectionResults) {
         int oauthProvider = row[0].toInt();
+        account.socialMedia[oauthProvider] = DataSocialMedia();
         if (row[1] != null)
           account.socialMedia[oauthProvider].displayName = row[1].toString();
         if (row[2] != null)
@@ -178,6 +176,7 @@ class ApiChannelProfile {
         account.socialMedia[oauthProvider].connected =
             true; // TODO: Expired state, TODO: Visibility state
       }
+      account.socialMedia[0] = DataSocialMedia();
     } finally {
       connection.release();
     }

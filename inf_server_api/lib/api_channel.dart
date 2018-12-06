@@ -279,14 +279,10 @@ class ApiChannel {
   Future<void> _initializeSession(Uint8List payload) async {
     registerProcedure("PING", GlobalAccountState.initialize, netPing);
 
-    account = new DataAccount();
+    account = DataAccount();
+    account.socialMedia[0] = DataSocialMedia();
 
-    account.socialMedia.length = 0;
-    for (int i = 0; i < config.oauthProviders.length; ++i) {
-      account.socialMedia.add(new DataSocialMedia());
-    }
-
-    NetSessionPayload sessionPayload = new NetSessionPayload()
+    NetSessionPayload sessionPayload = NetSessionPayload()
       ..mergeFromBuffer(payload)
       ..freeze();
     if (sessionPayload.hasSessionId() && sessionPayload.sessionId != 0) {
@@ -567,7 +563,7 @@ class ApiChannel {
       // Find all connected social media accounts
       if (extend != null) extend();
       List<bool> connectedProviders =
-          new List<bool>(account.socialMedia.length);
+          new List<bool>(config.oauthProviders.length);
       sqljocky.Results connectionResults = await connection.prepareExecute(
           // The additional `account_id` = 0 here is required in order not to load halfway failed connected sessions
           "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.accountId == 0 ? '`account_id` = 0 AND `session_id`' : '`account_id`'} = ?",
@@ -581,7 +577,7 @@ class ApiChannel {
         bool expired = row[3].toInt() != 0 ||
             oauthTokenExpires >=
                 (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-        if (oauthProvider < account.socialMedia.length) {
+        if (oauthProvider < config.oauthProviders.length) {
           account.socialMedia[oauthProvider] =
               await fetchCachedSocialMedia(oauthUserId, oauthProvider);
           account.socialMedia[oauthProvider].expired = expired;
@@ -592,11 +588,11 @@ class ApiChannel {
               "Invalid attempt to update session state with no session id, skip, this indicates an incorrent database entry caused by a bug");
         }
       }
-      // Wipe any lost accounts
-      for (int i = 0; i < account.socialMedia.length; ++i) {
+      // Wipe any lost accounts (note 0 does not get wiped)
+      for (int i = 1; i < config.oauthProviders.length; ++i) {
         if (connectedProviders[i] != true &&
-            (account.socialMedia[i].connected == true)) {
-          account.socialMedia[i] = new DataSocialMedia(); // Wipe
+            account.socialMedia[i]?.connected == true) {
+          account.socialMedia.remove(i);
         }
       }
     } finally {
@@ -999,10 +995,10 @@ class ApiChannel {
 
     // Also query all social media locations in the meantime, no particular order
     List<Future<dynamic>> mediaLocations = new List<Future<dynamic>>();
-    // for (int i = 0; i < account.socialMedia.length; ++i) {
+    // for (int i = 0; i < config.oauthProviders.length; ++i) {
     for (int i in mediaPriority) {
       DataSocialMedia socialMedia = account.socialMedia[i];
-      if (socialMedia.connected &&
+      if (socialMedia != null && socialMedia.connected &&
           socialMedia.location != null &&
           socialMedia.location.isNotEmpty) {
         mediaLocations.add(getGeocodingFromName(socialMedia.location)
@@ -1057,7 +1053,7 @@ class ApiChannel {
     String accountEmail;
     for (int i in mediaPriority) {
       DataSocialMedia socialMedia = account.socialMedia[i];
-      if (socialMedia.connected) {
+      if (socialMedia != null && socialMedia.connected) {
         if (accountName == null &&
             socialMedia.displayName != null &&
             socialMedia.displayName.isNotEmpty)
@@ -1148,8 +1144,8 @@ class ApiChannel {
     await lock.synchronized(() async {
       // Count the number of connected authentication mechanisms
       int connectedNb = 0;
-      for (int i = 0; i < account.socialMedia.length; ++i) {
-        if (account.socialMedia[i].connected) ++connectedNb;
+      for (DataSocialMedia socialMedia in account.socialMedia.values) {
+        if (socialMedia.connected) ++connectedNb;
       }
 
       // Validate that the current state is sufficient to create an account
