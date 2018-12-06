@@ -5,7 +5,7 @@
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
 // ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, override;
+import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
@@ -79,7 +79,6 @@ class NetCreateOffer extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..a<$1.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $1.DataOffer.getDefault,
         $1.DataOffer.create)
-    ..a<int>(2, 'sessionGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetCreateOffer() : super();
@@ -109,14 +108,6 @@ class NetCreateOffer extends $pb.GeneratedMessage {
 
   bool hasOffer() => $_has(0);
   void clearOffer() => clearField(1);
-
-  int get sessionGhostId => $_get(1, 0);
-  set sessionGhostId(int v) {
-    $_setSignedInt32(1, v);
-  }
-
-  bool hasSessionGhostId() => $_has(1);
-  void clearSessionGhostId() => clearField(2);
 }
 
 class NetListOffers extends $pb.GeneratedMessage {

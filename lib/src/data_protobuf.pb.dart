@@ -5,7 +5,7 @@
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
 // ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, override;
+import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
@@ -796,8 +796,8 @@ class DataAccount extends $pb.GeneratedMessage {
     ..aOS(15, 'avatarUrl')
     ..aOS(16, 'blurredAvatarUrl')
     ..p<int>(18, 'categories', $pb.PbFieldType.P3)
-    ..pp<DataSocialMedia>(19, 'socialMedia', $pb.PbFieldType.PM,
-        DataSocialMedia.$checkItem, DataSocialMedia.create)
+    ..m<int, DataSocialMedia>(20, 'socialMedia', $pb.PbFieldType.O3,
+        $pb.PbFieldType.OM, DataSocialMedia.create)
     ..pPS(21, 'coverUrls')
     ..pPS(22, 'blurredCoverUrls')
     ..aOS(24, 'website')
@@ -935,7 +935,7 @@ class DataAccount extends $pb.GeneratedMessage {
 
   List<int> get categories => $_getList(13);
 
-  List<DataSocialMedia> get socialMedia => $_getList(14);
+  Map<int, DataSocialMedia> get socialMedia => $_getMap(14);
 
   List<String> get coverUrls => $_getList(15);
 

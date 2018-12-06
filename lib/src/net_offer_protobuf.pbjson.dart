@@ -25,13 +25,6 @@ const NetCreateOffer$json = const {
   '1': 'NetCreateOffer',
   '2': const [
     const {
-      '1': 'sessionGhostId',
-      '3': 2,
-      '4': 1,
-      '5': 5,
-      '10': 'sessionGhostId'
-    },
-    const {
       '1': 'offer',
       '3': 1,
       '4': 1,

@@ -332,10 +332,10 @@ const DataAccount$json = const {
     const {'1': 'categories', '3': 18, '4': 3, '5': 5, '10': 'categories'},
     const {
       '1': 'social_media',
-      '3': 19,
+      '3': 20,
       '4': 3,
       '5': 11,
-      '6': '.inf_common.DataSocialMedia',
+      '6': '.inf_common.DataAccount.SocialMediaEntry',
       '10': 'socialMedia'
     },
     const {'1': 'cover_urls', '3': 21, '4': 3, '5': 9, '10': 'coverUrls'},
@@ -360,6 +360,23 @@ const DataAccount$json = const {
     const {'1': 'longitude', '3': 30, '4': 1, '5': 1, '10': 'longitude'},
     const {'1': 'location_id', '3': 31, '4': 1, '5': 3, '10': 'locationId'},
   ],
+  '3': const [DataAccount_SocialMediaEntry$json],
+};
+
+const DataAccount_SocialMediaEntry$json = const {
+  '1': 'SocialMediaEntry',
+  '2': const [
+    const {'1': 'key', '3': 1, '4': 1, '5': 5, '10': 'key'},
+    const {
+      '1': 'value',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataSocialMedia',
+      '10': 'value'
+    },
+  ],
+  '7': const {'7': true},
 };
 
 const DataProposal$json = const {
