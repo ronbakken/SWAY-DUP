@@ -542,6 +542,14 @@ const DataProposalChat$json = const {
       '10': 'terms'
     },
     const {'1': 'image_key', '3': 13, '4': 1, '5': 9, '10': 'imageKey'},
-    const {'1': 'marker', '3': 14, '4': 1, '5': 5, '10': 'marker'},
+    const {'1': 'image_url', '3': 14, '4': 1, '5': 9, '10': 'imageUrl'},
+    const {
+      '1': 'image_blurred',
+      '3': 15,
+      '4': 1,
+      '5': 12,
+      '10': 'imageBlurred'
+    },
+    const {'1': 'marker', '3': 16, '4': 1, '5': 5, '10': 'marker'},
   ],
 };

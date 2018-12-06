@@ -1293,7 +1293,9 @@ class DataProposalChat extends $pb.GeneratedMessage {
     ..a<DataTerms>(
         12, 'terms', $pb.PbFieldType.OM, DataTerms.getDefault, DataTerms.create)
     ..aOS(13, 'imageKey')
-    ..a<int>(14, 'marker', $pb.PbFieldType.O3)
+    ..aOS(14, 'imageUrl')
+    ..a<List<int>>(15, 'imageBlurred', $pb.PbFieldType.OY)
+    ..a<int>(16, 'marker', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataProposalChat() : super();
@@ -1397,11 +1399,27 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasImageKey() => $_has(9);
   void clearImageKey() => clearField(13);
 
-  int get marker => $_get(10, 0);
-  set marker(int v) {
-    $_setSignedInt32(10, v);
+  String get imageUrl => $_getS(10, '');
+  set imageUrl(String v) {
+    $_setString(10, v);
   }
 
-  bool hasMarker() => $_has(10);
-  void clearMarker() => clearField(14);
+  bool hasImageUrl() => $_has(10);
+  void clearImageUrl() => clearField(14);
+
+  List<int> get imageBlurred => $_getN(11);
+  set imageBlurred(List<int> v) {
+    $_setBytes(11, v);
+  }
+
+  bool hasImageBlurred() => $_has(11);
+  void clearImageBlurred() => clearField(15);
+
+  int get marker => $_get(12, 0);
+  set marker(int v) {
+    $_setSignedInt32(12, v);
+  }
+
+  bool hasMarker() => $_has(12);
+  void clearMarker() => clearField(16);
 }
