@@ -289,8 +289,10 @@ message DataProposalChat {
   int32 sessionGhostId = 6; // Deduplication client-side (ghost entry)
   
   ProposalChatType type = 8;
-  string text = 5; // The written text
-  // int64 seen = 9; // 0 if not seen
+  string plain_text = 5; // The written text
+  DataTerms terms = 12;
+  string image_key = 13;
+  int32 marker = 14;
   
 }
 
