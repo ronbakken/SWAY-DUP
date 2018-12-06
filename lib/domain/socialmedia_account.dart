@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:inf/domain/social_network_provider.dart';
+
 class SocialMediaAccount {
   final int id;
   final bool isActive;
-  final String channelName;
   final String displayName;
-  final Uint8List logoData;
-  final bool isVectorLogo;
+  final SocialNetworkProvider socialNetWorkProvider;
 
   /* Further info. May have null values. Most data isn't always shared. */
   /// Url to the actual social media profile
@@ -29,11 +29,9 @@ class SocialMediaAccount {
 
   SocialMediaAccount({
     this.id,
+    this.socialNetWorkProvider, 
     this.isActive,
-    this.channelName,
     this.displayName,
-    this.logoData,
-    this.isVectorLogo,
     this.avatarUrl,
     this.avatarLowRes,
     this.profileUrl,
@@ -51,10 +49,8 @@ class SocialMediaAccount {
   SocialMediaAccount copyWith({
     int id,
     bool isActive,
-    String channelName,
+    SocialNetworkProvider socialNetWorkProvider,
     String displayName,
-    Uint8List logoData,
-    bool isVectorLogo,
     String avatarUrl,
     Uint8List avatarLowRes,
     String profileUrl,
@@ -71,10 +67,8 @@ class SocialMediaAccount {
     return SocialMediaAccount(
       id: id ?? this.id,
       isActive: isActive ?? this.isActive,
-      channelName: channelName ?? this.channelName,
       displayName: displayName ?? this.displayName,
-      logoData: logoData ?? this.logoData,
-      isVectorLogo: isVectorLogo ?? this.isVectorLogo,
+      socialNetWorkProvider: socialNetWorkProvider ?? this.socialNetWorkProvider,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       avatarLowRes: avatarLowRes ?? this.avatarLowRes,
       profileUrl: profileUrl ?? this.profileUrl,

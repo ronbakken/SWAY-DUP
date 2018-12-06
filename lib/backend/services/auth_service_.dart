@@ -1,8 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/domain/user.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:rxdart/rxdart.dart';
@@ -11,21 +10,7 @@ import 'package:rxdart/rxdart.dart';
 /// Save latest provider and login and warn user if he tries to signin
 /// with a user he has never used before
 
-class SocialNetworkProvider {
-  final int id;
-  final bool canAuthorizeUser;
-  final String name;
-  final Uint8List logoData;
-  final bool isVectorLogo;
 
-  SocialNetworkProvider({
-    this.id,
-    this.canAuthorizeUser,
-    this.name,
-    this.logoData,
-    this.isVectorLogo,
-  });
-}
 
 enum AuthenticationState {
   connecting,

@@ -4,6 +4,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:inf/network_streaming/network_streaming.dart';
 import 'package:inf/ui/widgets/oauth_scaffold.dart';
@@ -44,8 +45,7 @@ SocialNetworkProvider providerFromProvider(
     canAuthorizeUser:
         oauthProvider.canConnect && oauthProvider.canAlwaysAuthenticate,
     name: oauthProvider.label,
-    logoData: kTransparentImage,
-    isVectorLogo: false,
+    logoColoredData: kTransparentImage,
   );
 }
 
@@ -193,7 +193,6 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   Observable<User> getPublicProfile(Int64 accountId) {
     // TODO
     throw new Exception("Not Implemented yet");
-    return null;
   }
 
 

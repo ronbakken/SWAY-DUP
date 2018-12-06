@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/location.dart';
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -137,6 +138,68 @@ class AuthenticationServiceMock implements AuthenticationService {
   }
 
   Future<void> loadMockData() async {
+    socialNetWorks = [
+      SocialNetworkProvider(
+          id: 1,
+          canAuthorizeUser: true,
+          canBeUsedAsFilter: true,
+          logoColoredData: (await rootBundle.load('assets/images/logo_instagram.png')).buffer.asUint8List(),
+          logoMonochromeData:
+              (await rootBundle.load('assets/mockdata/social_media_icons/logo_instagram_monochrome.svg'))
+                  .buffer
+                  .asUint8List(),
+          logoBackgroundData:
+              (await rootBundle.load('assets/mockdata/social_media_icons/instagram_background.png'))
+                  .buffer
+                  .asUint8List(),
+          name: 'Instagramm'),
+      SocialNetworkProvider(
+          id: 2,
+          canAuthorizeUser: true,
+          canBeUsedAsFilter: true,
+          logoColoredData: (await rootBundle.load('assets/images/logo_facebook.svg')).buffer.asUint8List(),
+          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_facebook_monochrome.svg'))
+              .buffer
+              .asUint8List(),
+          logoBackGroundColor: 0xff4e71a8,
+          name: 'Facebook'),
+      SocialNetworkProvider(
+          id: 3,
+          canBeUsedAsFilter: true,
+          canAuthorizeUser: true,
+          logoColoredData: (await rootBundle.load('assets/images/logo_twitter.svg')).buffer.asUint8List(),
+          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_twitter_monochrome.svg'))
+              .buffer
+              .asUint8List(),
+              logoBackGroundColor: 0xff55acee,
+          name: 'Twitter'),
+      SocialNetworkProvider(
+          id: 4,
+          canBeUsedAsFilter: false,
+          canAuthorizeUser: true,
+          logoColoredData: (await rootBundle.load('assets/images/logo_google.svg')).buffer.asUint8List(),
+          name: 'Google'),
+      SocialNetworkProvider(
+          id: 5,
+          canAuthorizeUser: false,
+          canBeUsedAsFilter: true,
+          logoColoredData: null,
+          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_youtube_monochrome.svg'))
+              .buffer
+              .asUint8List(),
+          logoBackGroundColor: 0xffed1f24,
+          name: 'Youtube'),
+      SocialNetworkProvider(
+          id: 5,
+          canAuthorizeUser: false,
+          canBeUsedAsFilter: true,
+          logoColoredData: null,
+          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_snapchat_monochrome.svg'))
+              .buffer
+              .asUint8List(),
+          logoBackGroundColor: 0xfffffc00,
+          name: 'Snapchat'),
+    ];    
     allLinkedAccounts = [
       User(
           id: new Int64(42),
@@ -168,11 +231,7 @@ class AuthenticationServiceMock implements AuthenticationService {
             SocialMediaAccount(
               id: 1,
               isActive: true,
-              channelName: 'Twitter',
-              logoData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_twitter_monochrome.svg'))
-                  .buffer
-                  .asUint8List(),
-              isVectorLogo: true,
+              socialNetWorkProvider: socialNetWorks[0],
               url: 'https://twitter.com/ThomasBurkhartB',
               displayName: 'Thomas Burkhart',
               description: 'The best online shop for baking',
@@ -209,11 +268,7 @@ class AuthenticationServiceMock implements AuthenticationService {
             SocialMediaAccount(
               id: 1,
               isActive: true,
-              channelName: 'Twitter',
-              logoData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_twitter_monochrome.svg'))
-                  .buffer
-                  .asUint8List(),
-              isVectorLogo: true,
+              socialNetWorkProvider: socialNetWorks[0],
               url: 'https://twitter.com/ThomasBurkhartB',
               displayName: 'Thomas Burkhart',
               description: 'The best online shop for baking',
@@ -222,11 +277,7 @@ class AuthenticationServiceMock implements AuthenticationService {
             SocialMediaAccount(
               id: 2,
               isActive: false,
-              channelName: 'Facebook',
-              logoData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_facebook_monochrome.svg'))
-                  .buffer
-                  .asUint8List(),
-              isVectorLogo: true,
+              socialNetWorkProvider: socialNetWorks[1],
               url: 'https://twitter.com/ThomasBurkhartB',
               displayName: 'Thomas Burkhart',
               description: 'The best online shop for baking',
@@ -235,11 +286,7 @@ class AuthenticationServiceMock implements AuthenticationService {
             SocialMediaAccount(
               id: 3,
               isActive: true,
-              channelName: 'Youtube',
-              logoData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_youtube_monochrome.svg'))
-                  .buffer
-                  .asUint8List(),
-              isVectorLogo: true,
+              socialNetWorkProvider: socialNetWorks[2],
               url: 'https://twitter.com/ThomasBurkhartB',
               displayName: 'Thomas Burkhart',
               description: 'The best online shop for baking',
@@ -248,11 +295,7 @@ class AuthenticationServiceMock implements AuthenticationService {
             SocialMediaAccount(
               id: 4,
               isActive: true,
-              channelName: 'Instagram',
-              logoData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_instagram_monochrome.svg'))
-                  .buffer
-                  .asUint8List(),
-              isVectorLogo: true,
+              socialNetWorkProvider: socialNetWorks[4],
               url: 'https://twitter.com/ThomasBurkhartB',
               displayName: 'Thomas Burkhart',
               description: 'The best online shop for baking',
@@ -260,38 +303,7 @@ class AuthenticationServiceMock implements AuthenticationService {
             ),
           ]),
     ];
-    socialNetWorks = [
-      SocialNetworkProvider(
-          id: 1,
-          canAuthorizeUser: true,
-          isVectorLogo: false,
-          logoData: (await rootBundle.load('assets/images/logo_instagram.png')).buffer.asUint8List(),
-          name: 'Instagramm'),
-      SocialNetworkProvider(
-          id: 2,
-          canAuthorizeUser: true,
-          isVectorLogo: true,
-          logoData: (await rootBundle.load('assets/images/logo_facebook.svg')).buffer.asUint8List(),
-          name: 'Instagramm'),
-      SocialNetworkProvider(
-          id: 3,
-          canAuthorizeUser: true,
-          isVectorLogo: true,
-          logoData: (await rootBundle.load('assets/images/logo_twitter.svg')).buffer.asUint8List(),
-          name: 'Twitter'),
-      SocialNetworkProvider(
-          id: 4,
-          canAuthorizeUser: true,
-          isVectorLogo: true,
-          logoData: (await rootBundle.load('assets/images/logo_google.svg')).buffer.asUint8List(),
-          name: 'Google'),
-      SocialNetworkProvider(
-          id: 5,
-          canAuthorizeUser: false,
-          isVectorLogo: true,
-          logoData: (await rootBundle.load('assets/images/logo_google.svg')).buffer.asUint8List(),
-          name: 'Youtube'),
-    ];
+
   }
 
   @override
