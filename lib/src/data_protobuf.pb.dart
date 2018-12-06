@@ -1278,7 +1278,7 @@ class DataProposalChat extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'proposalId')
     ..aInt64(2, 'senderId')
-    ..aOS(5, 'text')
+    ..aOS(5, 'plainText')
     ..a<int>(6, 'sessionGhostId', $pb.PbFieldType.O3)
     ..aInt64(7, 'chatId')
     ..e<$0.ProposalChatType>(
@@ -1290,6 +1290,10 @@ class DataProposalChat extends $pb.GeneratedMessage {
         $0.ProposalChatType.values)
     ..aInt64(10, 'sent')
     ..aInt64(11, 'sessionId')
+    ..a<DataTerms>(
+        12, 'terms', $pb.PbFieldType.OM, DataTerms.getDefault, DataTerms.create)
+    ..aOS(13, 'imageKey')
+    ..a<int>(14, 'marker', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataProposalChat() : super();
@@ -1329,13 +1333,13 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasSenderId() => $_has(1);
   void clearSenderId() => clearField(2);
 
-  String get text => $_getS(2, '');
-  set text(String v) {
+  String get plainText => $_getS(2, '');
+  set plainText(String v) {
     $_setString(2, v);
   }
 
-  bool hasText() => $_has(2);
-  void clearText() => clearField(5);
+  bool hasPlainText() => $_has(2);
+  void clearPlainText() => clearField(5);
 
   int get sessionGhostId => $_get(3, 0);
   set sessionGhostId(int v) {
@@ -1376,4 +1380,28 @@ class DataProposalChat extends $pb.GeneratedMessage {
 
   bool hasSessionId() => $_has(7);
   void clearSessionId() => clearField(11);
+
+  DataTerms get terms => $_getN(8);
+  set terms(DataTerms v) {
+    setField(12, v);
+  }
+
+  bool hasTerms() => $_has(8);
+  void clearTerms() => clearField(12);
+
+  String get imageKey => $_getS(9, '');
+  set imageKey(String v) {
+    $_setString(9, v);
+  }
+
+  bool hasImageKey() => $_has(9);
+  void clearImageKey() => clearField(13);
+
+  int get marker => $_get(10, 0);
+  set marker(int v) {
+    $_setSignedInt32(10, v);
+  }
+
+  bool hasMarker() => $_has(10);
+  void clearMarker() => clearField(14);
 }

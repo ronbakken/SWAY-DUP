@@ -532,6 +532,16 @@ const DataProposalChat$json = const {
       '6': '.inf_common.ProposalChatType',
       '10': 'type'
     },
-    const {'1': 'text', '3': 5, '4': 1, '5': 9, '10': 'text'},
+    const {'1': 'plain_text', '3': 5, '4': 1, '5': 9, '10': 'plainText'},
+    const {
+      '1': 'terms',
+      '3': 12,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataTerms',
+      '10': 'terms'
+    },
+    const {'1': 'image_key', '3': 13, '4': 1, '5': 9, '10': 'imageKey'},
+    const {'1': 'marker', '3': 14, '4': 1, '5': 5, '10': 'marker'},
   ],
 };
