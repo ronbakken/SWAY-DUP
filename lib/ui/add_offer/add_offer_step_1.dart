@@ -30,6 +30,11 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
   final selectedImages = <File>[];
   int selectedImageIndex = 0;
 
+  String title;
+  String description;
+
+  GlobalKey form = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -62,41 +67,43 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                               child: buildMainImage(),
                             ),
                             SizedBox(
-                              height: constraints.maxHeight * 0.12,
+                              height: selectedImages.isNotEmpty ? constraints.maxHeight * 0.12 : 0,
                               child: buildSelectedImageRow(),
                             ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: [
-                                    Text(
-                                      'TITLE',
-                                      textAlign: TextAlign.left,
-                                      style: AppTheme.textStyleformfieldLabel,
-                                    ),
-                                    SizedBox(height: 8.0),
-                                    TextField(
-                                      decoration: const InputDecoration(
-                                        border: UnderlineInputBorder(
-                                          borderSide: const BorderSide(color: AppTheme.white30),
-                                        ),
+                                child: Form(
+                                  key: form,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    children: [
+                                      Text(
+                                        'TITLE',
+                                        textAlign: TextAlign.left,
+                                        style: AppTheme.textStyleformfieldLabel,
                                       ),
-                                    ),
-                                    SizedBox(height: 32.0),
-                                    Text(
-                                      'DESCRIPTION',
-                                      textAlign: TextAlign.left,
-                                      style: AppTheme.textStyleformfieldLabel,
-                                    ),
-                                    TextField(
-                                      maxLines: null,
-                                      keyboardType: TextInputType.multiline,
-                                    ),
-                                  ],
+                                      SizedBox(height: 8.0),
+                                      TextFormField(
+                                        onSaved: (s) => title = s,
+                                        validator: (s) => s.isEmpty ? 'You have so provide a title' : null,
+                                      ),
+                                      SizedBox(height: 32.0),
+                                      Text(
+                                        'DESCRIPTION',
+                                        textAlign: TextAlign.left,
+                                        style: AppTheme.textStyleformfieldLabel,
+                                      ),
+                                      TextFormField(
+                                        onSaved: (s) => description = s,
+                                        validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
+                                        maxLines: null,
+                                        keyboardType: TextInputType.multiline,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -159,7 +166,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
     );
     return Align(
       alignment: Alignment.topLeft,
-          child: SingleChildScrollView(
+      child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -206,7 +213,13 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
   }
 
   void onNext(BuildContext context) {
-    MultiPageWizard.of(context).nextPage();
+    FormState state = form.currentState;
+    if (state.validate())
+    {
+      state.save();
+      widget.offer.value = widget.offer.value.copyWith(title: title, description: description); 
+      MultiPageWizard.of(context).nextPage();
+    }
   }
 
   /// if [camera] is null a dialog is dispplayed to select which source should be used
@@ -227,5 +240,3 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
     }
   }
 }
-
-
