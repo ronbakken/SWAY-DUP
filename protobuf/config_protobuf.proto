@@ -15,7 +15,7 @@ message ConfigSubCategories {
   repeated string labels = 1;
 }
 
-message ConfigOAuthProvider { // 33
+message ConfigOAuthProvider { // 34
   /// Database key
   string key = 33;
 
@@ -30,6 +30,9 @@ message ConfigOAuthProvider { // 33
   
   /// Whether this social provider can be shown in the user profile at all
   bool show_in_profile = 20;
+  
+  /// Whether this provider is a channel for deliverables, and can filter
+  bool is_deliverables_channel = 34;
   
   /// Visual name
   string label = 3; // Display name
