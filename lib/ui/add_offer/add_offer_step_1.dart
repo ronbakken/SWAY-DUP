@@ -141,9 +141,12 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
           onTap: () => setState(() => selectedImageIndex = i),
           child: AspectRatio(
             aspectRatio: 1.0,
-            child: Image.file(
-              selectedImages[i],
-              fit: BoxFit.cover,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+              child: Image.file(
+                selectedImages[i],
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
@@ -154,13 +157,16 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
         onTap: () => _onAddPicture(),
         child: AspectRatio(
             aspectRatio: 1.0,
-            child: Container(
-              color: AppTheme.grey,
-              child: Center(
-                  child: Icon(
-                Icons.add,
-                color: AppTheme.white30,
-              )),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+              child: Container(
+                color: AppTheme.grey,
+                child: Center(
+                    child: Icon(
+                  Icons.add,
+                  color: AppTheme.white30,
+                )),
+              ),
             )),
       ),
     );

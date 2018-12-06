@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:inf/app/assets.dart';
 
 class InfMemoryImage extends StatelessWidget {
   const InfMemoryImage(

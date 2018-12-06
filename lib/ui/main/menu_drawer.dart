@@ -9,6 +9,7 @@ import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
+import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 import 'package:pedantic/pedantic.dart';
 
@@ -44,12 +45,8 @@ class MainNavigationDrawer extends StatelessWidget {
 
       for (var account in currentUser.socialMediaAccounts) {
         entries.add(_MainNavigationItem(
-          icon: account.isVectorLogo
-              ? SvgPicture.memory(
-                  account.logoData,
-                )
-              : Image.memory(account.logoData),
-          text: account.channelName,
+          icon: InfMemoryImage(account.socialNetWorkProvider.logoMonochromeData, height: 32, ),
+          text: account.socialNetWorkProvider.name,
           trailing: InfSwitch(
             value: account.isActive,
             onChanged: (val) => setSocialMediaAccountState(account, val),
@@ -239,11 +236,8 @@ class _MainNavigationItem extends StatelessWidget {
                 height: 32.0,
                 width: 32.0,
                 decoration: BoxDecoration(shape: BoxShape.circle, color: AppTheme.white12),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: icon,
-                  ),
+                child: Center(
+                  child: icon,
                 ),
               ),
               SizedBox(width: 10.0),

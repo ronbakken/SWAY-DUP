@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
@@ -283,7 +282,7 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 widget.notificationCount > 0 ? new NotificationMarker() : SizedBox(),
-                InfAssetImage(widget.mode.icon, width: 20.0),
+                InfAssetImage(widget.mode.icon, width: 30.0),
                 SizedBox(height: 4.0),
                 Text(
                   widget.mode.text,
