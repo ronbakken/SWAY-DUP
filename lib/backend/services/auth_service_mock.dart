@@ -167,6 +167,7 @@ class AuthenticationServiceMock implements AuthenticationService {
           socialMediaAccounts: [
             SocialMediaAccount(
               id: 1,
+              isActive: true,
               channelName: 'Twitter',
               logoData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_twitter_monochrome.svg'))
                   .buffer

@@ -191,7 +191,8 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   @override
   Observable<User> getPublicProfile(Int64 accountId) {
-    // TODO: implement getPublicProfile
+    // TODO
+    throw new Exception("Not Implemented yet");
     return null;
   }
 
