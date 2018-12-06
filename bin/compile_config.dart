@@ -281,6 +281,8 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
           (int.parse(cfg.get(section, 'canAlwaysAuthenticate')) == 1);
     if (cfg.hasOption(section, 'showInProfile'))
       entry.showInProfile = (int.parse(cfg.get(section, 'showInProfile')) == 1);
+    if (cfg.hasOption(section, 'deliverablesChannel'))
+      entry.deliverablesChannel = int.parse(cfg.get(section, 'deliverablesChannel'));
     entry.label = section;
     if (!server) {
       if (cfg.hasOption(section, 'foregroundImage')) {
