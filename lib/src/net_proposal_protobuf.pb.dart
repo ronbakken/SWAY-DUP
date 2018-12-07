@@ -327,6 +327,44 @@ class NetProposalWantDeal extends $pb.GeneratedMessage {
   void clearTermsChatId() => clearField(2);
 }
 
+class NetProposalNegotiate extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalNegotiate',
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(1, 'proposalId')
+    ..hasRequiredFields = false;
+
+  NetProposalNegotiate() : super();
+  NetProposalNegotiate.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetProposalNegotiate.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetProposalNegotiate clone() =>
+      new NetProposalNegotiate()..mergeFromMessage(this);
+  NetProposalNegotiate copyWith(void Function(NetProposalNegotiate) updates) =>
+      super.copyWith((message) => updates(message as NetProposalNegotiate));
+  $pb.BuilderInfo get info_ => _i;
+  static NetProposalNegotiate create() => new NetProposalNegotiate();
+  static $pb.PbList<NetProposalNegotiate> createRepeated() =>
+      new $pb.PbList<NetProposalNegotiate>();
+  static NetProposalNegotiate getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static NetProposalNegotiate _defaultInstance;
+  static void $checkItem(NetProposalNegotiate v) {
+    if (v is! NetProposalNegotiate)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  Int64 get proposalId => $_getI64(0);
+  set proposalId(Int64 v) {
+    $_setInt64(0, v);
+  }
+
+  bool hasProposalId() => $_has(0);
+  void clearProposalId() => clearField(1);
+}
+
 class NetProposalReject extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalReject',
       package: const $pb.PackageName('inf_common'))

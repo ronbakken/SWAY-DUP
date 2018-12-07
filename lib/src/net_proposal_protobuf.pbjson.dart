@@ -107,6 +107,13 @@ const NetProposalWantDeal$json = const {
   ],
 };
 
+const NetProposalNegotiate$json = const {
+  '1': 'NetProposalNegotiate',
+  '2': const [
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+  ],
+};
+
 const NetProposalReject$json = const {
   '1': 'NetProposalReject',
   '2': const [
