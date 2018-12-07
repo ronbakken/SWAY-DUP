@@ -91,6 +91,11 @@ message NetProposalWantDeal {
   
 }
 
+message NetProposalNegotiate {
+  int64 proposal_id = 1;
+  
+}
+
 // Reject an application (closes the chat too)
 // Response: NetProposal, proposal update + marker
 message NetProposalReject {
