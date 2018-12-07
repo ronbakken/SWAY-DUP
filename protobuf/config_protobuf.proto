@@ -136,7 +136,7 @@ message ConfigCategory {
   
 }
 
-message ConfigServices { // 40
+message ConfigServices { // 42
   // INF
   string domain = 24;
   string end_point = 8;
@@ -153,12 +153,19 @@ message ConfigServices { // 40
   string spaces_secret = 6;
   string spaces_bucket = 7;
   
-  // MariaDB (MySQL)
-  string mariadb_host = 14;
-  int32 mariadb_port = 15;
-  string mariadb_user = 16;
-  string mariadb_password = 17;
-  string mariadb_database = 18;
+  // Account Database (MariaDB / MySQL)
+  string account_db_host = 14;
+  int32 account_db_port = 15;
+  string account_db_user = 16;
+  string account_db_password = 17;
+  string account_db_database = 18;
+  
+  // Proposal Database (MariaDB / MySQL)
+  string proposal_db_host = 43;
+  int32 proposal_db_port = 44;
+  string proposal_db_user = 45;
+  string proposal_db_password = 46;
+  string proposal_db_database = 47;
   
   // Elasticsearch
   string elasticsearch_api = 36;
@@ -181,12 +188,14 @@ message ConfigServices { // 40
   string mapboxUrlTemplateLight = 30;
   string mapboxToken = 3;
   
-  // Cloudinary (Url Templates)
-  string cloudinaryUrl = 19;
-  string cloudinaryThumbnailUrl = 20;
-  string cloudinaryBlurredThumbnailUrl = 31;
-  string cloudinaryCoverUrl = 21;
-  string cloudinaryBlurredCoverUrl = 32;
+  // Image Url Templates (Cloudinary / ImageKit)
+  string galleryUrl = 19;
+  string galleryThumbnailUrl = 20;
+  string galleryThumbnailBlurredUrl = 31;
+  string galleryCoverUrl = 21;
+  string galleryCoverBlurredUrl = 32;
+  string galleryPictureUrl = 41;
+  string galleryPictureBlurredUrl = 42;
   
   // IPStack (FreeGeoIP)
   string ipstackApi = 13;
