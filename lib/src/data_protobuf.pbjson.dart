@@ -466,6 +466,13 @@ const DataProposal$json = const {
       '10': 'businessWantsDeal'
     },
     const {
+      '1': 'rejectingAccountId',
+      '3': 30,
+      '4': 1,
+      '5': 3,
+      '10': 'rejectingAccountId'
+    },
+    const {
       '1': 'influencerMarkedDelivered',
       '3': 7,
       '4': 1,

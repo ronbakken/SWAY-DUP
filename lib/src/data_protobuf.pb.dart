@@ -1035,6 +1035,7 @@ class DataProposal extends $pb.GeneratedMessage {
     ..aInt64(27, 'offerAccountId')
     ..aOB(28, 'influencerArchived')
     ..aOB(29, 'businessArchived')
+    ..aInt64(30, 'rejectingAccountId')
     ..hasRequiredFields = false;
 
   DataProposal() : super();
@@ -1280,6 +1281,14 @@ class DataProposal extends $pb.GeneratedMessage {
 
   bool hasBusinessArchived() => $_has(27);
   void clearBusinessArchived() => clearField(29);
+
+  Int64 get rejectingAccountId => $_getI64(28);
+  set rejectingAccountId(Int64 v) {
+    $_setInt64(28, v);
+  }
+
+  bool hasRejectingAccountId() => $_has(28);
+  void clearRejectingAccountId() => clearField(30);
 }
 
 class DataProposalChat extends $pb.GeneratedMessage {
