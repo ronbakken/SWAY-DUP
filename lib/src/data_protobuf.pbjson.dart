@@ -384,10 +384,34 @@ const DataProposal$json = const {
   '2': const [
     const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
     const {'1': 'offerId', '3': 2, '4': 1, '5': 3, '10': 'offerId'},
-    const {'1': 'senderId', '3': 20, '4': 1, '5': 3, '10': 'senderId'},
-    const {'1': 'makerId', '3': 27, '4': 1, '5': 3, '10': 'makerId'},
-    const {'1': 'influencerId', '3': 3, '4': 1, '5': 3, '10': 'influencerId'},
-    const {'1': 'businessId', '3': 16, '4': 1, '5': 3, '10': 'businessId'},
+    const {
+      '1': 'senderAccountId',
+      '3': 20,
+      '4': 1,
+      '5': 3,
+      '10': 'senderAccountId'
+    },
+    const {
+      '1': 'offerAccountId',
+      '3': 27,
+      '4': 1,
+      '5': 3,
+      '10': 'offerAccountId'
+    },
+    const {
+      '1': 'influencerAccountId',
+      '3': 3,
+      '4': 1,
+      '5': 3,
+      '10': 'influencerAccountId'
+    },
+    const {
+      '1': 'businessAccountId',
+      '3': 16,
+      '4': 1,
+      '5': 3,
+      '10': 'businessAccountId'
+    },
     const {
       '1': 'influencerName',
       '3': 17,

@@ -1003,7 +1003,7 @@ class DataProposal extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'proposalId')
     ..aInt64(2, 'offerId')
-    ..aInt64(3, 'influencerId')
+    ..aInt64(3, 'influencerAccountId')
     ..aInt64(4, 'termsChatId')
     ..aOB(5, 'businessWantsDeal')
     ..aOB(6, 'influencerWantsDeal')
@@ -1022,17 +1022,17 @@ class DataProposal extends $pb.GeneratedMessage {
         $0.ProposalState.values)
     ..aOB(14, 'businessDisputed')
     ..aOB(15, 'influencerDisputed')
-    ..aInt64(16, 'businessId')
+    ..aInt64(16, 'businessAccountId')
     ..aOS(17, 'influencerName')
     ..aOS(18, 'businessName')
     ..aOS(19, 'offerTitle')
-    ..aInt64(20, 'senderId')
+    ..aInt64(20, 'senderAccountId')
     ..aInt64(22, 'lastChatId')
     ..aInt64(23, 'influencerSeenChatId')
     ..aInt64(24, 'influencerSeenTime')
     ..aInt64(25, 'businessSeenChatId')
     ..aInt64(26, 'businessSeenTime')
-    ..aInt64(27, 'makerId')
+    ..aInt64(27, 'offerAccountId')
     ..aOB(28, 'influencerArchived')
     ..aOB(29, 'businessArchived')
     ..hasRequiredFields = false;
@@ -1073,13 +1073,13 @@ class DataProposal extends $pb.GeneratedMessage {
   bool hasOfferId() => $_has(1);
   void clearOfferId() => clearField(2);
 
-  Int64 get influencerId => $_getI64(2);
-  set influencerId(Int64 v) {
+  Int64 get influencerAccountId => $_getI64(2);
+  set influencerAccountId(Int64 v) {
     $_setInt64(2, v);
   }
 
-  bool hasInfluencerId() => $_has(2);
-  void clearInfluencerId() => clearField(3);
+  bool hasInfluencerAccountId() => $_has(2);
+  void clearInfluencerAccountId() => clearField(3);
 
   Int64 get termsChatId => $_getI64(3);
   set termsChatId(Int64 v) {
@@ -1177,13 +1177,13 @@ class DataProposal extends $pb.GeneratedMessage {
   bool hasInfluencerDisputed() => $_has(14);
   void clearInfluencerDisputed() => clearField(15);
 
-  Int64 get businessId => $_getI64(15);
-  set businessId(Int64 v) {
+  Int64 get businessAccountId => $_getI64(15);
+  set businessAccountId(Int64 v) {
     $_setInt64(15, v);
   }
 
-  bool hasBusinessId() => $_has(15);
-  void clearBusinessId() => clearField(16);
+  bool hasBusinessAccountId() => $_has(15);
+  void clearBusinessAccountId() => clearField(16);
 
   String get influencerName => $_getS(16, '');
   set influencerName(String v) {
@@ -1209,13 +1209,13 @@ class DataProposal extends $pb.GeneratedMessage {
   bool hasOfferTitle() => $_has(18);
   void clearOfferTitle() => clearField(19);
 
-  Int64 get senderId => $_getI64(19);
-  set senderId(Int64 v) {
+  Int64 get senderAccountId => $_getI64(19);
+  set senderAccountId(Int64 v) {
     $_setInt64(19, v);
   }
 
-  bool hasSenderId() => $_has(19);
-  void clearSenderId() => clearField(20);
+  bool hasSenderAccountId() => $_has(19);
+  void clearSenderAccountId() => clearField(20);
 
   Int64 get lastChatId => $_getI64(20);
   set lastChatId(Int64 v) {
@@ -1257,13 +1257,13 @@ class DataProposal extends $pb.GeneratedMessage {
   bool hasBusinessSeenTime() => $_has(24);
   void clearBusinessSeenTime() => clearField(26);
 
-  Int64 get makerId => $_getI64(25);
-  set makerId(Int64 v) {
+  Int64 get offerAccountId => $_getI64(25);
+  set offerAccountId(Int64 v) {
     $_setInt64(25, v);
   }
 
-  bool hasMakerId() => $_has(25);
-  void clearMakerId() => clearField(27);
+  bool hasOfferAccountId() => $_has(25);
+  void clearOfferAccountId() => clearField(27);
 
   bool get influencerArchived => $_get(26, false);
   set influencerArchived(bool v) {
