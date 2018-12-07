@@ -124,6 +124,20 @@ const DataOffer$json = const {
     },
     const {'1': 'location_id', '3': 3, '4': 1, '5': 3, '10': 'locationId'},
     const {'1': 'direct', '3': 32, '4': 1, '5': 8, '10': 'direct'},
+    const {
+      '1': 'accept_matching_proposals',
+      '3': 46,
+      '4': 1,
+      '5': 8,
+      '10': 'acceptMatchingProposals'
+    },
+    const {
+      '1': 'allow_negotiating_proposals',
+      '3': 47,
+      '4': 1,
+      '5': 8,
+      '10': 'allowNegotiatingProposals'
+    },
     const {'1': 'title', '3': 4, '4': 1, '5': 9, '10': 'title'},
     const {'1': 'thumbnail_key', '3': 37, '4': 1, '5': 9, '10': 'thumbnailKey'},
     const {'1': 'thumbnail_url', '3': 6, '4': 1, '5': 9, '10': 'thumbnailUrl'},
