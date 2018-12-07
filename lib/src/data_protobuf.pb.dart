@@ -1286,7 +1286,7 @@ class DataProposalChat extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataProposalChat',
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'proposalId')
-    ..aInt64(2, 'senderId')
+    ..aInt64(2, 'senderAccountId')
     ..aOS(5, 'plainText')
     ..a<int>(6, 'sessionGhostId', $pb.PbFieldType.O3)
     ..aInt64(7, 'chatId')
@@ -1336,13 +1336,13 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasProposalId() => $_has(0);
   void clearProposalId() => clearField(1);
 
-  Int64 get senderId => $_getI64(1);
-  set senderId(Int64 v) {
+  Int64 get senderAccountId => $_getI64(1);
+  set senderAccountId(Int64 v) {
     $_setInt64(1, v);
   }
 
-  bool hasSenderId() => $_has(1);
-  void clearSenderId() => clearField(2);
+  bool hasSenderAccountId() => $_has(1);
+  void clearSenderAccountId() => clearField(2);
 
   String get plainText => $_getS(2, '');
   set plainText(String v) {

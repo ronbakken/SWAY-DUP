@@ -551,7 +551,13 @@ const DataProposalChat$json = const {
   '2': const [
     const {'1': 'chatId', '3': 7, '4': 1, '5': 3, '10': 'chatId'},
     const {'1': 'sent', '3': 10, '4': 1, '5': 3, '10': 'sent'},
-    const {'1': 'senderId', '3': 2, '4': 1, '5': 3, '10': 'senderId'},
+    const {
+      '1': 'senderAccountId',
+      '3': 2,
+      '4': 1,
+      '5': 3,
+      '10': 'senderAccountId'
+    },
     const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
     const {'1': 'sessionId', '3': 11, '4': 1, '5': 3, '10': 'sessionId'},
     const {
