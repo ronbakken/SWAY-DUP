@@ -626,6 +626,13 @@ const DataProposalChat$json = const {
       '5': 12,
       '10': 'imageBlurred'
     },
-    const {'1': 'marker', '3': 16, '4': 1, '5': 5, '10': 'marker'},
+    const {
+      '1': 'marker',
+      '3': 16,
+      '4': 1,
+      '5': 14,
+      '6': '.inf_common.ProposalChatMarker',
+      '10': 'marker'
+    },
   ],
 };

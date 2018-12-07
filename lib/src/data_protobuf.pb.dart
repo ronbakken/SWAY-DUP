@@ -1331,7 +1331,13 @@ class DataProposalChat extends $pb.GeneratedMessage {
     ..aOS(13, 'imageKey')
     ..aOS(14, 'imageUrl')
     ..a<List<int>>(15, 'imageBlurred', $pb.PbFieldType.OY)
-    ..a<int>(16, 'marker', $pb.PbFieldType.O3)
+    ..e<$0.ProposalChatMarker>(
+        16,
+        'marker',
+        $pb.PbFieldType.OE,
+        $0.ProposalChatMarker.applied,
+        $0.ProposalChatMarker.valueOf,
+        $0.ProposalChatMarker.values)
     ..hasRequiredFields = false;
 
   DataProposalChat() : super();
@@ -1451,9 +1457,9 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasImageBlurred() => $_has(11);
   void clearImageBlurred() => clearField(15);
 
-  int get marker => $_get(12, 0);
-  set marker(int v) {
-    $_setSignedInt32(12, v);
+  $0.ProposalChatMarker get marker => $_getN(12);
+  set marker($0.ProposalChatMarker v) {
+    setField(16, v);
   }
 
   bool hasMarker() => $_has(12);
