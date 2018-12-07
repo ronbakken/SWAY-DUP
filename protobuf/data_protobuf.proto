@@ -281,7 +281,7 @@ message DataProposal { // 29
 message DataProposalChat {
   int64 chatId = 7; // Sequential identifier in the chat stream
   int64 sent = 10; // Sent timestamp
-  int64 senderId = 2; // Account which sent
+  int64 senderAccountId = 2; // Account which sent
   int64 proposalId = 1; // One chat per proposal
   
   int64 sessionId = 11; // Cleared upon forwarding
