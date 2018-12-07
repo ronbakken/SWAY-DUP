@@ -25,8 +25,12 @@ class ApiChannelOAuth {
     return _r.config;
   }
 
-  sqljocky.ConnectionPool get sql {
-    return _r.sql;
+  sqljocky.ConnectionPool get accountDb {
+    return _r.accountDb;
+  }
+
+  sqljocky.ConnectionPool get proposalDb {
+    return _r.proposalDb;
   }
 
   Elasticsearch get elasticsearch {
@@ -306,7 +310,7 @@ class ApiChannelOAuth {
         // Insert the data we have
         try {
           channel.replyExtend(message);
-          sqljocky.Results insertRes = await sql.prepareExecute(
+          sqljocky.Results insertRes = await accountDb.prepareExecute(
               "INSERT INTO `oauth_connections`("
               "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `session_id`, `oauth_token`, `oauth_token_secret`, `oauth_token_expires`"
               ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -341,7 +345,7 @@ class ApiChannelOAuth {
                   "SET `updated` = CURRENT_TIMESTAMP(), `session_id` = ?, "
                   "`oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?";
-              sqljocky.Results updateRes = await sql.prepareExecute(query, [
+              sqljocky.Results updateRes = await accountDb.prepareExecute(query, [
                 account.sessionId,
                 oauthCredentials.token.toString(),
                 oauthCredentials.tokenSecret.toString(),
@@ -359,7 +363,7 @@ class ApiChannelOAuth {
               // Find out if we are logged into an account now
               devLog.finest("Verify takeover");
               channel.replyExtend(message);
-              sqljocky.Results connectionRes = await sql.prepareExecute(
+              sqljocky.Results connectionRes = await accountDb.prepareExecute(
                   "SELECT `account_id` FROM `oauth_connections` "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?",
                   [
@@ -381,7 +385,7 @@ class ApiChannelOAuth {
                     "SET `account_id` = ? "
                     "WHERE `session_id` = ? AND `account_id` = 0";
                 channel.replyExtend(message);
-                await sql.prepareExecute(
+                await accountDb.prepareExecute(
                     query, [takeoverAccountId, account.sessionId]);
                 // NOTE: Technically, here we may escalate any OAuth connections of this session to the account,
                 // as long as the account has no connections yet for the connected providers (long-term)
@@ -397,7 +401,7 @@ class ApiChannelOAuth {
               String query = "UPDATE `oauth_connections` "
                   "SET `updated` = CURRENT_TIMESTAMP(), `account_id` = ?, `session_id` = ?, `oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
-              sqljocky.Results updateRes = await sql.prepareExecute(query, [
+              sqljocky.Results updateRes = await accountDb.prepareExecute(query, [
                 account.accountId,
                 account.sessionId,
                 oauthCredentials.token.toString(),
@@ -428,7 +432,7 @@ class ApiChannelOAuth {
         if (account.accountId != 0) {
           String query =
               "DELETE FROM `oauth_connections` WHERE `account_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
-          await sql.prepareExecute(query, [
+          await accountDb.prepareExecute(query, [
             account.accountId,
             oauthCredentials.userId.toString(),
             oauthProvider.toInt()
@@ -439,7 +443,7 @@ class ApiChannelOAuth {
         if (account.sessionId != 0) {
           String query =
               "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
-          await sql.prepareExecute(query, [
+          await accountDb.prepareExecute(query, [
             account.sessionId,
             oauthCredentials.userId.toString(),
             oauthProvider.toInt()
@@ -770,7 +774,7 @@ class ApiChannelOAuth {
     if (comma) {
       String query =
           "INSERT INTO `social_media`(`oauth_user_id`, `oauth_provider`, $queryNames) VALUES (?, ?, $queryValues) ON DUPLICATE KEY UPDATE $queryUpdates";
-      await sql.prepareExecute(
+      await accountDb.prepareExecute(
           query,
           [oauthUserId.toString(), oauthProvider.toInt()]
             ..addAll(queryParams)

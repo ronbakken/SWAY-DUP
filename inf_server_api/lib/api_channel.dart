@@ -49,8 +49,12 @@ class ApiChannel {
     return service.config;
   }
 
-  sqljocky.ConnectionPool get sql {
-    return service.sql;
+  sqljocky.ConnectionPool get accountDb {
+    return service.accountDb;
+  }
+
+  sqljocky.ConnectionPool get proposalDb {
+    return service.proposalDb;
   }
 
   dospace.Bucket get bucket {
@@ -296,7 +300,7 @@ class ApiChannel {
         Uint8List deviceHash = Uint8List.fromList(
             sha256.convert(create.deviceToken + config.services.salt).bytes);
         channel.replyExtend(message);
-        sqljocky.Results results = await sql.prepareExecute(
+        sqljocky.Results results = await accountDb.prepareExecute(
             "INSERT INTO `sessions` (`cookie_hash`, `device_hash`, `name`, `info`) VALUES (?, ?, ?, ?)",
             [cookieHash, deviceHash, create.deviceName, create.deviceInfo]);
         if (results.insertId != null && account.sessionId == 0) {
@@ -328,7 +332,7 @@ class ApiChannel {
       Uint8List cookieHash = Uint8List.fromList(
           sha256.convert(sessionPayload.cookie + config.services.salt).bytes);
       // Get the pub_key from the session that can be used to decrypt the signed challenge
-      sqljocky.Results pubKeyResults = await sql.prepareExecute(
+      sqljocky.Results pubKeyResults = await accountDb.prepareExecute(
           "SELECT `session_id` FROM `sessions` WHERE `session_id` = ? AND `cookie_hash` = ?",
           [sessionPayload.sessionId, cookieHash]);
       Int64 sessionId;
@@ -373,7 +377,7 @@ class ApiChannel {
 
   Future<DataSocialMedia> fetchCachedSocialMedia(
       String oauthUserId, int oauthProvider) async {
-    sqljocky.Results results = await sql.prepareExecute(
+    sqljocky.Results results = await accountDb.prepareExecute(
         "SELECT `screen_name`, `display_name`, `avatar_url`, `profile_url`, " // 0123
         "`description`, `location`, `website`, `email`, `friends_count`, `followers_count`, " // 456789
         "`following_count`, `posts_count`, `verified` " // 10 11 12
@@ -406,7 +410,7 @@ class ApiChannel {
       Int64 locationId, Int64 accountId) async {
     devLog.finest(
         "fetchLocationSummaryFromSql: locationId: $locationId, accountId: $accountId.");
-    sqljocky.Results results = await sql.prepareExecute(
+    sqljocky.Results results = await accountDb.prepareExecute(
         "SELECT `name`, `approximate`, `detail`, " // 0 1 2
         "`postcode`, `region_code`, `country_code`, " // 3 4 5
         "`latitude`, `longitude`, `s2cell_id`, geohash " // 6 7 8 9
@@ -438,7 +442,7 @@ class ApiChannel {
       Int64 locationId, Int64 accountId, bool detail) async {
     devLog.finest(
         "fetchLocationSummaryFromSql: locationId: $locationId, accountId: $accountId, detail: $detail.");
-    sqljocky.Results results = await sql.prepareExecute(
+    sqljocky.Results results = await accountDb.prepareExecute(
         "SELECT " +
             (detail ? "`detail`" : "`approximate`") +
             ", " // 0 1
@@ -472,7 +476,7 @@ class ApiChannel {
     }
     // First get the account id (and account type, in case the account id has not been created yet)
     if (extend != null) extend();
-    sqljocky.RetainedConnection connection = await sql.getConnection();
+    sqljocky.RetainedConnection connection = await accountDb.getConnection();
     try {
       sqljocky.Results sessionResults = await connection.prepareExecute(
           "SELECT `account_id`, `account_type`, `firebase_token` FROM `sessions` WHERE `session_id` = ?",
@@ -760,7 +764,7 @@ class ApiChannel {
   String makeCloudinaryThumbnailUrl(String key) {
     int lastIndex = key.lastIndexOf('.');
     String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
-    return config.services.cloudinaryThumbnailUrl
+    return config.services.galleryThumbnailUrl
         .replaceAll('{key}', key)
         .replaceAll('{keyNoExt}', keyNoExt);
   }
@@ -768,7 +772,7 @@ class ApiChannel {
   String makeCloudinaryBlurredThumbnailUrl(String key) {
     int lastIndex = key.lastIndexOf('.');
     String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
-    return config.services.cloudinaryBlurredThumbnailUrl
+    return config.services.galleryThumbnailBlurredUrl
         .replaceAll('{key}', key)
         .replaceAll('{keyNoExt}', keyNoExt);
   }
@@ -776,7 +780,7 @@ class ApiChannel {
   String makeCloudinaryCoverUrl(String key) {
     int lastIndex = key.lastIndexOf('.');
     String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
-    return config.services.cloudinaryCoverUrl
+    return config.services.galleryCoverUrl
         .replaceAll('{key}', key)
         .replaceAll('{keyNoExt}', keyNoExt);
   }
@@ -784,7 +788,7 @@ class ApiChannel {
   String makeCloudinaryBlurredCoverUrl(String key) {
     int lastIndex = key.lastIndexOf('.');
     String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
-    return config.services.cloudinaryBlurredCoverUrl
+    return config.services.galleryCoverBlurredUrl
         .replaceAll('{key}', key)
         .replaceAll('{keyNoExt}', keyNoExt);
   }
@@ -862,7 +866,7 @@ class ApiChannel {
       }
       update = true;
       try {
-        await sql.startTransaction((sqljocky.Transaction tx) async {
+        await accountDb.startTransaction((sqljocky.Transaction tx) async {
           await tx.prepareExecute(
               "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `account_id` = 0",
               [account.sessionId]);
@@ -897,7 +901,7 @@ class ApiChannel {
 
     String update =
         "UPDATE `sessions` SET `firebase_token`= ? WHERE `session_id` = ?";
-    await sql.prepareExecute(update, [
+    await accountDb.prepareExecute(update, [
       pb.firebaseToken.toString(),
       account.sessionId,
     ]);
@@ -905,7 +909,7 @@ class ApiChannel {
     if (pb.hasOldFirebaseToken() && pb.oldFirebaseToken != null) {
       update =
           "UPDATE `sessions` SET `firebase_token`= ? WHERE `firebase_token` = ?";
-      await sql.prepareExecute(update, [
+      await accountDb.prepareExecute(update, [
         pb.firebaseToken.toString(),
         pb.oldFirebaseToken.toString(),
       ]);
@@ -1140,7 +1144,7 @@ class ApiChannel {
         try {
           // Process the account creation
           channel.replyExtend(message);
-          await sql.startTransaction((sqljocky.Transaction tx) async {
+          await accountDb.startTransaction((sqljocky.Transaction tx) async {
             if (account.accountId != 0) {
               throw new Exception(
                   "Race condition, account already created, not an issue");
@@ -1298,7 +1302,7 @@ class ApiChannel {
         String avatarKey =
             await downloadUserImage(account.accountId, accountAvatarUrl);
         channel.replyExtend(message);
-        await sql.prepareExecute(
+        await accountDb.prepareExecute(
             "UPDATE `accounts` SET `avatar_key` = ? "
             "WHERE `account_id` = ?",
             [avatarKey.toString(), account.accountId]);

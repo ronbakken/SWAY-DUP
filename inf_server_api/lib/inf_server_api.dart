@@ -137,15 +137,25 @@ run() async {
   ConfigData config = new ConfigData();
   config.mergeFromBuffer(configBytes);
 
-  // Run SQL client
-  final sqljocky.ConnectionPool sql = new sqljocky.ConnectionPool(
-      host: config.services.mariadbHost,
-      port: config.services.mariadbPort,
-      user: config.services.mariadbUser,
-      password: config.services.mariadbPassword,
-      db: config.services.mariadbDatabase,
-      max: 5);
-  selfTestSql(sql);
+  // Run Account DB SQL client
+  final sqljocky.ConnectionPool accountDb = new sqljocky.ConnectionPool(
+      host: config.services.accountDbHost,
+      port: config.services.accountDbPort,
+      user: config.services.accountDbUser,
+      password: config.services.accountDbPassword,
+      db: config.services.accountDbDatabase,
+      max: 17);
+  selfTestSql(accountDb);
+
+  // Run Proposal DB SQL client
+  final sqljocky.ConnectionPool proposalDb = new sqljocky.ConnectionPool(
+      host: config.services.proposalDbHost,
+      port: config.services.proposalDbPort,
+      user: config.services.proposalDbUser,
+      password: config.services.proposalDbPassword,
+      db: config.services.proposalDbDatabase,
+      max: 17);
+  selfTestSql(proposalDb);
 
   // Spaces
   final dospace.Spaces spaces = new dospace.Spaces(
@@ -164,7 +174,7 @@ run() async {
   // Elasticsearch
   final Elasticsearch elasticsearch = new Elasticsearch(config);
 
-  final BroadcastCenter bc = new BroadcastCenter(config, sql, bucket);
+  final BroadcastCenter bc = new BroadcastCenter(config, accountDb, proposalDb, bucket);
 
   // Listen to websocket
   Switchboard switchboard = new Switchboard();
@@ -173,7 +183,7 @@ run() async {
   selfTestTalk();
 
   final ApiService apiService =
-      new ApiService(config, sql, bucket, elasticsearch, switchboard, bc);
+      new ApiService(config, accountDb, proposalDb, bucket, elasticsearch, switchboard, bc);
   await apiService.listen();
   await apiService.close();
 

@@ -34,8 +34,12 @@ class ApiChannelProposal {
     return _r.config;
   }
 
-  sqljocky.ConnectionPool get sql {
-    return _r.sql;
+  sqljocky.ConnectionPool get accountDb {
+    return _r.accountDb;
+  }
+
+  sqljocky.ConnectionPool get proposalDb {
+    return _r.proposalDb;
   }
 
   TalkChannel get channel {
@@ -162,7 +166,7 @@ class ApiChannelProposal {
     }
 
     channel.replyExtend(message);
-    await sql.startTransaction((transaction) async {
+    await proposalDb.startTransaction((transaction) async {
       // 1. Insert into proposals
       channel.replyExtend(message);
       sqljocky.Results resultProposal = await transaction.prepareExecute(
@@ -245,7 +249,7 @@ class ApiChannelProposal {
     devLog.finest('NetListProposals: $listProposals');
 
     channel.replyExtend(message);
-    sqljocky.RetainedConnection connection = await sql.getConnection();
+    sqljocky.RetainedConnection connection = await proposalDb.getConnection();
     try {
       // Fetch proposal
       channel.replyExtend(message);
@@ -280,7 +284,7 @@ class ApiChannelProposal {
     NetProposal res;
 
     channel.replyExtend(message);
-    sqljocky.RetainedConnection connection = await sql.getConnection();
+    sqljocky.RetainedConnection connection = await proposalDb.getConnection();
     try {
       // Fetch proposal
       channel.replyExtend(message);
@@ -308,7 +312,7 @@ class ApiChannelProposal {
 
   Future<DataProposal> getProposal(Int64 proposalId) async {
     DataProposal proposal;
-    await for (sqljocky.Row row in await sql.prepareExecute(
+    await for (sqljocky.Row row in await proposalDb.prepareExecute(
       SqlProposal.selectProposalsQuery + ' WHERE `proposal_id` = ?',
       [proposalId],
     )) {
@@ -324,7 +328,7 @@ class ApiChannelProposal {
   /// Dirty proposal push, use in case of trouble
   Future<void> pushProposal(Int64 proposalId) async {
     NetProposal proposal;
-    await for (sqljocky.Row row in await sql.prepareExecute(
+    await for (sqljocky.Row row in await proposalDb.prepareExecute(
       SqlProposal.getSelectProposalsQuery(account.accountType) + ' WHERE `proposal_id` = ?',
       [proposalId],
     )) {
@@ -352,7 +356,7 @@ class ApiChannelProposal {
     Int64 businessAccountId;
     ProposalState state;
 
-    sqljocky.RetainedConnection connection = await sql.getConnection();
+    sqljocky.RetainedConnection connection = await proposalDb.getConnection();
     try {
       // Fetch proposal access
       channel.replyExtend(message);

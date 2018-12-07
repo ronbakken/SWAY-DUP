@@ -30,8 +30,12 @@ class ApiChannelInfluencer {
     return _r.config;
   }
 
-  sqljocky.ConnectionPool get sql {
-    return _r.sql;
+  sqljocky.ConnectionPool get accountDb {
+    return _r.accountDb;
+  }
+
+  sqljocky.ConnectionPool get proposalDb {
+    return _r.proposalDb;
   }
 
   TalkChannel get channel {

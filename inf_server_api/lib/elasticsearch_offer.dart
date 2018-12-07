@@ -359,7 +359,7 @@ class ElasticsearchOffer {
       if (private && receiverIsOwner) {
         offer.thumbnailKey = doc["thumbnail_key"];
       }
-      offer.thumbnailUrl = config.services.cloudinaryThumbnailUrl
+      offer.thumbnailUrl = config.services.galleryThumbnailUrl
           .replaceAll('{key}', doc["thumbnail_key"]);
     }
     if ((summary || detail) && doc.containsKey("thumbnail_blurred")) {
@@ -424,7 +424,7 @@ class ElasticsearchOffer {
             .addAll(doc["cover_keys"].map<String>((value) => value as String));
       }
       offer.coverUrls.addAll((doc["cover_keys"] as List<dynamic>).map<String>(
-          (coverKey) => config.services.cloudinaryCoverUrl
+          (coverKey) => config.services.galleryCoverUrl
               .replaceAll('{key}', coverKey)));
     }
     if (detail && doc.containsKey("covers_blurred")) {

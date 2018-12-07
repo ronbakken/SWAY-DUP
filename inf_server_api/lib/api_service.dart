@@ -22,7 +22,8 @@ class ApiService {
   static final Logger devLog = new Logger('InfDev.ApiService');
 
   final ConfigData config;
-  final sqljocky.ConnectionPool sql;
+  final sqljocky.ConnectionPool accountDb;
+  final sqljocky.ConnectionPool proposalDb;
   final dospace.Bucket bucket;
   final Elasticsearch elasticsearch;
   final Switchboard switchboard;
@@ -30,7 +31,7 @@ class ApiService {
   final http.Client httpClient = new http.Client();
   List<oauth1.Authorization> oauth1Auth;
 
-  ApiService(this.config, this.sql, this.bucket, this.elasticsearch,
+  ApiService(this.config, this.accountDb, this.proposalDb, this.bucket, this.elasticsearch,
       this.switchboard, this.bc) {
     oauth1Auth = new List<oauth1.Authorization>(config.oauthProviders.length);
     for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {

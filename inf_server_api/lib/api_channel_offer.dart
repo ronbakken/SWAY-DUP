@@ -32,8 +32,12 @@ class ApiChannelOffer {
     return _r.config;
   }
 
-  sqljocky.ConnectionPool get sql {
-    return _r.sql;
+  sqljocky.ConnectionPool get accountDb {
+    return _r.accountDb;
+  }
+
+  sqljocky.ConnectionPool get proposalDb {
+    return _r.proposalDb;
   }
 
   TalkChannel get channel {
@@ -84,9 +88,12 @@ class ApiChannelOffer {
 
   Future<void> updateLocationOfferCount(Int64 locationId) async {
     // Only include active offers
+    /*
+    TODO: Do we need this, really?
     String updateLocation =
         "UPDATE `locations` SET `offer_count` = (SELECT COUNT(`offer_id`) FROM `offers` WHERE `location_id` = ? AND `state` = ${OfferState.open.value} AND `direct` = 0) WHERE `location_id` = ?";
-    await sql.prepareExecute(updateLocation, [locationId, locationId]);
+    await accountDb.prepareExecute(updateLocation, [locationId, locationId]);
+    */
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -174,7 +181,7 @@ class ApiChannelOffer {
     String insertOffer =
         "INSERT INTO `offers`(`sender_account_id`, `sender_account_type`, `sender_session_id`, `location_id`, `state`, `state_reason`) "
         "VALUES (?, ?, ?, ?, ?, ?)";
-    sqljocky.Results insertRes = await sql.prepareExecute(insertOffer, [
+    sqljocky.Results insertRes = await proposalDb.prepareExecute(insertOffer, [
       offer.senderAccountId,
       offer.senderAccountType.value,
       account.sessionId,

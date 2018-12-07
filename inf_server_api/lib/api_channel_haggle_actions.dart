@@ -34,8 +34,12 @@ class ApiChannelHaggleActions {
     return _r.config;
   }
 
-  sqljocky.ConnectionPool get sql {
-    return _r.sql;
+  sqljocky.ConnectionPool get accountDb {
+    return _r.accountDb;
+  }
+
+  sqljocky.ConnectionPool get proposalDb {
+    return _r.proposalDb;
   }
 
   TalkChannel get channel {
@@ -149,7 +153,7 @@ class ApiChannelHaggleActions {
         "FROM `proposals` "
         "WHERE `proposal_id` = ?";
     await for (sqljocky.Row row
-        in await sql.prepareExecute(query, [proposalId])) {
+        in await proposalDb.prepareExecute(query, [proposalId])) {
       influencerAccountId = new Int64(row[0]);
       businessAccountId = new Int64(row[1]);
       state = ProposalState.valueOf(row[2].toInt());
@@ -234,7 +238,7 @@ class ApiChannelHaggleActions {
   Future<void> _enterChat(DataProposalChat chat) async {
     bool publish = false;
     if (chat.type == ProposalChatType.negotiate) {
-      await sql.startTransaction((transaction) async {
+      await proposalDb.startTransaction((transaction) async {
         if (await _insertChat(transaction, chat)) {
           // Update haggle on proposal
           String updateHaggleChatId = "UPDATE `proposals` "
@@ -255,7 +259,7 @@ class ApiChannelHaggleActions {
         } // else rollback
       });
     } else {
-      if (await _insertChat(sql, chat)) {
+      if (await _insertChat(proposalDb, chat)) {
         publish = true;
       }
     }
@@ -412,97 +416,6 @@ class ApiChannelHaggleActions {
   // Common actions
   //////////////////////////////////////////////////////////////////////////////
 
-  Future<void> netProposalWantDealReq(TalkMessage message) async {
-    NetProposalWantDeal pb = new NetProposalWantDeal();
-    pb.mergeFromBuffer(message.data);
-
-    Int64 proposalId = pb.proposalId;
-    Int64 termsChatId = pb.termsChatId;
-
-    /* No need, already verified by first UPDATE
-    if (!await _verifySender(proposalId, accountId)) {
-      channel.sendException("Verification Failed", message);
-      return;
-    } */
-
-    DataProposalChat markerChat; // Set upon success
-
-    await sql.startTransaction((transaction) async {
-      // 1. Update deal to reflect the account wants a deal
-      channel.replyExtend(message);
-      String accountWantsDeal = account.accountType == AccountType.influencer
-          ? 'influencer_wants_deal'
-          : 'business_wants_deal';
-      String accountAccountId = account.accountType == AccountType.influencer
-          ? 'influencer_account_id'
-          : 'business_account_id';
-      String updateWants = "UPDATE `proposals` "
-          "SET `$accountWantsDeal` = 1 "
-          "WHERE `proposal_id` = ? "
-          "AND `terms_chat_id` = ? "
-          "AND `$accountAccountId` = ? "
-          "AND `state` = ${ProposalState.negotiating.value} "
-          "AND `$accountWantsDeal` = 0";
-      sqljocky.Results resultWants = await transaction
-          .prepareExecute(updateWants, [proposalId, termsChatId, accountId]);
-      if (resultWants.affectedRows == null || resultWants.affectedRows == 0) {
-        devLog.warning(
-            "Invalid want deal attempt by account '$accountId' on proposal '$proposalId'");
-        return;
-      }
-
-      // 2. Try to see if we're can complete the deal or if it's just one sided
-      channel.replyExtend(message);
-      String updateDeal = "UPDATE `proposals` "
-          "SET `state` = ${ProposalState.deal.value} "
-          "WHERE `proposal_id` = ? "
-          "AND `influencer_wants_deal` = 1 "
-          "AND `business_wants_deal` = 1 "
-          "AND `state` = ${ProposalState.negotiating.value}";
-      sqljocky.Results resultDeal =
-          await transaction.prepareExecute(updateDeal, [proposalId]);
-      bool dealMade =
-          (resultDeal.affectedRows != null && resultDeal.affectedRows > 0);
-
-      // 3. Insert marker chat
-      channel.replyExtend(message);
-      DataProposalChat chat = new DataProposalChat();
-      chat.sent =
-          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-      chat.senderAccountId = accountId;
-      chat.proposalId = proposalId;
-      chat.senderSessionId = account.sessionId;
-      chat.senderSessionGhostId = ++nextFakeGhostId;
-      chat.type = ProposalChatType.marker;
-      chat.marker = (dealMade
-          ? ProposalChatMarker.dealMade
-          : ProposalChatMarker.wantDeal);
-      if (await _insertChat(transaction, chat)) {
-        channel.replyExtend(message);
-        markerChat = chat;
-        transaction.commit();
-      }
-    });
-
-    if (markerChat == null) {
-      channel.replyAbort(message, "Not Handled");
-    } else {
-      NetProposal res = new NetProposal();
-      DataProposal proposal = await _r.getProposal(proposalId);
-      res.updateProposal = proposal;
-      res.newChats.add(markerChat);
-      try {
-        // Send to current user
-        channel.replyMessage(message, "AP_R_COM", res.writeToBuffer());
-      } catch (error, stackTrace) {
-        devLog.severe("$error\n$stackTrace");
-      }
-      // Publish!
-      _r.bc.proposalChanged(account.sessionId, proposal);
-      _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
-    }
-  }
-
   Future<void> netProposalRejectReq(TalkMessage message) async {
     NetProposalReject pb = new NetProposalReject();
     pb.mergeFromBuffer(message.data);
@@ -512,7 +425,7 @@ class ApiChannelHaggleActions {
 
     DataProposalChat markerChat; // Set upon success
 
-    await sql.startTransaction((transaction) async {
+    await proposalDb.startTransaction((transaction) async {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
       String accountAccountId = account.accountType == AccountType.influencer
@@ -636,7 +549,7 @@ class ApiChannelHaggleActions {
     DataProposalChat markerChat; // Set upon successful action
 
     // Completion or dispute
-    await sql.startTransaction((transaction) async {
+    await proposalDb.startTransaction((transaction) async {
       // 1. Update deal to reflect the account marked completion
       channel.replyExtend(message);
       String accountAccountId = account.accountType == AccountType.influencer

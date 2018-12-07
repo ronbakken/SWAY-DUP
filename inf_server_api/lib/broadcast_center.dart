@@ -48,7 +48,8 @@ class BroadcastCenter {
   /////////////////////////////////////////////////////////////////////////////
 
   final ConfigData config;
-  final sqljocky.ConnectionPool sql;
+  final sqljocky.ConnectionPool accountDb;
+  final sqljocky.ConnectionPool proposalDb;
   final dospace.Bucket bucket;
 
   final HttpClient _httpClient = new HttpClient();
@@ -69,7 +70,7 @@ class BroadcastCenter {
   static final Logger opsLog = new Logger('InfOps.BroadcastCenter');
   static final Logger devLog = new Logger('InfDev.BroadcastCenter');
 
-  BroadcastCenter(this.config, this.sql, this.bucket) {}
+  BroadcastCenter(this.config, this.accountDb, this.proposalDb, this.bucket) {}
 
   /////////////////////////////////////////////////////////////////////////////
   // Caches (cache non-critical static-ish data only)
@@ -78,7 +79,7 @@ class BroadcastCenter {
   Future<_CachedProposal> _getProposal(Int64 proposalId) async {
     _CachedProposal proposal = _proposalToInfluencerBusiness[proposalId];
     if (proposal != null) return proposal;
-    sqljocky.Results res = await sql.prepareExecute(
+    sqljocky.Results res = await proposalDb.prepareExecute(
         "SELECT `influencer_account_id`, `business_account_id`, `sender_account_id` "
         "FROM `proposals` WHERE `proposal_id` = ?",
         [proposalId]);
@@ -94,8 +95,8 @@ class BroadcastCenter {
     _CachedAccountName cached = _cachedAccountName[accountId];
     if (cached != null) return cached.name;
     await _lockCachedAccountName.synchronized(() async {
-      sqljocky.Results res = await sql.prepareExecute(
-          "SELECT `name`"
+      sqljocky.Results res = await accountDb.prepareExecute(
+          "SELECT `name`" // TODO: Elasticsearch profile
           "FROM `accounts` "
           "WHERE `account_id` = ? ",
           [accountId]);
@@ -113,7 +114,7 @@ class BroadcastCenter {
     if (cached != null) return cached.firebaseTokens;
     await _lockCachedAccountFirebaseTokens.synchronized(() async {
       Set<String> firebaseTokens = new Set<String>();
-      sqljocky.Results res = await sql.prepareExecute(
+      sqljocky.Results res = await accountDb.prepareExecute(
           "SELECT `firebase_token`"
           "FROM `sessions` "
           "WHERE `account_id` = ? ",

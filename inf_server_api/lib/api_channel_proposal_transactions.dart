@@ -34,8 +34,12 @@ class ApiChannelProposalTransactions {
     return _r.config;
   }
 
-  sqljocky.ConnectionPool get sql {
-    return _r.sql;
+  sqljocky.ConnectionPool get accountDb {
+    return _r.accountDb;
+  }
+
+  sqljocky.ConnectionPool get proposalDb {
+    return _r.proposalDb;
   }
 
   TalkChannel get channel {
@@ -80,6 +84,8 @@ class ApiChannelProposalTransactions {
         'PR_WADEA', GlobalAccountState.readWrite, _netProposalWantDeal);
     _r.registerProcedure(
         'PR_NGOTI', GlobalAccountState.readWrite, _netProposalNegotiate);
+    _r.registerProcedure(
+        'PR_COMPT', GlobalAccountState.readWrite, _netProposalCompletion);
 
     _nextFakeGhostId =
         ((new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) &
@@ -90,6 +96,7 @@ class ApiChannelProposalTransactions {
   void dispose() {
     _r.unregisterProcedure('PR_WADEA');
     _r.unregisterProcedure('PR_NGOTI');
+    _r.unregisterProcedure('PR_COMPT');
     _r = null;
   }
 
@@ -153,7 +160,7 @@ class ApiChannelProposalTransactions {
     DataProposalChat markerChat; // Set upon success
 
     channel.replyExtend(message);
-    await sql.startTransaction((transaction) async {
+    await proposalDb.startTransaction((transaction) async {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
       String accountType = (account.accountType == AccountType.influencer)
@@ -253,7 +260,7 @@ class ApiChannelProposalTransactions {
     DataProposalChat markerChat; // Set upon success
 
     channel.replyExtend(message);
-    await sql.startTransaction((transaction) async {
+    await proposalDb.startTransaction((transaction) async {
       // 1. Update deal to reflect the account wants to negotiate
       channel.replyExtend(message);
       String accountType = (account.accountType == AccountType.influencer)
@@ -310,6 +317,119 @@ class ApiChannelProposalTransactions {
       // Publish!
       _r.bc.proposalChanged(account.sessionId, proposal);
       _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // Mark as complete
+  //////////////////////////////////////////////////////////////////////////////
+
+  Future<void> _netProposalCompletion(TalkMessage message) async {
+    NetProposalCompletion completion = new NetProposalCompletion()
+      ..mergeFromBuffer(message.data);
+
+    Int64 proposalId = completion.proposalId;
+
+    if (!completion.hasRating()) {
+      channel.replyAbort(message, "No rating given.");
+      return;
+    }
+
+    DataProposalChat markerChat; // Set upon successful action
+
+    // Completion or dispute
+    channel.replyExtend(message);
+    await proposalDb.startTransaction((transaction) async {
+      // 1. Update deal to reflect the account marked completion
+      channel.replyExtend(message);
+      String accountType = (account.accountType == AccountType.influencer)
+          ? 'influencer'
+          : 'business';
+      String updateMarkings = "UPDATE `proposals` "
+          "SET `${accountType}_marked_delivered` = 1, "
+          "`${accountType}_marked_rewarded` = 1, "
+          "`${accountType}_gave_rating` = ?"
+          "WHERE `proposal_id` = ? "
+          "AND `${accountType}_account_id` = ?"
+          "AND `state` = ${ProposalState.deal.value} OR `state` = ${ProposalState.dispute.value}";
+      sqljocky.Results resultMarkings = await transaction.prepareExecute(
+        updateMarkings,
+        [completion.rating, proposalId, accountId],
+      );
+      if (resultMarkings.affectedRows == null ||
+          resultMarkings.affectedRows == 0) {
+        devLog.warning(
+            "Invalid completion or invalid dispute attempt by account '$accountId' on proposal '$proposalId'");
+        return;
+      }
+
+      bool dealCompleted;
+      // 2. Check for deal completion
+      channel.replyExtend(message);
+      String updateCompletion = "UPDATE `proposals` "
+          "SET `state` = ${ProposalState.complete.value} "
+          "WHERE `proposal_id` = ? "
+          "AND `influencer_marked_delivered` > 0 AND `influencer_marked_rewarded` > 0 "
+          "AND `business_marked_delivered` > 0 AND `business_marked_rewarded` > 0 "
+          "AND `influencer_gave_rating` > 0 AND `business_gave_rating` > 0 "
+          "AND `state` = ${ProposalState.deal.value}";
+      sqljocky.Results resultCompletion = await transaction.prepareExecute(
+        updateCompletion,
+        [proposalId],
+      );
+      dealCompleted = resultCompletion.affectedRows != null &&
+          resultCompletion.affectedRows != 0;
+
+      ProposalChatMarker marker = dealCompleted
+          ? ProposalChatMarker.complete
+          : ProposalChatMarker.markedComplete;
+
+      // 3. Insert marker chat
+      channel.replyExtend(message);
+      DataProposalChat chat = new DataProposalChat();
+      chat.sent =
+          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      chat.senderAccountId = accountId;
+      chat.proposalId = proposalId;
+      chat.senderSessionId = account.sessionId;
+      chat.senderSessionGhostId = ++_nextFakeGhostId;
+      chat.type = ProposalChatType.marker;
+      chat.marker = marker;
+      if (await _insertChat(transaction, chat)) {
+        channel.replyExtend(message);
+        markerChat = chat;
+        transaction.commit();
+      }
+    });
+
+    if (markerChat == null) {
+      channel.replyAbort(message, "Not handled.");
+      _r.pushProposal(proposalId); // Refresh user side, possibly out of sync
+    } else {
+      NetProposal res = new NetProposal();
+      try {
+        channel.replyExtend(message);
+      } catch (error, stackTrace) {
+        devLog.severe("$error\n$stackTrace");
+      }
+      DataProposal proposal = await _r.getProposal(proposalId);
+      res.updateProposal = proposal;
+      res.newChats.add(markerChat);
+      try {
+        // Send to current user
+        channel.replyMessage(message, "PR_R_COM", res.writeToBuffer());
+      } catch (error, stackTrace) {
+        devLog.severe("$error\n$stackTrace");
+      }
+      // Publish!
+      _r.bc.proposalChanged(account.sessionId, proposal);
+      _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
+
+      // TODO: Post rating and review to Elasticsearch
+      // TODO: Write rating recalculation schedule (weighted ratings)
+      // TODO: Elasticsearch proposal_reports index for statistics purposes
     }
   }
 }
