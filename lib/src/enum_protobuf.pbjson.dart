@@ -103,7 +103,7 @@ const ProposalChatType$json = const {
   '1': 'ProposalChatType',
   '2': const [
     const {'1': 'PCT_PLAIN', '2': 0},
-    const {'1': 'PCT_TERMS', '2': 1},
+    const {'1': 'PCT_NEGOTIATE', '2': 1},
     const {'1': 'PCT_IMAGE_KEY', '2': 2},
     const {'1': 'PCT_MARKER', '2': 3},
   ],

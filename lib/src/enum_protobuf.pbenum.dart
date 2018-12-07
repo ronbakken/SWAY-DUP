@@ -256,8 +256,8 @@ class OfferStateReason extends $pb.ProtobufEnum {
 class ProposalChatType extends $pb.ProtobufEnum {
   static const ProposalChatType plain =
       const ProposalChatType._(0, 'PCT_PLAIN');
-  static const ProposalChatType terms =
-      const ProposalChatType._(1, 'PCT_TERMS');
+  static const ProposalChatType negotiate =
+      const ProposalChatType._(1, 'PCT_NEGOTIATE');
   static const ProposalChatType imageKey =
       const ProposalChatType._(2, 'PCT_IMAGE_KEY');
   static const ProposalChatType marker =
@@ -265,7 +265,7 @@ class ProposalChatType extends $pb.ProtobufEnum {
 
   static const List<ProposalChatType> values = const <ProposalChatType>[
     plain,
-    terms,
+    negotiate,
     imageKey,
     marker,
   ];
