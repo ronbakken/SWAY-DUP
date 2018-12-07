@@ -92,6 +92,12 @@ class ElasticsearchOffer {
     if ((create || verbose) && offer.hasDirect()) {
       doc["direct"] = offer.direct;
     }
+    if ((create || verbose) && offer.hasAcceptMatchingProposals()) {
+      doc["accept_matching_proposals"] = offer.acceptMatchingProposals;
+    }
+    if ((create || verbose) && offer.hasAllowNegotiatingProposals()) {
+      doc["allow_negotiating_proposals"] = offer.allowNegotiatingProposals;
+    }
     if ((create || verbose) && sessionId != null) {
       doc["sender_session_id"] = sessionId.toInt();
     }
@@ -339,6 +345,12 @@ class ElasticsearchOffer {
     }
     if ((state || detail) && doc.containsKey("direct")) {
       offer.direct = doc["direct"];
+    }
+    if ((state || detail) && doc.containsKey("accept_matching_proposals")) {
+      offer.acceptMatchingProposals = doc["accept_matching_proposals"];
+    }
+    if ((state || detail) && doc.containsKey("allow_negotiating_proposals")) {
+      offer.allowNegotiatingProposals = doc["allow_negotiating_proposals"];
     }
     if ((summary || detail) && doc.containsKey("title")) {
       offer.title = doc["title"];

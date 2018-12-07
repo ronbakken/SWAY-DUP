@@ -119,7 +119,11 @@ class ApiChannelProposal {
       // Business cannot apply to business
       channel.replyAbort(message, 'Account type mismatch.');
     }
+    if (applyProposal.hasTerms() && !offer.allowNegotiatingProposals) {
+      channel.replyAbort(message, 'Cannot negotiate with this offer.');
+    }
 
+    // TODO: Forbid negotiate when not allowed
     DataProposal proposal = new DataProposal();
     proposal.offerId = applyProposal.offerId;
     proposal.senderAccountId = accountId;
@@ -136,7 +140,10 @@ class ApiChannelProposal {
       proposal.businessName = account.name;
     }
     proposal.offerTitle = offer.title;
-    proposal.state = ProposalState.proposing;
+    proposal.state = // Accept matching proposals automatically
+        (!applyProposal.hasTerms() && offer.acceptMatchingProposals)
+            ? ProposalState.deal
+            : ProposalState.proposing;
     DataProposalChat chat = new DataProposalChat();
     chat.senderAccountId = accountId;
     chat.senderSessionId = account.sessionId;
@@ -159,7 +166,7 @@ class ApiChannelProposal {
       );
       Int64 proposalId = new Int64(resultProposal.insertId);
       if (proposalId == null || proposalId == Int64.ZERO) {
-        throw new Exception("Proposal not inserted");
+        throw new Exception('Proposal not inserted.');
       }
       proposal.proposalId = proposalId;
       chat.proposalId = proposalId;
@@ -172,7 +179,7 @@ class ApiChannelProposal {
       );
       Int64 termsChatId = new Int64(resultNegotiate.insertId);
       if (termsChatId == null || termsChatId == Int64.ZERO) {
-        throw new Exception("Terms chat not inserted");
+        throw new Exception('Terms chat not inserted.');
       }
       proposal.termsChatId = termsChatId;
       chat.chatId = termsChatId;
@@ -180,9 +187,11 @@ class ApiChannelProposal {
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
 
       // 3. Update haggle on proposal
+      // On automatic accept we're not updating business_wants_deal here, it's not necessary
       channel.replyExtend(message);
       String updateTermsChatId = "UPDATE `proposals` "
-          "SET `terms_chat_id` = ? "
+          "SET `terms_chat_id` = ?, "
+          "`${account.accountType == AccountType.business ? 'business_wants_deal' : 'influencer_wants_deal'}` = 1 "
           "WHERE `proposal_id` = ?";
       sqljocky.Results resultUpdateTermsChatId =
           await transaction.prepareExecute(
@@ -194,7 +203,7 @@ class ApiChannelProposal {
       );
       if (resultUpdateTermsChatId.affectedRows == null ||
           resultUpdateTermsChatId.affectedRows == 0) {
-        throw new Exception("Failed to update terms chat id");
+        throw new Exception('Failed to update terms chat id.');
       }
 
       channel.replyExtend(message);
@@ -204,8 +213,8 @@ class ApiChannelProposal {
     NetProposal res = NetProposal();
     res.updateProposal = proposal;
     res.newChats.add(chat);
-    devLog.finest("Applied for offer successfully: $res");
-    channel.replyMessage(message, "R_APLPRP", res.writeToBuffer());
+    devLog.finest('Applied for offer successfully: $res');
+    channel.replyMessage(message, 'R_APLPRP', res.writeToBuffer());
 
     // Clear private information from broadcast
     chat.senderSessionId = Int64.ZERO;
