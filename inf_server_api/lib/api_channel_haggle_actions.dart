@@ -27,6 +27,8 @@ class ApiChannelHaggleActions {
   // Inherited properties
   //////////////////////////////////////////////////////////////////////////////
 
+  int nextFakeGhostId;
+
   ApiChannel _r;
   ConfigData get config {
     return _r.config;
@@ -64,9 +66,9 @@ class ApiChannelHaggleActions {
 
   static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
   static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
-  int nextFakeGhostId;
 
   ApiChannelHaggleActions(this._r) {
+    /*
     _r.registerProcedure(
         "CH_PLAIN", GlobalAccountState.readWrite, netChatPlain);
     _r.registerProcedure(
@@ -82,14 +84,11 @@ class ApiChannelHaggleActions {
         "AP_REPOR", GlobalAccountState.readWrite, netProposalReportReq);
     _r.registerProcedure(
         "AP_COMPL", GlobalAccountState.readWrite, netProposalCompletionReq);
-
-    nextFakeGhostId =
-        ((new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) &
-                0xFFFFFFF) |
-            0x10000000;
+*/
   }
 
   void dispose() {
+    /*
     _r.unregisterProcedure("CH_PLAIN");
     _r.unregisterProcedure("CH_HAGGL");
     _r.unregisterProcedure("CH_IMAGE");
@@ -98,7 +97,7 @@ class ApiChannelHaggleActions {
     _r.unregisterProcedure("AP_REJEC");
     _r.unregisterProcedure("AP_REPOR");
     _r.unregisterProcedure("AP_COMPL");
-
+*/
     _r = null;
   }
 
@@ -172,7 +171,7 @@ class ApiChannelHaggleActions {
 
     switch (state) {
       case ProposalState.proposing:
-        if (type != ProposalChatType.terms && type != ProposalChatType.marker) {
+        if (type != ProposalChatType.negotiate && type != ProposalChatType.marker) {
           devLog
               .warning("Attempt to send message to $state deal by '$senderId");
           return false;
@@ -210,13 +209,13 @@ class ApiChannelHaggleActions {
       sqljocky.QueriableConnection connection, DataProposalChat chat) async {
     // Store in database
     String insertChat = "INSERT INTO `proposal_chats`("
-        "`sender_id`, `proposal_id`, "
+        "`sender_account_id`, `proposal_id`, "
         "`session_id`, `session_ghost_id`, "
         "`type`, `text`) "
         "VALUES (?, ?, ?, ?, ?, ?)";
     sqljocky.Results resultHaggle =
         await connection.prepareExecute(insertChat, [
-      chat.senderId,
+      chat.senderAccountId,
       chat.proposalId,
       chat.sessionId,
       chat.sessionGhostId
@@ -234,7 +233,7 @@ class ApiChannelHaggleActions {
 
   Future<void> _enterChat(DataProposalChat chat) async {
     bool publish = false;
-    if (chat.type == ProposalChatType.terms) {
+    if (chat.type == ProposalChatType.negotiate) {
       await sql.startTransaction((transaction) async {
         if (await _insertChat(transaction, chat)) {
           // Update haggle on proposal
@@ -262,7 +261,7 @@ class ApiChannelHaggleActions {
     }
     if (publish) {
       await _publishChat(chat);
-      if (chat.type == ProposalChatType.terms) {
+      if (chat.type == ProposalChatType.negotiate) {
         await _changedProposal(chat.proposalId);
       }
     } else {
@@ -298,8 +297,8 @@ class ApiChannelHaggleActions {
 
   Future<void> _changedProposal(Int64 proposalId) async {
     // DataProposal proposal) {
-    DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
-    channel.sendMessage("LU_APPLI", proposal.writeToBuffer());
+    DataProposal proposal = await _r.getProposal(proposalId);
+    channel.sendMessage("LU_APPLI", proposal.writeToBuffer()); // TODO: Filter sensitive info from business and influencer
     _r.bc.proposalChanged(account.sessionId, proposal);
   }
 
@@ -313,7 +312,7 @@ class ApiChannelHaggleActions {
     DataProposalChat chat = new DataProposalChat();
     chat.sent =
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-    chat.senderId = accountId;
+    chat.senderAccountId = accountId;
     chat.proposalId = pb.proposalId;
     chat.sessionId = account.sessionId;
     chat.sessionGhostId = pb.sessionGhostId;
@@ -354,17 +353,17 @@ class ApiChannelHaggleActions {
 
     */
 
-    if (!await _verifySender(pb.proposalId, accountId, ProposalChatType.terms))
+    if (!await _verifySender(pb.proposalId, accountId, ProposalChatType.negotiate))
       return;
 
     DataProposalChat chat = new DataProposalChat();
     chat.sent =
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-    chat.senderId = accountId;
+    chat.senderAccountId = accountId;
     chat.proposalId = pb.proposalId;
     chat.sessionId = account.sessionId;
     chat.sessionGhostId = pb.sessionGhostId;
-    chat.type = ProposalChatType.terms;
+    chat.type = ProposalChatType.negotiate;
     chat.plainText = pb.remarks;
     chat.terms = pb.terms;
 
@@ -381,7 +380,7 @@ class ApiChannelHaggleActions {
     DataProposalChat chat = new DataProposalChat();
     chat.sent =
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-    chat.senderId = accountId;
+    chat.senderAccountId = accountId;
     chat.proposalId = pb.proposalId;
     chat.sessionId = account.sessionId;
     chat.sessionGhostId = pb.sessionGhostId;
@@ -470,7 +469,7 @@ class ApiChannelHaggleActions {
       DataProposalChat chat = new DataProposalChat();
       chat.sent =
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-      chat.senderId = accountId;
+      chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
       chat.sessionId = account.sessionId;
       chat.sessionGhostId = ++nextFakeGhostId;
@@ -490,7 +489,7 @@ class ApiChannelHaggleActions {
       channel.replyAbort(message, "Not Handled");
     } else {
       NetProposal res = new NetProposal();
-      DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
+      DataProposal proposal = await _r.getProposal(proposalId);
       res.updateProposal = proposal;
       res.newChats.add(markerChat);
       try {
@@ -538,7 +537,7 @@ class ApiChannelHaggleActions {
       DataProposalChat chat = new DataProposalChat();
       chat.sent =
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-      chat.senderId = accountId;
+      chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
       chat.sessionId = account.sessionId;
       chat.sessionGhostId = ++nextFakeGhostId;
@@ -562,7 +561,7 @@ class ApiChannelHaggleActions {
       } catch (error, stackTrace) {
         devLog.severe("$error\n$stackTrace");
       }
-      DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
+      DataProposal proposal = await _r.getProposal(proposalId);
       res.updateProposal = proposal;
       res.newChats.add(markerChat);
       try {
@@ -591,7 +590,7 @@ class ApiChannelHaggleActions {
     opsLog.severe("Report: ${pb.text}");
 
     // Post to freshdesk
-    DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
+    DataProposal proposal = await _r.getProposal(proposalId);
 
     HttpClient httpClient = new HttpClient();
     HttpClientRequest httpRequest = await httpClient
@@ -709,7 +708,7 @@ class ApiChannelHaggleActions {
       DataProposalChat chat = new DataProposalChat();
       chat.sent =
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-      chat.senderId = accountId;
+      chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
       chat.sessionId = account.sessionId;
       chat.sessionGhostId = ++nextFakeGhostId;
@@ -770,7 +769,7 @@ class ApiChannelHaggleActions {
       } catch (error, stackTrace) {
         devLog.severe("$error\n$stackTrace");
       }
-      DataProposal proposal = await _r.apiChannelHaggle.getProposal(proposalId);
+      DataProposal proposal = await _r.getProposal(proposalId);
       res.updateProposal = proposal;
       res.newChats.add(markerChat);
       try {
@@ -785,3 +784,5 @@ class ApiChannelHaggleActions {
     }
   }
 }
+
+/* end of file */

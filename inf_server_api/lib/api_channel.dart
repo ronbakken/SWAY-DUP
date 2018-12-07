@@ -14,6 +14,7 @@ import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:geohash/geohash.dart';
 import 'package:inf_server_api/api_channel_offer.dart';
+import 'package:inf_server_api/api_channel_proposal.dart';
 import 'package:inf_server_api/api_service.dart';
 import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
@@ -102,8 +103,7 @@ class ApiChannel {
   ApiChannelUpload _apiChannelUpload;
   ApiChannelProfile _apiChannelProfile;
   ApiChannelOffer apiChannelOffer;
-  ApiChannelHaggle apiChannelHaggle;
-  ApiChannelHaggleActions _apiChannelHaggleActions;
+  ApiChannelProposal apiChannelProposal;
   ApiChannelBusiness _apiChannelBusiness;
   ApiChannelInfluencer _apiChannelInfluencer;
 
@@ -156,13 +156,9 @@ class ApiChannel {
       apiChannelOffer.dispose();
       apiChannelOffer = null;
     }
-    if (apiChannelHaggle != null) {
-      apiChannelHaggle.dispose();
-      apiChannelHaggle = null;
-    }
-    if (_apiChannelHaggleActions != null) {
-      _apiChannelHaggleActions.dispose();
-      _apiChannelHaggleActions = null;
+    if (apiChannelProposal != null) {
+      apiChannelProposal.dispose();
+      apiChannelProposal = null;
     }
     if (_apiChannelBusiness != null) {
       _apiChannelBusiness.dispose();
@@ -217,27 +213,15 @@ class ApiChannel {
     }
   }
 
-  void subscribeProfile() {
+  void subscribeCommon() {
     if (_apiChannelProfile == null) {
       _apiChannelProfile = new ApiChannelProfile(this);
     }
-  }
-
-  void subscribeOffer() {
     if (apiChannelOffer == null) {
       apiChannelOffer = new ApiChannelOffer(this);
     }
-  }
-
-  void subscribeHaggle() {
-    if (apiChannelHaggle == null) {
-      apiChannelHaggle = new ApiChannelHaggle(this);
-    }
-  }
-
-  void subscribeHaggleActions() {
-    if (_apiChannelHaggleActions == null) {
-      _apiChannelHaggleActions = new ApiChannelHaggleActions(this);
+    if (apiChannelProposal == null) {
+      apiChannelProposal = new ApiChannelProposal(this);
     }
   }
 
@@ -1784,10 +1768,7 @@ class ApiChannel {
           'SFIREBAT', GlobalAccountState.blocked, _netSetFirebaseToken);
       subscribeOAuth();
       subscribeUpload();
-      subscribeProfile();
-      subscribeOffer();
-      subscribeHaggle();
-      subscribeHaggleActions();
+      subscribeCommon();
       if (account.accountType == AccountType.business) {
         subscribeBusiness();
       } else if (account.accountType == AccountType.influencer) {
@@ -1795,6 +1776,14 @@ class ApiChannel {
       }
       bc.accountConnected(this);
     }
+  }
+
+  Future<DataOffer> getOffer(Int64 offerId) async {
+    return await apiChannelOffer.getOffer(offerId);
+  }
+
+  Future<DataProposal> getProposal(Int64 proposalId) async {
+    return await apiChannelProposal.getProposal(proposalId);
   }
 }
 

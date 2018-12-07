@@ -438,7 +438,7 @@ class ElasticsearchOffer {
       offer.categories
           .addAll(doc["categories"].map<int>((value) => value as int));
     }
-    if ((private && receiverIsOwner) && doc.containsKey("state")) {
+    if (private && doc.containsKey("state")) {
       offer.state = OfferState.valueOf(doc["state"]);
     }
     if ((private && receiverIsOwner) && doc.containsKey("state_reason")) {

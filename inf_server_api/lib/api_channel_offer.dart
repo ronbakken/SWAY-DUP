@@ -230,7 +230,19 @@ class ApiChannelOffer {
     channel.replyMessage(message, 'R_CREOFR', res.writeToBuffer());
   }
 
+  Future<DataOffer> getOffer(Int64 offerId) async {
+    dynamic doc = await elasticsearch.getDocument("offers", offerId.toString());
+    return ElasticsearchOffer.fromJson(config, doc,
+        state: true,
+        summary: true,
+        detail: true,
+        offerId: offerId,
+        receiver: accountId,
+        private: true);
+  }
+
   Future<void> _netGetOffer(TalkMessage message) async {
+    // TODO: Limit fields to used ones.
     NetGetOffer getOffer = NetGetOffer()
       ..mergeFromBuffer(message.data)
       ..freeze();

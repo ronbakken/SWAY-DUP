@@ -66,16 +66,10 @@ class ApiChannelHaggle {
 
   ApiChannelHaggle(this._r) {
     _r.registerProcedure(
-        "L_APPLIC", GlobalAccountState.readOnly, netLoadProposalReq);
-    _r.registerProcedure(
-        "L_APPLIS", GlobalAccountState.readOnly, netLoadProposalsReq);
-    _r.registerProcedure(
         "L_APCHAT", GlobalAccountState.readOnly, netLoadProposalChatsReq);
   }
 
   void dispose() {
-    _r.unregisterProcedure("L_APPLIC");
-    _r.unregisterProcedure("L_APPLIS");
     _r.unregisterProcedure("L_APCHAT");
     _r = null;
   }
@@ -85,114 +79,6 @@ class ApiChannelHaggle {
   //////////////////////////////////////////////////////////////////////////////
   // Informational network messages
   //////////////////////////////////////////////////////////////////////////////
-
-  static String _proposalSelect = "`proposal_id`, `offer_id`, " // 0 1
-      "`influencer_account_id`, `business_account_id`, " // 2 3
-      "`sender_account_id`, `terms_chat_id`, " // 4 5
-      "`influencer_wants_deal`, `business_wants_deal`, " // 6 7
-      "`influencer_marked_delivered`, `influencer_marked_rewarded`, " // 8 9
-      "`business_marked_delivered`, `business_marked_rewarded`, " // 10 11
-      "`influencer_gave_rating`, `business_gave_rating`, " // 12 13
-      "`influencer_disputed`, `business_disputed`, " // 14 15
-      "`state` "; // 15
-  DataProposal _proposalFromRow(sqljocky.Row row) {
-    DataProposal proposal = new DataProposal();
-    proposal.proposalId = new Int64(row[0]);
-    proposal.offerId = new Int64(row[1]);
-    proposal.influencerId = new Int64(row[2]);
-    proposal.businessId = new Int64(row[3]);
-    proposal.senderId = new Int64(row[4]);
-    proposal.termsChatId = new Int64(row[5]);
-    proposal.influencerWantsDeal = row[6].toInt() != 0;
-    proposal.businessWantsDeal = row[7].toInt() != 0;
-    proposal.influencerMarkedDelivered = row[8].toInt() != 0;
-    proposal.influencerMarkedRewarded = row[9].toInt() != 0;
-    proposal.businessMarkedDelivered = row[10].toInt() != 0;
-    proposal.businessMarkedRewarded = row[11].toInt() != 0;
-    proposal.influencerGaveRating = row[12].toInt(); // TODO: Maybe just bool
-    proposal.businessGaveRating = row[13].toInt(); // TODO: Maybe just bool
-    proposal.influencerDisputed = row[14].toInt() != 0;
-    proposal.businessDisputed = row[15].toInt() != 0;
-    proposal.state = ProposalState.valueOf(row[16].toInt());
-    return proposal;
-  }
-
-  Future<DataProposal> getProposal(Int64 proposalId) async {
-    DataProposal proposal;
-    String query = "SELECT "
-        "$_proposalSelect"
-        "FROM `proposals` "
-        "WHERE `proposal_id` = ?";
-    await for (sqljocky.Row row
-        in await sql.prepareExecute(query, [proposalId])) {
-      proposal = _proposalFromRow(row);
-    }
-    if (account.accountType == AccountType.support ||
-        accountId == proposal.businessId ||
-        accountId == proposal.influencerId) {
-      return proposal;
-    }
-    return null;
-  }
-
-  Future<void> netLoadProposalReq(TalkMessage message) async {
-    NetGetProposal pb = new NetGetProposal();
-    pb.mergeFromBuffer(message.data);
-    devLog.finest(pb);
-
-    DataProposal proposal;
-
-    sqljocky.RetainedConnection connection = await sql.getConnection();
-    try {
-      // Fetch proposal
-      channel.replyExtend(message);
-      String query = "SELECT "
-          "$_proposalSelect"
-          "FROM `proposals` "
-          "WHERE `proposal_id` = ?";
-      await for (sqljocky.Row row
-          in await connection.prepareExecute(query, [pb.proposalId])) {
-        proposal = _proposalFromRow(row);
-      }
-    } finally {
-      connection.release();
-    }
-
-    if (proposal == null) {
-      channel.replyAbort(message, "Not found.");
-    } else if (account.accountType == AccountType.support ||
-        accountId == proposal.businessId ||
-        accountId == proposal.influencerId) {
-      channel.replyMessage(message, "LU_APPLI", proposal.writeToBuffer());
-    } else {
-      channel.replyAbort(message, "Not authorized.");
-    }
-  }
-
-  Future<void> netLoadProposalsReq(TalkMessage message) async {
-    NetListProposals pb = new NetListProposals();
-    pb.mergeFromBuffer(message.data);
-    devLog.finest('NetLoadProposalsReq: $pb');
-
-    sqljocky.RetainedConnection connection = await sql.getConnection();
-    try {
-      // Fetch proposal
-      channel.replyExtend(message);
-      String query = "SELECT "
-          "$_proposalSelect"
-          "FROM `proposals` "
-          "WHERE `${account.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?";
-      await for (sqljocky.Row row
-          in await connection.prepareExecute(query, [accountId])) {
-        channel.replyMessage(
-            message, "LU_APPLI", _proposalFromRow(row).writeToBuffer());
-      }
-    } finally {
-      connection.release();
-    }
-
-    channel.replyEndOfStream(message);
-  }
 
   // NetLoadProposalChatsReq
   Future<void> netLoadProposalChatsReq(TalkMessage message) async {
@@ -253,7 +139,7 @@ class ApiChannelHaggle {
         chat.proposalId = pb.proposalId;
         chat.chatId = new Int64(row[0]);
         chat.sent = new Int64(row[1]);
-        chat.senderId = new Int64(row[2]);
+        chat.senderAccountId = new Int64(row[2]);
         Int64 sessionId = new Int64(row[3]);
         if (sessionId == account.sessionId) {
           chat.sessionId = sessionId;
@@ -275,3 +161,5 @@ class ApiChannelHaggle {
     channel.replyEndOfStream(message);
   }
 }
+
+/* end of file */

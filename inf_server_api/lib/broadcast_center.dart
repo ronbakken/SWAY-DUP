@@ -194,20 +194,20 @@ class BroadcastCenter {
 
     // Push Firebase (even if sent directly, Firebase notifications don't show while the app is running)
     // Don't send notifications to the sender
-    if (receiverAccountId != chat.senderId) {
+    if (receiverAccountId != chat.senderAccountId) {
       // TODO: && !_accountToApiChannels.contains(receiverAccountId) - once clients disconnect in the background!
-      String senderName = await _getAccountName(chat.senderId);
+      String senderName = await _getAccountName(chat.senderAccountId);
       List<String> receiverFirebaseTokens =
           await _getAccountFirebaseTokens(receiverAccountId);
       Map<String, dynamic> notification = new Map<String, dynamic>();
       notification['title'] = senderName;
       notification['body'] =
-          chat.plainText; // TODO: Generate text version of non-text messages
+          chat.plainText ?? "A proposal has been updated."; // TODO: Generate text version of non-text messages
       notification['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
       notification['android_channel_id'] = 'chat';
       Map<String, dynamic> data = new Map<String, dynamic>();
-      data['sender_id'] = chat.senderId;
-      data['account_id'] = receiverAccountId;
+      data['sender_account_id'] = chat.senderAccountId;
+      data['receiver_account_id'] = receiverAccountId;
       data['proposal_id'] = chat.proposalId;
       data['type'] = chat.type.value;
       // TODO: Include image key, terms, etc, or not?
@@ -242,13 +242,6 @@ class BroadcastCenter {
       }
     }
   }
-
-/*
-  Future<void> _pushProposalChatSeen(int accountId, DataProposalChat chat) async {
-    // TODO: Push Locally
-    // TODO: Push Remote Server
-  }
-  */
 
   /////////////////////////////////////////////////////////////////////////////
   // Hooks
@@ -285,39 +278,54 @@ class BroadcastCenter {
     await _pushOfferChanged(senderSessionId, offer.senderId, offer);
   }
 
+  /// TODO: Filter business and influencer options for proposal if applicable (provide two parameters)
   Future<void> proposalPosted(Int64 senderSessionId, DataProposal proposal,
       DataAccount influencerAccount) async {
     // Store cache
     _proposalToInfluencerBusiness[proposal.proposalId] = new _CachedProposal(
-        proposal.influencerId, proposal.businessId, proposal.senderId);
+        proposal.influencerAccountId, proposal.businessAccountId, proposal.senderAccountId);
 
     // Push notifications
-    await _pushProposalPosted(senderSessionId, proposal.influencerId, proposal);
-    await _pushProposalPosted(senderSessionId, proposal.businessId, proposal);
-    if (proposal.senderId != proposal.influencerId &&
-        proposal.senderId != proposal.businessId &&
-        proposal.senderId != 0 /* Temporary != 0 check */) {
-      await _pushProposalPosted(senderSessionId, proposal.senderId, proposal);
+    await _pushProposalPosted(senderSessionId, proposal.influencerAccountId, proposal);
+    await _pushProposalPosted(senderSessionId, proposal.businessAccountId, proposal);
+    if (proposal.senderAccountId != proposal.influencerAccountId &&
+        proposal.senderAccountId != proposal.businessAccountId &&
+        proposal.senderAccountId != Int64.ZERO) {
+      await _pushProposalPosted(senderSessionId, proposal.senderAccountId, proposal);
+    }
+    if (proposal.offerAccountId != proposal.influencerAccountId &&
+        proposal.offerAccountId != proposal.businessAccountId &&
+        proposal.offerAccountId != proposal.senderAccountId &&
+        proposal.offerAccountId != Int64.ZERO) {
+      await _pushProposalPosted(senderSessionId, proposal.senderAccountId, proposal);
     }
 
     devLog.fine(
         "Pushed proposal ${proposal.proposalId}: '${influencerAccount.name}'");
   }
 
+  /// TODO: Filter business and influencer options for proposal (provide two parameters)
+  /// This feature takes diff changes. Changes to lastChatId must not be sent
   Future<void> proposalChanged(
       Int64 senderSessionId, DataProposal proposal) async {
     // Store cache
     _proposalToInfluencerBusiness[proposal.proposalId] = new _CachedProposal(
-        proposal.influencerId, proposal.businessId, proposal.senderId);
+        proposal.influencerAccountId, proposal.businessAccountId, proposal.senderAccountId);
 
     // Push notifications
     await _pushProposalChanged(
-        senderSessionId, proposal.influencerId, proposal);
-    await _pushProposalChanged(senderSessionId, proposal.businessId, proposal);
-    if (proposal.senderId != proposal.influencerId &&
-        proposal.senderId != proposal.businessId &&
-        proposal.senderId != 0 /* Temporary != 0 check */) {
-      await _pushProposalChanged(senderSessionId, proposal.senderId, proposal);
+        senderSessionId, proposal.influencerAccountId, proposal);
+    await _pushProposalChanged(senderSessionId, proposal.businessAccountId, proposal);
+    if (proposal.senderAccountId != proposal.influencerAccountId &&
+        proposal.senderAccountId != proposal.businessAccountId &&
+        proposal.senderAccountId != Int64.ZERO) {
+      await _pushProposalChanged(senderSessionId, proposal.senderAccountId, proposal);
+    }
+    if (proposal.offerAccountId != proposal.influencerAccountId &&
+        proposal.offerAccountId != proposal.businessAccountId &&
+        proposal.offerAccountId != proposal.senderAccountId &&
+        proposal.offerAccountId != Int64.ZERO) {
+      await _pushProposalChanged(senderSessionId, proposal.senderAccountId, proposal);
     }
   }
 
@@ -332,10 +340,10 @@ class BroadcastCenter {
         senderSessionId, proposal.influencerAccountId, chat);
     await _pushProposalChatPosted(
         senderSessionId, proposal.businessAccountId, chat);
-    if (chat.senderId != proposal.influencerAccountId &&
-        chat.senderId != proposal.businessAccountId)
+    if (chat.senderAccountId != proposal.influencerAccountId &&
+        chat.senderAccountId != proposal.businessAccountId)
       // Unusual case, sender is neither of influencer or business...
-      await _pushProposalChatPosted(senderSessionId, chat.senderId, chat);
+      await _pushProposalChatPosted(senderSessionId, chat.senderAccountId, chat);
 
     devLog.fine('Pushed proposal "${senderAccount.name}" chat "${chat}"');
   }
