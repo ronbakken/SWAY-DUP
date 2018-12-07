@@ -982,7 +982,8 @@ class ApiChannel {
     // for (int i = 0; i < config.oauthProviders.length; ++i) {
     for (int i in mediaPriority) {
       DataSocialMedia socialMedia = account.socialMedia[i];
-      if (socialMedia != null && socialMedia.connected &&
+      if (socialMedia != null &&
+          socialMedia.connected &&
           socialMedia.location != null &&
           socialMedia.location.isNotEmpty) {
         mediaLocations.add(getGeocodingFromName(socialMedia.location)

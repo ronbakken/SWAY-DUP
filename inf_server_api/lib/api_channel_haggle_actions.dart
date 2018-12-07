@@ -474,10 +474,9 @@ class ApiChannelHaggleActions {
       chat.sessionId = account.sessionId;
       chat.sessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
-      chat.marker = 
-          (dealMade
-              ? ProposalChatMarker.dealMade.value
-              : ProposalChatMarker.wantDeal.value);
+      chat.marker = (dealMade
+          ? ProposalChatMarker.dealMade.value
+          : ProposalChatMarker.wantDeal.value);
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
         markerChat = chat;
@@ -543,7 +542,7 @@ class ApiChannelHaggleActions {
       chat.sessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
       chat.marker = ProposalChatMarker.rejected.value;
-          Uri.encodeQueryComponent(reason);
+      Uri.encodeQueryComponent(reason);
       chat.plainText = reason;
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
@@ -659,11 +658,14 @@ class ApiChannelHaggleActions {
           : 'business_disputed';
       String updateMarkings = "UPDATE `proposals` "
           "SET `$accountMarkedDelivered` = 1, `$accountMarkedRewarded` = 1 " +
-          (pb.rating > 0 ? ", `$accountGaveRating` = ?" : '') + // TODO: Always rating
+          (pb.rating > 0
+              ? ", `$accountGaveRating` = ?"
+              : '') + // TODO: Always rating
           "WHERE `proposal_id` = ? "
           "AND `$accountAccountId` = ?"
           "AND `state` = ${ProposalState.deal.value} OR `state` = ${ProposalState.dispute.value}";
-      List<dynamic> parameters = []; // TODO: [pb.delivered ? 1 : 0, pb.rewarded ? 1 : 0];
+      List<dynamic> parameters =
+          []; // TODO: [pb.delivered ? 1 : 0, pb.rewarded ? 1 : 0];
       if (pb.rating > 0) parameters.add(pb.rating);
       parameters.addAll([proposalId, accountId]);
       sqljocky.Results resultMarkings =
@@ -677,19 +679,19 @@ class ApiChannelHaggleActions {
 
       bool dealCompleted;
       // TODO: if (!pb.dispute) {
-        // 2. Check for deal completion
-        channel.replyExtend(message);
-        String updateCompletion = "UPDATE `proposals` "
-            "SET `state` = ${ProposalState.complete.value} "
-            "WHERE `proposal_id` = ? "
-            "AND `influencer_marked_delivered` > 0 AND `influencer_marked_rewarded` > 0 "
-            "AND `business_marked_delivered` > 0 AND `business_marked_rewarded` > 0 "
-            "AND `influencer_gave_rating` > 0 AND `business_gave_rating` > 0 "
-            "AND `state` = ${ProposalState.deal.value}";
-        sqljocky.Results resultCompletion =
-            await transaction.prepareExecute(updateCompletion, [proposalId]);
-        dealCompleted = resultCompletion.affectedRows != null &&
-            resultCompletion.affectedRows != 0;
+      // 2. Check for deal completion
+      channel.replyExtend(message);
+      String updateCompletion = "UPDATE `proposals` "
+          "SET `state` = ${ProposalState.complete.value} "
+          "WHERE `proposal_id` = ? "
+          "AND `influencer_marked_delivered` > 0 AND `influencer_marked_rewarded` > 0 "
+          "AND `business_marked_delivered` > 0 AND `business_marked_rewarded` > 0 "
+          "AND `influencer_gave_rating` > 0 AND `business_gave_rating` > 0 "
+          "AND `state` = ${ProposalState.deal.value}";
+      sqljocky.Results resultCompletion =
+          await transaction.prepareExecute(updateCompletion, [proposalId]);
+      dealCompleted = resultCompletion.affectedRows != null &&
+          resultCompletion.affectedRows != 0;
       // }
 
 /*
@@ -699,9 +701,9 @@ class ApiChannelHaggleActions {
               ? ProposalChatMarker.complete
               : ProposalChatMarker.markedComplete);
               */
-      ProposalChatMarker marker=dealCompleted
-              ? ProposalChatMarker.complete
-              : ProposalChatMarker.markedComplete;
+      ProposalChatMarker marker = dealCompleted
+          ? ProposalChatMarker.complete
+          : ProposalChatMarker.markedComplete;
 
       // 2. Insert marker chat
       channel.replyExtend(message);
