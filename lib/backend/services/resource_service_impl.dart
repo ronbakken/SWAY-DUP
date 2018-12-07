@@ -1,4 +1,5 @@
 import 'package:inf/backend/services/resource_service_.dart';
+import 'package:inf/domain/category.dart';
 
 class ResourceServiceImplementation implements ResourceService {
   @override
@@ -16,6 +17,12 @@ class ResourceServiceImplementation implements ResourceService {
   @override
   String getMapUrlTemplate() {
     // TODO: implement getMapApiKey
+    throw Exception('Not imnplemented');
+  }
+
+  @override
+  Future<List<Category>> getTopLevelCategories() {
+    // TODO: implement getTopLevelCategories
     throw Exception('Not imnplemented');
   }
 }

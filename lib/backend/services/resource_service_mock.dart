@@ -1,6 +1,8 @@
 import 'dart:math' show Random;
 
+import 'package:flutter/services.dart';
 import 'package:inf/backend/services/resource_service_.dart';
+import 'package:inf/domain/category.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ResourceServiceMock implements ResourceService {
@@ -60,5 +62,76 @@ class ResourceServiceMock implements ResourceService {
   String getMapUrlTemplate() {
     return "https://api.tiles.mapbox.com/v4/mapbox.dark/{z}/{x}/{y}@2x.png"
         "?access_token={accessToken}";
+  }
+
+  @override
+  Future<List<Category>> getTopLevelCategories() async {
+    var categories = <Category>[
+      Category(
+        name: 'Cars',
+        id: 0,
+        iconData: (await rootBundle.load(
+                'assets/mockdata/category_icons/cars.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+      Category(
+        name: 'Drinks',
+        id: 1,
+        iconData: (await rootBundle.load(
+                'assets/mockdata/category_icons/drinks.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+      Category(
+        name: 'Fashion',
+        id: 2,
+        iconData: (await rootBundle.load(
+                'assets/mockdata/category_icons/fashion.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+      Category(
+        name: 'Food',
+        id: 3,
+        iconData: (await rootBundle.load(
+                'assets/mockdata/category_icons/food.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+      Category(
+        name: 'Fun',
+        id: 4,
+        iconData: (await rootBundle.load(
+                'assets/mockdata/category_icons/fun.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+      Category(
+        name: 'Health',
+        id: 5,
+        iconData: (await rootBundle.load(
+                'assets/mockdata/category_icons/Health.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+      Category(
+        name: 'Services',
+        id: 6,
+        iconData: (await rootBundle.load(
+                'assets/mockdata/category_icons/Services.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+      Category(
+        name: 'Travel',
+        id: 7,
+        iconData: (await rootBundle.load(
+                'assets/mockdata/category_icons/travel.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+    ];
+    return Future.value(categories);
   }
 }

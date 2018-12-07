@@ -63,6 +63,7 @@ flutter:
   assets:
   - assets/images/
   - assets/mockdata/
+  - assets/mockdata/category_icons/
   - assets/mockdata/social_media_icons/
 
   fonts:
