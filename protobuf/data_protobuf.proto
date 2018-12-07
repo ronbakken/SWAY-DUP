@@ -296,7 +296,7 @@ message DataProposalChat {
   string image_key = 13;
   string image_url = 14;
   bytes image_blurred = 15;
-  int32 marker = 16;
+  ProposalChatMarker marker = 16;
   
 }
 
