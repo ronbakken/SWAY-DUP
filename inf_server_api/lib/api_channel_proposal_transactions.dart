@@ -78,6 +78,8 @@ class ApiChannelProposalTransactions {
   ApiChannelProposalTransactions(this._r) {
     _r.registerProcedure(
         'PR_WADEA', GlobalAccountState.readWrite, _netProposalWantDeal);
+    _r.registerProcedure(
+        'PR_NGOTI', GlobalAccountState.readWrite, _netProposalNegotiate);
 
     _nextFakeGhostId =
         ((new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) &
@@ -87,6 +89,7 @@ class ApiChannelProposalTransactions {
 
   void dispose() {
     _r.unregisterProcedure('PR_WADEA');
+    _r.unregisterProcedure('PR_NGOTI');
     _r = null;
   }
 
@@ -149,6 +152,7 @@ class ApiChannelProposalTransactions {
 
     DataProposalChat markerChat; // Set upon success
 
+    channel.replyExtend(message);
     await sql.startTransaction((transaction) async {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
@@ -198,8 +202,8 @@ class ApiChannelProposalTransactions {
       chat.senderSessionGhostId = ++_nextFakeGhostId;
       chat.type = ProposalChatType.marker;
       chat.marker = (dealMade
-          ? ProposalChatMarker.dealMade.value
-          : ProposalChatMarker.wantDeal.value);
+          ? ProposalChatMarker.dealMade
+          : ProposalChatMarker.wantDeal);
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
         markerChat = chat;
@@ -209,14 +213,97 @@ class ApiChannelProposalTransactions {
 
     if (markerChat == null) {
       channel.replyAbort(message, "Not handled.");
+      _r.pushProposal(proposalId); // Refresh user side, possibly out of sync
     } else {
       NetProposal res = new NetProposal();
       DataProposal proposal = await _r.getProposal(proposalId);
-      res.updateProposal = proposal;
+      res.updateProposal = proposal; // TODO: Filter
       res.newChats.add(markerChat);
       try {
         // Send to current user
         channel.replyMessage(message, 'PR_R_WAD', res.writeToBuffer());
+      } catch (error, stackTrace) {
+        devLog.severe("$error\n$stackTrace");
+      }
+      // Publish!
+      _r.bc.proposalChanged(account.sessionId, proposal);
+      _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // Want to negotiate
+  //////////////////////////////////////////////////////////////////////////////
+
+  Future<void> _netProposalNegotiate(TalkMessage message) async {
+    NetProposalNegotiate negotiate = new NetProposalNegotiate()
+      ..mergeFromBuffer(message.data);
+
+    Int64 proposalId = negotiate.proposalId;
+
+    /* No need, already verified by first UPDATE
+    if (!await _verifySender(proposalId, accountId)) {
+      channel.sendException("Verification Failed", message);
+      return;
+    }
+    */
+
+    DataProposalChat markerChat; // Set upon success
+
+    channel.replyExtend(message);
+    await sql.startTransaction((transaction) async {
+      // 1. Update deal to reflect the account wants to negotiate
+      channel.replyExtend(message);
+      String accountType = (account.accountType == AccountType.influencer)
+          ? 'influencer'
+          : 'business';
+      String updateState = 'UPDATE `proposals` '
+          'SET `state` = ${ProposalState.negotiating.value} '
+          'WHERE `proposal_id` = ? '
+          'AND `${accountType}_account_id` = ? '
+          'AND `state` = ${ProposalState.proposing.value} '
+          'AND `${accountType}_wants_deal` = 0';
+      sqljocky.Results resultState = await transaction.prepareExecute(
+        updateState,
+        [proposalId, accountId],
+      );
+      if (resultState.affectedRows == null || resultState.affectedRows == 0) {
+        devLog.warning(
+            "Invalid want deal attempt by account '$accountId' on proposal '$proposalId'");
+        return;
+      }
+
+      // 2. Insert marker chat
+      channel.replyExtend(message);
+      DataProposalChat chat = new DataProposalChat();
+      chat.sent =
+          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      chat.senderAccountId = accountId;
+      chat.proposalId = proposalId;
+      chat.senderSessionId = account.sessionId;
+      chat.senderSessionGhostId = ++_nextFakeGhostId;
+      chat.type = ProposalChatType.marker;
+      chat.marker = ProposalChatMarker.wantNegotiate;
+      if (await _insertChat(transaction, chat)) {
+        channel.replyExtend(message);
+        markerChat = chat;
+        transaction.commit();
+      }
+    });
+
+    if (markerChat == null) {
+      channel.replyAbort(message, "Not handled.");
+      _r.pushProposal(proposalId); // Refresh user side, possibly out of sync
+    } else {
+      NetProposal res = new NetProposal();
+      DataProposal proposal = await _r.getProposal(proposalId);
+      res.updateProposal = proposal; // TODO: Filter
+      res.newChats.add(markerChat);
+      try {
+        // Send to current user
+        channel.replyMessage(message, 'PR_R_NGT', res.writeToBuffer());
       } catch (error, stackTrace) {
         devLog.severe("$error\n$stackTrace");
       }

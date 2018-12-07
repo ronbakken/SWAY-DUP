@@ -321,6 +321,23 @@ class ApiChannelProposal {
     return proposal;
   }
 
+  /// Dirty proposal push, use in case of trouble
+  Future<void> pushProposal(Int64 proposalId) async {
+    NetProposal proposal;
+    await for (sqljocky.Row row in await sql.prepareExecute(
+      SqlProposal.getSelectProposalsQuery(account.accountType) + ' WHERE `proposal_id` = ?',
+      [proposalId],
+    )) {
+      // Returns non account specific data
+      proposal = NetProposal();
+      proposal.updateProposal = SqlProposal.proposalFromRow(row, account.accountType);
+    }
+    if (proposal == null) {
+      throw new Exception("Proposal not found.");
+    }
+    channel.sendMessage('LU_PRPSL', proposal.writeToBuffer());
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -399,7 +416,7 @@ class ApiChannelProposal {
         if (row[7] != null) chat.terms = DataTerms()..mergeFromBuffer(row[7]);
         if (row[8] != null) chat.imageUrl = _r.makeCloudinaryCoverUrl(row[8]);
         if (row[9] != null) chat.imageBlurred = row[9];
-        if (row[10] != null) chat.marker = row[10].toInt();
+        if (row[10] != null) chat.marker = ProposalChatMarker.valueOf(row[10].toInt());
         channel.replyMessage(message, 'R_LSTCHA', chat.writeToBuffer());
       }
     } finally {

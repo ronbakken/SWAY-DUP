@@ -1785,6 +1785,11 @@ class ApiChannel {
   Future<DataProposal> getProposal(Int64 proposalId) async {
     return await apiChannelProposal.getProposal(proposalId);
   }
+
+  /// Dirty proposal push, use in case of trouble
+  Future<void> pushProposal(Int64 proposalId) async {
+    return await apiChannelProposal.pushProposal(proposalId);
+  }
 }
 
 /*

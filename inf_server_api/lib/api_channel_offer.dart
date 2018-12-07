@@ -185,7 +185,7 @@ class ApiChannelOffer {
 
     // Verify insertion
     Int64 offerId = new Int64(insertRes.insertId);
-    if (offerId == null || offerId == Int64.ZERO) {
+    if (offerId == Int64.ZERO) {
       opsLog.severe("User $accountId offer not inserted.");
       channel.replyAbort(message, "Not inserted.");
       return;

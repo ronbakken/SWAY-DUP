@@ -224,7 +224,7 @@ class ApiChannelHaggleActions {
       chat.plainText.toString(), // TODO: Insert the right fields!
     ]);
     int termsChatId = resultHaggle.insertId;
-    if (termsChatId == null || termsChatId == 0) {
+    if (termsChatId == 0) {
       return false;
     }
     chat.chatId = new Int64(termsChatId);
@@ -268,7 +268,7 @@ class ApiChannelHaggleActions {
       // Send placeholder message to erase the ghost id to current session.
       // This is an unusual race condition case that shouldn't happen.
       chat.type = ProposalChatType.marker;
-      chat.marker = ProposalChatMarker.messageDropped.value;
+      chat.marker = ProposalChatMarker.messageDropped;
       channel.sendMessage("LN_A_CHA", chat.writeToBuffer());
     }
   }
@@ -475,8 +475,8 @@ class ApiChannelHaggleActions {
       chat.senderSessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
       chat.marker = (dealMade
-          ? ProposalChatMarker.dealMade.value
-          : ProposalChatMarker.wantDeal.value);
+          ? ProposalChatMarker.dealMade
+          : ProposalChatMarker.wantDeal);
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
         markerChat = chat;
@@ -541,7 +541,7 @@ class ApiChannelHaggleActions {
       chat.senderSessionId = account.sessionId;
       chat.senderSessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
-      chat.marker = ProposalChatMarker.rejected.value;
+      chat.marker = ProposalChatMarker.rejected;
       Uri.encodeQueryComponent(reason);
       chat.plainText = reason;
       if (await _insertChat(transaction, chat)) {
@@ -715,7 +715,7 @@ class ApiChannelHaggleActions {
       chat.senderSessionId = account.sessionId;
       chat.senderSessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
-      chat.marker = marker.value;
+      chat.marker = marker;
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
         /*

@@ -12,7 +12,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: f5666c277f71e95f3c3c0f1a329728ea7701eb65
+      ref: 38bd60e405335160cfc858522161e5928516c373
   logging: ^0.11.3+2
   # crypto: ^2.0.6
   # pointycastle: ^1.0.0-rc2
