@@ -1297,7 +1297,7 @@ class DataProposalChat extends $pb.GeneratedMessage {
     ..aInt64(1, 'proposalId')
     ..aInt64(2, 'senderAccountId')
     ..aOS(5, 'plainText')
-    ..a<int>(6, 'sessionGhostId', $pb.PbFieldType.O3)
+    ..a<int>(6, 'senderSessionGhostId', $pb.PbFieldType.O3)
     ..aInt64(7, 'chatId')
     ..e<$0.ProposalChatType>(
         8,
@@ -1307,7 +1307,7 @@ class DataProposalChat extends $pb.GeneratedMessage {
         $0.ProposalChatType.valueOf,
         $0.ProposalChatType.values)
     ..aInt64(10, 'sent')
-    ..aInt64(11, 'sessionId')
+    ..aInt64(11, 'senderSessionId')
     ..a<DataTerms>(
         12, 'terms', $pb.PbFieldType.OM, DataTerms.getDefault, DataTerms.create)
     ..aOS(13, 'imageKey')
@@ -1361,13 +1361,13 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasPlainText() => $_has(2);
   void clearPlainText() => clearField(5);
 
-  int get sessionGhostId => $_get(3, 0);
-  set sessionGhostId(int v) {
+  int get senderSessionGhostId => $_get(3, 0);
+  set senderSessionGhostId(int v) {
     $_setSignedInt32(3, v);
   }
 
-  bool hasSessionGhostId() => $_has(3);
-  void clearSessionGhostId() => clearField(6);
+  bool hasSenderSessionGhostId() => $_has(3);
+  void clearSenderSessionGhostId() => clearField(6);
 
   Int64 get chatId => $_getI64(4);
   set chatId(Int64 v) {
@@ -1393,13 +1393,13 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasSent() => $_has(6);
   void clearSent() => clearField(10);
 
-  Int64 get sessionId => $_getI64(7);
-  set sessionId(Int64 v) {
+  Int64 get senderSessionId => $_getI64(7);
+  set senderSessionId(Int64 v) {
     $_setInt64(7, v);
   }
 
-  bool hasSessionId() => $_has(7);
-  void clearSessionId() => clearField(11);
+  bool hasSenderSessionId() => $_has(7);
+  void clearSenderSessionId() => clearField(11);
 
   DataTerms get terms => $_getN(8);
   set terms(DataTerms v) {
