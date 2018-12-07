@@ -304,7 +304,7 @@ class BroadcastCenter {
         "Pushed proposal ${proposal.proposalId}: '${influencerAccount.name}'");
   }
 
-  /// TODO: Filter business and influencer options for proposal (provide two parameters)
+  /// TODO: Filter business and influencer values from proposal
   /// This feature takes diff changes. Changes to lastChatId must not be sent
   Future<void> proposalChanged(
       Int64 senderSessionId, DataProposal proposal) async {

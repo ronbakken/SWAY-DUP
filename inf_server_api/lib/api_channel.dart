@@ -33,7 +33,6 @@ import 'broadcast_center.dart';
 import 'api_channel_oauth.dart';
 import 'api_channel_upload.dart';
 import 'api_channel_profile.dart';
-import 'api_channel_haggle.dart';
 import 'api_channel_haggle_actions.dart';
 import 'api_channel_business.dart';
 import 'api_channel_influencer.dart';

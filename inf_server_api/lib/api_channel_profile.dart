@@ -172,7 +172,7 @@ class ApiChannelProfile {
         account.socialMedia[oauthProvider].followersCount = row[4].toInt();
         account.socialMedia[oauthProvider].followingCount = row[5].toInt();
         account.socialMedia[oauthProvider].postsCount = row[6].toInt();
-        account.socialMedia[oauthProvider].verified = row[7].toInt() != 0;
+        account.socialMedia[oauthProvider].verified = row[7].toInt() == 1;
         account.socialMedia[oauthProvider].connected =
             true; // TODO: Expired state, TODO: Visibility state
       }
@@ -185,104 +185,6 @@ class ApiChannelProfile {
     res.account = account;
     channel.replyMessage(message, "R_PROFIL", res.writeToBuffer());
   }
-
-/*
-  Future<void> netGetOfferReq(TalkMessage message) async {
-    NetGetOfferReq pb = new NetGetOfferReq()..mergeFromBuffer(message.data);
-    devLog.finest(pb);
-    Int64 offerId = pb.offerId;
-    DataOffer offer;
-
-    channel.replyExtend(message);
-    sqljocky.RetainedConnection connection = await sql.getConnection();
-    try {
-      channel.replyExtend(message);
-      sqljocky.Query selectImageKeys = await connection.prepare(
-          "SELECT `image_key` FROM `offer_images` WHERE `offer_id` = ?");
-      try {
-        String selectOffers =
-            "SELECT `offers`.`offer_id`, `offers`.`account_id`, " // 0 1
-            "`offers`.`title`, `offers`.`description`, `offers`.`deliverables`, `offers`.`reward`, " // 2 3 4 5
-            "`offers`.`location_id`, `locations`.`detail`, `locations`.`point`, " // 6 7 8
-            "`offers`.`state`, `offers`.`state_reason`, " // 9 10
-            "`locations`.`offer_count`, `locations`.`name`, " // 11 12
-            "`proposals`.`proposal_id` " // 13
-            "FROM `offers` "
-            "INNER JOIN `locations` ON `locations`.`location_id` = `offers`.`location_id` "
-            "LEFT OUTER JOIN `proposals` "
-            "ON `proposals`.`offer_id` = `offers`.`offer_id` AND `proposals`.`influencer_account_id` = ? " // TODO: Cache will also cache a list of all proposals per offer...
-            "WHERE `offers`.`offer_id` = ? "
-            "ORDER BY `offer_id` DESC";
-        sqljocky.Results offerResults =
-            await sql.prepareExecute(selectOffers, [accountId, offerId]);
-        await for (sqljocky.Row offerRow in offerResults) {
-          channel.replyExtend(message);
-          offer = new DataOffer();
-          offer.offerId = new Int64(offerRow[0]);
-          offer.senderId = new Int64(offerRow[1]);
-          offer.locationId = new Int64(offerRow[6]);
-          offer.title = offerRow[2].toString();
-          offer.description = offerRow[3].toString();
-          //TODO: offer.deliverables = offerRow[4].toString();
-          //TODO: offer.reward = offerRow[5].toString();
-          offer.locationName = offerRow[12].toString();
-          //TODO: offer.location = offerRow[7].toString();
-          print(offerRow[8].toString());
-          Uint8List point = offerRow[8];
-          if (point != null) {
-            // Attempt to parse point, see https://dev.mysql.com/doc/refman/5.7/en/gis-data-formats.html#gis-wkb-format
-            ByteData data = new ByteData.view(point.buffer);
-            Endian endian = data.getInt8(4) == 0 ? Endian.big : Endian.little;
-            int type = data.getUint32(4 + 1, endian = endian);
-            if (type == 1) {
-              offer.latitude = data.getFloat64(4 + 5 + 8, endian = endian);
-              offer.longitude = data.getFloat64(4 + 5, endian = endian);
-            }
-          }
-          //TODO: offer.locationOfferCount = offerRow[11].toInt();
-          // offer.coverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryCoverUrl(v)));
-          // offer.blurredCoverUrls.addAll(filteredImageKeys.map((v) => _r.makeCloudinaryBlurredCoverUrl(v)));
-          // TODO: categories
-          offer.state = OfferState.valueOf(offerRow[9].toInt());
-          offer.stateReason = OfferStateReason.valueOf(offerRow[10].toInt());
-          // offer.proposalsNew = 0; // TODO
-          // offer.proposalsAccepted = 0; // TODO
-          // offer.proposalsCompleted = 0; // TODO
-          // offer.proposalsRefused = 0; // TODO
-          // 
-          sqljocky.Results imageKeyResults =
-              await selectImageKeys.execute([offerId]);
-          await for (sqljocky.Row imageKeyRow in imageKeyResults) {
-            if (!offer.hasThumbnailUrl()) {
-              offer.thumbnailUrl =
-                  _r.makeCloudinaryThumbnailUrl(imageKeyRow[0]);
-              // TODO: offer.blurredThumbnailUrl =
-              // TODO:     _r.makeCloudinaryBlurredThumbnailUrl(imageKeyRow[0]);
-            }
-            offer.coverUrls.add(_r.makeCloudinaryCoverUrl(imageKeyRow[0]));
-            // TODO: offer.blurredCoverUrls
-            // TODO:     .add(_r.makeCloudinaryBlurredCoverUrl(imageKeyRow[0]));
-          }
-          if (offerRow[13] != null) {
-            // TODO: offer.influencerProposalId = new Int64(offerRow[13]);
-          }
-        }
-        channel.replyExtend(message);
-      } finally {
-        await selectImageKeys.close();
-      }
-    } finally {
-      await connection.release();
-    }
-
-    if (offer == null) {
-      channel.replyAbort(message, "Offer not found.");
-      return;
-    }
-
-    NetGetOfferRes getOffersRes = new NetGetOfferRes();
-    getOffersRes.offer = offer;
-    channel.replyMessage(message, "GTOFFE_R", getOffersRes.writeToBuffer());
-  }
-  */
 }
+
+/* end of file */

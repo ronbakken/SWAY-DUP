@@ -170,7 +170,7 @@ class ApiChannelProposal {
         SqlProposal.makeInsertProposalParameters(proposal),
       );
       Int64 proposalId = new Int64(resultProposal.insertId);
-      if (proposalId == null || proposalId == Int64.ZERO) {
+      if (proposalId == Int64.ZERO) {
         throw new Exception('Proposal not inserted.');
       }
       proposal.proposalId = proposalId;
@@ -183,7 +183,7 @@ class ApiChannelProposal {
         SqlProposal.makeInsertNegotiateChatParameters(chat),
       );
       Int64 termsChatId = new Int64(resultNegotiate.insertId);
-      if (termsChatId == null || termsChatId == Int64.ZERO) {
+      if (termsChatId == Int64.ZERO) {
         throw new Exception('Terms chat not inserted.');
       }
       proposal.termsChatId = termsChatId;
