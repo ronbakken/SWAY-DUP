@@ -9,7 +9,10 @@ DataOffer
         byte sender_account_type
         long sender_session_id
         long location_id
+        
         boolean direct
+        boolean accept_matching_proposals
+        boolean allow_negotiating_proposals
         
         date created
         array date modified
@@ -99,10 +102,16 @@ PUT offers
         "location_id": {
           "type":  "long"
         },
+        
         "direct": {
           "type":  "boolean"
         },
-        
+        "accept_matching_proposals": {
+          "type":  "boolean"
+        },
+        "allow_negotiating_proposals": {
+          "type":  "boolean"
+        },
         
         "created": {
           "type":   "date",

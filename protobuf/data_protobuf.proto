@@ -93,12 +93,14 @@ message DataTerms {
   
 }
 
-message DataOffer { // 45
+message DataOffer { // 47
   int64 offer_id = 1; // (State) (Summary) (Detail)
   int64 sender_account_id = 2; // (State) (Summary) (Detail) Account id of the sender who published this offer
   AccountType sender_account_type = 45; // (State) (Summary) (Detail)
   int64 location_id = 3; // (State) (Summary) (Detail) (Private)
   bool direct = 32; // (State) (Detail) Direct offer, not returned in search results
+  bool accept_matching_proposals = 46; // (State) (Detail)
+  bool allow_negotiating_proposals = 47; // (State) (Detail)
   
   // Summary
   string title = 4; // (Summary) (Detail)
