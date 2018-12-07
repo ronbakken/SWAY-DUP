@@ -186,28 +186,42 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
 
   Widget buildCategoryRow(List<Padding> rowContent) {
     return new OverFlowRow(
-      height: 60.0,
+      height: 80.0,
       items: <Widget>[
         CategoryButton(
+          radius: 30.0,
           child: Icon(Icons.account_box),
           selectedSubCategories: 4,
+          label: 'Food',
         ),
         CategoryButton(
+          radius: 30.0,
+          label: 'Fashion',
           child: Icon(Icons.account_box),
         ),
         CategoryButton(
+          label: 'Fashion',
+          radius: 30.0,
           child: Icon(Icons.account_box),
         ),
         CategoryButton(
+          label: 'Fashion',
+          radius: 30.0,
           child: Icon(Icons.account_box),
         ),
         CategoryButton(
+          label: 'Fashion',
+          radius: 30.0,
           child: Icon(Icons.account_box),
         ),
         CategoryButton(
+          label: 'Fashion',
+          radius: 30.0,
           child: Icon(Icons.account_box),
         ),
         CategoryButton(
+          label: 'Fashion',
+          radius: 30.0,
           child: Icon(Icons.account_box),
         ),
       ],
@@ -284,7 +298,7 @@ class OverFlowRow extends StatelessWidget {
             listItems.add(Container(
                 padding: EdgeInsets.only(right: spacing),
                 width: segmentSpace,
-                child: AspectRatio(aspectRatio: 1.0, child: item)));
+                child: item));
           }
 
           return ListView(
