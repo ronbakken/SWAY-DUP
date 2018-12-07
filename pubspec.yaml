@@ -1,6 +1,6 @@
 name: inf_common
 description: INF Common Protocol files. Shared data structures and enumerations. 
-version: 1.2.25
+version: 1.3.26
 homepage: https://www.infmarketplace.com
 author: Jan Boon <kaetemi@no-break.space>
 publish_to: none

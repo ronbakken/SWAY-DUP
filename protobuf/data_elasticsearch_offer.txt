@@ -5,9 +5,9 @@ DataOffer
 {
     _id
     _source {
-        long sender_id
-        byte sender_type
-        long session_id
+        long sender_account_id
+        byte sender_account_type
+        long sender_session_id
         long location_id
         boolean direct
         
@@ -70,7 +70,7 @@ DataOffer
         (denormalized) array short geohash_int_shards
         (denormalized) array short geohash_shards
         
-        (denormalized) map long proposal_sender_ids ---------------- TODO --------------------
+        (denormalized) map long proposal_sender_account_ids ---------------- TODO --------------------
         
         (ai) array keyword image_keywords (keywords pulled from images)
         
@@ -87,13 +87,13 @@ PUT offers
   "mappings": {
     "_doc": {
       "properties": {
-        "sender_id": {
+        "sender_account_id": {
           "type":  "long"
         },
-        "sender_type": {
+        "sender_account_type": {
           "type":  "byte"
         },
-        "session_id": {
+        "sender_session_id": {
           "type":  "long"
         },
         "location_id": {
@@ -261,7 +261,7 @@ PUT offers
           "type":  "short"
         },
         
-        "proposal_sender_ids": {
+        "proposal_sender_account_ids": {
           "type":  "long"
         },
         
@@ -276,7 +276,7 @@ PUT offers
 PUT offers/_mapping/_doc
 {
   "properties": {
-    "proposal_sender_ids": {
+    "proposal_sender_account_ids": {
       "type":  "long"
     }
   }

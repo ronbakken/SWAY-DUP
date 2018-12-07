@@ -95,8 +95,8 @@ message DataTerms {
 
 message DataOffer { // 45
   int64 offer_id = 1; // (State) (Summary) (Detail)
-  int64 sender_id = 2; // (State) (Summary) (Detail) Account id of the sender who published this offer
-  AccountType sender_type = 45; // (State) (Summary) (Detail)
+  int64 sender_account_id = 2; // (State) (Summary) (Detail) Account id of the sender who published this offer
+  AccountType sender_account_type = 45; // (State) (Summary) (Detail)
   int64 location_id = 3; // (State) (Summary) (Detail) (Private)
   bool direct = 32; // (State) (Detail) Direct offer, not returned in search results
   
@@ -226,67 +226,67 @@ message DataAccount { // 30
 
 message DataProposal { // 30
   /// Unique identifier of the proposal
-  int64 proposalId = 1;
+  int64 proposal_id = 1;
   /// Unique identifier of the offer that this proposal concerns
-  int64 offerId = 2;
+  int64 offer_id = 2;
   
   /// Account id of the sender of the proposal. Either the influencer or business.
-  int64 senderAccountId = 20;
+  int64 sender_account_id = 20;
   /// (Denormalized) Account id of the sender of the offer (not of the proposal.)
   /// Either the influencer or business.
   /// If the makerId and the senderId are equal, this is a direct offer.
-  int64 offerAccountId = 27;
+  int64 offer_account_id = 27;
   
   /// Account id of the influencer
-  int64 influencerAccountId = 3;
+  int64 influencer_account_id = 3;
   /// Account id of the business
-  int64 businessAccountId = 16;
+  int64 business_account_id = 16;
   
   /// (Denormalized) Embedded data. Not necessarily up to date.
-  string influencerName = 17;
-  string businessName = 18;
-  string offerTitle = 19;
+  string influencer_name = 17;
+  string business_name = 18;
+  string offer_title = 19;
   
   /// Last chat
-  int64 lastChatId = 22;
+  int64 last_chat_id = 22;
   
   /// Last seen
-  int64 influencerSeenChatId = 23;
-  int64 influencerSeenTime = 24;
-  int64 businessSeenChatId = 25;
-  int64 businessSeenTime = 26;
+  int64 influencer_seen_chat_id = 23;
+  int64 influencer_seen_time = 24;
+  int64 business_seen_chat_id = 25;
+  int64 business_seen_time = 26;
   
   /// Current chat ID with haggle buttons (deliverables / reward / remarks)
-  int64 termsChatId = 4;
-  bool influencerWantsDeal = 6;
-  bool businessWantsDeal = 5;
-  int64 rejectingAccountId = 30;
+  int64 terms_chat_id = 4;
+  bool influencer_wants_deal = 6;
+  bool business_wants_deal = 5;
+  int64 rejecting_account_id = 30;
   
   /// For support
-  bool influencerMarkedDelivered = 7;
-  bool influencerMarkedRewarded = 8;
-  bool businessMarkedDelivered = 9;
-  bool businessMarkedRewarded = 10;
-  int32 influencerGaveRating = 12;
-  int32 businessGaveRating = 11; // 1 to 5, 0 is no rating given (rating given implies complete)
-  bool influencerDisputed = 15;
-  bool businessDisputed = 14;
+  bool influencer_marked_delivered = 7;
+  bool influencer_marked_rewarded = 8;
+  bool business_marked_delivered = 9;
+  bool business_marked_rewarded = 10;
+  int32 influencer_gave_rating = 12;
+  int32 business_gave_rating = 11; // 1 to 5, 0 is no rating given (rating given implies complete)
+  bool influencer_disputed = 15;
+  bool business_disputed = 14;
   
   /// State
   ProposalState state = 13;
-  bool influencerArchived = 28;
-  bool businessArchived = 29;
+  bool influencer_archived = 28;
+  bool business_archived = 29;
   
 }
 
 message DataProposalChat {
-  int64 chatId = 7; // Sequential identifier in the chat stream
+  int64 chat_id = 7; // Sequential identifier in the chat stream
   int64 sent = 10; // Sent timestamp
-  int64 senderAccountId = 2; // Account which sent
-  int64 proposalId = 1; // One chat per proposal
+  int64 sender_account_id = 2; // Account which sent
+  int64 proposal_id = 1; // One chat per proposal
   
-  int64 sessionId = 11; // Cleared upon forwarding
-  int32 sessionGhostId = 6; // Deduplication client-side (ghost entry)
+  int64 session_id = 11; // Cleared upon forwarding
+  int32 session_ghost_id = 6; // Deduplication client-side (ghost entry)
   
   ProposalChatType type = 8;
   string plain_text = 5; // The written text
