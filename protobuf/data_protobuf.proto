@@ -285,8 +285,8 @@ message DataProposalChat {
   int64 sender_account_id = 2; // Account which sent
   int64 proposal_id = 1; // One chat per proposal
   
-  int64 session_id = 11; // Cleared upon forwarding
-  int32 session_ghost_id = 6; // Deduplication client-side (ghost entry)
+  int64 sender_session_id = 11; // Cleared upon forwarding
+  int32 sender_session_ghost_id = 6; // Deduplication client-side (ghost entry)
   
   ProposalChatType type = 8;
   string plain_text = 5; // The written text
