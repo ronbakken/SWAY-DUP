@@ -220,7 +220,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
 
   void onNext(BuildContext context) {
     FormState state = form.currentState;
-    if (state.validate())
+    if (true /*state.validate()*/)
     {
       state.save();
       widget.offer.value = widget.offer.value.copyWith(title: title, description: description); 
