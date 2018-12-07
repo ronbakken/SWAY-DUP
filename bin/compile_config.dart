@@ -52,16 +52,27 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'spacesBucket'))
         res.spacesBucket = cfg.get(section, 'spacesBucket');
 
-      if (cfg.hasOption(section, 'mariadbHost'))
-        res.mariadbHost = cfg.get(section, 'mariadbHost');
-      if (cfg.hasOption(section, 'mariadbPort'))
-        res.mariadbPort = int.parse(cfg.get(section, 'mariadbPort'));
-      if (cfg.hasOption(section, 'mariadbUser'))
-        res.mariadbUser = cfg.get(section, 'mariadbUser');
-      if (cfg.hasOption(section, 'mariadbPassword'))
-        res.mariadbPassword = cfg.get(section, 'mariadbPassword');
-      if (cfg.hasOption(section, 'mariadbDatabase'))
-        res.mariadbDatabase = cfg.get(section, 'mariadbDatabase');
+      if (cfg.hasOption(section, 'accountDbHost'))
+        res.accountDbHost = cfg.get(section, 'accountDbHost');
+      if (cfg.hasOption(section, 'accountDbPort'))
+        res.accountDbPort = int.parse(cfg.get(section, 'accountDbPort'));
+      if (cfg.hasOption(section, 'accountDbUser'))
+        res.accountDbUser = cfg.get(section, 'accountDbUser');
+      if (cfg.hasOption(section, 'accountDbPassword'))
+        res.accountDbPassword = cfg.get(section, 'accountDbPassword');
+      if (cfg.hasOption(section, 'accountDbDatabase'))
+        res.accountDbDatabase = cfg.get(section, 'accountDbDatabase');
+
+      if (cfg.hasOption(section, 'proposalDbHost'))
+        res.proposalDbHost = cfg.get(section, 'proposalDbHost');
+      if (cfg.hasOption(section, 'proposalDbPort'))
+        res.proposalDbPort = int.parse(cfg.get(section, 'proposalDbPort'));
+      if (cfg.hasOption(section, 'proposalDbUser'))
+        res.proposalDbUser = cfg.get(section, 'proposalDbUser');
+      if (cfg.hasOption(section, 'proposalDbPassword'))
+        res.proposalDbPassword = cfg.get(section, 'proposalDbPassword');
+      if (cfg.hasOption(section, 'proposalDbDatabase'))
+        res.proposalDbDatabase = cfg.get(section, 'proposalDbDatabase');
 
       if (cfg.hasOption(section, 'elasticsearchApi'))
         res.elasticsearchApi = cfg.get(section, 'elasticsearchApi');
@@ -94,18 +105,23 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'mapboxToken'))
         res.mapboxToken = cfg.get(section, 'mapboxToken');
 
-      if (cfg.hasOption(section, 'cloudinaryUrl'))
-        res.cloudinaryUrl = cfg.get(section, 'cloudinaryUrl');
-      if (cfg.hasOption(section, 'cloudinaryThumbnailUrl'))
-        res.cloudinaryThumbnailUrl = cfg.get(section, 'cloudinaryThumbnailUrl');
-      if (cfg.hasOption(section, 'cloudinaryBlurredThumbnailUrl'))
-        res.cloudinaryBlurredThumbnailUrl =
-            cfg.get(section, 'cloudinaryBlurredThumbnailUrl');
-      if (cfg.hasOption(section, 'cloudinaryCoverUrl'))
-        res.cloudinaryCoverUrl = cfg.get(section, 'cloudinaryCoverUrl');
-      if (cfg.hasOption(section, 'cloudinaryBlurredCoverUrl'))
-        res.cloudinaryBlurredCoverUrl =
-            cfg.get(section, 'cloudinaryBlurredCoverUrl');
+      if (cfg.hasOption(section, 'galleryUrl'))
+        res.galleryUrl = cfg.get(section, 'galleryUrl');
+      if (cfg.hasOption(section, 'galleryThumbnailUrl'))
+        res.galleryThumbnailUrl = cfg.get(section, 'galleryThumbnailUrl');
+      if (cfg.hasOption(section, 'galleryhumbnailBlurredTUrl'))
+        res.galleryThumbnailBlurredUrl =
+            cfg.get(section, 'galleryThumbnailBlurredUrl');
+      if (cfg.hasOption(section, 'galleryCoverUrl'))
+        res.galleryCoverUrl = cfg.get(section, 'galleryCoverUrl');
+      if (cfg.hasOption(section, 'galleryCoverBlurredUrl'))
+        res.galleryCoverBlurredUrl =
+            cfg.get(section, 'galleryCoverBlurredUrl');
+      if (cfg.hasOption(section, 'galleryPictureUrl'))
+        res.galleryPictureUrl = cfg.get(section, 'galleryPictureUrl');
+      if (cfg.hasOption(section, 'galleryPictureBlurredUrl'))
+        res.galleryPictureBlurredUrl =
+            cfg.get(section, 'galleryPictureBlurredUrl');
 
       if (cfg.hasOption(section, 'ipstackApi'))
         res.ipstackApi = cfg.get(section, 'ipstackApi');
@@ -219,7 +235,7 @@ Future<ConfigContent> generateConfigContent(bool server) async {
   String spacesSecret = cfg.get("Storage", 'spacesSecret');
   String spacesBucket = cfg.get("Storage", 'spacesBucket');
 
-  String welcomeCloudinaryUrl = cfg.get("Welcome", 'cloudinaryUrl');
+  String welcomeCloudinaryUrl = cfg.get("Welcome", 'galleryUrl');
   String welcomeSpacesPrefix = cfg.get("Welcome", 'spacesPrefix');
 
   var spaces = new dospace.Spaces(
