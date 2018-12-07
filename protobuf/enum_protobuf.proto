@@ -100,7 +100,7 @@ enum OfferStateReason {
 
 enum ProposalChatType {
   PCT_PLAIN = 0;
-  PCT_TERMS = 1; // url-encoded haggle message (deliverable=...&reward=...&remarks=...)
+  PCT_NEGOTIATE = 1; // url-encoded haggle message (deliverable=...&reward=...&remarks=...)
   PCT_IMAGE_KEY = 2;
   PCT_MARKER = 3; // system marker (id=...)
   

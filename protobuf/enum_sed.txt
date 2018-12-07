@@ -70,6 +70,7 @@ s/'OSR__/'OSR_/g
 s/'PCT_/'PCT__/g
 s/PCT_PLAIN/plain/g
 s/PCT_TERMS/terms/g
+s/PCT_NEGOTIATE/negotiate/g
 s/PCT_IMAGE_KEY/imageKey/g
 s/PCT_MARKER/marker/g
 s/'PCT__/'PCT_/g
