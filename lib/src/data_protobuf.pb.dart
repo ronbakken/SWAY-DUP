@@ -328,7 +328,7 @@ class DataOffer extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataOffer',
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'offerId')
-    ..aInt64(2, 'senderId')
+    ..aInt64(2, 'senderAccountId')
     ..aInt64(3, 'locationId')
     ..aOS(4, 'title')
     ..aOS(5, 'description')
@@ -367,7 +367,7 @@ class DataOffer extends $pb.GeneratedMessage {
     ..a<int>(42, 'proposalsDispute', $pb.PbFieldType.O3)
     ..a<int>(43, 'proposalsResolved', $pb.PbFieldType.O3)
     ..a<int>(44, 'proposalsComplete', $pb.PbFieldType.O3)
-    ..e<$0.AccountType>(45, 'senderType', $pb.PbFieldType.OE,
+    ..e<$0.AccountType>(45, 'senderAccountType', $pb.PbFieldType.OE,
         $0.AccountType.unknown, $0.AccountType.valueOf, $0.AccountType.values)
     ..hasRequiredFields = false;
 
@@ -398,13 +398,13 @@ class DataOffer extends $pb.GeneratedMessage {
   bool hasOfferId() => $_has(0);
   void clearOfferId() => clearField(1);
 
-  Int64 get senderId => $_getI64(1);
-  set senderId(Int64 v) {
+  Int64 get senderAccountId => $_getI64(1);
+  set senderAccountId(Int64 v) {
     $_setInt64(1, v);
   }
 
-  bool hasSenderId() => $_has(1);
-  void clearSenderId() => clearField(2);
+  bool hasSenderAccountId() => $_has(1);
+  void clearSenderAccountId() => clearField(2);
 
   Int64 get locationId => $_getI64(2);
   set locationId(Int64 v) {
@@ -616,13 +616,13 @@ class DataOffer extends $pb.GeneratedMessage {
   bool hasProposalsComplete() => $_has(31);
   void clearProposalsComplete() => clearField(44);
 
-  $0.AccountType get senderType => $_getN(32);
-  set senderType($0.AccountType v) {
+  $0.AccountType get senderAccountType => $_getN(32);
+  set senderAccountType($0.AccountType v) {
     setField(45, v);
   }
 
-  bool hasSenderType() => $_has(32);
-  void clearSenderType() => clearField(45);
+  bool hasSenderAccountType() => $_has(32);
+  void clearSenderAccountType() => clearField(45);
 }
 
 class DataLocation extends $pb.GeneratedMessage {

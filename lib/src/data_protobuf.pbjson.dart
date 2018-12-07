@@ -107,14 +107,20 @@ const DataOffer$json = const {
   '1': 'DataOffer',
   '2': const [
     const {'1': 'offer_id', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
-    const {'1': 'sender_id', '3': 2, '4': 1, '5': 3, '10': 'senderId'},
     const {
-      '1': 'sender_type',
+      '1': 'sender_account_id',
+      '3': 2,
+      '4': 1,
+      '5': 3,
+      '10': 'senderAccountId'
+    },
+    const {
+      '1': 'sender_account_type',
       '3': 45,
       '4': 1,
       '5': 14,
       '6': '.inf_common.AccountType',
-      '10': 'senderType'
+      '10': 'senderAccountType'
     },
     const {'1': 'location_id', '3': 3, '4': 1, '5': 3, '10': 'locationId'},
     const {'1': 'direct', '3': 32, '4': 1, '5': 8, '10': 'direct'},
@@ -382,147 +388,147 @@ const DataAccount_SocialMediaEntry$json = const {
 const DataProposal$json = const {
   '1': 'DataProposal',
   '2': const [
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
-    const {'1': 'offerId', '3': 2, '4': 1, '5': 3, '10': 'offerId'},
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'offer_id', '3': 2, '4': 1, '5': 3, '10': 'offerId'},
     const {
-      '1': 'senderAccountId',
+      '1': 'sender_account_id',
       '3': 20,
       '4': 1,
       '5': 3,
       '10': 'senderAccountId'
     },
     const {
-      '1': 'offerAccountId',
+      '1': 'offer_account_id',
       '3': 27,
       '4': 1,
       '5': 3,
       '10': 'offerAccountId'
     },
     const {
-      '1': 'influencerAccountId',
+      '1': 'influencer_account_id',
       '3': 3,
       '4': 1,
       '5': 3,
       '10': 'influencerAccountId'
     },
     const {
-      '1': 'businessAccountId',
+      '1': 'business_account_id',
       '3': 16,
       '4': 1,
       '5': 3,
       '10': 'businessAccountId'
     },
     const {
-      '1': 'influencerName',
+      '1': 'influencer_name',
       '3': 17,
       '4': 1,
       '5': 9,
       '10': 'influencerName'
     },
-    const {'1': 'businessName', '3': 18, '4': 1, '5': 9, '10': 'businessName'},
-    const {'1': 'offerTitle', '3': 19, '4': 1, '5': 9, '10': 'offerTitle'},
-    const {'1': 'lastChatId', '3': 22, '4': 1, '5': 3, '10': 'lastChatId'},
+    const {'1': 'business_name', '3': 18, '4': 1, '5': 9, '10': 'businessName'},
+    const {'1': 'offer_title', '3': 19, '4': 1, '5': 9, '10': 'offerTitle'},
+    const {'1': 'last_chat_id', '3': 22, '4': 1, '5': 3, '10': 'lastChatId'},
     const {
-      '1': 'influencerSeenChatId',
+      '1': 'influencer_seen_chat_id',
       '3': 23,
       '4': 1,
       '5': 3,
       '10': 'influencerSeenChatId'
     },
     const {
-      '1': 'influencerSeenTime',
+      '1': 'influencer_seen_time',
       '3': 24,
       '4': 1,
       '5': 3,
       '10': 'influencerSeenTime'
     },
     const {
-      '1': 'businessSeenChatId',
+      '1': 'business_seen_chat_id',
       '3': 25,
       '4': 1,
       '5': 3,
       '10': 'businessSeenChatId'
     },
     const {
-      '1': 'businessSeenTime',
+      '1': 'business_seen_time',
       '3': 26,
       '4': 1,
       '5': 3,
       '10': 'businessSeenTime'
     },
-    const {'1': 'termsChatId', '3': 4, '4': 1, '5': 3, '10': 'termsChatId'},
+    const {'1': 'terms_chat_id', '3': 4, '4': 1, '5': 3, '10': 'termsChatId'},
     const {
-      '1': 'influencerWantsDeal',
+      '1': 'influencer_wants_deal',
       '3': 6,
       '4': 1,
       '5': 8,
       '10': 'influencerWantsDeal'
     },
     const {
-      '1': 'businessWantsDeal',
+      '1': 'business_wants_deal',
       '3': 5,
       '4': 1,
       '5': 8,
       '10': 'businessWantsDeal'
     },
     const {
-      '1': 'rejectingAccountId',
+      '1': 'rejecting_account_id',
       '3': 30,
       '4': 1,
       '5': 3,
       '10': 'rejectingAccountId'
     },
     const {
-      '1': 'influencerMarkedDelivered',
+      '1': 'influencer_marked_delivered',
       '3': 7,
       '4': 1,
       '5': 8,
       '10': 'influencerMarkedDelivered'
     },
     const {
-      '1': 'influencerMarkedRewarded',
+      '1': 'influencer_marked_rewarded',
       '3': 8,
       '4': 1,
       '5': 8,
       '10': 'influencerMarkedRewarded'
     },
     const {
-      '1': 'businessMarkedDelivered',
+      '1': 'business_marked_delivered',
       '3': 9,
       '4': 1,
       '5': 8,
       '10': 'businessMarkedDelivered'
     },
     const {
-      '1': 'businessMarkedRewarded',
+      '1': 'business_marked_rewarded',
       '3': 10,
       '4': 1,
       '5': 8,
       '10': 'businessMarkedRewarded'
     },
     const {
-      '1': 'influencerGaveRating',
+      '1': 'influencer_gave_rating',
       '3': 12,
       '4': 1,
       '5': 5,
       '10': 'influencerGaveRating'
     },
     const {
-      '1': 'businessGaveRating',
+      '1': 'business_gave_rating',
       '3': 11,
       '4': 1,
       '5': 5,
       '10': 'businessGaveRating'
     },
     const {
-      '1': 'influencerDisputed',
+      '1': 'influencer_disputed',
       '3': 15,
       '4': 1,
       '5': 8,
       '10': 'influencerDisputed'
     },
     const {
-      '1': 'businessDisputed',
+      '1': 'business_disputed',
       '3': 14,
       '4': 1,
       '5': 8,
@@ -537,14 +543,14 @@ const DataProposal$json = const {
       '10': 'state'
     },
     const {
-      '1': 'influencerArchived',
+      '1': 'influencer_archived',
       '3': 28,
       '4': 1,
       '5': 8,
       '10': 'influencerArchived'
     },
     const {
-      '1': 'businessArchived',
+      '1': 'business_archived',
       '3': 29,
       '4': 1,
       '5': 8,
@@ -556,19 +562,19 @@ const DataProposal$json = const {
 const DataProposalChat$json = const {
   '1': 'DataProposalChat',
   '2': const [
-    const {'1': 'chatId', '3': 7, '4': 1, '5': 3, '10': 'chatId'},
+    const {'1': 'chat_id', '3': 7, '4': 1, '5': 3, '10': 'chatId'},
     const {'1': 'sent', '3': 10, '4': 1, '5': 3, '10': 'sent'},
     const {
-      '1': 'senderAccountId',
+      '1': 'sender_account_id',
       '3': 2,
       '4': 1,
       '5': 3,
       '10': 'senderAccountId'
     },
-    const {'1': 'proposalId', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
-    const {'1': 'sessionId', '3': 11, '4': 1, '5': 3, '10': 'sessionId'},
+    const {'1': 'proposal_id', '3': 1, '4': 1, '5': 3, '10': 'proposalId'},
+    const {'1': 'session_id', '3': 11, '4': 1, '5': 3, '10': 'sessionId'},
     const {
-      '1': 'sessionGhostId',
+      '1': 'session_ghost_id',
       '3': 6,
       '4': 1,
       '5': 5,
