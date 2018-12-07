@@ -46,30 +46,15 @@ class ElasticsearchOffer {
     return hash;
   }
 
-  /*
-  static void blurImageKeys(DataOffer offer) {
-    Uri uri = Uri.parse(url);
-    http.Request request = new http.Request('GET', uri);
-    http.Response response = await httpClient.send(request);
-    BytesBuilder builder = new BytesBuilder(copy: false);
-    await response.body.forEach(builder.add);
-    Uint8List body = builder.toBytes();
-    if (response.statusCode != 200) {
-      throw new Exception(response.reasonPhrase);
-    }
-  }
-  */
-
   static dynamic toJson(
     ConfigData config,
     DataOffer offer, {
     DataAccount sender,
     DataLocation location,
-    AccountType senderType,
+    AccountType senderAccountType,
     bool create = false, // Include created timestamp, and creation fields
     bool modify = true,
     Int64 sessionId,
-    int sessionGhostId,
     bool state =
         false, // Include updating state values, only for server side state updates (must have direct, state, archived options set to update published)
     bool verbose =
@@ -85,19 +70,19 @@ class ElasticsearchOffer {
     */
     if (create || verbose) {
       if (sender != null && sender.hasAccountId()) {
-        doc["sender_id"] = sender.accountId.toInt();
-      } else if (offer.hasSenderId()) {
-        doc["sender_id"] = offer.senderId.toInt();
+        doc["sender_account_id"] = sender.accountId.toInt();
+      } else if (offer.hasSenderAccountId()) {
+        doc["sender_account_id"] = offer.senderAccountId.toInt();
       }
     }
-    AccountType senderTypeUpdated = senderType;
+    AccountType senderAccountTypeUpdated = senderAccountType;
     if (sender != null && sender.hasAccountType()) {
-      senderTypeUpdated = sender.accountType;
-    } else if (offer.hasSenderType()) {
-      senderTypeUpdated = offer.senderType;
+      senderAccountTypeUpdated = sender.accountType;
+    } else if (offer.hasSenderAccountType()) {
+      senderAccountTypeUpdated = offer.senderAccountType;
     }
-    if ((create || verbose) && senderTypeUpdated != null) {
-      doc["sender_type"] = senderTypeUpdated.value;
+    if ((create || verbose) && senderAccountTypeUpdated != null) {
+      doc["sender_account_type"] = senderAccountTypeUpdated.value;
     }
     if (location != null && sender.hasLocationId()) {
       doc["location_id"] = location.locationId.toInt();
@@ -108,7 +93,7 @@ class ElasticsearchOffer {
       doc["direct"] = offer.direct;
     }
     if ((create || verbose) && sessionId != null) {
-      doc["session_id"] = sessionId.toInt();
+      doc["sender_session_id"] = sessionId.toInt();
     }
     if (create) {
       doc["created"] = millis;
@@ -179,11 +164,11 @@ class ElasticsearchOffer {
     if (offer.hasSenderAvatarBlurred()) {
       doc["sender_avatar_blurred"] = base64.encode(offer.senderAvatarBlurred);
     }
-    if (senderTypeUpdated == AccountType.influencer &&
+    if (senderAccountTypeUpdated == AccountType.influencer &&
         location != null &&
         location.hasApproximate()) {
       doc["location_address"] = location.approximate;
-    } else if (senderTypeUpdated == AccountType.business &&
+    } else if (senderAccountTypeUpdated == AccountType.business &&
         location != null &&
         location.hasDetail()) {
       doc["location_address"] = location.detail;
@@ -340,15 +325,15 @@ class ElasticsearchOffer {
       offer.offerId = new Int64(doc["offer_id"]);
     }
     */
-    if (doc.containsKey("sender_id")) {
-      offer.senderId = new Int64(doc["sender_id"]);
+    if (doc.containsKey("sender_account_id")) {
+      offer.senderAccountId = new Int64(doc["sender_account_id"]);
     }
-    if (doc.containsKey("sender_type")) {
-      offer.senderType = AccountType.valueOf(doc["sender_type"]);
+    if (doc.containsKey("sender_account_type")) {
+      offer.senderAccountType = AccountType.valueOf(doc["sender_account_type"]);
     }
     bool receiverIsOwner = receiver != null &&
         receiver != Int64.ZERO &&
-        receiver == offer.senderId;
+        receiver == offer.senderAccountId;
     if ((private && receiverIsOwner) && doc.containsKey("location_id")) {
       offer.locationId = new Int64(doc["location_id"]);
     }

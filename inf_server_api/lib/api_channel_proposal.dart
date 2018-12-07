@@ -106,7 +106,7 @@ class ApiChannelProposal {
     // Fetch some offer info
     channel.replyExtend(message);
     DataOffer offer = await _r.getOffer(applyProposal.offerId);
-    if (offer.senderId == Int64.ZERO) {
+    if (offer.senderAccountId == Int64.ZERO) {
       // Should not happen. Database issue likely
       opsLog.severe(
           'Request for offer "${applyProposal.offerId}" returned empty sender account id.');
@@ -115,7 +115,7 @@ class ApiChannelProposal {
     if (offer.state != OfferState.open) {
       channel.replyAbort(message, 'Offer not open.');
     }
-    if (offer.senderType == account.accountType) {
+    if (offer.senderAccountType == account.accountType) {
       // Business cannot apply to business
       channel.replyAbort(message, 'Account type mismatch.');
     }
@@ -123,14 +123,14 @@ class ApiChannelProposal {
     DataProposal proposal = new DataProposal();
     proposal.offerId = applyProposal.offerId;
     proposal.senderAccountId = accountId;
-    proposal.offerAccountId = offer.senderId;
-    if (offer.senderType == AccountType.business) {
+    proposal.offerAccountId = offer.senderAccountId;
+    if (offer.senderAccountType == AccountType.business) {
       proposal.influencerAccountId = accountId;
-      proposal.businessAccountId = offer.senderId;
+      proposal.businessAccountId = offer.senderAccountId;
       proposal.influencerName = account.name;
       proposal.businessName = offer.senderName;
     } else {
-      proposal.influencerAccountId = offer.senderId;
+      proposal.influencerAccountId = offer.senderAccountId;
       proposal.businessAccountId = accountId;
       proposal.influencerName = offer.senderName;
       proposal.businessName = account.name;
@@ -139,8 +139,8 @@ class ApiChannelProposal {
     proposal.state = ProposalState.proposing;
     DataProposalChat chat = new DataProposalChat();
     chat.senderAccountId = accountId;
-    chat.sessionId = account.sessionId;
-    chat.sessionGhostId = applyProposal.sessionGhostId;
+    chat.senderSessionId = account.sessionId;
+    chat.senderSessionGhostId = applyProposal.sessionGhostId;
     chat.type = ProposalChatType.negotiate;
     chat.plainText = applyProposal.remarks;
     if (applyProposal.hasTerms()) {
@@ -170,12 +170,12 @@ class ApiChannelProposal {
         SqlProposal.insertNegotiateChatQuery,
         SqlProposal.makeInsertNegotiateChatParameters(chat),
       );
-      Int64 negotiateChatId = new Int64(resultNegotiate.insertId);
-      if (negotiateChatId == null || negotiateChatId == Int64.ZERO) {
+      Int64 termsChatId = new Int64(resultNegotiate.insertId);
+      if (termsChatId == null || termsChatId == Int64.ZERO) {
         throw new Exception("Terms chat not inserted");
       }
-      proposal.termsChatId = negotiateChatId;
-      chat.chatId = negotiateChatId;
+      proposal.termsChatId = termsChatId;
+      chat.chatId = termsChatId;
       chat.sent =
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
 
@@ -188,7 +188,7 @@ class ApiChannelProposal {
           await transaction.prepareExecute(
         updateTermsChatId,
         [
-          negotiateChatId,
+          termsChatId,
           proposalId,
         ],
       );
@@ -208,14 +208,15 @@ class ApiChannelProposal {
     channel.replyMessage(message, "R_APLPRP", res.writeToBuffer());
 
     // Clear private information from broadcast
-    chat.sessionId = Int64.ZERO;
-    chat.sessionGhostId = 0;
+    chat.senderSessionId = Int64.ZERO;
+    chat.senderSessionGhostId = 0;
 
     // Broadcast
     await bc.proposalPosted(account.sessionId, proposal, account);
     await bc.proposalChatPosted(account.sessionId, chat, account);
 
     // TODO: Update offer proposal count
+    // TODO: Add to proposal_sender_account_ids lookup
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -352,7 +353,7 @@ class ApiChannelProposal {
       channel.replyExtend(message);
       String chatQuery = "SELECT "
           "`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, " // 0 1
-          "`sender_id`, `session_id`, `session_ghost_id`, " // 2 3 4
+          "`sender_account_id`, `sender_session_id`, `sender_session_ghost_id`, " // 2 3 4
           "`type`, `plain_text`, `terms`, " // 5 6 7
           "`image_key`, `image_blurred`, " // 8 9
           "`marker` " // 10

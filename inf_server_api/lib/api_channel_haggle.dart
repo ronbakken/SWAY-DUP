@@ -124,7 +124,7 @@ class ApiChannelHaggle {
       channel.replyExtend(message);
       String chatQuery = "SELECT "
           "`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, " // 0 1
-          "`sender_id`, `session_id`, `session_ghost_id`, " // 2 3 4
+          "`sender_account_id`, `sender_session_id`, `sender_session_ghost_id`, " // 2 3 4
           "`type`, `plain_text`, `terms`, " // 5 6 7
           "`image_key`, `image_blurred`, " // 8 9
           "`marker` " // 10
@@ -142,8 +142,8 @@ class ApiChannelHaggle {
         chat.senderAccountId = new Int64(row[2]);
         Int64 sessionId = new Int64(row[3]);
         if (sessionId == account.sessionId) {
-          chat.sessionId = sessionId;
-          chat.sessionGhostId = row[4].toInt();
+          chat.senderSessionId = sessionId;
+          chat.senderSessionGhostId = row[4].toInt();
         }
         chat.type = ProposalChatType.valueOf(row[5].toInt());
         if (row[6] != null) chat.plainText = row[6].toString();

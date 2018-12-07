@@ -275,7 +275,7 @@ class BroadcastCenter {
   // TODO: Ensure this gets called everywhere it's applicable
   /// Forwards the offer to any other sessions of this user
   Future<void> offerChanged(Int64 senderSessionId, DataOffer offer) async {
-    await _pushOfferChanged(senderSessionId, offer.senderId, offer);
+    await _pushOfferChanged(senderSessionId, offer.senderAccountId, offer);
   }
 
   /// TODO: Filter business and influencer options for proposal if applicable (provide two parameters)

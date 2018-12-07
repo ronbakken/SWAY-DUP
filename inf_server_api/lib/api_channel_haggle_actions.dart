@@ -210,15 +210,15 @@ class ApiChannelHaggleActions {
     // Store in database
     String insertChat = "INSERT INTO `proposal_chats`("
         "`sender_account_id`, `proposal_id`, "
-        "`session_id`, `session_ghost_id`, "
+        "`sender_session_id`, `sender_session_ghost_id`, "
         "`type`, `text`) "
         "VALUES (?, ?, ?, ?, ?, ?)";
     sqljocky.Results resultHaggle =
         await connection.prepareExecute(insertChat, [
       chat.senderAccountId,
       chat.proposalId,
-      chat.sessionId,
-      chat.sessionGhostId
+      chat.senderSessionId,
+      chat.senderSessionGhostId
           .toInt(), // Not actually used for apply chat, but need it for consistency
       chat.type.value.toInt(),
       chat.plainText.toString(), // TODO: Insert the right fields!
@@ -287,8 +287,8 @@ class ApiChannelHaggleActions {
     channel.sendMessage("LN_A_CHA", chat.writeToBuffer());
 
     // Clear private information from broadcast
-    chat.sessionId = Int64.ZERO;
-    chat.sessionGhostId = 0;
+    chat.senderSessionId = Int64.ZERO;
+    chat.senderSessionGhostId = 0;
 
     // Publish to all else
     // TODO: Deduplicate chat.writeToBuffer() calls on publishing
@@ -314,8 +314,8 @@ class ApiChannelHaggleActions {
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
     chat.senderAccountId = accountId;
     chat.proposalId = pb.proposalId;
-    chat.sessionId = account.sessionId;
-    chat.sessionGhostId = pb.sessionGhostId;
+    chat.senderSessionId = account.sessionId;
+    chat.senderSessionGhostId = pb.sessionGhostId;
     chat.type = ProposalChatType.plain;
     chat.plainText = pb.text;
 
@@ -361,8 +361,8 @@ class ApiChannelHaggleActions {
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
     chat.senderAccountId = accountId;
     chat.proposalId = pb.proposalId;
-    chat.sessionId = account.sessionId;
-    chat.sessionGhostId = pb.sessionGhostId;
+    chat.senderSessionId = account.sessionId;
+    chat.senderSessionGhostId = pb.sessionGhostId;
     chat.type = ProposalChatType.negotiate;
     chat.plainText = pb.remarks;
     chat.terms = pb.terms;
@@ -382,8 +382,8 @@ class ApiChannelHaggleActions {
         new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
     chat.senderAccountId = accountId;
     chat.proposalId = pb.proposalId;
-    chat.sessionId = account.sessionId;
-    chat.sessionGhostId = pb.sessionGhostId;
+    chat.senderSessionId = account.sessionId;
+    chat.senderSessionGhostId = pb.sessionGhostId;
     chat.type = ProposalChatType.imageKey;
     chat.imageKey = pb.imageKey;
     // TODO: imageBlurred
@@ -471,8 +471,8 @@ class ApiChannelHaggleActions {
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
-      chat.sessionId = account.sessionId;
-      chat.sessionGhostId = ++nextFakeGhostId;
+      chat.senderSessionId = account.sessionId;
+      chat.senderSessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
       chat.marker = (dealMade
           ? ProposalChatMarker.dealMade.value
@@ -538,8 +538,8 @@ class ApiChannelHaggleActions {
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
-      chat.sessionId = account.sessionId;
-      chat.sessionGhostId = ++nextFakeGhostId;
+      chat.senderSessionId = account.sessionId;
+      chat.senderSessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
       chat.marker = ProposalChatMarker.rejected.value;
       Uri.encodeQueryComponent(reason);
@@ -712,8 +712,8 @@ class ApiChannelHaggleActions {
           new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
-      chat.sessionId = account.sessionId;
-      chat.sessionGhostId = ++nextFakeGhostId;
+      chat.senderSessionId = account.sessionId;
+      chat.senderSessionGhostId = ++nextFakeGhostId;
       chat.type = ProposalChatType.marker;
       chat.marker = marker.value;
       if (await _insertChat(transaction, chat)) {

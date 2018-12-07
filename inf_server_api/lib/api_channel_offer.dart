@@ -128,8 +128,8 @@ class ApiChannelOffer {
       return;
     }
 
-    offer.senderId = account.accountId;
-    offer.senderType = account.accountType;
+    offer.senderAccountId = account.accountId;
+    offer.senderAccountType = account.accountType;
     offer.senderName = account.name;
     offer.senderAvatarUrl = account.avatarUrl;
     // TODO: offer.senderAvatarBlurred = account.avatarBlurred;
@@ -172,19 +172,16 @@ class ApiChannelOffer {
     // Insert offer, not so critical
     channel.replyExtend(message);
     String insertOffer =
-        "INSERT INTO `offers`(`sender_id`, `sender_type`, `session_id`, `location_id`, `state`, `state_reason`) "
+        "INSERT INTO `offers`(`sender_account_id`, `sender_account_type`, `sender_session_id`, `location_id`, `state`, `state_reason`) "
         "VALUES (?, ?, ?, ?, ?, ?)";
     sqljocky.Results insertRes = await sql.prepareExecute(insertOffer, [
-      offer.senderId,
-      offer.senderType.value,
+      offer.senderAccountId,
+      offer.senderAccountType.value,
       account.sessionId,
       offer.locationId,
       offer.state.value,
       offer.stateReason.value,
     ]);
-
-    // TODO: Unexpected error in procedure 'CREOFFER': Error 1062 (23000): Duplicate entry '4-0' for key 'session_id'
-    // Get existing offer, or update offer instead, or remove the session_ghost_id here...
 
     // Verify insertion
     Int64 offerId = new Int64(insertRes.insertId);
@@ -207,7 +204,7 @@ class ApiChannelOffer {
       offer,
       sender: account,
       location: location,
-      senderType: account.accountType,
+      senderAccountType: account.accountType,
       create: true,
       modify: false,
       sessionId: account.sessionId,
@@ -282,8 +279,8 @@ class ApiChannelOffer {
   static const List<String> summaryFields = [
     // Summary
     "offer_id",
-    "sender_id",
-    "sender_type",
+    "sender_account_id",
+    "sender_account_type",
     "title",
     "thumbnail_key",
     "thumbnail_blurred",
@@ -314,7 +311,7 @@ class ApiChannelOffer {
       },
       "query": {
         "term": {
-          "sender_id": accountId.toInt(),
+          "sender_account_id": accountId.toInt(),
         }
       },
     });

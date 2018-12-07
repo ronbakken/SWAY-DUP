@@ -41,8 +41,8 @@ class SqlProposal {
       SqlUtil.makeInsertQuery('proposal_chats', <String>[
     'sender_account_id',
     'proposal_id',
-    'session_id',
-    'session_ghost_id',
+    'sender_session_id',
+    'sender_session_ghost_id',
     'type',
     'plain_text',
     'terms',
@@ -52,15 +52,15 @@ class SqlProposal {
       DataProposalChat chat) {
     assert(chat.senderAccountId != Int64.ZERO);
     assert(chat.proposalId != Int64.ZERO);
-    assert(chat.sessionId != Int64.ZERO);
-    assert(chat.sessionGhostId != 0);
+    assert(chat.senderSessionId != Int64.ZERO);
+    assert(chat.senderSessionGhostId != 0);
     assert(chat.type == ProposalChatType.negotiate);
     assert(chat.hasTerms());
     return <dynamic>[
       chat.senderAccountId,
       chat.proposalId,
-      chat.sessionId,
-      chat.sessionGhostId,
+      chat.senderSessionId,
+      chat.senderSessionGhostId,
       chat.type.value,
       chat.plainText.isEmpty ? null : chat.plainText,
       chat.terms.writeToBuffer(),
