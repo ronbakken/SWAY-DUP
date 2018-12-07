@@ -62,7 +62,7 @@ class ApiChannelProposal {
     return _r.account.globalAccountState;
   }
 
-  int _nextFakeGhostId;
+  // int _nextFakeGhostId;
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -80,16 +80,21 @@ class ApiChannelProposal {
         'LISTPROP', GlobalAccountState.readOnly, _netListProposals);
     _r.registerProcedure(
         'GETPRPSL', GlobalAccountState.readOnly, _netGetProposal);
+    _r.registerProcedure(
+        'LISTCHAT', GlobalAccountState.readOnly, _netListChats);
+    /*
     _nextFakeGhostId =
         ((new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) &
                 0xFFFFFFF) |
             0x10000000;
+    */
   }
 
   void dispose() {
     _r.unregisterProcedure('APLYPROP');
     _r.unregisterProcedure('LISTPROP');
     _r.unregisterProcedure('GETPRPSL');
+    _r.unregisterProcedure('LISTCHAT');
     _r = null;
   }
 
@@ -189,10 +194,10 @@ class ApiChannelProposal {
       // 3. Update haggle on proposal
       // On automatic accept we're not updating business_wants_deal here, it's not necessary
       channel.replyExtend(message);
-      String updateTermsChatId = "UPDATE `proposals` "
-          "SET `terms_chat_id` = ?, "
-          "`${account.accountType == AccountType.business ? 'business_wants_deal' : 'influencer_wants_deal'}` = 1 "
-          "WHERE `proposal_id` = ?";
+      String updateTermsChatId = 'UPDATE `proposals` '
+          'SET `terms_chat_id` = ?, '
+          '`${account.accountType == AccountType.business ? 'business_wants_deal' : 'influencer_wants_deal'}` = 1 '
+          'WHERE `proposal_id` = ?';
       sqljocky.Results resultUpdateTermsChatId =
           await transaction.prepareExecute(
         updateTermsChatId,
@@ -246,7 +251,7 @@ class ApiChannelProposal {
       channel.replyExtend(message);
       // TODO: Limit result count
       String query = SqlProposal.getSelectProposalsQuery(account.accountType) +
-          " WHERE `${account.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?";
+          ' WHERE `${account.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?';
       await for (sqljocky.Row row
           in await connection.prepareExecute(query, [accountId])) {
         NetProposal res = NetProposal();
@@ -316,72 +321,78 @@ class ApiChannelProposal {
     return proposal;
   }
 
-  /*
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // List proposal chat
+  //////////////////////////////////////////////////////////////////////////////
 
-  // NetLoadProposalChatsReq
-  Future<void> netLoadProposalChatsReq(TalkMessage message) async {
-    NetListChats pb = new NetListChats();
-    pb.mergeFromBuffer(message.data);
-    devLog.finest(pb);
+  Future<void> _netListChats(TalkMessage message) async {
+    NetListChats listChats = new NetListChats()..mergeFromBuffer(message.data);
+    devLog.finest(listChats);
 
     Int64 influencerAccountId;
     Int64 businessAccountId;
+    ProposalState state;
 
     sqljocky.RetainedConnection connection = await sql.getConnection();
     try {
-      // Fetch proposal
+      // Fetch proposal access
       channel.replyExtend(message);
-      String query = "SELECT "
-          "`influencer_account_id`, `business_account_id` "
-          "FROM `proposals` "
-          "WHERE `proposal_id` = ?";
+      String query = 'SELECT '
+          '`influencer_account_id`, `business_account_id`, `state` '
+          'FROM `proposals` '
+          'WHERE `proposal_id` = ?';
       await for (sqljocky.Row row
-          in await connection.prepareExecute(query, [pb.proposalId])) {
+          in await connection.prepareExecute(query, [listChats.proposalId])) {
         influencerAccountId = new Int64(row[0]);
         businessAccountId = new Int64(row[1]);
+        state = ProposalState.valueOf(row[2].toInt());
       }
       devLog.finest("$influencerAccountId $businessAccountId");
 
       // Authorize
       if (businessAccountId == null || influencerAccountId == null) {
         opsLog.severe(
-            "Attempt to request invalid proposal chat by account '$accountId'");
-        channel.replyAbort(message, "Not found.");
+            'Attempt to request invalid proposal chat by account "$accountId".');
+        channel.replyAbort(message, 'Not found.');
         return; // Verify that this does call finally
       }
-      if (account.accountType != AccountType.support &&
+      bool supportAccess = account.accountType == AccountType.support &&
+          state == ProposalState.dispute;
+      if (!supportAccess &&
           accountId != businessAccountId &&
           accountId != influencerAccountId) {
         opsLog.severe(
-            "Attempt to request unauthorized proposal chat by account '$accountId'");
-        channel.replyAbort(message, "Not authorized");
+            'Attempt to request unauthorized proposal chat by account "$accountId".');
+        channel.replyAbort(message, 'Not authorized.');
         return; // Verify that this does call finally
       }
 
       // Fetch
       channel.replyExtend(message);
-      String chatQuery = "SELECT "
-          "`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, " // 0 1
-          "`sender_account_id`, `sender_session_id`, `sender_session_ghost_id`, " // 2 3 4
-          "`type`, `plain_text`, `terms`, " // 5 6 7
-          "`image_key`, `image_blurred`, " // 8 9
-          "`marker` " // 10
-          "FROM `proposal_chats` "
-          "WHERE `proposal_id` = ? "
-          "ORDER BY `chat_id` DESC";
+      String chatQuery = 'SELECT '
+          '`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, ' // 0 1
+          '`sender_account_id`, `sender_session_id`, `sender_session_ghost_id`, ' // 2 3 4
+          '`type`, `plain_text`, `terms`, ' // 5 6 7
+          '`image_key`, `image_blurred`, ' // 8 9
+          '`marker` ' // 10
+          'FROM `proposal_chats` '
+          'WHERE `proposal_id` = ? '
+          'ORDER BY `chat_id` DESC';
       await for (sqljocky.Row row
           in await connection.prepareExecute(chatQuery, [
-        pb.proposalId,
+        listChats.proposalId,
       ])) {
         DataProposalChat chat = new DataProposalChat();
-        chat.proposalId = pb.proposalId;
+        chat.proposalId = listChats.proposalId;
         chat.chatId = new Int64(row[0]);
         chat.sent = new Int64(row[1]);
-        chat.senderId = new Int64(row[2]);
+        chat.senderAccountId = new Int64(row[2]);
         Int64 sessionId = new Int64(row[3]);
         if (sessionId == account.sessionId) {
-          chat.sessionId = sessionId;
-          chat.sessionGhostId = row[4].toInt();
+          chat.senderSessionId = sessionId;
+          chat.senderSessionGhostId = row[4].toInt();
         }
         chat.type = ProposalChatType.valueOf(row[5].toInt());
         if (row[6] != null) chat.plainText = row[6].toString();
@@ -389,7 +400,7 @@ class ApiChannelProposal {
         if (row[8] != null) chat.imageUrl = _r.makeCloudinaryCoverUrl(row[8]);
         if (row[9] != null) chat.imageBlurred = row[9];
         if (row[10] != null) chat.marker = row[10].toInt();
-        channel.replyMessage(message, "LU_A_CHA", chat.writeToBuffer());
+        channel.replyMessage(message, 'R_LSTCHA', chat.writeToBuffer());
       }
     } finally {
       connection.release();
@@ -397,5 +408,7 @@ class ApiChannelProposal {
 
     // Done
     channel.replyEndOfStream(message);
-  }*/
+  }
 }
+
+/* end of file */

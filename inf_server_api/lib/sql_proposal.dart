@@ -53,7 +53,7 @@ class SqlProposal {
     assert(chat.senderAccountId != Int64.ZERO);
     assert(chat.proposalId != Int64.ZERO);
     assert(chat.senderSessionId != Int64.ZERO);
-    assert(chat.senderSessionGhostId != 0);
+    assert(chat.senderSessionGhostId == 1);
     assert(chat.type == ProposalChatType.negotiate);
     assert(chat.hasTerms());
     return <dynamic>[
@@ -185,28 +185,28 @@ class SqlProposal {
     proposal.businessWantsDeal = row[16].toInt() == 1;
     proposal.rejectingAccountId = new Int64(row[17]);
     if (receiverAccountType == AccountType.influencer) {
-      proposal.influencerMarkedDelivered = row[18].toInt() != 0;
-      proposal.influencerMarkedRewarded = row[19].toInt() != 0;
+      proposal.influencerMarkedDelivered = row[18].toInt() == 1;
+      proposal.influencerMarkedRewarded = row[19].toInt() == 1;
       proposal.influencerGaveRating = row[20].toInt();
-      proposal.influencerDisputed = row[21].toInt() != 0;
+      proposal.influencerDisputed = row[21].toInt() == 1;
       proposal.state = ProposalState.valueOf(row[22].toInt());
       proposal.influencerArchived = row[23].toInt() == 1;
     } else if (receiverAccountType == AccountType.business) {
-      proposal.businessMarkedDelivered = row[18].toInt() != 0;
-      proposal.businessMarkedRewarded = row[19].toInt() != 0;
+      proposal.businessMarkedDelivered = row[18].toInt() == 1;
+      proposal.businessMarkedRewarded = row[19].toInt() == 1;
       proposal.businessGaveRating = row[20].toInt();
-      proposal.businessDisputed = row[21].toInt() != 0;
+      proposal.businessDisputed = row[21].toInt() == 1;
       proposal.state = ProposalState.valueOf(row[22].toInt());
       proposal.businessArchived = row[23].toInt() == 1;
     } else {
-      proposal.influencerMarkedDelivered = row[18].toInt() != 0;
-      proposal.influencerMarkedRewarded = row[19].toInt() != 0;
-      proposal.businessMarkedDelivered = row[20].toInt() != 0;
-      proposal.businessMarkedRewarded = row[21].toInt() != 0;
+      proposal.influencerMarkedDelivered = row[18].toInt() == 1;
+      proposal.influencerMarkedRewarded = row[19].toInt() == 1;
+      proposal.businessMarkedDelivered = row[20].toInt() == 1;
+      proposal.businessMarkedRewarded = row[21].toInt() == 1;
       proposal.influencerGaveRating = row[22].toInt();
       proposal.businessGaveRating = row[23].toInt();
-      proposal.influencerDisputed = row[24].toInt() != 0;
-      proposal.businessDisputed = row[25].toInt() != 0;
+      proposal.influencerDisputed = row[24].toInt() == 1;
+      proposal.businessDisputed = row[25].toInt() == 1;
       proposal.state = ProposalState.valueOf(row[26].toInt());
       proposal.influencerArchived = row[27].toInt() == 1;
       proposal.businessArchived = row[28].toInt() == 1;
