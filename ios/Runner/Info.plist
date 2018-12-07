@@ -6,6 +6,10 @@
 	<string>Needed to access location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Needed to access location</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Needed to image</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Needed to take pictures</string>
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
