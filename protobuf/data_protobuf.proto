@@ -231,16 +231,16 @@ message DataProposal { // 29
   int64 offerId = 2;
   
   /// Account id of the sender of the proposal. Either the influencer or business.
-  int64 senderId = 20;
+  int64 senderAccountId = 20;
   /// (Denormalized) Account id of the sender of the offer (not of the proposal.)
   /// Either the influencer or business.
   /// If the makerId and the senderId are equal, this is a direct offer.
-  int64 makerId = 27;
+  int64 offerAccountId = 27;
   
   /// Account id of the influencer
-  int64 influencerId = 3;
+  int64 influencerAccountId = 3;
   /// Account id of the business
-  int64 businessId = 16;
+  int64 businessAccountId = 16;
   
   /// (Denormalized) Embedded data. Not necessarily up to date.
   string influencerName = 17;
