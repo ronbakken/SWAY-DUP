@@ -224,7 +224,7 @@ message DataAccount { // 30
   
 }
 
-message DataProposal { // 29
+message DataProposal { // 30
   /// Unique identifier of the proposal
   int64 proposalId = 1;
   /// Unique identifier of the offer that this proposal concerns
@@ -260,6 +260,7 @@ message DataProposal { // 29
   int64 termsChatId = 4;
   bool influencerWantsDeal = 6;
   bool businessWantsDeal = 5;
+  int64 rejectingAccountId = 30;
   
   /// For support
   bool influencerMarkedDelivered = 7;
