@@ -315,22 +315,75 @@ const ConfigServices$json = const {
     const {'1': 'spaces_key', '3': 5, '4': 1, '5': 9, '10': 'spacesKey'},
     const {'1': 'spaces_secret', '3': 6, '4': 1, '5': 9, '10': 'spacesSecret'},
     const {'1': 'spaces_bucket', '3': 7, '4': 1, '5': 9, '10': 'spacesBucket'},
-    const {'1': 'mariadb_host', '3': 14, '4': 1, '5': 9, '10': 'mariadbHost'},
-    const {'1': 'mariadb_port', '3': 15, '4': 1, '5': 5, '10': 'mariadbPort'},
-    const {'1': 'mariadb_user', '3': 16, '4': 1, '5': 9, '10': 'mariadbUser'},
     const {
-      '1': 'mariadb_password',
+      '1': 'account_db_host',
+      '3': 14,
+      '4': 1,
+      '5': 9,
+      '10': 'accountDbHost'
+    },
+    const {
+      '1': 'account_db_port',
+      '3': 15,
+      '4': 1,
+      '5': 5,
+      '10': 'accountDbPort'
+    },
+    const {
+      '1': 'account_db_user',
+      '3': 16,
+      '4': 1,
+      '5': 9,
+      '10': 'accountDbUser'
+    },
+    const {
+      '1': 'account_db_password',
       '3': 17,
       '4': 1,
       '5': 9,
-      '10': 'mariadbPassword'
+      '10': 'accountDbPassword'
     },
     const {
-      '1': 'mariadb_database',
+      '1': 'account_db_database',
       '3': 18,
       '4': 1,
       '5': 9,
-      '10': 'mariadbDatabase'
+      '10': 'accountDbDatabase'
+    },
+    const {
+      '1': 'proposal_db_host',
+      '3': 43,
+      '4': 1,
+      '5': 9,
+      '10': 'proposalDbHost'
+    },
+    const {
+      '1': 'proposal_db_port',
+      '3': 44,
+      '4': 1,
+      '5': 5,
+      '10': 'proposalDbPort'
+    },
+    const {
+      '1': 'proposal_db_user',
+      '3': 45,
+      '4': 1,
+      '5': 9,
+      '10': 'proposalDbUser'
+    },
+    const {
+      '1': 'proposal_db_password',
+      '3': 46,
+      '4': 1,
+      '5': 9,
+      '10': 'proposalDbPassword'
+    },
+    const {
+      '1': 'proposal_db_database',
+      '3': 47,
+      '4': 1,
+      '5': 9,
+      '10': 'proposalDbDatabase'
     },
     const {
       '1': 'elasticsearch_api',
@@ -411,40 +464,48 @@ const ConfigServices$json = const {
       '10': 'mapboxUrlTemplateLight'
     },
     const {'1': 'mapboxToken', '3': 3, '4': 1, '5': 9, '10': 'mapboxToken'},
+    const {'1': 'galleryUrl', '3': 19, '4': 1, '5': 9, '10': 'galleryUrl'},
     const {
-      '1': 'cloudinaryUrl',
-      '3': 19,
-      '4': 1,
-      '5': 9,
-      '10': 'cloudinaryUrl'
-    },
-    const {
-      '1': 'cloudinaryThumbnailUrl',
+      '1': 'galleryThumbnailUrl',
       '3': 20,
       '4': 1,
       '5': 9,
-      '10': 'cloudinaryThumbnailUrl'
+      '10': 'galleryThumbnailUrl'
     },
     const {
-      '1': 'cloudinaryBlurredThumbnailUrl',
+      '1': 'galleryThumbnailBlurredUrl',
       '3': 31,
       '4': 1,
       '5': 9,
-      '10': 'cloudinaryBlurredThumbnailUrl'
+      '10': 'galleryThumbnailBlurredUrl'
     },
     const {
-      '1': 'cloudinaryCoverUrl',
+      '1': 'galleryCoverUrl',
       '3': 21,
       '4': 1,
       '5': 9,
-      '10': 'cloudinaryCoverUrl'
+      '10': 'galleryCoverUrl'
     },
     const {
-      '1': 'cloudinaryBlurredCoverUrl',
+      '1': 'galleryCoverBlurredUrl',
       '3': 32,
       '4': 1,
       '5': 9,
-      '10': 'cloudinaryBlurredCoverUrl'
+      '10': 'galleryCoverBlurredUrl'
+    },
+    const {
+      '1': 'galleryPictureUrl',
+      '3': 41,
+      '4': 1,
+      '5': 9,
+      '10': 'galleryPictureUrl'
+    },
+    const {
+      '1': 'galleryPictureBlurredUrl',
+      '3': 42,
+      '4': 1,
+      '5': 9,
+      '10': 'galleryPictureBlurredUrl'
     },
     const {'1': 'ipstackApi', '3': 13, '4': 1, '5': 9, '10': 'ipstackApi'},
     const {'1': 'ipstackKey', '3': 12, '4': 1, '5': 9, '10': 'ipstackKey'},

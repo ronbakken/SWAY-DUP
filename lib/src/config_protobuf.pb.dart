@@ -606,14 +606,14 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(11, 'privacyPolicyUrl')
     ..aOS(12, 'ipstackKey')
     ..aOS(13, 'ipstackApi')
-    ..aOS(14, 'mariadbHost')
-    ..a<int>(15, 'mariadbPort', $pb.PbFieldType.O3)
-    ..aOS(16, 'mariadbUser')
-    ..aOS(17, 'mariadbPassword')
-    ..aOS(18, 'mariadbDatabase')
-    ..aOS(19, 'cloudinaryUrl')
-    ..aOS(20, 'cloudinaryThumbnailUrl')
-    ..aOS(21, 'cloudinaryCoverUrl')
+    ..aOS(14, 'accountDbHost')
+    ..a<int>(15, 'accountDbPort', $pb.PbFieldType.O3)
+    ..aOS(16, 'accountDbUser')
+    ..aOS(17, 'accountDbPassword')
+    ..aOS(18, 'accountDbDatabase')
+    ..aOS(19, 'galleryUrl')
+    ..aOS(20, 'galleryThumbnailUrl')
+    ..aOS(21, 'galleryCoverUrl')
     ..aOS(22, 'freshdeskApi')
     ..aOS(23, 'freshdeskKey')
     ..aOS(24, 'domain')
@@ -623,8 +623,8 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(28, 'firebaseLegacyServerKey')
     ..aOS(29, 'connectionFailedUrl')
     ..aOS(30, 'mapboxUrlTemplateLight')
-    ..aOS(31, 'cloudinaryBlurredThumbnailUrl')
-    ..aOS(32, 'cloudinaryBlurredCoverUrl')
+    ..aOS(31, 'galleryThumbnailBlurredUrl')
+    ..aOS(32, 'galleryCoverBlurredUrl')
     ..aOS(33, 'service')
     ..a<List<int>>(35, 'salt', $pb.PbFieldType.OY)
     ..aOS(36, 'elasticsearchApi')
@@ -632,6 +632,13 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(38, 'oneSignalAppId')
     ..aOS(39, 'oneSignalApiKey')
     ..aOS(40, 'oneSignalApi')
+    ..aOS(41, 'galleryPictureUrl')
+    ..aOS(42, 'galleryPictureBlurredUrl')
+    ..aOS(43, 'proposalDbHost')
+    ..a<int>(44, 'proposalDbPort', $pb.PbFieldType.O3)
+    ..aOS(45, 'proposalDbUser')
+    ..aOS(46, 'proposalDbPassword')
+    ..aOS(47, 'proposalDbDatabase')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -758,69 +765,69 @@ class ConfigServices extends $pb.GeneratedMessage {
   bool hasIpstackApi() => $_has(12);
   void clearIpstackApi() => clearField(13);
 
-  String get mariadbHost => $_getS(13, '');
-  set mariadbHost(String v) {
+  String get accountDbHost => $_getS(13, '');
+  set accountDbHost(String v) {
     $_setString(13, v);
   }
 
-  bool hasMariadbHost() => $_has(13);
-  void clearMariadbHost() => clearField(14);
+  bool hasAccountDbHost() => $_has(13);
+  void clearAccountDbHost() => clearField(14);
 
-  int get mariadbPort => $_get(14, 0);
-  set mariadbPort(int v) {
+  int get accountDbPort => $_get(14, 0);
+  set accountDbPort(int v) {
     $_setSignedInt32(14, v);
   }
 
-  bool hasMariadbPort() => $_has(14);
-  void clearMariadbPort() => clearField(15);
+  bool hasAccountDbPort() => $_has(14);
+  void clearAccountDbPort() => clearField(15);
 
-  String get mariadbUser => $_getS(15, '');
-  set mariadbUser(String v) {
+  String get accountDbUser => $_getS(15, '');
+  set accountDbUser(String v) {
     $_setString(15, v);
   }
 
-  bool hasMariadbUser() => $_has(15);
-  void clearMariadbUser() => clearField(16);
+  bool hasAccountDbUser() => $_has(15);
+  void clearAccountDbUser() => clearField(16);
 
-  String get mariadbPassword => $_getS(16, '');
-  set mariadbPassword(String v) {
+  String get accountDbPassword => $_getS(16, '');
+  set accountDbPassword(String v) {
     $_setString(16, v);
   }
 
-  bool hasMariadbPassword() => $_has(16);
-  void clearMariadbPassword() => clearField(17);
+  bool hasAccountDbPassword() => $_has(16);
+  void clearAccountDbPassword() => clearField(17);
 
-  String get mariadbDatabase => $_getS(17, '');
-  set mariadbDatabase(String v) {
+  String get accountDbDatabase => $_getS(17, '');
+  set accountDbDatabase(String v) {
     $_setString(17, v);
   }
 
-  bool hasMariadbDatabase() => $_has(17);
-  void clearMariadbDatabase() => clearField(18);
+  bool hasAccountDbDatabase() => $_has(17);
+  void clearAccountDbDatabase() => clearField(18);
 
-  String get cloudinaryUrl => $_getS(18, '');
-  set cloudinaryUrl(String v) {
+  String get galleryUrl => $_getS(18, '');
+  set galleryUrl(String v) {
     $_setString(18, v);
   }
 
-  bool hasCloudinaryUrl() => $_has(18);
-  void clearCloudinaryUrl() => clearField(19);
+  bool hasGalleryUrl() => $_has(18);
+  void clearGalleryUrl() => clearField(19);
 
-  String get cloudinaryThumbnailUrl => $_getS(19, '');
-  set cloudinaryThumbnailUrl(String v) {
+  String get galleryThumbnailUrl => $_getS(19, '');
+  set galleryThumbnailUrl(String v) {
     $_setString(19, v);
   }
 
-  bool hasCloudinaryThumbnailUrl() => $_has(19);
-  void clearCloudinaryThumbnailUrl() => clearField(20);
+  bool hasGalleryThumbnailUrl() => $_has(19);
+  void clearGalleryThumbnailUrl() => clearField(20);
 
-  String get cloudinaryCoverUrl => $_getS(20, '');
-  set cloudinaryCoverUrl(String v) {
+  String get galleryCoverUrl => $_getS(20, '');
+  set galleryCoverUrl(String v) {
     $_setString(20, v);
   }
 
-  bool hasCloudinaryCoverUrl() => $_has(20);
-  void clearCloudinaryCoverUrl() => clearField(21);
+  bool hasGalleryCoverUrl() => $_has(20);
+  void clearGalleryCoverUrl() => clearField(21);
 
   String get freshdeskApi => $_getS(21, '');
   set freshdeskApi(String v) {
@@ -894,21 +901,21 @@ class ConfigServices extends $pb.GeneratedMessage {
   bool hasMapboxUrlTemplateLight() => $_has(29);
   void clearMapboxUrlTemplateLight() => clearField(30);
 
-  String get cloudinaryBlurredThumbnailUrl => $_getS(30, '');
-  set cloudinaryBlurredThumbnailUrl(String v) {
+  String get galleryThumbnailBlurredUrl => $_getS(30, '');
+  set galleryThumbnailBlurredUrl(String v) {
     $_setString(30, v);
   }
 
-  bool hasCloudinaryBlurredThumbnailUrl() => $_has(30);
-  void clearCloudinaryBlurredThumbnailUrl() => clearField(31);
+  bool hasGalleryThumbnailBlurredUrl() => $_has(30);
+  void clearGalleryThumbnailBlurredUrl() => clearField(31);
 
-  String get cloudinaryBlurredCoverUrl => $_getS(31, '');
-  set cloudinaryBlurredCoverUrl(String v) {
+  String get galleryCoverBlurredUrl => $_getS(31, '');
+  set galleryCoverBlurredUrl(String v) {
     $_setString(31, v);
   }
 
-  bool hasCloudinaryBlurredCoverUrl() => $_has(31);
-  void clearCloudinaryBlurredCoverUrl() => clearField(32);
+  bool hasGalleryCoverBlurredUrl() => $_has(31);
+  void clearGalleryCoverBlurredUrl() => clearField(32);
 
   String get service => $_getS(32, '');
   set service(String v) {
@@ -965,6 +972,62 @@ class ConfigServices extends $pb.GeneratedMessage {
 
   bool hasOneSignalApi() => $_has(38);
   void clearOneSignalApi() => clearField(40);
+
+  String get galleryPictureUrl => $_getS(39, '');
+  set galleryPictureUrl(String v) {
+    $_setString(39, v);
+  }
+
+  bool hasGalleryPictureUrl() => $_has(39);
+  void clearGalleryPictureUrl() => clearField(41);
+
+  String get galleryPictureBlurredUrl => $_getS(40, '');
+  set galleryPictureBlurredUrl(String v) {
+    $_setString(40, v);
+  }
+
+  bool hasGalleryPictureBlurredUrl() => $_has(40);
+  void clearGalleryPictureBlurredUrl() => clearField(42);
+
+  String get proposalDbHost => $_getS(41, '');
+  set proposalDbHost(String v) {
+    $_setString(41, v);
+  }
+
+  bool hasProposalDbHost() => $_has(41);
+  void clearProposalDbHost() => clearField(43);
+
+  int get proposalDbPort => $_get(42, 0);
+  set proposalDbPort(int v) {
+    $_setSignedInt32(42, v);
+  }
+
+  bool hasProposalDbPort() => $_has(42);
+  void clearProposalDbPort() => clearField(44);
+
+  String get proposalDbUser => $_getS(43, '');
+  set proposalDbUser(String v) {
+    $_setString(43, v);
+  }
+
+  bool hasProposalDbUser() => $_has(43);
+  void clearProposalDbUser() => clearField(45);
+
+  String get proposalDbPassword => $_getS(44, '');
+  set proposalDbPassword(String v) {
+    $_setString(44, v);
+  }
+
+  bool hasProposalDbPassword() => $_has(44);
+  void clearProposalDbPassword() => clearField(46);
+
+  String get proposalDbDatabase => $_getS(45, '');
+  set proposalDbDatabase(String v) {
+    $_setString(45, v);
+  }
+
+  bool hasProposalDbDatabase() => $_has(45);
+  void clearProposalDbDatabase() => clearField(47);
 }
 
 class ConfigFeatureSwitches extends $pb.GeneratedMessage {
