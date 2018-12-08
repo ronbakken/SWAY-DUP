@@ -68,8 +68,7 @@ class ApiChannelBusiness {
   // Cached list of offers
   Map<Int64, DataOffer> offers = new Map<Int64, DataOffer>();
 
-  ApiChannelBusiness(this._r) {
-  }
+  ApiChannelBusiness(this._r) {}
 
   void dispose() {
     _r = null;

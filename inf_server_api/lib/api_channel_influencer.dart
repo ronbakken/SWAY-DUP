@@ -65,8 +65,7 @@ class ApiChannelInfluencer {
   static final Logger opsLog = new Logger('InfOps.ApiChannelInfluencer');
   static final Logger devLog = new Logger('InfDev.ApiChannelInfluencer');
 
-  ApiChannelInfluencer(this._r) {
-  }
+  ApiChannelInfluencer(this._r) {}
 
   void dispose() {
     _r = null;

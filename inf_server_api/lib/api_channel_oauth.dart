@@ -345,7 +345,8 @@ class ApiChannelOAuth {
                   "SET `updated` = CURRENT_TIMESTAMP(), `session_id` = ?, "
                   "`oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?";
-              sqljocky.Results updateRes = await accountDb.prepareExecute(query, [
+              sqljocky.Results updateRes =
+                  await accountDb.prepareExecute(query, [
                 account.sessionId,
                 oauthCredentials.token.toString(),
                 oauthCredentials.tokenSecret.toString(),
@@ -401,7 +402,8 @@ class ApiChannelOAuth {
               String query = "UPDATE `oauth_connections` "
                   "SET `updated` = CURRENT_TIMESTAMP(), `account_id` = ?, `session_id` = ?, `oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
-              sqljocky.Results updateRes = await accountDb.prepareExecute(query, [
+              sqljocky.Results updateRes =
+                  await accountDb.prepareExecute(query, [
                 account.accountId,
                 account.sessionId,
                 oauthCredentials.token.toString(),

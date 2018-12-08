@@ -424,8 +424,8 @@ class ElasticsearchOffer {
             .addAll(doc["cover_keys"].map<String>((value) => value as String));
       }
       offer.coverUrls.addAll((doc["cover_keys"] as List<dynamic>).map<String>(
-          (coverKey) => config.services.galleryCoverUrl
-              .replaceAll('{key}', coverKey)));
+          (coverKey) =>
+              config.services.galleryCoverUrl.replaceAll('{key}', coverKey)));
     }
     if (detail && doc.containsKey("covers_blurred")) {
       offer.coversBlurred.addAll((doc["covers_blurred"] as List<dynamic>)

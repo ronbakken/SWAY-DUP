@@ -175,7 +175,8 @@ class ApiChannelHaggleActions {
 
     switch (state) {
       case ProposalState.proposing:
-        if (type != ProposalChatType.negotiate && type != ProposalChatType.marker) {
+        if (type != ProposalChatType.negotiate &&
+            type != ProposalChatType.marker) {
           devLog
               .warning("Attempt to send message to $state deal by '$senderId");
           return false;
@@ -302,7 +303,10 @@ class ApiChannelHaggleActions {
   Future<void> _changedProposal(Int64 proposalId) async {
     // DataProposal proposal) {
     DataProposal proposal = await _r.getProposal(proposalId);
-    channel.sendMessage("LU_APPLI", proposal.writeToBuffer()); // TODO: Filter sensitive info from business and influencer
+    channel.sendMessage(
+        "LU_APPLI",
+        proposal
+            .writeToBuffer()); // TODO: Filter sensitive info from business and influencer
     _r.bc.proposalChanged(account.sessionId, proposal);
   }
 
@@ -357,8 +361,8 @@ class ApiChannelHaggleActions {
 
     */
 
-    if (!await _verifySender(pb.proposalId, accountId, ProposalChatType.negotiate))
-      return;
+    if (!await _verifySender(
+        pb.proposalId, accountId, ProposalChatType.negotiate)) return;
 
     DataProposalChat chat = new DataProposalChat();
     chat.sent =

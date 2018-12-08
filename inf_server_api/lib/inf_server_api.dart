@@ -174,7 +174,8 @@ run() async {
   // Elasticsearch
   final Elasticsearch elasticsearch = new Elasticsearch(config);
 
-  final BroadcastCenter bc = new BroadcastCenter(config, accountDb, proposalDb, bucket);
+  final BroadcastCenter bc =
+      new BroadcastCenter(config, accountDb, proposalDb, bucket);
 
   // Listen to websocket
   Switchboard switchboard = new Switchboard();
@@ -182,8 +183,8 @@ run() async {
   // await switchboard.bindWebSocket(InternetAddress.anyIPv4, 8090, '/ep');
   selfTestTalk();
 
-  final ApiService apiService =
-      new ApiService(config, accountDb, proposalDb, bucket, elasticsearch, switchboard, bc);
+  final ApiService apiService = new ApiService(
+      config, accountDb, proposalDb, bucket, elasticsearch, switchboard, bc);
   await apiService.listen();
   await apiService.close();
 

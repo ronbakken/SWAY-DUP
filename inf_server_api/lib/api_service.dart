@@ -31,8 +31,8 @@ class ApiService {
   final http.Client httpClient = new http.Client();
   List<oauth1.Authorization> oauth1Auth;
 
-  ApiService(this.config, this.accountDb, this.proposalDb, this.bucket, this.elasticsearch,
-      this.switchboard, this.bc) {
+  ApiService(this.config, this.accountDb, this.proposalDb, this.bucket,
+      this.elasticsearch, this.switchboard, this.bc) {
     oauth1Auth = new List<oauth1.Authorization>(config.oauthProviders.length);
     for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {
       ConfigOAuthProvider provider = config.oauthProviders[providerId];
