@@ -6,7 +6,7 @@ abstract class ResourceService {
   String getMapApiKey();
   String getMapUrlTemplate();
 
-  Future<List<Category>> getTopLevelCategories();
+  Future<List<Category>> getCategories();
 }
 
 class WelcomePageImages {

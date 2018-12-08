@@ -21,7 +21,7 @@ class ResourceServiceImplementation implements ResourceService {
   }
 
   @override
-  Future<List<Category>> getTopLevelCategories() {
+  Future<List<Category>> getCategories() {
     // TODO: implement getTopLevelCategories
     throw Exception('Not imnplemented');
   }

@@ -65,7 +65,7 @@ class ResourceServiceMock implements ResourceService {
   }
 
   @override
-  Future<List<Category>> getTopLevelCategories() async {
+  Future<List<Category>> getCategories() async {
     var categories = <Category>[
       Category(
         name: 'Cars',
@@ -111,7 +111,7 @@ class ResourceServiceMock implements ResourceService {
         name: 'Health',
         id: 5,
         iconData: (await rootBundle.load(
-                'assets/mockdata/category_icons/Health.svg'))
+                'assets/mockdata/category_icons/health.svg'))
             .buffer
             .asUint8List(),
       ),
@@ -119,7 +119,7 @@ class ResourceServiceMock implements ResourceService {
         name: 'Services',
         id: 6,
         iconData: (await rootBundle.load(
-                'assets/mockdata/category_icons/Services.svg'))
+                'assets/mockdata/category_icons/services.svg'))
             .buffer
             .asUint8List(),
       ),
@@ -130,6 +130,41 @@ class ResourceServiceMock implements ResourceService {
                 'assets/mockdata/category_icons/travel.svg'))
             .buffer
             .asUint8List(),
+      ),
+      Category(
+        id: 8,
+        parentId: 3,
+        name: 'Grocery',
+      ),
+      Category(
+        id: 9,
+        parentId: 3,
+        name: 'Fast Food',
+      ),
+      Category(
+        id: 10,
+        parentId: 3,
+        name: 'Candy',
+      ),
+      Category(
+        id: 11,
+        parentId: 3,
+        name: 'Dessert',
+      ),
+      Category(
+        id: 12,
+        parentId: 3,
+        name: 'Coffee shop',
+      ),
+      Category(
+        id: 13,
+        parentId: 3,
+        name: 'Bakeries',
+      ),
+      Category(
+        id: 14,
+        parentId: 3,
+        name: 'other',
       ),
     ];
     return Future.value(categories);

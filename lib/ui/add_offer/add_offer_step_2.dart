@@ -3,6 +3,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/business_offer.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/ui/widgets/category_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
@@ -185,48 +186,32 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
   }
 
   Widget buildCategoryRow(List<Padding> rowContent) {
-    return new OverFlowRow(
-      height: 80.0,
-      items: <Widget>[
-        CategoryButton(
-          radius: 30.0,
-          child: Icon(Icons.account_box),
-          selectedSubCategories: 4,
-          label: 'Food',
-        ),
-        CategoryButton(
-          radius: 30.0,
-          label: 'Fashion',
-          child: Icon(Icons.account_box),
-        ),
-        CategoryButton(
-          label: 'Fashion',
-          radius: 30.0,
-          child: Icon(Icons.account_box),
-        ),
-        CategoryButton(
-          label: 'Fashion',
-          radius: 30.0,
-          child: Icon(Icons.account_box),
-        ),
-        CategoryButton(
-          label: 'Fashion',
-          radius: 30.0,
-          child: Icon(Icons.account_box),
-        ),
-        CategoryButton(
-          label: 'Fashion',
-          radius: 30.0,
-          child: Icon(Icons.account_box),
-        ),
-        CategoryButton(
-          label: 'Fashion',
-          radius: 30.0,
-          child: Icon(Icons.account_box),
-        ),
-      ],
-      numberOfItemsToDisplay: 4,
-      spacing: 4.0,
+    return FutureBuilder<List<Category>>(
+      future: backend.get<ResourceService>().getCategories(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return SizedBox(height: 80.0,);
+        }
+        final topLevelCategories =
+            snapshot.data.where((item) => item.parentId == null);
+        final rowItems = <Widget>[];
+        for (var category in topLevelCategories) {
+          rowItems.add(
+            CategoryButton(
+              radius: 30.0,
+              child: InfMemoryImage(category.iconData, color: Colors.white,),
+              selectedSubCategories: 2,
+              label: category.name,
+            ),
+          );
+        }
+        return new OverFlowRow(
+          height: 80.0,
+          items: rowItems,
+          numberOfItemsToDisplay: 4,
+          spacing: 4.0,
+        );
+      },
     );
   }
 
@@ -310,4 +295,3 @@ class OverFlowRow extends StatelessWidget {
     );
   }
 }
-
