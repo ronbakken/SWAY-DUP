@@ -67,18 +67,22 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                               child: buildMainImage(),
                             ),
                             SizedBox(
-                              height: selectedImages.isNotEmpty ? constraints.maxHeight * 0.12 : 0,
+                              height: selectedImages.isNotEmpty
+                                  ? constraints.maxHeight * 0.12
+                                  : 0,
                               child: buildSelectedImageRow(),
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+                                padding: const EdgeInsets.only(
+                                    top: 24, left: 24, right: 24),
                                 child: Form(
                                   key: form,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
                                     children: [
                                       Text(
                                         'TITLE',
@@ -88,7 +92,9 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                                       SizedBox(height: 8.0),
                                       TextFormField(
                                         onSaved: (s) => title = s,
-                                        validator: (s) => s.isEmpty ? 'You have so provide a title' : null,
+                                        validator: (s) => s.isEmpty
+                                            ? 'You have so provide a title'
+                                            : null,
                                       ),
                                       SizedBox(height: 32.0),
                                       Text(
@@ -98,7 +104,9 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                                       ),
                                       TextFormField(
                                         onSaved: (s) => description = s,
-                                        validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
+                                        validator: (s) => s.isEmpty
+                                            ? 'You have so provide a description'
+                                            : null,
                                         maxLines: null,
                                         keyboardType: TextInputType.multiline,
                                       ),
@@ -108,7 +116,8 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 32.0, vertical: 32.0),
                               child: InfStadiumButton(
                                 height: 56,
                                 color: Colors.white,
@@ -211,19 +220,45 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
           ));
     } else {
       assert(selectedImageIndex < selectedImages.length);
-      return Image.file(
-        selectedImages[selectedImageIndex],
-        fit: BoxFit.cover,
+      return Stack(
+        fit: StackFit.passthrough,
+        children: [
+          Image.file(
+            selectedImages[selectedImageIndex],
+            fit: BoxFit.cover,
+          ),
+          Positioned(
+            right: 8.0,
+            top: 10.0,
+            child: InkResponse(
+              onTap: onRemoveImage,
+              child: Container(
+                width: 40.0,
+                height: 40.0,
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: AppTheme.red),
+                child: Icon(Icons.close),
+              ),
+            ),
+          ),
+        ],
       );
     }
   }
 
+  void onRemoveImage() {
+    setState(() {
+      selectedImages.removeAt(selectedImageIndex);
+      selectedImageIndex = selectedImageIndex > 0 ? selectedImageIndex - 1 : 0;
+    });
+  }
+
   void onNext(BuildContext context) {
     FormState state = form.currentState;
-    if (true /*state.validate()*/)
-    {
+    if (true /*state.validate()*/) {
       state.save();
-      widget.offer.value = widget.offer.value.copyWith(title: title, description: description); 
+      widget.offer.value =
+          widget.offer.value.copyWith(title: title, description: description);
       MultiPageWizard.of(context).nextPage();
     }
   }
@@ -231,13 +266,15 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
   /// if [camera] is null a dialog is dispplayed to select which source should be used
   void _onAddPicture({bool camera}) async {
     if (camera == null) {
-      camera = await showDialog<bool>(context: context, builder: (context) => ImageSourceSelectorDialog());
+      camera = await showDialog<bool>(
+          context: context, builder: (context) => ImageSourceSelectorDialog());
       if (camera == null) {
         return;
       }
     }
-    var imageFile =
-        camera ? await backend.get<ImageService>().takePicture() : await backend.get<ImageService>().pickImage();
+    var imageFile = camera
+        ? await backend.get<ImageService>().takePicture()
+        : await backend.get<ImageService>().pickImage();
     if (imageFile != null) {
       selectedImages.add(imageFile);
       setState(() {
