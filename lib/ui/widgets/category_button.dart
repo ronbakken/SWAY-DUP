@@ -48,7 +48,7 @@ class CategoryButton extends StatelessWidget {
                     ),
                     child: child,
                   ),
-                  selectedSubCategories > 0
+                  (selectedSubCategories != null) && (selectedSubCategories > 0)
                       ? Positioned(
                             bottom: -4,
                             right: -12,

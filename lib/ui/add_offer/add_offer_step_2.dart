@@ -9,6 +9,7 @@ import 'package:inf/ui/widgets/category_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf/ui/widgets/social_network_toggle_button.dart';
 
@@ -29,45 +30,6 @@ class AddOfferStep2 extends StatefulWidget {
 class _AddOfferStep2State extends State<AddOfferStep2> {
   @override
   Widget build(BuildContext context) {
-    final rowContent = [
-      Padding(
-        padding: const EdgeInsets.only(right: 8.0),
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: 72,
-              height: 72,
-              decoration:
-                  BoxDecoration(color: AppTheme.grey, shape: BoxShape.circle),
-              child: InfAssetImage(AppIcons.category),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Text('Food'),
-          ],
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(right: 8.0),
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: 72,
-              height: 72,
-              decoration:
-                  BoxDecoration(color: AppTheme.grey, shape: BoxShape.circle),
-              child: InfAssetImage(AppIcons.category),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Text('Food'),
-          ],
-        ),
-      ),
-    ];
-
     return SafeArea(
       child: Stack(
         fit: StackFit.passthrough,
@@ -77,8 +39,8 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
             AppImages.mockCurves, // FIXME:
             alignment: Alignment.bottomCenter,
           ),
-          AnimatedBuilder(
-            animation: widget.offer,
+          ListenableBuilder(
+            listenable: widget.offer,
             builder: (BuildContext context, Widget child) {
               return LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
@@ -96,7 +58,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 24.0, top: 24.0, bottom: 24.0),
+                                  left: 24.0, top: 32.0, bottom: 24.0),
                               child: Text(
                                 'PLEASE SELECT CATEGORIES',
                                 textAlign: TextAlign.left,
@@ -105,36 +67,24 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 24.0),
-                              child: buildCategoryRow(rowContent),
+                              child: buildCategoryRow(),
                             ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 32.0, vertical: 24.0),
-                              height: 1,
-                              color: AppTheme.white30,
-                            ),
+                            _spacer(),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 24.0, bottom: 24.0),
+                                  left: 24.0, bottom: 16.0),
                               child: Text(
                                 'SOCIAL PLATFORM',
                                 textAlign: TextAlign.left,
                                 style: AppTheme.textStyleformfieldLabel,
                               ),
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 24.0, right: 24.0),
-                                child: buildSocialPlatformRow(),
-                              ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 24.0, right: 24.0),
+                              child: buildSocialPlatformRow(),
                             ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 32.0, vertical: 24.0),
-                              height: 1,
-                              color: AppTheme.white30,
-                            ),
+                            _spacer(),
                             Padding(
                               padding: const EdgeInsets.only(
                                   left: 24.0, bottom: 24.0),
@@ -144,22 +94,24 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                                 style: AppTheme.textStyleformfieldLabel,
                               ),
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 24.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: rowContent,
-                                ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 24.0, right: 24),
+                              child: buildDeliverableTypeRow(),
+                            ),
+                            _spacer(),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 24.0, bottom: 24.0),
+                              child: Text(
+                                'DELIVERABLE DESCRIPTION',
+                                textAlign: TextAlign.left,
+                                style: AppTheme.textStyleformfieldLabel,
                               ),
                             ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 32.0, vertical: 24.0),
-                              height: 1,
-                              color: AppTheme.white30,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 24.0, right: 24),
+                              child: TextField(),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -185,12 +137,22 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
     );
   }
 
-  Widget buildCategoryRow(List<Padding> rowContent) {
+  Container _spacer() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(32.0, 16.0, 32, 24.0),
+      height: 1,
+      color: AppTheme.white30,
+    );
+  }
+
+  Widget buildCategoryRow() {
     return FutureBuilder<List<Category>>(
       future: backend.get<ResourceService>().getCategories(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return SizedBox(height: 80.0,);
+          return SizedBox(
+            height: 100.0,
+          );
         }
         final topLevelCategories =
             snapshot.data.where((item) => item.parentId == null);
@@ -198,18 +160,56 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
         for (var category in topLevelCategories) {
           rowItems.add(
             CategoryButton(
-              radius: 30.0,
-              child: InfMemoryImage(category.iconData, color: Colors.white,),
+              radius: 35.0,
+              child: InfMemoryImage(
+                category.iconData,
+                color: Colors.white,
+              ),
               selectedSubCategories: 2,
               label: category.name,
             ),
           );
         }
         return new OverFlowRow(
-          height: 80.0,
+          height: 100.0,
           items: rowItems,
           numberOfItemsToDisplay: 4,
           spacing: 4.0,
+        );
+      },
+    );
+  }
+
+  Widget buildDeliverableTypeRow() {
+    return FutureBuilder<List<DeliverableIcon>>(
+      future: backend.get<ResourceService>().getDeliverableIcons(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return SizedBox(
+            height: 100.0,
+          );
+        }
+        final rowItems = <Widget>[];
+        for (var icon in snapshot.data) {
+          rowItems.add(
+            CategoryButton(
+              radius: 35.0,
+              child: InfMemoryImage(
+                icon.iconData,
+                color: Colors.white,
+              ),
+              label: icon.name,
+            ),
+          );
+        }
+        
+        return SizedBox(height: 100.0,
+                  child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+            children: rowItems,
+          ),
         );
       },
     );

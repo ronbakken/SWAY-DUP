@@ -7,6 +7,9 @@ abstract class ResourceService {
   String getMapUrlTemplate();
 
   Future<List<Category>> getCategories();
+
+  Future<List<DeliverableIcon>> getDeliverableIcons(); 
+
 }
 
 class WelcomePageImages {

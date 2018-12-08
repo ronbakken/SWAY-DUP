@@ -3,6 +3,7 @@ import 'dart:math' show Random;
 import 'package:flutter/services.dart';
 import 'package:inf/backend/services/resource_service_.dart';
 import 'package:inf/domain/category.dart';
+import 'package:inf/domain/deliverable.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ResourceServiceMock implements ResourceService {
@@ -70,66 +71,66 @@ class ResourceServiceMock implements ResourceService {
       Category(
         name: 'Cars',
         id: 0,
-        iconData: (await rootBundle.load(
-                'assets/mockdata/category_icons/cars.svg'))
-            .buffer
-            .asUint8List(),
+        iconData:
+            (await rootBundle.load('assets/mockdata/category_icons/cars.svg'))
+                .buffer
+                .asUint8List(),
       ),
       Category(
         name: 'Drinks',
         id: 1,
-        iconData: (await rootBundle.load(
-                'assets/mockdata/category_icons/drinks.svg'))
-            .buffer
-            .asUint8List(),
+        iconData:
+            (await rootBundle.load('assets/mockdata/category_icons/drinks.svg'))
+                .buffer
+                .asUint8List(),
       ),
       Category(
         name: 'Fashion',
         id: 2,
-        iconData: (await rootBundle.load(
-                'assets/mockdata/category_icons/fashion.svg'))
+        iconData: (await rootBundle
+                .load('assets/mockdata/category_icons/fashion.svg'))
             .buffer
             .asUint8List(),
       ),
       Category(
         name: 'Food',
         id: 3,
-        iconData: (await rootBundle.load(
-                'assets/mockdata/category_icons/food.svg'))
-            .buffer
-            .asUint8List(),
+        iconData:
+            (await rootBundle.load('assets/mockdata/category_icons/food.svg'))
+                .buffer
+                .asUint8List(),
       ),
       Category(
         name: 'Fun',
         id: 4,
-        iconData: (await rootBundle.load(
-                'assets/mockdata/category_icons/fun.svg'))
-            .buffer
-            .asUint8List(),
+        iconData:
+            (await rootBundle.load('assets/mockdata/category_icons/fun.svg'))
+                .buffer
+                .asUint8List(),
       ),
       Category(
         name: 'Health',
         id: 5,
-        iconData: (await rootBundle.load(
-                'assets/mockdata/category_icons/health.svg'))
-            .buffer
-            .asUint8List(),
+        iconData:
+            (await rootBundle.load('assets/mockdata/category_icons/health.svg'))
+                .buffer
+                .asUint8List(),
       ),
       Category(
         name: 'Services',
         id: 6,
-        iconData: (await rootBundle.load(
-                'assets/mockdata/category_icons/services.svg'))
+        iconData: (await rootBundle
+                .load('assets/mockdata/category_icons/services.svg'))
             .buffer
             .asUint8List(),
       ),
       Category(
         name: 'Travel',
         id: 7,
-        iconData: (await rootBundle.load(
-                'assets/mockdata/category_icons/travel.svg'))
-            .buffer
-            .asUint8List(),
+        iconData:
+            (await rootBundle.load('assets/mockdata/category_icons/travel.svg'))
+                .buffer
+                .asUint8List(),
       ),
       Category(
         id: 8,
@@ -168,5 +169,45 @@ class ResourceServiceMock implements ResourceService {
       ),
     ];
     return Future.value(categories);
+  }
+
+  @override
+  Future<List<DeliverableIcon>> getDeliverableIcons() async {
+    var icons = <DeliverableIcon>[
+      DeliverableIcon(
+        name: 'Post',
+        deliverableType: DeliverableType.post,
+        iconData: (await rootBundle
+                .load('assets/mockdata/delivery_type_icons/post_icon.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+      DeliverableIcon(
+        name: 'Mention',
+        deliverableType: DeliverableType.mention,
+        iconData: (await rootBundle
+                .load('assets/mockdata/delivery_type_icons/mention_icon.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+      DeliverableIcon(
+        name: 'Video',
+        deliverableType: DeliverableType.post,
+        iconData: (await rootBundle
+                .load('assets/mockdata/delivery_type_icons/video_icon.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+      DeliverableIcon(
+        name: 'Custom',
+        deliverableType: DeliverableType.post,
+        iconData: (await rootBundle
+                .load('assets/mockdata/delivery_type_icons/custom_icon.svg'))
+            .buffer
+            .asUint8List(),
+      ),
+    ];
+
+    return Future.value(icons);
   }
 }

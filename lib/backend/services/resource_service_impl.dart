@@ -1,5 +1,5 @@
 import 'package:inf/backend/services/resource_service_.dart';
-import 'package:inf/domain/category.dart';
+import 'package:inf/domain/domain.dart';
 
 class ResourceServiceImplementation implements ResourceService {
   @override
@@ -22,6 +22,12 @@ class ResourceServiceImplementation implements ResourceService {
 
   @override
   Future<List<Category>> getCategories() {
+    // TODO: implement getTopLevelCategories
+    throw Exception('Not imnplemented');
+  }
+
+  @override
+  Future<List<DeliverableIcon>> getDeliverableIcons() {
     // TODO: implement getTopLevelCategories
     throw Exception('Not imnplemented');
   }

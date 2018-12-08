@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 enum DeliverableType {
   post,
   mention,
@@ -13,6 +15,16 @@ enum DeliverableChannels {
   blog,
   custom,
 }
+
+class DeliverableIcon
+{
+   final DeliverableType deliverableType;
+   final Uint8List iconData;
+   final String name;
+
+  DeliverableIcon({this.deliverableType, this.iconData,this.name, });
+}
+
 
 class Deliverable {
   final int id;

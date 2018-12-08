@@ -12,6 +12,7 @@ class AppTheme {
   static const lightBlue = const Color(0xFF0070c0);
   static const red = const Color(0xFFDC7274);
   static const white30 = const Color(0x66FFFFFF);
+  static const white50 = const Color(0x80FFFFFF);
   static const blackTwo = const Color(0xFF181616);
   static const black12 = const Color(0x1F000000);
   static const white12 = const Color(0x1FFFFFFF);
@@ -24,7 +25,7 @@ class AppTheme {
   static const notificationDot = const Color(0xFFDC7173);
 
 
-  static const textStyleformfieldLabel = const TextStyle(color: white30);
+  static const textStyleformfieldLabel = const TextStyle(color: white50, fontSize: 16.0);
 
   static ThemeData themeTopLevel() {
     return ThemeData(
