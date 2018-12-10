@@ -177,6 +177,129 @@ class ResourceServiceMock implements ResourceService {
         parentId: 3,
         name: 'other',
       ),
+      // Cars
+      Category(
+        id: 15,
+        parentId: 0,
+        name: 'Race Cars',
+      ),
+      Category(
+        id: 16,
+        parentId: 0,
+        name: 'Oldtimers',
+      ),
+      Category(
+        id: 17,
+        parentId: 0,
+        name: 'Race Cars',
+      ),
+      Category(
+        id: 18,
+        parentId: 0,
+        name: 'Car Tech',
+      ),
+      // Drinks
+      Category(
+        id: 19,
+        parentId: 1,
+        name: 'Coffee',
+      ),
+      Category(
+        id: 20,
+        parentId: 1,
+        name: 'Cocktails',
+      ),
+      Category(
+        id: 21,
+        parentId: 1,
+        name: 'Smoothies',
+      ),
+
+      // Fashion
+      Category(
+        id: 22,
+        parentId: 2,
+        name: 'Beauty',
+      ),
+      Category(
+        id: 23,
+        parentId: 2,
+        name: 'Models',
+      ),
+      Category(
+        id: 24,
+        parentId: 2,
+        name: 'Shops',
+      ),
+
+      // Fun
+      Category(
+        id: 25,
+        parentId: 4,
+        name: 'Clubs',
+      ),
+      Category(
+        id: 26,
+        parentId: 4,
+        name: 'Movies',
+      ),
+      Category(
+        id: 27,
+        parentId: 4,
+        name: 'Comics',
+      ),
+
+      // Health
+      Category(
+        id: 28,
+        parentId: 5,
+        name: 'Fitness',
+      ),
+      Category(
+        id: 29,
+        parentId: 5,
+        name: 'Gym',
+      ),
+      Category(
+        id: 30,
+        parentId: 5,
+        name: 'Doctors',
+      ),
+      //Services
+      Category(
+        id: 31,
+        parentId: 6,
+        name: 'Finance',
+      ),
+      Category(
+        id: 31,
+        parentId: 6,
+        name: 'Taxes',
+      ),
+      Category(
+        id: 32,
+        parentId: 6,
+        name: 'Insurance',
+      ),
+      // Travel
+      Category(
+        id: 33,
+        parentId: 7,
+        name: 'Asia',
+      ),
+      Category(
+        id: 34,
+        parentId: 7,
+        name: 'Europe',
+      ),
+      Category(
+        id: 35,
+        parentId: 7,
+        name: 'Italy',
+      ),
+
+
+
     ];
 
     deliverableIcons = <DeliverableIcon>[

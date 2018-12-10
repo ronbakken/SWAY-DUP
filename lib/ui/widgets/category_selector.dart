@@ -52,6 +52,11 @@ class _CategorySelectorState extends State<CategorySelector> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.topLevelCategory == null)
+    {
+      return SizedBox();
+    }
+
     var chips = <Widget>[];
 
     for (var category in subCategories) {
