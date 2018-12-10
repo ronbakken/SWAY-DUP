@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:inf/domain/business_offer.dart';
 import 'package:inf/domain/deliverable.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/reward.dart';
 
 enum OfferFilterAspect {
@@ -31,7 +32,7 @@ class OfferFilter {
   int offeringBusinessId;
   BusinessOfferState state;
   String freeText;
-  List<DeliverableChannels> channel;
+  List<SocialNetworkProvider> channels;
   List<DeliverableType> deliverableType;
 
   // if aspect 'reward' is included the next three can ne set

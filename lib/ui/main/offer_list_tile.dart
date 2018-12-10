@@ -4,6 +4,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
+import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
 
 class OfferListTile extends StatelessWidget {
@@ -72,9 +73,9 @@ class OfferListTile extends StatelessWidget {
                             textScaleFactor: 1.2,
                             style: TextStyle(color: Colors.white)),
                         SizedBox(width: 10.0),
-                        InfAssetImage(
-                          AppLogo.getDeliverableChannel(
-                              offer.deliverables[0].channel),
+                        InfMemoryImage(
+                          offer.channels[0].logoColoredData,
+                        
                           width: 20.0,
                         ),
                         (offer.newChatMessages ?? 0) > 0

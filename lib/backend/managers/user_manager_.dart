@@ -29,3 +29,6 @@ abstract class UserManager {
   RxCommand<SocialMediaAccount, void> updateSocialMediaAccountCommand;
   // RxCommand<User, void> createUserByEmailCommand;
 }
+
+
+

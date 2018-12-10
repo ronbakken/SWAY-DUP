@@ -27,7 +27,7 @@ class BusinessOfferSummery {
   final Uint8List thumbnailLowRes;
   final bool isDirectOffer;
   final DeliverableType deliverableType;
-  final List<DeliverableChannels> channels;
+  final List<SocialNetworkProvider> channels;
   final RewardType rewardType;
 
   BusinessOfferSummery(
@@ -67,6 +67,7 @@ class BusinessOffer {
   final Uint8List thumbnailLowRes;
 
   final List<Deliverable> deliverables;
+  final List<SocialNetworkProvider> channels;
   final Reward reward;
 
   final Location location;
@@ -113,6 +114,7 @@ class BusinessOffer {
     this.numberRemaining,
     this.thumbnailUrl,
     this.thumbnailLowRes,
+    this.channels,
     this.deliverables,
     this.reward,
     this.location,

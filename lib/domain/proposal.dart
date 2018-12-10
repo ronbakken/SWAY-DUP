@@ -15,7 +15,7 @@ class Proposal {
   final String businessName;
   final String offerText;
 
-  final DeliverableChannels channel;
+  final List<SocialNetworkProvider> channel;
   final DeliverableType deliverableType;
 
   // datetime schedule etc

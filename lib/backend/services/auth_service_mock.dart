@@ -35,23 +35,21 @@ class AuthenticationServiceMock implements AuthenticationService {
     this.isVerified = true,
     this.accountState = GlobalAccountStateReason.approved,
     this.currentUserIndex = 0,
-  }) ;
+  });
 
-  
   @override
   Future<void> init() async {
-    loadMockData().then((_) {
-      if (isLoggedIn) {
-        _loginStateSubject.add(AuthenticationResult(
-            state: AuthenticationState.success,
-            provider: backend.get<ResourceService>().socialNetworkProviders[2],
-            user: allLinkedAccounts[currentUserIndex]));
-      } else {
-        _loginStateSubject.add(AuthenticationResult(
-          state: AuthenticationState.notLoggedIn,
-        ));
-      }
-    });
+    await loadMockData();
+    if (isLoggedIn) {
+      _loginStateSubject.add(AuthenticationResult(
+          state: AuthenticationState.success,
+          provider: backend.get<ResourceService>().socialNetworkProviders[2],
+          user: allLinkedAccounts[currentUserIndex]));
+    } else {
+      _loginStateSubject.add(AuthenticationResult(
+        state: AuthenticationState.notLoggedIn,
+      ));
+    }
 
     loginState.listen((state) {
       if (state.state == AuthenticationState.success) {
@@ -62,7 +60,6 @@ class AuthenticationServiceMock implements AuthenticationService {
       }
     });
   }
-
 
   @override
   Observable<AuthenticationResult> get loginState => _loginStateSubject;
@@ -82,7 +79,9 @@ class AuthenticationServiceMock implements AuthenticationService {
   AuthenticationResult getCurrentAuthenticationState() {
     if (isLoggedIn) {
       return AuthenticationResult(
-          state: AuthenticationState.success, provider: backend.get<ResourceService>().socialNetworkProviders[2], user: allLinkedAccounts[0]);
+          state: AuthenticationState.success,
+          provider: backend.get<ResourceService>().socialNetworkProviders[2],
+          user: allLinkedAccounts[0]);
     } else {
       return AuthenticationResult(
         state: AuthenticationState.notLoggedIn,
@@ -93,14 +92,17 @@ class AuthenticationServiceMock implements AuthenticationService {
   void login(AccountType userType) async {
     isLoggedIn = true;
     _loginStateSubject.add(AuthenticationResult(
-        state: AuthenticationState.waitingForActivation, provider: provider, user: allLinkedAccounts[0]));
+        state: AuthenticationState.waitingForActivation,
+        provider: provider,
+        user: allLinkedAccounts[0]));
     await Future.delayed(Duration(seconds: 2));
     _loginStateSubject.add(AuthenticationResult(
         state: AuthenticationState.success,
         provider: provider,
-        user: userType == AccountType.influencer ? allLinkedAccounts[1] : allLinkedAccounts[0]));
+        user: userType == AccountType.influencer
+            ? allLinkedAccounts[1]
+            : allLinkedAccounts[0]));
   }
-
 
   @override
   Future<void> loginWithSocialNetWork(
@@ -151,11 +153,22 @@ class AuthenticationServiceMock implements AuthenticationService {
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1',
           avatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          avatarThumbnailLowRes:
-              (await rootBundle.load('assets/mockdata/profile_thumbnail_lowres.jpg')).buffer.asUint8List(),
-          avatarLowRes: (await rootBundle.load('assets/mockdata/profile_lowres.jpg')).buffer.asUint8List(),
+          avatarThumbnailLowRes: (await rootBundle
+                  .load('assets/mockdata/profile_thumbnail_lowres.jpg'))
+              .buffer
+              .asUint8List(),
+          avatarLowRes:
+              (await rootBundle.load('assets/mockdata/profile_lowres.jpg'))
+                  .buffer
+                  .asUint8List(),
           accountStateReason: accountState,
-          categories: [Category(id: 1, name: 'Food', description: 'All about Fashion', parentId: 0)],
+          categories: [
+            Category(
+                id: 1,
+                name: 'Food',
+                description: 'All about Fashion',
+                parentId: 0)
+          ],
           description: 'I run a online store for baking utilities',
           email: 'thomas@burkharts.net',
           locationAsString: 'Germany',
@@ -188,11 +201,22 @@ class AuthenticationServiceMock implements AuthenticationService {
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1',
           avatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          avatarThumbnailLowRes:
-              (await rootBundle.load('assets/mockdata/profile_thumbnail_lowres.jpg')).buffer.asUint8List(),
-          avatarLowRes: (await rootBundle.load('assets/mockdata/profile_lowres.jpg')).buffer.asUint8List(),
+          avatarThumbnailLowRes: (await rootBundle
+                  .load('assets/mockdata/profile_thumbnail_lowres.jpg'))
+              .buffer
+              .asUint8List(),
+          avatarLowRes:
+              (await rootBundle.load('assets/mockdata/profile_lowres.jpg'))
+                  .buffer
+                  .asUint8List(),
           accountStateReason: accountState,
-          categories: [Category(id: 1, name: 'Food', description: 'All about Fashion', parentId: 0)],
+          categories: [
+            Category(
+                id: 1,
+                name: 'Food',
+                description: 'All about Fashion',
+                parentId: 0)
+          ],
           description: 'I run a online store for baking utilities',
           email: 'thomas@burkharts.net',
           locationAsString: 'Germany',
@@ -243,7 +267,6 @@ class AuthenticationServiceMock implements AuthenticationService {
             ),
           ]),
     ];
-
   }
 
   @override
@@ -262,7 +285,8 @@ class AuthenticationServiceMock implements AuthenticationService {
       } else {
         updatedAccounts.add(account);
       }
-      _currentUser = _currentUser.copyWith(socialMediaAccounts: updatedAccounts);
+      _currentUser =
+          _currentUser.copyWith(socialMediaAccounts: updatedAccounts);
       _currentUserSubject.add(_currentUser);
     }
   }
@@ -271,5 +295,4 @@ class AuthenticationServiceMock implements AuthenticationService {
   Future<void> updateUser(User user) async {
     _currentUserSubject.add(user);
   }
-
 }

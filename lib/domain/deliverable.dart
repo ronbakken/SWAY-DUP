@@ -7,14 +7,6 @@ enum DeliverableType {
   custom,
 }
 
-enum DeliverableChannels {
-  instagram,
-  facebook,
-  twitter,
-  youtube,
-  blog,
-  custom,
-}
 
 class DeliverableIcon
 {
@@ -29,8 +21,7 @@ class DeliverableIcon
 class Deliverable {
   final int id;
   final DeliverableType type;
-  final DeliverableChannels channel;
-  final String description;
+ final String description;
 
-  Deliverable({this.id, this.type, this.channel, this.description});
+  Deliverable({this.id, this.type, this.description});
 }

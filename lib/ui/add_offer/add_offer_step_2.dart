@@ -267,3 +267,22 @@ class OverFlowRow extends StatelessWidget {
     );
   }
 }
+
+
+class CategorySelector extends StatefulWidget {
+  final Category topLevelCategory;
+
+  const CategorySelector({Key key, this.topLevelCategory}) : super(key: key);
+
+  @override
+  _CategorySelectorState createState() => _CategorySelectorState();
+}
+
+class _CategorySelectorState extends State<CategorySelector> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
+    );
+  }
+}

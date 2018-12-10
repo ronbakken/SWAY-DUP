@@ -7,6 +7,7 @@ import 'package:inf/ui/sign_up/sign_up_page.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
+import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
@@ -117,17 +118,18 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       _DetailEntry(
-                        icon: AppIcons.description,
+                        icon: InfAssetImage(AppIcons.description),
                         title: 'DESCRIPTION',
                         text: offer.description,
                       ),
                       Divider(height: 1, color: AppTheme.white30),
                       _DetailEntry(
-                        icon: AppIcons.deliverable,
+                        icon: InfAssetImage(AppIcons.deliverable),
                         title: 'DELIVERABLES',
+                        //TODO show all
                         rightSideIcons: [
-                          AppLogo.getDeliverableChannel(
-                              offer.deliverables[0].channel)
+                          InfMemoryImage(
+                              offer.channels[0].logoColoredData)
                         ],
                         text: offer.deliverables[0].description,
                       ),
@@ -139,7 +141,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                                 buildRewardsRow(),
                                 Divider(height: 1, color: AppTheme.white30),
                                 _DetailEntry(
-                                  icon: AppIcons.location,
+                                  icon: InfAssetImage(AppIcons.location),
                                   title: 'LOCATION',
                                   text: 'What do we display here?',
                                 ),
@@ -195,7 +197,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   _DetailEntry buildRewardsRow() {
     final reward = offer.reward;
     return _DetailEntry(
-      icon: AppIcons.gift,
+      icon: InfAssetImage(AppIcons.gift),
       title: 'REWARDS',
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -257,7 +259,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
 
   _DetailEntry buildCategories() {
     return _DetailEntry(
-      icon: AppIcons.category,
+      icon: InfAssetImage(AppIcons.category),
       title: 'CATEGORIES',
       content: Wrap(
         spacing: 10.0,
@@ -506,8 +508,8 @@ class _DetailEntry extends StatelessWidget {
   })  : assert(!(text != null && content != null)),
         super(key: key);
 
-  final List<AppAsset> rightSideIcons;
-  final AppAsset icon;
+  final List<Widget> rightSideIcons;
+  final Widget icon;
   final String title;
   final String text;
   final EdgeInsetsGeometry margin;
@@ -519,10 +521,7 @@ class _DetailEntry extends StatelessWidget {
       CircleAvatar(
         backgroundColor: const Color(0x33000000),
         radius: 15.0,
-        child: InfAssetImage(
-          icon,
-          height: 14.0,
-        ),
+        child:  icon,
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -536,12 +535,7 @@ class _DetailEntry extends StatelessWidget {
       ),
     ];
     if (rightSideIcons != null) {
-      titleRow.addAll(rightSideIcons
-          .map<InfAssetImage>((asset) => InfAssetImage(
-                asset,
-                height: 18.0,
-              ))
-          .toList());
+      titleRow.addAll(rightSideIcons);
     }
 
     return Padding(

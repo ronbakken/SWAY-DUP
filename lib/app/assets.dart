@@ -18,22 +18,7 @@ class AppLogo {
   static const twitter = AppAsset.vector('assets/images/logo_twitter.svg');
   static const email = AppAsset.vector('assets/images/logo_email.svg');
 
-  static AppAsset getDeliverableChannel(DeliverableChannels channel) {
-    switch (channel) {
-      case DeliverableChannels.instagram:
-        return instagram;
-      case DeliverableChannels.facebook:
-        return facebook;
-      case DeliverableChannels.twitter:
-        return twitter;
-      // TODO add correct images for channels
-      case DeliverableChannels.youtube:
-      case DeliverableChannels.blog:
-      case DeliverableChannels.custom:
-        return twitter;
-    }
-    throw StateError('Bad Deliverable Channel');
-  }
+
 }
 
 class AppIcons {

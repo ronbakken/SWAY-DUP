@@ -16,3 +16,16 @@ abstract class OfferManager {
   Future<void> clearOfferFilter(OfferFilter filter);
   Future<OfferFilter> getOfferFilter(OfferFilter filter);
 }
+
+
+class OfferBuilder
+{
+  int id;
+  int offerId;
+  String title;
+  String description;
+  bool isDirectOffer;
+  DeliverableType deliverableType;
+  List<SocialNetworkProvider> channels;
+  RewardType rewardType;
+}

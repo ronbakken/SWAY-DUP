@@ -161,7 +161,7 @@ Future<List<BusinessOfferSummery>> loadBusinessOfferSummeryMockData() async {
         description:
             'Our car wash is the best car wash in the universe of car washes. We want more people to get to know our'
             'amazing service. Let\'s just see how much more lines we need :-D',
-        channels: [DeliverableChannels.facebook],
+        channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
         deliverableType: DeliverableType.post,
         rewardType: RewardType.barter,
         thumbnailLowRes: (await rootBundle
@@ -179,7 +179,6 @@ Future<List<BusinessOfferSummery>> loadBusinessOfferSummeryMockData() async {
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
         title: 'Spoon Ice Tea',
         description: 'Free ice tea if you stop by',
-        channels: [DeliverableChannels.instagram],
         deliverableType: DeliverableType.post,
         rewardType: RewardType.barter,
         thumbnailLowRes:
@@ -197,7 +196,7 @@ Future<List<BusinessOfferSummery>> loadBusinessOfferSummeryMockData() async {
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
         title: 'Spoon Ice Tea',
         description: 'Free ice tea if you stop by',
-        channels: [DeliverableChannels.instagram],
+        channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
         deliverableType: DeliverableType.post,
         rewardType: RewardType.barter,
         thumbnailLowRes:
@@ -228,10 +227,10 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         categories: [Category(name: 'cars', description: 'All about cars')],
         deliverables: [
           Deliverable(
-              channel: DeliverableChannels.facebook,
               description: 'Tell people how good our service is',
               type: DeliverableType.post)
         ],
+        channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
         endDate: DateTime.now().add(Duration(days: 10)),
         location: Location(
             activeOfferCount: 1, latitude: 34.032395, longitude: -118.301019),
@@ -277,10 +276,10 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         ],
         deliverables: [
           Deliverable(
-              channel: DeliverableChannels.instagram,
               description: 'Tell people how good our tea is',
               type: DeliverableType.post)
         ],
+        channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
         endDate: DateTime.now().add(Duration(days: 10)),
         location: Location(
             activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
@@ -325,10 +324,10 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         ],
         deliverables: [
           Deliverable(
-              channel: DeliverableChannels.instagram,
               description: 'Tell people how good our tea is',
               type: DeliverableType.post)
         ],
+        channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
         endDate: DateTime.now().add(Duration(days: 10)),
         location: Location(
             activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
@@ -366,7 +365,6 @@ Future<List<Proposal>> loadproposalMockData() async {
       id: 1,
       offerId: 1912,
       state: ProposalState.proposing,
-      channel: DeliverableChannels.instagram,
       deliverableType: DeliverableType.post,
       sentFrom: AccountType.influencer,
       influencerId: 43,
@@ -391,7 +389,6 @@ Future<List<Proposal>> loadproposalMockData() async {
       id: 2,
       offerId: 4711,
       state: ProposalState.deal,
-      channel: DeliverableChannels.facebook,
       deliverableType: DeliverableType.mention,
       sentFrom: AccountType.influencer,
       influencerId: 43,
