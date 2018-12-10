@@ -194,8 +194,7 @@ class SignUpPageState extends PageState<SignUpPage> {
                               .get<AuthenticationService>()
                               .loginAnonymous(widget.userType);
                           final nav = Navigator.of(context)..pop();
-                          unawaited(
-                              nav.push(MainPage.route(widget.userType)));
+                          unawaited(nav.push(MainPage.route(widget.userType)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -245,60 +244,45 @@ class _DynamicSocialNetworkButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<SocialNetworkProvider>>(
-        future: backend
-            .get<AuthenticationService>()
-            .getAvailableSocialNetworkProviders(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            // TODO error message
-            return Text("Error while retrieving SocialNetWorks");
-          }
-          if (!snapshot.hasData) {
-            //TODO Show Spinner
-            return Text("Loading");
-          }
+    List<Widget> buttonList = <Widget>[]..add(
+        Padding(
+          padding: const EdgeInsets.only(
+              left: 40.0, right: 40, top: 10.0, bottom: 32.0),
+          child: Text(
+            'Which social media account would you like to continue with?',
+            textAlign: TextAlign.center,
+            style: TextStyle(height: 1.1),
+          ),
+        ),
+      );
+    for (var network in backend.get<ResourceService>().socialNetworkProviders) {
+      if (network.canAuthorizeUser) {
+        buttonList.add(
+          _buildLoginButton(
+            leading: InfMemoryImage(network.logoColoredData),
+            text: network.name,
+            onPressed: () => backend
+                .get<AuthenticationService>()
+                .loginWithSocialNetWork(context, userType, network),
+          ),
+        );
+      }
+      buttonList.add(SizedBox(height: 16.0));
+    }
+    buttonList.addAll([
+      SizedBox(height: 16.0),
+      _buildLoginButton(
+        leading: InfAssetImage(AppLogo.email),
+        text: 'EMAIL',
+        onPressed: () {
+          // TODO: implement email login
+        },
+      ),
+    ]);
 
-          List<Widget> buttonList = <Widget>[]..add(
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 40.0, right: 40, top: 10.0, bottom: 32.0),
-                child: Text(
-                  'Which social media account would you like to continue with?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(height: 1.1),
-                ),
-              ),
-            );
-          for (var network in snapshot.data) {
-            if (network.canAuthorizeUser) {
-              buttonList.add(
-                _buildLoginButton(
-                  leading: InfMemoryImage(network.logoColoredData),
-                  text: network.name,
-                  onPressed: () => backend
-                      .get<AuthenticationService>()
-                      .loginWithSocialNetWork(context, userType, network),
-                ),
-              );
-            }
-            buttonList.add(SizedBox(height: 16.0));
-          }
-          buttonList.addAll([
-            SizedBox(height: 16.0),
-            _buildLoginButton(
-              leading: InfAssetImage(AppLogo.email),
-              text: 'EMAIL',
-              onPressed: () {
-                // TODO: implement email login
-              },
-            ),
-          ]);
-
-          return Column(
-            children: buttonList,
-          );
-        });
+    return Column(
+      children: buttonList,
+    );
   }
 
   Widget _buildLoginButton(

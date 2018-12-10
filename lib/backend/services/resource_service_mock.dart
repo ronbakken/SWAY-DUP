@@ -4,9 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:inf/backend/services/resource_service_.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/deliverable.dart';
+import 'package:inf/domain/social_network_provider.dart';
+import 'package:inf/network_streaming/network_streaming.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ResourceServiceMock implements ResourceService {
+  @override
+  List<Category> categories;
+  @override
+  List<DeliverableIcon> deliverableIcons;
+  @override
+  List<SocialNetworkProvider> socialNetworkProviders;
+
   List<String> displayedImageUrls = <String>[
     // Column 1
     'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F1.jpg?alt=media&token=d82436ae-7466-464b-a047-41e4473632c1',
@@ -65,9 +74,10 @@ class ResourceServiceMock implements ResourceService {
         "?access_token={accessToken}";
   }
 
+
   @override
-  Future<List<Category>> getCategories() async {
-    var categories = <Category>[
+  Future init(NetworkStreaming networkStreaming) async {
+    categories = <Category>[
       Category(
         name: 'Cars',
         id: 0,
@@ -168,12 +178,8 @@ class ResourceServiceMock implements ResourceService {
         name: 'other',
       ),
     ];
-    return Future.value(categories);
-  }
 
-  @override
-  Future<List<DeliverableIcon>> getDeliverableIcons() async {
-    var icons = <DeliverableIcon>[
+    deliverableIcons = <DeliverableIcon>[
       DeliverableIcon(
         name: 'Post',
         deliverableType: DeliverableType.post,
@@ -208,6 +214,70 @@ class ResourceServiceMock implements ResourceService {
       ),
     ];
 
-    return Future.value(icons);
+    socialNetworkProviders = [
+      SocialNetworkProvider(
+          id: 1,
+          canAuthorizeUser: true,
+          canBeUsedAsFilter: true,
+          logoColoredData: (await rootBundle.load('assets/images/logo_instagram.png')).buffer.asUint8List(),
+          logoMonochromeData:
+              (await rootBundle.load('assets/mockdata/social_media_icons/logo_instagram_monochrome.svg'))
+                  .buffer
+                  .asUint8List(),
+          logoBackgroundData:
+              (await rootBundle.load('assets/mockdata/social_media_icons/instagram_background.png'))
+                  .buffer
+                  .asUint8List(),
+          name: 'Instagramm'),
+      SocialNetworkProvider(
+          id: 2,
+          canAuthorizeUser: true,
+          canBeUsedAsFilter: true,
+          logoColoredData: (await rootBundle.load('assets/images/logo_facebook.svg')).buffer.asUint8List(),
+          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_facebook_monochrome.svg'))
+              .buffer
+              .asUint8List(),
+          logoBackGroundColor: 0xff4e71a8,
+          name: 'Facebook'),
+      SocialNetworkProvider(
+          id: 3,
+          canBeUsedAsFilter: true,
+          canAuthorizeUser: true,
+          logoColoredData: (await rootBundle.load('assets/images/logo_twitter.svg')).buffer.asUint8List(),
+          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_twitter_monochrome.svg'))
+              .buffer
+              .asUint8List(),
+              logoBackGroundColor: 0xff55acee,
+          name: 'Twitter'),
+      SocialNetworkProvider(
+          id: 4,
+          canBeUsedAsFilter: false,
+          canAuthorizeUser: true,
+          logoColoredData: (await rootBundle.load('assets/images/logo_google.svg')).buffer.asUint8List(),
+          name: 'Google'),
+      SocialNetworkProvider(
+          id: 5,
+          canAuthorizeUser: false,
+          canBeUsedAsFilter: true,
+          logoColoredData: null,
+          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_youtube_monochrome.svg'))
+              .buffer
+              .asUint8List(),
+          logoBackGroundColor: 0xffed1f24,
+          name: 'Youtube'),
+      SocialNetworkProvider(
+          id: 5,
+          canAuthorizeUser: false,
+          canBeUsedAsFilter: true,
+          logoColoredData: null,
+          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_snapchat_monochrome.svg'))
+              .buffer
+              .asUint8List(),
+          logoBackGroundColor: 0xfffffc00,
+          name: 'Snapchat'),
+    ];    
+
+
   }
+
 }

@@ -55,6 +55,9 @@ class AuthenticationResult {
 }
 
 abstract class AuthenticationService {
+
+  Future<void> init();
+
   // must be backed by BehaviourSubject
   Observable<AuthenticationResult> get loginState;
 
@@ -62,8 +65,6 @@ abstract class AuthenticationService {
 
   /// Returns the current authenticationstate independent od a state change
   AuthenticationResult getCurrentAuthenticationState();
-
-  Future<List<SocialNetworkProvider>> getAvailableSocialNetworkProviders();
 
   Future<void> loginAnonymous(AccountType userType);
 

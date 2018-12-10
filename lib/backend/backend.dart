@@ -51,13 +51,16 @@ Future<void> setupBackend(AppEnvironment env) async {
       configureDevLogger();
       await startApiClient('config_ulfberth.bin');
       registerImplementations();
+      await initInfApiService();
       break;
     case AppEnvironment.prod:
       await startApiClient('config_prod.bin');
       registerImplementations();
+      await initInfApiService();
       break;
     case AppEnvironment.mock:
       registerMocks();
+      await initInfApiService();
       break;
     default:
       throw new Exception('Unknown backend selected.');
@@ -111,6 +114,13 @@ Future<void> startApiClient(String configFile) async {
   
   // TODO: Call _networkStreaming.listenNavigation(...) from UI
 }
+
+Future<void> initInfApiService() async
+{
+    await backend.get<ResourceService>().init(_networkStreaming);
+    await backend.get<AuthenticationService>().init();
+}
+
 
 void registerImplementations() {
   backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));

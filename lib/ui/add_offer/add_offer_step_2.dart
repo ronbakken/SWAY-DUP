@@ -95,7 +95,8 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 24.0, right: 24),
+                              padding:
+                                  const EdgeInsets.only(left: 24.0, right: 24),
                               child: buildDeliverableTypeRow(),
                             ),
                             _spacer(),
@@ -146,16 +147,8 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
   }
 
   Widget buildCategoryRow() {
-    return FutureBuilder<List<Category>>(
-      future: backend.get<ResourceService>().getCategories(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return SizedBox(
-            height: 100.0,
-          );
-        }
         final topLevelCategories =
-            snapshot.data.where((item) => item.parentId == null);
+            backend.get<ResourceService>().categories.where((item) => item.parentId == null);
         final rowItems = <Widget>[];
         for (var category in topLevelCategories) {
           rowItems.add(
@@ -176,21 +169,11 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
           numberOfItemsToDisplay: 4,
           spacing: 4.0,
         );
-      },
-    );
   }
 
   Widget buildDeliverableTypeRow() {
-    return FutureBuilder<List<DeliverableIcon>>(
-      future: backend.get<ResourceService>().getDeliverableIcons(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return SizedBox(
-            height: 100.0,
-          );
-        }
         final rowItems = <Widget>[];
-        for (var icon in snapshot.data) {
+        for (var icon in backend.get<ResourceService>().deliverableIcons) {
           rowItems.add(
             CategoryButton(
               radius: 35.0,
@@ -202,52 +185,41 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
             ),
           );
         }
-        
-        return SizedBox(height: 100.0,
-                  child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
+
+        return SizedBox(
+          height: 100.0,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: rowItems,
           ),
         );
-      },
-    );
   }
 
   Widget buildSocialPlatformRow() {
-    return FutureBuilder<List<SocialNetworkProvider>>(
-        future: backend
-            .get<AuthenticationService>()
-            .getAvailableSocialNetworkProviders(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return SizedBox(
-              height: 40.0,
-            );
-          }
-          var rowContent = <Widget>[];
-          for (var provider in snapshot.data) {
-            if (provider.canBeUsedAsFilter) {
-              rowContent.add(Container(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 6),
-                  width: 60.0,
-                  height: 60.0,
-                  child: SocialNetworkToggleButton(
-                    isSelected: false,
-                    provider: provider,
-                  )));
-            }
-          }
-          return SizedBox(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: rowContent,
-            ),
-          );
-        });
+    var rowContent = <Widget>[];
+    for (var provider
+        in backend.get<ResourceService>().socialNetworkProviders) {
+      if (provider.canBeUsedAsFilter) {
+        rowContent.add(Container(
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+            width: 60.0,
+            height: 60.0,
+            child: SocialNetworkToggleButton(
+              isSelected: false,
+              provider: provider,
+            )));
+      }
+    }
+    return SizedBox(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: rowContent,
+      ),
+    );
   }
 
   void onNext(BuildContext context) {

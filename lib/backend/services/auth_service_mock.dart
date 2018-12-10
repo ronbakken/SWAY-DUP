@@ -1,6 +1,7 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/location.dart';
 import 'package:inf/domain/social_network_provider.dart';
@@ -28,19 +29,22 @@ class AuthenticationServiceMock implements AuthenticationService {
   User _currentUser;
 
   List<User> allLinkedAccounts;
-  List<SocialNetworkProvider> socialNetWorks;
 
   AuthenticationServiceMock({
     this.isLoggedIn,
     this.isVerified = true,
     this.accountState = GlobalAccountStateReason.approved,
     this.currentUserIndex = 0,
-  }) {
+  }) ;
+
+  
+  @override
+  Future<void> init() async {
     loadMockData().then((_) {
       if (isLoggedIn) {
         _loginStateSubject.add(AuthenticationResult(
             state: AuthenticationState.success,
-            provider: socialNetWorks[2],
+            provider: backend.get<ResourceService>().socialNetworkProviders[2],
             user: allLinkedAccounts[currentUserIndex]));
       } else {
         _loginStateSubject.add(AuthenticationResult(
@@ -58,6 +62,7 @@ class AuthenticationServiceMock implements AuthenticationService {
       }
     });
   }
+
 
   @override
   Observable<AuthenticationResult> get loginState => _loginStateSubject;
@@ -77,7 +82,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   AuthenticationResult getCurrentAuthenticationState() {
     if (isLoggedIn) {
       return AuthenticationResult(
-          state: AuthenticationState.success, provider: socialNetWorks[2], user: allLinkedAccounts[0]);
+          state: AuthenticationState.success, provider: backend.get<ResourceService>().socialNetworkProviders[2], user: allLinkedAccounts[0]);
     } else {
       return AuthenticationResult(
         state: AuthenticationState.notLoggedIn,
@@ -96,10 +101,6 @@ class AuthenticationServiceMock implements AuthenticationService {
         user: userType == AccountType.influencer ? allLinkedAccounts[1] : allLinkedAccounts[0]));
   }
 
-  @override
-  Future<List<SocialNetworkProvider>> getAvailableSocialNetworkProviders() {
-    return Future.value(socialNetWorks);
-  }
 
   @override
   Future<void> loginWithSocialNetWork(
@@ -138,68 +139,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   }
 
   Future<void> loadMockData() async {
-    socialNetWorks = [
-      SocialNetworkProvider(
-          id: 1,
-          canAuthorizeUser: true,
-          canBeUsedAsFilter: true,
-          logoColoredData: (await rootBundle.load('assets/images/logo_instagram.png')).buffer.asUint8List(),
-          logoMonochromeData:
-              (await rootBundle.load('assets/mockdata/social_media_icons/logo_instagram_monochrome.svg'))
-                  .buffer
-                  .asUint8List(),
-          logoBackgroundData:
-              (await rootBundle.load('assets/mockdata/social_media_icons/instagram_background.png'))
-                  .buffer
-                  .asUint8List(),
-          name: 'Instagramm'),
-      SocialNetworkProvider(
-          id: 2,
-          canAuthorizeUser: true,
-          canBeUsedAsFilter: true,
-          logoColoredData: (await rootBundle.load('assets/images/logo_facebook.svg')).buffer.asUint8List(),
-          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_facebook_monochrome.svg'))
-              .buffer
-              .asUint8List(),
-          logoBackGroundColor: 0xff4e71a8,
-          name: 'Facebook'),
-      SocialNetworkProvider(
-          id: 3,
-          canBeUsedAsFilter: true,
-          canAuthorizeUser: true,
-          logoColoredData: (await rootBundle.load('assets/images/logo_twitter.svg')).buffer.asUint8List(),
-          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_twitter_monochrome.svg'))
-              .buffer
-              .asUint8List(),
-              logoBackGroundColor: 0xff55acee,
-          name: 'Twitter'),
-      SocialNetworkProvider(
-          id: 4,
-          canBeUsedAsFilter: false,
-          canAuthorizeUser: true,
-          logoColoredData: (await rootBundle.load('assets/images/logo_google.svg')).buffer.asUint8List(),
-          name: 'Google'),
-      SocialNetworkProvider(
-          id: 5,
-          canAuthorizeUser: false,
-          canBeUsedAsFilter: true,
-          logoColoredData: null,
-          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_youtube_monochrome.svg'))
-              .buffer
-              .asUint8List(),
-          logoBackGroundColor: 0xffed1f24,
-          name: 'Youtube'),
-      SocialNetworkProvider(
-          id: 5,
-          canAuthorizeUser: false,
-          canBeUsedAsFilter: true,
-          logoColoredData: null,
-          logoMonochromeData: (await rootBundle.load('assets/mockdata/social_media_icons/logo_snapchat_monochrome.svg'))
-              .buffer
-              .asUint8List(),
-          logoBackGroundColor: 0xfffffc00,
-          name: 'Snapchat'),
-    ];    
+    var socialNetWorks = backend.get<ResourceService>().socialNetworkProviders;
     allLinkedAccounts = [
       User(
           id: new Int64(42),
@@ -331,4 +271,5 @@ class AuthenticationServiceMock implements AuthenticationService {
   Future<void> updateUser(User user) async {
     _currentUserSubject.add(user);
   }
+
 }

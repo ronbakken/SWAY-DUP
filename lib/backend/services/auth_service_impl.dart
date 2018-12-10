@@ -143,20 +143,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     _authenticationResults.add(getCurrentAuthenticationState());
   }
 
-  @override
-  Future<List<SocialNetworkProvider>>
-      getAvailableSocialNetworkProviders() async {
-    List<SocialNetworkProvider> result = <SocialNetworkProvider>[];
-    List<ConfigOAuthProvider> oauthProviders =
-        networkStreaming.config.oauthProviders;
-    for (int providerId = 0; providerId < oauthProviders.length; ++providerId) {
-      ConfigOAuthProvider oauthProvider = oauthProviders[providerId];
-      if (oauthProvider.canConnect || oauthProvider.showInProfile) {
-        result.add(providerFromProvider(providerId, oauthProvider));
-      }
-    }
-    return result;
-  }
+
 
   @override
   Future<void> loginWithSocialNetWork(
@@ -210,6 +197,12 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> updateUser(User user) {
     // TODO: implement updateUser
+    return null;
+  }
+
+  @override
+  Future<void> init() {
+    // TODO: implement init
     return null;
   }
 }
