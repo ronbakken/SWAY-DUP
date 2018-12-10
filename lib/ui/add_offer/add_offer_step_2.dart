@@ -196,12 +196,14 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
     for (var icon in backend.get<ResourceService>().deliverableIcons) {
       rowItems.add(
         CategoryButton(
+          onTap: () => setState(() => widget.offerBuilder.deliverableTypes.toggle(icon.deliverableType)),
           radius: 35.0,
           child: InfMemoryImage(
             icon.iconData,
             color: Colors.white,
           ),
           label: icon.name,
+          selected: widget.offerBuilder.deliverableTypes.contains(icon.deliverableType),
         ),
       );
     }
@@ -227,7 +229,8 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
             width: 60.0,
             height: 60.0,
             child: SocialNetworkToggleButton(
-              isSelected: false,
+              onTap: ()=> setState(() => widget.offerBuilder.channels.toggle(provider)),
+              isSelected: widget.offerBuilder.channels.contains(provider),
               provider: provider,
             )));
       }

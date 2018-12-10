@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 
+
+/// This widget is used to display Toplevel categories or Content Types.
 class CategoryButton extends StatelessWidget {
+  /// if [selectedSubCategories] == null or == 0 no circle with number will be displayed
   final int selectedSubCategories;
+  /// if this is true the button will be drawn blue
+  final bool selected;
   final Widget child;
   final VoidCallback onTap;
   final String label;
@@ -11,6 +16,7 @@ class CategoryButton extends StatelessWidget {
   const CategoryButton({
     Key key,
     this.selectedSubCategories = 0,
+    this.selected = false,
     @required this.child,
     @required this.onTap,
     @required this.radius,
@@ -36,7 +42,7 @@ class CategoryButton extends StatelessWidget {
                     padding: const EdgeInsets.all(4.0),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: selectedSubCategories > 0
+                      color: selectedSubCategories > 0 || selected
                             ? AppTheme.lightBlue
                             : AppTheme.grey,
                       shape: BoxShape.circle,

@@ -30,8 +30,8 @@ class OfferBuilder
   String title;
   String description;
   bool isDirectOffer;
-  DeliverableType deliverableType;
-  List<SocialNetworkProvider> channels = <SocialNetworkProvider>[];
+  SelectionSet<DeliverableType> deliverableTypes = SelectionSet<DeliverableType>();
+  SelectionSet<SocialNetworkProvider> channels = SelectionSet<SocialNetworkProvider>();
   SelectionSet<Category> categories = SelectionSet<Category>();
   RewardType rewardType;
 }

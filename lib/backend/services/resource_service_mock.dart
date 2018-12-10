@@ -321,7 +321,7 @@ class ResourceServiceMock implements ResourceService {
       ),
       DeliverableIcon(
         name: 'Video',
-        deliverableType: DeliverableType.post,
+        deliverableType: DeliverableType.video,
         iconData: (await rootBundle
                 .load('assets/mockdata/delivery_type_icons/video_icon.svg'))
             .buffer
@@ -329,7 +329,7 @@ class ResourceServiceMock implements ResourceService {
       ),
       DeliverableIcon(
         name: 'Custom',
-        deliverableType: DeliverableType.post,
+        deliverableType: DeliverableType.custom,
         iconData: (await rootBundle
                 .load('assets/mockdata/delivery_type_icons/custom_icon.svg'))
             .buffer
