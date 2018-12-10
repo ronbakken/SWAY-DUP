@@ -3,6 +3,8 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 
+// Is sued in BrowseMode to switch between map/ ListView
+
 // TODO: replace with better version
 class InfToggle<T> extends StatelessWidget {
   final T leftState;

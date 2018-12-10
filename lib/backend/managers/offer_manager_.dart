@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:inf/domain/domain.dart';
+import 'package:inf/utils/selection_set.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class OfferManager {
@@ -31,6 +32,6 @@ class OfferBuilder
   bool isDirectOffer;
   DeliverableType deliverableType;
   List<SocialNetworkProvider> channels = <SocialNetworkProvider>[];
-  List<Category> categories = <Category>[];
+  SelectionSet<Category> categories = SelectionSet<Category>();
   RewardType rewardType;
 }
