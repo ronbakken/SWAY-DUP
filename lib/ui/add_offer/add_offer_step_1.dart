@@ -15,10 +15,10 @@ import 'package:inf/ui/widgets/multipage_wizard.dart';
 class AddOfferStep1 extends StatefulWidget {
   const AddOfferStep1({
     Key key,
-    this.offer,
+    this.offerBuilder,
   }) : super(key: key);
 
-  final ValueNotifier<BusinessOffer> offer;
+  final OfferBuilder offerBuilder;
 
   @override
   _AddOfferStep1State createState() {
@@ -27,11 +27,8 @@ class AddOfferStep1 extends StatefulWidget {
 }
 
 class _AddOfferStep1State extends State<AddOfferStep1> {
-  final selectedImages = <File>[];
   int selectedImageIndex = 0;
 
-  String title;
-  String description;
 
   GlobalKey form = GlobalKey();
 
@@ -46,10 +43,8 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
             AppImages.mockCurves, // FIXME:
             alignment: Alignment.bottomCenter,
           ),
-          ListenableBuilder(
-            listenable: widget.offer,
-            builder: (BuildContext context, Widget child) {
-              return LayoutBuilder(
+          
+               LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
@@ -67,7 +62,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                               child: buildMainImage(),
                             ),
                             SizedBox(
-                              height: selectedImages.isNotEmpty
+                              height: widget.offerBuilder.imagesToUpLoad.isNotEmpty
                                   ? constraints.maxHeight * 0.12
                                   : 0,
                               child: buildSelectedImageRow(),
@@ -91,7 +86,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                                       ),
                                       SizedBox(height: 8.0),
                                       TextFormField(
-                                        onSaved: (s) => title = s,
+                                        onSaved: (s) => widget.offerBuilder.title = s,
                                         validator: (s) => s.isEmpty
                                             ? 'You have so provide a title'
                                             : null,
@@ -103,7 +98,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                                         style: AppTheme.textStyleformfieldLabel,
                                       ),
                                       TextFormField(
-                                        onSaved: (s) => description = s,
+                                        onSaved: (s) => widget.offerBuilder.description = s,
                                         validator: (s) => s.isEmpty
                                             ? 'You have so provide a description'
                                             : null,
@@ -130,8 +125,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                       ),
                     ),
                   );
-                },
-              );
+
             },
           ),
         ],
@@ -140,11 +134,12 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
   }
 
   Widget buildSelectedImageRow() {
-    if (selectedImages.isEmpty) {
+    var imageFiles = widget.offerBuilder.imagesToUpLoad;
+    if (imageFiles.isEmpty) {
       return SizedBox();
     }
     var images = <Widget>[];
-    for (var i = 0; i < selectedImages.length; i++) {
+    for (var i = 0; i < imageFiles.length; i++) {
       images.add(
         InkWell(
           onTap: () => setState(() => selectedImageIndex = i),
@@ -153,7 +148,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
               child: Image.file(
-                selectedImages[i],
+                imageFiles[i],
                 fit: BoxFit.cover,
               ),
             ),
@@ -193,7 +188,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
   }
 
   Widget buildMainImage() {
-    if (selectedImages.isEmpty) {
+    if (widget.offerBuilder.imagesToUpLoad.isEmpty) {
       return Container(
           color: AppTheme.grey,
           child: Row(
@@ -219,12 +214,12 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
             ],
           ));
     } else {
-      assert(selectedImageIndex < selectedImages.length);
+      assert(selectedImageIndex < widget.offerBuilder.imagesToUpLoad.length);
       return Stack(
         fit: StackFit.passthrough,
         children: [
           Image.file(
-            selectedImages[selectedImageIndex],
+            widget.offerBuilder.imagesToUpLoad[selectedImageIndex],
             fit: BoxFit.cover,
           ),
           Positioned(
@@ -248,7 +243,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
 
   void onRemoveImage() {
     setState(() {
-      selectedImages.removeAt(selectedImageIndex);
+      widget.offerBuilder.imagesToUpLoad.removeAt(selectedImageIndex);
       selectedImageIndex = selectedImageIndex > 0 ? selectedImageIndex - 1 : 0;
     });
   }
@@ -257,8 +252,6 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
     FormState state = form.currentState;
     if (true /*state.validate()*/) {
       state.save();
-      widget.offer.value =
-          widget.offer.value.copyWith(title: title, description: description);
       MultiPageWizard.of(context).nextPage();
     }
   }
@@ -276,9 +269,9 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
         ? await backend.get<ImageService>().takePicture()
         : await backend.get<ImageService>().pickImage();
     if (imageFile != null) {
-      selectedImages.add(imageFile);
+      widget.offerBuilder.imagesToUpLoad.add(imageFile);
       setState(() {
-        selectedImageIndex = selectedImages.length - 1;
+        selectedImageIndex = widget.offerBuilder.imagesToUpLoad.length - 1;
       });
     }
   }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:inf/domain/domain.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -15,17 +17,20 @@ abstract class OfferManager {
   Future<void> addOfferFilter(OfferFilter filter);
   Future<void> clearOfferFilter(OfferFilter filter);
   Future<OfferFilter> getOfferFilter(OfferFilter filter);
+
+  OfferBuilder getOfferBuilder();
+
 }
 
 
 class OfferBuilder
 {
-  int id;
-  int offerId;
+  List<File> imagesToUpLoad = <File>[];
   String title;
   String description;
   bool isDirectOffer;
   DeliverableType deliverableType;
-  List<SocialNetworkProvider> channels;
+  List<SocialNetworkProvider> channels = <SocialNetworkProvider>[];
+  List<Category> categories = <Category>[];
   RewardType rewardType;
 }

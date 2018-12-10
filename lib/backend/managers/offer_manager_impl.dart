@@ -4,6 +4,9 @@ import 'package:inf/domain/domain.dart';
 import 'package:rxdart/rxdart.dart';
 
 class OfferManagerImplementation implements OfferManager {
+
+  OfferBuilder activeBuilder;
+
   @override
   Observable<int> get newAppliedOfferMessages => _newAppliedOfferMessages;
   final BehaviorSubject<int> _newAppliedOfferMessages =
@@ -57,5 +60,11 @@ class OfferManagerImplementation implements OfferManager {
   Future<OfferFilter> getOfferFilter(OfferFilter filter) {
     // TODO: implement getOfferFilter
     throw Exception('Not implemented yet');
+  }
+
+  @override
+  OfferBuilder getOfferBuilder() {
+    activeBuilder = new OfferBuilder();
+    return activeBuilder;
   }
 }
