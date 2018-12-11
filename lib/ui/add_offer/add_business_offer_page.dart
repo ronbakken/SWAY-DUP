@@ -4,6 +4,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/add_offer/add_offer_step_1.dart';
 import 'package:inf/ui/add_offer/add_offer_step_2.dart';
+import 'package:inf/ui/add_offer/add_offer_step_3.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
@@ -52,7 +53,9 @@ class _AddBusinessOfferPageState extends PageState<AddBusinessOfferPage> {
           AddOfferStep2(
             offerBuilder: _offerBuilder,
           ),
-          OfferPage(),
+          AddOfferStep3(
+            offerBuilder: _offerBuilder,
+          ),
           OfferPage(),
           OfferPage(),
         ],

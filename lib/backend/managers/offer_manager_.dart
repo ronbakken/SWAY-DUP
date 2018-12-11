@@ -33,6 +33,11 @@ class OfferBuilder
   SelectionSet<DeliverableType> deliverableTypes = SelectionSet<DeliverableType>();
   SelectionSet<SocialNetworkProvider> channels = SelectionSet<SocialNetworkProvider>();
   SelectionSet<Category> categories = SelectionSet<Category>();
-  RewardType rewardType;
   String deliverableDescription;
+  int cashValue;
+  int barterValue;
+  String rewardDescription;
+  int miniFollowers;
+  Location location;
+
 }
