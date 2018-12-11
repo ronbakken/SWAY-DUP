@@ -6,9 +6,11 @@ class SocialNetworkToggleButton extends StatelessWidget {
   final SocialNetworkProvider provider;
   final VoidCallback onTap;
   final bool isSelected;
+  final double radius;
 
   const SocialNetworkToggleButton({
     Key key,
+    @required this.radius,
     @required this.provider,
     @required this.onTap,
     @required this.isSelected,
@@ -20,9 +22,9 @@ class SocialNetworkToggleButton extends StatelessWidget {
 
     if (provider.logoBackgroundData != null) {
       logoStack.add(InfMemoryImage(
-        provider.logoBackgroundData,
-        fit: BoxFit.fill,
-      ));
+          provider.logoBackgroundData,
+          fit: BoxFit.fill,
+        ));
     } else {
       logoStack.add(Container(
         color: Color(provider.logoBackGroundColor),
@@ -31,7 +33,7 @@ class SocialNetworkToggleButton extends StatelessWidget {
     logoStack.add(
       Center(
         child: SizedBox(
-          height: 60.0,
+          height: 2*radius * 0.8,
           child: InfMemoryImage(
             provider.logoMonochromeData,
             fit: BoxFit.contain,
@@ -48,9 +50,18 @@ class SocialNetworkToggleButton extends StatelessWidget {
 
     return InkResponse(
       onTap: onTap,
-      child: ClipOval(
-        child: Stack(
-          children: logoStack,
+      child: Center(
+        child: Container(
+          width: 2*radius,
+          height: 2*radius,
+          child: ClipOval(
+            child: Stack(
+              overflow: Overflow.clip,
+                fit: StackFit.passthrough,
+                alignment: Alignment.center,
+                children: logoStack,
+              ),
+          ),
         ),
       ),
     );

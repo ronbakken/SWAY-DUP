@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
@@ -91,8 +93,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                           ),
                         ),
                         Padding(
-                          padding:
-                              const EdgeInsets.only(left: 24.0, right: 24.0),
+                          padding: const EdgeInsets.only(left: 24.0),
                           child: buildSocialPlatformRow(),
                         ),
                         _spacer(),
@@ -184,9 +185,9 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
           }
           return new OverFlowRow(
             height: 100.0,
-            items: rowItems,
-            numberOfItemsToDisplay: 4,
-            spacing: 4.0,
+            children: rowItems,
+            minChildrenWidth: 70,
+            spacing: 8.0,
           );
         });
   }
@@ -196,14 +197,16 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
     for (var icon in backend.get<ResourceService>().deliverableIcons) {
       rowItems.add(
         CategoryButton(
-          onTap: () => setState(() => widget.offerBuilder.deliverableTypes.toggle(icon.deliverableType)),
+          onTap: () => setState(() => widget.offerBuilder.deliverableTypes
+              .toggle(icon.deliverableType)),
           radius: 35.0,
           child: InfMemoryImage(
             icon.iconData,
             color: Colors.white,
           ),
           label: icon.name,
-          selected: widget.offerBuilder.deliverableTypes.contains(icon.deliverableType),
+          selected: widget.offerBuilder.deliverableTypes
+              .contains(icon.deliverableType),
         ),
       );
     }
@@ -224,24 +227,20 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
     for (var provider
         in backend.get<ResourceService>().socialNetworkProviders) {
       if (provider.canBeUsedAsFilter) {
-        rowContent.add(Container(
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 6),
-            width: 60.0,
-            height: 60.0,
-            child: SocialNetworkToggleButton(
-              onTap: ()=> setState(() => widget.offerBuilder.channels.toggle(provider)),
-              isSelected: widget.offerBuilder.channels.contains(provider),
-              provider: provider,
-            )));
+        rowContent.add(SocialNetworkToggleButton(
+          radius: 30.0,
+          onTap: () =>
+              setState(() => widget.offerBuilder.channels.toggle(provider)),
+          isSelected: widget.offerBuilder.channels.contains(provider),
+          provider: provider,
+        ));
       }
     }
-    return SizedBox(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: rowContent,
-      ),
+    return OverFlowRow(
+      height: 100.0,
+      children: rowContent,
+      minChildrenWidth: 60.0,
+      spacing: 8,
     );
   }
 
@@ -274,7 +273,8 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
               color: AppTheme.darkGrey,
               child: Center(
                 child: InkWell(
-                  onTap: () => setState(() => activeTopLevelCategory.value = null),
+                  onTap: () =>
+                      setState(() => activeTopLevelCategory.value = null),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Row(
@@ -309,18 +309,18 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
 }
 
 class OverFlowRow extends StatelessWidget {
-  final double numberOfItemsToDisplay;
-  final List<Widget> items;
+  final List<Widget> children;
   final double height;
   final double spacing;
+  final double minChildrenWidth;
 
-  const OverFlowRow(
-      {Key key,
-      @required this.numberOfItemsToDisplay,
-      @required this.items,
-      @required this.height,
-      this.spacing = 0.0})
-      : super(key: key);
+  const OverFlowRow({
+    Key key,
+    @required this.children,
+    @required this.height,
+    this.spacing = 0.0,
+    @required this.minChildrenWidth,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -328,13 +328,16 @@ class OverFlowRow extends StatelessWidget {
       height: height,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          var segmentSpace =
-              constraints.maxWidth / (numberOfItemsToDisplay + 0.5);
+          double segmentSpace;
+          int numberOfItemsToDisplay =
+              (constraints.maxWidth / ((minChildrenWidth + spacing))).round();
+
+          segmentSpace = constraints.maxWidth / (numberOfItemsToDisplay);
 
           var listItems = <Widget>[];
-          for (var item in items) {
+          for (var item in children) {
             listItems.add(Container(
-                padding: EdgeInsets.only(right: spacing),
+                margin: EdgeInsets.only(right: spacing / 2, left: spacing / 2),
                 width: segmentSpace,
                 child: item));
           }

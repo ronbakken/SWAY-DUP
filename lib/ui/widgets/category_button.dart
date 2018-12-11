@@ -34,7 +34,6 @@ class CategoryButton extends StatelessWidget {
             child: AspectRatio(aspectRatio: 1.0,
                           child: Center(
                             child: Stack(fit: StackFit.passthrough,
-                overflow: Overflow.visible,
                 children: <Widget>[
                   Container(
                     width: 2 * radius,
