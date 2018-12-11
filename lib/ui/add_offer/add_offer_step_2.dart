@@ -10,12 +10,14 @@ import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/ui/widgets/category_button.dart';
 import 'package:inf/ui/widgets/category_selector.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
+import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
 
 import 'package:inf/ui/widgets/multipage_wizard.dart';
+import 'package:inf/ui/widgets/overflow_row.dart';
 import 'package:inf/ui/widgets/social_network_toggle_button.dart';
 import 'package:inf/utils/selection_set.dart';
 
@@ -67,10 +69,19 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 24.0, top: 32.0, bottom: 24.0),
-                            child: Text(
-                              'PLEASE SELECT CATEGORIES',
-                              textAlign: TextAlign.left,
-                              style: AppTheme.textStyleformfieldLabel,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'PLEASE SELECT CATEGORIES',
+                                  textAlign: TextAlign.left,
+                                  style: AppTheme.textStyleformfieldLabel,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 24.0),
+                                  child: HelpButton(),
+                                ),
+                              ],
                             ),
                           ),
                           Padding(
@@ -88,10 +99,19 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                           Padding(
                             padding:
                                 const EdgeInsets.only(left: 24.0, bottom: 16.0),
-                            child: Text(
-                              'SOCIAL PLATFORM',
-                              textAlign: TextAlign.left,
-                              style: AppTheme.textStyleformfieldLabel,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'SOCIAL PLATFORM',
+                                  textAlign: TextAlign.left,
+                                  style: AppTheme.textStyleformfieldLabel,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 24.0),
+                                  child: HelpButton(),
+                                ),
+                              ],
                             ),
                           ),
                           Padding(
@@ -302,50 +322,6 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-class OverFlowRow extends StatelessWidget {
-  final List<Widget> children;
-  final double height;
-  final double spacing;
-  final double minChildrenWidth;
-
-  const OverFlowRow({
-    Key key,
-    @required this.children,
-    @required this.height,
-    this.spacing = 0.0,
-    @required this.minChildrenWidth,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: height,
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          double segmentSpace;
-          int numberOfItemsToDisplay =
-              (constraints.maxWidth / ((minChildrenWidth + spacing))).round();
-
-          segmentSpace = constraints.maxWidth / (numberOfItemsToDisplay);
-
-          var listItems = <Widget>[];
-          for (var item in children) {
-            listItems.add(Container(
-                margin: EdgeInsets.only(right: spacing / 2, left: spacing / 2),
-                width: segmentSpace,
-                child: item));
-          }
-
-          return ListView(
-            scrollDirection: Axis.horizontal,
-            children: listItems,
-          );
-        },
       ),
     );
   }
