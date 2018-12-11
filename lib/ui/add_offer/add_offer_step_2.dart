@@ -88,13 +88,22 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                             padding: const EdgeInsets.only(left: 24.0),
                             child: buildCategoryRow(),
                           ),
-                          AnimatedCrossFade(
-                            duration: const Duration(microseconds: 500),
-                            firstChild: _spacer(),
-                            secondChild: buildCategorySelector(),
-                            crossFadeState: activeTopLevelCategory.value == null
-                                ? CrossFadeState.showFirst
-                                : CrossFadeState.showSecond,
+                          AnimatedSwitcher(
+                            transitionBuilder: (child, animation) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: SizeTransition(
+                                  axis: Axis.vertical,
+                                  axisAlignment: -1.0,
+                                  sizeFactor: animation,
+                                  child: child,
+                                ),
+                              );
+                            },
+                            duration: const Duration(milliseconds: 500),
+                            child: activeTopLevelCategory.value == null
+                                ? _spacer()
+                                : buildCategorySelector(),
                           ),
                           Padding(
                             padding:
