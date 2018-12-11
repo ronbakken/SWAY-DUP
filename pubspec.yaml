@@ -23,6 +23,7 @@ dependencies:
   rx_command: any
   path_provider: any
   url_launcher: any
+  quiver: any
 
   sentry: any
   package_info: any

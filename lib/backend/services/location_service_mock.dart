@@ -40,7 +40,7 @@ class LocationServiceMock implements LocationService {
   Future<MapboxResponse> lookupMapBoxCoordinates(Coordinate position, [bool onlyAdresses = false]) async {
 
     var url =
-        'https://api.mapbox.com/geocoding/v5/mapbox.places/${position.longitude},${position.latitude}.json?types=${onlyAdresses?'adress': 'address,place,poi'}&'
+        'https://api.mapbox.com/geocoding/v5/mapbox.places/${position.longitude},${position.latitude}.json?types=${onlyAdresses ? 'adress': 'address,place,poi'}&'
         'access_token=pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqa2pkOThmdzFha2IzcG16aHl4M3drNTcifQ.jtaEoGuiomNgllDjUMCwNQ';
 
     final response = await client.get(url);
@@ -71,9 +71,17 @@ class LocationServiceMock implements LocationService {
     return results;
   }
 
+  List<GeoCodingResult> lastCoordinateLookUpResult;
+  Coordinate lastCoodinateLookUpPosition;
 
   @override
-  Future<List<GeoCodingResult>> lookUpCoordinates({Coordinate position, bool onlyAdresses}) async {
+  Future<List<GeoCodingResult>> lookUpCoordinates({Coordinate position, bool onlyAdresses = false}) async {
+
+    if (lastCoodinateLookUpPosition == position && lastCoordinateLookUpResult != null)
+    {
+      return lastCoordinateLookUpResult;
+    }
+
     var response = await lookupMapBoxCoordinates(position, onlyAdresses);
     var results = <GeoCodingResult>[];
     if (response != null)
@@ -84,6 +92,8 @@ class LocationServiceMock implements LocationService {
         }
         
     }
+    lastCoodinateLookUpPosition = position;
+    lastCoordinateLookUpResult =results;
     return results;
   }
 }
@@ -99,7 +109,7 @@ class MapboxResponse {
     type = json['type'];
     query = json['query'].cast<String>();
     if (json['features'] != null) {
-      features = new List<Features>();
+      features = <Features>[];
       json['features'].forEach((v) {
         features.add(new Features.fromJson(v));
       });

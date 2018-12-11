@@ -1,8 +1,15 @@
+import 'package:quiver/core.dart';
+
 class Coordinate {
   final double latitude;
   final double longitude;
 
   const Coordinate(this.latitude, this.longitude);
+
+  @override
+   bool operator == (other) => other is Coordinate && latitude == other.latitude && longitude == other.longitude;
+  @override
+  int get hashCode => hash2(latitude.hashCode, longitude.hashCode);
 }
 
 
