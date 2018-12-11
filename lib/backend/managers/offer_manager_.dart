@@ -34,4 +34,5 @@ class OfferBuilder
   SelectionSet<SocialNetworkProvider> channels = SelectionSet<SocialNetworkProvider>();
   SelectionSet<Category> categories = SelectionSet<Category>();
   RewardType rewardType;
+  String deliverableDescription;
 }
