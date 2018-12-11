@@ -113,7 +113,7 @@ class ToggleChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      color: isSelected ? AppTheme.lightBlue : Colors.black,
+      color: isSelected ? AppTheme.lightBlue : AppTheme.blackTwo,
       shape: const StadiumBorder(),
       onPressed: this.onTap,
       child: Container(

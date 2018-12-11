@@ -40,14 +40,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Stack(
-        fit: StackFit.passthrough,
-        alignment: Alignment.bottomCenter,
-        children: [
-          InfAssetImage(
-            AppImages.mockCurves, // FIXME:
-            alignment: Alignment.bottomCenter,
-          ),
+      child: 
           LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               return SingleChildScrollView(
@@ -57,8 +50,16 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                     minHeight: constraints.maxHeight,
                     maxHeight: double.infinity,
                   ),
-                  child: IntrinsicHeight(
-                    child: Column(
+                  child: IntrinsicHeight
+                  (
+                    child: Stack(
+        fit: StackFit.passthrough,
+        alignment: Alignment.bottomCenter,
+        children: [
+          InfAssetImage(
+            AppImages.mockCurves, // FIXME:
+            alignment: Alignment.bottomCenter,
+          ),Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -135,14 +136,14 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                           ),
                         )
                       ],
-                    ),
+                    ),]
                   ),
-                ),
+                ),),
               );
             },
           ),
-        ],
-      ),
+      
+      
     );
   }
 
@@ -270,33 +271,14 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                       ),
                 )),
             Container(
-              color: AppTheme.darkGrey,
+              color: AppTheme.darkGrey2,
               child: Center(
                 child: InkWell(
                   onTap: () =>
                       setState(() => activeTopLevelCategory.value = null),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.all(4.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppTheme.lightBlue,
-                          ),
-                          child: Icon(
-                            Icons.close,
-                            size: 10.0,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8.0,
-                        ),
-                        Text('Close'),
-                      ],
-                    ),
+                    child: Text('Close'),
                   ),
                 ),
               ),

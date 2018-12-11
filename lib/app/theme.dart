@@ -3,6 +3,7 @@ import 'package:inf/app/assets.dart';
 
 class AppTheme {
   static const darkGrey = const Color(0xFF232326);
+  static const darkGrey2 = const Color(0xFF262628);
   static const menuUserNameBackground = const Color(0xFF1B1B1B);
   static const listViewAndMenuBackground = const Color(0xFF202020);
   static const listViewItemBackground = const Color(0xFF292929);
