@@ -27,4 +27,16 @@ class LocationServiceImplementation implements LocationService {
     _lastLocation = Coordinate(location['latitude'], location['longitude']);
     _locationData.add(_lastLocation);
   }
+
+  @override
+  Future<List<GeoCodingResult>> lookUpPlaces({Coordinate nearby, String searchText}) {
+    // TODO: implement lookUpPlace
+    return null;
+  }
+
+  @override
+  Future<List<GeoCodingResult>> lookUpCoordinates({Coordinate position, bool onlyAdresses}) {
+    // TODO: implement lookUpCoordinates
+    return null;
+  }
 }
