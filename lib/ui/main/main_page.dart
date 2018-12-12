@@ -35,6 +35,7 @@ class MainPage extends PageWidget {
 }
 
 class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, TickerProviderStateMixin {
+  TabController _tabController;
   AnimationController _drawerController;
   Animation<Offset> _drawerSlideAnim;
   Animation<double> _drawerAnim;
@@ -46,30 +47,24 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
   MainPageMode _mode = MainPageMode.activities;
   bool _menuVisible = false;
 
-  TabController _tabController;
-
   @override
   void initState() {
     super.initState();
-
+    _tabController = TabController(length: 4, vsync: this);
     _drawerController = AnimationController(duration: const Duration(milliseconds: 450), vsync: this);
     // TODO: Add curves
     _drawerAnim = Tween(begin: 0.0, end: 1.0).animate(_drawerController);
     _drawerSlideAnim = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero).animate(_drawerController);
     _sectionController = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
 
+    // TODO: Add curves
+    _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
+    _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
     if (widget.userType == AccountType.influencer) {
-      // TODO: Add curves
-      _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
-      _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
-      _mode = MainPageMode.browse;
+      _setMode(MainPageMode.browse);
     } else {
-      _activitiesAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
-      _browseAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
-      _mode = MainPageMode.activities;
+      _setMode(MainPageMode.activities);
     }
-
-    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -78,6 +73,15 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
     _sectionController.dispose();
     _tabController.dispose();
     super.dispose();
+  }
+
+  void _setMode(MainPageMode value) {
+    if (value == MainPageMode.browse) {
+      _sectionController.reverse();
+    } else {
+      _sectionController.forward();
+    }
+    setState(() => _mode = value);
   }
 
   @override
@@ -122,15 +126,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                   userType: widget.userType,
                   height: kBottomNavHeight,
                   initialValue: _mode,
-                  onBottomNavChanged: (MainPageMode value) {
-                    if (value == MainPageMode.browse) {
-                      _sectionController.reverse();
-                    } else {
-                      _sectionController.forward();
-                    }
-
-                    setState(() => _mode = value);
-                  },
+                  onBottomNavChanged: _setMode,
                   onFABPressed: () {
                     if (widget.userType == AccountType.influencer) {
                       // TODO SEARCH
@@ -139,12 +135,10 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                         Navigator.of(context).push(AddBusinessOfferPage.route(widget.userType));
                       } else {
                         // TODO SEARCH
-
                       }
                     }
                   },
                 ),
-
                 /*
                 LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {

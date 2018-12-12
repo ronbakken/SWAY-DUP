@@ -36,8 +36,7 @@ class AddOfferStep2 extends StatefulWidget {
 }
 
 class _AddOfferStep2State extends State<AddOfferStep2> {
-  ValueNotifier<Category> activeTopLevelCategory =
-      ValueNotifier<Category>(null);
+  ValueNotifier<Category> activeTopLevelCategory = ValueNotifier<Category>(null);
 
   GlobalKey form = GlobalKey();
 
@@ -50,137 +49,122 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
             child: ConstrainedBox(
               constraints: constraints.copyWith(
                 minWidth: constraints.maxWidth,
+                maxWidth: constraints.maxWidth,
                 minHeight: constraints.maxHeight,
                 maxHeight: double.infinity,
               ),
               child: IntrinsicHeight(
                 child: Stack(
-                    fit: StackFit.passthrough,
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      InfAssetImage(
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: InfAssetImage(
                         AppImages.mockCurves, // FIXME:
                         alignment: Alignment.bottomCenter,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 24.0, top: 32.0, bottom: 24.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'PLEASE SELECT CATEGORIES',
-                                  textAlign: TextAlign.left,
-                                  style: AppTheme.textStyleformfieldLabel,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 24.0),
-                                  child: HelpButton(),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 24.0),
-                            child: buildCategoryRow(),
-                          ),
-                          AnimatedSwitcher(
-                            transitionBuilder: (child, animation) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: SizeTransition(
-                                  axis: Axis.vertical,
-                                  axisAlignment: -1.0,
-                                  sizeFactor: animation,
-                                  child: child,
-                                ),
-                              );
-                            },
-                            duration: const Duration(milliseconds: 500),
-                            child: activeTopLevelCategory.value == null
-                                ? _spacer()
-                                : buildCategorySelector(),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 24.0, bottom: 16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'SOCIAL PLATFORM',
-                                  textAlign: TextAlign.left,
-                                  style: AppTheme.textStyleformfieldLabel,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 24.0),
-                                  child: HelpButton(),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 24.0),
-                            child: buildSocialPlatformRow(),
-                          ),
-                          _spacer(),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 24.0, bottom: 24.0),
-                            child: Text(
-                              'CONTENT TYPE',
-                              textAlign: TextAlign.left,
-                              style: AppTheme.textStyleformfieldLabel,
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 24.0, right: 24),
-                            child: buildDeliverableTypeRow(),
-                          ),
-                          _spacer(),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 24.0, bottom: 24.0),
-                            child: Text(
-                              'DELIVERABLE DESCRIPTION',
-                              textAlign: TextAlign.left,
-                              style: AppTheme.textStyleformfieldLabel,
-                            ),
-                          ),
-                          Form(
-                            key: form,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 24.0, right: 24),
-                              child: TextFormField(
-                                onSaved: (s) => widget
-                                    .offerBuilder.deliverableDescription = s,
-                                validator: (s) => s.isEmpty
-                                    ? 'You have so provide a description'
-                                    : null,
-                                maxLines: null,
-                                keyboardType: TextInputType.multiline,
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24.0, top: 32.0, bottom: 24.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'PLEASE SELECT CATEGORIES',
+                                textAlign: TextAlign.left,
+                                style: AppTheme.textStyleformfieldLabel,
                               ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 24.0),
+                                child: HelpButton(),
+                              ),
+                            ],
+                          ),
+                        ),
+                        buildCategoryRow(),
+                        AnimatedSwitcher(
+                          transitionBuilder: (child, animation) {
+                            return FadeTransition(
+                              opacity: animation,
+                              child: SizeTransition(
+                                axis: Axis.vertical,
+                                axisAlignment: -1.0,
+                                sizeFactor: animation,
+                                child: child,
+                              ),
+                            );
+                          },
+                          duration: const Duration(milliseconds: 500),
+                          child: activeTopLevelCategory.value == null ? _spacer() : buildCategorySelector(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24.0, bottom: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'SOCIAL PLATFORM',
+                                textAlign: TextAlign.left,
+                                style: AppTheme.textStyleformfieldLabel,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 24.0),
+                                child: HelpButton(),
+                              ),
+                            ],
+                          ),
+                        ),
+                        buildSocialPlatformRow(),
+                        _spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24.0, bottom: 24.0),
+                          child: Text(
+                            'CONTENT TYPE',
+                            textAlign: TextAlign.left,
+                            style: AppTheme.textStyleformfieldLabel,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24.0, right: 24),
+                          child: buildDeliverableTypeRow(),
+                        ),
+                        _spacer(),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24.0, bottom: 24.0),
+                          child: Text(
+                            'DELIVERABLE DESCRIPTION',
+                            textAlign: TextAlign.left,
+                            style: AppTheme.textStyleformfieldLabel,
+                          ),
+                        ),
+                        Form(
+                          key: form,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 24.0, right: 24),
+                            child: TextFormField(
+                              onSaved: (s) => widget.offerBuilder.deliverableDescription = s,
+                              validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
+                              maxLines: null,
+                              keyboardType: TextInputType.multiline,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 32.0, vertical: 32.0),
-                            child: InfStadiumButton(
-                              height: 56,
-                              color: Colors.white,
-                              text: 'NEXT',
-                              onPressed: () => onNext(context),
-                            ),
-                          )
-                        ],
-                      ),
-                    ]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
+                          child: InfStadiumButton(
+                            height: 56,
+                            color: Colors.white,
+                            text: 'NEXT',
+                            onPressed: () => onNext(context),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -200,39 +184,38 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
   Widget buildCategoryRow() {
     var categories = widget.offerBuilder.categories;
     return ListenableBuilder(
-        listenable: categories,
-        builder: (context, widget) {
-          final topLevelCategories = backend
-              .get<ResourceService>()
-              .categories
-              .where((item) => item.parentId == null);
-          final rowItems = <Widget>[];
-          for (var topLevelCategory in topLevelCategories) {
-            rowItems.add(
-              CategoryButton(
-                onTap: () => setState(() {
-                      activeTopLevelCategory.value = topLevelCategory;
-                    }),
-                radius: 35.0,
-                child: InfMemoryImage(
-                  topLevelCategory.iconData,
-                  color: Colors.white,
-                ),
-                selectedSubCategories: categories.values
-                    .where(
-                        (category) => category.parentId == topLevelCategory.id)
-                    .length,
-                label: topLevelCategory.name,
+      listenable: categories,
+      builder: (context, widget) {
+        final topLevelCategories = backend.get<ResourceService>().categories.where((item) => item.parentId == null);
+        final rowItems = <Widget>[];
+        for (var topLevelCategory in topLevelCategories) {
+          rowItems.add(
+            CategoryButton(
+              onTap: () => setState(() {
+                    activeTopLevelCategory.value = topLevelCategory;
+                  }),
+              radius: 64.0,
+              child: InfMemoryImage(
+                topLevelCategory.iconData,
+                color: Colors.white,
+                width: 32.0,
+                height: 32.0,
               ),
-            );
-          }
-          return new OverFlowRow(
-            height: 100.0,
-            children: rowItems,
-            minChildrenWidth: 70,
-            spacing: 8.0,
+              selectedSubCategories:
+                  categories.values.where((category) => category.parentId == topLevelCategory.id).length,
+              label: topLevelCategory.name,
+            ),
           );
-        });
+        }
+        return new OverflowRow(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+          height: 96.0,
+          childrenWidth: 64.0,
+          children: rowItems,
+        );
+      },
+    );
   }
 
   Widget buildDeliverableTypeRow() {
@@ -240,16 +223,16 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
     for (var icon in backend.get<ResourceService>().deliverableIcons) {
       rowItems.add(
         CategoryButton(
-          onTap: () => setState(() => widget.offerBuilder.deliverableTypes
-              .toggle(icon.deliverableType)),
-          radius: 35.0,
+          onTap: () => setState(() => widget.offerBuilder.deliverableTypes.toggle(icon.deliverableType)),
+          radius: 64.0,
           child: InfMemoryImage(
             icon.iconData,
             color: Colors.white,
+                width: 32.0,
+                height: 32.0,
           ),
           label: icon.name,
-          selected: widget.offerBuilder.deliverableTypes
-              .contains(icon.deliverableType),
+          selected: widget.offerBuilder.deliverableTypes.contains(icon.deliverableType),
         ),
       );
     }
@@ -267,23 +250,21 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
 
   Widget buildSocialPlatformRow() {
     var rowContent = <Widget>[];
-    for (var provider
-        in backend.get<ResourceService>().socialNetworkProviders) {
+    for (var provider in backend.get<ResourceService>().socialNetworkProviders) {
       if (provider.canBeUsedAsFilter) {
         rowContent.add(SocialNetworkToggleButton(
-          radius: 30.0,
-          onTap: () =>
-              setState(() => widget.offerBuilder.channels.toggle(provider)),
+          onTap: () => setState(() => widget.offerBuilder.channels.toggle(provider)),
           isSelected: widget.offerBuilder.channels.contains(provider),
           provider: provider,
         ));
       }
     }
-    return OverFlowRow(
-      height: 100.0,
+    return OverflowRow(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+      height: 96.0,
+      childrenWidth: 48.0,
       children: rowContent,
-      minChildrenWidth: 60.0,
-      spacing: 8,
     );
   }
 
@@ -320,8 +301,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
               color: AppTheme.darkGrey2,
               child: Center(
                 child: InkWell(
-                  onTap: () =>
-                      setState(() => activeTopLevelCategory.value = null),
+                  onTap: () => setState(() => activeTopLevelCategory.value = null),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text('Close'),

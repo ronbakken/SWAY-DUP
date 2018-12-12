@@ -29,43 +29,39 @@ class InfMemoryImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isVector(data))
-    {
-        return SvgPicture.memory(
-          data,
-          matchTextDirection: matchTextDirection,
-          width: width,
-          height: height,
-          fit: fit,
-          alignment: alignment,
-          color: color,
-          colorBlendMode: colorBlendMode,
-          allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
-        );
-    }else{    
-        return Image.memory(
-          data,
-          matchTextDirection: matchTextDirection,
-          width: width,
-          height: height,
-          fit: fit,
-          alignment: alignment,
-          color: color,
-          colorBlendMode: colorBlendMode,
-        );
+    if (isVector(data)) {
+      return SvgPicture.memory(
+        data,
+        matchTextDirection: matchTextDirection,
+        width: width,
+        height: height,
+        fit: fit,
+        alignment: alignment,
+        color: color,
+        colorBlendMode: colorBlendMode,
+        allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+      );
+    } else {
+      return Image.memory(
+        data,
+        matchTextDirection: matchTextDirection,
+        width: width,
+        height: height,
+        fit: fit,
+        alignment: alignment,
+        color: color,
+        colorBlendMode: colorBlendMode,
+      );
     }
   }
 
-  bool isVector(Uint8List data)
-  {
-      final header = <int>[0x3C,0x73,0x76,0x67];
-      for(int i = 0; i< header.length; i++)
-      {
-        if (data[i] != header[i])
-        {
-          return false;
-        }
+  bool isVector(Uint8List data) {
+    final header = <int>[0x3C, 0x73, 0x76, 0x67];
+    for (int i = 0; i < header.length; i++) {
+      if (data[i] != header[i]) {
+        return false;
       }
-      return true;
+    }
+    return true;
   }
 }

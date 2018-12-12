@@ -13,12 +13,13 @@ dependencies:
   decimal: any
   flutter_map: any
   flutter_page_indicator: any 
-  flutter_svg: any
+  flutter_svg:
+    git: https://github.com/dnfield/flutter_svg.git
   get_it: any
   image_picker: any
   intl: any
   location: 
-    git: https://github.com/slightfoot/flutter_location
+    git: https://github.com/slightfoot/flutter_location.git
   rxdart: any
   rx_command: any
   path_provider: any
@@ -34,7 +35,7 @@ dependencies:
 
   inf_common:
     git: 
-      url: https://github.com/infmarketplace/inf_common
+      url: https://github.com/infmarketplace/inf_common.git
       ref: 4815cc7926e2b36e21aa628ae6d1affc7286ac02
   switchboard: ^2.0.5
   firebase_messaging: ^2.0.0

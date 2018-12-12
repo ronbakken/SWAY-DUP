@@ -56,19 +56,20 @@ class _MainBottomNavState extends State<MainBottomNav> {
     );
 
     final activitiesButton = Expanded(
-        child: StreamBuilder<int>(
-      initialData: 0,
-      stream: backend.get<OfferManager>().newOfferMessages,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        var notificationCount = snapshot.hasData ? snapshot.data : 0;
-        return _BottomNavButton(
-          selected: _selected,
-          mode: MainPageMode.activities,
-          onPressed: _onBottomNavButton,
-          notificationCount: notificationCount,
-        );
-      },
-    ));
+      child: StreamBuilder<int>(
+        initialData: 0,
+        stream: backend.get<OfferManager>().newOfferMessages,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          var notificationCount = snapshot.hasData ? snapshot.data : 0;
+          return _BottomNavButton(
+            selected: _selected,
+            mode: MainPageMode.activities,
+            onPressed: _onBottomNavButton,
+            notificationCount: notificationCount,
+          );
+        },
+      ),
+    );
 
     final buttons = <Widget>[];
     Widget fabIcon;
@@ -122,7 +123,7 @@ class _MainBottomNavState extends State<MainBottomNav> {
               height: buttonSize,
             ),
             onPressed: widget.onFABPressed,
-            child: fabIcon
+            child: fabIcon,
           ),
         ],
       ),
@@ -282,7 +283,7 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 widget.notificationCount > 0 ? new NotificationMarker() : SizedBox(),
-                InfAssetImage(widget.mode.icon, width: 30.0),
+                InfAssetImage(widget.mode.icon, width: 24.0),
                 SizedBox(height: 4.0),
                 Text(
                   widget.mode.text,

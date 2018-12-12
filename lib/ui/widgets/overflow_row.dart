@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-class OverFlowRow extends StatelessWidget {
-  final List<Widget> children;
+class OverflowRow extends StatelessWidget {
+  final EdgeInsets padding;
+  final EdgeInsets itemPadding;
+  final double childrenWidth;
   final double height;
-  final double spacing;
-  final double minChildrenWidth;
+  final List<Widget> children;
 
-  const OverFlowRow({
+  const OverflowRow({
     Key key,
-    @required this.children,
+    this.padding = EdgeInsets.zero,
+    this.itemPadding = EdgeInsets.zero,
+    @required this.childrenWidth,
     @required this.height,
-    this.spacing = 0.0,
-    @required this.minChildrenWidth,
+    @required this.children,
   }) : super(key: key);
 
   @override
@@ -20,23 +22,39 @@ class OverFlowRow extends StatelessWidget {
       height: height,
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          double segmentSpace;
-          int numberOfItemsToDisplay =
-              (constraints.maxWidth / ((minChildrenWidth + spacing))).round();
-
-          segmentSpace = constraints.maxWidth / (numberOfItemsToDisplay);
-
-          var listItems = <Widget>[];
-          for (var item in children) {
-            listItems.add(Container(
-                margin: EdgeInsets.only(right: spacing / 2, left: spacing / 2),
-                width: segmentSpace,
-                child: item));
+          assert(constraints.hasBoundedWidth);
+          double childWidth;
+          // If we don't have room for the children, make sure we have always
+          // have half of the last visible child on screen.
+          double maxChildWidth = childrenWidth + itemPadding.horizontal;
+          double maxWidth = (constraints.maxWidth - padding.horizontal);
+          bool overflow = (maxChildWidth * children.length) > maxWidth;
+          if(overflow){
+            final maxWidthLeft = (constraints.maxWidth - padding.left);
+            childWidth = maxWidthLeft / ((maxWidth ~/ maxChildWidth) + 0.5);
+          }else{
+            childWidth = maxWidth / children.length;
           }
-
-          return ListView(
+          return ListView.builder(
             scrollDirection: Axis.horizontal,
-            children: listItems,
+            padding: padding,
+            itemCount: children.length,
+            itemBuilder: (BuildContext context, int index) {
+              EdgeInsets padding = itemPadding;
+              if(overflow){
+                if(index == 0) {
+                  padding = itemPadding.copyWith(left: 0.0);
+                }else if(index == children.length - 1){
+                  padding = itemPadding.copyWith(right: 0.0);
+                }
+              }
+              return Container(
+                width: childWidth,
+                alignment: Alignment.center,
+                padding: padding,
+                child: children[index],
+              );
+            },
           );
         },
       ),

@@ -16,7 +16,7 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
-import 'package:inf/ui/widgets/loaction_selector_page.dart';
+import 'package:inf/ui/widgets/location_selector_page.dart';
 
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';

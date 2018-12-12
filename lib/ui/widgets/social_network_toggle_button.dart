@@ -6,11 +6,9 @@ class SocialNetworkToggleButton extends StatelessWidget {
   final SocialNetworkProvider provider;
   final VoidCallback onTap;
   final bool isSelected;
-  final double radius;
 
   const SocialNetworkToggleButton({
     Key key,
-    @required this.radius,
     @required this.provider,
     @required this.onTap,
     @required this.isSelected,
@@ -18,53 +16,54 @@ class SocialNetworkToggleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var logoStack = <Widget>[];
-
+    BoxDecoration logoDecoration;
     if (provider.logoBackgroundData != null) {
-      logoStack.add(InfMemoryImage(
-          provider.logoBackgroundData,
+      logoDecoration = BoxDecoration(
+        image: DecorationImage(
+          image: MemoryImage(provider.logoBackgroundData),
           fit: BoxFit.fill,
-        ));
-    } else {
-      logoStack.add(Container(
-        color: Color(provider.logoBackGroundColor),
-      ));
-    }
-    logoStack.add(
-      Center(
-        child: SizedBox(
-          height: 2*radius * 0.8,
-          child: InfMemoryImage(
-            provider.logoMonochromeData,
-            fit: BoxFit.contain,
-          ),
         ),
-      ),
-    );
-
-    if (!isSelected) {
-      logoStack.add(Container(
-        color: Colors.black54,
-      ));
+      );
+    } else {
+      logoDecoration = BoxDecoration(
+        color: Color(provider.logoBackGroundColor),
+      );
     }
-
-    return InkResponse(
-      onTap: onTap,
+    BoxDecoration foregroundDecoration;
+    if (isSelected) {
+      foregroundDecoration = const BoxDecoration(color: Colors.transparent);
+    } else {
+      foregroundDecoration = const BoxDecoration(color: Colors.black54);
+    }
+    return AspectRatio(
+      aspectRatio: 1.0,
       child: Center(
-        child: Container(
-          width: 2*radius,
-          height: 2*radius,
-          child: ClipOval(
-            child: Stack(
-              overflow: Overflow.clip,
-                fit: StackFit.passthrough,
-                alignment: Alignment.center,
-                children: logoStack,
+        child: Material(
+          type: MaterialType.transparency,
+          clipBehavior: Clip.antiAlias,
+          shape: const CircleBorder(),
+          child: AnimatedContainer(
+            duration: kThemeAnimationDuration,
+            foregroundDecoration: foregroundDecoration,
+            child: InkResponse(
+              onTap: onTap,
+              child: Ink(
+                decoration: logoDecoration,
+                child: Center(
+                  child: FractionallySizedBox(
+                    widthFactor: 0.6,
+                    heightFactor: 0.6,
+                    child: InfMemoryImage(
+                      provider.logoMonochromeData,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
               ),
+            ),
           ),
         ),
       ),
     );
   }
-
 }

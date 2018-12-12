@@ -20,10 +20,8 @@ class LocationSelectorPage extends StatefulWidget {
           location: location,
         );
       },
-      transitionsBuilder:
-          (BuildContext context, Animation<double> animation, _, Widget child) {
-        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero)
-            .animate(animation);
+      transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
+        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(animation);
         return SlideTransition(
           position: slide,
           child: child,
@@ -40,24 +38,19 @@ class LocationSelectorPage extends StatefulWidget {
   _LocationSelectorPageState createState() => _LocationSelectorPageState();
 }
 
-class _LocationSelectorPageState extends State<LocationSelectorPage>
-    with SingleTickerProviderStateMixin {
+class _LocationSelectorPageState extends State<LocationSelectorPage> with SingleTickerProviderStateMixin {
   TabController _controller;
 
-  final ValueNotifier<Coordinate> searchLocation =
-      ValueNotifier<Coordinate>(null);
-  final ValueNotifier<GeoCodingResult> selectedLocation =
-      ValueNotifier<GeoCodingResult>(null);
+  final ValueNotifier<Coordinate> searchLocation = ValueNotifier<Coordinate>(null);
+  final ValueNotifier<GeoCodingResult> selectedLocation = ValueNotifier<GeoCodingResult>(null);
 
   @override
   void initState() {
     _controller = TabController(length: 3, vsync: this);
 
-    _controller.addListener(
-        () => FocusScope.of(context).requestFocus(new FocusNode()));
+    _controller.addListener(() => FocusScope.of(context).requestFocus(new FocusNode()));
 
-    searchLocation.value =
-        widget.location ?? backend.get<LocationService>().lastLocation;
+    searchLocation.value = widget.location ?? backend.get<LocationService>().lastLocation;
 
     super.initState();
   }
@@ -124,8 +117,7 @@ class _LocationSelectorPageState extends State<LocationSelectorPage>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32.0, vertical: 32.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
                     child: InfStadiumButton(
                       height: 56,
                       color: Colors.white,
@@ -147,9 +139,7 @@ class _NearbyView extends StatefulWidget {
   final ValueNotifier<Coordinate> searchLocation;
   final ValueNotifier<GeoCodingResult> selectedLocation;
 
-  const _NearbyView(
-      {Key key, @required this.searchLocation, @required this.selectedLocation})
-      : super(key: key);
+  const _NearbyView({Key key, @required this.searchLocation, @required this.selectedLocation}) : super(key: key);
 
   @override
   __NearbyViewState createState() => __NearbyViewState();
@@ -159,9 +149,7 @@ class __NearbyViewState extends State<_NearbyView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<GeoCodingResult>>(
-      future: backend
-          .get<LocationService>()
-          .lookUpCoordinates(position: widget.searchLocation.value),
+      future: backend.get<LocationService>().lookUpCoordinates(position: widget.searchLocation.value),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           // TODO add Spinner
@@ -172,12 +160,9 @@ class __NearbyViewState extends State<_NearbyView> {
           return SizedBox();
         }
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: _LocationList(
-            locations: snapshot.data,
-            onLocationSelected: (loc) => widget.selectedLocation.value = loc,
-          ),
+        return _LocationList(
+          locations: snapshot.data,
+          onLocationSelected: (loc) => widget.selectedLocation.value = loc,
         );
       },
     );
@@ -188,15 +173,15 @@ class _SearchView extends StatefulWidget {
   final ValueNotifier<Coordinate> searchLocation;
   final ValueNotifier<GeoCodingResult> selectedLocation;
 
-  const _SearchView(
-      {Key key, @required this.searchLocation, @required this.selectedLocation})
-      : super(key: key);
+  const _SearchView({Key key, @required this.searchLocation, @required this.selectedLocation}) : super(key: key);
+
   @override
   __SearchViewState createState() => __SearchViewState();
 }
 
 class __SearchViewState extends State<_SearchView> {
   RxCommand<String, String> searchTextChangedCommand;
+
 //  RxCommand<String, Observable<List<GeoCodingResult>>> searchPlaceCommand;
   RxCommand<String, List<GeoCodingResult>> searchPlaceCommand;
 
@@ -208,8 +193,9 @@ class __SearchViewState extends State<_SearchView> {
     searchTextChangedCommand = RxCommand.createSync((s) => s);
 
     searchPlaceCommand = RxCommand.createAsync((s) {
-      return backend.get<LocationService>().lookUpPlaces(
-          nearby: backend.get<LocationService>().lastLocation, searchText: s);
+      return backend
+          .get<LocationService>()
+          .lookUpPlaces(nearby: backend.get<LocationService>().lastLocation, searchText: s);
     });
 
     searchTextChangedCommand
@@ -263,22 +249,22 @@ class __SearchViewState extends State<_SearchView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            decoration: const ShapeDecoration(
-                shape: StadiumBorder(), color: AppTheme.white12),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            decoration: const ShapeDecoration(shape: StadiumBorder(), color: AppTheme.white12),
             child: TextField(
               onChanged: searchTextChangedCommand,
               decoration: InputDecoration(
-                  border: InputBorder.none,
-                  icon: InfAssetImage(
-                    AppIcons.search,
-                    height: 40.0,
-                  )),
+                border: InputBorder.none,
+                icon: InfAssetImage(
+                  AppIcons.search,
+                  height: 24.0,
+                ),
+              ),
             ),
           ),
           Expanded(
@@ -300,9 +286,8 @@ class _MapView extends StatefulWidget {
   final ValueNotifier<Coordinate> searchLocation;
   final ValueNotifier<GeoCodingResult> selectedLocation;
 
-  const _MapView(
-      {Key key, @required this.searchLocation, @required this.selectedLocation})
-      : super(key: key);
+  const _MapView({Key key, @required this.searchLocation, @required this.selectedLocation}) : super(key: key);
+
   @override
   __MapViewState createState() => __MapViewState();
 }
@@ -321,16 +306,13 @@ class __MapViewState extends State<_MapView> {
     urlTemplate = backend.get<ResourceService>().getMapUrlTemplate();
     mapApiKey = backend.get<ResourceService>().getMapApiKey();
 
-    positionChangedCommand = RxCommand.createSync(
-        (pos) => Coordinate(pos.center.latitude, pos.center.longitude));
+    positionChangedCommand = RxCommand.createSync((pos) => Coordinate(pos.center.latitude, pos.center.longitude));
 
     searchPlaceCommand = RxCommand.createAsync((pos) {
       return backend.get<LocationService>().lookUpCoordinates(position: pos);
     }, emitLastResult: true);
 
-    positionChangedCommand
-        .debounce(Duration(milliseconds: 1000))
-        .listen(searchPlaceCommand);
+    positionChangedCommand.debounce(Duration(milliseconds: 1000)).listen(searchPlaceCommand);
 
     mapController = new MapController();
 
@@ -353,8 +335,7 @@ class __MapViewState extends State<_MapView> {
               FlutterMap(
                 mapController: mapController,
                 options: MapOptions(
-                  center: LatLng(widget.searchLocation.value.latitude,
-                      widget.searchLocation.value.longitude),
+                  center: LatLng(widget.searchLocation.value.latitude, widget.searchLocation.value.longitude),
                   onPositionChanged: onMapPositionChanged,
                   zoom: 14,
                 ),
@@ -373,19 +354,16 @@ class __MapViewState extends State<_MapView> {
                 ignoring: true,
                 child: CustomPaint(
                   child: Container(),
-                  painter: _CrossairPainter(),
+                  painter: _CrosshairPainter(),
                 ),
               )
             ],
           ),
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal:16.0),
-            child: _SearchResultListener(
-              stream: searchPlaceCommand,
-              onLocationSelected: (loc) => widget.selectedLocation.value = loc,
-            ),
+          child: _SearchResultListener(
+            stream: searchPlaceCommand,
+            onLocationSelected: (loc) => widget.selectedLocation.value = loc,
           ),
         ),
       ],
@@ -393,16 +371,14 @@ class __MapViewState extends State<_MapView> {
   }
 }
 
-class _CrossairPainter extends CustomPainter {
+class _CrosshairPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
       ..color = AppTheme.lightBlue
       ..strokeWidth = 0.75;
-    canvas.drawLine(
-        size.topCenter(Offset.zero), size.bottomCenter(Offset.zero), paint);
-    canvas.drawLine(
-        size.centerLeft(Offset.zero), size.centerRight(Offset.zero), paint);
+    canvas.drawLine(size.topCenter(Offset.zero), size.bottomCenter(Offset.zero), paint);
+    canvas.drawLine(size.centerLeft(Offset.zero), size.centerRight(Offset.zero), paint);
   }
 
   @override
@@ -411,9 +387,8 @@ class _CrossairPainter extends CustomPainter {
 
 class _SearchResultListener extends StatelessWidget {
   final ValueChanged<GeoCodingResult> onLocationSelected;
-  const _SearchResultListener(
-      {Key key, @required this.stream, @required this.onLocationSelected})
-      : super(key: key);
+
+  const _SearchResultListener({Key key, @required this.stream, @required this.onLocationSelected}) : super(key: key);
 
   final Stream<List<GeoCodingResult>> stream;
 
@@ -424,9 +399,7 @@ class _SearchResultListener extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           // TODO make beautiful
-          return Center(
-              child: Text(
-                  'Sorry there is a problem with our location search service'));
+          return Center(child: Text('Sorry there is a problem with our location search service'));
         }
         if (!snapshot.hasData) {
           return SizedBox();
@@ -444,8 +417,7 @@ class _LocationList extends StatefulWidget {
   final List<GeoCodingResult> locations;
   final ValueChanged<GeoCodingResult> onLocationSelected;
 
-  _LocationList({Key key, this.locations, this.onLocationSelected})
-      : super(key: key);
+  _LocationList({Key key, this.locations, this.onLocationSelected}) : super(key: key);
 
   @override
   _LocationListState createState() {
@@ -462,7 +434,7 @@ class _LocationListState extends State<_LocationList> {
       itemCount: widget.locations.length,
       separatorBuilder: (BuildContext context, int index) {
         return Container(
-          margin: const EdgeInsets.only(left: 32.0, right: 32),
+          margin: const EdgeInsets.only(left: 64.0 + 16.0, right: 16.0),
           color: AppTheme.white30,
           height: 1.0,
         );
@@ -495,18 +467,16 @@ class _LocationListState extends State<_LocationList> {
             overflow: TextOverflow.ellipsis,
           ));
         }
-        return Padding(
-          padding: const EdgeInsets.only(right: 24),
-          child: InkWell(
-            onTap: () {
-              setState(() => selectedResult = widget.locations[index]);
-              widget.onLocationSelected(widget.locations[index]);
-            },
-            child: Row(
-              children: [
-                Container(
-                  width: 35.0,
-                  padding: const EdgeInsets.all(4.0),
+        return Container(
+          padding: const EdgeInsets.only(right: 16.0),
+          height: 72.0,
+          child: Row(
+            children: [
+              Container(
+                width: 64.0,
+                alignment: Alignment.centerRight,
+                child: Container(
+                  padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppTheme.white12,
@@ -514,29 +484,33 @@ class _LocationListState extends State<_LocationList> {
                   child: InfAssetImage(
                     AppIcons.location,
                     color: Colors.white,
+                    width: 24.0,
+                    height: 24.0,
                   ),
                 ),
-                SizedBox(
-                  width: 16.0,
+              ),
+              SizedBox(
+                width: 16.0,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: textLines,
                 ),
-                Expanded(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: textLines),
-                ),
-                widget.locations[index] == selectedResult
-                    ? Container(
-                        width: 35.0,
-                        padding: const EdgeInsets.all(4.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppTheme.lightBlue,
-                        ),
-                        child: Icon(Icons.check))
-                    : SizedBox(),
-              ],
-            ),
+              ),
+              widget.locations[index] == selectedResult
+                  ? Container(
+                      width: 35.0,
+                      padding: const EdgeInsets.all(4.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppTheme.lightBlue,
+                      ),
+                      child: Icon(Icons.check),
+                    )
+                  : SizedBox(),
+            ],
           ),
         );
       },
