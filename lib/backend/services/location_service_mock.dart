@@ -22,7 +22,7 @@ class LocationServiceMock implements LocationService {
 
   Future<MapboxResponse> lookupMapBoxPlaces(Coordinate nearby, String text) async {
     var searchText = Uri.encodeComponent(text.replaceAll(';', ','));
-    var nearbyString = nearby!=null ? '&proximity=${nearby.longitude},${nearby.longitude}' : '';
+    var nearbyString = nearby!=null ? '&proximity=${nearby.longitude},${nearby.latitude}' : '';
 
     var url =
         'https://api.mapbox.com/geocoding/v5/mapbox.places/$searchText.json?types=address,place,poi'

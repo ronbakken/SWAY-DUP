@@ -5,6 +5,8 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:rx_command/rx_command.dart';
+import 'package:rxdart/rxdart.dart';
 
 class LocationSelectorPage extends StatefulWidget {
   static Route<Location> route() {
@@ -137,13 +139,127 @@ class __NearbyViewState extends State<_NearbyView> {
   }
 }
 
+class _SearchView extends StatefulWidget {
+  @override
+  __SearchViewState createState() => __SearchViewState();
+}
+
+class __SearchViewState extends State<_SearchView> {
+  RxCommand<String, String> searchTextChangedCommand;
+//  RxCommand<String, Observable<List<GeoCodingResult>>> searchPlaceCommand;
+  RxCommand<String, List<GeoCodingResult>> searchPlaceCommand;
+
+  // Observable<List<GeoCodingResult>> get searchResults =>
+  //     Observable.switchLatest(searchPlaceCommand).asBroadcastStream();
+
+  @override
+  void initState() {
+    searchTextChangedCommand = RxCommand.createSync((s) => s);
+
+    searchPlaceCommand = RxCommand.createAsync((s)  {
+      return backend.get<LocationService>().lookUpPlaces(
+            nearby: backend.get<LocationService>().lastLocation, searchText: s);
+    }, emitLastResult: true);
+
+    searchTextChangedCommand
+        .where((s) => s.isNotEmpty)
+        .debounce(Duration(milliseconds: 500))
+        .doOnData((s ) {
+          print(s);
+        })
+        .listen(searchPlaceCommand);
+
+    // searchTextChangedCommand = RxCommand.createSync((s) => s);
+
+    // searchPlaceCommand = RxCommand.createAsync((s) async {
+    //   return Observable.just(
+    //     await backend.get<LocationService>().lookUpPlaces(
+    //         nearby: backend.get<LocationService>().lastLocation, searchText: s),
+    //   );
+    // }, emitLastResult: true);
+
+    // searchTextChangedCommand
+    //     .where((s) => s.isNotEmpty)
+    //     .debounce(Duration(milliseconds: 500))
+    //     .listen(searchPlaceCommand);
+
+    // searchResults.listen((s) {
+    //   print(s);
+    // });
+
+    super.initState();
+  }
+
+  // void initState() {
+  //   searchTextChangedCommand = RxCommand.createSync((s) => s);
+
+  //   searchPlaceCommand = RxCommand.createAsync((s) async {
+  //     return Observable.just(
+  //       await backend.get<LocationService>().lookUpPlaces(
+  //           nearby: backend.get<LocationService>().lastLocation, searchText: s),
+  //     );
+  //   }, emitLastResult: true);
+
+  //   searchTextChangedCommand
+  //       .where((s) => s.isNotEmpty)
+  //       .debounce(Duration(milliseconds: 500))
+  //       .listen(searchPlaceCommand);
+
+  //   searchResults.listen((s) {
+  //     print(s);
+  //   });
+
+  //   super.initState();
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        TextField(
+          onChanged: searchTextChangedCommand,
+        ),
+        Expanded(
+          child: StreamBuilder<List<GeoCodingResult>>(
+            stream: searchPlaceCommand,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                // TODO make beautiful
+                return Center(
+                    child: Text(
+                        'Sorry there is a problem with our location search service'));
+              }
+              if (!snapshot.hasData) {
+                return SizedBox();
+              }
+              return _LocationList(
+                locations: snapshot.data,
+              );
+            },
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _MapView extends StatefulWidget {
+  @override
+  __MapViewState createState() => __MapViewState();
+}
+
+class __MapViewState extends State<_MapView> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
 class _LocationList extends StatelessWidget {
   final List<GeoCodingResult> locations;
-  
-  const _LocationList({
-    Key key,
-    this.locations
-  }) : super(key: key);
+
+  const _LocationList({Key key, this.locations}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +295,10 @@ class _LocationList extends StatelessWidget {
               ),
             );
         } else {
-          textLines.add(Text(fullName,overflow: TextOverflow.ellipsis,));
+          textLines.add(Text(
+            fullName,
+            overflow: TextOverflow.ellipsis,
+          ));
         }
         return Row(
           children: [
@@ -206,29 +325,5 @@ class _LocationList extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-class _SearchView extends StatefulWidget {
-  @override
-  __SearchViewState createState() => __SearchViewState();
-}
-
-class __SearchViewState extends State<_SearchView> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-class _MapView extends StatefulWidget {
-  @override
-  __MapViewState createState() => __MapViewState();
-}
-
-class __MapViewState extends State<_MapView> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
