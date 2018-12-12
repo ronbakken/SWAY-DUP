@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:latlong/latlong.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:rxdart/rxdart.dart';
 
 class LocationSelectorPage extends StatefulWidget {
-  static Route<Location> route() {
+  const LocationSelectorPage({Key key, this.location}) : super(key: key);
+
+  static Route<Location> route({Location location}) {
     return PageRouteBuilder(
       pageBuilder: (BuildContext context, _, __) {
-        return LocationSelectorPage();
+        return LocationSelectorPage(
+          location: location,
+        );
       },
       transitionsBuilder:
           (BuildContext context, Animation<double> animation, _, Widget child) {
@@ -28,6 +34,8 @@ class LocationSelectorPage extends StatefulWidget {
     );
   }
 
+  final Location location;
+
   @override
   _LocationSelectorPageState createState() => _LocationSelectorPageState();
 }
@@ -36,15 +44,28 @@ class _LocationSelectorPageState extends State<LocationSelectorPage>
     with SingleTickerProviderStateMixin {
   TabController _controller;
 
+  final ValueNotifier<Coordinate> searchLocation =
+      ValueNotifier<Coordinate>(null);
+  final ValueNotifier<GeoCodingResult> selectedLocation =
+      ValueNotifier<GeoCodingResult>(null);
+
   @override
   void initState() {
     _controller = TabController(length: 3, vsync: this);
+
+    _controller.addListener(
+        () => FocusScope.of(context).requestFocus(new FocusNode()));
+
+    searchLocation.value =
+        widget.location ?? backend.get<LocationService>().lastLocation;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: AppTheme.locationSelectorBackground,
       appBar: AppBar(
         title: Text('SELECT YOUR LOCATION'),
@@ -86,7 +107,20 @@ class _LocationSelectorPageState extends State<LocationSelectorPage>
                     child: TabBarView(
                       controller: _controller,
                       physics: NeverScrollableScrollPhysics(),
-                      children: [_NearbyView(), _SearchView(), _MapView()],
+                      children: [
+                        _NearbyView(
+                          searchLocation: searchLocation,
+                          selectedLocation: selectedLocation,
+                        ),
+                        _SearchView(
+                          searchLocation: searchLocation,
+                          selectedLocation: selectedLocation,
+                        ),
+                        _MapView(
+                          searchLocation: searchLocation,
+                          selectedLocation: selectedLocation,
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
@@ -110,6 +144,13 @@ class _LocationSelectorPageState extends State<LocationSelectorPage>
 }
 
 class _NearbyView extends StatefulWidget {
+  final ValueNotifier<Coordinate> searchLocation;
+  final ValueNotifier<GeoCodingResult> selectedLocation;
+
+  const _NearbyView(
+      {Key key, @required this.searchLocation, @required this.selectedLocation})
+      : super(key: key);
+
   @override
   __NearbyViewState createState() => __NearbyViewState();
 }
@@ -118,8 +159,9 @@ class __NearbyViewState extends State<_NearbyView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<GeoCodingResult>>(
-      future: backend.get<LocationService>().lookUpCoordinates(
-          position: backend.get<LocationService>().lastLocation),
+      future: backend
+          .get<LocationService>()
+          .lookUpCoordinates(position: widget.searchLocation.value),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           // TODO add Spinner
@@ -132,7 +174,10 @@ class __NearbyViewState extends State<_NearbyView> {
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: new _LocationList(locations: snapshot.data),
+          child: _LocationList(
+            locations: snapshot.data,
+            onLocationSelected: (loc) => widget.selectedLocation.value = loc,
+          ),
         );
       },
     );
@@ -140,6 +185,12 @@ class __NearbyViewState extends State<_NearbyView> {
 }
 
 class _SearchView extends StatefulWidget {
+  final ValueNotifier<Coordinate> searchLocation;
+  final ValueNotifier<GeoCodingResult> selectedLocation;
+
+  const _SearchView(
+      {Key key, @required this.searchLocation, @required this.selectedLocation})
+      : super(key: key);
   @override
   __SearchViewState createState() => __SearchViewState();
 }
@@ -156,17 +207,14 @@ class __SearchViewState extends State<_SearchView> {
   void initState() {
     searchTextChangedCommand = RxCommand.createSync((s) => s);
 
-    searchPlaceCommand = RxCommand.createAsync((s)  {
+    searchPlaceCommand = RxCommand.createAsync((s) {
       return backend.get<LocationService>().lookUpPlaces(
-            nearby: backend.get<LocationService>().lastLocation, searchText: s);
-    }, emitLastResult: true);
+          nearby: backend.get<LocationService>().lastLocation, searchText: s);
+    });
 
     searchTextChangedCommand
         .where((s) => s.isNotEmpty)
         .debounce(Duration(milliseconds: 500))
-        .doOnData((s ) {
-          print(s);
-        })
         .listen(searchPlaceCommand);
 
     // searchTextChangedCommand = RxCommand.createSync((s) => s);
@@ -214,66 +262,213 @@ class __SearchViewState extends State<_SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        TextField(
-          onChanged: searchTextChangedCommand,
-        ),
-        Expanded(
-          child: StreamBuilder<List<GeoCodingResult>>(
-            stream: searchPlaceCommand,
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                // TODO make beautiful
-                return Center(
-                    child: Text(
-                        'Sorry there is a problem with our location search service'));
-              }
-              if (!snapshot.hasData) {
-                return SizedBox();
-              }
-              return _LocationList(
-                locations: snapshot.data,
-              );
-            },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: const ShapeDecoration(
+                shape: StadiumBorder(), color: AppTheme.white12),
+            child: TextField(
+              onChanged: searchTextChangedCommand,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  icon: InfAssetImage(
+                    AppIcons.search,
+                    height: 40.0,
+                  )),
+            ),
           ),
-        )
-      ],
+          Expanded(
+            child: _SearchResultListener(
+              stream: searchPlaceCommand,
+              onLocationSelected: (loc) {
+                widget.searchLocation.value = loc.coordinate;
+                return widget.selectedLocation.value = loc;
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }
 
 class _MapView extends StatefulWidget {
+  final ValueNotifier<Coordinate> searchLocation;
+  final ValueNotifier<GeoCodingResult> selectedLocation;
+
+  const _MapView(
+      {Key key, @required this.searchLocation, @required this.selectedLocation})
+      : super(key: key);
   @override
   __MapViewState createState() => __MapViewState();
 }
 
 class __MapViewState extends State<_MapView> {
+  String urlTemplate;
+  String mapApiKey;
+  MapController mapController;
+  MapPosition mapPosition;
+
+  RxCommand<MapPosition, Coordinate> positionChangedCommand;
+  RxCommand<Coordinate, List<GeoCodingResult>> searchPlaceCommand;
+
+  @override
+  void initState() {
+    urlTemplate = backend.get<ResourceService>().getMapUrlTemplate();
+    mapApiKey = backend.get<ResourceService>().getMapApiKey();
+
+    positionChangedCommand = RxCommand.createSync(
+        (pos) => Coordinate(pos.center.latitude, pos.center.longitude));
+
+    searchPlaceCommand = RxCommand.createAsync((pos) {
+      return backend.get<LocationService>().lookUpCoordinates(position: pos);
+    }, emitLastResult: true);
+
+    positionChangedCommand
+        .debounce(Duration(milliseconds: 1000))
+        .listen(searchPlaceCommand);
+
+    mapController = new MapController();
+
+    super.initState();
+  }
+
+  void onMapPositionChanged(MapPosition position, bool hasGesture) {
+    mapPosition = position;
+    positionChangedCommand(position);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        AspectRatio(
+          aspectRatio: 1.0,
+          child: Stack(
+            children: [
+              FlutterMap(
+                mapController: mapController,
+                options: MapOptions(
+                  center: LatLng(widget.searchLocation.value.latitude,
+                      widget.searchLocation.value.longitude),
+                  onPositionChanged: onMapPositionChanged,
+                  zoom: 14,
+                ),
+                layers: [
+                  TileLayerOptions(
+                    urlTemplate: urlTemplate,
+                    additionalOptions: {
+                      'accessToken': mapApiKey,
+                    },
+                    backgroundColor: AppTheme.grey,
+                    placeholderImage: AssetImage(AppImages.mapPlaceHolder.path),
+                  ),
+                ],
+              ),
+              IgnorePointer(
+                ignoring: true,
+                child: CustomPaint(
+                  child: Container(),
+                  painter: _CrossairPainter(),
+                ),
+              )
+            ],
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal:16.0),
+            child: _SearchResultListener(
+              stream: searchPlaceCommand,
+              onLocationSelected: (loc) => widget.selectedLocation.value = loc,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 
-class _LocationList extends StatelessWidget {
-  final List<GeoCodingResult> locations;
+class _CrossairPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = AppTheme.lightBlue
+      ..strokeWidth = 0.75;
+    canvas.drawLine(
+        size.topCenter(Offset.zero), size.bottomCenter(Offset.zero), paint);
+    canvas.drawLine(
+        size.centerLeft(Offset.zero), size.centerRight(Offset.zero), paint);
+  }
 
-  const _LocationList({Key key, this.locations}) : super(key: key);
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}
+
+class _SearchResultListener extends StatelessWidget {
+  final ValueChanged<GeoCodingResult> onLocationSelected;
+  const _SearchResultListener(
+      {Key key, @required this.stream, @required this.onLocationSelected})
+      : super(key: key);
+
+  final Stream<List<GeoCodingResult>> stream;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<List<GeoCodingResult>>(
+      stream: stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          // TODO make beautiful
+          return Center(
+              child: Text(
+                  'Sorry there is a problem with our location search service'));
+        }
+        if (!snapshot.hasData) {
+          return SizedBox();
+        }
+        return _LocationList(
+          locations: snapshot.data,
+          onLocationSelected: onLocationSelected,
+        );
+      },
+    );
+  }
+}
+
+class _LocationList extends StatefulWidget {
+  final List<GeoCodingResult> locations;
+  final ValueChanged<GeoCodingResult> onLocationSelected;
+
+  _LocationList({Key key, this.locations, this.onLocationSelected})
+      : super(key: key);
+
+  @override
+  _LocationListState createState() {
+    return new _LocationListState();
+  }
+}
+
+class _LocationListState extends State<_LocationList> {
+  GeoCodingResult selectedResult;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: locations.length,
+      itemCount: widget.locations.length,
       separatorBuilder: (BuildContext context, int index) {
         return Container(
-          margin: const EdgeInsets.only(left: 48.0, right: 48),
+          margin: const EdgeInsets.only(left: 32.0, right: 32),
           color: AppTheme.white30,
           height: 1.0,
         );
       },
       itemBuilder: (BuildContext context, int index) {
-        var fullName = locations[index].name;
+        var fullName = widget.locations[index].name;
         var firstCommaPos = fullName.indexOf(',');
 
         var textLines = <Widget>[];
@@ -300,28 +495,49 @@ class _LocationList extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ));
         }
-        return Row(
-          children: [
-            Container(
-              width: 35.0,
-              padding: const EdgeInsets.all(4.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppTheme.white12,
-              ),
-              child: InfAssetImage(
-                AppIcons.location,
-                color: Colors.white,
-              ),
+        return Padding(
+          padding: const EdgeInsets.only(right: 24),
+          child: InkWell(
+            onTap: () {
+              setState(() => selectedResult = widget.locations[index]);
+              widget.onLocationSelected(widget.locations[index]);
+            },
+            child: Row(
+              children: [
+                Container(
+                  width: 35.0,
+                  padding: const EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppTheme.white12,
+                  ),
+                  child: InfAssetImage(
+                    AppIcons.location,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(
+                  width: 16.0,
+                ),
+                Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: textLines),
+                ),
+                widget.locations[index] == selectedResult
+                    ? Container(
+                        width: 35.0,
+                        padding: const EdgeInsets.all(4.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppTheme.lightBlue,
+                        ),
+                        child: Icon(Icons.check))
+                    : SizedBox(),
+              ],
             ),
-            SizedBox(
-              width: 16.0,
-            ),
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: textLines),
-          ],
+          ),
         );
       },
     );

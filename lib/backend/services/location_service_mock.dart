@@ -40,8 +40,8 @@ class LocationServiceMock implements LocationService {
   Future<MapboxResponse> lookupMapBoxCoordinates(Coordinate position, [bool onlyAdresses = false]) async {
 
     var url =
-        'https://api.mapbox.com/geocoding/v5/mapbox.places/${position.longitude},${position.latitude}.json?types=${onlyAdresses ? 'adress': 'address,place,poi'}&'
-        'access_token=pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqa2pkOThmdzFha2IzcG16aHl4M3drNTcifQ.jtaEoGuiomNgllDjUMCwNQ';
+        'https://api.mapbox.com/geocoding/v5/mapbox.places/${position.longitude},${position.latitude}.json?types=${onlyAdresses ? 'adress': 'address,place,poi'}'
+        '&access_token=pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqa2pkOThmdzFha2IzcG16aHl4M3drNTcifQ.jtaEoGuiomNgllDjUMCwNQ';
 
     final response = await client.get(url);
     if (response.statusCode == 200) {
