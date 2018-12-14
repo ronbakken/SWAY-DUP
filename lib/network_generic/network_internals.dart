@@ -30,14 +30,14 @@ abstract class NetworkInternals {
   void cacheProfile(DataAccount account);
   void resetProfilesState();
   void markProfilesDirty();
-  void onProfileChanged(ChangeAction action, Int64 id);
+  void onProfileChanged(Int64 id);
   DataAccount emptyAccount();
   void hintProfileOffer(DataOffer offer);
 
   // Offer
   void cacheOffer(DataOffer offer, bool detail);
   void resetOffersState();
-  void onOfferChanged(ChangeAction action, Int64 id);
+  void onOfferChanged(Int64 id);
   void markOffersDirty();
   void markOfferDirty(Int64 offerId);
   void hintOfferProposal(DataProposal proposal);
@@ -46,17 +46,16 @@ abstract class NetworkInternals {
   // Offers Demo
   void resetOffersDemoState();
   void markOffersDemoDirty();
-  void onOffersDemoChanged(ChangeAction action, Int64 id);
+  void onDemoAllOffersChanged();
 
   // Proposals
   int nextSessionGhostId;
   void resetProposalsState();
   void markProposalsDirty();
-  void onProposalChanged(ChangeAction action, Int64 id);
-  void onProposalChatChanged(
-      ChangeAction action,
-      DataProposalChat
-          chat); // Individual chat messages don't change (currently)
+  void onProposalChanged(Int64 id);
+  void onProposalsChanged();
+  void onProposalChatsChanged(Int64 id);
+  void onProposalChatNotification(DataProposalChat chat);
   Future<void> liveNewProposal(TalkMessage message);
   Future<void> liveNewProposalChat(TalkMessage message);
   Future<void> liveUpdateProposal(TalkMessage message);

@@ -36,7 +36,7 @@ abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
     cacheOffer(pb, true);
     // Add received offer to known offers
     _demoAllOffers[pb.offerId.toInt()] = pb;
-    onOffersDemoChanged(ChangeAction.upsert, pb.offerId);
+    onDemoAllOffersChanged();
   }
 
   @override
@@ -83,7 +83,7 @@ abstract class NetworkOffersDemo implements ApiClient, NetworkInternals {
           });
         }).whenComplete(() {
           demoAllOffersLoading = false;
-          onOffersDemoChanged(ChangeAction.refreshAll, Int64.ZERO);
+          onDemoAllOffersChanged();
         });
       }
     }

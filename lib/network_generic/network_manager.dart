@@ -39,13 +39,18 @@ class NetworkManager
   // Please don't forget to clean up.
 
   @override
-  Stream<Change<Int64>> get profileChanged {
+  Stream<Int64> get profileChanged {
     return _profileChanged.stream;
   }
 
   @override
-  Stream<Change<Int64>> get offerChanged {
+  Stream<Int64> get offerChanged {
     return _offerChanged.stream;
+  }
+
+  @override
+  Stream<Int64> get proposalChanged {
+    return _proposalChanged.stream;
   }
 
   @override
@@ -54,18 +59,23 @@ class NetworkManager
   }
 
   @override
-  Stream<Change<Int64>> get offerDemoChanged {
-    return _offerDemoChanged.stream;
+  Stream<void> get demoAllOffersChanged {
+    return _demoAllOffersChanged.stream;
   }
 
   @override
-  Stream<Change<Int64>> get offerProposalChanged {
-    return _offerProposalChanged.stream;
+  Stream<void> get proposalsChanged {
+    return _proposalsChanged.stream;
   }
 
   @override
-  Stream<Change<DataProposalChat>> get offerProposalChatChanged {
-    return _offerProposalChatChanged.stream;
+  Stream<Int64> get proposalChatsChanged {
+    return _proposalChatsChanged.stream;
+  }
+
+  @override
+  Stream<DataProposalChat> get proposalChatNotification {
+    return _proposalChatNotification.stream;
   }
 
   @override
@@ -73,52 +83,78 @@ class NetworkManager
     return _commonChanged.stream;
   }
 
-  final StreamController<Change<Int64>> _profileChanged =
-      StreamController<Change<Int64>>.broadcast(sync: true);
-  final StreamController<Change<Int64>> _offerChanged =
-      StreamController<Change<Int64>>.broadcast(sync: true);
+  final StreamController<Int64> _profileChanged =
+      StreamController<Int64>.broadcast(sync: true);
+  final StreamController<Int64> _offerChanged =
+      StreamController<Int64>.broadcast(sync: true);
+  final StreamController<Int64> _proposalChanged =
+      StreamController<Int64>.broadcast(sync: true);
+
   final StreamController<void> _offersChanged =
-      StreamController<Change<Int64>>.broadcast(sync: true);
-  final StreamController<Change<Int64>> _offerDemoChanged =
-      StreamController<Change<Int64>>.broadcast(sync: true);
-  final StreamController<Change<Int64>> _offerProposalChanged =
-      StreamController<Change<Int64>>.broadcast(sync: true);
-  final StreamController<Change<DataProposalChat>> _offerProposalChatChanged =
-      StreamController<Change<DataProposalChat>>.broadcast(sync: true);
+      StreamController<void>.broadcast(sync: true);
+  final StreamController<void> _demoAllOffersChanged =
+      StreamController<void>.broadcast(sync: true);
+  final StreamController<void> _proposalsChanged =
+      StreamController<void>.broadcast(sync: true);
+  final StreamController<Int64> _proposalChatsChanged =
+      StreamController<Int64>.broadcast(sync: true);
+
+  final StreamController<DataProposalChat> _proposalChatNotification =
+      StreamController<DataProposalChat>.broadcast();
+
   final StreamController<void> _commonChanged =
       StreamController<void>.broadcast(sync: true);
 
-  void onProfileChanged(ChangeAction action, Int64 id) {
+  @override
+  void onProfileChanged(Int64 id) {
     onChanged();
-    _profileChanged.add(Change<Int64>(action, id));
+    _profileChanged.add(id);
   }
 
-  void onOfferChanged(ChangeAction action, Int64 id) {
+  @override
+  void onOfferChanged(Int64 id) {
     onChanged();
-    _offerChanged.add(Change<Int64>(action, id));
+    _offerChanged.add(id);
   }
 
+  @override
   void onOffersChanged() {
     onChanged();
     _offersChanged.add(null);
   }
 
-  void onOffersDemoChanged(ChangeAction action, Int64 id) {
+  @override
+  void onDemoAllOffersChanged() {
     onChanged();
-    _offerDemoChanged.add(Change<Int64>(action, id));
+    _demoAllOffersChanged.add(null);
   }
 
-  void onProposalChanged(ChangeAction action, Int64 id) {
+  @override
+  void onProposalsChanged() {
     onChanged();
-    _offerProposalChanged.add(Change<Int64>(action, id));
+    _proposalsChanged.add(null);
   }
 
-  void onProposalChatChanged(ChangeAction action, DataProposalChat chat) {
+  @override
+  void onProposalChanged(Int64 id) {
     onChanged();
-    _offerProposalChatChanged.add(Change<DataProposalChat>(action, chat));
+    _proposalChanged.add(id);
+  }
+
+  @override
+  void onProposalChatsChanged(Int64 id) {
+    onChanged();
+    _proposalChatsChanged.add(id);
+  }
+
+  @override
+  void onProposalChatNotification(DataProposalChat chat) {
+    onChanged();
+    _proposalChatNotification.add(chat);
   }
 
   // This is called anytime the connection or account state changes (network.account, network.connected)
+  @override
   void onCommonChanged() {
     onChanged();
     _commonChanged.add(null);
@@ -142,9 +178,10 @@ class NetworkManager
     _profileChanged.close();
     _offerChanged.close();
     _offersChanged.close();
-    _offerDemoChanged.close();
-    _offerProposalChanged.close();
-    _offerProposalChatChanged.close();
+    _demoAllOffersChanged.close();
+    _proposalChanged.close();
+    _proposalChatsChanged.close();
+    _proposalChatNotification.close();
     _commonChanged.close();
   }
 

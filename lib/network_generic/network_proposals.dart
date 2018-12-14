@@ -63,7 +63,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
       _proposals[proposal.proposalId] = proposal;
     }
     hintOfferProposal(proposal);
-    onProposalChanged(ChangeAction.upsert, proposal.proposalId);
+    onProposalChanged(proposal.proposalId);
+    onProposalsChanged();
   }
 
   @override
@@ -95,7 +96,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
           cached.fallback.influencerAccountId = account.accountId;
           cached.fallback.influencerName = account.name;
           cached.fallback.freeze();
-          onProposalChanged(ChangeAction.upsert, offer.proposalId);
+          onProposalChanged(offer.proposalId);
         }
       }
     }
@@ -111,7 +112,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
       cached.ghostChats.remove(chat.sessionGhostId);
     }
     cached.chats[chat.chatId] = chat;
-    onProposalChatChanged(ChangeAction.upsert, chat);
+    onProposalChatsChanged(chat.proposalId);
   }
 
   @override
@@ -148,7 +149,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
         });
       }).whenComplete(() {
         proposalsLoading = false;
-        onProposalChanged(ChangeAction.refreshAll, Int64.ZERO);
+        onProposalsChanged();
       });
     }
     return _proposals.values;
@@ -220,7 +221,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
           log.severe("Failed to get proposal: $error\n$stackTrace");
           Timer(Duration(seconds: 3), () {
             cached.loading = false;
-            onProposalChanged(ChangeAction.retry, proposalId);
+            onProposalChanged(proposalId);
           });
         });
       }
@@ -274,8 +275,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
         log.fine("Failed to get proposal chats: $error\n$stackTrace");
         Timer(Duration(seconds: 3), () {
           cached.chatLoading = false;
-          onProposalChanged(ChangeAction.retry, proposalId);
-          onProposalChatChanged(ChangeAction.retry, null);
+          onProposalChanged(proposalId);
+          onProposalChatsChanged(proposalId);
         });
       });
     }
@@ -410,7 +411,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     ghostChat.type = type;
     ghostChat.text = text;
     cached.ghostChats[sessionGhostId] = ghostChat;
-    onProposalChatChanged(ChangeAction.add, ghostChat);
+    onProposalChatsChanged(proposalId);
 
     // TODO: Store ghost chats offline
   }

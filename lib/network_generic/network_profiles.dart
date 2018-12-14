@@ -43,7 +43,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
     cached.fallback = null;
     cached.profile = profile;
     cached.dirty = false;
-    onProfileChanged(ChangeAction.upsert, accountId);
+    onProfileChanged(accountId);
   }
 
   @override
@@ -56,7 +56,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
     _cachedProfiles.values.forEach((cached) {
       cached.dirty = true;
     });
-    onProfileChanged(ChangeAction.refreshAll, Int64.ZERO);
+    onProfileChanged(Int64.ZERO);
   }
 
   @override
@@ -97,7 +97,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
         fallback.longitude = offer.longitude;
         fallback.freeze();
         cached.fallback = fallback;
-        onProfileChanged(ChangeAction.retry, accountId);
+        onProfileChanged(accountId);
       }
     }
   }
@@ -135,7 +135,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
       cacheProfile(profile.account);
     } else {
       log.severe("Received invalid profile. Critical issue");
-      onProfileChanged(ChangeAction.retry, accountId);
+      onProfileChanged(accountId);
       return emptyAccount(accountId)..freeze();
     }
     return profile.account;
@@ -179,7 +179,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
         log.severe("Failed to get profile: $error\n$stackTrace");
         Timer(Duration(seconds: 3), () {
           cached.loading = false;
-          onProfileChanged(ChangeAction.retry, accountId);
+          onProfileChanged(accountId);
         });
       });
     }

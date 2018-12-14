@@ -14,8 +14,9 @@ enum NetworkConnectionState { connecting, failing, offline, ready }
 class NetworkException implements Exception {
   final String message;
   const NetworkException(this.message);
+  @override
   String toString() {
-    return "NetworkException { message: \"$message\" }";
+    return 'NetworkException { message: \"$message\" }';
   }
 }
 
@@ -31,25 +32,31 @@ abstract class ApiClient {
   // Streams
   /////////////////////////////////////////////////////////////////////////////
 
-  /// Called when any profile data has changed in some way, passes the id.
-  Stream<Change<Int64>> get profileChanged;
+  /// Called when any profile data has changed in some way, passes the id, if the id is Int64.ZERO it means all profiles have changed
+  Stream<Int64> get profileChanged;
 
-  /// Called when any offer data has changed in some way, passes the id.
-  Stream<Change<Int64>> get offerChanged;
+  /// Called when any offer data has changed in some way, passes the id, if the id is Int64.ZERO it means all offers have changed
+  Stream<Int64> get offerChanged;
 
-  /// Called when the list of offers owned by the business has changed, passes the id of the affected entry.
+  /// Called when one of the user's proposals has been updated, if the id is Int64.ZERO it means all proposals have changed
+  Stream<Int64> get proposalChanged;
+
+  /// Called when the list of offers owned by the business has changed
   Stream<void> get offersChanged;
 
-  /// Called when the list of demo offers has changed, passes the id of the affected entry.
-  Stream<Change<Int64>> get offerDemoChanged;
+  /// Called when the list of demo offers has changed
+  Stream<void> get demoAllOffersChanged;
 
-  /// Called when the list of proposals attached to this user has changed, passes the id of the affected entry.
-  Stream<Change<Int64>> get offerProposalChanged;
+  /// Called when the list of proposals has changed
+  Stream<void> get proposalsChanged;
 
-  /// Called when a change has occured to a chat entry in a proposal. Match by id if available, by ghost id if the id is not set or 0.
-  Stream<Change<DataProposalChat>> get offerProposalChatChanged;
+  /// Called when a list of proposal chats has changed, passes the id of the proposal
+  Stream<Int64> get proposalChatsChanged;
 
-  /// Called when either the account or network connection status has changed.
+  /// Called when a new proposal chat is available only when it requires a local UI notification. Also triggers proposalChatChanged for regular use
+  Stream<DataProposalChat> get proposalChatNotification;
+
+  /// Called when either the account or network connection status has changed
   Stream<void> get commonChanged;
 
   /////////////////////////////////////////////////////////////////////////////
@@ -194,7 +201,7 @@ abstract class ApiClient {
       Int64 proposalId, String deliverables, String reward, String remarks);
   void chatImageKey(Int64 proposalId, String imageKey);
 
-  /// TODO: Provide image chat functions that takes file directly and handles background upload.
+  // TODO(kaetemi): Provide image chat functions that takes file directly and handles background upload.
 
   /// Signify that the user wants a deal. May fail, must provide error feedback to the user.
   Future<void> wantDeal(Int64 proposalId, Int64 termsChatId);

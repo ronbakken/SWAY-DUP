@@ -64,7 +64,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
     }
     hintProfileOffer(offer);
     hintProposalOffer(offer);
-    onOfferChanged(ChangeAction.upsert, offer.offerId);
+    onOfferChanged(offer.offerId);
   }
 
   @override
@@ -79,12 +79,12 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
       offer.proposalId = proposal.proposalId;
       cached.offer = offer..freeze();
       cached.dirty = true;
-      onOfferChanged(ChangeAction.upsert, offer.offerId);
+      onOfferChanged(offer.offerId);
     } else if (cached.fallback != null) {
       final DataOffer offer = DataOffer()..mergeFromMessage(cached.fallback);
       offer.proposalId = proposal.proposalId;
       cached.fallback = offer..freeze();
-      onOfferChanged(ChangeAction.upsert, offer.offerId);
+      onOfferChanged(offer.offerId);
     }
   }
 
@@ -109,7 +109,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
     if (cached != null) {
       cached.dirty = true;
     }
-    onOfferChanged(ChangeAction.retry, offerId);
+    onOfferChanged(offerId);
   }
 
   /// Get an offer, refresh set to true to always get from server, use sparingly to refresh the cache
@@ -124,7 +124,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
     final NetGetOffer getOffer = NetGetOffer();
     getOffer.offerId = offerId;
     final TalkMessage res = await switchboard.sendRequest(
-        "api", "GETOFFER", getOffer.writeToBuffer());
+        'api', 'GETOFFER', getOffer.writeToBuffer());
     final DataOffer offer = (NetOffer()..mergeFromBuffer(res.data)).offer
       ..freeze();
     cacheOffer(offer, true);
@@ -136,13 +136,13 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
         (cached.dirty || cached.offer == null) &&
         connected == NetworkConnectionState.ready) {
       cached.loading = true;
-      getOffer(offerId).then((offer) {
+      getOffer(offerId).then((DataOffer offer) {
         cached.loading = false;
       }).catchError((dynamic error, StackTrace stackTrace) {
-        log.severe("Failed to get offer $offerId: $error");
+        log.severe('Failed to get offer $offerId: $error');
         Timer(Duration(seconds: 3), () {
           cached.loading = false;
-          onOfferChanged(ChangeAction.retry, offerId);
+          onOfferChanged(offerId);
         });
       });
     }
@@ -174,7 +174,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
   @override
   Future<DataOffer> createOffer(NetCreateOffer createOfferReq) async {
     final TalkMessage res = await switchboard.sendRequest(
-        "api", "CREOFFER", createOfferReq.writeToBuffer());
+        'api', 'CREOFFER', createOfferReq.writeToBuffer());
     final NetOffer resPb = NetOffer();
     resPb.mergeFromBuffer(res.data);
     cacheOffer(resPb.offer, true);
@@ -215,7 +215,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
           await refreshOffers();
           _offersRefreshing = false;
         } catch (error, stackTrace) {
-          log.severe("Error while refreshing offers: $error\n$stackTrace");
+          log.severe('Error while refreshing offers: $error\n$stackTrace');
           Timer(Duration(seconds: 3), () {
             // Timeout for 3 seconds from auto refresh
             _offersRefreshing = false;
@@ -225,7 +225,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
       }();
     }
     if (_offersSortedDirty) {
-      _offersSorted = _offers.toList()..sort((a, b) => a.compareTo(b));
+      _offersSorted = _offers.toList()..sort((Int64 a, Int64 b) => a.compareTo(b));
       _offersSortedDirty = false;
     }
     return _offersSorted;
