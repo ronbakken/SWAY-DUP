@@ -31,7 +31,11 @@ class DataSocialMedia extends $pb.GeneratedMessage {
     ..aOS(14, 'avatarUrl')
     ..aOB(15, 'expired')
     ..aOS(16, 'blurredAvatarUrl')
+    ..aOB(17, 'published')
+    ..aOB(18, 'allowLogIn')
+    ..aOB(19, 'canAuthenticate')
     ..aOB(20, 'canSignUp')
+    ..aOB(21, 'providerId')
     ..hasRequiredFields = false;
 
   DataSocialMedia() : super();
@@ -183,13 +187,45 @@ class DataSocialMedia extends $pb.GeneratedMessage {
   bool hasBlurredAvatarUrl() => $_has(15);
   void clearBlurredAvatarUrl() => clearField(16);
 
-  bool get canSignUp => $_get(16, false);
-  set canSignUp(bool v) {
+  bool get published => $_get(16, false);
+  set published(bool v) {
     $_setBool(16, v);
   }
 
-  bool hasCanSignUp() => $_has(16);
+  bool hasPublished() => $_has(16);
+  void clearPublished() => clearField(17);
+
+  bool get allowLogIn => $_get(17, false);
+  set allowLogIn(bool v) {
+    $_setBool(17, v);
+  }
+
+  bool hasAllowLogIn() => $_has(17);
+  void clearAllowLogIn() => clearField(18);
+
+  bool get canAuthenticate => $_get(18, false);
+  set canAuthenticate(bool v) {
+    $_setBool(18, v);
+  }
+
+  bool hasCanAuthenticate() => $_has(18);
+  void clearCanAuthenticate() => clearField(19);
+
+  bool get canSignUp => $_get(19, false);
+  set canSignUp(bool v) {
+    $_setBool(19, v);
+  }
+
+  bool hasCanSignUp() => $_has(19);
   void clearCanSignUp() => clearField(20);
+
+  bool get providerId => $_get(20, false);
+  set providerId(bool v) {
+    $_setBool(20, v);
+  }
+
+  bool hasProviderId() => $_has(20);
+  void clearProviderId() => clearField(21);
 }
 
 class DataOAuthCredentials extends $pb.GeneratedMessage {
