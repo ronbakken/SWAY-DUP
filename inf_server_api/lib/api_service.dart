@@ -41,7 +41,7 @@ class ApiService {
             provider.host + provider.requestTokenUrl,
             provider.host + provider.authenticateUrl,
             provider.host + provider.accessTokenUrl,
-            oauth1.SignatureMethods.HMAC_SHA1);
+            oauth1.SignatureMethods.hmacSha1);
         var clientCredentials = new oauth1.ClientCredentials(
             provider.consumerKey, provider.consumerSecret);
         oauth1Auth[providerId] =

@@ -181,7 +181,7 @@ class ApiChannelOffer {
     String insertOffer =
         "INSERT INTO `offers`(`sender_account_id`, `sender_account_type`, `sender_session_id`, `location_id`, `state`, `state_reason`) "
         "VALUES (?, ?, ?, ?, ?, ?)";
-    sqljocky.Results insertRes = await proposalDb.prepareExecute(insertOffer, [
+    sqljocky.Results insertRes = await proposalDb.prepareExecute(insertOffer, <dynamic>[
       offer.senderAccountId,
       offer.senderAccountType.value,
       account.sessionId,

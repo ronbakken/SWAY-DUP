@@ -117,7 +117,7 @@ class ApiChannelProposalTransactions {
         '`marker`) '
         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     sqljocky.Results resultHaggle =
-        await connection.prepareExecute(insertChat, [
+        await connection.prepareExecute(insertChat, <dynamic>[
       chat.senderAccountId,
       chat.proposalId,
       chat.senderSessionId,
@@ -175,7 +175,7 @@ class ApiChannelProposalTransactions {
           'AND `${accountType}_wants_deal` = 0';
       sqljocky.Results resultWants = await transaction.prepareExecute(
         updateWants,
-        [proposalId, termsChatId, accountId],
+        <dynamic>[proposalId, termsChatId, accountId],
       );
       if (resultWants.affectedRows == null || resultWants.affectedRows == 0) {
         devLog.warning(
@@ -193,7 +193,7 @@ class ApiChannelProposalTransactions {
           "AND (`state` = ${ProposalState.negotiating.value} OR `state` = ${ProposalState.proposing.value})";
       sqljocky.Results resultDeal = await transaction.prepareExecute(
         updateDeal,
-        [proposalId],
+        <dynamic>[proposalId],
       );
       bool dealMade =
           (resultDeal.affectedRows != null && resultDeal.affectedRows > 0);
@@ -274,7 +274,7 @@ class ApiChannelProposalTransactions {
           'AND `${accountType}_wants_deal` = 0';
       sqljocky.Results resultState = await transaction.prepareExecute(
         updateState,
-        [proposalId, accountId],
+        <dynamic>[proposalId, accountId],
       );
       if (resultState.affectedRows == null || resultState.affectedRows == 0) {
         devLog.warning(
@@ -356,7 +356,7 @@ class ApiChannelProposalTransactions {
           "AND `state` = ${ProposalState.deal.value} OR `state` = ${ProposalState.dispute.value}";
       sqljocky.Results resultMarkings = await transaction.prepareExecute(
         updateMarkings,
-        [completion.rating, proposalId, accountId],
+        <dynamic>[completion.rating, proposalId, accountId],
       );
       if (resultMarkings.affectedRows == null ||
           resultMarkings.affectedRows == 0) {
@@ -377,7 +377,7 @@ class ApiChannelProposalTransactions {
           "AND `state` = ${ProposalState.deal.value}";
       sqljocky.Results resultCompletion = await transaction.prepareExecute(
         updateCompletion,
-        [proposalId],
+        <dynamic>[proposalId],
       );
       dealCompleted = resultCompletion.affectedRows != null &&
           resultCompletion.affectedRows != 0;

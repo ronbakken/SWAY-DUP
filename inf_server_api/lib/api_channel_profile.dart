@@ -112,7 +112,7 @@ class ApiChannelProfile {
           "FROM `accounts` "
           "INNER JOIN `locations` ON `locations`.`location_id` = `accounts`.`location_id` "
           "WHERE `accounts`.`account_id` = ? ",
-          [pb.accountId]);
+          <dynamic>[pb.accountId]);
       await for (sqljocky.Row row in accountResults) {
         account.name = row[0].toString();
         account.accountType = AccountType.valueOf(row[1].toInt());
@@ -164,7 +164,7 @@ class ApiChannelProfile {
           "ON `social_media`.`oauth_user_id` = `oauth_connections`.`oauth_user_id` "
           "AND `social_media`.`oauth_provider` = `oauth_connections`.`oauth_provider` "
           "WHERE `oauth_connections`.`account_id` = ? ",
-          [pb.accountId]);
+          <dynamic>[pb.accountId]);
       await for (sqljocky.Row row in connectionResults) {
         int oauthProvider = row[0].toInt();
         account.socialMedia[oauthProvider] = DataSocialMedia();

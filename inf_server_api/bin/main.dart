@@ -1,5 +1,5 @@
 import 'package:inf_server_api/inf_server_api.dart' as api;
 
-main(List<String> arguments) {
-  api.run();
+Future<void> main(List<String> arguments) async {
+  await api.run();
 }

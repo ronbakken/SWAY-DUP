@@ -205,7 +205,7 @@ class ApiChannelProposal {
       sqljocky.Results resultUpdateTermsChatId =
           await transaction.prepareExecute(
         updateTermsChatId,
-        [
+        <dynamic>[
           termsChatId,
           proposalId,
         ],
@@ -257,7 +257,7 @@ class ApiChannelProposal {
       String query = SqlProposal.getSelectProposalsQuery(account.accountType) +
           ' WHERE `${account.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?';
       await for (sqljocky.Row row
-          in await connection.prepareExecute(query, [accountId])) {
+          in await connection.prepareExecute(query, <dynamic>[accountId])) {
         NetProposal res = NetProposal();
         res.updateProposal =
             SqlProposal.proposalFromRow(row, account.accountType);
@@ -293,7 +293,7 @@ class ApiChannelProposal {
           ' AND `${account.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?';
       await for (sqljocky.Row row in await connection.prepareExecute(
         query,
-        [getProposal.proposalId, accountId],
+        <dynamic>[getProposal.proposalId, accountId],
       )) {
         res = NetProposal();
         res.updateProposal =
@@ -314,7 +314,7 @@ class ApiChannelProposal {
     DataProposal proposal;
     await for (sqljocky.Row row in await proposalDb.prepareExecute(
       SqlProposal.selectProposalsQuery + ' WHERE `proposal_id` = ?',
-      [proposalId],
+      <dynamic>[proposalId],
     )) {
       // Returns non account specific data
       proposal = SqlProposal.proposalFromRow(row, AccountType.unknown);
@@ -331,7 +331,7 @@ class ApiChannelProposal {
     await for (sqljocky.Row row in await proposalDb.prepareExecute(
       SqlProposal.getSelectProposalsQuery(account.accountType) +
           ' WHERE `proposal_id` = ?',
-      [proposalId],
+      <dynamic>[proposalId],
     )) {
       // Returns non account specific data
       proposal = NetProposal();
@@ -367,7 +367,7 @@ class ApiChannelProposal {
           'FROM `proposals` '
           'WHERE `proposal_id` = ?';
       await for (sqljocky.Row row
-          in await connection.prepareExecute(query, [listChats.proposalId])) {
+          in await connection.prepareExecute(query, <dynamic>[listChats.proposalId])) {
         influencerAccountId = new Int64(row[0]);
         businessAccountId = new Int64(row[1]);
         state = ProposalState.valueOf(row[2].toInt());
@@ -404,7 +404,7 @@ class ApiChannelProposal {
           'WHERE `proposal_id` = ? '
           'ORDER BY `chat_id` DESC';
       await for (sqljocky.Row row
-          in await connection.prepareExecute(chatQuery, [
+          in await connection.prepareExecute(chatQuery, <dynamic>[
         listChats.proposalId,
       ])) {
         DataProposalChat chat = new DataProposalChat();

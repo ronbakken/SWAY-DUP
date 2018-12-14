@@ -153,7 +153,7 @@ class ApiChannelHaggleActions {
         "FROM `proposals` "
         "WHERE `proposal_id` = ?";
     await for (sqljocky.Row row
-        in await proposalDb.prepareExecute(query, [proposalId])) {
+        in await proposalDb.prepareExecute(query, <dynamic>[proposalId])) {
       influencerAccountId = new Int64(row[0]);
       businessAccountId = new Int64(row[1]);
       state = ProposalState.valueOf(row[2].toInt());
@@ -219,7 +219,7 @@ class ApiChannelHaggleActions {
         "`type`, `text`) "
         "VALUES (?, ?, ?, ?, ?, ?)";
     sqljocky.Results resultHaggle =
-        await connection.prepareExecute(insertChat, [
+        await connection.prepareExecute(insertChat, <dynamic>[
       chat.senderAccountId,
       chat.proposalId,
       chat.senderSessionId,
@@ -246,7 +246,7 @@ class ApiChannelHaggleActions {
               "SET `terms_chat_id` = ?, `influencer_wants_deal` = 0, `business_wants_deal` = 0 "
               "WHERE `proposal_id` = ? AND `state` = ${ProposalState.negotiating.value}";
           sqljocky.Results resultUpdateHaggleChatId =
-              await transaction.prepareExecute(updateHaggleChatId, [
+              await transaction.prepareExecute(updateHaggleChatId, <dynamic>[
             chat.chatId,
             chat.proposalId,
           ]);
@@ -441,7 +441,7 @@ class ApiChannelHaggleActions {
           "AND `$accountAccountId` = ?"
           "AND `state` = ${ProposalState.negotiating.value}";
       sqljocky.Results resultWants = await transaction
-          .prepareExecute(updateWants, [proposalId, accountId]);
+          .prepareExecute(updateWants, <dynamic>[proposalId, accountId]);
       if (resultWants.affectedRows == null || resultWants.affectedRows == 0) {
         devLog.warning(
             "Invalid reject attempt by account '$accountId' on proposal '$proposalId'");
@@ -582,9 +582,9 @@ class ApiChannelHaggleActions {
           "AND `$accountAccountId` = ?"
           "AND `state` = ${ProposalState.deal.value} OR `state` = ${ProposalState.dispute.value}";
       List<dynamic> parameters =
-          []; // TODO: [pb.delivered ? 1 : 0, pb.rewarded ? 1 : 0];
+          <dynamic>[]; // TODO: [pb.delivered ? 1 : 0, pb.rewarded ? 1 : 0];
       if (pb.rating > 0) parameters.add(pb.rating);
-      parameters.addAll([proposalId, accountId]);
+      parameters.addAll(<dynamic>[proposalId, accountId]);
       sqljocky.Results resultMarkings =
           await transaction.prepareExecute(updateMarkings, parameters);
       if (resultMarkings.affectedRows == null ||
@@ -606,7 +606,7 @@ class ApiChannelHaggleActions {
           "AND `influencer_gave_rating` > 0 AND `business_gave_rating` > 0 "
           "AND `state` = ${ProposalState.deal.value}";
       sqljocky.Results resultCompletion =
-          await transaction.prepareExecute(updateCompletion, [proposalId]);
+          await transaction.prepareExecute(updateCompletion, <dynamic>[proposalId]);
       dealCompleted = resultCompletion.affectedRows != null &&
           resultCompletion.affectedRows != 0;
       // }

@@ -314,7 +314,7 @@ class ApiChannelOAuth {
               "INSERT INTO `oauth_connections`("
               "`oauth_user_id`, `oauth_provider`, `account_type`, `account_id`, `session_id`, `oauth_token`, `oauth_token_secret`, `oauth_token_expires`"
               ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-              [
+              <dynamic>[
                 oauthCredentials.userId.toString(),
                 oauthProvider.toInt(),
                 account.accountType.value.toInt(),
@@ -346,7 +346,7 @@ class ApiChannelOAuth {
                   "`oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?";
               sqljocky.Results updateRes =
-                  await accountDb.prepareExecute(query, [
+                  await accountDb.prepareExecute(query, <dynamic>[
                 account.sessionId,
                 oauthCredentials.token.toString(),
                 oauthCredentials.tokenSecret.toString(),
@@ -367,7 +367,7 @@ class ApiChannelOAuth {
               sqljocky.Results connectionRes = await accountDb.prepareExecute(
                   "SELECT `account_id` FROM `oauth_connections` "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ?",
-                  [
+                  <dynamic>[
                     oauthCredentials.userId.toString(),
                     oauthProvider.toInt(),
                     account.accountType.value.toInt()
@@ -387,7 +387,7 @@ class ApiChannelOAuth {
                     "WHERE `session_id` = ? AND `account_id` = 0";
                 channel.replyExtend(message);
                 await accountDb.prepareExecute(
-                    query, [takeoverAccountId, account.sessionId]);
+                    query, <dynamic>[takeoverAccountId, account.sessionId]);
                 // NOTE: Technically, here we may escalate any OAuth connections of this session to the account,
                 // as long as the account has no connections yet for the connected providers (long-term)
               }
@@ -403,7 +403,7 @@ class ApiChannelOAuth {
                   "SET `updated` = CURRENT_TIMESTAMP(), `account_id` = ?, `session_id` = ?, `oauth_token` = ?, `oauth_token_secret` = ?, `oauth_token_expires` = ? "
                   "WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)"; // Also allow account_id 0 in case of issue
               sqljocky.Results updateRes =
-                  await accountDb.prepareExecute(query, [
+                  await accountDb.prepareExecute(query, <dynamic>[
                 account.accountId,
                 account.sessionId,
                 oauthCredentials.token.toString(),
@@ -434,7 +434,7 @@ class ApiChannelOAuth {
         if (account.accountId != 0) {
           String query =
               "DELETE FROM `oauth_connections` WHERE `account_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
-          await accountDb.prepareExecute(query, [
+          await accountDb.prepareExecute(query, <dynamic>[
             account.accountId,
             oauthCredentials.userId.toString(),
             oauthProvider.toInt()
@@ -445,7 +445,7 @@ class ApiChannelOAuth {
         if (account.sessionId != 0) {
           String query =
               "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?";
-          await accountDb.prepareExecute(query, [
+          await accountDb.prepareExecute(query, <dynamic>[
             account.sessionId,
             oauthCredentials.userId.toString(),
             oauthProvider.toInt()
@@ -540,7 +540,7 @@ class ApiChannelOAuth {
               new oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
           var credentials = new oauth1.Credentials(
               oauthCredentials.token, oauthCredentials.tokenSecret);
-          var client = new oauth1.Client(oauth1.SignatureMethods.HMAC_SHA1,
+          var client = new oauth1.Client(oauth1.SignatureMethods.hmacSha1,
               clientCredentials, credentials, httpClient);
           // devLog.finest('show');
           // http.Response res = await client.get("https://api.twitter.com/1.1/users/show.json?user_id=$oauthUserId");
@@ -778,7 +778,7 @@ class ApiChannelOAuth {
           "INSERT INTO `social_media`(`oauth_user_id`, `oauth_provider`, $queryNames) VALUES (?, ?, $queryValues) ON DUPLICATE KEY UPDATE $queryUpdates";
       await accountDb.prepareExecute(
           query,
-          [oauthUserId.toString(), oauthProvider.toInt()]
+          <dynamic>[oauthUserId.toString(), oauthProvider.toInt()]
             ..addAll(queryParams)
             ..addAll(queryParams));
     }

@@ -128,7 +128,7 @@ class ApiChannel {
           channel.close();
         }
       }
-    }, onError: (error, stackTrace) {
+    }, onError: (dynamic error, StackTrace stackTrace) {
       if (error is TalkAbort) {
         devLog.severe("Received abort from api remote: $error\n$stackTrace");
       } else {
@@ -302,7 +302,7 @@ class ApiChannel {
         channel.replyExtend(message);
         sqljocky.Results results = await accountDb.prepareExecute(
             "INSERT INTO `sessions` (`cookie_hash`, `device_hash`, `name`, `info`) VALUES (?, ?, ?, ?)",
-            [cookieHash, deviceHash, create.deviceName, create.deviceInfo]);
+            <dynamic>[cookieHash, deviceHash, create.deviceName, create.deviceInfo]);
         if (results.insertId != null && account.sessionId == 0) {
           account.sessionId = new Int64(results.insertId);
           devLog.info(
@@ -334,7 +334,7 @@ class ApiChannel {
       // Get the pub_key from the session that can be used to decrypt the signed challenge
       sqljocky.Results pubKeyResults = await accountDb.prepareExecute(
           "SELECT `session_id` FROM `sessions` WHERE `session_id` = ? AND `cookie_hash` = ?",
-          [sessionPayload.sessionId, cookieHash]);
+          <dynamic>[sessionPayload.sessionId, cookieHash]);
       Int64 sessionId;
       await for (sqljocky.Row row in pubKeyResults) {
         sessionId = new Int64(row[0]);
@@ -383,7 +383,7 @@ class ApiChannel {
         "`following_count`, `posts_count`, `verified` " // 10 11 12
         "FROM `social_media` "
         "WHERE `oauth_user_id` = ? AND `oauth_provider` = ?",
-        [oauthUserId, oauthProvider]);
+        <dynamic>[oauthUserId, oauthProvider]);
     DataSocialMedia dataSocialMedia = new DataSocialMedia();
     await for (sqljocky.Row row in results) {
       // one row
@@ -416,7 +416,7 @@ class ApiChannel {
         "`latitude`, `longitude`, `s2cell_id`, geohash " // 6 7 8 9
         "FROM `locations` "
         "WHERE `location_id` = ? AND `account_id` = ?",
-        [locationId, accountId]);
+        <dynamic>[locationId, accountId]);
     DataLocation location;
     await for (sqljocky.Row row in results) {
       // one row
@@ -449,7 +449,7 @@ class ApiChannel {
             "`latitude`, `longitude` " // 2 3
             "FROM `locations` "
             "WHERE `location_id` = ? AND `account_id` = ?",
-        [locationId, accountId]);
+        <dynamic>[locationId, accountId]);
     DataLocation location;
     await for (sqljocky.Row row in results) {
       // one row
@@ -480,7 +480,7 @@ class ApiChannel {
     try {
       sqljocky.Results sessionResults = await connection.prepareExecute(
           "SELECT `account_id`, `account_type`, `firebase_token` FROM `sessions` WHERE `session_id` = ?",
-          [account.sessionId]);
+          <dynamic>[account.sessionId]);
       await for (sqljocky.Row row in sessionResults) {
         // one row
         if (account.accountId != Int64.ZERO &&
@@ -499,7 +499,7 @@ class ApiChannel {
             "SELECT `name`, `account_type`, `global_account_state`, `global_account_state_reason`, "
             "`description`, `location_id`, `avatar_key`, `website`, `email` FROM `accounts` "
             "WHERE `account_id` = ?",
-            [account.accountId]);
+            <dynamic>[account.accountId]);
         // int locationId;
         await for (sqljocky.Row row in accountResults) {
           // one
@@ -554,7 +554,7 @@ class ApiChannel {
       sqljocky.Results connectionResults = await connection.prepareExecute(
           // The additional `account_id` = 0 here is required in order not to load halfway failed connected sessions
           "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.accountId == 0 ? '`account_id` = 0 AND `session_id`' : '`account_id`'} = ?",
-          [account.accountId == 0 ? account.sessionId : account.accountId]);
+          <dynamic>[account.accountId == 0 ? account.sessionId : account.accountId]);
       List<sqljocky.Row> connectionRows = await connectionResults
           .toList(); // Load to avoid blocking connections recursively
       for (sqljocky.Row row in connectionRows) {
@@ -869,10 +869,10 @@ class ApiChannel {
         await accountDb.startTransaction((sqljocky.Transaction tx) async {
           await tx.prepareExecute(
               "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `account_id` = 0",
-              [account.sessionId]);
+              <dynamic>[account.sessionId]);
           await tx.prepareExecute(
               "UPDATE `sessions` SET `account_type` = ? WHERE `session_id` = ? AND `account_id` = 0",
-              [pb.accountType.value, account.sessionId]);
+              <dynamic>[pb.accountType.value, account.sessionId]);
           await tx.commit();
         });
       } catch (error, stackTrace) {
@@ -901,7 +901,7 @@ class ApiChannel {
 
     String update =
         "UPDATE `sessions` SET `firebase_token`= ? WHERE `session_id` = ?";
-    await accountDb.prepareExecute(update, [
+    await accountDb.prepareExecute(update, <dynamic>[
       pb.firebaseToken.toString(),
       account.sessionId,
     ]);
@@ -909,7 +909,7 @@ class ApiChannel {
     if (pb.hasOldFirebaseToken() && pb.oldFirebaseToken != null) {
       update =
           "UPDATE `sessions` SET `firebase_token`= ? WHERE `firebase_token` = ?";
-      await accountDb.prepareExecute(update, [
+      await accountDb.prepareExecute(update, <dynamic>[
         pb.firebaseToken.toString(),
         pb.oldFirebaseToken.toString(),
       ]);
@@ -958,7 +958,7 @@ class ApiChannel {
           .then((DataLocation location) {
         devLog.finest("GPS: $location");
         gpsLocationRes = location;
-      }).catchError((error, stackTrace) {
+      }).catchError((dynamic error, StackTrace stackTrace) {
         devLog.severe("GPS Geocoding Exception: $error\n$stackTrace");
       });
     }
@@ -968,7 +968,7 @@ class ApiChannel {
       devLog.finest("GeoIP: $location");
       geoIPLocationRes = location;
       // locations.add(location);
-    }).catchError((error, stackTrace) {
+    }).catchError((dynamic error, StackTrace stackTrace) {
       devLog.severe("GeoIP Location Exception: $error\n$stackTrace");
     });
 
@@ -995,7 +995,7 @@ class ApiChannel {
               "${config.oauthProviders[i].label}: ${socialMedia.displayName}: $location");
           location.name = socialMedia.displayName;
           locations.add(location);
-        }).catchError((error, stackTrace) {
+        }).catchError((dynamic error, StackTrace stackTrace) {
           devLog.severe(
               "${config.oauthProviders[i].label}: Geocoding Exception: $error\n$stackTrace");
         }));
@@ -1185,7 +1185,7 @@ class ApiChannel {
                 "`global_account_state`, `global_account_state_reason`, "
                 "`description`, `website`, `email`" // avatarUrl is set later
                 ") VALUES (?, ?, ?, ?, ?, ?, ?)",
-                [
+                <dynamic>[
                   accountName.toString(),
                   account.accountType.value.toInt(),
                   globalAccountState.value.toInt(),
@@ -1203,7 +1203,7 @@ class ApiChannel {
             sqljocky.Results res2 = await tx.prepareExecute(
                 "UPDATE `sessions` SET `account_id` = LAST_INSERT_ID() "
                 "WHERE `session_id` = ? AND `account_id` = 0",
-                [account.sessionId]);
+                <dynamic>[account.sessionId]);
             if (res2.affectedRows == 0)
               throw new Exception("Device was not updated");
             // 3.
@@ -1211,7 +1211,7 @@ class ApiChannel {
             sqljocky.Results res3 = await tx.prepareExecute(
                 "UPDATE `oauth_connections` SET `account_id` = LAST_INSERT_ID() "
                 "WHERE `session_id` = ? AND `account_id` = 0",
-                [account.sessionId]);
+                <dynamic>[account.sessionId]);
             if (res3.affectedRows == 0)
               throw new Exception("Social media was not updated");
             // 4.
@@ -1234,7 +1234,7 @@ class ApiChannel {
                   "?, ?, ?, "
                   "?, ?, ?, ?"
                   ")",
-                  [
+                  <dynamic>[
                     accountId,
                     location.name.toString(),
                     location.detail.toString(),
@@ -1259,7 +1259,7 @@ class ApiChannel {
             sqljocky.Results res5 = await tx.prepareExecute(
                 "UPDATE `accounts` SET `location_id` = LAST_INSERT_ID() "
                 "WHERE `account_id` = ?",
-                [accountId]);
+                <dynamic>[accountId]);
             if (res5.affectedRows == 0)
               throw new Exception("Account was not updated with location");
             devLog.fine("Finished setting up account $accountId");
@@ -1305,7 +1305,7 @@ class ApiChannel {
         await accountDb.prepareExecute(
             "UPDATE `accounts` SET `avatar_key` = ? "
             "WHERE `account_id` = ?",
-            [avatarKey.toString(), account.accountId]);
+            <dynamic>[avatarKey.toString(), account.accountId]);
         account.avatarUrl = makeCloudinaryThumbnailUrl(avatarKey);
         account.blurredAvatarUrl = makeCloudinaryBlurredThumbnailUrl(avatarKey);
         account.coverUrls.clear();

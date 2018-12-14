@@ -15,8 +15,8 @@ Author: Jan Boon <kaetemi@no-break.space>
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:inf_server_api/api_service.dart';
@@ -28,9 +28,8 @@ import 'package:switchboard/switchboard.dart';
 import 'package:dospace/dospace.dart' as dospace;
 import 'package:http_client/console.dart' as http;
 
-import 'broadcast_center.dart';
+import 'package:inf_server_api/broadcast_center.dart';
 import 'package:inf_common/inf_common.dart';
-import 'api_channel.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,11 +41,11 @@ AUGKNEZGFQVUROSP2CB7
 AK8dfZ8nD+QYl6Nz662YMa2oSjrG/uUmXte8t4ojd70
 */
 
-selfTestSql(sqljocky.ConnectionPool sql) async {
+Future<void> selfTestSql(sqljocky.ConnectionPool sql) async {
   // ⚠️✔️❌🛑 // Emojis make code run faster
-  final Logger opsLog = new Logger('InfOps.SelfTest');
+  final Logger opsLog = Logger('InfOps.SelfTest');
   try {
-    List<sqljocky.Row> selfTest1 = await (await sql
+    final List<sqljocky.Row> selfTest1 = await (await sql
             .query('SELECT message FROM self_test WHERE self_test_id=1'))
         .toList();
     if ("${selfTest1[0][0]}" != "Zipper Sorting 😏") {
@@ -60,8 +59,8 @@ selfTestSql(sqljocky.ConnectionPool sql) async {
   }
 }
 
-selfTestTalk() async {
-  final Logger opsLog = new Logger('InfOps.SelfTest');
+Future<void> selfTestTalk() async {
+  final Logger opsLog = Logger('InfOps.SelfTest');
   TalkChannel channel;
   // List<int> values = new List<int>();
   try {
@@ -80,9 +79,9 @@ selfTestTalk() async {
     channel = null;
     await listen;
     */
-    Switchboard switchboard = new Switchboard();
+    final Switchboard switchboard = Switchboard();
     switchboard.setEndPoint("ws://localhost:8090/ep");
-    await switchboard.sendRequest("api", "PING", new Uint8List(0));
+    await switchboard.sendRequest("api", "PING", Uint8List(0));
     switchboard.listenDiscard();
     await switchboard.close();
     opsLog.info("[✔️] Switchboard Self Test");
@@ -94,7 +93,7 @@ selfTestTalk() async {
   }
 }
 
-run() async {
+Future<void> run() async {
   // S2LatLng latLng = new S2LatLng.fromDegrees(40.732162, 73.975698); // getting fb8c157663c46983
   // S2LatLng latLng = new S2LatLng.fromDegrees(40.732162, 73.975698); // getting 580dc240ac2bca54
   /*
@@ -122,23 +121,23 @@ run() async {
   Logger.root.onRecord.listen((LogRecord rec) {
     print('${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
   });
-  new Logger('InfOps').level = Level.ALL;
-  new Logger('InfDev').level = Level.ALL;
-  new Logger('SqlJocky').level = Level.WARNING;
-  new Logger('SqlJocky.BufferedSocket').level = Level.WARNING;
-  new Logger('Switchboard').level = Level.INFO;
-  new Logger('Switchboard.Mux').level = Level.ALL;
-  new Logger('Switchboard.Talk').level = Level.INFO;
-  new Logger('Switchboard.Router').level = Level.ALL;
+  Logger('InfOps').level = Level.ALL;
+  Logger('InfDev').level = Level.ALL;
+  Logger('SqlJocky').level = Level.WARNING;
+  Logger('SqlJocky.BufferedSocket').level = Level.WARNING;
+  Logger('Switchboard').level = Level.INFO;
+  Logger('Switchboard.Mux').level = Level.ALL;
+  Logger('Switchboard.Talk').level = Level.INFO;
+  Logger('Switchboard.Router').level = Level.ALL;
 
   // Server Configuration
-  Uint8List configBytes =
-      await new File("assets/config_server.bin").readAsBytes();
-  ConfigData config = new ConfigData();
+  final Uint8List configBytes =
+      await File("assets/config_server.bin").readAsBytes();
+  final ConfigData config = ConfigData();
   config.mergeFromBuffer(configBytes);
 
   // Run Account DB SQL client
-  final sqljocky.ConnectionPool accountDb = new sqljocky.ConnectionPool(
+  final sqljocky.ConnectionPool accountDb = sqljocky.ConnectionPool(
       host: config.services.accountDbHost,
       port: config.services.accountDbPort,
       user: config.services.accountDbUser,
@@ -148,7 +147,7 @@ run() async {
   selfTestSql(accountDb);
 
   // Run Proposal DB SQL client
-  final sqljocky.ConnectionPool proposalDb = new sqljocky.ConnectionPool(
+  final sqljocky.ConnectionPool proposalDb = sqljocky.ConnectionPool(
       host: config.services.proposalDbHost,
       port: config.services.proposalDbPort,
       user: config.services.proposalDbUser,
@@ -158,32 +157,32 @@ run() async {
   selfTestSql(proposalDb);
 
   // Spaces
-  final dospace.Spaces spaces = new dospace.Spaces(
+  final dospace.Spaces spaces = dospace.Spaces(
     region: config.services.spacesRegion,
     accessKey: config.services.spacesKey,
     secretKey: config.services.spacesSecret,
-    httpClient: new http.ConsoleClient(),
+    httpClient: http.ConsoleClient(),
   );
   final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
   if (!(await spaces.listAllBuckets()).contains(config.services.spacesBucket)) {
-    throw new Exception("Missing bucket");
+    throw Exception("Missing bucket");
   } else {
-    new Logger('InfDev').finest("Bucket OK");
+    Logger('InfDev').finest("Bucket OK");
   }
 
   // Elasticsearch
-  final Elasticsearch elasticsearch = new Elasticsearch(config);
+  final Elasticsearch elasticsearch = Elasticsearch(config);
 
   final BroadcastCenter bc =
-      new BroadcastCenter(config, accountDb, proposalDb, bucket);
+      BroadcastCenter(config, accountDb, proposalDb, bucket);
 
   // Listen to websocket
-  Switchboard switchboard = new Switchboard();
+  final Switchboard switchboard = Switchboard();
   await switchboard.bindWebSocket(InternetAddress.anyIPv6, 8090, '/ep');
   // await switchboard.bindWebSocket(InternetAddress.anyIPv4, 8090, '/ep');
   selfTestTalk();
 
-  final ApiService apiService = new ApiService(
+  final ApiService apiService = ApiService(
       config, accountDb, proposalDb, bucket, elasticsearch, switchboard, bc);
   await apiService.listen();
   await apiService.close();

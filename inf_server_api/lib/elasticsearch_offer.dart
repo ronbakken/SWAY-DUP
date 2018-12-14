@@ -365,16 +365,16 @@ class ElasticsearchOffer {
     if ((summary || detail) && doc.containsKey("thumbnail_blurred")) {
       offer.thumbnailBlurred = base64.decode(doc["thumbnail_blurred"]);
     }
-    if ((summary || detail)) {
+    if (summary || detail) {
       if (doc.containsKey("deliverable_social_platforms")) {
         offer.terms.deliverableSocialPlatforms.addAll(
             doc["deliverable_social_platforms"]
-                .map<int>((value) => value as int));
+                .map<int>((dynamic value) => value as int));
       }
       if (doc.containsKey("deliverable_content_formats")) {
         offer.terms.deliverableContentFormats.addAll(
             doc["deliverable_content_formats"]
-                .map<int>((value) => value as int));
+                .map<int>((dynamic value) => value as int));
       }
       if (detail && doc.containsKey("deliverables_description")) {
         offer.terms.deliverablesDescription = doc["deliverables_description"];
@@ -393,7 +393,7 @@ class ElasticsearchOffer {
     }
     if ((summary || detail) && doc.containsKey("primary_categories")) {
       offer.primaryCategories
-          .addAll(doc["primary_categories"].map<int>((value) => value as int));
+          .addAll(doc["primary_categories"].map<int>((dynamic value) => value as int));
     }
     if ((summary || detail) && doc.containsKey("sender_name")) {
       offer.senderName = doc["sender_name"];
@@ -421,19 +421,19 @@ class ElasticsearchOffer {
     if (detail && doc.containsKey("cover_keys")) {
       if (private && receiverIsOwner) {
         offer.coverKeys
-            .addAll(doc["cover_keys"].map<String>((value) => value as String));
+            .addAll(doc["cover_keys"].map<String>((dynamic value) => value as String));
       }
       offer.coverUrls.addAll((doc["cover_keys"] as List<dynamic>).map<String>(
-          (coverKey) =>
+          (dynamic coverKey) =>
               config.services.galleryCoverUrl.replaceAll('{key}', coverKey)));
     }
     if (detail && doc.containsKey("covers_blurred")) {
       offer.coversBlurred.addAll((doc["covers_blurred"] as List<dynamic>)
-          .map<List<int>>((coverBlurred) => base64.decode(coverBlurred)));
+          .map<List<int>>((dynamic coverBlurred) => base64.decode(coverBlurred)));
     }
     if (detail && doc.containsKey("categories")) {
       offer.categories
-          .addAll(doc["categories"].map<int>((value) => value as int));
+          .addAll(doc["categories"].map<int>((dynamic value) => value as int));
     }
     if (private && doc.containsKey("state")) {
       offer.state = OfferState.valueOf(doc["state"]);

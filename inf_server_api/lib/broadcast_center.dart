@@ -82,7 +82,7 @@ class BroadcastCenter {
     sqljocky.Results res = await proposalDb.prepareExecute(
         "SELECT `influencer_account_id`, `business_account_id`, `sender_account_id` "
         "FROM `proposals` WHERE `proposal_id` = ?",
-        [proposalId]);
+        <dynamic>[proposalId]);
     await for (sqljocky.Row row in res) {
       proposal = new _CachedProposal(
           new Int64(row[0]), new Int64(row[1]), new Int64(row[2]));
@@ -99,7 +99,7 @@ class BroadcastCenter {
           "SELECT `name`" // TODO: Elasticsearch profile
           "FROM `accounts` "
           "WHERE `account_id` = ? ",
-          [accountId]);
+          <dynamic>[accountId]);
       await for (sqljocky.Row row in res) {
         cached = new _CachedAccountName(row[0].toString());
         _cachedAccountName[accountId] = cached;
@@ -118,7 +118,7 @@ class BroadcastCenter {
           "SELECT `firebase_token`"
           "FROM `sessions` "
           "WHERE `account_id` = ? ",
-          [accountId]);
+          <dynamic>[accountId]);
       await for (sqljocky.Row row in res) {
         if (row[0] != null) {
           String firebaseToken = row[0].toString();
