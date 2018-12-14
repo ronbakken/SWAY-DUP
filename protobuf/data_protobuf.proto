@@ -180,7 +180,7 @@ message DataLocation {
   
 }
 
-message DataAccount { // 30
+message DataAccount { // 33
   // State
   /// Session ID. If 0, authentication failed, and the client must create a new session
   int64 session_id = 4; // (Private)
@@ -220,8 +220,8 @@ message DataAccount { // 30
   // bool emailVerified = 26; // (Detail, Private)
   
   // Preferences
-  bool accept_direct_proposals = 31; // (Detail) // TODO(kaetemi): server
-  bool publish_gps_location = 32; // (Detail) // TODO(kaetemi): server
+  bool accept_direct_proposals = 32; // (Detail) // TODO(kaetemi): server
+  bool publish_gps_location = 33; // (Detail) // TODO(kaetemi): server
   
   // Embedded primary location info, if applicable
   string location_name = 27; // (Detail)
