@@ -18,8 +18,8 @@ import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static final Logger opsLog = new Logger('InfOps.ApiService');
-  static final Logger devLog = new Logger('InfDev.ApiService');
+  static final Logger opsLog = Logger('InfOps.ApiService');
+  static final Logger devLog = Logger('InfDev.ApiService');
 
   final ConfigData config;
   final sqljocky.ConnectionPool accountDb;
@@ -28,24 +28,24 @@ class ApiService {
   final Elasticsearch elasticsearch;
   final Switchboard switchboard;
   final BroadcastCenter bc;
-  final http.Client httpClient = new http.Client();
+  final http.Client httpClient = http.Client();
   List<oauth1.Authorization> oauth1Auth;
 
   ApiService(this.config, this.accountDb, this.proposalDb, this.bucket,
       this.elasticsearch, this.switchboard, this.bc) {
-    oauth1Auth = new List<oauth1.Authorization>(config.oauthProviders.length);
+    oauth1Auth = List<oauth1.Authorization>(config.oauthProviders.length);
     for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {
-      ConfigOAuthProvider provider = config.oauthProviders[providerId];
+      final ConfigOAuthProvider provider = config.oauthProviders[providerId];
       if (provider.mechanism == OAuthMechanism.oauth1) {
-        var platform = new oauth1.Platform(
+        final oauth1.Platform platform = oauth1.Platform(
             provider.host + provider.requestTokenUrl,
             provider.host + provider.authenticateUrl,
             provider.host + provider.accessTokenUrl,
             oauth1.SignatureMethods.hmacSha1);
-        var clientCredentials = new oauth1.ClientCredentials(
+        final oauth1.ClientCredentials clientCredentials = oauth1.ClientCredentials(
             provider.consumerKey, provider.consumerSecret);
         oauth1Auth[providerId] =
-            new oauth1.Authorization(clientCredentials, platform, httpClient);
+            oauth1.Authorization(clientCredentials, platform, httpClient);
       }
     }
     selfTest();
@@ -53,14 +53,14 @@ class ApiService {
 
   Future<void> listen() async {
     await for (ChannelInfo open in switchboard) {
-      // TODO: Rename ChannelInfo to ChannelOpen
-      if (open.service == "api") {
-        TalkChannel talkChannel = new TalkChannel(open.channel);
-        new ApiChannel(this, talkChannel, open.payload,
-            ipAddress: '8.8.8.8'); // TODO: Proper IP address here
+      // TODO(kaetemi): Rename ChannelInfo to ChannelOpen
+      if (open.service == 'api') {
+        final TalkChannel talkChannel = TalkChannel(open.channel);
+        ApiChannel(this, talkChannel, open.payload,
+            ipAddress: '8.8.8.8'); // TODO(kaetemi): FIXME: Proper IP address here
       } else {
-        TalkChannel talkChannel = new TalkChannel(open.channel);
-        talkChannel.sendAbort("Service not supported.");
+        final TalkChannel talkChannel = TalkChannel(open.channel);
+        talkChannel.sendAbort('Service not supported.');
         talkChannel.close();
       }
     }
@@ -73,15 +73,15 @@ class ApiService {
   Future<void> selfTest() async {
     try {
       for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {
-        ConfigOAuthProvider provider = config.oauthProviders[providerId];
+        final ConfigOAuthProvider provider = config.oauthProviders[providerId];
         if (provider.mechanism == OAuthMechanism.oauth1) {
-          oauth1.Authorization auth = oauth1Auth[providerId];
-          devLog.fine("OAuth1 ($providerId): " +
+          final oauth1.Authorization auth = oauth1Auth[providerId];
+          devLog.fine('OAuth1 ($providerId): ' +
               (await auth.requestTemporaryCredentials(provider.callbackUrl))
                   .credentials
                   .toJSON()
                   .toString());
-          devLog.fine("OAuth1 ($providerId): " +
+          devLog.fine('OAuth1 ($providerId): ' +
               (await auth.requestTemporaryCredentials(provider.callbackUrl))
                   .credentials
                   .toJSON()
@@ -89,7 +89,7 @@ class ApiService {
         }
       }
     } catch (error, stackTrace) {
-      opsLog.severe("Self test error: $error\n$stackTrace");
+      opsLog.severe('Self test error: $error\n$stackTrace');
     }
   }
 }

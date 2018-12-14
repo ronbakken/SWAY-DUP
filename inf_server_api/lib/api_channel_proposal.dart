@@ -225,8 +225,12 @@ class ApiChannelProposal {
     chat.senderSessionGhostId = 0;
 
     // Broadcast
-    await bc.proposalPosted(account.sessionId, proposal, account);
-    await bc.proposalChatPosted(account.sessionId, chat, account);
+    final NetProposal publishProposal = NetProposal();
+    publishProposal.updateProposal = res.updateProposal;
+    bc.proposalChanged(account.sessionId, publishProposal);
+    final NetProposalChat publishChat = NetProposalChat();
+    publishChat.chat = chat;
+    bc.proposalChatPosted(account.sessionId, publishChat, account);
 
     // TODO(kaetemi): Update offer proposal count
     // TODO(kaetemi): Add to proposal_sender_account_ids lookup

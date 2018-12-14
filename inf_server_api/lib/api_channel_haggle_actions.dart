@@ -69,349 +69,11 @@ class ApiChannelHaggleActions {
   static final Logger opsLog = Logger('InfOps.ApiChannelOAuth');
   static final Logger devLog = Logger('InfDev.ApiChannelOAuth');
 
-  ApiChannelHaggleActions(this._r) {
-    /*
-    _r.registerProcedure(
-        'CH_PLAIN', GlobalAccountState.readWrite, netChatPlain);
-    _r.registerProcedure(
-        'CH_HAGGL', GlobalAccountState.readWrite, netChatHaggle);
-    _r.registerProcedure(
-        'CH_IMAGE', GlobalAccountState.readWrite, netChatImageKey);
-
-    _r.registerProcedure(
-        'AP_WADEA', GlobalAccountState.readWrite, netProposalWantDealReq);
-    _r.registerProcedure(
-        'AP_REJEC', GlobalAccountState.readWrite, netProposalRejectReq);
-    _r.registerProcedure(
-        'AP_REPOR', GlobalAccountState.readWrite, netProposalReportReq);
-    _r.registerProcedure(
-        'AP_COMPL', GlobalAccountState.readWrite, netProposalCompletionReq);
-*/
-  }
+  ApiChannelHaggleActions(this._r);
 
   void dispose() {
-    /*
-    _r.unregisterProcedure('CH_PLAIN');
-    _r.unregisterProcedure('CH_HAGGL');
-    _r.unregisterProcedure('CH_IMAGE');
-
-    _r.unregisterProcedure('AP_WADEA');
-    _r.unregisterProcedure('AP_REJEC');
-    _r.unregisterProcedure('AP_REPOR');
-    _r.unregisterProcedure('AP_COMPL');
-*/
     _r = null;
   }
-
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  // User actions
-  //////////////////////////////////////////////////////////////////////////////
-
-  // Response messages
-
-  // Client should respond to live updates and posts from broadcast center
-  // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
-  // Also post to FCM
-
-  /*
-  final Function(String text) onSendPlain; -> NetChatPlain / CH_PLAIN
-  final Function(String key) onSendImageKey; -> CH_IMAGE
-
-  final Function(DataProposalChat haggleChat) onBeginHaggle; -> UI -> NetChatHaggle / CH_HAGGL
-  final Function(DataProposalChat haggleChat) onWantDeal; -- not yet defined -- only succeeds if picked chat is the current one
-
-  final Function() onReject; -- not yet defined
-  final Function() onBeginReport; -- not yet defined -- posts to freshdesk // FCM email verification service?
-  final Function() onBeginMarkCompleted; -> AP_COMPL
-  */
-
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  // Chat messages
-  //////////////////////////////////////////////////////////////////////////////
-
-  // Chat messages don't have responses, since they have ghost instances on the client.
-  // Client assumes a successful send-to-server is sent (since the server was online).
-  // Ghost messages are always re-sent by the client upon reconnection to the server only.
-
-  /// Verify if the sender is permitted to chat in this context
-  Future<bool> _verifySender(
-      Int64 proposalId, Int64 senderId, ProposalChatType type) async {
-    Int64 influencerAccountId;
-    Int64 businessAccountId;
-    ProposalState state;
-
-    // Fetch proposal
-    const String query = 'SELECT '
-        '`influencer_account_id`, `business_account_id`, '
-        '`state` '
-        'FROM `proposals` '
-        'WHERE `proposal_id` = ?';
-    await for (sqljocky.Row row
-        in await proposalDb.prepareExecute(query, <dynamic>[proposalId])) {
-      influencerAccountId = Int64(row[0]);
-      businessAccountId = Int64(row[1]);
-      state = ProposalState.valueOf(row[2].toInt());
-    }
-
-    // Authorize
-    if (businessAccountId == null || influencerAccountId == null) {
-      opsLog.severe(
-          'Attempt to send message to invalid proposal chat by account "$senderId"');
-      return false; // Not Found
-    }
-    if (account.accountType != AccountType.support &&
-        accountId != businessAccountId &&
-        accountId != influencerAccountId) {
-      opsLog.severe(
-          'Attempt to send message to unauthorized proposal chat by account "$senderId"');
-      return false; // Not Authorized
-    }
-
-    switch (state) {
-      case ProposalState.proposing:
-        if (type != ProposalChatType.negotiate &&
-            type != ProposalChatType.marker) {
-          devLog
-              .warning('Attempt to send message to $state deal by "$senderId"');
-          return false;
-        }
-        break;
-      case ProposalState.negotiating:
-      case ProposalState.deal:
-      case ProposalState.dispute:
-        break;
-      case ProposalState.rejected:
-      case ProposalState.complete:
-      case ProposalState.resolved:
-        devLog.warning('Attempt to send message to $state deal by "$senderId"');
-        return false;
-    }
-
-    return true;
-  }
-
-/*
-  int64 chatId = 7; // Sequential identifier in the chat stream
-  int64 sent = 10; // Sent timestamp
-  int32 senderId = 2; // Account which sent
-  int32 proposalId = 1; // One chat per proposal
-  
-  int32 sessionId = 11; // Cleared upon forwarding
-  int32 sessionGhostId = 6; // Deduplication client-side (ghost entry)
-  
-  ProposalChatType type = 8;
-  string text = 5; // The written text
-  int64 seen = 9; // 0 if not seen
-*/
-
-  Future<bool> _insertChat(
-      sqljocky.QueriableConnection connection, DataProposalChat chat) async {
-    // Store in database
-    const String insertChat = 'INSERT INTO `proposal_chats`('
-        '`sender_account_id`, `proposal_id`, '
-        '`sender_session_id`, `sender_session_ghost_id`, '
-        '`type`, `text`) '
-        'VALUES (?, ?, ?, ?, ?, ?)';
-    final sqljocky.Results resultHaggle =
-        await connection.prepareExecute(insertChat, <dynamic>[
-      chat.senderAccountId,
-      chat.proposalId,
-      chat.senderSessionId,
-      chat.senderSessionGhostId
-          .toInt(), // Not actually used for apply chat, but need it for consistency
-      chat.type.value.toInt(),
-      chat.plainText.toString(), // TODO(kaetemi): Insert the right fields!
-    ]);
-    final int termsChatId = resultHaggle.insertId;
-    if (termsChatId == 0) {
-      return false;
-    }
-    chat.chatId = Int64(termsChatId);
-    return true;
-  }
-
-  Future<void> _enterChat(DataProposalChat chat) async {
-    bool publish = false;
-    if (chat.type == ProposalChatType.negotiate) {
-      await proposalDb
-          .startTransaction((sqljocky.Transaction transaction) async {
-        if (await _insertChat(transaction, chat)) {
-          // Update haggle on proposal
-          final String updateHaggleChatId = 'UPDATE `proposals` '
-              'SET `terms_chat_id` = ?, `influencer_wants_deal` = 0, `business_wants_deal` = 0 '
-              'WHERE `proposal_id` = ? AND `state` = ${ProposalState.negotiating.value}';
-          final sqljocky.Results resultUpdateHaggleChatId =
-              await transaction.prepareExecute(updateHaggleChatId, <dynamic>[
-            chat.chatId,
-            chat.proposalId,
-          ]);
-          if (resultUpdateHaggleChatId.affectedRows == null ||
-              resultUpdateHaggleChatId.affectedRows == 0) {
-            return; // rollback
-          }
-          // Commit
-          transaction.commit();
-          publish = true;
-        } // else rollback
-      });
-    } else {
-      if (await _insertChat(proposalDb, chat)) {
-        publish = true;
-      }
-    }
-    if (publish) {
-      await _publishChat(chat);
-      if (chat.type == ProposalChatType.negotiate) {
-        await _changedProposal(chat.proposalId);
-      }
-    } else {
-      // Send placeholder message to erase the ghost id to current session.
-      // This is an unusual race condition case that shouldn't happen.
-      chat.type = ProposalChatType.marker;
-      chat.marker = ProposalChatMarker.messageDropped;
-      channel.sendMessage('LN_A_CHA', chat.writeToBuffer());
-    }
-  }
-
-  Future<void> _publishChat(DataProposalChat chat) async {
-    if (chat.imageKey != null) {
-      chat.imageKey = null;
-      chat.imageUrl = _r.makeCloudinaryCoverUrl(chat.imageKey);
-    }
-
-    if (chat.imageUrl != null && chat.imageBlurred == null) {
-      devLog.warning('Chat image blurred missing.');
-    }
-
-    // Publish to me
-    channel.sendMessage('LN_A_CHA', chat.writeToBuffer());
-
-    // Clear private information from broadcast
-    chat.senderSessionId = Int64.ZERO;
-    chat.senderSessionGhostId = 0;
-
-    // Publish to all else
-    // TODO(kaetemi): Deduplicate chat.writeToBuffer() calls on publishing
-    _r.bc.proposalChatPosted(account.sessionId, chat, account);
-  }
-
-  Future<void> _changedProposal(Int64 proposalId) async {
-    // DataProposal proposal) {
-    final DataProposal proposal = await _r.getProposal(proposalId);
-    channel.sendMessage(
-        'LU_APPLI',
-        proposal
-            .writeToBuffer()); // TODO(kaetemi): Filter sensitive info from business and influencer
-    _r.bc.proposalChanged(account.sessionId, proposal);
-  }
-
-  Future<void> netChatPlain(TalkMessage message) async {
-    final NetChatPlain pb = NetChatPlain()..mergeFromBuffer(message.data);
-
-    if (!await _verifySender(pb.proposalId, accountId, ProposalChatType.plain))
-      return;
-
-    final DataProposalChat chat = DataProposalChat();
-    chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-    chat.senderAccountId = accountId;
-    chat.proposalId = pb.proposalId;
-    chat.senderSessionId = account.sessionId;
-    chat.senderSessionGhostId = pb.sessionGhostId;
-    chat.type = ProposalChatType.plain;
-    chat.plainText = pb.text;
-
-    await _enterChat(chat);
-  }
-
-  Future<void> netChatHaggle(TalkMessage message) async {
-    final NetChatNegotiate pb = NetChatNegotiate()
-      ..mergeFromBuffer(message.data);
-
-    /*
-
-    int influencerAccountId;
-    int businessAccountId;
-    String deliverables;
-    String reward;
-
-    // Fetch proposal
-    String query = 'SELECT '
-        '`proposals`.`influencer_account_id`, `proposals`.`business_account_id`, '
-        '`offers`.`deliverables`, `offers`.`reward` '
-        'FROM `proposals` '
-        'INNER JOIN `offers` ON `offers`.`offer_id` = `proposals`.`offer_id` '
-        'WHERE `proposal_id` = ?';
-    await for (sqljocky.Row row
-        in await sql.prepareExecute(query, [pb.proposalId])) {
-      influencerAccountId = Int64(row[0]);
-      businessAccountId = Int64(row[1]);
-      deliverables = row[2].toString();
-      reward = row[3].toString();
-    }
-
-    if (!await _verifySenderMatches(influencerAccountId, businessAccountId, accountId))
-      return;
-
-    */
-
-    if (!await _verifySender(
-        pb.proposalId, accountId, ProposalChatType.negotiate)) {
-      return;
-    }
-
-    final DataProposalChat chat = DataProposalChat();
-    chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-    chat.senderAccountId = accountId;
-    chat.proposalId = pb.proposalId;
-    chat.senderSessionId = account.sessionId;
-    chat.senderSessionGhostId = pb.sessionGhostId;
-    chat.type = ProposalChatType.negotiate;
-    chat.plainText = pb.remarks;
-    chat.terms = pb.terms;
-
-    await _enterChat(chat);
-  }
-
-  Future<void> netChatImageKey(TalkMessage message) async {
-    final NetChatImageKey pb = NetChatImageKey();
-    pb.mergeFromBuffer(message.data);
-
-    if (!await _verifySender(
-        pb.proposalId, accountId, ProposalChatType.imageKey)) {
-      return;
-    }
-
-    final DataProposalChat chat = DataProposalChat();
-    chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-    chat.senderAccountId = accountId;
-    chat.proposalId = pb.proposalId;
-    chat.senderSessionId = account.sessionId;
-    chat.senderSessionGhostId = pb.sessionGhostId;
-    chat.type = ProposalChatType.imageKey;
-    chat.imageKey = pb.imageKey;
-    // TODO(kaetemi): imageBlurred
-
-    await _enterChat(chat);
-  }
-
-  // Client should respond to live updates and posts from broadcast center
-  // LN_APPLI, LN_A_CHA, LU_APPLI, LU_A_CHA
-  // Also post to FCM
-
-  /*
-
-  final Function(DataProposalChat haggleChat) onWantDeal; -- AP_WADEA -- NetProposalCommonRes (Id: AP_R_COM), proposal update + marker-- only succeeds if picked chat is the current one
-
-  final Function() onReject; -- AP_R_COM, NetProposalCommonRes (Id: AP_R_COM), proposal update + marker
-  final Function() onBeginReport; AP_REPOR -- NetProposalCommonRes (Id: AP_R_COM), null, null -- posts to freshdesk // FCM email verification service?
-
-  final Function() onBeginDispute; AP_COMPL -- NetProposalCommonRes (Id: AP_R_COM), proposal update + marker (silent) -- posts to freshdesk // FCM email verification service?
-  final Function() onBeginMarkCompleted; -> AP_COMPL, NetProposalCommonRes
-  */
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -419,6 +81,7 @@ class ApiChannelHaggleActions {
   // Common actions
   //////////////////////////////////////////////////////////////////////////////
 
+/*
   Future<void> netProposalRejectReq(TalkMessage message) async {
     final NetProposalReject pb = NetProposalReject()
       ..mergeFromBuffer(message.data);
@@ -615,13 +278,11 @@ class ApiChannelHaggleActions {
           resultCompletion.affectedRows != 0;
       // }
 
-/*
-      ProposalChatMarker marker = pb.dispute
-          ? ProposalChatMarker.markedDispute
-          : (dealCompleted
-              ? ProposalChatMarker.complete
-              : ProposalChatMarker.markedComplete);
-              */
+      // ProposalChatMarker marker = pb.dispute
+      //     ? ProposalChatMarker.markedDispute
+      //     : (dealCompleted
+      //         ? ProposalChatMarker.complete
+      //         : ProposalChatMarker.markedComplete);
       final ProposalChatMarker marker = dealCompleted
           ? ProposalChatMarker.complete
           : ProposalChatMarker.markedComplete;
@@ -638,45 +299,43 @@ class ApiChannelHaggleActions {
       chat.marker = marker;
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
-        /*
-        if (pb.dispute) {
-          DataProposal proposal =
-              await _r.apiChannelHaggle.getProposal(proposalId);
-
-          HttpClient httpClient = HttpClient();
-          HttpClientRequest httpRequest = await httpClient.postUrl(
-              Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
-          httpRequest.headers.add('Content-Type', 'application/json');
-          httpRequest.headers.add(
-              'Authorization',
-              'Basic ' +
-                  base64.encode(
-                      utf8.encode(config.services.freshdeskKey + ':X')));
-
-          Map<String, dynamic> doc = Map<String, dynamic>();
-          doc['name'] = account.name;
-          doc['email'] = account.email;
-          doc['subject'] = 'Proposal Dispute (Ap. $proposalId)';
-          doc['type'] = 'Incident';
-          doc['description'] =
-              '<h1>Message</h1><p>${htmlEscape.convert(pb.disputeDescription)}</p><hr><h1>Proposal</h1>${proposal}';
-          doc['priority'] = 3;
-          doc['status'] = 2;
-
-          channel.replyExtend(message);
-          httpRequest.write(json.encode(doc));
-          await httpRequest.flush();
-          HttpClientResponse httpResponse = await httpRequest.close();
-          BytesBuilder responseBuilder = BytesBuilder(copy: false);
-          await httpResponse.forEach(responseBuilder.add);
-          if (httpResponse.statusCode != 200) {
-            devLog.severe(
-                'Report post failed: ${utf8.decode(responseBuilder.toBytes())}');
-            channel.replyAbort(message, 'Post Failed');
-            return;
-          }
-        }
-        */
+        // if (pb.dispute) {
+        //   DataProposal proposal =
+        //       await _r.apiChannelHaggle.getProposal(proposalId);
+// 
+        //   HttpClient httpClient = HttpClient();
+        //   HttpClientRequest httpRequest = await httpClient.postUrl(
+        //       Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
+        //   httpRequest.headers.add('Content-Type', 'application/json');
+        //   httpRequest.headers.add(
+        //       'Authorization',
+        //       'Basic ' +
+        //           base64.encode(
+        //               utf8.encode(config.services.freshdeskKey + ':X')));
+// 
+        //   Map<String, dynamic> doc = Map<String, dynamic>();
+        //   doc['name'] = account.name;
+        //   doc['email'] = account.email;
+        //   doc['subject'] = 'Proposal Dispute (Ap. $proposalId)';
+        //   doc['type'] = 'Incident';
+        //   doc['description'] =
+        //       '<h1>Message</h1><p>${htmlEscape.convert(pb.disputeDescription)}</p><hr><h1>Proposal</h1>${proposal}';
+        //   doc['priority'] = 3;
+        //   doc['status'] = 2;
+// 
+        //   channel.replyExtend(message);
+        //   httpRequest.write(json.encode(doc));
+        //   await httpRequest.flush();
+        //   HttpClientResponse httpResponse = await httpRequest.close();
+        //   BytesBuilder responseBuilder = BytesBuilder(copy: false);
+        //   await httpResponse.forEach(responseBuilder.add);
+        //   if (httpResponse.statusCode != 200) {
+        //     devLog.severe(
+        //         'Report post failed: ${utf8.decode(responseBuilder.toBytes())}');
+        //     channel.replyAbort(message, 'Post Failed');
+        //     return;
+        //   }
+        // }
         markerChat = chat;
         transaction.commit();
       }
@@ -705,6 +364,7 @@ class ApiChannelHaggleActions {
       _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
     }
   }
+  */
 }
 
 /* end of file */

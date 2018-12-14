@@ -148,3 +148,5 @@ class ApiChannelUpload {
         message, 'UP_R_IMG', netUploadImageRes.writeToBuffer());
   }
 }
+
+/* end of file */

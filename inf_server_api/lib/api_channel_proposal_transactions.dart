@@ -5,14 +5,11 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
-import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_server_api/broadcast_center.dart';
-import 'package:inf_server_api/sql_proposal.dart';
-import 'package:inf_server_api/sql_util.dart';
+// import 'package:inf_server_api/sql_proposal.dart';
+// import 'package:inf_server_api/sql_util.dart';
 import 'package:logging/logging.dart';
 import 'package:switchboard/switchboard.dart';
 
@@ -85,6 +82,13 @@ class ApiChannelProposalTransactions {
     _r.registerProcedure(
         'PR_COMPT', GlobalAccountState.readWrite, _netProposalCompletion);
 
+    _r.registerProcedure(
+        'CH_PLAIN', GlobalAccountState.readWrite, _netChatPlain);
+    _r.registerProcedure(
+        'CH_HAGGL', GlobalAccountState.readWrite, _netChatNegotiate);
+    _r.registerProcedure(
+        'CH_IMAGE', GlobalAccountState.readWrite, _netChatImageKey);
+
     _nextFakeGhostId =
         ((DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF) |
             0x10000000;
@@ -94,6 +98,9 @@ class ApiChannelProposalTransactions {
     _r.unregisterProcedure('PR_WADEA');
     _r.unregisterProcedure('PR_NGOTI');
     _r.unregisterProcedure('PR_COMPT');
+    _r.unregisterProcedure('CH_PLAIN');
+    _r.unregisterProcedure('CH_HAGGL');
+    _r.unregisterProcedure('CH_IMAGE');
     _r = null;
   }
 
@@ -131,6 +138,143 @@ class ApiChannelProposalTransactions {
       return false;
     }
     chat.chatId = termsChatId;
+    return true;
+  }
+
+  Future<void> _enterChat(DataProposalChat chat) async {
+    bool publish = false;
+    if (chat.type == ProposalChatType.negotiate) {
+      await proposalDb
+          .startTransaction((sqljocky.Transaction transaction) async {
+        if (await _insertChat(transaction, chat)) {
+          // Update haggle on proposal
+          final String updateHaggleChatId = 'UPDATE `proposals` '
+              'SET `terms_chat_id` = ?, `influencer_wants_deal` = 0, `business_wants_deal` = 0 '
+              'WHERE `proposal_id` = ? AND `state` = ${ProposalState.negotiating.value}';
+          final sqljocky.Results resultUpdateHaggleChatId =
+              await transaction.prepareExecute(updateHaggleChatId, <dynamic>[
+            chat.chatId,
+            chat.proposalId,
+          ]);
+          if (resultUpdateHaggleChatId.affectedRows == null ||
+              resultUpdateHaggleChatId.affectedRows == 0) {
+            return; // rollback
+          }
+          // Commit
+          transaction.commit();
+          publish = true;
+        } // else rollback
+      });
+    } else {
+      if (await _insertChat(proposalDb, chat)) {
+        publish = true;
+      }
+    }
+    if (publish) {
+      await _publishChat(chat);
+      if (chat.type == ProposalChatType.negotiate) {
+        await _changedProposal(chat.proposalId);
+      }
+    } else {
+      // Send placeholder message to erase the ghost id to current session.
+      // This is an unusual race condition case that shouldn't happen.
+      chat.type = ProposalChatType.marker;
+      chat.marker = ProposalChatMarker.messageDropped;
+      final NetProposalChat proposalChat = NetProposalChat();
+      proposalChat.chat = chat;
+      channel.sendMessage('LN_P_CHA', proposalChat.writeToBuffer());
+    }
+  }
+
+  Future<void> _publishChat(DataProposalChat chat) async {
+    if (chat.imageKey != null) {
+      chat.imageKey = null;
+      chat.imageUrl = _r.makeCloudinaryCoverUrl(chat.imageKey);
+    }
+
+    if (chat.imageUrl != null && chat.imageBlurred == null) {
+      devLog.warning('Chat image blurred missing.');
+    }
+
+    // Publish to me
+      final NetProposalChat proposalChat = NetProposalChat();
+      proposalChat.chat = chat;
+    channel.sendMessage('LN_P_CHA', proposalChat.writeToBuffer());
+
+    // Clear private information from broadcast
+    chat.senderSessionId = Int64.ZERO;
+    chat.senderSessionGhostId = 0;
+
+    // Publish to all else
+    // TODO(kaetemi): Deduplicate chat.writeToBuffer() calls on publishing
+    _r.bc.proposalChatPosted(account.sessionId, proposalChat, account);
+  }
+
+  Future<void> _changedProposal(Int64 proposalId) async {
+    // DataProposal proposal) {
+    final NetProposal proposal = NetProposal();
+    proposal.updateProposal = await _r.getProposal(proposalId);
+    channel.sendMessage(
+        'LU_PRPSL',
+        proposal
+            .writeToBuffer()); // TODO(kaetemi): Filter sensitive info from business and influencer
+    _r.bc.proposalChanged(account.sessionId, proposal);
+  }
+
+  /// Verify if the sender is permitted to chat in this context
+  Future<bool> _verifySender(
+      Int64 proposalId, Int64 senderId, ProposalChatType type) async {
+    Int64 influencerAccountId;
+    Int64 businessAccountId;
+    ProposalState state;
+
+    // Fetch proposal
+    const String query = 'SELECT '
+        '`influencer_account_id`, `business_account_id`, '
+        '`state` '
+        'FROM `proposals` '
+        'WHERE `proposal_id` = ?';
+    await for (sqljocky.Row row
+        in await proposalDb.prepareExecute(query, <dynamic>[proposalId])) {
+      influencerAccountId = Int64(row[0]);
+      businessAccountId = Int64(row[1]);
+      state = ProposalState.valueOf(row[2].toInt());
+    }
+
+    // Authorize
+    if (businessAccountId == null || influencerAccountId == null) {
+      opsLog.severe(
+          'Attempt to send message to invalid proposal chat by account "$senderId"');
+      return false; // Not Found
+    }
+    if (account.accountType != AccountType.support &&
+        accountId != businessAccountId &&
+        accountId != influencerAccountId) {
+      opsLog.severe(
+          'Attempt to send message to unauthorized proposal chat by account "$senderId"');
+      return false; // Not Authorized
+    }
+
+    switch (state) {
+      case ProposalState.proposing:
+        if (type != ProposalChatType.negotiate &&
+            type != ProposalChatType.marker) {
+          devLog
+              .warning('Attempt to send message to $state deal by "$senderId"');
+          return false;
+        }
+        break;
+      case ProposalState.negotiating:
+      case ProposalState.deal:
+      case ProposalState.dispute:
+        break;
+      case ProposalState.rejected:
+      case ProposalState.complete:
+      case ProposalState.resolved:
+        devLog.warning('Attempt to send message to $state deal by "$senderId"');
+        return false;
+    }
+
     return true;
   }
 
@@ -228,8 +372,12 @@ class ApiChannelProposalTransactions {
         devLog.severe('$error\n$stackTrace');
       }
       // Publish!
-      _r.bc.proposalChanged(account.sessionId, proposal);
-      _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
+      final NetProposal publishProposal = NetProposal();
+      publishProposal.updateProposal = res.updateProposal;
+      _r.bc.proposalChanged(account.sessionId, publishProposal);
+      final NetProposalChat publishChat = NetProposalChat();
+      publishChat.chat = markerChat;
+      _r.bc.proposalChatPosted(account.sessionId, publishChat, account);
     }
   }
 
@@ -309,8 +457,12 @@ class ApiChannelProposalTransactions {
         devLog.severe('$error\n$stackTrace');
       }
       // Publish!
-      _r.bc.proposalChanged(account.sessionId, proposal);
-      _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
+      final NetProposal publishProposal = NetProposal();
+      publishProposal.updateProposal = res.updateProposal;
+      _r.bc.proposalChanged(account.sessionId, publishProposal);
+      final NetProposalChat publishChat = NetProposalChat();
+      publishChat.chat = markerChat;
+      _r.bc.proposalChatPosted(account.sessionId, publishChat, account);
     }
   }
 
@@ -418,13 +570,85 @@ class ApiChannelProposalTransactions {
         devLog.severe('$error\n$stackTrace');
       }
       // Publish!
-      _r.bc.proposalChanged(account.sessionId, proposal);
-      _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
+      final NetProposal publishProposal = NetProposal();
+      publishProposal.updateProposal = res.updateProposal;
+      _r.bc.proposalChanged(account.sessionId, publishProposal);
+      final NetProposalChat publishChat = NetProposalChat();
+      publishChat.chat = markerChat;
+      _r.bc.proposalChatPosted(account.sessionId, publishChat, account);
 
       // TODO(kaetemi): Post rating and review to Elasticsearch
       // TODO(kaetemi): Write rating recalculation schedule (weighted ratings)
       // TODO(kaetemi): Elasticsearch proposal_reports index for statistics purposes
     }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // Chat
+  //////////////////////////////////////////////////////////////////////////////
+
+  Future<void> _netChatPlain(TalkMessage message) async {
+    final NetChatPlain chatPlain = NetChatPlain()..mergeFromBuffer(message.data);
+
+    if (!await _verifySender(chatPlain.proposalId, accountId, ProposalChatType.plain))
+      return;
+
+    final DataProposalChat chat = DataProposalChat();
+    chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+    chat.senderAccountId = accountId;
+    chat.proposalId = chatPlain.proposalId;
+    chat.senderSessionId = account.sessionId;
+    chat.senderSessionGhostId = chatPlain.sessionGhostId;
+    chat.type = ProposalChatType.plain;
+    chat.plainText = chatPlain.text;
+
+    await _enterChat(chat);
+  }
+
+  Future<void> _netChatNegotiate(TalkMessage message) async {
+    final NetChatNegotiate chatNegotiate = NetChatNegotiate()
+      ..mergeFromBuffer(message.data);
+
+    if (!await _verifySender(
+        chatNegotiate.proposalId, accountId, ProposalChatType.negotiate)) {
+      return;
+    }
+
+    final DataProposalChat chat = DataProposalChat();
+    chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+    chat.senderAccountId = accountId;
+    chat.proposalId = chatNegotiate.proposalId;
+    chat.senderSessionId = account.sessionId;
+    chat.senderSessionGhostId = chatNegotiate.sessionGhostId;
+    chat.type = ProposalChatType.negotiate;
+    chat.plainText = chatNegotiate.remarks;
+    chat.terms = chatNegotiate.terms;
+
+    await _enterChat(chat);
+  }
+
+  Future<void> _netChatImageKey(TalkMessage message) async {
+    final NetChatImageKey chatImageKey = NetChatImageKey();
+    chatImageKey.mergeFromBuffer(message.data);
+
+    if (!await _verifySender(
+        chatImageKey.proposalId, accountId, ProposalChatType.imageKey)) {
+      return;
+    }
+
+    final DataProposalChat chat = DataProposalChat();
+    chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+    chat.senderAccountId = accountId;
+    chat.proposalId = chatImageKey.proposalId;
+    chat.senderSessionId = account.sessionId;
+    chat.senderSessionGhostId = chatImageKey.sessionGhostId;
+    chat.type = ProposalChatType.imageKey;
+    chat.imageKey = chatImageKey.imageKey;
+    // TODO(kaetemi): imageBlurred
+
+    await _enterChat(chat);
   }
 }
 
