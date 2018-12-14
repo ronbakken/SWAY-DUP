@@ -52,23 +52,24 @@ class BroadcastCenter {
   final sqljocky.ConnectionPool proposalDb;
   final dospace.Bucket bucket;
 
-  final HttpClient _httpClient = new HttpClient();
+  final HttpClient _httpClient = HttpClient();
 
-  Multimap<Int64, ApiChannel> _accountToApiChannels =
-      new Multimap<Int64, ApiChannel>();
+  final Multimap<Int64, ApiChannel> _accountToApiChannels =
+      Multimap<Int64, ApiChannel>();
 
-  CacheMap<Int64, _CachedProposal> _proposalToInfluencerBusiness =
-      new CacheMap<Int64, _CachedProposal>();
+  final CacheMap<Int64, _CachedProposal> _proposalToInfluencerBusiness =
+      CacheMap<Int64, _CachedProposal>();
 
-  final _lockCachedAccountName = new Lock();
-  CacheMap<Int64, _CachedAccountName> _cachedAccountName =
-      new CacheMap<Int64, _CachedAccountName>();
-  final _lockCachedAccountFirebaseTokens = new Lock();
-  CacheMap<Int64, _CachedAccountFirebaseTokens> _cachedAccountFirebaseTokens =
-      new CacheMap<Int64, _CachedAccountFirebaseTokens>();
+  final Lock _lockCachedAccountName = Lock();
+  final CacheMap<Int64, _CachedAccountName> _cachedAccountName =
+      CacheMap<Int64, _CachedAccountName>();
+  final Lock _lockCachedAccountFirebaseTokens = Lock();
+  final CacheMap<Int64, _CachedAccountFirebaseTokens>
+      _cachedAccountFirebaseTokens =
+      CacheMap<Int64, _CachedAccountFirebaseTokens>();
 
-  static final Logger opsLog = new Logger('InfOps.BroadcastCenter');
-  static final Logger devLog = new Logger('InfDev.BroadcastCenter');
+  static final Logger opsLog = Logger('InfOps.BroadcastCenter');
+  static final Logger devLog = Logger('InfDev.BroadcastCenter');
 
   BroadcastCenter(this.config, this.accountDb, this.proposalDb, this.bucket) {}
 
@@ -84,8 +85,7 @@ class BroadcastCenter {
         "FROM `proposals` WHERE `proposal_id` = ?",
         <dynamic>[proposalId]);
     await for (sqljocky.Row row in res) {
-      proposal = new _CachedProposal(
-          new Int64(row[0]), new Int64(row[1]), new Int64(row[2]));
+      proposal = _CachedProposal(Int64(row[0]), Int64(row[1]), Int64(row[2]));
       _proposalToInfluencerBusiness[proposalId] = proposal;
     }
     return proposal; // May be null if not found
@@ -101,7 +101,7 @@ class BroadcastCenter {
           "WHERE `account_id` = ? ",
           <dynamic>[accountId]);
       await for (sqljocky.Row row in res) {
-        cached = new _CachedAccountName(row[0].toString());
+        cached = _CachedAccountName(row[0].toString());
         _cachedAccountName[accountId] = cached;
       }
     });
@@ -113,7 +113,7 @@ class BroadcastCenter {
         _cachedAccountFirebaseTokens[accountId];
     if (cached != null) return cached.firebaseTokens;
     await _lockCachedAccountFirebaseTokens.synchronized(() async {
-      Set<String> firebaseTokens = new Set<String>();
+      Set<String> firebaseTokens = Set<String>();
       sqljocky.Results res = await accountDb.prepareExecute(
           "SELECT `firebase_token`"
           "FROM `sessions` "
@@ -125,7 +125,7 @@ class BroadcastCenter {
           firebaseTokens.add(firebaseToken);
         }
       }
-      cached = new _CachedAccountFirebaseTokens(firebaseTokens.toList());
+      cached = _CachedAccountFirebaseTokens(firebaseTokens.toList());
       _cachedAccountFirebaseTokens[accountId] = cached;
     });
     return cached.firebaseTokens;
@@ -200,20 +200,20 @@ class BroadcastCenter {
       String senderName = await _getAccountName(chat.senderAccountId);
       List<String> receiverFirebaseTokens =
           await _getAccountFirebaseTokens(receiverAccountId);
-      Map<String, dynamic> notification = new Map<String, dynamic>();
+      Map<String, dynamic> notification = Map<String, dynamic>();
       notification['title'] = senderName;
       notification['body'] = chat.plainText ??
           "A proposal has been updated."; // TODO: Generate text version of non-text messages
       notification['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
       notification['android_channel_id'] = 'chat';
-      Map<String, dynamic> data = new Map<String, dynamic>();
+      Map<String, dynamic> data = Map<String, dynamic>();
       data['sender_account_id'] = chat.senderAccountId;
       data['receiver_account_id'] = receiverAccountId;
       data['proposal_id'] = chat.proposalId;
       data['type'] = chat.type.value;
       // TODO: Include image key, terms, etc, or not?
       data['domain'] = config.services.domain;
-      Map<String, dynamic> message = new Map<String, dynamic>();
+      Map<String, dynamic> message = Map<String, dynamic>();
       message['registration_ids'] = receiverFirebaseTokens;
       message['collapse_key'] = 'proposal_id=' + chat.proposalId.toString();
       message['notification'] = notification;
@@ -227,7 +227,7 @@ class BroadcastCenter {
           'Authorization', 'key=' + config.services.firebaseLegacyServerKey);
       req.add(utf8.encode(jm));
       HttpClientResponse res = await req.close();
-      BytesBuilder responseBuilder = new BytesBuilder(copy: false);
+      BytesBuilder responseBuilder = BytesBuilder(copy: false);
       await res.forEach(responseBuilder.add);
       if (res.statusCode != 200) {
         opsLog.warning(
@@ -283,7 +283,7 @@ class BroadcastCenter {
   Future<void> proposalPosted(Int64 senderSessionId, DataProposal proposal,
       DataAccount influencerAccount) async {
     // Store cache
-    _proposalToInfluencerBusiness[proposal.proposalId] = new _CachedProposal(
+    _proposalToInfluencerBusiness[proposal.proposalId] = _CachedProposal(
         proposal.influencerAccountId,
         proposal.businessAccountId,
         proposal.senderAccountId);
@@ -316,7 +316,7 @@ class BroadcastCenter {
   Future<void> proposalChanged(
       Int64 senderSessionId, DataProposal proposal) async {
     // Store cache
-    _proposalToInfluencerBusiness[proposal.proposalId] = new _CachedProposal(
+    _proposalToInfluencerBusiness[proposal.proposalId] = _CachedProposal(
         proposal.influencerAccountId,
         proposal.businessAccountId,
         proposal.senderAccountId);

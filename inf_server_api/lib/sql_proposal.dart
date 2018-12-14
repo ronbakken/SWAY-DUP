@@ -165,25 +165,35 @@ class SqlProposal {
 
   static DataProposal proposalFromRow(
       sqljocky.Row row, AccountType receiverAccountType) {
-    DataProposal proposal = new DataProposal();
-    proposal.proposalId = new Int64(row[0]);
-    proposal.offerId = new Int64(row[1]);
-    proposal.senderAccountId = new Int64(row[2]);
-    proposal.offerAccountId = new Int64(row[3]);
-    proposal.influencerAccountId = new Int64(row[4]);
-    proposal.businessAccountId = new Int64(row[5]);
-    if (row[6] != null) proposal.influencerName = row[6].toString();
-    if (row[7] != null) proposal.businessName = row[7].toString();
-    if (row[8] != null) proposal.offerTitle = row[8].toString();
-    proposal.lastChatId = new Int64(row[9]);
-    proposal.influencerSeenChatId = new Int64(row[10]);
-    if (row[11] != null) proposal.influencerSeenTime = new Int64(row[11]);
-    proposal.businessSeenChatId = new Int64(row[12]);
-    if (row[13] != null) proposal.businessSeenTime = new Int64(row[13]);
-    proposal.termsChatId = new Int64(row[14]);
+    final DataProposal proposal = DataProposal();
+    proposal.proposalId = Int64(row[0]);
+    proposal.offerId = Int64(row[1]);
+    proposal.senderAccountId = Int64(row[2]);
+    proposal.offerAccountId = Int64(row[3]);
+    proposal.influencerAccountId = Int64(row[4]);
+    proposal.businessAccountId = Int64(row[5]);
+    if (row[6] != null) {
+      proposal.influencerName = row[6].toString();
+    }
+    if (row[7] != null) {
+      proposal.businessName = row[7].toString();
+    }
+    if (row[8] != null) {
+      proposal.offerTitle = row[8].toString();
+    }
+    proposal.lastChatId = Int64(row[9]);
+    proposal.influencerSeenChatId = Int64(row[10]);
+    if (row[11] != null) {
+      proposal.influencerSeenTime = Int64(row[11]);
+    }
+    proposal.businessSeenChatId = Int64(row[12]);
+    if (row[13] != null) {
+      proposal.businessSeenTime = Int64(row[13]);
+    }
+    proposal.termsChatId = Int64(row[14]);
     proposal.influencerWantsDeal = row[15].toInt() == 1;
     proposal.businessWantsDeal = row[16].toInt() == 1;
-    proposal.rejectingAccountId = new Int64(row[17]);
+    proposal.rejectingAccountId = Int64(row[17]);
     if (receiverAccountType == AccountType.influencer) {
       proposal.influencerMarkedDelivered = row[18].toInt() == 1;
       proposal.influencerMarkedRewarded = row[19].toInt() == 1;

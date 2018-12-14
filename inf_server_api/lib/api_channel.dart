@@ -71,10 +71,10 @@ class ApiChannel {
 
   final String ipAddress;
 
-  final random = new Random.secure();
+  final Random random = Random.secure();
 
   /// Lock anytime making changes to the account state
-  final lock = new Lock();
+  final Lock lock = Lock();
 
   /*
   int account.sessionId;
@@ -88,19 +88,19 @@ class ApiChannel {
   DataAccount account;
 
   /*
-  DataAccountState account.state = new DataAccountState();
+  DataAccountState account.state = DataAccountState();
 
   int addressId;
 
   List<DataSocialMedia> socialMedia; // TODO: Proper length from configuration
   */
 
-  static final Logger opsLog = new Logger('InfOps.ApiChannel');
-  static final Logger devLog = new Logger('InfDev.ApiChannel');
+  static final Logger opsLog = Logger('InfOps.ApiChannel');
+  static final Logger devLog = Logger('InfDev.ApiChannel');
 
-  final http.Client httpClient = new http.ConsoleClient();
+  final http.Client httpClient = http.ConsoleClient();
   final Map<String, Function(TalkMessage message)> _procedureHandlers =
-      new Map<String, Function(TalkMessage message)>();
+      Map<String, Function(TalkMessage message)>();
 
   ApiChannelOAuth _apiChannelOAuth;
   ApiChannelUpload _apiChannelUpload;
@@ -206,42 +206,42 @@ class ApiChannel {
 
   void subscribeOAuth() {
     if (_apiChannelOAuth == null) {
-      _apiChannelOAuth = new ApiChannelOAuth(this);
+      _apiChannelOAuth = ApiChannelOAuth(this);
     }
   }
 
   void subscribeUpload() {
     if (_apiChannelUpload == null) {
-      _apiChannelUpload = new ApiChannelUpload(this);
+      _apiChannelUpload = ApiChannelUpload(this);
     }
   }
 
   void subscribeCommon() {
     if (_apiChannelProfile == null) {
-      _apiChannelProfile = new ApiChannelProfile(this);
+      _apiChannelProfile = ApiChannelProfile(this);
     }
     if (apiChannelOffer == null) {
-      apiChannelOffer = new ApiChannelOffer(this);
+      apiChannelOffer = ApiChannelOffer(this);
     }
     if (apiChannelProposal == null) {
-      apiChannelProposal = new ApiChannelProposal(this);
+      apiChannelProposal = ApiChannelProposal(this);
     }
   }
 
   void subscribeBusiness() {
     if (_apiChannelBusiness == null) {
-      _apiChannelBusiness = new ApiChannelBusiness(this);
+      _apiChannelBusiness = ApiChannelBusiness(this);
     }
   }
 
   void subscribeInfluencer() {
     if (_apiChannelInfluencer == null) {
-      _apiChannelInfluencer = new ApiChannelInfluencer(this);
+      _apiChannelInfluencer = ApiChannelInfluencer(this);
     }
   }
 
   Future<void> netPing(TalkMessage message) async {
-    channel.replyMessage(message, "PONG", new Uint8List(0));
+    channel.replyMessage(message, "PONG", Uint8List(0));
   }
 
   /////////////////////////////////////////////////////////////////////
@@ -288,13 +288,13 @@ class ApiChannel {
 
   Future<void> _sessionCreate(
       TalkMessage message, NetSessionPayload sessionPayload) async {
-    NetSessionCreate create = new NetSessionCreate()
+    NetSessionCreate create = NetSessionCreate()
       ..mergeFromBuffer(message.data)
       ..freeze();
-    NetSession session = new NetSession();
+    NetSession session = NetSession();
     await lock.synchronized(() async {
       if (account.sessionId == 0) {
-        // Create a new session in the sessions table of the database
+        // Create a session in the sessions table of the database
         Uint8List cookieHash = Uint8List.fromList(
             sha256.convert(sessionPayload.cookie + config.services.salt).bytes);
         Uint8List deviceHash = Uint8List.fromList(
@@ -302,9 +302,14 @@ class ApiChannel {
         channel.replyExtend(message);
         sqljocky.Results results = await accountDb.prepareExecute(
             "INSERT INTO `sessions` (`cookie_hash`, `device_hash`, `name`, `info`) VALUES (?, ?, ?, ?)",
-            <dynamic>[cookieHash, deviceHash, create.deviceName, create.deviceInfo]);
+            <dynamic>[
+              cookieHash,
+              deviceHash,
+              create.deviceName,
+              create.deviceInfo
+            ]);
         if (results.insertId != null && account.sessionId == 0) {
-          account.sessionId = new Int64(results.insertId);
+          account.sessionId = Int64(results.insertId);
           devLog.info(
               "Inserted session_id ${account.sessionId} with cookie_hash '${cookieHash}'");
         }
@@ -327,7 +332,7 @@ class ApiChannel {
   Future<void> _sessionOpen(NetSessionPayload sessionPayload) async {
     await lock.synchronized(() async {
       if (!sessionPayload.hasSessionId() || sessionPayload.sessionId == 0) {
-        throw new Exception("Session ID must be set.");
+        throw Exception("Session ID must be set.");
       }
       Uint8List cookieHash = Uint8List.fromList(
           sha256.convert(sessionPayload.cookie + config.services.salt).bytes);
@@ -337,7 +342,7 @@ class ApiChannel {
           <dynamic>[sessionPayload.sessionId, cookieHash]);
       Int64 sessionId;
       await for (sqljocky.Row row in pubKeyResults) {
-        sessionId = new Int64(row[0]);
+        sessionId = Int64(row[0]);
       }
       if (sessionId != null && sessionId == sessionPayload.sessionId) {
         devLog.fine("Await session state");
@@ -365,7 +370,7 @@ class ApiChannel {
   }
 
   Future<void> _sessionRemove() async {
-    NetSessionRemove remove = new NetSessionRemove();
+    NetSessionRemove remove = NetSessionRemove();
     channel.sendMessage('SESREMOV', remove.writeToBuffer());
   }
 
@@ -384,7 +389,7 @@ class ApiChannel {
         "FROM `social_media` "
         "WHERE `oauth_user_id` = ? AND `oauth_provider` = ?",
         <dynamic>[oauthUserId, oauthProvider]);
-    DataSocialMedia dataSocialMedia = new DataSocialMedia();
+    DataSocialMedia dataSocialMedia = DataSocialMedia();
     await for (sqljocky.Row row in results) {
       // one row
       if (row[0] != null) dataSocialMedia.screenName = row[0].toString();
@@ -420,7 +425,7 @@ class ApiChannel {
     DataLocation location;
     await for (sqljocky.Row row in results) {
       // one row
-      location = new DataLocation();
+      location = DataLocation();
       location.locationId = locationId;
       location.name = row[0].toString();
       location.approximate = row[1].toString();
@@ -430,7 +435,7 @@ class ApiChannel {
       location.countryCode = row[5].toString();
       location.latitude = row[6].toDouble();
       location.longitude = row[7].toDouble();
-      location.s2cellId = new Int64(row[8]);
+      location.s2cellId = Int64(row[8]);
       // TODO: location.geohashInt
       location.geohash = row[9].toString();
       location.freeze();
@@ -453,7 +458,7 @@ class ApiChannel {
     DataLocation location;
     await for (sqljocky.Row row in results) {
       // one row
-      location = new DataLocation();
+      location = DataLocation();
       location.locationId = locationId;
       location.approximate = row[0].toString();
       location.detail = location.approximate;
@@ -484,11 +489,11 @@ class ApiChannel {
       await for (sqljocky.Row row in sessionResults) {
         // one row
         if (account.accountId != Int64.ZERO &&
-            account.accountId != new Int64(row[0])) {
+            account.accountId != Int64(row[0])) {
           devLog.severe(
               "Device account id changed, ignore, this is a bug, this should never happen");
         }
-        account.accountId = new Int64(row[0]);
+        account.accountId = Int64(row[0]);
         account.accountType = AccountType.valueOf(row[1].toInt());
         if (row[2] != null) account.firebaseToken = row[2].toString();
       }
@@ -510,7 +515,7 @@ class ApiChannel {
           account.globalAccountStateReason =
               GlobalAccountStateReason.valueOf(row[3].toInt());
           account.description = row[4].toString();
-          account.locationId = new Int64(row[5]);
+          account.locationId = Int64(row[5]);
           if (row[6] != null) {
             account.avatarUrl = makeCloudinaryThumbnailUrl(row[6].toString());
             account.blurredAvatarUrl =
@@ -549,12 +554,13 @@ class ApiChannel {
       }
       // Find all connected social media accounts
       if (extend != null) extend();
-      List<bool> connectedProviders =
-          new List<bool>(config.oauthProviders.length);
+      List<bool> connectedProviders = List<bool>(config.oauthProviders.length);
       sqljocky.Results connectionResults = await connection.prepareExecute(
           // The additional `account_id` = 0 here is required in order not to load halfway failed connected sessions
           "SELECT `oauth_user_id`, `oauth_provider`, `oauth_token_expires`, `expired` FROM `oauth_connections` WHERE ${account.accountId == 0 ? '`account_id` = 0 AND `session_id`' : '`account_id`'} = ?",
-          <dynamic>[account.accountId == 0 ? account.sessionId : account.accountId]);
+          <dynamic>[
+            account.accountId == 0 ? account.sessionId : account.accountId
+          ]);
       List<sqljocky.Row> connectionRows = await connectionResults
           .toList(); // Load to avoid blocking connections recursively
       for (sqljocky.Row row in connectionRows) {
@@ -594,7 +600,7 @@ class ApiChannel {
     if (!_connected) {
       return;
     }
-    NetAccount update = new NetAccount();
+    NetAccount update = NetAccount();
     update.account = account;
     devLog.finer("Send account update: $account");
     if (replying != null)
@@ -628,7 +634,7 @@ class ApiChannel {
 
 /*
   Future<void> netDeviceAuthCreateReq(TalkMessage message) async {
-    NetDeviceAuthCreateReq pb = new NetDeviceAuthCreateReq();
+    NetDeviceAuthCreateReq pb = NetDeviceAuthCreateReq();
     pb.mergeFromBuffer(message.data);
     String aesKeyStr = base64.encode(pb.aesKey);
     await lock.synchronized(() async {
@@ -637,7 +643,7 @@ class ApiChannel {
         sqljocky.RetainedConnection connection = await sql
             .getConnection(); // TODO: Transaction may be nicer than connection, to avoid dead session entries
         try {
-          // Create a new session in the sessions table of the database
+          // Create a session in the sessions table of the database
           channel.replyExtend(message);
           await connection.prepareExecute(
               "INSERT INTO `sessions` (`aes_key`, `common_session_id`, `name`, `info`) VALUES (?, ?, ?, ?)",
@@ -645,7 +651,7 @@ class ApiChannel {
           sqljocky.Results lastInsertedId =
               await connection.query("SELECT LAST_INSERT_ID()");
           await for (sqljocky.Row row in lastInsertedId) {
-            account.sessionId = new Int64(row[0]);
+            account.sessionId = Int64(row[0]);
             devLog.info(
                 "Inserted session_id ${account.sessionId} with aes_key '${aesKeyStr}'");
           }
@@ -668,17 +674,17 @@ class ApiChannel {
 /*
   Future<void> netDeviceAuthChallengeReq(TalkMessage message) async {
     // Received authentication request
-    NetDeviceAuthChallengeReq pb = new NetDeviceAuthChallengeReq();
+    NetDeviceAuthChallengeReq pb = NetDeviceAuthChallengeReq();
     pb.mergeFromBuffer(message.data);
     Int64 attemptDeviceId = pb.sessionId;
 
     // Send the message with the random challenge
-    Uint8List challenge = new Uint8List(256);
+    Uint8List challenge = Uint8List(256);
     for (int i = 0; i < challenge.length; ++i) {
       challenge[i] = random.nextInt(256);
     }
     NetDeviceAuthChallengeResReq challengePb =
-        new NetDeviceAuthChallengeResReq();
+        NetDeviceAuthChallengeResReq();
     challengePb.challenge = challenge;
     Future<TalkMessage> signatureMessageFuture =
         channel.replyRequest(message, "DA_R_CHA", challengePb.writeToBuffer());
@@ -700,18 +706,18 @@ class ApiChannel {
     TalkMessage signatureMessage = await signatureMessageFuture;
     channel.replyExtend(signatureMessage);
     NetDeviceAuthSignatureResReq signaturePb =
-        new NetDeviceAuthSignatureResReq();
+        NetDeviceAuthSignatureResReq();
     signaturePb.mergeFromBuffer(signatureMessage.data);
     if (aesKey != null &&
         aesKey.length > 0 &&
         signaturePb.signature.length > 0) {
       // Verify signature
-      var keyParameter = new pointycastle.KeyParameter(aesKey);
-      var aesFastEngine = new pointycastle.AESFastEngine();
+      var keyParameter = pointycastle.KeyParameter(aesKey);
+      var aesFastEngine = pointycastle.AESFastEngine();
       aesFastEngine
         ..reset()
         ..init(false, keyParameter);
-      var decrypted = new Uint8List(signaturePb.signature.length);
+      var decrypted = Uint8List(signaturePb.signature.length);
       for (int offset = 0; offset < signaturePb.signature.length;) {
         offset += aesFastEngine.processBlock(
             signaturePb.signature, offset, decrypted, offset);
@@ -819,7 +825,7 @@ class ApiChannel {
       return;
     }
     await lock.synchronized(() async {
-      NetAcco pb = new NetDeviceAuthState();
+      NetAcco pb = NetDeviceAuthState();
       pb.data = account;
       if (replying != null)
         channel.replyMessage(replying, "DA_STATE", pb.writeToBuffer());
@@ -850,7 +856,7 @@ class ApiChannel {
   Future<void> _accountSetType(TalkMessage message) async {
     assert(account.sessionId != 0);
     // Received account type change request
-    NetSetAccountType pb = new NetSetAccountType();
+    NetSetAccountType pb = NetSetAccountType();
     pb.mergeFromBuffer(message.data);
     devLog.finest("NetSetAccountType ${pb.accountType}");
 
@@ -894,7 +900,7 @@ class ApiChannel {
   Future<void> _netSetFirebaseToken(TalkMessage message) async {
     if (account.sessionId == 0) return;
     // No validation here, no risk. Messages would just end up elsewhere
-    NetSetFirebaseToken pb = new NetSetFirebaseToken();
+    NetSetFirebaseToken pb = NetSetFirebaseToken();
     pb.mergeFromBuffer(message.data);
     devLog.finer("Set Firebase Token: $pb");
     account.firebaseToken = pb.firebaseToken;
@@ -916,14 +922,14 @@ class ApiChannel {
     }
 
     bc.accountFirebaseTokensChanged(
-        this); // TODO: Should SELECT all the accounts that were changed (with the new token)
+        this); // TODO: Should SELECT all the accounts that were changed (with the token)
   }
 
   Future<void> _accountCreate(TalkMessage message) async {
     // response: NetDeviceAuthState
     assert(account.sessionId != 0);
     // Received account creation request
-    NetAccountCreate pb = new NetAccountCreate();
+    NetAccountCreate pb = NetAccountCreate();
     pb.mergeFromBuffer(message.data);
     devLog.finest("NetAccountCreate: $pb");
     devLog.finest("ipAddress: $ipAddress");
@@ -947,7 +953,7 @@ class ApiChannel {
     // Fetch location info from coordinates
     // Coordinates may exist in either the GPS data or in the user's IP address
     // Alternatively we can reverse one from location names in the user's social media
-    List<DataLocation> locations = new List<DataLocation>();
+    List<DataLocation> locations = List<DataLocation>();
     DataLocation gpsLocationRes;
     Future<dynamic> gpsLocation;
     if (pb.latitude != null &&
@@ -981,7 +987,7 @@ class ApiChannel {
     }
 
     // Also query all social media locations in the meantime, no particular order
-    List<Future<dynamic>> mediaLocations = new List<Future<dynamic>>();
+    List<Future<dynamic>> mediaLocations = List<Future<dynamic>>();
     // for (int i = 0; i < config.oauthProviders.length; ++i) {
     for (int i in mediaPriority) {
       DataSocialMedia socialMedia = account.socialMedia[i];
@@ -1015,7 +1021,7 @@ class ApiChannel {
     // Fallback location
     if (locations.isEmpty) {
       devLog.severe("Using fallback location for account ${account.accountId}");
-      DataLocation location = new DataLocation();
+      DataLocation location = DataLocation();
       location.name = "Los Angeles";
       location.approximate = "Los Angeles, California 90017";
       location.detail = "Los Angeles, California 90017";
@@ -1024,8 +1030,8 @@ class ApiChannel {
       location.countryCode = "US";
       location.latitude = 34.0207305;
       location.longitude = -118.6919159;
-      location.s2cellId = new Int64(new S2CellId.fromLatLng(
-              new S2LatLng.fromDegrees(location.latitude, location.longitude))
+      location.s2cellId = Int64(new S2CellId.fromLatLng(
+              S2LatLng.fromDegrees(location.latitude, location.longitude))
           .id);
       location.geohash =
           Geohash.encode(location.latitude, location.longitude, codeLength: 20);
@@ -1146,13 +1152,13 @@ class ApiChannel {
           channel.replyExtend(message);
           await accountDb.startTransaction((sqljocky.Transaction tx) async {
             if (account.accountId != 0) {
-              throw new Exception(
+              throw Exception(
                   "Race condition, account already created, not an issue");
             }
-            // 1. Create the new account entries
+            // 1. Create the account entries
             // 2. Update session to LAST_INSERT_ID(), ensure that a row was modified, otherwise rollback (account already created)
             // 3. Update all session authentication connections to LAST_INSERT_ID()
-            // 4. Create the new location entries, in reverse (latest one always on top)
+            // 4. Create the location entries, in reverse (latest one always on top)
             // 5. Update account to first (last added) location with LAST_INSERT_ID()
             // 1.
             // TODO: Add notify flags field to SQL
@@ -1176,7 +1182,7 @@ class ApiChannel {
               default:
                 opsLog.severe(
                     "Attempt to create account with invalid account type ${account.accountType} by session ${account.sessionId}");
-                throw new Exception(
+                throw Exception(
                     "Attempt to create account with invalid account type");
             }
             sqljocky.Results res1 = await tx.prepareExecute(
@@ -1195,9 +1201,9 @@ class ApiChannel {
                   accountEmail,
                 ]);
             if (res1.affectedRows == 0)
-              throw new Exception("Account was not inserted");
+              throw Exception("Account was not inserted");
             int accountId = res1.insertId;
-            if (accountId == 0) throw new Exception("Invalid accountId");
+            if (accountId == 0) throw Exception("Invalid accountId");
             // 2.
             channel.replyExtend(message);
             sqljocky.Results res2 = await tx.prepareExecute(
@@ -1205,7 +1211,7 @@ class ApiChannel {
                 "WHERE `session_id` = ? AND `account_id` = 0",
                 <dynamic>[account.sessionId]);
             if (res2.affectedRows == 0)
-              throw new Exception("Device was not updated");
+              throw Exception("Device was not updated");
             // 3.
             channel.replyExtend(message);
             sqljocky.Results res3 = await tx.prepareExecute(
@@ -1213,7 +1219,7 @@ class ApiChannel {
                 "WHERE `session_id` = ? AND `account_id` = 0",
                 <dynamic>[account.sessionId]);
             if (res3.affectedRows == 0)
-              throw new Exception("Social media was not updated");
+              throw Exception("Social media was not updated");
             // 4.
             /* sqljocky.Results lastInsertedId = await tx.query("SELECT LAST_INSERT_ID()");
               int accountId = 0;
@@ -1221,7 +1227,7 @@ class ApiChannel {
                 accountId = row[0];
                 devLog.info("Inserted account_id $accountId");
               }
-              if (accountId == 0) throw new Exception("Invalid accountId"); */
+              if (accountId == 0) throw Exception("Invalid accountId"); */
             for (DataLocation location in locations.reversed) {
               channel.replyExtend(message);
               sqljocky.Results res4 = await tx.prepareExecute(
@@ -1250,7 +1256,7 @@ class ApiChannel {
                     location.geohash
                   ]);
               if (res4.affectedRows == 0)
-                throw new Exception("Location was not inserted");
+                throw Exception("Location was not inserted");
               devLog.finest("Inserted location");
             }
             devLog.finest("Inserted locations");
@@ -1261,7 +1267,7 @@ class ApiChannel {
                 "WHERE `account_id` = ?",
                 <dynamic>[accountId]);
             if (res5.affectedRows == 0)
-              throw new Exception("Account was not updated with location");
+              throw Exception("Account was not updated with location");
             devLog.fine("Finished setting up account $accountId");
             await tx.commit();
           });
@@ -1355,12 +1361,12 @@ class ApiChannel {
   /////////////////////////////////////////////////////////////////////
 
   Future<DataLocation> getGeoIPLocation(String ipAddress) async {
-    DataLocation location = new DataLocation();
+    DataLocation location = DataLocation();
     // location.name = ''; // User name
     // location.avatarUrl = ''; // View of the establishment
 
     // Fetch info
-    http.Request request = new http.Request(
+    http.Request request = http.Request(
         'GET',
         config.services.ipstackApi +
             '/' +
@@ -1368,19 +1374,18 @@ class ApiChannel {
             '?access_key=' +
             config.services.ipstackKey);
     http.Response response = await httpClient.send(request);
-    BytesBuilder builder = new BytesBuilder(copy: false);
+    BytesBuilder builder = BytesBuilder(copy: false);
     await response.body.forEach(builder.add);
     String body = utf8.decode(builder.toBytes());
     if (response.statusCode != 200) {
-      throw new Exception(response.reasonPhrase);
+      throw Exception(response.reasonPhrase);
     }
     dynamic doc = json.decode(body);
     if (doc['latitude'] == null || doc['longitude'] == null) {
-      throw new Exception("No GeoIP information for '$ipAddress'");
+      throw Exception("No GeoIP information for '$ipAddress'");
     }
     if (doc['country_code'] == null) {
-      throw new Exception(
-          "GeoIP information for '$ipAddress' not in a country");
+      throw Exception("GeoIP information for '$ipAddress' not in a country");
     }
 
     // Not very localized, but works for US
@@ -1407,7 +1412,7 @@ class ApiChannel {
       }
     }
     if (approximate.length == 0) {
-      throw new Exception("Insufficient GeoIP information for '$ipAddress'");
+      throw Exception("Insufficient GeoIP information for '$ipAddress'");
     }
     location.approximate = approximate;
     location.detail = approximate;
@@ -1419,8 +1424,8 @@ class ApiChannel {
     location.countryCode = doc['country_code'].toLowerCase();
     location.latitude = doc['latitude'];
     location.longitude = doc['longitude'];
-    location.s2cellId = new Int64(new S2CellId.fromLatLng(
-            new S2LatLng.fromDegrees(location.latitude, location.longitude))
+    location.s2cellId = Int64(new S2CellId.fromLatLng(
+            S2LatLng.fromDegrees(location.latitude, location.longitude))
         .id);
     location.geohash =
         Geohash.encode(location.latitude, location.longitude, codeLength: 20);
@@ -1436,24 +1441,23 @@ class ApiChannel {
         "access_token=${config.services.mapboxToken}";
 
     // Fetch info
-    http.Request request = new http.Request('GET', url);
+    http.Request request = http.Request('GET', url);
     http.Response response = await httpClient.send(request);
-    BytesBuilder builder = new BytesBuilder(copy: false);
+    BytesBuilder builder = BytesBuilder(copy: false);
     await response.body.forEach(builder.add);
     String body = utf8.decode(builder.toBytes());
     if (response.statusCode != 200) {
-      throw new Exception(response.reasonPhrase);
+      throw Exception(response.reasonPhrase);
     }
     dynamic doc = json.decode(body);
     if (doc['query'] == null ||
         doc['query'][0] == null ||
         doc['query'][1] == null) {
-      throw new Exception(
-          "No geocoding information for '$longitude,$latitude'");
+      throw Exception("No geocoding information for '$longitude,$latitude'");
     }
     dynamic features = doc['features'];
     if (features == null || features.length == 0) {
-      throw new Exception("No geocoding features at '$longitude,$latitude'");
+      throw Exception("No geocoding features at '$longitude,$latitude'");
     }
 
     // detailed place_type may be:
@@ -1475,7 +1479,7 @@ class ApiChannel {
     dynamic featureRegion;
     dynamic featurePostcode;
     dynamic featureCountry;
-    // new List<String>().any((String v) => [ "address", "poi.landmark", "poi" ].contains(v));
+    // List<String>().any((String v) => [ "address", "poi.landmark", "poi" ].contains(v));
     for (dynamic feature in features) {
       dynamic placeType = feature['place_type'];
       if (featureDetail == null &&
@@ -1504,8 +1508,7 @@ class ApiChannel {
       }
     }
     if (featureCountry == null) {
-      throw new Exception(
-          "Geocoding not in a country at '$longitude,$latitude'");
+      throw Exception("Geocoding not in a country at '$longitude,$latitude'");
     }
     if (featureRegion == null) {
       featureRegion = featureCountry;
@@ -1519,7 +1522,7 @@ class ApiChannel {
 
     // Entry
     String country = featureCountry['text'];
-    DataLocation location = new DataLocation();
+    DataLocation location = DataLocation();
     location.approximate =
         featureApproximate['place_name'].replaceAll(', United States', '');
     location.detail =
@@ -1529,8 +1532,8 @@ class ApiChannel {
     location.countryCode = featureCountry['properties']['short_code'];
     location.latitude = latitude;
     location.longitude = longitude;
-    location.s2cellId = new Int64(new S2CellId.fromLatLng(
-            new S2LatLng.fromDegrees(location.latitude, location.longitude))
+    location.s2cellId = Int64(new S2CellId.fromLatLng(
+            S2LatLng.fromDegrees(location.latitude, location.longitude))
         .id);
     location.geohash =
         Geohash.encode(location.latitude, location.longitude, codeLength: 20);
@@ -1545,23 +1548,23 @@ class ApiChannel {
         "access_token=${config.services.mapboxToken}";
 
     // Fetch info
-    http.Request request = new http.Request('GET', url);
+    http.Request request = http.Request('GET', url);
     http.Response response = await httpClient.send(request);
-    BytesBuilder builder = new BytesBuilder(copy: false);
+    BytesBuilder builder = BytesBuilder(copy: false);
     await response.body.forEach(builder.add);
     String body = utf8.decode(builder.toBytes());
     if (response.statusCode != 200) {
-      throw new Exception(response.reasonPhrase);
+      throw Exception(response.reasonPhrase);
     }
     dynamic doc = json.decode(body);
     if (doc['query'] == null ||
         doc['query'][0] == null ||
         doc['query'][1] == null) {
-      throw new Exception("No geocoding information for '$name'");
+      throw Exception("No geocoding information for '$name'");
     }
     dynamic features = doc['features'];
     if (features == null || features.length == 0) {
-      throw new Exception("No geocoding features at '$name'");
+      throw Exception("No geocoding features at '$name'");
     }
 
     // detailed place_type may be:
@@ -1583,7 +1586,7 @@ class ApiChannel {
     dynamic featureRegion;
     dynamic featurePostcode;
     dynamic featureCountry;
-    // new List<String>().any((String v) => [ "address", "poi.landmark", "poi" ].contains(v));
+    // List<String>().any((String v) => [ "address", "poi.landmark", "poi" ].contains(v));
     for (dynamic feature in features) {
       dynamic placeType = feature['place_type'];
       if (featureDetail == null &&
@@ -1618,7 +1621,7 @@ class ApiChannel {
     featureDetail = featureApproximate; // Override
 
     if (featureDetail == null) {
-      throw new Exception("No approximate geocoding found at '$name'");
+      throw Exception("No approximate geocoding found at '$name'");
     }
 
     dynamic contextPostcode;
@@ -1644,14 +1647,14 @@ class ApiChannel {
     }
 
     if (contextCountry == null && featureCountry == null) {
-      throw new Exception("Geocoding not in a country at '$name'");
+      throw Exception("Geocoding not in a country at '$name'");
     }
 
     // Entry
     String country = featureCountry == null
         ? contextCountry['text']
         : featureCountry['text'];
-    DataLocation location = new DataLocation();
+    DataLocation location = DataLocation();
     location.approximate =
         featureApproximate['place_name'].replaceAll(', United States', '');
     location.detail =
@@ -1668,8 +1671,8 @@ class ApiChannel {
         : featureCountry['properties']['short_code'];
     location.latitude = featureDetail['center'][1];
     location.longitude = featureDetail['center'][0];
-    location.s2cellId = new Int64(new S2CellId.fromLatLng(
-            new S2LatLng.fromDegrees(location.latitude, location.longitude))
+    location.s2cellId = Int64(new S2CellId.fromLatLng(
+            S2LatLng.fromDegrees(location.latitude, location.longitude))
         .id);
     location.geohash =
         Geohash.encode(location.latitude, location.longitude, codeLength: 20);
@@ -1678,13 +1681,13 @@ class ApiChannel {
 
   Future<Uint8List> downloadData(String url) async {
     Uri uri = Uri.parse(url);
-    http.Request request = new http.Request('GET', uri);
+    http.Request request = http.Request('GET', uri);
     http.Response response = await httpClient.send(request);
-    BytesBuilder builder = new BytesBuilder(copy: false);
+    BytesBuilder builder = BytesBuilder(copy: false);
     await response.body.forEach(builder.add);
     Uint8List body = builder.toBytes();
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw new Exception(response.reasonPhrase);
+      throw Exception(response.reasonPhrase);
     }
     return body;
   }
@@ -1694,18 +1697,18 @@ class ApiChannel {
     // Fetch image to memory
     Uri uri = Uri.parse(url);
     /*
-    http.Request request = new http.Request('GET', uri);
+    http.Request request = http.Request('GET', uri);
     http.Response response = await httpClient.send(request);
-    BytesBuilder builder = new BytesBuilder(copy: false);
+    BytesBuilder builder = BytesBuilder(copy: false);
     await response.body.forEach(builder.add);
     Uint8List body = builder.toBytes();
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw new Exception(response.reasonPhrase);
+      throw Exception(response.reasonPhrase);
     }*/
     Uint8List body = await downloadData(url);
 
     // Get mime type
-    String contentType = new MimeTypeResolver().lookup(url, headerBytes: body);
+    String contentType = MimeTypeResolver().lookup(url, headerBytes: body);
     if (contentType == null) {
       contentType = 'application/octet-stream';
       devLog.severe("Image '$url' does not have a detectable MIME type");

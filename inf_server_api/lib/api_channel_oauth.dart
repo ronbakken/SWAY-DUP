@@ -41,8 +41,8 @@ class ApiChannelOAuth {
     return _r.channel;
   }
 
-  static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
-  static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
+  static final Logger opsLog = Logger('InfOps.ApiChannelOAuth');
+  static final Logger devLog = Logger('InfDev.ApiChannelOAuth');
 
   http.Client get httpClient {
     return _r.service.httpClient;

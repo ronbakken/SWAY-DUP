@@ -8,7 +8,7 @@ import 'package:inf_common/inf_common.dart';
 
 class Categories {
   static List<int> getLeafCategories(ConfigData config, List<int> categories) {
-    Set<int> res = new Set<int>();
+    final Set<int> res = Set<int>();
     res.addAll(categories);
     for (int category in categories) {
       int parent = config.categories[category].parentId;
@@ -21,7 +21,7 @@ class Categories {
   }
 
   static List<int> getRootCategories(ConfigData config, List<int> categories) {
-    Set<int> res = new Set<int>();
+    final Set<int> res = Set<int>();
     for (int category in categories) {
       int current = category;
       int parent = config.categories[category].parentId;
@@ -36,7 +36,7 @@ class Categories {
 
   static List<int> getExtendedCategories(
       ConfigData config, List<int> categories) {
-    Set<int> res = new Set<int>();
+    final Set<int> res = Set<int>();
     res.addAll(categories);
     for (int category in categories) {
       int parent = config.categories[category].parentId;
@@ -49,7 +49,7 @@ class Categories {
   }
 
   static List<String> getKeywords(ConfigData config, List<int> categories) {
-    Set<String> res = new Set<String>();
+    final Set<String> res = Set<String>();
     for (int category in categories)
       res.addAll(config.categories[category].keywords);
     return res.toList();

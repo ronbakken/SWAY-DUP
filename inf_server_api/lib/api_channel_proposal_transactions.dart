@@ -74,10 +74,8 @@ class ApiChannelProposalTransactions {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog =
-      new Logger('InfOps.ApiChannelProposalTransactions');
-  static final Logger devLog =
-      new Logger('InfDev.ApiChannelProposalTransactions');
+  static final Logger opsLog = Logger('InfOps.ApiChannelProposalTransactions');
+  static final Logger devLog = Logger('InfDev.ApiChannelProposalTransactions');
 
   ApiChannelProposalTransactions(this._r) {
     _r.registerProcedure(
@@ -88,8 +86,7 @@ class ApiChannelProposalTransactions {
         'PR_COMPT', GlobalAccountState.readWrite, _netProposalCompletion);
 
     _nextFakeGhostId =
-        ((new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) &
-                0xFFFFFFF) |
+        ((DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF) |
             0x10000000;
   }
 
@@ -109,14 +106,14 @@ class ApiChannelProposalTransactions {
   Future<bool> _insertChat(
       sqljocky.QueriableConnection connection, DataProposalChat chat) async {
     // Store in database
-    String insertChat = "INSERT INTO `proposal_chats`("
-        "`sender_account_id`, `proposal_id`, "
-        "`sender_session_id`, `sender_session_ghost_id`, "
+    const String insertChat = 'INSERT INTO `proposal_chats`('
+        '`sender_account_id`, `proposal_id`, '
+        '`sender_session_id`, `sender_session_ghost_id`, '
         '`type`, `plain_text`, `terms`, '
         '`image_key`, `image_blurred`, '
         '`marker`) '
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    sqljocky.Results resultHaggle =
+        'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    final sqljocky.Results resultHaggle =
         await connection.prepareExecute(insertChat, <dynamic>[
       chat.senderAccountId,
       chat.proposalId,
@@ -129,7 +126,7 @@ class ApiChannelProposalTransactions {
       chat.hasImageBlurred() ? chat.imageBlurred : null,
       chat.hasMarker() ? chat.marker : null,
     ]);
-    Int64 termsChatId = new Int64(resultHaggle.insertId);
+    final Int64 termsChatId = Int64(resultHaggle.insertId);
     if (termsChatId == Int64.ZERO) {
       return false;
     }
@@ -144,11 +141,11 @@ class ApiChannelProposalTransactions {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> _netProposalWantDeal(TalkMessage message) async {
-    NetProposalWantDeal wantDeal = new NetProposalWantDeal()
+    final NetProposalWantDeal wantDeal = NetProposalWantDeal()
       ..mergeFromBuffer(message.data);
 
-    Int64 proposalId = wantDeal.proposalId;
-    Int64 termsChatId = wantDeal.termsChatId;
+    final Int64 proposalId = wantDeal.proposalId;
+    final Int64 termsChatId = wantDeal.termsChatId;
 
     /* No need, already verified by first UPDATE
     if (!await _verifySender(proposalId, accountId)) {
@@ -160,20 +157,20 @@ class ApiChannelProposalTransactions {
     DataProposalChat markerChat; // Set upon success
 
     channel.replyExtend(message);
-    await proposalDb.startTransaction((transaction) async {
+    await proposalDb.startTransaction((sqljocky.Transaction transaction) async {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
-      String accountType = (account.accountType == AccountType.influencer)
+      final String accountType = (account.accountType == AccountType.influencer)
           ? 'influencer'
           : 'business';
-      String updateWants = 'UPDATE `proposals` '
+      final String updateWants = 'UPDATE `proposals` '
           'SET `${accountType}_wants_deal` = 1 '
           'WHERE `proposal_id` = ? '
           'AND `terms_chat_id` = ? '
           'AND `${accountType}_account_id` = ? '
           'AND (`state` = ${ProposalState.negotiating.value} OR `state` = ${ProposalState.proposing.value}) '
           'AND `${accountType}_wants_deal` = 0';
-      sqljocky.Results resultWants = await transaction.prepareExecute(
+      final sqljocky.Results resultWants = await transaction.prepareExecute(
         updateWants,
         <dynamic>[proposalId, termsChatId, accountId],
       );
@@ -185,32 +182,30 @@ class ApiChannelProposalTransactions {
 
       // 2. Try to see if we're can complete the deal or if it's just one sided
       channel.replyExtend(message);
-      String updateDeal = "UPDATE `proposals` "
-          "SET `state` = ${ProposalState.deal.value} "
-          "WHERE `proposal_id` = ? "
-          "AND `influencer_wants_deal` = 1 "
-          "AND `business_wants_deal` = 1 "
-          "AND (`state` = ${ProposalState.negotiating.value} OR `state` = ${ProposalState.proposing.value})";
-      sqljocky.Results resultDeal = await transaction.prepareExecute(
+      final String updateDeal = 'UPDATE `proposals` '
+          'SET `state` = ${ProposalState.deal.value} '
+          'WHERE `proposal_id` = ? '
+          'AND `influencer_wants_deal` = 1 '
+          'AND `business_wants_deal` = 1 '
+          'AND (`state` = ${ProposalState.negotiating.value} OR `state` = ${ProposalState.proposing.value})';
+      final sqljocky.Results resultDeal = await transaction.prepareExecute(
         updateDeal,
         <dynamic>[proposalId],
       );
-      bool dealMade =
-          (resultDeal.affectedRows != null && resultDeal.affectedRows > 0);
+      final bool dealMade =
+          resultDeal.affectedRows != null && resultDeal.affectedRows > 0;
 
       // 3. Insert marker chat
       channel.replyExtend(message);
-      DataProposalChat chat = new DataProposalChat();
-      chat.sent =
-          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      final DataProposalChat chat = DataProposalChat();
+      chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
       chat.senderSessionId = account.sessionId;
       chat.senderSessionGhostId = ++_nextFakeGhostId;
       chat.type = ProposalChatType.marker;
-      chat.marker = (dealMade
-          ? ProposalChatMarker.dealMade
-          : ProposalChatMarker.wantDeal);
+      chat.marker =
+          dealMade ? ProposalChatMarker.dealMade : ProposalChatMarker.wantDeal;
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
         markerChat = chat;
@@ -219,18 +214,18 @@ class ApiChannelProposalTransactions {
     });
 
     if (markerChat == null) {
-      channel.replyAbort(message, "Not handled.");
+      channel.replyAbort(message, 'Not handled.');
       _r.pushProposal(proposalId); // Refresh user side, possibly out of sync
     } else {
-      NetProposal res = new NetProposal();
-      DataProposal proposal = await _r.getProposal(proposalId);
-      res.updateProposal = proposal; // TODO: Filter
+      final NetProposal res = NetProposal();
+      final DataProposal proposal = await _r.getProposal(proposalId);
+      res.updateProposal = proposal; // TODO(kaetemi): Filter
       res.newChats.add(markerChat);
       try {
         // Send to current user
         channel.replyMessage(message, 'PR_R_WAD', res.writeToBuffer());
       } catch (error, stackTrace) {
-        devLog.severe("$error\n$stackTrace");
+        devLog.severe('$error\n$stackTrace');
       }
       // Publish!
       _r.bc.proposalChanged(account.sessionId, proposal);
@@ -245,10 +240,10 @@ class ApiChannelProposalTransactions {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> _netProposalNegotiate(TalkMessage message) async {
-    NetProposalNegotiate negotiate = new NetProposalNegotiate()
+    final NetProposalNegotiate negotiate = NetProposalNegotiate()
       ..mergeFromBuffer(message.data);
 
-    Int64 proposalId = negotiate.proposalId;
+    final Int64 proposalId = negotiate.proposalId;
 
     /* No need, already verified by first UPDATE
     if (!await _verifySender(proposalId, accountId)) {
@@ -260,19 +255,19 @@ class ApiChannelProposalTransactions {
     DataProposalChat markerChat; // Set upon success
 
     channel.replyExtend(message);
-    await proposalDb.startTransaction((transaction) async {
+    await proposalDb.startTransaction((sqljocky.Transaction transaction) async {
       // 1. Update deal to reflect the account wants to negotiate
       channel.replyExtend(message);
-      String accountType = (account.accountType == AccountType.influencer)
+      final String accountType = (account.accountType == AccountType.influencer)
           ? 'influencer'
           : 'business';
-      String updateState = 'UPDATE `proposals` '
+      final String updateState = 'UPDATE `proposals` '
           'SET `state` = ${ProposalState.negotiating.value} '
           'WHERE `proposal_id` = ? '
           'AND `${accountType}_account_id` = ? '
           'AND `state` = ${ProposalState.proposing.value} '
           'AND `${accountType}_wants_deal` = 0';
-      sqljocky.Results resultState = await transaction.prepareExecute(
+      final sqljocky.Results resultState = await transaction.prepareExecute(
         updateState,
         <dynamic>[proposalId, accountId],
       );
@@ -284,9 +279,8 @@ class ApiChannelProposalTransactions {
 
       // 2. Insert marker chat
       channel.replyExtend(message);
-      DataProposalChat chat = new DataProposalChat();
-      chat.sent =
-          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      final DataProposalChat chat = DataProposalChat();
+      chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
       chat.senderSessionId = account.sessionId;
@@ -301,18 +295,18 @@ class ApiChannelProposalTransactions {
     });
 
     if (markerChat == null) {
-      channel.replyAbort(message, "Not handled.");
+      channel.replyAbort(message, 'Not handled.');
       _r.pushProposal(proposalId); // Refresh user side, possibly out of sync
     } else {
-      NetProposal res = new NetProposal();
-      DataProposal proposal = await _r.getProposal(proposalId);
-      res.updateProposal = proposal; // TODO: Filter
+      final NetProposal res = NetProposal();
+      final DataProposal proposal = await _r.getProposal(proposalId);
+      res.updateProposal = proposal; // TODO(kaetemi): Filter
       res.newChats.add(markerChat);
       try {
         // Send to current user
         channel.replyMessage(message, 'PR_R_NGT', res.writeToBuffer());
       } catch (error, stackTrace) {
-        devLog.severe("$error\n$stackTrace");
+        devLog.severe('$error\n$stackTrace');
       }
       // Publish!
       _r.bc.proposalChanged(account.sessionId, proposal);
@@ -327,13 +321,13 @@ class ApiChannelProposalTransactions {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> _netProposalCompletion(TalkMessage message) async {
-    NetProposalCompletion completion = new NetProposalCompletion()
+    final NetProposalCompletion completion = NetProposalCompletion()
       ..mergeFromBuffer(message.data);
 
-    Int64 proposalId = completion.proposalId;
+    final Int64 proposalId = completion.proposalId;
 
     if (!completion.hasRating()) {
-      channel.replyAbort(message, "No rating given.");
+      channel.replyAbort(message, 'No rating given.');
       return;
     }
 
@@ -341,20 +335,20 @@ class ApiChannelProposalTransactions {
 
     // Completion or dispute
     channel.replyExtend(message);
-    await proposalDb.startTransaction((transaction) async {
+    await proposalDb.startTransaction((sqljocky.Transaction transaction) async {
       // 1. Update deal to reflect the account marked completion
       channel.replyExtend(message);
-      String accountType = (account.accountType == AccountType.influencer)
+      final String accountType = (account.accountType == AccountType.influencer)
           ? 'influencer'
           : 'business';
-      String updateMarkings = "UPDATE `proposals` "
-          "SET `${accountType}_marked_delivered` = 1, "
-          "`${accountType}_marked_rewarded` = 1, "
-          "`${accountType}_gave_rating` = ?"
-          "WHERE `proposal_id` = ? "
-          "AND `${accountType}_account_id` = ?"
-          "AND `state` = ${ProposalState.deal.value} OR `state` = ${ProposalState.dispute.value}";
-      sqljocky.Results resultMarkings = await transaction.prepareExecute(
+      final String updateMarkings = 'UPDATE `proposals` '
+          'SET `${accountType}_marked_delivered` = 1, '
+          '`${accountType}_marked_rewarded` = 1, '
+          '`${accountType}_gave_rating` = ?'
+          'WHERE `proposal_id` = ? '
+          'AND `${accountType}_account_id` = ?'
+          'AND `state` = ${ProposalState.deal.value} OR `state` = ${ProposalState.dispute.value}';
+      final sqljocky.Results resultMarkings = await transaction.prepareExecute(
         updateMarkings,
         <dynamic>[completion.rating, proposalId, accountId],
       );
@@ -368,29 +362,29 @@ class ApiChannelProposalTransactions {
       bool dealCompleted;
       // 2. Check for deal completion
       channel.replyExtend(message);
-      String updateCompletion = "UPDATE `proposals` "
-          "SET `state` = ${ProposalState.complete.value} "
-          "WHERE `proposal_id` = ? "
-          "AND `influencer_marked_delivered` > 0 AND `influencer_marked_rewarded` > 0 "
-          "AND `business_marked_delivered` > 0 AND `business_marked_rewarded` > 0 "
-          "AND `influencer_gave_rating` > 0 AND `business_gave_rating` > 0 "
-          "AND `state` = ${ProposalState.deal.value}";
-      sqljocky.Results resultCompletion = await transaction.prepareExecute(
+      final String updateCompletion = 'UPDATE `proposals` '
+          'SET `state` = ${ProposalState.complete.value} '
+          'WHERE `proposal_id` = ? '
+          'AND `influencer_marked_delivered` > 0 AND `influencer_marked_rewarded` > 0 '
+          'AND `business_marked_delivered` > 0 AND `business_marked_rewarded` > 0 '
+          'AND `influencer_gave_rating` > 0 AND `business_gave_rating` > 0 '
+          'AND `state` = ${ProposalState.deal.value}';
+      final sqljocky.Results resultCompletion =
+          await transaction.prepareExecute(
         updateCompletion,
         <dynamic>[proposalId],
       );
       dealCompleted = resultCompletion.affectedRows != null &&
           resultCompletion.affectedRows != 0;
 
-      ProposalChatMarker marker = dealCompleted
+      final ProposalChatMarker marker = dealCompleted
           ? ProposalChatMarker.complete
           : ProposalChatMarker.markedComplete;
 
       // 3. Insert marker chat
       channel.replyExtend(message);
-      DataProposalChat chat = new DataProposalChat();
-      chat.sent =
-          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      final DataProposalChat chat = DataProposalChat();
+      chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
       chat.senderSessionId = account.sessionId;
@@ -405,31 +399,31 @@ class ApiChannelProposalTransactions {
     });
 
     if (markerChat == null) {
-      channel.replyAbort(message, "Not handled.");
+      channel.replyAbort(message, 'Not handled.');
       _r.pushProposal(proposalId); // Refresh user side, possibly out of sync
     } else {
-      NetProposal res = new NetProposal();
+      final NetProposal res = NetProposal();
       try {
         channel.replyExtend(message);
       } catch (error, stackTrace) {
-        devLog.severe("$error\n$stackTrace");
+        devLog.severe('$error\n$stackTrace');
       }
-      DataProposal proposal = await _r.getProposal(proposalId);
+      final DataProposal proposal = await _r.getProposal(proposalId);
       res.updateProposal = proposal;
       res.newChats.add(markerChat);
       try {
         // Send to current user
-        channel.replyMessage(message, "PR_R_COM", res.writeToBuffer());
+        channel.replyMessage(message, 'PR_R_COM', res.writeToBuffer());
       } catch (error, stackTrace) {
-        devLog.severe("$error\n$stackTrace");
+        devLog.severe('$error\n$stackTrace');
       }
       // Publish!
       _r.bc.proposalChanged(account.sessionId, proposal);
       _r.bc.proposalChatPosted(account.sessionId, markerChat, account);
 
-      // TODO: Post rating and review to Elasticsearch
-      // TODO: Write rating recalculation schedule (weighted ratings)
-      // TODO: Elasticsearch proposal_reports index for statistics purposes
+      // TODO(kaetemi): Post rating and review to Elasticsearch
+      // TODO(kaetemi): Write rating recalculation schedule (weighted ratings)
+      // TODO(kaetemi): Elasticsearch proposal_reports index for statistics purposes
     }
   }
 }

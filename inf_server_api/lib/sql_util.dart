@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 class SqlUtil {
   static String makeInsertQuery(String table, List<String> columns) {
-    StringBuffer buffer = StringBuffer();
+    final StringBuffer buffer = StringBuffer();
     buffer.write('INSERT INTO `$table`(');
     buffer
         .write(columns.map<String>((String column) => '`$column`').join(', '));
@@ -17,7 +17,7 @@ class SqlUtil {
   }
 
   static String makeSelectQuery(String table, List<String> columns) {
-    StringBuffer buffer = StringBuffer();
+    final StringBuffer buffer = StringBuffer();
     buffer.write('SELECT ');
     buffer
         .write(columns.map<String>((String column) => '`$column`').join(', '));

@@ -5,7 +5,6 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
@@ -60,16 +59,16 @@ class ApiChannelUpload {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
-  static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
+  static final Logger opsLog = Logger('InfOps.ApiChannelOAuth');
+  static final Logger devLog = Logger('InfDev.ApiChannelOAuth');
 
   ApiChannelUpload(this._r) {
     _r.registerProcedure(
-        "UP_IMAGE", GlobalAccountState.readWrite, netUploadImageReq);
+        'UP_IMAGE', GlobalAccountState.readWrite, netUploadImageReq);
   }
 
   void dispose() {
-    _r.unregisterProcedure("UP_IMAGE");
+    _r.unregisterProcedure('UP_IMAGE');
     _r = null;
   }
 
@@ -78,21 +77,21 @@ class ApiChannelUpload {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> netUploadImageReq(TalkMessage message) async {
-    NetUploadImageReq pb = new NetUploadImageReq();
+    final NetUploadImageReq pb = NetUploadImageReq();
     pb.mergeFromBuffer(message.data);
     devLog.finest(pb);
 
     if (pb.contentLength > (5 * 1024 * 1204)) {
       opsLog.warning(
           "User $accountId attempts to upload file of size ${pb.contentLength}, that's too large.");
-      channel.replyAbort(message, "Upload size limit exceeded");
+      channel.replyAbort(message, 'Upload size limit exceeded');
       return;
     }
 
     if (!pb.contentType.startsWith('image/')) {
       opsLog.warning(
           "User $accountId attempts to upload file of type ${pb.contentType}, that's not supported.");
-      channel.replyAbort(message, "Unsupported file type");
+      channel.replyAbort(message, 'Unsupported file type');
       return;
     }
 
@@ -106,21 +105,21 @@ class ApiChannelUpload {
         break;
       default:
         {
-          int lastIndex = pb.fileName.lastIndexOf('.');
+          final int lastIndex = pb.fileName.lastIndexOf('.');
           uriExt = lastIndex > 0
               ? pb.fileName.substring(lastIndex + 1).toLowerCase()
               : 'bin';
         }
     }
 
-    Digest contentSha256 = new Digest(pb.contentSha256);
-    String key =
-        "${config.services.domain}/user/$accountId/$contentSha256.$uriExt";
+    final Digest contentSha256 = Digest(pb.contentSha256);
+    final String key =
+        '${config.services.domain}/user/$accountId/$contentSha256.$uriExt';
 
-    NetUploadImageRes netUploadImageRes = new NetUploadImageRes();
+    final NetUploadImageRes netUploadImageRes = NetUploadImageRes();
 
     channel.replyExtend(message);
-    bool fileExists = false; // TODO: Use HEAD to check for existence
+    bool fileExists = false; // TODO(kaetemi): Use HEAD to check for existence
     await for (dospace.BucketContent bucketContent
         in bucket.listContents(prefix: key)) {
       if (bucketContent.key == key) {
@@ -146,6 +145,6 @@ class ApiChannelUpload {
     netUploadImageRes.thumbnailUrl = _r.makeCloudinaryThumbnailUrl(key);
 
     channel.replyMessage(
-        message, "UP_R_IMG", netUploadImageRes.writeToBuffer());
+        message, 'UP_R_IMG', netUploadImageRes.writeToBuffer());
   }
 }

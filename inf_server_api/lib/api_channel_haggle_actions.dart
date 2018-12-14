@@ -68,8 +68,8 @@ class ApiChannelHaggleActions {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.ApiChannelOAuth');
-  static final Logger devLog = new Logger('InfDev.ApiChannelOAuth');
+  static final Logger opsLog = Logger('InfOps.ApiChannelOAuth');
+  static final Logger devLog = Logger('InfDev.ApiChannelOAuth');
 
   ApiChannelHaggleActions(this._r) {
     /*
@@ -154,8 +154,8 @@ class ApiChannelHaggleActions {
         "WHERE `proposal_id` = ?";
     await for (sqljocky.Row row
         in await proposalDb.prepareExecute(query, <dynamic>[proposalId])) {
-      influencerAccountId = new Int64(row[0]);
-      businessAccountId = new Int64(row[1]);
+      influencerAccountId = Int64(row[0]);
+      businessAccountId = Int64(row[1]);
       state = ProposalState.valueOf(row[2].toInt());
     }
 
@@ -232,7 +232,7 @@ class ApiChannelHaggleActions {
     if (termsChatId == 0) {
       return false;
     }
-    chat.chatId = new Int64(termsChatId);
+    chat.chatId = Int64(termsChatId);
     return true;
   }
 
@@ -311,15 +311,15 @@ class ApiChannelHaggleActions {
   }
 
   Future<void> netChatPlain(TalkMessage message) async {
-    NetChatPlain pb = new NetChatPlain();
+    NetChatPlain pb = NetChatPlain();
     pb.mergeFromBuffer(message.data);
 
     if (!await _verifySender(pb.proposalId, accountId, ProposalChatType.plain))
       return;
 
-    DataProposalChat chat = new DataProposalChat();
+    DataProposalChat chat = DataProposalChat();
     chat.sent =
-        new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+        Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
     chat.senderAccountId = accountId;
     chat.proposalId = pb.proposalId;
     chat.senderSessionId = account.sessionId;
@@ -331,7 +331,7 @@ class ApiChannelHaggleActions {
   }
 
   Future<void> netChatHaggle(TalkMessage message) async {
-    NetChatNegotiate pb = new NetChatNegotiate();
+    NetChatNegotiate pb = NetChatNegotiate();
     pb.mergeFromBuffer(message.data);
 
     /*
@@ -350,8 +350,8 @@ class ApiChannelHaggleActions {
         "WHERE `proposal_id` = ?";
     await for (sqljocky.Row row
         in await sql.prepareExecute(query, [pb.proposalId])) {
-      influencerAccountId = new Int64(row[0]);
-      businessAccountId = new Int64(row[1]);
+      influencerAccountId = Int64(row[0]);
+      businessAccountId = Int64(row[1]);
       deliverables = row[2].toString();
       reward = row[3].toString();
     }
@@ -364,9 +364,9 @@ class ApiChannelHaggleActions {
     if (!await _verifySender(
         pb.proposalId, accountId, ProposalChatType.negotiate)) return;
 
-    DataProposalChat chat = new DataProposalChat();
+    DataProposalChat chat = DataProposalChat();
     chat.sent =
-        new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+        Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
     chat.senderAccountId = accountId;
     chat.proposalId = pb.proposalId;
     chat.senderSessionId = account.sessionId;
@@ -379,15 +379,15 @@ class ApiChannelHaggleActions {
   }
 
   Future<void> netChatImageKey(TalkMessage message) async {
-    NetChatImageKey pb = new NetChatImageKey();
+    NetChatImageKey pb = NetChatImageKey();
     pb.mergeFromBuffer(message.data);
 
     if (!await _verifySender(
         pb.proposalId, accountId, ProposalChatType.imageKey)) return;
 
-    DataProposalChat chat = new DataProposalChat();
+    DataProposalChat chat = DataProposalChat();
     chat.sent =
-        new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+        Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
     chat.senderAccountId = accountId;
     chat.proposalId = pb.proposalId;
     chat.senderSessionId = account.sessionId;
@@ -421,7 +421,7 @@ class ApiChannelHaggleActions {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> netProposalRejectReq(TalkMessage message) async {
-    NetProposalReject pb = new NetProposalReject();
+    NetProposalReject pb = NetProposalReject();
     pb.mergeFromBuffer(message.data);
 
     Int64 proposalId = pb.proposalId;
@@ -450,9 +450,9 @@ class ApiChannelHaggleActions {
 
       // 2. Insert marker chat
       channel.replyExtend(message);
-      DataProposalChat chat = new DataProposalChat();
+      DataProposalChat chat = DataProposalChat();
       chat.sent =
-          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+          Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
       chat.senderSessionId = account.sessionId;
@@ -471,7 +471,7 @@ class ApiChannelHaggleActions {
     if (markerChat == null) {
       channel.replyAbort(message, "Not Handled");
     } else {
-      NetProposal res = new NetProposal();
+      NetProposal res = NetProposal();
       try {
         channel.replyExtend(message);
       } catch (error, stackTrace) {
@@ -493,7 +493,7 @@ class ApiChannelHaggleActions {
   }
 
   Future<void> netProposalReportReq(TalkMessage message) async {
-    NetProposalReport pb = new NetProposalReport();
+    NetProposalReport pb = NetProposalReport();
     pb.mergeFromBuffer(message.data);
 
     Int64 proposalId = pb.proposalId;
@@ -508,7 +508,7 @@ class ApiChannelHaggleActions {
     // Post to freshdesk
     DataProposal proposal = await _r.getProposal(proposalId);
 
-    HttpClient httpClient = new HttpClient();
+    HttpClient httpClient = HttpClient();
     HttpClientRequest httpRequest = await httpClient
         .postUrl(Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
     httpRequest.headers.add('Content-Type', 'application/json');
@@ -517,7 +517,7 @@ class ApiChannelHaggleActions {
         'Basic ' +
             base64.encode(utf8.encode(config.services.freshdeskKey + ':X')));
 
-    Map<String, dynamic> doc = new Map<String, dynamic>();
+    Map<String, dynamic> doc = Map<String, dynamic>();
     doc['name'] = account.name;
     doc['email'] = account.email;
     doc['subject'] = "Proposal Report (Ap. $proposalId)";
@@ -531,7 +531,7 @@ class ApiChannelHaggleActions {
     httpRequest.write(json.encode(doc));
     await httpRequest.flush();
     HttpClientResponse httpResponse = await httpRequest.close();
-    BytesBuilder responseBuilder = new BytesBuilder(copy: false);
+    BytesBuilder responseBuilder = BytesBuilder(copy: false);
     await httpResponse.forEach(responseBuilder.add);
     if (httpResponse.statusCode != 200 && httpResponse.statusCode != 201) {
       devLog.severe(
@@ -540,12 +540,12 @@ class ApiChannelHaggleActions {
       return;
     }
 
-    NetProposal res = new NetProposal();
+    NetProposal res = NetProposal();
     channel.replyMessage(message, "AP_R_COM", res.writeToBuffer());
   }
 
   Future<void> netProposalCompletionReq(TalkMessage message) async {
-    NetProposalCompletion pb = new NetProposalCompletion();
+    NetProposalCompletion pb = NetProposalCompletion();
     pb.mergeFromBuffer(message.data);
 
     Int64 proposalId = pb.proposalId;
@@ -605,8 +605,8 @@ class ApiChannelHaggleActions {
           "AND `business_marked_delivered` > 0 AND `business_marked_rewarded` > 0 "
           "AND `influencer_gave_rating` > 0 AND `business_gave_rating` > 0 "
           "AND `state` = ${ProposalState.deal.value}";
-      sqljocky.Results resultCompletion =
-          await transaction.prepareExecute(updateCompletion, <dynamic>[proposalId]);
+      sqljocky.Results resultCompletion = await transaction
+          .prepareExecute(updateCompletion, <dynamic>[proposalId]);
       dealCompleted = resultCompletion.affectedRows != null &&
           resultCompletion.affectedRows != 0;
       // }
@@ -624,9 +624,9 @@ class ApiChannelHaggleActions {
 
       // 2. Insert marker chat
       channel.replyExtend(message);
-      DataProposalChat chat = new DataProposalChat();
+      DataProposalChat chat = DataProposalChat();
       chat.sent =
-          new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+          Int64(new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderAccountId = accountId;
       chat.proposalId = proposalId;
       chat.senderSessionId = account.sessionId;
@@ -640,7 +640,7 @@ class ApiChannelHaggleActions {
           DataProposal proposal =
               await _r.apiChannelHaggle.getProposal(proposalId);
 
-          HttpClient httpClient = new HttpClient();
+          HttpClient httpClient = HttpClient();
           HttpClientRequest httpRequest = await httpClient.postUrl(
               Uri.parse(config.services.freshdeskApi + '/api/v2/tickets'));
           httpRequest.headers.add('Content-Type', 'application/json');
@@ -650,7 +650,7 @@ class ApiChannelHaggleActions {
                   base64.encode(
                       utf8.encode(config.services.freshdeskKey + ':X')));
 
-          Map<String, dynamic> doc = new Map<String, dynamic>();
+          Map<String, dynamic> doc = Map<String, dynamic>();
           doc['name'] = account.name;
           doc['email'] = account.email;
           doc['subject'] = "Proposal Dispute (Ap. $proposalId)";
@@ -664,7 +664,7 @@ class ApiChannelHaggleActions {
           httpRequest.write(json.encode(doc));
           await httpRequest.flush();
           HttpClientResponse httpResponse = await httpRequest.close();
-          BytesBuilder responseBuilder = new BytesBuilder(copy: false);
+          BytesBuilder responseBuilder = BytesBuilder(copy: false);
           await httpResponse.forEach(responseBuilder.add);
           if (httpResponse.statusCode != 200) {
             devLog.severe(
@@ -682,7 +682,7 @@ class ApiChannelHaggleActions {
     if (markerChat == null) {
       channel.replyAbort(message, "Not handled.");
     } else {
-      NetProposal res = new NetProposal();
+      NetProposal res = NetProposal();
       try {
         channel.replyExtend(message);
       } catch (error, stackTrace) {
