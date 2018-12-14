@@ -24,7 +24,7 @@ import 'enum_protobuf.proto';
 
 // This message MUST NOT contain 'repeated' due to usage of 'mergeFromMessage'
 message DataSocialMedia {
-  bool provider_id = 21;
+  int32 provider_id = 21;
   
   /// Social media is connected to the account
   bool connected = 1;
@@ -218,6 +218,10 @@ message DataAccount { // 30
   string website = 24; // (Detail)
   string email = 25; // (Detail, Private)
   // bool emailVerified = 26; // (Detail, Private)
+  
+  // Preferences
+  bool accept_direct_proposals = 31; // (Detail) // TODO(kaetemi): server
+  bool publish_gps_location = 32; // (Detail) // TODO(kaetemi): server
   
   // Embedded primary location info, if applicable
   string location_name = 27; // (Detail)
