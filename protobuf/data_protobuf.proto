@@ -24,6 +24,8 @@ import 'enum_protobuf.proto';
 
 // This message MUST NOT contain 'repeated' due to usage of 'mergeFromMessage'
 message DataSocialMedia {
+  bool provider_id = 21;
+  
   /// Social media is connected to the account
   bool connected = 1;
   /// Token for connection is expired, data outdated and user must re-connect 
@@ -31,11 +33,11 @@ message DataSocialMedia {
   bool expired = 15;
   
   /// TODO: Information from this social media connection may be published to other users (user setting)
-  // bool published = 17;
+  bool published = 17;
   /// TODO: Allow logging in with this account (user setting)
-  // bool allow_log_in = 18;
+  bool allow_log_in = 18;
   /// TODO: Possible to log in or sign up with the connected account (user setting)
-  // bool can_authenticate = 19;
+  bool can_authenticate = 19;
   
   /// This connection can be used to sign up (the account is not signed up yet)
   bool can_sign_up = 20;
