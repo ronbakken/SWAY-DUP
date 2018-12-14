@@ -7,7 +7,7 @@
 const DataSocialMedia$json = const {
   '1': 'DataSocialMedia',
   '2': const [
-    const {'1': 'provider_id', '3': 21, '4': 1, '5': 8, '10': 'providerId'},
+    const {'1': 'provider_id', '3': 21, '4': 1, '5': 5, '10': 'providerId'},
     const {'1': 'connected', '3': 1, '4': 1, '5': 8, '10': 'connected'},
     const {'1': 'expired', '3': 15, '4': 1, '5': 8, '10': 'expired'},
     const {'1': 'published', '3': 17, '4': 1, '5': 8, '10': 'published'},
@@ -378,6 +378,20 @@ const DataAccount$json = const {
     },
     const {'1': 'website', '3': 24, '4': 1, '5': 9, '10': 'website'},
     const {'1': 'email', '3': 25, '4': 1, '5': 9, '10': 'email'},
+    const {
+      '1': 'accept_direct_proposals',
+      '3': 32,
+      '4': 1,
+      '5': 8,
+      '10': 'acceptDirectProposals'
+    },
+    const {
+      '1': 'publish_gps_location',
+      '3': 33,
+      '4': 1,
+      '5': 8,
+      '10': 'publishGpsLocation'
+    },
     const {'1': 'location_name', '3': 27, '4': 1, '5': 9, '10': 'locationName'},
     const {
       '1': 'location_address',

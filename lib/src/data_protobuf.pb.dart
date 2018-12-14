@@ -35,7 +35,7 @@ class DataSocialMedia extends $pb.GeneratedMessage {
     ..aOB(18, 'allowLogIn')
     ..aOB(19, 'canAuthenticate')
     ..aOB(20, 'canSignUp')
-    ..aOB(21, 'providerId')
+    ..a<int>(21, 'providerId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataSocialMedia() : super();
@@ -219,9 +219,9 @@ class DataSocialMedia extends $pb.GeneratedMessage {
   bool hasCanSignUp() => $_has(19);
   void clearCanSignUp() => clearField(20);
 
-  bool get providerId => $_get(20, false);
-  set providerId(bool v) {
-    $_setBool(20, v);
+  int get providerId => $_get(20, 0);
+  set providerId(int v) {
+    $_setSignedInt32(20, v);
   }
 
   bool hasProviderId() => $_has(20);
@@ -861,6 +861,8 @@ class DataAccount extends $pb.GeneratedMessage {
     ..a<double>(29, 'latitude', $pb.PbFieldType.OD)
     ..a<double>(30, 'longitude', $pb.PbFieldType.OD)
     ..aInt64(31, 'locationId')
+    ..aOB(32, 'acceptDirectProposals')
+    ..aOB(33, 'publishGpsLocation')
     ..hasRequiredFields = false;
 
   DataAccount() : super();
@@ -1050,6 +1052,22 @@ class DataAccount extends $pb.GeneratedMessage {
 
   bool hasLocationId() => $_has(23);
   void clearLocationId() => clearField(31);
+
+  bool get acceptDirectProposals => $_get(24, false);
+  set acceptDirectProposals(bool v) {
+    $_setBool(24, v);
+  }
+
+  bool hasAcceptDirectProposals() => $_has(24);
+  void clearAcceptDirectProposals() => clearField(32);
+
+  bool get publishGpsLocation => $_get(25, false);
+  set publishGpsLocation(bool v) {
+    $_setBool(25, v);
+  }
+
+  bool hasPublishGpsLocation() => $_has(25);
+  void clearPublishGpsLocation() => clearField(33);
 }
 
 class DataProposal extends $pb.GeneratedMessage {
