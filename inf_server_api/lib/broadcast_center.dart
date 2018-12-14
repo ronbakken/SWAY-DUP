@@ -9,11 +9,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:io';
 
-import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
 import 'package:quiver/collection.dart';
-import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
@@ -71,7 +69,7 @@ class BroadcastCenter {
   static final Logger opsLog = Logger('InfOps.BroadcastCenter');
   static final Logger devLog = Logger('InfDev.BroadcastCenter');
 
-  BroadcastCenter(this.config, this.accountDb, this.proposalDb, this.bucket) {}
+  BroadcastCenter(this.config, this.accountDb, this.proposalDb, this.bucket);
 
   /////////////////////////////////////////////////////////////////////////////
   // Caches (cache non-critical static-ish data only)
@@ -81,8 +79,8 @@ class BroadcastCenter {
     _CachedProposal proposal = _proposalToInfluencerBusiness[proposalId];
     if (proposal != null) return proposal;
     sqljocky.Results res = await proposalDb.prepareExecute(
-        "SELECT `influencer_account_id`, `business_account_id`, `sender_account_id` "
-        "FROM `proposals` WHERE `proposal_id` = ?",
+        'SELECT `influencer_account_id`, `business_account_id`, `sender_account_id` '
+        'FROM `proposals` WHERE `proposal_id` = ?',
         <dynamic>[proposalId]);
     await for (sqljocky.Row row in res) {
       proposal = _CachedProposal(Int64(row[0]), Int64(row[1]), Int64(row[2]));
@@ -93,7 +91,9 @@ class BroadcastCenter {
 
   Future<String> _getAccountName(Int64 accountId) async {
     _CachedAccountName cached = _cachedAccountName[accountId];
-    if (cached != null) return cached.name;
+    if (cached != null) {
+      return cached.name;
+    }
     await _lockCachedAccountName.synchronized(() async {
       sqljocky.Results res = await accountDb.prepareExecute(
           "SELECT `name`" // TODO: Elasticsearch profile
@@ -215,7 +215,8 @@ class BroadcastCenter {
       data['domain'] = config.services.domain;
       Map<String, dynamic> message = Map<String, dynamic>();
       message['registration_ids'] = receiverFirebaseTokens;
-      message['collapse_key'] = 'proposal_id=' + chat.chat.proposalId.toString();
+      message['collapse_key'] =
+          'proposal_id=' + chat.chat.proposalId.toString();
       message['notification'] = notification;
       message['data'] = data;
       String jm = json.encode(message);
@@ -283,25 +284,31 @@ class BroadcastCenter {
   Future<void> proposalPosted(Int64 senderSessionId, NetProposal proposal,
       DataAccount influencerAccount) async {
     // Store cache
-    _proposalToInfluencerBusiness[proposal.updateProposal.proposalId] = _CachedProposal(
-        proposal.updateProposal.influencerAccountId,
-        proposal.updateProposal.businessAccountId,
-        proposal.updateProposal.senderAccountId);
+    _proposalToInfluencerBusiness[proposal.updateProposal.proposalId] =
+        _CachedProposal(
+            proposal.updateProposal.influencerAccountId,
+            proposal.updateProposal.businessAccountId,
+            proposal.updateProposal.senderAccountId);
 
     // Push notifications
     await _pushProposalPosted(
         senderSessionId, proposal.updateProposal.influencerAccountId, proposal);
     await _pushProposalPosted(
         senderSessionId, proposal.updateProposal.businessAccountId, proposal);
-    if (proposal.updateProposal.senderAccountId != proposal.updateProposal.influencerAccountId &&
-        proposal.updateProposal.senderAccountId != proposal.updateProposal.businessAccountId &&
+    if (proposal.updateProposal.senderAccountId !=
+            proposal.updateProposal.influencerAccountId &&
+        proposal.updateProposal.senderAccountId !=
+            proposal.updateProposal.businessAccountId &&
         proposal.updateProposal.senderAccountId != Int64.ZERO) {
       await _pushProposalPosted(
           senderSessionId, proposal.updateProposal.senderAccountId, proposal);
     }
-    if (proposal.updateProposal.offerAccountId != proposal.updateProposal.influencerAccountId &&
-        proposal.updateProposal.offerAccountId != proposal.updateProposal.businessAccountId &&
-        proposal.updateProposal.offerAccountId != proposal.updateProposal.senderAccountId &&
+    if (proposal.updateProposal.offerAccountId !=
+            proposal.updateProposal.influencerAccountId &&
+        proposal.updateProposal.offerAccountId !=
+            proposal.updateProposal.businessAccountId &&
+        proposal.updateProposal.offerAccountId !=
+            proposal.updateProposal.senderAccountId &&
         proposal.updateProposal.offerAccountId != Int64.ZERO) {
       await _pushProposalPosted(
           senderSessionId, proposal.updateProposal.senderAccountId, proposal);
@@ -316,25 +323,31 @@ class BroadcastCenter {
   Future<void> proposalChanged(
       Int64 senderSessionId, NetProposal proposal) async {
     // Store cache
-    _proposalToInfluencerBusiness[proposal.updateProposal.proposalId] = _CachedProposal(
-        proposal.updateProposal.influencerAccountId,
-        proposal.updateProposal.businessAccountId,
-        proposal.updateProposal.senderAccountId);
+    _proposalToInfluencerBusiness[proposal.updateProposal.proposalId] =
+        _CachedProposal(
+            proposal.updateProposal.influencerAccountId,
+            proposal.updateProposal.businessAccountId,
+            proposal.updateProposal.senderAccountId);
 
     // Push notifications
     await _pushProposalChanged(
         senderSessionId, proposal.updateProposal.influencerAccountId, proposal);
     await _pushProposalChanged(
         senderSessionId, proposal.updateProposal.businessAccountId, proposal);
-    if (proposal.updateProposal.senderAccountId != proposal.updateProposal.influencerAccountId &&
-        proposal.updateProposal.senderAccountId != proposal.updateProposal.businessAccountId &&
+    if (proposal.updateProposal.senderAccountId !=
+            proposal.updateProposal.influencerAccountId &&
+        proposal.updateProposal.senderAccountId !=
+            proposal.updateProposal.businessAccountId &&
         proposal.updateProposal.senderAccountId != Int64.ZERO) {
       await _pushProposalChanged(
           senderSessionId, proposal.updateProposal.senderAccountId, proposal);
     }
-    if (proposal.updateProposal.offerAccountId != proposal.updateProposal.influencerAccountId &&
-        proposal.updateProposal.offerAccountId != proposal.updateProposal.businessAccountId &&
-        proposal.updateProposal.offerAccountId != proposal.updateProposal.senderAccountId &&
+    if (proposal.updateProposal.offerAccountId !=
+            proposal.updateProposal.influencerAccountId &&
+        proposal.updateProposal.offerAccountId !=
+            proposal.updateProposal.businessAccountId &&
+        proposal.updateProposal.offerAccountId !=
+            proposal.updateProposal.senderAccountId &&
         proposal.updateProposal.offerAccountId != Int64.ZERO) {
       await _pushProposalChanged(
           senderSessionId, proposal.updateProposal.senderAccountId, proposal);
@@ -345,7 +358,8 @@ class BroadcastCenter {
       DataAccount senderAccount) async {
     // Get cache
     final _CachedProposal proposal = await _getProposal(chat.chat.proposalId);
-    if (proposal == null) {return; // Ignore
+    if (proposal == null) {
+      return; // Ignore
     }
 
     // Push notifications

@@ -197,8 +197,8 @@ class ApiChannelProposalTransactions {
     }
 
     // Publish to me
-      final NetProposalChat proposalChat = NetProposalChat();
-      proposalChat.chat = chat;
+    final NetProposalChat proposalChat = NetProposalChat();
+    proposalChat.chat = chat;
     channel.sendMessage('LN_P_CHA', proposalChat.writeToBuffer());
 
     // Clear private information from broadcast
@@ -590,10 +590,11 @@ class ApiChannelProposalTransactions {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> _netChatPlain(TalkMessage message) async {
-    final NetChatPlain chatPlain = NetChatPlain()..mergeFromBuffer(message.data);
+    final NetChatPlain chatPlain = NetChatPlain()
+      ..mergeFromBuffer(message.data);
 
-    if (!await _verifySender(chatPlain.proposalId, accountId, ProposalChatType.plain))
-      return;
+    if (!await _verifySender(
+        chatPlain.proposalId, accountId, ProposalChatType.plain)) return;
 
     final DataProposalChat chat = DataProposalChat();
     chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);

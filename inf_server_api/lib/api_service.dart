@@ -42,8 +42,9 @@ class ApiService {
             provider.host + provider.authenticateUrl,
             provider.host + provider.accessTokenUrl,
             oauth1.SignatureMethods.hmacSha1);
-        final oauth1.ClientCredentials clientCredentials = oauth1.ClientCredentials(
-            provider.consumerKey, provider.consumerSecret);
+        final oauth1.ClientCredentials clientCredentials =
+            oauth1.ClientCredentials(
+                provider.consumerKey, provider.consumerSecret);
         oauth1Auth[providerId] =
             oauth1.Authorization(clientCredentials, platform, httpClient);
       }
@@ -57,7 +58,8 @@ class ApiService {
       if (open.service == 'api') {
         final TalkChannel talkChannel = TalkChannel(open.channel);
         ApiChannel(this, talkChannel, open.payload,
-            ipAddress: '8.8.8.8'); // TODO(kaetemi): FIXME: Proper IP address here
+            ipAddress:
+                '8.8.8.8'); // TODO(kaetemi): FIXME: Proper IP address here
       } else {
         final TalkChannel talkChannel = TalkChannel(open.channel);
         talkChannel.sendAbort('Service not supported.');
