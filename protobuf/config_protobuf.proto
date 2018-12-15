@@ -48,9 +48,13 @@ message ConfigOAuthProvider { // 35
   /// Colored images
   int32 foreground_image_id = 28; // Id within icon config content
   int32 background_image_id = 29;
+  bytes foreground_image = 36; // Set after loading by client
+  bytes background_image = 37; // Set after loading by client
   /// Flat silhouette images
   int32 monochrome_foreground_image_id = 30;
   int32 monochrome_background_image_id = 31;
+  bytes monochrome_foreground_image = 38; // Set after loading by client
+  bytes monochrome_background_image = 39; // Set after loading by client
   /// FontAwesome glyph
   int32 font_awesome_brand = 14;
   
@@ -104,9 +108,13 @@ message ConfigContentFormat {
   /// Colored images
   int32 foreground_image_id = 8; // Id within image config content
   int32 background_image_id = 9;
+  bytes foreground_image = 14; // Set after loading by client
+  bytes background_image = 15; // Set after loading by client
   /// Flat silhouette images
   int32 monochrome_foreground_image_id = 10;
   int32 monochrome_background_image_id = 11;
+  bytes monochrome_foreground_image = 16; // Set after loading by client
+  bytes monochrome_background_image = 17; // Set after loading by client
   /// FontAwesome glyph
   int32 font_awesome_icon = 4;
   
@@ -131,9 +139,13 @@ message ConfigCategory {
   /// Colored images
   int32 foreground_image_id = 8; // Id within image config content
   int32 background_image_id = 9;
+  bytes foreground_image = 14; // Set after loading by client
+  bytes background_image = 15; // Set after loading by client
   /// Flat silhouette images
   int32 monochrome_foreground_image_id = 10;
   int32 monochrome_background_image_id = 11;
+  bytes monochrome_foreground_image = 16; // Set after loading by client
+  bytes monochrome_background_image = 17; // Set after loading by client
   /// FontAwesome glyph
   int32 font_awesome_icon = 4;
   
