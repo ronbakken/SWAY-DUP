@@ -1,0 +1,58 @@
+# kubectl replace -f phpmyadmin.yaml
+# kubectl port-forward deployment/inf-phpmyadmin 80:80
+# inf
+# LMXERkdoDy1OgiQ8
+apiVersion: v1
+kind: Service
+metadata:
+  name: inf-phpmyadmin
+  labels:
+    app: inf
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: inf
+    tier: phpmyadmin
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inf-phpmyadmin
+  labels:
+    app: inf
+spec:
+  selector:
+    matchLabels:
+      app: inf
+      tier: phpmyadmin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: inf
+        tier: phpmyadmin
+    spec:
+      containers:
+      - image: phpmyadmin/phpmyadmin:latest
+        name: phpmyadmin
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: inf-mariadb-root-pass
+              key: password
+        - name: PMA_HOST
+          value: inf-mariadb
+        - name: PMA_USER
+          value: inf
+        - name: PMA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: inf-mariadb-user-pass
+              key: password
+        ports:
+        - containerPort: 80
+          name: phpmyadmin

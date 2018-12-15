@@ -1,0 +1,81 @@
+# kubectl delete secret inf-mariadb-pass
+# kubectl create secret generic inf-mariadb-root-pass --from-literal=password=04KWKM2u6bXUj9N9
+# kubectl create secret generic inf-mariadb-user-pass --from-literal=password=veJxEkenwr7mmC2o
+# kubectl apply -f mariadb.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: inf-mariadb
+  labels:
+    app: inf
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: inf
+    tier: mariadb
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: inf-mariadb-pvc
+  labels:
+    app: inf
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: inf-mariadb
+  labels:
+    app: inf
+spec:
+  selector:
+    matchLabels:
+      app: inf
+      tier: mariadb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: inf
+        tier: mariadb
+    spec:
+      containers:
+      - image: mariadb:latest
+        name: mariadb
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: inf-mariadb-root-pass
+              key: password
+        - name: MYSQL_USER
+          value: inf
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: inf-mariadb-user-pass
+              key: password
+        - name: MYSQL_DATABASE
+          value: inf
+        args: 
+        - "--character-set-server=utf8mb4"
+        - "--collation-server=utf8mb4_unicode_ci"
+        ports:
+        - containerPort: 3306
+          name: mariadb
+        volumeMounts:
+        - name: mariadb-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mariadb-persistent-storage
+        persistentVolumeClaim:
+          claimName: inf-mariadb-pvc

@@ -7,10 +7,7 @@
 			"path": "../switchboard"
 		},
 		{
-			"path": "sqljocky5"
-		},
-		{
-			"path": "dart-oauth1"
+			"path": "k8s_dev"
 		}
 	]
 }
