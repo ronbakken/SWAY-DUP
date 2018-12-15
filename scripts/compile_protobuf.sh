@@ -6,7 +6,7 @@ set -x
 
 
 cd ~/inf_common/
-git pull --recurse-submodules
+git pull
 git add *
 git commit -m "Update protobuf"
 
