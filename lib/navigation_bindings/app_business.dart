@@ -4,6 +4,8 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'dart:io';
+
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -25,6 +27,8 @@ import 'package:inf/screens/offer_create.dart';
 import 'package:inf/screens/offer_view.dart';
 import 'package:inf/screens/business_offer_list.dart';
 import 'package:inf/screens/debug_account.dart';
+import 'package:file/file.dart' as file;
+import 'package:file/local.dart' as file;
 
 // Business user
 class AppBusiness extends StatefulWidget {
@@ -60,7 +64,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       final ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return OfferCreate(
-        onUploadImage: network.uploadImage,
+        onUploadImage: (File f) async { return await network.uploadImage(const file.LocalFileSystem().file(f.path)); },
         onCreateOffer: (NetCreateOffer createOffer) async {
           final dynamic progressDialog = showProgressDialog(
               context: this.context,

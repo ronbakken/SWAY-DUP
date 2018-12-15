@@ -44,8 +44,10 @@ class _ImageUploaderState extends State<ImageUploader> {
 
   Future<void> uploadImage() async {
     if (widget.onUploadImage != null) {
-      NetUploadImageRes res = await widget.onUploadImage(_image.file);
-      if (!mounted) return;
+      final NetUploadImageRes res = await widget.onUploadImage(_image.file);
+      if (!mounted) {
+        return;
+      }
       widget.uploadKey.text = res.uploadKey;
       setState(() {
         _imageUrl = res.coverUrl;

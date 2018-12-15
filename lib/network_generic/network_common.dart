@@ -629,8 +629,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     final DigestSink convertedSink = DigestSink();
     final ByteConversionSink fileSink =
         sha256.startChunkedConversion(convertedSink);
-    final RandomAccessFile readFile =
-        file.openSync();
+    final RandomAccessFile readFile = file.openSync();
     final Uint8List buffer = Uint8List(65536);
     int read;
     while ((read = readFile.readIntoSync(buffer)) > 0) {
@@ -643,9 +642,12 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   @override
   Future<NetUploadImageRes> uploadImage(File file) async {
     final IsolateRunner runner = await IsolateRunner.spawn();
-    final Digest contentSha256 =
-        await runner.run<Digest, File>(_getContentSha256, file);
-    await runner.close();
+    Digest contentSha256;
+    try {
+      contentSha256 = await runner.run<Digest, File>(_getContentSha256, file);
+    } finally {
+      await runner.close();
+    }
 
     final List<int> headerBytes = <int>[];
     await for (List<int> buffer in file.openRead(0, 256)) {

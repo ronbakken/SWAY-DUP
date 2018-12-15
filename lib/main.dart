@@ -46,11 +46,13 @@ Future<void> launchApp() async {
   Logger('Switchboard.Router').level = Level.ALL;
 
   // Load well-known config from APK
-  final ConfigData config = await loadConfig();
+  ConfigData config = await loadConfig();
   // Override starting configuration endPoint
   // TODO: Remove this
+  config = config.toBuilder();
   config.services.endPoint =
       'ws://192.168.105.2:8090/ep'; // "ws://192.168.167.2:8090/ep";
+  config.freeze();
   // Load known local accounts from SharedPreferences
   final MultiAccountStore multiAccountStore =
       await loadMultiAccountStore(config.services.domain);

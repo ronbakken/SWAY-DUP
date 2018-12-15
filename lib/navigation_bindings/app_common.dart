@@ -5,6 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ import 'package:inf/screens/debug_account.dart';
 import 'package:inf/screens/haggle_view.dart';
 import 'package:inf/screens/profile_view.dart';
 import 'package:inf/screens/proposal_list.dart';
+import 'package:file/file.dart' as file;
+import 'package:file/local.dart' as file;
 
 abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
   ApiClient _network;
@@ -213,7 +216,7 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
             proposal: proposal,
             offer: offer,
             chats: chats,
-            onUploadImage: network.uploadImage,
+            onUploadImage: (File f) async { return await network.uploadImage(const file.LocalFileSystem().file(f.path)); },
             onPressedProfile: (DataAccount account) {
               navigateToPublicProfile(account.accountId);
             },
