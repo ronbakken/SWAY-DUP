@@ -32,7 +32,7 @@ class ImageUploader extends StatefulWidget {
   // The key of the uploaded image, this value may be sent to the server
   final String initialUrl;
   final TextEditingController uploadKey;
-  final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
+  final Future<NetUploadImageRes> Function(File file) onUploadImage;
 
   @override
   _ImageUploaderState createState() => _ImageUploaderState();
@@ -44,7 +44,7 @@ class _ImageUploaderState extends State<ImageUploader> {
 
   Future<void> uploadImage() async {
     if (widget.onUploadImage != null) {
-      NetUploadImageRes res = await widget.onUploadImage(_image);
+      NetUploadImageRes res = await widget.onUploadImage(_image.file);
       if (!mounted) return;
       widget.uploadKey.text = res.uploadKey;
       setState(() {

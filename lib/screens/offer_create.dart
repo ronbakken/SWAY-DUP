@@ -6,6 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 // import 'dart:async';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,7 @@ class OfferCreate extends StatefulWidget {
   }) : super(key: key);
 
   final Future<DataOffer> Function(NetCreateOffer createOffer) onCreateOffer;
-  final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
+  final Future<NetUploadImageRes> Function(File file) onUploadImage;
 
   @override
   _OfferCreateState createState() => _OfferCreateState();

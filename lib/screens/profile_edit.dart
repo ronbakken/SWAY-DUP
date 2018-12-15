@@ -5,6 +5,7 @@ Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 */
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class ProfileEdit extends StatefulWidget {
   }) : super(key: key);
 
   final DataAccount account;
-  final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
+  final Future<NetUploadImageRes> Function(File file) onUploadImage;
   final Function(dynamic setProfile) onSubmitPressed;
 
   @override

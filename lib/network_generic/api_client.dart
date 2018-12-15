@@ -4,9 +4,9 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'dart:io';
+
 import 'package:fixnum/fixnum.dart';
-import 'package:flutter/material.dart';
-import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:inf_common/inf_common.dart';
 
 enum NetworkConnectionState { connecting, failing, offline, ready }
@@ -90,7 +90,7 @@ abstract class ApiClient {
   /////////////////////////////////////////////////////////////////////////////
 
   /// Upload an image. Disregard the returned request options. Throws error in case of failure
-  Future<NetUploadImageRes> uploadImage(FileImage fileImage);
+  Future<NetUploadImageRes> uploadImage(File file);
 
   // Image selection switches out of the application, so we need to flag to keep the connection alive
   void pushKeepAlive();

@@ -5,7 +5,6 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';

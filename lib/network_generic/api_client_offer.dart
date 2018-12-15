@@ -7,7 +7,6 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/api_client.dart';
 import 'package:inf/network_generic/network_internals.dart';
 import 'package:inf_common/inf_common.dart';

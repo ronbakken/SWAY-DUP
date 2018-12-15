@@ -26,6 +26,7 @@ abstract class MultiAccountStore implements MultiAccountClient {
   }
 
   /// Fired anytime any of the accounts changed (add, remove, or update)
+  @override
   Stream<Change<LocalAccountData>> get onAccountsChanged;
 
   /// Fired anytime a change in accounts is requested.
@@ -33,15 +34,19 @@ abstract class MultiAccountStore implements MultiAccountClient {
   Stream<LocalAccountData> get onSwitchAccount;
 
   /// Switch to another account
+  @override
   void switchAccount(String domain, Int64 accountId);
 
   /// Add an account
+  @override
   void addAccount([String domain]);
 
   /// Remove account
+  @override
   void removeAccount([String domain, Int64 accountId]);
 
   /// List of accounts known locally
+  @override
   List<LocalAccountData> get accounts;
 
   LocalAccountData get current;

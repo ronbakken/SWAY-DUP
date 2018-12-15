@@ -5,6 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
@@ -66,7 +67,7 @@ class HaggleView extends StatefulWidget {
   final Function() onBeginMarkDispute;
   final Function() onBeginMarkCompleted;
 
-  final Future<NetUploadImageRes> Function(FileImage fileImage) onUploadImage;
+  final Future<NetUploadImageRes> Function(File file) onUploadImage;
 
   final Function(DataAccount account) onPressedProfile;
   final Function(DataOffer offer) onPressedOffer;
