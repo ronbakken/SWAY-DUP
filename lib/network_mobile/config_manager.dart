@@ -59,10 +59,12 @@ class ConfigManager {
         entry.backgroundImage = config.assets[entry.backgroundImageId].data;
       }
       if (entry.hasMonochromeForegroundImageId()) {
-        entry.monochromeForegroundImage = config.assets[entry.monochromeForegroundImageId].data;
+        entry.monochromeForegroundImage =
+            config.assets[entry.monochromeForegroundImageId].data;
       }
       if (entry.hasMonochromeBackgroundImageId()) {
-        entry.monochromeBackgroundImage = config.assets[entry.monochromeBackgroundImageId].data;
+        entry.monochromeBackgroundImage =
+            config.assets[entry.monochromeBackgroundImageId].data;
       }
     }
     for (ConfigContentFormat entry in config.contentFormats) {
@@ -73,10 +75,12 @@ class ConfigManager {
         entry.backgroundImage = config.assets[entry.backgroundImageId].data;
       }
       if (entry.hasMonochromeForegroundImageId()) {
-        entry.monochromeForegroundImage = config.assets[entry.monochromeForegroundImageId].data;
+        entry.monochromeForegroundImage =
+            config.assets[entry.monochromeForegroundImageId].data;
       }
       if (entry.hasMonochromeBackgroundImageId()) {
-        entry.monochromeBackgroundImage = config.assets[entry.monochromeBackgroundImageId].data;
+        entry.monochromeBackgroundImage =
+            config.assets[entry.monochromeBackgroundImageId].data;
       }
     }
     for (ConfigCategory entry in config.categories) {
@@ -87,10 +91,12 @@ class ConfigManager {
         entry.backgroundImage = config.assets[entry.backgroundImageId].data;
       }
       if (entry.hasMonochromeForegroundImageId()) {
-        entry.monochromeForegroundImage = config.assets[entry.monochromeForegroundImageId].data;
+        entry.monochromeForegroundImage =
+            config.assets[entry.monochromeForegroundImageId].data;
       }
       if (entry.hasMonochromeBackgroundImageId()) {
-        entry.monochromeBackgroundImage = config.assets[entry.monochromeBackgroundImageId].data;
+        entry.monochromeBackgroundImage =
+            config.assets[entry.monochromeBackgroundImageId].data;
       }
     }
   }

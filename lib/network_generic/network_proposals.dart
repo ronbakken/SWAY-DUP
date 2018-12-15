@@ -168,8 +168,9 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
       NetProposal pbRes = NetProposal();
       pbRes.mergeFromBuffer(res.data);
       _cacheProposal(pbRes.updateProposal); // FIXME: Chat not cached directly!
-      for (DataProposalChat chat in pbRes.newChats){
-        _cacheProposalChat(chat);}
+      for (DataProposalChat chat in pbRes.newChats) {
+        _cacheProposalChat(chat);
+      }
       return pbRes.updateProposal;
     } catch (error) {
       markOfferDirty(offerId);
@@ -374,9 +375,10 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
               NetChatNegotiate pbReq = NetChatNegotiate();
               pbReq.proposalId = ghostChat.proposalId;
               pbReq.sessionGhostId = ghostChat.senderSessionGhostId;
-              Map<String, String> query = Uri.splitQueryString(ghostChat.plainText);
+              Map<String, String> query =
+                  Uri.splitQueryString(ghostChat.plainText);
               pbReq.terms.deliverablesDescription = query['deliverables'];
-              pbReq.terms.rewardItemOrServiceDescription= query['reward'];
+              pbReq.terms.rewardItemOrServiceDescription = query['reward'];
               pbReq.remarks = query['remarks'];
               channel.sendMessage("CH_HAGGLE", pbReq.writeToBuffer());
             }
@@ -386,7 +388,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
               NetChatImageKey pbReq = NetChatImageKey();
               pbReq.proposalId = ghostChat.proposalId;
               pbReq.sessionGhostId = ghostChat.senderSessionGhostId;
-              Map<String, String> query = Uri.splitQueryString(ghostChat.plainText);
+              Map<String, String> query =
+                  Uri.splitQueryString(ghostChat.plainText);
               pbReq.imageKey = query['key'];
               channel.sendMessage("CH_IMAGE", pbReq.writeToBuffer());
             }

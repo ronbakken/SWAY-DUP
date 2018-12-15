@@ -382,7 +382,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                             ConfigProvider.of(context).oauthProviders,
                         onOAuthSelected: (int oauthProvider) {
                           setState(() {
-                            demoAccount.socialMedia[oauthProvider] ??= DataSocialMedia();
+                            demoAccount.socialMedia[oauthProvider] ??=
+                                DataSocialMedia();
                             demoAccount.socialMedia[oauthProvider].connected =
                                 true;
                             demoAccount.socialMedia[oauthProvider]
