@@ -15,7 +15,9 @@ message ConfigSubCategories {
   repeated string labels = 1;
 }
 
-message ConfigOAuthProvider { // 34
+message ConfigOAuthProvider { // 35
+  int32 provider_id = 35;
+
   /// Database key
   string key = 33;
 
@@ -90,6 +92,8 @@ message ConfigOAuthProvider { // 34
 }
 
 message ConfigContentFormat {
+  int32 format_id = 12;
+  
   /// Visual specification
   string label = 2; // Display name
   int32 sorting = 3;
