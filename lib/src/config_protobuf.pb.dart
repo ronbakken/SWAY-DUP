@@ -86,6 +86,10 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..aOS(33, 'key')
     ..a<int>(34, 'deliverablesChannel', $pb.PbFieldType.O3)
     ..a<int>(35, 'providerId', $pb.PbFieldType.O3)
+    ..a<List<int>>(36, 'foregroundImage', $pb.PbFieldType.OY)
+    ..a<List<int>>(37, 'backgroundImage', $pb.PbFieldType.OY)
+    ..a<List<int>>(38, 'monochromeForegroundImage', $pb.PbFieldType.OY)
+    ..a<List<int>>(39, 'monochromeBackgroundImage', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
@@ -362,6 +366,38 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
 
   bool hasProviderId() => $_has(32);
   void clearProviderId() => clearField(35);
+
+  List<int> get foregroundImage => $_getN(33);
+  set foregroundImage(List<int> v) {
+    $_setBytes(33, v);
+  }
+
+  bool hasForegroundImage() => $_has(33);
+  void clearForegroundImage() => clearField(36);
+
+  List<int> get backgroundImage => $_getN(34);
+  set backgroundImage(List<int> v) {
+    $_setBytes(34, v);
+  }
+
+  bool hasBackgroundImage() => $_has(34);
+  void clearBackgroundImage() => clearField(37);
+
+  List<int> get monochromeForegroundImage => $_getN(35);
+  set monochromeForegroundImage(List<int> v) {
+    $_setBytes(35, v);
+  }
+
+  bool hasMonochromeForegroundImage() => $_has(35);
+  void clearMonochromeForegroundImage() => clearField(38);
+
+  List<int> get monochromeBackgroundImage => $_getN(36);
+  set monochromeBackgroundImage(List<int> v) {
+    $_setBytes(36, v);
+  }
+
+  bool hasMonochromeBackgroundImage() => $_has(36);
+  void clearMonochromeBackgroundImage() => clearField(39);
 }
 
 class ConfigContentFormat extends $pb.GeneratedMessage {
@@ -378,6 +414,10 @@ class ConfigContentFormat extends $pb.GeneratedMessage {
     ..a<int>(10, 'monochromeForegroundImageId', $pb.PbFieldType.O3)
     ..a<int>(11, 'monochromeBackgroundImageId', $pb.PbFieldType.O3)
     ..a<int>(12, 'formatId', $pb.PbFieldType.O3)
+    ..a<List<int>>(14, 'foregroundImage', $pb.PbFieldType.OY)
+    ..a<List<int>>(15, 'backgroundImage', $pb.PbFieldType.OY)
+    ..a<List<int>>(16, 'monochromeForegroundImage', $pb.PbFieldType.OY)
+    ..a<List<int>>(17, 'monochromeBackgroundImage', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
   ConfigContentFormat() : super();
@@ -484,6 +524,38 @@ class ConfigContentFormat extends $pb.GeneratedMessage {
 
   bool hasFormatId() => $_has(10);
   void clearFormatId() => clearField(12);
+
+  List<int> get foregroundImage => $_getN(11);
+  set foregroundImage(List<int> v) {
+    $_setBytes(11, v);
+  }
+
+  bool hasForegroundImage() => $_has(11);
+  void clearForegroundImage() => clearField(14);
+
+  List<int> get backgroundImage => $_getN(12);
+  set backgroundImage(List<int> v) {
+    $_setBytes(12, v);
+  }
+
+  bool hasBackgroundImage() => $_has(12);
+  void clearBackgroundImage() => clearField(15);
+
+  List<int> get monochromeForegroundImage => $_getN(13);
+  set monochromeForegroundImage(List<int> v) {
+    $_setBytes(13, v);
+  }
+
+  bool hasMonochromeForegroundImage() => $_has(13);
+  void clearMonochromeForegroundImage() => clearField(16);
+
+  List<int> get monochromeBackgroundImage => $_getN(14);
+  set monochromeBackgroundImage(List<int> v) {
+    $_setBytes(14, v);
+  }
+
+  bool hasMonochromeBackgroundImage() => $_has(14);
+  void clearMonochromeBackgroundImage() => clearField(17);
 }
 
 class ConfigCategory extends $pb.GeneratedMessage {
@@ -502,6 +574,10 @@ class ConfigCategory extends $pb.GeneratedMessage {
     ..a<int>(11, 'monochromeBackgroundImageId', $pb.PbFieldType.O3)
     ..p<int>(12, 'childIds', $pb.PbFieldType.P3)
     ..a<int>(13, 'categoryId', $pb.PbFieldType.O3)
+    ..a<List<int>>(14, 'foregroundImage', $pb.PbFieldType.OY)
+    ..a<List<int>>(15, 'backgroundImage', $pb.PbFieldType.OY)
+    ..a<List<int>>(16, 'monochromeForegroundImage', $pb.PbFieldType.OY)
+    ..a<List<int>>(17, 'monochromeBackgroundImage', $pb.PbFieldType.OY)
     ..hasRequiredFields = false;
 
   ConfigCategory() : super();
@@ -615,6 +691,38 @@ class ConfigCategory extends $pb.GeneratedMessage {
 
   bool hasCategoryId() => $_has(12);
   void clearCategoryId() => clearField(13);
+
+  List<int> get foregroundImage => $_getN(13);
+  set foregroundImage(List<int> v) {
+    $_setBytes(13, v);
+  }
+
+  bool hasForegroundImage() => $_has(13);
+  void clearForegroundImage() => clearField(14);
+
+  List<int> get backgroundImage => $_getN(14);
+  set backgroundImage(List<int> v) {
+    $_setBytes(14, v);
+  }
+
+  bool hasBackgroundImage() => $_has(14);
+  void clearBackgroundImage() => clearField(15);
+
+  List<int> get monochromeForegroundImage => $_getN(15);
+  set monochromeForegroundImage(List<int> v) {
+    $_setBytes(15, v);
+  }
+
+  bool hasMonochromeForegroundImage() => $_has(15);
+  void clearMonochromeForegroundImage() => clearField(16);
+
+  List<int> get monochromeBackgroundImage => $_getN(16);
+  set monochromeBackgroundImage(List<int> v) {
+    $_setBytes(16, v);
+  }
+
+  bool hasMonochromeBackgroundImage() => $_has(16);
+  void clearMonochromeBackgroundImage() => clearField(17);
 }
 
 class ConfigServices extends $pb.GeneratedMessage {
