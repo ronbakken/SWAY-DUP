@@ -85,6 +85,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..a<int>(32, 'sorting', $pb.PbFieldType.O3)
     ..aOS(33, 'key')
     ..a<int>(34, 'deliverablesChannel', $pb.PbFieldType.O3)
+    ..a<int>(35, 'providerId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
@@ -353,6 +354,14 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
 
   bool hasDeliverablesChannel() => $_has(31);
   void clearDeliverablesChannel() => clearField(34);
+
+  int get providerId => $_get(32, 0);
+  set providerId(int v) {
+    $_setSignedInt32(32, v);
+  }
+
+  bool hasProviderId() => $_has(32);
+  void clearProviderId() => clearField(35);
 }
 
 class ConfigContentFormat extends $pb.GeneratedMessage {
@@ -368,6 +377,7 @@ class ConfigContentFormat extends $pb.GeneratedMessage {
     ..a<int>(9, 'backgroundImageId', $pb.PbFieldType.O3)
     ..a<int>(10, 'monochromeForegroundImageId', $pb.PbFieldType.O3)
     ..a<int>(11, 'monochromeBackgroundImageId', $pb.PbFieldType.O3)
+    ..a<int>(12, 'formatId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   ConfigContentFormat() : super();
@@ -466,6 +476,14 @@ class ConfigContentFormat extends $pb.GeneratedMessage {
 
   bool hasMonochromeBackgroundImageId() => $_has(9);
   void clearMonochromeBackgroundImageId() => clearField(11);
+
+  int get formatId => $_get(10, 0);
+  set formatId(int v) {
+    $_setSignedInt32(10, v);
+  }
+
+  bool hasFormatId() => $_has(10);
+  void clearFormatId() => clearField(12);
 }
 
 class ConfigCategory extends $pb.GeneratedMessage {
