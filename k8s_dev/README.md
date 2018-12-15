@@ -26,7 +26,7 @@ kubectl create secret generic inf-mariadb-root-pass --from-literal=password=04KW
 kubectl create secret generic inf-mariadb-user-pass --from-literal=password=veJxEkenwr7mmC2o
 ```
 
-5. Create the MariaDB instance. This is configured for 4Gi storage.
+5. Create the MariaDB instance. This is configured for 4 GiB storage.
 
 ```
 kubectl apply -f mariadb.yaml
@@ -50,4 +50,27 @@ kubectl port-forward deployment/inf-phpmyadmin 8080:80
 ```
 
 7. Head over to http://localhost:8080, select the inf database, and import inf.sql. Then Ctrl+C close the fowarding.
+8. Launch an Elasticsearch cluster. The configuration launches two nodes, with 20 GiB storage each. They may take a while to launch.
 
+```
+kubectl apply -f elasticsearch.yaml
+kubectl get pods
+kubectl logs inf-elasticsearch-0
+```
+```
+NAME                              READY   STATUS    RESTARTS   AGE
+inf-elasticsearch-0               1/1     Running   0          3m5s
+inf-elasticsearch-1               1/1     Running   0          108s
+inf-mariadb-85d98bd689-84z2d      1/1     Running   0          25m
+inf-phpmyadmin-5f4999db4d-2t5gr   1/1     Running   0          20m
+```
+
+9. Add a Kibana instance to manage the Elasticsearch cluster.
+
+```
+kubectl apply -f kibana.yaml
+kubectl get pods
+kubectl port-forward deployment/inf-kibana 5601:5601
+```
+
+10. Hop on to http://localhost:5601/, and under Dev Tools enter the `PUT ... "mappings" ...` queries from `inf_common/protobuf/data_elasticsearch_.....txt` to configure the search indices. Close the forwarding using Ctrl+C in the command line.

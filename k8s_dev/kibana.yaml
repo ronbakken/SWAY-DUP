@@ -1,0 +1,44 @@
+# kubectl replace -f kibana.yaml
+# kubectl port-forward deployment/inf-kibana 5601:5601
+apiVersion: v1
+kind: Service
+metadata:
+  name: inf-kibana
+  labels:
+    app: inf
+spec:
+  ports:
+    - port: 5601
+  selector:
+    app: inf
+    tier: kibana
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inf-kibana
+  labels:
+    app: inf
+spec:
+  selector:
+    matchLabels:
+      app: inf
+      tier: kibana
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: inf
+        tier: kibana
+    spec:
+      containers:
+      - image: kibana:6.5.1
+        name: kibana
+        env:
+        - name: ELASTICSEARCH_URL
+          value: http://inf-elasticsearch:9200
+        ports:
+        - containerPort: 5601
+          name: http
