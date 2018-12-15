@@ -527,6 +527,7 @@ class ApiChannelOAuth {
     devLog.finest(
         "fetchSocialMedia: $oauthProvider, ${oauthCredentials.userId}, ${oauthCredentials.token}, ${oauthCredentials.tokenSecret}");
     DataSocialMedia dataSocialMedia = new DataSocialMedia();
+    dataSocialMedia.providerId = oauthProvider;
     // Fetch social media stats from the oauth provider. Then store them in the database. Then set them here.
     // Get display name, screen name, followers, following, avatar, banner image
     ConfigOAuthProvider cfg = config.oauthProviders[oauthProvider];

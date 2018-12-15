@@ -168,6 +168,7 @@ class ApiChannelProfile {
       await for (sqljocky.Row row in connectionResults) {
         int oauthProvider = row[0].toInt();
         account.socialMedia[oauthProvider] = DataSocialMedia();
+        account.socialMedia[oauthProvider].providerId = oauthProvider;
         if (row[1] != null)
           account.socialMedia[oauthProvider].displayName = row[1].toString();
         if (row[2] != null)

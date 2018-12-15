@@ -390,6 +390,7 @@ class ApiChannel {
         "WHERE `oauth_user_id` = ? AND `oauth_provider` = ?",
         <dynamic>[oauthUserId, oauthProvider]);
     DataSocialMedia dataSocialMedia = DataSocialMedia();
+    dataSocialMedia.providerId = oauthProvider;
     await for (sqljocky.Row row in results) {
       // one row
       if (row[0] != null) dataSocialMedia.screenName = row[0].toString();
