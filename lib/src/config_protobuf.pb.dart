@@ -501,6 +501,7 @@ class ConfigCategory extends $pb.GeneratedMessage {
     ..a<int>(10, 'monochromeForegroundImageId', $pb.PbFieldType.O3)
     ..a<int>(11, 'monochromeBackgroundImageId', $pb.PbFieldType.O3)
     ..p<int>(12, 'childIds', $pb.PbFieldType.P3)
+    ..a<int>(13, 'categoryId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   ConfigCategory() : super();
@@ -606,6 +607,14 @@ class ConfigCategory extends $pb.GeneratedMessage {
   void clearMonochromeBackgroundImageId() => clearField(11);
 
   List<int> get childIds => $_getList(11);
+
+  int get categoryId => $_get(12, 0);
+  set categoryId(int v) {
+    $_setSignedInt32(12, v);
+  }
+
+  bool hasCategoryId() => $_has(12);
+  void clearCategoryId() => clearField(13);
 }
 
 class ConfigServices extends $pb.GeneratedMessage {

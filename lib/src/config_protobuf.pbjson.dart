@@ -227,6 +227,7 @@ const ConfigContentFormat$json = const {
 const ConfigCategory$json = const {
   '1': 'ConfigCategory',
   '2': const [
+    const {'1': 'category_id', '3': 13, '4': 1, '5': 5, '10': 'categoryId'},
     const {'1': 'parent_id', '3': 5, '4': 1, '5': 5, '10': 'parentId'},
     const {'1': 'sorting', '3': 3, '4': 1, '5': 5, '10': 'sorting'},
     const {'1': 'child_ids', '3': 12, '4': 3, '5': 5, '10': 'childIds'},
