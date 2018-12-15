@@ -116,6 +116,8 @@ message ConfigContentFormat {
 }
 
 message ConfigCategory {
+  int32 category_id = 13;
+  
   int32 parent_id = 5;
   int32 sorting = 3;
   repeated int32 child_ids = 12; // (Denormalized) For faster lookup and listing
