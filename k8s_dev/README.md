@@ -83,3 +83,20 @@ kubectl create secret docker-registry inf-registrykey \
   --docker-password=WajPqob24eItmmCK \
   --docker-email=infmarketplaceapp@gmail.com
 ```
+
+12. Add the API service.
+
+```
+kubectl apply -f inf_server_api.yaml
+kubectl get pods
+kubectl describe pod inf-server-api-6c5bc746b7-x5hkq
+kubectl logs inf-server-api-6c5bc746b7-x5hkq
+```
+
+13. Add a loadbalancer to allow incoming traffic.
+
+```
+kubectl apply -f loadbalancer.yaml
+```
+
+14. Further configure the load balancer on DigitalOcean manually to use a domain name and use Let's Encrypt certificates automatically. Don't mind the target port in the web interface, it's weird.
