@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:file/file.dart' as file;
+import 'package:file/file.dart';
 
 enum NetworkConnectionState { connecting, failing, offline, ready }
 
@@ -89,7 +89,7 @@ abstract class ApiClient {
   /////////////////////////////////////////////////////////////////////////////
 
   /// Upload an image. Disregard the returned request options. Throws error in case of failure
-  Future<NetUploadImageRes> uploadImage(file.File file);
+  Future<NetUploadImageRes> uploadImage(File file);
 
   // Image selection switches out of the application, so we need to flag to keep the connection alive
   void pushKeepAlive();

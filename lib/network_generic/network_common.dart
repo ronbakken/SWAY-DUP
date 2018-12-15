@@ -17,7 +17,7 @@ import 'package:mime/mime.dart';
 import 'package:isolate/isolate.dart';
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart'; // Necessary for asynchronous hashing.
-import 'package:file/file.dart' as file;
+import 'package:file/file.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:inf/network_generic/network_manager.dart';
@@ -625,11 +625,11 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   // Image upload
   /////////////////////////////////////////////////////////////////////////////
 
-  static Digest _getContentSha256(file.File file) {
+  static Digest _getContentSha256(File file) {
     final DigestSink convertedSink = DigestSink();
     final ByteConversionSink fileSink =
         sha256.startChunkedConversion(convertedSink);
-    final file.RandomAccessFile readFile =
+    final RandomAccessFile readFile =
         file.openSync();
     final Uint8List buffer = Uint8List(65536);
     int read;
@@ -641,10 +641,10 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   @override
-  Future<NetUploadImageRes> uploadImage(file.File file) async {
+  Future<NetUploadImageRes> uploadImage(File file) async {
     final IsolateRunner runner = await IsolateRunner.spawn();
     final Digest contentSha256 =
-        await runner.run<Digest, file.File>(_getContentSha256, file);
+        await runner.run<Digest, File>(_getContentSha256, file);
     await runner.close();
 
     final List<int> headerBytes = <int>[];
