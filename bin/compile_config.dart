@@ -286,6 +286,7 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
     }
 
     String section = entryMap[i];
+    entry.providerId = i;
     if (cfg.hasOption(section, 'key'))
       entry.key = cfg.get(section, 'key');
     if (cfg.hasOption(section, 'visible'))
@@ -414,6 +415,7 @@ Future<List<ConfigCategory>> generateConfigCategories(
       continue;
     }
     String section = categoryMap[id];
+    entry.categoryId = id;
     if (cfg.hasOption(section, "parentId")) {
       entry.parentId = int.parse(cfg.get(section, 'parentId'));
     }
@@ -498,6 +500,7 @@ Future<List<ConfigContentFormat>> generateConfigContentFormats(
       continue;
     }
     String section = entryMap[id];
+    entry.formatId = id;
     entry.label = section;
     if (cfg.hasOption(section, "sorting")) {
       entry.sorting = int.parse(cfg.get(section, 'sorting'));
