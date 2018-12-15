@@ -224,7 +224,8 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
       }();
     }
     if (_offersSortedDirty) {
-      _offersSorted = _offers.toList()..sort((Int64 a, Int64 b) => a.compareTo(b));
+      _offersSorted = _offers.toList()
+        ..sort((Int64 a, Int64 b) => a.compareTo(b));
       _offersSortedDirty = false;
     }
     return _offersSorted;

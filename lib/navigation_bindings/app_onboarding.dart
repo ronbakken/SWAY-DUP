@@ -84,8 +84,8 @@ class _AppOnboardingState extends State<AppOnboarding> {
         }*/
         // TODO: Fix network delay on accountId update, change message structure
         bool canSignUp = (network.account.accountId == 0) &&
-            network.account.socialMedia.values.any(
-                (DataSocialMedia data) => data.canSignUp);
+            network.account.socialMedia.values
+                .any((DataSocialMedia data) => data.canSignUp);
         assert(config != null);
         assert(network != null);
         return OnboardingSocial(

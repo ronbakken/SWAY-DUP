@@ -29,8 +29,7 @@ class FollowerTray extends StatelessWidget {
       if (media.connected) {
         followerWidgets.add(FollowerWidget(
           oAuthProvider: oauthProviders[media.providerId],
-          followerCount:
-              max(media.followersCount, media.friendsCount),
+          followerCount: max(media.followersCount, media.friendsCount),
         ));
       }
     }
