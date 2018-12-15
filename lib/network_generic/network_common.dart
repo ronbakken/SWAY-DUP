@@ -6,20 +6,19 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:inf/network_generic/network_common.dart';
 import 'package:logging/logging.dart';
 import 'package:switchboard/switchboard.dart';
-import 'package:device_info/device_info.dart';
 import 'package:mime/mime.dart';
+import 'package:isolate/isolate.dart';
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest_sink.dart'; // Necessary for asynchronous hashing.
+import 'package:file/file.dart' as file;
+import 'package:http/http.dart' as http;
 
 import 'package:inf/network_generic/network_manager.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
@@ -319,8 +318,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
   Future<void> _sessionCreate() async {
     log.info("Create session");
-    final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    String deviceName = "unknown_device";
+    // final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    final String deviceName = 'unknown_device';
+    /*
     try {
       if (Platform.isAndroid) {
         final AndroidDeviceInfo info = await deviceInfo.androidInfo;
@@ -332,6 +332,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     } catch (ex) {
       log.severe('Failed to get device name');
     }
+    */
     final NetSessionCreate create = NetSessionCreate();
     create.deviceName = deviceName;
     create.deviceToken = multiAccountStore.getDeviceToken();
@@ -624,11 +625,12 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   // Image upload
   /////////////////////////////////////////////////////////////////////////////
 
-  static Digest _getContentSha256(File file) {
+  static Digest _getContentSha256(file.File file) {
     final DigestSink convertedSink = DigestSink();
     final ByteConversionSink fileSink =
         sha256.startChunkedConversion(convertedSink);
-    final RandomAccessFile readFile = file.openSync(mode: FileMode.read);
+    final file.RandomAccessFile readFile =
+        file.openSync();
     final Uint8List buffer = Uint8List(65536);
     int read;
     while ((read = readFile.readIntoSync(buffer)) > 0) {
@@ -639,28 +641,30 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   @override
-  Future<NetUploadImageRes> uploadImage(FileImage fileImage) async {
-    // Build information on file
-    final BytesBuilder builder = BytesBuilder(copy: false);
-    // Digest contentSha256 =
-    //     await sha256.bind(fileImage.file.openRead()).first; // FIXME: This hangs
+  Future<NetUploadImageRes> uploadImage(file.File file) async {
+    final IsolateRunner runner = await IsolateRunner.spawn();
     final Digest contentSha256 =
-        await compute(_getContentSha256, fileImage.file);
-    await fileImage.file.openRead(0, 256).forEach(builder.add);
-    final String contentType = MimeTypeResolver()
-        .lookup(fileImage.file.path, headerBytes: builder.toBytes());
-    final int contentLength = await fileImage.file.length();
+        await runner.run<Digest, file.File>(_getContentSha256, file);
+    await runner.close();
+
+    final List<int> headerBytes = <int>[];
+    await for (List<int> buffer in file.openRead(0, 256)) {
+      headerBytes.addAll(buffer);
+    }
+    final String contentType =
+        MimeTypeResolver().lookup(file.path, headerBytes: headerBytes);
+    final int contentLength = await file.length();
 
     // Create a request to upload the file
     final NetUploadImageReq req = NetUploadImageReq();
-    req.fileName = fileImage.file.path;
+    req.fileName = file.path;
     req.contentLength = contentLength;
     req.contentType = contentType;
     req.contentSha256 = contentSha256.bytes;
 
     // Fetch the pre-signed URL from the server
     final TalkMessage resMessage =
-        await switchboard.sendRequest("api", "UP_IMAGE", req.writeToBuffer());
+        await switchboard.sendRequest('api', 'UP_IMAGE', req.writeToBuffer());
     final NetUploadImageRes res = NetUploadImageRes();
     res.mergeFromBuffer(resMessage.data);
 
@@ -670,21 +674,23 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
 
     // Upload the file
-    final HttpClient httpClient = HttpClient();
-    final HttpClientRequest httpRequest =
-        await httpClient.openUrl(res.requestMethod, Uri.parse(res.requestUrl));
-    httpRequest.headers.add("Content-Type", contentType);
-    httpRequest.headers.add("Content-Length", contentLength);
+    final http.StreamedRequest httpRequest =
+        http.StreamedRequest(res.requestMethod, Uri.parse(res.requestUrl));
+    httpRequest.headers['Content-Type'] = contentType;
+    httpRequest.headers['Content-Length'] = contentLength.toString();
     // FIXME: Spaces doesn't process this option when in pre-signed URL query
-    httpRequest.headers.add('x-amz-acl', 'public-read');
-    await httpRequest.addStream(fileImage.file.openRead());
-    await httpRequest.flush();
-    final HttpClientResponse httpResponse = await httpRequest.close();
-    final BytesBuilder responseBuilder = BytesBuilder(copy: false);
-    await httpResponse.forEach(responseBuilder.add);
-    if (httpResponse.statusCode != 200) {
+    httpRequest.headers['x-amz-acl'] = 'public-read';
+    final Future<http.StreamedResponse> futureResponse = httpRequest.send();
+    await for (List<int> buffer in file.openRead()) {
+      // TODO(kaetemi): Not sure if tracking progress here is feasible, since there's no write blocking on streams...
+      httpRequest.sink.add(buffer);
+    }
+    httpRequest.sink.close();
+    final http.StreamedResponse httpResponse = await futureResponse;
+    final String body = await utf8.decodeStream(httpResponse.stream);
+    if (httpResponse.statusCode < 200 || httpResponse.statusCode >= 300) {
       throw NetworkException(
-          "Status code ${httpResponse.statusCode}, response: ${utf8.decode(responseBuilder.toBytes())}");
+          'Status code ${httpResponse.statusCode}, response: $body');
     }
 
     // Upload successful
