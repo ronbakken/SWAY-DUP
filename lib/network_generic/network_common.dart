@@ -179,15 +179,6 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
           config.language != _config?.language;
       _config = config;
       if (_config != null) {
-        // Match array length
-        for (int i = account.socialMedia.length;
-            i < _config.oauthProviders.length;
-            ++i) {
-          account.socialMedia.add(DataSocialMedia());
-        }
-        account.socialMedia.length = _config.oauthProviders.length;
-      }
-      if (_config != null) {
         _updatePayload(closeExisting: regionOrLanguageChanged);
       }
       onCommonChanged();
@@ -528,12 +519,6 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       cleanupStateSwitchingAccounts();
     }
     account = pb.account;
-    for (int i = account.socialMedia.length;
-        i < _config.oauthProviders.length;
-        ++i) {
-      account.socialMedia.add(DataSocialMedia());
-    }
-    account.socialMedia.length = _config.oauthProviders.length;
     connected = NetworkConnectionState.ready;
     onCommonChanged();
     if (pb.account.accountId != 0) {
@@ -572,8 +557,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     switchboard.sendMessage("api", "A_SETTYP", pb.writeToBuffer());
     // Cancel all social media logins on change, server update on this gets there later
     if (account.accountType != accountType) {
-      for (int i = 0; i < account.socialMedia.length; ++i) {
-        account.socialMedia[i].connected = false;
+      for (DataSocialMedia media in account.socialMedia.values) {
+        media.connected = false;
       }
     }
     // Ghost state, the server doesn't send update for this
@@ -604,7 +589,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     final NetOAuthConnection resPb = NetOAuthConnection();
     resPb.mergeFromBuffer(res.data);
     // Result contains the updated data, so needs to be put into the state
-    if (oauthProvider < account.socialMedia.length &&
+    if (oauthProvider < config.oauthProviders.length &&
         resPb.socialMedia != null) {
       account.socialMedia[oauthProvider] = resPb.socialMedia;
       onCommonChanged();

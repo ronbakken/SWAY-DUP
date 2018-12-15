@@ -126,7 +126,7 @@ class _HaggleViewState extends State<HaggleView> {
     DataProposalChat chat;
 
     chat = new DataProposalChat();
-    chat.senderId = influencerAccountId;
+    chat.senderAccountId = influencerAccountId;
     chat.type = ProposalChatType.ACT_HAGGLE;
     chat.text =
         "deliverables=test+deliverables+text+here&reward=three+fifty&remarks=I+am+the+mostest+awesomester+influencer!";
@@ -134,14 +134,14 @@ class _HaggleViewState extends State<HaggleView> {
     _testingData.add(chat);
 
     chat = new DataProposalChat();
-    chat.senderId = influencerAccountId;
+    chat.senderAccountId = influencerAccountId;
     chat.type = ProposalChatType.ACT_PLAIN;
     chat.text = "This is a plain text message.";
     chat.chatId = new Int64(2);
     _testingData.add(chat);
 
     chat = new DataProposalChat();
-    chat.senderId = influencerAccountId;
+    chat.senderAccountId = influencerAccountId;
     chat.type = ProposalChatType.ACT_PLAIN;
     chat.text =
         "This is a plain text message. But it is very long. Much longer, in fact.";
@@ -149,28 +149,28 @@ class _HaggleViewState extends State<HaggleView> {
     _testingData.add(chat);
 
     chat = new DataProposalChat();
-    chat.senderId = businessAccountId;
+    chat.senderAccountId = businessAccountId;
     chat.type = ProposalChatType.ACT_PLAIN;
     chat.text = "I can talk too.";
     chat.chatId = new Int64(4);
     _testingData.add(chat);
 
     chat = new DataProposalChat();
-    chat.senderId = influencerAccountId;
+    chat.senderAccountId = influencerAccountId;
     chat.type = ProposalChatType.ACT_MARKER;
     chat.text = "marker=1";
     chat.chatId = new Int64(5);
     _testingData.add(chat);
 
     chat = new DataProposalChat();
-    chat.senderId = businessAccountId;
+    chat.senderAccountId = businessAccountId;
     chat.type = ProposalChatType.ACT_PLAIN;
     chat.text = "That's cool.";
     chat.chatId = new Int64(5);
     _testingData.add(chat);
 
     chat = new DataProposalChat();
-    chat.senderId = influencerAccountId;
+    chat.senderAccountId = influencerAccountId;
     chat.type = ProposalChatType.ACT_IMAGE_KEY;
     chat.text = "url=" +
         Uri.encodeQueryComponent(
@@ -179,7 +179,7 @@ class _HaggleViewState extends State<HaggleView> {
     _testingData.add(chat);
 
     chat = new DataProposalChat();
-    chat.senderId = influencerAccountId;
+    chat.senderAccountId = influencerAccountId;
     chat.type = ProposalChatType.ACT_PLAIN;
     chat.text = "Here's a picture of me.";
     chat.chatId = new Int64(7);
@@ -363,7 +363,7 @@ class _HaggleViewState extends State<HaggleView> {
   }
 
   Future<void> _haggle(DataProposalChat chat) async {
-    final Map<String, String> query = Uri.splitQueryString(chat.text);
+    final Map<String, String> query = Uri.splitQueryString(chat.plainText);
     final TextEditingController haggleDeliverablesController =
         TextEditingController();
     haggleDeliverablesController.text = query['deliverables'].toString();
@@ -439,31 +439,31 @@ class _HaggleViewState extends State<HaggleView> {
     final ThemeData theme = Theme.of(context);
     final bool ghost = current.chatId == 0;
     if (current.type == ProposalChatType.marker) {
-      final Map<String, String> query = Uri.splitQueryString(current.text);
+      final Map<String, String> query = Uri.splitQueryString(current.plainText);
       String message;
       switch (ProposalChatMarker.valueOf(int.tryParse(query['marker']))) {
         case ProposalChatMarker.applied:
-          message = current.senderId == accountId
+          message = current.senderAccountId == accountId
               ? "You have applied for ${widget.offer.title}."
-              : "${getAccount(current.senderId).name} has applied for ${widget.offer.title}.";
+              : "${getAccount(current.senderAccountId).name} has applied for ${widget.offer.title}.";
           break;
         case ProposalChatMarker.wantDeal:
-          message = current.senderId == accountId
+          message = current.senderAccountId == accountId
               ? "You want to make a deal."
-              : "${getAccount(current.senderId).name} wants to make a deal.";
+              : "${getAccount(current.senderAccountId).name} wants to make a deal.";
           break;
         case ProposalChatMarker.dealMade:
           message = "A deal has been made. Congratulations!";
           break;
         case ProposalChatMarker.rejected:
-          message = current.senderId == accountId
+          message = current.senderAccountId == accountId
               ? "You have rejected the application."
-              : "${getAccount(current.senderId).name} has rejected the application.";
+              : "${getAccount(current.senderAccountId).name} has rejected the application.";
           break;
         case ProposalChatMarker.markedComplete:
-          message = current.senderId == accountId
+          message = current.senderAccountId == accountId
               ? "You have marked the deal as completed."
-              : "${getAccount(current.senderId).name} has marked the deal as completed.";
+              : "${getAccount(current.senderAccountId).name} has marked the deal as completed.";
           break;
         case ProposalChatMarker.complete:
           message = "The offer has been completed. Well done!";
@@ -492,12 +492,12 @@ class _HaggleViewState extends State<HaggleView> {
         ],
       );
     }
-    final bool mine = current.senderId == accountId;
+    final bool mine = current.senderAccountId == accountId;
     final bool preceeded = previous != null &&
-        previous.senderId == current.senderId &&
+        previous.senderAccountId == current.senderAccountId &&
         previous.type != ProposalChatType.marker;
     final bool followed = next != null &&
-        next.senderId == current.senderId &&
+        next.senderAccountId == current.senderAccountId &&
         next.type != ProposalChatType.marker;
     Widget card;
     Widget content;
@@ -511,7 +511,7 @@ class _HaggleViewState extends State<HaggleView> {
       borderRadius: shapeRadius,
     );
     if (current.type == ProposalChatType.imageKey) {
-      final Map<String, String> query = Uri.splitQueryString(current.text);
+      final Map<String, String> query = Uri.splitQueryString(current.plainText);
       card = Padding(
         padding: const EdgeInsets.all(4.0),
         child: Material(
@@ -539,8 +539,8 @@ class _HaggleViewState extends State<HaggleView> {
         messageTextStyle = messageTextStyle.copyWith(
             color: messageTextStyle.color.withAlpha(128));
       }
-      if (current.type == ProposalChatType.terms) {
-        Map<String, String> query = Uri.splitQueryString(current.text);
+      if (current.type == ProposalChatType.negotiate) {
+        Map<String, String> query = Uri.splitQueryString(current.plainText);
         final Widget info = Column(
           crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
           children: <Widget>[
@@ -653,7 +653,7 @@ class _HaggleViewState extends State<HaggleView> {
         }
       } else {
         // Plain text message
-        content = Text(current.text, style: messageTextStyle);
+        content = Text(current.plainText, style: messageTextStyle);
       }
       card = Card(
         color: mine ? theme.primaryColor : theme.cardColor,
@@ -688,7 +688,7 @@ class _HaggleViewState extends State<HaggleView> {
         return -1;
       }
       if (a.chatId == 0 && b.chatId == 0)
-        return a.sessionGhostId.compareTo(b.sessionGhostId);
+        return a.senderSessionGhostId.compareTo(b.senderSessionGhostId);
       return a.chatId.compareTo(b.chatId);
     });
     for (int i = 0; i < chatsSorted.length; ++i) {

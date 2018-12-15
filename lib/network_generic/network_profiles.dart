@@ -68,7 +68,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
 
   @override
   void hintProfileOffer(DataOffer offer) {
-    Int64 accountId = offer.senderId;
+    Int64 accountId = offer.senderAccountId;
     if (accountId == Int64.ZERO) {
       return;
     }

@@ -90,7 +90,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
 
     sampleOffers[1].terms = DataTerms();
     sampleOffers[1].offerId = Int64(1);
-    sampleOffers[1].senderId = Int64(1);
+    sampleOffers[1].senderAccountId = Int64(1);
     sampleOffers[1].state = OfferState.open;
     sampleOffers[1].stateReason = OfferStateReason.newOffer;
     sampleOffers[1].title = 'Finest Burger Weekend';
@@ -113,7 +113,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
 
     sampleOffers[2].terms = DataTerms();
     sampleOffers[2].offerId = Int64(2);
-    sampleOffers[2].senderId = Int64(1);
+    sampleOffers[2].senderAccountId = Int64(1);
     sampleOffers[2].state = OfferState.open;
     sampleOffers[2].stateReason = OfferStateReason.newOffer;
     sampleOffers[2].title = 'Burger Weekend Fries';
@@ -132,7 +132,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
 
     sampleOffers[3].terms = DataTerms();
     sampleOffers[3].offerId = Int64(3);
-    sampleOffers[3].senderId = Int64(2);
+    sampleOffers[3].senderAccountId = Int64(2);
     sampleOffers[3].state = OfferState.closed;
     sampleOffers[3].stateReason = OfferStateReason.completed;
     sampleOffers[3].title = 'Fishing Season';
@@ -150,14 +150,19 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
   }
 
   void generateSamplesSocial() {
+    sampleAccounts[1].socialMedia[1] = DataSocialMedia();
     sampleAccounts[1].socialMedia[1].connected = true;
     sampleAccounts[1].socialMedia[1].followersCount = 986;
+    sampleAccounts[1].socialMedia[4] = DataSocialMedia();
     sampleAccounts[1].socialMedia[4].connected = true;
     sampleAccounts[1].socialMedia[4].followersCount = 212;
+    sampleAccounts[1].socialMedia[5] = DataSocialMedia();
     sampleAccounts[1].socialMedia[5].connected = true;
     sampleAccounts[1].socialMedia[5].followersCount = 5;
+    sampleAccounts[2].socialMedia[2] = DataSocialMedia();
     sampleAccounts[2].socialMedia[2].connected = true;
     sampleAccounts[2].socialMedia[2].friendsCount = 156;
+    sampleAccounts[2].socialMedia[3] = DataSocialMedia();
     sampleAccounts[2].socialMedia[3].connected = true;
     sampleAccounts[2].socialMedia[3].followersCount = 5432;
   }
@@ -176,25 +181,6 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
     final ConfigData config = ConfigProvider.of(context);
     //demoAccount.detail = DataAccountDetail();
     assert(config != null);
-    for (int i = demoAccount.socialMedia.length;
-        i < config.oauthProviders.length;
-        ++i) {
-      // Add
-      demoAccount.socialMedia.add(
-          DataSocialMedia()); // Important: PB lists can only be extended using add
-    }
-    demoAccount.socialMedia.length = config.oauthProviders.length; // Reduce
-    for (int j = 0; j < sampleAccounts.length; ++j) {
-      for (int i = sampleAccounts[j].socialMedia.length;
-          i < config.oauthProviders.length;
-          ++i) {
-        // Add
-        sampleAccounts[j].socialMedia.add(
-            DataSocialMedia()); // Important: PB lists can only be extended using add
-      }
-      sampleAccounts[j].socialMedia.length =
-          config.oauthProviders.length; // Reduce
-    }
     generateSamplesSocial();
   }
 
@@ -396,6 +382,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                             ConfigProvider.of(context).oauthProviders,
                         onOAuthSelected: (int oauthProvider) {
                           setState(() {
+                            demoAccount.socialMedia[oauthProvider] ??= DataSocialMedia();
                             demoAccount.socialMedia[oauthProvider].connected =
                                 true;
                             demoAccount.socialMedia[oauthProvider]
@@ -465,7 +452,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               demoAccount.globalAccountState = GlobalAccountState.initialize;
               demoAccount.globalAccountStateReason =
                   GlobalAccountStateReason.newAccount;
-              for (int i = 0; i < demoAccount.socialMedia.length; ++i) {
+              for (int i in demoAccount.socialMedia.keys) {
                 demoAccount.socialMedia[i] = DataSocialMedia();
               }
             },

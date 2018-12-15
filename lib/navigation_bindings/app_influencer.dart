@@ -94,13 +94,13 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
           // NavigatorState navigator = Navigator.of(context);
           final DataOffer businessOffer = network.tryGetOffer(offerId);
           final DataAccount businessAccount =
-              network.tryGetProfileSummary(businessOffer.senderId);
+              network.tryGetProfileSummary(businessOffer.senderAccountId);
           return OfferView(
             account: network.account,
             businessOffer: businessOffer,
             businessAccount: businessAccount,
             onBusinessAccountPressed: () {
-              navigateToPublicProfile(businessOffer.senderId);
+              navigateToPublicProfile(businessOffer.senderAccountId);
             },
             onProposalPressed: (Int64 proposalId) {
               navigateToProposal(proposalId);

@@ -7,6 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show ByteData, rootBundle;
+import 'package:inf/network_mobile/config_manager.dart';
 
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
 import 'package:inf/prototype.dart' show Prototype;
@@ -18,6 +19,8 @@ Future<ConfigData> loadConfig() async {
   final ByteData configData = await rootBundle.load('assets/config.bin');
   final ConfigData config = ConfigData();
   config.mergeFromBuffer(configData.buffer.asUint8List());
+  ConfigManager.process(config);
+  config.freeze();
   return config;
 }
 

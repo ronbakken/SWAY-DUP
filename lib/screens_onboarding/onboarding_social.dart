@@ -32,7 +32,7 @@ class OnboardingSocial extends StatelessWidget {
 
   final AccountType accountType;
   final List<ConfigOAuthProvider> oauthProviders;
-  final List<DataSocialMedia> oauthState;
+  final Map<int, DataSocialMedia> oauthState;
 
   final String termsOfServiceUrl;
   final String privacyPolicyUrl;
@@ -44,9 +44,7 @@ class OnboardingSocial extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> oauthButtons = List<Widget>();
     print("OAuth Providers: " + oauthProviders.length.toString());
-    int nbButtons = oauthProviders.length < oauthState.length
-        ? oauthProviders.length
-        : oauthState.length;
+    int nbButtons = oauthProviders.length;
     bool connected = false;
     for (int i = 0; i < nbButtons; ++i) {
       ConfigOAuthProvider cfg = oauthProviders[i];
@@ -54,7 +52,7 @@ class OnboardingSocial extends StatelessWidget {
           cfg.canAlwaysAuthenticate &&
           cfg.canConnect &&
           cfg.mechanism != OAuthMechanism.none) {
-        if (oauthState[i].connected) {
+        if (oauthState[i]?.connected == true) {
           connected = true;
         }
         Widget r =
@@ -63,13 +61,13 @@ class OnboardingSocial extends StatelessWidget {
               fontFamily: 'FontAwesomeBrands',
               fontPackage: 'font_awesome_flutter')),
           Text(cfg.label.toUpperCase()),
-          Icon((oauthState[i].connected && !oauthState[i].expired)
+          Icon((oauthState[i]?.connected == true && !oauthState[i].expired)
               ? FontAwesomeIcons.checkCircle
               : FontAwesomeIcons.signInAlt),
         ]);
         Widget w = Container(
           margin: EdgeInsets.symmetric(horizontal: 8.0),
-          child: (oauthState[i].connected
+          child: oauthState[i]?.connected == true
               ? FlatButton(
                   // shape: new StadiumBorder(),
                   child: r,
@@ -83,27 +81,27 @@ class OnboardingSocial extends StatelessWidget {
                           onOAuthSelected(i);
                         }
                       : null,
-                )),
+                ),
         );
         oauthButtons.add(w);
       }
     }
     return Scaffold(
       appBar: AppBar(
-        title: Image(image: AssetImage('assets/logo_appbar.png')),
+        title: const Image(image: AssetImage('assets/logo_appbar.png')),
         centerTitle: true,
       ),
       bottomSheet: NetworkStatus.buildOptional(context),
       body: ListView(
         children: [
           Container(
-            margin: EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: <Widget>[
                 Container(
-                  margin: EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.all(8.0),
                   child: Text(
                     accountType == AccountType.influencer
                         ? "You are now an influencer!"
@@ -113,7 +111,7 @@ class OnboardingSocial extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.all(8.0),
                   child: Text(
                     "Which social media accounts would you like to connect with?",
                     style: Theme.of(context).textTheme.body1,

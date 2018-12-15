@@ -152,13 +152,13 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
           // NavigatorState navigator = Navigator.of(context);
           final DataOffer businessOffer = network.tryGetOffer(offerId);
           final DataAccount businessAccount =
-              network.tryGetProfileSummary(businessOffer.senderId);
+              network.tryGetProfileSummary(businessOffer.senderAccountId);
           return OfferView(
             account: network.account,
             businessAccount: businessAccount,
             businessOffer: businessOffer,
             onBusinessAccountPressed: () {
-              navigateToPublicProfile(businessOffer.senderId);
+              navigateToPublicProfile(businessOffer.senderAccountId);
             },
           );
         },

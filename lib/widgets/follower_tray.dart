@@ -19,18 +19,18 @@ class FollowerTray extends StatelessWidget {
   }) : super(key: key);
 
   final List<ConfigOAuthProvider> oauthProviders;
-  final List<DataSocialMedia> socialMedia;
+  final Map<int, DataSocialMedia> socialMedia;
 
   @override
   Widget build(BuildContext context) {
     List<FollowerWidget> followerWidgets = List<FollowerWidget>();
 
-    for (int i = 1; i < socialMedia.length; i++) {
-      if (socialMedia[i].connected) {
+    for (DataSocialMedia media in socialMedia.values) {
+      if (media.connected) {
         followerWidgets.add(FollowerWidget(
-          oAuthProvider: oauthProviders[i],
+          oAuthProvider: oauthProviders[media.providerId],
           followerCount:
-              max(socialMedia[i].followersCount, socialMedia[i].friendsCount),
+              max(media.followersCount, media.friendsCount),
         ));
       }
     }
