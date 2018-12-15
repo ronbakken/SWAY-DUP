@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: inf-server-api
+  labels:
+    app: inf
+spec:
+  ports:
+    - name: http
+      port: 8090
+  selector:
+    app: inf
+    tier: server-api
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inf-server-api
+  labels:
+    app: inf
+spec:
+  selector:
+    matchLabels:
+      app: inf
+      tier: server-api
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: inf
+        tier: server-api
+    spec:
+      imagePullSecrets:
+      - name: inf-registrykey
+      containers:
+      - image: infmarketplace/inf_server_api:develop
+        name: server-api
+        ports:
+        - containerPort: 8090
+          name: http

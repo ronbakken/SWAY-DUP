@@ -74,3 +74,12 @@ kubectl port-forward deployment/inf-kibana 5601:5601
 ```
 
 10. Hop on to http://localhost:5601/, and under Dev Tools enter the `PUT ... "mappings" ...` queries from `inf_common/protobuf/data_elasticsearch_.....txt` to configure the search indices. Close the forwarding using Ctrl+C in the command line.
+11. Add the read-only credentials for the private Docker repositories to the Kubernetes cluster.
+
+```
+kubectl create secret docker-registry inf-registrykey \
+  --docker-server=https://index.docker.io/v1/ \
+  --docker-username=infbot \
+  --docker-password=WajPqob24eItmmCK \
+  --docker-email=infmarketplaceapp@gmail.com
+```
