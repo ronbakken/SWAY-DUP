@@ -11,6 +11,7 @@ class AppTheme {
   static const grey = const Color(0xFF2c2c2f);
   static const blue = const Color(0xFF073764);
   static const lightBlue = const Color(0xFF0070c0);
+  static const lighterBlue = const Color.fromARGB(255, 100, 206, 255);
   static const red = const Color(0xFFDC7274);
   static const white30 = const Color(0x66FFFFFF);
   static const white50 = const Color(0x80FFFFFF);

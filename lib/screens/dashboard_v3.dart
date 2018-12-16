@@ -121,6 +121,7 @@ class _DashboardV3State extends State<DashboardV3> {
         bottomNavigationBar: _DashboardBottomNavigation(
           accountType: widget.account.accountType,
           onTap: _onBottomTap,
+          currentTab: _currentTab,
         ));
   }
 
@@ -136,9 +137,12 @@ class _DashboardBottomNavigation extends StatelessWidget {
   final Function(int index) onTap;
   final int currentTab;
 
-  const _DashboardBottomNavigation(
-      {Key key, this.accountType, this.onTap, this.currentTab})
-      : super(key: key);
+  const _DashboardBottomNavigation({
+    Key key,
+    @required this.accountType,
+    @required this.onTap,
+    @required this.currentTab,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

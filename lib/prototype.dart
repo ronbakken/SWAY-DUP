@@ -5,11 +5,13 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
+import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 
 import 'package:inf/developer_menu.dart';
 import 'package:inf/navigation_bindings/app_switch.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
+import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf/network_inheritable/network_stack.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/utility/rebuild_tracker.dart';
@@ -151,11 +153,31 @@ class _PrototypeState extends State<Prototype> {
     // Adjust widget themes
     theme = theme.copyWith(
       buttonTheme: theme.buttonTheme.copyWith(
-        shape: StadiumBorder(),
+        shape: const StadiumBorder(),
       ),
     );
     // Use final theme
-    theme = AppTheme.themeTopLevel();
+    // theme = AppTheme.themeTopLevel();
+    theme = ThemeData(
+      brightness: Brightness.dark, // This makes things dark!
+      primarySwatch:
+          Colors.blueGrey, // This is just defaults, no need to change!
+      disabledColor: Colors.white12, // Dark fix
+      primaryColorBrightness: Brightness.dark,
+      accentColorBrightness: Brightness.dark,
+      fontFamily: AppFonts.mavenPro,
+    );
+    ApiClient network = NetworkProvider.of(context);
+    theme = theme.copyWith(
+      primaryColor: AppTheme.blue, // AppTheme.blackTwo,
+      backgroundColor: AppTheme.darkGrey,
+      scaffoldBackgroundColor: AppTheme.darkGrey,
+      accentColor: network.account.accountType == AccountType.influencer ? AppTheme.lighterBlue : AppTheme.red, // const Color.fromARGB(255, 100, 206, 255) : const Color.fromARGB(255, 206, 255, 100), // const Color.fromARGB(255, 206, 100, 255), // 
+      buttonTheme: theme.buttonTheme.copyWith(
+        buttonColor: Colors.white,
+        textTheme: ButtonTextTheme.primary,
+      ),
+    );
     return MaterialApp(
       title: 'INF Marketplace',
       // debugShowMaterialGrid: true,
@@ -164,7 +186,7 @@ class _PrototypeState extends State<Prototype> {
           ? Builder(
               builder: (BuildContext context) {
                 return RebuildTracker(
-                  message: "Full app rebuild triggered (3)",
+                  message: 'Full app rebuild triggered (3)',
                   child: AppSwitch(),
                 );
               },
@@ -172,7 +194,7 @@ class _PrototypeState extends State<Prototype> {
           : Builder(
               builder: (BuildContext context) {
                 return RebuildTracker(
-                  message: "Full app rebuild triggered (3)",
+                  message: 'Full app rebuild triggered (3)',
                   child: DeveloperMenu(
                     onExitDevelopmentMode: () {
                       enterDeveloperMenu(false);
@@ -190,7 +212,7 @@ class _PrototypeState extends State<Prototype> {
       startupConfig: widget.startupConfig,
       multiAccountStore: widget.multiAccountStore,
       child: RebuildTracker(
-        message: "Full app rebuild triggered (1)",
+        message: 'Full app rebuild triggered (1)',
         child: Builder(builder: (BuildContext context) {
           return RebuildTracker(
             message: "Full app rebuild triggered (2)",

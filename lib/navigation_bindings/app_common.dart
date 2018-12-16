@@ -246,14 +246,16 @@ abstract class AppCommonState<T extends StatefulWidget>
           final Iterable<DataProposalChat> chats =
               network.tryGetProposalChats(proposalId);
           final DataOffer offer = network.tryGetOffer(proposal.offerId);
-          final DataAccount businessAccount = (proposal.businessAccountId == 0 &&
-                  network.account.accountType == AccountType.business)
-              ? network.account
-              : network.tryGetProfileSummary(proposal.businessAccountId);
-          final DataAccount influencerAccount = (proposal.influencerAccountId == 0 &&
-                  network.account.accountType == AccountType.influencer)
-              ? network.account
-              : network.tryGetProfileSummary(proposal.influencerAccountId);
+          final DataAccount businessAccount =
+              (proposal.businessAccountId == 0 &&
+                      network.account.accountType == AccountType.business)
+                  ? network.account
+                  : network.tryGetProfileSummary(proposal.businessAccountId);
+          final DataAccount influencerAccount =
+              (proposal.influencerAccountId == 0 &&
+                      network.account.accountType == AccountType.influencer)
+                  ? network.account
+                  : network.tryGetProfileSummary(proposal.influencerAccountId);
           // DataProposal proposal = network.tryGetProposal(proposalId);
           return HaggleView(
             account: network.account,
@@ -392,6 +394,27 @@ abstract class AppCommonState<T extends StatefulWidget>
 
   Widget _offersBuilder(BuildContext context) {
     final ApiClient network = NetworkProvider.of(context);
+    if (network.offers.isEmpty) {
+      if (network.offersLoading) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      return Center(
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Nothing here',
+              style: Theme.of(context)
+                  .textTheme
+                  .body1
+                  .copyWith(fontStyle: FontStyle.italic),
+            ),
+          ),
+        ),
+      );
+    }
     return OfferList(
         businessOffers: network.offers
             .map<DataOffer>(

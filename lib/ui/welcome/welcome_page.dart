@@ -74,7 +74,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     const SizedBox(height: 12.0),
                     InfStadiumButton(
                       text: 'I am an influencer'.toUpperCase(),
-                      color: AppTheme.blue,
+                      color: const Color.fromARGB(255, 100, 206, 255), // AppTheme.blue,
                       onPressed: widget.onInfluencer,
                       /*() => Navigator.of(context).push<void>(
                           OnBoardingPage.route(

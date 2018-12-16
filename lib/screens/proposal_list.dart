@@ -12,7 +12,7 @@ import 'package:inf/styling_constants.dart';
 import 'package:inf_common/inf_common.dart';
 
 class ProposalList extends StatelessWidget {
-  ProposalList({
+  const ProposalList({
     @required this.account,
     @required this.proposals,
     @required this.getProfileSummary,
@@ -40,7 +40,7 @@ class ProposalList extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(
-              "Nothing here",
+              'Nothing here',
               style: Theme.of(context)
                   .textTheme
                   .body1

@@ -24,7 +24,9 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
   final Map<Int64, _CachedOffer> _cachedOffers = <Int64, _CachedOffer>{};
 
   @override
-  bool offersLoading = false;
+  bool get offersLoading {
+    return _offersRefreshing;
+  }
 
   final Lock _offersLock = Lock();
   bool _offersDirty = true;
@@ -213,6 +215,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
         try {
           await refreshOffers();
           _offersRefreshing = false;
+          onOffersChanged();
         } catch (error, stackTrace) {
           log.severe('Error while refreshing offers: $error\n$stackTrace');
           Timer(Duration(seconds: 3), () {
