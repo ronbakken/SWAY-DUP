@@ -189,6 +189,11 @@ class ApiChannelProposal {
       proposal.termsChatId = termsChatId;
       chat.chatId = termsChatId;
       chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      if (account.accountType == AccountType.business) {
+        proposal.businessWantsDeal = true;
+      } else {
+        proposal.influencerWantsDeal = true;
+      }
 
       // 3. Update haggle on proposal
       // On automatic accept we're not updating business_wants_deal here, it's not necessary

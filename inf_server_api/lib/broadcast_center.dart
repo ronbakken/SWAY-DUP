@@ -207,9 +207,9 @@ class BroadcastCenter {
       notification['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
       notification['android_channel_id'] = 'chat';
       Map<String, dynamic> data = Map<String, dynamic>();
-      data['sender_account_id'] = chat.chat.senderAccountId;
-      data['receiver_account_id'] = receiverAccountId;
-      data['proposal_id'] = chat.chat.proposalId;
+      data['sender_account_id'] = chat.chat.senderAccountId.toInt();
+      data['receiver_account_id'] = receiverAccountId.toInt();
+      data['proposal_id'] = chat.chat.proposalId.toInt();
       data['type'] = chat.chat.type.value;
       // TODO: Include image key, terms, etc, or not?
       data['domain'] = config.services.domain;
