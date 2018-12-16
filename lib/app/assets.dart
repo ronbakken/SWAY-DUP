@@ -1,3 +1,4 @@
+
 class AppFonts {
   const AppFonts();
 
@@ -11,30 +12,11 @@ class AppLogo {
   static const infLogo = AppAsset.vector('assets/images/logo_inf.svg');
   static const infLogoWithShadow =
       AppAsset.vector('assets/images/logo_inf_shadow.svg');
-
-  /*
   static const instagram = AppAsset.bitmap('assets/images/logo_instagram.png');
   static const facebook = AppAsset.vector('assets/images/logo_facebook.svg');
   static const google = AppAsset.vector('assets/images/logo_google.svg');
   static const twitter = AppAsset.vector('assets/images/logo_twitter.svg');
   static const email = AppAsset.vector('assets/images/logo_email.svg');
-
-  static AppAsset getDeliverableChannel(DeliverableChannels channel) {
-    switch (channel) {
-      case DeliverableChannels.instagram:
-        return instagram;
-      case DeliverableChannels.facebook:
-        return facebook;
-      case DeliverableChannels.twitter:
-        return twitter;
-      // TODO add correct images for channels
-      case DeliverableChannels.youtube:
-      case DeliverableChannels.blog:
-      case DeliverableChannels.custom:
-        return twitter;
-    }
-    throw StateError('Bad Deliverable Channel');
-  }*/
 }
 
 class AppIcons {
@@ -67,13 +49,14 @@ class AppIcons {
   static const earnings = AppAsset.vector('assets/images/icon_earnings.svg');
   static const edit = AppAsset.vector('assets/images/icon_edit.svg');
   static const payments = AppAsset.vector('assets/images/icon_payment.svg');
-
   static const browse = AppAsset.vector('assets/images/icon_browse.svg');
   static const deals = AppAsset.vector('assets/images/icon_deals.svg');
   static const directOffers = AppAsset.vector('assets/images/icon_direct.svg');
   static const history = AppAsset.vector('assets/images/icon_history.svg');
   static const switchUser =
       AppAsset.vector('assets/images/icon_switch_user.svg');
+  static const camera = AppAsset.vector('assets/images/icon_camera.svg');
+  static const photo = AppAsset.vector('assets/images/icon_photo.svg');
 }
 
 class AppImages {
@@ -81,12 +64,21 @@ class AppImages {
 
   static const mapPlaceHolder =
       AppAsset.bitmap('assets/images/map_placeholder_tile.png');
+
+  static const onBoarding1 =
+      AppAsset.bitmap('assets/images/img_onboarding1.jpg');
+  static const onBoarding2 =
+      AppAsset.bitmap('assets/images/img_onboarding2.jpg');
+  static const onBoarding3 =
+      AppAsset.bitmap('assets/images/img_onboarding3.jpg');
+
+  static const mockCurves = AppAsset.bitmap('assets/images/img_curves.png');
 }
 
 class AppAsset {
-  const AppAsset.bitmap(this.path) : type = AppAssetType.Bitmap;
+  const AppAsset.bitmap(this.path) : this.type = AppAssetType.Bitmap;
 
-  const AppAsset.vector(this.path) : type = AppAssetType.Vector;
+  const AppAsset.vector(this.path) : this.type = AppAssetType.Vector;
 
   final String path;
   final AppAssetType type;

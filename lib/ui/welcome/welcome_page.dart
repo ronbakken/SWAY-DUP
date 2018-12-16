@@ -7,6 +7,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 // import 'package:inf/ui/welcome/onboarding_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_stadium_button.dart';
 
 // Prototype: onboarding_selection.dart
 
@@ -15,11 +16,13 @@ class WelcomePage extends StatefulWidget {
     Key key,
     @required this.onInfluencer,
     @required this.onBusiness,
+    this.onExistingAccount,
     @required this.welcomeImageUrls,
   }) : super(key: key);
 
   final Function() onInfluencer;
   final Function() onBusiness;
+  final Function() onExistingAccount;
   final List<String> welcomeImageUrls;
 
   @override
@@ -30,114 +33,75 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final secondaryAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+        CurvedAnimation(
+            parent: ModalRoute.of(context).secondaryAnimation,
+            curve: Curves.fastOutSlowIn));
     return Material(
       color: theme.backgroundColor,
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          _WelcomeWall(welcomeImageUrls: widget.welcomeImageUrls),
-          const FractionallySizedBox(
-            alignment: Alignment.bottomCenter,
-            heightFactor: 0.5,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[
-                    Color(0x00000000),
-                    Color(0xCC000000),
-                    Color(0xFF000000),
-                  ],
-                  stops: <double>[
-                    0.5,
-                    0.75,
-                    0.97,
-                  ],
+          _WelcomeWall(data: widget.welcomeImageUrls),
+          FadeTransition(
+            opacity: secondaryAnimation,
+            child: SafeArea(
+              child: Container(
+                padding: const EdgeInsets.only(top: 36.0),
+                alignment: Alignment.topRight,
+                child: _WelcomeHelpPopOut(
+                  content: Text('This is help content'),
                 ),
               ),
             ),
           ),
-          /*
-              SafeArea(
-                child: Container(
-                  padding: const EdgeInsets.only(top: 36.0),
-                  alignment: Alignment.topRight,
-                  child: _WelcomeHelpPopOut(
-                    content: Text('This is help content'),
-                  ),
-                ),
-              ),
-              */
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 48.0),
-              child: Column(
-                children: <Widget>[
-                  const Expanded(
-                    child: Center(
-                      child: InfAssetImage(
-                        AppLogo.infLogoWithShadow,
+          FadeTransition(
+            opacity: secondaryAnimation,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 48.0),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Center(
+                        child: InfAssetImage(
+                          AppLogo.infLogoWithShadow,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 12.0),
-                  _WelcomeButton(
-                    text: 'I AM AN INFLUENCER',
-                    color: AppTheme.blue,
-                    onPressed: widget
-                            .onInfluencer /*() => Navigator.of(context).push(
-                            OnBoardingPage.route(
-                                userType: AccountType.influencer))*/
-                        ,
-                  ),
-                  const SizedBox(height: 12.0),
-                  _WelcomeButton(
-                    text: 'I NEED AN INFLUENCER',
-                    color: AppTheme.red,
-                    onPressed: widget
-                            .onBusiness /*() => Navigator.of(context).push(
-                            OnBoardingPage.route(userType: AccountType.business))*/
-                        ,
-                  ),
-                ],
+                    const SizedBox(height: 12.0),
+                    InfStadiumButton(
+                      text: 'I am an influencer'.toUpperCase(),
+                      color: AppTheme.blue,
+                      onPressed: widget.onInfluencer,
+                      /*() => Navigator.of(context).push<void>(
+                          OnBoardingPage.route(
+                              userType: AccountType.influencer)),*/
+                    ),
+                    const SizedBox(height: 12.0),
+                    InfStadiumButton(
+                      text: 'I need an influencer'.toUpperCase(),
+                      color: AppTheme.red,
+                      onPressed: widget.onBusiness,
+                      /*() => Navigator.of(context).push<void>(
+                          OnBoardingPage.route(userType: AccountType.business)),*/
+                    ),
+                    widget.onExistingAccount != null
+                        ? const SizedBox(height: 12.0)
+                        : const SizedBox(),
+                    widget.onExistingAccount != null
+                        ? FlatButton(
+                            child:
+                                const Text('Go to existing account'),
+                            onPressed: widget.onExistingAccount,
+                          )
+                        : const SizedBox(),
+                  ],
+                ),
               ),
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _WelcomeButton extends StatelessWidget {
-  final String text;
-  final Color color;
-  final VoidCallback onPressed;
-
-  const _WelcomeButton({
-    Key key,
-    @required this.text,
-    @required this.color,
-    @required this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      color: color,
-      shape: const StadiumBorder(),
-      onPressed: onPressed,
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      child: Container(
-        alignment: Alignment.center,
-        height: 44.0,
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontWeight: FontWeight.normal,
-          ),
-        ),
       ),
     );
   }
@@ -157,7 +121,7 @@ class _WelcomeHelpPopOut extends StatefulWidget {
 
 class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
     with SingleTickerProviderStateMixin {
-  final GlobalKey _buttonKey = GlobalKey();
+  final _buttonKey = GlobalKey();
   AnimationController _controller;
   Animation<Offset> _animation;
 
@@ -167,7 +131,7 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
   void initState() {
     super.initState();
     _controller =
-        AnimationController(duration: Duration(milliseconds: 450), vsync: this);
+        AnimationController(duration: Duration(milliseconds: 250), vsync: this);
     _animation = AlwaysStoppedAnimation<Offset>(Offset.zero);
     // FIXME: remove this post frame callback and work out size a better way
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -219,13 +183,13 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const InfAssetImage(
+              InfAssetImage(
                 AppIcons.help,
                 width: 36.0,
               ),
-              const SizedBox(width: 12.0),
+              SizedBox(width: 12.0),
               widget.content,
-              const SizedBox(width: 36.0),
+              SizedBox(width: 36.0),
             ],
           ),
         ),
@@ -237,10 +201,10 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
 class _WelcomeWall extends StatefulWidget {
   const _WelcomeWall({
     Key key,
-    @required this.welcomeImageUrls,
+    @required this.data,
   }) : super(key: key);
 
-  final List<String> welcomeImageUrls;
+  final List<String> data;
 
   @override
   _WelcomeWallState createState() => _WelcomeWallState();
@@ -254,10 +218,9 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_first) {
-      final Iterable<Future<void>> loadingImages = widget.welcomeImageUrls
-          .map<Future<void>>(
-              (String url) => precacheImage(NetworkImage(url), context));
-      Future.wait(loadingImages).then((_) {
+      Iterable<Future<void>> loadingImages = widget.data.map<Future<void>>(
+          (String url) => precacheImage(NetworkImage(url), context));
+      Future.wait<void>(loadingImages).then((_) {
         if (mounted) {
           setState(() => _opacity = 0.5);
         }
@@ -270,20 +233,50 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size * 1.25; // zoom level
     return AnimatedOpacity(
-      duration: Duration(seconds: 3),
-      curve: Curves.decelerate,
       opacity: _opacity,
-      child: OverflowBox(
-        minWidth: size.width,
-        maxWidth: size.width,
-        minHeight: size.height,
-        maxHeight: size.height,
-        child: _WelcomeWallBackground(
-          speed: 24.0,
-          children: widget.welcomeImageUrls
-              .map<Widget>((url) => _buildWallTile(url))
-              .toList(growable: false),
-        ),
+      duration: const Duration(seconds: 3),
+      curve: Curves.decelerate,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Opacity(
+            opacity: 0.5,
+            child: OverflowBox(
+              minWidth: size.width,
+              maxWidth: size.width,
+              minHeight: size.height,
+              maxHeight: size.height,
+              child: _WelcomeWallBackground(
+                speed: 24.0,
+                children: widget.data
+                    .map<Widget>((String url) => _buildWallTile(url))
+                    .toList(growable: false),
+              ),
+            ),
+          ),
+          FractionallySizedBox(
+            alignment: Alignment.bottomCenter,
+            heightFactor: 0.5,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
+                    const Color(0x00000000),
+                    const Color(0xCC000000),
+                    const Color(0xFF000000),
+                  ],
+                  stops: <double>[
+                    0.5,
+                    0.75,
+                    0.97,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -340,7 +333,7 @@ class _WelcomeWallBackground extends MultiChildRenderObjectWidget {
   @override
   void updateRenderObject(
       BuildContext context, _RenderWallBackground renderObject) {
-    renderObject.speed = speed;
+    renderObject..speed = speed;
   }
 }
 

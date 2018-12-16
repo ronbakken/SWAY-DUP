@@ -4,9 +4,12 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:inf/network_inheritable/multi_account_selection.dart';
+import 'package:inf/screens/account_switch.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
 
 import 'package:inf_common/inf_common.dart';
@@ -67,7 +70,7 @@ class _AppOnboardingState extends State<AppOnboarding> {
     );
   }
 
-  void navigateToSocial(BuildContext context) {
+  void navigateToSocial() {
     Navigator.push<MaterialPageRoute>(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, MaterialPageRoute(
@@ -162,25 +165,50 @@ class _AppOnboardingState extends State<AppOnboarding> {
     ));
   }
 
+  void navigateToSwitchAccount() {
+    Navigator.push<MaterialPageRoute<void>>(context,
+        MaterialPageRoute(builder: (BuildContext context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      ConfigData config = ConfigProvider.of(context);
+      // ApiClient network = NetworkProvider.of(context);
+      // NavigatorState navigator = Navigator.of(context);
+      final MultiAccountClient selection = MultiAccountSelection.of(context);
+      return AccountSwitch(
+        domain: config.services.domain,
+        accounts: selection.accounts,
+        onAddAccount: () {
+          selection.addAccount();
+        },
+        onSwitchAccount: (LocalAccountData localAccount) {
+          selection.switchAccount(localAccount.domain, localAccount.accountId);
+        },
+      );
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
-    ConfigData config = ConfigProvider.of(context);
+    final ConfigData config = ConfigProvider.of(context);
     final ApiClient network = NetworkProvider.of(context);
+    final MultiAccountClient selection = MultiAccountSelection.of(context);
+    final bool hasExistingAccounts = selection.accounts.any(
+        (LocalAccountData localAccount) =>
+            localAccount.accountId != Int64.ZERO);
     assert(network != null);
     return WelcomePage(
-      // OnboardingSelection(
       onInfluencer: network.connected == NetworkConnectionState.ready
           ? () {
               network.setAccountType(AccountType.influencer);
-              navigateToSocial(context);
+              navigateToSocial();
             }
           : null,
       onBusiness: network.connected == NetworkConnectionState.ready
           ? () {
               network.setAccountType(AccountType.business);
-              navigateToSocial(context);
+              navigateToSocial();
             }
           : null,
+      onExistingAccount: hasExistingAccounts ? navigateToSwitchAccount : null,
       welcomeImageUrls: config.content.welcomeImageUrls,
     );
   }

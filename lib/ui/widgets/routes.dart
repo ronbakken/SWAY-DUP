@@ -5,7 +5,7 @@ class NoTransitionRoute<T> extends PageRouteBuilder<T> {
     @required WidgetBuilder builder,
     RouteSettings settings = const RouteSettings(),
     bool maintainState = true,
-    Duration transitionDuration = const Duration(milliseconds: 450),
+    Duration transitionDuration = const Duration(milliseconds: 250),
   }) : super(
           settings: settings,
           pageBuilder: (BuildContext context, _, __) {
@@ -21,7 +21,7 @@ class FadePageRoute<T> extends PageRouteBuilder<T> {
     @required WidgetBuilder builder,
     RouteSettings settings = const RouteSettings(),
     bool maintainState = true,
-    Duration transitionDuration = const Duration(milliseconds: 450),
+    Duration transitionDuration = const Duration(milliseconds: 250),
   }) : super(
           settings: settings,
           pageBuilder: (BuildContext context, _, __) => builder(context),

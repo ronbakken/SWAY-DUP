@@ -28,8 +28,8 @@ class ProfileAvatar extends StatelessWidget {
     return SizedBox(
       width: size,
       height: size,
-      child: Hero(
-        tag: (account?.avatarUrl ?? localAccount?.avatarUrl) + tag,
+      //child: Hero(
+      //  tag: (account?.avatarUrl ?? localAccount?.avatarUrl) + tag,
         child: Material(
           type: MaterialType.circle,
           elevation: 0.0,
@@ -48,7 +48,7 @@ class ProfileAvatar extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      //),
     );
   }
 }
