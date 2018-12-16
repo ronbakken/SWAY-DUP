@@ -18,11 +18,13 @@ import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf/screens/business_offer_list.dart';
 import 'package:inf/screens/dashboard_drawer.dart';
 import 'package:inf/screens/dashboard_v3.dart';
+import 'package:inf/screens/offer_create.dart';
 import 'package:inf/screens/offers_map.dart';
 import 'package:inf/screens/profile_edit.dart';
 import 'package:inf/ui/main/menu_drawer.dart';
 import 'package:inf/widgets/network_status.dart';
 import 'package:inf/widgets/offers_showcase.dart';
+import 'package:inf/widgets/progress_dialog.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/screens/debug_account.dart';
 import 'package:inf/screens/haggle_view.dart';
@@ -331,6 +333,79 @@ abstract class AppCommonState<T extends StatefulWidget>
     }));
   }
 
+  void navigateToCreateOffer() {
+    Navigator.push<void>(
+        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+        context, MaterialPageRoute<void>(builder: (context) {
+      // ConfigData config = ConfigProvider.of(context);
+      final ApiClient network = NetworkProvider.of(context);
+      // NavigatorState navigator = Navigator.of(context);
+      return OfferCreate(
+        onUploadImage: (File f) async {
+          return await network
+              .uploadImage(const file.LocalFileSystem().file(f.path));
+        },
+        onCreateOffer: (NetCreateOffer createOffer) async {
+          final dynamic progressDialog = showProgressDialog(
+              context: this.context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                          padding: EdgeInsets.all(24.0),
+                          child: CircularProgressIndicator()),
+                      Text('Creating offer...'),
+                    ],
+                  ),
+                );
+              });
+          DataOffer offer;
+          try {
+            // Create the offer
+            offer = await network.createOffer(createOffer);
+          } catch (error, stackTrace) {
+            print("[INF] Exception creating offer': $error\n$stackTrace");
+          }
+          closeProgressDialog(progressDialog);
+          if (offer == null) {
+            await showDialog<Null>(
+              context: this.context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Create Offer Failed'),
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        const Text('An error has occured.'),
+                        const Text('Please try again later.'),
+                      ],
+                    ),
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Text('Ok'.toUpperCase())],
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            Navigator.of(this.context).pop();
+            navigateToOffer(offer.offerId);
+          }
+        },
+      );
+    }));
+  }
+
   final MapController _mapController = MapController();
   bool _mapFilter = false;
   Int64 _mapHighlightOffer;
@@ -490,6 +565,7 @@ abstract class AppCommonState<T extends StatefulWidget>
       appliedBuilder: _appliedBuilder,
       dealsBuilder: _dealsBuilder,
       drawer: _buildDrawer(context),
+      onMakeAnOffer: navigateToCreateOffer,
     );
   }
 }

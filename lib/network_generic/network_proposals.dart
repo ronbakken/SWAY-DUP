@@ -163,8 +163,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
       pbReq.offerId = offerId;
       pbReq.sessionGhostId = ++nextSessionGhostId;
       pbReq.remarks = remarks;
-      TalkMessage res =
-          await channel.sendRequest("APLYPROP", pbReq.writeToBuffer());
+      TalkMessage res = await switchboard.sendRequest(
+          'api', 'APLYPROP', pbReq.writeToBuffer());
       NetProposal pbRes = NetProposal();
       pbRes.mergeFromBuffer(res.data);
       _cacheProposal(pbRes.updateProposal); // FIXME: Chat not cached directly!
