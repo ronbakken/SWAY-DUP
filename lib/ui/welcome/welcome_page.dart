@@ -33,7 +33,7 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final secondaryAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+    final Animation<double> secondaryAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
         CurvedAnimation(
             parent: ModalRoute.of(context).secondaryAnimation,
             curve: Curves.fastOutSlowIn));
@@ -64,7 +64,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 48.0),
                 child: Column(
                   children: <Widget>[
-                    Expanded(
+                    const Expanded(
                       child: Center(
                         child: InfAssetImage(
                           AppLogo.infLogoWithShadow,
@@ -125,7 +125,7 @@ class _WelcomeHelpPopOut extends StatefulWidget {
 
 class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
     with SingleTickerProviderStateMixin {
-  final _buttonKey = GlobalKey();
+  final GlobalKey _buttonKey = GlobalKey();
   AnimationController _controller;
   Animation<Offset> _animation;
 
@@ -135,13 +135,13 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
   void initState() {
     super.initState();
     _controller =
-        AnimationController(duration: Duration(milliseconds: 250), vsync: this);
-    _animation = AlwaysStoppedAnimation<Offset>(Offset.zero);
+        AnimationController(duration: const Duration(milliseconds: 250), vsync: this);
+    _animation = const AlwaysStoppedAnimation<Offset>(Offset.zero);
     // FIXME: remove this post frame callback and work out size a better way
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final childSize = _buttonKey.currentState.context.size;
+      final Size childSize = _buttonKey.currentState.context.size;
       setState(() {
-        final inset = childSize.height + 16.0;
+        final double inset = childSize.height + 16.0;
         _animation = Tween<Offset>(
           begin: Offset(childSize.width - inset, 0.0),
           end: Offset(inset, 0.0),
@@ -187,13 +187,13 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              InfAssetImage(
+              const InfAssetImage(
                 AppIcons.help,
                 width: 36.0,
               ),
-              SizedBox(width: 12.0),
+              const SizedBox(width: 12.0),
               widget.content,
-              SizedBox(width: 36.0),
+              const SizedBox(width: 36.0),
             ],
           ),
         ),
@@ -222,7 +222,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_first) {
-      Iterable<Future<void>> loadingImages = widget.data.map<Future<void>>(
+      final Iterable<Future<void>> loadingImages = widget.data.map<Future<void>>(
           (String url) => precacheImage(NetworkImage(url), context));
       Future.wait<void>(loadingImages).then((_) {
         if (mounted) {
@@ -235,7 +235,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size * 1.25; // zoom level
+    final Size size = MediaQuery.of(context).size * 1.25; // zoom level
     return AnimatedOpacity(
       opacity: _opacity,
       duration: const Duration(seconds: 3),
@@ -258,18 +258,18 @@ class _WelcomeWallState extends State<_WelcomeWall> {
               ),
             ),
           ),
-          FractionallySizedBox(
+          const FractionallySizedBox(
             alignment: Alignment.bottomCenter,
             heightFactor: 0.5,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: <Color>[
-                    const Color(0x00000000),
-                    const Color(0xCC000000),
-                    const Color(0xFF000000),
+                    Color(0x00000000),
+                    Color(0xCC000000),
+                    Color(0xFF000000),
                   ],
                   stops: <double>[
                     0.5,
@@ -288,7 +288,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   Widget _buildWallTile(String url) {
     return AnimatedSwitcher(
       transitionBuilder: _tileTransitionBuilder,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       child: SizedBox.expand(
         key: ValueKey<String>(url),
         child: Padding(
@@ -389,10 +389,10 @@ class _RenderWallBackground extends RenderBox
 
   @override
   void performLayout() {
-    List<RenderBox> children = getChildrenAsList();
+    final List<RenderBox> children = getChildrenAsList();
 
-    final childWidthConstraint = constraints.maxWidth / 5.0;
-    final childConstraints = BoxConstraints(
+    final double childWidthConstraint = constraints.maxWidth / 5.0;
+    final BoxConstraints childConstraints = BoxConstraints(
       minWidth: childWidthConstraint,
       maxWidth: childWidthConstraint,
       minHeight: childWidthConstraint * 1.4,
@@ -400,13 +400,13 @@ class _RenderWallBackground extends RenderBox
     );
 
     for (int i = 0; i < children.length; i++) {
-      final child = children[i];
+      final RenderBox child = children[i];
       child.layout(childConstraints, parentUsesSize: true);
     }
 
-    Size childSize = firstChild.size;
+    final Size childSize = firstChild.size;
     for (int i = 0, x = 0; i < children.length - 2; i += 3, x++) {
-      final inset = math.exp(x) * 3;
+      final double inset = math.exp(x) * 3;
       _childParentData(children[i + 0]).offset =
           Offset(x * childSize.width, inset + 0 * childSize.height);
       _childParentData(children[i + 1]).offset =
@@ -421,8 +421,8 @@ class _RenderWallBackground extends RenderBox
   _WallParentData _childParentData(RenderBox child) => child.parentData;
 
   void _onTick(Duration duration) {
-    final delta = ((duration.inMicroseconds - _lastDuration.inMicroseconds) /
-        Duration.microsecondsPerSecond);
+    final double delta = (duration.inMicroseconds - _lastDuration.inMicroseconds) /
+        Duration.microsecondsPerSecond;
     _dy += _speed * delta;
     _lastDuration = duration;
     markNeedsPaint();
@@ -430,8 +430,8 @@ class _RenderWallBackground extends RenderBox
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    final segmentHeight = firstChild.size.height * 3;
-    final _top = (segmentHeight * 0.5) + (_dy % (segmentHeight * 2.0));
+    final double segmentHeight = firstChild.size.height * 3;
+    final double _top = (segmentHeight * 0.5) + (_dy % (segmentHeight * 2.0));
     for (int i = 0; i < (2 * size.height / segmentHeight).ceil(); i++) {
       context.pushLayer(
           OffsetLayer(offset: Offset(0.0, -_top + (segmentHeight * i))),

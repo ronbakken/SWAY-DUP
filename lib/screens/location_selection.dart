@@ -96,6 +96,7 @@ class _LocationSelectionState extends State<LocationSelectionScreen> {
 
     // Initialize Confirm Button
     confirmButton = FloatingActionButton(
+      heroTag: 'confirm-location',
       onPressed: () {
         widget.onConfirmPressed(_placeMarkAddress);
         print(_flutterMapController.zoom);

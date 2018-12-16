@@ -263,6 +263,7 @@ class _DashboardCommonState extends State<DashboardCommon>
       floatingActionButton: (widget.onMakeAnOffer != null &&
               (_currentTab == widget.mapTab || _currentTab == widget.offersTab))
           ? FloatingActionButton(
+              heroTag: 'make-an-offer',
               backgroundColor: Theme.of(context).primaryColor,
               tooltip: 'Make an offer',
               child:

@@ -107,19 +107,20 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       log.severe("Network loop died: $error\n$stackTrace");
     });
 
-    Timer.periodic(Duration(seconds: 1), (timer) async {
+    Timer.periodic(Duration(seconds: 1), (Timer timer) async {
       if (!_alive) {
         timer.cancel();
         return;
       }
       if (channel != null) {
+        final TalkChannel currentChannel = channel;
         try {
           await channel.sendRequest("PING", Uint8List(0));
         } catch (error, stackTrace) {
-          log.fine("Ping: $error\n$stackTrace");
-          if (channel != null) {
-            channel.close();
+          log.fine('Ping: $error\n$stackTrace');
+          if (channel == currentChannel) {
             channel = null;
+            await currentChannel.close();
           }
         }
       }
@@ -137,7 +138,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         log.severe(
             "Unexpected error in procedure '$procedureId': $error\n$stackTrace");
         if (message.requestId != 0) {
-          channel.replyAbort(message, "Unexpected error.");
+          channel.replyAbort(message, 'Unexpected error.');
         }
       }
     };
@@ -216,6 +217,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       channel.close();
       channel = null;
     }
+    if (!_kickstartNetwork.isCompleted) {
+      _kickstartNetwork.complete();
+    }
   }
 
   @override
@@ -235,6 +239,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       channel.close();
       channel = null;
     }
+    if (!_kickstartNetwork.isCompleted) {
+      _kickstartNetwork.complete();
+    }
   }
 
   void setApplicationForeground(bool foreground) {
@@ -252,6 +259,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         _awaitingForeground.complete();
         _awaitingForeground = null;
       }
+    }
+    if (!_kickstartNetwork.isCompleted) {
+      _kickstartNetwork.complete();
     }
   }
 
@@ -476,17 +486,21 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       }
     } catch (error, stackTrace) {
       log.warning('Network session exception: $error\n$stackTrace');
-      final TalkChannel tempChannel = channel;
-      channel = null;
-      connected = NetworkConnectionState.failing;
-      onCommonChanged();
-      if (tempChannel != null) {
-        tempChannel.close();
+      try {
+        final TalkChannel tempChannel = channel;
+        channel = null;
+        connected = NetworkConnectionState.failing;
+        onCommonChanged();
+        if (tempChannel != null) {
+          await tempChannel.close();
+        }
+      } catch (error, stackTrace) {
+        log.warning('Network session reset exception: $error\n$stackTrace');
       }
     }
   }
 
-  Future _networkLoop() async {
+  Future<void> _networkLoop() async {
     log.fine('Start network loop.');
     while (_alive) {
       if (!_foreground && (_keepAliveBackground <= 0)) {

@@ -4,6 +4,8 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -194,6 +196,7 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
               (_currentTab == widget.mapOffersTab ||
                   _currentTab == widget.offersBusinessTab))
           ? FloatingActionButton(
+              heroTag: 'make-an-offer' + Random().nextInt(999999).toString(), // TODO: .....
               backgroundColor: Theme.of(context).primaryColor,
               tooltip: 'Make an offer',
               child:

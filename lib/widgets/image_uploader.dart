@@ -60,16 +60,13 @@ class _ImageUploaderState extends State<ImageUploader> {
 
   Future<void> _selectImage(ImageSource source) async {
     File image;
-    NetworkProvider.of(context)
-        .pushKeepAlive(); // Temporary workaround to keep the connection open in the background
+    // NetworkProvider.of(context)
+    //     .pushKeepAlive(); // Temporary workaround to keep the connection open in the background
     try {
       image = await ImagePicker.pickImage(source: source);
-    } catch (error) {
-      rethrow;
     } finally {
-      NetworkProvider.of(context)
-          .popKeepAlive(); // Temporary workaround to keep the connection open in the background
-      // TODO: Have a waiting mechanism in the uploadImage function with timeout
+      // NetworkProvider.of(context)
+      //     .popKeepAlive(); // Temporary workaround to keep the connection open in the background
     }
     if (image != null) {
       setState(() {
