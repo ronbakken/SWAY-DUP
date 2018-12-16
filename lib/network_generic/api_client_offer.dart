@@ -93,12 +93,15 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
   void resetOffersState() {
     _offers.clear();
     _offersDirty = true;
+    _offersSorted.clear();
+    _offersSortedDirty = true;
     _cachedOffers.clear();
   }
 
   @override
   void markOffersDirty() {
     _offersDirty = true;
+    _offersSortedDirty = true;
     for (_CachedOffer cached in _cachedOffers.values) {
       cached.dirty = true;
     }

@@ -340,13 +340,13 @@ abstract class AppCommonState<T extends StatefulWidget>
         MediaQuery.of(context).size.height > 480.0;
     final ApiClient network = NetworkProvider.of(context);
     final ConfigData config = ConfigProvider.of(context);
-    final List<int> showcaseOfferIds = enoughSpaceForBottom
+    final List<Int64> showcaseOfferIds = enoughSpaceForBottom
         ? network.demoAllOffers
-        : <int>[]; // TODO(kaetemi): Explore
+        : <Int64>[]; // TODO(kaetemi): Explore
     final Widget showcase = showcaseOfferIds.isNotEmpty
         ? OffersShowcase(
             getOffer: _getOfferSummary,
-            offerIds: network.demoAllOffers,
+            offerIds: showcaseOfferIds,
             onOfferPressed: (DataOffer offer) {
               navigateToOffer(offer.offerId);
             },
@@ -359,7 +359,7 @@ abstract class AppCommonState<T extends StatefulWidget>
             },
           )
         : null;
-    return OffersMap(
+    final Widget map = OffersMap(
       filterState: _mapFilter,
       account: network.account,
       mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark
@@ -385,6 +385,20 @@ abstract class AppCommonState<T extends StatefulWidget>
       onOfferPressed: navigateToOffer,
       getOffer: _getOfferSummary,
     );
+    return showcase != null
+        ? Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              map,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  showcase,
+                ],
+              )
+            ],
+          )
+        : map;
   }
 
   DataOffer _getOfferSummary(BuildContext context, Int64 offerId) {

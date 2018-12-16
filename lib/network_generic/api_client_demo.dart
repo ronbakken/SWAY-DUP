@@ -30,11 +30,14 @@ abstract class ApiClientDemo implements ApiClient, NetworkInternals {
   void resetDemoAllOffersState() {
     _demoAllOffers.clear();
     _demoAllOffersDirty = true;
+    _demoAllOffersSorted.clear();
+    _demoAllOffersSortedDirty = true;
   }
 
   @override
   void markDemoAllOffersDirty() {
     _demoAllOffersDirty = true;
+    _demoAllOffersSortedDirty = true;
   }
 
   @override

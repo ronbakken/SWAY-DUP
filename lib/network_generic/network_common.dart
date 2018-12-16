@@ -276,7 +276,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     if (localAccount != _currentLocalAccount) {
       cleanupStateSwitchingAccounts();
       if (channel != null) {
-        channel.close();
+        channel.close().then<void>((void _) {
+          cleanupStateSwitchingAccounts();
+        });
         channel = null;
       }
       _currentLocalAccount = null;
