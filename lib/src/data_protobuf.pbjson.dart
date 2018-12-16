@@ -451,6 +451,43 @@ const DataAccount_SocialMediaEntry$json = const {
   '7': const {'7': true},
 };
 
+const DataExploreFilter$json = const {
+  '1': 'DataExploreFilter',
+  '2': const [
+    const {'1': 'keywords', '3': 1, '4': 1, '5': 9, '10': 'keywords'},
+    const {
+      '1': 'socialPlatforms',
+      '3': 2,
+      '4': 3,
+      '5': 5,
+      '10': 'socialPlatforms'
+    },
+    const {
+      '1': 'contentFormats',
+      '3': 3,
+      '4': 3,
+      '5': 5,
+      '10': 'contentFormats'
+    },
+    const {
+      '1': 'minimumTotalValue',
+      '3': 4,
+      '4': 1,
+      '5': 5,
+      '10': 'minimumTotalValue'
+    },
+    const {
+      '1': 'cashValueRequired',
+      '3': 5,
+      '4': 1,
+      '5': 5,
+      '10': 'cashValueRequired'
+    },
+    const {'1': 'latitude', '3': 6, '4': 1, '5': 1, '10': 'latitude'},
+    const {'1': 'longitude', '3': 7, '4': 1, '5': 1, '10': 'longitude'},
+  ],
+};
+
 const DataExploreEntry$json = const {
   '1': 'DataExploreEntry',
   '2': const [

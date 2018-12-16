@@ -1106,6 +1106,85 @@ class DataAccount extends $pb.GeneratedMessage {
   void clearPublishGpsLocation() => clearField(33);
 }
 
+class DataExploreFilter extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataExploreFilter',
+      package: const $pb.PackageName('inf_common'))
+    ..aOS(1, 'keywords')
+    ..p<int>(2, 'socialPlatforms', $pb.PbFieldType.P3)
+    ..p<int>(3, 'contentFormats', $pb.PbFieldType.P3)
+    ..a<int>(4, 'minimumTotalValue', $pb.PbFieldType.O3)
+    ..a<int>(5, 'cashValueRequired', $pb.PbFieldType.O3)
+    ..a<double>(6, 'latitude', $pb.PbFieldType.OD)
+    ..a<double>(7, 'longitude', $pb.PbFieldType.OD)
+    ..hasRequiredFields = false;
+
+  DataExploreFilter() : super();
+  DataExploreFilter.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataExploreFilter.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataExploreFilter clone() => new DataExploreFilter()..mergeFromMessage(this);
+  DataExploreFilter copyWith(void Function(DataExploreFilter) updates) =>
+      super.copyWith((message) => updates(message as DataExploreFilter));
+  $pb.BuilderInfo get info_ => _i;
+  static DataExploreFilter create() => new DataExploreFilter();
+  static $pb.PbList<DataExploreFilter> createRepeated() =>
+      new $pb.PbList<DataExploreFilter>();
+  static DataExploreFilter getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static DataExploreFilter _defaultInstance;
+  static void $checkItem(DataExploreFilter v) {
+    if (v is! DataExploreFilter)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  String get keywords => $_getS(0, '');
+  set keywords(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasKeywords() => $_has(0);
+  void clearKeywords() => clearField(1);
+
+  List<int> get socialPlatforms => $_getList(1);
+
+  List<int> get contentFormats => $_getList(2);
+
+  int get minimumTotalValue => $_get(3, 0);
+  set minimumTotalValue(int v) {
+    $_setSignedInt32(3, v);
+  }
+
+  bool hasMinimumTotalValue() => $_has(3);
+  void clearMinimumTotalValue() => clearField(4);
+
+  int get cashValueRequired => $_get(4, 0);
+  set cashValueRequired(int v) {
+    $_setSignedInt32(4, v);
+  }
+
+  bool hasCashValueRequired() => $_has(4);
+  void clearCashValueRequired() => clearField(5);
+
+  double get latitude => $_getN(5);
+  set latitude(double v) {
+    $_setDouble(5, v);
+  }
+
+  bool hasLatitude() => $_has(5);
+  void clearLatitude() => clearField(6);
+
+  double get longitude => $_getN(6);
+  set longitude(double v) {
+    $_setDouble(6, v);
+  }
+
+  bool hasLongitude() => $_has(6);
+  void clearLongitude() => clearField(7);
+}
+
 class DataExploreEntry extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataExploreEntry',
       package: const $pb.PackageName('inf_common'))
