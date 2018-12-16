@@ -409,6 +409,8 @@ class DataOffer extends $pb.GeneratedMessage {
     ..aOB(47, 'allowNegotiatingProposals')
     ..a<int>(48, 'amountOffered', $pb.PbFieldType.O3)
     ..a<int>(49, 'amountRemaining', $pb.PbFieldType.O3)
+    ..aInt64(50, 'scheduledOpen')
+    ..aInt64(51, 'scheduledClose')
     ..hasRequiredFields = false;
 
   DataOffer() : super();
@@ -695,6 +697,22 @@ class DataOffer extends $pb.GeneratedMessage {
 
   bool hasAmountRemaining() => $_has(36);
   void clearAmountRemaining() => clearField(49);
+
+  Int64 get scheduledOpen => $_getI64(37);
+  set scheduledOpen(Int64 v) {
+    $_setInt64(37, v);
+  }
+
+  bool hasScheduledOpen() => $_has(37);
+  void clearScheduledOpen() => clearField(50);
+
+  Int64 get scheduledClose => $_getI64(38);
+  set scheduledClose(Int64 v) {
+    $_setInt64(38, v);
+  }
+
+  bool hasScheduledClose() => $_has(38);
+  void clearScheduledClose() => clearField(51);
 }
 
 class DataLocation extends $pb.GeneratedMessage {

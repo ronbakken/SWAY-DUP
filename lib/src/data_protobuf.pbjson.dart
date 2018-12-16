@@ -223,6 +223,20 @@ const DataOffer$json = const {
       '10': 'amountRemaining'
     },
     const {
+      '1': 'scheduled_open',
+      '3': 50,
+      '4': 1,
+      '5': 3,
+      '10': 'scheduledOpen'
+    },
+    const {
+      '1': 'scheduled_close',
+      '3': 51,
+      '4': 1,
+      '5': 3,
+      '10': 'scheduledClose'
+    },
+    const {
       '1': 'state',
       '3': 12,
       '4': 1,
