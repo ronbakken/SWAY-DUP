@@ -134,8 +134,8 @@ message DataOffer { // 51
   repeated int32 categories = 23; // (Detail)
   int32 amount_offered = 48; // (Detail) // TODO(kaetemi): api, Elasticsearch, SQL
   int32 amount_remaining = 49; // (Detail) (State) // TODO(kaetemi): api, Elasticsearch, SQL
-  int64 scheduled_open = 50; // (Detail)
-  int64 scheduled_close = 51; // (Detail)
+  int64 scheduled_open = 50; // (Detail) // TODO(kaetemi): api
+  int64 scheduled_close = 51; // (Detail) // TODO(kaetemi): api
   
   // State for sender
   OfferState state = 12; // (Private)
