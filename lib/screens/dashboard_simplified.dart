@@ -196,7 +196,7 @@ class _DashboardSimplifiedState extends State<DashboardSimplified>
               (_currentTab == widget.mapOffersTab ||
                   _currentTab == widget.offersBusinessTab))
           ? FloatingActionButton(
-              heroTag: 'make-an-offer' + Random().nextInt(999999).toString(), // TODO: .....
+              heroTag: 'make-an-offer-' + Random().nextInt(1 << 32).toString(), // TODO: ..... Issue after offer made!
               backgroundColor: Theme.of(context).primaryColor,
               tooltip: 'Make an offer',
               child:

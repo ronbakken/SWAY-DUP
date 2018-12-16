@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inf/navigation_bindings/app_common.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
+import 'package:inf/ui/offers/offer_details_page.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
@@ -153,18 +154,19 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       context,
       MaterialPageRoute(
         settings: RouteSettings(name: '/offer/' + offerId.toString()),
-        builder: (context) {
-          // ConfigData config = ConfigProvider.of(context);
+        builder: (BuildContext context) {
+          ConfigData config = ConfigProvider.of(context);
           final ApiClient network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           final DataOffer businessOffer = network.tryGetOffer(offerId);
           final DataAccount businessAccount =
               network.tryGetProfileSummary(businessOffer.senderAccountId);
-          return OfferView(
+          return OfferDetailsPage(
+            config: config,
             account: network.account,
-            businessAccount: businessAccount,
-            businessOffer: businessOffer,
-            onBusinessAccountPressed: () {
+            senderAccount: businessAccount,
+            offer: businessOffer,
+            onSenderAccountPressed: () {
               navigateToPublicProfile(businessOffer.senderAccountId);
             },
           );

@@ -21,10 +21,10 @@ class OfferView extends StatefulWidget {
   const OfferView({
     Key key,
     this.onApply,
-    @required this.businessOffer,
-    @required this.businessAccount,
+    @required this.offer,
+    @required this.senderAccount,
     @required this.account,
-    this.onBusinessAccountPressed,
+    this.onSenderAccountPressed,
     this.onSharePressed,
     this.onEndPressed,
     this.onEditPressed,
@@ -34,11 +34,11 @@ class OfferView extends StatefulWidget {
 
   final Future<DataProposal> Function(String remarks) onApply;
 
-  final DataOffer businessOffer;
-  final DataAccount businessAccount;
+  final DataOffer offer;
+  final DataAccount senderAccount;
   final DataAccount account;
 
-  final Function() onBusinessAccountPressed;
+  final Function() onSenderAccountPressed;
 
   final Function() onSharePressed;
 
@@ -78,7 +78,7 @@ class _OfferViewState extends State<OfferView> {
 
   Widget _buildInfluencerApply(BuildContext context) {
     if (widget.account.accountType == AccountType.influencer) {
-      if (widget.businessOffer.proposalId == 0) {
+      if (widget.offer.proposalId == 0) {
         return Container(
             margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             child: Column(
@@ -142,7 +142,7 @@ class _OfferViewState extends State<OfferView> {
                     onPressed: widget.onProposalPressed != null
                         ? () {
                             widget.onProposalPressed(
-                                widget.businessOffer.proposalId);
+                                widget.offer.proposalId);
                           }
                         : null,
                   )
@@ -161,20 +161,20 @@ class _OfferViewState extends State<OfferView> {
   Widget build(BuildContext context) {
     final bool withProposal =
         (widget.account.accountType == AccountType.influencer) &&
-            (widget.businessOffer.proposalId != 0);
+            (widget.offer.proposalId != 0);
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           CarouselAppBar(
             context: context,
-            title: Text(widget.businessOffer.title),
-            imageUrls: widget.businessOffer.coverUrls,
-            imagesBlurred: widget.businessOffer.coversBlurred
+            title: Text(widget.offer.title),
+            imageUrls: widget.offer.coverUrls,
+            imagesBlurred: widget.offer.coversBlurred
                 .map<Uint8List>(
                     (coverBlurred) => Uint8List.fromList(coverBlurred))
                 .toList(),
             fallbackBlurred:
-                Uint8List.fromList(widget.businessOffer.thumbnailBlurred),
+                Uint8List.fromList(widget.offer.thumbnailBlurred),
             actions: [
               widget.onSharePressed == null
                   ? null
@@ -191,20 +191,20 @@ class _OfferViewState extends State<OfferView> {
                   //isThreeLine: true, //-------------------
                   //enabled: true,
                   leading: ProfileAvatar(
-                      size: 40.0, account: widget.businessAccount),
+                      size: 40.0, account: widget.senderAccount),
                   title: Text(
-                      widget.businessOffer.senderName.isNotEmpty
-                          ? widget.businessOffer.senderName
-                          : widget.businessAccount.name,
+                      widget.offer.senderName.isNotEmpty
+                          ? widget.offer.senderName
+                          : widget.senderAccount.name,
                       maxLines: 1,
                       overflow: TextOverflow.fade),
                   subtitle: Text(
-                      widget.businessAccount.description.isNotEmpty
-                          ? widget.businessAccount.description
-                          : widget.businessAccount.location,
+                      widget.senderAccount.description.isNotEmpty
+                          ? widget.senderAccount.description
+                          : widget.senderAccount.location,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis),
-                  onTap: widget.onBusinessAccountPressed,
+                  onTap: widget.onSenderAccountPressed,
                 ),
               ),
               widget.onEndPressed == null &&
@@ -315,7 +315,7 @@ class _OfferViewState extends State<OfferView> {
                       style: Theme.of(context).textTheme.caption,
                       textAlign: TextAlign.start,
                     ),
-                    Text(widget.businessOffer.description,
+                    Text(widget.offer.description,
                         style: Theme.of(context).textTheme.body1),
                   ],
                 ),
@@ -335,7 +335,7 @@ class _OfferViewState extends State<OfferView> {
                           ),
                           Text(
                               widget
-                                  .businessOffer.terms.deliverablesDescription,
+                                  .offer.terms.deliverablesDescription,
                               style: Theme.of(context).textTheme.body1),
                         ],
                       ),
@@ -354,7 +354,7 @@ class _OfferViewState extends State<OfferView> {
                             textAlign: TextAlign.start,
                           ),
                           Text(
-                              widget.businessOffer.terms
+                              widget.offer.terms
                                   .rewardItemOrServiceDescription,
                               style: Theme.of(context).textTheme.body1),
                         ],
@@ -362,7 +362,7 @@ class _OfferViewState extends State<OfferView> {
                     ),
               ListTile(
                 leading: const Icon(Icons.pin_drop),
-                title: Text(widget.businessOffer.locationAddress,
+                title: Text(widget.offer.locationAddress,
                     style: Theme.of(context).textTheme.body1),
               ),
               const Divider(),

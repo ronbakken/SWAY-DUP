@@ -631,8 +631,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
                 builder: (BuildContext context) {
                   return OfferView(
-                    businessOffer: sampleOffers[1],
-                    businessAccount: demoAccount,
+                    offer: sampleOffers[1],
+                    senderAccount: demoAccount,
                     account: demoAccount,
                     onSharePressed: () {},
                     onEndPressed: () {},
@@ -708,8 +708,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
                 builder: (BuildContext context) {
                   return OfferView(
-                    businessOffer: sampleOffers[1],
-                    businessAccount: sampleAccounts[1],
+                    offer: sampleOffers[1],
+                    senderAccount: sampleAccounts[1],
                     account: demoAccount,
                     onApply: (String remarks) {
                       // TODO: ------------------------------------------------------

@@ -13,6 +13,7 @@ import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/screens/dashboard_simplified.dart';
+import 'package:inf/ui/offers/offer_details_page.dart';
 import 'package:inf/widgets/network_status.dart';
 
 import 'package:latlong/latlong.dart';
@@ -89,34 +90,35 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
         settings: RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (BuildContext context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-          // ConfigData config = ConfigProvider.of(context);
+          final ConfigData config = ConfigProvider.of(context);
           final ApiClient network = NetworkProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           final DataOffer businessOffer = network.tryGetOffer(offerId);
           final DataAccount businessAccount =
               network.tryGetProfileSummary(businessOffer.senderAccountId);
-          return OfferView(
+          return OfferDetailsPage(
+            config: config,
             account: network.account,
-            businessOffer: businessOffer,
-            businessAccount: businessAccount,
-            onBusinessAccountPressed: () {
+            offer: businessOffer,
+            senderAccount: businessAccount,
+            onSenderAccountPressed: () {
               navigateToPublicProfile(businessOffer.senderAccountId);
             },
-            onProposalPressed: (Int64 proposalId) {
-              navigateToProposal(proposalId);
+            onProposalPressed: () {
+              navigateToProposal(businessOffer.proposalId);
             },
-            onApply: (remarks) async {
+            onApply: (String remarks) async {
               final dynamic progressDialog = showProgressDialog(
                   context: this.context,
                   builder: (BuildContext context) {
                     return Dialog(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: [
+                        children: <Widget>[
                           Container(
                               padding: const EdgeInsets.all(24.0),
                               child: const CircularProgressIndicator()),
-                          Text('Applying for offer...'),
+                          const Text('Applying for offer...'),
                         ],
                       ),
                     );
