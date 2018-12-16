@@ -91,6 +91,8 @@ class _WelcomePageState extends State<WelcomePage> {
                     widget.onExistingAccount != null
                         ? const SizedBox(height: 12.0)
                         : const SizedBox(),
+                    // TODO: This should be a generic fake BACK < button or ACCOUNTS icon in the top-left or top-right
+                    // This feature switches to the list of already logged in accounts
                     widget.onExistingAccount != null
                         ? FlatButton(
                             child:
