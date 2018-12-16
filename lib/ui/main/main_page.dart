@@ -115,9 +115,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
           RepaintBoundary(
             child: Stack(
               children: [
-                widget.networkStatusBuilder != null
-                    ? (widget.networkStatusBuilder(context) ?? SizedBox())
-                    : SizedBox(),
                 /// BrowseSection
                 IgnorePointer(
                   ignoring: _mode != MainPageMode.browse,
@@ -160,6 +157,15 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                       }
                     }
                   },
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.zero, // EdgeInsets.only(bottom: kBottomNavHeight),
+                    child: widget.networkStatusBuilder != null
+                        ? (widget.networkStatusBuilder(context) ?? SizedBox())
+                        : SizedBox(),
+                  ),
                 ),
                 /*
                 LayoutBuilder(
