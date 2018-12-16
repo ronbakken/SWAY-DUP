@@ -451,6 +451,73 @@ const DataAccount_SocialMediaEntry$json = const {
   '7': const {'7': true},
 };
 
+const DataExploreEntry$json = const {
+  '1': 'DataExploreEntry',
+  '2': const [
+    const {
+      '1': 'offer',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataOffer',
+      '10': 'offer'
+    },
+    const {
+      '1': 'account',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataAccount',
+      '10': 'account'
+    },
+  ],
+};
+
+const DataExploreMarker$json = const {
+  '1': 'DataExploreMarker',
+  '2': const [
+    const {
+      '1': 'offer',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataOffer',
+      '10': 'offer'
+    },
+    const {
+      '1': 'account',
+      '3': 4,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataAccount',
+      '10': 'account'
+    },
+    const {
+      '1': 'location',
+      '3': 5,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataLocation',
+      '10': 'location'
+    },
+    const {'1': 'clusterId', '3': 8, '4': 1, '5': 3, '10': 'clusterId'},
+    const {
+      '1': 'parentClusterIds',
+      '3': 9,
+      '4': 1,
+      '5': 3,
+      '10': 'parentClusterIds'
+    },
+    const {
+      '1': 'hiddenMarkers',
+      '3': 10,
+      '4': 1,
+      '5': 5,
+      '10': 'hiddenMarkers'
+    },
+  ],
+};
+
 const DataProposal$json = const {
   '1': 'DataProposal',
   '2': const [

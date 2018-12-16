@@ -1106,6 +1106,138 @@ class DataAccount extends $pb.GeneratedMessage {
   void clearPublishGpsLocation() => clearField(33);
 }
 
+class DataExploreEntry extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataExploreEntry',
+      package: const $pb.PackageName('inf_common'))
+    ..a<DataOffer>(
+        3, 'offer', $pb.PbFieldType.OM, DataOffer.getDefault, DataOffer.create)
+    ..a<DataAccount>(4, 'account', $pb.PbFieldType.OM, DataAccount.getDefault,
+        DataAccount.create)
+    ..hasRequiredFields = false;
+
+  DataExploreEntry() : super();
+  DataExploreEntry.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataExploreEntry.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataExploreEntry clone() => new DataExploreEntry()..mergeFromMessage(this);
+  DataExploreEntry copyWith(void Function(DataExploreEntry) updates) =>
+      super.copyWith((message) => updates(message as DataExploreEntry));
+  $pb.BuilderInfo get info_ => _i;
+  static DataExploreEntry create() => new DataExploreEntry();
+  static $pb.PbList<DataExploreEntry> createRepeated() =>
+      new $pb.PbList<DataExploreEntry>();
+  static DataExploreEntry getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static DataExploreEntry _defaultInstance;
+  static void $checkItem(DataExploreEntry v) {
+    if (v is! DataExploreEntry) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  DataOffer get offer => $_getN(0);
+  set offer(DataOffer v) {
+    setField(3, v);
+  }
+
+  bool hasOffer() => $_has(0);
+  void clearOffer() => clearField(3);
+
+  DataAccount get account => $_getN(1);
+  set account(DataAccount v) {
+    setField(4, v);
+  }
+
+  bool hasAccount() => $_has(1);
+  void clearAccount() => clearField(4);
+}
+
+class DataExploreMarker extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataExploreMarker',
+      package: const $pb.PackageName('inf_common'))
+    ..a<DataOffer>(
+        3, 'offer', $pb.PbFieldType.OM, DataOffer.getDefault, DataOffer.create)
+    ..a<DataAccount>(4, 'account', $pb.PbFieldType.OM, DataAccount.getDefault,
+        DataAccount.create)
+    ..a<DataLocation>(5, 'location', $pb.PbFieldType.OM,
+        DataLocation.getDefault, DataLocation.create)
+    ..aInt64(8, 'clusterId')
+    ..aInt64(9, 'parentClusterIds')
+    ..a<int>(10, 'hiddenMarkers', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  DataExploreMarker() : super();
+  DataExploreMarker.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataExploreMarker.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataExploreMarker clone() => new DataExploreMarker()..mergeFromMessage(this);
+  DataExploreMarker copyWith(void Function(DataExploreMarker) updates) =>
+      super.copyWith((message) => updates(message as DataExploreMarker));
+  $pb.BuilderInfo get info_ => _i;
+  static DataExploreMarker create() => new DataExploreMarker();
+  static $pb.PbList<DataExploreMarker> createRepeated() =>
+      new $pb.PbList<DataExploreMarker>();
+  static DataExploreMarker getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static DataExploreMarker _defaultInstance;
+  static void $checkItem(DataExploreMarker v) {
+    if (v is! DataExploreMarker)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  DataOffer get offer => $_getN(0);
+  set offer(DataOffer v) {
+    setField(3, v);
+  }
+
+  bool hasOffer() => $_has(0);
+  void clearOffer() => clearField(3);
+
+  DataAccount get account => $_getN(1);
+  set account(DataAccount v) {
+    setField(4, v);
+  }
+
+  bool hasAccount() => $_has(1);
+  void clearAccount() => clearField(4);
+
+  DataLocation get location => $_getN(2);
+  set location(DataLocation v) {
+    setField(5, v);
+  }
+
+  bool hasLocation() => $_has(2);
+  void clearLocation() => clearField(5);
+
+  Int64 get clusterId => $_getI64(3);
+  set clusterId(Int64 v) {
+    $_setInt64(3, v);
+  }
+
+  bool hasClusterId() => $_has(3);
+  void clearClusterId() => clearField(8);
+
+  Int64 get parentClusterIds => $_getI64(4);
+  set parentClusterIds(Int64 v) {
+    $_setInt64(4, v);
+  }
+
+  bool hasParentClusterIds() => $_has(4);
+  void clearParentClusterIds() => clearField(9);
+
+  int get hiddenMarkers => $_get(5, 0);
+  set hiddenMarkers(int v) {
+    $_setSignedInt32(5, v);
+  }
+
+  bool hasHiddenMarkers() => $_has(5);
+  void clearHiddenMarkers() => clearField(10);
+}
+
 class DataProposal extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataProposal',
       package: const $pb.PackageName('inf_common'))
