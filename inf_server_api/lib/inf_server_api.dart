@@ -48,11 +48,11 @@ Future<void> selfTestSql(sqljocky.ConnectionPool sql) async {
     final List<sqljocky.Row> selfTest1 = await (await sql
             .query('SELECT message FROM self_test WHERE self_test_id=1'))
         .toList();
-    if ("${selfTest1[0][0]}" != "Zipper Sorting 😏") {
+    if ('${selfTest1[0][0]}' != 'Zipper Sorting 😏') {
       opsLog.severe(
           '[❌] SQL Self Test: expected: "Zipper Sorting 😏", actual: "${selfTest1[0][0]}"'); // CRITICAL - OPERATIONS
     } else {
-      opsLog.info("[✔️] SQL Self Test");
+      opsLog.info('[✔️] SQL Self Test');
     }
   } catch (ex) {
     opsLog.severe('[❌] SQL Self Test: $ex'); // CRITICAL - OPERATIONS
@@ -80,20 +80,20 @@ Future<void> selfTestTalk() async {
     await listen;
     */
     final Switchboard switchboard = Switchboard();
-    switchboard.setEndPoint("ws://localhost:8090/ep");
-    await switchboard.sendRequest("api", "PING", Uint8List(0));
+    switchboard.setEndPoint('ws://localhost:8090/ep');
+    await switchboard.sendRequest('api', 'PING', Uint8List(0));
     switchboard.listenDiscard();
     await switchboard.close();
-    opsLog.info("[✔️] Switchboard Self Test");
+    opsLog.info('[✔️] Switchboard Self Test');
   } catch (ex) {
-    opsLog.severe("[❌] Switchboard Self Test: $ex"); // CRITICAL - OPERATIONS
+    opsLog.severe('[❌] Switchboard Self Test: $ex'); // CRITICAL - OPERATIONS
   }
   if (channel != null) {
     channel.close();
   }
 }
 
-Future<void> run() async {
+Future<void> run(List<String> arguments) async {
   // S2LatLng latLng = new S2LatLng.fromDegrees(40.732162, 73.975698); // getting fb8c157663c46983
   // S2LatLng latLng = new S2LatLng.fromDegrees(40.732162, 73.975698); // getting 580dc240ac2bca54
   /*
@@ -131,8 +131,10 @@ Future<void> run() async {
   Logger('Switchboard.Router').level = Level.ALL;
 
   // Server Configuration
+  final String configFile = arguments.isNotEmpty ? arguments[0] : 'assets/config_server.bin';
+  Logger('InfOps').info("Config file: '$configFile'.");
   final Uint8List configBytes =
-      await File("assets/config_server.bin").readAsBytes();
+      await File(configFile).readAsBytes();
   final ConfigData config = ConfigData();
   config.mergeFromBuffer(configBytes);
 
@@ -165,9 +167,9 @@ Future<void> run() async {
   );
   final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
   if (!(await spaces.listAllBuckets()).contains(config.services.spacesBucket)) {
-    throw Exception("Missing bucket");
+    throw Exception('Missing bucket');
   } else {
-    Logger('InfDev').finest("Bucket OK");
+    Logger('InfDev').finest('Bucket OK');
   }
 
   // Elasticsearch

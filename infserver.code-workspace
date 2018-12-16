@@ -9,5 +9,8 @@
 		{
 			"path": "k8s_dev"
 		}
-	]
+	],
+	"settings": {
+		"workbench.colorTheme": "Quiet Light"
+	}
 }
