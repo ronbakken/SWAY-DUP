@@ -37,10 +37,10 @@ class OfferListTile extends StatelessWidget {
       color: backGroundColor,
       elevation: 2.0,
       borderRadius: BorderRadius.circular(5.0),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-        child: InkResponse(
-          onTap: onPressed,
+      child: InkWell(
+        onTap: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -66,21 +66,22 @@ class OfferListTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    offer.terms.deliverableSocialPlatforms.isNotEmpty
-                        ? Row(
-                            children: <Widget>[
-                              Text(offer.title,
-                                  textScaleFactor: 1.2,
-                                  style: const TextStyle(color: Colors.white)),
-                              const SizedBox(width: 10.0),
-                              InfMemoryImage(
+                    Row(
+                      children: <Widget>[
+                        Text(offer.title,
+                            textScaleFactor: 1.2,
+                            style: const TextStyle(color: Colors.white)),
+                        const SizedBox(width: 10.0),
+                        offer.terms.deliverableSocialPlatforms.isNotEmpty
+                            ? InfMemoryImage(
                                 config
                                     .oauthProviders[offer
                                         .terms.deliverableSocialPlatforms[0]]
                                     .foregroundImage,
                                 width: 20.0,
-                              ),
-                              /* TODO: (offer.newChatMessages ?? 0) > 0
+                              )
+                            : const SizedBox(width: 20.0),
+                        /* TODO: (offer.newChatMessages ?? 0) > 0
                             ? Expanded(
                                 child: Align(
                                   heightFactor: 2,
@@ -89,13 +90,12 @@ class OfferListTile extends StatelessWidget {
                                 ),
                               )
                             : SizedBox(),*/
-                            ],
-                          )
-                        : const SizedBox(),
+                      ],
+                    ),
                     offer.terms.deliverableSocialPlatforms.isNotEmpty
                         ? const SizedBox(height: 10.0)
                         : const SizedBox(),
-                    Text(offer.description,
+                    Text(offer.locationAddress,
                         style: const TextStyle(color: AppTheme.white30)),
                   ],
                 ),

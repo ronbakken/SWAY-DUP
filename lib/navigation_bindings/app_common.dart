@@ -392,6 +392,11 @@ abstract class AppCommonState<T extends StatefulWidget>
     );
   }
 
+  DataOffer _getOfferSummary(BuildContext context, Int64 offerId) {
+    final ApiClient network = NetworkProvider.of(context);
+    return network.tryGetOffer(offerId, detail: false);
+  }
+
   Widget _offersBuilder(BuildContext context) {
     final ApiClient network = NetworkProvider.of(context);
     if (network.offers.isEmpty) {
@@ -416,19 +421,13 @@ abstract class AppCommonState<T extends StatefulWidget>
       );
     }
     return OfferList(
-        businessOffers: network.offers
-            .map<DataOffer>(
-                (Int64 offerId) => network.tryGetOffer(offerId, detail: false))
-            .where((DataOffer offer) => !offer.archived)
-            .toList()
-              ..sort(
-                  (DataOffer a, DataOffer b) => b.offerId.compareTo(a.offerId)),
-        onRefreshOffers: (network.connected == NetworkConnectionState.ready)
-            ? network.refreshOffers
-            : null,
-        onOfferPressed: (DataOffer offer) {
-          navigateToOffer(offer.offerId);
-        });
+      offers: network.offers,
+      onRefreshOffers: (network.connected == NetworkConnectionState.ready)
+          ? network.refreshOffers
+          : null,
+      onOfferPressed: navigateToOffer,
+      getOffer: _getOfferSummary,
+    );
   }
 
   Widget _directBuilder(BuildContext context) {

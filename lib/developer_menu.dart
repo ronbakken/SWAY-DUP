@@ -530,14 +530,14 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                     )*/
                         ,
                     offersCurrent: OfferList(
-                      businessOffers: [
-                        sampleOffers[1],
-                        sampleOffers[2],
+                      offers: [
+                        Int64(1),
+                        Int64(2),
                       ],
                     ),
                     offersHistory: OfferList(
-                      businessOffers: [
-                        sampleOffers[3],
+                      offers: [
+                        Int64(3),
                       ],
                     ),
                     /*proposalsApplying: Text("Sent"),

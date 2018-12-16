@@ -162,7 +162,7 @@ class OfferDetailsPageState extends State<OfferDetailsPage> {
             ),
           ),
         ),
-        account.accountId != Int64.ZERO // Logged in
+        account.accountId != Int64.ZERO && account.accountType != offer.senderAccountType // Logged in
             ? Container(
                 color: AppTheme.blackTwo,
                 child: SafeArea(
