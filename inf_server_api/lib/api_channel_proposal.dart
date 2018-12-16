@@ -211,7 +211,7 @@ class ApiChannelProposal {
       }
 
       channel.replyExtend(message);
-      transaction.commit();
+      await transaction.commit();
     });
 
     final NetProposal res = NetProposal();
@@ -227,10 +227,10 @@ class ApiChannelProposal {
     // Broadcast
     final NetProposal publishProposal = NetProposal();
     publishProposal.updateProposal = res.updateProposal;
-    bc.proposalChanged(account.sessionId, publishProposal);
+    await bc.proposalChanged(account.sessionId, publishProposal);
     final NetProposalChat publishChat = NetProposalChat();
     publishChat.chat = chat;
-    bc.proposalChatPosted(account.sessionId, publishChat, account);
+    await bc.proposalChatPosted(account.sessionId, publishChat, account);
 
     // TODO(kaetemi): Update offer proposal count
     // TODO(kaetemi): Add to proposal_sender_account_ids lookup
@@ -265,7 +265,7 @@ class ApiChannelProposal {
         channel.replyMessage(message, 'R_LSTPRP', res.writeToBuffer());
       }
     } finally {
-      connection.release();
+      await connection.release();
     }
 
     channel.replyEndOfStream(message);
@@ -303,7 +303,7 @@ class ApiChannelProposal {
             SqlProposal.proposalFromRow(row, account.accountType);
       }
     } finally {
-      connection.release();
+      await connection.release();
     }
 
     if (res == null) {
@@ -441,7 +441,7 @@ class ApiChannelProposal {
         channel.replyMessage(message, 'R_LSTCHA', chat.writeToBuffer());
       }
     } finally {
-      connection.release();
+      await connection.release();
     }
 
     // Done
