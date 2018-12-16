@@ -64,7 +64,10 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       final ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return OfferCreate(
-        onUploadImage: (File f) async { return await network.uploadImage(const file.LocalFileSystem().file(f.path)); },
+        onUploadImage: (File f) async {
+          return await network
+              .uploadImage(const file.LocalFileSystem().file(f.path));
+        },
         onCreateOffer: (NetCreateOffer createOffer) async {
           final dynamic progressDialog = showProgressDialog(
               context: this.context,

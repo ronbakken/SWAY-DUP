@@ -216,7 +216,10 @@ abstract class AppCommonState<T extends StatefulWidget> extends State<T> {
             proposal: proposal,
             offer: offer,
             chats: chats,
-            onUploadImage: (File f) async { return await network.uploadImage(const file.LocalFileSystem().file(f.path)); },
+            onUploadImage: (File f) async {
+              return await network
+                  .uploadImage(const file.LocalFileSystem().file(f.path));
+            },
             onPressedProfile: (DataAccount account) {
               navigateToPublicProfile(account.accountId);
             },
