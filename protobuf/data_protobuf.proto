@@ -236,6 +236,30 @@ message DataAccount { // 33
   
 }
 
+/// Filter used for map and list exploration
+message DataExploreFilter {
+  /// Full text keyword search
+  string keywords = 1;
+
+  /// Results must include any of these social platforms (a OR b OR ...)
+  repeated int32 socialPlatforms = 2;
+
+  /// Results must include any of these content formats as deliverables (a OR b OR ...)
+  repeated int32 contentFormats = 3;
+
+  /// Results must have at least this total value
+  int32 minimumTotalValue = 4;
+
+  /// Results must have a cash reward
+  int32 cashValueRequired = 5;
+
+  /// Specify location for search (affects list ONLY)
+  /// Current GPS location, user specified, etc.
+  double latitude = 6;
+  double longitude = 7;
+
+}
+
 message DataExploreEntry {
   /// Contains an offer summary if set
   DataOffer offer = 3;
