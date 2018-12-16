@@ -110,7 +110,7 @@ Future<ConfigServices> generateConfigServices(
         res.galleryUrl = cfg.get(section, 'galleryUrl');
       if (cfg.hasOption(section, 'galleryThumbnailUrl'))
         res.galleryThumbnailUrl = cfg.get(section, 'galleryThumbnailUrl');
-      if (cfg.hasOption(section, 'galleryhumbnailBlurredTUrl'))
+      if (cfg.hasOption(section, 'galleryThumbnailBlurredUrl'))
         res.galleryThumbnailBlurredUrl =
             cfg.get(section, 'galleryThumbnailBlurredUrl');
       if (cfg.hasOption(section, 'galleryCoverUrl'))
