@@ -427,7 +427,7 @@ class ApiChannelProposal {
           chat.plainText = row[6].toString();
         }
         if (row[7] != null) {
-          chat.terms = DataTerms()..mergeFromBuffer(row[7]);
+          chat.terms = DataTerms()..mergeFromBuffer(row[7].toBytes());
         }
         if (row[8] != null) {
           chat.imageUrl = _r.makeCloudinaryCoverUrl(row[8]);
