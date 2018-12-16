@@ -18,7 +18,7 @@ class BlurredNetworkImage extends StatefulWidget {
     this.placeholderAsset = 'assets/placeholder_photo_select.png',
     this.fit = BoxFit.cover,
     // this.spinner = false,
-    this.fadeInDuration = const Duration(milliseconds: 700),
+    this.fadeInDuration = const Duration(milliseconds: 250),
     this.fadeInCurve = Curves.easeIn,
   });
 
@@ -348,7 +348,7 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
   Widget build(BuildContext context) {
     switch (_phase) {
       case _BlurredNetworkImagePhase.start:
-        return ErrorWidget(Exception("case _BlurredNetworkImagePhase.start"));
+        return ErrorWidget(Exception('case _BlurredNetworkImagePhase.start'));
       case _BlurredNetworkImagePhase.placeholder:
         return _buildPlaceholder(context);
       case _BlurredNetworkImagePhase.waiting:
@@ -361,7 +361,7 @@ class _BlurredNetworkImageState extends State<BlurredNetworkImage>
       case _BlurredNetworkImagePhase.completed:
         return _buildImage(context);
     }
-    return ErrorWidget(Exception("switch (_phase)"));
+    return ErrorWidget(Exception('switch ($_phase)'));
   }
 }
 
