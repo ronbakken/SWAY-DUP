@@ -539,11 +539,10 @@ Future<List<ConfigContentFormat>> generateConfigContentFormats(
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Future<void> generateConfig(bool server) async {
+Future<void> generateConfig(Int64 timestamp, bool server) async {
   ConfigData config = new ConfigData();
   config.clientVersion = 3;
-  config.timestamp =
-      new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch);
+  config.timestamp = timestamp;
   config.region = "US";
   config.language = "en";
   config.services = await generateConfigServices("config/services.ini", server);
@@ -579,8 +578,10 @@ Future<void> adjustConfig(String suffix, bool server) async {
 }
 
 main(List<String> arguments) async {
-  Future<void> f1 = generateConfig(false);
-  Future<void> f2 = generateConfig(true);
+  Int64 timestamp =
+      new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch);
+  Future<void> f1 = generateConfig(timestamp, false);
+  Future<void> f2 = generateConfig(timestamp, true);
   await f1;
   await f2;
   await adjustConfig("dyrnwyn", false);
