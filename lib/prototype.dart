@@ -4,6 +4,8 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
@@ -15,6 +17,7 @@ import 'package:inf/network_inheritable/network_provider.dart';
 import 'package:inf/network_inheritable/network_stack.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/utility/rebuild_tracker.dart';
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 
 class Prototype extends StatefulWidget {
   const Prototype(
@@ -203,7 +206,32 @@ class _PrototypeState extends State<Prototype> {
                 );
               },
             ),
+      builder: _supportTransparentNavOnAndroid,
     );
+  }
+
+    Widget _supportTransparentNavOnAndroid(BuildContext context, Widget child) {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      final mediaQuery = MediaQueryData.fromWindow(ui.window);
+      final bottomInset = mediaQuery.viewInsets.bottom;
+      // Nexus 5X = 2.625  text = 1.0
+      // iPhone XR = 2.0 text = 1.0
+      return MediaQuery(
+        data: mediaQuery.copyWith(
+          padding: mediaQuery.padding.copyWith(
+            bottom: (bottomInset < 64.0 ? bottomInset : 0.0),
+          ),
+          viewInsets: mediaQuery.viewInsets.copyWith(
+            bottom: (bottomInset < 64.0 ? 0.0 : bottomInset),
+          ),
+          //textScaleFactor: mediaQuery.devicePixelRatio
+          //devicePixelRatio: 2.0,
+        ),
+        child: child,
+      );
+    } else {
+      return child;
+    }
   }
 
   @override

@@ -20,7 +20,11 @@ import 'package:inf/screens/dashboard_drawer.dart';
 import 'package:inf/screens/dashboard_v3.dart';
 import 'package:inf/screens/offer_create.dart';
 import 'package:inf/screens/offers_map.dart';
+import 'package:inf/screens/offers_map_only.dart';
 import 'package:inf/screens/profile_edit.dart';
+import 'package:inf/ui/main/browse_list_view.dart';
+import 'package:inf/ui/main/browse_section.dart';
+import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/main/menu_drawer.dart';
 import 'package:inf/widgets/network_status.dart';
 import 'package:inf/widgets/offers_showcase.dart';
@@ -454,7 +458,7 @@ abstract class AppCommonState<T extends StatefulWidget>
       filterTooltip: 'Filter map offers by category',
       searchTooltip: 'Search for nearby offers',
       mapController: _mapController,
-      bottomSpace: (showcase != null) ? 156.0 : 0.0,
+      bottomSpace: (showcase != null) ? 156.0 : 0.0, // + kBottomNavHeight
       offers: network.demoAllOffers,
       highlightOffer: _mapHighlightOffer,
       onOfferPressed: navigateToOffer,
@@ -474,6 +478,55 @@ abstract class AppCommonState<T extends StatefulWidget>
             ],
           )
         : map;
+  }
+
+  Widget _exploreBuilderV4(BuildContext context) {
+    final bool enoughSpaceForBottom =
+        MediaQuery.of(context).size.height > 480.0;
+    final ApiClient network = NetworkProvider.of(context);
+    final ConfigData config = ConfigProvider.of(context);
+    final List<Int64> showcaseOfferIds = enoughSpaceForBottom
+        ? network.demoAllOffers
+        : <Int64>[]; // TODO(kaetemi): Explore
+    /*final Widget showcase = showcaseOfferIds.isNotEmpty
+        ? OffersShowcase(
+            getOffer: _getOfferSummary,
+            offerIds: showcaseOfferIds,
+            onOfferPressed: (DataOffer offer) {
+              navigateToOffer(offer.offerId);
+            },
+            onOfferCenter: (DataOffer offer) {
+              _mapController.move(
+                  LatLng(offer.latitude, offer.longitude), _mapController.zoom);
+              setState(() {
+                _mapHighlightOffer = offer.offerId;
+              });
+            },
+          )
+        : null;*/
+    final Widget map = OffersMapOnly(
+      account: network.account,
+      mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark
+          ? config.services.mapboxUrlTemplateDark
+          : config.services.mapboxUrlTemplateLight,
+      mapboxToken: config.services.mapboxToken,
+      mapController: _mapController,
+      bottomSpace:
+          kBottomNavHeight, // (showcase != null) ? 156.0 : 0.0, // + kBottomNavHeight
+      offers: network.demoAllOffers,
+      highlightOffer: _mapHighlightOffer,
+      onOfferPressed: navigateToOffer,
+      getOffer: _getOfferSummary,
+    );
+    return MainBrowseSection(
+        map: map,
+        featured: const SizedBox(),
+        list: BrowseListView(
+          config: config,
+          getOffer: _getOfferSummary,
+          offers: network.demoAllOffers,
+          onOfferPressed: navigateToOffer,
+        ));
   }
 
   DataOffer _getOfferSummary(BuildContext context, Int64 offerId) {
@@ -556,6 +609,15 @@ abstract class AppCommonState<T extends StatefulWidget>
   Widget buildDashboard(BuildContext context) {
     final ApiClient network = NetworkProvider.of(context);
     assert(network != null);
+    return MainPage(
+      account: network.account,
+      networkStatusBuilder: NetworkStatus.buildOptional,
+      exploreBuilder: _exploreBuilderV4,
+      activitiesBuilder: _offersBuilder,
+      drawer: _buildDrawer(context),
+      onMakeAnOffer: navigateToCreateOffer,
+    );
+    /*
     return DashboardV3(
       account: network.account,
       networkStatusBuilder: NetworkStatus.buildOptional,
@@ -567,6 +629,7 @@ abstract class AppCommonState<T extends StatefulWidget>
       drawer: _buildDrawer(context),
       onMakeAnOffer: navigateToCreateOffer,
     );
+    */
   }
 }
 
