@@ -236,6 +236,42 @@ message DataAccount { // 33
   
 }
 
+message DataExploreEntry {
+  /// Contains an offer summary if set
+  DataOffer offer = 3;
+
+  /// Contains an account summary if set
+  DataAccount account = 4;
+
+}
+
+/// Markers for exploring on the map
+/// Location are embedded inside of DataOffer and DataAccount
+message DataExploreMarker {
+  /// Contains an offer summary ONLY (plus latitude and longitude) if set
+  DataOffer offer = 3;
+
+  /// Contains an account summary ONLY (plus latitude and longitude) if set
+  DataAccount account = 4;
+
+  /// Contains a location if set
+  /// Normally location data is embedded within DataOffer and DataAccount
+  /// This is for generic markers or future usage
+  DataLocation location = 5;
+
+  // Cluster information
+  /// Identification of this cluster
+  int64 clusterId = 8;
+  int64 parentClusterIds = 9;
+
+  /// Amount of hidden markers
+  /// If the value is 0, this is not a cluster
+  /// If the value is above 0, the value is accurate
+  /// If the value is negative, it means there are an undisclosed number of hidden markers
+  int32 hiddenMarkers = 10;
+
+}
+
 message DataProposal { // 30
   /// Unique identifier of the proposal
   int64 proposal_id = 1;
