@@ -68,7 +68,7 @@ class _DashboardV3State extends State<DashboardV3> {
       if (_currentTab == 1) {
         title = widget.account.accountType == AccountType.influencer
             ? 'Solicitations'
-            : 'Offer';
+            : 'Offers';
       } else if (_currentTab == 2) {
         title = 'Direct';
       } else if (_currentTab == 3) {
@@ -154,7 +154,7 @@ class _DashboardBottomNavigation extends StatelessWidget {
       BottomNavigationBarItem(
         icon: const Icon(Icons.list),
         title: Text(
-            accountType == AccountType.influencer ? 'Solicitations' : 'Offer'),
+            accountType == AccountType.influencer ? 'Solicitations' : 'Offers'),
       ),
       const BottomNavigationBarItem(
         icon: Icon(Icons.alternate_email),

@@ -102,69 +102,69 @@ class MainNavigationDrawer extends StatelessWidget {
           style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
         ),
         SizedBox(height: 8),
-          FlatButton(
-            child: Row(children: <Widget>[
-              Container(
-                margin: const EdgeInsets.all(16.0),
-                child: const Icon(Icons.account_circle),
-              ),
-              const Text('Profile')
-            ]),
-            onPressed: (onNavigateProfile != null)
-                ? () {
-                    Navigator.pop(context);
-                    onNavigateProfile();
-                  }
-                : null,
-          ),
-          FlatButton(
-            child: Row(children: <Widget>[
-              Container(
-                margin: const EdgeInsets.all(16.0),
-                child: const Icon(Icons.history),
-              ),
-              const Text('History')
-            ]),
-            onPressed: (onNavigateHistory != null)
-                ? () {
-                    Navigator.pop(context);
-                    onNavigateHistory();
-                  }
-                : null,
-          ),
-          FlatButton(
-            child: Row(children: <Widget>[
-              Container(
-                margin: const EdgeInsets.all(16.0),
-                child: const Icon(Icons.supervisor_account),
-              ),
-              const Text('Switch User')
-            ]),
-            onPressed: (onNavigateSwitchAccount != null)
-                ? () {
-                    Navigator.pop(context);
-                    onNavigateSwitchAccount();
-                  }
-                : null,
-          ),
-          (account.globalAccountState.value >= GlobalAccountState.debug.value)
-              ? FlatButton(
-                  child: Row(children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.all(16.0),
-                      child: const Icon(Icons.account_box),
-                    ),
-                    const Text('Debug Account')
-                  ]),
-                  onPressed: (onNavigateDebugAccount != null)
-                      ? () {
-                          Navigator.pop(context);
-                          onNavigateDebugAccount();
-                        }
-                      : null,
-                )
+        FlatButton(
+          child: Row(children: <Widget>[
+            Container(
+              margin: const EdgeInsets.all(16.0),
+              child: const Icon(Icons.account_circle),
+            ),
+            const Text('Profile')
+          ]),
+          onPressed: (onNavigateProfile != null)
+              ? () {
+                  Navigator.pop(context);
+                  onNavigateProfile();
+                }
               : null,
-        ].where((Widget w) => w != null));
+        ),
+        FlatButton(
+          child: Row(children: <Widget>[
+            Container(
+              margin: const EdgeInsets.all(16.0),
+              child: const Icon(Icons.history),
+            ),
+            const Text('History')
+          ]),
+          onPressed: (onNavigateHistory != null)
+              ? () {
+                  Navigator.pop(context);
+                  onNavigateHistory();
+                }
+              : null,
+        ),
+        FlatButton(
+          child: Row(children: <Widget>[
+            Container(
+              margin: const EdgeInsets.all(16.0),
+              child: const Icon(Icons.supervisor_account),
+            ),
+            const Text('Switch User')
+          ]),
+          onPressed: (onNavigateSwitchAccount != null)
+              ? () {
+                  Navigator.pop(context);
+                  onNavigateSwitchAccount();
+                }
+              : null,
+        ),
+        (account.globalAccountState.value >= GlobalAccountState.debug.value)
+            ? FlatButton(
+                child: Row(children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.all(16.0),
+                    child: const Icon(Icons.account_box),
+                  ),
+                  const Text('Debug Account')
+                ]),
+                onPressed: (onNavigateDebugAccount != null)
+                    ? () {
+                        Navigator.pop(context);
+                        onNavigateDebugAccount();
+                      }
+                    : null,
+              )
+            : null,
+      ].where((Widget w) => w != null));
       entries.addAll(<Widget>[
         SizedBox(height: 8),
         Text(

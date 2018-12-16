@@ -20,6 +20,7 @@ import 'package:inf/screens/dashboard_drawer.dart';
 import 'package:inf/screens/dashboard_v3.dart';
 import 'package:inf/screens/offers_map.dart';
 import 'package:inf/screens/profile_edit.dart';
+import 'package:inf/ui/main/menu_drawer.dart';
 import 'package:inf/widgets/network_status.dart';
 import 'package:inf/widgets/offers_showcase.dart';
 import 'package:inf_common/inf_common.dart';
@@ -442,6 +443,33 @@ abstract class AppCommonState<T extends StatefulWidget>
     return proposalsDeal;
   }
 
+  Widget _buildDrawer(BuildContext context) {
+    final ApiClient network = NetworkProvider.of(context);
+    final ConfigData config = ConfigProvider.of(context);
+    /*
+    return DashboardDrawer(
+      account: network.account,
+      onNavigateProfile: navigateToProfileView,
+      onNavigateSwitchAccount: navigateToSwitchAccount,
+      onNavigateHistory: navigateToHistory,
+      onNavigateDebugAccount: navigateToDebugAccount,
+    );
+    */
+    return Drawer(
+      child: MainNavigationDrawer(
+        config: config,
+        account: network.account,
+        onEditAccount: null,
+        onEditSocialMedia: null,
+        onLogOut: null,
+        onNavigateProfile: navigateToProfileView,
+        onNavigateSwitchAccount: navigateToSwitchAccount,
+        onNavigateHistory: navigateToHistory,
+        onNavigateDebugAccount: navigateToDebugAccount,
+      ),
+    );
+  }
+
   Widget buildDashboard(BuildContext context) {
     final ApiClient network = NetworkProvider.of(context);
     assert(network != null);
@@ -453,13 +481,7 @@ abstract class AppCommonState<T extends StatefulWidget>
       directBuilder: _directBuilder,
       appliedBuilder: _appliedBuilder,
       dealsBuilder: _dealsBuilder,
-      drawer: DashboardDrawer(
-        account: network.account,
-        onNavigateProfile: navigateToProfileView,
-        onNavigateSwitchAccount: navigateToSwitchAccount,
-        onNavigateHistory: navigateToHistory,
-        onNavigateDebugAccount: navigateToDebugAccount,
-      ),
+      drawer: _buildDrawer(context),
     );
   }
 }
