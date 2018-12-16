@@ -8,6 +8,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:inf/navigation_bindings/app_base.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
@@ -30,7 +31,7 @@ class AppOnboarding extends StatefulWidget {
   _AppOnboardingState createState() => _AppOnboardingState();
 }
 
-class _AppOnboardingState extends State<AppOnboarding> {
+class _AppOnboardingState extends AppBaseState<AppOnboarding> {
   @override
   void initState() {
     super.initState();
@@ -47,10 +48,10 @@ class _AppOnboardingState extends State<AppOnboarding> {
   }
 
   void navigateToOAuth(BuildContext context, int oauthProvider) {
-    Navigator.push<MaterialPageRoute>(
+    Navigator.push<void>(
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: (context) {
           ConfigData config = ConfigProvider.of(context);
           final ApiClient network = NetworkProvider.of(context);
@@ -71,9 +72,9 @@ class _AppOnboardingState extends State<AppOnboarding> {
   }
 
   void navigateToSocial() {
-    Navigator.push<MaterialPageRoute>(
+    Navigator.push<void>(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, MaterialPageRoute(
+        context, MaterialPageRoute<void>(
       builder: (context) {
         ConfigData config = ConfigProvider.of(context);
         final ApiClient network = NetworkProvider.of(context);
@@ -163,27 +164,6 @@ class _AppOnboardingState extends State<AppOnboarding> {
         );
       },
     ));
-  }
-
-  void navigateToSwitchAccount() {
-    Navigator.push<MaterialPageRoute<void>>(context,
-        MaterialPageRoute(builder: (BuildContext context) {
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      ConfigData config = ConfigProvider.of(context);
-      // ApiClient network = NetworkProvider.of(context);
-      // NavigatorState navigator = Navigator.of(context);
-      final MultiAccountClient selection = MultiAccountSelection.of(context);
-      return AccountSwitch(
-        domain: config.services.domain,
-        accounts: selection.accounts,
-        onAddAccount: () {
-          selection.addAccount();
-        },
-        onSwitchAccount: (LocalAccountData localAccount) {
-          selection.switchAccount(localAccount.domain, localAccount.accountId);
-        },
-      );
-    }));
   }
 
   @override

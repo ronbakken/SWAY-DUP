@@ -84,9 +84,9 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     network.getOffer(offerId); // Background refresh
     int count = ++offerViewCount;
     offerViewOpen = offerId;
-    Navigator.push<MaterialPageRoute>(
+    Navigator.push<void>(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         settings: RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (BuildContext context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
@@ -177,35 +177,6 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     });
   }
 
-  void navigateToProfileView() {
-    Navigator.push<MaterialPageRoute>(context,
-        MaterialPageRoute(builder: (context) {
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      // ConfigData config = ConfigProvider.of(context);
-      final ApiClient network = NetworkProvider.of(context);
-      // NavigatorState navigator = Navigator.of(context);
-      return ProfileView(
-          account: network.account,
-          oauthProviders: ConfigProvider.of(context).oauthProviders,
-          onEditPressed: () {
-            navigateToProfileEdit();
-          });
-    }));
-  }
-
-  void navigateToProfileEdit() {
-    Navigator.push<MaterialPageRoute>(context,
-        MaterialPageRoute(builder: (context) {
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      // ConfigData config = ConfigProvider.of(context);
-      final ApiClient network = NetworkProvider.of(context);
-      // NavigatorState navigator = Navigator.of(context);
-      return ProfileEdit(
-        account: network.account,
-      );
-    }));
-  }
-
   void navigateToSearchOffers(TextEditingController searchQueryController) {
     TextEditingController searchQueryControllerFallback =
         searchQueryController ?? TextEditingController();
@@ -264,25 +235,16 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     });
   }
 
+  /*
   MapController _mapController = MapController();
   bool _mapFilter = false;
   DataOffer _mapHighlightOffer;
-
-  void navigateToHistory() {
-    Navigator.push<MaterialPageRoute>(context,
-        MaterialPageRoute(builder: (context) {
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      return Scaffold(
-          appBar: AppBar(
-            title: Text("History"),
-          ),
-          bottomSheet: NetworkStatus.buildOptional(context),
-          body: proposalsHistory);
-    }));
-  }
+  */
 
   @override
   Widget build(BuildContext context) {
+    return buildDashboard(context);
+    /*
     final ApiClient network = NetworkProvider.of(context);
     bool enoughSpaceForBottom = (MediaQuery.of(context).size.height > 480.0);
     assert(network != null);
@@ -369,6 +331,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       proposalsApplied: proposalsApplied,
       proposalsDeal: proposalsDeal,
     );
+    */
   }
 }
 

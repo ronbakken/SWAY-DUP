@@ -371,7 +371,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           FlatButton(
             child: Row(children: const <Widget>[Text('Onboarding Social')]),
             onPressed: () {
-              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+              Navigator.push<void>(context, MaterialPageRoute<void>(
                 builder: (BuildContext context) {
                   return StatefulBuilder(
                     builder: (BuildContext context, setState) {
@@ -461,7 +461,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           FlatButton(
             child: Row(children: const <Widget>[Text('Debug Account')]),
             onPressed: () {
-              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+              Navigator.push<void>(context, MaterialPageRoute<void>(
                 builder: (BuildContext context) {
                   return DebugAccount(
                     account: demoAccount,
@@ -481,7 +481,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           FlatButton(
             child: Row(children: const <Widget>[Text('Business Dashboard')]),
             onPressed: () {
-              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+              Navigator.push<void>(context, MaterialPageRoute<void>(
                 builder: (BuildContext context) {
                   return DashboardCommon(
                     account: demoAccount,
@@ -618,7 +618,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           FlatButton(
             child: Row(children: const <Widget>[Text('Offer Create')]),
             onPressed: () {
-              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+              Navigator.push<void>(context, MaterialPageRoute<void>(
                 builder: (BuildContext context) {
                   return const OfferCreate();
                 },
@@ -628,7 +628,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           FlatButton(
             child: Row(children: const <Widget>[Text('Offer View (Self)')]),
             onPressed: () {
-              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+              Navigator.push<void>(context, MaterialPageRoute<void>(
                 builder: (BuildContext context) {
                   return OfferView(
                     offer: sampleOffers[1],
@@ -662,9 +662,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           FlatButton(
             child: Row(children: const <Widget>[Text('Influencer Dashboard')]),
             /*onPressed: () { 
-              Navigator.push<MaterialPageRoute>(
+              Navigator.push<void>(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (context) {
                     return InfluencerProfile();
                   },
@@ -692,9 +692,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             ]),
             /*onPressed: () { 
               demoAccount.accountType = AccountType.influencer;
-              Navigator.push<MaterialPageRoute>(
+              Navigator.push<void>(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (context) {
                     return InfluencerProfile();
                   },
@@ -705,7 +705,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           FlatButton(
             child: Row(children: const <Widget>[Text('Offer View')]),
             onPressed: () {
-              Navigator.push<MaterialPageRoute>(context, MaterialPageRoute(
+              Navigator.push<void>(context, MaterialPageRoute<void>(
                 builder: (BuildContext context) {
                   return OfferView(
                     offer: sampleOffers[1],
@@ -734,9 +734,9 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           FlatButton(
             child: Row(children: const <Widget>[Text('Business Chat')]),
             /*onPressed: () { 
-              Navigator.push<MaterialPageRoute>(
+              Navigator.push<void>(
                 context,
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (context) {
                     return InfluencerProfile();
                   },

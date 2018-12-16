@@ -33,11 +33,11 @@ class DashboardV3 extends StatefulWidget {
   final Widget drawer;
   final Function() onMakeAnOffer;
 
-  final Function(BuildContext context) exploreBuilder;
-  final Function(BuildContext context) offersBuilder;
-  final Function(BuildContext context) directBuilder;
-  final Function(BuildContext context) appliedBuilder;
-  final Function(BuildContext context) dealsBuilder;
+  final Widget Function(BuildContext context) exploreBuilder;
+  final Widget Function(BuildContext context) offersBuilder;
+  final Widget Function(BuildContext context) directBuilder;
+  final Widget Function(BuildContext context) appliedBuilder;
+  final Widget Function(BuildContext context) dealsBuilder;
 
   final Function(BuildContext context) networkStatusBuilder;
 

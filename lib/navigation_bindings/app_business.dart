@@ -58,9 +58,9 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
   }
 
   void navigateToMakeAnOffer() {
-    Navigator.push<MaterialPageRoute>(
+    Navigator.push<void>(
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, MaterialPageRoute(builder: (context) {
+        context, MaterialPageRoute<void>(builder: (context) {
       // ConfigData config = ConfigProvider.of(context);
       final ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
@@ -149,10 +149,10 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     network.getOffer(offerId); // Background refresh
     int count = ++offerViewCount;
     offerViewOpen = offerId;
-    Navigator.push<MaterialPageRoute>(
+    Navigator.push<void>(
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         settings: RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (BuildContext context) {
           ConfigData config = ConfigProvider.of(context);
@@ -179,49 +179,10 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     });
   }
 
-  void navigateToProfileView() {
-    Navigator.push<MaterialPageRoute>(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, MaterialPageRoute(builder: (context) {
-      // ConfigData config = ConfigProvider.of(context);
-      final ApiClient network = NetworkProvider.of(context);
-      // NavigatorState navigator = Navigator.of(context);
-      return ProfileView(
-        account: network.account,
-        oauthProviders: ConfigProvider.of(context).oauthProviders,
-        onEditPressed: navigateToProfileEdit,
-      );
-    }));
-  }
-
-  void navigateToHistory() {
-    Navigator.push<MaterialPageRoute>(context,
-        MaterialPageRoute(builder: (context) {
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      return Scaffold(
-          appBar: AppBar(
-            title: Text("History"),
-          ),
-          bottomSheet: NetworkStatus.buildOptional(context),
-          body: proposalsHistory);
-    }));
-  }
-
-  void navigateToProfileEdit() {
-    Navigator.push<MaterialPageRoute>(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, MaterialPageRoute(builder: (context) {
-      // ConfigData config = ConfigProvider.of(context);
-      final ApiClient network = NetworkProvider.of(context);
-      // NavigatorState navigator = Navigator.of(context);
-      return ProfileEdit(
-        account: network.account,
-      );
-    }));
-  }
-
   @override
   Widget build(BuildContext context) {
+    return buildDashboard(context);
+    /*
     final ApiClient network = NetworkProvider.of(context);
     assert(network != null);
     return DashboardSimplified(
@@ -246,7 +207,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
               navigateToOffer(offer.offerId);
             });
       }),
-      /*
+      / *
           offersHistory: new Builder(builder: (context) {
             final ApiClient network = NetworkProvider.of(context);
             return new OfferList(
@@ -262,7 +223,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
                   navigateToOffer(new Int64(offer
                       .offerId)); // account will be able to use a future value provider thingy for not-mine offers
                 });
-          }),*/
+          }),* /
       onMakeAnOffer: (network.connected == NetworkConnectionState.ready)
           ? navigateToMakeAnOffer
           : null,
@@ -273,7 +234,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       proposalsDirect: proposalsDirect,
       proposalsApplied: proposalsApplied,
       proposalsDeal: proposalsDeal,
-    );
+    );*/
   }
 }
 
