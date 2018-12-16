@@ -83,19 +83,24 @@ class ApiChannelDemo {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> _netDemoAllOffers(TalkMessage message) async {
+    devLog.fine('_netDemoAllOffers');
     final NetDemoAllOffers listOffers = NetDemoAllOffers()
       ..mergeFromBuffer(message.data)
       ..freeze();
-    dynamic results = await elasticsearch.search('offers', {
+    final dynamic results = await elasticsearch.search('offers', {
       "size": ApiChannelOffer.searchSize,
       "_source": {
         "includes": ApiChannelOffer.summaryFields,
       },
-      /*"query": {
-        "term": {
-          "sender_account_id": accountId.toInt(),
+      "query": {
+        "bool": {
+          "must_not": {
+            "term": {
+              "sender_account_type": account.accountType.value,
+            }
+          }
         }
-      },*/
+      },
     });
     // TODO: Possible to pre-send the total count
     List<dynamic> hits = results['hits']['hits'];
