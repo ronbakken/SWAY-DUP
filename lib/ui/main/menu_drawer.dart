@@ -56,30 +56,20 @@ class MainNavigationDrawer extends StatelessWidget {
     List<Widget> buildColumnEntries(DataAccount currentUser) {
       final List<Widget> entries = <Widget>[];
       entries.addAll(<Widget>[
-        FlatButton(
-          child: Row(children: <Widget>[
-            Container(
-              margin: const EdgeInsets.all(16.0),
-              child: const Icon(Icons.account_circle),
-            ),
-            const Text('Profile')
-          ]),
-          onPressed: (onNavigateProfile != null)
+        _MainNavigationItem(
+                icon: const Icon(Icons.account_circle),
+                text: 'Profile',
+                onTap: (onNavigateProfile != null)
               ? () {
                   Navigator.pop(context);
                   onNavigateProfile();
                 }
               : null,
         ),
-        FlatButton(
-          child: Row(children: <Widget>[
-            Container(
-              margin: const EdgeInsets.all(16.0),
-              child: const Icon(Icons.history),
-            ),
-            const Text('History')
-          ]),
-          onPressed: (onNavigateHistory != null)
+        _MainNavigationItem(
+                icon: const Icon(Icons.history),
+                text: 'History',
+                onTap: (onNavigateHistory != null)
               ? () {
                   Navigator.pop(context);
                   onNavigateHistory();
@@ -87,15 +77,10 @@ class MainNavigationDrawer extends StatelessWidget {
               : null,
         ),
         (account.globalAccountState.value >= GlobalAccountState.debug.value)
-            ? FlatButton(
-                child: Row(children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.all(16.0),
-                    child: const Icon(Icons.account_box),
-                  ),
-                  const Text('Debug Account')
-                ]),
-                onPressed: (onNavigateDebugAccount != null)
+            ? _MainNavigationItem(
+                icon: const Icon(Icons.account_box),
+                text: 'Debug Account',
+                onTap: (onNavigateDebugAccount != null)
                     ? () {
                         Navigator.pop(context);
                         onNavigateDebugAccount();
@@ -111,7 +96,12 @@ class MainNavigationDrawer extends StatelessWidget {
             color: Colors.white,
           ),
           text: 'Switch Account',
-          onTap: onNavigateSwitchAccount,
+          onTap: (onNavigateSwitchAccount != null)
+              ? () {
+                  Navigator.pop(context);
+                  onNavigateSwitchAccount();
+                }
+              : null,
         ),
         const SizedBox(height: 16),
         const Text(
