@@ -407,6 +407,8 @@ class DataOffer extends $pb.GeneratedMessage {
         $0.AccountType.unknown, $0.AccountType.valueOf, $0.AccountType.values)
     ..aOB(46, 'acceptMatchingProposals')
     ..aOB(47, 'allowNegotiatingProposals')
+    ..a<int>(48, 'amountOffered', $pb.PbFieldType.O3)
+    ..a<int>(49, 'amountRemaining', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   DataOffer() : super();
@@ -677,6 +679,22 @@ class DataOffer extends $pb.GeneratedMessage {
 
   bool hasAllowNegotiatingProposals() => $_has(34);
   void clearAllowNegotiatingProposals() => clearField(47);
+
+  int get amountOffered => $_get(35, 0);
+  set amountOffered(int v) {
+    $_setSignedInt32(35, v);
+  }
+
+  bool hasAmountOffered() => $_has(35);
+  void clearAmountOffered() => clearField(48);
+
+  int get amountRemaining => $_get(36, 0);
+  set amountRemaining(int v) {
+    $_setSignedInt32(36, v);
+  }
+
+  bool hasAmountRemaining() => $_has(36);
+  void clearAmountRemaining() => clearField(49);
 }
 
 class DataLocation extends $pb.GeneratedMessage {

@@ -209,6 +209,20 @@ const DataOffer$json = const {
     },
     const {'1': 'categories', '3': 23, '4': 3, '5': 5, '10': 'categories'},
     const {
+      '1': 'amount_offered',
+      '3': 48,
+      '4': 1,
+      '5': 5,
+      '10': 'amountOffered'
+    },
+    const {
+      '1': 'amount_remaining',
+      '3': 49,
+      '4': 1,
+      '5': 5,
+      '10': 'amountRemaining'
+    },
+    const {
       '1': 'state',
       '3': 12,
       '4': 1,
