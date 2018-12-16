@@ -54,54 +54,8 @@ class MainNavigationDrawer extends StatelessWidget {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final bool isLoggedIn = account.accountId != Int64.ZERO;
     List<Widget> buildColumnEntries(DataAccount currentUser) {
-      final List<Widget> entries = <Widget>[
-        _MainNavigationItem(
-          icon: const InfAssetImage(
-            AppIcons.switchUser,
-            color: Colors.white,
-          ),
-          text: 'Switch Account',
-          onTap: onNavigateSwitchAccount,
-        ),
-        const SizedBox(height: 16),
-        const Text(
-          'SOCIAL MEDIA ACCOUNTS',
-          textAlign: TextAlign.left,
-          style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
-        ),
-        const SizedBox(height: 8),
-      ];
-      for (DataSocialMedia socialMedia in currentUser.socialMedia.values) {
-        if (socialMedia.connected) {
-          final ConfigOAuthProvider oauthProvider =
-              config.oauthProviders[socialMedia.providerId];
-          if (oauthProvider?.visible == true) {
-            entries.add(_MainNavigationItem(
-              icon: InfMemoryImage(
-                oauthProvider.monochromeForegroundImage,
-                height: 32,
-              ),
-              text: oauthProvider.label,
-              trailing: InfSwitch(
-                value: socialMedia.published,
-                onChanged: onEditSocialMedia == null
-                    ? null
-                    : (bool value) => setSocialMediaAccountState(
-                        socialMedia.providerId, value),
-                activeColor: AppTheme.blue,
-              ),
-            ));
-          }
-        }
-      }
+      final List<Widget> entries = <Widget>[];
       entries.addAll(<Widget>[
-        SizedBox(height: 8),
-        Text(
-          'DEVELOPMENT',
-          textAlign: TextAlign.left,
-          style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
-        ),
-        SizedBox(height: 8),
         FlatButton(
           child: Row(children: <Widget>[
             Container(
@@ -132,21 +86,6 @@ class MainNavigationDrawer extends StatelessWidget {
                 }
               : null,
         ),
-        FlatButton(
-          child: Row(children: <Widget>[
-            Container(
-              margin: const EdgeInsets.all(16.0),
-              child: const Icon(Icons.supervisor_account),
-            ),
-            const Text('Switch User')
-          ]),
-          onPressed: (onNavigateSwitchAccount != null)
-              ? () {
-                  Navigator.pop(context);
-                  onNavigateSwitchAccount();
-                }
-              : null,
-        ),
         (account.globalAccountState.value >= GlobalAccountState.debug.value)
             ? FlatButton(
                 child: Row(children: <Widget>[
@@ -165,6 +104,46 @@ class MainNavigationDrawer extends StatelessWidget {
               )
             : null,
       ].where((Widget w) => w != null));
+      entries.addAll(<Widget>[
+        _MainNavigationItem(
+          icon: const InfAssetImage(
+            AppIcons.switchUser,
+            color: Colors.white,
+          ),
+          text: 'Switch Account',
+          onTap: onNavigateSwitchAccount,
+        ),
+        const SizedBox(height: 16),
+        const Text(
+          'SOCIAL MEDIA ACCOUNTS',
+          textAlign: TextAlign.left,
+          style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
+        ),
+        const SizedBox(height: 8),
+      ]);
+      for (DataSocialMedia socialMedia in currentUser.socialMedia.values) {
+        if (socialMedia.connected) {
+          final ConfigOAuthProvider oauthProvider =
+              config.oauthProviders[socialMedia.providerId];
+          if (oauthProvider?.visible == true) {
+            entries.add(_MainNavigationItem(
+              icon: InfMemoryImage(
+                oauthProvider.monochromeForegroundImage,
+                height: 32,
+              ),
+              text: oauthProvider.label,
+              trailing: InfSwitch(
+                value: socialMedia.published,
+                onChanged: onEditSocialMedia == null
+                    ? null
+                    : (bool value) => setSocialMediaAccountState(
+                        socialMedia.providerId, value),
+                activeColor: AppTheme.blue,
+              ),
+            ));
+          }
+        }
+      }
       entries.addAll(<Widget>[
         SizedBox(height: 8),
         Text(
