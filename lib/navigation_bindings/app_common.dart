@@ -333,7 +333,7 @@ abstract class AppCommonState<T extends StatefulWidget>
 
   final MapController _mapController = MapController();
   bool _mapFilter = false;
-  DataOffer _mapHighlightOffer;
+  Int64 _mapHighlightOffer;
 
   Widget _exploreBuilder(BuildContext context) {
     final bool enoughSpaceForBottom =
@@ -341,19 +341,12 @@ abstract class AppCommonState<T extends StatefulWidget>
     final ApiClient network = NetworkProvider.of(context);
     final ConfigData config = ConfigProvider.of(context);
     final List<int> showcaseOfferIds = enoughSpaceForBottom
-        ? network.demoAllOffers.keys.toList()
+        ? network.demoAllOffers
         : <int>[]; // TODO(kaetemi): Explore
     final Widget showcase = showcaseOfferIds.isNotEmpty
         ? OffersShowcase(
-            getOffer: (BuildContext context, int offerId) {
-              final ApiClient network = NetworkProvider.of(context);
-              return network.tryGetOffer(Int64(offerId));
-            },
-            getAccount: (BuildContext context, int accountId) {
-              final ApiClient network = NetworkProvider.of(context);
-              return network.tryGetProfileSummary(Int64(accountId));
-            },
-            offerIds: network.demoAllOffers.keys.toList(),
+            getOffer: _getOfferSummary,
+            offerIds: network.demoAllOffers,
             onOfferPressed: (DataOffer offer) {
               navigateToOffer(offer.offerId);
             },
@@ -361,7 +354,7 @@ abstract class AppCommonState<T extends StatefulWidget>
               _mapController.move(
                   LatLng(offer.latitude, offer.longitude), _mapController.zoom);
               setState(() {
-                _mapHighlightOffer = offer;
+                _mapHighlightOffer = offer.offerId;
               });
             },
           )
@@ -387,9 +380,10 @@ abstract class AppCommonState<T extends StatefulWidget>
       searchTooltip: 'Search for nearby offers',
       mapController: _mapController,
       bottomSpace: (showcase != null) ? 156.0 : 0.0,
-      offers: network.demoAllOffers.values.toList(),
+      offers: network.demoAllOffers,
       highlightOffer: _mapHighlightOffer,
       onOfferPressed: navigateToOffer,
+      getOffer: _getOfferSummary,
     );
   }
 

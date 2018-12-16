@@ -8,9 +8,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:fixnum/fixnum.dart';
+import 'package:inf/network_generic/api_client_demo.dart';
 import 'package:inf/network_generic/api_client_offer.dart';
 import 'package:inf/network_generic/network_common.dart';
-import 'package:inf/network_generic/network_offers_demo.dart';
 import 'package:inf/network_generic/network_proposals.dart';
 import 'package:inf/network_mobile/network_notifications.dart';
 import 'package:inf/network_generic/change.dart';
@@ -28,10 +28,10 @@ class NetworkManager
     with
         NetworkProfiles,
         ApiClientOffer,
-        NetworkOffersDemo,
         NetworkProposals,
         NetworkCommon,
-        NetworkNotifications
+        NetworkNotifications,
+        ApiClientDemo
     implements ApiClient, NetworkInternals {
   Function() onChanged = () {};
 

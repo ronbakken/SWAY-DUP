@@ -207,7 +207,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
   }
 
   @override
-  Iterable<Int64> get offers {
+  List<Int64> get offers {
     if (_offersDirty && !_offersRefreshing) {
       _offersRefreshing = true;
       () async {

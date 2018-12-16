@@ -222,15 +222,20 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               print("Failed to search for offers: $error\n$stackTrace");
             }
           },
-          searchResults: network.demoAllOffers.values
-              .map((offer) => OfferCard(
-                  businessOffer: offer,
-                  onPressed: () {
-                    navigateToOffer(offer.offerId);
-                  }))
+          searchResults: <Widget>[],
+           /*network.demoAllOffers
+              .map(
+                (Int64 offerId) => OfferCard(
+                      businessOffer: offer,
+                      onPressed: () {
+                        navigateToOffer(offer.offerId);
+                      },
+                    ),
+              )
               .toList()
                 ..sort((a, b) => b.businessOffer.offerId
-                    .compareTo(a.businessOffer.offerId)) //<Widget>[],
+                    .compareTo(a.businessOffer.offerId)) */
+
           );
     });
   }

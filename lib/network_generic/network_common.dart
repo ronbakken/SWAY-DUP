@@ -69,7 +69,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
   String _overrideEndPoint;
 
-  final random = Random.secure();
+  final Random random = Random.secure();
 
   @override
   int nextSessionGhostId;
@@ -104,7 +104,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
 
     // Start network loop
     _networkLoop().catchError((dynamic error, StackTrace stackTrace) {
-      log.severe("Network loop died: $error\n$stackTrace");
+      log.severe('Network loop died: $error\n$stackTrace');
     });
 
     Timer.periodic(Duration(seconds: 1), (Timer timer) async {
@@ -115,7 +115,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       if (channel != null) {
         final TalkChannel currentChannel = channel;
         try {
-          await channel.sendRequest("PING", Uint8List(0));
+          await channel.sendRequest('PING', Uint8List(0));
         } catch (error, stackTrace) {
           log.fine('Ping: $error\n$stackTrace');
           if (channel == currentChannel) {
@@ -157,7 +157,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   @override
   void overrideUri(String serverUri) {
     _overrideEndPoint = serverUri;
-    log.info("Override server uri to $serverUri");
+    log.info('Override server uri to $serverUri');
     if (channel != null) {
       channel.close();
       channel = null;
@@ -174,7 +174,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   void syncConfig(ConfigData config) {
     // May only be called from a setState block
     if (_config != config) {
-      log.fine("Sync config changes to network");
+      log.fine('Sync config changes to network');
       final bool regionOrLanguageChanged = config.region != _config?.region ||
           config.language != _config?.language;
       _config = config;
@@ -185,7 +185,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     }
     if (_config == null) {
       log.severe(
-          "Widget config is null in network sync"); // DEVELOPER - CRITICAL
+          'Widget config is null in network sync'); // DEVELOPER - CRITICAL
     }
     if (!_kickstartNetwork.isCompleted) {
       _kickstartNetwork.complete();
@@ -195,7 +195,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   void cleanupStateSwitchingAccounts() {
     resetProfilesState();
     resetOffersState();
-    resetOffersDemoState();
+    resetDemoAllOffersState();
     resetProposalsState();
     resetAccountState();
   }
@@ -213,7 +213,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   void reassembleCommon() {
     // Developer reload
     if (channel != null) {
-      log.info("Network reload by developer");
+      log.info('Network reload by developer.');
       channel.close();
       channel = null;
     }
@@ -226,7 +226,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   void disposeCommon() {
     _alive = false;
     if (channel != null) {
-      log.fine("Dispose network connection");
+      log.fine('Dispose network connection.');
       channel.close();
       channel = null;
     }
@@ -235,7 +235,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   @override
   void dependencyChangedCommon() {
     if (channel != null) {
-      log.info("Network reload by config or selection");
+      log.info('Network reload by config or selection.');
       channel.close();
       channel = null;
     }
@@ -327,7 +327,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   Future<void> _sessionCreate() async {
-    log.info("Create session");
+    log.info('Create session.');
     // final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     final String deviceName = 'unknown_device';
     /*
@@ -353,7 +353,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       ..mergeFromBuffer(response.data)
       ..freeze();
     if (_lastPayloadLocalId != _currentLocalAccount.localId) {
-      log.warning("Already switched account, cannot finish session creation.");
+      log.warning('Already switched account, cannot finish session creation.');
       if (channel != null) {
         channel.close();
         channel = null;
@@ -363,14 +363,14 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     if (session.hasSessionId() && session.sessionId != 0) {
       // Successfull connection
       if (_lastPayloadCookie == null) {
-        log.severe("Payload cookie missing");
+        log.severe('Payload cookie missing.');
         if (channel != null) {
           channel.close();
           channel = null;
         }
         return;
       }
-      log.info("Session ${session.sessionId}");
+      log.info('Session ${session.sessionId}.');
       // Store session id and cookie
       multiAccountStore.setSessionId(_currentLocalAccount.domain,
           _currentLocalAccount.localId, session.sessionId, _lastPayloadCookie);
@@ -381,9 +381,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   Future<void> _sessionRemove(TalkMessage message) async {
-    log.info("Remove session");
+    log.info('Remove session.');
     if (_lastPayloadLocalId != _currentLocalAccount.localId) {
-      log.warning("Already switched account, cannot remove session.");
+      log.warning('Already switched account, cannot remove session.');
       if (channel != null) {
         channel.close();
         channel = null;
@@ -558,7 +558,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       // Mark all caches as dirty, since we may have been offline for a while
       markProfilesDirty();
       markOffersDirty();
-      markOffersDemoDirty();
+      markDemoAllOffersDirty();
       markProposalsDirty();
       await initFirebaseNotifications();
     }

@@ -6,6 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:typed_data';
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/styling_constants.dart';
 
@@ -18,15 +19,15 @@ class OffersShowcase extends StatefulWidget {
     @required this.onOfferPressed,
     @required this.onOfferCenter,
     @required this.getOffer,
-    @required this.getAccount,
+    // @required this.getAccount,
     @required this.offerIds,
   }) : super(key: key);
 
   final Function(DataOffer offer) onOfferPressed;
   final Function(DataOffer offer) onOfferCenter;
-  final DataOffer Function(BuildContext context, int offerId) getOffer;
-  final DataAccount Function(BuildContext context, int accountId) getAccount;
-  final List<int> offerIds;
+  final DataOffer Function(BuildContext context, Int64 offerId) getOffer;
+  // final DataAccount Function(BuildContext context, Int64 accountId) getAccount;
+  final List<Int64> offerIds;
 
   @override
   _OffersShowcaseState createState() => _OffersShowcaseState();
@@ -35,7 +36,7 @@ class OffersShowcase extends StatefulWidget {
 class _OffersShowcaseState extends State<OffersShowcase> {
   Widget _buildCard(BuildContext context, int offerIdx) {
     ThemeData theme = Theme.of(context);
-    int offerId = widget.offerIds[offerIdx];
+    Int64 offerId = widget.offerIds[offerIdx];
     // print("[INF] Showcase $offerId");
     DataOffer offer = widget.getOffer(context, offerId);
     /*DataAccount account = offer.accountId != 0

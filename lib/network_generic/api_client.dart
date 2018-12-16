@@ -112,7 +112,7 @@ abstract class ApiClient {
   Future<void> refreshOffers();
 
   /// List of offers owned by this account (applicable for business)
-  Iterable<Int64> get offers;
+  List<Int64> get offers;
 
   /// Whether [offers] is in the process of loading. Not set by refreshOffers call
   bool get offersLoading;
@@ -125,10 +125,10 @@ abstract class ApiClient {
   Future<void> refreshDemoAllOffers();
 
   /// List of all offers on the server
-  Map<int, DataOffer> get demoAllOffers;
+  List<Int64> get demoAllOffers;
 
   /// Whether [offers] is in the process of loading. Not set by refreshOffers call
-  bool demoAllOffersLoading;
+  bool get demoAllOffersLoading;
 
   /////////////////////////////////////////////////////////////////////////////
   // Synchronization utilities

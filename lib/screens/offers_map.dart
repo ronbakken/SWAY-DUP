@@ -31,6 +31,7 @@ class OffersMap extends StatefulWidget {
     this.mapController,
     this.bottomSpace = 0.0,
     @required this.offers,
+    @required this.getOffer,
     @required this.onOfferPressed,
     @required this.highlightOffer,
   }) : super(key: key);
@@ -52,11 +53,12 @@ class OffersMap extends StatefulWidget {
   final double bottomSpace;
 
   /// Temporary
-  final List<DataOffer> offers;
+  final List<Int64> offers;
+  final DataOffer Function(BuildContext context, Int64 offerId) getOffer;
 
   // TODO: final Function(S2CellId cellId) getOffer;
   final Function(Int64 offerId) onOfferPressed;
-  final DataOffer highlightOffer;
+  final Int64 highlightOffer;
 
   @override
   _OffersMapState createState() => _OffersMapState();
@@ -68,7 +70,7 @@ class _OffersMapState extends State<OffersMap> {
   LatLng _gpsLatLng;
   Geolocator _geolocator;
   StreamSubscription<Position> _positionSubscription;
-  List<DataOffer> _offers;
+  List<Int64> _offers;
 
   @override
   void initState() {
@@ -155,7 +157,7 @@ class _OffersMapState extends State<OffersMap> {
   }
 
   void _updateOfferList() {
-    _offers = widget.offers ?? <DataOffer>[];
+    _offers = widget.offers ?? <Int64>[];
     if (widget.highlightOffer != null) {
       _offers.insert(0, widget.highlightOffer);
     }
@@ -236,11 +238,14 @@ class _OffersMapState extends State<OffersMap> {
   List<Marker> _buildOfferMarkers(BuildContext context) {
     List<Marker> markers = List<Marker>();
     Set<Int64> locations = Set<Int64>();
-    for (DataOffer offer in _offers) {
+    for (Int64 offerId in _offers) {
+      DataOffer offer = widget.getOffer(context, offerId);
+      /*
       if (locations.contains(offer.locationId)) {
         continue;
       }
       locations.add(offer.locationId);
+      */
       markers.add(Marker(
         width: 56.0 + 8.0, // + 16.0,
         height: 56.0 + 8.0, // + 16.0,

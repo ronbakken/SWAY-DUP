@@ -42,9 +42,9 @@ abstract class NetworkInternals {
   void hintOfferProposal(DataProposal proposal);
   void onOffersChanged();
 
-  // Offers Demo
-  void resetOffersDemoState();
-  void markOffersDemoDirty();
+  // Demo
+  void resetDemoAllOffersState();
+  void markDemoAllOffersDirty();
   void onDemoAllOffersChanged();
 
   // Proposals
