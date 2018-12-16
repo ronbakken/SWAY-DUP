@@ -43,6 +43,7 @@ class _WelcomePageState extends State<WelcomePage> {
         fit: StackFit.expand,
         children: <Widget>[
           _WelcomeWall(data: widget.welcomeImageUrls),
+          /*
           FadeTransition(
             opacity: secondaryAnimation,
             child: SafeArea(
@@ -55,6 +56,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
             ),
           ),
+          */
           FadeTransition(
             opacity: secondaryAnimation,
             child: SafeArea(
