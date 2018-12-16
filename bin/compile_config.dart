@@ -17,8 +17,9 @@ import 'package:inf_common/inf_common.dart';
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-Future<ConfigServices> generateConfigServices(bool server) async {
-  List<String> lines = await new File("config/services.ini").readAsLines();
+Future<ConfigServices> generateConfigServices(
+    String fileName, bool server) async {
+  List<String> lines = await new File(fileName).readAsLines();
   ConfigServices res = new ConfigServices();
   ini.Config cfg = new ini.Config.fromStrings(lines);
 
@@ -115,8 +116,7 @@ Future<ConfigServices> generateConfigServices(bool server) async {
       if (cfg.hasOption(section, 'galleryCoverUrl'))
         res.galleryCoverUrl = cfg.get(section, 'galleryCoverUrl');
       if (cfg.hasOption(section, 'galleryCoverBlurredUrl'))
-        res.galleryCoverBlurredUrl =
-            cfg.get(section, 'galleryCoverBlurredUrl');
+        res.galleryCoverBlurredUrl = cfg.get(section, 'galleryCoverBlurredUrl');
       if (cfg.hasOption(section, 'galleryPictureUrl'))
         res.galleryPictureUrl = cfg.get(section, 'galleryPictureUrl');
       if (cfg.hasOption(section, 'galleryPictureBlurredUrl'))
@@ -287,8 +287,7 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
 
     String section = entryMap[i];
     entry.providerId = i;
-    if (cfg.hasOption(section, 'key'))
-      entry.key = cfg.get(section, 'key');
+    if (cfg.hasOption(section, 'key')) entry.key = cfg.get(section, 'key');
     if (cfg.hasOption(section, 'visible'))
       entry.visible = (int.parse(cfg.get(section, 'visible')) == 1);
     if (cfg.hasOption(section, 'canConnect'))
@@ -299,7 +298,8 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
     if (cfg.hasOption(section, 'showInProfile'))
       entry.showInProfile = (int.parse(cfg.get(section, 'showInProfile')) == 1);
     if (cfg.hasOption(section, 'deliverablesChannel'))
-      entry.deliverablesChannel = int.parse(cfg.get(section, 'deliverablesChannel'));
+      entry.deliverablesChannel =
+          int.parse(cfg.get(section, 'deliverablesChannel'));
     entry.label = section;
     if (!server) {
       if (cfg.hasOption(section, 'foregroundImage')) {
@@ -546,7 +546,7 @@ Future<void> generateConfig(bool server) async {
       new Int64(new DateTime.now().toUtc().millisecondsSinceEpoch);
   config.region = "US";
   config.language = "en";
-  config.services = await generateConfigServices(server);
+  config.services = await generateConfigServices("config/services.ini", server);
   config.featureSwitches = await generateConfigFeatureSwitches(server);
   config.assets.addAll(await generateConfigAssets(server));
   Map<String, int> assets = <String, int>{};
@@ -559,10 +559,23 @@ Future<void> generateConfig(bool server) async {
   config.categories.addAll(await generateConfigCategories(assets, server));
   config.contentFormats
       .addAll(await generateConfigContentFormats(assets, server));
-  print(config.content);
+  // print(config.content);
   Uint8List configBuffer = config.writeToBuffer();
-  new File(server ? "config/config_server.bin" : "config/config.bin")
+  new File(server ? "build/config_server.bin" : "build/config.bin")
       .writeAsBytes(configBuffer, flush: true);
+}
+
+Future<void> adjustConfig(String suffix, bool server) async {
+  ConfigData config = ConfigData()
+    ..mergeFromBuffer(
+        await new File(server ? "build/config_server.bin" : "build/config.bin")
+            .readAsBytes());
+  config.services.mergeFromMessage(await generateConfigServices(
+      "config_" + suffix + "/services.ini", server));
+  new File(server
+          ? "build/config_" + suffix + "_server.bin"
+          : "build/config_" + suffix + ".bin")
+      .writeAsBytes(config.writeToBuffer(), flush: true);
 }
 
 main(List<String> arguments) async {
@@ -570,7 +583,8 @@ main(List<String> arguments) async {
   Future<void> f2 = generateConfig(true);
   await f1;
   await f2;
-  // exit(0);
+  await adjustConfig("dyrnwyn", false);
+  await adjustConfig("dyrnwyn", true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
