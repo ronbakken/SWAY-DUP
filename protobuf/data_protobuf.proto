@@ -132,6 +132,8 @@ message DataOffer { // 47
   repeated string cover_urls = 10; // (Detail)
   repeated bytes covers_blurred = 29; // (Detail)
   repeated int32 categories = 23; // (Detail)
+  int32 amount_offered = 48; // (Detail) // TODO(kaetemi): api, Elasticsearch, SQL
+  int32 amount_remaining = 49; // (Detail) (State) // TODO(kaetemi): api, Elasticsearch, SQL
   
   // State for sender
   OfferState state = 12; // (Private)
