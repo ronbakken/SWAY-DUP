@@ -15,13 +15,13 @@ class ProfileAvatar extends StatelessWidget {
     this.size,
     this.localAccount,
     this.account,
-    this.tag = '',
+    this.heroTag = '',
   }) : super(key: key);
 
   final double size;
   final DataAccount account;
   final LocalAccountData localAccount;
-  final String tag;
+  final String heroTag;
 
   @override
   Widget build(BuildContext context) {

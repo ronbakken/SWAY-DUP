@@ -6,7 +6,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image..dart';
+import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
@@ -25,7 +25,7 @@ class OfferDetailsPage extends StatefulWidget {
     this.onOnboardingPressed,
     this.onSenderAccountPressed,
     this.onProposalPressed,
-    this.tag,
+    this.heroTag,
   }) : super(key: key);
 
   final Future<DataProposal> Function(String remarks) onApply;
@@ -40,7 +40,7 @@ class OfferDetailsPage extends StatefulWidget {
   final Function() onSenderAccountPressed;
   final Function() onProposalPressed; // TODO: Already proposed!
 
-  final String tag;
+  final String heroTag;
 
   @override
   OfferDetailsPageState createState() => OfferDetailsPageState();
@@ -65,9 +65,9 @@ class OfferDetailsPageState extends State<OfferDetailsPage> {
     final DataAccount account = widget.account;
     final DataOffer offer = widget.offer;
     Widget imageArea = _buildImageArea();
-    if (widget.tag != null) {
+    if (widget.heroTag != null) {
       imageArea = Hero(
-        tag: widget.tag,
+        tag: widget.heroTag,
         child: imageArea,
         flightShuttleBuilder: (
           BuildContext flightContext,

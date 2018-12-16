@@ -77,7 +77,7 @@ class ProposalCard extends StatelessWidget {
                   child: ProfileAvatar(
                       size: 112.0 - kInfPadding - kInfPadding,
                       account: partnerProfile,
-                      tag: '/${proposal.proposalId}'),
+                      heroTag: '/${proposal.proposalId}'),
                 ),
           Flexible(
             fit: FlexFit.loose,
@@ -108,7 +108,7 @@ class ProposalCard extends StatelessWidget {
                               ? ProfileAvatar(
                                   size: 40.0,
                                   account: partnerProfile,
-                                  tag: '/${proposal.proposalId}')
+                                  heroTag: '/${proposal.proposalId}')
                               : SizedBox(
                                   width: 40.0, // 72.0,
                                   height: 40.0,

@@ -8,7 +8,7 @@ import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image..dart';
+import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 import 'package:inf_common/inf_common.dart';
 // import 'package:pedantic/pedantic.dart';
