@@ -5,10 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
-import 'dart:convert';
-import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_server_api/api_channel_offer.dart';
 import 'package:inf_server_api/elasticsearch.dart';
@@ -17,7 +14,6 @@ import 'package:logging/logging.dart';
 import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
-import 'package:dospace/dospace.dart' as dospace;
 
 import 'broadcast_center.dart';
 import 'package:inf_common/inf_common.dart';
@@ -65,8 +61,8 @@ class ApiChannelDemo {
   // Construction
   //////////////////////////////////////////////////////////////////////////////
 
-  static final Logger opsLog = new Logger('InfOps.ApiChannelDemo');
-  static final Logger devLog = new Logger('InfDev.ApiChannelDemo');
+  static final Logger opsLog = Logger('InfOps.ApiChannelDemo');
+  static final Logger devLog = Logger('InfDev.ApiChannelDemo');
 
   ApiChannelDemo(this._r) {
     _r.registerProcedure(
@@ -84,9 +80,9 @@ class ApiChannelDemo {
 
   Future<void> _netDemoAllOffers(TalkMessage message) async {
     devLog.fine('_netDemoAllOffers');
-    final NetDemoAllOffers listOffers = NetDemoAllOffers()
+    /*final NetDemoAllOffers listOffers = NetDemoAllOffers()
       ..mergeFromBuffer(message.data)
-      ..freeze();
+      ..freeze();*/
     final dynamic results = await elasticsearch.search('offers', {
       "size": ApiChannelOffer.searchSize,
       "_source": {
@@ -103,12 +99,12 @@ class ApiChannelDemo {
       },
     });
     // TODO: Possible to pre-send the total count
-    List<dynamic> hits = results['hits']['hits'];
+    final List<dynamic> hits = results['hits']['hits'];
     for (dynamic hit in hits) {
-      Map<String, dynamic> doc = hit['_source'] as Map<String, dynamic>;
+      final Map<String, dynamic> doc = hit['_source'] as Map<String, dynamic>;
       NetOffer res;
       try {
-        res = new NetOffer();
+        res = NetOffer();
         res.offer = ElasticsearchOffer.fromJson(config, doc,
             state: true,
             summary: true,
@@ -118,7 +114,7 @@ class ApiChannelDemo {
             private: true);
       } catch (error, stackTrace) {
         res = null;
-        devLog.severe("Error parsing offer: $error\n$stackTrace");
+        devLog.severe('Error parsing offer', error, stackTrace);
       }
       if (res != null) {
         channel.replyMessage(message, 'R_DEMAOF', res.writeToBuffer());

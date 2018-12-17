@@ -151,7 +151,7 @@ class BroadcastCenter {
         }
       } catch (error, stackTrace) {
         devLog.warning(
-            "Exception while pushing to remote app: $error\n$stackTrace");
+            "Exception while pushing to remote app", error, stackTrace);
       }
     }
 

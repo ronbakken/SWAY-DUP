@@ -134,9 +134,9 @@ class ApiChannel {
       }
     }, onError: (dynamic error, StackTrace stackTrace) {
       if (error is TalkAbort) {
-        devLog.severe("Received abort from api remote: $error\n$stackTrace");
+        devLog.severe("Received abort from api remote", error, stackTrace);
       } else {
-        devLog.severe("Unknown error from api remote: $error\n$stackTrace");
+        devLog.severe("Unknown error from api remote", error, stackTrace);
       }
     }, onDone: () {
       dispose();
@@ -199,13 +199,13 @@ class ApiChannel {
           await procedure(message);
         } catch (error, stackTrace) {
           devLog.severe(
-              "Unexpected error in procedure '$procedureId': $error\n$stackTrace");
+              "Unexpected error in procedure '$procedureId'", error, stackTrace);
           try {
             if (message.requestId != 0) {
               channel.replyAbort(message, "Unexpected error.");
             }
           } catch (error, stackTrace) {
-            devLog.finest("Failed to reply abort: $error\n$stackTrace");
+            devLog.finest("Failed to reply abort", error, stackTrace);
           }
         }
       }
@@ -272,12 +272,12 @@ class ApiChannel {
     try {
       await _initializeSession(payload);
     } catch (error, stackTrace) {
-      devLog.warning("Initialize session error: $error\n$stackTrace");
+      devLog.warning("Initialize session error", error, stackTrace);
     }
     try {
       _listen();
     } catch (error, stackTrace) {
-      devLog.warning("Listen error: $error\n$stackTrace");
+      devLog.warning("Listen error", error, stackTrace);
     }
   }
 
@@ -376,7 +376,7 @@ class ApiChannel {
           try {
             sendAccountUpdate();
           } catch (error, stackTrace) {
-            devLog.warning("Error sending account update: $error\n$stackTrace");
+            devLog.warning("Error sending account update", error, stackTrace);
           }
         } else {
           await _sessionRemove();
@@ -675,7 +675,7 @@ class ApiChannel {
                 "Inserted session_id ${account.sessionId} with aes_key '${aesKeyStr}'");
           }
         } catch (error, stackTrace) {
-          devLog.warning("Failed to create session: $error\n$stackTrace");
+          devLog.warning("Failed to create session", error, stackTrace);
         }
         await connection.release();
       }
@@ -901,7 +901,7 @@ class ApiChannel {
           await tx.commit();
         });
       } catch (error, stackTrace) {
-        devLog.severe("Failed to change account type: $error\n$stackTrace");
+        devLog.severe("Failed to change account type", error, stackTrace);
       }
     });
 
@@ -984,7 +984,7 @@ class ApiChannel {
         devLog.finest("GPS: $location");
         gpsLocationRes = location;
       }).catchError((dynamic error, StackTrace stackTrace) {
-        devLog.severe("GPS Geocoding Exception: $error\n$stackTrace");
+        devLog.severe("GPS Geocoding Exception", error, stackTrace);
       });
     }
     DataLocation geoIPLocationRes;
@@ -994,7 +994,7 @@ class ApiChannel {
       geoIPLocationRes = location;
       // locations.add(location);
     }).catchError((dynamic error, StackTrace stackTrace) {
-      devLog.severe("GeoIP Location Exception: $error\n$stackTrace");
+      devLog.severe("GeoIP Location Exception", error, stackTrace);
     });
 
     // Wait for GPS Geocoding
@@ -1022,7 +1022,7 @@ class ApiChannel {
           locations.add(location);
         }).catchError((dynamic error, StackTrace stackTrace) {
           devLog.severe(
-              "${config.oauthProviders[i].label}: Geocoding Exception: $error\n$stackTrace");
+              "${config.oauthProviders[i].label}: Geocoding Exception", error, stackTrace);
         }));
       }
     }
@@ -1292,7 +1292,7 @@ class ApiChannel {
           });
         } catch (error, stackTrace) {
           opsLog.severe(
-              "Failed to create account for session ${account.sessionId}: $error\n$stackTrace");
+              "Failed to create account for session ${account.sessionId}", error, stackTrace);
         }
       }
     });
@@ -1312,7 +1312,7 @@ class ApiChannel {
       });
     } catch (error, stackTrace) {
       devLog.severe(
-          "Failed to update device state at critical point: '$accountAvatarUrl': $error\n$stackTrace");
+          "Failed to update device state at critical point: '$accountAvatarUrl'", error, stackTrace);
       await channel.close();
       rethrow;
     }
@@ -1342,7 +1342,7 @@ class ApiChannel {
       }
     } catch (error, stackTrace) {
       devLog.severe(
-          "Exception downloading avatar '$accountAvatarUrl': $error\n$stackTrace");
+          "Exception downloading avatar '$accountAvatarUrl'", error, stackTrace);
     }
 
     // Send authentication state

@@ -91,7 +91,7 @@ class ApiService {
         }
       }
     } catch (error, stackTrace) {
-      opsLog.severe('Self test error: $error\n$stackTrace');
+      opsLog.severe('Self test error', error, stackTrace);
     }
   }
 }

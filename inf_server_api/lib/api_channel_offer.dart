@@ -341,7 +341,7 @@ class ApiChannelOffer {
             private: true);
       } catch (error, stackTrace) {
         res = null;
-        devLog.severe("Error parsing offer: $error\n$stackTrace");
+        devLog.severe("Error parsing offer", error, stackTrace);
       }
       if (res != null) {
         channel.replyMessage(message, 'R_LSTOFR', res.writeToBuffer());

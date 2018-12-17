@@ -518,7 +518,7 @@ class ApiChannelOAuth {
           "social_account_" + config.oauthProviders[oauthProvider].key, body);
     } catch (error, stackTrace) {
       opsLog.severe(
-          "Error posting social media account to Elasticsearch: $error\n$stackTrace");
+          "Error posting social media account to Elasticsearch", error, stackTrace);
     }
   }
 
