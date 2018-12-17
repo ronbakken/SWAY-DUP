@@ -95,7 +95,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
           cached.fallback.businessAccountId = offer.senderAccountId;
           cached.fallback.influencerAccountId = account.accountId;
           cached.fallback.influencerName = account.name;
-          cached.fallback.freeze();
+          //cached.fallback.freeze();
           onProposalChanged(offer.proposalId);
         }
       }

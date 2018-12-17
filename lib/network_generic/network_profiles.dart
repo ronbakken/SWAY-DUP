@@ -95,7 +95,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
         fallback.locationId = offer.locationId;
         fallback.latitude = offer.latitude;
         fallback.longitude = offer.longitude;
-        fallback.freeze();
+        //fallback.freeze();
         cached.fallback = fallback;
         onProfileChanged(accountId);
       }
@@ -130,7 +130,7 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
         await switchboard.sendRequest("api", "GETPROFL", pbReq.writeToBuffer());
     NetProfile profile = NetProfile();
     profile.mergeFromBuffer(message.data);
-    profile.freeze();
+    // profile.freeze();
     if (profile.account.accountId == accountId) {
       cacheProfile(profile.account);
     } else {

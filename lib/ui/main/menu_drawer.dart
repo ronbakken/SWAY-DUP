@@ -135,7 +135,7 @@ class MainNavigationDrawer extends StatelessWidget {
                 : (bool value) {
                     final DataAccount account = DataAccount();
                     account.acceptDirectProposals = value;
-                    account.freeze();
+                    //account.freeze();
                     onEditAccount(account);
                   },
             activeColor: AppTheme.blue,
@@ -154,7 +154,7 @@ class MainNavigationDrawer extends StatelessWidget {
                 : (bool value) {
                     final DataAccount account = DataAccount();
                     account.publishGpsLocation = value;
-                    account.freeze();
+                    //account.freeze();
                     onEditAccount(account);
                   },
             activeColor: AppTheme.blue,
