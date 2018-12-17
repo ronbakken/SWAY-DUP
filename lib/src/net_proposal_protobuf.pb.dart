@@ -15,9 +15,9 @@ import 'data_protobuf.pb.dart' as $1;
 class NetProposal extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposal',
       package: const $pb.PackageName('inf_common'))
-    ..a<$1.DataProposal>(1, 'updateProposal', $pb.PbFieldType.OM,
+    ..a<$1.DataProposal>(1, 'proposal', $pb.PbFieldType.OM,
         $1.DataProposal.getDefault, $1.DataProposal.create)
-    ..pp<$1.DataProposalChat>(2, 'newChats', $pb.PbFieldType.PM,
+    ..pp<$1.DataProposalChat>(2, 'chats', $pb.PbFieldType.PM,
         $1.DataProposalChat.$checkItem, $1.DataProposalChat.create)
     ..hasRequiredFields = false;
 
@@ -41,15 +41,15 @@ class NetProposal extends $pb.GeneratedMessage {
     if (v is! NetProposal) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $1.DataProposal get updateProposal => $_getN(0);
-  set updateProposal($1.DataProposal v) {
+  $1.DataProposal get proposal => $_getN(0);
+  set proposal($1.DataProposal v) {
     setField(1, v);
   }
 
-  bool hasUpdateProposal() => $_has(0);
-  void clearUpdateProposal() => clearField(1);
+  bool hasProposal() => $_has(0);
+  void clearProposal() => clearField(1);
 
-  List<$1.DataProposalChat> get newChats => $_getList(1);
+  List<$1.DataProposalChat> get chats => $_getList(1);
 }
 
 class NetProposalChat extends $pb.GeneratedMessage {

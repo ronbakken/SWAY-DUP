@@ -8,20 +8,20 @@ const NetProposal$json = const {
   '1': 'NetProposal',
   '2': const [
     const {
-      '1': 'update_proposal',
+      '1': 'proposal',
       '3': 1,
       '4': 1,
       '5': 11,
       '6': '.inf_common.DataProposal',
-      '10': 'updateProposal'
+      '10': 'proposal'
     },
     const {
-      '1': 'new_chats',
+      '1': 'chats',
       '3': 2,
       '4': 3,
       '5': 11,
       '6': '.inf_common.DataProposalChat',
-      '10': 'newChats'
+      '10': 'chats'
     },
   ],
 };
