@@ -298,11 +298,11 @@ class ApiChannelOffer {
     "reward_item_or_service_value",
     "primary_categories",
     "sender_name",
+    "sender_avatar_url", // TODO: Fix this
     "sender_avatar_key", // TODO: Fix this
     "sender_avatar_blurred",
     "location_address",
-    "latitude",
-    "longitude",
+    "location",
   ];
 
   static final List<String> privateSummaryFields =
