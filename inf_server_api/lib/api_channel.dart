@@ -16,6 +16,7 @@ import 'package:geohash/geohash.dart';
 import 'package:inf_server_api/api_channel_demo.dart';
 import 'package:inf_server_api/api_channel_offer.dart';
 import 'package:inf_server_api/api_channel_proposal.dart';
+import 'package:inf_server_api/api_channel_proposal_transactions.dart';
 import 'package:inf_server_api/api_service.dart';
 import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
@@ -108,6 +109,7 @@ class ApiChannel {
   ApiChannelProfile _apiChannelProfile;
   ApiChannelOffer apiChannelOffer;
   ApiChannelProposal apiChannelProposal;
+  ApiChannelProposalTransactions apiChannelProposalTransactions;
   ApiChannelDemo apiChannelDemo;
   ApiChannelBusiness _apiChannelBusiness;
   ApiChannelInfluencer _apiChannelInfluencer;
@@ -164,6 +166,10 @@ class ApiChannel {
     if (apiChannelProposal != null) {
       apiChannelProposal.dispose();
       apiChannelProposal = null;
+    }
+    if (apiChannelProposalTransactions != null) {
+      apiChannelProposalTransactions.dispose();
+      apiChannelProposalTransactions = null;
     }
     if (apiChannelDemo != null) {
       apiChannelDemo.dispose();
@@ -231,6 +237,9 @@ class ApiChannel {
     }
     if (apiChannelProposal == null) {
       apiChannelProposal = ApiChannelProposal(this);
+    }
+    if (apiChannelProposalTransactions == null) {
+      apiChannelProposalTransactions = ApiChannelProposalTransactions(this);
     }
     if (apiChannelDemo == null) {
       apiChannelDemo = ApiChannelDemo(this);

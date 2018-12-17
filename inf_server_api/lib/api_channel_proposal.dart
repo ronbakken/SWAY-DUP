@@ -230,8 +230,8 @@ class ApiChannelProposal {
     channel.replyMessage(message, 'R_APLPRP', res.writeToBuffer());
 
     // Clear private information from broadcast
-    chat.senderSessionId = Int64.ZERO;
-    chat.senderSessionGhostId = 0;
+    chat.clearSenderSessionId();
+    chat.clearSenderSessionGhostId();
 
     // Broadcast
     final NetProposal publishProposal = NetProposal();
@@ -495,7 +495,9 @@ class ApiChannelProposal {
         listChats.proposalId,
       ])) {
         final DataProposalChat chat = _chatFromRow(listChats.proposalId, row);
-        channel.replyMessage(message, 'R_LSTCHA', chat.writeToBuffer());
+        final NetProposalChat response = NetProposalChat();
+        response.chat = chat;
+        channel.replyMessage(message, 'R_LSTCHA', response.writeToBuffer());
       }
     } finally {
       await connection.release();

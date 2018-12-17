@@ -120,6 +120,7 @@ class ApiChannelProposalTransactions {
         '`image_key`, `image_blurred`, '
         '`marker`) '
         'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    devLog.finest('insertChat');
     final sqljocky.Results resultHaggle =
         await connection.prepareExecute(insertChat, <dynamic>[
       chat.senderAccountId,
@@ -131,19 +132,22 @@ class ApiChannelProposalTransactions {
       chat.hasTerms() ? chat.terms.writeToBuffer() : null,
       chat.hasImageKey() ? chat.imageKey : null,
       chat.hasImageBlurred() ? chat.imageBlurred : null,
-      chat.hasMarker() ? chat.marker : null,
+      chat.hasMarker() ? chat.marker.value : null,
     ]);
+    devLog.finest('inserted');
     final Int64 termsChatId = Int64(resultHaggle.insertId);
     if (termsChatId == Int64.ZERO) {
       return false;
     }
     chat.chatId = termsChatId;
+    await resultHaggle.drain<void>();
     return true;
   }
 
   Future<void> _enterChat(DataProposalChat chat) async {
     bool publish = false;
     if (chat.type == ProposalChatType.negotiate) {
+      devLog.finest('enterChat');
       await proposalDb
           .startTransaction((sqljocky.Transaction transaction) async {
         if (await _insertChat(transaction, chat)) {
@@ -160,6 +164,7 @@ class ApiChannelProposalTransactions {
               resultUpdateHaggleChatId.affectedRows == 0) {
             return; // rollback
           }
+          await resultUpdateHaggleChatId.drain<void>();
           // Commit
           await transaction.commit();
           publish = true;
@@ -188,8 +193,8 @@ class ApiChannelProposalTransactions {
 
   Future<void> _publishChat(DataProposalChat chat) async {
     if (chat.imageKey != null) {
-      chat.imageKey = null;
       chat.imageUrl = _r.makeCloudinaryCoverUrl(chat.imageKey);
+      chat.clearImageKey();
     }
 
     if (chat.imageUrl != null && chat.imageBlurred == null) {
@@ -202,8 +207,8 @@ class ApiChannelProposalTransactions {
     channel.sendMessage('LN_P_CHA', proposalChat.writeToBuffer());
 
     // Clear private information from broadcast
-    chat.senderSessionId = Int64.ZERO;
-    chat.senderSessionGhostId = 0;
+    chat.clearSenderSessionId();
+    chat.clearSenderSessionGhostId();
 
     // Publish to all else
     // TODO(kaetemi): Deduplicate chat.writeToBuffer() calls on publishing
@@ -304,6 +309,7 @@ class ApiChannelProposalTransactions {
     await proposalDb.startTransaction((sqljocky.Transaction transaction) async {
       // 1. Update deal to reflect the account wants a deal
       channel.replyExtend(message);
+      devLog.finest('wantDeal: Update');
       final String accountType = (account.accountType == AccountType.influencer)
           ? 'influencer'
           : 'business';
@@ -323,9 +329,11 @@ class ApiChannelProposalTransactions {
             "Invalid want deal attempt by account '$accountId' on proposal '$proposalId'");
         return;
       }
+      await resultWants.drain<void>();
 
       // 2. Try to see if we're can complete the deal or if it's just one sided
       channel.replyExtend(message);
+      devLog.finest('wantDeal: Check complete');
       final String updateDeal = 'UPDATE `proposals` '
           'SET `state` = ${ProposalState.deal.value} '
           'WHERE `proposal_id` = ? '
@@ -338,9 +346,11 @@ class ApiChannelProposalTransactions {
       );
       final bool dealMade =
           resultDeal.affectedRows != null && resultDeal.affectedRows > 0;
+      await resultDeal.drain<void>();
 
       // 3. Insert marker chat
       channel.replyExtend(message);
+      devLog.finest('wantDeal: Insert marker');
       final DataProposalChat chat = DataProposalChat();
       chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
       chat.senderAccountId = accountId;
@@ -350,9 +360,11 @@ class ApiChannelProposalTransactions {
       chat.type = ProposalChatType.marker;
       chat.marker =
           dealMade ? ProposalChatMarker.dealMade : ProposalChatMarker.wantDeal;
-      if (await _insertChat(transaction, chat)) {
+      if (await _insertChat(transaction, chat)) {// proposalDb, chat)) { // FIXME : !!!! transaction, chat)) { URGENT
+        // Unexpected error in procedure 'PR_WADEA': MySQL Client Error: Connection #0 cannot process a request for Instance of 'QueryStreamHandler' while a request is already in progress for Instance of 'ExecuteQueryHandler'
         channel.replyExtend(message);
         markerChat = chat;
+        devLog.finest('wantDeal: Commit');
         await transaction.commit();
       }
     });
