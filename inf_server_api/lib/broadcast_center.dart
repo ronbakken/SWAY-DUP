@@ -284,38 +284,38 @@ class BroadcastCenter {
   Future<void> proposalPosted(Int64 senderSessionId, NetProposal proposal,
       DataAccount influencerAccount) async {
     // Store cache
-    _proposalToInfluencerBusiness[proposal.updateProposal.proposalId] =
+    _proposalToInfluencerBusiness[proposal.proposal.proposalId] =
         _CachedProposal(
-            proposal.updateProposal.influencerAccountId,
-            proposal.updateProposal.businessAccountId,
-            proposal.updateProposal.senderAccountId);
+            proposal.proposal.influencerAccountId,
+            proposal.proposal.businessAccountId,
+            proposal.proposal.senderAccountId);
 
     // Push notifications
     await _pushProposalPosted(
-        senderSessionId, proposal.updateProposal.influencerAccountId, proposal);
+        senderSessionId, proposal.proposal.influencerAccountId, proposal);
     await _pushProposalPosted(
-        senderSessionId, proposal.updateProposal.businessAccountId, proposal);
-    if (proposal.updateProposal.senderAccountId !=
-            proposal.updateProposal.influencerAccountId &&
-        proposal.updateProposal.senderAccountId !=
-            proposal.updateProposal.businessAccountId &&
-        proposal.updateProposal.senderAccountId != Int64.ZERO) {
+        senderSessionId, proposal.proposal.businessAccountId, proposal);
+    if (proposal.proposal.senderAccountId !=
+            proposal.proposal.influencerAccountId &&
+        proposal.proposal.senderAccountId !=
+            proposal.proposal.businessAccountId &&
+        proposal.proposal.senderAccountId != Int64.ZERO) {
       await _pushProposalPosted(
-          senderSessionId, proposal.updateProposal.senderAccountId, proposal);
+          senderSessionId, proposal.proposal.senderAccountId, proposal);
     }
-    if (proposal.updateProposal.offerAccountId !=
-            proposal.updateProposal.influencerAccountId &&
-        proposal.updateProposal.offerAccountId !=
-            proposal.updateProposal.businessAccountId &&
-        proposal.updateProposal.offerAccountId !=
-            proposal.updateProposal.senderAccountId &&
-        proposal.updateProposal.offerAccountId != Int64.ZERO) {
+    if (proposal.proposal.offerAccountId !=
+            proposal.proposal.influencerAccountId &&
+        proposal.proposal.offerAccountId !=
+            proposal.proposal.businessAccountId &&
+        proposal.proposal.offerAccountId !=
+            proposal.proposal.senderAccountId &&
+        proposal.proposal.offerAccountId != Int64.ZERO) {
       await _pushProposalPosted(
-          senderSessionId, proposal.updateProposal.senderAccountId, proposal);
+          senderSessionId, proposal.proposal.senderAccountId, proposal);
     }
 
     devLog.fine(
-        "Pushed proposal ${proposal.updateProposal.proposalId}: '${influencerAccount.name}'");
+        "Pushed proposal ${proposal.proposal.proposalId}: '${influencerAccount.name}'");
   }
 
   /// TODO: Filter business and influencer values from proposal
@@ -323,34 +323,34 @@ class BroadcastCenter {
   Future<void> proposalChanged(
       Int64 senderSessionId, NetProposal proposal) async {
     // Store cache
-    _proposalToInfluencerBusiness[proposal.updateProposal.proposalId] =
+    _proposalToInfluencerBusiness[proposal.proposal.proposalId] =
         _CachedProposal(
-            proposal.updateProposal.influencerAccountId,
-            proposal.updateProposal.businessAccountId,
-            proposal.updateProposal.senderAccountId);
+            proposal.proposal.influencerAccountId,
+            proposal.proposal.businessAccountId,
+            proposal.proposal.senderAccountId);
 
     // Push notifications
     await _pushProposalChanged(
-        senderSessionId, proposal.updateProposal.influencerAccountId, proposal);
+        senderSessionId, proposal.proposal.influencerAccountId, proposal);
     await _pushProposalChanged(
-        senderSessionId, proposal.updateProposal.businessAccountId, proposal);
-    if (proposal.updateProposal.senderAccountId !=
-            proposal.updateProposal.influencerAccountId &&
-        proposal.updateProposal.senderAccountId !=
-            proposal.updateProposal.businessAccountId &&
-        proposal.updateProposal.senderAccountId != Int64.ZERO) {
+        senderSessionId, proposal.proposal.businessAccountId, proposal);
+    if (proposal.proposal.senderAccountId !=
+            proposal.proposal.influencerAccountId &&
+        proposal.proposal.senderAccountId !=
+            proposal.proposal.businessAccountId &&
+        proposal.proposal.senderAccountId != Int64.ZERO) {
       await _pushProposalChanged(
-          senderSessionId, proposal.updateProposal.senderAccountId, proposal);
+          senderSessionId, proposal.proposal.senderAccountId, proposal);
     }
-    if (proposal.updateProposal.offerAccountId !=
-            proposal.updateProposal.influencerAccountId &&
-        proposal.updateProposal.offerAccountId !=
-            proposal.updateProposal.businessAccountId &&
-        proposal.updateProposal.offerAccountId !=
-            proposal.updateProposal.senderAccountId &&
-        proposal.updateProposal.offerAccountId != Int64.ZERO) {
+    if (proposal.proposal.offerAccountId !=
+            proposal.proposal.influencerAccountId &&
+        proposal.proposal.offerAccountId !=
+            proposal.proposal.businessAccountId &&
+        proposal.proposal.offerAccountId !=
+            proposal.proposal.senderAccountId &&
+        proposal.proposal.offerAccountId != Int64.ZERO) {
       await _pushProposalChanged(
-          senderSessionId, proposal.updateProposal.senderAccountId, proposal);
+          senderSessionId, proposal.proposal.senderAccountId, proposal);
     }
   }
 

@@ -213,7 +213,7 @@ class ApiChannelProposalTransactions {
   Future<void> _changedProposal(Int64 proposalId) async {
     // DataProposal proposal) {
     final NetProposal proposal = NetProposal();
-    proposal.updateProposal = await _r.getProposal(proposalId);
+    proposal.proposal = await _r.getProposal(proposalId);
     channel.sendMessage(
         'LU_PRPSL',
         proposal
@@ -361,11 +361,12 @@ class ApiChannelProposalTransactions {
       channel.replyAbort(message, 'Not handled.');
       await _r
           .pushProposal(proposalId); // Refresh user side, possibly out of sync
+      return;
     } else {
       final NetProposal res = NetProposal();
       final DataProposal proposal = await _r.getProposal(proposalId);
-      res.updateProposal = proposal; // TODO(kaetemi): Filter
-      res.newChats.add(markerChat);
+      res.proposal = proposal; // TODO(kaetemi): Filter
+      res.chats.add(markerChat);
       try {
         // Send to current user
         channel.replyMessage(message, 'PR_R_WAD', res.writeToBuffer());
@@ -374,7 +375,7 @@ class ApiChannelProposalTransactions {
       }
       // Publish!
       final NetProposal publishProposal = NetProposal();
-      publishProposal.updateProposal = res.updateProposal;
+      publishProposal.proposal = res.proposal;
       await _r.bc.proposalChanged(account.sessionId, publishProposal);
       final NetProposalChat publishChat = NetProposalChat();
       publishChat.chat = markerChat;
@@ -447,11 +448,12 @@ class ApiChannelProposalTransactions {
       channel.replyAbort(message, 'Not handled.');
       await _r
           .pushProposal(proposalId); // Refresh user side, possibly out of sync
+      return;
     } else {
       final NetProposal res = NetProposal();
       final DataProposal proposal = await _r.getProposal(proposalId);
-      res.updateProposal = proposal; // TODO(kaetemi): Filter
-      res.newChats.add(markerChat);
+      res.proposal = proposal; // TODO(kaetemi): Filter
+      res.chats.add(markerChat);
       try {
         // Send to current user
         channel.replyMessage(message, 'PR_R_NGT', res.writeToBuffer());
@@ -460,7 +462,7 @@ class ApiChannelProposalTransactions {
       }
       // Publish!
       final NetProposal publishProposal = NetProposal();
-      publishProposal.updateProposal = res.updateProposal;
+      publishProposal.proposal = res.proposal;
       await _r.bc.proposalChanged(account.sessionId, publishProposal);
       final NetProposalChat publishChat = NetProposalChat();
       publishChat.chat = markerChat;
@@ -556,6 +558,7 @@ class ApiChannelProposalTransactions {
       channel.replyAbort(message, 'Not handled.');
       await _r
           .pushProposal(proposalId); // Refresh user side, possibly out of sync
+      return;
     } else {
       final NetProposal res = NetProposal();
       try {
@@ -564,8 +567,8 @@ class ApiChannelProposalTransactions {
         devLog.severe('$error\n$stackTrace');
       }
       final DataProposal proposal = await _r.getProposal(proposalId);
-      res.updateProposal = proposal;
-      res.newChats.add(markerChat);
+      res.proposal = proposal;
+      res.chats.add(markerChat);
       try {
         // Send to current user
         channel.replyMessage(message, 'PR_R_COM', res.writeToBuffer());
@@ -574,7 +577,7 @@ class ApiChannelProposalTransactions {
       }
       // Publish!
       final NetProposal publishProposal = NetProposal();
-      publishProposal.updateProposal = res.updateProposal;
+      publishProposal.proposal = res.proposal;
       await _r.bc.proposalChanged(account.sessionId, publishProposal);
       final NetProposalChat publishChat = NetProposalChat();
       publishChat.chat = markerChat;
