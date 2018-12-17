@@ -126,7 +126,8 @@ class OfferDetailsPageState extends State<OfferDetailsPage> {
                             .take(1)
                             .map<Widget>((int providerId) => InfMemoryImage(
                                 widget.config.oauthProviders[providerId]
-                                    .foregroundImage)).toList(),
+                                    .foregroundImage))
+                            .toList(),
                         text: offer.terms.deliverableContentFormats.isEmpty
                             ? ''
                             : widget
@@ -162,7 +163,8 @@ class OfferDetailsPageState extends State<OfferDetailsPage> {
             ),
           ),
         ),
-        account.accountId != Int64.ZERO && account.accountType != offer.senderAccountType // Logged in
+        account.accountId != Int64.ZERO &&
+                account.accountType != offer.senderAccountType // Logged in
             ? Container(
                 color: AppTheme.blackTwo,
                 child: SafeArea(
@@ -690,7 +692,8 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 12.0),
                     child: RaisedButton(
-                      onPressed: widget.onNegotiate != null ? _onNegotiate : null,
+                      onPressed:
+                          widget.onNegotiate != null ? _onNegotiate : null,
                       shape: const StadiumBorder(),
                       child: Container(
                         alignment: Alignment.center,

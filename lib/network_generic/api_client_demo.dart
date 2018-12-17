@@ -72,7 +72,8 @@ abstract class ApiClientDemo implements ApiClient, NetworkInternals {
           _demoAllOffersRefreshing = false;
           onDemoAllOffersChanged();
         } catch (error, stackTrace) {
-          log.severe('Error while refreshing demoAllOffers: $error\n$stackTrace');
+          log.severe(
+              'Error while refreshing demoAllOffers: $error\n$stackTrace');
           Timer(Duration(seconds: 3), () {
             // Timeout for 3 seconds from auto refresh
             _demoAllOffersRefreshing = false;

@@ -24,8 +24,7 @@ import 'package:file/local.dart' as file;
 
 abstract class AppBaseState<T extends StatefulWidget> extends State<T> {
   void navigateToSwitchAccount() {
-    Navigator.push<void>(context,
-        MaterialPageRoute<void>(builder: (context) {
+    Navigator.push<void>(context, MaterialPageRoute<void>(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       ConfigData config = ConfigProvider.of(context);
       // ApiClient network = NetworkProvider.of(context);

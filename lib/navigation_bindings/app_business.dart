@@ -57,8 +57,6 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     super.dispose();
   }
 
-  
-
   int offerViewCount = 0;
   Int64 offerViewOpen;
   void navigateToOffer(Int64 offerId) {
