@@ -14,12 +14,13 @@ import 'data_protobuf.proto';
 
 // Generic response for proposal actions.
 // Always returns the updated proposal info,
-// and optionally new chats generated from the action (ghost-less).
+// and optionally new chats generated from the action (ghost-less),
+// or latest chat and latest term chat.
 // In case of an Exception, the client should mark the current proposal
 // and chat data as dirty, and reload it's state
 message NetProposal {
-  DataProposal update_proposal = 1;
-  repeated DataProposalChat new_chats = 2;
+  DataProposal proposal = 1;
+  repeated DataProposalChat chats = 2;
   
 }
 
