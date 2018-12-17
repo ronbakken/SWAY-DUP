@@ -29,8 +29,8 @@ Future<ConfigServices> generateConfigServices(
         (section == "Client" && !server)) {
       if (cfg.hasOption(section, 'domain'))
         res.domain = cfg.get(section, 'domain');
-      if (cfg.hasOption(section, 'endPoint'))
-        res.endPoint = cfg.get(section, 'endPoint');
+      if (cfg.hasOption(section, 'endPoints'))
+        res.endPoints.addAll(cfg.get(section, 'endPoints').split(','));
       if (cfg.hasOption(section, 'service'))
         res.service = cfg.get(section, 'service');
       if (cfg.hasOption(section, 'configUrl'))
