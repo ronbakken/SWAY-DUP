@@ -569,8 +569,11 @@ Future<void> adjustConfig(String suffix, bool server) async {
     ..mergeFromBuffer(
         await new File(server ? "build/config_server.bin" : "build/config.bin")
             .readAsBytes());
-  config.services.mergeFromMessage(await generateConfigServices(
-      "config_" + suffix + "/services.ini", server));
+  ConfigServices services = await generateConfigServices(
+      "config_" + suffix + "/services.ini", server);
+  if (services.endPoints.isNotEmpty)
+    config.services.clear();
+  config.services.mergeFromMessage(services);
   new File(server
           ? "build/config_" + suffix + "_server.bin"
           : "build/config_" + suffix + ".bin")
