@@ -157,7 +157,7 @@ message ConfigCategory {
 message ConfigServices { // 42
   // INF
   string domain = 24;
-  string end_point = 8;
+  repeated string end_points = 8;
   string service = 33;
   string config_url = 9;
   string terms_of_service_url = 10;
