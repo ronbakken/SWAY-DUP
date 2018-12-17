@@ -87,9 +87,12 @@ class _AppOnboardingState extends AppBaseState<AppOnboarding> {
           }();
         }*/
         // TODO: Fix network delay on accountId update, change message structure
-        bool canSignUp = (network.account.accountId == 0) &&
+        /*bool canSignUp = (network.account.accountId == 0) &&
             network.account.socialMedia.values
-                .any((DataSocialMedia data) => data.canSignUp);
+                .any((DataSocialMedia data) => data.canSignUp);*/ // TODO: Fix serverside
+                bool canSignUp = (network.account.accountId == 0) &&
+            network.account.socialMedia.values
+                .any((DataSocialMedia data) => data.connected);
         assert(config != null);
         assert(network != null);
         return OnboardingSocial(

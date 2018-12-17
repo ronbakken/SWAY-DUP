@@ -357,8 +357,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     if (_lastPayloadLocalId != _currentLocalAccount.localId) {
       log.warning('Already switched account, cannot finish session creation.');
       if (channel != null) {
-        channel.close();
+        final TalkChannel closeChannel = channel;
         channel = null;
+        await closeChannel.close();
       }
       return;
     }
@@ -367,8 +368,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       if (_lastPayloadCookie == null) {
         log.severe('Payload cookie missing.');
         if (channel != null) {
-          channel.close();
+          final TalkChannel closeChannel = channel;
           channel = null;
+          await closeChannel.close();
         }
         return;
       }
@@ -387,8 +389,9 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     if (_lastPayloadLocalId != _currentLocalAccount.localId) {
       log.warning('Already switched account, cannot remove session.');
       if (channel != null) {
-        channel.close();
+        final TalkChannel closeChannel = channel;
         channel = null;
+        await closeChannel.close();
       }
       return;
     }
@@ -398,9 +401,11 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   bool _netConfigWarning = false;
+  int _triedEndPoints = 0;
+  int _lastEndPoint = 0;
   Future<void> _sessionOpen() async {
     try {
-      final String endPoint = _overrideEndPoint ?? _config.services.endPoint;
+      final String endPoint = _overrideEndPoint ?? _config.services.endPoints[_lastEndPoint];
       final String service = _config.services.service;
       final LocalAccountData localAccount = multiAccountStore.current;
       final bool matchingDomain =
@@ -409,7 +414,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       if (endPoint == null || endPoint.isEmpty || !matchingDomain) {
         if (!_netConfigWarning) {
           _netConfigWarning = true;
-          log.warning("Incomplete network configuration, not connecting");
+          log.warning('Incomplete network configuration, not connecting');
         }
         if (_kickstartNetwork.isCompleted)
           _kickstartNetwork = Completer<void>();
@@ -429,26 +434,33 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       _netConfigWarning = false;
       try {
         log.info("Try to open channel to service '$service' on '$endPoint'.");
-        switchboard.setEndPoint(endPoint);
+        await switchboard.setEndPoint(endPoint);
         channel = await switchboard
-            .openServiceChannel(service)
-            .timeout(Duration(seconds: 3));
+            .openServiceChannel(service);
       } catch (e) {
-        log.warning('Network cannot connect, retry in 3 seconds: $e');
-        assert(channel == null);
-        connected = NetworkConnectionState.offline;
-        onCommonChanged();
-        if (_kickstartNetwork.isCompleted)
-          _kickstartNetwork = Completer<void>();
-        try {
-          await _kickstartNetwork.future.timeout(Duration(seconds: 3));
-        } catch (TimeoutException) {
-          //...
+        if (_triedEndPoints < _config.services.endPoints.length) {
+          log.warning('Network cannot connect, try next end point: $e');
+          ++_triedEndPoints;
+          ++_lastEndPoint;
+          _lastEndPoint %= config.services.endPoints.length;
+        } else {
+          log.warning('Network cannot connect, retry in 3 seconds: $e');
+          assert(channel == null);
+          connected = NetworkConnectionState.offline;
+          onCommonChanged();
+          if (_kickstartNetwork.isCompleted)
+            _kickstartNetwork = Completer<void>();
+          try {
+            await _kickstartNetwork.future.timeout(Duration(seconds: 3));
+          } catch (TimeoutException) {
+            //...
+          }
         }
         return;
       }
 
       // Future<void> listen = channel.listen();
+      _triedEndPoints = 0;
       final Completer<void> listen = Completer<void>();
       log.info('Listen to channel.');
       channel.listen((TalkMessage message) async {
@@ -529,8 +541,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   }
 
   Future<void> receivedAccountUpdate(NetAccount pb) async {
-    log.info("Account state update received.");
-    log.fine("NetAccountUpdate: $pb");
+    log.info('Account state update received.');
+    log.fine('NetAccountUpdate: $pb');
     if (pb.account.accountId != account.accountId) {
       // Any cache cleanup may be done here when switching accounts
       cleanupStateSwitchingAccounts();
