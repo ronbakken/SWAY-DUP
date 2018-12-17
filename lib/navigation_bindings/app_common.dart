@@ -305,6 +305,9 @@ abstract class AppCommonState<T extends StatefulWidget>
             onWantDeal: (DataProposalChat chat) async {
               await network.wantDeal(chat.proposalId, chat.chatId);
             },
+            onMarkCompleted: (String review, int rating) async {
+              await network.markCompletion(proposalId, rating);
+            },
           );
         },
       ),

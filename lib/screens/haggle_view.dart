@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/widgets/profile_avatar.dart';
 import 'package:inf/styling_constants.dart';
 import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import 'package:inf/widgets/progress_dialog.dart';
 import 'package:inf_common/inf_common.dart';
@@ -36,8 +37,8 @@ class HaggleView extends StatefulWidget {
     @required this.onWantDeal,
     @required this.onReject,
     @required this.onReport,
+    @required this.onMarkCompleted,
     @required this.onBeginMarkDispute,
-    @required this.onBeginMarkCompleted,
     @required this.onUploadImage,
     @required this.onPressedProfile,
     @required this.onPressedOffer,
@@ -64,9 +65,10 @@ class HaggleView extends StatefulWidget {
 
   final Function() onReject;
   final Future<void> Function(String message) onReport;
+  final Future<void> Function(String review, int rating) onMarkCompleted;
   // final Function() onBeginReport;
   final Function() onBeginMarkDispute;
-  final Function() onBeginMarkCompleted;
+  // final Function() onBeginMarkCompleted;
 
   final Future<NetUploadImageRes> Function(File file) onUploadImage;
 
@@ -309,92 +311,129 @@ class _HaggleViewState extends State<HaggleView> {
     );
   }
 
+  double _reviewRating = 0.0;
+
   Future<void> _markAsCompleted() async {
     await showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return SimpleDialog(
-          // title: const Text('Mark as Completed'),
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-              child: TextField(
-                controller: _reviewController,
-                maxLines: 2,
-                decoration: const InputDecoration(labelText: 'Review'),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return SimpleDialog(
+              // title: const Text('Mark as Completed'),
               children: <Widget>[
-                FlatButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[Text('Mark as Completed'.toUpperCase())],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                  child: TextField(
+                    controller: _reviewController,
+                    maxLines: 2,
+                    decoration: const InputDecoration(labelText: 'Review'),
                   ),
-                  onPressed: () async {
-                    bool success = false;
-                    final dynamic progressDialog = showProgressDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Dialog(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Container(
-                                  padding: const EdgeInsets.all(24.0),
-                                  child: const CircularProgressIndicator()),
-                              const Text('Sending...'),
-                            ],
-                          ),
-                        );
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                  child: Center(
+                    child: SmoothStarRating(
+                      starCount: 5,
+                      size: 36.0,
+                      rating: _reviewRating,
+                      color: Theme.of(context).textTheme.button.color,
+                      borderColor: Theme.of(context).textTheme.caption.color,
+                      allowHalfRating: false,
+                      onRatingChanged: (double rating) {
+                        setState(() {
+                          _reviewRating = rating;
+                        });
                       },
-                    );
-                    try {
-                      // TODO: await widget.onMarkCompleted(_reviewController.text); // TODO: Rating
-                      success = true;
-                    } catch (error, stackTrace) {
-                      Logger('Inf.HaggleView').severe(
-                          'Exception marking as completed.', error, stackTrace);
-                    }
-                    closeProgressDialog(progressDialog);
-                    if (!success) {
-                      await showDialog<void>(
-                        context: this.context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Send Failed'),
-                            content: SingleChildScrollView(
-                              child: ListBody(
-                                children: const <Widget>[
-                                  Text('An error has occured.'),
-                                  Text('Please try again later.'),
-                                ],
-                              ),
-                            ),
-                            actions: <Widget>[
-                              FlatButton(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[Text('Ok'.toUpperCase())],
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    FlatButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Mark as Completed'.toUpperCase())
+                        ],
+                      ),
+                      onPressed: _reviewRating > 0.0
+                          ? () async {
+                              bool success = false;
+                              final dynamic progressDialog = showProgressDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Dialog(
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Container(
+                                            padding: const EdgeInsets.all(24.0),
+                                            child:
+                                                const CircularProgressIndicator()),
+                                        const Text('Sending...'),
+                                      ],
+                                    ),
+                                  );
                                 },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } else {
-                      Navigator.of(context).pop();
-                      _reviewController.text = '';
-                    }
-                  },
+                              );
+                              try {
+                                await widget.onMarkCompleted(
+                                    _reviewController.text,
+                                    _reviewRating.toInt());
+                                success = true;
+                              } catch (error, stackTrace) {
+                                Logger('Inf.HaggleView').severe(
+                                    'Exception marking as completed.',
+                                    error,
+                                    stackTrace);
+                              }
+                              closeProgressDialog(progressDialog);
+                              if (!success) {
+                                await showDialog<void>(
+                                  context: this.context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Send Failed'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: const <Widget>[
+                                            Text('An error has occured.'),
+                                            Text('Please try again later.'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text('Ok'.toUpperCase())
+                                            ],
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                Navigator.of(context).pop();
+                                _reviewController.text = '';
+                                _reviewRating = 0.0;
+                              }
+                            }
+                          : null,
+                    ),
+                  ],
                 ),
               ],
-            ),
-          ],
+            );
+          },
         );
       },
     );
@@ -800,6 +839,9 @@ class _HaggleViewState extends State<HaggleView> {
             : widget.businessAccount;
     String statusText;
     final ThemeData theme = Theme.of(context);
+    final bool markedCompleted = accountId == influencerAccountId
+        ? widget.proposal.influencerGaveRating > 0
+        : widget.proposal.businessGaveRating > 0;
     switch (widget.proposal.state) {
       case ProposalState.negotiating:
         if (widget.proposal.influencerWantsDeal !=
@@ -825,13 +867,16 @@ class _HaggleViewState extends State<HaggleView> {
         statusText = 'This deal has been rejected.';
         break;
       case ProposalState.deal:
-        if (accountId == influencerAccountId)
+        if (markedCompleted) {
+          statusText = 'You have marked the deal as completed.';
+        } else if (accountId == influencerAccountId) {
           // statusText = "A deal has been made.\nDeliver and get rewarded!";
           statusText = 'Deliver and get rewarded!';
-        else
+        } else {
           // statusText =
           //     "A deal has been made.\nStay in touch with your influencer!";
           statusText = 'Stay in touch with your influencer!';
+        }
         break;
       case ProposalState.complete:
         statusText = 'This deal has been completed successfully!';
@@ -991,8 +1036,9 @@ class _HaggleViewState extends State<HaggleView> {
                       ],
                     ),
                   ),
-                  widget.proposal.state == ProposalState.deal ||
-                          widget.proposal.state == ProposalState.dispute
+                  (widget.proposal.state == ProposalState.deal ||
+                              widget.proposal.state == ProposalState.dispute) &&
+                          !markedCompleted
                       ? Padding(
                           padding:
                               const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),

@@ -493,14 +493,24 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
 
   @override
   Future<void> wantDeal(Int64 proposalId, Int64 termsChatId) async {
-    NetProposalWantDeal pbReq = NetProposalWantDeal();
-    pbReq.proposalId = proposalId;
-    pbReq.termsChatId = termsChatId;
-    TalkMessage res =
-        await channel.sendRequest('PR_WADEA', pbReq.writeToBuffer());
-    NetProposal pbRes = NetProposal();
-    pbRes.mergeFromBuffer(res.data);
-    _receivedProposalCommonRes(pbRes);
+    final NetProposalWantDeal request = NetProposalWantDeal();
+    request.proposalId = proposalId;
+    request.termsChatId = termsChatId;
+    final TalkMessage message =
+        await channel.sendRequest('PR_WADEA', request.writeToBuffer());
+    final NetProposal response = NetProposal()..mergeFromBuffer(message.data);
+    _receivedProposalCommonRes(response);
+  }
+  
+  @override
+  Future<void> markCompletion(Int64 proposalId, int rating) async {
+    final NetProposalCompletion request = NetProposalCompletion();
+    request.proposalId = proposalId;
+    request.rating = rating;
+    final TalkMessage message =
+        await channel.sendRequest('PR_COMPT', request.writeToBuffer());
+    final NetProposal response = NetProposal()..mergeFromBuffer(message.data);
+    _receivedProposalCommonRes(response);
   }
 }
 

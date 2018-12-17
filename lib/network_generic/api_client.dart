@@ -204,6 +204,10 @@ abstract class ApiClient {
 
   /// Signify that the user wants a deal. May fail, must provide error feedback to the user.
   Future<void> wantDeal(Int64 proposalId, Int64 termsChatId);
+
+  /// Mark completion.
+  Future<void> markCompletion(Int64 proposalId, int rating); // TODO(kaetemi): Review message
+
 }
 
 /* end of file */
