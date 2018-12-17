@@ -8,7 +8,8 @@
             "name": "INF API",
             "program": "bin/main.dart",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": ["assets/config_dyrnwyn_server.bin"]
         }
     ]
 }

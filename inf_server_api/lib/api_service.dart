@@ -59,7 +59,7 @@ class ApiService {
         final TalkChannel talkChannel = TalkChannel(open.channel);
         ApiChannel(this, talkChannel, open.payload,
             ipAddress:
-                '8.8.8.8'); // TODO(kaetemi): FIXME: Proper IP address here
+                'localhost'); // '8.8.8.8'); // TODO(kaetemi): FIXME: Proper IP address here
       } else {
         final TalkChannel talkChannel = TalkChannel(open.channel);
         talkChannel.sendAbort('Service not supported.');

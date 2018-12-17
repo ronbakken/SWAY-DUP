@@ -268,23 +268,23 @@ class ApiChannelOffer {
     channel.replyMessage(message, 'R_GETOFR', res.writeToBuffer());
   }
 
-  static const List<String> privateFields = [
+  static const List<String> privateFields = <String>[
     // Summary
-    "location_id", // Private
+    'location_id', // Private
     // State
-    "state",
-    "state_reason",
-    "archived",
-    "proposals_proposing",
-    "proposals_negotiating",
-    "proposals_deal",
-    "proposals_rejected",
-    "proposals_dispute",
-    "proposals_resolved",
-    "proposals_complete",
+    'state',
+    'state_reason',
+    'archived',
+    'proposals_proposing',
+    'proposals_negotiating',
+    'proposals_deal',
+    'proposals_rejected',
+    'proposals_dispute',
+    'proposals_resolved',
+    'proposals_complete',
   ];
 
-  static const List<String> summaryFields = [
+  static const List<String> summaryFields = <String>[
     // Summary
     "offer_id",
     "sender_account_id",
@@ -292,8 +292,10 @@ class ApiChannelOffer {
     "title",
     "thumbnail_key",
     "thumbnail_blurred",
-    "deliverables_description",
-    "reward_item_or_service_description",
+    "deliverable_social_platforms",
+    "deliverable_content_formats",
+    "reward_cash_value",
+    "reward_item_or_service_value",
     "primary_categories",
     "sender_name",
     "sender_avatar_key", // TODO: Fix this
@@ -309,9 +311,9 @@ class ApiChannelOffer {
   static const int searchSize = 255;
 
   Future<void> _netListOffers(TalkMessage message) async {
-    final NetListOffers listOffers = NetListOffers()
+    /* final NetListOffers listOffers = NetListOffers()
       ..mergeFromBuffer(message.data)
-      ..freeze();
+      ..freeze(); */
     dynamic results = await elasticsearch.search('offers', {
       "size": searchSize,
       "_source": {
@@ -324,9 +326,9 @@ class ApiChannelOffer {
       },
     });
     // TODO: Possible to pre-send the total count
-    List<dynamic> hits = results['hits']['hits'];
+    final List<dynamic> hits = results['hits']['hits'];
     for (dynamic hit in hits) {
-      Map<String, dynamic> doc = hit['_source'] as Map<String, dynamic>;
+      final Map<String, dynamic> doc = hit['_source'] as Map<String, dynamic>;
       NetOffer res;
       try {
         res = new NetOffer();

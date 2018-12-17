@@ -161,7 +161,7 @@ class ApiChannelProposalTransactions {
             return; // rollback
           }
           // Commit
-          transaction.commit();
+          await transaction.commit();
           publish = true;
         } // else rollback
       });
@@ -207,18 +207,18 @@ class ApiChannelProposalTransactions {
 
     // Publish to all else
     // TODO(kaetemi): Deduplicate chat.writeToBuffer() calls on publishing
-    _r.bc.proposalChatPosted(account.sessionId, proposalChat, account);
+    await _r.bc.proposalChatPosted(account.sessionId, proposalChat, account);
   }
 
   Future<void> _changedProposal(Int64 proposalId) async {
     // DataProposal proposal) {
     final NetProposal proposal = NetProposal();
-    proposal.updateProposal = await _r.getProposal(proposalId);
+    proposal.proposal = await _r.getProposal(proposalId);
     channel.sendMessage(
         'LU_PRPSL',
         proposal
             .writeToBuffer()); // TODO(kaetemi): Filter sensitive info from business and influencer
-    _r.bc.proposalChanged(account.sessionId, proposal);
+    await _r.bc.proposalChanged(account.sessionId, proposal);
   }
 
   /// Verify if the sender is permitted to chat in this context
@@ -353,18 +353,20 @@ class ApiChannelProposalTransactions {
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
         markerChat = chat;
-        transaction.commit();
+        await transaction.commit();
       }
     });
 
     if (markerChat == null) {
       channel.replyAbort(message, 'Not handled.');
-      _r.pushProposal(proposalId); // Refresh user side, possibly out of sync
+      await _r
+          .pushProposal(proposalId); // Refresh user side, possibly out of sync
+      return;
     } else {
       final NetProposal res = NetProposal();
       final DataProposal proposal = await _r.getProposal(proposalId);
-      res.updateProposal = proposal; // TODO(kaetemi): Filter
-      res.newChats.add(markerChat);
+      res.proposal = proposal; // TODO(kaetemi): Filter
+      res.chats.add(markerChat);
       try {
         // Send to current user
         channel.replyMessage(message, 'PR_R_WAD', res.writeToBuffer());
@@ -373,11 +375,11 @@ class ApiChannelProposalTransactions {
       }
       // Publish!
       final NetProposal publishProposal = NetProposal();
-      publishProposal.updateProposal = res.updateProposal;
-      _r.bc.proposalChanged(account.sessionId, publishProposal);
+      publishProposal.proposal = res.proposal;
+      await _r.bc.proposalChanged(account.sessionId, publishProposal);
       final NetProposalChat publishChat = NetProposalChat();
       publishChat.chat = markerChat;
-      _r.bc.proposalChatPosted(account.sessionId, publishChat, account);
+      await _r.bc.proposalChatPosted(account.sessionId, publishChat, account);
     }
   }
 
@@ -438,18 +440,20 @@ class ApiChannelProposalTransactions {
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
         markerChat = chat;
-        transaction.commit();
+        await transaction.commit();
       }
     });
 
     if (markerChat == null) {
       channel.replyAbort(message, 'Not handled.');
-      _r.pushProposal(proposalId); // Refresh user side, possibly out of sync
+      await _r
+          .pushProposal(proposalId); // Refresh user side, possibly out of sync
+      return;
     } else {
       final NetProposal res = NetProposal();
       final DataProposal proposal = await _r.getProposal(proposalId);
-      res.updateProposal = proposal; // TODO(kaetemi): Filter
-      res.newChats.add(markerChat);
+      res.proposal = proposal; // TODO(kaetemi): Filter
+      res.chats.add(markerChat);
       try {
         // Send to current user
         channel.replyMessage(message, 'PR_R_NGT', res.writeToBuffer());
@@ -458,11 +462,11 @@ class ApiChannelProposalTransactions {
       }
       // Publish!
       final NetProposal publishProposal = NetProposal();
-      publishProposal.updateProposal = res.updateProposal;
-      _r.bc.proposalChanged(account.sessionId, publishProposal);
+      publishProposal.proposal = res.proposal;
+      await _r.bc.proposalChanged(account.sessionId, publishProposal);
       final NetProposalChat publishChat = NetProposalChat();
       publishChat.chat = markerChat;
-      _r.bc.proposalChatPosted(account.sessionId, publishChat, account);
+      await _r.bc.proposalChatPosted(account.sessionId, publishChat, account);
     }
   }
 
@@ -546,13 +550,15 @@ class ApiChannelProposalTransactions {
       if (await _insertChat(transaction, chat)) {
         channel.replyExtend(message);
         markerChat = chat;
-        transaction.commit();
+        await transaction.commit();
       }
     });
 
     if (markerChat == null) {
       channel.replyAbort(message, 'Not handled.');
-      _r.pushProposal(proposalId); // Refresh user side, possibly out of sync
+      await _r
+          .pushProposal(proposalId); // Refresh user side, possibly out of sync
+      return;
     } else {
       final NetProposal res = NetProposal();
       try {
@@ -561,8 +567,8 @@ class ApiChannelProposalTransactions {
         devLog.severe('$error\n$stackTrace');
       }
       final DataProposal proposal = await _r.getProposal(proposalId);
-      res.updateProposal = proposal;
-      res.newChats.add(markerChat);
+      res.proposal = proposal;
+      res.chats.add(markerChat);
       try {
         // Send to current user
         channel.replyMessage(message, 'PR_R_COM', res.writeToBuffer());
@@ -571,11 +577,11 @@ class ApiChannelProposalTransactions {
       }
       // Publish!
       final NetProposal publishProposal = NetProposal();
-      publishProposal.updateProposal = res.updateProposal;
-      _r.bc.proposalChanged(account.sessionId, publishProposal);
+      publishProposal.proposal = res.proposal;
+      await _r.bc.proposalChanged(account.sessionId, publishProposal);
       final NetProposalChat publishChat = NetProposalChat();
       publishChat.chat = markerChat;
-      _r.bc.proposalChatPosted(account.sessionId, publishChat, account);
+      await _r.bc.proposalChatPosted(account.sessionId, publishChat, account);
 
       // TODO(kaetemi): Post rating and review to Elasticsearch
       // TODO(kaetemi): Write rating recalculation schedule (weighted ratings)
@@ -594,7 +600,9 @@ class ApiChannelProposalTransactions {
       ..mergeFromBuffer(message.data);
 
     if (!await _verifySender(
-        chatPlain.proposalId, accountId, ProposalChatType.plain)) return;
+        chatPlain.proposalId, accountId, ProposalChatType.plain)) {
+      return;
+    }
 
     final DataProposalChat chat = DataProposalChat();
     chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);

@@ -53,7 +53,7 @@ class SqlProposal {
     assert(chat.senderAccountId != Int64.ZERO);
     assert(chat.proposalId != Int64.ZERO);
     assert(chat.senderSessionId != Int64.ZERO);
-    assert(chat.senderSessionGhostId == 1);
+    assert(chat.senderSessionGhostId != 0);
     assert(chat.type == ProposalChatType.negotiate);
     assert(chat.hasTerms());
     return <dynamic>[

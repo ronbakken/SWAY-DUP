@@ -116,16 +116,20 @@ class ApiChannelProposal {
       opsLog.severe(
           'Request for offer "${applyProposal.offerId}" returned empty sender account id.');
       channel.replyAbort(message, 'Offer not valid.');
+      return;
     }
     if (offer.state != OfferState.open) {
       channel.replyAbort(message, 'Offer not open.');
+      return;
     }
     if (offer.senderAccountType == account.accountType) {
       // Business cannot apply to business
       channel.replyAbort(message, 'Account type mismatch.');
+      return;
     }
     if (applyProposal.hasTerms() && !offer.allowNegotiatingProposals) {
       channel.replyAbort(message, 'Cannot negotiate with this offer.');
+      return;
     }
 
     // TODO(kaetemi): Forbid negotiate when not allowed
@@ -189,6 +193,11 @@ class ApiChannelProposal {
       proposal.termsChatId = termsChatId;
       chat.chatId = termsChatId;
       chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+      if (account.accountType == AccountType.business) {
+        proposal.businessWantsDeal = true;
+      } else {
+        proposal.influencerWantsDeal = true;
+      }
 
       // 3. Update haggle on proposal
       // On automatic accept we're not updating business_wants_deal here, it's not necessary
@@ -211,12 +220,12 @@ class ApiChannelProposal {
       }
 
       channel.replyExtend(message);
-      transaction.commit();
+      await transaction.commit();
     });
 
     final NetProposal res = NetProposal();
-    res.updateProposal = proposal;
-    res.newChats.add(chat);
+    res.proposal = proposal;
+    res.chats.add(chat);
     devLog.finest('Applied for offer successfully: $res');
     channel.replyMessage(message, 'R_APLPRP', res.writeToBuffer());
 
@@ -226,11 +235,11 @@ class ApiChannelProposal {
 
     // Broadcast
     final NetProposal publishProposal = NetProposal();
-    publishProposal.updateProposal = res.updateProposal;
-    bc.proposalChanged(account.sessionId, publishProposal);
+    publishProposal.proposal = res.proposal;
+    await bc.proposalChanged(account.sessionId, publishProposal);
     final NetProposalChat publishChat = NetProposalChat();
     publishChat.chat = chat;
-    bc.proposalChatPosted(account.sessionId, publishChat, account);
+    await bc.proposalChatPosted(account.sessionId, publishChat, account);
 
     // TODO(kaetemi): Update offer proposal count
     // TODO(kaetemi): Add to proposal_sender_account_ids lookup
@@ -260,12 +269,11 @@ class ApiChannelProposal {
       await for (sqljocky.Row row
           in await connection.prepareExecute(query, <dynamic>[accountId])) {
         final NetProposal res = NetProposal();
-        res.updateProposal =
-            SqlProposal.proposalFromRow(row, account.accountType);
+        res.proposal = SqlProposal.proposalFromRow(row, account.accountType);
         channel.replyMessage(message, 'R_LSTPRP', res.writeToBuffer());
       }
     } finally {
-      connection.release();
+      await connection.release();
     }
 
     channel.replyEndOfStream(message);
@@ -299,15 +307,57 @@ class ApiChannelProposal {
         <dynamic>[getProposal.proposalId, accountId],
       )) {
         res = NetProposal();
-        res.updateProposal =
-            SqlProposal.proposalFromRow(row, account.accountType);
+        res.proposal = SqlProposal.proposalFromRow(row, account.accountType);
+      }
+
+      if (res != null) {
+        // Fetch latest chat
+        DataProposalChat latestChat;
+        channel.replyExtend(message);
+        const String chatQuery = 'SELECT ' +
+            _selectChatQuery +
+            'FROM `proposal_chats` '
+            'WHERE `proposal_id` = ? '
+            'ORDER BY `chat_id` DESC '
+            'LIMIT 1';
+        await for (sqljocky.Row row
+            in await connection.prepareExecute(chatQuery, <dynamic>[
+          getProposal.proposalId,
+        ])) {
+          latestChat = _chatFromRow(getProposal.proposalId, row);
+        }
+        if (latestChat != null) {
+          res.chats.add(latestChat);
+        }
+
+        if (latestChat != null &&
+            res.proposal.termsChatId != latestChat.chatId &&
+            res.proposal.termsChatId != Int64.ZERO) {
+          // Fetch terms chat
+          DataProposalChat termsChat;
+          channel.replyExtend(message);
+          const String chatQuery = 'SELECT ' +
+              _selectChatQuery +
+              'FROM `proposal_chats` '
+              'WHERE `chat_id` = ?';
+          await for (sqljocky.Row row
+              in await connection.prepareExecute(chatQuery, <dynamic>[
+            res.proposal.termsChatId,
+          ])) {
+            termsChat = _chatFromRow(getProposal.proposalId, row);
+          }
+          if (termsChat != null) {
+            res.chats.add(termsChat);
+          }
+        }
       }
     } finally {
-      connection.release();
+      await connection.release();
     }
 
     if (res == null) {
       channel.replyAbort(message, 'Proposal not found, or not authorized.');
+      return;
     }
 
     channel.replyMessage(message, 'R_GETPRP', res.writeToBuffer());
@@ -338,8 +388,7 @@ class ApiChannelProposal {
     )) {
       // Returns non account specific data
       proposal = NetProposal();
-      proposal.updateProposal =
-          SqlProposal.proposalFromRow(row, account.accountType);
+      proposal.proposal = SqlProposal.proposalFromRow(row, account.accountType);
     }
     if (proposal == null) {
       throw Exception('Proposal not found.');
@@ -352,6 +401,43 @@ class ApiChannelProposal {
   //////////////////////////////////////////////////////////////////////////////
   // List proposal chat
   //////////////////////////////////////////////////////////////////////////////
+
+  static const String _selectChatQuery =
+      '`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, ' // 0 1
+      '`sender_account_id`, `sender_session_id`, `sender_session_ghost_id`, ' // 2 3 4
+      '`type`, `plain_text`, `terms`, ' // 5 6 7
+      '`image_key`, `image_blurred`, ' // 8 9
+      '`marker` '; // 10
+
+  DataProposalChat _chatFromRow(Int64 proposalId, sqljocky.Row row) {
+    final DataProposalChat chat = DataProposalChat();
+    chat.proposalId = proposalId;
+    chat.chatId = Int64(row[0]);
+    chat.sent = Int64(row[1]);
+    chat.senderAccountId = Int64(row[2]);
+    final Int64 sessionId = Int64(row[3]);
+    if (sessionId == account.sessionId) {
+      chat.senderSessionId = sessionId;
+      chat.senderSessionGhostId = row[4].toInt();
+    }
+    chat.type = ProposalChatType.valueOf(row[5].toInt());
+    if (row[6] != null) {
+      chat.plainText = row[6].toString();
+    }
+    if (row[7] != null) {
+      chat.terms = DataTerms()..mergeFromBuffer(row[7].toBytes());
+    }
+    if (row[8] != null) {
+      chat.imageUrl = _r.makeCloudinaryCoverUrl(row[8]);
+    }
+    if (row[9] != null) {
+      chat.imageBlurred = row[9];
+    }
+    if (row[10] != null) {
+      chat.marker = ProposalChatMarker.valueOf(row[10].toInt());
+    }
+    return chat;
+  }
 
   Future<void> _netListChats(TalkMessage message) async {
     final NetListChats listChats = NetListChats()
@@ -399,12 +485,8 @@ class ApiChannelProposal {
 
       // Fetch
       channel.replyExtend(message);
-      const String chatQuery = 'SELECT '
-          '`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, ' // 0 1
-          '`sender_account_id`, `sender_session_id`, `sender_session_ghost_id`, ' // 2 3 4
-          '`type`, `plain_text`, `terms`, ' // 5 6 7
-          '`image_key`, `image_blurred`, ' // 8 9
-          '`marker` ' // 10
+      const String chatQuery = 'SELECT ' +
+          _selectChatQuery +
           'FROM `proposal_chats` '
           'WHERE `proposal_id` = ? '
           'ORDER BY `chat_id` DESC';
@@ -412,36 +494,11 @@ class ApiChannelProposal {
           in await connection.prepareExecute(chatQuery, <dynamic>[
         listChats.proposalId,
       ])) {
-        final DataProposalChat chat = DataProposalChat();
-        chat.proposalId = listChats.proposalId;
-        chat.chatId = Int64(row[0]);
-        chat.sent = Int64(row[1]);
-        chat.senderAccountId = Int64(row[2]);
-        final Int64 sessionId = Int64(row[3]);
-        if (sessionId == account.sessionId) {
-          chat.senderSessionId = sessionId;
-          chat.senderSessionGhostId = row[4].toInt();
-        }
-        chat.type = ProposalChatType.valueOf(row[5].toInt());
-        if (row[6] != null) {
-          chat.plainText = row[6].toString();
-        }
-        if (row[7] != null) {
-          chat.terms = DataTerms()..mergeFromBuffer(row[7]);
-        }
-        if (row[8] != null) {
-          chat.imageUrl = _r.makeCloudinaryCoverUrl(row[8]);
-        }
-        if (row[9] != null) {
-          chat.imageBlurred = row[9];
-        }
-        if (row[10] != null) {
-          chat.marker = ProposalChatMarker.valueOf(row[10].toInt());
-        }
+        final DataProposalChat chat = _chatFromRow(listChats.proposalId, row);
         channel.replyMessage(message, 'R_LSTCHA', chat.writeToBuffer());
       }
     } finally {
-      connection.release();
+      await connection.release();
     }
 
     // Done

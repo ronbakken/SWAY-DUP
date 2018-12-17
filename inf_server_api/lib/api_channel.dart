@@ -13,6 +13,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:geohash/geohash.dart';
+import 'package:inf_server_api/api_channel_demo.dart';
 import 'package:inf_server_api/api_channel_offer.dart';
 import 'package:inf_server_api/api_channel_proposal.dart';
 import 'package:inf_server_api/api_service.dart';
@@ -107,6 +108,7 @@ class ApiChannel {
   ApiChannelProfile _apiChannelProfile;
   ApiChannelOffer apiChannelOffer;
   ApiChannelProposal apiChannelProposal;
+  ApiChannelDemo apiChannelDemo;
   ApiChannelBusiness _apiChannelBusiness;
   ApiChannelInfluencer _apiChannelInfluencer;
 
@@ -162,6 +164,10 @@ class ApiChannel {
     if (apiChannelProposal != null) {
       apiChannelProposal.dispose();
       apiChannelProposal = null;
+    }
+    if (apiChannelDemo != null) {
+      apiChannelDemo.dispose();
+      apiChannelDemo = null;
     }
     if (_apiChannelBusiness != null) {
       _apiChannelBusiness.dispose();
@@ -225,6 +231,9 @@ class ApiChannel {
     }
     if (apiChannelProposal == null) {
       apiChannelProposal = ApiChannelProposal(this);
+    }
+    if (apiChannelDemo == null) {
+      apiChannelDemo = ApiChannelDemo(this);
     }
   }
 
@@ -1681,10 +1690,12 @@ class ApiChannel {
   }
 
   Future<Uint8List> downloadData(String url) async {
-    Uri uri = Uri.parse(url);
-    http.Request request = http.Request('GET', uri);
-    http.Response response = await httpClient.send(request);
-    BytesBuilder builder = BytesBuilder(copy: false);
+    final Uri uri = Uri.parse(url);
+    devLog.fine(uri);
+    devLog.fine(uri.host);
+    final http.Request request = http.Request('GET', uri);
+    final http.Response response = await httpClient.send(request);
+    final BytesBuilder builder = BytesBuilder(copy: false);
     await response.body.forEach(builder.add);
     Uint8List body = builder.toBytes();
     if (response.statusCode < 200 || response.statusCode >= 300) {
