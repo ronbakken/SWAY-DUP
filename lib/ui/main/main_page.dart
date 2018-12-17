@@ -259,14 +259,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 } else {
                   final value = _drawerAnim.value;
                   final blur = 12.0 * value;
-                  return BackdropFilter(
+                  return /*BackdropFilter(
                     filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-                    child: DecoratedBox(
+                    child:*/ DecoratedBox(
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.6 * value),
                       ),
                       child: navigationDrawer,
-                    ),
+                    /*),*/
                   );
                 }
               },

@@ -82,10 +82,10 @@ class _MainBrowseSectionState extends State<MainBrowseSection>
             animation: _listAnim,
             builder: (BuildContext context, Widget child) {
               final blur = 3.0 * _listAnim.value;
-              return BackdropFilter(
+              return/* BackdropFilter(
                 filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-                child: child,
-              );
+                child:*/ child/*,
+              )*/;
             },
             child: RepaintBoundary(
               child: Container(
