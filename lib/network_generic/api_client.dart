@@ -176,7 +176,7 @@ abstract class ApiClient {
   bool get proposalsLoading;
 
   /// Apply for an offer, or send a direct offer proposal (TODO: Target influencer id for direct offers)
-  Future<DataProposal> sendProposal(Int64 offerId, String remarks);
+  Future<DataProposal> applyProposal(Int64 offerId, String remarks);
 
   /// Get proposal from the server, acts like refresh
   Future<DataProposal> getProposal(Int64 proposalId);

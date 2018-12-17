@@ -38,6 +38,7 @@ import 'package:inf/screens/proposal_list.dart';
 import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
 import 'package:latlong/latlong.dart';
+import 'package:logging/logging.dart';
 
 abstract class AppCommonState<T extends StatefulWidget>
     extends AppBaseState<T> {
@@ -378,7 +379,8 @@ abstract class AppCommonState<T extends StatefulWidget>
             // Create the offer
             offer = await network.createOffer(createOffer);
           } catch (error, stackTrace) {
-            print("[INF] Exception creating offer': $error\n$stackTrace");
+            Logger('Inf.AppCommon')
+                .severe('Exception creating offer.', error, stackTrace);
           }
           closeProgressDialog(progressDialog);
           if (offer == null) {

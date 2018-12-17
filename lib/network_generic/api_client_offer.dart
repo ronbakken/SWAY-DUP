@@ -142,7 +142,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
       cached.loading = true;
       getOffer(offerId).then((DataOffer offer) {
         cached.loading = false;
-      }).catchError((dynamic error, StackTrace stackTrace) {
+      }).catchError((Object error, StackTrace stackTrace) {
         log.severe('Failed to get offer $offerId: $error');
         Timer(Duration(seconds: 3), () {
           cached.loading = false;
@@ -220,7 +220,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
           _offersRefreshing = false;
           onOffersChanged();
         } catch (error, stackTrace) {
-          log.severe('Error while refreshing offers: $error\n$stackTrace');
+          log.severe('Error while refreshing offers.', error, stackTrace);
           Timer(Duration(seconds: 3), () {
             // Timeout for 3 seconds from auto refresh
             _offersRefreshing = false;

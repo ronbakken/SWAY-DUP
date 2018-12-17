@@ -18,6 +18,7 @@ import 'package:inf/widgets/progress_dialog.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/widgets/image_uploader.dart';
 import 'package:inf/widgets/network_status.dart';
+import 'package:logging/logging.dart';
 
 class HaggleView extends StatefulWidget {
   const HaggleView({
@@ -233,8 +234,8 @@ class _HaggleViewState extends State<HaggleView> {
                       await widget.onReport(_reportController.text);
                       success = true;
                     } catch (error, stackTrace) {
-                      print(
-                          "[INF] Exception sending report': $error\n$stackTrace");
+                      Logger('Inf.HaggleView').severe(
+                          'Exception sending report.', error, stackTrace);
                     }
                     closeProgressDialog(progressDialog);
                     if (!success) {
@@ -329,7 +330,8 @@ class _HaggleViewState extends State<HaggleView> {
       await widget.onWantDeal(chat);
       success = true;
     } catch (error, stackTrace) {
-      print("[INF] Exception sending deal': $error\n$stackTrace");
+      Logger('Inf.HaggleView')
+          .severe('Exception sending deal.', error, stackTrace);
     }
     closeProgressDialog(progressDialog);
     if (!success) {
@@ -364,16 +366,15 @@ class _HaggleViewState extends State<HaggleView> {
   }
 
   Future<void> _haggle(DataProposalChat chat) async {
-    final Map<String, String> query = Uri.splitQueryString(chat.plainText);
     final TextEditingController haggleDeliverablesController =
         TextEditingController();
-    haggleDeliverablesController.text = query['deliverables'].toString();
+    haggleDeliverablesController.text = chat.terms.deliverablesDescription;
     final TextEditingController haggleRewardController =
         TextEditingController();
-    haggleRewardController.text = query['reward'].toString();
+    haggleRewardController.text = chat.terms.rewardItemOrServiceDescription;
     final TextEditingController haggleRemarksController =
         TextEditingController();
-    haggleRemarksController.text = query['remarks'].toString();
+    haggleRemarksController.text = '';
     await showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -440,9 +441,8 @@ class _HaggleViewState extends State<HaggleView> {
     final ThemeData theme = Theme.of(context);
     final bool ghost = current.chatId == 0;
     if (current.type == ProposalChatType.marker) {
-      final Map<String, String> query = Uri.splitQueryString(current.plainText);
       String message;
-      switch (ProposalChatMarker.valueOf(int.tryParse(query['marker']))) {
+      switch (current.marker) {
         case ProposalChatMarker.applied:
           message = current.senderAccountId == accountId
               ? "You have applied for ${widget.offer.title}."
@@ -512,18 +512,16 @@ class _HaggleViewState extends State<HaggleView> {
       borderRadius: shapeRadius,
     );
     if (current.type == ProposalChatType.imageKey) {
-      final Map<String, String> query = Uri.splitQueryString(current.plainText);
       card = Padding(
         padding: const EdgeInsets.all(4.0),
         child: Material(
           elevation: 1.0,
           shape: shape,
-          child: query['url'] != null
+          child: current.imageUrl != null
               ? ClipRRect(
                   borderRadius: shapeRadius,
-                  child: FadeInImage.assetNetwork(
-                      placeholder: 'assets/placeholder_photo_select.png',
-                      image: query['url']))
+                  child: BlurredNetworkImage(
+                      url: current.imageUrl)) // TODO: imageBlurred
               : Material(
                   color: theme.cardColor,
                   shape: shape,
@@ -541,18 +539,19 @@ class _HaggleViewState extends State<HaggleView> {
             color: messageTextStyle.color.withAlpha(128));
       }
       if (current.type == ProposalChatType.negotiate) {
-        Map<String, String> query = Uri.splitQueryString(current.plainText);
         final Widget info = Column(
           crossAxisAlignment: CrossAxisAlignment.start, // Not localized?
           children: <Widget>[
-            Text("Deliverables", style: theme.textTheme.caption),
-            Text(query['deliverables'].toString(), style: messageTextStyle),
+            Text('Deliverables', style: theme.textTheme.caption),
+            Text(current.terms.deliverablesDescription,
+                style: messageTextStyle),
             const SizedBox(height: 12.0),
-            Text("Reward", style: theme.textTheme.caption),
-            Text(query['reward'].toString(), style: messageTextStyle),
+            Text('Reward', style: theme.textTheme.caption),
+            Text(current.terms.rewardItemOrServiceDescription,
+                style: messageTextStyle),
             const SizedBox(height: 12.0),
-            Text("Remarks", style: theme.textTheme.caption),
-            Text(query['remarks'].toString(), style: messageTextStyle),
+            Text('Remarks', style: theme.textTheme.caption),
+            Text(current.plainText, style: messageTextStyle),
           ],
         );
         if (current.chatId == widget.proposal.termsChatId) {
@@ -915,63 +914,86 @@ class _HaggleViewState extends State<HaggleView> {
             ),
           ),
           Flexible(
-            child: ListView(
-              reverse: true,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
-              children: _buildChatMessages().reversed.toList(),
-            ),
+            child: widget.proposal.state == ProposalState.proposing
+                ? _ProposingState(
+                    account: widget.account,
+                    otherAccount: otherAccount,
+                    proposal: widget.proposal,
+                    onMakeDealPressed: widget.chats.any(
+                            (DataProposalChat chat) =>
+                                chat.chatId == widget.proposal.termsChatId)
+                        ? () {
+                            _wantDeal(widget.chats.firstWhere(
+                                (DataProposalChat chat) =>
+                                    chat.chatId ==
+                                    widget.proposal.termsChatId));
+                          }
+                        : null,
+                  )
+                : ListView(
+                    reverse: true,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 4.0, vertical: 4.0),
+                    children: _buildChatMessages().reversed.toList(),
+                  ),
           ),
-          Material(
-            color: theme.cardColor,
-            elevation: 8.0,
-            child: Row(
-              children: <Widget>[
-                SizedBox(width: _uploadAttachment ? 16.0 : 8.0),
-                Flexible(
-                  child: _uploadAttachment
-                      ? ImageUploader(
-                          light: true,
-                          uploadKey: _uploadKey,
-                          onUploadImage: widget.onUploadImage,
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: TextField(
-                            controller: _lineController,
-                            onChanged: (text) {
-                              setState(() {});
-                            },
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Send a message...",
-                            ),
-                            onSubmitted: (String msg) {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                              widget.onSendPlain(_lineController.text);
-                              _lineController.text = '';
-                            },
-                          ),
-                        ),
-                ),
-                // TODO: Animate between these two, like Telegram
-                _lineController.text.isEmpty
-                    ? Builder(builder: (context) {
-                        final ThemeData theme = Theme.of(context);
-                        return IconButton(
-                          icon: Icon(
-                            _uploadAttachment ? Icons.close : Icons.attach_file,
-                            // color: theme.primaryColor,
-                            color: theme.primaryTextTheme.caption.color,
-                          ),
-                          onPressed: () {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                            setState(() {
-                              _uploadKey.text = '';
-                              _uploadAttachment = !_uploadAttachment;
-                            });
-                            // TODO: Maybe use pop up instead
-                            /*Scaffold.of(context).showBottomSheet((context) {
+          widget.proposal.state == ProposalState.proposing
+              ? const SizedBox()
+              : Material(
+                  color: theme.cardColor,
+                  elevation: 8.0,
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(width: _uploadAttachment ? 16.0 : 8.0),
+                      Flexible(
+                        child: _uploadAttachment
+                            ? ImageUploader(
+                                light: true,
+                                uploadKey: _uploadKey,
+                                onUploadImage: widget.onUploadImage,
+                              )
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: TextField(
+                                  controller: _lineController,
+                                  onChanged: (text) {
+                                    setState(() {});
+                                  },
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Send a message...",
+                                  ),
+                                  onSubmitted: (String msg) {
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
+                                    widget.onSendPlain(_lineController.text);
+                                    _lineController.text = '';
+                                  },
+                                ),
+                              ),
+                      ),
+                      // TODO: Animate between these two, like Telegram
+                      _lineController.text.isEmpty
+                          ? Builder(builder: (context) {
+                              final ThemeData theme = Theme.of(context);
+                              return IconButton(
+                                icon: Icon(
+                                  _uploadAttachment
+                                      ? Icons.close
+                                      : Icons.attach_file,
+                                  // color: theme.primaryColor,
+                                  color: theme.primaryTextTheme.caption.color,
+                                ),
+                                onPressed: () {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  setState(() {
+                                    _uploadKey.text = '';
+                                    _uploadAttachment = !_uploadAttachment;
+                                  });
+                                  // TODO: Maybe use pop up instead
+                                  /*Scaffold.of(context).showBottomSheet((context) {
                               return new Material(
                                 child: Container(
                                   padding: EdgeInsets.all(8.0),
@@ -985,23 +1007,83 @@ class _HaggleViewState extends State<HaggleView> {
                                 ),
                               );
                             });*/
-                          },
-                        );
-                      })
-                    : IconButton(
-                        icon: Icon(
-                          Icons.send,
-                          // color: theme.primaryColor,
-                          color: theme.accentColor,
-                        ),
-                        onPressed: () {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          widget.onSendPlain(_lineController.text);
-                          _lineController.text = '';
-                        },
-                      ),
-              ],
-            ),
+                                },
+                              );
+                            })
+                          : IconButton(
+                              icon: Icon(
+                                Icons.send,
+                                // color: theme.primaryColor,
+                                color: theme.accentColor,
+                              ),
+                              onPressed: () {
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                widget.onSendPlain(_lineController.text);
+                                _lineController.text = '';
+                              },
+                            ),
+                    ],
+                  ),
+                ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProposingState extends StatelessWidget {
+  final DataAccount account;
+  final DataAccount otherAccount;
+
+  final DataProposal proposal;
+
+  final void Function() onMakeDealPressed;
+  final void Function() onNegotiatePressed;
+  final void Function() onRejectPressed;
+
+  const _ProposingState({
+    Key key,
+    @required this.account,
+    @required this.otherAccount,
+    @required this.proposal,
+    this.onMakeDealPressed,
+    this.onNegotiatePressed,
+    this.onRejectPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: Show negotiation terms here if they were changed in apply/negotiate
+    if (account.accountId == proposal.senderAccountId) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const <Widget>[
+            Text('Your proposal has been sent.'),
+            Text('Awaiting reply.'),
+          ],
+        ),
+      );
+    }
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+              "${otherAccount.name.isNotEmpty ? otherAccount.name : 'Someone'} "
+              'has applied for your offer ${proposal.offerTitle}.'), // 'wants to negotiate for ...'
+          RaisedButton(
+            child: const Text('MAKE DEAL'),
+            onPressed: onMakeDealPressed,
+          ),
+          RaisedButton(
+            child: const Text('NEGOTIATE'),
+            onPressed: onNegotiatePressed,
+          ),
+          RaisedButton(
+            child: const Text('REJECT'),
+            onPressed: onRejectPressed,
           ),
         ],
       ),

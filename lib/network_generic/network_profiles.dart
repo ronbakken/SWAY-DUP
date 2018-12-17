@@ -175,8 +175,8 @@ abstract class NetworkProfiles implements ApiClient, NetworkInternals {
       cached.loading = true;
       getPublicProfile(accountId).then((profile) {
         cached.loading = false;
-      }).catchError((dynamic error, StackTrace stackTrace) {
-        log.severe("Failed to get profile: $error\n$stackTrace");
+      }).catchError((Object error, StackTrace stackTrace) {
+        log.severe("Failed to get profile.", error, stackTrace);
         Timer(Duration(seconds: 3), () {
           cached.loading = false;
           onProfileChanged(accountId);

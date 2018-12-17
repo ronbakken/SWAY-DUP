@@ -33,6 +33,7 @@ import 'package:inf/screens/offer_view.dart';
 import 'package:inf/screens/debug_account.dart';
 import 'package:inf/screens/offers_map.dart';
 import 'package:inf/screens/search_page_common.dart';
+import 'package:logging/logging.dart';
 
 // Influencer user
 class AppInfluencer extends StatefulWidget {
@@ -126,10 +127,9 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               DataProposal proposal;
               try {
                 // Create the offer
-                proposal = await network.sendProposal(offerId, remarks);
+                proposal = await network.applyProposal(offerId, remarks);
               } catch (error, stackTrace) {
-                print(
-                    "[INF] Exception applying for offer': $error\n$stackTrace");
+                Logger('Inf.AppInfluencer').severe('Exception applying for offer', error, stackTrace);
               }
               closeProgressDialog(progressDialog);
               if (proposal == null) {
@@ -219,7 +219,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                 );
               },
             );
-            print("Failed to search for offers: $error\n$stackTrace");
+            Logger('Inf.AppInfluencers').severe('Failed to search for offers.', error, stackTrace);
           }
         },
         searchResults: <Widget>[],

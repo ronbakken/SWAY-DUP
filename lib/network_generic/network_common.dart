@@ -97,14 +97,14 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
     registerProcedure('CONFDOWN', _configDownload);
     registerProcedure('ACCOUNTU', _accountUpdate);
 
-    registerProcedure('LN_APPLI', liveNewProposal);
-    registerProcedure('LN_A_CHA', liveNewProposalChat);
-    registerProcedure('LU_APPLI', liveUpdateProposal);
-    registerProcedure('LU_A_CHA', liveUpdateProposalChat);
+    registerProcedure('LN_PRPSL', liveNewProposal);
+    registerProcedure('LU_PRPSL', liveUpdateProposal);
+    registerProcedure('LN_P_CHA', liveNewProposalChat);
+    registerProcedure('LU_P_CHA', liveUpdateProposalChat);
 
     // Start network loop
-    _networkLoop().catchError((dynamic error, StackTrace stackTrace) {
-      log.severe('Network loop died: $error\n$stackTrace');
+    _networkLoop().catchError((Object error, StackTrace stackTrace) {
+      log.severe('Network loop died.', error, stackTrace);
     });
 
     Timer.periodic(Duration(seconds: 1), (Timer timer) async {
@@ -117,7 +117,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         try {
           await channel.sendRequest('PING', Uint8List(0));
         } catch (error, stackTrace) {
-          log.fine('Ping: $error\n$stackTrace');
+          log.fine('Ping.', error, stackTrace);
           if (channel == currentChannel) {
             channel = null;
             await currentChannel.close();
@@ -136,7 +136,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         await procedure(message);
       } catch (error, stackTrace) {
         log.severe(
-            "Unexpected error in procedure '$procedureId': $error\n$stackTrace");
+            "Unexpected error in procedure '$procedureId'.", error, stackTrace);
         if (message.requestId != 0) {
           channel.replyAbort(message, 'Unexpected error.');
         }
@@ -469,11 +469,11 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         } else {
           channel.unknownProcedure(message);
         }
-      }, onError: (dynamic error, StackTrace stackTrace) {
+      }, onError: (Object error, StackTrace stackTrace) {
         if (error is TalkAbort) {
-          log.severe('Received abort from api remote: $error\n$stackTrace');
+          log.severe('Received abort from api remote.', error, stackTrace);
         } else {
-          log.severe('Unknown error from api remote: $error\n$stackTrace');
+          log.severe('Unknown error from api remote.', error, stackTrace);
         }
       }, onDone: () {
         log.info('Connection done.');
@@ -499,7 +499,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
         onCommonChanged();
       }
     } catch (error, stackTrace) {
-      log.warning('Network session exception: $error\n$stackTrace');
+      log.warning('Network session exception.', error, stackTrace);
       try {
         final TalkChannel tempChannel = channel;
         channel = null;
@@ -509,7 +509,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
           await tempChannel.close();
         }
       } catch (error, stackTrace) {
-        log.warning('Network session reset exception: $error\n$stackTrace');
+        log.warning('Network session reset exception.', error, stackTrace);
       }
     }
   }

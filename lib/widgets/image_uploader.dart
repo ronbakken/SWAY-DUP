@@ -94,7 +94,7 @@ class _ImageUploaderState extends State<ImageUploader> {
         await uploadImage();
         success = true;
       } catch (error, stackTrace) {
-        print("[INF] Exception uploading image': $error\n$stackTrace");
+        print("[INF] Exception uploading image'.", error, stackTrace);
       }
       closeProgressDialog(progressDialog);
       if (!success) {
