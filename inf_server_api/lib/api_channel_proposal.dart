@@ -428,10 +428,10 @@ class ApiChannelProposal {
       chat.terms = DataTerms()..mergeFromBuffer(row[7].toBytes());
     }
     if (row[8] != null) {
-      chat.imageUrl = _r.makeCloudinaryCoverUrl(row[8]);
+      chat.imageUrl = _r.makeCloudinaryCoverUrl(row[8].toString());
     }
     if (row[9] != null) {
-      chat.imageBlurred = row[9];
+      chat.imageBlurred = row[9].toBytes();
     }
     if (row[10] != null) {
       chat.marker = ProposalChatMarker.valueOf(row[10].toInt());
