@@ -127,7 +127,7 @@ class ApiChannel {
           channel.unknownProcedure(message);
         } catch (error, stackTrace) {
           devLog.finest("$error\n$stackTrace");
-          channel.close();
+          await channel.close();
         }
       }
     }, onError: (dynamic error, StackTrace stackTrace) {
@@ -1301,9 +1301,11 @@ class ApiChannel {
           await transitionToApp(); // TODO: Transitions and subs hould be handled by updateDeviceState preferably...
         }
       });
-    } finally {
-      // Failed to update device state at critical point
-      channel.close();
+    } catch(error, stackTrace) {
+      devLog.severe(
+          "Failed to update device state at critical point: '$accountAvatarUrl': $error\n$stackTrace");
+      await channel.close();
+      rethrow;
     }
 
     // Non-critical
@@ -1770,7 +1772,7 @@ class ApiChannel {
   /// Transitions the user to the app context after registration or login succeeds. Call from lock
   Future<void> transitionToApp() async {
     if (_apiChannelBusiness != null || _apiChannelInfluencer != null) {
-      channel.close();
+      await channel.close();
       throw Exception(
           "Cannot transition twice, forced connection to close due to potential issue");
     }
