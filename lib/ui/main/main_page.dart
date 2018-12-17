@@ -23,6 +23,7 @@ class MainPage extends StatefulWidget {
     @required this.account,
     this.drawer,
     this.onMakeAnOffer,
+    this.onSearchPressed,
     @required this.exploreBuilder,
     @required this.activitiesBuilder,
     @required this.networkStatusBuilder,
@@ -32,6 +33,7 @@ class MainPage extends StatefulWidget {
 
   final Widget drawer;
   final Function() onMakeAnOffer;
+  final Function() onSearchPressed;
 
   final Widget Function(BuildContext context) exploreBuilder;
   final Widget Function(BuildContext context) activitiesBuilder;
@@ -148,12 +150,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   onBottomNavChanged: _setMode,
                   onFABPressed: () {
                     if (widget.account.accountType == AccountType.influencer) {
-                      // TODO SEARCH
+                      widget.onSearchPressed();
                     } else {
                       if (_mode == MainPageMode.activities) {
                         widget.onMakeAnOffer();
                       } else {
-                        // TODO SEARCH
+                        widget.onSearchPressed();
                       }
                     }
                   },

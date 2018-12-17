@@ -455,6 +455,7 @@ abstract class AppCommonState<T extends StatefulWidget>
       mapboxToken: config.services.mapboxToken,
       onSearchPressed: () {
         // navigateToSearchOffers(null);
+        network.refreshDemoAllOffers();
       },
       onFilterPressed: enoughSpaceForBottom
           ? () {
@@ -658,6 +659,9 @@ abstract class AppCommonState<T extends StatefulWidget>
       activitiesBuilder: _activitiesBuilderV4,
       drawer: _buildDrawer(context),
       onMakeAnOffer: navigateToCreateOffer,
+      // TODO(kaetemi): Set new search filter (network.setSearchFilter(...))
+      // Explore state will be automatically updated in the background!
+      onSearchPressed: network.refreshDemoAllOffers,
     );
   }
 }

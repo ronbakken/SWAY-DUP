@@ -49,6 +49,7 @@ abstract class ApiClientDemo implements ApiClient, NetworkInternals {
           'api', 'DEMOAOFF', listDemoAllOffers.writeToBuffer())) {
         if (message.procedureId == 'R_DEMAOF') {
           final NetOffer offer = NetOffer.fromBuffer(message.data)..freeze();
+          log.fine(offer);
           cacheOffer(offer.offer, false);
           _demoAllOffers.add(offer.offer.offerId);
           _demoAllOffersSortedDirty = true;
