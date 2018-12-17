@@ -119,15 +119,13 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
   Future<void> refreshProposals() async {
     NetListOffers req = // TODO: Send the correct request
         NetListOffers(); // TODO: Specific requests for higher and lower refreshing
-    // await for (TalkMessage res
-    //     in channel.sendStreamRequest("L_APPLIS", req.writeToBuffer())) {
-    StreamQueue<TalkMessage> sq = StreamQueue<TalkMessage>(
-        channel.sendStreamRequest("LISTPROP", req.writeToBuffer()));
-    while (await sq.hasNext) {
-      TalkMessage res = await sq.next;
-      DataProposal pb = DataProposal();
-      pb.mergeFromBuffer(res.data);
-      _cacheProposal(pb);
+    await for (TalkMessage res
+        in channel.sendStreamRequest('LISTPROP', req.writeToBuffer())) {
+      NetProposal proposal = NetProposal()..mergeFromBuffer(res.data);
+      _cacheProposal(proposal.proposal);
+      for (DataProposalChat chat in proposal.chats) {
+        _cacheProposalChat(chat);
+      }
     }
   }
 
@@ -201,9 +199,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     log.fine('LISTCHAT');
     await for (TalkMessage res
         in channel.sendStreamRequest('LISTCHAT', request.writeToBuffer())) {
-      final NetProposalChat chat = NetProposalChat();
-      chat.mergeFromBuffer(res.data);
-      log.fine(chat);
+      final NetProposalChat chat = NetProposalChat()..mergeFromBuffer(res.data);
+      log.fine('${res.procedureId}: $chat');
       _cacheProposalChat(chat.chat);
     }
     log.fine('done');
@@ -219,7 +216,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     if (cached.proposal == null || cached.dirty) {
       if (!cached.loading && connected == NetworkConnectionState.ready) {
         cached.loading = true;
-        getProposal(proposalId).then((proposal) {
+        getProposal(proposalId).then((_) {
           cached.loading = false;
         }).catchError((Object error, StackTrace stackTrace) {
           log.severe('Failed to get proposal.', error, stackTrace);
@@ -311,7 +308,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     _receivedUpdateProposal(res.proposal);
     for (DataProposalChat chat in res.chats) {
       _receivedUpdateProposalChat(chat);
-      _notifyNewProposalChat(chat);
+      // _notifyNewProposalChat(chat);
     }
   }
 
@@ -500,7 +497,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     pbReq.proposalId = proposalId;
     pbReq.termsChatId = termsChatId;
     TalkMessage res =
-        await channel.sendRequest('AP_WADEA', pbReq.writeToBuffer());
+        await channel.sendRequest('PR_WADEA', pbReq.writeToBuffer());
     NetProposal pbRes = NetProposal();
     pbRes.mergeFromBuffer(res.data);
     _receivedProposalCommonRes(pbRes);

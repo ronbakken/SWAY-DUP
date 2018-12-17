@@ -16,6 +16,7 @@ import 'package:inf/network_inheritable/network_provider.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/widgets/progress_dialog.dart';
+import 'package:logging/logging.dart';
 
 // Image uploader
 class ImageUploader extends StatefulWidget {
@@ -94,7 +95,7 @@ class _ImageUploaderState extends State<ImageUploader> {
         await uploadImage();
         success = true;
       } catch (error, stackTrace) {
-        print("[INF] Exception uploading image'.", error, stackTrace);
+        Logger('Inf.ImageUploader').severe('[INF] Exception uploading image', error, stackTrace);
       }
       closeProgressDialog(progressDialog);
       if (!success) {
