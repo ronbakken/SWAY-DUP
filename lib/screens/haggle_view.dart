@@ -82,6 +82,7 @@ class _HaggleViewState extends State<HaggleView> {
   TextEditingController _uploadKey = TextEditingController();
 
   TextEditingController _reportController = TextEditingController();
+  TextEditingController _reviewController = TextEditingController();
 
   bool _uploadAttachment = false;
 
@@ -297,6 +298,97 @@ class _HaggleViewState extends State<HaggleView> {
                           );
                         },
                       );
+                    }
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _markAsCompleted() async {
+    await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          // title: const Text('Mark as Completed'),
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              child: TextField(
+                controller: _reviewController,
+                maxLines: 2,
+                decoration: const InputDecoration(labelText: 'Review'),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                FlatButton(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[Text('Mark as Completed'.toUpperCase())],
+                  ),
+                  onPressed: () async {
+                    bool success = false;
+                    final dynamic progressDialog = showProgressDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                  padding: const EdgeInsets.all(24.0),
+                                  child: const CircularProgressIndicator()),
+                              const Text('Sending...'),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                    try {
+                      // TODO: await widget.onMarkCompleted(_reviewController.text); // TODO: Rating
+                      success = true;
+                    } catch (error, stackTrace) {
+                      Logger('Inf.HaggleView').severe(
+                          'Exception marking as completed.', error, stackTrace);
+                    }
+                    closeProgressDialog(progressDialog);
+                    if (!success) {
+                      await showDialog<void>(
+                        context: this.context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Send Failed'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: const <Widget>[
+                                  Text('An error has occured.'),
+                                  Text('Please try again later.'),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[Text('Ok'.toUpperCase())],
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      Navigator.of(context).pop();
+                      _reviewController.text = '';
                     }
                   },
                 ),
@@ -716,38 +808,40 @@ class _HaggleViewState extends State<HaggleView> {
                   widget.proposal.businessWantsDeal) ||
               (influencerAccountId == accountId &&
                   widget.proposal.influencerWantsDeal)) {
-            statusText = "You want to make a deal.";
+            statusText = 'You want to make a deal.';
           } else {
             statusText =
-                "${otherAccount.name} wants to make a deal.\nHaggle or make a deal?";
+                '${otherAccount.name} wants to make a deal.\nHaggle or make a deal?';
           }
         } else if (!widget.proposal.influencerWantsDeal) {
           // Neither parties have decided yet (no need to check both)
-          statusText = "Haggle or make a deal?";
+          statusText = 'Haggle or make a deal?';
         } else {
           statusText =
-              "Deal!"; // This text is only shortly visible while waiting for server
+              'Deal!'; // This text is only shortly visible while waiting for server
         }
         break;
       case ProposalState.rejected:
-        statusText = "This deal has been rejected.";
+        statusText = 'This deal has been rejected.';
         break;
       case ProposalState.deal:
         if (accountId == influencerAccountId)
-          statusText = "A deal has been made.\nDeliver and get rewarded!";
+          // statusText = "A deal has been made.\nDeliver and get rewarded!";
+          statusText = 'Deliver and get rewarded!';
         else
-          statusText =
-              "A deal has been made.\nStay in touch with your influencer!";
+          // statusText =
+          //     "A deal has been made.\nStay in touch with your influencer!";
+          statusText = 'Stay in touch with your influencer!';
         break;
       case ProposalState.complete:
-        statusText = "This deal has been completed successfully!";
+        statusText = 'This deal has been completed successfully!';
         break;
       case ProposalState.dispute:
         statusText =
-            "A dispute is ongoing. You may be contaced by e-mail by our support staff.\nsupport@infmarketplace.app";
+            'A dispute is ongoing. You may be contaced by e-mail by our support staff.\nsupport@infmarketplace.app';
         break;
       case ProposalState.resolved:
-        statusText = "This deal is now closed.";
+        statusText = 'This deal is now closed.';
         break;
     }
     return Scaffold(
@@ -775,20 +869,21 @@ class _HaggleViewState extends State<HaggleView> {
               widget.onPressedProfile(otherAccount);
             },
           ),*/
-          PopupMenuButton<void>(itemBuilder: (BuildContext context) {
-            return <PopupMenuEntry>[
-              PopupMenuItem<void>(
+          PopupMenuButton<Future<void> Function()>(
+              itemBuilder: (BuildContext context) {
+            return <PopupMenuEntry<Future<void> Function()>>[
+              PopupMenuItem<Future<void> Function()>(
                 value: _reportProposal,
-                child: const Text("Report"),
+                child: const Text('Report'),
               ),
             ];
-          }, onSelected: (dynamic f) {
+          }, onSelected: (Future<void> Function() f) {
             f();
           }),
         ],
       ),
       bottomSheet: NetworkStatus.buildOptional(
-          context), // TODO: Also show loading progress for chats
+          context), // TODO(kaetemi): Also show loading progress for chats
       body: Column(
         children: <Widget>[
           Material(
@@ -896,19 +991,44 @@ class _HaggleViewState extends State<HaggleView> {
                       ],
                     ),
                   ),
-
-                  // TODO: In case of action, status text here instead of other one
-                  statusText != null
+                  widget.proposal.state == ProposalState.deal ||
+                          widget.proposal.state == ProposalState.dispute
                       ? Padding(
                           padding:
                               const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
-                          child: Text(
-                            statusText,
-                            style: theme.textTheme.caption,
-                            textAlign: TextAlign.center,
+                          child: RaisedButton(
+                            color: theme.primaryColor,
+                            shape: StadiumBorder(),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Text(
+                                  'Mark as Completed'.toUpperCase(),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  statusText ?? 'Fullfill this proposal.',
+                                  style: theme.textTheme.caption,
+                                  textAlign: TextAlign.center,
+                                )
+                              ],
+                            ),
+                            onPressed: _markAsCompleted,
                           ),
                         )
-                      : null,
+                      :
+                      // TODO: In case of action, status text here instead of other one
+                      (statusText != null
+                          ? Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  16.0, 0.0, 16.0, 8.0),
+                              child: Text(
+                                statusText,
+                                style: theme.textTheme.caption,
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          : null),
                 ].where((w) => w != null).toList(),
               ),
             ),
