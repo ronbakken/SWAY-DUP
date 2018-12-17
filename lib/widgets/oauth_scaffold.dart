@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 import 'package:inf_common/inf_common.dart';
+import 'package:logging/logging.dart';
 
 typedef Future<NetOAuthUrl> OAuthGetParams();
 typedef Future<bool> OAuthCallbackResult(String callbackQuery);
@@ -108,7 +109,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     }
     _onUrlChanged = _flutterWebviewPlugin.onUrlChanged.listen(_urlChanged);
     _startRequest().catchError((Object error, StackTrace stackTrace) {
-      print("OAuth Exception.", error, stackTrace);
+      Logger('Inf.OAuthScaffold').severe('OAuth Exception.', error, stackTrace);
     });
   }
 
