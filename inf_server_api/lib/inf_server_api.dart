@@ -131,10 +131,10 @@ Future<void> run(List<String> arguments) async {
   Logger('Switchboard.Router').level = Level.ALL;
 
   // Server Configuration
-  final String configFile = arguments.isNotEmpty ? arguments[0] : 'assets/config_server.bin';
+  final String configFile =
+      arguments.isNotEmpty ? arguments[0] : 'assets/config_server.bin';
   Logger('InfOps').info("Config file: '$configFile'.");
-  final Uint8List configBytes =
-      await File(configFile).readAsBytes();
+  final Uint8List configBytes = await File(configFile).readAsBytes();
   final ConfigData config = ConfigData();
   config.mergeFromBuffer(configBytes);
 
