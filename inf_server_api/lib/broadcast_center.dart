@@ -307,8 +307,7 @@ class BroadcastCenter {
             proposal.proposal.influencerAccountId &&
         proposal.proposal.offerAccountId !=
             proposal.proposal.businessAccountId &&
-        proposal.proposal.offerAccountId !=
-            proposal.proposal.senderAccountId &&
+        proposal.proposal.offerAccountId != proposal.proposal.senderAccountId &&
         proposal.proposal.offerAccountId != Int64.ZERO) {
       await _pushProposalPosted(
           senderSessionId, proposal.proposal.senderAccountId, proposal);
@@ -346,8 +345,7 @@ class BroadcastCenter {
             proposal.proposal.influencerAccountId &&
         proposal.proposal.offerAccountId !=
             proposal.proposal.businessAccountId &&
-        proposal.proposal.offerAccountId !=
-            proposal.proposal.senderAccountId &&
+        proposal.proposal.offerAccountId != proposal.proposal.senderAccountId &&
         proposal.proposal.offerAccountId != Int64.ZERO) {
       await _pushProposalChanged(
           senderSessionId, proposal.proposal.senderAccountId, proposal);
