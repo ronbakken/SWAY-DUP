@@ -405,7 +405,8 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
   int _lastEndPoint = 0;
   Future<void> _sessionOpen() async {
     try {
-      final String endPoint = _overrideEndPoint ?? _config.services.endPoints[_lastEndPoint];
+      final String endPoint =
+          _overrideEndPoint ?? _config.services.endPoints[_lastEndPoint];
       final String service = _config.services.service;
       final LocalAccountData localAccount = multiAccountStore.current;
       final bool matchingDomain =
@@ -435,8 +436,7 @@ abstract class NetworkCommon implements ApiClient, NetworkInternals {
       try {
         log.info("Try to open channel to service '$service' on '$endPoint'.");
         await switchboard.setEndPoint(endPoint);
-        channel = await switchboard
-            .openServiceChannel(service);
+        channel = await switchboard.openServiceChannel(service);
       } catch (e) {
         if (_triedEndPoints < _config.services.endPoints.length) {
           log.warning('Network cannot connect, try next end point: $e');

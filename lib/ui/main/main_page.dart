@@ -261,11 +261,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   final blur = 12.0 * value;
                   return /*BackdropFilter(
                     filter: ui.ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-                    child:*/ DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.6 * value),
-                      ),
-                      child: navigationDrawer,
+                    child:*/
+                      DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.6 * value),
+                    ),
+                    child: navigationDrawer,
                     /*),*/
                   );
                 }

@@ -93,16 +93,21 @@ class _OfferCreateState extends State<OfferCreate> {
         createOffer.offer.terms.deliverablesDescription = _deliverables;
         createOffer.offer.terms.rewardItemOrServiceDescription = _reward;
         for (int i = 2; i < random.nextInt(8); ++i) {
-          createOffer.offer.categories.add(random.nextInt(widget.config.categories.length - 1) + 1);
+          createOffer.offer.categories
+              .add(random.nextInt(widget.config.categories.length - 1) + 1);
         }
         for (int i = 1; i < random.nextInt(3); ++i) {
-          createOffer.offer.terms.deliverableSocialPlatforms.add(random.nextInt(4 - 1) + 1);
+          createOffer.offer.terms.deliverableSocialPlatforms
+              .add(random.nextInt(4 - 1) + 1);
         }
         for (int i = 1; i < random.nextInt(3); ++i) {
-          createOffer.offer.terms.deliverableContentFormats.add(random.nextInt(widget.config.contentFormats.length- 1 ) + 1);
+          createOffer.offer.terms.deliverableContentFormats
+              .add(random.nextInt(widget.config.contentFormats.length - 1) + 1);
         }
-        createOffer.offer.terms.rewardCashValue = (random.nextInt(200) + 1) * 1000;
-        createOffer.offer.terms.rewardItemOrServiceValue = (random.nextInt(20) + 1) * 1000;
+        createOffer.offer.terms.rewardCashValue =
+            (random.nextInt(200) + 1) * 1000;
+        createOffer.offer.terms.rewardItemOrServiceValue =
+            (random.nextInt(20) + 1) * 1000;
         // TODO
         // createOffer.location // Not yet supported
         setState(() {

@@ -141,8 +141,13 @@ class _TabBarItem extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(),// const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(text, overflow: TextOverflow.ellipsis, maxLines: 1,),
+            padding: const EdgeInsets
+                .only(), // const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+              text,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
           ),
           Positioned(
             right: 0.0,

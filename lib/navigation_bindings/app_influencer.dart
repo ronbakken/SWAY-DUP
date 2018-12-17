@@ -129,7 +129,8 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                 // Create the offer
                 proposal = await network.applyProposal(offerId, remarks);
               } catch (error, stackTrace) {
-                Logger('Inf.AppInfluencer').severe('Exception applying for offer', error, stackTrace);
+                Logger('Inf.AppInfluencer')
+                    .severe('Exception applying for offer', error, stackTrace);
               }
               closeProgressDialog(progressDialog);
               if (proposal == null) {
@@ -219,7 +220,8 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                 );
               },
             );
-            Logger('Inf.AppInfluencers').severe('Failed to search for offers.', error, stackTrace);
+            Logger('Inf.AppInfluencers')
+                .severe('Failed to search for offers.', error, stackTrace);
           }
         },
         searchResults: <Widget>[],

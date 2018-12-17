@@ -95,7 +95,8 @@ class _ImageUploaderState extends State<ImageUploader> {
         await uploadImage();
         success = true;
       } catch (error, stackTrace) {
-        Logger('Inf.ImageUploader').severe('[INF] Exception uploading image', error, stackTrace);
+        Logger('Inf.ImageUploader')
+            .severe('[INF] Exception uploading image', error, stackTrace);
       }
       closeProgressDialog(progressDialog);
       if (!success) {
