@@ -1,4 +1,3 @@
-
 class AppFonts {
   const AppFonts();
 

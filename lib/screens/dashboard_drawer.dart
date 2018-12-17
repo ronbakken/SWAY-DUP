@@ -51,8 +51,8 @@ class DashboardDrawer extends StatelessWidget {
                         child: Align(
                             alignment: Alignment.bottomLeft,
                             child: Container(
-                                margin:
-                                    const EdgeInsets.fromLTRB(56.0, 16.0, 16.0, 16.0),
+                                margin: const EdgeInsets.fromLTRB(
+                                    56.0, 16.0, 16.0, 16.0),
                                 child: Text(
                                   account.name,
                                   style:

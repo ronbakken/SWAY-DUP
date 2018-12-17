@@ -57,9 +57,9 @@ class MainNavigationDrawer extends StatelessWidget {
       final List<Widget> entries = <Widget>[];
       entries.addAll(<Widget>[
         _MainNavigationItem(
-                icon: const Icon(Icons.account_circle),
-                text: 'Profile',
-                onTap: (onNavigateProfile != null)
+          icon: const Icon(Icons.account_circle),
+          text: 'Profile',
+          onTap: (onNavigateProfile != null)
               ? () {
                   Navigator.pop(context);
                   onNavigateProfile();
@@ -67,9 +67,9 @@ class MainNavigationDrawer extends StatelessWidget {
               : null,
         ),
         _MainNavigationItem(
-                icon: const Icon(Icons.history),
-                text: 'History',
-                onTap: (onNavigateHistory != null)
+          icon: const Icon(Icons.history),
+          text: 'History',
+          onTap: (onNavigateHistory != null)
               ? () {
                   Navigator.pop(context);
                   onNavigateHistory();

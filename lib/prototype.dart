@@ -175,7 +175,10 @@ class _PrototypeState extends State<Prototype> {
       primaryColor: AppTheme.blue, // AppTheme.blackTwo,
       backgroundColor: AppTheme.darkGrey,
       scaffoldBackgroundColor: AppTheme.darkGrey,
-      accentColor: network.account.accountType == AccountType.influencer ? AppTheme.lighterBlue : AppTheme.red, // const Color.fromARGB(255, 100, 206, 255) : const Color.fromARGB(255, 206, 255, 100), // const Color.fromARGB(255, 206, 100, 255), // 
+      accentColor: network.account.accountType == AccountType.influencer
+          ? AppTheme.lighterBlue
+          : AppTheme
+              .red, // const Color.fromARGB(255, 100, 206, 255) : const Color.fromARGB(255, 206, 255, 100), // const Color.fromARGB(255, 206, 100, 255), //
       buttonTheme: theme.buttonTheme.copyWith(
         buttonColor: Colors.white,
         textTheme: ButtonTextTheme.primary,
@@ -210,7 +213,7 @@ class _PrototypeState extends State<Prototype> {
     );
   }
 
-    Widget _supportTransparentNavOnAndroid(BuildContext context, Widget child) {
+  Widget _supportTransparentNavOnAndroid(BuildContext context, Widget child) {
     if (defaultTargetPlatform == TargetPlatform.android) {
       final mediaQuery = MediaQueryData.fromWindow(ui.window);
       final bottomInset = mediaQuery.viewInsets.bottom;

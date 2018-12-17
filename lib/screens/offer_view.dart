@@ -141,8 +141,7 @@ class _OfferViewState extends State<OfferView> {
                     ),
                     onPressed: widget.onProposalPressed != null
                         ? () {
-                            widget.onProposalPressed(
-                                widget.offer.proposalId);
+                            widget.onProposalPressed(widget.offer.proposalId);
                           }
                         : null,
                   )
@@ -173,8 +172,7 @@ class _OfferViewState extends State<OfferView> {
                 .map<Uint8List>(
                     (coverBlurred) => Uint8List.fromList(coverBlurred))
                 .toList(),
-            fallbackBlurred:
-                Uint8List.fromList(widget.offer.thumbnailBlurred),
+            fallbackBlurred: Uint8List.fromList(widget.offer.thumbnailBlurred),
             actions: [
               widget.onSharePressed == null
                   ? null
@@ -190,8 +188,8 @@ class _OfferViewState extends State<OfferView> {
                 child: ListTile(
                   //isThreeLine: true, //-------------------
                   //enabled: true,
-                  leading: ProfileAvatar(
-                      size: 40.0, account: widget.senderAccount),
+                  leading:
+                      ProfileAvatar(size: 40.0, account: widget.senderAccount),
                   title: Text(
                       widget.offer.senderName.isNotEmpty
                           ? widget.offer.senderName
@@ -333,9 +331,7 @@ class _OfferViewState extends State<OfferView> {
                             style: Theme.of(context).textTheme.caption,
                             textAlign: TextAlign.start,
                           ),
-                          Text(
-                              widget
-                                  .offer.terms.deliverablesDescription,
+                          Text(widget.offer.terms.deliverablesDescription,
                               style: Theme.of(context).textTheme.body1),
                         ],
                       ),
@@ -354,8 +350,7 @@ class _OfferViewState extends State<OfferView> {
                             textAlign: TextAlign.start,
                           ),
                           Text(
-                              widget.offer.terms
-                                  .rewardItemOrServiceDescription,
+                              widget.offer.terms.rewardItemOrServiceDescription,
                               style: Theme.of(context).textTheme.body1),
                         ],
                       ),

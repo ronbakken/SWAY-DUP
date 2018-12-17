@@ -185,45 +185,45 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       final ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return SearchPageCommon(
-          searchHint: "Find nearby offers...",
-          searchTooltip: "Search for nearby offers",
-          searchQueryController: searchQueryControllerFallback,
-          onSearchRequest: (String searchQuery) async {
-            try {
-              await network.refreshDemoAllOffers();
-            } catch (error, stackTrace) {
-              await showDialog<Null>(
-                context: this.context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Search Failed'),
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: <Widget>[
-                          Text('An error has occured.'),
-                          Text('Please try again later.'),
-                        ],
-                      ),
+        searchHint: "Find nearby offers...",
+        searchTooltip: "Search for nearby offers",
+        searchQueryController: searchQueryControllerFallback,
+        onSearchRequest: (String searchQuery) async {
+          try {
+            await network.refreshDemoAllOffers();
+          } catch (error, stackTrace) {
+            await showDialog<Null>(
+              context: this.context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Search Failed'),
+                  content: SingleChildScrollView(
+                    child: ListBody(
+                      children: <Widget>[
+                        Text('An error has occured.'),
+                        Text('Please try again later.'),
+                      ],
                     ),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text('Ok'.toUpperCase())],
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Text('Ok'.toUpperCase())],
                       ),
-                    ],
-                  );
-                },
-              );
-              print("Failed to search for offers: $error\n$stackTrace");
-            }
-          },
-          searchResults: <Widget>[],
-           /*network.demoAllOffers
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+            print("Failed to search for offers: $error\n$stackTrace");
+          }
+        },
+        searchResults: <Widget>[],
+        /*network.demoAllOffers
               .map(
                 (Int64 offerId) => OfferCard(
                       businessOffer: offer,
@@ -235,8 +235,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               .toList()
                 ..sort((a, b) => b.businessOffer.offerId
                     .compareTo(a.businessOffer.offerId)) */
-
-          );
+      );
     });
   }
 

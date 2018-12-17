@@ -161,7 +161,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.zero, // EdgeInsets.only(bottom: kBottomNavHeight),
+                    padding: EdgeInsets
+                        .zero, // EdgeInsets.only(bottom: kBottomNavHeight),
                     child: widget.networkStatusBuilder != null
                         ? (widget.networkStatusBuilder(context) ?? SizedBox())
                         : SizedBox(),

@@ -33,8 +33,8 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Animation<double> secondaryAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
-        CurvedAnimation(
+    final Animation<double> secondaryAnimation =
+        Tween<double>(begin: 1.0, end: 0.0).animate(CurvedAnimation(
             parent: ModalRoute.of(context).secondaryAnimation,
             curve: Curves.fastOutSlowIn));
     return Material(
@@ -74,7 +74,8 @@ class _WelcomePageState extends State<WelcomePage> {
                     const SizedBox(height: 12.0),
                     InfStadiumButton(
                       text: 'I am an influencer'.toUpperCase(),
-                      color: const Color.fromARGB(255, 100, 206, 255), // AppTheme.blue,
+                      color: const Color.fromARGB(
+                          255, 100, 206, 255), // AppTheme.blue,
                       onPressed: widget.onInfluencer,
                       /*() => Navigator.of(context).push<void>(
                           OnBoardingPage.route(
@@ -95,8 +96,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     // This feature switches to the list of already logged in accounts
                     widget.onExistingAccount != null
                         ? FlatButton(
-                            child:
-                                const Text('Go to existing account'),
+                            child: const Text('Go to existing account'),
                             onPressed: widget.onExistingAccount,
                           )
                         : const SizedBox(),
@@ -134,8 +134,8 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut>
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(duration: const Duration(milliseconds: 250), vsync: this);
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 250), vsync: this);
     _animation = const AlwaysStoppedAnimation<Offset>(Offset.zero);
     // FIXME: remove this post frame callback and work out size a better way
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -222,8 +222,9 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_first) {
-      final Iterable<Future<void>> loadingImages = widget.data.map<Future<void>>(
-          (String url) => precacheImage(NetworkImage(url), context));
+      final Iterable<Future<void>> loadingImages = widget.data
+          .map<Future<void>>(
+              (String url) => precacheImage(NetworkImage(url), context));
       Future.wait<void>(loadingImages).then((_) {
         if (mounted) {
           setState(() => _opacity = 0.5);
@@ -421,8 +422,9 @@ class _RenderWallBackground extends RenderBox
   _WallParentData _childParentData(RenderBox child) => child.parentData;
 
   void _onTick(Duration duration) {
-    final double delta = (duration.inMicroseconds - _lastDuration.inMicroseconds) /
-        Duration.microsecondsPerSecond;
+    final double delta =
+        (duration.inMicroseconds - _lastDuration.inMicroseconds) /
+            Duration.microsecondsPerSecond;
     _dy += _speed * delta;
     _lastDuration = duration;
     markNeedsPaint();
