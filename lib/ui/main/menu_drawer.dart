@@ -57,35 +57,20 @@ class MainNavigationDrawer extends StatelessWidget {
       final List<Widget> entries = <Widget>[];
       entries.addAll(<Widget>[
         _MainNavigationItem(
-                icon: const Icon(Icons.account_circle),
-                text: 'Profile',
-                onTap: (onNavigateProfile != null)
-              ? () {
-                  Navigator.pop(context);
-                  onNavigateProfile();
-                }
-              : null,
+          icon: const Icon(Icons.account_circle),
+          text: 'Profile',
+          onTap: onNavigateProfile,
         ),
         _MainNavigationItem(
-                icon: const Icon(Icons.history),
-                text: 'History',
-                onTap: (onNavigateHistory != null)
-              ? () {
-                  Navigator.pop(context);
-                  onNavigateHistory();
-                }
-              : null,
+          icon: const Icon(Icons.history),
+          text: 'History',
+          onTap: onNavigateHistory,
         ),
         (account.globalAccountState.value >= GlobalAccountState.debug.value)
             ? _MainNavigationItem(
                 icon: const Icon(Icons.account_box),
                 text: 'Debug Account',
-                onTap: (onNavigateDebugAccount != null)
-                    ? () {
-                        Navigator.pop(context);
-                        onNavigateDebugAccount();
-                      }
-                    : null,
+                onTap: onNavigateDebugAccount,
               )
             : null,
       ].where((Widget w) => w != null));
@@ -96,12 +81,7 @@ class MainNavigationDrawer extends StatelessWidget {
             color: Colors.white,
           ),
           text: 'Switch Account',
-          onTap: (onNavigateSwitchAccount != null)
-              ? () {
-                  Navigator.pop(context);
-                  onNavigateSwitchAccount();
-                }
-              : null,
+          onTap: onNavigateSwitchAccount,
         ),
         const SizedBox(height: 16),
         const Text(

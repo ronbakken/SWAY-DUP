@@ -338,13 +338,14 @@ abstract class AppCommonState<T extends StatefulWidget>
   }
 
   void navigateToCreateOffer() {
-    Navigator.push<void>(
-        // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-        context, MaterialPageRoute<void>(builder: (context) {
-      // ConfigData config = ConfigProvider.of(context);
+    Navigator.push<void>(context,
+        MaterialPageRoute<void>(builder: (BuildContext context) {
+      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+      final ConfigData config = ConfigProvider.of(context);
       final ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return OfferCreate(
+        config: config,
         onUploadImage: (File f) async {
           return await network
               .uploadImage(const file.LocalFileSystem().file(f.path));
@@ -536,6 +537,7 @@ abstract class AppCommonState<T extends StatefulWidget>
 
   Widget _offersBuilder(BuildContext context) {
     final ApiClient network = NetworkProvider.of(context);
+    final ConfigData config = ConfigProvider.of(context);
     if (network.offers.isEmpty) {
       if (network.offersLoading) {
         return const Center(
@@ -558,6 +560,7 @@ abstract class AppCommonState<T extends StatefulWidget>
       );
     }
     return OfferList(
+      config: config,
       offers: network.offers,
       onRefreshOffers: (network.connected == NetworkConnectionState.ready)
           ? network.refreshOffers

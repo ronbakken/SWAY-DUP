@@ -36,8 +36,12 @@ class _AppSwitchState extends State<AppSwitch> {
     if (domain != _domain || accountId != _accountId) {
       _domain = domain;
       _accountId = accountId;
-      Navigator.of(context)
-          .popUntil(ModalRoute.withName(Navigator.defaultRouteName));
+      try {
+        Navigator.of(context)
+            .popUntil(ModalRoute.withName(Navigator.defaultRouteName));
+      } catch (error, stackTrace) {
+        print('$error\n$stackTrace');
+      }
     }
   }
 

@@ -161,7 +161,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.zero, // EdgeInsets.only(bottom: kBottomNavHeight),
+                    padding: EdgeInsets
+                        .zero, // EdgeInsets.only(bottom: kBottomNavHeight),
                     child: widget.networkStatusBuilder != null
                         ? (widget.networkStatusBuilder(context) ?? SizedBox())
                         : SizedBox(),
@@ -246,7 +247,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
           /// Main Menu Drawer
           IgnorePointer(
-            ignoring: _menuVisible,
+            ignoring: !_menuVisible,
             child: AnimatedBuilder(
               animation: _drawerAnim,
               builder: (BuildContext context, Widget navigationDrawer) {
@@ -288,7 +289,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             child: _MainMenuIcon(
               animation: _drawerAnim,
               onPressed: () {
-                _menuVisible = !_menuVisible;
+                setState(() {
+                  _menuVisible = !_menuVisible;
+                });
                 if (_menuVisible) {
                   _drawerController.forward();
                 } else {
