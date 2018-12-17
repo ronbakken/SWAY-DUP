@@ -22,6 +22,7 @@ import 'package:inf/screens/offer_create.dart';
 import 'package:inf/screens/offers_map.dart';
 import 'package:inf/screens/offers_map_only.dart';
 import 'package:inf/screens/profile_edit.dart';
+import 'package:inf/ui/main/activities_section.dart';
 import 'package:inf/ui/main/browse_list_view.dart';
 import 'package:inf/ui/main/browse_section.dart';
 import 'package:inf/ui/main/main_page.dart';
@@ -94,6 +95,9 @@ abstract class AppCommonState<T extends StatefulWidget>
   }
 
   void _initBuilders() {
+    // TODO: Just provide the build function directly to the dashboard
+    // Then make sure the dashboard wraps them inside a Builder to make sure they're not in the tree when inactive
+
     proposalsDirect = Builder(
       builder: (BuildContext context) {
         return _buildProposalList(
@@ -537,6 +541,21 @@ abstract class AppCommonState<T extends StatefulWidget>
     );
   }
 
+  Widget _activitiesBuilderV4(BuildContext context) {
+    final ApiClient network = NetworkProvider.of(context);
+    // final ConfigData config = ConfigProvider.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: kBottomNavHeight),
+      child: MainActivitiesSection(
+        accountType: network.account.accountType,
+        offersBuilder: _offersBuilder,
+        directBuilder: _directBuilder,
+        appliedBuilder: _appliedBuilder,
+        dealsBuilder: _dealsBuilder,
+      ),
+    );
+  }
+
   DataOffer _getOfferSummary(BuildContext context, Int64 offerId) {
     final ApiClient network = NetworkProvider.of(context);
     return network.tryGetOffer(offerId, detail: false);
@@ -636,7 +655,7 @@ abstract class AppCommonState<T extends StatefulWidget>
       account: network.account,
       networkStatusBuilder: NetworkStatus.buildOptional,
       exploreBuilder: _exploreBuilderV4,
-      activitiesBuilder: _offersBuilder,
+      activitiesBuilder: _activitiesBuilderV4,
       drawer: _buildDrawer(context),
       onMakeAnOffer: navigateToCreateOffer,
     );
