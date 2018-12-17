@@ -128,7 +128,7 @@ class ApiChannel {
         try {
           channel.unknownProcedure(message);
         } catch (error, stackTrace) {
-          devLog.finest("$error\n$stackTrace");
+          devLog.finest('Exception occured', error, stackTrace);
           await channel.close();
         }
       }

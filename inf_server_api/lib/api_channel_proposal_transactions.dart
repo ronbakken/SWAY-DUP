@@ -384,7 +384,7 @@ class ApiChannelProposalTransactions {
         // Send to current user
         channel.replyMessage(message, 'PR_R_WAD', res.writeToBuffer());
       } catch (error, stackTrace) {
-        devLog.severe('$error\n$stackTrace');
+        devLog.severe('Exception occured', error, stackTrace);
       }
       // Publish!
       final NetProposal publishProposal = NetProposal();
@@ -471,7 +471,7 @@ class ApiChannelProposalTransactions {
         // Send to current user
         channel.replyMessage(message, 'PR_R_NGT', res.writeToBuffer());
       } catch (error, stackTrace) {
-        devLog.severe('$error\n$stackTrace');
+        devLog.severe('Exception occured', error, stackTrace);
       }
       // Publish!
       final NetProposal publishProposal = NetProposal();
@@ -513,9 +513,9 @@ class ApiChannelProposalTransactions {
       final String updateMarkings = 'UPDATE `proposals` '
           'SET `${accountType}_marked_delivered` = 1, '
           '`${accountType}_marked_rewarded` = 1, '
-          '`${accountType}_gave_rating` = ?'
+          '`${accountType}_gave_rating` = ? '
           'WHERE `proposal_id` = ? '
-          'AND `${accountType}_account_id` = ?'
+          'AND `${accountType}_account_id` = ? '
           'AND `state` = ${ProposalState.deal.value} OR `state` = ${ProposalState.dispute.value}';
       final sqljocky.Results resultMarkings = await transaction.prepareExecute(
         updateMarkings,
@@ -577,7 +577,7 @@ class ApiChannelProposalTransactions {
       try {
         channel.replyExtend(message);
       } catch (error, stackTrace) {
-        devLog.severe('$error\n$stackTrace');
+        devLog.severe('Exception occured', error, stackTrace);
       }
       final DataProposal proposal = await _r.getProposal(proposalId);
       res.proposal = proposal;
@@ -586,7 +586,7 @@ class ApiChannelProposalTransactions {
         // Send to current user
         channel.replyMessage(message, 'PR_R_COM', res.writeToBuffer());
       } catch (error, stackTrace) {
-        devLog.severe('$error\n$stackTrace');
+        devLog.severe('Exception occured', error, stackTrace);
       }
       // Publish!
       final NetProposal publishProposal = NetProposal();

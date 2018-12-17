@@ -133,7 +133,7 @@ class ApiChannelHaggleActions {
       try {
         channel.replyExtend(message);
       } catch (error, stackTrace) {
-        devLog.severe('$error\n$stackTrace');
+        devLog.severe('Exception occured', error, stackTrace);
       }
       final DataProposal proposal = await _r.getProposal(proposalId);
       res.updateProposal = proposal;
@@ -142,7 +142,7 @@ class ApiChannelHaggleActions {
         // Send to current user
         channel.replyMessage(message, 'AP_R_COM', res.writeToBuffer());
       } catch (error, stackTrace) {
-        devLog.severe('$error\n$stackTrace');
+        devLog.severe('Exception occured', error, stackTrace);
       }
       // Publish!
       _r.bc.proposalChanged(account.sessionId, proposal);
@@ -344,7 +344,7 @@ class ApiChannelHaggleActions {
       try {
         channel.replyExtend(message);
       } catch (error, stackTrace) {
-        devLog.severe('$error\n$stackTrace');
+        devLog.severe('Exception occured', error, stackTrace);
       }
       final DataProposal proposal = await _r.getProposal(proposalId);
       res.updateProposal = proposal;
@@ -353,7 +353,7 @@ class ApiChannelHaggleActions {
         // Send to current user
         channel.replyMessage(message, 'AP_R_COM', res.writeToBuffer());
       } catch (error, stackTrace) {
-        devLog.severe('$error\n$stackTrace');
+        devLog.severe('Exception occured', error, stackTrace);
       }
       // Publish!
       _r.bc.proposalChanged(account.sessionId, proposal);

@@ -288,7 +288,7 @@ class ApiChannelOAuth {
         oauthCredentials =
             await fetchOAuthCredentials(oauthProvider, pb.callbackQuery);
       } catch (error, stackTrace) {
-        devLog.fine("$error\n$stackTrace");
+        devLog.fine('Exception occured', error, stackTrace);
       }
 
       // bool transitionAccount = false;

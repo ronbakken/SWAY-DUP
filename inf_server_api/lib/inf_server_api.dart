@@ -119,7 +119,13 @@ Future<void> run(List<String> arguments) async {
   hierarchicalLoggingEnabled = true;
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((LogRecord rec) {
-    print('${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
+    if (rec.error == null) {
+      print(
+          '${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
+    } else {
+      print(
+          '${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}\n${rec.error.toString()}\n${rec.stackTrace.toString()}');
+    }
   });
   Logger('InfOps').level = Level.ALL;
   Logger('InfDev').level = Level.ALL;
