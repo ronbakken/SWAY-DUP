@@ -1301,7 +1301,7 @@ class ApiChannel {
           await transitionToApp(); // TODO: Transitions and subs hould be handled by updateDeviceState preferably...
         }
       });
-    } catch(error, stackTrace) {
+    } catch (error, stackTrace) {
       devLog.severe(
           "Failed to update device state at critical point: '$accountAvatarUrl': $error\n$stackTrace");
       await channel.close();
@@ -1533,15 +1533,23 @@ class ApiChannel {
     }
 
     // Entry
-    String country = featureCountry['text'];
-    DataLocation location = DataLocation();
+    final String country = featureCountry['text'];
+    final DataLocation location = DataLocation();
     location.approximate =
         featureApproximate['place_name'].replaceAll(', United States', '');
     location.detail =
         featureDetail['place_name'].replaceAll(', United States', '');
-    if (featurePostcode != null) location.postcode = featurePostcode['text'];
-    location.regionCode = featureRegion['properties']['short_code'];
-    location.countryCode = featureCountry['properties']['short_code'];
+    if (featurePostcode != null) {
+      location.postcode = featurePostcode['text'];
+    }
+    final String regionCode = featureRegion['properties']['short_code'];
+    if (regionCode != null) {
+      location.regionCode = regionCode;
+    }
+    final String countryCode = featureCountry['properties']['short_code'];
+    if (countryCode != null) {
+      location.countryCode = countryCode;
+    }
     location.latitude = latitude;
     location.longitude = longitude;
     location.s2cellId = Int64(new S2CellId.fromLatLng(
@@ -1675,15 +1683,22 @@ class ApiChannel {
       location.postcode = contextPostcode['text'];
     else if (featurePostcode != null)
       location.postcode = featurePostcode['text'];
-    location.regionCode = featureRegion == null
+
+    final String regionCode = featureRegion == null
         ? contextRegion['short_code']
         : featureRegion['properties']['short_code'];
-    location.countryCode = featureCountry == null
+    if (regionCode != null) {
+      location.regionCode = regionCode;
+    }
+    final String countryCode = featureCountry == null
         ? contextCountry['short_code']
         : featureCountry['properties']['short_code'];
+    if (countryCode != null) {
+      location.countryCode = countryCode;
+    }
     location.latitude = featureDetail['center'][1];
     location.longitude = featureDetail['center'][0];
-    location.s2cellId = Int64(new S2CellId.fromLatLng(
+    location.s2cellId = Int64(S2CellId.fromLatLng(
             S2LatLng.fromDegrees(location.latitude, location.longitude))
         .id);
     location.geohash =

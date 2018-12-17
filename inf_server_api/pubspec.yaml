@@ -1,6 +1,6 @@
 name: inf_server_api
 description: INF Server API service.
-version: 2.1.5
+version: 2.1.6
 homepage: https://www.infmarketplace.com
 author: Jan Boon <kaetemi@no-break.space>
 publish_to: none
