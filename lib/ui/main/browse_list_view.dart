@@ -42,7 +42,7 @@ class BrowseListView extends StatelessWidget {
       children: <Widget>[
         ListView.builder(
           padding: EdgeInsets.fromLTRB(
-              16.0, mediaQuery.padding.top + 54.0, 16.0, 0.0),
+              16.0, mediaQuery.padding.top + 54.0, 16.0, 8.0),
           itemCount: offers.length,
           itemBuilder: _buildOfferTile,
         ),

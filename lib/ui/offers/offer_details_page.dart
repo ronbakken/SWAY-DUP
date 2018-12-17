@@ -29,7 +29,7 @@ class OfferDetailsPage extends StatefulWidget {
   }) : super(key: key);
 
   final Future<DataProposal> Function(String remarks) onApply;
-  final Future<DataProposal> Function(String remarks) onNegotiate;
+  final Future<DataProposal> Function(String remarks, DataTerms terms) onNegotiate;
 
   final DataAccount account;
   final DataOffer offer;
@@ -599,7 +599,7 @@ class _DetailEntry extends StatelessWidget {
 
 class _ProposalBottomSheet extends StatefulWidget {
   final Future<DataProposal> Function(String remarks) onApply;
-  final Future<DataProposal> Function(String remarks) onNegotiate;
+  final Future<DataProposal> Function(String remarks, DataTerms terms) onNegotiate;
 
   const _ProposalBottomSheet({
     Key key,
@@ -620,7 +620,8 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
   }
 
   void _onNegotiate() {
-    widget.onNegotiate(_remarksEditingController.text);
+    // TODO: Negotiate terms pop-up or screen
+    // widget.onNegotiate(_remarksEditingController.text);
   }
 
   @override

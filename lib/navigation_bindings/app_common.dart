@@ -40,6 +40,9 @@ import 'package:latlong/latlong.dart';
 
 abstract class AppCommonState<T extends StatefulWidget>
     extends AppBaseState<T> {
+  static const bool prototypeDashboard = false;
+  static const bool prototypeDrawer = false;
+
   ApiClient _network;
   ConfigData _config;
   CrossAccountNavigator _navigator;
@@ -520,14 +523,18 @@ abstract class AppCommonState<T extends StatefulWidget>
       getOffer: _getOfferSummary,
     );
     return MainBrowseSection(
-        map: map,
-        featured: const SizedBox(),
-        list: BrowseListView(
+      map: map,
+      featured: const SizedBox(),
+      list: Padding(
+        padding: const EdgeInsets.only(bottom: kBottomNavHeight),
+        child: BrowseListView(
           config: config,
           getOffer: _getOfferSummary,
           offers: network.demoAllOffers,
           onOfferPressed: navigateToOffer,
-        ));
+        ),
+      ),
+    );
   }
 
   DataOffer _getOfferSummary(BuildContext context, Int64 offerId) {
@@ -585,15 +592,15 @@ abstract class AppCommonState<T extends StatefulWidget>
   Widget _buildDrawer(BuildContext context) {
     final ApiClient network = NetworkProvider.of(context);
     final ConfigData config = ConfigProvider.of(context);
-    /*
-    return DashboardDrawer(
-      account: network.account,
-      onNavigateProfile: navigateToProfileView,
-      onNavigateSwitchAccount: navigateToSwitchAccount,
-      onNavigateHistory: navigateToHistory,
-      onNavigateDebugAccount: navigateToDebugAccount,
-    );
-    */
+    if (prototypeDrawer) {
+      return DashboardDrawer(
+        account: network.account,
+        onNavigateProfile: navigateToProfileView,
+        onNavigateSwitchAccount: navigateToSwitchAccount,
+        onNavigateHistory: navigateToHistory,
+        onNavigateDebugAccount: navigateToDebugAccount,
+      );
+    }
     return Drawer(
       child: MainNavigationDrawer(
         config: config,
@@ -612,6 +619,19 @@ abstract class AppCommonState<T extends StatefulWidget>
   Widget buildDashboard(BuildContext context) {
     final ApiClient network = NetworkProvider.of(context);
     assert(network != null);
+    if (prototypeDashboard) {
+      return DashboardV3(
+        account: network.account,
+        networkStatusBuilder: NetworkStatus.buildOptional,
+        exploreBuilder: _exploreBuilder,
+        offersBuilder: _offersBuilder,
+        directBuilder: _directBuilder,
+        appliedBuilder: _appliedBuilder,
+        dealsBuilder: _dealsBuilder,
+        drawer: _buildDrawer(context),
+        onMakeAnOffer: navigateToCreateOffer,
+      );
+    }
     return MainPage(
       account: network.account,
       networkStatusBuilder: NetworkStatus.buildOptional,
@@ -620,19 +640,6 @@ abstract class AppCommonState<T extends StatefulWidget>
       drawer: _buildDrawer(context),
       onMakeAnOffer: navigateToCreateOffer,
     );
-    /*
-    return DashboardV3(
-      account: network.account,
-      networkStatusBuilder: NetworkStatus.buildOptional,
-      exploreBuilder: _exploreBuilder,
-      offersBuilder: _offersBuilder,
-      directBuilder: _directBuilder,
-      appliedBuilder: _appliedBuilder,
-      dealsBuilder: _dealsBuilder,
-      drawer: _buildDrawer(context),
-      onMakeAnOffer: navigateToCreateOffer,
-    );
-    */
   }
 }
 
