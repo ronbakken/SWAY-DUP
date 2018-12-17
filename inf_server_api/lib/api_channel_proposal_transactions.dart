@@ -360,7 +360,8 @@ class ApiChannelProposalTransactions {
       chat.type = ProposalChatType.marker;
       chat.marker =
           dealMade ? ProposalChatMarker.dealMade : ProposalChatMarker.wantDeal;
-      if (await _insertChat(transaction, chat)) {// proposalDb, chat)) { // FIXME : !!!! transaction, chat)) { URGENT
+      if (await _insertChat(transaction, chat)) {
+        // proposalDb, chat)) { // FIXME : !!!! transaction, chat)) { URGENT
         // Unexpected error in procedure 'PR_WADEA': MySQL Client Error: Connection #0 cannot process a request for Instance of 'QueryStreamHandler' while a request is already in progress for Instance of 'ExecuteQueryHandler'
         channel.replyExtend(message);
         markerChat = chat;
