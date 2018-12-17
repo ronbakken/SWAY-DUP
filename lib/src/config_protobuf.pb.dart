@@ -735,7 +735,7 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(5, 'spacesKey')
     ..aOS(6, 'spacesSecret')
     ..aOS(7, 'spacesBucket')
-    ..aOS(8, 'endPoint')
+    ..pPS(8, 'endPoints')
     ..aOS(9, 'configUrl')
     ..aOS(10, 'termsOfServiceUrl')
     ..aOS(11, 'privacyPolicyUrl')
@@ -852,13 +852,7 @@ class ConfigServices extends $pb.GeneratedMessage {
   bool hasSpacesBucket() => $_has(6);
   void clearSpacesBucket() => clearField(7);
 
-  String get endPoint => $_getS(7, '');
-  set endPoint(String v) {
-    $_setString(7, v);
-  }
-
-  bool hasEndPoint() => $_has(7);
-  void clearEndPoint() => clearField(8);
+  List<String> get endPoints => $_getList(7);
 
   String get configUrl => $_getS(8, '');
   set configUrl(String v) {
