@@ -501,7 +501,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     final NetProposal response = NetProposal()..mergeFromBuffer(message.data);
     _receivedProposalCommonRes(response);
   }
-  
+
   @override
   Future<void> markCompletion(Int64 proposalId, int rating) async {
     final NetProposalCompletion request = NetProposalCompletion();

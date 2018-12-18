@@ -206,7 +206,8 @@ abstract class ApiClient {
   Future<void> wantDeal(Int64 proposalId, Int64 termsChatId);
 
   /// Mark completion.
-  Future<void> markCompletion(Int64 proposalId, int rating); // TODO(kaetemi): Review message
+  Future<void> markCompletion(
+      Int64 proposalId, int rating); // TODO(kaetemi): Review message
 
 }
 
