@@ -104,7 +104,7 @@ class _MainMapViewState extends State<MainMapView> {
 
   void onMapPositionChanged(MapPosition position, bool hasGesture) {
     mapPosition = position;
-    backend.get<InfApiService>().setMapBoundery(
+    backend.get<InfApiService>().setMapBoundary(
         position.bounds.northWest.latitude,
         position.bounds.northWest.longitude,
         position.bounds.southEast.latitude,

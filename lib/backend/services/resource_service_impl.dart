@@ -32,7 +32,7 @@ class ResourceServiceImplementation implements ResourceService {
   }
 
   @override
-  Future init(NetworkStreaming networkStreaming) {
+  Future init(NetworkStreaming networkStreaming) async {
     List<SocialNetworkProvider> result = <SocialNetworkProvider>[];
     List<ConfigOAuthProvider> oauthProviders =
         networkStreaming.config.oauthProviders;

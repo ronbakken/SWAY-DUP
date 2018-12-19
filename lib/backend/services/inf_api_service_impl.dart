@@ -76,7 +76,7 @@ class InfApiServiceImplementation implements InfApiService {
   }
 
   @override
-  void setMapBoundery(
+  void setMapBoundary(
       double topLeftLatitude,
       double topLeftLongitude,
       double bottomRightLatitude,
@@ -93,13 +93,13 @@ class InfApiServiceImplementation implements InfApiService {
   }
 
   @override
-  Observable<List<BusinessOfferSummery>> getBusinessOfferSummeriess(OfferFilter filter) {
+  Observable<List<BusinessOfferSummery>> getBusinessOfferSummaries(OfferFilter filter) {
     // TODO: implement getBusinessOfferSummeriess
     return null;
   }
 
   @override
-  Observable<List<BusinessOfferSummery>> getFilteredBusinessOfferSummeries() {
+  Observable<List<BusinessOfferSummery>> getFilteredBusinessOfferSummaries() {
     // TODO: implement getFilteredBusinessOfferSummeries
     return null;
   }

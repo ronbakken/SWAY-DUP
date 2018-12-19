@@ -46,6 +46,7 @@ SocialNetworkProvider providerFromProvider(
         oauthProvider.canConnect && oauthProvider.canAlwaysAuthenticate,
     name: oauthProvider.label,
     logoColoredData: kTransparentImage,
+    canBeUsedAsFilter: true,
   );
 }
 

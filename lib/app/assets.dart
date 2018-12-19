@@ -1,4 +1,3 @@
-import 'package:inf/domain/domain.dart';
 
 class AppFonts {
   const AppFonts();

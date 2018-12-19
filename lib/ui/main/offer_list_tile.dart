@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/notification_marker.dart';

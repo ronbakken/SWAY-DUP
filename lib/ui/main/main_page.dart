@@ -1,7 +1,6 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/add_offer/add_business_offer_page.dart';
 import 'package:inf/ui/main/activities_section.dart';

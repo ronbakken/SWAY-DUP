@@ -236,7 +236,9 @@ class _WelcomeWallState extends State<_WelcomeWall> {
               maxHeight: size.height,
               child: _WelcomeWallBackground(
                 speed: 24.0,
-                children: widget.data.images.map<Widget>((url) => _buildWallTile(url)).toList(growable: false),
+                children: widget.data.images
+                  .map<Widget>((url) => _buildWallTile(url))
+                  .toList(growable: false),
               ),
             ),
           ),

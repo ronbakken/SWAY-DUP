@@ -5,7 +5,7 @@ class HelpButton extends StatelessWidget {
 
   const HelpButton({
     Key key,
-    @required this.onTap,
+    this.onTap,
   }) : super(key: key);
 
   @override
