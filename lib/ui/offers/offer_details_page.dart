@@ -129,11 +129,11 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                         //TODO show all
                         rightSideIcons: [
                           InfMemoryImage(
-                              offer.channels[0].logoColoredData)
+                              offer.channels[0].logoColoredData,width: 24.0,)
                         ],
                         text: offer.deliverables[0].description,
                       ),
-                      !backend.get<UserManager>().isLoggedIn
+                      backend.get<UserManager>().isLoggedIn
                           ? Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -157,7 +157,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             ),
           ),
         ),
-        !backend.get<UserManager>().isLoggedIn
+        backend.get<UserManager>().isLoggedIn
             ? Container(
                 color: AppTheme.blackTwo,
                 child: SafeArea(
@@ -447,7 +447,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 27.0, vertical: 13.0),
                     child: Text(
-                      "It's fre to sign up and takes only a few seconds",
+                      "It's free to sign up and takes only a few seconds",
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -520,8 +520,11 @@ class _DetailEntry extends StatelessWidget {
     final titleRow = <Widget>[
       CircleAvatar(
         backgroundColor: const Color(0x33000000),
-        radius: 15.0,
-        child:  icon,
+        radius: 16.0,
+        child:  Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: icon,
+        ),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),

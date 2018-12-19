@@ -43,7 +43,7 @@ class MainNavigationDrawer extends StatelessWidget {
 
       for (var account in currentUser.socialMediaAccounts) {
         entries.add(_MainNavigationItem(
-          icon: InfMemoryImage(account.socialNetWorkProvider.logoMonochromeData, height: 32, ),
+          icon: InfMemoryImage(account.socialNetWorkProvider.logoMonochromeData, height: 20, ),
           text: account.socialNetWorkProvider.name,
           trailing: InfSwitch(
             value: account.isActive,
@@ -231,6 +231,7 @@ class _MainNavigationItem extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Container(
+                padding: const EdgeInsets.all(6.0),
                 height: 32.0,
                 width: 32.0,
                 decoration: BoxDecoration(shape: BoxShape.circle, color: AppTheme.white12),

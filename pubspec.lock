@@ -56,7 +56,7 @@ packages:
       name: convert
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "2.1.0"
   crypto:
     dependency: "direct main"
     description:
@@ -142,12 +142,10 @@ packages:
   flutter_svg:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: e4458897be8528b6401548a0c1e9ff121f2576cc
-      url: "https://github.com/dnfield/flutter_svg.git"
-    source: git
-    version: "0.8.0"
+      name: flutter_svg
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -413,7 +411,7 @@ packages:
       name: switchboard
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.9"
+    version: "2.0.11"
   synchronized:
     dependency: "direct main"
     description:

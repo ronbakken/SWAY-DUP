@@ -212,6 +212,8 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
   return [
     BusinessOffer(
         id: 1,
+        numberOffered: 5,
+        numberRemaining: 2,
         newChatMessages: 1,
         businessAccountId: 42,
         businessName: 'CarWash Tom',
@@ -262,6 +264,7 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
     BusinessOffer(
         id: 2,
+        numberRemaining: 2,
         businessAccountId: 43,
         businessName: 'Scent of Asia',
         businessDescription: 'Best flavoured teas in town',
@@ -310,6 +313,7 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
     BusinessOffer(
         id: 3,
+        numberRemaining: 1,
         businessAccountId: 43,
         businessName: 'Scent of Asia',
         businessDescription: 'Best flavoured teas in town',

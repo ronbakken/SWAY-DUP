@@ -13,8 +13,7 @@ dependencies:
   decimal: any
   flutter_map: any
   flutter_page_indicator: any 
-  flutter_svg:
-    git: https://github.com/dnfield/flutter_svg.git
+  flutter_svg: any
   get_it: any
   image_picker: any
   intl: any
