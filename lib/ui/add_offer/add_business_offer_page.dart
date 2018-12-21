@@ -5,6 +5,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/add_offer/add_offer_step_1.dart';
 import 'package:inf/ui/add_offer/add_offer_step_2.dart';
 import 'package:inf/ui/add_offer/add_offer_step_3.dart';
+import 'package:inf/ui/add_offer/add_offer_step_4.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
@@ -38,13 +39,15 @@ class _AddBusinessOfferPageState extends PageState<AddBusinessOfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      resizeToAvoidBottomPadding: false,
       backgroundColor: AppTheme.darkGrey,
-      appBar: AppBar(
+      appBar: AppBar(elevation: 0.0,
         backgroundColor: AppTheme.darkGrey,
         centerTitle: true,
         title: Text('MAKE AN OFFER'),
       ),
-      body: MultiPageWizard(
+      body: MultiPageWizard(indicatorBackgroundColor: AppTheme.blue, indicatorColor: AppTheme.lightBlue,
         key: _wizardKey,
         pages: [
           AddOfferStep1(
@@ -56,8 +59,9 @@ class _AddBusinessOfferPageState extends PageState<AddBusinessOfferPage> {
           AddOfferStep3(
             offerBuilder: _offerBuilder,
           ),
-          OfferPage(),
-          OfferPage(),
+          AddOfferStep4(
+            offerBuilder: _offerBuilder,
+          ),
         ],
       ),
     );

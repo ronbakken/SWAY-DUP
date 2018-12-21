@@ -167,7 +167,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                                   children: [
                                     InfAssetImage(
                                       AppIcons.location,
-                                      height: 32,
+                                      height: 24,
                                     ),
                                     SizedBox(
                                       width: 8.0,
