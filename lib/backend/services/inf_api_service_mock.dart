@@ -117,17 +117,7 @@ class InfApiServiceMock implements InfApiService {
     return null;
   }
 
-  @override
-  Observable<List<BusinessOfferSummery>> getBusinessOfferSummaries(OfferFilter filter) {
-    // TODO: implement getBusinessOfferSummeriess
-    return null;
-  }
 
-  @override
-  Observable<List<BusinessOfferSummery>> getFilteredBusinessOfferSummaries() {
-    // TODO: implement getFilteredBusinessOfferSummeries
-    return null;
-  }
 }
 
 @override
@@ -148,65 +138,65 @@ Future<void> setOfferFilter(OfferFilter filter) {
   return null;
 }
 
-Future<List<BusinessOfferSummery>> loadBusinessOfferSummeryMockData() async {
-  return [
-    BusinessOfferSummery(
-        id: 1,
-        isDirectOffer: false,
-        offerId: 1,
-        businessName: 'CarWash Tom',
-        businessAvatarThumbnailUrl:
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-        title: 'Car Wash',
-        description:
-            'Our car wash is the best car wash in the universe of car washes. We want more people to get to know our'
-            'amazing service. Let\'s just see how much more lines we need :-D',
-        channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
-        deliverableType: DeliverableType.post,
-        rewardType: RewardType.barter,
-        thumbnailLowRes: (await rootBundle
-                .load('assets/mockdata/car_wash2_thumb_lowres.jpg'))
-            .buffer
-            .asUint8List(),
-        thumbnailUrl:
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
-    BusinessOfferSummery(
-        id: 2,
-        isDirectOffer: true,
-        offerId: 2,
-        businessName: 'Scent of Asia',
-        businessAvatarThumbnailUrl:
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-        title: 'Spoon Ice Tea',
-        description: 'Free ice tea if you stop by',
-        deliverableType: DeliverableType.post,
-        rewardType: RewardType.barter,
-        thumbnailLowRes:
-            (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg'))
-                .buffer
-                .asUint8List(),
-        thumbnailUrl:
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
-    BusinessOfferSummery(
-        id: 3,
-        offerId: 3,
-        isDirectOffer: false,
-        businessName: 'Scent of Asia',
-        businessAvatarThumbnailUrl:
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-        title: 'Spoon Ice Tea',
-        description: 'Free ice tea if you stop by',
-        channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
-        deliverableType: DeliverableType.post,
-        rewardType: RewardType.barter,
-        thumbnailLowRes:
-            (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg'))
-                .buffer
-                .asUint8List(),
-        thumbnailUrl:
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a')
-  ];
-}
+// Future<List<BusinessOfferSummery>> loadBusinessOfferSummeryMockData() async {
+//   return [
+  //   BusinessOfferSummery(
+  //       id: 1,
+  //       isDirectOffer: false,
+  //       offerId: 1,
+  //       businessName: 'CarWash Tom',
+  //       businessAvatarThumbnailUrl:
+  //           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+  //       title: 'Car Wash',
+  //       description:
+  //           'Our car wash is the best car wash in the universe of car washes. We want more people to get to know our'
+  //           'amazing service. Let\'s just see how much more lines we need :-D',
+  //       channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
+  //       deliverableType: DeliverableType.post,
+  //       rewardType: RewardType.barter,
+  //       thumbnailLowRes: (await rootBundle
+  //               .load('assets/mockdata/car_wash2_thumb_lowres.jpg'))
+  //           .buffer
+  //           .asUint8List(),
+  //       thumbnailUrl:
+  //           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
+  //   BusinessOfferSummery(
+  //       id: 2,
+  //       isDirectOffer: true,
+  //       offerId: 2,
+  //       businessName: 'Scent of Asia',
+  //       businessAvatarThumbnailUrl:
+  //           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+  //       title: 'Spoon Ice Tea',
+  //       description: 'Free ice tea if you stop by',
+  //       deliverableType: DeliverableType.post,
+  //       rewardType: RewardType.barter,
+  //       thumbnailLowRes:
+  //           (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg'))
+  //               .buffer
+  //               .asUint8List(),
+  //       thumbnailUrl:
+  //           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
+  //   BusinessOfferSummery(
+  //       id: 3,
+  //       offerId: 3,
+  //       isDirectOffer: false,
+  //       businessName: 'Scent of Asia',
+  //       businessAvatarThumbnailUrl:
+  //           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+  //       title: 'Spoon Ice Tea',
+  //       description: 'Free ice tea if you stop by',
+  //       channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
+  //       deliverableType: DeliverableType.post,
+  //       rewardType: RewardType.barter,
+  //       thumbnailLowRes:
+  //           (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg'))
+  //               .buffer
+  //               .asUint8List(),
+  //       thumbnailUrl:
+  //           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a')
+//   ];
+// }
 
 Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
   return [
@@ -214,7 +204,7 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         id: 1,
         numberOffered: 5,
         numberRemaining: 2,
-        newChatMessages: 1,
+        numberOfProposals:  1,
         businessAccountId: 42,
         businessName: 'CarWash Tom',
         businessDescription: 'We wash anything',

@@ -39,5 +39,8 @@ class OfferBuilder
   String rewardDescription;
   int miniFollowers;
   Location location;
+  int amountAvailable;
+  bool unlimitedAvailable = false;
+  AcceptancePolicy acceptancePolicy;
 
 }

@@ -15,13 +15,13 @@ class Proposal {
   final String businessName;
   final String offerText;
 
-  final List<SocialNetworkProvider> channel;
+  final List<SocialNetworkProvider> channels;
   final DeliverableType deliverableType;
 
   // datetime schedule etc
 
   /// Current chat ID with haggle buttons (deliverables / reward / remarks)
-  final int haggleChatId;
+  final int chatId;
   final bool influencerWantsDeal;
   final bool businessWantsDeal;
 
@@ -48,9 +48,9 @@ class Proposal {
     this.influencerName,
     this.businessName,
     this.offerText,
-    this.channel,
+    this.channels,
     this.deliverableType,
-    this.haggleChatId,
+    this.chatId,
     this.influencerWantsDeal,
     this.businessWantsDeal,
     this.influencerMarkedDelivered,

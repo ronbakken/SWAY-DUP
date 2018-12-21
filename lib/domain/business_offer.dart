@@ -13,37 +13,10 @@ enum BusinessOfferStateReason {
   newOffer,
   userClosed, // You have closed this offer.
   tosViolation, // This offer violates the Terms of Service
-  violation // This offer has been completed by all applicants
+  completed // This offer has been completed by all applicants
 }
 
-class BusinessOfferSummery {
-  final int id;
-  final int offerId;
-  final String title;
-  final String description;
-  final String businessName;
-  final String businessAvatarThumbnailUrl;
-  final String thumbnailUrl;
-  final Uint8List thumbnailLowRes;
-  final bool isDirectOffer;
-  final DeliverableType deliverableType;
-  final List<SocialNetworkProvider> channels;
-  final RewardType rewardType;
-
-  BusinessOfferSummery(
-      {this.id,
-      this.offerId,
-      this.title,
-      this.description,
-      this.businessName,
-      this.businessAvatarThumbnailUrl,
-      this.thumbnailLowRes,
-      this.thumbnailUrl,
-      this.isDirectOffer,
-      this.deliverableType,
-      this.channels,
-      this.rewardType});
-}
+enum AcceptancePolicy {manualReview, automaticAcceptMatching, allowNegotiation}
 
 class BusinessOffer {
   final int id;
@@ -83,9 +56,7 @@ class BusinessOffer {
   final BusinessOfferStateReason stateReason;
 
   // proposal
-  // number of new messages in the chat since
-  // the last time the chat was marked as read.
-  final int newChatMessages;
+  final int numberOfProposals;
 
   // For later: Info for business
   // final int proposalsCountNew;
@@ -96,6 +67,8 @@ class BusinessOffer {
   // only returned when an influencer queries this offer
   // So the Offer View knows this offer has already been applied to
   final int influencerProposalId;
+
+  final AcceptancePolicy acceptancePolicy;
 
   BusinessOffer({
     this.id,
@@ -109,7 +82,7 @@ class BusinessOffer {
     this.endDate,
     this.created,
     this.isDirectOffer,
-    this.newChatMessages,
+    this.numberOfProposals,
     this.numberOffered = 1,
     this.numberRemaining,
     this.thumbnailUrl,
@@ -124,6 +97,7 @@ class BusinessOffer {
     this.state,
     this.stateReason,
     this.influencerProposalId,
+    this.acceptancePolicy
   });
 
   BusinessOffer copyWith({
@@ -165,7 +139,7 @@ class BusinessOffer {
       endDate: endDate ?? this.endDate,
       created: created ?? this.created,
       isDirectOffer: isDirectOffer ?? this.isDirectOffer,
-      newChatMessages: newChatMessages ?? this.newChatMessages,
+      numberOfProposals: newChatMessages ?? this.numberOfProposals,
       numberOffered: numberOffered ?? this.numberOffered,
       numberRemaining: numberRemaining ?? this.numberRemaining,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,

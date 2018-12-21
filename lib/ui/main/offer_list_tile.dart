@@ -76,7 +76,7 @@ class OfferListTile extends StatelessWidget {
                         
                           width: 20.0,
                         ),
-                        (offer.newChatMessages ?? 0) > 0
+                        (offer.numberOfProposals ?? 0) > 0
                             ? Expanded(
                                 child: Align(
                                   heightFactor: 2,

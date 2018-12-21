@@ -5,8 +5,6 @@ abstract class InfApiService {
   Future<BusinessOffer> getOfferById(int offerId);
   Observable<BusinessOffer> getOfferByIdCached(int offerId);
 
-  Observable<List<BusinessOfferSummery>> getBusinessOfferSummaries(OfferFilter filter);
-  Observable<List<BusinessOfferSummery>> getFilteredBusinessOfferSummaries();
 
   Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter);
   Observable<List<BusinessOffer>> getFilteredBusinessOffers();

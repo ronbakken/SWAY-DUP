@@ -92,15 +92,5 @@ class InfApiServiceImplementation implements InfApiService {
     throw Exception('Not implemented yet');
   }
 
-  @override
-  Observable<List<BusinessOfferSummery>> getBusinessOfferSummaries(OfferFilter filter) {
-    // TODO: implement getBusinessOfferSummeriess
-    return null;
-  }
 
-  @override
-  Observable<List<BusinessOfferSummery>> getFilteredBusinessOfferSummaries() {
-    // TODO: implement getFilteredBusinessOfferSummeries
-    return null;
-  }
 }
