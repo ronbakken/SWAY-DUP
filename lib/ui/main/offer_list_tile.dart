@@ -81,7 +81,7 @@ class OfferListTile extends StatelessWidget {
                                 width: 20.0,
                               )
                             : const SizedBox(width: 20.0),
-                        /* TODO: (offer.newChatMessages ?? 0) > 0
+                        /* TODO: (offer.numberOfProposals ?? 0) > 0
                             ? Expanded(
                                 child: Align(
                                   heightFactor: 2,

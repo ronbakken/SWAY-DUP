@@ -127,7 +127,8 @@ class OfferDetailsPageState extends State<OfferDetailsPage> {
                             .take(1)
                             .map<Widget>((int providerId) => InfMemoryImage(
                                 widget.config.oauthProviders[providerId]
-                                    .foregroundImage))
+                                    .foregroundImage,
+                                width: 24.0))
                             .toList(),
                         text: offer.terms.deliverableContentFormats.isEmpty
                             ? ''
@@ -482,7 +483,7 @@ class OfferDetailsPageState extends State<OfferDetailsPage> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
                     child: Text(
-                      "It's free to sign up and only takes a few seconds",
+                      "It's free to sign up and takes only a few seconds",
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -560,8 +561,11 @@ class _DetailEntry extends StatelessWidget {
     final List<Widget> titleRow = <Widget>[
       CircleAvatar(
         backgroundColor: const Color(0x33000000),
-        radius: 15.0,
-        child: icon,
+        radius: 16.0,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: icon,
+        ),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),

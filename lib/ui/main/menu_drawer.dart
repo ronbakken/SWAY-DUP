@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
@@ -99,7 +98,7 @@ class MainNavigationDrawer extends StatelessWidget {
             entries.add(_MainNavigationItem(
               icon: InfMemoryImage(
                 oauthProvider.monochromeForegroundImage,
-                height: 32,
+                height: 20,
               ),
               text: oauthProvider.label,
               trailing: InfSwitch(
@@ -287,6 +286,7 @@ class _MainNavigationItem extends StatelessWidget {
           child: Row(
             children: <Widget>[
               Container(
+                padding: const EdgeInsets.all(6.0),
                 height: 32.0,
                 width: 32.0,
                 decoration: BoxDecoration(
