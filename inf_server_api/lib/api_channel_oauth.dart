@@ -517,8 +517,8 @@ class ApiChannelOAuth {
       await elasticsearch.postDocument(
           "social_account_" + config.oauthProviders[oauthProvider].key, body);
     } catch (error, stackTrace) {
-      opsLog.severe(
-          "Error posting social media account to Elasticsearch", error, stackTrace);
+      opsLog.severe("Error posting social media account to Elasticsearch",
+          error, stackTrace);
     }
   }
 

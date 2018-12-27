@@ -198,8 +198,8 @@ class ApiChannel {
         try {
           await procedure(message);
         } catch (error, stackTrace) {
-          devLog.severe(
-              "Unexpected error in procedure '$procedureId'", error, stackTrace);
+          devLog.severe("Unexpected error in procedure '$procedureId'", error,
+              stackTrace);
           try {
             if (message.requestId != 0) {
               channel.replyAbort(message, "Unexpected error.");
@@ -1022,7 +1022,9 @@ class ApiChannel {
           locations.add(location);
         }).catchError((dynamic error, StackTrace stackTrace) {
           devLog.severe(
-              "${config.oauthProviders[i].label}: Geocoding Exception", error, stackTrace);
+              "${config.oauthProviders[i].label}: Geocoding Exception",
+              error,
+              stackTrace);
         }));
       }
     }
@@ -1292,7 +1294,9 @@ class ApiChannel {
           });
         } catch (error, stackTrace) {
           opsLog.severe(
-              "Failed to create account for session ${account.sessionId}", error, stackTrace);
+              "Failed to create account for session ${account.sessionId}",
+              error,
+              stackTrace);
         }
       }
     });
@@ -1312,7 +1316,9 @@ class ApiChannel {
       });
     } catch (error, stackTrace) {
       devLog.severe(
-          "Failed to update device state at critical point: '$accountAvatarUrl'", error, stackTrace);
+          "Failed to update device state at critical point: '$accountAvatarUrl'",
+          error,
+          stackTrace);
       await channel.close();
       rethrow;
     }
@@ -1341,8 +1347,8 @@ class ApiChannel {
         account.blurredCoverUrls.add(makeCloudinaryBlurredCoverUrl(avatarKey));
       }
     } catch (error, stackTrace) {
-      devLog.severe(
-          "Exception downloading avatar '$accountAvatarUrl'", error, stackTrace);
+      devLog.severe("Exception downloading avatar '$accountAvatarUrl'", error,
+          stackTrace);
     }
 
     // Send authentication state
