@@ -15,9 +15,9 @@ Currently there is one majestic monolith service. Preconfigured to connect stand
 
 ## API
 
-| | | | | |
+| | Request | | Response | |
 | --- | --- | --- | --- | --- |
-| | Session | | Response | |
+| | Session | | | |
 |client | open session | internal | / | / |
 |client/server | close session | internal | / | / |
 |client | SESSIONC | NetSessionCreate | R_SESSIO | NetSession |
