@@ -2,7 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/add_offer/add_business_offer_page.dart';
+import 'package:inf/ui/offer_add/add_business_offer_page.dart';
 import 'package:inf/ui/main/activities_section.dart';
 import 'package:inf/ui/main/bottom_nav.dart';
 import 'package:inf/ui/main/browse_section.dart';

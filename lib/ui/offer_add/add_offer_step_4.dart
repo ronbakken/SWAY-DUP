@@ -6,6 +6,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_radio_button.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 
@@ -308,53 +309,3 @@ class _TimeFormFieldState extends State<_TimeFormField> {
   }
 }
 
-class InfRadioButton<T> extends StatelessWidget {
-  final T value;
-  final T groupValue;
-  final String label;
-  final ValueChanged<T> onChanged;
-
-  const InfRadioButton({Key key, this.value, this.groupValue, this.label, this.onChanged}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onChanged(value),
-      child: Container(
-        decoration: BoxDecoration(
-          color: value == groupValue ? AppTheme.radioButtonBgSelected : AppTheme.radioButtonBgUnselected,
-          borderRadius: BorderRadius.all(const Radius.circular(5.0)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 32.0,
-                height: 32.0,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2.0,
-                    color: AppTheme.grey,
-                  ),
-                  shape: BoxShape.circle,
-                  color: value == groupValue ? AppTheme.lightBlue : AppTheme.darkGrey,
-                ),
-                child: value == groupValue
-                    ? Icon(
-                        Icons.check,
-                        size: 24,
-                      )
-                    : SizedBox(),
-              ),
-              Text(label),
-              HelpButton(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}

@@ -4,7 +4,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/offer_list_tile.dart';
 import 'package:inf/ui/main/main_page.dart';
-import 'package:inf/ui/offers/offer_details_page.dart';
+import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
 import 'package:rxdart/rxdart.dart';
 
