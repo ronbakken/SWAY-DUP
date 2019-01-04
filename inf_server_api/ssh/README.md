@@ -1,1 +1,0 @@
-The configuration in this folder is used for deployment keys only. These keys may give read-only access to git repositories that the server build depends on.
