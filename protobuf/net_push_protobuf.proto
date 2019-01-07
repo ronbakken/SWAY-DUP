@@ -9,8 +9,11 @@ syntax = "proto3";
 package inf_common;
 option csharp_namespace = "InfCommon";
 
-// import 'enum_protobuf.proto';
-// import 'data_protobuf.proto';
+import 'enum_protobuf.proto';
+import 'data_protobuf.proto';
+import 'net_account_protobuf.proto';
+import 'net_offer_protobuf.proto';
+import 'net_proposal_protobuf.proto';
 
 // Server notifies client of new DataProposal (An influencer has applied for your offer!)
 // NOTE: This is accompanied by a MARKER DataProposalChat, the chat marker provides notification
@@ -28,5 +31,20 @@ option csharp_namespace = "InfCommon";
 // Server updates DataProposalChat (loading)
 // Id: LU_A_CHA
 // Data: DataProposalChat
+
+message NetListen {
+    // empty
+}
+
+message NetPush {
+    oneof push {
+        NetAccount updateAccount = 1;
+        NetOffer updateOffer = 2;
+        NetProposal newProposal = 3; // Notifies new proposal by other user
+        NetProposal updateProposal = 4;
+        NetProposalChat newProposalChat = 5; // Notifies new chat by other user
+        NetProposalChat updateProposalChat = 6;
+    }
+}
 
 /* end of file */
