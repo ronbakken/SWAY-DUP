@@ -10,7 +10,7 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'data_protobuf.pb.dart' as $1;
+import 'data_protobuf.pb.dart' as $3;
 
 class NetGetProfile extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProfile',
@@ -50,8 +50,8 @@ class NetGetProfile extends $pb.GeneratedMessage {
 class NetProfile extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProfile',
       package: const $pb.PackageName('inf_common'))
-    ..a<$1.DataAccount>(1, 'account', $pb.PbFieldType.OM,
-        $1.DataAccount.getDefault, $1.DataAccount.create)
+    ..a<$3.DataAccount>(1, 'account', $pb.PbFieldType.OM,
+        $3.DataAccount.getDefault, $3.DataAccount.create)
     ..aOB(3, 'summary')
     ..aOB(4, 'detail')
     ..hasRequiredFields = false;
@@ -76,8 +76,8 @@ class NetProfile extends $pb.GeneratedMessage {
     if (v is! NetProfile) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $1.DataAccount get account => $_getN(0);
-  set account($1.DataAccount v) {
+  $3.DataAccount get account => $_getN(0);
+  set account($3.DataAccount v) {
     setField(1, v);
   }
 

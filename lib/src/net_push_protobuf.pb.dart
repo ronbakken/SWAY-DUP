@@ -9,9 +9,9 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'net_account_protobuf.pb.dart' as $2;
-import 'net_offer_protobuf.pb.dart' as $3;
-import 'net_proposal_protobuf.pb.dart' as $4;
+import 'net_account_protobuf.pb.dart' as $0;
+import 'net_offer_protobuf.pb.dart' as $4;
+import 'net_proposal_protobuf.pb.dart' as $5;
 
 class NetListen extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetListen',
@@ -38,21 +38,41 @@ class NetListen extends $pb.GeneratedMessage {
   }
 }
 
+enum NetPush_Push {
+  updateAccount,
+  updateOffer,
+  newProposal,
+  updateProposal,
+  newProposalChat,
+  updateProposalChat,
+  notSet
+}
+
 class NetPush extends $pb.GeneratedMessage {
+  static const Map<int, NetPush_Push> _NetPush_PushByTag = {
+    1: NetPush_Push.updateAccount,
+    2: NetPush_Push.updateOffer,
+    3: NetPush_Push.newProposal,
+    4: NetPush_Push.updateProposal,
+    5: NetPush_Push.newProposalChat,
+    6: NetPush_Push.updateProposalChat,
+    0: NetPush_Push.notSet
+  };
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetPush',
       package: const $pb.PackageName('inf_common'))
-    ..a<$2.NetAccount>(1, 'updateAccount', $pb.PbFieldType.OM,
-        $2.NetAccount.getDefault, $2.NetAccount.create)
-    ..a<$3.NetOffer>(2, 'updateOffer', $pb.PbFieldType.OM,
-        $3.NetOffer.getDefault, $3.NetOffer.create)
-    ..a<$4.NetProposal>(3, 'newProposal', $pb.PbFieldType.OM,
-        $4.NetProposal.getDefault, $4.NetProposal.create)
-    ..a<$4.NetProposal>(4, 'updateProposal', $pb.PbFieldType.OM,
-        $4.NetProposal.getDefault, $4.NetProposal.create)
-    ..a<$4.NetProposalChat>(5, 'newProposalChat', $pb.PbFieldType.OM,
-        $4.NetProposalChat.getDefault, $4.NetProposalChat.create)
-    ..a<$4.NetProposalChat>(6, 'updateProposalChat', $pb.PbFieldType.OM,
-        $4.NetProposalChat.getDefault, $4.NetProposalChat.create)
+    ..a<$0.NetAccount>(1, 'updateAccount', $pb.PbFieldType.OM,
+        $0.NetAccount.getDefault, $0.NetAccount.create)
+    ..a<$4.NetOffer>(2, 'updateOffer', $pb.PbFieldType.OM,
+        $4.NetOffer.getDefault, $4.NetOffer.create)
+    ..a<$5.NetProposal>(3, 'newProposal', $pb.PbFieldType.OM,
+        $5.NetProposal.getDefault, $5.NetProposal.create)
+    ..a<$5.NetProposal>(4, 'updateProposal', $pb.PbFieldType.OM,
+        $5.NetProposal.getDefault, $5.NetProposal.create)
+    ..a<$5.NetProposalChat>(5, 'newProposalChat', $pb.PbFieldType.OM,
+        $5.NetProposalChat.getDefault, $5.NetProposalChat.create)
+    ..a<$5.NetProposalChat>(6, 'updateProposalChat', $pb.PbFieldType.OM,
+        $5.NetProposalChat.getDefault, $5.NetProposalChat.create)
+    ..oo(0, [1, 2, 3, 4, 5, 6])
     ..hasRequiredFields = false;
 
   NetPush() : super();
@@ -74,48 +94,51 @@ class NetPush extends $pb.GeneratedMessage {
     if (v is! NetPush) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $2.NetAccount get updateAccount => $_getN(0);
-  set updateAccount($2.NetAccount v) {
+  NetPush_Push whichPush() => _NetPush_PushByTag[$_whichOneof(0)];
+  void clearPush() => clearField($_whichOneof(0));
+
+  $0.NetAccount get updateAccount => $_getN(0);
+  set updateAccount($0.NetAccount v) {
     setField(1, v);
   }
 
   bool hasUpdateAccount() => $_has(0);
   void clearUpdateAccount() => clearField(1);
 
-  $3.NetOffer get updateOffer => $_getN(1);
-  set updateOffer($3.NetOffer v) {
+  $4.NetOffer get updateOffer => $_getN(1);
+  set updateOffer($4.NetOffer v) {
     setField(2, v);
   }
 
   bool hasUpdateOffer() => $_has(1);
   void clearUpdateOffer() => clearField(2);
 
-  $4.NetProposal get newProposal => $_getN(2);
-  set newProposal($4.NetProposal v) {
+  $5.NetProposal get newProposal => $_getN(2);
+  set newProposal($5.NetProposal v) {
     setField(3, v);
   }
 
   bool hasNewProposal() => $_has(2);
   void clearNewProposal() => clearField(3);
 
-  $4.NetProposal get updateProposal => $_getN(3);
-  set updateProposal($4.NetProposal v) {
+  $5.NetProposal get updateProposal => $_getN(3);
+  set updateProposal($5.NetProposal v) {
     setField(4, v);
   }
 
   bool hasUpdateProposal() => $_has(3);
   void clearUpdateProposal() => clearField(4);
 
-  $4.NetProposalChat get newProposalChat => $_getN(4);
-  set newProposalChat($4.NetProposalChat v) {
+  $5.NetProposalChat get newProposalChat => $_getN(4);
+  set newProposalChat($5.NetProposalChat v) {
     setField(5, v);
   }
 
   bool hasNewProposalChat() => $_has(4);
   void clearNewProposalChat() => clearField(5);
 
-  $4.NetProposalChat get updateProposalChat => $_getN(5);
-  set updateProposalChat($4.NetProposalChat v) {
+  $5.NetProposalChat get updateProposalChat => $_getN(5);
+  set updateProposalChat($5.NetProposalChat v) {
     setField(6, v);
   }
 

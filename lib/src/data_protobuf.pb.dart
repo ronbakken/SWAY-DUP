@@ -10,7 +10,7 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'enum_protobuf.pbenum.dart' as $0;
+import 'enum_protobuf.pbenum.dart' as $2;
 
 class DataSocialMedia extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataSocialMedia',
@@ -371,15 +371,15 @@ class DataOffer extends $pb.GeneratedMessage {
     ..aOS(6, 'thumbnailUrl')
     ..aOS(9, 'locationAddress')
     ..pPS(10, 'coverUrls')
-    ..e<$0.OfferState>(12, 'state', $pb.PbFieldType.OE, $0.OfferState.draft,
-        $0.OfferState.valueOf, $0.OfferState.values)
-    ..e<$0.OfferStateReason>(
+    ..e<$2.OfferState>(12, 'state', $pb.PbFieldType.OE, $2.OfferState.draft,
+        $2.OfferState.valueOf, $2.OfferState.values)
+    ..e<$2.OfferStateReason>(
         13,
         'stateReason',
         $pb.PbFieldType.OE,
-        $0.OfferStateReason.newOffer,
-        $0.OfferStateReason.valueOf,
-        $0.OfferStateReason.values)
+        $2.OfferStateReason.newOffer,
+        $2.OfferStateReason.valueOf,
+        $2.OfferStateReason.values)
     ..a<double>(18, 'latitude', $pb.PbFieldType.OD)
     ..a<double>(19, 'longitude', $pb.PbFieldType.OD)
     ..aOS(21, 'senderName')
@@ -403,8 +403,8 @@ class DataOffer extends $pb.GeneratedMessage {
     ..a<int>(42, 'proposalsDispute', $pb.PbFieldType.O3)
     ..a<int>(43, 'proposalsResolved', $pb.PbFieldType.O3)
     ..a<int>(44, 'proposalsComplete', $pb.PbFieldType.O3)
-    ..e<$0.AccountType>(45, 'senderAccountType', $pb.PbFieldType.OE,
-        $0.AccountType.unknown, $0.AccountType.valueOf, $0.AccountType.values)
+    ..e<$2.AccountType>(45, 'senderAccountType', $pb.PbFieldType.OE,
+        $2.AccountType.unknown, $2.AccountType.valueOf, $2.AccountType.values)
     ..aOB(46, 'acceptMatchingProposals')
     ..aOB(47, 'allowNegotiatingProposals')
     ..a<int>(48, 'amountOffered', $pb.PbFieldType.O3)
@@ -490,16 +490,16 @@ class DataOffer extends $pb.GeneratedMessage {
 
   List<String> get coverUrls => $_getList(7);
 
-  $0.OfferState get state => $_getN(8);
-  set state($0.OfferState v) {
+  $2.OfferState get state => $_getN(8);
+  set state($2.OfferState v) {
     setField(12, v);
   }
 
   bool hasState() => $_has(8);
   void clearState() => clearField(12);
 
-  $0.OfferStateReason get stateReason => $_getN(9);
-  set stateReason($0.OfferStateReason v) {
+  $2.OfferStateReason get stateReason => $_getN(9);
+  set stateReason($2.OfferStateReason v) {
     setField(13, v);
   }
 
@@ -658,8 +658,8 @@ class DataOffer extends $pb.GeneratedMessage {
   bool hasProposalsComplete() => $_has(31);
   void clearProposalsComplete() => clearField(44);
 
-  $0.AccountType get senderAccountType => $_getN(32);
-  set senderAccountType($0.AccountType v) {
+  $2.AccountType get senderAccountType => $_getN(32);
+  set senderAccountType($2.AccountType v) {
     setField(45, v);
   }
 
@@ -854,31 +854,31 @@ class DataAccount extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..aInt64(4, 'sessionId')
     ..aInt64(5, 'accountId')
-    ..e<$0.AccountType>(6, 'accountType', $pb.PbFieldType.OE,
-        $0.AccountType.unknown, $0.AccountType.valueOf, $0.AccountType.values)
-    ..e<$0.GlobalAccountState>(
+    ..e<$2.AccountType>(6, 'accountType', $pb.PbFieldType.OE,
+        $2.AccountType.unknown, $2.AccountType.valueOf, $2.AccountType.values)
+    ..e<$2.GlobalAccountState>(
         7,
         'globalAccountState',
         $pb.PbFieldType.OE,
-        $0.GlobalAccountState.initialize,
-        $0.GlobalAccountState.valueOf,
-        $0.GlobalAccountState.values)
-    ..e<$0.GlobalAccountStateReason>(
+        $2.GlobalAccountState.initialize,
+        $2.GlobalAccountState.valueOf,
+        $2.GlobalAccountState.values)
+    ..e<$2.GlobalAccountStateReason>(
         8,
         'globalAccountStateReason',
         $pb.PbFieldType.OE,
-        $0.GlobalAccountStateReason.newAccount,
-        $0.GlobalAccountStateReason.valueOf,
-        $0.GlobalAccountStateReason.values)
-    ..e<$0.AccountLevel>(9, 'accountLevel', $pb.PbFieldType.OE,
-        $0.AccountLevel.free, $0.AccountLevel.valueOf, $0.AccountLevel.values)
-    ..e<$0.NotificationFlags>(
+        $2.GlobalAccountStateReason.newAccount,
+        $2.GlobalAccountStateReason.valueOf,
+        $2.GlobalAccountStateReason.values)
+    ..e<$2.AccountLevel>(9, 'accountLevel', $pb.PbFieldType.OE,
+        $2.AccountLevel.free, $2.AccountLevel.valueOf, $2.AccountLevel.values)
+    ..e<$2.NotificationFlags>(
         10,
         'notificationFlags',
         $pb.PbFieldType.OE,
-        $0.NotificationFlags.accountState,
-        $0.NotificationFlags.valueOf,
-        $0.NotificationFlags.values)
+        $2.NotificationFlags.accountState,
+        $2.NotificationFlags.valueOf,
+        $2.NotificationFlags.values)
     ..aOS(11, 'firebaseToken')
     ..aOS(12, 'name')
     ..aOS(13, 'description')
@@ -937,40 +937,40 @@ class DataAccount extends $pb.GeneratedMessage {
   bool hasAccountId() => $_has(1);
   void clearAccountId() => clearField(5);
 
-  $0.AccountType get accountType => $_getN(2);
-  set accountType($0.AccountType v) {
+  $2.AccountType get accountType => $_getN(2);
+  set accountType($2.AccountType v) {
     setField(6, v);
   }
 
   bool hasAccountType() => $_has(2);
   void clearAccountType() => clearField(6);
 
-  $0.GlobalAccountState get globalAccountState => $_getN(3);
-  set globalAccountState($0.GlobalAccountState v) {
+  $2.GlobalAccountState get globalAccountState => $_getN(3);
+  set globalAccountState($2.GlobalAccountState v) {
     setField(7, v);
   }
 
   bool hasGlobalAccountState() => $_has(3);
   void clearGlobalAccountState() => clearField(7);
 
-  $0.GlobalAccountStateReason get globalAccountStateReason => $_getN(4);
-  set globalAccountStateReason($0.GlobalAccountStateReason v) {
+  $2.GlobalAccountStateReason get globalAccountStateReason => $_getN(4);
+  set globalAccountStateReason($2.GlobalAccountStateReason v) {
     setField(8, v);
   }
 
   bool hasGlobalAccountStateReason() => $_has(4);
   void clearGlobalAccountStateReason() => clearField(8);
 
-  $0.AccountLevel get accountLevel => $_getN(5);
-  set accountLevel($0.AccountLevel v) {
+  $2.AccountLevel get accountLevel => $_getN(5);
+  set accountLevel($2.AccountLevel v) {
     setField(9, v);
   }
 
   bool hasAccountLevel() => $_has(5);
   void clearAccountLevel() => clearField(9);
 
-  $0.NotificationFlags get notificationFlags => $_getN(6);
-  set notificationFlags($0.NotificationFlags v) {
+  $2.NotificationFlags get notificationFlags => $_getN(6);
+  set notificationFlags($2.NotificationFlags v) {
     setField(10, v);
   }
 
@@ -1332,13 +1332,13 @@ class DataProposal extends $pb.GeneratedMessage {
     ..aOB(10, 'businessMarkedRewarded')
     ..a<int>(11, 'businessGaveRating', $pb.PbFieldType.O3)
     ..a<int>(12, 'influencerGaveRating', $pb.PbFieldType.O3)
-    ..e<$0.ProposalState>(
+    ..e<$2.ProposalState>(
         13,
         'state',
         $pb.PbFieldType.OE,
-        $0.ProposalState.proposing,
-        $0.ProposalState.valueOf,
-        $0.ProposalState.values)
+        $2.ProposalState.proposing,
+        $2.ProposalState.valueOf,
+        $2.ProposalState.values)
     ..aOB(14, 'businessDisputed')
     ..aOB(15, 'influencerDisputed')
     ..aInt64(16, 'businessAccountId')
@@ -1473,8 +1473,8 @@ class DataProposal extends $pb.GeneratedMessage {
   bool hasInfluencerGaveRating() => $_has(11);
   void clearInfluencerGaveRating() => clearField(12);
 
-  $0.ProposalState get state => $_getN(12);
-  set state($0.ProposalState v) {
+  $2.ProposalState get state => $_getN(12);
+  set state($2.ProposalState v) {
     setField(13, v);
   }
 
@@ -1618,13 +1618,13 @@ class DataProposalChat extends $pb.GeneratedMessage {
     ..aOS(5, 'plainText')
     ..a<int>(6, 'senderSessionGhostId', $pb.PbFieldType.O3)
     ..aInt64(7, 'chatId')
-    ..e<$0.ProposalChatType>(
+    ..e<$2.ProposalChatType>(
         8,
         'type',
         $pb.PbFieldType.OE,
-        $0.ProposalChatType.plain,
-        $0.ProposalChatType.valueOf,
-        $0.ProposalChatType.values)
+        $2.ProposalChatType.plain,
+        $2.ProposalChatType.valueOf,
+        $2.ProposalChatType.values)
     ..aInt64(10, 'sent')
     ..aInt64(11, 'senderSessionId')
     ..a<DataTerms>(
@@ -1632,13 +1632,13 @@ class DataProposalChat extends $pb.GeneratedMessage {
     ..aOS(13, 'imageKey')
     ..aOS(14, 'imageUrl')
     ..a<List<int>>(15, 'imageBlurred', $pb.PbFieldType.OY)
-    ..e<$0.ProposalChatMarker>(
+    ..e<$2.ProposalChatMarker>(
         16,
         'marker',
         $pb.PbFieldType.OE,
-        $0.ProposalChatMarker.applied,
-        $0.ProposalChatMarker.valueOf,
-        $0.ProposalChatMarker.values)
+        $2.ProposalChatMarker.applied,
+        $2.ProposalChatMarker.valueOf,
+        $2.ProposalChatMarker.values)
     ..hasRequiredFields = false;
 
   DataProposalChat() : super();
@@ -1702,8 +1702,8 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasChatId() => $_has(4);
   void clearChatId() => clearField(7);
 
-  $0.ProposalChatType get type => $_getN(5);
-  set type($0.ProposalChatType v) {
+  $2.ProposalChatType get type => $_getN(5);
+  set type($2.ProposalChatType v) {
     setField(8, v);
   }
 
@@ -1758,8 +1758,8 @@ class DataProposalChat extends $pb.GeneratedMessage {
   bool hasImageBlurred() => $_has(11);
   void clearImageBlurred() => clearField(15);
 
-  $0.ProposalChatMarker get marker => $_getN(12);
-  set marker($0.ProposalChatMarker v) {
+  $2.ProposalChatMarker get marker => $_getN(12);
+  set marker($2.ProposalChatMarker v) {
     setField(16, v);
   }
 

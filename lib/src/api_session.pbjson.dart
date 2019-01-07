@@ -3,7 +3,3 @@
 //  source: api_session.proto
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
-
-const ApiSessionServiceBase$json = const {'1': 'ApiSession'};
-
-const ApiSessionServiceBase$messageJson = const {};

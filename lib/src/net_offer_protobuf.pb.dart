@@ -10,13 +10,13 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'data_protobuf.pb.dart' as $1;
+import 'data_protobuf.pb.dart' as $3;
 
 class NetOffer extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOffer',
       package: const $pb.PackageName('inf_common'))
-    ..a<$1.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $1.DataOffer.getDefault,
-        $1.DataOffer.create)
+    ..a<$3.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $3.DataOffer.getDefault,
+        $3.DataOffer.create)
     ..aOB(2, 'state')
     ..aOB(3, 'summary')
     ..aOB(4, 'detail')
@@ -41,8 +41,8 @@ class NetOffer extends $pb.GeneratedMessage {
     if (v is! NetOffer) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $1.DataOffer get offer => $_getN(0);
-  set offer($1.DataOffer v) {
+  $3.DataOffer get offer => $_getN(0);
+  set offer($3.DataOffer v) {
     setField(1, v);
   }
 
@@ -77,8 +77,8 @@ class NetOffer extends $pb.GeneratedMessage {
 class NetCreateOffer extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetCreateOffer',
       package: const $pb.PackageName('inf_common'))
-    ..a<$1.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $1.DataOffer.getDefault,
-        $1.DataOffer.create)
+    ..a<$3.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $3.DataOffer.getDefault,
+        $3.DataOffer.create)
     ..hasRequiredFields = false;
 
   NetCreateOffer() : super();
@@ -101,8 +101,8 @@ class NetCreateOffer extends $pb.GeneratedMessage {
     if (v is! NetCreateOffer) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $1.DataOffer get offer => $_getN(0);
-  set offer($1.DataOffer v) {
+  $3.DataOffer get offer => $_getN(0);
+  set offer($3.DataOffer v) {
     setField(1, v);
   }
 
