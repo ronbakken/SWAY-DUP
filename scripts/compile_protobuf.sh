@@ -11,7 +11,6 @@ git add *
 git commit -m "Update protobuf"
 
 cd protobuf
-protoc --dart_out=../lib/src/ *.proto
 protoc --dart_out=grpc:../lib/src/ *.proto
 # protoc --csharp_out=./cs/ *.proto
 cd ../lib/src/
