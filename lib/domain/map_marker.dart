@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:inf/domain/user.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 enum MapMarkerType { cluster, user, offer }
 
@@ -32,7 +32,7 @@ class MapMarker {
 
   // only valid for type user
   final int userId;
-  final AccountType userType;
+  final UserType userType;
 
   MapMarker({
     this.id,

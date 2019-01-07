@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/domain/category.dart';
+
 import 'package:inf/utils/selection_set.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class CategorySelector extends StatefulWidget {
   final Category topLevelCategory;

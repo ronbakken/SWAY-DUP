@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class CheckEmailPopUp extends StatelessWidget {
-  final AccountType userType;
+  final UserType userType;
   final String email;
 
   const CheckEmailPopUp({Key key, this.userType, @required this.email})
@@ -12,10 +13,10 @@ class CheckEmailPopUp extends StatelessWidget {
   Widget build(BuildContext context) {
     String headline2;
     switch (userType) {
-      case AccountType.influencer:
+      case UserType.influencer:
         headline2 = 'INFLUENCER ACCOUNT';
         break;
-      case AccountType.business:
+      case UserType.business:
         headline2 = 'BUSINESS ACCOUNT';
         break;
       default:

@@ -13,6 +13,7 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class WelcomePage extends PageWidget {
   static Route<dynamic> route() {
@@ -75,14 +76,14 @@ class _WelcomePageState extends PageState<WelcomePage> {
                           text: 'I AM AN INFLUENCER',
                           color: AppTheme.blue,
                           onPressed: () =>
-                              Navigator.of(context).push(OnBoardingPage.route(userType: AccountType.influencer)),
+                              Navigator.of(context).push(OnBoardingPage.route(userType: UserType.influencer)),
                         ),
                         SizedBox(height: 12.0),
                         InfStadiumButton(
                           text: 'I NEED AN INFLUENCER',
                           color: AppTheme.red,
                           onPressed: () =>
-                              Navigator.of(context).push(OnBoardingPage.route(userType: AccountType.business)),
+                              Navigator.of(context).push(OnBoardingPage.route(userType: UserType.business)),
                         ),
                       ],
                     ),

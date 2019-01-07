@@ -9,6 +9,7 @@ import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/onboarding_pager.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 const _kOnBoardingAssets = const <AppAsset>[
   AppImages.onBoarding1,
@@ -17,9 +18,9 @@ const _kOnBoardingAssets = const <AppAsset>[
 ];
 
 class OnBoardingPage extends StatefulWidget {
-  final AccountType userType;
+  final UserType userType;
 
-  static Route<dynamic> route({AccountType userType}) {
+  static Route<dynamic> route({UserType userType}) {
     return FadePageRoute(
       builder: (context) => OnBoardingPage(userType: userType),
     );

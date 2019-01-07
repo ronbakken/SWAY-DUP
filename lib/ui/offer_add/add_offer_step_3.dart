@@ -10,6 +10,7 @@ import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 
 import 'package:inf/ui/widgets/multipage_wizard.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class AddOfferStep3 extends StatefulWidget {
   const AddOfferStep3({

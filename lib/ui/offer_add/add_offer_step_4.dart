@@ -7,6 +7,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_radio_button.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 import 'package:intl/intl.dart';
 

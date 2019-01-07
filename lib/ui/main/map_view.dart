@@ -5,6 +5,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:latlong/latlong.dart';
 
 class MainMapView extends StatefulWidget {
@@ -77,7 +78,7 @@ class _MainMapViewState extends State<MainMapView> {
         if (mapMarker.isDirectOffer ?? false) {
           markerAsset = AppIcons.mapMarkerDirectOffer;
         } else if (mapMarker.userType != null &&
-            mapMarker.userType == AccountType.business) {
+            mapMarker.userType == UserType.business) {
           markerAsset = AppIcons.mapMarkerBusiness;
         } else {
           markerAsset = AppIcons.mapMarker;

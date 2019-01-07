@@ -15,6 +15,7 @@ import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
 import 'package:inf/ui/widgets/social_network_toggle_button.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class AddOfferStep2 extends StatefulWidget {
   const AddOfferStep2({
@@ -181,7 +182,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
     return ListenableBuilder(
       listenable: categories,
       builder: (context, widget) {
-        final topLevelCategories = backend.get<ResourceService>().categories.where((item) => item.parentId == null);
+        final topLevelCategories = backend.get<ResourceService>().categories.where((item) => item.parentId == -1);
         final rowItems = <Widget>[];
         for (var topLevelCategory in topLevelCategories) {
           rowItems.add(
@@ -246,13 +247,11 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
   Widget buildSocialPlatformRow() {
     var rowContent = <Widget>[];
     for (var provider in backend.get<ResourceService>().socialNetworkProviders) {
-      if (provider.canBeUsedAsFilter) {
         rowContent.add(SocialNetworkToggleButton(
           onTap: () => setState(() => widget.offerBuilder.channels.toggle(provider)),
           isSelected: widget.offerBuilder.channels.contains(provider),
           provider: provider,
         ));
-      }
     }
     return OverflowRow(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),

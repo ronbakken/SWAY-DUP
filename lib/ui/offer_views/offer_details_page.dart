@@ -13,6 +13,7 @@ import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -457,7 +458,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     child: RaisedButton(
                       onPressed: () => Navigator.of(context)
                         ..push(SignUpPage.route(
-                            userType: AccountType.influencer, topPadding: 0)),
+                            userType: UserType.influencer, topPadding: 0)),
                       shape: const StadiumBorder(),
                       child: Container(
                         alignment: Alignment.center,
@@ -478,7 +479,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                       child: InkWell(
                         onTap: () => Navigator.of(context)
                           ..push(SignUpPage.route(
-                              userType: AccountType.influencer, topPadding: 0)),
+                              userType: UserType.influencer, topPadding: 0)),
                         child: Text(
                           'ALREADY A MEMBER? LOGIN',
                           textAlign: TextAlign.center,

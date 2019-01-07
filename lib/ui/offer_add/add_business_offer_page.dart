@@ -9,18 +9,19 @@ import 'package:inf/ui/offer_add/add_offer_step_4.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class AddBusinessOfferPage extends PageWidget {
   AddBusinessOfferPage({Key key, this.userType}) : super(key: key);
 
-  static Route<dynamic> route(AccountType userType) {
+  static Route<dynamic> route(UserType userType) {
     return FadePageRoute(
       builder: (BuildContext context) =>
           AddBusinessOfferPage(userType: userType),
     );
   }
 
-  final AccountType userType;
+  final UserType userType;
 
   @override
   _AddBusinessOfferPageState createState() => _AddBusinessOfferPageState();

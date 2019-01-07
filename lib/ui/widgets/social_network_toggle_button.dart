@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class SocialNetworkToggleButton extends StatelessWidget {
   final SocialNetworkProvider provider;
@@ -17,7 +18,7 @@ class SocialNetworkToggleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BoxDecoration logoDecoration;
-    if (provider.logoBackgroundData != null) {
+    if (provider.logoBackgroundData.isNotEmpty) {
       logoDecoration = BoxDecoration(
         image: DecorationImage(
           image: MemoryImage(provider.logoBackgroundData),

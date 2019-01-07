@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:inf/domain/domain.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 enum BusinessOfferState {
   draft,

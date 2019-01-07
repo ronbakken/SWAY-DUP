@@ -1,8 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:inf/domain/business_offer.dart';
-import 'package:inf/domain/deliverable.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/reward.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 enum OfferFilterAspect {
   offeringBusinessId,

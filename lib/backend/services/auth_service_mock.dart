@@ -1,11 +1,13 @@
+import 'dart:async';
+
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/widgets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/location.dart';
-import 'package:inf/domain/social_network_provider.dart';
-import 'package:inf/network_generic/multi_account_client.dart';
+import 'package:inf_api_client/inf_api_client.dart';
+
 import 'package:rxdart/rxdart.dart';
 
 import 'package:inf/backend/services/auth_service_.dart';
@@ -16,9 +18,9 @@ import 'package:inf/backend/services/auth_service_.dart';
 
 class AuthenticationServiceMock implements AuthenticationService {
   bool isLoggedIn;
-  AccountType userType;
+  UserType userType;
   SocialNetworkProvider provider;
-  GlobalAccountStateReason accountState;
+  AccountState accountState;
   bool isVerified;
   int currentUserIndex;
 
@@ -33,7 +35,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   AuthenticationServiceMock({
     this.isLoggedIn,
     this.isVerified = true,
-    this.accountState = GlobalAccountStateReason.approved,
+    this.accountState = AccountState.active,
     this.currentUserIndex = 0,
   });
 
@@ -67,7 +69,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   final _loginStateSubject = BehaviorSubject<AuthenticationResult>();
 
   @override
-  Future<void> loginAnonymous(AccountType userType) async {
+  Future<void> loginAnonymous(UserType userType) async {
     _loginStateSubject.add(AuthenticationResult(
       state: AuthenticationState.anonymous,
     ));
@@ -89,7 +91,7 @@ class AuthenticationServiceMock implements AuthenticationService {
     }
   }
 
-  void login(AccountType userType) async {
+  void login(UserType userType) async {
     isLoggedIn = true;
     _loginStateSubject.add(AuthenticationResult(
         state: AuthenticationState.waitingForActivation,
@@ -99,7 +101,7 @@ class AuthenticationServiceMock implements AuthenticationService {
     _loginStateSubject.add(AuthenticationResult(
         state: AuthenticationState.success,
         provider: provider,
-        user: userType == AccountType.influencer
+        user: userType == UserType.influencer
             ? allLinkedAccounts[1]
             : allLinkedAccounts[0]));
   }
@@ -107,7 +109,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   @override
   Future<void> loginWithSocialNetWork(
       BuildContext context, // Since this function is expecting UI to pop up...
-      AccountType userType,
+      UserType userType,
       SocialNetworkProvider socialNetwork) {
     // TODO: implement loginWithSocialNetWork
     login(userType);
@@ -129,142 +131,138 @@ class AuthenticationServiceMock implements AuthenticationService {
     ));
   }
 
-  @override
-  Observable<List<LocalAccountData>> get linkedAccounts {
-    // TODO: implement getAllLinkedAccounts
-    return Observable<List<LocalAccountData>>.empty();
-  }
+  // @override
+  // Observable<List<LocalAccountData>> get linkedAccounts {
+  //   // TODO: implement getAllLinkedAccounts
+  //   return Observable<List<LocalAccountData>>.empty();
+  // }
 
-  @override
-  Future<void> switchToUserAccount(LocalAccountData user) async {
-    // TODO: implement switchToUserAccount
-  }
+  // @override
+  // Future<void> switchToUserAccount(LocalAccountData user) async {
+  //   // TODO: implement switchToUserAccount
+  // }
 
   Future<void> loadMockData() async {
     var socialNetWorks = backend.get<ResourceService>().socialNetworkProviders;
     allLinkedAccounts = [
-      User(
-          id: new Int64(42),
-          showLocation: true,
-          acceptsDirectOffers: true,
-          name: 'Thomas',
-          userType: AccountType.business,
-          avatarUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1',
-          avatarThumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          avatarThumbnailLowRes: (await rootBundle
+      User()
+          ..id = 42
+          ..showLocation = true
+          ..acceptsDirectOffers= true
+          ..name= 'Thomas'
+          ..userType= UserType.business
+          ..avatarUrl=
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1'
+          ..avatarThumbnailUrl=
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741'
+          ..avatarThumbnailLowRes= (await rootBundle
                   .load('assets/mockdata/profile_thumbnail_lowres.jpg'))
               .buffer
-              .asUint8List(),
-          avatarLowRes:
+              .asUint8List()
+          ..avatarLowRes =
               (await rootBundle.load('assets/mockdata/profile_lowres.jpg'))
                   .buffer
-                  .asUint8List(),
-          accountStateReason: accountState,
-          categories: [
-            Category(
-                id: 1,
-                name: 'Food',
-                description: 'All about Fashion',
-                parentId: 0)
-          ],
-          description: 'I run a online store for baking utilities',
-          email: 'thomas@burkharts.net',
-          locationAsString: 'Germany',
-          location: Location(
-            id: 1,
-            latitude: 34.050863,
-            longitude: -118.272657,
-            activeOfferCount: 0,
-          ),
-          verified: isVerified,
-          websiteUrl: 'www.google.com',
-          socialMediaAccounts: [
-            SocialMediaAccount(
-              id: 1,
-              isActive: true,
-              socialNetWorkProvider: socialNetWorks[0],
-              url: 'https://twitter.com/ThomasBurkhartB',
-              displayName: 'Thomas Burkhart',
-              description: 'The best online shop for baking',
-              followersCount: 900,
-            )
+                  .asUint8List()
+          ..accountState= accountState
+          ..categories.addAll( [
+            Category()
+                ..id= 1
+                ..name= 'Food'
+                ..description= 'All about Fashion'
+                ..parentId= -1
+          ])
+          ..description= 'I run a online store for baking utilities'
+          ..email= 'thomas@burkharts.net'
+          ..locationAsString= 'Germany'
+          // ..location: Location(
+          //   id: 1
+          //   latitude: 34.050863
+          //   longitude: -118.272657
+          //   activeOfferCount: 0
+          // )
+          ..verified= isVerified
+          ..websiteUrl= 'www.google.com'
+          ..socialMediaAccounts.addAll( [
+            SocialMediaAccount()
+              ..id= 1
+              ..isActive= true
+              ..socialNetworkProviderId = 0
+              ..url= 'https=//twitter.com/ThomasBurkhartB'
+              ..displayName= 'Thomas Burkhart'
+              ..description= 'The best online shop for baking'
+              ..followersCount= 900
+            
           ]),
-      User(
-          id: new Int64(43),
-          name: 'Thomas',
-          showLocation: true,
-          acceptsDirectOffers: true,
-          userType: AccountType.influencer,
-          avatarUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1',
-          avatarThumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          avatarThumbnailLowRes: (await rootBundle
+      User()
+          ..id= 43
+          ..name= 'Thomas'
+          ..showLocation= true
+          ..acceptsDirectOffers= true
+          ..userType= UserType.influencer
+          ..avatarUrl=
+              'https=//firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1'
+          ..avatarThumbnailUrl=
+              'https=//firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741'
+          ..avatarThumbnailLowRes= (await rootBundle
                   .load('assets/mockdata/profile_thumbnail_lowres.jpg'))
               .buffer
-              .asUint8List(),
-          avatarLowRes:
+              .asUint8List()
+          ..avatarLowRes=
               (await rootBundle.load('assets/mockdata/profile_lowres.jpg'))
                   .buffer
-                  .asUint8List(),
-          accountStateReason: accountState,
-          categories: [
-            Category(
-                id: 1,
-                name: 'Food',
-                description: 'All about Fashion',
-                parentId: 0)
-          ],
-          description: 'I run a online store for baking utilities',
-          email: 'thomas@burkharts.net',
-          locationAsString: 'Germany',
-          location: Location(
-            id: 1,
-            latitude: 34.050863,
-            longitude: -118.272657,
-            activeOfferCount: 0,
-          ),
-          verified: isVerified,
-          websiteUrl: 'www.google.com',
-          socialMediaAccounts: [
-            SocialMediaAccount(
-              id: 1,
-              isActive: true,
-              socialNetWorkProvider: socialNetWorks[0],
-              url: 'https://twitter.com/ThomasBurkhartB',
-              displayName: 'Thomas Burkhart',
-              description: 'The best online shop for baking',
-              followersCount: 900,
-            ),
-            SocialMediaAccount(
-              id: 2,
-              isActive: false,
-              socialNetWorkProvider: socialNetWorks[1],
-              url: 'https://twitter.com/ThomasBurkhartB',
-              displayName: 'Thomas Burkhart',
-              description: 'The best online shop for baking',
-              followersCount: 900,
-            ),
-            SocialMediaAccount(
-              id: 3,
-              isActive: true,
-              socialNetWorkProvider: socialNetWorks[2],
-              url: 'https://twitter.com/ThomasBurkhartB',
-              displayName: 'Thomas Burkhart',
-              description: 'The best online shop for baking',
-              followersCount: 900,
-            ),
-            SocialMediaAccount(
-              id: 4,
-              isActive: true,
-              socialNetWorkProvider: socialNetWorks[4],
-              url: 'https://twitter.com/ThomasBurkhartB',
-              displayName: 'Thomas Burkhart',
-              description: 'The best online shop for baking',
-              followersCount: 900,
-            ),
+                  .asUint8List()
+          ..accountState= accountState
+          ..categories.addAll([
+            Category()
+                ..id= 1
+                ..name= 'Food'
+                ..description= 'All about Fashion'
+                ..parentId= 0
+          ])
+          ..description= 'I run a online store for baking utilities'
+          ..email= 'thomas@burkharts.net'
+          ..locationAsString= 'Germany'
+          // ..location= Location(
+          //   id= 1..
+          //   latitude= 34.050863..
+          //   longitude= -118.272657..
+          //   activeOfferCount= 0..
+          // )..
+          ..verified= isVerified
+          ..websiteUrl= 'www.google.com'
+          ..socialMediaAccounts.addAll([
+            SocialMediaAccount()
+              ..id= 1
+              ..isActive= true
+              ..socialNetworkProviderId= 0
+              ..url= 'https://twitter.com/ThomasBurkhartB'
+              ..displayName= 'Thomas Burkhart'
+              ..description= 'The best online shop for baking'
+              ..followersCount= 900,
+            SocialMediaAccount()
+              ..id= 2
+              ..isActive= false
+              ..socialNetworkProviderId= 1
+              ..url= 'https://twitter.com/ThomasBurkhartB'
+              ..displayName= 'Thomas Burkhart'
+              ..description= 'The best online shop for baking'
+              ..followersCount= 900,
+            SocialMediaAccount()
+              ..id=3
+              ..isActive=true
+              ..socialNetworkProviderId = 2
+              ..url='https://twitter.com/ThomasBurkhartB'
+              ..displayName='Thomas Burkhart'
+              ..description='The best online shop for baking'
+              ..followersCount=900,
+            SocialMediaAccount()
+              ..id=4
+              ..isActive=true
+              ..socialNetworkProviderId=4
+              ..url='https://twitter.com/ThomasBurkhartB'
+              ..displayName='Thomas Burkhart'
+              ..description='The best online shop for baking'
+              ..followersCount=900
           ]),
     ];
   }
@@ -277,18 +275,19 @@ class AuthenticationServiceMock implements AuthenticationService {
 
   @override
   Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia) async {
-    var socialMediaAccounts = _currentUser.socialMediaAccounts;
-    var updatedAccounts = <SocialMediaAccount>[];
-    for (var account in socialMediaAccounts) {
-      if (account.id == socialMedia.id) {
-        updatedAccounts.add(socialMedia);
-      } else {
-        updatedAccounts.add(account);
-      }
-      _currentUser =
-          _currentUser.copyWith(socialMediaAccounts: updatedAccounts);
-      _currentUserSubject.add(_currentUser);
-    }
+    // TODO
+    // var socialMediaAccounts = _currentUser.socialMediaAccounts;
+    // var updatedAccounts = <SocialMediaAccount>[];
+    // for (var account in socialMediaAccounts) {
+    //   if (account.id == socialMedia.id) {
+    //     updatedAccounts.add(socialMedia);
+    //   } else {
+    //     updatedAccounts.add(account);
+    //   }
+    //   _currentUser =
+    //       _currentUser.copyWith(socialMediaAccounts: updatedAccounts);
+    //   _currentUserSubject.add(_currentUser);
+    // }
   }
 
   @override

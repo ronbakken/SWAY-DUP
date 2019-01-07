@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:inf/app/assets.dart';
@@ -17,7 +18,7 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 
 class SignUpPage extends PageWidget {
-  static Route<dynamic> route({AccountType userType, double topPadding = 32}) {
+  static Route<dynamic> route({UserType userType, double topPadding = 32}) {
     return PageRouteBuilder(
       pageBuilder: (BuildContext context, _, __) {
         return SignUpPage(
@@ -25,10 +26,8 @@ class SignUpPage extends PageWidget {
           topPadding: topPadding,
         );
       },
-      transitionsBuilder:
-          (BuildContext context, Animation<double> animation, _, Widget child) {
-        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero)
-            .animate(animation);
+      transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
+        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(animation);
         return SlideTransition(
           position: slide,
           child: child,
@@ -39,10 +38,9 @@ class SignUpPage extends PageWidget {
     );
   }
 
-  const SignUpPage({Key key, this.userType, this.topPadding = 32.0})
-      : super(key: key);
+  const SignUpPage({Key key, this.userType, this.topPadding = 32.0}) : super(key: key);
 
-  final AccountType userType;
+  final UserType userType;
   final double topPadding;
 
   @override
@@ -57,8 +55,7 @@ class SignUpPageState extends PageState<SignUpPage> {
     super.initState();
 
     /// OBserve login state
-    _loginStateChangedSubscription =
-        backend.get<UserManager>().logInStateChanged.listen((loginResult) {
+    _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen((loginResult) {
       switch (loginResult.state) {
         case AuthenticationState.waitingForActivation:
           showDialog(
@@ -72,8 +69,7 @@ class SignUpPageState extends PageState<SignUpPage> {
           );
           break;
         case AuthenticationState.success:
-          Navigator.of(context).pushAndRemoveUntil(
-              MainPage.route(widget.userType), (route) => false);
+          Navigator.of(context).pushAndRemoveUntil(MainPage.route(widget.userType), (route) => false);
           break;
         default:
       }
@@ -113,10 +109,8 @@ class SignUpPageState extends PageState<SignUpPage> {
                         children: [
                           SizedBox(height: 96.0),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 32.0, vertical: 16.0),
-                            child: _DynamicSocialNetworkButtons(
-                                userType: widget.userType),
+                            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                            child: _DynamicSocialNetworkButtons(userType: widget.userType),
                           ),
                           Spacer(),
                           CurvedBox(
@@ -124,32 +118,25 @@ class SignUpPageState extends PageState<SignUpPage> {
                             color: Colors.black,
                             top: true,
                             child: Padding(
-                              padding: EdgeInsets.fromLTRB(48.0, 32.0, 48.0,
-                                  16.0 + mediaQuery.padding.bottom),
+                              padding: EdgeInsets.fromLTRB(48.0, 32.0, 48.0, 16.0 + mediaQuery.padding.bottom),
                               child: Text.rich(
                                 TextSpan(
                                   style: TextStyle(height: 1.2),
                                   children: [
                                     // TODO set correct ULRS
-                                    TextSpan(
-                                        text:
-                                            'By Signing up, you agree with our\n'),
+                                    TextSpan(text: 'By Signing up, you agree with our\n'),
                                     TextSpan(
                                       text: 'Terms of Service',
-                                      style: const TextStyle(
-                                          decoration: TextDecoration.underline),
+                                      style: const TextStyle(decoration: TextDecoration.underline),
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () =>
-                                            _launchURL('https://flutter.io'),
+                                        ..onTap = () => _launchURL('https://flutter.io'),
                                     ),
                                     TextSpan(text: '  and  '),
                                     TextSpan(
                                       text: 'Privacy',
-                                      style: const TextStyle(
-                                          decoration: TextDecoration.underline),
+                                      style: const TextStyle(decoration: TextDecoration.underline),
                                       recognizer: TapGestureRecognizer()
-                                        ..onTap = () =>
-                                            _launchURL('https://flutter.io'),
+                                        ..onTap = () => _launchURL('https://flutter.io'),
                                     ),
                                   ],
                                 ),
@@ -189,9 +176,7 @@ class SignUpPageState extends PageState<SignUpPage> {
                       ),
                       InkResponse(
                         onTap: () async {
-                          await backend
-                              .get<AuthenticationService>()
-                              .loginAnonymous(widget.userType);
+                          await backend.get<AuthenticationService>().loginAnonymous(widget.userType);
                           final nav = Navigator.of(context)..pop();
                           unawaited(nav.push(MainPage.route(widget.userType)));
                         },
@@ -236,17 +221,15 @@ class SignUpPageState extends PageState<SignUpPage> {
 }
 
 class _DynamicSocialNetworkButtons extends StatelessWidget {
-  const _DynamicSocialNetworkButtons({Key key, @required this.userType})
-      : super(key: key);
+  const _DynamicSocialNetworkButtons({Key key, @required this.userType}) : super(key: key);
 
-  final AccountType userType;
+  final UserType userType;
 
   @override
   Widget build(BuildContext context) {
     List<Widget> buttonList = <Widget>[]..add(
         Padding(
-          padding: const EdgeInsets.only(
-              left: 40.0, right: 40, top: 10.0, bottom: 32.0),
+          padding: const EdgeInsets.only(left: 40.0, right: 40, top: 10.0, bottom: 32.0),
           child: Text(
             'Which social media account would you like to continue with?',
             textAlign: TextAlign.center,
@@ -255,17 +238,13 @@ class _DynamicSocialNetworkButtons extends StatelessWidget {
         ),
       );
     for (var network in backend.get<ResourceService>().socialNetworkProviders) {
-      if (network.canAuthorizeUser) {
-        buttonList.add(
-          _buildLoginButton(
-            leading: InfMemoryImage(network.logoColoredData),
-            text: network.name,
-            onPressed: () => backend
-                .get<AuthenticationService>()
-                .loginWithSocialNetWork(context, userType, network),
-          ),
-        );
-      }
+      buttonList.add(
+        _buildLoginButton(
+          leading: InfMemoryImage(network.logoColoredData),
+          text: network.name,
+          onPressed: () => backend.get<AuthenticationService>().loginWithSocialNetWork(context, userType, network),
+        ),
+      );
       buttonList.add(SizedBox(height: 16.0));
     }
     buttonList.addAll([
@@ -284,8 +263,7 @@ class _DynamicSocialNetworkButtons extends StatelessWidget {
     );
   }
 
-  Widget _buildLoginButton(
-      {Widget leading, String text, VoidCallback onPressed}) {
+  Widget _buildLoginButton({Widget leading, String text, VoidCallback onPressed}) {
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[

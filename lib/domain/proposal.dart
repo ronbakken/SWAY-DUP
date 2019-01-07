@@ -1,14 +1,14 @@
-import 'package:inf/domain/domain.dart';
 
-import 'package:inf_common/inf_common.dart';
-export 'package:inf_common/inf_common.dart';
+
+
+import 'package:inf_api_client/inf_api_client.dart';
 
 class Proposal {
   final int id;
   final int offerId;
   final int influencerId; // Account which applied
   final int businessId;
-  final AccountType sentFrom; // Either influencer or business sent this
+  final UserType sentFrom; // Either influencer or business sent this
 
   /// Embedded data
   final String influencerName;
@@ -37,7 +37,7 @@ class Proposal {
   final bool influencerDisputed;
   final bool businessDisputed;
 
-  final ProposalState state;
+  // final ProposalState state;
 
   Proposal({
     this.id,
@@ -61,6 +61,6 @@ class Proposal {
     this.businessGaveRating,
     this.influencerDisputed,
     this.businessDisputed,
-    this.state,
+    // this.state,
   });
 }

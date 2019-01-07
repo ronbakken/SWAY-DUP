@@ -24,11 +24,9 @@ import 'package:inf/backend/services/system_service_mock.dart';
 import 'package:inf/backend/services/inf_api_service_.dart';
 import 'package:inf/backend/services/location_service_.dart';
 import 'package:inf/backend/managers/offer_manager_.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_streaming/network_streaming.dart';
+
 
 import 'package:inf/utils/error_capture.dart';
-import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
 
 export 'package:inf/backend/managers/app_manager_.dart';
@@ -49,12 +47,12 @@ Future<void> setupBackend(AppEnvironment env) async {
   switch (env) {
     case AppEnvironment.dev:
       configureDevLogger();
-      await startApiClient('config_ulfberth.bin');
+      // await startApiClient('config_ulfberth.bin');
       registerImplementations();
       await initInfApiService();
       break;
     case AppEnvironment.prod:
-      await startApiClient('config_prod.bin');
+      // await startApiClient('config_prod.bin');
       registerImplementations();
       await initInfApiService();
       break;
@@ -83,41 +81,41 @@ void configureDevLogger() {
   new Logger('Switchboard.Router').level = Level.ALL;
 }
 
-Future<ConfigData> loadConfig(String configFile) async {
-  var configData = await rootBundle.load('assets/$configFile');
-  ConfigData config = new ConfigData();
-  config.mergeFromBuffer(configData.buffer.asUint8List());
-  return config;
-}
+// Future<ConfigData> loadConfig(String configFile) async {
+//   var configData = await rootBundle.load('assets/$configFile');
+//   ConfigData config = new ConfigData();
+//   config.mergeFromBuffer(configData.buffer.asUint8List());
+//   return config;
+// }
 
-Future<MultiAccountStore> loadMultiAccountStore(String startupDomain) async {
-  MultiAccountStore store = new MultiAccountStore(startupDomain);
-  await store.initialize();
-  return store;
-}
+// Future<MultiAccountStore> loadMultiAccountStore(String startupDomain) async {
+//   MultiAccountStore store = new MultiAccountStore(startupDomain);
+//   await store.initialize();
+//   return store;
+// }
 
-NetworkStreaming _networkStreaming;
-Future<void> startApiClient(String configFile) async {
-  // Load well-known config from APK
-  ConfigData config = await loadConfig(configFile);
-  // Load known local accounts from SharedPreferences
-  MultiAccountStore multiAccountStore =
-      await loadMultiAccountStore(config.services.domain);
-  _networkStreaming = new NetworkStreaming(
-    multiAccountStore: multiAccountStore,
-    startupConfig: config
-  );
-  _networkStreaming.start();
+// NetworkStreaming _networkStreaming;
+// Future<void> startApiClient(String configFile) async {
+//   // Load well-known config from APK
+//   ConfigData config = await loadConfig(configFile);
+//   // Load known local accounts from SharedPreferences
+//   MultiAccountStore multiAccountStore =
+//       await loadMultiAccountStore(config.services.domain);
+//   _networkStreaming = new NetworkStreaming(
+//     multiAccountStore: multiAccountStore,
+//     startupConfig: config
+//   );
+//   _networkStreaming.start();
   
-  // FIXME: Call _networkStreaming.setApplicationForeground(foreground) from UI
-  // FIXME: Call _networkStreaming.reload() from UI on reassemble()
+//   // FIXME: Call _networkStreaming.setApplicationForeground(foreground) from UI
+//   // FIXME: Call _networkStreaming.reload() from UI on reassemble()
   
-  // TODO: Call _networkStreaming.listenNavigation(...) from UI
-}
+//   // TODO: Call _networkStreaming.listenNavigation(...) from UI
+// }
 
 Future<void> initInfApiService() async
 {
-    await backend.get<ResourceService>().init(_networkStreaming);
+    await backend.get<ResourceService>().init();
     await backend.get<AuthenticationService>().init();
 }
 
@@ -128,8 +126,8 @@ void registerImplementations() {
   // Services
   backend.registerLazySingleton<LocationService>(
       () => LocationServiceImplementation());
-  backend.registerLazySingleton<AuthenticationService>(
-      () => AuthenticationServiceImplementation(_networkStreaming));
+  // backend.registerLazySingleton<AuthenticationService>(
+  //     () => AuthenticationServiceImplementation(_networkStreaming));
   backend.registerLazySingleton<ResourceService>(
       () => ResourceServiceMock());
   backend.registerLazySingleton<SystemService>(

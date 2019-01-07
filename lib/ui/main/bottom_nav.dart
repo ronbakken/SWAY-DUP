@@ -5,6 +5,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/page_mode.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class MainBottomNav extends StatefulWidget {
   const MainBottomNav({
@@ -21,7 +22,7 @@ class MainBottomNav extends StatefulWidget {
   final double height;
   final ValueChanged<MainPageMode> onBottomNavChanged;
   final VoidCallback onFABPressed;
-  final AccountType userType;
+  final UserType userType;
 
   @override
   _MainBottomNavState createState() => _MainBottomNavState();
@@ -74,7 +75,7 @@ class _MainBottomNavState extends State<MainBottomNav> {
     final buttons = <Widget>[];
     Widget fabIcon;
 
-    if (widget.userType == AccountType.influencer) {
+    if (widget.userType == UserType.influencer) {
       buttons.addAll([browseButton, activitiesButton]);
       fabIcon = Icon(Icons.search);
     } else {

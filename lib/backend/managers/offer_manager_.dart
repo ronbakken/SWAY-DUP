@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:inf/domain/domain.dart';
 import 'package:inf/utils/selection_set.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class OfferManager {

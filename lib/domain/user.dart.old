@@ -5,15 +5,13 @@ import 'package:inf/domain/category.dart';
 import 'package:inf/domain/location.dart';
 import 'package:inf/domain/socialmedia_account.dart';
 
-import 'package:inf_common/inf_common.dart';
-export 'package:inf_common/inf_common.dart';
 
 class User {
   final Int64 id;
   final bool verified;
   final GlobalAccountState accountState;
   final GlobalAccountStateReason accountStateReason;
-  final AccountType userType;
+  final UserType userType;
   final String name;
   final String description;
   final String email;
@@ -63,7 +61,7 @@ class User {
     bool verified,
     GlobalAccountState accountState,
     GlobalAccountStateReason accountStateReason,
-    AccountType userType,
+    UserType userType,
     String name,
     String description,
     String email,

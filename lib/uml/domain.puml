@@ -28,7 +28,7 @@ class MapMarker {
 
   // only valid for type user
   final int userId;
-  final AccountType userType;
+  final UserType userType;
 }
 
 
@@ -140,7 +140,7 @@ class Proposal {
   int offerId;
   int influencerId; // Account which applied
   int businessId;
-  AccountType sentFrom; // Either influencer or business sent this
+  UserType sentFrom; // Either influencer or business sent this
 
   String influencerName;
   String businessName;
@@ -222,7 +222,7 @@ class User {
   final bool verified;
   final GlobalAccountState accountState;
   final GlobalAccountStateReason accountStateReason;
-  final AccountType userType;
+  final UserType userType;
   final String name;
   final String description;
   final String email;

@@ -1,5 +1,5 @@
-import 'package:inf/domain/domain.dart';
-import 'package:inf/network_streaming/network_streaming.dart';
+
+import 'package:inf_api_client/inf_api_client.dart';
 
 abstract class ResourceService {
 
@@ -10,10 +10,12 @@ abstract class ResourceService {
 
   Stream<WelcomePageImages> getWelcomePageProfileImages();
 
-  Future init(NetworkStreaming networkStreaming);
-
   String getMapApiKey();
   String getMapUrlTemplate();
+
+  Future init();
+
+  SocialNetworkProvider getSocialNetworkProviderById(int id); 
 
 }
 

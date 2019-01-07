@@ -1,9 +1,6 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
-import 'package:inf/domain/domain.dart';
-import 'package:inf/domain/social_network_provider.dart';
-import 'package:inf/domain/user.dart';
-import 'package:inf/network_generic/multi_account_client.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// Keep in mind
@@ -66,19 +63,19 @@ abstract class AuthenticationService {
   /// Returns the current authenticationstate independent od a state change
   AuthenticationResult getCurrentAuthenticationState();
 
-  Future<void> loginAnonymous(AccountType userType);
+  Future<void> loginAnonymous(UserType userType);
 
   Future<void> loginWithSocialNetWork(
       BuildContext
           context, // TODO: Since this function is expecting UI to pop up... Please restructure
-      AccountType userType,
+      UserType userType,
       SocialNetworkProvider socialNetwork);
 
 
   Observable<User> getPublicProfile(Int64 accountId);    
 
-  Observable<List<LocalAccountData>> get linkedAccounts;
-  Future<void> switchToUserAccount(LocalAccountData user);
+  // Observable<List<LocalAccountData>> get linkedAccounts;
+  // Future<void> switchToUserAccount(LocalAccountData user);
 
   Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia);
   Future<void> updateUser(User user);

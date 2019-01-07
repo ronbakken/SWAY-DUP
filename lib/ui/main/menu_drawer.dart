@@ -9,11 +9,12 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:pedantic/pedantic.dart';
 
 class MainNavigationDrawer extends StatelessWidget {
   void setSocialMediaAccountState(SocialMediaAccount account, bool isActive) {
-    backend.get<UserManager>().updateSocialMediaAccountCommand(account.copyWith(isActive: isActive));
+    backend.get<UserManager>().updateSocialMediaAccountCommand(account.copyWith( (account) => account.isActive = isActive));
   }
 
   @override
@@ -42,9 +43,10 @@ class MainNavigationDrawer extends StatelessWidget {
         ]);
 
       for (var account in currentUser.socialMediaAccounts) {
+        var provider=backend.get<ResourceService>().getSocialNetworkProviderById(account.socialNetworkProviderId);
         entries.add(_MainNavigationItem(
-          icon: InfMemoryImage(account.socialNetWorkProvider.logoMonochromeData, height: 20, ),
-          text: account.socialNetWorkProvider.name,
+          icon: InfMemoryImage(provider.logoMonochromeData, height: 20, ),
+          text: provider.name,
           trailing: InfSwitch(
             value: account.isActive,
             onChanged: (val) => setSocialMediaAccountState(account, val),
@@ -71,7 +73,7 @@ class MainNavigationDrawer extends StatelessWidget {
             value: currentUser.acceptsDirectOffers,
             onChanged: (val) {
               userManager.updateUserCommand(
-                currentUser.copyWith(acceptsDirectOffers: val),
+                currentUser.copyWith( (user) => user.acceptsDirectOffers = val),
               );
             },
             activeColor: AppTheme.blue,
@@ -87,7 +89,7 @@ class MainNavigationDrawer extends StatelessWidget {
             value: currentUser.showLocation,
             onChanged: (val) {
               userManager.updateUserCommand(
-                currentUser.copyWith(showLocation: val),
+                currentUser.copyWith( (user) => user.showLocation = val),
               );
             },
             activeColor: AppTheme.blue,

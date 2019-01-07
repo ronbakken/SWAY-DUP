@@ -1,7 +1,7 @@
 import 'package:inf/backend/services/auth_service_impl.dart';
 import 'package:inf/backend/services/resource_service_.dart';
-import 'package:inf/domain/domain.dart';
-import 'package:inf/network_streaming/network_streaming.dart';
+import 'package:inf_api_client/inf_api_client.dart';
+
 
 class ResourceServiceImplementation implements ResourceService {
   @override
@@ -32,17 +32,12 @@ class ResourceServiceImplementation implements ResourceService {
   }
 
   @override
-  Future init(NetworkStreaming networkStreaming) async {
-    List<SocialNetworkProvider> result = <SocialNetworkProvider>[];
-    List<ConfigOAuthProvider> oauthProviders =
-        networkStreaming.config.oauthProviders;
-    for (int providerId = 0; providerId < oauthProviders.length; ++providerId) {
-      ConfigOAuthProvider oauthProvider = oauthProviders[providerId];
-      if (oauthProvider.canConnect || oauthProvider.showInProfile) {
-        result.add(providerFromProvider(providerId, oauthProvider));
-      }
-    }
-   
-    socialNetworkProviders = result;
+  Future init() {
+    // TODO: implement init
+    return null;
   }
+
+  
+   
+  
 }

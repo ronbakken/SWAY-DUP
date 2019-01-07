@@ -1,7 +1,6 @@
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/auth_service_.dart';
-import 'package:inf/domain/socialmedia_account.dart';
-import 'package:inf/domain/user.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:rxdart/rxdart.dart';
 

@@ -11,12 +11,13 @@ import 'package:inf/ui/main/page_mode.dart';
 import 'package:inf/ui/widgets/auth_state_listener_mixin.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 const kBottomNavHeight = 72.0;
 const kMenuIconSize = 48.0;
 
 class MainPage extends PageWidget {
-  static Route<dynamic> route(AccountType userType) {
+  static Route<dynamic> route(UserType userType) {
     return FadePageRoute(
       builder: (BuildContext context) => MainPage(userType: userType),
     );
@@ -27,7 +28,7 @@ class MainPage extends PageWidget {
     @required this.userType,
   }) : super(key: key);
 
-  final AccountType userType;
+  final UserType userType;
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -59,7 +60,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
     // TODO: Add curves
     _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
     _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
-    if (widget.userType == AccountType.influencer) {
+    if (widget.userType == UserType.influencer) {
       _setMode(MainPageMode.browse);
     } else {
       _setMode(MainPageMode.activities);
@@ -127,7 +128,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                   initialValue: _mode,
                   onBottomNavChanged: _setMode,
                   onFABPressed: () {
-                    if (widget.userType == AccountType.influencer) {
+                    if (widget.userType == UserType.influencer) {
                       // TODO SEARCH
                     } else {
                       if (_mode == MainPageMode.activities) {

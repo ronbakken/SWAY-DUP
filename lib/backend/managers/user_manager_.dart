@@ -1,9 +1,7 @@
 import 'package:inf/backend/services/auth_service_.dart';
-import 'package:inf/domain/domain.dart';
-import 'package:inf/domain/social_network_provider.dart';
-import 'package:inf/domain/user.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class LogInData {
   LogInData({this.provider, this.email, this.password});
