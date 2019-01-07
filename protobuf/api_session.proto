@@ -1,0 +1,20 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf_common;
+option csharp_namespace = "InfCommon";
+
+import 'net_ident_protobuf.proto';
+import 'net_account_protobuf.proto';
+
+service ApiSession {
+    // TODO
+
+}
+
+/* end of file */

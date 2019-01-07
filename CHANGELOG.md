@@ -1,3 +1,6 @@
+## 3.0.32
+- Add RPC interfaces
+
 ## 2.0.14
 
 - Rename `device` to `session`
