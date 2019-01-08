@@ -100,5 +100,6 @@ s/PCM_WANT_NEGOTIATE/wantNegotiate/g
 s/'PCM__/'PCM_/g
 
 s/'PC_/'PC__/g
+s/PC_UNKNOWN/unknown/g
 s/PC_ACTIVATE_ACCOUNT/activateAccount/g
 s/'PC__/'PC_/g

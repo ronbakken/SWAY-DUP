@@ -169,7 +169,9 @@ enum ProposalChatMarker {
 enum PromoCode {
   // TBD
 
+  PC_UNKNOWN = 0;
   PC_ACTIVATE_ACCOUNT = 1; // Your account has been activated!
+  
 }
 
 /* end of file */
