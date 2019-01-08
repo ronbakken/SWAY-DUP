@@ -62,7 +62,7 @@ var clientId = EnvironmentVariable("AZURE_CLIENT_ID");
 var tenantId = EnvironmentVariable("AZURE_TENANT_ID");
 
 // Variables.
-var resourceNamePrefix = $"INF-{environment}";
+var resourceNamePrefix = $"inf-{environment}";
 var resourceGroupName = resourceNamePrefix;
 var keyVaultName = $"{resourceNamePrefix}-KeyVault";
 var certificateName = $"{resourceNamePrefix}-Certificate";
@@ -102,7 +102,7 @@ Task("Deploy")
                 templateFile,
                 subscriptionId,
                 resourceGroupName,
-                environment,
+                resourceNamePrefix,
                 selfSignedCertificate,
                 certificateBundle,
                 keyVault);
@@ -288,12 +288,12 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
     ConvertableFilePath templateFile,
     string subscriptionId,
     string resourceGroupName,
-    string deploymentName,
+    string resourceNamePrefix,
     X509Certificate2 certificate,
     CertificateBundle certificateBundle,
     IVault vault)
 {
-    context.Information($"Deploying resource template with deployment name '{deploymentName}'.");
+    context.Information($"Deploying resource template with deployment name '{resourceNamePrefix}'.");
 
     var restClient = RestClient
         .Configure()
@@ -314,7 +314,7 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
             .Replace("\"", "\\\"");
 
         var templateParameters = $@"{{
-""namePart"": {{""value"": ""{deploymentName}""}},
+""resourcePrefix"": {{""value"": ""{resourceNamePrefix}""}},
 ""certificateThumbprint"": {{""value"": ""{certificate.Thumbprint}""}},
 ""certificateUrlValue"": {{""value"": ""{certificateBundle.SecretIdentifier}""}},
 ""sourceVaultResourceId"": {{""value"": ""{vault.Id}""}},
@@ -332,23 +332,24 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
 
         var validationResults = await resourceManagementClient
             .Deployments
-            .ValidateAsync(resourceGroupName, deploymentName, properties);
+            .ValidateAsync(resourceGroupName, resourceNamePrefix, properties);
 
         if (validationResults.Error != null)
         {
-            throw new Exception($"Template validation failed: {validationResults.Error.ToString()}.");
+            var message = DumpError(validationResults.Error);
+            throw new Exception(message);
         }
 
         context.Information("Template validated without error.");
 
         var deploymentInner = await resourceManagementClient
             .Deployments
-            .BeginCreateOrUpdateAsync(resourceGroupName, deploymentName, properties);
+            .BeginCreateOrUpdateAsync(resourceGroupName, resourceNamePrefix, properties);
         context.Information("Deployment instigated.");
 
         while (true)
         {
-            var exists = await resourceManagementClient.Deployments.CheckExistenceAsync(resourceGroupName, deploymentName);
+            var exists = await resourceManagementClient.Deployments.CheckExistenceAsync(resourceGroupName, resourceNamePrefix);
 
             if (exists)
             {
@@ -364,7 +365,7 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
         {
             var deployment = await resourceManagementClient
                 .Deployments
-                .GetAsync(resourceGroupName, deploymentName);
+                .GetAsync(resourceGroupName, resourceNamePrefix);
             var state = deployment.Properties.ProvisioningState;
 
             if (state == "Succeeded")
@@ -372,8 +373,12 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
                 context.Information("Deployment succeeded.");
                 return deployment;
             }
+            else if (state == "Failed")
+            {
+                throw new Exception("Deployment failed.");
+            }
 
-            context.Debug("Deployment has not yet succeeded - waiting.");
+            context.Debug($"Deployment is in state '{state}' - waiting.");
             await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(10));
         }
     }
@@ -392,6 +397,40 @@ private static string GenerateRandomPassword(int length)
     }
 
     return builder.ToString();
+}
+
+private static string DumpError(ResourceManagementErrorWithDetails error)
+{
+    void DumpDetailsRecursive(ResourceManagementErrorWithDetails currentError, int indentLevel, StringBuilder sb)
+    {
+        var indent = new string(' ', indentLevel * 2);
+
+        sb
+            .Append(indent)
+            .Append(currentError.Code)
+            .Append(": ")
+            .Append(currentError.Target)
+            .Append(": ")
+            .Append(currentError.Message)
+            .AppendLine();
+
+        if (currentError.Details != null && currentError.Details.Count > 0)
+        {
+            sb
+                .Append(indent)
+                .Append("Details:")
+                .AppendLine();
+
+            foreach (var childError in currentError.Details)
+            {
+                DumpDetailsRecursive(childError, indentLevel + 1, sb);
+            }
+        }
+    }
+
+    var dumpedError = new StringBuilder();
+    DumpDetailsRecursive(error, 0, dumpedError);
+    return dumpedError.ToString();
 }
 
 RunTarget(Argument("target", "Deploy"));

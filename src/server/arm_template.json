@@ -2,16 +2,16 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-       "namePart": {
+       "resourcePrefix": {
           "type": "string",
           "metadata": {
-             "description": "Name tag"
+             "description": "A prefix used for all resources."
           }
        },
        "rdpPassword": {
           "type": "string",
           "metadata": {
-             "description": "Password to node VMs RDP connections"
+             "description": "Password for node VMs RDP connections."
           }
        },
        "certificateThumbprint": {
@@ -33,26 +33,30 @@
           "type": "int",
           "defaultValue": 1,
           "metadata": {
-             "description": "Instance count for node type"
+             "description": "Instance count for node type."
           }
        },
        "vmNodeSize": {
           "type": "string",
-          "defaultValue": "Standard_D2_V2"
-       }
+          "defaultValue": "Standard_D2_V2",
+          "metadata": {
+            "description": "The size of VMs in the cluster. See https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes."
+         }
+      }
     },
     "variables": {
-       "clusterName": "[parameters('namePart')]",
-       "virtualNetworkName": "[concat('vnet-', variables('clusterName'))]",
+       "clusterName": "[concat(parameters('resourcePrefix'), '-cluster')]",
+       "virtualNetworkName": "[concat(parameters('resourcePrefix'), '-VirtualNetwork')]",
        "addressPrefix": "10.0.0.0/16",
        "subnet1Name": "MiniSub",
        "subnet1Prefix": "10.0.0.0/24",
-       "lbName": "[concat('lb-', parameters('namePart'))]",
-       "lbIPName": "[concat('ip-', parameters('namePart'))]",
+       "lbName": "[concat(parameters('resourcePrefix'), '-LoadBalancer')]",
+       "lbIPName": "[concat(parameters('resourcePrefix'), '-LoadBalancerIP')]",
        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
        "subnet1Ref": "[concat(variables('vnetID'), '/subnets/', variables('subnet1Name'))]",
-       "supportLogStorageAccountName": "[concat('logs', uniqueString(resourceGroup().id))]",
-       "applicationDiagnosticsStorageAccountName": "[concat('diags', uniqueString(resourceGroup().id))]",
+       "sanitizedResourcePrefix": "[toLower(replace(parameters('resourcePrefix'), '-', ''))]",
+       "supportLogStorageAccountName": "[concat(variables('sanitizedResourcePrefix'), 'lsa')]",
+       "applicationDiagnosticsStorageAccountName": "[concat(variables('sanitizedResourcePrefix'), 'dsa')]",
        "lbID0": "[resourceId('Microsoft.Network/loadBalancers', variables('lbName'))]",
        "lbIPConfig0": "[concat(variables('lbID0'), '/frontendIPConfigurations/LoadBalancerIPConfig')]",
        "lbPoolID0": "[concat(variables('lbID0'), '/backendAddressPools/LoadBalancerBEAddressPool')]",

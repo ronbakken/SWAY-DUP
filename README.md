@@ -28,6 +28,12 @@ ENVIRONMENT_OVERRIDE=<<YOUR_NAME>>
 
 Replace `<<YOUR_NAME>>` with your first name. This will be incorporated into the resource group name and all resources within, ensuring your resources are kept separate to those of other developers and environments.
 
+**NOTE:** keep your environment name short. It is used in naming resources and some resources have very restrictive length requirements for their names. If your environment name is too long, the deployment will fail with an error along the lines of:
+
+```
+AccountNameInvalid: XXX: XXX is not a valid storage account name. Storage account name must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+```
+
 ### Automated Build Tooling
 
 1. Install Docker.
