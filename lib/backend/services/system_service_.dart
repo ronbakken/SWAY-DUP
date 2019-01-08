@@ -1,10 +1,13 @@
-import 'package:flutter/scheduler.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum NetworkConnectionState { connected, noNetwork, notConnected, reconnecting }
 
+enum LifecycleState { resumed, paused }
+
 abstract class SystemService {
   Observable<NetworkConnectionState> get connectionState => null;
 
-  Observable<AppLifecycleState> get appLifecycleState => null;
+  Observable<LifecycleState> get appLifecycleState => null;
+
+  void setLifecycleState(LifecycleState state);
 }
