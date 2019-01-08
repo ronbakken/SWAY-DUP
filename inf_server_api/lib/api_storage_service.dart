@@ -16,32 +16,32 @@ import 'package:grpc/grpc.dart' as grpc;
 import 'package:inf_common/inf_common.dart';
 
 class ApiStorageService extends ApiStorageServiceBase {
-
   final ConfigData config;
   final dospace.Bucket bucket;
   static final Logger opsLog = Logger('InfOps.ApiStorageService');
   static final Logger devLog = Logger('InfDev.ApiStorageService');
 
   ApiStorageService(this.config, this.bucket);
-  
+
   String _makeImageUrl(String template, String key) {
     final int lastIndex = key.lastIndexOf('.');
     final String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
-    return template
-        .replaceAll('{key}', key)
-        .replaceAll('{keyNoExt}', keyNoExt);
+    return template.replaceAll('{key}', key).replaceAll('{keyNoExt}', keyNoExt);
   }
 
   @override
-  Future<NetUploadSigned> signImageUpload(grpc.ServiceCall call, NetUploadImage request) async {
-    final DataAuth auth = DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+  Future<NetUploadSigned> signImageUpload(
+      grpc.ServiceCall call, NetUploadImage request) async {
+    final DataAuth auth =
+        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
     final Int64 accountId = auth.accountId;
 
     devLog.finest(call.clientMetadata);
     devLog.finest(auth);
     devLog.finest(request);
 
-    if (auth.accountId == Int64.ZERO || auth.globalAccountState.value < GlobalAccountState.readWrite.value) {
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readWrite.value) {
       throw grpc.GrpcError.permissionDenied();
     }
 
@@ -54,7 +54,7 @@ class ApiStorageService extends ApiStorageServiceBase {
     if (!request.contentType.startsWith('image/')) {
       opsLog.warning(
           "User $accountId attempts to upload file of type ${request.contentType}, that's not supported.");
-          throw grpc.GrpcError.invalidArgument('Unsupported file type');
+      throw grpc.GrpcError.invalidArgument('Unsupported file type');
     }
 
     String uriExt;
@@ -103,11 +103,11 @@ class ApiStorageService extends ApiStorageServiceBase {
     response.fileExists = fileExists;
     response.uploadKey = key;
     response.coverUrl = _makeImageUrl(config.services.galleryCoverUrl, key);
-    response.thumbnailUrl =_makeImageUrl(config.services.galleryThumbnailUrl, key);
+    response.thumbnailUrl =
+        _makeImageUrl(config.services.galleryThumbnailUrl, key);
 
     return response;
   }
-
 }
 
 /* end of file */
