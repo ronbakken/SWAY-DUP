@@ -10,6 +10,7 @@ package inf_common;
 option csharp_namespace = "InfCommon";
 
 import "net_offer_protobuf.proto";
+import "net_report_protobuf.proto";
 
 service ApiOffers {
   /// Creates a new offer
