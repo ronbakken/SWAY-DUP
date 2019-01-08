@@ -4,8 +4,8 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
-const NetUploadImageReq$json = const {
-  '1': 'NetUploadImageReq',
+const NetUploadImage$json = const {
+  '1': 'NetUploadImage',
   '2': const [
     const {'1': 'fileName', '3': 1, '4': 1, '5': 9, '10': 'fileName'},
     const {'1': 'contentLength', '3': 2, '4': 1, '5': 5, '10': 'contentLength'},
@@ -20,8 +20,8 @@ const NetUploadImageReq$json = const {
   ],
 };
 
-const NetUploadImageRes$json = const {
-  '1': 'NetUploadImageRes',
+const NetUploadSigned$json = const {
+  '1': 'NetUploadSigned',
   '2': const [
     const {'1': 'requestMethod', '3': 1, '4': 1, '5': 9, '10': 'requestMethod'},
     const {'1': 'requestUrl', '3': 2, '4': 1, '5': 9, '10': 'requestUrl'},

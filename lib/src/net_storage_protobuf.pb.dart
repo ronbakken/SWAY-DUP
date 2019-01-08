@@ -9,8 +9,8 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class NetUploadImageReq extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetUploadImageReq',
+class NetUploadImage extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetUploadImage',
       package: const $pb.PackageName('inf_common'))
     ..aOS(1, 'fileName')
     ..a<int>(2, 'contentLength', $pb.PbFieldType.O3)
@@ -18,26 +18,24 @@ class NetUploadImageReq extends $pb.GeneratedMessage {
     ..aOS(4, 'contentType')
     ..hasRequiredFields = false;
 
-  NetUploadImageReq() : super();
-  NetUploadImageReq.fromBuffer(List<int> i,
+  NetUploadImage() : super();
+  NetUploadImage.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetUploadImageReq.fromJson(String i,
+  NetUploadImage.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetUploadImageReq clone() => new NetUploadImageReq()..mergeFromMessage(this);
-  NetUploadImageReq copyWith(void Function(NetUploadImageReq) updates) =>
-      super.copyWith((message) => updates(message as NetUploadImageReq));
+  NetUploadImage clone() => new NetUploadImage()..mergeFromMessage(this);
+  NetUploadImage copyWith(void Function(NetUploadImage) updates) =>
+      super.copyWith((message) => updates(message as NetUploadImage));
   $pb.BuilderInfo get info_ => _i;
-  static NetUploadImageReq create() => new NetUploadImageReq();
-  static $pb.PbList<NetUploadImageReq> createRepeated() =>
-      new $pb.PbList<NetUploadImageReq>();
-  static NetUploadImageReq getDefault() =>
-      _defaultInstance ??= create()..freeze();
-  static NetUploadImageReq _defaultInstance;
-  static void $checkItem(NetUploadImageReq v) {
-    if (v is! NetUploadImageReq)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static NetUploadImage create() => new NetUploadImage();
+  static $pb.PbList<NetUploadImage> createRepeated() =>
+      new $pb.PbList<NetUploadImage>();
+  static NetUploadImage getDefault() => _defaultInstance ??= create()..freeze();
+  static NetUploadImage _defaultInstance;
+  static void $checkItem(NetUploadImage v) {
+    if (v is! NetUploadImage) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get fileName => $_getS(0, '');
@@ -73,8 +71,8 @@ class NetUploadImageReq extends $pb.GeneratedMessage {
   void clearContentType() => clearField(4);
 }
 
-class NetUploadImageRes extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetUploadImageRes',
+class NetUploadSigned extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetUploadSigned',
       package: const $pb.PackageName('inf_common'))
     ..aOS(1, 'requestMethod')
     ..aOS(2, 'requestUrl')
@@ -84,26 +82,25 @@ class NetUploadImageRes extends $pb.GeneratedMessage {
     ..aOS(12, 'thumbnailUrl')
     ..hasRequiredFields = false;
 
-  NetUploadImageRes() : super();
-  NetUploadImageRes.fromBuffer(List<int> i,
+  NetUploadSigned() : super();
+  NetUploadSigned.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetUploadImageRes.fromJson(String i,
+  NetUploadSigned.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetUploadImageRes clone() => new NetUploadImageRes()..mergeFromMessage(this);
-  NetUploadImageRes copyWith(void Function(NetUploadImageRes) updates) =>
-      super.copyWith((message) => updates(message as NetUploadImageRes));
+  NetUploadSigned clone() => new NetUploadSigned()..mergeFromMessage(this);
+  NetUploadSigned copyWith(void Function(NetUploadSigned) updates) =>
+      super.copyWith((message) => updates(message as NetUploadSigned));
   $pb.BuilderInfo get info_ => _i;
-  static NetUploadImageRes create() => new NetUploadImageRes();
-  static $pb.PbList<NetUploadImageRes> createRepeated() =>
-      new $pb.PbList<NetUploadImageRes>();
-  static NetUploadImageRes getDefault() =>
+  static NetUploadSigned create() => new NetUploadSigned();
+  static $pb.PbList<NetUploadSigned> createRepeated() =>
+      new $pb.PbList<NetUploadSigned>();
+  static NetUploadSigned getDefault() =>
       _defaultInstance ??= create()..freeze();
-  static NetUploadImageRes _defaultInstance;
-  static void $checkItem(NetUploadImageRes v) {
-    if (v is! NetUploadImageRes)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static NetUploadSigned _defaultInstance;
+  static void $checkItem(NetUploadSigned v) {
+    if (v is! NetUploadSigned) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get requestMethod => $_getS(0, '');

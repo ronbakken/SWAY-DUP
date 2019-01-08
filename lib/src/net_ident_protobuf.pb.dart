@@ -10,7 +10,7 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'data_protobuf.pb.dart' as $4;
+import 'data_protobuf.pb.dart' as $10;
 
 class NetSessionPayload extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionPayload',
@@ -250,8 +250,8 @@ class NetSession extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSession',
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'sessionId')
-    ..a<$4.DataAccount>(2, 'account', $pb.PbFieldType.OM,
-        $4.DataAccount.getDefault, $4.DataAccount.create)
+    ..a<$10.DataAccount>(2, 'account', $pb.PbFieldType.OM,
+        $10.DataAccount.getDefault, $10.DataAccount.create)
     ..aOS(3, 'bearerToken')
     ..aOS(4, 'accessToken')
     ..hasRequiredFields = false;
@@ -284,8 +284,8 @@ class NetSession extends $pb.GeneratedMessage {
   bool hasSessionId() => $_has(0);
   void clearSessionId() => clearField(1);
 
-  $4.DataAccount get account => $_getN(1);
-  set account($4.DataAccount v) {
+  $10.DataAccount get account => $_getN(1);
+  set account($10.DataAccount v) {
     setField(2, v);
   }
 

@@ -9,15 +9,15 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'data_protobuf.pb.dart' as $4;
+import 'data_protobuf.pb.dart' as $10;
 
-import 'enum_protobuf.pbenum.dart' as $3;
+import 'enum_protobuf.pbenum.dart' as $9;
 
 class NetAccount extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccount',
       package: const $pb.PackageName('inf_common'))
-    ..a<$4.DataAccount>(1, 'account', $pb.PbFieldType.OM,
-        $4.DataAccount.getDefault, $4.DataAccount.create)
+    ..a<$10.DataAccount>(1, 'account', $pb.PbFieldType.OM,
+        $10.DataAccount.getDefault, $10.DataAccount.create)
     ..hasRequiredFields = false;
 
   NetAccount() : super();
@@ -40,8 +40,8 @@ class NetAccount extends $pb.GeneratedMessage {
     if (v is! NetAccount) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $4.DataAccount get account => $_getN(0);
-  set account($4.DataAccount v) {
+  $10.DataAccount get account => $_getN(0);
+  set account($10.DataAccount v) {
     setField(1, v);
   }
 
@@ -52,8 +52,8 @@ class NetAccount extends $pb.GeneratedMessage {
 class NetSetAccountType extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetAccountType',
       package: const $pb.PackageName('inf_common'))
-    ..e<$3.AccountType>(1, 'accountType', $pb.PbFieldType.OE,
-        $3.AccountType.unknown, $3.AccountType.valueOf, $3.AccountType.values)
+    ..e<$9.AccountType>(1, 'accountType', $pb.PbFieldType.OE,
+        $9.AccountType.unknown, $9.AccountType.valueOf, $9.AccountType.values)
     ..hasRequiredFields = false;
 
   NetSetAccountType() : super();
@@ -78,8 +78,8 @@ class NetSetAccountType extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $3.AccountType get accountType => $_getN(0);
-  set accountType($3.AccountType v) {
+  $9.AccountType get accountType => $_getN(0);
+  set accountType($9.AccountType v) {
     setField(1, v);
   }
 
@@ -353,8 +353,8 @@ class NetOAuthConnect extends $pb.GeneratedMessage {
 class NetOAuthConnection extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthConnection',
       package: const $pb.PackageName('inf_common'))
-    ..a<$4.DataSocialMedia>(1, 'socialMedia', $pb.PbFieldType.OM,
-        $4.DataSocialMedia.getDefault, $4.DataSocialMedia.create)
+    ..a<$10.DataSocialMedia>(1, 'socialMedia', $pb.PbFieldType.OM,
+        $10.DataSocialMedia.getDefault, $10.DataSocialMedia.create)
     ..hasRequiredFields = false;
 
   NetOAuthConnection() : super();
@@ -380,8 +380,8 @@ class NetOAuthConnection extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $4.DataSocialMedia get socialMedia => $_getN(0);
-  set socialMedia($4.DataSocialMedia v) {
+  $10.DataSocialMedia get socialMedia => $_getN(0);
+  set socialMedia($10.DataSocialMedia v) {
     setField(1, v);
   }
 

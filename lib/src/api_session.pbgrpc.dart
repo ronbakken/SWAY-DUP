@@ -8,23 +8,23 @@ import 'dart:async' as $async;
 
 import 'package:grpc/grpc.dart';
 
-import 'net_ident_protobuf.pb.dart' as $2;
+import 'net_ident_protobuf.pb.dart' as $7;
 export 'api_session.pb.dart';
 
 class ApiSessionClient extends Client {
-  static final _$create = new ClientMethod<$2.NetSessionCreate, $2.NetSession>(
+  static final _$create = new ClientMethod<$7.NetSessionCreate, $7.NetSession>(
       '/inf_common.ApiSession/Create',
-      ($2.NetSessionCreate value) => value.writeToBuffer(),
-      (List<int> value) => new $2.NetSession.fromBuffer(value));
-  static final _$open = new ClientMethod<$2.NetSessionOpen, $2.NetSession>(
+      ($7.NetSessionCreate value) => value.writeToBuffer(),
+      (List<int> value) => new $7.NetSession.fromBuffer(value));
+  static final _$open = new ClientMethod<$7.NetSessionOpen, $7.NetSession>(
       '/inf_common.ApiSession/Open',
-      ($2.NetSessionOpen value) => value.writeToBuffer(),
-      (List<int> value) => new $2.NetSession.fromBuffer(value));
+      ($7.NetSessionOpen value) => value.writeToBuffer(),
+      (List<int> value) => new $7.NetSession.fromBuffer(value));
 
   ApiSessionClient(ClientChannel channel, {CallOptions options})
       : super(channel, options: options);
 
-  ResponseFuture<$2.NetSession> create($2.NetSessionCreate request,
+  ResponseFuture<$7.NetSession> create($7.NetSessionCreate request,
       {CallOptions options}) {
     final call = $createCall(
         _$create, new $async.Stream.fromIterable([request]),
@@ -32,7 +32,7 @@ class ApiSessionClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<$2.NetSession> open($2.NetSessionOpen request,
+  ResponseFuture<$7.NetSession> open($7.NetSessionOpen request,
       {CallOptions options}) {
     final call = $createCall(_$open, new $async.Stream.fromIterable([request]),
         options: options);
@@ -44,34 +44,34 @@ abstract class ApiSessionServiceBase extends Service {
   String get $name => 'inf_common.ApiSession';
 
   ApiSessionServiceBase() {
-    $addMethod(new ServiceMethod<$2.NetSessionCreate, $2.NetSession>(
+    $addMethod(new ServiceMethod<$7.NetSessionCreate, $7.NetSession>(
         'Create',
         create_Pre,
         false,
         false,
-        (List<int> value) => new $2.NetSessionCreate.fromBuffer(value),
-        ($2.NetSession value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$2.NetSessionOpen, $2.NetSession>(
+        (List<int> value) => new $7.NetSessionCreate.fromBuffer(value),
+        ($7.NetSession value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<$7.NetSessionOpen, $7.NetSession>(
         'Open',
         open_Pre,
         false,
         false,
-        (List<int> value) => new $2.NetSessionOpen.fromBuffer(value),
-        ($2.NetSession value) => value.writeToBuffer()));
+        (List<int> value) => new $7.NetSessionOpen.fromBuffer(value),
+        ($7.NetSession value) => value.writeToBuffer()));
   }
 
-  $async.Future<$2.NetSession> create_Pre(
+  $async.Future<$7.NetSession> create_Pre(
       ServiceCall call, $async.Future request) async {
     return create(call, await request);
   }
 
-  $async.Future<$2.NetSession> open_Pre(
+  $async.Future<$7.NetSession> open_Pre(
       ServiceCall call, $async.Future request) async {
     return open(call, await request);
   }
 
-  $async.Future<$2.NetSession> create(
-      ServiceCall call, $2.NetSessionCreate request);
-  $async.Future<$2.NetSession> open(
-      ServiceCall call, $2.NetSessionOpen request);
+  $async.Future<$7.NetSession> create(
+      ServiceCall call, $7.NetSessionCreate request);
+  $async.Future<$7.NetSession> open(
+      ServiceCall call, $7.NetSessionOpen request);
 }
