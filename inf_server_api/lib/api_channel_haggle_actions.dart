@@ -22,27 +22,6 @@ class ApiChannelHaggleActions {
 
   int nextFakeGhostId;
 
-  ApiChannel _r;
-  ConfigData get config {
-    return _r.config;
-  }
-
-  sqljocky.ConnectionPool get accountDb {
-    return _r.accountDb;
-  }
-
-  sqljocky.ConnectionPool get proposalDb {
-    return _r.proposalDb;
-  }
-/*
-  TalkChannel get channel {
-    return _r.channel;
-  }*/
-
-  dospace.Bucket get bucket {
-    return _r.bucket;
-  }
-
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -53,11 +32,8 @@ class ApiChannelHaggleActions {
   static final Logger opsLog = Logger('InfOps.ApiChannelOAuth');
   static final Logger devLog = Logger('InfDev.ApiChannelOAuth');
 
-  ApiChannelHaggleActions(this._r);
+  ApiChannelHaggleActions();
 
-  void dispose() {
-    _r = null;
-  }
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
