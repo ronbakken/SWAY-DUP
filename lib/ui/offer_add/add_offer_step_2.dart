@@ -182,7 +182,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
     return ListenableBuilder(
       listenable: categories,
       builder: (context, widget) {
-        final topLevelCategories = backend.get<ResourceService>().categories.where((item) => item.parentId == -1);
+        final topLevelCategories = backend.get<ConfigService>().categories.where((item) => item.parentId == -1);
         final rowItems = <Widget>[];
         for (var topLevelCategory in topLevelCategories) {
           rowItems.add(
@@ -216,7 +216,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
 
   Widget buildDeliverableTypeRow() {
     final rowItems = <Widget>[];
-    for (var icon in backend.get<ResourceService>().deliverableIcons) {
+    for (var icon in backend.get<ConfigService>().deliverableIcons) {
       rowItems.add(
         CategoryButton(
           onTap: () => setState(() => widget.offerBuilder.deliverableTypes.toggle(icon.deliverableType)),
@@ -246,7 +246,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
 
   Widget buildSocialPlatformRow() {
     var rowContent = <Widget>[];
-    for (var provider in backend.get<ResourceService>().socialNetworkProviders) {
+    for (var provider in backend.get<ConfigService>().socialNetworkProviders) {
         rowContent.add(SocialNetworkToggleButton(
           onTap: () => setState(() => widget.offerBuilder.channels.toggle(provider)),
           isSelected: widget.offerBuilder.channels.contains(provider),

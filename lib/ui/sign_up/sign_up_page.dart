@@ -237,7 +237,7 @@ class _DynamicSocialNetworkButtons extends StatelessWidget {
           ),
         ),
       );
-    for (var network in backend.get<ResourceService>().socialNetworkProviders) {
+    for (var network in backend.get<ConfigService>().socialNetworkProviders) {
       buttonList.add(
         _buildLoginButton(
           leading: InfMemoryImage(network.logoColoredData),

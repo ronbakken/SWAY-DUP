@@ -216,7 +216,7 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
             ..description = 'Tell people how good our service is'
             ..type = DeliverableType.post
         ],
-        channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
+        channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
         endDate: DateTime.now().add(Duration(days: 10)),
         location: Location(activeOfferCount: 1, latitude: 34.032395, longitude: -118.301019),
         reward: Reward(
@@ -262,7 +262,7 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
             ..description = 'Tell people how good our tea is'
             ..type = DeliverableType.post
         ],
-        channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
+        channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
         endDate: DateTime.now().add(Duration(days: 10)),
         location: Location(activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
         reward: Reward(
@@ -307,7 +307,7 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
           ..description= 'Tell people how good our tea is'
           ..type= DeliverableType.post
           ],
-        channels: [backend.get<ResourceService>().socialNetworkProviders[0]],
+        channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
         endDate: DateTime.now().add(Duration(days: 10)),
         location: Location(activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
         reward: Reward(

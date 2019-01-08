@@ -27,7 +27,7 @@ class _CategorySelectorState extends State<CategorySelector> {
   void initState() {
     if (widget.topLevelCategory != null) {
       subCategories = backend
-          .get<ResourceService>()
+          .get<ConfigService>()
           .categories
           .where((category) => category.parentId == widget.topLevelCategory.id)
           .toList();
@@ -41,7 +41,7 @@ class _CategorySelectorState extends State<CategorySelector> {
   void didUpdateWidget(CategorySelector oldWidget) {
     if (widget.topLevelCategory != null) {
       subCategories = backend
-          .get<ResourceService>()
+          .get<ConfigService>()
           .categories
           .where((category) => category.parentId == widget.topLevelCategory.id)
           .toList();

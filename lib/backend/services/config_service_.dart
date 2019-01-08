@@ -1,7 +1,7 @@
 
 import 'package:inf_api_client/inf_api_client.dart';
 
-abstract class ResourceService {
+abstract class ConfigService {
 
   List<Category> categories;
   List<DeliverableIcon> deliverableIcons; 
@@ -15,8 +15,7 @@ abstract class ResourceService {
 
   Future init();
 
-  SocialNetworkProvider getSocialNetworkProviderById(int id); 
-
+  SocialNetworkProvider getSocialNetworkProviderById(int id);
 }
 
 class WelcomePageImages {

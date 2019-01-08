@@ -1,9 +1,8 @@
-import 'package:inf/backend/services/auth_service_impl.dart';
-import 'package:inf/backend/services/resource_service_.dart';
+import 'package:inf/backend/services/config_service_.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 
-class ResourceServiceImplementation implements ResourceService {
+class ResourceServiceImplementation implements ConfigService {
   @override
   List<Category> categories;
 
@@ -37,7 +36,9 @@ class ResourceServiceImplementation implements ResourceService {
     return null;
   }
 
-  
-   
-  
+  @override
+  SocialNetworkProvider getSocialNetworkProviderById(int id) {
+    // TODO: implement getSocialNetworkProviderById
+    return null;
+  }
 }

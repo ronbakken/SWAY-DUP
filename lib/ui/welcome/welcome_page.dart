@@ -40,7 +40,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
             fit: StackFit.expand,
             children: <Widget>[
               StreamBuilder<WelcomePageImages>(
-                stream: backend.get<ResourceService>().getWelcomePageProfileImages(),
+                stream: backend.get<ConfigService>().getWelcomePageProfileImages(),
                 builder: (BuildContext context, AsyncSnapshot<WelcomePageImages> snapshot) {
                   return snapshot.hasData ? _WelcomeWall(data: snapshot.data) : SizedBox();
                 },

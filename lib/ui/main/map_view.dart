@@ -21,8 +21,8 @@ class _MainMapViewState extends State<MainMapView> {
 
   @override
   void initState() {
-    urlTemplate = backend.get<ResourceService>().getMapUrlTemplate();
-    mapApiKey = backend.get<ResourceService>().getMapApiKey();
+    urlTemplate = backend.get<ConfigService>().getMapUrlTemplate();
+    mapApiKey = backend.get<ConfigService>().getMapApiKey();
 
     mapController = new MapController();
 

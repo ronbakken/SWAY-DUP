@@ -45,7 +45,7 @@ class AuthenticationServiceMock implements AuthenticationService {
     if (isLoggedIn) {
       _loginStateSubject.add(AuthenticationResult(
           state: AuthenticationState.success,
-          provider: backend.get<ResourceService>().socialNetworkProviders[2],
+          provider: backend.get<ConfigService>().socialNetworkProviders[2],
           user: allLinkedAccounts[currentUserIndex]));
     } else {
       _loginStateSubject.add(AuthenticationResult(
@@ -82,7 +82,7 @@ class AuthenticationServiceMock implements AuthenticationService {
     if (isLoggedIn) {
       return AuthenticationResult(
           state: AuthenticationState.success,
-          provider: backend.get<ResourceService>().socialNetworkProviders[2],
+          provider: backend.get<ConfigService>().socialNetworkProviders[2],
           user: allLinkedAccounts[0]);
     } else {
       return AuthenticationResult(
@@ -143,7 +143,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   // }
 
   Future<void> loadMockData() async {
-    var socialNetWorks = backend.get<ResourceService>().socialNetworkProviders;
+    var socialNetWorks = backend.get<ConfigService>().socialNetworkProviders;
     allLinkedAccounts = [
       User()
           ..id = 42

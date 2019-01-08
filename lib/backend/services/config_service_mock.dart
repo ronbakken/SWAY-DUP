@@ -1,12 +1,12 @@
 import 'dart:math' show Random;
 
 import 'package:flutter/services.dart';
-import 'package:inf/backend/services/resource_service_.dart';
+import 'package:inf/backend/services/config_service_.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 import 'package:rxdart/rxdart.dart';
 
-class ResourceServiceMock implements ResourceService {
+class ResourceServiceMock implements ConfigService {
   @override
   List<Category> categories;
   @override

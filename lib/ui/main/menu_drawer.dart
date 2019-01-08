@@ -43,7 +43,7 @@ class MainNavigationDrawer extends StatelessWidget {
         ]);
 
       for (var account in currentUser.socialMediaAccounts) {
-        var provider=backend.get<ResourceService>().getSocialNetworkProviderById(account.socialNetworkProviderId);
+        var provider=backend.get<ConfigService>().getSocialNetworkProviderById(account.socialNetworkProviderId);
         entries.add(_MainNavigationItem(
           icon: InfMemoryImage(provider.logoMonochromeData, height: 20, ),
           text: provider.name,
