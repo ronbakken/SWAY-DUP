@@ -1,7 +1,7 @@
 /*
 INF Marketplace
 Copyright (C) 2019  INF Marketplace LLC
-Author: Jan Boon <kaetemi@no-break.space>
+Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 syntax = "proto3";
@@ -31,5 +31,7 @@ service ApiAccount {
   // rpc SetOneSignalId
 
 }
+
+// This class is named ApiAccount and not ApiAccounts, since it only deals with a single account from API point of view.
 
 /* end of file */

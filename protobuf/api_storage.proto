@@ -1,0 +1,23 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf_common;
+option csharp_namespace = "InfCommon";
+
+import "net_storage_protobuf.proto";
+
+service ApiStorage {
+  /// Prepares a pre-signed url for uploading an image
+  rpc SignImageUpload(NetUploadImage) returns (NetUploadSigned) {}
+
+  /// TODO
+  // ProcessImage
+
+}
+
+/* end of file */

@@ -9,11 +9,11 @@ syntax = "proto3";
 package inf_common;
 option csharp_namespace = "InfCommon";
 
-import "net_push_protobuf.proto";
+import "net_profile_protobuf.proto";
 
-service ApiPush {
-  /// Opens the server stream
-  rpc Listen(NetListen) returns (stream NetPush) {}
+service ApiProfiles {
+  /// Gets a public profile
+  rpc Get(NetGetProfile) returns (NetProfile) {}
 
 }
 

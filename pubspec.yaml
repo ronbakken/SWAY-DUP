@@ -2,7 +2,7 @@ name: inf_common
 description: INF Common Protocol files. Shared data structures and enumerations. 
 version: 3.0.32
 homepage: https://www.infmarketplace.com
-author: Jan Boon <kaetemi@no-break.space>
+author: Jan Boon <jan.boon@kaetemi.be>
 publish_to: none
 
 environment:
