@@ -296,6 +296,7 @@ class DataOAuthCredentials extends $pb.GeneratedMessage {
 class DataAuth extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAuth',
       package: const $pb.PackageName('inf_common'))
+    ..a<List<int>>(1, 'cookie', $pb.PbFieldType.OY)
     ..aInt64(4, 'sessionId')
     ..aInt64(5, 'accountId')
     ..e<$9.AccountType>(6, 'accountType', $pb.PbFieldType.OE,
@@ -330,44 +331,52 @@ class DataAuth extends $pb.GeneratedMessage {
     if (v is! DataAuth) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  Int64 get sessionId => $_getI64(0);
-  set sessionId(Int64 v) {
-    $_setInt64(0, v);
+  List<int> get cookie => $_getN(0);
+  set cookie(List<int> v) {
+    $_setBytes(0, v);
   }
 
-  bool hasSessionId() => $_has(0);
-  void clearSessionId() => clearField(4);
+  bool hasCookie() => $_has(0);
+  void clearCookie() => clearField(1);
 
-  Int64 get accountId => $_getI64(1);
-  set accountId(Int64 v) {
+  Int64 get sessionId => $_getI64(1);
+  set sessionId(Int64 v) {
     $_setInt64(1, v);
   }
 
-  bool hasAccountId() => $_has(1);
+  bool hasSessionId() => $_has(1);
+  void clearSessionId() => clearField(4);
+
+  Int64 get accountId => $_getI64(2);
+  set accountId(Int64 v) {
+    $_setInt64(2, v);
+  }
+
+  bool hasAccountId() => $_has(2);
   void clearAccountId() => clearField(5);
 
-  $9.AccountType get accountType => $_getN(2);
+  $9.AccountType get accountType => $_getN(3);
   set accountType($9.AccountType v) {
     setField(6, v);
   }
 
-  bool hasAccountType() => $_has(2);
+  bool hasAccountType() => $_has(3);
   void clearAccountType() => clearField(6);
 
-  $9.GlobalAccountState get globalAccountState => $_getN(3);
+  $9.GlobalAccountState get globalAccountState => $_getN(4);
   set globalAccountState($9.GlobalAccountState v) {
     setField(7, v);
   }
 
-  bool hasGlobalAccountState() => $_has(3);
+  bool hasGlobalAccountState() => $_has(4);
   void clearGlobalAccountState() => clearField(7);
 
-  $9.AccountLevel get accountLevel => $_getN(4);
+  $9.AccountLevel get accountLevel => $_getN(5);
   set accountLevel($9.AccountLevel v) {
     setField(9, v);
   }
 
-  bool hasAccountLevel() => $_has(4);
+  bool hasAccountLevel() => $_has(5);
   void clearAccountLevel() => clearField(9);
 }
 

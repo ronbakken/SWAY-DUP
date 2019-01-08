@@ -94,6 +94,7 @@ const DataAuth$json = const {
       '6': '.inf_common.AccountLevel',
       '10': 'accountLevel'
     },
+    const {'1': 'cookie', '3': 1, '4': 1, '5': 12, '10': 'cookie'},
   ],
 };
 
