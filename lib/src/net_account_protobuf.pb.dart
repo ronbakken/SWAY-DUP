@@ -433,3 +433,124 @@ class NetAccountCreate extends $pb.GeneratedMessage {
   bool hasLongitude() => $_has(1);
   void clearLongitude() => clearField(3);
 }
+
+class NetAccountApplyPromo extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountApplyPromo',
+      package: const $pb.PackageName('inf_common'))
+    ..aOS(1, 'code')
+    ..hasRequiredFields = false;
+
+  NetAccountApplyPromo() : super();
+  NetAccountApplyPromo.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetAccountApplyPromo.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetAccountApplyPromo clone() =>
+      new NetAccountApplyPromo()..mergeFromMessage(this);
+  NetAccountApplyPromo copyWith(void Function(NetAccountApplyPromo) updates) =>
+      super.copyWith((message) => updates(message as NetAccountApplyPromo));
+  $pb.BuilderInfo get info_ => _i;
+  static NetAccountApplyPromo create() => new NetAccountApplyPromo();
+  static $pb.PbList<NetAccountApplyPromo> createRepeated() =>
+      new $pb.PbList<NetAccountApplyPromo>();
+  static NetAccountApplyPromo getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static NetAccountApplyPromo _defaultInstance;
+  static void $checkItem(NetAccountApplyPromo v) {
+    if (v is! NetAccountApplyPromo)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  String get code => $_getS(0, '');
+  set code(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasCode() => $_has(0);
+  void clearCode() => clearField(1);
+}
+
+class NetAccountPromo extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountPromo',
+      package: const $pb.PackageName('inf_common'))
+    ..a<$10.DataAccount>(1, 'account', $pb.PbFieldType.OM,
+        $10.DataAccount.getDefault, $10.DataAccount.create)
+    ..aOB(2, 'expired')
+    ..aOB(3, 'used')
+    ..aOB(4, 'applied')
+    ..a<int>(5, 'quantity', $pb.PbFieldType.O3)
+    ..e<$9.PromoCode>(6, 'type', $pb.PbFieldType.OE, $9.PromoCode.unknown,
+        $9.PromoCode.valueOf, $9.PromoCode.values)
+    ..hasRequiredFields = false;
+
+  NetAccountPromo() : super();
+  NetAccountPromo.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetAccountPromo.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetAccountPromo clone() => new NetAccountPromo()..mergeFromMessage(this);
+  NetAccountPromo copyWith(void Function(NetAccountPromo) updates) =>
+      super.copyWith((message) => updates(message as NetAccountPromo));
+  $pb.BuilderInfo get info_ => _i;
+  static NetAccountPromo create() => new NetAccountPromo();
+  static $pb.PbList<NetAccountPromo> createRepeated() =>
+      new $pb.PbList<NetAccountPromo>();
+  static NetAccountPromo getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static NetAccountPromo _defaultInstance;
+  static void $checkItem(NetAccountPromo v) {
+    if (v is! NetAccountPromo) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  $10.DataAccount get account => $_getN(0);
+  set account($10.DataAccount v) {
+    setField(1, v);
+  }
+
+  bool hasAccount() => $_has(0);
+  void clearAccount() => clearField(1);
+
+  bool get expired => $_get(1, false);
+  set expired(bool v) {
+    $_setBool(1, v);
+  }
+
+  bool hasExpired() => $_has(1);
+  void clearExpired() => clearField(2);
+
+  bool get used => $_get(2, false);
+  set used(bool v) {
+    $_setBool(2, v);
+  }
+
+  bool hasUsed() => $_has(2);
+  void clearUsed() => clearField(3);
+
+  bool get applied => $_get(3, false);
+  set applied(bool v) {
+    $_setBool(3, v);
+  }
+
+  bool hasApplied() => $_has(3);
+  void clearApplied() => clearField(4);
+
+  int get quantity => $_get(4, 0);
+  set quantity(int v) {
+    $_setSignedInt32(4, v);
+  }
+
+  bool hasQuantity() => $_has(4);
+  void clearQuantity() => clearField(5);
+
+  $9.PromoCode get type => $_getN(5);
+  set type($9.PromoCode v) {
+    setField(6, v);
+  }
+
+  bool hasType() => $_has(5);
+  void clearType() => clearField(6);
+}

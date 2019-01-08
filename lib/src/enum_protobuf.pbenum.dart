@@ -80,22 +80,25 @@ class GlobalAccountState extends $pb.ProtobufEnum {
       const GlobalAccountState._(0, 'GAS_INITIALIZE');
   static const GlobalAccountState blocked =
       const GlobalAccountState._(1, 'GAS_BLOCKED');
+  static const GlobalAccountState GAS_PENDING =
+      const GlobalAccountState._(2, 'GAS_PENDING');
   static const GlobalAccountState readOnly =
-      const GlobalAccountState._(2, 'GAS_READ_ONLY');
+      const GlobalAccountState._(3, 'GAS_READ_ONLY');
   static const GlobalAccountState readWrite =
-      const GlobalAccountState._(3, 'GAS_READ_WRITE');
+      const GlobalAccountState._(4, 'GAS_READ_WRITE');
   static const GlobalAccountState debug =
-      const GlobalAccountState._(4, 'GAS_DEBUG');
+      const GlobalAccountState._(5, 'GAS_DEBUG');
   static const GlobalAccountState support =
-      const GlobalAccountState._(5, 'GAS_SUPPORT');
+      const GlobalAccountState._(6, 'GAS_SUPPORT');
   static const GlobalAccountState manager =
-      const GlobalAccountState._(6, 'GAS_MANAGER');
+      const GlobalAccountState._(7, 'GAS_MANAGER');
   static const GlobalAccountState god =
-      const GlobalAccountState._(7, 'GAS_GOD');
+      const GlobalAccountState._(8, 'GAS_GOD');
 
   static const List<GlobalAccountState> values = const <GlobalAccountState>[
     initialize,
     blocked,
+    GAS_PENDING,
     readOnly,
     readWrite,
     debug,
@@ -357,4 +360,24 @@ class ProposalChatMarker extends $pb.ProtobufEnum {
   }
 
   const ProposalChatMarker._(int v, String n) : super(v, n);
+}
+
+class PromoCode extends $pb.ProtobufEnum {
+  static const PromoCode unknown = const PromoCode._(0, 'PC_UNKNOWN');
+  static const PromoCode activateAccount =
+      const PromoCode._(1, 'PC_ACTIVATE_ACCOUNT');
+
+  static const List<PromoCode> values = const <PromoCode>[
+    unknown,
+    activateAccount,
+  ];
+
+  static final Map<int, PromoCode> _byValue =
+      $pb.ProtobufEnum.initByValue(values);
+  static PromoCode valueOf(int value) => _byValue[value];
+  static void $checkItem(PromoCode v) {
+    if (v is! PromoCode) $pb.checkItemFailed(v, 'PromoCode');
+  }
+
+  const PromoCode._(int v, String n) : super(v, n);
 }

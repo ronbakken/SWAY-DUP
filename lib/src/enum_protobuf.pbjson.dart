@@ -37,12 +37,13 @@ const GlobalAccountState$json = const {
   '2': const [
     const {'1': 'GAS_INITIALIZE', '2': 0},
     const {'1': 'GAS_BLOCKED', '2': 1},
-    const {'1': 'GAS_READ_ONLY', '2': 2},
-    const {'1': 'GAS_READ_WRITE', '2': 3},
-    const {'1': 'GAS_DEBUG', '2': 4},
-    const {'1': 'GAS_SUPPORT', '2': 5},
-    const {'1': 'GAS_MANAGER', '2': 6},
-    const {'1': 'GAS_GOD', '2': 7},
+    const {'1': 'GAS_PENDING', '2': 2},
+    const {'1': 'GAS_READ_ONLY', '2': 3},
+    const {'1': 'GAS_READ_WRITE', '2': 4},
+    const {'1': 'GAS_DEBUG', '2': 5},
+    const {'1': 'GAS_SUPPORT', '2': 6},
+    const {'1': 'GAS_MANAGER', '2': 7},
+    const {'1': 'GAS_GOD', '2': 8},
   ],
 };
 
@@ -136,5 +137,13 @@ const ProposalChatMarker$json = const {
     const {'1': 'PCM_MESSAGE_DROPPED', '2': 8},
     const {'1': 'PCM_DIRECT', '2': 9},
     const {'1': 'PCM_WANT_NEGOTIATE', '2': 10},
+  ],
+};
+
+const PromoCode$json = const {
+  '1': 'PromoCode',
+  '2': const [
+    const {'1': 'PC_UNKNOWN', '2': 0},
+    const {'1': 'PC_ACTIVATE_ACCOUNT', '2': 1},
   ],
 };

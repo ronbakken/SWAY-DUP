@@ -142,3 +142,36 @@ const NetAccountCreate$json = const {
     const {'1': 'longitude', '3': 3, '4': 1, '5': 1, '10': 'longitude'},
   ],
 };
+
+const NetAccountApplyPromo$json = const {
+  '1': 'NetAccountApplyPromo',
+  '2': const [
+    const {'1': 'code', '3': 1, '4': 1, '5': 9, '10': 'code'},
+  ],
+};
+
+const NetAccountPromo$json = const {
+  '1': 'NetAccountPromo',
+  '2': const [
+    const {
+      '1': 'account',
+      '3': 1,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataAccount',
+      '10': 'account'
+    },
+    const {
+      '1': 'type',
+      '3': 6,
+      '4': 1,
+      '5': 14,
+      '6': '.inf_common.PromoCode',
+      '10': 'type'
+    },
+    const {'1': 'quantity', '3': 5, '4': 1, '5': 5, '10': 'quantity'},
+    const {'1': 'expired', '3': 2, '4': 1, '5': 8, '10': 'expired'},
+    const {'1': 'used', '3': 3, '4': 1, '5': 8, '10': 'used'},
+    const {'1': 'applied', '3': 4, '4': 1, '5': 8, '10': 'applied'},
+  ],
+};
