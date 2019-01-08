@@ -45,8 +45,8 @@ service ApiProposals {
   /// Mark the proposal as completed
   rpc Complete(NetProposalCompletion) returns (NetProposal) {}
 
-  /// Set archived flag
-  rpc Archive(NetProposalArchive) returns (NetProposal) {}
+  /// TODO: Set archived flag
+  // rpc Archive(NetProposalArchive) returns (NetProposal) {}
 
   /// Send plain chat message
   rpc ChatPlain(NetChatPlain) returns (NetProposal) {}
