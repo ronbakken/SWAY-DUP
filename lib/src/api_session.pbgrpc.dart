@@ -24,19 +24,19 @@ class ApiSessionClient extends Client {
   ApiSessionClient(ClientChannel channel, {CallOptions options})
       : super(channel, options: options);
 
-  ResponseStream<$2.NetSession> create($2.NetSessionCreate request,
+  ResponseFuture<$2.NetSession> create($2.NetSessionCreate request,
       {CallOptions options}) {
     final call = $createCall(
         _$create, new $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseStream(call);
+    return new ResponseFuture(call);
   }
 
-  ResponseStream<$2.NetSession> open($2.NetSessionOpen request,
+  ResponseFuture<$2.NetSession> open($2.NetSessionOpen request,
       {CallOptions options}) {
     final call = $createCall(_$open, new $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseStream(call);
+    return new ResponseFuture(call);
   }
 }
 
@@ -48,30 +48,30 @@ abstract class ApiSessionServiceBase extends Service {
         'Create',
         create_Pre,
         false,
-        true,
+        false,
         (List<int> value) => new $2.NetSessionCreate.fromBuffer(value),
         ($2.NetSession value) => value.writeToBuffer()));
     $addMethod(new ServiceMethod<$2.NetSessionOpen, $2.NetSession>(
         'Open',
         open_Pre,
         false,
-        true,
+        false,
         (List<int> value) => new $2.NetSessionOpen.fromBuffer(value),
         ($2.NetSession value) => value.writeToBuffer()));
   }
 
-  $async.Stream<$2.NetSession> create_Pre(
-      ServiceCall call, $async.Future request) async* {
-    yield* create(call, (await request) as $2.NetSessionCreate);
+  $async.Future<$2.NetSession> create_Pre(
+      ServiceCall call, $async.Future request) async {
+    return create(call, await request);
   }
 
-  $async.Stream<$2.NetSession> open_Pre(
-      ServiceCall call, $async.Future request) async* {
-    yield* open(call, (await request) as $2.NetSessionOpen);
+  $async.Future<$2.NetSession> open_Pre(
+      ServiceCall call, $async.Future request) async {
+    return open(call, await request);
   }
 
-  $async.Stream<$2.NetSession> create(
+  $async.Future<$2.NetSession> create(
       ServiceCall call, $2.NetSessionCreate request);
-  $async.Stream<$2.NetSession> open(
+  $async.Future<$2.NetSession> open(
       ServiceCall call, $2.NetSessionOpen request);
 }
