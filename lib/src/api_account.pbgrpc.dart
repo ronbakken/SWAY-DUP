@@ -18,9 +18,9 @@ class ApiAccountClient extends Client {
           ($0.NetSetAccountType value) => value.writeToBuffer(),
           (List<int> value) => new $0.NetAccount.fromBuffer(value));
   static final _$connectProvider =
-      new ClientMethod<$0.NetOAuthConnection, $0.NetOAuthConnection>(
+      new ClientMethod<$0.NetOAuthConnect, $0.NetOAuthConnection>(
           '/inf_common.ApiAccount/ConnectProvider',
-          ($0.NetOAuthConnection value) => value.writeToBuffer(),
+          ($0.NetOAuthConnect value) => value.writeToBuffer(),
           (List<int> value) => new $0.NetOAuthConnection.fromBuffer(value));
   static final _$create = new ClientMethod<$0.NetAccountCreate, $0.NetAccount>(
       '/inf_common.ApiAccount/Create',
@@ -44,7 +44,7 @@ class ApiAccountClient extends Client {
   }
 
   ResponseFuture<$0.NetOAuthConnection> connectProvider(
-      $0.NetOAuthConnection request,
+      $0.NetOAuthConnect request,
       {CallOptions options}) {
     final call = $createCall(
         _$connectProvider, new $async.Stream.fromIterable([request]),
@@ -80,12 +80,12 @@ abstract class ApiAccountServiceBase extends Service {
         false,
         (List<int> value) => new $0.NetSetAccountType.fromBuffer(value),
         ($0.NetAccount value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$0.NetOAuthConnection, $0.NetOAuthConnection>(
+    $addMethod(new ServiceMethod<$0.NetOAuthConnect, $0.NetOAuthConnection>(
         'ConnectProvider',
         connectProvider_Pre,
         false,
         false,
-        (List<int> value) => new $0.NetOAuthConnection.fromBuffer(value),
+        (List<int> value) => new $0.NetOAuthConnect.fromBuffer(value),
         ($0.NetOAuthConnection value) => value.writeToBuffer()));
     $addMethod(new ServiceMethod<$0.NetAccountCreate, $0.NetAccount>(
         'Create',
@@ -126,7 +126,7 @@ abstract class ApiAccountServiceBase extends Service {
   $async.Future<$0.NetAccount> setType(
       ServiceCall call, $0.NetSetAccountType request);
   $async.Future<$0.NetOAuthConnection> connectProvider(
-      ServiceCall call, $0.NetOAuthConnection request);
+      ServiceCall call, $0.NetOAuthConnect request);
   $async.Future<$0.NetAccount> create(
       ServiceCall call, $0.NetAccountCreate request);
   $async.Future<$0.NetAccount> setFirebaseToken(
