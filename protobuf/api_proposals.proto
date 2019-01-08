@@ -27,36 +27,6 @@ service ApiProposals {
   /// List all chat messages for a specific proposal
   rpc ListChats(NetGetProposal) returns (stream NetProposalChat) {}
 
-  /// Sent by any party to affirm they want a deal for a specific proposal terms negotiate message
-  rpc WantDeal(NetProposalWantDeal) returns (NetProposal) {}
-
-  /// Sent by proposal recipient to move from proposing state to negotiating state (does not include a negotiation chat message)
-  rpc Negotiate(NetProposalNegotiate) returns (NetProposal) {}
-
-  /// Sent by either user to reject or cancel the proposal before it's gone into deal state
-  rpc Reject(NetProposalReject) returns (NetProposal) {}
-
-  /// Reports a proposal to customer support
-  rpc Report(NetProposalReport) returns (NetProposal) {}
-
-  /// Disputes a proposal through customer support
-  rpc Dispute(NetProposalDispute) returns (NetProposal) {}
-
-  /// Mark the proposal as completed
-  rpc Complete(NetProposalCompletion) returns (NetProposal) {}
-
-  /// TODO: Set archived flag
-  // rpc Archive(NetProposalArchive) returns (NetProposal) {}
-
-  /// Send plain chat message
-  rpc ChatPlain(NetChatPlain) returns (NetProposal) {}
-
-  /// Send negotiate chat message
-  rpc ChatNegotiate(NetChatNegotiate) returns (NetProposal) {}
-
-  /// Send image key chat message
-  rpc ChatImageKey(NetChatImageKey) returns (NetProposal) {}
-
 }
 
 /* end of file */

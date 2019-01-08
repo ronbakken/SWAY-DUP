@@ -29,6 +29,7 @@ export 'package:inf_common/src/api_storage.pbgrpc.dart';
 export 'package:inf_common/src/api_profiles.pbgrpc.dart';
 export 'package:inf_common/src/api_offers.pbgrpc.dart';
 export 'package:inf_common/src/api_proposals.pbgrpc.dart';
+export 'package:inf_common/src/api_proposal.pbgrpc.dart';
 export 'package:inf_common/src/api_explore.pbgrpc.dart';
 
 export 'package:inf_common/src/api_push.pbgrpc.dart';
