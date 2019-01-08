@@ -1,7 +1,7 @@
 /*
 INF Marketplace
 Copyright (C) 2018  INF Marketplace LLC
-Author: Jan Boon <kaetemi@no-break.space>
+Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -19,31 +19,25 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:inf_common/inf_common.dart';
+
 import 'package:inf_server_api/api_oauth_service.dart';
-import 'package:inf_server_api/api_service.dart';
+import 'package:inf_server_api/api_session_service.dart';
 import 'package:inf_server_api/api_storage_service.dart';
 import 'package:inf_server_api/api_explore_service.dart';
+
 import 'package:inf_server_api/elasticsearch.dart';
+import 'package:inf_server_api/broadcast_center.dart';
+
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
-// import 'package:postgres/postgres.dart' as postgres;
-// import 'package:switchboard/switchboard.dart';
 import 'package:dospace/dospace.dart' as dospace;
 import 'package:http_client/console.dart' as http;
 import 'package:grpc/grpc.dart' as grpc;
 
-import 'package:inf_server_api/broadcast_center.dart';
-import 'package:inf_common/inf_common.dart';
-
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-
-/*
-devinf-api
-AUGKNEZGFQVUROSP2CB7
-AK8dfZ8nD+QYl6Nz662YMa2oSjrG/uUmXte8t4ojd70
-*/
 
 Future<void> selfTestSql(sqljocky.ConnectionPool sql) async {
   // ⚠️✔️❌🛑 // Emojis make code run faster
@@ -64,27 +58,6 @@ Future<void> selfTestSql(sqljocky.ConnectionPool sql) async {
 }
 
 Future<void> run(List<String> arguments) async {
-  // S2LatLng latLng = new S2LatLng.fromDegrees(40.732162, 73.975698); // getting fb8c157663c46983
-  // S2LatLng latLng = new S2LatLng.fromDegrees(40.732162, 73.975698); // getting 580dc240ac2bca54
-  /*
-  S2LatLng latLng = new S2LatLng.fromDegrees(49.703498679, 11.770681595); // should be 0x47a1cbd595522b39
-  S2Point point = latLng.toPoint(); // 89c25973735
-  S2CellId cellId = S2CellId.fromPoint(point);
-  print("Cell ID: ${cellId.toToken()}");
-  print("Cell ID Hex: ${cellId.id.toRadixString(16)}");
-  print("Cell ID Parent: ${cellId.parent().toToken()}");
-  print("Cell ID Parent Parent: ${cellId.parent().parent().toToken()}");
-  print("Cell ID Parent: ${cellId.immediateParent().toToken()}");
-  print("Cell ID Parent Parent: ${cellId.immediateParent().immediateParent().toToken()}");
-  print("Cell ID Level: ${cellId.level}");
-  print("Cell ID Parent Level: ${cellId.parent().level}");
-  print("Cell ID Parent Level: ${cellId.immediateParent().level}");
-  print("Cell ID Parent Parent Level: ${cellId.immediateParent().immediateParent().level}");
-  */
-
-  // -6.080542, 50.976609 should produce 92e6205dd50668fa
-  // 40.732162, 73.975698 should produce 89c25973735
-
   // Logging
   hierarchicalLoggingEnabled = true;
   Logger.root.level = Level.ALL;
@@ -153,6 +126,7 @@ Future<void> run(List<String> arguments) async {
   // Listen to gRPC
   final grpc.Server grpcServer = grpc.Server(
     <grpc.Service>[
+      ApiSessionService(config, accountDb),
       ApiOAuthService(config),
       ApiStorageService(config, bucket),
       ApiExploreService(config, elasticsearch)
@@ -175,18 +149,5 @@ Future<void> run(List<String> arguments) async {
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-
-/*
-  var results = await pool.query('SELECT name FROM business_accounts');
-  results.forEach((row) async {
-    print('Name: ${row[0]}');
-    
-    var results2 = await pool.query('SELECT name FROM business_accounts');
-    results2.forEach((row) {
-      print('Name: ${row[0]}');
-    });
-    
-  });
-  */
 
 /* end of file */

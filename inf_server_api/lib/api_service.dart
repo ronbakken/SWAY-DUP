@@ -1,7 +1,7 @@
 /*
 INF Marketplace
 Copyright (C) 2018  INF Marketplace LLC
-Author: Jan Boon <kaetemi@no-break.space>
+Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 import 'dart:async';
@@ -11,7 +11,6 @@ import 'package:inf_server_api/api_channel.dart';
 import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
-import 'package:switchboard/switchboard.dart';
 import 'package:dospace/dospace.dart' as dospace;
 import 'broadcast_center.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
@@ -26,13 +25,12 @@ class ApiService {
   final sqljocky.ConnectionPool proposalDb;
   final dospace.Bucket bucket;
   final Elasticsearch elasticsearch;
-  final Switchboard switchboard;
   final BroadcastCenter bc;
   final http.Client httpClient = http.Client();
   List<oauth1.Authorization> oauth1Auth;
 
   ApiService(this.config, this.accountDb, this.proposalDb, this.bucket,
-      this.elasticsearch, this.switchboard, this.bc) {
+      this.elasticsearch, this.bc) {
     oauth1Auth = List<oauth1.Authorization>(config.oauthProviders.length);
     for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {
       final ConfigOAuthProvider provider = config.oauthProviders[providerId];
@@ -50,22 +48,6 @@ class ApiService {
       }
     }
     selfTest();
-  }
-
-  Future<void> listen() async {
-    await for (ChannelInfo open in switchboard) {
-      // TODO(kaetemi): Rename ChannelInfo to ChannelOpen
-      if (open.service == 'api') {
-        final TalkChannel talkChannel = TalkChannel(open.channel);
-        ApiChannel(this, talkChannel, open.payload,
-            ipAddress:
-                'localhost'); // '8.8.8.8'); // TODO(kaetemi): FIXME: Proper IP address here
-      } else {
-        final TalkChannel talkChannel = TalkChannel(open.channel);
-        talkChannel.sendAbort('Service not supported.');
-        talkChannel.close();
-      }
-    }
   }
 
   Future<void> close() async {

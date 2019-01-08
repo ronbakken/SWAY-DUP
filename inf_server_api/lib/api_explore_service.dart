@@ -1,7 +1,7 @@
 /*
 INF Marketplace
 Copyright (C) 2018-2019  INF Marketplace LLC
-Author: Jan Boon <kaetemi@no-break.space>
+Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 import 'dart:async';

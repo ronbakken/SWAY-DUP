@@ -2,7 +2,7 @@ name: inf_server_api
 description: INF Server API service.
 version: 3.0.11
 homepage: https://www.infmarketplace.com
-author: Jan Boon <kaetemi@no-break.space>
+author: Jan Boon <jan.boon@kaetemi.be>
 publish_to: none
 
 environment:
@@ -12,7 +12,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: cc38af52dd7a3f7528d7c026e5e506b81d7f267b
+      ref: dc27c22d9b34d00784776c0426990c2271eab9e6
   logging: ^0.11.3+2
   # crypto: ^2.0.6
   # pointycastle: ^1.0.0-rc2
