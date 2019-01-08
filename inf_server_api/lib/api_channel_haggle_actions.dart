@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
-import 'package:switchboard/switchboard.dart';
+//import 'package:switchboard/switchboard.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
@@ -35,10 +35,10 @@ class ApiChannelHaggleActions {
   sqljocky.ConnectionPool get proposalDb {
     return _r.proposalDb;
   }
-
+/*
   TalkChannel get channel {
     return _r.channel;
-  }
+  }*/
 
   dospace.Bucket get bucket {
     return _r.bucket;

@@ -6,13 +6,11 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 
-import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_server_api/elasticsearch.dart';
 import 'package:inf_server_api/elasticsearch_offer.dart';
 import 'package:logging/logging.dart';
 
-import 'package:dospace/dospace.dart' as dospace;
 import 'package:grpc/grpc.dart' as grpc;
 
 import 'package:inf_common/inf_common.dart';
@@ -20,8 +18,8 @@ import 'package:inf_common/inf_common.dart';
 class ApiExploreService extends ApiExploreServiceBase {
   final ConfigData config;
   final Elasticsearch elasticsearch;
-  static final Logger opsLog = Logger('InfOps.ApiStorageService');
-  static final Logger devLog = Logger('InfDev.ApiStorageService');
+  static final Logger opsLog = Logger('InfOps.ApiExploreService');
+  static final Logger devLog = Logger('InfDev.ApiExploreService');
 
   ApiExploreService(this.config, this.elasticsearch);
 

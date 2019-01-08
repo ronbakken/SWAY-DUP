@@ -80,93 +80,12 @@ class ApiChannelOAuth {
 
   ApiChannelOAuth(this._r) {
     _r.registerProcedure(
-        "OA_URLRE", GlobalAccountState.initialize, _oauthGetUrl);
-    _r.registerProcedure(
-        "OA_SECRE", GlobalAccountState.initialize, _oauthGetSecrets);
-    _r.registerProcedure(
         "OA_CONNE", GlobalAccountState.initialize, _oauthConnect);
   }
 
   void dispose() {
-    _r.unregisterProcedure("OA_URLRE");
-    _r.unregisterProcedure("OA_SECRE");
     _r.unregisterProcedure("OA_CONNE");
     _r = null;
-  }
-
-  Future<void> _oauthGetUrl(TalkMessage message) async {
-    NetOAuthGetUrl pb = new NetOAuthGetUrl();
-    pb.mergeFromBuffer(message.data);
-    if (pb.oauthProvider < config.oauthProviders.length) {
-      ConfigOAuthProvider cfg = config.oauthProviders[pb.oauthProvider];
-      switch (cfg.mechanism) {
-        case OAuthMechanism.oauth1:
-          {
-            // Twitter-like
-            oauth1.Authorization auth = _r.service.oauth1Auth[pb.oauthProvider];
-            channel.replyExtend(message);
-            oauth1.AuthorizationResponse authRes =
-                await auth.requestTemporaryCredentials(cfg.callbackUrl);
-            String authUrl = auth
-                .getResourceOwnerAuthorizationURI(authRes.credentials.token);
-            NetOAuthUrl pbRes = new NetOAuthUrl();
-            devLog.finest(authUrl);
-            pbRes.authUrl = authUrl;
-            pbRes.callbackUrl = cfg.callbackUrl;
-            channel.replyMessage(message, "OA_R_URL", pbRes.writeToBuffer());
-            break;
-          }
-        case OAuthMechanism.oauth2:
-          {
-            // Facebook, Spotify-like. Much easier (but less standardized)
-            Uri baseUri = Uri.parse(cfg.authUrl);
-            Map<String, String> query = Uri.splitQueryString(cfg.authQuery);
-            query['client_id'] = cfg.clientId;
-            query['redirect_uri'] = cfg.callbackUrl;
-            Uri uri = baseUri.replace(queryParameters: query);
-            String authUrl = "$uri";
-            NetOAuthUrl pbRes = new NetOAuthUrl();
-            devLog.finest(authUrl);
-            pbRes.authUrl = authUrl;
-            pbRes.callbackUrl = cfg.callbackUrl;
-            channel.replyMessage(message, "OA_R_URL", pbRes.writeToBuffer());
-            break;
-          }
-        default:
-          {
-            channel.replyAbort(message,
-                "Invalid oauthProvider specified '${pb.oauthProvider}'.");
-            return;
-          }
-      }
-    } else {
-      channel.replyAbort(
-          message, "Invalid oauthProvider specified '${pb.oauthProvider}'.");
-    }
-  }
-
-  Future<void> _oauthGetSecrets(TalkMessage message) async {
-    NetOAuthGetSecrets getSecrets = new NetOAuthGetSecrets()
-      ..mergeFromBuffer(message.data)
-      ..freeze();
-    int providerId = getSecrets.oauthProvider;
-    if (providerId >= config.oauthProviders.length) {
-      channel.replyAbort(
-          message, "Invalid oauthProvider specified '$providerId'.");
-      return;
-    }
-    NetOAuthSecrets secrets = new NetOAuthSecrets();
-    ConfigOAuthProvider provider = config.oauthProviders[providerId];
-    if (provider.consumerKeyExposed) {
-      secrets.consumerKey = provider.consumerKey;
-    }
-    if (provider.consumerSecretExposed) {
-      secrets.consumerSecret = provider.consumerSecret;
-    }
-    if (provider.clientIdExposed) {
-      secrets.clientId = provider.clientId;
-    }
-    channel.replyMessage(message, 'OA_R_SEC', secrets.writeToBuffer());
   }
 
   /// Fetches access token credentials for a user from an OAuth provider by auth callback query

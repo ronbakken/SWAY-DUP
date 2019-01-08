@@ -19,9 +19,10 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:inf_server_api/api_oauth_service.dart';
 import 'package:inf_server_api/api_service.dart';
 import 'package:inf_server_api/api_storage_service.dart';
-import 'package:inf_server_api/app_explore_service.dart';
+import 'package:inf_server_api/api_explore_service.dart';
 import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
@@ -152,6 +153,7 @@ Future<void> run(List<String> arguments) async {
   // Listen to gRPC
   final grpc.Server grpcServer = grpc.Server(
     <grpc.Service>[
+      ApiOAuthService(config),
       ApiStorageService(config, bucket),
       ApiExploreService(config, elasticsearch)
     ],
