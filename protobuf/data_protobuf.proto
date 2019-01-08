@@ -20,7 +20,7 @@ syntax = "proto3";
 package inf_common;
 option csharp_namespace = "InfCommon";
 
-import 'enum_protobuf.proto';
+import "enum_protobuf.proto";
 
 // This message MUST NOT contain 'repeated' due to usage of 'mergeFromMessage'
 message DataSocialMedia {

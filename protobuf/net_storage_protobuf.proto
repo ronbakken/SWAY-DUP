@@ -9,8 +9,8 @@ syntax = "proto3";
 package inf_common;
 option csharp_namespace = "InfCommon";
 
-// import 'enum_protobuf.proto';
-// import 'data_protobuf.proto';
+// import "enum_protobuf.proto";
+// import "data_protobuf.proto";
 
 // Client requests the server permission to upload an image
 // The server may delete the image later if it is never used

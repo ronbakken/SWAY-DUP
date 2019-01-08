@@ -9,12 +9,26 @@ syntax = "proto3";
 package inf_common;
 option csharp_namespace = "InfCommon";
 
-import 'net_ident_protobuf.proto';
-import 'net_account_protobuf.proto';
+import "net_ident_protobuf.proto";
+import "net_account_protobuf.proto";
 
 service ApiSession {
-    // TODO
+  /// Create a new session. Does not require any authorization.
+  /// Returns a new bearer token.
+  /// Includes blank account state with session id set.
+  /// Includes a new access token.
+  rpc Create(NetSessionCreate) returns (stream NetSession) {}
 
+  /// Open an existing session.
+  /// Returns a new access token and the account state 
+  /// with session id and optionally the account id set.
+  /// Must be called with a bearer token authorization token.
+  /// If the bearer token is invalid, this returns with a blank access token.
+  /// The returned access token is used for accessing the rest of the API.
+  rpc Open(NetSessionOpen) returns (stream NetSession) {}
+
+  /// TODO
+  // Remove
 }
 
 /* end of file */

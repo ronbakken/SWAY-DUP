@@ -9,8 +9,8 @@ syntax = "proto3";
 package inf_common;
 option csharp_namespace = "InfCommon";
 
-import 'enum_protobuf.proto';
-import 'data_protobuf.proto';
+import "enum_protobuf.proto";
+import "data_protobuf.proto";
 
 // Generic response to offer request
 // Procedure Id: R_CREOFR, R_LSTOFR, R_EDTOFR, R_GETOFR, OFFERUPD

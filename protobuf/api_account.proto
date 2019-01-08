@@ -9,27 +9,27 @@ syntax = "proto3";
 package inf_common;
 option csharp_namespace = "InfCommon";
 
-import 'net_account_protobuf.proto';
+import "net_account_protobuf.proto";
 
 service ApiAccount {
-    /// Sets the account type of the current session, if no account has been created yet
-    rpc SetType(NetSetAccountType) returns (NetAccount) {}
+  /// Sets the account type of the current session, if no account has been created yet
+  rpc SetType(NetSetAccountType) returns (NetAccount) {}
 
-    /// Creates account. Fetches social media information. Sets up initial account data. Downloads initial avatar
-    rpc Create(NetAccountCreate) returns (NetAccount) {}
+  /// Creates account. Fetches social media information. Sets up initial account data. Downloads initial avatar
+  rpc Create(NetAccountCreate) returns (NetAccount) {}
 
-    /// Posts the result of the OAuth flow to process the connection. For OAuth2 this essentially pushes the magic token.
-    rpc ConnectProvider(NetOAuthConnection) returns (NetOAuthConnection) {}
+  /// Posts the result of the OAuth flow to process the connection. For OAuth2 this essentially pushes the magic token.
+  rpc ConnectProvider(NetOAuthConnection) returns (NetOAuthConnection) {}
 
-    /// TODO
-    // rpc DisconnectProvider
+  /// TODO
+  // rpc DisconnectProvider
 
-    /// Sets the firebase token of the current account. Also replaces the same previous firebase token that is specified on other accounts, if specified
-    rpc SetFirebaseToken(NetSetFirebaseToken) returns (NetAccount) {}
+  /// Sets the firebase token of the current account. Also replaces the same previous firebase token that is specified on other accounts, if specified
+  rpc SetFirebaseToken(NetSetFirebaseToken) returns (NetAccount) {}
 
-    /// We should migrate to OneSignal, to have closer integration with iOS & to be safer, since Firebase Messaging does not have an SLA at all (& spies on users)
-    // rpc SetOneSignalId
-    
+  /// We should migrate to OneSignal, to have closer integration with iOS & to be safer, since Firebase Messaging does not have an SLA at all (& spies on users)
+  // rpc SetOneSignalId
+
 }
 
 /* end of file */

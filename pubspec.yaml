@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   protobuf: ^0.10.6
+  grpc: ^1.0.0
 
 #dev_dependencies:
 #  test: ^1.0.0
