@@ -190,7 +190,38 @@ class ApiOffersService extends ApiOffersServiceBase {
       throw grpc.GrpcError.permissionDenied();
     }
 
-    throw grpc.GrpcError.unimplemented();
+    final dynamic results = await elasticsearch.search('offers', {
+      "size": ElasticsearchOffer.kSearchSize,
+      "_source": {
+        "includes": ElasticsearchOffer.kPrivateSummaryFields,
+      },
+      "query": {
+        "term": {
+          "sender_account_id": auth.accountId.toInt(),
+        }
+      },
+    });
+    final List<dynamic> hits = results['hits']['hits'];
+    for (dynamic hit in hits) {
+      final Map<String, dynamic> doc = hit['_source'] as Map<String, dynamic>;
+      NetOffer result;
+      try {
+        result = NetOffer();
+        result.offer = ElasticsearchOffer.fromJson(config, doc,
+            state: true,
+            summary: true,
+            detail: false,
+            offerId: Int64.parseInt(hit['_id']),
+            receiver: auth.accountId,
+            private: true);
+      } catch (error, stackTrace) {
+        result = null;
+        devLog.severe('Error parsing offer', error, stackTrace);
+      }
+      if (result != null) {
+        yield result;
+      }
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -206,7 +237,20 @@ class ApiOffersService extends ApiOffersServiceBase {
       throw grpc.GrpcError.permissionDenied();
     }
 
-    throw grpc.GrpcError.unimplemented();
+    final dynamic doc =
+        await elasticsearch.getDocument('offers', request.offerId.toString());
+    final NetOffer result = NetOffer();
+    result.offer = ElasticsearchOffer.fromJson(config, doc,
+        state: true,
+        summary: true,
+        detail: true,
+        offerId: request.offerId,
+        receiver: auth.accountId,
+        private: true);
+    result.state = true;
+    result.summary = true;
+    result.detail = true;
+    return result;
   }
 
   //////////////////////////////////////////////////////////////////////////////
