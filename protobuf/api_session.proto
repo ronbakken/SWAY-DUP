@@ -29,6 +29,10 @@ service ApiSession {
 
   /// TODO
   // Remove
+
+  /// A bearer token includes just a signed session id.
+  /// An access token includes the signed account id and access level.
+  
 }
 
 /* end of file */
