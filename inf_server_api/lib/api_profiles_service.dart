@@ -1,102 +1,49 @@
 /*
 INF Marketplace
-Copyright (C) 2018  INF Marketplace LLC
+Copyright (C) 2018-2019  INF Marketplace LLC
 Author: Jan Boon <jan.boon@kaetemi.be>
 */
-
-///////////////////////////////////////
-/// DEPRECATED
-/// DEPRECATED
-/// DEPRECATED
-///////////////////////////////////////
 
 import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
-import 'package:switchboard/switchboard.dart';
 
+import 'package:grpc/grpc.dart' as grpc;
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
-import 'package:dospace/dospace.dart' as dospace;
 
 import 'package:inf_common/inf_common.dart';
-import 'api_channel.dart';
 
-class ApiChannelProfile {
-  //////////////////////////////////////////////////////////////////////////////
-  // Inherited properties
-  //////////////////////////////////////////////////////////////////////////////
+class ApiProfilesService extends ApiProfilesServiceBase {
+  final ConfigData config;
+  final sqljocky.ConnectionPool accountDb;
+  static final Logger opsLog = Logger('InfOps.ApiProfilesService');
+  static final Logger devLog = Logger('InfDev.ApiProfilesService');
 
-  ApiChannel _r;
-  ConfigData get config {
-    return _r.config;
+  ApiProfilesService(this.config, this.accountDb);
+
+  String _makeImageUrl(String template, String key) {
+    final int lastIndex = key.lastIndexOf('.');
+    final String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
+    return template.replaceAll('{key}', key).replaceAll('{keyNoExt}', keyNoExt);
   }
 
-  sqljocky.ConnectionPool get accountDb {
-    return _r.accountDb;
-  }
-
-  sqljocky.ConnectionPool get proposalDb {
-    return _r.proposalDb;
-  }
-
-  TalkChannel get channel {
-    return _r.channel;
-  }
-
-  dospace.Bucket get bucket {
-    return _r.bucket;
-  }
-
-  DataAccount get account {
-    return _r.account;
-  }
-
-  Int64 get accountId {
-    return _r.account.accountId;
-  }
-
-  GlobalAccountState get globalAccountState {
-    return _r.account.globalAccountState;
-  }
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Construction
-  //////////////////////////////////////////////////////////////////////////////
-
-  static final Logger opsLog = Logger('InfOps.ApiChannelOAuth');
-  static final Logger devLog = Logger('InfDev.ApiChannelOAuth');
-
-  ApiChannelProfile(this._r) {
-    _r.registerProcedure(
-        'GETPROFL', GlobalAccountState.readOnly, netGetProfile);
-  }
-
-  void dispose() {
-    _r.unregisterProcedure('GETPROFL');
-    _r = null;
-  }
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Network messages
-  //////////////////////////////////////////////////////////////////////////////
-
-  Future<void> netGetProfile(TalkMessage message) async {
-    final NetGetProfile getProfile = NetGetProfile()
-      ..mergeFromBuffer(message.data)
-      ..freeze();
-    devLog.finest(getProfile);
+  @override
+  Future<NetProfile> get(grpc.ServiceCall call, NetGetProfile request) async {
+    final DataAuth auth =
+        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
+      throw grpc.GrpcError.permissionDenied();
+    }
 
     final DataAccount account = DataAccount();
+    account.accountId = request.accountId;
 
-    account.accountId = getProfile.accountId;
-
-    channel.replyExtend(message);
     final sqljocky.RetainedConnection connection =
         await accountDb.getConnection();
     try {
       // Fetch public profile info
-      channel.replyExtend(message);
       final sqljocky.Results accountResults = await connection.prepareExecute(
           'SELECT `accounts`.`name`, `accounts`.`account_type`, ' // 0 1
           '`accounts`.`description`, `accounts`.`location_id`, ' // 2 3
@@ -106,21 +53,21 @@ class ApiChannelProfile {
           'FROM `accounts` '
           'INNER JOIN `locations` ON `locations`.`location_id` = `accounts`.`location_id` '
           'WHERE `accounts`.`account_id` = ? ',
-          <dynamic>[getProfile.accountId]);
+          <dynamic>[request.accountId]);
       await for (sqljocky.Row row in accountResults) {
         account.name = row[0].toString();
         account.accountType = AccountType.valueOf(row[1].toInt());
         account.description = row[2].toString();
         account.locationId = Int64(row[3]);
         if (row[4] != null) {
-          account.avatarUrl = _r.makeCloudinaryThumbnailUrl(row[4].toString());
+          account.avatarUrl = _makeImageUrl(config.services.galleryThumbnailUrl, row[4].toString());
           account.blurredAvatarUrl =
-              _r.makeCloudinaryBlurredThumbnailUrl(row[4].toString());
+              _makeImageUrl(config.services.galleryThumbnailBlurredUrl, row[4].toString());
           account.coverUrls.clear();
-          account.coverUrls.add(_r.makeCloudinaryCoverUrl(row[4].toString()));
+          account.coverUrls.add(_makeImageUrl(config.services.galleryCoverUrl, row[4].toString()));
           account.blurredCoverUrls.clear();
           account.blurredCoverUrls
-              .add(_r.makeCloudinaryBlurredCoverUrl(row[4].toString()));
+              .add(_makeImageUrl(config.services.galleryCoverBlurredUrl, row[4].toString()));
         }
         if (row[5] != null) {
           account.website = row[5].toString();
@@ -148,7 +95,6 @@ class ApiChannelProfile {
         }
       }
       // Fetch public social media info
-      channel.replyExtend(message);
       final sqljocky.Results connectionResults = await connection.prepareExecute(
           'SELECT `social_media`.`oauth_provider`, ' // 0
           '`social_media`.`display_name`, `social_media`.`profile_url`, ' // 1 2
@@ -160,7 +106,7 @@ class ApiChannelProfile {
           'ON `social_media`.`oauth_user_id` = `oauth_connections`.`oauth_user_id` '
           'AND `social_media`.`oauth_provider` = `oauth_connections`.`oauth_provider` '
           'WHERE `oauth_connections`.`account_id` = ? ',
-          <dynamic>[getProfile.accountId]);
+          <dynamic>[request.accountId]);
       await for (sqljocky.Row row in connectionResults) {
         final int oauthProvider = row[0].toInt();
         account.socialMedia[oauthProvider] = DataSocialMedia();
@@ -182,10 +128,11 @@ class ApiChannelProfile {
       await connection.release();
     }
 
-    final NetProfile res = NetProfile();
-    res.account = account;
-    channel.replyMessage(message, 'R_PROFIL', res.writeToBuffer());
+    final NetProfile response = NetProfile();
+    response.account = account;
+    return response;
   }
+
 }
 
 /* end of file */

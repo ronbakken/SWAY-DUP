@@ -23,6 +23,7 @@ import 'package:inf_common/inf_common.dart';
 import 'package:inf_server_api/api_account_service.dart';
 
 import 'package:inf_server_api/api_oauth_service.dart';
+import 'package:inf_server_api/api_profiles_service.dart';
 import 'package:inf_server_api/api_session_service.dart';
 import 'package:inf_server_api/api_storage_service.dart';
 import 'package:inf_server_api/api_explore_service.dart';
@@ -31,6 +32,7 @@ import 'package:inf_server_api/elasticsearch.dart';
 import 'package:inf_server_api/broadcast_center.dart';
 
 import 'package:logging/logging.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 import 'package:http_client/console.dart' as http_client;
@@ -56,7 +58,8 @@ Future<void> selfTestSql(sqljocky.ConnectionPool sql) async {
       opsLog.info('[✔️] SQL Self Test');
     }
   } catch (error, stackTrace) {
-    opsLog.severe('[❌] SQL Self Test', error, stackTrace); // CRITICAL - OPERATIONS
+    opsLog.severe(
+        '[❌] SQL Self Test', error, stackTrace); // CRITICAL - OPERATIONS
   }
 }
 
@@ -114,7 +117,7 @@ Future<void> run(List<String> arguments) async {
       password: config.services.accountDbPassword,
       db: config.services.accountDbDatabase,
       max: 17);
-  selfTestSql(accountDb);
+  unawaited(selfTestSql(accountDb));
 
   // Run Proposal DB SQL client
   final sqljocky.ConnectionPool proposalDb = sqljocky.ConnectionPool(
@@ -124,7 +127,7 @@ Future<void> run(List<String> arguments) async {
       password: config.services.proposalDbPassword,
       db: config.services.proposalDbDatabase,
       max: 17);
-  selfTestSql(proposalDb);
+  unawaited(selfTestSql(proposalDb));
 
   // Spaces
   final dospace.Spaces spaces = dospace.Spaces(
@@ -165,15 +168,16 @@ Future<void> run(List<String> arguments) async {
           oauth1.Authorization(clientCredentials, platform, httpClient);
     }
   }
-  _selfTestOAuth1(config, oauth1Auth);
+  unawaited(_selfTestOAuth1(config, oauth1Auth));
 
   // Listen to gRPC
   final grpc.Server grpcServer = grpc.Server(
     <grpc.Service>[
       ApiSessionService(config, accountDb),
-      ApiAccountService(config, accountDb, bc, oauth1Auth),
+      ApiAccountService(config, accountDb, bucket, bc, oauth1Auth),
       ApiOAuthService(config, oauth1Auth),
       ApiStorageService(config, bucket),
+      ApiProfilesService(config, accountDb),
       ApiExploreService(config, elasticsearch)
     ],
     <grpc.Interceptor>[

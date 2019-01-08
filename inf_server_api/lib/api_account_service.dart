@@ -14,6 +14,7 @@ import 'package:inf_server_api/broadcast_center.dart';
 import 'package:inf_server_api/common_account.dart';
 import 'package:inf_server_api/common_location.dart';
 import 'package:inf_server_api/common_oauth.dart';
+import 'package:inf_server_api/common_storage.dart';
 import 'package:logging/logging.dart';
 
 import 'package:grpc/grpc.dart' as grpc;
@@ -22,12 +23,14 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:http/http.dart' as http;
 import 'package:http_client/console.dart' as http_client;
+import 'package:dospace/dospace.dart' as dospace;
 
 import 'package:inf_common/inf_common.dart';
 
 class ApiAccountService extends ApiAccountServiceBase {
   final ConfigData config;
   final sqljocky.ConnectionPool accountDb;
+  final dospace.Bucket bucket;
   final BroadcastCenter bc;
   final List<oauth1.Authorization> oauth1Auth;
 
@@ -37,7 +40,7 @@ class ApiAccountService extends ApiAccountServiceBase {
   final http.Client httpClient = http.Client();
   final http_client.Client httpClientClient = http_client.ConsoleClient();
 
-  ApiAccountService(this.config, this.accountDb, this.bc, this.oauth1Auth);
+  ApiAccountService(this.config, this.accountDb, this.bucket, this.bc, this.oauth1Auth);
 
   final Random _random = Random.secure();
 
@@ -676,18 +679,17 @@ class ApiAccountService extends ApiAccountServiceBase {
     }
     */
 
-    // TODO: Move downloadUserImage
     // Non-critical
     // 1. Download avatar
     // 2. Upload avatar to Spaces
     // 3. Update account to refer to avatar
-    /*
+    // TODO: Possible to move this after returning and just push an updated NetAccount afterwards
     try {
       if (accountId != 0 &&
           accountAvatarUrl != null &&
-          accountAvatarUrl.length > 0) {
-        String avatarKey =
-            await downloadUserImage(account.accountId, accountAvatarUrl);
+          accountAvatarUrl.isNotEmpty) {
+        final String avatarKey =
+            await downloadUserImage(config, httpClientClient, bucket, accountId, accountAvatarUrl);
         await accountDb.prepareExecute(
             'UPDATE `accounts` SET `avatar_key` = ? '
             'WHERE `account_id` = ?',
@@ -697,7 +699,6 @@ class ApiAccountService extends ApiAccountServiceBase {
       devLog.severe("Exception downloading avatar '$accountAvatarUrl'", error,
           stackTrace);
     }
-    */
 
     // Send authentication state
     /*
