@@ -82,6 +82,16 @@ message DataOAuthCredentials {
   
 }
 
+message DataAuth {
+  // Access subset of DataAccount
+  int64 session_id = 4;
+  int64 account_id = 5;
+  AccountType account_type = 6;
+  GlobalAccountState global_account_state = 7; // Banned, readWrite (active), manager, etc
+  AccountLevel account_level = 9; // Subscription (free, premium, pro, etc)
+
+}
+
 message DataTerms {
   // Deliverables
   repeated int32 deliverable_social_platforms = 1; // Identifier from oauth providers
