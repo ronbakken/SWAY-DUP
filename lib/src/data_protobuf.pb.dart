@@ -293,6 +293,84 @@ class DataOAuthCredentials extends $pb.GeneratedMessage {
   void clearUserId() => clearField(4);
 }
 
+class DataAuth extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAuth',
+      package: const $pb.PackageName('inf_common'))
+    ..aInt64(4, 'sessionId')
+    ..aInt64(5, 'accountId')
+    ..e<$9.AccountType>(6, 'accountType', $pb.PbFieldType.OE,
+        $9.AccountType.unknown, $9.AccountType.valueOf, $9.AccountType.values)
+    ..e<$9.GlobalAccountState>(
+        7,
+        'globalAccountState',
+        $pb.PbFieldType.OE,
+        $9.GlobalAccountState.initialize,
+        $9.GlobalAccountState.valueOf,
+        $9.GlobalAccountState.values)
+    ..e<$9.AccountLevel>(9, 'accountLevel', $pb.PbFieldType.OE,
+        $9.AccountLevel.free, $9.AccountLevel.valueOf, $9.AccountLevel.values)
+    ..hasRequiredFields = false;
+
+  DataAuth() : super();
+  DataAuth.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  DataAuth.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  DataAuth clone() => new DataAuth()..mergeFromMessage(this);
+  DataAuth copyWith(void Function(DataAuth) updates) =>
+      super.copyWith((message) => updates(message as DataAuth));
+  $pb.BuilderInfo get info_ => _i;
+  static DataAuth create() => new DataAuth();
+  static $pb.PbList<DataAuth> createRepeated() => new $pb.PbList<DataAuth>();
+  static DataAuth getDefault() => _defaultInstance ??= create()..freeze();
+  static DataAuth _defaultInstance;
+  static void $checkItem(DataAuth v) {
+    if (v is! DataAuth) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  Int64 get sessionId => $_getI64(0);
+  set sessionId(Int64 v) {
+    $_setInt64(0, v);
+  }
+
+  bool hasSessionId() => $_has(0);
+  void clearSessionId() => clearField(4);
+
+  Int64 get accountId => $_getI64(1);
+  set accountId(Int64 v) {
+    $_setInt64(1, v);
+  }
+
+  bool hasAccountId() => $_has(1);
+  void clearAccountId() => clearField(5);
+
+  $9.AccountType get accountType => $_getN(2);
+  set accountType($9.AccountType v) {
+    setField(6, v);
+  }
+
+  bool hasAccountType() => $_has(2);
+  void clearAccountType() => clearField(6);
+
+  $9.GlobalAccountState get globalAccountState => $_getN(3);
+  set globalAccountState($9.GlobalAccountState v) {
+    setField(7, v);
+  }
+
+  bool hasGlobalAccountState() => $_has(3);
+  void clearGlobalAccountState() => clearField(7);
+
+  $9.AccountLevel get accountLevel => $_getN(4);
+  set accountLevel($9.AccountLevel v) {
+    setField(9, v);
+  }
+
+  bool hasAccountLevel() => $_has(4);
+  void clearAccountLevel() => clearField(9);
+}
+
 class DataTerms extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataTerms',
       package: const $pb.PackageName('inf_common'))

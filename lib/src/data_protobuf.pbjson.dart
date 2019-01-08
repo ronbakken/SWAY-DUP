@@ -65,6 +65,38 @@ const DataOAuthCredentials$json = const {
   ],
 };
 
+const DataAuth$json = const {
+  '1': 'DataAuth',
+  '2': const [
+    const {'1': 'session_id', '3': 4, '4': 1, '5': 3, '10': 'sessionId'},
+    const {'1': 'account_id', '3': 5, '4': 1, '5': 3, '10': 'accountId'},
+    const {
+      '1': 'account_type',
+      '3': 6,
+      '4': 1,
+      '5': 14,
+      '6': '.inf_common.AccountType',
+      '10': 'accountType'
+    },
+    const {
+      '1': 'global_account_state',
+      '3': 7,
+      '4': 1,
+      '5': 14,
+      '6': '.inf_common.GlobalAccountState',
+      '10': 'globalAccountState'
+    },
+    const {
+      '1': 'account_level',
+      '3': 9,
+      '4': 1,
+      '5': 14,
+      '6': '.inf_common.AccountLevel',
+      '10': 'accountLevel'
+    },
+  ],
+};
+
 const DataTerms$json = const {
   '1': 'DataTerms',
   '2': const [
