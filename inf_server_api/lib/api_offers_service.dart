@@ -40,6 +40,10 @@ class ApiOffersService extends ApiOffersServiceBase {
     return template.replaceAll('{key}', key).replaceAll('{keyNoExt}', keyNoExt);
   }
 
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
   @override
   Future<NetOffer> create(grpc.ServiceCall call, NetCreateOffer request) async {
     final DataAuth auth =
@@ -173,19 +177,52 @@ class ApiOffersService extends ApiOffersServiceBase {
     return result;
   }
 
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
   @override
   Stream<NetOffer> list(grpc.ServiceCall call, NetListOffers request) async* {
+    final DataAuth auth =
+        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
+      throw grpc.GrpcError.permissionDenied();
+    }
+
     throw grpc.GrpcError.unimplemented();
   }
 
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
   @override
   Future<NetOffer> get(grpc.ServiceCall call, NetGetOffer request) async {
+    final DataAuth auth =
+        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
+      throw grpc.GrpcError.permissionDenied();
+    }
+
     throw grpc.GrpcError.unimplemented();
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   @override
   Future<NetReport> report(
       grpc.ServiceCall call, NetReportOffer request) async {
+    final DataAuth auth =
+        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readWrite.value) {
+      throw grpc.GrpcError.permissionDenied();
+    }
+
     throw grpc.GrpcError.unimplemented();
   }
 }
