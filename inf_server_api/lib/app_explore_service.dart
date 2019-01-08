@@ -1,0 +1,79 @@
+/*
+INF Marketplace
+Copyright (C) 2018-2019  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+import 'dart:async';
+
+import 'package:crypto/crypto.dart';
+import 'package:fixnum/fixnum.dart';
+import 'package:inf_server_api/elasticsearch.dart';
+import 'package:inf_server_api/elasticsearch_offer.dart';
+import 'package:logging/logging.dart';
+
+import 'package:dospace/dospace.dart' as dospace;
+import 'package:grpc/grpc.dart' as grpc;
+
+import 'package:inf_common/inf_common.dart';
+
+class ApiExploreService extends ApiExploreServiceBase {
+  final ConfigData config;
+  final Elasticsearch elasticsearch;
+  static final Logger opsLog = Logger('InfOps.ApiStorageService');
+  static final Logger devLog = Logger('InfDev.ApiStorageService');
+
+  ApiExploreService(this.config, this.elasticsearch);
+
+  @override
+  Stream<NetOffer> demoAll(
+      grpc.ServiceCall call, NetDemoAllOffers request) async* {
+    final DataAuth auth =
+        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
+      throw grpc.GrpcError.permissionDenied();
+    }
+
+    final dynamic results = await elasticsearch.search('offers', {
+      "size": ElasticsearchOffer.kSearchSize,
+      "_source": {
+        "includes": ElasticsearchOffer.kSummaryFields,
+      },
+      "query": {
+        "bool": {
+          "must_not": {
+            "term": {
+              "sender_account_type": auth.accountType.value,
+            }
+          }
+        }
+      },
+    });
+
+    final List<dynamic> hits = results['hits']['hits'];
+    for (dynamic hit in hits) {
+      final Map<String, dynamic> doc = hit['_source'] as Map<String, dynamic>;
+      NetOffer response;
+      try {
+        response = NetOffer();
+        response.offer = ElasticsearchOffer.fromJson(config, doc,
+            state: true,
+            summary: true,
+            detail: false,
+            offerId: Int64.parseInt(hit['_id']),
+            receiver: auth.accountId,
+            private: true);
+      } catch (error, stackTrace) {
+        response = null;
+        devLog.severe('Error parsing offer', error, stackTrace);
+      }
+      if (response != null) {
+        yield response;
+      }
+    }
+  }
+}
+
+/* end of file */

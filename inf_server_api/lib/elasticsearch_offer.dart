@@ -43,6 +43,48 @@ class ElasticsearchOffer {
     return hash;
   }
 
+  static const int kSearchSize = 255;
+
+  static const List<String> kPrivateFields = <String>[
+    // Summary
+    'location_id', // Private
+    // State
+    'state',
+    'state_reason',
+    'archived',
+    'proposals_proposing',
+    'proposals_negotiating',
+    'proposals_deal',
+    'proposals_rejected',
+    'proposals_dispute',
+    'proposals_resolved',
+    'proposals_complete',
+  ];
+
+  static const List<String> kSummaryFields = <String>[
+    // Summary
+    "offer_id",
+    "sender_account_id",
+    "sender_account_type",
+    "title",
+    "thumbnail_key",
+    "thumbnail_blurred",
+    "deliverable_social_platforms",
+    "deliverable_content_formats",
+    "reward_cash_value",
+    "reward_item_or_service_value",
+    "primary_categories",
+    "sender_name",
+    "sender_avatar_url", // TODO: Fix this
+    "sender_avatar_key", // TODO: Fix this
+    "sender_avatar_blurred",
+    "location_address",
+    "location",
+  ];
+
+  static final List<String> kPrivateSummaryFields =
+      (kPrivateFields + kSummaryFields).toList();
+
   static dynamic toJson(
     ConfigData config,
     DataOffer offer, {

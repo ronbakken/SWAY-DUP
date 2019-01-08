@@ -1,0 +1,21 @@
+/*
+
+Facebook OAuth returns giant a code like
+
+code=AQAw5lF_gdhmUaJNtLM0HFPwOjEg3DtHXsZYc3xWI4f5PUohbMapxb7wp7Ma2sQD3s
+TybdSuz7lw8Db_4-zvkmCcUdaJjWkQ8GF1g-20UyCylzpBpUR06KUygOhoChSJWx9cKdoTz
+2mKdNLLay9FKkX7g8J_j5kVuEmVrvBjxAp8_S_hnNdWSawNgWtqqwDkI8Gaqk7moiWr2qyy
+YofGjZRarGeaR3Cznt3Ns8zK2NXLTBdSj_MOMuSM1R7HGesHoay7xRadgBQLUsSKAaiKP32
+bruhXggmeyTTWBFXEOgmguqg6aoF284BTWPseOuxQS84
+
+*/
+
+/*
+
+Then output for social media info from Facebook is like
+
+InfDev.ApiChannelOAuth: FINEST: 2018-07-30 15:18:57.172739: {name: Jan Boon, email: kaetemi@gmail.com, link: https://www.facebook.com/app_scoped_user_id/YXNpZADpBWEhuQ3d6OVZAnMHpoLU40cy1yUEhlX3I0Q095YXZAZAYTg5QXNxU094UDlwRzItdzc1a2FMbWtJODFLQWgwazVDbWo3a0FPQzRzSXZAUeTBlZAUpOVHBlTHV6ZATVGU0psOE0yblM2N24xdQZDZD/, picture: {data: {height: 50, is_silhouette: false, url: https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10155696703021547&height=50&width=50&ext=1535527137&hash=AeT1N0Rc2Zx1tHBz, width: 50}}, id: 10155696703021547}
+InfDev.ApiChannelOAuth: FINEST: 2018-07-30 15:18:57.474171: {data: [], summary: {total_count: 220}}
+InfDev.ApiChannelOAuth: FINEST: 2018-07-30 15:18:57.758358: {data: [{id: 1137023473103283}, {id: 1296007253750622}], paging: {cursors: {before: MTEzNzAyMzQ3MzEwMzI4MwZDZD, after: MTI5NjAwNzI1Mzc1MDYyMgZDZD}}, summary: {total_count: 2}}
+
+*/

@@ -20,13 +20,16 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:inf_server_api/api_service.dart';
+import 'package:inf_server_api/api_storage_service.dart';
+import 'package:inf_server_api/app_explore_service.dart';
 import 'package:inf_server_api/elasticsearch.dart';
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 // import 'package:postgres/postgres.dart' as postgres;
-import 'package:switchboard/switchboard.dart';
+// import 'package:switchboard/switchboard.dart';
 import 'package:dospace/dospace.dart' as dospace;
 import 'package:http_client/console.dart' as http;
+import 'package:grpc/grpc.dart' as grpc;
 
 import 'package:inf_server_api/broadcast_center.dart';
 import 'package:inf_common/inf_common.dart';
@@ -56,40 +59,6 @@ Future<void> selfTestSql(sqljocky.ConnectionPool sql) async {
     }
   } catch (ex) {
     opsLog.severe('[❌] SQL Self Test: $ex'); // CRITICAL - OPERATIONS
-  }
-}
-
-Future<void> selfTestTalk() async {
-  final Logger opsLog = Logger('InfOps.SelfTest');
-  TalkChannel channel;
-  // List<int> values = new List<int>();
-  try {
-    /*
-    channel = await TalkSocket.connect("ws://localhost:8090/api");
-    Future<void> listen = channel.listen();
-    for (int i = 0; i < 3; ++i) {
-      values.add(await channel.ping());
-    }
-    for (int i = 0; i < 3; ++i) {
-      await for (int dt in channel.multiPing()) {
-        values.add(dt);
-      }
-    }
-    channel.close();
-    channel = null;
-    await listen;
-    */
-    final Switchboard switchboard = Switchboard();
-    switchboard.setEndPoint('ws://localhost:8090/ep');
-    await switchboard.sendRequest('api', 'PING', Uint8List(0));
-    switchboard.listenDiscard();
-    await switchboard.close();
-    opsLog.info('[✔️] Switchboard Self Test');
-  } catch (ex) {
-    opsLog.severe('[❌] Switchboard Self Test: $ex'); // CRITICAL - OPERATIONS
-  }
-  if (channel != null) {
-    channel.close();
   }
 }
 
@@ -131,10 +100,6 @@ Future<void> run(List<String> arguments) async {
   Logger('InfDev').level = Level.ALL;
   Logger('SqlJocky').level = Level.WARNING;
   Logger('SqlJocky.BufferedSocket').level = Level.WARNING;
-  Logger('Switchboard').level = Level.INFO;
-  Logger('Switchboard.Mux').level = Level.ALL;
-  Logger('Switchboard.Talk').level = Level.INFO;
-  Logger('Switchboard.Router').level = Level.ALL;
 
   // Server Configuration
   final String configFile =
@@ -184,17 +149,24 @@ Future<void> run(List<String> arguments) async {
   final BroadcastCenter bc =
       BroadcastCenter(config, accountDb, proposalDb, bucket);
 
-  // Listen to websocket
-  final Switchboard switchboard = Switchboard();
-  await switchboard.bindWebSocket(InternetAddress.anyIPv6, 8090, '/ep');
-  // await switchboard.bindWebSocket(InternetAddress.anyIPv4, 8090, '/ep');
-  selfTestTalk();
+  // Listen to gRPC
+  final grpc.Server grpcServer = grpc.Server(
+    <grpc.Service>[
+      ApiStorageService(config, bucket),
+      ApiExploreService(config, elasticsearch)
+    ],
+    <grpc.Interceptor>[
+      // TODO(kaetemi): Add interceptor for JWT
+    ],
+  );
+  final Future<void> grpcServing = grpcServer.serve(port: 8900);
 
-  final ApiService apiService = ApiService(
-      config, accountDb, proposalDb, bucket, elasticsearch, switchboard, bc);
-  await apiService.listen();
-  await apiService.close();
+  // Listen to WebSocket
 
+  // Exit if any of the listeners exits
+  await Future.any(<Future<void>>[grpcServing]);
+
+  await grpcServer.shutdown();
   await spaces.close();
 }
 
