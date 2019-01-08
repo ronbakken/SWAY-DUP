@@ -23,7 +23,13 @@ export 'package:inf_common/src/net_demo_protobuf.pb.dart';
 export 'package:inf_common/src/net_push_protobuf.pb.dart';
 
 export 'package:inf_common/src/api_session.pbgrpc.dart';
+export 'package:inf_common/src/api_oauth.pbgrpc.dart';
 export 'package:inf_common/src/api_account.pbgrpc.dart';
+export 'package:inf_common/src/api_storage.pbgrpc.dart';
+export 'package:inf_common/src/api_profiles.pbgrpc.dart';
+export 'package:inf_common/src/api_offers.pbgrpc.dart';
+export 'package:inf_common/src/api_proposals.pbgrpc.dart';
+export 'package:inf_common/src/api_explore.pbgrpc.dart';
 
 export 'package:inf_common/src/api_push.pbgrpc.dart';
 
