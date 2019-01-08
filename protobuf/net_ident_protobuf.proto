@@ -66,12 +66,13 @@ message NetSessionRemove {
 message NetSession {
   /// Newly created session id. Client uses this only to update the connection payload.
   // TODO(2018 JAN 08): Deprecate
-  int64 session_id = 1;
+  // int64 session_id = 1;
 
   /// Embedded account info, reduces delay.
   DataAccount account = 2;
 
   /// Bearer token when creating a session, used for opening subsequent sessions.
+  /// Not set when opening an existing session.
   string bearer_token = 3;
 
   /// Access token for when a session is opened.

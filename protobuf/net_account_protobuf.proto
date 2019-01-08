@@ -83,7 +83,12 @@ message NetOAuthConnect {
 /// OAuth addition result
 /// Procedure ID: 'OA_R_CON'
 message NetOAuthConnection {
+  /// Updated social media entry
   DataSocialMedia social_media = 1;
+
+  /// In case the OAuth connection causes a login, following fields are set
+  string access_token = 4;
+  DataAccount account = 2;
   
 }
 
