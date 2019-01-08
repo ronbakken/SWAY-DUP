@@ -14,9 +14,8 @@ option csharp_namespace = "InfCommon";
 
 // Client requests the server permission to upload an image
 // The server may delete the image later if it is never used
-// Name: UP_IMAGE
-// Response: NetResImageUpload
-message NetUploadImageReq {
+// Response: NetUploadSigned
+message NetUploadImage {
   // File information
   string fileName = 1;
   
@@ -29,8 +28,7 @@ message NetUploadImageReq {
 }
 
 // Request parameters to be used by the client verbatim for uploading
-// Name: UP_R_IMG
-message NetUploadImageRes {
+message NetUploadSigned {
   // Request options
   string requestMethod = 1;
   string requestUrl = 2;
