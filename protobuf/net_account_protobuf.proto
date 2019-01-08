@@ -96,4 +96,10 @@ message NetAccountCreate {
   
 }
 
+/// Apply promo code
+message NetAccountPromo {
+  string code = 1;
+
+}
+
 /* end of file */
