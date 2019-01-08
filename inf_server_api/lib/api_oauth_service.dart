@@ -11,62 +11,18 @@ import 'package:logging/logging.dart';
 
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:grpc/grpc.dart' as grpc;
-import 'package:http/http.dart' as http;
 
 import 'package:inf_common/inf_common.dart';
 
 class ApiOAuthService extends ApiOAuthServiceBase {
   final ConfigData config;
   // final Elasticsearch elasticsearch;
+  final List<oauth1.Authorization> oauth1Auth;
 
   static final Logger opsLog = Logger('InfOps.ApiOAuthService');
   static final Logger devLog = Logger('InfDev.ApiOAuthService');
-  final http.Client httpClient = http.Client();
 
-  List<oauth1.Authorization> oauth1Auth;
-
-  ApiOAuthService(this.config) {
-    oauth1Auth = List<oauth1.Authorization>(config.oauthProviders.length);
-    for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {
-      final ConfigOAuthProvider provider = config.oauthProviders[providerId];
-      if (provider.mechanism == OAuthMechanism.oauth1) {
-        final oauth1.Platform platform = oauth1.Platform(
-            provider.host + provider.requestTokenUrl,
-            provider.host + provider.authenticateUrl,
-            provider.host + provider.accessTokenUrl,
-            oauth1.SignatureMethods.hmacSha1);
-        final oauth1.ClientCredentials clientCredentials =
-            oauth1.ClientCredentials(
-                provider.consumerKey, provider.consumerSecret);
-        oauth1Auth[providerId] =
-            oauth1.Authorization(clientCredentials, platform, httpClient);
-      }
-    }
-    _selfTest();
-  }
-
-  Future<void> _selfTest() async {
-    try {
-      for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {
-        final ConfigOAuthProvider provider = config.oauthProviders[providerId];
-        if (provider.mechanism == OAuthMechanism.oauth1) {
-          final oauth1.Authorization auth = oauth1Auth[providerId];
-          devLog.fine('OAuth1 ($providerId): ' +
-              (await auth.requestTemporaryCredentials(provider.callbackUrl))
-                  .credentials
-                  .toJSON()
-                  .toString());
-          devLog.fine('OAuth1 ($providerId): ' +
-              (await auth.requestTemporaryCredentials(provider.callbackUrl))
-                  .credentials
-                  .toJSON()
-                  .toString());
-        }
-      }
-    } catch (error, stackTrace) {
-      opsLog.severe('Self test error', error, stackTrace);
-    }
-  }
+  ApiOAuthService(this.config, this.oauth1Auth);
 
   @override
   Future<NetOAuthUrl> getUrl(

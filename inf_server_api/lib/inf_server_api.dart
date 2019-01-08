@@ -33,8 +33,10 @@ import 'package:inf_server_api/broadcast_center.dart';
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
-import 'package:http_client/console.dart' as http;
+import 'package:http_client/console.dart' as http_client;
+import 'package:http/http.dart' as http;
 import 'package:grpc/grpc.dart' as grpc;
+import 'package:oauth1/oauth1.dart' as oauth1;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,8 +55,28 @@ Future<void> selfTestSql(sqljocky.ConnectionPool sql) async {
     } else {
       opsLog.info('[✔️] SQL Self Test');
     }
-  } catch (ex) {
-    opsLog.severe('[❌] SQL Self Test: $ex'); // CRITICAL - OPERATIONS
+  } catch (error, stackTrace) {
+    opsLog.severe('[❌] SQL Self Test', error, stackTrace); // CRITICAL - OPERATIONS
+  }
+}
+
+Future<void> _selfTestOAuth1(
+    ConfigData config, List<oauth1.Authorization> oauth1Auth) async {
+  final Logger opsLog = Logger('InfOps.SelfTest');
+  try {
+    for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {
+      final ConfigOAuthProvider provider = config.oauthProviders[providerId];
+      if (provider.mechanism == OAuthMechanism.oauth1) {
+        final oauth1.Authorization auth = oauth1Auth[providerId];
+        opsLog.info('[✔️] OAuth1 ($providerId): ' +
+            (await auth.requestTemporaryCredentials(provider.callbackUrl))
+                .credentials
+                .toJSON()
+                .toString());
+      }
+    }
+  } catch (error, stackTrace) {
+    opsLog.severe('[❌] OAuth1 Self Test', error, stackTrace);
   }
 }
 
@@ -109,7 +131,7 @@ Future<void> run(List<String> arguments) async {
     region: config.services.spacesRegion,
     accessKey: config.services.spacesKey,
     secretKey: config.services.spacesSecret,
-    httpClient: http.ConsoleClient(),
+    httpClient: http_client.ConsoleClient(),
   );
   final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
   if (!(await spaces.listAllBuckets()).contains(config.services.spacesBucket)) {
@@ -124,12 +146,33 @@ Future<void> run(List<String> arguments) async {
   final BroadcastCenter bc =
       BroadcastCenter(config, accountDb, proposalDb, bucket);
 
+  final http.Client httpClient = http.Client();
+
+  final List<oauth1.Authorization> oauth1Auth =
+      List<oauth1.Authorization>(config.oauthProviders.length);
+  for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {
+    final ConfigOAuthProvider provider = config.oauthProviders[providerId];
+    if (provider.mechanism == OAuthMechanism.oauth1) {
+      final oauth1.Platform platform = oauth1.Platform(
+          provider.host + provider.requestTokenUrl,
+          provider.host + provider.authenticateUrl,
+          provider.host + provider.accessTokenUrl,
+          oauth1.SignatureMethods.hmacSha1);
+      final oauth1.ClientCredentials clientCredentials =
+          oauth1.ClientCredentials(
+              provider.consumerKey, provider.consumerSecret);
+      oauth1Auth[providerId] =
+          oauth1.Authorization(clientCredentials, platform, httpClient);
+    }
+  }
+  _selfTestOAuth1(config, oauth1Auth);
+
   // Listen to gRPC
   final grpc.Server grpcServer = grpc.Server(
     <grpc.Service>[
       ApiSessionService(config, accountDb),
-      ApiAccountService(config, accountDb, bc),
-      ApiOAuthService(config),
+      ApiAccountService(config, accountDb, bc, oauth1Auth),
+      ApiOAuthService(config, oauth1Auth),
       ApiStorageService(config, bucket),
       ApiExploreService(config, elasticsearch)
     ],
