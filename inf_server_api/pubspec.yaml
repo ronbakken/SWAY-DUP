@@ -1,6 +1,6 @@
 name: inf_server_api
 description: INF Server API service.
-version: 2.2.10
+version: 3.0.11
 homepage: https://www.infmarketplace.com
 author: Jan Boon <kaetemi@no-break.space>
 publish_to: none
@@ -12,7 +12,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: 69866b1e39f8f2999ea9742a62bc36065debcead
+      ref: cc38af52dd7a3f7528d7c026e5e506b81d7f267b
   logging: ^0.11.3+2
   # crypto: ^2.0.6
   # pointycastle: ^1.0.0-rc2
@@ -24,7 +24,8 @@ dependencies:
     git:
       url: https://github.com/nbspou/sqljocky5.git
       ref: 1feb53e331bf6405fcd8b40362922096f950dad7
-  switchboard: ^2.0.11
+  # switchboard: ^2.0.11
+  grpc: ^1.0.0
   oauth1:
     git:
       url: https://github.com/nbspou/dart-oauth1.git

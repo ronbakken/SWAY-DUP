@@ -4,6 +4,20 @@ This contains the services that make up the INF server.
 
 Currently there is one majestic monolith service. Preconfigured to connect stand-alone with development databases. Just run it.
 
+## Service Ports
+
+| Service | Port |
+| --- | --- |
+| API gRPC | 8900 |
+| API WS | 8901 |
+| Elasticsearch API | 9200 |
+| Elasticsearch Mesh | 9300 |
+| MariaDB | 3306 |
+| phpMyAdmin | 8098 |
+| Kibana | 5601 |
+| Envoy Proxy HTTP | 80 |
+| Envoy Proxy HTTPS | 443 |
+
 ## Todo
 
 - Use gRPC.
