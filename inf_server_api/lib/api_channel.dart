@@ -87,87 +87,13 @@ class ApiChannel {
 
   void subscribeOnboarding() {
     registerProcedure(
-        "A_SETTYP", GlobalAccountState.initialize, _accountSetType);
-    registerProcedure(
         "A_CREATE", GlobalAccountState.initialize, _accountCreate);
   }
 
   void unsubscribeOnboarding() {
-    unregisterProcedure("A_SETTYP");
     unregisterProcedure("A_CREATE");
   }
 
-  Future<void> _accountSetType(TalkMessage message) async {
-    assert(account.sessionId != 0);
-    // Received account type change request
-    NetSetAccountType pb = NetSetAccountType();
-    pb.mergeFromBuffer(message.data);
-    devLog.finest("NetSetAccountType ${pb.accountType}");
-
-    bool update = false;
-    await lock.synchronized(() async {
-      if (pb.accountType == account.accountType) {
-        devLog.finest("no-op");
-        return; // no-op, may ignore
-      }
-      if (account.accountId != 0) {
-        devLog.finest("no-op");
-        return; // no-op, may ignore
-      }
-      update = true;
-      try {
-        await accountDb.startTransaction((sqljocky.Transaction tx) async {
-          await tx.prepareExecute(
-              "DELETE FROM `oauth_connections` WHERE `session_id` = ? AND `account_id` = 0",
-              <dynamic>[account.sessionId]);
-          await tx.prepareExecute(
-              "UPDATE `sessions` SET `account_type` = ? WHERE `session_id` = ? AND `account_id` = 0",
-              <dynamic>[pb.accountType.value, account.sessionId]);
-          await tx.commit();
-        });
-      } catch (error, stackTrace) {
-        devLog.severe("Failed to change account type", error, stackTrace);
-      }
-    });
-
-    // Send authentication state
-    if (update) {
-      devLog.finest(
-          "Send authentication state, account type is ${account.accountType} (set ${pb.accountType})");
-      await refreshAccount();
-      await sendAccountUpdate();
-      devLog.finest(
-          "Account type is now ${account.accountType} (set ${pb.accountType})");
-    }
-  }
-
-  Future<void> _netSetFirebaseToken(TalkMessage message) async {
-    if (account.sessionId == 0) return;
-    // No validation here, no risk. Messages would just end up elsewhere
-    NetSetFirebaseToken pb = NetSetFirebaseToken();
-    pb.mergeFromBuffer(message.data);
-    devLog.finer("Set Firebase Token: $pb");
-    account.firebaseToken = pb.firebaseToken;
-
-    String update =
-        "UPDATE `sessions` SET `firebase_token`= ? WHERE `session_id` = ?";
-    await accountDb.prepareExecute(update, <dynamic>[
-      pb.firebaseToken.toString(),
-      account.sessionId,
-    ]);
-
-    if (pb.hasOldFirebaseToken() && pb.oldFirebaseToken != null) {
-      update =
-          "UPDATE `sessions` SET `firebase_token`= ? WHERE `firebase_token` = ?";
-      await accountDb.prepareExecute(update, <dynamic>[
-        pb.firebaseToken.toString(),
-        pb.oldFirebaseToken.toString(),
-      ]);
-    }
-
-    bc.accountFirebaseTokensChanged(
-        this); // TODO: Should SELECT all the accounts that were changed (with the token)
-  }
 
   Future<void> _accountCreate(TalkMessage message) async {
     // response: NetDeviceAuthState

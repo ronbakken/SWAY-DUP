@@ -20,6 +20,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:inf_common/inf_common.dart';
+import 'package:inf_server_api/api_account_service.dart';
 
 import 'package:inf_server_api/api_oauth_service.dart';
 import 'package:inf_server_api/api_session_service.dart';
@@ -127,6 +128,7 @@ Future<void> run(List<String> arguments) async {
   final grpc.Server grpcServer = grpc.Server(
     <grpc.Service>[
       ApiSessionService(config, accountDb),
+      ApiAccountService(config, accountDb, bc),
       ApiOAuthService(config),
       ApiStorageService(config, bucket),
       ApiExploreService(config, elasticsearch)
