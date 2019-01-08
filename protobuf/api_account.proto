@@ -16,7 +16,7 @@ service ApiAccount {
   rpc SetType(NetSetAccountType) returns (NetAccount) {}
 
   /// Posts the result of the OAuth flow to process the connection. For OAuth2 this essentially pushes the magic token.
-  rpc ConnectProvider(NetOAuthConnection) returns (NetOAuthConnection) {}
+  rpc ConnectProvider(NetOAuthConnect) returns (NetOAuthConnection) {}
 
   /// Creates account. Fetches social media information. Sets up initial account data. Downloads initial avatar
   rpc Create(NetAccountCreate) returns (NetAccount) {}
