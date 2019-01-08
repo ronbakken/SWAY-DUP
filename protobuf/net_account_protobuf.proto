@@ -97,8 +97,34 @@ message NetAccountCreate {
 }
 
 /// Apply promo code
-message NetAccountPromo {
+message NetAccountApplyPromo {
+  // TBD
+  
   string code = 1;
+
+}
+
+/// Promo code result
+message NetAccountPromo {
+  // TBD
+
+  DataAccount account = 1;
+
+  /// The kind of promo code that was entered
+  PromoCode type = 6;
+
+  /// Generic promo quantity (credits, months, etc)
+  int32 quantity = 5;
+
+  bool expired = 2;
+  bool used = 3;
+
+  bool applied = 4;
+
+  // It's possible that a promo code is valid but not applied.
+  // For example, activating an account that's already activated.
+
+  // It's possible that a promo code is both used already and expired.
 
 }
 

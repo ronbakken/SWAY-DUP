@@ -98,3 +98,7 @@ s/PCM_MESSAGE_DROPPED/messageDropped/g
 s/PCM_DIRECT/direct/g
 s/PCM_WANT_NEGOTIATE/wantNegotiate/g
 s/'PCM__/'PCM_/g
+
+s/'PC_/'PC__/g
+s/PC_ACTIVATE_ACCOUNT/activateAccount/g
+s/'PC__/'PC_/g

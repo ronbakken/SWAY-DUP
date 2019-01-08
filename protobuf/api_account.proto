@@ -30,8 +30,8 @@ service ApiAccount {
   /// We should migrate to OneSignal, to have closer integration with iOS & to be safer, since Firebase Messaging does not have an SLA at all (& spies on users)
   // rpc SetOneSignalId
 
-  /// Applies a promo code
-  // rpc ApplyPromo(NetAccountPromo) returns (NetAccount) {}
+  /// TBD. Applies a promo code
+  // rpc ApplyPromo(NetAccountApplyPromo) returns (NetAccountPromo) {}
 
 }
 
