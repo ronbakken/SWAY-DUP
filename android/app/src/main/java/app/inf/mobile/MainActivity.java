@@ -14,7 +14,7 @@ public class MainActivity extends FlutterActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GeneratedPluginRegistrant.registerWith(this);
-
+        registerBuildConfigChannel();
         drawUnderSystemUi();
     }
 
@@ -35,5 +35,24 @@ public class MainActivity extends FlutterActivity {
                                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         }
+    }
+
+    private void registerBuildConfigChannel() {
+		MethodChannel channel = new MethodChannel(getFlutterView(), "build/config");
+		channel.setMethodCallHandler((call, result) -> {
+			if(call.method.equals("get")){
+				String name = call.argument("name");
+				try{
+					Object value = BuildConfig.class.getField(name).get(null);
+					result.success(value.toString());
+				}
+				catch(NoSuchFieldException e){
+					result.error("not_found", "Field '" + name + "' not found.", e);
+				}
+				catch(IllegalAccessException e){
+					result.error("illegal_access", "Field permission '" + name + "' error.", e);
+				}
+			}
+		});
     }
 }

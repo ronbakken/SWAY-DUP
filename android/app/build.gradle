@@ -41,6 +41,8 @@ android {
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 		multiDexEnabled true
 		multiDexKeepFile file('multidex-flutter.txt')
+        def apiHost = InetAddress.getLocalHost().getHostAddress()
+        buildConfigField 'String', 'API_HOST', '"' + apiHost + '"'
 	}
 
 	buildTypes {

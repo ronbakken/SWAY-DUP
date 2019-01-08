@@ -45,11 +45,13 @@ GetIt backend = GetIt();
 Future<void> setupBackend(AppEnvironment env) async {
   switch (env) {
     case AppEnvironment.dev:
+      final host = await BuildConfig.instance['API_HOST'];
       configureDevLogger();
       registerImplementations();
       await initInfApiService();
       break;
     case AppEnvironment.prod:
+      final host = 'api.staging.infdev.net';
       registerImplementations();
       await initInfApiService();
       break;
