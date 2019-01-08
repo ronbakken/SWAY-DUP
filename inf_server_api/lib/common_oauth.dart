@@ -6,9 +6,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 
 import 'dart:convert';
 
-import 'package:fixnum/fixnum.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:http/http.dart' as http;
 import 'package:grpc/grpc.dart' as grpc;
@@ -24,20 +22,21 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
     int oauthProvider,
     String callbackQuery) async {
   // devLog.finest("Fetch OAuth Credentials: OAuth Provider: $oauthProvider, Callback Query: $callbackQuery");
-  ConfigOAuthProvider provider = config.oauthProviders[oauthProvider];
-  Map<String, String> query = Uri.splitQueryString(callbackQuery);
-  DataOAuthCredentials oauthCredentials = new DataOAuthCredentials();
+  final ConfigOAuthProvider provider = config.oauthProviders[oauthProvider];
+  final Map<String, String> query = Uri.splitQueryString(callbackQuery);
+  final DataOAuthCredentials oauthCredentials = DataOAuthCredentials();
   switch (provider.mechanism) {
     case OAuthMechanism.oauth1:
       {
         // Twitter-like
-        oauth1.Authorization auth = oauth1Auth[oauthProvider];
+        final oauth1.Authorization auth = oauth1Auth[oauthProvider];
         // auth.requestTokenCredentials(clientCredentials, verifier);
         if (query.containsKey('oauth_token') &&
             query.containsKey('oauth_verifier')) {
-          var credentials = new oauth1.Credentials(query['oauth_token'],
+          final oauth1.Credentials credentials = oauth1.Credentials(
+              query['oauth_token'],
               ''); // oauth_token_secret can be left blank it seems
-          oauth1.AuthorizationResponse authRes = await auth
+          final oauth1.AuthorizationResponse authRes = await auth
               .requestTokenCredentials(credentials, query['oauth_verifier']);
           // For Twitter, these "Access Tokens" don't expire
           // devLog.finest(authRes.credentials.token);
@@ -65,9 +64,9 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
           requestQuery['redirect_uri'] = provider.callbackUrl;
           requestQuery['code'] = query['code'];
           /* this returns { "access_token": {access-token}, "token_type": {type}, "expires_in":  {seconds-til-expiration} } */
-          http.Response accessTokenRes = await httpClient
+          final http.Response accessTokenRes = await httpClient
               .get(baseUri.replace(queryParameters: requestQuery));
-          dynamic accessTokenDoc = json.decode(accessTokenRes.body);
+          final dynamic accessTokenDoc = json.decode(accessTokenRes.body);
           assert(accessTokenDoc['token_type'] == 'bearer');
           assert(accessTokenDoc['expires_in'] > 5000000);
           assert(accessTokenDoc['access_token'] != null);
@@ -75,21 +74,21 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
           oauthCredentials.token = accessTokenDoc['access_token'];
           oauthCredentials.tokenSecret = '';
           oauthCredentials.tokenExpires =
-              (new DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) +
+              (DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) +
                   accessTokenDoc['expires_in'];
           if (oauthCredentials.token != null &&
               oauthProvider == OAuthProviderIds.facebook.value) {
             // Facebook
-            baseUri = Uri.parse(provider.host + "/v3.1/debug_token");
-            requestQuery = new Map<String, String>();
-            requestQuery['input_token'] = "${oauthCredentials.token}";
+            baseUri = Uri.parse(provider.host + '/v3.1/debug_token');
+            requestQuery = <String, String>{};
+            requestQuery['input_token'] = '${oauthCredentials.token}';
             requestQuery['access_token'] =
-                "${provider.clientId}|${provider.clientSecret}";
-            http.Response debugTokenRes = await httpClient
+                '${provider.clientId}|${provider.clientSecret}';
+            final http.Response debugTokenRes = await httpClient
                 .get(baseUri.replace(queryParameters: requestQuery));
-            dynamic debugTokenDoc = json.decode(debugTokenRes.body);
+            final dynamic debugTokenDoc = json.decode(debugTokenRes.body);
             print(debugTokenDoc);
-            dynamic debugData = debugTokenDoc['data'];
+            final dynamic debugData = debugTokenDoc['data'];
             if (debugData['app_id'] != provider.clientId) {
               // opsLog.warning("User specified invalid app (expect ${provider.clientId}) $debugTokenDoc");
               break;
@@ -135,11 +134,11 @@ Future<DataSocialMedia> fetchSocialMedia(
     int oauthProvider,
     DataOAuthCredentials oauthCredentials) async {
   // devLog.finest("fetchSocialMedia: $oauthProvider, ${oauthCredentials.userId}, ${oauthCredentials.token}, ${oauthCredentials.tokenSecret}");
-  DataSocialMedia dataSocialMedia = new DataSocialMedia();
+  final DataSocialMedia dataSocialMedia = DataSocialMedia();
   dataSocialMedia.providerId = oauthProvider;
   // Fetch social media stats from the oauth provider. Then store them in the database. Then set them here.
   // Get display name, screen name, followers, following, avatar, banner image
-  ConfigOAuthProvider cfg = config.oauthProviders[oauthProvider];
+  final ConfigOAuthProvider provider = config.oauthProviders[oauthProvider];
   switch (OAuthProviderIds.valueOf(oauthProvider)) {
     case OAuthProviderIds.twitter:
       {
@@ -147,7 +146,8 @@ Future<DataSocialMedia> fetchSocialMedia(
         // https://api.twitter.com/1.1/users/show.json?user_id=12345
         // devLog.finest("Twitter");
         final oauth1.ClientCredentials clientCredentials =
-            oauth1.ClientCredentials(cfg.consumerKey, cfg.consumerSecret);
+            oauth1.ClientCredentials(
+                provider.consumerKey, provider.consumerSecret);
         final oauth1.Credentials credentials = oauth1.Credentials(
             oauthCredentials.token, oauthCredentials.tokenSecret);
         final oauth1.Client client = oauth1.Client(
@@ -182,21 +182,23 @@ Future<DataSocialMedia> fetchSocialMedia(
         if (doc['screen_name'] != null)
           dataSocialMedia.profileUrl =
               "https://twitter.com/${doc['screen_name']}";
-        if (doc['location'] != null) dataSocialMedia.location = doc['location'];
+        if (doc['location'] != null) {
+          dataSocialMedia.location = doc['location'];
+        }
         if (doc['description'] != null)
           dataSocialMedia.description = doc['description'];
         if (doc['url'] != null) {
           dataSocialMedia.url = doc['url'];
         }
-        dynamic entities_ = doc['entities'];
-        if (entities_ != null) {
-          dynamic url_ = entities_['url'];
-          if (url_ != null) {
-            dynamic urls_ = url_['urls'];
-            if (urls_ is List &&
-                urls_.isNotEmpty &&
-                urls_[0]['url'] == dataSocialMedia.url) {
-              String expandedUrl = urls_[0]['expanded_url'];
+        final dynamic entitiesObject = doc['entities'];
+        if (entitiesObject != null) {
+          final dynamic urlObject = entitiesObject['url'];
+          if (urlObject != null) {
+            final dynamic urlsObject = urlObject['urls'];
+            if (urlsObject is List &&
+                urlsObject.isNotEmpty &&
+                urlsObject[0]['url'] == dataSocialMedia.url) {
+              final String expandedUrl = urlsObject[0]['expanded_url'];
               if (expandedUrl != null) {
                 dataSocialMedia.url = expandedUrl;
               }
@@ -215,22 +217,22 @@ Future<DataSocialMedia> fetchSocialMedia(
       {
         // Facebook
         Uri baseUri;
-        Map<String, String> requestQuery = new Map<String, String>();
+        final Map<String, String> requestQuery = <String, String>{};
         requestQuery['access_token'] = oauthCredentials.token;
 
         // Need "Page Public Content Access"
 
         // User info
-        baseUri = Uri.parse(cfg.host +
-            "/v3.1/" +
+        baseUri = Uri.parse(provider.host +
+            '/v3.1/' +
             oauthCredentials
                 .userId); // Try fields=picture.height(961) to get highest resolution avatar
         requestQuery['fields'] =
-            "name,email,link,picture.height(1440)"; // ,location,address,hometown // cover,subscribers,subscribedto is deprecated
-        http.Response userRes = await httpClient
+            'name,email,link,picture.height(1440)'; // ,location,address,hometown // cover,subscribers,subscribedto is deprecated
+        final http.Response userRes = await httpClient
             .get(baseUri.replace(queryParameters: requestQuery));
-        saveSocialMedia(oauthProvider, userRes.body);
-        dynamic userDoc = json.decode(userRes.body);
+        unawaited(saveSocialMedia(oauthProvider, userRes.body));
+        final dynamic userDoc = json.decode(userRes.body);
         // devLog.finest(userDoc);
 
         if (userDoc['id'] != oauthCredentials.userId) {
@@ -242,14 +244,18 @@ Future<DataSocialMedia> fetchSocialMedia(
           dataSocialMedia.displayName = userDoc['name'];
         if (userDoc['link'] != null)
           dataSocialMedia.profileUrl = userDoc['link'];
-        if (userDoc['email'] != null) dataSocialMedia.email = userDoc['email'];
+        if (userDoc['email'] != null) {
+          dataSocialMedia.email = userDoc['email'];
+        }
 
-        dynamic picture = userDoc['picture'];
+        final dynamic picture = userDoc['picture'];
         if (picture != null) {
-          dynamic data = picture['data'];
+          final dynamic data = picture['data'];
           if (data != null) {
-            dynamic url = data['url'];
-            if (url != null) dataSocialMedia.avatarUrl = url;
+            final dynamic url = data['url'];
+            if (url != null) {
+              dataSocialMedia.avatarUrl = url;
+            }
             // devLog.fine("Facebook avatar: $url");
           }
         }
@@ -265,18 +271,20 @@ Future<DataSocialMedia> fetchSocialMedia(
 
         // Friend count
         baseUri = Uri.parse(
-            cfg.host + "/v3.1/" + oauthCredentials.userId + "/friends");
-        requestQuery['fields'] = "summary";
-        requestQuery['summary'] = "total_count";
-        http.Response friendsRes = await httpClient
+            provider.host + '/v3.1/' + oauthCredentials.userId + '/friends');
+        requestQuery['fields'] = 'summary';
+        requestQuery['summary'] = 'total_count';
+        final http.Response friendsRes = await httpClient
             .get(baseUri.replace(queryParameters: requestQuery));
-        dynamic friendsDoc = json.decode(friendsRes.body);
+        final dynamic friendsDoc = json.decode(friendsRes.body);
         // devLog.finest(friendsDoc);
 
-        dynamic friendsSummary = friendsDoc['summary'];
+        final dynamic friendsSummary = friendsDoc['summary'];
         if (friendsSummary != null) {
-          dynamic totalCount = friendsSummary['total_count'];
-          if (totalCount != null) dataSocialMedia.friendsCount = totalCount;
+          final dynamic totalCount = friendsSummary['total_count'];
+          if (totalCount != null) {
+            dataSocialMedia.friendsCount = totalCount;
+          }
         }
 
         dataSocialMedia.connected = true;

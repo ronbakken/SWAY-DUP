@@ -101,138 +101,7 @@ class ApiChannelOffer {
   //////////////////////////////////////////////////////////////////////////////
 
   Future<void> _netCreateOffer(TalkMessage message) async {
-    NetCreateOffer create = new NetCreateOffer()..mergeFromBuffer(message.data);
-    devLog.finest(create);
-
-    if (!create.hasOffer()) {
-      opsLog.warning(
-          "User $accountId did not include an offer in the offer creation message, cannot create offer.");
-      channel.replyAbort(message, "Missing offer parameter.");
-      return;
-    }
-
-    DataOffer offer = create.offer;
-    Int64 locationId =
-        offer.locationId == 0 ? account.locationId : offer.locationId;
-    if (locationId == 0) {
-      opsLog.warning("Location not specified.");
-      channel.replyAbort(message, "Location not specified.");
-      return;
-    }
-
-    if (offer.title.length == 0 ||
-        offer.description.length < 20 ||
-        offer.terms.deliverablesDescription.length < 4 ||
-        offer.terms.rewardItemOrServiceDescription.length < 4) {
-      opsLog.warning("User $accountId offer parameters not validated.");
-      channel.replyAbort(message, "Parameters not validated.");
-      return;
-    }
-
-    if (offer.coverKeys.isEmpty) {
-      opsLog.warning("Missing cover key.");
-      channel.replyAbort(message, "Missing cover key.");
-      return;
-    }
-
-    offer.senderAccountId = account.accountId;
-    offer.senderAccountType = account.accountType;
-    offer.senderName = account.name;
-    offer.senderAvatarUrl = account.avatarUrl;
-    // TODO: offer.senderAvatarBlurred = account.avatarBlurred;
-    // TODO: offer.senderAvatarKey
-
-    // TODO: Scheduled open
-    offer.state = OfferState.open;
-    offer.stateReason = OfferStateReason.newOffer;
-    offer.clearArchived();
-    offer.clearDirect();
-
-    // Custom location
-    channel.replyExtend(message);
-    DataLocation location = await _r.fetchLocationSummaryFromSql(locationId,
-        account.accountId, account.accountType == AccountType.business);
-    offer.locationId = locationId;
-    if (location == null) {
-      opsLog.warning("Location invalid.");
-      channel.replyAbort(message, "Location invalid.");
-      return;
-    }
-
-    // Fetch blurred images
-    for (String coverKey in offer.coverKeys) {
-      channel.replyExtend(message);
-      devLog.finer(_r.makeCloudinaryBlurredCoverUrl(coverKey));
-      offer.coversBlurred.add(
-          await _r.downloadData(_r.makeCloudinaryBlurredCoverUrl(coverKey)));
-    }
-
-    // Thumbnail
-    if (offer.thumbnailKey.isEmpty) {
-      offer.thumbnailKey = offer.coverKeys[0];
-    }
-    channel.replyExtend(message);
-    devLog.finer(_r.makeCloudinaryBlurredThumbnailUrl(offer.thumbnailKey));
-    offer.thumbnailBlurred = await _r
-        .downloadData(_r.makeCloudinaryBlurredThumbnailUrl(offer.thumbnailKey));
-
-    // Insert offer, not so critical
-    channel.replyExtend(message);
-    String insertOffer =
-        "INSERT INTO `offers`(`sender_account_id`, `sender_account_type`, `sender_session_id`, `location_id`, `state`, `state_reason`) "
-        "VALUES (?, ?, ?, ?, ?, ?)";
-    sqljocky.Results insertRes =
-        await proposalDb.prepareExecute(insertOffer, <dynamic>[
-      offer.senderAccountId,
-      offer.senderAccountType.value,
-      account.sessionId,
-      offer.locationId,
-      offer.state.value,
-      offer.stateReason.value,
-    ]);
-
-    // Verify insertion
-    Int64 offerId = new Int64(insertRes.insertId);
-    if (offerId == Int64.ZERO) {
-      opsLog.severe("User $accountId offer not inserted.");
-      channel.replyAbort(message, "Not inserted.");
-      return;
-    }
-
-    offer.offerId = offerId;
-
-    // Update location `offer_count`, not so critical
-    channel.replyExtend(message);
-    await updateLocationOfferCount(offer.locationId);
-
-    // Insert Elasticsearch document
-    channel.replyExtend(message);
-    dynamic doc = ElasticsearchOffer.toJson(
-      config,
-      offer,
-      sender: account,
-      location: location,
-      senderAccountType: account.accountType,
-      create: true,
-      modify: false,
-      sessionId: account.sessionId,
-    );
-    devLog.finest(doc);
-    await elasticsearch.putDocument("offers", offer.offerId.toString(), doc);
-
-    NetOffer res = new NetOffer();
-    res.offer = ElasticsearchOffer.fromJson(config, doc,
-        state: true,
-        summary: true,
-        detail: true,
-        offerId: offer.offerId,
-        receiver: accountId,
-        private: true);
-    res.state = true;
-    res.summary = true;
-    res.detail = true;
-    devLog.finest('Create offer "${res.offer.title}".');
-    channel.replyMessage(message, 'R_CREOFR', res.writeToBuffer());
+    
   }
 
   Future<DataOffer> getOffer(Int64 offerId) async {
@@ -268,56 +137,14 @@ class ApiChannelOffer {
     channel.replyMessage(message, 'R_GETOFR', res.writeToBuffer());
   }
 
-  static const List<String> privateFields = <String>[
-    // Summary
-    'location_id', // Private
-    // State
-    'state',
-    'state_reason',
-    'archived',
-    'proposals_proposing',
-    'proposals_negotiating',
-    'proposals_deal',
-    'proposals_rejected',
-    'proposals_dispute',
-    'proposals_resolved',
-    'proposals_complete',
-  ];
-
-  static const List<String> summaryFields = <String>[
-    // Summary
-    "offer_id",
-    "sender_account_id",
-    "sender_account_type",
-    "title",
-    "thumbnail_key",
-    "thumbnail_blurred",
-    "deliverable_social_platforms",
-    "deliverable_content_formats",
-    "reward_cash_value",
-    "reward_item_or_service_value",
-    "primary_categories",
-    "sender_name",
-    "sender_avatar_url", // TODO: Fix this
-    "sender_avatar_key", // TODO: Fix this
-    "sender_avatar_blurred",
-    "location_address",
-    "location",
-  ];
-
-  static final List<String> privateSummaryFields =
-      (privateFields + summaryFields).toList();
-
-  static const int searchSize = 255;
-
   Future<void> _netListOffers(TalkMessage message) async {
     /* final NetListOffers listOffers = NetListOffers()
       ..mergeFromBuffer(message.data)
       ..freeze(); */
     dynamic results = await elasticsearch.search('offers', {
-      "size": searchSize,
+      "size": ElasticsearchOffer.kSearchSize,
       "_source": {
-        "includes": privateSummaryFields,
+        "includes": ElasticsearchOffer.kPrivateSummaryFields,
       },
       "query": {
         "term": {
@@ -341,7 +168,7 @@ class ApiChannelOffer {
             private: true);
       } catch (error, stackTrace) {
         res = null;
-        devLog.severe("Error parsing offer", error, stackTrace);
+        devLog.severe('Error parsing offer', error, stackTrace);
       }
       if (res != null) {
         channel.replyMessage(message, 'R_LSTOFR', res.writeToBuffer());

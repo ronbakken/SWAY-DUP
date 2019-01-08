@@ -4,22 +4,15 @@ Copyright (C) 2018-2019  INF Marketplace LLC
 Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
-import 'package:geohash/geohash.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:mime/mime.dart';
-import 'package:s2geometry/s2geometry.dart';
-import 'package:sqljocky5/sqljocky.dart' as sqljocky;
-import 'package:http/http.dart' as http;
 import 'package:http_client/console.dart' as http_client;
-import 'package:grpc/grpc.dart' as grpc;
 import 'package:dospace/dospace.dart' as dospace;
-import 'package:pedantic/pedantic.dart';
 
 Future<Uint8List> downloadData(http_client.Client httpClient, String url) async {
   final Uri uri = Uri.parse(url);
