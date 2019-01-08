@@ -39,12 +39,13 @@ enum AccountType {
 enum GlobalAccountState {
   GAS_INITIALIZE = 0;
   GAS_BLOCKED = 1;
-  GAS_READ_ONLY = 2;
-  GAS_READ_WRITE = 3;
-  GAS_DEBUG = 4;
-  GAS_SUPPORT = 5;
-  GAS_MANAGER = 6;
-  GAS_GOD = 7;
+  GAS_PENDING = 2;
+  GAS_READ_ONLY = 3;
+  GAS_READ_WRITE = 4;
+  GAS_DEBUG = 5;
+  GAS_SUPPORT = 6;
+  GAS_MANAGER = 7;
+  GAS_GOD = 8;
   
 }
 
