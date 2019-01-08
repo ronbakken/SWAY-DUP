@@ -4,7 +4,6 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
-import 'package:fixnum/fixnum.dart';
 import 'package:logging/logging.dart';
 //import 'package:switchboard/switchboard.dart';
 
@@ -44,17 +43,6 @@ class ApiChannelHaggleActions {
     return _r.bucket;
   }
 
-  DataAccount get account {
-    return _r.account;
-  }
-
-  Int64 get accountId {
-    return _r.account.accountId;
-  }
-
-  GlobalAccountState get globalAccountState {
-    return _r.account.globalAccountState;
-  }
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////

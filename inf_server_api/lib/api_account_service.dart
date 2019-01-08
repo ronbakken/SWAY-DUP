@@ -34,6 +34,10 @@ class ApiAccountService extends ApiAccountServiceBase {
 
   ApiAccountService(this.config, this.accountDb, this.bc, this.oauth1Auth);
 
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
   @override
   Future<NetAccount> setType(
       grpc.ServiceCall call, NetSetAccountType request) async {
@@ -70,6 +74,10 @@ class ApiAccountService extends ApiAccountServiceBase {
         await fetchSessionAccount(config, accountDb, auth.sessionId);
     return account;
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   @override
   Future<NetOAuthConnection> connectProvider(
@@ -253,8 +261,8 @@ class ApiAccountService extends ApiAccountServiceBase {
       }
 
       // Fetch useful data from social media
-      final DataSocialMedia dataSocialMedia =
-          await fetchSocialMedia(config, httpClient, oauthProvider, oauthCredentials);
+      final DataSocialMedia dataSocialMedia = await fetchSocialMedia(
+          config, httpClient, oauthProvider, oauthCredentials);
 
       // Write fetched social media data to SQL database
       await _cacheSocialMedia(
@@ -270,7 +278,8 @@ class ApiAccountService extends ApiAccountServiceBase {
 
     if (takeover) {
       // Account was found during connection, transition
-      result.account = await fetchSessionAccount(config, accountDb, auth.sessionId);
+      result.account =
+          await fetchSessionAccount(config, accountDb, auth.sessionId);
 
       // TODO: accessToken
       // result.accessToken = ...;
@@ -279,11 +288,19 @@ class ApiAccountService extends ApiAccountServiceBase {
     return result;
   }
 
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
   @override
   Future<NetAccount> create(
       grpc.ServiceCall call, NetAccountCreate request) async {
     // devLog.finest(request.callbackQuery);
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   @override
   Future<NetAccount> setFirebaseToken(
@@ -321,6 +338,10 @@ class ApiAccountService extends ApiAccountServiceBase {
         await fetchSessionAccount(config, accountDb, auth.sessionId);
     return account;
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   Future<void> _cacheSocialMedia(String oauthUserId, int oauthProvider,
       DataSocialMedia dataSocialMedia) async {
@@ -393,6 +414,11 @@ class ApiAccountService extends ApiAccountServiceBase {
             ..addAll(queryParams));
     }
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
 }
 
 /* end of file */
