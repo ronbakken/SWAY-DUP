@@ -58,30 +58,29 @@ class ApiSessionService extends ApiSessionServiceBase {
           request.deviceName,
           request.deviceInfo
         ]);
-    response.sessionId = Int64(insertResults.insertId);
-    if (response.sessionId != Int64.ZERO) {
-      devLog.info(
-          "Inserted session_id ${response.sessionId} with cookie_hash '$cookieHash'");
-    }
+    final Int64 sessionId = Int64(insertResults.insertId);
 
-    if (response.sessionId == Int64.ZERO) {
+    if (sessionId == Int64.ZERO) {
       throw grpc.GrpcError.failedPrecondition('Failed to create session.');
     }
 
+    devLog
+        .info("Inserted session_id $sessionId with cookie_hash '$cookieHash'");
+
     response.account = DataAccount(); // await fetchFullAccount();
-    response.account.sessionId = response.sessionId;
+    response.account.sessionId = sessionId;
 
     final DataAuth bearerPayload = DataAuth();
     final DataAuth accessPayload = DataAuth();
 
     // Bearer token payload for the created session.
     // Cannot be retrieved in the future.
-    bearerPayload.sessionId = response.sessionId;
+    bearerPayload.sessionId = sessionId;
     bearerPayload.cookie = cookie;
 
     // Access token for the created session.
     // Does not yet have an associated account.
-    accessPayload.sessionId = response.sessionId;
+    accessPayload.sessionId = sessionId;
 
     // TODO: response.bearerToken JWT
     // TODO: response.accessToken JWT
@@ -101,7 +100,7 @@ class ApiSessionService extends ApiSessionServiceBase {
     final NetSession response = NetSession();
     final Uint8List cookieHash = Uint8List.fromList(
         sha256.convert(auth.cookie + config.services.salt).bytes);
-        
+
     // Validate the hashed cookie with the one in the session database
     final sqljocky.Results selectResults = await accountDb.prepareExecute(
         'SELECT `session_id` FROM `sessions` WHERE `session_id` = ? AND `cookie_hash` = ?',
@@ -116,14 +115,15 @@ class ApiSessionService extends ApiSessionServiceBase {
       throw grpc.GrpcError.failedPrecondition('Failed to open session.');
     }
 
-    response.sessionId = auth.sessionId;
+    if (sessionId != auth.sessionId) {
+      // Sanity
+      throw grpc.GrpcError.dataLoss();
+    }
 
     response.account = await fetchSessionAccount(config, accountDb, sessionId);
-    response.account.sessionId = auth.sessionId; // TODO
-    response.account.accountId = auth.accountId; // TODO
 
     final DataAuth accessPayload = DataAuth();
-    accessPayload.sessionId = response.sessionId;
+    accessPayload.sessionId = sessionId;
     accessPayload.accountId = response.account.accountId;
     accessPayload.accountType = response.account.accountType;
     accessPayload.globalAccountState = response.account.globalAccountState;
