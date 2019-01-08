@@ -217,7 +217,7 @@ class AuthenticationServiceMock implements AuthenticationService {
                 ..id= 1
                 ..name= 'Food'
                 ..description= 'All about Fashion'
-                ..parentId= 0
+                ..parentId= -1
           ])
           ..description= 'I run a online store for baking utilities'
           ..email= 'thomas@burkharts.net'
