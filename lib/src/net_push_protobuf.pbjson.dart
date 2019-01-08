@@ -4,6 +4,13 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
+const NetConfigDownload$json = const {
+  '1': 'NetConfigDownload',
+  '2': const [
+    const {'1': 'config_url', '3': 1, '4': 1, '5': 9, '10': 'configUrl'},
+  ],
+};
+
 const NetListen$json = const {
   '1': 'NetListen',
 };
@@ -64,6 +71,15 @@ const NetPush$json = const {
       '6': '.inf_common.NetProposalChat',
       '9': 0,
       '10': 'updateProposalChat'
+    },
+    const {
+      '1': 'configDownload',
+      '3': 7,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.NetConfigDownload',
+      '9': 0,
+      '10': 'configDownload'
     },
   ],
   '8': const [

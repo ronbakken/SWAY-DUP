@@ -10,15 +10,15 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'data_protobuf.pb.dart' as $3;
+import 'data_protobuf.pb.dart' as $4;
 
 class NetProposal extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposal',
       package: const $pb.PackageName('inf_common'))
-    ..a<$3.DataProposal>(1, 'proposal', $pb.PbFieldType.OM,
-        $3.DataProposal.getDefault, $3.DataProposal.create)
-    ..pp<$3.DataProposalChat>(2, 'chats', $pb.PbFieldType.PM,
-        $3.DataProposalChat.$checkItem, $3.DataProposalChat.create)
+    ..a<$4.DataProposal>(1, 'proposal', $pb.PbFieldType.OM,
+        $4.DataProposal.getDefault, $4.DataProposal.create)
+    ..pp<$4.DataProposalChat>(2, 'chats', $pb.PbFieldType.PM,
+        $4.DataProposalChat.$checkItem, $4.DataProposalChat.create)
     ..hasRequiredFields = false;
 
   NetProposal() : super();
@@ -41,22 +41,22 @@ class NetProposal extends $pb.GeneratedMessage {
     if (v is! NetProposal) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $3.DataProposal get proposal => $_getN(0);
-  set proposal($3.DataProposal v) {
+  $4.DataProposal get proposal => $_getN(0);
+  set proposal($4.DataProposal v) {
     setField(1, v);
   }
 
   bool hasProposal() => $_has(0);
   void clearProposal() => clearField(1);
 
-  List<$3.DataProposalChat> get chats => $_getList(1);
+  List<$4.DataProposalChat> get chats => $_getList(1);
 }
 
 class NetProposalChat extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalChat',
       package: const $pb.PackageName('inf_common'))
-    ..a<$3.DataProposalChat>(1, 'chat', $pb.PbFieldType.OM,
-        $3.DataProposalChat.getDefault, $3.DataProposalChat.create)
+    ..a<$4.DataProposalChat>(1, 'chat', $pb.PbFieldType.OM,
+        $4.DataProposalChat.getDefault, $4.DataProposalChat.create)
     ..hasRequiredFields = false;
 
   NetProposalChat() : super();
@@ -80,8 +80,8 @@ class NetProposalChat extends $pb.GeneratedMessage {
     if (v is! NetProposalChat) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $3.DataProposalChat get chat => $_getN(0);
-  set chat($3.DataProposalChat v) {
+  $4.DataProposalChat get chat => $_getN(0);
+  set chat($4.DataProposalChat v) {
     setField(1, v);
   }
 
@@ -94,8 +94,8 @@ class NetApplyProposal extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'offerId')
     ..aOS(2, 'remarks')
-    ..a<$3.DataTerms>(3, 'terms', $pb.PbFieldType.OM, $3.DataTerms.getDefault,
-        $3.DataTerms.create)
+    ..a<$4.DataTerms>(3, 'terms', $pb.PbFieldType.OM, $4.DataTerms.getDefault,
+        $4.DataTerms.create)
     ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -136,8 +136,8 @@ class NetApplyProposal extends $pb.GeneratedMessage {
   bool hasRemarks() => $_has(1);
   void clearRemarks() => clearField(2);
 
-  $3.DataTerms get terms => $_getN(2);
-  set terms($3.DataTerms v) {
+  $4.DataTerms get terms => $_getN(2);
+  set terms($4.DataTerms v) {
     setField(3, v);
   }
 
@@ -157,8 +157,8 @@ class NetDirectProposal extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetDirectProposal',
       package: const $pb.PackageName('inf_common'))
     ..aOS(2, 'remarks')
-    ..a<$3.DataOffer>(4, 'offer', $pb.PbFieldType.OM, $3.DataOffer.getDefault,
-        $3.DataOffer.create)
+    ..a<$4.DataOffer>(4, 'offer', $pb.PbFieldType.OM, $4.DataOffer.getDefault,
+        $4.DataOffer.create)
     ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -192,8 +192,8 @@ class NetDirectProposal extends $pb.GeneratedMessage {
   bool hasRemarks() => $_has(0);
   void clearRemarks() => clearField(2);
 
-  $3.DataOffer get offer => $_getN(1);
-  set offer($3.DataOffer v) {
+  $4.DataOffer get offer => $_getN(1);
+  set offer($4.DataOffer v) {
     setField(4, v);
   }
 
@@ -663,8 +663,8 @@ class NetChatNegotiate extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'proposalId')
     ..aOS(2, 'remarks')
-    ..a<$3.DataTerms>(5, 'terms', $pb.PbFieldType.OM, $3.DataTerms.getDefault,
-        $3.DataTerms.create)
+    ..a<$4.DataTerms>(5, 'terms', $pb.PbFieldType.OM, $4.DataTerms.getDefault,
+        $4.DataTerms.create)
     ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -705,8 +705,8 @@ class NetChatNegotiate extends $pb.GeneratedMessage {
   bool hasRemarks() => $_has(1);
   void clearRemarks() => clearField(2);
 
-  $3.DataTerms get terms => $_getN(2);
-  set terms($3.DataTerms v) {
+  $4.DataTerms get terms => $_getN(2);
+  set terms($4.DataTerms v) {
     setField(5, v);
   }
 

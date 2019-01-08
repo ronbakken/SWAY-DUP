@@ -10,7 +10,7 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'enum_protobuf.pbenum.dart' as $2;
+import 'enum_protobuf.pbenum.dart' as $3;
 
 class ConfigSubCategories extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigSubCategories',
@@ -60,13 +60,13 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..aOS(11, 'consumerSecret')
     ..aOS(12, 'clientId')
     ..a<int>(14, 'fontAwesomeBrand', $pb.PbFieldType.O3)
-    ..e<$2.OAuthMechanism>(
+    ..e<$3.OAuthMechanism>(
         15,
         'mechanism',
         $pb.PbFieldType.OE,
-        $2.OAuthMechanism.none,
-        $2.OAuthMechanism.valueOf,
-        $2.OAuthMechanism.values)
+        $3.OAuthMechanism.none,
+        $3.OAuthMechanism.valueOf,
+        $3.OAuthMechanism.values)
     ..aOS(16, 'accessTokenUrl')
     ..aOS(17, 'clientSecret')
     ..pPS(18, 'whitelistHosts')
@@ -219,8 +219,8 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
   bool hasFontAwesomeBrand() => $_has(12);
   void clearFontAwesomeBrand() => clearField(14);
 
-  $2.OAuthMechanism get mechanism => $_getN(13);
-  set mechanism($2.OAuthMechanism v) {
+  $3.OAuthMechanism get mechanism => $_getN(13);
+  set mechanism($3.OAuthMechanism v) {
     setField(15, v);
   }
 

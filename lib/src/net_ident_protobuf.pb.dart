@@ -10,6 +10,8 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'data_protobuf.pb.dart' as $4;
+
 class NetSessionPayload extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionPayload',
       package: const $pb.PackageName('inf_common'))
@@ -101,12 +103,58 @@ class NetSessionPayload extends $pb.GeneratedMessage {
   void clearDomain() => clearField(7);
 }
 
+class NetSessionOpen extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionOpen',
+      package: const $pb.PackageName('inf_common'))
+    ..aOS(7, 'domain')
+    ..a<int>(8, 'clientVersion', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
+
+  NetSessionOpen() : super();
+  NetSessionOpen.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetSessionOpen.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetSessionOpen clone() => new NetSessionOpen()..mergeFromMessage(this);
+  NetSessionOpen copyWith(void Function(NetSessionOpen) updates) =>
+      super.copyWith((message) => updates(message as NetSessionOpen));
+  $pb.BuilderInfo get info_ => _i;
+  static NetSessionOpen create() => new NetSessionOpen();
+  static $pb.PbList<NetSessionOpen> createRepeated() =>
+      new $pb.PbList<NetSessionOpen>();
+  static NetSessionOpen getDefault() => _defaultInstance ??= create()..freeze();
+  static NetSessionOpen _defaultInstance;
+  static void $checkItem(NetSessionOpen v) {
+    if (v is! NetSessionOpen) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  String get domain => $_getS(0, '');
+  set domain(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasDomain() => $_has(0);
+  void clearDomain() => clearField(7);
+
+  int get clientVersion => $_get(1, 0);
+  set clientVersion(int v) {
+    $_setSignedInt32(1, v);
+  }
+
+  bool hasClientVersion() => $_has(1);
+  void clearClientVersion() => clearField(8);
+}
+
 class NetSessionCreate extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionCreate',
       package: const $pb.PackageName('inf_common'))
     ..a<List<int>>(1, 'deviceToken', $pb.PbFieldType.OY)
     ..aOS(2, 'deviceName')
     ..aOS(3, 'deviceInfo')
+    ..aOS(7, 'domain')
+    ..a<int>(8, 'clientVersion', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
   NetSessionCreate() : super();
@@ -153,6 +201,22 @@ class NetSessionCreate extends $pb.GeneratedMessage {
 
   bool hasDeviceInfo() => $_has(2);
   void clearDeviceInfo() => clearField(3);
+
+  String get domain => $_getS(3, '');
+  set domain(String v) {
+    $_setString(3, v);
+  }
+
+  bool hasDomain() => $_has(3);
+  void clearDomain() => clearField(7);
+
+  int get clientVersion => $_get(4, 0);
+  set clientVersion(int v) {
+    $_setSignedInt32(4, v);
+  }
+
+  bool hasClientVersion() => $_has(4);
+  void clearClientVersion() => clearField(8);
 }
 
 class NetSessionRemove extends $pb.GeneratedMessage {
@@ -186,6 +250,10 @@ class NetSession extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSession',
       package: const $pb.PackageName('inf_common'))
     ..aInt64(1, 'sessionId')
+    ..a<$4.DataAccount>(2, 'account', $pb.PbFieldType.OM,
+        $4.DataAccount.getDefault, $4.DataAccount.create)
+    ..aOS(3, 'bearerToken')
+    ..aOS(4, 'accessToken')
     ..hasRequiredFields = false;
 
   NetSession() : super();
@@ -215,41 +283,28 @@ class NetSession extends $pb.GeneratedMessage {
 
   bool hasSessionId() => $_has(0);
   void clearSessionId() => clearField(1);
-}
 
-class NetConfigDownload extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetConfigDownload',
-      package: const $pb.PackageName('inf_common'))
-    ..aOS(1, 'configUrl')
-    ..hasRequiredFields = false;
-
-  NetConfigDownload() : super();
-  NetConfigDownload.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetConfigDownload.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetConfigDownload clone() => new NetConfigDownload()..mergeFromMessage(this);
-  NetConfigDownload copyWith(void Function(NetConfigDownload) updates) =>
-      super.copyWith((message) => updates(message as NetConfigDownload));
-  $pb.BuilderInfo get info_ => _i;
-  static NetConfigDownload create() => new NetConfigDownload();
-  static $pb.PbList<NetConfigDownload> createRepeated() =>
-      new $pb.PbList<NetConfigDownload>();
-  static NetConfigDownload getDefault() =>
-      _defaultInstance ??= create()..freeze();
-  static NetConfigDownload _defaultInstance;
-  static void $checkItem(NetConfigDownload v) {
-    if (v is! NetConfigDownload)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  $4.DataAccount get account => $_getN(1);
+  set account($4.DataAccount v) {
+    setField(2, v);
   }
 
-  String get configUrl => $_getS(0, '');
-  set configUrl(String v) {
-    $_setString(0, v);
+  bool hasAccount() => $_has(1);
+  void clearAccount() => clearField(2);
+
+  String get bearerToken => $_getS(2, '');
+  set bearerToken(String v) {
+    $_setString(2, v);
   }
 
-  bool hasConfigUrl() => $_has(0);
-  void clearConfigUrl() => clearField(1);
+  bool hasBearerToken() => $_has(2);
+  void clearBearerToken() => clearField(3);
+
+  String get accessToken => $_getS(3, '');
+  set accessToken(String v) {
+    $_setString(3, v);
+  }
+
+  bool hasAccessToken() => $_has(3);
+  void clearAccessToken() => clearField(4);
 }
