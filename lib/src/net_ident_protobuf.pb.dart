@@ -249,7 +249,6 @@ class NetSessionRemove extends $pb.GeneratedMessage {
 class NetSession extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSession',
       package: const $pb.PackageName('inf_common'))
-    ..aInt64(1, 'sessionId')
     ..a<$10.DataAccount>(2, 'account', $pb.PbFieldType.OM,
         $10.DataAccount.getDefault, $10.DataAccount.create)
     ..aOS(3, 'bearerToken')
@@ -276,35 +275,27 @@ class NetSession extends $pb.GeneratedMessage {
     if (v is! NetSession) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  Int64 get sessionId => $_getI64(0);
-  set sessionId(Int64 v) {
-    $_setInt64(0, v);
-  }
-
-  bool hasSessionId() => $_has(0);
-  void clearSessionId() => clearField(1);
-
-  $10.DataAccount get account => $_getN(1);
+  $10.DataAccount get account => $_getN(0);
   set account($10.DataAccount v) {
     setField(2, v);
   }
 
-  bool hasAccount() => $_has(1);
+  bool hasAccount() => $_has(0);
   void clearAccount() => clearField(2);
 
-  String get bearerToken => $_getS(2, '');
+  String get bearerToken => $_getS(1, '');
   set bearerToken(String v) {
+    $_setString(1, v);
+  }
+
+  bool hasBearerToken() => $_has(1);
+  void clearBearerToken() => clearField(3);
+
+  String get accessToken => $_getS(2, '');
+  set accessToken(String v) {
     $_setString(2, v);
   }
 
-  bool hasBearerToken() => $_has(2);
-  void clearBearerToken() => clearField(3);
-
-  String get accessToken => $_getS(3, '');
-  set accessToken(String v) {
-    $_setString(3, v);
-  }
-
-  bool hasAccessToken() => $_has(3);
+  bool hasAccessToken() => $_has(2);
   void clearAccessToken() => clearField(4);
 }

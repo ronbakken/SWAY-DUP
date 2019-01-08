@@ -73,7 +73,6 @@ const NetSessionRemove$json = const {
 const NetSession$json = const {
   '1': 'NetSession',
   '2': const [
-    const {'1': 'session_id', '3': 1, '4': 1, '5': 3, '10': 'sessionId'},
     const {
       '1': 'account',
       '3': 2,

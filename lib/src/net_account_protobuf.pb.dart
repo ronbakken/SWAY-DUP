@@ -355,6 +355,9 @@ class NetOAuthConnection extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..a<$10.DataSocialMedia>(1, 'socialMedia', $pb.PbFieldType.OM,
         $10.DataSocialMedia.getDefault, $10.DataSocialMedia.create)
+    ..a<$10.DataAccount>(2, 'account', $pb.PbFieldType.OM,
+        $10.DataAccount.getDefault, $10.DataAccount.create)
+    ..aOS(4, 'accessToken')
     ..hasRequiredFields = false;
 
   NetOAuthConnection() : super();
@@ -387,6 +390,22 @@ class NetOAuthConnection extends $pb.GeneratedMessage {
 
   bool hasSocialMedia() => $_has(0);
   void clearSocialMedia() => clearField(1);
+
+  $10.DataAccount get account => $_getN(1);
+  set account($10.DataAccount v) {
+    setField(2, v);
+  }
+
+  bool hasAccount() => $_has(1);
+  void clearAccount() => clearField(2);
+
+  String get accessToken => $_getS(2, '');
+  set accessToken(String v) {
+    $_setString(2, v);
+  }
+
+  bool hasAccessToken() => $_has(2);
+  void clearAccessToken() => clearField(4);
 }
 
 class NetAccountCreate extends $pb.GeneratedMessage {

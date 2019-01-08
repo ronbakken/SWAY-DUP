@@ -132,6 +132,15 @@ const NetOAuthConnection$json = const {
       '6': '.inf_common.DataSocialMedia',
       '10': 'socialMedia'
     },
+    const {'1': 'access_token', '3': 4, '4': 1, '5': 9, '10': 'accessToken'},
+    const {
+      '1': 'account',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.DataAccount',
+      '10': 'account'
+    },
   ],
 };
 
