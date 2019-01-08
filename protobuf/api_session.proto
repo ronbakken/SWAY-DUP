@@ -17,7 +17,7 @@ service ApiSession {
   /// Returns a new bearer token.
   /// Includes blank account state with session id set.
   /// Includes a new access token.
-  rpc Create(NetSessionCreate) returns (stream NetSession) {}
+  rpc Create(NetSessionCreate) returns (NetSession) {}
 
   /// Open an existing session.
   /// Returns a new access token and the account state 
@@ -25,7 +25,7 @@ service ApiSession {
   /// Must be called with a bearer token authorization token.
   /// If the bearer token is invalid, this returns with a blank access token.
   /// The returned access token is used for accessing the rest of the API.
-  rpc Open(NetSessionOpen) returns (stream NetSession) {}
+  rpc Open(NetSessionOpen) returns (NetSession) {}
 
   /// TODO
   // Remove

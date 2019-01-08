@@ -1,0 +1,23 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package inf_common;
+option csharp_namespace = "InfCommon";
+
+import "net_account_protobuf.proto";
+
+service ApiOAuth {
+  /// Generates the URLs for the OAuth1 or OAuth2 flow.
+  rpc GetUrl(NetOAuthGetUrl) returns (NetOAuthUrl) {}
+
+  /// Returns the secrets for plugin-based OAuth, where permitted.
+  rpc GetSecrets(NetOAuthGetSecrets) returns (NetOAuthSecrets) {}
+
+}
+
+/* end of file */
