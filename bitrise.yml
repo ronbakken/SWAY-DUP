@@ -1,0 +1,133 @@
+format_version: 1.4.0
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+trigger_map:
+- push_branch: develop
+  workflow: dev
+- push_branch: chore/*
+  workflow: dev
+- push_branch: feature/*
+  workflow: dev
+- push_branch: fix/*
+  workflow: dev
+- push_branch: release/*
+  workflow: test
+- push_branch: master
+  workflow: prod
+workflows:
+  _run_from_repo:
+    steps:
+    - script:
+        title: Install envman
+        inputs:
+        - content: |
+            #!/bin/bash
+            set -ex
+
+            command -v envman >/dev/null 2>&1 || {
+                echo >&2 "envman is not yet installed - installing";
+                curl -fL https://github.com/bitrise-io/envman/releases/download/1.1.13/envman-$(uname -s)-$(uname -m) > /usr/local/bin/envman
+                chmod +x /usr/local/bin/envman
+            }
+    - script:
+        title: Apply Overrides
+        inputs:
+        - content: |
+            #!/bin/bash
+            set -ex
+
+            if [ ! -z "$ENVIRONMENT_OVERRIDE" ] ; then
+              envman add --key ENVIRONMENT --value "$ENVIRONMENT_OVERRIDE"
+            fi
+    - script:
+        title: Print Environment Variables
+        inputs:
+        - content: |
+            #!/bin/bash
+            printenv
+    - activate-ssh-key:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    # - git-clone: {}
+    - script:
+        title: Install .NET Core
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            command -v dotnet >/dev/null 2>&1 || {
+                echo >&2 ".NET Core is not yet installed - installing";
+
+                # If executing from a mounted folder, the installation will fail due to an inability to authenticate packages.
+                cd /
+
+                curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+                sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+                sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
+
+                sudo apt-get -y update
+                sudo apt-get -y install apt-transport-https
+                sudo apt-get -y install dotnet-sdk-2.1
+            }
+    - script:
+        title: Install Azure CLI
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            command -v az >/dev/null 2>&1 || {
+              echo >&2 "Azure CLI is not yet installed - installing";
+
+              # See https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest
+              sudo apt-get install apt-transport-https lsb-release software-properties-common dirmngr -y
+
+              AZ_REPO=$(lsb_release -cs)
+              echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
+                  sudo tee /etc/apt/sources.list.d/azure-cli.list
+
+              sudo apt-key --keyring /etc/apt/trusted.gpg.d/Microsoft.gpg adv \
+                  --keyserver packages.microsoft.com \
+                  --recv-keys BC528686B50D79E339D3721CEB3E94ADBE1229CF
+
+              sudo apt-get update
+              sudo apt-get install azure-cli
+
+              # Add the mesh extension
+              az extension add --name mesh
+            }
+    - script:
+        title: Cake Build
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+            cd ../src/
+            bash ./build.sh $CAKE_ARGS
+    # - deploy-to-bitrise-io:
+    #     inputs:
+    #     - notify_user_groups: none
+  dev:
+    envs:
+    - ENVIRONMENT: "dev"
+    after_run:
+    - _run_from_repo
+  test:
+    envs:
+    - ENVIRONMENT: "test"
+    after_run:
+    - _run_from_repo
+  prod:
+    envs:
+    - ENVIRONMENT: "prod"
+    after_run:
+    - _run_from_repo
+
+app:
+    envs:
+    - DEPLOY_LOCALLY: "True"
+    - LOCAL_DEPLOY_DIR: "$BITRISE_DEPLOY_DIR"
+    - REGION: "North Central US"
+    - ENVIRONMENT: "dev"
+    - AZURE_SUBSCRIPTION_ID: "73d340c7-9e04-436d-90cf-cf2f0a353416"
+    # This is the app ID obtained when created the service principal.
+    - AZURE_CLIENT_ID: "ad15fabb-97a2-4b2a-aa37-b10749b8b2e1"
+    # This is from Active Directory, Manage/Properties, Directory ID.
+    - AZURE_TENANT_ID: "70258c67-7f5a-41ba-b4bf-4c772ed47dcc"
