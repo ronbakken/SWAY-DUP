@@ -9,6 +9,7 @@ syntax = "proto3";
 package inf_common;
 option csharp_namespace = "InfCommon";
 
+import "net_offer_protobuf.proto";
 import "net_demo_protobuf.proto";
 
 service ApiExplore {
