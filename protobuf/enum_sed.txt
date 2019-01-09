@@ -21,6 +21,7 @@ s/'AT__/'AT_/g
 s/'GAS_/'GAS__/g
 s/GAS_INITIALIZE/initialize/g
 s/GAS_BLOCKED/blocked/g
+s/GAS_PENDING/pending/g
 s/GAS_READ_ONLY/readOnly/g
 s/GAS_READ_WRITE/readWrite/g
 s/GAS_DEBUG/debug/g
