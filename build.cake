@@ -68,8 +68,8 @@ var keyVaultName = $"{resourceNamePrefix}-KeyVault";
 var certificateName = $"{resourceNamePrefix}-Certificate";
 
 // Paths.
-var srcDir = Directory("Src");
-var templateFile = srcDir + Directory("server") + File("arm_template.json");
+var srcDir = Directory("src");
+var templateFile = srcDir + File("arm_template.json");
 var pfxFile = File("Azure.pfx");
 
 Setup(
