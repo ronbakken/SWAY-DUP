@@ -58,8 +58,8 @@ class ReqPush extends $pb.GeneratedMessage {
     $_setInt64(1, v);
   }
 
-  bool hasRecipientAccountId() => $_has(1);
-  void clearRecipientAccountId() => clearField(2);
+  bool hasReceiverAccountId() => $_has(1);
+  void clearReceiverAccountId() => clearField(2);
 
   Int64 get senderSessionId => $_getI64(2);
   set senderSessionId(Int64 v) {
