@@ -25,8 +25,8 @@ class ApiOffersService extends ApiOffersServiceBase {
   final sqljocky.ConnectionPool accountDb;
   final sqljocky.ConnectionPool proposalDb;
   final Elasticsearch elasticsearch;
-  static final Logger opsLog = Logger('InfOps.ApiProfilesService');
-  static final Logger devLog = Logger('InfDev.ApiProfilesService');
+  static final Logger opsLog = Logger('InfOps.ApiOffersService');
+  static final Logger devLog = Logger('InfDev.ApiOffersService');
 
   final http.Client httpClient = http.Client();
   final http_client.Client httpClientClient = http_client.ConsoleClient();
@@ -55,8 +55,8 @@ class ApiOffersService extends ApiOffersServiceBase {
 
     final DataAccount account =
         await fetchSessionAccount(config, accountDb, auth.sessionId);
-    if (account.accountId == Int64.ZERO) {
-      throw grpc.GrpcError.failedPrecondition();
+    if (account.accountId != auth.accountId) {
+      throw grpc.GrpcError.dataLoss();
     }
 
     if (!request.hasOffer()) {
