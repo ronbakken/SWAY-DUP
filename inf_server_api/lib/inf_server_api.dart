@@ -177,11 +177,14 @@ Future<void> run(List<String> arguments) async {
 
   // Listen to WebSocket
 
-  // Exit if any of the listeners exits
+  // Wait for listening
   await Future.any(<Future<void>>[grpcServing]);
+  Logger('InfOps').info('Listening: api: ${grpcServer.port}');
 
-  await grpcServer.shutdown();
-  await spaces.close();
+  // TODO: Exit if any of the listeners exits... No mechanism to wait for gRPC exit right now...
+  // await ...;
+  // await grpcServer.shutdown();
+  // await spaces.close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

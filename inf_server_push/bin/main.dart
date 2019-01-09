@@ -75,14 +75,19 @@ Future<void> main(List<String> arguments) async {
       // TODO: Backend tracking
     ],
   );
-  final Future<void> grpcBackendServing = grpcApi.serve(port: 8919);
+  final Future<void> grpcBackendServing = grpcBackend.serve(port: 8919);
 
   // Listen to WebSocket
 
-  // Exit if any of the listeners exits
-  await Future.any(<Future<void>>[grpcApiServing, grpcBackendServing]);
-  await grpcApi.shutdown();
-  await grpcBackend.shutdown();
+  // Wait for listening
+  await Future.wait(<Future<void>>[grpcApiServing, grpcBackendServing]);
+  Logger('InfOps').info('Listening: api: ${grpcApi.port}, backend: ${grpcBackend.port}');
+
+  // TODO: Exit if any of the listeners exits... No mechanism to wait for gRPC exit right now...
+  // await ...;
+  // await grpcApi.shutdown();
+  // await grpcBackend.shutdown();
+  // Logger('InfOps').info('Done');
 }
 
 /* end of file */
