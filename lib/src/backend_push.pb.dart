@@ -234,3 +234,79 @@ class ResSetFirebaseToken extends $pb.GeneratedMessage {
       $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 }
+
+class ReqSetAccountName extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ReqSetAccountName',
+      package: const $pb.PackageName('inf_common'))
+    ..aOS(1, 'name')
+    ..aInt64(2, 'accountId')
+    ..hasRequiredFields = false;
+
+  ReqSetAccountName() : super();
+  ReqSetAccountName.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ReqSetAccountName.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  ReqSetAccountName clone() => new ReqSetAccountName()..mergeFromMessage(this);
+  ReqSetAccountName copyWith(void Function(ReqSetAccountName) updates) =>
+      super.copyWith((message) => updates(message as ReqSetAccountName));
+  $pb.BuilderInfo get info_ => _i;
+  static ReqSetAccountName create() => new ReqSetAccountName();
+  ReqSetAccountName createEmptyInstance() => create();
+  static $pb.PbList<ReqSetAccountName> createRepeated() =>
+      new $pb.PbList<ReqSetAccountName>();
+  static ReqSetAccountName getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static ReqSetAccountName _defaultInstance;
+  static void $checkItem(ReqSetAccountName v) {
+    if (v is! ReqSetAccountName)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  String get name => $_getS(0, '');
+  set name(String v) {
+    $_setString(0, v);
+  }
+
+  bool hasName() => $_has(0);
+  void clearName() => clearField(1);
+
+  Int64 get accountId => $_getI64(1);
+  set accountId(Int64 v) {
+    $_setInt64(1, v);
+  }
+
+  bool hasAccountId() => $_has(1);
+  void clearAccountId() => clearField(2);
+}
+
+class ResSetAccountName extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ResSetAccountName',
+      package: const $pb.PackageName('inf_common'))
+    ..hasRequiredFields = false;
+
+  ResSetAccountName() : super();
+  ResSetAccountName.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  ResSetAccountName.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  ResSetAccountName clone() => new ResSetAccountName()..mergeFromMessage(this);
+  ResSetAccountName copyWith(void Function(ResSetAccountName) updates) =>
+      super.copyWith((message) => updates(message as ResSetAccountName));
+  $pb.BuilderInfo get info_ => _i;
+  static ResSetAccountName create() => new ResSetAccountName();
+  ResSetAccountName createEmptyInstance() => create();
+  static $pb.PbList<ResSetAccountName> createRepeated() =>
+      new $pb.PbList<ResSetAccountName>();
+  static ResSetAccountName getDefault() =>
+      _defaultInstance ??= create()..freeze();
+  static ResSetAccountName _defaultInstance;
+  static void $checkItem(ResSetAccountName v) {
+    if (v is! ResSetAccountName)
+      $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+}

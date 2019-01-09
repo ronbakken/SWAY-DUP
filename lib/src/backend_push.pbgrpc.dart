@@ -21,6 +21,11 @@ class BackendPushClient extends Client {
           '/inf_common.BackendPush/SetFirebaseToken',
           (ReqSetFirebaseToken value) => value.writeToBuffer(),
           (List<int> value) => new ResSetFirebaseToken.fromBuffer(value));
+  static final _$setAccountName =
+      new ClientMethod<ReqSetAccountName, ResSetAccountName>(
+          '/inf_common.BackendPush/SetAccountName',
+          (ReqSetAccountName value) => value.writeToBuffer(),
+          (List<int> value) => new ResSetAccountName.fromBuffer(value));
 
   BackendPushClient(ClientChannel channel, {CallOptions options})
       : super(channel, options: options);
@@ -36,6 +41,14 @@ class BackendPushClient extends Client {
       {CallOptions options}) {
     final call = $createCall(
         _$setFirebaseToken, new $async.Stream.fromIterable([request]),
+        options: options);
+    return new ResponseFuture(call);
+  }
+
+  ResponseFuture<ResSetAccountName> setAccountName(ReqSetAccountName request,
+      {CallOptions options}) {
+    final call = $createCall(
+        _$setAccountName, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
@@ -59,6 +72,13 @@ abstract class BackendPushServiceBase extends Service {
         false,
         (List<int> value) => new ReqSetFirebaseToken.fromBuffer(value),
         (ResSetFirebaseToken value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<ReqSetAccountName, ResSetAccountName>(
+        'SetAccountName',
+        setAccountName_Pre,
+        false,
+        false,
+        (List<int> value) => new ReqSetAccountName.fromBuffer(value),
+        (ResSetAccountName value) => value.writeToBuffer()));
   }
 
   $async.Future<ResPush> push_Pre(
@@ -71,7 +91,14 @@ abstract class BackendPushServiceBase extends Service {
     return setFirebaseToken(call, await request);
   }
 
+  $async.Future<ResSetAccountName> setAccountName_Pre(
+      ServiceCall call, $async.Future request) async {
+    return setAccountName(call, await request);
+  }
+
   $async.Future<ResPush> push(ServiceCall call, ReqPush request);
   $async.Future<ResSetFirebaseToken> setFirebaseToken(
       ServiceCall call, ReqSetFirebaseToken request);
+  $async.Future<ResSetAccountName> setAccountName(
+      ServiceCall call, ReqSetAccountName request);
 }
