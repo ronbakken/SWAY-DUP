@@ -154,7 +154,7 @@ message ConfigCategory {
   
 }
 
-message ConfigServices { // 52
+message ConfigServices { // 53
   // INF
   string domain = 24;
   repeated string end_points = 8;
@@ -164,6 +164,9 @@ message ConfigServices { // 52
   string privacy_policy_url = 11;
   string connection_failed_url = 29;
   bytes salt = 35;
+
+  // Backend internal services
+  string backend_push = 53;
   
   // DigitalOcean Spaces
   string spaces_region = 4;
