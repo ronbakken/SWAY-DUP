@@ -42,20 +42,21 @@ class ApiProposalClient extends Client {
           '/inf_common.ApiProposal/Complete',
           ($5.NetProposalCompletion value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposal.fromBuffer(value));
-  static final _$chatPlain = new ClientMethod<$5.NetChatPlain, $5.NetProposal>(
-      '/inf_common.ApiProposal/ChatPlain',
-      ($5.NetChatPlain value) => value.writeToBuffer(),
-      (List<int> value) => new $5.NetProposal.fromBuffer(value));
+  static final _$chatPlain =
+      new ClientMethod<$5.NetChatPlain, $5.NetProposalChat>(
+          '/inf_common.ApiProposal/ChatPlain',
+          ($5.NetChatPlain value) => value.writeToBuffer(),
+          (List<int> value) => new $5.NetProposalChat.fromBuffer(value));
   static final _$chatNegotiate =
       new ClientMethod<$5.NetChatNegotiate, $5.NetProposal>(
           '/inf_common.ApiProposal/ChatNegotiate',
           ($5.NetChatNegotiate value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$chatImageKey =
-      new ClientMethod<$5.NetChatImageKey, $5.NetProposal>(
+      new ClientMethod<$5.NetChatImageKey, $5.NetProposalChat>(
           '/inf_common.ApiProposal/ChatImageKey',
           ($5.NetChatImageKey value) => value.writeToBuffer(),
-          (List<int> value) => new $5.NetProposal.fromBuffer(value));
+          (List<int> value) => new $5.NetProposalChat.fromBuffer(value));
 
   ApiProposalClient(ClientChannel channel, {CallOptions options})
       : super(channel, options: options);
@@ -108,7 +109,7 @@ class ApiProposalClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<$5.NetProposal> chatPlain($5.NetChatPlain request,
+  ResponseFuture<$5.NetProposalChat> chatPlain($5.NetChatPlain request,
       {CallOptions options}) {
     final call = $createCall(
         _$chatPlain, new $async.Stream.fromIterable([request]),
@@ -124,7 +125,7 @@ class ApiProposalClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<$5.NetProposal> chatImageKey($5.NetChatImageKey request,
+  ResponseFuture<$5.NetProposalChat> chatImageKey($5.NetChatImageKey request,
       {CallOptions options}) {
     final call = $createCall(
         _$chatImageKey, new $async.Stream.fromIterable([request]),
@@ -179,13 +180,13 @@ abstract class ApiProposalServiceBase extends Service {
         false,
         (List<int> value) => new $5.NetProposalCompletion.fromBuffer(value),
         ($5.NetProposal value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$5.NetChatPlain, $5.NetProposal>(
+    $addMethod(new ServiceMethod<$5.NetChatPlain, $5.NetProposalChat>(
         'ChatPlain',
         chatPlain_Pre,
         false,
         false,
         (List<int> value) => new $5.NetChatPlain.fromBuffer(value),
-        ($5.NetProposal value) => value.writeToBuffer()));
+        ($5.NetProposalChat value) => value.writeToBuffer()));
     $addMethod(new ServiceMethod<$5.NetChatNegotiate, $5.NetProposal>(
         'ChatNegotiate',
         chatNegotiate_Pre,
@@ -193,13 +194,13 @@ abstract class ApiProposalServiceBase extends Service {
         false,
         (List<int> value) => new $5.NetChatNegotiate.fromBuffer(value),
         ($5.NetProposal value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$5.NetChatImageKey, $5.NetProposal>(
+    $addMethod(new ServiceMethod<$5.NetChatImageKey, $5.NetProposalChat>(
         'ChatImageKey',
         chatImageKey_Pre,
         false,
         false,
         (List<int> value) => new $5.NetChatImageKey.fromBuffer(value),
-        ($5.NetProposal value) => value.writeToBuffer()));
+        ($5.NetProposalChat value) => value.writeToBuffer()));
   }
 
   $async.Future<$5.NetProposal> wantDeal_Pre(
@@ -232,7 +233,7 @@ abstract class ApiProposalServiceBase extends Service {
     return complete(call, await request);
   }
 
-  $async.Future<$5.NetProposal> chatPlain_Pre(
+  $async.Future<$5.NetProposalChat> chatPlain_Pre(
       ServiceCall call, $async.Future request) async {
     return chatPlain(call, await request);
   }
@@ -242,7 +243,7 @@ abstract class ApiProposalServiceBase extends Service {
     return chatNegotiate(call, await request);
   }
 
-  $async.Future<$5.NetProposal> chatImageKey_Pre(
+  $async.Future<$5.NetProposalChat> chatImageKey_Pre(
       ServiceCall call, $async.Future request) async {
     return chatImageKey(call, await request);
   }
@@ -259,10 +260,10 @@ abstract class ApiProposalServiceBase extends Service {
       ServiceCall call, $5.NetProposalDispute request);
   $async.Future<$5.NetProposal> complete(
       ServiceCall call, $5.NetProposalCompletion request);
-  $async.Future<$5.NetProposal> chatPlain(
+  $async.Future<$5.NetProposalChat> chatPlain(
       ServiceCall call, $5.NetChatPlain request);
   $async.Future<$5.NetProposal> chatNegotiate(
       ServiceCall call, $5.NetChatNegotiate request);
-  $async.Future<$5.NetProposal> chatImageKey(
+  $async.Future<$5.NetProposalChat> chatImageKey(
       ServiceCall call, $5.NetChatImageKey request);
 }
