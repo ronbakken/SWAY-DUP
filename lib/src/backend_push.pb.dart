@@ -18,7 +18,7 @@ class ReqPush extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf_common'))
     ..a<$6.NetPush>(1, 'message', $pb.PbFieldType.OM, $6.NetPush.getDefault,
         $6.NetPush.create)
-    ..aInt64(2, 'recipientAccountId')
+    ..aInt64(2, 'receiverAccountId')
     ..aInt64(3, 'senderSessionId')
     ..aOB(4, 'skipSenderSession')
     ..aOB(5, 'sendNotifications')
@@ -53,8 +53,8 @@ class ReqPush extends $pb.GeneratedMessage {
   bool hasMessage() => $_has(0);
   void clearMessage() => clearField(1);
 
-  Int64 get recipientAccountId => $_getI64(1);
-  set recipientAccountId(Int64 v) {
+  Int64 get receiverAccountId => $_getI64(1);
+  set receiverAccountId(Int64 v) {
     $_setInt64(1, v);
   }
 

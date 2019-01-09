@@ -15,7 +15,7 @@ service ApiProposal {
   /// Sent by any party to affirm they want a deal for a specific proposal terms negotiate message
   rpc WantDeal(NetProposalWantDeal) returns (NetProposal) {}
 
-  /// Sent by proposal recipient to move from proposing state to negotiating state (does not include a negotiation chat message)
+  /// Sent by proposal receiver to move from proposing state to negotiating state (does not include a negotiation chat message)
   rpc Negotiate(NetProposalNegotiate) returns (NetProposal) {}
 
   /// Sent by either user to reject or cancel the proposal before it's gone into deal state

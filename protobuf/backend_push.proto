@@ -21,7 +21,7 @@ import "net_account_protobuf.proto";
 message ReqPush {
     NetPush message = 1;
 
-    int64 recipient_account_id = 2;
+    int64 receiver_account_id = 2;
     int64 sender_session_id = 3;
 
     /// Don't push to the sender session id
