@@ -778,6 +778,11 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(45, 'proposalDbUser')
     ..aOS(46, 'proposalDbPassword')
     ..aOS(47, 'proposalDbDatabase')
+    ..aOS(48, 'generalDbHost')
+    ..a<int>(49, 'generalDbPort', $pb.PbFieldType.O3)
+    ..aOS(50, 'generalDbUser')
+    ..aOS(51, 'generalDbPassword')
+    ..aOS(52, 'generalDbDatabase')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -1162,6 +1167,46 @@ class ConfigServices extends $pb.GeneratedMessage {
 
   bool hasProposalDbDatabase() => $_has(45);
   void clearProposalDbDatabase() => clearField(47);
+
+  String get generalDbHost => $_getS(46, '');
+  set generalDbHost(String v) {
+    $_setString(46, v);
+  }
+
+  bool hasGeneralDbHost() => $_has(46);
+  void clearGeneralDbHost() => clearField(48);
+
+  int get generalDbPort => $_get(47, 0);
+  set generalDbPort(int v) {
+    $_setSignedInt32(47, v);
+  }
+
+  bool hasGeneralDbPort() => $_has(47);
+  void clearGeneralDbPort() => clearField(49);
+
+  String get generalDbUser => $_getS(48, '');
+  set generalDbUser(String v) {
+    $_setString(48, v);
+  }
+
+  bool hasGeneralDbUser() => $_has(48);
+  void clearGeneralDbUser() => clearField(50);
+
+  String get generalDbPassword => $_getS(49, '');
+  set generalDbPassword(String v) {
+    $_setString(49, v);
+  }
+
+  bool hasGeneralDbPassword() => $_has(49);
+  void clearGeneralDbPassword() => clearField(51);
+
+  String get generalDbDatabase => $_getS(50, '');
+  set generalDbDatabase(String v) {
+    $_setString(50, v);
+  }
+
+  bool hasGeneralDbDatabase() => $_has(50);
+  void clearGeneralDbDatabase() => clearField(52);
 }
 
 class ConfigFeatureSwitches extends $pb.GeneratedMessage {

@@ -473,6 +473,41 @@ const ConfigServices$json = const {
       '10': 'proposalDbDatabase'
     },
     const {
+      '1': 'general_db_host',
+      '3': 48,
+      '4': 1,
+      '5': 9,
+      '10': 'generalDbHost'
+    },
+    const {
+      '1': 'general_db_port',
+      '3': 49,
+      '4': 1,
+      '5': 5,
+      '10': 'generalDbPort'
+    },
+    const {
+      '1': 'general_db_user',
+      '3': 50,
+      '4': 1,
+      '5': 9,
+      '10': 'generalDbUser'
+    },
+    const {
+      '1': 'general_db_password',
+      '3': 51,
+      '4': 1,
+      '5': 9,
+      '10': 'generalDbPassword'
+    },
+    const {
+      '1': 'general_db_database',
+      '3': 52,
+      '4': 1,
+      '5': 9,
+      '10': 'generalDbDatabase'
+    },
+    const {
       '1': 'elasticsearch_api',
       '3': 36,
       '4': 1,
