@@ -15,9 +15,22 @@ const NetListen$json = const {
   '1': 'NetListen',
 };
 
+const NetPushing$json = const {
+  '1': 'NetPushing',
+};
+
 const NetPush$json = const {
   '1': 'NetPush',
   '2': const [
+    const {
+      '1': 'pushing',
+      '3': 8,
+      '4': 1,
+      '5': 11,
+      '6': '.inf_common.NetPushing',
+      '9': 0,
+      '10': 'pushing'
+    },
     const {
       '1': 'updateAccount',
       '3': 1,

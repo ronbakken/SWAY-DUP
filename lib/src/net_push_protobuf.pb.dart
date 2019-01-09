@@ -77,6 +77,33 @@ class NetListen extends $pb.GeneratedMessage {
   }
 }
 
+class NetPushing extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetPushing',
+      package: const $pb.PackageName('inf_common'))
+    ..hasRequiredFields = false;
+
+  NetPushing() : super();
+  NetPushing.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetPushing.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetPushing clone() => new NetPushing()..mergeFromMessage(this);
+  NetPushing copyWith(void Function(NetPushing) updates) =>
+      super.copyWith((message) => updates(message as NetPushing));
+  $pb.BuilderInfo get info_ => _i;
+  static NetPushing create() => new NetPushing();
+  NetPushing createEmptyInstance() => create();
+  static $pb.PbList<NetPushing> createRepeated() =>
+      new $pb.PbList<NetPushing>();
+  static NetPushing getDefault() => _defaultInstance ??= create()..freeze();
+  static NetPushing _defaultInstance;
+  static void $checkItem(NetPushing v) {
+    if (v is! NetPushing) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+}
+
 enum NetPush_Push {
   updateAccount,
   updateOffer,
@@ -85,6 +112,7 @@ enum NetPush_Push {
   newProposalChat,
   updateProposalChat,
   configDownload,
+  pushing,
   notSet
 }
 
@@ -97,6 +125,7 @@ class NetPush extends $pb.GeneratedMessage {
     5: NetPush_Push.newProposalChat,
     6: NetPush_Push.updateProposalChat,
     7: NetPush_Push.configDownload,
+    8: NetPush_Push.pushing,
     0: NetPush_Push.notSet
   };
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetPush',
@@ -115,7 +144,9 @@ class NetPush extends $pb.GeneratedMessage {
         $5.NetProposalChat.getDefault, $5.NetProposalChat.create)
     ..a<NetConfigDownload>(7, 'configDownload', $pb.PbFieldType.OM,
         NetConfigDownload.getDefault, NetConfigDownload.create)
-    ..oo(0, [1, 2, 3, 4, 5, 6, 7])
+    ..a<NetPushing>(8, 'pushing', $pb.PbFieldType.OM, NetPushing.getDefault,
+        NetPushing.create)
+    ..oo(0, [1, 2, 3, 4, 5, 6, 7, 8])
     ..hasRequiredFields = false;
 
   NetPush() : super();
@@ -196,4 +227,12 @@ class NetPush extends $pb.GeneratedMessage {
 
   bool hasConfigDownload() => $_has(6);
   void clearConfigDownload() => clearField(7);
+
+  NetPushing get pushing => $_getN(7);
+  set pushing(NetPushing v) {
+    setField(8, v);
+  }
+
+  bool hasPushing() => $_has(7);
+  void clearPushing() => clearField(8);
 }
