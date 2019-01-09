@@ -70,6 +70,7 @@ var certificateName = $"{resourceNamePrefix}-Certificate";
 // Paths.
 var srcDir = Directory("Src");
 var templateFile = srcDir + Directory("server") + File("arm_template.json");
+var pfxFile = File("Azure.pfx");
 
 Setup(
     context =>
@@ -82,7 +83,12 @@ Task("Deploy")
     .Does(
         async (context) =>
         {
-            var credentials = CreateAzureCredentials(context, clientId, tenantId);
+            if (!FileExists(pfxFile))
+            {
+                throw new Exception($"The PFX file, '{pfxFile}', used to authenticate with Azure could not be found.");
+            }
+
+            var credentials = CreateAzureCredentials(context, clientId, tenantId, pfxFile);
             var azure = CreateAuthenticatedAzureClient(context, credentials);
             var resourceGroup = await EnsureResourceGroup(context, azure, resourceGroupName, region);
             var keyVault = await EnsureKeyVault(context, azure, keyVaultName, resourceGroupName, region);
@@ -135,12 +141,16 @@ Task("Start-Docker")
                 });
         });
 
-private static AzureCredentials CreateAzureCredentials(ICakeContext context, string clientId, string tenantId)
+private static AzureCredentials CreateAzureCredentials(
+    ICakeContext context,
+    string clientId,
+    string tenantId,
+    ConvertableFilePath pfxFile)
 {
     context.Information($"Creating Azure credentials for client ID '{clientId}', tenant ID '{tenantId}'.");
 
     // The certificate used for CI/automation (not to be confused with the certificate used to secure nodes in the cluster).
-    var automationCertificate = new X509Certificate2("./CI.pfx");
+    var automationCertificate = new X509Certificate2(pfxFile);
     var credentials = SdkContext
         .AzureCredentialsFactory
         .FromServicePrincipal(
@@ -148,6 +158,8 @@ private static AzureCredentials CreateAzureCredentials(ICakeContext context, str
             automationCertificate,
             tenantId,
             AzureEnvironment.AzureGlobalCloud);
+
+    context.Information("Credentials created.");
     return credentials;
 }
 
