@@ -1,11 +1,14 @@
 import 'package:rxdart/rxdart.dart';
 
-enum NetworkConnectionState { connected, noNetwork, notConnected, reconnecting }
+enum NetworkConnectionState { none, mobile, wifi }
 
 enum LifecycleState { resumed, paused }
 
 abstract class SystemService {
-  Observable<NetworkConnectionState> get connectionState => null;
+
+  NetworkConnectionState connectionState;
+
+  Observable<NetworkConnectionState> get connectionStateChanges => null;
 
   Observable<LifecycleState> get appLifecycleState => null;
 

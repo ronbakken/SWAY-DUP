@@ -24,7 +24,7 @@ import 'package:inf/backend/services/config_service_.dart';
 import 'package:inf/backend/services/config_service_mock.dart';
 import 'package:inf/backend/services/system_service_.dart';
 import 'package:inf/backend/services/system_service_impl.dart';
-import 'package:inf/backend/services/system_service_mock.dart';
+
 import 'package:inf/backend/services/inf_api_service_.dart';
 import 'package:inf/backend/services/location_service_.dart';
 import 'package:inf/backend/managers/offer_manager_.dart';
@@ -43,6 +43,7 @@ export 'package:inf/backend/services/location_service_.dart';
 export 'package:inf/backend/managers/offer_manager_.dart';
 export 'package:inf/backend/services/image_service_.dart';
 export 'package:inf/backend/services/inf_api_clients_service_.dart';
+export 'package:grpc/grpc.dart' show GrpcError;
 
 enum AppMode { dev, prod, mock }
 
@@ -131,7 +132,7 @@ void registerImplementations() {
         ),
   );
   backend.registerLazySingleton<ImageService>(() => ImageServiceMock());
-  backend.registerLazySingleton<SystemService>(() => SystemServiceMock(NetworkConnectionState.connected));
+  backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
   backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());
 
   // Managers
@@ -174,7 +175,7 @@ void registerMocks() {
   );
   backend.registerLazySingleton<ConfigService>(() => ConfigServiceMock());
   backend.registerLazySingleton<ImageService>(() => ImageServiceMock());
-  backend.registerLazySingleton<SystemService>(() => SystemServiceMock(NetworkConnectionState.connected));
+  backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
   backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());
 
   // Managers

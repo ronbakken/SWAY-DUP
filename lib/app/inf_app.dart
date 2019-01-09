@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/ui/welcome/startup_page.dart';
+import 'package:inf/ui/system_pages/startup_page.dart';
 
 class InfApp extends StatefulWidget {
   @override

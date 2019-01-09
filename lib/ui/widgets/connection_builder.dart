@@ -13,20 +13,20 @@ class ConnectionBuilder extends StatelessWidget {
     Key key,
     @required this.builder,
     this.child,
-    this.initialState = NetworkConnectionState.connected,
+    this.initialState = NetworkConnectionState.wifi,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<NetworkConnectionState>(
       initialData: initialState,
-      stream: backend.get<SystemService>().connectionState,
+      stream: backend.get<SystemService>().connectionStateChanges,
       builder: (BuildContext context,
           AsyncSnapshot<NetworkConnectionState> snapShot) {
         if (snapShot.hasData) {
           return builder(context, snapShot.data, child);
         } else {
-          return builder(context, NetworkConnectionState.notConnected, child);
+          return builder(context, NetworkConnectionState.none, child);
         }
       },
     );

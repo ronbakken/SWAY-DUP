@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 
-import 'package:inf/ui/welcome/startup_page.dart';
+import 'package:inf/ui/system_pages/startup_page.dart';
 
 mixin AuthStateMixin<T extends StatefulWidget> on State<T> {
   StreamSubscription _loginStateChangedSubscription;
