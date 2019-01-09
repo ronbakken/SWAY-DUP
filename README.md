@@ -24,6 +24,12 @@ Currently there is one majestic monolith service. Preconfigured to connect stand
 | Envoy Proxy HTTP | 80 |
 | Envoy Proxy HTTPS | 443 |
 
+## Sample Service Ports
+
+| Service | Port |
+| --- | --- |
+| JWT gRPC | 5900 |
+
 ## Todo
 
 - Use gRPC.
