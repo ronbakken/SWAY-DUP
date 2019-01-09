@@ -104,6 +104,7 @@ class BackendPushService extends BackendPushServiceBase {
       }
 
       // Generate and send a Firebase notification for chat
+      // TODO: Handle newProposal chat messages
       if (request.message.hasNewProposalChat()) {
         // Get sender info
         final DataProposalChat chat = request.message.newProposalChat.chat;
