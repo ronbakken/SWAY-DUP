@@ -4,17 +4,6 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-// https://pub.dartlang.org/packages/sqljocky5
-// INSERT INTO `business_accounts` (`business_id`, `name`, `home_address`, `home_gps`) VALUES (NULL, 'Kahuna Burger', 'Los Angeles', GeomFromText('POINT(0 0)'));
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
@@ -103,7 +92,7 @@ Future<void> run(List<String> arguments) async {
 
   // Server Configuration
   final String configFile =
-      arguments.isNotEmpty ? arguments[0] : 'assets/config_server.bin';
+      arguments.isNotEmpty ? arguments[0] : '../assets/config_server.bin';
   Logger('InfOps').info("Config file: '$configFile'.");
   final Uint8List configBytes = await File(configFile).readAsBytes();
   final ConfigData config = ConfigData();

@@ -9,11 +9,17 @@ Currently there is one majestic monolith service. Preconfigured to connect stand
 | Service | Port |
 | --- | --- |
 | API gRPC | 8900 |
-| API WS | 8901 |
+| Push API gRPC | 8910 |
+| Push API WS | 8911 |
+| Push Backend | 8919 |
 | Elasticsearch API | 9200 |
 | Elasticsearch Mesh | 9300 |
 | MariaDB | 3306 |
-| phpMyAdmin | 8098 |
+| phpMyAdmin | 8096 |
+| Account MariaDB | 3307 |
+| Account phpMyAdmin | 8097 |
+| Proposal MariaDB | 3308 |
+| Proposal phpMyAdmin | 8098 |
 | Kibana | 5601 |
 | Envoy Proxy HTTP | 80 |
 | Envoy Proxy HTTPS | 443 |
