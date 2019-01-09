@@ -12,6 +12,7 @@ echo "protobuf: $PROTOBUF_VERSION"
 sed -i "s/protobuf:.*/protobuf: $PROTOBUF_VERSION/" ../pubspec.yaml
 
 cd "$DIR"
+cd ..
 git pull
 git add *
 git commit -m "Update protobuf"
