@@ -1,5 +1,6 @@
 #!/bin/sh
 set -x
+cd "$DIR"
 
 # pub global activate protoc_plugin
 
@@ -11,7 +12,6 @@ PROTOBUF_VERSION=$(cat ~/.pub-cache/global_packages/protoc_plugin/pubspec.lock |
 echo "protobuf: $PROTOBUF_VERSION"
 sed -i "s/protobuf:.*/protobuf: $PROTOBUF_VERSION/" ../pubspec.yaml
 
-cd "$DIR"
 cd ..
 git pull
 git add *
