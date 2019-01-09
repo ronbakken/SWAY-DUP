@@ -44,12 +44,25 @@ class ConfigServiceImplementation implements ConfigService {
       }
 
       // Get curren Config and API version from server
-      var version = await backend.get<InfApiClientsService>().configClient.getVersions(Empty());
+      var versionInformationFromSercer = await backend.get<InfApiClientsService>().configClient.getVersions(Empty());
 
-      // TODO throw exception if API version is outdated so that UI can display a message.
+      // if the API version that the server sendes is newer than the one stored on this device
+      // TODO This is not optimal because it the user installls the app and starts it the first time after
+      // we rolled a new API version this could lead to problems
+      // better would be an in the App itself embedded API version that is set by the CI server
+      var currentApiVersion = prefs.getInt('API_VERSION');
+      if (currentApiVersion != null && currentApiVersion < versionInformationFromSercer.apiVersion)
+      {
+        throw AppMustUpdateException();
+      }
+      
+      if (currentApiVersion == null)
+      {
+        await prefs.setInt('API_VERSION', versionInformationFromSercer.apiVersion);
+      }
 
       // local config does not exists or is outdated update from server
-      if (configData == null || configData.configVersion < version.configVersion)
+      if (configData == null || configData.configVersion < versionInformationFromSercer.configVersion)
       {
         configData = await backend.get<InfApiClientsService>().configClient.getAppConfig(Empty());
         await prefs.setString('config', configData.writeToJson());
@@ -59,7 +72,7 @@ class ConfigServiceImplementation implements ConfigService {
       socialNetworkProviders = configData.socialNetworkProviders;
       deliverableIcons = configData.deliverableIcons;
       categories = configData.categories;
-      print(version);
+      print(versionInformationFromSercer);
   }
 
   @override

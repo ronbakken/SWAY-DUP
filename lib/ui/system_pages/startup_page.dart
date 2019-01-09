@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,13 @@ import 'package:flutter/widgets.dart';
 
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/sign_up/check_email_popup.dart';
+import 'package:inf/ui/system_pages/no_network_page.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/backend/backend.dart';
+
+
 
 class StartupPage extends PageWidget {
   static Route<dynamic> route() {
@@ -30,14 +34,24 @@ class _StartupPageState extends PageState<StartupPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await initBackend();
+      try {
+        await initBackend();
+      } on GrpcError   {
+        await Navigator.of(context).push(NoNetworkPage.route());
+        await initBackend();
+      }
+      on AppMustUpdateException {
+        
+      }
+      on SocketException {
+        // TODO How do we deal with this?
+      }
       waitForLoginState();
     });
   }
 
   void waitForLoginState() {
-    loginStateChangedSubscription =
-        backend.get<UserManager>().logInStateChanged.listen(
+    loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen(
       (loginResult) {
         Route nextPage;
         switch (loginResult.state) {

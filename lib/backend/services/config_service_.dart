@@ -1,6 +1,12 @@
 
 import 'package:inf_api_client/inf_api_client.dart';
 
+
+class AppMustUpdateException implements Exception
+{
+}
+
+
 abstract class ConfigService {
 
   List<Category> categories;
