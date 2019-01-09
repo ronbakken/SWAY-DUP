@@ -12,7 +12,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: b356520ba77ca96c0c7516a3e995754c2c4031b3
+      ref: fb9a3e0e8ccfeb3bb18a55a8b3ed195f26f402b2
   logging: ^0.11.3+2
   pedantic: ^1.4.0
   # crypto: ^2.0.6
@@ -26,7 +26,7 @@ dependencies:
       url: https://github.com/nbspou/sqljocky5.git
       ref: 1feb53e331bf6405fcd8b40362922096f950dad7
   # switchboard: ^2.0.11
-  grpc: ^1.0.0
+  # grpc: ^1.0.0
   oauth1:
     git:
       url: https://github.com/nbspou/dart-oauth1.git
