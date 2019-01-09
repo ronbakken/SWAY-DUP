@@ -154,7 +154,7 @@ message ConfigCategory {
   
 }
 
-message ConfigServices { // 42
+message ConfigServices { // 52
   // INF
   string domain = 24;
   repeated string end_points = 8;
@@ -184,6 +184,14 @@ message ConfigServices { // 42
   string proposal_db_user = 45;
   string proposal_db_password = 46;
   string proposal_db_database = 47;
+  
+  // General Database (MariaDB / MySQL)
+  // Use for less-critical data
+  string general_db_host = 48;
+  int32 general_db_port = 49;
+  string general_db_user = 50;
+  string general_db_password = 51;
+  string general_db_database = 52;
   
   // Elasticsearch
   string elasticsearch_api = 36;
