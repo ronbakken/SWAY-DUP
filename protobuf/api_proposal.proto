@@ -34,13 +34,13 @@ service ApiProposal {
   // rpc Archive(NetProposalArchive) returns (NetProposal) {}
 
   /// Send plain chat message
-  rpc ChatPlain(NetChatPlain) returns (NetProposal) {}
+  rpc ChatPlain(NetChatPlain) returns (NetProposalChat) {}
 
   /// Send negotiate chat message
   rpc ChatNegotiate(NetChatNegotiate) returns (NetProposal) {}
 
   /// Send image key chat message
-  rpc ChatImageKey(NetChatImageKey) returns (NetProposal) {}
+  rpc ChatImageKey(NetChatImageKey) returns (NetProposalChat) {}
 
 }
 
