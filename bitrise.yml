@@ -1,18 +1,5 @@
 format_version: 1.4.0
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
-trigger_map:
-- push_branch: develop
-  workflow: dev
-- push_branch: chore/*
-  workflow: dev
-- push_branch: feature/*
-  workflow: dev
-- push_branch: fix/*
-  workflow: dev
-- push_branch: release/*
-  workflow: test
-- push_branch: master
-  workflow: prod
 workflows:
   _run_from_repo:
     steps:
