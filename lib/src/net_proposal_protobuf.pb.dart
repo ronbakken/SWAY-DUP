@@ -33,6 +33,7 @@ class NetProposal extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetProposal));
   $pb.BuilderInfo get info_ => _i;
   static NetProposal create() => new NetProposal();
+  NetProposal createEmptyInstance() => create();
   static $pb.PbList<NetProposal> createRepeated() =>
       new $pb.PbList<NetProposal>();
   static NetProposal getDefault() => _defaultInstance ??= create()..freeze();
@@ -71,6 +72,7 @@ class NetProposalChat extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetProposalChat));
   $pb.BuilderInfo get info_ => _i;
   static NetProposalChat create() => new NetProposalChat();
+  NetProposalChat createEmptyInstance() => create();
   static $pb.PbList<NetProposalChat> createRepeated() =>
       new $pb.PbList<NetProposalChat>();
   static NetProposalChat getDefault() =>
@@ -111,6 +113,7 @@ class NetApplyProposal extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetApplyProposal));
   $pb.BuilderInfo get info_ => _i;
   static NetApplyProposal create() => new NetApplyProposal();
+  NetApplyProposal createEmptyInstance() => create();
   static $pb.PbList<NetApplyProposal> createRepeated() =>
       new $pb.PbList<NetApplyProposal>();
   static NetApplyProposal getDefault() =>
@@ -174,6 +177,7 @@ class NetDirectProposal extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetDirectProposal));
   $pb.BuilderInfo get info_ => _i;
   static NetDirectProposal create() => new NetDirectProposal();
+  NetDirectProposal createEmptyInstance() => create();
   static $pb.PbList<NetDirectProposal> createRepeated() =>
       new $pb.PbList<NetDirectProposal>();
   static NetDirectProposal getDefault() =>
@@ -227,6 +231,7 @@ class NetListProposals extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetListProposals));
   $pb.BuilderInfo get info_ => _i;
   static NetListProposals create() => new NetListProposals();
+  NetListProposals createEmptyInstance() => create();
   static $pb.PbList<NetListProposals> createRepeated() =>
       new $pb.PbList<NetListProposals>();
   static NetListProposals getDefault() =>
@@ -263,6 +268,7 @@ class NetGetProposal extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetGetProposal));
   $pb.BuilderInfo get info_ => _i;
   static NetGetProposal create() => new NetGetProposal();
+  NetGetProposal createEmptyInstance() => create();
   static $pb.PbList<NetGetProposal> createRepeated() =>
       new $pb.PbList<NetGetProposal>();
   static NetGetProposal getDefault() => _defaultInstance ??= create()..freeze();
@@ -300,6 +306,7 @@ class NetProposalWantDeal extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetProposalWantDeal));
   $pb.BuilderInfo get info_ => _i;
   static NetProposalWantDeal create() => new NetProposalWantDeal();
+  NetProposalWantDeal createEmptyInstance() => create();
   static $pb.PbList<NetProposalWantDeal> createRepeated() =>
       new $pb.PbList<NetProposalWantDeal>();
   static NetProposalWantDeal getDefault() =>
@@ -346,6 +353,7 @@ class NetProposalNegotiate extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetProposalNegotiate));
   $pb.BuilderInfo get info_ => _i;
   static NetProposalNegotiate create() => new NetProposalNegotiate();
+  NetProposalNegotiate createEmptyInstance() => create();
   static $pb.PbList<NetProposalNegotiate> createRepeated() =>
       new $pb.PbList<NetProposalNegotiate>();
   static NetProposalNegotiate getDefault() =>
@@ -384,6 +392,7 @@ class NetProposalReject extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetProposalReject));
   $pb.BuilderInfo get info_ => _i;
   static NetProposalReject create() => new NetProposalReject();
+  NetProposalReject createEmptyInstance() => create();
   static $pb.PbList<NetProposalReject> createRepeated() =>
       new $pb.PbList<NetProposalReject>();
   static NetProposalReject getDefault() =>
@@ -430,6 +439,7 @@ class NetProposalReport extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetProposalReport));
   $pb.BuilderInfo get info_ => _i;
   static NetProposalReport create() => new NetProposalReport();
+  NetProposalReport createEmptyInstance() => create();
   static $pb.PbList<NetProposalReport> createRepeated() =>
       new $pb.PbList<NetProposalReport>();
   static NetProposalReport getDefault() =>
@@ -479,6 +489,7 @@ class NetProposalDispute extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetProposalDispute));
   $pb.BuilderInfo get info_ => _i;
   static NetProposalDispute create() => new NetProposalDispute();
+  NetProposalDispute createEmptyInstance() => create();
   static $pb.PbList<NetProposalDispute> createRepeated() =>
       new $pb.PbList<NetProposalDispute>();
   static NetProposalDispute getDefault() =>
@@ -543,6 +554,7 @@ class NetProposalCompletion extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetProposalCompletion));
   $pb.BuilderInfo get info_ => _i;
   static NetProposalCompletion create() => new NetProposalCompletion();
+  NetProposalCompletion createEmptyInstance() => create();
   static $pb.PbList<NetProposalCompletion> createRepeated() =>
       new $pb.PbList<NetProposalCompletion>();
   static NetProposalCompletion getDefault() =>
@@ -588,6 +600,7 @@ class NetListChats extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetListChats));
   $pb.BuilderInfo get info_ => _i;
   static NetListChats create() => new NetListChats();
+  NetListChats createEmptyInstance() => create();
   static $pb.PbList<NetListChats> createRepeated() =>
       new $pb.PbList<NetListChats>();
   static NetListChats getDefault() => _defaultInstance ??= create()..freeze();
@@ -625,6 +638,7 @@ class NetChatPlain extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetChatPlain));
   $pb.BuilderInfo get info_ => _i;
   static NetChatPlain create() => new NetChatPlain();
+  NetChatPlain createEmptyInstance() => create();
   static $pb.PbList<NetChatPlain> createRepeated() =>
       new $pb.PbList<NetChatPlain>();
   static NetChatPlain getDefault() => _defaultInstance ??= create()..freeze();
@@ -680,6 +694,7 @@ class NetChatNegotiate extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetChatNegotiate));
   $pb.BuilderInfo get info_ => _i;
   static NetChatNegotiate create() => new NetChatNegotiate();
+  NetChatNegotiate createEmptyInstance() => create();
   static $pb.PbList<NetChatNegotiate> createRepeated() =>
       new $pb.PbList<NetChatNegotiate>();
   static NetChatNegotiate getDefault() =>
@@ -742,6 +757,7 @@ class NetChatImageKey extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetChatImageKey));
   $pb.BuilderInfo get info_ => _i;
   static NetChatImageKey create() => new NetChatImageKey();
+  NetChatImageKey createEmptyInstance() => create();
   static $pb.PbList<NetChatImageKey> createRepeated() =>
       new $pb.PbList<NetChatImageKey>();
   static NetChatImageKey getDefault() =>

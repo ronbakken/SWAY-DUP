@@ -31,6 +31,7 @@ class NetConfigDownload extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetConfigDownload));
   $pb.BuilderInfo get info_ => _i;
   static NetConfigDownload create() => new NetConfigDownload();
+  NetConfigDownload createEmptyInstance() => create();
   static $pb.PbList<NetConfigDownload> createRepeated() =>
       new $pb.PbList<NetConfigDownload>();
   static NetConfigDownload getDefault() =>
@@ -67,6 +68,7 @@ class NetListen extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetListen));
   $pb.BuilderInfo get info_ => _i;
   static NetListen create() => new NetListen();
+  NetListen createEmptyInstance() => create();
   static $pb.PbList<NetListen> createRepeated() => new $pb.PbList<NetListen>();
   static NetListen getDefault() => _defaultInstance ??= create()..freeze();
   static NetListen _defaultInstance;
@@ -128,6 +130,7 @@ class NetPush extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetPush));
   $pb.BuilderInfo get info_ => _i;
   static NetPush create() => new NetPush();
+  NetPush createEmptyInstance() => create();
   static $pb.PbList<NetPush> createRepeated() => new $pb.PbList<NetPush>();
   static NetPush getDefault() => _defaultInstance ??= create()..freeze();
   static NetPush _defaultInstance;

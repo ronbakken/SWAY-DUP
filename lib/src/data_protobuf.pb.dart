@@ -50,6 +50,7 @@ class DataSocialMedia extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataSocialMedia));
   $pb.BuilderInfo get info_ => _i;
   static DataSocialMedia create() => new DataSocialMedia();
+  DataSocialMedia createEmptyInstance() => create();
   static $pb.PbList<DataSocialMedia> createRepeated() =>
       new $pb.PbList<DataSocialMedia>();
   static DataSocialMedia getDefault() =>
@@ -250,6 +251,7 @@ class DataOAuthCredentials extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataOAuthCredentials));
   $pb.BuilderInfo get info_ => _i;
   static DataOAuthCredentials create() => new DataOAuthCredentials();
+  DataOAuthCredentials createEmptyInstance() => create();
   static $pb.PbList<DataOAuthCredentials> createRepeated() =>
       new $pb.PbList<DataOAuthCredentials>();
   static DataOAuthCredentials getDefault() =>
@@ -324,6 +326,7 @@ class DataAuth extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataAuth));
   $pb.BuilderInfo get info_ => _i;
   static DataAuth create() => new DataAuth();
+  DataAuth createEmptyInstance() => create();
   static $pb.PbList<DataAuth> createRepeated() => new $pb.PbList<DataAuth>();
   static DataAuth getDefault() => _defaultInstance ??= create()..freeze();
   static DataAuth _defaultInstance;
@@ -403,6 +406,7 @@ class DataTerms extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataTerms));
   $pb.BuilderInfo get info_ => _i;
   static DataTerms create() => new DataTerms();
+  DataTerms createEmptyInstance() => create();
   static $pb.PbList<DataTerms> createRepeated() => new $pb.PbList<DataTerms>();
   static DataTerms getDefault() => _defaultInstance ??= create()..freeze();
   static DataTerms _defaultInstance;
@@ -512,6 +516,7 @@ class DataOffer extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataOffer));
   $pb.BuilderInfo get info_ => _i;
   static DataOffer create() => new DataOffer();
+  DataOffer createEmptyInstance() => create();
   static $pb.PbList<DataOffer> createRepeated() => new $pb.PbList<DataOffer>();
   static DataOffer getDefault() => _defaultInstance ??= create()..freeze();
   static DataOffer _defaultInstance;
@@ -831,6 +836,7 @@ class DataLocation extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataLocation));
   $pb.BuilderInfo get info_ => _i;
   static DataLocation create() => new DataLocation();
+  DataLocation createEmptyInstance() => create();
   static $pb.PbList<DataLocation> createRepeated() =>
       new $pb.PbList<DataLocation>();
   static DataLocation getDefault() => _defaultInstance ??= create()..freeze();
@@ -1000,6 +1006,7 @@ class DataAccount extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataAccount));
   $pb.BuilderInfo get info_ => _i;
   static DataAccount create() => new DataAccount();
+  DataAccount createEmptyInstance() => create();
   static $pb.PbList<DataAccount> createRepeated() =>
       new $pb.PbList<DataAccount>();
   static DataAccount getDefault() => _defaultInstance ??= create()..freeze();
@@ -1217,6 +1224,7 @@ class DataExploreFilter extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataExploreFilter));
   $pb.BuilderInfo get info_ => _i;
   static DataExploreFilter create() => new DataExploreFilter();
+  DataExploreFilter createEmptyInstance() => create();
   static $pb.PbList<DataExploreFilter> createRepeated() =>
       new $pb.PbList<DataExploreFilter>();
   static DataExploreFilter getDefault() =>
@@ -1293,6 +1301,7 @@ class DataExploreEntry extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataExploreEntry));
   $pb.BuilderInfo get info_ => _i;
   static DataExploreEntry create() => new DataExploreEntry();
+  DataExploreEntry createEmptyInstance() => create();
   static $pb.PbList<DataExploreEntry> createRepeated() =>
       new $pb.PbList<DataExploreEntry>();
   static DataExploreEntry getDefault() =>
@@ -1345,6 +1354,7 @@ class DataExploreMarker extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataExploreMarker));
   $pb.BuilderInfo get info_ => _i;
   static DataExploreMarker create() => new DataExploreMarker();
+  DataExploreMarker createEmptyInstance() => create();
   static $pb.PbList<DataExploreMarker> createRepeated() =>
       new $pb.PbList<DataExploreMarker>();
   static DataExploreMarker getDefault() =>
@@ -1456,6 +1466,7 @@ class DataProposal extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataProposal));
   $pb.BuilderInfo get info_ => _i;
   static DataProposal create() => new DataProposal();
+  DataProposal createEmptyInstance() => create();
   static $pb.PbList<DataProposal> createRepeated() =>
       new $pb.PbList<DataProposal>();
   static DataProposal getDefault() => _defaultInstance ??= create()..freeze();
@@ -1740,6 +1751,7 @@ class DataProposalChat extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as DataProposalChat));
   $pb.BuilderInfo get info_ => _i;
   static DataProposalChat create() => new DataProposalChat();
+  DataProposalChat createEmptyInstance() => create();
   static $pb.PbList<DataProposalChat> createRepeated() =>
       new $pb.PbList<DataProposalChat>();
   static DataProposalChat getDefault() =>

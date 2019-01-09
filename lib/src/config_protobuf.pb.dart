@@ -31,6 +31,7 @@ class ConfigSubCategories extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ConfigSubCategories));
   $pb.BuilderInfo get info_ => _i;
   static ConfigSubCategories create() => new ConfigSubCategories();
+  ConfigSubCategories createEmptyInstance() => create();
   static $pb.PbList<ConfigSubCategories> createRepeated() =>
       new $pb.PbList<ConfigSubCategories>();
   static ConfigSubCategories getDefault() =>
@@ -105,6 +106,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ConfigOAuthProvider));
   $pb.BuilderInfo get info_ => _i;
   static ConfigOAuthProvider create() => new ConfigOAuthProvider();
+  ConfigOAuthProvider createEmptyInstance() => create();
   static $pb.PbList<ConfigOAuthProvider> createRepeated() =>
       new $pb.PbList<ConfigOAuthProvider>();
   static ConfigOAuthProvider getDefault() =>
@@ -433,6 +435,7 @@ class ConfigContentFormat extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ConfigContentFormat));
   $pb.BuilderInfo get info_ => _i;
   static ConfigContentFormat create() => new ConfigContentFormat();
+  ConfigContentFormat createEmptyInstance() => create();
   static $pb.PbList<ConfigContentFormat> createRepeated() =>
       new $pb.PbList<ConfigContentFormat>();
   static ConfigContentFormat getDefault() =>
@@ -592,6 +595,7 @@ class ConfigCategory extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ConfigCategory));
   $pb.BuilderInfo get info_ => _i;
   static ConfigCategory create() => new ConfigCategory();
+  ConfigCategory createEmptyInstance() => create();
   static $pb.PbList<ConfigCategory> createRepeated() =>
       new $pb.PbList<ConfigCategory>();
   static ConfigCategory getDefault() => _defaultInstance ??= create()..freeze();
@@ -788,6 +792,7 @@ class ConfigServices extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ConfigServices));
   $pb.BuilderInfo get info_ => _i;
   static ConfigServices create() => new ConfigServices();
+  ConfigServices createEmptyInstance() => create();
   static $pb.PbList<ConfigServices> createRepeated() =>
       new $pb.PbList<ConfigServices>();
   static ConfigServices getDefault() => _defaultInstance ??= create()..freeze();
@@ -1197,6 +1202,7 @@ class ConfigFeatureSwitches extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ConfigFeatureSwitches));
   $pb.BuilderInfo get info_ => _i;
   static ConfigFeatureSwitches create() => new ConfigFeatureSwitches();
+  ConfigFeatureSwitches createEmptyInstance() => create();
   static $pb.PbList<ConfigFeatureSwitches> createRepeated() =>
       new $pb.PbList<ConfigFeatureSwitches>();
   static ConfigFeatureSwitches getDefault() =>
@@ -1380,6 +1386,7 @@ class ConfigAsset extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ConfigAsset));
   $pb.BuilderInfo get info_ => _i;
   static ConfigAsset create() => new ConfigAsset();
+  ConfigAsset createEmptyInstance() => create();
   static $pb.PbList<ConfigAsset> createRepeated() =>
       new $pb.PbList<ConfigAsset>();
   static ConfigAsset getDefault() => _defaultInstance ??= create()..freeze();
@@ -1431,6 +1438,7 @@ class ConfigContent extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ConfigContent));
   $pb.BuilderInfo get info_ => _i;
   static ConfigContent create() => new ConfigContent();
+  ConfigContent createEmptyInstance() => create();
   static $pb.PbList<ConfigContent> createRepeated() =>
       new $pb.PbList<ConfigContent>();
   static ConfigContent getDefault() => _defaultInstance ??= create()..freeze();
@@ -1477,6 +1485,7 @@ class ConfigData extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as ConfigData));
   $pb.BuilderInfo get info_ => _i;
   static ConfigData create() => new ConfigData();
+  ConfigData createEmptyInstance() => create();
   static $pb.PbList<ConfigData> createRepeated() =>
       new $pb.PbList<ConfigData>();
   static ConfigData getDefault() => _defaultInstance ??= create()..freeze();

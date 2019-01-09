@@ -36,6 +36,7 @@ class NetSessionPayload extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetSessionPayload));
   $pb.BuilderInfo get info_ => _i;
   static NetSessionPayload create() => new NetSessionPayload();
+  NetSessionPayload createEmptyInstance() => create();
   static $pb.PbList<NetSessionPayload> createRepeated() =>
       new $pb.PbList<NetSessionPayload>();
   static NetSessionPayload getDefault() =>
@@ -122,6 +123,7 @@ class NetSessionOpen extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetSessionOpen));
   $pb.BuilderInfo get info_ => _i;
   static NetSessionOpen create() => new NetSessionOpen();
+  NetSessionOpen createEmptyInstance() => create();
   static $pb.PbList<NetSessionOpen> createRepeated() =>
       new $pb.PbList<NetSessionOpen>();
   static NetSessionOpen getDefault() => _defaultInstance ??= create()..freeze();
@@ -169,6 +171,7 @@ class NetSessionCreate extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetSessionCreate));
   $pb.BuilderInfo get info_ => _i;
   static NetSessionCreate create() => new NetSessionCreate();
+  NetSessionCreate createEmptyInstance() => create();
   static $pb.PbList<NetSessionCreate> createRepeated() =>
       new $pb.PbList<NetSessionCreate>();
   static NetSessionCreate getDefault() =>
@@ -236,6 +239,7 @@ class NetSessionRemove extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetSessionRemove));
   $pb.BuilderInfo get info_ => _i;
   static NetSessionRemove create() => new NetSessionRemove();
+  NetSessionRemove createEmptyInstance() => create();
   static $pb.PbList<NetSessionRemove> createRepeated() =>
       new $pb.PbList<NetSessionRemove>();
   static NetSessionRemove getDefault() =>
@@ -267,6 +271,7 @@ class NetSession extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetSession));
   $pb.BuilderInfo get info_ => _i;
   static NetSession create() => new NetSession();
+  NetSession createEmptyInstance() => create();
   static $pb.PbList<NetSession> createRepeated() =>
       new $pb.PbList<NetSession>();
   static NetSession getDefault() => _defaultInstance ??= create()..freeze();

@@ -34,6 +34,7 @@ class NetOffer extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetOffer));
   $pb.BuilderInfo get info_ => _i;
   static NetOffer create() => new NetOffer();
+  NetOffer createEmptyInstance() => create();
   static $pb.PbList<NetOffer> createRepeated() => new $pb.PbList<NetOffer>();
   static NetOffer getDefault() => _defaultInstance ??= create()..freeze();
   static NetOffer _defaultInstance;
@@ -93,6 +94,7 @@ class NetCreateOffer extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetCreateOffer));
   $pb.BuilderInfo get info_ => _i;
   static NetCreateOffer create() => new NetCreateOffer();
+  NetCreateOffer createEmptyInstance() => create();
   static $pb.PbList<NetCreateOffer> createRepeated() =>
       new $pb.PbList<NetCreateOffer>();
   static NetCreateOffer getDefault() => _defaultInstance ??= create()..freeze();
@@ -127,6 +129,7 @@ class NetListOffers extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetListOffers));
   $pb.BuilderInfo get info_ => _i;
   static NetListOffers create() => new NetListOffers();
+  NetListOffers createEmptyInstance() => create();
   static $pb.PbList<NetListOffers> createRepeated() =>
       new $pb.PbList<NetListOffers>();
   static NetListOffers getDefault() => _defaultInstance ??= create()..freeze();
@@ -154,6 +157,7 @@ class NetGetOffer extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetGetOffer));
   $pb.BuilderInfo get info_ => _i;
   static NetGetOffer create() => new NetGetOffer();
+  NetGetOffer createEmptyInstance() => create();
   static $pb.PbList<NetGetOffer> createRepeated() =>
       new $pb.PbList<NetGetOffer>();
   static NetGetOffer getDefault() => _defaultInstance ??= create()..freeze();

@@ -32,6 +32,7 @@ class NetAccount extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetAccount));
   $pb.BuilderInfo get info_ => _i;
   static NetAccount create() => new NetAccount();
+  NetAccount createEmptyInstance() => create();
   static $pb.PbList<NetAccount> createRepeated() =>
       new $pb.PbList<NetAccount>();
   static NetAccount getDefault() => _defaultInstance ??= create()..freeze();
@@ -68,6 +69,7 @@ class NetSetAccountType extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetSetAccountType));
   $pb.BuilderInfo get info_ => _i;
   static NetSetAccountType create() => new NetSetAccountType();
+  NetSetAccountType createEmptyInstance() => create();
   static $pb.PbList<NetSetAccountType> createRepeated() =>
       new $pb.PbList<NetSetAccountType>();
   static NetSetAccountType getDefault() =>
@@ -107,6 +109,7 @@ class NetSetFirebaseToken extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetSetFirebaseToken));
   $pb.BuilderInfo get info_ => _i;
   static NetSetFirebaseToken create() => new NetSetFirebaseToken();
+  NetSetFirebaseToken createEmptyInstance() => create();
   static $pb.PbList<NetSetFirebaseToken> createRepeated() =>
       new $pb.PbList<NetSetFirebaseToken>();
   static NetSetFirebaseToken getDefault() =>
@@ -152,6 +155,7 @@ class NetOAuthGetUrl extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetOAuthGetUrl));
   $pb.BuilderInfo get info_ => _i;
   static NetOAuthGetUrl create() => new NetOAuthGetUrl();
+  NetOAuthGetUrl createEmptyInstance() => create();
   static $pb.PbList<NetOAuthGetUrl> createRepeated() =>
       new $pb.PbList<NetOAuthGetUrl>();
   static NetOAuthGetUrl getDefault() => _defaultInstance ??= create()..freeze();
@@ -188,6 +192,7 @@ class NetOAuthUrl extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetOAuthUrl));
   $pb.BuilderInfo get info_ => _i;
   static NetOAuthUrl create() => new NetOAuthUrl();
+  NetOAuthUrl createEmptyInstance() => create();
   static $pb.PbList<NetOAuthUrl> createRepeated() =>
       new $pb.PbList<NetOAuthUrl>();
   static NetOAuthUrl getDefault() => _defaultInstance ??= create()..freeze();
@@ -232,6 +237,7 @@ class NetOAuthGetSecrets extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetOAuthGetSecrets));
   $pb.BuilderInfo get info_ => _i;
   static NetOAuthGetSecrets create() => new NetOAuthGetSecrets();
+  NetOAuthGetSecrets createEmptyInstance() => create();
   static $pb.PbList<NetOAuthGetSecrets> createRepeated() =>
       new $pb.PbList<NetOAuthGetSecrets>();
   static NetOAuthGetSecrets getDefault() =>
@@ -271,6 +277,7 @@ class NetOAuthSecrets extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetOAuthSecrets));
   $pb.BuilderInfo get info_ => _i;
   static NetOAuthSecrets create() => new NetOAuthSecrets();
+  NetOAuthSecrets createEmptyInstance() => create();
   static $pb.PbList<NetOAuthSecrets> createRepeated() =>
       new $pb.PbList<NetOAuthSecrets>();
   static NetOAuthSecrets getDefault() =>
@@ -324,6 +331,7 @@ class NetOAuthConnect extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetOAuthConnect));
   $pb.BuilderInfo get info_ => _i;
   static NetOAuthConnect create() => new NetOAuthConnect();
+  NetOAuthConnect createEmptyInstance() => create();
   static $pb.PbList<NetOAuthConnect> createRepeated() =>
       new $pb.PbList<NetOAuthConnect>();
   static NetOAuthConnect getDefault() =>
@@ -373,6 +381,7 @@ class NetOAuthConnection extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetOAuthConnection));
   $pb.BuilderInfo get info_ => _i;
   static NetOAuthConnection create() => new NetOAuthConnection();
+  NetOAuthConnection createEmptyInstance() => create();
   static $pb.PbList<NetOAuthConnection> createRepeated() =>
       new $pb.PbList<NetOAuthConnection>();
   static NetOAuthConnection getDefault() =>
@@ -427,6 +436,7 @@ class NetAccountCreate extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetAccountCreate));
   $pb.BuilderInfo get info_ => _i;
   static NetAccountCreate create() => new NetAccountCreate();
+  NetAccountCreate createEmptyInstance() => create();
   static $pb.PbList<NetAccountCreate> createRepeated() =>
       new $pb.PbList<NetAccountCreate>();
   static NetAccountCreate getDefault() =>
@@ -472,6 +482,7 @@ class NetAccountApplyPromo extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetAccountApplyPromo));
   $pb.BuilderInfo get info_ => _i;
   static NetAccountApplyPromo create() => new NetAccountApplyPromo();
+  NetAccountApplyPromo createEmptyInstance() => create();
   static $pb.PbList<NetAccountApplyPromo> createRepeated() =>
       new $pb.PbList<NetAccountApplyPromo>();
   static NetAccountApplyPromo getDefault() =>
@@ -516,6 +527,7 @@ class NetAccountPromo extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetAccountPromo));
   $pb.BuilderInfo get info_ => _i;
   static NetAccountPromo create() => new NetAccountPromo();
+  NetAccountPromo createEmptyInstance() => create();
   static $pb.PbList<NetAccountPromo> createRepeated() =>
       new $pb.PbList<NetAccountPromo>();
   static NetAccountPromo getDefault() =>

@@ -30,6 +30,7 @@ class NetGetProfile extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetGetProfile));
   $pb.BuilderInfo get info_ => _i;
   static NetGetProfile create() => new NetGetProfile();
+  NetGetProfile createEmptyInstance() => create();
   static $pb.PbList<NetGetProfile> createRepeated() =>
       new $pb.PbList<NetGetProfile>();
   static NetGetProfile getDefault() => _defaultInstance ??= create()..freeze();
@@ -68,6 +69,7 @@ class NetProfile extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetProfile));
   $pb.BuilderInfo get info_ => _i;
   static NetProfile create() => new NetProfile();
+  NetProfile createEmptyInstance() => create();
   static $pb.PbList<NetProfile> createRepeated() =>
       new $pb.PbList<NetProfile>();
   static NetProfile getDefault() => _defaultInstance ??= create()..freeze();

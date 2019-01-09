@@ -29,6 +29,7 @@ class NetReportOffer extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetReportOffer));
   $pb.BuilderInfo get info_ => _i;
   static NetReportOffer create() => new NetReportOffer();
+  NetReportOffer createEmptyInstance() => create();
   static $pb.PbList<NetReportOffer> createRepeated() =>
       new $pb.PbList<NetReportOffer>();
   static NetReportOffer getDefault() => _defaultInstance ??= create()..freeze();
@@ -72,6 +73,7 @@ class NetReport extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetReport));
   $pb.BuilderInfo get info_ => _i;
   static NetReport create() => new NetReport();
+  NetReport createEmptyInstance() => create();
   static $pb.PbList<NetReport> createRepeated() => new $pb.PbList<NetReport>();
   static NetReport getDefault() => _defaultInstance ??= create()..freeze();
   static NetReport _defaultInstance;

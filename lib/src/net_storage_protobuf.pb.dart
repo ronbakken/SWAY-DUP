@@ -30,6 +30,7 @@ class NetUploadImage extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetUploadImage));
   $pb.BuilderInfo get info_ => _i;
   static NetUploadImage create() => new NetUploadImage();
+  NetUploadImage createEmptyInstance() => create();
   static $pb.PbList<NetUploadImage> createRepeated() =>
       new $pb.PbList<NetUploadImage>();
   static NetUploadImage getDefault() => _defaultInstance ??= create()..freeze();
@@ -94,6 +95,7 @@ class NetUploadSigned extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetUploadSigned));
   $pb.BuilderInfo get info_ => _i;
   static NetUploadSigned create() => new NetUploadSigned();
+  NetUploadSigned createEmptyInstance() => create();
   static $pb.PbList<NetUploadSigned> createRepeated() =>
       new $pb.PbList<NetUploadSigned>();
   static NetUploadSigned getDefault() =>

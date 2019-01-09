@@ -26,6 +26,7 @@ class NetDemoAllOffers extends $pb.GeneratedMessage {
       super.copyWith((message) => updates(message as NetDemoAllOffers));
   $pb.BuilderInfo get info_ => _i;
   static NetDemoAllOffers create() => new NetDemoAllOffers();
+  NetDemoAllOffers createEmptyInstance() => create();
   static $pb.PbList<NetDemoAllOffers> createRepeated() =>
       new $pb.PbList<NetDemoAllOffers>();
   static NetDemoAllOffers getDefault() =>
