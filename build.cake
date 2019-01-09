@@ -112,6 +112,7 @@ Task("Deploy")
                 resourceNamePrefix,
                 selfSignedCertificate,
                 certificateBundle,
+                vmInstanceCount,
                 keyVault);
         });
 
@@ -304,6 +305,7 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
     string resourceNamePrefix,
     X509Certificate2 certificate,
     CertificateBundle certificateBundle,
+    string vmInstanceCount,
     IVault vault)
 {
     context.Information($"Deploying resource template with deployment name '{resourceNamePrefix}'.");
@@ -332,8 +334,10 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
 ""certificateUrlValue"": {{""value"": ""{certificateBundle.SecretIdentifier}""}},
 ""sourceVaultResourceId"": {{""value"": ""{vault.Id}""}},
 ""rdpPassword"": {{""value"": ""{escapedRdpPassword}""}},
-""vmInstanceCount"": {{""value"": ""{vmInstanceCount}""}},
+""vmInstanceCount"": {{""value"": {vmInstanceCount}}},
 }}";
+
+        context.Debug($"Template parameters: {templateParameters}");
 
         // TODO: have to use JObjects below otherwise it fails.
         var properties = new DeploymentPropertiesInner
