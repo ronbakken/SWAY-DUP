@@ -39,6 +39,10 @@ class ApiProposalsService extends ApiProposalsServiceBase {
   ApiProposalsService(this.config, this.accountDb, this.proposalDb,
       this.elasticsearch, this.bc);
 
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
   @override
   Future<NetProposal> apply(
       grpc.ServiceCall call, NetApplyProposal request) async {
@@ -161,21 +165,22 @@ class ApiProposalsService extends ApiProposalsServiceBase {
       await transaction.commit();
     });
 
-    final NetProposal result = NetProposal();
-    result.proposal = proposal;
-    result.chats.add(chat);
-    result.freeze();
-    devLog.finest('Applied for offer successfully: $result');
+    final NetProposal response = NetProposal();
+    response.proposal = proposal;
+    response.chats.add(chat);
+    response.freeze();
+    devLog.finest('Applied for offer successfully: $response');
 
     unawaited(() async {
       // Clear private information from broadcast
-      final DataProposalChat publicChat = DataProposalChat()..mergeFromMessage(chat);
+      final DataProposalChat publicChat = DataProposalChat()
+        ..mergeFromMessage(chat);
       publicChat.clearSenderSessionId();
       publicChat.clearSenderSessionGhostId();
 
       // Broadcast
       final NetProposal publishProposal = NetProposal();
-      publishProposal.proposal = result.proposal;
+      publishProposal.proposal = response.proposal;
       await bc.proposalChanged(account.sessionId, publishProposal);
       final NetProposalChat publishChat = NetProposalChat();
       publishChat.chat = publicChat;
@@ -186,32 +191,258 @@ class ApiProposalsService extends ApiProposalsServiceBase {
       // TODO: Add to proposal_sender_account_ids lookup
     }());
 
-    return result;
+    return response;
   }
 
-  @override
-  Future<NetProposal> direct(grpc.ServiceCall call, NetDirectProposal request) {
-    // TODO: implement direct
-    return null;
-  }
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   @override
-  Stream<NetProposal> list(grpc.ServiceCall call, NetListProposals request) {
-    // TODO: implement list
-    return null;
+  Future<NetProposal> direct(
+      grpc.ServiceCall call, NetDirectProposal request) async {
+    final DataAuth auth =
+        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readWrite.value) {
+      throw grpc.GrpcError.permissionDenied();
+    }
+
+    throw grpc.GrpcError.unimplemented();
   }
 
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
   @override
-  Future<NetProposal> get(grpc.ServiceCall call, NetGetProposal request) {
-    // TODO: implement get
-    return null;
+  Stream<NetProposal> list(
+      grpc.ServiceCall call, NetListProposals request) async* {
+    final DataAuth auth =
+        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
+      throw grpc.GrpcError.permissionDenied();
+    }
+    devLog.finest('NetListProposals: $request');
+
+    final sqljocky.RetainedConnection connection =
+        await proposalDb.getConnection();
+    try {
+      // Fetch proposal
+      // TODO: Limit result count
+      final String query = SqlProposal.getSelectProposalsQuery(
+              auth.accountType) +
+          ' WHERE `${auth.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?';
+      await for (sqljocky.Row row in await connection
+          .prepareExecute(query, <dynamic>[auth.accountId])) {
+        final NetProposal response = NetProposal();
+        response.proposal = SqlProposal.proposalFromRow(row, auth.accountType);
+        yield response;
+      }
+    } finally {
+      await connection.release();
+    }
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
+  @override
+  Future<NetProposal> get(grpc.ServiceCall call, NetGetProposal request) async {
+    final DataAuth auth =
+        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
+      throw grpc.GrpcError.permissionDenied();
+    }
+    NetProposal response;
+
+    final sqljocky.RetainedConnection connection =
+        await proposalDb.getConnection();
+    try {
+      // Fetch proposal
+      final String query = SqlProposal.getSelectProposalsQuery(
+              auth.accountType) +
+          ' WHERE `proposal_id` = ?'
+          ' AND `${auth.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?';
+      await for (sqljocky.Row row in await connection.prepareExecute(
+        query,
+        <dynamic>[request.proposalId, auth.accountId],
+      )) {
+        response = NetProposal();
+        response.proposal = SqlProposal.proposalFromRow(row, auth.accountType);
+      }
+
+      if (response != null) {
+        // Fetch latest chat
+        DataProposalChat latestChat;
+        const String chatQuery = 'SELECT ' +
+            _selectChatQuery +
+            'FROM `proposal_chats` '
+            'WHERE `proposal_id` = ? '
+            'ORDER BY `chat_id` DESC '
+            'LIMIT 1';
+        await for (sqljocky.Row row
+            in await connection.prepareExecute(chatQuery, <dynamic>[
+          request.proposalId,
+        ])) {
+          latestChat = _chatFromRow(auth.sessionId, request.proposalId, row);
+        }
+        if (latestChat != null) {
+          response.chats.add(latestChat);
+        }
+
+        if (latestChat != null &&
+            response.proposal.termsChatId != latestChat.chatId &&
+            response.proposal.termsChatId != Int64.ZERO) {
+          // Fetch terms chat
+          DataProposalChat termsChat;
+          const String chatQuery = 'SELECT ' +
+              _selectChatQuery +
+              'FROM `proposal_chats` '
+              'WHERE `chat_id` = ?';
+          await for (sqljocky.Row row
+              in await connection.prepareExecute(chatQuery, <dynamic>[
+            response.proposal.termsChatId,
+          ])) {
+            termsChat = _chatFromRow(auth.sessionId, request.proposalId, row);
+          }
+          if (termsChat != null) {
+            response.chats.add(termsChat);
+          }
+        }
+      }
+    } finally {
+      await connection.release();
+    }
+
+    if (response == null) {
+      throw grpc.GrpcError.failedPrecondition(
+          'Proposal not found, or not authorized.');
+    }
+
+    return response;
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   @override
   Stream<NetProposalChat> listChats(
-      grpc.ServiceCall call, NetGetProposal request) {
-    // TODO: implement listChats
-    return null;
+      grpc.ServiceCall call, NetGetProposal request) async* {
+    final DataAuth auth =
+        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
+      throw grpc.GrpcError.permissionDenied();
+    }
+
+    Int64 influencerAccountId;
+    Int64 businessAccountId;
+    ProposalState state;
+
+    final sqljocky.RetainedConnection connection =
+        await proposalDb.getConnection();
+    try {
+      // Fetch proposal access
+      const String query = 'SELECT '
+          '`influencer_account_id`, `business_account_id`, `state` '
+          'FROM `proposals` '
+          'WHERE `proposal_id` = ?';
+      await for (sqljocky.Row row in await connection
+          .prepareExecute(query, <dynamic>[request.proposalId])) {
+        influencerAccountId = Int64(row[0]);
+        businessAccountId = Int64(row[1]);
+        state = ProposalState.valueOf(row[2].toInt());
+      }
+      devLog.finest('$influencerAccountId $businessAccountId');
+
+      // Authorize
+      if (businessAccountId == null || influencerAccountId == null) {
+        opsLog.severe(
+            'Attempt to request invalid proposal chat by account "${auth.accountId}".');
+        throw grpc.GrpcError.failedPrecondition('Not found.');
+      }
+      final bool supportAccess = auth.accountType == AccountType.support &&
+          state == ProposalState.dispute;
+      if (!supportAccess &&
+          auth.accountId != businessAccountId &&
+          auth.accountId != influencerAccountId) {
+        opsLog.severe(
+            'Attempt to request unauthorized proposal chat by account "${auth.accountId}".');
+        throw grpc.GrpcError.failedPrecondition('Not authorized.');
+      }
+
+      // Fetch
+      const String chatQuery = 'SELECT ' +
+          _selectChatQuery +
+          'FROM `proposal_chats` '
+          'WHERE `proposal_id` = ? '
+          'ORDER BY `chat_id` DESC';
+      await for (sqljocky.Row row
+          in await connection.prepareExecute(chatQuery, <dynamic>[
+        request.proposalId,
+      ])) {
+        final DataProposalChat chat = _chatFromRow(auth.sessionId, request.proposalId, row);
+        final NetProposalChat response = NetProposalChat();
+        response.chat = chat;
+        yield response;
+      }
+    } finally {
+      await connection.release();
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
+  static const String _selectChatQuery =
+      '`chat_id`, UNIX_TIMESTAMP(`sent`) AS `sent`, ' // 0 1
+      '`sender_account_id`, `sender_session_id`, `sender_session_ghost_id`, ' // 2 3 4
+      '`type`, `plain_text`, `terms`, ' // 5 6 7
+      '`image_key`, `image_blurred`, ' // 8 9
+      '`marker` '; // 10
+
+  DataProposalChat _chatFromRow(
+      Int64 sessionId, Int64 proposalId, sqljocky.Row row) {
+    final DataProposalChat chat = DataProposalChat();
+    chat.proposalId = proposalId;
+    chat.chatId = Int64(row[0]);
+    chat.sent = Int64(row[1]);
+    chat.senderAccountId = Int64(row[2]);
+    final Int64 chatSessionId = Int64(row[3]);
+    if (chatSessionId == sessionId) {
+      chat.senderSessionId = sessionId;
+      chat.senderSessionGhostId = row[4].toInt();
+    }
+    chat.type = ProposalChatType.valueOf(row[5].toInt());
+    if (row[6] != null) {
+      chat.plainText = row[6].toString();
+    }
+    if (row[7] != null) {
+      chat.terms = DataTerms()..mergeFromBuffer(row[7].toBytes());
+    }
+    if (row[8] != null) {
+      chat.imageUrl =
+          _makeImageUrl(config.services.galleryCoverUrl, row[8].toString());
+    }
+    if (row[9] != null) {
+      chat.imageBlurred = row[9].toBytes();
+    }
+    if (row[10] != null) {
+      chat.marker = ProposalChatMarker.valueOf(row[10].toInt());
+    }
+    return chat;
+  }
+
+  String _makeImageUrl(String template, String key) {
+    final int lastIndex = key.lastIndexOf('.');
+    final String keyNoExt = lastIndex > 0 ? key.substring(0, lastIndex) : key;
+    return template.replaceAll('{key}', key).replaceAll('{keyNoExt}', keyNoExt);
   }
 }
 
