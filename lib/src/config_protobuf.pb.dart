@@ -783,6 +783,7 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(50, 'generalDbUser')
     ..aOS(51, 'generalDbPassword')
     ..aOS(52, 'generalDbDatabase')
+    ..aOS(53, 'backendPush')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -1207,6 +1208,14 @@ class ConfigServices extends $pb.GeneratedMessage {
 
   bool hasGeneralDbDatabase() => $_has(50);
   void clearGeneralDbDatabase() => clearField(52);
+
+  String get backendPush => $_getS(51, '');
+  set backendPush(String v) {
+    $_setString(51, v);
+  }
+
+  bool hasBackendPush() => $_has(51);
+  void clearBackendPush() => clearField(53);
 }
 
 class ConfigFeatureSwitches extends $pb.GeneratedMessage {
