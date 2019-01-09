@@ -1,13 +1,12 @@
 #!/bin/sh
 set -x
+cd "$DIR"
 
-cd ~/infclient
-git pull --recurse-submodules
-git submodule update --init
+cd ~/inf_mobile_app
+git pull
 
-cd ~/infserver
-git pull --recurse-submodules
-git submodule update --init
+cd ~/inf_server
+git pull
 
 cd ~/inf_common
 git pull

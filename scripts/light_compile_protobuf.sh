@@ -1,4 +1,5 @@
 #!/bin/sh
+cd "$DIR"
 
 # Set the pubspec.yaml to use the protobuf version used for compiling
 PROTOBUF_VERSION=$(cat ~/.pub-cache/global_packages/protoc_plugin/pubspec.lock | \

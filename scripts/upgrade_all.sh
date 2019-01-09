@@ -1,5 +1,6 @@
 #!/bin/sh
 set -x
+cd "$DIR"
 
 sudo apt update
 sudo apt upgrade -y
