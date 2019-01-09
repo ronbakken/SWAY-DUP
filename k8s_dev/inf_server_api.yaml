@@ -35,7 +35,7 @@ spec:
       imagePullSecrets:
       - name: inf-registrykey
       containers:
-      - image: infmarketplace/inf_server_api:develop
+      - image: infmarketplace/inf_server_api:2.2.10
         name: server-api
         ports:
         - containerPort: 8090
