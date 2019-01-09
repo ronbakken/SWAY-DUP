@@ -12,6 +12,7 @@
     <ServicePackagePrefix>$(MSBuildProjectName)</ServicePackagePrefix>
     <FabActUtilWorkingDir>$(BaseIntermediateOutputPath)\FabActUtilTemp</FabActUtilWorkingDir>
     <LangVersion>latest</LangVersion>
+    <UpdateServiceFabricManifestEnabled>false</UpdateServiceFabricManifestEnabled>
   </PropertyGroup>
 
   <ItemGroup>
