@@ -57,11 +57,11 @@ class BackendPushService extends BackendPushServiceBase {
 
   @override
   Future<ResPush> push(grpc.ServiceCall call, ReqPush request) async {
-    final _CachedAccount recipient =
-        await _cacheAccount(request.recipientAccountId);
+    final _CachedAccount receiver =
+        await _cacheAccount(request.receiverAccountId);
 
     final List<Future<dynamic>> done = <Future<dynamic>>[];
-    for (Int64 sessionId in recipient.sessionIds) {
+    for (Int64 sessionId in receiver.sessionIds) {
       final _Listener listener = _listeners[sessionId];
       if (listener.call.isCanceled) {
         // Minor issue with gRPC here is that we end up keeping controllers
@@ -88,7 +88,7 @@ class BackendPushService extends BackendPushServiceBase {
       // Find all elegible Firebase tokens
       Set<String> firebaseTokens;
       for (MapEntry<Int64, String> firebaseToken
-          in recipient.firebaseTokens.entries) {
+          in receiver.firebaseTokens.entries) {
         if (request.skipNotificationsWhenOnline &&
             _listeners.containsKey(firebaseToken.key)) {
           // Skip sending Firebase notifications when a user is online
@@ -125,7 +125,7 @@ class BackendPushService extends BackendPushServiceBase {
         notification['android_channel_id'] = 'chat';
         final Map<String, dynamic> data = <String, dynamic>{};
         data['sender_account_id'] = chat.senderAccountId.toInt();
-        data['receiver_account_id'] = request.recipientAccountId.toInt();
+        data['receiver_account_id'] = request.receiverAccountId.toInt();
         data['proposal_id'] = chat.proposalId.toInt();
         data['type'] = chat.type.value;
         // TODO: Include image key, terms, etc, or not?
@@ -156,16 +156,16 @@ class BackendPushService extends BackendPushServiceBase {
         final Map<dynamic, dynamic> doc = json.decode(rs);
         if (doc['failure'].toInt() > 0) {
           devLog.warning(
-              'Failed to send Firebase notification to ${doc['failure']} recipient sessions, validate all tokens.');
+              'Failed to send Firebase notification to ${doc['failure']} receiver sessions, validate all tokens.');
           // TODO: Validate all registrations
         }
       }
     }
 
-    // TODO: Process results from Firebase (recipient count)
+    // TODO: Process results from Firebase (receiver count)
 
     final ResPush response = ResPush();
-    response.onlineSessions = recipient.sessionIds.length;
+    response.onlineSessions = receiver.sessionIds.length;
     return response;
   }
 

@@ -239,7 +239,7 @@ class BroadcastCenter {
       Map<dynamic, dynamic> doc = json.decode(rs);
       if (doc['failure'].toInt() > 0) {
         devLog.warning(
-            "Failed to send Firebase notification to ${doc['failure']} recipient sessions, validate all tokens.");
+            "Failed to send Firebase notification to ${doc['failure']} receiver sessions, validate all tokens.");
         // TODO: Validate all registrations
       }
     }
