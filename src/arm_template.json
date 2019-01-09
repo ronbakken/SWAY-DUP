@@ -446,8 +446,6 @@
              },
              "clientCertificateCommonNames": [],
              "clientCertificateThumbprints": [],
-             "clusterState": "Default",
-             "provisioningState": "Default",
              "diagnosticsStorageAccountConfig": {
                 "blobEndpoint": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('supportLogStorageAccountName')), '2016-01-01').primaryEndpoints.blob]",
                 "protectedAccountKeyName": "StorageAccountKey1",

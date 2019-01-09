@@ -60,6 +60,7 @@ var environment = EnvironmentVariable("ENVIRONMENT");
 var subscriptionId = EnvironmentVariable("AZURE_SUBSCRIPTION_ID");
 var clientId = EnvironmentVariable("AZURE_CLIENT_ID");
 var tenantId = EnvironmentVariable("AZURE_TENANT_ID");
+var vmInstanceCount = EnvironmentVariable("VM_INSTANCE_COUNT") ?? "1";
 
 // Variables.
 var resourceNamePrefix = $"inf-{environment}";
@@ -330,7 +331,8 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
 ""certificateThumbprint"": {{""value"": ""{certificate.Thumbprint}""}},
 ""certificateUrlValue"": {{""value"": ""{certificateBundle.SecretIdentifier}""}},
 ""sourceVaultResourceId"": {{""value"": ""{vault.Id}""}},
-""rdpPassword"": {{""value"": ""{escapedRdpPassword}""}}
+""rdpPassword"": {{""value"": ""{escapedRdpPassword}""}},
+""vmInstanceCount"": {{""value"": ""{vmInstanceCount}""}},
 }}";
 
         // TODO: have to use JObjects below otherwise it fails.

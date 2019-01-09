@@ -109,6 +109,7 @@ workflows:
   prod:
     envs:
     - ENVIRONMENT: "prod"
+    - VM_INSTANCE_COUNT: "3"
     after_run:
     - _run_from_repo
 
@@ -123,3 +124,5 @@ app:
     - AZURE_CLIENT_ID: "ad15fabb-97a2-4b2a-aa37-b10749b8b2e1"
     # This is from Active Directory, Manage/Properties, Directory ID.
     - AZURE_TENANT_ID: "70258c67-7f5a-41ba-b4bf-4c772ed47dcc"
+    # How many VMs to create in the cluster.
+    - VM_INSTANCE_COUNT: "1"
