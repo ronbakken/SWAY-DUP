@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# Set the pubspec.yaml to use the protobuf version used for compiling
 PROTOBUF_VERSION=$(cat ~/.pub-cache/global_packages/protoc_plugin/pubspec.lock | \
     awk '/protobuf:/{p=1;next}{if(p){print}}' | \
     awk '/version:/{print $2}' | \
