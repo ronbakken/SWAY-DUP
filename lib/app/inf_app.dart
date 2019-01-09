@@ -36,6 +36,9 @@ class InfAppState extends State<InfApp> with WidgetsBindingObserver {
     else if (state == AppLifecycleState.resumed) {
       _systemService.setLifecycleState(LifecycleState.resumed);
     }
+    else{
+      print(state);
+    }    
   }
 
   @override

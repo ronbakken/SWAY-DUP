@@ -131,7 +131,7 @@ packages:
       name: flutter_map
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0"
+    version: "0.3.0"
   flutter_page_indicator:
     dependency: "direct main"
     description:
@@ -337,13 +337,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
-  positioned_tap_detector:
-    dependency: transitive
-    description:
-      name: positioned_tap_detector
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   protobuf:
     dependency: transitive
     description:
@@ -392,7 +385,7 @@ packages:
       name: sentry
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.2.0"
   shared_preferences:
     dependency: "direct main"
     description:

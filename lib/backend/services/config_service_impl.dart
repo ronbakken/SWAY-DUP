@@ -1,8 +1,9 @@
+import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/config_service_.dart';
 import 'package:inf_api_client/inf_api_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
-class ResourceServiceImplementation implements ConfigService {
+class ConfigServiceImplementation implements ConfigService {
   @override
   List<Category> categories;
 
@@ -12,6 +13,9 @@ class ResourceServiceImplementation implements ConfigService {
   @override
   List<SocialNetworkProvider> socialNetworkProviders;
 
+
+  AppConfigData configData;
+
   @override
   Stream<WelcomePageImages> getWelcomePageProfileImages() {
     // TODO: implement getAllLinkedAccounts
@@ -20,25 +24,46 @@ class ResourceServiceImplementation implements ConfigService {
 
   @override
   String getMapApiKey() {
-    // TODO: implement getMapApiKey
-    throw Exception('Not imnplemented');
+    return configData.serviceConfig.mapboxToken;
   }
 
   @override
   String getMapUrlTemplate() {
-    // TODO: implement getMapApiKey
-    throw Exception('Not imnplemented');
+    return configData.serviceConfig.mapboxUrlTemplateDark;
   }
 
   @override
-  Future init() {
-    // TODO: implement init
-    return null;
+  Future init() async {
+      SharedPreferences  prefs = await SharedPreferences.getInstance();
+
+      // Get locally stored AppConfig
+      var configJson = prefs.getString('config');
+      if (configJson != null)
+      {
+        configData = AppConfigData.fromJson(configJson);
+      }
+
+      // Get curren Config and API version from server
+      var version = await backend.get<InfApiClientsService>().configClient.getVersions(Empty());
+
+      // TODO throw exception if API version is outdated so that UI can display a message.
+
+      // local config does not exists or is outdated update from server
+      if (configData == null || configData.configVersion < version.configVersion)
+      {
+        configData = await backend.get<InfApiClientsService>().configClient.getAppConfig(Empty());
+        await prefs.setString('config', configData.writeToJson());
+
+      }
+
+      socialNetworkProviders = configData.socialNetworkProviders;
+      deliverableIcons = configData.deliverableIcons;
+      categories = configData.categories;
+      print(version);
   }
 
   @override
   SocialNetworkProvider getSocialNetworkProviderById(int id) {
-    // TODO: implement getSocialNetworkProviderById
-    return null;
+      return socialNetworkProviders.where((provider) => provider.id == id).first;
   }
 }

@@ -29,7 +29,8 @@ class _StartupPageState extends PageState<StartupPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await initBackend();
       waitForLoginState();
     });
   }

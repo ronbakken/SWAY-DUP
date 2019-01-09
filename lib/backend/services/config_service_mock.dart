@@ -6,7 +6,7 @@ import 'package:inf_api_client/inf_api_client.dart';
 
 import 'package:rxdart/rxdart.dart';
 
-class ResourceServiceMock implements ConfigService {
+class ConfigServiceMock implements ConfigService {
   @override
   List<Category> categories;
   @override

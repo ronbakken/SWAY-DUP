@@ -45,7 +45,6 @@ class AuthenticationServiceMock implements AuthenticationService {
     if (isLoggedIn) {
       _loginStateSubject.add(AuthenticationResult(
           state: AuthenticationState.success,
-          provider: backend.get<ConfigService>().socialNetworkProviders[2],
           user: allLinkedAccounts[currentUserIndex]));
     } else {
       _loginStateSubject.add(AuthenticationResult(
