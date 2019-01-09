@@ -80,7 +80,7 @@ class GlobalAccountState extends $pb.ProtobufEnum {
       const GlobalAccountState._(0, 'GAS_INITIALIZE');
   static const GlobalAccountState blocked =
       const GlobalAccountState._(1, 'GAS_BLOCKED');
-  static const GlobalAccountState GAS_PENDING =
+  static const GlobalAccountState pending =
       const GlobalAccountState._(2, 'GAS_PENDING');
   static const GlobalAccountState readOnly =
       const GlobalAccountState._(3, 'GAS_READ_ONLY');
@@ -98,7 +98,7 @@ class GlobalAccountState extends $pb.ProtobufEnum {
   static const List<GlobalAccountState> values = const <GlobalAccountState>[
     initialize,
     blocked,
-    GAS_PENDING,
+    pending,
     readOnly,
     readWrite,
     debug,
