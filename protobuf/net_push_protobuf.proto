@@ -43,9 +43,14 @@ message NetListen {
     // empty
 }
 
+message NetPushing {
+    // empty
+}
+
 /// Push stream entry
 message NetPush {
     oneof push {
+        NetPushing pushing = 8; // First message is sent with this set to notify that the push stream is running
         NetAccount updateAccount = 1;
         NetOffer updateOffer = 2;
         NetProposal newProposal = 3; // Notifies new proposal by other user
