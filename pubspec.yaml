@@ -9,7 +9,7 @@ environment:
   sdk: '>=2.0.0 <3.0.0'
 
 dependencies:
-  protobuf: ^0.11.0
+  protobuf: "0.11.0"
   grpc: ^1.0.0
 
 #dev_dependencies:

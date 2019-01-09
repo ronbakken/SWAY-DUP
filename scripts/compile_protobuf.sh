@@ -3,7 +3,12 @@ set -x
 
 
 # pub global activate protoc_plugin
-
+PROTOBUF_VERSION=$(cat ~/.pub-cache/global_packages/protoc_plugin/pubspec.lock | \
+    awk '/protobuf:/{p=1;next}{if(p){print}}' | \
+    awk '/version:/{print $2}' | \
+    awk 'NR==1{print $1}')
+echo "protobuf: $PROTOBUF_VERSION"
+sed -i "s/protobuf:.*/protobuf: $PROTOBUF_VERSION/" ../pubspec.yaml
 
 cd ~/inf_common/
 git pull

@@ -1,8 +1,15 @@
 #!/bin/sh
 
+PROTOBUF_VERSION=$(cat ~/.pub-cache/global_packages/protoc_plugin/pubspec.lock | \
+    awk '/protobuf:/{p=1;next}{if(p){print}}' | \
+    awk '/version:/{print $2}' | \
+    awk 'NR==1{print $1}')
+echo "protobuf: $PROTOBUF_VERSION"
+sed -i "s/protobuf:.*/protobuf: $PROTOBUF_VERSION/" ../pubspec.yaml
+
 cd ../protobuf
 
-protoc --dart_out=../lib/src/ *.proto
+protoc --dart_out=grpc:../lib/src/ *.proto
 # protoc --csharp_out=./cs/ *.proto
 
 cd ../lib/src/
