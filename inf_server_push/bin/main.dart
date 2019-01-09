@@ -52,7 +52,7 @@ Future<void> main(List<String> arguments) async {
       db: config.services.generalDbDatabase,
       max: 17);
 
-  final BackendPushService backend = BackendPushService(sql);
+  final BackendPushService backend = BackendPushService(config, sql);
   final ApiPushService api = ApiPushService(backend);
   
   // Push API gRPC
