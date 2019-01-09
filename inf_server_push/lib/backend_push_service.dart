@@ -55,6 +55,59 @@ class BackendPushService extends BackendPushServiceBase {
     return _cachedAccounts[accountId];
   }
 
+  Future<void> _sendFirebaseNotificationChat(Int64 receiverAccountId,
+      List<String> receiverFirebaseTokens, DataProposalChat chat) async {
+    // Get sender info
+    _CachedAccount sender = await _cacheAccount(chat.senderAccountId);
+    sender ??= _CachedAccount(
+      'Amazing Human Being',
+      Set<Int64>(),
+      <Int64, String>{},
+    );
+    final String senderName = sender.name;
+    final Map<String, dynamic> notification = <String, dynamic>{};
+    notification['title'] = senderName;
+    // TODO: Generate text version of non-text messages
+    notification['body'] = chat.plainText ?? 'A proposal has been updated.';
+    notification['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
+    notification['android_channel_id'] = 'chat';
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['sender_account_id'] = chat.senderAccountId.toInt();
+    data['receiver_account_id'] = receiverAccountId.toInt();
+    data['proposal_id'] = chat.proposalId.toInt();
+    data['type'] = chat.type.value;
+    // TODO: Include image key, terms, etc, or not?
+    data['domain'] = config.services.domain;
+    final Map<String, dynamic> message = <String, dynamic>{};
+    message['registration_ids'] = receiverFirebaseTokens;
+    message['collapse_key'] = 'proposal_id=' + chat.proposalId.toString();
+    message['notification'] = notification;
+    message['data'] = data;
+    String jm = json.encode(message);
+    devLog.finest(jm);
+    final HttpClientRequest req =
+        await _httpClient.postUrl(Uri.parse(config.services.firebaseLegacyApi));
+    req.headers.add('Content-Type', 'application/json');
+    req.headers
+        .add('Authorization', 'key=' + config.services.firebaseLegacyServerKey);
+    req.add(utf8.encode(jm));
+    final HttpClientResponse res = await req.close();
+    final BytesBuilder responseBuilder = BytesBuilder(copy: false);
+    await res.forEach(responseBuilder.add);
+    if (res.statusCode != 200) {
+      opsLog.warning(
+          'Status code ${res.statusCode}, request: $jm, response: ${utf8.decode(responseBuilder.toBytes())}');
+    }
+    final String rs = utf8.decode(responseBuilder.toBytes());
+    devLog.finest('Firebase sent OK, response: $rs');
+    final Map<dynamic, dynamic> doc = json.decode(rs);
+    if (doc['failure'].toInt() > 0) {
+      devLog.warning(
+          'Failed to send Firebase notification to ${doc['failure']} receiver sessions, validate all tokens.');
+      // TODO: Validate all registrations
+    }
+  }
+
   @override
   Future<ResPush> push(grpc.ServiceCall call, ReqPush request) async {
     final _CachedAccount receiver =
@@ -78,10 +131,6 @@ class BackendPushService extends BackendPushServiceBase {
       // Send the message to the listening stream
       listener.controller.sink.add(request.message);
     }
-    // Do not await any futures between this and the creation of the futures list,
-    // or Exceptions from the futures in the list will not be caught!
-    await Future.wait<dynamic>(done);
-    done.clear();
 
     // Send platform notifications if applicable
     if (request.sendNotifications) {
@@ -104,64 +153,24 @@ class BackendPushService extends BackendPushServiceBase {
       }
 
       // Generate and send a Firebase notification for chat
-      // TODO: Handle newProposal chat messages
       if (request.message.hasNewProposalChat()) {
-        // Get sender info
+        final List<String> receiverFirebaseTokens = firebaseTokens.toList();
         final DataProposalChat chat = request.message.newProposalChat.chat;
-        _CachedAccount sender = await _cacheAccount(chat.senderAccountId);
-        sender ??= _CachedAccount(
-          'Amazing Human Being',
-          Set<Int64>(),
-          <Int64, String>{},
-        );
-
-        final String senderName = sender.name;
-        final List<String> receiverFirebaseTokens =firebaseTokens.toList();
-        final Map<String, dynamic> notification = <String, dynamic>{};
-        notification['title'] = senderName;
-        // TODO: Generate text version of non-text messages
-        notification['body'] = chat.plainText ??
-            'A proposal has been updated.'; 
-        notification['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
-        notification['android_channel_id'] = 'chat';
-        final Map<String, dynamic> data = <String, dynamic>{};
-        data['sender_account_id'] = chat.senderAccountId.toInt();
-        data['receiver_account_id'] = request.receiverAccountId.toInt();
-        data['proposal_id'] = chat.proposalId.toInt();
-        data['type'] = chat.type.value;
-        // TODO: Include image key, terms, etc, or not?
-        data['domain'] = config.services.domain;
-        final Map<String, dynamic> message = <String, dynamic>{};
-        message['registration_ids'] = receiverFirebaseTokens;
-        message['collapse_key'] =
-            'proposal_id=' + chat.proposalId.toString();
-        message['notification'] = notification;
-        message['data'] = data;
-        String jm = json.encode(message);
-        devLog.finest(jm);
-        final HttpClientRequest req = await _httpClient
-            .postUrl(Uri.parse(config.services.firebaseLegacyApi));
-        req.headers.add('Content-Type', 'application/json');
-        req.headers.add(
-            'Authorization', 'key=' + config.services.firebaseLegacyServerKey);
-        req.add(utf8.encode(jm));
-        final HttpClientResponse res = await req.close();
-        final BytesBuilder responseBuilder = BytesBuilder(copy: false);
-        await res.forEach(responseBuilder.add);
-        if (res.statusCode != 200) {
-          opsLog.warning(
-              'Status code ${res.statusCode}, request: $jm, response: ${utf8.decode(responseBuilder.toBytes())}');
-        }
-        final String rs = utf8.decode(responseBuilder.toBytes());
-        devLog.finest('Firebase sent OK, response: $rs');
-        final Map<dynamic, dynamic> doc = json.decode(rs);
-        if (doc['failure'].toInt() > 0) {
-          devLog.warning(
-              'Failed to send Firebase notification to ${doc['failure']} receiver sessions, validate all tokens.');
-          // TODO: Validate all registrations
+        done.add(_sendFirebaseNotificationChat(
+            request.receiverAccountId, receiverFirebaseTokens, chat));
+      } else if (request.message.hasNewProposal()) {
+        final List<String> receiverFirebaseTokens = firebaseTokens.toList();
+        for (DataProposalChat chat in request.message.newProposal.chats) {
+          done.add(_sendFirebaseNotificationChat(
+              request.receiverAccountId, receiverFirebaseTokens, chat));
         }
       }
     }
+
+    // Do not await any futures between this and the creation of the futures list,
+    // or Exceptions from the futures in the list will not be caught!
+    await Future.wait<dynamic>(done);
+    done.clear();
 
     // TODO: Process results from Firebase (receiver count)
 
