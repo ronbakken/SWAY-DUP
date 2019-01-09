@@ -16,6 +16,7 @@ package inf_common;
 option csharp_namespace = "InfCommon";
 
 import "net_push_protobuf.proto";
+import "net_account_protobuf.proto";
 
 message ReqPush {
     NetPush message = 1;

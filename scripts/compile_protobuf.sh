@@ -1,6 +1,7 @@
 #!/bin/sh
 set -x
 cd "$DIR"
+git pull
 
 # pub global activate protoc_plugin
 
@@ -13,7 +14,6 @@ echo "protobuf: $PROTOBUF_VERSION"
 sed -i "s/protobuf:.*/protobuf: $PROTOBUF_VERSION/" ../pubspec.yaml
 
 cd ..
-git pull
 git add *
 git commit -m "Update protobuf"
 
