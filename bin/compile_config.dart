@@ -44,6 +44,9 @@ Future<ConfigServices> generateConfigServices(
       if (cfg.hasOption(section, 'salt'))
         res.salt = utf8.encode(cfg.get(section, 'salt'));
 
+      if (cfg.hasOption(section, 'backendPush'))
+        res.backendPush = cfg.get(section, 'backendPush');
+
       if (cfg.hasOption(section, 'spacesRegion'))
         res.spacesRegion = cfg.get(section, 'spacesRegion');
       if (cfg.hasOption(section, 'spacesKey'))
@@ -74,6 +77,17 @@ Future<ConfigServices> generateConfigServices(
         res.proposalDbPassword = cfg.get(section, 'proposalDbPassword');
       if (cfg.hasOption(section, 'proposalDbDatabase'))
         res.proposalDbDatabase = cfg.get(section, 'proposalDbDatabase');
+
+      if (cfg.hasOption(section, 'generalDbHost'))
+        res.generalDbHost = cfg.get(section, 'generalDbHost');
+      if (cfg.hasOption(section, 'generalDbPort'))
+        res.generalDbPort = int.parse(cfg.get(section, 'generalDbPort'));
+      if (cfg.hasOption(section, 'generalDbUser'))
+        res.generalDbUser = cfg.get(section, 'generalDbUser');
+      if (cfg.hasOption(section, 'generalDbPassword'))
+        res.generalDbPassword = cfg.get(section, 'generalDbPassword');
+      if (cfg.hasOption(section, 'generalDbDatabase'))
+        res.generalDbDatabase = cfg.get(section, 'generalDbDatabase');
 
       if (cfg.hasOption(section, 'elasticsearchApi'))
         res.elasticsearchApi = cfg.get(section, 'elasticsearchApi');
