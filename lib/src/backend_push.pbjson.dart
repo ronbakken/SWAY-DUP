@@ -23,6 +23,13 @@ const ReqPush$json = const {
       '10': 'recipientAccountId'
     },
     const {
+      '1': 'sender_account_id',
+      '3': 7,
+      '4': 1,
+      '5': 3,
+      '10': 'senderAccountId'
+    },
+    const {
       '1': 'sender_session_id',
       '3': 3,
       '4': 1,

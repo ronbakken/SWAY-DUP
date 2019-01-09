@@ -23,6 +23,7 @@ class ReqPush extends $pb.GeneratedMessage {
     ..aOB(4, 'skipSenderSession')
     ..aOB(5, 'sendNotifications')
     ..aOB(6, 'skipNotificationsWhenOnline')
+    ..aInt64(7, 'senderAccountId')
     ..hasRequiredFields = false;
 
   ReqPush() : super();
@@ -92,6 +93,14 @@ class ReqPush extends $pb.GeneratedMessage {
 
   bool hasSkipNotificationsWhenOnline() => $_has(5);
   void clearSkipNotificationsWhenOnline() => clearField(6);
+
+  Int64 get senderAccountId => $_getI64(6);
+  set senderAccountId(Int64 v) {
+    $_setInt64(6, v);
+  }
+
+  bool hasSenderAccountId() => $_has(6);
+  void clearSenderAccountId() => clearField(7);
 }
 
 class ResPush extends $pb.GeneratedMessage {
