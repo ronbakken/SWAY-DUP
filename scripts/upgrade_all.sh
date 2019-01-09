@@ -7,23 +7,12 @@ sudo apt upgrade -y
 pub global activate protoc_plugin
 pub global activate stagehand
 
-cd ~/infclient
-git pull --recurse-submodules
-git submodule update --init
+cd ~/inf_mobile_app
+git pull
 
-cd ~/infserver
-git pull --recurse-submodules
-git submodule update --init
+cd ~/inf_server
+git pull
 cd inf_server_api
-pub get
-pub upgrade
-cd ../dart-oauth1
-pub get
-pub upgrade
-cd ../dospace
-pub get
-pub upgrade
-cd ../sqljocky5
 pub get
 pub upgrade
 
@@ -39,8 +28,3 @@ pub upgrade
 
 cd ~/inf_app
 git pull
-
-cd ~/switchboard
-git pull
-pub get
-pub upgrade
