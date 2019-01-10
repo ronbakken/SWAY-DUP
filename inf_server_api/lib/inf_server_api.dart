@@ -16,6 +16,8 @@ import 'package:inf_server_api/api_profiles_service.dart';
 import 'package:inf_server_api/api_session_service.dart';
 import 'package:inf_server_api/api_storage_service.dart';
 import 'package:inf_server_api/api_explore_service.dart';
+import 'package:inf_server_api/db_upgrade_accounts.dart';
+import 'package:inf_server_api/db_upgrade_proposals.dart';
 
 import 'package:inf_server_api/elasticsearch.dart';
 import 'package:inf_server_api/broadcast_center.dart';
@@ -106,6 +108,7 @@ Future<void> run(List<String> arguments) async {
       password: config.services.accountDbPassword,
       db: config.services.accountDbDatabase,
       max: 17);
+  await dbUpgradeAccounts(accountDb);
   unawaited(selfTestSql(accountDb));
 
   // Run Proposal DB SQL client
@@ -116,6 +119,7 @@ Future<void> run(List<String> arguments) async {
       password: config.services.proposalDbPassword,
       db: config.services.proposalDbDatabase,
       max: 17);
+  await dbUpgradeProposals(proposalDb);
   unawaited(selfTestSql(proposalDb));
 
   // Spaces
