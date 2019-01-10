@@ -25,7 +25,8 @@ class StartupPage extends PageWidget {
 }
 
 class _StartupPageState extends PageState<StartupPage> {
-  StreamSubscription loginStateChangedSubscription;
+  StreamSubscription _loginCommandSubscription;
+  StreamSubscription _loginCommandErrorSubscription;
 //  PermissionStatus _locationPermissionStatus;
 
   @override
@@ -33,7 +34,7 @@ class _StartupPageState extends PageState<StartupPage> {
     super.initState();
     var loginCommand = backend.get<UserManager>().logInUserCommand;
 
-    loginCommand.listen((loginSuccess) {
+    _loginCommandSubscription = loginCommand.listen((loginSuccess) {
       Route nextPage;
       if (loginSuccess) {
         nextPage = MainPage.route();
@@ -43,16 +44,13 @@ class _StartupPageState extends PageState<StartupPage> {
       Navigator.of(context).pushReplacement(nextPage);
     });
 
-    loginCommand.thrownExceptions.listen( (error) async {
-        if (error is GrpcError || error is SocketException)
-        {
-           await Navigator.of(context).push(NoConnectionPage.route());
-           loginCommand.execute();
-        }
-        else
-        {
-          await backend.get<ErrorReporter>().logException(error);
-        }
+    _loginCommandErrorSubscription = loginCommand.thrownExceptions.listen((error) async {
+      if (error is GrpcError || error is SocketException) {
+        await Navigator.of(context).push(NoConnectionPage.route());
+        loginCommand.execute();
+      } else {
+        await backend.get<ErrorReporter>().logException(error);
+      }
     });
 
     initBackend().catchError((error) async {
@@ -65,7 +63,8 @@ class _StartupPageState extends PageState<StartupPage> {
 
   @override
   void dispose() {
-    loginStateChangedSubscription?.cancel();
+    _loginCommandSubscription?.cancel();
+    _loginCommandErrorSubscription?.cancel();
     super.dispose();
   }
 
@@ -81,7 +80,6 @@ class _StartupPageState extends PageState<StartupPage> {
 
   /// Check is we got permissions for the location service and if it is turned on
   void checkPermissionStatus() {
-
     // PermissionHandler().checkPermissionStatus(PermissionGroup.location).then((status) async {
     //   if (status == PermissionStatus.granted) {
     //     waitForLoginState();

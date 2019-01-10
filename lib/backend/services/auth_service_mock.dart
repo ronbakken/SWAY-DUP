@@ -25,7 +25,6 @@ class AuthenticationServiceMock implements AuthenticationService {
 
   final BehaviorSubject<User> _currentUserUpdatesSubject = BehaviorSubject<User>();
 
-
   @override
   User get currentUser => _currentUser;
   User _currentUser;
@@ -54,7 +53,6 @@ class AuthenticationServiceMock implements AuthenticationService {
     return false;
   }
 
-
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);
 
@@ -65,7 +63,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   @override
   Future<void> logOut() async {
     isLoggedIn = false;
-    _currentUser = null;  
+    _currentUser = null;
   }
 
   // @override
@@ -80,7 +78,6 @@ class AuthenticationServiceMock implements AuthenticationService {
   // }
 
   Future<void> loadMockData() async {
-    var socialNetWorks = backend.get<ConfigService>().socialNetworkProviders;
     allLinkedAccounts = [
       User()
         ..id = 42
@@ -96,13 +93,7 @@ class AuthenticationServiceMock implements AuthenticationService {
             (await rootBundle.load('assets/mockdata/profile_thumbnail_lowres.jpg')).buffer.asUint8List()
         ..avatarLowRes = (await rootBundle.load('assets/mockdata/profile_lowres.jpg')).buffer.asUint8List()
         ..accountState = accountState
-        ..categories.addAll([
-          Category()
-            ..id = 1
-            ..name = 'Food'
-            ..description = 'All about Fashion'
-            ..parentId = -1
-        ])
+        ..categoriesIds.addAll([1, 2, 3])
         ..description = 'I run a online store for baking utilities'
         ..email = 'thomas@burkharts.net'
         ..locationAsString = 'Germany'
@@ -131,20 +122,14 @@ class AuthenticationServiceMock implements AuthenticationService {
         ..acceptsDirectOffers = true
         ..userType = UserType.influencer
         ..avatarUrl =
-            'https=//firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1'
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile.jpg?alt=media&token=87b8bfea-2353-47bd-815c-0618efebe3f1'
         ..avatarThumbnailUrl =
-            'https=//firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741'
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741'
         ..avatarThumbnailLowRes =
             (await rootBundle.load('assets/mockdata/profile_thumbnail_lowres.jpg')).buffer.asUint8List()
         ..avatarLowRes = (await rootBundle.load('assets/mockdata/profile_lowres.jpg')).buffer.asUint8List()
         ..accountState = accountState
-        ..categories.addAll([
-          Category()
-            ..id = 1
-            ..name = 'Food'
-            ..description = 'All about Fashion'
-            ..parentId = -1
-        ])
+        ..categoriesIds.addAll([1, 2, 3])
         ..description = 'I run a online store for baking utilities'
         ..email = 'thomas@burkharts.net'
         ..locationAsString = 'Germany'

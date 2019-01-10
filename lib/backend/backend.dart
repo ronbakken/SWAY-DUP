@@ -122,16 +122,15 @@ void registerImplementations() {
   backend.registerSingleton<InfApiClientsService>(InfApiClientsServiceImplementation());
 
   backend.registerLazySingleton<AuthenticationService>(
-    /*
-    * currentUserIndex
-    *   0 = Business
-    *   1 = Influencer
-    */
-    () => AuthenticationServiceMock(
-          isLoggedIn: true,
-          currentUserIndex: 0,
-        ),
-  );
+
+      /// By passing a userTestToken the server returns one of two test users
+      /// when 'loginWithToken' is called so that we can test without the need for a real user token
+      /// token: 'INF' and influencer
+      /// token: 'BUSINESS' a business user
+      () => AuthenticationServiceImplementation(
+            userTestToken: 'BUSINESS',
+          ));
+
   backend.registerLazySingleton<ImageService>(() => ImageServiceMock());
   backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
   backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());

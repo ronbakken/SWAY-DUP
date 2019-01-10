@@ -11,8 +11,7 @@ class UserManagerImplementation implements UserManager {
   @override
   User get currentUser => backend.get<AuthenticationService>().currentUser;
 
-
-  // User Commands
+  @override
   RxCommand<void, bool> logInUserCommand;
   // RxCommand<User, void> createUserByEmailCommand;
 
@@ -23,15 +22,13 @@ class UserManagerImplementation implements UserManager {
   RxCommand<User, void> updateUserCommand;
 
   UserManagerImplementation() {
-
-    logInUserCommand = RxCommand.createAsyncNoParam(backend.get<AuthenticationService>().loginUserWithToken );
+    logInUserCommand = RxCommand.createAsyncNoParam(backend.get<AuthenticationService>().loginUserWithToken);
 
     updateSocialMediaAccountCommand = RxCommand.createAsyncNoResult<SocialMediaAccount>(
         (account) => backend.get<AuthenticationService>().updateSocialMediaAccount(account));
 
-    updateUserCommand = RxCommand.createAsyncNoResult<User>(
-        (user) => backend.get<AuthenticationService>().updateUser(user));
-
+    updateUserCommand =
+        RxCommand.createAsyncNoResult<User>((user) => backend.get<AuthenticationService>().updateUser(user));
   }
 
   @override
