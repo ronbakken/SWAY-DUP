@@ -31,8 +31,8 @@ Future<ConfigServices> generateConfigServices(
         res.domain = cfg.get(section, 'domain');
       if (cfg.hasOption(section, 'endPoints'))
         res.endPoints.addAll(cfg.get(section, 'endPoints').split(','));
-      if (cfg.hasOption(section, 'service'))
-        res.service = cfg.get(section, 'service');
+      if (cfg.hasOption(section, 'applicationToken'))
+        res.applicationToken = cfg.get(section, 'applicationToken');
       if (cfg.hasOption(section, 'configUrl'))
         res.configUrl = cfg.get(section, 'configUrl');
       if (cfg.hasOption(section, 'termsOfServiceUrl'))
