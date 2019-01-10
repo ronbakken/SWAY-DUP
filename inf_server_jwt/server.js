@@ -38,7 +38,6 @@ var jwt = require('jsonwebtoken');
 jwt.sign({
     'iss': 'https://infsandbox.app',
     'aud': 'infsandbox',
-    'pb': {}
 }, pem, { algorithm: 'RS256' }, function (err, token) {
     console.log('Application Token:');
     console.log(err || token);
