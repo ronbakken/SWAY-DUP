@@ -19,7 +19,10 @@ import 'dart:convert';
 import 'package:grpc/grpc.dart' as grpc;
 import 'package:inf_common/inf_common.dart';
 
-DataAuth authFromJwtPayload(grpc.ServiceCall call) {
+DataAuth authFromJwtPayload(
+  grpc.ServiceCall call, {
+  bool applicationToken = false,
+}) {
   if (!call.clientMetadata.containsKey('authorization') &&
       !call.clientMetadata.containsKey('authority')) {
     throw grpc.GrpcError.unauthenticated('Authorization missing.');
@@ -45,7 +48,13 @@ DataAuth authFromJwtPayload(grpc.ServiceCall call) {
   }
   dynamic pb = payload['pb'];
   if (pb == null) {
-    return DataAuth();
+    if (applicationToken) {
+      return DataAuth();
+    } else {
+      throw grpc.GrpcError.unauthenticated('Application token not permitted.');
+    }
+  } else if (applicationToken) {
+    throw grpc.GrpcError.unauthenticated('Expect application token.');
   }
   DataAuth auth;
   try {
