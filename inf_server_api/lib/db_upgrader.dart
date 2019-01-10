@@ -65,7 +65,8 @@ class DbUpgrader {
     await for (sqljocky.Row row in results) {
       result.add(row[0].toString());
       if (row[1].toInt() == 0) {
-        throw Exception("Detected unsuccessful MySQL upgrade '${row[0].toString()}', aborting to stop data loss");
+        throw Exception(
+            "Detected unsuccessful MySQL upgrade '${row[0].toString()}', aborting to stop data loss");
       }
     }
     return result;
@@ -95,6 +96,10 @@ class DbUpgrader {
             await sql.prepareExecute(
                 'INSERT INTO `schema_tags` (`service`, `tag`) VALUES (?, ?)',
                 <dynamic>[_service, function.tag]);
+            // As MySQL automatically commits transactions when modifying schemes,
+            // in case of failure, the success flag will not be set.
+            // The scheme tag list function causes abort when it encounters 
+            // an unsuccessful upgrade to stop data loss.
             await function.function(sql);
             await sql.prepareExecute(
                 'UPDATE `schema_tags` SET `success` = 1 WHERE `tag` = ?;',
