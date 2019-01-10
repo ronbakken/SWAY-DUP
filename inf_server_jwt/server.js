@@ -59,7 +59,7 @@ function sign(call, callback) {
     // console.log('Claim:');
     // console.log(claim);
     return jwt.sign(claim, pem, { algorithm: 'RS256' }, function (err, token) {
-        console.log('Signed Token: ' + err || token);
+        // console.log('Signed Token: ' + (err || token));
         // TODO: gRPC error?
         return callback(err && 'Failed to sign claim.', { token: token });
     });
