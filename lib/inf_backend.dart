@@ -30,7 +30,16 @@ DataAuth authFromJwtPayload(grpc.ServiceCall call) {
   dynamic payload;
   try {
     payload = json.decode(
-        utf8.decode(base64.decode(call.clientMetadata['x-jwt-payload'])));
+      utf8.decode(
+        base64.decode(
+          // Base64 encoded strings must be divisible by 4.
+          // Envoy Proxy does not normalize the string.
+          base64.normalize(
+            call.clientMetadata['x-jwt-payload'],
+          ),
+        ),
+      ),
+    );
   } catch (error, _) {
     throw grpc.GrpcError.unauthenticated('Payload cannot be decoded.');
   }
