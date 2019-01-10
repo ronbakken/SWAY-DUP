@@ -12,8 +12,8 @@ Backend service dedicated to handling message streams and notifications.
 
 syntax = "proto3";
 
-package inf_common;
-option csharp_namespace = "InfCommon";
+package inf;
+option csharp_namespace = "Inf";
 
 import "net_push_protobuf.proto";
 import "net_account_protobuf.proto";

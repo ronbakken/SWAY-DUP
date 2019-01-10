@@ -17,8 +17,8 @@ Planned changes:
 
 syntax = "proto3";
 
-package inf_common;
-option csharp_namespace = "InfCommon";
+package inf;
+option csharp_namespace = "Inf";
 
 import "enum_protobuf.proto";
 
