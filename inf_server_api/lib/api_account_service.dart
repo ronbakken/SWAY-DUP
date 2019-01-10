@@ -40,7 +40,8 @@ class ApiAccountService extends ApiAccountServiceBase {
   final http.Client httpClient = http.Client();
   final http_client.Client httpClientClient = http_client.ConsoleClient();
 
-  ApiAccountService(this.config, this.accountDb, this.bucket, this.bc, this.oauth1Auth);
+  ApiAccountService(
+      this.config, this.accountDb, this.bucket, this.bc, this.oauth1Auth);
 
   final Random _random = Random.secure();
 
@@ -688,8 +689,8 @@ class ApiAccountService extends ApiAccountServiceBase {
       if (accountId != 0 &&
           accountAvatarUrl != null &&
           accountAvatarUrl.isNotEmpty) {
-        final String avatarKey =
-            await downloadUserImage(config, httpClientClient, bucket, accountId, accountAvatarUrl);
+        final String avatarKey = await downloadUserImage(
+            config, httpClientClient, bucket, accountId, accountAvatarUrl);
         await accountDb.prepareExecute(
             'UPDATE `accounts` SET `avatar_key` = ? '
             'WHERE `account_id` = ?',
@@ -713,7 +714,8 @@ class ApiAccountService extends ApiAccountServiceBase {
     */
 
     final NetAccount account = NetAccount();
-    account.account = await fetchSessionAccount(config, accountDb, auth.sessionId);
+    account.account =
+        await fetchSessionAccount(config, accountDb, auth.sessionId);
     return account;
   }
 

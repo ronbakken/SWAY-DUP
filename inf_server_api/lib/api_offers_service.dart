@@ -121,7 +121,10 @@ class ApiOffersService extends ApiOffersServiceBase {
     if (offer.thumbnailKey.isEmpty) {
       offer.thumbnailKey = offer.coverKeys[0];
     }
-    offer.thumbnailBlurred = await downloadData(httpClientClient, _makeImageUrl(config.services.galleryThumbnailBlurredUrl, offer.thumbnailKey));
+    offer.thumbnailBlurred = await downloadData(
+        httpClientClient,
+        _makeImageUrl(
+            config.services.galleryThumbnailBlurredUrl, offer.thumbnailKey));
 
     // Insert offer, not so critical
     const String insertOffer =

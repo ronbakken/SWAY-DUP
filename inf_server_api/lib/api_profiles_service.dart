@@ -60,14 +60,16 @@ class ApiProfilesService extends ApiProfilesServiceBase {
         account.description = row[2].toString();
         account.locationId = Int64(row[3]);
         if (row[4] != null) {
-          account.avatarUrl = _makeImageUrl(config.services.galleryThumbnailUrl, row[4].toString());
-          account.blurredAvatarUrl =
-              _makeImageUrl(config.services.galleryThumbnailBlurredUrl, row[4].toString());
+          account.avatarUrl = _makeImageUrl(
+              config.services.galleryThumbnailUrl, row[4].toString());
+          account.blurredAvatarUrl = _makeImageUrl(
+              config.services.galleryThumbnailBlurredUrl, row[4].toString());
           account.coverUrls.clear();
-          account.coverUrls.add(_makeImageUrl(config.services.galleryCoverUrl, row[4].toString()));
+          account.coverUrls.add(_makeImageUrl(
+              config.services.galleryCoverUrl, row[4].toString()));
           account.blurredCoverUrls.clear();
-          account.blurredCoverUrls
-              .add(_makeImageUrl(config.services.galleryCoverBlurredUrl, row[4].toString()));
+          account.blurredCoverUrls.add(_makeImageUrl(
+              config.services.galleryCoverBlurredUrl, row[4].toString()));
         }
         if (row[5] != null) {
           account.website = row[5].toString();
@@ -132,7 +134,6 @@ class ApiProfilesService extends ApiProfilesServiceBase {
     response.account = account;
     return response;
   }
-
 }
 
 /* end of file */

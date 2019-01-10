@@ -148,7 +148,8 @@ class BroadcastCenter {
   }
 */
 
-  void accountFirebaseTokensChanged(Int64 accountId, Int64 sessionId, NetSetFirebaseToken firebaseToken) {
+  void accountFirebaseTokensChanged(
+      Int64 accountId, Int64 sessionId, NetSetFirebaseToken firebaseToken) {
     final ReqSetFirebaseToken token = ReqSetFirebaseToken();
     token.accountId = accountId;
     token.sessionId = sessionId;

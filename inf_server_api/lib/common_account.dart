@@ -163,20 +163,27 @@ Future<DataAccount> fetchSessionAccount(ConfigData config,
         account.description = row[4].toString();
         account.locationId = Int64(row[5]);
         if (row[6] != null) {
-          account.avatarUrl = _makeImageUrl(config.services.galleryThumbnailUrl, row[6].toString());
-          account.blurredAvatarUrl =
-              _makeImageUrl(config.services.galleryThumbnailBlurredUrl, row[6].toString());
+          account.avatarUrl = _makeImageUrl(
+              config.services.galleryThumbnailUrl, row[6].toString());
+          account.blurredAvatarUrl = _makeImageUrl(
+              config.services.galleryThumbnailBlurredUrl, row[6].toString());
           account.coverUrls.clear();
-          account.coverUrls.add(_makeImageUrl(config.services.galleryCoverUrl, row[6].toString()));
+          account.coverUrls.add(_makeImageUrl(
+              config.services.galleryCoverUrl, row[6].toString()));
           account.blurredCoverUrls.clear();
-          account.blurredCoverUrls
-              .add(_makeImageUrl(config.services.galleryCoverBlurredUrl, row[6].toString()));
+          account.blurredCoverUrls.add(_makeImageUrl(
+              config.services.galleryCoverBlurredUrl, row[6].toString()));
         }
-        if (row[7] != null){ account.website = row[7].toString();}
-        if (row[8] != null){ account.email = row[8].toString();}
+        if (row[7] != null) {
+          account.website = row[7].toString();
+        }
+        if (row[8] != null) {
+          account.email = row[8].toString();
+        }
       }
       if (account.locationId != Int64.ZERO) {
-        final DataLocation location = await fetchLocationSummaryFromSql(accountDb,
+        final DataLocation location = await fetchLocationSummaryFromSql(
+            accountDb,
             account.locationId,
             account.accountId,
             account.accountType == AccountType.business);

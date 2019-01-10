@@ -386,7 +386,8 @@ class ApiProposalsService extends ApiProposalsServiceBase {
           in await connection.prepareExecute(chatQuery, <dynamic>[
         request.proposalId,
       ])) {
-        final DataProposalChat chat = _chatFromRow(auth.sessionId, request.proposalId, row);
+        final DataProposalChat chat =
+            _chatFromRow(auth.sessionId, request.proposalId, row);
         final NetProposalChat response = NetProposalChat();
         response.chat = chat;
         yield response;
