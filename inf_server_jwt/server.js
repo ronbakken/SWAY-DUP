@@ -34,30 +34,40 @@ fs.writeFileSync('jwks_public.json', jwks);
 console.log('JWK:');
 console.log(jwk);
 var jwt = require('jsonwebtoken');
-var kty = jwk.kty;
+
+jwt.sign({
+    'iss': 'https://infsandbox.app',
+    'aud': 'infsandbox',
+    'pb': {}
+}, pem, { algorithm: 'RS256' }, function (err, token) {
+    console.log('Application Token:');
+    console.log(err || token);
+});
 
 // iat: NumericDate
 // exp: NumericDate
 function sign(call, callback) {
-    console.log(call);
-    // return callback(null, { message: 'Hello ' + call.request.name });
+    // console.log('Call:');
+    // console.log(call);
     var claim;
     try {
-        claim = JSON.parse(call.claim);
+        claim = JSON.parse(call.request.claim);
     } catch (error) {
-        // TODO: Fix insecure error propagation
-        return callback(error);
+        console.log(error);
+        // TODO: gRPC error?
+        return callback('Failed to parse claim.');
     }
-    return jwt.sign(claim, pem, { algorithm: kty }, function (err, token) {
-        console.log('Signed Token:');
-        console.log(token);
-        // TODO: Fix insecure error propagation
-        return callback(err, { token: token });
+    // console.log('Claim:');
+    // console.log(claim);
+    return jwt.sign(claim, pem, { algorithm: 'RS256' }, function (err, token) {
+        console.log('Signed Token: ' + err || token);
+        // TODO: gRPC error?
+        return callback(err && 'Failed to sign claim.', { token: token });
     });
 }
 
 function getKeyStore(call, callback) {
-    console.log(call);
+    // console.log(call);
     return callback(null, { jwks: jwks });
 }
 
