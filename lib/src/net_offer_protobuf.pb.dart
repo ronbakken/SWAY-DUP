@@ -13,14 +13,14 @@ import 'package:protobuf/protobuf.dart' as $pb;
 import 'data_protobuf.pb.dart' as $10;
 
 class NetOffer extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOffer',
-      package: const $pb.PackageName('inf_common'))
-    ..a<$10.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $10.DataOffer.getDefault,
-        $10.DataOffer.create)
-    ..aOB(2, 'state')
-    ..aOB(3, 'summary')
-    ..aOB(4, 'detail')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetOffer', package: const $pb.PackageName('inf'))
+        ..a<$10.DataOffer>(1, 'offer', $pb.PbFieldType.OM,
+            $10.DataOffer.getDefault, $10.DataOffer.create)
+        ..aOB(2, 'state')
+        ..aOB(3, 'summary')
+        ..aOB(4, 'detail')
+        ..hasRequiredFields = false;
 
   NetOffer() : super();
   NetOffer.fromBuffer(List<int> i,
@@ -77,7 +77,7 @@ class NetOffer extends $pb.GeneratedMessage {
 
 class NetCreateOffer extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetCreateOffer',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<$10.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $10.DataOffer.getDefault,
         $10.DataOffer.create)
     ..hasRequiredFields = false;
@@ -114,7 +114,7 @@ class NetCreateOffer extends $pb.GeneratedMessage {
 
 class NetListOffers extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetListOffers',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..hasRequiredFields = false;
 
   NetListOffers() : super();
@@ -140,10 +140,10 @@ class NetListOffers extends $pb.GeneratedMessage {
 }
 
 class NetGetOffer extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetOffer',
-      package: const $pb.PackageName('inf_common'))
-    ..aInt64(1, 'offerId')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetGetOffer', package: const $pb.PackageName('inf'))
+        ..aInt64(1, 'offerId')
+        ..hasRequiredFields = false;
 
   NetGetOffer() : super();
   NetGetOffer.fromBuffer(List<int> i,

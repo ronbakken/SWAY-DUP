@@ -14,7 +14,7 @@ export 'api_explore.pb.dart';
 
 class ApiExploreClient extends Client {
   static final _$demoAll = new ClientMethod<$1.NetDemoAllOffers, $2.NetOffer>(
-      '/inf_common.ApiExplore/DemoAll',
+      '/inf.ApiExplore/DemoAll',
       ($1.NetDemoAllOffers value) => value.writeToBuffer(),
       (List<int> value) => new $2.NetOffer.fromBuffer(value));
 
@@ -31,7 +31,7 @@ class ApiExploreClient extends Client {
 }
 
 abstract class ApiExploreServiceBase extends Service {
-  String get $name => 'inf_common.ApiExplore';
+  String get $name => 'inf.ApiExplore';
 
   ApiExploreServiceBase() {
     $addMethod(new ServiceMethod<$1.NetDemoAllOffers, $2.NetOffer>(

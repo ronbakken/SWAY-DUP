@@ -14,16 +14,16 @@ import 'net_push_protobuf.pb.dart' as $6;
 import 'net_account_protobuf.pb.dart' as $0;
 
 class ReqPush extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ReqPush',
-      package: const $pb.PackageName('inf_common'))
-    ..a<$6.NetPush>(1, 'message', $pb.PbFieldType.OM, $6.NetPush.getDefault,
-        $6.NetPush.create)
-    ..aInt64(2, 'receiverAccountId')
-    ..aInt64(3, 'senderSessionId')
-    ..aOB(4, 'skipSenderSession')
-    ..aOB(5, 'sendNotifications')
-    ..aOB(6, 'skipNotificationsWhenOnline')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('ReqPush', package: const $pb.PackageName('inf'))
+        ..a<$6.NetPush>(1, 'message', $pb.PbFieldType.OM, $6.NetPush.getDefault,
+            $6.NetPush.create)
+        ..aInt64(2, 'receiverAccountId')
+        ..aInt64(3, 'senderSessionId')
+        ..aOB(4, 'skipSenderSession')
+        ..aOB(5, 'sendNotifications')
+        ..aOB(6, 'skipNotificationsWhenOnline')
+        ..hasRequiredFields = false;
 
   ReqPush() : super();
   ReqPush.fromBuffer(List<int> i,
@@ -95,12 +95,12 @@ class ReqPush extends $pb.GeneratedMessage {
 }
 
 class ResPush extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ResPush',
-      package: const $pb.PackageName('inf_common'))
-    ..a<int>(1, 'onlineSessions', $pb.PbFieldType.O3)
-    ..a<int>(2, 'platformNotificationsAttempted', $pb.PbFieldType.O3)
-    ..a<int>(3, 'platformNotificationsSucceeded', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('ResPush', package: const $pb.PackageName('inf'))
+        ..a<int>(1, 'onlineSessions', $pb.PbFieldType.O3)
+        ..a<int>(2, 'platformNotificationsAttempted', $pb.PbFieldType.O3)
+        ..a<int>(3, 'platformNotificationsSucceeded', $pb.PbFieldType.O3)
+        ..hasRequiredFields = false;
 
   ResPush() : super();
   ResPush.fromBuffer(List<int> i,
@@ -149,7 +149,7 @@ class ResPush extends $pb.GeneratedMessage {
 
 class ReqSetFirebaseToken extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ReqSetFirebaseToken',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<$0.NetSetFirebaseToken>(1, 'token', $pb.PbFieldType.OM,
         $0.NetSetFirebaseToken.getDefault, $0.NetSetFirebaseToken.create)
     ..aInt64(2, 'sessionId')
@@ -207,7 +207,7 @@ class ReqSetFirebaseToken extends $pb.GeneratedMessage {
 
 class ResSetFirebaseToken extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ResSetFirebaseToken',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..hasRequiredFields = false;
 
   ResSetFirebaseToken() : super();
@@ -237,7 +237,7 @@ class ResSetFirebaseToken extends $pb.GeneratedMessage {
 
 class ReqSetAccountName extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ReqSetAccountName',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'name')
     ..aInt64(2, 'accountId')
     ..hasRequiredFields = false;
@@ -284,7 +284,7 @@ class ReqSetAccountName extends $pb.GeneratedMessage {
 
 class ResSetAccountName extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ResSetAccountName',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..hasRequiredFields = false;
 
   ResSetAccountName() : super();

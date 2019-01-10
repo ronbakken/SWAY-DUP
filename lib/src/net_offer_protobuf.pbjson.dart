@@ -12,7 +12,7 @@ const NetOffer$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataOffer',
+      '6': '.inf.DataOffer',
       '10': 'offer'
     },
     const {'1': 'state', '3': 2, '4': 1, '5': 8, '10': 'state'},
@@ -29,7 +29,7 @@ const NetCreateOffer$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataOffer',
+      '6': '.inf.DataOffer',
       '10': 'offer'
     },
   ],

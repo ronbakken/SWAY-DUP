@@ -13,7 +13,7 @@ export 'api_profiles.pb.dart';
 
 class ApiProfilesClient extends Client {
   static final _$get = new ClientMethod<$4.NetGetProfile, $4.NetProfile>(
-      '/inf_common.ApiProfiles/Get',
+      '/inf.ApiProfiles/Get',
       ($4.NetGetProfile value) => value.writeToBuffer(),
       (List<int> value) => new $4.NetProfile.fromBuffer(value));
 
@@ -29,7 +29,7 @@ class ApiProfilesClient extends Client {
 }
 
 abstract class ApiProfilesServiceBase extends Service {
-  String get $name => 'inf_common.ApiProfiles';
+  String get $name => 'inf.ApiProfiles';
 
   ApiProfilesServiceBase() {
     $addMethod(new ServiceMethod<$4.NetGetProfile, $4.NetProfile>(

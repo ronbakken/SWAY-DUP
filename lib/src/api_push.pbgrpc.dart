@@ -13,7 +13,7 @@ export 'api_push.pb.dart';
 
 class ApiPushClient extends Client {
   static final _$listen = new ClientMethod<$6.NetListen, $6.NetPush>(
-      '/inf_common.ApiPush/Listen',
+      '/inf.ApiPush/Listen',
       ($6.NetListen value) => value.writeToBuffer(),
       (List<int> value) => new $6.NetPush.fromBuffer(value));
 
@@ -30,7 +30,7 @@ class ApiPushClient extends Client {
 }
 
 abstract class ApiPushServiceBase extends Service {
-  String get $name => 'inf_common.ApiPush';
+  String get $name => 'inf.ApiPush';
 
   ApiPushServiceBase() {
     $addMethod(new ServiceMethod<$6.NetListen, $6.NetPush>(

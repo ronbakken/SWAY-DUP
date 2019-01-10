@@ -14,7 +14,7 @@ import 'enum_protobuf.pbenum.dart' as $9;
 
 class ConfigSubCategories extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigSubCategories',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..pPS(1, 'labels')
     ..hasRequiredFields = false;
 
@@ -47,7 +47,7 @@ class ConfigSubCategories extends $pb.GeneratedMessage {
 
 class ConfigOAuthProvider extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigOAuthProvider',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOB(1, 'visible')
     ..aOB(2, 'canAlwaysAuthenticate')
     ..aOS(3, 'label')
@@ -404,7 +404,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
 
 class ConfigContentFormat extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigContentFormat',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..pPS(1, 'keywords')
     ..aOS(2, 'label')
     ..a<int>(3, 'sorting', $pb.PbFieldType.O3)
@@ -563,7 +563,7 @@ class ConfigContentFormat extends $pb.GeneratedMessage {
 
 class ConfigCategory extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigCategory',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..pPS(1, 'keywords')
     ..aOS(2, 'label')
     ..a<int>(3, 'sorting', $pb.PbFieldType.O3)
@@ -731,7 +731,7 @@ class ConfigCategory extends $pb.GeneratedMessage {
 
 class ConfigServices extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigServices',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'mapboxApi')
     ..aOS(2, 'mapboxUrlTemplateDark')
     ..aOS(3, 'mapboxToken')
@@ -1220,7 +1220,7 @@ class ConfigServices extends $pb.GeneratedMessage {
 
 class ConfigFeatureSwitches extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigFeatureSwitches',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOB(1, 'createProposal')
     ..aOB(2, 'createSession')
     ..aOB(3, 'createAccount')
@@ -1421,12 +1421,12 @@ class ConfigFeatureSwitches extends $pb.GeneratedMessage {
 }
 
 class ConfigAsset extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigAsset',
-      package: const $pb.PackageName('inf_common'))
-    ..aOS(1, 'name')
-    ..a<List<int>>(2, 'data', $pb.PbFieldType.OY)
-    ..aOB(3, 'svg')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('ConfigAsset', package: const $pb.PackageName('inf'))
+        ..aOS(1, 'name')
+        ..a<List<int>>(2, 'data', $pb.PbFieldType.OY)
+        ..aOB(3, 'svg')
+        ..hasRequiredFields = false;
 
   ConfigAsset() : super();
   ConfigAsset.fromBuffer(List<int> i,
@@ -1476,7 +1476,7 @@ class ConfigAsset extends $pb.GeneratedMessage {
 
 class ConfigContent extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigContent',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..pPS(1, 'welcomeImageUrls')
     ..hasRequiredFields = false;
 
@@ -1505,27 +1505,27 @@ class ConfigContent extends $pb.GeneratedMessage {
 }
 
 class ConfigData extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ConfigData',
-      package: const $pb.PackageName('inf_common'))
-    ..a<int>(1, 'clientVersion', $pb.PbFieldType.O3)
-    ..aInt64(5, 'timestamp')
-    ..a<ConfigServices>(6, 'services', $pb.PbFieldType.OM,
-        ConfigServices.getDefault, ConfigServices.create)
-    ..a<ConfigContent>(7, 'content', $pb.PbFieldType.OM,
-        ConfigContent.getDefault, ConfigContent.create)
-    ..aOS(8, 'region')
-    ..aOS(9, 'language')
-    ..pp<ConfigOAuthProvider>(11, 'oauthProviders', $pb.PbFieldType.PM,
-        ConfigOAuthProvider.$checkItem, ConfigOAuthProvider.create)
-    ..pp<ConfigContentFormat>(12, 'contentFormats', $pb.PbFieldType.PM,
-        ConfigContentFormat.$checkItem, ConfigContentFormat.create)
-    ..pp<ConfigCategory>(13, 'categories', $pb.PbFieldType.PM,
-        ConfigCategory.$checkItem, ConfigCategory.create)
-    ..pp<ConfigAsset>(14, 'assets', $pb.PbFieldType.PM, ConfigAsset.$checkItem,
-        ConfigAsset.create)
-    ..a<ConfigFeatureSwitches>(15, 'featureSwitches', $pb.PbFieldType.OM,
-        ConfigFeatureSwitches.getDefault, ConfigFeatureSwitches.create)
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('ConfigData', package: const $pb.PackageName('inf'))
+        ..a<int>(1, 'clientVersion', $pb.PbFieldType.O3)
+        ..aInt64(5, 'timestamp')
+        ..a<ConfigServices>(6, 'services', $pb.PbFieldType.OM,
+            ConfigServices.getDefault, ConfigServices.create)
+        ..a<ConfigContent>(7, 'content', $pb.PbFieldType.OM,
+            ConfigContent.getDefault, ConfigContent.create)
+        ..aOS(8, 'region')
+        ..aOS(9, 'language')
+        ..pp<ConfigOAuthProvider>(11, 'oauthProviders', $pb.PbFieldType.PM,
+            ConfigOAuthProvider.$checkItem, ConfigOAuthProvider.create)
+        ..pp<ConfigContentFormat>(12, 'contentFormats', $pb.PbFieldType.PM,
+            ConfigContentFormat.$checkItem, ConfigContentFormat.create)
+        ..pp<ConfigCategory>(13, 'categories', $pb.PbFieldType.PM,
+            ConfigCategory.$checkItem, ConfigCategory.create)
+        ..pp<ConfigAsset>(14, 'assets', $pb.PbFieldType.PM,
+            ConfigAsset.$checkItem, ConfigAsset.create)
+        ..a<ConfigFeatureSwitches>(15, 'featureSwitches', $pb.PbFieldType.OM,
+            ConfigFeatureSwitches.getDefault, ConfigFeatureSwitches.create)
+        ..hasRequiredFields = false;
 
   ConfigData() : super();
   ConfigData.fromBuffer(List<int> i,

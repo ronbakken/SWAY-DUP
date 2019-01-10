@@ -13,13 +13,13 @@ import 'package:protobuf/protobuf.dart' as $pb;
 import 'data_protobuf.pb.dart' as $10;
 
 class NetProposal extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposal',
-      package: const $pb.PackageName('inf_common'))
-    ..a<$10.DataProposal>(1, 'proposal', $pb.PbFieldType.OM,
-        $10.DataProposal.getDefault, $10.DataProposal.create)
-    ..pp<$10.DataProposalChat>(2, 'chats', $pb.PbFieldType.PM,
-        $10.DataProposalChat.$checkItem, $10.DataProposalChat.create)
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetProposal', package: const $pb.PackageName('inf'))
+        ..a<$10.DataProposal>(1, 'proposal', $pb.PbFieldType.OM,
+            $10.DataProposal.getDefault, $10.DataProposal.create)
+        ..pp<$10.DataProposalChat>(2, 'chats', $pb.PbFieldType.PM,
+            $10.DataProposalChat.$checkItem, $10.DataProposalChat.create)
+        ..hasRequiredFields = false;
 
   NetProposal() : super();
   NetProposal.fromBuffer(List<int> i,
@@ -55,7 +55,7 @@ class NetProposal extends $pb.GeneratedMessage {
 
 class NetProposalChat extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalChat',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<$10.DataProposalChat>(1, 'chat', $pb.PbFieldType.OM,
         $10.DataProposalChat.getDefault, $10.DataProposalChat.create)
     ..hasRequiredFields = false;
@@ -93,7 +93,7 @@ class NetProposalChat extends $pb.GeneratedMessage {
 
 class NetApplyProposal extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetApplyProposal',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'offerId')
     ..aOS(2, 'remarks')
     ..a<$10.DataTerms>(3, 'terms', $pb.PbFieldType.OM, $10.DataTerms.getDefault,
@@ -158,7 +158,7 @@ class NetApplyProposal extends $pb.GeneratedMessage {
 
 class NetDirectProposal extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetDirectProposal',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(2, 'remarks')
     ..a<$10.DataOffer>(4, 'offer', $pb.PbFieldType.OM, $10.DataOffer.getDefault,
         $10.DataOffer.create)
@@ -215,7 +215,7 @@ class NetDirectProposal extends $pb.GeneratedMessage {
 
 class NetListProposals extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetListProposals',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(4, 'offerId')
     ..hasRequiredFields = false;
 
@@ -252,7 +252,7 @@ class NetListProposals extends $pb.GeneratedMessage {
 
 class NetGetProposal extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProposal',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'proposalId')
     ..hasRequiredFields = false;
 
@@ -288,7 +288,7 @@ class NetGetProposal extends $pb.GeneratedMessage {
 
 class NetProposalWantDeal extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalWantDeal',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'proposalId')
     ..aInt64(2, 'termsChatId')
     ..hasRequiredFields = false;
@@ -336,7 +336,7 @@ class NetProposalWantDeal extends $pb.GeneratedMessage {
 
 class NetProposalNegotiate extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalNegotiate',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'proposalId')
     ..hasRequiredFields = false;
 
@@ -375,7 +375,7 @@ class NetProposalNegotiate extends $pb.GeneratedMessage {
 
 class NetProposalReject extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalReject',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'proposalId')
     ..aOS(2, 'reason')
     ..hasRequiredFields = false;
@@ -422,7 +422,7 @@ class NetProposalReject extends $pb.GeneratedMessage {
 
 class NetProposalReport extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalReport',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'proposalId')
     ..aOS(2, 'text')
     ..hasRequiredFields = false;
@@ -469,7 +469,7 @@ class NetProposalReport extends $pb.GeneratedMessage {
 
 class NetProposalDispute extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalDispute',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'proposalId')
     ..aOB(2, 'delivered')
     ..aOB(3, 'rewarded')
@@ -535,7 +535,7 @@ class NetProposalDispute extends $pb.GeneratedMessage {
 
 class NetProposalCompletion extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalCompletion',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'proposalId')
     ..a<int>(4, 'rating', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
@@ -583,10 +583,10 @@ class NetProposalCompletion extends $pb.GeneratedMessage {
 }
 
 class NetListChats extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetListChats',
-      package: const $pb.PackageName('inf_common'))
-    ..aInt64(5, 'proposalId')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetListChats', package: const $pb.PackageName('inf'))
+        ..aInt64(5, 'proposalId')
+        ..hasRequiredFields = false;
 
   NetListChats() : super();
   NetListChats.fromBuffer(List<int> i,
@@ -619,12 +619,12 @@ class NetListChats extends $pb.GeneratedMessage {
 }
 
 class NetChatPlain extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatPlain',
-      package: const $pb.PackageName('inf_common'))
-    ..aInt64(1, 'proposalId')
-    ..aOS(6, 'text')
-    ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetChatPlain', package: const $pb.PackageName('inf'))
+        ..aInt64(1, 'proposalId')
+        ..aOS(6, 'text')
+        ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
+        ..hasRequiredFields = false;
 
   NetChatPlain() : super();
   NetChatPlain.fromBuffer(List<int> i,
@@ -674,7 +674,7 @@ class NetChatPlain extends $pb.GeneratedMessage {
 
 class NetChatNegotiate extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatNegotiate',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'proposalId')
     ..aOS(2, 'remarks')
     ..a<$10.DataTerms>(5, 'terms', $pb.PbFieldType.OM, $10.DataTerms.getDefault,
@@ -739,7 +739,7 @@ class NetChatNegotiate extends $pb.GeneratedMessage {
 
 class NetChatImageKey extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatImageKey',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'proposalId')
     ..aOS(5, 'imageKey')
     ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)

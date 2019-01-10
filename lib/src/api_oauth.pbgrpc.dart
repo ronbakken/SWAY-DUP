@@ -13,12 +13,12 @@ export 'api_oauth.pb.dart';
 
 class ApiOAuthClient extends Client {
   static final _$getUrl = new ClientMethod<$0.NetOAuthGetUrl, $0.NetOAuthUrl>(
-      '/inf_common.ApiOAuth/GetUrl',
+      '/inf.ApiOAuth/GetUrl',
       ($0.NetOAuthGetUrl value) => value.writeToBuffer(),
       (List<int> value) => new $0.NetOAuthUrl.fromBuffer(value));
   static final _$getSecrets =
       new ClientMethod<$0.NetOAuthGetSecrets, $0.NetOAuthSecrets>(
-          '/inf_common.ApiOAuth/GetSecrets',
+          '/inf.ApiOAuth/GetSecrets',
           ($0.NetOAuthGetSecrets value) => value.writeToBuffer(),
           (List<int> value) => new $0.NetOAuthSecrets.fromBuffer(value));
 
@@ -43,7 +43,7 @@ class ApiOAuthClient extends Client {
 }
 
 abstract class ApiOAuthServiceBase extends Service {
-  String get $name => 'inf_common.ApiOAuth';
+  String get $name => 'inf.ApiOAuth';
 
   ApiOAuthServiceBase() {
     $addMethod(new ServiceMethod<$0.NetOAuthGetUrl, $0.NetOAuthUrl>(

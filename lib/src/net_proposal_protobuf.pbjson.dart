@@ -12,7 +12,7 @@ const NetProposal$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataProposal',
+      '6': '.inf.DataProposal',
       '10': 'proposal'
     },
     const {
@@ -20,7 +20,7 @@ const NetProposal$json = const {
       '3': 2,
       '4': 3,
       '5': 11,
-      '6': '.inf_common.DataProposalChat',
+      '6': '.inf.DataProposalChat',
       '10': 'chats'
     },
   ],
@@ -34,7 +34,7 @@ const NetProposalChat$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataProposalChat',
+      '6': '.inf.DataProposalChat',
       '10': 'chat'
     },
   ],
@@ -57,7 +57,7 @@ const NetApplyProposal$json = const {
       '3': 3,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataTerms',
+      '6': '.inf.DataTerms',
       '10': 'terms'
     },
   ],
@@ -79,7 +79,7 @@ const NetDirectProposal$json = const {
       '3': 4,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataOffer',
+      '6': '.inf.DataOffer',
       '10': 'offer'
     },
   ],
@@ -193,7 +193,7 @@ const NetChatNegotiate$json = const {
       '3': 5,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataTerms',
+      '6': '.inf.DataTerms',
       '10': 'terms'
     },
   ],

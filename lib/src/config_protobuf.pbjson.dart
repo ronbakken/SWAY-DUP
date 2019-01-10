@@ -124,7 +124,7 @@ const ConfigOAuthProvider$json = const {
       '3': 15,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.OAuthMechanism',
+      '6': '.inf.OAuthMechanism',
       '10': 'mechanism'
     },
     const {'1': 'host', '3': 4, '4': 1, '5': 9, '10': 'host'},
@@ -732,7 +732,7 @@ const ConfigData$json = const {
       '3': 6,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.ConfigServices',
+      '6': '.inf.ConfigServices',
       '10': 'services'
     },
     const {
@@ -740,7 +740,7 @@ const ConfigData$json = const {
       '3': 15,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.ConfigFeatureSwitches',
+      '6': '.inf.ConfigFeatureSwitches',
       '10': 'featureSwitches'
     },
     const {
@@ -748,7 +748,7 @@ const ConfigData$json = const {
       '3': 14,
       '4': 3,
       '5': 11,
-      '6': '.inf_common.ConfigAsset',
+      '6': '.inf.ConfigAsset',
       '10': 'assets'
     },
     const {
@@ -756,7 +756,7 @@ const ConfigData$json = const {
       '3': 7,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.ConfigContent',
+      '6': '.inf.ConfigContent',
       '10': 'content'
     },
     const {
@@ -764,7 +764,7 @@ const ConfigData$json = const {
       '3': 11,
       '4': 3,
       '5': 11,
-      '6': '.inf_common.ConfigOAuthProvider',
+      '6': '.inf.ConfigOAuthProvider',
       '10': 'oauthProviders'
     },
     const {
@@ -772,7 +772,7 @@ const ConfigData$json = const {
       '3': 12,
       '4': 3,
       '5': 11,
-      '6': '.inf_common.ConfigContentFormat',
+      '6': '.inf.ConfigContentFormat',
       '10': 'contentFormats'
     },
     const {
@@ -780,7 +780,7 @@ const ConfigData$json = const {
       '3': 13,
       '4': 3,
       '5': 11,
-      '6': '.inf_common.ConfigCategory',
+      '6': '.inf.ConfigCategory',
       '10': 'categories'
     },
   ],

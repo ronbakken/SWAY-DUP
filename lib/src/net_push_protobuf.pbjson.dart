@@ -27,7 +27,7 @@ const NetPush$json = const {
       '3': 8,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.NetPushing',
+      '6': '.inf.NetPushing',
       '9': 0,
       '10': 'pushing'
     },
@@ -36,7 +36,7 @@ const NetPush$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.NetAccount',
+      '6': '.inf.NetAccount',
       '9': 0,
       '10': 'updateAccount'
     },
@@ -45,7 +45,7 @@ const NetPush$json = const {
       '3': 2,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.NetOffer',
+      '6': '.inf.NetOffer',
       '9': 0,
       '10': 'updateOffer'
     },
@@ -54,7 +54,7 @@ const NetPush$json = const {
       '3': 3,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.NetProposal',
+      '6': '.inf.NetProposal',
       '9': 0,
       '10': 'newProposal'
     },
@@ -63,7 +63,7 @@ const NetPush$json = const {
       '3': 4,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.NetProposal',
+      '6': '.inf.NetProposal',
       '9': 0,
       '10': 'updateProposal'
     },
@@ -72,7 +72,7 @@ const NetPush$json = const {
       '3': 5,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.NetProposalChat',
+      '6': '.inf.NetProposalChat',
       '9': 0,
       '10': 'newProposalChat'
     },
@@ -81,7 +81,7 @@ const NetPush$json = const {
       '3': 6,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.NetProposalChat',
+      '6': '.inf.NetProposalChat',
       '9': 0,
       '10': 'updateProposalChat'
     },
@@ -90,7 +90,7 @@ const NetPush$json = const {
       '3': 7,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.NetConfigDownload',
+      '6': '.inf.NetConfigDownload',
       '9': 0,
       '10': 'configDownload'
     },

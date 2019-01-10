@@ -78,7 +78,7 @@ const NetSession$json = const {
       '3': 2,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataAccount',
+      '6': '.inf.DataAccount',
       '10': 'account'
     },
     const {'1': 'bearer_token', '3': 3, '4': 1, '5': 9, '10': 'bearerToken'},

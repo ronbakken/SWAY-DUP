@@ -13,25 +13,25 @@ export 'api_proposals.pb.dart';
 
 class ApiProposalsClient extends Client {
   static final _$apply = new ClientMethod<$5.NetApplyProposal, $5.NetProposal>(
-      '/inf_common.ApiProposals/Apply',
+      '/inf.ApiProposals/Apply',
       ($5.NetApplyProposal value) => value.writeToBuffer(),
       (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$direct =
       new ClientMethod<$5.NetDirectProposal, $5.NetProposal>(
-          '/inf_common.ApiProposals/Direct',
+          '/inf.ApiProposals/Direct',
           ($5.NetDirectProposal value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$list = new ClientMethod<$5.NetListProposals, $5.NetProposal>(
-      '/inf_common.ApiProposals/List',
+      '/inf.ApiProposals/List',
       ($5.NetListProposals value) => value.writeToBuffer(),
       (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$get = new ClientMethod<$5.NetGetProposal, $5.NetProposal>(
-      '/inf_common.ApiProposals/Get',
+      '/inf.ApiProposals/Get',
       ($5.NetGetProposal value) => value.writeToBuffer(),
       (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$listChats =
       new ClientMethod<$5.NetGetProposal, $5.NetProposalChat>(
-          '/inf_common.ApiProposals/ListChats',
+          '/inf.ApiProposals/ListChats',
           ($5.NetGetProposal value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposalChat.fromBuffer(value));
 
@@ -77,7 +77,7 @@ class ApiProposalsClient extends Client {
 }
 
 abstract class ApiProposalsServiceBase extends Service {
-  String get $name => 'inf_common.ApiProposals';
+  String get $name => 'inf.ApiProposals';
 
   ApiProposalsServiceBase() {
     $addMethod(new ServiceMethod<$5.NetApplyProposal, $5.NetProposal>(

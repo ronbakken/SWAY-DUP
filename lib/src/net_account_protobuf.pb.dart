@@ -14,11 +14,11 @@ import 'data_protobuf.pb.dart' as $10;
 import 'enum_protobuf.pbenum.dart' as $9;
 
 class NetAccount extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccount',
-      package: const $pb.PackageName('inf_common'))
-    ..a<$10.DataAccount>(1, 'account', $pb.PbFieldType.OM,
-        $10.DataAccount.getDefault, $10.DataAccount.create)
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetAccount', package: const $pb.PackageName('inf'))
+        ..a<$10.DataAccount>(1, 'account', $pb.PbFieldType.OM,
+            $10.DataAccount.getDefault, $10.DataAccount.create)
+        ..hasRequiredFields = false;
 
   NetAccount() : super();
   NetAccount.fromBuffer(List<int> i,
@@ -52,7 +52,7 @@ class NetAccount extends $pb.GeneratedMessage {
 
 class NetSetAccountType extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetAccountType',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..e<$9.AccountType>(1, 'accountType', $pb.PbFieldType.OE,
         $9.AccountType.unknown, $9.AccountType.valueOf, $9.AccountType.values)
     ..hasRequiredFields = false;
@@ -91,7 +91,7 @@ class NetSetAccountType extends $pb.GeneratedMessage {
 
 class NetSetFirebaseToken extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetFirebaseToken',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'firebaseToken')
     ..aOS(2, 'oldFirebaseToken')
     ..hasRequiredFields = false;
@@ -139,7 +139,7 @@ class NetSetFirebaseToken extends $pb.GeneratedMessage {
 
 class NetOAuthGetUrl extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthGetUrl',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -174,11 +174,11 @@ class NetOAuthGetUrl extends $pb.GeneratedMessage {
 }
 
 class NetOAuthUrl extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthUrl',
-      package: const $pb.PackageName('inf_common'))
-    ..aOS(1, 'authUrl')
-    ..aOS(2, 'callbackUrl')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetOAuthUrl', package: const $pb.PackageName('inf'))
+        ..aOS(1, 'authUrl')
+        ..aOS(2, 'callbackUrl')
+        ..hasRequiredFields = false;
 
   NetOAuthUrl() : super();
   NetOAuthUrl.fromBuffer(List<int> i,
@@ -220,7 +220,7 @@ class NetOAuthUrl extends $pb.GeneratedMessage {
 
 class NetOAuthGetSecrets extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthGetSecrets',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
@@ -259,7 +259,7 @@ class NetOAuthGetSecrets extends $pb.GeneratedMessage {
 
 class NetOAuthSecrets extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthSecrets',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(10, 'consumerKey')
     ..aOS(11, 'consumerSecret')
     ..aOS(12, 'clientId')
@@ -314,7 +314,7 @@ class NetOAuthSecrets extends $pb.GeneratedMessage {
 
 class NetOAuthConnect extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthConnect',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
     ..aOS(2, 'callbackQuery')
     ..hasRequiredFields = false;
@@ -360,7 +360,7 @@ class NetOAuthConnect extends $pb.GeneratedMessage {
 
 class NetOAuthConnection extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthConnection',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<$10.DataSocialMedia>(1, 'socialMedia', $pb.PbFieldType.OM,
         $10.DataSocialMedia.getDefault, $10.DataSocialMedia.create)
     ..a<$10.DataAccount>(2, 'account', $pb.PbFieldType.OM,
@@ -419,7 +419,7 @@ class NetOAuthConnection extends $pb.GeneratedMessage {
 
 class NetAccountCreate extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountCreate',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<double>(2, 'latitude', $pb.PbFieldType.OD)
     ..a<double>(3, 'longitude', $pb.PbFieldType.OD)
     ..hasRequiredFields = false;
@@ -465,7 +465,7 @@ class NetAccountCreate extends $pb.GeneratedMessage {
 
 class NetAccountApplyPromo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountApplyPromo',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'code')
     ..hasRequiredFields = false;
 
@@ -504,7 +504,7 @@ class NetAccountApplyPromo extends $pb.GeneratedMessage {
 
 class NetAccountPromo extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountPromo',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<$10.DataAccount>(1, 'account', $pb.PbFieldType.OM,
         $10.DataAccount.getDefault, $10.DataAccount.create)
     ..aOB(2, 'expired')

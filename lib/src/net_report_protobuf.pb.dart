@@ -12,7 +12,7 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class NetReportOffer extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetReportOffer',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'offerId')
     ..aOS(2, 'text')
     ..hasRequiredFields = false;
@@ -56,10 +56,10 @@ class NetReportOffer extends $pb.GeneratedMessage {
 }
 
 class NetReport extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetReport',
-      package: const $pb.PackageName('inf_common'))
-    ..aOS(1, 'supportTicket')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetReport', package: const $pb.PackageName('inf'))
+        ..aOS(1, 'supportTicket')
+        ..hasRequiredFields = false;
 
   NetReport() : super();
   NetReport.fromBuffer(List<int> i,

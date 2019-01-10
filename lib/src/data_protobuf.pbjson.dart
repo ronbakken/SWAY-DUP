@@ -75,7 +75,7 @@ const DataAuth$json = const {
       '3': 6,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.AccountType',
+      '6': '.inf.AccountType',
       '10': 'accountType'
     },
     const {
@@ -83,7 +83,7 @@ const DataAuth$json = const {
       '3': 7,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.GlobalAccountState',
+      '6': '.inf.GlobalAccountState',
       '10': 'globalAccountState'
     },
     const {
@@ -91,7 +91,7 @@ const DataAuth$json = const {
       '3': 9,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.AccountLevel',
+      '6': '.inf.AccountLevel',
       '10': 'accountLevel'
     },
     const {'1': 'cookie', '3': 1, '4': 1, '5': 12, '10': 'cookie'},
@@ -162,7 +162,7 @@ const DataOffer$json = const {
       '3': 45,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.AccountType',
+      '6': '.inf.AccountType',
       '10': 'senderAccountType'
     },
     const {'1': 'location_id', '3': 3, '4': 1, '5': 3, '10': 'locationId'},
@@ -196,7 +196,7 @@ const DataOffer$json = const {
       '3': 27,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataTerms',
+      '6': '.inf.DataTerms',
       '10': 'terms'
     },
     const {
@@ -274,7 +274,7 @@ const DataOffer$json = const {
       '3': 12,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.OfferState',
+      '6': '.inf.OfferState',
       '10': 'state'
     },
     const {
@@ -282,7 +282,7 @@ const DataOffer$json = const {
       '3': 13,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.OfferStateReason',
+      '6': '.inf.OfferStateReason',
       '10': 'stateReason'
     },
     const {'1': 'archived', '3': 26, '4': 1, '5': 8, '10': 'archived'},
@@ -367,7 +367,7 @@ const DataAccount$json = const {
       '3': 6,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.AccountType',
+      '6': '.inf.AccountType',
       '10': 'accountType'
     },
     const {
@@ -375,7 +375,7 @@ const DataAccount$json = const {
       '3': 7,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.GlobalAccountState',
+      '6': '.inf.GlobalAccountState',
       '10': 'globalAccountState'
     },
     const {
@@ -383,7 +383,7 @@ const DataAccount$json = const {
       '3': 8,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.GlobalAccountStateReason',
+      '6': '.inf.GlobalAccountStateReason',
       '10': 'globalAccountStateReason'
     },
     const {
@@ -391,7 +391,7 @@ const DataAccount$json = const {
       '3': 9,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.AccountLevel',
+      '6': '.inf.AccountLevel',
       '10': 'accountLevel'
     },
     const {
@@ -399,7 +399,7 @@ const DataAccount$json = const {
       '3': 10,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.NotificationFlags',
+      '6': '.inf.NotificationFlags',
       '10': 'notificationFlags'
     },
     const {
@@ -426,7 +426,7 @@ const DataAccount$json = const {
       '3': 20,
       '4': 3,
       '5': 11,
-      '6': '.inf_common.DataAccount.SocialMediaEntry',
+      '6': '.inf.DataAccount.SocialMediaEntry',
       '10': 'socialMedia'
     },
     const {'1': 'cover_urls', '3': 21, '4': 3, '5': 9, '10': 'coverUrls'},
@@ -477,7 +477,7 @@ const DataAccount_SocialMediaEntry$json = const {
       '3': 2,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataSocialMedia',
+      '6': '.inf.DataSocialMedia',
       '10': 'value'
     },
   ],
@@ -529,7 +529,7 @@ const DataExploreEntry$json = const {
       '3': 3,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataOffer',
+      '6': '.inf.DataOffer',
       '10': 'offer'
     },
     const {
@@ -537,7 +537,7 @@ const DataExploreEntry$json = const {
       '3': 4,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataAccount',
+      '6': '.inf.DataAccount',
       '10': 'account'
     },
   ],
@@ -551,7 +551,7 @@ const DataExploreMarker$json = const {
       '3': 3,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataOffer',
+      '6': '.inf.DataOffer',
       '10': 'offer'
     },
     const {
@@ -559,7 +559,7 @@ const DataExploreMarker$json = const {
       '3': 4,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataAccount',
+      '6': '.inf.DataAccount',
       '10': 'account'
     },
     const {
@@ -567,7 +567,7 @@ const DataExploreMarker$json = const {
       '3': 5,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataLocation',
+      '6': '.inf.DataLocation',
       '10': 'location'
     },
     const {'1': 'clusterId', '3': 8, '4': 1, '5': 3, '10': 'clusterId'},
@@ -742,7 +742,7 @@ const DataProposal$json = const {
       '3': 13,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.ProposalState',
+      '6': '.inf.ProposalState',
       '10': 'state'
     },
     const {
@@ -794,7 +794,7 @@ const DataProposalChat$json = const {
       '3': 8,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.ProposalChatType',
+      '6': '.inf.ProposalChatType',
       '10': 'type'
     },
     const {'1': 'plain_text', '3': 5, '4': 1, '5': 9, '10': 'plainText'},
@@ -803,7 +803,7 @@ const DataProposalChat$json = const {
       '3': 12,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataTerms',
+      '6': '.inf.DataTerms',
       '10': 'terms'
     },
     const {'1': 'image_key', '3': 13, '4': 1, '5': 9, '10': 'imageKey'},
@@ -820,7 +820,7 @@ const DataProposalChat$json = const {
       '3': 16,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.ProposalChatMarker',
+      '6': '.inf.ProposalChatMarker',
       '10': 'marker'
     },
   ],

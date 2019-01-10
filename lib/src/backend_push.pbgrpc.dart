@@ -13,17 +13,17 @@ export 'backend_push.pb.dart';
 
 class BackendPushClient extends Client {
   static final _$push = new ClientMethod<ReqPush, ResPush>(
-      '/inf_common.BackendPush/Push',
+      '/inf.BackendPush/Push',
       (ReqPush value) => value.writeToBuffer(),
       (List<int> value) => new ResPush.fromBuffer(value));
   static final _$setFirebaseToken =
       new ClientMethod<ReqSetFirebaseToken, ResSetFirebaseToken>(
-          '/inf_common.BackendPush/SetFirebaseToken',
+          '/inf.BackendPush/SetFirebaseToken',
           (ReqSetFirebaseToken value) => value.writeToBuffer(),
           (List<int> value) => new ResSetFirebaseToken.fromBuffer(value));
   static final _$setAccountName =
       new ClientMethod<ReqSetAccountName, ResSetAccountName>(
-          '/inf_common.BackendPush/SetAccountName',
+          '/inf.BackendPush/SetAccountName',
           (ReqSetAccountName value) => value.writeToBuffer(),
           (List<int> value) => new ResSetAccountName.fromBuffer(value));
 
@@ -55,7 +55,7 @@ class BackendPushClient extends Client {
 }
 
 abstract class BackendPushServiceBase extends Service {
-  String get $name => 'inf_common.BackendPush';
+  String get $name => 'inf.BackendPush';
 
   BackendPushServiceBase() {
     $addMethod(new ServiceMethod<ReqPush, ResPush>(

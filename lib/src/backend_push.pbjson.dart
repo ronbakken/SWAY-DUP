@@ -12,7 +12,7 @@ const ReqPush$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.NetPush',
+      '6': '.inf.NetPush',
       '10': 'message'
     },
     const {
@@ -88,7 +88,7 @@ const ReqSetFirebaseToken$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.NetSetFirebaseToken',
+      '6': '.inf.NetSetFirebaseToken',
       '10': 'token'
     },
     const {'1': 'session_id', '3': 2, '4': 1, '5': 3, '10': 'sessionId'},

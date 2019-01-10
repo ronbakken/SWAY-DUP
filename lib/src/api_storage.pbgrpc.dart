@@ -14,7 +14,7 @@ export 'api_storage.pb.dart';
 class ApiStorageClient extends Client {
   static final _$signImageUpload =
       new ClientMethod<$8.NetUploadImage, $8.NetUploadSigned>(
-          '/inf_common.ApiStorage/SignImageUpload',
+          '/inf.ApiStorage/SignImageUpload',
           ($8.NetUploadImage value) => value.writeToBuffer(),
           (List<int> value) => new $8.NetUploadSigned.fromBuffer(value));
 
@@ -31,7 +31,7 @@ class ApiStorageClient extends Client {
 }
 
 abstract class ApiStorageServiceBase extends Service {
-  String get $name => 'inf_common.ApiStorage';
+  String get $name => 'inf.ApiStorage';
 
   ApiStorageServiceBase() {
     $addMethod(new ServiceMethod<$8.NetUploadImage, $8.NetUploadSigned>(

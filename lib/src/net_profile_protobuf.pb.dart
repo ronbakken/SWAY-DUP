@@ -14,7 +14,7 @@ import 'data_protobuf.pb.dart' as $10;
 
 class NetGetProfile extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProfile',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'accountId')
     ..hasRequiredFields = false;
 
@@ -49,13 +49,13 @@ class NetGetProfile extends $pb.GeneratedMessage {
 }
 
 class NetProfile extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProfile',
-      package: const $pb.PackageName('inf_common'))
-    ..a<$10.DataAccount>(1, 'account', $pb.PbFieldType.OM,
-        $10.DataAccount.getDefault, $10.DataAccount.create)
-    ..aOB(3, 'summary')
-    ..aOB(4, 'detail')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetProfile', package: const $pb.PackageName('inf'))
+        ..a<$10.DataAccount>(1, 'account', $pb.PbFieldType.OM,
+            $10.DataAccount.getDefault, $10.DataAccount.create)
+        ..aOB(3, 'summary')
+        ..aOB(4, 'detail')
+        ..hasRequiredFields = false;
 
   NetProfile() : super();
   NetProfile.fromBuffer(List<int> i,

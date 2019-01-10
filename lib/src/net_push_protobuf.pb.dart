@@ -15,7 +15,7 @@ import 'net_proposal_protobuf.pb.dart' as $5;
 
 class NetConfigDownload extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetConfigDownload',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'configUrl')
     ..hasRequiredFields = false;
 
@@ -52,9 +52,9 @@ class NetConfigDownload extends $pb.GeneratedMessage {
 }
 
 class NetListen extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetListen',
-      package: const $pb.PackageName('inf_common'))
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetListen', package: const $pb.PackageName('inf'))
+        ..hasRequiredFields = false;
 
   NetListen() : super();
   NetListen.fromBuffer(List<int> i,
@@ -78,9 +78,9 @@ class NetListen extends $pb.GeneratedMessage {
 }
 
 class NetPushing extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetPushing',
-      package: const $pb.PackageName('inf_common'))
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetPushing', package: const $pb.PackageName('inf'))
+        ..hasRequiredFields = false;
 
   NetPushing() : super();
   NetPushing.fromBuffer(List<int> i,
@@ -128,26 +128,26 @@ class NetPush extends $pb.GeneratedMessage {
     8: NetPush_Push.pushing,
     0: NetPush_Push.notSet
   };
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetPush',
-      package: const $pb.PackageName('inf_common'))
-    ..a<$0.NetAccount>(1, 'updateAccount', $pb.PbFieldType.OM,
-        $0.NetAccount.getDefault, $0.NetAccount.create)
-    ..a<$2.NetOffer>(2, 'updateOffer', $pb.PbFieldType.OM,
-        $2.NetOffer.getDefault, $2.NetOffer.create)
-    ..a<$5.NetProposal>(3, 'newProposal', $pb.PbFieldType.OM,
-        $5.NetProposal.getDefault, $5.NetProposal.create)
-    ..a<$5.NetProposal>(4, 'updateProposal', $pb.PbFieldType.OM,
-        $5.NetProposal.getDefault, $5.NetProposal.create)
-    ..a<$5.NetProposalChat>(5, 'newProposalChat', $pb.PbFieldType.OM,
-        $5.NetProposalChat.getDefault, $5.NetProposalChat.create)
-    ..a<$5.NetProposalChat>(6, 'updateProposalChat', $pb.PbFieldType.OM,
-        $5.NetProposalChat.getDefault, $5.NetProposalChat.create)
-    ..a<NetConfigDownload>(7, 'configDownload', $pb.PbFieldType.OM,
-        NetConfigDownload.getDefault, NetConfigDownload.create)
-    ..a<NetPushing>(8, 'pushing', $pb.PbFieldType.OM, NetPushing.getDefault,
-        NetPushing.create)
-    ..oo(0, [1, 2, 3, 4, 5, 6, 7, 8])
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetPush', package: const $pb.PackageName('inf'))
+        ..a<$0.NetAccount>(1, 'updateAccount', $pb.PbFieldType.OM,
+            $0.NetAccount.getDefault, $0.NetAccount.create)
+        ..a<$2.NetOffer>(2, 'updateOffer', $pb.PbFieldType.OM,
+            $2.NetOffer.getDefault, $2.NetOffer.create)
+        ..a<$5.NetProposal>(3, 'newProposal', $pb.PbFieldType.OM,
+            $5.NetProposal.getDefault, $5.NetProposal.create)
+        ..a<$5.NetProposal>(4, 'updateProposal', $pb.PbFieldType.OM,
+            $5.NetProposal.getDefault, $5.NetProposal.create)
+        ..a<$5.NetProposalChat>(5, 'newProposalChat', $pb.PbFieldType.OM,
+            $5.NetProposalChat.getDefault, $5.NetProposalChat.create)
+        ..a<$5.NetProposalChat>(6, 'updateProposalChat', $pb.PbFieldType.OM,
+            $5.NetProposalChat.getDefault, $5.NetProposalChat.create)
+        ..a<NetConfigDownload>(7, 'configDownload', $pb.PbFieldType.OM,
+            NetConfigDownload.getDefault, NetConfigDownload.create)
+        ..a<NetPushing>(8, 'pushing', $pb.PbFieldType.OM, NetPushing.getDefault,
+            NetPushing.create)
+        ..oo(0, [1, 2, 3, 4, 5, 6, 7, 8])
+        ..hasRequiredFields = false;
 
   NetPush() : super();
   NetPush.fromBuffer(List<int> i,

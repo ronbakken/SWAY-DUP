@@ -12,7 +12,7 @@ const NetAccount$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataAccount',
+      '6': '.inf.DataAccount',
       '10': 'account'
     },
   ],
@@ -26,7 +26,7 @@ const NetSetAccountType$json = const {
       '3': 1,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.AccountType',
+      '6': '.inf.AccountType',
       '10': 'accountType'
     },
   ],
@@ -129,7 +129,7 @@ const NetOAuthConnection$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataSocialMedia',
+      '6': '.inf.DataSocialMedia',
       '10': 'socialMedia'
     },
     const {'1': 'access_token', '3': 4, '4': 1, '5': 9, '10': 'accessToken'},
@@ -138,7 +138,7 @@ const NetOAuthConnection$json = const {
       '3': 2,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataAccount',
+      '6': '.inf.DataAccount',
       '10': 'account'
     },
   ],
@@ -167,7 +167,7 @@ const NetAccountPromo$json = const {
       '3': 1,
       '4': 1,
       '5': 11,
-      '6': '.inf_common.DataAccount',
+      '6': '.inf.DataAccount',
       '10': 'account'
     },
     const {
@@ -175,7 +175,7 @@ const NetAccountPromo$json = const {
       '3': 6,
       '4': 1,
       '5': 14,
-      '6': '.inf_common.PromoCode',
+      '6': '.inf.PromoCode',
       '10': 'type'
     },
     const {'1': 'quantity', '3': 5, '4': 1, '5': 5, '10': 'quantity'},

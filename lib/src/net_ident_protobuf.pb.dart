@@ -14,7 +14,7 @@ import 'data_protobuf.pb.dart' as $10;
 
 class NetSessionPayload extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionPayload',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'sessionId')
     ..a<List<int>>(2, 'cookie', $pb.PbFieldType.OY)
     ..a<int>(3, 'clientVersion', $pb.PbFieldType.O3)
@@ -106,7 +106,7 @@ class NetSessionPayload extends $pb.GeneratedMessage {
 
 class NetSessionOpen extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionOpen',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(7, 'domain')
     ..a<int>(8, 'clientVersion', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
@@ -151,7 +151,7 @@ class NetSessionOpen extends $pb.GeneratedMessage {
 
 class NetSessionCreate extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionCreate',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<List<int>>(1, 'deviceToken', $pb.PbFieldType.OY)
     ..aOS(2, 'deviceName')
     ..aOS(3, 'deviceInfo')
@@ -224,7 +224,7 @@ class NetSessionCreate extends $pb.GeneratedMessage {
 
 class NetSessionRemove extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionRemove',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..hasRequiredFields = false;
 
   NetSessionRemove() : super();
@@ -251,13 +251,13 @@ class NetSessionRemove extends $pb.GeneratedMessage {
 }
 
 class NetSession extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSession',
-      package: const $pb.PackageName('inf_common'))
-    ..a<$10.DataAccount>(2, 'account', $pb.PbFieldType.OM,
-        $10.DataAccount.getDefault, $10.DataAccount.create)
-    ..aOS(3, 'bearerToken')
-    ..aOS(4, 'accessToken')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetSession', package: const $pb.PackageName('inf'))
+        ..a<$10.DataAccount>(2, 'account', $pb.PbFieldType.OM,
+            $10.DataAccount.getDefault, $10.DataAccount.create)
+        ..aOS(3, 'bearerToken')
+        ..aOS(4, 'accessToken')
+        ..hasRequiredFields = false;
 
   NetSession() : super();
   NetSession.fromBuffer(List<int> i,

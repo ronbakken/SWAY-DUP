@@ -14,21 +14,21 @@ export 'api_account.pb.dart';
 class ApiAccountClient extends Client {
   static final _$setType =
       new ClientMethod<$0.NetSetAccountType, $0.NetAccount>(
-          '/inf_common.ApiAccount/SetType',
+          '/inf.ApiAccount/SetType',
           ($0.NetSetAccountType value) => value.writeToBuffer(),
           (List<int> value) => new $0.NetAccount.fromBuffer(value));
   static final _$connectProvider =
       new ClientMethod<$0.NetOAuthConnect, $0.NetOAuthConnection>(
-          '/inf_common.ApiAccount/ConnectProvider',
+          '/inf.ApiAccount/ConnectProvider',
           ($0.NetOAuthConnect value) => value.writeToBuffer(),
           (List<int> value) => new $0.NetOAuthConnection.fromBuffer(value));
   static final _$create = new ClientMethod<$0.NetAccountCreate, $0.NetAccount>(
-      '/inf_common.ApiAccount/Create',
+      '/inf.ApiAccount/Create',
       ($0.NetAccountCreate value) => value.writeToBuffer(),
       (List<int> value) => new $0.NetAccount.fromBuffer(value));
   static final _$setFirebaseToken =
       new ClientMethod<$0.NetSetFirebaseToken, $0.NetAccount>(
-          '/inf_common.ApiAccount/SetFirebaseToken',
+          '/inf.ApiAccount/SetFirebaseToken',
           ($0.NetSetFirebaseToken value) => value.writeToBuffer(),
           (List<int> value) => new $0.NetAccount.fromBuffer(value));
 
@@ -70,7 +70,7 @@ class ApiAccountClient extends Client {
 }
 
 abstract class ApiAccountServiceBase extends Service {
-  String get $name => 'inf_common.ApiAccount';
+  String get $name => 'inf.ApiAccount';
 
   ApiAccountServiceBase() {
     $addMethod(new ServiceMethod<$0.NetSetAccountType, $0.NetAccount>(

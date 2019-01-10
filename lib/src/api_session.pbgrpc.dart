@@ -13,11 +13,11 @@ export 'api_session.pb.dart';
 
 class ApiSessionClient extends Client {
   static final _$create = new ClientMethod<$7.NetSessionCreate, $7.NetSession>(
-      '/inf_common.ApiSession/Create',
+      '/inf.ApiSession/Create',
       ($7.NetSessionCreate value) => value.writeToBuffer(),
       (List<int> value) => new $7.NetSession.fromBuffer(value));
   static final _$open = new ClientMethod<$7.NetSessionOpen, $7.NetSession>(
-      '/inf_common.ApiSession/Open',
+      '/inf.ApiSession/Open',
       ($7.NetSessionOpen value) => value.writeToBuffer(),
       (List<int> value) => new $7.NetSession.fromBuffer(value));
 
@@ -41,7 +41,7 @@ class ApiSessionClient extends Client {
 }
 
 abstract class ApiSessionServiceBase extends Service {
-  String get $name => 'inf_common.ApiSession';
+  String get $name => 'inf.ApiSession';
 
   ApiSessionServiceBase() {
     $addMethod(new ServiceMethod<$7.NetSessionCreate, $7.NetSession>(

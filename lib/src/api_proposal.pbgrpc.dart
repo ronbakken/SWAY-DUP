@@ -14,47 +14,47 @@ export 'api_proposal.pb.dart';
 class ApiProposalClient extends Client {
   static final _$wantDeal =
       new ClientMethod<$5.NetProposalWantDeal, $5.NetProposal>(
-          '/inf_common.ApiProposal/WantDeal',
+          '/inf.ApiProposal/WantDeal',
           ($5.NetProposalWantDeal value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$negotiate =
       new ClientMethod<$5.NetProposalNegotiate, $5.NetProposal>(
-          '/inf_common.ApiProposal/Negotiate',
+          '/inf.ApiProposal/Negotiate',
           ($5.NetProposalNegotiate value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$reject =
       new ClientMethod<$5.NetProposalReject, $5.NetProposal>(
-          '/inf_common.ApiProposal/Reject',
+          '/inf.ApiProposal/Reject',
           ($5.NetProposalReject value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$report =
       new ClientMethod<$5.NetProposalReport, $5.NetProposal>(
-          '/inf_common.ApiProposal/Report',
+          '/inf.ApiProposal/Report',
           ($5.NetProposalReport value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$dispute =
       new ClientMethod<$5.NetProposalDispute, $5.NetProposal>(
-          '/inf_common.ApiProposal/Dispute',
+          '/inf.ApiProposal/Dispute',
           ($5.NetProposalDispute value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$complete =
       new ClientMethod<$5.NetProposalCompletion, $5.NetProposal>(
-          '/inf_common.ApiProposal/Complete',
+          '/inf.ApiProposal/Complete',
           ($5.NetProposalCompletion value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$chatPlain =
       new ClientMethod<$5.NetChatPlain, $5.NetProposalChat>(
-          '/inf_common.ApiProposal/ChatPlain',
+          '/inf.ApiProposal/ChatPlain',
           ($5.NetChatPlain value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposalChat.fromBuffer(value));
   static final _$chatNegotiate =
       new ClientMethod<$5.NetChatNegotiate, $5.NetProposal>(
-          '/inf_common.ApiProposal/ChatNegotiate',
+          '/inf.ApiProposal/ChatNegotiate',
           ($5.NetChatNegotiate value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$chatImageKey =
       new ClientMethod<$5.NetChatImageKey, $5.NetProposalChat>(
-          '/inf_common.ApiProposal/ChatImageKey',
+          '/inf.ApiProposal/ChatImageKey',
           ($5.NetChatImageKey value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposalChat.fromBuffer(value));
 
@@ -135,7 +135,7 @@ class ApiProposalClient extends Client {
 }
 
 abstract class ApiProposalServiceBase extends Service {
-  String get $name => 'inf_common.ApiProposal';
+  String get $name => 'inf.ApiProposal';
 
   ApiProposalServiceBase() {
     $addMethod(new ServiceMethod<$5.NetProposalWantDeal, $5.NetProposal>(

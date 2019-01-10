@@ -11,7 +11,7 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class NetUploadImage extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetUploadImage',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'fileName')
     ..a<int>(2, 'contentLength', $pb.PbFieldType.O3)
     ..a<List<int>>(3, 'contentSha256', $pb.PbFieldType.OY)
@@ -74,7 +74,7 @@ class NetUploadImage extends $pb.GeneratedMessage {
 
 class NetUploadSigned extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetUploadSigned',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'requestMethod')
     ..aOS(2, 'requestUrl')
     ..aOB(9, 'fileExists')

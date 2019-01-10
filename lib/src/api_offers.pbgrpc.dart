@@ -14,19 +14,19 @@ export 'api_offers.pb.dart';
 
 class ApiOffersClient extends Client {
   static final _$create = new ClientMethod<$2.NetCreateOffer, $2.NetOffer>(
-      '/inf_common.ApiOffers/Create',
+      '/inf.ApiOffers/Create',
       ($2.NetCreateOffer value) => value.writeToBuffer(),
       (List<int> value) => new $2.NetOffer.fromBuffer(value));
   static final _$list = new ClientMethod<$2.NetListOffers, $2.NetOffer>(
-      '/inf_common.ApiOffers/List',
+      '/inf.ApiOffers/List',
       ($2.NetListOffers value) => value.writeToBuffer(),
       (List<int> value) => new $2.NetOffer.fromBuffer(value));
   static final _$get = new ClientMethod<$2.NetGetOffer, $2.NetOffer>(
-      '/inf_common.ApiOffers/Get',
+      '/inf.ApiOffers/Get',
       ($2.NetGetOffer value) => value.writeToBuffer(),
       (List<int> value) => new $2.NetOffer.fromBuffer(value));
   static final _$report = new ClientMethod<$3.NetReportOffer, $3.NetReport>(
-      '/inf_common.ApiOffers/Report',
+      '/inf.ApiOffers/Report',
       ($3.NetReportOffer value) => value.writeToBuffer(),
       (List<int> value) => new $3.NetReport.fromBuffer(value));
 
@@ -65,7 +65,7 @@ class ApiOffersClient extends Client {
 }
 
 abstract class ApiOffersServiceBase extends Service {
-  String get $name => 'inf_common.ApiOffers';
+  String get $name => 'inf.ApiOffers';
 
   ApiOffersServiceBase() {
     $addMethod(new ServiceMethod<$2.NetCreateOffer, $2.NetOffer>(

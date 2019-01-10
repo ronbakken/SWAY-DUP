@@ -14,7 +14,7 @@ import 'enum_protobuf.pbenum.dart' as $9;
 
 class DataSocialMedia extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataSocialMedia',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOB(1, 'connected')
     ..a<int>(2, 'followersCount', $pb.PbFieldType.O3)
     ..a<int>(3, 'followingCount', $pb.PbFieldType.O3)
@@ -231,7 +231,7 @@ class DataSocialMedia extends $pb.GeneratedMessage {
 
 class DataOAuthCredentials extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataOAuthCredentials',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'token')
     ..aOS(2, 'tokenSecret')
     ..a<int>(3, 'tokenExpires', $pb.PbFieldType.O3)
@@ -296,23 +296,33 @@ class DataOAuthCredentials extends $pb.GeneratedMessage {
 }
 
 class DataAuth extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAuth',
-      package: const $pb.PackageName('inf_common'))
-    ..a<List<int>>(1, 'cookie', $pb.PbFieldType.OY)
-    ..aInt64(4, 'sessionId')
-    ..aInt64(5, 'accountId')
-    ..e<$9.AccountType>(6, 'accountType', $pb.PbFieldType.OE,
-        $9.AccountType.unknown, $9.AccountType.valueOf, $9.AccountType.values)
-    ..e<$9.GlobalAccountState>(
-        7,
-        'globalAccountState',
-        $pb.PbFieldType.OE,
-        $9.GlobalAccountState.initialize,
-        $9.GlobalAccountState.valueOf,
-        $9.GlobalAccountState.values)
-    ..e<$9.AccountLevel>(9, 'accountLevel', $pb.PbFieldType.OE,
-        $9.AccountLevel.free, $9.AccountLevel.valueOf, $9.AccountLevel.values)
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('DataAuth', package: const $pb.PackageName('inf'))
+        ..a<List<int>>(1, 'cookie', $pb.PbFieldType.OY)
+        ..aInt64(4, 'sessionId')
+        ..aInt64(5, 'accountId')
+        ..e<$9.AccountType>(
+            6,
+            'accountType',
+            $pb.PbFieldType.OE,
+            $9.AccountType.unknown,
+            $9.AccountType.valueOf,
+            $9.AccountType.values)
+        ..e<$9.GlobalAccountState>(
+            7,
+            'globalAccountState',
+            $pb.PbFieldType.OE,
+            $9.GlobalAccountState.initialize,
+            $9.GlobalAccountState.valueOf,
+            $9.GlobalAccountState.values)
+        ..e<$9.AccountLevel>(
+            9,
+            'accountLevel',
+            $pb.PbFieldType.OE,
+            $9.AccountLevel.free,
+            $9.AccountLevel.valueOf,
+            $9.AccountLevel.values)
+        ..hasRequiredFields = false;
 
   DataAuth() : super();
   DataAuth.fromBuffer(List<int> i,
@@ -384,15 +394,15 @@ class DataAuth extends $pb.GeneratedMessage {
 }
 
 class DataTerms extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataTerms',
-      package: const $pb.PackageName('inf_common'))
-    ..p<int>(1, 'deliverableSocialPlatforms', $pb.PbFieldType.P3)
-    ..p<int>(2, 'deliverableContentFormats', $pb.PbFieldType.P3)
-    ..aOS(3, 'deliverablesDescription')
-    ..a<int>(4, 'rewardCashValue', $pb.PbFieldType.O3)
-    ..a<int>(5, 'rewardItemOrServiceValue', $pb.PbFieldType.O3)
-    ..aOS(6, 'rewardItemOrServiceDescription')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('DataTerms', package: const $pb.PackageName('inf'))
+        ..p<int>(1, 'deliverableSocialPlatforms', $pb.PbFieldType.P3)
+        ..p<int>(2, 'deliverableContentFormats', $pb.PbFieldType.P3)
+        ..aOS(3, 'deliverablesDescription')
+        ..a<int>(4, 'rewardCashValue', $pb.PbFieldType.O3)
+        ..a<int>(5, 'rewardItemOrServiceValue', $pb.PbFieldType.O3)
+        ..aOS(6, 'rewardItemOrServiceDescription')
+        ..hasRequiredFields = false;
 
   DataTerms() : super();
   DataTerms.fromBuffer(List<int> i,
@@ -453,7 +463,7 @@ class DataTerms extends $pb.GeneratedMessage {
 
 class DataOffer extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataOffer',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'offerId')
     ..aInt64(2, 'senderAccountId')
     ..aInt64(3, 'locationId')
@@ -808,21 +818,21 @@ class DataOffer extends $pb.GeneratedMessage {
 }
 
 class DataLocation extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataLocation',
-      package: const $pb.PackageName('inf_common'))
-    ..aInt64(1, 'locationId')
-    ..aOS(2, 'name')
-    ..a<double>(4, 'latitude', $pb.PbFieldType.OD)
-    ..a<double>(5, 'longitude', $pb.PbFieldType.OD)
-    ..aOS(7, 'approximate')
-    ..aOS(8, 'detail')
-    ..aOS(9, 'postcode')
-    ..aOS(10, 'regionCode')
-    ..aOS(11, 'countryCode')
-    ..aInt64(12, 's2cellId')
-    ..aInt64(14, 'geohashInt')
-    ..aOS(15, 'geohash')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('DataLocation', package: const $pb.PackageName('inf'))
+        ..aInt64(1, 'locationId')
+        ..aOS(2, 'name')
+        ..a<double>(4, 'latitude', $pb.PbFieldType.OD)
+        ..a<double>(5, 'longitude', $pb.PbFieldType.OD)
+        ..aOS(7, 'approximate')
+        ..aOS(8, 'detail')
+        ..aOS(9, 'postcode')
+        ..aOS(10, 'regionCode')
+        ..aOS(11, 'countryCode')
+        ..aInt64(12, 's2cellId')
+        ..aInt64(14, 'geohashInt')
+        ..aOS(15, 'geohash')
+        ..hasRequiredFields = false;
 
   DataLocation() : super();
   DataLocation.fromBuffer(List<int> i,
@@ -943,56 +953,66 @@ class DataLocation extends $pb.GeneratedMessage {
 }
 
 class DataAccount extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataAccount',
-      package: const $pb.PackageName('inf_common'))
-    ..aInt64(4, 'sessionId')
-    ..aInt64(5, 'accountId')
-    ..e<$9.AccountType>(6, 'accountType', $pb.PbFieldType.OE,
-        $9.AccountType.unknown, $9.AccountType.valueOf, $9.AccountType.values)
-    ..e<$9.GlobalAccountState>(
-        7,
-        'globalAccountState',
-        $pb.PbFieldType.OE,
-        $9.GlobalAccountState.initialize,
-        $9.GlobalAccountState.valueOf,
-        $9.GlobalAccountState.values)
-    ..e<$9.GlobalAccountStateReason>(
-        8,
-        'globalAccountStateReason',
-        $pb.PbFieldType.OE,
-        $9.GlobalAccountStateReason.newAccount,
-        $9.GlobalAccountStateReason.valueOf,
-        $9.GlobalAccountStateReason.values)
-    ..e<$9.AccountLevel>(9, 'accountLevel', $pb.PbFieldType.OE,
-        $9.AccountLevel.free, $9.AccountLevel.valueOf, $9.AccountLevel.values)
-    ..e<$9.NotificationFlags>(
-        10,
-        'notificationFlags',
-        $pb.PbFieldType.OE,
-        $9.NotificationFlags.accountState,
-        $9.NotificationFlags.valueOf,
-        $9.NotificationFlags.values)
-    ..aOS(11, 'firebaseToken')
-    ..aOS(12, 'name')
-    ..aOS(13, 'description')
-    ..aOS(14, 'location')
-    ..aOS(15, 'avatarUrl')
-    ..aOS(16, 'blurredAvatarUrl')
-    ..p<int>(18, 'categories', $pb.PbFieldType.P3)
-    ..m<int, DataSocialMedia>(20, 'socialMedia', $pb.PbFieldType.O3,
-        $pb.PbFieldType.OM, DataSocialMedia.create)
-    ..pPS(21, 'coverUrls')
-    ..pPS(22, 'blurredCoverUrls')
-    ..aOS(24, 'website')
-    ..aOS(25, 'email')
-    ..aOS(27, 'locationName')
-    ..aOS(28, 'locationAddress')
-    ..a<double>(29, 'latitude', $pb.PbFieldType.OD)
-    ..a<double>(30, 'longitude', $pb.PbFieldType.OD)
-    ..aInt64(31, 'locationId')
-    ..aOB(32, 'acceptDirectProposals')
-    ..aOB(33, 'publishGpsLocation')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('DataAccount', package: const $pb.PackageName('inf'))
+        ..aInt64(4, 'sessionId')
+        ..aInt64(5, 'accountId')
+        ..e<$9.AccountType>(
+            6,
+            'accountType',
+            $pb.PbFieldType.OE,
+            $9.AccountType.unknown,
+            $9.AccountType.valueOf,
+            $9.AccountType.values)
+        ..e<$9.GlobalAccountState>(
+            7,
+            'globalAccountState',
+            $pb.PbFieldType.OE,
+            $9.GlobalAccountState.initialize,
+            $9.GlobalAccountState.valueOf,
+            $9.GlobalAccountState.values)
+        ..e<$9.GlobalAccountStateReason>(
+            8,
+            'globalAccountStateReason',
+            $pb.PbFieldType.OE,
+            $9.GlobalAccountStateReason.newAccount,
+            $9.GlobalAccountStateReason.valueOf,
+            $9.GlobalAccountStateReason.values)
+        ..e<$9.AccountLevel>(
+            9,
+            'accountLevel',
+            $pb.PbFieldType.OE,
+            $9.AccountLevel.free,
+            $9.AccountLevel.valueOf,
+            $9.AccountLevel.values)
+        ..e<$9.NotificationFlags>(
+            10,
+            'notificationFlags',
+            $pb.PbFieldType.OE,
+            $9.NotificationFlags.accountState,
+            $9.NotificationFlags.valueOf,
+            $9.NotificationFlags.values)
+        ..aOS(11, 'firebaseToken')
+        ..aOS(12, 'name')
+        ..aOS(13, 'description')
+        ..aOS(14, 'location')
+        ..aOS(15, 'avatarUrl')
+        ..aOS(16, 'blurredAvatarUrl')
+        ..p<int>(18, 'categories', $pb.PbFieldType.P3)
+        ..m<int, DataSocialMedia>(20, 'socialMedia', $pb.PbFieldType.O3,
+            $pb.PbFieldType.OM, DataSocialMedia.create)
+        ..pPS(21, 'coverUrls')
+        ..pPS(22, 'blurredCoverUrls')
+        ..aOS(24, 'website')
+        ..aOS(25, 'email')
+        ..aOS(27, 'locationName')
+        ..aOS(28, 'locationAddress')
+        ..a<double>(29, 'latitude', $pb.PbFieldType.OD)
+        ..a<double>(30, 'longitude', $pb.PbFieldType.OD)
+        ..aInt64(31, 'locationId')
+        ..aOB(32, 'acceptDirectProposals')
+        ..aOB(33, 'publishGpsLocation')
+        ..hasRequiredFields = false;
 
   DataAccount() : super();
   DataAccount.fromBuffer(List<int> i,
@@ -1202,7 +1222,7 @@ class DataAccount extends $pb.GeneratedMessage {
 
 class DataExploreFilter extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataExploreFilter',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aOS(1, 'keywords')
     ..p<int>(2, 'socialPlatforms', $pb.PbFieldType.P3)
     ..p<int>(3, 'contentFormats', $pb.PbFieldType.P3)
@@ -1282,7 +1302,7 @@ class DataExploreFilter extends $pb.GeneratedMessage {
 
 class DataExploreEntry extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataExploreEntry',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<DataOffer>(
         3, 'offer', $pb.PbFieldType.OM, DataOffer.getDefault, DataOffer.create)
     ..a<DataAccount>(4, 'account', $pb.PbFieldType.OM, DataAccount.getDefault,
@@ -1330,7 +1350,7 @@ class DataExploreEntry extends $pb.GeneratedMessage {
 
 class DataExploreMarker extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataExploreMarker',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..a<DataOffer>(
         3, 'offer', $pb.PbFieldType.OM, DataOffer.getDefault, DataOffer.create)
     ..a<DataAccount>(4, 'account', $pb.PbFieldType.OM, DataAccount.getDefault,
@@ -1415,44 +1435,44 @@ class DataExploreMarker extends $pb.GeneratedMessage {
 }
 
 class DataProposal extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataProposal',
-      package: const $pb.PackageName('inf_common'))
-    ..aInt64(1, 'proposalId')
-    ..aInt64(2, 'offerId')
-    ..aInt64(3, 'influencerAccountId')
-    ..aInt64(4, 'termsChatId')
-    ..aOB(5, 'businessWantsDeal')
-    ..aOB(6, 'influencerWantsDeal')
-    ..aOB(7, 'influencerMarkedDelivered')
-    ..aOB(8, 'influencerMarkedRewarded')
-    ..aOB(9, 'businessMarkedDelivered')
-    ..aOB(10, 'businessMarkedRewarded')
-    ..a<int>(11, 'businessGaveRating', $pb.PbFieldType.O3)
-    ..a<int>(12, 'influencerGaveRating', $pb.PbFieldType.O3)
-    ..e<$9.ProposalState>(
-        13,
-        'state',
-        $pb.PbFieldType.OE,
-        $9.ProposalState.proposing,
-        $9.ProposalState.valueOf,
-        $9.ProposalState.values)
-    ..aOB(14, 'businessDisputed')
-    ..aOB(15, 'influencerDisputed')
-    ..aInt64(16, 'businessAccountId')
-    ..aOS(17, 'influencerName')
-    ..aOS(18, 'businessName')
-    ..aOS(19, 'offerTitle')
-    ..aInt64(20, 'senderAccountId')
-    ..aInt64(22, 'lastChatId')
-    ..aInt64(23, 'influencerSeenChatId')
-    ..aInt64(24, 'influencerSeenTime')
-    ..aInt64(25, 'businessSeenChatId')
-    ..aInt64(26, 'businessSeenTime')
-    ..aInt64(27, 'offerAccountId')
-    ..aOB(28, 'influencerArchived')
-    ..aOB(29, 'businessArchived')
-    ..aInt64(30, 'rejectingAccountId')
-    ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('DataProposal', package: const $pb.PackageName('inf'))
+        ..aInt64(1, 'proposalId')
+        ..aInt64(2, 'offerId')
+        ..aInt64(3, 'influencerAccountId')
+        ..aInt64(4, 'termsChatId')
+        ..aOB(5, 'businessWantsDeal')
+        ..aOB(6, 'influencerWantsDeal')
+        ..aOB(7, 'influencerMarkedDelivered')
+        ..aOB(8, 'influencerMarkedRewarded')
+        ..aOB(9, 'businessMarkedDelivered')
+        ..aOB(10, 'businessMarkedRewarded')
+        ..a<int>(11, 'businessGaveRating', $pb.PbFieldType.O3)
+        ..a<int>(12, 'influencerGaveRating', $pb.PbFieldType.O3)
+        ..e<$9.ProposalState>(
+            13,
+            'state',
+            $pb.PbFieldType.OE,
+            $9.ProposalState.proposing,
+            $9.ProposalState.valueOf,
+            $9.ProposalState.values)
+        ..aOB(14, 'businessDisputed')
+        ..aOB(15, 'influencerDisputed')
+        ..aInt64(16, 'businessAccountId')
+        ..aOS(17, 'influencerName')
+        ..aOS(18, 'businessName')
+        ..aOS(19, 'offerTitle')
+        ..aInt64(20, 'senderAccountId')
+        ..aInt64(22, 'lastChatId')
+        ..aInt64(23, 'influencerSeenChatId')
+        ..aInt64(24, 'influencerSeenTime')
+        ..aInt64(25, 'businessSeenChatId')
+        ..aInt64(26, 'businessSeenTime')
+        ..aInt64(27, 'offerAccountId')
+        ..aOB(28, 'influencerArchived')
+        ..aOB(29, 'businessArchived')
+        ..aInt64(30, 'rejectingAccountId')
+        ..hasRequiredFields = false;
 
   DataProposal() : super();
   DataProposal.fromBuffer(List<int> i,
@@ -1710,7 +1730,7 @@ class DataProposal extends $pb.GeneratedMessage {
 
 class DataProposalChat extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DataProposalChat',
-      package: const $pb.PackageName('inf_common'))
+      package: const $pb.PackageName('inf'))
     ..aInt64(1, 'proposalId')
     ..aInt64(2, 'senderAccountId')
     ..aOS(5, 'plainText')
