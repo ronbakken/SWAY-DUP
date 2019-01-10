@@ -14,7 +14,8 @@ import 'package:mime/mime.dart';
 import 'package:http_client/console.dart' as http_client;
 import 'package:dospace/dospace.dart' as dospace;
 
-Future<Uint8List> downloadData(http_client.Client httpClient, String url) async {
+Future<Uint8List> downloadData(
+    http_client.Client httpClient, String url) async {
   final Uri uri = Uri.parse(url);
   // devLog.fine(uri);
   // devLog.fine(uri.host);
@@ -30,7 +31,12 @@ Future<Uint8List> downloadData(http_client.Client httpClient, String url) async 
 }
 
 /// Downloads user image, returns key
-Future<String> downloadUserImage(ConfigData config, http_client.Client httpClient, dospace.Bucket bucket, Int64 accountId, String url) async {
+Future<String> downloadUserImage(
+    ConfigData config,
+    http_client.Client httpClient,
+    dospace.Bucket bucket,
+    Int64 accountId,
+    String url) async {
   // Fetch image to memory
   final Uri uri = Uri.parse(url);
   final Uint8List body = await downloadData(httpClient, url);
