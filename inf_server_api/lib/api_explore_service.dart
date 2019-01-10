@@ -13,7 +13,7 @@ import 'package:logging/logging.dart';
 
 import 'package:grpc/grpc.dart' as grpc;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:inf_common/inf_backend.dart';
 
 class ApiExploreService extends ApiExploreServiceBase {
   final ConfigData config;
@@ -26,8 +26,7 @@ class ApiExploreService extends ApiExploreServiceBase {
   @override
   Stream<NetOffer> demoAll(
       grpc.ServiceCall call, NetDemoAllOffers request) async* {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
 
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {

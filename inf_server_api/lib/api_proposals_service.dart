@@ -22,7 +22,7 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:http/http.dart' as http;
 import 'package:http_client/console.dart' as http_client;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:inf_common/inf_backend.dart';
 
 class ApiProposalsService extends ApiProposalsServiceBase {
   final ConfigData config;
@@ -46,8 +46,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
   @override
   Future<NetProposal> apply(
       grpc.ServiceCall call, NetApplyProposal request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readWrite.value) {
       throw grpc.GrpcError.permissionDenied();
@@ -201,8 +200,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
   @override
   Future<NetProposal> direct(
       grpc.ServiceCall call, NetDirectProposal request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readWrite.value) {
       throw grpc.GrpcError.permissionDenied();
@@ -218,8 +216,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
   @override
   Stream<NetProposal> list(
       grpc.ServiceCall call, NetListProposals request) async* {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
       throw grpc.GrpcError.permissionDenied();
@@ -251,8 +248,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
 
   @override
   Future<NetProposal> get(grpc.ServiceCall call, NetGetProposal request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
       throw grpc.GrpcError.permissionDenied();
@@ -333,8 +329,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
   @override
   Stream<NetProposalChat> listChats(
       grpc.ServiceCall call, NetGetProposal request) async* {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
       throw grpc.GrpcError.permissionDenied();

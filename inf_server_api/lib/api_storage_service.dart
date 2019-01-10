@@ -13,7 +13,7 @@ import 'package:logging/logging.dart';
 import 'package:dospace/dospace.dart' as dospace;
 import 'package:grpc/grpc.dart' as grpc;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:inf_common/inf_backend.dart';
 
 class ApiStorageService extends ApiStorageServiceBase {
   final ConfigData config;
@@ -32,8 +32,7 @@ class ApiStorageService extends ApiStorageServiceBase {
   @override
   Future<NetUploadSigned> signImageUpload(
       grpc.ServiceCall call, NetUploadImage request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     final Int64 accountId = auth.accountId;
 
     devLog.finest(call.clientMetadata);

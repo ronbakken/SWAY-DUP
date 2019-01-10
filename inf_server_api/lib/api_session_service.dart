@@ -16,7 +16,7 @@ import 'package:logging/logging.dart';
 import 'package:grpc/grpc.dart' as grpc;
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:inf_common/inf_backend.dart';
 
 class ApiSessionService extends ApiSessionServiceBase {
   final ConfigData config;
@@ -31,8 +31,7 @@ class ApiSessionService extends ApiSessionServiceBase {
   @override
   Future<NetSession> create(
       grpc.ServiceCall call, NetSessionCreate request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
 
     if (auth.sessionId != Int64.ZERO) {
       throw grpc.GrpcError.permissionDenied();
@@ -90,8 +89,7 @@ class ApiSessionService extends ApiSessionServiceBase {
 
   @override
   Future<NetSession> open(grpc.ServiceCall call, NetSessionOpen request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
 
     if (auth.sessionId != Int64.ZERO) {
       throw grpc.GrpcError.permissionDenied();

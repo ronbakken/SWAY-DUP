@@ -18,7 +18,7 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:http/http.dart' as http;
 import 'package:http_client/console.dart' as http_client;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:inf_common/inf_backend.dart';
 
 class ApiOffersService extends ApiOffersServiceBase {
   final ConfigData config;
@@ -46,8 +46,7 @@ class ApiOffersService extends ApiOffersServiceBase {
 
   @override
   Future<NetOffer> create(grpc.ServiceCall call, NetCreateOffer request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readWrite.value) {
       throw grpc.GrpcError.permissionDenied();
@@ -186,8 +185,7 @@ class ApiOffersService extends ApiOffersServiceBase {
 
   @override
   Stream<NetOffer> list(grpc.ServiceCall call, NetListOffers request) async* {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
       throw grpc.GrpcError.permissionDenied();
@@ -233,8 +231,7 @@ class ApiOffersService extends ApiOffersServiceBase {
 
   @override
   Future<NetOffer> get(grpc.ServiceCall call, NetGetOffer request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
       throw grpc.GrpcError.permissionDenied();
@@ -263,8 +260,7 @@ class ApiOffersService extends ApiOffersServiceBase {
   @override
   Future<NetReport> report(
       grpc.ServiceCall call, NetReportOffer request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readWrite.value) {
       throw grpc.GrpcError.permissionDenied();

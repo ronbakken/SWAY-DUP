@@ -12,7 +12,7 @@ import 'package:logging/logging.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:grpc/grpc.dart' as grpc;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:inf_common/inf_backend.dart';
 
 class ApiOAuthService extends ApiOAuthServiceBase {
   final ConfigData config;
@@ -27,8 +27,7 @@ class ApiOAuthService extends ApiOAuthServiceBase {
   @override
   Future<NetOAuthUrl> getUrl(
       grpc.ServiceCall call, NetOAuthGetUrl request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
 
     // Can either be used by an accountless session
     // or by an account that's not banned
@@ -88,8 +87,7 @@ class ApiOAuthService extends ApiOAuthServiceBase {
   @override
   Future<NetOAuthSecrets> getSecrets(
       grpc.ServiceCall call, NetOAuthGetSecrets request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
 
     // Can either be used by an accountless session
     // or by an account that's not banned

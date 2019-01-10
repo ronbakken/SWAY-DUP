@@ -12,7 +12,7 @@ import 'package:logging/logging.dart';
 import 'package:grpc/grpc.dart' as grpc;
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:inf_common/inf_backend.dart';
 
 class ApiProfilesService extends ApiProfilesServiceBase {
   final ConfigData config;
@@ -30,8 +30,7 @@ class ApiProfilesService extends ApiProfilesServiceBase {
 
   @override
   Future<NetProfile> get(grpc.ServiceCall call, NetGetProfile request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
       throw grpc.GrpcError.permissionDenied();

@@ -188,7 +188,7 @@ class BackendPushService extends BackendPushServiceBase {
 
   Stream<NetPush> listen(grpc.ServiceCall call, NetListen request) async* {
     final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+        authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
       throw grpc.GrpcError.permissionDenied();

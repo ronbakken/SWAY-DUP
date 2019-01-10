@@ -10,6 +10,7 @@ import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:geohash/geohash.dart';
+import 'package:inf_common/inf_backend.dart';
 import 'package:inf_server_api/broadcast_center.dart';
 import 'package:inf_server_api/common_account.dart';
 import 'package:inf_server_api/common_location.dart';
@@ -24,8 +25,6 @@ import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:http/http.dart' as http;
 import 'package:http_client/console.dart' as http_client;
 import 'package:dospace/dospace.dart' as dospace;
-
-import 'package:inf_common/inf_common.dart';
 
 class ApiAccountService extends ApiAccountServiceBase {
   final ConfigData config;
@@ -52,8 +51,7 @@ class ApiAccountService extends ApiAccountServiceBase {
   @override
   Future<NetAccount> setType(
       grpc.ServiceCall call, NetSetAccountType request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
 
     // Can only set account type for accountless sessions
     if (auth.sessionId == Int64.ZERO || auth.accountId != Int64.ZERO) {
@@ -93,8 +91,7 @@ class ApiAccountService extends ApiAccountServiceBase {
   @override
   Future<NetOAuthConnection> connectProvider(
       grpc.ServiceCall call, NetOAuthConnect request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
 
     // Can either be used by an accountless session
     // or by an account that's not banned
@@ -306,8 +303,7 @@ class ApiAccountService extends ApiAccountServiceBase {
   @override
   Future<NetAccount> create(
       grpc.ServiceCall call, NetAccountCreate request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
 
     // Accountless only
     if (auth.sessionId == Int64.ZERO || auth.accountId != Int64.ZERO) {
@@ -726,8 +722,7 @@ class ApiAccountService extends ApiAccountServiceBase {
   @override
   Future<NetAccount> setFirebaseToken(
       grpc.ServiceCall call, NetSetFirebaseToken request) async {
-    final DataAuth auth =
-        DataAuth.fromJson(call.clientMetadata['x-jwt-payload'] ?? '{}');
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.sessionId == Int64.ZERO) {
       throw grpc.GrpcError.permissionDenied();
     }
