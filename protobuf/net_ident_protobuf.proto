@@ -44,12 +44,12 @@ message NetSession {
   /// Embedded account info, reduces delay.
   DataAccount account = 2;
 
-  /// Bearer token when creating a session, used for opening subsequent sessions.
+  /// Refresh token when creating a session, used for opening subsequent sessions.
   /// Not set when opening an existing session, normally, unless the refresh token needs to be replaced.
   string refresh_token = 3;
 
   /// Access token for when a session is opened.
-  /// If not set, the bearer token used to open te session is invalid, 
+  /// If not set, the refresh token used to open te session is invalid, 
   /// and the session must be removed from the client.
   string access_token = 4;
   
