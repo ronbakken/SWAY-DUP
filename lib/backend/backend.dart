@@ -43,7 +43,7 @@ export 'package:inf/backend/services/location_service_.dart';
 export 'package:inf/backend/managers/offer_manager_.dart';
 export 'package:inf/backend/services/image_service_.dart';
 export 'package:inf/backend/services/inf_api_clients_service_.dart';
-export 'package:grpc/grpc.dart' show GrpcError;
+export 'package:grpc/grpc.dart' show GrpcError, CallOptions;
 
 enum AppMode { dev, prod, mock }
 

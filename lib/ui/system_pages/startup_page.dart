@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/sign_up/check_email_popup.dart';
-import 'package:inf/ui/system_pages/no_network_page.dart';
+import 'package:inf/ui/system_pages/no_connection_page.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
@@ -33,21 +33,11 @@ class _StartupPageState extends PageState<StartupPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      try {
+    initBackend().catchError( (error) async{
+        await Navigator.of(context).push(NoConnectionPage.route());
         await initBackend();
-      } on GrpcError   {
-        await Navigator.of(context).push(NoNetworkPage.route());
-        await initBackend();
-      }
-      on AppMustUpdateException {
-        
-      }
-      on SocketException {
-        // TODO How do we deal with this?
-      }
-      waitForLoginState();
     });
+    waitForLoginState();
   }
 
   void waitForLoginState() {
@@ -94,9 +84,9 @@ class _StartupPageState extends PageState<StartupPage> {
   Widget build(BuildContext context) {
     return Material(
       color: theme.backgroundColor,
-      /*child: Center(
-        child: Image.asset(Images.assetSplashLogo),
-      ),*/
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
     );
   }
 

@@ -6,9 +6,12 @@ abstract class InfApiClientsService
     bool isConnected;
     InfConfigClient configClient;
     InfAuthClient authClient;
+    InfSystemClient systemClient;
 
     Observable<bool> get connectionChanged;
 
     void init(String host, int port);
+
+    Future<bool> isServerAlive();
 
 }

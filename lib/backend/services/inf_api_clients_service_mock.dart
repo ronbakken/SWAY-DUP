@@ -10,6 +10,8 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   InfConfigClient configClient;
   @override
   InfAuthClient authClient;
+  @override
+  InfSystemClient systemClient;
 
   @override
   Observable<bool> get connectionChanged => connectionChangedSubject;
@@ -24,4 +26,10 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   @override
   void init(String host, int port) {
   }
+
+  @override
+  Future<bool> isServerAlive() async {
+    return true;
+  }
+
 }

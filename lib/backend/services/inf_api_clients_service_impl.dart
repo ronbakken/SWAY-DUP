@@ -11,6 +11,8 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   InfConfigClient configClient;
   @override
   InfAuthClient authClient;
+  @override
+  InfSystemClient systemClient;
 
   ClientChannel channel;
 
@@ -22,7 +24,7 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
 
   BehaviorSubject<bool> connectionChangedSubject = BehaviorSubject<bool>();
 
-  InfApiClientsServiceImplementation() {}
+  InfApiClientsServiceImplementation();
 
   @override
   void init(String host, port) {
@@ -38,6 +40,26 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
 
     configClient = InfConfigClient(channel);
     authClient = InfAuthClient(channel);
+    systemClient = InfSystemClient(channel);
+  }
+
+
+
+  @override
+  Future<bool> isServerAlive() async {
+    try
+    {
+        var result = await systemClient.pingServer(Empty(), options: CallOptions(timeout: const Duration(seconds: 5)));
+        if (result is AliveMessage)
+        {
+          return true;
+        }
+    }
+    catch (e)
+    {
+        return false;
+    }
+    return false;
   }
 
 
