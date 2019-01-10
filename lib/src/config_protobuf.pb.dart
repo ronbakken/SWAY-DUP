@@ -764,7 +764,6 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(30, 'mapboxUrlTemplateLight')
     ..aOS(31, 'galleryThumbnailBlurredUrl')
     ..aOS(32, 'galleryCoverBlurredUrl')
-    ..aOS(33, 'service')
     ..a<List<int>>(35, 'salt', $pb.PbFieldType.OY)
     ..aOS(36, 'elasticsearchApi')
     ..aOS(37, 'elasticsearchBasicAuth')
@@ -785,6 +784,7 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(52, 'generalDbDatabase')
     ..aOS(53, 'backendPush')
     ..aOS(54, 'backendJwt')
+    ..aOS(55, 'applicationToken')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -1058,173 +1058,173 @@ class ConfigServices extends $pb.GeneratedMessage {
   bool hasGalleryCoverBlurredUrl() => $_has(31);
   void clearGalleryCoverBlurredUrl() => clearField(32);
 
-  String get service => $_getS(32, '');
-  set service(String v) {
-    $_setString(32, v);
-  }
-
-  bool hasService() => $_has(32);
-  void clearService() => clearField(33);
-
-  List<int> get salt => $_getN(33);
+  List<int> get salt => $_getN(32);
   set salt(List<int> v) {
-    $_setBytes(33, v);
+    $_setBytes(32, v);
   }
 
-  bool hasSalt() => $_has(33);
+  bool hasSalt() => $_has(32);
   void clearSalt() => clearField(35);
 
-  String get elasticsearchApi => $_getS(34, '');
+  String get elasticsearchApi => $_getS(33, '');
   set elasticsearchApi(String v) {
+    $_setString(33, v);
+  }
+
+  bool hasElasticsearchApi() => $_has(33);
+  void clearElasticsearchApi() => clearField(36);
+
+  String get elasticsearchBasicAuth => $_getS(34, '');
+  set elasticsearchBasicAuth(String v) {
     $_setString(34, v);
   }
 
-  bool hasElasticsearchApi() => $_has(34);
-  void clearElasticsearchApi() => clearField(36);
+  bool hasElasticsearchBasicAuth() => $_has(34);
+  void clearElasticsearchBasicAuth() => clearField(37);
 
-  String get elasticsearchBasicAuth => $_getS(35, '');
-  set elasticsearchBasicAuth(String v) {
+  String get oneSignalAppId => $_getS(35, '');
+  set oneSignalAppId(String v) {
     $_setString(35, v);
   }
 
-  bool hasElasticsearchBasicAuth() => $_has(35);
-  void clearElasticsearchBasicAuth() => clearField(37);
+  bool hasOneSignalAppId() => $_has(35);
+  void clearOneSignalAppId() => clearField(38);
 
-  String get oneSignalAppId => $_getS(36, '');
-  set oneSignalAppId(String v) {
+  String get oneSignalApiKey => $_getS(36, '');
+  set oneSignalApiKey(String v) {
     $_setString(36, v);
   }
 
-  bool hasOneSignalAppId() => $_has(36);
-  void clearOneSignalAppId() => clearField(38);
+  bool hasOneSignalApiKey() => $_has(36);
+  void clearOneSignalApiKey() => clearField(39);
 
-  String get oneSignalApiKey => $_getS(37, '');
-  set oneSignalApiKey(String v) {
+  String get oneSignalApi => $_getS(37, '');
+  set oneSignalApi(String v) {
     $_setString(37, v);
   }
 
-  bool hasOneSignalApiKey() => $_has(37);
-  void clearOneSignalApiKey() => clearField(39);
+  bool hasOneSignalApi() => $_has(37);
+  void clearOneSignalApi() => clearField(40);
 
-  String get oneSignalApi => $_getS(38, '');
-  set oneSignalApi(String v) {
+  String get galleryPictureUrl => $_getS(38, '');
+  set galleryPictureUrl(String v) {
     $_setString(38, v);
   }
 
-  bool hasOneSignalApi() => $_has(38);
-  void clearOneSignalApi() => clearField(40);
+  bool hasGalleryPictureUrl() => $_has(38);
+  void clearGalleryPictureUrl() => clearField(41);
 
-  String get galleryPictureUrl => $_getS(39, '');
-  set galleryPictureUrl(String v) {
+  String get galleryPictureBlurredUrl => $_getS(39, '');
+  set galleryPictureBlurredUrl(String v) {
     $_setString(39, v);
   }
 
-  bool hasGalleryPictureUrl() => $_has(39);
-  void clearGalleryPictureUrl() => clearField(41);
+  bool hasGalleryPictureBlurredUrl() => $_has(39);
+  void clearGalleryPictureBlurredUrl() => clearField(42);
 
-  String get galleryPictureBlurredUrl => $_getS(40, '');
-  set galleryPictureBlurredUrl(String v) {
+  String get proposalDbHost => $_getS(40, '');
+  set proposalDbHost(String v) {
     $_setString(40, v);
   }
 
-  bool hasGalleryPictureBlurredUrl() => $_has(40);
-  void clearGalleryPictureBlurredUrl() => clearField(42);
-
-  String get proposalDbHost => $_getS(41, '');
-  set proposalDbHost(String v) {
-    $_setString(41, v);
-  }
-
-  bool hasProposalDbHost() => $_has(41);
+  bool hasProposalDbHost() => $_has(40);
   void clearProposalDbHost() => clearField(43);
 
-  int get proposalDbPort => $_get(42, 0);
+  int get proposalDbPort => $_get(41, 0);
   set proposalDbPort(int v) {
-    $_setSignedInt32(42, v);
+    $_setSignedInt32(41, v);
   }
 
-  bool hasProposalDbPort() => $_has(42);
+  bool hasProposalDbPort() => $_has(41);
   void clearProposalDbPort() => clearField(44);
 
-  String get proposalDbUser => $_getS(43, '');
+  String get proposalDbUser => $_getS(42, '');
   set proposalDbUser(String v) {
+    $_setString(42, v);
+  }
+
+  bool hasProposalDbUser() => $_has(42);
+  void clearProposalDbUser() => clearField(45);
+
+  String get proposalDbPassword => $_getS(43, '');
+  set proposalDbPassword(String v) {
     $_setString(43, v);
   }
 
-  bool hasProposalDbUser() => $_has(43);
-  void clearProposalDbUser() => clearField(45);
+  bool hasProposalDbPassword() => $_has(43);
+  void clearProposalDbPassword() => clearField(46);
 
-  String get proposalDbPassword => $_getS(44, '');
-  set proposalDbPassword(String v) {
+  String get proposalDbDatabase => $_getS(44, '');
+  set proposalDbDatabase(String v) {
     $_setString(44, v);
   }
 
-  bool hasProposalDbPassword() => $_has(44);
-  void clearProposalDbPassword() => clearField(46);
+  bool hasProposalDbDatabase() => $_has(44);
+  void clearProposalDbDatabase() => clearField(47);
 
-  String get proposalDbDatabase => $_getS(45, '');
-  set proposalDbDatabase(String v) {
+  String get generalDbHost => $_getS(45, '');
+  set generalDbHost(String v) {
     $_setString(45, v);
   }
 
-  bool hasProposalDbDatabase() => $_has(45);
-  void clearProposalDbDatabase() => clearField(47);
-
-  String get generalDbHost => $_getS(46, '');
-  set generalDbHost(String v) {
-    $_setString(46, v);
-  }
-
-  bool hasGeneralDbHost() => $_has(46);
+  bool hasGeneralDbHost() => $_has(45);
   void clearGeneralDbHost() => clearField(48);
 
-  int get generalDbPort => $_get(47, 0);
+  int get generalDbPort => $_get(46, 0);
   set generalDbPort(int v) {
-    $_setSignedInt32(47, v);
+    $_setSignedInt32(46, v);
   }
 
-  bool hasGeneralDbPort() => $_has(47);
+  bool hasGeneralDbPort() => $_has(46);
   void clearGeneralDbPort() => clearField(49);
 
-  String get generalDbUser => $_getS(48, '');
+  String get generalDbUser => $_getS(47, '');
   set generalDbUser(String v) {
+    $_setString(47, v);
+  }
+
+  bool hasGeneralDbUser() => $_has(47);
+  void clearGeneralDbUser() => clearField(50);
+
+  String get generalDbPassword => $_getS(48, '');
+  set generalDbPassword(String v) {
     $_setString(48, v);
   }
 
-  bool hasGeneralDbUser() => $_has(48);
-  void clearGeneralDbUser() => clearField(50);
+  bool hasGeneralDbPassword() => $_has(48);
+  void clearGeneralDbPassword() => clearField(51);
 
-  String get generalDbPassword => $_getS(49, '');
-  set generalDbPassword(String v) {
+  String get generalDbDatabase => $_getS(49, '');
+  set generalDbDatabase(String v) {
     $_setString(49, v);
   }
 
-  bool hasGeneralDbPassword() => $_has(49);
-  void clearGeneralDbPassword() => clearField(51);
+  bool hasGeneralDbDatabase() => $_has(49);
+  void clearGeneralDbDatabase() => clearField(52);
 
-  String get generalDbDatabase => $_getS(50, '');
-  set generalDbDatabase(String v) {
+  String get backendPush => $_getS(50, '');
+  set backendPush(String v) {
     $_setString(50, v);
   }
 
-  bool hasGeneralDbDatabase() => $_has(50);
-  void clearGeneralDbDatabase() => clearField(52);
+  bool hasBackendPush() => $_has(50);
+  void clearBackendPush() => clearField(53);
 
-  String get backendPush => $_getS(51, '');
-  set backendPush(String v) {
+  String get backendJwt => $_getS(51, '');
+  set backendJwt(String v) {
     $_setString(51, v);
   }
 
-  bool hasBackendPush() => $_has(51);
-  void clearBackendPush() => clearField(53);
+  bool hasBackendJwt() => $_has(51);
+  void clearBackendJwt() => clearField(54);
 
-  String get backendJwt => $_getS(52, '');
-  set backendJwt(String v) {
+  String get applicationToken => $_getS(52, '');
+  set applicationToken(String v) {
     $_setString(52, v);
   }
 
-  bool hasBackendJwt() => $_has(52);
-  void clearBackendJwt() => clearField(54);
+  bool hasApplicationToken() => $_has(52);
+  void clearApplicationToken() => clearField(55);
 }
 
 class ConfigFeatureSwitches extends $pb.GeneratedMessage {

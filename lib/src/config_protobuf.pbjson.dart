@@ -374,7 +374,13 @@ const ConfigServices$json = const {
   '2': const [
     const {'1': 'domain', '3': 24, '4': 1, '5': 9, '10': 'domain'},
     const {'1': 'end_points', '3': 8, '4': 3, '5': 9, '10': 'endPoints'},
-    const {'1': 'service', '3': 33, '4': 1, '5': 9, '10': 'service'},
+    const {
+      '1': 'application_token',
+      '3': 55,
+      '4': 1,
+      '5': 9,
+      '10': 'applicationToken'
+    },
     const {'1': 'config_url', '3': 9, '4': 1, '5': 9, '10': 'configUrl'},
     const {
       '1': 'terms_of_service_url',
