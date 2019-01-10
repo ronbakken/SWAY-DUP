@@ -154,7 +154,7 @@ message ConfigCategory {
   
 }
 
-message ConfigServices { // 53
+message ConfigServices { // 54
   // INF
   string domain = 24;
   repeated string end_points = 8;
@@ -167,6 +167,7 @@ message ConfigServices { // 53
 
   // Backend internal services
   string backend_push = 53;
+  string backend_jwt = 54;
   
   // DigitalOcean Spaces
   string spaces_region = 4;
