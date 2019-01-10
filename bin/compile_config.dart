@@ -588,7 +588,7 @@ Future<void> adjustConfig(String suffix, bool server) async {
   ConfigServices services = await generateConfigServices(
       "config_" + suffix + "/services.ini", server);
   if (services.endPoints.isNotEmpty)
-    config.services.clear();
+    config.services.endPoints.clear();
   if (services.elasticsearchApi.isNotEmpty)
     config.services.clearElasticsearchBasicAuth();
   config.services.mergeFromMessage(services);
