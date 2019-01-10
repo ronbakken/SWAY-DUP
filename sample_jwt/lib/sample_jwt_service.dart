@@ -52,8 +52,7 @@ class SampleJwtService extends SampleJwtServiceBase {
     signRequest.claim = json.encode(<String, dynamic>{
       'iss': 'https://infsandbox.app',
       'aud': 'infsandbox',
-      'ps': request.payload,
-      'pb': <String, dynamic>{}
+      'ps': request.payload
     });
     signRequest.freeze();
     log.finest('Forward request $signRequest.');

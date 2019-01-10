@@ -5,6 +5,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -26,16 +27,24 @@ class ApiSessionService extends ApiSessionServiceBase {
 
   final Random _random = Random.secure();
 
-  ApiSessionService(this.config, this.accountDb);
+  final grpc.ClientChannel backendJwtChannel = grpc.ClientChannel(
+    '127.0.0.1',
+    port: 8929,
+    options: const grpc.ChannelOptions(
+      credentials: grpc.ChannelCredentials.insecure(),
+    ),
+  );
+  BackendJwtClient backendJwt;
+
+  ApiSessionService(this.config, this.accountDb) {
+    backendJwt = BackendJwtClient(backendJwtChannel);
+  }
 
   @override
   Future<NetSession> create(
       grpc.ServiceCall call, NetSessionCreate request) async {
-    final DataAuth auth = authFromJwtPayload(call);
-
-    if (auth.sessionId != Int64.ZERO) {
-      throw grpc.GrpcError.permissionDenied();
-    }
+    devLog.finest(call.clientMetadata['x-jwt-payload']);
+    authFromJwtPayload(call, applicationToken: true);
 
     final NetSession response = NetSession();
     final Uint8List cookie = Uint8List(32);
@@ -69,20 +78,55 @@ class ApiSessionService extends ApiSessionServiceBase {
     response.account = DataAccount(); // await fetchFullAccount();
     response.account.sessionId = sessionId;
 
-    final DataAuth bearerPayload = DataAuth();
+    final DataAuth refreshPayload = DataAuth();
     final DataAuth accessPayload = DataAuth();
 
-    // Bearer token payload for the created session.
+    // Refresh token payload for the created session.
     // Cannot be retrieved in the future.
-    bearerPayload.sessionId = sessionId;
-    bearerPayload.cookie = cookie;
+    // Must create new session to get a new refresh token.
+    refreshPayload.sessionId = sessionId;
+    refreshPayload.cookie = cookie;
 
     // Access token for the created session.
     // Does not yet have an associated account.
     accessPayload.sessionId = sessionId;
 
-    // TODO: response.bearerToken JWT
-    // TODO: response.accessToken JWT
+    final ReqSign refreshSignRequest = ReqSign();
+    refreshSignRequest.claim = json.encode(<String, dynamic>{
+      'iss': 'https://infsandbox.app',
+      'aud': 'infsandbox',
+      'pb': base64.encode(refreshPayload.writeToBuffer())
+    });
+    refreshSignRequest.freeze();
+    final ResSign refreshResponse = await backendJwt.sign(
+      refreshSignRequest,
+      options: grpc.CallOptions(
+        metadata: <String, String>{
+          'x-request-id': call.clientMetadata['x-request-id'],
+        },
+        // TODO: timeout: call.deadline.difference(DateTime.now()),
+      ),
+    );
+    response.refreshToken = refreshResponse.token;
+
+    final ReqSign accessSignRequest = ReqSign();
+    accessSignRequest.claim = json.encode(<String, dynamic>{
+      'iss': 'https://infsandbox.app',
+      'aud': 'infsandbox',
+      'pb': base64.encode(accessPayload.writeToBuffer())
+      // TODO: Expire
+    });
+    accessSignRequest.freeze();
+    final ResSign accessResponse = await backendJwt.sign(
+      accessSignRequest,
+      options: grpc.CallOptions(
+        metadata: <String, String>{
+          'x-request-id': call.clientMetadata['x-request-id'],
+        },
+        // TODO: timeout: call.deadline.difference(DateTime.now()),
+      ),
+    );
+    response.accessToken = accessResponse.token;
 
     return response;
   }
@@ -90,9 +134,11 @@ class ApiSessionService extends ApiSessionServiceBase {
   @override
   Future<NetSession> open(grpc.ServiceCall call, NetSessionOpen request) async {
     final DataAuth auth = authFromJwtPayload(call);
-
-    if (auth.sessionId != Int64.ZERO) {
-      throw grpc.GrpcError.permissionDenied();
+    if (!auth.hasCookie()) {
+      throw grpc.GrpcError.permissionDenied('Not a refresh token.');
+    }
+    if (auth.accountId != Int64.ZERO) {
+      throw grpc.GrpcError.permissionDenied('Refresh token invalid.');
     }
 
     final NetSession response = NetSession();
@@ -115,7 +161,7 @@ class ApiSessionService extends ApiSessionServiceBase {
 
     if (sessionId != auth.sessionId) {
       // Sanity
-      throw grpc.GrpcError.dataLoss();
+      throw grpc.GrpcError.dataLoss('Session id mismatch.');
     }
 
     response.account = await fetchSessionAccount(config, accountDb, sessionId);
@@ -127,7 +173,24 @@ class ApiSessionService extends ApiSessionServiceBase {
     accessPayload.globalAccountState = response.account.globalAccountState;
     accessPayload.accountLevel = response.account.accountLevel;
 
-    // TODO: response.accessToken JWT
+    final ReqSign accessSignRequest = ReqSign();
+    accessSignRequest.claim = json.encode(<String, dynamic>{
+      'iss': 'https://infsandbox.app',
+      'aud': 'infsandbox',
+      'pb': base64.encode(accessPayload.writeToBuffer())
+      // TODO: Expire
+    });
+    accessSignRequest.freeze();
+    final ResSign accessResponse = await backendJwt.sign(
+      accessSignRequest,
+      options: grpc.CallOptions(
+        metadata: <String, String>{
+          'x-request-id': call.clientMetadata['x-request-id'],
+        },
+        // TODO: timeout: call.deadline.difference(DateTime.now()),
+      ),
+    );
+    response.accessToken = accessResponse.token;
 
     return response;
   }

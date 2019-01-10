@@ -54,6 +54,9 @@ class ApiAccountService extends ApiAccountServiceBase {
     final DataAuth auth = authFromJwtPayload(call);
 
     // Can only set account type for accountless sessions
+    if (auth.hasCookie()) {
+      throw grpc.GrpcError.unauthenticated('Refresh token not allowed.');
+    }
     if (auth.sessionId == Int64.ZERO || auth.accountId != Int64.ZERO) {
       throw grpc.GrpcError.permissionDenied();
     }
@@ -95,6 +98,9 @@ class ApiAccountService extends ApiAccountServiceBase {
 
     // Can either be used by an accountless session
     // or by an account that's not banned
+    if (auth.hasCookie()) {
+      throw grpc.GrpcError.unauthenticated('Refresh token not allowed.');
+    }
     if (auth.sessionId == Int64.ZERO ||
         auth.accountType == AccountType.unknown ||
         (auth.accountId != Int64.ZERO &&

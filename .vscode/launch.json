@@ -8,6 +8,7 @@
             "name": "API Service",
             "cwd": "inf_server_api",
             "program": "bin/main.dart",
+            "args": ["../assets/config_local_server.bin"],
             "request": "launch",
             "type": "dart"
         },
@@ -22,6 +23,13 @@
             "name": "JWT Sample Test",
             "cwd": "sample_jwt",
             "program": "test/jwt_test.dart",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Direct API Test: Session",
+            "cwd": "sample_api_direct",
+            "program": "test/session_test.dart",
             "request": "launch",
             "type": "dart"
         }
