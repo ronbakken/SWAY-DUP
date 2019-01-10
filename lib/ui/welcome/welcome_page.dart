@@ -6,7 +6,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/welcome/onboarding_page.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
@@ -39,9 +38,9 @@ class _WelcomePageState extends PageState<WelcomePage> {
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              StreamBuilder<WelcomePageImages>(
+              StreamBuilder<WelcomeImages>(
                 stream: backend.get<ConfigService>().getWelcomePageProfileImages(),
-                builder: (BuildContext context, AsyncSnapshot<WelcomePageImages> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<WelcomeImages> snapshot) {
                   return snapshot.hasData ? _WelcomeWall(data: snapshot.data) : SizedBox();
                 },
               ),
@@ -193,7 +192,7 @@ class _WelcomeWall extends StatefulWidget {
     @required this.data,
   }) : super(key: key);
 
-  final WelcomePageImages data;
+  final WelcomeImages data;
 
   @override
   _WelcomeWallState createState() => _WelcomeWallState();
@@ -208,7 +207,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
     super.didChangeDependencies();
     if (_first) {
       Iterable<Future> loadingImages =
-          widget.data.images.map<Future>((url) => precacheImage(NetworkImage(url), context));
+          widget.data.imageUrls.map<Future>((url) => precacheImage(NetworkImage(url), context));
       Future.wait(loadingImages).then((_) {
         if (mounted) {
           setState(() => _opacity = 0.5);
@@ -237,7 +236,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
               maxHeight: size.height,
               child: _WelcomeWallBackground(
                 speed: 24.0,
-                children: widget.data.images
+                children: widget.data.imageUrls
                   .map<Widget>((url) => _buildWallTile(url))
                   .toList(growable: false),
               ),

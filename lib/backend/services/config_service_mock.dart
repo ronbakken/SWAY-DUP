@@ -44,13 +44,13 @@ class ConfigServiceMock implements ConfigService {
   ];
 
   @override
-  Observable<WelcomePageImages> getWelcomePageProfileImages() {
+  Observable<WelcomeImages> getWelcomePageProfileImages() {
     return Observable.periodic(Duration(milliseconds: 3000))
-        .map<WelcomePageImages>((_) => getImages())
+        .map<WelcomeImages>((_) => getImages())
         .startWith(getImages());
   }
 
-  WelcomePageImages getImages() {
+  WelcomeImages getImages() {
     var rnd = Random();
     int toReplaceIndex = rnd.nextInt(14);
     int fromIndex = rnd.nextInt(2);
@@ -58,7 +58,7 @@ class ConfigServiceMock implements ConfigService {
     var toReplace = displayedImageUrls[toReplaceIndex];
     displayedImageUrls[toReplaceIndex] = extraImageUrls[fromIndex];
     extraImageUrls[fromIndex] = toReplace;
-    return WelcomePageImages(displayedImageUrls);
+       return WelcomeImages()..imageUrls.addAll(displayedImageUrls);
   }
 
   @override

@@ -14,7 +14,7 @@ abstract class ConfigService {
   List<SocialNetworkProvider> socialNetworkProviders; 
 
 
-  Stream<WelcomePageImages> getWelcomePageProfileImages();
+  Stream<WelcomeImages> getWelcomePageProfileImages();
 
   String getMapApiKey();
   String getMapUrlTemplate();
@@ -24,8 +24,3 @@ abstract class ConfigService {
   SocialNetworkProvider getSocialNetworkProviderById(int id);
 }
 
-class WelcomePageImages {
-  final List<String> images;
-
-  WelcomePageImages(this.images);
-}

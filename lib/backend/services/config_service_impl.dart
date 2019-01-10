@@ -16,9 +16,8 @@ class ConfigServiceImplementation implements ConfigService {
   AppConfigData configData;
 
   @override
-  Stream<WelcomePageImages> getWelcomePageProfileImages() {
-    // TODO: implement getAllLinkedAccounts
-    throw Exception('Not imnplemented');
+  Stream<WelcomeImages> getWelcomePageProfileImages() {
+     return backend.get<InfApiClientsService>().configClient.getWelcomeImages(Empty());
   }
 
   @override
