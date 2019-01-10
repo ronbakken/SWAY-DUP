@@ -14,7 +14,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: f2f45df6238d1844ac7a7bfa3786814a84d96cad
+      ref: a5bd61b43c3539b9282b967054fa2e7e783a81fe
 
 dev_dependencies:
   test: ^1.0.0

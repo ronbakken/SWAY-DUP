@@ -46,6 +46,8 @@ Future<ConfigServices> generateConfigServices(
 
       if (cfg.hasOption(section, 'backendPush'))
         res.backendPush = cfg.get(section, 'backendPush');
+      if (cfg.hasOption(section, 'backendJwt'))
+        res.backendJwt = cfg.get(section, 'backendJwt');
 
       if (cfg.hasOption(section, 'spacesRegion'))
         res.spacesRegion = cfg.get(section, 'spacesRegion');
@@ -587,6 +589,8 @@ Future<void> adjustConfig(String suffix, bool server) async {
       "config_" + suffix + "/services.ini", server);
   if (services.endPoints.isNotEmpty)
     config.services.clear();
+  if (services.elasticsearchApi.isNotEmpty)
+    config.services.clearElasticsearchBasicAuth();
   config.services.mergeFromMessage(services);
   new File(server
           ? "build/config_" + suffix + "_server.bin"
@@ -601,8 +605,8 @@ main(List<String> arguments) async {
   Future<void> f2 = generateConfig(timestamp, true);
   await f1;
   await f2;
-  await adjustConfig("dyrnwyn", false);
-  await adjustConfig("dyrnwyn", true);
+  await adjustConfig("local", false);
+  await adjustConfig("local", true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
