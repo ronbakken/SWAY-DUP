@@ -12,24 +12,9 @@ option csharp_namespace = "Inf";
 import "enum_protobuf.proto";
 import "data_protobuf.proto";
 
-/// Session payload. Assumes a secure connection is used.
-// TODO(2018 JAN 08): Deprecate
-message NetSessionPayload {
-  /// If not set, require session creation.
-  int64 session_id = 1;
-  bytes cookie = 2;
-  
-  /// Information on the currently loaded config
-  string domain = 7; // If mismatch, cannot serve this session at all
-  int32 client_version = 3; // If mismatch, cannot serve this session at all
-  int64 config_timestamp = 4; // If server timestamp is higher, request config download
-  string config_region = 5; // Indicate the region of the user's current config
-  string config_language = 6; // Indicate the language of the user's current config
-  
-}
-
 /// Session open options
-/// Request must be authorized with a bearer token
+/// Request must be authorized with a refresh token
+/// Response: NetSession
 message NetSessionOpen {
   /// Information on the currently loaded config
   string domain = 7; // If mismatch, cannot serve this session at all
@@ -38,7 +23,6 @@ message NetSessionOpen {
 }
 
 /// Create a session with the current payload cookie
-/// Procedure ID: 'SESSIONC'
 /// Response: NetSession
 message NetSessionCreate {
   /// Token for tracking which device, for statistics purposes only, not secure.
@@ -55,25 +39,14 @@ message NetSessionCreate {
   
 }
 
-/// Remove the current session from the client. Sent by the server.
-/// Procedure ID: 'SESREMOV'
-// TODO(2018 JAN 08): Deprecate
-message NetSessionRemove {
-  
-}
-
 /// Session created successfully,
 message NetSession {
-  /// Newly created session id. Client uses this only to update the connection payload.
-  // TODO(2018 JAN 08): Deprecate
-  // int64 session_id = 1;
-
   /// Embedded account info, reduces delay.
   DataAccount account = 2;
 
   /// Bearer token when creating a session, used for opening subsequent sessions.
-  /// Not set when opening an existing session.
-  string bearer_token = 3;
+  /// Not set when opening an existing session, normally, unless the refresh token needs to be replaced.
+  string refresh_token = 3;
 
   /// Access token for when a session is opened.
   /// If not set, the bearer token used to open te session is invalid, 

@@ -154,11 +154,11 @@ message ConfigCategory {
   
 }
 
-message ConfigServices { // 54
+message ConfigServices { // 55
   // INF
   string domain = 24;
   repeated string end_points = 8;
-  string service = 33;
+  string application_token = 55;
   string config_url = 9;
   string terms_of_service_url = 10;
   string privacy_policy_url = 11;

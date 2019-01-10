@@ -36,12 +36,12 @@ DataAuth authFromJwtPayload(grpc.ServiceCall call) {
   }
   dynamic pb = payload['pb'];
   if (pb == null) {
-    // return DataAuth();
-    throw grpc.GrpcError.unauthenticated('Payload buffer missing.');
+    return DataAuth();
   }
   DataAuth auth;
   try {
-    auth = DataAuth()..mergeFromJsonMap(pb);
+    auth = DataAuth()..mergeFromBuffer(base64.decode(pb));
+    auth.freeze();
   } catch (error, _) {
     throw grpc.GrpcError.unauthenticated('Payload buffer cannot be decoded.');
   }
