@@ -20,7 +20,8 @@ static_resources:
             - name: local_service
               domains: ["*"]
               routes:
-              - match: { prefix: "/" }
+              # Publish API
+              - match: { prefix: "/sample_jwt.SampleJwt" }
                 # prefix: "/"
                 # headers:
                 # - name: content-type
@@ -28,6 +29,10 @@ static_resources:
                 route:
                   cluster: sample_jwt
                   #max_grpc_timeout: 0s
+              # Publish public JWKS
+              - match:  { prefix: "/.well-known/jwks.json" }
+                route:
+                  cluster: server_jwt_http
               #cors:
               #  allow_origin:
               #  - "*"
@@ -44,8 +49,14 @@ static_resources:
               providers:
                 infsandbox_provider:
                   issuer: https://infsandbox.app
-                  local_jwks:
-                    filename: /etc/envoy/jwks/jwks_public.json
+                  #local_jwks:
+                  #  filename: /etc/envoy/jwks/jwks_public.json
+                  remote_jwks:
+                    http_uri:
+                      uri: http://127.0.0.1:8918/.well-known/jwks.json
+                      cluster: server_jwt_http
+                    cache_duration:
+                      seconds: 3600
                   forward: true
                   forward_payload_header: x-jwt-payload
               rules:
@@ -58,9 +69,17 @@ static_resources:
                       infsandbox
           - name: envoy.router
   clusters:
+  # /sample_jwt.SampleJwt
   - name: sample_jwt
     connect_timeout: 0.25s
     type: logical_dns
     http2_protocol_options: {}
     lb_policy: round_robin
     hosts: [{ socket_address: { address: 127.0.0.1, port_value: 7900 }}]
+  # http://127.0.0.1:8918/.well-known/jwks.json
+  - name: server_jwt_http
+    connect_timeout: 0.25s
+    type: logical_dns
+    # http2_protocol_options: {}
+    lb_policy: round_robin
+    hosts: [{ socket_address: { address: 127.0.0.1, port_value: 8918 }}]

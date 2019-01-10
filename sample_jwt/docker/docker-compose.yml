@@ -10,3 +10,9 @@ services:
     volumes:
     - ./envoy.yaml:/etc/envoy/envoy.yaml
     - ./jwks_public.json:/etc/envoy/jwks/jwks_public.json
+  inf_server_jwt:
+    build:
+      context: ../../inf_server_jwt
+      dockerfile: Dockerfile
+    network_mode: host
+    restart: always

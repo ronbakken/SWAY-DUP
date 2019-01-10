@@ -29,8 +29,8 @@ var fs = require('fs');
 var rsaPemToJwk = require('rsa-pem-to-jwk');
 var pem = fs.readFileSync('private.pem');
 var jwk = rsaPemToJwk(pem, { use: 'sig' }, 'public');
-var jwks = JSON.stringify({ keys: [jwk] });
-fs.writeFileSync('jwks_public.json', jwks, null, 4);
+var jwks = JSON.stringify({ keys: [jwk] }, null, 4);
+fs.writeFileSync('jwks_public.json', jwks);
 console.log('JWK:');
 console.log(jwk);
 var jwt = require('jsonwebtoken');
@@ -41,7 +41,14 @@ var kty = jwk.kty;
 function sign(call, callback) {
     console.log(call);
     // return callback(null, { message: 'Hello ' + call.request.name });
-    return jwt.sign(call.claim, pem, { algorithm: kty }, function (err, token) {
+    var claim;
+    try {
+        claim = JSON.parse(call.claim);
+    } catch (error) {
+        // TODO: Fix insecure error propagation
+        return callback(error);
+    }
+    return jwt.sign(claim, pem, { algorithm: kty }, function (err, token) {
         console.log('Signed Token:');
         console.log(token);
         // TODO: Fix insecure error propagation
@@ -50,9 +57,9 @@ function sign(call, callback) {
 }
 
 function getKeyStore(call, callback) {
+    console.log(call);
     return callback(null, { jwks: jwks });
 }
-
 
 function main() {
     var server = new grpc.Server();
@@ -61,8 +68,11 @@ function main() {
     server.start();
 
     http.createServer(function (req, res) {
+        console.log(req.url);
         // http://127.0.0.1:8918/.well-known/jwks.json
-        res.write(jwks);
+        if (req.url == '/.well-known/jwks.json') {
+            res.write(jwks);
+        }
         res.end();
     }).listen(8918);
 }
