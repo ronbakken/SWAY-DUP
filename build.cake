@@ -61,6 +61,7 @@ var subscriptionId = EnvironmentVariable("AZURE_SUBSCRIPTION_ID");
 var clientId = EnvironmentVariable("AZURE_CLIENT_ID");
 var tenantId = EnvironmentVariable("AZURE_TENANT_ID");
 var vmInstanceCount = EnvironmentVariable("VM_INSTANCE_COUNT") ?? "1";
+var configuration = "Release";
 
 // Variables.
 var resourceNamePrefix = $"inf-{environment}";
@@ -70,16 +71,25 @@ var certificateName = $"{resourceNamePrefix}-Certificate";
 
 // Paths.
 var srcDir = Directory("src");
+var pkgDir = Directory("pkg") + Directory(configuration);
 var templateFile = srcDir + File("arm_template.json");
 var pfxFile = File("Azure.pfx");
 
+Setup(
+    context =>
+    {
+        Information($"Starting deployment against git branch '{gitBranch.CanonicalName}'.");
+        Information($"Region '{region}', environment '{environment}', subscription ID '{subscriptionId}', client ID '{clientId}', tenant ID '{tenantId}'.");
+    });
+
 Task("Deploy")
+    .IsDependentOn("Deploy-Infrastructure")
+    .IsDependentOn("Deploy-Application");
+
+Task("Deploy-Infrastructure")
     .Does(
         async (context) =>
         {
-            Information($"Starting deployment against git branch '{gitBranch.CanonicalName}'.");
-            Information($"Region '{region}', environment '{environment}', subscription ID '{subscriptionId}', client ID '{clientId}', tenant ID '{tenantId}'.");
-
             if (!FileExists(pfxFile))
             {
                 throw new Exception($"The PFX file, '{pfxFile}', used to authenticate with Azure could not be found.");
@@ -110,8 +120,36 @@ Task("Deploy")
                 certificateBundle,
                 vmInstanceCount,
                 keyVault);
+        });
 
+Task("Deploy-Application")
+    .Does(
+        () =>
+        {
             // Build and deploy the Service Fabric application itself.
+            Information("Restoring packages.");
+            DotNetCoreRestore(srcDir);
+
+            void PublishService(string serviceName)
+            {
+                Information($"Publishing {serviceName} service.");
+                var serviceDir = srcDir + Directory(serviceName);
+                var servicePkgDir = pkgDir + Directory($"{serviceName}Pkg");
+                DotNetCorePublish(
+                    serviceDir,
+                    new DotNetCorePublishSettings
+                    {
+                        Configuration = configuration,
+                        NoRestore = true,
+                        OutputDirectory = servicePkgDir + Directory("Code"),
+                    });
+                CopyFiles(GetFiles((serviceDir + Directory("PackageRoot")).ToString() + "/**/*"), servicePkgDir, preserveFolderStructure: true);
+            }
+
+            PublishService("User");
+            PublishService("API");
+
+            CopyFileToDirectory(srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml"), pkgDir);
         });
 
 Task("Start-Docker")
@@ -490,4 +528,4 @@ private static string DumpError(ResourceManagementErrorWithDetails error)
     return dumpedError.ToString();
 }
 
-RunTarget(Argument("target", "Deploy"));
+RunTarget(Argument("target", "Deploy-Application"));
