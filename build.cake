@@ -73,29 +73,26 @@ var srcDir = Directory("src");
 var templateFile = srcDir + File("arm_template.json");
 var pfxFile = File("Azure.pfx");
 
-Setup(
-    context =>
-    {
-        Information($"Starting build against git branch '{gitBranch.CanonicalName}'.");
-        Information($"Region '{region}', environment '{environment}', subscription ID '{subscriptionId}', client ID '{clientId}', tenant ID '{tenantId}'.");
-    });
-
 Task("Deploy")
     .Does(
         async (context) =>
         {
+            Information($"Starting deployment against git branch '{gitBranch.CanonicalName}'.");
+            Information($"Region '{region}', environment '{environment}', subscription ID '{subscriptionId}', client ID '{clientId}', tenant ID '{tenantId}'.");
+
             if (!FileExists(pfxFile))
             {
                 throw new Exception($"The PFX file, '{pfxFile}', used to authenticate with Azure could not be found.");
             }
 
+            // Deploy the ARM template describing the infrastructure requirements of our Service Fabric application.
             var credentials = CreateAzureCredentials(context, clientId, tenantId, pfxFile);
             var azure = CreateAuthenticatedAzureClient(context, credentials);
             var resourceGroup = await EnsureResourceGroup(context, azure, resourceGroupName, region);
             var keyVault = await EnsureKeyVault(context, azure, keyVaultName, resourceGroupName, region);
             var selfSignedCertificatePassword = GenerateRandomPassword(8);
             var selfSignedCertificate = CreateSelfSignedServerCertificate(context, certificateName, selfSignedCertificatePassword);
-            var certificateBundle = await UploadCertificateToKeyVault(
+            var certificateBundle = await EnsureCertificate(
                 context,
                 azure,
                 keyVault,
@@ -110,10 +107,11 @@ Task("Deploy")
                 subscriptionId,
                 resourceGroupName,
                 resourceNamePrefix,
-                selfSignedCertificate,
                 certificateBundle,
                 vmInstanceCount,
                 keyVault);
+
+            // Build and deploy the Service Fabric application itself.
         });
 
 Task("Start-Docker")
@@ -277,7 +275,7 @@ private static X509Certificate2 CreateSelfSignedServerCertificate(ICakeContext c
     }
 }
 
-private static async Task<CertificateBundle> UploadCertificateToKeyVault(
+private static async Task<CertificateBundle> EnsureCertificate(
     ICakeContext context,
     IAzure azure,
     IVault vault,
@@ -285,12 +283,36 @@ private static async Task<CertificateBundle> UploadCertificateToKeyVault(
     string certificateName,
     string certificatePassword)
 {
-    context.Information($"Importing certificate with name '{certificateName}' to vault with name '{vault.Name}'.");
-    var certificates = new X509Certificate2Collection(certificate);
-    var result = await vault
-        .Client
-        .ImportCertificateAsync(vault.VaultUri, certificateName, certificates, null);
-    context.Information($"Certificate with name '{certificateName}' was imported into vault with name '{vault.Name}'.");
+    context.Information($"Ensuring certificate with name '{certificateName}' exists.");
+
+    CertificateBundle result;
+    CertificateBundle existingCertificate = null;
+
+    try
+    {
+        existingCertificate = await vault
+            .Client
+            .GetCertificateAsync(vault.VaultUri, certificateName);
+    }
+    catch (KeyVaultErrorException ex) when (ex.Response.StatusCode == HttpStatusCode.NotFound)
+    {
+        // Certificate was not found.
+    }
+
+    if (existingCertificate == null)
+    {
+        context.Information($"Certificate with name '{certificateName}', thumbprint '{certificate.Thumbprint}' does not yet exist in vault with name '{vault.Name}' - importing it.");
+        var certificates = new X509Certificate2Collection(certificate);
+        result = await vault
+            .Client
+            .ImportCertificateAsync(vault.VaultUri, certificateName, certificates, null);
+        context.Information($"Certificate with name '{certificateName}' was imported into vault with name '{vault.Name}'.");
+    }
+    else
+    {
+        result = existingCertificate;
+        context.Information($"Certificate with name '{certificateName}', thumbprint '{GenerateThumbprintFor(result.X509Thumbprint)}' already exists in vault with name '{vault.Name}'.");
+    }
 
     return result;
 }
@@ -303,7 +325,6 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
     string subscriptionId,
     string resourceGroupName,
     string resourceNamePrefix,
-    X509Certificate2 certificate,
     CertificateBundle certificateBundle,
     string vmInstanceCount,
     IVault vault)
@@ -322,15 +343,21 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
         resourceManagementClient.SubscriptionId = subscriptionId;
 
         var templateContents = System.IO.File.ReadAllText(templateFile);
+
         // The RDP password should never be used in a Service Fabric cluster, but we need to assign one all the same.
-        var rdpPassword = GenerateRandomPassword(8);
+        // We also need to ensure it is the same password if the cluster is being re-deployed, since the admin password cannot be updated.
+        // We do that by seeding the RNG from the thumbprint of the certificate being used in the environment.
+        var passwordSeed = BitConverter.ToInt32(certificateBundle.X509Thumbprint, 0);
+        var rdpPassword = GenerateRandomPassword(8, passwordSeed);
         var escapedRdpPassword = rdpPassword
             .Replace("\\", "\\\\")
             .Replace("\"", "\\\"");
 
+        var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
+
         var templateParameters = $@"{{
 ""resourcePrefix"": {{""value"": ""{resourceNamePrefix}""}},
-""certificateThumbprint"": {{""value"": ""{certificate.Thumbprint}""}},
+""certificateThumbprint"": {{""value"": ""{certificateThumbprint}""}},
 ""certificateUrlValue"": {{""value"": ""{certificateBundle.SecretIdentifier}""}},
 ""sourceVaultResourceId"": {{""value"": ""{vault.Id}""}},
 ""rdpPassword"": {{""value"": ""{escapedRdpPassword}""}},
@@ -402,16 +429,28 @@ private static async Task<DeploymentExtendedInner> DeployResourceGroup(
     }
 }
 
-private static string GenerateRandomPassword(int length)
+private static string GenerateRandomPassword(int length, int? seed = null)
 {
     var builder = new StringBuilder();
-    var random = new Random();
+    var random = seed == null ? new Random() : new Random(seed.Value);
     char ch;
 
     for (int i = 0; i < length; i++)
     {
         ch = Convert.ToChar(33 + random.Next(94));
         builder.Append(ch);
+    }
+
+    return builder.ToString();
+}
+
+private static string GenerateThumbprintFor(byte[] bytes)
+{
+    var builder = new StringBuilder();
+
+    foreach (var b in bytes)
+    {
+        builder.Append(b.ToString("X2"));
     }
 
     return builder.ToString();
