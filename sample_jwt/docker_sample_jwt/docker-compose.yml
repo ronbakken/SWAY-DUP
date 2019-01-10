@@ -11,7 +11,7 @@ services:
     - ./envoy.yaml:/etc/envoy/envoy.yaml
   inf_server_jwt:
     build:
-      context: ../../inf_server_jwt
-      dockerfile: Dockerfile
+      context: ../..
+      dockerfile: inf_server_jwt/Dockerfile
     network_mode: host
     restart: always

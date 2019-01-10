@@ -21,7 +21,7 @@ class SampleJwtService extends SampleJwtServiceBase {
   static final Logger log = Logger('SampleJwtService');
   final grpc.ClientChannel backendJwtChannel = grpc.ClientChannel(
     '127.0.0.1',
-    port: 8919,
+    port: 8929,
     options: const grpc.ChannelOptions(
       credentials: grpc.ChannelCredentials.insecure(),
     ),

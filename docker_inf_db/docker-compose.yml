@@ -10,6 +10,10 @@
 # phpMySQL: http://localhost:8096 inf veJxEkenwr7mmC2o
 # phpMySQL Accounts: http://localhost:8097 inf veJxEkenwr7mmC2o
 # phpMySQL Proposals: http://localhost:8098 inf veJxEkenwr7mmC2o
+# https://stackoverflow.com/questions/22944631/how-to-get-the-ip-address-of-the-docker-host-from-inside-a-docker-container
+# docker run -i -t alpine /bin/bash
+# host.docker.internal on OSX or 172.17.0.1 on Linux
+# 127.0.0.1 for direct from host
 version: '3.3'
 services:
   elasticsearch:
@@ -57,6 +61,9 @@ services:
       MYSQL_PASSWORD: veJxEkenwr7mmC2o
     ports:
       - 3306:3306
+    args:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
   mariadb_accounts:
     image: mariadb/server:10.3
     volumes:
@@ -95,6 +102,7 @@ services:
     image: phpmyadmin/phpmyadmin:4.8
     depends_on:
       - mariadb_general
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
       PMA_HOST: mariadb_general
@@ -106,6 +114,7 @@ services:
     image: phpmyadmin/phpmyadmin:4.8
     depends_on:
       - mariadb_accounts
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
       PMA_HOST: mariadb_accounts
@@ -117,6 +126,7 @@ services:
     image: phpmyadmin/phpmyadmin:4.8
     depends_on:
       - mariadb_proposals
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
       PMA_HOST: mariadb_proposals

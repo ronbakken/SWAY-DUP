@@ -74,17 +74,17 @@ function getKeyStore(call, callback) {
 function main() {
     var server = new grpc.Server();
     server.addService(inf.BackendJwt.service, { sign: sign, getKeyStore: getKeyStore });
-    server.bind('0.0.0.0:8919', grpc.ServerCredentials.createInsecure());
+    server.bind('0.0.0.0:8929', grpc.ServerCredentials.createInsecure());
     server.start();
 
     http.createServer(function (req, res) {
         console.log(req.url);
-        // http://127.0.0.1:8918/.well-known/jwks.json
+        // http://127.0.0.1:8928/.well-known/jwks.json
         if (req.url == '/.well-known/jwks.json') {
             res.write(jwks);
         }
         res.end();
-    }).listen(8918);
+    }).listen(8928);
 }
 
 main();

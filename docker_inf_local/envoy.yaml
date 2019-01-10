@@ -1,13 +1,13 @@
 admin:
   access_log_path: /tmp/admin_access.log
   address:
-    socket_address: { address: 0.0.0.0, port_value: 7902 }
+    socket_address: { address: 0.0.0.0, port_value: 8082 }
 
 static_resources:
   listeners:
   - name: listener_0
     address:
-      socket_address: { address: 0.0.0.0, port_value: 7901 }
+      socket_address: { address: 0.0.0.0, port_value: 8080 }
     filter_chains:
     - filters:
       - name: envoy.http_connection_manager
@@ -21,18 +21,29 @@ static_resources:
               domains: ["*"]
               routes:
               # Publish API
-              - match: { prefix: "/sample_jwt.SampleJwt" }
-                # prefix: "/"
-                # headers:
-                # - name: content-type
-                #   value: application/grpc
-                route:
-                  cluster: sample_jwt
-                  #max_grpc_timeout: 0s
-              # Publish public JWKS
+              - match: { prefix: "/inf.ApiSession" }
+                route: { cluster: "server_api" }
+              - match: { prefix: "/inf.ApiAccount" }
+                route: { cluster: "server_api" }
+              - match: { prefix: "/inf.ApiPush" }
+                route: { cluster: "server_push_api" }
+              - match: { prefix: "/inf.ApiStorage" }
+                route: { cluster: "server_api" }
+              - match: { prefix: "/inf.ApiOAuth" }
+                route: { cluster: "server_api" }
+              - match: { prefix: "/inf.ApiProfiles" }
+                route: { cluster: "server_api" }
+              - match: { prefix: "/inf.ApiOffers" }
+                route: { cluster: "server_api" }
+              - match: { prefix: "/inf.ApiProposals" }
+                route: { cluster: "server_api" }
+              - match: { prefix: "/inf.ApiProposal" }
+                route: { cluster: "server_api" }
+              - match: { prefix: "/inf.ApiExplore" }
+                route: { cluster: "server_api" }
+              # Publish public JWKS (for debugging)
               - match:  { prefix: "/.well-known/jwks.json" }
-                route:
-                  cluster: server_jwt_http
+                route: { cluster: "server_jwt_http" }
               #cors:
               #  allow_origin:
               #  - "*"
@@ -69,13 +80,35 @@ static_resources:
                       infsandbox
           - name: envoy.router
   clusters:
-  # /sample_jwt.SampleJwt
-  - name: sample_jwt
+  # /inf.ApiSession
+  # /inf.ApiAccount
+  # /inf.ApiStorage
+  # /inf.ApiOAuth
+  # /inf.ApiProfiles
+  # /inf.ApiOffers
+  # /inf.ApiProposals
+  # /inf.ApiProposal
+  # /inf.ApiExplore
+  - name: server_api
     connect_timeout: 0.25s
     type: logical_dns
     http2_protocol_options: {}
     lb_policy: round_robin
-    hosts: [{ socket_address: { address: 127.0.0.1, port_value: 7900 }}]
+    hosts: [{ socket_address: { address: 127.0.0.1, port_value: 8900 }}]
+  # /inf.ApiPush
+  - name: server_push_api
+    connect_timeout: 0.25s
+    type: logical_dns
+    http2_protocol_options: {}
+    lb_policy: round_robin
+    hosts: [{ socket_address: { address: 127.0.0.1, port_value: 8910 }}]
+  # /ws
+  - name: server_push_ws
+    connect_timeout: 0.25s
+    type: logical_dns
+    http2_protocol_options: {}
+    lb_policy: round_robin
+    hosts: [{ socket_address: { address: 127.0.0.1, port_value: 8911 }}]
   # http://127.0.0.1:8918/.well-known/jwks.json
   - name: server_jwt_http
     connect_timeout: 0.25s

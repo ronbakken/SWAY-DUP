@@ -14,8 +14,8 @@ List of service ports is provided here to ensure we don't have overlapping ports
 | Push API gRPC | 8910 |
 | Push API WS | 8911 |
 | Push Backend | 8919 |
-| JWT Backend HTTP | 8918 |
-| JWT Backend gRPC | 8919 |
+| JWT Backend HTTP | 8928 |
+| JWT Backend gRPC | 8929 |
 | Elasticsearch API | 9200 |
 | Elasticsearch Mesh | 9300 |
 | MariaDB | 3306 |
@@ -28,6 +28,7 @@ List of service ports is provided here to ensure we don't have overlapping ports
 | Envoy Proxy HTTP | 80 |
 | Envoy Proxy HTTPS | 443 |
 | Envoy Proxy HTTP Localhost | 8080 |
+| Envoy Proxy HTTP Localhost Admin | 8082 |
 | Envoy Proxy HTTPS Localhost | 8443 |
 
 ## Sample Service Ports

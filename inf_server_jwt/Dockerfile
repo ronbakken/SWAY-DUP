@@ -6,15 +6,15 @@ WORKDIR /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package*.json ./
+COPY inf_server_jwt/package*.json ./
 
 RUN npm install
 # If you are building your code for production
 # RUN npm install --only=production
 
 # Bundle app source
-COPY . .
+COPY inf_server_jwt/. .
 
-EXPOSE 8918
-EXPOSE 8919
+EXPOSE 8928
+EXPOSE 8929
 CMD [ "npm", "start" ]
