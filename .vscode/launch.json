@@ -17,6 +17,13 @@
             "program": "bin/main.dart",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "JWT Sample Test",
+            "cwd": "sample_jwt",
+            "program": "test/jwt_test.dart",
+            "request": "launch",
+            "type": "dart"
         }
     ]
 }
