@@ -1,7 +1,8 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:inf/domain/domain.dart';
+import 'package:inf/backend/backend.dart';
+
 import 'package:inf/ui/offer_add/add_business_offer_page.dart';
 import 'package:inf/ui/main/activities_section.dart';
 import 'package:inf/ui/main/bottom_nav.dart';
@@ -17,24 +18,22 @@ const kBottomNavHeight = 72.0;
 const kMenuIconSize = 48.0;
 
 class MainPage extends PageWidget {
-  static Route<dynamic> route(UserType userType) {
+  static Route<dynamic> route() {
     return FadePageRoute(
-      builder: (BuildContext context) => MainPage(userType: userType),
+      builder: (BuildContext context) => MainPage(),
     );
   }
 
   const MainPage({
     Key key,
-    @required this.userType,
   }) : super(key: key);
 
-  final UserType userType;
 
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, TickerProviderStateMixin {
+class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
   TabController _tabController;
   AnimationController _drawerController;
   Animation<Offset> _drawerSlideAnim;
@@ -46,6 +45,7 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
 
   MainPageMode _mode = MainPageMode.activities;
   bool _menuVisible = false;
+  UserType userType;
 
   @override
   void initState() {
@@ -60,7 +60,11 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
     // TODO: Add curves
     _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
     _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
-    if (widget.userType == UserType.influencer) {
+    
+    assert(backend.get<UserManager>().currentUser != null);
+
+    userType = backend.get<UserManager>().currentUser.userType;
+    if ( userType == UserType.influencer) {
       _setMode(MainPageMode.browse);
     } else {
       _setMode(MainPageMode.activities);
@@ -123,16 +127,16 @@ class _MainPageState extends PageState<MainPage> with AuthStateMixin<MainPage>, 
                   ),
                 ),
                 MainBottomNav(
-                  userType: widget.userType,
+                  userType: userType,
                   height: kBottomNavHeight,
                   initialValue: _mode,
                   onBottomNavChanged: _setMode,
                   onFABPressed: () {
-                    if (widget.userType == UserType.influencer) {
+                    if (userType == UserType.influencer) {
                       // TODO SEARCH
                     } else {
                       if (_mode == MainPageMode.activities) {
-                        Navigator.of(context).push(AddBusinessOfferPage.route(widget.userType));
+                        Navigator.of(context).push(AddBusinessOfferPage.route(userType));
                       } else {
                         // TODO SEARCH
                       }

@@ -6,16 +6,14 @@ import 'package:rxdart/rxdart.dart';
 
 class UserManagerImplementation implements UserManager {
   @override
-  bool isLoggedIn = false;
+  bool isLoggedIn = true;
 
   @override
-  User currentUser;
+  User get currentUser => backend.get<AuthenticationService>().currentUser;
 
-  @override
-  Observable<AuthenticationResult> get logInStateChanged => backend.get<AuthenticationService>().loginState;
 
   // User Commands
-  // RxCommand<LogInData, void> logInUserCommand;
+  RxCommand<void, bool> logInUserCommand;
   // RxCommand<User, void> createUserByEmailCommand;
 
   @override
@@ -25,15 +23,8 @@ class UserManagerImplementation implements UserManager {
   RxCommand<User, void> updateUserCommand;
 
   UserManagerImplementation() {
-    logInStateChanged.listen((state) {
-      if (state.state == AuthenticationState.success) {
-        currentUser = state.user;
-        isLoggedIn = true;
-      } else {
-        currentUser = null;
-        isLoggedIn = false;
-      }
-    });
+
+    logInUserCommand = RxCommand.createAsyncNoParam(backend.get<AuthenticationService>().loginUserWithToken );
 
     updateSocialMediaAccountCommand = RxCommand.createAsyncNoResult<SocialMediaAccount>(
         (account) => backend.get<AuthenticationService>().updateSocialMediaAccount(account));
@@ -44,5 +35,5 @@ class UserManagerImplementation implements UserManager {
   }
 
   @override
-  Observable<User> get currentUserUpdates => backend.get<AuthenticationService>().currentUser;
+  Observable<User> get currentUserUpdates => backend.get<AuthenticationService>().currentUserUpdates;
 }

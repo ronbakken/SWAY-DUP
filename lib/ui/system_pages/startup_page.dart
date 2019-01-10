@@ -13,8 +13,6 @@ import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/backend/backend.dart';
 
-
-
 class StartupPage extends PageWidget {
   static Route<dynamic> route() {
     return FadePageRoute(
@@ -33,45 +31,36 @@ class _StartupPageState extends PageState<StartupPage> {
   @override
   void initState() {
     super.initState();
-    initBackend().catchError( (error) async{
-        await Navigator.of(context).push(NoConnectionPage.route());
-        await initBackend();
+    var loginCommand = backend.get<UserManager>().logInUserCommand;
+
+    loginCommand.listen((loginSuccess) {
+      Route nextPage;
+      if (loginSuccess) {
+        nextPage = MainPage.route();
+      } else {
+        nextPage = WelcomePage.route();
+      }
+      Navigator.of(context).pushReplacement(nextPage);
     });
-    waitForLoginState();
-  }
 
-  void waitForLoginState() {
-    loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen(
-      (loginResult) {
-        Route nextPage;
-        switch (loginResult.state) {
-
-          /// This is in case that the user has not activated his account
-          /// but has closed the App
-          case AuthenticationState.waitingForActivation:
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return CheckEmailPopUp(
-                  userType: loginResult.user.userType,
-                  email: loginResult.user.email,
-                );
-              },
-            );
-            nextPage = MainPage.route(loginResult.user.userType);
-            break;
-
-          case AuthenticationState.success:
-            nextPage = MainPage.route(loginResult.user.userType);
-            break;
-
-          default:
-            nextPage = WelcomePage.route();
+    loginCommand.thrownExceptions.listen( (error) async {
+        if (error is GrpcError || error is SocketException)
+        {
+           await Navigator.of(context).push(NoConnectionPage.route());
+           loginCommand.execute();
         }
+        else
+        {
+          await backend.get<ErrorReporter>().logException(error);
+        }
+    });
 
-        Navigator.of(context).pushReplacement(nextPage);
-      },
-    );
+    initBackend().catchError((error) async {
+      await Navigator.of(context).push(NoConnectionPage.route());
+      await initBackend();
+    }).then((_) {
+      loginCommand.execute();
+    });
   }
 
   @override
@@ -92,7 +81,6 @@ class _StartupPageState extends PageState<StartupPage> {
 
   /// Check is we got permissions for the location service and if it is turned on
   void checkPermissionStatus() {
-    waitForLoginState();
 
     // PermissionHandler().checkPermissionStatus(PermissionGroup.location).then((status) async {
     //   if (status == PermissionStatus.granted) {

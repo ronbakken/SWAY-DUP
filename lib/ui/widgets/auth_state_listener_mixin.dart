@@ -1,3 +1,5 @@
+///probably obsolete
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -11,8 +13,8 @@ mixin AuthStateMixin<T extends StatefulWidget> on State<T> {
   @override
   void initState() {
     super.initState();
-    _loginStateChangedSubscription =
-        backend.get<UserManager>().logInStateChanged.listen(onAuthStateChanged);
+    // _loginStateChangedSubscription =
+    //     backend.get<UserManager>().logInStateChanged.listen(onAuthStateChanged);
   }
 
   void onAuthStateChanged(AuthenticationResult authResult) {

@@ -55,25 +55,25 @@ class SignUpPageState extends PageState<SignUpPage> {
     super.initState();
 
     /// OBserve login state
-    _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen((loginResult) {
-      switch (loginResult.state) {
-        case AuthenticationState.waitingForActivation:
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return CheckEmailPopUp(
-                userType: widget.userType,
-                email: loginResult.user.email,
-              );
-            },
-          );
-          break;
-        case AuthenticationState.success:
-          Navigator.of(context).pushAndRemoveUntil(MainPage.route(widget.userType), (route) => false);
-          break;
-        default:
-      }
-    });
+  //   _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen((loginResult) {
+  //     switch (loginResult.state) {
+  //       case AuthenticationState.waitingForActivation:
+  //         showDialog(
+  //           context: context,
+  //           builder: (BuildContext context) {
+  //             return CheckEmailPopUp(
+  //               userType: widget.userType,
+  //               email: loginResult.user.email,
+  //             );
+  //           },
+  //         );
+  //         break;
+  //       case AuthenticationState.success:
+  //         Navigator.of(context).pushAndRemoveUntil(MainPage.route(widget.userType), (route) => false);
+  //         break;
+  //       default:
+  //     }
+  //   });
   }
 
   @override
@@ -176,9 +176,9 @@ class SignUpPageState extends PageState<SignUpPage> {
                       ),
                       InkResponse(
                         onTap: () async {
-                          await backend.get<AuthenticationService>().loginAnonymous(widget.userType);
+ //                         await backend.get<AuthenticationService>().loginAnonymous(widget.userType);
                           final nav = Navigator.of(context)..pop();
-                          unawaited(nav.push(MainPage.route(widget.userType)));
+//                          unawaited(nav.push(MainPage.route(widget.userType)));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -242,7 +242,7 @@ class _DynamicSocialNetworkButtons extends StatelessWidget {
         _buildLoginButton(
           leading: InfMemoryImage(network.logoColoredData),
           text: network.name,
-          onPressed: () => backend.get<AuthenticationService>().loginWithSocialNetWork(context, userType, network),
+ //         onPressed: () => backend.get<AuthenticationService>().loginWithSocialNetWork(context, userType, network),
         ),
       );
       buttonList.add(SizedBox(height: 16.0));

@@ -7,8 +7,6 @@ import 'package:rxdart/rxdart.dart';
 /// Save latest provider and login and warn user if he tries to signin
 /// with a user he has never used before
 
-
-
 enum AuthenticationState {
   connecting,
   notLoggedIn,
@@ -52,34 +50,19 @@ class AuthenticationResult {
 }
 
 abstract class AuthenticationService {
-
   Future<void> init();
 
-  // must be backed by BehaviourSubject
-  Observable<AuthenticationResult> get loginState;
+  User get currentUser;
+  Observable<User> get currentUserUpdates;
 
-  Observable<User> get currentUser;
-
-  /// Returns the current authenticationstate independent od a state change
-  AuthenticationResult getCurrentAuthenticationState();
-
-  Future<void> loginAnonymous(UserType userType);
-
-  Future<void> loginWithSocialNetWork(
-      BuildContext
-          context, // TODO: Since this function is expecting UI to pop up... Please restructure
-      UserType userType,
-      SocialNetworkProvider socialNetwork);
-
-
-  Observable<User> getPublicProfile(Int64 accountId);    
+  Future<bool> loginUserWithToken();
 
   // Observable<List<LocalAccountData>> get linkedAccounts;
   // Future<void> switchToUserAccount(LocalAccountData user);
 
   Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia);
   Future<void> updateUser(User user);
-  
+
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);
 
