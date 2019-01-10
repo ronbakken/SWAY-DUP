@@ -90,9 +90,9 @@ message DataAuth {
   GlobalAccountState global_account_state = 7; // Banned, readWrite (active), manager, etc
   AccountLevel account_level = 9; // Subscription (free, premium, pro, etc)
 
-  /// Set for the bearer token for additional security.
-  /// The server cannot generate new bearer tokens for an existing session due to this by design.
-  /// If doing so, it requires invalidating the previous bearer token.
+  /// Set for the refresh token for additional security.
+  /// The server cannot generate new refresh tokens for an existing session due to this, by design.
+  /// If doing so, it requires invalidating the previous refresh token, adjusting it in the database.
   bytes cookie = 1;
 
 }
