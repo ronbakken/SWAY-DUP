@@ -26,9 +26,10 @@ Currently there is one majestic monolith service. Preconfigured to connect stand
 
 ## Sample Service Ports
 
-| Service | Port |
-| --- | --- |
-| JWT gRPC | 5900 |
+| Sample | Service | Port |
+| --- | --- | --- |
+| JWT | Dart gRPC | 7900 |
+| JWT | Envoy Proxy | 7901 |
 
 ## Todo
 
