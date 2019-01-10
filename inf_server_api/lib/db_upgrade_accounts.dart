@@ -30,7 +30,7 @@ Future<void> dbUpgradeAccounts(sqljocky.ConnectionPool sql) async {
         '  ADD PRIMARY KEY (`self_test_id`)');
     await sql.query(''
         'ALTER TABLE `self_test`'
-        '  MODIFY `self_test_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=${_random.nextInt(1 << 27)}');
+        '  MODIFY `self_test_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=${_random.nextInt(1 << 27) + 2}');
   });
 
   upgrader.registerUpgrade('sessions_001',
@@ -53,7 +53,7 @@ Future<void> dbUpgradeAccounts(sqljocky.ConnectionPool sql) async {
         '  ADD KEY `account_id` (`account_id`)');
     await sql.query(''
         'ALTER TABLE `sessions`'
-        '  MODIFY `session_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=${_random.nextInt(1 << 27)}');
+        '  MODIFY `session_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=${_random.nextInt(1 << 27) + 1}');
   });
 
   upgrader.registerUpgrade('accounts_001',
@@ -77,7 +77,7 @@ Future<void> dbUpgradeAccounts(sqljocky.ConnectionPool sql) async {
         '  ADD PRIMARY KEY (`account_id`)');
     await sql.query(''
         'ALTER TABLE `accounts`'
-        '  MODIFY `account_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=${_random.nextInt(1 << 27)}');
+        '  MODIFY `account_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=${_random.nextInt(1 << 27) + 1}');
   });
 
   upgrader.registerUpgrade('social_media_001',
@@ -134,7 +134,7 @@ Future<void> dbUpgradeAccounts(sqljocky.ConnectionPool sql) async {
         '  ADD KEY `s2cell_id` (`s2cell_id`)');
     await sql.query(''
         'ALTER TABLE `locations`'
-        '  MODIFY `location_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=${_random.nextInt(1 << 27)}');
+        '  MODIFY `location_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=${_random.nextInt(1 << 27) + 1}');
   });
 
   upgrader.registerUpgrade('oauth_connections_001',
