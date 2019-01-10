@@ -14,6 +14,8 @@ List of service ports is provided here to ensure we don't have overlapping ports
 | Push API gRPC | 8910 |
 | Push API WS | 8911 |
 | Push Backend | 8919 |
+| JWT Backend HTTP | 8918 |
+| JWT Backend gRPC | 8919 |
 | Elasticsearch API | 9200 |
 | Elasticsearch Mesh | 9300 |
 | MariaDB | 3306 |
@@ -34,6 +36,7 @@ List of service ports is provided here to ensure we don't have overlapping ports
 | --- | --- | --- |
 | JWT | Dart gRPC | 7900 |
 | JWT | Envoy Proxy | 7901 |
+| JWT | Envoy Proxy Admin | 7902 |
 
 ## Todo
 

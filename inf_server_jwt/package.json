@@ -1,0 +1,11 @@
+{
+    "name": "sample_jwt",
+    "version": "0.1.0",
+    "dependencies": {
+        "@grpc/proto-loader": "^0.1.0",
+        "async": "^1.5.2",
+        "grpc": "^1.11.0",
+        "jsonwebtoken": "^8.4.0",
+        "rsa-pem-to-jwk": "^1.1.3"
+    }
+}

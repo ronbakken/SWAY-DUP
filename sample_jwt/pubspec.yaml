@@ -1,6 +1,6 @@
 name: sample_jwt
 description: JWT sample
-version: 1.0.0
+version: 0.1.0
 homepage: https://www.infmarketplace.com
 author: Jan Boon <jan.boon@kaetemi.be>
 publish_to: none

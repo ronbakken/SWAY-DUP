@@ -18,17 +18,19 @@ class SampleJwtService extends SampleJwtServiceBase {
   static final Logger log = Logger('SampleJwtService');
 
   @override
-  Future<ResGenerate> generate(grpc.ServiceCall call, ReqGenerate request) {
+  Future<ResGenerate> generate(grpc.ServiceCall call, ReqGenerate request) async {
     log.severe(call.clientMetadata);
     log.severe(request);
-    throw grpc.GrpcError.unimplemented();
+    final ResGenerate response = ResGenerate();
+    return response;
   }
 
   @override
-  Future<ResValidate> validate(grpc.ServiceCall call, ReqValidate request) {
+  Future<ResValidate> validate(grpc.ServiceCall call, ReqValidate request) async {
     log.severe(call.clientMetadata);
     log.severe(request);
-    throw grpc.GrpcError.unimplemented();
+    final ResValidate response = ResValidate();
+    return response;
   }
 
 }
