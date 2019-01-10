@@ -61,9 +61,7 @@ services:
       MYSQL_PASSWORD: veJxEkenwr7mmC2o
     ports:
       - 3306:3306
-    args:
-      - "--character-set-server=utf8mb4"
-      - "--collation-server=utf8mb4_unicode_ci"
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
   mariadb_accounts:
     image: mariadb/server:10.3
     volumes:
@@ -76,6 +74,7 @@ services:
       MYSQL_PASSWORD: veJxEkenwr7mmC2o
     ports:
       - 3307:3306
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
   mariadb_proposals:
     image: mariadb/server:10.3
     volumes:
@@ -88,6 +87,7 @@ services:
       MYSQL_PASSWORD: veJxEkenwr7mmC2o
     ports:
       - 3308:3306
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
   kibana:
     image: kibana:6.5.4
     depends_on:

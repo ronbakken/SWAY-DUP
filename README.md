@@ -8,28 +8,40 @@ Currently there is one majestic monolith service. Preconfigured to connect stand
 
 List of service ports is provided here to ensure we don't have overlapping ports anywhere. This allows us to easily set up on a development machine.
 
+| Service | Port | Prefix |
+| --- | --- |
+| API gRPC | 8900 | / |
+| Push API gRPC | 8910 | /inf.ApiPush |
+| Push API WS | 8911 | /ws |
+| Push Backend | 8919 | - |
+| JWT Backend HTTP | 8928 | /.well-known/jwks.json |
+| JWT Backend gRPC | 8929 | - |
+
 | Service | Port |
 | --- | --- |
-| API gRPC | 8900 |
-| Push API gRPC | 8910 |
-| Push API WS | 8911 |
-| Push Backend | 8919 |
-| JWT Backend HTTP | 8928 |
-| JWT Backend gRPC | 8929 |
 | Elasticsearch API | 9200 |
 | Elasticsearch Mesh | 9300 |
 | MariaDB | 3306 |
-| phpMyAdmin | 8096 |
 | Account MariaDB | 3307 |
-| Account phpMyAdmin | 8097 |
 | Proposal MariaDB | 3308 |
+
+| Service | Port |
+| --- | --- |
+| phpMyAdmin | 8096 |
+| Account phpMyAdmin | 8097 |
 | Proposal phpMyAdmin | 8098 |
 | Kibana | 5601 |
+
+| Service | Port |
+| --- | --- |
 | Envoy Proxy HTTP | 80 |
 | Envoy Proxy HTTPS | 443 |
+
+| Service | Port |
+| --- | --- |
 | Envoy Proxy HTTP Localhost | 8080 |
 | Envoy Proxy HTTP Localhost Admin | 8082 |
-| Envoy Proxy HTTPS Localhost | 8443 |
+| _Envoy Proxy HTTPS Localhost_ | 8443 |
 
 ## Sample Service Ports
 
