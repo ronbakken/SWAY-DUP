@@ -399,6 +399,7 @@ const ConfigServices$json = const {
     },
     const {'1': 'salt', '3': 35, '4': 1, '5': 12, '10': 'salt'},
     const {'1': 'backend_push', '3': 53, '4': 1, '5': 9, '10': 'backendPush'},
+    const {'1': 'backend_jwt', '3': 54, '4': 1, '5': 9, '10': 'backendJwt'},
     const {'1': 'spaces_region', '3': 4, '4': 1, '5': 9, '10': 'spacesRegion'},
     const {'1': 'spaces_key', '3': 5, '4': 1, '5': 9, '10': 'spacesKey'},
     const {'1': 'spaces_secret', '3': 6, '4': 1, '5': 9, '10': 'spacesSecret'},
