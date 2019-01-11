@@ -98,7 +98,7 @@ class DbUpgrader {
                 <dynamic>[_service, function.tag]);
             // As MySQL automatically commits transactions when modifying schemes,
             // in case of failure, the success flag will not be set.
-            // The scheme tag list function causes abort when it encounters 
+            // The scheme tag list function causes abort when it encounters
             // an unsuccessful upgrade to stop data loss.
             await function.function(sql);
             await sql.prepareExecute(
