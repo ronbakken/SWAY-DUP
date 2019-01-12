@@ -8,8 +8,8 @@ import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/api_client.dart';
-import 'package:inf/network_generic/network_internals.dart';
+import 'package:inf/network_generic/api.dart';
+import 'package:inf/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:switchboard/switchboard.dart';
 
@@ -21,7 +21,7 @@ class _CachedProfile {
   DataAccount fallback;
 }
 
-abstract class NetworkProfiles implements ApiClient, NetworkInternals {
+abstract class NetworkProfiles implements Api, ApiInternals {
   Map<Int64, _CachedProfile> _cachedProfiles = Map<Int64, _CachedProfile>();
 
   @override

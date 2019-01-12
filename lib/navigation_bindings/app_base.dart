@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf/network_inheritable/api_provider.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/screens/debug_account.dart';

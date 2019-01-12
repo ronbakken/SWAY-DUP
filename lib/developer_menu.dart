@@ -13,7 +13,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf/network_inheritable/api_provider.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/screens/business_offer_list.dart';
 import 'package:inf/screens/dashboard_common.dart';
@@ -292,16 +292,16 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
             child: Row(
                 children: const <Widget>[Text('Switch server to Excalibur')]),
             onPressed: () {
-              NetworkProvider.of(context)
-                  .overrideUri('wss://excalibur.devinf.net/api');
+              ApiProvider.of(context)
+                  .overrideEndPoint('wss://excalibur.devinf.net/api');
             },
           ),
           FlatButton(
             child: Row(
                 children: const <Widget>[Text('Switch server to Ulfberth')]),
             onPressed: () {
-              NetworkProvider.of(context)
-                  .overrideUri('wss://ulfberth.devinf.net/api');
+              ApiProvider.of(context)
+                  .overrideEndPoint('wss://ulfberth.devinf.net/api');
             },
           ),
           FlatButton(
@@ -309,8 +309,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               Text('Switch server to 192.168.56.1')
             ]),
             onPressed: () {
-              NetworkProvider.of(context)
-                  .overrideUri('ws://192.168.56.1:8090/ep');
+              ApiProvider.of(context)
+                  .overrideEndPoint('ws://192.168.56.1:8090/ep');
             },
           ),
           FlatButton(
@@ -318,8 +318,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               Text('Switch server to 192.168.105.2')
             ]),
             onPressed: () {
-              NetworkProvider.of(context)
-                  .overrideUri('ws://192.168.105.2:8090/ep');
+              ApiProvider.of(context)
+                  .overrideEndPoint('ws://192.168.105.2:8090/ep');
             },
           ),
           FlatButton(
@@ -327,8 +327,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
               Text('Switch server to 192.168.43.123')
             ]),
             onPressed: () {
-              NetworkProvider.of(context)
-                  .overrideUri('ws://192.168.167.2:8090/ep');
+              ApiProvider.of(context)
+                  .overrideEndPoint('ws://192.168.167.2:8090/ep');
             },
           ),
           Column(children: accountButtons),

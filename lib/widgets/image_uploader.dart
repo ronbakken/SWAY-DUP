@@ -12,7 +12,7 @@ import 'package:flutter/widgets.dart';
 
 // https://pub.dartlang.org/packages/image_picker
 import 'package:image_picker/image_picker.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf/network_inheritable/api_provider.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/widgets/progress_dialog.dart';
@@ -33,7 +33,7 @@ class ImageUploader extends StatefulWidget {
   // The key of the uploaded image, this value may be sent to the server
   final String initialUrl;
   final TextEditingController uploadKey;
-  final Future<NetUploadImageRes> Function(File file) onUploadImage;
+  final Future<NetUploadSigned> Function(File file) onUploadImage;
 
   @override
   _ImageUploaderState createState() => _ImageUploaderState();
@@ -45,7 +45,7 @@ class _ImageUploaderState extends State<ImageUploader> {
 
   Future<void> uploadImage() async {
     if (widget.onUploadImage != null) {
-      final NetUploadImageRes res = await widget.onUploadImage(_image.file);
+      final NetUploadSigned res = await widget.onUploadImage(_image.file);
       if (!mounted) {
         return;
       }

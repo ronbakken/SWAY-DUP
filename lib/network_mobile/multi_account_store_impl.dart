@@ -54,23 +54,22 @@ class _LocalDomainDataImpl {
   String domain;
   int nextLocalId;
   final Map<Int64, _LocalAccountDataImpl> accounts =
-      Map<Int64, _LocalAccountDataImpl>();
-  final Map<int, _LocalAccountDataImpl> local =
-      Map<int, _LocalAccountDataImpl>();
+      <Int64, _LocalAccountDataImpl>{};
+  final Map<int, _LocalAccountDataImpl> local = <int, _LocalAccountDataImpl>{};
 }
 
 class MultiAccountStoreImpl implements MultiAccountStore {
   SharedPreferences _prefs;
   final Map<String, _LocalDomainDataImpl> _domains =
-      Map<String, _LocalDomainDataImpl>();
-  final _random = Random.secure();
+      <String, _LocalDomainDataImpl>{};
+  final Random _random = Random.secure();
   final String _startupDomain;
 
   _LocalAccountDataImpl _current;
 
   /// Fired anytime any of the accounts changed (add, remove, or update.)
   @override
-  Stream<Change<LocalAccountData>> get onAccountsChanged {
+  Stream<void> get onAccountsChanged {
     return _onAccountsChanged.stream;
   }
 
@@ -92,11 +91,11 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     return _current;
   }
 
-  final StreamController<Change<LocalAccountData>> _onAccountsChanged =
-      StreamController<Change<LocalAccountData>>.broadcast();
+  final StreamController<void> _onAccountsChanged =
+      StreamController<void>.broadcast(sync: true);
 
   final StreamController<LocalAccountData> _onSwitchAccount =
-      StreamController<LocalAccountData>.broadcast();
+      StreamController<LocalAccountData>.broadcast(sync: true);
 
   MultiAccountStoreImpl(this._startupDomain);
 
@@ -108,7 +107,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
 
     // Initialize local accounts list
     await _initLocalData(_startupDomain);
-    _onAccountsChanged.add(Change(ChangeAction.refreshAll, null));
+    _onAccountsChanged.add(null);
 
     // Initialize current account
     int localId = getLastUsed(_startupDomain);
@@ -129,8 +128,8 @@ class MultiAccountStoreImpl implements MultiAccountStore {
 
   @override
   Future<void> dispose() async {
-    _onAccountsChanged.close();
-    _onSwitchAccount.close();
+    await _onAccountsChanged.close();
+    await _onSwitchAccount.close();
   }
 
   @override
@@ -138,9 +137,11 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     String deviceTokenStr;
     try {
       deviceTokenStr = _prefs.getString('device_token');
-    } catch (e) {}
+    } catch (_, __) {
+      // empty
+    }
     Uint8List deviceToken;
-    if (deviceTokenStr == null || deviceTokenStr.length == 0) {
+    if (deviceTokenStr == null || deviceTokenStr.isEmpty) {
       deviceToken = Uint8List(32);
       for (int i = 0; i < deviceToken.length; ++i) {
         deviceToken[i] = _random.nextInt(256);
@@ -156,14 +157,14 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   Future<void> _initLocalData(String startupDomain) async {
     List<String> localDomains;
     try {
-      localDomains = _prefs.getStringList("known_domains") ?? List<String>();
+      localDomains = _prefs.getStringList('known_domains') ?? <String>[];
     } catch (error) {
-      localDomains = List<String>();
+      localDomains = <String>[];
     }
-    Directory tempDir = await getTemporaryDirectory();
+    final Directory tempDir = await getTemporaryDirectory();
     for (String domain in localDomains.toList()) {
       // NOTE: Domains are only switchable to locally when their config is saved, so verify them
-      File domainConfig = File("$tempDir/${domain}_config.bin");
+      final File domainConfig = File('$tempDir/${domain}_config.bin');
       if (!await domainConfig.exists()) {
         localDomains.remove(domain);
       }
@@ -171,50 +172,54 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     if (!localDomains.contains(startupDomain)) {
       // The startup domain config is in the APK
       localDomains.add(startupDomain);
-      _prefs.setStringList("known_domains", localDomains);
+      await _prefs.setStringList('known_domains', localDomains);
     }
     for (String domain in localDomains) {
-      _LocalDomainDataImpl endomainData = _LocalDomainDataImpl();
-      endomainData.domain = domain;
+      final _LocalDomainDataImpl domainData = _LocalDomainDataImpl();
+      domainData.domain = domain;
       try {
-        endomainData.nextLocalId = _prefs.getInt("${domain}_next_id") ?? 1;
+        domainData.nextLocalId = _prefs.getInt('${domain}_next_id') ?? 1;
       } catch (error) {
-        endomainData.nextLocalId = 1;
+        domainData.nextLocalId = 1;
       }
-      for (int localId = 1; localId < endomainData.nextLocalId; ++localId) {
-        _LocalAccountDataImpl accountData = _LocalAccountDataImpl();
+      for (int localId = 1; localId < domainData.nextLocalId; ++localId) {
+        final _LocalAccountDataImpl accountData = _LocalAccountDataImpl();
         accountData.domain = domain;
         accountData.localId = localId;
         try {
           accountData.sessionId = Int64.parseInt(
-                  _prefs.getString("${domain}_${localId}_session_id") ?? "0") ??
+                  _prefs.getString('${domain}_${localId}_session_id') ?? '0') ??
               Int64.ZERO;
-        } catch (error) {}
+        } catch (_, __) {
+          // empty
+        }
         if (accountData.sessionId != null &&
             accountData.sessionId != Int64.ZERO) {
           try {
             accountData.accountId = Int64.parseInt(
-                    _prefs.getString("${domain}_${localId}_account_id") ??
-                        "0") ??
+                    _prefs.getString('${domain}_${localId}_account_id') ??
+                        '0') ??
                 Int64.ZERO;
             accountData.accountType = AccountType.valueOf(
-                _prefs.getInt("${domain}_${localId}_account_type") ?? 0);
-            accountData.name = _prefs.getString("${domain}_${localId}_name");
+                _prefs.getInt('${domain}_${localId}_account_type') ?? 0);
+            accountData.name = _prefs.getString('${domain}_${localId}_name');
             accountData.blurredAvatarUrl =
-                _prefs.getString("${domain}_${localId}_blurred_avatar_url");
+                _prefs.getString('${domain}_${localId}_blurred_avatar_url');
             accountData.avatarUrl =
-                _prefs.getString("${domain}_${localId}_avatar_url");
-          } catch (error) {}
-          endomainData.accounts[accountData.accountId] = accountData;
-          endomainData.local[localId] = accountData;
+                _prefs.getString('${domain}_${localId}_avatar_url');
+          } catch (_, __) {
+            // empty
+          }
+          domainData.accounts[accountData.accountId] = accountData;
+          domainData.local[localId] = accountData;
         }
       }
-      _domains[domain] = endomainData;
+      _domains[domain] = domainData;
     }
   }
 
   List<LocalAccountData> getLocalAccounts() {
-    List<LocalAccountData> list = List<LocalAccountData>();
+    final List<LocalAccountData> list = <LocalAccountData>[];
     for (_LocalDomainDataImpl domain in _domains.values) {
       list.addAll(domain.accounts.values);
     }
@@ -237,25 +242,25 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     _domains[domain].accounts.removeWhere(
         (Int64 accountId, _LocalAccountDataImpl data) =>
             data.localId == localId);
-    _prefs.remove("${domain}_${localId}_session_id");
-    _prefs.remove("${domain}_${localId}_device_cookie");
-    _prefs.remove("${domain}_${localId}_account_id");
-    _prefs.remove("${domain}_${localId}_account_type");
-    _prefs.remove("${domain}_${localId}_name");
-    _prefs.remove("${domain}_${localId}_blurred_avatar_url");
-    _prefs.remove("${domain}_${localId}_avatar_url");
-    _onAccountsChanged.add(Change(ChangeAction.refreshAll, null));
+    _prefs.remove('${domain}_${localId}_session_id');
+    _prefs.remove('${domain}_${localId}_device_cookie'); // Deprecated
+    _prefs.remove('${domain}_${localId}_refresh_token');
+    _prefs.remove('${domain}_${localId}_account_id');
+    _prefs.remove('${domain}_${localId}_account_type');
+    _prefs.remove('${domain}_${localId}_name');
+    _prefs.remove('${domain}_${localId}_blurred_avatar_url');
+    _prefs.remove('${domain}_${localId}_avatar_url');
+    _onAccountsChanged.add(null); // Change(ChangeAction.refreshAll, null));
   }
 
   @override
   void setSessionId(
-      String domain, int localId, Int64 sessionId, Uint8List sessionCookie) {
+      String domain, int localId, Int64 sessionId, String refreshToken) {
     _domains[domain].local[localId].sessionId = sessionId;
-    _prefs.setString("${domain}_${localId}_session_id", sessionId.toString());
-    _prefs.setString(
-        "${domain}_${localId}_device_cookie", base64.encode(sessionCookie));
-    _onAccountsChanged
-        .add(Change(ChangeAction.upsert, _domains[domain].local[localId]));
+    _prefs.setString('${domain}_${localId}_session_id', sessionId.toString());
+    _prefs.setString('${domain}_${localId}_refresh_token', refreshToken);
+    _onAccountsChanged.add(
+        null); // Change(ChangeAction.upsert, _domains[domain].local[localId]));
   }
 
   @override
@@ -267,15 +272,15 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     _domains[domain].local[localId].accountId = accountId;
     _domains[domain].local[localId].accountType = accountType;
     _domains[domain].accounts[accountId] = _domains[domain].local[localId];
-    _prefs.setString("${domain}_${localId}_account_id", accountId.toString());
-    _prefs.setInt("${domain}_${localId}_account_type", accountType.value);
+    _prefs.setString('${domain}_${localId}_account_id', accountId.toString());
+    _prefs.setInt('${domain}_${localId}_account_type', accountType.value);
     if (_current.domain == domain &&
         _current.localId == localId &&
         accountId != Int64.ZERO) {
       _setLastUsed(domain, localId);
     }
-    _onAccountsChanged
-        .add(Change(ChangeAction.upsert, _domains[domain].local[localId]));
+    _onAccountsChanged.add(
+        null); // Change(ChangeAction.upsert, _domains[domain].local[localId]));
   }
 
   @override
@@ -284,14 +289,15 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     _domains[domain].local[localId].name = name;
     _domains[domain].local[localId].blurredAvatarUrl = blurredAvatarUrl;
     _domains[domain].local[localId].avatarUrl = avatarUrl;
-    _prefs.setString("${domain}_${localId}_name", name.toString());
+    _prefs.setString('${domain}_${localId}_name', name.toString());
     _prefs.setString(
-        "${domain}_${localId}_blurred_avatar_url", blurredAvatarUrl.toString());
-    _prefs.setString("${domain}_${localId}_avatar_url", avatarUrl.toString());
-    _onAccountsChanged
-        .add(Change(ChangeAction.upsert, _domains[domain].local[localId]));
+        '${domain}_${localId}_blurred_avatar_url', blurredAvatarUrl.toString());
+    _prefs.setString('${domain}_${localId}_avatar_url', avatarUrl.toString());
+    _onAccountsChanged.add(
+        null); // Change(ChangeAction.upsert, _domains[domain].local[localId]));
   }
 
+/*
   @override
   Uint8List getSessionCookie(String domain, int localId) {
     try {
@@ -307,12 +313,29 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     }
     return sessionCookie;
   }
+*/
+
+  @override
+  String getRefreshToken(String domain, int localId) {
+    String refreshToken;
+    try {
+      refreshToken = _prefs.getString('${domain}_${localId}_refresh_token');
+    } catch (_, __) {
+      // empty
+    }
+    if (refreshToken.isEmpty) {
+      refreshToken = null;
+    }
+    return refreshToken;
+  }
 
   int getLastUsed(String domain) {
     int localId;
     try {
-      localId = _prefs.getInt("${domain}_last_used");
-    } catch (error) {}
+      localId = _prefs.getInt('${domain}_last_used');
+    } catch (_, __) {
+      // empty
+    }
     if (localId == null || localId == 0) {
       localId = _createAccount(domain);
       _setLastUsed(domain, localId);
@@ -321,18 +344,18 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   }
 
   void _setLastUsed(String domain, int localId) {
-    _prefs.setInt("${domain}_last_used", localId);
+    _prefs.setInt('${domain}_last_used', localId);
   }
 
   int _createAccount(String domain) {
-    int localId = _domains[domain].nextLocalId++;
-    _prefs.setInt("${domain}_next_id", _domains[domain].nextLocalId);
-    _LocalAccountDataImpl accountData = _LocalAccountDataImpl();
+    final int localId = _domains[domain].nextLocalId++;
+    _prefs.setInt('${domain}_next_id', _domains[domain].nextLocalId);
+    final _LocalAccountDataImpl accountData = _LocalAccountDataImpl();
     accountData.domain = domain;
     accountData.localId = localId;
     _domains[domain].accounts[Int64.ZERO] = accountData;
     _domains[domain].local[localId] = accountData;
-    _onAccountsChanged.add(Change(ChangeAction.add, accountData));
+    _onAccountsChanged.add(null); // Change(ChangeAction.add, accountData));
     return localId;
   }
 
@@ -343,7 +366,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     if (_current?.domain == domain && current?.accountId == accountId) {
       return; // no-op
     }
-    int localId =
+    final int localId =
         getAccount(domain, accountId)?.localId ?? _createAccount(domain);
     _current = getLocal(domain, localId);
     assert(_current != null);
@@ -359,8 +382,9 @@ class MultiAccountStoreImpl implements MultiAccountStore {
   }
 
   /// Remove account
+  @override
   void removeAccount([String domain, Int64 accountId]) {
-    _LocalAccountDataImpl remove = _current;
+    final _LocalAccountDataImpl remove = _current;
     switchAccount(domain ?? _startupDomain, Int64.ZERO);
     removeLocal(remove.domain, remove.localId);
   }

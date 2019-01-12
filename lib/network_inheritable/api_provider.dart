@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 /*
 
-Network Provider
+API Provider
 ================
 
 Provides access to an instance of a ApiClient.
@@ -16,23 +16,22 @@ Provides the ApiClient with some data from the UI context.
 */
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/network_generic/network_common.dart';
-import 'package:inf/network_generic/network_manager.dart';
+import 'package:inf/network_generic/api_account.dart';
+import 'package:inf/network_generic/api_client.dart';
 
 import 'package:inf/network_inheritable/cross_account_navigation.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_generic/api_client.dart';
+import 'package:inf/network_generic/api.dart';
 import 'package:inf_common/inf_common.dart';
 
-export 'package:inf/network_generic/api_client.dart';
+export 'package:inf/network_generic/api.dart';
 
-class NetworkProvider extends StatelessWidget {
-  const NetworkProvider({
+class ApiProvider extends StatelessWidget {
+  const ApiProvider({
     Key key,
     this.child,
     this.multiAccountStore,
@@ -41,7 +40,7 @@ class NetworkProvider extends StatelessWidget {
   final Widget child;
   final MultiAccountStore multiAccountStore;
 
-  static ApiClient of(BuildContext context) {
+  static Api of(BuildContext context) {
     final _InheritedNetworkProvider inherited =
         context.inheritFromWidgetOfExactType(_InheritedNetworkProvider);
     return inherited != null ? inherited.networkInterface : null;
@@ -49,11 +48,11 @@ class NetworkProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String ks = key.toString();
-    ConfigData config = ConfigProvider.of(context);
+    final String ks = key.toString();
+    final ConfigData config = ConfigProvider.of(context);
     assert(config != null);
     return _NetworkProviderStateful(
-      key: (key != null && ks.length > 0) ? Key('$ks.Stateful') : null,
+      key: (key != null && ks.isNotEmpty) ? Key('$ks.Stateful') : null,
       child: child,
       config: config,
       multiAccountStore: multiAccountStore,
@@ -86,7 +85,7 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
   StreamSubscription<LocalAccountData> _onSwitchAccountSubscription;
   StreamSubscription<CrossNavigationRequest> _onNavigationRequestSubscription;
 
-  NetworkManager networkManager;
+  ApiClient apiClient;
 
   // A notification from the server was pushed, which may switch to account
   void _onNavigationRequest(CrossNavigationRequest request) {
@@ -96,7 +95,7 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
 
   // An account switch was requested and the network must now switch accounts
   void _onMultiSwitchAccount(LocalAccountData localAccount) {
-    networkManager.processSwitchAccount(localAccount);
+    apiClient.processSwitchAccount(localAccount);
   }
 
   // Signals all dependencies using InheritedWidget to rebuild from the latest data
@@ -109,10 +108,10 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
   @override
   void initState() {
     super.initState();
-    networkManager = NetworkManager();
-    networkManager.onChanged = _onChanged;
-    networkManager.initialize();
-    networkManager.updateDependencies(widget.config, widget.multiAccountStore);
+    apiClient = ApiClient();
+    apiClient.onChanged = _onChanged;
+    apiClient.initialize();
+    apiClient.updateDependencies(widget.config, widget.multiAccountStore);
 
     WidgetsBinding.instance.addObserver(this);
 
@@ -120,16 +119,16 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
         widget.multiAccountStore.onSwitchAccount.listen(_onMultiSwitchAccount);
 
     _onNavigationRequestSubscription =
-        networkManager.onNavigationRequest.listen(_onNavigationRequest);
+        apiClient.onNavigationRequest.listen(_onNavigationRequest);
 
-    networkManager.start();
+    apiClient.start();
   }
 
   @override
   void reassemble() {
     super.reassemble();
     // Developer reload
-    networkManager.reassembleCommon();
+    apiClient.reassembleCommon();
   }
 
   @override
@@ -139,7 +138,7 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
     _onNavigationRequestSubscription.cancel();
     _onNavigationRequestSubscription = null;
     WidgetsBinding.instance.removeObserver(this);
-    networkManager.dispose();
+    apiClient.dispose();
     super.dispose();
   }
 
@@ -153,12 +152,12 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
   void didChangeDependencies() {
     // Called before build(), may change/update any state here without calling setState()
     super.didChangeDependencies();
-    networkManager.updateDependencies(widget.config, widget.multiAccountStore);
+    apiClient.updateDependencies(widget.config, widget.multiAccountStore);
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    networkManager.setApplicationForeground(
+    apiClient.setApplicationForeground(
         state == AppLifecycleState.resumed ||
             state == AppLifecycleState.inactive);
   }
@@ -168,8 +167,8 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
     String ks = widget.key.toString();
     return _InheritedNetworkProvider(
       key:
-          (widget.key != null && ks.length > 0) ? Key(ks + '.Inherited') : null,
-      networkInterface: networkManager,
+          (widget.key != null && ks.isNotEmpty) ? Key(ks + '.Inherited') : null,
+      networkInterface: apiClient,
       changed: _changed,
       child: widget.child,
     );
@@ -184,12 +183,12 @@ class _InheritedNetworkProvider extends InheritedWidget {
     @required Widget child,
   }) : super(key: key, child: child);
 
-  final ApiClient networkInterface; // ApiClient remains!
+  final Api networkInterface; // ApiClient remains!
   final int changed;
 
   @override
   bool updateShouldNotify(_InheritedNetworkProvider old) {
-    return this.changed != old.changed;
+    return changed != old.changed;
   }
 }
 

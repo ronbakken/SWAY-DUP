@@ -8,15 +8,15 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
-import 'package:switchboard/switchboard.dart';
+import 'package:grpc/grpc.dart' as grpc;
 
-abstract class NetworkInternals {
+abstract class ApiInternals {
   // Common
   Logger get log;
-  Switchboard get switchboard;
-  TalkChannel get channel;
   ConfigData get config;
   MultiAccountStore get multiAccountStore;
+  Stream<ApiSessionToken> get sessionChanged;
+
   void commonInitBase();
   void commonInitReady();
   void onCommonChanged();
@@ -55,10 +55,12 @@ abstract class NetworkInternals {
   void onProposalsChanged();
   void onProposalChatsChanged(Int64 id);
   void onProposalChatNotification(DataProposalChat chat);
+  /*
   Future<void> liveNewProposal(TalkMessage message);
   Future<void> liveNewProposalChat(TalkMessage message);
   Future<void> liveUpdateProposal(TalkMessage message);
   Future<void> liveUpdateProposalChat(TalkMessage message);
+  */
   void resubmitGhostChats();
   void hintProposalOffer(DataOffer offer);
 

@@ -9,8 +9,8 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/api_client.dart';
-import 'package:inf/network_generic/network_internals.dart';
+import 'package:inf/network_generic/api.dart';
+import 'package:inf/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:switchboard/switchboard.dart';
 
@@ -25,7 +25,7 @@ class _CachedProposal {
   Map<int, DataProposalChat> ghostChats = Map<int, DataProposalChat>();
 }
 
-abstract class NetworkProposals implements ApiClient, NetworkInternals {
+abstract class NetworkProposals implements Api, ApiInternals {
   Map<Int64, _CachedProposal> _cachedProposals = Map<Int64, _CachedProposal>();
 
   void resetProposalsState() {

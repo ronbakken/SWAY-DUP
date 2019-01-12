@@ -7,13 +7,13 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/api_client.dart';
-import 'package:inf/network_generic/network_internals.dart';
+import 'package:inf/network_generic/api.dart';
+import 'package:inf/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:switchboard/switchboard.dart';
 import 'package:synchronized/synchronized.dart';
 
-abstract class ApiClientDemo implements ApiClient, NetworkInternals {
+abstract class ApiClientDemo implements Api, ApiInternals {
   @override
   bool get demoAllOffersLoading {
     return _demoAllOffersRefreshing;

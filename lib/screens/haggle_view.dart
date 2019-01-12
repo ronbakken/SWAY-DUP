@@ -70,7 +70,7 @@ class HaggleView extends StatefulWidget {
   final Function() onBeginMarkDispute;
   // final Function() onBeginMarkCompleted;
 
-  final Future<NetUploadImageRes> Function(File file) onUploadImage;
+  final Future<NetUploadSigned> Function(File file) onUploadImage;
 
   final Function(DataAccount account) onPressedProfile;
   final Function(DataOffer offer) onPressedOffer;
