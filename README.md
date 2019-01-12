@@ -2,7 +2,13 @@
 
 This contains the services that make up the INF server.
 
-Currently there is one majestic monolith service. Preconfigured to connect stand-alone with development databases. Just run it.
+## How to run
+
+Under `docker_inf_db` is a `docker-compose` script to launch the required database instances.
+
+Under `docker_inf_local` is a script to launch the services using the host network. This only works under Linux.
+
+Other host operating systems may require a different docker setup for testing.
 
 ## Service Ports
 
