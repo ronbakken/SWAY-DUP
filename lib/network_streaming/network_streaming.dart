@@ -11,12 +11,12 @@ import 'package:flutter/widgets.dart';
 import 'package:inf/network_generic/cross_account_navigator.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_generic/api_client.dart';
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_mobile/config_downloader.dart';
 import 'package:inf_common/inf_common.dart';
 
 class NetworkStreaming {
   MultiAccountStore _multiAccountStore;
-  ConfigManager _configManager;
+  ConfigDownloader _configManager;
   CrossAccountNavigator _crossAccountNavigator;
   ApiClient _networkManager;
 
@@ -56,7 +56,7 @@ class NetworkStreaming {
   }) {
     _multiAccountStore = multiAccountStore;
 
-    _configManager = ConfigManager(
+    _configManager = ConfigDownloader(
         startupConfig: startupConfig, onChanged: _onConfigChanged);
 
     _crossAccountNavigator = CrossAccountNavigator();

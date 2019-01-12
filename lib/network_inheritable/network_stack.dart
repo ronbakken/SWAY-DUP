@@ -12,7 +12,7 @@ Network Stack
 This base widget includes all the classes necessary for managing the network.
 
 Flutter-specific:
-- config_manager.dart: Configuration loaded from APK or network as part of flutter state.
+- config_downloader.dart: Configuration loaded from APK or network as part of flutter state.
 - cross_account_selection.dart: Account selection as part of flutter state.
 
 Mobile-specific:

@@ -6,13 +6,10 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 
-import 'package:async/async.dart';
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/api.dart';
 import 'package:inf/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:switchboard/switchboard.dart';
 
 class _CachedProposal {
   bool loading = false;
@@ -21,19 +18,21 @@ class _CachedProposal {
   DataProposal fallback;
   bool chatLoading = false;
   bool chatLoaded = false;
-  Map<Int64, DataProposalChat> chats = Map<Int64, DataProposalChat>();
-  Map<int, DataProposalChat> ghostChats = Map<int, DataProposalChat>();
+  Map<Int64, DataProposalChat> chats = <Int64, DataProposalChat>{};
+  Map<int, DataProposalChat> ghostChats = <int, DataProposalChat>{};
 }
 
 abstract class NetworkProposals implements Api, ApiInternals {
-  Map<Int64, _CachedProposal> _cachedProposals = Map<Int64, _CachedProposal>();
+  final Map<Int64, _CachedProposal> _cachedProposals = <Int64, _CachedProposal>{};
 
+  @override
   void resetProposalsState() {
     _proposals.clear();
     _proposalsLoaded = false;
     _cachedProposals.clear();
   }
 
+  @override
   void markProposalsDirty() {
     _proposalsLoaded = false;
     _cachedProposals.values.forEach((cached) {

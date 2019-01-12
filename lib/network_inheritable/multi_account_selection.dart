@@ -48,12 +48,12 @@ class MultiAccountSelection extends StatefulWidget {
 class CrossAccountSelectionState extends State<MultiAccountSelection> {
   int _changed = 0;
 
-  StreamSubscription<Change<LocalAccountData>> _onAccountsChanged;
+  StreamSubscription<void> _onAccountsChanged;
 
   @override
   void initState() {
     super.initState();
-    _onAccountsChanged = widget.client.onAccountsChanged.listen((value) {
+    _onAccountsChanged = widget.client.onAccountsChanged.listen((_) {
       setState(() {
         ++_changed;
       });
@@ -85,7 +85,7 @@ class _InheritedCrossAccountSelection extends InheritedWidget {
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) {
-    _InheritedCrossAccountSelection oldSelection =
+    final _InheritedCrossAccountSelection oldSelection =
         oldWidget as _InheritedCrossAccountSelection;
     return oldSelection._changed != _changed;
   }
