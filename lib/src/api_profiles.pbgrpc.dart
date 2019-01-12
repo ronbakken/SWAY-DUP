@@ -8,19 +8,19 @@ import 'dart:async' as $async;
 
 import 'package:grpc/grpc.dart';
 
-import 'net_profile_protobuf.pb.dart' as $4;
+import 'net_profile_protobuf.pb.dart' as $5;
 export 'api_profiles.pb.dart';
 
 class ApiProfilesClient extends Client {
-  static final _$get = new ClientMethod<$4.NetGetProfile, $4.NetProfile>(
+  static final _$get = new ClientMethod<$5.NetGetProfile, $5.NetProfile>(
       '/inf.ApiProfiles/Get',
-      ($4.NetGetProfile value) => value.writeToBuffer(),
-      (List<int> value) => new $4.NetProfile.fromBuffer(value));
+      ($5.NetGetProfile value) => value.writeToBuffer(),
+      (List<int> value) => new $5.NetProfile.fromBuffer(value));
 
   ApiProfilesClient(ClientChannel channel, {CallOptions options})
       : super(channel, options: options);
 
-  ResponseFuture<$4.NetProfile> get($4.NetGetProfile request,
+  ResponseFuture<$5.NetProfile> get($5.NetGetProfile request,
       {CallOptions options}) {
     final call = $createCall(_$get, new $async.Stream.fromIterable([request]),
         options: options);
@@ -32,19 +32,19 @@ abstract class ApiProfilesServiceBase extends Service {
   String get $name => 'inf.ApiProfiles';
 
   ApiProfilesServiceBase() {
-    $addMethod(new ServiceMethod<$4.NetGetProfile, $4.NetProfile>(
+    $addMethod(new ServiceMethod<$5.NetGetProfile, $5.NetProfile>(
         'Get',
         get_Pre,
         false,
         false,
-        (List<int> value) => new $4.NetGetProfile.fromBuffer(value),
-        ($4.NetProfile value) => value.writeToBuffer()));
+        (List<int> value) => new $5.NetGetProfile.fromBuffer(value),
+        ($5.NetProfile value) => value.writeToBuffer()));
   }
 
-  $async.Future<$4.NetProfile> get_Pre(
+  $async.Future<$5.NetProfile> get_Pre(
       ServiceCall call, $async.Future request) async {
     return get(call, await request);
   }
 
-  $async.Future<$4.NetProfile> get(ServiceCall call, $4.NetGetProfile request);
+  $async.Future<$5.NetProfile> get(ServiceCall call, $5.NetGetProfile request);
 }

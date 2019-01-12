@@ -8,44 +8,44 @@ import 'dart:async' as $async;
 
 import 'package:grpc/grpc.dart';
 
-import 'net_proposal_protobuf.pb.dart' as $5;
+import 'net_proposal_protobuf.pb.dart' as $6;
 export 'api_proposals.pb.dart';
 
 class ApiProposalsClient extends Client {
-  static final _$apply = new ClientMethod<$5.NetApplyProposal, $5.NetProposal>(
+  static final _$apply = new ClientMethod<$6.NetApplyProposal, $6.NetProposal>(
       '/inf.ApiProposals/Apply',
-      ($5.NetApplyProposal value) => value.writeToBuffer(),
-      (List<int> value) => new $5.NetProposal.fromBuffer(value));
+      ($6.NetApplyProposal value) => value.writeToBuffer(),
+      (List<int> value) => new $6.NetProposal.fromBuffer(value));
   static final _$direct =
-      new ClientMethod<$5.NetDirectProposal, $5.NetProposal>(
+      new ClientMethod<$6.NetDirectProposal, $6.NetProposal>(
           '/inf.ApiProposals/Direct',
-          ($5.NetDirectProposal value) => value.writeToBuffer(),
-          (List<int> value) => new $5.NetProposal.fromBuffer(value));
-  static final _$list = new ClientMethod<$5.NetListProposals, $5.NetProposal>(
+          ($6.NetDirectProposal value) => value.writeToBuffer(),
+          (List<int> value) => new $6.NetProposal.fromBuffer(value));
+  static final _$list = new ClientMethod<$6.NetListProposals, $6.NetProposal>(
       '/inf.ApiProposals/List',
-      ($5.NetListProposals value) => value.writeToBuffer(),
-      (List<int> value) => new $5.NetProposal.fromBuffer(value));
-  static final _$get = new ClientMethod<$5.NetGetProposal, $5.NetProposal>(
+      ($6.NetListProposals value) => value.writeToBuffer(),
+      (List<int> value) => new $6.NetProposal.fromBuffer(value));
+  static final _$get = new ClientMethod<$6.NetGetProposal, $6.NetProposal>(
       '/inf.ApiProposals/Get',
-      ($5.NetGetProposal value) => value.writeToBuffer(),
-      (List<int> value) => new $5.NetProposal.fromBuffer(value));
+      ($6.NetGetProposal value) => value.writeToBuffer(),
+      (List<int> value) => new $6.NetProposal.fromBuffer(value));
   static final _$listChats =
-      new ClientMethod<$5.NetListChats, $5.NetProposalChat>(
+      new ClientMethod<$6.NetListChats, $6.NetProposalChat>(
           '/inf.ApiProposals/ListChats',
-          ($5.NetListChats value) => value.writeToBuffer(),
-          (List<int> value) => new $5.NetProposalChat.fromBuffer(value));
+          ($6.NetListChats value) => value.writeToBuffer(),
+          (List<int> value) => new $6.NetProposalChat.fromBuffer(value));
 
   ApiProposalsClient(ClientChannel channel, {CallOptions options})
       : super(channel, options: options);
 
-  ResponseFuture<$5.NetProposal> apply($5.NetApplyProposal request,
+  ResponseFuture<$6.NetProposal> apply($6.NetApplyProposal request,
       {CallOptions options}) {
     final call = $createCall(_$apply, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<$5.NetProposal> direct($5.NetDirectProposal request,
+  ResponseFuture<$6.NetProposal> direct($6.NetDirectProposal request,
       {CallOptions options}) {
     final call = $createCall(
         _$direct, new $async.Stream.fromIterable([request]),
@@ -53,21 +53,21 @@ class ApiProposalsClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseStream<$5.NetProposal> list($5.NetListProposals request,
+  ResponseStream<$6.NetProposal> list($6.NetListProposals request,
       {CallOptions options}) {
     final call = $createCall(_$list, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseStream(call);
   }
 
-  ResponseFuture<$5.NetProposal> get($5.NetGetProposal request,
+  ResponseFuture<$6.NetProposal> get($6.NetGetProposal request,
       {CallOptions options}) {
     final call = $createCall(_$get, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
 
-  ResponseStream<$5.NetProposalChat> listChats($5.NetListChats request,
+  ResponseStream<$6.NetProposalChat> listChats($6.NetListChats request,
       {CallOptions options}) {
     final call = $createCall(
         _$listChats, new $async.Stream.fromIterable([request]),
@@ -80,76 +80,76 @@ abstract class ApiProposalsServiceBase extends Service {
   String get $name => 'inf.ApiProposals';
 
   ApiProposalsServiceBase() {
-    $addMethod(new ServiceMethod<$5.NetApplyProposal, $5.NetProposal>(
+    $addMethod(new ServiceMethod<$6.NetApplyProposal, $6.NetProposal>(
         'Apply',
         apply_Pre,
         false,
         false,
-        (List<int> value) => new $5.NetApplyProposal.fromBuffer(value),
-        ($5.NetProposal value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$5.NetDirectProposal, $5.NetProposal>(
+        (List<int> value) => new $6.NetApplyProposal.fromBuffer(value),
+        ($6.NetProposal value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<$6.NetDirectProposal, $6.NetProposal>(
         'Direct',
         direct_Pre,
         false,
         false,
-        (List<int> value) => new $5.NetDirectProposal.fromBuffer(value),
-        ($5.NetProposal value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$5.NetListProposals, $5.NetProposal>(
+        (List<int> value) => new $6.NetDirectProposal.fromBuffer(value),
+        ($6.NetProposal value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<$6.NetListProposals, $6.NetProposal>(
         'List',
         list_Pre,
         false,
         true,
-        (List<int> value) => new $5.NetListProposals.fromBuffer(value),
-        ($5.NetProposal value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$5.NetGetProposal, $5.NetProposal>(
+        (List<int> value) => new $6.NetListProposals.fromBuffer(value),
+        ($6.NetProposal value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<$6.NetGetProposal, $6.NetProposal>(
         'Get',
         get_Pre,
         false,
         false,
-        (List<int> value) => new $5.NetGetProposal.fromBuffer(value),
-        ($5.NetProposal value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$5.NetListChats, $5.NetProposalChat>(
+        (List<int> value) => new $6.NetGetProposal.fromBuffer(value),
+        ($6.NetProposal value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<$6.NetListChats, $6.NetProposalChat>(
         'ListChats',
         listChats_Pre,
         false,
         true,
-        (List<int> value) => new $5.NetListChats.fromBuffer(value),
-        ($5.NetProposalChat value) => value.writeToBuffer()));
+        (List<int> value) => new $6.NetListChats.fromBuffer(value),
+        ($6.NetProposalChat value) => value.writeToBuffer()));
   }
 
-  $async.Future<$5.NetProposal> apply_Pre(
+  $async.Future<$6.NetProposal> apply_Pre(
       ServiceCall call, $async.Future request) async {
     return apply(call, await request);
   }
 
-  $async.Future<$5.NetProposal> direct_Pre(
+  $async.Future<$6.NetProposal> direct_Pre(
       ServiceCall call, $async.Future request) async {
     return direct(call, await request);
   }
 
-  $async.Stream<$5.NetProposal> list_Pre(
+  $async.Stream<$6.NetProposal> list_Pre(
       ServiceCall call, $async.Future request) async* {
-    yield* list(call, (await request) as $5.NetListProposals);
+    yield* list(call, (await request) as $6.NetListProposals);
   }
 
-  $async.Future<$5.NetProposal> get_Pre(
+  $async.Future<$6.NetProposal> get_Pre(
       ServiceCall call, $async.Future request) async {
     return get(call, await request);
   }
 
-  $async.Stream<$5.NetProposalChat> listChats_Pre(
+  $async.Stream<$6.NetProposalChat> listChats_Pre(
       ServiceCall call, $async.Future request) async* {
-    yield* listChats(call, (await request) as $5.NetListChats);
+    yield* listChats(call, (await request) as $6.NetListChats);
   }
 
-  $async.Future<$5.NetProposal> apply(
-      ServiceCall call, $5.NetApplyProposal request);
-  $async.Future<$5.NetProposal> direct(
-      ServiceCall call, $5.NetDirectProposal request);
-  $async.Stream<$5.NetProposal> list(
-      ServiceCall call, $5.NetListProposals request);
-  $async.Future<$5.NetProposal> get(
-      ServiceCall call, $5.NetGetProposal request);
-  $async.Stream<$5.NetProposalChat> listChats(
-      ServiceCall call, $5.NetListChats request);
+  $async.Future<$6.NetProposal> apply(
+      ServiceCall call, $6.NetApplyProposal request);
+  $async.Future<$6.NetProposal> direct(
+      ServiceCall call, $6.NetDirectProposal request);
+  $async.Stream<$6.NetProposal> list(
+      ServiceCall call, $6.NetListProposals request);
+  $async.Future<$6.NetProposal> get(
+      ServiceCall call, $6.NetGetProposal request);
+  $async.Stream<$6.NetProposalChat> listChats(
+      ServiceCall call, $6.NetListChats request);
 }

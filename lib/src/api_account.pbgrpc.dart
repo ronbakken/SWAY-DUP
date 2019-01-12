@@ -9,6 +9,7 @@ import 'dart:async' as $async;
 import 'package:grpc/grpc.dart';
 
 import 'net_account_protobuf.pb.dart' as $0;
+import 'net_ident_protobuf.pb.dart' as $1;
 export 'api_account.pb.dart';
 
 class ApiAccountClient extends Client {
@@ -22,10 +23,10 @@ class ApiAccountClient extends Client {
           '/inf.ApiAccount/ConnectProvider',
           ($0.NetOAuthConnect value) => value.writeToBuffer(),
           (List<int> value) => new $0.NetOAuthConnection.fromBuffer(value));
-  static final _$create = new ClientMethod<$0.NetAccountCreate, $0.NetAccount>(
+  static final _$create = new ClientMethod<$0.NetAccountCreate, $1.NetSession>(
       '/inf.ApiAccount/Create',
       ($0.NetAccountCreate value) => value.writeToBuffer(),
-      (List<int> value) => new $0.NetAccount.fromBuffer(value));
+      (List<int> value) => new $1.NetSession.fromBuffer(value));
   static final _$setFirebaseToken =
       new ClientMethod<$0.NetSetFirebaseToken, $0.NetAccount>(
           '/inf.ApiAccount/SetFirebaseToken',
@@ -52,7 +53,7 @@ class ApiAccountClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<$0.NetAccount> create($0.NetAccountCreate request,
+  ResponseFuture<$1.NetSession> create($0.NetAccountCreate request,
       {CallOptions options}) {
     final call = $createCall(
         _$create, new $async.Stream.fromIterable([request]),
@@ -87,13 +88,13 @@ abstract class ApiAccountServiceBase extends Service {
         false,
         (List<int> value) => new $0.NetOAuthConnect.fromBuffer(value),
         ($0.NetOAuthConnection value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$0.NetAccountCreate, $0.NetAccount>(
+    $addMethod(new ServiceMethod<$0.NetAccountCreate, $1.NetSession>(
         'Create',
         create_Pre,
         false,
         false,
         (List<int> value) => new $0.NetAccountCreate.fromBuffer(value),
-        ($0.NetAccount value) => value.writeToBuffer()));
+        ($1.NetSession value) => value.writeToBuffer()));
     $addMethod(new ServiceMethod<$0.NetSetFirebaseToken, $0.NetAccount>(
         'SetFirebaseToken',
         setFirebaseToken_Pre,
@@ -113,7 +114,7 @@ abstract class ApiAccountServiceBase extends Service {
     return connectProvider(call, await request);
   }
 
-  $async.Future<$0.NetAccount> create_Pre(
+  $async.Future<$1.NetSession> create_Pre(
       ServiceCall call, $async.Future request) async {
     return create(call, await request);
   }
@@ -127,7 +128,7 @@ abstract class ApiAccountServiceBase extends Service {
       ServiceCall call, $0.NetSetAccountType request);
   $async.Future<$0.NetOAuthConnection> connectProvider(
       ServiceCall call, $0.NetOAuthConnect request);
-  $async.Future<$0.NetAccount> create(
+  $async.Future<$1.NetSession> create(
       ServiceCall call, $0.NetAccountCreate request);
   $async.Future<$0.NetAccount> setFirebaseToken(
       ServiceCall call, $0.NetSetFirebaseToken request);

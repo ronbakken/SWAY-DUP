@@ -10,14 +10,14 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 import 'package:fixnum/fixnum.dart';
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'net_push_protobuf.pb.dart' as $6;
+import 'net_push_protobuf.pb.dart' as $7;
 import 'net_account_protobuf.pb.dart' as $0;
 
 class ReqPush extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
       new $pb.BuilderInfo('ReqPush', package: const $pb.PackageName('inf'))
-        ..a<$6.NetPush>(1, 'message', $pb.PbFieldType.OM, $6.NetPush.getDefault,
-            $6.NetPush.create)
+        ..a<$7.NetPush>(1, 'message', $pb.PbFieldType.OM, $7.NetPush.getDefault,
+            $7.NetPush.create)
         ..aInt64(2, 'receiverAccountId')
         ..aInt64(3, 'senderSessionId')
         ..aOB(4, 'skipSenderSession')
@@ -45,8 +45,8 @@ class ReqPush extends $pb.GeneratedMessage {
     if (v is! ReqPush) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $6.NetPush get message => $_getN(0);
-  set message($6.NetPush v) {
+  $7.NetPush get message => $_getN(0);
+  set message($7.NetPush v) {
     setField(1, v);
   }
 
