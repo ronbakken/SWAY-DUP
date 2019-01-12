@@ -16,6 +16,7 @@
             "name": "Push Service",
             "cwd": "inf_server_push",
             "program": "bin/main.dart",
+            "args": ["../assets/config_local_server.bin"],
             "request": "launch",
             "type": "dart"
         },

@@ -96,6 +96,7 @@ Future<void> run(List<String> arguments) async {
   Logger('SqlJocky.BufferedSocket').level = Level.WARNING;
 
   // Server Configuration
+  Logger('InfOps').info('INF API Service');
   final String configFile =
       arguments.isNotEmpty ? arguments[0] : '../assets/config_server.bin';
   Logger('InfOps').info("Config file: '$configFile'.");
