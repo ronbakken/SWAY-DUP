@@ -9,6 +9,7 @@ syntax = "proto3";
 package inf;
 option csharp_namespace = "Inf";
 
+import "net_ident_protobuf.proto";
 import "net_account_protobuf.proto";
 
 service ApiAccount {
@@ -19,7 +20,7 @@ service ApiAccount {
   rpc ConnectProvider(NetOAuthConnect) returns (NetOAuthConnection) {}
 
   /// Creates account. Fetches social media information. Sets up initial account data. Downloads initial avatar
-  rpc Create(NetAccountCreate) returns (NetAccount) {}
+  rpc Create(NetAccountCreate) returns (NetSession) {}
 
   /// TODO
   // rpc DisconnectProvider
