@@ -73,10 +73,6 @@ abstract class ApiAccount implements Api, ApiInternals {
   ConfigData _config;
   MultiAccountStore _multiAccountStore;
 
-  ApiAccount() {
-    sessionChanged.listen(_onSessionChanged);
-  }
-
   void _onSessionChanged(ApiSessionToken session) {
     if (session == null) {
       if (__clientReady.isCompleted) {
@@ -349,8 +345,11 @@ abstract class ApiAccount implements Api, ApiInternals {
     }
   }
 
+  StreamSubscription<ApiSessionToken> _sessionSubscription;
+
   @override
-  void commonInitBase() {
+  void accountInitBase() {
+    _sessionSubscription = sessionChanged.listen(_onSessionChanged);
     _alive = true;
 
     // Device ghost id is a semi sequential identifier for identifying messages by device (to ensure all are sent and to avoid duplicates)
@@ -362,7 +361,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   }
 
   @override
-  void commonInitReady() {
+  void accountInitReady() {
     unawaited(_kickstartSession());
   }
 
@@ -424,6 +423,8 @@ abstract class ApiAccount implements Api, ApiInternals {
   void disposeCommon() {
     _alive = false;
     _refreshAccessToken();
+    _sessionSubscription.cancel();
+    _sessionSubscription = null;
   }
 
   @override

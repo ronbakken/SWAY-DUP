@@ -162,14 +162,14 @@ class ApiClient
 
   void initialize() {
     // Initialize base dependencies
-    commonInitBase();
+    accountInitBase();
   }
 
   void start() {
     // Initialize notifications
     initNotifications();
     // Start the network
-    commonInitReady();
+    accountInitReady();
   }
 
   void dispose() {

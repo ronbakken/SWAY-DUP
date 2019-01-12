@@ -17,8 +17,8 @@ abstract class ApiInternals {
   MultiAccountStore get multiAccountStore;
   Stream<ApiSessionToken> get sessionChanged;
 
-  void commonInitBase();
-  void commonInitReady();
+  void accountInitBase();
+  void accountInitReady();
   void onCommonChanged();
   void reassembleCommon();
   void disposeCommon();
