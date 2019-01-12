@@ -25,7 +25,7 @@ service ApiProposals {
   rpc Get(NetGetProposal) returns (NetProposal) {}
 
   /// List all chat messages for a specific proposal
-  rpc ListChats(NetGetProposal) returns (stream NetProposalChat) {}
+  rpc ListChats(NetListChats) returns (stream NetProposalChat) {}
 
 }
 
