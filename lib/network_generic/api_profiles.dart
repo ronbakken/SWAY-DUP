@@ -182,7 +182,7 @@ abstract class ApiProfiles implements Api, ApiInternals {
 
   @override
   DataAccount tryGetProfileSummary(Int64 accountId) {
-    // TODO
+    // TODO: Summary edition
     return tryGetProfileDetail(accountId);
   }
 

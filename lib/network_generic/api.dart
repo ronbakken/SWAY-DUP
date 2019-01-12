@@ -206,14 +206,14 @@ abstract class Api {
       Int64 proposalId, String deliverables, String reward, String remarks);
   void chatImageKey(Int64 proposalId, String imageKey);
 
-  // TODO(kaetemi): Provide image chat functions that takes file directly and handles background upload.
+  // TODO: Provide image chat functions that takes file directly and handles background upload.
 
   /// Signify that the user wants a deal. May fail, must provide error feedback to the user.
   Future<void> wantDeal(Int64 proposalId, Int64 termsChatId);
 
   /// Mark completion.
   Future<void> markCompletion(
-      Int64 proposalId, int rating); // TODO(kaetemi): Review message
+      Int64 proposalId, int rating); // TODO: Review text content
 
 }
 

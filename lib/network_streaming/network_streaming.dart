@@ -102,11 +102,11 @@ class NetworkStreaming {
   StreamSubscription<NavigationRequest> listenNavigation(
       Function(NavigationTarget target, Int64 id) onData) {
     if (config.services.domain != _multiAccountStore.current.domain) {
-      throw Exception("Mismatching domain");
+      throw Exception('Mismatching domain');
     }
     if (_networkManager.account.accountId !=
         _multiAccountStore.current.accountId) {
-      throw Exception("Mismatching account id");
+      throw Exception('Mismatching account id');
     }
     return _crossAccountNavigator.listen(
       config.services.domain,

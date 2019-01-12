@@ -31,8 +31,8 @@ class _AppSwitchState extends State<AppSwitch> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    String domain = ConfigProvider.of(context).services.domain;
-    Int64 accountId = ApiProvider.of(context).account.accountId;
+    final String domain = ConfigProvider.of(context).services.domain;
+    final Int64 accountId = ApiProvider.of(context).account.accountId;
     if (domain != _domain || accountId != _accountId) {
       _domain = domain;
       _accountId = accountId;
@@ -53,13 +53,13 @@ class _AppSwitchState extends State<AppSwitch> {
       return LoadingNetwork();
     }
     if (network.account.accountId == 0) {
-      return AppOnboarding();
+      return const AppOnboarding();
     }
     if (network.account.accountType == AccountType.influencer) {
-      return AppInfluencer();
+      return const AppInfluencer();
     }
     if (network.account.accountType == AccountType.business) {
-      return AppBusiness();
+      return const AppBusiness();
     }
     return DebugAccount(account: network.account);
     // throw new Exception("Invalid account state");

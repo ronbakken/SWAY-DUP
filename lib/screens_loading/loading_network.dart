@@ -17,7 +17,7 @@ class LoadingNetwork extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Api network = ApiProvider.of(context);
-    ConfigData config = ConfigProvider.of(context);
+    final ConfigData config = ConfigProvider.of(context);
     assert(network != null);
     if (network.connected == NetworkConnectionState.failing) {
       // "Technical issues"
@@ -36,14 +36,14 @@ class LoadingNetwork extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           fit: StackFit.expand,
-          children: [
+          children: const <Widget>[
             IgnorePointer(
               child: Align(
                 alignment: Alignment.topCenter,
                 child: SizedBox(
                   height: kToolbarHeight * 1.5,
                   child: Image(
-                      image: AssetImage("assets/logo_appbar_ext_gray.png")),
+                      image: AssetImage('assets/logo_appbar_ext_gray.png')),
                 ),
               ),
             ),

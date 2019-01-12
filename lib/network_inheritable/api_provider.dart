@@ -164,7 +164,7 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
 
   @override
   Widget build(BuildContext context) {
-    String ks = widget.key.toString();
+    final String ks = widget.key.toString();
     return _InheritedNetworkProvider(
       key:
           (widget.key != null && ks.isNotEmpty) ? Key(ks + '.Inherited') : null,

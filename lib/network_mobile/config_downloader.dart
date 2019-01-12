@@ -9,6 +9,7 @@ import 'package:flutter/services.dart' show ByteData, rootBundle;
 import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
+import 'package:pedantic/pedantic.dart';
 
 String translateGlobalAccountStateReason(
     GlobalAccountStateReason globalAccountStateReason) {
@@ -115,7 +116,7 @@ class ConfigDownloader {
     } else {
       log.fine('No changes to config detected');
     }
-    downloadConfig();
+    unawaited(downloadConfig());
   }
 
   Future<void> downloadConfig() async {
@@ -124,10 +125,10 @@ class ConfigDownloader {
     final Set<String> downloadUrls = Set<String>();
     downloadUrls.add(_config.services.configUrl);
     downloadUrls.add(startupConfig.services.configUrl);
-    // TODO(kaetemi): Download config
-    // TODO(kaetemi): On failure, see if there's a config in cache, use that
-    // TODO(kaetemi): Only use cached config if version is okay
-    // TODO(kaetemi): Try download again as soon as there is a network connection (re-schedule a few times every minute, I suppose...)
+    // TODO: Download config
+    // TODO: On failure, see if there's a config in cache, use that
+    // TODO: Only use cached config if version is okay
+    // TODO: Try download again as soon as there is a network connection (re-schedule a few times every minute, I suppose...)
   }
 }
 

@@ -5,7 +5,6 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/api_explore.dart';
@@ -21,7 +20,7 @@ import 'package:inf_common/inf_common.dart';
 
 export 'package:inf/network_generic/api.dart';
 
-// TODO: Reassemble should re-merge all protobuf
+// TODO: Reassemble should re-merge all protobuf, in case protobuf schema changed
 
 class ApiClient
     with

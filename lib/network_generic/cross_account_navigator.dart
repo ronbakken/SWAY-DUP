@@ -38,7 +38,7 @@ class NavigationRequest {
 class CrossAccountNavigator {
   MultiAccountClient multiAccountClient;
   final Map<String, StreamController<NavigationRequest>> _navigationRequests =
-      Map<String, StreamController<NavigationRequest>>();
+      <String, StreamController<NavigationRequest>>{};
 
   void dispose() {
     for (StreamController<NavigationRequest> controller
@@ -49,9 +49,9 @@ class CrossAccountNavigator {
   }
 
   StreamController<NavigationRequest> _createController(String key) {
-    StreamController<NavigationRequest> controller =
+    final StreamController<NavigationRequest> controller =
         StreamController<NavigationRequest>(onCancel: () {
-      StreamController<NavigationRequest> controller =
+      final StreamController<NavigationRequest> controller =
           _navigationRequests.remove(key);
       controller?.close(); // Bye
     });
@@ -63,14 +63,14 @@ class CrossAccountNavigator {
       Function(NavigationTarget target, Int64 id) onData) {
     assert(onData != null);
     // assert(mounted);
-    String key = "$domain/$accountId"; // Works
+    final String key = '$domain/$accountId'; // Works
     StreamController<NavigationRequest> controller = _navigationRequests[key];
     if (controller?.hasListener ?? false) {
       controller.close(); // Bye
       controller = null;
     }
     controller ??= _createController(key);
-    return controller.stream.listen((data) {
+    return controller.stream.listen((NavigationRequest data) {
       onData(data.target, data.id);
     });
   }
@@ -78,7 +78,7 @@ class CrossAccountNavigator {
   void navigate(
       String domain, Int64 accountId, NavigationTarget target, Int64 id) {
     // assert(mounted);
-    String key = "$domain/$accountId";
+    final String key = '$domain/$accountId';
     StreamController<NavigationRequest> controller =
         _navigationRequests[key]; // Closed by dispose(), listen(), and onCancel
     controller ??= _createController(key);
