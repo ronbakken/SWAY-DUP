@@ -10,10 +10,9 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/api.dart';
 import 'package:inf/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:switchboard/switchboard.dart';
 import 'package:synchronized/synchronized.dart';
 
-abstract class ApiClientDemo implements Api, ApiInternals {
+abstract class ApiExplore implements Api, ApiInternals {
   @override
   bool get demoAllOffersLoading {
     return _demoAllOffersRefreshing;

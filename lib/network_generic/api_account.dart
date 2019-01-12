@@ -268,7 +268,7 @@ abstract class ApiAccount implements Api, ApiInternals {
           _currentLocalAccount = localAccount;
           _pushSessionToken(session);
           _accountGhostChanges.clear();
-          await receivedAccountUpdate(response.account);
+          receivedAccountUpdate(response.account);
           connected = NetworkConnectionState.ready;
           onCommonChanged();
           _backoff = null;
@@ -304,12 +304,11 @@ abstract class ApiAccount implements Api, ApiInternals {
           request.clientVersion = config.clientVersion;
           request.domain = localAccount.domain;
           final NetSession response = await client.open(request);
-
           final ApiSessionToken session =
               ApiSessionToken(_createChannel(endPoint), response.accessToken);
           _currentLocalAccount = localAccount;
           _pushSessionToken(session);
-          await receivedAccountUpdate(response.account);
+          receivedAccountUpdate(response.account);
           connected = NetworkConnectionState.ready;
           onCommonChanged();
           _backoff = null;
@@ -528,8 +527,7 @@ abstract class ApiAccount implements Api, ApiInternals {
     onCommonChanged();
   }
 
-  Future<void> receivedAccountUpdate(DataAccount account,
-      {DataAccount removeGhost}) async {
+  void receivedAccountUpdate(DataAccount account, {DataAccount removeGhost}) {
     log.info('Account state update received.');
     log.fine('NetAccountUpdate: $account');
     _realAccount = account;
@@ -538,7 +536,7 @@ abstract class ApiAccount implements Api, ApiInternals {
     } else {
       removeAccountGhost(removeGhost);
     }
-    if (this.account.accountId != 0) {
+    if (this.account.accountId != Int64.ZERO) {
       if (_currentLocalAccount.sessionId != this.account.sessionId) {
         log.severe(
             "Mismatching current session ID '${_currentLocalAccount.sessionId}' "
@@ -562,7 +560,7 @@ abstract class ApiAccount implements Api, ApiInternals {
       markOffersDirty();
       markDemoAllOffersDirty();
       markProposalsDirty();
-      await initFirebaseNotifications();
+      unawaited(initFirebaseNotifications());
     }
   }
 
@@ -586,8 +584,50 @@ abstract class ApiAccount implements Api, ApiInternals {
       request.accountType = accountType;
       final NetAccount response =
           await _accountClient.setType(request..freeze());
-      await receivedAccountUpdate(response.account,
-          removeGhost: accountChanged);
+      receivedAccountUpdate(response.account, removeGhost: accountChanged);
+    } catch (_, __) {
+      removeAccountGhost(accountChanged);
+      rethrow;
+    }
+  }
+
+  /// Set Firebase cloud messaging token
+  Future<void> setFirebaseToken(
+      String oldFirebaseToken, String firebaseToken) async {
+    // Create a ghost account delta
+    final DataAccount accountChanged = DataAccount();
+    accountChanged.firebaseToken = firebaseToken;
+    addAccountGhost(accountChanged..freeze());
+
+    // Send server request
+    try {
+      await _clientReady;
+      final NetSetFirebaseToken request = NetSetFirebaseToken();
+      if (oldFirebaseToken != null) {
+        request.oldFirebaseToken = oldFirebaseToken;
+      }
+      request.firebaseToken = firebaseToken;
+      final NetAccount response =
+          await _accountClient.setFirebaseToken(request..freeze());
+      receivedAccountUpdate(response.account, removeGhost: accountChanged);
+    } catch (_, __) {
+      removeAccountGhost(accountChanged);
+      rethrow;
+    }
+  }
+
+  /// Update account
+  @override
+  Future<void> updateAccount(DataAccount accountChanged) async {
+    // Create a ghost account delta
+    addAccountGhost(accountChanged);
+
+    // Send server request
+    try {
+      await _clientReady;
+      // TODO: Implement on server and in API
+      throw Exception();
+      // receivedAccountUpdate(response.account, removeGhost: accountChanged);
     } catch (_, __) {
       removeAccountGhost(accountChanged);
       rethrow;
@@ -618,7 +658,7 @@ abstract class ApiAccount implements Api, ApiInternals {
         response.socialMedia != null) {
       final DataAccount account = _realAccount.clone();
       account.socialMedia[oauthProvider] = response.socialMedia;
-      await receivedAccountUpdate(account);
+      receivedAccountUpdate(account);
     }
 
     // Return just whether connected or not
@@ -637,7 +677,7 @@ abstract class ApiAccount implements Api, ApiInternals {
       request.longitude = longitude;
     }
     final NetAccount response = await _accountClient.create(request);
-    await receivedAccountUpdate(response.account);
+    receivedAccountUpdate(response.account);
     if (account.accountId == 0) {
       throw const NetworkException('No account was created');
     }

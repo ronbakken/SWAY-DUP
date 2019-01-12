@@ -12,7 +12,7 @@ import 'package:inf/network_generic/api_explore.dart';
 import 'package:inf/network_generic/api_offers.dart';
 import 'package:inf/network_generic/api_account.dart';
 import 'package:inf/network_generic/network_proposals.dart';
-import 'package:inf/network_mobile/network_notifications.dart';
+import 'package:inf/network_mobile/mobile_notifications.dart';
 import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/network_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
@@ -26,12 +26,12 @@ export 'package:inf/network_generic/api.dart';
 
 class ApiClient
     with
-        NetworkProfiles,
-        ApiClientOffer,
-        NetworkProposals,
         ApiAccount,
-        NetworkNotifications,
-        ApiClientDemo
+        NetworkProfiles,
+        ApiOffers,
+        NetworkProposals,
+        ApiExplore,
+        MobileNotifications
     implements Api, ApiInternals {
   Function() onChanged = () {};
 
@@ -159,6 +159,7 @@ class ApiClient
     onChanged();
     _commonChanged.add(null);
   }
+
 
   void initialize() {
     // Initialize base dependencies

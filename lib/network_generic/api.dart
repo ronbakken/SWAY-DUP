@@ -83,6 +83,13 @@ abstract class Api {
   /// Create an account
   Future<void> createAccount(double latitude, double longitude);
 
+  /* Account changes */
+  /// Set Firebase cloud messaging token
+  Future<void> setFirebaseToken(String oldFirebaseToken, String firebaseToken);
+
+  /// Update account. Pass only any values that need to be changed
+  Future<void> updateAccount(DataAccount accountChanged);
+
   /////////////////////////////////////////////////////////////////////////////
   // Image upload
   /////////////////////////////////////////////////////////////////////////////

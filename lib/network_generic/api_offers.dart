@@ -10,7 +10,6 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/api.dart';
 import 'package:inf/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:switchboard/switchboard.dart';
 import 'package:synchronized/synchronized.dart';
 
 class _CachedOffer {
@@ -20,7 +19,7 @@ class _CachedOffer {
   DataOffer fallback;
 }
 
-abstract class ApiClientOffer implements Api, ApiInternals {
+abstract class ApiOffers implements Api, ApiInternals {
   final Map<Int64, _CachedOffer> _cachedOffers = <Int64, _CachedOffer>{};
 
   @override
