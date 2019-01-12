@@ -66,6 +66,7 @@ class ApiAccountService extends ApiAccountServiceBase {
   Future<NetAccount> setType(
       grpc.ServiceCall call, NetSetAccountType request) async {
     final DataAuth auth = authFromJwtPayload(call);
+    devLog.finest('Changing account type for $auth to $request');
 
     // Can only set account type for accountless sessions
     if (auth.hasCookie()) {
