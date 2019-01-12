@@ -13,6 +13,7 @@ import 'package:pedantic/pedantic.dart';
 
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
+import 'package:grpc/grpc.dart' as grpc;
 
 import 'package:inf_common/inf_backend.dart';
 import 'cache_map.dart';
@@ -35,7 +36,7 @@ class BroadcastCenter {
   final sqljocky.ConnectionPool proposalDb;
   final dospace.Bucket bucket;
 
-  // TODO: Initialize
+  grpc.ClientChannel backendPushChannel;
   BackendPushClient backendPush;
 
   final CacheMap<Int64, _CachedProposal> _proposalToInfluencerBusiness =
@@ -44,7 +45,17 @@ class BroadcastCenter {
   static final Logger opsLog = Logger('InfOps.BroadcastCenter');
   static final Logger devLog = Logger('InfDev.BroadcastCenter');
 
-  BroadcastCenter(this.config, this.accountDb, this.proposalDb, this.bucket);
+  BroadcastCenter(this.config, this.accountDb, this.proposalDb, this.bucket) {
+    final Uri backendPushUri = Uri.parse(Platform.environment['INF_BACKEND_PUSH'] ?? config.services.backendPush);
+    backendPushChannel = grpc.ClientChannel(
+      backendPushUri.host,
+      port: backendPushUri.port,
+      options: const grpc.ChannelOptions(
+        credentials: grpc.ChannelCredentials.insecure(),
+      ),
+    );
+    backendPush = BackendPushClient(backendPushChannel);
+  }
 
   /////////////////////////////////////////////////////////////////////////////
   // Caches (cache non-critical static-ish data only)
