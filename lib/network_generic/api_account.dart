@@ -31,13 +31,6 @@ import 'package:inf_common/inf_common.dart';
 export 'package:inf/network_generic/multi_account_client.dart';
 export 'package:inf/network_generic/api.dart';
 
-class ApiSessionToken {
-  final grpc.ClientChannel channel;
-  final String token;
-
-  const ApiSessionToken(this.channel, this.token);
-}
-
 abstract class ApiAccount implements Api, ApiInternals {
   final Lock _lock = Lock();
   // grpc.ClientChannel _channel;
@@ -592,6 +585,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   }
 
   /// Set Firebase cloud messaging token
+  @override
   Future<void> setFirebaseToken(
       String oldFirebaseToken, String firebaseToken) async {
     // Create a ghost account delta
@@ -746,7 +740,7 @@ abstract class ApiAccount implements Api, ApiInternals {
     httpRequest.headers['x-amz-acl'] = 'public-read';
     final Future<http.StreamedResponse> futureResponse = httpRequest.send();
     await for (List<int> buffer in file.openRead()) {
-      // TODO(kaetemi): Not sure if tracking progress here is feasible, since there's no write blocking on streams...
+      // TODO: Not sure if tracking progress here is feasible, since there's no write blocking on streams...
       httpRequest.sink.add(buffer);
     }
     httpRequest.sink.close();

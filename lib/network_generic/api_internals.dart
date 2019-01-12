@@ -10,6 +10,13 @@ import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
 import 'package:grpc/grpc.dart' as grpc;
 
+class ApiSessionToken {
+  final grpc.ClientChannel channel;
+  final String token;
+
+  const ApiSessionToken(this.channel, this.token);
+}
+
 abstract class ApiInternals {
   // Common
   Logger get log;
@@ -26,6 +33,8 @@ abstract class ApiInternals {
   void processSwitchAccount(LocalAccountData localAccount);
 
   // Profiles
+  void initProfiles();
+  void disposeProfiles();
   void cacheProfile(DataAccount account);
   void resetProfilesState();
   void markProfilesDirty();

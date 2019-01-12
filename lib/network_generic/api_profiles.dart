@@ -7,11 +7,10 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/change.dart';
 import 'package:inf/network_generic/api.dart';
 import 'package:inf/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:switchboard/switchboard.dart';
+import 'package:grpc/grpc.dart' as grpc;
 
 class _CachedProfile {
   // TODO: Timestamp
@@ -21,12 +20,51 @@ class _CachedProfile {
   DataAccount fallback;
 }
 
-abstract class NetworkProfiles implements Api, ApiInternals {
-  Map<Int64, _CachedProfile> _cachedProfiles = Map<Int64, _CachedProfile>();
+abstract class ApiProfiles implements Api, ApiInternals {
+  Completer<void> __clientReady = Completer<void>();
+  ApiProfilesClient _profilesClient;
+  Future<void> get _clientReady {
+    return __clientReady.future;
+  }
+
+  StreamSubscription<ApiSessionToken> _sessionSubscription;
+  void _onSessionChanged(ApiSessionToken session) {
+    if (session == null) {
+      if (__clientReady.isCompleted) {
+        __clientReady = Completer<void>();
+      }
+      _profilesClient = null;
+    } else {
+      if (!__clientReady.isCompleted) {
+        __clientReady.complete();
+      }
+      _profilesClient = ApiProfilesClient(
+        session.channel,
+        options: grpc.CallOptions(
+          metadata: <String, String>{
+            'authorization': 'Bearer ${session.token}'
+          },
+        ),
+      );
+    }
+  }
+
+  @override
+  void initProfiles() {
+    _sessionSubscription = sessionChanged.listen(_onSessionChanged);
+  }
+
+  @override
+  void disposeProfiles() {
+    _sessionSubscription.cancel();
+    _sessionSubscription = null;
+  }
+
+  final Map<Int64, _CachedProfile> _cachedProfiles = <Int64, _CachedProfile>{};
 
   @override
   void cacheProfile(DataAccount profile) {
-    Int64 accountId = profile.accountId;
+    final Int64 accountId = profile.accountId;
     if (accountId == account.accountId) {
       // It's me...
       return;
@@ -53,22 +91,22 @@ abstract class NetworkProfiles implements Api, ApiInternals {
 
   @override
   void markProfilesDirty() {
-    _cachedProfiles.values.forEach((cached) {
+    for (_CachedProfile cached in _cachedProfiles.values) {
       cached.dirty = true;
-    });
+    }
     onProfileChanged(Int64.ZERO);
   }
 
   @override
   DataAccount emptyAccount([Int64 accountId = Int64.ZERO]) {
-    DataAccount emptyAccount = DataAccount();
+    final DataAccount emptyAccount = DataAccount();
     emptyAccount.accountId = accountId;
     return emptyAccount;
   }
 
   @override
   void hintProfileOffer(DataOffer offer) {
-    Int64 accountId = offer.senderAccountId;
+    final Int64 accountId = offer.senderAccountId;
     if (accountId == Int64.ZERO) {
       return;
     }
@@ -86,7 +124,7 @@ abstract class NetworkProfiles implements Api, ApiInternals {
           !cached.fallback.hasLocationId() ||
           !cached.fallback.hasLatitude() ||
           !cached.fallback.hasLongitude()) {
-        DataAccount fallback = (cached.fallback == null)
+        final DataAccount fallback = (cached.fallback == null)
             ? (emptyAccount(accountId))
             : (DataAccount()..mergeFromMessage(cached.fallback));
         fallback.accountType = AccountType.business;
@@ -95,7 +133,7 @@ abstract class NetworkProfiles implements Api, ApiInternals {
         fallback.locationId = offer.locationId;
         fallback.latitude = offer.latitude;
         fallback.longitude = offer.longitude;
-        //fallback.freeze();
+        fallback.freeze();
         cached.fallback = fallback;
         onProfileChanged(accountId);
       }
@@ -106,12 +144,12 @@ abstract class NetworkProfiles implements Api, ApiInternals {
   Future<DataAccount> getPublicProfile(Int64 accountId,
       {bool refresh = true}) async {
     if (!refresh) {
-      _CachedProfile cached = _cachedProfiles[accountId];
+      final _CachedProfile cached = _cachedProfiles[accountId];
       if (cached?.profile != null && !cached.dirty) {
         return cached.profile;
       }
     }
-    log.info("Get public profile $accountId");
+    log.info('Get public profile $accountId');
     if (accountId == account.accountId) {
       // It's me...
       return account;
@@ -124,17 +162,14 @@ abstract class NetworkProfiles implements Api, ApiInternals {
       // offline...
       return tryGetProfileDetail(accountId);
     }
-    NetGetProfile pbReq = NetGetProfile();
-    pbReq.accountId = accountId;
-    TalkMessage message =
-        await switchboard.sendRequest("api", "GETPROFL", pbReq.writeToBuffer());
-    NetProfile profile = NetProfile();
-    profile.mergeFromBuffer(message.data);
-    // profile.freeze();
+    await _clientReady;
+    final NetGetProfile request = NetGetProfile();
+    request.accountId = accountId;
+    final NetProfile profile = await _profilesClient.get(request)..freeze();
     if (profile.account.accountId == accountId) {
       cacheProfile(profile.account);
     } else {
-      log.severe("Received invalid profile. Critical issue");
+      log.severe('Received invalid profile $accountId. Critical issue');
       onProfileChanged(accountId);
       return emptyAccount(accountId)..freeze();
     }
@@ -165,18 +200,16 @@ abstract class NetworkProfiles implements Api, ApiInternals {
       cached = _cachedProfiles[accountId];
     }
     if (cached.profile == null) {
-      if (cached.fallback == null) {
-        cached.fallback = emptyAccount(accountId)..freeze();
-      }
+        cached.fallback ??= emptyAccount(accountId)..freeze();
     }
     if ((cached.profile == null || cached.dirty) &&
         !cached.loading &&
         connected == NetworkConnectionState.ready) {
       cached.loading = true;
-      getPublicProfile(accountId).then((profile) {
+      getPublicProfile(accountId).then((DataAccount profile) {
         cached.loading = false;
       }).catchError((Object error, StackTrace stackTrace) {
-        log.severe("Failed to get profile.", error, stackTrace);
+        log.severe('Failed to get profile.', error, stackTrace);
         Timer(Duration(seconds: 3), () {
           cached.loading = false;
           onProfileChanged(accountId);

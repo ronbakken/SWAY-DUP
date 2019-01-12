@@ -7,7 +7,7 @@ analyzer:
     # treat missing returns as a warning (not a hint)
     missing_return: warning
     # allow having TODOs in the code
-    todo: ignore
+    # todo: ignore
 
 linter:
   rules:
@@ -63,7 +63,7 @@ linter:
     - empty_constructor_bodies
     - empty_statements
     # - file_names # not yet tested
-    - flutter_style_todos
+    # - flutter_style_todos
     - hash_and_equals
     - implementation_imports
     # - invariant_booleans # too many false positives: https://github.com/dart-lang/linter/issues/811

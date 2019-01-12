@@ -13,8 +13,7 @@ import 'package:inf/network_generic/api_offers.dart';
 import 'package:inf/network_generic/api_account.dart';
 import 'package:inf/network_generic/network_proposals.dart';
 import 'package:inf/network_mobile/mobile_notifications.dart';
-import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/network_profiles.dart';
+import 'package:inf/network_generic/api_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_generic/api.dart';
 import 'package:inf/network_generic/api_internals.dart';
@@ -27,7 +26,7 @@ export 'package:inf/network_generic/api.dart';
 class ApiClient
     with
         ApiAccount,
-        NetworkProfiles,
+        ApiProfiles,
         ApiOffers,
         NetworkProposals,
         ApiExplore,
@@ -164,6 +163,7 @@ class ApiClient
   void initialize() {
     // Initialize base dependencies
     accountInitBase();
+    initProfiles();
   }
 
   void start() {
@@ -174,6 +174,7 @@ class ApiClient
   }
 
   void dispose() {
+    disposeProfiles();
     disposeCommon();
     disposeNotifications();
     _profileChanged.close();
