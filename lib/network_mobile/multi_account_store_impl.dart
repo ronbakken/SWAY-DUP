@@ -323,7 +323,7 @@ class MultiAccountStoreImpl implements MultiAccountStore {
     } catch (_, __) {
       // empty
     }
-    if (refreshToken.isEmpty) {
+    if (refreshToken != null && refreshToken.isEmpty) {
       refreshToken = null;
     }
     return refreshToken;

@@ -116,7 +116,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   }
 
   @override
-  final Logger log = Logger('Inf.Network');
+  final Logger log = Logger('Inf.Api');
 
   String _overrideEndPoint;
 
@@ -140,6 +140,15 @@ abstract class ApiAccount implements Api, ApiInternals {
     _sessionChanged.add(session);
   }
 
+  /// Force reopen
+  Future<void> _forceReopenSession() async {
+    final LocalAccountData wanted = _wantedLocalAccount;
+    _wantedLocalAccount = null;
+    await _kickstartSession();
+    _wantedLocalAccount ??= wanted;
+    await _kickstartSession();
+  }
+
   /// To be called anytime the current session has changed
   Future<void> _kickstartSession() async {
     await _lock.synchronized(() async {
@@ -153,10 +162,13 @@ abstract class ApiAccount implements Api, ApiInternals {
         if (_currentApiSessionToken != null) {
           _pushSessionToken(null);
         }
+        connected = NetworkConnectionState.offline;
+        onCommonChanged();
+        return;
       }
 
       // Don't do anything if the local account was not changed
-      if (_currentLocalAccount == null ||
+      if (_currentLocalAccount != null &&
           (_wantedLocalAccount.domain == _currentLocalAccount.domain &&
               _wantedLocalAccount.sessionId ==
                   _currentLocalAccount.sessionId)) {
@@ -222,6 +234,12 @@ abstract class ApiAccount implements Api, ApiInternals {
   int _triedEndPoints = 0;
   int _lastEndPoint = 0;
   Future<void> _openOrCreateSession(LocalAccountData localAccount) async {
+    if (localAccount == null) {
+      log.info('Not opening or creating session.');
+      connected = NetworkConnectionState.offline;
+      onCommonChanged();
+      return;
+    }
     final String refreshToken = _multiAccountStore.getRefreshToken(
         localAccount.domain, localAccount.localId);
     assert(localAccount.domain == config.services.domain);
@@ -274,8 +292,9 @@ abstract class ApiAccount implements Api, ApiInternals {
           connected = NetworkConnectionState.failing;
           onCommonChanged();
         }
-      } while (_triedEndPoints < _config.services.endPoints.length &&
-          _overrideEndPoint.isEmpty);
+      } while (!success &&
+          _triedEndPoints < _config.services.endPoints.length &&
+          (_overrideEndPoint == null || _overrideEndPoint.isEmpty));
       _triedEndPoints = 0;
     } else {
       log.info('Opening an existing session.');
@@ -314,8 +333,9 @@ abstract class ApiAccount implements Api, ApiInternals {
           connected = NetworkConnectionState.failing;
           onCommonChanged();
         }
-      } while (_triedEndPoints < _config.services.endPoints.length &&
-          _overrideEndPoint.isEmpty);
+      } while (!success &&
+          _triedEndPoints < _config.services.endPoints.length &&
+          (_overrideEndPoint == null || _overrideEndPoint.isEmpty));
       _triedEndPoints = 0;
     }
     if (!success) {
@@ -354,6 +374,7 @@ abstract class ApiAccount implements Api, ApiInternals {
 
   @override
   void accountStartSession() {
+    _wantedLocalAccount = multiAccountStore.current;
     unawaited(_kickstartSession());
   }
 
@@ -408,7 +429,7 @@ abstract class ApiAccount implements Api, ApiInternals {
 
   @override
   void accountReassemble() {
-    _refreshAccessToken();
+    _forceReopenSession();
   }
 
   @override
@@ -504,7 +525,7 @@ abstract class ApiAccount implements Api, ApiInternals {
 
   /// Rebuilds the account structure with pending modifications
   void _rebuildAccountGhost() {
-    final DataAccount account = _realAccount;
+    final DataAccount account = _realAccount.clone();
     for (DataAccount accountChanged in _accountGhostChanges) {
       if (accountChanged.categories.isNotEmpty) {
         account.categories.clear();
@@ -524,6 +545,9 @@ abstract class ApiAccount implements Api, ApiInternals {
   void receivedAccountUpdate(DataAccount account, {DataAccount removeGhost}) {
     log.info('Account state update received.');
     log.fine('NetAccountUpdate: $account');
+    if (this.account.accountId != account.accountId) {
+      cleanupStateSwitchingAccounts();
+    }
     _realAccount = account;
     if (removeGhost == null) {
       _rebuildAccountGhost();
@@ -560,14 +584,17 @@ abstract class ApiAccount implements Api, ApiInternals {
 
   @override
   Future<void> setAccountType(AccountType accountType) async {
+    if (accountType == account.accountType) {
+      // no-op
+      return;
+    }
+
     // Create a ghost account delta
     final DataAccount accountChanged = DataAccount();
     accountChanged.accountType = accountType;
-    if (account.accountType != accountType) {
-      for (DataSocialMedia media in account.socialMedia.values) {
-        accountChanged.socialMedia[media.providerId] = media.clone();
-        accountChanged.socialMedia[media.providerId].connected = false;
-      }
+    for (DataSocialMedia media in account.socialMedia.values) {
+      accountChanged.socialMedia[media.providerId] = media.clone();
+      accountChanged.socialMedia[media.providerId].connected = false;
     }
     addAccountGhost(accountChanged..freeze());
 
@@ -647,6 +674,14 @@ abstract class ApiAccount implements Api, ApiInternals {
     request.callbackQuery = callbackQuery;
     final NetOAuthConnection response =
         await _accountClient.connectProvider(request);
+    
+    // Push updated access token
+    if (response.hasAccessToken()) {
+      _pushSessionToken(ApiSessionToken(
+        _currentApiSessionToken.channel,
+        response.accessToken,
+      ));
+    }
 
     // Result contains the updated data, so needs to be put into the state
     if (oauthProvider < config.oauthProviders.length &&
@@ -671,7 +706,13 @@ abstract class ApiAccount implements Api, ApiInternals {
       request.latitude = latitude;
       request.longitude = longitude;
     }
-    final NetAccount response = await _accountClient.create(request);
+    final NetSession response = await _accountClient.create(request);
+    if (response.hasAccessToken()) {
+      _pushSessionToken(ApiSessionToken(
+        _currentApiSessionToken.channel,
+        response.accessToken,
+      ));
+    }
     receivedAccountUpdate(response.account);
     if (account.accountId == 0) {
       throw const NetworkException('No account was created');

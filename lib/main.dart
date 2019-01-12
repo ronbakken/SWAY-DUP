@@ -35,10 +35,16 @@ Future<void> launchApp() async {
   hierarchicalLoggingEnabled = true;
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((LogRecord rec) {
-    print('${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
+    if (rec.error == null) {
+      print(
+          '${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
+    } else {
+      print(
+          '${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}\n${rec.error.toString()}\n${rec.stackTrace.toString()}');
+    }
   });
   Logger('Inf').level = Level.ALL;
-  Logger('Inf.Network').level = Level.ALL;
+  Logger('Inf.Api').level = Level.ALL;
   Logger('Inf.Config').level = Level.ALL;
   Logger('Switchboard').level = Level.ALL;
   Logger('Switchboard.Mux').level = Level.ALL;
@@ -46,7 +52,7 @@ Future<void> launchApp() async {
   Logger('Switchboard.Router').level = Level.ALL;
 
   // Load well-known config from APK
-  ConfigData config = await loadConfig();
+  final ConfigData config = await loadConfig();
   config.freeze();
   // Override starting configuration endPoint
   // Load known local accounts from SharedPreferences

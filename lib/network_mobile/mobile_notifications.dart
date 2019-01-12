@@ -86,7 +86,6 @@ abstract class MobileNotifications implements Api, ApiInternals {
     }
     if (account.accountId != Int64.ZERO) {
       if (account.firebaseToken != token || oldFirebaseToken != token) {
-        account.firebaseToken = token;
         log.info('New FCM token: $token');
         await setFirebaseToken(oldFirebaseToken, token);
         await prefs.setString('firebase_token', token);

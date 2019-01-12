@@ -15,7 +15,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: 0fb706b0552a93413e300e63a310c568d04fb8eb
+      ref: aa471d9260f23c8c55ff1659bfb854dcb83d08f3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -31,7 +31,7 @@ dependencies:
 
   flutter_webview_plugin: ^0.2.1+2
   cached_network_image: ^0.4.2
-  flutter_svg: ^0.7.0+1
+  flutter_svg: ^0.10.0
 
   # Device info, used during device registration
   device_info: ^0.3.0
