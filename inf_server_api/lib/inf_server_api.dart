@@ -12,7 +12,10 @@ import 'package:inf_common/inf_common.dart';
 import 'package:inf_server_api/api_account_service.dart';
 
 import 'package:inf_server_api/api_oauth_service.dart';
+import 'package:inf_server_api/api_offers_service.dart';
 import 'package:inf_server_api/api_profiles_service.dart';
+import 'package:inf_server_api/api_proposal_service.dart';
+import 'package:inf_server_api/api_proposals_service.dart';
 import 'package:inf_server_api/api_session_service.dart';
 import 'package:inf_server_api/api_storage_service.dart';
 import 'package:inf_server_api/api_explore_service.dart';
@@ -168,9 +171,12 @@ Future<void> run(List<String> arguments) async {
     <grpc.Service>[
       ApiSessionService(config, accountDb),
       ApiAccountService(config, accountDb, bucket, bc, oauth1Auth),
-      ApiOAuthService(config, oauth1Auth),
       ApiStorageService(config, bucket),
+      ApiOAuthService(config, oauth1Auth),
       ApiProfilesService(config, accountDb),
+      ApiOffersService(config, accountDb, proposalDb, elasticsearch),
+      ApiProposalsService(config, accountDb, proposalDb, elasticsearch, bc),
+      ApiProposalService(config, accountDb, proposalDb, elasticsearch, bc),
       ApiExploreService(config, elasticsearch)
     ],
     <grpc.Interceptor>[
