@@ -233,7 +233,7 @@ abstract class AppCommonState<T extends StatefulWidget>
     if (proposalViewOpen != null) {
       print('[INF] Pop previous proposal route');
       Navigator.popUntil(context, (Route<dynamic> route) {
-        return route.settings.name
+        return route.settings.name != null &&route.settings.name
             .startsWith('/proposal/' + proposalViewOpen.toString());
       });
       if (proposalViewOpen == proposalId) {
