@@ -9,7 +9,7 @@ Currently there is one majestic monolith service. Preconfigured to connect stand
 List of service ports is provided here to ensure we don't have overlapping ports anywhere. This allows us to easily set up on a development machine.
 
 | Service | Port | Prefix |
-| --- | --- |
+| --- | --- | --- |
 | API gRPC | 8900 | / |
 | Push API gRPC | 8910 | /inf.ApiPush |
 | Push API WS | 8911 | /ws |
