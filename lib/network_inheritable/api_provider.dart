@@ -128,7 +128,7 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
   void reassemble() {
     super.reassemble();
     // Developer reload
-    apiClient.reassembleCommon();
+    apiClient.accountReassemble();
   }
 
   @override

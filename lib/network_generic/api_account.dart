@@ -340,7 +340,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   StreamSubscription<ApiSessionToken> _sessionSubscription;
 
   @override
-  void accountInitBase() {
+  void initAccount() {
     _sessionSubscription = sessionChanged.listen(_onSessionChanged);
     _alive = true;
 
@@ -353,7 +353,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   }
 
   @override
-  void accountInitReady() {
+  void accountStartSession() {
     unawaited(_kickstartSession());
   }
 
@@ -395,7 +395,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   void cleanupStateSwitchingAccounts() {
     resetProfilesState();
     resetOffersState();
-    resetDemoAllOffersState();
+    resetExploreState();
     resetProposalsState();
     resetAccountState();
   }
@@ -407,12 +407,12 @@ abstract class ApiAccount implements Api, ApiInternals {
   }
 
   @override
-  void reassembleCommon() {
+  void accountReassemble() {
     _refreshAccessToken();
   }
 
   @override
-  void disposeCommon() {
+  void disposeAccount() {
     _alive = false;
     _refreshAccessToken();
     _sessionSubscription.cancel();
@@ -421,7 +421,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   }
 
   @override
-  void dependencyChangedCommon() {
+  void accountDependencyChanged() {
     _refreshAccessToken();
   }
 

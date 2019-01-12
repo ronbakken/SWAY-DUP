@@ -24,12 +24,12 @@ abstract class ApiInternals {
   MultiAccountStore get multiAccountStore;
   Stream<ApiSessionToken> get sessionChanged;
 
-  void accountInitBase();
-  void accountInitReady();
+  void initAccount();
+  void accountStartSession();
   void onCommonChanged();
-  void reassembleCommon();
-  void disposeCommon();
-  void dependencyChangedCommon();
+  void accountReassemble();
+  void disposeAccount();
+  void accountDependencyChanged();
   void processSwitchAccount(LocalAccountData localAccount);
 
   // Profiles
@@ -71,7 +71,9 @@ abstract class ApiInternals {
   void hintProposalOffer(DataOffer offer);
 
   // Explore
-  void resetDemoAllOffersState();
+  void initExplore();
+  void disposeExplore();
+  void resetExploreState();
   void markDemoAllOffersDirty();
   void onDemoAllOffersChanged();
 

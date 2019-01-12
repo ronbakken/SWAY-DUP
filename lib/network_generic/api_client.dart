@@ -161,24 +161,26 @@ class ApiClient
 
   void initialize() {
     // Initialize base dependencies
-    accountInitBase();
+    initAccount();
     initProfiles();
     initOffers();
     initProposals();
+    initExplore();
+    initNotifications();
   }
 
   void start() {
     // Initialize notifications
-    initNotifications();
     // Start the network
-    accountInitReady();
+    accountStartSession();
   }
 
   void dispose() {
+    disposeExplore();
     disposeProposals();
     disposeOffers();
     disposeProfiles();
-    disposeCommon();
+    disposeAccount();
     disposeNotifications();
     _profileChanged.close();
     _offerChanged.close();
@@ -194,7 +196,7 @@ class ApiClient
       ConfigData config, MultiAccountStore multiAccountStore) {
     syncConfig(config);
     syncMultiAccountStore(multiAccountStore);
-    dependencyChangedCommon();
+    accountDependencyChanged();
   }
 }
 

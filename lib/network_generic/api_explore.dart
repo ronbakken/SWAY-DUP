@@ -11,8 +11,52 @@ import 'package:inf/network_generic/api.dart';
 import 'package:inf/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:synchronized/synchronized.dart';
+import 'package:grpc/grpc.dart' as grpc;
 
 abstract class ApiExplore implements Api, ApiInternals {
+  Completer<void> __clientReady = Completer<void>();
+  ApiExploreClient _exploreClient;
+  Future<void> get _clientReady {
+    return __clientReady.future;
+  }
+
+  StreamSubscription<ApiSessionToken> _sessionSubscription;
+  void _onSessionChanged(ApiSessionToken session) {
+    if (session == null) {
+      if (__clientReady.isCompleted) {
+        __clientReady = Completer<void>();
+      }
+      _exploreClient = null;
+    } else {
+      if (!__clientReady.isCompleted) {
+        __clientReady.complete();
+      }
+      _exploreClient = ApiExploreClient(
+        session.channel,
+        options: grpc.CallOptions(
+          metadata: <String, String>{
+            'authorization': 'Bearer ${session.token}'
+          },
+        ),
+      );
+    }
+  }
+
+  @override
+  void initExplore() {
+    _sessionSubscription = sessionChanged.listen(_onSessionChanged);
+  }
+
+  @override
+  void disposeExplore() {
+    _sessionSubscription.cancel();
+    _sessionSubscription = null;
+  }
+
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+
   @override
   bool get demoAllOffersLoading {
     return _demoAllOffersRefreshing;
@@ -26,7 +70,7 @@ abstract class ApiExplore implements Api, ApiInternals {
   List<Int64> _demoAllOffersSorted = <Int64>[];
 
   @override
-  void resetDemoAllOffersState() {
+  void resetExploreState() {
     _demoAllOffers.clear();
     _demoAllOffersDirty = true;
     _demoAllOffersSorted.clear();
@@ -42,20 +86,15 @@ abstract class ApiExplore implements Api, ApiInternals {
   @override
   Future<void> refreshDemoAllOffers() async {
     await _demoAllOffersLock.synchronized(() async {
-      final NetDemoAllOffers listDemoAllOffers = NetDemoAllOffers();
-      listDemoAllOffers.freeze();
-      await for (TalkMessage message in switchboard.sendStreamRequest(
-          'api', 'DEMOAOFF', listDemoAllOffers.writeToBuffer())) {
-        if (message.procedureId == 'R_DEMAOF') {
-          final NetOffer offer = NetOffer.fromBuffer(message.data)..freeze();
-          log.fine(offer);
-          cacheOffer(offer.offer, false);
-          _demoAllOffers.add(offer.offer.offerId);
-          _demoAllOffersSortedDirty = true;
-          onDemoAllOffersChanged();
-        } else {
-          channel.unknownProcedure(message);
-        }
+      final NetDemoAllOffers request = NetDemoAllOffers();
+      request.freeze();
+      await _clientReady;
+      await for (NetOffer response in _exploreClient.demoAll(request)) {
+        log.fine(response);
+        cacheOffer(response.offer, false);
+        _demoAllOffers.add(response.offer.offerId);
+        _demoAllOffersSortedDirty = true;
+        onDemoAllOffersChanged();
       }
       _demoAllOffersDirty = false;
     });

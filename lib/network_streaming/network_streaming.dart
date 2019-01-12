@@ -81,7 +81,7 @@ class NetworkStreaming {
   /// Reloads configuration. Call on developer reassemble.
   void reload() {
     _configManager.reloadConfig();
-    _networkManager.reassembleCommon();
+    _networkManager.accountReassemble();
   }
 
   void dispose() {

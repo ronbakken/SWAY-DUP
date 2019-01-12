@@ -227,6 +227,7 @@ abstract class ApiProposals implements Api, ApiInternals {
       request.offerId = offerId;
       request.sessionGhostId = ++nextSessionGhostId;
       request.remarks = remarks;
+      await _clientReady;
       final NetProposal response = await _proposalsClient.apply(request);
       _cacheProposal(response.proposal);
       for (DataProposalChat chat in response.chats) {
@@ -243,6 +244,7 @@ abstract class ApiProposals implements Api, ApiInternals {
   Future<DataProposal> getProposal(Int64 proposalId) async {
     final NetGetProposal request = NetGetProposal();
     request.proposalId = proposalId;
+    await _clientReady;
     final NetProposal reponse = await _proposalsClient.get(request);
     _cacheProposal(reponse.proposal);
     for (DataProposalChat chat in reponse.chats) {
@@ -257,6 +259,7 @@ abstract class ApiProposals implements Api, ApiInternals {
     request.proposalId = proposalId;
     log.fine(proposalId);
     log.fine('LISTCHAT');
+    await _clientReady;
     await for (NetProposalChat response
         in _proposalsClient.listChats(request)) {
       _cacheProposalChat(response.chat);
@@ -410,11 +413,13 @@ abstract class ApiProposals implements Api, ApiInternals {
     request.proposalId = proposalId;
     request.text = text;
     // Response blank. Exception on issue
+    await _clientReady;
     await _proposalClient.report(request);
   }
 
   @override
   Future<void> resubmitGhostChats() async {
+    await _clientReady;
     for (_CachedProposal cached in _cachedProposals.values) {
       for (DataProposalChat ghostChat in cached.ghostChats.values) {
         switch (ghostChat.type) {
@@ -556,6 +561,7 @@ abstract class ApiProposals implements Api, ApiInternals {
     final NetProposalWantDeal request = NetProposalWantDeal();
     request.proposalId = proposalId;
     request.termsChatId = termsChatId;
+    await _clientReady;
     final NetProposal response = await _proposalClient.wantDeal(request);
     _receivedProposalCommonRes(response);
   }
@@ -565,6 +571,7 @@ abstract class ApiProposals implements Api, ApiInternals {
     final NetProposalCompletion request = NetProposalCompletion();
     request.proposalId = proposalId;
     request.rating = rating;
+    await _clientReady;
     final NetProposal response = await _proposalClient.complete(request);
     _receivedProposalCommonRes(response);
   }
