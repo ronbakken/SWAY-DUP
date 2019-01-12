@@ -30,9 +30,9 @@ class ApiProposalsClient extends Client {
       ($5.NetGetProposal value) => value.writeToBuffer(),
       (List<int> value) => new $5.NetProposal.fromBuffer(value));
   static final _$listChats =
-      new ClientMethod<$5.NetGetProposal, $5.NetProposalChat>(
+      new ClientMethod<$5.NetListChats, $5.NetProposalChat>(
           '/inf.ApiProposals/ListChats',
-          ($5.NetGetProposal value) => value.writeToBuffer(),
+          ($5.NetListChats value) => value.writeToBuffer(),
           (List<int> value) => new $5.NetProposalChat.fromBuffer(value));
 
   ApiProposalsClient(ClientChannel channel, {CallOptions options})
@@ -67,7 +67,7 @@ class ApiProposalsClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseStream<$5.NetProposalChat> listChats($5.NetGetProposal request,
+  ResponseStream<$5.NetProposalChat> listChats($5.NetListChats request,
       {CallOptions options}) {
     final call = $createCall(
         _$listChats, new $async.Stream.fromIterable([request]),
@@ -108,12 +108,12 @@ abstract class ApiProposalsServiceBase extends Service {
         false,
         (List<int> value) => new $5.NetGetProposal.fromBuffer(value),
         ($5.NetProposal value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$5.NetGetProposal, $5.NetProposalChat>(
+    $addMethod(new ServiceMethod<$5.NetListChats, $5.NetProposalChat>(
         'ListChats',
         listChats_Pre,
         false,
         true,
-        (List<int> value) => new $5.NetGetProposal.fromBuffer(value),
+        (List<int> value) => new $5.NetListChats.fromBuffer(value),
         ($5.NetProposalChat value) => value.writeToBuffer()));
   }
 
@@ -139,7 +139,7 @@ abstract class ApiProposalsServiceBase extends Service {
 
   $async.Stream<$5.NetProposalChat> listChats_Pre(
       ServiceCall call, $async.Future request) async* {
-    yield* listChats(call, (await request) as $5.NetGetProposal);
+    yield* listChats(call, (await request) as $5.NetListChats);
   }
 
   $async.Future<$5.NetProposal> apply(
@@ -151,5 +151,5 @@ abstract class ApiProposalsServiceBase extends Service {
   $async.Future<$5.NetProposal> get(
       ServiceCall call, $5.NetGetProposal request);
   $async.Stream<$5.NetProposalChat> listChats(
-      ServiceCall call, $5.NetGetProposal request);
+      ServiceCall call, $5.NetListChats request);
 }
