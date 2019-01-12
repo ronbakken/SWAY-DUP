@@ -3,6 +3,6 @@ set -x
 cd "$DIR"
 
 cd ../docker_inf_local
-docker-compose up &
+docker-compose build && docker-compose up &
 
 cd ../scripts

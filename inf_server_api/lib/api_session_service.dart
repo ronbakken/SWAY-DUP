@@ -6,6 +6,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -31,7 +32,7 @@ class ApiSessionService extends ApiSessionServiceBase {
   BackendJwtClient backendJwt;
 
   ApiSessionService(this.config, this.accountDb) {
-    final Uri backendJwtUri = Uri.parse(config.services.backendJwt);
+    final Uri backendJwtUri = Uri.parse(Platform.environment['INF_BACKEND_JWT'] ?? config.services.backendJwt);
     backendJwtChannel = grpc.ClientChannel(
       backendJwtUri.host,
       port: backendJwtUri.port,
