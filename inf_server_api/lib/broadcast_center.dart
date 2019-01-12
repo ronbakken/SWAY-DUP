@@ -73,7 +73,7 @@ class BroadcastCenter {
   Future<void> _push(
       Int64 senderSessionId, Int64 receiverAccountId, NetPush push) async {
     // Send to push backend
-    ReqPush push;
+    final ReqPush push = ReqPush();
     // TODO: Proper settings
     push.skipNotificationsWhenOnline = true;
     push.skipSenderSession = true;

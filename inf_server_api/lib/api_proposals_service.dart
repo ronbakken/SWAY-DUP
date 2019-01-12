@@ -111,58 +111,81 @@ class ApiProposalsService extends ApiProposalsServiceBase {
       chat.terms = offer.terms;
     }
 
-    await proposalDb.startTransaction((sqljocky.Transaction transaction) async {
-      // 1. Insert into proposals
-      final sqljocky.Results resultProposal = await transaction.prepareExecute(
-        SqlProposal.insertProposalQuery,
-        SqlProposal.makeInsertProposalParameters(proposal),
-      );
-      final Int64 proposalId = Int64(resultProposal.insertId);
-      if (proposalId == Int64.ZERO) {
-        throw Exception('Proposal not inserted.');
-      }
-      proposal.proposalId = proposalId;
-      chat.proposalId = proposalId;
+    try {
+      await proposalDb
+          .startTransaction((sqljocky.Transaction transaction) async {
+        // 1. Insert into proposals
+        final sqljocky.Results resultProposal =
+            await transaction.prepareExecute(
+          SqlProposal.insertProposalQuery,
+          SqlProposal.makeInsertProposalParameters(proposal),
+        );
+        final Int64 proposalId = Int64(resultProposal.insertId);
+        if (proposalId == Int64.ZERO) {
+          throw Exception('Proposal not inserted.');
+        }
+        proposal.proposalId = proposalId;
+        chat.proposalId = proposalId;
 
-      // 2. Insert terms into chat
-      final sqljocky.Results resultNegotiate = await transaction.prepareExecute(
-        SqlProposal.insertNegotiateChatQuery,
-        SqlProposal.makeInsertNegotiateChatParameters(chat),
-      );
-      final Int64 termsChatId = Int64(resultNegotiate.insertId);
-      if (termsChatId == Int64.ZERO) {
-        throw Exception('Terms chat not inserted.');
-      }
-      proposal.termsChatId = termsChatId;
-      chat.chatId = termsChatId;
-      chat.sent = Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
-      if (account.accountType == AccountType.business) {
-        proposal.businessWantsDeal = true;
+        // 2. Insert terms into chat
+        final sqljocky.Results resultNegotiate =
+            await transaction.prepareExecute(
+          SqlProposal.insertNegotiateChatQuery,
+          SqlProposal.makeInsertNegotiateChatParameters(chat),
+        );
+        final Int64 termsChatId = Int64(resultNegotiate.insertId);
+        if (termsChatId == Int64.ZERO) {
+          throw Exception('Terms chat not inserted.');
+        }
+        proposal.termsChatId = termsChatId;
+        chat.chatId = termsChatId;
+        chat.sent =
+            Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+        if (account.accountType == AccountType.business) {
+          proposal.businessWantsDeal = true;
+        } else {
+          proposal.influencerWantsDeal = true;
+        }
+
+        // 3. Update haggle on proposal
+        // On automatic accept we're not updating business_wants_deal here, it's not necessary
+        final String updateTermsChatId = 'UPDATE `proposals` '
+            'SET `terms_chat_id` = ?, '
+            '`${account.accountType == AccountType.business ? 'business_wants_deal' : 'influencer_wants_deal'}` = 1 '
+            'WHERE `proposal_id` = ?';
+        final sqljocky.Results resultUpdateTermsChatId =
+            await transaction.prepareExecute(
+          updateTermsChatId,
+          <dynamic>[
+            termsChatId,
+            proposalId,
+          ],
+        );
+        if (resultUpdateTermsChatId.affectedRows == null ||
+            resultUpdateTermsChatId.affectedRows == 0) {
+          throw Exception('Failed to update terms chat id.');
+        }
+
+        await transaction.commit();
+      });
+    } catch (error, _) {
+      if (error is sqljocky.MySqlException) {
+        devLog.fine('Failed apply transaction.', error);
+        // Might be double call
+        final NetProposal response = await _getProposal(
+          auth.sessionId,
+          auth.accountId,
+          auth.accountType,
+          offerId: request.offerId,
+        );
+        if (!response.hasProposal()) {
+          throw grpc.GrpcError.failedPrecondition('Failed apply.');
+        }
+        return response;
       } else {
-        proposal.influencerWantsDeal = true;
+        rethrow;
       }
-
-      // 3. Update haggle on proposal
-      // On automatic accept we're not updating business_wants_deal here, it's not necessary
-      final String updateTermsChatId = 'UPDATE `proposals` '
-          'SET `terms_chat_id` = ?, '
-          '`${account.accountType == AccountType.business ? 'business_wants_deal' : 'influencer_wants_deal'}` = 1 '
-          'WHERE `proposal_id` = ?';
-      final sqljocky.Results resultUpdateTermsChatId =
-          await transaction.prepareExecute(
-        updateTermsChatId,
-        <dynamic>[
-          termsChatId,
-          proposalId,
-        ],
-      );
-      if (resultUpdateTermsChatId.affectedRows == null ||
-          resultUpdateTermsChatId.affectedRows == 0) {
-        throw Exception('Failed to update terms chat id.');
-      }
-
-      await transaction.commit();
-    });
+    }
 
     final NetProposal response = NetProposal();
     response.proposal = proposal;
@@ -246,29 +269,31 @@ class ApiProposalsService extends ApiProposalsServiceBase {
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
 
-  @override
-  Future<NetProposal> get(grpc.ServiceCall call, NetGetProposal request) async {
-    final DataAuth auth = authFromJwtPayload(call);
-    if (auth.accountId == Int64.ZERO ||
-        auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
-      throw grpc.GrpcError.permissionDenied();
-    }
+  // Get proposal by proposalId, or with the applicant's accountId by offerId
+  Future<NetProposal> _getProposal(
+    Int64 sessionId,
+    Int64 accountId,
+    AccountType accountType, {
+    Int64 proposalId,
+    Int64 offerId,
+  }) async {
     NetProposal response;
-
     final sqljocky.RetainedConnection connection =
         await proposalDb.getConnection();
     try {
       // Fetch proposal
-      final String query = SqlProposal.getSelectProposalsQuery(
-              auth.accountType) +
-          ' WHERE `proposal_id` = ?'
-          ' AND `${auth.accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?';
+      final String query = SqlProposal.getSelectProposalsQuery(accountType) +
+          (proposalId != null
+              ? ' WHERE `proposal_id` = ?'
+                  ' AND `${accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?'
+              : ' WHERE `offer_id` = ?'
+              ' AND `sender_account_id` = ?');
       await for (sqljocky.Row row in await connection.prepareExecute(
         query,
-        <dynamic>[request.proposalId, auth.accountId],
+        <dynamic>[(proposalId != null ? proposalId : offerId), accountId],
       )) {
         response = NetProposal();
-        response.proposal = SqlProposal.proposalFromRow(row, auth.accountType);
+        response.proposal = SqlProposal.proposalFromRow(row, accountType);
       }
 
       if (response != null) {
@@ -282,9 +307,10 @@ class ApiProposalsService extends ApiProposalsServiceBase {
             'LIMIT 1';
         await for (sqljocky.Row row
             in await connection.prepareExecute(chatQuery, <dynamic>[
-          request.proposalId,
+          response.proposal.proposalId,
         ])) {
-          latestChat = _chatFromRow(auth.sessionId, request.proposalId, row);
+          latestChat =
+              _chatFromRow(sessionId, response.proposal.proposalId, row);
         }
         if (latestChat != null) {
           response.chats.add(latestChat);
@@ -303,7 +329,8 @@ class ApiProposalsService extends ApiProposalsServiceBase {
               in await connection.prepareExecute(chatQuery, <dynamic>[
             response.proposal.termsChatId,
           ])) {
-            termsChat = _chatFromRow(auth.sessionId, request.proposalId, row);
+            termsChat =
+                _chatFromRow(sessionId, response.proposal.proposalId, row);
           }
           if (termsChat != null) {
             response.chats.add(termsChat);
@@ -313,6 +340,23 @@ class ApiProposalsService extends ApiProposalsServiceBase {
     } finally {
       await connection.release();
     }
+    return response;
+  }
+
+  @override
+  Future<NetProposal> get(grpc.ServiceCall call, NetGetProposal request) async {
+    final DataAuth auth = authFromJwtPayload(call);
+    if (auth.accountId == Int64.ZERO ||
+        auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
+      throw grpc.GrpcError.permissionDenied();
+    }
+
+    NetProposal response = await _getProposal(
+      auth.sessionId,
+      auth.accountId,
+      auth.accountType,
+      proposalId: request.proposalId,
+    );
 
     if (response == null) {
       throw grpc.GrpcError.failedPrecondition(
