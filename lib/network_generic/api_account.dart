@@ -61,7 +61,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   final List<DataAccount> _accountGhostChanges = <DataAccount>[];
 
   @override
-  NetworkConnectionState connected = NetworkConnectionState.connecting;
+  NetworkConnectionState connected = NetworkConnectionState.waiting;
 
   ConfigData _config;
   MultiAccountStore _multiAccountStore;
@@ -162,7 +162,7 @@ abstract class ApiAccount implements Api, ApiInternals {
         if (_currentApiSessionToken != null) {
           _pushSessionToken(null);
         }
-        connected = NetworkConnectionState.offline;
+        connected = NetworkConnectionState.waiting;
         onCommonChanged();
         return;
       }
@@ -236,7 +236,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   Future<void> _openOrCreateSession(LocalAccountData localAccount) async {
     if (localAccount == null) {
       log.info('Not opening or creating session.');
-      connected = NetworkConnectionState.offline;
+      connected = NetworkConnectionState.waiting;
       onCommonChanged();
       return;
     }
@@ -288,6 +288,7 @@ abstract class ApiAccount implements Api, ApiInternals {
         } catch (error, stackTrace) {
           ++_triedEndPoints;
           ++_lastEndPoint;
+          _lastEndPoint %= _config.services.endPoints.length;
           log.warning('Failed to create session.', error, stackTrace);
           connected = NetworkConnectionState.failing;
           onCommonChanged();
@@ -329,6 +330,7 @@ abstract class ApiAccount implements Api, ApiInternals {
         } catch (error, stackTrace) {
           ++_triedEndPoints;
           ++_lastEndPoint;
+          _lastEndPoint %= _config.services.endPoints.length;
           log.warning('Failed to open session.', error, stackTrace);
           connected = NetworkConnectionState.failing;
           onCommonChanged();

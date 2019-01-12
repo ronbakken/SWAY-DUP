@@ -60,6 +60,7 @@ class NetworkStatus extends StatelessWidget {
     switch (network.connected) {
       case NetworkConnectionState.ready:
         return _minimalContainer;
+      case NetworkConnectionState.waiting:
       case NetworkConnectionState.connecting:
         return _progressIndicator;
       case NetworkConnectionState.offline:

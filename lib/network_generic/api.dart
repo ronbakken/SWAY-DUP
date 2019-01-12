@@ -8,7 +8,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:file/file.dart';
 
-enum NetworkConnectionState { connecting, failing, offline, ready }
+enum NetworkConnectionState { waiting, connecting, failing, offline, ready }
 
 class NetworkException implements Exception {
   final String message;
