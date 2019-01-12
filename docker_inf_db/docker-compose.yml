@@ -1,0 +1,147 @@
+# docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+# sudo sysctl -w vm.max_map_count=262144
+# https://stackoverflow.com/questions/34658836/docker-is-in-volume-in-use-but-there-arent-any-docker-containers#42116347
+# docker stop $(docker ps -aq)
+# docker rm $(docker ps -aq)
+# docker network prune -f
+# docker volume rm $(docker volume ls --filter dangling=true -q)
+# Kibana: http://localhost:5601
+# phpMySQL: http://localhost:8096 inf veJxEkenwr7mmC2o
+# phpMySQL Accounts: http://localhost:8097 inf veJxEkenwr7mmC2o
+# phpMySQL Proposals: http://localhost:8098 inf veJxEkenwr7mmC2o
+# https://stackoverflow.com/questions/22944631/how-to-get-the-ip-address-of-the-docker-host-from-inside-a-docker-container
+# docker run -i -t alpine /bin/bash
+# host.docker.internal on OSX or 172.17.0.1 on Linux
+# 127.0.0.1 for direct from host
+version: '3.3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+    # container_name: elasticsearch
+    # restart: always
+    environment:
+      - cluster.name=infsandbox
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data_es1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+  elasticsearch2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+    # container_name: elasticsearch2
+    depends_on:
+      - elasticsearch
+    # restart: always
+    environment:
+      - cluster.name=infsandbox
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data_es2:/usr/share/elasticsearch/data
+  mariadb_general:
+    image: mariadb/server:10.3
+    volumes:
+      - data_sql_gen:/var/lib/mysql
+    # restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
+      MYSQL_DATABASE: inf
+      MYSQL_USER: inf
+      MYSQL_PASSWORD: veJxEkenwr7mmC2o
+    ports:
+      - 3306:3306
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+  mariadb_accounts:
+    image: mariadb/server:10.3
+    volumes:
+      - data_sql_acc:/var/lib/mysql
+    # restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
+      MYSQL_DATABASE: inf
+      MYSQL_USER: inf
+      MYSQL_PASSWORD: veJxEkenwr7mmC2o
+    ports:
+      - 3307:3306
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+  mariadb_proposals:
+    image: mariadb/server:10.3
+    volumes:
+      - data_sql_prs:/var/lib/mysql
+    # restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
+      MYSQL_DATABASE: inf
+      MYSQL_USER: inf
+      MYSQL_PASSWORD: veJxEkenwr7mmC2o
+    ports:
+      - 3308:3306
+    command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+  kibana:
+    image: kibana:6.5.4
+    depends_on:
+      - elasticsearch
+      - elasticsearch2
+    restart: always
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - 5601:5601
+  phpmyadmin_general:
+    image: phpmyadmin/phpmyadmin:4.8
+    depends_on:
+      - mariadb_general
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
+      PMA_HOST: mariadb_general
+      PMA_PORT: 3306
+      PMA_PASSWORD: veJxEkenwr7mmC2o
+    ports:
+      - 8096:80
+  phpmyadmin_accounts:
+    image: phpmyadmin/phpmyadmin:4.8
+    depends_on:
+      - mariadb_accounts
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
+      PMA_HOST: mariadb_accounts
+      PMA_PORT: 3306
+      PMA_PASSWORD: veJxEkenwr7mmC2o
+    ports:
+      - 8097:80
+  phpmyadmin_proposals:
+    image: phpmyadmin/phpmyadmin:4.8
+    depends_on:
+      - mariadb_proposals
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
+      PMA_HOST: mariadb_proposals
+      PMA_PORT: 3306
+      PMA_PASSWORD: veJxEkenwr7mmC2o
+    ports:
+      - 8098:80
+volumes:
+  data_es1:
+    driver: local
+  data_es2:
+    driver: local
+  data_sql_gen:
+    driver: local
+  data_sql_acc:
+    driver: local
+  data_sql_prs:
+    driver: local

@@ -4,6 +4,53 @@ This contains the services that make up the INF server.
 
 Currently there is one majestic monolith service. Preconfigured to connect stand-alone with development databases. Just run it.
 
+## Service Ports
+
+List of service ports is provided here to ensure we don't have overlapping ports anywhere. This allows us to easily set up on a development machine.
+
+| Service | Port | Prefix |
+| --- | --- |
+| API gRPC | 8900 | / |
+| Push API gRPC | 8910 | /inf.ApiPush |
+| Push API WS | 8911 | /ws |
+| Push Backend | 8919 | - |
+| JWT Backend HTTP | 8928 | /.well-known/jwks.json |
+| JWT Backend gRPC | 8929 | - |
+
+| Service | Port |
+| --- | --- |
+| Elasticsearch API | 9200 |
+| Elasticsearch Mesh | 9300 |
+| MariaDB | 3306 |
+| Account MariaDB | 3307 |
+| Proposal MariaDB | 3308 |
+
+| Service | Port |
+| --- | --- |
+| phpMyAdmin | 8096 |
+| Account phpMyAdmin | 8097 |
+| Proposal phpMyAdmin | 8098 |
+| Kibana | 5601 |
+
+| Service | Port |
+| --- | --- |
+| Envoy Proxy HTTP | 80 |
+| Envoy Proxy HTTPS | 443 |
+
+| Service | Port |
+| --- | --- |
+| Envoy Proxy HTTP Localhost | 8080 |
+| Envoy Proxy HTTP Localhost Admin | 8082 |
+| _Envoy Proxy HTTPS Localhost_ | 8443 |
+
+## Sample Service Ports
+
+| Sample | Service | Port |
+| --- | --- | --- |
+| JWT | Dart gRPC | 7900 |
+| JWT | Envoy Proxy | 7901 |
+| JWT | Envoy Proxy Admin | 7902 |
+
 ## Todo
 
 - Use gRPC.
@@ -12,63 +59,3 @@ Currently there is one majestic monolith service. Preconfigured to connect stand
 - Separate where necessary.
 - Hash slot sharding approach for chat routing (sharded redis pubsub or custom).
 - Map cache (custom or any cache that supports sorted queries).
-
-## API
-
-| | Request | | Response | |
-| --- | --- | --- | --- | --- |
-| | Session | | | |
-|client | open session | internal | / | / |
-|client/server | close session | internal | / | / |
-|client | SESSIONC | NetSessionCreate | R_SESSIO | NetSession |
-|server | SESREMOV | NetSessionRemove | / | / |
-|client | PING | / | PONG | / |
-| | Signing | | | |
-|client | A_SETTYP | NetSetAccountType | / | / |
-|client | A_CREATE | NetAccountCreate | A_R_CREA | NetAccount |
-| | OAuth | | | |
-|client | OA_URLRE | NetOAuthGetUrl | OA_R_URL | NetOAuthUrl |
-|client | OA_SECRE | NetOAuthGetSecrets | OA_R_SEC | NetOAuthSecrets |
-|client | OA_CONNE | NetOAuthConnect | OA_R_CON | NetOAuthConnection |
-|client | disconnect oauth | todo | todo | NetOAuthConnection |
-| | Account | | | |
-|server | ACCOUNTU | NetAccount | / | / |
-|client | SFIREBAT | NetSetFirebaseToken | ? | ? |
-| | SONESIGI | NetSetOneSignalId | ? | ? |
-|client | edit account | todo | todo | NetAccountUpdate |
-|client | edit social | todo | todo | NetAccountUpdate |
-| | Profile | | | |
-|client | GETPROFL | NetGetProfile | R_PROFIL | NetProfile |
-| | UP_IMAGE | NetUploadImage | R_UP_IMG | NetUploadSigned |
-| | (My) Offers | | | |
-|client | CREOFFER | NetCreateOffer | R_CREOFR | NetOffer |
-|client | LISTOFRS | NetListOffers | R_LSTOFR | NetOffer |
-|client | GETOFFER | NetGetOffer | R_GETOFR | NetOffer |
-|client | REPOFFER | NetReportOffer | R_REPOFR | NetReport |
-|client | EDITOFFR | NetEditOffer | R_EDTOFR | NetOffer |
-|server | LU_OFFER | NetOffer | / | / |
-| | Explore (Offers) | | | |
-|client | DEMOAOFF | NetDemoAllOffers | R_DEMAOF | NetOffer |
-|client | EXPLOMAP | NetExploreMap | R_EXPMAP | NetMapEntry |
-|client | EXPLORLS | NetExploreList | R_EXPLST | NetListEntry |
-|client | EXFEATUR | NetExploreFeatured | R_EXFEAT | NetFeaturedEntry |
-| | Proposals | | | |
-|client | APLYPROP | NetApplyProposal | R_APLPRP | NetProposal |
-|client | DIREPROP | NetDirectProposal | R_DIRPRP | NetProposal |
-|client | LISTPROP | NetListProposals | R_LSTPRP | NetProposal |
-|client | GETPRPSL | NetGetProposal | R_GETPRP | NetProposal |
-|client | LISTCHAT | NetListChats | R_LSTCHA | NetProposalChat |
-|client | PR_WADEA | NetProposalWantDeal | PR_R_WAD | NetProposal |
-|client | PR_NGOTI | NetProposalNegotiate | PR_R_NGT | NetProposal |
-|client | PR_REJEC | NetProposalReject | PR_R_REJ | NetProposal |
-|client | PR_RPORT | NetProposalReport | PR_R_RPT | NetProposal |
-|client | PR_DISPU | NetProposalDispute | PR_R_DSP | NetProposal |
-|client | PR_COMPT | NetProposalCompletion | PR_R_COM | NetProposal |
-|client | PR_ARCHV | NetProposalArchive | PR_R_ARC | NetProposal |
-|client | CH_PLAIN | NetChatPlain | / | / |
-|client | CH_HAGGL | NetChatNegotiate | / | / |
-|client | CH_IMAGE | NetChatImageKey | / | / |
-|server | LN_PRPSL | NetProposal | / | / |
-|server | LU_PRPSL | NetProposal | / | / |
-|server | LN_P_CHA | NetProposalChat | / | / |
-|server | LU_P_CHA | NetProposalChat | / | / |

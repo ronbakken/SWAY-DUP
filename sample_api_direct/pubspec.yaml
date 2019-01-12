@@ -1,0 +1,22 @@
+name: sample_api_direct
+description: Direct API usage sample. Test suite.
+version: 0.1.0
+homepage: https://www.infmarketplace.com
+author: Jan Boon <jan.boon@kaetemi.be>
+publish_to: none
+
+environment:
+  sdk: '>=2.0.0-dev.58.0 <3.0.0'
+
+dependencies:
+  inf_common:
+    git: 
+      url: git@github.com:infmarketplace/inf_common.git
+      ref: b1b8d362cf628108e5eebb2b1d5664a9d476e9e6
+  logging: ^0.11.3+2
+
+dev_dependencies:
+  test: ^1.0.0
+
+dependency_overrides:
+  # analyzer: ^0.32.4 # Force upgrade of reflectable, used by pointycastle

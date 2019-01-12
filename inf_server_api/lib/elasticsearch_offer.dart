@@ -1,7 +1,7 @@
 /*
 INF Marketplace
 Copyright (C) 2018  INF Marketplace LLC
-Author: Jan Boon <kaetemi@no-break.space>
+Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 import 'dart:convert';
@@ -9,7 +9,7 @@ import 'dart:core';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf_server_api/categories.dart';
+import 'package:inf_server_api/common_categories.dart';
 import 'package:s2geometry/s2geometry.dart';
 import 'package:geohash/geohash.dart';
 
@@ -42,6 +42,48 @@ class ElasticsearchOffer {
     hash = hash & 0x3FFF;
     return hash;
   }
+
+  static const int kSearchSize = 255;
+
+  static const List<String> kPrivateFields = <String>[
+    // Summary
+    'location_id', // Private
+    // State
+    'state',
+    'state_reason',
+    'archived',
+    'proposals_proposing',
+    'proposals_negotiating',
+    'proposals_deal',
+    'proposals_rejected',
+    'proposals_dispute',
+    'proposals_resolved',
+    'proposals_complete',
+  ];
+
+  static const List<String> kSummaryFields = <String>[
+    // Summary
+    'offer_id',
+    'sender_account_id',
+    'sender_account_type',
+    'title',
+    'thumbnail_key',
+    'thumbnail_blurred',
+    'deliverable_social_platforms',
+    'deliverable_content_formats',
+    'reward_cash_value',
+    'reward_item_or_service_value',
+    'primary_categories',
+    'sender_name',
+    'sender_avatar_url', // TODO: Fix this
+    'sender_avatar_key', // TODO: Fix this
+    'sender_avatar_blurred',
+    'location_address',
+    'location',
+  ];
+
+  static final List<String> kPrivateSummaryFields =
+      (kPrivateFields + kSummaryFields).toList();
 
   static dynamic toJson(
     ConfigData config,

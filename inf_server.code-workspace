@@ -1,16 +1,10 @@
 {
 	"folders": [
 		{
-			"path": "inf_server_api"
-		},
-		{
-			"path": "../switchboard"
-		},
-		{
-			"path": "k8s_dev"
+			"path": "."
 		}
 	],
 	"settings": {
-		"workbench.colorTheme": "Quiet Light"
+		"workbench.colorTheme": "Default Light+"
 	}
 }

@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  envoy_edge_proxy:
+    image: envoyproxy/envoy:latest
+    network_mode: host
+    restart: always
+    volumes:
+    - ./envoy.yaml:/etc/envoy/envoy.yaml
+  inf_server_jwt:
+    build:
+      context: ..
+      dockerfile: inf_server_jwt/Dockerfile
+    network_mode: host
+    restart: always
+  inf_server_push:
+    build:
+      context: ..
+      dockerfile: inf_server_push/Dockerfile
+    network_mode: host
+    restart: always
+    command: assets/config_local_server.bin
+  inf_server_api:
+    build:
+      context: ..
+      dockerfile: inf_server_api/Dockerfile
+    network_mode: host
+    restart: always
+    command: assets/config_local_server.bin

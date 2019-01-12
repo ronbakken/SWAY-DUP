@@ -1,45 +1,42 @@
 /*
 INF Marketplace
 Copyright (C) 2018  INF Marketplace LLC
-Author: Jan Boon <kaetemi@no-break.space>
+Author: Jan Boon <jan.boon@kaetemi.be>
 */
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-// https://pub.dartlang.org/packages/sqljocky5
-// INSERT INTO `business_accounts` (`business_id`, `name`, `home_address`, `home_gps`) VALUES (NULL, 'Kahuna Burger', 'Los Angeles', GeomFromText('POINT(0 0)'));
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:inf_server_api/api_service.dart';
-import 'package:inf_server_api/elasticsearch.dart';
-import 'package:logging/logging.dart';
-import 'package:sqljocky5/sqljocky.dart' as sqljocky;
-// import 'package:postgres/postgres.dart' as postgres;
-import 'package:switchboard/switchboard.dart';
-import 'package:dospace/dospace.dart' as dospace;
-import 'package:http_client/console.dart' as http;
-
-import 'package:inf_server_api/broadcast_center.dart';
 import 'package:inf_common/inf_common.dart';
+import 'package:inf_server_api/api_account_service.dart';
+
+import 'package:inf_server_api/api_oauth_service.dart';
+import 'package:inf_server_api/api_offers_service.dart';
+import 'package:inf_server_api/api_profiles_service.dart';
+import 'package:inf_server_api/api_proposal_service.dart';
+import 'package:inf_server_api/api_proposals_service.dart';
+import 'package:inf_server_api/api_session_service.dart';
+import 'package:inf_server_api/api_storage_service.dart';
+import 'package:inf_server_api/api_explore_service.dart';
+import 'package:inf_server_api/db_upgrade_accounts.dart';
+import 'package:inf_server_api/db_upgrade_proposals.dart';
+
+import 'package:inf_server_api/elasticsearch.dart';
+import 'package:inf_server_api/broadcast_center.dart';
+
+import 'package:logging/logging.dart';
+import 'package:pedantic/pedantic.dart';
+import 'package:sqljocky5/sqljocky.dart' as sqljocky;
+import 'package:dospace/dospace.dart' as dospace;
+import 'package:http_client/console.dart' as http_client;
+import 'package:http/http.dart' as http;
+import 'package:grpc/grpc.dart' as grpc;
+import 'package:oauth1/oauth1.dart' as oauth1;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-
-/*
-devinf-api
-AUGKNEZGFQVUROSP2CB7
-AK8dfZ8nD+QYl6Nz662YMa2oSjrG/uUmXte8t4ojd70
-*/
 
 Future<void> selfTestSql(sqljocky.ConnectionPool sql) async {
   // ⚠️✔️❌🛑 // Emojis make code run faster
@@ -54,67 +51,33 @@ Future<void> selfTestSql(sqljocky.ConnectionPool sql) async {
     } else {
       opsLog.info('[✔️] SQL Self Test');
     }
-  } catch (ex) {
-    opsLog.severe('[❌] SQL Self Test: $ex'); // CRITICAL - OPERATIONS
+  } catch (error, stackTrace) {
+    opsLog.severe(
+        '[❌] SQL Self Test', error, stackTrace); // CRITICAL - OPERATIONS
   }
 }
 
-Future<void> selfTestTalk() async {
+Future<void> _selfTestOAuth1(
+    ConfigData config, List<oauth1.Authorization> oauth1Auth) async {
   final Logger opsLog = Logger('InfOps.SelfTest');
-  TalkChannel channel;
-  // List<int> values = new List<int>();
   try {
-    /*
-    channel = await TalkSocket.connect("ws://localhost:8090/api");
-    Future<void> listen = channel.listen();
-    for (int i = 0; i < 3; ++i) {
-      values.add(await channel.ping());
-    }
-    for (int i = 0; i < 3; ++i) {
-      await for (int dt in channel.multiPing()) {
-        values.add(dt);
+    for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {
+      final ConfigOAuthProvider provider = config.oauthProviders[providerId];
+      if (provider.mechanism == OAuthMechanism.oauth1) {
+        final oauth1.Authorization auth = oauth1Auth[providerId];
+        opsLog.info('[✔️] OAuth1 ($providerId): ' +
+            (await auth.requestTemporaryCredentials(provider.callbackUrl))
+                .credentials
+                .toJSON()
+                .toString());
       }
     }
-    channel.close();
-    channel = null;
-    await listen;
-    */
-    final Switchboard switchboard = Switchboard();
-    switchboard.setEndPoint('ws://localhost:8090/ep');
-    await switchboard.sendRequest('api', 'PING', Uint8List(0));
-    switchboard.listenDiscard();
-    await switchboard.close();
-    opsLog.info('[✔️] Switchboard Self Test');
-  } catch (ex) {
-    opsLog.severe('[❌] Switchboard Self Test: $ex'); // CRITICAL - OPERATIONS
-  }
-  if (channel != null) {
-    channel.close();
+  } catch (error, stackTrace) {
+    opsLog.severe('[❌] OAuth1 Self Test', error, stackTrace);
   }
 }
 
 Future<void> run(List<String> arguments) async {
-  // S2LatLng latLng = new S2LatLng.fromDegrees(40.732162, 73.975698); // getting fb8c157663c46983
-  // S2LatLng latLng = new S2LatLng.fromDegrees(40.732162, 73.975698); // getting 580dc240ac2bca54
-  /*
-  S2LatLng latLng = new S2LatLng.fromDegrees(49.703498679, 11.770681595); // should be 0x47a1cbd595522b39
-  S2Point point = latLng.toPoint(); // 89c25973735
-  S2CellId cellId = S2CellId.fromPoint(point);
-  print("Cell ID: ${cellId.toToken()}");
-  print("Cell ID Hex: ${cellId.id.toRadixString(16)}");
-  print("Cell ID Parent: ${cellId.parent().toToken()}");
-  print("Cell ID Parent Parent: ${cellId.parent().parent().toToken()}");
-  print("Cell ID Parent: ${cellId.immediateParent().toToken()}");
-  print("Cell ID Parent Parent: ${cellId.immediateParent().immediateParent().toToken()}");
-  print("Cell ID Level: ${cellId.level}");
-  print("Cell ID Parent Level: ${cellId.parent().level}");
-  print("Cell ID Parent Level: ${cellId.immediateParent().level}");
-  print("Cell ID Parent Parent Level: ${cellId.immediateParent().immediateParent().level}");
-  */
-
-  // -6.080542, 50.976609 should produce 92e6205dd50668fa
-  // 40.732162, 73.975698 should produce 89c25973735
-
   // Logging
   hierarchicalLoggingEnabled = true;
   Logger.root.level = Level.ALL;
@@ -131,14 +94,10 @@ Future<void> run(List<String> arguments) async {
   Logger('InfDev').level = Level.ALL;
   Logger('SqlJocky').level = Level.WARNING;
   Logger('SqlJocky.BufferedSocket').level = Level.WARNING;
-  Logger('Switchboard').level = Level.INFO;
-  Logger('Switchboard.Mux').level = Level.ALL;
-  Logger('Switchboard.Talk').level = Level.INFO;
-  Logger('Switchboard.Router').level = Level.ALL;
 
   // Server Configuration
   final String configFile =
-      arguments.isNotEmpty ? arguments[0] : 'assets/config_server.bin';
+      arguments.isNotEmpty ? arguments[0] : '../assets/config_server.bin';
   Logger('InfOps').info("Config file: '$configFile'.");
   final Uint8List configBytes = await File(configFile).readAsBytes();
   final ConfigData config = ConfigData();
@@ -152,7 +111,8 @@ Future<void> run(List<String> arguments) async {
       password: config.services.accountDbPassword,
       db: config.services.accountDbDatabase,
       max: 17);
-  selfTestSql(accountDb);
+  await dbUpgradeAccounts(accountDb);
+  unawaited(selfTestSql(accountDb));
 
   // Run Proposal DB SQL client
   final sqljocky.ConnectionPool proposalDb = sqljocky.ConnectionPool(
@@ -162,14 +122,15 @@ Future<void> run(List<String> arguments) async {
       password: config.services.proposalDbPassword,
       db: config.services.proposalDbDatabase,
       max: 17);
-  selfTestSql(proposalDb);
+  await dbUpgradeProposals(proposalDb);
+  unawaited(selfTestSql(proposalDb));
 
   // Spaces
   final dospace.Spaces spaces = dospace.Spaces(
     region: config.services.spacesRegion,
     accessKey: config.services.spacesKey,
     secretKey: config.services.spacesSecret,
-    httpClient: http.ConsoleClient(),
+    httpClient: http_client.ConsoleClient(),
   );
   final dospace.Bucket bucket = spaces.bucket(config.services.spacesBucket);
   if (!(await spaces.listAllBuckets()).contains(config.services.spacesBucket)) {
@@ -184,35 +145,60 @@ Future<void> run(List<String> arguments) async {
   final BroadcastCenter bc =
       BroadcastCenter(config, accountDb, proposalDb, bucket);
 
-  // Listen to websocket
-  final Switchboard switchboard = Switchboard();
-  await switchboard.bindWebSocket(InternetAddress.anyIPv6, 8090, '/ep');
-  // await switchboard.bindWebSocket(InternetAddress.anyIPv4, 8090, '/ep');
-  selfTestTalk();
+  final http.Client httpClient = http.Client();
 
-  final ApiService apiService = ApiService(
-      config, accountDb, proposalDb, bucket, elasticsearch, switchboard, bc);
-  await apiService.listen();
-  await apiService.close();
+  final List<oauth1.Authorization> oauth1Auth =
+      List<oauth1.Authorization>(config.oauthProviders.length);
+  for (int providerId = 0; providerId < oauth1Auth.length; ++providerId) {
+    final ConfigOAuthProvider provider = config.oauthProviders[providerId];
+    if (provider.mechanism == OAuthMechanism.oauth1) {
+      final oauth1.Platform platform = oauth1.Platform(
+          provider.host + provider.requestTokenUrl,
+          provider.host + provider.authenticateUrl,
+          provider.host + provider.accessTokenUrl,
+          oauth1.SignatureMethods.hmacSha1);
+      final oauth1.ClientCredentials clientCredentials =
+          oauth1.ClientCredentials(
+              provider.consumerKey, provider.consumerSecret);
+      oauth1Auth[providerId] =
+          oauth1.Authorization(clientCredentials, platform, httpClient);
+    }
+  }
+  unawaited(_selfTestOAuth1(config, oauth1Auth));
 
-  await spaces.close();
+  // Listen to gRPC
+  final grpc.Server grpcServer = grpc.Server(
+    <grpc.Service>[
+      ApiSessionService(config, accountDb),
+      ApiAccountService(config, accountDb, bucket, bc, oauth1Auth),
+      ApiStorageService(config, bucket),
+      ApiOAuthService(config, oauth1Auth),
+      ApiProfilesService(config, accountDb),
+      ApiOffersService(config, accountDb, proposalDb, elasticsearch),
+      ApiProposalsService(config, accountDb, proposalDb, elasticsearch, bc),
+      ApiProposalService(config, accountDb, proposalDb, elasticsearch, bc),
+      ApiExploreService(config, elasticsearch)
+    ],
+    <grpc.Interceptor>[
+      // TODO(kaetemi): Add interceptor for JWT
+    ],
+  );
+  final Future<void> grpcServing = grpcServer.serve(port: 8900);
+
+  // Listen to WebSocket
+
+  // Wait for listening
+  await Future.any(<Future<void>>[grpcServing]);
+  Logger('InfOps').info('Listening: api: ${grpcServer.port}');
+
+  // TODO: Exit if any of the listeners exits... No mechanism to wait for gRPC exit right now...
+  // await ...;
+  // await grpcServer.shutdown();
+  // await spaces.close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-
-/*
-  var results = await pool.query('SELECT name FROM business_accounts');
-  results.forEach((row) async {
-    print('Name: ${row[0]}');
-    
-    var results2 = await pool.query('SELECT name FROM business_accounts');
-    results2.forEach((row) {
-      print('Name: ${row[0]}');
-    });
-    
-  });
-  */
 
 /* end of file */
