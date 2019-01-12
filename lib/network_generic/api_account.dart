@@ -417,6 +417,7 @@ abstract class ApiAccount implements Api, ApiInternals {
     _refreshAccessToken();
     _sessionSubscription.cancel();
     _sessionSubscription = null;
+    _sessionChanged.close();
   }
 
   @override

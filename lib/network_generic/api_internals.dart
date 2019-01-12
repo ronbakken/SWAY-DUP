@@ -43,6 +43,8 @@ abstract class ApiInternals {
   void hintProfileOffer(DataOffer offer);
 
   // Offer
+  void initOffers();
+  void disposeOffers();
   void cacheOffer(DataOffer offer, bool detail);
   void resetOffersState();
   void onOfferChanged(Int64 id);

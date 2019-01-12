@@ -164,6 +164,7 @@ class ApiClient
     // Initialize base dependencies
     accountInitBase();
     initProfiles();
+    initOffers();
   }
 
   void start() {
@@ -174,6 +175,7 @@ class ApiClient
   }
 
   void dispose() {
+    disposeOffers();
     disposeProfiles();
     disposeCommon();
     disposeNotifications();

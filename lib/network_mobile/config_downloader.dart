@@ -31,7 +31,7 @@ String translateGlobalAccountStateReason(
   return 'There is an issue with your INF Marketplace account. Please contact support.';
 }
 
-class ConfigManager {
+class ConfigDownloader {
   static final Logger log = Logger('Inf.Config');
 
   final ConfigData startupConfig;
@@ -42,7 +42,7 @@ class ConfigManager {
   ConfigData _config;
   Function() _onChanged;
 
-  ConfigManager({
+  ConfigDownloader({
     @required this.startupConfig,
     Function() onChanged,
   }) : _onChanged = onChanged ?? (() {}) {
