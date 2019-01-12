@@ -8,7 +8,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:inf/navigation_bindings/app_base.dart';
+import 'package:inf/app_composition/app_base.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';

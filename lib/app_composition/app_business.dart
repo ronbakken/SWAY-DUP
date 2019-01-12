@@ -9,7 +9,7 @@ import 'dart:io';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:inf/navigation_bindings/app_common.dart';
+import 'package:inf/app_composition/app_common.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/ui/offers/offer_details_page.dart';
 

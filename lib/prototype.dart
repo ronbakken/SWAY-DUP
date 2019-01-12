@@ -11,7 +11,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 
 import 'package:inf/developer_menu.dart';
-import 'package:inf/navigation_bindings/app_switch.dart';
+import 'package:inf/app_composition/app_switch.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_inheritable/api_provider.dart';
 import 'package:inf/network_inheritable/network_stack.dart';

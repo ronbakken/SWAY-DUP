@@ -11,9 +11,9 @@ import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_inheritable/api_provider.dart';
 import 'package:inf/screens_loading/loading_network.dart';
-import 'package:inf/navigation_bindings/app_onboarding.dart';
-import 'package:inf/navigation_bindings/app_business.dart';
-import 'package:inf/navigation_bindings/app_influencer.dart';
+import 'package:inf/app_composition/app_onboarding.dart';
+import 'package:inf/app_composition/app_business.dart';
+import 'package:inf/app_composition/app_influencer.dart';
 import 'package:inf/screens/debug_account.dart';
 
 // Switches between app home depending on the network state
