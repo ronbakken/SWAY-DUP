@@ -10,7 +10,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/api_explore.dart';
 import 'package:inf/network_generic/api_offers.dart';
 import 'package:inf/network_generic/api_account.dart';
-import 'package:inf/network_generic/network_proposals.dart';
+import 'package:inf/network_generic/api_proposals.dart';
 import 'package:inf/network_mobile/mobile_notifications.dart';
 import 'package:inf/network_generic/api_profiles.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
@@ -27,7 +27,7 @@ class ApiClient
         ApiAccount,
         ApiProfiles,
         ApiOffers,
-        NetworkProposals,
+        ApiProposals,
         ApiExplore,
         MobileNotifications
     implements Api, ApiInternals {
@@ -164,6 +164,7 @@ class ApiClient
     accountInitBase();
     initProfiles();
     initOffers();
+    initProposals();
   }
 
   void start() {
@@ -174,6 +175,7 @@ class ApiClient
   }
 
   void dispose() {
+    disposeProposals();
     disposeOffers();
     disposeProfiles();
     disposeCommon();

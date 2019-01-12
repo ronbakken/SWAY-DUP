@@ -53,12 +53,9 @@ abstract class ApiInternals {
   void hintOfferProposal(DataProposal proposal);
   void onOffersChanged();
 
-  // Demo
-  void resetDemoAllOffersState();
-  void markDemoAllOffersDirty();
-  void onDemoAllOffersChanged();
-
   // Proposals
+  void initProposals();
+  void disposeProposals();
   int nextSessionGhostId;
   void resetProposalsState();
   void markProposalsDirty();
@@ -66,14 +63,17 @@ abstract class ApiInternals {
   void onProposalsChanged();
   void onProposalChatsChanged(Int64 id);
   void onProposalChatNotification(DataProposalChat chat);
-  /*
-  Future<void> liveNewProposal(TalkMessage message);
-  Future<void> liveNewProposalChat(TalkMessage message);
-  Future<void> liveUpdateProposal(TalkMessage message);
-  Future<void> liveUpdateProposalChat(TalkMessage message);
-  */
-  void resubmitGhostChats();
+  void liveNewProposal(NetProposal push);
+  void liveNewProposalChat(NetProposalChat push);
+  void liveUpdateProposal(NetProposal push, {bool delta = false});
+  void liveUpdateProposalChat(NetProposalChat push);
+  Future<void> resubmitGhostChats();
   void hintProposalOffer(DataOffer offer);
+
+  // Explore
+  void resetDemoAllOffersState();
+  void markDemoAllOffersDirty();
+  void onDemoAllOffersChanged();
 
   // Notifications
   void disposeNotifications();
