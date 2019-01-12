@@ -328,7 +328,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
 
   @override
   Stream<NetProposalChat> listChats(
-      grpc.ServiceCall call, NetGetProposal request) async* {
+      grpc.ServiceCall call, NetListChats request) async* {
     final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {

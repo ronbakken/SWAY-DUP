@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  sample_jwt_envoy:
+  envoy_edge_proxy:
     image: envoyproxy/envoy:latest
     network_mode: host
     restart: always

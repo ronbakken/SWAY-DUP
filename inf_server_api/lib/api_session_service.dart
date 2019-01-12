@@ -27,16 +27,18 @@ class ApiSessionService extends ApiSessionServiceBase {
 
   final Random _random = Random.secure();
 
-  final grpc.ClientChannel backendJwtChannel = grpc.ClientChannel(
-    '127.0.0.1',
-    port: 8929,
-    options: const grpc.ChannelOptions(
-      credentials: grpc.ChannelCredentials.insecure(),
-    ),
-  );
+  grpc.ClientChannel backendJwtChannel;
   BackendJwtClient backendJwt;
 
   ApiSessionService(this.config, this.accountDb) {
+    final Uri backendJwtUri = Uri.parse(config.services.backendJwt);
+    backendJwtChannel = grpc.ClientChannel(
+      backendJwtUri.host,
+      port: backendJwtUri.port,
+      options: const grpc.ChannelOptions(
+        credentials: grpc.ChannelCredentials.insecure(),
+      ),
+    );
     backendJwt = BackendJwtClient(backendJwtChannel);
   }
 

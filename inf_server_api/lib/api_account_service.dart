@@ -5,6 +5,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -39,8 +40,21 @@ class ApiAccountService extends ApiAccountServiceBase {
   final http.Client httpClient = http.Client();
   final http_client.Client httpClientClient = http_client.ConsoleClient();
 
+  grpc.ClientChannel backendJwtChannel;
+  BackendJwtClient backendJwt;
+
   ApiAccountService(
-      this.config, this.accountDb, this.bucket, this.bc, this.oauth1Auth);
+      this.config, this.accountDb, this.bucket, this.bc, this.oauth1Auth) {
+    final Uri backendJwtUri = Uri.parse(config.services.backendJwt);
+    backendJwtChannel = grpc.ClientChannel(
+      backendJwtUri.host,
+      port: backendJwtUri.port,
+      options: const grpc.ChannelOptions(
+        credentials: grpc.ChannelCredentials.insecure(),
+      ),
+    );
+    backendJwt = BackendJwtClient(backendJwtChannel);
+  }
 
   final Random _random = Random.secure();
 
@@ -102,11 +116,17 @@ class ApiAccountService extends ApiAccountServiceBase {
       throw grpc.GrpcError.unauthenticated('Refresh token not allowed.');
     }
     if (auth.sessionId == Int64.ZERO ||
-        auth.accountType == AccountType.unknown ||
+        // auth.accountType == AccountType.unknown ||
         (auth.accountId != Int64.ZERO &&
             auth.globalAccountState.value <
                 GlobalAccountState.readOnly.value)) {
       throw grpc.GrpcError.permissionDenied();
+    }
+
+    final DataAccount account =
+        await fetchSessionAccount(config, accountDb, auth.sessionId);
+    if (account.accountType == AccountType.unknown) {
+      throw grpc.GrpcError.failedPrecondition();
     }
 
     if (request.oauthProvider == 0 ||
@@ -125,7 +145,7 @@ class ApiAccountService extends ApiAccountServiceBase {
     // bool connected = false;
 
     // final ConfigOAuthProvider provider = config.oauthProviders[oauthProvider];
-    final NetOAuthConnection result = NetOAuthConnection();
+    final NetOAuthConnection response = NetOAuthConnection();
 
     bool inserted = false;
     bool takeover = false;
@@ -146,8 +166,8 @@ class ApiAccountService extends ApiAccountServiceBase {
             <dynamic>[
               oauthCredentials.userId.toString(),
               oauthProvider.toInt(),
-              auth.accountType.value.toInt(),
-              auth.accountId,
+              account.accountType.value.toInt(),
+              account.accountId,
               auth.sessionId,
               oauthCredentials.token.toString(),
               oauthCredentials.tokenSecret.toString(),
@@ -165,7 +185,7 @@ class ApiAccountService extends ApiAccountServiceBase {
       // Alternative is to update a previously pending connection that has account_id = 0
       if (!inserted) {
         try {
-          if (auth.accountId == 0) {
+          if (account.accountId == 0) {
             // Attempt to login to an existing account, or regain a lost connection
             devLog.finest('Try takeover');
             const String query = 'UPDATE `oauth_connections` '
@@ -180,7 +200,7 @@ class ApiAccountService extends ApiAccountServiceBase {
               oauthCredentials.tokenExpires.toString(),
               oauthCredentials.userId.toString(),
               oauthProvider,
-              auth.accountType.value
+              account.accountType.value
             ]);
             takeover =
                 updateResults.affectedRows > 0; // Also check for account state
@@ -198,7 +218,7 @@ class ApiAccountService extends ApiAccountServiceBase {
                     <dynamic>[
                   oauthCredentials.userId.toString(),
                   oauthProvider,
-                  auth.accountType.value
+                  account.accountType.value
                 ]);
             Int64 takeoverAccountId = Int64.ZERO;
             await for (sqljocky.Row row in connectionResults) {
@@ -229,15 +249,15 @@ class ApiAccountService extends ApiAccountServiceBase {
                 'WHERE `oauth_user_id` = ? AND `oauth_provider` = ? AND `account_type` = ? AND (`account_id` = 0 OR `account_id` = ?)'; // Also allow account_id 0 in case of issue
             final sqljocky.Results updateResults =
                 await accountDb.prepareExecute(query, <dynamic>[
-              auth.accountId,
+              account.accountId,
               auth.sessionId,
               oauthCredentials.token.toString(),
               oauthCredentials.tokenSecret.toString(),
               oauthCredentials.tokenExpires.toInt(),
               oauthCredentials.userId.toString(),
               oauthProvider.toInt(),
-              auth.accountType.value.toInt(),
-              auth.accountId
+              account.accountType.value.toInt(),
+              account.accountId
             ]);
             refreshed = updateResults.affectedRows > 0;
             devLog.finest('Attempt to refresh OAuth tokens: $refreshed');
@@ -254,11 +274,11 @@ class ApiAccountService extends ApiAccountServiceBase {
     if (inserted || takeover || refreshed) {
       // Wipe any other previously connected accounts to avoid inconsistent data
       // Happens after addition to ensure race condition will prioritize deletion
-      if (auth.accountId != Int64.ZERO) {
+      if (account.accountId != Int64.ZERO) {
         const String query =
             'DELETE FROM `oauth_connections` WHERE `account_id` = ? AND `oauth_user_id` != ? AND `oauth_provider` = ?';
         await accountDb.prepareExecute(query, <dynamic>[
-          auth.accountId,
+          account.accountId,
           oauthCredentials.userId.toString(),
           oauthProvider.toInt()
         ]);
@@ -282,24 +302,48 @@ class ApiAccountService extends ApiAccountServiceBase {
       await _cacheSocialMedia(
           oauthCredentials.userId, oauthProvider, dataSocialMedia);
 
-      result.socialMedia = DataSocialMedia();
-      result.socialMedia.mergeFromMessage(dataSocialMedia);
-      result.socialMedia.connected = true;
-      result.socialMedia.canSignUp =
+      response.socialMedia = DataSocialMedia();
+      response.socialMedia.mergeFromMessage(dataSocialMedia);
+      response.socialMedia.connected = true;
+      response.socialMedia.canSignUp =
           config.oauthProviders[oauthProvider].canAlwaysAuthenticate &&
               !takeover;
     }
 
     if (takeover) {
       // Account was found during connection, transition
-      result.account =
+      response.account =
           await fetchSessionAccount(config, accountDb, auth.sessionId);
 
-      // TODO: accessToken
-      // result.accessToken = ...;
+      // Access token for the account.
+      final DataAuth accessPayload = DataAuth();
+      accessPayload.sessionId = auth.sessionId;
+      accessPayload.accountType = response.account.accountType;
+      accessPayload.accountId = response.account.accountId;
+      accessPayload.globalAccountState = response.account.globalAccountState;
+      accessPayload.accountLevel = response.account.accountLevel;
+
+      final ReqSign accessSignRequest = ReqSign();
+      accessSignRequest.claim = json.encode(<String, dynamic>{
+        'iss': 'https://infsandbox.app',
+        'aud': 'infsandbox',
+        'pb': base64.encode(accessPayload.writeToBuffer())
+        // TODO: Expire
+      });
+      accessSignRequest.freeze();
+      final ResSign accessResponse = await backendJwt.sign(
+        accessSignRequest,
+        options: grpc.CallOptions(
+          metadata: <String, String>{
+            'x-request-id': call.clientMetadata['x-request-id'],
+          },
+          // TODO: timeout: call.deadline.difference(DateTime.now()),
+        ),
+      );
+      response.accessToken = accessResponse.token;
     }
 
-    return result;
+    return response;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -307,7 +351,7 @@ class ApiAccountService extends ApiAccountServiceBase {
   //////////////////////////////////////////////////////////////////////////////
 
   @override
-  Future<NetAccount> create(
+  Future<NetSession> create(
       grpc.ServiceCall call, NetAccountCreate request) async {
     final DataAuth auth = authFromJwtPayload(call);
 
@@ -715,10 +759,38 @@ class ApiAccountService extends ApiAccountServiceBase {
     }
     */
 
-    final NetAccount account = NetAccount();
-    account.account =
+    final NetSession response = NetSession();
+    response.account =
         await fetchSessionAccount(config, accountDb, auth.sessionId);
-    return account;
+
+    // Access token for the account.
+    final DataAuth accessPayload = DataAuth();
+    accessPayload.sessionId = auth.sessionId;
+    accessPayload.accountType = response.account.accountType;
+    accessPayload.accountId = response.account.accountId;
+    accessPayload.globalAccountState = response.account.globalAccountState;
+    accessPayload.accountLevel = response.account.accountLevel;
+
+    final ReqSign accessSignRequest = ReqSign();
+    accessSignRequest.claim = json.encode(<String, dynamic>{
+      'iss': 'https://infsandbox.app',
+      'aud': 'infsandbox',
+      'pb': base64.encode(accessPayload.writeToBuffer())
+      // TODO: Expire
+    });
+    accessSignRequest.freeze();
+    final ResSign accessResponse = await backendJwt.sign(
+      accessSignRequest,
+      options: grpc.CallOptions(
+        metadata: <String, String>{
+          'x-request-id': call.clientMetadata['x-request-id'],
+        },
+        // TODO: timeout: call.deadline.difference(DateTime.now()),
+      ),
+    );
+    response.accessToken = accessResponse.token;
+
+    return response;
   }
 
   //////////////////////////////////////////////////////////////////////////////
