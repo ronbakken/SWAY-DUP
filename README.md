@@ -8,16 +8,19 @@ Currently there is one majestic monolith service. Preconfigured to connect stand
 
 List of service ports is provided here to ensure we don't have overlapping ports anywhere. This allows us to easily set up on a development machine.
 
-| Service | Port | Prefix |
+| Public Service | Port | Prefix |
 | --- | --- | --- |
 | API gRPC | 8900 | / |
 | Push API gRPC | 8910 | /inf.ApiPush |
 | Push API WS | 8911 | /ws |
+
+| Internal Service | Port | Prefix |
+| --- | --- | --- |
 | Push Backend | 8919 | - |
 | JWT Backend HTTP | 8928 | /.well-known/jwks.json |
 | JWT Backend gRPC | 8929 | - |
 
-| Service | Port |
+| Database Service | Port |
 | --- | --- |
 | Elasticsearch API | 9200 |
 | Elasticsearch Mesh | 9300 |
@@ -25,19 +28,19 @@ List of service ports is provided here to ensure we don't have overlapping ports
 | Account MariaDB | 3307 |
 | Proposal MariaDB | 3308 |
 
-| Service | Port |
+| Database Admin | Port |
 | --- | --- |
 | phpMyAdmin | 8096 |
 | Account phpMyAdmin | 8097 |
 | Proposal phpMyAdmin | 8098 |
 | Kibana | 5601 |
 
-| Service | Port |
+| Edge | Port |
 | --- | --- |
 | Envoy Proxy HTTP | 80 |
 | Envoy Proxy HTTPS | 443 |
 
-| Service | Port |
+| Edge Testing | Port |
 | --- | --- |
 | Envoy Proxy HTTP Localhost | 8080 |
 | Envoy Proxy HTTP Localhost Admin | 8082 |
