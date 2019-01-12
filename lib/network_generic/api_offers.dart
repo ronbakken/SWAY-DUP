@@ -7,11 +7,12 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/api_client.dart';
-import 'package:inf/network_generic/network_internals.dart';
+import 'package:inf/network_generic/api.dart';
+import 'package:inf/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:switchboard/switchboard.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:synchronized/synchronized.dart';
+import 'package:grpc/grpc.dart' as grpc;
 
 class _CachedOffer {
   bool loading = false; // Request in progress, cleared on cache
@@ -20,7 +21,50 @@ class _CachedOffer {
   DataOffer fallback;
 }
 
-abstract class ApiClientOffer implements ApiClient, NetworkInternals {
+abstract class ApiOffers implements Api, ApiInternals {
+  Completer<void> __clientReady = Completer<void>();
+  ApiOffersClient _offersClient;
+  Future<void> get _clientReady {
+    return __clientReady.future;
+  }
+
+  StreamSubscription<ApiSessionToken> _sessionSubscription;
+  void _onSessionChanged(ApiSessionToken session) {
+    if (session == null) {
+      if (__clientReady.isCompleted) {
+        __clientReady = Completer<void>();
+      }
+      _offersClient = null;
+    } else {
+      if (!__clientReady.isCompleted) {
+        __clientReady.complete();
+      }
+      _offersClient = ApiOffersClient(
+        session.channel,
+        options: grpc.CallOptions(
+          metadata: <String, String>{
+            'authorization': 'Bearer ${session.token}'
+          },
+        ),
+      );
+    }
+  }
+
+  @override
+  void initOffers() {
+    _sessionSubscription = sessionChanged.listen(_onSessionChanged);
+  }
+
+  @override
+  void disposeOffers() {
+    _sessionSubscription.cancel();
+    _sessionSubscription = null;
+  }
+
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  
   final Map<Int64, _CachedOffer> _cachedOffers = <Int64, _CachedOffer>{};
 
   @override
@@ -125,12 +169,10 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
         return cached.offer;
       }
     }
-    final NetGetOffer getOffer = NetGetOffer();
-    getOffer.offerId = offerId;
-    final TalkMessage res = await switchboard.sendRequest(
-        'api', 'GETOFFER', getOffer.writeToBuffer());
-    final DataOffer offer = (NetOffer()..mergeFromBuffer(res.data)).offer
-      ..freeze();
+    await _clientReady;
+    final NetGetOffer request = NetGetOffer();
+    request.offerId = offerId;
+    final DataOffer offer = (await _offersClient.get(request)..freeze()).offer;
     cacheOffer(offer, true);
     return offer;
   }
@@ -140,7 +182,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
         (cached.dirty || cached.offer == null) &&
         connected == NetworkConnectionState.ready) {
       cached.loading = true;
-      getOffer(offerId).then((DataOffer offer) {
+      unawaited(getOffer(offerId).then((DataOffer offer) {
         cached.loading = false;
       }).catchError((Object error, StackTrace stackTrace) {
         log.severe('Failed to get offer $offerId: $error');
@@ -148,7 +190,7 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
           cached.loading = false;
           onOfferChanged(offerId);
         });
-      });
+      }));
     }
   }
 
@@ -177,15 +219,13 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
 
   @override
   Future<DataOffer> createOffer(NetCreateOffer createOfferReq) async {
-    final TalkMessage res = await switchboard.sendRequest(
-        'api', 'CREOFFER', createOfferReq.writeToBuffer());
-    final NetOffer resPb = NetOffer();
-    resPb.mergeFromBuffer(res.data);
-    cacheOffer(resPb.offer, true);
-    _offers.add(resPb.offer.offerId);
+    await _clientReady;
+    final NetOffer response = await _offersClient.create(createOfferReq);
+    cacheOffer(response.offer, true);
+    _offers.add(response.offer.offerId);
     _offersSortedDirty = true;
     onOffersChanged();
-    return resPb.offer;
+    return response.offer;
   }
 
   @override
@@ -193,17 +233,13 @@ abstract class ApiClientOffer implements ApiClient, NetworkInternals {
     await _offersLock.synchronized(() async {
       final NetListOffers listOffers = NetListOffers();
       listOffers.freeze();
-      await for (TalkMessage message in switchboard.sendStreamRequest(
-          'api', 'LISTOFRS', listOffers.writeToBuffer())) {
-        if (message.procedureId == 'R_LSTOFR') {
-          final NetOffer offer = NetOffer.fromBuffer(message.data)..freeze();
-          cacheOffer(offer.offer, false);
-          _offers.add(offer.offer.offerId);
-          _offersSortedDirty = true;
-          onOffersChanged();
-        } else {
-          channel.unknownProcedure(message);
-        }
+      await _clientReady;
+      await for (NetOffer response in _offersClient.list(listOffers)) {
+        response.offer.freeze();
+        cacheOffer(response.offer, false);
+        _offers.add(response.offer.offerId);
+        _offersSortedDirty = true;
+        onOffersChanged();
       }
       _offersDirty = false;
     });

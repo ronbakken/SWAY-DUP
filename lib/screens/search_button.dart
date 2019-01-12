@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 // Widget for editing a page
 class SearchButton extends StatelessWidget {
   // Constructor
-  SearchButton({
+  const SearchButton({
     Key key,
     this.onSearchPressed,
   }) : super(key: key);
@@ -19,7 +19,7 @@ class SearchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.search),
+      icon: const Icon(Icons.search),
       onPressed: onSearchPressed,
     );
   }

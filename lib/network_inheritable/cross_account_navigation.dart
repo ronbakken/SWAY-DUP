@@ -4,9 +4,6 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
-import 'dart:async';
-
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_generic/cross_account_navigator.dart';

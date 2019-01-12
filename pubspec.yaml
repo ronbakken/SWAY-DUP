@@ -15,7 +15,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: 69866b1e39f8f2999ea9742a62bc36065debcead
+      ref: aa471d9260f23c8c55ff1659bfb854dcb83d08f3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -26,14 +26,12 @@ dependencies:
   firebase_messaging: ^2.0.0
   flutter_local_notifications: ^0.4.2
 
-  protobuf: ^0.10.5
-
   circle_indicator:
     git: https://github.com/nbspou/circle_indicator.git
 
   flutter_webview_plugin: ^0.2.1+2
   cached_network_image: ^0.4.2
-  flutter_svg: ^0.7.0+1
+  flutter_svg: ^0.10.0
 
   # Device info, used during device registration
   device_info: ^0.3.0
@@ -44,8 +42,6 @@ dependencies:
   logging: ^0.11.3+2
 
   flutter_map: ^0.1.4
-
-  switchboard: ^2.0.11
 
   geolocator: ^2.1.0
   url_launcher: ^4.0.1

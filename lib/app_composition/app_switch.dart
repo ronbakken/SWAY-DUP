@@ -9,11 +9,11 @@ import 'package:flutter/widgets.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf/network_inheritable/api_provider.dart';
 import 'package:inf/screens_loading/loading_network.dart';
-import 'package:inf/navigation_bindings/app_onboarding.dart';
-import 'package:inf/navigation_bindings/app_business.dart';
-import 'package:inf/navigation_bindings/app_influencer.dart';
+import 'package:inf/app_composition/app_onboarding.dart';
+import 'package:inf/app_composition/app_business.dart';
+import 'package:inf/app_composition/app_influencer.dart';
 import 'package:inf/screens/debug_account.dart';
 
 // Switches between app home depending on the network state
@@ -31,8 +31,8 @@ class _AppSwitchState extends State<AppSwitch> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    String domain = ConfigProvider.of(context).services.domain;
-    Int64 accountId = NetworkProvider.of(context).account.accountId;
+    final String domain = ConfigProvider.of(context).services.domain;
+    final Int64 accountId = ApiProvider.of(context).account.accountId;
     if (domain != _domain || accountId != _accountId) {
       _domain = domain;
       _accountId = accountId;
@@ -47,19 +47,19 @@ class _AppSwitchState extends State<AppSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    final ApiClient network = NetworkProvider.of(context);
+    final Api network = ApiProvider.of(context);
     assert(network != null);
     if (network.account.sessionId == 0) {
       return LoadingNetwork();
     }
     if (network.account.accountId == 0) {
-      return AppOnboarding();
+      return const AppOnboarding();
     }
     if (network.account.accountType == AccountType.influencer) {
-      return AppInfluencer();
+      return const AppInfluencer();
     }
     if (network.account.accountType == AccountType.business) {
-      return AppBusiness();
+      return const AppBusiness();
     }
     return DebugAccount(account: network.account);
     // throw new Exception("Invalid account state");

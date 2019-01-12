@@ -27,7 +27,7 @@ abstract class MultiAccountStore implements MultiAccountClient {
 
   /// Fired anytime any of the accounts changed (add, remove, or update)
   @override
-  Stream<Change<LocalAccountData>> get onAccountsChanged;
+  Stream<void> get onAccountsChanged;
 
   /// Fired anytime a change in accounts is requested.
   /// This is handled by the network manager.
@@ -55,12 +55,12 @@ abstract class MultiAccountStore implements MultiAccountClient {
   LocalAccountData getLocal(String domain, int localId);
   void removeLocal(String domain, int localId);
   void setSessionId(
-      String domain, int localId, Int64 sessionId, Uint8List sessionCookie);
+      String domain, int localId, Int64 sessionId, String refreshToken);
   void setAccountId(
       String domain, int localId, Int64 accountId, AccountType accountType);
   void setNameAvatar(String domain, int localId, String name,
       String blurredAvatarUrl, String avatarUrl);
-  Uint8List getSessionCookie(String domain, int localId);
+  String getRefreshToken(String domain, int localId);
   Future<void> initialize();
   Future<void> dispose();
 }

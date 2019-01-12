@@ -49,7 +49,7 @@ class OfferCreate extends StatefulWidget {
 
   final ConfigData config;
   final Future<DataOffer> Function(NetCreateOffer createOffer) onCreateOffer;
-  final Future<NetUploadImageRes> Function(File file) onUploadImage;
+  final Future<NetUploadSigned> Function(File file) onUploadImage;
 
   @override
   _OfferCreateState createState() => _OfferCreateState();

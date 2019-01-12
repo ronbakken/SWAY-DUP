@@ -10,15 +10,15 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inf/network_generic/cross_account_navigator.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_generic/network_manager.dart';
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_generic/api_client.dart';
+import 'package:inf/network_mobile/config_downloader.dart';
 import 'package:inf_common/inf_common.dart';
 
 class NetworkStreaming {
   MultiAccountStore _multiAccountStore;
-  ConfigManager _configManager;
+  ConfigDownloader _configManager;
   CrossAccountNavigator _crossAccountNavigator;
-  NetworkManager _networkManager;
+  ApiClient _networkManager;
 
   StreamSubscription<LocalAccountData> _onSwitchAccountSubscription;
   StreamSubscription<CrossNavigationRequest> _onNavigationRequestSubscription;
@@ -46,7 +46,7 @@ class NetworkStreaming {
   }
 
   /// Api Client
-  ApiClient get api {
+  Api get api {
     return _networkManager;
   }
 
@@ -56,13 +56,13 @@ class NetworkStreaming {
   }) {
     _multiAccountStore = multiAccountStore;
 
-    _configManager = ConfigManager(
+    _configManager = ConfigDownloader(
         startupConfig: startupConfig, onChanged: _onConfigChanged);
 
     _crossAccountNavigator = CrossAccountNavigator();
     _crossAccountNavigator.multiAccountClient = _multiAccountStore;
 
-    _networkManager = NetworkManager();
+    _networkManager = ApiClient();
     _networkManager.onChanged = _onNetworkChanged;
     _networkManager.initialize();
     _networkManager.updateDependencies(
@@ -81,7 +81,7 @@ class NetworkStreaming {
   /// Reloads configuration. Call on developer reassemble.
   void reload() {
     _configManager.reloadConfig();
-    _networkManager.reassembleCommon();
+    _networkManager.accountReassemble();
   }
 
   void dispose() {
@@ -102,11 +102,11 @@ class NetworkStreaming {
   StreamSubscription<NavigationRequest> listenNavigation(
       Function(NavigationTarget target, Int64 id) onData) {
     if (config.services.domain != _multiAccountStore.current.domain) {
-      throw Exception("Mismatching domain");
+      throw Exception('Mismatching domain');
     }
     if (_networkManager.account.accountId !=
         _multiAccountStore.current.accountId) {
-      throw Exception("Mismatching account id");
+      throw Exception('Mismatching account id');
     }
     return _crossAccountNavigator.listen(
       config.services.domain,

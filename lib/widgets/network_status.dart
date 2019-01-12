@@ -6,13 +6,13 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/material.dart';
 
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf/network_inheritable/api_provider.dart';
 
 class NetworkStatus extends StatelessWidget {
   NetworkStatus({Key key}) : super(key: key);
 
   static Widget buildOptional(BuildContext context, [Widget alternative]) {
-    final ApiClient network = NetworkProvider.of(context);
+    final Api network = ApiProvider.of(context);
     switch (network.connected) {
       case NetworkConnectionState.ready:
         return alternative;
@@ -56,7 +56,7 @@ class NetworkStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ApiClient network = NetworkProvider.of(context);
+    final Api network = ApiProvider.of(context);
     switch (network.connected) {
       case NetworkConnectionState.ready:
         return _minimalContainer;

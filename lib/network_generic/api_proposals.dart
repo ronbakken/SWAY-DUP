@@ -6,13 +6,12 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 
-import 'package:async/async.dart';
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/change.dart';
-import 'package:inf/network_generic/api_client.dart';
-import 'package:inf/network_generic/network_internals.dart';
+import 'package:inf/network_generic/api.dart';
+import 'package:inf/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:switchboard/switchboard.dart';
+import 'package:grpc/grpc.dart' as grpc;
+import 'package:pedantic/pedantic.dart';
 
 class _CachedProposal {
   bool loading = false;
@@ -21,25 +20,81 @@ class _CachedProposal {
   DataProposal fallback;
   bool chatLoading = false;
   bool chatLoaded = false;
-  Map<Int64, DataProposalChat> chats = Map<Int64, DataProposalChat>();
-  Map<int, DataProposalChat> ghostChats = Map<int, DataProposalChat>();
+  Map<Int64, DataProposalChat> chats = <Int64, DataProposalChat>{};
+  Map<int, DataProposalChat> ghostChats = <int, DataProposalChat>{};
 }
 
-abstract class NetworkProposals implements ApiClient, NetworkInternals {
-  Map<Int64, _CachedProposal> _cachedProposals = Map<Int64, _CachedProposal>();
+abstract class ApiProposals implements Api, ApiInternals {
+  Completer<void> __clientReady = Completer<void>();
+  ApiProposalsClient _proposalsClient;
+  ApiProposalClient _proposalClient;
+  Future<void> get _clientReady {
+    return __clientReady.future;
+  }
 
+  StreamSubscription<ApiSessionToken> _sessionSubscription;
+  void _onSessionChanged(ApiSessionToken session) {
+    if (session == null) {
+      if (__clientReady.isCompleted) {
+        __clientReady = Completer<void>();
+      }
+      _proposalsClient = null;
+      _proposalClient = null;
+    } else {
+      if (!__clientReady.isCompleted) {
+        __clientReady.complete();
+      }
+      _proposalsClient = ApiProposalsClient(
+        session.channel,
+        options: grpc.CallOptions(
+          metadata: <String, String>{
+            'authorization': 'Bearer ${session.token}'
+          },
+        ),
+      );
+      _proposalClient = ApiProposalClient(
+        session.channel,
+        options: grpc.CallOptions(
+          metadata: <String, String>{
+            'authorization': 'Bearer ${session.token}'
+          },
+        ),
+      );
+    }
+  }
+
+  @override
+  void initProposals() {
+    _sessionSubscription = sessionChanged.listen(_onSessionChanged);
+  }
+
+  @override
+  void disposeProposals() {
+    _sessionSubscription.cancel();
+    _sessionSubscription = null;
+  }
+
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////
+
+  final Map<Int64, _CachedProposal> _cachedProposals =
+      <Int64, _CachedProposal>{};
+
+  @override
   void resetProposalsState() {
     _proposals.clear();
     _proposalsLoaded = false;
     _cachedProposals.clear();
   }
 
+  @override
   void markProposalsDirty() {
     _proposalsLoaded = false;
-    _cachedProposals.values.forEach((cached) {
+    for (_CachedProposal cached in _cachedProposals.values) {
       cached.dirty = true;
       cached.chatLoaded = false;
-    });
+    }
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -48,14 +103,25 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
   // Haggle
   /////////////////////////////////////////////////////////////////////////////
 
-  void _cacheProposal(DataProposal proposal) {
+  void _cacheProposal(DataProposal proposal, {bool delta = false}) {
     _CachedProposal cached = _cachedProposals[proposal.proposalId];
     if (cached == null) {
       cached = _CachedProposal();
       _cachedProposals[proposal.proposalId] = cached;
     }
+    if (!delta && cached.proposal == null) {
+      // Don't have this proposal yet, can't apply delta
+      return;
+    }
     cached.fallback = null;
-    cached.proposal = proposal;
+    if (delta) {
+      final DataProposal result = cached.proposal.clone();
+      result.mergeFromMessage(proposal);
+      result.freeze();
+      cached.proposal = result;
+    } else {
+      cached.proposal = proposal;
+    }
     cached.dirty = false;
     if (proposal.businessAccountId == account.accountId ||
         proposal.influencerAccountId == account.accountId) {
@@ -117,21 +183,21 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
 
   @override
   Future<void> refreshProposals() async {
-    NetListOffers req = // TODO: Send the correct request
-        NetListOffers(); // TODO: Specific requests for higher and lower refreshing
-    await for (TalkMessage res
-        in channel.sendStreamRequest('LISTPROP', req.writeToBuffer())) {
-      NetProposal proposal = NetProposal()..mergeFromBuffer(res.data);
-      _cacheProposal(proposal.proposal);
-      for (DataProposalChat chat in proposal.chats) {
+    await _clientReady;
+    // TODO: Specific requests for higher and lower refreshing
+    final NetListProposals request = NetListProposals();
+    await for (NetProposal response in _proposalsClient.list(request)) {
+      _cacheProposal(response.proposal);
+      for (DataProposalChat chat in response.chats) {
         _cacheProposalChat(chat);
       }
     }
   }
 
+  @override
   bool proposalsLoading = false;
   bool _proposalsLoaded = false;
-  Map<Int64, DataProposal> _proposals = Map<Int64, DataProposal>();
+  final Map<Int64, DataProposal> _proposals = <Int64, DataProposal>{};
 
   @override
   Iterable<DataProposal> get proposals {
@@ -140,7 +206,7 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
       _proposalsLoaded = true;
       proposalsLoading = true;
       refreshProposals().catchError((Object error, StackTrace stackTrace) {
-        log.severe("Failed to get proposals.", error, stackTrace);
+        log.severe('Failed to get proposals.', error, stackTrace);
         Timer(Duration(seconds: 3), () {
           _proposalsLoaded =
               false; // Not using setState since we don't want to broadcast failure state
@@ -157,19 +223,17 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
   @override
   Future<DataProposal> applyProposal(Int64 offerId, String remarks) async {
     try {
-      NetApplyProposal request = NetApplyProposal();
+      final NetApplyProposal request = NetApplyProposal();
       request.offerId = offerId;
       request.sessionGhostId = ++nextSessionGhostId;
       request.remarks = remarks;
-      TalkMessage res = await switchboard.sendRequest(
-          'api', 'APLYPROP', request.writeToBuffer());
-      NetProposal pbRes = NetProposal();
-      pbRes.mergeFromBuffer(res.data);
-      _cacheProposal(pbRes.proposal);
-      for (DataProposalChat chat in pbRes.chats) {
+      await _clientReady;
+      final NetProposal response = await _proposalsClient.apply(request);
+      _cacheProposal(response.proposal);
+      for (DataProposalChat chat in response.chats) {
         _cacheProposalChat(chat);
       }
-      return pbRes.proposal;
+      return response.proposal;
     } catch (error) {
       markOfferDirty(offerId);
       rethrow;
@@ -180,16 +244,14 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
   Future<DataProposal> getProposal(Int64 proposalId) async {
     final NetGetProposal request = NetGetProposal();
     request.proposalId = proposalId;
-    final TalkMessage res =
-        await channel.sendRequest('GETPRPSL', request.writeToBuffer());
-    final NetProposal proposal = NetProposal();
-    proposal.mergeFromBuffer(res.data);
-    _cacheProposal(proposal.proposal);
-    for (DataProposalChat chat in proposal.chats) {
+    await _clientReady;
+    final NetProposal reponse = await _proposalsClient.get(request);
+    _cacheProposal(reponse.proposal);
+    for (DataProposalChat chat in reponse.chats) {
       log.fine(chat);
       _cacheProposalChat(chat);
     }
-    return proposal.proposal;
+    return reponse.proposal;
   }
 
   Future<void> _loadProposalChats(Int64 proposalId) async {
@@ -197,11 +259,10 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     request.proposalId = proposalId;
     log.fine(proposalId);
     log.fine('LISTCHAT');
-    await for (TalkMessage res
-        in channel.sendStreamRequest('LISTCHAT', request.writeToBuffer())) {
-      final NetProposalChat chat = NetProposalChat()..mergeFromBuffer(res.data);
-      log.fine('${res.procedureId}: $chat');
-      _cacheProposalChat(chat.chat);
+    await _clientReady;
+    await for (NetProposalChat response
+        in _proposalsClient.listChats(request)) {
+      _cacheProposalChat(response.chat);
     }
     log.fine('done');
   }
@@ -290,8 +351,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
   // Haggle Notifications
   /////////////////////////////////////////////////////////////////////////////
 
-  void _receivedUpdateProposal(DataProposal proposal) {
-    _cacheProposal(proposal);
+  void _receivedUpdateProposal(DataProposal proposal, {bool delta = false}) {
+    _cacheProposal(proposal, delta: delta);
   }
 
   void _receivedUpdateProposalChat(DataProposalChat chat) {
@@ -313,39 +374,31 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
   }
 
   @override
-  Future<void> liveNewProposal(TalkMessage message) async {
-    final NetProposal pb = NetProposal();
-    pb.mergeFromBuffer(message.data);
-    _receivedUpdateProposal(pb.proposal);
-    for (DataProposalChat chat in pb.chats) {
+  void liveNewProposal(NetProposal push) {
+    _receivedUpdateProposal(push.proposal);
+    for (DataProposalChat chat in push.chats) {
       _receivedUpdateProposalChat(chat);
       _notifyNewProposalChat(chat);
     }
   }
 
   @override
-  Future<void> liveUpdateProposal(TalkMessage message) async {
-    final NetProposal pb = NetProposal();
-    pb.mergeFromBuffer(message.data);
-    _receivedUpdateProposal(pb.proposal);
-    for (DataProposalChat chat in pb.chats) {
+  void liveUpdateProposal(NetProposal push, {bool delta = false}) {
+    _receivedUpdateProposal(push.proposal, delta: delta);
+    for (DataProposalChat chat in push.chats) {
       _receivedUpdateProposalChat(chat);
     }
   }
 
   @override
-  Future<void> liveNewProposalChat(TalkMessage message) async {
-    final NetProposalChat pb = NetProposalChat();
-    pb.mergeFromBuffer(message.data);
-    _receivedUpdateProposalChat(pb.chat);
-    _notifyNewProposalChat(pb.chat);
+  void liveNewProposalChat(NetProposalChat push) {
+    _receivedUpdateProposalChat(push.chat);
+    _notifyNewProposalChat(push.chat);
   }
 
   @override
-  Future<void> liveUpdateProposalChat(TalkMessage message) async {
-    final NetProposalChat pb = NetProposalChat();
-    pb.mergeFromBuffer(message.data);
-    _receivedUpdateProposalChat(pb.chat);
+  void liveUpdateProposalChat(NetProposalChat push) {
+    _receivedUpdateProposalChat(push.chat);
   }
 
   /////////////////////////////////////////////////////////////////////////////
@@ -356,43 +409,48 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
 
   @override
   Future<void> reportProposal(Int64 proposalId, String text) async {
-    NetProposalReport pbReq = NetProposalReport();
-    pbReq.proposalId = proposalId;
-    pbReq.text = text;
+    final NetProposalReport request = NetProposalReport();
+    request.proposalId = proposalId;
+    request.text = text;
     // Response blank. Exception on issue
-    await channel.sendRequest("PR_RPORT", pbReq.writeToBuffer());
+    await _clientReady;
+    await _proposalClient.report(request);
   }
 
-  void resubmitGhostChats() {
+  @override
+  Future<void> resubmitGhostChats() async {
+    await _clientReady;
     for (_CachedProposal cached in _cachedProposals.values) {
       for (DataProposalChat ghostChat in cached.ghostChats.values) {
         switch (ghostChat.type) {
           case ProposalChatType.plain:
             {
-              NetChatPlain pbReq = NetChatPlain();
-              pbReq.proposalId = ghostChat.proposalId;
-              pbReq.sessionGhostId = ghostChat.senderSessionGhostId;
-              pbReq.text = ghostChat.plainText;
-              channel.sendMessage("CH_PLAIN", pbReq.writeToBuffer());
+              final NetChatPlain request = NetChatPlain();
+              request.proposalId = ghostChat.proposalId;
+              request.sessionGhostId = ghostChat.senderSessionGhostId;
+              request.text = ghostChat.plainText;
+              liveUpdateProposalChat(await _proposalClient.chatPlain(request));
             }
             break;
           case ProposalChatType.negotiate:
             {
-              NetChatNegotiate pbReq = NetChatNegotiate();
-              pbReq.proposalId = ghostChat.proposalId;
-              pbReq.sessionGhostId = ghostChat.senderSessionGhostId;
-              pbReq.terms = ghostChat.terms;
-              pbReq.remarks = ghostChat.plainText;
-              channel.sendMessage("CH_HAGGLE", pbReq.writeToBuffer());
+              final NetChatNegotiate request = NetChatNegotiate();
+              request.proposalId = ghostChat.proposalId;
+              request.sessionGhostId = ghostChat.senderSessionGhostId;
+              request.terms = ghostChat.terms;
+              request.remarks = ghostChat.plainText;
+              liveUpdateProposal(await _proposalClient.chatNegotiate(request),
+                  delta: true);
             }
             break;
           case ProposalChatType.imageKey:
             {
-              NetChatImageKey pbReq = NetChatImageKey();
-              pbReq.proposalId = ghostChat.proposalId;
-              pbReq.sessionGhostId = ghostChat.senderSessionGhostId;
-              pbReq.imageKey = ghostChat.imageKey;
-              channel.sendMessage("CH_IMAGE", pbReq.writeToBuffer());
+              final NetChatImageKey request = NetChatImageKey();
+              request.proposalId = ghostChat.proposalId;
+              request.sessionGhostId = ghostChat.senderSessionGhostId;
+              request.imageKey = ghostChat.imageKey;
+              liveUpdateProposalChat(
+                  await _proposalClient.chatImageKey(request));
             }
             break;
         }
@@ -433,13 +491,15 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
 
   @override
   void chatPlain(Int64 proposalId, String text) {
-    int ghostId = ++nextSessionGhostId;
+    final int ghostId = ++nextSessionGhostId;
     if (connected == NetworkConnectionState.ready) {
-      NetChatPlain pbReq = NetChatPlain();
-      pbReq.proposalId = proposalId;
-      pbReq.sessionGhostId = ghostId;
-      pbReq.text = text;
-      channel.sendMessage('CH_PLAIN', pbReq.writeToBuffer());
+      final NetChatPlain request = NetChatPlain();
+      request.proposalId = proposalId;
+      request.sessionGhostId = ghostId;
+      request.text = text;
+      unawaited(() async {
+        liveUpdateProposalChat(await _proposalClient.chatPlain(request));
+      }());
     }
     _createGhostChat(
       proposalId,
@@ -452,17 +512,20 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
   @override
   void chatHaggle(
       Int64 proposalId, String deliverables, String reward, String remarks) {
-    int ghostId = ++nextSessionGhostId;
-    DataTerms terms = DataTerms();
+    final int ghostId = ++nextSessionGhostId;
+    final DataTerms terms = DataTerms();
     terms.deliverablesDescription = deliverables;
     terms.rewardItemOrServiceDescription = reward;
     if (connected == NetworkConnectionState.ready) {
-      NetChatNegotiate pbReq = NetChatNegotiate();
-      pbReq.proposalId = proposalId;
-      pbReq.sessionGhostId = ghostId;
-      pbReq.terms = terms;
-      pbReq.remarks = remarks;
-      channel.sendMessage('CH_HAGGLE', pbReq.writeToBuffer());
+      final NetChatNegotiate request = NetChatNegotiate();
+      request.proposalId = proposalId;
+      request.sessionGhostId = ghostId;
+      request.terms = terms;
+      request.remarks = remarks;
+      unawaited(() async {
+        liveUpdateProposal(await _proposalClient.chatNegotiate(request),
+            delta: true);
+      }());
     }
     _createGhostChat(
       proposalId,
@@ -475,13 +538,15 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
 
   @override
   void chatImageKey(Int64 proposalId, String imageKey) {
-    int ghostId = ++nextSessionGhostId;
+    final int ghostId = ++nextSessionGhostId;
     if (connected == NetworkConnectionState.ready) {
-      NetChatImageKey pbReq = NetChatImageKey();
-      pbReq.proposalId = proposalId;
-      pbReq.sessionGhostId = ghostId;
-      pbReq.imageKey = imageKey;
-      channel.sendMessage('CH_IMAGE', pbReq.writeToBuffer());
+      final NetChatImageKey request = NetChatImageKey();
+      request.proposalId = proposalId;
+      request.sessionGhostId = ghostId;
+      request.imageKey = imageKey;
+      unawaited(() async {
+        liveUpdateProposalChat(await _proposalClient.chatImageKey(request));
+      }());
     }
     _createGhostChat(
       proposalId,
@@ -496,9 +561,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     final NetProposalWantDeal request = NetProposalWantDeal();
     request.proposalId = proposalId;
     request.termsChatId = termsChatId;
-    final TalkMessage message =
-        await channel.sendRequest('PR_WADEA', request.writeToBuffer());
-    final NetProposal response = NetProposal()..mergeFromBuffer(message.data);
+    await _clientReady;
+    final NetProposal response = await _proposalClient.wantDeal(request);
     _receivedProposalCommonRes(response);
   }
 
@@ -507,9 +571,8 @@ abstract class NetworkProposals implements ApiClient, NetworkInternals {
     final NetProposalCompletion request = NetProposalCompletion();
     request.proposalId = proposalId;
     request.rating = rating;
-    final TalkMessage message =
-        await channel.sendRequest('PR_COMPT', request.writeToBuffer());
-    final NetProposal response = NetProposal()..mergeFromBuffer(message.data);
+    await _clientReady;
+    final NetProposal response = await _proposalClient.complete(request);
     _receivedProposalCommonRes(response);
   }
 }

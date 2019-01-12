@@ -7,7 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show ByteData, rootBundle;
-import 'package:inf/network_mobile/config_manager.dart';
+import 'package:inf/network_mobile/config_downloader.dart';
 
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
 import 'package:inf/prototype.dart' show Prototype;
@@ -19,7 +19,7 @@ Future<ConfigData> loadConfig() async {
   final ByteData configData = await rootBundle.load('assets/config.bin');
   final ConfigData config = ConfigData();
   config.mergeFromBuffer(configData.buffer.asUint8List());
-  ConfigManager.process(config);
+  ConfigDownloader.process(config);
   config.freeze();
   return config;
 }
@@ -35,10 +35,16 @@ Future<void> launchApp() async {
   hierarchicalLoggingEnabled = true;
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((LogRecord rec) {
-    print('${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
+    if (rec.error == null) {
+      print(
+          '${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
+    } else {
+      print(
+          '${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}\n${rec.error.toString()}\n${rec.stackTrace.toString()}');
+    }
   });
   Logger('Inf').level = Level.ALL;
-  Logger('Inf.Network').level = Level.ALL;
+  Logger('Inf.Api').level = Level.ALL;
   Logger('Inf.Config').level = Level.ALL;
   Logger('Switchboard').level = Level.ALL;
   Logger('Switchboard.Mux').level = Level.ALL;
@@ -46,7 +52,7 @@ Future<void> launchApp() async {
   Logger('Switchboard.Router').level = Level.ALL;
 
   // Load well-known config from APK
-  ConfigData config = await loadConfig();
+  final ConfigData config = await loadConfig();
   config.freeze();
   // Override starting configuration endPoint
   // Load known local accounts from SharedPreferences

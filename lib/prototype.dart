@@ -11,9 +11,9 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 
 import 'package:inf/developer_menu.dart';
-import 'package:inf/navigation_bindings/app_switch.dart';
+import 'package:inf/app_composition/app_switch.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf/network_inheritable/api_provider.dart';
 import 'package:inf/network_inheritable/network_stack.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/utility/rebuild_tracker.dart';
@@ -170,7 +170,7 @@ class _PrototypeState extends State<Prototype> {
       accentColorBrightness: Brightness.dark,
       fontFamily: AppFonts.mavenPro,
     );
-    ApiClient network = NetworkProvider.of(context);
+    Api network = ApiProvider.of(context);
     theme = theme.copyWith(
       primaryColor: AppTheme.blue, // AppTheme.blackTwo,
       backgroundColor: AppTheme.darkGrey,

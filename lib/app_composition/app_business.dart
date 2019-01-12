@@ -9,13 +9,13 @@ import 'dart:io';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:inf/navigation_bindings/app_common.dart';
+import 'package:inf/app_composition/app_common.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/ui/offers/offer_details_page.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf/network_inheritable/api_provider.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/widgets/network_status.dart';
 
@@ -60,7 +60,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
   int offerViewCount = 0;
   Int64 offerViewOpen;
   void navigateToOffer(Int64 offerId) {
-    final ApiClient network = NetworkProvider.of(context);
+    final Api network = ApiProvider.of(context);
     if (offerViewOpen != null) {
       print("[INF] Pop previous offer route");
       Navigator.popUntil(context, (Route<dynamic> route) {
@@ -83,7 +83,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
         settings: RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (BuildContext context) {
           ConfigData config = ConfigProvider.of(context);
-          final ApiClient network = NetworkProvider.of(context);
+          final Api network = ApiProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           final DataOffer businessOffer = network.tryGetOffer(offerId);
           final DataAccount businessAccount =

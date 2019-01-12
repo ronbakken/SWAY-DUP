@@ -5,10 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/change.dart';
 import 'package:inf_common/inf_common.dart';
-
-export 'package:inf/network_generic/change.dart';
 
 enum NavigationTarget {
   Profile,
@@ -38,8 +35,7 @@ abstract class LocalAccountData {
 
 abstract class MultiAccountClient {
   /// Fired anytime any of the accounts changed (add, remove, or update)
-  /// TODO: Change to callback rather than stream.
-  Stream<Change<LocalAccountData>> get onAccountsChanged;
+  Stream<void> get onAccountsChanged;
 
   /// Switch to another account
   void switchAccount(String domain, Int64 accountId);

@@ -25,7 +25,7 @@ class ProfileEdit extends StatefulWidget {
   }) : super(key: key);
 
   final DataAccount account;
-  final Future<NetUploadImageRes> Function(File file) onUploadImage;
+  final Future<NetUploadSigned> Function(File file) onUploadImage;
   final Function(dynamic setProfile) onSubmitPressed;
 
   @override

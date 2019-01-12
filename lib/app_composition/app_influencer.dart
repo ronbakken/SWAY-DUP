@@ -8,7 +8,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:inf/navigation_bindings/app_common.dart';
+import 'package:inf/app_composition/app_common.dart';
 import 'package:inf/network_generic/multi_account_client.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/screens/account_switch.dart';
@@ -20,7 +20,7 @@ import 'package:latlong/latlong.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf/network_inheritable/api_provider.dart';
 
 import 'package:inf/utility/page_transition.dart';
 import 'package:inf/widgets/progress_dialog.dart';
@@ -69,7 +69,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   int offerViewCount = 0;
   Int64 offerViewOpen;
   void navigateToOffer(Int64 offerId) {
-    final ApiClient network = NetworkProvider.of(context);
+    final Api network = ApiProvider.of(context);
     if (offerViewOpen != null) {
       print("[INF] Pop previous offer route");
       Navigator.popUntil(context, (Route<dynamic> route) {
@@ -92,7 +92,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
         builder: (BuildContext context) {
           // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
           final ConfigData config = ConfigProvider.of(context);
-          final ApiClient network = NetworkProvider.of(context);
+          final Api network = ApiProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           final DataOffer businessOffer = network.tryGetOffer(offerId);
           final DataAccount businessAccount =
@@ -183,7 +183,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
         searchQueryController ?? TextEditingController();
     fadeToPage(context, (context, animation, secondaryAnimation) {
       // ConfigData config = ConfigProvider.of(context);
-      final ApiClient network = NetworkProvider.of(context);
+      final Api network = ApiProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return SearchPageCommon(
         searchHint: "Find nearby offers...",

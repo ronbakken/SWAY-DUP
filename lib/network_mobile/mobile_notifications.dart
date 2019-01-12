@@ -10,45 +10,44 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_generic/api_client.dart';
-import 'package:inf/network_generic/network_internals.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:inf/network_generic/api.dart';
+import 'package:inf/network_generic/api_internals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:switchboard/switchboard.dart';
 
-abstract class NetworkNotifications implements ApiClient, NetworkInternals {
+abstract class MobileNotifications implements Api, ApiInternals {
   bool _firebaseSetup = false;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   NotificationDetails platformChannelSpecifics;
 
-  List<int> _suppressChatNotifications = List<int>();
+  final List<Int64> _suppressChatNotifications = <Int64>[];
 
   Stream<CrossNavigationRequest> get onNavigationRequest {
     return _onNavigationRequest.stream;
   }
 
-  StreamController<CrossNavigationRequest> _onNavigationRequest =
+  final StreamController<CrossNavigationRequest> _onNavigationRequest =
       StreamController<CrossNavigationRequest>();
 
+  @override
   void disposeNotifications() {
     _onNavigationRequest.close();
   }
 
   void initNotifications() {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    var initializationSettingsAndroid =
+    const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = IOSInitializationSettings();
-    var initializationSettings = InitializationSettings(
+    const  IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings();
+    const InitializationSettings initializationSettings = InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'chat', 'Messages', 'Messages received from other users',
         importance: Importance.Max, priority: Priority.High);
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    final IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails();
     platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
   }
@@ -68,38 +67,35 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
           _firebaseOnToken); // Ensure network manager is persistent or this may fail
       if (config.services.domain.isNotEmpty) {
         // Allows to send dev messages under domain_dev topic
-        log.fine("Domain: ${config.services.domain}");
+        log.fine('Domain: ${config.services.domain}');
         _firebaseMessaging.subscribeToTopic('domain_' + config.services.domain);
       }
     }
-    _firebaseOnToken(await _firebaseMessaging.getToken());
+    await _firebaseOnToken(await _firebaseMessaging.getToken());
   }
 
-  void _firebaseOnToken(String token) async {
+  Future<void> _firebaseOnToken(String token) async {
     // Set firebase token for current account if it has changed
     // Update it for other accounts as well in case there is a known old token
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     String oldFirebaseToken;
     try {
       oldFirebaseToken = prefs.getString('firebase_token');
-    } catch (error) {}
-    if (account.accountId != 0) {
+    } catch (_, __) {
+      //empty
+    }
+    if (account.accountId != Int64.ZERO) {
       if (account.firebaseToken != token || oldFirebaseToken != token) {
-        account.firebaseToken = token;
-        NetSetFirebaseToken setFirebaseToken = NetSetFirebaseToken();
-        if (oldFirebaseToken != null)
-          setFirebaseToken.oldFirebaseToken = oldFirebaseToken;
-        setFirebaseToken.firebaseToken = token;
-        switchboard.sendMessage(
-            "api", "SFIREBAT", setFirebaseToken.writeToBuffer());
-        prefs.setString('firebase_token', token);
+        log.info('New FCM token: $token');
+        await setFirebaseToken(oldFirebaseToken, token);
+        await prefs.setString('firebase_token', token);
       }
     }
   }
 
   @override
   void pushSuppressChatNotifications(Int64 proposalId) {
-    _suppressChatNotifications.add(proposalId.toInt());
+    _suppressChatNotifications.add(proposalId);
   }
 
   @override
@@ -108,22 +104,22 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
   }
 
   Future<dynamic> _firebaseOnMessage(Map<String, dynamic> data) async {
-    log.fine("Firebase Message Received");
+    log.fine('Firebase Message Received');
     // Fired when a message is received when the app is in foreground
     log.fine(data);
     // Handle all notifications not meant for the current account
     // And any current notifications which are not surpressed
-    String domain = data['data']['domain'].toString();
-    int accountId = int.tryParse(data['data']['account_id']);
-    int proposalId = int.tryParse(data['data']['proposal_id']);
-    String title = data['notification']['title'];
-    String body = data['notification']['body'];
+    final String domain = data['data']['domain'].toString();
+    final Int64 accountId = Int64(int.tryParse(data['data']['account_id']));
+    final Int64 proposalId = Int64(int.tryParse(data['data']['proposal_id']));
+    final String title = data['notification']['title'];
+    final String body = data['notification']['body'];
     if (_suppressChatNotifications.isEmpty ||
         _suppressChatNotifications.last != proposalId ||
         domain != config.services.domain ||
         accountId != account.accountId) {
       await flutterLocalNotificationsPlugin.show(
-        proposalId,
+        proposalId.toInt(),
         title,
         body,
         platformChannelSpecifics,
@@ -133,7 +129,7 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
   }
 
   Future<dynamic> _firebaseOnLaunch(Map<String, dynamic> data) async {
-    log.fine("Firebase Launch Received: $data");
+    log.fine('Firebase Launch Received: $data');
     // Fired when the app was opened by a message
     if (data['proposal_id'] != null) {
       _onNavigationRequest.add(CrossNavigationRequest(
@@ -145,7 +141,7 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
   }
 
   Future<dynamic> _firebaseOnResume(Map<String, dynamic> data) async {
-    log.fine("Firebase Resume Received: $data");
+    log.fine('Firebase Resume Received: $data');
     // Fired when the app was opened by a message
     /*{collapse_key: app.infmarketplace, 
     account_id: 10, 
@@ -170,7 +166,7 @@ abstract class NetworkNotifications implements ApiClient, NetworkInternals {
     if (payload != null) {
       log.fine('Local notification payload: $payload');
       /*domain=dev&account_id=10&proposal_id=16*/
-      Map<String, String> data = Uri.splitQueryString(payload);
+      final Map<String, String> data = Uri.splitQueryString(payload);
       if (data['proposal_id'] != null) {
         _onNavigationRequest.add(CrossNavigationRequest(
             data['domain'],

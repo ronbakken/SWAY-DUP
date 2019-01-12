@@ -8,14 +8,14 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:inf/navigation_bindings/app_base.dart';
+import 'package:inf/app_composition/app_base.dart';
 import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/network_provider.dart';
+import 'package:inf/network_inheritable/api_provider.dart';
 
 import 'package:inf/widgets/oauth_scaffold.dart';
 import 'package:inf/screens_onboarding/onboarding_selection.dart';
@@ -54,7 +54,7 @@ class _AppOnboardingState extends AppBaseState<AppOnboarding> {
       MaterialPageRoute<void>(
         builder: (context) {
           ConfigData config = ConfigProvider.of(context);
-          final ApiClient network = NetworkProvider.of(context);
+          final Api network = ApiProvider.of(context);
           assert(config != null);
           assert(network != null);
           return OAuthScaffold(
@@ -77,7 +77,7 @@ class _AppOnboardingState extends AppBaseState<AppOnboarding> {
         context, MaterialPageRoute<void>(
       builder: (context) {
         ConfigData config = ConfigProvider.of(context);
-        final ApiClient network = NetworkProvider.of(context);
+        final Api network = ApiProvider.of(context);
         // NavigatorState navigator = Navigator.of(context);
         /*if (network.account.accountId != 0) {
           // Need to implement cleaner navigation
@@ -172,7 +172,7 @@ class _AppOnboardingState extends AppBaseState<AppOnboarding> {
   @override
   Widget build(BuildContext context) {
     final ConfigData config = ConfigProvider.of(context);
-    final ApiClient network = NetworkProvider.of(context);
+    final Api network = ApiProvider.of(context);
     final MultiAccountClient selection = MultiAccountSelection.of(context);
     final bool hasExistingAccounts = selection.accounts.any(
         (LocalAccountData localAccount) =>
