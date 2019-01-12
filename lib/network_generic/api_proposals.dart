@@ -109,7 +109,7 @@ abstract class ApiProposals implements Api, ApiInternals {
       cached = _CachedProposal();
       _cachedProposals[proposal.proposalId] = cached;
     }
-    if (!delta && cached.proposal == null) {
+    if (delta && cached.proposal == null) {
       // Don't have this proposal yet, can't apply delta
       return;
     }
