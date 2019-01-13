@@ -277,7 +277,7 @@ abstract class ApiAccount implements Api, ApiInternals {
               response.account.sessionId,
               response.refreshToken);
           final ApiSessionToken session =
-              ApiSessionToken(_createChannel(endPoint), response.accessToken);
+              ApiSessionToken(endPoint, _createChannel(endPoint), response.accessToken);
           _currentLocalAccount = localAccount;
           _pushSessionToken(session);
           _accountGhostChanges.clear();
@@ -320,7 +320,7 @@ abstract class ApiAccount implements Api, ApiInternals {
           request.domain = localAccount.domain;
           final NetSession response = await client.open(request);
           final ApiSessionToken session =
-              ApiSessionToken(_createChannel(endPoint), response.accessToken);
+              ApiSessionToken(endPoint, _createChannel(endPoint), response.accessToken);
           _currentLocalAccount = localAccount;
           _pushSessionToken(session);
           receivedAccountUpdate(response.account);
@@ -688,6 +688,7 @@ abstract class ApiAccount implements Api, ApiInternals {
     // Push updated access token
     if (response.hasAccessToken()) {
       _pushSessionToken(ApiSessionToken(
+        _currentApiSessionToken.endPoint,
         _currentApiSessionToken.channel,
         response.accessToken,
       ));
@@ -719,6 +720,7 @@ abstract class ApiAccount implements Api, ApiInternals {
     final NetSession response = await _accountClient.create(request);
     if (response.hasAccessToken()) {
       _pushSessionToken(ApiSessionToken(
+        _currentApiSessionToken.endPoint,
         _currentApiSessionToken.channel,
         response.accessToken,
       ));

@@ -5,6 +5,8 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf/network_generic/api.dart';
@@ -21,6 +23,9 @@ abstract class ApiPush implements Api, ApiInternals {
     return __clientReady.future;
   }
 
+  String _endPoint;
+  String _token;
+
   StreamSubscription<ApiSessionToken> _sessionSubscription;
   void _onSessionChanged(ApiSessionToken session) {
     if (session == null) {
@@ -28,6 +33,8 @@ abstract class ApiPush implements Api, ApiInternals {
         __clientReady = Completer<void>();
       }
       _pushClient = null;
+      _endPoint = null;
+      _token = null;
       _disconnectListener();
     } else {
       if (!__clientReady.isCompleted) {
@@ -41,6 +48,14 @@ abstract class ApiPush implements Api, ApiInternals {
           },
         ),
       );
+      final Uri uri = Uri.parse(session.endPoint);
+      _endPoint = Uri(
+        scheme: uri.scheme == 'http' ? 'ws' : 'wss',
+        host: uri.host,
+        port: 8911, // uri.port,
+        path: '/ws',
+      ).toString();
+      _token = session.token;
       _backoff = null;
       if (_pushSubscription != null) {
         _disconnectListener();
@@ -58,6 +73,7 @@ abstract class ApiPush implements Api, ApiInternals {
   @override
   Future<void> disposePush() async {
     await _pushSubscription.cancel();
+    _pushSubscription = null;
     await _sessionSubscription.cancel();
     _sessionSubscription = null;
   }
@@ -68,27 +84,43 @@ abstract class ApiPush implements Api, ApiInternals {
 
   final Lock _lock = Lock();
   Duration _backoff;
-  StreamSubscription<NetPush> _pushSubscription;
+  StreamSubscription<dynamic> _pushSubscription;
 
   @override
   NetworkConnectionState receiving = NetworkConnectionState.waiting;
+
+  static const bool _useWebSocket = true;
 
   void _connectListener() {
     unawaited(
       _lock.synchronized(
         () async {
-          if (_pushClient != null && _pushSubscription == null) {
-            log.info('Connect to push service');
+          if (_pushClient != null && _pushSubscription == null /* && account.accountId != Int64.ZERO */) {
+            log.info('Connect to push service, accountId: ${account.accountId}');
             if (receiving != NetworkConnectionState.failing) {
               receiving = NetworkConnectionState.connecting;
               onCommonChanged();
             }
-            _pushSubscription = _pushClient.listen(NetListen()).listen(
-                  _receiveMessage,
-                  onError: _receiveError,
-                  onDone: _receiveDone,
-                );
-            // TODO: Does `_pushClient.listen` throw exceptions?
+            if (_useWebSocket) {
+              try {
+                final WebSocket ws = await WebSocket.connect(_endPoint,
+                    headers: <String, dynamic>{
+                      'authorization': 'Bearer $_token',
+                    });
+                _pushSubscription = ws.listen(_receiveData,
+                    onError: _receiveError, onDone: _receiveDone);
+              } catch (error, stackTrace) {
+                _receiveError(error, stackTrace);
+                _receiveDone();
+              }
+            } else {
+              _pushSubscription = _pushClient.listen(NetListen()).listen(
+                    _receiveMessage,
+                    onError: _receiveError,
+                    onDone: _receiveDone,
+                  );
+              // TODO: Does `_pushClient.listen` throw exceptions?
+            }
           }
         },
       ),
@@ -99,13 +131,17 @@ abstract class ApiPush implements Api, ApiInternals {
     unawaited(_lock.synchronized(() async {
       if (_pushSubscription != null) {
         log.info('Disconnect from push service');
-        final StreamSubscription<NetPush> subscription = _pushSubscription;
+        final StreamSubscription<dynamic> subscription = _pushSubscription;
         _pushSubscription = null;
         await subscription.cancel();
       }
       receiving = NetworkConnectionState.waiting;
       onCommonChanged();
     }));
+  }
+
+  void _receiveData(dynamic data) {
+    _receiveMessage(NetPush()..mergeFromBuffer(data as List<int>));
   }
 
   void _receiveMessage(NetPush push) {
@@ -153,9 +189,11 @@ abstract class ApiPush implements Api, ApiInternals {
     }
     onCommonChanged();
     unawaited(() async {
-      final StreamSubscription<NetPush> subscription = _pushSubscription;
-      _pushSubscription = null;
-      await subscription.cancel();
+      final StreamSubscription<dynamic> subscription = _pushSubscription;
+      if (subscription != null) {
+        _pushSubscription = null;
+        await subscription.cancel();
+      }
       if (_pushClient != null) {
         if (_backoff != null) {
           log.info('Retry push service in ${_backoff.inSeconds} second(s)');

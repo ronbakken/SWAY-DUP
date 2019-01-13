@@ -11,10 +11,11 @@ import 'package:logging/logging.dart';
 import 'package:grpc/grpc.dart' as grpc;
 
 class ApiSessionToken {
+  final String endPoint;
   final grpc.ClientChannel channel;
   final String token;
 
-  const ApiSessionToken(this.channel, this.token);
+  const ApiSessionToken(this.endPoint, this.channel, this.token);
 }
 
 abstract class ApiInternals {
