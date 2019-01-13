@@ -15,32 +15,32 @@ import "net_account_protobuf.proto";
 import "net_offer_protobuf.proto";
 import "net_proposal_protobuf.proto";
 
+/// Request for push stream
+message NetListen {
+    // empty
+}
+
 // Server notifies client of new DataProposal (An influencer has applied for your offer!)
-// NOTE: This is accompanied by a MARKER DataProposalChat, the chat marker provides notification
-// Id: LN_APPLI
-// Data: DataProposal
+// NOTE: This is accompanied by a chat marker DataProposalChat, the chat marker provides notification
+// Data: NetProposal
 
 // Server notifies client of new DataProposalChat (should also have firebase variants)
-// Id: LN_A_CHA
-// Data: DataProposalChat
+// Data: NetProposalChat
 
-// Server updates DataProposal (Live Update)
-// Id: LU_APPLI
-// Data: DataProposal
+// Server updates existing DataProposal
+// Data: NetProposal
 
-// Server updates DataProposalChat (loading)
-// Id: LU_A_CHA
-// Data: DataProposalChat
+// Server updates existing DataProposalChat
+// Data: NetProposalChat
 
 /// Request the user to download an updated configuration file.
-/// Procedure ID: 'CONFDOWN')
 message NetConfigDownload {
     string config_url = 1;
 }
 
-/// Request for push stream
-message NetListen {
+message NetKeepAlive {
     // empty
+
 }
 
 message NetPushing {
@@ -51,13 +51,16 @@ message NetPushing {
 message NetPush {
     oneof push {
         NetPushing pushing = 8; // First message is sent with this set to notify that the push stream is running
-        NetAccount updateAccount = 1;
-        NetOffer updateOffer = 2;
-        NetProposal newProposal = 3; // Notifies new proposal by other user
-        NetProposal updateProposal = 4;
-        NetProposalChat newProposalChat = 5; // Notifies new chat by other user
-        NetProposalChat updateProposalChat = 6;
-        NetConfigDownload configDownload = 7; // User should download an updated config file
+        NetKeepAlive keep_alive = 9; // Blank message to keep the connection alive
+
+        NetAccount update_account = 1;
+        NetOffer update_offer = 2;
+        NetProposal new_proposal = 3; // Notifies new proposal by other user
+        NetProposal update_proposal = 4;
+        NetProposalChat new_proposal_chat = 5; // Notifies new chat by other user
+        NetProposalChat update_proposal_chat = 6;
+        NetConfigDownload config_download = 7; // User should download an updated config file
+
     }
 }
 
