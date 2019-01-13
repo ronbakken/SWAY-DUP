@@ -27,6 +27,7 @@ import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/network_generic/api.dart';
 import 'package:inf_common/inf_common.dart';
+import 'package:pedantic/pedantic.dart';
 
 export 'package:inf/network_generic/api.dart';
 
@@ -133,12 +134,12 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
 
   @override
   void dispose() {
-    _onSwitchAccountSubscription.cancel();
+    unawaited(_onSwitchAccountSubscription.cancel());
     _onSwitchAccountSubscription = null;
-    _onNavigationRequestSubscription.cancel();
+    unawaited(_onNavigationRequestSubscription.cancel());
     _onNavigationRequestSubscription = null;
     WidgetsBinding.instance.removeObserver(this);
-    apiClient.dispose();
+    unawaited(apiClient.dispose());
     super.dispose();
   }
 

@@ -243,7 +243,9 @@ abstract class ApiAccount implements Api, ApiInternals {
     final String refreshToken = _multiAccountStore.getRefreshToken(
         localAccount.domain, localAccount.localId);
     assert(localAccount.domain == config.services.domain);
-    connected = NetworkConnectionState.connecting;
+    if (connected != NetworkConnectionState.failing) {
+      connected = NetworkConnectionState.connecting;
+    }
     onCommonChanged();
     bool success = false;
     if (localAccount.sessionId == Int64.ZERO || refreshToken == null) {
@@ -580,7 +582,7 @@ abstract class ApiAccount implements Api, ApiInternals {
       markOffersDirty();
       markDemoAllOffersDirty();
       markProposalsDirty();
-      unawaited(initFirebaseNotifications());
+      unawaited(refreshFirebaseNotifications());
     }
   }
 

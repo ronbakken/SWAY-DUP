@@ -77,9 +77,13 @@ abstract class ApiInternals {
   void markDemoAllOffersDirty();
   void onDemoAllOffersChanged();
 
+  // Push
+  void initPush();
+  Future<void> disposePush();
+
   // Notifications
   void disposeNotifications();
-  Future<void> initFirebaseNotifications();
+  Future<void> refreshFirebaseNotifications();
 }
 
 /* end of file */

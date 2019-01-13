@@ -215,6 +215,12 @@ abstract class Api {
   Future<void> markCompletion(
       Int64 proposalId, int rating); // TODO: Review text content
 
+  /////////////////////////////////////////////////////////////////////////////
+  // Push
+  /////////////////////////////////////////////////////////////////////////////
+  
+  /// Connection state of the push service
+  NetworkConnectionState get receiving;
 }
 
 /* end of file */

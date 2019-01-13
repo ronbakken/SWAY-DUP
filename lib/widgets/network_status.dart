@@ -21,9 +21,9 @@ class NetworkStatus extends StatelessWidget {
     }
   }
 
-  static final _minimalContainer = Container(width: 0.0, height: 0.0);
-  static final _progressIndicator = LinearProgressIndicator();
-  static final _offlineBuilder = Builder(builder: (context) {
+  static final Widget _minimalContainer = Container(width: 0.0, height: 0.0);
+  static final Widget _progressIndicator = LinearProgressIndicator();
+  static final Widget _offlineBuilder = Builder(builder: (context) {
     return Row(
       children: <Widget>[
         Expanded(
@@ -38,7 +38,7 @@ class NetworkStatus extends StatelessWidget {
       ],
     );
   });
-  static final _failingBuilder = Builder(builder: (context) {
+  static final Widget _failingBuilder = Builder(builder: (context) {
     return Row(
       children: <Widget>[
         Expanded(

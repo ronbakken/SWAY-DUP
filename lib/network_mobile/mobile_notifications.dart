@@ -53,7 +53,7 @@ abstract class MobileNotifications implements Api, ApiInternals {
   }
 
   @override
-  Future<void> initFirebaseNotifications() async {
+  Future<void> refreshFirebaseNotifications() async {
     if (!_firebaseSetup) {
       // Set up Firebase
       _firebaseSetup = true;

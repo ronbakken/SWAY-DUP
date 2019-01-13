@@ -7,15 +7,16 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/api_explore.dart';
-import 'package:inf/network_generic/api_offers.dart';
-import 'package:inf/network_generic/api_account.dart';
-import 'package:inf/network_generic/api_proposals.dart';
-import 'package:inf/network_mobile/mobile_notifications.dart';
-import 'package:inf/network_generic/api_profiles.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
 import 'package:inf/network_generic/api.dart';
 import 'package:inf/network_generic/api_internals.dart';
+import 'package:inf/network_generic/api_account.dart';
+import 'package:inf/network_generic/api_profiles.dart';
+import 'package:inf/network_generic/api_offers.dart';
+import 'package:inf/network_generic/api_proposals.dart';
+import 'package:inf/network_generic/api_explore.dart';
+import 'package:inf/network_generic/api_push.dart';
+import 'package:inf/network_generic/multi_account_store.dart';
+import 'package:inf/network_mobile/mobile_notifications.dart';
 import 'package:inf_common/inf_common.dart';
 
 export 'package:inf/network_generic/api.dart';
@@ -29,12 +30,10 @@ class ApiClient
         ApiOffers,
         ApiProposals,
         ApiExplore,
+        ApiPush,
         MobileNotifications
     implements Api, ApiInternals {
   Function() onChanged = () {};
-
-  // Implement broadcast streams down here as you need them.
-  // Please don't forget to clean up.
 
   @override
   Stream<Int64> get profileChanged {
@@ -158,7 +157,6 @@ class ApiClient
     _commonChanged.add(null);
   }
 
-
   void initialize() {
     // Initialize base dependencies
     initAccount();
@@ -166,6 +164,7 @@ class ApiClient
     initOffers();
     initProposals();
     initExplore();
+    initPush();
     initNotifications();
   }
 
@@ -175,21 +174,22 @@ class ApiClient
     accountStartSession();
   }
 
-  void dispose() {
+  Future<void> dispose() async {
+    disposeNotifications();
+    disposePush();
     disposeExplore();
     disposeProposals();
     disposeOffers();
     disposeProfiles();
     disposeAccount();
-    disposeNotifications();
-    _profileChanged.close();
-    _offerChanged.close();
-    _offersChanged.close();
-    _demoAllOffersChanged.close();
-    _proposalChanged.close();
-    _proposalChatsChanged.close();
-    _proposalChatNotification.close();
-    _commonChanged.close();
+    await _profileChanged.close();
+    await _offerChanged.close();
+    await _offersChanged.close();
+    await _demoAllOffersChanged.close();
+    await _proposalChanged.close();
+    await _proposalChatsChanged.close();
+    await _proposalChatNotification.close();
+    await _commonChanged.close();
   }
 
   void updateDependencies(
