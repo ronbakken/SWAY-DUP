@@ -22,27 +22,27 @@ static_resources:
               routes:
               # Publish API
               - match: { prefix: "/inf.ApiSession" }
-                route: { cluster: "server_api" }
+                route: { cluster: "server_api", max_grpc_timeout: 15s }
               - match: { prefix: "/inf.ApiAccount" }
-                route: { cluster: "server_api" }
+                route: { cluster: "server_api", max_grpc_timeout: 15s }
               - match: { prefix: "/inf.ApiPush" }
-                route: { cluster: "server_push_api" }
+                route: { cluster: "server_push_api", max_grpc_timeout: 0s, timeout: 0s }
               - match: { prefix: "/inf.ApiStorage" }
-                route: { cluster: "server_api" }
+                route: { cluster: "server_api", max_grpc_timeout: 15s }
               - match: { prefix: "/inf.ApiOAuth" }
-                route: { cluster: "server_api" }
+                route: { cluster: "server_api", max_grpc_timeout: 15s }
               - match: { prefix: "/inf.ApiProfiles" }
-                route: { cluster: "server_api" }
+                route: { cluster: "server_api", max_grpc_timeout: 15s }
               - match: { prefix: "/inf.ApiOffers" }
-                route: { cluster: "server_api" }
+                route: { cluster: "server_api", max_grpc_timeout: 15s }
               - match: { prefix: "/inf.ApiProposals" }
-                route: { cluster: "server_api" }
+                route: { cluster: "server_api", max_grpc_timeout: 15s }
               - match: { prefix: "/inf.ApiProposal" }
-                route: { cluster: "server_api" }
+                route: { cluster: "server_api", max_grpc_timeout: 15s }
               - match: { prefix: "/inf.ApiExplore" }
-                route: { cluster: "server_api" }
+                route: { cluster: "server_api", max_grpc_timeout: 15s }
               - match: { prefix: "/ws" }
-                route: { cluster: "server_push_ws" }
+                route: { cluster: "server_push_ws", upgrade_configs: [ upgrade_type: "websocket" ], timeout: 0s } # TODO: This isn't working yet
               # Publish public JWKS (for debugging)
               - match:  { prefix: "/.well-known/jwks.json" }
                 route: { cluster: "server_jwt_http" }

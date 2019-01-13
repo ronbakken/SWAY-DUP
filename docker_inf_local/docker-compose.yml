@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   envoy_edge_proxy:
-    image: envoyproxy/envoy:latest
+    image: envoyproxy/envoy:13f2665ed0bdd2901eb071e2ff38b53fa5c0bbea
     network_mode: host
     restart: always
     volumes:
