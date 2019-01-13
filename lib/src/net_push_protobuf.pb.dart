@@ -13,6 +13,32 @@ import 'net_account_protobuf.pb.dart' as $0;
 import 'net_offer_protobuf.pb.dart' as $3;
 import 'net_proposal_protobuf.pb.dart' as $6;
 
+class NetListen extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i =
+      new $pb.BuilderInfo('NetListen', package: const $pb.PackageName('inf'))
+        ..hasRequiredFields = false;
+
+  NetListen() : super();
+  NetListen.fromBuffer(List<int> i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromBuffer(i, r);
+  NetListen.fromJson(String i,
+      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
+      : super.fromJson(i, r);
+  NetListen clone() => new NetListen()..mergeFromMessage(this);
+  NetListen copyWith(void Function(NetListen) updates) =>
+      super.copyWith((message) => updates(message as NetListen));
+  $pb.BuilderInfo get info_ => _i;
+  static NetListen create() => new NetListen();
+  NetListen createEmptyInstance() => create();
+  static $pb.PbList<NetListen> createRepeated() => new $pb.PbList<NetListen>();
+  static NetListen getDefault() => _defaultInstance ??= create()..freeze();
+  static NetListen _defaultInstance;
+  static void $checkItem(NetListen v) {
+    if (v is! NetListen) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+}
+
 class NetConfigDownload extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetConfigDownload',
       package: const $pb.PackageName('inf'))
@@ -51,29 +77,30 @@ class NetConfigDownload extends $pb.GeneratedMessage {
   void clearConfigUrl() => clearField(1);
 }
 
-class NetListen extends $pb.GeneratedMessage {
+class NetKeepAlive extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('NetListen', package: const $pb.PackageName('inf'))
+      new $pb.BuilderInfo('NetKeepAlive', package: const $pb.PackageName('inf'))
         ..hasRequiredFields = false;
 
-  NetListen() : super();
-  NetListen.fromBuffer(List<int> i,
+  NetKeepAlive() : super();
+  NetKeepAlive.fromBuffer(List<int> i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromBuffer(i, r);
-  NetListen.fromJson(String i,
+  NetKeepAlive.fromJson(String i,
       [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
       : super.fromJson(i, r);
-  NetListen clone() => new NetListen()..mergeFromMessage(this);
-  NetListen copyWith(void Function(NetListen) updates) =>
-      super.copyWith((message) => updates(message as NetListen));
+  NetKeepAlive clone() => new NetKeepAlive()..mergeFromMessage(this);
+  NetKeepAlive copyWith(void Function(NetKeepAlive) updates) =>
+      super.copyWith((message) => updates(message as NetKeepAlive));
   $pb.BuilderInfo get info_ => _i;
-  static NetListen create() => new NetListen();
-  NetListen createEmptyInstance() => create();
-  static $pb.PbList<NetListen> createRepeated() => new $pb.PbList<NetListen>();
-  static NetListen getDefault() => _defaultInstance ??= create()..freeze();
-  static NetListen _defaultInstance;
-  static void $checkItem(NetListen v) {
-    if (v is! NetListen) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static NetKeepAlive create() => new NetKeepAlive();
+  NetKeepAlive createEmptyInstance() => create();
+  static $pb.PbList<NetKeepAlive> createRepeated() =>
+      new $pb.PbList<NetKeepAlive>();
+  static NetKeepAlive getDefault() => _defaultInstance ??= create()..freeze();
+  static NetKeepAlive _defaultInstance;
+  static void $checkItem(NetKeepAlive v) {
+    if (v is! NetKeepAlive) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 }
 
@@ -113,6 +140,7 @@ enum NetPush_Push {
   updateProposalChat,
   configDownload,
   pushing,
+  keepAlive,
   notSet
 }
 
@@ -126,6 +154,7 @@ class NetPush extends $pb.GeneratedMessage {
     6: NetPush_Push.updateProposalChat,
     7: NetPush_Push.configDownload,
     8: NetPush_Push.pushing,
+    9: NetPush_Push.keepAlive,
     0: NetPush_Push.notSet
   };
   static final $pb.BuilderInfo _i =
@@ -146,7 +175,9 @@ class NetPush extends $pb.GeneratedMessage {
             NetConfigDownload.getDefault, NetConfigDownload.create)
         ..a<NetPushing>(8, 'pushing', $pb.PbFieldType.OM, NetPushing.getDefault,
             NetPushing.create)
-        ..oo(0, [1, 2, 3, 4, 5, 6, 7, 8])
+        ..a<NetKeepAlive>(9, 'keepAlive', $pb.PbFieldType.OM,
+            NetKeepAlive.getDefault, NetKeepAlive.create)
+        ..oo(0, [1, 2, 3, 4, 5, 6, 7, 8, 9])
         ..hasRequiredFields = false;
 
   NetPush() : super();
@@ -235,4 +266,12 @@ class NetPush extends $pb.GeneratedMessage {
 
   bool hasPushing() => $_has(7);
   void clearPushing() => clearField(8);
+
+  NetKeepAlive get keepAlive => $_getN(8);
+  set keepAlive(NetKeepAlive v) {
+    setField(9, v);
+  }
+
+  bool hasKeepAlive() => $_has(8);
+  void clearKeepAlive() => clearField(9);
 }

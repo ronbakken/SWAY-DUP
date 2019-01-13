@@ -4,6 +4,10 @@
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
+const NetListen$json = const {
+  '1': 'NetListen',
+};
+
 const NetConfigDownload$json = const {
   '1': 'NetConfigDownload',
   '2': const [
@@ -11,8 +15,8 @@ const NetConfigDownload$json = const {
   ],
 };
 
-const NetListen$json = const {
-  '1': 'NetListen',
+const NetKeepAlive$json = const {
+  '1': 'NetKeepAlive',
 };
 
 const NetPushing$json = const {
@@ -32,7 +36,16 @@ const NetPush$json = const {
       '10': 'pushing'
     },
     const {
-      '1': 'updateAccount',
+      '1': 'keep_alive',
+      '3': 9,
+      '4': 1,
+      '5': 11,
+      '6': '.inf.NetKeepAlive',
+      '9': 0,
+      '10': 'keepAlive'
+    },
+    const {
+      '1': 'update_account',
       '3': 1,
       '4': 1,
       '5': 11,
@@ -41,7 +54,7 @@ const NetPush$json = const {
       '10': 'updateAccount'
     },
     const {
-      '1': 'updateOffer',
+      '1': 'update_offer',
       '3': 2,
       '4': 1,
       '5': 11,
@@ -50,7 +63,7 @@ const NetPush$json = const {
       '10': 'updateOffer'
     },
     const {
-      '1': 'newProposal',
+      '1': 'new_proposal',
       '3': 3,
       '4': 1,
       '5': 11,
@@ -59,7 +72,7 @@ const NetPush$json = const {
       '10': 'newProposal'
     },
     const {
-      '1': 'updateProposal',
+      '1': 'update_proposal',
       '3': 4,
       '4': 1,
       '5': 11,
@@ -68,7 +81,7 @@ const NetPush$json = const {
       '10': 'updateProposal'
     },
     const {
-      '1': 'newProposalChat',
+      '1': 'new_proposal_chat',
       '3': 5,
       '4': 1,
       '5': 11,
@@ -77,7 +90,7 @@ const NetPush$json = const {
       '10': 'newProposalChat'
     },
     const {
-      '1': 'updateProposalChat',
+      '1': 'update_proposal_chat',
       '3': 6,
       '4': 1,
       '5': 11,
@@ -86,7 +99,7 @@ const NetPush$json = const {
       '10': 'updateProposalChat'
     },
     const {
-      '1': 'configDownload',
+      '1': 'config_download',
       '3': 7,
       '4': 1,
       '5': 11,
