@@ -546,6 +546,7 @@ abstract class ApiAccount implements Api, ApiInternals {
     onCommonChanged();
   }
 
+  @override
   void receivedAccountUpdate(DataAccount account, {DataAccount removeGhost}) {
     log.info('Account state update received.');
     log.fine('NetAccountUpdate: $account');

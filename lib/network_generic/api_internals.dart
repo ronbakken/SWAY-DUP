@@ -31,6 +31,7 @@ abstract class ApiInternals {
   void disposeAccount();
   void accountDependencyChanged();
   void processSwitchAccount(LocalAccountData localAccount);
+  void receivedAccountUpdate(DataAccount account, {DataAccount removeGhost});
   void markEverythingDirty();
 
   // Profiles
@@ -75,7 +76,7 @@ abstract class ApiInternals {
   void initExplore();
   void disposeExplore();
   void resetExploreState();
-  void markDemoAllOffersDirty();
+  void markExploreDirty();
   void onDemoAllOffersChanged();
 
   // Push

@@ -117,17 +117,24 @@ abstract class ApiPush implements Api, ApiInternals {
         onCommonChanged();
         markEverythingDirty();
       }
+    } else if (push.hasKeepAlive()) {
+      // Doesn't seem useful
+      // _pushClient.keepAlive(push.keepAlive);
+    } else if (push.hasUpdateAccount()) {
+      receivedAccountUpdate(push.updateAccount.account);
+    } else if (push.hasUpdateOffer()) {
+      // TODO: Handle remote offer changes
+    } else if (push.hasNewProposal()) {
+      liveNewProposal(push.newProposal);
+    } else if (push.hasUpdateProposal()) {
+      liveUpdateProposal(push.updateProposal);
+    } else if (push.hasNewProposalChat()) {
+      liveNewProposalChat(push.newProposalChat);
+    } else if (push.hasUpdateProposalChat()) {
+      liveUpdateProposalChat(push.updateProposalChat);
+    } else if (push.hasConfigDownload()) {
+      // TODO: Signal the config downloader to redownload the configuration
     }
-    /*
-    1: NetPush_Push.updateAccount,
-    2: NetPush_Push.updateOffer,
-    3: NetPush_Push.newProposal,
-    4: NetPush_Push.updateProposal,
-    5: NetPush_Push.newProposalChat,
-    6: NetPush_Push.updateProposalChat,
-    7: NetPush_Push.configDownload,
-    8: NetPush_Push.pushing,
-    */
   }
 
   void _receiveError(Object error, StackTrace stackTrace) {
