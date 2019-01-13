@@ -96,6 +96,7 @@ Future<void> run(List<String> arguments) async {
   Logger('SqlJocky.BufferedSocket').level = Level.WARNING;
 
   // Server Configuration
+  Logger('InfOps').info('INF API Service');
   final String configFile =
       arguments.isNotEmpty ? arguments[0] : '../assets/config_server.bin';
   Logger('InfOps').info("Config file: '$configFile'.");
@@ -105,7 +106,8 @@ Future<void> run(List<String> arguments) async {
 
   // Run Account DB SQL client
   final sqljocky.ConnectionPool accountDb = sqljocky.ConnectionPool(
-      host: config.services.accountDbHost,
+      host: Platform.environment['INF_ACCOUNT_DB_HOST'] ??
+          config.services.accountDbHost,
       port: config.services.accountDbPort,
       user: config.services.accountDbUser,
       password: config.services.accountDbPassword,
@@ -116,7 +118,8 @@ Future<void> run(List<String> arguments) async {
 
   // Run Proposal DB SQL client
   final sqljocky.ConnectionPool proposalDb = sqljocky.ConnectionPool(
-      host: config.services.proposalDbHost,
+      host: Platform.environment['INF_PROPOSAL_DB_HOST'] ??
+          config.services.proposalDbHost,
       port: config.services.proposalDbPort,
       user: config.services.proposalDbUser,
       password: config.services.proposalDbPassword,

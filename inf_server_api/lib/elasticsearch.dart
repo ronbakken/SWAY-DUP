@@ -6,6 +6,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 
 import 'dart:convert';
 import 'dart:core';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:inf_common/inf_common.dart';
@@ -18,23 +19,48 @@ class Elasticsearch {
   final http.Client httpClient = http.Client();
   final ConfigData config;
   final Map<String, String> headers;
+  final String endPoint;
+
+  static Map<String, String> _buildHeaders(ConfigData config) {
+    final String platformElasticsearch =
+        Platform.environment['INF_ELASTICSEARCH'];
+    if (platformElasticsearch != null) {
+      final String platformBasicAuth =
+          Platform.environment['INF_ELASTICSEARCH_BASIC_AUTH'];
+      return platformBasicAuth != null
+          ? <String, String>{
+              'Authorization':
+                  'Basic ' + base64.encode(utf8.encode(platformBasicAuth)),
+              'Content-Type': 'application/json'
+            }
+          : <String, String>{'Content-Type': 'application/json'};
+    } else {
+      return config.services.hasElasticsearchBasicAuth()
+          ? <String, String>{
+              'Authorization': 'Basic ' +
+                  base64.encode(
+                      utf8.encode(config.services.elasticsearchBasicAuth)),
+              'Content-Type': 'application/json'
+            }
+          : <String, String>{'Content-Type': 'application/json'};
+    }
+  }
+
+  static String _getEndPoint(ConfigData config) {
+    return Platform.environment['INF_ELASTICSEARCH'] ??
+        config.services.elasticsearchApi;
+  }
 
   Elasticsearch(this.config)
-      : headers = config.services.hasElasticsearchBasicAuth()
-            ? <String, String>{
-                'Authorization': 'Basic ' +
-                    base64.encode(
-                        utf8.encode(config.services.elasticsearchBasicAuth)),
-                'Content-Type': 'application/json'
-              }
-            : <String, String>{'Content-Type': 'application/json'};
+      : headers = _buildHeaders(config),
+        endPoint = _getEndPoint(config);
 
   Future<void> close() async {
     httpClient.close();
   }
 
   Future<dynamic> postDocument(String index, dynamic doc) async {
-    final String url = config.services.elasticsearchApi + '/$index/_doc';
+    final String url = endPoint + '/$index/_doc';
     devLog.finest(url);
     final http.Response response = await httpClient.post(url,
         headers: headers, body: (doc is String) ? doc : json.encode(doc));
@@ -47,7 +73,7 @@ class Elasticsearch {
   }
 
   Future<dynamic> putDocument(String index, String id, dynamic doc) async {
-    final String url = config.services.elasticsearchApi + '/$index/_doc/$id';
+    final String url = endPoint + '/$index/_doc/$id';
     devLog.finest(url);
     final http.Response response = await httpClient.put(url,
         headers: headers, body: (doc is String) ? doc : json.encode(doc));
@@ -60,7 +86,7 @@ class Elasticsearch {
   }
 
   Future<dynamic> getDocument(String index, String id) async {
-    final String url = config.services.elasticsearchApi + '/$index/_doc/$id';
+    final String url = endPoint + '/$index/_doc/$id';
     devLog.finest(url);
     final http.Response response = await httpClient.get(url, headers: headers);
     devLog.finest(response.body);
@@ -76,7 +102,7 @@ class Elasticsearch {
   }
 
   Future<dynamic> search(String index, dynamic search) async {
-    final String url = config.services.elasticsearchApi + '/$index/_search';
+    final String url = endPoint + '/$index/_search';
     devLog.finest(url);
     final http.Request request = http.Request('GET', Uri.parse(url));
     request.headers.addAll(headers);

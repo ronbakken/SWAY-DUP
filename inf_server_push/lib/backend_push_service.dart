@@ -110,9 +110,13 @@ class BackendPushService extends BackendPushServiceBase {
 
   @override
   Future<ResPush> push(grpc.ServiceCall call, ReqPush request) async {
-    final _CachedAccount receiver =
+    _CachedAccount receiver =
         await _cacheAccount(request.receiverAccountId);
-
+    receiver ??= _CachedAccount(
+      'Amazing Human Being',
+      Set<Int64>(),
+      <Int64, String>{},
+    );
     final List<Future<dynamic>> done = <Future<dynamic>>[];
     for (Int64 sessionId in receiver.sessionIds) {
       final _Listener listener = _listeners[sessionId];

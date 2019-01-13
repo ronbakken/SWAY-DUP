@@ -6,6 +6,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -45,7 +46,8 @@ class ApiAccountService extends ApiAccountServiceBase {
 
   ApiAccountService(
       this.config, this.accountDb, this.bucket, this.bc, this.oauth1Auth) {
-    final Uri backendJwtUri = Uri.parse(config.services.backendJwt);
+    final Uri backendJwtUri = Uri.parse(
+        Platform.environment['INF_BACKEND_JWT'] ?? config.services.backendJwt);
     backendJwtChannel = grpc.ClientChannel(
       backendJwtUri.host,
       port: backendJwtUri.port,

@@ -46,7 +46,7 @@ Future<void> main(List<String> arguments) async {
 
   // SQL client
   final sqljocky.ConnectionPool sql = sqljocky.ConnectionPool(
-      host: config.services.generalDbHost,
+      host: Platform.environment['INF_GENERAL_DB_HOST'] ?? config.services.generalDbHost,
       port: config.services.generalDbPort,
       user: config.services.generalDbUser,
       password: config.services.generalDbPassword,

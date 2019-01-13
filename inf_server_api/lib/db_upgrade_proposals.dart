@@ -108,6 +108,15 @@ Future<void> dbUpgradeProposals(sqljocky.ConnectionPool sql) async {
         '  MODIFY `proposal_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=${_random.nextInt(1 << 27) + 1}');
   });
 
+  upgrader.registerUpgrade('proposals_002',
+      (sqljocky.QueriableConnection sql) async {
+    await sql.query(''
+        'ALTER TABLE `proposals` DROP INDEX `offer_id`');
+    await sql.query(''
+        'ALTER TABLE `proposals`'
+        '  ADD UNIQUE KEY `offer_applicant` (`offer_id`,`sender_account_id`)');
+  });
+
   upgrader.registerUpgrade('proposal_chats_001',
       (sqljocky.QueriableConnection sql) async {
     await sql.query(''
