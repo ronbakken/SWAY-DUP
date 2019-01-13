@@ -81,6 +81,7 @@ abstract class ApiPush implements Api, ApiInternals {
             log.info('Connect to push service');
             if (receiving != NetworkConnectionState.failing) {
               receiving = NetworkConnectionState.connecting;
+              onCommonChanged();
             }
             _pushSubscription = _pushClient.listen(NetListen()).listen(
                   _receiveMessage,
@@ -103,6 +104,7 @@ abstract class ApiPush implements Api, ApiInternals {
         await subscription.cancel();
       }
       receiving = NetworkConnectionState.waiting;
+      onCommonChanged();
     }));
   }
 
@@ -111,6 +113,7 @@ abstract class ApiPush implements Api, ApiInternals {
       _backoff = null;
       log.info('Push connection ready');
       receiving = NetworkConnectionState.ready;
+      onCommonChanged();
     }
     /*
     1: NetPush_Push.updateAccount,
@@ -138,6 +141,7 @@ abstract class ApiPush implements Api, ApiInternals {
           receiving == NetworkConnectionState.ready);
       receiving = NetworkConnectionState.offline;
     }
+    onCommonChanged();
     unawaited(() async {
       final StreamSubscription<NetPush> subscription = _pushSubscription;
       _pushSubscription = null;
