@@ -110,10 +110,13 @@ abstract class ApiPush implements Api, ApiInternals {
 
   void _receiveMessage(NetPush push) {
     if (push.hasPushing()) {
-      _backoff = null;
-      log.info('Push connection ready');
-      receiving = NetworkConnectionState.ready;
-      onCommonChanged();
+      if (receiving != NetworkConnectionState.ready) {
+        _backoff = null;
+        log.info('Push connection ready');
+        receiving = NetworkConnectionState.ready;
+        onCommonChanged();
+        markEverythingDirty();
+      }
     }
     /*
     1: NetPush_Push.updateAccount,

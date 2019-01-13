@@ -31,6 +31,7 @@ abstract class ApiInternals {
   void disposeAccount();
   void accountDependencyChanged();
   void processSwitchAccount(LocalAccountData localAccount);
+  void markEverythingDirty();
 
   // Profiles
   void initProfiles();

@@ -578,12 +578,17 @@ abstract class ApiAccount implements Api, ApiInternals {
             this.account.avatarUrl);
       }
       // Mark all caches as dirty, since we may have been offline for a while
-      markProfilesDirty();
-      markOffersDirty();
-      markDemoAllOffersDirty();
-      markProposalsDirty();
+      markEverythingDirty();
       unawaited(refreshFirebaseNotifications());
     }
+  }
+
+  @override
+  void markEverythingDirty() {
+      markProfilesDirty();
+      markOffersDirty();
+      markExploreDirty();
+      markProposalsDirty();
   }
 
   @override

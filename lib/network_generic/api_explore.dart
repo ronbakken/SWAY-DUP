@@ -78,7 +78,7 @@ abstract class ApiExplore implements Api, ApiInternals {
   }
 
   @override
-  void markDemoAllOffersDirty() {
+  void markExploreDirty() {
     _demoAllOffersDirty = true;
     _demoAllOffersSortedDirty = true;
   }
