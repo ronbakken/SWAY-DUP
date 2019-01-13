@@ -211,6 +211,10 @@ class BackendPushService extends BackendPushServiceBase {
       <Int64, String>{},
     );
 
+    final NetPush ready = NetPush();
+    ready.pushing = NetPushing();
+    yield ready;
+
     await for (NetPush push in controller.stream) {
       yield push;
     }
