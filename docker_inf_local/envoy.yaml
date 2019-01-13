@@ -41,6 +41,8 @@ static_resources:
                 route: { cluster: "server_api" }
               - match: { prefix: "/inf.ApiExplore" }
                 route: { cluster: "server_api" }
+              - match: { prefix: "/ws" }
+                route: { cluster: "server_push_ws" }
               # Publish public JWKS (for debugging)
               - match:  { prefix: "/.well-known/jwks.json" }
                 route: { cluster: "server_jwt_http" }

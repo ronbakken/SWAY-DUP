@@ -87,8 +87,13 @@ Future<void> main(List<String> arguments) async {
             ws.add(push.writeToBuffer());
           }
         } catch (error, stackTrace) {
-          Logger('InfOps').severe(
-              'Error while pushing data', error, stackTrace);
+          Logger('InfOps')
+              .severe('Error while pushing data', error, stackTrace);
+          try {
+            await ws.close();
+          } catch (_, __) {
+            //empty
+          }
         }
       } catch (error, stackTrace) {
         Logger('InfOps')
@@ -111,8 +116,8 @@ Future<void> main(List<String> arguments) async {
 
   // Wait for listening
   await Future.wait(<Future<void>>[grpcApiServing, grpcBackendServing]);
-  Logger('InfOps')
-      .info('Listening: api: ${grpcApi.port}, ws: ${server.port}, backend: ${grpcBackend.port}');
+  Logger('InfOps').info(
+      'Listening: api: ${grpcApi.port}, ws: ${server.port}, backend: ${grpcBackend.port}');
 
   // TODO: Exit if any of the listeners exits... No mechanism to wait for gRPC exit right now...
   // await ...;

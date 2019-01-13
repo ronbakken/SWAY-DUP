@@ -225,6 +225,14 @@ class BackendPushService extends BackendPushServiceBase {
         request.headers['authorization']?.first;
     call.clientMetadata['x-jwt-payload'] =
         request.headers['x-jwt-payload']?.first;
+    if (call.clientMetadata['x-jwt-payload'] == null && call.clientMetadata['authorization'] != null) {
+      // TODO: Validate signature. Severe security issue.
+      // Why is Envoy Proxy not passing x-jwt-payload for WebSocket connections?
+      devLog.severe('WebSocket JWT not verified!');
+      call.clientMetadata['authority'] = 'ws';
+      call.clientMetadata['x-jwt-payload'] = call.clientMetadata['authorization'].split('.')[1];
+    }
+    devLog.finest('WebSocket connection: ${request.headers}');
     final DataAuth auth = authFromJwtPayload(call);
     ws.listen((dynamic data) {
       ws.close();
