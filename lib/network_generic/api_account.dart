@@ -270,7 +270,7 @@ abstract class ApiAccount implements Api, ApiInternals {
           request.domain = localAccount.domain;
           request.deviceInfo = '{}';
           request.deviceName = 'TODO';
-          final NetSession response = await client.create(request);
+          final NetSession response = await client.create(request).timeout(const Duration(seconds: 15));
           multiAccountStore.setSessionId(
               localAccount.domain,
               localAccount.localId,
@@ -279,9 +279,9 @@ abstract class ApiAccount implements Api, ApiInternals {
           final ApiSessionToken session =
               ApiSessionToken(endPoint, _createChannel(endPoint), response.accessToken);
           _currentLocalAccount = localAccount;
-          _pushSessionToken(session);
           _accountGhostChanges.clear();
           receivedAccountUpdate(response.account);
+          _pushSessionToken(session);
           connected = NetworkConnectionState.ready;
           onCommonChanged();
           _backoff = null;
@@ -318,12 +318,13 @@ abstract class ApiAccount implements Api, ApiInternals {
           final NetSessionOpen request = NetSessionOpen();
           request.clientVersion = config.clientVersion;
           request.domain = localAccount.domain;
-          final NetSession response = await client.open(request);
+          final NetSession response = await client.open(request).timeout(const Duration(seconds: 15));
           final ApiSessionToken session =
               ApiSessionToken(endPoint, _createChannel(endPoint), response.accessToken);
           _currentLocalAccount = localAccount;
-          _pushSessionToken(session);
+          _accountGhostChanges.clear();
           receivedAccountUpdate(response.account);
+          _pushSessionToken(session);
           connected = NetworkConnectionState.ready;
           onCommonChanged();
           _backoff = null;
@@ -433,6 +434,7 @@ abstract class ApiAccount implements Api, ApiInternals {
 
   @override
   void accountReassemble() {
+    _lastEndPoint = 0;
     _forceReopenSession();
   }
 

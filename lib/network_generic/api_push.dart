@@ -52,7 +52,7 @@ abstract class ApiPush implements Api, ApiInternals {
       _endPoint = Uri(
         scheme: uri.scheme == 'http' ? 'ws' : 'wss',
         host: uri.host,
-        port: 8911, // uri.port,
+        port: uri.port, // 8911, // 
         path: '/ws',
       ).toString();
       _token = session.token;
@@ -89,13 +89,13 @@ abstract class ApiPush implements Api, ApiInternals {
   @override
   NetworkConnectionState receiving = NetworkConnectionState.waiting;
 
-  static const bool _useWebSocket = true;
+  static const bool _useWebSocket = false;
 
   void _connectListener() {
     unawaited(
       _lock.synchronized(
         () async {
-          if (_pushClient != null && _pushSubscription == null /* && account.accountId != Int64.ZERO */) {
+          if (_pushClient != null && _pushSubscription == null && account.accountId != Int64.ZERO) {
             log.info('Connect to push service, accountId: ${account.accountId}');
             if (receiving != NetworkConnectionState.failing) {
               receiving = NetworkConnectionState.connecting;

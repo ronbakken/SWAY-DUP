@@ -191,21 +191,15 @@ class _PrototypeState extends State<Prototype> {
       home: !developerMenu
           ? Builder(
               builder: (BuildContext context) {
-                return RebuildTracker(
-                  message: 'Full app rebuild triggered (3)',
-                  child: AppSwitch(),
-                );
+                return AppSwitch();
               },
             )
           : Builder(
               builder: (BuildContext context) {
-                return RebuildTracker(
-                  message: 'Full app rebuild triggered (3)',
-                  child: DeveloperMenu(
-                    onExitDevelopmentMode: () {
-                      enterDeveloperMenu(false);
-                    },
-                  ),
+                return DeveloperMenu(
+                  onExitDevelopmentMode: () {
+                    enterDeveloperMenu(false);
+                  },
                 );
               },
             ),
@@ -242,15 +236,9 @@ class _PrototypeState extends State<Prototype> {
     return NetworkStack(
       startupConfig: widget.startupConfig,
       multiAccountStore: widget.multiAccountStore,
-      child: RebuildTracker(
-        message: 'Full app rebuild triggered (1)',
-        child: Builder(builder: (BuildContext context) {
-          return RebuildTracker(
-            message: "Full app rebuild triggered (2)",
-            child: _buildMaterialApp(context),
-          );
-        }),
-      ),
+      child: Builder(builder: (BuildContext context) {
+        return _buildMaterialApp(context);
+      }),
     );
   }
 }
