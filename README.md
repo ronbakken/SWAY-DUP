@@ -60,6 +60,19 @@ List of service ports is provided here to ensure we don't have overlapping ports
 | JWT | Envoy Proxy | 7901 |
 | JWT | Envoy Proxy Admin | 7902 |
 
+## Backend dependency graph
+
+Dependency graph of backend services.
+Not including public API endpoints. Not including databases.
+
+```mermaid
+graph TD;
+    Envoy --> JWT
+    API --> JWT
+    API --> Push
+    API --> Explore
+```
+
 ## Todo
 
 - Use gRPC.
