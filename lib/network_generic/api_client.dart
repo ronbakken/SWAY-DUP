@@ -158,7 +158,6 @@ class ApiClient
     _commonChanged.add(null);
   }
 
-
   void initialize() {
     // Initialize base dependencies
     initAccount();

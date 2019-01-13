@@ -157,9 +157,8 @@ class _NetworkProviderState extends State<_NetworkProviderStateful>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    apiClient.setApplicationForeground(
-        state == AppLifecycleState.resumed ||
-            state == AppLifecycleState.inactive);
+    apiClient.setApplicationForeground(state == AppLifecycleState.resumed ||
+        state == AppLifecycleState.inactive);
   }
 
   @override

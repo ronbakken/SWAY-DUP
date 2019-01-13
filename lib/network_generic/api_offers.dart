@@ -64,7 +64,7 @@ abstract class ApiOffers implements Api, ApiInternals {
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////
-  
+
   final Map<Int64, _CachedOffer> _cachedOffers = <Int64, _CachedOffer>{};
 
   @override
@@ -172,7 +172,9 @@ abstract class ApiOffers implements Api, ApiInternals {
     await _clientReady;
     final NetGetOffer request = NetGetOffer();
     request.offerId = offerId;
-    final DataOffer offer = (await _offersClient.get(request)..freeze()).offer;
+    final DataOffer offer = (await _offersClient.get(request)
+          ..freeze())
+        .offer;
     cacheOffer(offer, true);
     return offer;
   }
