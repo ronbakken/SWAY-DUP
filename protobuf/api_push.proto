@@ -15,6 +15,9 @@ service ApiPush {
   /// Opens the server stream
   rpc Listen(NetListen) returns (stream NetPush) {}
 
+  /// Keep alive message
+  rpc KeepAlive(NetKeepAlive) returns (NetKeepAlive) {}
+
 }
 
 /* end of file */
