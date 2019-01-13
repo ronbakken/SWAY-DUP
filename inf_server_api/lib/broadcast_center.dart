@@ -46,7 +46,9 @@ class BroadcastCenter {
   static final Logger devLog = Logger('InfDev.BroadcastCenter');
 
   BroadcastCenter(this.config, this.accountDb, this.proposalDb, this.bucket) {
-    final Uri backendPushUri = Uri.parse(Platform.environment['INF_BACKEND_PUSH'] ?? config.services.backendPush);
+    final Uri backendPushUri = Uri.parse(
+        Platform.environment['INF_BACKEND_PUSH'] ??
+            config.services.backendPush);
     backendPushChannel = grpc.ClientChannel(
       backendPushUri.host,
       port: backendPushUri.port,

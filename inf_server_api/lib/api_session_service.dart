@@ -32,7 +32,8 @@ class ApiSessionService extends ApiSessionServiceBase {
   BackendJwtClient backendJwt;
 
   ApiSessionService(this.config, this.accountDb) {
-    final Uri backendJwtUri = Uri.parse(Platform.environment['INF_BACKEND_JWT'] ?? config.services.backendJwt);
+    final Uri backendJwtUri = Uri.parse(
+        Platform.environment['INF_BACKEND_JWT'] ?? config.services.backendJwt);
     backendJwtChannel = grpc.ClientChannel(
       backendJwtUri.host,
       port: backendJwtUri.port,

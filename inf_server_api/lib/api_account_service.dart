@@ -46,7 +46,8 @@ class ApiAccountService extends ApiAccountServiceBase {
 
   ApiAccountService(
       this.config, this.accountDb, this.bucket, this.bc, this.oauth1Auth) {
-    final Uri backendJwtUri = Uri.parse(Platform.environment['INF_BACKEND_JWT'] ?? config.services.backendJwt);
+    final Uri backendJwtUri = Uri.parse(
+        Platform.environment['INF_BACKEND_JWT'] ?? config.services.backendJwt);
     backendJwtChannel = grpc.ClientChannel(
       backendJwtUri.host,
       port: backendJwtUri.port,

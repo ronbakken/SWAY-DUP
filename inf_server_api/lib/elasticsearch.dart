@@ -22,14 +22,15 @@ class Elasticsearch {
   final String endPoint;
 
   static Map<String, String> _buildHeaders(ConfigData config) {
-    final String platformElasticsearch = Platform.environment['INF_ELASTICSEARCH'];
+    final String platformElasticsearch =
+        Platform.environment['INF_ELASTICSEARCH'];
     if (platformElasticsearch != null) {
-      final String platformBasicAuth = Platform.environment['INF_ELASTICSEARCH_BASIC_AUTH'];
+      final String platformBasicAuth =
+          Platform.environment['INF_ELASTICSEARCH_BASIC_AUTH'];
       return platformBasicAuth != null
           ? <String, String>{
-              'Authorization': 'Basic ' +
-                  base64.encode(
-                      utf8.encode(platformBasicAuth)),
+              'Authorization':
+                  'Basic ' + base64.encode(utf8.encode(platformBasicAuth)),
               'Content-Type': 'application/json'
             }
           : <String, String>{'Content-Type': 'application/json'};
@@ -46,10 +47,13 @@ class Elasticsearch {
   }
 
   static String _getEndPoint(ConfigData config) {
-    return Platform.environment['INF_ELASTICSEARCH'] ?? config.services.elasticsearchApi;
+    return Platform.environment['INF_ELASTICSEARCH'] ??
+        config.services.elasticsearchApi;
   }
 
-  Elasticsearch(this.config) : headers = _buildHeaders(config), endPoint = _getEndPoint(config);
+  Elasticsearch(this.config)
+      : headers = _buildHeaders(config),
+        endPoint = _getEndPoint(config);
 
   Future<void> close() async {
     httpClient.close();
