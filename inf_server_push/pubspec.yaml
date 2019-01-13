@@ -12,7 +12,7 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: c31ffa89b50c9c8863348736c2b5f0445571e41d
+      ref: d6a8077c1f543c6b8feecaf821b60fd938531b51
   logging: ^0.11.3+2
   pedantic: ^1.4.0
   http_client: ^0.5.0

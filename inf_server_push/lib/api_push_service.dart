@@ -25,6 +25,11 @@ class ApiPushService extends ApiPushServiceBase {
     return backend.listen(call, request);
   }
 
+  @override
+  Future<NetKeepAlive> keepAlive(grpc.ServiceCall call, NetKeepAlive request) async {
+    return NetKeepAlive();
+  }
+
 }
 
 /* end of file */

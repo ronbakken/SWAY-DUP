@@ -46,7 +46,8 @@ Future<void> main(List<String> arguments) async {
 
   // SQL client
   final sqljocky.ConnectionPool sql = sqljocky.ConnectionPool(
-      host: Platform.environment['INF_GENERAL_DB_HOST'] ?? config.services.generalDbHost,
+      host: Platform.environment['INF_GENERAL_DB_HOST'] ??
+          config.services.generalDbHost,
       port: config.services.generalDbPort,
       user: config.services.generalDbUser,
       password: config.services.generalDbPassword,
@@ -55,23 +56,19 @@ Future<void> main(List<String> arguments) async {
 
   final BackendPushService backend = BackendPushService(config, sql);
   final ApiPushService api = ApiPushService(backend);
-  
+
   // Push API gRPC
   final grpc.Server grpcApi = grpc.Server(
-    <grpc.Service>[
-      api
-    ],
+    <grpc.Service>[api],
     <grpc.Interceptor>[
       // TODO: Add interceptor for JWT
     ],
   );
   final Future<void> grpcApiServing = grpcApi.serve(port: 8910);
-  
+
   // Push Backend gRPC
   final grpc.Server grpcBackend = grpc.Server(
-    <grpc.Service>[
-      backend
-    ],
+    <grpc.Service>[backend],
     <grpc.Interceptor>[
       // TODO: Backend tracking
     ],
@@ -79,10 +76,43 @@ Future<void> main(List<String> arguments) async {
   final Future<void> grpcBackendServing = grpcBackend.serve(port: 8919);
 
   // Listen to WebSocket
+  final HttpServer server =
+      await HttpServer.bind(InternetAddress.anyIPv4, 8911);
+  server.listen((HttpRequest request) async {
+    if (request.uri.path == '/ws' || request.uri.path == '/ws/') {
+      try {
+        final WebSocket ws = await WebSocketTransformer.upgrade(request);
+        try {
+          await for (NetPush push in backend.listenWebSocket(ws, request)) {
+            ws.add(push.writeToBuffer());
+          }
+        } catch (error, stackTrace) {
+          Logger('InfOps').severe(
+              'Error while pushing data', error, stackTrace);
+        }
+      } catch (error, stackTrace) {
+        Logger('InfOps')
+            .severe('Error upgrading request to WebSocket', error, stackTrace);
+      }
+    } else {
+      Logger('InfOps').fine("Unknown path '${request.uri.path}'.");
+      try {
+        request.response.statusCode = HttpStatus.forbidden;
+        await request.response.close();
+      } catch (error, stackTrace) {
+        Logger('InfOps')
+            .severe('Error sending forbidden response', error, stackTrace);
+      }
+    }
+  }, onDone: () async {
+    await grpcApi.shutdown();
+    await grpcBackend.shutdown();
+  });
 
   // Wait for listening
   await Future.wait(<Future<void>>[grpcApiServing, grpcBackendServing]);
-  Logger('InfOps').info('Listening: api: ${grpcApi.port}, backend: ${grpcBackend.port}');
+  Logger('InfOps')
+      .info('Listening: api: ${grpcApi.port}, ws: ${server.port}, backend: ${grpcBackend.port}');
 
   // TODO: Exit if any of the listeners exits... No mechanism to wait for gRPC exit right now...
   // await ...;

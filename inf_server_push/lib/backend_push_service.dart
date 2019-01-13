@@ -35,6 +35,32 @@ class _Listener {
   const _Listener(this.call, this.request, this.controller, this.keepAlive);
 }
 
+class _CallWrapperWebSocket implements grpc.ServiceCall {
+  @override
+  Map<String, String> clientMetadata = <String, String>{};
+
+  @override
+  DateTime deadline;
+
+  @override
+  Map<String, String> headers = <String, String>{};
+
+  @override
+  bool isCanceled = false;
+
+  @override
+  bool isTimedOut = false;
+
+  @override
+  void sendHeaders() {}
+
+  @override
+  void sendTrailers({int status, String message}) {}
+
+  @override
+  Map<String, String> trailers = <String, String>{};
+}
+
 class BackendPushService extends BackendPushServiceBase {
   final ConfigData config;
   final sqljocky.ConnectionPool sql;
@@ -192,6 +218,27 @@ class BackendPushService extends BackendPushServiceBase {
     return null;
   }
 
+  Stream<NetPush> listenWebSocket(WebSocket ws, HttpRequest request) {
+    final _CallWrapperWebSocket call = _CallWrapperWebSocket();
+    call.clientMetadata['authority'] = request.headers['authority']?.first;
+    call.clientMetadata['authorization'] =
+        request.headers['authorization']?.first;
+    call.clientMetadata['x-jwt-payload'] =
+        request.headers['x-jwt-payload']?.first;
+    final DataAuth auth = authFromJwtPayload(call);
+    ws.listen((dynamic data) {
+      ws.close();
+    }, onDone: () {
+      call.isCanceled = true;
+      if (_listeners[auth.sessionId]?.call == call) {
+        final _Listener listener = _listeners.remove(auth.sessionId);
+        listener.keepAlive.cancel();
+        unawaited(listener.controller.close());
+      }
+    });
+    return listen(call, NetListen());
+  }
+
   Stream<NetPush> listen(grpc.ServiceCall call, NetListen request) async* {
     final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
@@ -209,7 +256,7 @@ class BackendPushService extends BackendPushServiceBase {
     // Create a new controller for this listener.
     final StreamController<NetPush> controller = StreamController<NetPush>();
     final Timer keepAlive =
-        Timer.periodic(Duration(seconds: 10), (Timer timer) {
+        Timer.periodic(Duration(seconds: 5), (Timer timer) {
       if (call.isCanceled) {
         if (_listeners[auth.sessionId]?.controller == controller) {
           _listeners.remove(auth.sessionId);
