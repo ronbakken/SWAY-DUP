@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:pedantic/pedantic.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_server_push/cache_map.dart';
 import 'package:logging/logging.dart';
@@ -29,8 +30,9 @@ class _Listener {
   final grpc.ServiceCall call;
   final NetListen request;
   final StreamController<NetPush> controller;
+  final Timer keepAlive;
 
-  const _Listener(this.call, this.request, this.controller);
+  const _Listener(this.call, this.request, this.controller, this.keepAlive);
 }
 
 class BackendPushService extends BackendPushServiceBase {
@@ -110,8 +112,7 @@ class BackendPushService extends BackendPushServiceBase {
 
   @override
   Future<ResPush> push(grpc.ServiceCall call, ReqPush request) async {
-    _CachedAccount receiver =
-        await _cacheAccount(request.receiverAccountId);
+    _CachedAccount receiver = await _cacheAccount(request.receiverAccountId);
     receiver ??= _CachedAccount(
       'Amazing Human Being',
       Set<Int64>(),
@@ -124,6 +125,7 @@ class BackendPushService extends BackendPushServiceBase {
         // Minor issue with gRPC here is that we end up keeping controllers
         // for dead connections around until a message is sent to them...
         _listeners.remove(sessionId);
+        listener.keepAlive.cancel();
         done.add(listener.controller.close());
         continue;
       }
@@ -191,8 +193,7 @@ class BackendPushService extends BackendPushServiceBase {
   }
 
   Stream<NetPush> listen(grpc.ServiceCall call, NetListen request) async* {
-    final DataAuth auth =
-        authFromJwtPayload(call);
+    final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
       throw grpc.GrpcError.permissionDenied();
@@ -201,12 +202,28 @@ class BackendPushService extends BackendPushServiceBase {
     // Kick any previous listener for this session. It's not allowed to listen twice on the same session.
     final _Listener previousListener = _listeners.remove(auth.sessionId);
     if (previousListener != null) {
+      previousListener.keepAlive.cancel();
       await previousListener.controller.close();
     }
 
     // Create a new controller for this listener.
     final StreamController<NetPush> controller = StreamController<NetPush>();
-    _listeners[auth.sessionId] = _Listener(call, request, controller);
+    final Timer keepAlive =
+        Timer.periodic(Duration(seconds: 10), (Timer timer) {
+      if (call.isCanceled) {
+        if (_listeners[auth.sessionId]?.controller == controller) {
+          _listeners.remove(auth.sessionId);
+          timer.cancel();
+          unawaited(controller.close());
+        }
+      } else {
+        final NetPush push = NetPush();
+        push.keepAlive = NetKeepAlive();
+        controller.add(push);
+      }
+    });
+    _listeners[auth.sessionId] =
+        _Listener(call, request, controller, keepAlive);
 
     // TODO: This is a temporary hack since the database is not implemented yet.
     _cachedAccounts[auth.accountId] = _CachedAccount(
