@@ -74,12 +74,12 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   @override
-  Observable<SocialMediaAccounts> getSocialMediaAccounts() {
+  Observable<SocialMediaAccounts> getSocialMediaAccounts(int userId) {
     return Observable(
       backend
           .get<InfApiClientsService>()
           .authClient
-          .getSocialMediaAccountsForUser(SocialMediaRequest()..userId = _currentUser.id),
+          .getSocialMediaAccountsForUser(SocialMediaRequest()..userId = userId),
     );
   }
 }

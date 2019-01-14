@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/ui/welcome/welcome_page.dart';
-import 'package:inf/ui/widgets/animated_curves.dart';
-import 'package:inf/ui/widgets/curved_box.dart';
+import 'package:inf/ui/user_profile/profile_private_page.dart';
+import 'package:inf/ui/user_profile/profile_summery.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
+
 import 'package:inf_api_client/inf_api_client.dart';
-import 'package:pedantic/pedantic.dart';
 
 class MainNavigationDrawer extends StatelessWidget {
   void setSocialMediaAccountState(SocialMediaAccount account, bool isActive) {
@@ -119,138 +116,61 @@ class MainNavigationDrawer extends StatelessWidget {
               alignment: Alignment.bottomCenter,
             ),
           ),
-          StreamBuilder<User>(
-            initialData: userManager.currentUser,
-            stream: userManager.currentUserUpdates,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (!snapshot.hasData) {
-                return SizedBox();
-              }
-              User currentUser = snapshot.data;
-              return ListView(
-                primary: false,
-                padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),
-                children: [
-                  buildProfileArea(mediaQuery, currentUser),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: buildColumnEntries(currentUser),
-                    ),
-                  ),
-                ],
-              );
-            },
+
+          ListView(
+            primary: false,
+            padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),
+            children: [
+              ProfileSummery(
+                user: userManager.currentUser,
+                heightTotalPercentage: 0.48,
+                gradientStop: 0.3,
+                showDescription: true,
+                showSocialMedia: true,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: buildColumnEntries(userManager.currentUser),
+                ),
+              ),
+            ],
+          ),
+
+          // View profile button
+          Positioned(
+            height: 35,
+            right: 0.0,
+            top: 50.0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.only(
+                  topStart: Radius.circular(16.0),
+                  bottomStart: Radius.circular(16.0),
+                ),
+                color: const Color(0x85000000),
+              ),
+              alignment: Alignment.centerRight,
+              child: FlatButton(
+                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                onPressed: ()  {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(ProfilePrivatePage.route());
+                },
+                child: Text(
+                  'View profile',
+                  style: const TextStyle(fontSize: 16.0),
+                ),
+              ),
+            ),
           ),
         ],
       ),
     );
-  }
-
-  SizedBox buildProfileArea(MediaQueryData mediaQuery, User currentUser) {
-    return SizedBox(
-        height: mediaQuery.size.height * 0.48 + mediaQuery.padding.top,
-        child: Stack(
-          fit: StackFit.passthrough,
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              left: 0.0,
-              right: 0.0,
-              height: mediaQuery.size.height * 0.43 + mediaQuery.padding.top,
-              child: InfImage(
-                fit: BoxFit.fitHeight,
-                lowRes: currentUser.avatarLowRes,
-                imageUrl: currentUser.avatarUrl,
-              ),
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Colors.transparent, Colors.black],
-                      begin: Alignment(0, -0.3),
-                      end: Alignment.bottomCenter,
-                      stops: [0.0, 0.8])),
-            ),
-            Positioned(
-              height: 35,
-              right: 0.0,
-              top: 50.0,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topStart: Radius.circular(16.0),
-                    bottomStart: Radius.circular(16.0),
-                  ),
-                  color: const Color(0x85000000),
-                ),
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16.0,
-                    right: 16.0,
-                  ),
-                  child: Text(
-                    'Edit profile',
-                    style: const TextStyle(fontSize: 20.0),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0.0,
-              right: 0.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    currentUser.name,
-                    style: const TextStyle(fontSize: 24.0),
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(currentUser.locationAsString),
-                  SizedBox(height: 8.0),
-                  StreamBuilder<List<SocialMediaAccountWrapper>>(
-                    stream: backend.get<UserManager>().getSocialMediaAccounts(),
-                    builder: (context, snapShot) {
-                      if (snapShot.hasData) {
-                        var rowItems = <Widget>[];
-                        for (var account in snapShot.data) {
-                          rowItems.add(
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InfMemoryImage(
-                                account.monoChromeIcon,
-                                height: 20.0,
-                              ),
-                            ),
-                          );
-                        }
-                        return Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: rowItems,
-                        );
-                      } else {
-                        return SizedBox(height: 20);
-                      }
-                    },
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(currentUser.description),
-                  SizedBox(
-                    height: 16.0,
-                  )
-                ],
-              ),
-            )
-          ],
-        ));
   }
 }
 
@@ -302,15 +222,4 @@ class _MainNavigationItem extends StatelessWidget {
   }
 }
 
-// for (var account in currentUser.socialMediaAccounts) {
-//   var provider=backend.get<ConfigService>().getSocialNetworkProviderById(account.socialNetworkProviderId);
-//   entries.add(_MainNavigationItem(
-//     icon: InfMemoryImage(provider.logoMonochromeData, height: 20, ),
-//     text: provider.name,
-//     trailing: InfSwitch(
-//       value: account.isActive,
-//       onChanged: (val) => setSocialMediaAccountState(account, val),
-//       activeColor: AppTheme.blue,
-//     ),
-//   ));
-// }
+

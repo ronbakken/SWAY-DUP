@@ -37,8 +37,8 @@ class UserManagerImplementation implements UserManager {
   Observable<User> get currentUserUpdates => backend.get<AuthenticationService>().currentUserUpdates;
 
   @override
-  Observable<List<SocialMediaAccountWrapper>> getSocialMediaAccounts() {
-    return backend.get<AuthenticationService>().getSocialMediaAccounts().map((socialMediaAccounts) {
+  Observable<List<SocialMediaAccountWrapper>> getSocialMediaAccounts(User user) {
+    return backend.get<AuthenticationService>().getSocialMediaAccounts(user.id).map((socialMediaAccounts) {
       return socialMediaAccounts.accounts.map<SocialMediaAccountWrapper>((account) {
         var provider = backend
             .get<ConfigService>()

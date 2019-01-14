@@ -29,7 +29,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   User get currentUser => _currentUser;
   User _currentUser;
 
-  List<User> allLinkedAccounts;
+  List<User> users;
 
   AuthenticationServiceMock({
     this.isLoggedIn,
@@ -46,7 +46,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   @override
   Future<bool> loginUserWithToken() async {
     if (isLoggedIn) {
-      _currentUser = allLinkedAccounts[currentUserIndex];
+      _currentUser = users[currentUserIndex];
       _currentUserUpdatesSubject.add(_currentUser);
       return true;
     }
@@ -78,7 +78,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   // }
 
   Future<void> loadMockData() async {
-    allLinkedAccounts = [
+    users = [
       User()
         ..id = 42
         ..showLocation = true
@@ -162,7 +162,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   }
 
   @override
-  Observable<SocialMediaAccounts> getSocialMediaAccounts() {
+  Observable<SocialMediaAccounts> getSocialMediaAccounts(int userId) {
       var socialMediaAccounts = <SocialMediaAccount> [
           SocialMediaAccount()
             ..id = 1
@@ -208,7 +208,8 @@ class AuthenticationServiceMock implements AuthenticationService {
         ];
       
         var accounts = <SocialMediaAccount>[];
-        for(var accountId in _currentUser.socialMediaAccountIds)
+        var user = users.firstWhere((u) => u.id == userId);
+        for(var accountId in user.socialMediaAccountIds)
         {
             var account = socialMediaAccounts.firstWhere((a)  => a.id == accountId);
             if (account != null)
