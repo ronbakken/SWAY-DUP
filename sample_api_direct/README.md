@@ -1,25 +1,5 @@
-# JWT Sample
+# Direct API Sample
 
-See https://jwt.io/ for more information on JSON Web Tokens
+This sample requires the API to be running on the local host.
 
-## How to run this sample
-
-From the `sample_jwt` directory, open two command windows.
-
-```
-cd docker
-docker-compose build
-docker-compose up
-```
-```
-pub run tests
-```
-
-## Generating keys
-
-From the `inf_server_jwt` directory.
-
-```
-openssl genrsa -out private.pem 2048
-openssl rsa -in private.pem -RSAPublicKey_out -out public.pem
-```
+It uses the local config from the `assets` directory.
