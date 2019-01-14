@@ -72,4 +72,14 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     // TODO: implement updateSocialMediaAccount
     return null;
   }
+
+  @override
+  Observable<SocialMediaAccounts> getSocialMediaAccounts() {
+    return Observable(
+      backend
+          .get<InfApiClientsService>()
+          .authClient
+          .getSocialMediaAccountsForUser(SocialMediaRequest()..userId = _currentUser.id),
+    );
+  }
 }

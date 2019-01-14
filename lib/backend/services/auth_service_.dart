@@ -63,6 +63,8 @@ abstract class AuthenticationService {
   Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia);
   Future<void> updateUser(User user);
 
+  Observable<SocialMediaAccounts> getSocialMediaAccounts();
+
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);
 

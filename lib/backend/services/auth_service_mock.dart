@@ -105,16 +105,7 @@ class AuthenticationServiceMock implements AuthenticationService {
         // )
         ..verified = isVerified
         ..websiteUrl = 'www.google.com'
-        ..socialMediaAccounts.addAll([
-          SocialMediaAccount()
-            ..id = 1
-            ..isActive = true
-            ..socialNetworkProviderId = 0
-            ..url = 'https=//twitter.com/ThomasBurkhartB'
-            ..displayName = 'Thomas Burkhart'
-            ..description = 'The best online shop for baking'
-            ..followersCount = 900
-        ]),
+        ..socialMediaAccountIds.addAll([1]),
       User()
         ..id = 43
         ..name = 'Thomas'
@@ -141,42 +132,11 @@ class AuthenticationServiceMock implements AuthenticationService {
         // )..
         ..verified = isVerified
         ..websiteUrl = 'www.google.com'
-        ..socialMediaAccounts.addAll([
-          SocialMediaAccount()
-            ..id = 1
-            ..isActive = true
-            ..socialNetworkProviderId = 0
-            ..url = 'https://twitter.com/ThomasBurkhartB'
-            ..displayName = 'Thomas Burkhart'
-            ..description = 'The best online shop for baking'
-            ..followersCount = 900,
-          SocialMediaAccount()
-            ..id = 2
-            ..isActive = false
-            ..socialNetworkProviderId = 1
-            ..url = 'https://twitter.com/ThomasBurkhartB'
-            ..displayName = 'Thomas Burkhart'
-            ..description = 'The best online shop for baking'
-            ..followersCount = 900,
-          SocialMediaAccount()
-            ..id = 3
-            ..isActive = true
-            ..socialNetworkProviderId = 2
-            ..url = 'https://twitter.com/ThomasBurkhartB'
-            ..displayName = 'Thomas Burkhart'
-            ..description = 'The best online shop for baking'
-            ..followersCount = 900,
-          SocialMediaAccount()
-            ..id = 4
-            ..isActive = true
-            ..socialNetworkProviderId = 4
-            ..url = 'https://twitter.com/ThomasBurkhartB'
-            ..displayName = 'Thomas Burkhart'
-            ..description = 'The best online shop for baking'
-            ..followersCount = 900
-        ]),
+        ..socialMediaAccountIds.addAll([2,3,4,5]),
     ];
   }
+
+
 
   @override
   Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia) async {
@@ -199,5 +159,69 @@ class AuthenticationServiceMock implements AuthenticationService {
   Future<void> updateUser(User user) async {
     _currentUserUpdatesSubject.add(user);
     _currentUser = user;
+  }
+
+  @override
+  Observable<SocialMediaAccounts> getSocialMediaAccounts() {
+      var socialMediaAccounts = <SocialMediaAccount> [
+          SocialMediaAccount()
+            ..id = 1
+            ..isActive = true
+            ..socialNetworkProviderId = 0
+            ..url = 'https=//twitter.com/ThomasBurkhartB'
+            ..displayName = 'Thomas Burkhart'
+            ..description = 'The best online shop for baking'
+            ..followersCount = 900,
+          SocialMediaAccount()
+            ..id = 2
+            ..isActive = true
+            ..socialNetworkProviderId = 0
+            ..url = 'https://twitter.com/ThomasBurkhartB'
+            ..displayName = 'Thomas Burkhart'
+            ..description = 'The best online shop for baking'
+            ..followersCount = 900,
+          SocialMediaAccount()
+            ..id = 3
+            ..isActive = false
+            ..socialNetworkProviderId = 1
+            ..url = 'https://twitter.com/ThomasBurkhartB'
+            ..displayName = 'Thomas Burkhart'
+            ..description = 'The best online shop for baking'
+            ..followersCount = 900,
+          SocialMediaAccount()
+            ..id = 4
+            ..isActive = true
+            ..socialNetworkProviderId = 2
+            ..url = 'https://twitter.com/ThomasBurkhartB'
+            ..displayName = 'Thomas Burkhart'
+            ..description = 'The best online shop for baking'
+            ..followersCount = 900,
+          SocialMediaAccount()
+            ..id = 5
+            ..isActive = true
+            ..socialNetworkProviderId = 4
+            ..url = 'https://twitter.com/ThomasBurkhartB'
+            ..displayName = 'Thomas Burkhart'
+            ..description = 'The best online shop for baking'
+            ..followersCount = 900
+
+        ];
+      
+        var accounts = <SocialMediaAccount>[];
+        for(var accountId in _currentUser.socialMediaAccountIds)
+        {
+            var account = socialMediaAccounts.firstWhere((a)  => a.id == accountId);
+            if (account != null)
+            {
+              accounts.add(account);
+            }
+        }
+
+        var accountsList = <SocialMediaAccounts>[]
+          ..add(SocialMediaAccounts()
+          ..accounts.addAll(accounts)
+          ..accounts.addAll(accounts)
+          );
+        return Observable.fromIterable(accountsList);
   }
 }

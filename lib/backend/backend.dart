@@ -128,7 +128,7 @@ void registerImplementations() {
       /// token: 'INF' and influencer
       /// token: 'BUSINESS' a business user
       () => AuthenticationServiceImplementation(
-            userTestToken: 'BUSINESS',
+            userTestToken: 'INF',
           ));
 
   backend.registerLazySingleton<ImageService>(() => ImageServiceMock());
