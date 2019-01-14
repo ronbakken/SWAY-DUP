@@ -71,6 +71,7 @@ graph TD;
     API --> JWT
     API --> Push
     API --> Explore
+    Push --> Explore
 ```
 
 ## Todo
