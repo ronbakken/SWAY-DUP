@@ -458,8 +458,15 @@ class ApiProposalService extends ApiProposalServiceBase {
     chat.plainText = request.remarks;
     chat.terms = request.terms;
 
-    await _enterChat(chat, auth.sessionId,
+    // TODO: Maybe saner to just return the chat as before,
+    // and have the client update the termsChatId whenever a new one appears.
+    final NetProposal result = NetProposal();
+    result.proposal = DataProposal();
+    final NetProposalChat resultChat = await _enterChat(chat, auth.sessionId,
         await fetchSessionAccount(config, accountDb, auth.sessionId));
+    result.chats.add(resultChat.chat);
+    result.proposal.termsChatId = resultChat.chat.chatId;
+    return result;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -490,7 +497,7 @@ class ApiProposalService extends ApiProposalServiceBase {
     chat.imageKey = request.imageKey;
     // TODO: imageBlurred
 
-    await _enterChat(chat, auth.sessionId,
+    return await _enterChat(chat, auth.sessionId,
         await fetchSessionAccount(config, accountDb, auth.sessionId));
   }
 

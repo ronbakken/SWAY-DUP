@@ -123,13 +123,13 @@ class ApiAccountService extends ApiAccountServiceBase {
         (auth.accountId != Int64.ZERO &&
             auth.globalAccountState.value <
                 GlobalAccountState.readOnly.value)) {
-      throw grpc.GrpcError.permissionDenied();
+      throw grpc.GrpcError.permissionDenied('Not permitted.');
     }
 
     final DataAccount account =
         await fetchSessionAccount(config, accountDb, auth.sessionId);
     if (account.accountType == AccountType.unknown) {
-      throw grpc.GrpcError.failedPrecondition();
+      throw grpc.GrpcError.failedPrecondition('Unknown account type.');
     }
 
     if (request.oauthProvider == 0 ||

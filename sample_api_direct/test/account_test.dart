@@ -47,13 +47,21 @@ Future<void> main() async {
   // Setup
   http.Client httpClient;
   grpc.ClientChannel channel;
-  ApiSessionClient sessionClient;
+  String influencerRefreshToken;
   String influencerAccessToken;
   String businessAccessToken;
   String supportAccessToken;
   dynamic influencerFacebook;
   dynamic businessFacebook;
   dynamic supportFacebook;
+
+  final NetSessionCreate sessionCreateRequest = NetSessionCreate();
+  sessionCreateRequest.domain = config.services.domain;
+  sessionCreateRequest.clientVersion = config.clientVersion;
+  sessionCreateRequest.deviceToken = Uint8List(32);
+  sessionCreateRequest.deviceName = 'account_test';
+  sessionCreateRequest.deviceInfo = '{}';
+  sessionCreateRequest.freeze();
 
   setUpAll(() async {
     httpClient = http.Client();
@@ -64,37 +72,22 @@ Future<void> main() async {
         credentials: grpc.ChannelCredentials.insecure(),
       ),
     );
-    sessionClient = ApiSessionClient(channel,
+    final ApiSessionClient sessionClient = ApiSessionClient(channel,
         options: grpc.CallOptions(metadata: <String, String>{
           'authorization': 'Bearer ${config.services.applicationToken}'
         }));
-    final NetSessionCreate createRequest = NetSessionCreate();
-    createRequest.domain = config.services.domain;
-    createRequest.clientVersion = config.clientVersion;
-    createRequest.deviceToken = Uint8List(32);
-    createRequest.deviceName = 'account_test setUpAll';
-    createRequest.deviceInfo = '{}';
-    createRequest.freeze();
     final NetSession influencerSession =
-        await sessionClient.create(createRequest);
+        await sessionClient.create(sessionCreateRequest);
+    influencerRefreshToken = influencerSession.refreshToken;
     influencerAccessToken = influencerSession.accessToken;
     final NetSession businessSession =
-        await sessionClient.create(createRequest);
+        await sessionClient.create(sessionCreateRequest);
     businessAccessToken = businessSession.accessToken;
-    final NetSession supportSession = await sessionClient.create(createRequest);
+    final NetSession supportSession =
+        await sessionClient.create(sessionCreateRequest);
     supportAccessToken = supportSession.accessToken;
     final ConfigOAuthProvider facebook =
         serverConfig.oauthProviders[OAuthProviderIds.facebook.value];
-    /*
-    final dynamic testUsersResponse = json.decode((await httpClient.get(
-            Uri.parse(facebook.host +
-                    '/v3.1/${facebook.clientId}/accounts/test-users')
-                .replace(queryParameters: <String, dynamic>{
-      'access_token': '${facebook.clientId}|${facebook.clientSecret}',
-    })))
-        .body);
-    Logger('SetUp').fine('$testUsersResponse');
-    */
     final String scope = Uri.splitQueryString(facebook.authQuery)['scope'];
     influencerFacebook = json.decode((await httpClient.post(Uri.parse(
                 facebook.host +
@@ -162,6 +155,7 @@ Future<void> main() async {
   });
 
   test('Validate test setup', () async {
+    expect(influencerRefreshToken, isNot(isEmpty));
     expect(influencerAccessToken, isNot(isEmpty));
     expect(businessAccessToken, isNot(isEmpty));
     expect(supportAccessToken, isNot(isEmpty));
@@ -186,10 +180,13 @@ Future<void> main() async {
     expect(accountless.account.sessionId, isNot(equals(Int64.ZERO)));
     final NetOAuthConnect connectRequest = NetOAuthConnect();
     connectRequest.oauthProvider = OAuthProviderIds.facebook.value;
-    connectRequest.callbackQuery = 'access_token=${Uri.encodeQueryComponent(influencerFacebook['access_token'])}';
-    final NetOAuthConnection connection = await accountClient.connectProvider(connectRequest);
+    connectRequest.callbackQuery =
+        'access_token=${Uri.encodeQueryComponent(influencerFacebook['access_token'])}';
+    final NetOAuthConnection connection =
+        await accountClient.connectProvider(connectRequest);
     expect(connection.accessToken, isEmpty);
-    expect(connection.hasAccount(), isFalse); // Account means login rather than sign up
+    expect(connection.hasAccount(),
+        isFalse); // Account means login rather than sign up
     expect(connection.hasSocialMedia(), isTrue);
     expect(connection.socialMedia.connected, isTrue);
     Logger('Influencer').fine(connection);
@@ -197,7 +194,8 @@ Future<void> main() async {
     expect(connection.socialMedia.profileUrl, isNotEmpty);
     expect(connection.socialMedia.avatarUrl, isNotEmpty);
     expect(connection.socialMedia.canSignUp, isTrue);
-    expect(connection.socialMedia.providerId, equals(OAuthProviderIds.facebook.value));
+    expect(connection.socialMedia.providerId,
+        equals(OAuthProviderIds.facebook.value));
     final NetAccountCreate createRequest = NetAccountCreate();
     createRequest.latitude = 34.0718836; // Nearby Wally's
     createRequest.longitude = -118.4032531;
@@ -212,13 +210,143 @@ Future<void> main() async {
     influencerAccessToken = account.accessToken;
     expect(account.account.sessionId, equals(accountless.account.sessionId));
     expect(account.account.accountId, isNot(equals(Int64.ZERO)));
+    expect(
+        account.account.socialMedia[OAuthProviderIds.facebook.value].connected,
+        isTrue);
+  });
+
+  test('Reopen existing influencer account session', () async {
+    final ApiSessionClient sessionClient = ApiSessionClient(channel,
+        options: grpc.CallOptions(metadata: <String, String>{
+          'authorization': 'Bearer $influencerRefreshToken'
+        }));
+    final NetSessionOpen openRequest = NetSessionOpen();
+    openRequest.domain = config.services.domain;
+    openRequest.clientVersion = config.clientVersion;
+    openRequest.freeze();
+    final NetSession session = await sessionClient.open(openRequest);
+    expect(session.refreshToken, isEmpty);
+    expect(session.accessToken, isNotEmpty);
+    influencerAccessToken = session.accessToken;
   });
 
   // TODO: Ensure tokens created for a different app id cannot be used
 
-  // TODO: Login with existing influencer account
-
   // TODO: canSignUp when reopening halfway account creation should be true
+
+  test('Switching account types must reset connections', () async {
+    final ApiAccountClient accountClient = ApiAccountClient(channel,
+        options: grpc.CallOptions(metadata: <String, String>{
+          'authorization': 'Bearer $businessAccessToken'
+        }));
+    final NetSetAccountType setTypeRequest = NetSetAccountType();
+    setTypeRequest.accountType = AccountType.influencer;
+    NetAccount accountless = await accountClient.setType(setTypeRequest);
+    expect(accountless.account.sessionId, isNot(equals(Int64.ZERO)));
+    final NetOAuthConnect connectRequest = NetOAuthConnect();
+    connectRequest.oauthProvider = OAuthProviderIds.facebook.value;
+    connectRequest.callbackQuery =
+        'access_token=${Uri.encodeQueryComponent(businessFacebook['access_token'])}';
+    final NetOAuthConnection connection =
+        await accountClient.connectProvider(connectRequest);
+    expect(connection.hasSocialMedia(), isTrue);
+    setTypeRequest.accountType = AccountType.business;
+    accountless = await accountClient.setType(setTypeRequest);
+    expect(accountless.account.accountType, equals(AccountType.business));
+    // On switching account type, no media can be left connected
+    for (DataSocialMedia media in accountless.account.socialMedia.values) {
+      expect(media.connected, isFalse);
+    }
+  });
+
+  test('Create business account', () async {
+    // Depends on 'Switching account types must reset connections' state
+    final ApiAccountClient accountClient = ApiAccountClient(channel,
+        options: grpc.CallOptions(metadata: <String, String>{
+          'authorization': 'Bearer $businessAccessToken'
+        }));
+    final NetOAuthConnect connectRequest = NetOAuthConnect();
+    connectRequest.oauthProvider = OAuthProviderIds.facebook.value;
+    connectRequest.callbackQuery =
+        'access_token=${Uri.encodeQueryComponent(businessFacebook['access_token'])}';
+    final NetOAuthConnection connection =
+        await accountClient.connectProvider(connectRequest);
+    expect(connection.hasAccount(), isFalse);
+    expect(connection.socialMedia.connected, isTrue);
+    expect(connection.accessToken, isEmpty);
+    final NetAccountCreate createRequest = NetAccountCreate();
+    createRequest.latitude = 34.0807925; // Nearby Craig's
+    createRequest.longitude = -118.3886626;
+    final NetSession account = await accountClient.create(createRequest);
+    expect(
+        account.account.socialMedia[OAuthProviderIds.facebook.value].connected,
+        isTrue);
+    expect(account.account.accountType, equals(AccountType.business));
+  });
+
+  test('Connecting to unknown account type must fail', () async {
+    final ApiSessionClient sessionClient = ApiSessionClient(channel,
+        options: grpc.CallOptions(metadata: <String, String>{
+          'authorization': 'Bearer ${config.services.applicationToken}'
+        }));
+    final NetSession session = await sessionClient.create(sessionCreateRequest);
+    expect(session.account.sessionId, isNot(equals(Int64.ZERO)));
+    expect(session.account.accountId, equals(Int64.ZERO));
+    expect(session.accessToken, isNotEmpty);
+    final ApiAccountClient accountClient = ApiAccountClient(channel,
+        options: grpc.CallOptions(metadata: <String, String>{
+          'authorization': 'Bearer ${session.accessToken}'
+        }));
+    final NetOAuthConnect connectRequest = NetOAuthConnect();
+    connectRequest.oauthProvider = OAuthProviderIds.facebook.value;
+    connectRequest.callbackQuery =
+        'access_token=${Uri.encodeQueryComponent(businessFacebook['access_token'])}';
+    expect(await accountClient.connectProvider(connectRequest), throwsA(const TypeMatcher<grpc.GrpcError>()));
+  });
+
+  test('Can log into the business account from a new session', () async {
+    final ApiSessionClient sessionClient = ApiSessionClient(channel,
+        options: grpc.CallOptions(metadata: <String, String>{
+          'authorization': 'Bearer ${config.services.applicationToken}'
+        }));
+    final NetSession session = await sessionClient.create(sessionCreateRequest);
+    expect(session.account.sessionId, isNot(equals(Int64.ZERO)));
+    expect(session.account.accountId, equals(Int64.ZERO));
+    expect(session.accessToken, isNotEmpty);
+    final ApiAccountClient accountClient = ApiAccountClient(channel,
+        options: grpc.CallOptions(metadata: <String, String>{
+          'authorization': 'Bearer ${session.accessToken}'
+        }));
+    final NetSetAccountType setTypeRequest = NetSetAccountType();
+    setTypeRequest.accountType = AccountType.business;
+    final NetAccount accountless = await accountClient.setType(setTypeRequest);
+    expect(accountless.account.accountId, equals(Int64.ZERO));
+    expect(accountless.account.accountType, equals(AccountType.business));
+    final NetOAuthConnect connectRequest = NetOAuthConnect();
+    connectRequest.oauthProvider = OAuthProviderIds.facebook.value;
+    connectRequest.callbackQuery =
+        'access_token=${Uri.encodeQueryComponent(businessFacebook['access_token'])}';
+    final NetOAuthConnection connection =
+        await accountClient.connectProvider(connectRequest);
+    // This will log in rather than connect the social media to an accountless session
+    expect(connection.hasSocialMedia(), isTrue);
+    expect(connection.socialMedia.connected, isTrue);
+    expect(connection.hasAccount(), isTrue);
+    expect(connection.accessToken, isNotEmpty);
+    expect(connection.account.accountType, equals(AccountType.business));
+    expect(connection.account.accountId, isNot(equals(Int64.ZERO)));
+    expect(session.account.sessionId, equals(connection.account.sessionId));
+    expect(connection.account.email, equals(businessFacebook['email']));
+    expect(connection.account.socialMedia[OAuthProviderIds.facebook.value].connected, isTrue);
+    expect(connection.account.socialMedia[OAuthProviderIds.facebook.value].email, equals(businessFacebook['email']));
+    expect(connection.account.socialMedia[OAuthProviderIds.facebook.value].displayName, equals(connection.account.name));
+    expect(connection.account.socialMedia[OAuthProviderIds.facebook.value].canSignUp, isFalse);
+  });
+
+  // TODO: Test whether the existing session for the business account is still valid and can be re-opened
+  // test('Previous business session remains valid', () async {});
+
+  // TODO: Validate the access state of accounts
 }
 
 /* end of file */
