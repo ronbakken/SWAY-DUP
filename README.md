@@ -10,6 +10,26 @@ Under `docker_inf_local` is a script to launch the services using the host netwo
 
 Other host operating systems may require a different docker setup for testing.
 
+## How to run the test suites manually
+
+Assuming a Linux host with a functional Docker installation.
+
+### API Integration Tests
+
+Run `docker-compose build && docker-compose up -d` in both `docker_inf_db` and `docker_inf_local`.
+
+Run `pub get && pub run test` under `sample_api_direct`.
+
+Run `docker-compose down` in both `docker_inf_db` and `docker_inf_local` to clean up.
+
+### JWT Tests
+
+Run `docker-compose build && docker-compose up -d` in `sample_jwt/docker_sample_jwt`.
+
+Run `pub get && pub run test` under `sample_jwt`.
+
+Run `docker-compose down` in `sample_jwt/docker_sample_jwt` to clean up.
+
 ## Service Ports
 
 List of service ports is provided here to ensure we don't have overlapping ports anywhere. This allows us to easily set up on a development machine.

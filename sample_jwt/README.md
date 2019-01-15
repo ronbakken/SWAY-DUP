@@ -12,7 +12,7 @@ docker-compose build
 docker-compose up
 ```
 ```
-pub run tests
+pub run test
 ```
 
 ## Generating keys
