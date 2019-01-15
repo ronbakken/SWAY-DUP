@@ -235,7 +235,7 @@ abstract class AppCommonState<T extends StatefulWidget>
   void navigateToProposal(Int64 proposalId) {
     final Api network = ApiProvider.of(context);
     if (proposalViewOpen != null) {
-      print('[INF] Pop previous proposal route');
+      _log.fine('Pop previous proposal route');
       Navigator.popUntil(context, (Route<dynamic> route) {
         return route.settings.name != null &&
             route.settings.name
