@@ -686,7 +686,7 @@ abstract class ApiAccount implements Api, ApiInternals {
     request.callbackQuery = callbackQuery;
     final NetOAuthConnection response =
         await _accountClient.connectProvider(request);
-    
+
     // Push updated access token
     if (response.hasAccessToken()) {
       _pushSessionToken(ApiSessionToken(

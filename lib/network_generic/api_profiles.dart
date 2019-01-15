@@ -169,7 +169,8 @@ abstract class ApiProfiles implements Api, ApiInternals {
     await _clientReady;
     final NetGetProfile request = NetGetProfile();
     request.accountId = accountId;
-    final NetProfile profile = await _profilesClient.get(request)..freeze();
+    final NetProfile profile = await _profilesClient.get(request)
+      ..freeze();
     if (profile.account.accountId == accountId) {
       cacheProfile(profile.account);
     } else {
@@ -204,7 +205,7 @@ abstract class ApiProfiles implements Api, ApiInternals {
       cached = _cachedProfiles[accountId];
     }
     if (cached.profile == null) {
-        cached.fallback ??= emptyAccount(accountId)..freeze();
+      cached.fallback ??= emptyAccount(accountId)..freeze();
     }
     if ((cached.profile == null || cached.dirty) &&
         !cached.loading &&

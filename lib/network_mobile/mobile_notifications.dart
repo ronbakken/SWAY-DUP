@@ -38,16 +38,20 @@ abstract class MobileNotifications implements Api, ApiInternals {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    const  IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings();
-    const InitializationSettings initializationSettings = InitializationSettings(
-        initializationSettingsAndroid, initializationSettingsIOS);
+    const IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings();
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+            initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
-    final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'chat', 'Messages', 'Messages received from other users',
-        importance: Importance.Max, priority: Priority.High);
-    final IOSNotificationDetails iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    final AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+            'chat', 'Messages', 'Messages received from other users',
+            importance: Importance.Max, priority: Priority.High);
+    final IOSNotificationDetails iOSPlatformChannelSpecifics =
+        IOSNotificationDetails();
     platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
   }
