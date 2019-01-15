@@ -66,7 +66,7 @@ Future<void> main() async {
   setUpAll(() async {
     httpClient = http.Client();
     channel = grpc.ClientChannel(
-      '192.168.43.202', // '127.0.0.1', //
+      '127.0.0.1', // '192.168.43.202', // 
       port: 8080, // Connect to Envoy Proxy
       options: const grpc.ChannelOptions(
         credentials: grpc.ChannelCredentials.insecure(),
@@ -347,6 +347,8 @@ Future<void> main() async {
   // test('Previous business session remains valid', () async {});
 
   // TODO: Validate the access state of accounts
+
+  // TODO: Connecting with the media account used to create a business account on an influencer session should allow creating a new account
 }
 
 /* end of file */
