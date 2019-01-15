@@ -301,7 +301,7 @@ Future<void> main() async {
     connectRequest.oauthProvider = OAuthProviderIds.facebook.value;
     connectRequest.callbackQuery =
         'access_token=${Uri.encodeQueryComponent(businessFacebook['access_token'])}';
-    expect(await accountClient.connectProvider(connectRequest), throwsA(const TypeMatcher<grpc.GrpcError>()));
+    expect(accountClient.connectProvider(connectRequest), throwsA(const TypeMatcher<grpc.GrpcError>()));
   });
 
   test('Can log into the business account from a new session', () async {
