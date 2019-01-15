@@ -29,7 +29,7 @@ Future<void> main() async {
 
   // Config
   const String configFile = '../assets/config_local.bin';
-  Logger('InfOps').info("Config file: '$configFile'");
+  Logger('Test').info("Config file: '$configFile'");
   final Uint8List configBytes = await File(configFile).readAsBytes();
   final ConfigData config = ConfigData();
   config.mergeFromBuffer(configBytes);
@@ -38,7 +38,7 @@ Future<void> main() async {
   grpc.ClientChannel channel;
   setUp(() async {
     channel = grpc.ClientChannel(
-      '127.0.0.1',
+      '127.0.0.1', // '192.168.43.202', // 
       port: 8080, // Connect to Envoy Proxy
       options: const grpc.ChannelOptions(
         credentials: grpc.ChannelCredentials.insecure(),

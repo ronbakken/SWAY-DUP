@@ -33,6 +33,13 @@
             "program": "test/session_test.dart",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "Direct API Test: Account",
+            "cwd": "sample_api_direct",
+            "program": "test/account_test.dart",
+            "request": "launch",
+            "type": "dart"
         }
     ]
 }
