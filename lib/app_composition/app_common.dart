@@ -156,11 +156,13 @@ abstract class AppCommonState<T extends StatefulWidget>
     return ProposalList(
       account: network.account,
       proposals: network.proposals.where(test),
-      getProfileSummary: (BuildContext context, Int64 accountId) { // TODO: Use builder composition pattern instead
+      getProfileSummary: (BuildContext context, Int64 accountId) {
+        // TODO: Use builder composition pattern instead
         final Api network = ApiProvider.of(context);
         return network.tryGetProfileSummary(accountId);
       },
-      getOffer: (BuildContext context, Int64 offerId) { // TODO: Use builder composition pattern instead
+      getOffer: (BuildContext context, Int64 offerId) {
+        // TODO: Use builder composition pattern instead
         final Api network = ApiProvider.of(context);
         return network.tryGetOffer(offerId);
       },
@@ -544,7 +546,8 @@ abstract class AppCommonState<T extends StatefulWidget>
       offers: network.demoAllOffers,
       highlightOffer: _mapHighlightOffer,
       onOfferPressed: navigateToOffer,
-      getOffer: _getOfferSummary, // TODO: Use builder composition pattern instead
+      getOffer:
+          _getOfferSummary, // TODO: Use builder composition pattern instead
     );
     return MainBrowseSection(
       map: map,
@@ -553,7 +556,8 @@ abstract class AppCommonState<T extends StatefulWidget>
         padding: const EdgeInsets.only(bottom: kBottomNavHeight),
         child: BrowseListView(
           config: config,
-          getOffer: _getOfferSummary, // TODO: Use builder composition pattern instead
+          getOffer:
+              _getOfferSummary, // TODO: Use builder composition pattern instead
           offers: network.demoAllOffers,
           onOfferPressed: navigateToOffer,
         ),

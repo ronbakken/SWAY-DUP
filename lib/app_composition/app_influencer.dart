@@ -169,7 +169,8 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   void navigateToSearchOffers(TextEditingController searchQueryController) {
     final TextEditingController searchQueryControllerFallback =
         searchQueryController ?? TextEditingController();
-    fadeToPage(context, (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+    fadeToPage(context, (BuildContext context, Animation<double> animation,
+        Animation<double> secondaryAnimation) {
       // ConfigData config = ConfigProvider.of(context);
       final Api network = ApiProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);

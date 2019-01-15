@@ -270,14 +270,15 @@ abstract class ApiAccount implements Api, ApiInternals {
           request.domain = localAccount.domain;
           request.deviceInfo = '{}';
           request.deviceName = 'TODO';
-          final NetSession response = await client.create(request).timeout(const Duration(seconds: 15));
+          final NetSession response =
+              await client.create(request).timeout(const Duration(seconds: 15));
           multiAccountStore.setSessionId(
               localAccount.domain,
               localAccount.localId,
               response.account.sessionId,
               response.refreshToken);
-          final ApiSessionToken session =
-              ApiSessionToken(endPoint, _createChannel(endPoint), response.accessToken);
+          final ApiSessionToken session = ApiSessionToken(
+              endPoint, _createChannel(endPoint), response.accessToken);
           _currentLocalAccount = localAccount;
           _accountGhostChanges.clear();
           receivedAccountUpdate(response.account);
@@ -318,9 +319,10 @@ abstract class ApiAccount implements Api, ApiInternals {
           final NetSessionOpen request = NetSessionOpen();
           request.clientVersion = config.clientVersion;
           request.domain = localAccount.domain;
-          final NetSession response = await client.open(request).timeout(const Duration(seconds: 15));
-          final ApiSessionToken session =
-              ApiSessionToken(endPoint, _createChannel(endPoint), response.accessToken);
+          final NetSession response =
+              await client.open(request).timeout(const Duration(seconds: 15));
+          final ApiSessionToken session = ApiSessionToken(
+              endPoint, _createChannel(endPoint), response.accessToken);
           _currentLocalAccount = localAccount;
           _accountGhostChanges.clear();
           receivedAccountUpdate(response.account);
@@ -588,10 +590,10 @@ abstract class ApiAccount implements Api, ApiInternals {
 
   @override
   void markEverythingDirty() {
-      markProfilesDirty();
-      markOffersDirty();
-      markExploreDirty();
-      markProposalsDirty();
+    markProfilesDirty();
+    markOffersDirty();
+    markExploreDirty();
+    markProposalsDirty();
   }
 
   @override

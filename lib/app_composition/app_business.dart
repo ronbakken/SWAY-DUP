@@ -64,8 +64,9 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
     if (offerViewOpen != null) {
       print("[INF] Pop previous offer route");
       Navigator.popUntil(context, (Route<dynamic> route) {
-        return route.settings.name != null && route.settings.name
-            .startsWith('/offer/' + offerViewOpen.toString());
+        return route.settings.name != null &&
+            route.settings.name
+                .startsWith('/offer/' + offerViewOpen.toString());
       });
       if (offerViewOpen == offerId) {
         network.getOffer(offerId); // Background refresh
