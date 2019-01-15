@@ -10,18 +10,13 @@ import 'package:inf_common/inf_common.dart';
 class ActivitiesOffers extends StatefulWidget {
   final String name;
   final List<Int64> offers;
-  final DataOffer Function(BuildContext cibtext, Int64 offerId) getOffer;
-  final ConfigData config;
-
-  final void Function(Int64 offerId) onOfferPressed;
+  final Widget Function(BuildContext cibtext, Int64 offerId) offerBuilder;
 
   const ActivitiesOffers({
     @required this.name,
     Key key,
     @required this.offers,
-    @required this.getOffer,
-    @required this.config,
-    @required this.onOfferPressed,
+    @required this.offerBuilder,
   }) : super(key: key);
 
   @override
@@ -41,22 +36,9 @@ class _ActivitiesOffersState extends State<ActivitiesOffers> {
 
   Widget _tileBuilder(BuildContext context, int index) {
     final Int64 offerId = widget.offers[index];
-    final DataOffer offer = widget.getOffer(context, offerId);
-    final String tag = '${widget.name}-${offer.offerId}';
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: OfferListTile(
-        key: Key(tag),
-        config: widget.config,
-        backGroundColor: AppTheme.listViewItemBackground,
-        offer: offer,
-        onPressed: widget.onOfferPressed == null
-            ? null
-            : () {
-                widget.onOfferPressed(offerId);
-              },
-        heroTag: tag,
-      ),
+      child: widget.offerBuilder(context, offerId),
     );
   }
 
