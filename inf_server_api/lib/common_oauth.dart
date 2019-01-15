@@ -97,7 +97,8 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
             print(debugTokenDoc);
             final dynamic debugData = debugTokenDoc['data'];
             if (debugData['app_id'] != provider.clientId) {
-              opsLog.warning('User specified invalid app (expect ${provider.clientId}) $debugTokenDoc');
+              opsLog.warning(
+                  'User specified invalid app (expect ${provider.clientId}) $debugTokenDoc');
               break;
             }
             if (debugData['is_valid'] != true) {
@@ -108,7 +109,8 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
             oauthCredentials.tokenExpires = debugData['expires_at'];
           }
         } else {
-          devLog.warning("Query doesn't contain the required parameters: $callbackQuery");
+          devLog.warning(
+              "Query doesn't contain the required parameters: $callbackQuery");
         }
       }
       break;
@@ -117,9 +119,7 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
           "OAuth provider '$oauthProvider' has no supported mechanism specified");
   }
   // devLog.finest("OAuth Credentials: $oauthCredentials");
-  return (oauthCredentials.userId.isNotEmpty)
-      ? oauthCredentials
-      : null;
+  return (oauthCredentials.userId.isNotEmpty) ? oauthCredentials : null;
 }
 
 Future<void> saveSocialMedia(int oauthProvider, String body) async {

@@ -142,7 +142,13 @@ class ApiAccountService extends ApiAccountServiceBase {
 
     // TODO: Fetch this from other service
     final DataOAuthCredentials oauthCredentials = await fetchOAuthCredentials(
-        opsLog, devLog, config, oauth1Auth, httpClient, oauthProvider, request.callbackQuery);
+        opsLog,
+        devLog,
+        config,
+        oauth1Auth,
+        httpClient,
+        oauthProvider,
+        request.callbackQuery);
 
     // bool transitionAccount = false;
     // bool connected = false;
