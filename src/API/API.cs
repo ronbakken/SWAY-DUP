@@ -55,35 +55,35 @@ namespace API
                             }),
                     "HttpServiceInstanceListener"),
 
-                // HTTPS
-                new ServiceInstanceListener(
-                    serviceContext =>
-                        new KestrelCommunicationListener(
-                            serviceContext,
-                            "HttpsServiceEndpoint",
-                            (url, listener) =>
-                            {
-                                ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel (HTTPS) on {url}");
+                //// HTTPS
+                //new ServiceInstanceListener(
+                //    serviceContext =>
+                //        new KestrelCommunicationListener(
+                //            serviceContext,
+                //            "HttpsServiceEndpoint",
+                //            (url, listener) =>
+                //            {
+                //                ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting Kestrel (HTTPS) on {url}");
 
-                                return new WebHostBuilder()
-                                            .UseKestrel(
-                                                opt =>
-                                                {
-                                                    var httpsPort = serviceContext.CodePackageActivationContext.GetEndpoint("HttpsServiceEndpoint").Port;
-                                                    opt.Listen(IPAddress.IPv6Any, httpsPort, listenOptions =>
-                                                    {
-                                                        listenOptions.UseHttps(GetCertificateFromStore());
-                                                        listenOptions.NoDelay = true;
-                                                    });
-                                                })
-                                            .ConfigureServices(services => services.AddSingleton<StatelessServiceContext>(serviceContext))
-                                            .UseContentRoot(Directory.GetCurrentDirectory())
-                                            .UseStartup<Startup>()
-                                            .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
-                                            .UseUrls(url)
-                                            .Build();
-                            }),
-                    "HttpsServiceInstanceListener")
+                //                return new WebHostBuilder()
+                //                            .UseKestrel(
+                //                                opt =>
+                //                                {
+                //                                    var httpsPort = serviceContext.CodePackageActivationContext.GetEndpoint("HttpsServiceEndpoint").Port;
+                //                                    opt.Listen(IPAddress.IPv6Any, httpsPort, listenOptions =>
+                //                                    {
+                //                                        listenOptions.UseHttps(GetCertificateFromStore());
+                //                                        listenOptions.NoDelay = true;
+                //                                    });
+                //                                })
+                //                            .ConfigureServices(services => services.AddSingleton<StatelessServiceContext>(serviceContext))
+                //                            .UseContentRoot(Directory.GetCurrentDirectory())
+                //                            .UseStartup<Startup>()
+                //                            .UseServiceFabricIntegration(listener, ServiceFabricIntegrationOptions.None)
+                //                            .UseUrls(url)
+                //                            .Build();
+                //            }),
+                //    "HttpsServiceInstanceListener")
             };
         }
 
