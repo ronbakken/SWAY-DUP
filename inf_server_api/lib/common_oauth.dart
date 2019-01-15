@@ -7,6 +7,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 import 'dart:convert';
 
 import 'package:inf_common/inf_common.dart';
+import 'package:logging/logging.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:http/http.dart' as http;
 import 'package:grpc/grpc.dart' as grpc;
@@ -16,6 +17,8 @@ import 'package:pedantic/pedantic.dart';
 
 /// Fetches access token credentials for a user from an OAuth provider by auth callback query
 Future<DataOAuthCredentials> fetchOAuthCredentials(
+    Logger opsLog,
+    Logger devLog,
     ConfigData config,
     List<oauth1.Authorization> oauth1Auth,
     http.Client httpClient,
@@ -57,8 +60,9 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
         // Facebook, Spotify-like. Much easier (but less standardized)
         if (query.containsKey('code')) {
           // Facebook-like
-          Uri baseUri = Uri.parse(provider.host + provider.accessTokenUrl);
-          Map<String, String> requestQuery = <String, String>{};
+          final Uri baseUri =
+              Uri.parse(provider.host + provider.accessTokenUrl);
+          final Map<String, String> requestQuery = <String, String>{};
           requestQuery['client_id'] = provider.clientId;
           requestQuery['client_secret'] = provider.clientSecret;
           requestQuery['redirect_uri'] = provider.callbackUrl;
@@ -76,11 +80,14 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
           oauthCredentials.tokenExpires =
               (DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) +
                   accessTokenDoc['expires_in'];
-          if (oauthCredentials.token != null &&
-              oauthProvider == OAuthProviderIds.facebook.value) {
+        } else if (query.containsKey('access_token')) {
+          oauthCredentials.token = query['access_token'];
+        }
+        if (oauthCredentials.token.isNotEmpty) {
+          if (oauthProvider == OAuthProviderIds.facebook.value) {
             // Facebook
-            baseUri = Uri.parse(provider.host + '/v3.1/debug_token');
-            requestQuery = <String, String>{};
+            final Uri baseUri = Uri.parse(provider.host + '/v3.1/debug_token');
+            final Map<String, String> requestQuery = <String, String>{};
             requestQuery['input_token'] = '${oauthCredentials.token}';
             requestQuery['access_token'] =
                 '${provider.clientId}|${provider.clientSecret}';
@@ -90,27 +97,27 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
             print(debugTokenDoc);
             final dynamic debugData = debugTokenDoc['data'];
             if (debugData['app_id'] != provider.clientId) {
-              // opsLog.warning("User specified invalid app (expect ${provider.clientId}) $debugTokenDoc");
+              opsLog.warning('User specified invalid app (expect ${provider.clientId}) $debugTokenDoc');
               break;
             }
             if (debugData['is_valid'] != true) {
-              // opsLog.warning("User token not valid $debugTokenDoc");
+              opsLog.warning('User token not valid $debugTokenDoc');
               break;
             }
             oauthCredentials.userId = debugData['user_id'];
             oauthCredentials.tokenExpires = debugData['expires_at'];
           }
         } else {
-          // devLog.warning("Query doesn't contain the required parameters: ${callbackQuery}");
+          devLog.warning("Query doesn't contain the required parameters: $callbackQuery");
         }
-        break;
       }
+      break;
     default:
       throw grpc.GrpcError.invalidArgument(
           "OAuth provider '$oauthProvider' has no supported mechanism specified");
   }
   // devLog.finest("OAuth Credentials: $oauthCredentials");
-  return (oauthCredentials.userId != null && oauthCredentials.userId.isNotEmpty)
+  return (oauthCredentials.userId.isNotEmpty)
       ? oauthCredentials
       : null;
 }
