@@ -131,7 +131,6 @@ Future<void> main() async {
   tearDownAll(() async {
     final ConfigOAuthProvider facebook =
         serverConfig.oauthProviders[OAuthProviderIds.facebook.value];
-    /*
     if (supportFacebook['id'] != null) {
       final dynamic influencerDelete = json.decode((await httpClient.delete(
               Uri.parse(facebook.host + "/v3.2/${supportFacebook['id']}")
@@ -159,15 +158,6 @@ Future<void> main() async {
           .body);
       Logger('TearDown').fine('$influencerDelete');
     }
-    */
-    final dynamic testUsersDelete = json.decode((await httpClient.delete(
-            Uri.parse(facebook.host + '/v3.2')
-                .replace(queryParameters: <String, dynamic>{
-      'access_token': '${facebook.clientId}|${facebook.clientSecret}',
-      'ids': "${influencerFacebook['id']},${businessFacebook['id']},${supportFacebook['id']}"
-    })))
-        .body);
-    Logger('TearDown').fine('$testUsersDelete');
     await channel.terminate();
   });
 
