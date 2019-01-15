@@ -1,6 +1,4 @@
 #addin nuget:?package=Cake.Git&version=0.19.0
-using Microsoft.ServiceFabric.Common;
-using Microsoft.ServiceFabric.Client.Exceptions;
 #addin nuget:?package=Newtonsoft.Json&version=11.0.2
 
 // TODO: should be able to load dependencies without having to manually specify them, but it isn't currently working.
@@ -54,6 +52,8 @@ using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Models;
 using Microsoft.ServiceFabric.Client;
+using Microsoft.ServiceFabric.Client.Exceptions;
+using Microsoft.ServiceFabric.Common;
 using Microsoft.ServiceFabric.Common.Security;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -76,9 +76,9 @@ var configuration = "Release";
 var srcDir = Directory("src");
 var pkgDir = Directory("pkg") + Directory(configuration);
 var zippedPackageFile = Directory("pkg") + File("package.sfpkg");
+var pfxFile = File("Azure.pfx");
 var infrastructureTemplateFile = srcDir + File("arm_infrastructure.json");
 var applicationTemplateFile = srcDir + File("arm_service_fabric_app.json");
-var pfxFile = File("Azure.pfx");
 
 // Variables.
 var resourceNamePrefix = $"inf-{environment}";
@@ -190,23 +190,23 @@ Task("Deploy")
                     .Replace("\"", "\\\"");
 
                 var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
-                // var infrastructureDeployment = await DeployARMTemplate(
-                //     context,
-                //     resourceManagementClient,
-                //     certificateBundle,
-                //     resourceGroupName,
-                //     resourceNamePrefix,
-                //     infrastructureTemplateFile,
-                //     new Dictionary<string, object>
-                //     {
-                //         { "resourcePrefix", resourceNamePrefix },
-                //         { "certificateThumbprint", certificateThumbprint },
-                //         { "automationCertificateThumbprint", automationCertificate.Thumbprint },
-                //         { "certificateUrlValue", certificateBundle.SecretIdentifier.Identifier },
-                //         { "sourceVaultResourceId", keyVault.Id },
-                //         { "rdpPassword", escapedRdpPassword },
-                //         { "vmInstanceCount", vmInstanceCount },
-                //     });
+                var infrastructureDeployment = await DeployARMTemplate(
+                    context,
+                    resourceManagementClient,
+                    certificateBundle,
+                    resourceGroupName,
+                    resourceNamePrefix,
+                    infrastructureTemplateFile,
+                    new Dictionary<string, object>
+                    {
+                        { "resourcePrefix", resourceNamePrefix },
+                        { "certificateThumbprint", certificateThumbprint },
+                        { "automationCertificateThumbprint", automationCertificate.Thumbprint },
+                        { "certificateUrlValue", certificateBundle.SecretIdentifier.Identifier },
+                        { "sourceVaultResourceId", keyVault.Id },
+                        { "rdpPassword", escapedRdpPassword },
+                        { "vmInstanceCount", vmInstanceCount },
+                    });
 
                 var applicationDeployment = await DeployARMTemplate(
                     context,
@@ -227,68 +227,6 @@ Task("Deploy")
                 Information($"Deleting storage container with name '{storageContainerName}'.");
                 await cloudBlobContainer.DeleteAsync();
             }
-
-            // var outputs = ((JObject)deployment.Properties.Outputs);
-            // var clusterManagementEndpoint = (string)outputs["clusterProperties"]["value"]["managementEndpoint"];
-            // var clusterManagementUri = new Uri(clusterManagementEndpoint);
-
-            // // https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-connect-to-secure-cluster#connect-to-a-cluster-using-the-fabricclient-apis
-            // var fabricClient = await new ServiceFabricClientBuilder()
-            //     .UseEndpoints(clusterManagementUri)
-            //     .UseX509Security(
-            //         _ =>
-            //         {
-            //             var remoteSecuritySettings = new RemoteX509SecuritySettings(new List<string> { GenerateThumbprintFor(certificateBundle.X509Thumbprint) });
-            //             var x509SecuritySettings = new X509SecuritySettings(automationCertificate, remoteSecuritySettings);
-            //             return System.Threading.Tasks.Task.FromResult<SecuritySettings>(x509SecuritySettings);
-            //         })
-            //     .BuildAsync();
-
-            // Information("Waiting for cluster management endpoint to become available.");
-
-            // while (true)
-            // {
-            //     try
-            //     {
-            //         var clusterHealth = await fabricClient.Cluster.GetClusterHealthAsync();
-
-            //         if (clusterHealth.AggregatedHealthState == HealthState.Ok)
-            //         {
-            //             Information("Connected to cluster management endpoint.");
-            //             break;
-            //         }
-
-            //         Debug($"Cluster health is not OK. It is '{clusterHealth.AggregatedHealthState}' - waiting.");
-            //     }
-            //     catch (ServiceFabricRequestException)
-            //     {
-            //         Information("Unable to connect to Service Fabric management endpoint - waiting.");
-            //     }
-
-            //     await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(10));
-            // }
-
-            // Information("Uploading package to image store.");
-            // await fabricClient
-            //     .ImageStore
-            //     .UploadApplicationPackageAsync(pkgDir, compressPackage: false, applicationPackagePathInImageStore: resourceNamePrefix);
-
-            // Information("Provisioning application type.");
-            // var applicationTypeDescription = new ProvisionApplicationTypeDescription(
-            //     resourceNamePrefix,
-            //     applicationPackageCleanupPolicy: ApplicationPackageCleanupPolicy.Automatic);
-            // await fabricClient
-            //     .ApplicationTypes
-            //     .ProvisionApplicationTypeAsync(applicationTypeDescription);
-
-            // Information("Creating application.");
-            // var applicationDescription = new ApplicationDescription(
-            //     new ApplicationName("fabric:/" + resourceNamePrefix),
-            //     resourceNamePrefix,
-            //     "1.0.0");
-            // await fabricClient
-            //     .Applications
-            //     .CreateApplicationAsync(applicationDescription);
 
             Information($"Done");
         });

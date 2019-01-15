@@ -246,6 +246,25 @@
                      },
                      "protocol": "Tcp"
                   }
+               },
+               {
+                  "name": "LBAPIRuleHTTP",
+                  "properties": {
+                     "backendAddressPool": {
+                        "id": "[variables('lbPoolID0')]"
+                     },
+                     "backendPort": 9026,
+                     "enableFloatingIP": false,
+                     "frontendIPConfiguration": {
+                        "id": "[variables('lbIPConfig0')]"
+                     },
+                     "frontendPort": 9026,
+                     "idleTimeoutInMinutes": 5,
+                     "probe": {
+                        "id": "[variables('lbHttpProbeID0')]"
+                     },
+                     "protocol": "Tcp"
+                  }
                }
             ],
             "probes": [
