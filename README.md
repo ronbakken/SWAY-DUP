@@ -74,6 +74,20 @@ graph TD;
     Push --> Explore
 ```
 
+Dependency graph of modules within the API service.
+
+```mermaid
+graph TD;
+    Session --> Account
+    Account --> OAuth
+    Account --> Storage
+    Offers --> Account
+    Offers --> Storage
+    Profiles
+    Proposals --> Account
+    Proposals --> Offers
+```
+
 ## Todo
 
 - Use gRPC.
