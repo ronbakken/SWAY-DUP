@@ -608,7 +608,7 @@ class ApiAccountService extends ApiAccountServiceBase {
       GlobalAccountState globalAccountState;
       GlobalAccountStateReason globalAccountStateReason;
       // Initial approval state for accounts is defined here
-      switch (auth.accountType) {
+      switch (accountless.accountType) {
         case AccountType.business:
         case AccountType.influencer:
           // globalAccountState = GlobalAccountState.pending;
