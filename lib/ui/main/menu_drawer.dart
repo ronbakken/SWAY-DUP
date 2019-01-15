@@ -158,8 +158,7 @@ class MainNavigationDrawer extends StatelessWidget {
               child: FlatButton(
                 padding: EdgeInsets.only(left: 8.0, right: 8.0),
                 onPressed: ()  {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(ProfilePrivatePage.route());
+                   Navigator.of(context).push(ProfilePrivatePage.route());
                 },
                 child: Text(
                   'View profile',

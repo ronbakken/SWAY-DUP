@@ -23,6 +23,11 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   BehaviorSubject<User> currentUserUpdatesSubject = BehaviorSubject<User>();
 
   @override
+  Observable<List<SocialMediaAccount>> get currentUserSocialMediaUpdates => currentUserSocialMediaUpdatesSubject;
+  BehaviorSubject<List<SocialMediaAccount>> currentUserSocialMediaUpdatesSubject =
+      BehaviorSubject<List<SocialMediaAccount>>();
+
+  @override
   Future<bool> loginUserWithToken() async {
     if (userTestToken != null) {
       var tokenMessage = RefreshTokenMessage()..refreshToken = userTestToken;
@@ -74,12 +79,20 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   @override
-  Observable<SocialMediaAccounts> getSocialMediaAccounts(int userId) {
-    return Observable(
-      backend
-          .get<InfApiClientsService>()
-          .authClient
-          .getSocialMediaAccountsForUser(SocialMediaRequest()..userId = userId),
-    );
+  Future<List<SocialMediaAccount>> getSocialMediaAccountsByUserId(int userId) async {
+    var accounts = await backend
+        .get<InfApiClientsService>()
+        .authClient
+        .getSocialMediaAccountsForUser(SocialMediaRequest()..userId = userId);
+    return accounts.accounts;
+  }
+
+  @override
+  Future<void> updateSocialMediaAccounts() async {
+    var accounts = await getSocialMediaAccountsByUserId(currentUser.id);
+    if (accounts != null)
+    {
+        currentUserSocialMediaUpdatesSubject.add(accounts);
+    }
   }
 }

@@ -20,13 +20,18 @@ abstract class UserManager {
 
   User get currentUser;
   Observable<User> get currentUserUpdates;
+  Observable<List<SocialMediaAccountWrapper>> get currentSocialMediaAccountsUpdates;  
+
+
   // User Commands
   RxCommand<void, bool> logInUserCommand;
   RxCommand<User, void> updateUserCommand;
   RxCommand<SocialMediaAccount, void> updateSocialMediaAccountCommand;
+
+  // Updates the underlying Subject of currentSocialMediaAccountsUpdates from the server
+  RxCommand<void, void> updateSocialMediaDataCommand;
   // RxCommand<User, void> createUserByEmailCommand;
 
-  Observable<List<SocialMediaAccountWrapper>> getSocialMediaAccounts(User user);  
 
 }
 

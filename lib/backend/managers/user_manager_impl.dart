@@ -21,25 +21,35 @@ class UserManagerImplementation implements UserManager {
   RxCommand<SocialMediaAccount, void> updateSocialMediaAccountCommand;
 
   @override
+  RxCommand<void, void> updateSocialMediaDataCommand;
+
+  @override
   RxCommand<User, void> updateUserCommand;
 
   UserManagerImplementation() {
-    logInUserCommand = RxCommand.createAsyncNoParam(backend.get<AuthenticationService>().loginUserWithToken);
+    var authenticationService = backend.get<AuthenticationService>();
+
+    logInUserCommand = RxCommand.createAsyncNoParam(authenticationService.loginUserWithToken);
 
     updateSocialMediaAccountCommand = RxCommand.createAsyncNoResult<SocialMediaAccount>(
-        (account) => backend.get<AuthenticationService>().updateSocialMediaAccount(account));
+        (account) => authenticationService.updateSocialMediaAccount(account));
 
-    updateUserCommand =
-        RxCommand.createAsyncNoResult<User>((user) => backend.get<AuthenticationService>().updateUser(user));
+    updateUserCommand = RxCommand.createAsyncNoResult<User>((user) => authenticationService.updateUser(user));
+
+    updateSocialMediaDataCommand =
+        RxCommand.createAsyncNoParamNoResult(authenticationService.updateSocialMediaAccounts);
   }
 
   @override
   Observable<User> get currentUserUpdates => backend.get<AuthenticationService>().currentUserUpdates;
 
   @override
-  Observable<List<SocialMediaAccountWrapper>> getSocialMediaAccounts(User user) {
-    return backend.get<AuthenticationService>().getSocialMediaAccounts(user.id).map((socialMediaAccounts) {
-      return socialMediaAccounts.accounts.map<SocialMediaAccountWrapper>((account) {
+  Observable<List<SocialMediaAccountWrapper>> get currentSocialMediaAccountsUpdates {
+    return backend
+        .get<AuthenticationService>()
+        .currentUserSocialMediaUpdates
+        .map<List<SocialMediaAccountWrapper>>((socialMediaAccounts) {
+      return socialMediaAccounts.map<SocialMediaAccountWrapper>((account) {
         var provider = backend
             .get<ConfigService>()
             .socialNetworkProviders

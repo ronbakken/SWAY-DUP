@@ -24,7 +24,7 @@ class ProfileInfluencerView extends StatelessWidget {
         ),
         Container(color: AppTheme.listViewItemBackground,
           child: StreamBuilder<List<SocialMediaAccountWrapper>>(
-            stream: backend.get<UserManager>().getSocialMediaAccounts(user),
+            stream: backend.get<UserManager>().currentSocialMediaAccountsUpdates,
             builder: (context, snapShot) {
               if (snapShot.hasData) {
                 var rowItems = <Widget>[];

@@ -162,7 +162,7 @@ class AuthenticationServiceMock implements AuthenticationService {
   }
 
   @override
-  Observable<SocialMediaAccounts> getSocialMediaAccounts(int userId) {
+  Future<List<SocialMediaAccount>> getSocialMediaAccountsByUserId(int userId) async {
       var socialMediaAccounts = <SocialMediaAccount> [
           SocialMediaAccount()
             ..id = 1
@@ -218,11 +218,16 @@ class AuthenticationServiceMock implements AuthenticationService {
             }
         }
 
-        var accountsList = <SocialMediaAccounts>[]
-          ..add(SocialMediaAccounts()
-          ..accounts.addAll(accounts)
-          ..accounts.addAll(accounts)
-          );
-        return Observable.fromIterable(accountsList);
+        return Future.value(accounts);
+  }
+
+  @override
+  // TODO: implement currentUserSocialMediaUpdates
+  Observable<List<SocialMediaAccount>> get currentUserSocialMediaUpdates => null;
+
+  @override
+  Future<void> updateSocialMediaAccounts() {
+    // TODO: implement updateSocialMediaAccounts
+    return null;
   }
 }

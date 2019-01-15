@@ -11,12 +11,26 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-class ProfilePrivatePage extends StatelessWidget {
+class ProfilePrivatePage extends StatefulWidget {
   static Route<dynamic> route() {
     return FadePageRoute(
       builder: (BuildContext context) => ProfilePrivatePage(),
     );
   }
+
+  @override
+  ProfilePrivatePageState createState() {
+    return new ProfilePrivatePageState();
+  }
+}
+
+class ProfilePrivatePageState extends State<ProfilePrivatePage> {
+
+  @override
+    void initState() {
+      backend.get<UserManager>().updateSocialMediaDataCommand();
+      super.initState();
+    }
 
   @override
   Widget build(BuildContext context) {

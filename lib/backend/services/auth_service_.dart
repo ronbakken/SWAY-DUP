@@ -54,6 +54,7 @@ abstract class AuthenticationService {
 
   User get currentUser;
   Observable<User> get currentUserUpdates;
+  Observable<List<SocialMediaAccount>> get currentUserSocialMediaUpdates;
 
   Future<bool> loginUserWithToken();
 
@@ -63,7 +64,9 @@ abstract class AuthenticationService {
   Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia);
   Future<void> updateUser(User user);
 
-  Observable<SocialMediaAccounts> getSocialMediaAccounts(int userId);
+  Future <void> updateSocialMediaAccounts();
+
+  Future<List<SocialMediaAccount>> getSocialMediaAccountsByUserId(int userId);
 
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);

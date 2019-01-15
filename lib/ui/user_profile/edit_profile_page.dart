@@ -42,7 +42,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             child: Column(mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 StreamBuilder<List<SocialMediaAccountWrapper>>(
-                    stream: backend.get<UserManager>().getSocialMediaAccounts(user),
+                    stream: backend.get<UserManager>().currentSocialMediaAccountsUpdates,
                     builder: (context, snapShot) {
                       if (snapShot.hasData) {
                         var entries = <Widget>[];
