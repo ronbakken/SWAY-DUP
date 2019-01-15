@@ -110,7 +110,6 @@ graph TD;
 
 ## Todo
 
-- Use gRPC.
 - Separate social media fetching.
 - Put profile information into Elasticsearch instead of SQL. (That is, user profile details, not account data.)
 - Separate where necessary.
