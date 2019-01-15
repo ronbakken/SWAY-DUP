@@ -1,4 +1,6 @@
 #addin nuget:?package=Cake.Git&version=0.19.0
+using Microsoft.ServiceFabric.Common;
+using Microsoft.ServiceFabric.Client.Exceptions;
 #addin nuget:?package=Newtonsoft.Json&version=11.0.2
 
 // TODO: should be able to load dependencies without having to manually specify them, but it isn't currently working.
@@ -36,6 +38,8 @@
 #addin nuget:?package=Microsoft.Rest.ClientRuntime&version=2.3.18
 #addin nuget:?package=Microsoft.Rest.ClientRuntime.Azure&version=3.3.18
 #addin nuget:?package=Microsoft.Rest.ClientRuntime.Azure.Authentication&version=2.3.6
+#addin nuget:?package=Microsoft.ServiceFabric.Client.Http&version=2.0.0-preview1
+#addin nuget:?package=WindowsAzure.Storage&version=9.3.3
 
 using System;
 using System.Net;
@@ -49,6 +53,10 @@ using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Models;
+using Microsoft.ServiceFabric.Client;
+using Microsoft.ServiceFabric.Common.Security;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -60,8 +68,17 @@ var environment = EnvironmentVariable("ENVIRONMENT");
 var subscriptionId = EnvironmentVariable("AZURE_SUBSCRIPTION_ID");
 var clientId = EnvironmentVariable("AZURE_CLIENT_ID");
 var tenantId = EnvironmentVariable("AZURE_TENANT_ID");
-var vmInstanceCount = EnvironmentVariable("VM_INSTANCE_COUNT") ?? "1";
+var storageAccountConnectionString = EnvironmentVariable("AZURE_STORAGE_ACCOUNT_CONNECTION_STRING");
+var vmInstanceCount = int.Parse(EnvironmentVariable("VM_INSTANCE_COUNT") ?? "1");
 var configuration = "Release";
+
+// Paths.
+var srcDir = Directory("src");
+var pkgDir = Directory("pkg") + Directory(configuration);
+var zippedPackageFile = Directory("pkg") + File("package.sfpkg");
+var infrastructureTemplateFile = srcDir + File("arm_infrastructure.json");
+var applicationTemplateFile = srcDir + File("arm_service_fabric_app.json");
+var pfxFile = File("Azure.pfx");
 
 // Variables.
 var resourceNamePrefix = $"inf-{environment}";
@@ -69,11 +86,13 @@ var resourceGroupName = resourceNamePrefix;
 var keyVaultName = $"{resourceNamePrefix}-KeyVault";
 var certificateName = $"{resourceNamePrefix}-Certificate";
 
-// Paths.
-var srcDir = Directory("src");
-var pkgDir = Directory("pkg") + Directory(configuration);
-var templateFile = srcDir + File("arm_template.json");
-var pfxFile = File("Azure.pfx");
+if (!FileExists(pfxFile))
+{
+    throw new Exception($"The PFX file, '{pfxFile}', used to authenticate with Azure could not be found.");
+}
+
+// The certificate used for CI/automation (not to be confused with the certificate generated below and used to secure nodes in the cluster).
+var automationCertificate = new X509Certificate2(pfxFile);
 
 Setup(
     context =>
@@ -82,49 +101,17 @@ Setup(
         Information($"Region '{region}', environment '{environment}', subscription ID '{subscriptionId}', client ID '{clientId}', tenant ID '{tenantId}'.");
     });
 
-Task("Deploy")
-    .IsDependentOn("Deploy-Infrastructure")
-    .IsDependentOn("Deploy-Application");
-
-Task("Deploy-Infrastructure")
-    .Does(
-        async (context) =>
-        {
-            if (!FileExists(pfxFile))
-            {
-                throw new Exception($"The PFX file, '{pfxFile}', used to authenticate with Azure could not be found.");
-            }
-
-            // Deploy the ARM template describing the infrastructure requirements of our Service Fabric application.
-            var credentials = CreateAzureCredentials(context, clientId, tenantId, pfxFile);
-            var azure = CreateAuthenticatedAzureClient(context, credentials);
-            var resourceGroup = await EnsureResourceGroup(context, azure, resourceGroupName, region);
-            var keyVault = await EnsureKeyVault(context, azure, keyVaultName, resourceGroupName, region);
-            var selfSignedCertificatePassword = GenerateRandomPassword(8);
-            var selfSignedCertificate = CreateSelfSignedServerCertificate(context, certificateName, selfSignedCertificatePassword);
-            var certificateBundle = await EnsureCertificate(
-                context,
-                azure,
-                keyVault,
-                selfSignedCertificate,
-                certificateName,
-                selfSignedCertificatePassword);
-            await DeployResourceGroup(
-                context,
-                azure,
-                credentials,
-                templateFile,
-                subscriptionId,
-                resourceGroupName,
-                resourceNamePrefix,
-                certificateBundle,
-                vmInstanceCount,
-                keyVault);
-        });
-
-Task("Deploy-Application")
+Task("Clean")
     .Does(
         () =>
+        {
+            CleanDirectories(pkgDir);
+        });
+
+Task("Deploy")
+    .IsDependentOn("Clean")
+    .Does(
+        async (context) =>
         {
             // Build and deploy the Service Fabric application itself.
             Information("Restoring packages.");
@@ -146,10 +133,164 @@ Task("Deploy-Application")
                 CopyFiles(GetFiles((serviceDir + Directory("PackageRoot")).ToString() + "/**/*"), servicePkgDir, preserveFolderStructure: true);
             }
 
+            Information("Publishing services.");
             PublishService("User");
             PublishService("API");
 
             CopyFileToDirectory(srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml"), pkgDir);
+
+            Information("Zipping deployment package.");
+            Zip(pkgDir, zippedPackageFile);
+
+            Information("Uploading deployment package to Azure storage.");
+
+            if (!CloudStorageAccount.TryParse(storageAccountConnectionString, out var storageAccount))
+            {
+                throw new Exception($"Azure storage account connection string '{storageAccountConnectionString}' is not valid.");
+            }
+
+            var cloudBlobClient = storageAccount.CreateCloudBlobClient();
+
+            var storageContainerName = $"{resourceNamePrefix}-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}-{Guid.NewGuid()}";
+            Information($"Creating storage container with name '{storageContainerName}'.");
+            var cloudBlobContainer = cloudBlobClient.GetContainerReference(storageContainerName);
+            await cloudBlobContainer.CreateAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions(), new OperationContext());
+            Uri packageUri;
+
+            try
+            {
+                Information("Uploading package as blob...");
+                var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(System.IO.Path.GetFileName(zippedPackageFile));
+                await cloudBlockBlob.UploadFromFileAsync(zippedPackageFile);
+                packageUri = cloudBlockBlob.Uri;
+                Information($"Uploaded, available at URI '{packageUri}'.");
+
+                // Deploy the ARM templates describing the requirements of our Service Fabric application.
+                var credentials = CreateAzureCredentials(context, clientId, tenantId, automationCertificate);
+                var azure = CreateAuthenticatedAzureClient(context, credentials);
+                var resourceManagementClient = CreateResourceManagementClient(credentials, subscriptionId);
+                var resourceGroup = await EnsureResourceGroup(context, azure, resourceGroupName, region);
+                var keyVault = await EnsureKeyVault(context, azure, keyVaultName, resourceGroupName, region);
+                var selfSignedCertificatePassword = GenerateRandomPassword(16);
+                var selfSignedCertificate = CreateSelfSignedServerCertificate(context, certificateName, selfSignedCertificatePassword);
+                var certificateBundle = await EnsureCertificate(
+                    context,
+                    azure,
+                    keyVault,
+                    selfSignedCertificate,
+                    certificateName,
+                    selfSignedCertificatePassword);
+
+                // Deploy infrastructure template.
+                var passwordSeed = BitConverter.ToInt32(certificateBundle.X509Thumbprint, 0);
+                var rdpPassword = GenerateRandomPassword(16, seed: passwordSeed);
+                context.Information($"RDP password is '{rdpPassword}'.");
+                var escapedRdpPassword = rdpPassword
+                    .Replace("\\", "\\\\")
+                    .Replace("\"", "\\\"");
+
+                var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
+                // var infrastructureDeployment = await DeployARMTemplate(
+                //     context,
+                //     resourceManagementClient,
+                //     certificateBundle,
+                //     resourceGroupName,
+                //     resourceNamePrefix,
+                //     infrastructureTemplateFile,
+                //     new Dictionary<string, object>
+                //     {
+                //         { "resourcePrefix", resourceNamePrefix },
+                //         { "certificateThumbprint", certificateThumbprint },
+                //         { "automationCertificateThumbprint", automationCertificate.Thumbprint },
+                //         { "certificateUrlValue", certificateBundle.SecretIdentifier.Identifier },
+                //         { "sourceVaultResourceId", keyVault.Id },
+                //         { "rdpPassword", escapedRdpPassword },
+                //         { "vmInstanceCount", vmInstanceCount },
+                //     });
+
+                var applicationDeployment = await DeployARMTemplate(
+                    context,
+                    resourceManagementClient,
+                    certificateBundle,
+                    resourceGroupName,
+                    resourceNamePrefix,
+                    applicationTemplateFile,
+                    new Dictionary<string, object>
+                    {
+                        { "resourcePrefix", resourceNamePrefix },
+                        { "appVersion", "1.0.0" },
+                        { "appPackageUri", packageUri },
+                    });
+            }
+            finally
+            {
+                Information($"Deleting storage container with name '{storageContainerName}'.");
+                await cloudBlobContainer.DeleteAsync();
+            }
+
+            // var outputs = ((JObject)deployment.Properties.Outputs);
+            // var clusterManagementEndpoint = (string)outputs["clusterProperties"]["value"]["managementEndpoint"];
+            // var clusterManagementUri = new Uri(clusterManagementEndpoint);
+
+            // // https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-connect-to-secure-cluster#connect-to-a-cluster-using-the-fabricclient-apis
+            // var fabricClient = await new ServiceFabricClientBuilder()
+            //     .UseEndpoints(clusterManagementUri)
+            //     .UseX509Security(
+            //         _ =>
+            //         {
+            //             var remoteSecuritySettings = new RemoteX509SecuritySettings(new List<string> { GenerateThumbprintFor(certificateBundle.X509Thumbprint) });
+            //             var x509SecuritySettings = new X509SecuritySettings(automationCertificate, remoteSecuritySettings);
+            //             return System.Threading.Tasks.Task.FromResult<SecuritySettings>(x509SecuritySettings);
+            //         })
+            //     .BuildAsync();
+
+            // Information("Waiting for cluster management endpoint to become available.");
+
+            // while (true)
+            // {
+            //     try
+            //     {
+            //         var clusterHealth = await fabricClient.Cluster.GetClusterHealthAsync();
+
+            //         if (clusterHealth.AggregatedHealthState == HealthState.Ok)
+            //         {
+            //             Information("Connected to cluster management endpoint.");
+            //             break;
+            //         }
+
+            //         Debug($"Cluster health is not OK. It is '{clusterHealth.AggregatedHealthState}' - waiting.");
+            //     }
+            //     catch (ServiceFabricRequestException)
+            //     {
+            //         Information("Unable to connect to Service Fabric management endpoint - waiting.");
+            //     }
+
+            //     await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(10));
+            // }
+
+            // Information("Uploading package to image store.");
+            // await fabricClient
+            //     .ImageStore
+            //     .UploadApplicationPackageAsync(pkgDir, compressPackage: false, applicationPackagePathInImageStore: resourceNamePrefix);
+
+            // Information("Provisioning application type.");
+            // var applicationTypeDescription = new ProvisionApplicationTypeDescription(
+            //     resourceNamePrefix,
+            //     applicationPackageCleanupPolicy: ApplicationPackageCleanupPolicy.Automatic);
+            // await fabricClient
+            //     .ApplicationTypes
+            //     .ProvisionApplicationTypeAsync(applicationTypeDescription);
+
+            // Information("Creating application.");
+            // var applicationDescription = new ApplicationDescription(
+            //     new ApplicationName("fabric:/" + resourceNamePrefix),
+            //     resourceNamePrefix,
+            //     "1.0.0");
+            // await fabricClient
+            //     .Applications
+            //     .CreateApplicationAsync(applicationDescription);
+
+            Information($"Done");
         });
 
 Task("Start-Docker")
@@ -183,12 +324,10 @@ private static AzureCredentials CreateAzureCredentials(
     ICakeContext context,
     string clientId,
     string tenantId,
-    ConvertableFilePath pfxFile)
+    X509Certificate2 automationCertificate)
 {
     context.Information($"Creating Azure credentials for client ID '{clientId}', tenant ID '{tenantId}'.");
 
-    // The certificate used for CI/automation (not to be confused with the certificate used to secure nodes in the cluster).
-    var automationCertificate = new X509Certificate2(pfxFile);
     var credentials = SdkContext
         .AzureCredentialsFactory
         .FromServicePrincipal(
@@ -220,6 +359,23 @@ private static IAzure CreateAuthenticatedAzureClient(ICakeContext context, Azure
 //        .GetByNameAsync("Developer");
 
     return azure;
+}
+
+private static ResourceManagementClient CreateResourceManagementClient(AzureCredentials credentials, string subscriptionId)
+{
+    var restClient = RestClient
+        .Configure()
+        .WithEnvironment(AzureEnvironment.AzureGlobalCloud)
+        .WithCredentials(credentials)
+        .WithLogLevel(HttpLoggingDelegatingHandler.Level.Basic)
+        .Build();
+
+    var resourceManagementClient = new ResourceManagementClient(restClient)
+    {
+        SubscriptionId = subscriptionId,
+    };
+
+    return resourceManagementClient;
 }
 
 private static async Task<IResourceGroup> EnsureResourceGroup(ICakeContext context, IAzure azure, string name, string region)
@@ -275,6 +431,7 @@ private static async Task<IVault> EnsureKeyVault(ICakeContext context, IAzure az
             .AllowCertificateAllPermissions()
             .Attach()
             .WithDeploymentEnabled()
+            .WithTemplateDeploymentEnabled()
             .CreateAsync();
         context.Information($"Key vault '{name}' created in region '{region}'.");
     }
@@ -339,7 +496,7 @@ private static async Task<CertificateBundle> EnsureCertificate(
 
     if (existingCertificate == null)
     {
-        context.Information($"Certificate with name '{certificateName}', thumbprint '{certificate.Thumbprint}' does not yet exist in vault with name '{vault.Name}' - importing it.");
+        context.Information($"Certificate with name '{certificateName}', thumbprint '{certificate.Thumbprint}', password '{certificatePassword}' does not yet exist in vault with name '{vault.Name}' - importing it.");
         var certificates = new X509Certificate2Collection(certificate);
         result = await vault
             .Client
@@ -355,125 +512,189 @@ private static async Task<CertificateBundle> EnsureCertificate(
     return result;
 }
 
-private static async Task<DeploymentExtendedInner> DeployResourceGroup(
+private static async Task<DeploymentExtendedInner> DeployARMTemplate(
     ICakeContext context,
-    IAzure azure,
-    AzureCredentials credentials,
-    ConvertableFilePath templateFile,
-    string subscriptionId,
+    ResourceManagementClient resourceManagementClient,
+    CertificateBundle certificateBundle,
     string resourceGroupName,
     string resourceNamePrefix,
-    CertificateBundle certificateBundle,
-    string vmInstanceCount,
-    IVault vault)
+    ConvertableFilePath templateFile,
+    IDictionary<string, object> templateParameters)
 {
-    context.Information($"Deploying resource template with deployment name '{resourceNamePrefix}'.");
+    context.Information($"Deploying ARM template '{templateFile}' using deployment name '{resourceNamePrefix}'.");
 
-    var restClient = RestClient
-        .Configure()
-        .WithEnvironment(AzureEnvironment.AzureGlobalCloud)
-        .WithCredentials(credentials)
-        .WithLogLevel(HttpLoggingDelegatingHandler.Level.Basic)
-        .Build();
+    var templateContents = System.IO.File.ReadAllText(templateFile);
 
-    using (var resourceManagementClient = new ResourceManagementClient(restClient))
+    // The RDP password should never be used in a Service Fabric cluster, but we need to assign one all the same.
+    // We also need to ensure it is the same password if the cluster is being re-deployed, since the admin password cannot be updated.
+    // We do that by seeding the RNG from the thumbprint of the certificate being used in the environment.
+    var passwordSeed = BitConverter.ToInt32(certificateBundle.X509Thumbprint, 0);
+    var rdpPassword = GenerateRandomPassword(16, seed: passwordSeed);
+    context.Information($"RDP password is '{rdpPassword}'.");
+    var escapedRdpPassword = rdpPassword
+        .Replace("\\", "\\\\")
+        .Replace("\"", "\\\"");
+
+    var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
+    var templateParametersJson = ToParameterJson(templateParameters);
+    context.Information($"Template parameters JSON: {templateParametersJson}");
+
+    // TODO: have to use JObjects below otherwise it fails.
+    var properties = new DeploymentPropertiesInner
     {
-        resourceManagementClient.SubscriptionId = subscriptionId;
+        Template = JObject.Load(new JsonTextReader(new StringReader(templateContents))),
+        // TODO: should this be complete so that deprecated resources are cleaned up?
+        Mode = DeploymentMode.Incremental,
+        Parameters = JObject.Load(new JsonTextReader(new StringReader(templateParametersJson))),
+    };
 
-        var templateContents = System.IO.File.ReadAllText(templateFile);
+    var validationResults = await resourceManagementClient
+        .Deployments
+        .ValidateAsync(resourceGroupName, resourceNamePrefix, properties);
 
-        // The RDP password should never be used in a Service Fabric cluster, but we need to assign one all the same.
-        // We also need to ensure it is the same password if the cluster is being re-deployed, since the admin password cannot be updated.
-        // We do that by seeding the RNG from the thumbprint of the certificate being used in the environment.
-        var passwordSeed = BitConverter.ToInt32(certificateBundle.X509Thumbprint, 0);
-        var rdpPassword = GenerateRandomPassword(8, passwordSeed);
-        var escapedRdpPassword = rdpPassword
-            .Replace("\\", "\\\\")
-            .Replace("\"", "\\\"");
+    if (validationResults.Error != null)
+    {
+        var message = DumpError(validationResults.Error);
+        throw new Exception(message);
+    }
 
-        var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
+    context.Information("Template successfully validated.");
 
-        var templateParameters = $@"{{
-""resourcePrefix"": {{""value"": ""{resourceNamePrefix}""}},
-""certificateThumbprint"": {{""value"": ""{certificateThumbprint}""}},
-""certificateUrlValue"": {{""value"": ""{certificateBundle.SecretIdentifier}""}},
-""sourceVaultResourceId"": {{""value"": ""{vault.Id}""}},
-""rdpPassword"": {{""value"": ""{escapedRdpPassword}""}},
-""vmInstanceCount"": {{""value"": {vmInstanceCount}}},
-}}";
+    var deploymentInner = await resourceManagementClient
+        .Deployments
+        .BeginCreateOrUpdateAsync(resourceGroupName, resourceNamePrefix, properties);
+    context.Information("Deployment instigated.");
 
-        context.Debug($"Template parameters: {templateParameters}");
+    while (true)
+    {
+        var exists = await resourceManagementClient.Deployments.CheckExistenceAsync(resourceGroupName, resourceNamePrefix);
 
-        // TODO: have to use JObjects below otherwise it fails.
-        var properties = new DeploymentPropertiesInner
+        if (exists)
         {
-            Template = JObject.Load(new JsonTextReader(new StringReader(templateContents))),
-            // TODO: should this be complete so that deprecated resources are cleaned up?
-            Mode = DeploymentMode.Incremental,
-            Parameters = JObject.Load(new JsonTextReader(new StringReader(templateParameters))),
-        };
+            context.Debug("Deployment exists.");
+            break;
+        }
 
-        var validationResults = await resourceManagementClient
+        context.Debug("Deployment does not yet exist - waiting.");
+        await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(2));
+    }
+
+    while (true)
+    {
+        var deployment = await resourceManagementClient
             .Deployments
-            .ValidateAsync(resourceGroupName, resourceNamePrefix, properties);
+            .GetAsync(resourceGroupName, resourceNamePrefix);
+        var state = deployment.Properties.ProvisioningState;
 
-        if (validationResults.Error != null)
+        if (state == "Succeeded")
         {
-            var message = DumpError(validationResults.Error);
-            throw new Exception(message);
+            context.Information("Deployment succeeded.");
+            return deployment;
+        }
+        else if (state == "Failed")
+        {
+            throw new Exception("Deployment failed.");
         }
 
-        context.Information("Template validated without error.");
-
-        var deploymentInner = await resourceManagementClient
-            .Deployments
-            .BeginCreateOrUpdateAsync(resourceGroupName, resourceNamePrefix, properties);
-        context.Information("Deployment instigated.");
-
-        while (true)
-        {
-            var exists = await resourceManagementClient.Deployments.CheckExistenceAsync(resourceGroupName, resourceNamePrefix);
-
-            if (exists)
-            {
-                context.Debug("Deployment exists.");
-                break;
-            }
-
-            context.Debug("Deployment does not yet exist - waiting.");
-            await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(2));
-        }
-
-        while (true)
-        {
-            var deployment = await resourceManagementClient
-                .Deployments
-                .GetAsync(resourceGroupName, resourceNamePrefix);
-            var state = deployment.Properties.ProvisioningState;
-
-            if (state == "Succeeded")
-            {
-                context.Information("Deployment succeeded.");
-                return deployment;
-            }
-            else if (state == "Failed")
-            {
-                throw new Exception("Deployment failed.");
-            }
-
-            context.Debug($"Deployment is in state '{state}' - waiting.");
-            await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(10));
-        }
+        context.Debug($"Deployment is in state '{state}' - waiting.");
+        await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(10));
     }
 }
 
-private static string GenerateRandomPassword(int length, int? seed = null)
+// Convert a dictionary to the appropriate parameter JSON for input to an ARM template deployment.
+private static string ToParameterJson(IDictionary<string, object> parameters)
 {
+    JObject result = new JObject();
+
+    foreach (var parameter in parameters)
+    {
+        var parameterToken = new JObject();
+        parameterToken.Add("value", JToken.FromObject(parameter.Value));
+        result.Add(parameter.Key, parameterToken);
+    }
+
+    return result.ToString();
+}
+
+private static string GenerateRandomPassword(
+    int length,
+    bool includeUpper = true,
+    bool includeLower = true,
+    bool includeNumeric = true,
+    bool includeSpecial = true,
+    int? seed = null)
+{
+    var enforcedCount = 0;
+
+    if (includeUpper)
+    {
+        ++enforcedCount;
+    }
+
+    if (includeLower)
+    {
+        ++enforcedCount;
+    }
+
+    if (includeNumeric)
+    {
+        ++enforcedCount;
+    }
+
+    if (includeSpecial)
+    {
+        ++enforcedCount;
+    }
+
+    if (enforcedCount > length)
+    {
+        throw new ArgumentException($"Number of enforced characters ({enforcedCount}) exceeds requested length ({length}).");
+    }
+
     var builder = new StringBuilder();
     var random = seed == null ? new Random() : new Random(seed.Value);
+    var hasUpper = false;
+    var hasLower = false;
+    var hasNumeric = false;
+    var hasSpecial = false;
     char ch;
 
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < length - enforcedCount; i++)
+    {
+        ch = Convert.ToChar(33 + random.Next(94));
+        builder.Append(ch);
+
+        hasUpper = hasUpper || char.IsUpper(ch);
+        hasLower = hasLower || char.IsLower(ch);
+        hasNumeric = hasNumeric || char.IsNumber(ch);
+        hasSpecial = hasSpecial || char.IsSymbol(ch);
+    }
+
+    if (includeUpper && !hasUpper)
+    {
+        ch = Convert.ToChar(65 + random.Next(26));
+        builder.Insert(random.Next(builder.Length), ch);
+    }
+
+    if (includeLower && !hasLower)
+    {
+        ch = Convert.ToChar(97 + random.Next(26));
+        builder.Insert(random.Next(builder.Length), ch);
+    }
+
+    if (includeNumeric && !hasNumeric)
+    {
+        ch = Convert.ToChar(48 + random.Next(10));
+        builder.Insert(random.Next(builder.Length), ch);
+    }
+
+    if (includeSpecial && !hasSpecial)
+    {
+        ch = Convert.ToChar(33 + random.Next(15));
+        builder.Insert(random.Next(builder.Length), ch);
+    }
+
+    while (builder.Length < length)
     {
         ch = Convert.ToChar(33 + random.Next(94));
         builder.Append(ch);
@@ -528,4 +749,4 @@ private static string DumpError(ResourceManagementErrorWithDetails error)
     return dumpedError.ToString();
 }
 
-RunTarget(Argument("target", "Deploy-Application"));
+RunTarget(Argument("target", "Deploy"));
