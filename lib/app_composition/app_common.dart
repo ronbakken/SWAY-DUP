@@ -30,6 +30,7 @@ import 'package:inf/ui/main/menu_drawer.dart';
 import 'package:inf/widgets/network_status.dart';
 import 'package:inf/widgets/offers_showcase.dart';
 import 'package:inf/widgets/progress_dialog.dart';
+import 'package:inf/ui/main/offer_list_tile.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/screens/debug_account.dart';
 import 'package:inf/screens/haggle_view.dart';
@@ -44,6 +45,7 @@ abstract class AppCommonState<T extends StatefulWidget>
     extends AppBaseState<T> {
   static const bool prototypeDashboard = false;
   static const bool prototypeDrawer = false;
+  static final Logger _log = Logger('Inf.AppCommon');
 
   Api _network;
   ConfigData _config;
@@ -154,11 +156,11 @@ abstract class AppCommonState<T extends StatefulWidget>
     return ProposalList(
       account: network.account,
       proposals: network.proposals.where(test),
-      getProfileSummary: (BuildContext context, Int64 accountId) {
+      getProfileSummary: (BuildContext context, Int64 accountId) { // TODO: Use builder composition pattern instead
         final Api network = ApiProvider.of(context);
         return network.tryGetProfileSummary(accountId);
       },
-      getOffer: (BuildContext context, Int64 offerId) {
+      getOffer: (BuildContext context, Int64 offerId) { // TODO: Use builder composition pattern instead
         final Api network = ApiProvider.of(context);
         return network.tryGetOffer(offerId);
       },
@@ -233,8 +235,9 @@ abstract class AppCommonState<T extends StatefulWidget>
     if (proposalViewOpen != null) {
       print('[INF] Pop previous proposal route');
       Navigator.popUntil(context, (Route<dynamic> route) {
-        return route.settings.name != null &&route.settings.name
-            .startsWith('/proposal/' + proposalViewOpen.toString());
+        return route.settings.name != null &&
+            route.settings.name
+                .startsWith('/proposal/' + proposalViewOpen.toString());
       });
       if (proposalViewOpen == proposalId) {
         return;
@@ -382,8 +385,7 @@ abstract class AppCommonState<T extends StatefulWidget>
             // Create the offer
             offer = await network.createOffer(createOffer);
           } catch (error, stackTrace) {
-            Logger('Inf.AppCommon')
-                .severe('Exception creating offer.', error, stackTrace);
+            _log.severe('Exception creating offer.', error, stackTrace);
           }
           closeProgressDialog(progressDialog);
           if (offer == null) {
@@ -427,40 +429,51 @@ abstract class AppCommonState<T extends StatefulWidget>
   bool _mapFilter = false;
   Int64 _mapHighlightOffer;
 
+  void _onShowcaseOfferPressed(DataOffer offer) {
+    navigateToOffer(offer.offerId);
+  }
+
+  void _onShowcaseOfferCenter(DataOffer offer) {
+    _mapController.move(
+        LatLng(offer.latitude, offer.longitude), _mapController.zoom);
+    setState(() {
+      _mapHighlightOffer = offer.offerId;
+    });
+  }
+
+  Widget _offerShowcaseCardBuilder(BuildContext context, Int64 offerId) {
+    final Api api = ApiProvider.of(context);
+    return OfferShowcaseCard(
+      offer: api.tryGetOffer(offerId, detail: false),
+      onCenter: _onShowcaseOfferCenter,
+      onPressed: _onShowcaseOfferPressed,
+    );
+  }
+
   Widget _exploreBuilder(BuildContext context) {
     final bool enoughSpaceForBottom =
         MediaQuery.of(context).size.height > 480.0;
-    final Api network = ApiProvider.of(context);
+    final Api api = ApiProvider.of(context);
     final ConfigData config = ConfigProvider.of(context);
     final List<Int64> showcaseOfferIds = enoughSpaceForBottom
-        ? network.demoAllOffers
+        ? api.demoAllOffers
         : <Int64>[]; // TODO(kaetemi): Explore
     final Widget showcase = showcaseOfferIds.isNotEmpty
         ? OffersShowcase(
-            getOffer: _getOfferSummary,
+            offerBuilder: _offerShowcaseCardBuilder,
             offerIds: showcaseOfferIds,
-            onOfferPressed: (DataOffer offer) {
-              navigateToOffer(offer.offerId);
-            },
-            onOfferCenter: (DataOffer offer) {
-              _mapController.move(
-                  LatLng(offer.latitude, offer.longitude), _mapController.zoom);
-              setState(() {
-                _mapHighlightOffer = offer.offerId;
-              });
-            },
           )
         : null;
     final Widget map = OffersMap(
       filterState: _mapFilter,
-      account: network.account,
+      account: api.account,
       mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark
           ? config.services.mapboxUrlTemplateDark
           : config.services.mapboxUrlTemplateLight,
       mapboxToken: config.services.mapboxToken,
       onSearchPressed: () {
         // navigateToSearchOffers(null);
-        network.refreshDemoAllOffers();
+        api.refreshDemoAllOffers();
       },
       onFilterPressed: enoughSpaceForBottom
           ? () {
@@ -473,10 +486,11 @@ abstract class AppCommonState<T extends StatefulWidget>
       searchTooltip: 'Search for nearby offers',
       mapController: _mapController,
       bottomSpace: (showcase != null) ? 156.0 : 0.0, // + kBottomNavHeight
-      offers: network.demoAllOffers,
+      offers: api.demoAllOffers,
       highlightOffer: _mapHighlightOffer,
       onOfferPressed: navigateToOffer,
-      getOffer: _getOfferSummary,
+      getOffer:
+          _getOfferSummary, // TODO: Use builder composition pattern instead
     );
     return showcase != null
         ? Stack(
@@ -530,7 +544,7 @@ abstract class AppCommonState<T extends StatefulWidget>
       offers: network.demoAllOffers,
       highlightOffer: _mapHighlightOffer,
       onOfferPressed: navigateToOffer,
-      getOffer: _getOfferSummary,
+      getOffer: _getOfferSummary, // TODO: Use builder composition pattern instead
     );
     return MainBrowseSection(
       map: map,
@@ -539,7 +553,7 @@ abstract class AppCommonState<T extends StatefulWidget>
         padding: const EdgeInsets.only(bottom: kBottomNavHeight),
         child: BrowseListView(
           config: config,
-          getOffer: _getOfferSummary,
+          getOffer: _getOfferSummary, // TODO: Use builder composition pattern instead
           offers: network.demoAllOffers,
           onOfferPressed: navigateToOffer,
         ),
@@ -563,15 +577,22 @@ abstract class AppCommonState<T extends StatefulWidget>
   }
 
   DataOffer _getOfferSummary(BuildContext context, Int64 offerId) {
-    final Api network = ApiProvider.of(context);
-    return network.tryGetOffer(offerId, detail: false);
+    final Api api = ApiProvider.of(context);
+    return api.tryGetOffer(offerId, detail: false);
+  }
+
+  Widget _offerTileBuilder(BuildContext context, Int64 offerId) {
+    final Api api = ApiProvider.of(context);
+    final ConfigData config = ConfigProvider.of(context);
+    final DataOffer offer = api.tryGetOffer(offerId, detail: false);
+    return OfferListTile(
+        config: config, offer: offer, onPressed: _onShowcaseOfferPressed);
   }
 
   Widget _offersBuilder(BuildContext context) {
-    final Api network = ApiProvider.of(context);
-    final ConfigData config = ConfigProvider.of(context);
-    if (network.offers.isEmpty) {
-      if (network.offersLoading) {
+    final Api api = ApiProvider.of(context);
+    if (api.offers.isEmpty) {
+      if (api.offersLoading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
@@ -592,13 +613,11 @@ abstract class AppCommonState<T extends StatefulWidget>
       );
     }
     return OfferList(
-      config: config,
-      offers: network.offers,
-      onRefreshOffers: (network.connected == NetworkConnectionState.ready)
-          ? network.refreshOffers
+      offers: api.offers,
+      onRefreshOffers: (api.connected == NetworkConnectionState.ready)
+          ? api.refreshOffers
           : null,
-      onOfferPressed: navigateToOffer,
-      getOffer: _getOfferSummary,
+      offerBuilder: _offerTileBuilder,
     );
   }
 

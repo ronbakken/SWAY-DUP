@@ -7,16 +7,8 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:inf/app_composition/app_common.dart';
-import 'package:inf/network_generic/multi_account_client.dart';
-import 'package:inf/network_inheritable/multi_account_selection.dart';
-import 'package:inf/screens/account_switch.dart';
-import 'package:inf/screens/dashboard_simplified.dart';
 import 'package:inf/ui/offers/offer_details_page.dart';
-import 'package:inf/widgets/network_status.dart';
-
-import 'package:latlong/latlong.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
@@ -24,14 +16,7 @@ import 'package:inf/network_inheritable/api_provider.dart';
 
 import 'package:inf/utility/page_transition.dart';
 import 'package:inf/widgets/progress_dialog.dart';
-import 'package:inf/widgets/offers_showcase.dart';
-import 'package:inf/cards/offer_card.dart';
 
-import 'package:inf/screens/profile_view.dart';
-import 'package:inf/screens/profile_edit.dart';
-import 'package:inf/screens/offer_view.dart';
-import 'package:inf/screens/debug_account.dart';
-import 'package:inf/screens/offers_map.dart';
 import 'package:inf/screens/search_page_common.dart';
 import 'package:logging/logging.dart';
 
@@ -46,6 +31,8 @@ class AppInfluencer extends StatefulWidget {
 }
 
 class _AppInfluencerState extends AppCommonState<AppInfluencer> {
+  static final Logger _log = Logger('Inf.AppInfluencer');
+
   @override
   void initState() {
     super.initState();
@@ -68,13 +55,15 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
 
   int offerViewCount = 0;
   Int64 offerViewOpen;
+  @override
   void navigateToOffer(Int64 offerId) {
     final Api network = ApiProvider.of(context);
     if (offerViewOpen != null) {
-      print("[INF] Pop previous offer route");
+      _log.fine('Pop previous offer route');
       Navigator.popUntil(context, (Route<dynamic> route) {
-        return route.settings.name != null &&route.settings.name
-            .startsWith('/offer/' + offerViewOpen.toString());
+        return route.settings.name != null &&
+            route.settings.name
+                .startsWith('/offer/' + offerViewOpen.toString());
       });
       if (offerViewOpen == offerId) {
         network.getOffer(offerId); // Background refresh
@@ -83,7 +72,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
       Navigator.pop(context);
     }
     network.getOffer(offerId); // Background refresh
-    int count = ++offerViewCount;
+    final int count = ++offerViewCount;
     offerViewOpen = offerId;
     Navigator.push<void>(
       context,
@@ -129,20 +118,19 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                 // Create the offer
                 proposal = await network.applyProposal(offerId, remarks);
               } catch (error, stackTrace) {
-                Logger('Inf.AppInfluencer')
-                    .severe('Exception applying for offer', error, stackTrace);
+                _log.severe('Exception applying for offer', error, stackTrace);
               }
               closeProgressDialog(progressDialog);
               if (proposal == null) {
                 // TODO: Request refreshing the offer!!!
-                await showDialog<Null>(
+                await showDialog<void>(
                   context: this.context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Failed to apply for offer'),
+                      title: const Text('Failed to apply for offer'),
                       content: SingleChildScrollView(
                         child: ListBody(
-                          children: <Widget>[
+                          children: const <Widget>[
                             Text('An error has occured.'),
                             Text('Please try again later.'),
                           ],
@@ -152,7 +140,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                         FlatButton(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [Text('Ok'.toUpperCase())],
+                            children: <Widget>[Text('Ok'.toUpperCase())],
                           ),
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -179,28 +167,28 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
   }
 
   void navigateToSearchOffers(TextEditingController searchQueryController) {
-    TextEditingController searchQueryControllerFallback =
+    final TextEditingController searchQueryControllerFallback =
         searchQueryController ?? TextEditingController();
-    fadeToPage(context, (context, animation, secondaryAnimation) {
+    fadeToPage(context, (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
       // ConfigData config = ConfigProvider.of(context);
       final Api network = ApiProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
       return SearchPageCommon(
-        searchHint: "Find nearby offers...",
-        searchTooltip: "Search for nearby offers",
+        searchHint: 'Find nearby offers...',
+        searchTooltip: 'Search for nearby offers',
         searchQueryController: searchQueryControllerFallback,
         onSearchRequest: (String searchQuery) async {
           try {
             await network.refreshDemoAllOffers();
           } catch (error, stackTrace) {
-            await showDialog<Null>(
+            await showDialog<void>(
               context: this.context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text('Search Failed'),
+                  title: const Text('Search Failed'),
                   content: SingleChildScrollView(
                     child: ListBody(
-                      children: <Widget>[
+                      children: const <Widget>[
                         Text('An error has occured.'),
                         Text('Please try again later.'),
                       ],
@@ -210,7 +198,7 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                     FlatButton(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Text('Ok'.toUpperCase())],
+                        children: <Widget>[Text('Ok'.toUpperCase())],
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -220,11 +208,10 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
                 );
               },
             );
-            Logger('Inf.AppInfluencers')
-                .severe('Failed to search for offers.', error, stackTrace);
+            _log.severe('Failed to search for offers.', error, stackTrace);
           }
         },
-        searchResults: <Widget>[],
+        searchResults: const <Widget>[],
         /*network.demoAllOffers
               .map(
                 (Int64 offerId) => OfferCard(
@@ -241,103 +228,9 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
     });
   }
 
-  /*
-  MapController _mapController = MapController();
-  bool _mapFilter = false;
-  DataOffer _mapHighlightOffer;
-  */
-
   @override
   Widget build(BuildContext context) {
     return buildDashboard(context);
-    /*
-    final ApiClient network = NetworkProvider.of(context);
-    bool enoughSpaceForBottom = (MediaQuery.of(context).size.height > 480.0);
-    assert(network != null);
-    return DashboardSimplified(
-      account: network.account,
-      mapOffersTab: 0,
-      proposalsDirectTab: 1,
-      proposalsAppliedTab: 2,
-      proposalsDealTab: 3,
-      mapOffers: Builder(builder: (context) {
-        ConfigData config = ConfigProvider.of(context);
-        final ApiClient network = NetworkProvider.of(context);
-        List<int> showcaseOfferIds = enoughSpaceForBottom
-            ? network.demoAllOffers.keys.toList()
-            : <int>[]; // TODO
-        Widget showcase = showcaseOfferIds.isNotEmpty
-            ? OffersShowcase(
-                getOffer: (BuildContext context, int offerId) {
-                  final ApiClient network = NetworkProvider.of(context);
-                  return network.tryGetOffer(Int64(offerId));
-                },
-                getAccount: (BuildContext context, int accountId) {
-                  final ApiClient network = NetworkProvider.of(context);
-                  return network.tryGetProfileSummary(Int64(accountId));
-                },
-                offerIds: network.demoAllOffers.keys.toList(),
-                onOfferPressed: (DataOffer offer) {
-                  navigateToOffer(offer.offerId);
-                },
-                onOfferCenter: (DataOffer offer) {
-                  _mapController.move(LatLng(offer.latitude, offer.longitude),
-                      _mapController.zoom);
-                  setState(() {
-                    _mapHighlightOffer = offer;
-                  });
-                },
-              )
-            : null;
-        Widget map = OffersMap(
-          filterState: _mapFilter,
-          account: network.account,
-          mapboxUrlTemplate: Theme.of(context).brightness == Brightness.dark
-              ? config.services.mapboxUrlTemplateDark
-              : config.services.mapboxUrlTemplateLight,
-          mapboxToken: config.services.mapboxToken,
-          onSearchPressed: () {
-            navigateToSearchOffers(null);
-          },
-          onFilterPressed: enoughSpaceForBottom
-              ? () {
-                  setState(() {
-                    _mapFilter = !_mapFilter;
-                  });
-                }
-              : null,
-          filterTooltip: "Filter map offers by category",
-          searchTooltip: "Search for nearby offers",
-          mapController: _mapController,
-          bottomSpace: (showcase != null) ? 156.0 : 0.0,
-          offers: network.demoAllOffers.values.toList(),
-          highlightOffer: _mapHighlightOffer,
-          onOfferPressed: navigateToOffer,
-        );
-        return showcase != null
-            ? Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  map,
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      showcase,
-                    ],
-                  )
-                ],
-              )
-            : map;
-      }),
-      onNavigateProfile: navigateToProfileView,
-      onNavigateSwitchAccount: navigateToSwitchAccount,
-      onNavigateHistory: navigateToHistory,
-      onNavigateDebugAccount: navigateToDebugAccount,
-      proposalsDirect: proposalsDirect,
-      proposalsApplied: proposalsApplied,
-      proposalsDeal: proposalsDeal,
-    );
-    */
   }
 }
 

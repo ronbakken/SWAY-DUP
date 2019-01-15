@@ -16,48 +16,52 @@ import 'package:inf_common/inf_common.dart';
 class OffersShowcase extends StatefulWidget {
   const OffersShowcase({
     Key key,
-    @required this.onOfferPressed,
-    @required this.onOfferCenter,
-    @required this.getOffer,
-    // @required this.getAccount,
+    @required this.offerBuilder,
     @required this.offerIds,
   }) : super(key: key);
 
-  final Function(DataOffer offer) onOfferPressed;
-  final Function(DataOffer offer) onOfferCenter;
-  final DataOffer Function(BuildContext context, Int64 offerId) getOffer;
-  // final DataAccount Function(BuildContext context, Int64 accountId) getAccount;
+  final Widget Function(BuildContext context, Int64 offerId) offerBuilder;
   final List<Int64> offerIds;
 
   @override
   _OffersShowcaseState createState() => _OffersShowcaseState();
 }
 
-class _OffersShowcaseState extends State<OffersShowcase> {
-  Widget _buildCard(BuildContext context, int offerIdx) {
-    ThemeData theme = Theme.of(context);
-    Int64 offerId = widget.offerIds[offerIdx];
-    // print("[INF] Showcase $offerId");
-    DataOffer offer = widget.getOffer(context, offerId);
-    /*DataAccount account = offer.accountId != 0
-        ? widget.getAccount(context, offer.accountId)
-        : new DataAccount();*/
-    Widget image = BlurredNetworkImage(
+class OfferShowcaseCard extends StatelessWidget {
+  final DataOffer offer;
+  final Function(DataOffer offerId) onPressed;
+  final Function(DataOffer offerId) onCenter;
+
+  const OfferShowcaseCard({Key key, this.offer, this.onPressed, this.onCenter})
+      : super(key: key);
+
+  void _onPressed() {
+    onPressed(offer);
+  }
+
+  void _onCenter() {
+    onCenter(offer);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final Widget image = BlurredNetworkImage(
         url: offer.thumbnailUrl,
         blurredData: Uint8List.fromList(offer.thumbnailBlurred));
-    Widget text = Text(
+    final Widget text = Text(
       offer.title.toString(),
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
       style: theme.textTheme.subhead,
     );
-    Widget sender = Text(
+    final Widget sender = Text(
       offer.senderName, // account.summary?.name.toString(),
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
       style: theme.textTheme.caption,
     );
-    Card card = Card(
+    final Card card = Card(
       shape:
           const RoundedRectangleBorder(borderRadius: kInfImageThumbnailBorder),
       child: ClipRRect(
@@ -103,12 +107,8 @@ class _OffersShowcaseState extends State<OffersShowcase> {
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: () {
-                  widget.onOfferPressed(offer);
-                },
-                onLongPress: () {
-                  widget.onOfferCenter(offer);
-                },
+                onTap: onPressed != null ? _onPressed : null,
+                onLongPress: onCenter != null ? _onCenter : null,
               ),
             ),
           ],
@@ -121,20 +121,22 @@ class _OffersShowcaseState extends State<OffersShowcase> {
       child: card,
     );*/
     return SizedBox(
-      key: Key('OfferShowcase[$offerId]'),
       width: 96.0,
       height: 96.0,
-      child:
-          card, /*new InkWell(
-        onTap: widget.onOfferPressed(offer),
-        child: card,
-      ),*/
+      child: card,
     );
+  }
+}
+
+class _OffersShowcaseState extends State<OffersShowcase> {
+  Widget _buildCard(BuildContext context, int offerIdx) {
+    final Int64 offerId = widget.offerIds[offerIdx];
+    return widget.offerBuilder(context, offerId);
   }
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+    final ThemeData theme = Theme.of(context);
     return Row(
       children: <Widget>[
         Column(
@@ -142,7 +144,7 @@ class _OffersShowcaseState extends State<OffersShowcase> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-              child: Text("Near you now",
+              child: Text('Near you now',
                   textAlign: TextAlign.left, style: theme.textTheme.caption),
             ),
             SizedBox(

@@ -16,9 +16,13 @@ class OfferListTile extends StatelessWidget {
 
   final ConfigData config;
   final DataOffer offer;
-  final void Function() onPressed;
+  final void Function(DataOffer offer) onPressed;
   final String heroTag;
   final Color backGroundColor;
+
+  void _onPressed() {
+    onPressed(offer);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class OfferListTile extends StatelessWidget {
       elevation: 2.0,
       borderRadius: BorderRadius.circular(5.0),
       child: InkWell(
-        onTap: onPressed,
+        onTap: onPressed != null ? _onPressed : null,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
           child: Row(
