@@ -14,11 +14,13 @@ dependencies:
   flutter_map: any
   flutter_page_indicator: any 
   flutter_svg: any
+  flutter_webview_plugin: any
   get_it: any
   image_picker: any
   intl: any
   location: 
     git: https://github.com/slightfoot/flutter_location.git
+  oauth1: any  
   rxdart: any
   rx_command: any
   path_provider: any
@@ -35,7 +37,6 @@ dependencies:
   switchboard: ^2.0.5
   firebase_messaging: ^2.0.0
   flutter_local_notifications: ^0.4.2
-  flutter_webview_plugin: ^0.2.1+2
   device_info: ^0.3.0
   shared_preferences: ^0.4.2
   synchronized: ^1.5.1

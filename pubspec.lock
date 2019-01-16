@@ -281,6 +281,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.6+2"
+  oauth1:
+    dependency: "direct main"
+    description:
+      name: oauth1
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   package_info:
     dependency: "direct main"
     description:
@@ -496,6 +503,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.4.1"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   validate:
     dependency: transitive
     description:
