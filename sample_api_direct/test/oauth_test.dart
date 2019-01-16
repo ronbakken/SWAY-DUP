@@ -120,11 +120,12 @@ Future<void> main() async {
     // https://www.infmarketplace.com/wait.html?oauth_token=PTTfSwAAAAAA5_oKAAABaFbaMcQ&oauth_verifier=AbAOYhR2U4odp2MneAvuL3sUW1yx7mhT
   });
 
-  /*
+  
   test('Twitter connect', () async {
     final NetOAuthConnect request = NetOAuthConnect();
     request.oauthProvider = OAuthProviderIds.twitter.value;
-    request.callbackQuery = 'oauth_token=3_xZDQAAAAAA5_oKAAABaFbrrDo&oauth_verifier=yHXL3ceSRhYgDnILzswFJJjSOmvnluTm';
+    // request.callbackQuery = 'oauth_token=3_xZDQAAAAAA5_oKAAABaFbrrDo&oauth_verifier=yHXL3ceSRhYgDnILzswFJJjSOmvnluTm';
+    request.callbackQuery = 'oauth_token=Nar9jgAAAAAA5_oKAAABaFck5I4&oauth_verifier=qfZMPjjyRa7av67BEGfokDaADj23uMW7';
     final NetOAuthConnection response = await accountClient.connectProvider(request);
     expect(response.hasSocialMedia(), isTrue);
     expect(response.socialMedia.connected, isTrue);
@@ -132,8 +133,12 @@ Future<void> main() async {
     // 1:"oauth_token_secret" -> "zQgdWQ40LB6sVsj76Q7LiV20lOTaAlpYHJ2Vt8KCKQgNF"
     // 2:"user_id" -> "1085053886933565440"
     // 3:"screen_name" -> "infsandbox"
+    // 0:"oauth_token" -> "1085549519767400449-enBoFc1UbJcBA3OUGUuYSwkEKFWDyV"
+    // 1:"oauth_token_secret" -> "KUtP7MtArBfo4mNfFdlmdiTcMzu5XaxsmY4OWxWbcZF2q"
+    // 2:"user_id" -> "1085549519767400449"
+    // 3:"screen_name" -> "IBoxsand"
   });
-  */
+  
 
   test('Twitter connect with outdated token should fail', () async {
     final NetOAuthConnect request = NetOAuthConnect();

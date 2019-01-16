@@ -105,9 +105,10 @@ Future<void> main() async {
     await businessAccountClient.setType(setTypeRequest);
     final NetOAuthConnect request = NetOAuthConnect();
     request.oauthProvider = OAuthProviderIds.twitter.value;
+
+    // Log into or create influencer account
     request.callbackQuery =
         'oauth_token=1085053886933565440-t6ce1nK4D7yjxtjciRXEBQjjJb6Cue&oauth_token_secret=zQgdWQ40LB6sVsj76Q7LiV20lOTaAlpYHJ2Vt8KCKQgNF';
-    // Log into or create influencer account
     NetOAuthConnection response =
         await influencerAccountClient.connectProvider(request);
     expect(response.hasSocialMedia(), isTrue);
@@ -124,8 +125,11 @@ Future<void> main() async {
     } else {
       influencerAccount = response.account;
     }
+
     expect(influencerAccount, isNotNull);
     // Log into or create business account
+    request.callbackQuery =
+        'oauth_token=1085549519767400449-enBoFc1UbJcBA3OUGUuYSwkEKFWDyV&oauth_token_secret=KUtP7MtArBfo4mNfFdlmdiTcMzu5XaxsmY4OWxWbcZF2q';
     response =
         await businessAccountClient.connectProvider(request);
     expect(response.hasSocialMedia(), isTrue);
@@ -147,6 +151,8 @@ Future<void> main() async {
     log.fine(businessAccount);
     expect(influencerAccount.accountType, equals(AccountType.influencer));
     expect(businessAccount.accountType, equals(AccountType.business));
+    expect(influencerAccount.name, equals('INF Sandbox'));
+    expect(businessAccount.name, equals('INF Boxsand'));
   });
 
   tearDownAll(() async {
