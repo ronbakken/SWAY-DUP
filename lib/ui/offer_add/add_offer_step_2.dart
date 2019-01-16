@@ -3,6 +3,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/category_button.dart';
 import 'package:inf/ui/widgets/category_selector.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
@@ -54,10 +55,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                   children: [
                     Align(
                       alignment: Alignment.bottomCenter,
-                      child: InfAssetImage(
-                        AppImages.mockCurves, // FIXME:
-                        alignment: Alignment.bottomCenter,
-                      ),
+                      child: CustomAnimatedCurves(),
                     ),
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -224,8 +222,8 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
           child: InfMemoryImage(
             icon.iconData,
             color: Colors.white,
-                width: 32.0,
-                height: 32.0,
+            width: 32.0,
+            height: 32.0,
           ),
           label: icon.name,
           selected: widget.offerBuilder.deliverableTypes.contains(icon.deliverableType),
@@ -247,11 +245,11 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
   Widget buildSocialPlatformRow() {
     var rowContent = <Widget>[];
     for (var provider in backend.get<ConfigService>().socialNetworkProviders) {
-        rowContent.add(SocialNetworkToggleButton(
-          onTap: () => setState(() => widget.offerBuilder.channels.toggle(provider)),
-          isSelected: widget.offerBuilder.channels.contains(provider),
-          provider: provider,
-        ));
+      rowContent.add(SocialNetworkToggleButton(
+        onTap: () => setState(() => widget.offerBuilder.channels.toggle(provider)),
+        isSelected: widget.offerBuilder.channels.contains(provider),
+        provider: provider,
+      ));
     }
     return OverflowRow(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
 import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
@@ -25,7 +26,6 @@ class AddOfferStep1 extends StatefulWidget {
 class _AddOfferStep1State extends State<AddOfferStep1> {
   int selectedImageIndex = 0;
 
-
   GlobalKey form = GlobalKey();
 
   @override
@@ -35,93 +35,82 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
         fit: StackFit.passthrough,
         alignment: Alignment.bottomCenter,
         children: [
-          InfAssetImage(
-            AppImages.mockCurves, // FIXME:
+          Align(
             alignment: Alignment.bottomCenter,
+            child: CustomAnimatedCurves(),
           ),
-          
-               LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: constraints.copyWith(
-                        minWidth: constraints.maxWidth,
-                        minHeight: constraints.maxHeight,
-                        maxHeight: double.infinity,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              width: constraints.maxWidth,
-                              height: constraints.maxHeight * 0.38,
-                              child: buildMainImage(),
-                            ),
-                            SizedBox(
-                              height: widget.offerBuilder.imagesToUpLoad.isNotEmpty
-                                  ? constraints.maxHeight * 0.12
-                                  : 0,
-                              child: buildSelectedImageRow(),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 24, left: 24, right: 24),
-                                child: Form(
-                                  key: form,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Text(
-                                        'TITLE',
-                                        textAlign: TextAlign.left,
-                                        style: AppTheme.textStyleformfieldLabel,
-                                      ),
-                                      SizedBox(height: 8.0),
-                                      TextFormField(
-                                        onSaved: (s) => widget.offerBuilder.title = s,
-                                        validator: (s) => s.isEmpty
-                                            ? 'You have so provide a title'
-                                            : null,
-                                      ),
-                                      SizedBox(height: 32.0),
-                                      Text(
-                                        'DESCRIPTION',
-                                        textAlign: TextAlign.left,
-                                        style: AppTheme.textStyleformfieldLabel,
-                                      ),
-                                      TextFormField(
-                                        onSaved: (s) => widget.offerBuilder.description = s,
-                                        validator: (s) => s.isEmpty
-                                            ? 'You have so provide a description'
-                                            : null,
-                                        maxLines: null,
-                                        keyboardType: TextInputType.multiline,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 32.0, vertical: 32.0),
-                              child: InfStadiumButton(
-                                height: 56,
-                                color: Colors.white,
-                                text: 'NEXT',
-                                onPressed: () => onNext(context),
-                              ),
-                            )
-                          ],
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: constraints.copyWith(
+                    minWidth: constraints.maxWidth,
+                    minHeight: constraints.maxHeight,
+                    maxHeight: double.infinity,
+                  ),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: constraints.maxWidth,
+                          height: constraints.maxHeight * 0.38,
+                          child: buildMainImage(),
                         ),
-                      ),
+                        SizedBox(
+                          height: widget.offerBuilder.imagesToUpLoad.isNotEmpty ? constraints.maxHeight * 0.12 : 0,
+                          child: buildSelectedImageRow(),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+                            child: Form(
+                              key: form,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    'TITLE',
+                                    textAlign: TextAlign.left,
+                                    style: AppTheme.textStyleformfieldLabel,
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  TextFormField(
+                                    onSaved: (s) => widget.offerBuilder.title = s,
+                                    validator: (s) => s.isEmpty ? 'You have so provide a title' : null,
+                                  ),
+                                  SizedBox(height: 32.0),
+                                  Text(
+                                    'DESCRIPTION',
+                                    textAlign: TextAlign.left,
+                                    style: AppTheme.textStyleformfieldLabel,
+                                  ),
+                                  TextFormField(
+                                    onSaved: (s) => widget.offerBuilder.description = s,
+                                    validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
+                                    maxLines: null,
+                                    keyboardType: TextInputType.multiline,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
+                          child: InfStadiumButton(
+                            height: 56,
+                            color: Colors.white,
+                            text: 'NEXT',
+                            onPressed: () => onNext(context),
+                          ),
+                        )
+                      ],
                     ),
-                  );
-
+                  ),
+                ),
+              );
             },
           ),
         ],
@@ -226,8 +215,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
               child: Container(
                 width: 40.0,
                 height: 40.0,
-                decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: AppTheme.red),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: AppTheme.red),
                 child: Icon(Icons.close),
               ),
             ),
@@ -255,15 +243,13 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
   /// if [camera] is null a dialog is dispplayed to select which source should be used
   void _onAddPicture({bool camera}) async {
     if (camera == null) {
-      camera = await showDialog<bool>(
-          context: context, builder: (context) => ImageSourceSelectorDialog());
+      camera = await showDialog<bool>(context: context, builder: (context) => ImageSourceSelectorDialog());
       if (camera == null) {
         return;
       }
     }
-    var imageFile = camera
-        ? await backend.get<ImageService>().takePicture()
-        : await backend.get<ImageService>().pickImage();
+    var imageFile =
+        camera ? await backend.get<ImageService>().takePicture() : await backend.get<ImageService>().pickImage();
     if (imageFile != null) {
       widget.offerBuilder.imagesToUpLoad.add(imageFile);
       setState(() {

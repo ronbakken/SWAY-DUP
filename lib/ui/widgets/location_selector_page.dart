@@ -4,6 +4,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:latlong/latlong.dart';
@@ -69,9 +70,9 @@ class _LocationSelectorPageState extends State<LocationSelectorPage> with Single
           fit: StackFit.passthrough,
           alignment: Alignment.bottomCenter,
           children: [
-            InfAssetImage(
-              AppImages.mockCurves, // FIXME:
+            Align(
               alignment: Alignment.bottomCenter,
+              child: CustomAnimatedCurves(),
             ),
             SafeArea(
               child: Column(

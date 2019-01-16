@@ -4,6 +4,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_radio_button.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
@@ -43,133 +44,136 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
                 maxHeight: double.infinity,
               ),
               child: IntrinsicHeight(
-                child: Stack(fit: StackFit.passthrough, alignment: Alignment.bottomCenter, children: [
-                  InfAssetImage(
-                    AppImages.mockCurves, // FIXME:
-                    alignment: Alignment.bottomCenter,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
-                    child: Form(
-                      key: form,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Table(
-                            children: [
-                              TableRow(
-                                children: [
-                                  TableCell(
-                                      child: Padding(
-                                    padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                                    child: _DateFormField(
-                                      label: 'OFFER START DATE',
-                                      initialValue: DateTime.now(),
-                                    ),
-                                  )),
-                                  TableCell(
-                                    child: Padding(
+                child: Stack(
+                  fit: StackFit.passthrough,
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: CustomAnimatedCurves(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
+                      child: Form(
+                        key: form,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Table(
+                              children: [
+                                TableRow(
+                                  children: [
+                                    TableCell(
+                                        child: Padding(
                                       padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                                      child: _TimeFormField(
-                                        label: 'OFFER START TIME',
-                                        initialValue: TimeOfDay.now(),
+                                      child: _DateFormField(
+                                        label: 'OFFER START DATE',
+                                        initialValue: DateTime.now(),
                                       ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  TableCell(
+                                    )),
+                                    TableCell(
                                       child: Padding(
-                                    padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                                    child: _DateFormField(
-                                      label: 'OFFER START DATE',
-                                      initialValue: DateTime.now(),
-                                    ),
-                                  )),
-                                  TableCell(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                                      child: _TimeFormField(
-                                        label: 'OFFER START TIME',
-                                        initialValue: TimeOfDay.now(),
+                                        padding: const EdgeInsets.only(right: 24, bottom: 16.0),
+                                        child: _TimeFormField(
+                                          label: 'OFFER START TIME',
+                                          initialValue: TimeOfDay.now(),
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 32.0),
-                          Text(
-                            'AMOUNT AVAILABLE',
-                            textAlign: TextAlign.left,
-                            style: AppTheme.textStyleformfieldLabel,
-                          ),
-                          TextFormField(
-                            inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                            onSaved: (s) => widget.offerBuilder.barterValue = int.tryParse(s),
-                            validator: (s) => s.isEmpty ? 'You have so provide value' : null,
-                            keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
-                          ),
-                          Row(
-                            children: [
-                              Align(
-                                widthFactor: 0.4,
-                                child: Checkbox(
-                                  value: widget.offerBuilder.unlimitedAvailable,
-                                  onChanged: (val) => setState(() => widget.offerBuilder.unlimitedAvailable = val),
-                                  activeColor: AppTheme.lightBlue,
+                                    )
+                                  ],
                                 ),
-                              ),
-                              SizedBox(width: 8.0),
-                              Expanded(child: Text('There is no limit')),
-                            ],
-                          ),
-                          SizedBox(height: 16.0),
-                          Text(
-                            'How do you like to deal with proposals?',
-                            style: TextStyle(fontSize: 18.0, color: Colors.white),
-                          ),
-                          SizedBox(height: 16.0),
-                          InfRadioButton<AcceptancePolicy>(
-                            value: AcceptancePolicy.manualReview,
-                            groupValue: widget.offerBuilder.acceptancePolicy,
-                            label: 'MANUALLY REVIEW PROPOSALS',
-                            onChanged: (val) => setState( () => widget.offerBuilder.acceptancePolicy = val),
-                          ),
-                          SizedBox(height: 8.0),
-                          InfRadioButton<AcceptancePolicy>(
-                            value: AcceptancePolicy.automaticAcceptMatching,
-                            groupValue: widget.offerBuilder.acceptancePolicy,
-                            label: 'ACCEPT MATCHING PROPOSALS',
-                            onChanged: (val) => setState( () => widget.offerBuilder.acceptancePolicy = val),
-                          ),
-                          SizedBox(height: 8.0),
-                          InfRadioButton<AcceptancePolicy>(
-                            value: AcceptancePolicy.allowNegotiation,
-                            groupValue: widget.offerBuilder.acceptancePolicy,
-                            label: 'ALLOW NEGOTIATION',
-                            onChanged: (val) => setState( () => widget.offerBuilder.acceptancePolicy = val),
-
-                          ),
-                          Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
-                            child: InfStadiumButton(
-                              height: 56,
-                              color: Colors.white,
-                              text: 'SAVE OFFER',
-                              onPressed: () => onNext(context),
+                                TableRow(
+                                  children: [
+                                    TableCell(
+                                        child: Padding(
+                                      padding: const EdgeInsets.only(right: 24, bottom: 16.0),
+                                      child: _DateFormField(
+                                        label: 'OFFER START DATE',
+                                        initialValue: DateTime.now(),
+                                      ),
+                                    )),
+                                    TableCell(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(right: 24, bottom: 16.0),
+                                        child: _TimeFormField(
+                                          label: 'OFFER START TIME',
+                                          initialValue: TimeOfDay.now(),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
                             ),
-                          )
-                        ],
+                            SizedBox(height: 32.0),
+                            Text(
+                              'AMOUNT AVAILABLE',
+                              textAlign: TextAlign.left,
+                              style: AppTheme.textStyleformfieldLabel,
+                            ),
+                            TextFormField(
+                              inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                              onSaved: (s) => widget.offerBuilder.barterValue = int.tryParse(s),
+                              validator: (s) => s.isEmpty ? 'You have so provide value' : null,
+                              keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+                            ),
+                            Row(
+                              children: [
+                                Align(
+                                  widthFactor: 0.4,
+                                  child: Checkbox(
+                                    value: widget.offerBuilder.unlimitedAvailable,
+                                    onChanged: (val) => setState(() => widget.offerBuilder.unlimitedAvailable = val),
+                                    activeColor: AppTheme.lightBlue,
+                                  ),
+                                ),
+                                SizedBox(width: 8.0),
+                                Expanded(child: Text('There is no limit')),
+                              ],
+                            ),
+                            SizedBox(height: 16.0),
+                            Text(
+                              'How do you like to deal with proposals?',
+                              style: TextStyle(fontSize: 18.0, color: Colors.white),
+                            ),
+                            SizedBox(height: 16.0),
+                            InfRadioButton<AcceptancePolicy>(
+                              value: AcceptancePolicy.manualReview,
+                              groupValue: widget.offerBuilder.acceptancePolicy,
+                              label: 'MANUALLY REVIEW PROPOSALS',
+                              onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
+                            ),
+                            SizedBox(height: 8.0),
+                            InfRadioButton<AcceptancePolicy>(
+                              value: AcceptancePolicy.automaticAcceptMatching,
+                              groupValue: widget.offerBuilder.acceptancePolicy,
+                              label: 'ACCEPT MATCHING PROPOSALS',
+                              onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
+                            ),
+                            SizedBox(height: 8.0),
+                            InfRadioButton<AcceptancePolicy>(
+                              value: AcceptancePolicy.allowNegotiation,
+                              groupValue: widget.offerBuilder.acceptancePolicy,
+                              label: 'ALLOW NEGOTIATION',
+                              onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
+                            ),
+                            Spacer(),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
+                              child: InfStadiumButton(
+                                height: 56,
+                                color: Colors.white,
+                                text: 'SAVE OFFER',
+                                onPressed: () => onNext(context),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ]),
+                  ],
+                ),
               ),
             ),
           );
@@ -306,4 +310,3 @@ class _TimeFormFieldState extends State<_TimeFormField> {
     );
   }
 }
-

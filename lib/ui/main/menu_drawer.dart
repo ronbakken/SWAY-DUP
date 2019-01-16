@@ -4,6 +4,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/user_profile/profile_private_page.dart';
 import 'package:inf/ui/user_profile/profile_summery.dart';
+import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 
@@ -107,12 +108,8 @@ class MainNavigationDrawer extends StatelessWidget {
         children: <Widget>[
           Align(
             alignment: Alignment.bottomCenter,
-            child: InfAssetImage(
-              AppImages.mockCurves, // FIXME:
-              alignment: Alignment.bottomCenter,
-            ),
+            child: CustomAnimatedCurves(),
           ),
-
           ListView(
             primary: false,
             padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),

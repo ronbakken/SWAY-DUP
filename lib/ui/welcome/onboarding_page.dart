@@ -3,6 +3,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/sign_up/sign_up_page.dart';
+import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
@@ -152,9 +153,9 @@ class OnBoardingCard extends StatelessWidget {
               fit: StackFit.expand,
               alignment: Alignment.bottomCenter,
               children: <Widget>[
-                InfAssetImage(
-                  AppImages.mockCurves, // FIXME:
+                Align(
                   alignment: Alignment.bottomCenter,
+                  child: CustomAnimatedCurves(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),

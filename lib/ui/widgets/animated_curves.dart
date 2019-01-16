@@ -2,49 +2,125 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:flutter/scheduler.dart' show Ticker;
 
-void main() => runApp(AnimApp());
+class CustomAnimatedCurves extends StatelessWidget {
+  const CustomAnimatedCurves({
+    Key key,
+    this.height = 200.0,
+  }) : super(key: key);
 
-class AnimApp extends StatelessWidget {
+  final double height;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark(),
-      home: Material(
-        child: Center(
-          child: WaveyLines(
-            child: SizedBox(
-              width: 200.0,
-              height: 200.0,
+    return AnimatedCurves(
+      colors: const [Colors.black12, Color(0x0AFFFFFF) ],
+      durations: const [Duration(seconds: 25), Duration(seconds: 60) ],
+      waveAmplitudes: const [30.0, 30.0],
+      waveFrequencies: const [1.33, 1.8],
+      heightFractions: const [0.30, 0.20],
+      size: Size(double.infinity, height),
+    );
+  }
+}
+
+class AnimatedCurves extends StatelessWidget {
+  AnimatedCurves({
+    @required this.colors,
+    @required this.durations,
+    @required this.waveAmplitudes,
+    @required this.waveFrequencies,
+    @required this.heightFractions,
+    @required this.size,
+    this.backgroundColor,
+  });
+
+  final List<Color> colors;
+  final List<Duration> durations;
+  final List<double> waveAmplitudes;
+  final List<double> waveFrequencies;
+  final List<double> heightFractions;
+  final Size size;
+  final Color backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: backgroundColor,
+      width: size.width,
+      height: size.height,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: List.generate(durations.length, (int index) {
+          return SizedBox.fromSize(
+            size: size,
+            child: AnimatedCurve(
+              color: colors[index],
+              duration: durations[index],
+              heightFraction: heightFractions[index],
+              waveFrequency: waveFrequencies[index],
+              waveAmplitude: waveAmplitudes[index],
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }
 }
 
-class WaveyLines extends SingleChildRenderObjectWidget {
-  WaveyLines({
+class AnimatedCurve extends LeafRenderObjectWidget {
+  AnimatedCurve({
     Key key,
-    @required Widget child,
-  }) : super(key: key, child: child);
+    this.color,
+    this.duration,
+    this.waveAmplitude,
+    this.waveFrequency,
+    this.heightFraction,
+  }) : super(key: key);
+
+  final Color color;
+  final Duration duration;
+  final double waveAmplitude;
+  final double waveFrequency;
+  final double heightFraction;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return _RenderWaveyLines();
+    return _RenderAnimatedCurves(widget: this);
+  }
+
+  @override
+  void updateRenderObject(BuildContext context, _RenderAnimatedCurves renderObject) {
+    renderObject..widget = this;
   }
 }
 
-class _RenderWaveyLines extends RenderProxyBox {
+class _RenderAnimatedCurves extends RenderProxyBox {
+  _RenderAnimatedCurves({
+    AnimatedCurve widget,
+  }) : _widget = widget;
+
+  final Paint _paint = Paint();
+
+  AnimatedCurve _widget;
   Ticker _ticker;
   double _time = 0.0;
+
+  AnimatedCurve get widget => _widget;
+
+  set widget(AnimatedCurve value) {
+    if (_widget != value) {
+      return;
+    }
+    _widget = value;
+    markNeedsPaint();
+  }
 
   @override
   void attach(PipelineOwner owner) {
     super.attach(owner);
-    _ticker = Ticker(_onTick, debugLabel: 'RenderWaveyLines');
+    _ticker = Ticker(_onTick, debugLabel: 'RenderAnimatedCurves');
     _ticker.start();
   }
 
@@ -55,8 +131,9 @@ class _RenderWaveyLines extends RenderProxyBox {
     super.detach();
   }
 
-  void _onTick(Duration duration) {
-    _time = duration.inMicroseconds / Duration.microsecondsPerSecond;
+  void _onTick(Duration animationDuration) {
+    double duration = widget.duration.inMicroseconds.toDouble();
+    _time = ((animationDuration.inMicroseconds.toDouble() % duration) / duration);
     markNeedsPaint();
   }
 
@@ -65,62 +142,32 @@ class _RenderWaveyLines extends RenderProxyBox {
     Canvas canvas = context.canvas;
     canvas.save();
     canvas.translate(offset.dx, offset.dy);
-    _paintWaves(canvas, size);
-    canvas.restore();
 
-    super.paint(context, offset);
+    double viewCenterY = size.height * widget.heightFraction;
+    double value = 360.0 * Curves.easeInOut.transform(((_time - 0.5) * 2.0).abs()).clamp(0.0, 1.0);
+
+    final path = Path();
+    final amplitude = (-0.8 * widget.waveAmplitude);
+    final phase = value * 2.0 + 30.0;
+
+    path.reset();
+    path.moveTo(0.0, viewCenterY + amplitude * _sinY(size, phase, widget.waveFrequency, -1));
+    for (int i = 1; i < size.width + 1; i++) {
+      path.lineTo(i.toDouble(), viewCenterY + amplitude * _sinY(size, phase, widget.waveFrequency, i));
+    }
+    path.lineTo(size.width, size.height);
+    path.lineTo(0.0, size.height);
+    path.close();
+
+    _paint.color = widget.color;
+    _paint.style = PaintingStyle.fill;
+
+    canvas.drawPath(path, _paint);
+
+    canvas.restore();
   }
 
-  final red = Paint()..color = Colors.red;
-  final yellow = Paint()..color = Colors.yellow.withOpacity(0.5);
-  final green = Paint()..color = Colors.green;
-  final cyan = Paint()..color = Colors.cyan;
-
-  void _paintWaves(Canvas canvas, Size size) {
-    canvas.drawRect(Offset.zero & size, red);
-
-    final fWidth = size.width;
-    final fHeight = size.height;
-    final hWidth = size.width / 2.0;
-    final hHeight = size.height / 2.0;
-
-    final wWidth = (fWidth * 1.25) / 3;
-    final wave = Path();
-
-    final m = -(fWidth * (0.125 + (math.sin(_time) * 0.125)));
-    wave.moveTo(m, hHeight);
-    double x = m;
-    for (int i = 0; i < 4; i++) {
-      double v = x * 0.20 + _time;
-      double f = math.sin(x) * math.cos(v * 1.5);
-      final o = Offset(x, hHeight + (f * hHeight * (0.5 * (x / fWidth))));
-      //wave.lineTo(o.dx, o.dy);
-      wave.arcToPoint(o, radius: Radius.elliptical(wWidth, o.dy * 2.6));
-      x += wWidth;
-    }
-    /*
-    wave.moveTo(-(fWidth * (0.125 + (math.sin(_time) * 0.125))), hHeight);
-    for (int i = 0; i < 3; i++) {
-      double y1 = (math.sin(_time) * 0.3);
-      double y2 = (math.sin(-_time) * 0.3);
-      final control1 =
-          Offset(wWidth * (0.5 + (math.sin(_time) * 0.125)), fHeight * y1);
-      final control2 =
-          Offset(wWidth * (0.5 + (math.sin(_time) * 0.125)), fHeight * y2);
-      wave.relativeCubicTo(
-          control1.dx, control1.dy, control2.dx, control2.dy, wWidth, 0.0);
-      canvas.drawCircle(control1, 3.0, cyan);
-      canvas.drawCircle(control2, 3.0, green);
-    }
-    */
-
-    wave.lineTo(size.width, size.height);
-    wave.lineTo(0.0, size.height);
-    wave.close();
-
-    canvas.save();
-    canvas.clipRect(Offset.zero & size);
-    canvas.drawPath(wave, yellow);
-    canvas.restore();
+  double _sinY(Size size, double startRadius, double waveFrequency, int currentPosition) {
+    return math.sin((math.pi / size.width) * waveFrequency * (currentPosition) + startRadius * 2 * math.pi / 360.0);
   }
 }
