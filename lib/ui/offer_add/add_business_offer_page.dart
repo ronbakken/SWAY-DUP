@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/offer_add/add_offer_step_1.dart';
 import 'package:inf/ui/offer_add/add_offer_step_2.dart';
 import 'package:inf/ui/offer_add/add_offer_step_3.dart';
@@ -16,8 +15,7 @@ class AddBusinessOfferPage extends PageWidget {
 
   static Route<dynamic> route(UserType userType) {
     return FadePageRoute(
-      builder: (BuildContext context) =>
-          AddBusinessOfferPage(userType: userType),
+      builder: (BuildContext context) => AddBusinessOfferPage(userType: userType),
     );
   }
 
@@ -40,15 +38,17 @@ class _AddBusinessOfferPageState extends PageState<AddBusinessOfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       resizeToAvoidBottomPadding: false,
       backgroundColor: AppTheme.darkGrey,
-      appBar: AppBar(elevation: 0.0,
+      appBar: AppBar(
+        elevation: 0.0,
         backgroundColor: AppTheme.darkGrey,
         centerTitle: true,
         title: Text('MAKE AN OFFER'),
       ),
-      body: MultiPageWizard(indicatorBackgroundColor: AppTheme.blue, indicatorColor: AppTheme.lightBlue,
+      body: MultiPageWizard(
+        indicatorBackgroundColor: AppTheme.blue,
+        indicatorColor: AppTheme.lightBlue,
         key: _wizardKey,
         pages: [
           AddOfferStep1(
@@ -83,13 +83,13 @@ class OfferPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        return Container(
-          color: Colors.blue,
-          child: RaisedButton(
-            onPressed: () {
-              MultiPageWizard.of(context).nextPage();
-            },
-          ),
-        );
+    return Container(
+      color: Colors.blue,
+      child: RaisedButton(
+        onPressed: () {
+          MultiPageWizard.of(context).nextPage();
+        },
+      ),
+    );
   }
 }
