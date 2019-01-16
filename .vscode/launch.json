@@ -40,6 +40,13 @@
             "program": "test/account_test.dart",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "Direct API Test: OAuth",
+            "cwd": "sample_api_direct",
+            "program": "test/oauth_test.dart",
+            "request": "launch",
+            "type": "dart"
         }
     ]
 }
