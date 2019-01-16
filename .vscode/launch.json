@@ -47,6 +47,13 @@
             "program": "test/oauth_test.dart",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "Direct API Test: Offer by Business",
+            "cwd": "sample_api_direct",
+            "program": "test/offer_business_test.dart",
+            "request": "launch",
+            "type": "dart"
         }
     ]
 }

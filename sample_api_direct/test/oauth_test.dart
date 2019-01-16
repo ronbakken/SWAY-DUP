@@ -66,7 +66,7 @@ Future<void> main() async {
   setUpAll(() async {
     httpClient = http.Client();
     channel = grpc.ClientChannel(
-      '192.168.43.202', // '127.0.0.1', // 
+      '127.0.0.1', // '192.168.43.202', // 
       port: 8080, // Connect to Envoy Proxy
       options: const grpc.ChannelOptions(
         credentials: grpc.ChannelCredentials.insecure(),
