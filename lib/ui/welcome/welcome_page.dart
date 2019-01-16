@@ -44,7 +44,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
                   return snapshot.hasData ? _WelcomeWall(data: snapshot.data) : SizedBox();
                 },
               ),
-              FadeTransition(
+              /*FadeTransition(
                 opacity: secondaryAnimation,
                 child: SafeArea(
                   child: Container(
@@ -55,12 +55,12 @@ class _WelcomePageState extends PageState<WelcomePage> {
                     ),
                   ),
                 ),
-              ),
+              ),*/
               FadeTransition(
                 opacity: secondaryAnimation,
                 child: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 48.0),
+                    padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 24.0),
                     child: Column(
                       children: <Widget>[
                         Expanded(
@@ -83,6 +83,19 @@ class _WelcomePageState extends PageState<WelcomePage> {
                           color: AppTheme.red,
                           onPressed: () =>
                               Navigator.of(context).push(OnBoardingPage.route(userType: UserType.business)),
+                        ),
+                        SizedBox(height: 12.0),
+                        InfStadiumButton(
+                          textSpan: const TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(text: 'Already got an account? '),
+                              TextSpan(text: 'Login', style: TextStyle(
+                                decoration: TextDecoration.underline,
+                              )),
+                            ],
+                          ),
+                          color: Colors.transparent,
+                          onPressed: () {},
                         ),
                       ],
                     ),
@@ -236,9 +249,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
               maxHeight: size.height,
               child: _WelcomeWallBackground(
                 speed: 24.0,
-                children: widget.data.imageUrls
-                  .map<Widget>((url) => _buildWallTile(url))
-                  .toList(growable: false),
+                children: widget.data.imageUrls.map<Widget>((url) => _buildWallTile(url)).toList(growable: false),
               ),
             ),
           ),
@@ -257,8 +268,8 @@ class _WelcomeWallState extends State<_WelcomeWall> {
                   ],
                   stops: <double>[
                     0.5,
-                    0.75,
-                    0.97,
+                    0.70,
+                    0.85,
                   ],
                 ),
               ),
