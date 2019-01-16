@@ -81,12 +81,6 @@ workflows:
 
               sudo apt-get update
               sudo apt-get install azure-cli
-
-              # Add the mesh extension
-              az extension add --name mesh
-
-              # Add Service Fabric CLI
-              pip install sfctl
             }
     - script:
         title: Cake Build
