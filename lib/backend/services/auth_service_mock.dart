@@ -166,44 +166,44 @@ class AuthenticationServiceMock implements AuthenticationService {
       var socialMediaAccounts = <SocialMediaAccount> [
           SocialMediaAccount()
             ..id = 1
-            ..isActive = true
+            ..type= SocialNetworkProviderType.instagram
             ..socialNetworkProviderId = 0
-            ..url = 'https=//twitter.com/ThomasBurkhartB'
+            ..profileUrl = 'https=//twitter.com/ThomasBurkhartB'
             ..displayName = 'Thomas Burkhart'
             ..description = 'The best online shop for baking'
-            ..followersCount = 900,
+            ..audienceSize = 900,
           SocialMediaAccount()
             ..id = 2
-            ..isActive = true
+            ..type= SocialNetworkProviderType.instagram            
             ..socialNetworkProviderId = 0
-            ..url = 'https://twitter.com/ThomasBurkhartB'
+            ..profileUrl = 'https://twitter.com/ThomasBurkhartB'
             ..displayName = 'Thomas Burkhart'
             ..description = 'The best online shop for baking'
-            ..followersCount = 900,
+            ..audienceSize = 900,
           SocialMediaAccount()
             ..id = 3
-            ..isActive = false
+            ..type= SocialNetworkProviderType.facebook            
             ..socialNetworkProviderId = 1
-            ..url = 'https://twitter.com/ThomasBurkhartB'
+            ..profileUrl = 'https://twitter.com/ThomasBurkhartB'
             ..displayName = 'Thomas Burkhart'
             ..description = 'The best online shop for baking'
-            ..followersCount = 900,
+            ..audienceSize = 900,
           SocialMediaAccount()
             ..id = 4
-            ..isActive = true
+            ..type= SocialNetworkProviderType.twitter            
             ..socialNetworkProviderId = 2
-            ..url = 'https://twitter.com/ThomasBurkhartB'
+            ..profileUrl = 'https://twitter.com/ThomasBurkhartB'
             ..displayName = 'Thomas Burkhart'
             ..description = 'The best online shop for baking'
-            ..followersCount = 900,
+            ..audienceSize = 900,
           SocialMediaAccount()
             ..id = 5
-            ..isActive = true
+            ..type = SocialNetworkProviderType.snapchat
             ..socialNetworkProviderId = 4
-            ..url = 'https://twitter.com/ThomasBurkhartB'
+            ..profileUrl = 'https://twitter.com/ThomasBurkhartB'
             ..displayName = 'Thomas Burkhart'
             ..description = 'The best online shop for baking'
-            ..followersCount = 900
+            ..audienceSize = 900
 
         ];
       

@@ -10,11 +10,7 @@ import 'package:inf/ui/widgets/inf_switch.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class MainNavigationDrawer extends StatelessWidget {
-  void setSocialMediaAccountState(SocialMediaAccount account, bool isActive) {
-    backend
-        .get<UserManager>()
-        .updateSocialMediaAccountCommand(account.copyWith((account) => account.isActive = isActive));
-  }
+
 
   @override
   Widget build(BuildContext context) {

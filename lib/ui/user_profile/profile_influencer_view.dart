@@ -29,7 +29,6 @@ class ProfileInfluencerView extends StatelessWidget {
               if (snapShot.hasData) {
                 var rowItems = <Widget>[];
                 for (var account in snapShot.data) {
-                  if (account.socialMediaAccount.isActive)
                     rowItems.add(
                       Column(
                         mainAxisSize: MainAxisSize.min,
@@ -44,7 +43,7 @@ class ProfileInfluencerView extends StatelessWidget {
                             style: const TextStyle(color: AppTheme.white50),
                           ),
                           SizedBox(height: 8),
-                          Text(followerCountAsString(account.socialMediaAccount.followersCount)),
+                          Text(followerCountAsString(account.socialMediaAccount.audienceSize)),
                         ],
                       ),
                     );
