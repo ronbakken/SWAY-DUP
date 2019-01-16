@@ -28,7 +28,7 @@ Future<void> main() async {
           '${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}\n${rec.error.toString()}\n${rec.stackTrace.toString()}');
     }
   });
-  Logger log = Logger('OAuthTest');
+  final Logger log = Logger('OAuthTest');
 
   // Config
   const String configFile = '../assets/config_local.bin';
