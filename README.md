@@ -23,7 +23,7 @@ The Bitrise script allows environment variables to be overridden. This is critic
 Create a file called `inf_server.env` at `C:\Users\$NAME\inf_server.env`. Put the following content inside `inf_server.env`:
 
 ```
-ENVIRONMENT_OVERRIDE=<<YOUR_NAME>>
+ENVIRONMENT=<<YOUR_NAME>>
 ```
 
 Replace `<<YOUR_NAME>>` with your first name. This will be incorporated into the resource group name and all resources within, ensuring your resources are kept separate to those of other developers and environments.
@@ -53,7 +53,7 @@ TODO
 2. From the Bash terminal, execute Bitrise with:
 
     ```
-    bitrise run dev
+    bitrise run localdev
     ```
 
 ## Posterity Notes

@@ -16,16 +16,6 @@ workflows:
                 chmod +x /usr/local/bin/envman
             }
     - script:
-        title: Apply Overrides
-        inputs:
-        - content: |
-            #!/bin/bash
-            set -ex
-
-            if [ ! -z "$ENVIRONMENT_OVERRIDE" ] ; then
-              envman add --key ENVIRONMENT --value "$ENVIRONMENT_OVERRIDE"
-            fi
-    - script:
         title: Print Environment Variables
         inputs:
         - content: |
@@ -93,6 +83,9 @@ workflows:
     # - deploy-to-bitrise-io:
     #     inputs:
     #     - notify_user_groups: none
+  localdev:
+    after_run:
+    - _run_from_repo
   dev:
     envs:
     - ENVIRONMENT: "dev"
@@ -115,7 +108,6 @@ app:
     - DEPLOY_LOCALLY: "True"
     - LOCAL_DEPLOY_DIR: "$BITRISE_DEPLOY_DIR"
     - REGION: "North Central US"
-    - ENVIRONMENT: "dev"
     - AZURE_SUBSCRIPTION_ID: "73d340c7-9e04-436d-90cf-cf2f0a353416"
     # This is the app ID obtained when created the service principal.
     - AZURE_CLIENT_ID: "ad15fabb-97a2-4b2a-aa37-b10749b8b2e1"
