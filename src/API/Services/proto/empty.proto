@@ -1,0 +1,6 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API";
+
+message Empty {}

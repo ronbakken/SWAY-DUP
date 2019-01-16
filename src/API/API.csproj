@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <IsServiceFabricServiceProject>True</IsServiceFabricServiceProject>
+        <ServerGarbageCollection>True</ServerGarbageCollection>
+        <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+        <TargetLatestRuntimePatch>False</TargetLatestRuntimePatch>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="Services\deliverable.proto" />
+        <None Remove="Services\icons\business_profile_lowres.png" />
+        <None Remove="Services\social_media_account.proto" />
+        <None Remove="Services\user.proto" />
+        <None Remove="user.proto" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.6.1" />
+        <PackageReference Include="Grpc" Version="1.17.0" />
+        <PackageReference Include="Grpc.Tools" Version="1.17.1" PrivateAssets="true" />
+        <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.3.617" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\User.Interfaces\User.Interfaces.csproj" />
+        <ProjectReference Include="..\User\User.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProtoBuf Include="Services\proto\*.proto" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Services\icons\*.*" />
+    </ItemGroup>
+
+</Project>

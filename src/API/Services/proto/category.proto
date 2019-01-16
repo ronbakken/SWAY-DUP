@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API";
+
+message Category {
+    int32 id = 1;
+    // for top level categories this is set to -1
+    int32 parentId = 2;
+    string name = 3;
+    string description = 4;
+    bytes iconData = 5;
+}
