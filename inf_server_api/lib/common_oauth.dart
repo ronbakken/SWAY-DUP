@@ -16,6 +16,7 @@ import 'package:pedantic/pedantic.dart';
 // TODO: OAuth should be moved to a separate service.
 
 /// Fetches access token credentials for a user from an OAuth provider by auth callback query
+/// Throws an exception in case the passed query is not permitted
 Future<DataOAuthCredentials> fetchOAuthCredentials(
     Logger opsLog,
     Logger devLog,
@@ -50,6 +51,34 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
           oauthCredentials.tokenExpires = 0;
           oauthCredentials.userId = authRes.optionalParameters['user_id'];
           // screenName = authRes.optionalParameters['screen_name']; // DISCARDED
+        } else if (query.containsKey('oauth_token') &&
+            query.containsKey('oauth_token_secret')) {
+          // Direct login for Test Users
+          switch (OAuthProviderIds.valueOf(oauthProvider)) {
+            case OAuthProviderIds.twitter:
+              {
+                // This is normally not the used path,
+                // but required for testing and plugin support
+                // TODO: Ensure that obtained tokens aren't valid for other app consumer keys
+                oauthCredentials.token = query['oauth_token'];
+                oauthCredentials.tokenSecret = query['oauth_token_secret'];
+                oauthCredentials.tokenExpires = 0;
+                final oauth1.ClientCredentials clientCredentials =
+                    oauth1.ClientCredentials(
+                        provider.consumerKey, provider.consumerSecret);
+                final oauth1.Credentials credentials = oauth1.Credentials(
+                    oauthCredentials.token, oauthCredentials.tokenSecret);
+                final oauth1.Client client = oauth1.Client(
+                    oauth1.SignatureMethods.hmacSha1,
+                    clientCredentials,
+                    credentials,
+                    httpClient);
+                final http.Response response = await client.get(
+                    'https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true');
+                final dynamic doc = json.decode(response.body);
+                oauthCredentials.userId = doc['id_str'];
+              }
+          }
         } else {
           // devLog.warning("Query doesn't contain the required parameters: ${callbackQuery}");
         }
@@ -81,6 +110,7 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
               (DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) +
                   accessTokenDoc['expires_in'];
         } else if (query.containsKey('access_token')) {
+          // Direct login for Test Users
           oauthCredentials.token = query['access_token'];
         }
         if (oauthCredentials.token.isNotEmpty) {
@@ -99,11 +129,12 @@ Future<DataOAuthCredentials> fetchOAuthCredentials(
             if (debugData['app_id'] != provider.clientId) {
               opsLog.warning(
                   'User specified invalid app (expect ${provider.clientId}) $debugTokenDoc');
-              break;
+              throw grpc.GrpcError.failedPrecondition(
+                  "Invalid app '${debugData['app_id']}' specified");
             }
             if (debugData['is_valid'] != true) {
               opsLog.warning('User token not valid $debugTokenDoc');
-              break;
+              throw grpc.GrpcError.failedPrecondition('User token not valid');
             }
             oauthCredentials.userId = debugData['user_id'];
             oauthCredentials.tokenExpires = debugData['expires_at'];
