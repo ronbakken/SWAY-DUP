@@ -34,6 +34,7 @@ abstract class ApiInternals {
   void processSwitchAccount(LocalAccountData localAccount);
   void receivedAccountUpdate(DataAccount account, {DataAccount removeGhost});
   void markEverythingDirty();
+  Future<void> refreshAccessToken();
 
   // Profiles
   void initProfiles();

@@ -191,7 +191,8 @@ abstract class ApiAccount implements Api, ApiInternals {
   }
 
   /// Refresh access token
-  Future<void> _refreshAccessToken() async {
+  @override
+  Future<void> refreshAccessToken() async {
     await _lock.synchronized(() async {
       if (!_alive) {
         // Close any existing session if no longer alive
@@ -399,7 +400,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   void overrideEndPoint(String serverUri) {
     log.info('Override server uri to $serverUri');
     _overrideEndPoint = serverUri;
-    _refreshAccessToken();
+    refreshAccessToken();
   }
 
   void syncMultiAccountStore(MultiAccountStore multiAccountStore) {
@@ -417,7 +418,7 @@ abstract class ApiAccount implements Api, ApiInternals {
       log.severe(
           'Widget config is null in network sync'); // DEVELOPER - CRITICAL
     }
-    _refreshAccessToken();
+    refreshAccessToken();
   }
 
   void cleanupStateSwitchingAccounts() {
@@ -443,7 +444,7 @@ abstract class ApiAccount implements Api, ApiInternals {
   @override
   void disposeAccount() {
     _alive = false;
-    _refreshAccessToken();
+    refreshAccessToken();
     _sessionSubscription.cancel();
     _sessionSubscription = null;
     _sessionChanged.close();
@@ -451,13 +452,13 @@ abstract class ApiAccount implements Api, ApiInternals {
 
   @override
   void accountDependencyChanged() {
-    _refreshAccessToken();
+    refreshAccessToken();
   }
 
   void setApplicationForeground(bool foreground) {
     // TODO: This affects push api, not the session api
     if (foreground) {
-      _refreshAccessToken();
+      refreshAccessToken();
     }
   }
 

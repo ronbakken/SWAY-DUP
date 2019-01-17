@@ -117,12 +117,28 @@ abstract class ApiPush implements Api, ApiInternals {
                 _receiveDone();
               }
             } else {
-              _pushSubscription = _pushClient.listen(NetListen()).listen(
-                    _receiveMessage,
-                    onError: _receiveError,
-                    onDone: _receiveDone,
-                  );
-              // TODO: Does `_pushClient.listen` throw exceptions?
+              try {
+                _pushSubscription = _pushClient.listen(NetListen()).listen(
+                      _receiveMessage,
+                      onError: _receiveError,
+                      onDone: _receiveDone,
+                    );
+                // TODO: Does `_pushClient.listen` throw exceptions?
+              } catch (error, stackTrace) {
+                log.warning(
+                    'Failed to connect to push service', error, stackTrace);
+                if (error is grpc.GrpcError) {
+                  final grpc.GrpcError grpcError = error;
+                  if (grpcError.code == grpc.GrpcError.unavailable().code &&
+                      grpcError.message.contains(
+                          'The http/2 connection is no longer active')) {
+                    // TODO: This seems to be a design flaw in the gRPC library...
+                    // I/flutter ( 2588): gRPC Error (14, Error making call: Bad state: The http/2 connection is no longer active and can therefore not be used to make new streams.)
+                    await refreshAccessToken();
+                  }
+                }
+                rethrow;
+              }
             }
           }
         },
