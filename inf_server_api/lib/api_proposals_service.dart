@@ -5,6 +5,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_server_api/broadcast_center.dart';
@@ -31,7 +32,22 @@ class ApiProposalsService extends ApiProposalsServiceBase {
   final http.Client httpClient = http.Client();
   final http_client.Client httpClientClient = http_client.ConsoleClient();
 
-  ApiProposalsService(this.config, this.accountDb, this.proposalDb, this.bc);
+  grpc.ClientChannel backendExploreChannel;
+  BackendExploreClient backendExplore;
+
+  ApiProposalsService(this.config, this.accountDb, this.proposalDb, this.bc) {
+    final Uri backendExploreUri = Uri.parse(
+        Platform.environment['INF_BACKEND_EXPLORE'] ??
+            config.services.backendPush);
+    backendExploreChannel = grpc.ClientChannel(
+      backendExploreUri.host,
+      port: backendExploreUri.port,
+      options: const grpc.ChannelOptions(
+        credentials: grpc.ChannelCredentials.insecure(),
+      ),
+    );
+    backendExplore = BackendExploreClient(backendExploreChannel);
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -47,13 +63,29 @@ class ApiProposalsService extends ApiProposalsServiceBase {
     }
 
     // Fetch some offer info
-    final DataOffer offer =
-        await getOffer(config, elasticsearch, request.offerId, auth.accountId);
+    final GetOfferRequest exploreRequest = GetOfferRequest();
+    exploreRequest.offerId = request.offerId;
+    // TODO: Can this be considered as an internal request instead of a user request?
+    exploreRequest.receiverAccountId = auth.accountId;
+    exploreRequest.state = true;
+    exploreRequest.summary = true;
+    exploreRequest.detail = true;
+    exploreRequest.private = true;
+    final GetOfferResponse exploreResponse =
+        await backendExplore.getOffer(exploreRequest);
+    final DataOffer offer = exploreResponse.offer.offer;
+
     if (offer.senderAccountId == Int64.ZERO) {
       // Should not happen. Database issue likely
       opsLog.severe(
           'Request for offer "${request.offerId}" returned empty sender account id.');
       throw grpc.GrpcError.internal('Offer not valid.');
+    }
+    if (!offer.hasState()) {
+      throw grpc.GrpcError.internal('Offer state not read.');
+    }
+    if (!offer.hasTerms()) {
+      throw grpc.GrpcError.internal('Offer terms not read.');
     }
     if (offer.state != OfferState.open) {
       throw grpc.GrpcError.failedPrecondition('Offer not open.');
