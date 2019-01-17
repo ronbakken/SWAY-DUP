@@ -1,9 +1,10 @@
-﻿using API.Services;
-using Grpc.Core;
-using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using System.Fabric;
+﻿using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
+using API.Services;
+using Grpc.Core;
+using Grpc.Core.Interceptors;
+using Microsoft.ServiceFabric.Services.Communication.Runtime;
 
 namespace API
 {
@@ -35,7 +36,8 @@ namespace API
             {
                 Services =
                 {
-                    ConfigurationService.BindService(new ConfigurationServiceImpl()),
+                    ConfigurationService.BindService(new ConfigurationServiceImpl()).Intercept(new FooInterceptor()),
+                    InvitationCodeService.BindService(new InvitationCodeServiceImpl()),
                     UserService.BindService(new UserServiceImpl()),
                 },
                 Ports =

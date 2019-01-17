@@ -6,7 +6,6 @@
     <ServerGarbageCollection>True</ServerGarbageCollection>
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
     <TargetLatestRuntimePatch>False</TargetLatestRuntimePatch>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,49 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API";
+
+import "Services/proto/empty.proto";
+
+service InvitationCodeService {
+    // Administrative procedures.
+    rpc Generate (Empty) returns (GenerateResponse) {}
+    rpc GetStatus (GetStatusRequest) returns (GetStatusResponse) {}
+
+    // User procedures.
+    rpc Use (UseRequest) returns (UseResponse) {}
+}
+
+message GenerateResponse {
+    string invitationCode = 1;
+}
+
+message GetStatusRequest {
+    string invitationCode = 1;
+}
+
+message GetStatusResponse {
+    enum InvitationCodeStatus {
+        DOES_NOT_EXIST = 0;
+        PENDING_USE = 1;
+        USED = 2;
+        EXPIRED = 3;
+    }
+
+    InvitationCodeStatus status = 1;
+}
+
+message UseRequest {
+    string invitationCode = 1;
+}
+
+message UseResponse {
+    enum InvitationCodeUseResult {
+        DOES_NOT_EXIST = 0;
+        ALREADY_USED = 1;
+        EXPIRED = 2;
+        SUCCESS = 3;
+    }
+
+    InvitationCodeUseResult result = 1;
+}

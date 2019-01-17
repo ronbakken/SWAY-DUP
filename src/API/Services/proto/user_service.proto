@@ -4,21 +4,4 @@ package api;
 option csharp_namespace = "API";
 
 service UserService {
-    rpc GetName (GetNameRequest) returns (GetNameResponse) {}
-    rpc SetName (SetNameRequest) returns (SetNameResponse) {}
-}
-
-message SetNameRequest {
-    int32 id = 1;
-    string name = 2;
-}
-
-message SetNameResponse {}
-
-message GetNameRequest {
-    int32 id = 1;
-}
-
-message GetNameResponse {
-    string name = 1;
 }

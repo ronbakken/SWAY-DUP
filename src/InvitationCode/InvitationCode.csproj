@@ -11,17 +11,15 @@
         <ServicePackagePath>PackageRoot</ServicePackagePath>
         <ServicePackagePrefix>$(MSBuildProjectName)</ServicePackagePrefix>
         <FabActUtilWorkingDir>$(BaseIntermediateOutputPath)\FabActUtilTemp</FabActUtilWorkingDir>
-        <LangVersion>latest</LangVersion>
-        <UpdateServiceFabricManifestEnabled>false</UpdateServiceFabricManifestEnabled>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BCrypt.Net-Next" />
         <PackageReference Include="Microsoft.ServiceFabric.Actors" />
+        <PackageReference Include="NodaTime" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\User.Interfaces\User.Interfaces.csproj" />
+        <ProjectReference Include="..\InvitationCode.Interfaces\InvitationCode.Interfaces.csproj" />
     </ItemGroup>
 
 </Project>

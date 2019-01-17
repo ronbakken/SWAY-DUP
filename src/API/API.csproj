@@ -13,21 +13,27 @@
     <ItemGroup>
         <None Remove="Services\deliverable.proto" />
         <None Remove="Services\icons\business_profile_lowres.png" />
+        <None Remove="Services\proto\invitation_code_service.proto" />
         <None Remove="Services\social_media_account.proto" />
         <None Remove="Services\user.proto" />
         <None Remove="user.proto" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.6.1" />
-        <PackageReference Include="Grpc" Version="1.17.0" />
-        <PackageReference Include="Grpc.Tools" Version="1.17.1" PrivateAssets="true" />
-        <PackageReference Include="Microsoft.ServiceFabric.Services" Version="3.3.617" />
+        <PackageReference Include="Google.Protobuf" />
+        <PackageReference Include="Grpc" />
+        <PackageReference Include="Microsoft.ServiceFabric.Services" />
+
+        <PackageReference Include="Grpc.Tools" PrivateAssets="true" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\InvitationCode.Interfaces\InvitationCode.Interfaces.csproj" />
+        <ProjectReference Include="..\InvitationCodeManager.Interfaces\InvitationCodeManager.Interfaces.csproj" />
+        <ProjectReference Include="..\Session.Interfaces\Session.Interfaces.csproj" />
         <ProjectReference Include="..\User.Interfaces\User.Interfaces.csproj" />
         <ProjectReference Include="..\User\User.csproj" />
+        <ProjectReference Include="..\Utility\Utility.csproj" />
     </ItemGroup>
 
     <ItemGroup>
