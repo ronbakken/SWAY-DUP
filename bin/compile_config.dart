@@ -46,6 +46,8 @@ Future<ConfigServices> generateConfigServices(
 
       if (cfg.hasOption(section, 'backendPush'))
         res.backendPush = cfg.get(section, 'backendPush');
+      if (cfg.hasOption(section, 'backendExplore'))
+        res.backendExplore = cfg.get(section, 'backendExplore');
       if (cfg.hasOption(section, 'backendJwt'))
         res.backendJwt = cfg.get(section, 'backendJwt');
 
