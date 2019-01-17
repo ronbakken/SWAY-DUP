@@ -8,86 +8,85 @@ import "user.proto";
 import "social_media_account.proto";
 
 service InfAuth {
-  rpc SendLoginEmail(LoginEmailRequest) returns (Empty) {}
+    rpc SendLoginEmail(LoginEmailRequest) returns (Empty) {}
 
-  rpc ValidateInvitationCode(InvitationCode) returns (InvitationCodeState) {}
+    rpc ValidateInvitationCode(InvitationCode) returns (InvitationCodeState) {}
 
-  rpc CreateNewUser(CreateNewUserRequest) returns (RefreshTokenMessage){}
+    rpc CreateNewUser(CreateNewUserRequest) returns (RefreshTokenMessage){}
 
-  rpc RequestRefreshToken(RefreshTokenRequest) returns (RefreshTokenMessage){}
+    rpc RequestRefreshToken(RefreshTokenRequest) returns (RefreshTokenMessage){}
 
-  rpc Login(RefreshTokenMessage) returns (LoginResultMessage){}
+    rpc Login(RefreshTokenMessage) returns (LoginResultMessage){}
 
-  rpc GetCurrentUser(RefreshTokenMessage) returns (User);
+    rpc GetCurrentUser(RefreshTokenMessage) returns (User);
 
-  rpc updateUser(UpdateUserRequest) returns (Empty);
+    rpc updateUser(UpdateUserRequest) returns (Empty);
 
-  // Returns the stored socialmedia accounts for a user
-  rpc GetSocialMediaAccountsForUser(SocialMediaRequest) returns (SocialMediaAccounts);
+    // Returns the stored socialmedia accounts for a user
+    rpc GetSocialMediaAccountsForUser(SocialMediaRequest) returns (SocialMediaAccounts);
 }
 
 // The request message containing the user's email.
 message LoginEmailRequest {
-  string email = 1;
+    string email = 1;
 }
-
 
 // Requests a long living refresh token based on a one time token the app
 // has reveived over a deep login link
 message RefreshTokenRequest {
-  string oneTimeToken = 1;
+    string oneTimeToken = 1;
 }
 
 // The message containing a refresh token
 message RefreshTokenMessage {
-  string refreshToken = 1;
+    string refreshToken = 1;
 }
 
 // The response message containing a JWT authorization token that will be used
 // on subsequent API calls
 // and the current user
 message LoginResultMessage {
-  string authorizationToken = 1;
-  User userData = 2;
+    string authorizationToken = 1;
+    User userData = 2;
 }
 
-message InvitationCode{
-  string code = 1;
+message InvitationCode {
+    string code = 1;
 }
 
-enum InvitationCodeStates{
-  valid = 0;
-  invalid = 1;
-  expired = 2;
+enum InvitationCodeStates {
+    valid = 0;
+    invalid = 1;
+    expired = 2;
 }
 
-message InvitationCodeState{
-  InvitationCodeStates state = 1;
+message InvitationCodeState {
+    InvitationCodeStates state = 1;
 }
 
-message CreateNewUserRequest{
-  // Token that is passed to the app with the login / sigup link from the email
-  string oneTimeToken = 1;
-  User userData = 2;
-  // device ID for push notification
-  string deviceID = 3;
+message CreateNewUserRequest {
+    // Token that is passed to the app with the login / sigup link from the email
+    string oneTimeToken = 1;
+    User userData = 2;
+    // device ID for push notification
+    string deviceID = 3;
 }
 
-message SocialMediaRequest{
-  int32 userId = 1;
+message SocialMediaRequest {
+    int32 userId = 1;
 }
 
-message SocialMediaAccounts{
-  int32 userId = 1;
-  repeated SocialMediaAccount accounts = 2;
+message SocialMediaAccounts {
+    int32 userId = 1;
+    repeated SocialMediaAccount accounts = 2;
 }
 
 // When a user edits a user's profile he can change the social media profiles to which needs an update
 // in the User object and the SocialMediaAccount objects
 // So best to send one update package
 // Make sure that a user has only one account for each SocialNetwork provider
-message UpdateUserRequest{
-  User user = 1;
-  repeated SocialMediaAccount socialMediaAccountsToAdd =2;
-  repeated SocialMediaAccount socialMediaAccountsToRemove =3;
+message UpdateUserRequest {
+    User user = 1;
+    repeated SocialMediaAccount socialMediaAccountsToAdd =2;
+    repeated SocialMediaAccount socialMediaAccountsToRemove =3;
 }
