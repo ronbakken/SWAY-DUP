@@ -331,7 +331,7 @@ Future<void> main() async {
         'Presented to you by ${faker.person.name()} of ${faker.company.name()}';
     createOffer.offer.terms = DataTerms();
     createOffer.offer.terms.deliverablesDescription =
-        'Post on ${faker.internet.userName()}gram';
+        'Post on ${faker.internet.domainWord()}';
     createOffer.offer.terms.rewardItemOrServiceDescription =
         '${faker.food.dish()}';
     for (int i = 2; i < (random.nextInt(4) + 4); ++i) {
