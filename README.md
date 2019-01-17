@@ -32,11 +32,12 @@ Run `docker-compose down` in `sample_jwt/docker_sample_jwt` to clean up.
 
 ## Service Descriptions
 
-| Directory | Name | Language | Description | Notes on scaling |
-| --- | --- | --- | --- | --- |
-| inf_server_api | API Integration | Dart | High level API. | Any number of instances. Stateless. |
-| inf_server_jwt | JWT Signing | Node.js | Signs all JWT tokens. | Any number of instances. Stateless.<br>May have mirrored temporary signatures in the future. |
-| inf_server_push | Push Notifications | Dart | Handles push connections to users.<br>Sends platform push notifcations. | Only 1 instance.<br>Support for scaling can be achieved by sharding by account id. |
+| Directory | Name | Language | Database | Description | Notes on scaling |
+| --- | --- | --- | --- | --- | --- |
+| inf_server_api | API Integration | Dart | MySQL | High level API. | Any number of instances. Stateless. |
+| inf_server_explore | Explore | Dart | Elasticsearch | Offer and profile search. | Any number of instances. Stateless. |
+| inf_server_jwt | JWT Signing | Node.js | --- |  Signs all JWT tokens. | Any number of instances. Stateless.<br>May have mirrored temporary signatures in the future. |
+| inf_server_push | Push Notifications | MySQL | Dart | Handles push connections to users.<br>Sends platform push notifcations. | Only 1 instance.<br>Support for scaling can be achieved by sharding by account id. |
 
 ## Service Ports
 
@@ -47,12 +48,14 @@ List of service ports is provided here to ensure we don't have overlapping ports
 | API gRPC | 8900 | / |
 | Push API gRPC | 8910 | /inf.ApiPush |
 | Push API WS | 8911 | /ws |
+| Explore API gRPC | 8930 | /inf.ApiExplore |
 
 | Internal Service | Port | Prefix |
 | --- | --- | --- |
 | Push Backend | 8919 | - |
 | JWT Backend HTTP | 8928 | /.well-known/jwks.json |
 | JWT Backend gRPC | 8929 | - |
+| Explore Backend gRPC | 8939 | - |
 
 | Database Service | Port |
 | --- | --- |

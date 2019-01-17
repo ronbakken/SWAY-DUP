@@ -18,11 +18,9 @@ import 'package:inf_server_api/api_proposal_service.dart';
 import 'package:inf_server_api/api_proposals_service.dart';
 import 'package:inf_server_api/api_session_service.dart';
 import 'package:inf_server_api/api_storage_service.dart';
-import 'package:inf_server_api/api_explore_service.dart';
 import 'package:inf_server_api/db_upgrade_accounts.dart';
 import 'package:inf_server_api/db_upgrade_proposals.dart';
 
-import 'package:inf_server_api/elasticsearch.dart';
 import 'package:inf_server_api/broadcast_center.dart';
 
 import 'package:logging/logging.dart';
@@ -142,9 +140,6 @@ Future<void> run(List<String> arguments) async {
     Logger('InfDev').finest('Bucket OK');
   }
 
-  // Elasticsearch
-  final Elasticsearch elasticsearch = Elasticsearch(config);
-
   final BroadcastCenter bc =
       BroadcastCenter(config, accountDb, proposalDb, bucket);
 
@@ -177,10 +172,9 @@ Future<void> run(List<String> arguments) async {
       ApiStorageService(config, bucket),
       ApiOAuthService(config, oauth1Auth),
       ApiProfilesService(config, accountDb),
-      ApiOffersService(config, accountDb, proposalDb, elasticsearch),
-      ApiProposalsService(config, accountDb, proposalDb, elasticsearch, bc),
-      ApiProposalService(config, accountDb, proposalDb, elasticsearch, bc),
-      ApiExploreService(config, elasticsearch)
+      ApiOffersService(config, accountDb, proposalDb),
+      ApiProposalsService(config, accountDb, proposalDb, bc),
+      ApiProposalService(config, accountDb, proposalDb, bc),
     ],
     <grpc.Interceptor>[
       // TODO(kaetemi): Add interceptor for JWT

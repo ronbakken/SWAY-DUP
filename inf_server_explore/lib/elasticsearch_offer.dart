@@ -9,7 +9,7 @@ import 'dart:core';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf_server_api/common_categories.dart';
+import 'package:inf_server_explore/common_categories.dart';
 import 'package:s2geometry/s2geometry.dart';
 import 'package:geohash/geohash.dart';
 

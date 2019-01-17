@@ -9,10 +9,6 @@ import 'dart:async';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_server_api/broadcast_center.dart';
 import 'package:inf_server_api/common_account.dart';
-import 'package:inf_server_api/common_offers.dart';
-import 'package:inf_server_api/common_storage.dart';
-import 'package:inf_server_api/elasticsearch.dart';
-import 'package:inf_server_api/elasticsearch_offer.dart';
 import 'package:inf_server_api/sql_proposal.dart';
 import 'package:logging/logging.dart';
 
@@ -28,7 +24,6 @@ class ApiProposalService extends ApiProposalServiceBase {
   final ConfigData config;
   final sqljocky.ConnectionPool accountDb;
   final sqljocky.ConnectionPool proposalDb;
-  final Elasticsearch elasticsearch;
   final BroadcastCenter bc;
   static final Logger opsLog = Logger('InfOps.ApiProposalService');
   static final Logger devLog = Logger('InfDev.ApiProposalService');
@@ -38,8 +33,7 @@ class ApiProposalService extends ApiProposalServiceBase {
 
   int _nextFakeGhostId;
 
-  ApiProposalService(this.config, this.accountDb, this.proposalDb,
-      this.elasticsearch, this.bc) {
+  ApiProposalService(this.config, this.accountDb, this.proposalDb, this.bc) {
     // TODO: This might actually conflict if we have multiple services...
     _nextFakeGhostId =
         ((DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF) |

@@ -7,8 +7,8 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf_server_api/elasticsearch.dart';
-import 'package:inf_server_api/elasticsearch_offer.dart';
+import 'package:inf_server_explore/elasticsearch.dart';
+import 'package:inf_server_explore/elasticsearch_offer.dart';
 import 'package:logging/logging.dart';
 
 import 'package:grpc/grpc.dart' as grpc;

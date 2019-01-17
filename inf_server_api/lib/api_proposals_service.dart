@@ -9,10 +9,6 @@ import 'dart:async';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_server_api/broadcast_center.dart';
 import 'package:inf_server_api/common_account.dart';
-import 'package:inf_server_api/common_offers.dart';
-import 'package:inf_server_api/common_storage.dart';
-import 'package:inf_server_api/elasticsearch.dart';
-import 'package:inf_server_api/elasticsearch_offer.dart';
 import 'package:inf_server_api/sql_proposal.dart';
 import 'package:logging/logging.dart';
 
@@ -28,7 +24,6 @@ class ApiProposalsService extends ApiProposalsServiceBase {
   final ConfigData config;
   final sqljocky.ConnectionPool accountDb;
   final sqljocky.ConnectionPool proposalDb;
-  final Elasticsearch elasticsearch;
   final BroadcastCenter bc;
   static final Logger opsLog = Logger('InfOps.ApiProposalsService');
   static final Logger devLog = Logger('InfDev.ApiProposalsService');
@@ -36,8 +31,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
   final http.Client httpClient = http.Client();
   final http_client.Client httpClientClient = http_client.ConsoleClient();
 
-  ApiProposalsService(this.config, this.accountDb, this.proposalDb,
-      this.elasticsearch, this.bc);
+  ApiProposalsService(this.config, this.accountDb, this.proposalDb, this.bc);
 
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////

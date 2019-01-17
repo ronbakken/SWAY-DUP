@@ -19,6 +19,13 @@ services:
     network_mode: host
     restart: always
     command: assets/config_local_server.bin
+  inf_server_explore:
+    build:
+      context: ..
+      dockerfile: inf_server_explore/Dockerfile
+    network_mode: host
+    restart: always
+    command: assets/config_local_server.bin
   inf_server_api:
     build:
       context: ..

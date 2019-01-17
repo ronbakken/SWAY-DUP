@@ -61,7 +61,7 @@ Future<void> main(List<String> arguments) async {
   final grpc.Server grpcApi = grpc.Server(
     <grpc.Service>[api],
     <grpc.Interceptor>[
-      // TODO: Add interceptor for JWT
+      // TODO: API tracking
     ],
   );
   final Future<void> grpcApiServing = grpcApi.serve(port: 8910);

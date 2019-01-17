@@ -32,7 +32,7 @@ void main() {
     grpcApi = grpc.Server(
       <grpc.Service>[SampleJwtService()],
       <grpc.Interceptor>[
-        // TODO: Add interceptor for JWT
+        // TODO: API tracking
       ],
     );
     await grpcApi.serve(port: 7900);

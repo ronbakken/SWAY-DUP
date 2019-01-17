@@ -6,8 +6,8 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf_server_api/elasticsearch.dart';
-import 'package:inf_server_api/elasticsearch_offer.dart';
+import 'package:inf_server_explore/elasticsearch.dart';
+import 'package:inf_server_explore/elasticsearch_offer.dart';
 
 Future<DataOffer> getOffer(ConfigData config, Elasticsearch elasticsearch,
     Int64 offerId, Int64 receiverAccountId) async {

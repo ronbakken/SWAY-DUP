@@ -9,8 +9,6 @@ import 'dart:async';
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_server_api/common_account.dart';
 import 'package:inf_server_api/common_storage.dart';
-import 'package:inf_server_api/elasticsearch.dart';
-import 'package:inf_server_api/elasticsearch_offer.dart';
 import 'package:logging/logging.dart';
 
 import 'package:grpc/grpc.dart' as grpc;
@@ -24,7 +22,6 @@ class ApiOffersService extends ApiOffersServiceBase {
   final ConfigData config;
   final sqljocky.ConnectionPool accountDb;
   final sqljocky.ConnectionPool proposalDb;
-  final Elasticsearch elasticsearch;
   static final Logger opsLog = Logger('InfOps.ApiOffersService');
   static final Logger devLog = Logger('InfDev.ApiOffersService');
 
@@ -32,7 +29,7 @@ class ApiOffersService extends ApiOffersServiceBase {
   final http_client.Client httpClientClient = http_client.ConsoleClient();
 
   ApiOffersService(
-      this.config, this.accountDb, this.proposalDb, this.elasticsearch);
+      this.config, this.accountDb, this.proposalDb);
 
   String _makeImageUrl(String template, String key) {
     final int lastIndex = key.lastIndexOf('.');
