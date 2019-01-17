@@ -81,7 +81,7 @@ message UpdateOfferResponse {
 }
 
 message GetOfferRequest {
-  int64 account_id = 1;
+  int64 offer_id = 1;
 
   /// The account id which will receive this profile data
   bool receiver_account_id = 2;
