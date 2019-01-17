@@ -12,11 +12,13 @@ dependencies:
   inf_common:
     git: 
       url: git@github.com:infmarketplace/inf_common.git
-      ref: d6a8077c1f543c6b8feecaf821b60fd938531b51
+      ref: 5abde64190082e75a20b3eca4ab38af4700328f3
   logging: ^0.11.3+2
 
 dev_dependencies:
   test: ^1.0.0
+  faker: ^1.0.0
+  mime: ^0.9.6+2
 
 dependency_overrides:
   # analyzer: ^0.32.4 # Force upgrade of reflectable, used by pointycastle
