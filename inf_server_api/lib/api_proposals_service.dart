@@ -164,6 +164,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
           throw Exception('Terms chat not inserted.');
         }
         proposal.termsChatId = termsChatId;
+        proposal.lastChatId = termsChatId;
         chat.chatId = termsChatId;
         chat.sent =
             Int64(DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
@@ -176,13 +177,14 @@ class ApiProposalsService extends ApiProposalsServiceBase {
         // 3. Update haggle on proposal
         // On automatic accept we're not updating business_wants_deal here, it's not necessary
         final String updateTermsChatId = 'UPDATE `proposals` '
-            'SET `terms_chat_id` = ?, '
+            'SET `terms_chat_id` = ?, `last_chat_id` = ?, '
             '`${account.accountType == AccountType.business ? 'business_wants_deal' : 'influencer_wants_deal'}` = 1 '
             'WHERE `proposal_id` = ?';
         final sqljocky.Results resultUpdateTermsChatId =
             await transaction.prepareExecute(
           updateTermsChatId,
           <dynamic>[
+            termsChatId,
             termsChatId,
             proposalId,
           ],
