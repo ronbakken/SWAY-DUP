@@ -33,7 +33,7 @@ Run `docker-compose down` in `sample_jwt/docker_sample_jwt` to clean up.
 ## Service Descriptions
 
 | Directory | Name | Language | Description | Notes on scaling |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | --- |
 | inf_server_api | API Integration | Dart | High level API. | Any number of instances. Stateless. |
 | inf_server_jwt | JWT Signing | Node.js | Signs all JWT tokens. | Any number of instances. Stateless.<br>May have mirrored temporary signatures in the future. |
 | inf_server_push | Push Notifications | Dart | Handles push connections to users.<br>Sends platform push notifcations. | Only 1 instance.<br>Support for scaling can be achieved by sharding by account id. |
