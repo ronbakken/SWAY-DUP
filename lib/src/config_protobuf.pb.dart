@@ -785,6 +785,8 @@ class ConfigServices extends $pb.GeneratedMessage {
     ..aOS(53, 'backendPush')
     ..aOS(54, 'backendJwt')
     ..aOS(55, 'applicationToken')
+    ..aOS(56, 'pexelsApi')
+    ..aOS(57, 'pexelsKey')
     ..hasRequiredFields = false;
 
   ConfigServices() : super();
@@ -1225,6 +1227,22 @@ class ConfigServices extends $pb.GeneratedMessage {
 
   bool hasApplicationToken() => $_has(52);
   void clearApplicationToken() => clearField(55);
+
+  String get pexelsApi => $_getS(53, '');
+  set pexelsApi(String v) {
+    $_setString(53, v);
+  }
+
+  bool hasPexelsApi() => $_has(53);
+  void clearPexelsApi() => clearField(56);
+
+  String get pexelsKey => $_getS(54, '');
+  set pexelsKey(String v) {
+    $_setString(54, v);
+  }
+
+  bool hasPexelsKey() => $_has(54);
+  void clearPexelsKey() => clearField(57);
 }
 
 class ConfigFeatureSwitches extends $pb.GeneratedMessage {

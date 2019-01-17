@@ -637,10 +637,12 @@ const ConfigServices$json = const {
       '5': 9,
       '10': 'galleryPictureBlurredUrl'
     },
-    const {'1': 'ipstackApi', '3': 13, '4': 1, '5': 9, '10': 'ipstackApi'},
-    const {'1': 'ipstackKey', '3': 12, '4': 1, '5': 9, '10': 'ipstackKey'},
-    const {'1': 'freshdeskApi', '3': 22, '4': 1, '5': 9, '10': 'freshdeskApi'},
-    const {'1': 'freshdeskKey', '3': 23, '4': 1, '5': 9, '10': 'freshdeskKey'},
+    const {'1': 'ipstack_api', '3': 13, '4': 1, '5': 9, '10': 'ipstackApi'},
+    const {'1': 'ipstack_key', '3': 12, '4': 1, '5': 9, '10': 'ipstackKey'},
+    const {'1': 'freshdesk_api', '3': 22, '4': 1, '5': 9, '10': 'freshdeskApi'},
+    const {'1': 'freshdesk_key', '3': 23, '4': 1, '5': 9, '10': 'freshdeskKey'},
+    const {'1': 'pexels_api', '3': 56, '4': 1, '5': 9, '10': 'pexelsApi'},
+    const {'1': 'pexels_key', '3': 57, '4': 1, '5': 9, '10': 'pexelsKey'},
   ],
 };
 
