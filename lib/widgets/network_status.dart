@@ -4,6 +4,7 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 
 import 'package:inf/network_inheritable/api_provider.dart';
@@ -16,6 +17,9 @@ class NetworkStatus extends StatelessWidget {
     final Api network = ApiProvider.of(context);
     switch (network.connected) {
       case NetworkConnectionState.ready:
+        if (network.account.accountId == Int64.ZERO) {
+          return alternative;
+        }
         switch (network.receiving) {
           case NetworkConnectionState.ready:
             return alternative;
@@ -67,6 +71,9 @@ class NetworkStatus extends StatelessWidget {
     // Logger('Inf.NetworkStatus').finest('Connected: ${network.connected}, Receiving: ${network.receiving}');
     switch (network.connected) {
       case NetworkConnectionState.ready:
+        if (network.account.accountId == Int64.ZERO) {
+          return _minimalContainer;
+        }
         switch (network.receiving) {
           case NetworkConnectionState.ready:
             return _minimalContainer;

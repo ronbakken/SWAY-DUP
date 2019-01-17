@@ -49,6 +49,8 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
   String _callbackUrl = "https://invalid.invalid";
   final Map<String, bool> _hostWhitelist = <String, bool>{};
 
+  bool _clearCookies = false;
+
   Future<Null> _authError() async {
     _focusScope.requestFocus(FocusNode());
     return showDialog<Null>(
@@ -184,12 +186,25 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
     }
     return WebviewScaffold(
       url: _authUrl,
-      clearCookies: true, // We must clear cookies to allow multiple accounts
+      clearCookies:
+          _clearCookies, // We must clear cookies to allow multiple accounts
       appBar: widget.appBar != null
           ? widget.appBar
           : AppBar(
-              title: Image(image: AssetImage('assets/logo_appbar.png')),
+              title: Image(image: AssetImage('assets/logo_appbar_gray.png')),
               centerTitle: true,
+              actions: _clearCookies
+                  ? <Widget>[]
+                  : <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.supervised_user_circle),
+                        onPressed: () {
+                          setState(() {
+                            _clearCookies = true;
+                          });
+                        },
+                      ),
+                    ],
             ),
     );
   }

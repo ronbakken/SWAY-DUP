@@ -82,6 +82,7 @@ flutter:
     - assets/images/
     - assets/config.bin
     - assets/logo_appbar.png
+    - assets/logo_appbar_gray.png
     - assets/logo_appbar_ext_gray.png
     - assets/placeholder_photo.png
     - assets/placeholder_photo_select.png
