@@ -34,11 +34,14 @@ Future<void> main() async {
   final ConfigData config = ConfigData();
   config.mergeFromBuffer(configBytes);
 
+  const bool devOverride = false;
+  const String devIp = '192.168.43.202';
+
   // API gRPC
   grpc.ClientChannel channel;
   setUp(() async {
     channel = grpc.ClientChannel(
-      '127.0.0.1', // '192.168.43.202', // 
+      devOverride ? devIp : '127.0.0.1',
       port: 8080, // Connect to Envoy Proxy
       options: const grpc.ChannelOptions(
         credentials: grpc.ChannelCredentials.insecure(),

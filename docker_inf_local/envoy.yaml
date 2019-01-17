@@ -40,7 +40,7 @@ static_resources:
               - match: { prefix: "/inf.ApiProposal" }
                 route: { cluster: "server_api", max_grpc_timeout: 15s }
               - match: { prefix: "/inf.ApiExplore" }
-                route: { cluster: "server_api", max_grpc_timeout: 15s }
+                route: { cluster: "server_explore_api", max_grpc_timeout: 15s }
               - match: { prefix: "/ws" }
                 route: { cluster: "server_push_ws", upgrade_configs: [ upgrade_type: "websocket" ], timeout: 0s } # TODO: This isn't working yet
               # Publish public JWKS (for debugging)
@@ -104,6 +104,13 @@ static_resources:
     http2_protocol_options: {}
     lb_policy: round_robin
     hosts: [{ socket_address: { address: 127.0.0.1, port_value: 8910 }}]
+  # /inf.ApiExplore
+  - name: server_explore_api
+    connect_timeout: 0.25s
+    type: logical_dns
+    http2_protocol_options: {}
+    lb_policy: round_robin
+    hosts: [{ socket_address: { address: 127.0.0.1, port_value: 8930 }}]
   # /ws
   - name: server_push_ws
     connect_timeout: 0.25s

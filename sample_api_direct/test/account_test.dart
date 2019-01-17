@@ -63,10 +63,13 @@ Future<void> main() async {
   sessionCreateRequest.deviceInfo = '{}';
   sessionCreateRequest.freeze();
 
+  const bool devOverride = false;
+  const String devIp = '192.168.43.202';
+
   setUpAll(() async {
     httpClient = http.Client();
     channel = grpc.ClientChannel(
-      '127.0.0.1', // '192.168.43.202', // 
+      devOverride ? devIp : '127.0.0.1',
       port: 8080, // Connect to Envoy Proxy
       options: const grpc.ChannelOptions(
         credentials: grpc.ChannelCredentials.insecure(),

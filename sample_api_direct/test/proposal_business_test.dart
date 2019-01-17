@@ -76,7 +76,7 @@ Future<void> main() async {
   int nextSessionGhostId =
       (DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000) & 0xFFFFFFF;
 
-  const bool devOverride = true;
+  const bool devOverride = false;
   const String devIp = '192.168.43.202';
 
   setUpAll(() async {
