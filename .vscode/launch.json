@@ -21,6 +21,14 @@
             "type": "dart"
         },
         {
+            "name": "Explore Service",
+            "cwd": "inf_server_explore",
+            "program": "bin/main.dart",
+            "args": ["../assets/config_local_server.bin"],
+            "request": "launch",
+            "type": "dart"
+        },
+        {
             "name": "JWT Sample Test",
             "cwd": "sample_jwt",
             "program": "test/jwt_test.dart",
