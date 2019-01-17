@@ -316,17 +316,32 @@ Future<void> main() async {
         'Post on ${faker.internet.userName()}gram';
     createOffer.offer.terms.rewardItemOrServiceDescription =
         '${faker.food.dish()}';
-    for (int i = 2; i < random.nextInt(8); ++i) {
-      createOffer.offer.categories
-          .add(random.nextInt(config.categories.length - 1) + 1);
+    for (int i = 2; i < (random.nextInt(4) + 4); ++i) {
+      final int categoryId = random.nextInt(config.categories.length - 1) + 1;
+      if (!createOffer.offer.categories.contains(categoryId)) {
+        if (config.categories[categoryId].parentId != 0 ||
+            config.categories[categoryId].childIds.isNotEmpty) {
+          createOffer.offer.categories.add(categoryId);
+        }
+      }
     }
-    for (int i = 1; i < random.nextInt(3); ++i) {
-      createOffer.offer.terms.deliverableSocialPlatforms
-          .add(random.nextInt(4 - 1) + 1);
+    createOffer.offer.terms.deliverableSocialPlatforms.add(1);
+    for (int i = 1; i < (random.nextInt(1) + 2); ++i) {
+      final int platformId =
+          random.nextInt(config.oauthProviders.length - 1) + 1;
+      if (!createOffer.offer.terms.deliverableSocialPlatforms
+          .contains(platformId)) {
+        if (config.oauthProviders[platformId].visible) {
+          createOffer.offer.terms.deliverableSocialPlatforms.add(platformId);
+        }
+      }
     }
-    for (int i = 1; i < random.nextInt(3); ++i) {
-      createOffer.offer.terms.deliverableContentFormats
-          .add(random.nextInt(config.contentFormats.length - 1) + 1);
+    for (int i = 1; i < (random.nextInt(1) + 2); ++i) {
+      final int formatId = random.nextInt(config.contentFormats.length - 1) + 1;
+      if (!createOffer.offer.terms.deliverableContentFormats
+          .contains(formatId)) {
+        createOffer.offer.terms.deliverableContentFormats.add(formatId);
+      }
     }
     createOffer.offer.terms.rewardCashValue = (random.nextInt(200) + 1) * 1000;
     createOffer.offer.terms.rewardItemOrServiceValue =
