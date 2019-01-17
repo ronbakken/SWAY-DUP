@@ -8,7 +8,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf_server_explore/elasticsearch.dart';
 import 'package:inf_server_explore/elasticsearch_offer.dart';
-
+/*
 Future<DataOffer> getOffer(ConfigData config, Elasticsearch elasticsearch,
     Int64 offerId, Int64 receiverAccountId) async {
   final dynamic doc =
@@ -21,5 +21,5 @@ Future<DataOffer> getOffer(ConfigData config, Elasticsearch elasticsearch,
       receiver: receiverAccountId,
       private: true);
 }
-
+*/
 /* end of file */

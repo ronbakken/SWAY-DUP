@@ -5,6 +5,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:inf_server_api/common_account.dart';
@@ -28,8 +29,22 @@ class ApiOffersService extends ApiOffersServiceBase {
   final http.Client httpClient = http.Client();
   final http_client.Client httpClientClient = http_client.ConsoleClient();
 
-  ApiOffersService(
-      this.config, this.accountDb, this.proposalDb);
+  grpc.ClientChannel backendExploreChannel;
+  BackendExploreClient backendExplore;
+
+  ApiOffersService(this.config, this.accountDb, this.proposalDb) {
+    final Uri backendExploreUri = Uri.parse(
+        Platform.environment['INF_BACKEND_EXPLORE'] ??
+            config.services.backendPush);
+    backendExploreChannel = grpc.ClientChannel(
+      backendExploreUri.host,
+      port: backendExploreUri.port,
+      options: const grpc.ChannelOptions(
+        credentials: grpc.ChannelCredentials.insecure(),
+      ),
+    );
+    backendExplore = BackendExploreClient(backendExploreChannel);
+  }
 
   String _makeImageUrl(String template, String key) {
     final int lastIndex = key.lastIndexOf('.');
@@ -188,39 +203,15 @@ class ApiOffersService extends ApiOffersServiceBase {
       throw grpc.GrpcError.permissionDenied();
     }
 
-    final dynamic results = await elasticsearch.search('offers', {
-      "size": ElasticsearchOffer.kSearchSize,
-      "_source": {
-        "includes": ElasticsearchOffer.kPrivateSummaryFields,
-      },
-      "query": {
-        "term": {
-          "sender_account_id": auth.accountId.toInt(),
-        }
-      },
-    });
-    final List<dynamic> hits = results['hits']['hits'];
-    for (dynamic hit in hits) {
-      final Map<String, dynamic> doc = hit['_source'] as Map<String, dynamic>;
-      NetOffer result;
-      try {
-        result = NetOffer();
-        result.offer = ElasticsearchOffer.fromJson(config, doc,
-            state: true,
-            summary: true,
-            detail: false,
-            offerId: Int64.parseInt(hit['_id']),
-            receiver: auth.accountId,
-            private: true);
-        result.state = true;
-        result.summary = true;
-      } catch (error, stackTrace) {
-        result = null;
-        devLog.severe('Error parsing offer', error, stackTrace);
-      }
-      if (result != null) {
-        yield result;
-      }
+    final ListOffersFromSenderRequest exploreRequest = ListOffersFromSenderRequest();
+    exploreRequest.accountId = auth.accountId;
+    exploreRequest.receiverAccountId = auth.accountId;
+    exploreRequest.state = true;
+    exploreRequest.summary = true;
+    // exploreRequest.detail = false;
+    exploreRequest.private = true;
+    await for (ListOffersFromSenderResponse exploreResponse in backendExplore.listOffersFromSender(exploreRequest)) {
+      yield exploreResponse.offer;
     }
   }
 
@@ -233,23 +224,17 @@ class ApiOffersService extends ApiOffersServiceBase {
     final DataAuth auth = authFromJwtPayload(call);
     if (auth.accountId == Int64.ZERO ||
         auth.globalAccountState.value < GlobalAccountState.readOnly.value) {
-      throw grpc.GrpcError.permissionDenied();
+      throw grpc.GrpcError.permissionDenied('Insufficient account state');
     }
-
-    final dynamic doc =
-        await elasticsearch.getDocument('offers', request.offerId.toString());
-    final NetOffer result = NetOffer();
-    result.offer = ElasticsearchOffer.fromJson(config, doc,
-        state: true,
-        summary: true,
-        detail: true,
-        offerId: request.offerId,
-        receiver: auth.accountId,
-        private: true);
-    result.state = true;
-    result.summary = true;
-    result.detail = true;
-    return result;
+    final GetOfferRequest exploreRequest = GetOfferRequest();
+    exploreRequest.offerId = request.offerId;
+    exploreRequest.receiverAccountId = auth.accountId;
+    exploreRequest.state = true;
+    exploreRequest.summary = true;
+    exploreRequest.detail = true;
+    exploreRequest.private = true;
+    final GetOfferResponse exploreResponse = await backendExplore.getOffer(exploreRequest);
+    return exploreResponse.offer;
   }
 
   //////////////////////////////////////////////////////////////////////////////
