@@ -712,15 +712,6 @@ abstract class ApiAccount implements Api, ApiInternals {
     final NetOAuthConnection response =
         await _accountClient.connectProvider(request);
 
-    // Push updated access token
-    if (response.hasAccessToken()) {
-      _pushSessionToken(ApiSessionToken(
-        _currentApiSessionToken.endPoint,
-        _currentApiSessionToken.channel,
-        response.accessToken,
-      ));
-    }
-
     // Result contains the updated data, so needs to be put into the state
     if (response.hasAccount()) {
       receivedAccountUpdate(response.account);
@@ -729,6 +720,15 @@ abstract class ApiAccount implements Api, ApiInternals {
       final DataAccount account = _realAccount.clone();
       account.socialMedia[oauthProvider] = response.socialMedia;
       receivedAccountUpdate(account);
+    }
+
+    // Push updated access token
+    if (response.hasAccessToken()) {
+      _pushSessionToken(ApiSessionToken(
+        _currentApiSessionToken.endPoint,
+        _currentApiSessionToken.channel,
+        response.accessToken,
+      ));
     }
 
     // Return just whether connected or not
