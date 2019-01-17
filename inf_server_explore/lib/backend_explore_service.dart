@@ -49,7 +49,20 @@ class BackendExploreService extends BackendExploreServiceBase {
   @override
   Future<InsertOfferResponse> insertOffer(
       grpc.ServiceCall call, InsertOfferRequest request) async {
-    throw grpc.GrpcError.unimplemented();
+    final dynamic doc = ElasticsearchOffer.toJson(
+      config,
+      request.offer,
+      sender: request.senderAccount,
+      location: request.senderLocation,
+      senderAccountType: request.senderAccount.accountType,
+      create: true,
+      modify: false,
+      sessionId: request.senderAccount.sessionId,
+    );
+    devLog.finest(doc);
+    await elasticsearch.putDocument('offers', request.offer.offerId.toString(), doc);
+    final InsertOfferResponse response = InsertOfferResponse();
+    return response;
   }
 
   @override

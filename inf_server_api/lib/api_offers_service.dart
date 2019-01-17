@@ -163,32 +163,24 @@ class ApiOffersService extends ApiOffersServiceBase {
     // Update location `offer_count`, not so critical
     // await updateLocationOfferCount(offer.locationId);
 
-    // Insert Elasticsearch document
-    final dynamic doc = ElasticsearchOffer.toJson(
-      config,
-      offer,
-      sender: account,
-      location: location,
-      senderAccountType: account.accountType,
-      create: true,
-      modify: false,
-      sessionId: account.sessionId,
-    );
-    devLog.finest(doc);
-    await elasticsearch.putDocument('offers', offer.offerId.toString(), doc);
+    // Insert to explore backend
+    final InsertOfferRequest exploreInsertRequest = InsertOfferRequest();
+    exploreInsertRequest.offer = offer;
+    exploreInsertRequest.senderAccount = account;
+    exploreInsertRequest.senderLocation = location;
+    await backendExplore.insertOffer(exploreInsertRequest);
 
-    final NetOffer result = NetOffer();
-    result.offer = ElasticsearchOffer.fromJson(config, doc,
-        state: true,
-        summary: true,
-        detail: true,
-        offerId: offer.offerId,
-        receiver: auth.accountId,
-        private: true);
-    result.state = true;
-    result.summary = true;
-    result.detail = true;
-    return result;
+    // Get the inserted offer
+    final GetOfferRequest exploreRequest = GetOfferRequest();
+    exploreRequest.offerId = offer.offerId;
+    exploreRequest.receiverAccountId = auth.accountId;
+    exploreRequest.state = true;
+    exploreRequest.summary = true;
+    exploreRequest.detail = true;
+    exploreRequest.private = true;
+    final GetOfferResponse exploreResponse =
+        await backendExplore.getOffer(exploreRequest);
+    return exploreResponse.offer;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -203,14 +195,16 @@ class ApiOffersService extends ApiOffersServiceBase {
       throw grpc.GrpcError.permissionDenied();
     }
 
-    final ListOffersFromSenderRequest exploreRequest = ListOffersFromSenderRequest();
+    final ListOffersFromSenderRequest exploreRequest =
+        ListOffersFromSenderRequest();
     exploreRequest.accountId = auth.accountId;
     exploreRequest.receiverAccountId = auth.accountId;
     exploreRequest.state = true;
     exploreRequest.summary = true;
     // exploreRequest.detail = false;
     exploreRequest.private = true;
-    await for (ListOffersFromSenderResponse exploreResponse in backendExplore.listOffersFromSender(exploreRequest)) {
+    await for (ListOffersFromSenderResponse exploreResponse
+        in backendExplore.listOffersFromSender(exploreRequest)) {
       yield exploreResponse.offer;
     }
   }
@@ -233,7 +227,8 @@ class ApiOffersService extends ApiOffersServiceBase {
     exploreRequest.summary = true;
     exploreRequest.detail = true;
     exploreRequest.private = true;
-    final GetOfferResponse exploreResponse = await backendExplore.getOffer(exploreRequest);
+    final GetOfferResponse exploreResponse =
+        await backendExplore.getOffer(exploreRequest);
     return exploreResponse.offer;
   }
 
