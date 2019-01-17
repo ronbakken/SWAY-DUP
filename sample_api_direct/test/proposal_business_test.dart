@@ -20,21 +20,8 @@ import 'package:mime/mime.dart';
 import 'package:faker/faker.dart';
 
 /*
-Test suite for offers posted by a business.
+Test suite for proposals made by an influencer to offers posted by a business.
 */
-
-List<int> getLeafCategories(ConfigData config, List<int> categories) {
-  final Set<int> res = Set<int>();
-  res.addAll(categories);
-  for (int category in categories) {
-    int parent = config.categories[category].parentId;
-    while (parent != 0) {
-      res.remove(parent);
-      parent = config.categories[parent].parentId;
-    }
-  }
-  return res.toList();
-}
 
 Future<void> main() async {
   // Logging
@@ -85,7 +72,7 @@ Future<void> main() async {
   sessionCreateRequest.deviceInfo = '{}';
   sessionCreateRequest.freeze();
 
-  const bool devOverride = false;
+  const bool devOverride = true;
   const String devIp = '192.168.43.202';
 
   setUpAll(() async {
@@ -199,7 +186,7 @@ Future<void> main() async {
     final http.Response pexelsResponse =
         await httpClient.get(url, headers: pexelsHeaders);
     expect(pexelsResponse.statusCode, equals(200));
-    log.finest(pexelsResponse.body);
+    // log.finest(pexelsResponse.body);
     final dynamic pexelsDoc = json.decode(pexelsResponse.body);
     expect(pexelsDoc['photos'][0]['id'], isNonZero);
     expect(pexelsDoc['photos'][0]['src']['large2x'], isNotEmpty);
@@ -212,22 +199,6 @@ Future<void> main() async {
     expect(imageData, isNotEmpty);
   });
 
-  Digest imageSha256;
-
-  test('Calculate SHA256 of testing image', () async {
-    imageSha256 = sha256.convert(imageData);
-    log.fine(imageSha256);
-  });
-
-  String imageContentType;
-
-  test('Verify content type is image', () async {
-    imageContentType =
-        MimeTypeResolver().lookup(imageUrl, headerBytes: imageData);
-    log.fine(imageContentType);
-    expect(imageContentType, startsWith('image/'));
-  });
-
   NetUploadSigned uploadSigned;
 
   test('Upload image', () async {
@@ -238,6 +209,13 @@ Future<void> main() async {
       }),
     );
 
+    // Image info
+    final Digest imageSha256 = sha256.convert(imageData);
+    final String imageContentType =
+        MimeTypeResolver().lookup(imageUrl, headerBytes: imageData);
+    log.fine(imageContentType);
+    expect(imageContentType, startsWith('image/'));
+
     // Create a request to upload the file
     final NetUploadImage request = NetUploadImage();
     request.fileName = Uri.parse(imageUrl).path;
@@ -246,13 +224,13 @@ Future<void> main() async {
     request.contentSha256 = imageSha256.bytes;
     request.freeze();
 
-    log.finest(request);
+    // log.finest(request);
     uploadSigned = await storageClient.signImageUpload(request);
     expect(uploadSigned, isNotNull);
-    log.fine(uploadSigned);
+    // log.fine(uploadSigned);
 
     if (uploadSigned.fileExists) {
-      log.warning('Upload test skipped, upload already exists');
+      // log.warning('Upload test skipped, upload already exists');
     } else {
       // Upload the file
       final http.StreamedRequest httpRequest = http.StreamedRequest(
@@ -271,46 +249,6 @@ Future<void> main() async {
     expect(uploadSigned.uploadKey, isNotEmpty);
     expect(uploadSigned.coverUrl, isNotEmpty);
     expect(uploadSigned.thumbnailUrl, isNotEmpty);
-  });
-
-  test('Attempt to download thumbnail image', () async {
-    expect(uploadSigned, isNotNull);
-    final http.Response imageResponse =
-        await httpClient.get(uploadSigned.thumbnailUrl);
-    expect(imageResponse.statusCode, equals(200));
-    expect(imageResponse.bodyBytes, isNotEmpty);
-  });
-
-  test('Attempt to download cover image', () async {
-    expect(uploadSigned, isNotNull);
-    final http.Response imageResponse =
-        await httpClient.get(uploadSigned.coverUrl);
-    expect(imageResponse.statusCode, equals(200));
-    expect(imageResponse.bodyBytes, isNotEmpty);
-  });
-
-  test('Image reupload attempt must be flagged as already existing', () async {
-    final ApiStorageClient storageClient = ApiStorageClient(
-      channel,
-      options: grpc.CallOptions(metadata: <String, String>{
-        'authorization': 'Bearer $businessAccessToken'
-      }),
-    );
-
-    // Create a request to upload the file
-    final NetUploadImage request = NetUploadImage();
-    request.fileName = Uri.parse(imageUrl).path;
-    request.contentLength = imageData.length;
-    request.contentType = imageContentType;
-    request.contentSha256 = imageSha256.bytes;
-    request.freeze();
-
-    final NetUploadSigned response =
-        await storageClient.signImageUpload(request);
-
-    // Must already exist
-    expect(response.fileExists, isTrue);
-    expect(response.uploadKey, isNotEmpty);
   });
 
   DataOffer offer;
@@ -343,13 +281,6 @@ Future<void> main() async {
         }
       }
     }
-    List<int> categories =
-        getLeafCategories(config, createOffer.offer.categories);
-    expect(categories, isNotEmpty);
-    createOffer.offer.categories.clear();
-    for (int categoryId in categories) {
-      createOffer.offer.categories.add(categoryId);
-    }
     createOffer.offer.terms.deliverableSocialPlatforms.add(1);
     for (int i = 1; i < (random.nextInt(1) + 2); ++i) {
       final int platformId =
@@ -378,71 +309,19 @@ Future<void> main() async {
     offer = response.offer;
     expect(offer.offerId, isNot(equals(Int64.ZERO)));
     expect(offer.title, equals(createOffer.offer.title));
-    expect(offer.coverKeys, equals(createOffer.offer.coverKeys));
     expect(offer.description, equals(createOffer.offer.description));
     expect(offer.hasTerms(), isTrue);
-    expect(offer.terms.deliverablesDescription,
-        equals(createOffer.offer.terms.deliverablesDescription));
-    expect(offer.terms.deliverableSocialPlatforms,
-        equals(createOffer.offer.terms.deliverableSocialPlatforms));
-    expect(offer.terms.deliverableContentFormats,
-        equals(createOffer.offer.terms.deliverableContentFormats));
-    expect(offer.terms.rewardItemOrServiceDescription,
-        equals(createOffer.offer.terms.rewardItemOrServiceDescription));
-    expect(offer.terms.rewardCashValue,
-        equals(createOffer.offer.terms.rewardCashValue));
-    expect(offer.terms.rewardItemOrServiceValue,
-        equals(createOffer.offer.terms.rewardItemOrServiceValue));
-    expect(offer.categories, equals(createOffer.offer.categories));
-    expect(offer.hasLocationId(), isTrue);
-    expect(offer.hasLocationAddress(), isTrue);
-    expect(offer.senderName, equals(businessAccount.name));
-    expect(offer.senderAccountId, equals(businessAccount.accountId));
-    expect(offer.senderAccountType, equals(AccountType.business));
-    expect(offer.senderAvatarUrl,
-        equals(businessAccount.avatarUrl)); // TODO: Blurred data
-    // expect(offer.locationAddress, equals(businessAccount.locationAddress)); // TODO: Account.locationAddress is missing
-    expect(offer.hasStateReason(), isTrue);
-    /*
-    expect(offer.hasProposalsProposing(), isTrue);
-    expect(offer.hasProposalsNegotiating(), isTrue);
-    expect(offer.hasProposalsDeal(), isTrue);
-    expect(offer.hasProposalsRejected(), isTrue);
-    expect(offer.hasProposalsDispute(), isTrue);
-    expect(offer.hasProposalsResolved(), isTrue);
-    expect(offer.hasProposalsComplete(), isTrue);
-    */
   });
 
-  test('Business fetches own offer', () async {
-    final ApiOffersClient offersClient = ApiOffersClient(
-      channel,
-      options: grpc.CallOptions(metadata: <String, String>{
-        'authorization': 'Bearer $businessAccessToken'
-      }),
-    );
+  DataOffer offerAsInfluencer;
 
-    final NetGetOffer request = NetGetOffer();
-    request.offerId = offer.offerId;
-    final NetOffer response = await offersClient.get(request);
-    expect(response.hasOffer(), isTrue);
-    expect(response.detail, isTrue);
-    expect(response.summary, isTrue);
-    expect(response.state, isTrue);
-    expect(response.offer.offerId, equals(offer.offerId));
-    expect(response.offer, equals(offer));
-    expect(response.offer.hasLocationId(), isTrue);
-    expect(response.offer.hasLocationAddress(), isTrue);
-  });
-
-  test('Influencer fetches the same offer', () async {
+  test('Influencer fetches the offer', () async {
     final ApiOffersClient offersClient = ApiOffersClient(
       channel,
       options: grpc.CallOptions(metadata: <String, String>{
         'authorization': 'Bearer $influencerAccessToken'
       }),
     );
-
     final NetGetOffer request = NetGetOffer();
     request.offerId = offer.offerId;
     final NetOffer response = await offersClient.get(request);
@@ -453,108 +332,9 @@ Future<void> main() async {
     expect(response.offer.offerId, equals(offer.offerId));
     expect(response.offer.offerId, isNot(equals(Int64.ZERO)));
     expect(response.offer.title, equals(offer.title));
-    expect(response.offer.coverKeys, isEmpty);
-    expect(response.offer.coverUrls, isNotEmpty);
-    expect(response.offer.description, equals(offer.description));
-    expect(response.offer.hasTerms(), isTrue);
-    expect(response.offer.terms.deliverablesDescription,
-        equals(offer.terms.deliverablesDescription));
-    expect(response.offer.terms.deliverableSocialPlatforms,
-        equals(offer.terms.deliverableSocialPlatforms));
-    expect(response.offer.terms.deliverableContentFormats,
-        equals(offer.terms.deliverableContentFormats));
-    expect(response.offer.terms.rewardItemOrServiceDescription,
-        equals(offer.terms.rewardItemOrServiceDescription));
-    expect(response.offer.terms.rewardCashValue,
-        equals(offer.terms.rewardCashValue));
-    expect(response.offer.terms.rewardItemOrServiceValue,
-        equals(offer.terms.rewardItemOrServiceValue));
-    expect(response.offer.categories, equals(offer.categories));
-    expect(response.offer, isNot(equals(offer)));
-    // The location id is private to the business, influencer only gets a summary
-    expect(response.offer.hasLocationId(), isFalse);
-    expect(response.offer.hasLocationAddress(), isTrue);
-    expect(response.offer.senderName, equals(businessAccount.name));
-    expect(response.offer.senderAccountId, equals(businessAccount.accountId));
-    expect(response.offer.senderAccountType, equals(AccountType.business));
-    expect(response.offer.hasStateReason(), isFalse);
-    expect(response.offer.hasArchived(), isFalse);
-    expect(response.offer.hasProposalsProposing(), isFalse);
-    expect(response.offer.hasProposalsNegotiating(), isFalse);
-    expect(response.offer.hasProposalsDeal(), isFalse);
-    expect(response.offer.hasProposalsRejected(), isFalse);
-    expect(response.offer.hasProposalsDispute(), isFalse);
-    expect(response.offer.hasProposalsResolved(), isFalse);
-    expect(response.offer.hasProposalsComplete(), isFalse);
     expect(response.offer.hasProposalId(),
         isFalse); // TODO: Verify this goes true after proposing
-  });
-
-  test('Force Elasticsearch to refresh (created offer)', () async {
-    // Elasticsearch has a 1s delay for refreshing
-    final String endPoint = devOverride
-        ? 'http://$devIp:9200'
-        : serverConfig.services.elasticsearchApi;
-    final Map<String, String> headers = serverConfig
-            .services.elasticsearchBasicAuth.isNotEmpty
-        ? <String, String>{
-            'Authorization': 'Basic ' +
-                base64.encode(
-                    utf8.encode(serverConfig.services.elasticsearchBasicAuth)),
-            'Content-Type': 'application/json'
-          }
-        : <String, String>{'Content-Type': 'application/json'};
-    final String url = endPoint + '/_refresh';
-    final http.Response response =
-        await httpClient.post(url, headers: headers, body: '{}');
-    expect(response.statusCode, equals(200));
-  });
-
-  test('Business offer list contains the offer', () async {
-    final ApiOffersClient offersClient = ApiOffersClient(
-      channel,
-      options: grpc.CallOptions(metadata: <String, String>{
-        'authorization': 'Bearer $businessAccessToken'
-      }),
-    );
-
-    final NetListOffers request = NetListOffers();
-    final List<NetOffer> responses = await offersClient.list(request).toList();
-    NetOffer offerSummary;
-    expect(responses, isNotEmpty);
-    log.finest('Look for ${offer.offerId} in list size ${responses.length}');
-    for (NetOffer netOffer in responses) {
-      expect(netOffer.summary, isTrue);
-      expect(netOffer.detail, isFalse);
-      expect(netOffer.state, isTrue);
-      expect(netOffer.hasOffer(), isTrue);
-      log.finest(netOffer.offer.offerId);
-      if (netOffer.offer.offerId == offer.offerId) {
-        expect(offerSummary, isNull);
-        offerSummary = netOffer;
-      }
-    }
-
-    expect(offerSummary, isNotNull);
-    expect(offerSummary.hasOffer(), isTrue);
-    expect(offerSummary.offer.title, equals(offer.title));
-    expect(offerSummary.offer.hasDescription(), isFalse);
-  });
-
-  test('Influencer offer list does not contain the offer', () async {
-    final ApiOffersClient offersClient = ApiOffersClient(
-      channel,
-      options: grpc.CallOptions(metadata: <String, String>{
-        'authorization': 'Bearer $influencerAccessToken'
-      }),
-    );
-
-    final NetListOffers request = NetListOffers();
-    final List<NetOffer> responses = await offersClient.list(request).toList();
-    expect(() {
-      responses
-          .firstWhere((NetOffer value) => value.offer.offerId == offer.offerId);
-    }, throwsA(const TypeMatcher<StateError>()));
+    offerAsInfluencer = offer;
   });
 }
 

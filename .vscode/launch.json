@@ -54,6 +54,13 @@
             "program": "test/offer_business_test.dart",
             "request": "launch",
             "type": "dart"
+        },
+        {
+            "name": "Direct API Test: Proposal by Influencer to Offer by Business",
+            "cwd": "sample_api_direct",
+            "program": "test/proposal_business_test.dart",
+            "request": "launch",
+            "type": "dart"
         }
     ]
 }
