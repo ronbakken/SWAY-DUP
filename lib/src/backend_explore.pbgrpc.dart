@@ -100,13 +100,13 @@ class BackendExploreClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<ListOffersFromSenderResponse> listOffersFromSender(
+  ResponseStream<ListOffersFromSenderResponse> listOffersFromSender(
       ListOffersFromSenderRequest request,
       {CallOptions options}) {
     final call = $createCall(
         _$listOffersFromSender, new $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseFuture(call);
+    return new ResponseStream(call);
   }
 }
 
@@ -161,7 +161,7 @@ abstract class BackendExploreServiceBase extends Service {
         'ListOffersFromSender',
         listOffersFromSender_Pre,
         false,
-        false,
+        true,
         (List<int> value) => new ListOffersFromSenderRequest.fromBuffer(value),
         (ListOffersFromSenderResponse value) => value.writeToBuffer()));
   }
@@ -196,9 +196,10 @@ abstract class BackendExploreServiceBase extends Service {
     return getOffer(call, await request);
   }
 
-  $async.Future<ListOffersFromSenderResponse> listOffersFromSender_Pre(
-      ServiceCall call, $async.Future request) async {
-    return listOffersFromSender(call, await request);
+  $async.Stream<ListOffersFromSenderResponse> listOffersFromSender_Pre(
+      ServiceCall call, $async.Future request) async* {
+    yield* listOffersFromSender(
+        call, (await request) as ListOffersFromSenderRequest);
   }
 
   $async.Future<InsertProfileResponse> insertProfile(
@@ -213,6 +214,6 @@ abstract class BackendExploreServiceBase extends Service {
       ServiceCall call, UpdateOfferRequest request);
   $async.Future<GetOfferResponse> getOffer(
       ServiceCall call, GetOfferRequest request);
-  $async.Future<ListOffersFromSenderResponse> listOffersFromSender(
+  $async.Stream<ListOffersFromSenderResponse> listOffersFromSender(
       ServiceCall call, ListOffersFromSenderRequest request);
 }
