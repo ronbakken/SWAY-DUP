@@ -315,7 +315,7 @@ Future<void> main() async {
     createOffer.offer.terms.deliverablesDescription =
         'Post on ${faker.internet.userName()}gram';
     createOffer.offer.terms.rewardItemOrServiceDescription =
-        'Free ${faker.food.dish()}';
+        '${faker.food.dish()}';
     for (int i = 2; i < random.nextInt(8); ++i) {
       createOffer.offer.categories
           .add(random.nextInt(config.categories.length - 1) + 1);
