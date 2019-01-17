@@ -1,28 +1,30 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package api;
 option csharp_namespace = "API";
 
+import "Services/proto/social_network_provider.proto";
+
 message SocialMediaAccount {
     int32 id = 1;
-    string displayName = 2 ;
-    int32 socialNetworkProviderId = 3;
+    int64 lastUpdated = 2;
+    SocialNetworkProviderType type = 3;
+    string displayName = 4 ;
+    int32 socialNetworkProviderId = 5;
 
     /* Further info. May have null values. Most data isn't always shared. */
     /// Url to the actual social media profile
-    string avatarUrl = 4;
-    bytes avatarLowRes = 5;
     string profileUrl = 6;
     string description = 7;
-    string location = 8;
-    string url = 9;
-    string email = 10;
+    string email = 8;
+    string userId = 9;
 
-    /* Use the largest of either friendsCount or followersCount for boasting. */
-    int32 friendsCount = 11;
-    int32 followersCount = 12;
-    int32 followingCount = 13;
-    int32 postsCount = 14;
-    bool verified = 15;
-    bool isActive = 16;
+    // The I think we should go away from showing follower counts to a sort of rating
+    int32 audienceSize = 10;
+    int32 postsCount = 11;
+    bool verified = 12;
+
+    string accessToken = 13;
+    string accessTokenSecret = 14;
+    string refreshToken = 15;
 }

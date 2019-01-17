@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace API.Services
+namespace API.Services.Mocks
 {
-    internal sealed class DatabaseMock
+    class DatabaseMock
     {
         private static DatabaseMock instance;
         private AppConfigData configData;
@@ -283,7 +281,8 @@ namespace API.Services
                                 "./icons/logo_instagram_monochrome.svg"),
                         LogoBackgroundData =
                             MockHelpers.ReadIconData("./icons/instagram_background.png"),
-                        Name = "Instagram"
+                        Name = "Instagramm",
+                        ApiKey ="ce0aaa7e065f4d6cbbb85055ce98cdfc"
                     },
                     new SocialNetworkProvider
                     {
@@ -294,7 +293,8 @@ namespace API.Services
                             MockHelpers.ReadIconData(
                                 "./icons/logo_facebook_monochrome.svg"),
                         LogoBackGroundColor = 0xff4e71a8,
-                        Name = "Facebook"
+                        Name = "Facebook",
+                        ApiKey="524476418041715"
                     },
                     new SocialNetworkProvider
                     {
@@ -305,7 +305,9 @@ namespace API.Services
                         LogoMonochromeData =
                             MockHelpers.ReadIconData(
                                 "./icons/logo_twitter_monochrome.svg"),
-                        Name = "Twitter"
+                        Name = "Twitter",
+                        ApiKey = "yebVfiIgUGwg0Ij5FwooEW5xE",
+                        ApiKeySecret = "iaAfdlnXarC240VhgReeEXZxXyH1RqkidBVGNNS9gGouIiL2Cy"
                     },
                     new SocialNetworkProvider
                     {
@@ -397,6 +399,7 @@ namespace API.Services
                     ,
                     Verified = true,
                     WebsiteUrl = "www.google.com",
+                    ActiveSocialMediaProviders = { 1},
                     SocialMediaAccountIds = {1}
                 },
                 new User
@@ -430,7 +433,8 @@ namespace API.Services
                     ,
                     Verified = false,
                     WebsiteUrl = "www.google.com",
-                    SocialMediaAccountIds = { 2,3,4}
+                    SocialMediaAccountIds = { 2,3,4},
+                    ActiveSocialMediaProviders = { 0,1,2}
 
                 }
 
@@ -441,62 +445,62 @@ namespace API.Services
                 new SocialMediaAccount
                 {
                     Id = 1,
-                    IsActive = true,
+                    Type = SocialNetworkProviderType.Instagram,
                     SocialNetworkProviderId = 0,
-                    Url = "https=//twitter.com/ThomasBurkhartB",
+                    ProfileUrl = "https=//twitter.com/ThomasBurkhartB",
                     DisplayName = "Thomas Burkhart",
                     Description = "The best online shop for baking",
-                    FollowersCount = 900
+                    AudienceSize = 900
                 },
                 new SocialMediaAccount
                 {
                     Id = 2,
-                    IsActive = true,
+                    Type = SocialNetworkProviderType.Instagram,
                     SocialNetworkProviderId = 0,
-                    Url = "https://twitter.com/ThomasBurkhartB",
+                    ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                     DisplayName = "Thomas Burkhart",
                     Description = "The best online shop for baking",
-                    FollowersCount = 1900
+                    AudienceSize = 1900
                 },
                 new SocialMediaAccount
                 {
                     Id = 3,
-                    IsActive = true,
+                    Type = SocialNetworkProviderType.Facebook,
                     SocialNetworkProviderId = 1,
-                    Url = "https://twitter.com/ThomasBurkhartB",
+                    ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                     DisplayName = "Thomas Burkhart",
                     Description = "The best online shop for baking",
-                    FollowersCount = 1000900,
+                    AudienceSize = 1000900,
                 },
                 new SocialMediaAccount
                 {
                     Id = 4,
-                    IsActive = true,
+                    Type = SocialNetworkProviderType.Twitter,
                     SocialNetworkProviderId = 2,
-                    Url = "https://twitter.com/ThomasBurkhartB",
+                    ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                     DisplayName = "Thomas Burkhart",
                     Description = "The best online shop for baking",
-                    FollowersCount = 2100000
+                    AudienceSize = 2100000
                 },
                 new SocialMediaAccount
                 {
                     Id = 5,
-                    IsActive = true,
+                    Type = SocialNetworkProviderType.Snapchat,
                     SocialNetworkProviderId = 4,
-                    Url = "https://twitter.com/ThomasBurkhartB",
+                    ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                     DisplayName = "Thomas Burkhart",
                     Description = "The best online shop for baking",
-                    FollowersCount = 900
+                    AudienceSize = 900
                 },
                 new SocialMediaAccount
                 {
                     Id = 6,
-                    IsActive = true,
+                    Type = SocialNetworkProviderType.Youtube,
                     SocialNetworkProviderId = 3,
-                    Url = "https://twitter.com/ThomasBurkhartB",
+                    ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                     DisplayName = "Thomas Burkhart",
                     Description = "The best online shop for baking",
-                    FollowersCount = 900
+                    AudienceSize = 900
                 }
 
             };

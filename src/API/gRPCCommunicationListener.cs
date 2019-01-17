@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using API.Services;
+using API.Services.Mocks;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
@@ -36,9 +37,11 @@ namespace API
             {
                 Services =
                 {
-                    ConfigurationService.BindService(new ConfigurationServiceImpl()).Intercept(new FooInterceptor()),
-                    InvitationCodeService.BindService(new InvitationCodeServiceImpl()),
-                    UserService.BindService(new UserServiceImpl()),
+                    InfApi.BindService(new InfApiImpl()),
+                    InfAuth.BindService(new InfAuthImpl()),
+                    InfConfig.BindService(new InfConfigImpl()),
+                    InfSystem.BindService(new InfSystemImpl()),
+                    //InvitationCodeService.BindService(new InvitationCodeServiceImpl()),
                 },
                 Ports =
                 {

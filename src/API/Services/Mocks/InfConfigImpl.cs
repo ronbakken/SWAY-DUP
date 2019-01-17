@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Grpc.Core;
-using static API.ConfigurationService;
+using static API.InfConfig;
 
-namespace API.Services
+namespace API.Services.Mocks
 {
-    public sealed class ConfigurationServiceImpl : ConfigurationServiceBase
+    public sealed class InfConfigImpl : InfConfigBase
     {
         public override Task<AppConfigData> GetAppConfig(Empty request, ServerCallContext context) =>
             Task.FromResult(DatabaseMock.Instance().GetAppConfigData());
 
-        public override Task<VersionInfo> GetVersions(Empty request, ServerCallContext context) =>
-            Task.FromResult(new VersionInfo { ApiVersion = 1, ConfigVersion = 1 });
+        public override Task<InfVersionInfo> GetVersions(Empty request, ServerCallContext context) =>
+            Task.FromResult(new InfVersionInfo { ApiVersion = 1, ConfigVersion = 1 });
 
         public override async Task GetWelcomeImages(Empty request, IServerStreamWriter<WelcomeImages> responseStream, ServerCallContext context)
         {

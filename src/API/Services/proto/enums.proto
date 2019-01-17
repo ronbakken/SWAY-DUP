@@ -1,0 +1,166 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <kaetemi@no-break.space>
+*/
+
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API";
+
+enum OAuthMechanism {
+  none = 0;
+  /// OAuth1, Twitter-like
+  OAUTH1 = 1;
+  /// OAuth2, Spotify-like
+  OAUTH2 = 2;
+
+}
+
+// Used for hardcoded specifics
+enum OAuthProviderIds {
+  instagram = 0;
+  twitter = 1;
+  facebook = 2;
+
+}
+
+enum AccountType {
+  AT_UNKNOWN = 0;
+  AT_INFLUENCER = 1;
+  AT_BUSINESS = 2;
+  AT_SUPPORT = 3;
+
+}
+
+/// Global account state. Higher value means more access.
+/// Should always check using a >= compare, except for GAS_INITIALIZE case
+enum GlobalAccountState {
+  GAS_INITIALIZE = 0;
+  GAS_BLOCKED = 1;
+  GAS_READ_ONLY = 2;
+  GAS_READ_WRITE = 3;
+  GAS_DEBUG = 4;
+  GAS_SUPPORT = 5;
+  GAS_MANAGER = 6;
+  GAS_GOD = 7;
+
+}
+
+/// Global account state reason. These are for user message only. Not functional.
+enum GlobalAccountStateReason {
+  GASR_NEW_ACCOUNT = 0; // User is a new account
+  GASR_ACCOUNT_BANNED = 1; // User is disallowed from the service
+  GASR_CREATE_DENIED = 2; // User account creation request was denied. Contact support
+  GASR_APPROVED = 3; // User account was approved
+  GASR_DEMO_APPROVED = 4; // User account was automatically approved for demonstration purpose
+  GASR_PENDING = 5; // User account approval is pending
+  GASR_REQUIRE_INFO = 6; // More information is required from the user to approve their account
+
+}
+
+/// Account level
+enum AccountLevel {
+  AL_FREE = 0;
+  AL_PREMIUM = 1;
+  AL_PRO = 2;
+}
+
+/// NotificationFlags are set at login and may be sent through GCM as well
+enum NotificationFlags {
+  /// Set whenever GAS changed (wipe after dismissed)
+  NF_ACCOUNT_STATE = 0;
+  /// Set for new users to learn (place a solicitation / make an offer), pops help message to FAB (wipe on dismissed)
+  NF_MAKE_AN_OFFER_HINT = 1;
+  /// There are new unread messages from other users (wipe when opening message tab)
+  NF_UNREAD_MESSAGES = 2;
+  /// Customer support requesting attention (may interpret as duplicate of  NF_ACCOUNT_STATUS if GASR_REQUIRE_INFO)
+  NF_SUPPORT_REQUEST = 3;
+  /// Show onboarding sequence (wipe when completed)
+  NF_ONBOARDING = 4;
+
+}
+
+enum OfferState {
+  OS_DRAFT = 0;
+  OS_SCHEDULED = 1; // Switches to open as soon as scheduled date is passed
+  OS_OPEN = 2; // Open and awaiting new proposals
+  OS_CLOSED = 3; // No longer accepting new proposals
+
+}
+
+enum OfferStateReason {
+  OSR_NEW_OFFER = 0;
+  OSR_USER_CLOSED = 1; // You have closed this offer.
+  OSR_TOS_VIOLATION = 2; // This offer violates the Terms of Service
+  OSR_COMPLETED = 3; // This offer has been completed by all proposals
+
+}
+
+enum ProposalChatType {
+  PCT_PLAIN = 0;
+  PCT_NEGOTIATE = 1; // url-encoded haggle message (deliverable=...&reward=...&remarks=...)
+  PCT_IMAGE_KEY = 2;
+  PCT_MARKER = 3; // system marker (id=...)
+
+}
+
+enum ProposalState {
+  /*
+  Proposing
+  =========
+  The proposal is shown with just the terms, for the receiver it presents the
+  options Accept (accepts immediately, goes to chat), Negotiate (prompt to
+  modify the terms, then goes to chat), Reject (rejects and immediately
+  archives the proposal, other user will see a rejected proposal and is
+  presented with an archive button); for the sender it presents the option
+  Cancel (cancels and immediately archives for both sender and receiver), or
+  Archive if the receiver rejected.
+  */
+  PS_PROPOSING = 0;
+
+  /*
+  Negotiating (previously called Haggling)
+  ===========
+  The proposal is shown as chat, and in this state cannot be archived unless
+  first rejected or canceled.
+  */
+  PS_NEGOTIATING = 1;
+
+  /*
+  Deal
+  ====
+  Both parties have agreed on the same set of terms, cannot be archived either
+  until completed or resolved. Presented as chat with a promonent
+  Mark As Completed button.
+  */
+  PS_DEAL = 2;
+  PS_REJECTED = 3; // Rejected. Presented with an Archive option.
+  PS_DISPUTE = 4; // Dispute. To be processed by support staff.
+
+  /*
+  Completed
+  =========
+  Both parties have confirmed completion and rated each other, presented as
+  chat with a prominent Archive option.
+  */
+  PS_RESOLVED = 5; // Resolved. Completion by support staff in case of dispute.
+  PS_COMPLETE = 6;
+
+}
+
+enum ProposalChatMarker {
+  PCM_APPLIED = 0; // ${User} has applied for ${offer}.
+  PCM_WANT_DEAL = 1; // (Deprecated.) ${User} wants to make a deal.
+  PCM_DEAL_MADE = 2; // A deal has been made. Congratulations!
+  PCM_REJECTED = 3; // ${User} has rejected the application.
+  PCM_MARKED_COMPLETE = 4; // ${User} has marked the deal as complete.
+  PCM_COMPLETE = 5; // The offer has been completed. Well done!
+  PCM_MARKED_DISPUTE = 6; // (Disputes are silent, although can be seen :))
+  PCM_RESOLVED = 7; // The dispute has been resolved through customer support. Case closed.
+  PCM_MESSAGE_DROPPED = 8; // Empty message to drop an invalid message. Not stored in database.
+  PCM_DIRECT = 9; // ${User} has directly requested you for ${offer}.
+  PCM_WANT_NEGOTIATE = 10; // ${User} wants to negotiate.
+
+}

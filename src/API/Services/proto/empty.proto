@@ -1,6 +1,8 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package api;
 option csharp_namespace = "API";
 
-message Empty {}
+// To use in calls when no data is needed
+message Empty {
+}

@@ -1,4 +1,4 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package api;
 option csharp_namespace = "API";
@@ -23,4 +23,6 @@ message SocialNetworkProvider {
     // one of the following must be set
     uint32 logoBackGroundColor = 6;
     bytes logoBackgroundData = 7;
+    string apiKey = 8;
+    string apiKeySecret = 9;
 }

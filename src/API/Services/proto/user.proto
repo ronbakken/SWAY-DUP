@@ -1,4 +1,4 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package api;
 option csharp_namespace = "API";
@@ -9,6 +9,7 @@ enum UserType {
     support = 2;
     admin = 3;
 }
+
 
 // Here we need a discussion what states make sense
 enum AccountState {
@@ -27,6 +28,7 @@ enum AccountState {
 // GASR_DEMO_APPROVED = 4; // User account was automatically approved for demonstration purpose
 // GASR_PENDING = 5; // User account approval is pending
 // GASR_REQUIRE_INFO = 6; // More information is required from the user to approve their account
+
 }
 
 message User {

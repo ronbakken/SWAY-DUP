@@ -1,4 +1,4 @@
-﻿syntax = "proto3";
+syntax = "proto3";
 
 package api;
 option csharp_namespace = "API";
@@ -8,14 +8,17 @@ enum DeliverableType {
     mention = 1;
     video = 2;
     customDeliverable = 3;
-}
+  }
 
-message DeliverableIcon {
+
+message DeliverableIcon
+{
     int32 id = 1;
     DeliverableType deliverableType = 2;
     bytes iconData = 3;
     string name = 4;
 }
+
 
 message Deliverable {
     int32 id = 1;
