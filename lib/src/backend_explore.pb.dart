@@ -422,7 +422,7 @@ class UpdateOfferResponse extends $pb.GeneratedMessage {
 class GetOfferRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetOfferRequest',
       package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'accountId')
+    ..aInt64(1, 'offerId')
     ..aOB(2, 'receiverAccountId')
     ..aOB(3, 'private')
     ..aOB(4, 'summary')
@@ -452,13 +452,13 @@ class GetOfferRequest extends $pb.GeneratedMessage {
     if (v is! GetOfferRequest) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  Int64 get accountId => $_getI64(0);
-  set accountId(Int64 v) {
+  Int64 get offerId => $_getI64(0);
+  set offerId(Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasAccountId() => $_has(0);
-  void clearAccountId() => clearField(1);
+  bool hasOfferId() => $_has(0);
+  void clearOfferId() => clearField(1);
 
   bool get receiverAccountId => $_get(1, false);
   set receiverAccountId(bool v) {

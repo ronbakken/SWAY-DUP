@@ -111,7 +111,7 @@ const UpdateOfferResponse$json = const {
 const GetOfferRequest$json = const {
   '1': 'GetOfferRequest',
   '2': const [
-    const {'1': 'account_id', '3': 1, '4': 1, '5': 3, '10': 'accountId'},
+    const {'1': 'offer_id', '3': 1, '4': 1, '5': 3, '10': 'offerId'},
     const {
       '1': 'receiver_account_id',
       '3': 2,
