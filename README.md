@@ -37,7 +37,7 @@ Run `docker-compose down` in `sample_jwt/docker_sample_jwt` to clean up.
 | inf_server_api | API Integration | Dart | MySQL | High level API. | Any number of instances. Stateless. |
 | inf_server_explore | Explore | Dart | Elasticsearch | Offer and profile search. | Any number of instances. Stateless. |
 | inf_server_jwt | JWT Signing | Node.js | --- |  Signs all JWT tokens. | Any number of instances. Stateless.<br>May have mirrored temporary signatures in the future. |
-| inf_server_push | Push Notifications | MySQL | Dart | Handles push connections to users.<br>Sends platform push notifcations. | Only 1 instance.<br>Support for scaling can be achieved by sharding by account id. |
+| inf_server_push | Push Notifications | Dart | MySQL | Handles push connections to users.<br>Sends platform push notifcations. | Only 1 instance.<br>Support for scaling can be achieved by sharding by account id. |
 
 ## Service Ports
 
