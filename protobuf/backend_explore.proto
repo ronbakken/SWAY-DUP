@@ -1,0 +1,149 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+/*
+
+Backend service dedicated to handling message streams and notifications.
+
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "net_account_protobuf.proto";
+import "net_offer_protobuf.proto";
+import "data_protobuf.proto";
+
+message InsertProfileRequest {
+  DataAccount account = 1;
+    
+}
+
+message InsertProfileResponse {
+  // empty
+
+}
+
+message UpdateProfileRequest {
+  DataAccount account = 1;
+
+}
+
+message UpdateProfileResponse {
+  // empty
+
+}
+
+message GetProfileRequest {
+  int64 account_id = 1;
+
+  /// The account id which will receive this profile data
+  bool receiver_account_id = 2;
+  /// Include private fields specific to the receiver
+  bool private = 3;
+  /// Include summary fields
+  bool summary = 4;
+  /// Include detail fields
+  bool detail = 5;
+  /// Include state fields
+  bool state = 6;
+
+}
+
+message GetProfileResponse {
+    NetAccount account = 1;
+
+}
+
+message InsertOfferRequest {
+  DataOffer offer = 1;
+    
+}
+
+message InsertOfferResponse {
+  // empty
+
+}
+
+message UpdateOfferRequest {
+  DataOffer offer = 1;
+
+}
+
+message UpdateOfferResponse {
+  // empty
+
+}
+
+message GetOfferRequest {
+  int64 account_id = 1;
+
+  /// The account id which will receive this profile data
+  bool receiver_account_id = 2;
+  /// Include private fields
+  bool private = 3;
+  /// Include summary fields
+  bool summary = 4;
+  /// Include detail fields
+  bool detail = 5;
+  /// Include state fields
+  bool state = 6;
+
+}
+
+message GetOfferResponse {
+    NetOffer offer = 1;
+
+}
+
+message ListOffersFromSenderRequest {
+    int64 account_id = 1;
+
+    /// The account id which will receive this profile data
+    bool receiver_account_id = 2;
+    /// Include private fields specific to the receiver
+    bool private = 3;
+    /// Include summary fields
+    bool summary = 4;
+    /// Include detail fields
+    bool detail = 5;
+    /// Include state fields
+    bool state = 6;
+
+}
+
+message ListOffersFromSenderResponse {
+    NetOffer offer = 1;
+
+}
+
+service BackendExplore {
+  /// Insert a new profile. Must have a unique id.
+  rpc InsertProfile(InsertProfileRequest) returns (InsertProfileResponse) {}
+
+  /// Update an existing profile. Only included fields are updated. Lists are replaced. Map entries are replaced individually, missing map entries are not removed.
+  rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse) {}
+
+  /// Get a user profile
+  rpc GetProfile(GetProfileRequest) returns (GetProfileResponse) {}
+
+  /// Insert a new offer. Must have a unique id.
+  rpc InsertOffer(InsertOfferRequest) returns (InsertOfferResponse) {}
+
+  /// Update an existing offer. Only included fields are updated. 
+  rpc UpdateOffer(UpdateOfferRequest) returns (UpdateOfferResponse) {}
+
+  /// Get an offer
+  rpc GetOffer(GetOfferRequest) returns (GetOfferResponse) {}
+
+  /// List offers which were sent by the specified account
+  rpc ListOffersFromSender(ListOffersFromSenderRequest) returns (ListOffersFromSenderResponse) {}
+
+}
+
+/* end of file */
