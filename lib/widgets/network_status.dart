@@ -64,7 +64,7 @@ class NetworkStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Api network = ApiProvider.of(context);
-    Logger('Inf.NetworkStatus').finest('Connected: ${network.connected}, Receiving: ${network.receiving}');
+    // Logger('Inf.NetworkStatus').finest('Connected: ${network.connected}, Receiving: ${network.receiving}');
     switch (network.connected) {
       case NetworkConnectionState.ready:
         switch (network.receiving) {
