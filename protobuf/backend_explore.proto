@@ -62,7 +62,11 @@ message GetProfileResponse {
 
 message InsertOfferRequest {
   DataOffer offer = 1;
-    
+
+  /// Temporary requirement since profile is not yet part of explore
+  DataAccount sender_account = 2;
+  DataLocation sender_location = 3;
+
 }
 
 message InsertOfferResponse {
