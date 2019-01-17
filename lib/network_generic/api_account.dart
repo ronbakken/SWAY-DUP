@@ -722,8 +722,10 @@ abstract class ApiAccount implements Api, ApiInternals {
     }
 
     // Result contains the updated data, so needs to be put into the state
-    if (oauthProvider < config.oauthProviders.length &&
-        response.socialMedia != null) {
+    if (response.hasAccount()) {
+      receivedAccountUpdate(response.account);
+    } if (oauthProvider < config.oauthProviders.length &&
+        response.hasSocialMedia()) {
       final DataAccount account = _realAccount.clone();
       account.socialMedia[oauthProvider] = response.socialMedia;
       receivedAccountUpdate(account);
