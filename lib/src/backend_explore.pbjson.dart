@@ -48,7 +48,7 @@ const GetProfileRequest$json = const {
       '1': 'receiver_account_id',
       '3': 2,
       '4': 1,
-      '5': 8,
+      '5': 3,
       '10': 'receiverAccountId'
     },
     const {'1': 'private', '3': 3, '4': 1, '5': 8, '10': 'private'},
@@ -116,7 +116,7 @@ const GetOfferRequest$json = const {
       '1': 'receiver_account_id',
       '3': 2,
       '4': 1,
-      '5': 8,
+      '5': 3,
       '10': 'receiverAccountId'
     },
     const {'1': 'private', '3': 3, '4': 1, '5': 8, '10': 'private'},
@@ -148,7 +148,7 @@ const ListOffersFromSenderRequest$json = const {
       '1': 'receiver_account_id',
       '3': 2,
       '4': 1,
-      '5': 8,
+      '5': 3,
       '10': 'receiverAccountId'
     },
     const {'1': 'private', '3': 3, '4': 1, '5': 8, '10': 'private'},

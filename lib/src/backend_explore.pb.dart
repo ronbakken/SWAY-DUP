@@ -160,7 +160,7 @@ class GetProfileRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetProfileRequest',
       package: const $pb.PackageName('inf'))
     ..aInt64(1, 'accountId')
-    ..aOB(2, 'receiverAccountId')
+    ..aInt64(2, 'receiverAccountId')
     ..aOB(3, 'private')
     ..aOB(4, 'summary')
     ..aOB(5, 'detail')
@@ -198,9 +198,9 @@ class GetProfileRequest extends $pb.GeneratedMessage {
   bool hasAccountId() => $_has(0);
   void clearAccountId() => clearField(1);
 
-  bool get receiverAccountId => $_get(1, false);
-  set receiverAccountId(bool v) {
-    $_setBool(1, v);
+  Int64 get receiverAccountId => $_getI64(1);
+  set receiverAccountId(Int64 v) {
+    $_setInt64(1, v);
   }
 
   bool hasReceiverAccountId() => $_has(1);
@@ -423,7 +423,7 @@ class GetOfferRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetOfferRequest',
       package: const $pb.PackageName('inf'))
     ..aInt64(1, 'offerId')
-    ..aOB(2, 'receiverAccountId')
+    ..aInt64(2, 'receiverAccountId')
     ..aOB(3, 'private')
     ..aOB(4, 'summary')
     ..aOB(5, 'detail')
@@ -460,9 +460,9 @@ class GetOfferRequest extends $pb.GeneratedMessage {
   bool hasOfferId() => $_has(0);
   void clearOfferId() => clearField(1);
 
-  bool get receiverAccountId => $_get(1, false);
-  set receiverAccountId(bool v) {
-    $_setBool(1, v);
+  Int64 get receiverAccountId => $_getI64(1);
+  set receiverAccountId(Int64 v) {
+    $_setInt64(1, v);
   }
 
   bool hasReceiverAccountId() => $_has(1);
@@ -544,7 +544,7 @@ class ListOffersFromSenderRequest extends $pb.GeneratedMessage {
       'ListOffersFromSenderRequest',
       package: const $pb.PackageName('inf'))
     ..aInt64(1, 'accountId')
-    ..aOB(2, 'receiverAccountId')
+    ..aInt64(2, 'receiverAccountId')
     ..aOB(3, 'private')
     ..aOB(4, 'summary')
     ..aOB(5, 'detail')
@@ -586,9 +586,9 @@ class ListOffersFromSenderRequest extends $pb.GeneratedMessage {
   bool hasAccountId() => $_has(0);
   void clearAccountId() => clearField(1);
 
-  bool get receiverAccountId => $_get(1, false);
-  set receiverAccountId(bool v) {
-    $_setBool(1, v);
+  Int64 get receiverAccountId => $_getI64(1);
+  set receiverAccountId(Int64 v) {
+    $_setInt64(1, v);
   }
 
   bool hasReceiverAccountId() => $_has(1);
