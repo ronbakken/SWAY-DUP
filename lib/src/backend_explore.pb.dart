@@ -284,6 +284,10 @@ class InsertOfferRequest extends $pb.GeneratedMessage {
       package: const $pb.PackageName('inf'))
     ..a<$10.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $10.DataOffer.getDefault,
         $10.DataOffer.create)
+    ..a<$10.DataAccount>(2, 'senderAccount', $pb.PbFieldType.OM,
+        $10.DataAccount.getDefault, $10.DataAccount.create)
+    ..a<$10.DataLocation>(3, 'senderLocation', $pb.PbFieldType.OM,
+        $10.DataLocation.getDefault, $10.DataLocation.create)
     ..hasRequiredFields = false;
 
   InsertOfferRequest() : super();
@@ -317,6 +321,22 @@ class InsertOfferRequest extends $pb.GeneratedMessage {
 
   bool hasOffer() => $_has(0);
   void clearOffer() => clearField(1);
+
+  $10.DataAccount get senderAccount => $_getN(1);
+  set senderAccount($10.DataAccount v) {
+    setField(2, v);
+  }
+
+  bool hasSenderAccount() => $_has(1);
+  void clearSenderAccount() => clearField(2);
+
+  $10.DataLocation get senderLocation => $_getN(2);
+  set senderLocation($10.DataLocation v) {
+    setField(3, v);
+  }
+
+  bool hasSenderLocation() => $_has(2);
+  void clearSenderLocation() => clearField(3);
 }
 
 class InsertOfferResponse extends $pb.GeneratedMessage {

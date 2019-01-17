@@ -83,6 +83,22 @@ const InsertOfferRequest$json = const {
       '6': '.inf.DataOffer',
       '10': 'offer'
     },
+    const {
+      '1': 'sender_account',
+      '3': 2,
+      '4': 1,
+      '5': 11,
+      '6': '.inf.DataAccount',
+      '10': 'senderAccount'
+    },
+    const {
+      '1': 'sender_location',
+      '3': 3,
+      '4': 1,
+      '5': 11,
+      '6': '.inf.DataLocation',
+      '10': 'senderLocation'
+    },
   ],
 };
 
