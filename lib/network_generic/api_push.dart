@@ -59,9 +59,8 @@ abstract class ApiPush implements Api, ApiInternals {
       _backoff = null;
       if (_pushSubscription != null) {
         _disconnectListener();
-      } else {
-        _connectListener();
       }
+      _connectListener();
     }
   }
 
@@ -134,7 +133,7 @@ abstract class ApiPush implements Api, ApiInternals {
                           'The http/2 connection is no longer active')) {
                     // TODO: This seems to be a design flaw in the gRPC library...
                     // I/flutter ( 2588): gRPC Error (14, Error making call: Bad state: The http/2 connection is no longer active and can therefore not be used to make new streams.)
-                    await refreshAccessToken();
+                    unawaited(refreshAccessToken());
                   }
                 }
                 rethrow;

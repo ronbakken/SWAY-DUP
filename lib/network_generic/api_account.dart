@@ -437,8 +437,13 @@ abstract class ApiAccount implements Api, ApiInternals {
 
   @override
   void accountReassemble() {
-    _lastEndPoint = 0;
-    _forceReopenSession();
+    if (connected != NetworkConnectionState.ready) {
+      _lastEndPoint = 0;
+      // unawaited(_forceReopenSession());
+    } else {
+      // unawaited(refreshAccessToken());
+    }
+    unawaited(refreshAccessToken());
   }
 
   @override

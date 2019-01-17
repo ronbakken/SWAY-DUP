@@ -176,7 +176,7 @@ class ApiClient
 
   Future<void> dispose() async {
     disposeNotifications();
-    disposePush();
+    await disposePush();
     disposeExplore();
     disposeProposals();
     disposeOffers();
