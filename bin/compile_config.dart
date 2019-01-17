@@ -148,6 +148,11 @@ Future<ConfigServices> generateConfigServices(
         res.freshdeskApi = cfg.get(section, 'freshdeskApi');
       if (cfg.hasOption(section, 'freshdeskKey'))
         res.freshdeskKey = cfg.get(section, 'freshdeskKey');
+
+      if (cfg.hasOption(section, 'pexelsApi'))
+        res.pexelsApi = cfg.get(section, 'pexelsApi');
+      if (cfg.hasOption(section, 'pexelsKey'))
+        res.pexelsKey = cfg.get(section, 'pexelsKey');
     }
   }
 
