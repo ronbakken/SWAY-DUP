@@ -8,6 +8,9 @@ library inf_common;
 
 export 'package:inf_common/inf_common.dart';
 
+export 'package:inf_common/src/backend_explore.pb.dart';
+export 'package:inf_common/src/backend_explore.pbgrpc.dart';
+
 export 'package:inf_common/src/backend_push.pb.dart';
 export 'package:inf_common/src/backend_push.pbgrpc.dart';
 
