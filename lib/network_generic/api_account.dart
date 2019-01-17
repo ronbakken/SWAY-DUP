@@ -241,6 +241,13 @@ abstract class ApiAccount implements Api, ApiInternals {
       onCommonChanged();
       return;
     }
+    if (_multiAccountStore.getLocal(localAccount.domain, localAccount.localId) == null) {
+      if (_wantedLocalAccount == localAccount) {
+        _wantedLocalAccount = null;
+      }
+      multiAccountStore.addAccount(_config.services.domain);
+      return;
+    }
     final String refreshToken = _multiAccountStore.getRefreshToken(
         localAccount.domain, localAccount.localId);
     assert(localAccount.domain == config.services.domain);
@@ -340,6 +347,16 @@ abstract class ApiAccount implements Api, ApiInternals {
           log.warning('Failed to open session.', error, stackTrace);
           connected = NetworkConnectionState.failing;
           onCommonChanged();
+          if (error is grpc.GrpcError && error.code == grpc.GrpcError.failedPrecondition().code) {
+            log.warning('This session is no longer valid for this server, removing session.');
+            if (_wantedLocalAccount == localAccount) {
+              _wantedLocalAccount = null;
+            }
+            multiAccountStore.removeLocal(
+                localAccount.domain, localAccount.localId);
+            multiAccountStore.addAccount(_config.services.domain);
+            break;
+          }
         }
       } while (!success &&
           _triedEndPoints < _config.services.endPoints.length &&
