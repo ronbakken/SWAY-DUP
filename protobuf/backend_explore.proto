@@ -43,7 +43,7 @@ message GetProfileRequest {
   int64 account_id = 1;
 
   /// The account id which will receive this profile data
-  bool receiver_account_id = 2;
+  int64 receiver_account_id = 2;
   /// Include private fields specific to the receiver
   bool private = 3;
   /// Include summary fields
@@ -84,7 +84,7 @@ message GetOfferRequest {
   int64 offer_id = 1;
 
   /// The account id which will receive this profile data
-  bool receiver_account_id = 2;
+  int64 receiver_account_id = 2;
   /// Include private fields
   bool private = 3;
   /// Include summary fields
@@ -105,7 +105,7 @@ message ListOffersFromSenderRequest {
     int64 account_id = 1;
 
     /// The account id which will receive this profile data
-    bool receiver_account_id = 2;
+    int64 receiver_account_id = 2;
     /// Include private fields specific to the receiver
     bool private = 3;
     /// Include summary fields
