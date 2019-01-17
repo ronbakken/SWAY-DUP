@@ -38,7 +38,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
   ApiProposalsService(this.config, this.accountDb, this.proposalDb, this.bc) {
     final Uri backendExploreUri = Uri.parse(
         Platform.environment['INF_BACKEND_EXPLORE'] ??
-            config.services.backendPush);
+            config.services.backendExplore);
     backendExploreChannel = grpc.ClientChannel(
       backendExploreUri.host,
       port: backendExploreUri.port,

@@ -123,7 +123,7 @@ Future<void> main() async {
     // https://www.infmarketplace.com/wait.html?oauth_token=PTTfSwAAAAAA5_oKAAABaFbaMcQ&oauth_verifier=AbAOYhR2U4odp2MneAvuL3sUW1yx7mhT
   });
 
-  
+  /*
   test('Twitter connect', () async {
     final NetOAuthConnect request = NetOAuthConnect();
     request.oauthProvider = OAuthProviderIds.twitter.value;
@@ -141,7 +141,7 @@ Future<void> main() async {
     // 2:"user_id" -> "1085549519767400449"
     // 3:"screen_name" -> "IBoxsand"
   });
-  
+  */
 
   test('Twitter connect with outdated token should fail', () async {
     final NetOAuthConnect request = NetOAuthConnect();
