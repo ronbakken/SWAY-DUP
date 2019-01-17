@@ -154,7 +154,7 @@ message ConfigCategory {
   
 }
 
-message ConfigServices { // 55
+message ConfigServices { // 57
   // INF
   string domain = 24;
   repeated string end_points = 8;
@@ -206,7 +206,7 @@ message ConfigServices { // 55
   string one_signal_api_key = 39;
   string one_signal_api = 40;
   
-  // Firebase (Cloud Notifications)
+  // Firebase Cloud Messaging (Cloud Notifications)
   string firebaseServerKey = 25;
   string firebaseSenderId = 26;
   string firebaseLegacyApi = 27;
@@ -228,12 +228,16 @@ message ConfigServices { // 55
   string galleryPictureBlurredUrl = 42;
   
   // IPStack (FreeGeoIP)
-  string ipstackApi = 13;
-  string ipstackKey = 12;
+  string ipstack_api = 13;
+  string ipstack_key = 12;
   
-  // Freshdesk (Support)
-  string freshdeskApi = 22;
-  string freshdeskKey = 23;
+  // Freshdesk (E-mail Support)
+  string freshdesk_api = 22;
+  string freshdesk_key = 23;
+
+  // Pexels (Stock Images)
+  string pexels_api = 56;
+  string pexels_key = 57;
   
 }
 
