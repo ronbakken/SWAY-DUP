@@ -3,7 +3,7 @@
 package api;
 option csharp_namespace = "API";
 
-import "Services/proto/empty.proto";
+import "empty.proto";
 
 service InvitationCodeService {
     // Administrative procedures.

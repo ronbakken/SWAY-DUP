@@ -3,10 +3,10 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API";
 
-import "Services/proto/empty.proto";
-import "Services/proto/category.proto";
-import "Services/proto/deliverable.proto";
-import "Services/proto/social_network_provider.proto";
+import "empty.proto";
+import "category.proto";
+import "deliverable.proto";
+import "social_network_provider.proto";
 
 service InfConfig {
   // Requests client and config Version

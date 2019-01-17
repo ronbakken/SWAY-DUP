@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionManager", "SessionMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SessionManager.Interfaces", "SessionManager.Interfaces\SessionManager.Interfaces.csproj", "{C3F247C5-3ED3-4213-AEC7-A533C7C46091}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{E8992D36-06FC-4781-AFD6-69EE6A507C3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "Utility\Utility.csproj", "{E8992D36-06FC-4781-AFD6-69EE6A507C3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API.Interfaces", "API.Interfaces\API.Interfaces.csproj", "{F7269532-8B6E-47BB-BADD-237182F56E8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +143,14 @@ Global
 		{E8992D36-06FC-4781-AFD6-69EE6A507C3D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8992D36-06FC-4781-AFD6-69EE6A507C3D}.Release|x64.ActiveCfg = Release|Any CPU
 		{E8992D36-06FC-4781-AFD6-69EE6A507C3D}.Release|x64.Build.0 = Release|Any CPU
+		{F7269532-8B6E-47BB-BADD-237182F56E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7269532-8B6E-47BB-BADD-237182F56E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7269532-8B6E-47BB-BADD-237182F56E8D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F7269532-8B6E-47BB-BADD-237182F56E8D}.Debug|x64.Build.0 = Debug|Any CPU
+		{F7269532-8B6E-47BB-BADD-237182F56E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7269532-8B6E-47BB-BADD-237182F56E8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7269532-8B6E-47BB-BADD-237182F56E8D}.Release|x64.ActiveCfg = Release|Any CPU
+		{F7269532-8B6E-47BB-BADD-237182F56E8D}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

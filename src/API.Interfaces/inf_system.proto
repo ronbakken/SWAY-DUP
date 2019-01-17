@@ -3,7 +3,7 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API";
 
-import "Services/proto/empty.proto";
+import "empty.proto";
 
 service InfSystem {
   rpc PingServer (Empty) returns (AliveMessage) {}

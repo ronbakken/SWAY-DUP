@@ -3,7 +3,7 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API";
 
-import "Services/proto/social_network_provider.proto";
+import "social_network_provider.proto";
 
 message SocialMediaAccount {
     int32 id = 1;

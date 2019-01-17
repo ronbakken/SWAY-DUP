@@ -3,9 +3,9 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API";
 
-import "Services/proto/empty.proto";
-import "Services/proto/user.proto";
-import "Services/proto/social_media_account.proto";
+import "empty.proto";
+import "user.proto";
+import "social_media_account.proto";
 
 service InfAuth {
   rpc SendLoginEmail(LoginEmailRequest) returns (Empty) {}
