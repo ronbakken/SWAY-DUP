@@ -417,6 +417,83 @@ Future<void> main() async {
       // Terms is the last chat id
       expect(termsChat.chatId, equals(lastChat.chatId));
     });
+
+    DataProposal proposalAsBusiness;
+
+    test('Business can fetch the proposal', () async {
+      proposalAsBusiness = null;
+      final NetGetProposal request = NetGetProposal();
+      request.proposalId = proposalId;
+      final ApiProposalsClient proposalsClient = ApiProposalsClient(
+        channel,
+        options: grpc.CallOptions(metadata: <String, String>{
+          'authorization': 'Bearer $businessAccessToken'
+        }),
+      );
+      final NetProposal proposalResponse = await proposalsClient.get(request);
+      expect(proposalResponse, isNotNull);
+      expect(proposalResponse.hasProposal(), isTrue);
+      proposalAsBusiness = proposalResponse.proposal;
+      // Proposal must include latest chat and terms
+      DataProposalChat localTermsChat;
+      DataProposalChat localLastChat;
+      expect(proposalResponse.chats, isNotEmpty);
+      for (DataProposalChat chat in proposalResponse.chats) {
+        if (chat.chatId == proposalResponse.proposal.termsChatId) {
+          // The terms chat exists
+          localTermsChat = chat;
+        }
+        if (chat.chatId == proposalResponse.proposal.lastChatId) {
+          // Last chat is valid
+          localLastChat = chat;
+        }
+      }
+      expect(localTermsChat, isNotNull);
+      expect(localLastChat, isNotNull);
+      expect(localTermsChat.chatId, equals(termsChat.chatId));
+      expect(localLastChat.chatId, equals(lastChat.chatId));
+      // TODO: Validate more proposal properties
+    });
+
+    DataProposal proposalAsInfluencer;
+
+    test('Influencer can fetch the proposal', () async {
+      proposalAsInfluencer = null;
+      final NetGetProposal request = NetGetProposal();
+      request.proposalId = proposalId;
+      final ApiProposalsClient proposalsClient = ApiProposalsClient(
+        channel,
+        options: grpc.CallOptions(metadata: <String, String>{
+          'authorization': 'Bearer $influencerAccessToken'
+        }),
+      );
+      final NetProposal proposalResponse = await proposalsClient.get(request);
+      expect(proposalResponse, isNotNull);
+      expect(proposalResponse.hasProposal(), isTrue);
+      proposalAsInfluencer = proposalResponse.proposal;
+      // Proposal must include latest chat and terms
+      DataProposalChat localTermsChat;
+      DataProposalChat localLastChat;
+      expect(proposalResponse.chats, isNotEmpty);
+      for (DataProposalChat chat in proposalResponse.chats) {
+        if (chat.chatId == proposalResponse.proposal.termsChatId) {
+          // The terms chat exists
+          localTermsChat = chat;
+        }
+        if (chat.chatId == proposalResponse.proposal.lastChatId) {
+          // Last chat is valid
+          localLastChat = chat;
+        }
+      }
+      expect(localTermsChat, isNotNull);
+      expect(localLastChat, isNotNull);
+      expect(localTermsChat.chatId, equals(termsChat.chatId));
+      expect(localLastChat.chatId, equals(lastChat.chatId));
+      // TODO: Validate more proposal properties
+    });
+
+    // TODO: Proposal exists in business proposal list (including latest chat)
+    // TODO: Proposal exists in influencer proposal list (including latest chat)
   });
 }
 
