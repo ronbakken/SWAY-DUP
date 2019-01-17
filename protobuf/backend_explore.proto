@@ -142,7 +142,7 @@ service BackendExplore {
   rpc GetOffer(GetOfferRequest) returns (GetOfferResponse) {}
 
   /// List offers which were sent by the specified account
-  rpc ListOffersFromSender(ListOffersFromSenderRequest) returns (ListOffersFromSenderResponse) {}
+  rpc ListOffersFromSender(ListOffersFromSenderRequest) returns (stream ListOffersFromSenderResponse) {}
 
 }
 
