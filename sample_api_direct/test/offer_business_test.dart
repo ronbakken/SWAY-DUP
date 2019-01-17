@@ -19,6 +19,19 @@ import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
 import 'package:faker/faker.dart';
 
+List<int> getLeafCategories(ConfigData config, List<int> categories) {
+  final Set<int> res = Set<int>();
+  res.addAll(categories);
+  for (int category in categories) {
+    int parent = config.categories[category].parentId;
+    while (parent != 0) {
+      res.remove(parent);
+      parent = config.categories[parent].parentId;
+    }
+  }
+  return res.toList();
+}
+
 Future<void> main() async {
   // Logging
   hierarchicalLoggingEnabled = true;
@@ -68,19 +81,24 @@ Future<void> main() async {
   sessionCreateRequest.deviceInfo = '{}';
   sessionCreateRequest.freeze();
 
+  const bool devOverride = false;
+  const String devIp = '192.168.43.202';
+
   setUpAll(() async {
     httpClient = http.Client();
     channel = grpc.ClientChannel(
-      '192.168.43.202', //'127.0.0.1', //
+      devOverride ? devIp : '127.0.0.1',
       port: 8080, // Connect to Envoy Proxy
       options: const grpc.ChannelOptions(
         credentials: grpc.ChannelCredentials.insecure(),
       ),
     );
-    final ApiSessionClient sessionClient = ApiSessionClient(channel,
-        options: grpc.CallOptions(metadata: <String, String>{
-          'authorization': 'Bearer ${config.services.applicationToken}'
-        }));
+    final ApiSessionClient sessionClient = ApiSessionClient(
+      channel,
+      options: grpc.CallOptions(metadata: <String, String>{
+        'authorization': 'Bearer ${config.services.applicationToken}'
+      }),
+    );
     final NetSession influencerSession =
         await sessionClient.create(sessionCreateRequest);
     influencerAccessToken = influencerSession.accessToken;
@@ -89,19 +107,15 @@ Future<void> main() async {
     businessAccessToken = businessSession.accessToken;
     influencerAccountClient = ApiAccountClient(
       channel,
-      options: grpc.CallOptions(
-        metadata: <String, String>{
-          'authorization': 'Bearer $influencerAccessToken'
-        },
-      ),
+      options: grpc.CallOptions(metadata: <String, String>{
+        'authorization': 'Bearer $influencerAccessToken'
+      }),
     );
     businessAccountClient = ApiAccountClient(
       channel,
-      options: grpc.CallOptions(
-        metadata: <String, String>{
-          'authorization': 'Bearer $businessAccessToken'
-        },
-      ),
+      options: grpc.CallOptions(metadata: <String, String>{
+        'authorization': 'Bearer $businessAccessToken'
+      }),
     );
     final NetSetAccountType setTypeRequest = NetSetAccountType();
     setTypeRequest.accountType = AccountType.influencer;
@@ -325,6 +339,13 @@ Future<void> main() async {
         }
       }
     }
+    List<int> categories =
+        getLeafCategories(config, createOffer.offer.categories);
+    expect(categories, isNotEmpty);
+    createOffer.offer.categories.clear();
+    for (int categoryId in categories) {
+      createOffer.offer.categories.add(categoryId);
+    }
     createOffer.offer.terms.deliverableSocialPlatforms.add(1);
     for (int i = 1; i < (random.nextInt(1) + 2); ++i) {
       final int platformId =
@@ -463,6 +484,73 @@ Future<void> main() async {
     expect(response.offer.hasProposalsComplete(), isFalse);
     expect(response.offer.hasProposalId(),
         isFalse); // TODO: Verify this goes true after proposing
+  });
+
+  test('Force Elasticsearch to refresh (created offer)', () async {
+    // Elasticsearch has a 1s delay for refreshing
+    final String endPoint = devOverride
+        ? 'http://$devIp:9200'
+        : serverConfig.services.elasticsearchApi;
+    final Map<String, String> headers = serverConfig
+            .services.elasticsearchBasicAuth.isNotEmpty
+        ? <String, String>{
+            'Authorization': 'Basic ' +
+                base64.encode(
+                    utf8.encode(serverConfig.services.elasticsearchBasicAuth)),
+            'Content-Type': 'application/json'
+          }
+        : <String, String>{'Content-Type': 'application/json'};
+    final String url = endPoint + '/_refresh';
+    final http.Response response =
+        await httpClient.post(url, headers: headers, body: '{}');
+    expect(response.statusCode, equals(200));
+  });
+
+  test('Business offer list contains the offer', () async {
+    final ApiOffersClient offersClient = ApiOffersClient(
+      channel,
+      options: grpc.CallOptions(metadata: <String, String>{
+        'authorization': 'Bearer $businessAccessToken'
+      }),
+    );
+
+    final NetListOffers request = NetListOffers();
+    final List<NetOffer> responses = await offersClient.list(request).toList();
+    NetOffer offerSummary;
+    expect(responses, isNotEmpty);
+    log.finest('Look for ${offer.offerId} in list size ${responses.length}');
+    for (NetOffer netOffer in responses) {
+      expect(netOffer.summary, isTrue);
+      expect(netOffer.detail, isFalse);
+      expect(netOffer.state, isTrue);
+      expect(netOffer.hasOffer(), isTrue);
+      log.finest(netOffer.offer.offerId);
+      if (netOffer.offer.offerId == offer.offerId) {
+        expect(offerSummary, isNull);
+        offerSummary = netOffer;
+      }
+    }
+
+    expect(offerSummary, isNotNull);
+    expect(offerSummary.hasOffer(), isTrue);
+    expect(offerSummary.offer.title, equals(offer.title));
+    expect(offerSummary.offer.hasDescription(), isFalse);
+  });
+
+  test('Influencer offer list does not contain the offer', () async {
+    final ApiOffersClient offersClient = ApiOffersClient(
+      channel,
+      options: grpc.CallOptions(metadata: <String, String>{
+        'authorization': 'Bearer $influencerAccessToken'
+      }),
+    );
+
+    final NetListOffers request = NetListOffers();
+    final List<NetOffer> responses = await offersClient.list(request).toList();
+    expect(() {
+      responses
+          .firstWhere((NetOffer value) => value.offer.offerId == offer.offerId);
+    }, throwsA(const TypeMatcher<StateError>()));
   });
 }
 
