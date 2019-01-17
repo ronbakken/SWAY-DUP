@@ -215,6 +215,8 @@ class ApiOffersService extends ApiOffersServiceBase {
             offerId: Int64.parseInt(hit['_id']),
             receiver: auth.accountId,
             private: true);
+        result.state = true;
+        result.summary = true;
       } catch (error, stackTrace) {
         result = null;
         devLog.severe('Error parsing offer', error, stackTrace);
