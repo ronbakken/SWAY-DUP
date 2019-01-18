@@ -75,62 +75,22 @@ class _ImageUploaderState extends State<ImageUploader> {
         _image = FileImage(image);
         _imageUrl = null;
       });
-      bool success = false;
-      final dynamic progressDialog = showProgressDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return Dialog(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                      padding: EdgeInsets.all(24.0),
-                      child: CircularProgressIndicator()),
-                  Text("Uploading image..."),
-                ],
-              ),
-            );
-          });
       try {
-        await uploadImage();
-        success = true;
-      } catch (error, stackTrace) {
-        Logger('Inf.ImageUploader')
-            .severe('[INF] Exception uploading image', error, stackTrace);
-      }
-      closeProgressDialog(progressDialog);
-      if (!success) {
+        await wrapProgressAndError<void>(
+          context: context,
+          progressBuilder:
+              genericProgressBuilder(message: 'Uploading image...'),
+          errorBuilder: genericMessageBuilder(title: 'Image Upload Failed'),
+          task: () async {
+            await uploadImage();
+          },
+        );
+      } catch (error, _) {
         setState(() {
           _image = null;
           _imageUrl = null;
         });
-        await showDialog<Null>(
-          context: this.context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Image Upload Failed'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text('An error has occured.'),
-                    Text('Please try again later.'),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text('Ok'.toUpperCase())],
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        rethrow;
       }
     }
   }

@@ -13,9 +13,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
-
-typedef Future<NetOAuthUrl> OAuthGetParams();
-typedef Future<bool> OAuthCallbackResult(String callbackQuery);
+import 'package:pedantic/pedantic.dart';
 
 class OAuthScaffold extends StatefulWidget {
   // stateful widget is basically a widget with private data
@@ -41,15 +39,17 @@ class OAuthScaffold extends StatefulWidget {
 class _OAuthScaffoldState extends State<OAuthScaffold> {
   FocusScopeNode _focusScope;
 
-  final _flutterWebviewPlugin = FlutterWebviewPlugin();
+  final FlutterWebviewPlugin _flutterWebviewPlugin = FlutterWebviewPlugin();
   StreamSubscription<String> _onUrlChanged;
 
   bool _ready = false;
   String _authUrl;
-  String _callbackUrl = "https://invalid.invalid";
+  String _callbackUrl = 'https://invalid.invalid';
   final Map<String, bool> _hostWhitelist = <String, bool>{};
 
-  bool _clearCookies = false;
+  // Not useful to keep cookies, since we keep getting logged
+  // into the same account when we try to make additional accounts...
+  bool _clearCookies = true;
 
   Future<Null> _authError() async {
     _focusScope.requestFocus(FocusNode());
@@ -191,16 +191,20 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
       appBar: widget.appBar != null
           ? widget.appBar
           : AppBar(
-              title: Image(image: AssetImage('assets/logo_appbar_gray.png')),
+              title: const Image(image: AssetImage('assets/logo_appbar_gray.png')),
               centerTitle: true,
               actions: _clearCookies
                   ? <Widget>[]
                   : <Widget>[
                       IconButton(
-                        icon: Icon(Icons.supervised_user_circle),
+                        icon: const Icon(Icons.supervised_user_circle),
                         onPressed: () {
                           setState(() {
                             _clearCookies = true;
+                            unawaited(() async {
+                              await null;
+                              await _flutterWebviewPlugin.reload();
+                            }());
                           });
                         },
                       ),

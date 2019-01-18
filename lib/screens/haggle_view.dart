@@ -198,7 +198,7 @@ class _HaggleViewState extends State<HaggleView> {
       builder: (BuildContext context) {
         return SimpleDialog(
           title: const Text('Report'),
-          children: [
+          children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
               child: TextField(
@@ -216,91 +216,24 @@ class _HaggleViewState extends State<HaggleView> {
                     children: [Text('Report'.toUpperCase())],
                   ),
                   onPressed: () async {
-                    bool success = false;
-                    final dynamic progressDialog = showProgressDialog(
+                    await wrapProgressAndError<void>(
                       context: context,
-                      builder: (BuildContext context) {
-                        return Dialog(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                  padding: const EdgeInsets.all(24.0),
-                                  child: const CircularProgressIndicator()),
-                              const Text("Sending report..."),
-                            ],
-                          ),
-                        );
+                      progressBuilder:
+                          genericProgressBuilder(message: 'Sending report...'),
+                      errorBuilder:
+                          genericMessageBuilder(title: 'Send Report Failed'),
+                      successBuilder: genericMessageBuilder(
+                        title: 'Your report has been sent.',
+                        messages: <String>[
+                          'Your report has been sent.',
+                          'Further correspondence on this matter will be done by e-mail.'
+                        ],
+                      ),
+                      task: () async {
+                        await widget.onReport(_reportController.text);
                       },
                     );
-                    try {
-                      await widget.onReport(_reportController.text);
-                      success = true;
-                    } catch (error, stackTrace) {
-                      Logger('Inf.HaggleView').severe(
-                          'Exception sending report.', error, stackTrace);
-                    }
-                    closeProgressDialog(progressDialog);
-                    if (!success) {
-                      await showDialog<Null>(
-                        context: this.context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Send Report Failed'),
-                            content: SingleChildScrollView(
-                              child: ListBody(
-                                children: <Widget>[
-                                  const Text('An error has occured.'),
-                                  const Text('Please try again later.'),
-                                ],
-                              ),
-                            ),
-                            actions: <Widget>[
-                              FlatButton(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [Text('Ok'.toUpperCase())],
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } else {
-                      Navigator.of(context).pop();
-                      _reportController.text = "";
-                      await showDialog<void>(
-                        context: this.context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Report Sent'),
-                            content: SingleChildScrollView(
-                              child: ListBody(
-                                children: <Widget>[
-                                  const Text('Your report has been sent.'),
-                                  const Text(
-                                      'Further correspondence on this matter will be done by e-mail.'),
-                                ],
-                              ),
-                            ),
-                            actions: <Widget>[
-                              FlatButton(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [Text('Ok'.toUpperCase())],
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
+                    _reportController.text = '';
                   },
                 ),
               ],
@@ -360,72 +293,21 @@ class _HaggleViewState extends State<HaggleView> {
                       ),
                       onPressed: _reviewRating > 0.0
                           ? () async {
-                              bool success = false;
-                              final dynamic progressDialog = showProgressDialog(
+                              await wrapProgressAndError<void>(
                                 context: context,
-                                builder: (BuildContext context) {
-                                  return Dialog(
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Container(
-                                            padding: const EdgeInsets.all(24.0),
-                                            child:
-                                                const CircularProgressIndicator()),
-                                        const Text('Sending...'),
-                                      ],
-                                    ),
-                                  );
+                                progressBuilder: genericProgressBuilder(
+                                    message: 'Sending...'),
+                                errorBuilder:
+                                    genericMessageBuilder(title: 'Send Failed'),
+                                task: () async {
+                                  await widget.onMarkCompleted(
+                                      _reviewController.text,
+                                      _reviewRating.toInt());
                                 },
                               );
-                              try {
-                                await widget.onMarkCompleted(
-                                    _reviewController.text,
-                                    _reviewRating.toInt());
-                                success = true;
-                              } catch (error, stackTrace) {
-                                Logger('Inf.HaggleView').severe(
-                                    'Exception marking as completed.',
-                                    error,
-                                    stackTrace);
-                              }
-                              closeProgressDialog(progressDialog);
-                              if (!success) {
-                                await showDialog<void>(
-                                  context: this.context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text('Send Failed'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: const <Widget>[
-                                            Text('An error has occured.'),
-                                            Text('Please try again later.'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text('Ok'.toUpperCase())
-                                            ],
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else {
-                                Navigator.of(context).pop();
-                                _reviewController.text = '';
-                                _reviewRating = 0.0;
-                              }
+                              Navigator.of(context).pop();
+                              _reviewController.text = '';
+                              _reviewRating = 0.0;
                             }
                           : null,
                     ),
@@ -440,60 +322,14 @@ class _HaggleViewState extends State<HaggleView> {
   }
 
   Future<void> _wantDeal(DataProposalChat chat) async {
-    bool success = false;
-    final dynamic progressDialog = showProgressDialog(
+    await wrapProgressAndError<void>(
       context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                  padding: const EdgeInsets.all(24.0),
-                  child: const CircularProgressIndicator()),
-              const Text("Sending..."),
-            ],
-          ),
-        );
+      progressBuilder: genericProgressBuilder(message: 'Sending...'),
+      errorBuilder: genericMessageBuilder(title: 'Deal Failed'),
+      task: () async {
+        await widget.onWantDeal(chat);
       },
     );
-    try {
-      await widget.onWantDeal(chat);
-      success = true;
-    } catch (error, stackTrace) {
-      Logger('Inf.HaggleView')
-          .severe('Exception sending deal.', error, stackTrace);
-    }
-    closeProgressDialog(progressDialog);
-    if (!success) {
-      await showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Deal Failed'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  const Text('An error has occured.'),
-                  const Text('Please try again later.'),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text('Ok'.toUpperCase())],
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
   }
 
   Future<void> _haggle(DataProposalChat chat) async {

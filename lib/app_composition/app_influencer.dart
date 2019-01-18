@@ -98,62 +98,18 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
               navigateToProposal(businessOffer.proposalId);
             },
             onApply: (String remarks) async {
-              final dynamic progressDialog = showProgressDialog(
-                  context: this.context,
-                  builder: (BuildContext context) {
-                    return Dialog(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Container(
-                              padding: const EdgeInsets.all(24.0),
-                              child: const CircularProgressIndicator()),
-                          const Text('Applying for offer...'),
-                        ],
-                      ),
-                    );
-                  });
-              DataProposal proposal;
-              try {
-                // Create the offer
-                proposal = await network.applyProposal(offerId, remarks);
-              } catch (error, stackTrace) {
-                _log.severe('Exception applying for offer', error, stackTrace);
-              }
-              closeProgressDialog(progressDialog);
-              if (proposal == null) {
-                // TODO: Request refreshing the offer!!!
-                await showDialog<void>(
-                  context: this.context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Failed to apply for offer'),
-                      content: SingleChildScrollView(
-                        child: ListBody(
-                          children: const <Widget>[
-                            Text('An error has occured.'),
-                            Text('Please try again later.'),
-                          ],
-                        ),
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[Text('Ok'.toUpperCase())],
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              } else {
-                // Navigator.of(this.context).pop();
-                navigateToProposal(proposal.proposalId);
-              }
+              // TODO: Add terms (negotiate variant)
+              final DataProposal proposal = await wrapProgressAndError<DataProposal>(
+                context: context,
+                progressBuilder:
+                    genericProgressBuilder(message: 'Applying for offer...'),
+                errorBuilder:
+                    genericMessageBuilder(title: 'Failed to apply for offer'),
+                task: () async {
+                return await network.applyProposal(offerId, remarks);
+                },
+              );
+              navigateToProposal(proposal.proposalId);
               return proposal;
             },
           );

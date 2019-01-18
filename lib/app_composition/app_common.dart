@@ -367,61 +367,17 @@ abstract class AppCommonState<T extends StatefulWidget>
               .uploadImage(const file.LocalFileSystem().file(f.path));
         },
         onCreateOffer: (NetCreateOffer createOffer) async {
-          final dynamic progressDialog = showProgressDialog(
-              context: this.context,
-              builder: (BuildContext context) {
-                return Dialog(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.all(24.0),
-                          child: CircularProgressIndicator()),
-                      Text('Creating offer...'),
-                    ],
-                  ),
-                );
-              });
-          DataOffer offer;
-          try {
-            // Create the offer
-            offer = await network.createOffer(createOffer);
-          } catch (error, stackTrace) {
-            _log.severe('Exception creating offer.', error, stackTrace);
-          }
-          closeProgressDialog(progressDialog);
-          if (offer == null) {
-            await showDialog<Null>(
-              context: this.context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Create Offer Failed'),
-                  content: SingleChildScrollView(
-                    child: ListBody(
-                      children: <Widget>[
-                        const Text('An error has occured.'),
-                        const Text('Please try again later.'),
-                      ],
-                    ),
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Text('Ok'.toUpperCase())],
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
-          } else {
-            Navigator.of(this.context).pop();
-            navigateToOffer(offer.offerId);
-          }
+          final DataOffer offer = await wrapProgressAndError<DataOffer>(
+            context: context,
+            progressBuilder:
+                genericProgressBuilder(message: 'Creating offer...'),
+            errorBuilder: genericMessageBuilder(title: 'Create Offer Failed'),
+            task: () async {
+              return await network.createOffer(createOffer);
+            },
+          );
+          Navigator.of(this.context).pop();
+          navigateToOffer(offer.offerId);
         },
       );
     }));
