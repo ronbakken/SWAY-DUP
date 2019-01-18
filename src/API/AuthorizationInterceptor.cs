@@ -76,23 +76,23 @@ namespace API
         {
             // TODO: allow methods that don't even require a session (CreateSession)
 
-            var authorizationHeaderEntry = metadata
-                .SingleOrDefault(entry => entry.Key == authorizationHeader);
+            //var authorizationHeaderEntry = metadata
+            //    .SingleOrDefault(entry => entry.Key == authorizationHeader);
 
-            if (authorizationHeaderEntry == null)
-            {
-                throw new InvalidOperationException($"No authorization header set.");
-            }
+            //if (authorizationHeaderEntry == null)
+            //{
+            //    throw new InvalidOperationException($"No authorization header set.");
+            //}
 
-            var prefix = schema + " ";
+            //var prefix = schema + " ";
 
-            if (!authorizationHeaderEntry.Value.StartsWith(prefix))
-            {
-                throw new InvalidOperationException($"Authorization header does not start with expected schema, '{schema}'.");
-            }
+            //if (!authorizationHeaderEntry.Value.StartsWith(prefix))
+            //{
+            //    throw new InvalidOperationException($"Authorization header does not start with expected schema, '{schema}'.");
+            //}
 
-            var token = authorizationHeaderEntry.Value.Substring(prefix.Length);
-            var sessionId = TokenManager.GetSessionId(token);
+            //var token = authorizationHeaderEntry.Value.Substring(prefix.Length);
+            //var sessionId = TokenManager.GetSessionId(token);
 
             // TODO: allow methods that require a session, but don't require a logged in user
 

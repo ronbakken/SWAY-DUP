@@ -32,6 +32,8 @@ namespace API.Services
 
         public override async Task<Empty> SendLoginEmail(LoginEmailRequest request, ServerCallContext context)
         {
+            Log("SendLoginEmail.");
+
             var userId = request.Email;
             var user = GetUserActor(userId);
             var userData = await user.GetData();
@@ -56,11 +58,43 @@ namespace API.Services
 
         public override async Task<InvitationCodeState> ValidateInvitationCode(Interfaces.InvitationCode request, ServerCallContext context)
         {
+            Log("ValidateInvitationCode.");
+
             var invitationCodeManager = GetInvitationCodeManagerService();
             var status = await invitationCodeManager.GetStatus(request.Code);
             var result = new InvitationCodeState
             {
                 State = status.ToDto(),
+            };
+
+            return result;
+        }
+
+        public override async Task<RefreshTokenMessage> RequestRefreshToken(RefreshTokenRequest request, ServerCallContext context)
+        {
+            Log("RequestRefreshToken.");
+
+            var oneTimeAccessToken = request.OneTimeToken;
+            var validationResult = TokenManager.ValidateOneTimeAccessToken(oneTimeAccessToken);
+            var userId = validationResult.UserId;
+            var user = GetUserActor(userId);
+            var userData = await user.GetData();
+
+            if (userData.OneTimeAccessToken != oneTimeAccessToken)
+            {
+                Log("Provided one-time token does not match against the user's data.");
+                throw new InvalidOperationException();
+            }
+
+            // Invalidate the user's one-time access token.
+            userData = userData.With(oneTimeAccessToken: Option.Some<string>(null));
+            await user.SetData(userData);
+
+            // Generate and return the refresh token.
+            var refreshToken = TokenManager.GenerateRefreshToken(userId);
+            var result = new RefreshTokenMessage
+            {
+                RefreshToken = refreshToken,
             };
 
             return result;
@@ -102,6 +136,9 @@ namespace API.Services
 
         private static IInvitationCodeManagerService GetInvitationCodeManagerService() =>
             ServiceProxy.Create<IInvitationCodeManagerService>(new Uri("fabric:/server/InvitationCodeManager"), new ServicePartitionKey(1));
+
+        private static void Log(string message, params object[] args) =>
+            ServiceEventSource.Current.Message(message, args);
     }
 
     internal static class InvitationCodeStatusExtensions

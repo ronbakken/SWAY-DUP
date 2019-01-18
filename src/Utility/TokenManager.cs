@@ -31,8 +31,13 @@ namespace Utility
         /// </summary>
         /// <remarks>
         /// <para>
-        /// A one-time access token is a JWT token that encapsulates an associated user ID, their status, and their
-        /// type. Status information can be included in the token so that clients can make decisions based upon it.
+        /// One-time access tokens are JWT tokens used to verify that a user owns an email address. They are emailed
+        /// to users in the form of a deep link. Tapping the link will open the mobile app and validate the token
+        /// against the server.
+        /// </para>
+        /// <para>
+        /// These tokens encapsulate an associated user ID, their status, and their type. Status and type information
+        /// is included in the token so that clients can make decisions based upon it.
         /// </para>
         /// </remarks>
         /// <param name="userId">
@@ -57,7 +62,7 @@ namespace Utility
                 Subject = new ClaimsIdentity(
                     new[]
                     {
-                    new Claim(ClaimTypes.NameIdentifier, userId),
+                        new Claim(ClaimTypes.NameIdentifier, userId),
                     }),
                 Expires = DateTime.UtcNow.AddHours(12),
                 IssuedAt = DateTime.Now,
@@ -104,6 +109,74 @@ namespace Utility
             return new OneTimeTokenValidationResult(userId, status, type);
         }
 
+        /// <summary>
+        /// Generates a refresh token.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Refresh tokens are long-lived tokens stored securely by clients. They are used to obtain short-lived
+        /// API tokens so that API calls can be made.
+        /// </para>
+        /// </remarks>
+        /// <param name="userId">
+        /// The associated user ID.
+        /// </param>
+        /// <returns>
+        /// The token in JWT format.
+        /// </returns>
+        public static string GenerateRefreshToken(string userId)
+        {
+            var key = Convert.FromBase64String(secret);
+            var handler = new JwtSecurityTokenHandler();
+            var securityKey = new SymmetricSecurityKey(key);
+            var descriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(
+                    new[]
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, userId),
+                    }),
+                IssuedAt = DateTime.Now,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            };
+
+            var token = handler.CreateJwtSecurityToken(descriptor);
+            token.Payload["type"] = "refresh";
+            return handler.WriteToken(token);
+        }
+
+        /// <summary>
+        /// Validates a refresh token, throwing an exception if validation fails.
+        /// </summary>
+        /// <param name="token">
+        /// The token to validate.
+        /// </param>
+        /// <returns>
+        /// The results of a successful validation.
+        /// </returns>
+        public static RefreshTokenValidationResult ValidateRefreshToken(string token)
+        {
+            var principal = GetPrincipal(token, requireExpirationTime: true);
+
+            if (principal == null)
+            {
+                throw new ArgumentException("Not a valid token.", nameof(token));
+            }
+
+            var identity = (ClaimsIdentity)principal.Identity;
+            var userIdClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
+            var typeClaim = identity.FindFirst("type");
+            var userId = userIdClaim?.Value;
+            var type = typeClaim?.Value;
+
+            if (userId == null || type == null || type != "refresh")
+            {
+                throw new ArgumentException("Not a valid token.", nameof(token));
+            }
+
+            return new RefreshTokenValidationResult(userId);
+        }
+
         private static ClaimsPrincipal GetPrincipal(string token, bool requireExpirationTime)
         {
             try
@@ -134,104 +207,6 @@ namespace Utility
             {
                 return null;
             }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // REMOVE ALL THIS!?
-
-
-        /// <summary>
-        /// Generates a session ID, then generates a token representing that session ID.
-        /// </summary>
-        /// <returns>
-        /// A new token that represents a generated session ID.
-        /// </returns>
-        public static string GenerateToken()
-        {
-            var hmac = new HMACSHA256();
-            var sessionId = Convert.ToBase64String(hmac.Key);
-            return GenerateToken(sessionId);
-        }
-
-        /// <summary>
-        /// Generate a token for the specified session ID.
-        /// </summary>
-        /// <param name="sessionId">
-        /// The session ID.
-        /// </param>
-        /// <returns>
-        /// A new token that represents the specified session ID.
-        /// </returns>
-        public static string GenerateToken(string sessionId)
-        {
-            var key = Convert.FromBase64String(secret);
-            var handler = new JwtSecurityTokenHandler();
-            var securityKey = new SymmetricSecurityKey(key);
-            var descriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(
-                    new[]
-                    {
-                        new Claim("sessionId", sessionId)
-                    }),
-                IssuedAt = DateTime.Now,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            };
-
-            var token = handler.CreateJwtSecurityToken(descriptor);
-            return handler.WriteToken(token);
-        }
-
-        /// <summary>
-        /// Gets the session ID from a given token.
-        /// </summary>
-        /// <param name="token">
-        /// The token that was created with <see cref="GenerateToken"/>.
-        /// </param>
-        /// <returns>
-        /// The session ID.
-        /// </returns>
-        public static string GetSessionId(string token)
-        {
-            string sessionId = null;
-            var principal = GetPrincipal(token, requireExpirationTime: false);
-
-            if (principal == null)
-            {
-                throw new ArgumentException("Not a valid session token.", nameof(token));
-            }
-
-            var identity = (ClaimsIdentity)principal.Identity;
-            var sessionIdClaim = identity.FindFirst("sessionId");
-            sessionId = sessionIdClaim?.Value;
-
-            if (sessionId == null)
-            {
-                throw new ArgumentException("Not a valid session token.", nameof(token));
-            }
-
-            return sessionId;
         }
     }
 }

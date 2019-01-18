@@ -5,7 +5,7 @@ option csharp_namespace = "API.Interfaces";
 
 import "empty.proto";
 
-service InfAdminInvitationCodeService {
+service InfAdminInvitationCodes {
     rpc Generate (Empty) returns (GenerateResponse) {}
     rpc GetStatus (GetStatusRequest) returns (GetStatusResponse) {}
 }

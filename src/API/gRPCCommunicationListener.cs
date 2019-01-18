@@ -50,7 +50,7 @@ namespace API
                     InfSystem.BindService(new Mocks.InfSystemImpl()),
 
                     // Admin APIs
-                    InfAdminInvitationCodeService.BindService(new InfAdminInvitationCodeServiceImpl()),
+                    InfAdminInvitationCodes.BindService(new InfAdminInvitationCodesImpl()),
                 },
                 Ports =
                 {

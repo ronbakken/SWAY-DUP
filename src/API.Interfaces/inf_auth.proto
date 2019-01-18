@@ -12,15 +12,15 @@ service InfAuth {
 
     rpc ValidateInvitationCode(InvitationCode) returns (InvitationCodeState) {}
 
-    rpc CreateNewUser(CreateNewUserRequest) returns (RefreshTokenMessage){}
+    rpc CreateNewUser(CreateNewUserRequest) returns (RefreshTokenMessage) {}
 
-    rpc RequestRefreshToken(RefreshTokenRequest) returns (RefreshTokenMessage){}
+    rpc RequestRefreshToken(RefreshTokenRequest) returns (RefreshTokenMessage) {}
 
-    rpc Login(RefreshTokenMessage) returns (LoginResultMessage){}
+    rpc Login(RefreshTokenMessage) returns (LoginResultMessage) {}
 
     rpc GetCurrentUser(RefreshTokenMessage) returns (User);
 
-    rpc updateUser(UpdateUserRequest) returns (Empty);
+    rpc UpdateUser(UpdateUserRequest) returns (Empty);
 
     // Returns the stored socialmedia accounts for a user
     rpc GetSocialMediaAccountsForUser(SocialMediaRequest) returns (SocialMediaAccounts);
@@ -65,7 +65,7 @@ message InvitationCodeState {
 }
 
 message CreateNewUserRequest {
-    // Token that is passed to the app with the login / sigup link from the email
+    // Token that is passed to the app with the login / sign-up link from the email
     string oneTimeToken = 1;
     User userData = 2;
     // device ID for push notification
@@ -87,6 +87,6 @@ message SocialMediaAccounts {
 // Make sure that a user has only one account for each SocialNetwork provider
 message UpdateUserRequest {
     User user = 1;
-    repeated SocialMediaAccount socialMediaAccountsToAdd =2;
-    repeated SocialMediaAccount socialMediaAccountsToRemove =3;
+    repeated SocialMediaAccount socialMediaAccountsToAdd = 2;
+    repeated SocialMediaAccount socialMediaAccountsToRemove = 3;
 }
