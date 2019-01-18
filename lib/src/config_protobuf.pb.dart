@@ -91,6 +91,7 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
     ..a<List<int>>(37, 'backgroundImage', $pb.PbFieldType.OY)
     ..a<List<int>>(38, 'monochromeForegroundImage', $pb.PbFieldType.OY)
     ..a<List<int>>(39, 'monochromeBackgroundImage', $pb.PbFieldType.OY)
+    ..aOS(40, 'authenticateQuery')
     ..hasRequiredFields = false;
 
   ConfigOAuthProvider() : super();
@@ -400,6 +401,14 @@ class ConfigOAuthProvider extends $pb.GeneratedMessage {
 
   bool hasMonochromeBackgroundImage() => $_has(36);
   void clearMonochromeBackgroundImage() => clearField(39);
+
+  String get authenticateQuery => $_getS(37, '');
+  set authenticateQuery(String v) {
+    $_setString(37, v);
+  }
+
+  bool hasAuthenticateQuery() => $_has(37);
+  void clearAuthenticateQuery() => clearField(40);
 }
 
 class ConfigContentFormat extends $pb.GeneratedMessage {

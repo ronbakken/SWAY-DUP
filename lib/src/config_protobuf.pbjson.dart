@@ -144,6 +144,13 @@ const ConfigOAuthProvider$json = const {
       '10': 'authenticateUrl'
     },
     const {
+      '1': 'authenticate_query',
+      '3': 40,
+      '4': 1,
+      '5': 9,
+      '10': 'authenticateQuery'
+    },
+    const {
       '1': 'access_token_url',
       '3': 16,
       '4': 1,
