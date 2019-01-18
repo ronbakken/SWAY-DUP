@@ -814,27 +814,13 @@ class ApiAccountService extends ApiAccountServiceBase {
       throw grpc.GrpcError.permissionDenied();
     }
 
-    // TODO: Get old firebase token from database instead of from client message!
-
-    // No validation here, no risk. Messages would just end up elsewhere
-    String update =
-        'UPDATE `sessions` SET `firebase_token`= ? WHERE `session_id` = ?';
-    await accountDb.prepareExecute(update, <dynamic>[
+    // Notify push service that the old firebase token is no longer valid
+    await bc.accountFirebaseTokensChanged(auth.accountId, auth.sessionId, request);
+    
+    await accountDb.prepareExecute('UPDATE `sessions` SET `firebase_token`= ? WHERE `session_id` = ?', <dynamic>[
       request.firebaseToken.toString(),
       auth.sessionId,
     ]);
-
-    if (request.hasOldFirebaseToken() && request.oldFirebaseToken != null) {
-      update =
-          'UPDATE `sessions` SET `firebase_token`= ? WHERE `firebase_token` = ?';
-      await accountDb.prepareExecute(update, <dynamic>[
-        request.firebaseToken.toString(),
-        request.oldFirebaseToken.toString(),
-      ]);
-    }
-
-    // TODO: Notify push service that the old firebase token is no longer valid
-    // bc.accountFirebaseTokensChanged(this);
 
     final NetAccount account = NetAccount();
     account.account =

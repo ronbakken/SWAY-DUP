@@ -2,4 +2,4 @@
 set -x
 cd "$DIR"
 
-docker container stop dockerinflocal_inf_server_jwt_1
+docker container stop inf_server_jwt

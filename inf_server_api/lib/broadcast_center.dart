@@ -161,14 +161,14 @@ class BroadcastCenter {
   }
 */
 
-  void accountFirebaseTokensChanged(
-      Int64 accountId, Int64 sessionId, NetSetFirebaseToken firebaseToken) {
+  Future<void> accountFirebaseTokensChanged(
+      Int64 accountId, Int64 sessionId, NetSetFirebaseToken firebaseToken) async {
     final ReqSetFirebaseToken token = ReqSetFirebaseToken();
     token.accountId = accountId;
     token.sessionId = sessionId;
     token.token = firebaseToken;
     token.freeze();
-    unawaited(backendPush.setFirebaseToken(token));
+    await backendPush.setFirebaseToken(token);
   }
 
   // TODO: Ensure this gets called everywhere it's applicable

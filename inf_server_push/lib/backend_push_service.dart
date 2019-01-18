@@ -19,8 +19,8 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:inf_common/inf_backend.dart';
 
 const int kTokenUnknown = 0;
-const int kTokenFirebase = 0;
-const int kTokenOneSignal = 0;
+const int kTokenFirebase = 1;
+const int kTokenOneSignal = 2;
 
 class _CachedAccount {
   Set<Int64> sessionIds = Set<Int64>();
@@ -273,7 +273,7 @@ class BackendPushService extends BackendPushServiceBase {
         request.token.firebaseToken,
         request.accountId,
         kTokenFirebase,
-        request.token,
+        request.token.firebaseToken,
       ],
     );
 
