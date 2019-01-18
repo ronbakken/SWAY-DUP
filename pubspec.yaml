@@ -26,6 +26,7 @@ dependencies:
   firebase_messaging: ^2.0.0
   flutter_local_notifications: ^0.4.2
   flutter_facebook_login: ^1.2.0
+  flutter_twitter_login: ^1.1.0
 
   circle_indicator:
     git: https://github.com/nbspou/circle_indicator.git
