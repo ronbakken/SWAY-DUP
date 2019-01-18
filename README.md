@@ -6,9 +6,23 @@ This contains the services that make up the INF server.
 
 Under `docker_inf_db` is a `docker-compose` script to launch the required database instances.
 
-Under `docker_inf_local` is a script to launch the services using the host network. This only works under Linux.
+Under `docker_inf_local` is a script to launch the services using the host network. Under Linux this works directly, and allows running the services manually for debugging alongside the containerized services. Under Docker Toolbox for Windows this binds the services to the Docker VM at `192.168.99.100`.
 
 Other host operating systems may require a different docker setup for testing.
+
+The Elasticsearch container requires the following host option.
+
+```
+sudo sysctl -w vm.max_map_count=262144
+```
+
+### Docker Toolbox for Windows
+
+Service ports can be exposed locally for running test suites manually.
+
+```
+"C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" controlvm default natpf1 "tcp-port8080,tcp,127.0.0.1,8080,,8080";
+```
 
 ## How to run the test suites manually
 
