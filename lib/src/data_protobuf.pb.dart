@@ -985,13 +985,6 @@ class DataAccount extends $pb.GeneratedMessage {
             $9.AccountLevel.free,
             $9.AccountLevel.valueOf,
             $9.AccountLevel.values)
-        ..e<$9.NotificationFlags>(
-            10,
-            'notificationFlags',
-            $pb.PbFieldType.OE,
-            $9.NotificationFlags.accountState,
-            $9.NotificationFlags.valueOf,
-            $9.NotificationFlags.values)
         ..aOS(11, 'firebaseToken')
         ..aOS(12, 'name')
         ..aOS(13, 'description')
@@ -1012,6 +1005,7 @@ class DataAccount extends $pb.GeneratedMessage {
         ..aInt64(31, 'locationId')
         ..aOB(32, 'acceptDirectProposals')
         ..aOB(33, 'publishGpsLocation')
+        ..a<int>(34, 'version', $pb.PbFieldType.O3)
         ..hasRequiredFields = false;
 
   DataAccount() : super();
@@ -1083,141 +1077,141 @@ class DataAccount extends $pb.GeneratedMessage {
   bool hasAccountLevel() => $_has(5);
   void clearAccountLevel() => clearField(9);
 
-  $9.NotificationFlags get notificationFlags => $_getN(6);
-  set notificationFlags($9.NotificationFlags v) {
-    setField(10, v);
+  String get firebaseToken => $_getS(6, '');
+  set firebaseToken(String v) {
+    $_setString(6, v);
   }
 
-  bool hasNotificationFlags() => $_has(6);
-  void clearNotificationFlags() => clearField(10);
+  bool hasFirebaseToken() => $_has(6);
+  void clearFirebaseToken() => clearField(11);
 
-  String get firebaseToken => $_getS(7, '');
-  set firebaseToken(String v) {
+  String get name => $_getS(7, '');
+  set name(String v) {
     $_setString(7, v);
   }
 
-  bool hasFirebaseToken() => $_has(7);
-  void clearFirebaseToken() => clearField(11);
+  bool hasName() => $_has(7);
+  void clearName() => clearField(12);
 
-  String get name => $_getS(8, '');
-  set name(String v) {
+  String get description => $_getS(8, '');
+  set description(String v) {
     $_setString(8, v);
   }
 
-  bool hasName() => $_has(8);
-  void clearName() => clearField(12);
+  bool hasDescription() => $_has(8);
+  void clearDescription() => clearField(13);
 
-  String get description => $_getS(9, '');
-  set description(String v) {
+  String get location => $_getS(9, '');
+  set location(String v) {
     $_setString(9, v);
   }
 
-  bool hasDescription() => $_has(9);
-  void clearDescription() => clearField(13);
+  bool hasLocation() => $_has(9);
+  void clearLocation() => clearField(14);
 
-  String get location => $_getS(10, '');
-  set location(String v) {
+  String get avatarUrl => $_getS(10, '');
+  set avatarUrl(String v) {
     $_setString(10, v);
   }
 
-  bool hasLocation() => $_has(10);
-  void clearLocation() => clearField(14);
+  bool hasAvatarUrl() => $_has(10);
+  void clearAvatarUrl() => clearField(15);
 
-  String get avatarUrl => $_getS(11, '');
-  set avatarUrl(String v) {
+  String get blurredAvatarUrl => $_getS(11, '');
+  set blurredAvatarUrl(String v) {
     $_setString(11, v);
   }
 
-  bool hasAvatarUrl() => $_has(11);
-  void clearAvatarUrl() => clearField(15);
-
-  String get blurredAvatarUrl => $_getS(12, '');
-  set blurredAvatarUrl(String v) {
-    $_setString(12, v);
-  }
-
-  bool hasBlurredAvatarUrl() => $_has(12);
+  bool hasBlurredAvatarUrl() => $_has(11);
   void clearBlurredAvatarUrl() => clearField(16);
 
-  List<int> get categories => $_getList(13);
+  List<int> get categories => $_getList(12);
 
-  Map<int, DataSocialMedia> get socialMedia => $_getMap(14);
+  Map<int, DataSocialMedia> get socialMedia => $_getMap(13);
 
-  List<String> get coverUrls => $_getList(15);
+  List<String> get coverUrls => $_getList(14);
 
-  List<String> get blurredCoverUrls => $_getList(16);
+  List<String> get blurredCoverUrls => $_getList(15);
 
-  String get website => $_getS(17, '');
+  String get website => $_getS(16, '');
   set website(String v) {
+    $_setString(16, v);
+  }
+
+  bool hasWebsite() => $_has(16);
+  void clearWebsite() => clearField(24);
+
+  String get email => $_getS(17, '');
+  set email(String v) {
     $_setString(17, v);
   }
 
-  bool hasWebsite() => $_has(17);
-  void clearWebsite() => clearField(24);
+  bool hasEmail() => $_has(17);
+  void clearEmail() => clearField(25);
 
-  String get email => $_getS(18, '');
-  set email(String v) {
+  String get locationName => $_getS(18, '');
+  set locationName(String v) {
     $_setString(18, v);
   }
 
-  bool hasEmail() => $_has(18);
-  void clearEmail() => clearField(25);
+  bool hasLocationName() => $_has(18);
+  void clearLocationName() => clearField(27);
 
-  String get locationName => $_getS(19, '');
-  set locationName(String v) {
+  String get locationAddress => $_getS(19, '');
+  set locationAddress(String v) {
     $_setString(19, v);
   }
 
-  bool hasLocationName() => $_has(19);
-  void clearLocationName() => clearField(27);
-
-  String get locationAddress => $_getS(20, '');
-  set locationAddress(String v) {
-    $_setString(20, v);
-  }
-
-  bool hasLocationAddress() => $_has(20);
+  bool hasLocationAddress() => $_has(19);
   void clearLocationAddress() => clearField(28);
 
-  double get latitude => $_getN(21);
+  double get latitude => $_getN(20);
   set latitude(double v) {
+    $_setDouble(20, v);
+  }
+
+  bool hasLatitude() => $_has(20);
+  void clearLatitude() => clearField(29);
+
+  double get longitude => $_getN(21);
+  set longitude(double v) {
     $_setDouble(21, v);
   }
 
-  bool hasLatitude() => $_has(21);
-  void clearLatitude() => clearField(29);
-
-  double get longitude => $_getN(22);
-  set longitude(double v) {
-    $_setDouble(22, v);
-  }
-
-  bool hasLongitude() => $_has(22);
+  bool hasLongitude() => $_has(21);
   void clearLongitude() => clearField(30);
 
-  Int64 get locationId => $_getI64(23);
+  Int64 get locationId => $_getI64(22);
   set locationId(Int64 v) {
-    $_setInt64(23, v);
+    $_setInt64(22, v);
   }
 
-  bool hasLocationId() => $_has(23);
+  bool hasLocationId() => $_has(22);
   void clearLocationId() => clearField(31);
 
-  bool get acceptDirectProposals => $_get(24, false);
+  bool get acceptDirectProposals => $_get(23, false);
   set acceptDirectProposals(bool v) {
+    $_setBool(23, v);
+  }
+
+  bool hasAcceptDirectProposals() => $_has(23);
+  void clearAcceptDirectProposals() => clearField(32);
+
+  bool get publishGpsLocation => $_get(24, false);
+  set publishGpsLocation(bool v) {
     $_setBool(24, v);
   }
 
-  bool hasAcceptDirectProposals() => $_has(24);
-  void clearAcceptDirectProposals() => clearField(32);
+  bool hasPublishGpsLocation() => $_has(24);
+  void clearPublishGpsLocation() => clearField(33);
 
-  bool get publishGpsLocation => $_get(25, false);
-  set publishGpsLocation(bool v) {
-    $_setBool(25, v);
+  int get version => $_get(25, 0);
+  set version(int v) {
+    $_setSignedInt32(25, v);
   }
 
-  bool hasPublishGpsLocation() => $_has(25);
-  void clearPublishGpsLocation() => clearField(33);
+  bool hasVersion() => $_has(25);
+  void clearVersion() => clearField(34);
 }
 
 class DataExploreFilter extends $pb.GeneratedMessage {

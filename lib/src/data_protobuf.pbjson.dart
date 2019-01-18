@@ -394,14 +394,7 @@ const DataAccount$json = const {
       '6': '.inf.AccountLevel',
       '10': 'accountLevel'
     },
-    const {
-      '1': 'notification_flags',
-      '3': 10,
-      '4': 1,
-      '5': 14,
-      '6': '.inf.NotificationFlags',
-      '10': 'notificationFlags'
-    },
+    const {'1': 'version', '3': 34, '4': 1, '5': 5, '10': 'version'},
     const {
       '1': 'firebase_token',
       '3': 11,
