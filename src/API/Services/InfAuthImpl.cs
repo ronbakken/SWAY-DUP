@@ -4,8 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using API.Interfaces;
 using Grpc.Core;
+using InvitationCodeManager.Interfaces;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
+using Microsoft.ServiceFabric.Services.Client;
+using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Newtonsoft.Json;
 using Optional;
 using SendGrid;
@@ -51,14 +54,29 @@ namespace API.Services
             return Empty.Instance;
         }
 
+        public override async Task<InvitationCodeState> ValidateInvitationCode(Interfaces.InvitationCode request, ServerCallContext context)
+        {
+            var invitationCodeManager = GetInvitationCodeManagerService();
+            var status = await invitationCodeManager.GetStatus(request.Code);
+            var result = new InvitationCodeState
+            {
+                State = status.ToDto(),
+            };
+
+            return result;
+        }
+
         private static async Task SendEmailVerificationEmail(string email, string name, string link, CancellationToken cancellationToken = default)
         {
+            // TODO: parameterize these
             var apiKey = "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";
             var templateId = "d-410b5cc2a77e4357a82afede83e92621";
+            var emailFromAddress = "donotreply@inf-marketplace-llc.com";
+            var emailFromName = "INF Marketplace LLC";
 
             var emailMessage = new SendGridMessage
             {
-                From = new EmailAddress("donotreply@inf-marketplace-llc.com", "INF Marketplace LLC"),
+                From = new EmailAddress(emailFromAddress, emailFromName),
                 Subject = "Sign in to your INF Marketplace Account",
                 TemplateId = templateId,
             };
@@ -81,5 +99,27 @@ namespace API.Services
 
         private static IUser GetUserActor(string userId) =>
             ActorProxy.Create<IUser>(new ActorId(userId), new Uri("fabric:/server/UserActorService"));
+
+        private static IInvitationCodeManagerService GetInvitationCodeManagerService() =>
+            ServiceProxy.Create<IInvitationCodeManagerService>(new Uri("fabric:/server/InvitationCodeManager"), new ServicePartitionKey(1));
+    }
+
+    internal static class InvitationCodeStatusExtensions
+    {
+        public static InvitationCodeStates ToDto(this InvitationCodeStatus @this)
+        {
+            switch (@this)
+            {
+                case InvitationCodeStatus.DoesNotExist:
+                case InvitationCodeStatus.Used:
+                    return InvitationCodeStates.Invalid;
+                case InvitationCodeStatus.Expired:
+                    return InvitationCodeStates.Expired;
+                case InvitationCodeStatus.PendingUse:
+                    return InvitationCodeStates.Valid;
+                default:
+                    throw new NotSupportedException();
+            }
+        }
     }
 }

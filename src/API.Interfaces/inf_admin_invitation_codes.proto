@@ -5,13 +5,9 @@ option csharp_namespace = "API.Interfaces";
 
 import "empty.proto";
 
-service InvitationCodeService {
-    // Administrative procedures.
+service InfAdminInvitationCodeService {
     rpc Generate (Empty) returns (GenerateResponse) {}
     rpc GetStatus (GetStatusRequest) returns (GetStatusResponse) {}
-
-    // User procedures.
-    rpc Use (UseRequest) returns (UseResponse) {}
 }
 
 message GenerateResponse {
@@ -31,19 +27,4 @@ message GetStatusResponse {
     }
 
     InvitationCodeStatus status = 1;
-}
-
-message UseRequest {
-    string invitationCode = 1;
-}
-
-message UseResponse {
-    enum InvitationCodeUseResult {
-        DOES_NOT_EXIST = 0;
-        ALREADY_USED = 1;
-        EXPIRED = 2;
-        SUCCESS = 3;
-    }
-
-    InvitationCodeUseResult result = 1;
 }

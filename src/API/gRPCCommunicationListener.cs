@@ -43,10 +43,14 @@ namespace API
                     //InfConfig.BindService(new Mocks.InfConfigImpl()),
                     //InfSystem.BindService(new Mocks.InfSystemImpl()),
 
+                    // Real APIs
                     InfApi.BindService(new Mocks.InfApiImpl()),
                     InfAuth.BindService(new InfAuthImpl()),
                     InfConfig.BindService(new Mocks.InfConfigImpl()),
                     InfSystem.BindService(new Mocks.InfSystemImpl()),
+
+                    // Admin APIs
+                    InfAdminInvitationCodeService.BindService(new InfAdminInvitationCodeServiceImpl()),
                 },
                 Ports =
                 {

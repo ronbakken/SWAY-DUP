@@ -5,11 +5,11 @@ using Grpc.Core;
 using InvitationCodeManager.Interfaces;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
-using static API.Interfaces.InvitationCodeService;
+using static API.Interfaces.InfAdminInvitationCodeService;
 
 namespace API.Services
 {
-    public sealed class InvitationCodeServiceImpl : InvitationCodeServiceBase
+    public sealed class InfAdminInvitationCodeServiceImpl : InfAdminInvitationCodeServiceBase
     {
         public override async Task<GenerateResponse> Generate(Empty request, ServerCallContext context)
         {
@@ -34,18 +34,6 @@ namespace API.Services
             return response;
         }
 
-        public override async Task<UseResponse> Use(UseRequest request, ServerCallContext context)
-        {
-            var service = GetInvitationCodeManagerService();
-            var status = await service.Use(request.InvitationCode);
-            var response = new UseResponse
-            {
-                Result = status.ToGrpc(),
-            };
-
-            return response;
-        }
-
         private static IInvitationCodeManagerService GetInvitationCodeManagerService() =>
             ServiceProxy.Create<IInvitationCodeManagerService>(new Uri("fabric:/server/InvitationCodeManager"), new ServicePartitionKey(1));
     }
@@ -64,23 +52,6 @@ namespace API.Services
                     return GetStatusResponse.Types.InvitationCodeStatus.PendingUse;
                 case InvitationCodeStatus.Used:
                     return GetStatusResponse.Types.InvitationCodeStatus.Used;
-                default:
-                    throw new NotSupportedException();
-            }
-        }
-
-        public static UseResponse.Types.InvitationCodeUseResult ToGrpc(this InvitationCodeUseResult @this)
-        {
-            switch (@this)
-            {
-                case InvitationCodeUseResult.AlreadyUsed:
-                    return UseResponse.Types.InvitationCodeUseResult.AlreadyUsed;
-                case InvitationCodeUseResult.DoesNotExist:
-                    return UseResponse.Types.InvitationCodeUseResult.DoesNotExist;
-                case InvitationCodeUseResult.Expired:
-                    return UseResponse.Types.InvitationCodeUseResult.Expired;
-                case InvitationCodeUseResult.Success:
-                    return UseResponse.Types.InvitationCodeUseResult.Success;
                 default:
                     throw new NotSupportedException();
             }
