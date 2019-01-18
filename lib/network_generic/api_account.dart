@@ -241,7 +241,9 @@ abstract class ApiAccount implements Api, ApiInternals {
       onCommonChanged();
       return;
     }
-    if (_multiAccountStore.getLocal(localAccount.domain, localAccount.localId) == null) {
+    if (_multiAccountStore.getLocal(
+            localAccount.domain, localAccount.localId) ==
+        null) {
       if (_wantedLocalAccount == localAccount) {
         _wantedLocalAccount = null;
       }
@@ -347,8 +349,10 @@ abstract class ApiAccount implements Api, ApiInternals {
           log.warning('Failed to open session.', error, stackTrace);
           connected = NetworkConnectionState.failing;
           onCommonChanged();
-          if (error is grpc.GrpcError && error.code == grpc.GrpcError.failedPrecondition().code) {
-            log.warning('This session is no longer valid for this server, removing session.');
+          if (error is grpc.GrpcError &&
+              error.code == grpc.GrpcError.failedPrecondition().code) {
+            log.warning(
+                'This session is no longer valid for this server, removing session.');
             if (_wantedLocalAccount == localAccount) {
               _wantedLocalAccount = null;
             }
@@ -715,7 +719,8 @@ abstract class ApiAccount implements Api, ApiInternals {
     // Result contains the updated data, so needs to be put into the state
     if (response.hasAccount()) {
       receivedAccountUpdate(response.account);
-    } if (oauthProvider < config.oauthProviders.length &&
+    }
+    if (oauthProvider < config.oauthProviders.length &&
         response.hasSocialMedia()) {
       final DataAccount account = _realAccount.clone();
       account.socialMedia[oauthProvider] = response.socialMedia;
