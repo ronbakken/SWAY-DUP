@@ -86,8 +86,10 @@ namespace API.Services
                 throw new InvalidOperationException();
             }
 
-            // Invalidate the user's one-time access token.
-            userData = userData.With(oneTimeAccessToken: Option.Some<string>(null));
+            // Invalidate the user's one-time access token and set them as active.
+            userData = userData.With(
+                oneTimeAccessToken: Option.Some<string>(null),
+                status: Option.Some(UserStatus.Active));
             await user.SetData(userData);
 
             // Generate and return the refresh token.
@@ -95,6 +97,26 @@ namespace API.Services
             var result = new RefreshTokenMessage
             {
                 RefreshToken = refreshToken,
+            };
+
+            return result;
+        }
+
+        public override async Task<LoginResultMessage> Login(RefreshTokenMessage request, ServerCallContext context)
+        {
+            Log("Login.");
+
+            var refreshToken = request.RefreshToken;
+            var validationResult = TokenManager.ValidateRefreshToken(refreshToken);
+            var userId = validationResult.UserId;
+            var user = GetUserActor(userId);
+            var userData = await user.GetData();
+            var authorizationToken = TokenManager.GenerateAuthorizationToken(userId, userData.Type.ToDtoString());
+
+            var result = new LoginResultMessage
+            {
+                AuthorizationToken = authorizationToken,
+                UserData = userData.ToDto(),
             };
 
             return result;
@@ -139,24 +161,5 @@ namespace API.Services
 
         private static void Log(string message, params object[] args) =>
             ServiceEventSource.Current.Message(message, args);
-    }
-
-    internal static class InvitationCodeStatusExtensions
-    {
-        public static InvitationCodeStates ToDto(this InvitationCodeStatus @this)
-        {
-            switch (@this)
-            {
-                case InvitationCodeStatus.DoesNotExist:
-                case InvitationCodeStatus.Used:
-                    return InvitationCodeStates.Invalid;
-                case InvitationCodeStatus.Expired:
-                    return InvitationCodeStates.Expired;
-                case InvitationCodeStatus.PendingUse:
-                    return InvitationCodeStates.Valid;
-                default:
-                    throw new NotSupportedException();
-            }
-        }
     }
 }
