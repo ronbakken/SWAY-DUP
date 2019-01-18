@@ -18,7 +18,7 @@ version: '3.3'
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
-    container_name: elasticsearch
+    container_name: inf_elasticsearch
     restart: always
     environment:
       - cluster.name=infsandbox
@@ -34,7 +34,7 @@ services:
       - 9200:9200
   elasticsearch2:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
-    container_name: elasticsearch2
+    container_name: inf_elasticsearch2
     depends_on:
       - elasticsearch
     restart: always
@@ -51,6 +51,7 @@ services:
       - data_es2:/usr/share/elasticsearch/data
   mariadb_general:
     image: mariadb/server:10.3
+    container_name: inf_mariadb_general
     volumes:
       - data_sql_gen:/var/lib/mysql
     restart: always
@@ -64,6 +65,7 @@ services:
     command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
   mariadb_accounts:
     image: mariadb/server:10.3
+    container_name: inf_mariadb_accounts
     volumes:
       - data_sql_acc:/var/lib/mysql
     restart: always
@@ -77,6 +79,7 @@ services:
     command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
   mariadb_proposals:
     image: mariadb/server:10.3
+    container_name: inf_mariadb_proposals
     volumes:
       - data_sql_prs:/var/lib/mysql
     restart: always
