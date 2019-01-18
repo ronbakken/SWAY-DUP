@@ -70,6 +70,12 @@ namespace API.Services
             return result;
         }
 
+        public override Task<RefreshTokenMessage> CreateNewUser(CreateNewUserRequest request, ServerCallContext context)
+        {
+            // TODO
+            return base.CreateNewUser(request, context);
+        }
+
         public override async Task<RefreshTokenMessage> RequestRefreshToken(RefreshTokenRequest request, ServerCallContext context)
         {
             Log("RequestRefreshToken.");
@@ -120,6 +126,22 @@ namespace API.Services
             };
 
             return result;
+        }
+
+        public override Task<Interfaces.User> GetCurrentUser(RefreshTokenMessage request, ServerCallContext context)
+        {
+            // TODO
+            return base.GetCurrentUser(request, context);
+        }
+
+        public override Task<Empty> UpdateUser(UpdateUserRequest request, ServerCallContext context)
+        {
+            return base.UpdateUser(request, context);
+        }
+
+        public override Task<SocialMediaAccounts> GetSocialMediaAccountsForUser(SocialMediaRequest request, ServerCallContext context)
+        {
+            return base.GetSocialMediaAccountsForUser(request, context);
         }
 
         private static async Task SendEmailVerificationEmail(string email, string name, string link, CancellationToken cancellationToken = default)
