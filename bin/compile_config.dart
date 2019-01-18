@@ -614,6 +614,8 @@ main(List<String> arguments) async {
   await f2;
   await adjustConfig("local", false);
   await adjustConfig("local", true);
+  await adjustConfig("ats3", false);
+  await adjustConfig("ats3", true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
