@@ -176,12 +176,7 @@ class BroadcastCenter {
 
   Future<void> accountChanged(
       Int64 senderSessionId, DataAccount account) async {
-    final ReqSetAccountName name = ReqSetAccountName();
-    name.accountId = account.accountId;
-    name.name = account.name;
-    name.freeze();
     await Future.wait<dynamic>(<Future<dynamic>>[
-      backendPush.setAccountName(name),
       _pushAccountChanged(senderSessionId, account.accountId, account),
     ]);
   }

@@ -296,13 +296,6 @@ class BackendPushService extends BackendPushServiceBase {
       yield push;
     }
   }
-
-  @override
-  Future<ResSetAccountName> setAccountName(
-      grpc.ServiceCall call, ReqSetAccountName request) {
-    // TODO: This writes the account name to the push database, and clears the cached data.
-    throw grpc.GrpcError.unimplemented();
-  }
 }
 
 /* end of file */
