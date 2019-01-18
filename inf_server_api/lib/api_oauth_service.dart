@@ -50,9 +50,16 @@ class ApiOAuthService extends ApiOAuthServiceBase {
                 await auth.requestTemporaryCredentials(provider.callbackUrl);
             final String authUrl = auth
                 .getResourceOwnerAuthorizationURI(authRes.credentials.token);
+            final Uri authUri = Uri.parse(authUrl);
+            final Map<String, String> query = authUri.queryParameters;
+            final Map<String, String> queryExt = Uri.splitQueryString(provider.authenticateQuery);
+            for (MapEntry<String, String> param in query.entries) {
+              queryExt[param.key] = param.value;
+            }
+            final String authUrlExt = authUri.replace(queryParameters: queryExt).toString();
             final NetOAuthUrl response = NetOAuthUrl();
-            devLog.finest(authUrl);
-            response.authUrl = authUrl;
+            devLog.finest('$authUrl -> $authUrlExt');
+            response.authUrl = authUrlExt;
             response.callbackUrl = provider.callbackUrl;
             return response;
           }

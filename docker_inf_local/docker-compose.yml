@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   envoy_edge_proxy:
-    container_name: envoy_edge_proxy
+    container_name: inf_envoy_edge_proxy
     depends_on:
       - inf_server_jwt
       - inf_server_push
