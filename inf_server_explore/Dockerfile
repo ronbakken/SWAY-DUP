@@ -6,6 +6,11 @@ RUN chmod 600 ~/.ssh/*_deploy
 
 WORKDIR /app
 
+ADD scripts_linux/dart/pubspec.yaml /app/pubspec.yaml
+RUN pub get
+RUN rm /app/pubspec.yaml
+RUN rm /app/pubspec.lock
+
 ADD inf_server_explore/pubspec.* /app/
 RUN pub get
 ADD inf_server_explore/. /app

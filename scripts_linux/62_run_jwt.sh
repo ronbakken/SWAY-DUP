@@ -6,4 +6,4 @@ cd ../inf_server_jwt
 npm install
 node server.js
 
-cd ../scripts
+cd ../scripts_linux

@@ -8,4 +8,4 @@ docker-compose down
 cd ../docker_inf_local
 docker-compose down
 
-cd ../scripts
+cd ../scripts_linux
