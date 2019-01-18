@@ -706,6 +706,14 @@ abstract class ApiAccount implements Api, ApiInternals {
   }
 
   @override
+  Future<NetOAuthSecrets> getOAuthSecrets(int oauthProvider) async {
+    await _clientReady;
+    final NetOAuthGetSecrets request = NetOAuthGetSecrets();
+    request.oauthProvider = oauthProvider;
+    return await _oauthClient.getSecrets(request);
+  }
+
+  @override
   Future<NetOAuthConnection> connectOAuth(
       int oauthProvider, String callbackQuery) async {
     await _clientReady;

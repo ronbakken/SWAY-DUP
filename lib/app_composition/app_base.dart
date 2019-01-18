@@ -14,6 +14,7 @@ import 'package:inf/network_inheritable/multi_account_selection.dart';
 import 'package:inf/network_inheritable/config_provider.dart';
 import 'package:inf/network_inheritable/api_provider.dart';
 import 'package:inf/widgets/oauth_scaffold.dart';
+import 'package:inf/widgets/progress_dialog.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/screens/account_switch.dart';
 import 'package:inf/screens/debug_account.dart';
@@ -22,6 +23,8 @@ import 'package:inf/screens/profile_view.dart';
 import 'package:inf/screens/proposal_list.dart';
 import 'package:file/file.dart' as file;
 import 'package:file/local.dart' as file;
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:logging/logging.dart';
 
 abstract class AppBaseState<T extends StatefulWidget> extends State<T> {
   void navigateToSwitchAccount() {
@@ -44,22 +47,57 @@ abstract class AppBaseState<T extends StatefulWidget> extends State<T> {
     }));
   }
 
-  Future<void> navigateToOAuthConnect(
-    BuildContext context, {
-    ConfigOAuthProvider oauthProvider,
-    Future<NetOAuthUrl> Function() onOAuthGetParams,
-    Future<NetOAuthSecrets> Function() onOAuthGetSecrets,
-    Future<NetOAuthConnection> Function(String callbackQuery)
-        onOAuthCallbackResult,
-  }) async {
+  Future<void> navigateToOAuth(BuildContext context, int providerId) async {
+    final ConfigData config = ConfigProvider.of(context);
+    final Api api = ApiProvider.of(context);
+    final ConfigOAuthProvider provider = config.oauthProviders[providerId];
     bool connectionAttempted = false;
-    if (!connectionAttempted &&
-        oauthProvider.providerId == OAuthProviderIds.facebook.value) {
+    if (!connectionAttempted && providerId == OAuthProviderIds.facebook.value) {
       // Attempt to use Facebook plugin
-      connectionAttempted = false;
+      // TODO: Must ensure the following match the client id in server config
+      // - facebook_app_id
+      // - fb_login_protocol_scheme
+      // - FacebookAppID
+      // - CFBundleURLSchemes
+      connectionAttempted = await wrapProgressAndError<bool>(
+        context: context,
+        progressBuilder: genericProgressBuilder(message: 'Waiting for Facebook...'),
+        errorBuilder: genericMessageBuilder(title: 'Failed Connection'),
+        task: () async {
+          // TODO: Plugin doesn't work well for multi account login...
+          // When the returned account already exists in a local account of the same type,
+          // perhaps have the UI offer to select a different social media account
+          final NetOAuthUrl url = await api.getOAuthUrls(providerId);
+          final Uri uri = Uri.parse(url.authUrl);
+          final Map<String, String> query = uri.queryParameters;
+          // Logger('Inf.AppBase').info('OAuth Query: $query');
+          final List<String> scope = query['scope']?.split(' ') ?? <String>[];
+          // Logger('Inf.AppBase').info('OAuth Scope: $scope');
+          final String clientId = query['client_id'];
+          final FacebookLogin facebookLogin = FacebookLogin();
+          facebookLogin.loginBehavior = FacebookLoginBehavior.nativeOnly;
+          // TODO: Match clientId with plugin here when possible (checked on the server already)
+          //if (clientId.isEmpty)
+          //  return false;
+          final FacebookLoginResult result =
+              await facebookLogin.logInWithReadPermissions(scope);
+          switch (result.status) {
+            case FacebookLoginStatus.cancelledByUser:
+              return true;
+            case FacebookLoginStatus.error:
+              Logger('Inf.AppBase')
+                  .info('Facebook Error: ${result.errorMessage}');
+              return false;
+            case FacebookLoginStatus.loggedIn:
+              // Logger('Inf.AppBase').info('Facebook Token: ${result.accessToken.token}');
+              await api.connectOAuth(OAuthProviderIds.facebook.value,
+                  'access_token=${Uri.encodeQueryComponent(result.accessToken.token)}');
+              return true;
+          }
+        },
+      );
     }
-    if (!connectionAttempted &&
-        oauthProvider.providerId == OAuthProviderIds.twitter.value) {
+    if (!connectionAttempted && providerId == OAuthProviderIds.twitter.value) {
       // Attempt to use Twitter plugin
       connectionAttempted = false;
     }
@@ -70,10 +108,18 @@ abstract class AppBaseState<T extends StatefulWidget> extends State<T> {
         MaterialPageRoute<void>(
           builder: (BuildContext context) {
             // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
+            final ConfigData config = ConfigProvider.of(context);
+            final Api api = ApiProvider.of(context);
+            final ConfigOAuthProvider provider =
+                config.oauthProviders[providerId];
             return OAuthScaffold(
-              onOAuthGetParams: onOAuthGetParams,
-              onOAuthCallbackResult: onOAuthCallbackResult,
-              whitelistHosts: oauthProvider.whitelistHosts,
+              onOAuthGetParams: () {
+                return api.getOAuthUrls(providerId);
+              },
+              onOAuthCallbackResult: (String callbackQuery) {
+                return api.connectOAuth(providerId, callbackQuery);
+              },
+              whitelistHosts: provider.whitelistHosts,
             );
           },
         ),

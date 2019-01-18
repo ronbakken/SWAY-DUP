@@ -76,6 +76,9 @@ abstract class Api {
   /// Get the URLs to use for the OAuth process
   Future<NetOAuthUrl> getOAuthUrls(int oauthProvider);
 
+  /// Get the secrets or identifiers to use for the OAuth process
+  Future<NetOAuthSecrets> getOAuthSecrets(int oauthProvider);
+
   /// Try to connect an OAuth provider with the received callback query
   Future<NetOAuthConnection> connectOAuth(
       int oauthProvider, String callbackQuery);

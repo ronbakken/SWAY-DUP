@@ -47,22 +47,22 @@ class _AppOnboardingState extends AppBaseState<AppOnboarding> {
     super.dispose();
   }
 
+  /*
   void navigateToOAuth(BuildContext context, int oauthProvider) {
     Navigator.push<void>(
-      // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
       context,
       MaterialPageRoute<void>(
-        builder: (context) {
-          ConfigData config = ConfigProvider.of(context);
-          final Api network = ApiProvider.of(context);
+        builder: (BuildContext context) {
+          final ConfigData config = ConfigProvider.of(context);
+          final Api api = ApiProvider.of(context);
           assert(config != null);
-          assert(network != null);
+          assert(api != null);
           return OAuthScaffold(
             onOAuthGetParams: () {
-              return network.getOAuthUrls(oauthProvider);
+              return api.getOAuthUrls(oauthProvider);
             },
             onOAuthCallbackResult: (String callbackQuery) {
-              return network.connectOAuth(oauthProvider, callbackQuery);
+              return api.connectOAuth(oauthProvider, callbackQuery);
             },
             whitelistHosts: config.oauthProviders[oauthProvider].whitelistHosts,
           );
@@ -70,6 +70,7 @@ class _AppOnboardingState extends AppBaseState<AppOnboarding> {
       ),
     );
   }
+  */
 
   void navigateToSocial() {
     Navigator.push<void>(

@@ -169,10 +169,12 @@ Future<T> wrapProgressAndError<T>({
 }) async {
   bool success = false;
   final NavigatorState navigator = Navigator.of(context, rootNavigator: true);
-  final dynamic progressDialog = showProgressDialog(
-    context: context,
-    builder: progressBuilder,
-  );
+  final dynamic progressDialog = progressBuilder != null
+      ? showProgressDialog(
+          context: context,
+          builder: progressBuilder,
+        )
+      : null;
   T result;
   try {
     try {
@@ -183,7 +185,8 @@ Future<T> wrapProgressAndError<T>({
       rethrow;
     }
   } finally {
-    final bool closed = closeProgressDialog(progressDialog);
+    final bool closed =
+        progressBuilder != null ? closeProgressDialog(progressDialog) : true;
     if (closed && navigator.mounted) {
       if (!success) {
         await showDialog<void>(

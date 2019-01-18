@@ -49,7 +49,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
 
   // Not useful to keep cookies, since we keep getting logged
   // into the same account when we try to make additional accounts...
-  bool _clearCookies = true;
+  bool _clearCookies = false;
 
   Future<Null> _authError() async {
     _focusScope.requestFocus(FocusNode());
@@ -191,8 +191,13 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
       appBar: widget.appBar != null
           ? widget.appBar
           : AppBar(
-              title: const Image(image: AssetImage('assets/logo_appbar_gray.png')),
+              title:
+                  const Image(image: AssetImage('assets/logo_appbar_gray.png')),
               centerTitle: true,
+              /*
+              // TODO: Find a better way for multi account
+              // When the returned account already exists in a local account of the same type,
+              // perhaps have the UI offer to select a different social media account
               actions: _clearCookies
                   ? <Widget>[]
                   : <Widget>[
@@ -209,6 +214,7 @@ class _OAuthScaffoldState extends State<OAuthScaffold> {
                         },
                       ),
                     ],
+                    */
             ),
     );
   }
