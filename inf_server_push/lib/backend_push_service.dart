@@ -18,12 +18,15 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 
 import 'package:inf_common/inf_backend.dart';
 
-class _CachedAccount {
-  final String name;
-  final Set<Int64> sessionIds;
-  final Map<Int64, String> firebaseTokens;
+const int kTokenUnknown = 0;
+const int kTokenFirebase = 0;
+const int kTokenOneSignal = 0;
 
-  const _CachedAccount(this.name, this.sessionIds, this.firebaseTokens);
+class _CachedAccount {
+  Set<Int64> sessionIds = Set<Int64>();
+  Map<Int64, String> firebaseTokens = <Int64, String>{};
+
+  _CachedAccount();
 }
 
 class _Listener {
@@ -78,21 +81,52 @@ class BackendPushService extends BackendPushServiceBase {
   /// Controllers mapped by session id
   final Map<Int64, _Listener> _listeners = <Int64, _Listener>{};
 
-  Future<_CachedAccount> _cacheAccount(Int64 accountId) async {
-    // TODO: Fetch from database
-    return _cachedAccounts[accountId];
+  Future<_CachedAccount> _cachedAccount(Int64 accountId) async {
+    // Load up cache from database
+    _CachedAccount cached = _cachedAccounts[accountId];
+    if (cached == null) {
+      // Load up from database
+      cached = _CachedAccount();
+      final sqljocky.Results selectResults = await sql.prepareExecute(
+        'SELECT `session_id`, `token_type`, `token`'
+            '  FROM `push_tokens`'
+            '  WHERE `account_id` = ?',
+        <dynamic>[
+          accountId,
+        ],
+      );
+      await for (sqljocky.Row row in selectResults) {
+        final Int64 sessionId = Int64(row[0]);
+        cached.sessionIds.add(sessionId);
+        final int tokenType = row[1].toInt();
+        if (tokenType == kTokenFirebase) {
+          cached.firebaseTokens[sessionId] = row[2].toString();
+        }
+      }
+    }
+
+    // Check for racing condition
+    final _CachedAccount racingCached = _cachedAccounts[accountId];
+    if (racingCached != null) {
+      // Merge what was loaded into cache
+      for (Int64 sessionId in cached.sessionIds) {
+        racingCached.sessionIds.add(sessionId);
+      }
+      for (MapEntry<Int64, String> firebaseToken in cached.firebaseTokens.entries) {
+        racingCached.firebaseTokens[firebaseToken.key] = firebaseToken.value;
+      }
+      return racingCached;
+    } else {
+      // Cache loaded
+      _cachedAccounts[accountId] = cached;
+      return cached;
+    }
   }
 
   Future<void> _sendFirebaseNotificationChat(Int64 receiverAccountId,
       List<String> receiverFirebaseTokens, DataProposalChat chat) async {
-    // Get sender info
-    _CachedAccount sender = await _cacheAccount(chat.senderAccountId);
-    sender ??= _CachedAccount(
-      'Amazing Human Being',
-      Set<Int64>(),
-      <Int64, String>{},
-    );
-    final String senderName = sender.name;
+    // TODO: Fetch sender summary from Explore backend
+    final String senderName = 'Amazing Human Being';
     final Map<String, dynamic> notification = <String, dynamic>{};
     notification['title'] = senderName;
     // TODO: Generate text version of non-text messages
@@ -138,12 +172,8 @@ class BackendPushService extends BackendPushServiceBase {
 
   @override
   Future<ResPush> push(grpc.ServiceCall call, ReqPush request) async {
-    _CachedAccount receiver = await _cacheAccount(request.receiverAccountId);
-    receiver ??= _CachedAccount(
-      'Amazing Human Being',
-      Set<Int64>(),
-      <Int64, String>{},
-    );
+    final _CachedAccount receiver =
+        await _cachedAccount(request.receiverAccountId);
     final List<Future<dynamic>> done = <Future<dynamic>>[];
     for (Int64 sessionId in receiver.sessionIds) {
       final _Listener listener = _listeners[sessionId];
@@ -214,8 +244,66 @@ class BackendPushService extends BackendPushServiceBase {
   @override
   Future<ResSetFirebaseToken> setFirebaseToken(
       grpc.ServiceCall call, ReqSetFirebaseToken request) async {
-    // TODO: implement setFirebaseToken
-    return null;
+    // Find if there's a previously set token
+    final sqljocky.Results selectResults = await sql.prepareExecute(
+      'SELECT `token_type`, `token`'
+          '  FROM `push_tokens`'
+          '  WHERE `session_id` = ?',
+      <dynamic>[
+        request.sessionId,
+      ],
+    );
+    int oldTokenType;
+    String oldToken;
+    await for (sqljocky.Row row in selectResults) {
+      oldTokenType = row[0].toInt();
+      oldToken = row[1].toString();
+    }
+
+    // Upsert the new token
+    await sql.prepareExecute(
+      'INSERT INTO `push_tokens`(`session_id`, `account_id`, `token_type`, `token`)'
+          '  VALUES (?, ?, ?, ?)'
+          '  ON DUPLICATE KEY'
+          '    UPDATE `account_id` = ?, `token_type` = ?, `token` = ?',
+      <dynamic>[
+        request.sessionId,
+        request.accountId,
+        kTokenFirebase,
+        request.token.firebaseToken,
+        request.accountId,
+        kTokenFirebase,
+        request.token,
+      ],
+    );
+
+    // Update any other matching tokens, which happens when sessions are on the same device
+    if (oldTokenType != null &&
+        oldToken != null &&
+        oldTokenType == kTokenFirebase &&
+        oldToken == request.token.oldFirebaseToken) {
+      await sql.prepareExecute(
+        'UPDATE `push_tokens`'
+            '  SET `token_type` = ?, `token` = ?'
+            '  WHERE `token_type` = ? AND `token` = ?',
+        <dynamic>[
+          kTokenFirebase,
+          request.token,
+          oldTokenType,
+          oldToken,
+        ],
+      );
+    }
+
+    // Update cached token
+    final _CachedAccount cached = _cachedAccounts[request.accountId];
+    if (cached != null) {
+      cached.firebaseTokens[request.sessionId] = request.token.firebaseToken;
+    }
+
+    // Respond
+    final ResSetFirebaseToken response = ResSetFirebaseToken();
+    return response;
   }
 
   Stream<NetPush> listenWebSocket(WebSocket ws, HttpRequest request) {
@@ -226,8 +314,8 @@ class BackendPushService extends BackendPushServiceBase {
     call.clientMetadata['x-jwt-payload'] =
         request.headers['x-jwt-payload']?.first;
     /*
+    // Bypass security.
     if (call.clientMetadata['x-jwt-payload'] == null && call.clientMetadata['authorization'] != null) {
-      // Bypass security.
       devLog.severe('WebSocket JWT not verified!');
       call.clientMetadata['authority'] = 'ws';
       call.clientMetadata['x-jwt-payload'] = call.clientMetadata['authorization'].split('.')[1];
@@ -264,8 +352,7 @@ class BackendPushService extends BackendPushServiceBase {
 
     // Create a new controller for this listener.
     final StreamController<NetPush> controller = StreamController<NetPush>();
-    final Timer keepAlive =
-        Timer.periodic(Duration(seconds: 5), (Timer timer) {
+    final Timer keepAlive = Timer.periodic(Duration(seconds: 5), (Timer timer) {
       if (call.isCanceled) {
         if (_listeners[auth.sessionId]?.controller == controller) {
           _listeners.remove(auth.sessionId);
@@ -281,12 +368,22 @@ class BackendPushService extends BackendPushServiceBase {
     _listeners[auth.sessionId] =
         _Listener(call, request, controller, keepAlive);
 
-    // TODO: This is a temporary hack since the database is not implemented yet.
-    _cachedAccounts[auth.accountId] = _CachedAccount(
-      'Amazing Human Being',
-      Set<Int64>.from(<Int64>[auth.sessionId]),
-      <Int64, String>{},
-    );
+    // Add session id to stored account information if not known yet locally
+    final _CachedAccount cached = await _cachedAccount(auth.accountId);
+    if (!cached.sessionIds.contains(auth.sessionId)) {
+      await sql.prepareExecute(
+        'INSERT INTO `push_tokens`(`session_id`, `account_id`)'
+            '  VALUES (?, ?)'
+            '  ON DUPLICATE KEY'
+            '    UPDATE `account_id` = ?',
+        <dynamic>[
+          auth.sessionId,
+          auth.accountId,
+          auth.accountId,
+        ],
+      );
+      cached.sessionIds.add(auth.sessionId);
+    }
 
     final NetPush ready = NetPush();
     ready.pushing = NetPushing();
