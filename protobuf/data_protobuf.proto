@@ -199,7 +199,7 @@ message DataLocation {
   
 }
 
-message DataAccount { // 33
+message DataAccount { // 34
   // State
   /// Session ID. If 0, authentication failed, and the client must create a new session
   int64 session_id = 4; // (Private)
@@ -214,7 +214,9 @@ message DataAccount { // 33
   GlobalAccountStateReason global_account_state_reason = 8; // (Private)
   
   AccountLevel account_level = 9; // (Private)
-  NotificationFlags notification_flags = 10; // (Private)
+  // NotificationFlags notification_flags = 10; // (Private) // TBD
+
+  int32 version = 34; // (Private)
   
   string firebase_token = 11; // (Private)
   
