@@ -357,6 +357,8 @@ Future<List<ConfigOAuthProvider>> generateConfigOAuthProviders(
               entry.requestTokenUrl = cfg.get(section, 'requestTokenUrl');
             if (cfg.hasOption(section, 'authenticateUrl'))
               entry.authenticateUrl = cfg.get(section, 'authenticateUrl');
+            if (cfg.hasOption(section, 'authenticateQuery'))
+              entry.authenticateQuery = cfg.get(section, 'authenticateQuery');
             if (cfg.hasOption(section, 'accessTokenUrl'))
               entry.accessTokenUrl = cfg.get(section, 'accessTokenUrl');
             if (cfg.hasOption(section, 'consumerKey'))
