@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using API.Interfaces;
+using api=API.Interfaces;
 
 namespace API.Services.Mocks
 {
@@ -9,7 +11,7 @@ namespace API.Services.Mocks
         private static DatabaseMock instance;
         private AppConfigData configData;
 
-        public List<User> users { get; }
+        public List<api.User> users { get; }
 
         private DatabaseMock()
         {
@@ -367,9 +369,9 @@ namespace API.Services.Mocks
 
             };
 
-            users = new List<User>
+            users = new List<api.User>
             {
-                new User
+                new api.User
                 {
                     Id = 42,
                     ShowLocation = true,
@@ -402,7 +404,7 @@ namespace API.Services.Mocks
                     ActiveSocialMediaProviders = { 1},
                     SocialMediaAccountIds = {1}
                 },
-                new User
+                new api.User
                 {
                     Id = 43,
                     Name = "Jane Dow",
@@ -522,7 +524,7 @@ namespace API.Services.Mocks
         }
 
 
-        public User GetUser(string token)
+        public api.User GetUser(string token)
         {
             if (token == "INF")
             {

@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package api;
-option csharp_namespace = "API";
+option csharp_namespace = "API.Interfaces";
 
 import "social_network_provider.proto";
 

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Interfaces;
 using Grpc.Core;
-using static API.InfConfig;
+using static API.Interfaces.InfConfig;
 
 namespace API.Services.Mocks
 {

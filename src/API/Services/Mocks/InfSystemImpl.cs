@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using API.Interfaces;
 using Grpc.Core;
-using static API.InfSystem;
+using static API.Interfaces.InfSystem;
 
 namespace API.Services.Mocks
 {

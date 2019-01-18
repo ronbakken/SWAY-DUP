@@ -1,11 +1,11 @@
 ﻿using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
-using API.Services;
-using API.Services.Mocks;
+using API.Interfaces;
+using Mocks=API.Services.Mocks;
 using Grpc.Core;
-using Grpc.Core.Interceptors;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using API.Services;
 
 namespace API
 {
@@ -37,11 +37,16 @@ namespace API
             {
                 Services =
                 {
-                    InfApi.BindService(new InfApiImpl()),
+                    // Mocks
+                    //InfApi.BindService(new Mocks.InfApiImpl()),
+                    //InfAuth.BindService(new Mocks.InfAuthImpl()),
+                    //InfConfig.BindService(new Mocks.InfConfigImpl()),
+                    //InfSystem.BindService(new Mocks.InfSystemImpl()),
+
+                    InfApi.BindService(new Mocks.InfApiImpl()),
                     InfAuth.BindService(new InfAuthImpl()),
-                    InfConfig.BindService(new InfConfigImpl()),
-                    InfSystem.BindService(new InfSystemImpl()),
-                    //InvitationCodeService.BindService(new InvitationCodeServiceImpl()),
+                    InfConfig.BindService(new Mocks.InfConfigImpl()),
+                    InfSystem.BindService(new Mocks.InfSystemImpl()),
                 },
                 Ports =
                 {

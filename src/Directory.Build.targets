@@ -7,7 +7,10 @@
 		<PackageReference Update="Microsoft.ServiceFabric.Actors" Version="3.3.624" />
         <PackageReference Update="Microsoft.ServiceFabric.Services" Version="3.3.624" />
         <PackageReference Update="Microsoft.ServiceFabric.Services.Remoting" Version="3.3.624" />
+        <PackageReference Update="Newtonsoft.Json" Version="12.0.1" />
         <PackageReference Update="NodaTime" Version="2.4.4" />
+        <PackageReference Update="Optional" Version="4.0.0" />
+        <PackageReference Update="Sendgrid" Version="9.10.0" />
         <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="5.3.0" />
     </ItemGroup>
 </Project>

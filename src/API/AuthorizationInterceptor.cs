@@ -5,7 +5,6 @@ using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
-using Session.Interfaces;
 using User.Interfaces;
 using Utility;
 
@@ -97,30 +96,27 @@ namespace API
 
             // TODO: allow methods that require a session, but don't require a logged in user
 
-            var session = GetSessionActor(sessionId);
-            var userId = await session.GetAssociatedUserId();
+            //var session = GetSessionActor(sessionId);
+            //var userId = await session.GetAssociatedUserId();
 
-            if (userId == null)
-            {
-                throw new InvalidOperationException("No user is associated with session.");
-            }
+            //if (userId == null)
+            //{
+            //    throw new InvalidOperationException("No user is associated with session.");
+            //}
 
-            var user = GetUserActor(userId);
-            var isCreated = await user.IsCreated();
+            //var user = GetUserActor(userId);
+            //var isCreated = await user.IsCreated();
 
-            if (!isCreated)
-            {
-                throw new InvalidOperationException($"User with ID '{userId}' is not yet created.");
-            }
+            //if (!isCreated)
+            //{
+            //    throw new InvalidOperationException($"User with ID '{userId}' is not yet created.");
+            //}
 
-            var userData = await user.GetData();
-            var userType = userData.Type;
+            //var userData = await user.GetData();
+            //var userType = userData.Type;
 
             // TODO: determine whether the user can perform the method call based on their type
         }
-
-        private static ISession GetSessionActor(string sessionId) =>
-            ActorProxy.Create<ISession>(new ActorId(sessionId), new Uri("fabric:/server/SessionActorService"));
 
         private static IUser GetUserActor(string userId) =>
             ActorProxy.Create<IUser>(new ActorId(userId), new Uri("fabric:/server/UserActorService"));

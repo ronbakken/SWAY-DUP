@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using API.Interfaces;
 using Grpc.Core;
 using InvitationCodeManager.Interfaces;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
-using static API.InvitationCodeService;
+using static API.Interfaces.InvitationCodeService;
 
 namespace API.Services
 {

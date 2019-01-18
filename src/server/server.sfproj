@@ -35,8 +35,6 @@
     <ProjectReference Include="..\API\API.csproj" />
     <ProjectReference Include="..\InvitationCodeManager\InvitationCodeManager.csproj" />
     <ProjectReference Include="..\InvitationCode\InvitationCode.csproj" />
-    <ProjectReference Include="..\SessionManager\SessionManager.csproj" />
-    <ProjectReference Include="..\Session\Session.csproj" />
     <ProjectReference Include="..\User\User.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using API.Interfaces;
 using Grpc.Core;
-using static API.InfAuth;
+using static API.Interfaces.InfAuth;
+using interfaces = API.Interfaces;
 
 namespace API.Services.Mocks
 {
@@ -13,7 +15,7 @@ namespace API.Services.Mocks
         }
 
         // Not sure if we will need this
-        public override Task<User> GetCurrentUser(RefreshTokenMessage request, ServerCallContext context)
+        public override Task<interfaces.User> GetCurrentUser(RefreshTokenMessage request, ServerCallContext context)
         {
             return base.GetCurrentUser(request, context);
         }
@@ -60,7 +62,7 @@ namespace API.Services.Mocks
             return Task.FromResult(new Empty());
         }
 
-        public override Task<InvitationCodeState> ValidateInvitationCode(InvitationCode request, ServerCallContext context)
+        public override Task<InvitationCodeState> ValidateInvitationCode(interfaces.InvitationCode request, ServerCallContext context)
         {
             Console.WriteLine("InfConfigImpl.ValidateInvitationCode called");
 

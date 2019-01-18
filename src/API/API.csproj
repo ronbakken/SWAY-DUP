@@ -23,13 +23,13 @@
         <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Grpc" />
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
+        <PackageReference Include="Sendgrid" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\API.Interfaces\API.Interfaces.csproj" />
         <ProjectReference Include="..\InvitationCode.Interfaces\InvitationCode.Interfaces.csproj" />
         <ProjectReference Include="..\InvitationCodeManager.Interfaces\InvitationCodeManager.Interfaces.csproj" />
-        <ProjectReference Include="..\Session.Interfaces\Session.Interfaces.csproj" />
         <ProjectReference Include="..\User.Interfaces\User.Interfaces.csproj" />
         <ProjectReference Include="..\User\User.csproj" />
         <ProjectReference Include="..\Utility\Utility.csproj" />
