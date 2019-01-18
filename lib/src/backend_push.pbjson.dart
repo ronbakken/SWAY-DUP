@@ -99,15 +99,3 @@ const ReqSetFirebaseToken$json = const {
 const ResSetFirebaseToken$json = const {
   '1': 'ResSetFirebaseToken',
 };
-
-const ReqSetAccountName$json = const {
-  '1': 'ReqSetAccountName',
-  '2': const [
-    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'account_id', '3': 2, '4': 1, '5': 3, '10': 'accountId'},
-  ],
-};
-
-const ResSetAccountName$json = const {
-  '1': 'ResSetAccountName',
-};
