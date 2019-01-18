@@ -56,6 +56,14 @@ Future<void> dbUpgradeAccounts(sqljocky.ConnectionPool sql) async {
         '  MODIFY `session_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=${_random.nextInt(1 << 27) + 1}');
   });
 
+  upgrader.registerUpgrade('sessions_002',
+      (sqljocky.QueriableConnection sql) async {
+    // Change to latin1_bin
+    await sql.query(''
+        'ALTER TABLE `sessions`'
+        "  CHANGE `firebase_token` `firebase_token` TEXT CHARACTER SET latin1 COLLATE latin1_bin NULL DEFAULT NULL COMMENT 'TBD'");
+  });
+
   upgrader.registerUpgrade('accounts_001',
       (sqljocky.QueriableConnection sql) async {
     await sql.query(''
@@ -158,6 +166,15 @@ Future<void> dbUpgradeAccounts(sqljocky.ConnectionPool sql) async {
         '  ADD PRIMARY KEY (`oauth_user_id`,`oauth_provider`,`account_type`),'
         '  ADD KEY `account_id` (`account_id`),'
         '  ADD KEY `session_id` (`session_id`)');
+  });
+
+  upgrader.registerUpgrade('oauth_connections_002',
+      (sqljocky.QueriableConnection sql) async {
+    // Change to latin1_bin
+    await sql.query(''
+        'ALTER TABLE `oauth_connections`'
+        '  CHANGE `oauth_token` `oauth_token` TEXT CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,'
+        "  CHANGE `oauth_token_secret` `oauth_token_secret` TEXT CHARACTER SET latin1 COLLATE latin1_bin NOT NULL DEFAULT '\'\'';");
   });
 
   await upgrader.run();

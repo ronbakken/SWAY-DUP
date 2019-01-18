@@ -118,6 +118,18 @@ graph TD;
     Proposals --> Account
 ```
 
+Target.
+
+```mermaid
+graph TD;
+    Session
+    Account --> OAuth
+    Account --> Storage
+    Offers --> Storage
+    Profiles
+    Proposals
+```
+
 External dependencies of modules within the integrated API service.
 
 ```mermaid

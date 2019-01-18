@@ -9,6 +9,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:inf_common/inf_common.dart';
+import 'package:inf_server_push/db_upgrade_push.dart';
 
 import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
@@ -53,6 +54,7 @@ Future<void> main(List<String> arguments) async {
       password: config.services.generalDbPassword,
       db: config.services.generalDbDatabase,
       max: 17);
+  await dbUpgradePush(sql);
 
   final BackendPushService backend = BackendPushService(config, sql);
   final ApiPushService api = ApiPushService(backend);
