@@ -57,17 +57,6 @@ message ResSetFirebaseToken {
 
 }
 
-message ReqSetAccountName {
-    string name = 1;
-    int64 account_id = 2;
-
-}
-
-message ResSetAccountName {
-    // ...
-    
-}
-
 service BackendPush {
   /// Push a message to a user by account.
   rpc Push(ReqPush) returns (ResPush) {}
@@ -78,10 +67,6 @@ service BackendPush {
 
   /// We should migrate to OneSignal, to have closer integration with iOS & to be safer, since Firebase Messaging does not have an SLA at all (& spies on users)
   // rpc SetOneSignalId
-
-  /// Sets an account name. Service keeps this locally for generating notification messages.
-  /// Might be useful to just push the full DataAccount in case we want to cache more data.
-  rpc SetAccountName(ReqSetAccountName) returns (ResSetAccountName) {}
 
 }
 
