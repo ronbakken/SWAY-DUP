@@ -39,8 +39,8 @@ namespace API.Services
             var userData = await user.GetData();
             var oneTimeAccessToken = TokenManager.GenerateOneTimeAccessToken(
                 userId,
-                userData.Status.ToDtoString(),
-                userData.Type.ToDtoString());
+                userData.Status.ToString(),
+                userData.Type.ToString());
             var link = $"inf://verify?token={oneTimeAccessToken}";
 
             // Store the token with the user data so that we can ensure a token provided by a client is still relevant.
@@ -117,7 +117,7 @@ namespace API.Services
             var userId = validationResult.UserId;
             var user = GetUserActor(userId);
             var userData = await user.GetData();
-            var authorizationToken = TokenManager.GenerateAuthorizationToken(userId, userData.Type.ToDtoString());
+            var authorizationToken = TokenManager.GenerateAuthorizationToken(userId, userData.Type.ToString());
 
             var result = new LoginResultMessage
             {

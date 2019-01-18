@@ -6,6 +6,7 @@ using Mocks=API.Services.Mocks;
 using Grpc.Core;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using API.Services;
+using Grpc.Core.Interceptors;
 
 namespace API
 {
@@ -33,6 +34,8 @@ namespace API
                 .GetActivationContext()
                 .GetEndpoint("ServiceEndpoint");
 
+            var authorizationInterceptor = new AuthorizationInterceptor();
+
             server = new Server
             {
                 Services =
@@ -44,13 +47,13 @@ namespace API
                     //InfSystem.BindService(new Mocks.InfSystemImpl()),
 
                     // Real APIs
-                    InfApi.BindService(new Mocks.InfApiImpl()),
-                    InfAuth.BindService(new InfAuthImpl()),
-                    InfConfig.BindService(new Mocks.InfConfigImpl()),
-                    InfSystem.BindService(new Mocks.InfSystemImpl()),
+                    InfApi.BindService(new Mocks.InfApiImpl()).Intercept(authorizationInterceptor),
+                    InfAuth.BindService(new InfAuthImpl()).Intercept(authorizationInterceptor),
+                    InfConfig.BindService(new Mocks.InfConfigImpl()).Intercept(authorizationInterceptor),
+                    InfSystem.BindService(new Mocks.InfSystemImpl()).Intercept(authorizationInterceptor),
 
                     // Admin APIs
-                    InfAdminInvitationCodes.BindService(new InfAdminInvitationCodesImpl()),
+                    InfAdminInvitationCodes.BindService(new InfAdminInvitationCodesImpl()).Intercept(authorizationInterceptor),
                 },
                 Ports =
                 {
