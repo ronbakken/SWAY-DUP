@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/user_profile/profile_private_page.dart';
 import 'package:inf/ui/user_profile/profile_summery.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 
-import 'package:inf_api_client/inf_api_client.dart';
-
 class MainNavigationDrawer extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -35,8 +32,8 @@ class MainNavigationDrawer extends StatelessWidget {
             trailing: InfSwitch(
               value: currentUser.acceptsDirectOffers,
               onChanged: (val) {
-                userManager.updateUserCommand(
-                  currentUser.copyWith((user) => user.acceptsDirectOffers = val),
+                userManager.saveUserCommand(
+                  currentUser.copyWith(acceptsDirectOffers: val),
                 );
               },
               activeColor: AppTheme.blue,
@@ -51,8 +48,8 @@ class MainNavigationDrawer extends StatelessWidget {
             trailing: InfSwitch(
               value: currentUser.showLocation,
               onChanged: (val) {
-                userManager.updateUserCommand(
-                  currentUser.copyWith((user) => user.showLocation = val),
+                userManager.saveUserCommand(
+                  currentUser.copyWith(showLocation: val),
                 );
               },
               activeColor: AppTheme.blue,
@@ -150,8 +147,8 @@ class MainNavigationDrawer extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: FlatButton(
                 padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                onPressed: ()  {
-                   Navigator.of(context).push(ProfilePrivatePage.route());
+                onPressed: () {
+                  Navigator.of(context).push(ProfilePrivatePage.route());
                 },
                 child: Text(
                   'View profile',
@@ -213,5 +210,3 @@ class _MainNavigationItem extends StatelessWidget {
     );
   }
 }
-
-

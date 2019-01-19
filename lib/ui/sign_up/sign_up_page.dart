@@ -4,14 +4,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf_api_client/inf_api_client.dart';
-import 'package:pedantic/pedantic.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/main/main_page.dart';
-import 'package:inf/ui/sign_up/check_email_popup.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 

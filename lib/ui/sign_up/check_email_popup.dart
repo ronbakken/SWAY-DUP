@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class CheckEmailPopUp extends StatelessWidget {

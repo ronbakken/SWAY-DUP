@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/user_profile/edit_social_media_view.dart';
 import 'package:inf/ui/user_profile/profile_summery.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
-import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
-import 'package:inf/ui/widgets/inf_switch.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 import 'package:inf/ui/widgets/routes.dart';
-import 'package:inf_api_client/inf_api_client.dart';
 
 class EditProfilePage extends StatefulWidget {
   static Route<dynamic> route() {

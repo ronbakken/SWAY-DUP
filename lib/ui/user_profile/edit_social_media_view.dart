@@ -1,18 +1,20 @@
-import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
-import 'package:inf_api_client/inf_api_client.dart';
 
 class _SocialMediaRow {
   final SocialNetworkProvider provider;
-  SocialMediaAccountWrapper account;
+  SocialMediaAccount account;
   bool get connected => account != null;
-  _SocialMediaRow({this.provider, this.account,});
+  _SocialMediaRow({
+    this.provider,
+    this.account,
+  });
 }
 
 class EditSocialMediaView extends StatefulWidget {
@@ -25,8 +27,6 @@ class _EditSocialMediaViewState extends State<EditSocialMediaView> {
   ConfigService configService;
   User user;
 
-  StreamSubscription _socialMediaAccountsSubcription;
-
   final List<_SocialMediaRow> _socialMediaRows = <_SocialMediaRow>[];
 
   @override
@@ -34,28 +34,17 @@ class _EditSocialMediaViewState extends State<EditSocialMediaView> {
     userManager = backend.get<UserManager>();
     configService = backend.get<ConfigService>();
 
-    user = userManager.currentUser.clone();
+    user = userManager.currentUser.copyWith();
 
-    _socialMediaAccountsSubcription =
-        backend.get<UserManager>().currentSocialMediaAccountsUpdates.listen((socialMediaAccounts) {
-      _socialMediaRows.clear();
-      for (var provider in configService.socialNetworkProviders) {
-        if (provider.logoMonochromeData.isNotEmpty) {
-          var connectedAccount = socialMediaAccounts.firstWhere(
-              (account) => account.socialMediaAccount.socialNetworkProviderId == provider.id,
-              orElse: () => null);
-          _socialMediaRows.add(_SocialMediaRow(account: connectedAccount, provider: provider));
-        }
+    _socialMediaRows.clear();
+    for (var provider in configService.socialNetworkProviders) {
+      if (provider.logoMonochromeData.isNotEmpty) {
+        var connectedAccount = user.socialMediaAccounts
+            .firstWhere((account) => account.socialNetWorkProvider.id == provider.id, orElse: () => null);
+        _socialMediaRows.add(_SocialMediaRow(account: connectedAccount, provider: provider));
       }
-      setState(() {});
-    });
+    }
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _socialMediaAccountsSubcription.cancel();
-    super.dispose();
   }
 
   @override
@@ -101,15 +90,7 @@ class _EditSocialMediaViewState extends State<EditSocialMediaView> {
             row.connected
                 ? InfSwitch(
                     onChanged: (enabled) {
-                      setState(() {
-                        if (enabled) {
-                          assert(!user.activeSocialMediaProviders.contains(row.provider.id));
-                          user.activeSocialMediaProviders.add(row.provider.id);
-                        } else {
-                          assert(user.activeSocialMediaProviders.contains(row.provider.id));
-                          user.activeSocialMediaProviders.remove(row.provider.id);
-                        }
-                      });
+                      setState(() {});
                     },
                     value: row.connected,
                     activeColor: AppTheme.blue,

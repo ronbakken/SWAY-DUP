@@ -1,6 +1,4 @@
-
-
-
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class Proposal {
@@ -31,8 +29,7 @@ class Proposal {
   final bool businessMarkedRewarded;
 
   final int influencerGaveRating;
-  final int
-      businessGaveRating; // 1 to 5, 0 is no rating given (rating given implies complete)
+  final int businessGaveRating; // 1 to 5, 0 is no rating given (rating given implies complete)
 
   final bool influencerDisputed;
   final bool businessDisputed;

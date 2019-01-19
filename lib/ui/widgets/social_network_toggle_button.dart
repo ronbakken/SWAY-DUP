@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
-import 'package:inf_api_client/inf_api_client.dart';
 
 class SocialNetworkToggleButton extends StatelessWidget {
   final SocialNetworkProvider provider;

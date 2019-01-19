@@ -207,18 +207,16 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
             'amazing service. '
             'Our car wash is the best car wash in the universe of car washes.',
         categories: [
-          Category()
+          Category(CategoryDto()
             ..name = 'cars'
-            ..description = 'All about cars'
+            ..description = 'All about cars')
         ],
-        deliverables: [
-          Deliverable()
-            ..description = 'Tell people how good our service is'
-            ..type = DeliverableType.post
-        ],
+        deliverables: [Deliverable(description: 'Tell people how good our service is', type: DeliverableType.POST)],
         channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
         endDate: DateTime.now().add(Duration(days: 10)),
-        location: Location(activeOfferCount: 1, latitude: 34.032395, longitude: -118.301019),
+        location: Location(LocationDto()
+          ..latitude = 34.032395
+          ..longitude = -118.301019),
         reward: Reward(
           description: 'One free premium car wash',
           type: RewardType.barter,
@@ -250,21 +248,19 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         description: 'Free ice tea if you stop by',
         numberOffered: 10,
         categories: [
-          Category()
+          Category(CategoryDto()
             ..name = 'food'
-            ..description = 'All about food',
-          Category()
+            ..description = 'All about food'),
+          Category(CategoryDto()
             ..name = 'tea'
-            ..description = 'Tea'
+            ..description = 'Tea')
         ],
-        deliverables: [
-          Deliverable()
-            ..description = 'Tell people how good our tea is'
-            ..type = DeliverableType.post
-        ],
+        deliverables: [Deliverable(description: 'Tell people how good our tea is', type: DeliverableType.POST)],
         channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
         endDate: DateTime.now().add(Duration(days: 10)),
-        location: Location(activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
+        location: Location(LocationDto()
+          ..latitude = 34.040031
+          ..longitude = -118.257318),
         reward: Reward(
           description: 'One ice tea for you and a friend',
           type: RewardType.barter,
@@ -295,21 +291,19 @@ Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
         description: 'Free ice tea if you stop by',
         numberOffered: 10,
         categories: [
-          Category()
-            ..name= 'food' 
-            ..description= 'All about food',
-          Category()
-            ..name= 'tea'
-            ..description= 'Tea'
-            ],
-        deliverables: [
-          Deliverable()
-          ..description= 'Tell people how good our tea is'
-          ..type= DeliverableType.post
-          ],
+          Category(CategoryDto()
+            ..name = 'food'
+            ..description = 'All about food'),
+          Category(CategoryDto()
+            ..name = 'tea'
+            ..description = 'Tea')
+        ],
+        deliverables: [Deliverable(description: 'Tell people how good our tea is', type: DeliverableType.POST)],
         channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
         endDate: DateTime.now().add(Duration(days: 10)),
-        location: Location(activeOfferCount: 1, latitude: 34.040031, longitude: -118.257318),
+        location: Location(LocationDto()
+          ..latitude = 34.040031
+          ..longitude = -118.257318),
         reward: Reward(
           description: 'One ice tea for you and a friend',
           type: RewardType.barter,
@@ -337,7 +331,7 @@ Future<List<Proposal>> loadproposalMockData() async {
       id: 1,
       offerId: 1912,
       // state: ProposalState.proposing,
-      deliverableType: DeliverableType.post,
+      deliverableType: DeliverableType.POST,
       // sentFrom: UserType.influencer,
       influencerId: 43,
       influencerName: 'Thomas',
@@ -360,7 +354,7 @@ Future<List<Proposal>> loadproposalMockData() async {
       id: 2,
       offerId: 4711,
       // state: ProposalState.deal,
-      deliverableType: DeliverableType.mention,
+      deliverableType: DeliverableType.MENTION,
       // sentFrom: UserType.influencer,
       influencerId: 43,
       influencerName: 'Thomas',

@@ -9,19 +9,16 @@ import 'package:inf/backend/managers/user_manager_impl.dart';
 
 import 'package:inf/backend/services/auth_service_.dart';
 import 'package:inf/backend/services/auth_service_impl.dart';
-import 'package:inf/backend/services/auth_service_mock.dart';
+
 import 'package:inf/backend/managers/user_manager_.dart';
 import 'package:inf/backend/services/config_service_impl.dart';
 import 'package:inf/backend/services/image_service_.dart';
-import 'package:inf/backend/services/image_service_impl.dart';
 import 'package:inf/backend/services/image_service_mock.dart';
 import 'package:inf/backend/services/inf_api_clients_service_.dart';
 import 'package:inf/backend/services/inf_api_clients_service_impl.dart';
 import 'package:inf/backend/services/inf_api_service_mock.dart';
-import 'package:inf/backend/services/location_service_impl.dart';
 import 'package:inf/backend/services/location_service_mock.dart';
 import 'package:inf/backend/services/config_service_.dart';
-import 'package:inf/backend/services/config_service_mock.dart';
 import 'package:inf/backend/services/system_service_.dart';
 import 'package:inf/backend/services/system_service_impl.dart';
 
@@ -78,14 +75,14 @@ Future<void> setupBackend(AppMode mode) async {
       );
       registerImplementations();
       break;
-    case AppMode.mock:
-      appEnvironment = AppEnvironment(
-        mode: AppMode.mock,
-        host: '',
-        port: -1,
-      );
-      registerMocks();
-      break;
+    // case AppMode.mock:
+    //   appEnvironment = AppEnvironment(
+    //     mode: AppMode.mock,
+    //     host: '',
+    //     port: -1,
+    //   );
+    //   registerMocks();
+    //   break;
     default:
       throw new Exception('Unknown backend selected.');
   }
@@ -156,31 +153,31 @@ void registerImplementations() {
   // backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
 }
 
-void registerMocks() {
-  backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));
+// void registerMocks() {
+//   backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));
 
-  // Services
-  backend.registerLazySingleton<LocationService>(() => LocationServiceMock());
-  backend.registerSingleton<InfApiClientsService>(InfApiClientsServiceImplementation());
+//   // Services
+//   backend.registerLazySingleton<LocationService>(() => LocationServiceMock());
+//   backend.registerSingleton<InfApiClientsService>(InfApiClientsServiceImplementation());
 
-  backend.registerLazySingleton<AuthenticationService>(
-    /*
-    * currentUserIndex
-    *   0 = Business
-    *   1 = Influencer
-    */
-    () => AuthenticationServiceMock(
-          isLoggedIn: true,
-          currentUserIndex: 0,
-        ),
-  );
-  backend.registerLazySingleton<ConfigService>(() => ConfigServiceMock());
-  backend.registerLazySingleton<ImageService>(() => ImageServiceMock());
-  backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
-  backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());
+//   backend.registerLazySingleton<AuthenticationService>(
+//     /*
+//     * currentUserIndex
+//     *   0 = Business
+//     *   1 = Influencer
+//     */
+//     () => AuthenticationServiceMock(
+//           isLoggedIn: true,
+//           currentUserIndex: 0,
+//         ),
+//   );
+//   backend.registerLazySingleton<ConfigService>(() => ConfigServiceMock());
+//   backend.registerLazySingleton<ImageService>(() => ImageServiceMock());
+//   backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
+//   backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());
 
-  // Managers
-  backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
-  backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
-  backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
-}
+//   // Managers
+//   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
+//   backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
+//   backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
+// }

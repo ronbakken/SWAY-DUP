@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:inf/domain/business_offer.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/reward.dart';
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 enum OfferFilterAspect {
@@ -11,7 +12,7 @@ enum OfferFilterAspect {
   channels,
   deliverable,
   reward,
-  location
+  location,
 }
 
 enum OfferFilterApect {
@@ -22,7 +23,7 @@ enum OfferFilterApect {
   deliverable,
   reward,
   loction,
-  date
+  date,
 }
 
 class OfferFilter {

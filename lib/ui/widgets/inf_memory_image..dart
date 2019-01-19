@@ -29,6 +29,9 @@ class InfMemoryImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (data == null || data.isEmpty) {
+      return Text('No Image Data');
+    }
     if (isVector(data)) {
       return SvgPicture.memory(
         data,

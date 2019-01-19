@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:inf/ui/main/main_page.dart';
-import 'package:inf/ui/sign_up/check_email_popup.dart';
 import 'package:inf/ui/system_pages/no_connection_page.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/page_widget.dart';

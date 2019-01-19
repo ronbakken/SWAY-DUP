@@ -1,20 +1,16 @@
-
+import 'package:inf/domain/category.dart';
+import 'package:inf/domain/deliverable.dart';
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-
-class AppMustUpdateException implements Exception
-{
-}
-
+class AppMustUpdateException implements Exception {}
 
 abstract class ConfigService {
-
   List<Category> categories;
-  List<DeliverableIcon> deliverableIcons; 
-  List<SocialNetworkProvider> socialNetworkProviders; 
+  List<DeliverableIcon> deliverableIcons;
+  List<SocialNetworkProvider> socialNetworkProviders;
 
-
-  Stream<WelcomeImages> getWelcomePageProfileImages();
+  Stream<List<String>> getWelcomePageProfileImages();
 
   String getMapApiKey();
   String getMapUrlTemplate();
@@ -22,5 +18,6 @@ abstract class ConfigService {
   Future init();
 
   SocialNetworkProvider getSocialNetworkProviderById(int id);
-}
 
+  List<Category> getCategoriesFromIds(List<int> ids);
+}

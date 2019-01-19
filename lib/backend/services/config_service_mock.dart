@@ -2,6 +2,7 @@ import 'dart:math' show Random;
 
 import 'package:flutter/services.dart';
 import 'package:inf/backend/services/config_service_.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 import 'package:rxdart/rxdart.dart';
@@ -44,13 +45,13 @@ class ConfigServiceMock implements ConfigService {
   ];
 
   @override
-  Observable<WelcomeImages> getWelcomePageProfileImages() {
+  Observable<List<String>> getWelcomePageProfileImages() {
     return Observable.periodic(Duration(milliseconds: 3000))
-        .map<WelcomeImages>((_) => getImages())
+        .map<List<String>>((_) => getImages())
         .startWith(getImages());
   }
 
-  WelcomeImages getImages() {
+  List<String> getImages() {
     var rnd = Random();
     int toReplaceIndex = rnd.nextInt(14);
     int fromIndex = rnd.nextInt(2);
@@ -58,7 +59,7 @@ class ConfigServiceMock implements ConfigService {
     var toReplace = displayedImageUrls[toReplaceIndex];
     displayedImageUrls[toReplaceIndex] = extraImageUrls[fromIndex];
     extraImageUrls[fromIndex] = toReplace;
-       return WelcomeImages()..imageUrls.addAll(displayedImageUrls);
+    return displayedImageUrls;
   }
 
   @override
@@ -72,323 +73,260 @@ class ConfigServiceMock implements ConfigService {
         "?access_token={accessToken}";
   }
 
-
   @override
   Future init() async {
-    categories = <Category>[
-      Category()
+    var categoryDtos = <CategoryDto>[
+      CategoryDto()
         ..parentId = -1
-        ..name='Cars'
-        ..id=0
-        ..iconData=
-            (await rootBundle.load('assets/mockdata/category_icons/cars.svg'))
-                .buffer
-                .asUint8List(),
-      
-      Category()
+        ..name = 'Cars'
+        ..id = 0
+        ..iconData = (await rootBundle.load('assets/mockdata/category_icons/cars.svg')).buffer.asUint8List(),
+
+      CategoryDto()
         ..parentId = -1
-        ..name='Drinks'
-        ..id=1
-        ..iconData=
-            (await rootBundle.load('assets/mockdata/category_icons/drinks.svg'))
-                .buffer
-                .asUint8List(),
-      
-      Category()
+        ..name = 'Drinks'
+        ..id = 1
+        ..iconData = (await rootBundle.load('assets/mockdata/category_icons/drinks.svg')).buffer.asUint8List(),
+
+      CategoryDto()
         ..parentId = -1
-        ..name='Fashion'
-        ..id=2
-        ..iconData=(await rootBundle
-                .load('assets/mockdata/category_icons/fashion.svg'))
-            .buffer
-            .asUint8List()
-      ,
-      Category()
+        ..name = 'Fashion'
+        ..id = 2
+        ..iconData = (await rootBundle.load('assets/mockdata/category_icons/fashion.svg')).buffer.asUint8List(),
+      CategoryDto()
         ..parentId = -1
-        ..name='Food'
-        ..id=3
-        ..iconData=
-            (await rootBundle.load('assets/mockdata/category_icons/food.svg'))
-                .buffer
-                .asUint8List()
-      ,
-      Category()
+        ..name = 'Food'
+        ..id = 3
+        ..iconData = (await rootBundle.load('assets/mockdata/category_icons/food.svg')).buffer.asUint8List(),
+      CategoryDto()
         ..parentId = -1
-        ..name='Fun'
-        ..id=4
-        ..iconData=
-            (await rootBundle.load('assets/mockdata/category_icons/fun.svg'))
-                .buffer
-                .asUint8List(),
-      
-      Category()
+        ..name = 'Fun'
+        ..id = 4
+        ..iconData = (await rootBundle.load('assets/mockdata/category_icons/fun.svg')).buffer.asUint8List(),
+
+      CategoryDto()
         ..parentId = -1
-        ..name='Health'
-        ..id=5
-        ..iconData=
-            (await rootBundle.load('assets/mockdata/category_icons/health.svg'))
-                .buffer
-                .asUint8List()
-      ,
-      Category()
+        ..name = 'Health'
+        ..id = 5
+        ..iconData = (await rootBundle.load('assets/mockdata/category_icons/health.svg')).buffer.asUint8List(),
+      CategoryDto()
         ..parentId = -1
-        ..name='Services'
-        ..id=6
-        ..iconData=(await rootBundle
-                .load('assets/mockdata/category_icons/services.svg'))
-            .buffer
-            .asUint8List()
-      ,
-      Category()
+        ..name = 'Services'
+        ..id = 6
+        ..iconData = (await rootBundle.load('assets/mockdata/category_icons/services.svg')).buffer.asUint8List(),
+      CategoryDto()
         ..parentId = -1
-        ..name='Travel'
-        ..id=7
-        ..iconData=
-            (await rootBundle.load('assets/mockdata/category_icons/travel.svg'))
-                .buffer
-                .asUint8List()
-      ,
-      Category()
-        ..id=8
-        ..parentId=3
-        ..name='Grocery'
-      ,
-      Category()
-        ..id=9 
-        ..parentId=3 
-        ..name='Fast Food' 
-      ,
-      Category()
-        ..id=10 
-        ..parentId=3 
-        ..name='Candy',
-       
-      Category()
-        ..id=11 
-        ..parentId=3 
-        ..name='Dessert' 
-      ,
-      Category()
-        ..id=12 
-        ..parentId=3 
-        ..name='Coffee shop' 
-      ,
-      Category()
-        ..id=13 
-        ..parentId=3 
-        ..name='Bakeries' 
-      ,
-      Category()
-        ..id=14 
-        ..parentId=3 
-        ..name='other' 
-      ,
+        ..name = 'Travel'
+        ..id = 7
+        ..iconData = (await rootBundle.load('assets/mockdata/category_icons/travel.svg')).buffer.asUint8List(),
+      CategoryDto()
+        ..id = 8
+        ..parentId = 3
+        ..name = 'Grocery',
+      CategoryDto()
+        ..id = 9
+        ..parentId = 3
+        ..name = 'Fast Food',
+      CategoryDto()
+        ..id = 10
+        ..parentId = 3
+        ..name = 'Candy',
+
+      CategoryDto()
+        ..id = 11
+        ..parentId = 3
+        ..name = 'Dessert',
+      CategoryDto()
+        ..id = 12
+        ..parentId = 3
+        ..name = 'Coffee shop',
+      CategoryDto()
+        ..id = 13
+        ..parentId = 3
+        ..name = 'Bakeries',
+      CategoryDto()
+        ..id = 14
+        ..parentId = 3
+        ..name = 'other',
       // Cars
-      Category()
-        ..id=15 
-        ..parentId=0 
-        ..name='Race Cars' 
-      ,
-      Category()
-        ..id=16 
-        ..parentId=0 
-        ..name='Oldtimers' 
-      ,
-      Category()
-        ..id=17 
-        ..parentId=0 
-        ..name='Race Cars' 
-      ,
-      Category()
-        ..id=18 
-        ..parentId=0 
-        ..name='Car Tech' 
-      ,
+      CategoryDto()
+        ..id = 15
+        ..parentId = 0
+        ..name = 'Race Cars',
+      CategoryDto()
+        ..id = 16
+        ..parentId = 0
+        ..name = 'Oldtimers',
+      CategoryDto()
+        ..id = 17
+        ..parentId = 0
+        ..name = 'Race Cars',
+      CategoryDto()
+        ..id = 18
+        ..parentId = 0
+        ..name = 'Car Tech',
       // Drinks
-      Category()
-        ..id=19 
-        ..parentId=1 
-        ..name='Coffee' 
-      ,
-      Category()
-        ..id=20 
-        ..parentId=1 
-        ..name='Cocktails' 
-      ,
-      Category()
-        ..id=21 
-        ..parentId=1 
-        ..name='Smoothies' 
-      ,
+      CategoryDto()
+        ..id = 19
+        ..parentId = 1
+        ..name = 'Coffee',
+      CategoryDto()
+        ..id = 20
+        ..parentId = 1
+        ..name = 'Cocktails',
+      CategoryDto()
+        ..id = 21
+        ..parentId = 1
+        ..name = 'Smoothies',
 
       // Fashion
-      Category()
-        ..id=22 
-        ..parentId=2 
-        ..name='Beauty' 
-      ,
-      Category()
-        ..id=23 
-        ..parentId=2 
-        ..name='Models' 
-      ,
-      Category()
-        ..id=24 
-        ..parentId=2 
-        ..name='Shops' 
-      ,
+      CategoryDto()
+        ..id = 22
+        ..parentId = 2
+        ..name = 'Beauty',
+      CategoryDto()
+        ..id = 23
+        ..parentId = 2
+        ..name = 'Models',
+      CategoryDto()
+        ..id = 24
+        ..parentId = 2
+        ..name = 'Shops',
 
       // Fun
-      Category()
-        ..id=25 
-        ..parentId=4 
-        ..name='Clubs' 
-      ,
-      Category()
-        ..id=26 
-        ..parentId=4 
-        ..name='Movies' 
-      ,
-      Category()
-        ..id=27 
-        ..parentId=4 
-        ..name='Comics' 
-      ,
+      CategoryDto()
+        ..id = 25
+        ..parentId = 4
+        ..name = 'Clubs',
+      CategoryDto()
+        ..id = 26
+        ..parentId = 4
+        ..name = 'Movies',
+      CategoryDto()
+        ..id = 27
+        ..parentId = 4
+        ..name = 'Comics',
 
       // Health
-      Category()
-        ..id=28 
-        ..parentId=5 
-        ..name='Fitness' 
-      ,
-      Category()
-        ..id=29 
-        ..parentId=5 
-        ..name='Gym' 
-      ,
-      Category()
-        ..id=30 
-        ..parentId=5 
-        ..name='Doctors' 
-      ,
+      CategoryDto()
+        ..id = 28
+        ..parentId = 5
+        ..name = 'Fitness',
+      CategoryDto()
+        ..id = 29
+        ..parentId = 5
+        ..name = 'Gym',
+      CategoryDto()
+        ..id = 30
+        ..parentId = 5
+        ..name = 'Doctors',
       //Services
-      Category()
-        ..id=31 
-        ..parentId=6 
-        ..name='Finance' 
-      ,
-      Category()
-        ..id=31 
-        ..parentId=6 
-        ..name='Taxes' 
-      ,
-      Category()
-        ..id=32 
-        ..parentId=6 
-        ..name='Insurance' 
-      ,
+      CategoryDto()
+        ..id = 31
+        ..parentId = 6
+        ..name = 'Finance',
+      CategoryDto()
+        ..id = 31
+        ..parentId = 6
+        ..name = 'Taxes',
+      CategoryDto()
+        ..id = 32
+        ..parentId = 6
+        ..name = 'Insurance',
       // Travel
-      Category()
-        ..id=33 
-        ..parentId=7 
-        ..name='Asia' 
-      ,
-      Category()
-        ..id=34 
-        ..parentId=7 
-        ..name='Europe' 
-      ,
-      Category()
-        ..id=35 
-        ..parentId=7 
-        ..name='Italy' 
+      CategoryDto()
+        ..id = 33
+        ..parentId = 7
+        ..name = 'Asia',
+      CategoryDto()
+        ..id = 34
+        ..parentId = 7
+        ..name = 'Europe',
+      CategoryDto()
+        ..id = 35
+        ..parentId = 7
+        ..name = 'Italy'
     ];
 
-    deliverableIcons = <DeliverableIcon>[
-      DeliverableIcon()
-        ..name='Post' 
-        ..deliverableType=DeliverableType.post 
-        ..iconData=(await rootBundle
-                .load('assets/mockdata/delivery_type_icons/post_icon.svg'))
-            .buffer
-            .asUint8List() 
-      ,
-      DeliverableIcon()
-        ..name='Mention' 
-        ..deliverableType=DeliverableType.mention 
-        ..iconData=(await rootBundle
-                .load('assets/mockdata/delivery_type_icons/mention_icon.svg'))
-            .buffer
-            .asUint8List() 
-      ,
-      DeliverableIcon()
-        ..name='Video' 
-        ..deliverableType=DeliverableType.video 
-        ..iconData=(await rootBundle
-                .load('assets/mockdata/delivery_type_icons/video_icon.svg'))
-            .buffer
-            .asUint8List() 
-      ,
-      DeliverableIcon()
-        ..name='Custom' 
-        ..deliverableType=DeliverableType.customDeliverable 
-        ..iconData=(await rootBundle
-                .load('assets/mockdata/delivery_type_icons/custom_icon.svg'))
-            .buffer
-            .asUint8List(),
+    var deliverableIconDtos = <DeliverableIconDto>[
+      DeliverableIconDto()
+        ..name = 'Post'
+        ..deliverableType = DeliverableType.POST
+        ..iconData = (await rootBundle.load('assets/mockdata/delivery_type_icons/post_icon.svg')).buffer.asUint8List(),
+      DeliverableIconDto()
+        ..name = 'Mention'
+        ..deliverableType = DeliverableType.MENTION
+        ..iconData =
+            (await rootBundle.load('assets/mockdata/delivery_type_icons/mention_icon.svg')).buffer.asUint8List(),
+      DeliverableIconDto()
+        ..name = 'Video'
+        ..deliverableType = DeliverableType.VIDEO
+        ..iconData = (await rootBundle.load('assets/mockdata/delivery_type_icons/video_icon.svg')).buffer.asUint8List(),
+      DeliverableIconDto()
+        ..name = 'Custom'
+        ..deliverableType = DeliverableType.CUSTOM_DELIVERABLE
+        ..iconData =
+            (await rootBundle.load('assets/mockdata/delivery_type_icons/custom_icon.svg')).buffer.asUint8List(),
     ];
 
-    socialNetworkProviders = [
-      SocialNetworkProvider()
-          ..id=0 
-          ..logoColoredData=(await rootBundle.load('assets/images/logo_instagram.png')).buffer.asUint8List() 
-          ..logoMonochromeData=
-              (await rootBundle.load('assets/mockdata/social_media_icons/logo_instagram_monochrome.svg'))
-                  .buffer
-                  .asUint8List() 
-          ..logoBackgroundData=
-              (await rootBundle.load('assets/mockdata/social_media_icons/instagram_background.png'))
-                  .buffer
-                  .asUint8List() 
-          ..name='Instagramm',
-      SocialNetworkProvider()
-          ..id=1 
-          ..logoColoredData=(await rootBundle.load('assets/images/logo_facebook.svg')).buffer.asUint8List() 
-          ..logoMonochromeData=(await rootBundle.load('assets/mockdata/social_media_icons/logo_facebook_monochrome.svg'))
-              .buffer
-              .asUint8List() 
-          ..logoBackGroundColor=0xff4e71a8 
-          ..name='Facebook',
-      SocialNetworkProvider()
-          ..id=2 
-          ..logoColoredData=(await rootBundle.load('assets/images/logo_twitter.svg')).buffer.asUint8List() 
-          ..logoMonochromeData=(await rootBundle.load('assets/mockdata/social_media_icons/logo_twitter_monochrome.svg'))
-              .buffer
-              .asUint8List() 
-              ..logoBackGroundColor=0xff55acee 
-          ..name='Twitter',
-      SocialNetworkProvider()
-          ..id=3 
-          ..logoMonochromeData=(await rootBundle.load('assets/mockdata/social_media_icons/logo_youtube_monochrome.svg'))
-              .buffer
-              .asUint8List() 
-          ..logoBackGroundColor=0xffed1f24 
-          ..name='Youtube',
-      SocialNetworkProvider()
-          ..id=4 
-          ..logoMonochromeData=(await rootBundle.load('assets/mockdata/social_media_icons/logo_snapchat_monochrome.svg'))
-              .buffer
-              .asUint8List() 
-          ..logoBackGroundColor=0xfffffc00 
-          ..name='Snapchat' 
-    ];    
+    var socialNetworkProviderDtos = [
+      SocialNetworkProviderDto()
+        ..id = 0
+        ..logoColoredData = (await rootBundle.load('assets/images/logo_instagram.png')).buffer.asUint8List()
+        ..logoMonochromeData =
+            (await rootBundle.load('assets/mockdata/social_media_icons/logo_instagram_monochrome.svg'))
+                .buffer
+                .asUint8List()
+        ..logoBackgroundData =
+            (await rootBundle.load('assets/mockdata/social_media_icons/instagram_background.png')).buffer.asUint8List()
+        ..name = 'Instagramm',
+      SocialNetworkProviderDto()
+        ..id = 1
+        ..logoColoredData = (await rootBundle.load('assets/images/logo_facebook.svg')).buffer.asUint8List()
+        ..logoMonochromeData =
+            (await rootBundle.load('assets/mockdata/social_media_icons/logo_facebook_monochrome.svg'))
+                .buffer
+                .asUint8List()
+        ..logoBackGroundColor = 0xff4e71a8
+        ..name = 'Facebook',
+      SocialNetworkProviderDto()
+        ..id = 2
+        ..logoColoredData = (await rootBundle.load('assets/images/logo_twitter.svg')).buffer.asUint8List()
+        ..logoMonochromeData = (await rootBundle.load('assets/mockdata/social_media_icons/logo_twitter_monochrome.svg'))
+            .buffer
+            .asUint8List()
+        ..logoBackGroundColor = 0xff55acee
+        ..name = 'Twitter',
+      SocialNetworkProviderDto()
+        ..id = 3
+        ..logoMonochromeData = (await rootBundle.load('assets/mockdata/social_media_icons/logo_youtube_monochrome.svg'))
+            .buffer
+            .asUint8List()
+        ..logoBackGroundColor = 0xffed1f24
+        ..name = 'Youtube',
+      SocialNetworkProviderDto()
+        ..id = 4
+        ..logoMonochromeData =
+            (await rootBundle.load('assets/mockdata/social_media_icons/logo_snapchat_monochrome.svg'))
+                .buffer
+                .asUint8List()
+        ..logoBackGroundColor = 0xfffffc00
+        ..name = 'Snapchat'
+    ];
 
-
+    socialNetworkProviders = socialNetworkProviderDtos.map<SocialNetworkProvider>((dto) => SocialNetworkProvider(dto));
+    deliverableIcons = deliverableIconDtos.map<DeliverableIcon>((dto) => DeliverableIcon(dto));
+    categories = categoryDtos.map<Category>((dto) => Category(dto));
   }
 
   @override
   SocialNetworkProvider getSocialNetworkProviderById(int id) {
-      return socialNetworkProviders.where((provider) => provider.id == id).first;
+    return socialNetworkProviders.where((provider) => provider.id == id).first;
   }
 
+  @override
+  List<Category> getCategoriesFromIds(List<int> ids) {
+    // TODO: implement getCategoriesFromIds
+    return null;
+  }
 }

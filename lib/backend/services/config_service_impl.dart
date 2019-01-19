@@ -1,6 +1,9 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/config_service_.dart';
+import 'package:inf/domain/category.dart';
+import 'package:inf/domain/deliverable.dart';
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,11 +17,15 @@ class ConfigServiceImplementation implements ConfigService {
   @override
   List<SocialNetworkProvider> socialNetworkProviders;
 
-  AppConfigData configData;
+  AppConfigDto configData;
 
   @override
-  Stream<WelcomeImages> getWelcomePageProfileImages() {
-     return backend.get<InfApiClientsService>().configClient.getWelcomeImages(Empty());
+  Stream<List<String>> getWelcomePageProfileImages() {
+    return backend
+        .get<InfApiClientsService>()
+        .configClient
+        .getWelcomeImages(Empty())
+        .map<List<String>>((msg) => msg.imageUrls);
   }
 
   @override
@@ -37,13 +44,13 @@ class ConfigServiceImplementation implements ConfigService {
     final secureStorage = new FlutterSecureStorage();
 
     // Get locally stored AppConfig
-    var configJson = await secureStorage.read(key:'config');
+    var configJson = await secureStorage.read(key: 'config');
     if (configJson != null) {
-      configData = AppConfigData.fromJson(configJson);
+      configData = AppConfigDto.fromJson(configJson);
     }
 
     // Get curren Config and API version from server
-    var versionInformationFromSercer = await backend.get<InfApiClientsService>().configClient.getVersions(
+    var versionInformationFromServer = await backend.get<InfApiClientsService>().configClient.getVersions(
           Empty(),
           options: CallOptions(
             timeout: Duration(seconds: 5),
@@ -55,28 +62,36 @@ class ConfigServiceImplementation implements ConfigService {
     // we rolled a new API version this could lead to problems
     // better would be an in the App itself embedded API version that is set by the CI server
     var currentApiVersion = prefs.getInt('API_VERSION');
-    if (currentApiVersion != null && currentApiVersion < versionInformationFromSercer.apiVersion) {
+    if (currentApiVersion != null && currentApiVersion < versionInformationFromServer.versionInfo.apiVersion) {
       throw AppMustUpdateException();
     }
 
     if (currentApiVersion == null) {
-      await prefs.setInt('API_VERSION', versionInformationFromSercer.apiVersion);
+      await prefs.setInt('API_VERSION', versionInformationFromServer.versionInfo.apiVersion);
     }
 
     // local config does not exists or is outdated update from server
-    if (configData == null || configData.configVersion < versionInformationFromSercer.configVersion) {
-      configData = await backend.get<InfApiClientsService>().configClient.getAppConfig(Empty());
-      await secureStorage.write(key:'config',value: configData.writeToJson());
+    if (configData == null || configData.configVersion < versionInformationFromServer.versionInfo.configVersion) {
+      configData = (await backend.get<InfApiClientsService>().configClient.getAppConfig(Empty())).appConfigData;
+      await secureStorage.write(key: 'config', value: configData.writeToJson());
     }
 
-    socialNetworkProviders = configData.socialNetworkProviders;
-    deliverableIcons = configData.deliverableIcons;
-    categories = configData.categories;
-    print(versionInformationFromSercer);
+    socialNetworkProviders =
+        configData.socialNetworkProviders.map<SocialNetworkProvider>((dto) => SocialNetworkProvider(dto)).toList();
+    deliverableIcons = configData.deliverableIcons.map<DeliverableIcon>((dto) => DeliverableIcon(dto)).toList();
+    categories = configData.categories.map<Category>((dto) => Category(dto)).toList();
+    print(versionInformationFromServer);
   }
 
   @override
   SocialNetworkProvider getSocialNetworkProviderById(int id) {
     return socialNetworkProviders.where((provider) => provider.id == id).first;
   }
+
+  @override
+  List<Category> getCategoriesFromIds(List<int> ids) => categories
+      .where(
+        (category) => ids.contains(category.id),
+      )
+      .toList();
 }

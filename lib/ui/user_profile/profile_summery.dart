@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
-import 'package:inf/backend/backend.dart';
+import 'package:inf/domain/user.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
-import 'package:inf_api_client/inf_api_client.dart';
 
 class ProfileSummery extends StatelessWidget {
   final User user;
@@ -30,12 +29,12 @@ class ProfileSummery extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
 
     var rowItems = <Widget>[];
-    for (var activeProviderId in user.activeSocialMediaProviders) {
+    for (var socialMediaAccount in user.socialMediaAccounts) {
       rowItems.add(
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: InfMemoryImage(
-            backend.get<ConfigService>().getSocialNetworkProviderById(activeProviderId).logoMonochromeData,
+            socialMediaAccount.socialNetWorkProvider.logoMonochromeData,
             height: 20.0,
           ),
         ),
@@ -84,7 +83,8 @@ class ProfileSummery extends StatelessWidget {
 
                         // Dynamically update the social media icons
                         showSocialMedia
-                            ? Row(mainAxisSize: MainAxisSize.min,
+                            ? Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: rowItems,
                               )
                             : SizedBox(),

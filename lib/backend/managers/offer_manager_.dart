@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:inf/domain/category.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/utils/selection_set.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
@@ -21,12 +23,9 @@ abstract class OfferManager {
   Future<OfferFilter> getOfferFilter(OfferFilter filter);
 
   OfferBuilder getOfferBuilder();
-
 }
 
-
-class OfferBuilder
-{
+class OfferBuilder {
   List<File> imagesToUpLoad = <File>[];
   String title;
   String description;
@@ -43,5 +42,4 @@ class OfferBuilder
   int amountAvailable;
   bool unlimitedAvailable = false;
   AcceptancePolicy acceptancePolicy;
-
 }

@@ -9,7 +9,6 @@ import 'package:inf/ui/main/bottom_nav.dart';
 import 'package:inf/ui/main/browse_section.dart';
 import 'package:inf/ui/main/menu_drawer.dart';
 import 'package:inf/ui/main/page_mode.dart';
-import 'package:inf/ui/widgets/auth_state_listener_mixin.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';

@@ -38,9 +38,9 @@ class _WelcomePageState extends PageState<WelcomePage> {
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              StreamBuilder<WelcomeImages>(
+              StreamBuilder<List<String>>(
                 stream: backend.get<ConfigService>().getWelcomePageProfileImages(),
-                builder: (BuildContext context, AsyncSnapshot<WelcomeImages> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                   return snapshot.hasData ? _WelcomeWall(data: snapshot.data) : SizedBox();
                 },
               ),
@@ -89,9 +89,11 @@ class _WelcomePageState extends PageState<WelcomePage> {
                           textSpan: const TextSpan(
                             children: <TextSpan>[
                               TextSpan(text: 'Already got an account? '),
-                              TextSpan(text: 'Login', style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              )),
+                              TextSpan(
+                                  text: 'Login',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                  )),
                             ],
                           ),
                           color: Colors.transparent,
@@ -205,7 +207,7 @@ class _WelcomeWall extends StatefulWidget {
     @required this.data,
   }) : super(key: key);
 
-  final WelcomeImages data;
+  final List<String> data;
 
   @override
   _WelcomeWallState createState() => _WelcomeWallState();
@@ -219,8 +221,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_first) {
-      Iterable<Future> loadingImages =
-          widget.data.imageUrls.map<Future>((url) => precacheImage(NetworkImage(url), context));
+      Iterable<Future> loadingImages = widget.data.map<Future>((url) => precacheImage(NetworkImage(url), context));
       Future.wait(loadingImages).then((_) {
         if (mounted) {
           setState(() => _opacity = 0.5);
@@ -249,7 +250,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
               maxHeight: size.height,
               child: _WelcomeWallBackground(
                 speed: 24.0,
-                children: widget.data.imageUrls.map<Widget>((url) => _buildWallTile(url)).toList(growable: false),
+                children: widget.data.map<Widget>((url) => _buildWallTile(url)).toList(growable: false),
               ),
             ),
           ),

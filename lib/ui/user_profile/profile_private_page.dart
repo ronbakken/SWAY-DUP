@@ -3,6 +3,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/managers/user_manager_.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/user_profile/edit_profile_page.dart';
 import 'package:inf/ui/user_profile/profile_business_view.dart';
 import 'package:inf/ui/user_profile/profile_influencer_view.dart';
@@ -25,18 +26,19 @@ class ProfilePrivatePage extends StatefulWidget {
 }
 
 class ProfilePrivatePageState extends State<ProfilePrivatePage> {
-
   @override
-    void initState() {
-      backend.get<UserManager>().updateSocialMediaDataCommand();
-      super.initState();
-    }
+  void initState() {
+    //todo
+    //backend.get<UserManager>().updateUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final userManager = backend.get<UserManager>();
 
-    return Material(color: AppTheme.blackTwo,
+    return Material(
+      color: AppTheme.blackTwo,
       child: Stack(
         children: [
           SingleChildScrollView(

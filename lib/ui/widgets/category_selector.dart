@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/domain/category.dart';
 
 import 'package:inf/utils/selection_set.dart';
-import 'package:inf_api_client/inf_api_client.dart';
 
 class CategorySelector extends StatefulWidget {
   final Category topLevelCategory;
@@ -53,8 +53,7 @@ class _CategorySelectorState extends State<CategorySelector> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.topLevelCategory == null)
-    {
+    if (widget.topLevelCategory == null) {
       return SizedBox();
     }
 
@@ -80,10 +79,9 @@ class _CategorySelectorState extends State<CategorySelector> {
           });
         },
         text: 'Select all',
-        isSelected: widget.selectedCategories.values
-                .where((cat) => cat.parentId == widget.topLevelCategory.id)
-                .length ==
-            subCategories.length,
+        isSelected:
+            widget.selectedCategories.values.where((cat) => cat.parentId == widget.topLevelCategory.id).length ==
+                subCategories.length,
       ),
     );
 

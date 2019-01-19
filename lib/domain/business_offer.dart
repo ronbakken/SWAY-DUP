@@ -1,6 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:inf/domain/category.dart';
+import 'package:inf/domain/deliverable.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 enum BusinessOfferState {
@@ -17,7 +20,7 @@ enum BusinessOfferStateReason {
   completed // This offer has been completed by all applicants
 }
 
-enum AcceptancePolicy {manualReview, automaticAcceptMatching, allowNegotiation}
+enum AcceptancePolicy { manualReview, automaticAcceptMatching, allowNegotiation }
 
 class BusinessOffer {
   final int id;
@@ -71,35 +74,34 @@ class BusinessOffer {
 
   final AcceptancePolicy acceptancePolicy;
 
-  BusinessOffer({
-    this.id,
-    this.businessAccountId,
-    this.businessName,
-    this.businessDescription,
-    this.businessAvatarThumbnailUrl,
-    this.title,
-    this.description,
-    this.startDate,
-    this.endDate,
-    this.created,
-    this.isDirectOffer,
-    this.numberOfProposals,
-    this.numberOffered = 1,
-    this.numberRemaining,
-    this.thumbnailUrl,
-    this.thumbnailLowRes,
-    this.channels,
-    this.deliverables,
-    this.reward,
-    this.location,
-    this.coverUrls,
-    this.coverLowRes,
-    this.categories,
-    this.state,
-    this.stateReason,
-    this.influencerProposalId,
-    this.acceptancePolicy
-  });
+  BusinessOffer(
+      {this.id,
+      this.businessAccountId,
+      this.businessName,
+      this.businessDescription,
+      this.businessAvatarThumbnailUrl,
+      this.title,
+      this.description,
+      this.startDate,
+      this.endDate,
+      this.created,
+      this.isDirectOffer,
+      this.numberOfProposals,
+      this.numberOffered = 1,
+      this.numberRemaining,
+      this.thumbnailUrl,
+      this.thumbnailLowRes,
+      this.channels,
+      this.deliverables,
+      this.reward,
+      this.location,
+      this.coverUrls,
+      this.coverLowRes,
+      this.categories,
+      this.state,
+      this.stateReason,
+      this.influencerProposalId,
+      this.acceptancePolicy});
 
   BusinessOffer copyWith({
     int id,

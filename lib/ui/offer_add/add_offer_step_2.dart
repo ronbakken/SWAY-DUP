@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
@@ -8,7 +7,6 @@ import 'package:inf/ui/widgets/category_button.dart';
 import 'package:inf/ui/widgets/category_selector.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/help_button.dart';
-import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
@@ -16,7 +14,6 @@ import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
 import 'package:inf/ui/widgets/social_network_toggle_button.dart';
-import 'package:inf_api_client/inf_api_client.dart';
 
 class AddOfferStep2 extends StatefulWidget {
   const AddOfferStep2({

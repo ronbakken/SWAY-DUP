@@ -1,5 +1,6 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -54,7 +55,6 @@ abstract class AuthenticationService {
 
   User get currentUser;
   Observable<User> get currentUserUpdates;
-  Observable<List<SocialMediaAccount>> get currentUserSocialMediaUpdates;
 
   Future<bool> loginUserWithToken();
 
@@ -63,10 +63,6 @@ abstract class AuthenticationService {
 
   Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia);
   Future<void> updateUser(User user);
-
-  Future <void> updateSocialMediaAccounts();
-
-  Future<List<SocialMediaAccount>> getSocialMediaAccountsByUserId(int userId);
 
   /// After V1.0
   // Future<void> loginWithEmailPassword(String email, String password);

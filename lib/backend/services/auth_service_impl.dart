@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 import 'package:rxdart/rxdart.dart';
@@ -23,17 +24,12 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   BehaviorSubject<User> currentUserUpdatesSubject = BehaviorSubject<User>();
 
   @override
-  Observable<List<SocialMediaAccount>> get currentUserSocialMediaUpdates => currentUserSocialMediaUpdatesSubject;
-  BehaviorSubject<List<SocialMediaAccount>> currentUserSocialMediaUpdatesSubject =
-      BehaviorSubject<List<SocialMediaAccount>>();
-
-  @override
   Future<bool> loginUserWithToken() async {
     if (userTestToken != null) {
-      var tokenMessage = RefreshTokenMessage()..refreshToken = userTestToken;
-      var authResult = await backend.get<InfApiClientsService>().authClient.login(tokenMessage);
-      if (authResult.authorizationToken.isNotEmpty) {
-        _currentUser = authResult.userData;
+      var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = userTestToken;
+      var authResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
+      if (authResult.acessToken.isNotEmpty) {
+        _currentUser = User.fromDto(authResult.userData);
         currentUserUpdatesSubject.add(_currentUser);
         return true;
       } else {
@@ -76,23 +72,5 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia) {
     // TODO: implement updateSocialMediaAccount
     return null;
-  }
-
-  @override
-  Future<List<SocialMediaAccount>> getSocialMediaAccountsByUserId(int userId) async {
-    var accounts = await backend
-        .get<InfApiClientsService>()
-        .authClient
-        .getSocialMediaAccountsForUser(SocialMediaRequest()..userId = userId);
-    return accounts.accounts;
-  }
-
-  @override
-  Future<void> updateSocialMediaAccounts() async {
-    var accounts = await getSocialMediaAccountsByUserId(currentUser.id);
-    if (accounts != null)
-    {
-        currentUserSocialMediaUpdatesSubject.add(accounts);
-    }
   }
 }
