@@ -3,23 +3,6 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API.Interfaces";
 
-enum OAuthMechanism {
-  none = 0;
-  /// OAuth1, Twitter-like
-  OAUTH1 = 1;
-  /// OAuth2, Spotify-like
-  OAUTH2 = 2;
-
-}
-
-// Used for hardcoded specifics
-enum OAuthProviderIds {
-  instagram = 0;
-  twitter = 1;
-  facebook = 2;
-
-}
-
 enum AccountType {
   AT_UNKNOWN = 0;
   AT_INFLUENCER = 1;

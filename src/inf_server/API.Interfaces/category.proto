@@ -3,7 +3,7 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API.Interfaces";
 
-message Category {
+message CategoryDto {
     int32 id = 1;
 	// for top level categories this is set to -1
     int32 parentId = 2;

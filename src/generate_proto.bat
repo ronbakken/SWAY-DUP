@@ -13,5 +13,6 @@ protoc.exe ^
     inf_system.proto ^
     social_media_account.proto ^
     social_network_provider.proto ^
-    user.proto
+    user.proto ^
+    location.proto
 echo ...done

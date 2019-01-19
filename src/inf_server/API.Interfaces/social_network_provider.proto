@@ -4,15 +4,15 @@ package api;
 option csharp_namespace = "API.Interfaces";
 
 enum SocialNetworkProviderType {
-    instagram = 0;
-    facebook = 1;
-    twitter = 2;
-    youtube = 3;
-    snapchat = 4;
-    customSocialNetworkProvider = 5;
+    INSTAGRAM = 0;
+    FACEBOOK = 1;
+    TWITTER = 2;
+    YOUTUBE = 3;
+    SNAPCHAT = 4;
+    CUSTOM_SOCIALNET_WORK_PROVIDER = 5;
 }
 
-message SocialNetworkProvider {
+message SocialNetworkProviderDto {
     int32 id  = 1;
     SocialNetworkProviderType type = 2;
     string name = 3;

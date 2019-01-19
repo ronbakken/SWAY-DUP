@@ -4,14 +4,14 @@ package api;
 option csharp_namespace = "API.Interfaces";
 
 enum DeliverableType {
-    post = 0;
-    mention = 1;
-    video = 2;
-    customDeliverable = 3;
+    POST = 0;
+    MENTION = 1;
+    VIDEO = 2;
+    CUSTOM_DELIVERABLE = 3;
   }
 
 
-message DeliverableIcon
+message DeliverableIconDto
 {
     int32 id = 1;
     DeliverableType deliverableType = 2;
@@ -20,7 +20,7 @@ message DeliverableIcon
 }
 
 
-message Deliverable {
+message DeliverableDto {
     int32 id = 1;
     DeliverableType type = 2;
     string description = 3;

@@ -5,8 +5,11 @@ option csharp_namespace = "API.Interfaces";
 
 import "social_network_provider.proto";
 
-message SocialMediaAccount {
+message SocialMediaAccountDto {
+    // not sure if we still need an ID
     int32 id = 1;
+    // I guess we won't need this in the App but on the server it could be hand
+    // Maybe delete from proto?
     int64 lastUpdated = 2;
     SocialNetworkProviderType type = 3;
     string displayName = 4 ;
@@ -24,6 +27,8 @@ message SocialMediaAccount {
     int32 postsCount = 11;
     bool verified = 12;
 
+    // Not all of them will be set
+    // meaning depends on the type of Social Network Provider
     string accessToken = 13;
     string accessTokenSecret = 14;
     string refreshToken = 15;

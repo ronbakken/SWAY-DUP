@@ -6,19 +6,19 @@ option csharp_namespace = "API.Interfaces";
 import "empty.proto";
 
 service InfAdminInvitationCodes {
-    rpc Generate (Empty) returns (GenerateResponse) {}
-    rpc GetStatus (GetStatusRequest) returns (GetStatusResponse) {}
+    rpc GenerateInvitationCode (Empty) returns (GenerateInvitationCodeResponse) {}
+    rpc GetInvitationCodeStatus (GetInvitationCodeStatusRequest) returns (GetInvitationCodeStatusResponse) {}
 }
 
-message GenerateResponse {
+message GenerateInvitationCodeResponse {
     string invitationCode = 1;
 }
 
-message GetStatusRequest {
+message GetInvitationCodeStatusRequest {
     string invitationCode = 1;
 }
 
-message GetStatusResponse {
+message GetInvitationCodeStatusResponse {
     enum InvitationCodeStatus {
         DOES_NOT_EXIST = 0;
         PENDING_USE = 1;
