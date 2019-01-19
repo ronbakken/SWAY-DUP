@@ -99,14 +99,15 @@ class _AppInfluencerState extends AppCommonState<AppInfluencer> {
             },
             onApply: (String remarks) async {
               // TODO: Add terms (negotiate variant)
-              final DataProposal proposal = await wrapProgressAndError<DataProposal>(
+              final DataProposal proposal =
+                  await wrapProgressAndError<DataProposal>(
                 context: context,
                 progressBuilder:
                     genericProgressBuilder(message: 'Applying for offer...'),
                 errorBuilder:
                     genericMessageBuilder(title: 'Failed to apply for offer'),
                 task: () async {
-                return await network.applyProposal(offerId, remarks);
+                  return await network.applyProposal(offerId, remarks);
                 },
               );
               navigateToProposal(proposal.proposalId);
