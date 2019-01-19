@@ -815,12 +815,15 @@ class ApiAccountService extends ApiAccountServiceBase {
     }
 
     // Notify push service that the old firebase token is no longer valid
-    await bc.accountFirebaseTokensChanged(auth.accountId, auth.sessionId, request);
-    
-    await accountDb.prepareExecute('UPDATE `sessions` SET `firebase_token`= ? WHERE `session_id` = ?', <dynamic>[
-      request.firebaseToken.toString(),
-      auth.sessionId,
-    ]);
+    await bc.accountFirebaseTokensChanged(
+        auth.accountId, auth.sessionId, request);
+
+    await accountDb.prepareExecute(
+        'UPDATE `sessions` SET `firebase_token`= ? WHERE `session_id` = ?',
+        <dynamic>[
+          request.firebaseToken.toString(),
+          auth.sessionId,
+        ]);
 
     final NetAccount account = NetAccount();
     account.account =

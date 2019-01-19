@@ -52,11 +52,13 @@ class ApiOAuthService extends ApiOAuthServiceBase {
                 .getResourceOwnerAuthorizationURI(authRes.credentials.token);
             final Uri authUri = Uri.parse(authUrl);
             final Map<String, String> query = authUri.queryParameters;
-            final Map<String, String> queryExt = Uri.splitQueryString(provider.authenticateQuery);
+            final Map<String, String> queryExt =
+                Uri.splitQueryString(provider.authenticateQuery);
             for (MapEntry<String, String> param in query.entries) {
               queryExt[param.key] = param.value;
             }
-            final String authUrlExt = authUri.replace(queryParameters: queryExt).toString();
+            final String authUrlExt =
+                authUri.replace(queryParameters: queryExt).toString();
             final NetOAuthUrl response = NetOAuthUrl();
             devLog.finest('$authUrl -> $authUrlExt');
             response.authUrl = authUrlExt;
