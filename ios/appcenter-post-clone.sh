@@ -3,18 +3,13 @@ set -e
 set -x
 
 echo `pwd`
-ls -al
 mkdir ~/.ssh
-ls -al ~/.ssh/
-cat ~/.ssh/config
 cp ./ssh/* ~/.ssh/
-ls -al ~/.ssh/
-cat ~/.ssh/config
 chmod 600 ~/.ssh/*
 ls -al ~/.ssh/
-rm assets/config.bin
 
 # Use sandbox configuration
+rm assets/config.bin
 cp assets/config_ats3.bin assets/config.bin
 # cp android/key.properties.infsandbox android/key.properties
 
