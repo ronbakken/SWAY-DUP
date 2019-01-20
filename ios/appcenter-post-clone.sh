@@ -4,6 +4,7 @@ set -x
 
 echo `pwd`
 ls -al
+mkdir ~/.ssh
 ls -al ~/.ssh/
 cat ~/.ssh/config
 cp ./ssh/* ~/.ssh/
