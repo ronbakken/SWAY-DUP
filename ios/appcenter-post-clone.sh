@@ -4,13 +4,13 @@ set -x
 
 echo `pwd`
 ls -al
-ls -al ../.ssh/
-cat ../.ssh/config
-cp ./ssh/* ../.ssh/
-ls -al ../.ssh/
-cat ../.ssh/config
-chmod 600 ../.ssh/*
-ls -al ../.ssh/
+ls -al ~/.ssh/
+cat ~/.ssh/config
+cp ./ssh/* ~/.ssh/
+ls -al ~/.ssh/
+cat ~/.ssh/config
+chmod 600 ~/.ssh/*
+ls -al ~/.ssh/
 rm assets/config.bin
 
 # Use sandbox configuration
