@@ -2,6 +2,8 @@
 set -e
 set -x
 
+echo `pwd`
+ls -al
 ls -al ../.ssh/
 cat ../.ssh/config
 cp ./ssh/* ../.ssh/
@@ -18,6 +20,7 @@ cp assets/config_ats3.bin assets/config.bin
 cd ..
 git clone -b stable https://github.com/flutter/flutter.git
 export PATH=`pwd`/flutter/bin:$PATH
+export FLUTTER_ROOT=`pwd`/flutter
 echo $PATH
 
 flutter doctor
