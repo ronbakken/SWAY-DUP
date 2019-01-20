@@ -29,10 +29,12 @@ dependencies:
   flutter_twitter_login:
     git: https://github.com/dlutton/flutter_twitter_login.git
 
+  permission_handler: ^2.1.2
+
   circle_indicator:
     git: https://github.com/nbspou/circle_indicator.git
 
-  flutter_webview_plugin: ^0.2.1+2
+  flutter_webview_plugin: ^0.3.0
   cached_network_image: ^0.4.2
   flutter_svg: ^0.10.0
 

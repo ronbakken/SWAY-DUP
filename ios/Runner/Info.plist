@@ -80,5 +80,9 @@
 		<string>twitter</string>
 		<string>twitterauth</string>
 	</array>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>firebase_crash_collection_enabled</key>
+	<false/>
 </dict>
 </plist>
