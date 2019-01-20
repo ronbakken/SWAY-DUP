@@ -30,4 +30,7 @@ flutter doctor
 
 pod repo update
 
+xcode-select -p
+sudo xcode-select /Applications/Xcode_10.1.app/Contents/Developer
+
 flutter build ios --release --no-codesign
