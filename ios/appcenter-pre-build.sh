@@ -3,7 +3,7 @@ set -e
 set -x
 
 cd ..
-export PATH=pwd/flutter/bin:$PATH
+export PATH=`pwd`/flutter/bin:$PATH
 export FLUTTER_ROOT=`pwd`/flutter
 
 flutter doctor
