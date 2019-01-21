@@ -22,8 +22,13 @@
     <ItemGroup>
         <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Grpc" />
+        <PackageReference Include="Grpc.Core.Testing" />
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Sendgrid" />
+
+        <PackageReference Include="Genesis.TestUtil" />
+        <PackageReference Include="Moq" />
+        <PackageReference Include="xunit" />
     </ItemGroup>
 
     <ItemGroup>

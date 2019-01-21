@@ -22,22 +22,27 @@ namespace API.Services.Auth
 {
     public sealed class InfAuthImpl : InfAuthBase
     {
-        private sealed class VerifyEmailTemplateData
+        public override async Task<Empty> SendLoginEmail(SendLoginEmailRequest request, ServerCallContext context)
         {
-            [JsonProperty("name")]
-            public string Name { get; set; }
-
-            [JsonProperty("link")]
-            public string Link { get; set; }
+            await SendLoginEmailImpl(
+                request,
+                ServiceFabricUserActorFactory.Instance,
+                new SendGridEmailService(),
+                context.CancellationToken);
+            return Empty.Instance;
         }
 
-        public override async Task<Empty> SendLoginEmail(SendLoginEmailRequest request, ServerCallContext context)
+        internal async Task SendLoginEmailImpl(
+            SendLoginEmailRequest request,
+            IUserActorFactory userActorFactory,
+            IEmailService emailService,
+            CancellationToken cancellationToken)
         {
             Log("SendLoginEmail.");
 
             Log("Getting user data.");
             var userId = request.Email;
-            var user = GetUserActor(userId);
+            var user = userActorFactory.Get(userId);
             var userData = await user.GetData();
 
             Log("Generating login token.");
@@ -54,13 +59,11 @@ namespace API.Services.Auth
 
             Log("Sending verification email.");
             var link = $"https://infmarketplace.com/app/verify?token={loginToken}";
-            await SendEmailVerificationEmail(
+            await emailService.SendVerificationEmail(
                 userId,
                 userData.Name ?? userId,
                 link,
-                context.CancellationToken);
-
-            return Empty.Instance;
+                cancellationToken);
         }
 
         public override async Task<CreateNewUserResponse> CreateNewUser(CreateNewUserRequest request, ServerCallContext context)
@@ -141,10 +144,14 @@ namespace API.Services.Auth
             Log("Generating refresh token.");
             var refreshToken = TokenManager.GenerateRefreshToken(userId, userType);
 
+            Log("Associating refresh token with user.");
+            var refreshTokenActor = GetRefreshTokenActor(refreshToken);
+            var deviceId = await refreshTokenActor.GetAssociatedDeviceId();
+            await refreshTokenActor.Associate(userId, deviceId);
+
             Log("Updating user data.");
             userData = userData.With(
-                loginToken: Option.Some<string>(null),
-                refreshTokens: Option.Some(userData.RefreshTokens.Add(refreshToken)));
+                loginToken: Option.Some<string>(null));
             await user.SetData(userData);
 
             var result = new LoginWithLoginTokenResponse
@@ -169,9 +176,13 @@ namespace API.Services.Auth
             var user = GetUserActor(userId);
             var userData = await user.GetData();
 
-            if (!userData.RefreshTokens.Contains(refreshToken))
+            Log("Validating refresh token.");
+            var refreshTokenActor = GetRefreshTokenActor(refreshToken);
+            var associatedUserId = await refreshTokenActor.GetAssociatedUserId();
+
+            if (associatedUserId != userId)
             {
-                throw new InvalidOperationException("Refresh token has been invalidated.");
+                throw new InvalidOperationException("Refresh token is invalid.");
             }
 
             Log("Generating access token.");

@@ -109,9 +109,6 @@ namespace User.Interfaces
         [DataMember]
         public string LoginToken { get; private set; }
 
-        [DataMember]
-        public ImmutableList<string> RefreshTokens { get; private set; }
-
         public UserData With(
             Option<UserType> type = default,
             Option<UserStatus> status = default,
@@ -128,8 +125,7 @@ namespace User.Interfaces
             Option<int> minimalFee = default,
             Option<ImmutableList<int>> categoryIds = default,
             Option<ImmutableList<SocialMediaAccount>> socialMediaAccounts = default,
-            Option<string> loginToken = default,
-            Option<ImmutableList<string>> refreshTokens = default) =>
+            Option<string> loginToken = default) =>
             new UserData(
                 type.ValueOr(Type),
                 status.ValueOr(Status),
