@@ -1,7 +1,7 @@
 ﻿using API.Interfaces;
 using User.Interfaces;
 
-namespace API.Services
+namespace API.Services.Auth
 {
     public static class LocationExtensions
     {

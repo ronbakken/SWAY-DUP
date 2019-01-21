@@ -2,7 +2,7 @@
 using static API.Interfaces.GetInvitationCodeStatusResponse.Types;
 using Service = InvitationCodeManager.Interfaces;
 
-namespace API.Services
+namespace API.Services.InvitationCodes
 {
     public static class InvitationCodeStatusExtensions
     {

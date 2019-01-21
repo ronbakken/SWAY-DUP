@@ -4,7 +4,7 @@ using API.Interfaces;
 using Google.Protobuf;
 using User.Interfaces;
 
-namespace API.Services
+namespace API.Services.Auth
 {
     public static class UserDataExtensions
     {

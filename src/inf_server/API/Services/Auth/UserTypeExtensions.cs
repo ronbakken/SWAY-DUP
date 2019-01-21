@@ -2,7 +2,7 @@
 using User.Interfaces;
 using api = API.Interfaces;
 
-namespace API.Services
+namespace API.Services.Auth
 {
     public static class UserTypeExtensions
     {

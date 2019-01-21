@@ -18,7 +18,7 @@ using User.Interfaces;
 using Utility;
 using static API.Interfaces.InfAuth;
 
-namespace API.Services
+namespace API.Services.Auth
 {
     public sealed class InfAuthImpl : InfAuthBase
     {

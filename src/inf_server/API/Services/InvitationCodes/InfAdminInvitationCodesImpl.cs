@@ -7,7 +7,7 @@ using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using static API.Interfaces.InfAdminInvitationCodes;
 
-namespace API.Services
+namespace API.Services.InvitationCodes
 {
     public sealed class InfAdminInvitationCodesImpl : InfAdminInvitationCodesBase
     {

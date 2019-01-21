@@ -115,7 +115,7 @@ Task("Deploy")
         {
             // Build and deploy the Service Fabric application itself.
             Information("Restoring packages.");
-            DotNetCoreRestore(srcDir);
+            DotNetCoreRestore(srcDir + File("server.sln"));
 
             void PublishService(string serviceName)
             {
