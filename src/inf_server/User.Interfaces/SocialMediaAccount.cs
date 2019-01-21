@@ -6,7 +6,7 @@ namespace User.Interfaces
     public sealed class SocialMediaAccount
     {
         public SocialMediaAccount(
-            SocialNetworkProviderType type,
+            int socialNetworkProviderId,
             string displayName,
             string profileUri,
             string description,
@@ -19,7 +19,7 @@ namespace User.Interfaces
             string accessTokenSecret,
             string refreshToken)
         {
-            this.Type = type;
+            this.SocialNetworkProviderId = socialNetworkProviderId;
             this.DisplayName = displayName;
             this.ProfileUri = profileUri;
             this.Description = description;
@@ -34,7 +34,7 @@ namespace User.Interfaces
         }
 
         [DataMember]
-        public SocialNetworkProviderType Type { get; private set; }
+        public int SocialNetworkProviderId { get; private set; }
 
         [DataMember]
         public string DisplayName { get; private set; }

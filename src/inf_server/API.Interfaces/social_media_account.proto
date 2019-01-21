@@ -3,10 +3,7 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API.Interfaces";
 
-import "social_network_provider.proto";
-
 message SocialMediaAccountDto {
-    SocialNetworkProviderType type = 3;
     string displayName = 4 ;
     int32 socialNetworkProviderId = 5;
 
@@ -16,7 +13,7 @@ message SocialMediaAccountDto {
     string description = 7;
     string email = 8;
     string userId = 9;
-    // for facebook we need to acess the page of the user 
+    // for facebook we need to acess the page of the user
     string pageId = 10;
 
     // The I think we should go away from showing follower counts to a sort of rating

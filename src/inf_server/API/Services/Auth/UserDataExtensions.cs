@@ -1,7 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
 using API.Interfaces;
-using Google.Protobuf;
 using User.Interfaces;
 
 namespace API.Services.Auth
@@ -20,10 +19,8 @@ namespace API.Services.Auth
                 AcceptsDirectOffers = @this.AcceptsDirectOffers,
                 AccountCompletionInPercent = @this.AccountCompletionInPercent,
                 AccountState = @this.Status.ToDto(),
-                AvatarLowRes = @this.Avatar?.LowRes == null ? null : ByteString.CopyFrom(@this.Avatar.LowRes.ToArray()),
-                AvatarThumbnailLowRes = @this.Avatar?.ThumbnailLowRes == null ? null : ByteString.CopyFrom(@this.Avatar.ThumbnailLowRes.ToArray()),
-                AvatarThumbnailUrl = @this.Avatar?.ThumbnailUri,
-                AvatarUrl = @this.Avatar?.Uri,
+                Avatar = @this.Avatar?.ToDto(),
+                AvatarThumbnail = @this.AvatarThumbnail?.ToDto(),
                 Description = @this.Description,
                 Email = userId,
                 Location = @this.Location.ToDto(),
@@ -54,7 +51,8 @@ namespace API.Services.Auth
                 @this.AccountState.ToService(),
                 @this.Name,
                 @this.Description,
-                @this.ToService(),
+                @this.Avatar.ToService(),
+                @this.AvatarThumbnail.ToService(),
                 @this.Location.ToService(),
                 @this.LocationAsString,
                 @this.ShowLocation,

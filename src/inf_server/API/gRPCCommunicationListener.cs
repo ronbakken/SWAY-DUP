@@ -52,9 +52,7 @@ namespace API
                     InfAuth.BindService(new InfAuthImpl()).Intercept(authorizationInterceptor),
                     InfConfig.BindService(new Mocks.InfConfigImpl()).Intercept(authorizationInterceptor),
                     InfSystem.BindService(new Mocks.InfSystemImpl()).Intercept(authorizationInterceptor),
-
-                    // Admin APIs
-                    InfAdminInvitationCodes.BindService(new InfAdminInvitationCodesImpl()).Intercept(authorizationInterceptor),
+                    InfInvitationCodes.BindService(new InfInvitationCodesImpl()).Intercept(authorizationInterceptor),
                 },
                 Ports =
                 {

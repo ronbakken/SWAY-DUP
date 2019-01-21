@@ -280,7 +280,7 @@ namespace API.Services.Mocks
                                 "./icons/logo_instagram_monochrome.svg"),
                         LogoBackgroundData =
                             MockHelpers.ReadIconData("./icons/instagram_background.png"),
-                        Name = "Instagramm",
+                        Name = "Instagram",
                         ApiKey ="ce0aaa7e065f4d6cbbb85055ce98cdfc"
                     },
                     new SocialNetworkProviderDto
@@ -316,7 +316,7 @@ namespace API.Services.Mocks
                             MockHelpers.ReadIconData(
                                 "./icons/logo_youtube_monochrome.svg"),
                         LogoBackGroundColor = 0xffed1f24,
-                        Name = "Youtube"
+                        Name = "YouTube"
                     },
                     new SocialNetworkProviderDto
                     {
@@ -374,15 +374,16 @@ namespace API.Services.Mocks
                     AcceptsDirectOffers = true,
                     Name = "Thomas",
                     UserType = UserType.Business,
-                    AvatarUrl =
-                        "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fbusiness_profile.jpg?alt=media&token=85106a2a-f1da-45b3-b78f-2cbc1315c124",
-                    AvatarThumbnailUrl =
-                        "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fbusiness_profile_small.png?alt=media&token=450f8980-a0b2-4e12-91d7-40ca73568e06",
-                    AvatarThumbnailLowRes =
-                        MockHelpers.ReadIconData(
-                            "./icons/business_profile_thumbnail_lowres.png"),
-                    AvatarLowRes = MockHelpers.ReadIconData(
-                        "./icons/business_profile_lowres.png"),
+                    Avatar = new ImageDto
+                    {
+                        Url = "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fbusiness_profile.jpg?alt=media&token=85106a2a-f1da-45b3-b78f-2cbc1315c124",
+                        LowResData = MockHelpers.ReadIconData("./icons/business_profile_lowres.png"),
+                    },
+                    AvatarThumbnail = new ImageDto
+                    {
+                        Url = "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fbusiness_profile_small.png?alt=media&token=450f8980-a0b2-4e12-91d7-40ca73568e06",
+                        LowResData = MockHelpers.ReadIconData("./icons/business_profile_thumbnail_lowres.png"),
+                    },
                     AccountState = AccountState.Active,
                     CategoryIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
@@ -403,15 +404,16 @@ namespace API.Services.Mocks
                     AcceptsDirectOffers = true,
                     UserType = UserType.Influencer,
                     MinimalFee = 500,
-                    AvatarUrl =
-                        "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile.jpeg?alt=media&token=73d4e16d-b4dc-4527-821e-9565cd5f6c01",
-                    AvatarThumbnailUrl =
-                        "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78",
-                    AvatarThumbnailLowRes =
-                        MockHelpers.ReadIconData(
-                            "./icons/inf_profile_thumbnail_lowres.png"),
-                    AvatarLowRes = MockHelpers.ReadIconData(
-                        "./icons/inf_profile_lowres.png"),
+                    Avatar = new ImageDto
+                    {
+                        Url = "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile.jpeg?alt=media&token=73d4e16d-b4dc-4527-821e-9565cd5f6c01",
+                        LowResData = MockHelpers.ReadIconData("./icons/inf_profile_lowres.png"),
+                    },
+                    AvatarThumbnail = new ImageDto
+                    {
+                        Url = "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78",
+                        LowResData = MockHelpers.ReadIconData("./icons/inf_profile_thumbnail_lowres.png"),
+                    },
                     AccountState = AccountState.Active,
                     CategoryIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
@@ -427,7 +429,6 @@ namespace API.Services.Mocks
                     SocialMediaAccounts = {
                         new SocialMediaAccountDto
                         {
-                            Type = SocialNetworkProviderType.Instagram,
                             SocialNetworkProviderId = 0,
                             ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                             DisplayName = "Thomas Burkhart",
@@ -436,7 +437,6 @@ namespace API.Services.Mocks
                         },
                         new SocialMediaAccountDto
                         {
-                            Type = SocialNetworkProviderType.Facebook,
                             SocialNetworkProviderId = 1,
                             ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                             DisplayName = "Thomas Burkhart",
@@ -445,7 +445,6 @@ namespace API.Services.Mocks
                         },
                         new SocialMediaAccountDto
                         {
-                            Type = SocialNetworkProviderType.Twitter,
                             SocialNetworkProviderId = 2,
                             ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                             DisplayName = "Thomas Burkhart",
@@ -454,7 +453,6 @@ namespace API.Services.Mocks
                         },
                         new SocialMediaAccountDto
                         {
-                            Type = SocialNetworkProviderType.Snapchat,
                             SocialNetworkProviderId = 4,
                             ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                             DisplayName = "Thomas Burkhart",
@@ -463,7 +461,6 @@ namespace API.Services.Mocks
                         },
                         new SocialMediaAccountDto
                         {
-                            Type = SocialNetworkProviderType.YouTube,
                             SocialNetworkProviderId = 3,
                             ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                             DisplayName = "Thomas Burkhart",

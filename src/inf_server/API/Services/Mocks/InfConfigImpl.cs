@@ -14,8 +14,6 @@ namespace API.Services.Mocks
             return Task.FromResult(new GetAppConfigResponse { AppConfigData = DatabaseMock.Instance().GetAppConfigData() });
         }
 
-
-
         public override Task<GetVersionsResponse> GetVersions(Empty request, ServerCallContext context)
         {
             Console.WriteLine("InfConfigImpl.GetVersions called");
@@ -56,7 +54,6 @@ namespace API.Services.Mocks
                 "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fwelcome_screen_images%2F15.jpg?alt=media&token=8f89aa79-40cb-4de5-97b0-e44fbf64f3d6",
 
             };
-
 
             while (!context.CancellationToken.IsCancellationRequested)
             {

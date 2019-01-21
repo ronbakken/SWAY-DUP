@@ -23,6 +23,7 @@ namespace User.Interfaces
             default,
             default,
             default,
+            default,
             default);
 
         public UserData(
@@ -30,7 +31,8 @@ namespace User.Interfaces
             UserStatus status,
             string name,
             string description,
-            Avatar avatar,
+            Image avatar,
+            Image avatarThumbnail,
             Location location,
             string locationAsString,
             bool showLocation,
@@ -48,6 +50,7 @@ namespace User.Interfaces
             this.Name = name;
             this.Description = description;
             this.Avatar = avatar;
+            this.AvatarThumbnail = avatarThumbnail;
             this.Location = location;
             this.LocationAsString = locationAsString;
             this.ShowLocation = showLocation;
@@ -74,7 +77,10 @@ namespace User.Interfaces
         public string Description { get; private set; }
 
         [DataMember]
-        public Avatar Avatar { get; private set; }
+        public Image Avatar { get; private set; }
+
+        [DataMember]
+        public Image AvatarThumbnail { get; private set; }
 
         [DataMember]
         public Location Location { get; private set; }
@@ -114,7 +120,8 @@ namespace User.Interfaces
             Option<UserStatus> status = default,
             Option<string> name = default,
             Option<string> description = default,
-            Option<Avatar> avatar = default,
+            Option<Image> avatar = default,
+            Option<Image> avatarThumbnail = default,
             Option<Location> location = default,
             Option<string> locationAsString = default,
             Option<bool> showLocation = default,
@@ -132,6 +139,7 @@ namespace User.Interfaces
                 name.ValueOr(Name),
                 description.ValueOr(Description),
                 avatar.ValueOr(Avatar),
+                avatarThumbnail.ValueOr(AvatarThumbnail),
                 location.ValueOr(Location),
                 locationAsString.ValueOr(LocationAsString),
                 showLocation.ValueOr(ShowLocation),

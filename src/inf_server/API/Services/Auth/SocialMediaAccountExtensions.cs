@@ -23,8 +23,7 @@ namespace API.Services.Auth
                 PostCount = @this.PostCount,
                 ProfileUrl = @this.ProfileUri,
                 RefreshToken = @this.RefreshToken,
-                //SocialNetworkProviderId = @this.soci
-                Type = @this.Type.ToDto(),
+                SocialNetworkProviderId = @this.SocialNetworkProviderId,
                 UserId = @this.UserId,
                 Verified = @this.Verified,
             };
@@ -38,7 +37,7 @@ namespace API.Services.Auth
             }
 
             return new SocialMediaAccount(
-                @this.Type.ToService(),
+                @this.SocialNetworkProviderId,
                 @this.DisplayName,
                 @this.ProfileUrl,
                 @this.Description,

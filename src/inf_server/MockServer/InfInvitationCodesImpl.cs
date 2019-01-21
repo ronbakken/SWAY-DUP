@@ -5,7 +5,7 @@ using Grpc.Core;
 
 namespace MockServer
 {
-    public class InvitationCodesImpl : InvitationCodes.InvitationCodesBase
+    public class InfInvitationCodesImpl : InfInvitationCodes.InfInvitationCodesBase
     {
         public override Task<GenerateInvitationCodeResponse> GenerateInvitationCode(Empty request, ServerCallContext context)
         {

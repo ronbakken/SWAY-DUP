@@ -3,8 +3,6 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API.Interfaces";
 
-import "empty.proto";
-
 service InfBlobStorage {
   // Returns a signed url to an file on azure blob storage for write access
   // if 'fileToReplaceUrl' in the request is set it returns an url to replace
@@ -15,7 +13,7 @@ service InfBlobStorage {
 }
 
 message GetUploadUrlRequest {
-  string fileToReplaceUrl =1;
+  string fileToReplaceUrl = 1;
 }
 
 message GetUploadUrlResponse {

@@ -5,6 +5,7 @@ option csharp_namespace = "API.Interfaces";
 
 import "social_media_account.proto";
 import "location.proto";
+import "image.proto";
 
 enum UserType {
     influencer = 0;
@@ -46,12 +47,10 @@ message UserDto {
     int32 accountCompletionInPercent = 11;
     string locationAsString = 12;
     LocationDto location = 13;
-    string avatarThumbnailUrl = 14;
-    bytes avatarThumbnailLowRes = 15;
-    string avatarUrl = 16;
-    bytes avatarLowRes = 17;
-    repeated int32 categoryIds = 18;
-    int32 minimalFee = 19;
+    ImageDto avatar = 14;
+    ImageDto avatarThumbnail = 15;
+    repeated int32 categoryIds = 16;
+    int32 minimalFee = 17;
 
-    repeated SocialMediaAccountDto socialMediaAccounts = 26;
+    repeated SocialMediaAccountDto socialMediaAccounts = 25;
 }

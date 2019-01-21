@@ -5,11 +5,11 @@ using Grpc.Core;
 using InvitationCodeManager.Interfaces;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
-using static API.Interfaces.InfAdminInvitationCodes;
+using static API.Interfaces.InfInvitationCodes;
 
 namespace API.Services.InvitationCodes
 {
-    public sealed class InfAdminInvitationCodesImpl : InfAdminInvitationCodesBase
+    public sealed class InfInvitationCodesImpl : InfInvitationCodesBase
     {
         public override async Task<GenerateInvitationCodeResponse> GenerateInvitationCode(Empty request, ServerCallContext context)
         {
