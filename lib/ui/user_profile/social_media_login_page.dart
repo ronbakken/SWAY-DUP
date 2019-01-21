@@ -2,11 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
+import 'package:inf/domain/domain.dart';
 
 
 
-
+Future<SocialMediaAccount> connectToSocialMediaAccount(SocialNetworkProvider provider, BuildContext context) async 
+{
+  return SocialMediaAccount();
+}
 
 
 class OAuthSettings {

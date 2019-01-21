@@ -4,10 +4,8 @@ import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class SocialMediaAccount {
-  final int id;
   final String displayName;
   final SocialNetworkProvider socialNetWorkProvider;
-  final SocialNetworkProviderType type;
 
   final String profileUrl;
   final String description;
@@ -24,8 +22,7 @@ class SocialMediaAccount {
   final String refreshToken;
 
   SocialMediaAccount(
-      {this.id,
-      this.type,
+      {
       this.socialNetWorkProvider,
       this.displayName,
       this.userId,
@@ -37,8 +34,7 @@ class SocialMediaAccount {
       this.verified,
       this.accessToken,
       this.accessTokenSecret,
-      this.refreshToken})
-      : assert(id != null);
+      this.refreshToken});
 
   SocialMediaAccount copyWith({
     int id,
@@ -57,8 +53,6 @@ class SocialMediaAccount {
     String refreshToken,
   }) {
     return SocialMediaAccount(
-      id: id ?? this.id,
-      type: type ?? this.type,
       socialNetWorkProvider: socialNetWorkProvider ?? this.socialNetWorkProvider,
       displayName: displayName ?? this.displayName,
       userId: userId ?? this.userId,
@@ -75,8 +69,6 @@ class SocialMediaAccount {
 
   static SocialMediaAccount fromDto(SocialMediaAccountDto dto) {
     return SocialMediaAccount(
-      id: dto.id,
-      type: dto.type,
       socialNetWorkProvider: backend.get<ConfigService>().getSocialNetworkProviderById(
             dto.socialNetworkProviderId,
           ),
@@ -86,10 +78,28 @@ class SocialMediaAccount {
       description: dto.description,
       email: dto.email,
       audienceSize: dto.audienceSize,
-      postsCount: dto.postsCount,
+      postsCount: dto.postCount,
       accessToken: dto.accessToken,
       accessTokenSecret: dto.accessTokenSecret,
       refreshToken: dto.refreshToken,
     );
   }
+
+   String audienceSizeAsString() {
+    if(audienceSize < 0)
+    {
+      return 'NA';
+    }
+    if (audienceSize < 1100) {
+      return audienceSize.toString();
+    }
+    if (audienceSize < 1100000) {
+      double doubleCount = audienceSize / 1000;
+      return '${doubleCount.toStringAsFixed(1)}k';
+    } else {
+      double doubleCount = audienceSize / 1000000;
+      return '${doubleCount.toStringAsFixed(1)}m';
+    }
+  }
+
 }

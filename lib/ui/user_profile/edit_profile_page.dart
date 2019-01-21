@@ -57,7 +57,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           Text("MANAGE YOUR SOCIAL ACCOUNTS",
                               textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
                           SizedBox(height: 8),
-                          EditSocialMediaView(),
+                          EditSocialMediaView(socialMediaAccounts: user.socialMediaAccounts,),
                           ColumnSeparator(),
                           Text("YOUR NAME", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
                           SizedBox(height: 8),

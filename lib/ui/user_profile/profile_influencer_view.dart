@@ -28,7 +28,7 @@ class ProfileInfluencerView extends StatelessWidget {
               style: const TextStyle(color: AppTheme.white50),
             ),
             SizedBox(height: 8),
-            Text(followerCountAsString(account.audienceSize)),
+            Text(account.audienceSizeAsString()),
           ],
         ),
       );
@@ -102,16 +102,5 @@ class ProfileInfluencerView extends StatelessWidget {
     );
   }
 
-  String followerCountAsString(int count) {
-    if (count < 1100) {
-      return count.toString();
-    }
-    if (count < 1100000) {
-      double doubleCount = count / 1000;
-      return '${doubleCount.toStringAsFixed(1)}k';
-    } else {
-      double doubleCount = count / 1000000;
-      return '${doubleCount.toStringAsFixed(1)}m';
-    }
-  }
+
 }

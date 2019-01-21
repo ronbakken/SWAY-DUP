@@ -28,7 +28,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     if (userTestToken != null) {
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = userTestToken;
       var authResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
-      if (authResult.acessToken.isNotEmpty) {
+      if (authResult.accessToken.isNotEmpty) {
         _currentUser = User.fromDto(authResult.userData);
         currentUserUpdatesSubject.add(_currentUser);
         return true;

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/user_profile/social_media_login_page.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 
@@ -18,6 +20,9 @@ class _SocialMediaRow {
 }
 
 class EditSocialMediaView extends StatefulWidget {
+  final List<SocialMediaAccount> socialMediaAccounts;
+
+  const EditSocialMediaView({Key key, this.socialMediaAccounts}) : super(key: key);
   @override
   _EditSocialMediaViewState createState() => _EditSocialMediaViewState();
 }
@@ -31,15 +36,12 @@ class _EditSocialMediaViewState extends State<EditSocialMediaView> {
 
   @override
   void initState() {
-    userManager = backend.get<UserManager>();
     configService = backend.get<ConfigService>();
-
-    user = userManager.currentUser.copyWith();
 
     _socialMediaRows.clear();
     for (var provider in configService.socialNetworkProviders) {
       if (provider.logoMonochromeData.isNotEmpty) {
-        var connectedAccount = user.socialMediaAccounts
+        var connectedAccount = widget.socialMediaAccounts
             .firstWhere((account) => account.socialNetWorkProvider.id == provider.id, orElse: () => null);
         _socialMediaRows.add(_SocialMediaRow(account: connectedAccount, provider: provider));
       }
@@ -87,24 +89,26 @@ class _EditSocialMediaViewState extends State<EditSocialMediaView> {
             ),
             Text(row.provider.name),
             Spacer(),
-            row.connected
-                ? InfSwitch(
-                    onChanged: (enabled) {
+                InfSwitch(
+                    onChanged: (enabled) async {
+                      if (enabled) {
+                        var newAccount = await connectToSocialMediaAccount(row.provider, context);
+                        if (newAccount != null) {
+                          row.account = newAccount;
+                        } else {
+                          await showMessageDialog(context, 'Connection problem',
+                              'There was a problem connecting your social media account. Please try again later');
+                        }
+                      }
+                      else
+                      {
+                        row.account = null;
+                      }
                       setState(() {});
                     },
                     value: row.connected,
                     activeColor: AppTheme.blue,
                   )
-                : Icon(
-                    Icons.add,
-                    size: 32,
-                  ),
-            row.connected
-                ? Icon(
-                    Icons.delete,
-                    size: 32,
-                  )
-                : SizedBox()
           ],
         ),
       ));

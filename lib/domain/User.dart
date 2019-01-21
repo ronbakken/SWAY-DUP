@@ -97,7 +97,6 @@ class User {
 
   static User fromDto(UserDto dto) {
     return User(
-      id: dto.id,
       verified: dto.verified,
       accountState: dto.accountState,
       userType: dto.userType,
@@ -113,10 +112,11 @@ class User {
       avatarThumbnailLowRes: dto.avatarThumbnailLowRes,
       avatarUrl: dto.avatarUrl,
       avatarLowRes: dto.avatarLowRes,
-      categories: backend.get<ConfigService>().getCategoriesFromIds(dto.categoriesIds),
+      categories: backend.get<ConfigService>().getCategoriesFromIds(dto.categoryIds),
       minimalFee: dto.minimalFee,
       socialMediaAccounts:
           dto.socialMediaAccounts.map<SocialMediaAccount>((dto) => SocialMediaAccount.fromDto(dto)).toList(),
     );
   }
+
 }

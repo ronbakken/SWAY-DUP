@@ -29,17 +29,21 @@ class ProfileSummery extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context);
 
     var rowItems = <Widget>[];
-    for (var socialMediaAccount in user.socialMediaAccounts) {
-      rowItems.add(
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InfMemoryImage(
-            socialMediaAccount.socialNetWorkProvider.logoMonochromeData,
-            height: 20.0,
+    if (showSocialMedia)
+    {
+      for (var socialMediaAccount in user.socialMediaAccounts) {
+        rowItems.add(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InfMemoryImage(
+              socialMediaAccount.socialNetWorkProvider.logoMonochromeData,
+              height: 20.0,
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
+
     return SizedBox(
         height: mediaQuery.size.height * heightTotalPercentage + mediaQuery.padding.top,
         child: Stack(
@@ -81,7 +85,6 @@ class ProfileSummery extends StatelessWidget {
                         Text(user.locationAsString),
                         SizedBox(height: 8.0),
 
-                        // Dynamically update the social media icons
                         showSocialMedia
                             ? Row(
                                 mainAxisSize: MainAxisSize.min,
