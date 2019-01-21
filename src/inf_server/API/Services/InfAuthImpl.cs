@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
 using API.Interfaces;
@@ -12,6 +11,7 @@ using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Newtonsoft.Json;
 using Optional;
+using RefreshToken.Interfaces;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using User.Interfaces;
@@ -92,12 +92,15 @@ namespace API.Services
             Log("Generating refresh token.");
             var refreshToken = TokenManager.GenerateRefreshToken(loginTokenValidationResults.UserId, loginTokenValidationResults.UserType);
 
+            Log("Saving refresh token.");
+            var refreshTokenActor = GetRefreshTokenActor(refreshToken);
+            await refreshTokenActor.Associate(userId, request.DeviceId);
+
             Log("Updating user data.");
             userData = request
                 .UserData
                 .ToService(
-                    loginToken: null,
-                    refreshTokens: new[] { refreshToken }.ToImmutableList())
+                    loginToken: null)
                 .With(
                     status: Option.Some(UserStatus.Active));
             await user.SetData(userData);
@@ -183,22 +186,31 @@ namespace API.Services
             return result;
         }
 
-        public override Task<GetAccessTokenResponse> GetAccessToken(GetAccessTokenRequest request, ServerCallContext context)
+        public override async Task<GetAccessTokenResponse> GetAccessToken(GetAccessTokenRequest request, ServerCallContext context)
         {
             Log("GetAccessToken.");
 
             Log("Validating refresh token.");
             var refreshTokenValidationResult = TokenManager.ValidateRefreshToken(request.RefreshToken);
+            var userId = refreshTokenValidationResult.UserId;
+            var userType = refreshTokenValidationResult.UserType;
+            var refreshToken = GetRefreshTokenActor(request.RefreshToken);
+            var associatedUserId = await refreshToken.GetAssociatedUserId();
+
+            if (associatedUserId != userId)
+            {
+                throw new InvalidOperationException("Mismatch in refresh token association.");
+            }
 
             Log("Generating access token.");
-            var accessToken = TokenManager.GenerateAccessToken(refreshTokenValidationResult.UserId, refreshTokenValidationResult.UserType);
+            var accessToken = TokenManager.GenerateAccessToken(userId, userType);
 
             var result = new GetAccessTokenResponse
             {
                 AccessToken = accessToken,
             };
 
-            return Task.FromResult(result);
+            return result;
         }
 
         public override async Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context)
@@ -232,7 +244,7 @@ namespace API.Services
             var userData = await user.GetData();
 
             Log("Saving user data.");
-            await user.SetData(request.User.ToService(userData.LoginToken, userData.RefreshTokens));
+            await user.SetData(request.User.ToService(userData.LoginToken));
 
             return Empty.Instance;
         }
@@ -241,8 +253,9 @@ namespace API.Services
         {
             Log("Logout.");
 
-            // TODO: need to be able to invalidate a refresh token given *only* the refresh token, implying refresh tokens
-            // must be separated from user actor.
+            Log("Invalidating refresh token.");
+            var refreshToken = GetRefreshTokenActor(request.RefreshToken);
+            await refreshToken.Invalidate();
 
             return Empty.Instance;
         }
@@ -280,6 +293,9 @@ namespace API.Services
 
         private static IUser GetUserActor(string userId) =>
             ActorProxy.Create<IUser>(new ActorId(userId), new Uri("fabric:/server/UserActorService"));
+
+        private static IRefreshToken GetRefreshTokenActor(string refreshToken) =>
+            ActorProxy.Create<IRefreshToken>(new ActorId(refreshToken), new Uri("fabric:/server/RefreshTokenActorService"));
 
         private static IInvitationCodeManagerService GetInvitationCodeManagerService() =>
             ServiceProxy.Create<IInvitationCodeManagerService>(new Uri("fabric:/server/InvitationCodeManager"), new ServicePartitionKey(1));

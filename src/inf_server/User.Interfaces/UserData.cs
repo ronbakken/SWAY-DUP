@@ -23,7 +23,6 @@ namespace User.Interfaces
             default,
             default,
             default,
-            default,
             default);
 
         public UserData(
@@ -42,8 +41,7 @@ namespace User.Interfaces
             int minimalFee,
             ImmutableList<int> categoryIds,
             ImmutableList<SocialMediaAccount> socialMediaAccounts,
-            string loginToken,
-            ImmutableList<string> refreshTokens)
+            string loginToken)
         {
             this.Type = type;
             this.Status = status;
@@ -61,7 +59,6 @@ namespace User.Interfaces
             this.CategoryIds = categoryIds;
             this.SocialMediaAccounts = socialMediaAccounts;
             this.LoginToken = loginToken;
-            this.RefreshTokens = refreshTokens;
         }
 
         [DataMember]
@@ -149,7 +146,6 @@ namespace User.Interfaces
                 minimalFee.ValueOr(MinimalFee),
                 categoryIds.ValueOr(CategoryIds),
                 socialMediaAccounts.ValueOr(SocialMediaAccounts),
-                loginToken.ValueOr(LoginToken),
-                refreshTokens.ValueOr(RefreshTokens));
+                loginToken.ValueOr(LoginToken));
     }
 }

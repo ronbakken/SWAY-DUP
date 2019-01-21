@@ -42,7 +42,7 @@ namespace API.Services
             return result;
         }
 
-        public static UserData ToService(this UserDto @this, string loginToken, ImmutableList<string> refreshTokens)
+        public static UserData ToService(this UserDto @this, string loginToken)
         {
             if (@this == null)
             {
@@ -65,8 +65,7 @@ namespace API.Services
                 @this.MinimalFee,
                 @this.CategoryIds?.ToImmutableList(),
                 @this.SocialMediaAccounts?.Select(socialMediaAccount => socialMediaAccount.ToService())?.ToImmutableList(),
-                loginToken,
-                refreshTokens);
+                loginToken);
         }
     }
 }
