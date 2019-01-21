@@ -73,7 +73,7 @@ var vmInstanceCount = int.Parse(EnvironmentVariable("VM_INSTANCE_COUNT") ?? "1")
 var configuration = "Release";
 
 // Paths.
-var srcDir = Directory("src");
+var srcDir = Directory("src/inf_server");
 var pkgDir = Directory("pkg") + Directory(configuration);
 var zippedPackageFile = Directory("pkg") + File("package.sfpkg");
 var pfxFile = File("Azure.pfx");

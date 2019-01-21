@@ -2,78 +2,71 @@
 using System.Threading.Tasks;
 using API.Interfaces;
 using Grpc.Core;
-using static API.Interfaces.InfAuth;
-using interfaces = API.Interfaces;
 
 namespace API.Services.Mocks
 {
-    class InfAuthImpl : InfAuthBase
+    class InfAuthImpl : InfAuth.InfAuthBase
     {
-        public override Task<RefreshTokenMessage> CreateNewUser(CreateNewUserRequest request, ServerCallContext context)
+
+        public override Task<CreateNewUserResponse> CreateNewUser(CreateNewUserRequest request, ServerCallContext context)
         {
+            Console.WriteLine("InfConfigImpl.CreateNewUser called");
             return base.CreateNewUser(request, context);
         }
 
+        public override Task<GetAccessTokenResponse> GetAccessToken(GetAccessTokenRequest request, ServerCallContext context)
+        {
+            Console.WriteLine("InfConfigImpl.GetAccessToken called");
+            return base.GetAccessToken(request, context);
+        }
+
         // Not sure if we will need this
-        public override Task<interfaces.User> GetCurrentUser(RefreshTokenMessage request, ServerCallContext context)
+        public override Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context)
         {
-            return base.GetCurrentUser(request, context);
+            Console.WriteLine("InfConfigImpl.GetUser called");
+            return base.GetUser(request, context);
         }
 
-        public override Task<SocialMediaAccounts> GetSocialMediaAccountsForUser(SocialMediaRequest request, ServerCallContext context)
-        {
-            Console.WriteLine("InfConfigImpl.GetSocialMediaAccountsForUser called");
 
-            var response = new SocialMediaAccounts();
-
-            var socialMediaAccounts = DatabaseMock.Instance().GetSocialMediaAccounts(request.UserId);
-            if (socialMediaAccounts != null)
-            {
-                response.Accounts.Add(socialMediaAccounts);
-            }
-
-            return Task.FromResult(response);
-        }
-
-        public override Task<LoginResultMessage> Login(RefreshTokenMessage request, ServerCallContext context)
+        public override Task<LoginWithLoginTokenResponse> LoginWithLoginToken(LoginWithLoginTokenRequest request, ServerCallContext context)
         {
             Console.WriteLine("InfConfigImpl.Login called");
 
-            var user = DatabaseMock.Instance().GetUser(request.RefreshToken);
+            var user = DatabaseMock.Instance().GetUser(request.LoginToken);
             if (user != null)
             {
-                return Task.FromResult(new LoginResultMessage { AuthorizationToken = "4711", UserData = user });
+                return Task.FromResult(new LoginWithLoginTokenResponse { RefreshToken = "4711", UserData = user });
             }
             else
             {
-                return Task.FromResult(new LoginResultMessage());
+                return Task.FromResult(new LoginWithLoginTokenResponse());
             }
         }
 
-        public override Task<RefreshTokenMessage> RequestRefreshToken(RefreshTokenRequest request, ServerCallContext context)
+        public override Task<LoginWithRefreshTokenResponse> LoginWithRefreshToken(LoginWithRefreshTokenRequest request, ServerCallContext context)
         {
-            Console.WriteLine("InfConfigImpl.RequestRefreshToken called");
-            return Task.FromResult(new RefreshTokenMessage());
+            Console.WriteLine("InfConfigImpl.LoginWithRefreshToken called");
+            var user = DatabaseMock.Instance().GetUser(request.RefreshToken);
+            if (user != null)
+            {
+                return Task.FromResult(new LoginWithRefreshTokenResponse { AccessToken = "4711", UserData = user });
+            }
+            else
+            {
+                return Task.FromResult(new LoginWithRefreshTokenResponse());
+            }
         }
 
-        public override Task<Empty> SendLoginEmail(LoginEmailRequest request, ServerCallContext context)
+        public override Task<Empty> SendLoginEmail(SendLoginEmailRequest request, ServerCallContext context)
         {
             Console.WriteLine("InfConfigImpl.SendLoginEmail called");
             return Task.FromResult(new Empty());
         }
 
-        public override Task<InvitationCodeState> ValidateInvitationCode(interfaces.InvitationCode request, ServerCallContext context)
+        public override Task<Empty> UpdateUser(UpdateUserRequest request, ServerCallContext context)
         {
-            Console.WriteLine("InfConfigImpl.ValidateInvitationCode called");
-
-            if (request.Code != "invalid")
-            {
-                return Task.FromResult(new InvitationCodeState { State = InvitationCodeStates.Valid });
-            }
-            else
-            {
-                return Task.FromResult(new InvitationCodeState { State = InvitationCodeStates.Invalid });
-            }
+            Console.WriteLine("InfConfigImpl.UpdateUser called");
+            return base.UpdateUser(request, context);
         }
     }
 }

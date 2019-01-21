@@ -85,16 +85,16 @@ namespace API
             }
 
             var token = authorizationHeaderEntry.Value.Substring(prefix.Length);
-            var authorizationTokenValidationResult = TokenManager.ValidateAuthorizationToken(token);
-            var userType = Enum.Parse<UserType>(authorizationTokenValidationResult.UserType);
+            var accessTokenValidationResult = TokenManager.ValidateAccessToken(token);
+            var userType = Enum.Parse<UserType>(accessTokenValidationResult.UserType);
 
             if (!allowedUserTypes.Contains(userType))
             {
                 throw new InvalidOperationException($"Method '{method}' cannot be called by user type '{userType}'.");
             }
 
-            context.RequestHeaders.Add(new Metadata.Entry("userId", authorizationTokenValidationResult.UserId));
-            context.RequestHeaders.Add(new Metadata.Entry("userType", authorizationTokenValidationResult.UserType));
+            context.RequestHeaders.Add(new Metadata.Entry("userId", accessTokenValidationResult.UserId));
+            context.RequestHeaders.Add(new Metadata.Entry("userType", accessTokenValidationResult.UserType));
 
             return context;
         }

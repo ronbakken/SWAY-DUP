@@ -12,5 +12,6 @@
         <PackageReference Update="Optional" Version="4.0.0" />
         <PackageReference Update="Sendgrid" Version="9.10.0" />
         <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="5.3.0" />
+        <PackageReference Update="xunit" Version="2.4.1" />
     </ItemGroup>
 </Project>

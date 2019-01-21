@@ -13,13 +13,13 @@ namespace User.Interfaces
             UserStatus status,
             string name,
             string description,
-            string oneTimeAccessToken)
+            string logingToken)
         {
             this.Type = type;
             this.Status = status;
             this.Name = name;
             this.Description = description;
-            this.OneTimeAccessToken = oneTimeAccessToken;
+            this.LoginToken = logingToken;
         }
 
         [DataMember]
@@ -35,19 +35,19 @@ namespace User.Interfaces
         public string Description { get; protected set; }
 
         [DataMember]
-        public string OneTimeAccessToken { get; protected set; }
+        public string LoginToken { get; protected set; }
 
         public UserData With(
             Option<UserType> type = default,
             Option<UserStatus> status = default,
             Option<string> name = default,
             Option<string> description = default,
-            Option<string> oneTimeAccessToken = default) =>
+            Option<string> loginToken = default) =>
             new UserData(
                 type.ValueOr(Type),
                 status.ValueOr(Status),
                 name.ValueOr(Name),
                 description.ValueOr(Description),
-                oneTimeAccessToken.ValueOr(OneTimeAccessToken));
+                loginToken.ValueOr(LoginToken));
     }
 }

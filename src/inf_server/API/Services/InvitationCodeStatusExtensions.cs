@@ -1,22 +1,23 @@
 ﻿using System;
-using API.Interfaces;
-using InvitationCodeManager.Interfaces;
+using static API.Interfaces.GetInvitationCodeStatusResponse.Types;
+using Service = InvitationCodeManager.Interfaces;
 
 namespace API.Services
 {
     internal static class InvitationCodeStatusExtensions
     {
-        public static InvitationCodeStates ToDto(this InvitationCodeStatus @this)
+        public static InvitationCodeStatus ToDto(this Service.InvitationCodeStatus @this)
         {
             switch (@this)
             {
-                case InvitationCodeStatus.DoesNotExist:
-                case InvitationCodeStatus.Used:
-                    return InvitationCodeStates.Invalid;
-                case InvitationCodeStatus.Expired:
-                    return InvitationCodeStates.Expired;
-                case InvitationCodeStatus.PendingUse:
-                    return InvitationCodeStates.Valid;
+                case Service.InvitationCodeStatus.DoesNotExist:
+                    return InvitationCodeStatus.DoesNotExist;
+                case Service.InvitationCodeStatus.Expired:
+                    return InvitationCodeStatus.Expired;
+                case Service.InvitationCodeStatus.PendingUse:
+                    return InvitationCodeStatus.PendingUse;
+                case Service.InvitationCodeStatus.Used:
+                    return InvitationCodeStatus.Used;
                 default:
                     throw new NotSupportedException();
             }

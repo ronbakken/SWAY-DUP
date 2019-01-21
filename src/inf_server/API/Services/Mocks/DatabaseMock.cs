@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using API.Interfaces;
-using api=API.Interfaces;
 
 namespace API.Services.Mocks
 {
     class DatabaseMock
     {
         private static DatabaseMock instance;
-        private AppConfigData configData;
+        private AppConfigDto configData;
 
-        public List<api.User> users { get; }
+        public List<UserDto> users { get; }
 
         private DatabaseMock()
         {
-            configData = new AppConfigData
+            configData = new AppConfigDto
             {
                 ConfigVersion = 1,
                 PrivacyPolicyUrl = "https://google.com",
                 TermsOfServiceUrl = "https://wikipedia.com",
-                ServiceConfig = new ServiceConfig
+                ServiceConfig = new ServiceConfigDto
                 {
                     MapboxToken =
                         "pk.eyJ1IjoibmJzcG91IiwiYSI6ImNqa2pkOThmdzFha2IzcG16aHl4M3drNTcifQ.jtaEoGuiomNgllDjUMCwNQ",
@@ -29,143 +26,143 @@ namespace API.Services.Mocks
                 },
                 Categories =
                 {
-                    new Category
+                    new CategoryDto
                     {
                         Id = 0,
                         ParentId = -1,
                         Name = "Cars",
                         IconData = MockHelpers.ReadIconData("./icons/cars.svg")
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 1,
                         ParentId = -1,
                         Name = "Drinks",
                         IconData = MockHelpers.ReadIconData("./icons/drinks.svg")
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 2,
                         ParentId = -1,
                         Name = "Fashion",
                         IconData = MockHelpers.ReadIconData("./icons/fashion.svg")
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 3,
                         ParentId = -1,
                         Name = "Food",
                         IconData = MockHelpers.ReadIconData("./icons/food.svg")
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 4,
                         ParentId = -1,
                         Name = "Fun",
                         IconData = MockHelpers.ReadIconData("./icons/fun.svg")
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 5,
                         ParentId = -1,
                         Name = "Health",
                         IconData = MockHelpers.ReadIconData("./icons/health.svg")
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 6,
                         ParentId = -1,
                         Name = "Services",
                         IconData = MockHelpers.ReadIconData("./icons/services.svg")
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 7,
                         ParentId = -1,
                         Name = "Travel",
                         IconData = MockHelpers.ReadIconData("./icons/travel.svg")
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 8,
                         ParentId = 3,
                         Name = "Grocery",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 9,
                         ParentId = 3,
                         Name = "Fast Food",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 10,
                         ParentId = 3,
                         Name = "Candy",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 11,
                         ParentId = 3,
                         Name = "Dessert",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 12,
                         ParentId = 3,
                         Name = "Coffee shop",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 13,
                         ParentId = 3,
                         Name = "Bakeries",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 14,
                         ParentId = 3,
                         Name = "other",
                     },
                     // Cars
-                    new Category
+                    new CategoryDto
                     {
                         Id = 15,
                         ParentId = 0,
                         Name = "Race Cars",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 16,
                         ParentId = 0,
                         Name = "Oldtimers",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 17,
                         ParentId = 0,
                         Name = "Race Cars",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 18,
                         ParentId = 0,
                         Name = "Car Tech",
                     },
                     // Drinks
-                    new Category
+                    new CategoryDto
                     {
                         Id = 19,
                         ParentId = 1,
                         Name = "Coffee",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 20,
                         ParentId = 1,
                         Name = "Cocktails",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 21,
                         ParentId = 1,
@@ -173,19 +170,19 @@ namespace API.Services.Mocks
                     },
 
                     // Fashion
-                    new Category
+                    new CategoryDto
                     {
                         Id = 22,
                         ParentId = 2,
                         Name = "Beauty",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 23,
                         ParentId = 2,
                         Name = "Models",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 24,
                         ParentId = 2,
@@ -193,19 +190,19 @@ namespace API.Services.Mocks
                     },
 
                     // Fun
-                    new Category
+                    new CategoryDto
                     {
                         Id = 25,
                         ParentId = 4,
                         Name = "Clubs",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 26,
                         ParentId = 4,
                         Name = "Movies",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 27,
                         ParentId = 4,
@@ -213,57 +210,57 @@ namespace API.Services.Mocks
                     },
 
                     // Health
-                    new Category
+                    new CategoryDto
                     {
                         Id = 28,
                         ParentId = 5,
                         Name = "Fitness",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 29,
                         ParentId = 5,
                         Name = "Gym",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 30,
                         ParentId = 5,
                         Name = "Doctors",
                     },
                     //Services
-                    new Category
+                    new CategoryDto
                     {
                         Id = 31,
                         ParentId = 6,
                         Name = "Finance",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 31,
                         ParentId = 6,
                         Name = "Taxes",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 32,
                         ParentId = 6,
                         Name = "Insurance",
                     },
                     // Travel
-                    new Category
+                    new CategoryDto
                     {
                         Id = 33,
                         ParentId = 7,
                         Name = "Asia",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 34,
                         ParentId = 7,
                         Name = "Europe",
                     },
-                    new Category
+                    new CategoryDto
                     {
                         Id = 35,
                         ParentId = 7,
@@ -273,7 +270,7 @@ namespace API.Services.Mocks
                 },
                 SocialNetworkProviders =
                 {
-                    new SocialNetworkProvider
+                    new SocialNetworkProviderDto
                     {
                         Id = 0,
                         Type = SocialNetworkProviderType.Instagram,
@@ -286,7 +283,7 @@ namespace API.Services.Mocks
                         Name = "Instagramm",
                         ApiKey ="ce0aaa7e065f4d6cbbb85055ce98cdfc"
                     },
-                    new SocialNetworkProvider
+                    new SocialNetworkProviderDto
                     {
                         Id = 1,
                         Type = SocialNetworkProviderType.Facebook,
@@ -298,7 +295,7 @@ namespace API.Services.Mocks
                         Name = "Facebook",
                         ApiKey="524476418041715"
                     },
-                    new SocialNetworkProvider
+                    new SocialNetworkProviderDto
                     {
                         Id = 2,
                         Type = SocialNetworkProviderType.Twitter,
@@ -311,7 +308,7 @@ namespace API.Services.Mocks
                         ApiKey = "yebVfiIgUGwg0Ij5FwooEW5xE",
                         ApiKeySecret = "iaAfdlnXarC240VhgReeEXZxXyH1RqkidBVGNNS9gGouIiL2Cy"
                     },
-                    new SocialNetworkProvider
+                    new SocialNetworkProviderDto
                     {
                         Id = 3,
                         Type = SocialNetworkProviderType.Youtube,
@@ -321,7 +318,7 @@ namespace API.Services.Mocks
                         LogoBackGroundColor = 0xffed1f24,
                         Name = "Youtube"
                     },
-                    new SocialNetworkProvider
+                    new SocialNetworkProviderDto
                     {
                         Id = 4,
                         Type = SocialNetworkProviderType.Snapchat,
@@ -331,35 +328,35 @@ namespace API.Services.Mocks
                         LogoBackGroundColor = 0xfffffc00,
                         Name = "Snapchat"
                     },
-                    new SocialNetworkProvider
+                    new SocialNetworkProviderDto
                     {
                         Id = 5,
-                        Type = SocialNetworkProviderType.CustomSocialNetworkProvider,
+                        Type = SocialNetworkProviderType.CustomSocialnetWorkProvider,
                         Name = "Custom"
                     },
                 },
                 DeliverableIcons =
                 {
-                    new DeliverableIcon
+                    new DeliverableIconDto
                     {
                         Name = "Post",
                         DeliverableType = DeliverableType.Post,
                         IconData = MockHelpers.ReadIconData("./icons/post_icon.svg")
 
                     },
-                    new DeliverableIcon
+                    new DeliverableIconDto
                     {
                         Name = "Mention",
                         DeliverableType = DeliverableType.Mention,
                         IconData = MockHelpers.ReadIconData("./icons/mention_icon.svg")
                     },
-                    new DeliverableIcon
+                    new DeliverableIconDto
                     {
                         Name = "Video",
                         DeliverableType = DeliverableType.Video,
                         IconData = MockHelpers.ReadIconData("./icons/video_icon.svg")
                     },
-                    new DeliverableIcon
+                    new DeliverableIconDto
                     {
                         Name = "Custom",
                         DeliverableType = DeliverableType.CustomDeliverable,
@@ -369,9 +366,9 @@ namespace API.Services.Mocks
 
             };
 
-            users = new List<api.User>
+            users = new List<UserDto>
             {
-                new api.User
+                new UserDto
                 {
                     Id = 42,
                     ShowLocation = true,
@@ -391,20 +388,16 @@ namespace API.Services.Mocks
                     CategoriesIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
-                    LocationAsString = "Germany"
-                    // ,location: Location(
-                    //   id: 1
-                    //   latitude: 34.050863
-                    //   longitude: -118.272657
-                    //   activeOfferCount: 0
-                    // )
+                    LocationAsString = "Germany",
+                    Location= new LocationDto{
+                     Latitude= 34.050863,
+                     Longitude= -118.272657
+                    }
                     ,
                     Verified = true,
                     WebsiteUrl = "www.google.com",
-                    ActiveSocialMediaProviders = { 1},
-                    SocialMediaAccountIds = {1}
                 },
-                new api.User
+                new UserDto
                 {
                     Id = 43,
                     Name = "Jane Dow",
@@ -425,106 +418,86 @@ namespace API.Services.Mocks
                     CategoriesIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
-                    LocationAsString = "Germany"
-                    // ,location= Location(
-                    //   id= 1,
-                    //   latitude= 34.050863,
-                    //   longitude= -118.272657,
-                    //   activeOfferCount= 0,
-                    // ),
+                    LocationAsString = "Germany",
+                    Location= new LocationDto{
+                    Latitude= 34.050863,
+                    Longitude= -118.272657
+                }
                     ,
                     Verified = false,
                     WebsiteUrl = "www.google.com",
-                    SocialMediaAccountIds = { 2,3,4},
-                    ActiveSocialMediaProviders = { 0,1,2}
+                    SocialMediaAccounts = {
+                        new SocialMediaAccountDto
+                        {
+                            Id = 2,
+                            Type = SocialNetworkProviderType.Instagram,
+                            SocialNetworkProviderId = 0,
+                            ProfileUrl = "https://twitter.com/ThomasBurkhartB",
+                            DisplayName = "Thomas Burkhart",
+                            Description = "The best online shop for baking",
+                            AudienceSize = 1900
+                        },
+                        new SocialMediaAccountDto
+                        {
+                            Id = 3,
+                            Type = SocialNetworkProviderType.Facebook,
+                            SocialNetworkProviderId = 1,
+                            ProfileUrl = "https://twitter.com/ThomasBurkhartB",
+                            DisplayName = "Thomas Burkhart",
+                            Description = "The best online shop for baking",
+                            AudienceSize = 1000900,
+                        },
+                        new SocialMediaAccountDto
+                        {
+                            Id = 4,
+                            Type = SocialNetworkProviderType.Twitter,
+                            SocialNetworkProviderId = 2,
+                            ProfileUrl = "https://twitter.com/ThomasBurkhartB",
+                            DisplayName = "Thomas Burkhart",
+                            Description = "The best online shop for baking",
+                            AudienceSize = 2100000
+                        },
+                        new SocialMediaAccountDto
+                        {
+                            Id = 5,
+                            Type = SocialNetworkProviderType.Snapchat,
+                            SocialNetworkProviderId = 4,
+                            ProfileUrl = "https://twitter.com/ThomasBurkhartB",
+                            DisplayName = "Thomas Burkhart",
+                            Description = "The best online shop for baking",
+                            AudienceSize = 900
+                        },
+                        new SocialMediaAccountDto
+                        {
+                            Id = 6,
+                            Type = SocialNetworkProviderType.Youtube,
+                            SocialNetworkProviderId = 3,
+                            ProfileUrl = "https://twitter.com/ThomasBurkhartB",
+                            DisplayName = "Thomas Burkhart",
+                            Description = "The best online shop for baking",
+                            AudienceSize = 900
+                        }
+                    },
 
                 }
 
             };
-
-            socialMediaAccounts = new List<SocialMediaAccount>()
-            {
-                new SocialMediaAccount
-                {
-                    Id = 1,
-                    Type = SocialNetworkProviderType.Instagram,
-                    SocialNetworkProviderId = 0,
-                    ProfileUrl = "https=//twitter.com/ThomasBurkhartB",
-                    DisplayName = "Thomas Burkhart",
-                    Description = "The best online shop for baking",
-                    AudienceSize = 900
-                },
-                new SocialMediaAccount
-                {
-                    Id = 2,
-                    Type = SocialNetworkProviderType.Instagram,
-                    SocialNetworkProviderId = 0,
-                    ProfileUrl = "https://twitter.com/ThomasBurkhartB",
-                    DisplayName = "Thomas Burkhart",
-                    Description = "The best online shop for baking",
-                    AudienceSize = 1900
-                },
-                new SocialMediaAccount
-                {
-                    Id = 3,
-                    Type = SocialNetworkProviderType.Facebook,
-                    SocialNetworkProviderId = 1,
-                    ProfileUrl = "https://twitter.com/ThomasBurkhartB",
-                    DisplayName = "Thomas Burkhart",
-                    Description = "The best online shop for baking",
-                    AudienceSize = 1000900,
-                },
-                new SocialMediaAccount
-                {
-                    Id = 4,
-                    Type = SocialNetworkProviderType.Twitter,
-                    SocialNetworkProviderId = 2,
-                    ProfileUrl = "https://twitter.com/ThomasBurkhartB",
-                    DisplayName = "Thomas Burkhart",
-                    Description = "The best online shop for baking",
-                    AudienceSize = 2100000
-                },
-                new SocialMediaAccount
-                {
-                    Id = 5,
-                    Type = SocialNetworkProviderType.Snapchat,
-                    SocialNetworkProviderId = 4,
-                    ProfileUrl = "https://twitter.com/ThomasBurkhartB",
-                    DisplayName = "Thomas Burkhart",
-                    Description = "The best online shop for baking",
-                    AudienceSize = 900
-                },
-                new SocialMediaAccount
-                {
-                    Id = 6,
-                    Type = SocialNetworkProviderType.Youtube,
-                    SocialNetworkProviderId = 3,
-                    ProfileUrl = "https://twitter.com/ThomasBurkhartB",
-                    DisplayName = "Thomas Burkhart",
-                    Description = "The best online shop for baking",
-                    AudienceSize = 900
-                }
-
-            };
-
-
 
         }
 
-        public List<SocialMediaAccount> socialMediaAccounts { get; set; }
 
         public static DatabaseMock Instance()
         {
             return instance ?? (instance = new DatabaseMock());
         }
 
-        public AppConfigData GetAppConfigData()
+        public AppConfigDto GetAppConfigData()
         {
             return configData;
         }
 
 
-        public api.User GetUser(string token)
+        public UserDto GetUser(string token)
         {
             if (token == "INF")
             {
@@ -539,27 +512,6 @@ namespace API.Services.Mocks
             {
                 return null;
             }
-        }
-
-        public List<SocialMediaAccount> GetSocialMediaAccounts(int userId)
-        {
-            var user = users.FirstOrDefault(u => u.Id == userId);
-            if (user == null)
-            {
-                Console.WriteLine("GetSocialMediaAccounts called with unknown userid: " + userId);
-                return null;
-            }
-
-            return user.SocialMediaAccountIds.Select(i =>
-            {
-                var account = socialMediaAccounts.FirstOrDefault(a => a.Id == i);
-                if (account == null)
-                {
-                    Console.WriteLine("GetSocialMediaAccounts called with unknown userid: " + userId);
-                    return null;
-                }
-                return account;
-            }).ToList();
         }
 
     }
