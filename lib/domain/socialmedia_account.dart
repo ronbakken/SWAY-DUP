@@ -11,6 +11,7 @@ class SocialMediaAccount {
   final String description;
   final String email;
   final String userId;
+  final String pageId;
 
   final int audienceSize;
   final int postsCount;
@@ -26,6 +27,7 @@ class SocialMediaAccount {
       this.socialNetWorkProvider,
       this.displayName,
       this.userId,
+      this.pageId,
       this.profileUrl,
       this.description,
       this.email,
@@ -42,6 +44,7 @@ class SocialMediaAccount {
     SocialNetworkProvider socialNetWorkProvider,
     String displayName,
     String userId,
+    String pageId,
     String profileUrl,
     String description,
     String email,
@@ -56,6 +59,7 @@ class SocialMediaAccount {
       socialNetWorkProvider: socialNetWorkProvider ?? this.socialNetWorkProvider,
       displayName: displayName ?? this.displayName,
       userId: userId ?? this.userId,
+      pageId: pageId ?? this.pageId,
       profileUrl: profileUrl ?? this.profileUrl,
       description: description ?? this.description,
       email: email ?? this.email,
@@ -74,6 +78,7 @@ class SocialMediaAccount {
           ),
       displayName: dto.displayName,
       userId: dto.userId,
+      pageId: dto.pageId,
       profileUrl: dto.profileUrl,
       description: dto.description,
       email: dto.email,

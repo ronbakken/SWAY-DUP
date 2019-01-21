@@ -17,6 +17,7 @@ dependencies:
   flutter_svg: any
   flutter_webview_plugin: any
   get_it: any
+  http: any
   image_picker: any
   intl: any
   location: 
