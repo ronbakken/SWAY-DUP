@@ -11,5 +11,8 @@
     <Parameter Name="InvitationCodeActorService_PartitionCount" Value="1" />
     <Parameter Name="InvitationCodeActorService_TargetReplicaSetSize" Value="1" />
     <Parameter Name="InvitationCodeActorService_MinReplicaSetSize" Value="1" />
+    <Parameter Name="RefreshTokenActorService_PartitionCount" Value="1" />
+    <Parameter Name="RefreshTokenActorService_TargetReplicaSetSize" Value="1" />
+    <Parameter Name="RefreshTokenActorService_MinReplicaSetSize" Value="1" />
   </Parameters>
 </Application>

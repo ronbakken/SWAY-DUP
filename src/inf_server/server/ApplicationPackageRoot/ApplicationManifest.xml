@@ -11,6 +11,9 @@
     <Parameter Name="InvitationCodeActorService_PartitionCount" DefaultValue="10" />
     <Parameter Name="InvitationCodeActorService_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="InvitationCodeActorService_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="RefreshTokenActorService_PartitionCount" DefaultValue="10" />
+    <Parameter Name="RefreshTokenActorService_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="RefreshTokenActorService_TargetReplicaSetSize" DefaultValue="3" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion
        should match the Name and Version attributes of the ServiceManifest element defined in the
@@ -56,6 +59,11 @@
     <Service Name="InvitationCodeActorService" GeneratedIdRef="41640b61-23d6-43d4-8b1a-e3750bf1b6f5|Persisted">
       <StatefulService ServiceTypeName="InvitationCodeActorServiceType" TargetReplicaSetSize="[InvitationCodeActorService_TargetReplicaSetSize]" MinReplicaSetSize="[InvitationCodeActorService_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[InvitationCodeActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="RefreshTokenActorService" GeneratedIdRef="468124a9-fad1-4f3c-aa05-87ee27fa84bf|Persisted">
+      <StatefulService ServiceTypeName="RefreshTokenActorServiceType" TargetReplicaSetSize="[RefreshTokenActorService_TargetReplicaSetSize]" MinReplicaSetSize="[RefreshTokenActorService_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[RefreshTokenActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
   </DefaultServices>

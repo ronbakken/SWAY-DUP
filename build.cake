@@ -137,6 +137,7 @@ Task("Deploy")
             PublishService("API");
             PublishService("InvitationCode");
             PublishService("InvitationCodeManager");
+            PublishService("RefreshToken");
             PublishService("User");
 
             CopyFileToDirectory(srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml"), pkgDir);

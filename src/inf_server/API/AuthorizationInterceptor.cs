@@ -27,6 +27,7 @@ namespace API
             { "/api.InfAuth/GetAccessToken", UserTypes.Anonymous },
             { "/api.InfAuth/GetUser", UserTypes.Influencer | UserTypes.Business },
             { "/api.InfAuth/UpdateUser", UserTypes.Influencer | UserTypes.Business },
+            { "/api.InfAuth/Logout", UserTypes.Anonymous },
 
             // InfAdminInvitationCodes
             { "/api.InfAdminInvitationCodes/GenerateInvitationCode", UserTypes.Admin },
