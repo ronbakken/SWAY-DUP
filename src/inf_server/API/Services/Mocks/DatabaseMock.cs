@@ -311,7 +311,7 @@ namespace API.Services.Mocks
                     new SocialNetworkProviderDto
                     {
                         Id = 3,
-                        Type = SocialNetworkProviderType.Youtube,
+                        Type = SocialNetworkProviderType.YouTube,
                         LogoMonochromeData =
                             MockHelpers.ReadIconData(
                                 "./icons/logo_youtube_monochrome.svg"),
@@ -370,7 +370,6 @@ namespace API.Services.Mocks
             {
                 new UserDto
                 {
-                    Id = 42,
                     ShowLocation = true,
                     AcceptsDirectOffers = true,
                     Name = "Thomas",
@@ -385,7 +384,7 @@ namespace API.Services.Mocks
                     AvatarLowRes = MockHelpers.ReadIconData(
                         "./icons/business_profile_lowres.png"),
                     AccountState = AccountState.Active,
-                    CategoriesIds = {0, 1, 2},
+                    CategoryIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
                     LocationAsString = "Germany",
@@ -399,7 +398,6 @@ namespace API.Services.Mocks
                 },
                 new UserDto
                 {
-                    Id = 43,
                     Name = "Jane Dow",
                     ShowLocation = true,
                     AcceptsDirectOffers = true,
@@ -415,7 +413,7 @@ namespace API.Services.Mocks
                     AvatarLowRes = MockHelpers.ReadIconData(
                         "./icons/inf_profile_lowres.png"),
                     AccountState = AccountState.Active,
-                    CategoriesIds = {0, 1, 2},
+                    CategoryIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
                     LocationAsString = "Germany",
@@ -429,7 +427,6 @@ namespace API.Services.Mocks
                     SocialMediaAccounts = {
                         new SocialMediaAccountDto
                         {
-                            Id = 2,
                             Type = SocialNetworkProviderType.Instagram,
                             SocialNetworkProviderId = 0,
                             ProfileUrl = "https://twitter.com/ThomasBurkhartB",
@@ -439,7 +436,6 @@ namespace API.Services.Mocks
                         },
                         new SocialMediaAccountDto
                         {
-                            Id = 3,
                             Type = SocialNetworkProviderType.Facebook,
                             SocialNetworkProviderId = 1,
                             ProfileUrl = "https://twitter.com/ThomasBurkhartB",
@@ -449,7 +445,6 @@ namespace API.Services.Mocks
                         },
                         new SocialMediaAccountDto
                         {
-                            Id = 4,
                             Type = SocialNetworkProviderType.Twitter,
                             SocialNetworkProviderId = 2,
                             ProfileUrl = "https://twitter.com/ThomasBurkhartB",
@@ -459,7 +454,6 @@ namespace API.Services.Mocks
                         },
                         new SocialMediaAccountDto
                         {
-                            Id = 5,
                             Type = SocialNetworkProviderType.Snapchat,
                             SocialNetworkProviderId = 4,
                             ProfileUrl = "https://twitter.com/ThomasBurkhartB",
@@ -469,8 +463,7 @@ namespace API.Services.Mocks
                         },
                         new SocialMediaAccountDto
                         {
-                            Id = 6,
-                            Type = SocialNetworkProviderType.Youtube,
+                            Type = SocialNetworkProviderType.YouTube,
                             SocialNetworkProviderId = 3,
                             ProfileUrl = "https://twitter.com/ThomasBurkhartB",
                             DisplayName = "Thomas Burkhart",

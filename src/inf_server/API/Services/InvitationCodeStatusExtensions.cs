@@ -4,7 +4,7 @@ using Service = InvitationCodeManager.Interfaces;
 
 namespace API.Services
 {
-    internal static class InvitationCodeStatusExtensions
+    public static class InvitationCodeStatusExtensions
     {
         public static InvitationCodeStatus ToDto(this Service.InvitationCodeStatus @this)
         {

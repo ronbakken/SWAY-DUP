@@ -17,11 +17,11 @@ service InfAuth {
     // has reveived over a deep login link
     rpc LoginWithLoginToken(LoginWithLoginTokenRequest) returns (LoginWithLoginTokenResponse) {}
 
-    // Requests an acess-token at startup based on a stored refresh-token
+    // Requests an access-token at startup based on a stored refresh-token
     // not sure if we need this as we also have GetAccessToken
     rpc LoginWithRefreshToken(LoginWithRefreshTokenRequest) returns (LoginWithRefreshTokenResponse) {}
 
-    // Retrives an access-token based on the stored long living refresh token
+    // Retrieves an access-token based on the stored long living refresh token
     // This is used for refreshing an expiring access-token
     rpc GetAccessToken(GetAccessTokenRequest) returns (GetAccessTokenResponse) {}
 
@@ -30,6 +30,9 @@ service InfAuth {
 
     // Updates an existing user object
     rpc UpdateUser(UpdateUserRequest) returns (Empty);
+
+    // Permanently invalidates the given refresh token.
+    rpc Logout(LogoutRequest) returns (Empty) {}
 }
 
 message SendLoginEmailRequest {
@@ -60,7 +63,7 @@ message LoginWithLoginTokenResponse {
 }
 
 message GetUserRequest {
-    int32 userId = 1;
+    string userId = 1;
 }
 
 message GetUserResponse {
@@ -86,4 +89,8 @@ message LoginWithRefreshTokenRequest {
 message LoginWithRefreshTokenResponse {
     string accessToken = 1;
     UserDto userData = 2;
+}
+
+message LogoutRequest {
+    string refreshToken = 1;
 }

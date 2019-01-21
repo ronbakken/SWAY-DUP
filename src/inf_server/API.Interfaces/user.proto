@@ -34,7 +34,6 @@ enum AccountState {
 }
 
 message UserDto {
-    int32 id = 1;
     bool verified = 2;
     AccountState accountState = 3;
     UserType userType = 4;
@@ -51,7 +50,7 @@ message UserDto {
     bytes avatarThumbnailLowRes = 15;
     string avatarUrl = 16;
     bytes avatarLowRes = 17;
-    repeated int32 categoriesIds = 18;
+    repeated int32 categoryIds = 18;
     int32 minimalFee = 19;
 
     repeated SocialMediaAccountDto socialMediaAccounts = 26;

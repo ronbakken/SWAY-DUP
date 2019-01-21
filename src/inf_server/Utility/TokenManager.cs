@@ -236,7 +236,7 @@ namespace Utility
         }
 
         /// <summary>
-        /// Validates a one-time access token, throwing an exception if validation fails.
+        /// Validates a login token, throwing an exception if validation fails.
         /// </summary>
         /// <param name="token">
         /// The token to validate.

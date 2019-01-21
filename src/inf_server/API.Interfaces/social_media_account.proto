@@ -6,11 +6,6 @@ option csharp_namespace = "API.Interfaces";
 import "social_network_provider.proto";
 
 message SocialMediaAccountDto {
-    // not sure if we still need an ID
-    int32 id = 1;
-    // I guess we won't need this in the App but on the server it could be hand
-    // Maybe delete from proto?
-    int64 lastUpdated = 2;
     SocialNetworkProviderType type = 3;
     string displayName = 4 ;
     int32 socialNetworkProviderId = 5;
@@ -24,7 +19,7 @@ message SocialMediaAccountDto {
 
     // The I think we should go away from showing follower counts to a sort of rating
     int32 audienceSize = 10;
-    int32 postsCount = 11;
+    int32 postCount = 11;
     bool verified = 12;
 
     // Not all of them will be set

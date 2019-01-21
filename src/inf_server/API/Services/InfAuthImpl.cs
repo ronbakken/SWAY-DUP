@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
 using API.Interfaces;
@@ -34,19 +35,25 @@ namespace API.Services
         {
             Log("SendLoginEmail.");
 
+            Log("Getting user data.");
             var userId = request.Email;
             var user = GetUserActor(userId);
             var userData = await user.GetData();
+
+            Log("Generating login token.");
             var loginToken = TokenManager.GenerateLoginToken(
                 userId,
                 userData.Status.ToString(),
                 userData.Type.ToString());
-            var link = $"https://infmarketplace.com/app/verify?token={loginToken}";
 
-            // Store the token with the user data so that we can ensure a token provided by a client is still relevant.
-            userData = userData.With(loginToken: Option.Some(loginToken));
+            Log("Updating user data.");
+            userData = userData.With(
+                loginToken: Option.Some(loginToken),
+                status: Option.Some(UserStatus.WaitingForActivation));
             await user.SetData(userData);
 
+            Log("Sending verification email.");
+            var link = $"https://infmarketplace.com/app/verify?token={loginToken}";
             await SendEmailVerificationEmail(
                 userId,
                 userData.Name ?? userId,
@@ -56,56 +63,91 @@ namespace API.Services
             return Empty.Instance;
         }
 
-//public override async Task<InvitationCodeState> ValidateInvitationCode(Interfaces.InvitationCode request, ServerCallContext context)
-//{
-//    Log("ValidateInvitationCode.");
-
-//    var invitationCodeManager = GetInvitationCodeManagerService();
-//    var status = await invitationCodeManager.GetStatus(request.Code);
-//    var result = new InvitationCodeState
-//    {
-//        State = status.ToDto(),
-//    };
-
-//    return result;
-//}
-
-        public override Task<CreateNewUserResponse> CreateNewUser(CreateNewUserRequest request, ServerCallContext context)
+        public override async Task<CreateNewUserResponse> CreateNewUser(CreateNewUserRequest request, ServerCallContext context)
         {
-            // TODO: invalidate invitation code/mark as used
+            Log("CreateNewUser.");
 
-            return base.CreateNewUser(request, context);
+            Log("Validating invitation code.");
+            var invitationCodeManager = GetInvitationCodeManagerService();
+            var useInvitationCodeResult = await invitationCodeManager.Use(request.InvitationCode);
+
+            if (useInvitationCodeResult != InvitationCodeUseResult.Success)
+            {
+                throw new InvalidOperationException("Could not use invitation code.");
+            }
+
+            Log("Validating login token.");
+            var loginTokenValidationResults = TokenManager.ValidateLoginToken(request.LoginToken);
+
+            Log("Validating user status.");
+            var userId = loginTokenValidationResults.UserId;
+            var user = GetUserActor(userId);
+            var userData = await user.GetData();
+
+            if (userData.Status != UserStatus.WaitingForActivation)
+            {
+                throw new InvalidOperationException("User is not awaiting activation.");
+            }
+
+            Log("Generating refresh token.");
+            var refreshToken = TokenManager.GenerateRefreshToken(loginTokenValidationResults.UserId, loginTokenValidationResults.UserType);
+
+            Log("Updating user data.");
+            userData = request
+                .UserData
+                .ToService(
+                    loginToken: null,
+                    refreshTokens: new[] { refreshToken }.ToImmutableList())
+                .With(
+                    status: Option.Some(UserStatus.Active));
+            await user.SetData(userData);
+
+            var result = new CreateNewUserResponse
+            {
+                RefreshToken = refreshToken,
+            };
+
+            return result;
         }
 
         public override async Task<LoginWithLoginTokenResponse> LoginWithLoginToken(LoginWithLoginTokenRequest request, ServerCallContext context)
         {
-            Log("RequestRefreshToken.");
+            Log("LoginWithLoginToken.");
 
+            Log("Validating login token.");
             var loginToken = request.LoginToken;
             var validationResult = TokenManager.ValidateLoginToken(loginToken);
+
+            Log("Getting user data.");
             var userId = validationResult.UserId;
             var userType = validationResult.UserType;
             var user = GetUserActor(userId);
             var userData = await user.GetData();
 
+            if (userData.Status != UserStatus.Active)
+            {
+                throw new InvalidOperationException("User is not active.");
+            }
+
             if (userData.LoginToken != loginToken)
             {
-                Log("Provided one-time token does not match against the user's data.");
+                Log("Provided login token does not match against the user's data.");
                 throw new InvalidOperationException();
             }
 
-            // Invalidate the user's one-time access token and set them as active.
+            Log("Generating refresh token.");
+            var refreshToken = TokenManager.GenerateRefreshToken(userId, userType);
+
+            Log("Updating user data.");
             userData = userData.With(
                 loginToken: Option.Some<string>(null),
-                status: Option.Some(UserStatus.Active));
+                refreshTokens: Option.Some(userData.RefreshTokens.Add(refreshToken)));
             await user.SetData(userData);
 
-            // Generate and return the refresh token.
-            var refreshToken = TokenManager.GenerateRefreshToken(userId, userType);
             var result = new LoginWithLoginTokenResponse
             {
                 RefreshToken = refreshToken,
-                UserData = userData.ToDto(),
+                UserData = userData.ToDto(userId),
             };
 
             return result;
@@ -113,33 +155,96 @@ namespace API.Services
 
         public override async Task<LoginWithRefreshTokenResponse> LoginWithRefreshToken(LoginWithRefreshTokenRequest request, ServerCallContext context)
         {
-            Log("Login.");
+            Log("LoginWithRefreshToken.");
 
+            Log("Validating refresh token.");
             var refreshToken = request.RefreshToken;
             var validationResult = TokenManager.ValidateRefreshToken(refreshToken);
+
+            Log("Retrieving user data.");
             var userId = validationResult.UserId;
             var user = GetUserActor(userId);
             var userData = await user.GetData();
+
+            if (!userData.RefreshTokens.Contains(refreshToken))
+            {
+                throw new InvalidOperationException("Refresh token has been invalidated.");
+            }
+
+            Log("Generating access token.");
             var accessToken = TokenManager.GenerateAccessToken(userId, userData.Type.ToString());
 
             var result = new LoginWithRefreshTokenResponse
             {
                 AccessToken = accessToken,
-                UserData = userData.ToDto(),
+                UserData = userData.ToDto(userId),
             };
 
             return result;
         }
 
-        public override Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context)
+        public override Task<GetAccessTokenResponse> GetAccessToken(GetAccessTokenRequest request, ServerCallContext context)
         {
-            // TODO
-            return base.GetUser(request, context);
+            Log("GetAccessToken.");
+
+            Log("Validating refresh token.");
+            var refreshTokenValidationResult = TokenManager.ValidateRefreshToken(request.RefreshToken);
+
+            Log("Generating access token.");
+            var accessToken = TokenManager.GenerateAccessToken(refreshTokenValidationResult.UserId, refreshTokenValidationResult.UserType);
+
+            var result = new GetAccessTokenResponse
+            {
+                AccessToken = accessToken,
+            };
+
+            return Task.FromResult(result);
         }
 
-        public override Task<Empty> UpdateUser(UpdateUserRequest request, ServerCallContext context)
+        public override async Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context)
         {
-            return base.UpdateUser(request, context);
+            Log("GetUser.");
+
+            Log("Getting user data.");
+            var user = GetUserActor(request.UserId);
+            var userData = await user.GetData();
+
+            return new GetUserResponse
+            {
+                UserData = userData.ToDto(request.UserId),
+            };
+        }
+
+        public override async Task<Empty> UpdateUser(UpdateUserRequest request, ServerCallContext context)
+        {
+            Log("UpdateUser.");
+
+            Log("Validating authenticated user matches request.");
+            var authenticatedUserId = context.GetAuthenticatedUserId();
+
+            if (authenticatedUserId != request.User.Email)
+            {
+                throw new InvalidOperationException("Attempted to update data for another user.");
+            }
+
+            Log("Getting existing user data.");
+            var user = GetUserActor(authenticatedUserId);
+            var userData = await user.GetData();
+
+            Log("Saving user data.");
+            await user.SetData(request.User.ToService(userData.LoginToken, userData.RefreshTokens));
+
+            return Empty.Instance;
+        }
+
+        public override async Task<Empty> Logout(LogoutRequest request, ServerCallContext context)
+        {
+            Log("Logout.");
+
+            // TODO: need to be able to invalidate a refresh token given *only* the refresh token, implying refresh tokens
+            // must be separated from user actor.
+
+            return Empty.Instance;
         }
 
         private static async Task SendEmailVerificationEmail(string email, string name, string link, CancellationToken cancellationToken = default)

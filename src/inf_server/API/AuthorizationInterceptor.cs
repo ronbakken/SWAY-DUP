@@ -11,7 +11,9 @@ namespace API
 {
     public sealed class AuthorizationInterceptor : Interceptor
     {
-        private const string authorizationHeader = "Authorization";
+        public const string userIdKeyName = "userid";
+        public const string userTypeKeyName = "usertype";
+        private const string authorizationHeader = "authorization";
         private const string schema = "Bearer";
 
         // What user types can invoke a given method. If a method does not appear in this list, it won't be callable.
@@ -19,13 +21,16 @@ namespace API
         {
             // InfAuth
             { "/api.InfAuth/SendLoginEmail", UserTypes.Anonymous },
-            { "/api.InfAuth/ValidateInvitationCode", UserTypes.Anonymous },
             { "/api.InfAuth/CreateNewUser", UserTypes.Anonymous },
-            { "/api.InfAuth/RequestRefreshToken", UserTypes.Anonymous },
-            { "/api.InfAuth/Login", UserTypes.Anonymous },
-            { "/api.InfAuth/GetCurrentUser", UserTypes.Influencer | UserTypes.Business },
+            { "/api.InfAuth/LoginWithLoginToken", UserTypes.Anonymous },
+            { "/api.InfAuth/LoginWithRefreshToken", UserTypes.Anonymous },
+            { "/api.InfAuth/GetAccessToken", UserTypes.Anonymous },
+            { "/api.InfAuth/GetUser", UserTypes.Influencer | UserTypes.Business },
             { "/api.InfAuth/UpdateUser", UserTypes.Influencer | UserTypes.Business },
-            { "/api.InfAuth/GetSocialMediaAccountsForUser", UserTypes.Influencer },
+
+            // InfAdminInvitationCodes
+            { "/api.InfAdminInvitationCodes/GenerateInvitationCode", UserTypes.Admin },
+            { "/api.InfAdminInvitationCodes/GetInvitationCodeStatus", UserTypes.Admin },
         };
 
         public override async Task<TResponse> ClientStreamingServerHandler<TRequest, TResponse>(IAsyncStreamReader<TRequest> requestStream, ServerCallContext context, ClientStreamingServerMethod<TRequest, TResponse> continuation)
@@ -93,8 +98,8 @@ namespace API
                 throw new InvalidOperationException($"Method '{method}' cannot be called by user type '{userType}'.");
             }
 
-            context.RequestHeaders.Add(new Metadata.Entry("userId", accessTokenValidationResult.UserId));
-            context.RequestHeaders.Add(new Metadata.Entry("userType", accessTokenValidationResult.UserType));
+            context.RequestHeaders.Add(new Metadata.Entry(userIdKeyName, accessTokenValidationResult.UserId));
+            context.RequestHeaders.Add(new Metadata.Entry(userTypeKeyName, accessTokenValidationResult.UserType));
 
             return context;
         }

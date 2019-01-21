@@ -7,7 +7,7 @@ enum SocialNetworkProviderType {
     INSTAGRAM = 0;
     FACEBOOK = 1;
     TWITTER = 2;
-    YOUTUBE = 3;
+    YOU_TUBE = 3;
     SNAPCHAT = 4;
     CUSTOM_SOCIALNET_WORK_PROVIDER = 5;
 }
