@@ -7,17 +7,17 @@
 const SocialNetworkProviderType$json = const {
   '1': 'SocialNetworkProviderType',
   '2': const [
-    const {'1': 'instagram', '2': 0},
-    const {'1': 'facebook', '2': 1},
-    const {'1': 'twitter', '2': 2},
-    const {'1': 'youtube', '2': 3},
-    const {'1': 'snapchat', '2': 4},
-    const {'1': 'customSocialNetworkProvider', '2': 5},
+    const {'1': 'INSTAGRAM', '2': 0},
+    const {'1': 'FACEBOOK', '2': 1},
+    const {'1': 'TWITTER', '2': 2},
+    const {'1': 'YOU_TUBE', '2': 3},
+    const {'1': 'SNAPCHAT', '2': 4},
+    const {'1': 'CUSTOM_SOCIALNET_WORK_PROVIDER', '2': 5},
   ],
 };
 
-const SocialNetworkProvider$json = const {
-  '1': 'SocialNetworkProvider',
+const SocialNetworkProviderDto$json = const {
+  '1': 'SocialNetworkProviderDto',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
     const {'1': 'type', '3': 2, '4': 1, '5': 14, '6': '.api.SocialNetworkProviderType', '10': 'type'},

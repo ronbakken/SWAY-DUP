@@ -9,16 +9,16 @@ import 'dart:core' show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class DeliverableType extends $pb.ProtobufEnum {
-  static const DeliverableType post = const DeliverableType._(0, 'post');
-  static const DeliverableType mention = const DeliverableType._(1, 'mention');
-  static const DeliverableType video = const DeliverableType._(2, 'video');
-  static const DeliverableType customDeliverable = const DeliverableType._(3, 'customDeliverable');
+  static const DeliverableType POST = const DeliverableType._(0, 'POST');
+  static const DeliverableType MENTION = const DeliverableType._(1, 'MENTION');
+  static const DeliverableType VIDEO = const DeliverableType._(2, 'VIDEO');
+  static const DeliverableType CUSTOM_DELIVERABLE = const DeliverableType._(3, 'CUSTOM_DELIVERABLE');
 
   static const List<DeliverableType> values = const <DeliverableType> [
-    post,
-    mention,
-    video,
-    customDeliverable,
+    POST,
+    MENTION,
+    VIDEO,
+    CUSTOM_DELIVERABLE,
   ];
 
   static final Map<int, DeliverableType> _byValue = $pb.ProtobufEnum.initByValue(values);

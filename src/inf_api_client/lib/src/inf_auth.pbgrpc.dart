@@ -10,53 +10,52 @@ import 'package:grpc/grpc.dart';
 
 import 'inf_auth.pb.dart';
 import 'empty.pb.dart' as $0;
-import 'user.pb.dart' as $1;
 export 'inf_auth.pb.dart';
 
 class InfAuthClient extends Client {
-  static final _$sendLoginEmail = new ClientMethod<LoginEmailRequest, $0.Empty>(
-      '/api.InfAuth/SendLoginEmail',
-      (LoginEmailRequest value) => value.writeToBuffer(),
-      (List<int> value) => new $0.Empty.fromBuffer(value));
-  static final _$validateInvitationCode =
-      new ClientMethod<InvitationCode, InvitationCodeState>(
-          '/api.InfAuth/ValidateInvitationCode',
-          (InvitationCode value) => value.writeToBuffer(),
-          (List<int> value) => new InvitationCodeState.fromBuffer(value));
+  static final _$sendLoginEmail =
+      new ClientMethod<SendLoginEmailRequest, $0.Empty>(
+          '/api.InfAuth/SendLoginEmail',
+          (SendLoginEmailRequest value) => value.writeToBuffer(),
+          (List<int> value) => new $0.Empty.fromBuffer(value));
   static final _$createNewUser =
-      new ClientMethod<CreateNewUserRequest, RefreshTokenMessage>(
+      new ClientMethod<CreateNewUserRequest, CreateNewUserResponse>(
           '/api.InfAuth/CreateNewUser',
           (CreateNewUserRequest value) => value.writeToBuffer(),
-          (List<int> value) => new RefreshTokenMessage.fromBuffer(value));
-  static final _$requestRefreshToken =
-      new ClientMethod<RefreshTokenRequest, RefreshTokenMessage>(
-          '/api.InfAuth/RequestRefreshToken',
-          (RefreshTokenRequest value) => value.writeToBuffer(),
-          (List<int> value) => new RefreshTokenMessage.fromBuffer(value));
-  static final _$login =
-      new ClientMethod<RefreshTokenMessage, LoginResultMessage>(
-          '/api.InfAuth/Login',
-          (RefreshTokenMessage value) => value.writeToBuffer(),
-          (List<int> value) => new LoginResultMessage.fromBuffer(value));
-  static final _$getCurrentUser =
-      new ClientMethod<RefreshTokenMessage, $1.User>(
-          '/api.InfAuth/GetCurrentUser',
-          (RefreshTokenMessage value) => value.writeToBuffer(),
-          (List<int> value) => new $1.User.fromBuffer(value));
+          (List<int> value) => new CreateNewUserResponse.fromBuffer(value));
+  static final _$loginWithLoginToken =
+      new ClientMethod<LoginWithLoginTokenRequest, LoginWithLoginTokenResponse>(
+          '/api.InfAuth/LoginWithLoginToken',
+          (LoginWithLoginTokenRequest value) => value.writeToBuffer(),
+          (List<int> value) =>
+              new LoginWithLoginTokenResponse.fromBuffer(value));
+  static final _$loginWithRefreshToken = new ClientMethod<
+          LoginWithRefreshTokenRequest, LoginWithRefreshTokenResponse>(
+      '/api.InfAuth/LoginWithRefreshToken',
+      (LoginWithRefreshTokenRequest value) => value.writeToBuffer(),
+      (List<int> value) => new LoginWithRefreshTokenResponse.fromBuffer(value));
+  static final _$getAccessToken =
+      new ClientMethod<GetAccessTokenRequest, GetAccessTokenResponse>(
+          '/api.InfAuth/GetAccessToken',
+          (GetAccessTokenRequest value) => value.writeToBuffer(),
+          (List<int> value) => new GetAccessTokenResponse.fromBuffer(value));
+  static final _$getUser = new ClientMethod<GetUserRequest, GetUserResponse>(
+      '/api.InfAuth/GetUser',
+      (GetUserRequest value) => value.writeToBuffer(),
+      (List<int> value) => new GetUserResponse.fromBuffer(value));
   static final _$updateUser = new ClientMethod<UpdateUserRequest, $0.Empty>(
       '/api.InfAuth/UpdateUser',
       (UpdateUserRequest value) => value.writeToBuffer(),
       (List<int> value) => new $0.Empty.fromBuffer(value));
-  static final _$getSocialMediaAccountsForUser =
-      new ClientMethod<SocialMediaRequest, SocialMediaAccounts>(
-          '/api.InfAuth/GetSocialMediaAccountsForUser',
-          (SocialMediaRequest value) => value.writeToBuffer(),
-          (List<int> value) => new SocialMediaAccounts.fromBuffer(value));
+  static final _$logout = new ClientMethod<LogoutRequest, $0.Empty>(
+      '/api.InfAuth/Logout',
+      (LogoutRequest value) => value.writeToBuffer(),
+      (List<int> value) => new $0.Empty.fromBuffer(value));
 
   InfAuthClient(ClientChannel channel, {CallOptions options})
       : super(channel, options: options);
 
-  ResponseFuture<$0.Empty> sendLoginEmail(LoginEmailRequest request,
+  ResponseFuture<$0.Empty> sendLoginEmail(SendLoginEmailRequest request,
       {CallOptions options}) {
     final call = $createCall(
         _$sendLoginEmail, new $async.Stream.fromIterable([request]),
@@ -64,16 +63,7 @@ class InfAuthClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<InvitationCodeState> validateInvitationCode(
-      InvitationCode request,
-      {CallOptions options}) {
-    final call = $createCall(
-        _$validateInvitationCode, new $async.Stream.fromIterable([request]),
-        options: options);
-    return new ResponseFuture(call);
-  }
-
-  ResponseFuture<RefreshTokenMessage> createNewUser(
+  ResponseFuture<CreateNewUserResponse> createNewUser(
       CreateNewUserRequest request,
       {CallOptions options}) {
     final call = $createCall(
@@ -82,26 +72,37 @@ class InfAuthClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<RefreshTokenMessage> requestRefreshToken(
-      RefreshTokenRequest request,
+  ResponseFuture<LoginWithLoginTokenResponse> loginWithLoginToken(
+      LoginWithLoginTokenRequest request,
       {CallOptions options}) {
     final call = $createCall(
-        _$requestRefreshToken, new $async.Stream.fromIterable([request]),
+        _$loginWithLoginToken, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<LoginResultMessage> login(RefreshTokenMessage request,
+  ResponseFuture<LoginWithRefreshTokenResponse> loginWithRefreshToken(
+      LoginWithRefreshTokenRequest request,
       {CallOptions options}) {
-    final call = $createCall(_$login, new $async.Stream.fromIterable([request]),
+    final call = $createCall(
+        _$loginWithRefreshToken, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<$1.User> getCurrentUser(RefreshTokenMessage request,
+  ResponseFuture<GetAccessTokenResponse> getAccessToken(
+      GetAccessTokenRequest request,
       {CallOptions options}) {
     final call = $createCall(
-        _$getCurrentUser, new $async.Stream.fromIterable([request]),
+        _$getAccessToken, new $async.Stream.fromIterable([request]),
+        options: options);
+    return new ResponseFuture(call);
+  }
+
+  ResponseFuture<GetUserResponse> getUser(GetUserRequest request,
+      {CallOptions options}) {
+    final call = $createCall(
+        _$getUser, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
@@ -114,11 +115,10 @@ class InfAuthClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<SocialMediaAccounts> getSocialMediaAccountsForUser(
-      SocialMediaRequest request,
+  ResponseFuture<$0.Empty> logout(LogoutRequest request,
       {CallOptions options}) {
-    final call = $createCall(_$getSocialMediaAccountsForUser,
-        new $async.Stream.fromIterable([request]),
+    final call = $createCall(
+        _$logout, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
@@ -128,48 +128,50 @@ abstract class InfAuthServiceBase extends Service {
   String get $name => 'api.InfAuth';
 
   InfAuthServiceBase() {
-    $addMethod(new ServiceMethod<LoginEmailRequest, $0.Empty>(
+    $addMethod(new ServiceMethod<SendLoginEmailRequest, $0.Empty>(
         'SendLoginEmail',
         sendLoginEmail_Pre,
         false,
         false,
-        (List<int> value) => new LoginEmailRequest.fromBuffer(value),
+        (List<int> value) => new SendLoginEmailRequest.fromBuffer(value),
         ($0.Empty value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<InvitationCode, InvitationCodeState>(
-        'ValidateInvitationCode',
-        validateInvitationCode_Pre,
-        false,
-        false,
-        (List<int> value) => new InvitationCode.fromBuffer(value),
-        (InvitationCodeState value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<CreateNewUserRequest, RefreshTokenMessage>(
+    $addMethod(new ServiceMethod<CreateNewUserRequest, CreateNewUserResponse>(
         'CreateNewUser',
         createNewUser_Pre,
         false,
         false,
         (List<int> value) => new CreateNewUserRequest.fromBuffer(value),
-        (RefreshTokenMessage value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<RefreshTokenRequest, RefreshTokenMessage>(
-        'RequestRefreshToken',
-        requestRefreshToken_Pre,
+        (CreateNewUserResponse value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<LoginWithLoginTokenRequest,
+            LoginWithLoginTokenResponse>(
+        'LoginWithLoginToken',
+        loginWithLoginToken_Pre,
         false,
         false,
-        (List<int> value) => new RefreshTokenRequest.fromBuffer(value),
-        (RefreshTokenMessage value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<RefreshTokenMessage, LoginResultMessage>(
-        'Login',
-        login_Pre,
+        (List<int> value) => new LoginWithLoginTokenRequest.fromBuffer(value),
+        (LoginWithLoginTokenResponse value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<LoginWithRefreshTokenRequest,
+            LoginWithRefreshTokenResponse>(
+        'LoginWithRefreshToken',
+        loginWithRefreshToken_Pre,
         false,
         false,
-        (List<int> value) => new RefreshTokenMessage.fromBuffer(value),
-        (LoginResultMessage value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<RefreshTokenMessage, $1.User>(
-        'GetCurrentUser',
-        getCurrentUser_Pre,
+        (List<int> value) => new LoginWithRefreshTokenRequest.fromBuffer(value),
+        (LoginWithRefreshTokenResponse value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<GetAccessTokenRequest, GetAccessTokenResponse>(
+        'GetAccessToken',
+        getAccessToken_Pre,
         false,
         false,
-        (List<int> value) => new RefreshTokenMessage.fromBuffer(value),
-        ($1.User value) => value.writeToBuffer()));
+        (List<int> value) => new GetAccessTokenRequest.fromBuffer(value),
+        (GetAccessTokenResponse value) => value.writeToBuffer()));
+    $addMethod(new ServiceMethod<GetUserRequest, GetUserResponse>(
+        'GetUser',
+        getUser_Pre,
+        false,
+        false,
+        (List<int> value) => new GetUserRequest.fromBuffer(value),
+        (GetUserResponse value) => value.writeToBuffer()));
     $addMethod(new ServiceMethod<UpdateUserRequest, $0.Empty>(
         'UpdateUser',
         updateUser_Pre,
@@ -177,13 +179,13 @@ abstract class InfAuthServiceBase extends Service {
         false,
         (List<int> value) => new UpdateUserRequest.fromBuffer(value),
         ($0.Empty value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<SocialMediaRequest, SocialMediaAccounts>(
-        'GetSocialMediaAccountsForUser',
-        getSocialMediaAccountsForUser_Pre,
+    $addMethod(new ServiceMethod<LogoutRequest, $0.Empty>(
+        'Logout',
+        logout_Pre,
         false,
         false,
-        (List<int> value) => new SocialMediaRequest.fromBuffer(value),
-        (SocialMediaAccounts value) => value.writeToBuffer()));
+        (List<int> value) => new LogoutRequest.fromBuffer(value),
+        ($0.Empty value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.Empty> sendLoginEmail_Pre(
@@ -191,29 +193,29 @@ abstract class InfAuthServiceBase extends Service {
     return sendLoginEmail(call, await request);
   }
 
-  $async.Future<InvitationCodeState> validateInvitationCode_Pre(
-      ServiceCall call, $async.Future request) async {
-    return validateInvitationCode(call, await request);
-  }
-
-  $async.Future<RefreshTokenMessage> createNewUser_Pre(
+  $async.Future<CreateNewUserResponse> createNewUser_Pre(
       ServiceCall call, $async.Future request) async {
     return createNewUser(call, await request);
   }
 
-  $async.Future<RefreshTokenMessage> requestRefreshToken_Pre(
+  $async.Future<LoginWithLoginTokenResponse> loginWithLoginToken_Pre(
       ServiceCall call, $async.Future request) async {
-    return requestRefreshToken(call, await request);
+    return loginWithLoginToken(call, await request);
   }
 
-  $async.Future<LoginResultMessage> login_Pre(
+  $async.Future<LoginWithRefreshTokenResponse> loginWithRefreshToken_Pre(
       ServiceCall call, $async.Future request) async {
-    return login(call, await request);
+    return loginWithRefreshToken(call, await request);
   }
 
-  $async.Future<$1.User> getCurrentUser_Pre(
+  $async.Future<GetAccessTokenResponse> getAccessToken_Pre(
       ServiceCall call, $async.Future request) async {
-    return getCurrentUser(call, await request);
+    return getAccessToken(call, await request);
+  }
+
+  $async.Future<GetUserResponse> getUser_Pre(
+      ServiceCall call, $async.Future request) async {
+    return getUser(call, await request);
   }
 
   $async.Future<$0.Empty> updateUser_Pre(
@@ -221,25 +223,24 @@ abstract class InfAuthServiceBase extends Service {
     return updateUser(call, await request);
   }
 
-  $async.Future<SocialMediaAccounts> getSocialMediaAccountsForUser_Pre(
+  $async.Future<$0.Empty> logout_Pre(
       ServiceCall call, $async.Future request) async {
-    return getSocialMediaAccountsForUser(call, await request);
+    return logout(call, await request);
   }
 
   $async.Future<$0.Empty> sendLoginEmail(
-      ServiceCall call, LoginEmailRequest request);
-  $async.Future<InvitationCodeState> validateInvitationCode(
-      ServiceCall call, InvitationCode request);
-  $async.Future<RefreshTokenMessage> createNewUser(
+      ServiceCall call, SendLoginEmailRequest request);
+  $async.Future<CreateNewUserResponse> createNewUser(
       ServiceCall call, CreateNewUserRequest request);
-  $async.Future<RefreshTokenMessage> requestRefreshToken(
-      ServiceCall call, RefreshTokenRequest request);
-  $async.Future<LoginResultMessage> login(
-      ServiceCall call, RefreshTokenMessage request);
-  $async.Future<$1.User> getCurrentUser(
-      ServiceCall call, RefreshTokenMessage request);
+  $async.Future<LoginWithLoginTokenResponse> loginWithLoginToken(
+      ServiceCall call, LoginWithLoginTokenRequest request);
+  $async.Future<LoginWithRefreshTokenResponse> loginWithRefreshToken(
+      ServiceCall call, LoginWithRefreshTokenRequest request);
+  $async.Future<GetAccessTokenResponse> getAccessToken(
+      ServiceCall call, GetAccessTokenRequest request);
+  $async.Future<GetUserResponse> getUser(
+      ServiceCall call, GetUserRequest request);
   $async.Future<$0.Empty> updateUser(
       ServiceCall call, UpdateUserRequest request);
-  $async.Future<SocialMediaAccounts> getSocialMediaAccountsForUser(
-      ServiceCall call, SocialMediaRequest request);
+  $async.Future<$0.Empty> logout(ServiceCall call, LogoutRequest request);
 }

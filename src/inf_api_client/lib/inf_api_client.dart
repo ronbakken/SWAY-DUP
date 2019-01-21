@@ -20,6 +20,10 @@ export 'package:inf_api_client/src/inf_system.pb.dart';
 export 'package:inf_api_client/src/inf_system.pbenum.dart';
 export 'package:inf_api_client/src/inf_system.pbgrpc.dart';
 
+export 'package:inf_api_client/src/invitation_codes.pb.dart';
+export 'package:inf_api_client/src/invitation_codes.pbenum.dart';
+export 'package:inf_api_client/src/invitation_codes.pbgrpc.dart';
+
 export 'package:inf_api_client/src/user.pb.dart';
 export 'package:inf_api_client/src/user.pbenum.dart';
 
@@ -28,6 +32,9 @@ export 'package:inf_api_client/src/social_media_account.pbenum.dart';
 
 export 'package:inf_api_client/src/social_network_provider.pb.dart';
 export 'package:inf_api_client/src/social_network_provider.pbenum.dart';
+
+export 'package:inf_api_client/src/location.pb.dart';
+export 'package:inf_api_client/src/location.pbenum.dart';
 
 export 'package:inf_api_client/src/deliverable.pb.dart';
 export 'package:inf_api_client/src/deliverable.pbenum.dart';

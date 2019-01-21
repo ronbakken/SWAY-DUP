@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "empty.proto";
+
+service InfBlobStorage {
+  // Returns a signed url to an file on azure blob storage for write access
+  // if 'fileToReplaceUrl' in the request is set it returns an url to replace
+  // the existing file.
+  // if not or if the file does not exist it creates a new file and returns an url for it
+  // that can be used to upload a file via HTTP
+  rpc GetUploadUrl (GetUploadUrlRequest) returns (GetUploadUrlResponse) {}
+}
+
+message GetUploadUrlRequest {
+  string fileToReplaceUrl =1;
+}
+
+message GetUploadUrlResponse {
+  string uploadUrl = 1;
+}

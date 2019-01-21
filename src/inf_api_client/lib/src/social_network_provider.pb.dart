@@ -13,10 +13,10 @@ import 'social_network_provider.pbenum.dart';
 
 export 'social_network_provider.pbenum.dart';
 
-class SocialNetworkProvider extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SocialNetworkProvider', package: const $pb.PackageName('api'))
+class SocialNetworkProviderDto extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SocialNetworkProviderDto', package: const $pb.PackageName('api'))
     ..a<int>(1, 'id', $pb.PbFieldType.O3)
-    ..e<SocialNetworkProviderType>(2, 'type', $pb.PbFieldType.OE, SocialNetworkProviderType.instagram, SocialNetworkProviderType.valueOf, SocialNetworkProviderType.values)
+    ..e<SocialNetworkProviderType>(2, 'type', $pb.PbFieldType.OE, SocialNetworkProviderType.INSTAGRAM, SocialNetworkProviderType.valueOf, SocialNetworkProviderType.values)
     ..aOS(3, 'name')
     ..a<List<int>>(4, 'logoColoredData', $pb.PbFieldType.OY)
     ..a<List<int>>(5, 'logoMonochromeData', $pb.PbFieldType.OY)
@@ -27,19 +27,19 @@ class SocialNetworkProvider extends $pb.GeneratedMessage {
     ..hasRequiredFields = false
   ;
 
-  SocialNetworkProvider() : super();
-  SocialNetworkProvider.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  SocialNetworkProvider.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  SocialNetworkProvider clone() => new SocialNetworkProvider()..mergeFromMessage(this);
-  SocialNetworkProvider copyWith(void Function(SocialNetworkProvider) updates) => super.copyWith((message) => updates(message as SocialNetworkProvider));
+  SocialNetworkProviderDto() : super();
+  SocialNetworkProviderDto.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  SocialNetworkProviderDto.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  SocialNetworkProviderDto clone() => new SocialNetworkProviderDto()..mergeFromMessage(this);
+  SocialNetworkProviderDto copyWith(void Function(SocialNetworkProviderDto) updates) => super.copyWith((message) => updates(message as SocialNetworkProviderDto));
   $pb.BuilderInfo get info_ => _i;
-  static SocialNetworkProvider create() => new SocialNetworkProvider();
-  SocialNetworkProvider createEmptyInstance() => create();
-  static $pb.PbList<SocialNetworkProvider> createRepeated() => new $pb.PbList<SocialNetworkProvider>();
-  static SocialNetworkProvider getDefault() => _defaultInstance ??= create()..freeze();
-  static SocialNetworkProvider _defaultInstance;
-  static void $checkItem(SocialNetworkProvider v) {
-    if (v is! SocialNetworkProvider) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static SocialNetworkProviderDto create() => new SocialNetworkProviderDto();
+  SocialNetworkProviderDto createEmptyInstance() => create();
+  static $pb.PbList<SocialNetworkProviderDto> createRepeated() => new $pb.PbList<SocialNetworkProviderDto>();
+  static SocialNetworkProviderDto getDefault() => _defaultInstance ??= create()..freeze();
+  static SocialNetworkProviderDto _defaultInstance;
+  static void $checkItem(SocialNetworkProviderDto v) {
+    if (v is! SocialNetworkProviderDto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get id => $_get(0, 0);

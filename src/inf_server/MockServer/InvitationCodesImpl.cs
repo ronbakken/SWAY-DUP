@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 using API.Interfaces;
 using Grpc.Core;
-using static API.Interfaces.InfAdminInvitationCodes;
+
 
 namespace MockServer
 {
-    public class InfAdminInvitationCodesImpl : InfAdminInvitationCodesBase
+    public class InvitationCodesImpl : InvitationCodes.InvitationCodesBase
     {
         public override Task<GenerateInvitationCodeResponse> GenerateInvitationCode(Empty request, ServerCallContext context)
         {

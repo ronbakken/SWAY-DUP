@@ -15,7 +15,7 @@ namespace MockServer
             {
                 Services =
                 {
-                    InfAdminInvitationCodes.BindService(new InfAdminInvitationCodesImpl()),
+                    InvitationCodes.BindService(new InvitationCodesImpl()),
                     InfApi.BindService(new InfApiImpl()),
                     InfAuth.BindService(new InfAuthImpl()),
                     InfConfig.BindService(new InfConfigImpl()),

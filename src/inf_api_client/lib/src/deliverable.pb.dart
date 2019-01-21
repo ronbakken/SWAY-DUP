@@ -13,28 +13,28 @@ import 'deliverable.pbenum.dart';
 
 export 'deliverable.pbenum.dart';
 
-class DeliverableIcon extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DeliverableIcon', package: const $pb.PackageName('api'))
+class DeliverableIconDto extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DeliverableIconDto', package: const $pb.PackageName('api'))
     ..a<int>(1, 'id', $pb.PbFieldType.O3)
-    ..e<DeliverableType>(2, 'deliverableType', $pb.PbFieldType.OE, DeliverableType.post, DeliverableType.valueOf, DeliverableType.values)
+    ..e<DeliverableType>(2, 'deliverableType', $pb.PbFieldType.OE, DeliverableType.POST, DeliverableType.valueOf, DeliverableType.values)
     ..a<List<int>>(3, 'iconData', $pb.PbFieldType.OY)
     ..aOS(4, 'name')
     ..hasRequiredFields = false
   ;
 
-  DeliverableIcon() : super();
-  DeliverableIcon.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  DeliverableIcon.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  DeliverableIcon clone() => new DeliverableIcon()..mergeFromMessage(this);
-  DeliverableIcon copyWith(void Function(DeliverableIcon) updates) => super.copyWith((message) => updates(message as DeliverableIcon));
+  DeliverableIconDto() : super();
+  DeliverableIconDto.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  DeliverableIconDto.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DeliverableIconDto clone() => new DeliverableIconDto()..mergeFromMessage(this);
+  DeliverableIconDto copyWith(void Function(DeliverableIconDto) updates) => super.copyWith((message) => updates(message as DeliverableIconDto));
   $pb.BuilderInfo get info_ => _i;
-  static DeliverableIcon create() => new DeliverableIcon();
-  DeliverableIcon createEmptyInstance() => create();
-  static $pb.PbList<DeliverableIcon> createRepeated() => new $pb.PbList<DeliverableIcon>();
-  static DeliverableIcon getDefault() => _defaultInstance ??= create()..freeze();
-  static DeliverableIcon _defaultInstance;
-  static void $checkItem(DeliverableIcon v) {
-    if (v is! DeliverableIcon) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static DeliverableIconDto create() => new DeliverableIconDto();
+  DeliverableIconDto createEmptyInstance() => create();
+  static $pb.PbList<DeliverableIconDto> createRepeated() => new $pb.PbList<DeliverableIconDto>();
+  static DeliverableIconDto getDefault() => _defaultInstance ??= create()..freeze();
+  static DeliverableIconDto _defaultInstance;
+  static void $checkItem(DeliverableIconDto v) {
+    if (v is! DeliverableIconDto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get id => $_get(0, 0);
@@ -58,27 +58,27 @@ class DeliverableIcon extends $pb.GeneratedMessage {
   void clearName() => clearField(4);
 }
 
-class Deliverable extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('Deliverable', package: const $pb.PackageName('api'))
+class DeliverableDto extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DeliverableDto', package: const $pb.PackageName('api'))
     ..a<int>(1, 'id', $pb.PbFieldType.O3)
-    ..e<DeliverableType>(2, 'type', $pb.PbFieldType.OE, DeliverableType.post, DeliverableType.valueOf, DeliverableType.values)
+    ..e<DeliverableType>(2, 'type', $pb.PbFieldType.OE, DeliverableType.POST, DeliverableType.valueOf, DeliverableType.values)
     ..aOS(3, 'description')
     ..hasRequiredFields = false
   ;
 
-  Deliverable() : super();
-  Deliverable.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  Deliverable.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  Deliverable clone() => new Deliverable()..mergeFromMessage(this);
-  Deliverable copyWith(void Function(Deliverable) updates) => super.copyWith((message) => updates(message as Deliverable));
+  DeliverableDto() : super();
+  DeliverableDto.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  DeliverableDto.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  DeliverableDto clone() => new DeliverableDto()..mergeFromMessage(this);
+  DeliverableDto copyWith(void Function(DeliverableDto) updates) => super.copyWith((message) => updates(message as DeliverableDto));
   $pb.BuilderInfo get info_ => _i;
-  static Deliverable create() => new Deliverable();
-  Deliverable createEmptyInstance() => create();
-  static $pb.PbList<Deliverable> createRepeated() => new $pb.PbList<Deliverable>();
-  static Deliverable getDefault() => _defaultInstance ??= create()..freeze();
-  static Deliverable _defaultInstance;
-  static void $checkItem(Deliverable v) {
-    if (v is! Deliverable) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static DeliverableDto create() => new DeliverableDto();
+  DeliverableDto createEmptyInstance() => create();
+  static $pb.PbList<DeliverableDto> createRepeated() => new $pb.PbList<DeliverableDto>();
+  static DeliverableDto getDefault() => _defaultInstance ??= create()..freeze();
+  static DeliverableDto _defaultInstance;
+  static void $checkItem(DeliverableDto v) {
+    if (v is! DeliverableDto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get id => $_get(0, 0);

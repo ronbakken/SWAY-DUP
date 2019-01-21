@@ -14,5 +14,6 @@ protoc.exe ^
     social_media_account.proto ^
     social_network_provider.proto ^
     user.proto ^
-    location.proto
+    location.proto ^
+    invitation_codes.proto
 echo ...done

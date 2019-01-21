@@ -7,15 +7,15 @@
 const DeliverableType$json = const {
   '1': 'DeliverableType',
   '2': const [
-    const {'1': 'post', '2': 0},
-    const {'1': 'mention', '2': 1},
-    const {'1': 'video', '2': 2},
-    const {'1': 'customDeliverable', '2': 3},
+    const {'1': 'POST', '2': 0},
+    const {'1': 'MENTION', '2': 1},
+    const {'1': 'VIDEO', '2': 2},
+    const {'1': 'CUSTOM_DELIVERABLE', '2': 3},
   ],
 };
 
-const DeliverableIcon$json = const {
-  '1': 'DeliverableIcon',
+const DeliverableIconDto$json = const {
+  '1': 'DeliverableIconDto',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
     const {'1': 'deliverableType', '3': 2, '4': 1, '5': 14, '6': '.api.DeliverableType', '10': 'deliverableType'},
@@ -24,8 +24,8 @@ const DeliverableIcon$json = const {
   ],
 };
 
-const Deliverable$json = const {
-  '1': 'Deliverable',
+const DeliverableDto$json = const {
+  '1': 'DeliverableDto',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
     const {'1': 'type', '3': 2, '4': 1, '5': 14, '6': '.api.DeliverableType', '10': 'type'},

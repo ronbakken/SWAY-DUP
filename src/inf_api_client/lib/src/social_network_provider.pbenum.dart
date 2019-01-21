@@ -9,20 +9,20 @@ import 'dart:core' show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class SocialNetworkProviderType extends $pb.ProtobufEnum {
-  static const SocialNetworkProviderType instagram = const SocialNetworkProviderType._(0, 'instagram');
-  static const SocialNetworkProviderType facebook = const SocialNetworkProviderType._(1, 'facebook');
-  static const SocialNetworkProviderType twitter = const SocialNetworkProviderType._(2, 'twitter');
-  static const SocialNetworkProviderType youtube = const SocialNetworkProviderType._(3, 'youtube');
-  static const SocialNetworkProviderType snapchat = const SocialNetworkProviderType._(4, 'snapchat');
-  static const SocialNetworkProviderType customSocialNetworkProvider = const SocialNetworkProviderType._(5, 'customSocialNetworkProvider');
+  static const SocialNetworkProviderType INSTAGRAM = const SocialNetworkProviderType._(0, 'INSTAGRAM');
+  static const SocialNetworkProviderType FACEBOOK = const SocialNetworkProviderType._(1, 'FACEBOOK');
+  static const SocialNetworkProviderType TWITTER = const SocialNetworkProviderType._(2, 'TWITTER');
+  static const SocialNetworkProviderType YOU_TUBE = const SocialNetworkProviderType._(3, 'YOU_TUBE');
+  static const SocialNetworkProviderType SNAPCHAT = const SocialNetworkProviderType._(4, 'SNAPCHAT');
+  static const SocialNetworkProviderType CUSTOM_SOCIALNET_WORK_PROVIDER = const SocialNetworkProviderType._(5, 'CUSTOM_SOCIALNET_WORK_PROVIDER');
 
   static const List<SocialNetworkProviderType> values = const <SocialNetworkProviderType> [
-    instagram,
-    facebook,
-    twitter,
-    youtube,
-    snapchat,
-    customSocialNetworkProvider,
+    INSTAGRAM,
+    FACEBOOK,
+    TWITTER,
+    YOU_TUBE,
+    SNAPCHAT,
+    CUSTOM_SOCIALNET_WORK_PROVIDER,
   ];
 
   static final Map<int, SocialNetworkProviderType> _byValue = $pb.ProtobufEnum.initByValue(values);

@@ -9,8 +9,8 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class Category extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('Category', package: const $pb.PackageName('api'))
+class CategoryDto extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CategoryDto', package: const $pb.PackageName('api'))
     ..a<int>(1, 'id', $pb.PbFieldType.O3)
     ..a<int>(2, 'parentId', $pb.PbFieldType.O3)
     ..aOS(3, 'name')
@@ -19,19 +19,19 @@ class Category extends $pb.GeneratedMessage {
     ..hasRequiredFields = false
   ;
 
-  Category() : super();
-  Category.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  Category.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  Category clone() => new Category()..mergeFromMessage(this);
-  Category copyWith(void Function(Category) updates) => super.copyWith((message) => updates(message as Category));
+  CategoryDto() : super();
+  CategoryDto.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  CategoryDto.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  CategoryDto clone() => new CategoryDto()..mergeFromMessage(this);
+  CategoryDto copyWith(void Function(CategoryDto) updates) => super.copyWith((message) => updates(message as CategoryDto));
   $pb.BuilderInfo get info_ => _i;
-  static Category create() => new Category();
-  Category createEmptyInstance() => create();
-  static $pb.PbList<Category> createRepeated() => new $pb.PbList<Category>();
-  static Category getDefault() => _defaultInstance ??= create()..freeze();
-  static Category _defaultInstance;
-  static void $checkItem(Category v) {
-    if (v is! Category) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static CategoryDto create() => new CategoryDto();
+  CategoryDto createEmptyInstance() => create();
+  static $pb.PbList<CategoryDto> createRepeated() => new $pb.PbList<CategoryDto>();
+  static CategoryDto getDefault() => _defaultInstance ??= create()..freeze();
+  static CategoryDto _defaultInstance;
+  static void $checkItem(CategoryDto v) {
+    if (v is! CategoryDto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   int get id => $_get(0, 0);
