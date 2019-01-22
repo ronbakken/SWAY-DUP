@@ -41,13 +41,11 @@ const UserDto$json = const {
     const {'1': 'accountCompletionInPercent', '3': 11, '4': 1, '5': 5, '10': 'accountCompletionInPercent'},
     const {'1': 'locationAsString', '3': 12, '4': 1, '5': 9, '10': 'locationAsString'},
     const {'1': 'location', '3': 13, '4': 1, '5': 11, '6': '.api.LocationDto', '10': 'location'},
-    const {'1': 'avatarThumbnailUrl', '3': 14, '4': 1, '5': 9, '10': 'avatarThumbnailUrl'},
-    const {'1': 'avatarThumbnailLowRes', '3': 15, '4': 1, '5': 12, '10': 'avatarThumbnailLowRes'},
-    const {'1': 'avatarUrl', '3': 16, '4': 1, '5': 9, '10': 'avatarUrl'},
-    const {'1': 'avatarLowRes', '3': 17, '4': 1, '5': 12, '10': 'avatarLowRes'},
-    const {'1': 'categoryIds', '3': 18, '4': 3, '5': 5, '10': 'categoryIds'},
-    const {'1': 'minimalFee', '3': 19, '4': 1, '5': 5, '10': 'minimalFee'},
-    const {'1': 'socialMediaAccounts', '3': 26, '4': 3, '5': 11, '6': '.api.SocialMediaAccountDto', '10': 'socialMediaAccounts'},
+    const {'1': 'avatar', '3': 14, '4': 1, '5': 11, '6': '.api.ImageDto', '10': 'avatar'},
+    const {'1': 'avatarThumbnail', '3': 15, '4': 1, '5': 11, '6': '.api.ImageDto', '10': 'avatarThumbnail'},
+    const {'1': 'categoryIds', '3': 16, '4': 3, '5': 5, '10': 'categoryIds'},
+    const {'1': 'minimalFee', '3': 17, '4': 1, '5': 5, '10': 'minimalFee'},
+    const {'1': 'socialMediaAccounts', '3': 25, '4': 3, '5': 11, '6': '.api.SocialMediaAccountDto', '10': 'socialMediaAccounts'},
   ],
 };
 

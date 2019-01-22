@@ -10,8 +10,8 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'category.pb.dart' as $5;
-import 'social_network_provider.pb.dart' as $1;
-import 'deliverable.pb.dart' as $6;
+import 'social_network_provider.pb.dart' as $6;
+import 'deliverable.pb.dart' as $7;
 
 class GetVersionsResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetVersionsResponse', package: const $pb.PackageName('api'))
@@ -105,8 +105,8 @@ class AppConfigDto extends $pb.GeneratedMessage {
     ..a<int>(1, 'configVersion', $pb.PbFieldType.O3)
     ..a<ServiceConfigDto>(5, 'serviceConfig', $pb.PbFieldType.OM, ServiceConfigDto.getDefault, ServiceConfigDto.create)
     ..pp<$5.CategoryDto>(6, 'categories', $pb.PbFieldType.PM, $5.CategoryDto.$checkItem, $5.CategoryDto.create)
-    ..pp<$1.SocialNetworkProviderDto>(7, 'socialNetworkProviders', $pb.PbFieldType.PM, $1.SocialNetworkProviderDto.$checkItem, $1.SocialNetworkProviderDto.create)
-    ..pp<$6.DeliverableIconDto>(8, 'deliverableIcons', $pb.PbFieldType.PM, $6.DeliverableIconDto.$checkItem, $6.DeliverableIconDto.create)
+    ..pp<$6.SocialNetworkProviderDto>(7, 'socialNetworkProviders', $pb.PbFieldType.PM, $6.SocialNetworkProviderDto.$checkItem, $6.SocialNetworkProviderDto.create)
+    ..pp<$7.DeliverableIconDto>(8, 'deliverableIcons', $pb.PbFieldType.PM, $7.DeliverableIconDto.$checkItem, $7.DeliverableIconDto.create)
     ..aOS(10, 'termsOfServiceUrl')
     ..aOS(11, 'privacyPolicyUrl')
     ..aOB(12, 'userNeedInvitationToSignUp')
@@ -140,9 +140,9 @@ class AppConfigDto extends $pb.GeneratedMessage {
 
   List<$5.CategoryDto> get categories => $_getList(2);
 
-  List<$1.SocialNetworkProviderDto> get socialNetworkProviders => $_getList(3);
+  List<$6.SocialNetworkProviderDto> get socialNetworkProviders => $_getList(3);
 
-  List<$6.DeliverableIconDto> get deliverableIcons => $_getList(4);
+  List<$7.DeliverableIconDto> get deliverableIcons => $_getList(4);
 
   String get termsOfServiceUrl => $_getS(5, '');
   set termsOfServiceUrl(String v) { $_setString(5, v); }

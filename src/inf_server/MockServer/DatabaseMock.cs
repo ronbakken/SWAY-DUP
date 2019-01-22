@@ -280,7 +280,7 @@ namespace MockServer
                                 "./icons/logo_instagram_monochrome.svg"),
                         LogoBackgroundData =
                             MockHelpers.ReadIconData("./icons/instagram_background.png"),
-                        Name = "Instagramm",
+                        Name = "Instagram",
                         ApiKey ="ce0aaa7e065f4d6cbbb85055ce98cdfc"
                     },
                     new SocialNetworkProviderDto
