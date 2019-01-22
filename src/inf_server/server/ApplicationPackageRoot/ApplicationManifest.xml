@@ -14,6 +14,10 @@
     <Parameter Name="RefreshTokenActorService_PartitionCount" DefaultValue="10" />
     <Parameter Name="RefreshTokenActorService_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="RefreshTokenActorService_TargetReplicaSetSize" DefaultValue="3" />
+    <!--
+        The access token that facilitates access to the user storage account
+        -->
+    <Parameter Name="UserStorageAccountConnectionString" DefaultValue="NOT SET" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion
        should match the Name and Version attributes of the ServiceManifest element defined in the
@@ -30,7 +34,15 @@
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="APIPkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
+    <ConfigOverrides>
+      <ConfigOverride Name="Config">
+        <Settings>
+          <Section Name="Storage">
+            <Parameter Name="ConnectionString" Value="[UserStorageAccountConnectionString]" />
+          </Section>
+        </Settings>
+      </ConfigOverride>
+    </ConfigOverrides>
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="UserPkg" ServiceManifestVersion="1.0.0" />

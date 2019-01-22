@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using API.Interfaces;
 using API.Services.Auth;
+using API.Services.BlobStorage;
 using API.Services.InvitationCodes;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
@@ -50,6 +51,7 @@ namespace API
                     // Real APIs
                     InfApi.BindService(new Mocks.InfApiImpl()).Intercept(authorizationInterceptor),
                     InfAuth.BindService(new InfAuthImpl()).Intercept(authorizationInterceptor),
+                    InfBlobStorage.BindService(new InfBlobStorageImpl()).Intercept(authorizationInterceptor),
                     InfConfig.BindService(new Mocks.InfConfigImpl()).Intercept(authorizationInterceptor),
                     InfSystem.BindService(new Mocks.InfSystemImpl()).Intercept(authorizationInterceptor),
                     InfInvitationCodes.BindService(new InfInvitationCodesImpl()).Intercept(authorizationInterceptor),

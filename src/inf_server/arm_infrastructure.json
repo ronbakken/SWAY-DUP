@@ -84,7 +84,8 @@
       "vmImageOffer": "WindowsServer",
       "vmImageSku": "2016-Datacenter-with-Containers",
       "vmImageVersion": "latest",
-      "rdpUserName": "rdpadmin"
+      "rdpUserName": "rdpadmin",
+      "userStorageAccountName": "[concat(variables('sanitizedResourcePrefix'), 'usa')]"
    },
    "resources": [
       {
@@ -542,12 +543,30 @@
             "upgradeMode": "Automatic",
             "vmImage": "Windows"
          }
+      },
+      {
+         "apiVersion": "2018-07-01",
+         "type": "Microsoft.Storage/storageAccounts",
+         "name": "[variables('userStorageAccountName')]",
+         "comments": "A blob storage account for user data, such as profile images.",
+         "location": "[resourceGroup().location]",
+         "tags": {
+            "displayName": "UserStorageAccount"
+         },
+         "sku": {
+            "name": "Standard_LRS"
+         },
+         "kind": "Storage"
       }
    ],
    "outputs": {
       "clusterProperties": {
          "type": "object",
          "value": "[reference(variables('clusterName'))]"
+      },
+      "userStorageAccountConnectionString": {
+         "type": "string",
+         "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('userStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('userStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
       }
    }
 }

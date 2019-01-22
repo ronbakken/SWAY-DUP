@@ -25,6 +25,7 @@
         <PackageReference Include="Grpc.Core.Testing" />
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Sendgrid" />
+        <PackageReference Include="WindowsAzure.Storage" />
 
         <PackageReference Include="Genesis.TestUtil" />
         <PackageReference Include="Moq" />

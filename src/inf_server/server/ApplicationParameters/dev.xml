@@ -14,6 +14,9 @@
     <Parameter Name="RefreshTokenActorService_PartitionCount" Value="1" />
     <Parameter Name="RefreshTokenActorService_TargetReplicaSetSize" Value="1" />
     <Parameter Name="RefreshTokenActorService_MinReplicaSetSize" Value="1" />
-    <Parameter Name="UserStorageAccountConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=inflinqpadusa;AccountKey=5GKFllNikQRY/DmBUo2SXGnlHV5Mx28pINNJz6DfieC/Af5Seog2U5nMJ/VbcNm0rRpoO8/LrF/RyFfJKnT7qg==;EndpointSuffix=core.windows.net" />
+    <!--
+        Parameters substituted by the build script.
+        -->
+    <Parameter Name="UserStorageAccountConnectionString" Value="$USER_STORAGE_ACCOUNT_CONNECTION_STRING" />
   </Parameters>
 </Application>

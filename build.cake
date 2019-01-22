@@ -43,6 +43,9 @@ using System;
 using System.Net;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.KeyVault.Models;
 using Microsoft.Azure.Management.Fluent;
@@ -68,7 +71,7 @@ var environment = EnvironmentVariable("ENVIRONMENT");
 var subscriptionId = EnvironmentVariable("AZURE_SUBSCRIPTION_ID");
 var clientId = EnvironmentVariable("AZURE_CLIENT_ID");
 var tenantId = EnvironmentVariable("AZURE_TENANT_ID");
-var storageAccountConnectionString = EnvironmentVariable("AZURE_STORAGE_ACCOUNT_CONNECTION_STRING");
+var deploymentsStorageAccountConnectionString = EnvironmentVariable("AZURE_STORAGE_ACCOUNT_CONNECTION_STRING");
 var vmInstanceCount = int.Parse(EnvironmentVariable("VM_INSTANCE_COUNT") ?? "1");
 var configuration = "Release";
 
@@ -113,7 +116,54 @@ Task("Deploy")
     .Does(
         async (context) =>
         {
-            // Build and deploy the Service Fabric application itself.
+            // 1. Deploy the ARM infrastructure template.
+            var credentials = CreateAzureCredentials(context, clientId, tenantId, automationCertificate);
+            var azure = CreateAuthenticatedAzureClient(context, credentials);
+            var resourceManagementClient = CreateResourceManagementClient(credentials, subscriptionId);
+            var resourceGroup = await EnsureResourceGroup(context, azure, resourceGroupName, region);
+            var keyVault = await EnsureKeyVault(context, azure, keyVaultName, resourceGroupName, region);
+            var selfSignedCertificatePassword = GenerateRandomPassword(16);
+            var selfSignedCertificate = CreateSelfSignedServerCertificate(context, certificateName, selfSignedCertificatePassword);
+            var certificateBundle = await EnsureCertificate(
+                context,
+                azure,
+                keyVault,
+                selfSignedCertificate,
+                certificateName,
+                selfSignedCertificatePassword);
+
+            var passwordSeed = BitConverter.ToInt32(certificateBundle.X509Thumbprint, 0);
+            var rdpPassword = GenerateRandomPassword(16, seed: passwordSeed);
+            context.Information($"RDP password is '{rdpPassword}'.");
+            var escapedRdpPassword = rdpPassword
+                .Replace("\\", "\\\\")
+                .Replace("\"", "\\\"");
+
+            var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
+            var infrastructureDeployment = await DeployARMTemplate(
+                context,
+                resourceManagementClient,
+                certificateBundle,
+                resourceGroupName,
+                resourceNamePrefix,
+                infrastructureTemplateFile,
+                new Dictionary<string, object>
+                {
+                    { "resourcePrefix", resourceNamePrefix },
+                    { "certificateThumbprint", certificateThumbprint },
+                    { "automationCertificateThumbprint", automationCertificate.Thumbprint },
+                    { "certificateUrlValue", certificateBundle.SecretIdentifier.Identifier },
+                    { "sourceVaultResourceId", keyVault.Id },
+                    { "rdpPassword", escapedRdpPassword },
+                    { "vmInstanceCount", vmInstanceCount },
+                });
+
+            var outputs = ((JObject)infrastructureDeployment.Properties.Outputs);
+            var clusterManagementEndpoint = (string)outputs["clusterProperties"]["value"]["managementEndpoint"];
+            var clusterManagementUri = new Uri(clusterManagementEndpoint);
+            var userStorageAccountConnectionString = (string)outputs["userStorageAccountConnectionString"]["value"];
+
+            // 2. Build and upload the Service Fabric application.
             Information("Restoring packages.");
             DotNetCoreRestore(srcDir + File("server.sln"));
 
@@ -140,19 +190,31 @@ Task("Deploy")
             PublishService("RefreshToken");
             PublishService("User");
 
-            CopyFileToDirectory(srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml"), pkgDir);
+            var sourceApplicationManifest = srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml");
+            var destinationApplicationManifest =  pkgDir + File("ApplicationManifest.xml");
+            var applicationParameters = srcDir + Directory("server/ApplicationParameters") + File($"{environment}.xml");
+            var updatedApplicationManifestDocument = SubstituteApplicationParameters(
+                sourceApplicationManifest,
+                applicationParameters,
+                new Dictionary<string, string>
+                {
+                    { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", userStorageAccountConnectionString },
+                });
+
+            Information("Application manifest: {0}", updatedApplicationManifestDocument.ToString());
+            updatedApplicationManifestDocument.Save(destinationApplicationManifest);
 
             Information("Zipping deployment package.");
             Zip(pkgDir, zippedPackageFile);
 
             Information("Uploading deployment package to Azure storage.");
 
-            if (!CloudStorageAccount.TryParse(storageAccountConnectionString, out var storageAccount))
+            if (!CloudStorageAccount.TryParse(deploymentsStorageAccountConnectionString, out var deploymentsStorageAccount))
             {
-                throw new Exception($"Azure storage account connection string '{storageAccountConnectionString}' is not valid.");
+                throw new Exception($"Azure storage account connection string '{deploymentsStorageAccountConnectionString}' is not valid.");
             }
 
-            var cloudBlobClient = storageAccount.CreateCloudBlobClient();
+            var cloudBlobClient = deploymentsStorageAccount.CreateCloudBlobClient();
 
             var storageContainerName = $"{resourceNamePrefix}-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}-{Guid.NewGuid()}";
             Information($"Creating storage container with name '{storageContainerName}'.");
@@ -168,49 +230,7 @@ Task("Deploy")
                 packageUri = cloudBlockBlob.Uri;
                 Information($"Uploaded, available at URI '{packageUri}'.");
 
-                // Deploy the ARM templates describing the requirements of our Service Fabric application.
-                var credentials = CreateAzureCredentials(context, clientId, tenantId, automationCertificate);
-                var azure = CreateAuthenticatedAzureClient(context, credentials);
-                var resourceManagementClient = CreateResourceManagementClient(credentials, subscriptionId);
-                var resourceGroup = await EnsureResourceGroup(context, azure, resourceGroupName, region);
-                var keyVault = await EnsureKeyVault(context, azure, keyVaultName, resourceGroupName, region);
-                var selfSignedCertificatePassword = GenerateRandomPassword(16);
-                var selfSignedCertificate = CreateSelfSignedServerCertificate(context, certificateName, selfSignedCertificatePassword);
-                var certificateBundle = await EnsureCertificate(
-                    context,
-                    azure,
-                    keyVault,
-                    selfSignedCertificate,
-                    certificateName,
-                    selfSignedCertificatePassword);
-
-                // Deploy infrastructure template.
-                var passwordSeed = BitConverter.ToInt32(certificateBundle.X509Thumbprint, 0);
-                var rdpPassword = GenerateRandomPassword(16, seed: passwordSeed);
-                context.Information($"RDP password is '{rdpPassword}'.");
-                var escapedRdpPassword = rdpPassword
-                    .Replace("\\", "\\\\")
-                    .Replace("\"", "\\\"");
-
-                var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
-                var infrastructureDeployment = await DeployARMTemplate(
-                    context,
-                    resourceManagementClient,
-                    certificateBundle,
-                    resourceGroupName,
-                    resourceNamePrefix,
-                    infrastructureTemplateFile,
-                    new Dictionary<string, object>
-                    {
-                        { "resourcePrefix", resourceNamePrefix },
-                        { "certificateThumbprint", certificateThumbprint },
-                        { "automationCertificateThumbprint", automationCertificate.Thumbprint },
-                        { "certificateUrlValue", certificateBundle.SecretIdentifier.Identifier },
-                        { "sourceVaultResourceId", keyVault.Id },
-                        { "rdpPassword", escapedRdpPassword },
-                        { "vmInstanceCount", vmInstanceCount },
-                    });
-
+                // 3. Deploy the application ARM template.
                 var applicationDeployment = await DeployARMTemplate(
                     context,
                     resourceManagementClient,
@@ -688,6 +708,38 @@ private static string DumpError(ResourceManagementErrorWithDetails error)
     var dumpedError = new StringBuilder();
     DumpDetailsRecursive(error, 0, dumpedError);
     return dumpedError.ToString();
+}
+
+private static XDocument SubstituteApplicationParameters(
+    ConvertableFilePath applicationManifestFile,
+    ConvertableFilePath applicationParametersFile,
+    Dictionary<string, string> substitutions)
+{
+    var applicationManifest = XDocument.Load(applicationManifestFile);
+    var applicationParameters = XDocument.Load(applicationParametersFile);
+    var nameTable = new NameTable();
+    var namespaceManager = new XmlNamespaceManager(nameTable);
+    namespaceManager.AddNamespace("sf", "http://schemas.microsoft.com/2011/01/fabric");
+
+    var source = applicationParameters.XPathSelectElement("/sf:Application/sf:Parameters", namespaceManager);
+    var sourceParameters = source.XPathSelectElements("sf:Parameter", namespaceManager);
+    var destination = applicationManifest.XPathSelectElement("/sf:ApplicationManifest/sf:Parameters", namespaceManager);
+
+    foreach (var sourceParameter in sourceParameters)
+    {
+        var valueAttribute = sourceParameter.Attribute("Value");
+        var value = valueAttribute.Value;
+
+        foreach (var substitution in substitutions)
+        {
+            value = value.Replace("$" + substitution.Key, substitution.Value);
+        }
+
+        valueAttribute.Value = value;
+    }
+
+    destination.ReplaceWith(source);
+    return applicationManifest;
 }
 
 RunTarget(Argument("target", "Deploy"));

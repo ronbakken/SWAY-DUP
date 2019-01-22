@@ -16,7 +16,7 @@ namespace API
         private const string authorizationHeader = "authorization";
         private const string schema = "Bearer";
 
-        // What user types can invoke a given method. If a method does not appear in this list, it won't be callable.
+        // What user types can invoke a given method. If a method does not appear in this list, it won't be callable by anyone.
         private static readonly Dictionary<string, UserTypes> userTypesForMethod = new Dictionary<string, UserTypes>
         {
             // InfAuth
@@ -29,9 +29,12 @@ namespace API
             { "/api.InfAuth/UpdateUser", UserTypes.Influencer | UserTypes.Business },
             { "/api.InfAuth/Logout", UserTypes.Anonymous },
 
-            // InfAdminInvitationCodes
-            { "/api.InfAdminInvitationCodes/GenerateInvitationCode", UserTypes.Admin },
-            { "/api.InfAdminInvitationCodes/GetInvitationCodeStatus", UserTypes.Admin },
+            // InfBlobStorage
+            { "/api.InfBlobStorage/GetUploadUrl", UserTypes.Influencer | UserTypes.Business },
+
+            // InfInvitationCodes
+            { "/api.InfInvitationCodes/GenerateInvitationCode", UserTypes.Admin },
+            { "/api.InfInvitationCodes/GetInvitationCodeStatus", UserTypes.Admin },
         };
 
         public override async Task<TResponse> ClientStreamingServerHandler<TRequest, TResponse>(IAsyncStreamReader<TRequest> requestStream, ServerCallContext context, ClientStreamingServerMethod<TRequest, TResponse> continuation)
