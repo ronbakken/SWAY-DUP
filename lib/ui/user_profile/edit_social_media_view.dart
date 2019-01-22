@@ -89,26 +89,21 @@ class _EditSocialMediaViewState extends State<EditSocialMediaView> {
             ),
             Text(row.provider.name),
             Spacer(),
-                InfSwitch(
-                    onChanged: (enabled) async {
-                      if (enabled) {
-                        var newAccount = await connectToSocialMediaAccount(row.provider, context);
-                        if (newAccount != null) {
-                          row.account = newAccount;
-                        } else {
-                          await showMessageDialog(context, 'Connection problem',
-                              'There was a problem connecting your social media account. Please try again later');
-                        }
-                      }
-                      else
-                      {
-                        row.account = null;
-                      }
-                      setState(() {});
-                    },
-                    value: row.connected,
-                    activeColor: AppTheme.blue,
-                  )
+            InfSwitch(
+              onChanged: (enabled) async {
+                if (enabled) {
+                  var newAccount = await connectToSocialMediaAccount(row.provider, context);
+                  if (newAccount != null) {
+                    row.account = newAccount;
+                  }
+                } else {
+                  row.account = null;
+                }
+                setState(() {});
+              },
+              value: row.connected,
+              activeColor: AppTheme.blue,
+            )
           ],
         ),
       ));
@@ -118,5 +113,9 @@ class _EditSocialMediaViewState extends State<EditSocialMediaView> {
       mainAxisSize: MainAxisSize.min,
       children: entries,
     );
+  }
+
+  List<SocialMediaAccount> getConnectedAccounts() {
+    return _socialMediaRows.where((row) => row.account != null).map<SocialMediaAccount>((r) => r.account).toList();
   }
 }

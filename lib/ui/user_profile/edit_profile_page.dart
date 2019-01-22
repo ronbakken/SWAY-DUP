@@ -22,11 +22,13 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   GlobalKey formKey = GlobalKey();
+  GlobalKey socialMediaKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     var user = backend.get<UserManager>().currentUser;
     return Scaffold(
+      resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         title: Text(user.name.toUpperCase()),
         centerTitle: true,
@@ -54,17 +56,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          Text("MANAGE YOUR SOCIAL ACCOUNTS",
-                              textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                          SizedBox(height: 8),
-                          EditSocialMediaView(socialMediaAccounts: user.socialMediaAccounts,),
-                          ColumnSeparator(),
                           Text("YOUR NAME", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
                           SizedBox(height: 8),
                           TextFormField(
                             initialValue: user.name,
                           ),
                           SizedBox(height: 16),
+                          Text("MANAGE YOUR SOCIAL ACCOUNTS",
+                              textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+                          SizedBox(height: 8),
+                          EditSocialMediaView(
+                            key: socialMediaKey,
+                            socialMediaAccounts: user.socialMediaAccounts,
+                          ),
+                          ColumnSeparator(),
                           Text("ABOUT YOU", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
                           SizedBox(height: 8),
                           TextFormField(

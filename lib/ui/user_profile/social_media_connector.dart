@@ -3,9 +3,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
@@ -18,15 +21,8 @@ Future<SocialMediaAccount> connectToSocialMediaAccount(SocialNetworkProvider pro
           provider.type == SocialNetworkProviderType.TWITTER
       // ||provider.type == SocialNetworkProviderType.SNAPCHAT
       ) {
-    var result =
-        await Navigator.of(context).push<SocialMediaAccount>(MaterialPageRoute(builder: (BuildContext context) {
-      return SocialMediaConnectorPage(
-        connectTo: provider,
-      );
-    }));
-    return result;
-  } else if (provider.type == SocialNetworkProviderType.YOU_TUBE) {
-  } else {}
+    return await Navigator.push(context, _SocialNetWorkConnectionStatusPage.route(connectTo: provider));
+  } else if (provider.type == SocialNetworkProviderType.YOU_TUBE) {}
   return null;
 }
 
@@ -55,10 +51,31 @@ Future<SocialMediaAccount> connectToSocialMediaAccount(SocialNetworkProvider pro
 // }
 
 class SocialMediaConnectorPage extends StatefulWidget {
-  final SocialNetworkProvider connectTo;
-  final Set<String> whitelistHosts;
+  static Route<SocialMediaAccount> route({SocialNetworkProvider connectTo}) {
+    return PageRouteBuilder(
+      pageBuilder: (BuildContext context, _, __) {
+        return SocialMediaConnectorPage(
+          connectTo: connectTo,
+        );
+      },
+      transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
+        final slide = Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset.zero).animate(animation);
+        return SlideTransition(
+          position: slide,
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 650),
+      opaque: false,
+    );
+  }
 
-  SocialMediaConnectorPage({Key key, this.connectTo, this.whitelistHosts}) : super(key: key);
+  final SocialNetworkProvider connectTo;
+
+  SocialMediaConnectorPage({
+    Key key,
+    this.connectTo,
+  }) : super(key: key);
   @override
   _SocialMediaConnectorPageState createState() => _SocialMediaConnectorPageState();
 }
@@ -205,9 +222,8 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
             } else if (provider.type == SocialNetworkProviderType.FACEBOOK) {
               newAccount = await handleFacebook(accessToken, context);
             }
-
           }
-            Navigator.of(context).pop<SocialMediaAccount>(newAccount);
+          Navigator.of(context).pop<SocialMediaAccount>(newAccount);
         } else if (!_whitelistHosts.contains(url) && !_whitelistHosts.contains(Uri.parse(url).host)) {
           var host = Uri.parse(url).host;
           print(host);
@@ -430,5 +446,280 @@ class _FacebookPageSelectorDialog extends StatelessWidget {
         ]),
       ),
     );
+  }
+}
+
+class _SocialNetWorkConnectionStatusPage extends StatefulWidget {
+  static Route<SocialMediaAccount> route({SocialNetworkProvider connectTo}) {
+    return PageRouteBuilder(
+      pageBuilder: (BuildContext context, _, __) {
+        return _SocialNetWorkConnectionStatusPage(
+          connectTo: connectTo,
+        );
+      },
+      transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
+        final slide = Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset.zero).animate(animation);
+        return SlideTransition(
+          position: slide,
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 650),
+      opaque: false,
+    );
+  }
+
+  final SocialNetworkProvider connectTo;
+
+  const _SocialNetWorkConnectionStatusPage({Key key, this.connectTo}) : super(key: key);
+  @override
+  __SocialNetWorkConnectionStatusPageState createState() => __SocialNetWorkConnectionStatusPageState();
+}
+
+enum _connectionState { notConnected, connected, failed }
+
+class __SocialNetWorkConnectionStatusPageState extends State<_SocialNetWorkConnectionStatusPage> {
+  SocialMediaAccount account;
+
+  _connectionState connectionState = _connectionState.notConnected;
+
+  @override
+  Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context);
+
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Material(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CurvedBox(
+              bottom: true,
+              top: false,
+              color: AppTheme.menuUserNameBackground,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 48),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Spacer(),
+                    Text(
+                      'Connect your ${widget.connectTo.name}',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: InkResponse(
+                          onTap: () => Navigator.of(context).pop<SocialMediaAccount>(null),
+                          child: Icon(Icons.close, size: 32),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 16.0),
+            buildConnectionIconRow(),
+            SizedBox(height: 16.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: getText(),
+            ),
+            SizedBox(height: 32.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 48),
+              child: connectionState == _connectionState.notConnected
+                  ? Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.lock,
+                          size: 16,
+                        ),
+                        SizedBox(width: 8),
+                        Text('This does not let the app post anything\n under your account', textAlign: TextAlign.center,),
+                      ],
+                    )
+                  : SizedBox(),
+            ),
+            SizedBox(height: 16.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: InfStadiumButton(
+                color: Colors.white,
+                text: getButtonText(),
+                onPressed: onButtonPressed,
+              ),
+            ),
+            SizedBox(
+              height: mediaQuery.padding.bottom + 32,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String getButtonText() {
+    switch (connectionState) {
+      case _connectionState.notConnected:
+        return 'CONNECT';
+        break;
+      default:
+        return 'OKAY';
+    }
+  }
+
+  Widget getText() {
+    switch (connectionState) {
+      case _connectionState.notConnected:
+        return Text(
+          'INF will receive the following info: your public profile and email adress',
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 20),
+        );
+        break;
+      case _connectionState.connected:
+        assert(account != null);
+        switch (account.socialNetWorkProvider.type) {
+          case SocialNetworkProviderType.FACEBOOK:
+            return Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: 'We have connected your account and verified you have '),
+                  TextSpan(
+                    text: account.audienceSizeAsString(),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: ' likes on your page.'),
+                ],
+              ),
+            );
+            break;
+          case SocialNetworkProviderType.SNAPCHAT:
+            return Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: 'We have connected your account with the user name '),
+                  TextSpan(text: account.displayName ?? 'no name', style: const TextStyle(fontWeight: FontWeight.bold)),
+                ],
+              ),
+            );
+            break;
+          default:
+            return Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: 'We have connected your account and verified you have '),
+                  TextSpan(text: account.audienceSizeAsString(), style: const TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(text: ' followers.')
+                ],
+              ),
+            );
+        }
+        break;
+      case _connectionState.failed:
+        return Text('Sorry there was a problem connecting your account please try again later');
+        break;
+    }
+    return Text('getText unknown State');
+  }
+
+  Widget buildConnectionIconRow() {
+    Widget connectionStateIcon;
+
+    switch (connectionState) {
+      case _connectionState.notConnected:
+        connectionStateIcon = InfAssetImage(
+          AppIcons.connect,
+          width: 24.0,
+        );
+        break;
+      case _connectionState.connected:
+        connectionStateIcon = Container(
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: AppTheme.lightBlue),
+          width: 24,
+          height: 24,
+          child: InfAssetImage(
+            AppIcons.check,
+          ),
+        );
+        break;
+      case _connectionState.failed:
+        connectionStateIcon = Icon(
+          Icons.close,
+          size: 32,
+          color: Colors.red,
+        );
+        break;
+    }
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: AppTheme.blue,
+          ),
+          height: 48,
+          width: 48,
+          child: Center(child: InfAssetImage(AppLogo.infLogo, height: 24, width: 24)),
+        ),
+        SizedBox(width: 8),
+        connectionStateIcon,
+        SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: widget.connectTo.logoBackGroundColor != null
+                ? Color(widget.connectTo.logoBackGroundColor)
+                : Colors.transparent,
+            image: widget.connectTo.logoBackgroundData != null
+                ? DecorationImage(
+                    image: MemoryImage(
+                      widget.connectTo.logoBackgroundData,
+                    ),
+                    fit: BoxFit.contain)
+                : null,
+          ),
+          height: 48,
+          width: 48,
+          child: InfMemoryImage(
+            widget.connectTo.logoMonochromeData,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void onButtonPressed() async {
+    switch (connectionState) {
+      case _connectionState.notConnected:
+        var result = await Navigator.of(context).push<SocialMediaAccount>(SocialMediaConnectorPage.route(
+          connectTo: widget.connectTo,
+        ));
+        if (result != null) {
+          setState(() {
+            account = result;
+            connectionState = _connectionState.connected;
+          });
+        } else {
+          setState(() {
+            account = null;
+            connectionState = _connectionState.failed;
+          });
+        }
+
+        break;
+      default:
+        Navigator.of(context).pop<SocialMediaAccount>(account);
+    }
   }
 }
