@@ -44,10 +44,11 @@ class ConfigServiceImplementation implements ConfigService {
     final secureStorage = new FlutterSecureStorage();
 
     // Get locally stored AppConfig
-    var configJson = await secureStorage.read(key: 'config');
-    if (configJson != null) {
-      configData = AppConfigDto.fromJson(configJson);
-    }
+    //dsiabled while API is still fluent
+    // var configJson = await secureStorage.read(key: 'config');
+    // if (configJson != null) {
+    //   configData = AppConfigDto.fromJson(configJson);
+    // }
 
     // Get curren Config and API version from server
     var versionInformationFromServer = await backend.get<InfApiClientsService>().configClient.getVersions(
@@ -61,14 +62,17 @@ class ConfigServiceImplementation implements ConfigService {
     // TODO This is not optimal because it the user installls the app and starts it the first time after
     // we rolled a new API version this could lead to problems
     // better would be an in the App itself embedded API version that is set by the CI server
-    var currentApiVersion = prefs.getInt('API_VERSION');
-    if (currentApiVersion != null && currentApiVersion < versionInformationFromServer.versionInfo.apiVersion) {
-      throw AppMustUpdateException();
-    }
 
-    if (currentApiVersion == null) {
-      await prefs.setInt('API_VERSION', versionInformationFromServer.versionInfo.apiVersion);
-    }
+    /// While the API is still not fixed we don't use the stores ApiConfig
+    /// 
+    // var currentApiVersion = prefs.getInt('API_VERSION');
+    // if (currentApiVersion != null && currentApiVersion < versionInformationFromServer.versionInfo.apiVersion) {
+    //   throw AppMustUpdateException();
+    // }
+
+    // if (currentApiVersion == null) {
+    //   await prefs.setInt('API_VERSION', versionInformationFromServer.versionInfo.apiVersion);
+    // }
 
     // local config does not exists or is outdated update from server
     if (configData == null || configData.configVersion < versionInformationFromServer.versionInfo.configVersion) {

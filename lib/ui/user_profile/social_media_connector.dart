@@ -3,7 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:inf/app/theme.dart';
+import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
+import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:inf/domain/domain.dart';
@@ -15,6 +18,13 @@ Future<SocialMediaAccount> connectToSocialMediaAccount(SocialNetworkProvider pro
           provider.type == SocialNetworkProviderType.TWITTER
       // ||provider.type == SocialNetworkProviderType.SNAPCHAT
       ) {
+    var result =
+        await Navigator.of(context).push<SocialMediaAccount>(MaterialPageRoute(builder: (BuildContext context) {
+      return SocialMediaConnectorPage(
+        connectTo: provider,
+      );
+    }));
+    return result;
   } else if (provider.type == SocialNetworkProviderType.YOU_TUBE) {
   } else {}
   return null;
@@ -57,7 +67,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
   final _flutterWebviewPlugin = FlutterWebviewPlugin();
   String _authUrl;
   String _callbackUrl;
-  Set<String> _whitelistHosts;
+  final Set<String> _whitelistHosts = Set<String>();
 
   SocialNetworkProvider provider;
 
@@ -78,12 +88,16 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
           'https://api.instagram.com/oauth/authorize/?client_id=apiKey&redirect_uri=callbackUrl&response_type=token';
       _authUrl = _authUrl.replaceFirst('apiKey', provider.apiKey);
       _authUrl = _authUrl.replaceFirst('callbackUrl', Uri.encodeComponent(_callbackUrl));
+
+      _whitelistHosts.add('www.instagram.com');
     } else if (provider.type == SocialNetworkProviderType.FACEBOOK) {
       _authUrl =
           'https://www.facebook.com/v3.2/dialog/oauth?client_id=apiKey&redirect_uri=callbackUrl&response_type=token&scope=pages_show_list';
 
       _authUrl = _authUrl.replaceFirst('apiKey', provider.apiKey);
       _authUrl = _authUrl.replaceFirst('callbackUrl', Uri.encodeComponent(_callbackUrl));
+
+      _whitelistHosts.add('m.facebook.com');
     } else if (provider.type == SocialNetworkProviderType.SNAPCHAT) {
       // todo
     } else if (provider.type == SocialNetworkProviderType.TWITTER) {
@@ -192,9 +206,11 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
               newAccount = await handleFacebook(accessToken, context);
             }
 
-            Navigator.of(context).pop<SocialMediaAccount>(newAccount);
           }
+            Navigator.of(context).pop<SocialMediaAccount>(newAccount);
         } else if (!_whitelistHosts.contains(url) && !_whitelistHosts.contains(Uri.parse(url).host)) {
+          var host = Uri.parse(url).host;
+          print(host);
           // Only allow API url.
           // Also allow T&C and Privacy Policy urls.
           print("Url not allowed: " + url);
@@ -207,11 +223,11 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
       }
     } catch (e) {
       print(e);
+      setState(() {
+        _authUrl = null;
+      });
+      Navigator.of(context).pop(null);
     }
-    setState(() {
-      _authUrl = null;
-    });
-    Navigator.of(context).pop(null);
   }
 
   Future<SocialMediaAccount> handleFacebook(String accessToken, BuildContext context) async {
@@ -229,11 +245,12 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
 
         if (response.statusCode == 200) {
           asMap = json.decode(response.body);
-          List<Map> pagesMap = asMap['data'];
+          List<dynamic> pagesMap = asMap['data'];
           if (pagesMap != null) {
             // if no pages are connected to this account you cannot link it to our App
             if (pagesMap.isEmpty) {
               await showMessageDialog(context, 'Connection problem', 'You need a facebook page to connect to facebook');
+              return null;
             }
 
             var pages = <FaceBookPageInfo>[];
@@ -242,12 +259,15 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
               pages.add(FaceBookPageInfo.fromMap(page));
             }
 
-            /// PageSelectotDialog
-
-            FaceBookPageInfo selectedPage;
+            var selectedPage = await showDialog<FaceBookPageInfo>(
+                context: context,
+                builder: (context) => _FacebookPageSelectorDialog(
+                      pages: pages,
+                    ));
 
             /// Get pages details
-            url = 'https://graph.facebook.com/v3.1/${selectedPage.id}?fields=link,fan_count&access_token=${accessToken}';
+            url =
+                'https://graph.facebook.com/v3.1/${selectedPage.id}?fields=link,fan_count&access_token=${accessToken}';
             response = await http.get(url);
 
             if (response.statusCode == 200) {
@@ -350,7 +370,65 @@ class FaceBookPageInfo {
 
   FaceBookPageInfo({this.id, this.name});
 
-  static FaceBookPageInfo fromMap(Map<String, String> map) {
+  static FaceBookPageInfo fromMap(Map<String, dynamic> map) {
     return FaceBookPageInfo(id: map['id'], name: map['name']);
+  }
+}
+
+class _FacebookPageSelectorDialog extends StatelessWidget {
+  final List<FaceBookPageInfo> pages;
+
+  const _FacebookPageSelectorDialog({Key key, this.pages}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 128),
+      child: Material(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          CurvedBox(
+            bottom: true,
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 32),
+              child: const Text('Please select you facebook page you want to connect'),
+            ),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              itemCount: pages.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(vertical: 8.0),
+                  color: AppTheme.listViewItemBackground,
+                  height: 48,
+                  child: FlatButton(
+                    onPressed: () => Navigator.of(context).pop<FaceBookPageInfo>(pages[index]),
+                    child: Center(
+                      child: Text(
+                        pages[index].name,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+            child: InfStadiumButton(
+              text: 'CANCEL',
+              height: 56.0,
+              color: AppTheme.blue,
+              onPressed: () => Navigator.of(context).pop<FaceBookPageInfo>(null),
+            ),
+          )
+        ]),
+      ),
+    );
   }
 }
