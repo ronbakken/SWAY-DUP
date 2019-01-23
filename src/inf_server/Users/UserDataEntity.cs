@@ -14,7 +14,6 @@ namespace Users
             ImageEntity avatar,
             ImageEntity avatarThumbnail,
             LocationEntity location,
-            string locationAsString,
             bool showLocation,
             bool isVerified,
             string websiteUri,
@@ -23,7 +22,7 @@ namespace Users
             int minimalFee,
             ImmutableList<int> categoryIds,
             ImmutableList<SocialMediaAccountEntity> socialMediaAccounts,
-            string loginToken) : this(1, userId, type, status, name, description, avatar, avatarThumbnail, location, locationAsString, showLocation, isVerified, websiteUri, acceptsDirectOffers, accountCompletionInPercent, minimalFee, categoryIds, socialMediaAccounts, loginToken)
+            string loginToken) : this(1, userId, type, status, name, description, avatar, avatarThumbnail, location, showLocation, isVerified, websiteUri, acceptsDirectOffers, accountCompletionInPercent, minimalFee, categoryIds, socialMediaAccounts, loginToken)
         {
         }
 
@@ -38,7 +37,6 @@ namespace Users
             ImageEntity avatar,
             ImageEntity avatarThumbnail,
             LocationEntity location,
-            string locationAsString,
             bool showLocation,
             bool isVerified,
             string websiteUri,
@@ -58,7 +56,6 @@ namespace Users
             this.Avatar = avatar;
             this.AvatarThumbnail = avatarThumbnail;
             this.Location = location;
-            this.LocationAsString = locationAsString;
             this.ShowLocation = showLocation;
             this.IsVerified = isVerified;
             this.WebsiteUri = websiteUri;
@@ -99,9 +96,6 @@ namespace Users
 
         [JsonProperty("location")]
         public LocationEntity Location { get; }
-
-        [JsonProperty("locationAsString")]
-        public string LocationAsString { get; }
 
         [JsonProperty("showLocation")]
         public bool ShowLocation { get; }

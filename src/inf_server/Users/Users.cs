@@ -79,10 +79,10 @@ namespace Users
             return userData.ToServiceObject();
         }
 
-        public Task SaveUserData(string userId, UserData userData) =>
+        public Task<UserData> SaveUserData(string userId, UserData userData) =>
             this.ReportExceptionsWithin(() => SaveUserDataImpl(userId, userData));
 
-        internal async Task SaveUserDataImpl(string userId, UserData userData)
+        internal async Task<UserData> SaveUserDataImpl(string userId, UserData userData)
         {
             Log("SaveUserData: '{0}'", userId);
 
@@ -92,8 +92,9 @@ namespace Users
             var userDataEntity = userData.ToEntity(userId);
 
             await documentClient.UpsertDocumentAsync(GetUsersCollectionUri(), userDataEntity);
-
             Log("User data saved.");
+
+            return userData;
         }
 
         public Task<UserSession> GetUserSession(string refreshToken) =>
@@ -111,10 +112,10 @@ namespace Users
             return userSession.ToServiceObject();
         }
 
-        public Task SaveUserSession(UserSession userSession) =>
+        public Task<UserSession> SaveUserSession(UserSession userSession) =>
             this.ReportExceptionsWithin(() => SaveUserSessionImpl(userSession));
 
-        internal async Task SaveUserSessionImpl(UserSession userSession)
+        internal async Task<UserSession> SaveUserSessionImpl(UserSession userSession)
         {
             Log("SaveUserSession: '{0}'", userSession.RefreshToken);
 
@@ -124,8 +125,9 @@ namespace Users
             var userSessionEntity = userSession.ToEntity();
 
             await documentClient.CreateDocumentAsync(GetSessionsCollectionUri(), userSessionEntity);
-
             Log("User session saved.");
+
+            return userSession;
         }
 
         public Task InvalidateUserSession(string refreshToken) =>

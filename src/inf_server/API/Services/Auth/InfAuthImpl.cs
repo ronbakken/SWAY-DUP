@@ -60,7 +60,6 @@ namespace API.Services.Auth
                 default,
                 default,
                 default,
-                default,
                 loginToken);
             await usersService.SaveUserData(userId, userData);
 
@@ -247,7 +246,7 @@ namespace API.Services.Auth
             };
         }
 
-        public override async Task<Empty> UpdateUser(UpdateUserRequest request, ServerCallContext context)
+        public override async Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context)
         {
             Log("UpdateUser.");
 
@@ -264,9 +263,14 @@ namespace API.Services.Auth
             var userData = await usersService.GetUserData(authenticatedUserId);
 
             Log("Saving user data.");
-            await usersService.SaveUserData(authenticatedUserId, request.User.ToServiceObject(userData.LoginToken));
+            var result = await usersService.SaveUserData(authenticatedUserId, request.User.ToServiceObject(userData.LoginToken));
 
-            return Empty.Instance;
+            var response = new UpdateUserResponse
+            {
+                User = result.ToDto(authenticatedUserId),
+            };
+
+            return response;
         }
 
         public override async Task<Empty> Logout(LogoutRequest request, ServerCallContext context)

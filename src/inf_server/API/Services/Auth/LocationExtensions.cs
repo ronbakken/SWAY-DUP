@@ -14,7 +14,6 @@ namespace API.Services.Auth
 
             return new LocationDto
             {
-                Description = @this.Description,
                 Latitude = @this.Latitude,
                 Longitude = @this.Longitude,
                 Name = @this.Name,
@@ -30,7 +29,6 @@ namespace API.Services.Auth
 
             return new Location(
                 @this.Name,
-                @this.Description,
                 @this.Latitude,
                 @this.Longitude);
         }

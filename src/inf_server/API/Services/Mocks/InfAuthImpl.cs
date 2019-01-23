@@ -63,10 +63,14 @@ namespace API.Services.Mocks
             return Task.FromResult(new Empty());
         }
 
-        public override Task<Empty> UpdateUser(UpdateUserRequest request, ServerCallContext context)
+        public override Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context)
         {
             Console.WriteLine("InfConfigImpl.UpdateUser called");
-            return base.UpdateUser(request, context);
+            var response = new UpdateUserResponse
+            {
+                User = request.User,
+            };
+            return Task.FromResult(response);
         }
     }
 }

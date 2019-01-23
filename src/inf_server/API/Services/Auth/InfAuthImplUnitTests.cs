@@ -22,7 +22,7 @@ namespace API.Services.Auth
             usersService
                 .Setup(x => x.SaveUserData(It.IsAny<string>(), It.IsAny<UserData>()))
                 .Callback<string, UserData>((userId, userData) => capturedUserData = userData)
-                .Returns(Task.CompletedTask);
+                .Returns(() => Task.FromResult(capturedUserData));
             var emailService = new EmailServiceMockBuilder()
                 .Build();
 

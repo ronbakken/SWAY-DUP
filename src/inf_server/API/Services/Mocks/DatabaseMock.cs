@@ -388,7 +388,6 @@ namespace API.Services.Mocks
                     CategoryIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
-                    LocationAsString = "Germany",
                     Location= new LocationDto{
                      Latitude= 34.050863,
                      Longitude= -118.272657
@@ -418,7 +417,6 @@ namespace API.Services.Mocks
                     CategoryIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
-                    LocationAsString = "Germany",
                     Location= new LocationDto{
                     Latitude= 34.050863,
                     Longitude= -118.272657

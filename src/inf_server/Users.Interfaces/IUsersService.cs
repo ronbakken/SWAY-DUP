@@ -7,11 +7,11 @@ namespace Users.Interfaces
     {
         Task<UserData> GetUserData(string userId);
 
-        Task SaveUserData(string userId, UserData userData);
+        Task<UserData> SaveUserData(string userId, UserData userData);
 
         Task<UserSession> GetUserSession(string refreshToken);
 
-        Task SaveUserSession(UserSession userSession);
+        Task<UserSession> SaveUserSession(UserSession userSession);
 
         Task InvalidateUserSession(string refreshToken);
     }

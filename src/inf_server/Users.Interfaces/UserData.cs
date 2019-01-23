@@ -23,7 +23,6 @@ namespace Users.Interfaces
             default,
             default,
             default,
-            default,
             default);
 
         public UserData(
@@ -34,7 +33,6 @@ namespace Users.Interfaces
             Image avatar,
             Image avatarThumbnail,
             Location location,
-            string locationAsString,
             bool showLocation,
             bool verified,
             string websiteUri,
@@ -52,7 +50,6 @@ namespace Users.Interfaces
             this.Avatar = avatar;
             this.AvatarThumbnail = avatarThumbnail;
             this.Location = location;
-            this.LocationAsString = locationAsString;
             this.ShowLocation = showLocation;
             this.Verified = verified;
             this.WebsiteUri = websiteUri;
@@ -84,9 +81,6 @@ namespace Users.Interfaces
 
         [DataMember]
         public Location Location { get; private set; }
-
-        [DataMember]
-        public string LocationAsString { get; private set; }
 
         [DataMember]
         public bool ShowLocation { get; private set; }
@@ -123,7 +117,6 @@ namespace Users.Interfaces
             Option<Image> avatar = default,
             Option<Image> avatarThumbnail = default,
             Option<Location> location = default,
-            Option<string> locationAsString = default,
             Option<bool> showLocation = default,
             Option<bool> verified = default,
             Option<string> websiteUri = default,
@@ -141,7 +134,6 @@ namespace Users.Interfaces
                 avatar.ValueOr(Avatar),
                 avatarThumbnail.ValueOr(AvatarThumbnail),
                 location.ValueOr(Location),
-                locationAsString.ValueOr(LocationAsString),
                 showLocation.ValueOr(ShowLocation),
                 verified.ValueOr(Verified),
                 websiteUri.ValueOr(WebsiteUri),

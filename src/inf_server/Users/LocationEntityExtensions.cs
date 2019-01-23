@@ -13,7 +13,6 @@ namespace Users
 
             return new Location(
                 @this.Name,
-                @this.Description,
                 @this.Latitude,
                 @this.Longitude);
         }
@@ -27,7 +26,6 @@ namespace Users
 
             return new LocationEntity(
                 @this.Name,
-                @this.Description,
                 @this.Latitude,
                 @this.Longitude);
         }
