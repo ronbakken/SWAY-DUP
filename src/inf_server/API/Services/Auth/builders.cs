@@ -1,49 +1,26 @@
 ﻿using Genesis.TestUtil;
 using Moq;
-using User.Interfaces;
+using Users.Interfaces;
 
 namespace API.Services.Auth
 {
-    public sealed class UserActorFactoryBuilder : IBuilder
+    public sealed class UsersServiceMockBuilder : IBuilder
     {
-        private readonly Mock<IUserActorFactory> userActorFactory;
+        private readonly Mock<IUsersService> usersService;
 
-        public UserActorFactoryBuilder()
+        public UsersServiceMockBuilder()
         {
-            this.userActorFactory = new Mock<IUserActorFactory>();
-        }
-
-        public UserActorFactoryBuilder WithUser(IUser user)
-        {
+            this.usersService = new Mock<IUsersService>();
             this
-                .userActorFactory
-                .Setup(x => x.Get(It.IsAny<string>()))
-                .Returns(user);
-            return this;
-        }
-
-
-        public IUserActorFactory Build() =>
-            this.userActorFactory.Object;
-    }
-
-    public sealed class UserMockBuilder : IBuilder
-    {
-        private readonly Mock<IUser> user;
-
-        public UserMockBuilder()
-        {
-            this.user = new Mock<IUser>();
-            this
-                .user
-                .Setup(x => x.GetData())
+                .usersService
+                .Setup(x => x.GetUserData(It.IsAny<string>()))
                 .ReturnsAsync(UserData.Initial);
         }
 
-        public Mock<IUser> Build() =>
-            this.user;
+        public Mock<IUsersService> Build() =>
+            this.usersService;
 
-        public static implicit operator Mock<IUser>(UserMockBuilder builder) =>
+        public static implicit operator Mock<IUsersService>(UsersServiceMockBuilder builder) =>
             builder.Build();
     }
 

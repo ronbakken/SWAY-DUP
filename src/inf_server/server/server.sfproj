@@ -36,8 +36,7 @@
   <ItemGroup>
     <ProjectReference Include="..\API\API.csproj" />
     <ProjectReference Include="..\InvitationCodes\InvitationCodes.csproj" />
-    <ProjectReference Include="..\RefreshToken\RefreshToken.csproj" />
-    <ProjectReference Include="..\User\User.csproj" />
+    <ProjectReference Include="..\Users\Users.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>

@@ -1,5 +1,5 @@
 ﻿using API.Interfaces;
-using User.Interfaces;
+using Users.Interfaces;
 
 namespace API.Services.Auth
 {
@@ -21,7 +21,7 @@ namespace API.Services.Auth
             };
         }
 
-        public static Location ToService(this LocationDto @this)
+        public static Location ToServiceObject(this LocationDto @this)
         {
             if (@this == null)
             {

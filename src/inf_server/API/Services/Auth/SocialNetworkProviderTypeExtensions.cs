@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using User.Interfaces;
+using Users.Interfaces;
 using api = API.Interfaces;
 
 namespace API.Services.Auth
@@ -31,7 +31,7 @@ namespace API.Services.Auth
             }
         }
 
-        public static SocialNetworkProviderType ToService(this api.SocialNetworkProviderType @this)
+        public static SocialNetworkProviderType ToServiceObject(this api.SocialNetworkProviderType @this)
         {
             switch (@this)
             {

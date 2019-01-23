@@ -1,5 +1,5 @@
 ﻿using System;
-using User.Interfaces;
+using Users.Interfaces;
 using api = API.Interfaces;
 
 namespace API.Services.Auth
@@ -23,7 +23,7 @@ namespace API.Services.Auth
             }
         }
 
-        public static UserType ToService(this api.UserType @this)
+        public static UserType ToServiceObject(this api.UserType @this)
         {
             switch (@this)
             {

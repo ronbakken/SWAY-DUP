@@ -1,6 +1,6 @@
 ﻿using System;
 using API.Interfaces;
-using User.Interfaces;
+using Users.Interfaces;
 
 namespace API.Services.Auth
 {
@@ -25,7 +25,7 @@ namespace API.Services.Auth
             }
         }
 
-        public static UserStatus ToService(this AccountState @this)
+        public static UserStatus ToServiceObject(this AccountState @this)
         {
             switch (@this)
             {

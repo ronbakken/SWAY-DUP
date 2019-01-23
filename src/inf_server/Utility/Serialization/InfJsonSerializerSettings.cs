@@ -11,6 +11,7 @@ namespace Utility.Serialization
         private InfJsonSerializerSettings()
         {
             this.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
+            this.DefaultValueHandling = DefaultValueHandling.Ignore;
         }
     }
 }

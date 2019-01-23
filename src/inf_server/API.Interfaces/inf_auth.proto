@@ -37,6 +37,7 @@ service InfAuth {
 
 message SendLoginEmailRequest {
     string email = 1;
+    UserType userType = 2;
 }
 
 message CreateNewUserRequest {

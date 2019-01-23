@@ -2,7 +2,7 @@
 using System.Linq;
 using API.Interfaces;
 using Google.Protobuf;
-using User.Interfaces;
+using Users.Interfaces;
 
 namespace API.Services
 {
@@ -22,7 +22,7 @@ namespace API.Services
             };
         }
 
-        public static Image ToService(this ImageDto @this)
+        public static Image ToServiceObject(this ImageDto @this)
         {
             if (@this == null)
             {

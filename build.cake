@@ -186,10 +186,8 @@ Task("Deploy")
 
             Information("Publishing services.");
             PublishService("API");
-            PublishService("InvitationCode");
-            PublishService("InvitationCodeManager");
-            PublishService("RefreshToken");
-            PublishService("User");
+            PublishService("InvitationCodes");
+            PublishService("Users");
 
             var sourceApplicationManifest = srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml");
             var destinationApplicationManifest =  pkgDir + File("ApplicationManifest.xml");
@@ -484,7 +482,8 @@ private static async Task<DeploymentExtendedInner> DeployARMTemplate(
     ConvertableFilePath templateFile,
     IDictionary<string, object> templateParameters)
 {
-    context.Information($"Deploying ARM template '{templateFile}' using deployment name '{resourceNamePrefix}'.");
+    var deploymentName = $"{resourceNamePrefix}-{System.IO.Path.GetFileNameWithoutExtension(templateFile)}";
+    context.Information($"Deploying ARM template '{templateFile}' using deployment name '{deploymentName}'.");
 
     var templateContents = System.IO.File.ReadAllText(templateFile);
 
@@ -513,7 +512,7 @@ private static async Task<DeploymentExtendedInner> DeployARMTemplate(
 
     var validationResults = await resourceManagementClient
         .Deployments
-        .ValidateAsync(resourceGroupName, resourceNamePrefix, properties);
+        .ValidateAsync(resourceGroupName, deploymentName, properties);
 
     if (validationResults.Error != null)
     {
@@ -525,12 +524,14 @@ private static async Task<DeploymentExtendedInner> DeployARMTemplate(
 
     var deploymentInner = await resourceManagementClient
         .Deployments
-        .BeginCreateOrUpdateAsync(resourceGroupName, resourceNamePrefix, properties);
+        .BeginCreateOrUpdateAsync(resourceGroupName, deploymentName, properties);
     context.Information("Deployment instigated.");
 
     while (true)
     {
-        var exists = await resourceManagementClient.Deployments.CheckExistenceAsync(resourceGroupName, resourceNamePrefix);
+        var exists = await resourceManagementClient
+            .Deployments
+            .CheckExistenceAsync(resourceGroupName, deploymentName);
 
         if (exists)
         {
@@ -546,7 +547,7 @@ private static async Task<DeploymentExtendedInner> DeployARMTemplate(
     {
         var deployment = await resourceManagementClient
             .Deployments
-            .GetAsync(resourceGroupName, resourceNamePrefix);
+            .GetAsync(resourceGroupName, deploymentName);
         var state = deployment.Properties.ProvisioningState;
 
         if (state == "Succeeded")
@@ -737,7 +738,8 @@ private static XDocument SubstituteApplicationParameters(
             value = value.Replace("$" + substitution.Key, substitution.Value);
         }
 
-        valueAttribute.Value = value;
+        valueAttribute.Remove();
+        sourceParameter.SetAttributeValue("DefaultValue", value);
     }
 
     destination.ReplaceWith(source);

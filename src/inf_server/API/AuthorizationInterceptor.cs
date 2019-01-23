@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
-using User.Interfaces;
+using Users.Interfaces;
 using Utility;
 
 namespace API
@@ -32,9 +32,17 @@ namespace API
             // InfBlobStorage
             { "/api.InfBlobStorage/GetUploadUrl", UserTypes.Influencer | UserTypes.Business },
 
+            // InfConfig
+            { "/api.InfConfig/GetAppConfig", UserTypes.Anonymous },
+            { "/api.InfConfig/GetVersions", UserTypes.Anonymous },
+            { "/api.InfConfig/GetWelcomeImages", UserTypes.Anonymous },
+
             // InfInvitationCodes
             { "/api.InfInvitationCodes/GenerateInvitationCode", UserTypes.Admin },
             { "/api.InfInvitationCodes/GetInvitationCodeStatus", UserTypes.Admin },
+
+            // InfSystem
+            { "/api.InfSystem/PingServer", UserTypes.Anonymous },
         };
 
         public override async Task<TResponse> ClientStreamingServerHandler<TRequest, TResponse>(IAsyncStreamReader<TRequest> requestStream, ServerCallContext context, ClientStreamingServerMethod<TRequest, TResponse> continuation)

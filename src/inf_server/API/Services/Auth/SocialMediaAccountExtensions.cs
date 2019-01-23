@@ -1,5 +1,5 @@
 ﻿using API.Interfaces;
-using User.Interfaces;
+using Users.Interfaces;
 
 namespace API.Services.Auth
 {
@@ -29,7 +29,7 @@ namespace API.Services.Auth
             };
         }
 
-        public static SocialMediaAccount ToService(this SocialMediaAccountDto @this)
+        public static SocialMediaAccount ToServiceObject(this SocialMediaAccountDto @this)
         {
             if (@this == null)
             {

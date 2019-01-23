@@ -68,7 +68,7 @@ namespace InvitationCodes
                 code = GenerateRandomString(8);
                 Log("Generated code '{0}'.", code);
 
-                var existingInvitationCode = await GetInvitationCode(documentClient, code);
+                var existingInvitationCode = await GetInvitationCodeOrNull(documentClient, code);
                 var codeExists = existingInvitationCode != null;
 
                 if (codeExists)
@@ -107,7 +107,7 @@ namespace InvitationCodes
             Log("GetStatus.");
 
             var documentClient = this.GetDocumentClient();
-            var existingInvitationCode = await GetInvitationCode(documentClient, code);
+            var existingInvitationCode = await GetInvitationCodeOrNull(documentClient, code);
 
             if (existingInvitationCode == null)
             {
@@ -142,7 +142,7 @@ namespace InvitationCodes
             Log("Honor.");
 
             var documentClient = this.GetDocumentClient();
-            var existingInvitationCode = await GetInvitationCode(documentClient, code);
+            var existingInvitationCode = await GetInvitationCodeOrNull(documentClient, code);
 
             if (existingInvitationCode == null)
             {
@@ -178,9 +178,6 @@ namespace InvitationCodes
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>
             this.CreateServiceRemotingInstanceListeners();
 
-        private static void Log(string message, params object[] args) =>
-            ServiceEventSource.Current.Message(message, args);
-
         private DocumentClient GetDocumentClient()
         {
             var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
@@ -190,7 +187,7 @@ namespace InvitationCodes
             return documentClient;
         }
 
-        private static async Task<InvitationCodeEntity> GetInvitationCode(DocumentClient documentClient, string code)
+        private static async Task<InvitationCodeEntity> GetInvitationCodeOrNull(DocumentClient documentClient, string code)
         {
             var query = new SqlQuerySpec("SELECT * FROM c WHERE c.code = @code", new SqlParameterCollection(
                 new[]
@@ -223,5 +220,8 @@ namespace InvitationCodes
 
         private static Uri GetCodesCollectionUri() =>
             UriFactory.CreateDocumentCollectionUri(databaseId, codesCollectionId);
+
+        private static void Log(string message, params object[] args) =>
+            ServiceEventSource.Current.Message(message, args);
     }
 }

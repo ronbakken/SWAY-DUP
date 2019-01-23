@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
 using API.Interfaces;
-using User.Interfaces;
+using Users.Interfaces;
 
 namespace API.Services.Auth
 {
@@ -39,7 +39,7 @@ namespace API.Services.Auth
             return result;
         }
 
-        public static UserData ToService(this UserDto @this, string loginToken)
+        public static UserData ToServiceObject(this UserDto @this, string loginToken)
         {
             if (@this == null)
             {
@@ -47,13 +47,13 @@ namespace API.Services.Auth
             }
 
             return new UserData(
-                @this.UserType.ToService(),
-                @this.AccountState.ToService(),
+                @this.UserType.ToServiceObject(),
+                @this.AccountState.ToServiceObject(),
                 @this.Name,
                 @this.Description,
-                @this.Avatar.ToService(),
-                @this.AvatarThumbnail.ToService(),
-                @this.Location.ToService(),
+                @this.Avatar.ToServiceObject(),
+                @this.AvatarThumbnail.ToServiceObject(),
+                @this.Location.ToServiceObject(),
                 @this.LocationAsString,
                 @this.ShowLocation,
                 @this.Verified,
@@ -62,7 +62,7 @@ namespace API.Services.Auth
                 @this.AccountCompletionInPercent,
                 @this.MinimalFee,
                 @this.CategoryIds?.ToImmutableList(),
-                @this.SocialMediaAccounts?.Select(socialMediaAccount => socialMediaAccount.ToService())?.ToImmutableList(),
+                @this.SocialMediaAccounts?.Select(socialMediaAccount => socialMediaAccount.ToServiceObject())?.ToImmutableList(),
                 loginToken);
         }
     }

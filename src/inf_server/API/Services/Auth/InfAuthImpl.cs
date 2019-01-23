@@ -5,14 +5,11 @@ using System.Threading.Tasks;
 using API.Interfaces;
 using Grpc.Core;
 using InvitationCodes.Interfaces;
-using Microsoft.ServiceFabric.Actors;
-using Microsoft.ServiceFabric.Actors.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Optional;
-using RefreshToken.Interfaces;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using User.Interfaces;
+using Users.Interfaces;
 using Utility;
 using static API.Interfaces.InfAuth;
 
@@ -24,7 +21,7 @@ namespace API.Services.Auth
         {
             await SendLoginEmailImpl(
                 request,
-                ServiceFabricUserActorFactory.Instance,
+                GetUsersService(),
                 new SendGridEmailService(),
                 context.CancellationToken);
             return Empty.Instance;
@@ -32,28 +29,40 @@ namespace API.Services.Auth
 
         internal async Task SendLoginEmailImpl(
             SendLoginEmailRequest request,
-            IUserActorFactory userActorFactory,
+            IUsersService usersService,
             IEmailService emailService,
             CancellationToken cancellationToken)
         {
             Log("SendLoginEmail.");
 
-            Log("Getting user data.");
-            var userId = request.Email;
-            var user = userActorFactory.Get(userId);
-            var userData = await user.GetData();
-
             Log("Generating login token.");
+            var userId = request.Email;
+            var userType = request.UserType;
             var loginToken = TokenManager.GenerateLoginToken(
                 userId,
-                userData.Status.ToString(),
-                userData.Type.ToString());
+                UserStatus.WaitingForActivation.ToString(),
+                userType.ToString());
 
-            Log("Updating user data.");
-            userData = userData.With(
-                loginToken: Option.Some(loginToken),
-                status: Option.Some(UserStatus.WaitingForActivation));
-            await user.SetData(userData);
+            Log("Saving user data.");
+            var userData = new UserData(
+                Users.Interfaces.UserType.Unknown,
+                UserStatus.WaitingForActivation,
+                default,
+                default,
+                default,
+                default,
+                default,
+                default,
+                default,
+                default,
+                default,
+                default,
+                default,
+                default,
+                default,
+                default,
+                loginToken);
+            await usersService.SaveUserData(userId, userData);
 
             Log("Sending verification email.");
             var link = $"https://infmarketplace.com/app/verify?token={loginToken}";
@@ -82,8 +91,8 @@ namespace API.Services.Auth
 
             Log("Validating user status.");
             var userId = loginTokenValidationResults.UserId;
-            var user = GetUserActor(userId);
-            var userData = await user.GetData();
+            var usersService = GetUsersService();
+            var userData = await usersService.GetUserData(userId);
 
             if (userData.Status != UserStatus.WaitingForActivation)
             {
@@ -93,18 +102,17 @@ namespace API.Services.Auth
             Log("Generating refresh token.");
             var refreshToken = TokenManager.GenerateRefreshToken(loginTokenValidationResults.UserId, loginTokenValidationResults.UserType);
 
-            Log("Saving refresh token.");
-            var refreshTokenActor = GetRefreshTokenActor(refreshToken);
-            await refreshTokenActor.Associate(userId, request.DeviceId);
+            Log("Saving user session.");
+            await usersService.SaveUserSession(new UserSession(refreshToken, request.DeviceId));
 
             Log("Updating user data.");
             userData = request
                 .UserData
-                .ToService(
+                .ToServiceObject(
                     loginToken: null)
                 .With(
                     status: Option.Some(UserStatus.Active));
-            await user.SetData(userData);
+            await usersService.SaveUserData(userId, userData);
 
             var result = new CreateNewUserResponse
             {
@@ -125,8 +133,8 @@ namespace API.Services.Auth
             Log("Getting user data.");
             var userId = validationResult.UserId;
             var userType = validationResult.UserType;
-            var user = GetUserActor(userId);
-            var userData = await user.GetData();
+            var usersService = GetUsersService();
+            var userData = await usersService.GetUserData(userId);
 
             if (userData.Status != UserStatus.Active)
             {
@@ -142,15 +150,18 @@ namespace API.Services.Auth
             Log("Generating refresh token.");
             var refreshToken = TokenManager.GenerateRefreshToken(userId, userType);
 
-            Log("Associating refresh token with user.");
-            var refreshTokenActor = GetRefreshTokenActor(refreshToken);
-            var deviceId = await refreshTokenActor.GetAssociatedDeviceId();
-            await refreshTokenActor.Associate(userId, deviceId);
+            Log("Updating user session.");
+            var userSession = await usersService.GetUserSession(refreshToken);
 
-            Log("Updating user data.");
+            userSession = userSession.With(
+                refreshToken: Option.Some(refreshToken));
+
+            await usersService.SaveUserSession(userSession);
+
+            Log("Saving user data.");
             userData = userData.With(
                 loginToken: Option.Some<string>(null));
-            await user.SetData(userData);
+            await usersService.SaveUserData(userId, userData);
 
             var result = new LoginWithLoginTokenResponse
             {
@@ -171,14 +182,13 @@ namespace API.Services.Auth
 
             Log("Retrieving user data.");
             var userId = validationResult.UserId;
-            var user = GetUserActor(userId);
-            var userData = await user.GetData();
+            var usersService = GetUsersService();
+            var userData = await usersService.GetUserData(userId);
 
             Log("Validating refresh token.");
-            var refreshTokenActor = GetRefreshTokenActor(refreshToken);
-            var associatedUserId = await refreshTokenActor.GetAssociatedUserId();
+            var userSession = usersService.GetUserSession(refreshToken);
 
-            if (associatedUserId != userId)
+            if (userSession == null)
             {
                 throw new InvalidOperationException("Refresh token is invalid.");
             }
@@ -203,10 +213,10 @@ namespace API.Services.Auth
             var refreshTokenValidationResult = TokenManager.ValidateRefreshToken(request.RefreshToken);
             var userId = refreshTokenValidationResult.UserId;
             var userType = refreshTokenValidationResult.UserType;
-            var refreshToken = GetRefreshTokenActor(request.RefreshToken);
-            var associatedUserId = await refreshToken.GetAssociatedUserId();
+            var usersService = GetUsersService();
+            var userSession = await usersService.GetUserSession(request.RefreshToken);
 
-            if (associatedUserId != userId)
+            if (userSession == null)
             {
                 throw new InvalidOperationException("Mismatch in refresh token association.");
             }
@@ -227,8 +237,9 @@ namespace API.Services.Auth
             Log("GetUser.");
 
             Log("Getting user data.");
-            var user = GetUserActor(request.UserId);
-            var userData = await user.GetData();
+            var usersService = GetUsersService();
+            var userId = request.UserId;
+            var userData = await usersService.GetUserData(userId);
 
             return new GetUserResponse
             {
@@ -249,11 +260,11 @@ namespace API.Services.Auth
             }
 
             Log("Getting existing user data.");
-            var user = GetUserActor(authenticatedUserId);
-            var userData = await user.GetData();
+            var usersService = GetUsersService();
+            var userData = await usersService.GetUserData(authenticatedUserId);
 
             Log("Saving user data.");
-            await user.SetData(request.User.ToService(userData.LoginToken));
+            await usersService.SaveUserData(authenticatedUserId, request.User.ToServiceObject(userData.LoginToken));
 
             return Empty.Instance;
         }
@@ -263,8 +274,8 @@ namespace API.Services.Auth
             Log("Logout.");
 
             Log("Invalidating refresh token.");
-            var refreshToken = GetRefreshTokenActor(request.RefreshToken);
-            await refreshToken.Invalidate();
+            var usersService = GetUsersService();
+            await usersService.InvalidateUserSession(request.RefreshToken);
 
             return Empty.Instance;
         }
@@ -300,11 +311,8 @@ namespace API.Services.Auth
             await client.SendEmailAsync(emailMessage, cancellationToken);
         }
 
-        private static IUser GetUserActor(string userId) =>
-            ActorProxy.Create<IUser>(new ActorId(userId), new Uri("fabric:/server/UserActorService"));
-
-        private static IRefreshToken GetRefreshTokenActor(string refreshToken) =>
-            ActorProxy.Create<IRefreshToken>(new ActorId(refreshToken), new Uri("fabric:/server/RefreshTokenActorService"));
+        private static IUsersService GetUsersService() =>
+            ServiceProxy.Create<IUsersService>(new Uri("fabric:/server/Users"));
 
         private static IInvitationCodesService GetInvitationCodesService() =>
             ServiceProxy.Create<IInvitationCodesService>(new Uri("fabric:/server/InvitationCodes"));

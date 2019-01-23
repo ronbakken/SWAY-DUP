@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using API.Interfaces;
 using Moq;
-using User.Interfaces;
+using Users.Interfaces;
 using Xunit;
 
 namespace API.Services.Auth
@@ -16,22 +16,19 @@ namespace API.Services.Auth
             {
                 Email = "kent.boogaart@gmail.com",
             };
-            var userMock = new UserMockBuilder()
+            var usersService = new UsersServiceMockBuilder()
                 .Build();
             UserData capturedUserData = null;
-            userMock
-                .Setup(x => x.SetData(It.IsAny<UserData>()))
-                .Callback<UserData>((userData) => capturedUserData = userData)
+            usersService
+                .Setup(x => x.SaveUserData(It.IsAny<string>(), It.IsAny<UserData>()))
+                .Callback<string, UserData>((userId, userData) => capturedUserData = userData)
                 .Returns(Task.CompletedTask);
-            var userActorFactory = new UserActorFactoryBuilder()
-                .WithUser(userMock.Object)
-                .Build();
             var emailService = new EmailServiceMockBuilder()
                 .Build();
 
             await sut.SendLoginEmailImpl(
                 request,
-                userActorFactory,
+                usersService.Object,
                 emailService.Object,
                 default);
 
