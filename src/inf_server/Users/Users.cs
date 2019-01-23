@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Fabric;
-using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
-using Microsoft.Azure.Documents.Linq;
+using Microsoft.Azure.Cosmos;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Users.Interfaces;
 using Utility;
-using Utility.Serialization;
 
 namespace Users
 {
@@ -22,6 +17,8 @@ namespace Users
         private const string databaseId = "users";
         private const string usersCollectionId = "users";
         private const string sessionsCollectionId = "sessions";
+        private CosmosContainer usersContainer;
+        private CosmosContainer sessionsContainer;
 
         public Users(StatelessServiceContext context)
             : base(context)
@@ -32,34 +29,13 @@ namespace Users
         {
             Log("Creating database if required.");
 
-            var documentClient = this.GetDocumentClient();
-            await documentClient.CreateDatabaseIfNotExistsAsync(new Database { Id = databaseId });
-
-            var usersCollection = new DocumentCollection
-            {
-                Id = usersCollectionId,
-                PartitionKey = new PartitionKeyDefinition
-                {
-                    Paths = new Collection<string>
-                    {
-                        "/userId",
-                    },
-                }
-            };
-            await documentClient.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(databaseId), usersCollection);
-
-            var sessionsCollection = new DocumentCollection
-            {
-                Id = sessionsCollectionId,
-                PartitionKey = new PartitionKeyDefinition
-                {
-                    Paths = new Collection<string>
-                    {
-                        "/userId",
-                    },
-                }
-            };
-            await documentClient.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(databaseId), sessionsCollection);
+            var cosmosClient = this.GetCosmosClient();
+            var databaseResult = await cosmosClient.Databases.CreateDatabaseIfNotExistsAsync(databaseId);
+            var database = databaseResult.Database;
+            var usersContainerResult = await database.Containers.CreateContainerIfNotExistsAsync(usersCollectionId, "/userId");
+            this.usersContainer = usersContainerResult.Container;
+            var sessionsContainerResult = await database.Containers.CreateContainerIfNotExistsAsync(sessionsCollectionId, "/userId");
+            this.sessionsContainer = sessionsContainerResult.Container;
 
             Log("Database creation complete.");
         }
@@ -71,11 +47,15 @@ namespace Users
         {
             Log("GetUserData: '{0}'", userId);
 
-            var documentClient = this.GetDocumentClient();
-
             Log("Getting user data.");
-            var userData = await GetUserDataOrNull(documentClient, userId);
+            var userDataResponse = await this.usersContainer.Items.ReadItemAsync<UserDataEntity>(userId, userId);
 
+            if (userDataResponse.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+
+            var userData = userDataResponse.Resource;
             return userData.ToServiceObject();
         }
 
@@ -86,12 +66,9 @@ namespace Users
         {
             Log("SaveUserData: '{0}'", userId);
 
-            var documentClient = this.GetDocumentClient();
-
             Log("Saving user data.");
             var userDataEntity = userData.ToEntity(userId);
-
-            await documentClient.UpsertDocumentAsync(GetUsersCollectionUri(), userDataEntity);
+            await this.usersContainer.Items.UpsertItemAsync(userId, userDataEntity);
             Log("User data saved.");
 
             return userData;
@@ -104,10 +81,19 @@ namespace Users
         {
             Log("GetSession: '{0}'", refreshToken);
 
-            var documentClient = this.GetDocumentClient();
+            Log("Validating refresh token.");
+            var validationResults = TokenManager.ValidateRefreshToken(refreshToken);
+            var userId = validationResults.UserId;
 
             Log("Getting user session.");
-            var userSession = await GetUserSessionOrNull(documentClient, refreshToken);
+            var userSessionResponse = await this.sessionsContainer.Items.ReadItemAsync<UserSessionEntity>(userId, UserSessionIdHelper.GetIdFrom(refreshToken));
+
+            if (userSessionResponse.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+
+            var userSession = userSessionResponse.Resource;
 
             return userSession.ToServiceObject();
         }
@@ -119,12 +105,13 @@ namespace Users
         {
             Log("SaveUserSession: '{0}'", userSession.RefreshToken);
 
-            var documentClient = this.GetDocumentClient();
+            Log("Validating refresh token.");
+            var validationResults = TokenManager.ValidateRefreshToken(userSession.RefreshToken);
+            var userId = validationResults.UserId;
 
             Log("Saving user session.");
             var userSessionEntity = userSession.ToEntity();
-
-            await documentClient.CreateDocumentAsync(GetSessionsCollectionUri(), userSessionEntity);
+            await this.sessionsContainer.Items.CreateItemAsync(userId, userSessionEntity);
             Log("User session saved.");
 
             return userSession;
@@ -137,67 +124,27 @@ namespace Users
         {
             Log("InvalidateUserSession: '{0}'", refreshToken);
 
-            var documentClient = this.GetDocumentClient();
+            Log("Validating refresh token.");
+            var validationResults = TokenManager.ValidateRefreshToken(refreshToken);
+            var userId = validationResults.UserId;
 
             Log("Deleting user session.");
-            await documentClient.DeleteDocumentAsync(GetSessionDocumentUri(refreshToken));
-
+            await this.sessionsContainer.Items.DeleteItemAsync<UserSessionEntity>(userId, UserSessionIdHelper.GetIdFrom(refreshToken));
             Log("User session invalidated.");
         }
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>
             this.CreateServiceRemotingInstanceListeners();
 
-        private DocumentClient GetDocumentClient()
+        private CosmosClient GetCosmosClient()
         {
             var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
             var databaseConnectionString = configurationPackage.Settings.Sections["Database"].Parameters["ConnectionString"].Value;
-            var documentClient = DocumentDbAccount.Parse(databaseConnectionString, InfJsonSerializerSettings.Instance);
+            var cosmosConfiguration = new InfCosmosConfiguration(databaseConnectionString);
+            var cosmosClient = new CosmosClient(cosmosConfiguration);
 
-            return documentClient;
+            return cosmosClient;
         }
-
-        private static async Task<UserSessionEntity> GetUserSessionOrNull(DocumentClient documentClient, string refreshToken)
-        {
-            var validateResults = TokenManager.ValidateRefreshToken(refreshToken);
-            var userId = validateResults.UserId;
-            var query = new SqlQuerySpec("SELECT * FROM us WHERE us.userId = @userId AND us.id = @id", new SqlParameterCollection(
-                new[]
-                {
-                    new SqlParameter("@userId", userId),
-                    new SqlParameter("@id", refreshToken.Substring(0, 254)),
-                }));
-            var existingUserSessionQuery = documentClient
-                .CreateDocumentQuery<UserSessionEntity>(GetSessionsCollectionUri(), query, new FeedOptions { MaxItemCount = 1 })
-                .AsDocumentQuery();
-            var results = await existingUserSessionQuery.ExecuteNextAsync<UserSessionEntity>();
-
-            return results.FirstOrDefault();
-        }
-
-        private static async Task<UserDataEntity> GetUserDataOrNull(DocumentClient documentClient, string userId)
-        {
-            var query = new SqlQuerySpec("SELECT * FROM u WHERE u.userId = @userId", new SqlParameterCollection(
-                new[]
-                {
-                    new SqlParameter("@userId", userId),
-                }));
-            var existingUserDataQuery = documentClient
-                .CreateDocumentQuery<UserDataEntity>(GetUsersCollectionUri(), query, new FeedOptions { MaxItemCount = 1 })
-                .AsDocumentQuery();
-            var results = await existingUserDataQuery.ExecuteNextAsync<UserDataEntity>();
-
-            return results.FirstOrDefault();
-        }
-
-        private static Uri GetUsersCollectionUri() =>
-            UriFactory.CreateDocumentCollectionUri(databaseId, usersCollectionId);
-
-        private static Uri GetSessionsCollectionUri() =>
-            UriFactory.CreateDocumentCollectionUri(databaseId, sessionsCollectionId);
-
-        private static Uri GetSessionDocumentUri(string refreshToken) =>
-            UriFactory.CreateDocumentUri(databaseId, sessionsCollectionId, refreshToken);
 
         private static void Log(string message, params object[] args) =>
             ServiceEventSource.Current.Message(message, args);

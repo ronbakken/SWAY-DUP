@@ -7,7 +7,7 @@
         <PackageReference Update="Grpc" Version="1.18.0" />
         <PackageReference Update="Grpc.Core.Testing" Version="1.18.0" />
         <PackageReference Update="Grpc.Tools" Version="1.18.0" PrivateAssets="true" />
-        <PackageReference Update="Microsoft.Azure.DocumentDB.Core" Version="2.1.1" />
+        <PackageReference Update="Microsoft.Azure.Cosmos" Version="3.0.0.1-preview" />
 		<PackageReference Update="Microsoft.ServiceFabric.Actors" Version="3.3.624" />
         <PackageReference Update="Microsoft.ServiceFabric.Services" Version="3.3.624" />
         <PackageReference Update="Microsoft.ServiceFabric.Services.Remoting" Version="3.3.624" />

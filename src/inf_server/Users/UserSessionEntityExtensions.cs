@@ -24,7 +24,7 @@ namespace Users
             }
 
             return new UserSessionEntity(
-                @this.RefreshToken?.Substring(0, 254),
+                UserSessionIdHelper.GetIdFrom(@this.RefreshToken),
                 @this.RefreshToken,
                 @this.DeviceId);
         }

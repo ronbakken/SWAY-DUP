@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Fabric;
-using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using InvitationCodes.Interfaces;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
-using Microsoft.Azure.Documents.Linq;
+using Microsoft.Azure.Cosmos;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using NodaTime;
 using Optional;
 using Utility;
-using Utility.Serialization;
 
 namespace InvitationCodes
 {
@@ -24,6 +20,7 @@ namespace InvitationCodes
     {
         private const string databaseId = "invitation_codes";
         private const string codesCollectionId = "codes";
+        private CosmosContainer codesContainer;
 
         public InvitationCodes(StatelessServiceContext context)
             : base(context)
@@ -34,21 +31,11 @@ namespace InvitationCodes
         {
             Log("Creating database if required.");
 
-            var documentClient = this.GetDocumentClient();
-            await documentClient.CreateDatabaseIfNotExistsAsync(new Database { Id = databaseId });
-
-            var codesCollection = new DocumentCollection
-            {
-                Id = codesCollectionId,
-                PartitionKey = new PartitionKeyDefinition
-                {
-                    Paths = new Collection<string>
-                    {
-                        "/code",
-                    },
-                }
-            };
-            await documentClient.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(databaseId), codesCollection);
+            var cosmosClient = this.GetCosmosClient();
+            var databaseResult = await cosmosClient.Databases.CreateDatabaseIfNotExistsAsync(databaseId);
+            var database = databaseResult.Database;
+            var containerResult = await database.Containers.CreateContainerIfNotExistsAsync(codesCollectionId, "/code");
+            this.codesContainer = containerResult.Container;
 
             Log("Database creation complete.");
         }
@@ -60,7 +47,6 @@ namespace InvitationCodes
         {
             Log("Generate");
 
-            var documentClient = this.GetDocumentClient();
             string code = null;
 
             while (true)
@@ -68,17 +54,16 @@ namespace InvitationCodes
                 code = GenerateRandomString(8);
                 Log("Generated code '{0}'.", code);
 
-                var existingInvitationCode = await GetInvitationCodeOrNull(documentClient, code);
-                var codeExists = existingInvitationCode != null;
+                var existingInvitationCodeResponse = await this.codesContainer.Items.ReadItemAsync<InvitationCodeEntity>(code, code);
 
-                if (codeExists)
-                {
-                    Log("Code '{0}' has already been allocated - trying again.", code);
-                }
-                else
+                if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
                 {
                     Log("Generated unique code '{0}'.", code);
                     break;
+                }
+                else
+                {
+                    Log("Code '{0}' has already been allocated - trying again.", code);
                 }
             }
 
@@ -91,8 +76,7 @@ namespace InvitationCodes
                 code,
                 expiryTimestamp);
 
-            await documentClient
-                .CreateDocumentAsync(GetCodesCollectionUri(), entity);
+            await this.codesContainer.Items.CreateItemAsync(code, entity);
 
             Log("Invitation code '{0}' with expiry timestamp {1} has been allocated.", code, expiryTimestamp);
 
@@ -106,14 +90,15 @@ namespace InvitationCodes
         {
             Log("GetStatus.");
 
-            var documentClient = this.GetDocumentClient();
-            var existingInvitationCode = await GetInvitationCodeOrNull(documentClient, code);
+            var existingInvitationCodeResponse = await this.codesContainer.Items.ReadItemAsync<InvitationCodeEntity>(code, code);
 
-            if (existingInvitationCode == null)
+            if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
             {
                 Log("Code '{0}' does not exist.", code);
                 return InvitationCodeStatus.NonExistant;
             }
+
+            var existingInvitationCode = existingInvitationCodeResponse.Resource;
 
             if (existingInvitationCode.IsHonored)
             {
@@ -141,14 +126,15 @@ namespace InvitationCodes
         {
             Log("Honor.");
 
-            var documentClient = this.GetDocumentClient();
-            var existingInvitationCode = await GetInvitationCodeOrNull(documentClient, code);
+            var existingInvitationCodeResponse = await this.codesContainer.Items.ReadItemAsync<InvitationCodeEntity>(code, code);
 
-            if (existingInvitationCode == null)
+            if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
             {
                 Log("Code '{0}' does not exist.", code);
                 return InvitationCodeHonorResult.DoesNotExist;
             }
+
+            var existingInvitationCode = existingInvitationCodeResponse.Resource;
 
             if (existingInvitationCode.IsHonored)
             {
@@ -169,7 +155,7 @@ namespace InvitationCodes
 
             existingInvitationCode = existingInvitationCode
                 .With(isHonored: Option.Some(true));
-            await documentClient.UpsertDocumentAsync(GetCodesCollectionUri(), existingInvitationCode);
+            await this.codesContainer.Items.UpsertItemAsync(code, existingInvitationCode);
             Log("Code '{0}' is now honored.", code);
 
             return InvitationCodeHonorResult.Success;
@@ -178,28 +164,14 @@ namespace InvitationCodes
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>
             this.CreateServiceRemotingInstanceListeners();
 
-        private DocumentClient GetDocumentClient()
+        private CosmosClient GetCosmosClient()
         {
             var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
             var databaseConnectionString = configurationPackage.Settings.Sections["Database"].Parameters["ConnectionString"].Value;
-            var documentClient = DocumentDbAccount.Parse(databaseConnectionString, InfJsonSerializerSettings.Instance);
+            var cosmosConfiguration = new InfCosmosConfiguration(databaseConnectionString);
+            var cosmosClient = new CosmosClient(cosmosConfiguration);
 
-            return documentClient;
-        }
-
-        private static async Task<InvitationCodeEntity> GetInvitationCodeOrNull(DocumentClient documentClient, string code)
-        {
-            var query = new SqlQuerySpec("SELECT * FROM c WHERE c.code = @code", new SqlParameterCollection(
-                new[]
-                {
-                    new SqlParameter("@code", code),
-                }));
-            var existingCodeQuery = documentClient
-                .CreateDocumentQuery<InvitationCodeEntity>(GetCodesCollectionUri(), query, new FeedOptions { MaxItemCount = 1 })
-                .AsDocumentQuery();
-            var results = await existingCodeQuery.ExecuteNextAsync<InvitationCodeEntity>();
-
-            return results.FirstOrDefault();
+            return cosmosClient;
         }
 
         private static string GenerateRandomString(int length)
@@ -217,9 +189,6 @@ namespace InvitationCodes
 
             return sb.ToString();
         }
-
-        private static Uri GetCodesCollectionUri() =>
-            UriFactory.CreateDocumentCollectionUri(databaseId, codesCollectionId);
 
         private static void Log(string message, params object[] args) =>
             ServiceEventSource.Current.Message(message, args);
