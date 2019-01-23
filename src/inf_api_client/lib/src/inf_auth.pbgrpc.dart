@@ -43,10 +43,11 @@ class InfAuthClient extends Client {
       '/api.InfAuth/GetUser',
       (GetUserRequest value) => value.writeToBuffer(),
       (List<int> value) => new GetUserResponse.fromBuffer(value));
-  static final _$updateUser = new ClientMethod<UpdateUserRequest, $0.Empty>(
-      '/api.InfAuth/UpdateUser',
-      (UpdateUserRequest value) => value.writeToBuffer(),
-      (List<int> value) => new $0.Empty.fromBuffer(value));
+  static final _$updateUser =
+      new ClientMethod<UpdateUserRequest, UpdateUserResponse>(
+          '/api.InfAuth/UpdateUser',
+          (UpdateUserRequest value) => value.writeToBuffer(),
+          (List<int> value) => new UpdateUserResponse.fromBuffer(value));
   static final _$logout = new ClientMethod<LogoutRequest, $0.Empty>(
       '/api.InfAuth/Logout',
       (LogoutRequest value) => value.writeToBuffer(),
@@ -107,7 +108,7 @@ class InfAuthClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<$0.Empty> updateUser(UpdateUserRequest request,
+  ResponseFuture<UpdateUserResponse> updateUser(UpdateUserRequest request,
       {CallOptions options}) {
     final call = $createCall(
         _$updateUser, new $async.Stream.fromIterable([request]),
@@ -172,13 +173,13 @@ abstract class InfAuthServiceBase extends Service {
         false,
         (List<int> value) => new GetUserRequest.fromBuffer(value),
         (GetUserResponse value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<UpdateUserRequest, $0.Empty>(
+    $addMethod(new ServiceMethod<UpdateUserRequest, UpdateUserResponse>(
         'UpdateUser',
         updateUser_Pre,
         false,
         false,
         (List<int> value) => new UpdateUserRequest.fromBuffer(value),
-        ($0.Empty value) => value.writeToBuffer()));
+        (UpdateUserResponse value) => value.writeToBuffer()));
     $addMethod(new ServiceMethod<LogoutRequest, $0.Empty>(
         'Logout',
         logout_Pre,
@@ -218,7 +219,7 @@ abstract class InfAuthServiceBase extends Service {
     return getUser(call, await request);
   }
 
-  $async.Future<$0.Empty> updateUser_Pre(
+  $async.Future<UpdateUserResponse> updateUser_Pre(
       ServiceCall call, $async.Future request) async {
     return updateUser(call, await request);
   }
@@ -240,7 +241,7 @@ abstract class InfAuthServiceBase extends Service {
       ServiceCall call, GetAccessTokenRequest request);
   $async.Future<GetUserResponse> getUser(
       ServiceCall call, GetUserRequest request);
-  $async.Future<$0.Empty> updateUser(
+  $async.Future<UpdateUserResponse> updateUser(
       ServiceCall call, UpdateUserRequest request);
   $async.Future<$0.Empty> logout(ServiceCall call, LogoutRequest request);
 }

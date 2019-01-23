@@ -77,10 +77,12 @@ namespace MockServer
             return Task.FromResult(new Empty());
         }
 
-        public override Task<Empty> UpdateUser(UpdateUserRequest request, ServerCallContext context)
+        public override Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context)
         {
             Console.WriteLine("InfConfigImpl.UpdateUser called");
-            return Task.FromResult(new Empty());
+
+            DatabaseMock.Instance().UpdateUser(request.User);
+            return Task.FromResult(new UpdateUserResponse{User = request.User});
         }
 
         public override Task<Empty> Logout(LogoutRequest request, ServerCallContext context)

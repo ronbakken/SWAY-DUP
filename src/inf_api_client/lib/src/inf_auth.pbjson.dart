@@ -8,6 +8,7 @@ const SendLoginEmailRequest$json = const {
   '1': 'SendLoginEmailRequest',
   '2': const [
     const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
+    const {'1': 'userType', '3': 2, '4': 1, '5': 14, '6': '.api.UserType', '10': 'userType'},
   ],
 };
 
@@ -59,6 +60,13 @@ const GetUserResponse$json = const {
 
 const UpdateUserRequest$json = const {
   '1': 'UpdateUserRequest',
+  '2': const [
+    const {'1': 'user', '3': 1, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'user'},
+  ],
+};
+
+const UpdateUserResponse$json = const {
+  '1': 'UpdateUserResponse',
   '2': const [
     const {'1': 'user', '3': 1, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'user'},
   ],

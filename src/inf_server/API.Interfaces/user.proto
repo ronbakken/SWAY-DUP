@@ -45,12 +45,11 @@ message UserDto {
     bool acceptsDirectOffers = 9;
     bool showLocation = 10;
     int32 accountCompletionInPercent = 11;
-    string locationAsString = 12;
-    LocationDto location = 13;
-    ImageDto avatar = 14;
-    ImageDto avatarThumbnail = 15;
-    repeated int32 categoryIds = 16;
-    int32 minimalFee = 17;
+    LocationDto location = 12;
+    ImageDto avatar = 13;
+    ImageDto avatarThumbnail = 14;
+    repeated int32 categoryIds = 15;
+    int32 minimalFee = 16;
 
     repeated SocialMediaAccountDto socialMediaAccounts = 25;
 }

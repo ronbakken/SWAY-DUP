@@ -11,9 +11,12 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'user.pb.dart' as $4;
 
+import 'user.pbenum.dart' as $4;
+
 class SendLoginEmailRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SendLoginEmailRequest', package: const $pb.PackageName('api'))
     ..aOS(1, 'email')
+    ..e<$4.UserType>(2, 'userType', $pb.PbFieldType.OE, $4.UserType.influencer, $4.UserType.valueOf, $4.UserType.values)
     ..hasRequiredFields = false
   ;
 
@@ -36,6 +39,11 @@ class SendLoginEmailRequest extends $pb.GeneratedMessage {
   set email(String v) { $_setString(0, v); }
   bool hasEmail() => $_has(0);
   void clearEmail() => clearField(1);
+
+  $4.UserType get userType => $_getN(1);
+  set userType($4.UserType v) { setField(2, v); }
+  bool hasUserType() => $_has(1);
+  void clearUserType() => clearField(2);
 }
 
 class CreateNewUserRequest extends $pb.GeneratedMessage {
@@ -243,6 +251,33 @@ class UpdateUserRequest extends $pb.GeneratedMessage {
   static UpdateUserRequest _defaultInstance;
   static void $checkItem(UpdateUserRequest v) {
     if (v is! UpdateUserRequest) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  $4.UserDto get user => $_getN(0);
+  set user($4.UserDto v) { setField(1, v); }
+  bool hasUser() => $_has(0);
+  void clearUser() => clearField(1);
+}
+
+class UpdateUserResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UpdateUserResponse', package: const $pb.PackageName('api'))
+    ..a<$4.UserDto>(1, 'user', $pb.PbFieldType.OM, $4.UserDto.getDefault, $4.UserDto.create)
+    ..hasRequiredFields = false
+  ;
+
+  UpdateUserResponse() : super();
+  UpdateUserResponse.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  UpdateUserResponse.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  UpdateUserResponse clone() => new UpdateUserResponse()..mergeFromMessage(this);
+  UpdateUserResponse copyWith(void Function(UpdateUserResponse) updates) => super.copyWith((message) => updates(message as UpdateUserResponse));
+  $pb.BuilderInfo get info_ => _i;
+  static UpdateUserResponse create() => new UpdateUserResponse();
+  UpdateUserResponse createEmptyInstance() => create();
+  static $pb.PbList<UpdateUserResponse> createRepeated() => new $pb.PbList<UpdateUserResponse>();
+  static UpdateUserResponse getDefault() => _defaultInstance ??= create()..freeze();
+  static UpdateUserResponse _defaultInstance;
+  static void $checkItem(UpdateUserResponse v) {
+    if (v is! UpdateUserResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   $4.UserDto get user => $_getN(0);

@@ -29,7 +29,7 @@ service InfAuth {
     rpc GetUser(GetUserRequest) returns (GetUserResponse);
 
     // Updates an existing user object
-    rpc UpdateUser(UpdateUserRequest) returns (Empty);
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
 
     // Permanently invalidates the given refresh token.
     rpc Logout(LogoutRequest) returns (Empty) {}
@@ -72,6 +72,10 @@ message GetUserResponse {
 }
 
 message UpdateUserRequest {
+    UserDto user = 1;
+}
+
+message UpdateUserResponse {
     UserDto user = 1;
 }
 

@@ -29,12 +29,11 @@ class UserDto extends $pb.GeneratedMessage {
     ..aOB(9, 'acceptsDirectOffers')
     ..aOB(10, 'showLocation')
     ..a<int>(11, 'accountCompletionInPercent', $pb.PbFieldType.O3)
-    ..aOS(12, 'locationAsString')
-    ..a<$1.LocationDto>(13, 'location', $pb.PbFieldType.OM, $1.LocationDto.getDefault, $1.LocationDto.create)
-    ..a<$2.ImageDto>(14, 'avatar', $pb.PbFieldType.OM, $2.ImageDto.getDefault, $2.ImageDto.create)
-    ..a<$2.ImageDto>(15, 'avatarThumbnail', $pb.PbFieldType.OM, $2.ImageDto.getDefault, $2.ImageDto.create)
-    ..p<int>(16, 'categoryIds', $pb.PbFieldType.P3)
-    ..a<int>(17, 'minimalFee', $pb.PbFieldType.O3)
+    ..a<$1.LocationDto>(12, 'location', $pb.PbFieldType.OM, $1.LocationDto.getDefault, $1.LocationDto.create)
+    ..a<$2.ImageDto>(13, 'avatar', $pb.PbFieldType.OM, $2.ImageDto.getDefault, $2.ImageDto.create)
+    ..a<$2.ImageDto>(14, 'avatarThumbnail', $pb.PbFieldType.OM, $2.ImageDto.getDefault, $2.ImageDto.create)
+    ..p<int>(15, 'categoryIds', $pb.PbFieldType.P3)
+    ..a<int>(16, 'minimalFee', $pb.PbFieldType.O3)
     ..pp<$3.SocialMediaAccountDto>(25, 'socialMediaAccounts', $pb.PbFieldType.PM, $3.SocialMediaAccountDto.$checkItem, $3.SocialMediaAccountDto.create)
     ..hasRequiredFields = false
   ;
@@ -104,33 +103,28 @@ class UserDto extends $pb.GeneratedMessage {
   bool hasAccountCompletionInPercent() => $_has(9);
   void clearAccountCompletionInPercent() => clearField(11);
 
-  String get locationAsString => $_getS(10, '');
-  set locationAsString(String v) { $_setString(10, v); }
-  bool hasLocationAsString() => $_has(10);
-  void clearLocationAsString() => clearField(12);
+  $1.LocationDto get location => $_getN(10);
+  set location($1.LocationDto v) { setField(12, v); }
+  bool hasLocation() => $_has(10);
+  void clearLocation() => clearField(12);
 
-  $1.LocationDto get location => $_getN(11);
-  set location($1.LocationDto v) { setField(13, v); }
-  bool hasLocation() => $_has(11);
-  void clearLocation() => clearField(13);
+  $2.ImageDto get avatar => $_getN(11);
+  set avatar($2.ImageDto v) { setField(13, v); }
+  bool hasAvatar() => $_has(11);
+  void clearAvatar() => clearField(13);
 
-  $2.ImageDto get avatar => $_getN(12);
-  set avatar($2.ImageDto v) { setField(14, v); }
-  bool hasAvatar() => $_has(12);
-  void clearAvatar() => clearField(14);
+  $2.ImageDto get avatarThumbnail => $_getN(12);
+  set avatarThumbnail($2.ImageDto v) { setField(14, v); }
+  bool hasAvatarThumbnail() => $_has(12);
+  void clearAvatarThumbnail() => clearField(14);
 
-  $2.ImageDto get avatarThumbnail => $_getN(13);
-  set avatarThumbnail($2.ImageDto v) { setField(15, v); }
-  bool hasAvatarThumbnail() => $_has(13);
-  void clearAvatarThumbnail() => clearField(15);
+  List<int> get categoryIds => $_getList(13);
 
-  List<int> get categoryIds => $_getList(14);
+  int get minimalFee => $_get(14, 0);
+  set minimalFee(int v) { $_setSignedInt32(14, v); }
+  bool hasMinimalFee() => $_has(14);
+  void clearMinimalFee() => clearField(16);
 
-  int get minimalFee => $_get(15, 0);
-  set minimalFee(int v) { $_setSignedInt32(15, v); }
-  bool hasMinimalFee() => $_has(15);
-  void clearMinimalFee() => clearField(17);
-
-  List<$3.SocialMediaAccountDto> get socialMediaAccounts => $_getList(16);
+  List<$3.SocialMediaAccountDto> get socialMediaAccounts => $_getList(15);
 }
 

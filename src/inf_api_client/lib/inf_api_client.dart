@@ -20,9 +20,13 @@ export 'package:inf_api_client/src/inf_system.pb.dart';
 export 'package:inf_api_client/src/inf_system.pbenum.dart';
 export 'package:inf_api_client/src/inf_system.pbgrpc.dart';
 
-export 'package:inf_api_client/src/invitation_codes.pb.dart';
-export 'package:inf_api_client/src/invitation_codes.pbenum.dart';
-export 'package:inf_api_client/src/invitation_codes.pbgrpc.dart';
+export 'package:inf_api_client/src/inf_invitation_codes.pb.dart';
+export 'package:inf_api_client/src/inf_invitation_codes.pbenum.dart';
+export 'package:inf_api_client/src/inf_invitation_codes.pbgrpc.dart';
+
+export 'package:inf_api_client/src/inf_blob_storage.pb.dart';
+export 'package:inf_api_client/src/inf_blob_storage.pbenum.dart';
+export 'package:inf_api_client/src/inf_blob_storage.pbgrpc.dart';
 
 export 'package:inf_api_client/src/user.pb.dart';
 export 'package:inf_api_client/src/user.pbenum.dart';

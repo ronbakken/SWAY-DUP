@@ -10,6 +10,8 @@ namespace MockServer
 
         public List<UserDto> users { get; }
 
+        private UserDto updatedUser = null;
+
         private DatabaseMock()
         {
             configData = new AppConfigDto
@@ -388,8 +390,8 @@ namespace MockServer
                     CategoryIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
-                    LocationAsString = "Germany",
                     Location= new LocationDto{
+                     Name = "Germany",
                      Latitude= 34.050863,
                      Longitude= -118.272657
                     }
@@ -418,8 +420,8 @@ namespace MockServer
                     CategoryIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
-                    LocationAsString = "Germany",
                     Location= new LocationDto{
+                        Name = "Germany",
                     Latitude= 34.050863,
                     Longitude= -118.272657
                 }
@@ -487,15 +489,28 @@ namespace MockServer
         }
 
 
+        public void UpdateUser(UserDto user)
+        {
+            updatedUser = user;
+        }
+
         public UserDto GetUser(string token)
         {
             if (token == "INF")
             {
+                if ( (updatedUser != null) && (updatedUser.UserType == UserType.Influencer))
+                {
+                    return updatedUser;
+                }
                 return users[1];
             }
             else if (token == "BUSINESS")
 
             {
+                if ((updatedUser != null) && (updatedUser.UserType == UserType.Business))
+                {
+                    return updatedUser;
+                }
                 return users[0];
             }
             else

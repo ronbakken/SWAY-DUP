@@ -12,9 +12,8 @@ import 'package:protobuf/protobuf.dart' as $pb;
 class LocationDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('LocationDto', package: const $pb.PackageName('api'))
     ..aOS(1, 'name')
-    ..aOS(2, 'description')
-    ..a<double>(3, 'latitude', $pb.PbFieldType.OD)
-    ..a<double>(4, 'longitude', $pb.PbFieldType.OD)
+    ..a<double>(2, 'latitude', $pb.PbFieldType.OD)
+    ..a<double>(3, 'longitude', $pb.PbFieldType.OD)
     ..hasRequiredFields = false
   ;
 
@@ -38,19 +37,14 @@ class LocationDto extends $pb.GeneratedMessage {
   bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  String get description => $_getS(1, '');
-  set description(String v) { $_setString(1, v); }
-  bool hasDescription() => $_has(1);
-  void clearDescription() => clearField(2);
+  double get latitude => $_getN(1);
+  set latitude(double v) { $_setDouble(1, v); }
+  bool hasLatitude() => $_has(1);
+  void clearLatitude() => clearField(2);
 
-  double get latitude => $_getN(2);
-  set latitude(double v) { $_setDouble(2, v); }
-  bool hasLatitude() => $_has(2);
-  void clearLatitude() => clearField(3);
-
-  double get longitude => $_getN(3);
-  set longitude(double v) { $_setDouble(3, v); }
-  bool hasLongitude() => $_has(3);
-  void clearLongitude() => clearField(4);
+  double get longitude => $_getN(2);
+  set longitude(double v) { $_setDouble(2, v); }
+  bool hasLongitude() => $_has(2);
+  void clearLongitude() => clearField(3);
 }
 
