@@ -7,7 +7,6 @@
 const SocialMediaAccountDto$json = const {
   '1': 'SocialMediaAccountDto',
   '2': const [
-    const {'1': 'type', '3': 3, '4': 1, '5': 14, '6': '.api.SocialNetworkProviderType', '10': 'type'},
     const {'1': 'displayName', '3': 4, '4': 1, '5': 9, '10': 'displayName'},
     const {'1': 'socialNetworkProviderId', '3': 5, '4': 1, '5': 5, '10': 'socialNetworkProviderId'},
     const {'1': 'profileUrl', '3': 6, '4': 1, '5': 9, '10': 'profileUrl'},

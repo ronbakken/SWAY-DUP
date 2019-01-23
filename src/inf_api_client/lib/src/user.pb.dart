@@ -9,7 +9,8 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'location.pb.dart' as $2;
+import 'location.pb.dart' as $1;
+import 'image.pb.dart' as $2;
 import 'social_media_account.pb.dart' as $3;
 
 import 'user.pbenum.dart';
@@ -29,14 +30,12 @@ class UserDto extends $pb.GeneratedMessage {
     ..aOB(10, 'showLocation')
     ..a<int>(11, 'accountCompletionInPercent', $pb.PbFieldType.O3)
     ..aOS(12, 'locationAsString')
-    ..a<$2.LocationDto>(13, 'location', $pb.PbFieldType.OM, $2.LocationDto.getDefault, $2.LocationDto.create)
-    ..aOS(14, 'avatarThumbnailUrl')
-    ..a<List<int>>(15, 'avatarThumbnailLowRes', $pb.PbFieldType.OY)
-    ..aOS(16, 'avatarUrl')
-    ..a<List<int>>(17, 'avatarLowRes', $pb.PbFieldType.OY)
-    ..p<int>(18, 'categoryIds', $pb.PbFieldType.P3)
-    ..a<int>(19, 'minimalFee', $pb.PbFieldType.O3)
-    ..pp<$3.SocialMediaAccountDto>(26, 'socialMediaAccounts', $pb.PbFieldType.PM, $3.SocialMediaAccountDto.$checkItem, $3.SocialMediaAccountDto.create)
+    ..a<$1.LocationDto>(13, 'location', $pb.PbFieldType.OM, $1.LocationDto.getDefault, $1.LocationDto.create)
+    ..a<$2.ImageDto>(14, 'avatar', $pb.PbFieldType.OM, $2.ImageDto.getDefault, $2.ImageDto.create)
+    ..a<$2.ImageDto>(15, 'avatarThumbnail', $pb.PbFieldType.OM, $2.ImageDto.getDefault, $2.ImageDto.create)
+    ..p<int>(16, 'categoryIds', $pb.PbFieldType.P3)
+    ..a<int>(17, 'minimalFee', $pb.PbFieldType.O3)
+    ..pp<$3.SocialMediaAccountDto>(25, 'socialMediaAccounts', $pb.PbFieldType.PM, $3.SocialMediaAccountDto.$checkItem, $3.SocialMediaAccountDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -110,38 +109,28 @@ class UserDto extends $pb.GeneratedMessage {
   bool hasLocationAsString() => $_has(10);
   void clearLocationAsString() => clearField(12);
 
-  $2.LocationDto get location => $_getN(11);
-  set location($2.LocationDto v) { setField(13, v); }
+  $1.LocationDto get location => $_getN(11);
+  set location($1.LocationDto v) { setField(13, v); }
   bool hasLocation() => $_has(11);
   void clearLocation() => clearField(13);
 
-  String get avatarThumbnailUrl => $_getS(12, '');
-  set avatarThumbnailUrl(String v) { $_setString(12, v); }
-  bool hasAvatarThumbnailUrl() => $_has(12);
-  void clearAvatarThumbnailUrl() => clearField(14);
+  $2.ImageDto get avatar => $_getN(12);
+  set avatar($2.ImageDto v) { setField(14, v); }
+  bool hasAvatar() => $_has(12);
+  void clearAvatar() => clearField(14);
 
-  List<int> get avatarThumbnailLowRes => $_getN(13);
-  set avatarThumbnailLowRes(List<int> v) { $_setBytes(13, v); }
-  bool hasAvatarThumbnailLowRes() => $_has(13);
-  void clearAvatarThumbnailLowRes() => clearField(15);
+  $2.ImageDto get avatarThumbnail => $_getN(13);
+  set avatarThumbnail($2.ImageDto v) { setField(15, v); }
+  bool hasAvatarThumbnail() => $_has(13);
+  void clearAvatarThumbnail() => clearField(15);
 
-  String get avatarUrl => $_getS(14, '');
-  set avatarUrl(String v) { $_setString(14, v); }
-  bool hasAvatarUrl() => $_has(14);
-  void clearAvatarUrl() => clearField(16);
+  List<int> get categoryIds => $_getList(14);
 
-  List<int> get avatarLowRes => $_getN(15);
-  set avatarLowRes(List<int> v) { $_setBytes(15, v); }
-  bool hasAvatarLowRes() => $_has(15);
-  void clearAvatarLowRes() => clearField(17);
+  int get minimalFee => $_get(15, 0);
+  set minimalFee(int v) { $_setSignedInt32(15, v); }
+  bool hasMinimalFee() => $_has(15);
+  void clearMinimalFee() => clearField(17);
 
-  List<int> get categoryIds => $_getList(16);
-
-  int get minimalFee => $_get(17, 0);
-  set minimalFee(int v) { $_setSignedInt32(17, v); }
-  bool hasMinimalFee() => $_has(17);
-  void clearMinimalFee() => clearField(19);
-
-  List<$3.SocialMediaAccountDto> get socialMediaAccounts => $_getList(18);
+  List<$3.SocialMediaAccountDto> get socialMediaAccounts => $_getList(16);
 }
 

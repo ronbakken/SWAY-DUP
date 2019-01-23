@@ -38,3 +38,6 @@ export 'package:inf_api_client/src/location.pbenum.dart';
 
 export 'package:inf_api_client/src/deliverable.pb.dart';
 export 'package:inf_api_client/src/deliverable.pbenum.dart';
+
+export 'package:inf_api_client/src/image.pb.dart';
+export 'package:inf_api_client/src/image.pbenum.dart';

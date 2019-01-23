@@ -11,9 +11,10 @@ protoc.exe ^
     inf_auth.proto ^
     inf_config.proto ^
     inf_system.proto ^
+    inf_invitation_codes.proto ^
     social_media_account.proto ^
     social_network_provider.proto ^
     user.proto ^
     location.proto ^
-    invitation_codes.proto
+    image.proto
 echo ...done
