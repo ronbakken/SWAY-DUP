@@ -1,4 +1,5 @@
-﻿using System.Fabric;
+﻿using System;
+using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
 using API.Interfaces;
@@ -14,24 +15,38 @@ namespace API
 {
     public sealed class gRPCCommunicationListener : ICommunicationListener
     {
+        private readonly Action<string, object[]> log;
         Server server;
+
+        public gRPCCommunicationListener(Action<string, object[]> log)
+        {
+            this.log = log;
+
+            Log("Constructed gRPCCommunicationListener.");
+        }
 
         public async void Abort()
         {
             if (server != null)
+            {
+                Log("Abort.");
                 await server.KillAsync();
+            }
         }
 
         public async Task CloseAsync(CancellationToken cancellationToken)
         {
             if (server != null)
             {
+                Log("Close.");
                 await server.ShutdownAsync();
             }
         }
 
         public Task<string> OpenAsync(CancellationToken cancellationToken)
         {
+            Log("Open.");
+
             var endpoint = FabricRuntime
                 .GetActivationContext()
                 .GetEndpoint("ServiceEndpoint");
@@ -62,10 +77,16 @@ namespace API
                 },
             };
 
-            server.Start();
-
             var address = $"{endpoint.IpAddressOrFqdn}:{endpoint.Port}";
+            Log("Address is '{0}'.", address);
+
+            server.Start();
+            Log("Server started.");
+
             return Task.FromResult(address);
         }
+
+        private void Log(string message, params object[] args) =>
+            this.log(message, args);
     }
 }

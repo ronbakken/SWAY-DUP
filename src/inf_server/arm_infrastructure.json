@@ -515,9 +515,22 @@
                         "value": "EncryptAndSign"
                      }
                   ]
+               },
+               {
+                  "name": "EventStoreService",
+                  "parameters": [
+                     {
+                        "name": "TargetReplicaSetSize",
+                        "value": "3"
+                     },
+                     {
+                        "name": "MinReplicaSetSize",
+                        "value": "1"
+                     }
+                  ]
                }
             ],
-            "addonFeatures": [
+             "addonFeatures": [
                "DnsService"
             ],
             "managementEndpoint": "[concat('https://', reference(variables('lbIPName')).dnsSettings.fqdn, ':', variables('fabricHttpGatewayPort'))]",
@@ -565,19 +578,19 @@
          "name": "[parameters('resourcePrefix')]",
          "location": "[resourceGroup().location]",
          "properties": {
-             "databaseAccountOfferType": "Standard",
-             "locations": [
-                 {
-                     "id": "[concat(parameters('resourcePrefix'), '-', resourceGroup().location)]",
-                     "failoverPriority": 0,
-                     "locationName": "[resourceGroup().location]"
-                 }
-             ]
+            "databaseAccountOfferType": "Standard",
+            "locations": [
+               {
+                  "id": "[concat(parameters('resourcePrefix'), '-', resourceGroup().location)]",
+                  "failoverPriority": 0,
+                  "locationName": "[resourceGroup().location]"
+               }
+            ]
          },
          "tags": {
-             "displayName": "DatabaseAccount"
+            "displayName": "DatabaseAccount"
          }
-     }
+      }
    ],
    "outputs": {
       "clusterProperties": {
