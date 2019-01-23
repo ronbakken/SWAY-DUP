@@ -2,8 +2,7 @@
 using System.Threading.Tasks;
 using API.Interfaces;
 using Grpc.Core;
-using InvitationCodeManager.Interfaces;
-using Microsoft.ServiceFabric.Services.Client;
+using InvitationCodes.Interfaces;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using static API.Interfaces.InfInvitationCodes;
 
@@ -13,7 +12,7 @@ namespace API.Services.InvitationCodes
     {
         public override async Task<GenerateInvitationCodeResponse> GenerateInvitationCode(Empty request, ServerCallContext context)
         {
-            var service = GetInvitationCodeManagerService();
+            var service = GetInvitationCodesService();
             var invitationCode = await service.Generate();
             var response = new GenerateInvitationCodeResponse
             {
@@ -25,7 +24,7 @@ namespace API.Services.InvitationCodes
 
         public override async Task<GetInvitationCodeStatusResponse> GetInvitationCodeStatus(GetInvitationCodeStatusRequest request, ServerCallContext context)
         {
-            var service = GetInvitationCodeManagerService();
+            var service = GetInvitationCodesService();
             var status = await service.GetStatus(request.InvitationCode);
             var response = new GetInvitationCodeStatusResponse
             {
@@ -34,7 +33,7 @@ namespace API.Services.InvitationCodes
             return response;
         }
 
-        private static IInvitationCodeManagerService GetInvitationCodeManagerService() =>
-            ServiceProxy.Create<IInvitationCodeManagerService>(new Uri("fabric:/server/InvitationCodeManager"), new ServicePartitionKey(1));
+        private static IInvitationCodesService GetInvitationCodesService() =>
+            ServiceProxy.Create<IInvitationCodesService>(new Uri("fabric:/server/InvitationCodes"));
     }
 }

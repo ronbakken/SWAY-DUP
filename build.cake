@@ -162,6 +162,7 @@ Task("Deploy")
             var clusterManagementEndpoint = (string)outputs["clusterProperties"]["value"]["managementEndpoint"];
             var clusterManagementUri = new Uri(clusterManagementEndpoint);
             var userStorageAccountConnectionString = (string)outputs["userStorageAccountConnectionString"]["value"];
+            var databaseAccountConnectionString = (string)outputs["databaseAccountConnectionString"]["value"];
 
             // 2. Build and upload the Service Fabric application.
             Information("Restoring packages.");
@@ -199,6 +200,7 @@ Task("Deploy")
                 new Dictionary<string, string>
                 {
                     { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", userStorageAccountConnectionString },
+                    { "DATABASE_ACCOUNT_CONNECTION_STRING", databaseAccountConnectionString },
                 });
 
             Information("Application manifest: {0}", updatedApplicationManifestDocument.ToString());

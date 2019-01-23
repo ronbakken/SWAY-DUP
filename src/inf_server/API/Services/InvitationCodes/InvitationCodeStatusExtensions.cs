@@ -1,6 +1,6 @@
 ﻿using System;
 using static API.Interfaces.GetInvitationCodeStatusResponse.Types;
-using Service = InvitationCodeManager.Interfaces;
+using Service = InvitationCodes.Interfaces;
 
 namespace API.Services.InvitationCodes
 {
@@ -10,13 +10,13 @@ namespace API.Services.InvitationCodes
         {
             switch (@this)
             {
-                case Service.InvitationCodeStatus.DoesNotExist:
+                case Service.InvitationCodeStatus.NonExistant:
                     return InvitationCodeStatus.DoesNotExist;
                 case Service.InvitationCodeStatus.Expired:
                     return InvitationCodeStatus.Expired;
-                case Service.InvitationCodeStatus.PendingUse:
+                case Service.InvitationCodeStatus.Pending:
                     return InvitationCodeStatus.PendingUse;
-                case Service.InvitationCodeStatus.Used:
+                case Service.InvitationCodeStatus.Honored:
                     return InvitationCodeStatus.Used;
                 default:
                     throw new NotSupportedException();

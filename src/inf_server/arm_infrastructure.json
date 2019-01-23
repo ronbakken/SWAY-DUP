@@ -557,7 +557,27 @@
             "name": "Standard_LRS"
          },
          "kind": "Storage"
-      }
+      },
+      {
+         "apiVersion": "2015-04-08",
+         "kind": "GlobalDocumentDB",
+         "type": "Microsoft.DocumentDb/databaseAccounts",
+         "name": "[parameters('resourcePrefix')]",
+         "location": "[resourceGroup().location]",
+         "properties": {
+             "databaseAccountOfferType": "Standard",
+             "locations": [
+                 {
+                     "id": "[concat(parameters('resourcePrefix'), '-', resourceGroup().location)]",
+                     "failoverPriority": 0,
+                     "locationName": "[resourceGroup().location]"
+                 }
+             ]
+         },
+         "tags": {
+             "displayName": "DatabaseAccount"
+         }
+     }
    ],
    "outputs": {
       "clusterProperties": {
@@ -567,6 +587,10 @@
       "userStorageAccountConnectionString": {
          "type": "string",
          "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('userStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('userStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
+      },
+      "databaseAccountConnectionString": {
+         "type": "string",
+         "value": "[concat('AccountEndpoint=https://', parameters('resourcePrefix'), '.documents.azure.com:443/;AccountKey=', listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('resourcePrefix')), providers('Microsoft.DocumentDB', 'databaseAccounts').apiVersions[0]).primaryMasterKey, ';')]"
       }
    }
 }

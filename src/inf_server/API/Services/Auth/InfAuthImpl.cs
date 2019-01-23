@@ -4,12 +4,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using API.Interfaces;
 using Grpc.Core;
-using InvitationCodeManager.Interfaces;
+using InvitationCodes.Interfaces;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
-using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
-using Newtonsoft.Json;
 using Optional;
 using RefreshToken.Interfaces;
 using SendGrid;
@@ -70,13 +68,13 @@ namespace API.Services.Auth
         {
             Log("CreateNewUser.");
 
-            Log("Validating invitation code.");
-            var invitationCodeManager = GetInvitationCodeManagerService();
-            var useInvitationCodeResult = await invitationCodeManager.Use(request.InvitationCode);
+            Log("Honoring invitation code.");
+            var invitationCodeManager = GetInvitationCodesService();
+            var honorResult = await invitationCodeManager.Honor(request.InvitationCode);
 
-            if (useInvitationCodeResult != InvitationCodeUseResult.Success)
+            if (honorResult != InvitationCodeHonorResult.Success)
             {
-                throw new InvalidOperationException("Could not use invitation code.");
+                throw new InvalidOperationException("Could not honor invitation code.");
             }
 
             Log("Validating login token.");
@@ -308,8 +306,8 @@ namespace API.Services.Auth
         private static IRefreshToken GetRefreshTokenActor(string refreshToken) =>
             ActorProxy.Create<IRefreshToken>(new ActorId(refreshToken), new Uri("fabric:/server/RefreshTokenActorService"));
 
-        private static IInvitationCodeManagerService GetInvitationCodeManagerService() =>
-            ServiceProxy.Create<IInvitationCodeManagerService>(new Uri("fabric:/server/InvitationCodeManager"), new ServicePartitionKey(1));
+        private static IInvitationCodesService GetInvitationCodesService() =>
+            ServiceProxy.Create<IInvitationCodesService>(new Uri("fabric:/server/InvitationCodes"));
 
         private static void Log(string message, params object[] args) =>
             ServiceEventSource.Current.Message(message, args);

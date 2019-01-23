@@ -34,8 +34,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\API.Interfaces\API.Interfaces.csproj" />
-        <ProjectReference Include="..\InvitationCode.Interfaces\InvitationCode.Interfaces.csproj" />
-        <ProjectReference Include="..\InvitationCodeManager.Interfaces\InvitationCodeManager.Interfaces.csproj" />
+        <ProjectReference Include="..\InvitationCodes.Interfaces\InvitationCodes.Interfaces.csproj" />
         <ProjectReference Include="..\RefreshToken.Interfaces\RefreshToken.Interfaces.csproj" />
         <ProjectReference Include="..\User.Interfaces\User.Interfaces.csproj" />
         <ProjectReference Include="..\User\User.csproj" />

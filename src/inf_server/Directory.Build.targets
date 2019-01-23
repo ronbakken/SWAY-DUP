@@ -7,12 +7,14 @@
         <PackageReference Update="Grpc" Version="1.18.0" />
         <PackageReference Update="Grpc.Core.Testing" Version="1.18.0" />
         <PackageReference Update="Grpc.Tools" Version="1.18.0" PrivateAssets="true" />
+        <PackageReference Update="Microsoft.Azure.DocumentDB.Core" Version="2.1.1" />
 		<PackageReference Update="Microsoft.ServiceFabric.Actors" Version="3.3.624" />
         <PackageReference Update="Microsoft.ServiceFabric.Services" Version="3.3.624" />
         <PackageReference Update="Microsoft.ServiceFabric.Services.Remoting" Version="3.3.624" />
         <PackageReference Update="Moq" Version="4.10.1" />
         <PackageReference Update="Newtonsoft.Json" Version="12.0.1" />
         <PackageReference Update="NodaTime" Version="2.4.4" />
+        <PackageReference Update="NodaTime.Serialization.JsonNet" Version="2.1.0" />
         <PackageReference Update="Optional" Version="4.0.0" />
         <PackageReference Update="Sendgrid" Version="9.10.0" />
         <PackageReference Update="System.Collections.Immutable" Version="1.5.0" />

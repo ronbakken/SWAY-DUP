@@ -16,10 +16,6 @@ namespace API.Services.BlobStorage
     {
         public override async Task<GetUploadUrlResponse> GetUploadUrl(GetUploadUrlRequest request, ServerCallContext context)
         {
-            // CHANGES:
-            // request should have just file name
-            // response should have a time-boxed upload URI and a (public) GET URI
-
             Log("GetUploadUrl.");
 
             var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject("Config");

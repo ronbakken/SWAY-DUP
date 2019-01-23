@@ -56,6 +56,40 @@ TODO
     bitrise run localdev
     ```
 
+## Confounding Problems (and Solutions)
+
+This is a list of problems that can occur when developing with Service Fabric for which the answer is not always immediately obvious.
+
+### Accidental Recursion
+
+This one is an easy mistake to make, but difficult to spot due to the lack of feedback from Service Fabric during startup.
+
+Consider these symptoms:
+
+* Application builds and deploys
+* Service Fabric management console reports the application as unhealthy due to a service (probably one you've just added or modified)
+* Service Fabric keeps trying to create new instances of that service to rescue it
+* The management console does not give much information about the problem other than "Partition is below target replica or instance count"
+* Breakpoints in the service constructor hit, but not the `RunAsync` method
+
+These symptoms are actually very general and are indicative only of Service Fabric being unable to start your service. There are likely many reasons this might be, but a particularly insidious one is this:
+
+```C#
+protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>
+    this.CreateServiceInstanceListeners();
+```
+
+This code introduces accidental recursion, so when Service Fabric invokes this method, it times out waiting for it to respond. The code is supposed to be (this is for a stateless service - a stateful one is very similar but different):
+
+```C#
+protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>
+    this.CreateServiceRemotingInstanceListeners();
+```
+
+Notice the small difference between the method names. The problem is compounded by the fact that `CreateServiceRemotingInstanceListeners` is an extension method that won't be available if you've forgotten to add a dependency on `Microsoft.ServiceFabric.Services.Remoting` or have neglected to import the `Microsoft.ServiceFabric.Services.Remoting.Runtime` namespace. Thus, it's very easy to accidentally have Intellisense resolve the wrong method!
+
+###
+
 ## Posterity Notes
 
 This section is for record purposes. You shouldn't need this day-to-day.
