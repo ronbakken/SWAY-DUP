@@ -32,8 +32,8 @@ class MainNavigationDrawer extends StatelessWidget {
             trailing: InfSwitch(
               value: currentUser.acceptsDirectOffers,
               onChanged: (val) {
-                userManager.saveUserCommand(
-                  currentUser.copyWith(acceptsDirectOffers: val),
+                userManager.updateUserCommand(
+                  UserUpdateData(user:currentUser.copyWith(acceptsDirectOffers: val)),
                 );
               },
               activeColor: AppTheme.blue,
@@ -48,8 +48,8 @@ class MainNavigationDrawer extends StatelessWidget {
             trailing: InfSwitch(
               value: currentUser.showLocation,
               onChanged: (val) {
-                userManager.saveUserCommand(
-                  currentUser.copyWith(showLocation: val),
+                userManager.updateUserCommand(
+                  UserUpdateData(user: currentUser.copyWith(showLocation: val)),
                 );
               },
               activeColor: AppTheme.blue,

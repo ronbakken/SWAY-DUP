@@ -243,6 +243,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
   void _onAddPicture({bool camera}) async {
     if (camera == null) {
       camera = await showDialog<bool>(context: context, builder: (context) => ImageSourceSelectorDialog());
+      // user aborted the dialog
       if (camera == null) {
         return;
       }

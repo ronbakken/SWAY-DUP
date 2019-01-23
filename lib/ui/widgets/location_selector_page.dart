@@ -122,7 +122,7 @@ class _LocationSelectorPageState extends State<LocationSelectorPage> with Single
                       height: 56,
                       color: Colors.white,
                       text: 'DONE',
-                      onPressed: () {},
+                      onPressed: onDone,
                     ),
                   )
                 ],
@@ -132,6 +132,19 @@ class _LocationSelectorPageState extends State<LocationSelectorPage> with Single
         ),
       ),
     );
+  }
+
+  void onDone() {
+    var geoLocation = selectedLocation.value;
+    Location location;
+    if (geoLocation != null) {
+      location = Location(
+        name: geoLocation.name,
+        latitude: geoLocation.coordinate.latitude,
+        longitude: geoLocation.coordinate.longitude,
+      );
+    }
+    Navigator.of(context).pop<Location>(location);
   }
 }
 
@@ -203,48 +216,8 @@ class __SearchViewState extends State<_SearchView> {
         .debounce(Duration(milliseconds: 500))
         .listen(searchPlaceCommand);
 
-    // searchTextChangedCommand = RxCommand.createSync((s) => s);
-
-    // searchPlaceCommand = RxCommand.createAsync((s) async {
-    //   return Observable.just(
-    //     await backend.get<LocationService>().lookUpPlaces(
-    //         nearby: backend.get<LocationService>().lastLocation, searchText: s),
-    //   );
-    // }, emitLastResult: true);
-
-    // searchTextChangedCommand
-    //     .where((s) => s.isNotEmpty)
-    //     .debounce(Duration(milliseconds: 500))
-    //     .listen(searchPlaceCommand);
-
-    // searchResults.listen((s) {
-    //   print(s);
-    // });
-
     super.initState();
   }
-
-  // void initState() {
-  //   searchTextChangedCommand = RxCommand.createSync((s) => s);
-
-  //   searchPlaceCommand = RxCommand.createAsync((s) async {
-  //     return Observable.just(
-  //       await backend.get<LocationService>().lookUpPlaces(
-  //           nearby: backend.get<LocationService>().lastLocation, searchText: s),
-  //     );
-  //   }, emitLastResult: true);
-
-  //   searchTextChangedCommand
-  //       .where((s) => s.isNotEmpty)
-  //       .debounce(Duration(milliseconds: 500))
-  //       .listen(searchPlaceCommand);
-
-  //   searchResults.listen((s) {
-  //     print(s);
-  //   });
-
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -467,50 +440,59 @@ class _LocationListState extends State<_LocationList> {
             overflow: TextOverflow.ellipsis,
           ));
         }
-        return Container(
-          padding: const EdgeInsets.only(right: 16.0),
-          height: 72.0,
-          child: Row(
-            children: [
-              Container(
-                width: 64.0,
-                alignment: Alignment.centerRight,
-                child: Container(
-                  padding: const EdgeInsets.all(12.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppTheme.white12,
-                  ),
-                  child: InfAssetImage(
-                    AppIcons.location,
-                    color: Colors.white,
-                    width: 24.0,
-                    height: 24.0,
+        return InkWell(
+          onTap: () {
+            setState(() {
+              selectedResult = widget.locations[index];
+            });
+            widget.onLocationSelected(selectedResult);
+          },
+          child: Container(
+            padding: const EdgeInsets.only(right: 16.0),
+            height: 72.0,
+            child: Row(
+              children: [
+                Container(
+                  width: 64.0,
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    padding: const EdgeInsets.all(12.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppTheme.white12,
+                    ),
+                    child: InfAssetImage(
+                      AppIcons.location,
+                      color: Colors.white,
+                      width: 24.0,
+                      height: 24.0,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 16.0,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: textLines,
+                SizedBox(
+                  width: 16.0,
                 ),
-              ),
-              widget.locations[index] == selectedResult
-                  ? Container(
-                      width: 35.0,
-                      padding: const EdgeInsets.all(4.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppTheme.lightBlue,
-                      ),
-                      child: Icon(Icons.check),
-                    )
-                  : SizedBox(),
-            ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: textLines,
+                  ),
+                ),
+                SizedBox(width: 8,),
+                widget.locations[index] == selectedResult
+                    ? Container(
+                        width: 35.0,
+                        padding: const EdgeInsets.all(4.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppTheme.lightBlue,
+                        ),
+                        child: Icon(Icons.check),
+                      )
+                    : SizedBox(),
+              ],
+            ),
           ),
         );
       },

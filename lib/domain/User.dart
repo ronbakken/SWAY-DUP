@@ -107,7 +107,7 @@ class User {
       acceptsDirectOffers: dto.acceptsDirectOffers,
       showLocation: dto.showLocation,
       accountCompletionInPercent: dto.accountCompletionInPercent,
-      location: Location(dto.location),
+      location: Location.fromDto(dto.location),
       avatarThumbnailUrl: dto.avatarThumbnail.url,
       avatarThumbnailLowRes: dto.avatarThumbnail.lowResData,
       avatarUrl: dto.avatar.url,
@@ -118,5 +118,28 @@ class User {
           dto.socialMediaAccounts.map<SocialMediaAccount>((dto) => SocialMediaAccount.fromDto(dto)).toList(),
     );
   }
+
+//   UserDto toDto()
+//   {
+//     return UserDto()
+// ..verified = verified
+// ..accountState = accountState
+// ..userType = userType
+// ..name = name
+// ..description = description
+// ..email = email
+// ..websiteUrl = websiteUrl
+// ..acceptsDirectOffers = acceptsDirectOffers
+// ..showLocation = showLocation
+// ..accountCompletionInPercent = accountCompletionInPercent
+// ..location = location.toDto()
+// ..avatarThumbnailUrl = avatarThumbnailUrl
+// ..avatarThumbnailLowRes = avatarThumbnailLowRes
+// ..avatarUrl = avatarUrl
+// ..avatarLowRes = avatarLowRes
+// ..categoryIds.addAll(categories.map<int>( (c) => c.id))
+// ..minimalFee = minimalFee
+// ..socialMediaAccounts = socialMediaAccounts    
+//   }
 
 }

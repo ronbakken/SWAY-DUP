@@ -68,9 +68,4 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     return null;
   }
 
-  @override
-  Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia) {
-    // TODO: implement updateSocialMediaAccount
-    return null;
-  }
 }

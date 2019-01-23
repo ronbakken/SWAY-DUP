@@ -24,10 +24,10 @@ class EditSocialMediaView extends StatefulWidget {
 
   const EditSocialMediaView({Key key, this.socialMediaAccounts}) : super(key: key);
   @override
-  _EditSocialMediaViewState createState() => _EditSocialMediaViewState();
+  EditSocialMediaViewState createState() => EditSocialMediaViewState();
 }
 
-class _EditSocialMediaViewState extends State<EditSocialMediaView> {
+class EditSocialMediaViewState extends State<EditSocialMediaView> {
   UserManager userManager;
   ConfigService configService;
   User user;

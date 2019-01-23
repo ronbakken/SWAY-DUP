@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/user.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 
+
+/// Shows the profile picture with a black gradient and optional user data and
+/// connected social media accounts
 class ProfileSummery extends StatelessWidget {
   final User user;
   final bool showSocialMedia;
@@ -12,6 +17,9 @@ class ProfileSummery extends StatelessWidget {
   final double heightImagePercentage;
   final double gradientStop;
   final bool showOnlyImage;
+  /// if [imageFile] is set it will displayed instead of the 
+  /// image provided with the user object 
+  final File imageFile;
 
   const ProfileSummery({
     @required this.user,
@@ -21,6 +29,7 @@ class ProfileSummery extends StatelessWidget {
     this.heightImagePercentage = 0.85,
     this.gradientStop = 0.75,
     this.showOnlyImage = false,
+    this.imageFile,
     Key key,
   }) : super(key: key);
 
@@ -54,11 +63,11 @@ class ProfileSummery extends StatelessWidget {
               left: 0.0,
               right: 0.0,
               height: mediaQuery.size.height * heightTotalPercentage * heightImagePercentage + mediaQuery.padding.top,
-              child: InfImage(
+              child: imageFile == null ? InfImage(
                 fit: BoxFit.fitHeight,
                 lowRes: user.avatarLowRes,
                 imageUrl: user.avatarUrl,
-              ),
+              ): Image.file(imageFile, fit:BoxFit.fitHeight),
             ),
             Container(
               decoration: BoxDecoration(

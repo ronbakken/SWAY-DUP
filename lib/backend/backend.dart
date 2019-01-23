@@ -13,7 +13,7 @@ import 'package:inf/backend/services/auth_service_impl.dart';
 import 'package:inf/backend/managers/user_manager_.dart';
 import 'package:inf/backend/services/config_service_impl.dart';
 import 'package:inf/backend/services/image_service_.dart';
-import 'package:inf/backend/services/image_service_mock.dart';
+import 'package:inf/backend/services/image_service_impl.dart';
 import 'package:inf/backend/services/inf_api_clients_service_.dart';
 import 'package:inf/backend/services/inf_api_clients_service_impl.dart';
 import 'package:inf/backend/services/inf_api_service_mock.dart';
@@ -129,7 +129,7 @@ void registerImplementations() {
             userTestToken: 'INF',
           ));
 
-  backend.registerLazySingleton<ImageService>(() => ImageServiceMock());
+  backend.registerLazySingleton<ImageService>(() => ImageServiceImplementation());
   backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
   backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());
 

@@ -61,7 +61,6 @@ abstract class AuthenticationService {
   // Observable<List<LocalAccountData>> get linkedAccounts;
   // Future<void> switchToUserAccount(LocalAccountData user);
 
-  Future<void> updateSocialMediaAccount(SocialMediaAccount socialMedia);
   Future<void> updateUser(User user);
 
   /// After V1.0

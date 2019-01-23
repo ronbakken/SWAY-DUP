@@ -19,6 +19,7 @@ dependencies:
   get_it: any
   http: any
   image_picker: any
+  image: any
   intl: any
   location: 
     git: https://github.com/slightfoot/flutter_location.git
