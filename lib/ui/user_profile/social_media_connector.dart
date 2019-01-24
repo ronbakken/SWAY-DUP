@@ -10,6 +10,7 @@ import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:inf/domain/domain.dart';
@@ -52,21 +53,8 @@ Future<SocialMediaAccount> connectToSocialMediaAccount(SocialNetworkProvider pro
 
 class SocialMediaConnectorPage extends StatefulWidget {
   static Route<SocialMediaAccount> route({SocialNetworkProvider connectTo}) {
-    return PageRouteBuilder(
-      pageBuilder: (BuildContext context, _, __) {
-        return SocialMediaConnectorPage(
-          connectTo: connectTo,
-        );
-      },
-      transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
-        final slide = Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset.zero).animate(animation);
-        return SlideTransition(
-          position: slide,
-          child: child,
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 650),
-      opaque: false,
+    return FadePageRoute(
+      builder: (BuildContext context) => SocialMediaConnectorPage(connectTo: connectTo),
     );
   }
 
@@ -299,7 +287,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
                       displayName: selectedPage.name,
                       userId: userId,
                       pageId: selectedPage.id,
-                      postsCount: -1,
+                      postCount: -1,
                       profileUrl: link,
                       socialNetWorkProvider: provider);
                   return account;
@@ -334,7 +322,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
                 audienceSize: followers,
                 displayName: userName,
                 userId: userId,
-                postsCount: media ?? -1,
+                postCount: media ?? -1,
                 profileUrl: 'https://www.instagram.com/$userName/',
                 socialNetWorkProvider: provider);
             return account;
@@ -369,7 +357,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
               audienceSize: followers,
               displayName: userName,
               userId: userId,
-              postsCount: postCount ?? -1,
+              postCount: postCount ?? -1,
               profileUrl: 'https://twitter.com/$userName',
               socialNetWorkProvider: provider);
           return account;
@@ -458,7 +446,7 @@ class _SocialNetWorkConnectionStatusPage extends StatefulWidget {
         );
       },
       transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
-        final slide = Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset.zero).animate(animation);
+        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(animation);
         return SlideTransition(
           position: slide,
           child: child,
@@ -540,7 +528,10 @@ class __SocialNetWorkConnectionStatusPageState extends State<_SocialNetWorkConne
                           size: 16,
                         ),
                         SizedBox(width: 8),
-                        Text('This does not let the app post anything\n under your account', textAlign: TextAlign.center,),
+                        Text(
+                          'This does not let the app post anything\n under your account',
+                          textAlign: TextAlign.center,
+                        ),
                       ],
                     )
                   : SizedBox(),

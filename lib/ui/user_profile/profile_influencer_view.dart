@@ -84,7 +84,7 @@ class ProfileInfluencerView extends StatelessWidget {
               SizedBox(
                 height: 8.0,
               ),
-              Text('\$${user.minimalFee.toString()}'),
+              Text(user.minimalFee > 0 ? '\$${ user.minimalFee.toString()}'  : ''),
               SizedBox(
                 height: 16.0,
               ),

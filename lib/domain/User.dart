@@ -119,27 +119,47 @@ class User {
     );
   }
 
-//   UserDto toDto()
-//   {
-//     return UserDto()
-// ..verified = verified
-// ..accountState = accountState
-// ..userType = userType
-// ..name = name
-// ..description = description
-// ..email = email
-// ..websiteUrl = websiteUrl
-// ..acceptsDirectOffers = acceptsDirectOffers
-// ..showLocation = showLocation
-// ..accountCompletionInPercent = accountCompletionInPercent
-// ..location = location.toDto()
-// ..avatarThumbnailUrl = avatarThumbnailUrl
-// ..avatarThumbnailLowRes = avatarThumbnailLowRes
-// ..avatarUrl = avatarUrl
-// ..avatarLowRes = avatarLowRes
-// ..categoryIds.addAll(categories.map<int>( (c) => c.id))
-// ..minimalFee = minimalFee
-// ..socialMediaAccounts = socialMediaAccounts    
-//   }
+  UserDto toDto() {
+    var avatarThumbnailDto = ImageDto()
+      ..url = avatarThumbnailUrl
+      ..lowResData = avatarThumbnailLowRes;
+    var avatarDto = ImageDto()
+      ..url = avatarUrl
+      ..lowResData = avatarLowRes;
 
+    assert(accountState != null);
+    assert(userType != null);
+    assert(name != null);
+    assert(description != null);
+    assert(email != null);
+    assert(websiteUrl != null);
+    assert(acceptsDirectOffers != null);
+    assert(showLocation != null);
+    assert(accountCompletionInPercent != null);
+    assert(location != null);
+    assert(avatarThumbnailDto != null);
+    assert(avatarDto != null);
+    assert(categories != null);
+    assert(socialMediaAccounts != null);
+
+    var dto = UserDto()
+      ..verified = verified ?? false
+      ..accountState = accountState
+      ..userType = userType
+      ..name = name
+      ..description = description
+      ..email = email
+      ..websiteUrl = websiteUrl
+      ..acceptsDirectOffers = acceptsDirectOffers
+      ..showLocation = showLocation
+      ..accountCompletionInPercent = accountCompletionInPercent
+      ..location = location.toDto()
+      ..avatarThumbnail = avatarThumbnailDto
+      ..avatar = avatarDto
+      ..categoryIds.addAll(categories.map<int>((c) => c.id))
+      ..minimalFee = minimalFee ?? 0
+      ..socialMediaAccounts.addAll(socialMediaAccounts.map<SocialMediaAccountDto>((a) => a.toDto()));
+
+      return dto;
+  }
 }

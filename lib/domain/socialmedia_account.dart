@@ -1,4 +1,3 @@
-
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -14,7 +13,7 @@ class SocialMediaAccount {
   final String pageId;
 
   final int audienceSize;
-  final int postsCount;
+  final int postCount;
 
   final bool verified;
 
@@ -23,8 +22,7 @@ class SocialMediaAccount {
   final String refreshToken;
 
   SocialMediaAccount(
-      {
-      this.socialNetWorkProvider,
+      {this.socialNetWorkProvider,
       this.displayName,
       this.userId,
       this.pageId,
@@ -32,7 +30,7 @@ class SocialMediaAccount {
       this.description,
       this.email,
       this.audienceSize,
-      this.postsCount,
+      this.postCount,
       this.verified,
       this.accessToken,
       this.accessTokenSecret,
@@ -64,7 +62,7 @@ class SocialMediaAccount {
       description: description ?? this.description,
       email: email ?? this.email,
       audienceSize: audienceSize ?? this.audienceSize,
-      postsCount: postsCount ?? this.postsCount,
+      postCount: postsCount ?? this.postCount,
       accessToken: accessToken ?? this.accessToken,
       accessTokenSecret: accessTokenSecret ?? this.accessTokenSecret,
       refreshToken: refreshToken ?? this.refreshToken,
@@ -83,16 +81,54 @@ class SocialMediaAccount {
       description: dto.description,
       email: dto.email,
       audienceSize: dto.audienceSize,
-      postsCount: dto.postCount,
+      postCount: dto.postCount,
       accessToken: dto.accessToken,
       accessTokenSecret: dto.accessTokenSecret,
       refreshToken: dto.refreshToken,
     );
   }
 
-   String audienceSizeAsString() {
-    if(audienceSize < 0)
-    {
+  SocialMediaAccountDto toDto() {
+    assert(userId != null);
+    assert(profileUrl != null);
+    assert(socialNetWorkProvider != null);
+    var dto = SocialMediaAccountDto()
+      ..displayName = displayName ?? ''
+      ..profileUrl = profileUrl
+      ..userId = userId;
+
+    if (pageId != null) {
+      dto.pageId = pageId;
+    }
+    if (description != null) {
+      dto.description = description;
+    }
+    if (email != null) {
+      dto.email = email;
+    }
+    if (audienceSize != null) {
+      dto.audienceSize = audienceSize;
+    }
+    if (postCount != null) {
+      dto.postCount = postCount;
+    }
+    if (accessToken != null) {
+      dto.accessToken = accessToken;
+    }
+    if (accessTokenSecret != null) {
+      dto.accessTokenSecret = accessTokenSecret;
+    }
+    if (refreshToken != null) {
+      dto.refreshToken = refreshToken;
+    }
+
+    dto.socialNetworkProviderId = socialNetWorkProvider.id;
+
+    return dto;
+  }
+
+  String audienceSizeAsString() {
+    if (audienceSize < 0) {
       return 'NA';
     }
     if (audienceSize < 1100) {
@@ -106,5 +142,4 @@ class SocialMediaAccount {
       return '${doubleCount.toStringAsFixed(1)}m';
     }
   }
-
 }

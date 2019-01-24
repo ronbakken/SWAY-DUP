@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/auth_service_.dart';
 import 'package:inf/domain/domain.dart';
@@ -29,22 +30,40 @@ class UserManagerImplementation implements UserManager {
 
     logInUserCommand = RxCommand.createAsyncNoParam(authenticationService.loginUserWithToken);
 
-   updateUserCommand = RxCommand.createAsyncNoResult<UserUpdateData>( saveUserData);
+    updateUserCommand = RxCommand.createAsyncNoResult<UserUpdateData>(updateUserData);
   }
 
   @override
   Observable<User> get currentUserUpdates => backend.get<AuthenticationService>().currentUserUpdates;
 }
 
-Future saveUserData(UserUpdateData userData) async
-{
-  if (userData.profilePicture != null)
-  {
+Future updateUserData(UserUpdateData userData) async {
+  User userToSend;
+
+  if (userData.profilePicture != null) {
     var imageBytes = await userData.profilePicture.readAsBytes();
 
     var image = decodeImage(imageBytes);
-    var smallImage = copyResize(image, 800);
-    var profileUrl =  await backend.get<ImageService>().uploadImageFromBytes('profilePicture', encodeJpg(smallImage, quality: 90));
-    print(profileUrl);
+    var profileIMage = copyResize(image, 800);
+    var profileLores = copyResize(profileIMage, 100);
+    var thumbNail = copyResize(profileIMage, 100);
+    var thumbNailLores = copyResize(thumbNail, 20);
+
+    var profileUrl =
+        await backend.get<ImageService>().uploadImageFromBytes('profilePicture.jpg', encodeJpg(profileIMage, quality: 90));
+    var thumbNailUrl =
+        await backend.get<ImageService>().uploadImageFromBytes('profileThumbnail.jpg', encodeJpg(thumbNail, quality: 90));
+    userToSend = userData.user.copyWith(
+      avatarUrl: profileUrl,
+      avatarLowRes: encodeJpg(profileLores),
+      avatarThumbnailUrl: thumbNailUrl,
+      avatarThumbnailLowRes: encodeJpg(thumbNailLores),
+    );
+
+    imageCache.clear();
+  } else {
+    userToSend = userData.user;
   }
+
+  await backend.get<AuthenticationService>().updateUser(userToSend);
 }

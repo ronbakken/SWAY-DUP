@@ -37,22 +37,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState() {
     userUpdateListener = RxCommandListener(backend.get<UserManager>().updateUserCommand,
-       onIsBusy: () => InfLoader.show(context),
-       onNotBusy: () => InfLoader.hide(),
+        onIsBusy: () => InfLoader.show(context),
+        onNotBusy: () => InfLoader.hide(),
         onError: (error) async {
           print(error);
           return await showMessageDialog(
-            context, 'Update Problem', 'Sorry we had a problem update your user. Please try again later');
+              context, 'Update Problem', 'Sorry we had a problem update your user. Please try again later');
         });
     super.initState();
   }
 
   @override
-    void dispose() 
-    {
-      userUpdateListener?.dispose();
-      super.dispose();
-    }
+  void dispose() {
+    userUpdateListener?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +99,17 @@ class _UserDataViewState extends State<UserDataView> {
     user = widget.user;
     location = user.location;
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(UserDataView oldWidget) {
+    if (widget.user != oldWidget.user)
+    {
+      user = widget.user;
+      location = user.location;
+      selectedImageFile = null;
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -190,8 +200,13 @@ class _UserDataViewState extends State<UserDataView> {
                             ],
                           ),
                           onTap: () async {
-                            location = await Navigator.of(context).push(LocationSelectorPage.route());
-                            setState(() {});
+                            var result  = await Navigator.of(context).push(LocationSelectorPage.route());
+                            if (result != null)
+                            {
+                              setState(() {
+                                location = result;
+                              });
+                            }
                           },
                         ),
                         SizedBox(height: 16)
@@ -245,15 +260,14 @@ class _UserDataViewState extends State<UserDataView> {
 
       formState.save();
       var userData = UserUpdateData(
-        user: user.copyWith(
-          name: name,
-          description: aboutYou,
-          location: location,
-          minimalFee: minFee,
-          socialMediaAccounts: socialAccounts,
-        ),
-        profilePicture: selectedImageFile
-      );
+          user: user.copyWith(
+            name: name,
+            description: aboutYou,
+            location: location,
+            minimalFee: minFee ?? 0,
+            socialMediaAccounts: socialAccounts,
+          ),
+          profilePicture: selectedImageFile);
       backend.get<UserManager>().updateUserCommand(userData);
     }
   }

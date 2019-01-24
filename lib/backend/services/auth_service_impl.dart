@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:fixnum/fixnum.dart';
-import 'package:flutter/widgets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -57,9 +55,15 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   // }
 
   @override
-  Future<void> updateUser(User user) {
-    // TODO: implement updateUser
-    return null;
+  Future<void> updateUser(User user) async {
+    var dto = user.toDto();
+    var response = await backend.get<InfApiClientsService>().authClient.updateUser(
+          UpdateUserRequest()..user = dto,
+        );
+    if (response != null) {
+      _currentUser = User.fromDto(response.user);
+      currentUserUpdatesSubject.add(_currentUser);
+    }
   }
 
   @override
@@ -67,5 +71,4 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     // TODO: implement init
     return null;
   }
-
 }
