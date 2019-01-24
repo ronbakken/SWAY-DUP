@@ -1,7 +1,25 @@
 format_version: 1.4.0
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 workflows:
-  _run_from_repo:
+  # This are the pre/post steps that only needs to execute when running on Bitrise proper.
+  _cloudPreSteps:
+    steps:
+    - activate-ssh-key:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone: {}
+    - file-downloader:
+        title: Download PFX
+        inputs:
+        - source: "$BITRISEIO_CI_PFX_URL"
+        - destination: "$BITRISE_SOURCE_DIR/Azure.pfx"
+  _cloudPostSteps:
+    steps:
+    - deploy-to-bitrise-io:
+        inputs:
+        - notify_user_groups: none
+
+  # These are steps that should always execute, even when running Bitrise locally.
+  _primary:
     steps:
     - script:
         title: Install envman
@@ -21,14 +39,6 @@ workflows:
         - content: |
             #!/bin/bash
             printenv
-    - activate-ssh-key:
-        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    # - git-clone: {}
-    # - file-downloader:
-    #     title: Download PFX
-    #     inputs:
-    #     - source: "$BITRISEIO_CI_PFX_URL"
-    #     - destination: "$BITRISE_SOURCE_DIR/Azure.pfx"
     - script:
         title: Install .NET Core
         inputs:
@@ -80,28 +90,38 @@ workflows:
             set -ex
             cd ../src/
             bash ./build.sh $CAKE_ARGS
-    # - deploy-to-bitrise-io:
-    #     inputs:
-    #     - notify_user_groups: none
+
+  # Use this workflow when building locally.
   localdev:
     after_run:
-    - _run_from_repo
+    - _primary
+
+  # These workflows are for builds that occur in Bitrise proper.
   dev:
     envs:
     - ENVIRONMENT: "dev"
+    before_run:
+    - _cloudPreSteps
     after_run:
-    - _run_from_repo
+    - _primary
+    - _cloudPostSteps
   test:
     envs:
     - ENVIRONMENT: "test"
+    before_run:
+    - _cloudPreSteps
     after_run:
-    - _run_from_repo
+    - _primary
+    - _cloudPostSteps
   prod:
     envs:
     - ENVIRONMENT: "prod"
     - VM_INSTANCE_COUNT: "5"
+    before_run:
+    - _cloudPreSteps
     after_run:
-    - _run_from_repo
+    - _primary
+    - _cloudPostSteps
 
 app:
     envs:
