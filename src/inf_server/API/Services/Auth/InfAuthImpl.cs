@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using API.Interfaces;
@@ -7,8 +6,6 @@ using Grpc.Core;
 using InvitationCodes.Interfaces;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Optional;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using Users.Interfaces;
 using Utility;
 using static API.Interfaces.InfAuth;
@@ -44,23 +41,11 @@ namespace API.Services.Auth
                 userType.ToString());
 
             Log("Saving user data.");
-            var userData = new UserData(
-                Users.Interfaces.UserType.Unknown,
-                UserStatus.WaitingForActivation,
-                default,
-                default,
-                default,
-                default,
-                default,
-                default,
-                default,
-                default,
-                default,
-                default,
-                default,
-                default,
-                default,
-                loginToken);
+            var userData = UserData
+                .Initial
+                .With(
+                    status: Option.Some(UserStatus.WaitingForActivation),
+                    loginToken: Option.Some(loginToken));
             await usersService.SaveUserData(userId, userData);
 
             Log("Sending verification email.");
@@ -282,37 +267,6 @@ namespace API.Services.Auth
             await usersService.InvalidateUserSession(request.RefreshToken);
 
             return Empty.Instance;
-        }
-
-        private static async Task SendEmailVerificationEmail(string email, string name, string link, CancellationToken cancellationToken = default)
-        {
-            // TODO: parameterize these
-            var apiKey = "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";
-            var templateId = "d-410b5cc2a77e4357a82afede83e92621";
-            var emailFromAddress = "donotreply@inf-marketplace-llc.com";
-            var emailFromName = "INF Marketplace LLC";
-
-            var emailMessage = new SendGridMessage
-            {
-                From = new EmailAddress(emailFromAddress, emailFromName),
-                Subject = "Sign in to your INF Marketplace Account",
-                TemplateId = templateId,
-            };
-            var templateData = new VerifyEmailTemplateData {
-                Name = name,
-                Link = link,
-            };
-            emailMessage.SetTemplateData(templateData);
-
-            emailMessage.AddTos(
-                new List<EmailAddress>
-                {
-                    new EmailAddress(email, name),
-                });
-
-            var client = new SendGridClient(apiKey);
-
-            await client.SendEmailAsync(emailMessage, cancellationToken);
         }
 
         private static IUsersService GetUsersService() =>
