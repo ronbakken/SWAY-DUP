@@ -12,6 +12,7 @@ namespace Utility.Serialization
         {
             this.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
             this.DefaultValueHandling = DefaultValueHandling.Ignore;
+            this.NullValueHandling = NullValueHandling.Ignore;
         }
     }
 }
