@@ -11,6 +11,15 @@ namespace MockServer
         public override Task<GetUploadUrlResponse> GetUploadUrl(GetUploadUrlRequest request, ServerCallContext context)
         {
             Console.WriteLine("InfBlobStorageImpl.GetUploadUrl called");
+            if (request.FileName.Contains("Thumb"))
+            {
+                return Task.FromResult(new GetUploadUrlResponse
+                {
+                    PublicUrl = "https://linkstest.blob.core.windows.net/images/profile-lowres.jpg",
+                    UploadUrl = "https://linkstest.blob.core.windows.net/images/profile-lowres.jpg?sp=rwd&st=2019-01-24T10:10:51Z&se=2019-05-02T17:10:51Z&spr=https&sv=2018-03-28&sig=4ber0HsRBxTiSdaaqu8ozhxfzGLnA32bYrtcOnD56u8%3D&sr=b"
+
+                });
+            }
             return Task.FromResult(new GetUploadUrlResponse
             {
                 PublicUrl = "https://linkstest.blob.core.windows.net/images/profile.jpg",
