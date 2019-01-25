@@ -107,28 +107,39 @@ class MainNavigationDrawer extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: CustomAnimatedCurves(),
           ),
-          ListView(
-            primary: false,
-            padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),
-            children: [
-              ProfileSummery(
-                user: userManager.currentUser,
-                heightTotalPercentage: 0.48,
-                gradientStop: 0.3,
-                showDescription: true,
-                showSocialMedia: true,
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: buildColumnEntries(userManager.currentUser),
-                ),
-              ),
-            ],
+          StreamBuilder<User>(
+            initialData: userManager.currentUser,
+            stream: userManager.currentUserUpdates,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+              {
+                return SizedBox();
+              }
+              var user = snapshot.data;
+              return ListView(
+                primary: false,
+                padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),
+                children: [
+                  ProfileSummery(
+                    user: user,
+                    heightTotalPercentage: 0.48,
+                    gradientStop: 0.3,
+                    showDescription: true,
+                    showSocialMedia: true,
+                  ),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: buildColumnEntries(user),
+                    ),
+                  ),
+                ],
+              );
+            }
           ),
 
           // View profile button

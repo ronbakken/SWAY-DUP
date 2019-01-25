@@ -10,7 +10,7 @@ class InfLoader extends StatefulWidget {
         builder: (context) => Stack(
               children: <Widget>[
                 Container(
-                  color: Color(0x99ffffff),
+                  color: Colors.transparent,
                 ),
                 Center(
                   child: InfLoader(),
