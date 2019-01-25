@@ -8,7 +8,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/inf_bottom_page.dart';
+import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/routes.dart';
@@ -25,7 +25,7 @@ Future<SocialMediaAccount> connectToSocialMediaAccount(SocialNetworkProvider pro
       ) {
     return await Navigator.push(
         context,
-        InfBottomPage.route(
+        InfBottomSheet.route(
           title: 'Connect your ${provider.name}',
           child: _SocialNetWorkConnectionStatusView(connectTo: provider),
         ));

@@ -6,9 +6,11 @@ import 'package:flutter/scheduler.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/ui/sign_up/send_signup_login_email_view.dart';
 import 'package:inf/ui/welcome/onboarding_page.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
@@ -96,8 +98,13 @@ class _WelcomePageState extends PageState<WelcomePage> {
                                   )),
                             ],
                           ),
+                          onPressed: () => Navigator.of(context).push(
+                                InfBottomSheet.route(
+                                  title: 'Welcome to INF',
+                                  child: SendSignupLoginEmailView(newUser: false, userType: UserType.business),
+                                ),
+                              ),
                           color: Colors.transparent,
-                          onPressed: () {},
                         ),
                       ],
                     ),

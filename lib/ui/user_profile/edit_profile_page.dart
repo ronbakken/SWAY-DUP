@@ -41,7 +41,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         onNotBusy: () => InfLoader.hide(),
         onError: (error) async {
           print(error);
-          return await showMessageDialog(
+          await showMessageDialog(
               context, 'Update Problem', 'Sorry we had a problem update your user. Please try again later');
         });
     super.initState();
@@ -283,6 +283,7 @@ class _UserDataViewState extends State<UserDataView> {
           ),
           profilePicture: selectedImageFile);
       backend.get<UserManager>().updateUserCommand(userData);
+      setState(()=>hasChanged = false);
     }
   }
 }

@@ -17,7 +17,8 @@ class UserManagerImplementation implements UserManager {
 
   @override
   RxCommand<void, bool> logInUserCommand;
-  // RxCommand<User, void> createUserByEmailCommand;
+  @override
+  RxCommand<LoginEmailInfo, void> sendLoginEmailCommand;
 
   @override
   RxCommand<void, void> updateUserFromServer;
@@ -30,6 +31,8 @@ class UserManagerImplementation implements UserManager {
 
     logInUserCommand = RxCommand.createAsyncNoParam(authenticationService.loginUserWithToken);
 
+    sendLoginEmailCommand = RxCommand.createAsyncNoResult(sendLoginEmail);
+
     updateUserCommand = RxCommand.createAsyncNoResult<UserUpdateData>(updateUserData);
   }
 
@@ -37,7 +40,12 @@ class UserManagerImplementation implements UserManager {
   Observable<User> get currentUserUpdates => backend.get<AuthenticationService>().currentUserUpdates;
 }
 
-Future updateUserData(UserUpdateData userData) async {
+Future<void> sendLoginEmail(LoginEmailInfo loginInfo) async
+{
+
+}
+
+Future<void> updateUserData(UserUpdateData userData) async {
   User userToSend;
 
   if (userData.profilePicture != null) {

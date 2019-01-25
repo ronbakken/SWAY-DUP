@@ -61,6 +61,8 @@ Future<void> setupBackend(AppMode mode) async {
     case AppMode.dev:
       appEnvironment = AppEnvironment(
         mode: AppMode.dev,
+        // host: 'inf-dev-cluster.australiaeast.cloudapp.azure.com',
+        // port: 9026,
         host: await BuildConfig.instance['API_HOST'],
         port: 8080,
       );
@@ -126,7 +128,7 @@ void registerImplementations() {
       /// token: 'INF' and influencer
       /// token: 'BUSINESS' a business user
       () => AuthenticationServiceImplementation(
-            userTestToken: 'INF',
+      //      userTestToken: 'INF',
           ));
 
   backend.registerLazySingleton<ImageService>(() => ImageServiceImplementation());

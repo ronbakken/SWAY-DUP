@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/ui/sign_up/send_signup_login_email_view.dart';
 import 'package:inf/ui/sign_up/sign_up_page.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/onboarding_pager.dart';
@@ -100,9 +102,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   void _onNextPressed(int pageIndex) {
     if (pageIndex == pages.length - 1) {
-      Navigator.of(context)
-        ..pop()
-        ..push(SignUpPage.route(userType: widget.userType));
+      Navigator.of(context).pop();
+      Navigator.of(context).push(
+            InfBottomSheet.route(
+              title: 'Welcome to INF',
+              child: SendSignupLoginEmailView(newUser: true, userType: widget.userType),
+            ),
+          );
     } else {
       _gotoPage(pageIndex + 1);
     }
