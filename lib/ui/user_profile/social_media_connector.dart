@@ -8,6 +8,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_bottom_page.dart';
 import 'package:inf/ui/widgets/inf_memory_image..dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/routes.dart';
@@ -22,7 +23,12 @@ Future<SocialMediaAccount> connectToSocialMediaAccount(SocialNetworkProvider pro
           provider.type == SocialNetworkProviderType.TWITTER
       // ||provider.type == SocialNetworkProviderType.SNAPCHAT
       ) {
-    return await Navigator.push(context, _SocialNetWorkConnectionStatusPage.route(connectTo: provider));
+    return await Navigator.push(
+        context,
+        InfBottomPage.route(
+          title: 'Connect your ${provider.name}',
+          child: _SocialNetWorkConnectionStatusView(connectTo: provider),
+        ));
   } else if (provider.type == SocialNetworkProviderType.YOU_TUBE) {}
   return null;
 }
@@ -437,120 +443,64 @@ class _FacebookPageSelectorDialog extends StatelessWidget {
   }
 }
 
-class _SocialNetWorkConnectionStatusPage extends StatefulWidget {
-  static Route<SocialMediaAccount> route({SocialNetworkProvider connectTo}) {
-    return PageRouteBuilder(
-      pageBuilder: (BuildContext context, _, __) {
-        return _SocialNetWorkConnectionStatusPage(
-          connectTo: connectTo,
-        );
-      },
-      transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
-        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(animation);
-        return SlideTransition(
-          position: slide,
-          child: child,
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 650),
-      opaque: false,
-    );
-  }
 
+
+class _SocialNetWorkConnectionStatusView extends StatefulWidget {
   final SocialNetworkProvider connectTo;
 
-  const _SocialNetWorkConnectionStatusPage({Key key, this.connectTo}) : super(key: key);
+  const _SocialNetWorkConnectionStatusView({Key key, this.connectTo}) : super(key: key);
   @override
-  __SocialNetWorkConnectionStatusPageState createState() => __SocialNetWorkConnectionStatusPageState();
+  _SocialNetWorkConnectionStatusViewState createState() => _SocialNetWorkConnectionStatusViewState();
 }
 
 enum _connectionState { notConnected, connected, failed }
 
-class __SocialNetWorkConnectionStatusPageState extends State<_SocialNetWorkConnectionStatusPage> {
+class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnectionStatusView> {
   SocialMediaAccount account;
 
   _connectionState connectionState = _connectionState.notConnected;
 
   @override
   Widget build(BuildContext context) {
-    var mediaQuery = MediaQuery.of(context);
-
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Material(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CurvedBox(
-              bottom: true,
-              top: false,
-              color: AppTheme.menuUserNameBackground,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 48),
-                child: Row(
+    return Column(
+      children: [
+        SizedBox(height: 16.0),
+        buildConnectionIconRow(),
+        SizedBox(height: 16.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: getText(),
+        ),
+        SizedBox(height: 32.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 48),
+          child: connectionState == _connectionState.notConnected
+              ? Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Spacer(),
-                    Text(
-                      'Connect your ${widget.connectTo.name}',
-                      style: const TextStyle(fontSize: 20),
+                    Icon(
+                      Icons.lock,
+                      size: 16,
                     ),
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: InkResponse(
-                          onTap: () => Navigator.of(context).pop<SocialMediaAccount>(null),
-                          child: Icon(Icons.close, size: 32),
-                        ),
-                      ),
-                    )
+                    SizedBox(width: 8),
+                    Text(
+                      'This does not let the app post anything\n under your account',
+                      textAlign: TextAlign.center,
+                    ),
                   ],
-                ),
-              ),
-            ),
-            SizedBox(height: 16.0),
-            buildConnectionIconRow(),
-            SizedBox(height: 16.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: getText(),
-            ),
-            SizedBox(height: 32.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 48),
-              child: connectionState == _connectionState.notConnected
-                  ? Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.lock,
-                          size: 16,
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          'This does not let the app post anything\n under your account',
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    )
-                  : SizedBox(),
-            ),
-            SizedBox(height: 16.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: InfStadiumButton(
-                color: Colors.white,
-                text: getButtonText(),
-                onPressed: onButtonPressed,
-              ),
-            ),
-            SizedBox(
-              height: mediaQuery.padding.bottom + 32,
-            ),
-          ],
+                )
+              : SizedBox(),
         ),
-      ),
+        SizedBox(height: 16.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: InfStadiumButton(
+            color: Colors.white,
+            text: getButtonText(),
+            onPressed: onButtonPressed,
+          ),
+        ),
+      ],
     );
   }
 
