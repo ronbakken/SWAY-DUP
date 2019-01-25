@@ -21,8 +21,9 @@ class _SocialMediaRow {
 
 class EditSocialMediaView extends StatefulWidget {
   final List<SocialMediaAccount> socialMediaAccounts;
+  final VoidCallback onChanged;
 
-  const EditSocialMediaView({Key key, this.socialMediaAccounts}) : super(key: key);
+  const EditSocialMediaView({Key key, this.socialMediaAccounts, this.onChanged}) : super(key: key);
   @override
   EditSocialMediaViewState createState() => EditSocialMediaViewState();
 }
@@ -94,10 +95,16 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
                 if (enabled) {
                   var newAccount = await connectToSocialMediaAccount(row.provider, context);
                   if (newAccount != null) {
+                    if (widget.onChanged != null) {
+                      widget.onChanged();
+                    }
                     row.account = newAccount;
                   }
                 } else {
                   row.account = null;
+                  if (widget.onChanged != null) {
+                    widget.onChanged();
+                  }
                 }
                 setState(() {});
               },

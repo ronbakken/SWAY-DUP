@@ -94,6 +94,8 @@ class _UserDataViewState extends State<UserDataView> {
   Location location;
   User user;
 
+  bool hasChanged = false;
+
   @override
   void initState() {
     user = widget.user;
@@ -103,133 +105,145 @@ class _UserDataViewState extends State<UserDataView> {
 
   @override
   void didUpdateWidget(UserDataView oldWidget) {
-    if (widget.user != oldWidget.user)
-    {
+    if (widget.user != oldWidget.user) {
       user = widget.user;
       location = user.location;
       selectedImageFile = null;
+      hasChanged = false;
     }
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Stack(
-                  children: <Widget>[
-                    ProfileSummery(
-                      user: user,
-                      showOnlyImage: true,
-                      heightImagePercentage: 1.0,
-                      gradientStop: 0.9,
-                      imageFile: selectedImageFile,
-                    ),
-                    Positioned(
-                      right: 16,
-                      top: 32,
-                      child: InkResponse(
-                        onTap: onEditImage,
-                        child: InfAssetImage(
-                          AppIcons.edit,
-                          width: 32,
-                        ),
+    return WillPopScope(
+      onWillPop: () async {
+        if (hasChanged) {
+          var shouldPop = await showQueryDialog(context, 'Be careful', 'Your changes will be lost if you don\'t tap on update.'
+          '\nDo you really want to leave this page?');
+          return shouldPop;
+        }
+        return true;
+      },
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Stack(
+                    children: <Widget>[
+                      ProfileSummery(
+                        user: user,
+                        showOnlyImage: true,
+                        heightImagePercentage: 1.0,
+                        gradientStop: 0.9,
+                        imageFile: selectedImageFile,
                       ),
-                    )
-                  ],
-                ),
-                Form(
-                  key: formKey,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text("YOUR NAME", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                        SizedBox(height: 8),
-                        TextFormField(
-                          initialValue: user.name,
-                          validator: (s) => s.isEmpty ? 'You have to provide a Name' : null,
-                          onSaved: (s) => name = s,
-                        ),
-                        SizedBox(height: 16),
-                        Text("MANAGE YOUR SOCIAL ACCOUNTS",
-                            textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                        SizedBox(height: 8),
-                        EditSocialMediaView(
-                          key: socialMediaKey,
-                          socialMediaAccounts: user.socialMediaAccounts,
-                        ),
-                        ColumnSeparator(),
-                        Text("ABOUT YOU", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                        SizedBox(height: 8),
-                        TextFormField(
-                          initialValue: user.description,
-                          validator: (s) => s.isEmpty ? 'You have to provide a Name' : null,
-                          onSaved: (s) => aboutYou = s,
-                        ),
-                        SizedBox(height: 16),
-                        Text("MIN FEE", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                        SizedBox(height: 8),
-                        TextFormField(
-                          inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                          keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
-                          initialValue: user.minimalFee != null ? '\$${user.minimalFee.toString()}' : null,
-                          onSaved: (s) => minFee = int.tryParse(s),
-                        ),
-                        SizedBox(height: 16),
-                        Text("Location", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                        SizedBox(height: 8),
-                        InkWell(
-                          child: Row(
-                            children: [
-                              Expanded(child: Text(location.name ?? '')),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 24, top: 8.0),
-                                  child: Icon(Icons.search),
-                                ),
-                              ),
-                            ],
+                      Positioned(
+                        right: 16,
+                        top: 32,
+                        child: InkResponse(
+                          onTap: onEditImage,
+                          child: InfAssetImage(
+                            AppIcons.edit,
+                            width: 32,
                           ),
-                          onTap: () async {
-                            var result  = await Navigator.of(context).push(LocationSelectorPage.route());
-                            if (result != null)
-                            {
-                              setState(() {
-                                location = result;
-                              });
-                            }
-                          },
                         ),
-                        SizedBox(height: 16)
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                )
-              ],
+                  Form(
+                    onChanged: () => setState(() => hasChanged = true),
+                    key: formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Text("YOUR NAME", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+                          SizedBox(height: 8),
+                          TextFormField(
+                            initialValue: user.name,
+                            validator: (s) => s.isEmpty ? 'You have to provide a Name' : null,
+                            onSaved: (s) => name = s,
+                          ),
+                          SizedBox(height: 16),
+                          Text("MANAGE YOUR SOCIAL ACCOUNTS",
+                              textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+                          SizedBox(height: 8),
+                          EditSocialMediaView(
+                            key: socialMediaKey,
+                            socialMediaAccounts: user.socialMediaAccounts,
+                            onChanged: () => setState(() => hasChanged = true),
+                          ),
+                          ColumnSeparator(),
+                          Text("ABOUT YOU", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+                          SizedBox(height: 8),
+                          TextFormField(
+                            initialValue: user.description,
+                            validator: (s) => s.isEmpty ? 'You have to provide a Name' : null,
+                            onSaved: (s) => aboutYou = s,
+                          ),
+                          SizedBox(height: 16),
+                          Text("MIN FEE", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+                          SizedBox(height: 8),
+                          TextFormField(
+                            inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                            keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+                            initialValue: user.minimalFee != null ? '\$${user.minimalFee.toString()}' : null,
+                            onSaved: (s) => minFee = int.tryParse(s),
+                          ),
+                          SizedBox(height: 16),
+                          Text("Location", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+                          SizedBox(height: 8),
+                          InkWell(
+                            child: Row(
+                              children: [
+                                Expanded(child: Text(location.name ?? '')),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 24, top: 8.0),
+                                    child: Icon(Icons.search),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () async {
+                              var result = await Navigator.of(context).push(LocationSelectorPage.route());
+                              if (result != null) {
+                                setState(() {
+                                  hasChanged = true;
+                                  location = result;
+                                });
+                              }
+                            },
+                          ),
+                          SizedBox(height: 16)
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 32, right: 32, top: 8),
-            child: InfStadiumButton(
-              height: 56,
-              color: Colors.white,
-              text: 'Update',
-              onPressed: onUpdate,
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 32, right: 32, top: 8),
+              child: InfStadiumButton(
+                height: 56,
+                color: Colors.white,
+                text: 'Update',
+                onPressed: hasChanged ? onUpdate : null,
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
