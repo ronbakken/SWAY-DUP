@@ -274,8 +274,8 @@ class _WelcomeWallState extends State<_WelcomeWall> {
                   ],
                   stops: <double>[
                     0.5,
-                    0.75,
-                    0.97,
+                    0.70,
+                    0.85,
                   ],
                 ),
               ),
