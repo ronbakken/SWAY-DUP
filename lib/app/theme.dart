@@ -27,6 +27,8 @@ class AppTheme {
   static const notificationDot = const Color(0xFFDC7173);
   static const locationSelectorBackground = const Color(0xFF202022);
 
+  static const editPageBackground = const Color(0xFF202022);
+  
   static const radioButtonBgUnselected = const Color(0xFF4C4C4D);
   static const radioButtonBgSelected = blue;
 

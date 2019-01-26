@@ -8,7 +8,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:inf/app_composition/app_common.dart';
-import 'package:inf/ui/offers/offer_details_page.dart';
+import 'package:inf/ui/offer_views/offer_details_page.dart';
 
 import 'package:inf_common/inf_common.dart';
 import 'package:inf/network_inheritable/config_provider.dart';

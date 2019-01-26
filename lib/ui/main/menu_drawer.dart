@@ -3,7 +3,9 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/ui/user_profile/profile_summary.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
+import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
@@ -24,7 +26,6 @@ class MainNavigationDrawer extends StatelessWidget {
     @required this.onNavigateDebugAccount,
     @required this.onEditAccount,
     @required this.onEditSocialMedia,
-    @required this.onLogOut,
   }) : super(key: key);
 
   final ConfigData config;
@@ -37,8 +38,6 @@ class MainNavigationDrawer extends StatelessWidget {
 
   final void Function(DataAccount account) onEditAccount;
   final void Function(DataSocialMedia socialMedia) onEditSocialMedia;
-
-  final void Function() onLogOut;
 
   void setSocialMediaAccountState(int providerId, bool published) {
     final DataSocialMedia socialMedia = DataSocialMedia();
@@ -159,7 +158,7 @@ class MainNavigationDrawer extends StatelessWidget {
             activeColor: AppTheme.blue,
           ),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 16),
         Text(
           'PAYMENT',
           textAlign: TextAlign.left,
@@ -182,11 +181,20 @@ class MainNavigationDrawer extends StatelessWidget {
           text: 'Earnings',
           onTap: null, // TODO
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 16),
+        Text(
+          'SETTINGS',
+          textAlign: TextAlign.left,
+          style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
+        ),
+        SizedBox(height: 8),
         _MainNavigationItem(
-          icon: InfAssetImage(AppIcons.menu),
-          text: 'Logout',
-          onTap: onLogOut,
+          icon: InfAssetImage(
+            AppIcons.switchUser,
+            color: Colors.white,
+          ),
+          text: 'Switch Account',
+          onTap: onNavigateSwitchAccount,
         ),
       ]);
       return entries;
@@ -195,64 +203,113 @@ class MainNavigationDrawer extends StatelessWidget {
     return Material(
       color: AppTheme.listViewAndMenuBackground,
       elevation: 8.0,
-      child: ListView(
-        primary: false,
-        padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),
-        children: [
-          SizedBox(
-            height: mediaQuery.size.height * 0.2 + mediaQuery.padding.top,
-            child: isLoggedIn
-                ? CurvedBoxClip(
-                    bottom: true,
-                    child: InfImage(
-                      fit: BoxFit.fitWidth,
-                      lowRes:
-                          kTransparentImage, // TODO(kaetemi): account.avatarBlurred,
-                      imageUrl: account.avatarUrl,
-                    ),
-                  )
-                : SizedBox(),
+      child: Stack(
+        fit: StackFit.passthrough,
+        children: <Widget>[
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: CustomAnimatedCurves(),
           ),
-          SizedBox(
-            height: 16.0,
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 24),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadiusDirectional.only(
-                topStart: Radius.circular(16.0),
-                bottomStart: Radius.circular(16.0),
+          ListView(
+            primary: false,
+            padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),
+            children: <Widget>[
+              ProfileSummary(
+                config: config,
+                account: account,
+                heightTotalPercentage: 0.48,
+                gradientStop: 0.3,
+                showDescription: true,
+                showSocialMedia: true,
               ),
-              color: AppTheme.menuUserNameBackground,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 16.0, right: 8.0, top: 8.0, bottom: 8.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      isLoggedIn ? account.name : 'Anonymous',
-                      style: const TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+              /*
+              SizedBox(
+                height: mediaQuery.size.height * 0.2 + mediaQuery.padding.top,
+                child: isLoggedIn
+                    ? CurvedBoxClip(
+                        bottom: true,
+                        child: InfImage(
+                          fit: BoxFit.fitWidth,
+                          lowRes:
+                              kTransparentImage, // TODO(kaetemi): account.avatarBlurred,
+                          imageUrl: account.avatarUrl,
+                        ),
+                      )
+                    : SizedBox(),
+              ),
+              */
+              SizedBox(
+                height: 16.0,
+              ),
+              /*
+              Container(
+                margin: const EdgeInsets.only(left: 24),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(16.0),
+                    bottomStart: Radius.circular(16.0),
                   ),
-                  InfAssetImage(
-                    AppIcons.edit,
-                    width: 24,
-                    height: 24,
-                  )
-                ],
+                  color: AppTheme.menuUserNameBackground,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16.0, right: 8.0, top: 8.0, bottom: 8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          isLoggedIn ? account.name : 'Anonymous',
+                          style: const TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      InfAssetImage(
+                        AppIcons.edit,
+                        width: 24,
+                        height: 24,
+                      )
+                    ],
+                  ),
+                ),
               ),
-            ),
+              */
+              Padding(
+                padding:
+                    const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: buildColumnEntries(account),
+                ),
+              ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: buildColumnEntries(account),
+
+          // View profile button
+          Positioned(
+            height: 35,
+            right: 0.0,
+            top: 50.0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.only(
+                  topStart: Radius.circular(16.0),
+                  bottomStart: Radius.circular(16.0),
+                ),
+                color: const Color(0x85000000),
+              ),
+              alignment: Alignment.centerRight,
+              child: FlatButton(
+                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                onPressed: () {
+                  // TODO: Navigator.of(context).push(ProfilePrivatePage.route());
+                },
+                child: Text(
+                  'View profile',
+                  style: const TextStyle(fontSize: 16.0),
+                ),
+              ),
             ),
           ),
         ],

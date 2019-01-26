@@ -56,6 +56,8 @@ class AppIcons {
       AppAsset.vector('assets/images/icon_switch_user.svg');
   static const camera = AppAsset.vector('assets/images/icon_camera.svg');
   static const photo = AppAsset.vector('assets/images/icon_photo.svg');
+  static const connect = AppAsset.vector('assets/images/icon_connect.svg');
+  static const check = AppAsset.vector('assets/images/icon_check.svg');
 }
 
 class AppImages {

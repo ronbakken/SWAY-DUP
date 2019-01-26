@@ -3,9 +3,9 @@ import 'dart:ui' as ui;
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
-import 'package:inf/ui/offers/browse_carousel_item.dart';
-import 'package:inf/ui/offers/offer_post_tile.dart';
-import 'package:inf/ui/offers/offer_details_page.dart';
+import 'package:inf/ui/offer_views/browse_carousel_item.dart';
+import 'package:inf/ui/offer_views/offer_post_tile.dart';
+import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
 import 'package:inf_common/inf_common.dart';
 
