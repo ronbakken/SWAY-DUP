@@ -611,7 +611,6 @@ abstract class AppCommonState<T extends StatefulWidget>
         account: network.account,
         onEditAccount: null,
         onEditSocialMedia: null,
-        onLogOut: null,
         onNavigateProfile: navigateToProfileView,
         onNavigateSwitchAccount: navigateToSwitchAccount,
         onNavigateHistory: navigateToHistory,
