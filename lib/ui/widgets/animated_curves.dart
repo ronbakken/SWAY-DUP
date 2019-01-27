@@ -15,8 +15,8 @@ class CustomAnimatedCurves extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedCurves(
-      colors: const [Colors.black12, Color(0x0AFFFFFF) ],
-      durations: const [Duration(seconds: 25), Duration(seconds: 60) ],
+      colors: const [Colors.black12, Color(0x0AFFFFFF)],
+      durations: const [Duration(seconds: 25), Duration(seconds: 60)],
       waveAmplitudes: const [30.0, 30.0],
       waveFrequencies: const [1.33, 1.8],
       heightFractions: const [0.30, 0.20],
@@ -91,7 +91,8 @@ class AnimatedCurve extends LeafRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, _RenderAnimatedCurves renderObject) {
+  void updateRenderObject(
+      BuildContext context, _RenderAnimatedCurves renderObject) {
     renderObject..widget = this;
   }
 }
@@ -133,7 +134,8 @@ class _RenderAnimatedCurves extends RenderProxyBox {
 
   void _onTick(Duration animationDuration) {
     double duration = widget.duration.inMicroseconds.toDouble();
-    _time = ((animationDuration.inMicroseconds.toDouble() % duration) / duration);
+    _time =
+        ((animationDuration.inMicroseconds.toDouble() % duration) / duration);
     markNeedsPaint();
   }
 
@@ -144,16 +146,21 @@ class _RenderAnimatedCurves extends RenderProxyBox {
     canvas.translate(offset.dx, offset.dy);
 
     double viewCenterY = size.height * widget.heightFraction;
-    double value = 360.0 * Curves.easeInOut.transform(((_time - 0.5) * 2.0).abs()).clamp(0.0, 1.0);
+    double value = 360.0 *
+        Curves.easeInOut.transform(((_time - 0.5) * 2.0).abs()).clamp(0.0, 1.0);
 
     final path = Path();
     final amplitude = (-0.8 * widget.waveAmplitude);
     final phase = value * 2.0 + 30.0;
 
     path.reset();
-    path.moveTo(0.0, viewCenterY + amplitude * _sinY(size, phase, widget.waveFrequency, -1));
+    path.moveTo(0.0,
+        viewCenterY + amplitude * _sinY(size, phase, widget.waveFrequency, -1));
     for (int i = 1; i < size.width + 1; i++) {
-      path.lineTo(i.toDouble(), viewCenterY + amplitude * _sinY(size, phase, widget.waveFrequency, i));
+      path.lineTo(
+          i.toDouble(),
+          viewCenterY +
+              amplitude * _sinY(size, phase, widget.waveFrequency, i));
     }
     path.lineTo(size.width, size.height);
     path.lineTo(0.0, size.height);
@@ -167,7 +174,9 @@ class _RenderAnimatedCurves extends RenderProxyBox {
     canvas.restore();
   }
 
-  double _sinY(Size size, double startRadius, double waveFrequency, int currentPosition) {
-    return math.sin((math.pi / size.width) * waveFrequency * (currentPosition) + startRadius * 2 * math.pi / 360.0);
+  double _sinY(Size size, double startRadius, double waveFrequency,
+      int currentPosition) {
+    return math.sin((math.pi / size.width) * waveFrequency * (currentPosition) +
+        startRadius * 2 * math.pi / 360.0);
   }
 }
