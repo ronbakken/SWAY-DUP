@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/user_profile/profile_summery.dart';
-import 'package:inf/ui/widgets/inf_memory_image..dart';
+import 'package:inf/ui/user_profile/profile_summary.dart';
+import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
 
 class ProfileInfluencerView extends StatelessWidget {
@@ -38,7 +38,7 @@ class ProfileInfluencerView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ProfileSummery(
+        ProfileSummary(
           user: user,
           heightTotalPercentage: 0.65,
         ),

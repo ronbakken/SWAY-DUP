@@ -7,7 +7,7 @@ import 'package:inf/ui/sign_up/sign_up_page.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image..dart';
+import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';

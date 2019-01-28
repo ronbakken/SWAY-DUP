@@ -129,9 +129,9 @@ Future<void> setOfferFilter(OfferFilter filter) {
   return null;
 }
 
-// Future<List<BusinessOfferSummery>> loadBusinessOfferSummeryMockData() async {
+// Future<List<BusinessOfferSummary>> loadBusinessOfferSummaryMockData() async {
 //   return [
-//   BusinessOfferSummery(
+//   BusinessOfferSummary(
 //       id: 1,
 //       isDirectOffer: false,
 //       offerId: 1,
@@ -151,7 +151,7 @@ Future<void> setOfferFilter(OfferFilter filter) {
 //           .asUint8List(),
 //       thumbnailUrl:
 //           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
-//   BusinessOfferSummery(
+//   BusinessOfferSummary(
 //       id: 2,
 //       isDirectOffer: true,
 //       offerId: 2,
@@ -168,7 +168,7 @@ Future<void> setOfferFilter(OfferFilter filter) {
 //               .asUint8List(),
 //       thumbnailUrl:
 //           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
-//   BusinessOfferSummery(
+//   BusinessOfferSummary(
 //       id: 3,
 //       offerId: 3,
 //       isDirectOffer: false,

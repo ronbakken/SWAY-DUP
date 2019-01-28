@@ -276,19 +276,6 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
       ),
     );
   }
-
-  Tab _buildTab(Widget icon) {
-    return Tab(
-      child: Material(
-        shape: CircleBorder(),
-        color: Colors.grey,
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: icon,
-        ),
-      ),
-    );
-  }
 }
 
 class _MainMenuIcon extends StatelessWidget {

@@ -12,7 +12,7 @@ class BuildConfig {
   static Future<String> get(String name) async {
     try {
       return await _channel.invokeMethod('get', {'name': name});
-    } catch (e, st) {
+    } catch (e) {
       return null;
     }
   }

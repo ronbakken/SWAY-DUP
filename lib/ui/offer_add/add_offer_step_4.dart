@@ -185,14 +185,6 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
       state.save();
     }
   }
-
-  Container _spacer() {
-    return Container(
-      margin: const EdgeInsets.only(top: 16.0, bottom: 32),
-      height: 1,
-      color: AppTheme.white30,
-    );
-  }
 }
 
 class _DateFormField extends StatefulWidget {

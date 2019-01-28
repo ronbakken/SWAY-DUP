@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:inf_api_client/inf_api_client.dart';
-import 'package:meta/meta.dart';
 
 class SocialNetworkProvider {
   final SocialNetworkProviderDto dto;

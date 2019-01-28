@@ -86,5 +86,4 @@ linter:
     #- unnecessary_await
     - unrelated_type_equality_checks
     - use_rethrow_when_possible
-    - unawaited_futures
     - valid_regexps

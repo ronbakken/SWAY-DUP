@@ -9,7 +9,7 @@ import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
-import 'package:inf/ui/widgets/inf_memory_image..dart';
+import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -241,7 +241,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
   }
 
   Future<SocialMediaAccount> handleFacebook(String accessToken, BuildContext context) async {
-    var url = 'https://graph.facebook.com/v3.1/me?fields=id,name,link&access_token=${accessToken}';
+    var url = 'https://graph.facebook.com/v3.1/me?fields=id,name,link&access_token=$accessToken';
 
     var response = await http.get(url);
     if (response.statusCode == 200) {
@@ -250,7 +250,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
 
       if (userId != null) {
         // get all pages of this user
-        url = 'https://graph.facebook.com/v3.1/me/accounts?&access_token=${accessToken}';
+        url = 'https://graph.facebook.com/v3.1/me/accounts?&access_token=$accessToken';
         response = await http.get(url);
 
         if (response.statusCode == 200) {
@@ -277,7 +277,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
 
             /// Get pages details
             url =
-                'https://graph.facebook.com/v3.1/${selectedPage.id}?fields=link,fan_count&access_token=${accessToken}';
+                'https://graph.facebook.com/v3.1/${selectedPage.id}?fields=link,fan_count&access_token=$accessToken';
             response = await http.get(url);
 
             if (response.statusCode == 200) {

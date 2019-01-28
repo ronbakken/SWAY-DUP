@@ -5,7 +5,6 @@ import 'package:inf/domain/category.dart';
 import 'package:inf/domain/deliverable.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigServiceImplementation implements ConfigService {
   @override
@@ -40,7 +39,7 @@ class ConfigServiceImplementation implements ConfigService {
 
   @override
   Future init() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
     final secureStorage = new FlutterSecureStorage();
 
     // Get locally stored AppConfig

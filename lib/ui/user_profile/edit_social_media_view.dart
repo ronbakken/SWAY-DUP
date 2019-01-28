@@ -5,8 +5,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/user_profile/social_media_connector.dart';
-import 'package:inf/ui/widgets/dialogs.dart';
-import 'package:inf/ui/widgets/inf_memory_image..dart';
+import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 
 class _SocialMediaRow {

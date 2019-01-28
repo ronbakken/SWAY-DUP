@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/user.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image..dart';
+import 'package:inf/ui/widgets/inf_memory_image.dart';
 
 
 /// Shows the profile picture with a black gradient and optional user data and
 /// connected social media accounts
-class ProfileSummery extends StatelessWidget {
+class ProfileSummary extends StatelessWidget {
   final User user;
   final bool showSocialMedia;
   final bool showDescription;
@@ -21,7 +21,7 @@ class ProfileSummery extends StatelessWidget {
   /// image provided with the user object 
   final File imageFile;
 
-  const ProfileSummery({
+  const ProfileSummary({
     @required this.user,
     this.showSocialMedia = false,
     this.showDescription = false,

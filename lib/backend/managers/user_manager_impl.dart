@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/auth_service_.dart';

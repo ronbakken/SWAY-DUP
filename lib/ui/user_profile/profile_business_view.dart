@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/user_profile/profile_summery.dart';
+import 'package:inf/ui/user_profile/profile_summary.dart';
 
 class ProfileBusinessView extends StatelessWidget {
   final User user;
@@ -10,7 +10,7 @@ class ProfileBusinessView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
-      ProfileSummery(
+      ProfileSummary(
         user: user,
       ),
     ]);

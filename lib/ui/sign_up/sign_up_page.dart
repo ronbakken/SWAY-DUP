@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/ui/widgets/inf_memory_image..dart';
+import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:inf/app/assets.dart';
@@ -51,25 +51,25 @@ class SignUpPageState extends PageState<SignUpPage> {
     super.initState();
 
     /// OBserve login state
-  //   _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen((loginResult) {
-  //     switch (loginResult.state) {
-  //       case AuthenticationState.waitingForActivation:
-  //         showDialog(
-  //           context: context,
-  //           builder: (BuildContext context) {
-  //             return CheckEmailPopUp(
-  //               userType: widget.userType,
-  //               email: loginResult.user.email,
-  //             );
-  //           },
-  //         );
-  //         break;
-  //       case AuthenticationState.success:
-  //         Navigator.of(context).pushAndRemoveUntil(MainPage.route(widget.userType), (route) => false);
-  //         break;
-  //       default:
-  //     }
-  //   });
+    //   _loginStateChangedSubscription = backend.get<UserManager>().logInStateChanged.listen((loginResult) {
+    //     switch (loginResult.state) {
+    //       case AuthenticationState.waitingForActivation:
+    //         showDialog(
+    //           context: context,
+    //           builder: (BuildContext context) {
+    //             return CheckEmailPopUp(
+    //               userType: widget.userType,
+    //               email: loginResult.user.email,
+    //             );
+    //           },
+    //         );
+    //         break;
+    //       case AuthenticationState.success:
+    //         Navigator.of(context).pushAndRemoveUntil(MainPage.route(widget.userType), (route) => false);
+    //         break;
+    //       default:
+    //     }
+    //   });
   }
 
   @override
@@ -172,9 +172,10 @@ class SignUpPageState extends PageState<SignUpPage> {
                       ),
                       InkResponse(
                         onTap: () async {
- //                         await backend.get<AuthenticationService>().loginAnonymous(widget.userType);
-                          final nav = Navigator.of(context)..pop();
-//                          unawaited(nav.push(MainPage.route(widget.userType)));
+                          //await backend.get<AuthenticationService>().loginAnonymous(widget.userType);
+                          //final nav = Navigator.of(context)..pop();
+                          //unawaited(nav.push(MainPage.route(widget.userType)));
+                          Navigator.of(context).pop();
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(24.0),
@@ -238,7 +239,7 @@ class _DynamicSocialNetworkButtons extends StatelessWidget {
         _buildLoginButton(
           leading: InfMemoryImage(network.logoColoredData),
           text: network.name,
- //         onPressed: () => backend.get<AuthenticationService>().loginWithSocialNetWork(context, userType, network),
+          //         onPressed: () => backend.get<AuthenticationService>().loginWithSocialNetWork(context, userType, network),
         ),
       );
       buttonList.add(SizedBox(height: 16.0));

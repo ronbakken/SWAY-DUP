@@ -4,7 +4,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/user_profile/profile_private_page.dart';
-import 'package:inf/ui/user_profile/profile_summery.dart';
+import 'package:inf/ui/user_profile/profile_summary.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
@@ -120,7 +120,7 @@ class MainNavigationDrawer extends StatelessWidget {
                 primary: false,
                 padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),
                 children: [
-                  ProfileSummery(
+                  ProfileSummary(
                     user: user,
                     heightTotalPercentage: 0.48,
                     gradientStop: 0.3,
