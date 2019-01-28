@@ -29,6 +29,14 @@ class WelcomePage extends PageWidget {
 }
 
 class _WelcomePageState extends PageState<WelcomePage> {
+  Stream<List<String>> imageUrlStream;
+
+  @override
+  void initState() {
+    imageUrlStream = backend.get<ConfigService>().getWelcomePageProfileImages();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ConnectionBuilder(
@@ -41,7 +49,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
             fit: StackFit.expand,
             children: <Widget>[
               StreamBuilder<List<String>>(
-                stream: backend.get<ConfigService>().getWelcomePageProfileImages(),
+                stream: imageUrlStream,
                 builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                   return snapshot.hasData ? _WelcomeWall(data: snapshot.data) : SizedBox();
                 },
