@@ -15,7 +15,7 @@ class UserManagerImplementation implements UserManager {
   User get currentUser => backend.get<AuthenticationService>().currentUser;
 
   @override
-  RxCommand<void, bool> logInUserCommand;
+  RxCommand<String, bool> logInUserCommand;
   @override
   RxCommand<LoginEmailInfo, void> sendLoginEmailCommand;
 
@@ -26,9 +26,8 @@ class UserManagerImplementation implements UserManager {
   RxCommand<UserUpdateData, void> updateUserCommand;
 
   UserManagerImplementation() {
-    var authenticationService = backend.get<AuthenticationService>();
-
-    logInUserCommand = RxCommand.createAsyncNoParam(authenticationService.loginUserWithToken);
+ 
+    logInUserCommand = RxCommand.createAsync(loginUser);
 
     sendLoginEmailCommand = RxCommand.createAsyncNoResult(sendLoginEmail);
 
@@ -37,7 +36,7 @@ class UserManagerImplementation implements UserManager {
 
   @override
   Observable<User> get currentUserUpdates => backend.get<AuthenticationService>().currentUserUpdates;
-}
+
 
 Future<void> sendLoginEmail(LoginEmailInfo loginInfo) async {
   // Check if a new user tries to signup with an invitationcode
@@ -81,6 +80,21 @@ Future<void> updateUserData(UserUpdateData userData) async {
   } else {
     userToSend = userData.user;
   }
-
   await backend.get<AuthenticationService>().updateUser(userToSend);
+}
+
+  Future<bool> loginUser(String token) async
+  {
+    var authenticationService = backend.get<AuthenticationService>();
+    if (token == null)
+    {
+      // Try to login with stored refresh token
+      return await authenticationService.loginUserWithRefreshToken();
+    }
+    else
+    {
+      return await authenticationService.loginUserWithLoginToken(token);    
+    }
+
+  }
 }

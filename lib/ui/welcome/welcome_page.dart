@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -6,23 +7,31 @@ import 'package:flutter/scheduler.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/ui/sign_up/activation_success_page.dart';
 import 'package:inf/ui/sign_up/send_signup_login_email_view.dart';
 import 'package:inf/ui/welcome/onboarding_page.dart';
 import 'package:inf/ui/widgets/connection_builder.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
+import 'package:pedantic/pedantic.dart';
+import 'package:rx_command/rx_command_listener.dart';
+import 'package:uni_links/uni_links.dart';
+
+class WelcomeRoute extends FadePageRoute {
+  WelcomeRoute()
+      : super(
+          builder: (BuildContext context) => WelcomePage(),
+          transitionDuration: const Duration(milliseconds: 750),
+        );
+}
 
 class WelcomePage extends PageWidget {
-  static Route<dynamic> route() {
-    return FadePageRoute(
-      builder: (BuildContext context) => WelcomePage(),
-      transitionDuration: const Duration(milliseconds: 750),
-    );
-  }
+  static Route<dynamic> route() => WelcomeRoute();
 
   @override
   _WelcomePageState createState() => _WelcomePageState();
@@ -30,11 +39,51 @@ class WelcomePage extends PageWidget {
 
 class _WelcomePageState extends PageState<WelcomePage> {
   Stream<List<String>> imageUrlStream;
+  StreamSubscription deepLinkSubscription;
+  RxCommandListener<String, bool> loginCommandListener;
 
   @override
   void initState() {
     imageUrlStream = backend.get<ConfigService>().getWelcomePageProfileImages();
+
+    deepLinkSubscription = getUriLinksStream().listen((Uri uri) {
+      print('Deeplink URI $uri');
+      if (uri.queryParameters.containsKey('token')) {
+        // setup listener for success of the login attempt with the token
+        loginCommandListener = RxCommandListener(
+          backend.get<UserManager>().logInUserCommand,
+          onValue: (success) async {
+            if (success) {
+              loginCommandListener?.dispose();
+              await deepLinkSubscription?.cancel();
+
+              Navigator.of(context).popUntil((route) => route is WelcomeRoute);
+              unawaited(Navigator.push(context, ActivationSuccessPage.route()));
+            } else {
+              await showMessageDialog(
+                  context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
+            }
+          },
+          onError: (error) async {
+            await showMessageDialog(context, 'Login problem',
+                'Sorry the link you used seems not to be valid. Please signup again ${error.toString()}');
+            await backend.get<ErrorReporter>().logException(error);
+          },
+        );
+        print(uri.queryParameters['token']);
+
+        backend.get<UserManager>().logInUserCommand(uri.queryParameters['token']);
+      }
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    loginCommandListener?.dispose();
+    deepLinkSubscription?.cancel();
+    super.dispose();
   }
 
   @override

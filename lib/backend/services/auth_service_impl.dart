@@ -22,7 +22,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   BehaviorSubject<User> currentUserUpdatesSubject = BehaviorSubject<User>();
 
   @override
-  Future<bool> loginUserWithToken() async {
+  Future<bool> loginUserWithRefreshToken() async {
     if (userTestToken != null) {
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = userTestToken;
       var authResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
@@ -36,6 +36,24 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     } else {
       // TODO read last stored token from secure storage
       // till then we return false
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> loginUserWithLoginToken(String loginToken) async {
+    var authResult = await backend.get<InfApiClientsService>().authClient.loginWithLoginToken(
+          LoginWithLoginTokenRequest()..loginToken = loginToken,
+        );
+
+    if (authResult.refreshToken.isNotEmpty) {
+      var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
+      var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
+
+      _currentUser = User.fromDto(authResult.userData);
+      currentUserUpdatesSubject.add(_currentUser);
+      return true;
+    } else {
       return false;
     }
   }

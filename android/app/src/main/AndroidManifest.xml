@@ -29,6 +29,16 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="https"
+					android:host="www.infmarketplace.com"
+					android:pathPrefix="/app" />
+				<!-- note that the leading "/" is required for pathPrefix-->
+			</intent-filter>
+
 			<meta-data
 				android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
 				android:value="true"

@@ -53,6 +53,7 @@ class AppIcons {
   static const photo = AppAsset.vector('assets/images/icon_photo.svg');
   static const connect = AppAsset.vector('assets/images/icon_connect.svg');
   static const check = AppAsset.vector('assets/images/icon_check.svg');
+  static const thumbUp = AppAsset.vector('assets/images/icon_thumb_up.svg');
 }
 
 class AppImages {

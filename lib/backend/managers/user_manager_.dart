@@ -49,7 +49,8 @@ abstract class UserManager {
   Observable<User> get currentUserUpdates;
 
 
-  RxCommand<void, bool> logInUserCommand;
+  // If a token is passed as parameter it will be treated as a login-token to aquire a longtime token
+  RxCommand<String, bool> logInUserCommand;
 
   RxCommand<LoginEmailInfo, void> sendLoginEmailCommand;
 

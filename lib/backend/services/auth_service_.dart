@@ -32,21 +32,7 @@ class AuthenticationException implements Exception {
   }
 }
 
-class AuthenticationResult {
-  final AuthenticationState state;
-  final String errorMessage;
-  final User user;
-  final SocialNetworkProvider provider;
-  final bool loginWithEmailPassword;
 
-  AuthenticationResult({
-    this.state,
-    this.loginWithEmailPassword,
-    this.user,
-    this.provider,
-    this.errorMessage,
-  });
-}
 
 abstract class AuthenticationService {
 
@@ -55,7 +41,9 @@ abstract class AuthenticationService {
 
   Future<void> sendLoginEmail(UserType userType, String email);
 
-  Future<bool> loginUserWithToken();
+  Future<bool> loginUserWithRefreshToken();
+
+  Future<bool> loginUserWithLoginToken(String loginToken);
 
   Future<GetInvitationCodeStatusResponse_InvitationCodeStatus> checkInvitationCode(String code);
 

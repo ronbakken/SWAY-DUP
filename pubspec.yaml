@@ -27,6 +27,7 @@ dependencies:
   rxdart: any
   rx_command: any
   path_provider: any
+  uni_links: any
   url_launcher: any
   quiver: any
 
