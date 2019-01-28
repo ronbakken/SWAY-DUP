@@ -91,10 +91,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
           SizedBox(height: 8),
           TextField(
             keyboardType: TextInputType.emailAddress,
-            controller: TextEditingController(text: _emailAdress),
-            onChanged: (s) => setState(
-                  () => _emailAdress = s,
-                ),
+            onChanged: (s) => setState(()=> _emailAdress = s),
           ),
           widget.newUser
               ? Column(
@@ -109,10 +106,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
                     ),
                     SizedBox(height: 8),
                     TextField(
-                      controller: TextEditingController(text: _invitationCode),
-                      onChanged: (s) => setState(
-                            () => _invitationCode = s,
-                          ),
+                      onChanged: (s) => setState(()=> _invitationCode = s),
                     ),
                   ],
                 )
@@ -121,8 +115,8 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
           InfStadiumButton(
             text: 'SUBMIT',
             onPressed:
-                widget.newUser && _invitationCode != null && _invitationCode.isNotEmpty && _emailAdress.isNotEmpty ||
-                        _emailAdress.isNotEmpty
+                (widget.newUser && _invitationCode != null && _invitationCode.isNotEmpty && _emailAdress.isNotEmpty) || (!widget.newUser && 
+                        _emailAdress.isNotEmpty)
                     ? onButtonPressed
                     : null,
           )
