@@ -61,10 +61,8 @@ Future<void> setupBackend(AppMode mode) async {
     case AppMode.dev:
       appEnvironment = AppEnvironment(
         mode: AppMode.dev,
-        // host: 'inf-dev-cluster.australiaeast.cloudapp.azure.com',
-        // port: 9026,
-        host: await BuildConfig.instance['API_HOST'],
-        port: 8080,
+        host: 'inf-dev-cluster.australiaeast.cloudapp.azure.com',
+        port: 9026,
       );
       configureDevLogger();
       registerImplementations();
@@ -77,14 +75,15 @@ Future<void> setupBackend(AppMode mode) async {
       );
       registerImplementations();
       break;
-    // case AppMode.mock:
-    //   appEnvironment = AppEnvironment(
-    //     mode: AppMode.mock,
-    //     host: '',
-    //     port: -1,
-    //   );
-    //   registerMocks();
-    //   break;
+    case AppMode.mock:
+      appEnvironment = AppEnvironment(
+        mode: AppMode.mock,
+        host: await BuildConfig.instance['API_HOST'],
+        port: 8080,
+      );
+      configureDevLogger();
+      registerImplementations();
+      break;
     default:
       throw new Exception('Unknown backend selected.');
   }
@@ -110,7 +109,6 @@ Future<void> initBackend() async {
   backend.get<InfApiClientsService>().init(appEnvironment.host, appEnvironment.port);
   // TODO handle case that App must be updated
   await backend.get<ConfigService>().init();
-  await backend.get<AuthenticationService>().init();
 }
 
 void registerImplementations() {
