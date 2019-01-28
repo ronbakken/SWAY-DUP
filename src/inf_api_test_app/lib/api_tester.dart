@@ -11,11 +11,11 @@ class ApiTester {
   InfConfigClient configClient;
   InfSystemClient systemClient;
 
-  void connectToServer(String host) async {
+  void connectToServer(String host, int port) async {
     channel?.terminate();
     channel = new ClientChannel(
       host,
-      port: 8080,
+      port: port,
       options: const ChannelOptions(
         credentials: const ChannelCredentials.insecure(),
       ),
@@ -37,9 +37,9 @@ class ApiTester {
     var result = await configClient.getAppConfig(Empty());
     print("AppConfig:");
     print(result.toDebugString());
-    print("${result.categories.length} Categories");
-    print(result.categories.first.iconData.length.toString());
-    return Uint8List.fromList(result.categories.first.iconData);
+    print("${result.appConfigData.categories.length} Categories");
+    print(result.appConfigData.categories.first.iconData.length.toString());
+    return Uint8List.fromList(result.appConfigData.categories.first.iconData);
   }
 
   Future<void> ping() async

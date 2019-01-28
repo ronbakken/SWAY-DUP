@@ -7,16 +7,19 @@ import 'package:inf_api_test_app/api_tester.dart';
 import 'package:inf_api_test_app/build_config.dart';
 
 void main() async {
-  final host = await BuildConfig.instance['API_HOST'];
-  runApp(MyApp(host: host));
+  final host = "inf-dev-cluster.australiaeast.cloudapp.azure.com";
+  final port = 9026;
+  runApp(MyApp(host: host, port: port));
 }
 
 class MyApp extends StatefulWidget {
   final String host;
+  final int port;
 
   const MyApp({
     Key key,
     @required this.host,
+    @required this.port,
   }) : super(key: key);
 
   @override
@@ -51,7 +54,7 @@ class MyAppState extends State<MyApp> {
                     )
                   : SizedBox(),
               RaisedButton(
-                onPressed: () => apiTester.connectToServer(widget.host),
+                onPressed: () => apiTester.connectToServer(widget.host, widget.port),
                 child: Center(
                   child: Text('Connect'),
                 ),
