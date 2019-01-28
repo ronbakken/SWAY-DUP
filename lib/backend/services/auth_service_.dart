@@ -1,4 +1,5 @@
 import 'package:inf/domain/domain.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// Keep in mind
@@ -48,24 +49,17 @@ class AuthenticationResult {
 }
 
 abstract class AuthenticationService {
-  Future<void> init();
 
   User get currentUser;
   Observable<User> get currentUserUpdates;
 
+  Future<void> sendLoginEmail(UserType userType, String email);
+
   Future<bool> loginUserWithToken();
 
-  // Observable<List<LocalAccountData>> get linkedAccounts;
-  // Future<void> switchToUserAccount(LocalAccountData user);
+  Future<GetInvitationCodeStatusResponse_InvitationCodeStatus> checkInvitationCode(String code);
 
   Future<void> updateUser(User user);
-
-  /// After V1.0
-  // Future<void> loginWithEmailPassword(String email, String password);
-
-  // Future<AuthenticationResult> createNewUserByEmailPassword(String email, String password);
-
-  // Future<void> sendPasswordResetMessage(String email);
 
   Future<void> logOut();
 }

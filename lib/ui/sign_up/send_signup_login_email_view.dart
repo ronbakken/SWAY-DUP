@@ -23,7 +23,7 @@ enum _steps { queryEmail, confirmEmail, emailSent }
 class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
   _steps currentStep = _steps.queryEmail;
   String _emailAdress = '';
-  String _invitationCode = '';
+  String _invitationCode;
   List<Widget> columnItems;
 
   RxCommandListener sendLoginListener;
@@ -121,7 +121,10 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
           InfStadiumButton(
             text: 'SUBMIT',
             onPressed:
-                (_emailAdress.isNotEmpty && (!widget.newUser || _invitationCode.isNotEmpty)) ? onButtonPressed : null,
+                widget.newUser && _invitationCode != null && _invitationCode.isNotEmpty && _emailAdress.isNotEmpty ||
+                        _emailAdress.isNotEmpty
+                    ? onButtonPressed
+                    : null,
           )
         ];
         break;
@@ -178,8 +181,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
           SizedBox(height: 32),
           InfStadiumButton(
             text: 'OPEN EMAIL NOW',
-            onPressed:
-                (_emailAdress.isNotEmpty && (!widget.newUser || _invitationCode.isNotEmpty)) ? onButtonPressed : null,
+            onPressed: onButtonPressed,
           )
         ];
         break;

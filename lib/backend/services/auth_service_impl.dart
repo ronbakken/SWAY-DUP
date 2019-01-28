@@ -42,17 +42,8 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   @override
   Future<void> logOut() async {
-    // TODO: Destroy this session server-side.
-    // networkStreaming.multiAccount.removeAccount();
-    // State will immediately change to notLoggedIn
+    await backend.get<InfApiClientsService>().authClient.logout(LogoutRequest());
   }
-
-  // @override
-  // Future<void> switchToUserAccount(LocalAccountData user) async {
-  //   // networkStreaming.multiAccount
-  //   //     .switchAccount(user.domain, user.accountId);
-  //   // State will immediately change to notLoggedIn, then attempt to connect
-  // }
 
   @override
   Future<void> updateUser(User user) async {
@@ -67,8 +58,18 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   @override
-  Future<void> init() {
-    // TODO: implement init
-    return null;
+  Future<GetInvitationCodeStatusResponse_InvitationCodeStatus> checkInvitationCode(String code) async {
+    var result = await backend
+        .get<InfApiClientsService>()
+        .invitationCodeClient
+        .getInvitationCodeStatus(GetInvitationCodeStatusRequest()..invitationCode = code);
+    return result.status;
+  }
+
+  @override
+  Future<void> sendLoginEmail(UserType userType, String email) async {
+    await backend.get<InfApiClientsService>().authClient.sendLoginEmail(SendLoginEmailRequest()
+      ..email = email
+      ..userType = userType);
   }
 }
