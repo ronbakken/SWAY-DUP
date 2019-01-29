@@ -77,7 +77,7 @@ namespace API
 
             if (!userTypesForMethod.TryGetValue(method, out var allowedUserTypes))
             {
-                throw new InvalidOperationException($"Method '{method}' has no permitted user types defined.");
+                throw new RpcException(new Status(StatusCode.PermissionDenied, $"RPC '{method}' has no permitted user types defined."));
             }
 
             if (allowedUserTypes.HasFlag(UserTypes.Anonymous))
@@ -91,14 +91,14 @@ namespace API
 
             if (authorizationHeaderEntry == null)
             {
-                throw new InvalidOperationException($"No authorization header set.");
+                throw new RpcException(new Status(StatusCode.Unauthenticated, "No Authorization header set."));
             }
 
             var prefix = schema + " ";
 
             if (!authorizationHeaderEntry.Value.StartsWith(prefix))
             {
-                throw new InvalidOperationException($"Authorization header does not start with expected schema, '{schema}'.");
+                throw new RpcException(new Status(StatusCode.Unauthenticated, $"Authorization header does not start with expected schema, '{schema}'."));
             }
 
             var token = authorizationHeaderEntry.Value.Substring(prefix.Length);
@@ -107,7 +107,7 @@ namespace API
 
             if (!allowedUserTypes.Contains(userType))
             {
-                throw new InvalidOperationException($"Method '{method}' cannot be called by user type '{userType}'.");
+                throw new RpcException(new Status(StatusCode.PermissionDenied, $"Method '{method}' cannot be called by user type '{userType}'."));
             }
 
             context.RequestHeaders.Add(new Metadata.Entry(userIdKeyName, accessTokenValidationResult.UserId));
