@@ -15,4 +15,8 @@
         <ProtoBuf Include="*.proto" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="inf_users.proto" />
+    </ItemGroup>
+
 </Project>

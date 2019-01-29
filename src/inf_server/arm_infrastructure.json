@@ -89,34 +89,34 @@
    },
    "resources": [
       {
-         "apiVersion": "2016-01-01",
+         "apiVersion": "2018-07-01",
          "type": "Microsoft.Storage/storageAccounts",
          "name": "[variables('supportLogStorageAccountName')]",
          "location": "[resourceGroup().location]",
+         "kind": "Storage",
+         "sku": {
+            "name": "Standard_LRS"
+         },
          "tags": {
             "resourceType": "Service Fabric",
             "clusterName": "[variables('clusterName')]",
             "displayName": "SupportLogStorageAccount"
-         },
-         "sku": {
-            "name": "Standard_LRS"
-         },
-         "kind": "Storage"
+         }
       },
       {
-         "apiVersion": "2016-01-01",
+         "apiVersion": "2018-07-01",
          "type": "Microsoft.Storage/storageAccounts",
          "name": "[variables('applicationDiagnosticsStorageAccountName')]",
          "location": "[resourceGroup().location]",
+         "kind": "Storage",
+         "sku": {
+            "name": "Standard_LRS"
+         },
          "tags": {
             "resourceType": "Service Fabric",
             "clusterName": "[variables('clusterName')]",
             "displayName": "DiagnosticsStorageAccount"
-         },
-         "sku": {
-            "name": "Standard_LRS"
-         },
-         "kind": "Storage"
+         }
       },
       {
          "type": "Microsoft.Network/virtualNetworks",
@@ -305,7 +305,7 @@
          }
       },
       {
-         "apiVersion": "2017-03-30",
+         "apiVersion": "2018-10-01",
          "type": "Microsoft.Compute/virtualMachineScaleSets",
          "name": "[variables('vmNodeType0Name')]",
          "location": "[resourceGroup().location]",
@@ -357,14 +357,14 @@
                            "autoUpgradeMinorVersion": true,
                            "protectedSettings": {
                               "storageAccountName": "[variables('applicationDiagnosticsStorageAccountName')]",
-                              "storageAccountKey": "[listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('applicationDiagnosticsStorageAccountName')), '2016-01-01').keys[0].value]"
+                              "storageAccountKey": "[listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('applicationDiagnosticsStorageAccountName')), '2016-01-01').keys[0].value]",
+                              "storageAccountEndPoint": "https://core.windows.net/"
                            },
                            "publisher": "Microsoft.Azure.Diagnostics",
                            "settings": {
                               "WadCfg": {
                                  "DiagnosticMonitorConfiguration": {
-                                    "overallQuotaInMB": "50000",
-                                    "sinks": "applicationInsights",
+                                    "overallQuotaInMB": "10000",
                                     "EtwProviders": {
                                        "EtwEventSourceProviderConfiguration": [
                                           {
@@ -381,13 +381,34 @@
                                              "DefaultEvents": {
                                                 "eventDestination": "ServiceFabricReliableServiceEventTable"
                                              }
+                                          },
+                                          {
+                                             "provider": "INF-server-API",
+                                             "scheduledTransferPeriod": "PT5M",
+                                             "DefaultEvents": {
+                                                "eventDestination": "ServiceFabricAPIEventTable"
+                                             }
+                                          },
+                                          {
+                                             "provider": "INF-server-InvitationCodes",
+                                             "scheduledTransferPeriod": "PT5M",
+                                             "DefaultEvents": {
+                                                "eventDestination": "ServiceFabricAPIEventTable"
+                                             }
+                                          },
+                                          {
+                                             "provider": "INF-server-Users",
+                                             "scheduledTransferPeriod": "PT5M",
+                                             "DefaultEvents": {
+                                                "eventDestination": "ServiceFabricAPIEventTable"
+                                             }
                                           }
                                        ],
                                        "EtwManifestProviderConfiguration": [
                                           {
                                              "provider": "cbd93bc2-71e5-4566-b3a7-595d8eeca6e8",
                                              "scheduledTransferLogLevelFilter": "Information",
-                                             "scheduledTransferKeywordFilter": "4611686018427387904",
+                                             "scheduledTransferKeywordFilter": "4611686018427387928",
                                              "scheduledTransferPeriod": "PT5M",
                                              "DefaultEvents": {
                                                 "eventDestination": "ServiceFabricSystemEventTable"
@@ -396,7 +417,8 @@
                                        ]
                                     }
                                  }
-                              }
+                              },
+                              "StorageAccount": "[variables('applicationDiagnosticsStorageAccountName')]"
                            },
                            "typeHandlerVersion": "1.5"
                         }
@@ -475,7 +497,7 @@
          }
       },
       {
-         "apiVersion": "2017-07-01-preview",
+         "apiVersion": "2018-02-01",
          "type": "Microsoft.ServiceFabric/clusters",
          "name": "[variables('clusterName')]",
          "location": "[resourceGroup().location]",
@@ -500,11 +522,11 @@
                }
             ],
             "diagnosticsStorageAccountConfig": {
-               "blobEndpoint": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('supportLogStorageAccountName')), '2016-01-01').primaryEndpoints.blob]",
+               "blobEndpoint": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('supportLogStorageAccountName')), '2018-07-01').primaryEndpoints.blob]",
                "protectedAccountKeyName": "StorageAccountKey1",
-               "queueEndpoint": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('supportLogStorageAccountName')), '2016-01-01').primaryEndpoints.queue]",
+               "queueEndpoint": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('supportLogStorageAccountName')), '2018-07-01').primaryEndpoints.queue]",
                "storageAccountName": "[variables('supportLogStorageAccountName')]",
-               "tableEndpoint": "[reference(resourceId('Microsoft.Storage/storageAccounts', variables('supportLogStorageAccountName')), '2016-01-01').primaryEndpoints.table]"
+               "tableEndpoint": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('supportLogStorageAccountName')), '2018-07-01').primaryEndpoints.table]"
             },
             "fabricSettings": [
                {
@@ -528,9 +550,45 @@
                         "value": "1"
                      }
                   ]
+               },
+               {
+                  "parameters": [
+                     {
+                        "name": "DataDeletionAgeInDays",
+                        "value": "2"
+                     }
+                  ],
+                  "name": "AzureBlobServiceFabricCrashDump"
+               },
+               {
+                  "parameters": [
+                     {
+                        "name": "DataDeletionAgeInDays",
+                        "value": "2"
+                     }
+                  ],
+                  "name": "AzureBlobServiceFabricEtw"
+               },
+               {
+                  "parameters": [
+                     {
+                        "name": "DataDeletionAgeInDays",
+                        "value": "2"
+                     }
+                  ],
+                  "name": "AzureBlobServiceFabricPerfCounter"
+               },
+               {
+                  "parameters": [
+                     {
+                        "name": "DataDeletionAgeInDays",
+                        "value": "2"
+                     }
+                  ],
+                  "name": "AzureTableServiceFabricEtwQueryable"
                }
             ],
-             "addonFeatures": [
+            "addonFeatures": [
                "DnsService"
             ],
             "managementEndpoint": "[concat('https://', reference(variables('lbIPName')).dnsSettings.fqdn, ':', variables('fabricHttpGatewayPort'))]",
@@ -558,18 +616,18 @@
          }
       },
       {
+         "comments": "A blob storage account for user data, such as profile images.",
          "apiVersion": "2018-07-01",
          "type": "Microsoft.Storage/storageAccounts",
          "name": "[variables('userStorageAccountName')]",
-         "comments": "A blob storage account for user data, such as profile images.",
          "location": "[resourceGroup().location]",
-         "tags": {
-            "displayName": "UserStorageAccount"
-         },
+         "kind": "Storage",
          "sku": {
             "name": "Standard_LRS"
          },
-         "kind": "Storage"
+         "tags": {
+            "displayName": "UserStorageAccount"
+         }
       },
       {
          "apiVersion": "2015-04-08",

@@ -72,6 +72,10 @@ var subscriptionId = EnvironmentVariable("AZURE_SUBSCRIPTION_ID");
 var clientId = EnvironmentVariable("AZURE_CLIENT_ID");
 var tenantId = EnvironmentVariable("AZURE_TENANT_ID");
 var deploymentsStorageAccountConnectionString = EnvironmentVariable("AZURE_STORAGE_ACCOUNT_CONNECTION_STRING");
+// TODO: Elasticsearch params will likely come via the template
+var elasticSearchUri = "https://dd1caf23dfb0423fb9fabd6433ea3045.ap-southeast-2.aws.found.io:9243";
+var elasticSearchUserName = "elastic";
+var elasticSearchPassword = "5J9YmziwmPAxW0thiO99aSZC";
 var vmInstanceCount = int.Parse(EnvironmentVariable("VM_INSTANCE_COUNT") ?? "1");
 var configuration = "Release";
 
@@ -199,6 +203,9 @@ Task("Deploy")
                 {
                     { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", userStorageAccountConnectionString },
                     { "DATABASE_ACCOUNT_CONNECTION_STRING", databaseAccountConnectionString },
+                    { "ELASTIC_SEARCH_URI", elasticSearchUri },
+                    { "ELASTIC_SEARCH_USER_NAME", elasticSearchUserName },
+                    { "ELASTIC_SEARCH_PASSWORD", elasticSearchPassword },
                 });
 
             Information("Application manifest: {0}", updatedApplicationManifestDocument.ToString());

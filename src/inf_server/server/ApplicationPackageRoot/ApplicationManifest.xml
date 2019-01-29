@@ -9,6 +9,9 @@
         -->
     <Parameter Name="UserStorageAccountConnectionString" DefaultValue="NOT SET" />
     <Parameter Name="DatabaseAccountConnectionString" DefaultValue="NOT SET" />
+    <Parameter Name="ElasticSearchUri" DefaultValue="NOT SET" />
+    <Parameter Name="ElasticSearchUserName" DefaultValue="NOT SET" />
+    <Parameter Name="ElasticSearchPassword" DefaultValue="NOT SET" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion
        should match the Name and Version attributes of the ServiceManifest element defined in the
@@ -20,6 +23,11 @@
         <Settings>
           <Section Name="Database">
             <Parameter Name="ConnectionString" Value="[DatabaseAccountConnectionString]" />
+          </Section>
+          <Section Name="Search">
+            <Parameter Name="Uri" Value="[ElasticSearchUri]" />
+            <Parameter Name="UserName" Value="[ElasticSearchUserName]" />
+            <Parameter Name="Password" Value="[ElasticSearchPassword]" />
           </Section>
         </Settings>
       </ConfigOverride>

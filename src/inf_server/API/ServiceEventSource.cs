@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Fabric;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace API
 {
-    [EventSource(Name = "MyCompany-server-API")]
-    internal sealed class ServiceEventSource : EventSource
+    [EventSource(Name = "INF-server-API")]
+    internal sealed class ServiceEventSource : EventSource, IFailureEventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
 
@@ -18,7 +14,7 @@ namespace API
         private ServiceEventSource() : base() { }
 
         #region Keywords
-        // Event keywords can be used to categorize events. 
+        // Event keywords can be used to categorize events.
         // Each keyword is a bit flag. A single event can be associated with multiple keywords (via EventAttribute.Keywords property).
         // Keywords must be defined as a public class named 'Keywords' inside EventSource that uses them.
         public static class Keywords
@@ -36,6 +32,25 @@ namespace API
         // The number and types of arguments passed to every event method must exactly match what is passed to WriteEvent().
         // Put [NonEvent] attribute on all methods that do not define an event.
         // For more information see https://msdn.microsoft.com/en-us/library/system.diagnostics.tracing.eventsource.aspx
+
+        [NonEvent]
+        public void Failure(string message, Exception exception)
+        {
+            if (this.IsEnabled())
+            {
+                Failure(message, exception?.ToString());
+            }
+        }
+
+        private const int FailureEventId = 100;
+        [Event(FailureEventId, Level = EventLevel.Critical, Message = "{0}")]
+        private void Failure(string message, string exception)
+        {
+            if (this.IsEnabled())
+            {
+                WriteEvent(FailureEventId, message, exception);
+            }
+        }
 
         [NonEvent]
         public void Message(string message, params object[] args)

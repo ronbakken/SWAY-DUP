@@ -46,6 +46,7 @@ namespace API.Services.Auth
             }
 
             return new UserData(
+
                 @this.UserType.ToServiceObject(),
                 @this.AccountState.ToServiceObject(),
                 @this.Name,

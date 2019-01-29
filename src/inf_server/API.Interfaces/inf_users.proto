@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "location.proto";
+import "user.proto";
+
+service InfUsers {
+    // TODO: also move GetUser/UpdateUser into this service?
+
+    rpc Search(SearchRequest) returns (SearchResponse) {}
+}
+
+message SearchRequest {
+    repeated UserType userTypes = 1;
+    repeated int32 categories = 2;
+    repeated int32 socialMediaNetworkIds = 3;
+    LocationDto location = 4;
+    double locationDistanceKms = 5;
+    // TODO: what is the unit here? Cents?
+    int32 minimumValue = 6;
+    string phrase = 7;
+}
+
+message SearchResponse {
+    int32 total = 1;
+    repeated UserDto results = 2;
+}

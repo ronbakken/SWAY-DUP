@@ -12,6 +12,7 @@
         <PackageReference Update="Microsoft.ServiceFabric.Services" Version="3.3.624" />
         <PackageReference Update="Microsoft.ServiceFabric.Services.Remoting" Version="3.3.624" />
         <PackageReference Update="Moq" Version="4.10.1" />
+        <PackageReference Update="NEST" Version="6.4.2" />
         <PackageReference Update="Newtonsoft.Json" Version="12.0.1" />
         <PackageReference Update="NodaTime" Version="2.4.4" />
         <PackageReference Update="NodaTime.Serialization.JsonNet" Version="2.1.0" />

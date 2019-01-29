@@ -14,5 +14,7 @@ namespace Users.Interfaces
         Task<UserSession> SaveUserSession(UserSession userSession);
 
         Task InvalidateUserSession(string refreshToken);
+
+        Task<SearchResults> Search(SearchFilter searchFilter);
     }
 }

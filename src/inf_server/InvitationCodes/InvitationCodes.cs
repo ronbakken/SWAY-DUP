@@ -41,7 +41,7 @@ namespace InvitationCodes
         }
 
         public Task<string> Generate() =>
-            this.ReportExceptionsWithin(() => GenerateImpl());
+            this.ReportExceptionsWithin(ServiceEventSource.Current, () => GenerateImpl());
 
         internal async Task<string> GenerateImpl()
         {
@@ -84,7 +84,7 @@ namespace InvitationCodes
         }
 
         public Task<InvitationCodeStatus> GetStatus(string code) =>
-            this.ReportExceptionsWithin(() => GetStatusImpl(code));
+            this.ReportExceptionsWithin(ServiceEventSource.Current, () => GetStatusImpl(code));
 
         internal async Task<InvitationCodeStatus> GetStatusImpl(string code)
         {
@@ -120,7 +120,7 @@ namespace InvitationCodes
         }
 
         public Task<InvitationCodeHonorResult> Honor(string code) =>
-            this.ReportExceptionsWithin(() => HonorImpl(code));
+            this.ReportExceptionsWithin(ServiceEventSource.Current, () => HonorImpl(code));
 
         internal async Task<InvitationCodeHonorResult> HonorImpl(string code)
         {

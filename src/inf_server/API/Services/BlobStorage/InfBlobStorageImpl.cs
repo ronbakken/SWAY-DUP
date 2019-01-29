@@ -14,50 +14,52 @@ namespace API.Services.BlobStorage
 {
     public sealed class InfBlobStorageImpl : InfBlobStorageBase
     {
-        public override async Task<GetUploadUrlResponse> GetUploadUrl(GetUploadUrlRequest request, ServerCallContext context)
-        {
-            Log("GetUploadUrl.");
+        public override Task<GetUploadUrlResponse> GetUploadUrl(GetUploadUrlRequest request, ServerCallContext context) =>
+            APISanitizer.Sanitize(
+                async () =>
+                {
+                    Log("GetUploadUrl.");
 
-            var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject("Config");
-            var storageConnectionString = configurationPackage.Settings.Sections["Storage"].Parameters["ConnectionString"].Value;
-            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
+                    var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject("Config");
+                    var storageConnectionString = configurationPackage.Settings.Sections["Storage"].Parameters["ConnectionString"].Value;
+                    var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
+                    var blobClient = storageAccount.CreateCloudBlobClient();
 
-            var encoding = Encoding.UTF8;
-            var userId = context.GetAuthenticatedUserId();
-            var userIdHashBytes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(userId));
-            var userIdHash = userIdHashBytes
-                .Select(b => b.ToString("X2").ToLowerInvariant())
-                .Aggregate(
-                    new StringBuilder(),
-                    (sb, next) => sb.Append(next),
-                    sb => sb.ToString());
-            Log("Computed hash of user ID '{0}' is '{1}', which will be used as the container name.", userId, userIdHash);
+                    var encoding = Encoding.UTF8;
+                    var userId = context.GetAuthenticatedUserId();
+                    var userIdHashBytes = MD5.Create().ComputeHash(Encoding.UTF8.GetBytes(userId));
+                    var userIdHash = userIdHashBytes
+                        .Select(b => b.ToString("X2").ToLowerInvariant())
+                        .Aggregate(
+                            new StringBuilder(),
+                            (sb, next) => sb.Append(next),
+                            sb => sb.ToString());
+                    Log("Computed hash of user ID '{0}' is '{1}', which will be used as the container name.", userId, userIdHash);
 
-            var containerName = userIdHash;
-            var container = blobClient.GetContainerReference(containerName);
+                    var containerName = userIdHash;
+                    var container = blobClient.GetContainerReference(containerName);
 
-            Log("Ensuring storage container exists.");
-            await container.CreateIfNotExistsAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions { }, new OperationContext { }, context.CancellationToken);
+                    Log("Ensuring storage container exists.");
+                    await container.CreateIfNotExistsAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions { }, new OperationContext { }, context.CancellationToken);
 
-            var blob = container.GetBlockBlobReference(request.FileName);
+                    var blob = container.GetBlockBlobReference(request.FileName);
 
-            Log("Creating shared access token.");
-            var sas = new SharedAccessBlobPolicy
-            {
-                SharedAccessExpiryTime = DateTime.UtcNow.AddHours(1),
-                Permissions = SharedAccessBlobPermissions.Read | SharedAccessBlobPermissions.Write | SharedAccessBlobPermissions.Create,
-            };
-            var sasToken = blob.GetSharedAccessSignature(sas);
+                    Log("Creating shared access token.");
+                    var sas = new SharedAccessBlobPolicy
+                    {
+                        SharedAccessExpiryTime = DateTime.UtcNow.AddHours(1),
+                        Permissions = SharedAccessBlobPermissions.Read | SharedAccessBlobPermissions.Write | SharedAccessBlobPermissions.Create,
+                    };
+                    var sasToken = blob.GetSharedAccessSignature(sas);
 
-            var result = new GetUploadUrlResponse
-            {
-                UploadUrl = blob.Uri.ToString() + sasToken,
-                PublicUrl = blob.Uri.ToString(),
-            };
+                    var result = new GetUploadUrlResponse
+                    {
+                        UploadUrl = blob.Uri.ToString() + sasToken,
+                        PublicUrl = blob.Uri.ToString(),
+                    };
 
-            return result;
-        }
+                    return result;
+                });
 
         private static void Log(string message, params object[] args) =>
             ServiceEventSource.Current.Message(message, args);

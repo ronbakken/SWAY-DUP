@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Fabric;
 using System.Net;
 using System.Threading;
@@ -7,6 +8,7 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Nest;
 using Users.Interfaces;
 using Utility;
 
@@ -41,7 +43,7 @@ namespace Users
         }
 
         public Task<UserData> GetUserData(string userId) =>
-            this.ReportExceptionsWithin(() => GetUserDataImpl(userId));
+            this.ReportExceptionsWithin(ServiceEventSource.Current, () => GetUserDataImpl(userId));
 
         internal async Task<UserData> GetUserDataImpl(string userId)
         {
@@ -60,7 +62,7 @@ namespace Users
         }
 
         public Task<UserData> SaveUserData(string userId, UserData userData) =>
-            this.ReportExceptionsWithin(() => SaveUserDataImpl(userId, userData));
+            this.ReportExceptionsWithin(ServiceEventSource.Current, () => SaveUserDataImpl(userId, userData));
 
         internal async Task<UserData> SaveUserDataImpl(string userId, UserData userData)
         {
@@ -71,11 +73,21 @@ namespace Users
             await this.usersContainer.Items.UpsertItemAsync(userId, userDataEntity);
             Log("User data saved.");
 
+            Log("Indexing user data.");
+            var elasticClient = GetElasticClient();
+            var indexResult = await elasticClient.IndexDocumentAsync(userDataEntity);
+
+            if (!indexResult.IsValid)
+            {
+                Log("Failed to index user: {0}", indexResult.OriginalException);
+                throw new InvalidOperationException("Failed to index user.", indexResult.OriginalException);
+            }
+
             return userData;
         }
 
         public Task<UserSession> GetUserSession(string refreshToken) =>
-            this.ReportExceptionsWithin(() => GetSessionImpl(refreshToken));
+            this.ReportExceptionsWithin(ServiceEventSource.Current, () => GetSessionImpl(refreshToken));
 
         internal async Task<UserSession> GetSessionImpl(string refreshToken)
         {
@@ -99,7 +111,7 @@ namespace Users
         }
 
         public Task<UserSession> SaveUserSession(UserSession userSession) =>
-            this.ReportExceptionsWithin(() => SaveUserSessionImpl(userSession));
+            this.ReportExceptionsWithin(ServiceEventSource.Current, () => SaveUserSessionImpl(userSession));
 
         internal async Task<UserSession> SaveUserSessionImpl(UserSession userSession)
         {
@@ -118,7 +130,7 @@ namespace Users
         }
 
         public Task InvalidateUserSession(string refreshToken) =>
-            this.ReportExceptionsWithin(() => InvalidateUserSessionImpl(refreshToken));
+            this.ReportExceptionsWithin(ServiceEventSource.Current, () => InvalidateUserSessionImpl(refreshToken));
 
         internal async Task InvalidateUserSessionImpl(string refreshToken)
         {
@@ -133,6 +145,16 @@ namespace Users
             Log("User session invalidated.");
         }
 
+        public Task<SearchResults> Search(SearchFilter searchFilter) =>
+            this.ReportExceptionsWithin(ServiceEventSource.Current, () => SearchImpl(searchFilter));
+
+        internal async Task<SearchResults> SearchImpl(SearchFilter searchFilter)
+        {
+            Log("Search.");
+
+            return null;
+        }
+
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>
             this.CreateServiceRemotingInstanceListeners();
 
@@ -144,6 +166,26 @@ namespace Users
             var cosmosClient = new CosmosClient(cosmosConfiguration);
 
             return cosmosClient;
+        }
+
+        private ElasticClient GetElasticClient()
+        {
+            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
+            var configuration = configurationPackage.Settings.Sections["Search"];
+            var uri = new Uri(configuration.Parameters["Uri"].Value);
+            var userName = configuration.Parameters["UserName"].Value;
+            var password = configuration.Parameters["Password"].Value;
+
+            Log("Elastic Search URI: {0}", uri);
+            Log("Elastic Search user name: {0}", userName);
+            Log("Elastic Search password: {0}", password);
+
+            var connectionSettings = new ConnectionSettings(uri)
+                .DefaultMappingFor<UserDataEntity>(m => m.IndexName("users").TypeName("_doc").IdProperty(p => p.UserId).Ignore(p => p.LoginToken))
+                .BasicAuthentication(userName, password);
+            var elasticClient = new ElasticClient(connectionSettings);
+
+            return elasticClient;
         }
 
         private static void Log(string message, params object[] args) =>
