@@ -16,7 +16,7 @@ namespace API.Services
             }
             catch (Exception ex)
             {
-                ServiceEventSource.Current.Failure($"Failed whilst invoking API, caller '{caller}'.", ex);
+                ServiceEventSource.Instance.Failure(ex, "Failed whilst invoking API, caller '{0}'.", caller);
 
                 var codePackageActivationContext = FabricRuntime.GetActivationContext();
                 SendHealthReport(
@@ -36,7 +36,7 @@ namespace API.Services
             }
             catch (Exception ex)
             {
-                ServiceEventSource.Current.Failure($"Failed whilst invoking API, caller '{caller}'.", ex);
+                ServiceEventSource.Instance.Failure(ex, "Failed whilst invoking API, caller '{0}'.", caller);
 
                 var codePackageActivationContext = FabricRuntime.GetActivationContext();
                 SendHealthReport(

@@ -1,10 +1,7 @@
-﻿using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Runtime;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Fabric;
-using System.Fabric.Health;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace API
 {
@@ -18,10 +15,7 @@ namespace API
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>
             new[]
             {
-                new ServiceInstanceListener(initParams => new gRPCCommunicationListener(Log))
+                new ServiceInstanceListener(initParams => new gRPCCommunicationListener(ServiceEventSource.Instance.Info))
             };
-
-        private static void Log(string message, params object[] args) =>
-            ServiceEventSource.Current.Message(message, args);
     }
 }

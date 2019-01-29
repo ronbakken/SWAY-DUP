@@ -24,14 +24,14 @@ namespace InvitationCodes
                 ServiceRuntime.RegisterServiceAsync("InvitationCodesType",
                     context => new InvitationCodes(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(InvitationCodes).Name);
+                ServiceEventSource.Instance.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(InvitationCodes).Name);
 
                 // Prevents this host process from terminating so services keep running.
                 Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception e)
             {
-                ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
+                ServiceEventSource.Instance.ServiceHostInitializationFailed(e.ToString());
                 throw;
             }
         }

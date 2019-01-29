@@ -33,9 +33,9 @@ namespace API.Services.Auth
             IEmailService emailService,
             CancellationToken cancellationToken)
         {
-            Log("SendLoginEmail.");
+            ServiceEventSource.Instance.Info("SendLoginEmail.");
 
-            Log("Generating login token.");
+            ServiceEventSource.Instance.Info("Generating login token.");
             var userId = request.Email;
             var userType = request.UserType;
             var loginToken = TokenManager.GenerateLoginToken(
@@ -43,7 +43,7 @@ namespace API.Services.Auth
                 UserStatus.WaitingForActivation.ToString(),
                 userType.ToString());
 
-            Log("Saving user data.");
+            ServiceEventSource.Instance.Info("Saving user data.");
             var userData = UserData
                 .Initial
                 .With(
@@ -51,7 +51,7 @@ namespace API.Services.Auth
                     loginToken: Option.Some(loginToken));
             await usersService.SaveUserData(userId, userData);
 
-            Log("Sending verification email.");
+            ServiceEventSource.Instance.Info("Sending verification email.");
             var link = $"https://infmarketplace.com/app/verify?token={loginToken}";
             await emailService.SendVerificationEmail(
                 userId,
@@ -64,9 +64,9 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    Log("CreateNewUser.");
+                    ServiceEventSource.Instance.Info("CreateNewUser.");
 
-                    Log("Honoring invitation code.");
+                    ServiceEventSource.Instance.Info("Honoring invitation code.");
                     var invitationCodeManager = GetInvitationCodesService();
                     var honorResult = await invitationCodeManager.Honor(request.InvitationCode);
 
@@ -75,10 +75,10 @@ namespace API.Services.Auth
                         throw new InvalidOperationException("Could not honor invitation code.");
                     }
 
-                    Log("Validating login token.");
+                    ServiceEventSource.Instance.Info("Validating login token.");
                     var loginTokenValidationResults = TokenManager.ValidateLoginToken(request.LoginToken);
 
-                    Log("Validating user status.");
+                    ServiceEventSource.Instance.Info("Validating user status.");
                     var userId = loginTokenValidationResults.UserId;
                     var usersService = GetUsersService();
                     var userData = await usersService.GetUserData(userId);
@@ -88,13 +88,13 @@ namespace API.Services.Auth
                         throw new InvalidOperationException("User is not awaiting activation.");
                     }
 
-                    Log("Generating refresh token.");
+                    ServiceEventSource.Instance.Info("Generating refresh token.");
                     var refreshToken = TokenManager.GenerateRefreshToken(loginTokenValidationResults.UserId, loginTokenValidationResults.UserType);
 
-                    Log("Saving user session.");
+                    ServiceEventSource.Instance.Info("Saving user session.");
                     await usersService.SaveUserSession(new UserSession(refreshToken, request.DeviceId));
 
-                    Log("Updating user data.");
+                    ServiceEventSource.Instance.Info("Updating user data.");
                     userData = request
                         .UserData
                         .ToServiceObject(
@@ -115,13 +115,13 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    Log("LoginWithLoginToken.");
+                    ServiceEventSource.Instance.Info("LoginWithLoginToken.");
 
-                    Log("Validating login token.");
+                    ServiceEventSource.Instance.Info("Validating login token.");
                     var loginToken = request.LoginToken;
                     var validationResult = TokenManager.ValidateLoginToken(loginToken);
 
-                    Log("Getting user data.");
+                    ServiceEventSource.Instance.Info("Getting user data.");
                     var userId = validationResult.UserId;
                     var userType = validationResult.UserType;
                     var usersService = GetUsersService();
@@ -134,14 +134,14 @@ namespace API.Services.Auth
 
                     if (userData.LoginToken != loginToken)
                     {
-                        Log("Provided login token does not match against the user's data.");
+                        ServiceEventSource.Instance.Info("Provided login token does not match against the user's data.");
                         throw new InvalidOperationException();
                     }
 
-                    Log("Generating refresh token.");
+                    ServiceEventSource.Instance.Info("Generating refresh token.");
                     var refreshToken = TokenManager.GenerateRefreshToken(userId, userType);
 
-                    Log("Updating user session.");
+                    ServiceEventSource.Instance.Info("Updating user session.");
                     var userSession = await usersService.GetUserSession(refreshToken);
 
                     userSession = userSession.With(
@@ -149,7 +149,7 @@ namespace API.Services.Auth
 
                     await usersService.SaveUserSession(userSession);
 
-                    Log("Saving user data.");
+                    ServiceEventSource.Instance.Info("Saving user data.");
                     userData = userData.With(
                         loginToken: Option.Some<string>(null));
                     await usersService.SaveUserData(userId, userData);
@@ -167,18 +167,18 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    Log("LoginWithRefreshToken.");
+                    ServiceEventSource.Instance.Info("LoginWithRefreshToken.");
 
-                    Log("Validating refresh token.");
+                    ServiceEventSource.Instance.Info("Validating refresh token.");
                     var refreshToken = request.RefreshToken;
                     var validationResult = TokenManager.ValidateRefreshToken(refreshToken);
 
-                    Log("Retrieving user data.");
+                    ServiceEventSource.Instance.Info("Retrieving user data.");
                     var userId = validationResult.UserId;
                     var usersService = GetUsersService();
                     var userData = await usersService.GetUserData(userId);
 
-                    Log("Validating refresh token.");
+                    ServiceEventSource.Instance.Info("Validating refresh token.");
                     var userSession = usersService.GetUserSession(refreshToken);
 
                     if (userSession == null)
@@ -186,7 +186,7 @@ namespace API.Services.Auth
                         throw new InvalidOperationException("Refresh token is invalid.");
                     }
 
-                    Log("Generating access token.");
+                    ServiceEventSource.Instance.Info("Generating access token.");
                     var accessToken = TokenManager.GenerateAccessToken(userId, userData.Type.ToString());
 
                     var result = new LoginWithRefreshTokenResponse
@@ -202,9 +202,9 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    Log("GetAccessToken.");
+                    ServiceEventSource.Instance.Info("GetAccessToken.");
 
-                    Log("Validating refresh token.");
+                    ServiceEventSource.Instance.Info("Validating refresh token.");
                     var refreshTokenValidationResult = TokenManager.ValidateRefreshToken(request.RefreshToken);
                     var userId = refreshTokenValidationResult.UserId;
                     var userType = refreshTokenValidationResult.UserType;
@@ -216,7 +216,7 @@ namespace API.Services.Auth
                         throw new InvalidOperationException("Mismatch in refresh token association.");
                     }
 
-                    Log("Generating access token.");
+                    ServiceEventSource.Instance.Info("Generating access token.");
                     var accessToken = TokenManager.GenerateAccessToken(userId, userType);
 
                     var result = new GetAccessTokenResponse
@@ -231,9 +231,9 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    Log("GetUser.");
+                    ServiceEventSource.Instance.Info("GetUser.");
 
-                    Log("Getting user data.");
+                    ServiceEventSource.Instance.Info("Getting user data.");
                     var usersService = GetUsersService();
                     var userId = request.UserId;
                     var userData = await usersService.GetUserData(userId);
@@ -248,9 +248,9 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    Log("UpdateUser.");
+                    ServiceEventSource.Instance.Info("UpdateUser.");
 
-                    Log("Validating authenticated user matches request.");
+                    ServiceEventSource.Instance.Info("Validating authenticated user matches request.");
                     var authenticatedUserId = context.GetAuthenticatedUserId();
 
                     if (authenticatedUserId != request.User.Email)
@@ -258,11 +258,11 @@ namespace API.Services.Auth
                         throw new InvalidOperationException("Attempted to update data for another user.");
                     }
 
-                    Log("Getting existing user data.");
+                    ServiceEventSource.Instance.Info("Getting existing user data.");
                     var usersService = GetUsersService();
                     var userData = await usersService.GetUserData(authenticatedUserId);
 
-                    Log("Saving user data.");
+                    ServiceEventSource.Instance.Info("Saving user data.");
                     var result = await usersService.SaveUserData(authenticatedUserId, request.User.ToServiceObject(userData.LoginToken));
 
                     var response = new UpdateUserResponse
@@ -277,9 +277,9 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    Log("Logout.");
+                    ServiceEventSource.Instance.Info("Logout.");
 
-                    Log("Invalidating refresh token.");
+                    ServiceEventSource.Instance.Info("Invalidating refresh token.");
                     var usersService = GetUsersService();
                     await usersService.InvalidateUserSession(request.RefreshToken);
 
@@ -291,8 +291,5 @@ namespace API.Services.Auth
 
         private static IInvitationCodesService GetInvitationCodesService() =>
             ServiceProxy.Create<IInvitationCodesService>(new Uri($"{FabricRuntime.GetActivationContext().ApplicationName}/InvitationCodes"));
-
-        private static void Log(string message, params object[] args) =>
-            ServiceEventSource.Current.Message(message, args);
     }
 }

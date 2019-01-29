@@ -13,6 +13,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 using NodaTime;
 using Optional;
 using Utility;
+using Utility.Diagnostics;
 
 namespace InvitationCodes
 {
@@ -29,7 +30,7 @@ namespace InvitationCodes
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
-            Log("Creating database if required.");
+            ServiceEventSource.Instance.Info("Creating database if required.");
 
             var cosmosClient = this.GetCosmosClient();
             var databaseResult = await cosmosClient.Databases.CreateDatabaseIfNotExistsAsync(databaseId);
@@ -37,33 +38,33 @@ namespace InvitationCodes
             var containerResult = await database.Containers.CreateContainerIfNotExistsAsync(codesCollectionId, "/code");
             this.codesContainer = containerResult.Container;
 
-            Log("Database creation complete.");
+            ServiceEventSource.Instance.Info("Database creation complete.");
         }
 
         public Task<string> Generate() =>
-            this.ReportExceptionsWithin(ServiceEventSource.Current, () => GenerateImpl());
+            this.ReportExceptionsWithin(ServiceEventSource.Instance, () => GenerateImpl());
 
         internal async Task<string> GenerateImpl()
         {
-            Log("Generate");
+            ServiceEventSource.Instance.Info("Generate");
 
             string code = null;
 
             while (true)
             {
                 code = GenerateRandomString(8);
-                Log("Generated code '{0}'.", code);
+                ServiceEventSource.Instance.Info("Generated code '{0}'.", code);
 
                 var existingInvitationCodeResponse = await this.codesContainer.Items.ReadItemAsync<InvitationCodeEntity>(code, code);
 
                 if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
                 {
-                    Log("Generated unique code '{0}'.", code);
+                    ServiceEventSource.Instance.Info("Generated unique code '{0}'.", code);
                     break;
                 }
                 else
                 {
-                    Log("Code '{0}' has already been allocated - trying again.", code);
+                    ServiceEventSource.Instance.Info("Code '{0}' has already been allocated - trying again.", code);
                 }
             }
 
@@ -78,23 +79,23 @@ namespace InvitationCodes
 
             await this.codesContainer.Items.CreateItemAsync(code, entity);
 
-            Log("Invitation code '{0}' with expiry timestamp {1} has been allocated.", code, expiryTimestamp);
+            ServiceEventSource.Instance.Info("Invitation code '{0}' with expiry timestamp {1} has been allocated.", code, expiryTimestamp);
 
             return code;
         }
 
         public Task<InvitationCodeStatus> GetStatus(string code) =>
-            this.ReportExceptionsWithin(ServiceEventSource.Current, () => GetStatusImpl(code));
+            this.ReportExceptionsWithin(ServiceEventSource.Instance, () => GetStatusImpl(code));
 
         internal async Task<InvitationCodeStatus> GetStatusImpl(string code)
         {
-            Log("GetStatus.");
+            ServiceEventSource.Instance.Info("GetStatus.");
 
             var existingInvitationCodeResponse = await this.codesContainer.Items.ReadItemAsync<InvitationCodeEntity>(code, code);
 
             if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
             {
-                Log("Code '{0}' does not exist.", code);
+                ServiceEventSource.Instance.Info("Code '{0}' does not exist.", code);
                 return InvitationCodeStatus.NonExistant;
             }
 
@@ -102,7 +103,7 @@ namespace InvitationCodes
 
             if (existingInvitationCode.IsHonored)
             {
-                Log("Code '{0}' has been honored.", code);
+                ServiceEventSource.Instance.Info("Code '{0}' has been honored.", code);
                 return InvitationCodeStatus.Honored;
             }
 
@@ -111,26 +112,26 @@ namespace InvitationCodes
 
             if (isExpired)
             {
-                Log("Code '{0}' has expired.", code);
+                ServiceEventSource.Instance.Info("Code '{0}' has expired.", code);
                 return InvitationCodeStatus.Expired;
             }
 
-            Log("Code '{0}' is pending.", code);
+            ServiceEventSource.Instance.Info("Code '{0}' is pending.", code);
             return InvitationCodeStatus.Pending;
         }
 
         public Task<InvitationCodeHonorResult> Honor(string code) =>
-            this.ReportExceptionsWithin(ServiceEventSource.Current, () => HonorImpl(code));
+            this.ReportExceptionsWithin(ServiceEventSource.Instance, () => HonorImpl(code));
 
         internal async Task<InvitationCodeHonorResult> HonorImpl(string code)
         {
-            Log("Honor.");
+            ServiceEventSource.Instance.Info("Honor.");
 
             var existingInvitationCodeResponse = await this.codesContainer.Items.ReadItemAsync<InvitationCodeEntity>(code, code);
 
             if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
             {
-                Log("Code '{0}' does not exist.", code);
+                ServiceEventSource.Instance.Info("Code '{0}' does not exist.", code);
                 return InvitationCodeHonorResult.DoesNotExist;
             }
 
@@ -138,7 +139,7 @@ namespace InvitationCodes
 
             if (existingInvitationCode.IsHonored)
             {
-                Log("Code '{0}' has been honored.", code);
+                ServiceEventSource.Instance.Info("Code '{0}' has been honored.", code);
                 return InvitationCodeHonorResult.AlreadyHonored;
             }
 
@@ -147,16 +148,16 @@ namespace InvitationCodes
 
             if (isExpired)
             {
-                Log("Code '{0}' has expired.", code);
+                ServiceEventSource.Instance.Info("Code '{0}' has expired.", code);
                 return InvitationCodeHonorResult.Expired;
             }
 
-            Log("Code '{0}' is able to be honored.", code);
+            ServiceEventSource.Instance.Info("Code '{0}' is able to be honored.", code);
 
             existingInvitationCode = existingInvitationCode
                 .With(isHonored: Option.Some(true));
             await this.codesContainer.Items.UpsertItemAsync(code, existingInvitationCode);
-            Log("Code '{0}' is now honored.", code);
+            ServiceEventSource.Instance.Info("Code '{0}' is now honored.", code);
 
             return InvitationCodeHonorResult.Success;
         }
@@ -189,8 +190,5 @@ namespace InvitationCodes
 
             return sb.ToString();
         }
-
-        private static void Log(string message, params object[] args) =>
-            ServiceEventSource.Current.Message(message, args);
     }
 }

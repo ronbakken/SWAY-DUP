@@ -24,14 +24,14 @@ namespace API
                 ServiceRuntime.RegisterServiceAsync("APIType",
                     context => new API(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(API).Name);
+                ServiceEventSource.Instance.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(API).Name);
 
                 // Prevents this host process from terminating so services keep running.
                 Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception e)
             {
-                ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
+                ServiceEventSource.Instance.ServiceHostInitializationFailed(e.ToString());
                 throw;
             }
         }

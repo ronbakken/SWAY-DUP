@@ -3,8 +3,9 @@ using System.Fabric;
 using System.Fabric.Health;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace Microsoft.ServiceFabric.Services.Runtime
+namespace Utility.Diagnostics
 {
     public static class ServiceExtensions
     {
@@ -16,7 +17,7 @@ namespace Microsoft.ServiceFabric.Services.Runtime
             }
             catch (Exception ex)
             {
-                eventSource.Failure($"Failed whilst invoking service '{@this.Context.ServiceName.ToString()}', caller '{caller}'.", ex);
+                eventSource.Failure(ex, "Failed whilst invoking service '{0}', caller '{1}'.", @this.Context.ServiceName.ToString(), caller);
 
                 SendHealthReport(
                     @this.Context.CodePackageActivationContext,
@@ -35,7 +36,7 @@ namespace Microsoft.ServiceFabric.Services.Runtime
             }
             catch (Exception ex)
             {
-                eventSource.Failure($"Failed whilst invoking service '{@this.Context.ServiceName.ToString()}', caller '{caller}'.", ex);
+                eventSource.Failure(ex, "Failed whilst invoking service '{0}', caller '{1}'.", @this.Context.ServiceName.ToString(), caller);
 
                 SendHealthReport(
                     @this.Context.CodePackageActivationContext,

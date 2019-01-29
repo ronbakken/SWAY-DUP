@@ -18,7 +18,7 @@ namespace API.Services.BlobStorage
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    Log("GetUploadUrl.");
+                    ServiceEventSource.Instance.Info("GetUploadUrl.");
 
                     var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject("Config");
                     var storageConnectionString = configurationPackage.Settings.Sections["Storage"].Parameters["ConnectionString"].Value;
@@ -34,17 +34,17 @@ namespace API.Services.BlobStorage
                             new StringBuilder(),
                             (sb, next) => sb.Append(next),
                             sb => sb.ToString());
-                    Log("Computed hash of user ID '{0}' is '{1}', which will be used as the container name.", userId, userIdHash);
+                    ServiceEventSource.Instance.Info("Computed hash of user ID '{0}' is '{1}', which will be used as the container name.", userId, userIdHash);
 
                     var containerName = userIdHash;
                     var container = blobClient.GetContainerReference(containerName);
 
-                    Log("Ensuring storage container exists.");
+                    ServiceEventSource.Instance.Info("Ensuring storage container exists.");
                     await container.CreateIfNotExistsAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions { }, new OperationContext { }, context.CancellationToken);
 
                     var blob = container.GetBlockBlobReference(request.FileName);
 
-                    Log("Creating shared access token.");
+                    ServiceEventSource.Instance.Info("Creating shared access token.");
                     var sas = new SharedAccessBlobPolicy
                     {
                         SharedAccessExpiryTime = DateTime.UtcNow.AddHours(1),
@@ -60,8 +60,5 @@ namespace API.Services.BlobStorage
 
                     return result;
                 });
-
-        private static void Log(string message, params object[] args) =>
-            ServiceEventSource.Current.Message(message, args);
     }
 }
