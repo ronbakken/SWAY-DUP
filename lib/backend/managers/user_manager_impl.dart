@@ -10,6 +10,8 @@ import 'package:image/image.dart';
 class UserManagerImplementation implements UserManager {
   @override
   bool isLoggedIn = true;
+  @override
+  LoginToken loginToken;
 
   @override
   User get currentUser => backend.get<AuthenticationService>().currentUser;
@@ -93,8 +95,11 @@ Future<void> updateUserData(UserUpdateData userData) async {
     }
     else
     {
+      print(token);
       return await authenticationService.loginUserWithLoginToken(token);    
     }
 
   }
+
+
 }

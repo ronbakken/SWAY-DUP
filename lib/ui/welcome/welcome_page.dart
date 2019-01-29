@@ -7,6 +7,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/sign_up/activation_success_page.dart';
 import 'package:inf/ui/sign_up/send_signup_login_email_view.dart';
 import 'package:inf/ui/welcome/onboarding_page.dart';
@@ -46,8 +47,9 @@ class _WelcomePageState extends PageState<WelcomePage> {
   void initState() {
     imageUrlStream = backend.get<ConfigService>().getWelcomePageProfileImages();
 
-    deepLinkSubscription = getUriLinksStream().listen((Uri uri) {
-      print('Deeplink URI $uri');
+    // Listen for deep link calls with a login-token
+    deepLinkSubscription = getUriLinksStream().listen((Uri uri) async {
+      //print('Deeplink URI $uri');
       if (uri.queryParameters.containsKey('token')) {
         // setup listener for success of the login attempt with the token
         loginCommandListener = RxCommandListener(
@@ -57,8 +59,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
               loginCommandListener?.dispose();
               await deepLinkSubscription?.cancel();
 
-              Navigator.of(context).popUntil((route) => route is WelcomeRoute);
-              unawaited(Navigator.push(context, ActivationSuccessPage.route()));
+              unawaited(Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (route) => false));
             } else {
               await showMessageDialog(
                   context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
@@ -72,7 +73,25 @@ class _WelcomePageState extends PageState<WelcomePage> {
         );
         print(uri.queryParameters['token']);
 
-        backend.get<UserManager>().logInUserCommand(uri.queryParameters['token']);
+        try {
+          var token = LoginToken.fromJwt(uri.queryParameters['token']);
+
+          // did we get a link from a new user subscription?
+          if (token.accountState == AccountState.waitingForActivation) {
+            loginCommandListener?.dispose();
+            await deepLinkSubscription?.cancel();
+
+            backend.get<UserManager>().loginToken = token;
+
+            Navigator.of(context).popUntil((route) => route is WelcomeRoute);
+            unawaited(Navigator.push(context, ActivationSuccessPage.route()));
+          } else {
+            backend.get<UserManager>().logInUserCommand(token.token);
+          }
+        } catch (ex) {
+          await showMessageDialog(
+              context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
+        }
       }
     });
 
@@ -158,7 +177,9 @@ class _WelcomePageState extends PageState<WelcomePage> {
                           onPressed: () => Navigator.of(context).push(
                                 InfBottomSheet.route(
                                   title: 'Welcome to INF',
-                                  child: SendSignupLoginEmailView(newUser: false, userType: UserType.business),
+                                  child: SendSignupLoginEmailView(
+                                    newUser: false,
+                                  ),
                                 ),
                               ),
                           color: Colors.transparent,

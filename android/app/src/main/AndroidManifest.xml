@@ -34,8 +34,8 @@
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
 				<data android:scheme="https"
-					android:host="www.infmarketplace.com"
-					android:pathPrefix="/app" />
+					android:host="infmarketplace.com"
+					android:pathPrefix="/app/verify" />
 				<!-- note that the leading "/" is required for pathPrefix-->
 			</intent-filter>
 

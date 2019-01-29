@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
@@ -44,6 +45,7 @@ class LoginEmailInfo
 
 abstract class UserManager {
   bool isLoggedIn;
+  LoginToken loginToken;
 
   User get currentUser;
   Observable<User> get currentUserUpdates;
