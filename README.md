@@ -2,6 +2,14 @@
 
 This contains the services that make up the INF server.
 
+## General Overview
+
+![General Overview](images/general_overview.png)
+
+## Service Layout
+
+![Dependency Layout](images/dependency layout.png)
+
 ## How to run
 
 Under `docker_inf_db` is a `docker-compose` script to launch the required database instances.
