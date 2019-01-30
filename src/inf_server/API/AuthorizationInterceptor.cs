@@ -46,7 +46,7 @@ namespace API
 
             // InfInvitationCodes
             { "/api.InfInvitationCodes/GenerateInvitationCode", UserTypes.Admin },
-            { "/api.InfInvitationCodes/GetInvitationCodeStatus", UserTypes.Admin },
+            { "/api.InfInvitationCodes/GetInvitationCodeStatus", UserTypes.Anonymous },
 
             // InfSystem
             { "/api.InfSystem/PingServer", UserTypes.Anonymous },
