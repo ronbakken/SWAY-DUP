@@ -16,6 +16,7 @@ namespace Utility
         private const string encryptingSecret = "YQ1Dry8XqxydjPVNo9hA582xFuwCc3ULd+I+s/rUQIo=";
         private const string issuer = "https://api.inf-marketplace.com";
         private const string userStatusClaimType = "userStatus";
+        private const string invitationCodeClaimType = "invitationCode";
         private const string loginTokenType = "login";
         private const string refreshTokenType = "refresh";
         private const string accessTokenType = "access";
@@ -53,10 +54,13 @@ namespace Utility
         /// <param name="userType">
         /// The type of the user.
         /// </param>
+        /// <param name="invitationCode">
+        /// The invitation code.
+        /// </param>
         /// <returns>
         /// The token in JWT format.
         /// </returns>
-        public static string GenerateLoginToken(string userId, string userStatus, string userType)
+        public static string GenerateLoginToken(string userId, string userStatus, string userType, string invitationCode)
         {
             var descriptor = new SecurityTokenDescriptor
             {
@@ -69,6 +73,7 @@ namespace Utility
                         new Claim(JwtRegisteredClaimNames.Sub, loginTokenType),
                         new Claim(JwtRegisteredClaimNames.Email, userId),
                         new Claim(userStatusClaimType, userStatus),
+                        new Claim(invitationCodeClaimType, invitationCode),
                     }),
                 Expires = DateTime.UtcNow.AddHours(12),
                 SigningCredentials = GetSigningCredentials(),
@@ -103,15 +108,17 @@ namespace Utility
             var email = emailClaim?.Value;
             var userStatusClaim = identity.FindFirst(userStatusClaimType);
             var userStatus = userStatusClaim?.Value;
+            var invitationCodeClaim = identity.FindFirst(invitationCodeClaimType);
+            var invitationCode = invitationCodeClaim?.Value;
             var audienceClaim = identity.FindFirst(JwtRegisteredClaimNames.Aud);
             var audience = audienceClaim?.Value;
 
-            if (subject == null || subject != loginTokenType || email == null || userStatus == null || audience == null)
+            if (subject == null || subject != loginTokenType || email == null || userStatus == null || invitationCode == null || audience == null)
             {
                 throw new ArgumentException("Not a valid token.", nameof(token));
             }
 
-            return new LoginTokenValidationResult(email, userStatus, audience);
+            return new LoginTokenValidationResult(email, userStatus, audience, invitationCode);
         }
 
         /// <summary>

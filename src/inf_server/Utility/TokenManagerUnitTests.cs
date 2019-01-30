@@ -11,37 +11,42 @@ namespace Utility
     public sealed class TokenManagerUnitTests
     {
         [Theory]
-        [InlineData("kent.boogaart@gmail.com", "WaitingForActivation", "Influencer")]
-        [InlineData("someone@somewhere.com", "Disabled", "Business")]
+        [InlineData("kent.boogaart@gmail.com", "WaitingForActivation", "Influencer", "ABC123")]
+        [InlineData("someone@somewhere.com", "Disabled", "Business", "XYZ789")]
         public void login_tokens_generate_and_validate_correctly(
             string userId,
             string userStatus,
-            string userType)
+            string userType,
+            string invitationCode)
         {
             var loginToken = TokenManager.GenerateLoginToken(
                 userId,
                 userStatus,
-                userType);
+                userType,
+                invitationCode);
 
             var validationResult = TokenManager.ValidateLoginToken(loginToken);
 
             Assert.Equal(userId, validationResult.UserId);
             Assert.Equal(userStatus, validationResult.UserStatus);
             Assert.Equal(userType, validationResult.UserType);
+            Assert.Equal(invitationCode, validationResult.InvitationCode);
         }
 
         [Theory]
-        [InlineData("kent.boogaart@gmail.com", "WaitingForActivation", "Influencer")]
-        [InlineData("someone@somewhere.com", "Disabled", "Business")]
+        [InlineData("kent.boogaart@gmail.com", "WaitingForActivation", "Influencer", "ABC123")]
+        [InlineData("someone@somewhere.com", "Disabled", "Business", "XYZ789")]
         public void login_tokens_are_reversible(
             string userId,
             string userStatus,
-            string userType)
+            string userType,
+            string invitationCode)
         {
             var loginToken = TokenManager.GenerateLoginToken(
                 userId,
                 userStatus,
-                userType);
+                userType,
+                invitationCode);
 
             // Pretend to be a client without access to the TokenManager (or its secrets).
             var tokenHandler = new JwtSecurityTokenHandler
@@ -59,6 +64,7 @@ namespace Utility
             var claims = jwtToken.Claims;
             Assert.Equal(userId, claims.FirstOrDefault(claim => claim.Type == "email").Value);
             Assert.Equal(userStatus, claims.FirstOrDefault(claim => claim.Type == "userStatus").Value);
+            Assert.Equal(invitationCode, claims.FirstOrDefault(claim => claim.Type == "invitationCode").Value);
         }
 
         [Fact]
@@ -80,6 +86,7 @@ namespace Utility
                         new Claim(JwtRegisteredClaimNames.Sub, "login"),
                         new Claim(JwtRegisteredClaimNames.Email, "kent.boogaart@gmail.com"),
                         new Claim("userStatus", "WaitingForActivation"),
+                        new Claim("invitationCode", "ABC123"),
                     }),
                 Expires = DateTime.UtcNow.AddHours(12),
                 SigningCredentials = signingCredentials,

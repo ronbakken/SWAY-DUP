@@ -40,7 +40,13 @@ namespace API.Services.Auth
             var userId = request.Email;
             var userData = await usersService.GetUserData(userId);
             var userType = request.UserType;
+            var userStatus = UserStatus.WaitingForActivation;
             var userShouldAlreadyExist = userType == Interfaces.UserType.UnknownUserType;
+
+            if (!userShouldAlreadyExist && string.IsNullOrEmpty(request.InvitationCode))
+            {
+                throw new RpcException(new Status(StatusCode.FailedPrecondition, "No invitation code was provided."));
+            }
 
             if (userShouldAlreadyExist)
             {
@@ -55,7 +61,8 @@ namespace API.Services.Auth
                 }
 
                 userType = userData.Type.ToDto();
-                ServiceEventSource.Instance.Info("User '{0}' was found, and they are of type '{1}'.", userId, userType);
+                userStatus = userData.Status;
+                ServiceEventSource.Instance.Info("User '{0}' was found, and they are of type '{1}', status '{2}'.", userId, userType, userStatus);
             }
             else
             {
@@ -75,14 +82,15 @@ namespace API.Services.Auth
             ServiceEventSource.Instance.Info("Generating login token.");
             var loginToken = TokenManager.GenerateLoginToken(
                 userId,
-                UserStatus.WaitingForActivation.ToString(),
-                userType.ToString());
+                userStatus.ToString(),
+                userType.ToString(),
+                request.InvitationCode);
 
             ServiceEventSource.Instance.Info("Saving user data.");
             userData = userData
                 .With(
                     type: Option.Some(userType.ToServiceObject()),
-                    status: Option.Some(UserStatus.WaitingForActivation),
+                    status: Option.Some(userStatus),
                     loginToken: Option.Some(loginToken));
             await usersService.SaveUserData(userId, userData);
 
@@ -101,15 +109,6 @@ namespace API.Services.Auth
                 {
                     ServiceEventSource.Instance.Info("CreateNewUser.");
 
-                    ServiceEventSource.Instance.Info("Honoring invitation code.");
-                    var invitationCodesService = GetInvitationCodesService();
-                    var honorResult = await invitationCodesService.Honor(request.InvitationCode);
-
-                    if (honorResult != InvitationCodeHonorResult.Success)
-                    {
-                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Could not honor invitation code."));
-                    }
-
                     ServiceEventSource.Instance.Info("Validating login token.");
                     var loginTokenValidationResults = TokenManager.ValidateLoginToken(request.LoginToken);
 
@@ -121,6 +120,16 @@ namespace API.Services.Auth
                     if (userData.Status != UserStatus.WaitingForActivation)
                     {
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' is not awaiting activation."));
+                    }
+
+                    ServiceEventSource.Instance.Info("Honoring invitation code.");
+                    var invitationCode = loginTokenValidationResults.InvitationCode;
+                    var invitationCodesService = GetInvitationCodesService();
+                    var honorResult = await invitationCodesService.Honor(invitationCode);
+
+                    if (honorResult != InvitationCodeHonorResult.Success)
+                    {
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Could not honor invitation code."));
                     }
 
                     ServiceEventSource.Instance.Info("Generating refresh token.");
@@ -136,11 +145,12 @@ namespace API.Services.Auth
                             loginToken: null)
                         .With(
                             status: Option.Some(UserStatus.Active));
-                    await usersService.SaveUserData(userId, userData);
+                    userData = await usersService.SaveUserData(userId, userData);
 
                     var result = new CreateNewUserResponse
                     {
                         RefreshToken = refreshToken,
+                        UserData = userData.ToDto(userId),
                     };
 
                     return result;

@@ -39,6 +39,8 @@ message SendLoginEmailRequest {
     string email = 1;
     // If the user already has an account, set this to unknown_user_type.
     UserType userType = 2;
+    // If the user does not already have an account, this must be set to the invitation code to be used.
+    string invitationCode = 3;
 }
 
 message CreateNewUserRequest {
@@ -47,12 +49,11 @@ message CreateNewUserRequest {
     UserDto userData = 2;
     // device ID for push notification
     string deviceId = 3;
-    // After successful creation of the new user the invitation code is marked as used
-    string invitationCode = 4;
 }
 
 message CreateNewUserResponse {
     string refreshToken = 1;
+    UserDto userData = 2;
 }
 
 message LoginWithLoginTokenRequest {
