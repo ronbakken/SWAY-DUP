@@ -20,11 +20,13 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Genesis.Ensure" />
         <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Grpc" />
         <PackageReference Include="Grpc.Core.Testing" />
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Sendgrid" />
+        <PackageReference Include="SerilogAnalyzer" />
         <PackageReference Include="WindowsAzure.Storage" />
 
         <PackageReference Include="Genesis.TestUtil" />

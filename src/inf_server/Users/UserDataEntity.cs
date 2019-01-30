@@ -88,7 +88,7 @@ namespace Users
         [JsonProperty("description")]
         public string Description { get; }
 
-        [JsonProperty("avator")]
+        [JsonProperty("avatar")]
         public ImageEntity Avatar { get; }
 
         [JsonProperty("avatarThumbnail")]

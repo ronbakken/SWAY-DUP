@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
+using Serilog;
 using Users.Interfaces;
 using Utility;
 
@@ -16,11 +17,11 @@ namespace API
         private const string authorizationHeader = "authorization";
         private const string schema = "Bearer";
 
-        private readonly Action<string, object[]> log;
+        private readonly ILogger logger;
 
-        public AuthorizationInterceptor(Action<string, object[]> log)
+        public AuthorizationInterceptor(ILogger logger)
         {
-            this.log = log;
+            this.logger = logger.ForContext<AuthorizationInterceptor>();
         }
 
         // What user types can invoke a given method. If a method does not appear in this list, it won't be callable by anyone.
@@ -54,7 +55,7 @@ namespace API
 
         public override async Task<TResponse> ClientStreamingServerHandler<TRequest, TResponse>(IAsyncStreamReader<TRequest> requestStream, ServerCallContext context, ClientStreamingServerMethod<TRequest, TResponse> continuation)
         {
-            Log("ClientStreamingServerHandler");
+            this.logger.Verbose("ClientStreamingServerHandler");
             var newContext = Authorize(context);
             var result = await continuation(requestStream, newContext);
             return result;
@@ -62,21 +63,21 @@ namespace API
 
         public override async Task DuplexStreamingServerHandler<TRequest, TResponse>(IAsyncStreamReader<TRequest> requestStream, IServerStreamWriter<TResponse> responseStream, ServerCallContext context, DuplexStreamingServerMethod<TRequest, TResponse> continuation)
         {
-            Log("DuplexStreamingServerHandler");
+            this.logger.Verbose("DuplexStreamingServerHandler");
             var newContext = Authorize(context);
             await continuation(requestStream, responseStream, newContext);
         }
 
         public override async Task ServerStreamingServerHandler<TRequest, TResponse>(TRequest request, IServerStreamWriter<TResponse> responseStream, ServerCallContext context, ServerStreamingServerMethod<TRequest, TResponse> continuation)
         {
-            Log("ServerStreamingServerHandler");
+            this.logger.Verbose("ServerStreamingServerHandler");
             var newContext = Authorize(context);
             await continuation(request, responseStream, newContext);
         }
 
         public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(TRequest request, ServerCallContext context, UnaryServerMethod<TRequest, TResponse> continuation)
         {
-            Log("UnaryServerHandler");
+            this.logger.Verbose("UnaryServerHandler");
             var newContext = Authorize(context);
             var result = await continuation(request, newContext);
             return result;
@@ -84,21 +85,21 @@ namespace API
 
         private ServerCallContext Authorize(ServerCallContext context)
         {
+            var method = context.Method;
+
             try
             {
-                var method = context.Method;
-
-                Log("Authorizing for method '{0}'.", method);
+                this.logger.Debug("Authorizing method {Method}.", method);
 
                 if (!userTypesForMethod.TryGetValue(method, out var allowedUserTypes))
                 {
-                    Log("Denied - no permitted user types defined.");
+                    this.logger.Debug("Denied - no permitted user types defined for method {Method}", method);
                     throw new RpcException(new Status(StatusCode.PermissionDenied, $"RPC '{method}' has no permitted user types defined."));
                 }
 
                 if (allowedUserTypes.HasFlag(UserTypes.Anonymous))
                 {
-                    Log("Allowed - anonymous access permitted.");
+                    this.logger.Debug("Allowed - anonymous access permitted for method {Method}", method);
                     return context;
                 }
 
@@ -108,7 +109,7 @@ namespace API
 
                 if (authorizationHeaderEntry == null)
                 {
-                    Log("Denied - no Authorization header set.");
+                    this.logger.Debug("Denied - no Authorization header set");
                     throw new RpcException(new Status(StatusCode.Unauthenticated, "No Authorization header set."));
                 }
 
@@ -116,18 +117,16 @@ namespace API
 
                 if (!authorizationHeaderEntry.Value.StartsWith(prefix))
                 {
-                    Log("Denied - Authorization header is not in expected format.");
+                    this.logger.Debug("Denied - Authorization header {AuthorizationHeader} is not in expected format", authorizationHeaderEntry.Value);
                     throw new RpcException(new Status(StatusCode.Unauthenticated, $"Authorization header does not start with expected schema, '{schema}'."));
                 }
 
-                Log("Authorization header has value '{0}'.", authorizationHeaderEntry.Value);
                 var token = authorizationHeaderEntry.Value.Substring(prefix.Length);
-                Log("Access token is '{0}'.", token);
                 var accessTokenValidationResult = TokenManager.ValidateAccessToken(token);
 
                 if (!accessTokenValidationResult.IsValid)
                 {
-                    Log("Denied - invalid access token.");
+                    this.logger.Debug("Denied - access token {AccessToken} is invalid", token);
                     throw new RpcException(new Status(StatusCode.PermissionDenied, "Access token is invalid."));
                 }
 
@@ -135,25 +134,22 @@ namespace API
 
                 if (!allowedUserTypes.Contains(userType))
                 {
-                    Log("Denied - method cannot be called by user type '{0}'.", userType);
+                    this.logger.Debug("Denied - method {Method} cannot be called by user type {UserType}", method, userType);
                     throw new RpcException(new Status(StatusCode.PermissionDenied, $"Method '{method}' cannot be called by user type '{userType}'."));
                 }
 
                 context.RequestHeaders.Add(new Metadata.Entry(userIdKeyName, accessTokenValidationResult.UserId));
                 context.RequestHeaders.Add(new Metadata.Entry(userTypeKeyName, accessTokenValidationResult.UserType));
 
-                Log("Allowed - all checks passed.");
+                this.logger.Debug("Allowed - all checks passed");
 
                 return context;
             }
             catch (Exception ex)
             {
-                Log("FATAL: authorization interception failed: " + ex.ToString());
+                this.logger.Fatal(ex, "Authorization interception failed for method {Method}", method);
                 throw;
             }
         }
-
-        private void Log(string message, params object[] args) =>
-            this.log(message, args);
     }
 }

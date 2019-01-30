@@ -166,6 +166,7 @@ Task("Deploy")
             var clusterManagementEndpoint = (string)outputs["clusterProperties"]["value"]["managementEndpoint"];
             var clusterManagementUri = new Uri(clusterManagementEndpoint);
             var userStorageAccountConnectionString = (string)outputs["userStorageAccountConnectionString"]["value"];
+            var loggingStorageAccountConnectionString = (string)outputs["loggingStorageAccountConnectionString"]["value"];
             var databaseAccountConnectionString = (string)outputs["databaseAccountConnectionString"]["value"];
 
             // 2. Build and upload the Service Fabric application.
@@ -202,6 +203,7 @@ Task("Deploy")
                 new Dictionary<string, string>
                 {
                     { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", userStorageAccountConnectionString },
+                    { "LOGGING_STORAGE_ACCOUNT_CONNECTION_STRING", loggingStorageAccountConnectionString },
                     { "DATABASE_ACCOUNT_CONNECTION_STRING", databaseAccountConnectionString },
                     { "ELASTIC_SEARCH_URI", elasticSearchUri },
                     { "ELASTIC_SEARCH_USER_NAME", elasticSearchUserName },

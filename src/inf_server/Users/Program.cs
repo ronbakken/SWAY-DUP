@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Fabric;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Utility;
 
 namespace Users
 {
@@ -14,6 +14,11 @@ namespace Users
         /// </summary>
         private static void Main()
         {
+            var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject("Config");
+            var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
+            var logger = Logging.GetLogger("Users-Program", logStorageConnectionString);
+            var serviceType = "UsersType";
+
             try
             {
                 // The ServiceManifest.XML file defines one or more service type names.
@@ -24,14 +29,15 @@ namespace Users
                 ServiceRuntime.RegisterServiceAsync("UsersType",
                     context => new Users(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Users).Name);
+                var processId = Process.GetCurrentProcess().Id;
+                logger.Information("Service type {ServiceType} was registered into process {ProcessId}", serviceType, processId);
 
                 // Prevents this host process from terminating so services keep running.
                 Thread.Sleep(Timeout.Infinite);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
+                logger.Fatal(ex, "Service type {ServiceType} could not be registered", serviceType);
                 throw;
             }
         }

@@ -7,11 +7,12 @@
     <!--
         The access token that facilitates access to the user storage account
         -->
-    <Parameter Name="UserStorageAccountConnectionString" DefaultValue="NOT SET" />
-    <Parameter Name="DatabaseAccountConnectionString" DefaultValue="NOT SET" />
-    <Parameter Name="ElasticSearchUri" DefaultValue="NOT SET" />
-    <Parameter Name="ElasticSearchUserName" DefaultValue="NOT SET" />
-    <Parameter Name="ElasticSearchPassword" DefaultValue="NOT SET" />
+    <Parameter Name="UserStorageAccountConnectionString" DefaultValue="" />
+    <Parameter Name="DatabaseAccountConnectionString" DefaultValue="" />
+    <Parameter Name="LoggingStorageAccountConnectionString" DefaultValue="" />
+    <Parameter Name="ElasticSearchUri" DefaultValue="" />
+    <Parameter Name="ElasticSearchUserName" DefaultValue="" />
+    <Parameter Name="ElasticSearchPassword" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion
        should match the Name and Version attributes of the ServiceManifest element defined in the
@@ -23,6 +24,9 @@
         <Settings>
           <Section Name="Database">
             <Parameter Name="ConnectionString" Value="[DatabaseAccountConnectionString]" />
+          </Section>
+          <Section Name="Logging">
+            <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
           </Section>
           <Section Name="Search">
             <Parameter Name="Uri" Value="[ElasticSearchUri]" />
@@ -41,6 +45,9 @@
           <Section Name="Database">
             <Parameter Name="ConnectionString" Value="[DatabaseAccountConnectionString]" />
           </Section>
+          <Section Name="Logging">
+            <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
+          </Section>
         </Settings>
       </ConfigOverride>
     </ConfigOverrides>
@@ -52,6 +59,9 @@
         <Settings>
           <Section Name="Storage">
             <Parameter Name="ConnectionString" Value="[UserStorageAccountConnectionString]" />
+          </Section>
+          <Section Name="Logging">
+            <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
           </Section>
         </Settings>
       </ConfigOverride>

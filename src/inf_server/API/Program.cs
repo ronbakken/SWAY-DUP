@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Fabric;
 using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Utility;
 
 namespace API
 {
@@ -14,6 +14,11 @@ namespace API
         /// </summary>
         private static void Main()
         {
+            var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject("Config");
+            var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
+            var logger = Logging.GetLogger("API-Program", logStorageConnectionString);
+            var serviceType = "APIType";
+
             try
             {
                 // The ServiceManifest.XML file defines one or more service type names.
@@ -21,17 +26,19 @@ namespace API
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("APIType",
+                ServiceRuntime.RegisterServiceAsync(
+                    serviceType,
                     context => new API(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(API).Name);
+                var processId = Process.GetCurrentProcess().Id;
+                logger.Information("Service type {ServiceType} was registered into process {ProcessId}", serviceType, processId);
 
                 // Prevents this host process from terminating so services keep running.
                 Thread.Sleep(Timeout.Infinite);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
+                logger.Fatal(ex, "Service type {ServiceType} could not be registered", serviceType);
                 throw;
             }
         }

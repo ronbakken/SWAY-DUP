@@ -381,27 +381,6 @@
                                              "DefaultEvents": {
                                                 "eventDestination": "ServiceFabricReliableServiceEventTable"
                                              }
-                                          },
-                                          {
-                                             "provider": "INF-server-API",
-                                             "scheduledTransferPeriod": "PT1M",
-                                             "DefaultEvents": {
-                                                "eventDestination": "ServiceFabricAPIEventTable"
-                                             }
-                                          },
-                                          {
-                                             "provider": "INF-server-InvitationCodes",
-                                             "scheduledTransferPeriod": "PT1M",
-                                             "DefaultEvents": {
-                                                "eventDestination": "ServiceFabricAPIEventTable"
-                                             }
-                                          },
-                                          {
-                                             "provider": "INF-server-Users",
-                                             "scheduledTransferPeriod": "PT1M",
-                                             "DefaultEvents": {
-                                                "eventDestination": "ServiceFabricAPIEventTable"
-                                             }
                                           }
                                        ],
                                        "EtwManifestProviderConfiguration": [
@@ -658,6 +637,10 @@
       "userStorageAccountConnectionString": {
          "type": "string",
          "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('userStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('userStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
+      },
+      "loggingStorageAccountConnectionString": {
+         "type": "string",
+         "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('applicationDiagnosticsStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('applicationDiagnosticsStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
       },
       "databaseAccountConnectionString": {
          "type": "string",

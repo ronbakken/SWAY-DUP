@@ -3,4 +3,7 @@
     <Section Name="Storage">
         <Parameter Name="ConnectionString" Value="" />
     </Section>
+    <Section Name="Logging">
+        <Parameter Name="StorageConnectionString" Value="" />
+    </Section>
 </Settings>

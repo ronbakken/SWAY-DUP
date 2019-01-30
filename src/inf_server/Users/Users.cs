@@ -9,6 +9,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Nest;
+using Serilog;
 using Users.Interfaces;
 using Utility;
 using Utility.Diagnostics;
@@ -20,17 +21,21 @@ namespace Users
         private const string databaseId = "users";
         private const string usersCollectionId = "users";
         private const string sessionsCollectionId = "sessions";
+        private readonly ILogger logger;
         private CosmosContainer usersContainer;
         private CosmosContainer sessionsContainer;
 
         public Users(StatelessServiceContext context)
             : base(context)
         {
+            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
+            var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
+            this.logger = Logging.GetLogger(this, logStorageConnectionString);
         }
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
-            ServiceEventSource.Current.Message("Creating database if required.");
+            logger.Debug("Creating database if required");
 
             var cosmosClient = this.GetCosmosClient();
             var databaseResult = await cosmosClient.Databases.CreateDatabaseIfNotExistsAsync(databaseId);
@@ -40,47 +45,43 @@ namespace Users
             var sessionsContainerResult = await database.Containers.CreateContainerIfNotExistsAsync(sessionsCollectionId, "/userId");
             this.sessionsContainer = sessionsContainerResult.Container;
 
-            ServiceEventSource.Current.Message("Database creation complete.");
+            logger.Debug("Database creation complete");
         }
 
         public Task<UserData> GetUserData(string userId) =>
-            this.ReportExceptionsWithin(ServiceEventSource.Current, () => GetUserDataImpl(userId));
+            this.ReportExceptionsWithin(this.logger, (logger) => GetUserDataImpl(logger, userId));
 
-        internal async Task<UserData> GetUserDataImpl(string userId)
+        internal async Task<UserData> GetUserDataImpl(ILogger logger, string userId)
         {
-            ServiceEventSource.Current.Message("GetUserData: '{0}'", userId);
-
-            ServiceEventSource.Current.Message("Getting user data.");
+            logger.Debug("Getting data for user {UserId}", userId);
             var userDataResponse = await this.usersContainer.Items.ReadItemAsync<UserDataEntity>(userId, userId);
 
             if (userDataResponse.StatusCode == HttpStatusCode.NotFound)
             {
+                logger.Debug("No data found for user {UserId}", userId);
                 return null;
             }
 
             var userData = userDataResponse.Resource;
+            logger.Debug("Retrieved data for user {UserId}: {@UserData}", userId, userData);
             return userData.ToServiceObject();
         }
 
         public Task<UserData> SaveUserData(string userId, UserData userData) =>
-            this.ReportExceptionsWithin(ServiceEventSource.Current, () => SaveUserDataImpl(userId, userData));
+            this.ReportExceptionsWithin(this.logger, (logger) => SaveUserDataImpl(logger, userId, userData));
 
-        internal async Task<UserData> SaveUserDataImpl(string userId, UserData userData)
+        internal async Task<UserData> SaveUserDataImpl(ILogger logger, string userId, UserData userData)
         {
-            ServiceEventSource.Current.Message("SaveUserData: '{0}'", userId);
-
-            ServiceEventSource.Current.Message("Saving user data.");
+            logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userData);
             var userDataEntity = userData.ToEntity(userId);
             await this.usersContainer.Items.UpsertItemAsync(userId, userDataEntity);
-            ServiceEventSource.Current.Message("User data saved.");
+            logger.Debug("Data saved for user {UserId}: {@UserData}", userId, userData);
 
-            ServiceEventSource.Current.Message("Indexing user data.");
             var elasticClient = GetElasticClient();
             var indexResult = await elasticClient.IndexDocumentAsync(userDataEntity);
 
             if (!indexResult.IsValid)
             {
-                ServiceEventSource.Current.Message("Failed to index user: {0}", indexResult.OriginalException);
                 throw new InvalidOperationException("Failed to index user.", indexResult.OriginalException);
             }
 
@@ -88,89 +89,87 @@ namespace Users
         }
 
         public Task<UserSession> GetUserSession(string refreshToken) =>
-            this.ReportExceptionsWithin(ServiceEventSource.Current, () => GetUserSessionImpl(refreshToken));
+            this.ReportExceptionsWithin(this.logger, (logger) => GetUserSessionImpl(logger, refreshToken));
 
-        internal async Task<UserSession> GetUserSessionImpl(string refreshToken)
+        internal async Task<UserSession> GetUserSessionImpl(ILogger logger, string refreshToken)
         {
-            ServiceEventSource.Current.Message("GetSession: '{0}'", refreshToken);
-
-            ServiceEventSource.Current.Message("Validating refresh token.");
+            logger.Debug("Validating refresh token {RefreshToken}", refreshToken);
             var validationResults = TokenManager.ValidateRefreshToken(refreshToken);
 
             if (!validationResults.IsValid)
             {
+                logger.Warning("Refresh token {RefreshToken} is invalid", refreshToken);
                 throw new InvalidOperationException("Invalid refresh token.");
             }
 
             var userId = validationResults.UserId;
 
-            ServiceEventSource.Current.Message("Getting user session.");
+            logger.Debug("Getting session for user {UserId}, refresh token {RefreshToken}", userId, refreshToken);
             var userSessionResponse = await this.sessionsContainer.Items.ReadItemAsync<UserSessionEntity>(userId, UserSessionIdHelper.GetIdFrom(refreshToken));
 
             if (userSessionResponse.StatusCode == HttpStatusCode.NotFound)
             {
+                logger.Warning("No session found for user {UserId}, refresh token {RefreshToken}", userId, refreshToken);
                 return null;
             }
 
             var userSession = userSessionResponse.Resource;
+            logger.Debug("Resolved session for user {UserId}: {@UserSession}", userId, userSession);
 
             return userSession.ToServiceObject();
         }
 
         public Task<UserSession> SaveUserSession(UserSession userSession) =>
-            this.ReportExceptionsWithin(ServiceEventSource.Current, () => SaveUserSessionImpl(userSession));
+            this.ReportExceptionsWithin(this.logger, (logger) => SaveUserSessionImpl(logger, userSession));
 
-        internal async Task<UserSession> SaveUserSessionImpl(UserSession userSession)
+        internal async Task<UserSession> SaveUserSessionImpl(ILogger logger, UserSession userSession)
         {
-            ServiceEventSource.Current.Message("SaveUserSession: '{0}'", userSession.RefreshToken);
-
-            ServiceEventSource.Current.Message("Validating refresh token.");
-            var validationResults = TokenManager.ValidateRefreshToken(userSession.RefreshToken);
+            var refreshToken = userSession.RefreshToken;
+            logger.Debug("Validating refresh token {RefreshToken}", refreshToken);
+            var validationResults = TokenManager.ValidateRefreshToken(refreshToken);
 
             if (!validationResults.IsValid)
             {
+                logger.Warning("Refresh token {RefreshToken} is invalid", refreshToken);
                 throw new InvalidOperationException("Invalid refresh token.");
             }
 
             var userId = validationResults.UserId;
-
-            ServiceEventSource.Current.Message("Saving user session.");
             var userSessionEntity = userSession.ToEntity();
+
+            logger.Debug("Saving session for user {UserId}: {UserSession}", userId, userSessionEntity);
             await this.sessionsContainer.Items.CreateItemAsync(userId, userSessionEntity);
-            ServiceEventSource.Current.Message("User session saved.");
+            logger.Information("Session for user {UserId} has been saved: {UserSession}", userId, userSessionEntity);
 
             return userSession;
         }
 
         public Task InvalidateUserSession(string refreshToken) =>
-            this.ReportExceptionsWithin(ServiceEventSource.Current, () => InvalidateUserSessionImpl(refreshToken));
+            this.ReportExceptionsWithin(this.logger, (logger) => InvalidateUserSessionImpl(logger, refreshToken));
 
-        internal async Task InvalidateUserSessionImpl(string refreshToken)
+        internal async Task InvalidateUserSessionImpl(ILogger logger, string refreshToken)
         {
-            ServiceEventSource.Current.Message("InvalidateUserSession: '{0}'", refreshToken);
-
-            ServiceEventSource.Current.Message("Validating refresh token.");
+            logger.Debug("Validating refresh token {RefreshToken}", refreshToken);
             var validationResults = TokenManager.ValidateRefreshToken(refreshToken);
 
             if (!validationResults.IsValid)
             {
+                logger.Warning("Refresh token {RefreshToken} is invalid", refreshToken);
                 throw new InvalidOperationException("Invalid refresh token.");
             }
 
             var userId = validationResults.UserId;
 
-            ServiceEventSource.Current.Message("Deleting user session.");
+            logger.Debug("Deleting session for user {UserId}, refresh token {RefreshToken}", userId, refreshToken);
             await this.sessionsContainer.Items.DeleteItemAsync<UserSessionEntity>(userId, UserSessionIdHelper.GetIdFrom(refreshToken));
-            ServiceEventSource.Current.Message("User session invalidated.");
+            logger.Information("Session for user {UserId} with refresh token {RefreshToken} has been invalidated", userId, refreshToken);
         }
 
         public Task<SearchResults> Search(SearchFilter searchFilter) =>
-            this.ReportExceptionsWithin(ServiceEventSource.Current, () => SearchImpl(searchFilter));
+            this.ReportExceptionsWithin(this.logger, (logger) => SearchImpl(logger, searchFilter));
 
-        internal async Task<SearchResults> SearchImpl(SearchFilter searchFilter)
+        internal async Task<SearchResults> SearchImpl(ILogger logger, SearchFilter searchFilter)
         {
-            ServiceEventSource.Current.Message("Search.");
-
             return null;
         }
 
@@ -194,10 +193,6 @@ namespace Users
             var uri = new Uri(configuration.Parameters["Uri"].Value);
             var userName = configuration.Parameters["UserName"].Value;
             var password = configuration.Parameters["Password"].Value;
-
-            ServiceEventSource.Current.Message("Elastic Search URI: {0}", uri);
-            ServiceEventSource.Current.Message("Elastic Search user name: {0}", userName);
-            ServiceEventSource.Current.Message("Elastic Search password: {0}", password);
 
             var connectionSettings = new ConnectionSettings(uri)
                 .DefaultMappingFor<UserDataEntity>(m => m.IndexName("users").TypeName("_doc").IdProperty(p => p.UserId).Ignore(p => p.LoginToken))

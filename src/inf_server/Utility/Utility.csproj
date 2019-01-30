@@ -6,12 +6,20 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Genesis.Ensure" />
         <PackageReference Include="Microsoft.Azure.Cosmos" />
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="NodaTime" />
         <PackageReference Include="NodaTime.Serialization.JsonNet" />
+        <PackageReference Include="Serilog" />
+        <PackageReference Include="Serilog.Enrichers.Memory" />
+        <PackageReference Include="Serilog.Enrichers.Process" />
+        <PackageReference Include="Serilog.Enrichers.Thread" />
+        <PackageReference Include="Serilog.Sinks.AzureTableStorage" />
+        <PackageReference Include="Serilog.Sinks.Debug" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+        <PackageReference Include="WindowsAzure.Storage" />
 
         <PackageReference Include="xunit" />
     </ItemGroup>

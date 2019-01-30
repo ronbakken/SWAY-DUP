@@ -3,26 +3,36 @@ using System.Fabric;
 using System.Fabric.Health;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Genesis.Ensure;
 using Grpc.Core;
+using Serilog;
 
 namespace API.Services
 {
     public static class APISanitizer
     {
-        public static T Sanitize<T>(Func<T> execute, [CallerMemberName]string caller = "")
+        public static T Sanitize<T>(ILogger logger, Func<ILogger, T> execute, [CallerMemberName]string caller = "")
         {
+            Ensure.ArgumentNotNull(logger, nameof(logger));
+            Ensure.ArgumentNotNull(execute, nameof(execute));
+
+            var executeLogger = logger
+                .ForContext("API", caller)
+                .ForContext("CorrelationId", Guid.NewGuid());
+            executeLogger.Verbose("Executing");
+
             try
             {
-                return execute();
+                return execute(executeLogger);
             }
             catch (RpcException ex)
             {
-                ServiceEventSource.Current.Message("Expected failure whilst invoking API, caller '{0}'. Exception was: '{1}'.", caller, ex);
+                logger.Warning(ex, "Expected failure whilst invoking API, caller {Caller}", caller);
                 throw;
             }
             catch (Exception ex)
             {
-                ServiceEventSource.Current.Failure(ex, "Unexpected failure whilst invoking API, caller '{0}'.", caller);
+                logger.Error(ex, "Unexpected failure whilst invoking API, caller {Caller}", caller);
 
                 var codePackageActivationContext = FabricRuntime.GetActivationContext();
                 SendHealthReport(
@@ -31,23 +41,35 @@ namespace API.Services
                     ex);
 
                 throw;
+            }
+            finally
+            {
+                executeLogger.Verbose("Execution complete");
             }
         }
 
-        public static async Task<T> Sanitize<T>(Func<Task<T>> execute, [CallerMemberName]string caller = "")
+        public static async Task<T> Sanitize<T>(ILogger logger, Func<ILogger, Task<T>> execute, [CallerMemberName]string caller = "")
         {
+            Ensure.ArgumentNotNull(logger, nameof(logger));
+            Ensure.ArgumentNotNull(execute, nameof(execute));
+
+            var executeLogger = logger
+                .ForContext("API", caller)
+                .ForContext("CorrelationId", Guid.NewGuid());
+            executeLogger.Verbose("Executing");
+
             try
             {
-                return await execute();
+                return await execute(executeLogger);
             }
             catch (RpcException ex)
             {
-                ServiceEventSource.Current.Message("Expected failure whilst invoking API, caller '{0}'. Exception was: '{1}'.", caller, ex);
+                logger.Warning(ex, "Expected failure whilst invoking API, caller {Caller}", caller);
                 throw;
             }
             catch (Exception ex)
             {
-                ServiceEventSource.Current.Failure(ex, "Unexpected failure whilst invoking API, caller '{0}'.", caller);
+                logger.Error(ex, "Unexpected failure whilst invoking API, caller {Caller}", caller);
 
                 var codePackageActivationContext = FabricRuntime.GetActivationContext();
                 SendHealthReport(
@@ -56,6 +78,10 @@ namespace API.Services
                     ex);
 
                 throw;
+            }
+            finally
+            {
+                executeLogger.Verbose("Execution complete");
             }
         }
 

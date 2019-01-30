@@ -3,21 +3,33 @@ using System.Fabric;
 using System.Fabric.Health;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Genesis.Ensure;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Serilog;
 
 namespace Utility.Diagnostics
 {
     public static class ServiceExtensions
     {
-        public static T ReportExceptionsWithin<T>(this StatelessService @this, IFailureEventSource eventSource, Func<T> execute, [CallerMemberName]string caller = "")
+        public static T ReportExceptionsWithin<T>(this StatelessService @this, ILogger logger, Func<ILogger, T> execute, [CallerMemberName]string caller = "")
         {
+            Ensure.ArgumentNotNull(logger, nameof(logger));
+            Ensure.ArgumentNotNull(execute, nameof(execute));
+
+            var serviceName = @this.Context.ServiceName.ToString();
+            var executeLogger = logger
+                .ForContext("ServiceName", serviceName)
+                .ForContext("Procedure", caller)
+                .ForContext("CorrelationId", Guid.NewGuid());
+            executeLogger.Verbose("Executing");
+
             try
             {
-                return execute();
+                return execute(executeLogger);
             }
             catch (Exception ex)
             {
-                eventSource.Failure(ex, "Failed whilst invoking service '{0}', caller '{1}'.", @this.Context.ServiceName.ToString(), caller);
+                logger.Error(ex, "Failed whilst executing service");
 
                 SendHealthReport(
                     @this.Context.CodePackageActivationContext,
@@ -25,18 +37,32 @@ namespace Utility.Diagnostics
                     caller,
                     ex);
                 throw;
+            }
+            finally
+            {
+                executeLogger.Verbose("Execution complete");
             }
         }
 
-        public static async Task<T> ReportExceptionsWithin<T>(this StatelessService @this, IFailureEventSource eventSource, Func<Task<T>> execute, [CallerMemberName]string caller = "")
+        public static async Task<T> ReportExceptionsWithin<T>(this StatelessService @this, ILogger logger, Func<ILogger, Task<T>> execute, [CallerMemberName]string caller = "")
         {
+            Ensure.ArgumentNotNull(logger, nameof(logger));
+            Ensure.ArgumentNotNull(execute, nameof(execute));
+
+            var serviceName = @this.Context.ServiceName.ToString();
+            var executeLogger = logger
+                .ForContext("ServiceName", serviceName)
+                .ForContext("Procedure", caller)
+                .ForContext("CorrelationId", Guid.NewGuid());
+            executeLogger.Verbose("Executing");
+
             try
             {
-                return await execute();
+                return await execute(executeLogger);
             }
             catch (Exception ex)
             {
-                eventSource.Failure(ex, "Failed whilst invoking service '{0}', caller '{1}'.", @this.Context.ServiceName.ToString(), caller);
+                logger.Error(ex, "Failed whilst executing service");
 
                 SendHealthReport(
                     @this.Context.CodePackageActivationContext,
@@ -44,6 +70,10 @@ namespace Utility.Diagnostics
                     caller,
                     ex);
                 throw;
+            }
+            finally
+            {
+                executeLogger.Verbose("Execution complete");
             }
         }
 

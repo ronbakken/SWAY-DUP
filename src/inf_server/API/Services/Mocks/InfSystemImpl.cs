@@ -6,10 +6,7 @@ namespace API.Services.Mocks
 {
     class InfSystemImpl : InfSystem.InfSystemBase
     {
-        public override Task<AliveMessage> PingServer(Empty request, ServerCallContext context)
-        {
-            ServiceEventSource.Current.Message("Ping received.");
-            return Task.FromResult(new AliveMessage());
-        }
+        public override Task<AliveMessage> PingServer(Empty request, ServerCallContext context) =>
+            Task.FromResult(new AliveMessage());
     }
 }

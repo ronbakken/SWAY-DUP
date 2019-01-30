@@ -17,6 +17,7 @@
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="NodaTime" />
         <PackageReference Include="Optional" />
+        <PackageReference Include="SerilogAnalyzer" />
     </ItemGroup>
 
     <ItemGroup>

@@ -9,6 +9,7 @@
         -->
     <Parameter Name="UserStorageAccountConnectionString" Value="$USER_STORAGE_ACCOUNT_CONNECTION_STRING" />
     <Parameter Name="DatabaseAccountConnectionString" Value="$DATABASE_ACCOUNT_CONNECTION_STRING" />
+    <Parameter Name="LoggingStorageAccountConnectionString" Value="$LOGGING_STORAGE_ACCOUNT_CONNECTION_STRING" />
     <Parameter Name="ElasticSearchUri" Value="$ELASTIC_SEARCH_URI" />
     <Parameter Name="ElasticSearchUserName" Value="$ELASTIC_SEARCH_USER_NAME" />
     <Parameter Name="ElasticSearchPassword" Value="$ELASTIC_SEARCH_PASSWORD" />

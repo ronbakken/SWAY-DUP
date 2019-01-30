@@ -3,6 +3,9 @@
     <Section Name="Database">
         <Parameter Name="ConnectionString" Value="" />
     </Section>
+    <Section Name="Logging">
+        <Parameter Name="StorageConnectionString" Value="" />
+    </Section>
     <Section Name="Search">
         <Parameter Name="Uri" Value="" />
         <Parameter Name="UserName" Value="" />

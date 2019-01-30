@@ -18,6 +18,13 @@
         <PackageReference Update="NodaTime.Serialization.JsonNet" Version="2.1.0" />
         <PackageReference Update="Optional" Version="4.0.0" />
         <PackageReference Update="Sendgrid" Version="9.10.0" />
+        <PackageReference Update="Serilog" Version="2.8.0" />
+        <PackageReference Update="Serilog.Enrichers.Memory" Version="1.0.4" />
+        <PackageReference Update="Serilog.Enrichers.Process" Version="2.0.1" />
+        <PackageReference Update="Serilog.Enrichers.Thread" Version="3.0.1-dev-00728" />
+        <PackageReference Update="Serilog.Sinks.AzureTableStorage" Version="5.0.0-dev-00116" />
+        <PackageReference Update="Serilog.Sinks.Debug" Version="1.0.2-dev-00020" />
+        <PackageReference Update="SerilogAnalyzer" Version="0.15.0" />
         <PackageReference Update="System.Collections.Immutable" Version="1.5.0" />
         <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="5.3.0" />
         <PackageReference Update="xunit" Version="2.4.1" />

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Fabric;
 using System.Threading;
 using Microsoft.ServiceFabric.Services.Runtime;
-using Newtonsoft.Json;
-using Utility.Serialization;
+using Utility;
 
 namespace InvitationCodes
 {
@@ -14,6 +14,11 @@ namespace InvitationCodes
         /// </summary>
         private static void Main()
         {
+            var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject("Config");
+            var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
+            var logger = Logging.GetLogger("InvitationCodes-Program", logStorageConnectionString);
+            var serviceType = "InvitationCodesType";
+
             try
             {
                 // The ServiceManifest.XML file defines one or more service type names.
@@ -24,14 +29,15 @@ namespace InvitationCodes
                 ServiceRuntime.RegisterServiceAsync("InvitationCodesType",
                     context => new InvitationCodes(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(InvitationCodes).Name);
+                var processId = Process.GetCurrentProcess().Id;
+                logger.Information("Service type {ServiceType} was registered into process {ProcessId}", serviceType, processId);
 
                 // Prevents this host process from terminating so services keep running.
                 Thread.Sleep(Timeout.Infinite);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                ServiceEventSource.Current.ServiceHostInitializationFailed(e.ToString());
+                logger.Fatal(ex, "Service type {ServiceType} could not be registered", serviceType);
                 throw;
             }
         }
