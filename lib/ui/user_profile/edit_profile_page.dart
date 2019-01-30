@@ -191,6 +191,8 @@ class _UserDataViewState extends State<UserDataView> {
       SizedBox(height: 16)
     ]);
 
+    var mediaQuery = MediaQuery.of(context);
+
     return WillPopScope(
       onWillPop: () async {
         // if we are filling out a new users profile there is no back
@@ -211,51 +213,54 @@ class _UserDataViewState extends State<UserDataView> {
         children: <Widget>[
           Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Stack(
-                    children: [
-                      newUser && selectedImageFile == null
-                          ? _ProfilePicturePlaceHolder(
-                              onCameraTap: () => onSelectImage(true),
-                              onLibraryTap: () => onSelectImage(false),
-                            )
-                          : ProfileSummary(
-                              user: user,
-                              showOnlyImage: true,
-                              heightImagePercentage: 1.0,
-                              gradientStop: 0.9,
-                              imageFile: selectedImageFile,
-                            ),
-                      // Only show editbutton if there is already an image
-                      !newUser || selectedImageFile != null
-                          ? Positioned(
-                              right: 16,
-                              top: 32,
-                              child: InkResponse(
-                                onTap: onEditImage,
-                                child: InfAssetImage(
-                                  AppIcons.edit,
-                                  width: 32,
-                                ),
+              child: Padding(
+                padding: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(
+                      children: [
+                        newUser && selectedImageFile == null
+                            ? _ProfilePicturePlaceHolder(
+                                onCameraTap: () => onSelectImage(true),
+                                onLibraryTap: () => onSelectImage(false),
+                              )
+                            : ProfileSummary(
+                                user: user,
+                                showOnlyImage: true,
+                                heightImagePercentage: 1.0,
+                                gradientStop: 0.9,
+                                imageFile: selectedImageFile,
                               ),
-                            )
-                          : SizedBox()
-                    ],
-                  ),
-                  Form(
-                    onChanged: () => setState(() => hasChanged = true),
-                    key: formKey,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: columnItems),
+                        // Only show editbutton if there is already an image
+                        !newUser || selectedImageFile != null
+                            ? Positioned(
+                                right: 16,
+                                top: 32,
+                                child: InkResponse(
+                                  onTap: onEditImage,
+                                  child: InfAssetImage(
+                                    AppIcons.edit,
+                                    width: 32,
+                                  ),
+                                ),
+                              )
+                            : SizedBox()
+                      ],
                     ),
-                  )
-                ],
+                    Form(
+                      onChanged: () => setState(() => hasChanged = true),
+                      key: formKey,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: columnItems),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -288,7 +293,7 @@ class _UserDataViewState extends State<UserDataView> {
     selectedImageFile =
         camera ? await backend.get<ImageService>().takePicture() : await backend.get<ImageService>().pickImage();
     if (selectedImageFile != null) {
-      setState(() {});
+      setState(() { hasChanged = true;});
     }
   }
 
@@ -328,7 +333,7 @@ class _UserDataViewState extends State<UserDataView> {
           ),
           profilePicture: selectedImageFile);
       backend.get<UserManager>().updateUserCommand(userData);
-      setState(() => hasChanged = false);
+ 
     }
     else
     {

@@ -6,11 +6,10 @@ import 'package:inf/backend/services/image_service_.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:http/http.dart' as http;
 
-
 class ImageServiceImplementation implements ImageService {
   @override
   Future<File> pickImage() async {
-    return await ImagePicker.pickImage(source: ImageSource.gallery,maxHeight: 800, maxWidth: 800);
+    return await ImagePicker.pickImage(source: ImageSource.gallery, maxHeight: 800, maxWidth: 800);
   }
 
   @override
@@ -20,33 +19,29 @@ class ImageServiceImplementation implements ImageService {
 
   @override
   Future<String> uploadImageFromBytes(String fileName, List<int> value) async {
-    var cloudUrls = await backend
-        .get<InfApiClientsService>()
-        .blobStorageClient
-        .getUploadUrl(GetUploadUrlRequest()..fileName = fileName, options: backend
-        .get<AuthenticationService>().callOptions);
+    var cloudUrls = await backend.get<InfApiClientsService>().blobStorageClient.getUploadUrl(
+          GetUploadUrlRequest()..fileName = fileName,
+          options: backend.get<AuthenticationService>().callOptions,
+        );
 
-    if (cloudUrls == null)
-    {
+    if (cloudUrls == null) {
       throw ImageUploadException("No Url from server");
     }
 
-    Map<String,String> headers = <String,String>{};
+    Map<String, String> headers = <String, String>{};
     headers['x-ms-blob-type'] = 'BlockBlob';
     var response = await http.put(cloudUrls.uploadUrl, headers: headers, body: value);
     if (response.statusCode == 201) {
       print(cloudUrls.publicUrl);
       return cloudUrls.publicUrl;
-    }
-    else
-    {
+    } else {
       throw ImageUploadException(cloudUrls.uploadUrl);
     }
   }
 
   @override
   Future<File> takePicture() async {
-    return await ImagePicker.pickImage(source: ImageSource.camera,maxHeight: 800, maxWidth: 800);
+    return await ImagePicker.pickImage(source: ImageSource.camera, maxHeight: 800, maxWidth: 800);
   }
 
   @override

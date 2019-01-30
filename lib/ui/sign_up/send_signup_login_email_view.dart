@@ -203,7 +203,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         backend.get<UserManager>().sendLoginEmailCommand(
               LoginEmailInfo(
                 email: _emailAddress,
-                invitationCode: _invitationCode,
+                invitationCode: _invitationCode ?? '',
                 userType: widget.userType,
               ),
             );

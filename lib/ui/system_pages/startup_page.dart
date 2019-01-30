@@ -8,6 +8,7 @@ import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/sign_up/activation_success_page.dart';
 import 'package:inf/ui/system_pages/no_connection_page.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/backend/backend.dart';
@@ -42,15 +43,13 @@ class _StartupPageState extends PageState<StartupPage> {
       onValue: (loginSuccess) {
         Route nextPage;
         if (loginSuccess) {
-          // we got started with an login token wirh a new user we jump to a different startup page
-          if ((_loginToken != null) && backend.get<UserManager>().currentUser.accountState == AccountState.waitingForActivation)
-          {
+          // we got started with an login token with a new user we jump to a different startup page
+          if ((_loginToken != null) &&
+              _loginToken.accountState == AccountState.waitingForActivation) {
             Navigator.of(context).pushReplacement(WelcomeRoute());
-            Navigator.of(context).push(ActivationSuccessPage.route(null));
+            Navigator.of(context).push(ActivationSuccessPage.route(_loginToken.userType));
             return;
-          }
-          else
-          {
+          } else {
             nextPage = MainPage.route();
           }
         } else {
@@ -78,9 +77,17 @@ class _StartupPageState extends PageState<StartupPage> {
       // context, 'Debug', initialUri.toString());
       if (initialUri != null && initialUri.queryParameters.containsKey('token')) {
         {
-// TODO          _loginToken = initialUri.queryParameters['token'];
+          try {
+            _loginToken = LoginToken.fromJwt(initialUri.queryParameters['token']);
+          } catch (ex) {
+            await showMessageDialog(
+                context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
+          }
         }
       }
+
+      // if _loginToken == null this will try to login with a stored
+      // refresh-token
       loginCommand.execute(_loginToken);
     });
   }
