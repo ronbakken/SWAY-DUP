@@ -51,19 +51,12 @@ namespace API
                 .GetActivationContext()
                 .GetEndpoint("ServiceEndpoint");
 
-            var authorizationInterceptor = new AuthorizationInterceptor();
+            var authorizationInterceptor = new AuthorizationInterceptor(this.log);
 
             server = new Server
             {
                 Services =
                 {
-                    // Mocks
-                    //InfApi.BindService(new Mocks.InfApiImpl()),
-                    //InfAuth.BindService(new Mocks.InfAuthImpl()),
-                    //InfConfig.BindService(new Mocks.InfConfigImpl()),
-                    //InfSystem.BindService(new Mocks.InfSystemImpl()),
-
-                    // Real APIs
                     InfApi.BindService(new Mocks.InfApiImpl()).Intercept(authorizationInterceptor),
                     InfAuth.BindService(new InfAuthImpl()).Intercept(authorizationInterceptor),
                     InfBlobStorage.BindService(new InfBlobStorageImpl()).Intercept(authorizationInterceptor),

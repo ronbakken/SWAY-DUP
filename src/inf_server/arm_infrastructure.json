@@ -384,21 +384,21 @@
                                           },
                                           {
                                              "provider": "INF-server-API",
-                                             "scheduledTransferPeriod": "PT5M",
+                                             "scheduledTransferPeriod": "PT1M",
                                              "DefaultEvents": {
                                                 "eventDestination": "ServiceFabricAPIEventTable"
                                              }
                                           },
                                           {
                                              "provider": "INF-server-InvitationCodes",
-                                             "scheduledTransferPeriod": "PT5M",
+                                             "scheduledTransferPeriod": "PT1M",
                                              "DefaultEvents": {
                                                 "eventDestination": "ServiceFabricAPIEventTable"
                                              }
                                           },
                                           {
                                              "provider": "INF-server-Users",
-                                             "scheduledTransferPeriod": "PT5M",
+                                             "scheduledTransferPeriod": "PT1M",
                                              "DefaultEvents": {
                                                 "eventDestination": "ServiceFabricAPIEventTable"
                                              }

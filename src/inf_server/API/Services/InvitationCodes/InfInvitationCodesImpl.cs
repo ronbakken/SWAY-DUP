@@ -15,12 +15,16 @@ namespace API.Services.InvitationCodes
             APISanitizer.Sanitize(
                 async () =>
                 {
+                    ServiceEventSource.Current.Message("GenerateInvitationCode.");
+
                     var service = GetInvitationCodesService();
                     var invitationCode = await service.Generate();
                     var response = new GenerateInvitationCodeResponse
                     {
                         InvitationCode = invitationCode,
                     };
+
+                    ServiceEventSource.Current.Message("Generated invitation code '{0}'.", invitationCode);
 
                     return response;
                 });
@@ -29,6 +33,8 @@ namespace API.Services.InvitationCodes
             APISanitizer.Sanitize(
                 async () =>
                 {
+                    ServiceEventSource.Current.Message("GetInvitationCodeStatus.");
+
                     var service = GetInvitationCodesService();
                     var status = await service.GetStatus(request.InvitationCode);
                     var response = new GetInvitationCodeStatusResponse

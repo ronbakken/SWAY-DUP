@@ -18,7 +18,7 @@ namespace API.Services.BlobStorage
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    ServiceEventSource.Instance.Info("GetUploadUrl.");
+                    ServiceEventSource.Current.Message("GetUploadUrl.");
 
                     var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject("Config");
                     var storageConnectionString = configurationPackage.Settings.Sections["Storage"].Parameters["ConnectionString"].Value;
@@ -34,17 +34,17 @@ namespace API.Services.BlobStorage
                             new StringBuilder(),
                             (sb, next) => sb.Append(next),
                             sb => sb.ToString());
-                    ServiceEventSource.Instance.Info("Computed hash of user ID '{0}' is '{1}', which will be used as the container name.", userId, userIdHash);
+                    ServiceEventSource.Current.Message("Computed hash of user ID '{0}' is '{1}', which will be used as the container name.", userId, userIdHash);
 
                     var containerName = userIdHash;
                     var container = blobClient.GetContainerReference(containerName);
 
-                    ServiceEventSource.Instance.Info("Ensuring storage container exists.");
+                    ServiceEventSource.Current.Message("Ensuring storage container exists.");
                     await container.CreateIfNotExistsAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions { }, new OperationContext { }, context.CancellationToken);
 
                     var blob = container.GetBlockBlobReference(request.FileName);
 
-                    ServiceEventSource.Instance.Info("Creating shared access token.");
+                    ServiceEventSource.Current.Message("Creating shared access token.");
                     var sas = new SharedAccessBlobPolicy
                     {
                         SharedAccessExpiryTime = DateTime.UtcNow.AddHours(1),

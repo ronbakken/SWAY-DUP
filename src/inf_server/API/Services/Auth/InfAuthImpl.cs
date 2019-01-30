@@ -35,7 +35,7 @@ namespace API.Services.Auth
             IEmailService emailService,
             CancellationToken cancellationToken)
         {
-            ServiceEventSource.Instance.Info("SendLoginEmail.");
+            ServiceEventSource.Current.Message("SendLoginEmail.");
 
             var userId = request.Email;
             var userData = await usersService.GetUserData(userId);
@@ -52,7 +52,7 @@ namespace API.Services.Auth
             {
                 if (userData == null)
                 {
-                    ServiceEventSource.Instance.Warn("User '{0}' should already exist, but no data was found for them.", userId);
+                    ServiceEventSource.Current.Message("User '{0}' should already exist, but no data was found for them.", userId);
 
                     // Help mitigate "timing" attacks.
                     await Task.Delay(random.Next(100, 1000));
@@ -62,13 +62,13 @@ namespace API.Services.Auth
 
                 userType = userData.Type.ToDto();
                 userStatus = userData.Status;
-                ServiceEventSource.Instance.Info("User '{0}' was found, and they are of type '{1}', status '{2}'.", userId, userType, userStatus);
+                ServiceEventSource.Current.Message("User '{0}' was found, and they are of type '{1}', status '{2}'.", userId, userType, userStatus);
             }
             else
             {
                 if (userData != null)
                 {
-                    ServiceEventSource.Instance.Warn("User '{0}' should not exist, but data was found for them.", userId);
+                    ServiceEventSource.Current.Message("User '{0}' should not exist, but data was found for them.", userId);
 
                     // Help mitigate "timing" attacks.
                     await Task.Delay(random.Next(100, 1000));
@@ -79,14 +79,14 @@ namespace API.Services.Auth
                 userData = UserData.Initial;
             }
 
-            ServiceEventSource.Instance.Info("Generating login token.");
+            ServiceEventSource.Current.Message("Generating login token.");
             var loginToken = TokenManager.GenerateLoginToken(
                 userId,
                 userStatus.ToString(),
                 userType.ToString(),
                 request.InvitationCode);
 
-            ServiceEventSource.Instance.Info("Saving user data.");
+            ServiceEventSource.Current.Message("Saving user data.");
             userData = userData
                 .With(
                     type: Option.Some(userType.ToServiceObject()),
@@ -94,7 +94,7 @@ namespace API.Services.Auth
                     loginToken: Option.Some(loginToken));
             await usersService.SaveUserData(userId, userData);
 
-            ServiceEventSource.Instance.Info("Sending verification email.");
+            ServiceEventSource.Current.Message("Sending verification email.");
             var link = $"https://infmarketplace.com/app/verify?token={loginToken}";
             await emailService.SendVerificationEmail(
                 userId,
@@ -107,12 +107,12 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    ServiceEventSource.Instance.Info("CreateNewUser.");
+                    ServiceEventSource.Current.Message("CreateNewUser.");
 
-                    ServiceEventSource.Instance.Info("Validating login token.");
+                    ServiceEventSource.Current.Message("Validating login token.");
                     var loginTokenValidationResults = TokenManager.ValidateLoginToken(request.LoginToken);
 
-                    ServiceEventSource.Instance.Info("Validating user status.");
+                    ServiceEventSource.Current.Message("Validating user status.");
                     var userId = loginTokenValidationResults.UserId;
                     var usersService = GetUsersService();
                     var userData = await usersService.GetUserData(userId);
@@ -122,7 +122,7 @@ namespace API.Services.Auth
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' is not awaiting activation."));
                     }
 
-                    ServiceEventSource.Instance.Info("Honoring invitation code.");
+                    ServiceEventSource.Current.Message("Honoring invitation code.");
                     var invitationCode = loginTokenValidationResults.InvitationCode;
                     var invitationCodesService = GetInvitationCodesService();
                     var honorResult = await invitationCodesService.Honor(invitationCode);
@@ -132,13 +132,13 @@ namespace API.Services.Auth
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, "Could not honor invitation code."));
                     }
 
-                    ServiceEventSource.Instance.Info("Generating refresh token.");
+                    ServiceEventSource.Current.Message("Generating refresh token.");
                     var refreshToken = TokenManager.GenerateRefreshToken(loginTokenValidationResults.UserId, loginTokenValidationResults.UserType);
 
-                    ServiceEventSource.Instance.Info("Saving user session.");
+                    ServiceEventSource.Current.Message("Saving user session.");
                     await usersService.SaveUserSession(new UserSession(refreshToken, request.DeviceId));
 
-                    ServiceEventSource.Instance.Info("Updating user data.");
+                    ServiceEventSource.Current.Message("Updating user data.");
                     userData = request
                         .UserData
                         .ToServiceObject(
@@ -160,13 +160,13 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    ServiceEventSource.Instance.Info("LoginWithLoginToken.");
+                    ServiceEventSource.Current.Message("LoginWithLoginToken.");
 
-                    ServiceEventSource.Instance.Info("Validating login token.");
+                    ServiceEventSource.Current.Message("Validating login token.");
                     var loginToken = request.LoginToken;
                     var validationResult = TokenManager.ValidateLoginToken(loginToken);
 
-                    ServiceEventSource.Instance.Info("Getting user data.");
+                    ServiceEventSource.Current.Message("Getting user data.");
                     var userId = validationResult.UserId;
                     var userType = validationResult.UserType;
                     var usersService = GetUsersService();
@@ -182,10 +182,10 @@ namespace API.Services.Auth
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, $"Provided login token does not match against the data for user '{userId}'."));
                     }
 
-                    ServiceEventSource.Instance.Info("Generating refresh token.");
+                    ServiceEventSource.Current.Message("Generating refresh token.");
                     var refreshToken = TokenManager.GenerateRefreshToken(userId, userType);
 
-                    ServiceEventSource.Instance.Info("Updating user session.");
+                    ServiceEventSource.Current.Message("Updating user session.");
                     var userSession = await usersService.GetUserSession(refreshToken);
 
                     userSession = userSession.With(
@@ -193,7 +193,7 @@ namespace API.Services.Auth
 
                     await usersService.SaveUserSession(userSession);
 
-                    ServiceEventSource.Instance.Info("Saving user data.");
+                    ServiceEventSource.Current.Message("Saving user data.");
                     userData = userData.With(
                         loginToken: Option.Some<string>(null));
                     await usersService.SaveUserData(userId, userData);
@@ -211,18 +211,18 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    ServiceEventSource.Instance.Info("LoginWithRefreshToken.");
+                    ServiceEventSource.Current.Message("LoginWithRefreshToken.");
 
-                    ServiceEventSource.Instance.Info("Validating refresh token.");
+                    ServiceEventSource.Current.Message("Validating refresh token.");
                     var refreshToken = request.RefreshToken;
                     var validationResult = TokenManager.ValidateRefreshToken(refreshToken);
 
-                    ServiceEventSource.Instance.Info("Retrieving user data.");
+                    ServiceEventSource.Current.Message("Retrieving user data.");
                     var userId = validationResult.UserId;
                     var usersService = GetUsersService();
                     var userData = await usersService.GetUserData(userId);
 
-                    ServiceEventSource.Instance.Info("Validating refresh token.");
+                    ServiceEventSource.Current.Message("Validating refresh token.");
                     var userSession = usersService.GetUserSession(refreshToken);
 
                     if (userSession == null)
@@ -230,7 +230,7 @@ namespace API.Services.Auth
                         throw new RpcException(new Status(StatusCode.PermissionDenied, "Provided refresh token is invalid."));
                     }
 
-                    ServiceEventSource.Instance.Info("Generating access token.");
+                    ServiceEventSource.Current.Message("Generating access token.");
                     var accessToken = TokenManager.GenerateAccessToken(userId, userData.Type.ToString());
 
                     var result = new LoginWithRefreshTokenResponse
@@ -246,13 +246,13 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    ServiceEventSource.Instance.Info("GetAccessToken.");
+                    ServiceEventSource.Current.Message("GetAccessToken.");
 
                     var refreshTokenValidationResult = TokenManager.ValidateRefreshToken(request.RefreshToken);
                     var userId = refreshTokenValidationResult.UserId;
                     var userType = refreshTokenValidationResult.UserType;
 
-                    ServiceEventSource.Instance.Info("Validating refresh token.");
+                    ServiceEventSource.Current.Message("Validating refresh token.");
                     var usersService = GetUsersService();
                     var userSession = await usersService.GetUserSession(request.RefreshToken);
 
@@ -261,7 +261,7 @@ namespace API.Services.Auth
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, "Session not found for user '{userId}' with the specified refresh token."));
                     }
 
-                    ServiceEventSource.Instance.Info("Generating access token.");
+                    ServiceEventSource.Current.Message("Generating access token.");
                     var accessToken = TokenManager.GenerateAccessToken(userId, userType);
 
                     var result = new GetAccessTokenResponse
@@ -276,9 +276,9 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    ServiceEventSource.Instance.Info("GetUser.");
+                    ServiceEventSource.Current.Message("GetUser.");
 
-                    ServiceEventSource.Instance.Info("Getting user data.");
+                    ServiceEventSource.Current.Message("Getting user data.");
                     var usersService = GetUsersService();
                     var userId = request.UserId;
                     var userData = await usersService.GetUserData(userId);
@@ -293,9 +293,9 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    ServiceEventSource.Instance.Info("UpdateUser.");
+                    ServiceEventSource.Current.Message("UpdateUser.");
 
-                    ServiceEventSource.Instance.Info("Validating authenticated user matches request.");
+                    ServiceEventSource.Current.Message("Validating authenticated user matches request.");
                     var authenticatedUserId = context.GetAuthenticatedUserId();
 
                     if (authenticatedUserId != request.User.Email)
@@ -303,11 +303,11 @@ namespace API.Services.Auth
                         throw new RpcException(new Status(StatusCode.PermissionDenied, "Attempted to update data for another user."));
                     }
 
-                    ServiceEventSource.Instance.Info("Getting existing user data.");
+                    ServiceEventSource.Current.Message("Getting existing user data.");
                     var usersService = GetUsersService();
                     var userData = await usersService.GetUserData(authenticatedUserId);
 
-                    ServiceEventSource.Instance.Info("Saving user data.");
+                    ServiceEventSource.Current.Message("Saving user data.");
                     var result = await usersService.SaveUserData(authenticatedUserId, request.User.ToServiceObject(userData.LoginToken));
 
                     var response = new UpdateUserResponse
@@ -322,9 +322,9 @@ namespace API.Services.Auth
             APISanitizer.Sanitize(
                 async () =>
                 {
-                    ServiceEventSource.Instance.Info("Logout.");
+                    ServiceEventSource.Current.Message("Logout.");
 
-                    ServiceEventSource.Instance.Info("Invalidating refresh token.");
+                    ServiceEventSource.Current.Message("Invalidating refresh token.");
                     var usersService = GetUsersService();
                     await usersService.InvalidateUserSession(request.RefreshToken);
 

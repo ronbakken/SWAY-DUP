@@ -17,12 +17,12 @@ namespace API.Services
             }
             catch (RpcException ex)
             {
-                ServiceEventSource.Instance.Warn("Expected failure whilst invoking API, caller '{0}'. Exception was: '{1}'.", caller, ex);
+                ServiceEventSource.Current.Message("Expected failure whilst invoking API, caller '{0}'. Exception was: '{1}'.", caller, ex);
                 throw;
             }
             catch (Exception ex)
             {
-                ServiceEventSource.Instance.Failure(ex, "Unexpected failure whilst invoking API, caller '{0}'.", caller);
+                ServiceEventSource.Current.Failure(ex, "Unexpected failure whilst invoking API, caller '{0}'.", caller);
 
                 var codePackageActivationContext = FabricRuntime.GetActivationContext();
                 SendHealthReport(
@@ -42,12 +42,12 @@ namespace API.Services
             }
             catch (RpcException ex)
             {
-                ServiceEventSource.Instance.Warn("Expected failure whilst invoking API, caller '{0}'. Exception was: '{1}'.", caller, ex);
+                ServiceEventSource.Current.Message("Expected failure whilst invoking API, caller '{0}'. Exception was: '{1}'.", caller, ex);
                 throw;
             }
             catch (Exception ex)
             {
-                ServiceEventSource.Instance.Failure(ex, "Unexpected failure whilst invoking API, caller '{0}'.", caller);
+                ServiceEventSource.Current.Failure(ex, "Unexpected failure whilst invoking API, caller '{0}'.", caller);
 
                 var codePackageActivationContext = FabricRuntime.GetActivationContext();
                 SendHealthReport(

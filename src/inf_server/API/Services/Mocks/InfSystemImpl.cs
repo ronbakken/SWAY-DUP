@@ -8,6 +8,7 @@ namespace API.Services.Mocks
     {
         public override Task<AliveMessage> PingServer(Empty request, ServerCallContext context)
         {
+            ServiceEventSource.Current.Message("Ping received.");
             return Task.FromResult(new AliveMessage());
         }
     }

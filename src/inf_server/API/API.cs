@@ -15,7 +15,7 @@ namespace API
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>
             new[]
             {
-                new ServiceInstanceListener(initParams => new gRPCCommunicationListener(ServiceEventSource.Instance.Info))
+                new ServiceInstanceListener(initParams => new gRPCCommunicationListener(ServiceEventSource.Current.Message))
             };
     }
 }
