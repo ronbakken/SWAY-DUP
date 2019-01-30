@@ -21,7 +21,7 @@ class UserDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UserDto', package: const $pb.PackageName('api'))
     ..aOB(2, 'verified')
     ..e<AccountState>(3, 'accountState', $pb.PbFieldType.OE, AccountState.unknown, AccountState.valueOf, AccountState.values)
-    ..e<UserType>(4, 'userType', $pb.PbFieldType.OE, UserType.influencer, UserType.valueOf, UserType.values)
+    ..e<UserType>(4, 'userType', $pb.PbFieldType.OE, UserType.unknown_user_type, UserType.valueOf, UserType.values)
     ..aOS(5, 'name')
     ..aOS(6, 'description')
     ..aOS(7, 'email')

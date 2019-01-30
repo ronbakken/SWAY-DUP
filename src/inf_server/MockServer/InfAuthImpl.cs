@@ -44,7 +44,7 @@ namespace MockServer
 
         public override Task<LoginWithLoginTokenResponse> LoginWithLoginToken(LoginWithLoginTokenRequest request, ServerCallContext context)
         {
-            Console.WriteLine("InfConfigImpl.Login called");
+            Console.WriteLine("InfConfigImpl.LoginWithLoginToken called");
 
             var user = DatabaseMock.Instance().GetUser(request.LoginToken);
             if (user != null)

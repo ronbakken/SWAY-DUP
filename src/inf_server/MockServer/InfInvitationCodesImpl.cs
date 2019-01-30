@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using API.Interfaces;
 using Grpc.Core;
 
@@ -19,6 +20,8 @@ namespace MockServer
 
         public override Task<GetInvitationCodeStatusResponse> GetInvitationCodeStatus(GetInvitationCodeStatusRequest request, ServerCallContext context)
         {
+            Console.WriteLine("InfInvitationCodesImpl.GetInvitationCodeStatus called");
+
             var status = GetInvitationCodeStatusResponse.Types.InvitationCodeStatus.DoesNotExist;
 
             if (request.InvitationCode == "ABC123")

@@ -7,10 +7,11 @@
 const UserType$json = const {
   '1': 'UserType',
   '2': const [
-    const {'1': 'influencer', '2': 0},
-    const {'1': 'business', '2': 1},
-    const {'1': 'support', '2': 2},
-    const {'1': 'admin', '2': 3},
+    const {'1': 'unknown_user_type', '2': 0},
+    const {'1': 'influencer', '2': 1},
+    const {'1': 'business', '2': 2},
+    const {'1': 'support', '2': 3},
+    const {'1': 'admin', '2': 4},
   ],
 };
 
