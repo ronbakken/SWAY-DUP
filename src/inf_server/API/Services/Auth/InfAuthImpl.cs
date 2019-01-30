@@ -182,9 +182,9 @@ namespace API.Services.Auth
                     var usersService = GetUsersService();
                     var userData = await usersService.GetUserData(userId);
 
-                    if (userData.Status != UserStatus.Active)
+                    if (userData.Status != UserStatus.WaitingForActivation && userData.Status != UserStatus.Active)
                     {
-                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' is not yet active - have you called CreateNewUser?"));
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' has a status of '{userData.Status}'. They must be waiting for activation or already active."));
                     }
 
                     if (userData.LoginToken != loginToken)
