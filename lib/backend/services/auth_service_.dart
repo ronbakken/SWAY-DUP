@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
@@ -36,8 +37,9 @@ class LoginToken {
   final UserType userType;
   final AccountState accountState;
   final String token;
+  final String email;
 
-  LoginToken._({this.userType, this.accountState, this.token});
+  LoginToken._({this.userType, this.accountState, this.token, this.email});
 
   static LoginToken fromJwt(String jwt) {
     var parts = jwt.split('.');
@@ -64,6 +66,7 @@ class LoginToken {
 
     var userStatus = asMap['userStatus'];
     var userTypeAsString = asMap['aud'];
+    var email = asMap['email'];
 
     AccountState accountState;
     switch (userStatus)
@@ -92,19 +95,24 @@ class LoginToken {
         assert(false, 'Unknown UserType');
     }
 
-    return LoginToken._(userType: userType, accountState: accountState, token: jwt);
+    return LoginToken._(userType: userType, accountState: accountState, token: jwt, email: email);
   }
 }
 
 abstract class AuthenticationService {
   User get currentUser;
+  CallOptions callOptions;
+
+
   Observable<User> get currentUserUpdates;
 
-  Future<void> sendLoginEmail(UserType userType, String email);
+  Future<void> sendLoginEmail(UserType userType, String email, String invitationCode);
 
   Future<bool> loginUserWithRefreshToken();
 
   Future<bool> loginUserWithLoginToken(String loginToken);
+
+  Future<void> createNewUser(User user, String loginToken,String deviceId);
 
   Future<GetInvitationCodeStatusResponse_InvitationCodeStatus> checkInvitationCode(String code);
 

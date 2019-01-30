@@ -23,9 +23,9 @@ Future<SocialMediaAccount> connectToSocialMediaAccount(SocialNetworkProvider pro
           provider.type == SocialNetworkProviderType.TWITTER
       // ||provider.type == SocialNetworkProviderType.SNAPCHAT
       ) {
-    return await Navigator.push(
+    return await Navigator.push<SocialMediaAccount>(
         context,
-        InfBottomSheet.route(
+        InfBottomSheet.route<SocialMediaAccount>(
           title: 'Connect your ${provider.name}',
           child: _SocialNetWorkConnectionStatusView(connectTo: provider),
         ));

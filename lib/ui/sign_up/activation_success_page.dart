@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/ui/user_profile/new_user_profile_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class ActivationSuccessPage extends StatelessWidget {
-  static Route<dynamic> route() {
+  final UserType userType;
+
+  const ActivationSuccessPage({Key key, this.userType}) : super(key: key);
+
+  static Route<dynamic> route(UserType userType) {
     return FadePageRoute(
-      builder: (BuildContext context) => ActivationSuccessPage(),
+      builder: (BuildContext context) => ActivationSuccessPage(userType: userType,),
     );
   }
 
@@ -48,7 +54,8 @@ class ActivationSuccessPage extends StatelessWidget {
                 height: 56,
                 text: 'LET\'S GET STARTED',
                 color: AppTheme.blue,
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.of(context).pushAndRemoveUntil(NewUserProfilePage.route(userType), (_) => false)
+,
               ),
             )
           ],

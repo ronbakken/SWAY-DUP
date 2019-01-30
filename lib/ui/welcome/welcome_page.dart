@@ -41,61 +41,59 @@ class WelcomePage extends PageWidget {
 class _WelcomePageState extends PageState<WelcomePage> {
   Stream<List<String>> imageUrlStream;
   StreamSubscription deepLinkSubscription;
-  RxCommandListener<String, bool> loginCommandListener;
+  RxCommandListener<LoginToken, bool> loginCommandListener;
+  LoginToken loginToken;
 
   @override
   void initState() {
     imageUrlStream = backend.get<ConfigService>().getWelcomePageProfileImages();
 
     // Listen for deep link calls with a login-token
-    deepLinkSubscription = getUriLinksStream().listen((Uri uri) async {
-      //print('Deeplink URI $uri');
-      if (uri.queryParameters.containsKey('token')) {
-        // setup listener for success of the login attempt with the token
-        loginCommandListener = RxCommandListener(
-          backend.get<UserManager>().logInUserCommand,
-          onValue: (success) async {
-            if (success) {
-              loginCommandListener?.dispose();
-              await deepLinkSubscription?.cancel();
-
-              unawaited(Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (route) => false));
-            } else {
-              await showMessageDialog(
-                  context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
-            }
-          },
-          onError: (error) async {
-            await showMessageDialog(context, 'Login problem',
-                'Sorry the link you used seems not to be valid. Please signup again ${error.toString()}');
-            await backend.get<ErrorReporter>().logException(error);
-          },
-        );
-        print(uri.queryParameters['token']);
-
-        try {
-          var token = LoginToken.fromJwt(uri.queryParameters['token']);
-
-          // did we get a link from a new user subscription?
-          if (token.accountState == AccountState.waitingForActivation) {
-            loginCommandListener?.dispose();
-            await deepLinkSubscription?.cancel();
-
-            backend.get<UserManager>().loginToken = token;
-
-            Navigator.of(context).popUntil((route) => route is WelcomeRoute);
-            unawaited(Navigator.push(context, ActivationSuccessPage.route()));
-          } else {
-            backend.get<UserManager>().logInUserCommand(token.token);
-          }
-        } catch (ex) {
-          await showMessageDialog(
-              context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
-        }
-      }
-    });
+    deepLinkSubscription = getUriLinksStream().listen(onDeepLinkCall);
 
     super.initState();
+  }
+
+  void onDeepLinkCall(Uri uri) async {
+    //print('Deeplink URI $uri');
+    if (uri.queryParameters.containsKey('token')) {
+      // setup listener for success of the login attempt with the token
+      loginCommandListener = RxCommandListener(
+        backend.get<UserManager>().logInUserCommand,
+        onValue: (success) async {
+          if (success) {
+            loginCommandListener?.dispose();
+            await deepLinkSubscription?.cancel();
+  
+            // did we get a link from a new user subscription?
+            if (loginToken.accountState == AccountState.waitingForActivation) {
+              Navigator.of(context).popUntil((route) => route is WelcomeRoute);
+              unawaited(Navigator.push(context, ActivationSuccessPage.route(loginToken.userType)));
+            } else {
+              unawaited(Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (route) => false));
+            }
+          } else {
+            await showMessageDialog(
+                context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
+          }
+        },
+        onError: (error) async {
+          await showMessageDialog(context, 'Login problem',
+              'Sorry the link you used seems not to be valid. Please signup again ${error.toString()}');
+          await backend.get<ErrorReporter>().logException(error);
+        },
+      );
+      print(uri.queryParameters['token']);
+  
+      try {
+        loginToken = LoginToken.fromJwt(uri.queryParameters['token']);
+  
+        backend.get<UserManager>().logInUserCommand(loginToken);
+      } catch (ex) {
+        await showMessageDialog(
+            context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
+      }
+    }
   }
 
   @override
@@ -179,6 +177,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
                                   title: 'Welcome to INF',
                                   child: SendSignupLoginEmailView(
                                     newUser: false,
+                                    userType: UserType.unknown_user_type,
                                   ),
                                 ),
                               ),

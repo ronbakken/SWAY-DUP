@@ -27,17 +27,17 @@ class StartupPage extends PageWidget {
 }
 
 class _StartupPageState extends PageState<StartupPage> {
-  RxCommandListener<String, bool> _loginCommandListener;
+  RxCommandListener<LoginToken, bool> _loginCommandListener;
 
   // in case we are started from an login link the token goes here
-  String _loginToken;
+  LoginToken _loginToken;
 
   @override
   void initState() {
     super.initState();
     var loginCommand = backend.get<UserManager>().logInUserCommand;
 
-    _loginCommandListener = RxCommandListener<String, bool>(
+    _loginCommandListener = RxCommandListener<LoginToken, bool>(
       loginCommand,
       onValue: (loginSuccess) {
         Route nextPage;
@@ -46,7 +46,7 @@ class _StartupPageState extends PageState<StartupPage> {
           if ((_loginToken != null) && backend.get<UserManager>().currentUser.accountState == AccountState.waitingForActivation)
           {
             Navigator.of(context).pushReplacement(WelcomeRoute());
-            Navigator.of(context).push(ActivationSuccessPage.route());
+            Navigator.of(context).push(ActivationSuccessPage.route(null));
             return;
           }
           else
@@ -62,7 +62,7 @@ class _StartupPageState extends PageState<StartupPage> {
         if (error is GrpcError || error is SocketException) {
           // Wait till we have a connection again
           await Navigator.of(context).push(NoConnectionPage.route());
-          loginCommand.execute(_loginToken);
+          loginCommand.execute();
         } else {
           await backend.get<ErrorReporter>().logException(error);
         }
@@ -78,7 +78,7 @@ class _StartupPageState extends PageState<StartupPage> {
       // context, 'Debug', initialUri.toString());
       if (initialUri != null && initialUri.queryParameters.containsKey('token')) {
         {
-          _loginToken = initialUri.queryParameters['token'];
+// TODO          _loginToken = initialUri.queryParameters['token'];
         }
       }
       loginCommand.execute(_loginToken);

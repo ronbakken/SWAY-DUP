@@ -9,6 +9,9 @@ import 'package:rxdart/rxdart.dart';
 class AuthenticationServiceImplementation implements AuthenticationService {
   AuthenticationServiceImplementation({this.userTestToken});
 
+  String _accessToken = '';
+  @override
+  CallOptions callOptions;
   @override
   User get currentUser => _currentUser;
   User _currentUser;
@@ -27,6 +30,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = userTestToken;
       var authResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
       if (authResult.accessToken.isNotEmpty) {
+        updateAccessToken(authResult.accessToken);
         _currentUser = User.fromDto(authResult.userData);
         currentUserUpdatesSubject.add(_currentUser);
         return true;
@@ -49,9 +53,13 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     if (authResult.refreshToken.isNotEmpty) {
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
       var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
+      updateAccessToken(accessTokenResult.accessToken);
 
-      _currentUser = User.fromDto(authResult.userData);
-      currentUserUpdatesSubject.add(_currentUser);
+      if (authResult.userData.accountState == AccountState.active)
+      {
+        _currentUser = User.fromDto(authResult.userData);
+        currentUserUpdatesSubject.add(_currentUser);
+      }
       return true;
     } else {
       return false;
@@ -68,7 +76,8 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     var dto = user.toDto();
     var response = await backend.get<InfApiClientsService>().authClient.updateUser(
           UpdateUserRequest()..user = dto,
-        );
+          options: 
+        callOptions);
     if (response != null) {
       _currentUser = User.fromDto(response.user);
       currentUserUpdatesSubject.add(_currentUser);
@@ -85,9 +94,36 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   @override
-  Future<void> sendLoginEmail(UserType userType, String email) async {
+  Future<void> sendLoginEmail(UserType userType, String email, String invitationCode) async {
     await backend.get<InfApiClientsService>().authClient.sendLoginEmail(SendLoginEmailRequest()
       ..email = email
-      ..userType = userType);
+      ..userType = userType
+      ..invitationCode = invitationCode);
   }
+
+  @override
+  Future<void> createNewUser(User user, String loginToken, String deviceId) async {
+    var response = await backend.get<InfApiClientsService>().authClient.createNewUser(CreateNewUserRequest()
+      ..userData = user.toDto()
+      ..loginToken = loginToken
+      ..deviceId = deviceId);
+
+    if (response.refreshToken.isNotEmpty) {
+      var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = response.refreshToken;
+      var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
+      updateAccessToken(accessTokenResult.accessToken);
+
+
+      _currentUser = User.fromDto(response.userData);
+      currentUserUpdatesSubject.add(_currentUser);
+    }
+  }
+
+  void updateAccessToken(String token)
+  {
+    _accessToken = token;
+    callOptions = CallOptions(metadata: {'Authorization' : 'Bearer $token'});
+  }
+
+
 }

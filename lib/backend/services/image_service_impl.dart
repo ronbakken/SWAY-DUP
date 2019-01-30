@@ -23,7 +23,8 @@ class ImageServiceImplementation implements ImageService {
     var cloudUrls = await backend
         .get<InfApiClientsService>()
         .blobStorageClient
-        .getUploadUrl(GetUploadUrlRequest()..fileName = fileName);
+        .getUploadUrl(GetUploadUrlRequest()..fileName = fileName, options: backend
+        .get<AuthenticationService>().callOptions);
 
     if (cloudUrls == null)
     {

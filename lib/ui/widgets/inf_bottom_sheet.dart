@@ -8,8 +8,8 @@ class InfBottomSheet extends StatelessWidget {
 
   const InfBottomSheet({Key key, this.child, this.title}) : super(key: key);
 
-  static Route route({String title, Widget child}) {
-    return PageRouteBuilder(
+  static Route route<T>({String title, Widget child}) {
+    return PageRouteBuilder<T>(
       pageBuilder: (BuildContext context, _, __) {
         return InfBottomSheet(
           title: title,

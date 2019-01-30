@@ -9,6 +9,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/location.dart';
 import 'package:inf/ui/user_profile/edit_social_media_view.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
+import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
@@ -17,6 +18,7 @@ import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -74,6 +76,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 }
 
+/// This [UserDataView] is used for editing existing profiles as well as for seting up new users
 class UserDataView extends StatefulWidget {
   final User user;
 
@@ -94,32 +97,112 @@ class _UserDataViewState extends State<UserDataView> {
   User user;
 
   bool hasChanged = false;
+  bool newUser;
 
   @override
   void initState() {
     user = widget.user;
+    newUser = user.accountState == AccountState.waitingForActivation;
     location = user.location;
     super.initState();
   }
 
   @override
   void didUpdateWidget(UserDataView oldWidget) {
-    if (widget.user != oldWidget.user) {
-      user = widget.user;
-      location = user.location;
-      selectedImageFile = null;
-      hasChanged = false;
+    if (!newUser) {
+      if (widget.user != oldWidget.user) {
+        user = widget.user;
+        location = user.location;
+        selectedImageFile = null;
+        hasChanged = false;
+      }
     }
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> columnItems = <Widget>[
+      Text("YOUR NAME", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+      SizedBox(height: 8),
+      TextFormField(
+        initialValue: user.name,
+        validator: (s) => s.isEmpty ? 'You have to provide a Name' : null,
+        onSaved: (s) => name = s,
+      ),
+      SizedBox(height: 16),
+      Text("ABOUT YOU", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+      SizedBox(height: 8),
+      TextFormField(
+        initialValue: user.description,
+        validator: (s) => s.isEmpty ? 'You have some information about you' : null,
+        onSaved: (s) => aboutYou = s,
+      ),
+      SizedBox(height: 16),
+    ];
+    if (user.userType == UserType.influencer) {
+      columnItems.addAll([
+        Text("${newUser ? 'CONNECT' : 'MANAGE'} YOUR SOCIAL ACCOUNTS",
+            textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+        SizedBox(height: 8),
+        EditSocialMediaView(
+          key: socialMediaKey,
+          socialMediaAccounts: user.socialMediaAccounts,
+          onChanged: () => setState(() => hasChanged = true),
+        ),
+        ColumnSeparator(),
+        Text("MIN FEE (optional)", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+        SizedBox(height: 8),
+        TextFormField(
+          inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+          keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+          initialValue: user.minimalFee != null ? '\$${user.minimalFee.toString()}' : null,
+          onSaved: (s) => minFee = int.tryParse(s),
+        ),
+        SizedBox(height: 16),
+      ]);
+    }
+    columnItems.addAll([
+      Text("Location", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+      SizedBox(height: 8),
+      InkWell(
+        child: Row(
+          children: [
+            Expanded(child: Text(location?.name ?? '')),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 24, top: 8.0),
+                child: Icon(Icons.search),
+              ),
+            ),
+          ],
+        ),
+        onTap: () async {
+          var result = await Navigator.of(context).push(LocationSelectorPage.route());
+          if (result != null) {
+            setState(() {
+              hasChanged = true;
+              location = result;
+            });
+          }
+        },
+      ),
+      SizedBox(height: 16)
+    ]);
+
     return WillPopScope(
       onWillPop: () async {
+        // if we are filling out a new users profile there is no back
+        if (newUser) {
+          return false;
+        }
         if (hasChanged) {
-          var shouldPop = await showQueryDialog(context, 'Be careful', 'Your changes will be lost if you don\'t tap on update.'
-          '\nDo you really want to leave this page?');
+          var shouldPop = await showQueryDialog(
+              context,
+              'Be careful',
+              'Your changes will be lost if you don\'t tap on update.'
+              '\nDo you really want to leave this page?');
           return shouldPop;
         }
         return true;
@@ -132,25 +215,33 @@ class _UserDataViewState extends State<UserDataView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Stack(
-                    children: <Widget>[
-                      ProfileSummary(
-                        user: user,
-                        showOnlyImage: true,
-                        heightImagePercentage: 1.0,
-                        gradientStop: 0.9,
-                        imageFile: selectedImageFile,
-                      ),
-                      Positioned(
-                        right: 16,
-                        top: 32,
-                        child: InkResponse(
-                          onTap: onEditImage,
-                          child: InfAssetImage(
-                            AppIcons.edit,
-                            width: 32,
-                          ),
-                        ),
-                      )
+                    children: [
+                      newUser && selectedImageFile == null
+                          ? _ProfilePicturePlaceHolder(
+                              onCameraTap: () => onSelectImage(true),
+                              onLibraryTap: () => onSelectImage(false),
+                            )
+                          : ProfileSummary(
+                              user: user,
+                              showOnlyImage: true,
+                              heightImagePercentage: 1.0,
+                              gradientStop: 0.9,
+                              imageFile: selectedImageFile,
+                            ),
+                      // Only show editbutton if there is already an image
+                      !newUser || selectedImageFile != null
+                          ? Positioned(
+                              right: 16,
+                              top: 32,
+                              child: InkResponse(
+                                onTap: onEditImage,
+                                child: InfAssetImage(
+                                  AppIcons.edit,
+                                  width: 32,
+                                ),
+                              ),
+                            )
+                          : SizedBox()
                     ],
                   ),
                   Form(
@@ -159,71 +250,9 @@ class _UserDataViewState extends State<UserDataView> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Text("YOUR NAME", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                          SizedBox(height: 8),
-                          TextFormField(
-                            initialValue: user.name,
-                            validator: (s) => s.isEmpty ? 'You have to provide a Name' : null,
-                            onSaved: (s) => name = s,
-                          ),
-                          SizedBox(height: 16),
-                          Text("MANAGE YOUR SOCIAL ACCOUNTS",
-                              textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                          SizedBox(height: 8),
-                          EditSocialMediaView(
-                            key: socialMediaKey,
-                            socialMediaAccounts: user.socialMediaAccounts,
-                            onChanged: () => setState(() => hasChanged = true),
-                          ),
-                          ColumnSeparator(),
-                          Text("ABOUT YOU", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                          SizedBox(height: 8),
-                          TextFormField(
-                            initialValue: user.description,
-                            validator: (s) => s.isEmpty ? 'You have to provide a Name' : null,
-                            onSaved: (s) => aboutYou = s,
-                          ),
-                          SizedBox(height: 16),
-                          Text("MIN FEE", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                          SizedBox(height: 8),
-                          TextFormField(
-                            inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                            keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
-                            initialValue: user.minimalFee != null ? '\$${user.minimalFee.toString()}' : null,
-                            onSaved: (s) => minFee = int.tryParse(s),
-                          ),
-                          SizedBox(height: 16),
-                          Text("Location", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
-                          SizedBox(height: 8),
-                          InkWell(
-                            child: Row(
-                              children: [
-                                Expanded(child: Text(location.name ?? '')),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 24, top: 8.0),
-                                    child: Icon(Icons.search),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onTap: () async {
-                              var result = await Navigator.of(context).push(LocationSelectorPage.route());
-                              if (result != null) {
-                                setState(() {
-                                  hasChanged = true;
-                                  location = result;
-                                });
-                              }
-                            },
-                          ),
-                          SizedBox(height: 16)
-                        ],
-                      ),
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: columnItems),
                     ),
                   )
                 ],
@@ -236,8 +265,8 @@ class _UserDataViewState extends State<UserDataView> {
               child: InfStadiumButton(
                 height: 56,
                 color: Colors.white,
-                text: 'Update',
-                onPressed: hasChanged ? onUpdate : null,
+                text: newUser ? 'CREATE ACCOUNT' : 'UPDATE',
+                onPressed: hasChanged ? onButtonPressed : null,
               ),
             ),
           )
@@ -252,6 +281,10 @@ class _UserDataViewState extends State<UserDataView> {
     if (camera == null) {
       return;
     }
+    onSelectImage(camera);
+  }
+
+  void onSelectImage(bool camera) async {
     selectedImageFile =
         camera ? await backend.get<ImageService>().takePicture() : await backend.get<ImageService>().pickImage();
     if (selectedImageFile != null) {
@@ -259,7 +292,7 @@ class _UserDataViewState extends State<UserDataView> {
     }
   }
 
-  void onUpdate() async {
+  void onButtonPressed() async {
     FormState formState = formKey.currentState;
     if (formState.validate()) {
       EditSocialMediaViewState socialMediaEditState = socialMediaKey.currentState;
@@ -267,9 +300,22 @@ class _UserDataViewState extends State<UserDataView> {
       assert(socialAccounts != null);
 
       if (socialAccounts.isEmpty) {
-        await showMessageDialog(context, 'Missing Data', 'You need minimal one connected social media account');
+        await showMessageDialog(context, 'We need a bit more...', 'You need minimal one connected social media account');
         return;
       }
+
+      if (newUser && selectedImageFile == null)
+      {
+        await showMessageDialog(context, 'We need a bit more...', 'You have to select a profile picture so sign-up');
+        return;
+      }
+
+      if (newUser && location == null)
+      {
+        await showMessageDialog(context, 'We need a bit more...', 'You have to select a location to sign-up');
+        return;
+      }
+
 
       formState.save();
       var userData = UserUpdateData(
@@ -282,7 +328,45 @@ class _UserDataViewState extends State<UserDataView> {
           ),
           profilePicture: selectedImageFile);
       backend.get<UserManager>().updateUserCommand(userData);
-      setState(()=>hasChanged = false);
+      setState(() => hasChanged = false);
     }
+    else
+    {
+       await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
+    }
+  }
+
+}
+
+class _ProfilePicturePlaceHolder extends StatelessWidget {
+  final VoidCallback onLibraryTap;
+  final VoidCallback onCameraTap;
+
+  const _ProfilePicturePlaceHolder({Key key, this.onLibraryTap, this.onCameraTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context);
+    return Container(
+      color: AppTheme.listViewItemBackground,
+      height: mediaQuery.size.height * 0.48,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          AssetImageCircleBackgroundButton(
+            radius: 30,
+            backgroundColor: AppTheme.grey,
+            asset: AppIcons.photo,
+            onTap: onLibraryTap,
+          ),
+          AssetImageCircleBackgroundButton(
+            radius: 30,
+            backgroundColor: AppTheme.grey,
+            asset: AppIcons.camera,
+            onTap: onCameraTap,
+          ),
+        ],
+      ),
+    );
   }
 }
