@@ -198,6 +198,11 @@ namespace API.Services.Auth
                     ServiceEventSource.Current.Message("Updating user session.");
                     var userSession = await usersService.GetUserSession(refreshToken);
 
+                    if (userSession == null)
+                    {
+                        userSession = new UserSession(refreshToken, null);
+                    }
+
                     userSession = userSession.With(
                         refreshToken: Option.Some(refreshToken));
 
