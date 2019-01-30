@@ -15,6 +15,8 @@ namespace API.Services.Auth
 {
     public sealed class InfAuthImpl : InfAuthBase
     {
+        private static readonly Random random = new Random();
+
         public override Task<Empty> SendLoginEmail(SendLoginEmailRequest request, ServerCallContext context) =>
             APISanitizer.Sanitize(
                 async () =>
@@ -45,6 +47,10 @@ namespace API.Services.Auth
                 if (userData == null)
                 {
                     ServiceEventSource.Instance.Warn("User '{0}' should already exist, but no data was found for them.", userId);
+
+                    // Help mitigate "timing" attacks.
+                    await Task.Delay(random.Next(100, 1000));
+
                     return;
                 }
 
@@ -56,6 +62,10 @@ namespace API.Services.Auth
                 if (userData != null)
                 {
                     ServiceEventSource.Instance.Warn("User '{0}' should not exist, but data was found for them.", userId);
+
+                    // Help mitigate "timing" attacks.
+                    await Task.Delay(random.Next(100, 1000));
+
                     return;
                 }
 
@@ -92,12 +102,12 @@ namespace API.Services.Auth
                     ServiceEventSource.Instance.Info("CreateNewUser.");
 
                     ServiceEventSource.Instance.Info("Honoring invitation code.");
-                    var invitationCodeManager = GetInvitationCodesService();
-                    var honorResult = await invitationCodeManager.Honor(request.InvitationCode);
+                    var invitationCodesService = GetInvitationCodesService();
+                    var honorResult = await invitationCodesService.Honor(request.InvitationCode);
 
                     if (honorResult != InvitationCodeHonorResult.Success)
                     {
-                        throw new InvalidOperationException("Could not honor invitation code.");
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Could not honor invitation code."));
                     }
 
                     ServiceEventSource.Instance.Info("Validating login token.");
@@ -110,7 +120,7 @@ namespace API.Services.Auth
 
                     if (userData.Status != UserStatus.WaitingForActivation)
                     {
-                        throw new InvalidOperationException("User is not awaiting activation.");
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' is not awaiting activation."));
                     }
 
                     ServiceEventSource.Instance.Info("Generating refresh token.");
@@ -154,13 +164,12 @@ namespace API.Services.Auth
 
                     if (userData.Status != UserStatus.Active)
                     {
-                        throw new InvalidOperationException("User is not active.");
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' is not yet active - have you called CreateNewUser?"));
                     }
 
                     if (userData.LoginToken != loginToken)
                     {
-                        ServiceEventSource.Instance.Info("Provided login token does not match against the user's data.");
-                        throw new InvalidOperationException();
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"Provided login token does not match against the data for user '{userId}'."));
                     }
 
                     ServiceEventSource.Instance.Info("Generating refresh token.");
@@ -208,7 +217,7 @@ namespace API.Services.Auth
 
                     if (userSession == null)
                     {
-                        throw new InvalidOperationException("Refresh token is invalid.");
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, "Provided refresh token is invalid."));
                     }
 
                     ServiceEventSource.Instance.Info("Generating access token.");
@@ -229,16 +238,17 @@ namespace API.Services.Auth
                 {
                     ServiceEventSource.Instance.Info("GetAccessToken.");
 
-                    ServiceEventSource.Instance.Info("Validating refresh token.");
                     var refreshTokenValidationResult = TokenManager.ValidateRefreshToken(request.RefreshToken);
                     var userId = refreshTokenValidationResult.UserId;
                     var userType = refreshTokenValidationResult.UserType;
+
+                    ServiceEventSource.Instance.Info("Validating refresh token.");
                     var usersService = GetUsersService();
                     var userSession = await usersService.GetUserSession(request.RefreshToken);
 
                     if (userSession == null)
                     {
-                        throw new InvalidOperationException("Mismatch in refresh token association.");
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Session not found for user '{userId}' with the specified refresh token."));
                     }
 
                     ServiceEventSource.Instance.Info("Generating access token.");
@@ -280,7 +290,7 @@ namespace API.Services.Auth
 
                     if (authenticatedUserId != request.User.Email)
                     {
-                        throw new InvalidOperationException("Attempted to update data for another user.");
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, "Attempted to update data for another user."));
                     }
 
                     ServiceEventSource.Instance.Info("Getting existing user data.");

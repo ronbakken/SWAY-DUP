@@ -3,6 +3,7 @@ using System.Fabric;
 using System.Fabric.Health;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Grpc.Core;
 
 namespace API.Services
 {
@@ -14,9 +15,14 @@ namespace API.Services
             {
                 return execute();
             }
+            catch (RpcException ex)
+            {
+                ServiceEventSource.Instance.Warn("Expected failure whilst invoking API, caller '{0}'. Exception was: '{1}'.", caller, ex);
+                throw;
+            }
             catch (Exception ex)
             {
-                ServiceEventSource.Instance.Failure(ex, "Failed whilst invoking API, caller '{0}'.", caller);
+                ServiceEventSource.Instance.Failure(ex, "Unexpected failure whilst invoking API, caller '{0}'.", caller);
 
                 var codePackageActivationContext = FabricRuntime.GetActivationContext();
                 SendHealthReport(
@@ -34,9 +40,14 @@ namespace API.Services
             {
                 return await execute();
             }
+            catch (RpcException ex)
+            {
+                ServiceEventSource.Instance.Warn("Expected failure whilst invoking API, caller '{0}'. Exception was: '{1}'.", caller, ex);
+                throw;
+            }
             catch (Exception ex)
             {
-                ServiceEventSource.Instance.Failure(ex, "Failed whilst invoking API, caller '{0}'.", caller);
+                ServiceEventSource.Instance.Failure(ex, "Unexpected failure whilst invoking API, caller '{0}'.", caller);
 
                 var codePackageActivationContext = FabricRuntime.GetActivationContext();
                 SendHealthReport(
