@@ -21,19 +21,42 @@ namespace API.Services.Auth
                 AccountState = @this.Status.ToDto(),
                 Avatar = @this.Avatar?.ToDto(),
                 AvatarThumbnail = @this.AvatarThumbnail?.ToDto(),
-                Description = @this.Description,
-                Email = userId,
                 Location = @this.Location.ToDto(),
                 MinimalFee = @this.MinimalFee,
-                Name = @this.Name,
                 ShowLocation = @this.ShowLocation,
                 UserType = @this.Type.ToDto(),
                 Verified = @this.Verified,
-                WebsiteUrl = @this.WebsiteUri,
             };
 
-            result.CategoryIds.AddRange(@this.CategoryIds);
-            result.SocialMediaAccounts.AddRange(@this.SocialMediaAccounts.Select(socialMediaAccount => socialMediaAccount.ToDto()));
+            if (@this.Description != null)
+            {
+                result.Description = @this.Description;
+            }
+
+            if (userId != null)
+            {
+                result.Email = userId;
+            }
+
+            if (@this.Name != null)
+            {
+                result.Name = @this.Name;
+            }
+
+            if (@this.WebsiteUri != null)
+            {
+                result.WebsiteUrl = @this.WebsiteUri;
+            }
+
+            if (@this.CategoryIds != null)
+            {
+                result.CategoryIds.AddRange(@this.CategoryIds);
+            }
+
+            if (@this.SocialMediaAccounts != null)
+            {
+                result.SocialMediaAccounts.AddRange(@this.SocialMediaAccounts.Select(socialMediaAccount => socialMediaAccount.ToDto()));
+            }
 
             return result;
         }
@@ -46,7 +69,6 @@ namespace API.Services.Auth
             }
 
             return new UserData(
-
                 @this.UserType.ToServiceObject(),
                 @this.AccountState.ToServiceObject(),
                 @this.Name,

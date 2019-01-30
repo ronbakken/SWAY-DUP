@@ -12,12 +12,18 @@ namespace API.Services.Auth
                 return null;
             }
 
-            return new LocationDto
+            var result = new LocationDto
             {
                 Latitude = @this.Latitude,
                 Longitude = @this.Longitude,
-                Name = @this.Name,
             };
+
+            if (@this.Name != null)
+            {
+                result.Name = @this.Name;
+            }
+
+            return result;
         }
 
         public static Location ToServiceObject(this LocationDto @this)

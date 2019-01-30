@@ -15,11 +15,19 @@ namespace API.Services
                 return null;
             }
 
-            return new ImageDto
+            var result = new ImageDto();
+
+            if (@this.Uri != null)
             {
-                Url = @this.Uri,
-                LowResData = @this.LowResData == null ? null : ByteString.CopyFrom(@this.LowResData.ToArray()),
-            };
+                result.Url = @this.Uri;
+            }
+
+            if (@this.LowResData != null)
+            {
+                result.LowResData = ByteString.CopyFrom(@this.LowResData.ToArray());
+            }
+
+            return result;
         }
 
         public static Image ToServiceObject(this ImageDto @this)
