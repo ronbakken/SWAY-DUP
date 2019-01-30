@@ -91,7 +91,10 @@ class ProfileSummary extends StatelessWidget {
                           style: const TextStyle(fontSize: 24.0),
                         ),
                         SizedBox(height: 4.0),
-                        Text(user.locationAsString),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Text(user.locationAsString),
+                        ),
                         SizedBox(height: 8.0),
 
                         showSocialMedia
