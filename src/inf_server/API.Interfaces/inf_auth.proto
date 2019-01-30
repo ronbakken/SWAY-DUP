@@ -37,6 +37,7 @@ service InfAuth {
 
 message SendLoginEmailRequest {
     string email = 1;
+    // If the user already has an account, set this to unknown_user_type.
     UserType userType = 2;
 }
 

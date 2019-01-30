@@ -35,18 +35,43 @@ namespace API.Services.Auth
         {
             ServiceEventSource.Instance.Info("SendLoginEmail.");
 
-            ServiceEventSource.Instance.Info("Generating login token.");
             var userId = request.Email;
+            var userData = await usersService.GetUserData(userId);
             var userType = request.UserType;
+            var userShouldAlreadyExist = userType == Interfaces.UserType.UnknownUserType;
+
+            if (userShouldAlreadyExist)
+            {
+                if (userData == null)
+                {
+                    ServiceEventSource.Instance.Warn("User '{0}' should already exist, but no data was found for them.", userId);
+                    return;
+                }
+
+                userType = userData.Type.ToDto();
+                ServiceEventSource.Instance.Info("User '{0}' was found, and they are of type '{1}'.", userId, userType);
+            }
+            else
+            {
+                if (userData != null)
+                {
+                    ServiceEventSource.Instance.Warn("User '{0}' should not exist, but data was found for them.", userId);
+                    return;
+                }
+
+                userData = UserData.Initial;
+            }
+
+            ServiceEventSource.Instance.Info("Generating login token.");
             var loginToken = TokenManager.GenerateLoginToken(
                 userId,
                 UserStatus.WaitingForActivation.ToString(),
                 userType.ToString());
 
             ServiceEventSource.Instance.Info("Saving user data.");
-            var userData = UserData
-                .Initial
+            userData = userData
                 .With(
+                    type: Option.Some(userType.ToServiceObject()),
                     status: Option.Some(UserStatus.WaitingForActivation),
                     loginToken: Option.Some(loginToken));
             await usersService.SaveUserData(userId, userData);

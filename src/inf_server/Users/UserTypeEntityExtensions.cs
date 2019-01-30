@@ -17,8 +17,6 @@ namespace Users
                     return UserType.Influencer;
                 case UserTypeEntity.Support:
                     return UserType.Support;
-                case UserTypeEntity.Unknown:
-                    return UserType.Unknown;
                 default:
                     throw new NotSupportedException();
             }
@@ -36,8 +34,6 @@ namespace Users
                     return UserTypeEntity.Influencer;
                 case UserType.Support:
                     return UserTypeEntity.Support;
-                case UserType.Unknown:
-                    return UserTypeEntity.Unknown;
                 default:
                     throw new NotSupportedException();
             }
